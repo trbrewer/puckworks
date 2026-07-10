@@ -2,6 +2,7 @@
 name = "puckworks"
 version = "0.1.0"
 description = "Component registry for espresso process models: contracts, provenance, validation gates"
+license = {file = "LICENSE"}
 requires-python = ">=3.10"
 dependencies = ["numpy", "scipy"]
 
