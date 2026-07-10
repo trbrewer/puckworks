@@ -1,0 +1,20 @@
+[project]
+name = "puckworks"
+version = "0.1.0"
+description = "Component registry for espresso process models: contracts, provenance, validation gates"
+requires-python = ">=3.10"
+dependencies = ["numpy", "scipy"]
+
+[project.optional-dependencies]
+lb = ["taichi"]
+dev = ["pytest"]
+
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["puckworks*"]
+
+[tool.setuptools.package-data]
+puckworks = ["data/*.csv", "data/*.json"]
