@@ -53,6 +53,32 @@ register(Component(
     notes="reconciling with Cameron flux implies phi_c~0.11 or series screen resistance"))
 
 register(Component(
+    name="liang2021.desorption", stage="extraction", kind="calibration",
+    paper="Liang, Chan & Ristenpart, Sci. Rep. 11, 6904 (2021)", doi="10.1038/s41598-021-85787-1",
+    module="puckworks.models.liang2021.desorption",
+    gates=[G.gate_liang_kemax_refit, G.gate_liang_eoven_ceiling],
+    assumptions="full-immersion pseudo-equilibrium; single lumped species; "
+                "K*E_max fixed dissolved fraction; E_max=0.30 ASSUMED; endpoints "
+                "only (no kinetics) — NOT a flow/espresso extraction model",
+    valid_range="R_brew>=3 (fails at 2); 80-99 C immersion; supplies equilibrium "
+                "ceiling + oven-dry/retention observable kernel only",
+    notes="K*E_max refit 0.219 from Fig3 (card 0.215); §5.5: equilibrium ceiling "
+          "< cameron inventory ceiling (K<1); E_oven kernel tracks Fig 4"))
+
+register(Component(
+    name="moroney2016.surrogate", stage="extraction", kind="calibration",
+    paper="Moroney et al., SIAM J. Appl. Math. 76(6), 2196 (2016)", doi="10.1137/15M1036658",
+    module="puckworks.models.moroney2016.surrogate",
+    gates=[G.gate_moroney_fig6_washthrough],
+    assumptions="matched-asymptotic constant-dP two-population reduction; "
+                "leading-order composite (Eq 3.45) only — outer bulk-diffusion "
+                "tail (3.61-3.62) and O(eps) correction not on card, not modeled",
+    valid_range="saturated bed; eps=0.127 (~13% truncation); Fig 6 reproduction "
+                "QUALITATIVE (plateau + wash-through timing, not the tail)",
+    notes="closed-form surrogate; mutual-validation vs cameron2020 BDF at matched "
+          "two-population limit is a DEFERRED future gate (card gate design 2)"))
+
+register(Component(
     name="wadsworth2026.inertial", stage="flow", kind="runtime",
     paper="Wadsworth et al., R. Soc. Open Sci. 13, 252031 (2026)", doi="10.1098/rsos.252031",
     module="puckworks.models.wadsworth2026.inertial",

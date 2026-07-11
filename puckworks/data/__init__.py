@@ -147,3 +147,36 @@ def wadsworth_grindmap_table1():
     connected/total porosity, connectivity, specific surface, and permeability.
     Two coffees (Guayacan/Colombia, Tumba/Rwanda) x 11 Mahlkonig settings."""
     return _typed_rows(WADS / "wadsworth2026_table1_full.csv")
+
+
+# --- liang2021 (ROADMAP 0.9 / 1.3), digitized figures --------------------
+LIANG = DATA_DIR / "liang2021"
+
+
+def liang_fig3_tds():
+    """Fig 3: equilibrium TDS(%) vs brew ratio, 1-L brews (K*E_max refit)."""
+    return _typed_rows(LIANG / "liang_fig3_tds_vs_rbrew.csv")
+
+
+def liang_fig4_E():
+    """Fig 4: E and E_oven (%) vs brew ratio (measurement column selects branch)."""
+    return _typed_rows(LIANG / "liang_fig4_E_vs_rbrew.csv")
+
+
+def liang_fig5_cupping():
+    """Fig 5: cupping TDS / E vs brew ratio across roast levels."""
+    return _typed_rows(LIANG / "liang_fig5_cupping.csv")
+
+
+# --- moroney2016 (ROADMAP 0.10 / 1.4) ------------------------------------
+MORONEY = DATA_DIR / "moroney2016"
+
+
+def moroney_fig6():
+    """Fig 6: experimental exit concentration c_h (nondim) vs t (nondim)."""
+    return _typed_rows(MORONEY / "moroney_fig6_exit_concentration.csv")
+
+
+def moroney_table1():
+    """Table 1: full parameter set + dimensionless groups (transcribed)."""
+    return _typed_rows(MORONEY / "moroney2016_table1.csv")

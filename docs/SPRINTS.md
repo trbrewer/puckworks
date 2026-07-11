@@ -66,10 +66,17 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
       (backlog 0.3–0.9 side). ⚠ Mo Re overlay needs 0.4 (mo2023) — deferred.
 
 ## Sprint 3 — extraction anchors (CC) [1.3 + 1.4, both S; needs D2/D3]
-- [ ] 1.3 liang2021 kernels — K·E_max=0.215 refit; E_oven kernel;
+- [x] 1.3 liang2021 kernels — K·E_max=0.215 refit; E_oven kernel;
       long-time cameron ceiling probe (§5.5)
-- [ ] 1.4 moroney2016 surrogate — Fig. 6 reproduction; mutual-validation vs
+      → `liang2021.desorption` gated (Tim dropped Figs 3/4/5). K·E_max refit
+      0.219 from Fig3; E_oven kernel MAPE 0.088 vs Fig4; §5.5: equilibrium
+      ceiling 0.215 < cameron inventory 0.245 (K<1, distinct quantities).
+- [x] 1.4 moroney2016 surrogate — Fig. 6 reproduction; mutual-validation vs
       cameron BDF at matched limit
+      → `moroney2016.surrogate` gated (Table 1 transcribed; Fig6 digitized).
+      Leading-order composite reproduces plateau + wash-through (c=½ at t≈3.1
+      vs data 3.1); **qualitative** — tail needs outer soln (not on card).
+      ⚠ cameron-BDF mutual-validation = **deferred** future gate (hard).
 
 ## Sprint 4 — Grudeva reconciliation (INTAKE, not CC) [1.7a, S]
 - [ ] Resolve card-of-record vs CUP open-access source: Eq. 74 brackets;
@@ -122,3 +129,5 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
 | 2026-07-10 | D1 | 0.2 Waszkiewicz Zenodo intake complete (data/waszkiewicz2025/ + loaders + 5 smoke tests + 7 manifest rows). 0.6 partial (erratum + Table 1 manifest row; PSD zip blocked). 0.1 blocked (Mendeley folder / MDPI 403). Blocked items → data/BLOCKED_INTAKE.md |
 | 2026-07-10 | D1 | 0.1 Schmieder kinetics landed after Tim drop (data/schmieder2023/: Tables A1/2/3 + S1/S2 parsed from supplementary xlsx + JATS XML; 9 loader smoke tests total). Pannusch repo on disk, Table 2/PSD deferred to 1.8a. 0.6 PSD zip → Tim requested from authors. grindmap==permeability one-paper confirmed. |
 | 2026-07-10 | 1 | 1.2 waszkiewicz2025.poroelastic gated (static refit == published; 9-bar Q(t) parameter-free). 1.5 wadsworth2026.grindmap gated after Tim dropped full Table 1 (⟨R⟩=βG+R₀ refit R²=0.994; S(G); A9 stub) — card β,R₀ flagged as non-reproducing. run_all_gates green; 10 loader tests. Sprint 1 done. |
+| 2026-07-11 | 2 | A7 (FlowLaw/SI guard, SCHEMA 0.2) + 1.1 wadsworth2026.inertial gated; §5.2 settled (tamped DE1 Fo_F ≈0.86/5.7 ≫ untamped band). Mo Re overlay deferred (0.4). |
+| 2026-07-11 | 3 | 1.3 liang2021.desorption + 1.4 moroney2016.surrogate gated after Tim dropped liang Figs 3/4/5 + moroney Fig 6 (+ Table1 transcribed). 13 gates green; 12 loader tests. moroney-vs-cameron mutual-validation deferred. |

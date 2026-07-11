@@ -1,0 +1,30 @@
+symbol,value,units,source
+phi_v_inf,0.7034,-,derived from soluble mass fraction [14]
+phi_h,0.2,-,nominal
+c_s,1400,kg/m3,nominal
+phi_cd,0.143435,-,measured [14]
+phi_s_sd,0.11,-,measured/derived [14]
+phi_s_bd,0.033435,-,measured/derived [14]
+alpha_star,0.1833,-,fitted
+beta_star,0.0447,-,fitted
+dP,230000,Pa,measured
+L,0.0405,m,measured
+k_sv1,27.35,um,measured PSD
+k_sv2,322.49,um,measured PSD
+l_l,282,um,measured PSD
+D_h_D_v,2.2e-9,m2/s,nominal
+rho,965.3,kg/m3,nominal water 90C
+mu,0.315e-3,Pa*s,nominal water 90C
+m_cell,30,um,nominal
+c_sat,212.4,kg/m3,nominal
+kappa_KC,3.1,-,nominal Kozeny-Carman
+eta,0.5,-,assumed
+psi_s0,0.7304,-,derived
+g,9.81,m/s2,nominal
+t_s,1.042,s,derived (fine grind)
+t_a,5.356,s,derived (fine grind)
+t_d,42.231,s,derived (fine grind)
+epsilon,0.127,-,t_a/t_d
+a1,2.81,-,phi_v_inf(1-phi_h)/phi_h
+a2,5.139,-,t_a/t_s
+a3,0.473,-,pore capacity / initial surface coffee

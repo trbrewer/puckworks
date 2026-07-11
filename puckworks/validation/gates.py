@@ -159,8 +159,77 @@ def gate_inertial_de1_audit():
                 Fo_F_max_zhou=round(a["Fo_F_max_zhou"], 3), k_m2=a["k_m2"])
 
 
+def gate_liang_kemax_refit():
+    """Refit K*E_max from digitized Fig 3 (R_brew>=3) recovers ~0.215 (card).
+
+    Post-fit of the digitized 1-L TDS-vs-R_brew data via Eq. 11."""
+    from puckworks.models.liang2021 import desorption as lg
+    rows = [r for r in gates_data().liang_fig3_tds()
+            if r["R_brew_digitized_g_per_g"] >= 3.0]
+    R = [r["R_brew_digitized_g_per_g"] for r in rows]
+    TDS = [r["TDS_percent"] / 100.0 for r in rows]
+    ke = lg.fit_K_Emax(R, TDS)
+    return dict(passed=(abs(ke - 0.215) < 0.01), K_Emax=round(ke, 4),
+                card=0.215, n=len(rows))
+
+
+def gate_liang_eoven_ceiling():
+    """E_oven kernel (Eq 22) reproduces the Fig 4 oven branch, and the immersion
+    equilibrium ceiling K*E_max sits below cameron's inventory ceiling (§5.5)."""
+    from puckworks.models.liang2021 import desorption as lg
+    import numpy as np
+    f4 = gates_data().liang_fig4_E()
+    oven = [r for r in f4 if r["measurement"] == "oven_drying"
+            and r["R_brew_digitized_g_per_g"] >= 3.0]
+    eq = [r for r in f4 if r["measurement"] == "equilibrium"
+          and r["R_brew_digitized_g_per_g"] >= 3.0]
+    R = np.array([r["R_brew_digitized_g_per_g"] for r in oven])
+    E_meas = np.array([r["E_percent"] for r in oven]) / 100.0
+    pred = lg.E_oven(R)
+    mape = float(np.mean(np.abs(pred - E_meas) / E_meas))
+    eq_mean = float(np.mean([r["E_percent"] for r in eq]) / 100.0)
+    cam = lg.cameron_inventory_ceiling()
+    passed = (mape < 0.15                          # oven kernel tracks Fig 4
+              and abs(eq_mean - 0.21) < 0.03        # equilibrium E flat ~21%
+              and lg.K_EMAX_1L < cam)               # §5.5: equilibrium < inventory
+    return dict(passed=passed, eoven_mape=round(mape, 3),
+                eq_E_mean=round(eq_mean, 3), liang_ceiling=lg.K_EMAX_1L,
+                cameron_ceiling=round(cam, 3))
+
+
+def gate_moroney_fig6_washthrough():
+    """Leading-order composite reproduces Fig 6's saturated plateau (t<1) and
+    wash-through timing (c=1/2 near the data's midpoint). QUALITATIVE — the
+    long-time diffusion tail needs the outer solution (not on card)."""
+    from puckworks.models.moroney2016 import surrogate as mo
+    import numpy as np
+    d = gates_data().moroney_fig6()
+    t = np.array([r["t_nondimensional"] for r in d])
+    c = np.array([r["c_h_nondimensional"] for r in d])
+    t_half = mo.washthrough_halfmax_time()
+    # data midpoint: interpolate t at c=0.5 (np.interp needs ascending c)
+    order = np.argsort(c)
+    t_half_data = float(np.interp(0.5, c[order], t[order]))
+    early = t <= 3.6
+    pred_early = mo.composite_exit(t[early])
+    rmse_early = float(np.sqrt(np.mean((pred_early - c[early]) ** 2)))
+    passed = (mo.composite_exit(0.5) == 1.0                 # plateau before wash-through
+              and abs(t_half - t_half_data) < 0.6            # wash-through timing
+              and rmse_early < 0.15)                         # early-region envelope
+    return dict(passed=passed, t_half_model=round(t_half, 2),
+                t_half_data=round(t_half_data, 2), rmse_early=round(rmse_early, 3))
+
+
+def gates_data():
+    """Lazy import of puckworks.data (avoids import cost at module load)."""
+    from puckworks import data
+    return data
+
+
 QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_waszkiewicz_static_refit, gate_waszkiewicz_dynamic_9bar,
          gate_grindmap_refit, gate_grindmap_polydispersity,
          gate_inertial_fo_band, gate_inertial_darcy_recovery,
-         gate_inertial_de1_audit]
+         gate_inertial_de1_audit,
+         gate_liang_kemax_refit, gate_liang_eoven_ceiling,
+         gate_moroney_fig6_washthrough]

@@ -78,6 +78,21 @@ def test_wadsworth_grindmap_table1():
     assert abs(S - r["S_polydispersivity"]) < 5e-3
 
 
+def test_liang_figures_load():
+    f3 = pwdata.liang_fig3_tds()
+    assert len(f3) > 20 and "TDS_percent" in f3[0]
+    f4 = pwdata.liang_fig4_E()
+    assert {r["measurement"] for r in f4} == {"equilibrium", "oven_drying"}
+    assert len(pwdata.liang_fig5_cupping()) > 0
+
+
+def test_moroney_figures_load():
+    f6 = pwdata.moroney_fig6()
+    assert len(f6) > 5 and f6[0]["c_h_nondimensional"] > 0.9  # starts saturated
+    t1 = {r["symbol"]: r["value"] for r in pwdata.moroney_table1()}
+    assert float(t1["a2"]) == 5.139 and float(t1["a3"]) == 0.473
+
+
 def test_schmieder_raw_fractions_and_rsm():
     frac = pwdata.schmieder_raw_fractions()
     assert len(frac) == 288 and frac[0]["fraction"] == 1.0
