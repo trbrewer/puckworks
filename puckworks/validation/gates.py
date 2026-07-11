@@ -457,6 +457,26 @@ def gate_lee_feedback_negative_result():
                 note="peak weak by design; sign gated, not amplitude")
 
 
+def gate_p3_channeling_sigma_sweep():
+    """P3 fine-grind-dip hypothesis #1 (static channeling), ANALYSIS_P2 §2.3's
+    top uncertainty-reducing computation: a MONOTONE sigma(grind) closure through
+    the fines fraction, fed to the streamtube EY-deficit, turns the monotone base
+    EY(grind) into a PEAKED ensemble EY -- static channeling ALONE reproduces the
+    fine-grind dip (peak near the schmieder GL~1.7). Instruments the last
+    data-free fine-grind-dip mechanism. Independent/qualitative."""
+    from puckworks import harness as h
+    r = h.channeling_sigma_sweep(gs_grid=(1.0, 1.5, 2.0, 2.5), n_grid=6)
+    passed = bool(r["sigma_monotone"] and r["homog_monotone"]
+                  and r["ensemble_peaks_interior"]
+                  and r["deficit_largest_at_finest"])
+    return dict(passed=passed, sigma_monotone=r["sigma_monotone"],
+                base_EY_monotone=r["homog_monotone"],
+                channeling_makes_peak=r["ensemble_peaks_interior"],
+                peak_gs=r["peak_gs"],
+                ey_homog=[round(float(v), 2) for v in r["ey_homog"]],
+                ey_ensemble=[round(float(v), 2) for v in r["ey_ensemble"]])
+
+
 def gate_roman_sphere_solver():
     """romancorrochano2017 extraction (3.5) solver verification: the spherical
     method-of-lines diffusion solver reproduces the classic Crank analytic
@@ -852,4 +872,4 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_mo2_k0_carman_kozeny, gate_mo2_fixed_flow_trends,
          gate_mo2_swelling_flow_decay,
          gate_fasano_cor82_nonmonotone, gate_fasano_reversal_signature,
-         gate_fasano_freeboundary]
+         gate_fasano_freeboundary, gate_p3_channeling_sigma_sweep]

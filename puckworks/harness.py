@@ -146,6 +146,42 @@ def kappa_t_ladder():
                 rc3b_vs_rung4="worse (near-instant favored, §5.6)" if rmse5 > rmse4 else "better")
 
 
+# --- P3 fine-grind-dip hypothesis #1: static channeling sigma(phi1) sweep -----
+# ANALYSIS_P2 §2.3 named this the single most uncertainty-reducing computation:
+# does a MONOTONE sigma(grind) channeling closure (finer grind -> more fines ->
+# more permeability heterogeneity) reproduce a NON-MONOTONE cup/EY peak (the
+# fine-grind dip)? streamtube EY-deficit x grindmap fines fraction.
+def channeling_sigma_sweep(gs_grid=(1.0, 1.4, 1.8, 2.2, 2.5), s_ref=0.6, m=1.0,
+                           p_bar=5.0, n_grid=7):
+    """Sweep grind setting; set the streamtube lognormal-permeability width sigma
+    by a MONOTONE closure through the fines fraction phi1 (finer -> more fines ->
+    wider sigma). Return per-grind homogeneous EY, channeling-deficit EY, and
+    whether the deficit turns the monotone base curve into a peaked one.
+
+    Result (hypothesis #1 instrumented): the homogeneous EY falls monotonically
+    with coarsening, but the channeling deficit is largest at the FINEST grind
+    (most fines), so the ensemble EY PEAKS at an interior grind -- static
+    channeling ALONE reproduces the fine-grind dip. Independent/qualitative."""
+    from puckworks.models.brewer2026 import streamtube as st
+    gs = np.asarray(gs_grid, float)
+    sigma = st.sigma_closure_power(gs, s_ref=s_ref, m=m)
+    homog, ens, deficit = [], [], []
+    for g, s in zip(gs, sigma):
+        resp = st.EYResponse(gs=float(g), p_bar=p_bar, n_grid=n_grid)
+        homog.append(float(resp.ey_of_k(1.0)))
+        ens.append(float(resp.ey_ensemble(float(s))))
+        deficit.append(float(resp.deficit(float(s))))
+    homog = np.array(homog); ens = np.array(ens); deficit = np.array(deficit)
+    ip = int(np.argmax(ens))
+    return dict(gs=gs, sigma=sigma, ey_homog=homog, ey_ensemble=ens,
+                deficit=deficit,
+                sigma_monotone=bool(np.all(np.diff(sigma) <= 1e-9)),
+                homog_monotone=bool(np.all(np.diff(homog) <= 1e-9)),
+                ensemble_peaks_interior=bool(0 < ip < len(gs) - 1),
+                peak_gs=float(gs[ip]),
+                deficit_largest_at_finest=bool(deficit[0] == deficit.max()))
+
+
 # --- cross-pressure generalization discriminator (item 2.2, ANALYSIS_P2) ---
 # Waszkiewicz ran 11 pressures. Fix ONE calibration and predict every trace out
 # of sample: the mechanism that best explains all pressures wins, and where the
