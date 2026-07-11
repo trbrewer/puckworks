@@ -42,6 +42,18 @@ def test_p2_cross_pressure_separation():
     assert X["static_wins_mid_p"]
 
 
+def test_lee2023_negative_result():
+    """lee2023: imposed rho_c=798 gives a fine-grind decline; physical rho_c=399
+    only plateaus (the paper's documented negative result). Never promote."""
+    import numpy as np
+    from puckworks.models.lee2023 import feedback as lee
+    g = np.linspace(1.1, 2.3, 13)
+    assert lee.peak_and_fine_decline(g, rho_c=798.0)["fine_side_decline"]
+    assert not lee.peak_and_fine_decline(g, rho_c=399.0)["fine_side_decline"]
+    assert abs(lee.tau_shot(1.1) - 1.12) < 0.03
+    assert abs(lee.tau_shot(2.3) - 0.48) < 0.03
+
+
 def test_a8_bedstate_fields():
     """A8: BedState carries per-depth-cell porosity + fines inventory fields."""
     from puckworks.contracts import BedState, SCHEMA_VERSION

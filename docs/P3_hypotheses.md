@@ -14,7 +14,7 @@ cup mass at fixed flow with pressure(grind) — cup mass peaks at GL 1.7 (data i
 |---|---|---|---|---|---|
 | 1 | static channeling σ(φ₁) | `brewer2026.streamtube` | fitted σ vs fines fraction / grind | monotone σ(φ₁) relation | **component registered** (lognormal σ closure; σ fitted on 3 points, LOO-interpolated). No per-grind σ(φ₁) sweep yet — needs the grind→fines chain (wadsworth2026.grindmap now supplies ⟨R⟩/S). |
 | 2 | incomplete wetting, tubes at k→0 | `foster2025.machine_mode` / `.infiltration` | per-grind first-drip timing; CT saturation | delayed / partial wetting at fine grinds | **gated & data-validated.** Foster infiltration (first-drip triangle on DE1) + machine mode (Figs 12-15). The "tubes at k→0" atom the lognormal lacks (foster card). Foster's model is sharp-front and **declines the coarse grind** (front visibly non-uniform) → the unsaturated-flow gap **G1** is where this hypothesis actually lives; no continuous-saturation model on file yet. |
-| 3 | dissolution–flow instability + saturation ceiling | `lee2023` | pathway-resolved depletion | fast pathway saturates/depletes first | **not implemented — Phase 3 (item 3.4).** Card notes it needs an unphysical ρ_c for the headline trend (documented negative result is a required gate). |
+| 3 | dissolution–flow instability + saturation ceiling | `lee2023` | pathway-resolved depletion | fast pathway saturates/depletes first | **INSTRUMENTED — `lee2023.feedback` (item 3.4).** `gate_lee_feedback_negative_result` reproduces the paper's behaviour + its negative result: δ=0.035 seed amplifies (pathway EY diverges) at all g; imposed ρ_c=798 gives an interior EY(g) peak with a fine-side decline (weak ~0.2 pp); physical ρ_c=399 only plateaus (no decline). Discriminator: pathway-resolved depletion → one region fully extracted → bitterness signature. Not a data fit. |
 | 4 | size-exclusion entrapment | `romancorrochano2017_extraction` | extractable inventory y₀(grind) | inventory falls with coarseness (y₀ 31.7→32.15) | **not implemented — Phase 3 (item 3.5).** Needs 0.5 intake (Table 6.1 / 4.9). |
 | 5 | flow inhomogeneity + pressure | `pannusch2024.solver` | flow + pressure at fixed grind | qualitative only | **solver gated** (RC-4a/b). But pannusch is a *no-channeling, constant-porosity* model — this is a **pointer, not a mechanism** (card). The fine-grind dip is attributed to flow inhomogeneity + higher pressure, i.e. *outside* the model. |
 
@@ -30,7 +30,7 @@ cup mass at fixed flow with pressure(grind) — cup mass peaks at GL 1.7 (data i
   this null first.
 
 ## What's needed to close P3 (mostly Phase 3 + CHAT)
-- Hypotheses 3 (lee2023) and 4 (romancorrochano) need their Phase-3 components.
+- Hypothesis 3 (lee2023) is now instrumented; hypothesis 4 (romancorrochano) still needs its Phase-3 component (0.5 intake).
 - Hypothesis 1 needs a per-grind σ(φ₁) sweep (streamtube × grindmap).
 - Hypothesis 2's coarse-grind case needs a continuous-saturation model (gap G1).
 - The verdict ("which mechanism survives, and does any reproduce the schmieder

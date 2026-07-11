@@ -127,6 +127,31 @@ register(Component(
           "two-population limit is a DEFERRED future gate (card gate design 2)"))
 
 register(Component(
+    name="lee2023.feedback", stage="flow", kind="calibration",
+    paper="Lee & Smith, 2023 (extraction->porosity->permeability feedback)",
+    doi="",
+    module="puckworks.models.lee2023.feedback",
+    gates=[G.gate_lee_feedback_negative_result],
+    assumptions="two parallel pathways, constant total flow; extraction opens "
+                "porosity (Eq.3) -> Kozeny-Carman kappa=eps^3/(1-eps)^2 -> reroutes "
+                "flow -> feedback from a delta=0.035 seed; alpha=c_sat/rho_c "
+                "(Eq.9; Table I 3.76 is a reciprocal typo, see card Errata); "
+                "unimodal PSD, no stratification, dissolution Heaviside-capped at "
+                "EY_max=33.8%",
+    valid_range="Cameron 2020 EK43 g=1.1-2.3; grinder maps t_shot(g)/S(g) fitted "
+                "to Cameron; QUALITATIVE fine-grind-dip hypothesis (c) ONLY. The "
+                "DECLINE needs an UNPHYSICAL rho_c=798 (2x measured); the physical "
+                "rho_c=399 gives only a PLATEAU (documented negative result). Not a "
+                "data-fitting component; brings no new data",
+    notes="fine-grind-dip mechanism (c) [streamtube channeling / foster wetting / "
+          "lee feedback] in docs/P3_hypotheses.md. Reproduces the paper's own "
+          "behaviour + failure mode (verification+qualitative): interior EY(g) peak "
+          "with fine-side decline at rho_c=798, plateau at rho_c=399; peak weak "
+          "(~0.2pp by design, sign gated not amplitude). Backlog: dynamic (extraction) "
+          "branch of kappa(t)=kappa0 f(P,eps,E); real payoff is N-tube graft onto "
+          "brewer2026.streamtube (card VERDICT: implement-later, effort S)"))
+
+register(Component(
     name="wadsworth2026.inertial", stage="flow", kind="runtime",
     paper="Wadsworth et al., R. Soc. Open Sci. 13, 252031 (2026)", doi="10.1098/rsos.252031",
     module="puckworks.models.wadsworth2026.inertial",

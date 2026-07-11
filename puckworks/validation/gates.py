@@ -421,6 +421,42 @@ def gate_p2_cross_pressure():
                                  static_beats_both_mid_p=X["static_wins_mid_p"]))
 
 
+def gate_lee_feedback_negative_result():
+    """lee2023 (item 3.4): the two-pathway extraction->porosity->permeability
+    feedback reproduces the paper's documented behaviour AND its failure mode:
+      G1  the delta=0.035 seed amplifies (pathway EY diverges) at every grind;
+      G2  imposed rho_c=798 (alpha=0.266): EY(g) has an interior peak with a
+          DECLINE on the fine-grind side (their Fig. 4 headline);
+      G3  physical rho_c=399 (alpha=0.532): EY(g) only PLATEAUS/rises toward
+          fine -- NO decline. This is the paper's own negative result and must
+          NOT be promoted to a decline (validation-strength discipline).
+      G4  tau_shot nondimensionalization matches the reviewer cross-check
+          (tau_shot(1.1)=1.12, tau_shot(2.3)=0.48).
+    Strength: verification of the paper's model + qualitative; the peak is weak
+    (~0.2 pp vs Fig. 4's ~1.5 pp, per reviewer) so this gates the SIGN/shape,
+    not the amplitude, and never claims a data fit."""
+    import numpy as np
+    from puckworks.models.lee2023 import feedback as lee
+    g = np.linspace(1.1, 2.3, 13)
+    # G1 seed amplification (divergence exceeds the 2*delta = 7pp seed)
+    div = [lee.simulate(float(gi), rho_c=lee.RHO_C_IMPOSED)["divergence_pct"]
+           for gi in g]
+    g1 = bool(min(div) > 2 * lee.DELTA * 100 * 0.5) and all(d > 0 for d in div)
+    hot = lee.peak_and_fine_decline(g, rho_c=lee.RHO_C_IMPOSED)   # 798
+    cold = lee.peak_and_fine_decline(g, rho_c=lee.RHO_C_PHYSICAL)  # 399
+    g2 = hot["fine_side_decline"]              # decline at imposed rho_c
+    g3 = not cold["fine_side_decline"]         # plateau (no decline) at physical
+    g4 = bool(abs(lee.tau_shot(1.1) - 1.12) < 0.03
+              and abs(lee.tau_shot(2.3) - 0.48) < 0.03)
+    passed = bool(g1 and g2 and g3 and g4)
+    return dict(passed=passed, seed_amplifies=g1,
+                imposed_798_declines=g2, physical_399_plateaus=g3, tau_ok=g4,
+                peak_g_798=hot["g_peak"], fine_vs_peak_798=round(
+                    hot["ey_fine_pct"] - hot["ey_peak_pct"], 3),
+                fine_vs_peak_399=round(cold["ey_fine_pct"] - cold["ey_peak_pct"], 3),
+                note="peak weak by design; sign gated, not amplitude")
+
+
 def gate_foster_fig15_flowmin():
     """The machine-mode bed flow reproduces the Fig 15 flow-minimum signature:
     Q/Qm dips to ~0.181 at t~2.0 s and recovers (RMSE vs the digitized trace
@@ -503,4 +539,5 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_foster_machine_tp_ts, gate_extraction_harness,
          gate_foster_fig15_flowmin, gate_foster_ct_trajectory,
          gate_p2_kappa_ladder, gate_p2_cross_pressure, gate_cameron_conservation,
-         gate_pannusch_qt_adapter, gate_mo_reynolds_overlay, gate_egidi_bracket]
+         gate_pannusch_qt_adapter, gate_mo_reynolds_overlay, gate_egidi_bracket,
+         gate_lee_feedback_negative_result]
