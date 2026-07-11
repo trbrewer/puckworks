@@ -235,3 +235,17 @@ def test_romancorrochano_extraction_model():
                       V_bed=5e-5, t_eval=np.linspace(0, 40, 150))
     assert np.all(np.abs(b["mass_balance"] - 1.0) < 0.02)
     assert np.all(np.diff(b["yield_frac"]) >= -1e-9)
+
+
+def test_mo2023_2_swelling_model():
+    import numpy as np
+    from puckworks.models.mo2023_2 import swelling as sw
+    # closed-form max swelling (Eq 8)
+    assert abs(sw.s_max(0.1) - 3.57) < 0.05
+    # Fig 3a flow decay: reproduces per-powder ratio + coarser-throttles-less order
+    ratios = {pw: sw.flow_decay_ratio(pw) for pw in ("E", "H", "M", "F")}
+    assert ratios["E"] < ratios["H"] < ratios["M"] < ratios["F"]
+    assert abs(ratios["E"] - 0.0481) / 0.0481 < 0.2
+    # swelling shrinks porosity and flow decays monotonically
+    fd = sw.flow_decay("E", np.linspace(0, 60, 30))
+    assert fd["eps_b"][-1] < 0.10 and np.all(np.diff(fd["q_rel"]) <= 1e-9)

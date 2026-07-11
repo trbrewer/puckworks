@@ -676,6 +676,37 @@ def gate_mo2_k0_carman_kozeny():
                 per_powder_rel_err={p: round(e, 4) for p, e in errs.items()})
 
 
+def gate_mo2_swelling_flow_decay():
+    """mo2023_2 (3.1) SWELLING MODEL gate -- the paper's distinctive mechanism.
+    The nonlinear swelling PDE -> Eq.21 porosity -> Carman-Kozeny flow reproduces
+    the Fig 3(a) fixed-Δp flow decay q(60s)/q(0) for all four powders, INCLUDING
+    the per-powder ordering that is the mechanism's signature: coarser boulders
+    (larger ℛ_c) only partially swell within the shot, so a coarser powder
+    throttles LESS (E < H < M < F). Also verifies the closed-form max swelling
+    s_m (Eq.8) = 3.57% at C_M=0.1. Δp/μ/L cancel in the ratio -> faithful."""
+    from puckworks.models.mo2023_2 import swelling as sw
+    from puckworks import data as d
+    sm_ok = abs(sw.s_max(0.1) - 3.57) < 0.05
+    by = {}
+    for r in d.mo2_fig3a_qdecay():
+        if r["s_m_pct"] == 3.6:
+            by.setdefault(r["powder"], []).append((r["t_s"], r["q_mm_s"]))
+    model, dat, errs = {}, {}, {}
+    for pw in ("E", "H", "M", "F"):
+        pts = sorted(by[pw])
+        dat[pw] = pts[-1][1] / pts[0][1]
+        model[pw] = sw.flow_decay_ratio(pw)
+        errs[pw] = abs(model[pw] - dat[pw]) / dat[pw]
+    match = all(errs[pw] < 0.20 for pw in errs)
+    order = model["E"] < model["H"] < model["M"] < model["F"]
+    passed = bool(sm_ok and match and order)
+    return dict(passed=passed, s_max_pct=round(sw.s_max(0.1), 3),
+                coarser_throttles_less=bool(order),
+                model_ratio={k: round(v, 4) for k, v in model.items()},
+                data_ratio={k: round(v, 4) for k, v in dat.items()},
+                max_rel_err=round(max(errs.values()), 3))
+
+
 def gate_mo2_fixed_flow_trends():
     """mo2023_2 (3.1 intake): the paper's stated fixed-flow-rate experimental
     trends on Figs 6-9 (independent, qualitative). (a) slower q -> higher yield at
@@ -791,4 +822,5 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_roman_sphere_solver, gate_roman_mw_temperature_trends,
          gate_roman_bed_flow_trend,
          gate_mo2_k0_carman_kozeny, gate_mo2_fixed_flow_trends,
+         gate_mo2_swelling_flow_decay,
          gate_fasano_cor82_nonmonotone, gate_fasano_reversal_signature]

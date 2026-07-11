@@ -127,6 +127,31 @@ register(Component(
           "two-population limit is a DEFERRED future gate (card gate design 2)"))
 
 register(Component(
+    name="mo2023_2.swelling", stage="bed_dynamics", kind="runtime",
+    paper="Mo, Navarini, Suggi Liverani & Ellero, 'Modelling swelling effects in real "
+          "espresso extraction using a 1-D coarse-grained model,' J. Food Eng. (2023)",
+    doi="10.1016/j.jfoodeng.2023.111843",
+    module="puckworks.models.mo2023_2.swelling",
+    gates=[G.gate_mo2_swelling_flow_decay, G.gate_mo2_k0_carman_kozeny,
+           G.gate_mo2_fixed_flow_trends],
+    assumptions="isotropic grain swelling by NONLINEAR water diffusion (D^w); fixed bed "
+                "height so swelling only reduces eps_b (Eq 21); Carman-Kozeny flow at "
+                "fixed dP; fine+coarse representative particles swell independently "
+                "(tau~R^2/D^w -> boulders partially swell); NO surface dissolution",
+    valid_range="fixed-dP flow DECAY (Fig 3a headline) reproduced as a Δp/mu/L-"
+                "independent RATIO q(60)/q(0): E/H/M within ~5%, F within ~13%, and "
+                "the coarser-throttles-less ordering E<H<M<F; s_m=3.57% (Eq 8) from "
+                "C_M=0.1 ASSUMED not measured; fixed-dP swelling claim is unvalidated "
+                "in the paper. Solute EXTRACTION coupling (Eqs 9-17, yield/strength "
+                "Fig 8, fixed-q insensitivity) is a further layer, NOT built (the "
+                "Cameron-duplicating half per card verdict)",
+    notes="first concrete kappa(t) backlog candidate: swelling supplies f in "
+          "kappa(t)=kappa0 f(eps_b(t)). Nonlinear swelling PDE (u-less spherical MOL) "
+          "-> Eq21 porosity -> CK conductivity; reproduces Fig 3a per-powder decay via "
+          "the boulder partial-swelling physics (coarse R_c -> slower tau -> less "
+          "throttling). t=0 k0 exact (gate_mo2_k0). Distinct from mo2023 arXiv microCT"))
+
+register(Component(
     name="romancorrochano2017.extraction", stage="extraction", kind="runtime",
     paper="Roman-Corrochano, B. 'Advancing the Engineering Understanding of Coffee "
           "Extraction.' EngD thesis, University of Birmingham (2017)", doi="",
