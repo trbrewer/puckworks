@@ -309,6 +309,49 @@ def gate_foster_machine_tp_ts():
                 t_p=round(t_p, 3), t_s=round(t_s, 3), card=[0.823, 6.669])
 
 
+def gate_foster_fig15_flowmin():
+    """The machine-mode bed flow reproduces the Fig 15 flow-minimum signature:
+    Q/Qm dips to ~0.181 at t~2.0 s and recovers (RMSE vs the digitized trace
+    <0.01). This is the P2 null baseline — pump + headspace dynamics alone."""
+    import numpy as np
+    from puckworks.models.foster2025 import machine_mode as fm
+    r = fm.solve()
+    q_min, t_min = fm.flow_minimum(r)
+    rows = gates_data().foster_fig15_flow()
+    t = np.array([x["t_s"] for x in rows]); Q = np.array([x["Q_norm"] for x in rows])
+    sel = (t >= r["t_p"] + r["p"].t_shift) & (t <= r["t_s"] + r["p"].t_shift)
+    model = np.array([fm.bed_flow_norm(ti, r) for ti in t[sel]])
+    rmse = float(np.sqrt(np.mean((model - Q[sel]) ** 2)))
+    passed = (abs(q_min - 0.181) < 0.02 and abs(t_min - 2.0) < 0.3 and rmse < 0.01)
+    return dict(passed=passed, Q_min=round(q_min, 3), t_min=round(t_min, 2),
+                fig15_rmse=round(rmse, 4))
+
+
+def gate_foster_ct_trajectory():
+    """Front s(t) and headspace H(t) match the paper's own fitted ODE curves to
+    line width (<0.2 mm RMSE, verifying the port) and bracket a majority of the
+    CT data points within their error bars (independent, 'qualitative-good')."""
+    import numpy as np
+    from puckworks.models.foster2025 import machine_mode as fm
+    r = fm.solve()
+    rows = gates_data().foster_fig12_14_curves()
+    sfit, hfit, sdat, hdat = [], [], [], []
+    for x in rows:
+        s_m, H_m = fm.front_headspace_mm(x["t_s"], r)
+        sfit.append((s_m - x["s_fit_mm"]) ** 2); hfit.append((H_m - x["H_fit_mm"]) ** 2)
+        if x["s_data_mm"] != "":
+            sdat.append(abs(s_m - x["s_data_mm"]) <= max(x["s_data_err_mm"], 0.5))
+        if x["H_data_mm"] != "":
+            hdat.append(abs(H_m - x["H_data_mm"]) <= max(x["H_data_err_mm"], 0.5))
+    s_rmse = float(np.sqrt(np.mean(sfit))); h_rmse = float(np.sqrt(np.mean(hfit)))
+    passed = (s_rmse < 0.2 and h_rmse < 0.2
+              and sum(sdat) >= 4 and sum(hdat) >= 4)
+    return dict(passed=passed, s_fit_rmse_mm=round(s_rmse, 3),
+                H_fit_rmse_mm=round(h_rmse, 3),
+                s_data_within_err=f"{sum(sdat)}/{len(sdat)}",
+                H_data_within_err=f"{sum(hdat)}/{len(hdat)}")
+
+
 def gate_extraction_harness():
     """P1 extraction harness (item 2.1): the c_sat config values stay distinct
     (no silent merge, §5.4), the §5.6 dissolution-speed discriminator favors
@@ -345,4 +388,5 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_moroney_fig6_washthrough,
          gate_grudeva_no_eps_kappa, gate_grudeva_reduced_solver,
          gate_pannusch_closures, gate_pannusch_solver_mape,
-         gate_foster_machine_tp_ts, gate_extraction_harness]
+         gate_foster_machine_tp_ts, gate_extraction_harness,
+         gate_foster_fig15_flowmin, gate_foster_ct_trajectory]

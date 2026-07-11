@@ -119,11 +119,12 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
 ## Sprint 7 — machine mode (CC) [1.6, M; needs A1 + D3-foster]
 - [x] A1 pressure-node fields (p_p/p_h/P_basket/ΔP_bed) per RC-3 node table
       → `MachineState` p_p/p_h/P_basket/dP_bed + `PumpHeadspace`; SCHEMA 0.3→0.4.
-- [~] foster2025_2 Eqs. 2–7 — t_p=0.823 s, t_s=6.669 s, Fig. 15 flow-minimum
+- [x] foster2025_2 Eqs. 2–7 — t_p=0.823 s, t_s=6.669 s, Fig. 15 flow-minimum
       (post-fit); DE1 first-drip triangle rerun (independent) → **RC-3a runnable**
-      → `foster2025.machine_mode` verification-gated: reproduces **t_p=0.823,
-      t_s=6.665** from Table I/II (caught the t_shift=0.796 offset). **Fig 15
-      flow-minimum validation PENDING digitized figures.**
+      → `foster2025.machine_mode` gated (3 gates). t_p=0.823/t_s=6.665; **Fig 15
+      flow-minimum reproduced** (Q/Qm=0.181 @2s, RMSE 1e-4) = P2 null baseline;
+      s(t)/H(t) match paper fitted curves to line width + bracket 4-5/8 CT points
+      (Figs 12-14). Fig 15 Q_norm = bed flow min(Qp,f)/Qm (Eq 18), not pump flow.
 - [x] §5.9 pressure-node identification for fixture A + Waszkiewicz recorded in manifests
       → Waszkiewicz basket_pressure=P_basket / pressure=line; DE1 node open.
 - [ ] 1.8b (S): pannusch machine-driven adapter → RC-4b

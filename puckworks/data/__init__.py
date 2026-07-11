@@ -221,3 +221,13 @@ FOSTER2 = DATA_DIR / "foster2025_2"
 def foster2025_params():
     """Foster Table I/II machine-mode parameters (transcribed from the card)."""
     return _typed_rows(FOSTER2 / "foster2025_params.csv")
+
+
+def foster_fig15_flow():
+    """Fig 15: normalized bed flow Q/Qm + headspace pressure vs experiment time."""
+    return _typed_rows(FOSTER2 / "fig15_flow_pressure.csv")
+
+
+def foster_fig12_14_curves():
+    """Figs 12-14: model fitted s/w/H curves + CT data (mm) vs experiment time."""
+    return _typed_rows(FOSTER2 / "fig12_14_fitted_curves.csv")

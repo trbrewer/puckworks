@@ -72,10 +72,12 @@ def ponding(p=None):
     return s_p, t_p, Q_p
 
 
-def saturation_time(p=None):
-    """Integrate the post-ponding (s, H) ODEs to s = L; returns t_s_model [s]."""
+def solve(p=None):
+    """Integrate the post-ponding (s, H) ODEs to saturation. Returns a dict with
+    the dense-output trajectory `sol` (model time), s_p, t_p, t_s (model times),
+    Q_p. Used by the reported-time and figure-validation helpers."""
     p = p or FosterParams()
-    s_p, t_p, _ = ponding(p)
+    s_p, t_p, Q_p = ponding(p)
 
     def rhs(t, y):
         s, H = y
@@ -86,13 +88,54 @@ def saturation_time(p=None):
         return y[0] - p.L
     hit_L.terminal = True; hit_L.direction = 1
     sol = solve_ivp(rhs, [t_p, 30.0], [s_p, 0.0], method="LSODA", events=hit_L,
-                    rtol=1e-8, atol=1e-10, max_step=0.01)
-    return float(sol.t_events[0][0])
+                    rtol=1e-9, atol=1e-11, max_step=0.005, dense_output=True)
+    return dict(sol=sol, s_p=s_p, t_p=t_p, t_s=float(sol.t_events[0][0]),
+                Q_p=Q_p, p=p)
+
+
+def _sH(t_model, r):
+    """(s, H) at model time t_model [s] from a solve() result, staged."""
+    p = r["p"]
+    if t_model <= r["t_p"]:
+        s = max(0.0, r["Q_p"] * t_model / (p.A * p.phi_T)) if t_model > 0 else 0.0
+        return s, 0.0
+    if t_model >= r["t_s"]:
+        return p.L, float(r["sol"].sol(r["t_s"])[1])
+    s, H = r["sol"].sol(t_model)
+    return float(s), float(H)
+
+
+def front_headspace_mm(t_exp, r=None):
+    """(s, H) [mm] at experiment time t_exp [s] (= model time + t_shift)."""
+    r = r or solve()
+    s, H = _sH(t_exp - r["p"].t_shift, r)
+    return s * 1e3, H * 1e3
+
+
+def bed_flow_norm(t_exp, r=None):
+    """Flow through the bed q|z=0 = min(Q_p, f(H,s)) normalised by Q_m
+    (Fig 15(b) convention) at experiment time t_exp [s]."""
+    r = r or solve()
+    p = r["p"]
+    tm = t_exp - p.t_shift
+    if tm <= r["t_p"]:
+        return r["Q_p"] / p.Q_m
+    s, H = _sH(tm, r)
+    return min(r["Q_p"], f_bed(H, s, p) * p.A) / p.Q_m
+
+
+def flow_minimum(r=None):
+    """(Q_min/Q_m, t_exp of the minimum) of the bed-flow trace (Fig 15)."""
+    import numpy as np
+    r = r or solve()
+    t = np.linspace(r["t_p"], r["t_s"], 400) + r["p"].t_shift
+    q = np.array([bed_flow_norm(ti, r) for ti in t])
+    i = int(np.argmin(q))
+    return float(q[i]), float(t[i])
 
 
 def reported_times(p=None):
     """Ponding and saturation times in the experiment frame (+ t_shift), as the
     authors report them: t_p ~ 0.823 s, t_s ~ 6.669 s."""
-    p = p or FosterParams()
-    _, t_p, _ = ponding(p)
-    return t_p + p.t_shift, saturation_time(p) + p.t_shift
+    r = solve(p)
+    return r["t_p"] + r["p"].t_shift, r["t_s"] + r["p"].t_shift

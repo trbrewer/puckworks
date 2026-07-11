@@ -117,6 +117,11 @@ def test_foster_machine_mode():
     assert 0 < s_p < 1e-3 and Q_p > 0            # ponding front sub-mm, flow>0
     t_p, t_s = fm.reported_times()
     assert abs(t_p - 0.823) < 0.01 and abs(t_s - 6.669) < 0.02
+    # Fig 15 flow-minimum + figure loaders
+    q_min, t_min = fm.flow_minimum()
+    assert abs(q_min - 0.181) < 0.02 and abs(t_min - 2.0) < 0.3
+    assert len(pwdata.foster_fig15_flow()) > 100
+    assert any(r["s_data_mm"] != "" for r in pwdata.foster_fig12_14_curves())
 
 
 def test_schmieder_raw_fractions_and_rsm():
