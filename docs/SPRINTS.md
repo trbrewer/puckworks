@@ -146,8 +146,10 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
       post-fit MAPE, grudeva→vials post-fit, liang→cameron §5.5 independent).
       **§5.6 settled**: Waszkiewicz TDS early/peak=0.968 → **near-instant
       dissolution** (vs cameron diffusion-limited; τ_boulder≈23 s).
-      ⚠ cameron-vs-Cameron-tables + egidi bracket pending those intakes (0.3;
-      cameron tables as CSV) — harness covers the gated models in hand.
+      ⚠ egidi bracket pending intake (0.3). Cameron's flux/microstructure data
+      (**SI Tables S1–S5**, not the mythical "Tables 2/7/8" — corrected 2026-07-11)
+      is already transcribed in `extraction_bdf.py`, and cameron is gated on its
+      mass-budget check — **no drop needed**; a Fig. 5 EY-curve gate is optional.
 - [x] P3 hypothesis file (2.3, docs part): `docs/P3_hypotheses.md` — the
       5-hypothesis registry with current component/harness evidence.
 - [ ] CHAT: results workup + P3 verdict (which mechanism survives)  *(not-CC)*

@@ -10,7 +10,7 @@ register(Component(
     assumptions="saturated bed from t=0; homogeneous 1D flow; single solute pool; "
                 "per-bed-volume soluble inventory (EY ceiling 29.6%)",
     valid_range="EK43 dial 1.1-2.3; 20 g in / 40 g out class recipes",
-    notes="mass-conservative FV + scipy BDF; ~0.15-pt default-grid bias (see paper Table 7)"))
+    notes="mass-conservative FV + scipy BDF; ~0.15-pt default-grid bias (per the paper's SI convergence); gated on the built-in EY==EY_solid mass budget"))
 
 register(Component(
     name="brewer2026.streamtube", stage="bed_dynamics", kind="runtime",

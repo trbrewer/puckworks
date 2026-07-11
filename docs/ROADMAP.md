@@ -213,7 +213,7 @@ strength** of each gate per the §0 vocabulary.
 | bed_dynamics | — (constant κ) |
 | observables | EY/TDS per ShotResultState |
 
-Validation: Cameron Tables 2/7/8 (independent/gated **[RS]**); DE1 fixture A
+Validation: Cameron SI Tables S1–S5 + Fig. 5 EY curve (independent/gated **[RS]**); DE1 fixture A
 first-drip 7.0 s / W_dead 8.8 g triangle (independent, parameter-free **[RS]**);
 egidi2024 Table 2 as an independent 12-condition **EY/TDS range bracket only —
 not a pressure or temperature response test** (the egidi card: p and T never
@@ -351,7 +351,7 @@ preserved in §5.1.
 
 | # | item | effort | depends on | design |
 |---|---|---|---|---|
-| 2.1 | Extraction harness (P1) | M | 1.4, 1.7b, 1.8a, Phase 0 gate data; A5 | run cameron2020 / grudeva / pannusch(TDS channel) on matched inputs against Cameron Tables, egidi2024 Table 2 bracket, Schmieder kinetics, Grudeva vials (post-fit — label as such in reports), Waszkiewicz TDS fractions; report per-dataset residuals with validation-strength tags; explicitly test waszkiewicz's "near-instant dissolution" claim vs Cameron's diffusion-limited boulders (§5.6) |
+| 2.1 | Extraction harness (P1) | M | 1.4, 1.7b, 1.8a, Phase 0 gate data; A5 | run cameron2020 / grudeva / pannusch(TDS channel) on matched inputs against the Cameron Fig. 5 EY curve (SI Tables S1–S5 already in code), egidi2024 Table 2 bracket, Schmieder kinetics, Grudeva vials (post-fit — label as such in reports), Waszkiewicz TDS fractions; report per-dataset residuals with validation-strength tags; explicitly test waszkiewicz's "near-instant dissolution" claim vs Cameron's diffusion-limited boulders (§5.6) |
 | 2.2 | κ(t) discrimination harness (P2) | M | 1.2, 1.6; 0.2, 0.12; A8 for challengers | implement the P2 null-first ladder; Waszkiewicz traces + DE1 fixture A; discriminating protocols per cards: flow-reversal replay (Fasano Fig. 8.4), pressure step, on/off rebrew; RC-3b (Cameron-coupled Waszkiewicz) enters here as rung 5, not by inheritance |
 | 2.3 | Fine-grind-dip hypothesis file (P3) | S | 2.1, 2.2 partial | not a component: the P3 table maintained with current evidence per hypothesis |
 
@@ -552,7 +552,7 @@ wadsworth2026_table1.csv; DE1 fixture A (P(t), W(t), flow, κ=1.196).
 | Waszkiewicz full rig set (traces ×11 P, TDS fractions, calib curve, PSD, code) | waszkiewicz2025 | **public** (Zenodo/GitHub) | RC-3, P2, 2.1 | independent within-rig; rig/coffee/grind-specific constants; m_d(t) soft circularity | **1** — only public multi-pressure trace set on file |
 | Schmieder/Pannusch multi-solute kinetics | schmieder2023 / pannusch2024 | **public** (Mendeley + CC-BY suppl.) | RC-4, G6 | fit set = post-fit; temperature set = independent; flow set = quarantined | **1** |
 | Wadsworth PSD zip (22 samples) | wadsworth2026_grindmap | **public** | grind priors, pack_generator | independent measurement | **1** |
-| Cameron Tables 2/7/8 | cameron2020 | held **[RS]** | RC-1 | existing gated regression | held |
+| Cameron SI Tables S1–S5; Fig. 5 EY curve | cameron2020 | held **[RS]** (S1–S5 transcribed in code) | RC-1 | existing gated regression | held |
 | egidi2024 Table 2 (12-condition EY/TDS) | egidi2024 | transcribe from PDF | RC-1 | independent EY/TDS **bracket**; not a pressure/T response test | **2** |
 | Grudeva 13-shot vial TDS + flow | grudeva2023 | repo-check, else digitize/request | RC-2 | **post-fit reconstruction** unless companion provides holdout | **2** — RC-2 has no other experimental gate |
 | romancorrochano Table 6.1 (tamped κ) + Table 4.9 (Deff map) | romancorrochano2017_* | transcribe | G9 test, 3.5 | tamped permeability *data*; not a K–C validation | **2** |
@@ -587,6 +587,7 @@ them. **Status promotions (`verification-gated` → `gated`, `gated` →
 ### 7.1 Change log
 | date | change | evidence (dataset + gate script) | affected RCs / items |
 |---|---|---|---|
+| 2026-07-11 | Card fix (Tim-flagged): the "Cameron **Tables 2/7/8**" reference does not exist in Cameron et al. Matter 2020 — corrected to **SI Tables S1–S5** (already transcribed in `extraction_bdf.py`) + **Fig. 5** EY curve, in `cameron2020.md`, `grudeva2026_2.md`, §2/§3/§6, and the registry note. The "cameron-vs-Cameron-tables" data-drop was bogus (no drop needed; cameron is gated on its mass budget); an optional Fig. 5 EY-curve gate remains. | Cameron et al. Matter 2 (2020) SI | RC-1; item 2.1 |
 | 2026-07-11 | Phase 1/2 closeout (group A): **1.8b** `simulate_fractions_qt` machine-driven Q(t) adapter (A2) → **RC-4b** (reduces to RC-4a on constant flow, 0.0 rel err; live under a flow ramp). **2.3** `docs/P3_hypotheses.md` fine-grind-dip registry. **cameron2020.extraction_bdf gated** (mass-budget conservation EY==EY_solid, below inventory ceiling — was ungated). **1.4** moroney-vs-cameron mutual-validation determined **regime-blocked** (Cameron ε≈1.6 espresso/clean-IC vs Moroney ε≈0.13 drip/saturated-IC) — needs matched-parameter CHAT alignment, not a mechanical gate; Fig-6 gate stands. | `gate_pannusch_qt_adapter`, `gate_cameron_conservation`; `docs/P3_hypotheses.md` | RC-4b; P3; cameron | 
 | 2026-07-11 | Sprint 9 (CC part) item 2.2: ledger **A8** (`BedState.porosity_profile / fines_mobile / fines_bound`; SCHEMA 0.4→0.5) + the **P2 kappa(t) null-first ladder** (`harness.kappa_t_ladder` + `gate_p2_kappa_ladder`). On the Waszkiewicz 9-bar rising-flow trace: rung 4 time-dependent Φ(t) (RMSE 0.113 g/s) **beats the flat constant-κ / static-κ(P) null rungs 1/3 (0.603 g/s) by 5.4×** — a bed mechanism IS required for the rising residual. Rung 2 = foster flow-minimum null (validated separately). **Rung 5 challengers (mo2023_2, fasano I/II, lee2023, RC-3b) are Phase 3.** CHAT "which mechanism survives" is not-CC. | `gate_p2_kappa_ladder`; `tests/test_harness.py` | P2 discrimination (partial) |
 | 2026-07-11 | Sprint 7 item 1.6 completed: `foster2025.machine_mode` **data-validated** against the digitized Figs 12-15 (Tim drop). **Fig 15 flow-minimum reproduced** — bed flow Q/Qm = 0.181 at t=2.0 s (RMSE 1e-4 vs the trace) → the **P2 null baseline** (Sprint 9 ladder rung 2). s(t)/H(t) match the paper's fitted ODE curves to line width (RMSE 0.002/0.053 mm) and bracket 4-5/8 CT points (qualitative-good, per the paper). Key: Fig 15 Q_norm = bed flow min(Q_p,f)/Q_m (Eq 18), not pump flow. | `gate_foster_fig15_flowmin`, `gate_foster_ct_trajectory` on `data/foster2025_2/` | RC-3a machine mode; P2 rung 2 |

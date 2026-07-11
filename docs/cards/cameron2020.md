@@ -21,4 +21,6 @@ BedState + MachineState.P_of_t -> ShotResultState.
 
 ## Validation
 Closed mass budget; browser/BDF parity <=0.03 pts matched grids; convergence study
-bounds default-grid bias ~0.15 pts. See paper Tables 2, 7, 8.
+bounds default-grid bias ~0.15 pts. See paper SI Tables S1–S5 (transcribed in
+`extraction_bdf.py`) and Fig. 5 (EY-vs-grind curve). [corrected 2026-07-11: the
+earlier "Tables 2, 7, 8" do not exist in the paper.]
