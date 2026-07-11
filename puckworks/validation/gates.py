@@ -298,6 +298,17 @@ def gate_pannusch_solver_mape():
                 trigonelline=round(m["trigonelline"], 2), CGA=round(m["5CQA"], 2))
 
 
+def gate_foster_machine_tp_ts():
+    """The pump/headspace machine-mode ODE reproduces the authors' ponding time
+    t_p = 0.823 s and saturation time t_s = 6.669 s from the Table I/II params
+    (verification: the whole staged ODE validated against two reported numbers).
+    Fig 15 flow-minimum shape validation is deferred to the digitized trace."""
+    from puckworks.models.foster2025 import machine_mode as fm
+    t_p, t_s = fm.reported_times()
+    return dict(passed=(abs(t_p - 0.823) < 0.01 and abs(t_s - 6.669) < 0.02),
+                t_p=round(t_p, 3), t_s=round(t_s, 3), card=[0.823, 6.669])
+
+
 def gates_data():
     """Lazy import of puckworks.data (avoids import cost at module load)."""
     from puckworks import data
@@ -312,4 +323,5 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_liang_kemax_refit, gate_liang_eoven_ceiling,
          gate_moroney_fig6_washthrough,
          gate_grudeva_no_eps_kappa, gate_grudeva_reduced_solver,
-         gate_pannusch_closures, gate_pannusch_solver_mape]
+         gate_pannusch_closures, gate_pannusch_solver_mape,
+         gate_foster_machine_tp_ts]

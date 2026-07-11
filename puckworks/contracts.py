@@ -8,7 +8,8 @@ from dataclasses import dataclass, field
 from typing import Callable, Optional
 import numpy as np
 
-SCHEMA_VERSION = "0.3"   # 0.3: GrindState.fines_radius_m (G5-pre). 0.2: A7 FlowLaw fields
+SCHEMA_VERSION = "0.4"   # 0.4: A1 pressure-node + machine-mode fields (additive)
+# history: 0.3 GrindState.fines_radius_m (G5-pre); 0.2 A7 FlowLaw fields
 
 # Plausible SI permeability window [m^2]. The Forchheimer k_I closures
 # (k_I = exp(g2 k^tau)) fail SILENTLY off-SI (ledger A7), so k is asserted, not
@@ -55,10 +56,30 @@ class FlowLaw:
 
 
 @dataclass
+class PumpHeadspace:
+    """Machine-mode pump + trapped-air headspace parameters (ledger A1;
+    foster2025_2 Eqs. 2-7). Enables generating the pressure-node set from a
+    machine model instead of consuming a recorded trace."""
+    p_m: float                        # pump shut-off pressure [Pa]
+    Q_m: float                        # pump max flow [m^3/s]
+    R_f: float                        # pipe resistance [Pa s / m^3]
+    H0: float                         # initial headspace height [m]
+    beta: float = 1.0                 # trapped-air heating ratio T1/T0
+    p_c: float = 0.0                  # capillary suction at the front [Pa]
+
+
+@dataclass
 class MachineState:
     P_of_t: Optional[Callable[[float], float]] = None   # bar, gauge overpressure
     profile_t: Optional[np.ndarray] = None
     profile_p: Optional[np.ndarray] = None
+    # A1 pressure-node set (RC-3 node table): each is a callable of t [s] -> Pa,
+    # or a scalar. Do NOT apply two pressure-drop corrections to one segment.
+    p_p: Optional[Callable[[float], float]] = None      # pump outlet
+    p_h: Optional[Callable[[float], float]] = None      # headspace / bed top
+    P_basket: Optional[Callable[[float], float]] = None  # basket gauge / puck
+    dP_bed: Optional[Callable[[float], float]] = None   # drop across the wet bed
+    pump: Optional[PumpHeadspace] = None                # machine-mode source (A1)
 
 @dataclass
 class ShotResultState:

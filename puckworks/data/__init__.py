@@ -212,3 +212,12 @@ def pannusch_experimental_kinetics():
     fraction time bounds, and measured caffeine/trigonelline/5CQA/TDS. Derived
     from the reference repo ExperimentalData.mat (15 exp x 6 fractions)."""
     return _typed_rows(PANNUSCH / "experimental_kinetics.csv")
+
+
+# --- foster2025_2 machine mode (ROADMAP 0.11 / 1.6) ----------------------
+FOSTER2 = DATA_DIR / "foster2025_2"
+
+
+def foster2025_params():
+    """Foster Table I/II machine-mode parameters (transcribed from the card)."""
+    return _typed_rows(FOSTER2 / "foster2025_params.csv")

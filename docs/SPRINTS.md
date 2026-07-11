@@ -117,11 +117,18 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
       <15% ψ/d_s2 spread → 2nd-order). **RC-4a created.**
 
 ## Sprint 7 — machine mode (CC) [1.6, M; needs A1 + D3-foster]
-- [ ] A1 pressure-node fields (p_p/p_h/P_basket/ΔP_bed) per RC-3 node table
-- [ ] foster2025_2 Eqs. 2–7 — t_p=0.823 s, t_s=6.669 s, Fig. 15 flow-minimum
+- [x] A1 pressure-node fields (p_p/p_h/P_basket/ΔP_bed) per RC-3 node table
+      → `MachineState` p_p/p_h/P_basket/dP_bed + `PumpHeadspace`; SCHEMA 0.3→0.4.
+- [~] foster2025_2 Eqs. 2–7 — t_p=0.823 s, t_s=6.669 s, Fig. 15 flow-minimum
       (post-fit); DE1 first-drip triangle rerun (independent) → **RC-3a runnable**
-- [ ] §5.9 pressure-node identification for fixture A + Waszkiewicz recorded in manifests
+      → `foster2025.machine_mode` verification-gated: reproduces **t_p=0.823,
+      t_s=6.665** from Table I/II (caught the t_shift=0.796 offset). **Fig 15
+      flow-minimum validation PENDING digitized figures.**
+- [x] §5.9 pressure-node identification for fixture A + Waszkiewicz recorded in manifests
+      → Waszkiewicz basket_pressure=P_basket / pressure=line; DE1 node open.
 - [ ] 1.8b (S): pannusch machine-driven adapter → RC-4b
+      — **deferred:** needs a matched Q(t)-driven shot; better with Sprint 8
+      harness (Schmieder flow ~constant, little Q(t) to test standalone).
 
 ## Sprint 8 — extraction harness (CC+CHAT) [2.1, M; needs Sprints 3,5,6 + A5]
 - [ ] Matched-input runs: cameron/grudeva/pannusch(TDS) vs Cameron tables,

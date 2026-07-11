@@ -1,0 +1,20 @@
+symbol,value,units,source
+L,9.975e-3,m,measured (CT)
+H0,7.8e-3,m,measured (CT)
+A,0.002734,m2,measured (59mm)
+mu,0.315e-3,Pa*s,nominal water 90C
+rho,965,kg/m3,nominal water 90C
+p_a,1.01325e5,Pa,nominal
+Q_m,5.2833e-6,m3/s,measured (317 ml/min)
+R_f,3.83e6,Pa*s/m3,nominal (R=2e-4)
+g,9.81,m/s2,nominal
+p_c,1.0e4,Pa,nominal (0.1 bar)
+p_m,1.5e6,Pa,"nominal (15 bar, DeLonghi EC685)"
+T0,296.15,K,measured
+T1,363.15,K,nominal
+beta,1.226,-,derived T1/T0
+k,2.97e-15,m2,fitted (K=0.0495)
+phi_T,0.322,-,fitted
+t_shift,0.796,s,fitted (start-time alignment)
+t_p_reported,0.823,s,model+t_shift
+t_s_reported,6.669,s,model+t_shift

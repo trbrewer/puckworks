@@ -109,6 +109,16 @@ def test_pannusch_table2_load():
     assert t["trigonelline"]["gamma"] == -431
 
 
+def test_foster_machine_mode():
+    from puckworks.models.foster2025 import machine_mode as fm
+    p = {r["symbol"]: r for r in pwdata.foster2025_params()}
+    assert abs(p["t_shift"]["value"] - 0.796) < 1e-9
+    s_p, t_p_model, Q_p = fm.ponding()
+    assert 0 < s_p < 1e-3 and Q_p > 0            # ponding front sub-mm, flow>0
+    t_p, t_s = fm.reported_times()
+    assert abs(t_p - 0.823) < 0.01 and abs(t_s - 6.669) < 0.02
+
+
 def test_schmieder_raw_fractions_and_rsm():
     frac = pwdata.schmieder_raw_fractions()
     assert len(frac) == 288 and frac[0]["fraction"] == 1.0

@@ -167,6 +167,19 @@ register(Component(
           "long-run within ~2% (post-fit: m_d from same rig, soft circularity per card)"))
 
 register(Component(
+    name="foster2025.machine_mode", stage="machine", kind="runtime",
+    paper="Foster et al., Phys. Fluids 37, 013383 (2025)", doi="10.1063/5.0245167",
+    module="puckworks.models.foster2025.machine_mode",
+    gates=[G.gate_foster_machine_tp_ts],
+    assumptions="quadratic pump characteristic + laminar pipe + ideal-gas trapped "
+                "headspace; sharp binary front; 3 stages (pre-/post-ponding, post-"
+                "saturation); fine grind only; reported times = model + t_shift",
+    valid_range="fine grind <300um, DeLonghi EC685 nominal pump; the named A1 "
+                "'machine mode' source; Fig 15 flow-minimum validation pending 0.11",
+    notes="reproduces t_p=0.823 s, t_s=6.669 s from Table I/II (verification-gated); "
+          "pump+headspace flow decline = P2 null baseline; enables RC-3a machine mode"))
+
+register(Component(
     name="foster2025.infiltration", stage="infiltration", kind="runtime",
     paper="Foster et al., Phys. Fluids 37, 013383 (2025)", doi="10.1063/5.0245167",
     module="puckworks.models.foster2025.infiltration",
