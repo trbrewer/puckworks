@@ -507,6 +507,58 @@ def gate_roman_bed_mpe_parameter_free():
                 strength="verification of reported parameter-free result (digitized)")
 
 
+def gate_fasano_cor82_nonmonotone():
+    """fasano2000_partI (0.12/3.3 intake): the ONLY faithfully-checkable claim
+    (the model closures K,M,gamma are unpublished, so Fig 8.6 cannot be
+    reproduced from scratch -- this is NOT a model twin). The paper's Cor. 8.2
+    proves nonmonotone q_inf(p0) REQUIRES the flow to cross the detachment
+    threshold beta(q); therefore the peak of the digitized q_inf(p0) (Fig 8.6)
+    must sit at the flow where beta(q) drops steeply (Fig 8.7). Verified for both
+    thresholds, plus the ordering (beta2 drops at lower q -> peaks at lower p0).
+    Strength: qualitative / structural verification of the digitized figures via
+    the paper's own necessary condition. No closures invented."""
+    from puckworks import data as d
+    f86 = d.fasano_fig8_6()
+    f87 = d.fasano_fig8_7()
+    out = {}
+    for s in ("beta1", "beta2"):
+        pts = sorted((r["p0"], r["q"]) for r in f86 if r["series"] == s)
+        ip = max(range(len(pts)), key=lambda i: pts[i][1])
+        peak_p0, peak_q = pts[ip]
+        nonmono = pts[-1][1] < peak_q - 0.005 and ip > 0
+        b = sorted((r["q"], r["beta"]) for r in f87 if r["series"] == s)
+        slopes = [((b[i][0] + b[i + 1][0]) / 2,
+                   (b[i + 1][1] - b[i][1]) / (b[i + 1][0] - b[i][0]))
+                  for i in range(len(b) - 1)]
+        knee_q = min(slopes, key=lambda x: x[1])[0]
+        out[s] = dict(peak_p0=peak_p0, knee_q=knee_q,
+                      tracks=bool(abs(peak_p0 - knee_q) < 0.05), nonmono=bool(nonmono))
+    ordering = out["beta2"]["peak_p0"] < out["beta1"]["peak_p0"]
+    passed = bool(all(v["nonmono"] and v["tracks"] for v in out.values()) and ordering)
+    return dict(passed=passed, beta2_peaks_below_beta1=bool(ordering),
+                beta1=out["beta1"], beta2=out["beta2"],
+                strength="qualitative/structural (Cor. 8.2; digitized, not a model twin)")
+
+
+def gate_fasano_reversal_signature():
+    """fasano2000_partI Fig 8.4 (0.12 intake): the direct/inverse reversal test --
+    segment 1 (direct) and segment 3 (chamber INVERTED) both replay a large
+    transient peak (fines counter-migration re-arms the compact layer), while
+    segment 2 (pressure off/on, medium undisturbed) resumes at the LOW plateau
+    with no such peak. The authors' key discriminating experiment for fines
+    migration. Qualitative."""
+    from puckworks import data as d
+    rows = d.fasano_fig8_4()
+
+    def peak(seg):
+        return max(r["discharge_ml_s"] for r in rows if r["segment"] == seg)
+    p1, p2, p3 = peak(1), peak(2), peak(3)
+    # direct and inverted replay a big peak (>~10); the off/on resume stays low
+    passed = bool(p1 > 10 and p3 > 10 and p2 < p1 / 2 and p2 < p3 / 2)
+    return dict(passed=passed, peak_direct=p1, peak_resume=p2, peak_inverted=p3,
+                strength="qualitative (reversal signature)")
+
+
 def gate_roman_y0_ceiling_sizeexclusion():
     """romancorrochano2017 y0 (0.5 intake) -- two independent readings:
     (§5.5 nested ceilings) the exhaustively-extractable inventory y0(PsiA)=31.7%
@@ -669,4 +721,5 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_lee_feedback_negative_result,
          gate_roman_tamped_kappa, gate_roman_bed_mpe_parameter_free,
          gate_roman_y0_ceiling_sizeexclusion,
-         gate_mo2_k0_carman_kozeny, gate_mo2_fixed_flow_trends]
+         gate_mo2_k0_carman_kozeny, gate_mo2_fixed_flow_trends,
+         gate_fasano_cor82_nonmonotone, gate_fasano_reversal_signature]

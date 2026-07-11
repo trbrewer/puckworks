@@ -389,6 +389,40 @@ def mo2_sim_lines():
     return _typed_rows(_mo2() / "figs7_9_simulation_lines.csv")
 
 
+def _fasano1():
+    return DATA_DIR / "fasano2000_partI"
+
+
+def fasano_fig8_1():
+    """Fig 8.1 (digitized, schematic): EXPERIMENTAL discharge q(t) [mL/s] during
+    percolation at 3/5/7 bar (illycaffe) -- transient peak then decay to a
+    nonmonotone-in-pressure asymptote. Low fidelity, qualitative only."""
+    return _typed_rows(_fasano1() / "fig8_1_discharge_vs_pressure.csv")
+
+
+def fasano_fig8_4():
+    """Fig 8.4 (digitized): direct/inverse chamber discharge in 3 segments --
+    (1) direct percolation decay, (2) pressure off/on resumes at the low plateau
+    (ordinary porous medium), (3) chamber INVERTED replays the full peak+decay
+    (the fines counter-migration reversal signature)."""
+    return _typed_rows(_fasano1() / "fig8_4_direct_inverse.csv")
+
+
+def fasano_fig8_6():
+    """Fig 8.6 (digitized): MODEL asymptotic discharge q_inf vs applied pressure
+    p0 for threshold functions beta1, beta2 (mu=0.5; Suski free-boundary
+    simulation). The nonmonotone q_inf(p0) result. Verification of a digitized
+    model output -- NOT reproducible from scratch (closures K,M,gamma unpublished)."""
+    return _typed_rows(_fasano1() / "fig8_6_asymptotic_q_vs_p0.csv")
+
+
+def fasano_fig8_7():
+    """Fig 8.7 (digitized): the detachment-threshold shapes beta1(q), beta2(q)
+    fed to the Fig 8.6 simulation -- monotone-decreasing with a steep drop (the
+    threshold the flow must cross for nonmonotone q_inf, per Cor. 8.2)."""
+    return _typed_rows(_fasano1() / "fig8_7_thresholds.csv")
+
+
 def roman_y0_extractable():
     """Section 4.4.1 + Fig 4.19: long-time-limit extractable soluble solids y0
     [kg SS/100 kg RGC = %] per grind, 80 C dilute. PsiA (finest) exact from text

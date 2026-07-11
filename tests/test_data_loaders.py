@@ -200,3 +200,19 @@ def test_romancorrochano_y0_ceiling():
     order = ["PsiA", "PsiB", "PsiE", "PsiF", "PsiG", "PsiH"]
     seq = [y0[g] for g in order]
     assert all(seq[i] > seq[i + 1] for i in range(len(seq) - 1))
+
+
+def test_fasano2000_partI_intake():
+    # Cor 8.2 structural check: q_inf(p0) nonmonotone, peak tracks beta knee
+    f86 = pwdata.fasano_fig8_6()
+    f87 = pwdata.fasano_fig8_7()
+    for s in ("beta1", "beta2"):
+        pts = sorted((r["p0"], r["q"]) for r in f86 if r["series"] == s)
+        ip = max(range(len(pts)), key=lambda i: pts[i][1])
+        assert ip > 0 and pts[-1][1] < pts[ip][1]        # nonmonotone
+        b = sorted((r["q"], r["beta"]) for r in f87 if r["series"] == s)
+        assert b[0][1] > b[-1][1]                        # beta decreasing
+    # Fig 8.4 reversal: inverted segment replays a big peak, resume stays low
+    rows = pwdata.fasano_fig8_4()
+    pk = lambda seg: max(r["discharge_ml_s"] for r in rows if r["segment"] == seg)
+    assert pk(1) > 10 and pk(3) > 10 and pk(2) < pk(1) / 2
