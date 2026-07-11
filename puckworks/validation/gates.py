@@ -45,4 +45,42 @@ def gate_infiltration_triangle():
     return dict(passed=passed, observed_s=t_drip,
                 predicted_bracket_s=[round(ts[0.173], 1), round(ts[0.322], 1)])
 
-QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle]
+def gate_waszkiewicz_static_refit():
+    """Refitting Eq. 16 to their 11-pressure long-run curve recovers (P_c, Q_c).
+
+    Independent-within-rig: target (P_c, Q_c) = (12 bar, 1.90 g/s); also matches
+    the ingested published static calibration (same method + data)."""
+    from puckworks.models.waszkiewicz2025 import poroelastic as wz
+    P, Q = wz.steady_state_curve()
+    (P_c, Q_c), _ = wz.fit_static(P, Q)
+    P_pub, Q_pub = wz.published_calibration()
+    passed = (abs(P_c - 12.0) < 3.0 and abs(Q_c - 1.90) < 0.15
+              and abs(P_c - P_pub) < 0.05 and abs(Q_c - Q_pub) < 0.01)
+    return dict(passed=passed, P_c=round(P_c, 3), Q_c=round(Q_c, 3),
+                P_c_pub=round(P_pub, 3), Q_c_pub=round(Q_pub, 3))
+
+
+def gate_waszkiewicz_dynamic_9bar():
+    """Parameter-free Eq. 18 reproduces the 9-bar Q(t) ramp (semi-quantitative).
+
+    Zero extra parameters: (P_c, Q_c) from the static fit + the dissolution
+    sigmoid. Post-fit reconstruction (m_d from the same rig, per card)."""
+    from puckworks.models.waszkiewicz2025 import poroelastic as wz
+    from puckworks import data as d
+    tr = d.waszkiewicz_traces()
+    t = tr[9.0]["time__s"]; meas = tr[9.0]["mass_flow_rate__g_per_s"]
+    P_c, Q_c = wz.published_calibration()
+    k_s, l_s, m_s = wz._solids_params()
+    dose = d.waszkiewicz_constants()["dose__g"]
+    pred = wz.q_dynamic(t, 9.0, P_c, Q_c, k_s, l_s, m_s, dose)
+    sel = t >= 15.0                                  # skip infiltration transient
+    lr_pred = float(np.mean(pred[-50:])); lr_meas = float(np.mean(meas[-50:]))
+    lr_err = abs(lr_pred - lr_meas)/lr_meas
+    corr = float(np.corrcoef(pred[sel], meas[sel])[0, 1])
+    return dict(passed=(lr_err < 0.10 and corr > 0.90),
+                longrun_pred=round(lr_pred, 3), longrun_meas=round(lr_meas, 3),
+                longrun_rel_err=round(lr_err, 3), corr_t_ge_15s=round(corr, 3))
+
+
+QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
+         gate_waszkiewicz_static_refit, gate_waszkiewicz_dynamic_9bar]

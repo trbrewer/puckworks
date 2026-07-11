@@ -41,9 +41,16 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
       fasano Figs. 8.1/8.4 (flag qualitative)
 
 ## Sprint 1 — first components (CC) [1.2 + 1.5, both S; needs D1]
-- [ ] 1.2 waszkiewicz2025 poroelastic κ(P,Φ) — refit (Q_c,P_c)=(1.90,12);
+- [x] 1.2 waszkiewicz2025 poroelastic κ(P,Φ) — refit (Q_c,P_c)=(1.90,12);
       9-bar Q(t) with zero extra params (RC-3a scope only)
+      → `waszkiewicz2025.poroelastic` registered; 2 gates green (static refit
+      == (12.39,1.897); 9-bar Q(t) parameter-free long-run 1.6% / corr 0.982).
 - [ ] 1.5 wadsworth2026_grindmap — refit β,R0; S(G) monotonicity; A9 adapter stub
+      — **BLOCKED (data):** `wadsworth2026_table1.csv` holds the *permeability*
+      radius (Sauter/volume, ~1.3–1.45× larger), NOT the grind-map ⟨R⟩; the
+      card wrongly says ⟨R⟩/⟨R²⟩/⟨R³⟩/S are in that csv. Refit + S(G) gates need
+      the grind-map Table 1 columns → paper Table 1 or the 0.6 PSD zip.
+      Flagged in `data/BLOCKED_INTAKE.md`.
 
 ## Sprint 2 — inertial flow (CC) [1.1, S; needs D3-mo + ledger A7]
 - [ ] A7: FlowLaw/k_I contract fields + strict SI assertion

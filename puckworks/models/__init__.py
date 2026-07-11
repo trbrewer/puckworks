@@ -53,6 +53,19 @@ register(Component(
     notes="reconciling with Cameron flux implies phi_c~0.11 or series screen resistance"))
 
 register(Component(
+    name="waszkiewicz2025.poroelastic", stage="bed_dynamics", kind="runtime",
+    paper="Waszkiewicz et al., arXiv:2512.21528 (2025)", doi="10.5281/zenodo.18046315",
+    module="puckworks.models.waszkiewicz2025.poroelastic",
+    gates=[G.gate_waszkiewicz_static_refit, G.gate_waszkiewicz_dynamic_9bar],
+    assumptions="quasi-static 1D saturated poroelastic bed; Carman-Kozeny k(phi) + "
+                "Hookean strain; Phi(t)=m_d(t)/m0 (all porosity change = dissolution); "
+                "empirical m_d(t) sigmoid (RC-3a scope; NOT the RC-3b Cameron coupling)",
+    valid_range="Sanremo Zoe rig, one coffee/grind; quantitative only above ~5 bar; "
+                "silent on first ~5-10 s; constants per-rig/coffee/grind, not portable",
+    notes="static refit == published (P_c,Q_c)=(12.39,1.897); 9-bar Q(t) parameter-free "
+          "long-run within ~2% (post-fit: m_d from same rig, soft circularity per card)"))
+
+register(Component(
     name="foster2025.infiltration", stage="infiltration", kind="runtime",
     paper="Foster et al., Phys. Fluids 37, 013383 (2025)", doi="10.1063/5.0245167",
     module="puckworks.models.foster2025.infiltration",
