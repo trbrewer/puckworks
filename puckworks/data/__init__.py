@@ -196,3 +196,12 @@ def grudeva_vial_stats():
     """Per-vial solubles mean/SD (g) over the 14-shot C1 dataset (derived from
     the reference repo exp13.csv). G3 post-fit reconstruction target."""
     return _typed_rows(GRUDEVA / "exp13_per_vial_stats.csv")
+
+
+# --- pannusch2024 (ROADMAP 1.8a), Table 2 fitted params ------------------
+PANNUSCH = DATA_DIR / "pannusch2024"
+
+
+def pannusch_table2():
+    """Table 2 per-solute fitted params (A1,B1,A2,B2,K_ref,gamma,c_s0)."""
+    return _typed_rows(PANNUSCH / "table2_fitted_params.csv")

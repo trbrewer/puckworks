@@ -257,6 +257,34 @@ def gate_grudeva_reduced_solver():
                 vials_within_1sd=f"{within}/13")
 
 
+def gate_pannusch_closures():
+    """Pannusch constitutive closures reproduce physical anchors: water
+    viscosity/density at 90 C, Wilke-Chang D, van't Hoff K(Tref)=Kref with weak
+    T-dependence, and a positive Sherwood h_sl monotone in flow."""
+    import numpy as np
+    from puckworks.models.pannusch2024 import closures as pc
+    T90 = 363.15
+    mu = float(pc.water_viscosity(T90)); rho = float(pc.water_density(T90))
+    D = {s: float(pc.diffusion_coeff(T90, s)) for s in pc.SOLUTES}
+    tab = {r["solute"]: r for r in gates_data().pannusch_table2()}
+    caf = tab["caffeine"]
+    K_ref = pc.vant_hoff_K(pc.TREF_K, caf["K_ref"], caf["gamma"])   # == Kref
+    K80 = pc.vant_hoff_K(353.15, caf["K_ref"], caf["gamma"])
+    K98 = pc.vant_hoff_K(371.15, caf["K_ref"], caf["gamma"])
+    q1, q2 = 1e-4, 3e-4
+    h1 = float(pc.sherwood_h(T90, q1, caf["A1"], caf["B1"], "caffeine"))
+    h2 = float(pc.sherwood_h(T90, q2, caf["A1"], caf["B1"], "caffeine"))
+    passed = (abs(mu - 3.15e-4) / 3.15e-4 < 0.02       # water μ @90C == card
+              and abs(rho - 962) < 12                   # water ρ @90C
+              and all(5e-9 < d < 1.2e-8 for d in D.values())
+              and abs(K_ref - caf["K_ref"]) < 1e-9      # K(Tref) == Kref
+              and 0.9 < K98 / K80 < 1.1                 # weak T-dependence
+              and 0 < h1 < h2)                           # h_sl monotone in q
+    return dict(passed=passed, mu_90C=round(mu, 7), rho_90C=round(rho, 1),
+                D_caffeine=D["caffeine"], K98_over_K80=round(K98 / K80, 3),
+                h_sl_ratio=round(h2 / h1, 2))
+
+
 def gates_data():
     """Lazy import of puckworks.data (avoids import cost at module load)."""
     from puckworks import data
@@ -270,4 +298,5 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_inertial_de1_audit,
          gate_liang_kemax_refit, gate_liang_eoven_ceiling,
          gate_moroney_fig6_washthrough,
-         gate_grudeva_no_eps_kappa, gate_grudeva_reduced_solver]
+         gate_grudeva_no_eps_kappa, gate_grudeva_reduced_solver,
+         gate_pannusch_closures]

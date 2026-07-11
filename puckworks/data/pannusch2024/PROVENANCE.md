@@ -10,6 +10,15 @@ subfolder). The full repository is on disk under this directory but is
 **gitignored** (large + mixed binaries: a Windows `.exe` installer, MATLAB
 `.mlapp`/`.mat`, ~350 per-experiment `.xls`/`.txt`/`.mat` traces).
 
+## Landed (1.8a slice, 2026-07-11)
+- `table2_fitted_params.csv` — Table 2 per-solute fits (A1,B1,A2,B2,K_ref,γ,c_s0),
+  transcribed from the card. Consumed by `pannusch2024.closures`.
+- `table2_grind_psi_ds2.csv` — per-grind (1.4/1.7/2.0) ψ, d_s2.
+- (These two are git-tracked exceptions to the ignored raw drop.)
+- The constitutive closures (Wilke-Chang D, VDI μ/ρ, Sherwood, van't Hoff) are
+  ported faithfully in `puckworks/models/pannusch2024/closures.py`. The full
+  4-solute PDE forward solver + fit-MAPE reproduction (RC-4a) remains DEFERRED.
+
 ## Status: kinetics covered via schmieder2023; Pannusch-specific data deferred
 The extraction **kinetics** this repo fits are the Schmieder-2023 measurements,
 already curated in `../schmieder2023/` (Tables A1/2/3 + S1/S2). So the item-0.1

@@ -53,6 +53,20 @@ register(Component(
     notes="reconciling with Cameron flux implies phi_c~0.11 or series screen resistance"))
 
 register(Component(
+    name="pannusch2024.closures", stage="extraction", kind="calibration",
+    paper="Pannusch et al., J. Food Eng. 367, 111887 (2024)", doi="10.1016/j.jfoodeng.2023.111887",
+    module="puckworks.models.pannusch2024.closures",
+    gates=[G.gate_pannusch_closures],
+    assumptions="temperature/flow constitutive closures ONLY (Wilke-Chang D(T), "
+                "VDI water μ/ρ, Sherwood Sh=A Re^B Sc^(1/3), van't Hoff K(T)); "
+                "faithful port of the released MATLAB; full 4-solute PDE solver "
+                "+ fit-MAPE reproduction (RC-4a) DEFERRED",
+    valid_range="T 80-98 C, Q 1-3 mL/s; fitted Sherwood params lack generality; "
+                "Wilke-Chang over-predicts absolute D but is the model's own law",
+    notes="de-risking slice of 1.8a: μ@90C=3.13e-4 (card 3.15e-4), ρ@90C=959; "
+          "K(Tref)=Kref, weak T-dependence; Table 2 params in data/pannusch2024/"))
+
+register(Component(
     name="grudeva2025.reduced", stage="extraction", kind="runtime",
     paper="Grudeva PhD thesis (Portsmouth 2023) + Grudeva, Moroney & Foster, EJAM 37, 496 (2026)",
     doi="10.1017/S095679252500018X",

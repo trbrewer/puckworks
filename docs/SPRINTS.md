@@ -104,8 +104,15 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
       café config (anchored to exp13) carries the demonstration.
 
 ## Sprint 6 — multi-solute extraction (CC) [1.8a, M; needs D1, A3/A6]
-- [ ] pannusch2024 measured-flow solver — fit MAPEs (post-fit) + temperature
+- [~] pannusch2024 measured-flow solver — fit MAPEs (post-fit) + temperature
       set (independent); quarantine flow-regime + CGA confound → **creates RC-4a**
+      — **PARTIAL (closures slice landed):** `pannusch2024.closures` gated —
+      constitutive laws (Wilke-Chang D, VDI μ/ρ, Sherwood, van't Hoff) ported
+      faithfully from the released MATLAB; μ@90C=3.13e-4 (card 3.15e-4), ρ=959,
+      K(Tref)=Kref. Table 2 params transcribed (data/pannusch2024/).
+      **DEFERRED:** full 4-solute PDE forward solver + fit-MAPE reproduction →
+      RC-4a. Reason: large PDE port, no MATLAB to cross-validate, experimental
+      data in opaque .mat; best as a dedicated pass.
 
 ## Sprint 7 — machine mode (CC) [1.6, M; needs A1 + D3-foster]
 - [ ] A1 pressure-node fields (p_p/p_h/P_basket/ΔP_bed) per RC-3 node table
@@ -146,3 +153,4 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
 | 2026-07-11 | 3 | 1.3 liang2021.desorption + 1.4 moroney2016.surrogate gated after Tim dropped liang Figs 3/4/5 + moroney Fig 6 (+ Table1 transcribed). 13 gates green; 12 loader tests. moroney-vs-cameron mutual-validation deferred. |
 | 2026-07-11 | Sprint 4 | complete — merged card committed; 5.1 resolved; emergent κ/P_app decade-error finding; Sprint 5 unblocked, G0 first. |
 | 2026-07-11 | Sprint 5 | 1.7b `grudeva2025.reduced` gated (faithful port of released solver; G0 no-ε confirmed). G5-pre contract (fines_radius_m, SCHEMA 0.3). 15 quick gates + slow ladder; 13 loader tests. Creates RC-2 (verification-gated). |
+| 2026-07-11 | Sprint 6 (partial) | 1.8a closures slice: `pannusch2024.closures` gated (Wilke-Chang/Sherwood/van't Hoff/water props ported from MATLAB; μ@90C==card). Table 2 params transcribed. Full PDE solver + RC-4a MAPE reproduction deferred. 16 quick gates; 14 loader tests. |

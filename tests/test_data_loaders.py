@@ -102,6 +102,13 @@ def test_grudeva_data_load():
     assert 2.5 < total < 3.5  # ~3 g total solubles per shot
 
 
+def test_pannusch_table2_load():
+    t = {r["solute"]: r for r in pwdata.pannusch_table2()}
+    assert set(t) == {"caffeine", "trigonelline", "5CQA", "tds"}
+    assert abs(t["caffeine"]["K_ref"] - 0.81) < 1e-9
+    assert t["trigonelline"]["gamma"] == -431
+
+
 def test_schmieder_raw_fractions_and_rsm():
     frac = pwdata.schmieder_raw_fractions()
     assert len(frac) == 288 and frac[0]["fraction"] == 1.0
