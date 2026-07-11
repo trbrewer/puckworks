@@ -136,3 +136,14 @@ def schmieder_raw_fractions():
 def schmieder_rsm():
     """Paper Table 3 — full-quadratic RSM coefficients beta0..beta9 (data-only)."""
     return _typed_rows(SCHM / "rsm_coefficients.csv")
+
+
+# --- wadsworth2026 grind map (ROADMAP 0.6 / 1.5) -------------------------
+WADS = DATA_DIR / "wadsworth2026"
+
+
+def wadsworth_grindmap_table1():
+    """Full Table 1: per (coffee, G) grind moments <R>,<R2>,<R3>,S plus
+    connected/total porosity, connectivity, specific surface, and permeability.
+    Two coffees (Guayacan/Colombia, Tumba/Rwanda) x 11 Mahlkonig settings."""
+    return _typed_rows(WADS / "wadsworth2026_table1_full.csv")

@@ -45,12 +45,14 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
       9-bar Q(t) with zero extra params (RC-3a scope only)
       → `waszkiewicz2025.poroelastic` registered; 2 gates green (static refit
       == (12.39,1.897); 9-bar Q(t) parameter-free long-run 1.6% / corr 0.982).
-- [ ] 1.5 wadsworth2026_grindmap — refit β,R0; S(G) monotonicity; A9 adapter stub
-      — **BLOCKED (data):** `wadsworth2026_table1.csv` holds the *permeability*
-      radius (Sauter/volume, ~1.3–1.45× larger), NOT the grind-map ⟨R⟩; the
-      card wrongly says ⟨R⟩/⟨R²⟩/⟨R³⟩/S are in that csv. Refit + S(G) gates need
-      the grind-map Table 1 columns → paper Table 1 or the 0.6 PSD zip.
-      Flagged in `data/BLOCKED_INTAKE.md`.
+- [x] 1.5 wadsworth2026_grindmap — refit β,R0; S(G) monotonicity; A9 adapter stub
+      → `wadsworth2026.grindmap` registered (calibration/grind); 2 gates green.
+      Tim dropped the full Table 1 → `data/wadsworth2026/`. Refit ⟨R⟩=βG+R₀
+      (R²=0.994); S=⟨R⟩⟨R²⟩/⟨R³⟩ reconstructs reported S (<5e-3); S(G) rises
+      0.46→0.78; A9 dial-space adapter stub (guards cross-grinder porting).
+      ⚠ **card β,R₀ (4.3505e-5/1.016e-4) do NOT reproduce** — OLS gives
+      5.805e-5/1.380e-4 (~1.33×); operative map uses the refit, card flagged for
+      reconciliation (see BLOCKED_INTAKE). Raw 22-PSD zip still pending (0.6).
 
 ## Sprint 2 — inertial flow (CC) [1.1, S; needs D3-mo + ledger A7]
 - [ ] A7: FlowLaw/k_I contract fields + strict SI assertion
@@ -114,3 +116,4 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
 | 2026-07-10 | 0 | plumbing: ROADMAP rev.2 → `docs/ROADMAP.md`; `MANIFEST.csv` header; `validation/slow/` stub + README; `.DS_Store` ignored |
 | 2026-07-10 | D1 | 0.2 Waszkiewicz Zenodo intake complete (data/waszkiewicz2025/ + loaders + 5 smoke tests + 7 manifest rows). 0.6 partial (erratum + Table 1 manifest row; PSD zip blocked). 0.1 blocked (Mendeley folder / MDPI 403). Blocked items → data/BLOCKED_INTAKE.md |
 | 2026-07-10 | D1 | 0.1 Schmieder kinetics landed after Tim drop (data/schmieder2023/: Tables A1/2/3 + S1/S2 parsed from supplementary xlsx + JATS XML; 9 loader smoke tests total). Pannusch repo on disk, Table 2/PSD deferred to 1.8a. 0.6 PSD zip → Tim requested from authors. grindmap==permeability one-paper confirmed. |
+| 2026-07-10 | 1 | 1.2 waszkiewicz2025.poroelastic gated (static refit == published; 9-bar Q(t) parameter-free). 1.5 wadsworth2026.grindmap gated after Tim dropped full Table 1 (⟨R⟩=βG+R₀ refit R²=0.994; S(G); A9 stub) — card β,R₀ flagged as non-reproducing. run_all_gates green; 10 loader tests. Sprint 1 done. |

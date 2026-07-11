@@ -82,5 +82,46 @@ def gate_waszkiewicz_dynamic_9bar():
                 longrun_rel_err=round(lr_err, 3), corr_t_ge_15s=round(corr, 3))
 
 
+def gate_grindmap_refit():
+    """Refit <R>=beta*G+R0 from Table 1 is a good linear map spanning the data.
+
+    Reproduction/verification: R^2 > 0.99, monotone increasing, predicted range
+    brackets the measured <R>. (The card's printed beta/R0 do NOT reproduce here
+    — recorded, not asserted; see grindmap module docstring.)"""
+    from puckworks.models.wadsworth2026 import grindmap as gm
+    rows = gm._d.wadsworth_grindmap_table1()
+    beta, R0, st = gm.fit_grind_map(rows)
+    R = sorted(r["R_mean_m"] for r in rows)
+    pred1, pred11 = gm.mean_radius(1, beta, R0), gm.mean_radius(11, beta, R0)
+    passed = (st["r2"] > 0.99 and beta > 0
+              and pred1 < pred11                       # monotone increasing
+              and R[0]*0.9 < pred1 and pred11 < R[-1]*1.1)
+    return dict(passed=passed, beta=round(beta, 10), R0=round(R0, 8),
+                r2=round(st["r2"], 4), n=st["n"],
+                beta_card=gm.BETA_CARD, card_reproduces=abs(beta-gm.BETA_CARD) < 5e-6)
+
+
+def gate_grindmap_polydispersity():
+    """S=<R><R2>/<R3> reconstructs the reported S, and S(G) rises with G.
+
+    Verification of the moment columns + the card's qualitative S(G) trend
+    (~0.46-0.55 at G=1 to ~0.77-0.78 at G=11)."""
+    from puckworks.models.wadsworth2026 import grindmap as gm
+    rows = gm._d.wadsworth_grindmap_table1()
+    err = max(abs(gm.polydispersity(r["R_mean_m"], r["R2_mean_m2"], r["R3_mean_m3"])
+                  - r["S_polydispersivity"]) for r in rows)
+    ok_trend = True
+    for coffee in ("Guayacan", "Tumba"):
+        S = [r["S_polydispersivity"] for r in rows if r["coffee"] == coffee]
+        # overall rise (Spearman would need scipy; use endpoint + rank-increase)
+        rises = sum(b > a for a, b in zip(S, S[1:]))
+        ok_trend &= (S[-1] - S[0] > 0.2 and rises >= len(S) - 3
+                     and 0.44 < S[0] < 0.56 and 0.75 < S[-1] < 0.80)
+    # 5e-3 tolerance: the moment columns are printed to 3 sig figs, so
+    # S=<R><R2>/<R3> recomputed from them carries ~1e-3 rounding noise.
+    return dict(passed=(err < 5e-3 and ok_trend), max_S_reconstruct_err=round(err, 5))
+
+
 QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
-         gate_waszkiewicz_static_refit, gate_waszkiewicz_dynamic_9bar]
+         gate_waszkiewicz_static_refit, gate_waszkiewicz_dynamic_9bar,
+         gate_grindmap_refit, gate_grindmap_polydispersity]

@@ -22,20 +22,24 @@ Tim to download and drop files. Running status:
 - **Drop when received** → `puckworks/data/wadsworth2026_psd/`. Not hard-blocking
   1.5 (its gate uses Table 1, in repo); it feeds pack_generator PSD inputs.
 
-## ⚠ 1.5 grind-map data gap (discovered building Sprint 1)
-`wadsworth2026_table1.csv` contains only the **permeability** columns
-(`R_m` = the k-relevant Sauter/volume radius, `phi_p`, `s_p`, `k_m2`). Fitting
-`R_m = βG + R₀` gives β≈5.8e-5 / R₀≈1.4e-4 — **not** the paper's 4.3505e-5 /
-1.0160e-4, because `R_m` is ~1.3–1.45× the grind-map **area-equivalent mean
-⟨R⟩** on both coffees. So the card's statement that ⟨R⟩, ⟨R²⟩, ⟨R³⟩, S "are
-already in `data/wadsworth2026_table1.csv`" is **incorrect** — those grind-map
-columns were never transcribed.
-- **Need for 1.5:** the grind-map columns of the paper's Table 1 — ⟨R⟩
-  (area-equivalent-circle mean), ⟨R²⟩, ⟨R³⟩, S per G per coffee — OR the 0.6
-  22-sample PSD zip (compute the moments directly).
-- **Drop:** add them as columns to `wadsworth2026_table1.csv` (or a new
-  `wadsworth2026_grindmap.csv`). Then the β,R₀ refit and S(G) monotonicity gates
-  can run. 1.2 already landed; 1.5 waits on this.
+## ✅ 1.5 grind-map data — RESOLVED (Tim drop 2026-07-10)
+Tim supplied the full Table 1 → `wadsworth2026/wadsworth2026_table1_full.csv`
+(22 rows, ⟨R⟩/⟨R²⟩/⟨R³⟩/S + porosity/connectivity/surface/k). `wadsworth2026.
+grindmap` landed & gated. NOTE: the earlier `wadsworth2026_table1.csv` held only
+the permeability columns (its `R_m` is the k-relevant radius, ~1.3× the grind-map
+⟨R⟩) — the card's claim that ⟨R⟩/S were in that file was wrong; the full file
+fixes it.
+
+### ⚠ Unresolved: card β,R₀ do not reproduce (for card reconciliation)
+An OLS refit of the full Table 1 ⟨R⟩ column gives **β=5.805e-5, R₀=1.380e-4
+(R²=0.994)**, not the card's **4.3505e-5 / 1.0160e-4** (~1.33× shallower slope,
+cannot span the 192–818 µm range). Moment columns are self-consistent
+(S=⟨R⟩⟨R²⟩/⟨R³⟩ reproduces reported S). The component uses the refit constants;
+the card's printed β,R₀ are flagged — please reconcile the card of record
+(INTAKE): likely a different ⟨R⟩ weighting in the paper's fit, or a card typo.
+
+### Still pending: raw 22-sample PSD zip (feeds pack_generator, not 1.5)
+The full R/R_min/R_max distributions remain requested from the authors.
 
 ## ✅ Card provenance confirmed (Tim, 2026-07-10)
 `wadsworth2026_grindmap.md` and the permeability paper share DOI

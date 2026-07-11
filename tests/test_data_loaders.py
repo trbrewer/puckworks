@@ -68,6 +68,16 @@ def test_schmieder_reps_and_cupmasses():
     assert {r["brew_ratio"] for r in cups} == {"1/1", "1/2", "1/3"}
 
 
+def test_wadsworth_grindmap_table1():
+    rows = pwdata.wadsworth_grindmap_table1()
+    assert len(rows) == 22  # 2 coffees x 11 settings
+    assert {r["coffee"] for r in rows} == {"Guayacan", "Tumba"}
+    # S = <R><R2>/<R3> reconstructs the reported S column (moments consistent)
+    r = rows[0]
+    S = r["R_mean_m"] * r["R2_mean_m2"] / r["R3_mean_m3"]
+    assert abs(S - r["S_polydispersivity"]) < 5e-3
+
+
 def test_schmieder_raw_fractions_and_rsm():
     frac = pwdata.schmieder_raw_fractions()
     assert len(frac) == 288 and frac[0]["fraction"] == 1.0
