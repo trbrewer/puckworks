@@ -27,6 +27,16 @@ def _params(path):
     return out
 
 
+def _typed_rows(path):
+    """DictReader rows with each cell coerced to float where it parses."""
+    def conv(v):
+        try:
+            return float(v)
+        except (ValueError, TypeError):
+            return v
+    return [{k: conv(v) for k, v in r.items()} for r in _rows(path)]
+
+
 # --- waszkiewicz2025 (ROADMAP 0.2) ---------------------------------------
 WASZ = DATA_DIR / "waszkiewicz2025"
 
@@ -94,3 +104,35 @@ def waszkiewicz_psd():
         vals = [float(x) if x != "" else np.nan for x in ln.split(";")]
         reps.append(vals[-len(size):])          # drop leading empty field
     return {"size_um": size, "volume_pct": np.asarray(reps, float)}
+
+
+# --- schmieder2023 (ROADMAP 0.1, kinetics half) --------------------------
+SCHM = DATA_DIR / "schmieder2023"
+
+
+def schmieder_kinetics_fit_avg():
+    """Paper Table A1 — per-experiment AVERAGED c0/lambda fits (authoritative).
+
+    Long form: one row per (exp, component). Returns list of dicts.
+    """
+    return _typed_rows(SCHM / "kinetics_fit_params_avg.csv")
+
+
+def schmieder_kinetics_fit_reps():
+    """Table S2 — per-replicate c0/lambda fits (15 exp x reps x 4 components)."""
+    return _typed_rows(SCHM / "kinetics_fit_params_reps.csv")
+
+
+def schmieder_cup_masses():
+    """Table S3 / paper Table 2 — per-replicate cup mass + concentration by BR."""
+    return _typed_rows(SCHM / "cup_masses.csv")
+
+
+def schmieder_raw_fractions():
+    """Table S1 — raw per-fraction outlet concentrations (no TDS column)."""
+    return _typed_rows(SCHM / "raw_fractions.csv")
+
+
+def schmieder_rsm():
+    """Paper Table 3 — full-quadratic RSM coefficients beta0..beta9 (data-only)."""
+    return _typed_rows(SCHM / "rsm_coefficients.csv")

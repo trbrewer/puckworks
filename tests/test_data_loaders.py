@@ -46,3 +46,34 @@ def test_waszkiewicz_psd_shape():
     assert psd["size_um"].size == 48
     assert psd["volume_pct"].shape[1] == 48
     assert psd["volume_pct"].shape[0] >= 1
+
+
+# --- schmieder2023 (0.1) ---
+def test_schmieder_table_a1_matches_card():
+    rows = pwdata.schmieder_kinetics_fit_avg()
+    assert len(rows) == 60  # 15 exp x 4 components
+    e7 = [r for r in rows if r["exp"] == 7 and r["component"] == "caffeine"][0]
+    # card central point: caffeine c0=9.71, lambda=23.09
+    assert abs(e7["c0"] - 9.70981) < 1e-4
+    assert abs(e7["lambda_g"] - 23.09434) < 1e-4
+
+
+def test_schmieder_reps_and_cupmasses():
+    reps = pwdata.schmieder_kinetics_fit_reps()
+    assert len(reps) == 192  # 48 exp-rep x 4 components
+    comps = {r["component"] for r in reps}
+    assert comps == {"trigonelline", "caffeine", "5-CQA", "TDS"}
+    cups = pwdata.schmieder_cup_masses()
+    assert len(cups) == 612  # 48 exp-rep x 4 comp x 3 BR
+    assert {r["brew_ratio"] for r in cups} == {"1/1", "1/2", "1/3"}
+
+
+def test_schmieder_raw_fractions_and_rsm():
+    frac = pwdata.schmieder_raw_fractions()
+    assert len(frac) == 288 and frac[0]["fraction"] == 1.0
+    rsm = pwdata.schmieder_rsm()
+    assert len(rsm) == 12  # 4 components x 3 BR
+    # spot-check a transcribed coefficient (Trigonelline BR 1/1 beta0 = 185.8)
+    t11 = [r for r in rsm if r["component"] == "Trigonelline"
+           and r["brew_ratio"] == "1/1"][0]
+    assert abs(t11["beta0"] - 185.8) < 1e-6
