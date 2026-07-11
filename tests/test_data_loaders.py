@@ -264,3 +264,13 @@ def test_fasano_partI_freeboundary_model():
     Q = fm.q_infinity_curve(p0, b1)
     ip = int(np.argmax(Q))
     assert 0 < ip < len(p0) - 1 and Q[ip] > Q[0] and Q[ip] > Q[-1]
+
+
+def test_mo2023_2_swelling_insensitivity():
+    from puckworks.models.mo2023_2 import extraction as ex
+    r = ex.swelling_insensitivity(powder="M", q_list=(2, 4))
+    # fixed-q: swelling barely changes yield (Fig 2)
+    assert r["fixedq_max_rel_diff"] < 0.05
+    # but fixed-dP throttles hard (Fig 3a) -- the headline contrast
+    assert r["fixeddp_flow_ratio"] < 0.2
+    assert all(v["rises_with_Mc"] for v in r["per_flow"].values())

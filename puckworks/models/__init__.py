@@ -155,8 +155,8 @@ register(Component(
           "espresso extraction using a 1-D coarse-grained model,' J. Food Eng. (2023)",
     doi="10.1016/j.jfoodeng.2023.111843",
     module="puckworks.models.mo2023_2.swelling",
-    gates=[G.gate_mo2_swelling_flow_decay, G.gate_mo2_k0_carman_kozeny,
-           G.gate_mo2_fixed_flow_trends],
+    gates=[G.gate_mo2_swelling_flow_decay, G.gate_mo2_swelling_insensitivity,
+           G.gate_mo2_k0_carman_kozeny, G.gate_mo2_fixed_flow_trends],
     assumptions="isotropic grain swelling by NONLINEAR water diffusion (D^w); fixed bed "
                 "height so swelling only reduces eps_b (Eq 21); Carman-Kozeny flow at "
                 "fixed dP; fine+coarse representative particles swell independently "

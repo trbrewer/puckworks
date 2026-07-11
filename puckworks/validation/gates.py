@@ -756,6 +756,26 @@ def gate_mo2_k0_carman_kozeny():
                 per_powder_rel_err={p: round(e, 4) for p, e in errs.items()})
 
 
+def gate_mo2_swelling_insensitivity():
+    """mo2023_2 (3.1) extraction layer, the card's gate-4 result: at a FIXED flow
+    rate the swelling-coupled yield is nearly UNCHANGED whether swelling is on or
+    off (their Fig 2) -- swelling raises eps_p (~+15% D_p) but grows R (R^2 ~+7%),
+    which offset, so the grain diffusion timescale barely moves. This is the
+    headline CONTRAST with the fixed-dP flow decay (gate_mo2_swelling_flow_decay,
+    ~10-20x throttle). Yield also rises with beverage mass (Fig 8 trend)."""
+    from puckworks.models.mo2023_2 import extraction as ex
+    r = ex.swelling_insensitivity(powder="M", q_list=(2, 3, 4))
+    insensitive = r["fixedq_max_rel_diff"] < 0.05
+    rises = all(v["rises_with_Mc"] for v in r["per_flow"].values())
+    contrast = r["fixeddp_flow_ratio"] < 0.2                # fixed-dP throttles hard
+    passed = bool(insensitive and rises and contrast)
+    return dict(passed=passed, fixedq_insensitive=insensitive,
+                yield_rises_with_Mc=rises, fixeddp_throttles=bool(contrast),
+                fixedq_max_rel_diff=round(r["fixedq_max_rel_diff"], 3),
+                fixeddp_flow_ratio=round(r["fixeddp_flow_ratio"], 3),
+                contrast=r["contrast"])
+
+
 def gate_mo2_swelling_flow_decay():
     """mo2023_2 (3.1) SWELLING MODEL gate -- the paper's distinctive mechanism.
     The nonlinear swelling PDE -> Eq.21 porosity -> Carman-Kozeny flow reproduces
@@ -902,7 +922,7 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_roman_sphere_solver, gate_roman_mw_temperature_trends,
          gate_roman_bed_flow_trend,
          gate_mo2_k0_carman_kozeny, gate_mo2_fixed_flow_trends,
-         gate_mo2_swelling_flow_decay,
+         gate_mo2_swelling_flow_decay, gate_mo2_swelling_insensitivity,
          gate_fasano_cor82_nonmonotone, gate_fasano_reversal_signature,
          gate_fasano_freeboundary, gate_p3_channeling_sigma_sweep,
          gate_unified_kappa_t]
