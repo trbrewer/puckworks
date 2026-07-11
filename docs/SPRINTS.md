@@ -146,10 +146,16 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
 - [ ] CHAT: results workup + P3 hypothesis file update (2.3)  *(not-CC)*
 
 ## Sprint 9 — κ(t) discrimination harness (CC+CHAT) [2.2, M; needs Sprints 1,7 + A8]
-- [ ] A8 per-depth-cell porosity/fines fields
-- [ ] P2 null-first ladder implementation on Waszkiewicz + fixture-A traces;
+- [x] A8 per-depth-cell porosity/fines fields
+      → `BedState.porosity_profile / fines_mobile / fines_bound`; SCHEMA 0.4→0.5.
+- [~] P2 null-first ladder implementation on Waszkiewicz + fixture-A traces;
       RC-3b enters as rung 5
-- [ ] CHAT: which mechanism survives — feeds the paper
+      → `harness.kappa_t_ladder()` + `gate_p2_kappa_ladder`. On the Waszkiewicz
+      9-bar RISING flow: **rung 4 Φ(t) (RMSE 0.113) beats the flat null rungs
+      1/3 (0.603) by 5.4×** → a bed mechanism IS needed. Rung 2 = foster
+      flow-minimum null (validated separately). **Rung 5 challengers (mo2023_2,
+      fasano I/II, lee2023, RC-3b) are Phase 3 — pending those implementations.**
+- [ ] CHAT: which mechanism survives — feeds the paper  *(not-CC)*
 
 ## Parallel tracks (not sprint-gated)
 - **TB**: §5.8 correspondence — Mo/Ellero (k1 units + volumes), Grudeva
@@ -175,3 +181,5 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
 | 2026-07-11 | Sprint 6 (complete) | 1.8a full solver: `pannusch2024.solver` gated — 1D two-grain multi-solute PDE (5-pt biased upwind + BDF, sparse Jacobian), faithful MATLAB port. Reproduces fit MAPEs (TDS 6.7/caf 6.4/tri 10.2/CGA 7.2% vs pub 6.07/4.59/7.85/4.98). Experimental kinetics extracted from ExperimentalData.mat. Constituent unit tests + slow ladder. RC-4a created. 15 components; 17 quick gates; 18 tests (~16s). |
 | 2026-07-11 | Sprint 7 (partial) | A1 pressure-node contract fields (SCHEMA 0.4) + `foster2025.machine_mode` verification-gated (t_p=0.823/t_s=6.665 from Table I/II; t_shift offset caught). §5.9 nodes in manifests. Fig 15 + 1.8b pending. 16 components. |
 | 2026-07-11 | Sprint 8 (CC part) | 2.1 P1 extraction harness: `puckworks/harness.py` + `gate_extraction_harness` — surfaces c_sat/inventory hazards (no silent merge), tagged per-dataset residuals, §5.6 dissolution discriminator (near-instant dissolution, early/peak 0.968). CHAT workup (2.3) not-CC. 18 quick gates; 21 tests. |
+| 2026-07-11 | Sprint 7 done | 1.6 foster machine-mode data-validated vs digitized Figs 12-15 (Tim drop): Fig 15 flow-minimum Q/Qm=0.181@2s RMSE 1e-4 (P2 null baseline); trajectory matches fitted curves to line width. 20 gates. |
+| 2026-07-11 | Sprint 9 (CC part) | 2.2 A8 per-cell BedState fields (SCHEMA 0.5) + P2 null-first ladder: on 9-bar rising flow, Φ(t) rung 4 (RMSE 0.113) beats flat null rungs (0.603) 5.4×. Rung 5 challengers Phase 3. CHAT (which mechanism survives) not-CC. 21 quick gates; 23 tests. |

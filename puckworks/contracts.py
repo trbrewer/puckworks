@@ -8,8 +8,8 @@ from dataclasses import dataclass, field
 from typing import Callable, Optional
 import numpy as np
 
-SCHEMA_VERSION = "0.4"   # 0.4: A1 pressure-node + machine-mode fields (additive)
-# history: 0.3 GrindState.fines_radius_m (G5-pre); 0.2 A7 FlowLaw fields
+SCHEMA_VERSION = "0.5"   # 0.5: A8 per-depth-cell porosity / fines fields (additive)
+# history: 0.4 A1 pressure-node fields; 0.3 GrindState.fines_radius_m; 0.2 A7
 
 # Plausible SI permeability window [m^2]. The Forchheimer k_I closures
 # (k_I = exp(g2 k^tau)) fail SILENTLY off-SI (ledger A7), so k is asserted, not
@@ -44,6 +44,12 @@ class BedState:
     k_I_m: Optional[float] = None     # inertial (Forchheimer) permeability [m] (A7)
     kappa: float = 1.0                # multiplier on a reference flux law
     sigma: float = 0.0                # streamtube lognormal heterogeneity spread
+    # A8: spatial (per-depth-cell) state for dynamic bed_dynamics mechanisms
+    # (fasano I/II fines migration, mo2023_2 swelling, waszkiewicz-coupled). The
+    # scalar `kappa`/`porosity` above cannot host these; these are per-cell arrays.
+    porosity_profile: Optional[np.ndarray] = None    # phi(z) per depth cell
+    fines_mobile: Optional[np.ndarray] = None        # mobile fines inventory(z)
+    fines_bound: Optional[np.ndarray] = None         # bound/deposited fines(z)
 
 @dataclass
 class FlowLaw:

@@ -88,3 +88,38 @@ def dissolution_speed_test():
     return dict(early_to_peak=round(ratio, 3), early_tds_pct=round(early, 2),
                 peak_tds_pct=round(peak, 2), tau_boulder_diffusion_s=round(tau_diff, 1),
                 favors="near-instant dissolution" if ratio > 0.8 else "diffusion-limited")
+
+
+# --- P2 kappa(t) null-first discrimination ladder (item 2.2) --------------
+# Each rung must beat the rung below on the same trace before claiming a
+# residual. Rungs 1-4 use registered components; rung 5 (challengers) is Phase 3.
+def kappa_t_ladder():
+    """Run the P2 null-first ladder on the Waszkiewicz 9-bar RISING-flow trace.
+    Returns per-rung RMSE [g/s] over the saturated window (t = 15-115 s).
+
+    rung 1 recorded-pressure Darcy, constant kappa (flat Q)      -> the floor
+    rung 3 static kappa(P) equilibrium at constant P (also flat)
+    rung 4 waszkiewicz2025 time-dependent Phi(t) = m_d(t)/m0     -> rises with the data
+    (rung 2, the foster2025 pump/headspace flow-MINIMUM null, is a distinct
+     early-shot phenomenon validated by gate_foster_fig15_flowmin, not the
+     saturated rising-flow residual tested here; rung 5 challengers are Phase 3.)
+    """
+    import numpy as np
+    from puckworks import data as d
+    from puckworks.models.waszkiewicz2025 import poroelastic as wz
+    tr = d.waszkiewicz_traces()
+    t = tr[9.0]["time__s"]; q = tr[9.0]["mass_flow_rate__g_per_s"]
+    sel = (t >= 15) & (t <= 115)
+    td, qd = t[sel], q[sel]
+    q_flat = float(np.mean(q[t >= 100]))                 # long-run Darcy/static
+    rmse_flat = float(np.sqrt(np.mean((q_flat - qd) ** 2)))
+    P_c, Q_c = wz.published_calibration()
+    k_s, l_s, m_s = wz._solids_params()
+    dose = d.waszkiewicz_constants()["dose__g"]
+    q4 = wz.q_dynamic(td, 9.0, P_c, Q_c, k_s, l_s, m_s, dose)
+    rmse4 = float(np.sqrt(np.nanmean((q4 - qd) ** 2)))
+    return dict(rung1_const_kappa=round(rmse_flat, 3),
+                rung3_static_kappaP=round(rmse_flat, 3),
+                rung4_phi_of_t=round(rmse4, 3),
+                rung4_beats_floor=rmse4 < rmse_flat,
+                improvement_factor=round(rmse_flat / rmse4, 1))

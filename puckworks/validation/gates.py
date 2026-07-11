@@ -309,6 +309,19 @@ def gate_foster_machine_tp_ts():
                 t_p=round(t_p, 3), t_s=round(t_s, 3), card=[0.823, 6.669])
 
 
+def gate_p2_kappa_ladder():
+    """P2 null-first ladder (item 2.2): on the Waszkiewicz 9-bar RISING-flow
+    trace, the time-dependent poroelastic Phi(t) (rung 4) beats the constant-
+    kappa / static-kappa(P) null (rungs 1/3) -- a bed mechanism IS needed for the
+    rising residual (the flat nulls cannot). Rung 5 challengers are Phase 3."""
+    from puckworks import harness as h
+    L = h.kappa_t_ladder()
+    passed = (L["rung4_beats_floor"] and L["improvement_factor"] > 2.0
+              and L["rung4_phi_of_t"] < 0.2)
+    return dict(passed=passed, rung1_rmse=L["rung1_const_kappa"],
+                rung4_rmse=L["rung4_phi_of_t"], factor=L["improvement_factor"])
+
+
 def gate_foster_fig15_flowmin():
     """The machine-mode bed flow reproduces the Fig 15 flow-minimum signature:
     Q/Qm dips to ~0.181 at t~2.0 s and recovers (RMSE vs the digitized trace
@@ -389,4 +402,5 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_grudeva_no_eps_kappa, gate_grudeva_reduced_solver,
          gate_pannusch_closures, gate_pannusch_solver_mape,
          gate_foster_machine_tp_ts, gate_extraction_harness,
-         gate_foster_fig15_flowmin, gate_foster_ct_trajectory]
+         gate_foster_fig15_flowmin, gate_foster_ct_trajectory,
+         gate_p2_kappa_ladder]
