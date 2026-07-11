@@ -346,6 +346,49 @@ def roman_fig513_mpe():
     return _typed_rows_hashskip(RC17 / "fig5_13_mpe_scenarios.csv")
 
 
+def _mo2():
+    return DATA_DIR / "mo2023_2"
+
+
+def mo2_granulometry():
+    """mo2023_2 Table 1: bimodal granulometry per powder (E/H/M/F) -- fine/coarse
+    volume fractions theta_f/theta_c, representative diameters 2R_f/2R_c (um),
+    Sauter d_[3,2] (um). Feeds the Carman-Kozeny k0 closure."""
+    return _typed_rows(_mo2() / "table1_granulometry.csv")
+
+
+def mo2_k0():
+    """mo2023_2 Table 2: derived Carman-Kozeny k0 [m^2] per powder (t=0 flow
+    closure sanity check; the k0 verification target)."""
+    return _typed_rows(_mo2() / "table2_k0.csv")
+
+
+def mo2_yield_strength():
+    """mo2023_2 Figs 6-9 (digitized): fixed-flow-rate experimental yield & strength
+    [%] vs beverage mass M_c [g], powders {E,M,F} x q {2,3,4 mL/s}, with 3-replicate
+    error bars. Rare fixed-flow espresso validation data (the paper's main value)."""
+    return _typed_rows(_mo2() / "figs6_9_yield_strength.csv")
+
+
+def mo2_fig3a_qdecay():
+    """mo2023_2 Fig 3(a) (digitized): simulated superficial velocity q(t) [mm/s]
+    under swelling at fixed dP, per powder, at swelling s_m in {0, 3.6}%. Model
+    output (verification twin target), not experimental data."""
+    return _typed_rows(_mo2() / "fig3a_qdecay.csv")
+
+
+def mo2_fig6_ksweep():
+    """mo2023_2 Fig 6 (digitized): type-M yield/strength vs M_c under a sweep of
+    the partition coefficient K (note: captions mislabel K as 'hindrance')."""
+    return _typed_rows(_mo2() / "fig6_Ksweep_typeM.csv")
+
+
+def mo2_sim_lines():
+    """mo2023_2 Figs 7-9 (digitized): the MODEL yield/strength curves overlaid on
+    the experimental points, powders {E,M,F} x q {2,3,4}. Simulation lines."""
+    return _typed_rows(_mo2() / "figs7_9_simulation_lines.csv")
+
+
 def roman_fig74_espresso():
     """Fig 7.4 (digitized MPE) joined with Tables 7.1/7.2 (exact conditions): the
     15 espresso flow/density conditions with Deff/K metadata and the

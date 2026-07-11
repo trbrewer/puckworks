@@ -507,6 +507,53 @@ def gate_roman_bed_mpe_parameter_free():
                 strength="verification of reported parameter-free result (digitized)")
 
 
+def gate_mo2_k0_carman_kozeny():
+    """mo2023_2 (0.4/3.1 intake) gate (1), EXACT closed-form: the t=0 Carman-Kozeny
+    permeability k0 = eps_b^(3+2n) d_[3,2]^2 / (72 (1-eps_b)^2), with eps_b^0=0.17,
+    n=0.5, reproduces Table 2 (0.97/1.2/2.0/6.8 x1e-13 m^2) from the Table 1 Sauter
+    diameter for all four powders. Verification of the flow closure only (not
+    swelling)."""
+    from puckworks import data as d
+    EPS_B, N = 0.17, 0.5
+    g = {r["powder"]: r for r in d.mo2_granulometry()}
+    k0 = {r["powder"]: r["k0_m2"] for r in d.mo2_k0()}
+    pref = EPS_B ** (3 + 2 * N) / (72.0 * (1 - EPS_B) ** 2)
+    errs = {}
+    for p, row in g.items():
+        d32 = row["d_32_um"] * 1e-6
+        k_pred = pref * d32 * d32
+        errs[p] = abs(k_pred - k0[p]) / k0[p]
+    passed = bool(max(errs.values()) < 0.03)
+    return dict(passed=passed, max_rel_err=round(max(errs.values()), 4),
+                per_powder_rel_err={p: round(e, 4) for p, e in errs.items()})
+
+
+def gate_mo2_fixed_flow_trends():
+    """mo2023_2 (3.1 intake): the paper's stated fixed-flow-rate experimental
+    trends on Figs 6-9 (independent, qualitative). (a) slower q -> higher yield at
+    matched beverage mass; (b) finer grind -> higher yield (E finest d32=76 >
+    M=109 > F=201 coarsest). Monotone -- they do NOT show Cameron's non-monotonic
+    fine-grind dip (a fixed-flow machine defeats clogging by raising pressure)."""
+    import numpy as np
+    from puckworks import data as d
+    rows = d.mo2_yield_strength()
+
+    def y(p, q, mc_lo, mc_hi):
+        v = [r["yield_pct"] for r in rows if r["powder"] == p and r["q_mL_s"] == q
+             and mc_lo <= r["M_c_g"] <= mc_hi]
+        return float(np.mean(v)) if v else float("nan")
+
+    # (a) slower q -> higher yield, per powder, in the mid-bed window M_c 18-32 g
+    slower_q = all(y(p, 2, 18, 32) > y(p, 4, 18, 32) for p in ("E", "M", "F"))
+    # (b) finer grind -> higher yield at matched q, mid window
+    finer = all(y("E", q, 18, 32) > y("M", q, 18, 32) > y("F", q, 18, 32)
+                for q in (2, 3, 4))
+    passed = bool(slower_q and finer)
+    return dict(passed=passed, slower_q_higher_yield=slower_q,
+                finer_grind_higher_yield=finer,
+                yield_E_M_F_q3=[round(y(p, 3, 18, 32), 1) for p in ("E", "M", "F")])
+
+
 def gate_foster_fig15_flowmin():
     """The machine-mode bed flow reproduces the Fig 15 flow-minimum signature:
     Q/Qm dips to ~0.181 at t~2.0 s and recovers (RMSE vs the digitized trace
@@ -591,4 +638,5 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_p2_kappa_ladder, gate_p2_cross_pressure, gate_cameron_conservation,
          gate_pannusch_qt_adapter, gate_mo_reynolds_overlay, gate_egidi_bracket,
          gate_lee_feedback_negative_result,
-         gate_roman_tamped_kappa, gate_roman_bed_mpe_parameter_free]
+         gate_roman_tamped_kappa, gate_roman_bed_mpe_parameter_free,
+         gate_mo2_k0_carman_kozeny, gate_mo2_fixed_flow_trends]

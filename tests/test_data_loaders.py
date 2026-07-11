@@ -166,3 +166,25 @@ def test_romancorrochano2017_intake():
     f74 = pwdata.roman_fig74_espresso()
     assert len(f74) == 15
     assert max(r["MPE_med_MW_pct"] for r in f74) <= 14.5
+
+
+def test_mo2023_2_intake():
+    # Table 1 granulometry (4 powders) + Table 2 k0
+    g = pwdata.mo2_granulometry()
+    assert {r["powder"] for r in g} == {"E", "H", "M", "F"}
+    k0 = {r["powder"]: r["k0_m2"] for r in pwdata.mo2_k0()}
+    # Carman-Kozeny closed form reproduces Table 2 from Table 1 (exact)
+    eps, n = 0.17, 0.5
+    pref = eps ** (3 + 2 * n) / (72.0 * (1 - eps) ** 2)
+    for r in g:
+        k_pred = pref * (r["d_32_um"] * 1e-6) ** 2
+        assert abs(k_pred - k0[r["powder"]]) / k0[r["powder"]] < 0.03
+    # Figs 6-9 fixed-flow data: yield rises with M_c, strength falls
+    ys = pwdata.mo2_yield_strength()
+    e2 = sorted([r for r in ys if r["powder"] == "E" and r["q_mL_s"] == 2],
+                key=lambda r: r["M_c_g"])
+    assert e2[0]["yield_pct"] < e2[-1]["yield_pct"]
+    assert e2[0]["strength_pct"] > e2[-1]["strength_pct"]
+    # Fig 3a swelling decay present at s_m=3.6%
+    f = [r for r in pwdata.mo2_fig3a_qdecay() if r["s_m_pct"] == 3.6]
+    assert len(f) > 50
