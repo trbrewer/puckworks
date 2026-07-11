@@ -1,0 +1,5 @@
+parameter,value,comment
+r_basket__m,2.80E-02,diameter 56mm
+mu__Pas,3.15E-04,water at 90 deg C
+h_zero__m,1.00E-02,approximate
+dose__g,18.5,approximate

@@ -14,10 +14,19 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
 
 ## Sprint D1 — public-data intake, priority 1 (CC) [items 0.1, 0.2, 0.6]
 - [ ] 0.1 Schmieder/Pannusch: Mendeley kinetics + Tables A1/2/3 + S1 fractions
-- [ ] 0.2 Waszkiewicz: Zenodo traces ×11 P, TDS fractions, calib curve, brewer quadratic, PSD
-- [ ] 0.6 Wadsworth PSD zip (22 samples); record the 8.1e-17 erratum
+      — **BLOCKED** (Mendeley `Experimental_data/` folder_id not exposed by
+      public API; MDPI Cloudflare-403). Flagged in `data/BLOCKED_INTAKE.md` for
+      Tim drop. Not on Sprint 1's path (unblocks RC-4).
+- [x] 0.2 Waszkiewicz: Zenodo traces ×11 P, TDS fractions, calib curve, brewer quadratic, PSD
+      — Zenodo 10.5281/zenodo.18046315 pulled → `data/waszkiewicz2025/`;
+      loaders + smoke tests + 7 manifest rows.
+- [~] 0.6 Wadsworth PSD zip (22 samples); record the 8.1e-17 erratum
+      — erratum recorded + Table 1 manifest row added; **PSD zip BLOCKED**
+      (RS Cloudflare-403), flagged for Tim. 1.5's gate uses Table 1 (in repo),
+      so 1.5 not hard-blocked.
 - DoD extra: manifest rows incl. validation-strength column; loader smoke tests
 - Note: Zenodo/Mendeley may need Tim to download and drop files if CC's network blocks them
+- ⚠ grindmap card DOI == permeability paper DOI — confirm one-paper (see BLOCKED_INTAKE)
 
 ## Sprint D2 — transcriptions (CC) [0.3, 0.5, 0.7-tables, 0.8, 0.10]
 - [ ] egidi2024 Tables 1–3 · romancorrochano Table 6.1 + 4.9/4.10 ·
@@ -95,3 +104,4 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
 | date | sprint | outcome |
 |---|---|---|
 | 2026-07-10 | 0 | plumbing: ROADMAP rev.2 → `docs/ROADMAP.md`; `MANIFEST.csv` header; `validation/slow/` stub + README; `.DS_Store` ignored |
+| 2026-07-10 | D1 | 0.2 Waszkiewicz Zenodo intake complete (data/waszkiewicz2025/ + loaders + 5 smoke tests + 7 manifest rows). 0.6 partial (erratum + Table 1 manifest row; PSD zip blocked). 0.1 blocked (Mendeley folder / MDPI 403). Blocked items → data/BLOCKED_INTAKE.md |

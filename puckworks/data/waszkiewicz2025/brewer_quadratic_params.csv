@@ -1,0 +1,4 @@
+parameter,value,model
+a,0.017184292098914252,delta_p = a*Q^2 + b*Q + c
+b,0.03670858658698296,delta_p = a*Q^2 + b*Q + c
+c,0.2831597837775055,delta_p = a*Q^2 + b*Q + c

@@ -19,3 +19,4 @@ include = ["puckworks*"]
 
 [tool.setuptools.package-data]
 puckworks = ["data/*.csv", "data/*.json"]
+"puckworks.data" = ["*.csv", "*.json", "*.md", "**/*.csv", "**/*.json", "**/*.md"]

@@ -582,6 +582,7 @@ them. **Status promotions (`verification-gated` → `gated`, `gated` →
 | date | change | evidence (dataset + gate script) | affected RCs / items |
 |---|---|---|---|
 | 2026-07 | rev. 2: added glossary (§0), adapter ledger (§1A), P1 hazards + P2 ladder + P3 table, RC-3a/b split + pressure-node table, 1.7a/b and 1.8a/b splits, G9/G10, §5.9/5.10, validation-strength columns, this section | review pass vs cards | all |
+| 2026-07-10 | D1 intake: 0.2 waszkiewicz2025 Zenodo dataset landed (`data/waszkiewicz2025/`: 11-pressure Q(t) traces, TDS fractions, static/TDS/solids calibration, brewer quadratic, Mastersizer PSD) with `puckworks.data` loaders + smoke tests. 0.6 Wadsworth Table 1 manifest row + 8.1e-17 erratum recorded (PSD zip network-blocked). 0.1 Schmieder/Pannusch network-blocked. | Zenodo 10.5281/zenodo.18046315 (CC-BY-4.0); `tests/test_data_loaders.py`; `data/MANIFEST.csv`; blocked items in `data/BLOCKED_INTAKE.md` | RC-3, 1.2; RC-4 (0.1 pending); 1.5 (Table 1 ready, PSD pending) |
 
 ### 7.2 Resolved conflicts
 Resolved §5 entries remain listed here for one release cycle with their
