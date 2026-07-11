@@ -131,10 +131,18 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
       harness (Schmieder flow ~constant, little Q(t) to test standalone).
 
 ## Sprint 8 — extraction harness (CC+CHAT) [2.1, M; needs Sprints 3,5,6 + A5]
-- [ ] Matched-input runs: cameron/grudeva/pannusch(TDS) vs Cameron tables,
+- [x] Matched-input runs: cameron/grudeva/pannusch(TDS) vs Cameron tables,
       egidi bracket, Schmieder kinetics, Grudeva vials, Waszkiewicz fractions —
       per-dataset residuals with strength tags; §5.6 dissolution-speed test
-- [ ] CHAT: results workup + P3 hypothesis file update (2.3)
+      → `puckworks/harness.py` + `gate_extraction_harness` + slow full report.
+      Surfaces P1 hazards (c_sat {170,212.4,224} NOT merged, §5.4; per-model
+      inventory ref, A5); per-dataset residuals tagged (pannusch→Schmieder
+      post-fit MAPE, grudeva→vials post-fit, liang→cameron §5.5 independent).
+      **§5.6 settled**: Waszkiewicz TDS early/peak=0.968 → **near-instant
+      dissolution** (vs cameron diffusion-limited; τ_boulder≈23 s).
+      ⚠ cameron-vs-Cameron-tables + egidi bracket pending those intakes (0.3;
+      cameron tables as CSV) — harness covers the gated models in hand.
+- [ ] CHAT: results workup + P3 hypothesis file update (2.3)  *(not-CC)*
 
 ## Sprint 9 — κ(t) discrimination harness (CC+CHAT) [2.2, M; needs Sprints 1,7 + A8]
 - [ ] A8 per-depth-cell porosity/fines fields
@@ -164,3 +172,5 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
 | 2026-07-11 | Sprint 5 | 1.7b `grudeva2025.reduced` gated (faithful port of released solver; G0 no-ε confirmed). G5-pre contract (fines_radius_m, SCHEMA 0.3). 15 quick gates + slow ladder; 13 loader tests. Creates RC-2 (verification-gated). |
 | 2026-07-11 | Sprint 6 (partial) | 1.8a closures slice: `pannusch2024.closures` gated (Wilke-Chang/Sherwood/van't Hoff/water props ported from MATLAB; μ@90C==card). Table 2 params transcribed. Full PDE solver + RC-4a MAPE reproduction deferred. 16 quick gates; 14 loader tests. |
 | 2026-07-11 | Sprint 6 (complete) | 1.8a full solver: `pannusch2024.solver` gated — 1D two-grain multi-solute PDE (5-pt biased upwind + BDF, sparse Jacobian), faithful MATLAB port. Reproduces fit MAPEs (TDS 6.7/caf 6.4/tri 10.2/CGA 7.2% vs pub 6.07/4.59/7.85/4.98). Experimental kinetics extracted from ExperimentalData.mat. Constituent unit tests + slow ladder. RC-4a created. 15 components; 17 quick gates; 18 tests (~16s). |
+| 2026-07-11 | Sprint 7 (partial) | A1 pressure-node contract fields (SCHEMA 0.4) + `foster2025.machine_mode` verification-gated (t_p=0.823/t_s=6.665 from Table I/II; t_shift offset caught). §5.9 nodes in manifests. Fig 15 + 1.8b pending. 16 components. |
+| 2026-07-11 | Sprint 8 (CC part) | 2.1 P1 extraction harness: `puckworks/harness.py` + `gate_extraction_harness` — surfaces c_sat/inventory hazards (no silent merge), tagged per-dataset residuals, §5.6 dissolution discriminator (near-instant dissolution, early/peak 0.968). CHAT workup (2.3) not-CC. 18 quick gates; 21 tests. |

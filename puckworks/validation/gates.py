@@ -309,6 +309,27 @@ def gate_foster_machine_tp_ts():
                 t_p=round(t_p, 3), t_s=round(t_s, 3), card=[0.823, 6.669])
 
 
+def gate_extraction_harness():
+    """P1 extraction harness (item 2.1): the c_sat config values stay distinct
+    (no silent merge, §5.4), the §5.6 dissolution-speed discriminator favors
+    near-instant dissolution on the Waszkiewicz TDS fractions, and the grudeva
+    vial reconstruction reproduces the C1 total."""
+    import numpy as np
+    from puckworks import harness as h
+    from puckworks.models.grudeva2025 import reduced as gr
+    csat = h.csat_values()
+    d56 = h.dissolution_speed_test()
+    r = gr.make_coffee(N=120, Nt=600)
+    stats = gates_data().grudeva_vial_stats()
+    exp_total = sum(s["solubles_mean_g"] for s in stats[3:])
+    passed = (csat == [170.0, 212.4, 224.0]                 # 3 distinct, surfaced
+              and d56["early_to_peak"] > 0.8                 # near-instant dissolution
+              and abs(r["total_solubles_g"] - exp_total) / exp_total < 0.10)
+    return dict(passed=passed, csat_distinct=csat,
+                s56_favors=d56["favors"], s56_early_to_peak=d56["early_to_peak"],
+                grudeva_total_g=round(r["total_solubles_g"], 2))
+
+
 def gates_data():
     """Lazy import of puckworks.data (avoids import cost at module load)."""
     from puckworks import data
@@ -324,4 +345,4 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_moroney_fig6_washthrough,
          gate_grudeva_no_eps_kappa, gate_grudeva_reduced_solver,
          gate_pannusch_closures, gate_pannusch_solver_mape,
-         gate_foster_machine_tp_ts]
+         gate_foster_machine_tp_ts, gate_extraction_harness]
