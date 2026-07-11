@@ -54,10 +54,16 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
       4.3505e-5/1.016e-4); card == component now. Raw 22-PSD zip still pending (0.6).
 
 ## Sprint 2 — inertial flow (CC) [1.1, S; needs D3-mo + ledger A7]
-- [ ] A7: FlowLaw/k_I contract fields + strict SI assertion
-- [ ] 1.1 wadsworth2026_inertial — reproduce Fo_F band 0.0161–0.0639;
+- [x] A7: FlowLaw/k_I contract fields + strict SI assertion
+      → `contracts.FlowLaw` + `assert_si_permeability` + `BedState.k_I_m`;
+      SCHEMA_VERSION 0.1→0.2 (additive).
+- [x] 1.1 wadsworth2026_inertial — reproduce Fo_F band 0.0161–0.0639;
       Darcy recovery k_I→∞; **§5.2 shared-dimensional audit table on DE1
       fixture A** (this gate settles the three-way regime disagreement)
+      → `wadsworth2026.inertial` registered; 3 gates green. Band 0.0161–0.0638
+      (eq2.7); Darcy recovery exact; **§5.2 settled**: DE1 tamped Fo_F ≈
+      0.86 (eq2.8) / 5.7 (eq2.7) — ≫ untamped band, at/past inertial onset
+      (backlog 0.3–0.9 side). ⚠ Mo Re overlay needs 0.4 (mo2023) — deferred.
 
 ## Sprint 3 — extraction anchors (CC) [1.3 + 1.4, both S; needs D2/D3]
 - [ ] 1.3 liang2021 kernels — K·E_max=0.215 refit; E_oven kernel;

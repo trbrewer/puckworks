@@ -122,6 +122,45 @@ def gate_grindmap_polydispersity():
     return dict(passed=(err < 5e-3 and ok_trend), max_S_reconstruct_err=round(err, 5))
 
 
+def gate_inertial_fo_band():
+    """Reproduce the card's espresso Fo_F band 0.0161-0.0639 (eq 2.7 closure).
+
+    Independent reproduction of the paper's worked estimate from its stated
+    inputs (Fo_F ~ 1/sqrt(k), so the grind/pack k range drives the band)."""
+    from puckworks.models.wadsworth2026 import inertial as fo
+    lo, hi = fo.espresso_fo_band("zhou")
+    lo_c, hi_c = fo.FO_BAND_CARD
+    return dict(passed=(abs(lo - lo_c) < 5e-4 and abs(hi - hi_c) < 5e-4),
+                band=[round(lo, 4), round(hi, 4)], card=[lo_c, hi_c])
+
+
+def gate_inertial_darcy_recovery():
+    """Forchheimer q -> Darcy q = |grad_p| k / mu as k_I -> infinity (verification)."""
+    from puckworks.models.wadsworth2026 import inertial as fo
+    k, grad_p = 1e-13, 5e5 / 0.02
+    q_darcy = grad_p * k / fo.MU_92C
+    q_big = fo.solve_q(k, 1e30, grad_p)          # k_I -> inf
+    q_fin = fo.solve_q(k, fo.k_I(k, "zhou"), grad_p)   # finite k_I slows flow
+    return dict(passed=(np.isclose(q_big, q_darcy, rtol=1e-6) and q_fin < q_darcy),
+                q_darcy=q_darcy, q_kI_inf=float(q_big))
+
+
+def gate_inertial_de1_audit():
+    """§5.2 audit: Fo_F on DE1 fixture A (tamped) exceeds the untamped band by
+    >10x and is O(1) (eq 2.8), settling the gusher-regime disagreement toward
+    the backlog's 0.3-0.9 estimate. Extrapolation caveat: DE1 k~7e-15 sits below
+    the ceramics-fit support (recorded, not asserted precise)."""
+    from puckworks.models.wadsworth2026 import inertial as fo
+    a = fo.de1_fixtureA_audit()
+    exp_max = a["Fo_F_max_exp"]
+    passed = (0.3 < exp_max < 1.0                       # backlog-magnitude, O(1)
+              and exp_max > 10 * fo.FO_BAND_CARD[1])    # >> untamped band
+    return dict(passed=passed, Fo_F_max_exp=round(exp_max, 3),
+                Fo_F_max_zhou=round(a["Fo_F_max_zhou"], 3), k_m2=a["k_m2"])
+
+
 QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_waszkiewicz_static_refit, gate_waszkiewicz_dynamic_9bar,
-         gate_grindmap_refit, gate_grindmap_polydispersity]
+         gate_grindmap_refit, gate_grindmap_polydispersity,
+         gate_inertial_fo_band, gate_inertial_darcy_recovery,
+         gate_inertial_de1_audit]

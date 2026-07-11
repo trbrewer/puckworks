@@ -53,6 +53,21 @@ register(Component(
     notes="reconciling with Cameron flux implies phi_c~0.11 or series screen resistance"))
 
 register(Component(
+    name="wadsworth2026.inertial", stage="flow", kind="runtime",
+    paper="Wadsworth et al., R. Soc. Open Sci. 13, 252031 (2026)", doi="10.1098/rsos.252031",
+    module="puckworks.models.wadsworth2026.inertial",
+    gates=[G.gate_inertial_fo_band, G.gate_inertial_darcy_recovery,
+           G.gate_inertial_de1_audit],
+    assumptions="Forchheimer grad_p=-(mu/k)q-(rho/k_I)|q|q; k_I(k) closures "
+                "zhou (eq2.7, reproduces Fo band) & exp (eq2.8, preferred shape); "
+                "strict SI k (A7); steady single-phase; k_I never coffee-calibrated",
+    valid_range="Fo_F=rho k q/(mu k_I) regime flag; ceramics-fit k_I extrapolated "
+                "at tamped-coffee k (DE1 ~7e-15 below fit support); Fo_F not Re (P6)",
+    notes="reproduces card band 0.0161-0.0639 (eq2.7); Darcy recovery k_I->inf; "
+          "§5.2: DE1 fixture A Fo_F~0.86(exp)/5.7(zhou) >> band -> tamped flow at "
+          "inertial onset (backlog 0.3-0.9 side). Mo Re overlay pending 0.4"))
+
+register(Component(
     name="wadsworth2026.grindmap", stage="grind", kind="calibration",
     paper="Wadsworth et al., R. Soc. Open Sci. 13, 252031 (2026)", doi="10.1098/rsos.252031",
     module="puckworks.models.wadsworth2026.grindmap",
