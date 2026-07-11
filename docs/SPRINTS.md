@@ -50,9 +50,8 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
       Tim dropped the full Table 1 → `data/wadsworth2026/`. Refit ⟨R⟩=βG+R₀
       (R²=0.994); S=⟨R⟩⟨R²⟩/⟨R³⟩ reconstructs reported S (<5e-3); S(G) rises
       0.46→0.78; A9 dial-space adapter stub (guards cross-grinder porting).
-      ⚠ **card β,R₀ (4.3505e-5/1.016e-4) do NOT reproduce** — OLS gives
-      5.805e-5/1.380e-4 (~1.33×); operative map uses the refit, card flagged for
-      reconciliation (see BLOCKED_INTAKE). Raw 22-PSD zip still pending (0.6).
+      ✅ **card β,R₀ typo corrected 2026-07-11** to 5.805e-5/1.380e-4 (was
+      4.3505e-5/1.016e-4); card == component now. Raw 22-PSD zip still pending (0.6).
 
 ## Sprint 2 — inertial flow (CC) [1.1, S; needs D3-mo + ledger A7]
 - [ ] A7: FlowLaw/k_I contract fields + strict SI assertion

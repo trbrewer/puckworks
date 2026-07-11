@@ -13,15 +13,13 @@ runtime coupling.
 Data: data/wadsworth2026/wadsworth2026_table1_full.csv (22 samples = two coffees
 x 11 settings), supplied 2026-07-10.
 
-CARD-VS-DATA DISCREPANCY (flagged, unresolved):
-The card prints beta = 4.3505e-5 m/setting, R0 = 1.0160e-4 m "fitted (22
-samples)". A plain OLS refit of the paper's own Table 1 <R> column gives
-beta = 5.805e-5, R0 = 1.380e-4 (R^2 = 0.994) — the card slope is ~1.33x too
-shallow to span the measured 192-818 um range. The moment columns are internally
-consistent (S = <R><R^2>/<R^3> reproduces the reported S). So the OPERATIVE map
-here uses the data-refit constants (they reproduce Table 1); the card's printed
-beta/R0 do not, and are flagged for card reconciliation (INTAKE venue) — do NOT
-treat 4.3505e-5 as validated. See data/BLOCKED_INTAKE.md.
+CARD CORRECTION (2026-07-11, resolved): the card previously printed
+beta = 4.3505e-5, R0 = 1.0160e-4 — a transcription typo (confirmed by Tim). An
+OLS refit of Table 1 <R> vs G (22 samples) gives beta = 5.8050e-5,
+R0 = 1.3797e-4 (R^2 = 0.994); the old slope was ~1.33x too shallow to span the
+measured 192-818 um range. The card of record now carries the corrected values,
+which match the operative constants below. Moment columns are self-consistent
+(S = <R><R^2>/<R^3> reproduces the reported S).
 
 Validity (card): Mahlkonig, this burr set + calibration ONLY; G 1-11,
 <R> ~145-818 um; below G=1 (espresso-fine) unsupported and R0 is an extrapolation
@@ -34,12 +32,13 @@ import numpy as np
 
 from puckworks import data as _d
 
-# Operative constants: OLS refit of Table 1 <R> vs G (R^2=0.994), NOT the card's.
+# Operative constants: OLS refit of Table 1 <R> vs G (R^2=0.994).
 BETA_FIT = 5.8050e-5     # m per setting
 R0_FIT = 1.3797e-4       # m
-# Card's printed values — do NOT reproduce from Table 1 (see module docstring).
-BETA_CARD = 4.3505e-5
-R0_CARD = 1.0160e-4
+# Corrected card values (2026-07-11) — now agree with the refit; the gate keeps
+# checking card == data as a regression. (Pre-correction typo: 4.3505e-5/1.016e-4.)
+BETA_CARD = 5.8050e-5
+R0_CARD = 1.3797e-4
 
 
 def fit_grind_map(rows=None):

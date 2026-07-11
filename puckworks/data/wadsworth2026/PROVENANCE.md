@@ -20,15 +20,14 @@ columns only: `R_m`=⟨R⟩, `phi_p`, `s_p`, `k`). The old file is still wired t
 `wadsworth2026.permeability` gate and is left untouched (no refactor of a gated
 component); the grind-map component consumes this full file.
 
-## ⚠ Card-vs-data discrepancy (flagged, for card reconciliation)
-The card prints the grind-map fit as β=4.3505e-5 m/setting, R₀=1.0160e-4 m. A
-plain OLS refit of this file's ⟨R⟩ column gives **β=5.805e-5, R₀=1.380e-4
-(R²=0.994)** — the card's slope is ~1.33× too shallow to span the measured
-192–818 µm range. The moment columns are internally consistent (S=⟨R⟩⟨R²⟩/⟨R³⟩
-reconstructs the reported S to <5e-3). The component therefore uses the
-**data-refit** constants; the card's printed β/R₀ are recorded but **not
-treated as validated**. Needs card reconciliation (INTAKE) — possible causes:
-a different ⟨R⟩ weighting in the paper's fit, or a card transcription error.
+## ✅ Card β,R₀ typo corrected (2026-07-11)
+The card previously printed β=4.3505e-5 / R₀=1.0160e-4 — a transcription typo
+(confirmed by Tim). An OLS refit of this file's ⟨R⟩ column gives **β=5.805e-5,
+R₀=1.380e-4 (R²=0.994)**; the old slope was ~1.33× too shallow to span the
+measured 192–818 µm range. The card of record now carries the corrected values
+(`docs/cards/wadsworth2026_grindmap.md`), matching the component's operative
+constants. Moment columns are self-consistent (S=⟨R⟩⟨R²⟩/⟨R³⟩ reconstructs the
+reported S to <5e-3).
 
 ## Still pending (0.6)
 The **22-sample raw PSD zip** (full R, R_min, R_max distributions) that feeds

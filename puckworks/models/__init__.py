@@ -57,9 +57,9 @@ register(Component(
     paper="Wadsworth et al., R. Soc. Open Sci. 13, 252031 (2026)", doi="10.1098/rsos.252031",
     module="puckworks.models.wadsworth2026.grindmap",
     gates=[G.gate_grindmap_refit, G.gate_grindmap_polydispersity],
-    assumptions="linear dial->radius map <R>=beta*G+R0; S=<R><R2>/<R3>; "
-                "OPERATIVE beta/R0 are a Table-1 refit (5.805e-5/1.380e-4) - the "
-                "card's printed 4.3505e-5/1.016e-4 do NOT reproduce (flagged)",
+    assumptions="linear dial->radius map <R>=beta*G+R0 (5.805e-5/1.380e-4, "
+                "Table-1 refit R2=0.994; card corrected 2026-07-11 from a typo); "
+                "S=<R><R2>/<R3>",
     valid_range="Mahlkonig this burr/calibration ONLY; G 1-11, <R> 145-818 um; "
                 "grinder-specific, non-portable to EK43/E65S dials (A9/rule 9)",
     notes="one paper with wadsworth2026.permeability; S(G) rises 0.46->0.78; "

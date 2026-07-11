@@ -30,13 +30,12 @@ the permeability columns (its `R_m` is the k-relevant radius, ~1.3× the grind-m
 ⟨R⟩) — the card's claim that ⟨R⟩/S were in that file was wrong; the full file
 fixes it.
 
-### ⚠ Unresolved: card β,R₀ do not reproduce (for card reconciliation)
+### ✅ Card β,R₀ typo corrected (2026-07-11)
 An OLS refit of the full Table 1 ⟨R⟩ column gives **β=5.805e-5, R₀=1.380e-4
-(R²=0.994)**, not the card's **4.3505e-5 / 1.0160e-4** (~1.33× shallower slope,
-cannot span the 192–818 µm range). Moment columns are self-consistent
-(S=⟨R⟩⟨R²⟩/⟨R³⟩ reproduces reported S). The component uses the refit constants;
-the card's printed β,R₀ are flagged — please reconcile the card of record
-(INTAKE): likely a different ⟨R⟩ weighting in the paper's fit, or a card typo.
+(R²=0.994)**, not the previously-printed **4.3505e-5 / 1.0160e-4** (~1.33×
+shallower). Confirmed by Tim as a typo; the card of record now carries the
+corrected values and the component's `BETA_CARD/R0_CARD` match the refit
+(`gate_grindmap_refit` reports `card_reproduces=True`).
 
 ### Still pending: raw 22-sample PSD zip (feeds pack_generator, not 1.5)
 The full R/R_min/R_max distributions remain requested from the authors.
