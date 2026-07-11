@@ -389,6 +389,15 @@ def mo2_sim_lines():
     return _typed_rows(_mo2() / "figs7_9_simulation_lines.csv")
 
 
+def roman_y0_extractable():
+    """Section 4.4.1 + Fig 4.19: long-time-limit extractable soluble solids y0
+    [kg SS/100 kg RGC = %] per grind, 80 C dilute. PsiA (finest) exact from text
+    (31.7 dilute / 32.15 equilibrium); other grinds derived from the normalized
+    Fig 4.19 (~+/-0.5 pp). Feeds §5.5 nested-ceiling cross-check + P3 hypothesis
+    #4 (size-exclusion: y0 decreases monotonically with coarsening grind)."""
+    return _typed_rows_hashskip(RC17 / "y0_extractable.csv")
+
+
 def roman_fig74_espresso():
     """Fig 7.4 (digitized MPE) joined with Tables 7.1/7.2 (exact conditions): the
     15 espresso flow/density conditions with Deff/K metadata and the

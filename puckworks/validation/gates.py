@@ -507,6 +507,35 @@ def gate_roman_bed_mpe_parameter_free():
                 strength="verification of reported parameter-free result (digitized)")
 
 
+def gate_roman_y0_ceiling_sizeexclusion():
+    """romancorrochano2017 y0 (0.5 intake) -- two independent readings:
+    (§5.5 nested ceilings) the exhaustively-extractable inventory y0(PsiA)=31.7%
+    sits ABOVE Cameron's per-bed-volume espresso EY ceiling (24.5%) which sits
+    above Liang's single-immersion equilibrium ceiling (21.5%): y0 > cameron >
+    liang, three DISTINCT ceiling quantities nested, not contradictory
+    (independent, K<1 discipline -- no promotion).
+    (P3 hypothesis #4, size-exclusion) y0 decreases monotonically along the
+    coarsening grind ladder PsiA->PsiH -- finer grinds expose more extractable
+    inventory, coarser grinds entrap it. This is the size-exclusion signal that
+    was 'untested' in docs/P3_hypotheses.md; strength independent/qualitative."""
+    from puckworks import data as d
+    from puckworks.models.liang2021 import desorption as lg
+    rows = d.roman_y0_extractable()
+    y0 = {r["grind"]: r["y0_pct"] for r in rows if r["method"] == "dilute"}
+    liang = lg.K_EMAX_1L
+    cameron = lg.cameron_inventory_ceiling()
+    nested = bool(y0["PsiA"] / 100.0 > cameron > liang)
+    order = ["PsiA", "PsiB", "PsiE", "PsiF", "PsiG", "PsiH"]  # finest -> coarsest
+    seq = [y0[g] for g in order]
+    monotone = all(seq[i] > seq[i + 1] for i in range(len(seq) - 1))
+    passed = bool(nested and monotone)
+    return dict(passed=passed, nested_ceiling=nested, size_exclusion_monotone=monotone,
+                y0_PsiA_frac=round(y0["PsiA"] / 100.0, 3),
+                cameron_ceiling=round(cameron, 3), liang_ceiling=round(liang, 3),
+                y0_ladder_pct=[round(v, 1) for v in seq],
+                strength="independent (distinct ceilings, nested) + qualitative (size-exclusion)")
+
+
 def gate_mo2_k0_carman_kozeny():
     """mo2023_2 (0.4/3.1 intake) gate (1), EXACT closed-form: the t=0 Carman-Kozeny
     permeability k0 = eps_b^(3+2n) d_[3,2]^2 / (72 (1-eps_b)^2), with eps_b^0=0.17,
@@ -639,4 +668,5 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_pannusch_qt_adapter, gate_mo_reynolds_overlay, gate_egidi_bracket,
          gate_lee_feedback_negative_result,
          gate_roman_tamped_kappa, gate_roman_bed_mpe_parameter_free,
+         gate_roman_y0_ceiling_sizeexclusion,
          gate_mo2_k0_carman_kozeny, gate_mo2_fixed_flow_trends]

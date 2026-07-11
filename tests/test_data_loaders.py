@@ -188,3 +188,15 @@ def test_mo2023_2_intake():
     # Fig 3a swelling decay present at s_m=3.6%
     f = [r for r in pwdata.mo2_fig3a_qdecay() if r["s_m_pct"] == 3.6]
     assert len(f) > 50
+
+
+def test_romancorrochano_y0_ceiling():
+    rows = pwdata.roman_y0_extractable()
+    y0 = {r["grind"]: r["y0_pct"] for r in rows if r["method"] == "dilute"}
+    # §5.5 nested ceiling: y0(PsiA) > Cameron > Liang
+    from puckworks.models.liang2021 import desorption as lg
+    assert y0["PsiA"] / 100.0 > lg.cameron_inventory_ceiling() > lg.K_EMAX_1L
+    # P3 #4 size-exclusion: monotone decrease along coarsening ladder
+    order = ["PsiA", "PsiB", "PsiE", "PsiF", "PsiG", "PsiH"]
+    seq = [y0[g] for g in order]
+    assert all(seq[i] > seq[i + 1] for i in range(len(seq) - 1))

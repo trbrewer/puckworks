@@ -1,0 +1,23 @@
+# Source: Roman-Corrochano (2017) PhD thesis, Section 4.4.1 (printed p.139) + Figure 4.19 (printed p.140).
+# Feeds: Section 5.5 nested-ceiling cross-check (romancorrochano y0 = true extractable-inventory ceiling)
+#   and instrument hypothesis P3 fi / #4 (size-exclusion inventory: monotone y0 decreasing with coarser grind).
+# y0 = long-time-limit ("equilibrium") extraction yield, measured at 80 C in a dilute 10 kg/m^3 solution.
+# UNITS: y0_pct = kg soluble solids per 100 kg RGC = a percent (31.7 -> fraction 0.317), matching the card.
+#
+# PROVENANCE / FIDELITY:
+#  - PsiA dilute (31.7 +/- 0.4) and PsiA equilibrium (32.15) are EXACT from the thesis text.
+#  - Fig 4.19 plots y0(Psi_j)/y0(PsiA) (normalised). y0_norm below is digitised from Fig 4.19 by pixel
+#    analysis; y-axis calibrated on the 0.2/0.4/0.6/0.8 ticks. PsiA reads 1.000 exactly (it is the
+#    normalising reference and the maximum); Flakes ~ PsiA, matching the thesis text.
+#  - Absolute y0_pct for non-PsiA grinds = y0_norm * 31.7 (derived, approx +/- 0.5 pp).
+#  - PsiC and PsiD were NOT measured (extraction-time list in 4.4.1; also the Table 7.2 note). Omitted, not zero.
+#  - Ordering is monotone decreasing A>B>E>F>G>H (size-exclusion entrapment); Flakes (Blend 2) ~ finest grind.
+grind,blend,method,y0_pct,y0_err_pct,y0_norm_to_PsiA,T_degC,note
+PsiA,Blend1,dilute,31.7,0.4,1.000,80,exact from text; normalising reference; finest grind = maximum
+PsiA,Blend1,equilibrium,32.15,,,80,exact from text; equilibrium-fit value (1% above dilute)
+PsiB,Blend1,dilute,29.9,,0.943,80,derived = Fig 4.19 norm x 31.7
+PsiE,Blend1,dilute,27.0,,0.852,80,derived = Fig 4.19 norm x 31.7
+PsiF,Blend1,dilute,26.1,,0.824,80,derived = Fig 4.19 norm x 31.7
+PsiG,Blend1,dilute,25.8,,0.814,80,derived = Fig 4.19 norm x 31.7
+PsiH,Blend1,dilute,24.3,,0.767,80,derived = Fig 4.19 norm x 31.7
+Flakes,Blend2,dilute,31.6,,0.998,80,derived; flaked coffee ~ finest grind PsiA per thesis text
