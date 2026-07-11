@@ -6,6 +6,7 @@ register(Component(
     name="cameron2020.extraction_bdf", stage="extraction", kind="runtime",
     paper="Cameron et al., Matter 2, 631-648 (2020)", doi="10.1016/j.matt.2019.12.019",
     module="puckworks.models.cameron2020.extraction_bdf",
+    gates=[G.gate_cameron_conservation],
     assumptions="saturated bed from t=0; homogeneous 1D flow; single solute pool; "
                 "per-bed-volume soluble inventory (EY ceiling 29.6%)",
     valid_range="EK43 dial 1.1-2.3; 20 g in / 40 g out class recipes",

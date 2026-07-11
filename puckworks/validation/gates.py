@@ -309,6 +309,43 @@ def gate_foster_machine_tp_ts():
                 t_p=round(t_p, 3), t_s=round(t_s, 3), card=[0.823, 6.669])
 
 
+def gate_pannusch_qt_adapter():
+    """1.8b (RC-4b): the machine-driven Q(t) adapter reduces to the constant-flow
+    RC-4a path when the flow trace is constant (agreement < 1%), and a
+    time-varying Q(t) runs and shifts the prediction (the adapter is live)."""
+    import numpy as np
+    from puckworks.models.pannusch2024 import solver as ps
+    exps = ps._exp_kinetics(); params = ps._solute_params()
+    rows = sorted(exps[7], key=lambda r: r["fraction"])
+    T = rows[0]["Temp_C"]; flow = rows[0]["flow_mL_s"]
+    sp = params["caffeine"]; cl1 = rows[0]["c_caffeine_mg_g"]
+    bounds = sorted({r["t_lower_s"] for r in rows} | {r["t_upper_s"] for r in rows})
+    const = ps.simulate_fractions(T, flow, bounds, sp, cl1)
+    qt_const = ps.simulate_fractions_qt(T, lambda t: flow, bounds, sp, cl1)
+    qt_ramp = ps.simulate_fractions_qt(T, lambda t: flow * (1 + 0.15 * t / 30), bounds, sp, cl1)
+    reduces = float(np.max(np.abs(qt_const - const) / const))
+    shifts = float(np.max(np.abs(qt_ramp - const) / const))
+    return dict(passed=(reduces < 0.01 and shifts > 0.01),
+                qt_vs_const_maxrelerr=round(reduces, 4),
+                ramp_shift_maxrel=round(shifts, 3))
+
+
+def gate_cameron_conservation():
+    """cameron2020.extraction_bdf conserves solute (EY from cup mass == EY from
+    solid depletion minus holdup, its built-in cross-check) and stays below the
+    per-bed soluble-inventory ceiling. Self-contained mass-budget gate."""
+    import numpy as np
+    from puckworks.models.cameron2020 import extraction_bdf as cam
+    r = cam.simulate_shot(1.9, m_in=0.020, m_out=0.040)
+    phi1, phi2, *_ = cam.grind_microstructure(1.9)
+    ceiling = (np.pi * cam.R0 ** 2 * cam.bed_depth(0.020) * (phi1 + phi2)
+               * cam.C_S0 / 0.020 * 100.0)
+    passed = (abs(r.EY - r.EY_solid) < 0.5      # mass conservation cross-check
+              and 0 < r.EY < ceiling)            # below inventory ceiling
+    return dict(passed=passed, EY=round(r.EY, 2), EY_solid=round(r.EY_solid, 2),
+                inventory_ceiling=round(ceiling, 1))
+
+
 def gate_p2_kappa_ladder():
     """P2 null-first ladder (item 2.2): on the Waszkiewicz 9-bar RISING-flow
     trace, the time-dependent poroelastic Phi(t) (rung 4) beats the constant-
@@ -403,4 +440,5 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_pannusch_closures, gate_pannusch_solver_mape,
          gate_foster_machine_tp_ts, gate_extraction_harness,
          gate_foster_fig15_flowmin, gate_foster_ct_trajectory,
-         gate_p2_kappa_ladder]
+         gate_p2_kappa_ladder, gate_cameron_conservation,
+         gate_pannusch_qt_adapter]

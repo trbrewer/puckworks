@@ -120,6 +120,55 @@ def simulate_fractions(T_C, flow_mL_s, t_bounds, sp, cl1, grind=GRIND_17):
     return np.diff(mcum) / np.diff(Vol)
 
 
+# --- 1.8b: machine-driven (time-varying Q(t)) adapter (A2) -> RC-4b ------
+def simulate_fractions_qt(T_C, q_func, t_bounds, sp, cl1, grind=GRIND_17):
+    """Machine-driven variant of simulate_fractions: the superficial velocity is
+    q(t) from a flow trace `q_func(t_s) -> flow [mL/s]` (ledger A2), recomputed
+    each RHS call (Sherwood h_sl and advection follow the instantaneous flow).
+    Reduces to the constant-flow RC-4a path when q_func is constant. Creates
+    RC-4b (production Q(t)-driven predictions)."""
+    nz = NZ
+    T = T_C + 273.15
+    psi, d_s2, d_s1 = grind["psi"], grind["d_s2"], D1_FINE
+    d32 = 6.0 / (psi * 6.0 / d_s1 + (1 - psi) * 6.0 / d_s2)
+    K = float(pc.vant_hoff_K(T, sp["K_ref"], sp["gamma"]))
+    cs0 = sp["c_s0"]
+    alpha_s1 = psi * (1 - ALPHA_L); alpha_s2 = (1 - psi) * (1 - ALPHA_L)
+    Dz_cache = {}
+
+    def q_of(t_s):
+        return q_func(t_s) / 1000.0 / RHO / ACS          # -> superficial [m/s]
+
+    def rhs(t, c):
+        q = q_of(t * TC)
+        cl = c[0:nz].copy(); cl[0] = 0.0
+        cs1 = c[nz:2 * nz]; cs2 = c[2 * nz:3 * nz]
+        key = round(q, 12)
+        if key not in Dz_cache:
+            Dz_cache[key] = five_point_biased_upwind(nz, 1.0 / (nz - 1), q)
+        D1z = Dz_cache[key]
+        h1 = float(pc.sherwood_h(T, q, sp["A1"], sp["B1"], sp["solute"], d32))
+        h2 = float(pc.sherwood_h(T, q, sp["A2"], sp["B2"], sp["solute"], d32))
+        ct = np.empty(3 * nz + 2)
+        ct[0:nz] = (-(q / ALPHA_L) * TC / L * (D1z @ cl)
+                    + (6 * h1 * alpha_s1) / (ALPHA_L * d_s1) * TC * (K * cs1 * cs0 / cl1 - cl)
+                    + (6 * h2 * alpha_s2) / (ALPHA_L * d_s2) * TC * (K * cs2 * cs0 / cl1 - cl))
+        ct[nz:2 * nz] = -(6 * h1) / d_s1 * TC * (K * cs1 - cl * cl1 / cs0)
+        ct[2 * nz:3 * nz] = -(6 * h2) / (PHI_V2 * d_s2) * TC * (K * cs2 - cl * cl1 / cs0)
+        dVol = q * (np.pi / 4 * DBED ** 2) * TC * 1e6
+        ct[3 * nz] = dVol
+        ct[3 * nz + 1] = cl[nz - 1] * dVol
+        return ct
+
+    c0 = np.ones(3 * nz + 2)
+    c0[0] = 0.0; c0[1:nz] = K * cs0 / cl1; c0[3 * nz:3 * nz + 2] = 0.0
+    tb = np.asarray(t_bounds, float) / TC
+    sol = solve_ivp(rhs, [tb[0], tb[-1]], c0, method="BDF", t_eval=tb,
+                    rtol=1e-6, atol=1e-6, jac_sparsity=_jac_sparsity(nz))
+    Vol = sol.y[3 * nz]; mcum = sol.y[3 * nz + 1] * cl1
+    return np.diff(mcum) / np.diff(Vol)
+
+
 # --- experimental kinetics + MAPE ---------------------------------------
 def _exp_kinetics():
     from puckworks import data as d

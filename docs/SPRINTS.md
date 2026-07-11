@@ -76,7 +76,10 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
       → `moroney2016.surrogate` gated (Table 1 transcribed; Fig6 digitized).
       Leading-order composite reproduces plateau + wash-through (c=½ at t≈3.1
       vs data 3.1); **qualitative** — tail needs outer soln (not on card).
-      ⚠ cameron-BDF mutual-validation = **deferred** future gate (hard).
+      ⚠ cameron-BDF mutual-validation = **regime-blocked**: the two models sit in
+      different regimes (Cameron espresso ε≈1.6, clean-water IC; Moroney JK-drip
+      ε≈0.13, saturated IC) — a clean cross-solver overlay needs matched-parameter
+      alignment (CHAT/research), not a mechanical gate. Fig-6 gate stands.
 
 ## Sprint 4 — Grudeva reconciliation (INTAKE, not CC) [1.7a, S]
 - [x] Resolve card-of-record vs CUP open-access source: Eq. 74 brackets;
@@ -127,9 +130,11 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
       (Figs 12-14). Fig 15 Q_norm = bed flow min(Qp,f)/Qm (Eq 18), not pump flow.
 - [x] §5.9 pressure-node identification for fixture A + Waszkiewicz recorded in manifests
       → Waszkiewicz basket_pressure=P_basket / pressure=line; DE1 node open.
-- [ ] 1.8b (S): pannusch machine-driven adapter → RC-4b
-      — **deferred:** needs a matched Q(t)-driven shot; better with Sprint 8
-      harness (Schmieder flow ~constant, little Q(t) to test standalone).
+- [x] 1.8b (S): pannusch machine-driven adapter → RC-4b
+      → `pannusch2024.solver.simulate_fractions_qt` (A2): time-varying Q(t) input
+      (Sherwood + advection recomputed per step). `gate_pannusch_qt_adapter`:
+      reduces to RC-4a exactly on constant flow (0.0 rel err); a +15% flow ramp
+      shifts the prediction 6.6% → the adapter is live. **RC-4b created.**
 
 ## Sprint 8 — extraction harness (CC+CHAT) [2.1, M; needs Sprints 3,5,6 + A5]
 - [x] Matched-input runs: cameron/grudeva/pannusch(TDS) vs Cameron tables,
@@ -143,7 +148,9 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
       dissolution** (vs cameron diffusion-limited; τ_boulder≈23 s).
       ⚠ cameron-vs-Cameron-tables + egidi bracket pending those intakes (0.3;
       cameron tables as CSV) — harness covers the gated models in hand.
-- [ ] CHAT: results workup + P3 hypothesis file update (2.3)  *(not-CC)*
+- [x] P3 hypothesis file (2.3, docs part): `docs/P3_hypotheses.md` — the
+      5-hypothesis registry with current component/harness evidence.
+- [ ] CHAT: results workup + P3 verdict (which mechanism survives)  *(not-CC)*
 
 ## Sprint 9 — κ(t) discrimination harness (CC+CHAT) [2.2, M; needs Sprints 1,7 + A8]
 - [x] A8 per-depth-cell porosity/fines fields

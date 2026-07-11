@@ -39,3 +39,14 @@ def test_single_experiment_reproduces_kinetics():
     params = ps._solute_params()
     mape = ps.mape_for_experiment(exps[7], "caffeine", params["caffeine"])
     assert mape is not None and mape < 8.0        # exp7 caffeine ~3.9%
+
+
+def test_qt_adapter_reduces_to_constant():
+    """1.8b: the Q(t)-driven adapter reduces to the constant-flow path (RC-4a)."""
+    exps = ps._exp_kinetics(); params = ps._solute_params()
+    rows = sorted(exps[7], key=lambda r: r["fraction"])
+    T, flow, cl1 = rows[0]["Temp_C"], rows[0]["flow_mL_s"], rows[0]["c_caffeine_mg_g"]
+    bounds = sorted({r["t_lower_s"] for r in rows} | {r["t_upper_s"] for r in rows})
+    const = ps.simulate_fractions(T, flow, bounds, params["caffeine"], cl1)
+    qt = ps.simulate_fractions_qt(T, lambda t: flow, bounds, params["caffeine"], cl1)
+    assert np.max(np.abs(qt - const) / const) < 0.01
