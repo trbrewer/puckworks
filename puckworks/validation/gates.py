@@ -330,6 +330,41 @@ def gate_pannusch_qt_adapter():
                 ramp_shift_maxrel=round(shifts, 3))
 
 
+def gate_mo_reynolds_overlay():
+    """1.1 §5.2 Mo overlay: reproduce mo2023's Re band 0.84-3.86 from Fig 8a at
+    THEIR SPH conditions (mu=1e-3, rho=1000, char. length d43=341.6 um), and the
+    Darcy->Forchheimer kD(grad P) decline. Per §5.2 this Re is NOT interchangeable
+    with wadsworth's Fo_F — the three diagnostics are reported side by side, each
+    under its own stated convention."""
+    import numpy as np
+    rows = gates_data().mo2023_fig8a()
+    dP = np.array([r["pressure_gradient_bar_per_m"] for r in rows]) * 1e5   # -> Pa/m
+    k = np.array([r["permeability_1e-13_m2"] for r in rows]) * 1e-13
+    mu, rho, d43 = 1e-3, 1000.0, 341.6e-6
+    Re = rho * (k * dP / mu) * d43 / mu
+    declines = k[0] > k[-1]                            # Forchheimer: apparent k falls
+    passed = (abs(Re.min() - 0.84) < 0.1 and abs(Re.max() - 3.86) < 0.1 and declines)
+    return dict(passed=passed, Re_min=round(float(Re.min()), 2),
+                Re_max=round(float(Re.max()), 2),
+                kD_decline_e13=[round(float(k[0]) * 1e13, 2), round(float(k[-1]) * 1e13, 2)],
+                note="Re NOT interchangeable with wadsworth Fo_F (§5.2)")
+
+
+def gate_egidi_bracket():
+    """2.1 RC-1 egidi bracket: the 12-condition EY/TDS range loads as expected
+    (EY 19-23%), and cameron2020's EY is reported against it (independent bracket;
+    cameron sits low, a documented finding -- reported, not asserted into it)."""
+    import numpy as np
+    from puckworks.models.cameron2020 import extraction_bdf as cam
+    rows = gates_data().egidi_table2()
+    EY = np.array([r["EY [%]"] for r in rows])
+    cam_EY = cam.simulate_shot(1.9, m_in=0.020, m_out=0.040).EY
+    passed = (len(rows) == 12 and 19.0 <= EY.min() and EY.max() <= 23.0)
+    return dict(passed=passed, egidi_EY_bracket=[round(float(EY.min()), 1), round(float(EY.max()), 1)],
+                cameron_EY=round(cam_EY, 1),
+                cameron_in_bracket=bool(EY.min() <= cam_EY <= EY.max()))
+
+
 def gate_cameron_conservation():
     """cameron2020.extraction_bdf conserves solute (EY from cup mass == EY from
     solid depletion minus holdup, its built-in cross-check) and stays below the
@@ -441,4 +476,4 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_foster_machine_tp_ts, gate_extraction_harness,
          gate_foster_fig15_flowmin, gate_foster_ct_trajectory,
          gate_p2_kappa_ladder, gate_cameron_conservation,
-         gate_pannusch_qt_adapter]
+         gate_pannusch_qt_adapter, gate_mo_reynolds_overlay, gate_egidi_bracket]

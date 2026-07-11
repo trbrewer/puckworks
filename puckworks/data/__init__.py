@@ -231,3 +231,44 @@ def foster_fig15_flow():
 def foster_fig12_14_curves():
     """Figs 12-14: model fitted s/w/H curves + CT data (mm) vs experiment time."""
     return _typed_rows(FOSTER2 / "fig12_14_fitted_curves.csv")
+
+
+# --- mo2023 (ROADMAP 0.4), microCT Forchheimer pairs ---------------------
+MO2023 = DATA_DIR / "mo2023"
+# k1 UNITS CAVEAT (§5.3): tables give k1 in 1e-9 m^2 but Forchheimer Eq.2 needs
+# [k1]=m; internally inconsistent by ~1e4 vs the Fig 8b annotation. Do NOT use
+# k1 quantitatively until resolved (author correspondence pending).
+
+
+def mo2023_forchheimer():
+    """24 microCT samples (types E/H/M/F): location, porosity, tortuosity, Darcy
+    kD, Forchheimer kF, inertial k1F. Real-geometry (k, k1) pairs (§5.3 caveat)."""
+    out = []
+    for tbl, typ in [("table2_typeH", "H"), ("table3_typeE", "E"),
+                     ("table4_typeM", "M"), ("table5_typeF", "F")]:
+        for r in _typed_rows(MO2023 / f"{tbl}_samples.csv"):
+            r["type"] = typ
+            out.append(r)
+    return out
+
+
+def mo2023_fig8a():
+    """Fig 8a: apparent Darcy permeability kD vs pressure gradient (the canonical
+    'why literature k disagrees' Darcy->Forchheimer decline)."""
+    return _typed_rows(MO2023 / "fig8a_permeability_vs_pressure_gradient.csv")
+
+
+def mo2023_psd():
+    """Table 1: laser-diffraction PSD (d32, d43, uniformity) per powder type."""
+    return _typed_rows(MO2023 / "table1_laser_diffraction.csv")
+
+
+# --- egidi2024 (ROADMAP 0.3), RC-1 EY/TDS bracket ------------------------
+EGIDI = DATA_DIR / "egidi2024"
+
+
+def egidi_table2():
+    """Table 2: 12-condition (T x p x grind) TDS mean/sigma + EY. The independent
+    RC-1 EY/TDS *range bracket* (not a pressure/T response test — p,T are
+    absorbed into q,tau in the egidi model)."""
+    return _typed_rows(EGIDI / "table2_egidi2024_tds_ey.csv")

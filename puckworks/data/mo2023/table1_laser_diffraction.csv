@@ -1,0 +1,5 @@
+type,uniformity,specific_surface_area_m2_per_kg,d32_um,d43_um,volume_below_100um_pct
+E,0.646,74.09,81.0,308,29.21
+H,0.600,66.60,90.1,341.6,27.52
+M,0.508,51.66,116,372,20.26
+F,0.473,28.05,214,673,9.7

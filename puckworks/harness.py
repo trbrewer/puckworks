@@ -68,6 +68,16 @@ def extraction_comparison():
         metric="EY_ceiling", liang=lg.K_EMAX_1L,
         cameron=round(lg.cameron_inventory_ceiling(), 3),
         strength="independent (distinct quantities, K<1)")
+
+    # cameron EY vs the egidi2024 12-condition RC-1 bracket (independent)
+    from puckworks.models.cameron2020 import extraction_bdf as cam
+    ey = [r["EY [%]"] for r in d.egidi_table2()]
+    cam_ey = cam.simulate_shot(1.9, m_in=0.020, m_out=0.040).EY
+    out["cameron2020/egidi_bracket"] = dict(
+        metric="EY_%", cameron=round(cam_ey, 1),
+        egidi_bracket=[round(min(ey), 1), round(max(ey), 1)],
+        in_bracket=bool(min(ey) <= cam_ey <= max(ey)),
+        strength="independent EY/TDS range bracket (cameron reads low, per card)")
     return out
 
 

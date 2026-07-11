@@ -63,7 +63,10 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
       → `wadsworth2026.inertial` registered; 3 gates green. Band 0.0161–0.0638
       (eq2.7); Darcy recovery exact; **§5.2 settled**: DE1 tamped Fo_F ≈
       0.86 (eq2.8) / 5.7 (eq2.7) — ≫ untamped band, at/past inertial onset
-      (backlog 0.3–0.9 side). ⚠ Mo Re overlay needs 0.4 (mo2023) — deferred.
+      (backlog 0.3–0.9 side). ✅ **Mo Re overlay done** (0.4 dropped): mo2023
+      Fig 8a → Re 0.85–3.85 at SPH conds (`gate_mo_reynolds_overlay`); §5.2 now
+      shows all three (backlog Fo~0.3–0.9, wadsworth Fo_F 0.016–0.064, Mo Re
+      0.84–3.86) side by side — NOT interchangeable. k₁-units caveat (§5.3) carried.
 
 ## Sprint 3 — extraction anchors (CC) [1.3 + 1.4, both S; needs D2/D3]
 - [x] 1.3 liang2021 kernels — K·E_max=0.215 refit; E_oven kernel;
@@ -146,10 +149,12 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
       post-fit MAPE, grudeva→vials post-fit, liang→cameron §5.5 independent).
       **§5.6 settled**: Waszkiewicz TDS early/peak=0.968 → **near-instant
       dissolution** (vs cameron diffusion-limited; τ_boulder≈23 s).
-      ⚠ egidi bracket pending intake (0.3). Cameron's flux/microstructure data
-      (**SI Tables S1–S5**, not the mythical "Tables 2/7/8" — corrected 2026-07-11)
-      is already transcribed in `extraction_bdf.py`, and cameron is gated on its
-      mass-budget check — **no drop needed**; a Fig. 5 EY-curve gate is optional.
+      ✅ **egidi bracket done** (0.3 dropped): `data/egidi2024/table2` + harness +
+      `gate_egidi_bracket` — RC-1 EY bracket 19.1–22.6%; cameron reads ~15%
+      (below the bracket — documented, reported not asserted). Cameron's own
+      flux/microstructure data (**SI Tables S1–S5**, not "Tables 2/7/8") is in
+      `extraction_bdf.py` and cameron is gated on its mass budget — no drop needed
+      there; a Fig. 5 EY-curve gate is still optional.
 - [x] P3 hypothesis file (2.3, docs part): `docs/P3_hypotheses.md` — the
       5-hypothesis registry with current component/harness evidence.
 - [ ] CHAT: results workup + P3 verdict (which mechanism survives)  *(not-CC)*

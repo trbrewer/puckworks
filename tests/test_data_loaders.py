@@ -124,6 +124,16 @@ def test_foster_machine_mode():
     assert any(r["s_data_mm"] != "" for r in pwdata.foster_fig12_14_curves())
 
 
+def test_mo2023_and_egidi_load():
+    fr = pwdata.mo2023_forchheimer()
+    assert len(fr) == 24 and {r["type"] for r in fr} == {"E", "H", "M", "F"}
+    assert len(pwdata.mo2023_fig8a()) > 5
+    eg = pwdata.egidi_table2()
+    assert len(eg) == 12
+    ey = [r["EY [%]"] for r in eg]
+    assert 19.0 <= min(ey) and max(ey) <= 23.0
+
+
 def test_schmieder_raw_fractions_and_rsm():
     frac = pwdata.schmieder_raw_fractions()
     assert len(frac) == 288 and frac[0]["fraction"] == 1.0
