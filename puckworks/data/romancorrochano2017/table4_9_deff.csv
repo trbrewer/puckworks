@@ -1,0 +1,17 @@
+# Source: Roman-Corrochano (2017) PhD thesis, Table 4.9 (printed p.153)
+# Estimated effective diffusion coefficients Deff at 80 C for the proposed MW categories
+# Feeds: Section 3.5 bed gate
+# All Deff values are x10^-11 m^2/s (multiply the number by 1e-11). Uncertainty +/- 1 std.
+# Grinds PsiA..PsiH are Blend 1 (regular roast & ground); grind PsiG is not reported in the thesis.
+# Flakes = Blend 2. Rows 9La / 5La are Blend 3 (decaffeinated, two roast colours L*) and have no reported uncertainty.
+grind,blend,Deff_low_x1e-11,Deff_low_err,Deff_med_x1e-11,Deff_med_err,Deff_high_x1e-11,Deff_high_err,Deff_vhigh_x1e-11,Deff_vhigh_err
+PsiA,Blend1,37.0,17.5,10.6,5.0,3.7,1.7,0.16,0.075
+PsiB,Blend1,29.5,8.5,8.5,2.5,2.9,0.8,0.13,0.036
+PsiC,Blend1,28.6,5.1,8.2,1.5,2.8,0.5,0.12,0.022
+PsiD,Blend1,24.7,5.9,7.1,1.7,2.5,0.6,0.11,0.025
+PsiE,Blend1,25.6,2.5,7.3,0.7,2.5,0.2,0.11,0.011
+PsiF,Blend1,21.8,4.5,6.3,1.3,2.2,0.4,0.093,0.019
+PsiH,Blend1,19.2,1.8,5.5,0.5,1.9,0.2,0.082,0.0076
+Flakes,Blend2,18.5,3.2,5.3,0.9,1.8,0.3,0.079,0.014
+9La,Blend3,13.8,,4.0,,1.4,,0.059,
+5La,Blend3,15.3,,4.4,,1.5,,0.066,

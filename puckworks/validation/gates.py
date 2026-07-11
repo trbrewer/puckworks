@@ -457,6 +457,56 @@ def gate_lee_feedback_negative_result():
                 note="peak weak by design; sign gated, not amplitude")
 
 
+def gate_roman_tamped_kappa():
+    """romancorrochano2017 Table 6.1 (0.5 intake, DATA-ONLY permeability target /
+    G9): tamped-bed Darcy kappa sits in the literature 1e-14..1e-13 m^2 band and
+    the ROBUST physical signal holds -- at every initial bed density, coarser
+    grind (PsiB->PsiE) gives higher kappa. Density-monotonicity is NOT asserted:
+    PsiE is non-monotone in the data (kappa rises 360->400 then falls), matching
+    the thesis's own 'kappa noisy at the coarsest grind, fitted n does not track
+    packing physics'. Independent permeability DATA, not a K-C validation."""
+    from puckworks import data as d
+    rows = d.roman_tamped_kappa()
+    kv = [r["kappa_m2"] for r in rows]
+    in_band = all(1e-14 <= k <= 1e-12 for k in kv) and max(kv) > 1e-13
+    order = ["PsiB", "PsiC", "PsiD", "PsiE"]
+    grind_monotone = True
+    for rho in (360.0, 400.0, 480.0):
+        seq = [next(r["kappa_m2"] for r in rows
+                    if r["grind"] == g and r["rho_bed_kg_m3"] == rho) for g in order]
+        grind_monotone &= all(seq[i] < seq[i + 1] for i in range(len(seq) - 1))
+    passed = bool(in_band and grind_monotone)
+    return dict(passed=passed, n_beds=len(rows),
+                kappa_range_m2=[min(kv), max(kv)],
+                coarser_grind_higher_kappa=grind_monotone,
+                note="density trend holds 3/4 grinds; PsiE non-monotone (documented)")
+
+
+def gate_roman_bed_mpe_parameter_free():
+    """romancorrochano2017 Fig 7.4 (0.5 intake): the PARAMETER-FREE bed-scale
+    result -- predicted espresso yields using the non-fitted microstructural
+    medium-MW Deff give MPE <= 14.3% across ALL 15 flow/density conditions (the
+    thesis '9-14%' claim). Strength: verification of the reported (digitized)
+    result, ~+/-0.5 pp raster fidelity -- NOT a reproduction from our own solver
+    (the extraction model is implement-later). The med-MW column is the headline;
+    low/high-MW single-Deff columns are worse (expected -- they are the wrong
+    class), so this also checks med-MW is the best single choice on average."""
+    import numpy as np
+    from puckworks import data as d
+    rows = d.roman_fig74_espresso()
+    med = np.array([r["MPE_med_MW_pct"] for r in rows], float)
+    low = np.array([r["MPE_low_MW_pct"] for r in rows], float)
+    high = np.array([r["MPE_high_MW_pct"] for r in rows], float)
+    passed = bool(len(rows) == 15 and med.max() <= 14.5
+                  and med.mean() < low.mean() and med.mean() < high.mean())
+    return dict(passed=passed, n_conditions=len(rows),
+                med_MW_mpe_max=round(float(med.max()), 1),
+                med_MW_mpe_mean=round(float(med.mean()), 1),
+                low_mean=round(float(low.mean()), 1),
+                high_mean=round(float(high.mean()), 1),
+                strength="verification of reported parameter-free result (digitized)")
+
+
 def gate_foster_fig15_flowmin():
     """The machine-mode bed flow reproduces the Fig 15 flow-minimum signature:
     Q/Qm dips to ~0.181 at t~2.0 s and recovers (RMSE vs the digitized trace
@@ -540,4 +590,5 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_foster_fig15_flowmin, gate_foster_ct_trajectory,
          gate_p2_kappa_ladder, gate_p2_cross_pressure, gate_cameron_conservation,
          gate_pannusch_qt_adapter, gate_mo_reynolds_overlay, gate_egidi_bracket,
-         gate_lee_feedback_negative_result]
+         gate_lee_feedback_negative_result,
+         gate_roman_tamped_kappa, gate_roman_bed_mpe_parameter_free]

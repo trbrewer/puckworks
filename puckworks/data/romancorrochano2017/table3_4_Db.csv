@@ -1,0 +1,9 @@
+# Source: Roman-Corrochano (2017) PhD thesis, Table 3.4 (printed p.78)
+# Derived bulk diffusion coefficient Db at 80 C for the three representative MW categories
+# Feeds: Section 3.5. Db estimated via Stokes-Einstein (Eq. 3.11). rh = hydrodynamic radius.
+# Db in m^2/s at 80 C. Very-high-MW is a range.
+mw_category,representative_compound,Db_m2_s,Db_m2_s_low,Db_m2_s_high,reference
+low,Caffeine,18.9e-10,,,Poling et al. 2008
+medium-high,Galactomannans DP=20,54.3e-11,,,this work; rh from Mazeau & Rinaudo 2004
+high,Galactomannans DP=45,18.7e-11,,,this work; rh from Mazeau & Rinaudo 2004
+very-high,,,7.7e-12,8.5e-12,this work; rh derived from DLS

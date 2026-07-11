@@ -1,0 +1,14 @@
+# Source: Roman-Corrochano (2017) PhD thesis. Joined from Table 4.8 (Hm, p.152),
+#   Table 4.7 (particle tortuosity, p.158) and Table 4.6 (particle porosity, p.126).
+# Feeds: Section 3.5 Deff <-> microstructure.
+# NOTE: The thesis Table 4.8 itself contains ONLY Hm keyed by blend (not tau/epsilon, and not the
+#   PsiB..PsiH grind ladder). tau_particle and epsilon come from Tables 4.7 and 4.6 respectively.
+#   This file joins all three, keyed by blend, to give the requested Hm / tau_particle / eps_total.
+# Consistency check holds: Hm ~= tau_particle / eps_total (e.g. 4.2/0.57 = 7.4 ~ 7.6).
+# tau_particle from CPSM (corrected pore-size model). Rows marked hg_single were estimated from a
+#   single mercury-porosimetry measurement (no uncertainty reported).
+blend,label,Hm,Hm_err,tau_particle_CPSM,tau_err,eps_open,eps_open_err,eps_closed,eps_closed_err,eps_total,eps_total_err,note
+Blend1,PsiE,7.6,1.8,4.2,0.4,0.43,0.03,0.14,0.01,0.57,0.03,
+Blend2,Flaked coffee,10.2,1.8,4.0,0.3,0.39,0.06,0,0,0.39,0.06,
+Blend3,decaf 9.0 L*,13.6,,6.7,,0.35,,0.14,,0.49,,hg_single
+Blend3,decaf 5.5 L*,12.4,,6.9,,0.39,,0.17,,0.56,,hg_single

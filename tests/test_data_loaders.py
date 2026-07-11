@@ -143,3 +143,26 @@ def test_schmieder_raw_fractions_and_rsm():
     t11 = [r for r in rsm if r["component"] == "Trigonelline"
            and r["brew_ratio"] == "1/1"][0]
     assert abs(t11["beta0"] - 185.8) < 1e-6
+
+
+def test_romancorrochano2017_intake():
+    # Table 6.1 tamped permeability: 12 beds, literature 1e-14..1e-13 band,
+    # coarser grind -> higher kappa at every density (robust physical signal).
+    k = pwdata.roman_tamped_kappa()
+    assert len(k) == 12
+    kv = [r["kappa_m2"] for r in k]
+    assert 1e-14 <= min(kv) and max(kv) <= 1e-12
+    order = ["PsiB", "PsiC", "PsiD", "PsiE"]
+    for rho in (360.0, 400.0, 480.0):
+        seq = [next(r["kappa_m2"] for r in k
+                    if r["grind"] == g and r["rho_bed_kg_m3"] == rho) for g in order]
+        assert all(seq[i] < seq[i + 1] for i in range(3))
+    # Deff map + partition K(T) monotone in T
+    assert len(pwdata.roman_deff()) == 10
+    ktab = pwdata.roman_partition_K()
+    kbyT = {r["T_degC"]: r["K"] for r in ktab}
+    assert kbyT[20.0] < kbyT[50.0] < kbyT[80.0]
+    # Fig 7.4 parameter-free bed MPE: 15 conditions, med-MW <= 14.5%
+    f74 = pwdata.roman_fig74_espresso()
+    assert len(f74) == 15
+    assert max(r["MPE_med_MW_pct"] for r in f74) <= 14.5

@@ -1,0 +1,26 @@
+# Source: Roman-Corrochano (2017) PhD thesis, Figure 7.4 (printed p.283, MPE bars, DIGITISED from raster)
+#   joined with the espresso condition metadata from Table 7.1 (p.276) and Table 7.2 (p.279).
+# Feeds: the parameter-free <=14% bed gate.
+# THE BED GATE: MPE_med_MW_pct is the parameter-free result (no parameters fitted to the bed-scale
+#   data). Across all 15 conditions it lies in 8.6-14.3% -> the thesis "9-14%" / <=14% gate.
+# MPE columns (Low/Med/High MW single-Deff) digitised from Fig 7.4; y-axis max = 30% (ticks 0..30).
+#   Fidelity approx +/- 0.5 pp. All other columns are exact from Tables 7.1/7.2.
+# Qave = average flow rate (x10^-6 m^3/s, +/- 1 std). rho_bed in kg/m^3. regime: HF=high flow, LF=low flow.
+# Tave = average bed temperature (C, +/- 1 std). K = solid-liquid partition coeff (from ln K = -657/T + 1.4).
+# Deff_* = x10^-11 m^2/s at Tave (Stokes-Einstein corrected).
+exp,grind,rho_bed_kg_m3,regime,Qave_x1e-6_m3_s,Qave_err,Tave_degC,Tave_err,K,Deff_low_x1e-11,Deff_med_x1e-11,Deff_high_x1e-11,MPE_low_MW_pct,MPE_med_MW_pct,MPE_high_MW_pct
+1,PsiB,480,LF,1.2,0.3,72.0,3.2,0.61,25.9,7.4,2.6,10.3,11.1,12.9
+2,PsiB,400,HF,3.1,0.6,80.1,2.4,0.64,29.6,8.5,2.9,15.7,14.3,13.4
+3,PsiB,400,LF,1.0,0.2,75.8,0.7,0.62,27.6,7.9,2.7,9.4,10.0,12.1
+4,PsiC,480,HF,3.3,0.7,77.9,3.2,0.63,27.6,7.9,2.7,12.2,11.2,17.5
+5,PsiC,480,LF,1.3,0.3,76.0,1.3,0.63,27.8,7.7,2.7,11.4,10.3,11.7
+6,PsiC,400,HF,3.1,0.6,82.4,0.6,0.64,29.6,8.5,2.9,15.0,11.3,16.4
+7,PsiC,400,LF,1.2,0.2,74.6,2.6,0.62,26.2,7.5,2.6,7.6,10.1,18.5
+8,PsiD,480,HF,3.7,0.7,82.8,1.0,0.65,25.9,7.4,2.6,15.3,10.1,25.1
+9,PsiD,480,LF,1.3,0.3,77.3,0.6,0.63,23.7,6.8,2.4,12.9,10.1,18.3
+10,PsiD,400,HF,3.9,0.6,83.1,0.6,0.65,26.0,7.4,2.6,13.6,9.9,27.4
+11,PsiD,400,LF,1.5,0.2,79.9,1.2,0.64,24.7,7.1,2.5,13.5,11.5,19.2
+12,PsiE,480,HF,3.6,0.9,80.3,1.1,0.64,25.7,7.4,2.5,20.7,8.6,26.0
+13,PsiE,480,LF,1.0,0.5,72.3,2.7,0.61,22.5,6.5,2.2,12.0,8.8,23.7
+14,PsiE,400,HF,3.8,0.5,85.4,0.8,0.65,27.8,8.0,2.8,17.2,11.3,29.6
+15,PsiE,400,LF,1.7,0.2,80.2,2.6,0.64,25.6,7.4,2.5,18.1,14.3,21.9

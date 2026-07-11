@@ -1,0 +1,14 @@
+# Source: Roman-Corrochano (2017) PhD thesis, Figure 5.13 (printed p.198) -- DIGITISED from raster.
+# MPE between model and experimental stirred-vessel data (Fig 5.12), three weighting scenarios:
+#   best_single_Deff  = single Deff (per Fig 5.11 optimum)
+#   multiple_Deff_1   = 4-Deff ensemble weighted by dialysis fractions (68.3% low MW, Table 5.5)
+#   multiple_Deff_2   = 4-Deff ensemble weighted by diafiltration fractions (84.5% low MW, Table 5.5)
+# Feeds: stirred-vessel target -> the ~5-8% MPE (4-Deff / multiple case). Multiple-Deff drops MPE
+#   by ~50% vs best single (thesis text). Fidelity: approx +/- 0.5 pp (raster digitisation).
+grind,best_single_Deff_pct,multiple_Deff_1_pct,multiple_Deff_2_pct
+PsiB,6.3,7.8,10.3
+PsiE,5.4,3.4,2.4
+PsiF,11.6,6.2,2.8
+PsiG,15.3,5.0,4.5
+PsiH,16.1,7.3,12.3
+Flakes,14.4,7.1,10.7

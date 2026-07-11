@@ -37,6 +37,20 @@ def _typed_rows(path):
     return [{k: conv(v) for k, v in r.items()} for r in _rows(path)]
 
 
+def _typed_rows_hashskip(path):
+    """Like _typed_rows but skips leading `#` comment/provenance lines (the
+    romancorrochano2017 drop carries provenance headers on every file)."""
+    def conv(v):
+        try:
+            return float(v)
+        except (ValueError, TypeError):
+            return v
+    with open(path, newline="", encoding="utf-8-sig") as fh:
+        body = (ln for ln in fh if not ln.lstrip().startswith("#"))
+        rows = list(csv.DictReader(body))
+    return [{k: conv(v) for k, v in r.items()} for r in rows]
+
+
 # --- waszkiewicz2025 (ROADMAP 0.2) ---------------------------------------
 WASZ = DATA_DIR / "waszkiewicz2025"
 
@@ -272,3 +286,69 @@ def egidi_table2():
     RC-1 EY/TDS *range bracket* (not a pressure/T response test — p,T are
     absorbed into q,tau in the egidi model)."""
     return _typed_rows(EGIDI / "table2_egidi2024_tds_ey.csv")
+
+
+# --- romancorrochano2017 (ROADMAP 0.5), EngD thesis --------------------------
+# Multi-scale extraction (implement-later) + tamped permeability (DATA-ONLY: the
+# K-C closures are lower-fidelity than the registered wadsworth2026.inertial, so
+# Table 6.1 serves as a permeability validation TARGET / G9, not a component).
+RC17 = DATA_DIR / "romancorrochano2017"
+
+
+def roman_tamped_kappa():
+    """Table 6.1: steady-state Darcy permeability kappa [m^2] on fully-extracted,
+    tamped/consolidated espresso beds -- 4 grinds (PsiB-PsiE) x 3 initial bed
+    densities (360/400/480 kg/m^3), with +/-1 SD and ANOVA/Tukey sig letters.
+    G9 permeability target + §5.5. NOT a K-C validation (permeability card)."""
+    return _typed_rows_hashskip(RC17 / "table6_1_tamped_kappa.csv")
+
+
+def roman_deff():
+    """Table 4.9: microstructural (non-fitted) effective diffusion coefficients
+    Deff [x1e-11 m^2/s, 80 C] per grind x 4 MW classes (low/med/high/vhigh)."""
+    return _typed_rows_hashskip(RC17 / "table4_9_deff.csv")
+
+
+def roman_partition_K():
+    """Table 4.10: solid-liquid partition K vs T (Arrhenius ln K = -657/T + 1.4,
+    R^2=0.91); swelling factor S=1 (none observed)."""
+    return _typed_rows_hashskip(RC17 / "table4_10_partition_K.csv")
+
+
+def roman_hindrance():
+    """Tables 4.8/4.7/4.6 joined: microstructural hindrance Hm, particle
+    tortuosity (CPSM), and particle porosity (open/closed/total) per blend."""
+    return _typed_rows_hashskip(RC17 / "table4_8_hindrance.csv")
+
+
+def roman_Db():
+    """Table 3.4: bulk diffusion coefficient Db [m^2/s, 80 C] per MW category
+    (Stokes-Einstein)."""
+    return _typed_rows_hashskip(RC17 / "table3_4_Db.csv")
+
+
+def roman_mpe_table53():
+    """Table 5.3: stirred-vessel MPE per grind (single Deff fitted to all grinds
+    jointly vs each grind individually; NOT the 1-Deff-vs-4-Deff comparison --
+    that is Figs 5.11/5.13)."""
+    return _typed_rows_hashskip(RC17 / "table5_3_mpe.csv")
+
+
+def roman_fig511_mpe():
+    """Fig 5.11 (digitized): stirred-vessel MPE using a SINGLE Deff per MW class,
+    per grind. ~+/-0.5 pp raster fidelity."""
+    return _typed_rows_hashskip(RC17 / "fig5_11_mpe_single_deff.csv")
+
+
+def roman_fig513_mpe():
+    """Fig 5.13 (digitized): stirred-vessel MPE for best-single vs two 4-Deff
+    ensemble weightings -- the ~5-8% multiple-Deff numbers. ~+/-0.5 pp."""
+    return _typed_rows_hashskip(RC17 / "fig5_13_mpe_scenarios.csv")
+
+
+def roman_fig74_espresso():
+    """Fig 7.4 (digitized MPE) joined with Tables 7.1/7.2 (exact conditions): the
+    15 espresso flow/density conditions with Deff/K metadata and the
+    PARAMETER-FREE bed-scale MPE. MPE_med_MW_pct is the headline non-fitted
+    result (8.6-14.3% across all 15) -> the thesis '9-14%' / <=14% bed gate."""
+    return _typed_rows_hashskip(RC17 / "fig7_4_mpe_espresso.csv")

@@ -1,0 +1,16 @@
+# Source: Roman-Corrochano (2017) PhD thesis, Table 5.3 (printed p.183)
+# MPE between simulation and experimental points, Deff fitted via the "early times" approach and d[4,3]
+# Feeds: Section 3.5 stirred-vessel target.
+# NOTE ON SCOPE: the thesis Table 5.3 is keyed by GRIND (not MW-class) and its two columns are
+#   MPE using a single Deff fitted to ALL grinds jointly vs. a single Deff fitted to each grind
+#   INDIVIDUALLY. It is NOT the "1-Deff vs 4-Deff" comparison. The 1-Deff (best single) vs 4-Deff
+#   (multiple) comparison you referenced is the digitised Fig 5.11 / Fig 5.13 (see fig5_11_ and
+#   fig5_13_ files); that is where the ~5-8% (4-Deff / multiple-Deff) numbers live.
+# "NA" = dash in the thesis (PsiB and Flakes were not part of the all-grinds fit).
+grind,MPE_all_grinds_pct,MPE_individual_grind_pct
+PsiB,NA,10.6
+PsiE,5.8,5.8
+PsiF,7.6,6.4
+PsiG,9.3,8.1
+PsiH,14.6,14.8
+Flakes,NA,16.7

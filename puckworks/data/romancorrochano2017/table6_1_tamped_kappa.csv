@@ -1,0 +1,17 @@
+# Source: Roman-Corrochano (2017) PhD thesis, Table 6.1 (printed p.227)
+# Experimental permeability kappa from Darcy's law + measured flow-rate/pressure-drop data
+# Feeds: G9 permeability + Section 5.5
+# kappa in m^2. Uncertainty is +/- 1 std. Significance letters: different letters = significant difference across grind and rho_bed (ANOVA + Tukey, alpha=0.05)
+grind,rho_bed_kg_m3,kappa_m2,kappa_err_m2,sig_letter
+PsiB,360,7.7e-14,0.8e-14,"a,b"
+PsiB,400,4.9e-14,0.3e-14,c
+PsiB,480,2.6e-14,0.3e-14,d
+PsiC,360,1.4e-13,0.1e-13,e
+PsiC,400,1.2e-13,0.1e-13,e
+PsiC,480,4.9e-14,0.1e-14,c
+PsiD,360,2.4e-13,0.3e-13,f
+PsiD,400,1.9e-13,0.1e-13,f
+PsiD,480,6.4e-14,0.4e-14,b
+PsiE,360,3.4e-13,0.4e-13,h
+PsiE,400,4.4e-13,0.4e-13,g
+PsiE,480,9.00e-14,0.8e-14,a

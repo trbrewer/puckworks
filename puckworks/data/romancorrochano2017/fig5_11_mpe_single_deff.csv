@@ -1,0 +1,15 @@
+# Source: Roman-Corrochano (2017) PhD thesis, Figure 5.11 (printed p.194) -- DIGITISED from raster.
+# Mean Percentage Error (MPE) between model and experimental stirred-vessel data (Fig 5.10),
+#   using a SINGLE Deff drawn from each MW category, per grind.
+# Feeds: stirred-vessel / recompute-MPE workflow (1-Deff case).
+# Y-axis calibrated to max = 80% (OCR-confirmed ticks 0/20/40/60/80). Values read by pixel analysis.
+# Cross-validation: the minimum-MPE category per grind reproduces Fig 5.13 "best single Deff"
+#   within ~0.2 pp (best single = Med MW for E,F,G,H,Flakes; = High MW for PsiB), matching the
+#   thesis text. Fidelity: approx +/- 0.5 pp (raster digitisation).
+grind,MPE_low_MW_pct,MPE_med_MW_pct,MPE_high_MW_pct,MPE_vhigh_MW_pct
+PsiB,12.5,10.8,6.2,25.0
+PsiE,5.5,5.3,13.9,53.1
+PsiF,4.7,11.5,20.2,61.3
+PsiG,8.0,15.1,25.1,68.1
+PsiH,18.3,15.9,32.2,79.0
+Flakes,16.5,14.1,23.9,57.3

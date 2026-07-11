@@ -1,0 +1,7 @@
+# Source: Roman-Corrochano (2017) PhD thesis, Table 4.10 (printed p.155)
+# Solid-liquid partition coefficient K from equilibrium data, swelling factor S = 1
+# Feeds: Section 3.5 K(T). Arrhenius fit: ln(K) = -657*(1/T) + 1.4, R^2 = 0.91 (T in K)
+T_degC,K,swelling_factor_S
+80,0.61,1
+50,0.57,1
+20,0.42,1
