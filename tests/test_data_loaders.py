@@ -249,3 +249,18 @@ def test_mo2023_2_swelling_model():
     # swelling shrinks porosity and flow decays monotonically
     fd = sw.flow_decay("E", np.linspace(0, 60, 30))
     assert fd["eps_b"][-1] < 0.10 and np.all(np.diff(fd["q_rel"]) <= 1e-9)
+
+
+def test_fasano_partI_freeboundary_model():
+    import numpy as np
+    from puckworks.models.fasano2000_partI import fines_migration as fm
+    b1 = fm.beta_from_fig87("beta1")
+    r = fm.simulate(1.0, b1)
+    assert np.all(np.abs(r["mass_balance"] - 1.0) < 0.01)   # Eq 8.33
+    assert np.all(np.diff(r["q"]) <= 1e-6)                   # Lemma 8.3 monotone
+    assert np.all(r["s"] >= fm.s_min() - 1e-6)               # Lemma 8.1
+    # nonmonotone q_inf(p0) with interior peak (Fig 8.6 shape)
+    p0 = np.arange(0.2, 1.21, 0.2)
+    Q = fm.q_infinity_curve(p0, b1)
+    ip = int(np.argmax(Q))
+    assert 0 < ip < len(p0) - 1 and Q[ip] > Q[0] and Q[ip] > Q[-1]

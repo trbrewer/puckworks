@@ -127,6 +127,29 @@ register(Component(
           "two-population limit is a DEFERRED future gate (card gate design 2)"))
 
 register(Component(
+    name="fasano2000_partI.fines_migration", stage="bed_dynamics", kind="calibration",
+    paper="Fasano, Talamucci & Petracco, 'The Espresso Coffee Problem,' ch.8 in "
+          "Complex Flows in Industrial Processes, Springer (2000)", doi="",
+    module="puckworks.models.fasano2000_partI.fines_migration",
+    gates=[G.gate_fasano_freeboundary, G.gate_fasano_cor82_nonmonotone,
+           G.gate_fasano_reversal_signature],
+    assumptions="fasano-STRUCTURED (NOT a port): the paper leaves K(b,m), M, gamma "
+                "unpublished, so OUR closures are used (R(u)=1+u, M=5, R_c=50, mu=0.5) "
+                "with the digitized Fig 8.7 beta(q). 1D saturated free-boundary "
+                "fines migration: release (8.16) -> advection (8.23) -> compact-layer "
+                "growth (8.19) -> Darcy flux closure (8.25); Landau-mapped MOL",
+    valid_range="MECHANISM demonstration / verification strength ONLY (the card's own "
+                "level for the source). Reproduces the STRUCTURE: mass balance 8.33 "
+                "closed <1%, q(t) monotone-nonincreasing (Lemma 8.3), s>=s_m (Lemma "
+                "8.1), nonmonotone q_inf(p0) with interior peak (Fig 8.6 shape). Does "
+                "NOT reproduce their exact curve (closures unpublished); enters by GATE "
+                "not inheritance, like RC-3b. No espresso-data fit possible",
+    notes="the compaction/counter-migration branch of the kappa(t) backlog (complements "
+          "mo2023_2 swelling + lee2023 extraction branches). q_inf(p0) peaks at p0~0.6 "
+          "from release->compaction->resistance feedback. Fig 8.6 peak-tracks-beta-knee "
+          "(Cor 8.2) verified at DATA level by gate_fasano_cor82_nonmonotone"))
+
+register(Component(
     name="mo2023_2.swelling", stage="bed_dynamics", kind="runtime",
     paper="Mo, Navarini, Suggi Liverani & Ellero, 'Modelling swelling effects in real "
           "espresso extraction using a 1-D coarse-grained model,' J. Food Eng. (2023)",

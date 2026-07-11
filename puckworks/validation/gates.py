@@ -607,6 +607,34 @@ def gate_fasano_cor82_nonmonotone():
                 strength="qualitative/structural (Cor. 8.2; digitized, not a model twin)")
 
 
+def gate_fasano_freeboundary():
+    """fasano2000_partI (3.3) MODEL gate: the fasano-STRUCTURED free-boundary
+    fines-migration solver (our closures + the digitized Fig 8.7 beta(q)) exhibits
+    the paper's analytic structure -- (Eq 8.33) the global mass balance stays
+    closed to <1%; (Lemma 8.3) q(t) is monotone nonincreasing; (Lemma 8.1) the
+    free boundary respects s(t) >= s_m = 1-(1+m0)/M; and q_inf(p0) is NONMONOTONE
+    with an interior peak (rise -> peak -> decline), the release->compaction->
+    resistance feedback behind Fig 8.6. Verification of the structure, NOT a
+    reproduction of their curve (closures K,M,gamma are unpublished)."""
+    import numpy as np
+    from puckworks.models.fasano2000_partI import fines_migration as fm
+    b1 = fm.beta_from_fig87("beta1")
+    r = fm.simulate(1.0, b1)
+    mass_ok = bool(np.all(np.abs(r["mass_balance"] - 1.0) < 0.01))
+    monotone = bool(np.all(np.diff(r["q"]) <= 1e-6))
+    bound_ok = bool(np.all(r["s"] >= fm.s_min() - 1e-6))
+    p0 = np.arange(0.2, 1.21, 0.2)
+    Q = fm.q_infinity_curve(p0, b1)
+    ip = int(np.argmax(Q))
+    peaked = bool(0 < ip < len(p0) - 1 and Q[ip] > Q[0] and Q[ip] > Q[-1])
+    passed = bool(mass_ok and monotone and bound_ok and peaked)
+    return dict(passed=passed, mass_balance_closed=mass_ok, q_monotone=monotone,
+                s_bound_ok=bound_ok, qinf_peaked=peaked,
+                q0=round(float(r["q"][0]), 3), qinf=round(float(r["q"][-1]), 4),
+                s_min=round(fm.s_min(), 3), qinf_peak_p0=round(float(p0[ip]), 2),
+                note="fasano-STRUCTURED (our closures); mechanism, not their curve")
+
+
 def gate_fasano_reversal_signature():
     """fasano2000_partI Fig 8.4 (0.12 intake): the direct/inverse reversal test --
     segment 1 (direct) and segment 3 (chamber INVERTED) both replay a large
@@ -823,4 +851,5 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_roman_bed_flow_trend,
          gate_mo2_k0_carman_kozeny, gate_mo2_fixed_flow_trends,
          gate_mo2_swelling_flow_decay,
-         gate_fasano_cor82_nonmonotone, gate_fasano_reversal_signature]
+         gate_fasano_cor82_nonmonotone, gate_fasano_reversal_signature,
+         gate_fasano_freeboundary]
