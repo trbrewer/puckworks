@@ -1,0 +1,130 @@
+# Model card: Grudeva infiltration-coupled extraction (merged card of record)
+
+**Paper/thesis:** (S1) Y. Grudeva, "Espresso brewing: mathematical modelling & experiment," PhD thesis, University of Portsmouth, 2023 (PDF finalised May 2024), supervisor J. M. Foster; no DOI. (S2) Grudeva, Moroney & Foster, "A multiscale model for espresso brewing: Asymptotic analysis and numerical simulation," Eur. J. Appl. Math. 37, 496–519 (2026), first published online 27 May 2025, DOI 10.1017/S095679252500018X, open access, with supplementary material (S2-sup). Reference code: reduced-model solver, Python, https://github.com/YoanaGrudeva/espresso-model.
+**Stage(s):** infiltration, extraction; observables (vial-splitting kernel S1 Eqs. 6.15–6.16) · **Kind:** runtime
+**Status:** proposed — this card supersedes and retires `grudeva2023.md` and `grudeva2026.md` (ROADMAP item 1.7a). Equation numbers cite S2 unless prefixed.
+
+One card, one model: S1 and S2 present the same physics; S2 is the refereed, condensed derivation, S1 adds the experiment (Ch. 2), the fixed-pressure/κ closure (§6.3.1), the observables kernel, mass-conservation/grid-convergence checks, and the vial comparison (§6.3). Where the printed equations disagree, the adjudicated form below is the model; see RECONCILIATION LOG.
+
+## Scope and mechanism
+
+Pseudo-2D (Newman-style) model of a full espresso shot including the initially dry bed. A sharp wetting front s_w(t) sweeps the bed under Darcy flow, instantaneously filling intergranular pores and boulder internal pores; behind it, two-population (fines/boulders) extraction proceeds via intragranular Fickian diffusion and a saturation-capped linear surface mass-transfer law (Cameron-type). Matched asymptotics in ε = q*_app/(k* L* b*_0) (surface-transfer timescale / wetting timescale; ε ≈ 10⁻²–10⁻³) collapses the wet bed into three regions — (iii) saturated liquid behind the wetting front, (ii) a slender moving fines-depletion layer at the saturation front s_d(t), (i) a slowly extracting boulder-limited region at the inlet — yielding a reduced model ~100× cheaper than the full model. Mechanistic outputs: first drip at t*_w, a saturated exit plateau of duration s_d⁻¹(1) − 1, then monotone decay (blonding). An unsaturated variant (S1 §4.7 / S2-sup §D) replaces the saturated layer when fines are too slow or too soluble-poor. A substantial fraction of extraction occurs during infiltration, so skipping that phase (as cameron2020 does) forces ad hoc initial conditions.
+
+## Governing equations
+
+Implementation target is the **reduced model in its adjudicated form** (= S1 form; see LOG Issue 1). The full dimensionless model (S2 Eqs. 23–29 / S1 3.35–3.42) is retained only as a verification twin. Dimensionless variables: z, s_w, s_d ~ L*; t ~ t*_w = φ_T L*/q*_app; concentrations ~ c*_sat; q ~ q*_app. Symbols: c_l, c_f, c_b solute concentrations in liquid (per liquid volume) and grains (per grain volume, boulders incl. internal pores); φ_l, φ_f, φ_b bed volume fractions; ϕ_lb boulder internal porosity; φ_T = φ_l + φ_b ϕ_lb; a*_i grain radii; b*_i = 3φ_i/a*_i (S2 Eq. 4); Q_f (S2 convention) = φ_T/(a*_f b*_f) = φ_T/(3φ_f); D_sb = D*_sb t*_w/a*_b².
+
+1. **Wetting front, fixed flow** (S2 Eq. 8): s_w(t) = t for t ≤ 1, s_w = 1 after; first drip at t = 1. **Fixed pressure** (S1 6.12–6.13 / S2-sup §A): s*_w = √(2κ*P*_app t*/(φ_T μ*)), q* = (κ*P*_app φ_T/(2μ*t*))^½; κ* fitted from first-drip time via S1 Eq. 6.14, κ* = φ_T L*² μ*/(2 P*_app t*_drip). Post-drip q(t) is imposed from data (S1: linear fit); the rising-flow mechanism is explicitly unmodelled.
+2. **Saturation-front ODE** (S1 4.49; S2 Eq. 74 with the spurious ε struck — LOG Issue 1), valid until s_d = 1:
+   ds_d/dt = q(t) [ φ_l/φ_T + (1/(3Q_f)) · (c_f,init − c_l|_{z=s_d}) / (1 − c_l|_{z=s_d}) ]⁻¹, s_d(0) = 0.
+3. **Region (i) liquid transport** (S1 4.42; S2 Eq. 67 corrected): (φ_l/φ_T + 1/(3Q_f)) ∂c_l/∂t + q ∂c_l/∂z = G_b, c_l|_{z=0} = 0; along characteristics (S1 4.47–4.48; S2 72–73 corrected): χ = z, τ = t − (1/q)(φ_l/φ_T + 1/(3Q_f)) z, ∂c̃/∂χ = G̃_b/q, c̃|_{χ=0} = 0.
+4. **Boulder surface flux, analytic series** (S2 Eq. 71 / S1 4.46), with t₀(z) = s_d⁻¹(z):
+   G_b(z,t) = (2D_sb/Q_b) Σ_{n≥1} e^{−n²π²D_sb(t−t₀)} [ (c_b,init + ϕ_lb − c_l(z,t₀)) − ∫_{t₀}^{t} ċ_l(z,τ) e^{n²π²D_sb τ} dτ ]. Boulder initial condition at front passage: c_b = c_b,init + ϕ_lb (saturated pore fill; S2 Eq. 69 / S1 4.44). Numerically, an incremental convolution or the S2-sup §E.2.2 microscale FD solve replaces direct series summation.
+5. **Exit concentration** (S2 Eq. 75 / S1 4.50): c_exit = 0 for t < 1; = 1 for 1 < t < s_d⁻¹(1); = c̃|_{χ=1} thereafter.
+6. **Regime guard + unsaturated variant** (S2 §4.5; S2-sup §D / S1 §4.7): if s_d > s_w at any time, the saturated layer does not exist; switch to the unsaturated branch (S2-sup D5–D7), in which the region-(ii) balance sits at the wetting front and the boulder pore-fill boost couples to the unknown local c_l (D6). Saturation also requires sufficient fines inventory (c_f,init φ_f able to saturate the liquid).
+7. **Observables kernel** (S1 6.15–6.16): per-vial solubles mass C*_i = A* ∫_{vial i} q*(t*) c*_l|_{z*=L*} dt*; experimental counterpart m*_i = w*_i T_i (vial weight × TDS).
+
+Convention mapping (S1 ↔ S2, pure renames): S1 scales G*_i by b*_0 = (b*_f + b*_b)/2 for both species and defines Q_i = φ_T/(a*_i b*_0); S2 scales per-species (b*_i) and defines Q_i = φ_T/(a*_i b*_i). Hence S1's b_f/(3Q_f) = S2's 1/(3Q_f) = φ_f/φ_T, and S1 4.48's b_b/(qQ_b) factor = S2's 1/q with G per-species scaled. Do not mix conventions.
+
+Terms simplified away by the authors, not by us: boulder supersaturation after pore fill handled by fiat (no solid re-precipitation; S2 §2.5); partition coefficient = 1; D_sf = D_sb assumed (reduced model provably insensitive to D_sf at leading order); no swelling; constant μ, ρ; zero capillary pressure; instantaneous grain-scale wetting; fines non-porous; the t = O(ε) inlet transient unanalysed (argued O(ε) effect on outlet concentration).
+
+## Parameters
+
+Full symbol/value concordance (LOG Issue 2). Source tags follow the sources' own superscripts: fitted / literature / experiment. Two distinct dimensional configurations exist and are carried as **named config alternatives**, not merged: `grudeva_thesis_cafe` (S1 Table 3.1, fitted to the Ch. 2 vial dataset) and `grudeva_paper_nominal` (S2 Table 1, an updated illustrative set; fit dataset unstated — correspondence Q3).
+
+| quantity | S1 sym → S2 sym | S1 value | S2 value | units | source | classification |
+|---|---|---|---|---|---|---|
+| fines volume fraction | ϕf → φf | 0.17 | 0.1–0.25 (range) | – | fitted+lit | refit → range |
+| intergranular porosity | ϕl → φl | 0.15 | 0.1–0.2 (range) | – | fitted+lit | refit → range |
+| boulder internal porosity | ϕlb → ϕlb | 0.4 | 0.35–0.55 (range) | – | fitted+lit | refit → range |
+| boulder fraction | ϕb (derived) | 0.68 | not provided (φl+φf+φb=1) | – | derived | — |
+| grain diffusivity | Ds → D*_sf = D*_sb | 2.30×10⁻¹⁰ | 1×10⁻⁹ | m² s⁻¹ | fitted | refit (4.3×) |
+| liquid eff. diffusivity | Deff → D*_eff | 6.20×10⁻⁸ | 1×10⁻⁸ | m² s⁻¹ | fitted | refit (6×) |
+| boulder init. conc. | cb,0 → c*_b,init | 1.46×10² | 3.1×10² | kg m⁻³ | fitted | refit |
+| fines init. conc. | cf,0 → c*_f,init | 2.50×10² | 3.1×10² | kg m⁻³ | fitted | refit |
+| saturation conc. | csat → c*_sat | 1.70×10² | 2.24×10² | kg m⁻³ | fitted+lit | refit |
+| boulder radius | ab → a*_b | 2.29×10⁻⁴ | same | m | literature (Moroney) | identical |
+| fines radius | af → a*_f | 3.65×10⁻⁶ | same | m | literature (Moroney) | identical |
+| specific surfaces | bb, bf → b*_b, b*_f | 1.00×10⁴ / 6.9×10⁴ | not tabulated (via Eq. 4) | m⁻¹ | literature | **flag:** S1 bf=6.9×10⁴ implies φf≈0.084, inconsistent with S1's φf=0.17 (3φf/af = 1.4×10⁵); bb consistent. Enters Qf via b0, ±~20%. |
+| mass-transfer rate | k → k* | 1×10⁻⁴ | 1×10⁻³ | m s⁻¹ | literature | re-estimate (10×); drives ε 10⁻²→10⁻³ |
+| typical flow | qapp → q*_app | 7.67×10⁻⁴ | 1.52×10⁻³ | m s⁻¹ | fitted | genuine change (different shot config) |
+| viscosity (water, 90 °C) | µ → μ* | 3.15×10⁻⁴ | same | Pa s | literature | identical |
+| bed permeability | κ → κ* | 2.2×10⁻¹⁶ | same | m² | fitted via S1 6.14 | **flag: decade error, adjudicated κ ≈ 2.2×10⁻¹⁵** (LOG Issue 2a) |
+| overpressure | Papp → P*_app | 9.2×10⁻⁶ as printed | same | Pa | experiment | **shared typo for 9.2×10⁵ Pa = 9.2 bar** (S1 §2.1 states 9.2 bar) |
+| bed height | L → L* | 12.43×10⁻³ | 8.4×10⁻³ | m | experiment | genuine change (different basket/dose) |
+| wetting time | tw → t*_w | 5 | 5 | s | experiment | identical; **flag:** S2 triple (q*_app, L*, t*_w) implies φ_T = t_w q/L = 0.905, nonphysical (correspondence Q3). S1 triple implies φ_T ≈ 0.31 vs φ_T = 0.45 used in Table 3.2 — loose but plausible. |
+| ε | ϵ → ε | 1×10⁻² | 1×10⁻³ | – | derived | follows k change |
+
+Dimensionless sets: S1 Table 3.2 (Deff 9.6×10⁻³, Dsf 82, Dsb 2.1×10⁻², Qf 3.12, Qb 4.99×10⁻² [S1 b0-convention, φ_T = 0.45], bf 1.75, bb 0.25, cf,0 1.46, cb,0 1.25) — note S1's "cb,0 = 1.25" is the **post-pore-fill** boulder concentration (146/170 + 0.4 = 1.26), not c*_b,0/c*_sat = 0.86; a definitional quirk, not a typo. S2 Table 2 (Deff 8×10⁻⁴, Dsf 300, Dsb 8×10⁻², Qf 0.104, Qb 0.380, bf 1.99, bb 7.9×10⁻³, c_i,init 1.388, ε 10⁻³) is computed at the **verification composition** (S2 Eq. 76: φf = 0.64, φb = 0.16, φl = 0.2, ϕlb = 0), not at Table 1 ranges — φf = 0.64 is far outside the physical range and ϕlb = 0 is a numerical convenience (LOG Issue 4). Verified arithmetic: Qf, bf, bb, Deff, c_i,init reproduce exactly at that composition; Dsb, Dsf, Qb, ε agree to ~20% (rounding).
+
+## Calibration and validation offered by the source
+
+Configuration ledger (LOG Issue 3). Every experimental/numerical configuration in either source, tagged with the registry validation-strength vocabulary:
+
+| id | source | configuration | measured / compared quantities | role | strength tag |
+|---|---|---|---|---|---|
+| C1 | S1 Ch. 2, §6.3 | La Marzocco Linea Classic 1-group; 18.5 g double, El Fenix Colombia (washed); EK43 setting 2.85–3.1 (nominal 3.0); PUQ press tamp; 9.2 bar line pressure; 32 s from pump start; L = 12.43 mm; basket radius not provided; temperature not provided (μ taken at 90 °C); 16 vials × 2 s, 1–3 mL each; 13 shots (channelled/clogged excluded); VST refractometer, dilution for out-of-range vials; ρ = 1.01 g cm⁻³ | per-vial TDS and mass (Fig. 2.3a,b), per-vial flow rate + linear post-drip fit (Fig. 2.4a,b), t_drip ≈ 5 s (typically vial 3, i.e. 4–6 s) | fits c_f0, c_b0, D_s, c_sat, D_eff, φ's; κ via Eq. 6.14; then Fig. 6.8 per-vial masses reproduced within 1 SD of the 13-shot mean | calibration + **post-fit reconstruction** (never cite as independent) |
+| C2 | S1 §3.9 fn. / S2 §2.7 | first-drip segregation, café-style recipes (details deferred to "forthcoming article") | first-drip concentration recipe-independent ≈ saturation | supports saturated-plateau mechanism | independent (qualitative, unpublished) |
+| V0 | S1 §6.1, Figs 6.1–6.3 | full model, MATLAB ode15s, N = 100, M = 20 | mass conservation (exact in grains via CV; small FE leakage in liquid); grid convergence order 2–3 vs N = 120 | numerical self-consistency | verification |
+| V1 | S1 §6.2 Figs 6.4–6.6 ≡ S2 §5 Figs 3–5 (shared config) | φf = 0.64, φb = 0.16, φl = 0.2, ϕlb = 0, c_f,init = c_b,init = 1.388, D_sf = 1/ε, D_sb = 1, ε swept 10⁻² → 2.5×10⁻³ (S2 Fig. 5), snapshots t = 0.4, 3.2, 4.8, 6.4; s_d⁻¹(1) ≈ 6.4; ~10 s reduced vs ~1000 s full at 3-digit accuracy | reduced-vs-full liquid profiles, outlet trace, MSE error decreasing with ε; reduced-model error one-signed (over-predicts extraction rate) | asymptotic verification at **nonphysical composition** | verification-gated |
+| P1 | S1 Fig. 6.9 | recipe variations (ϕlb, L) | model output only | prediction | none |
+
+Notes: (a) the physically relevant ε was never reached in V1 — S2's own ε ≈ 10⁻³ lies below the swept range, though S1's ε ≈ 10⁻² lies inside it; (b) the C1 agreement is partially circular (seven quantities fitted to the same 13 shots); the structural, parameter-light predictions are the plateau existence/duration and the decay shape; (c) time-resolved outlet-concentration validation of the reduced model is explicitly future work in S2 — the forthcoming companion paper is this component's independent gate.
+
+## Assumptions and validity range
+
+- ε ≪ 1 with ordering D_sb = O(1), D_eff = O(ε), D_sf = O(ε^{−1/2}) [S2; S1 uses O(1/ε)], b_b = O(ε^{1/2}); breaks for high-flow/short-bed recipes that inflate ε.
+- Saturated-layer regime (fast, soluble-rich fines); carry the S2-sup §D unsaturated branch plus a regime detector (s_d vs s_w).
+- Prescribed flow: fixed q, or pre-drip Darcy fixed-pressure + post-drip empirical q(t). Not a machine model; the observed post-drip linear flow rise is imposed from data (mechanism open — our κ(t) backlog item).
+- Sharp planar front, instantaneous grain wetting, no capillarity, no headspace/trapped CO₂, no swelling, no channeling/clogging, 1D homogeneous bed; contradicts the physics foster2025 resolves and the fine-grind incomplete-wetting hypothesis (note: the "unsaturated" variant here concerns solute saturation of the liquid, not incomplete wetting — do not conflate).
+- Constant μ, ρ (viscosity rise with concentration bites hardest in the near-saturation early shot); single lumped solute; no temperature dependence; same k for both grain species; boulder supersaturation not systematically captured; no per-bed-volume inventory ceiling of the cameron2020 kind.
+
+## Interface mapping
+
+Inputs consumed: GrindState (fines_fraction → φ_f, boulder_radius_m → a*_b; a fines radius the contract lacks — add a*_f or a nominal default; adapter for b_i = 3φ_i/a_i), BedState (depth_m → L*, porosity fields φ_l/φ_f/φ_b/ϕ_lb, kappa for pressure-driven pre-drip flow), MachineState (fixed q, or P_of_t via the fixed-pressure closure / an external q(t); DE1-style profiles need the adapter q = κΔP/(μL) or foster2025's front).
+Outputs produced: ShotResultState (c_exit(t)·c*_sat → tds trace with a density assumption; EY by time integration of q·c_exit against dose; t_shot from beverage-mass target); the S1 6.15–6.16 vial kernel is a natural observables-stage adapter.
+Couplings: runtime, in the shot chain — this is the reference formulation of the backlog item "infiltration↔extraction coupling: delay extraction per depth cell until front passage," including the boulder pore-fill boost. Natural composition: replace s_w(t) = t with foster2025.infiltration's recorded-pressure front (same corresponding author; designed to nest). Chemistry parameters (c_i,init, D_s, c_sat) need per-coffee calibration; no offline provider exists yet.
+
+## Extractable data
+
+- C1 per-vial TDS and flow traces (S1 Figs 2.3–2.4 incl. mean ± SD and the post-drip linear regression): highest-value item; second time-resolved fixture alongside DE1 fixture A. Published as figures only — check the GitHub repo for the underlying data before digitising.
+- S1 Tables 3.1/3.2 + S2 Tables 1/2 → `data/grudeva_params.csv`, carrying both named configs, the concordance classifications above, and the adjudicated κ and P_app corrections.
+- V1 verification targets: digitise S2 Fig. 4 (outlet trace, four ε plus asymptote) and Fig. 5 (error vs ε); S1 Fig. 6.6 duplicates Fig. 4 at S1 parameters.
+- Reference code: reduced solver (Python, GitHub, [S1 ref 45]); full model MATLAB (ode15s) not released.
+- Watch: the forthcoming experimental companion (time-resolved outlet concentration + first-drip segregation details) — the independent validation gate.
+
+## Overlaps and conflicts
+
+- **cameron2020.extraction_bdf (competes on extraction):** same lineage and mass-transfer law; adds infiltration phase, boulder pore pre-load, saturated plateau, and a far cheaper reduced solve; lacks Cameron's per-bed-volume inventory ceiling and experimental gates. Supersedes it on the early-shot transient (first ~10 s) once gated; late-time EY comparison is a gate.
+- **foster2025.infiltration (complements):** foster2025 supplies the physically resolved front (pump, headspace, capillary, recorded pressure); this model supplies what happens behind it. Composing them clears two backlog items. Conflict: instantaneous-wetting here vs foster2025's unsaturated-flow fine-grind story.
+- **brewer2026.streamtube (competing explanation of blonding):** 1D saturation-front dynamics vs lognormal channel heterogeneity; both predict monotone decay, but the plateau duration s_d⁻¹(1) − 1 is a sharp prediction unique to this model.
+- **wadsworth2026 / κ reconciliation:** the adjudicated κ ≈ 2.2×10⁻¹⁵ m² (LOG Issue 2a) sits inside S1's own Kozeny–Carman band (1.5–4.2×10⁻¹⁵) and one decade closer to Wadsworth-range values than previously carded; the "sieve resistance explains a 10× gap" narrative in the retired cards weakens accordingly. Update ROADMAP G9 (basket/screen resistance) inputs.
+- **Backlog:** delivers infiltration↔extraction coupling (runtime) and a validation dataset class; multi-species future work points at the multi-class solute chemistry item; only observational contact with κ(t).
+
+## Implementation estimate
+
+Effort M. Two coupled ODEs plus the boulder kernel (series with memory integral or the E.2.2 microscale FD), characteristic bookkeeping for t₀(z), the regime guard, and the unsaturated branch. Gate sequence for Sprint 5:
+- **G0 (first task): repo diff.** Confirm the GitHub reduced solver's capacitance coefficient implements B = φ_l/φ_T + 1/(3Q_f) (no ε) in both the front ODE and the region-(i) update, and that it generated S2 Figs 3–5. Closes LOG Issue 1's residual.
+- **G1: discriminating computation (named, not run here).** At the V1 config, run the reduced solver with B₀ = φ_l/φ_T + 1/(3Q_f) vs B_ε = εφ_l/φ_T + 1/(3Q_f) for ε ∈ {10⁻²…2.5×10⁻³}; compare s_d⁻¹(1) (published ≈ 6.4), the Fig. 4 outlet trace, and the Fig. 5 error-vs-ε trend against the full model, which is variant-free. At V1's φ_l/φ_T = 1, B_ε predicts s_d⁻¹(1) ≈ 4.5–5 vs B₀'s ≥ 5.4 — cleanly discriminable.
+- **G2: mass budget** with an explicit boulder-pore-inventory line; run at ϕ_lb = 0 when replicating V1 (else budgets will not close against published curves) and at ϕ_lb ∈ [0.35, 0.55] for production.
+- **G3:** reproduce S1 Fig. 6.8 per-vial masses within 1 SD at the `grudeva_thesis_cafe` config (strength: post-fit reconstruction — this is a transcription check, not validation).
+- **G4:** κ/t_drip cross-check of S1 Eq. 6.14 using the adjudicated κ ≈ 2.2×10⁻¹⁵ against foster2025 on DE1 fixture A.
+Upgrade to `gated + independent` blocked on the forthcoming companion dataset.
+
+## RECONCILIATION LOG (ROADMAP 1.7a)
+
+Evidence hierarchy: (1) released numerics/supplement implementation > (2) internal consistency > (3) named discriminating computation (deferred to Sprint 5) > (4) recency/peer review.
+
+| issue | evidence consulted | ruling | strength | residual uncertainty |
+|---|---|---|---|---|
+| **1. Eq. 74 bracket/ε placement.** S2 prints ε φ_l/φ_T inside the coefficients of Eqs. 52, 58, 67, 72, 74 (verified against the rendered PDF, pp. 510–512); S1 (4.42, 4.47, 4.49, 4.51, 4.55) prints φ_l/φ_T at full strength. | (2) S2's own derivation contradicts its printed equations: (64)+(65)+(66) ⇒ (67) with no ε (substitution introduces exactly 1/(3Q_f), nothing multiplies φ_l/φ_T); integrating printed (51) with matching (46)–(47) ⇒ (52) with no ε; an independent Rankine–Hugoniot solute pillbox across the saturation front reproduces S1's dimensional 4.51 term-for-term. (1) S2-sup E.2.1 defines B = φ_l/φ_T + 1/(3Q_f) (E27, E30) and E29 matches S1 4.49 (verified against rendered supplement p. 14); the released Python solver implements this scheme and produced the published asymptote in Figs 3–5, which converges to the (variant-free) full model. (4) moot. | **No-ε (S1) form is the model.** The ε in five S2 display equations is a manuscript/typesetting error. If implemented as printed (ε ≈ 10⁻³), the liquid-phase storage term is effectively deleted: front and region-(i) dynamics too fast by ~10% (physical φ's) to ~24% (V1 config, φ_l/φ_T = 1), one-signed, shortening the predicted plateau. | strong (tiers 1+2 concur) | G0 repo diff confirms code = E.2.1; G1 is the belt-and-braces discriminating computation (S2 Fig. 4 outlet trace + Fig. 5 trend). Correspondence Q(a): confirm erratum. |
+| **2. Thesis-vs-paper parameter identity.** | Full concordance built (Parameters table): S1 Table 3.1 + Table 3.2 vs S2 Table 1 + Table 2, cross-checked arithmetically against each source's own dimensionless definitions and closures. | Two distinct dimensional configs, both carried as named alternatives (no silent merge): `grudeva_thesis_cafe` (fitted to C1) and `grudeva_paper_nominal` (fit dataset unstated). Geometry/fluid literature values identical; chemistry (c_sat, c_i,init, D_s), D_eff, q_app, L are refits/changes; k is a 10× re-estimate driving ε 10⁻² → 10⁻³; Q_i/b_i differences are convention renames (S1 b₀-scaling vs S2 per-species); S1 Table 3.2's c_b,0 = 1.25 is the post-pore-fill value (0.86 + 0.4), a definition not a typo; S1's (φ_f = 0.17, b_f = 6.9×10⁴) pair is internally inconsistent by ~2× (unadjudicated, ±20% via b₀). | strong on classifications; the S2 fit-provenance is open | Correspondence Q(c): which dataset were S2 Table 1 fits against, and a consistent (q_app, L, t_w) triple — as printed it implies φ_T = 0.905. |
+| **2a (emergent). κ and P_app decade errors.** | (2) Both sources print P_app = 9.2×10⁻⁶ Pa (typo for 9.2×10⁵ Pa = 9.2 bar, S1 §2.1) and κ = 2.2×10⁻¹⁶ m². Recomputing S1's own Eq. 6.14 with her stated inputs (φ_T ≈ 0.42–0.45, L = 12.43 mm, μ = 3.15×10⁻⁴, P = 9.2 bar, t_drip = 5 s) gives κ = 2.2×10⁻¹⁵; the printed κ corresponds to P = 92 bar. Cross-checks: with κ = 2.2×10⁻¹⁶ the fixed-pressure front (6.13) reaches only ~3.9 mm of the 12.43 mm bed in 5 s (contradicts first drip at 5 s), and Darcy flux ≈ 5×10⁻⁵ m/s, 15× below the measured flow; with κ = 2.2×10⁻¹⁵ both are order-consistent. | **Adjudicated κ ≈ 2.2×10⁻¹⁵ m²**; the tabulated value in both sources carries a decade slip, almost certainly propagated from the P_app exponent typo. Consequences: κ now sits *inside* S1's Kozeny–Carman band, the sieve-resistance explanation for a 10× gap weakens, and the retired cards' "κ ~1–2 orders below Wadsworth" flag shrinks by one order — update the wadsworth reconciliation and ROADMAP G9 inputs. | strong (multiple independent internal checks) | Correspondence Q(b): confirm κ/P values. G4 cross-checks against foster2025/DE1 fixture A. |
+| **3. Vial vs verification configurations.** | Enumerated every configuration in both sources as dataset rows (ledger in Calibration section) from S1 Ch. 2, §6.1–6.3 and S2 §5. | C1 is calibration + post-fit reconstruction (7 quantities fitted to the same 13 shots; the 1-SD agreement must never be cited as independent validation). V1 is shared verbatim between sources, at a nonphysical composition (φ_f = 0.64, ϕ_lb = 0) chosen for full-model tractability; ε sweep stops at 2.5×10⁻³, above S2's physical 10⁻³ but bracketing S1's 10⁻². C2 (first-drip segregation) is the only independent-flavored anchor and is unpublished. Gate design consumes this ledger directly (G1–G3). | strong (enumeration is exhaustive over both sources) | Companion paper will add the first independent time-resolved config; until then max strength is post-fit reconstruction. |
+| **4. ϕ_lb = 0: assumption, fitted bound, or error?** | (1) S2-sup §E.1.2: ode15s cannot easily impose the solution-dependent front condition (E19); authors set ϕ_lb = 0 in the full model and themselves suggest the alternative c_b,init + c_sat ϕ_lb. (2) S2 §5 and S1 §5/§6.2 state explicitly it is "chosen to compare the results of the full model and the reduced model" and "may not be a realistic value." S1's experimental config uses ϕ_lb = 0.4; in the saturated regime the reduced model needs no restriction (front liquid is at c_sat, so the boulder init c_b,init + ϕ_lb is deterministic — S2 Eq. 69). | **Numerical-convenience assumption, confined to full-model verification runs.** Not fitted, not an error. Mass-budget gate effect: at ϕ_lb = 0 the front pillbox sink (S2 Eq. 11 / sup §B) vanishes and φ_T = φ_l — replication of published curves must set ϕ_lb = 0 or budgets will not close; production runs carry ϕ_lb ∈ [0.35, 0.55] with a separate boulder-pore-inventory budget line. | strong (explicit author statements, both sources) | In the *unsaturated* regime the boulder pore-fill couples to the unknown local c_l (sup D6) — implementation must handle it; verification twin at ϕ_lb > 0 remains untested by the authors. |
+
+Nothing is carried as a dual physics variant: Issues 1 and 4 resolved; Issue 2 resolves to two named parameter configs (a legitimate config alternative, flagged, not a silent merge); Issue 2a resolves with a corrected value.
+
+**Drafted correspondence questions:** (a) Eqs. 52/58/67/72/74 of the EJAM paper print ε multiplying φ_l/φ_T, whereas Eqs. 64–66, supplement E.2.1 (B = φ_l/φ_T + 1/(3Q_f)) and thesis Eqs. 4.42–4.55 carry the term at O(1) — is the printed ε an erratum? (b) Table 1/Table 3.1 list P_app = 9.2×10⁻⁶ Pa and κ = 2.2×10⁻¹⁶ m²; recomputing thesis Eq. 6.14 at 9.2 bar gives κ = 2.2×10⁻¹⁵ m², and with the tabulated κ the wetting front does not traverse the bed by t_drip — should both carry one more decade? (c) Which dataset were the EJAM Table 1 fitted values fitted against, and what is a mutually consistent (q*_app, L*, t*_w) triple (the printed one implies φ_T ≈ 0.9)? (d) Is the GitHub reduced solver the code that generated Figs 3–5?
+
+VERDICT: implement-now — reconciliation removes the blocking equation ambiguity (adjudicated no-ε form, backed by the released solver), leaving a well-verified reduced model with reference code, a time-resolved calibration dataset, and a direct hit on the infiltration↔extraction backlog item; validation strength stays post-fit reconstruction until the companion paper lands — effort M

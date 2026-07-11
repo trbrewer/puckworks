@@ -79,13 +79,17 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
       ⚠ cameron-BDF mutual-validation = **deferred** future gate (hard).
 
 ## Sprint 4 — Grudeva reconciliation (INTAKE, not CC) [1.7a, S]
-- [ ] Resolve card-of-record vs CUP open-access source: Eq. 74 brackets;
+- [x] Resolve card-of-record vs CUP open-access source: Eq. 74 brackets;
       thesis-vs-paper parameter identity; vial-vs-verification configs;
       φ_lb=0 ruling. Output: merged card of record → commit; §5.1 resolved → §7.2
 - Blocks Sprint 5. This is source-reconciliation work — do it in the card
   project with both documents, not in the repo.
+- Done: `grudeva2025.md` card of record committed (retired grudeva2023/2026);
+  adjudicated no-ε form; two named configs; emergent κ/P_app decade-error
+  finding (κ ≈ 2.2e-15). §5.1 → §7.2. Sprint 5 unblocked (G0 first).
 
 ## Sprint 5 — Grudeva reduced model (CC) [1.7b, M; needs Sprint 4, A5/A6]
+- [ ] G5-pre: contracts.py — add fines_radius_m to GrindState (additive), bump SCHEMA_VERSION to 0.2
 - [ ] Mass budget (verification) · Fig. 4/5 ε-convergence (verification) ·
       per-vial masses within 1 SD (post-fit — label) · first-drip vs foster2025
       on fixture A (independent, weak) → **creates RC-2, verification-gated**
@@ -131,3 +135,4 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
 | 2026-07-10 | 1 | 1.2 waszkiewicz2025.poroelastic gated (static refit == published; 9-bar Q(t) parameter-free). 1.5 wadsworth2026.grindmap gated after Tim dropped full Table 1 (⟨R⟩=βG+R₀ refit R²=0.994; S(G); A9 stub) — card β,R₀ flagged as non-reproducing. run_all_gates green; 10 loader tests. Sprint 1 done. |
 | 2026-07-11 | 2 | A7 (FlowLaw/SI guard, SCHEMA 0.2) + 1.1 wadsworth2026.inertial gated; §5.2 settled (tamped DE1 Fo_F ≈0.86/5.7 ≫ untamped band). Mo Re overlay deferred (0.4). |
 | 2026-07-11 | 3 | 1.3 liang2021.desorption + 1.4 moroney2016.surrogate gated after Tim dropped liang Figs 3/4/5 + moroney Fig 6 (+ Table1 transcribed). 13 gates green; 12 loader tests. moroney-vs-cameron mutual-validation deferred. |
+| 2026-07-11 | Sprint 4 | complete — merged card committed; 5.1 resolved; emergent κ/P_app decade-error finding; Sprint 5 unblocked, G0 first. |

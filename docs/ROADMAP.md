@@ -442,6 +442,8 @@ an explicit series-resistance model, initially R_total = R_puck + R_screen +
 R_fixture, gated against Table 6.1, Grudeva's fitted κ, the Wadsworth tamped
 extrapolation, and DE1 fixture A. Targets: filter/screen hydraulics; basket
 manufacturer flow data.
+Input revised (1.7a): adjudicated Grudeva κ = 2.2e-15 m² sits inside her
+Kozeny-Carman band; the 10x sieve-resistance gap narrative weakens by one order.
 
 **G10 — Concentration-dependent liquid properties / coffee-liquor rheology.**
 Every flow-coupled model on file uses pure-water μ, ρ (foster2025_2,
@@ -464,6 +466,9 @@ thesis and paper dimensional sets differ materially (L* 12.43 vs 8.4 mm, c_sat
 170 vs 224 kg m⁻³, D_s 2.3×10⁻¹⁰ vs 1×10⁻⁹, k 10⁻⁴ vs 10⁻³, q_app). Resolution
 path = item 1.7a (card-of-record reconciliation, gating 1.7b). Sequencing
 compromise recorded in §3.
+**RESOLVED 1.7a** — see `docs/cards/grudeva2025.md` RECONCILIATION LOG;
+adjudicated no-ε form; two named parameter configs; emergent finding: κ and
+P_app carry decade typos in both sources, adjudicated κ ≈ 2.2e-15 m². (§7.2.)
 
 **5.2 Forchheimer regime disagreement (three-way) → shared-dimensional audit.**
 Backlog **[RS]**: Fo_F ≈ 0.3–0.9 at Cameron bed density. wadsworth2026_inertial:
@@ -515,6 +520,7 @@ its card records the physical-ρ_c negative result as a required gate.
 | Mo / Ellero group | microCT volumes; SPH parameters; **k₁ units clarification** | not sent | draft with §5.3 | 0.4 quantitative use; G2 | use kᴰ only, caveat k₁ |
 | Foster group | raw CT time series | not sent | — | none critical (figures digitizable) | digitize Figs. 6/8 |
 | Grudeva | vial raw data; forthcoming experimental companion | not sent | check GitHub repo first | RC-2 `gated + data` upgrade | digitize Figs. 2.3–2.4 (post-fit only) |
+| Grudeva/Moroney/Foster (EJAM authors) | 1.7a Q(a) ε erratum in Eqs 52/58/67/72/74; (b) κ/P_app decade slip (adjudicated κ≈2.2e-15); (c) S2 Table 1 fit dataset + consistent (q_app,L,t_w) triple; (d) is the GitHub solver the Figs 3–5 code | not sent | hold until Sprint 5 G0 (repo diff) completes | 1.7b `gated + data`; §5.1 residual open items | G0 repo diff confirms code = supplement E.2.1 (no-ε) |
 | Schmieder/Pannusch | raw/segmented data beyond supplementary | not sent | — | none (Mendeley public) | Mendeley set |
 | Egidi group | ρ and φ_s definitions in Eq. 4 | not sent | — | quantitative EY-gate use of Eq. 4 | infer from ref [10], flag |
 | Fasano-era illy / ASIC | Eq. 8.2 a,b,c; 1993/1997 transient-discharge data | not sent | long shot | G2 validation target | digitized Figs. 8.1/8.4 (qualitative) |
@@ -581,6 +587,7 @@ them. **Status promotions (`verification-gated` → `gated`, `gated` →
 ### 7.1 Change log
 | date | change | evidence (dataset + gate script) | affected RCs / items |
 |---|---|---|---|
+| 2026-07-11 | 1.7a complete: grudeva2023/2026 cards retired, grudeva2025 card of record added; Eq. 74 ε adjudicated out (strong, tiers 1+2); κ decade error corrected; correspondence Q(a)-(d) drafted, held pending Sprint 5 G0. | `docs/cards/grudeva2025.md` RECONCILIATION LOG; §5.1→§7.2 | 1.7a; unblocks Sprint 5 / 1.7b |
 | 2026-07 | rev. 2: added glossary (§0), adapter ledger (§1A), P1 hazards + P2 ladder + P3 table, RC-3a/b split + pressure-node table, 1.7a/b and 1.8a/b splits, G9/G10, §5.9/5.10, validation-strength columns, this section | review pass vs cards | all |
 | 2026-07-10 | D1 intake: 0.2 waszkiewicz2025 Zenodo dataset landed (`data/waszkiewicz2025/`: 11-pressure Q(t) traces, TDS fractions, static/TDS/solids calibration, brewer quadratic, Mastersizer PSD) with `puckworks.data` loaders + smoke tests. 0.6 Wadsworth Table 1 manifest row + 8.1e-17 erratum recorded (PSD zip network-blocked). 0.1 Schmieder/Pannusch network-blocked. | Zenodo 10.5281/zenodo.18046315 (CC-BY-4.0); `tests/test_data_loaders.py`; `data/MANIFEST.csv`; blocked items in `data/BLOCKED_INTAKE.md` | RC-3, 1.2; RC-4 (0.1 pending); 1.5 (Table 1 ready, PSD pending) |
 | 2026-07-10 | Sprint 1 item 1.2: `waszkiewicz2025.poroelastic` landed & **gated** (bed_dynamics, runtime) — Eq. 16 static + Eq. 18 dynamic. Card-only → gated. | static refit recovers (P_c,Q_c)=(12.39,1.897) == published (independent-within-rig); 9-bar Q(t) parameter-free long-run 1.6% / corr 0.982 (post-fit). `gate_waszkiewicz_static_refit`, `gate_waszkiewicz_dynamic_9bar` on `data/waszkiewicz2025/` | RC-3a (creates the bed_dynamics slot) |
@@ -595,4 +602,4 @@ Resolved §5 entries remain listed here for one release cycle with their
 resolution and evidence, then move to docs/archive/.
 | entry | resolution | evidence | resolved date |
 |---|---|---|---|
-| (none yet) | | | |
+| 5.1 Grudeva source conflict | resolved 1.7a — see `docs/cards/grudeva2025.md` RECONCILIATION LOG; adjudicated no-ε form; two named parameter configs; emergent finding: κ and P_app carry decade typos in both sources, adjudicated κ ≈ 2.2e-15 m². | `docs/cards/grudeva2025.md` (merged card of record); retired grudeva2023.md + grudeva2026.md | 2026-07-11 |
