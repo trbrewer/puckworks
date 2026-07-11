@@ -220,6 +220,43 @@ def gate_moroney_fig6_washthrough():
                 t_half_data=round(t_half_data, 2), rmse_early=round(rmse_early, 3))
 
 
+def gate_grudeva_no_eps_kappa():
+    """G0+G4: the reference solver's capacitance carries NO ε (adjudicated form),
+    and S1 Eq. 6.14 at 9.2 bar recovers the adjudicated κ ≈ 2.2e-15 m² (settling
+    the LOG Issue 1 + 2a decade error), not the printed 2.2e-16."""
+    from puckworks.models.grudeva2025 import reduced as gr
+    B, term_l, term_f = gr.capacitance_B()
+    # no-eps: B equals phi_l/phi_T + phi_f/phi_T exactly (no 1e-2..1e-3 factor)
+    no_eps = abs(B - (term_l + term_f)) < 1e-12 and term_l > 0.1
+    k = gr.kappa_eq614(0.43, 12.43e-3, 3.15e-4, 9.2e5, 5.0)
+    return dict(passed=(no_eps and abs(k - 2.2e-15) / 2.2e-15 < 0.1),
+                B=round(B, 4), kappa_eq614=k, kappa_adjudicated=2.2e-15)
+
+
+def gate_grudeva_reduced_solver():
+    """G2+G3: the reduced solve produces a post-first-drip saturated plateau
+    (s_d^{-1}(1) > 1) and reconstructs the C1 per-vial masses — total solute
+    within 5% of the 14-shot mean and a majority of vials within 1 SD. POST-FIT
+    reconstruction (parameters were fitted to this data). Coarse grid (~1.3 s);
+    the resolution study + ε-form discrimination are a slow ladder."""
+    import numpy as np
+    from puckworks.models.grudeva2025 import reduced as gr
+    r = gr.make_coffee(N=150, Nt=800)
+    stats = gates_data().grudeva_vial_stats()
+    mean = np.array([s["solubles_mean_g"] for s in stats])
+    sd = np.array([s["solubles_sd_g"] for s in stats])
+    model = r["gpv"] * 1e3
+    within = int(sum(abs(model[k] - mean[k]) <= sd[k] for k in range(3, 16)))
+    total_ok = abs(r["total_solubles_g"] - mean[3:].sum()) / mean[3:].sum() < 0.05
+    passed = (r["sd_inv_1"] > 1.0                # saturated plateau exists
+              and total_ok                        # solute budget matches to <5%
+              and within >= 8)                    # majority of vials within 1 SD
+    return dict(passed=passed, sd_inv_1=round(r["sd_inv_1"], 2),
+                total_g=round(r["total_solubles_g"], 2),
+                exp_total_g=round(float(mean[3:].sum()), 2),
+                vials_within_1sd=f"{within}/13")
+
+
 def gates_data():
     """Lazy import of puckworks.data (avoids import cost at module load)."""
     from puckworks import data
@@ -232,4 +269,5 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_inertial_fo_band, gate_inertial_darcy_recovery,
          gate_inertial_de1_audit,
          gate_liang_kemax_refit, gate_liang_eoven_ceiling,
-         gate_moroney_fig6_washthrough]
+         gate_moroney_fig6_washthrough,
+         gate_grudeva_no_eps_kappa, gate_grudeva_reduced_solver]

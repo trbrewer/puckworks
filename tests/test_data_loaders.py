@@ -93,6 +93,15 @@ def test_moroney_figures_load():
     assert float(t1["a2"]) == 5.139 and float(t1["a3"]) == 0.473
 
 
+def test_grudeva_data_load():
+    p = {r["symbol"]: r for r in pwdata.grudeva_params()}
+    assert "kappa" in p and "ADJUDICATED" in p["kappa"]["classification"]
+    v = pwdata.grudeva_vial_stats()
+    assert len(v) == 16
+    total = sum(r["solubles_mean_g"] for r in v)
+    assert 2.5 < total < 3.5  # ~3 g total solubles per shot
+
+
 def test_schmieder_raw_fractions_and_rsm():
     frac = pwdata.schmieder_raw_fractions()
     assert len(frac) == 288 and frac[0]["fraction"] == 1.0

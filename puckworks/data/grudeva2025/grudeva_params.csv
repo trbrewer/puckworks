@@ -1,0 +1,19 @@
+quantity,symbol,grudeva_thesis_cafe,grudeva_paper_nominal,units,classification
+fines_volume_fraction,phi_f,0.17,0.1-0.25,-,refit->range
+intergranular_porosity,phi_l,0.15,0.1-0.2,-,refit->range
+boulder_internal_porosity,phi_lb,0.4,0.35-0.55,-,refit->range
+grain_diffusivity,D_s,2.30e-10,1e-9,m2/s,refit 4.3x
+liquid_eff_diffusivity,D_eff,6.20e-8,1e-8,m2/s,refit 6x
+boulder_init_conc,c_b_init,1.46e2,3.1e2,kg/m3,refit
+fines_init_conc,c_f_init,2.50e2,3.1e2,kg/m3,refit
+saturation_conc,c_sat,1.70e2,2.24e2,kg/m3,refit
+boulder_radius,a_b,2.29e-4,2.29e-4,m,identical (Moroney)
+fines_radius,a_f,3.65e-6,3.65e-6,m,identical (Moroney)
+mass_transfer_rate,k,1e-4,1e-3,m/s,re-estimate 10x; drives eps
+typical_flow,q_app,7.67e-4,1.52e-3,m/s,genuine change
+viscosity_90C,mu,3.15e-4,3.15e-4,Pa*s,identical
+bed_permeability,kappa,2.2e-16,2.2e-16,m2,ADJUDICATED 2.2e-15 (decade typo; LOG 2a)
+overpressure,P_app,9.2e5,9.2e5,Pa,printed 9.2e-6 = typo for 9.2e5 (9.2 bar)
+bed_height,L,12.43e-3,8.4e-3,m,genuine change
+wetting_time,t_w,5,5,s,identical
+epsilon,eps,1e-2,1e-3,-,derived (follows k)

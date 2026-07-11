@@ -180,3 +180,19 @@ def moroney_fig6():
 def moroney_table1():
     """Table 1: full parameter set + dimensionless groups (transcribed)."""
     return _typed_rows(MORONEY / "moroney2016_table1.csv")
+
+
+# --- grudeva2025 (ROADMAP 0.7 / 1.7b) ------------------------------------
+GRUDEVA = DATA_DIR / "grudeva2025"
+
+
+def grudeva_params():
+    """Both named dimensional configs (thesis_cafe, paper_nominal) + adjudicated
+    κ/P_app (transcribed from the card of record)."""
+    return _typed_rows(GRUDEVA / "grudeva_params.csv")
+
+
+def grudeva_vial_stats():
+    """Per-vial solubles mean/SD (g) over the 14-shot C1 dataset (derived from
+    the reference repo exp13.csv). G3 post-fit reconstruction target."""
+    return _typed_rows(GRUDEVA / "exp13_per_vial_stats.csv")

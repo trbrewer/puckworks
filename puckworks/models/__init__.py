@@ -53,6 +53,23 @@ register(Component(
     notes="reconciling with Cameron flux implies phi_c~0.11 or series screen resistance"))
 
 register(Component(
+    name="grudeva2025.reduced", stage="extraction", kind="runtime",
+    paper="Grudeva PhD thesis (Portsmouth 2023) + Grudeva, Moroney & Foster, EJAM 37, 496 (2026)",
+    doi="10.1017/S095679252500018X",
+    module="puckworks.models.grudeva2025.reduced",
+    gates=[G.gate_grudeva_no_eps_kappa, G.gate_grudeva_reduced_solver],
+    assumptions="sharp wetting front + two-population (fines/boulder) extraction; "
+                "matched asymptotics -> saturation front s_d(t) + boulder-limited "
+                "inlet; adjudicated NO-ε capacitance (LOG 1); faithful port of the "
+                "released reference solver (github YoanaGrudeva/espresso-model)",
+    valid_range="ε<<1 saturated-fines regime; prescribed flow (Darcy pre-drip + "
+                "empirical post-drip); constant μ,ρ; single solute; RC-2 verification-"
+                "gated (post-fit vial reconstruction) until companion dataset lands",
+    notes="s_d^{-1}(1)=6.40 == published; per-vial masses reproduce C1 (14-shot "
+          "total 2.9g, 9/13 within 1 SD); κ Eq6.14@9.2bar=2.27e-15 confirms decade "
+          "adjudication. Resolution study is a slow ladder. Creates RC-2"))
+
+register(Component(
     name="liang2021.desorption", stage="extraction", kind="calibration",
     paper="Liang, Chan & Ristenpart, Sci. Rep. 11, 6904 (2021)", doi="10.1038/s41598-021-85787-1",
     module="puckworks.models.liang2021.desorption",

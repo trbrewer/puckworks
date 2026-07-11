@@ -89,10 +89,19 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
   finding (κ ≈ 2.2e-15). §5.1 → §7.2. Sprint 5 unblocked (G0 first).
 
 ## Sprint 5 — Grudeva reduced model (CC) [1.7b, M; needs Sprint 4, A5/A6]
-- [ ] G5-pre: contracts.py — add fines_radius_m to GrindState (additive), bump SCHEMA_VERSION to 0.2
-- [ ] Mass budget (verification) · Fig. 4/5 ε-convergence (verification) ·
+- [x] G5-pre: contracts.py — add fines_radius_m to GrindState (additive), bump SCHEMA_VERSION to 0.3 (0.2 already used by A7)
+- [x] Mass budget (verification) · Fig. 4/5 ε-convergence (verification) ·
       per-vial masses within 1 SD (post-fit — label) · first-drip vs foster2025
       on fixture A (independent, weak) → **creates RC-2, verification-gated**
+      → `grudeva2025.reduced` registered (**faithful port of the released
+      reference solver** — G0: capacitance carries NO ε, confirming the
+      adjudication). Gates: (G2) solute budget total 2.92 g vs exp 2.95 g;
+      (G3) per-vial masses 9/13 within 1 SD (post-fit); (G4) κ Eq6.14@9.2bar
+      = 2.27e-15 == adjudicated. Slow ladder: resolution-converged s_d⁻¹(1)≈2.82;
+      **ε-form discrimination** (no-ε plateau 2.83/2.96 g vs printed-ε 0.44/2.52 g
+      — LOG Issue 1). Vial data from reference repo `exp13.csv`.
+      ⚠ V1 (φ_l/φ_T=1) config numerically stiff in explicit boulder scheme —
+      café config (anchored to exp13) carries the demonstration.
 
 ## Sprint 6 — multi-solute extraction (CC) [1.8a, M; needs D1, A3/A6]
 - [ ] pannusch2024 measured-flow solver — fit MAPEs (post-fit) + temperature
@@ -136,3 +145,4 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
 | 2026-07-11 | 2 | A7 (FlowLaw/SI guard, SCHEMA 0.2) + 1.1 wadsworth2026.inertial gated; §5.2 settled (tamped DE1 Fo_F ≈0.86/5.7 ≫ untamped band). Mo Re overlay deferred (0.4). |
 | 2026-07-11 | 3 | 1.3 liang2021.desorption + 1.4 moroney2016.surrogate gated after Tim dropped liang Figs 3/4/5 + moroney Fig 6 (+ Table1 transcribed). 13 gates green; 12 loader tests. moroney-vs-cameron mutual-validation deferred. |
 | 2026-07-11 | Sprint 4 | complete — merged card committed; 5.1 resolved; emergent κ/P_app decade-error finding; Sprint 5 unblocked, G0 first. |
+| 2026-07-11 | Sprint 5 | 1.7b `grudeva2025.reduced` gated (faithful port of released solver; G0 no-ε confirmed). G5-pre contract (fines_radius_m, SCHEMA 0.3). 15 quick gates + slow ladder; 13 loader tests. Creates RC-2 (verification-gated). |

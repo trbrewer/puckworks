@@ -8,7 +8,7 @@ from dataclasses import dataclass, field
 from typing import Callable, Optional
 import numpy as np
 
-SCHEMA_VERSION = "0.2"   # 0.2: A7 FlowLaw / inertial-permeability fields (additive)
+SCHEMA_VERSION = "0.3"   # 0.3: GrindState.fines_radius_m (G5-pre). 0.2: A7 FlowLaw fields
 
 # Plausible SI permeability window [m^2]. The Forchheimer k_I closures
 # (k_I = exp(g2 k^tau)) fail SILENTLY off-SI (ledger A7), so k is asserted, not
@@ -30,6 +30,7 @@ class GrindState:
     setting: float                    # grinder dial (Cameron EK43 convention)
     fines_fraction: Optional[float] = None      # phi_1
     boulder_radius_m: Optional[float] = None    # a_2
+    fines_radius_m: Optional[float] = None       # a_1 (grudeva2025 needs a*_f; G5-pre)
     mean_radius_m: Optional[float] = None       # <R> (Wadsworth convention)
 
 @dataclass
