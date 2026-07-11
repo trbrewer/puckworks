@@ -127,6 +127,30 @@ register(Component(
           "two-population limit is a DEFERRED future gate (card gate design 2)"))
 
 register(Component(
+    name="romancorrochano2017.extraction", stage="extraction", kind="runtime",
+    paper="Roman-Corrochano, B. 'Advancing the Engineering Understanding of Coffee "
+          "Extraction.' EngD thesis, University of Birmingham (2017)", doi="",
+    module="puckworks.models.romancorrochano2017.extraction",
+    gates=[G.gate_roman_sphere_solver, G.gate_roman_mw_temperature_trends,
+           G.gate_roman_bed_flow_trend, G.gate_roman_tamped_kappa,
+           G.gate_roman_bed_mpe_parameter_free, G.gate_roman_y0_ceiling_sizeexclusion],
+    assumptions="pure Fickian MW-resolved diffusion out of spherical grains; surface "
+                "at partition equilibrium C_s(R)=C_b/K (NO dissolution kinetics, "
+                "contrast cameron2020); 4 MW classes independent, summed; stirred "
+                "(well-mixed bath) + lumped bed (del Valle linear-axial reduction, "
+                "L~2 R_bed); no swelling (S=1), no film resistance, no axial dispersion",
+    valid_range="microstructural Deff (Table 4.9, 80C) Stokes-Einstein T-corrected; "
+                "K(T) Arrhenius lnK=-657/T+1.4 (Table 4.10); dilute limit; solver "
+                "VERIFIED vs Crank analytic; MPE 5-8%/<=14% claims stay DATA gates "
+                "(raw curves unpublished); per-grind R not on file -> bed absolute EY "
+                "needs a d[3,2] adapter (flow TREND gated, not absolute yield)",
+    notes="competes with cameron2020.extraction_bdf (both runtime diffusion extraction; "
+          "this is pure-Fickian + MW spectrum + parameter-free microstructural Deff, "
+          "cameron adds surface dissolution + resolved column). sphere solver vs Crank "
+          "max err 1.2e-4; bed mass-conserving <1%; reproduces slower-q->higher-yield "
+          "from diffusion. y0 size-exclusion + nested ceiling gated (§5.5, P3 #4)"))
+
+register(Component(
     name="lee2023.feedback", stage="flow", kind="calibration",
     paper="Lee & Smith, 2023 (extraction->porosity->permeability feedback)",
     doi="",

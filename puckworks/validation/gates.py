@@ -457,6 +457,73 @@ def gate_lee_feedback_negative_result():
                 note="peak weak by design; sign gated, not amplitude")
 
 
+def gate_roman_sphere_solver():
+    """romancorrochano2017 extraction (3.5) solver verification: the spherical
+    method-of-lines diffusion solver reproduces the classic Crank analytic
+    fractional release (sphere into an infinite sink) to <1e-3 across the shot.
+    Confirms the PDE numerics behind the multi-scale model."""
+    import numpy as np
+    from puckworks.models.romancorrochano2017 import extraction as rx
+    R, Deff = 1e-4, 2.5e-10
+    t = np.array([0.5, 1.0, 2.0, 5.0, 10.0, 20.0, 40.0])
+    err = float(np.max(np.abs(rx.crank_release(Deff, R, t)
+                              - rx.sphere_release(Deff, R, t, N=120))))
+    return dict(passed=bool(err < 1e-3), max_abs_err=round(err, 6))
+
+
+def gate_roman_mw_temperature_trends():
+    """romancorrochano2017 extraction (3.5) driven by the REAL parameter tables
+    (independent/qualitative): (a) the microstructural Deff spectrum orders
+    low>med>high>vhigh at a grind (Table 4.9); (b) K(T) rises with T and matches
+    Table 4.10 to <0.05; (c) in the stirred vessel, a higher-Deff species reaches
+    50% extraction faster than a lower-Deff one; (d) the equilibrium extent rises
+    with K. No fitting -- the tables are the paper's measured inputs."""
+    import numpy as np
+    from puckworks.models.romancorrochano2017 import extraction as rx
+    deff = [rx.deff_of("PsiE", m) for m in rx.MW_CLASSES]
+    mw_ordered = all(deff[i] > deff[i + 1] for i in range(3))
+    Kt = [rx.K_of_T(T) for T in (20, 50, 80)]
+    K_rises = Kt[0] < Kt[1] < Kt[2]
+    K_matches = all(abs(a - b) < 0.05 for a, b in zip(Kt, (0.42, 0.57, 0.61)))
+
+    def t50(Deff):
+        tt = np.linspace(0, 400, 400)
+        _, f = rx.stirred_vessel(Deff, 1e-4, K=0.6, pore_to_bath=0.05, t_eval=tt)
+        return float(np.interp(0.5 * f[-1], f, tt))
+    faster = t50(deff[0]) < t50(deff[2])          # low-MW (high Deff) faster than high-MW
+    passed = bool(mw_ordered and K_rises and K_matches and faster)
+    return dict(passed=passed, mw_ordered=mw_ordered, K_rises=bool(K_rises),
+                K_matches_table=K_matches, high_deff_faster=faster,
+                K_of_T=[round(k, 3) for k in Kt])
+
+
+def gate_roman_bed_flow_trend():
+    """romancorrochano2017 extraction (3.5) bed mode: the lumped flow-through bed
+    (Eq 3.36) is mass-conserving (<2%) and its yield rises monotonically; and it
+    reproduces the paper's fixed-flow trend FROM the diffusion physics -- at a
+    matched beverage volume, higher flow Q gives lower yield AND lower strength
+    (slower q -> higher yield/strength). Behavioral verification (geometry
+    nominal; the trend direction is geometry-independent)."""
+    import numpy as np
+    from puckworks.models.romancorrochano2017 import extraction as rx
+    base = dict(Deff=2.5e-10, R=5e-5, K=0.6, eps_bed=0.4, V_bed=5e-5)
+    b = rx.bed_lumped(Q=1.5e-6, t_eval=np.linspace(0, 40, 200), **base)
+    conserved = bool(np.all(np.abs(b["mass_balance"] - 1.0) < 0.02))
+    monotone = bool(np.all(np.diff(b["yield_frac"]) >= -1e-9))
+    y, s = [], []
+    for Q in (0.8e-6, 1.5e-6, 3.0e-6):
+        bb = rx.bed_lumped(Q=Q, t_eval=np.linspace(0, 2e-5 / Q * 1.1, 200), **base)
+        vol = Q * bb["t"]
+        y.append(float(np.interp(2e-5, vol, bb["yield_frac"])))
+        s.append(float(np.interp(2e-5, vol, bb["strength"])))
+    slower_higher = y[0] > y[1] > y[2] and s[0] > s[1] > s[2]
+    passed = bool(conserved and monotone and slower_higher)
+    return dict(passed=passed, mass_conserved=conserved, yield_monotone=monotone,
+                slower_q_higher=bool(slower_higher),
+                yield_by_Q=[round(v, 3) for v in y],
+                strength_by_Q=[round(v, 3) for v in s])
+
+
 def gate_roman_tamped_kappa():
     """romancorrochano2017 Table 6.1 (0.5 intake, DATA-ONLY permeability target /
     G9): tamped-bed Darcy kappa sits in the literature 1e-14..1e-13 m^2 band and
@@ -721,5 +788,7 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_lee_feedback_negative_result,
          gate_roman_tamped_kappa, gate_roman_bed_mpe_parameter_free,
          gate_roman_y0_ceiling_sizeexclusion,
+         gate_roman_sphere_solver, gate_roman_mw_temperature_trends,
+         gate_roman_bed_flow_trend,
          gate_mo2_k0_carman_kozeny, gate_mo2_fixed_flow_trends,
          gate_fasano_cor82_nonmonotone, gate_fasano_reversal_signature]

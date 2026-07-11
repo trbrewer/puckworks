@@ -216,3 +216,22 @@ def test_fasano2000_partI_intake():
     rows = pwdata.fasano_fig8_4()
     pk = lambda seg: max(r["discharge_ml_s"] for r in rows if r["segment"] == seg)
     assert pk(1) > 10 and pk(3) > 10 and pk(2) < pk(1) / 2
+
+
+def test_romancorrochano_extraction_model():
+    import numpy as np
+    from puckworks.models.romancorrochano2017 import extraction as rx
+    # sphere solver reproduces the Crank analytic release
+    R, Deff = 1e-4, 2.5e-10
+    t = np.array([1.0, 5.0, 20.0])
+    assert np.max(np.abs(rx.crank_release(Deff, R, t)
+                         - rx.sphere_release(Deff, R, t, N=100))) < 1e-3
+    # stirred vessel -> partition equilibrium 1/(1+pore_to_bath/K)
+    tt = np.linspace(0, 600, 80)
+    _, f = rx.stirred_vessel(Deff, R, K=0.6, pore_to_bath=0.2, t_eval=tt)
+    assert abs(f[-1] - 1.0 / (1 + 0.2 / 0.6)) < 0.02
+    # bed conserves mass and yield rises monotonically
+    b = rx.bed_lumped(Deff=2.5e-10, R=5e-5, K=0.6, Q=1.5e-6, eps_bed=0.4,
+                      V_bed=5e-5, t_eval=np.linspace(0, 40, 150))
+    assert np.all(np.abs(b["mass_balance"] - 1.0) < 0.02)
+    assert np.all(np.diff(b["yield_frac"]) >= -1e-9)
