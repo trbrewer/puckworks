@@ -144,3 +144,73 @@ def kappa_t_ladder():
                 rung4_beats_floor=rmse4 < rmse_flat,
                 improvement_factor=round(rmse_flat / rmse4, 1),
                 rc3b_vs_rung4="worse (near-instant favored, §5.6)" if rmse5 > rmse4 else "better")
+
+
+# --- cross-pressure generalization discriminator (item 2.2, ANALYSIS_P2) ---
+# Waszkiewicz ran 11 pressures. Fix ONE calibration and predict every trace out
+# of sample: the mechanism that best explains all pressures wins, and where the
+# mechanisms disagree tells you which physics each is really capturing (CHAT
+# §2.2 point 1). All three mechanisms share the published static pair (P_c, Q_c);
+# nothing is refit per pressure.
+def cross_pressure_discrimination(window=(15.0, 95.0)):
+    """Out-of-sample RMSE [g/s] of three kappa(t) mechanisms across all 11
+    Waszkiewicz pressures, using ONE fixed calibration (no per-pressure refit):
+
+      static kappa(P)      Q(t) = q_static(P)                    flat, rung-3 analog
+      dissolution Phi(t)   empirical near-instant sigmoid m_d(t) rung 4
+      RC-3b coupled        m_d(t) from cameron2020 at that P     rung 5
+
+    The empirical sigmoid is pressure-INDEPENDENT (one m_d(t) for every shot);
+    RC-3b re-runs Cameron at each pressure, so its Phi(t) is flow-coupled. The
+    9-bar point is the sigmoid's home pressure; the other 10 are out of sample.
+    Returns per-pressure RMSE plus regime aggregates. Result (see ANALYSIS_P2
+    §2.2): Phi(t) wins on the OOS mean but NOT uniformly -- RC-3b wins at the
+    low-pressure end (flow-coupling matters where flow is slow) and the static
+    null wins mid-range (little time structure to explain). The mechanisms
+    separate across the set exactly as the design predicted; no single winner.
+    """
+    from puckworks import data as d
+    from puckworks.models.waszkiewicz2025 import poroelastic as wz
+    from puckworks.models.cameron2020 import extraction_bdf as cam
+    tr = d.waszkiewicz_traces()
+    ps = sorted(k for k in tr if k != "columns")
+    P_c, Q_c = wz.published_calibration()
+    k_s, l_s, m_s = wz._solids_params()
+    dose = d.waszkiewicz_constants()["dose__g"]
+    lo, hi = window
+    per = {}
+    for p in ps:
+        t = tr[p]["time__s"]; q = tr[p]["mass_flow_rate__g_per_s"]
+        sel = (t >= lo) & (t <= hi); ts, qs = t[sel], q[sel]
+        r_static = float(np.sqrt(np.mean((wz.q_static(p, P_c, Q_c) - qs) ** 2)))
+        q_phi = wz.q_dynamic(ts, p, P_c, Q_c, k_s, l_s, m_s, dose)
+        r_phi = float(np.sqrt(np.nanmean((q_phi - qs) ** 2)))
+        sh = cam.simulate_shot(1.9, p_bar=p, m_in=dose / 1000, m_out=0.040,
+                               t_shot=100.0, n_save=150)
+        md = np.interp(ts, sh.t, sh.m_cup * 1000.0)
+        if md[-1] <= 0:
+            r_rc3b = float("nan")
+        else:
+            q_rc = wz.q_dynamic_from_md(p, P_c, Q_c, md, dose)
+            r_rc3b = float(np.sqrt(np.nanmean((q_rc - qs) ** 2)))
+        per[p] = dict(static=round(r_static, 3), phi=round(r_phi, 3),
+                      rc3b=round(r_rc3b, 3))
+
+    def _mean(keys, mech):
+        v = np.array([per[p][mech] for p in keys], float)
+        return float(np.nanmean(v))
+    oos = [p for p in ps if p != 9.0]
+    low = [p for p in ps if p <= 2.0]
+    mid = [p for p in ps if 3.5 <= p <= 6.0]
+    return dict(
+        per_pressure=per,
+        oos_mean={m: round(_mean(oos, m), 3) for m in ("static", "phi", "rc3b")},
+        low_p_mean={m: round(_mean(low, m), 3) for m in ("phi", "rc3b")},
+        mid_p_mean={m: round(_mean(mid, m), 3) for m in ("static", "phi", "rc3b")},
+        # the two load-bearing separations (each a distinct physics claim):
+        phi_generalizes=_mean(oos, "phi") < _mean(oos, "static"),
+        rc3b_wins_low_p=_mean(low, "rc3b") < _mean(low, "phi"),
+        static_wins_mid_p=_mean(mid, "static") < min(_mean(mid, "phi"),
+                                                      _mean(mid, "rc3b")),
+        reading="Phi(t) best on OOS mean but regime-dependent: RC-3b wins low-P "
+                "(flow-coupled dissolution), static wins mid-P (no time structure)")

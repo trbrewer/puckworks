@@ -399,6 +399,28 @@ def gate_p2_kappa_ladder():
                 factor=L["improvement_factor"], rc3b=L["rc3b_vs_rung4"])
 
 
+def gate_p2_cross_pressure():
+    """P2 cross-pressure discrimination (item 2.2, ANALYSIS_P2 §2.2): one fixed
+    calibration, predict all 11 Waszkiewicz pressures out of sample. The three
+    kappa(t) mechanisms SEPARATE by regime rather than one dominating -- the
+    discriminator the multi-pressure dataset was built for:
+      - dissolution Phi(t) has the best OOS mean (beats the static null),
+      - but RC-3b (flow-coupled) wins the low-pressure end (slow flow ->
+        pressure-dependent dissolution matters),
+      - and the static null wins mid-range (little time structure to explain).
+    Gating all three separations pins the 'no single winner' verdict so a later
+    refit can't quietly promote one mechanism to universal."""
+    from puckworks import harness as h
+    X = h.cross_pressure_discrimination()
+    passed = (X["phi_generalizes"] and X["rc3b_wins_low_p"]
+              and X["static_wins_mid_p"])
+    return dict(passed=passed, oos_mean=X["oos_mean"],
+                low_p_mean=X["low_p_mean"], mid_p_mean=X["mid_p_mean"],
+                separations=dict(phi_beats_static_oos=X["phi_generalizes"],
+                                 rc3b_beats_phi_low_p=X["rc3b_wins_low_p"],
+                                 static_beats_both_mid_p=X["static_wins_mid_p"]))
+
+
 def gate_foster_fig15_flowmin():
     """The machine-mode bed flow reproduces the Fig 15 flow-minimum signature:
     Q/Qm dips to ~0.181 at t~2.0 s and recovers (RMSE vs the digitized trace
@@ -480,5 +502,5 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_pannusch_closures, gate_pannusch_solver_mape,
          gate_foster_machine_tp_ts, gate_extraction_harness,
          gate_foster_fig15_flowmin, gate_foster_ct_trajectory,
-         gate_p2_kappa_ladder, gate_cameron_conservation,
+         gate_p2_kappa_ladder, gate_p2_cross_pressure, gate_cameron_conservation,
          gate_pannusch_qt_adapter, gate_mo_reynolds_overlay, gate_egidi_bracket]
