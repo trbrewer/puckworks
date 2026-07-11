@@ -61,3 +61,13 @@ def test_a8_bedstate_fields():
     b = BedState(dose_kg=0.018, depth_m=0.02, area_m2=2.6e-3, porosity=0.3)
     assert all(hasattr(b, a) for a in
                ("porosity_profile", "fines_mobile", "fines_bound"))
+
+
+def test_unified_kappa_t_branches():
+    """kappa(t) closure: branch signs (compaction/swelling/fines down, extraction
+    up) and reduction to unity when neutral."""
+    n = h.kappa_branches()
+    assert n["f_swelling"] == 1.0 and n["f_extraction"] == 1.0 and n["f_fines"] == 1.0
+    assert h.kappa_branches(P_bar=13)["f_compaction"] < h.kappa_branches(P_bar=2)["f_compaction"]
+    assert h.kappa_branches(EY=0.3)["f_extraction"] > 1.0
+    assert h.kappa_branches(t_swell_s=30)["f_swelling"] < 1.0

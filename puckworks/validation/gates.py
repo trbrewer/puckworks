@@ -457,6 +457,38 @@ def gate_lee_feedback_negative_result():
                 note="peak weak by design; sign gated, not amplitude")
 
 
+def gate_unified_kappa_t():
+    """Unified kappa(t)=kappa0*f(P,eps,E) closure framework (bed_dynamics backlog):
+    the registry's four kappa-perturbing mechanisms compose as independently
+    toggleable SIGNED factors, each drawn from its registered component. The gate
+    pins the load-bearing content -- the signs, limits, and reduction:
+      compaction f(P)  <=1 and DECREASING in P (waszkiewicz)  -- bed compacts
+      swelling  f(t)   <=1 and DECREASING in t (mo2023_2)      -- pores fill
+      fines     f(t)   <=1 and DECREASING in t (fasano partI)  -- layer grows
+      extraction f(EY) >=1 and INCREASING in EY (lee2023)      -- pores open
+    Extraction OPPOSES the other three (the physical competition), and with all
+    branches neutral kappa/kappa0 = 1. Framework/synthesis; the multiplicative
+    composition is a modeling choice, surfaced as such."""
+    from puckworks import harness as h
+    comp = [h.kappa_branches(P_bar=p)["f_compaction"] for p in (2, 5, 9, 13)]
+    extr = [h.kappa_branches(EY=e)["f_extraction"] for e in (0.0, 0.1, 0.2, 0.3)]
+    swell = [h.kappa_branches(t_swell_s=t)["f_swelling"] for t in (1, 10, 30)]
+    fines = [h.kappa_branches(t_fines_s=t)["f_fines"] for t in (10, 60, 150)]
+    neutral = h.kappa_branches()
+    comp_ok = all(comp[i] > comp[i + 1] for i in range(3)) and max(comp) <= 1.0
+    extr_ok = all(extr[i] < extr[i + 1] for i in range(3)) and min(extr) >= 1.0
+    swell_ok = all(swell[i] > swell[i + 1] for i in range(2)) and max(swell) <= 1.0
+    fines_ok = all(fines[i] >= fines[i + 1] for i in range(2)) and max(fines) <= 1.0
+    reduce_ok = (neutral["f_swelling"] == 1.0 and neutral["f_extraction"] == 1.0
+                 and neutral["f_fines"] == 1.0)
+    passed = bool(comp_ok and extr_ok and swell_ok and fines_ok and reduce_ok)
+    return dict(passed=passed, compaction_decr_le1=comp_ok,
+                extraction_incr_ge1=extr_ok, swelling_decr_le1=swell_ok,
+                fines_decr_le1=fines_ok, reduces_to_unity=reduce_ok,
+                f_compaction_by_P=[round(v, 3) for v in comp],
+                f_extraction_by_EY=[round(v, 2) for v in extr])
+
+
 def gate_p3_channeling_sigma_sweep():
     """P3 fine-grind-dip hypothesis #1 (static channeling), ANALYSIS_P2 §2.3's
     top uncertainty-reducing computation: a MONOTONE sigma(grind) closure through
@@ -872,4 +904,5 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_mo2_k0_carman_kozeny, gate_mo2_fixed_flow_trends,
          gate_mo2_swelling_flow_decay,
          gate_fasano_cor82_nonmonotone, gate_fasano_reversal_signature,
-         gate_fasano_freeboundary, gate_p3_channeling_sigma_sweep]
+         gate_fasano_freeboundary, gate_p3_channeling_sigma_sweep,
+         gate_unified_kappa_t]

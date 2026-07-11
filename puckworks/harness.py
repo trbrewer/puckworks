@@ -146,6 +146,77 @@ def kappa_t_ladder():
                 rc3b_vs_rung4="worse (near-instant favored, §5.6)" if rmse5 > rmse4 else "better")
 
 
+# --- unified kappa(t) = kappa0 * f(P, eps, E) closure framework ---------------
+# The bed_dynamics backlog asks for one permeability closure kappa(t)=kappa0*f(...)
+# assembling the mechanisms the registry now has as SEPARATE gated components.
+# This framework exposes each as an independently-toggleable, SIGNED factor so a
+# config selects which are active; it does NOT invent new physics -- each factor
+# is drawn from its registered component, and the composition is multiplicative
+# (independent porosity/resistance perturbations). The load-bearing content is
+# the SIGNS and limits, which the gate pins; the multiplicative combination is a
+# framework choice, surfaced as such.
+def kappa_branches(P_bar=9.0, EY=0.0, t_swell_s=0.0, t_fines_s=0.0, powder="M",
+                   eps0=0.17, beta_series="beta1"):
+    """Evaluate each kappa/kappa0 branch factor at one operating point.
+
+    f_compaction(P)  <=1, DECREASING in P  (waszkiewicz2025 poroelastic; bed
+                     compacts under pressure) -- normalized to the P->0 limit.
+    f_swelling(t)    <=1, DECREASING in t   (mo2023_2 swelling shrinks eps_b).
+    f_extraction(EY) >=1, INCREASING in EY  (lee2023: solid dissolved -> eps
+                     opens -> Kozeny-Carman kappa rises).
+    f_fines(t)       <=1, DECREASING in t   (fasano2000_partI compact layer).
+    Returns the four factors and their product kappa/kappa0."""
+    import numpy as np
+    from puckworks.models.waszkiewicz2025 import poroelastic as wz
+    from puckworks.models.mo2023_2 import swelling as sw
+    from puckworks.models.fasano2000_partI import fines_migration as fm
+    Pc, _ = wz.published_calibration()
+    x = P_bar / Pc
+    f_comp = float(wz.qhat(x) / x / 4.0) if x > 0 else 1.0     # /4 = P->0 limit
+    f_swell = 1.0
+    if t_swell_s > 0:
+        f_swell = float(sw.flow_decay(powder, np.array([1e-4, t_swell_s]))["q_rel"][-1])
+
+    def _ck(e):
+        return e ** 3 / (1.0 - e) ** 2
+    eps = eps0 + EY * (1.0 - eps0)                              # solid removed opens pores
+    f_extr = _ck(eps) / _ck(eps0)
+    f_fines = 1.0
+    if t_fines_s > 0:
+        b = fm.beta_from_fig87(beta_series)
+        r = fm.simulate(1.0, b, t_end=t_fines_s, n_save=20)
+        f_fines = float(r["q"][-1] / r["q"][0])
+    return dict(f_compaction=f_comp, f_swelling=f_swell, f_extraction=f_extr,
+                f_fines=f_fines,
+                kappa_over_kappa0=f_comp * f_swell * f_extr * f_fines)
+
+
+def unified_kappa_t(P_bar=9.0, EY_final=0.20, t_shot_s=30.0, n=25, powder="M",
+                    branches=("compaction", "swelling", "extraction", "fines")):
+    """Compose the selected kappa(t) branches over a shot. EY ramps 0->EY_final;
+    swelling/fines evolve over t_shot. Returns t and kappa/kappa0(t) with only the
+    named branches active (others held at their neutral factor 1)."""
+    import numpy as np
+    t = np.linspace(0.0, t_shot_s, n)
+    out = []
+    for ti in t:
+        k = kappa_branches(P_bar=P_bar, EY=EY_final * ti / t_shot_s,
+                           t_swell_s=ti if "swelling" in branches else 0.0,
+                           t_fines_s=ti if "fines" in branches else 0.0,
+                           powder=powder)
+        f = 1.0
+        if "compaction" in branches:
+            f *= k["f_compaction"]
+        if "swelling" in branches:
+            f *= k["f_swelling"]
+        if "extraction" in branches:
+            f *= k["f_extraction"]
+        if "fines" in branches:
+            f *= k["f_fines"]
+        out.append(f)
+    return dict(t=t, kappa_over_kappa0=np.array(out))
+
+
 # --- P3 fine-grind-dip hypothesis #1: static channeling sigma(phi1) sweep -----
 # ANALYSIS_P2 §2.3 named this the single most uncertainty-reducing computation:
 # does a MONOTONE sigma(grind) channeling closure (finer grind -> more fines ->
