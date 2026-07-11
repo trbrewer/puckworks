@@ -157,7 +157,7 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
       there; a Fig. 5 EY-curve gate is still optional.
 - [x] P3 hypothesis file (2.3, docs part): `docs/P3_hypotheses.md` — the
       5-hypothesis registry with current component/harness evidence.
-- [ ] CHAT: results workup + P3 verdict (which mechanism survives)  *(not-CC)*
+- [x] CHAT: results workup + P3 verdict → `docs/ANALYSIS_P2.md` (§2.1, §2.3)
 
 ## Sprint 9 — κ(t) discrimination harness (CC+CHAT) [2.2, M; needs Sprints 1,7 + A8]
 - [x] A8 per-depth-cell porosity/fines fields
@@ -169,7 +169,7 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
       1/3 (0.603) by 5.4×** → a bed mechanism IS needed. Rung 2 = foster
       flow-minimum null (validated separately). **Rung 5 challengers (mo2023_2,
       fasano I/II, lee2023, RC-3b) are Phase 3 — pending those implementations.**
-- [ ] CHAT: which mechanism survives — feeds the paper  *(not-CC)*
+- [x] CHAT: which mechanism survives → `docs/ANALYSIS_P2.md` (§2.2; verdict partial by design — Φ(t) sufficient, discrimination pending Phase 3 rung 5)
 
 ## Parallel tracks (not sprint-gated)
 - **TB**: §5.8 correspondence — Mo/Ellero (k1 units + volumes), Grudeva
