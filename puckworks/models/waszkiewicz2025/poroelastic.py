@@ -77,6 +77,21 @@ def solids_sigmoid(t, k_solids, l_solids, m_solids):
     return 0.5*k_solids*(1.0 + np.tanh((np.asarray(t, float) - l_solids)/m_solids))
 
 
+def q_dynamic_from_md(P_applied_bar, P_c, Q_c, m_d, dose_g, m_d_final=None):
+    """Eq. 18 core with an ARBITRARY dissolved-mass trajectory m_d [g] (array).
+    Phi(t) = m_d(t)/m0. Used by both q_dynamic (empirical sigmoid m_d) and the
+    RC-3b coupled variant (m_d from cameron2020's running extracted mass). RC-3b
+    is a NEW coupled model NOT validated by the Waszkiewicz paper (ROADMAP P2
+    rung 5 / RC-3b); it enters the discrimination ladder, not by inheritance."""
+    m_d = np.asarray(m_d, float)
+    phi_m = (m_d[-1] if m_d_final is None else m_d_final) / dose_g
+    q_master = Q_c / phi_factor(phi_m)
+    p_master = P_c / phi_m
+    phi_t = m_d / dose_g
+    return np.clip(qhat(P_applied_bar / (p_master * phi_t)) * q_master * phi_factor(phi_t),
+                   0.0, None)
+
+
 def q_dynamic(t, P_applied_bar, P_c, Q_c, k_solids, l_solids, m_solids, dose_g):
     """Time-dependent flow Q(t) at constant applied pressure (Eq. 18).
 

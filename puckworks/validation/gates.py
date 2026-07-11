@@ -383,15 +383,20 @@ def gate_cameron_conservation():
 
 def gate_p2_kappa_ladder():
     """P2 null-first ladder (item 2.2): on the Waszkiewicz 9-bar RISING-flow
-    trace, the time-dependent poroelastic Phi(t) (rung 4) beats the constant-
-    kappa / static-kappa(P) null (rungs 1/3) -- a bed mechanism IS needed for the
-    rising residual (the flat nulls cannot). Rung 5 challengers are Phase 3."""
+    trace, the empirical time-dependent Phi(t) (rung 4) beats the constant-kappa /
+    static-kappa(P) nulls (rungs 1/3) 5.4x -- a bed mechanism IS needed. Rung 5
+    RC-3b (Cameron-coupled, diffusion-limited Phi) beats the flat nulls too but is
+    ~3.5x WORSE than the empirical near-instant rung 4 -> near-instant dissolution
+    favored (§5.6). Discrimination result: Phi(t) is needed and near-instant."""
     from puckworks import harness as h
     L = h.kappa_t_ladder()
     passed = (L["rung4_beats_floor"] and L["improvement_factor"] > 2.0
-              and L["rung4_phi_of_t"] < 0.2)
+              and L["rung4_phi_of_t"] < 0.2
+              and L["rung5_rc3b_cameron_coupled"] < L["rung1_const_kappa"]   # beats null
+              and L["rung5_rc3b_cameron_coupled"] > L["rung4_phi_of_t"])     # loses to empirical
     return dict(passed=passed, rung1_rmse=L["rung1_const_kappa"],
-                rung4_rmse=L["rung4_phi_of_t"], factor=L["improvement_factor"])
+                rung4_rmse=L["rung4_phi_of_t"], rung5_rc3b_rmse=L["rung5_rc3b_cameron_coupled"],
+                factor=L["improvement_factor"], rc3b=L["rc3b_vs_rung4"])
 
 
 def gate_foster_fig15_flowmin():

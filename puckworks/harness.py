@@ -128,8 +128,19 @@ def kappa_t_ladder():
     dose = d.waszkiewicz_constants()["dose__g"]
     q4 = wz.q_dynamic(td, 9.0, P_c, Q_c, k_s, l_s, m_s, dose)
     rmse4 = float(np.sqrt(np.nanmean((q4 - qd) ** 2)))
+    # rung 5, RC-3b: Cameron-coupled Phi(t) = m_d_cameron(t)/m0 (NEW model, not
+    # validated by the Waszkiewicz paper). Cameron's diffusion-limited dissolution
+    # drives the poroelastic kappa instead of the empirical near-instant sigmoid.
+    from puckworks.models.cameron2020 import extraction_bdf as cam
+    r = cam.simulate_shot(1.9, p_bar=9.0, m_in=dose / 1000, m_out=0.040,
+                          t_shot=120.0, n_save=200)
+    md_cam = np.interp(td, r.t, r.m_cup * 1000.0)          # g
+    q5 = wz.q_dynamic_from_md(9.0, P_c, Q_c, md_cam, dose)
+    rmse5 = float(np.sqrt(np.nanmean((q5 - qd) ** 2)))
     return dict(rung1_const_kappa=round(rmse_flat, 3),
                 rung3_static_kappaP=round(rmse_flat, 3),
                 rung4_phi_of_t=round(rmse4, 3),
+                rung5_rc3b_cameron_coupled=round(rmse5, 3),
                 rung4_beats_floor=rmse4 < rmse_flat,
-                improvement_factor=round(rmse_flat / rmse4, 1))
+                improvement_factor=round(rmse_flat / rmse4, 1),
+                rc3b_vs_rung4="worse (near-instant favored, §5.6)" if rmse5 > rmse4 else "better")
