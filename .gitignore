@@ -12,6 +12,7 @@ puckworks/data/pannusch2024/*
 !puckworks/data/pannusch2024/PROVENANCE.md
 !puckworks/data/pannusch2024/table2_fitted_params.csv
 !puckworks/data/pannusch2024/table2_grind_psi_ds2.csv
+!puckworks/data/pannusch2024/experimental_kinetics.csv
 # schmieder2023: large MDPI binaries + extracted supplementary dirs
 puckworks/data/schmieder2023/*.zip
 puckworks/data/schmieder2023/*.epub

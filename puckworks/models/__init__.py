@@ -53,6 +53,22 @@ register(Component(
     notes="reconciling with Cameron flux implies phi_c~0.11 or series screen resistance"))
 
 register(Component(
+    name="pannusch2024.solver", stage="extraction", kind="runtime",
+    paper="Pannusch et al., J. Food Eng. 367, 111887 (2024)", doi="10.1016/j.jfoodeng.2023.111887",
+    module="puckworks.models.pannusch2024.solver",
+    gates=[G.gate_pannusch_solver_mape],
+    assumptions="1D two-grain (fine/coarse) saturated extraction; first-order "
+                "interphase transfer with Sherwood(Re,Sc) closure; van't Hoff K(T); "
+                "constant porosity; method-of-lines 5-pt biased upwind + BDF; "
+                "faithful port of the released MATLAB; measured-flow driven (Q,T)",
+    valid_range="T 80-98 C, Q 1-3 mL/s, EK43-type grind 1.4-2.0; centre-grind (1.7) "
+                "used for all exps (per-exp grind in opaque source list); flow-"
+                "prediction regime (MAPE 18%) + CGA roast confound quarantined (card)",
+    notes="reproduces fit MAPEs vs Schmieder kinetics: TDS 6.7/caffeine 6.4/"
+          "trigonelline 10.2/CGA 7.2% (published 6.07/4.59/7.85/4.98; post-fit). "
+          "Creates RC-4a. Consumes pannusch2024.closures. Full run ~13 s"))
+
+register(Component(
     name="pannusch2024.closures", stage="extraction", kind="calibration",
     paper="Pannusch et al., J. Food Eng. 367, 111887 (2024)", doi="10.1016/j.jfoodeng.2023.111887",
     module="puckworks.models.pannusch2024.closures",

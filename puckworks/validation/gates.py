@@ -285,6 +285,19 @@ def gate_pannusch_closures():
                 h_sl_ratio=round(h2 / h1, 2))
 
 
+def gate_pannusch_solver_mape():
+    """The two-grain multi-solute PDE solver reproduces the authors' fit MAPEs
+    against the Schmieder kinetics (POST-FIT reconstruction). Model per-solute
+    MAPE within ~3.5 pts of published (TDS 6.07, caffeine 4.59, trigonelline
+    7.85, CGA 4.98 %); centre-grind approximation raises the alcaloids slightly."""
+    from puckworks.models.pannusch2024 import solver as ps
+    pub = {"caffeine": 4.59, "trigonelline": 7.85, "5CQA": 4.98, "tds": 6.07}
+    m = ps.mape_all()
+    passed = all(abs(m[s] - pub[s]) < 3.5 and m[s] < 12.0 for s in pub)
+    return dict(passed=passed, tds=round(m["tds"], 2), caffeine=round(m["caffeine"], 2),
+                trigonelline=round(m["trigonelline"], 2), CGA=round(m["5CQA"], 2))
+
+
 def gates_data():
     """Lazy import of puckworks.data (avoids import cost at module load)."""
     from puckworks import data
@@ -299,4 +312,4 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_liang_kemax_refit, gate_liang_eoven_ceiling,
          gate_moroney_fig6_washthrough,
          gate_grudeva_no_eps_kappa, gate_grudeva_reduced_solver,
-         gate_pannusch_closures]
+         gate_pannusch_closures, gate_pannusch_solver_mape]

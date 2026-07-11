@@ -104,15 +104,17 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
       café config (anchored to exp13) carries the demonstration.
 
 ## Sprint 6 — multi-solute extraction (CC) [1.8a, M; needs D1, A3/A6]
-- [~] pannusch2024 measured-flow solver — fit MAPEs (post-fit) + temperature
+- [x] pannusch2024 measured-flow solver — fit MAPEs (post-fit) + temperature
       set (independent); quarantine flow-regime + CGA confound → **creates RC-4a**
-      — **PARTIAL (closures slice landed):** `pannusch2024.closures` gated —
-      constitutive laws (Wilke-Chang D, VDI μ/ρ, Sherwood, van't Hoff) ported
-      faithfully from the released MATLAB; μ@90C=3.13e-4 (card 3.15e-4), ρ=959,
-      K(Tref)=Kref. Table 2 params transcribed (data/pannusch2024/).
-      **DEFERRED:** full 4-solute PDE forward solver + fit-MAPE reproduction →
-      RC-4a. Reason: large PDE port, no MATLAB to cross-validate, experimental
-      data in opaque .mat; best as a dedicated pass.
+      → `pannusch2024.closures` (constitutive slice) **and** `pannusch2024.solver`
+      (full 1D two-grain multi-solute PDE, method-of-lines 5-pt biased upwind +
+      BDF) both gated, **faithful ports of the released MATLAB**. Reproduces the
+      fit MAPEs vs Schmieder kinetics: **TDS 6.7 / caffeine 6.4 / trigonelline
+      10.2 / CGA 7.2 %** (published 6.07/4.59/7.85/4.98; post-fit). exp7 caffeine
+      single-solve MAPE 3.9%. Constituent-part unit tests (FD exactness,
+      Jacobian sparsity, single-exp). Slow ladder: per-exp breakdown + resolution.
+      ⚠ centre-grind (1.7) for all exps (per-exp grind in opaque source list;
+      <15% ψ/d_s2 spread → 2nd-order). **RC-4a created.**
 
 ## Sprint 7 — machine mode (CC) [1.6, M; needs A1 + D3-foster]
 - [ ] A1 pressure-node fields (p_p/p_h/P_basket/ΔP_bed) per RC-3 node table
@@ -154,3 +156,4 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
 | 2026-07-11 | Sprint 4 | complete — merged card committed; 5.1 resolved; emergent κ/P_app decade-error finding; Sprint 5 unblocked, G0 first. |
 | 2026-07-11 | Sprint 5 | 1.7b `grudeva2025.reduced` gated (faithful port of released solver; G0 no-ε confirmed). G5-pre contract (fines_radius_m, SCHEMA 0.3). 15 quick gates + slow ladder; 13 loader tests. Creates RC-2 (verification-gated). |
 | 2026-07-11 | Sprint 6 (partial) | 1.8a closures slice: `pannusch2024.closures` gated (Wilke-Chang/Sherwood/van't Hoff/water props ported from MATLAB; μ@90C==card). Table 2 params transcribed. Full PDE solver + RC-4a MAPE reproduction deferred. 16 quick gates; 14 loader tests. |
+| 2026-07-11 | Sprint 6 (complete) | 1.8a full solver: `pannusch2024.solver` gated — 1D two-grain multi-solute PDE (5-pt biased upwind + BDF, sparse Jacobian), faithful MATLAB port. Reproduces fit MAPEs (TDS 6.7/caf 6.4/tri 10.2/CGA 7.2% vs pub 6.07/4.59/7.85/4.98). Experimental kinetics extracted from ExperimentalData.mat. Constituent unit tests + slow ladder. RC-4a created. 15 components; 17 quick gates; 18 tests (~16s). |

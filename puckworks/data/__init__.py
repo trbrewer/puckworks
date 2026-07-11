@@ -205,3 +205,10 @@ PANNUSCH = DATA_DIR / "pannusch2024"
 def pannusch_table2():
     """Table 2 per-solute fitted params (A1,B1,A2,B2,K_ref,gamma,c_s0)."""
     return _typed_rows(PANNUSCH / "table2_fitted_params.csv")
+
+
+def pannusch_experimental_kinetics():
+    """Schmieder/Pannusch extraction kinetics: per (exp, fraction) T, flow,
+    fraction time bounds, and measured caffeine/trigonelline/5CQA/TDS. Derived
+    from the reference repo ExperimentalData.mat (15 exp x 6 fractions)."""
+    return _typed_rows(PANNUSCH / "experimental_kinetics.csv")
