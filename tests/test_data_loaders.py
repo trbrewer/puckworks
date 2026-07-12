@@ -338,3 +338,23 @@ def test_khomyakov_kinematic_viscosity():
                        for x in r if float(x["temperature_C"]) == T))
         vals = [v for _, v in by_f]
         assert all(a < b for a, b in zip(vals, vals[1:]))   # monotone up in solids
+
+
+def test_ellero2019_digitized_figures():
+    # FIGURE-DIGITIZED SPH simulation (qualitative); NOT raw coffee data.
+    assert len(pwdata.ellero_fig2_forcing()) == 10
+    assert len(pwdata.ellero_fig2_ref8_markers()) == 38          # experimental overlay markers
+    re2 = pwdata.ellero_fig2_reynolds()
+    assert set(re2) >= {"theta=0.000", "theta=0.005", "theta=0.006"}
+    assert max(re2["theta=0.005"]["y"]) > 8.0                    # inverse discharge starts high
+    # fig3 direct discharge: fines migration drives an order-of-magnitude flow
+    # decay (Re ~10 -> ~1) and DEEPENS monotonically with theta (fines fraction)
+    re3 = pwdata.ellero_fig3_reynolds()
+    y58 = re3["theta=0.0058"]["y"]
+    assert max(y58) > 8.0 and min(y58) < 2.0
+    mins = [min(re3[k]["y"]) for k in ("theta=0.0020", "theta=0.0050", "theta=0.0056", "theta=0.0058")]
+    assert all(a > b for a, b in zip(mins, mins[1:]))            # deeper decay as theta rises
+    # card's central claim: release rate Dr dominates -> final content rises with Dr
+    dr = pwdata.ellero_fig4_caffeine_Dr()
+    finals = {k: v["y"][-1] for k, v in dr.items()}
+    assert finals["Dr=0.0200"] > finals["Dr=0.0050"] > finals["Dr=0.0010"]

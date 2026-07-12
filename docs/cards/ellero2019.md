@@ -65,7 +65,21 @@ Inputs consumed: none of the v0.1 contracts directly — a grain-scale geometry 
 Couplings: strictly offline calibration. Plausible chain: pack_generator geometry → SPH (or LB) transient run → effective κ(t; θ) curve → informs a future bed_dynamics κ(t) closure. Runtime coupling (SPH inside the shot chain) is the mega-model failure mode and is not proposed. Adapters needed: 2D→3D justification, sim-units→SI anchoring, fines-population ↔ GrindState.fines_fraction mapping — all nontrivial.
 
 ## Extractable data
-Nothing transcribable of registry value. Figs. 2–4 are digitizable but in simulation units with nominal parameters; they characterize the model, not coffee. No code released; no repository cited. The underlying experimental transient-discharge data live in refs. [13] and [18] (ASIC colloquium proceedings, 1993/1997 — hard to obtain, but would be genuinely valuable as a κ(t) validation target if anyone can source them). The journal version (J. Food Eng. 263, 2019) is the copy worth intaking for equations and the D_s-coupled results.
+**Figs. 2–4 DIGITIZED 2026-07-12 → `data/ellero2019/`** (Tim drop; pixel
+extraction, axis fit <1px; loaders `ellero_fig2_*/fig3_*/fig4_*`; 3 MANIFEST rows;
+smoke test). **QUALITATIVE / figure-digitized strength only** — these are the SPH
+model's OWN output in dimensionless simulation units with nominal parameters
+(they characterize the model, not coffee), plus the fig2 Ref.[8] experimental
+markers overlaid on it. θ=0.0058 is a fit to the flow data (circular at that θ).
+The digitized set reproduces the card's mechanism qualitatively: direct-discharge
+Re decays ~10→~1 and DEEPENS monotonically with θ (fines fraction) as fines
+accumulate in the filter (fig3), and in-cup caffeine content rises with release
+rate Dr, weakly with bulk diffusion Db (fig4). **Does NOT close G2:** the raw
+experimental transient-discharge series (refs. [13] Petracco 1993 / [18] Bandini
+1997, ASIC proceedings) is still owed — the digitized simulation curves are a
+qualitative pointer for the fines-migration mechanism, not a validation dataset.
+No code released. The journal version (J. Food Eng. 263, 2019) remains the copy
+worth intaking for equations and the D_s-coupled results.
 
 ## Overlaps and conflicts
 - **brewer2026.streamtube (Rung B fines migration):** direct mechanistic complement/competitor. This paper is independent support that fines migration alone produces reversible transient permeability — but via filter accumulation, not intra-bed tube redistribution. Useful citation for the Rung B hypothesis; does not validate it.

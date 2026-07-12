@@ -541,3 +541,71 @@ def khomyakov_kinematic_viscosity():
     QUARANTINED (khomyakov2020_*_QUARANTINED/FLAGGED.csv in this dir; sign/typeset
     conflicts) -- NOT loaded; only this measured kinematic table is usable."""
     return _rows(G10R / "khomyakov2020_kinematic_viscosity.csv")
+
+
+# --- ellero2019 digitized figures (G2 pointer; SPH SIMULATION, dimensionless) --
+# FIGURE-DIGITIZED (pixel extraction), QUALITATIVE strength. These are the SPH
+# model's OWN output in simulation units with nominal parameters -- they
+# characterize the model, NOT coffee (ellero2019 card VERDICT: skip). The only
+# experimental content is the fig2 Ref.[8] transient-discharge markers overlaid on
+# the sim. Does NOT close G2: the raw ASIC 1993/1997 discharge series is still owed.
+ELLERO = DATA_DIR / "ellero2019"
+
+
+def _ellero_wide(fname, xcol="t_over_tnu"):
+    """Parse a sparse wide digitized CSV (x column + one column per curve, blanks
+    where a curve is not sampled) -> {curve_name: {'x': [...], 'y': [...]}}."""
+    rows = _rows(ELLERO / fname)
+    curves = [c for c in rows[0] if c != xcol]
+    out = {c: {"x": [], "y": []} for c in curves}
+    for r in rows:
+        x = float(r[xcol])
+        for c in curves:
+            v = r.get(c, "")
+            if v not in ("", None):
+                out[c]["x"].append(x)
+                out[c]["y"].append(float(v))
+    return out
+
+
+def ellero_fig2_forcing():
+    """Fig 2 left — inverse-discharge applied forcing F/F0 (step ±1/0), exact
+    breakpoints. Rows: t_over_tnu, F_over_F0."""
+    return _rows(ELLERO / "fig2_inverse_discharge_applied_forcing.csv")
+
+
+def ellero_fig2_ref8_markers():
+    """Fig 2 right — the overlaid Ref.[8] EXPERIMENTAL transient-discharge markers
+    (38 recovered open circles; |Re| vs t/tnu). The only non-simulation content in
+    the digitized set; early points (t<~6) carry ~+/-0.3 Re (notes)."""
+    return _rows(ELLERO / "fig2_inverse_discharge_reynolds_data_ref8.csv")
+
+
+def ellero_fig2_reynolds():
+    """Fig 2 right — SPH |Re|(t/tnu) per theta (6 curves). Pump-off windows
+    (~37.6-52.6, ~75.2-90.2) read as Re~0 (notes)."""
+    return _ellero_wide("fig2_inverse_discharge_reynolds_vs_theta.csv")
+
+
+def ellero_fig3_reynolds():
+    """Fig 3 left — direct-discharge SPH |Re|(t/tnu) per theta (4 curves)."""
+    return _ellero_wide("fig3_direct_discharge_reynolds_vs_theta.csv")
+
+
+def ellero_fig3_concentration():
+    """Fig 3 right — direct-discharge cumulative output concentration [%] per theta
+    (4 curves). Exploratory sweep, no experimental comparison (card)."""
+    return _ellero_wide("fig3_direct_discharge_cumulative_output_concentration.csv")
+
+
+def ellero_fig4_caffeine_Db():
+    """Fig 4 left — caffeine content [%] vs t/tnu varying bulk diffusion Db
+    (Dr=0.0005, theta=0.0058 fixed; 5 curves). Exploratory sweep (card)."""
+    return _ellero_wide("fig4_direct_discharge_caffeine_content_vary_Db.csv")
+
+
+def ellero_fig4_caffeine_Dr():
+    """Fig 4 right — caffeine content [%] vs t/tnu varying release rate Dr
+    (Db=0.005, theta=0.0058 fixed; 4 curves). Release rate Dr dominates in-cup
+    concentration (card's central claim), not bulk diffusion Db."""
+    return _ellero_wide("fig4_direct_discharge_caffeine_content_vary_Dr.csv")

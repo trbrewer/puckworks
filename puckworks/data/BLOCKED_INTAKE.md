@@ -71,15 +71,17 @@ Four of five are acquisition/search projects, not quick drops.
   as a component).
 - **Need:** **ASIC 1993/1997 Petracco/Bandini** transient-discharge proceedings;
   and/or **Ellero & Navarini, J. Food Eng. 263 (2019)** raw discharge series.
-- **Status (🔴, but no longer a blind search — 2026-07-12):** the ellero2019
-  **primary source is located** (open institutional PDF; supplies the direct/inverse
-  forcing schedule + τ_v=0.16 s + a plotted experimental overlay) — but **NOT a
-  raw-data release**; the points are embedded in a figure and the ASIC 1993/1997
-  proceedings remain hard to obtain. So G2 is now a **defined acquisition/
-  digitization task**: request raw series from Ellero/Navarini/ASIC/illy AND
-  digitize the 2019 overlay as a labelled fallback (never call digitized points
-  raw). Source notes + digitization template + request path in `docs/sourcing/`
-  (`G2_TRANSIENT_DISCHARGE_SOURCE_NOTES.md`, `g2_..._digitization_template.csv`).
+- **Status (🔴 — digitized fallback landed, raw series still owed; 2026-07-12):**
+  the ellero2019 Figs 2–4 are now **digitized on disk** (Tim drop →
+  `data/ellero2019/`, loaders + 3 MANIFEST rows + smoke test), **QUALITATIVE /
+  figure-digitized** only: they are SPH-SIMULATION output in dimensionless units
+  with nominal params (characterize the model, not coffee), plus the fig2 Ref.[8]
+  experimental markers. They reproduce the fines-migration mechanism qualitatively
+  (Re decays ~10→~1, deeper with θ; content rises with Dr) but are **NOT a
+  validation dataset** and **do NOT close G2**. Still owed: the **raw** experimental
+  transient-discharge series (ASIC 1993/1997, refs [13]/[18]) — request path +
+  notes in `docs/sourcing/`. A mass-conserving fines-migration MODEL (the actual
+  G2 component) remains blocked on that raw data.
 
 ### 🟡 0.6 — Wadsworth raw 22-sample PSD zip
 - **Unblocks:** full `pack_generator` PSD-prior validation. **Does NOT block 1.5**
