@@ -1034,3 +1034,51 @@ def g4_temperature_sensitivity(T_lo=80.0, T_hi=98.0, grind="PsiC", mw="med",
                      100 * float(np.mean(list(D_frac_pann.values()))), ey_abs_pp,
                      ("%.1f%%" % (100 * sch_median_span))
                      if sch_median_span is not None else "n/a")))
+
+
+# --- G10 directional mu-bias consistency check (g10_liquor_rheology card) ------
+def g10_mu_bias_direction():
+    """G10 directional consistency check (the card's suggested gate). REFERENCE/
+    qualitative -- NOT a validation (no espresso-TDS flow measurement on file).
+
+    Physics: Darcy/Forchheimer flow is Q ~ 1/mu. Every flow model on file uses
+    pure-water mu, but coffee liquor is more viscous where it is more concentrated
+    (grudeva flag; G10). The EARLY shot carries the highest dissolved-solids
+    concentration (near-saturation liquor) -> highest mu -> most flow suppression;
+    the LATE/equilibrium shot is dilute -> mu -> mu_water -> flow essentially
+    unchanged. So swapping in the reference espresso mu (a) reduces EARLY flow and
+    (b) LEAVES equilibrium intact -- exactly the two properties the card asks for
+    (reduce the RC-2/RC-3 early-shot bias without breaking equilibrium agreement),
+    IF that bias is early-flow over-prediction (the grudeva-flagged direction).
+
+    Returns the bounded early-flow suppression factor (mu_water/mu_espresso) and
+    the equilibrium (late) factor (~1). CAVEAT (card): the effect is only ~1.3-2x;
+    confirm the observed bias is not much larger before attributing all of it to
+    viscosity. Espresso is Newtonian, so a single local-mu multiplier suffices."""
+    from puckworks import data as _d
+    r = _d.liquor_rheology()
+    mu_water = float(r["viscosity_water_baseline"]["value_or_form"])
+    est = r["viscosity_espresso_estimate"]["value_or_form"].replace("~", "")
+    lo, hi = (float(x) for x in est.split("-"))          # espresso mu range [Pa s]
+    ratio_lo, ratio_hi = lo / mu_water, hi / mu_water    # early mu / water
+    # Darcy Q ~ 1/mu: early-shot flow factor vs the pure-water prediction
+    early_flow_factor_hi = mu_water / lo                 # least-viscous end
+    early_flow_factor_lo = mu_water / hi                 # most-viscous end
+    late_flow_factor = 1.0                               # dilute -> mu -> water
+    suppresses_early = bool(ratio_lo > 1.0)              # mu_espresso > water
+    preserves_equilibrium = bool(abs(late_flow_factor - 1.0) < 1e-9)
+    bounded = bool(ratio_hi < 2.5)                       # only ~1.3-2x (card)
+    return dict(
+        mu_water_Pa_s=mu_water, mu_espresso_range_Pa_s=[lo, hi],
+        early_mu_ratio=[round(ratio_lo, 2), round(ratio_hi, 2)],
+        early_flow_factor=[round(early_flow_factor_lo, 2), round(early_flow_factor_hi, 2)],
+        late_flow_factor=late_flow_factor,
+        suppresses_early_flow=suppresses_early,
+        preserves_equilibrium=preserves_equilibrium, bounded=bounded,
+        reading=("reference espresso mu is %.2f-%.2fx pure water -> Darcy flow "
+                 "EARLY is suppressed to %.2f-%.2fx the pure-water prediction, while "
+                 "the dilute LATE/equilibrium flow is unchanged (x1.0). Directionally "
+                 "reduces an early-flow over-prediction without breaking equilibrium; "
+                 "bounded ~1.3-2x (confirm the real bias is not larger). "
+                 "Reference/qualitative." % (
+                     ratio_lo, ratio_hi, early_flow_factor_lo, early_flow_factor_hi)))

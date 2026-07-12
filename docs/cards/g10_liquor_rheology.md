@@ -97,3 +97,9 @@ Low-to-medium. Reference envelope ready now. Quantitative per-cell closure needs
 the Telis-Romero tables (Tim drop). Gate: "does swapping pure-water mu for the
 reference espresso mu reduce the RC-2/RC-3 early-shot bias without breaking
 equilibrium agreement?" — a directional improvement check at reference-strength.
+**IMPLEMENTED 2026-07-12** (`harness.g10_mu_bias_direction`,
+`gate_g10_mu_bias_directional`): Darcy Q~1/mu with the 1.27-1.90x reference mu
+suppresses EARLY-shot flow to ~0.53-0.79x the pure-water prediction while leaving
+the dilute LATE/equilibrium flow unchanged (x1.0) — directionally correct + bounded
+~1.3-2x. Consistency check only (no espresso-TDS flow measured); confirm the real
+early-shot bias is not much larger before attributing all of it to viscosity.

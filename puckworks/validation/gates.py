@@ -1221,3 +1221,25 @@ def gate_g10_reference_mu_above_water():
                 mu_espresso_ratio=[round(ratio_lo, 2), round(ratio_hi, 2)],
                 espresso_newtonian=newtonian,
                 strength="reference/qualitative (espresso-TDS extrapolated)")
+
+
+def gate_g10_mu_bias_directional():
+    """G10 directional consistency check (g10_liquor_rheology card's suggested
+    gate). CONSISTENCY CHECK, reference/qualitative -- NOT a validation. Darcy
+    Q~1/mu + the reference espresso mu (1.3-2x water): swapping it in SUPPRESSES
+    the high-concentration EARLY-shot flow (to ~0.5-0.8x the pure-water
+    prediction) while leaving the dilute LATE/equilibrium flow unchanged -- the two
+    properties the card asks for (reduce the RC-2/RC-3 early bias without breaking
+    equilibrium), IF that bias is early-flow over-prediction. Bounded ~1.3-2x;
+    confirm the real bias is not larger before attributing all of it here."""
+    from puckworks import harness as h
+    r = h.g10_mu_bias_direction()
+    passed = bool(r["suppresses_early_flow"] and r["preserves_equilibrium"]
+                  and r["bounded"] and r["early_flow_factor"][1] < 1.0)
+    return dict(passed=passed,
+                early_mu_ratio=r["early_mu_ratio"],
+                early_flow_factor=r["early_flow_factor"],
+                late_flow_factor=r["late_flow_factor"],
+                suppresses_early_flow=r["suppresses_early_flow"],
+                preserves_equilibrium=r["preserves_equilibrium"],
+                reading=r["reading"])

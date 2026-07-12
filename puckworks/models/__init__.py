@@ -368,7 +368,7 @@ register(Component(
     kind="calibration", paper="Telis-Romero et al. (2000, 2001)",
     doi="10.1111/j.1745-4530.2001.tb00541.x",
     module="puckworks.data:liquor_rheology",
-    gates=[G.gate_g10_reference_mu_above_water],
+    gates=[G.gate_g10_reference_mu_above_water, G.gate_g10_mu_bias_directional],
     assumptions="Espresso TDS below sources' dilute end -> mu EXTRAPOLATED to "
                 "pure water; espresso Newtonian (power-law only >36% solids)",
     valid_range="reference/qualitative; quantitative mu(T,c) needs Telis-Romero "

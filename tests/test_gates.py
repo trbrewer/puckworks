@@ -19,3 +19,8 @@ def test_g3_pump_envelope_bounds_quadratic():
 def test_g10_reference_mu_above_water():
     from puckworks.validation.gates import gate_g10_reference_mu_above_water
     assert gate_g10_reference_mu_above_water()["passed"]
+
+
+def test_g10_mu_bias_directional():
+    from puckworks.validation.gates import gate_g10_mu_bias_directional
+    assert gate_g10_mu_bias_directional()["passed"]
