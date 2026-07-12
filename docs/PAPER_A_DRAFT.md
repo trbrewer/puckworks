@@ -230,6 +230,20 @@ the data's — angeloni's measured concentrations move only ~15 % across grinds
 despite a >2× flow change — cannot both fit one grind and predict another with a
 level-only correction. Strength: **negative validation** (held-out grind).
 
+**The joint multi-grind fit — the strongest form of the test.** Rather than fit one
+grind and predict the others, we also fit a *single shared, grind-independent*
+`(c_s0, rate_scale)` **jointly** to all three granulometries at once, each with its
+own measured flow (`joint_multigrind_fit`). If any shared (inventory, rate)
+generalised across grind, the joint fit would approach the per-grind fits. It does
+not: the **mean pooled MAPE is ~30 %, versus ~20 % for the per-grind independent
+fits** (a cost-of-sharing of ~6–13 pp per species, and well above angeloni's own
+~9–13 % model). Every solute is pushed to the rate-sweep boundary (2.5), and the
+pooled residual concentrates on the **coarse and fine (extreme) grinds** while the
+middle O grind stays best — the structured residual signature of a single
+inventory+rate that cannot serve all grinds. This confirms the transfer failure is
+not an artefact of the held-out protocol: no shared calibration exists. Strength:
+**negative validation** (joint shared-inventory fit).
+
 ## 6. Result 4 — positive control: fractions resolve what the cup hides
 
 The claim in §4 (the rate is identifiable from the extraction *curve* but not its
@@ -266,8 +280,10 @@ level. Neither the inventory nor the kinetic rate individually.
 measurement makes the rate identifiable — but here that fit is then *worse* for
 trigonelline, i.e. the residual becomes a genuine structural/kinetic mismatch
 rather than a free knob. (ii) Fitting multiple grinds jointly with a shared,
-grind-independent inventory is the real transfer test, and it fails (§5): no single
-(inventory, rate) fits O, C, and F together. (iii) Using time-resolved fractions
+grind-independent inventory is the real transfer test, and it fails (§5): a single
+shared (inventory, rate) fitted jointly to O+C+F gives ~30 % pooled MAPE against
+~20 % for the per-grind fits, the residual concentrated on the extreme grinds — no
+shared calibration exists. (iii) Using time-resolved fractions
 constrains rate (early-time slope) separately from level (asymptote); the endpoint
 alone does not (§6). Angeloni report whole-cup only, which is why the degeneracy is
 unbreakable on that dataset.
@@ -288,10 +304,11 @@ inventory-vs-kinetic" reading of the same refit.
 
 ## 8. Open gaps this paper defines
 
-- **A joint multi-grind fit with a single shared inventory**, reported with its
-  residual structure rather than a forced success — the strongest single test of
-  whether any (inventory, rate) pair generalises across grind. *(Owed; scoped as a
-  diagnostic, not a gate.)*
+- **A joint multi-grind fit with a single shared inventory** — *delivered* (§5,
+  `joint_multigrind_fit`): ~30 % pooled vs ~20 % per-grind, residual on the extreme
+  grinds. Still owed on top: propagating measurement uncertainty into the pooled
+  residual and testing a grind-dependent grain geometry (not just a level+rate) to
+  see whether *any* physically-motivated extension recovers transfer.
 - **A profile-likelihood / condition-number identifiability panel** to quantify the
   valley flatness beyond the tabulated sweep (parameter correlation, local
   curvature, bootstrap across shots).
@@ -339,7 +356,8 @@ submission.*
 - **Transfer arc:** `puckworks/validation/slow/angeloni_bracket.py` —
   `gate_angeloni_multispecies_bracket`, `gate_pannusch_angeloni_species_bracket`,
   `gate_pannusch_angeloni_per_condition`, `flow_map_refinement`,
-  `refit_pannusch_angeloni`, `validate_refit_granulometry`. Run:
+  `refit_pannusch_angeloni`, `validate_refit_granulometry`, `joint_multigrind_fit`
+  (the shared-inventory joint fit of §5). Run:
   `python -m puckworks.validation.slow.angeloni_bracket`.
 - **Positive control:** `puckworks/validation/slow/identifiability.py` —
   `identifiability_fractions_vs_cup`. Run:

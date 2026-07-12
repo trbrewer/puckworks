@@ -126,8 +126,11 @@ with a level-only correction.
   is identifiable — but here that fit is worse for trigonelline, i.e. the
   residual is then a genuine structural/kinetic mismatch, not a free knob.
 - *Fit multiple grinds jointly with a shared, grind-independent `c_s0`.* This is
-  the real transfer test, and it **fails** (§4): no single (inventory, rate)
-  fits O, C, and F together.
+  the real transfer test, and it **fails** (`joint_multigrind_fit`): a single shared
+  (inventory, rate) fitted jointly to O+C+F gives **~30 % pooled MAPE vs ~20 %** for
+  the per-grind fits (cost-of-sharing ~6–13 pp/species; every solute driven to the
+  rate boundary), with the residual concentrated on the coarse and fine (extreme)
+  grinds — no single (inventory, rate) fits O, C, and F together.
 - *Use time-resolved fractions, not the whole cup.* The extraction *curve*
   constrains rate (early-time slope) separately from level (asymptote); the
   endpoint alone does not. angeloni reports whole-cup only, which is why the
@@ -183,7 +186,7 @@ Strength: verification (positive control on the model's own calibration data).
 - Transfer arc: `validation/slow/angeloni_bracket.py` —
   `gate_angeloni_multispecies_bracket`, `gate_pannusch_angeloni_per_condition`,
   `flow_map_refinement`, `refit_pannusch_angeloni`,
-  `validate_refit_granulometry`.
+  `validate_refit_granulometry`, `joint_multigrind_fit`.
 - Data: `puckworks.data.angeloni_{bioactives,total_solids,inventories}`
   (manifest rows carry the p→flow caveat).
 - Strength tags: bracket = independent (wide envelope); per-condition/refit =

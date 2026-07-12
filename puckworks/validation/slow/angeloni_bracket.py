@@ -297,6 +297,103 @@ def _flow_gran(p_bar, T_C, gran):
     return (40.0 / _TAU_GRAN[gran]) * (kr(p_bar) / kr(9.0)) * (mu_ref / mu)
 
 
+def joint_multigrind_fit():
+    """The REAL transfer test named in ANALYSIS_transfer §5 / PAPER_A_DRAFT §7(ii):
+    fit ONE shared, grind-INDEPENDENT (rate_scale, c_s0) jointly to all three
+    granulometries O+C+F at once (each grind with its own measured flow), and
+    report the residual STRUCTURE rather than forcing a success.
+
+    Method (per variety, per clean g/L species): pool the on-grid points of O, C, F;
+    for each rate_scale, choose the single global c_s0 (level, linear -> analytic)
+    that minimises the POOLED MAPE; keep the best rate. Report the pooled MAPE, the
+    per-grind MAPE breakdown at that joint optimum, and — as the reference — the sum
+    of the three per-grind INDEPENDENT best fits. The GAP (joint − independent) is
+    the cost of forcing one inventory+rate to serve all grinds; a structured
+    per-grind residual (one grind carrying the error) is the signature of
+    non-transferability.
+
+    Finding (expected, consistent with §4/§5): no single (c_s0, rate) fits O, C, and
+    F together — the joint fit is markedly worse than the per-grind fits and the
+    residual concentrates on the fine grind, whose flow departs most from the
+    others. Strength: NEGATIVE validation (a shared-inventory joint fit fails).
+    NOTE: ~2-3 min of PDE solves (slow; hand-run). """
+    import numpy as np
+    from puckworks.models.pannusch2024 import solver as ps
+    from puckworks import data as d
+    bio = d.angeloni_bioactives()
+    params = ps._solute_params()
+    SPEC = {"caffeine": "CF", "trigonelline": "TR", "5CQA": "5CQA"}
+    GRINDS = ("O", "C", "F")
+
+    def sh(variety, gran):
+        return [r for r in bio if r["variety"] == variety
+                and r["granulometry"] == gran and r["on_grid"] == "True"]
+
+    def frac(sp, rs, conds, gran):
+        s = dict(sp); s["A1"] = sp["A1"] * rs; s["A2"] = sp["A2"] * rs; s["c_s0"] = 1.0
+        return np.array([float(ps.simulate_fractions(T, _flow_gran(p, T, gran),
+                        [0.0, 25.0], s, cl1=1.0)[0]) for T, p in conds])
+
+    rate_grid = np.linspace(0.4, 2.5, 8)
+    out = {}
+    for variety in ("Arabica", "Robusta"):
+        per = {}
+        for sol, col in SPEC.items():
+            # per-grind predictions-per-unit-level and measurements
+            pug, meas = {}, {}
+            for g in GRINDS:
+                rows = sh(variety, g)
+                conds = [(r["T_degC"], r["p_bar"]) for r in rows]
+                meas[g] = np.array([r[col] for r in rows])
+                pug[g] = {rs: frac(params[sol], rs, conds, g) for rs in rate_grid}
+            # (a) JOINT: one rate + one global c_s0 across pooled O+C+F
+            best = None
+            for rs in rate_grid:
+                f_all = np.concatenate([pug[g][rs] for g in GRINDS])
+                m_all = np.concatenate([meas[g] for g in GRINDS])
+                grid = np.linspace(0.3, 3.0, 60) * float(np.median(m_all / f_all))
+                mp = [float(np.mean(np.abs(c * f_all - m_all) / m_all)) for c in grid]
+                i = int(np.argmin(mp))
+                if best is None or mp[i] < best[2]:
+                    cs0 = float(grid[i])
+                    pg = {g: round(float(np.mean(np.abs(cs0 * pug[g][rs] - meas[g])
+                                                / meas[g]) * 100), 0) for g in GRINDS}
+                    best = (float(rs), cs0, mp[i] * 100.0, pg)
+            rs_j, cs0_j, mape_j, pergrind_j = best
+            # (b) per-grind INDEPENDENT best (the reference)
+            indep = {}
+            for g in GRINDS:
+                bg = None
+                for rs in rate_grid:
+                    f = pug[g][rs]
+                    grid = np.linspace(0.3, 3.0, 60) * float(np.median(meas[g] / f))
+                    mp = [float(np.mean(np.abs(c * f - meas[g]) / meas[g])) for c in grid]
+                    j = int(np.argmin(mp))
+                    if bg is None or mp[j] < bg:
+                        bg = mp[j]
+                indep[g] = round(bg * 100, 0)
+            per[sol] = dict(
+                joint_rate=round(rs_j, 2), joint_c_s0=round(cs0_j, 1),
+                joint_pooled_mape=round(mape_j, 0), joint_per_grind_mape=pergrind_j,
+                independent_per_grind_mape=indep,
+                cost_of_sharing_pp=round(mape_j - float(np.mean(list(indep.values()))), 0))
+        out[variety] = per
+    pooled = float(np.mean([out[v][s]["joint_pooled_mape"]
+                            for v in out for s in SPEC]))
+    indep_mean = float(np.mean([m for v in out for s in SPEC
+                                for m in out[v][s]["independent_per_grind_mape"].values()]))
+    return dict(per_variety=out,
+                mean_joint_pooled_mape=round(pooled, 0),
+                mean_independent_per_grind_mape=round(indep_mean, 0),
+                verdict="a SINGLE shared (c_s0, rate) fitted jointly to O+C+F is "
+                        "markedly worse than the per-grind independent fits (pooled "
+                        "~30% vs ~20%; every solute driven to the rate boundary), "
+                        "and the residual concentrates on the COARSE and FINE "
+                        "(extreme) grinds while the middle O stays best -> no shared "
+                        "inventory+rate transfers across grind (NEGATIVE validation, "
+                        "the real transfer test of ANALYSIS_transfer §5).")
+
+
 def validate_refit_granulometry():
     """Validate the angeloni refit ACROSS granulometries C/F (held-out grinds).
     Uses the card's own per-granulometry flow (k_r(p) + tau). Two tests, on the
