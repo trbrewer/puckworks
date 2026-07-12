@@ -36,6 +36,14 @@ with CLAUDE.md, flag it rather than comply.
    bed-dynamics = P3 verdict + κ(t) ladder + N-tube instability) + a possible
    methods note. Read before starting any manuscript work so you don't rebuild a
    result that is already gated and ready.
+6. `docs/PUBLIC_VALUE.md` — the **public-value track** (a parallel workstream to
+   the scientific ROADMAP): how the repo's data, disagreements, nulls, and
+   negative results become material a non-specialist can use (tasks PV-00–PV-18).
+   Its §3 communication guardrails are binding on that track exactly as the
+   standing caveats are binding on science threads — **a session working any PV
+   task reads §3 first.** The public track consumes results; it never softens an
+   evidence-strength label. Sequencing/status lives in `docs/SPRINTS.md`
+   "Public-value track (PV)".
 
 ## 3. Verify the state is live, not remembered
 ```
@@ -55,6 +63,11 @@ build on a red tree.
 - **Chat (CHAT):** analysis, synthesis, prioritization, writeups. Produces
   docs (ANALYSIS_*, roadmap edits), not components.
 - **TB:** correspondence and physical experiments the user runs.
+- **PV (public-value track):** a distinct workstream, not a venue of its own — a
+  CHAT/CC/TB session *can* pick up a PV task, but whoever does reads
+  `docs/PUBLIC_VALUE.md` §3 guardrails first and keeps evidence-strength labels
+  intact. PV status is tracked in `docs/SPRINTS.md` "Public-value track (PV)".
+  Nothing in the PV track is built yet — it is spec + backlog only.
 
 ## 5. What the repo does and does not remember
 The repo captures **committed state**: code, cards, roadmap, changelog. It does

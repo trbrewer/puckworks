@@ -192,6 +192,45 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
 - **Colab**: full-grid Sweeps A/B (already queued); results → CHAT workup
 - Phase 3 items (3.1–3.5) schedule after Sprint 9 defines the harness
 
+## Public-value track (PV)
+*Parallel workstream to the scientific sprints above. **Spec:** `docs/PUBLIC_VALUE.md`
+(this table is the status ledger, PUBLIC_VALUE.md stays the spec — do not duplicate
+its content here). **Guardrails:** PUBLIC_VALUE.md §3 are binding; every public
+claim regenerates from a pinned commit and carries its evidence-strength label
+UNCHANGED (measured / post-fit / verification / qualitative). Reference-strength and
+labelled-proxy results stay labelled in public form.*
+
+**Nothing here is built yet — all `not-started`.** This is integration + tracking
+only; PV-00 (the public-results export layer) is a future build, not started.
+
+Sequence tiers from PUBLIC_VALUE.md §17. "Sci-dependency / coupling" is the
+load-bearing link that keeps the two tracks in sync: **a change on the scientific
+side flags the coupled PV row, and vice versa.** Shared items are named so they are
+not worked twice under two names — **PV-13 / PV-17 / PV-18 are the PUBLIC face of
+gaps G10 / G3 / G1.**
+
+| PV | short name | status | tier (§17) | depends-on | sci-dependency / coupling | spec |
+|---|---|---|---|---|---|---|
+| PV-00 | public-results export + claim registry | not-started | now | — (foundation) | `harness.py` public-ready fns + `figures.py` + registry/manifest provenance | [§5](PUBLIC_VALUE.md#pv-00--build-a-public-results-export-and-claim-registry) |
+| PV-01 | "the first drop is already strong" | not-started | now | — (pairs w/ PV-16) | `dissolution_speed_test` + foster2025_2 infiltration + fraction TDS; **G1 retention analog is REFERENCE-strength — label rides along** | [§5](PUBLIC_VALUE.md#pv-01--the-first-drop-is-already-strong-measured-fractions-plus-a-wetting-front-reveal) |
+| PV-02 | "the machine can fake a puck problem" | not-started | now | — (feeds PV-15) | Foster machine mode + `kappa_t_ladder` + `cross_pressure_discrimination` + the leave-one-pressure-out diagnostic (`ANALYSIS_cv_residual.md`) | [§5](PUBLIC_VALUE.md#pv-02--the-machine-can-fake-a-puck-problem-a-null-first-flow-curve-explainer) |
+| PV-05 | "adding physics made it worse" | not-started | now | — | `coupled_kappa_t` failed shared-porosity composite (anti-mega-model; Paper-B Fig 4) | [§5](PUBLIC_VALUE.md#pv-05--adding-more-physics-made-it-worse-the-anti-mega-model-story) |
+| PV-03 | "a good fit can still be wrong" | not-started | next | — | `ANALYSIS_transfer.md` inventory–kinetics identifiability (flat valley); Pannusch solver, Angeloni | [§5](PUBLIC_VALUE.md#pv-03--a-good-fit-can-still-be-wrong-the-inventorykinetics-flat-valley-interactive) |
+| PV-04 | "we killed our favorite result" | not-started | next | — | corrected fine-grind verdict (`ANALYSIS_P2.md` / `P3_hypotheses.md`); `schmieder_interior_max_target`, `result1_magnitude_comparison`, `channeling_interior_max_sensitivity` | [§5](PUBLIC_VALUE.md#pv-04--we-killed-our-favorite-result-a-transparent-analysis-autopsy) |
+| PV-06 | cross-pressure mechanism fingerprint | not-started | next | — (feeds PV-15) | waszkiewicz 11-pressure traces + `cross_pressure_discrimination`; Paper-B Fig 3 | [§5](PUBLIC_VALUE.md#pv-06--build-a-cross-pressure-mechanism-fingerprint-map) |
+| PV-08 | "Puck Court" evidence dashboard | not-started | next | PV-00 | registry + gates + manifest; Paper-B Fig 2 (evidence matrix, not a leaderboard) | [§5](PUBLIC_VALUE.md#pv-08--create-puck-court-a-public-evidence-dashboard-not-a-winner-leaderboard) |
+| PV-15 | model-disagreement experiment recommender | not-started | experiment | PV-02, PV-06 | consumes cross-mechanism disagreement across the harnesses | [§5](PUBLIC_VALUE.md#pv-15--build-a-model-disagreement-experiment-recommender) |
+| PV-16 | public first-drip / fraction replication | not-started | experiment | PV-01, PV-15 pilot | PV-01 protocol → public participation (after closed pilot) | [§5](PUBLIC_VALUE.md#pv-16--launch-a-public-first-drip-and-fraction-resolved-replication-study) |
+| PV-11 | "your grinder dial is not a unit" | not-started | program | — | G5 dial-non-portability gap + Wadsworth grind map (ledger A9/G5, rule 9) | [§5](PUBLIC_VALUE.md#pv-11--your-grinder-dial-is-not-a-unit-build-a-physical-grind-translation-study) |
+| PV-13 | measure espresso-liquor viscosity | not-started | program | — | **PUBLIC FACE of gap G10** (liquor rheology); current G10 is REFERENCE-strength extrapolation — label rides along | [§5](PUBLIC_VALUE.md#pv-13--measure-espresso-liquor-viscosity-the-first-drops-are-not-just-hot-water) |
+| PV-14 | dynamic channeling, flow vs pressure | not-started | program | — | `ntube_finite_time_gain`; **BOUNDED by the lateral-coupling PROXY (CARD-BLOCKED, rule 1) — cannot claim physical lateral coupling until a card exists** | [§5](PUBLIC_VALUE.md#pv-14--visualize-dynamic-channel-concentration-under-flow-versus-pressure-control) |
+| PV-17 | pump-curve + screen-clogging bench | not-started | program | (validates PV-10) | **PUBLIC FACE of gap G3** (pump curve); also feeds G9 screen-clogging (`g9_series_resistance`) | [§5](PUBLIC_VALUE.md#pv-17--measure-the-machine-and-outlet-pump-curve-plus-screen-clogging-bench-study) |
+| PV-18 | coffee-bed retention / continuous wetting | not-started | program | — | **PUBLIC FACE of gap G1** (retention curve θ(ψ)/K(ψ)); the measurement that would replace the reference-strength G1 analog PV-01 uses | [§5](PUBLIC_VALUE.md#pv-18--measure-continuous-coffee-bed-wetting-and-retention-not-just-the-front) |
+| PV-07 | compound extraction clocks | not-started | unsequenced (P1) | — | Pannusch solver + Schmieder fractions + transfer analysis (hypothesis generator only, transfer-limited) | [§5](PUBLIC_VALUE.md#pv-07--build-compound-extraction-clocks-and-search-for-same-strength-different-composition-shots) |
+| PV-09 | multi-lens "hidden puck" movie | not-started | unsequenced (P1) | — | Foster infiltration + pack_generator + LB solvers + extraction + streamtube/N-tube (parallel labelled lenses, no fake mega-model) | [§5](PUBLIC_VALUE.md#pv-09--produce-a-multi-lens-hidden-puck-movie-without-building-a-fake-mega-model) |
+| PV-10 | "a clean basket is not the bottleneck" | not-started | unsequenced (P0/P1) | — | `g9_series_resistance` + basket geometry (gap G9); PV-17 provides the bench validation | [§5](PUBLIC_VALUE.md#pv-10--a-clean-basket-is-not-the-bottleneck-visualize-the-pressure-resistance-budget) |
+| PV-12 | temperature explainer | not-started | unsequenced (P1) | — | `g4_temperature_sensitivity` + Schmieder temperature data (gap G4; two closures disagree on SIGN — surface, don't average) | [§5](PUBLIC_VALUE.md#pv-12--temperature-explainer-small-equilibrium-extraction-effect-unresolved-thermal-puck-physics) |
+
 ## Status log
 | date | sprint | outcome |
 |---|---|---|

@@ -67,6 +67,8 @@ A useful house template is:
 
 A parse of the referenced repository snapshot shows **25 registered components** and **64 manifest entries**, spanning machine behavior, infiltration, packing, flow, bed dynamics, extraction, and chemistry-related priors. More important than the counts, the repo already contains several public-facing ingredients that are difficult to retrofit into a conventional research codebase.
 
+> *[verified 2026-07-12: 25 components (`len(components())`), 64 manifest data rows (`MANIFEST.csv` minus header) — matches the counts above. Re-verify against the live tree per §18 before publishing any count.]*
+
 | Existing asset | Repo location | Public opportunity |
 |---|---|---|
 | Component registry with assumptions, validity ranges, and gates | [`README.md`](https://github.com/trbrewer/puckworks/blob/main/README.md), [`puckworks/registry.py`](https://github.com/trbrewer/puckworks/blob/main/puckworks/registry.py), [`puckworks/models/__init__.py`](https://github.com/trbrewer/puckworks/blob/main/puckworks/models/__init__.py) | “Model cards” that explain what each model can and cannot claim. |
