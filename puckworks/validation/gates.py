@@ -620,6 +620,45 @@ def gate_p3_schmieder_peak_discrimination():
                 verdict=r["verdict"])
 
 
+def gate_ntube_kappa_t_union():
+    """N-tube κ(t) union (streamtube channeling × coupled_kappa_t per-tube):
+    EXPLORATORY SYNTHESIS, qualitative strength. Asserts the robust qualitative
+    finding, not a fit: giving each parallel streamtube its OWN extraction-opens
+    porosity clock, under flow control, produces an UNCONDITIONAL single-channel
+    RUNAWAY with the POROELASTIC closure (top-decile flow share 0.31→~1.0, EY
+    collapses) — driven specifically by the near-choke hypersensitivity that P2
+    established as REQUIRED for the whole-bed 14× rise: the GENTLE Kozeny-Carman
+    auxiliary closure stays BOUNDED (no latch). The runaway is step-size-invariant
+    (not an Euler artifact) and is REGULARIZED by lateral pressure equalization
+    (lateral≥0.5 → bounded). Reading: the parallel-non-exchanging-tube assumption
+    is inadmissible once κ evolves; a coupled channeling-κ(t) model needs lateral
+    tube coupling (a new gap). NOT a registered component / validated law."""
+    from puckworks import harness as h
+    poro = h.ntube_kappa_t_union(gs=1.1, N=200, closure="poroelastic", compute_ey=True)
+    ck = h.ntube_kappa_t_union(gs=1.1, N=200, closure="ck", compute_ey=False)
+    poro_fine = h.ntube_kappa_t_union(gs=1.1, N=200, closure="poroelastic",
+                                      substeps=32, compute_ey=False)
+    reg = h.ntube_kappa_t_union(gs=1.1, N=200, closure="poroelastic",
+                                lateral=0.9, compute_ey=False)
+    passed = bool(
+        poro["runaway"]                                   # poroelastic latches
+        and poro["ey_dynamic"] < poro["ey_static"]        # EY collapses
+        and not ck["runaway"]                             # CK stays bounded
+        and ck["top_decile_share_final"] < 0.5
+        and poro_fine["runaway"]                          # step-size invariant
+        and not reg["runaway"])                           # lateral regularizes
+    return dict(passed=passed,
+                poroelastic_runaway=poro["runaway"],
+                poro_top_decile=round(poro["top_decile_share_final"], 3),
+                poro_ey_static=round(poro["ey_static"], 2),
+                poro_ey_dynamic=round(poro["ey_dynamic"], 2),
+                ck_bounded=not ck["runaway"],
+                ck_top_decile=round(ck["top_decile_share_final"], 3),
+                runaway_substep_invariant=poro_fine["runaway"],
+                lateral_regularizes=not reg["runaway"],
+                reading=poro["reading"])
+
+
 def gate_roman_sphere_solver():
     """romancorrochano2017 extraction (3.5) solver verification: the spherical
     method-of-lines diffusion solver reproduces the classic Crank analytic
@@ -1056,6 +1095,6 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_mo2_coupled_bed_fig8,
          gate_fasano_cor82_nonmonotone, gate_fasano_reversal_signature,
          gate_fasano_freeboundary, gate_p3_channeling_sigma_sweep,
-         gate_p3_schmieder_peak_discrimination,
+         gate_p3_schmieder_peak_discrimination, gate_ntube_kappa_t_union,
          gate_unified_kappa_t, gate_coupled_kappa_t, gate_g9_series_resistance,
          gate_kappa_t_degeneracy, gate_kappa_t_composition_diagnostic]

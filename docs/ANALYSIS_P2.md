@@ -100,7 +100,9 @@ rather than another tie:
    dissolution opening porosity is the more parsimonious reading at fixed
    9 bar. The erosion signature remains flow *acceleration concentrated in
    fast tubes*; that requires per-tube or per-depth observables, not a single
-   flow trace.
+   flow trace. **(Delivered — §2.4:** the N-tube κ(t) union supplies exactly
+   this per-tube coupling, and finds the concentration is not a mild signature
+   but an unconditional runaway under flow control.)**
 
 ---
 
@@ -120,19 +122,64 @@ Scoreboard against `docs/P3_hypotheses.md`, folding in the harness evidence:
   and #4 size-exclusion inventory (needs 0.5 intake). #5 pannusch is a
   pointer, not a mechanism, per its card.
 - **Shared constraint standing over all five:** schmieder2023's non-monotonic
-  cup mass peaking at GL 1.7 at fixed flow. Nothing currently on file
-  reproduces it, because nothing capable of it has been run against it.
+  cup mass peaking at GL 1.7 at fixed flow — **now run against every
+  instrumented mechanism** (`gate_p3_schmieder_peak_discrimination`).
 
-**Verdict: open, honestly — but the program is now closed-form.** The two
-computations that most reduce uncertainty, in order: (i) the σ(φ₁) sweep
-(streamtube × grindmap → does a monotone σ(grind) reproduce the schmieder
-peak?); (ii) a minimal continuous-saturation wetting model for G1 (Richards-
-type), which is the only way #2 gets a quantitative shot. Note also that #1
-and #2 are not mutually exclusive — incomplete wetting is the k→0 atom that
-the lognormal explicitly lacks (foster card); a composite distribution with a
-wetting-failure mass at zero is a legitimate unified candidate. Cheap
-experimental discriminator available to us: per-grind first-drip timing on
-the DE1 (wetting delay moves it; static channeling does not).
+**Verdict: SETTLED at the EY/cup-mass level (2026-07-11).** The discrimination
+harness (`harness.schmieder_peak_discrimination`) runs all four instrumented
+mechanisms against the schmieder target and asks the one question that
+separates them — does it make an INTERIOR grind maximum, from PHYSICAL
+parameters? **Only static channeling (#1) does.** Lee (#3) makes the shape only
+at a doctored ceiling ρ_c=798 (physical ρ_c=399 plateaus); size-exclusion (#4,
+monotone y₀) and the diffusion/base null are structurally monotone. So the
+fine-grind dip is a **channeling** phenomenon (full scoreboard: `P3_hypotheses.md`
+VERDICT section). This does NOT exclude #2 (incomplete wetting) — that lives in
+the open G1 continuous-saturation gap and is discriminated by first-drip DELAY,
+not EY shape; #1 and #2 are not mutually exclusive (incomplete wetting is the
+k→0 atom the lognormal lacks). Cheap experimental discriminator still standing:
+per-grind first-drip timing on the DE1 (wetting delay moves it; static
+channeling does not).
+
+---
+
+## 2.4 N-tube κ(t) union — per-tube coupling is unconditionally unstable
+
+**What it is.** The exploratory synthesis (`harness.ntube_kappa_t_union`,
+`gate_ntube_kappa_t_union`; qualitative) that §2.2 point 2 called for: it puts
+the P3 winner (streamtube channeling) and the P2 winner (coupled_kappa_t's
+extraction-opens porosity) in the SAME model by giving each parallel streamtube
+its own extraction-driven κ(t) clock — the per-tube observable a single flow
+trace cannot resolve. Scales are grounded, not invented: heterogeneity σ(gs)
+from the calibrated streamtube closure, the extraction clock from the empirical
+waszkiewicz m_d(t), the per-tube conductance multiplier M(φ) from the poroelastic
+closure. NOT a registered component (as sound as its shakiest donor).
+
+**Result — a hard channeling runaway.** Under flow control (schmieder/DE1
+regime: a fixed total flow shared across tubes), the poroelastic coupling is
+**unconditionally unstable**: a faster tube extracts faster → opens (near-choke
+κ is hypersensitive to φ) → steals more of the fixed flow → extracts even faster.
+The flow **latches into a single channel** within ~3 s (top-decile flow share
+0.31 → ~1.0), and ensemble EY collapses (16% → ~2.5%) — the gushing-channel
+disaster. Three controls make it a finding, not an artifact:
+
+1. **It is the near-choke sensitivity, specifically.** Swapping the gentle
+   Kozeny–Carman auxiliary closure for the poroelastic one, the runaway
+   *disappears* (top-decile stays 0.31, bounded). The very property P2 proved
+   REQUIRED for the whole-bed 14× rise (poroelastic, not CK) is what
+   destabilizes the per-tube ensemble.
+2. **It is not a step-size artifact.** Substep-invariant across 2/8/32
+   subdivisions per interval.
+3. **It is regularized by lateral coupling.** A lateral pressure-equalization
+   term (`lateral`≥0.5, blending flow shares toward uniform) bounds the
+   instability and recovers EY — so it is precisely the streamtube
+   **parallel-non-exchanging** assumption that breaks once κ evolves.
+
+**Reading.** A valid coupled channeling-κ(t) model CANNOT use independent
+streamtubes: with an evolving near-choke porosity, lateral pressure
+equalization between tubes is not a refinement but a *stability requirement*.
+This is a well-defined new gap (**lateral tube coupling**, noted in §4 under
+G-lat) and the reason the static streamtube ensemble (P3's winner) is the right
+tool for the *time-averaged* fine-grind dip while a naive dynamic upgrade is not.
 
 ---
 

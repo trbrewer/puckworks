@@ -521,3 +521,115 @@ def cross_pressure_discrimination(window=(15.0, 95.0)):
                                                       _mean(mid, "rc3b")),
         reading="Phi(t) best on OOS mean but regime-dependent: RC-3b wins low-P "
                 "(flow-coupled dissolution), static wins mid-P (no time structure)")
+
+
+# --- N-tube kappa(t) union: streamtube channeling x coupled_kappa_t per-tube --
+def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
+                        closure="poroelastic", lateral=0.0, substeps=8,
+                        compute_ey=True):
+    """EXPLORATORY SYNTHESIS harness (qualitative). Fuses the two P3/P2 winners:
+    the streamtube channeling ensemble (P3 verdict: static channeling is the
+    unique physical reproducer of the fine-grind dip) and the coupled_kappa_t
+    porosity-evolution closure (P2: extraction OPENS the near-choke bed, 8-14x
+    flow rise). Question it answers: when each parallel streamtube carries its OWN
+    extraction-opens porosity clock, does channeling RUN AWAY over the shot, or
+    SELF-LIMIT?
+
+    Construction (grounded scales only, no invented parameters):
+      - k_i0: unit-mean lognormal permeability multipliers, heterogeneity
+        sigma(gs) from the CALIBRATED streamtube closure sigma_closure_power.
+        Deterministic quantile nodes (reproducible, no RNG).
+      - Extraction is TIME-clocked by the empirical waszkiewicz m_d(t) (the shot
+        proceeds regardless), but each tube ages on its OWN throughput: an age
+        tau_i advances at the tube's relative flow share w_i; phi_i = Phi_ext(tau_i).
+      - Per-tube conductance g_i = k_i0 * M(phi_i). closure='poroelastic': M(phi)
+        = the poroelastic Q(phi) from coupled_kappa_t (near-zero at phi~0 -> ~1.9
+        g/s at phi~0.12 -- the near-choke hypersensitivity that P2 established as
+        REQUIRED for the whole-bed 14x rise). closure='ck': the GENTLE
+        Kozeny-Carman auxiliary kappa_ck(phi) -- the contrast isolates whether the
+        near-choke sensitivity is what drives the dynamics.
+      - Fixed-FLOW coupling (schmieder/DE1 regime): w_i = g_i / mean_j g_j (unit
+        mean; a fixed total is shared, so a faster tube STEALS flow). `lateral`
+        in [0,1] is a lateral pressure-equalization regularizer: w <- (1-lateral)*w
+        + lateral*1 (the parallel-non-exchanging assumption relaxed toward a
+        laterally-mixed bed). substeps subdivides each trace interval (Euler
+        stability check -- the runaway is not a step-size artifact).
+      - Coupled ODE: dtau_i/dt = w_i(t), integrated on the waszkiewicz time base.
+
+    Reports the flow-concentration trajectory (top-decile share; share spread),
+    whether it peaks-then-relaxes (self-limiting) vs monotone-growing (runaway),
+    and the ensemble-EY deficit vs the STATIC streamtube. Validation strength:
+    qualitative / exploratory synthesis -- NOT a registered component, NOT a
+    validated kappa(t) law (as sound as its shakiest donor; see coupled_kappa_t)."""
+    import numpy as np
+    from scipy.interpolate import PchipInterpolator
+    from scipy.stats import norm
+    from puckworks.models.brewer2026 import coupled_kappa_t as _ck
+    from puckworks.models.brewer2026 import streamtube as _st
+
+    # heterogeneity from the calibrated streamtube closure
+    sigma = float(_st.sigma_closure_power(gs, s_ref, m))
+    # deterministic unit-mean lognormal nodes at evenly-spaced quantiles
+    p = (np.arange(N) + 0.5) / N
+    z = norm.ppf(p)
+    k0 = np.exp(sigma * z - 0.5 * sigma ** 2)              # unit-mean lognormal
+
+    # conductance multiplier M(phi) and the empirical extraction clock
+    r = _ck.simulate(P_bar=P_bar, branches=("extraction",))
+    t, phi_t = r["t"], r["phi"]["extraction"]
+    cond = r["Q"] if closure == "poroelastic" else r["kappa_ck"]
+    o = np.argsort(phi_t)
+    M = PchipInterpolator(phi_t[o], np.asarray(cond)[o], extrapolate=True)
+    Phi = PchipInterpolator(t, phi_t, extrapolate=True)
+    phi_max = float(phi_t.max())
+    Mofphi = lambda ph: np.clip(M(np.clip(ph, 0.0, phi_max)), 1e-12, None)
+
+    # integrate the coupled throughput-clock ODE (Euler, substepped per interval)
+    tau = np.zeros(N)
+    top = max(1, N // 10)
+    top_share, spread = [], []
+    M_acc = np.zeros(N)                                    # for time-avg share
+    for i in range(1, len(t)):
+        dt = (t[i] - t[i - 1]) / substeps
+        for _ in range(substeps):
+            g = k0 * Mofphi(Phi(tau))
+            w = g / float(np.mean(g))                      # unit-mean flow share
+            if lateral:
+                w = (1.0 - lateral) * w + lateral          # lateral equalization
+            tau = tau + w * dt
+            M_acc = M_acc + w * dt
+        sw = np.sort(w)[::-1]
+        top_share.append(float(sw[:top].sum() / w.sum()))
+        spread.append(float(np.std(w)))
+    top_share = np.array(top_share); spread = np.array(spread)
+    # ensemble EY: static k0 distribution vs dynamic time-avg flow share (unit-mean)
+    if compute_ey:
+        k_eff = M_acc / t[-1]
+        ey = _st.EYResponse(gs=gs, p_bar=5.0)
+        ey_static = float(np.mean(ey.ey_of_k(k0)))
+        ey_dyn = float(np.mean(ey.ey_of_k(np.clip(k_eff, ey.k_min, ey.k_max))))
+    else:
+        ey_static = ey_dyn = float("nan")
+    j_peak = int(np.argmax(top_share))
+    self_limiting = bool(j_peak < len(top_share) - 1
+                         and top_share[-1] < top_share[j_peak] - 1e-3)
+    # "runaway" == essentially all flow latches into the top decile
+    runaway = bool(top_share[-1] > 0.90 and not self_limiting)
+    return dict(
+        gs=gs, sigma=sigma, N=N, closure=closure, lateral=lateral,
+        top_decile_share_static=float(top_share[0]),      # t~0, phi~0 (== static)
+        top_decile_share_peak=float(top_share[j_peak]),
+        top_decile_share_final=float(top_share[-1]),
+        peak_time_s=float(t[1:][j_peak]),
+        spread_peak=float(spread.max()), spread_final=float(spread[-1]),
+        self_limiting=self_limiting, runaway=runaway,
+        ey_static=ey_static, ey_dynamic=ey_dyn,
+        deepens_dip=bool(ey_dyn < ey_static - 1e-6),
+        reading=("[%s%s] top-decile flow share %.2f->%.2f; %s; ensemble EY %s "
+                 "(%.1f%%->%.1f%%)" % (
+                     closure, (" +lat%.2f" % lateral) if lateral else "",
+                     top_share[0], top_share[-1],
+                     "RUNAWAY (single-channel latch)" if runaway else
+                     ("self-limiting" if self_limiting else "bounded/stable"),
+                     "drops" if ey_dyn < ey_static else "holds",
+                     ey_static, ey_dyn)))

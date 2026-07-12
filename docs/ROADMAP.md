@@ -479,6 +479,22 @@ Matters: a shared systematic bias across RC-2 and RC-3 early-shot gates.
 Targets: coffee-extract viscosity/density vs TDS and temperature measurements;
 food-process rheology literature.
 
+**G-lat — Lateral tube coupling / pressure equalization for evolving-κ
+channeling.** Surfaced by the N-tube κ(t) union (`harness.ntube_kappa_t_union`,
+`gate_ntube_kappa_t_union`; ANALYSIS_P2 §2.4). The static streamtube ensemble
+assumes parallel, non-exchanging tubes — admissible when κ is fixed. But once
+each tube carries an extraction-driven porosity clock, the near-choke poroelastic
+hypersensitivity (the closure P2 proved required) makes flow-controlled channeling
+**unconditionally unstable**: flow latches into a single channel and EY collapses.
+A lateral pressure-equalization term regularizes it, so lateral coupling is a
+*stability requirement*, not a refinement, for any dynamic channeling-κ(t) model.
+Matters: it bounds when a per-tube dynamic upgrade of the streamtube is even
+well-posed. Targets: a 1-D transverse-Darcy (or reduced network) closure that
+lets adjacent tubes exchange flow under a shared local pressure field; the
+critical lateral conductance vs the axial near-choke sensitivity sets the
+stability boundary. Interim: use the static streamtube for the time-averaged dip
+(P3 verdict) and treat the dynamic union as diagnostic only.
+
 ---
 
 ## 5. OPEN QUESTIONS
@@ -613,6 +629,7 @@ them. **Status promotions (`verification-gated` → `gated`, `gated` →
 ### 7.1 Change log
 | date | change | evidence (dataset + gate script) | affected RCs / items |
 |---|---|---|---|
+| 2026-07-11 | **N-tube κ(t) union — per-tube coupling is unconditionally unstable** (`harness.ntube_kappa_t_union` + `gate_ntube_kappa_t_union`, QUICK; exploratory synthesis, qualitative). Fused the P3 winner (streamtube channeling) with the P2 winner (coupled_kappa_t extraction-opens porosity): each parallel tube gets its own extraction-driven κ(t) clock (σ(gs) from the calibrated streamtube closure, clock from empirical waszkiewicz m_d(t), conductance M(φ) from the poroelastic closure — no invented params). **Under flow control the poroelastic coupling is unconditionally unstable**: flow latches into a SINGLE channel within ~3 s (top-decile share 0.31→~1.0), EY collapses 16%→2.5%. Three controls: (1) the gentle Kozeny-Carman auxiliary closure does NOT run away → it is the near-choke sensitivity (the closure P2 proved required for the 14× whole-bed rise) that destabilizes the ensemble; (2) step-size invariant (2/8/32 substeps) → not an Euler artifact; (3) a lateral pressure-equalization term (≥0.5) regularizes it → the parallel-non-exchanging assumption is what breaks. New gap **G-lat** (lateral tube coupling as a STABILITY requirement for dynamic channeling-κ(t)). ANALYSIS_P2 §2.4. | `gate_ntube_kappa_t_union` | G-lat opened; §2.2 pt-2 per-tube observable delivered |
 | 2026-07-11 | **P3 fine-grind-dip VERDICT** (`harness.schmieder_peak_discrimination` + `gate_p3_schmieder_peak_discrimination`, QUICK): the culmination of the P3 cluster. Ran all four instrumented mechanisms against the schmieder2023 cup-mass target (a real but WEAK ~1 g/97 g interior peak at GL 1.7, unambiguous only at the lowest flow — flow 2 is monotone, flow 3 marginal; stated honestly, no flow-washout overclaim). **Only static channeling (#1) reproduces the interior maximum from PHYSICAL parameters** (monotone σ(grind) closure → peaked ensemble EY, peak gs≈1.5, deficit largest at finest grind). Lee (#3) makes the shape only at a doctored ceiling ρ_c=798 (physical ρ_c=399 plateaus); size-exclusion y₀ (#4) and the diffusion/base null are structurally monotone → cannot make a non-monotonic peak. Compares SHAPE not dial location (rule 9). Does NOT exclude #2 (incomplete wetting) — that lives in the open G1 gap and is discriminated by first-drip DELAY, not EY shape. `docs/P3_hypotheses.md` P3 VERDICT section. | `gate_p3_schmieder_peak_discrimination` | 2.3 P3 verdict (fine-grind dip = channeling) |
 | 2026-07-11 | **3.1 mo2023_2 extraction layer** (`mo2023_2.extraction`, added to the mo2023_2.swelling component): the swelling-coupled fixed-flow solute extraction (Eqs 9–17, 2-population, reusing romancorrochano bed_lumped). `gate_mo2_swelling_insensitivity` reproduces the card's **gate-4 headline**: at FIXED flow the swelling-on vs swelling-off yield differs by only **1.2–1.4%** (their Fig 2) — swelling raises ε_p (+15% D_p) but grows R (R²+7%), which offset. This is the sharp **contrast** with the fixed-Δp flow decay (~19× throttle): swelling matters enormously at fixed Δp, negligibly at fixed q. Yield rises with beverage mass (Fig 8 trend). The mo2023_2 model is now complete (swelling + extraction). | `gate_mo2_swelling_insensitivity` | 3.1 (extraction layer) |
 | 2026-07-11 | added `docs/ONBOARDING.md`: fixed session entry point (access check, read order, live-state verification, standing caveats). Linked from README (top) and CLAUDE.md (Read first, always). | `docs/ONBOARDING.md` | onboarding |
