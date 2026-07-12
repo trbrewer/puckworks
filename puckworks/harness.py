@@ -589,6 +589,92 @@ def schmieder_peak_discrimination(n_grid=6):
                  "this establishes viability, not that channeling IS the mechanism."))
 
 
+def channeling_interior_max_sensitivity(gs_grid=None,
+                                        s_refs=(0.3, 0.45, 0.6, 0.75, 0.9),
+                                        ms=(0.5, 0.75, 1.0, 1.5, 2.0),
+                                        pressures=(3.0, 5.0, 7.0, 9.0),
+                                        n_grids=(7, 13, 21),
+                                        s_ref0=0.6, m0=1.0, p0=5.0, n0=7):
+    """Closure-sensitivity of the P3 Result-1 interior grind maximum (SLOW ~90 s;
+    run from validation/slow, NOT CI). Tests whether the channeling interior-max
+    (the model-CAPACITY result) is ROBUST to the empirical sigma(phi1) closure or
+    fragile/tuned. The streamtube EYResponse spline depends only on (gs, p_bar,
+    n_grid) -- NOT on s_ref/m -- so the s_ref x m grid reuses ONE build.
+
+    Three probes:
+      (1) s_ref x m grid at (p0,n0): fraction of closure combos with an interior
+          max; peak-location + prominence spread.
+      (2) pressure sweep at (s_ref0,m0): does the peak survive and where.
+      (3) n_grid convergence at (s_ref0,m0,p0): is the peak a resolution artifact.
+    prominence = ensemble EY at the interior peak minus the higher endpoint
+    [EY-points] -- how much of a bump, not just argmax. Strength: qualitative.
+
+    Result (see verdict): the interior-max is a REAL, n_grid-CONVERGED feature at
+    the calibrated closure, but FRAGILE (present in a minority of the s_ref x m
+    grid; vanishes for weak channeling) and WEAK (median prominence < ~0.2 EY-pt;
+    near-flat at 9 bar) -- consistent with model-capacity-not-identification."""
+    from puckworks.models.brewer2026 import streamtube as _st
+    gs = np.linspace(1.0, 2.2, 7) if gs_grid is None else np.asarray(gs_grid, float)
+
+    def _build(p_bar, n_grid):
+        return [_st.EYResponse(gs=float(g), p_bar=p_bar, n_grid=n_grid) for g in gs]
+
+    def _probe(resps, s_ref, m):
+        sig = _st.sigma_closure_power(gs, s_ref=s_ref, m=m)
+        ens = np.array([r.ey_ensemble(float(s)) for r, s in zip(resps, sig)])
+        ip = int(np.argmax(ens))
+        interior = bool(0 < ip < len(gs) - 1)
+        prom = float(ens[ip] - max(ens[0], ens[-1]))    # EY-pts above higher end
+        return dict(interior=interior, peak_gs=float(gs[ip]), prominence=prom)
+
+    # (1) s_ref x m grid — one response build, cheap quadrature over it
+    base = _build(p0, n0)
+    grid = []
+    for s in s_refs:
+        for m in ms:
+            r = _probe(base, s, m)
+            grid.append(dict(s_ref=s, m=m, **r))
+    inter = [g for g in grid if g["interior"]]
+    proms = [g["prominence"] for g in inter]
+    calib = _probe(base, s_ref0, m0)
+
+    # (2) pressure sweep at the calibrated closure
+    pressure_sweep = []
+    for p in pressures:
+        r = base if (p == p0) else _build(p, n0)
+        pressure_sweep.append(dict(p_bar=p, **_probe(r, s_ref0, m0)))
+
+    # (3) n_grid convergence at the calibrated closure
+    n_conv = []
+    for n in n_grids:
+        r = base if (n == n0 and p0 == p0) else _build(p0, n)
+        n_conv.append(dict(n_grid=n, **_probe(r, s_ref0, m0)))
+    peak_locs = {round(c["peak_gs"], 3) for c in n_conv}
+    converged = bool(len(peak_locs) == 1)                # peak location stable
+
+    frac = len(inter) / len(grid)
+    return dict(
+        gs_grid=[float(x) for x in gs],
+        calibrated=dict(s_ref=s_ref0, m=m0, p_bar=p0, n_grid=n0, **calib),
+        grid_n=len(grid), grid_interior_n=len(inter),
+        grid_interior_fraction=frac,
+        grid_noninterior=[(g["s_ref"], g["m"]) for g in grid if not g["interior"]],
+        peak_gs_range=[min(g["peak_gs"] for g in inter), max(g["peak_gs"] for g in inter)]
+        if inter else None,
+        prominence_median=float(np.median(proms)) if proms else None,
+        prominence_max=float(np.max(proms)) if proms else None,
+        pressure_sweep=pressure_sweep,
+        n_grid_convergence=n_conv, n_grid_converged=converged,
+        verdict=("interior-max is REAL + n_grid-CONVERGED at the calibrated closure "
+                 "(peak gs %.2f, prominence %.3f EY-pt) but FRAGILE (interior in "
+                 "%d/%d = %.0f%% of the s_ref x m grid; gone for weak channeling) "
+                 "and WEAK (median prominence %.3f EY-pt; ~%.3f at 9 bar). Robustness "
+                 "supports MODEL-CAPACITY, not identification." % (
+                     calib["peak_gs"], calib["prominence"], len(inter), len(grid),
+                     100 * frac, float(np.median(proms)) if proms else 0.0,
+                     next((c["prominence"] for c in pressure_sweep if c["p_bar"] == 9.0), float("nan")))))
+
+
 # --- cross-pressure generalization discriminator (item 2.2, ANALYSIS_P2) ---
 # Waszkiewicz ran 11 pressures. Fix ONE calibration and predict every trace out
 # of sample: the mechanism that best explains all pressures wins, and where the

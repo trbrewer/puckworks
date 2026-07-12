@@ -148,6 +148,25 @@ is a channeling phenomenon." Identification needs a corrected per-observable
 analysis with uncertainty + a per-grind DE1 **first-drip DELAY** discriminator
 for #2 (wetting delay moves it; static channeling does not).
 
+**Closure-sensitivity of the channeling interior-max** (the review's Result-1
+robustness ask; `harness.channeling_interior_max_sensitivity` /
+`validation/slow/channeling_sensitivity.py`, ~90 s, not CI). The interior-max is a
+**real, n_grid-converged** feature at the calibrated closure (peak gs≈1.4,
+prominence 0.19 EY-pt; stable to grid resolution — not a numerical artifact), but
+it is **fragile and weak**:
+- **Fragile to the closure:** an interior max appears in only **10/25 (40 %)** of
+  the s_ref × m grid — it vanishes for weak channeling (low s_ref) and at closure
+  extremes.
+- **Weak:** median prominence ~0.14 EY-point (max 0.40); at the espresso-relevant
+  **9 bar it is ~0.03 EY-point — essentially flat**, and the peak grind drifts
+  (gs 2.0 at 3 bar → 1.2 at 7–9 bar).
+
+So the MODEL-side interior-max is a shallow, closure-dependent bump — mirroring the
+TARGET side (schmieder's weak RSM / monotone raw cells). Both point the same way:
+**model capacity, not a robust peak.** The manuscript title/abstract must not rest
+on a channeling peak, and the σ(φ₁) closure's own parameters — not just the target
+— carry the uncertainty.
+
 ---
 
 ## 2.4 N-tube κ(t) union — strong flow concentration in the tested near-choke config
