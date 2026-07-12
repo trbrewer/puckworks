@@ -1,16 +1,14 @@
 # Paper B — draft prose (rev. 2026-07-12, post detailed review)
 
-*Manuscript draft, **major-revision rewrite** after
-`docs/PAPER_B_DRAFT_detailed_review.md`, which is adopted. The review found three
-submission-blocking problems in the previous draft — a coefficient-rounding
-artifact in the RSM claim, a mis-stated "noise floor", and an over-claimed
-linear-stability result — all now corrected in code/docs (ROADMAP §7.1). Verb
-discipline: "shows/predicts" only for independent evidence; "reconstructs/is
-consistent with" for post-fit; "can generate / does not generate under the tested
-parameterization" for qualitative discrimination; "exhibits in the tested
-configuration / motivates" for exploratory synthesis; never "identifies / proves /
-is the mechanism / unconditionally / linearly unstable". Figures:
-`docs/figures/fig{1..5}`. Validation-strength tags stay in the text.*
+*Manuscript draft. Two rounds of detailed review adopted; the corrections and their
+evidence are logged in **ROADMAP §7.1** (2026-07-12) — see there rather than
+restating them here. Verb discipline (load-bearing): "shows/predicts" only for
+independent evidence; "reconstructs/is consistent with" for post-fit; "can generate
+/ does not generate under the tested parameterization" for qualitative
+discrimination; "exhibits in the tested configuration / motivates" for exploratory
+synthesis; never "identifies / proves / is the mechanism / unconditionally /
+linearly unstable". Figures: `docs/figures/fig{1..5}`. Validation-strength tags stay
+in the text.*
 
 **Title (review-endorsed).** Mechanism discrimination in espresso flow and
 extraction: matched observables, null models, and transient streamtube
@@ -22,37 +20,47 @@ analysis is completed — it is not.)*
 
 ## Abstract
 
-Espresso measurements integrate flow, extraction, and bed evolution in ways that
-can make distinct mechanisms observationally similar. We use a provenance-tracked
-model registry and a null-first comparison hierarchy to test what current data can
-distinguish. First, we correct a mixed-observable aggregation in which milligram
-solute masses and gram total-dissolved-solids values had been combined across brew
-ratios; enforcing a single matched observable is a prerequisite the field has not
-stated. At a fixed central condition the resulting TDS-derived extraction-yield
-response is monotone across the three grind settings (the middle-versus-coarse
-contrast is −0.24 yield-points, 95 % Welch CI [−0.42, −0.06], excluding zero). A
-calibrated static-heterogeneity streamtube model can generate an interior maximum
-over part of its parameter range, but this is a model-capacity result rather than
-causal identification, because the closure is grind-calibrated and incomplete
-wetting remains unmodeled. Second, on rising-flow traces a machine-only model shows
-that a dip-and-recovery shape is not diagnostic of bed dynamics, while an empirical
-time-varying porosity branch reconstructs the 9-bar trace better than specified
-flat baselines; performance across pressure is regime-dependent within the same
-experimental campaign. Finally, an exploratory uncoupled streamtube extension with
-extraction-dependent conductance exhibits strong transient flow concentration in a
-tested near-choke, flow-controlled configuration; the result motivates a physical
-lateral-exchange model but does not establish a universal instability criterion.
-The common conclusion is that integrated observables are insufficient for unique
-mechanism identification, and that spatial, pathway-resolved, or first-drip
-measurements are needed.
+Espresso measurements integrate extraction, flow, and bed evolution, allowing
+distinct mechanisms to produce similar whole-cup or whole-bed signals. We use a
+provenance-tracked model registry and matched-observable, null-first comparisons to
+determine what two published datasets can discriminate within a specified model set.
+First, we correct an earlier aggregation **in our own comparison pipeline** that
+combined distinct milligram solute-mass and gram total-dissolved-solids observables
+across brew ratios (the source study reports these as distinct observables; enforcing
+a single matched observable is an often-implicit prerequisite, which we make
+explicit). At the nominal central settings the TDS-derived extraction-yield cell
+means are 18.27, 19.38, and 19.62 % at grinder dials 1.4, 1.7, and 2.0: the means are
+**numerically ordered and the middle cell lies 0.24 EY-points below dial 2.0**
+(Welch 95 % CI [−0.42, −0.06]), so the raw cells do not support an interior maximum
+at the middle dial (the 1.4-vs-1.7 interval includes zero, and achieved flow/pressure
+vary across these nominal conditions). A calibrated lognormal static-heterogeneity
+streamtube ensemble can generate a small interior maximum for some closure choices,
+establishing **model capacity rather than identifying channeling** (the closure is
+grind-calibrated; incomplete wetting is unmodeled). Second, on a 9-bar rising-flow
+trace a machine-only model shows a dip-and-recovery shape is not diagnostic of bed
+dynamics, and an empirical time-varying porosity trajectory improves reconstruction
+relative to explicitly defined constant baselines — but a flexible non-mechanistic
+temporal null does as well, so this establishes a **need for time variation, not a
+specific bed mechanism**; conditional transfer across pressures is regime-dependent
+within the same campaign (not independent validation). Finally, an exploratory
+uncoupled N-tube composition with extraction-dependent conductance can concentrate
+flow strongly in the implemented near-choke, fixed-total-flow, zero-homogenization
+configuration; the concentration is floor-independent under a completed numerical
+floor sweep but remains regularization- and start-state-dependent and is **not a
+stability theorem**. Across the datasets and model classes tested here, integrated
+measurements do not uniquely identify a mechanism; spatial, pathway-resolved,
+first-drip, or independently measured bed-state observables would be more
+discriminating.
 
 ---
 
 ## 1. Introduction
 
 Below a threshold grind, espresso extraction can stop rising with fineness even
-though specific surface area keeps increasing, and homogeneous-flow models predict
-a monotone rise. The effect is usually attributed to one of a small set of
+though specific surface area keeps increasing, whereas the homogeneous-flow
+extraction models in the lineage we examine (Moroney/Cameron-type Darcy–extraction
+models, under the espresso conditions studied here) predict a monotone rise. The
+effect is usually attributed to one of a small set of
 mechanisms, but the mechanisms have not been run head-to-head against the same
 matched observable, and the effect is weak enough that a mechanism can appear to
 "reproduce" it for reasons that do not survive scrutiny.
@@ -109,11 +117,21 @@ still owed; see §7.)*
 
 ## 3. Result 1 — model-capacity discrimination (Fig. 1, Fig. 2)
 
-**The target (matched observable).** TDS-derived extraction yield at the fixed
-central condition is monotone: 18.3, 19.4, 19.6 % at dial 1.4/1.7/2.0. The
-middle-versus-coarse contrast is −0.24 yield-points with a Welch t 95 % CI
-[−0.42, −0.06] that **excludes zero** — the raw response is statistically monotone,
-with no interior bump.
+**The target (matched observable).** TDS-derived extraction-yield cell means at the
+nominal central condition are **numerically ordered** across dial: 18.27, 19.38,
+19.62 % at dial 1.4/1.7/2.0. The middle-versus-coarse contrast is −0.24 yield-points
+with a Welch t 95 % CI [−0.42, −0.06] that **excludes zero**, so the middle cell
+lies below dial 2.0 and **the raw cells do not support an interior maximum at the
+middle dial**. We describe the means as *ordered*, not "statistically monotone":
+the 1.4-vs-1.7 interval includes zero, so not every adjacent step is individually
+resolved. These are also **nominal-condition, not achieved-condition, comparisons**
+— the three dial cells share *target* flow and temperature, but the *achieved* flow
+differs (dial 1.7 vs 2.0 by ≈0.095 mL/s) and dial 1.4 runs at appreciably higher
+maximum pressure; in the source design the three settings are distinct experiment
+conditions (1.4/2.0 axis points, 1.7 the repeated center point). A design-aware,
+experiment-unit analysis with achieved covariates is owed (§7); the ordering is
+descriptive and rules out a middle-dial maximum, but does not license "dial alone
+causes a monotone response."
 
 An interior maximum exists only in the study's own fitted response surface, which
 is concave in grind for every observable but weak (schmieder's own adjusted R²
@@ -271,14 +289,26 @@ grind sweeps — is owed, §7.)*
 
 ## 6. Discussion
 
-The organizing theme is that **integrated observables erase the structure needed to
-discriminate mechanisms**: a whole-cup endpoint hides the inventory–kinetics
-separation (companion identifiability study); a single pressure trace leaves several
-time-dependent bed mechanisms partially degenerate (Result 2); and a model suggests
-spatially-resolved flow would be far more discriminating than any integrated trace
-(Result 3). Crucially, the per-tube "observations" of Result 3 are *simulated* — the
-work motivates spatial observables, it does not provide experimental evidence that
-real pucks evolve into one channel.
+The organizing theme is that, **across the datasets and model classes tested here,
+integrated observables can erase the structure needed to discriminate mechanisms**:
+a whole-cup endpoint hides the inventory–kinetics separation (companion
+identifiability study); a single pressure trace leaves several time-dependent bed
+mechanisms partially degenerate, and a flexible non-mechanistic temporal null does
+as well as the physical branch (Result 2); and a model suggests spatially-resolved
+flow would be far more discriminating than any integrated trace (Result 3). We scope
+this to the two datasets examined — it is not a claim about all integrated
+observables in espresso. Crucially, the per-tube "observations" of Result 3 are
+*simulated* — the work motivates spatial observables, it does not provide
+experimental evidence that real pucks evolve into one channel.
+
+**What would actually discriminate each result** (the concrete measurement each
+degeneracy calls for):
+
+| result | what integration hides | discriminating measurement |
+|---|---|---|
+| 1 — fine-grind response | inventory vs kinetics vs channeling all fit the cup EY | matched-observable fractions (companion study) + per-grind **first-drip timing** (separates incomplete wetting) + spatial saturation |
+| 2 — κ(t) ladder | constant / static-κ(P) / dissolution-Φ(t) / flexible-cubic all reconstruct one trace within a factor | **multi-pressure** traces under matched control + an **independently measured bed-state** (porosity/compaction in situ) to break the Φ(t) soft-circularity |
+| 3 — N-tube concentration | a single outlet flow cannot see channel structure | **pathway-resolved / spatial** flow or dye-front imaging; a second-rig transfer set |
 
 Practitioner-facing statement, kept cautious: *static flow heterogeneity remains a
 plausible generator of the fine-grind response, but the available integrated
