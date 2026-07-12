@@ -419,7 +419,10 @@ scientific readiness, and that Results 1 and 3 needed recomputation — now done
   Durbin–Watson ≈ 0.01 → honest lack-of-fit); RSM coefficient-covariance / leverage panel
   (`schmieder_rsm_refit.diagnostics`; predictive Q² via `lopo_rsm_design_point`).
 - **Still owed before submission (major):** conventional Methods (equations,
-  calibration splits, statistics, uncertainty); related-work / novelty search;
+  calibration splits, statistics, uncertainty); related-work / novelty search
+  (scaffolded in `docs/PAPER_B_RELATED_WORK.md` — card-grounded prior-art matrix +
+  claim positioning + the owed systematic-search protocol; **novelty not asserted**,
+  DB execution is PI-owed, two DOIs flagged for verification);
   full-precision or refit RSM with covariance (source coefficients — author request);
   a physical lateral operator + formal stability analysis or explicit appendix
   downgrade; Data/Code availability + pinned release; LaTeX. **External-blocked:**
