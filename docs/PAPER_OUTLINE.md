@@ -1,172 +1,213 @@
-# Paper assembly — outline & readiness audit
+# Paper assembly — outline & readiness audit (rev. 2026-07-12)
 
-*CHAT deliverable. Draws only on committed, gated results (each claim below cites
-its gate or slow script). Validation-strength tags (ROADMAP §0) are load-bearing
-and must survive into any manuscript: most extraction agreements are **post-fit
-reconstruction**, the mechanism-discrimination results are **qualitative**, and
-nothing here is promoted. This file is the plan; it is not itself a manuscript.*
+*CHAT deliverable. **Revised after a detailed review**
+(`docs/puckworks_paper_outline_review.md`), which is adopted: it found Result 1's
+target dimensionally invalid, Result 2's Fig 4 based on a superseded formulation,
+and Result 3 overstated. Those defects have since been fixed in code/docs (see
+ROADMAP §7.1, 2026-07-12) and the claims below are the corrected, defensible
+ones. Validation-strength tags (ROADMAP §0) are load-bearing and control the
+verbs (see the verb table in §3). This file is the plan, not a manuscript.*
+
+**Verb discipline (from the review).** Independent → "shows / predicts held-out
+data". Post-fit → "reconstructs / is consistent with". Qualitative discrimination
+→ "can generate / does not generate under the tested parameterization".
+Exploratory synthesis → "exhibits in the tested configuration / motivates". NOT
+supported here → "identifies / proves / is the mechanism / unconditionally".
 
 ## 0. How many papers?
 
-The committed body of work splits cleanly into **two independent papers** plus a
-possible **methods note**. They share the registry infrastructure but have
-disjoint theses, data, and audiences — bundling them would blunt both.
+Two independent papers plus a possible methods note. The split is endorsed by the
+review. **Finish Paper A first** — its evidentiary chain is much stronger.
 
 | | Paper A (extraction / identifiability) | Paper B (flow / bed-dynamics) |
 |---|---|---|
-| thesis | single-grind whole-cup data cannot separate inventory from kinetics | the fine-grind flow anomaly is a channeling instability, and coupling it to κ(t) is only well-posed with lateral coupling |
-| status | **draft exists** (`ANALYSIS_transfer.md`, paper-track) | **outline below** (this file) |
-| core data | angeloni2023 (independent), schmieder2023 fractions | schmieder2023 cup mass, waszkiewicz2025 traces, cameron2020, romancorrochano2017 |
-| core result | flat valley (G6); fractions resolve it | P3 verdict (channeling) + κ(t) ladder + N-tube instability (G-lat) |
+| thesis | single-grind whole-cup data cannot separate inventory from kinetics; fractions restore the rate | **mechanism discrimination + model-hierarchy limits** for the fine-grind response and time-dependent flow (NOT "the anomaly is a channeling instability") |
+| status | draft exists (`ANALYSIS_transfer.md`); **amber–green** | outline below; **not manuscript-ready — needs reanalysis, not just prose/figures** |
+| core data | angeloni2023 (independent), schmieder2023 fractions | schmieder2023 RSM (per observable), waszkiewicz2025 traces, cameron2020, romancorrochano2017 |
+| core result | flat valley (G6); fractions resolve it | model-capacity discrimination + null-first κ(t) ladder + regime-dependent cross-pressure + an exploratory concentration result (G-lat) |
 | venue feel | food-analytical / chemometrics | transport in porous media / applied math (Foster–Moroney lineage) |
 
-A short **methods note** on the registry itself (typed contracts, validation-
-strength vocabulary, gate-per-component, no-silent-constant-merge) could stand
-alone or become the "Methods" spine both papers cite. Recommend: finish A (nearly
-there), assemble B from the outline below, defer the methods note.
+A short **methods note** on the registry (typed contracts, validation-strength
+vocabulary, no-silent-constant-merge, and now **no-silent-observable-merge**)
+could stand alone or be the shared Methods spine. Defer it.
 
 ---
 
-# Paper B — "The fine-grind flow anomaly is a channeling instability"
+# Paper B — mechanism discrimination for the fine-grind espresso anomaly
 
-*(working title: "Channeling, not kinetics: a null-first discrimination of the
-fine-grind extraction anomaly in espresso, and why coupled permeability evolution
-needs lateral tube coupling")*
+*Working title (review-endorsed): **"Mechanism discrimination for the fine-grind
+espresso extraction anomaly and a stability test of uncoupled streamtube
+models."** Do NOT use "the fine-grind flow anomaly is a channeling instability" —
+it conflates an extraction-yield-vs-grind anomaly with a flow-history anomaly, and
+conflates the static Result-1 mechanism with the numerical Result-3 concentration.*
 
-## Abstract (claim skeleton)
+## Abstract (corrected claim skeleton)
 
-Below a grind threshold, espresso extraction yield *drops* as the grind gets
-finer while every homogeneous-flow model predicts it should keep rising. We ask
-which of five proposed mechanisms actually reproduces the anomaly, using a
-component registry in which each candidate is an independently-gated model rather
-than a tuned term in a monolith. Against schmieder2023's non-monotonic cup-mass
-signature, **only static channeling reproduces an interior grind maximum from
-physical parameters**; a dissolution-instability model needs an unphysical
-saturation ceiling, and inventory/diffusion mechanisms are structurally monotone.
-Separately, on a rising-flow pressure trace, a **null-first** ladder shows a
-time-dependent bed mechanism is required and dissolution-driven porosity growth
-is sufficient — but only through a **near-choke poroelastic** permeability
-closure, not Kozeny–Carman. Finally, uniting the two — giving each channeling
-streamtube its own extraction-driven permeability clock — is **unconditionally
-unstable** under flow control: flow latches into a single channel unless lateral
-pressure equalization between tubes is added. We conclude the static channeling
-ensemble is the right tool for the time-averaged dip, and that lateral coupling
-is a stability *requirement*, not a refinement, for any dynamic upgrade.
+Espresso extraction changes non-monotonically with grind in ways homogeneous-flow
+models do not capture. Using a component registry in which each candidate is an
+independently-gated model, we test which model *classes* can generate the observed
+response. After enforcing **matched observables** (a data-schema fix — schmieder's
+cup masses mix mg solutes and g TDS across brew ratios and must never be averaged
+together) and validation-strength labels: of the implemented response generators,
+an empirically-calibrated static-heterogeneity closure is the only one that can
+generate an interior grind maximum without a doctored constant — a **viability**
+result, not identification (the target is a weak-R² empirical RSM feature and the
+closure is itself grind-calibrated; incomplete wetting is untested). On a 9-bar
+rising-flow trace a **null-first** ladder shows a time-varying porosity trajectory
+is required to beat the specified flat baselines and empirical dissolution-linked
+Φ(t) is sufficient (not uniquely identified); across 11 pressures the mechanisms
+are **regime-dependent with no universal winner**. Finally, an exploratory
+uncoupled-streamtube extension exhibits, **in the tested near-choke
+configuration**, flow concentration into a single effective channel, motivating a
+physically-derived lateral-coupling model. The unifying theme: integrated
+observables erase the structure needed to discriminate mechanisms.
 
 ## 1. Introduction
-- The anomaly: EY rises with fineness (more surface) until ~GS 1.7, then falls
-  (cameron2020 Fig 5 deviations 13.1/6.1/2.6% at GS 1.1/1.3/1.5). Homogeneous
-  models keep rising.
-- Five standing hypotheses (P3 registry): channeling, incomplete wetting,
-  dissolution–flow instability, size-exclusion inventory, flow-inhomogeneity
-  pointer. Prior literature asserts one; none had been run head-to-head against
-  the same external constraint.
-- Contribution: a registry-based **discrimination** (not a fit), three results,
-  one negative/instability finding that defines a new gap.
+- The anomaly, stated carefully: extraction/cup composition changes with grind in
+  a way homogeneous models miss; schmieder report a concave grind term in their
+  RSM. Note the confound the registry surfaces: schmieder's dial is **non-monotonic
+  in particle size** (GL 1.7 is the finest d₃₂), and pressure varies with grind at
+  fixed flow — so "peak at GL 1.7" is a dial statement, not a clean fine-grind dip.
+- Five standing hypotheses (P3 registry); prior work asserts one without a
+  head-to-head test **(verify novelty in related work before claiming this)**.
+- Contribution: registry-based discrimination with matched observables and honest
+  evidence tiers; a null-first flow ladder; and a model-limit discovery.
 
 ## 2. Methods — the registry as an experimental apparatus
-- Typed stage contracts; each model carries provenance, assumptions, validity
-  range, and ≥1 gate to real data. Validation-strength vocabulary (independent ·
-  post-fit reconstruction · verification · qualitative) — and why it matters here
-  (most agreements are post-fit; the discrimination results are qualitative).
-- Datasets: schmieder2023 (cup mass vs grind × flow), waszkiewicz2025 (11
-  pressure traces), cameron2020 (homogeneous solver), romancorrochano2017
-  (tamped κ, y₀ inventory), grindmap (⟨R⟩/S, φ₁). Each with its manifest row.
-- Key methodological rule surfaced as a result: **dial spaces are non-portable**
-  (rule 9) → the discrimination compares response SHAPE, never dial location.
+- Typed stage contracts; provenance, assumptions, validity ranges; validation-
+  strength vocabulary. **Honest scope (review):** components carry provenance and
+  *where available* named gates ranging from numerical verification to independent
+  comparison — NOT "every model has a real-data gate" (e.g. `brewer2026.streamtube`
+  has no `gates=`). A passing QUICK gate is software regression, not validation.
+- **No silent observable merge** (new rule, promoted from the Schmieder bug): never
+  aggregate across component, unit, brew ratio, or temperature. Enforced in
+  `harness.schmieder_grind_response` (raises on mixed units).
+- Datasets + the observable/unit contract for each; manifest rows.
 
-## 3. Result 1 — the fine-grind dip is a channeling phenomenon
-*(gate_p3_schmieder_peak_discrimination, harness.schmieder_peak_discrimination;
-gate_p3_channeling_sigma_sweep. Strength: qualitative / mechanism-discrimination.)*
-- The target, stated honestly: schmieder cup mass is non-monotonic in grind with
-  an interior peak at GL 1.7 — **real but weak** (~1 g/97 g), unambiguous only at
-  the lowest flow (flow 2 monotone, flow 3 marginal). No flow-washout overclaim.
-- Scoreboard (interior maximum? from physical params?): channeling **yes/yes**;
-  lee2023 yes but only at doctored ρ_c=798; size-exclusion y₀ monotone; diffusion
-  null monotone. **Only channeling** reproduces it physically.
-- Mechanism: a monotone σ(grind) closure through the fines fraction feeds the
-  streamtube EY-deficit (Jensen/concavity) → the deficit is largest at the finest
-  grind, so channeling ALONE turns a monotone base EY into a peaked ensemble EY.
-- Does not exclude incomplete wetting (#2): it lives in the open G1
-  continuous-saturation gap and is discriminated by first-drip DELAY, not EY
-  shape (the wetting-atom probe, qualitative). #1 and #2 non-exclusive.
-- **Fig 1**: base vs ensemble EY(grind) with the σ(φ₁) closure (the peak forming).
-- **Fig 2**: the four-mechanism scoreboard (interior-peak × physical) table/panel.
+## 3. Result 1 — model-capacity discrimination (corrected target)
+*(gate_p3_schmieder_peak_discrimination, schmieder_interior_max_target. Strength:
+qualitative / model-capacity.)*
+- **Target, per observable (not a mixed-unit average).** schmieder's own RSM is
+  concave in grind (β₅<0) with an interior vertex for all four observables — but
+  weak (adj-R² 0.41–0.75) and, at the one fully-sampled fixed condition, the raw
+  cells are largely monotone (interior max ≤1/4). Report shape AND magnitude AND
+  uncertainty; do not infer a peak from an argmax.
+- **Capacity result.** Of the implemented generators, only the empirically-
+  calibrated static-heterogeneity closure produces an interior maximum without a
+  doctored constant; lee needs ρ_c=798; size-exclusion/diffusion are monotone;
+  incomplete wetting is unimplemented. Flag the σ-calibration circularity (σ was
+  fit to cameron grind-deviation data).
+- **Fig 1** — one observable at a time (prefer TDS-EY): raw replicate points at
+  fixed flow/BR/temperature, uncertainty intervals, peak-prominence; separate panel
+  for the normalized model response. Do NOT overlay mixed-unit masses with EY.
+- **Fig 2** — mechanism **evidence matrix** (not a winner scoreboard): implemented?
+  · observable matched? · parameters independently constrained? · generates peak? ·
+  evidence strength · unresolved discriminating experiment.
 
-## 4. Result 2 — a null-first κ(t) ladder on rising flow
-*(gate_p2_kappa_ladder, gate_foster_fig15_flowmin, gate_p2_cross_pressure,
-gate_coupled_kappa_t. Strength: post-fit at 9 bar; the cross-pressure test is the
-would-be independent discriminator.)*
-- **The null that must be beaten first**: foster machine mode (pump + headspace,
-  zero bed mechanisms) reproduces the mid-shot flow minimum (RMSE 1e-4 vs Fig 15)
-  → "flow dips then recovers" carries no bed-side evidential weight alone.
-- The ladder on waszkiewicz 9-bar: constant κ 0.603 = static κ(P) 0.603 (a
-  static P-dependence is observationally a constant at fixed P) ≪ dissolution
-  Φ(t) 0.113 (beats the floor 5.4×). **Time-dependent bed required; Φ(t)
-  sufficient.** Sufficient ≠ unique.
-- **The closure matters**: the 14× flow rise on a small porosity change happens
-  because the bed is near-choke, where κ is hypersensitive to ε — the
-  **poroelastic** closure is required; Kozeny–Carman is far too gentle (RMSE ~1.5
-  vs 0.116). This is the pivot for Result 3.
-- Cross-pressure generalization as the honest discriminator (11 pressures; fit at
-  9, predict the rest) — report what it does/doesn't separate.
-- **Fig 3**: the ladder (RMSE bars) + the null. **Fig 4**: κ/κ₀(t) non-monotone
-  trajectory (swelling-closes-then-extraction-opens).
+## 4. Result 2 — null-first κ(t) ladder + regime-dependent cross-pressure
+*(gate_p2_kappa_ladder, gate_foster_fig15_flowmin, gate_p2_cross_pressure. Strength:
+post-fit at 9 bar; cross-pressure = within-rig generalization, not external.)*
+- **The null that must be beaten first.** Foster machine mode (pump+headspace,
+  post-fit reconstruction) independently produces a dip-and-recovery, so that
+  signature alone identifies no bed mechanism. Present it as a *separate* early-shot
+  demonstration — NOT nested/rejected on the same 15–115 s Waszkiewicz trace.
+- **The 9-bar ladder, scoped.** Within the tested window and flat baselines, a
+  time-varying porosity trajectory is required and empirical dissolution-linked
+  Φ(t) is sufficient (beats the floor ~5.4×) — *not uniquely identified*, and the
+  Φ(t) trajectory is soft-circular (m_d from TDS+flow on the same rig).
+- **Cross-pressure is DONE (not pending).** One fixed calibration → predict all 11
+  pressures: **regime-dependent, no universal winner** (Φ(t) best OOS mean; RC-3b
+  low-P; static mid-P). Promote to main text; label within-rig generalization.
+- **Poroelastic scope.** "The tested 14× rise cannot be reconstructed from the
+  adopted porosity trajectory with the auxiliary Kozeny–Carman relation; the
+  near-choke poroelastic closure supplies the required sensitivity." Do NOT claim
+  CK is physically invalid for espresso beds.
+- **Fig 3** — three panels: Foster early-shot machine-only (labelled post-fit); the
+  9-bar ladder; a pressure×mechanism residual heat map.
+- **Fig 4** — the **shared-porosity composition diagnostic** (registered
+  `brewer2026.coupled_kappa_t`), NOT the superseded multiplicative harness: show
+  extraction-only reduction, extraction+swelling composite, observed trace, flat
+  baseline, and the FAILED composite residual (~0.648 > ~0.603 null — swelling
+  over-closes). An honest branch-compatibility test, not a success plot.
 
-## 5. Result 3 — uniting channeling and κ(t): an unconditional instability
-*(gate_ntube_kappa_t_union, harness.ntube_kappa_t_union. Strength: exploratory
-synthesis / qualitative. THE new finding.)*
-- Construction: each parallel streamtube gets its own extraction-driven κ(t)
-  clock — grounded scales only (σ(gs) calibrated, clock = empirical m_d(t),
-  conductance M(φ) = poroelastic Q(φ)); no invented parameters. NOT a registered
-  component.
-- Result: under flow control the poroelastic coupling is **unconditionally
-  unstable** — flow latches into a single channel within ~3 s (top-decile share
-  0.31→~1.0), EY collapses 16%→2.5% (the gushing-channel disaster).
-- Three controls make it a finding, not an artifact: (i) the gentle Kozeny–Carman
-  closure does NOT run away → it is the *near-choke sensitivity* (the same
-  property Result 2 proved required) that destabilizes the ensemble; (ii)
-  step-size invariant; (iii) a lateral pressure-equalization term regularizes it.
-- Conclusion / new gap **G-lat**: a dynamic channeling-κ(t) model cannot use
-  independent streamtubes — lateral coupling is a *stability requirement*. The
-  static ensemble is the correct tool for the time-averaged dip (Result 1); the
-  naive dynamic upgrade is diagnostic only.
-- **Fig 5**: top-decile flow share vs time, poroelastic (runaway) vs CK (bounded)
-  vs poroelastic+lateral (regularized).
+## 5. Result 3 — uncoupled streamtube extension (exploratory)
+*(gate_ntube_kappa_t_union. Strength: exploratory synthesis / qualitative. Belongs
+in an exploratory section or appendix — NOT "ready, only Fig 5 remaining".)*
+- Construction: each streamtube gets its own extraction-driven κ(t) clock; grounded
+  scales; NOT a registered component.
+- **Result, scoped.** In the *tested near-choke configuration* (gs 1.1, 9 bar,
+  N=200, poroelastic), flow concentrates into a single effective channel — measured
+  by max single-tube share → 1.0 and N_eff = 1/Σsᵢ² → 1.0 (not a top-decile
+  inference); the gentle Kozeny–Carman closure stays bounded (N_eff ~110). EY flow
+  and EY response now at the SAME pressure (the earlier 9-bar-flow/5-bar-EY mismatch
+  is fixed → 15.1%→2.4%). A homogenizing regularizer (a proxy, not a transverse-
+  Darcy term) suppresses it.
+- **Not established (do not claim):** unconditional instability (no sweep over
+  grind/pressure/closure-slope/flow-vs-pressure control/tube count/clock; no
+  stability theorem); that lateral pressure equalization specifically is the cure.
+- **Work list before this is a headline (review §7):** derive a physical lateral-
+  exchange model; linear-stability analysis about uniform flow; a phase diagram
+  over the parameters above; alternative clocks + donor-uncertainty; converged
+  integration; single-tube/effective-channel metrics (done); distinguish model
+  instability from experimentally-observed channeling.
+- **Fig 5** — a **stability map** (phase boundary vs lateral conductance and
+  near-choke sensitivity; flow- vs pressure-control; N_eff/max-share;
+  convergence/tube-count checks; representative trajectories), not three curves.
 
 ## 6. Discussion
-- Why "sufficient ≠ identified" recurs (ties to Paper A's identifiability limit):
-  a single flow trace (Result 2) and a whole-cup value (Paper A) both integrate
-  away the structure that discriminates mechanisms; per-tube (Result 3) and
-  fraction-resolved (Paper A §6) observables are what separate them.
-- Practical reading for the barista-facing anomaly: the fine-grind dip is flow
-  heterogeneity, and it is a *flow-controlled* instability (pump/DE1 regime),
-  distinct from a pressure-controlled shot.
-- Limits (stated, not hedged): schmieder peak is weak; the σ(φ₁) closure is
-  empirical over a calibrated domain; the union is exploratory with unvalidated
-  donor branches; incomplete wetting (#2) remains open in G1.
+- Unifying theme (the real thesis): **integrated observables erase discriminating
+  structure** — whole-cup endpoints hide inventory↔kinetics (Paper A), one pressure
+  trace leaves κ(t) mechanisms partly degenerate (Result 2), and a model suggests
+  spatially-resolved flow would discriminate (Result 3). Result 3's per-tube data
+  are *simulated*, so it **motivates** spatial observables, it does not provide them.
+- Barista-facing, weakened: "static flow heterogeneity remains a viable candidate
+  generator of the fine-grind response, pending a corrected observable analysis and
+  direct spatial validation" — NOT "the fine-grind dip is flow heterogeneity."
+- Do not assert a flow-controlled vs pressure-controlled distinction until both are
+  simulated in the dynamic model.
 
 ## 7. Open gaps this paper defines
-- **G-lat** — lateral tube coupling (stability boundary vs axial near-choke
-  sensitivity). **G1** — coffee-bed retention curve θ(ψ)+K_r for the wetting
-  model (search-target card exists). Cross-pressure discrimination completion.
+- **G-lat** — physical lateral tube coupling + the stability boundary (vs axial
+  near-choke sensitivity). **G1** — coffee-bed retention curve θ(ψ)+K_r for the
+  wetting model (#2; search-target card exists). *(Cross-pressure completion is
+  DONE — removed from this list per the review.)*
 
 ---
 
-## Readiness audit (what is manuscript-ready vs needs work)
+## Readiness audit (adopts the review's revised judgment)
 
-| element | status | needs before submission |
+| element | status | requirement before submission |
 |---|---|---|
-| Result 1 (P3 verdict) | **ready** — gated, reproducible | prose + Figs 1–2 rendered from harness |
-| Result 2 (κ(t) ladder + null) | **ready** — gated | cross-pressure §4 tightened; Fig 3–4 |
-| Result 3 (N-tube instability) | **ready** — gated, 3 controls | Fig 5; frame as finding+gap, not a model |
-| Methods / registry §2 | **ready** — code is the spec | condense to a figure + table |
-| Fig generation | **not started** | all five figs (harnesses already emit the arrays) |
-| Related work | **not started** | position vs Foster/Moroney, cameron, waszkiewicz |
-| Paper A (transfer) | **draft exists** | independent track; finish separately |
+| Two-paper division | **sound** | — |
+| Paper A core identifiability | **amber–green** | manuscript conversion: Methods, uncertainty, related work, reproducibility package |
+| Paper B framing/title | **red** | separate extraction anomaly / flow-trace result / model concentration; retitle (done above) |
+| Schmieder target | **fixed** (was red/blocking) | corrected per-observable RSM + raw + uncertainty; guard added |
+| Result 1 (capacity) | **amber** | rerun sensitivity (s_ref, m, grid, pressure) + magnitude vs RSM; state circularity |
+| Result 2 9-bar ladder | **amber** | narrow to tested nulls/window; expose same-rig soft circularity |
+| Cross-pressure | **amber** | report the completed regime-dependent result; stop calling it pending/fully-independent |
+| Coupled κ(t) / Fig 4 | **fixed** (was red) | use shared-porosity component; report the failed composite; card status corrected |
+| Result 3 (N-tube) | **red/amber exploratory** | pressure fix (done); physical lateral model; stability analysis + parameter sweep |
+| Registry Methods | **amber** | correct universal-gate claim (done in §2); add observable/unit contracts; pin a commit |
+| Related work / novelty | **red** | complete before claiming no prior head-to-head comparison |
+| Figures | **red** | generate only after the analyses above; render none yet |
+| Overall Paper B | **not submission-ready** | scientific reanalysis, not just prose + rendering |
 
-**Recommended next build steps** (in order): (1) render Figs 1–5 from the
-existing harness outputs into a `docs/figures/` set (each figure is a few lines
-over an existing gate/harness call — no new physics); (2) tighten §4 cross-
-pressure into a decisive-or-honest statement; (3) draft Paper B prose §1/§6 (the
-framing, where the novelty is). Results 1–3 need no further computation.
+## Priority revision sequence (from the review)
+
+1. ✅ **Schmieder adapter fixed** + observable/unit guard added; old P3 gate
+   rewritten to the corrected target (done 2026-07-12).
+2. **Recompute Result 1** for a matched observable (TDS-EY) at fixed conditions,
+   with replicate uncertainty, peak-prominence, and closure-sensitivity, before
+   fixing the title/abstract.
+3. ✅ **Coupled-κ lineage reconciled**: card status corrected; Fig 4 must use the
+   shared-porosity component's failed composite (done 2026-07-12).
+4. **Rewrite Result 2 prose** around its actual evidence: the 9-bar ladder, soft
+   circularity, and the completed regime-dependent cross-pressure.
+5. **Repair + deepen Result 3**: ✅ pressure fix + proper metrics done; still need a
+   physical lateral-coupling model + a linear-stability analysis + a phase diagram.
+6. **Only then** generate figures, write the abstract, complete related work; pin
+   the exact commit for every manuscript number.
+
+**"Results 1–3 need no further computation" is deleted.** Result 1 needs a
+matched-observable reanalysis; Result 2 needs regenerated outputs from the
+registered synthesis; Result 3 needs real stability work. Finish Paper A first.

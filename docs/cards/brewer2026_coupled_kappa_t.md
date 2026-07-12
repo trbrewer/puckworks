@@ -4,7 +4,17 @@
 model** — it composes four separately-carded mechanisms into one coupled
 porosity ODE. There is no external paper; do not search for one.
 **Stage(s):** bed_dynamics · **Kind:** synthesis (runtime)
-**Status:** proposed (card-first; implementation to follow against this card)
+**Status:** IMPLEMENTED & registered as `brewer2026.coupled_kappa_t`
+(`puckworks/models/brewer2026/coupled_kappa_t.py`); gated by
+`gate_kappa_t_degeneracy` + `gate_kappa_t_composition_diagnostic`. Eq. 2 corrected
+card-side 2026-07-11 to the poroelastic closure (CK is auxiliary). NOTE: the
+current composite result is a NEGATIVE one — extraction-only reduces to the
+poroelastic rung, but adding the parameter-free swelling branch OVER-closes the
+bed (residual ~0.648 g/s, worse than the ~0.603 flat null): the full composition
+is a diagnosed mis-scaled-swelling failure, not a success. Do NOT confuse this
+registered shared-porosity component with the older multiplicative harness
+closure `harness.coupled_kappa_t` (`gate_coupled_kappa_t`), which double-counts
+pore volume and is retained only as a historical/illustrative diagnostic.
 
 ## Scope and mechanism
 A single time-dependent bed permeability κ(t) driven by one shared porosity
