@@ -159,7 +159,7 @@ vertex for 4/4 but weak (0.41–0.75) and the raw cells are largely monotone
 particle-size dip. The honest result
 (`gate_p3_schmieder_peak_discrimination`): of the implemented generators, only
 the empirically-calibrated static-heterogeneity closure produces an interior
-maximum without a doctored constant (lee needs ρ_c=798; size-exclusion/diffusion
+maximum under its measured/calibrated parameters (lee needs ρ_c=798; size-exclusion/diffusion
 are monotone; incomplete wetting #2 is untested). This is model **viability**,
 not identification — the target is weak and σ(φ₁) is itself calibrated on
 cameron grind-deviation data (partly circular). Do NOT write "the fine-grind dip

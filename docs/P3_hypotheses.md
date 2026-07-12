@@ -27,7 +27,7 @@ CORRECTION below before treating it as a clean "cup mass peaks at GL 1.7" target
 > **Downgraded verdict (`gate_p3_schmieder_peak_discrimination`):** MODEL
 > CAPACITY, not identification. Of the implemented generators, only the
 > empirically-calibrated static-heterogeneity closure produces an interior grind
-> maximum without a doctored constant (lee needs ρ_c=798; size-exclusion #4 and
+> maximum under its measured/calibrated parameters (lee needs ρ_c=798; size-exclusion #4 and
 > the diffusion null are monotone; incomplete wetting #2 is untested). This
 > establishes that channeling is a **viable candidate generator**, NOT that it
 > "reproduces the schmieder peak" or "is the mechanism." The σ(φ₁) closure is
@@ -89,15 +89,15 @@ parameterization?
 
 | # | mechanism | generates interior max? | parameterization |
 |---|---|---|---|
-| 1 | static channeling σ(φ₁) | **yes** (vertex gs≈1.5) | empirical σ(φ₁) closure (calibrated, not doctored) |
-| 3 | lee2023 dissolution instability | yes | ONLY under doctored ρ_c=798 (2× measured) |
+| 1 | static channeling σ(φ₁) | **yes** (vertex gs≈1.5) | empirical σ(φ₁) closure (calibrated to source data) |
+| 3 | lee2023 dissolution instability | yes | ONLY under an elevated ρ_c=798 (2× measured) |
 | 4 | size-exclusion y₀(grind) | no (monotone) | measured inventory — different observable |
 | — | base / diffusion extraction (null) | no (monotone) | source model |
 | 2 | incomplete wetting | **untested** | unimplemented (needs G1 data) |
 
 **Reading — model capacity, not identification.** Of the *implemented* response
 generators, the empirically-calibrated static-heterogeneity closure is the only
-one that produces an interior grind maximum without a doctored constant. That is
+one that produces an interior grind maximum under its measured/calibrated parameters. That is
 a **viability** result: a static-heterogeneity model *can* generate the shape
 schmieder's weak RSM shows. It is **not** an identification — (a) the schmieder
 target is a weak-R² empirical surface, not a robust raw signal; (b) σ(φ₁) is

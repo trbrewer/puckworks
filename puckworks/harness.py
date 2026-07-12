@@ -7,7 +7,7 @@ normalization hazards (c_sat, soluble-inventory reference, dissolution law, flow
 input) as explicit config fields that must NEVER be silently merged (CLAUDE.md
 rule 6; ROADMAP §5.4 c_sat, §P1 hazards table, ledger A5).
 
-The interpretive workup (which model wins, P3 hypothesis file 2.3) is the CHAT
+The interpretive workup (which model is favored, P3 hypothesis file 2.3) is the CHAT
 half of the sprint; this module provides the numbers.
 """
 import numpy as np
@@ -593,16 +593,17 @@ def schmieder_peak_discrimination(n_grid=6):
     board = [
         dict(hyp=1, name="static channeling σ(φ₁)",
              generates_interior_max=bool(ch["ensemble_peaks_interior"]),
-             parameterization="empirical σ(φ₁) closure (calibrated, not doctored)",
+             parameterization="empirical σ(φ₁) closure (calibrated to source data)",
              note="monotone σ(grind) closure → peaked ensemble EY (vertex gs≈%.2f). "
                   "Model-capacity result: a static-heterogeneity closure CAN "
                   "generate an interior maximum. σ was calibrated on cameron's "
                   "grind-deviation data — a viability check, not identification." % ch["peak_gs"]),
         dict(hyp=3, name="lee2023 dissolution instability",
              generates_interior_max=bool(lee_unphys["fine_side_decline"]),
-             parameterization="only under DOCTORED ρ_c=798 (2× measured 399)",
-             note="interior EY(g) max only at the deliberately-altered ceiling; "
-                  "physical ρ_c=399 plateaus (no fine-side decline)."),
+             parameterization="only under an ELEVATED ρ_c=798 (2× the measured 399)",
+             note="interior EY(g) max only at the elevated (2× measured) ceiling — "
+                  "a deliberate sensitivity test; the measured ρ_c=399 plateaus "
+                  "(no fine-side decline)."),
         dict(hyp=4, name="size-exclusion entrapment y₀(grind)",
              generates_interior_max=bool(0 < y0_ip < len(y0_seq) - 1),
              parameterization="measured inventory (different observable)",
@@ -618,21 +619,21 @@ def schmieder_peak_discrimination(n_grid=6):
              note="not tested here; discriminated by first-drip DELAY, not EY shape."),
     ]
     generate_calibrated = [b["name"] for b in board
-                           if b["generates_interior_max"] and "DOCTORED" not in b["parameterization"]
+                           if b["generates_interior_max"] and "ELEVATED" not in b["parameterization"]
                            and "UNIMPLEMENTED" not in b["parameterization"]
                            and b["hyp"] is not None]
-    generate_only_doctored = [b["name"] for b in board
-                              if b["generates_interior_max"] and "DOCTORED" in b["parameterization"]]
+    generate_only_elevated = [b["name"] for b in board
+                              if b["generates_interior_max"] and "ELEVATED" in b["parameterization"]]
     return dict(
         target=target,
         board=board,
         generate_under_calibrated_params=generate_calibrated,
-        generate_only_under_doctored_params=generate_only_doctored,
+        generate_only_under_elevated_ceiling=generate_only_elevated,
         verdict=("MODEL-CAPACITY, not identification: of the implemented generators, "
                  "the empirically-calibrated static-heterogeneity closure is the "
-                 "only one that produces an interior grind maximum without a "
-                 "doctored constant; lee needs ρ_c=798; size-exclusion/diffusion "
-                 "are monotone; incomplete wetting is untested. The schmieder "
+                 "only one that produces an interior grind maximum under its "
+                 "measured/calibrated parameters; lee needs an elevated ρ_c=798 "
+                 "(2× measured); size-exclusion/diffusion "
                  "target itself is a weak-R² RSM feature (see target.verdict), so "
                  "this establishes viability, not that channeling IS the mechanism."))
 
@@ -1019,7 +1020,8 @@ def cross_pressure_discrimination(window=(15.0, 95.0)):
 def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
                         closure="poroelastic", lateral=0.0, substeps=8,
                         compute_ey=True, control="flow", conductance_floor=1e-12):
-    """EXPLORATORY SYNTHESIS harness (qualitative). Fuses the two P3/P2 winners:
+    """EXPLORATORY SYNTHESIS harness (qualitative). Fuses the two P3/P2 leading
+    mechanisms:
     the streamtube channeling ensemble (P3 verdict: static channeling is the
     unique physical reproducer of the fine-grind dip) and the coupled_kappa_t
     porosity-evolution closure (P2: extraction OPENS the near-choke bed, 8-14x
@@ -1136,9 +1138,6 @@ def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
         n_eff_channels_final=float(n_eff[-1]),
         peak_time_s=float(t[1:][j_peak]),
         self_limiting=self_limiting, concentrates=concentrates,
-        # keep `runaway` as an alias for back-compat, but it now means "strong
-        # concentration in the TESTED configuration", not a proven instability
-        runaway=concentrates,
         ey_static=ey_static, ey_dynamic=ey_dyn,
         deepens_dip=bool(ey_dyn < ey_static - 1e-6),
         reading=("[%s%s] top-decile share %.2f->%.2f, max single-tube %.2f, "

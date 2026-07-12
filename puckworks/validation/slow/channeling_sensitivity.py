@@ -4,7 +4,8 @@ grind maximum (SLOW ~90 s; NOT CI, per CLAUDE.md rule 3).
 Companion to `docs/ANALYSIS_P2.md` §2.3 and the PAPER_OUTLINE Result-1 reanalysis.
 The P3 verdict is model-CAPACITY (the empirically-calibrated static-heterogeneity
 closure is the only implemented generator that makes an interior grind maximum
-without a doctored constant) — NOT identification. This module quantifies HOW
+under its measured/calibrated parameters — lee needs an elevated 2x-measured
+ceiling) — NOT identification. This module quantifies HOW
 robust that interior-max is to the empirical sigma(phi1) closure, which the review
 asked for: does peak formation depend on s_ref, exponent m, grid resolution, and
 pressure?

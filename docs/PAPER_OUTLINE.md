@@ -50,7 +50,7 @@ response. After enforcing **matched observables** (a data-schema fix — schmied
 cup masses mix mg solutes and g TDS across brew ratios and must never be averaged
 together) and validation-strength labels: of the implemented response generators,
 an empirically-calibrated static-heterogeneity closure is the only one that can
-generate an interior grind maximum without a doctored constant — a **viability**
+generate an interior grind maximum under its measured/calibrated parameters — a **viability**
 result, not identification (the target is a weak-R² empirical RSM feature and the
 closure is itself grind-calibrated; incomplete wetting is untested). On a 9-bar
 rising-flow trace a **null-first** ladder shows a time-varying porosity trajectory
@@ -97,15 +97,17 @@ qualitative / model-capacity.)*
   increasing** (18.3 → 19.4 → 19.6 %); interior max for ≤1/4 across observables.
   Report shape AND magnitude AND uncertainty; do not infer a peak from an argmax.
 - **Capacity result.** Of the implemented generators, only the empirically-
-  calibrated static-heterogeneity closure produces an interior maximum without a
-  doctored constant; lee needs ρ_c=798; size-exclusion/diffusion are monotone;
-  incomplete wetting is unimplemented. Flag the σ-calibration circularity (σ was
-  fit to cameron grind-deviation data).
+  calibrated static-heterogeneity closure produces an interior maximum under its
+  measured/calibrated parameters; lee needs an elevated ρ_c=798 (2× measured);
+  size-exclusion/diffusion are monotone; incomplete wetting is unimplemented. Flag
+  the σ-calibration circularity (σ was fit to cameron grind-deviation data).
 - **Closure sensitivity — DONE** (`channeling_interior_max_sensitivity`,
   validation/slow). The interior-max is real and n_grid-converged at the
-  calibrated closure but **fragile** (interior in only 40 % of the s_ref × m grid;
-  gone for weak channeling) and **weak** (median prominence ~0.14 EY-pt; ~0.03 —
-  near-flat — at 9 bar, with the peak grind drifting with pressure). The model
+  calibrated closure but **fragile** (interior in only **10/25** of the fixed
+  s_ref × m grid; gone for weak channeling) and **weak** — the **full-grid median
+  prominence is ≈ 0 EY-pt** (IQR ≈ [0,0]; most cells have no interior max at all);
+  among the cells that do, the interior-only median is ~0.14, ~0.03 (near-flat) at
+  9 bar, with the peak grind drifting with pressure. The model
   side is a shallow closure-dependent bump, mirroring the weak-RSM/monotone-raw
   target side. Consequence: the title/abstract must not rest on a channeling peak.
 - **Magnitude comparison — DONE** (`result1_magnitude_comparison`). On the

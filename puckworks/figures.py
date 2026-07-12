@@ -133,10 +133,10 @@ def fig2_evidence_matrix(outdir=OUTDIR_DEFAULT):
     plt = _plt()
     r = h.schmieder_peak_discrimination()
     by = {b["name"]: b for b in r["board"]}
-    # rows = mechanisms; columns = evidence dimensions; cell codes: 2 yes, 1 partial/only-doctored, 0 no, -1 untested
+    # rows = mechanisms; columns = evidence dimensions; cell codes: 2 yes, 1 partial/only-under-elevated-param, 0 no, -1 untested
     rows = [
         ("static channeling σ(φ₁)", [2, 2, 1, 2, 1]),      # impl, obs-match(EY proxy), params-constrained(empirical), generates, strength(qual)
-        ("lee2023 dissolution", [2, 2, 1, 1, 1]),          # generates only under doctored ρ_c
+        ("lee2023 dissolution", [2, 2, 1, 1, 1]),          # generates only under an elevated (2x measured) ρ_c
         ("size-exclusion y₀", [2, 0, 2, 0, 1]),            # different observable
         ("diffusion null", [2, 2, 2, 0, 1]),
         ("incomplete wetting #2", [0, -1, -1, -1, -1]),    # unimplemented

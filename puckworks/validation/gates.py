@@ -618,9 +618,10 @@ def gate_p3_schmieder_peak_discrimination():
         particle-size fine-grind dip.
     (2) CAPACITY, not identification. Of the implemented generators, only the
         empirically-calibrated static-heterogeneity closure produces an interior
-        maximum without a doctored constant (lee needs ρ_c=798; size-exclusion /
-        diffusion are monotone; incomplete wetting is untested). This is model
-        VIABILITY — the gate no longer claims channeling IS the mechanism.
+        maximum under its measured/calibrated parameters (lee needs an ELEVATED
+        ρ_c=798, 2× the measured 399; size-exclusion / diffusion are monotone;
+        incomplete wetting is untested). This is model VIABILITY — the gate no
+        longer claims channeling IS the mechanism.
 
     Also asserts the 'no silent observable merge' data hazard is real (schmieder
     carries >1 mass unit across components). Strength: qualitative."""
@@ -639,7 +640,7 @@ def gate_p3_schmieder_peak_discrimination():
         and len(t["rsm_interior_max"]) == 4                     # RSM feature exists for all
         and len(t["raw_interior_max"]) <= 1                     # raw cells do NOT robustly support it
         and r["generate_under_calibrated_params"] == ["static channeling σ(φ₁)"]
-        and r["generate_only_under_doctored_params"] == ["lee2023 dissolution instability"])
+        and r["generate_only_under_elevated_ceiling"] == ["lee2023 dissolution instability"])
     return dict(passed=passed,
                 schmieder_mass_units=sorted(u for u in units if u),
                 primary_observable=t["primary_observable"],
@@ -650,7 +651,7 @@ def gate_p3_schmieder_peak_discrimination():
                 rsm_interior_max=t["rsm_interior_max"],
                 raw_interior_max=t["raw_interior_max"],
                 generate_under_calibrated_params=r["generate_under_calibrated_params"],
-                generate_only_under_doctored_params=r["generate_only_under_doctored_params"],
+                generate_only_under_elevated_ceiling=r["generate_only_under_elevated_ceiling"],
                 target_verdict=t["verdict"],
                 verdict=r["verdict"])
 
