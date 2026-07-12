@@ -300,3 +300,11 @@ def test_schulman_baskets():
     assert len(b) == 14
     vst18 = [x for x in b if x["basket"] == "VST 18"][0]
     assert abs(vst18["A_h_mm2"] - 69.3) < 1e-6 and vst18["grid"] == "H"
+
+
+def test_mo2023_2_coupled_bed():
+    from puckworks.models.mo2023_2 import coupled_bed as cb
+    m = cb.fig8_metrics()
+    assert m["mass_balance_floor"] > 0.90        # mass-conserving
+    assert m["within_bars"] >= 5                  # beats reduced 4/9
+    assert m["shape_spread_pct"] < 60             # beats reduced 110%

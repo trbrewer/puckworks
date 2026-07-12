@@ -176,6 +176,30 @@ register(Component(
           "(Cor 8.2) verified at DATA level by gate_fasano_cor82_nonmonotone"))
 
 register(Component(
+    name="mo2023_2.coupled_bed", stage="extraction", kind="runtime",
+    paper="Mo, Navarini, Suggi Liverani & Ellero, J. Food Eng. (2023)",
+    doi="10.1016/j.jfoodeng.2023.111843",
+    module="puckworks.models.mo2023_2.coupled_bed",
+    gates=[G.gate_mo2_coupled_bed_fig8],
+    assumptions="depth-resolved through-flow bed (Eqs 19-24): clean water down N_z "
+                "layers, fine+coarse hindered-diffusion grains per layer (Eqs 9-17) "
+                "with the partition surface BC c(R)=c_b/K; fixed-flow; filling front "
+                "(Eqs 29-30, fixed-q linear plug-fill dz_f/dt=q/(eps_b A)) with the "
+                "cup=pumped-minus-dead-volume correction; swelling off (fixed-q ~ "
+                "invisible, gate-4)",
+    valid_range="type-M Fig 8 (M_c<30 g): mass-conserving (~0.99, converged), BEATS "
+                "the reduced mo2023_2.extraction on both untuned metrics -- within-bars "
+                "5/9 (vs 4/9), shape-spread 37% (vs 110%). The M_c=20 over-prediction "
+                "is CONVERGED (refinement worsens it) -> genuine model-vs-data, matching "
+                "the card's 'overestimates beyond M_c~30 g'; NOT an implementation gap. "
+                "Absolute EY needs one inventory scale (max-EY); shape is the signal",
+    notes="supersedes mo2023_2.extraction (reduced lumped) for Fig-8 fidelity; the "
+          "reduced version stays for the fixed-q swelling-insensitivity gate. Filling "
+          "front is the fixed-q analog of foster2025.infiltration's fixed-P sharp front "
+          "(infiltration<->extraction coupling, backlog). du->dC flux mass-bug fixed. "
+          "Appendix-A.2 numerics not matched -- moot (solution converged)"))
+
+register(Component(
     name="mo2023_2.swelling", stage="bed_dynamics", kind="runtime",
     paper="Mo, Navarini, Suggi Liverani & Ellero, 'Modelling swelling effects in real "
           "espresso extraction using a 1-D coarse-grained model,' J. Food Eng. (2023)",

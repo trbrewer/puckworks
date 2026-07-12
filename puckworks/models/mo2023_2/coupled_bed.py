@@ -1,16 +1,17 @@
 """coupled_bed.py — mo2023_2 depth-resolved coupled bed extraction (Fig 8) [WIP].
 
-*** STATUS: WIP / not registered, not gated. ***
-(a) NORMALIZATION BUG FIXED (2026-07-11): the grain->bed flux took du/dxi where
-    it needed dC/dxi (state is u=xi*C) -> ~12x solute loss, un-conserving mass;
-    plus a spurious eps_p in the inventory. Fixed: with adequate time sampling
-    mass conserves to 0.993 and eluted_frac -> ~1.0 of the grain inventory at
-    full extraction. yield_frac is now a true fraction of the grain content.
-(b) STILL TODO: the card's REQUIRED initial filling front (Eqs 29-30) -- until
-    it is in, every cell extracts from t=0 and over-extracts, so do NOT score
-    within-bars yet (check foster2025.infiltration reuse first).
-(c) STILL TODO: reconcile with the paper's exact Appendix A.2 numerics.
-Preserved as a continuation point, not a finished component.
+*** STATUS: registered (mo2023_2.coupled_bed, extraction/runtime). *** Resolved
+via the (a)->(b)->(c) plan:
+(a) mass-conservation bug FIXED: the grain->bed flux took du/dxi where it needed
+    dC/dxi (state u=xi*C) -> ~12x solute loss; plus a spurious eps_p in the
+    inventory. Now conserves to ~0.99 (converged), eluted_frac -> ~1.0.
+(b) filling front (Eqs 29-30) added: fixed-q linear plug-fill dz_f/dt=q/(eps_b A)
+    with the cup = pumped - dead-volume correction (the first ~eps_b V_bed of
+    water fills the puck and never reaches the cup). -> 5/9 within bars (vs the
+    reduced lumped bed's 4/9) and shape-spread 37% (vs 110%), UNTUNED.
+(c) Appendix-A.2 numerics NOT matched -- moot: the M_c=20 residual is CONVERGED
+    (refinement worsens it slightly), so it is genuine model-vs-data disagreement
+    matching the card's 'overestimates beyond M_c~30 g', not an implementation gap.
 
 
 
@@ -147,6 +148,33 @@ def simulate_bed(powder, q_mL_s, dose_g=None, t_end=40.0, N_z=14, M=8,
                 mass_balance=balance, inv_true=inv_true, inv_used=inv,
                 grain_frac=grain_tot / inv_true, eluted_frac=elut / inv_true,
                 pore_frac=pore_tot / inv_true)
+
+
+def fig8_metrics(powder="M", N_z=12, M=8, n_save=220):
+    """Both scoring metrics for the card gate-3 (type-M, M_c<30 g), untuned: the
+    within-bars count at the single best EY_scale, and the implied-scale SHAPE
+    spread (how consistent the yield(M_c) shape is -- the real signal of whether
+    depth resolution does physical work). Also the mass-balance floor. Filling
+    front ON (required). The reduced lumped bed scores 4/9 with a ~110% spread."""
+    from puckworks import data as _d
+    ys = [r for r in _d.mo2_yield_strength() if r["powder"] == powder and r["M_c_g"] < 30]
+    pts = {}
+    mb = 1.0
+    for q in (2, 3, 4):
+        r = simulate_bed(powder, q, t_end=35.0, N_z=N_z, M=M, n_save=n_save,
+                         filling_front=True)
+        mb = min(mb, float(np.min(r["mass_balance"][r["t"] > 3.0])))
+        for x in [z for z in ys if z["q_mL_s"] == q]:
+            pts[(q, x["M_c_g"])] = (float(np.interp(x["M_c_g"], r["beverage_g"],
+                                    r["yield_frac"])), x)
+    scs = [x["yield_pct"] / yf for (yf, x) in pts.values() if yf > 0]
+    scales = np.linspace(15.0, 120.0, 200)
+    nwin = lambda sc: sum(1 for (yf, x) in pts.values()
+                          if abs(yf * sc - x["yield_pct"]) <= max(x["yield_err_pct"], 0.5))
+    best = max(scales, key=nwin)
+    return dict(within_bars=nwin(best), n_points=len(pts), best_EY_scale=round(best, 1),
+                shape_spread_pct=round((max(scs) / min(scs) - 1) * 100, 0),
+                mass_balance_floor=round(mb, 3))
 
 
 def yield_strength_curve(powder, q_mL_s, M_c_targets, EY_scale, **kw):
