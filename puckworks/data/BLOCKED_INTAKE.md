@@ -79,9 +79,10 @@ Four of five are acquisition/search projects, not quick drops.
   experimental markers. They reproduce the fines-migration mechanism qualitatively
   (Re decays ~10→~1, deeper with θ; content rises with Dr) but are **NOT a
   validation dataset** and **do NOT close G2**. Still owed: the **raw** experimental
-  transient-discharge series (ASIC 1993/1997, refs [13]/[18]) — request path +
-  notes in `docs/sourcing/`. A mass-conserving fines-migration MODEL (the actual
-  G2 component) remains blocked on that raw data.
+  transient-discharge series (ASIC 1993/1997, refs [13]/[18]). **Request SENT to
+  Ellero & Navarini 2026-07-12** (`docs/sourcing/G2_ELLERO_ASIC_REQUEST_EMAIL.md`)
+  — awaiting reply; Tim will notify on response. A mass-conserving fines-migration
+  MODEL (the actual G2 component) remains blocked on that raw data.
 
 ### 🟡 0.6 — Wadsworth raw 22-sample PSD zip
 - **Unblocks:** full `pack_generator` PSD-prior validation. **Does NOT block 1.5**

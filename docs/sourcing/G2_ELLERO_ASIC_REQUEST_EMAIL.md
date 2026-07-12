@@ -49,7 +49,9 @@ Thank you very much for considering this,
 
 ---
 
-*Status: DRAFT — not sent. Recipient address(es) unverified. See ROADMAP §5.8
-(Ellero & Navarini row) and `BLOCKED_INTAKE.md` (G2). The digitized figures are on
-disk (`data/ellero2019/`, qualitative); this request seeks the raw series that
-would upgrade G2 from a qualitative pointer to a validation target.*
+*Status: **SENT 2026-07-12 by Tim** — awaiting reply. See ROADMAP §5.8 (Ellero &
+Navarini row) and `BLOCKED_INTAKE.md` (G2). The digitized figures are on disk
+(`data/ellero2019/`, qualitative); this request seeks the raw series that would
+upgrade G2 from a qualitative pointer to a validation target. When a reply lands,
+drop any raw data into `data/ellero2019/` (or an ASIC-specific dir) and re-open the
+G2 intake.*
