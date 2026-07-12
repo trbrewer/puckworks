@@ -652,17 +652,22 @@ def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
         near-choke sensitivity is what drives the dynamics.
       - Fixed-FLOW coupling (schmieder/DE1 regime): w_i = g_i / mean_j g_j (unit
         mean; a fixed total is shared, so a faster tube STEALS flow). `lateral`
-        in [0,1] is a lateral pressure-equalization regularizer: w <- (1-lateral)*w
-        + lateral*1 (the parallel-non-exchanging assumption relaxed toward a
-        laterally-mixed bed). substeps subdivides each trace interval (Euler
-        stability check -- the runaway is not a step-size artifact).
+        in [0,1] is a HOMOGENIZING REGULARIZER (w <- (1-lateral)*w + lateral*1) --
+        a crude PROXY for lateral coupling, NOT a transverse-Darcy / shared-
+        pressure-field exchange term; it blends shares toward uniform. substeps
+        subdivides each trace interval (Euler step-size check).
       - Coupled ODE: dtau_i/dt = w_i(t), integrated on the waszkiewicz time base.
+      - EY closure runs at the SAME pressure as the flow dynamics (P_bar).
 
-    Reports the flow-concentration trajectory (top-decile share; share spread),
-    whether it peaks-then-relaxes (self-limiting) vs monotone-growing (runaway),
-    and the ensemble-EY deficit vs the STATIC streamtube. Validation strength:
-    qualitative / exploratory synthesis -- NOT a registered component, NOT a
-    validated kappa(t) law (as sound as its shakiest donor; see coupled_kappa_t)."""
+    Reports the flow-concentration trajectory with proper concentration metrics
+    (top-decile share, MAX single-tube share, effective # active channels
+    N_eff = 1/sum s_i^2), whether it self-limits vs concentrates, and the
+    ensemble-EY change vs the STATIC streamtube. SCOPE: this is one grind / one
+    pressure / one closure-slope / one clock -- an exploratory finding in the
+    TESTED near-choke configuration, NOT a proven unconditional instability (no
+    stability theorem, no phase diagram). Validation strength: qualitative /
+    exploratory synthesis -- NOT a registered component, NOT a validated kappa(t)
+    law (as sound as its shakiest donor; see coupled_kappa_t)."""
     import numpy as np
     from scipy.interpolate import PchipInterpolator
     from scipy.stats import norm
@@ -689,7 +694,7 @@ def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
     # integrate the coupled throughput-clock ODE (Euler, substepped per interval)
     tau = np.zeros(N)
     top = max(1, N // 10)
-    top_share, spread = [], []
+    top_share, max_share, n_eff = [], [], []
     M_acc = np.zeros(N)                                    # for time-avg share
     for i in range(1, len(t)):
         dt = (t[i] - t[i - 1]) / substeps
@@ -697,17 +702,20 @@ def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
             g = k0 * Mofphi(Phi(tau))
             w = g / float(np.mean(g))                      # unit-mean flow share
             if lateral:
-                w = (1.0 - lateral) * w + lateral          # lateral equalization
+                w = (1.0 - lateral) * w + lateral          # homogenizing proxy
             tau = tau + w * dt
             M_acc = M_acc + w * dt
-        sw = np.sort(w)[::-1]
-        top_share.append(float(sw[:top].sum() / w.sum()))
-        spread.append(float(np.std(w)))
-    top_share = np.array(top_share); spread = np.array(spread)
-    # ensemble EY: static k0 distribution vs dynamic time-avg flow share (unit-mean)
+        s = w / w.sum()                                    # normalized shares
+        sw = np.sort(s)[::-1]
+        top_share.append(float(sw[:top].sum()))
+        max_share.append(float(sw[0]))                     # largest SINGLE tube
+        n_eff.append(float(1.0 / np.sum(s ** 2)))          # effective # channels
+    top_share = np.array(top_share)
+    max_share = np.array(max_share); n_eff = np.array(n_eff)
+    # ensemble EY at the SAME pressure as the flow dynamics (was hardcoded 5 bar)
     if compute_ey:
         k_eff = M_acc / t[-1]
-        ey = _st.EYResponse(gs=gs, p_bar=5.0)
+        ey = _st.EYResponse(gs=gs, p_bar=P_bar)
         ey_static = float(np.mean(ey.ey_of_k(k0)))
         ey_dyn = float(np.mean(ey.ey_of_k(np.clip(k_eff, ey.k_min, ey.k_max))))
     else:
@@ -715,26 +723,33 @@ def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
     j_peak = int(np.argmax(top_share))
     self_limiting = bool(j_peak < len(top_share) - 1
                          and top_share[-1] < top_share[j_peak] - 1e-3)
-    # "runaway" == essentially all flow latches into the top decile
-    runaway = bool(top_share[-1] > 0.90 and not self_limiting)
+    # strong concentration == flow collapses toward a single effective channel
+    concentrates = bool(top_share[-1] > 0.90 and not self_limiting)
     return dict(
-        gs=gs, sigma=sigma, N=N, closure=closure, lateral=lateral,
+        gs=gs, sigma=sigma, N=N, closure=closure, lateral=lateral, P_bar=P_bar,
         top_decile_share_static=float(top_share[0]),      # t~0, phi~0 (== static)
         top_decile_share_peak=float(top_share[j_peak]),
         top_decile_share_final=float(top_share[-1]),
+        max_single_tube_share_final=float(max_share[-1]),
+        n_eff_channels_static=float(n_eff[0]),
+        n_eff_channels_final=float(n_eff[-1]),
         peak_time_s=float(t[1:][j_peak]),
-        spread_peak=float(spread.max()), spread_final=float(spread[-1]),
-        self_limiting=self_limiting, runaway=runaway,
+        self_limiting=self_limiting, concentrates=concentrates,
+        # keep `runaway` as an alias for back-compat, but it now means "strong
+        # concentration in the TESTED configuration", not a proven instability
+        runaway=concentrates,
         ey_static=ey_static, ey_dynamic=ey_dyn,
         deepens_dip=bool(ey_dyn < ey_static - 1e-6),
-        reading=("[%s%s] top-decile flow share %.2f->%.2f; %s; ensemble EY %s "
-                 "(%.1f%%->%.1f%%)" % (
-                     closure, (" +lat%.2f" % lateral) if lateral else "",
-                     top_share[0], top_share[-1],
-                     "RUNAWAY (single-channel latch)" if runaway else
-                     ("self-limiting" if self_limiting else "bounded/stable"),
-                     "drops" if ey_dyn < ey_static else "holds",
-                     ey_static, ey_dyn)))
+        reading=("[%s%s] top-decile share %.2f->%.2f, max single-tube %.2f, "
+                 "N_eff %.0f->%.1f of %d; %s; ensemble EY %s (%.1f%%->%.1f%%) @%gbar"
+                 % (closure, (" +lat%.2f" % lateral) if lateral else "",
+                    top_share[0], top_share[-1], max_share[-1],
+                    n_eff[0], n_eff[-1], N,
+                    "STRONG concentration (tested near-choke config)"
+                    if concentrates else
+                    ("self-limiting" if self_limiting else "bounded/stable"),
+                    "drops" if ey_dyn < ey_static else "holds",
+                    ey_static, ey_dyn, P_bar)))
 
 
 # --- G4 temperature sensitivity: two independent closures + schmieder datum ---

@@ -147,44 +147,51 @@ for #2 (wetting delay moves it; static channeling does not).
 
 ---
 
-## 2.4 N-tube κ(t) union — per-tube coupling is unconditionally unstable
+## 2.4 N-tube κ(t) union — strong flow concentration in the tested near-choke config
+
+*(Claims narrowed 2026-07-12 after a review: this is an EXPLORATORY result in one
+tested configuration, not a proven unconditional instability.)*
 
 **What it is.** The exploratory synthesis (`harness.ntube_kappa_t_union`,
 `gate_ntube_kappa_t_union`; qualitative) that §2.2 point 2 called for: it puts
-the P3 winner (streamtube channeling) and the P2 winner (coupled_kappa_t's
-extraction-opens porosity) in the SAME model by giving each parallel streamtube
-its own extraction-driven κ(t) clock — the per-tube observable a single flow
-trace cannot resolve. Scales are grounded, not invented: heterogeneity σ(gs)
-from the calibrated streamtube closure, the extraction clock from the empirical
-waszkiewicz m_d(t), the per-tube conductance multiplier M(φ) from the poroelastic
-closure. NOT a registered component (as sound as its shakiest donor).
+the static-heterogeneity streamtube and the P2 extraction-opens porosity in the
+SAME model by giving each parallel streamtube its own extraction-driven κ(t)
+clock — the per-tube observable a single flow trace cannot resolve. Scales are
+grounded, not invented: heterogeneity σ(gs) from the calibrated streamtube
+closure, the extraction clock from the empirical waszkiewicz m_d(t), the per-tube
+conductance multiplier M(φ) from the poroelastic closure. NOT a registered
+component (as sound as its shakiest donor).
 
-**Result — a hard channeling runaway.** Under flow control (schmieder/DE1
-regime: a fixed total flow shared across tubes), the poroelastic coupling is
-**unconditionally unstable**: a faster tube extracts faster → opens (near-choke
-κ is hypersensitive to φ) → steals more of the fixed flow → extracts even faster.
-The flow **latches into a single channel** within ~3 s (top-decile flow share
-0.31 → ~1.0), and ensemble EY collapses (16% → ~2.5%) — the gushing-channel
-disaster. Three controls make it a finding, not an artifact:
+**Result — strong flow concentration (in the tested config).** Under flow control
+(fixed total flow shared across tubes), with the poroelastic closure at 9 bar,
+gs 1.1, N=200, the flow collapses toward a **single effective channel** — measured
+directly, not inferred from a decile: max single-tube share → **1.00** and
+effective channel count **N_eff = 1/Σsᵢ² → 1.0** (of 200); ensemble EY drops
+15.1% → 2.4% (flow AND EY now evaluated at the same 9 bar — an earlier version
+inconsistently used a 5-bar EY response). Three controls make it a finding, not
+an artifact:
 
-1. **It is the near-choke sensitivity, specifically.** Swapping the gentle
-   Kozeny–Carman auxiliary closure for the poroelastic one, the runaway
-   *disappears* (top-decile stays 0.31, bounded). The very property P2 proved
-   REQUIRED for the whole-bed 14× rise (poroelastic, not CK) is what
-   destabilizes the per-tube ensemble.
-2. **It is not a step-size artifact.** Substep-invariant across 2/8/32
-   subdivisions per interval.
-3. **It is regularized by lateral coupling.** A lateral pressure-equalization
-   term (`lateral`≥0.5, blending flow shares toward uniform) bounds the
-   instability and recovers EY — so it is precisely the streamtube
-   **parallel-non-exchanging** assumption that breaks once κ evolves.
+1. **It is the near-choke sensitivity, specifically.** With the gentle
+   Kozeny–Carman closure instead, N_eff holds (~110 of 200, bounded). The very
+   property P2 proved REQUIRED for the whole-bed 14× rise (poroelastic, not CK) is
+   what concentrates the per-tube ensemble.
+2. **It is not a step-size artifact.** Concentration is invariant across 2/8/32
+   substeps per interval.
+3. **A homogenizing term suppresses it.** A regularizer blending shares toward
+   uniform (`lateral`≥0.5) restores N_eff → ~200. **Caveat:** this is a crude
+   PROXY for lateral coupling, *not* a transverse-Darcy / shared-pressure-field
+   exchange — it shows imposed homogenization suppresses the feedback, not that
+   physical lateral equalization is necessary and sufficient.
 
-**Reading.** A valid coupled channeling-κ(t) model CANNOT use independent
-streamtubes: with an evolving near-choke porosity, lateral pressure
-equalization between tubes is not a refinement but a *stability requirement*.
-This is a well-defined new gap (**lateral tube coupling**, noted in §4 under
-G-lat) and the reason the static streamtube ensemble (P3's winner) is the right
-tool for the *time-averaged* fine-grind dip while a naive dynamic upgrade is not.
+**Reading (scoped).** In this tested near-choke configuration, the
+parallel-non-exchanging streamtube ensemble concentrates flow into one channel
+once κ evolves — motivating a physically-derived lateral-coupling model. What is
+NOT established: unconditional instability (no parameter sweep over grind /
+pressure / closure-slope / flow-vs-pressure control / tube count / clock; no
+linear-stability theorem), and that lateral pressure equalization specifically is
+the cure. Those are the open gap **G-lat** (§4) and the Result-3 work list. The
+static streamtube ensemble remains the right tool for the *time-averaged* grind
+response; this dynamic upgrade is diagnostic/exploratory only.
 
 ---
 

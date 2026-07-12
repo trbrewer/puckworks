@@ -666,17 +666,21 @@ def gate_g4_temperature_sensitivity():
 
 def gate_ntube_kappa_t_union():
     """N-tube κ(t) union (streamtube channeling × coupled_kappa_t per-tube):
-    EXPLORATORY SYNTHESIS, qualitative strength. Asserts the robust qualitative
-    finding, not a fit: giving each parallel streamtube its OWN extraction-opens
-    porosity clock, under flow control, produces an UNCONDITIONAL single-channel
-    RUNAWAY with the POROELASTIC closure (top-decile flow share 0.31→~1.0, EY
-    collapses) — driven specifically by the near-choke hypersensitivity that P2
-    established as REQUIRED for the whole-bed 14× rise: the GENTLE Kozeny-Carman
-    auxiliary closure stays BOUNDED (no latch). The runaway is step-size-invariant
-    (not an Euler artifact) and is REGULARIZED by lateral pressure equalization
-    (lateral≥0.5 → bounded). Reading: the parallel-non-exchanging-tube assumption
-    is inadmissible once κ evolves; a coupled channeling-κ(t) model needs lateral
-    tube coupling (a new gap). NOT a registered component / validated law."""
+    EXPLORATORY SYNTHESIS, qualitative strength. Asserts an exploratory finding in
+    the TESTED near-choke configuration (one grind / one pressure / one
+    closure-slope / one clock — NOT a proven unconditional instability): giving
+    each parallel streamtube its OWN extraction-opens porosity clock, under flow
+    control, the POROELASTIC closure drives flow to collapse into a single
+    effective channel — measured properly by max single-tube share → ~1 and
+    effective channel count N_eff = 1/Σsᵢ² → ~1 (not merely top-decile), with the
+    ensemble EY dropping (both flow and EY now at the SAME pressure). This is
+    driven by the near-choke hypersensitivity P2 established as required for the
+    whole-bed 14× rise: the GENTLE Kozeny-Carman closure stays BOUNDED (N_eff
+    holds). Step-size invariant (not an Euler artifact) and suppressed by a
+    homogenizing regularizer (a PROXY for lateral coupling, not a transverse-Darcy
+    term). Reading: the parallel-non-exchanging-tube assumption fails once κ
+    evolves in this regime; a physical lateral-coupling model + stability sweep is
+    the open gap (G-lat). NOT a registered component / validated law."""
     from puckworks import harness as h
     poro = h.ntube_kappa_t_union(gs=1.1, N=200, closure="poroelastic", compute_ey=True)
     ck = h.ntube_kappa_t_union(gs=1.1, N=200, closure="ck", compute_ey=False)
@@ -685,21 +689,26 @@ def gate_ntube_kappa_t_union():
     reg = h.ntube_kappa_t_union(gs=1.1, N=200, closure="poroelastic",
                                 lateral=0.9, compute_ey=False)
     passed = bool(
-        poro["runaway"]                                   # poroelastic latches
-        and poro["ey_dynamic"] < poro["ey_static"]        # EY collapses
-        and not ck["runaway"]                             # CK stays bounded
-        and ck["top_decile_share_final"] < 0.5
-        and poro_fine["runaway"]                          # step-size invariant
-        and not reg["runaway"])                           # lateral regularizes
+        poro["concentrates"]                              # single-channel collapse...
+        and poro["max_single_tube_share_final"] > 0.9     # ...measured directly
+        and poro["n_eff_channels_final"] < 1.5            # N_eff -> ~1
+        and poro["ey_dynamic"] < poro["ey_static"]        # EY drops (same pressure)
+        and not ck["concentrates"]                        # CK stays bounded
+        and ck["n_eff_channels_final"] > 50               # CK keeps many channels
+        and poro_fine["concentrates"]                     # step-size invariant
+        and not reg["concentrates"])                      # regularizer suppresses it
     return dict(passed=passed,
-                poroelastic_runaway=poro["runaway"],
+                poroelastic_concentrates=poro["concentrates"],
                 poro_top_decile=round(poro["top_decile_share_final"], 3),
+                poro_max_single_tube=round(poro["max_single_tube_share_final"], 3),
+                poro_n_eff_final=round(poro["n_eff_channels_final"], 2),
                 poro_ey_static=round(poro["ey_static"], 2),
                 poro_ey_dynamic=round(poro["ey_dynamic"], 2),
-                ck_bounded=not ck["runaway"],
-                ck_top_decile=round(ck["top_decile_share_final"], 3),
-                runaway_substep_invariant=poro_fine["runaway"],
-                lateral_regularizes=not reg["runaway"],
+                ey_pressure_bar=poro["P_bar"],
+                ck_bounded=not ck["concentrates"],
+                ck_n_eff_final=round(ck["n_eff_channels_final"], 1),
+                concentration_substep_invariant=poro_fine["concentrates"],
+                regularizer_suppresses=not reg["concentrates"],
                 reading=poro["reading"])
 
 

@@ -100,10 +100,13 @@ ANALYSIS section, not just this file.
   SMALL (`gate_g4_temperature_sensitivity`). The two closures DISAGREE on the
   SIGN of dK/dT (partition-convention difference — surfaced, not merged; do not
   average them). In-puck thermal transients + wetting/swelling-T remain OPEN.
-- **G-lat is a new gap:** dynamic per-tube channeling-κ(t) is unconditionally
-  unstable without lateral tube coupling (ANALYSIS_P2 §2.4). The static
-  streamtube is the right tool for the time-averaged dip; the dynamic union is
-  diagnostic only.
+- **G-lat is a new gap:** in the TESTED near-choke config, dynamic per-tube
+  channeling-κ(t) strongly concentrates flow (N_eff→1) without lateral coupling
+  (ANALYSIS_P2 §2.4) — an exploratory finding, NOT a proven unconditional
+  instability (no sweep/theorem). The static streamtube is the right tool for the
+  time-averaged response; the dynamic union is diagnostic only. Also note the P3
+  verdict was DOWNGRADED to model-capacity (2026-07-12) — see P3_hypotheses
+  CORRECTION box; the schmieder "peak" target was dimensionally invalid.
 - **G9 (basket/screen resistance) is RESOLVED for a clean basket:** the screen
   resistance from schulman2011 geometry is ~5–6 orders below the puck →
   negligible; the earlier fitted-vs-measured κ gap is coffee/grind, not screen.
