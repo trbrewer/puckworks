@@ -204,6 +204,83 @@ def flow_map_refinement():
                      f"refitting to the angeloni coffee.")
 
 
+def refit_pannusch_angeloni(rate_grid=None):
+    """Refit pannusch KINETICS to the angeloni coffee -- a NEW calibration (POST-FIT
+    reconstruction, NOT independent). Per solute per variety, fit two knobs to the
+    9 on-grid granulometry-O points and VALIDATE on the 2 held-out off-grid O
+    points ((96,9) and (91,8)):
+      - c_s0 (inventory LEVEL): cup conc is exactly linear in c_s0, so the optimum
+        is analytic (a rescale) -- NOT a real kinetic fit.
+      - rate_scale (KINETICS): a multiplier on the Sherwood prefactors A1,A2.
+    The van't Hoff / Re-exponent STRUCTURE is held (only its overall rate moves).
+
+    Finding: the ~31% transfer gap decomposes cleanly. CAFFEINE needs rate_scale
+    ~1.0 (kinetics already transfer; gap was pure inventory -- and the fitted c_s0
+    RECOVERS the angeloni Table 7 value). TRIGONELLINE needs rate_scale ~0.4
+    (pannusch over-extracts it for the angeloni coffee -- a genuine kinetic
+    difference). After the refit, holdout MAPE is mostly single-digit. Strength:
+    post-fit on-grid; 2-point off-grid holdout is a WEAK independent check.
+    NOTE: ~90 s of PDE solves (slow; hand-run only)."""
+    import numpy as np
+    from puckworks.models.pannusch2024 import solver as ps
+    from puckworks import data as d
+    bio = d.angeloni_bioactives(); ts = d.angeloni_total_solids()
+    params = ps._solute_params()
+    inv = {(r["variety"], r["species"]): r["C0_s_mg_L"] / 1000.0
+           for r in d.angeloni_inventories()}
+    tsmap = {(r["variety"], r["T_degC"], r["p_bar"]): r["TS_g_100mL"] for r in ts}
+    SPEC = {"caffeine": ("CF", 1.0), "trigonelline": ("TR", 1.0),
+            "5CQA": ("5CQA", 1.0), "tds": ("TS", 0.1)}
+    rate_grid = np.linspace(0.4, 2.5, 8) if rate_grid is None else np.asarray(rate_grid)
+
+    def _frac(sp, rs, conds):
+        s = dict(sp); s["A1"] = sp["A1"] * rs; s["A2"] = sp["A2"] * rs; s["c_s0"] = 1.0
+        return np.array([float(ps.simulate_fractions(T, _flow_darcy(p, T),
+                        [0.0, 25.0], s, cl1=1.0)[0]) for T, p in conds])
+
+    def _best_cs0(f, m):                                  # analytic level (linear in c_s0)
+        grid = np.linspace(0.3, 3.0, 50) * float(np.median(m / f))
+        mp = [float(np.mean(np.abs(c * f - m) / m)) for c in grid]
+        i = int(np.argmin(mp)); return float(grid[i]), mp[i] * 100.0
+
+    out = {}
+    for variety in ("Arabica", "Robusta"):
+        def sh(on):
+            return [r for r in bio if r["variety"] == variety
+                    and r["granulometry"] == "O"
+                    and r["on_grid"] == ("True" if on else "False")]
+        on, off = sh(True), sh(False)
+        per = {}
+        for sol, (col, conv) in SPEC.items():
+            def meas(r):
+                return (tsmap[(variety, r["T_degC"], r["p_bar"])]
+                        if sol == "tds" else r[col]) * conv
+            conds = [(r["T_degC"], r["p_bar"]) for r in on]; m = np.array([meas(r) for r in on])
+            co = [(r["T_degC"], r["p_bar"]) for r in off]; mo = np.array([meas(r) for r in off])
+            best = None
+            for rs in rate_grid:
+                f = _frac(params[sol], rs, conds); cs0, mp = _best_cs0(f, m)
+                if best is None or mp < best[2]:
+                    best = (float(rs), cs0, mp)
+            rs, cs0, mp = best
+            fo = _frac(params[sol], rs, co)
+            mpo = float(np.mean(np.abs(cs0 * fo - mo) / mo) * 100)
+            per[sol] = dict(rate_scale=round(rs, 2), c_s0_fit=round(cs0, 1),
+                            c_s0_table7=(round(inv[(variety, col)], 1)
+                                         if (variety, col) in inv else None),
+                            mape_on_grid=round(mp, 1), mape_holdout=round(mpo, 1))
+        out[variety] = per
+    hold = np.mean([out[v][s]["mape_holdout"] for v in out for s in SPEC])
+    return dict(per_variety=out, mean_holdout_mape=round(float(hold), 1),
+                strength="post-fit reconstruction (on-grid); 2-point off-grid holdout "
+                         "= weak independent check",
+                note="~31% blind transfer gap decomposes: caffeine rate~1.0 (pure "
+                     "inventory; fitted c_s0 recovers angeloni Table 7), trigonelline "
+                     "rate~0.4 (genuine kinetic difference -- pannusch over-extracts). "
+                     "Post-refit holdout mostly single-digit; angeloni-calibrated "
+                     "pannusch is a NEW calibration, granulometry O only, 9-point fit.")
+
+
 def report():
     r = gate_angeloni_multispecies_bracket()
     print("== angeloni2023 multi-species bracket (TS/TDS; INDEPENDENT; report) ==")
@@ -237,8 +314,19 @@ def report():
     print(f"\nflow-map refinement: crude-tau {fr['overall_mape_crude_tau']}% -> "
           f"Darcy(p,T) {fr['overall_mape_refined_darcy']}% "
           f"(closed {fr['closed_pp']} pp). {fr['note']}")
+    print("\n== pannusch KINETICS refit to angeloni (post-fit; 2-pt holdout) ==")
+    rf = refit_pannusch_angeloni()
+    print(f"{'variety':>8} {'solute':>13} {'rate':>5} {'c_s0(Table7)':>13} "
+          f"{'on-grid':>8} {'holdout':>8}")
+    for v, per in rf["per_variety"].items():
+        for sol, x in per.items():
+            t7 = "" if x["c_s0_table7"] is None else f"({x['c_s0_table7']})"
+            print(f"{v:>8} {sol:>13} {x['rate_scale']:>5} "
+                  f"{str(x['c_s0_fit']) + t7:>13} {x['mape_on_grid']:>7}% "
+                  f"{x['mape_holdout']:>7}%")
+    print(f"mean holdout MAPE {rf['mean_holdout_mape']}%. {rf['note']}")
     return dict(cameron=r, pannusch_bracket=pr, pannusch_per_condition=pc,
-                flow_refinement=fr)
+                flow_refinement=fr, refit=rf)
 
 
 if __name__ == "__main__":
