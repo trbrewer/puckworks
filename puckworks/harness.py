@@ -506,6 +506,124 @@ def schmieder_tds_ey(brew_ratio, temp_C, flow_ml_s, dose_g=SCHM_DOSE_G):
                 rsm=rsm)                                # concavity/vertex (unit-free)
 
 
+def result1_design_aware_stats(brew_ratio="1/2", temp_C=89.0, flow_ml_s=2.0,
+                               dose_g=SCHM_DOSE_G):
+    """DIAGNOSTIC (Paper B Result-1, updated-review owed): a design-aware,
+    experiment-unit reading of the three-dial TDS-EY response, replacing the single
+    replicate-level Welch contrast with (a) the achieved covariates per dial,
+    (b) the experimental-unit structure, and (c) both a trend and pairwise view.
+    NOT a gate, NOT in run_all_gates -- it quantifies a known caveat honestly.
+
+    The load-bearing structural fact: in the Schmieder DoE each dial cell is ONE
+    experiment (dial 1.4 = an axis-point experiment, 1.7 = the repeated centre
+    point, 2.0 = another axis point), so there is NO between-experiment replication
+    -- the replicate spread within a cell is a WITHIN-experiment (measurement +
+    shot-to-shot) variance, not a between-condition one. A replicate-level Welch
+    test therefore answers a within-experiment question; it does not license a
+    causal 'dial alone moves EY' claim. Reported so the manuscript's statistical
+    language matches the design.
+
+    Returns per-dial n / experiment id / DoE role / EY mean+sample-SD and the mean
+    ACHIEVED flow, temperature, and max pressure (which differ across the three
+    experiments -- the confound); the two adjacent pairwise Welch contrasts with
+    95% CIs; a replicate-level linear EY-vs-dial slope; and the ordered-means
+    verdict (no interior maximum: the middle dial lies below the coarse end)."""
+    import collections
+    from scipy import stats
+    from puckworks import data as _d
+    byg = collections.defaultdict(list)
+    for r in _d.schmieder_cup_masses():
+        if (r.get("component") != "TDS" or r.get("brew_ratio") != brew_ratio
+                or _f_num(r.get("target_temp_C")) != temp_C
+                or _f_num(r.get("target_flow_ml_s")) != flow_ml_s):
+            continue
+        g = _f_num(r.get("grind_level")); m = _f_num(r.get("mass_in_cup"))
+        if g is None or m is None:
+            continue
+        byg[g].append(r)
+    grinds = sorted(byg)
+    if grinds != [1.4, 1.7, 2.0]:
+        return None
+
+    def _col(rows, key):
+        vals = [_f_num(x.get(key)) for x in rows]
+        return [v for v in vals if v is not None]
+
+    cells = []
+    for g in grinds:
+        rows = byg[g]
+        ey = [_f_num(x["mass_in_cup"]) / dose_g * 100.0 for x in rows]
+        exps = sorted({_f_num(x.get("exp")) for x in rows})
+        flow = _col(rows, "scale_flow_ml_s"); temp = _col(rows, "decent_temp_C")
+        pmax = _col(rows, "pressure_max_bar")
+        cells.append(dict(
+            dial=g, n_reps=len(rows), n_experiments=len(exps),
+            experiment_ids=exps, doe_role=sorted({x.get("doe_role") for x in rows}),
+            ey_mean=round(float(np.mean(ey)), 3),
+            ey_sample_sd=round(float(np.std(ey, ddof=1)), 3) if len(ey) > 1 else None,
+            ey=[round(v, 3) for v in ey],
+            achieved_flow_ml_s=round(float(np.mean(flow)), 3) if flow else None,
+            achieved_temp_C=round(float(np.mean(temp)), 2) if temp else None,
+            achieved_pmax_bar=round(float(np.mean(pmax)), 2) if pmax else None))
+
+    ey_by = {c["dial"]: [_f_num(x["mass_in_cup"]) / dose_g * 100.0 for x in byg[c["dial"]]]
+             for c in cells}
+
+    def _welch(a, b):
+        t, p = stats.ttest_ind(a, b, equal_var=False)
+        va, vb = np.var(a, ddof=1) / len(a), np.var(b, ddof=1) / len(b)
+        se = float(np.sqrt(va + vb))
+        df = (va + vb) ** 2 / (va ** 2 / (len(a) - 1) + vb ** 2 / (len(b) - 1))
+        tcrit = float(stats.t.ppf(0.975, df))
+        diff = float(np.mean(a) - np.mean(b))
+        return dict(diff_EYpt=round(diff, 3), df=round(float(df), 1),
+                    ci95=[round(diff - tcrit * se, 3), round(diff + tcrit * se, 3)],
+                    p_two_sided=round(float(p), 4))
+
+    pairwise = {
+        "dial_1.4_vs_1.7": _welch(ey_by[1.4], ey_by[1.7]),
+        "dial_1.7_vs_2.0": _welch(ey_by[1.7], ey_by[2.0])}
+
+    # replicate-level linear trend of EY on dial (descriptive slope, with the
+    # caveat that dial is confounded with the achieved covariates below)
+    xs = np.concatenate([[g] * len(ey_by[g]) for g in grinds])
+    ys = np.concatenate([ey_by[g] for g in grinds])
+    lr = stats.linregress(xs, ys)
+    slope_ci = [round(float(lr.slope - 1.96 * lr.stderr), 3),
+                round(float(lr.slope + 1.96 * lr.stderr), 3)]
+
+    means = [c["ey_mean"] for c in cells]
+    ordered = bool(means[0] <= means[1] <= means[2])       # monotone increasing?
+    interior_max = bool(means[1] > means[0] and means[1] > means[2])
+    return dict(
+        condition=dict(brew_ratio=brew_ratio, target_temp_C=temp_C,
+                       target_flow_ml_s=flow_ml_s, dose_g=dose_g),
+        cells=cells, pairwise=pairwise,
+        trend=dict(slope_EYpt_per_dial=round(float(lr.slope), 3),
+                   slope_ci95=slope_ci, r=round(float(lr.rvalue), 3),
+                   p=round(float(lr.pvalue), 4)),
+        experimental_unit_note=(
+            "ONE experiment per dial (1.4=axis exp, 1.7=repeated centre point, "
+            "2.0=axis exp) -> NO between-experiment replication; the within-cell "
+            "spread is a within-experiment variance. A replicate-level Welch/trend "
+            "test answers a within-experiment question and does NOT license a causal "
+            "'dial alone moves EY' claim; a design-aware model would need the full "
+            "DoE (achieved covariates + experiment blocks), not these 3 cells."),
+        achieved_confound=(
+            "achieved flow/temperature/max-pressure differ across the three dial "
+            "experiments (see cells) -> dial is confounded with the achieved "
+            "conditions; the ordering is descriptive, not a clean dial effect."),
+        cell_means_ordered=ordered, interior_maximum=interior_max,
+        verdict=("cell means %s (%.2f -> %.2f -> %.2f EY%%); the MIDDLE dial is %s the "
+                 "coarse end -> %s interior maximum. Described as ORDERED, not "
+                 "'statistically monotone' (see the 1.4-vs-1.7 CI). Achieved "
+                 "covariates differ across the three single-experiment cells."
+                 % ("increase monotonically" if ordered else "are not monotone",
+                    means[0], means[1], means[2],
+                    "below" if means[1] < means[2] else "at/above",
+                    "NO" if not interior_max else "an")))
+
+
 def schmieder_interior_max_target(center=None):
     """CORRECTED P3 target. PRIMARY observable = TDS-derived EY (the yield quantity
     an extraction model produces); the mg solutes are secondary cross-checks. For

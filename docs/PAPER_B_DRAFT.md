@@ -122,16 +122,22 @@ nominal central condition are **numerically ordered** across dial: 18.27, 19.38,
 19.62 % at dial 1.4/1.7/2.0. The middle-versus-coarse contrast is −0.24 yield-points
 with a Welch t 95 % CI [−0.42, −0.06] that **excludes zero**, so the middle cell
 lies below dial 2.0 and **the raw cells do not support an interior maximum at the
-middle dial**. We describe the means as *ordered*, not "statistically monotone":
-the 1.4-vs-1.7 interval includes zero, so not every adjacent step is individually
-resolved. These are also **nominal-condition, not achieved-condition, comparisons**
-— the three dial cells share *target* flow and temperature, but the *achieved* flow
-differs (dial 1.7 vs 2.0 by ≈0.095 mL/s) and dial 1.4 runs at appreciably higher
-maximum pressure; in the source design the three settings are distinct experiment
-conditions (1.4/2.0 axis points, 1.7 the repeated center point). A design-aware,
-experiment-unit analysis with achieved covariates is owed (§7); the ordering is
-descriptive and rules out a middle-dial maximum, but does not license "dial alone
-causes a monotone response."
+middle dial**. We describe the means as *ordered*, not "statistically monotone": a design-aware,
+experiment-unit diagnostic (`harness.result1_design_aware_stats`) resolves the
+mid-vs-coarse step (dial 1.7 − 2.0 = −0.24 EY-pt, Welch 95 % CI [−0.42, −0.06],
+p ≈ 0.016) but **not** the fine-to-mid step (dial 1.4 − 1.7 = −1.11 EY-pt, CI
+[−2.41, +0.19], p ≈ 0.068 — includes zero). The overall replicate-level trend is a
+rise of +2.26 EY-pt per dial (95 % CI [1.29, 3.23]). Crucially these are
+**nominal-condition, not achieved-condition, comparisons, and there is no
+between-experiment replication**: each dial cell is a *single* DoE experiment
+(1.4 = an axis point, n = 3; 1.7 = the repeated centre point, n = 6; 2.0 = an axis
+point, n = 3), so the within-cell spread is a within-experiment variance, and the
+*achieved* conditions differ across the three experiments — mean achieved flow
+1.92 / 1.90 / 2.00 mL s⁻¹ and, most notably, mean maximum pressure **3.91 / 3.41 /
+3.33 bar** at dial 1.4 / 1.7 / 2.0. Dial is therefore confounded with the achieved
+conditions. The ordering is descriptive and rules out a middle-dial maximum, but a
+causal "dial alone moves EY" reading is not licensed; a full design-aware model
+(achieved covariates + experiment blocks over the whole DoE) is owed (§7).
 
 An interior maximum exists only in the study's own fitted response surface, which
 is concave in grind for every observable but weak (schmieder's own adjusted R²
@@ -323,6 +329,12 @@ analyzed under a physically consistent machine/bed system and tested experimenta
   a bootstrap vertex CI ([1.68, 1.81]), and — via the leave-one-design-point-out
   diagnostic — a Q² predictive score; still owed are the source's full-precision
   coefficients (author request) and a full covariance/residual-diagnostic panel.
+- A full design-aware, experiment-unit statistical model of the Result-1 dial
+  response. *Partially addressed:* `harness.result1_design_aware_stats` now reports
+  the per-dial achieved covariates, the single-experiment-per-cell structure, both
+  adjacent pairwise Welch contrasts, and a replicate-level trend; still owed is a
+  block/mixed-effects model over the whole DoE (not just the 3 central-condition
+  cells) with achieved flow/temperature/pressure as covariates.
 - Direct spatial flow/saturation data; a second-rig or second-coffee transfer
   dataset; parameter-identifiability analysis for the temporal branches.
 - A physically-derived lateral-exchange network + a genuine stability analysis

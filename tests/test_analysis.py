@@ -21,3 +21,16 @@ def test_lopo_waszkiewicz_runs():
 def test_residual_autocorr_runs():
     from puckworks.analysis.residual_autocorr import summary
     assert summary()["n_pressures"] == 11
+
+
+def test_result1_design_aware_stats_runs():
+    """Design-aware experiment-unit diagnostic for Result 1 (runs + sane-typed;
+    NOT a threshold gate). Confirms the load-bearing structural facts: one
+    experiment per dial, three dial cells, and the descriptive ordering."""
+    from puckworks.harness import result1_design_aware_stats
+    r = result1_design_aware_stats()
+    assert [c["dial"] for c in r["cells"]] == [1.4, 1.7, 2.0]
+    assert all(c["n_experiments"] == 1 for c in r["cells"])   # no between-exp reps
+    assert set(r["pairwise"]) == {"dial_1.4_vs_1.7", "dial_1.7_vs_2.0"}
+    assert isinstance(r["cell_means_ordered"], bool)
+    assert isinstance(r["interior_maximum"], bool)
