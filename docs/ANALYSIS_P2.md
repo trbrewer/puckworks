@@ -167,6 +167,26 @@ TARGET side (schmieder's weak RSM / monotone raw cells). Both point the same way
 on a channeling peak, and the σ(φ₁) closure's own parameters — not just the target
 — carry the uncertainty.
 
+**Magnitude comparison — model bump vs schmieder bump** (`result1_magnitude_comparison`).
+All in EY-points, on the measured (not RSM-absolute) target:
+- **Raw TDS-EY** at the fixed condition is 18.3/19.4/19.6 % → interior bump
+  **−0.24 EY-pt (monotone; no bump in the data)**, replicate **noise floor 0.22
+  EY-pt**.
+- **Model** channeling prominence is 0.19 EY-pt (5 bar) / 0.03 (9 bar) — **below
+  the raw noise floor** at both pressures.
+- **RSM caveat (new data-quality finding):** schmieder's fitted RSM overpredicts
+  the *absolute* cup mass by **~1.73×** (6.7 vs measured 3.9 g; its β₆·temp² term
+  alone exceeds the whole cup mass), so the RSM is a **shape** tool (concavity /
+  vertex), NOT an absolute-magnitude one — exactly the card's own "RSM
+  order-of-magnitude only" caveat. The magnitude comparison therefore uses the raw
+  cells, never the RSM absolute.
+
+**So neither side has a strong peak to match or miss:** the data is monotone, and
+the model's predicted bump sits under the measurement noise. The channeling
+mechanism does not over-predict a peak the data lacks, nor is it contradicted — it
+is simply un-identifiable at this magnitude. Decisive for the write-up: **the
+title/abstract cannot rest on a channeling peak.**
+
 ---
 
 ## 2.4 N-tube κ(t) union — strong flow concentration in the tested near-choke config

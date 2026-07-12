@@ -53,7 +53,21 @@ def report():
            for x in r["n_grid_convergence"]])
     print()
     print("VERDICT:", r["verdict"])
-    return r
+
+    # magnitude comparison: model bump vs raw schmieder bump (both EY-pts)
+    m = h.result1_magnitude_comparison()
+    print()
+    print("== Result-1 MAGNITUDE comparison (model bump vs schmieder bump) ==")
+    print("raw TDS-EY %s -> interior bump %.3f EY-pt (<=0 = monotone); noise floor "
+          "%.3f EY-pt" % (m["raw_tds_ey"], m["raw_interior_bump_EYpt"],
+                          m["raw_noise_floor_EYpt"]))
+    print("model channeling bump: %.3f (5 bar) / %.3f (9 bar) EY-pt; below noise=%s"
+          % (m["model_prominence_5bar_EYpt"], m["model_prominence_9bar_EYpt"],
+             m["model_bump_below_noise"]))
+    print("schmieder RSM overpredicts absolute cup mass %.2fx -> SHAPE tool only"
+          % m["rsm_overpredicts_x"])
+    print("VERDICT:", m["verdict"])
+    return dict(sensitivity=r, magnitude=m)
 
 
 if __name__ == "__main__":

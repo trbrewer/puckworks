@@ -675,6 +675,69 @@ def channeling_interior_max_sensitivity(gs_grid=None,
                      next((c["prominence"] for c in pressure_sweep if c["p_bar"] == 9.0), float("nan")))))
 
 
+def result1_magnitude_comparison():
+    """Result-1 MAGNITUDE comparison (review ask): is the channeling interior-max
+    bump the same SIZE as the schmieder interior-max bump? All in EY-points.
+
+    Three sides, kept honest:
+      - RAW target (measured, trustworthy): TDS-EY at the fixed central condition
+        (18.3/19.4/19.6 %), its interior 'bump' = middle - max(endpoints), and the
+        replicate NOISE floor (per-cell EY std).
+      - MODEL: channeling ensemble EY prominence at the calibrated closure, at
+        5 bar and 9 bar (two `channeling_sigma_sweep` calls).
+      - RSM caveat: schmieder's fitted RSM absolute cup mass vs the raw cells --
+        it OVERPREDICTS ~1.7x (6.7 vs 3.9 g; its β6·temp² term alone exceeds the
+        whole cup mass), so the RSM is a SHAPE tool (vertex/concavity), NOT an
+        absolute-magnitude one (the card's own 'order-of-magnitude only' caveat).
+
+    Reading (see verdict): the RAW data shows NO interior bump (slightly negative,
+    monotone), and the MODEL bump (~0.03-0.19 EY-pt) is BELOW the raw replicate
+    noise floor -- so there is no strong peak on either side to match or miss.
+    Neither over-predicts. Confirms model-capacity-not-identification; the
+    title/abstract cannot rest on a channeling peak. Strength: qualitative."""
+    from puckworks import data as _d
+    # RAW target side (fast; measured)
+    ey = schmieder_tds_ey(_SCHM_CENTER["brew_ratio"], _SCHM_CENTER["temp_C"],
+                          _SCHM_CENTER["flow_ml_s"])
+    raw_bump = float(ey["ey_means"][1] - max(ey["ey_means"][0], ey["ey_means"][2]))
+    noise = float(np.mean(ey["ey_stds"]))
+    # RSM absolute-vs-raw discrepancy (shape-only caveat)
+    rsm = {(r["component"], r["brew_ratio"]): r for r in _d.schmieder_rsm()}
+    r = rsm[("TDS", _SCHM_CENTER["brew_ratio"])]
+    fl, tp, g = _SCHM_CENTER["flow_ml_s"], _SCHM_CENTER["temp_C"], 1.7
+    rsm_mcup = (r["beta0"] + r["beta1"] * fl + r["beta2"] * g + r["beta3"] * tp
+                + r["beta4"] * fl ** 2 + r["beta5"] * g ** 2 + r["beta6"] * tp ** 2
+                + r["beta7"] * fl * g + r["beta8"] * fl * tp + r["beta9"] * g * tp)
+    raw_mcup = ey["ey_means"][1] / 100.0 * ey["dose_g"]        # back to g
+    rsm_overpredict = float(rsm_mcup / raw_mcup)
+    # MODEL side: channeling prominence at the calibrated closure, 5 & 9 bar
+    def _prom(p_bar):
+        s = channeling_sigma_sweep(gs_grid=np.linspace(1.0, 2.2, 7),
+                                   s_ref=0.6, m=1.0, p_bar=p_bar, n_grid=7)
+        e = np.asarray(s["ey_ensemble"])
+        ip = int(np.argmax(e))
+        return float(e[ip] - max(e[0], e[-1]))
+    model_5 = _prom(5.0)
+    model_9 = _prom(9.0)
+    return dict(
+        raw_tds_ey=[round(x, 2) for x in ey["ey_means"]],
+        raw_interior_bump_EYpt=raw_bump,          # <=0 -> monotone, no bump
+        raw_noise_floor_EYpt=noise,
+        model_prominence_5bar_EYpt=model_5,
+        model_prominence_9bar_EYpt=model_9,
+        model_bump_below_noise=bool(max(model_5, model_9) < noise),
+        rsm_overpredicts_x=rsm_overpredict,       # ~1.7 -> shape-only
+        verdict=("raw TDS-EY shows NO interior bump (%.2f EY-pt, monotone); model "
+                 "channeling bump %.3f (5 bar)/%.3f (9 bar) EY-pt is %s the raw "
+                 "replicate noise floor (%.2f EY-pt). schmieder RSM overpredicts "
+                 "absolute cup mass %.2fx -> SHAPE tool only. Neither side has a "
+                 "strong peak to match/miss -> model-capacity, not identification; "
+                 "title/abstract must not rest on a channeling peak." % (
+                     raw_bump, model_5, model_9,
+                     "BELOW" if max(model_5, model_9) < noise else "above",
+                     noise, rsm_overpredict)))
+
+
 # --- cross-pressure generalization discriminator (item 2.2, ANALYSIS_P2) ---
 # Waszkiewicz ran 11 pressures. Fix ONE calibration and predict every trace out
 # of sample: the mechanism that best explains all pressures wins, and where the

@@ -106,6 +106,13 @@ qualitative / model-capacity.)*
   near-flat — at 9 bar, with the peak grind drifting with pressure). The model
   side is a shallow closure-dependent bump, mirroring the weak-RSM/monotone-raw
   target side. Consequence: the title/abstract must not rest on a channeling peak.
+- **Magnitude comparison — DONE** (`result1_magnitude_comparison`). On the
+  measured cells: raw TDS-EY interior bump = **−0.24 EY-pt (monotone; no bump)**,
+  noise floor 0.22 EY-pt; the model bump (0.19/0.03 EY-pt at 5/9 bar) sits **below
+  the noise floor**. New data-quality caveat: the schmieder RSM overpredicts
+  *absolute* cup mass ~1.73× (β₆·temp² alone exceeds the cup mass) → **shape tool
+  only**, so magnitudes are compared on the raw cells, never the RSM absolute.
+  Neither side has a strong peak to match/miss.
 - **Fig 1** — the PRIMARY TDS-EY target: raw replicate EY points at fixed
   flow/BR/temperature (18.3/19.4/19.6 % with error bars), the schmieder RSM EY
   curve (interior vertex 1.75, adj-R² 0.64 annotated), and a separate panel for
@@ -192,7 +199,7 @@ in an exploratory section or appendix — NOT "ready, only Fig 5 remaining".)*
 | Paper A core identifiability | **amber–green** | manuscript conversion: Methods, uncertainty, related work, reproducibility package |
 | Paper B framing/title | **red** | separate extraction anomaly / flow-trace result / model concentration; retitle (done above) |
 | Schmieder target | **fixed** (was red/blocking) | corrected per-observable RSM + raw + uncertainty; guard added |
-| Result 1 (capacity) | **amber** | ✅ closure sensitivity done (fragile 40 %, weak, converged); still: magnitude vs RSM + state circularity (both now in §3) |
+| Result 1 (capacity) | **amber→green** | ✅ closure sensitivity (fragile 40 %, weak, converged) + ✅ magnitude (model bump < noise; RSM shape-only) + ✅ circularity stated (§3). Ready for prose. |
 | Result 2 9-bar ladder | **amber** | narrow to tested nulls/window; expose same-rig soft circularity |
 | Cross-pressure | **amber** | report the completed regime-dependent result; stop calling it pending/fully-independent |
 | Coupled κ(t) / Fig 4 | **fixed** (was red) | use shared-porosity component; report the failed composite; card status corrected |
@@ -206,11 +213,11 @@ in an exploratory section or appendix — NOT "ready, only Fig 5 remaining".)*
 
 1. ✅ **Schmieder adapter fixed** + observable/unit guard added; old P3 gate
    rewritten to the corrected target (done 2026-07-12).
-2. **Recompute Result 1** for a matched observable — ✅ TDS-EY primary target +
-   replicate uncertainty + peak-prominence (done 2026-07-12) and ✅ closure
-   sensitivity (fragile 40 %, weak, converged; validation/slow). Remaining: the
-   magnitude-vs-RSM comparison, then fix the title/abstract (which the sensitivity
-   confirms must NOT rest on a channeling peak).
+2. ✅ **Result 1 recomputed** — TDS-EY primary target + replicate uncertainty +
+   peak-prominence + closure sensitivity (fragile/weak/converged) + magnitude
+   (model bump < noise; RSM shape-only, overpredicts 1.73×). All done 2026-07-12;
+   the analysis confirms the title/abstract must NOT rest on a channeling peak
+   (already reflected in the §-above title/abstract). Ready for prose.
 3. ✅ **Coupled-κ lineage reconciled**: card status corrected; Fig 4 must use the
    shared-porosity component's failed composite (done 2026-07-12).
 4. **Rewrite Result 2 prose** around its actual evidence: the 9-bar ladder, soft
