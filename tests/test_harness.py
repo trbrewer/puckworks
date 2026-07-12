@@ -89,3 +89,12 @@ def test_g9_series_resistance():
     fitted effective kappa sits below the measured tamped kappa (series residual)."""
     g = h.g9_series_resistance()
     assert g["puck_below_total"] and g["fitted_below_measured"]
+
+
+def test_coupled_kappa_t_synthesis():
+    """brewer2026.coupled_kappa_t: extraction-only reduces to poroelastic rung 4
+    exactly; adding swelling over-closes the saturated rig (diagnostic residual)."""
+    from puckworks.models.brewer2026 import coupled_kappa_t as ck
+    assert ck.degeneracy_rmse(P_bar=9.0) < 0.13            # == rung 4
+    c = ck.composition_residual(P_bar=9.0)
+    assert c["swelling_closes"] and c["rmse"] > 3 * ck.degeneracy_rmse(9.0)

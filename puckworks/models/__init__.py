@@ -127,6 +127,32 @@ register(Component(
           "two-population limit is a DEFERRED future gate (card gate design 2)"))
 
 register(Component(
+    name="brewer2026.coupled_kappa_t", stage="bed_dynamics", kind="synthesis",
+    paper="This project (puckworks) — SYNTHESIS card, no external paper",
+    doi="",
+    module="puckworks.models.brewer2026.coupled_kappa_t",
+    gates=[G.gate_kappa_t_degeneracy, G.gate_kappa_t_composition_diagnostic],
+    assumptions="one shared porosity eps(t); four branches compose ADDITIVELY (fixes "
+                "the multiplicative harness double-counting): extraction + (waszkiewicz "
+                "m_d/dose), swelling - (mo2023_2, fixed-dP UNVALIDATED), compaction - "
+                "(fasano II, params UNIDENTIFIED -> stub), fines - (fasano I, "
+                "UNIDENTIFIED -> stub); clamp [0.02,0.95] as regime edges; NO new free "
+                "params. FLOW via waszkiewicz poroelastic closure (near-choke)",
+    valid_range="FRAMEWORK-level only; as sound as its shakiest branch (3 donors "
+                "unidentified/unvalidated). Degeneracy: extraction-only == poroelastic "
+                "rung 4 EXACTLY (RMSE 0.116). Composition residual 0.648 (worse than "
+                "flat null) DIAGNOSES mo2023_2 swelling mis-scaled for the saturated rig "
+                "-- reported, not tuned. CARD AMBIGUITY FLAGGED: Eq.2 (kappa=Kozeny-"
+                "Carman) is inconsistent with the exact-poroelastic degeneracy (CK too "
+                "gentle for the 14x near-choke rise, RMSE ~1.5); flow uses the "
+                "poroelastic closure, CK reported as auxiliary -> Tim to reconcile Eq.2",
+    notes="the physically-coupled (ODE) form of the kappa(t)=kappa0 f(P,eps,E) backlog "
+          "item; generalizes waszkiewicz2025.poroelastic (its extraction-only special "
+          "case, exact-reduction gated). compaction/fines branches are structural stubs "
+          "(donor params unidentified). Register kind=synthesis so no reader hunts for "
+          "a paper. Never label 'validated kappa(t) law'"))
+
+register(Component(
     name="fasano2000_partI.fines_migration", stage="bed_dynamics", kind="calibration",
     paper="Fasano, Talamucci & Petracco, 'The Espresso Coffee Problem,' ch.8 in "
           "Complex Flows in Industrial Processes, Springer (2000)", doi="",

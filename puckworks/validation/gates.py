@@ -510,6 +510,40 @@ def gate_g9_series_resistance():
                 note="suggestive/cross-source; G9 needs a matched measurement to close")
 
 
+def gate_kappa_t_degeneracy():
+    """brewer2026_coupled_kappa_t degeneracy (card gate): with swelling/compaction/
+    fines OFF, the coupled porosity ODE reduces to waszkiewicz2025.poroelastic
+    EXACTLY -- extraction-only Phi(t) == m_d(t)/m0, and the 9-bar Q(t) RMSE matches
+    the poroelastic component alone (rung 4, ~0.113). Verification of the reduction.
+    (Flow uses the poroelastic closure, NOT Eq.2 Kozeny-Carman -- a flagged card
+    inconsistency: CK is far too gentle for the near-choke 14x flow rise.)"""
+    from puckworks.models.brewer2026 import coupled_kappa_t as ck
+    rmse = ck.degeneracy_rmse(P_bar=9.0)
+    passed = bool(rmse < 0.13)                              # == rung 4 (0.113)
+    return dict(passed=passed, degeneracy_rmse=round(rmse, 3), rung4_ref=0.113,
+                note="exact reduction via the poroelastic closure; Eq.2 CK flagged")
+
+
+def gate_kappa_t_composition_diagnostic():
+    """brewer2026_coupled_kappa_t composition (card: 'report the residual, do not
+    tune it away'). Adding the PARAMETER-FREE swelling branch (mo2023_2) to the
+    shared porosity OVER-CLOSES the Waszkiewicz saturated pre-wet rig -> the
+    composite eps drops below eps0 and the 9-bar residual jumps from ~0.12 to
+    ~0.65 (worse than the flat null 0.603). The residual DIAGNOSES a mis-scaled
+    branch -- mo2023_2's fixed-dP swelling does not apply to an already-swollen
+    saturated bed. Gate verifies the framework behaves correctly (shared-eps
+    additive composition, swelling closes eps<eps0) and surfaces the diagnostic."""
+    from puckworks.models.brewer2026 import coupled_kappa_t as ck
+    c = ck.composition_residual(P_bar=9.0)
+    deg = ck.degeneracy_rmse(P_bar=9.0)
+    passed = bool(c["swelling_closes"] and c["rmse"] > 3 * deg)  # branch over-closes -> big residual
+    return dict(passed=passed, extraction_only_rmse=round(deg, 3),
+                composition_rmse=round(c["rmse"], 3), eps_min=round(c["eps_min_reached"], 3),
+                swelling_over_closes=c["swelling_closes"],
+                diagnosis="mo2023_2 fixed-dP swelling mis-scaled for the saturated rig; "
+                          "residual reported not tuned (card)")
+
+
 def gate_coupled_kappa_t():
     """Coupled kappa(t) closure (kappa(t) backlog, runtime coupling): the four-branch
     framework driven by LIVE registered-model outputs over a real shot. Verifies
@@ -971,4 +1005,5 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_mo2_swelling_flow_decay, gate_mo2_swelling_insensitivity,
          gate_fasano_cor82_nonmonotone, gate_fasano_reversal_signature,
          gate_fasano_freeboundary, gate_p3_channeling_sigma_sweep,
-         gate_unified_kappa_t, gate_coupled_kappa_t, gate_g9_series_resistance]
+         gate_unified_kappa_t, gate_coupled_kappa_t, gate_g9_series_resistance,
+         gate_kappa_t_degeneracy, gate_kappa_t_composition_diagnostic]
