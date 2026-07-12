@@ -489,6 +489,31 @@ def gate_unified_kappa_t():
                 f_extraction_by_EY=[round(v, 2) for v in extr])
 
 
+def gate_coupled_kappa_t():
+    """Coupled kappa(t) closure (kappa(t) backlog, runtime coupling): the four-branch
+    framework driven by LIVE registered-model outputs over a real shot. Verifies
+    the coupling is genuine: extraction EY(t) rises (cameron), swelling closes
+    porosity early then extraction opens it -> the kappa(t) trajectory is
+    NON-MONOTONE (dips as swelling bites, recovers as EY grows), and both driving
+    curves come from the components (not a linear ramp). NOT a registered
+    component -- the composition has no card (registration card-blocked)."""
+    import numpy as np
+    from puckworks import harness as h
+    r = h.coupled_kappa_t(P_bar=9.0, t_shot_s=30.0)
+    k = r["kappa_over_kappa0"]
+    ey_rises = bool(r["EY"][-1] > r["EY"][2] > 0)                 # cameron EY(t) climbs
+    swell_closes = bool(r["f_swelling"][-1] < 0.2)               # mo2023_2 swelling bites
+    extr_opens = bool(r["f_extraction"][-1] > 1.5)              # EY opens porosity
+    imin = int(np.argmin(k))
+    non_monotone = bool(0 < imin < len(k) - 1 and k[-1] > k[imin] + 1e-3)
+    passed = bool(ey_rises and swell_closes and extr_opens and non_monotone)
+    return dict(passed=passed, ey_rises=ey_rises, swelling_closes=swell_closes,
+                extraction_opens=extr_opens, kappa_non_monotone=non_monotone,
+                kappa_start=round(float(k[0]), 3), kappa_min=round(float(k[imin]), 3),
+                kappa_end=round(float(k[-1]), 3), EY_end_pct=round(float(r["EY"][-1] * 100), 1),
+                note="coupled runtime closure; registration card-blocked (composition has no card)")
+
+
 def gate_p3_channeling_sigma_sweep():
     """P3 fine-grind-dip hypothesis #1 (static channeling), ANALYSIS_P2 §2.3's
     top uncertainty-reducing computation: a MONOTONE sigma(grind) closure through
@@ -925,4 +950,4 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_mo2_swelling_flow_decay, gate_mo2_swelling_insensitivity,
          gate_fasano_cor82_nonmonotone, gate_fasano_reversal_signature,
          gate_fasano_freeboundary, gate_p3_channeling_sigma_sweep,
-         gate_unified_kappa_t]
+         gate_unified_kappa_t, gate_coupled_kappa_t]

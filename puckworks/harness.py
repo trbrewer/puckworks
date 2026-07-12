@@ -217,6 +217,36 @@ def unified_kappa_t(P_bar=9.0, EY_final=0.20, t_shot_s=30.0, n=25, powder="M",
     return dict(t=t, kappa_over_kappa0=np.array(out))
 
 
+def coupled_kappa_t(P_bar=9.0, grind=1.9, dose_g=20.0, t_shot_s=30.0, powder="M",
+                    eps0=0.17, n_save=40, branches=("compaction", "swelling", "extraction")):
+    """COUPLED kappa(t) closure: composes the branch factors from LIVE registered-
+    model outputs over a real shot, not the linear-ramp placeholder of
+    unified_kappa_t. Extraction EY(t) comes from cameron2020's running cup mass;
+    swelling eps_b(t)->kappa ratio from mo2023_2 at the real shot times;
+    compaction from waszkiewicz at the applied P. Returns t, kappa/kappa0(t), and
+    the driving EY(t)/swelling(t) so the swelling-closes-then-extraction-opens
+    competition is visible. NOTE: a coupled RUNTIME closure, but NOT a registered
+    component -- the multiplicative composition is our modeling choice with no
+    card, so registration is card-blocked (CLAUDE.md rule 1)."""
+    import numpy as np
+    from puckworks.models.cameron2020 import extraction_bdf as cam
+    from puckworks.models.mo2023_2 import swelling as sw
+    r = cam.simulate_shot(grind, p_bar=P_bar, m_in=dose_g / 1000, m_out=0.040,
+                          t_shot=t_shot_s, n_save=n_save)
+    t = r.t
+    EY = r.m_cup / (dose_g / 1000.0)                       # extraction fraction(t)
+    f_comp = kappa_branches(P_bar=P_bar)["f_compaction"] if "compaction" in branches else 1.0
+    f_swell = sw.flow_decay(powder, t)["q_rel"] if "swelling" in branches else np.ones_like(t)
+
+    def f_extr(ey):
+        e = eps0 + ey * (1.0 - eps0)
+        return (e ** 3 / (1.0 - e) ** 2) / (eps0 ** 3 / (1.0 - eps0) ** 2)
+    fe = np.array([f_extr(x) for x in EY]) if "extraction" in branches else np.ones_like(t)
+    kap = f_comp * np.asarray(f_swell) * fe
+    return dict(t=t, EY=EY, f_swelling=np.asarray(f_swell), f_extraction=fe,
+                f_compaction=f_comp, kappa_over_kappa0=kap)
+
+
 # --- P3 fine-grind-dip hypothesis #1: static channeling sigma(phi1) sweep -----
 # ANALYSIS_P2 §2.3 named this the single most uncertainty-reducing computation:
 # does a MONOTONE sigma(grind) channeling closure (finer grind -> more fines ->

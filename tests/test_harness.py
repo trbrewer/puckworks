@@ -71,3 +71,14 @@ def test_unified_kappa_t_branches():
     assert h.kappa_branches(P_bar=13)["f_compaction"] < h.kappa_branches(P_bar=2)["f_compaction"]
     assert h.kappa_branches(EY=0.3)["f_extraction"] > 1.0
     assert h.kappa_branches(t_swell_s=30)["f_swelling"] < 1.0
+
+
+def test_coupled_kappa_t():
+    """Coupled kappa(t): non-monotone trajectory driven by live cameron EY(t) +
+    mo2023_2 swelling (swelling closes early, extraction opens late)."""
+    import numpy as np
+    r = h.coupled_kappa_t(P_bar=9.0, t_shot_s=30.0)
+    k = r["kappa_over_kappa0"]
+    assert r["EY"][-1] > r["EY"][2] > 0
+    imin = int(np.argmin(k))
+    assert 0 < imin < len(k) - 1 and k[-1] > k[imin]
