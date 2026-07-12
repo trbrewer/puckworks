@@ -962,7 +962,7 @@ def cross_pressure_discrimination(window=(15.0, 95.0)):
 # --- N-tube kappa(t) union: streamtube channeling x coupled_kappa_t per-tube --
 def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
                         closure="poroelastic", lateral=0.0, substeps=8,
-                        compute_ey=True, control="flow"):
+                        compute_ey=True, control="flow", conductance_floor=1e-12):
     """EXPLORATORY SYNTHESIS harness (qualitative). Fuses the two P3/P2 winners:
     the streamtube channeling ensemble (P3 verdict: static channeling is the
     unique physical reproducer of the fine-grind dip) and the coupled_kappa_t
@@ -1023,7 +1023,11 @@ def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
     M = PchipInterpolator(phi_t[o], np.asarray(cond)[o], extrapolate=True)
     Phi = PchipInterpolator(t, phi_t, extrapolate=True)
     phi_max = float(phi_t.max())
-    Mofphi = lambda ph: np.clip(M(np.clip(ph, 0.0, phi_max)), 1e-12, None)
+    # conductance_floor: the numerical clip on M(phi) at the near-choke base
+    # (phi~0). The reviewer flagged that the "numerical concentration is
+    # floor-independent" claim was ASSERTED at the single hardcoded 1e-12 and
+    # never tested; it is now an exposed arg that ntube_finite_time_gain SWEEPS.
+    Mofphi = lambda ph: np.clip(M(np.clip(ph, 0.0, phi_max)), conductance_floor, None)
 
     # integrate the coupled throughput-clock ODE (Euler, substepped per interval)
     # control='flow' (fixed total, tubes SHARE a fixed pie -> a faster tube STEALS):
@@ -1067,7 +1071,7 @@ def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
     concentrates = bool(top_share[-1] > 0.90 and not self_limiting)
     return dict(
         gs=gs, sigma=sigma, N=N, closure=closure, lateral=lateral, P_bar=P_bar,
-        control=control,
+        control=control, conductance_floor=conductance_floor,
         top_decile_share_static=float(top_share[0]),      # t~0, phi~0 (== static)
         top_decile_share_peak=float(top_share[j_peak]),
         top_decile_share_final=float(top_share[-1]),
@@ -1111,13 +1115,18 @@ def ntube_finite_time_gain(P_bar=9.0, floors=(1e-9, 1e-12, 1e-15)):
     floor-independent. So G is NOT a stability criterion; it is a qualitative
     explanation of WHY the closure matters, and its magnitude is not meaningful.
 
-    What IS robust is the NUMERICAL concentration (measured, floor-independent):
-    the poroelastic closure drives N_eff -> ~1 (strong finite-time concentration in
-    the tested near-choke, flow-controlled config) while CK stays bounded
-    (N_eff ~110). The `unstable` field is REMOVED; use `concentrates_numeric`.
-    A genuine stability result needs a physical lateral operator + a Jacobian /
-    finite-time-Lyapunov analysis (open; the lateral term here is a homogenizing
-    proxy, not a transverse-Darcy exchange)."""
+    What IS robust is the NUMERICAL concentration -- and this is now MEASURED, not
+    asserted: the actual N-tube integration is RE-RUN at every floor (the reviewer
+    flagged that the old code called the integration once at the hardcoded 1e-12
+    and only claimed floor-independence). The poroelastic closure drives N_eff -> ~1
+    (strong finite-time concentration in the tested near-choke, flow-controlled
+    config) and CK stays bounded (N_eff ~83) at EVERY floor across the swept range
+    -- so the qualitative outcome is genuinely floor-independent even though the
+    closed-form gain G is not. The `unstable` field is REMOVED; use
+    `concentrates_numeric` / `n_eff_floor_independent`. A genuine stability result
+    still needs a physical lateral operator + a Jacobian / finite-time-Lyapunov
+    analysis (open; the lateral term here is a homogenizing proxy, not a
+    transverse-Darcy exchange)."""
     from puckworks.models.brewer2026 import coupled_kappa_t as _ck
     r = _ck.simulate(P_bar=P_bar, branches=("extraction",))
     phi = r["phi"]["extraction"]
@@ -1126,30 +1135,48 @@ def ntube_finite_time_gain(P_bar=9.0, floors=(1e-9, 1e-12, 1e-15)):
     for name, cond in (("poroelastic", r["Q"]), ("ck", r["kappa_ck"])):
         c = np.asarray(cond)[o]
         Mf = float(c[-1])
-        # gain vs floor -> exposes floor-dependence (poroelastic ~1/floor)
+        # (a) closed-form gain vs floor -> exposes floor-dependence (poroelastic ~1/floor)
         gain_by_floor = {fl: float(Mf / max(float(c[0]), fl)) for fl in floors}
         floor_sensitive = bool(max(gain_by_floor.values()) / min(gain_by_floor.values()) > 10)
-        num = ntube_kappa_t_union(gs=1.1, N=150, closure=name, compute_ey=False)
+        # (b) MEASURED numerical N_eff, actually RE-RUN at each floor (was asserted)
+        n_eff_by_floor, conc_by_floor = {}, {}
+        for fl in floors:
+            num = ntube_kappa_t_union(gs=1.1, N=150, closure=name, compute_ey=False,
+                                      conductance_floor=fl)
+            n_eff_by_floor[fl] = round(num["n_eff_channels_final"], 2)
+            conc_by_floor[fl] = bool(num["concentrates"])
+        nvals = list(n_eff_by_floor.values())
+        # floor-independent iff N_eff varies < 5% and the concentrates flag is constant
+        n_eff_floor_independent = bool(
+            (max(nvals) - min(nvals)) <= 0.05 * max(max(nvals), 1e-9)
+            and len(set(conc_by_floor.values())) == 1)
         out[name] = dict(
             M_phimax=Mf, M_phi0_raw=float(c[0]),
             finite_time_gain_by_floor={("%.0e" % k): round(v, 3) if v < 1e4 else v
                                        for k, v in gain_by_floor.items()},
             gain_is_floor_sensitive=floor_sensitive,   # True = NOT a stability eigenvalue
-            n_eff_final_numeric=round(num["n_eff_channels_final"], 2),
-            concentrates_numeric=num["concentrates"])   # the ROBUST result
+            n_eff_final_by_floor={("%.0e" % k): v for k, v in n_eff_by_floor.items()},
+            concentrates_by_floor={("%.0e" % k): v for k, v in conc_by_floor.items()},
+            n_eff_final_numeric=n_eff_by_floor[floors[1] if len(floors) > 1 else floors[0]],
+            n_eff_floor_independent=n_eff_floor_independent,   # the ROBUST claim, TESTED
+            concentrates_numeric=conc_by_floor[floors[0]])
     return dict(
         closures=out,
         verdict=("FINITE-TIME concentration (not a stability theorem): the "
-                 "conductance-ratio gain G=M_f/M_0 is FLOOR-DEPENDENT for "
-                 "poroelastic (M_0->0 at the near-choke shutoff -> G scales ~1/floor, "
-                 "so its magnitude is not meaningful), while CK G~1.5 is "
-                 "floor-independent. The ROBUST, measured result is the numerical "
-                 "concentration: poroelastic N_eff->%.1f (strong concentration in "
-                 "the tested config), CK N_eff=%.0f (bounded). The closure sets "
-                 "WHETHER concentration happens; a proven instability needs a "
-                 "physical lateral operator + Jacobian/Lyapunov analysis (open)."
+                 "closed-form conductance-ratio gain G=M_f/M_0 is FLOOR-DEPENDENT "
+                 "for poroelastic (M_0->0 at the near-choke shutoff -> G scales "
+                 "~1/floor, magnitude not meaningful), while CK G~1.5 is "
+                 "floor-independent. But the ROBUST result -- the MEASURED numerical "
+                 "N_eff, re-run at every floor -- IS floor-independent: poroelastic "
+                 "N_eff->%.1f (strong concentration, tested config) and CK N_eff=%.0f "
+                 "(bounded) hold across the whole swept floor range (poroelastic "
+                 "floor-indep=%s, CK floor-indep=%s). The closure sets WHETHER "
+                 "concentration happens; a proven instability needs a physical "
+                 "lateral operator + Jacobian/Lyapunov analysis (open)."
                  % (out["poroelastic"]["n_eff_final_numeric"],
-                    out["ck"]["n_eff_final_numeric"])))
+                    out["ck"]["n_eff_final_numeric"],
+                    out["poroelastic"]["n_eff_floor_independent"],
+                    out["ck"]["n_eff_floor_independent"])))
 
 
 # back-compat alias (old name implied a theorem it did not deliver)

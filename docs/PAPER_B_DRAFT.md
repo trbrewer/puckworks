@@ -218,7 +218,7 @@ trajectory only through a near-choke poroelastic closure; the auxiliary
 Kozeny–Carman relation is too gentle for *that specific reconstruction* (we do not
 claim it is physically invalid for espresso beds in general).
 
-## 5. Result 3 — an uncoupled-streamtube composition failure (Fig. 5)
+## 5. Result 3 (exploratory) — an uncoupled-streamtube composition failure (Fig. 5)
 
 Results 1 and 2 supply a static heterogeneity mechanism and an evolving-porosity
 mechanism; we ask what happens when each streamtube carries its own
@@ -228,7 +228,7 @@ extraction-driven conductance clock. We build this with grounded scales as an
 **Result, scoped.** In the tested near-choke, flow-controlled configuration the
 flow concentrates into a single effective channel — measured by the maximum
 single-tube share (→1.0) and the effective channel count (1/Σsᵢ² → 1.0 of the
-tubes). The gentle Kozeny–Carman closure stays distributed (~110 of 120).
+tubes). The gentle Kozeny–Carman closure stays distributed (~83 of 150).
 
 **Not a stability theorem.** A leading-order argument gives a conductance-ratio gain
 G = (M(φ_max)/M(φ₀))^(1−λ), but M(φ₀)→0 at the near-choke shutoff, so for the
@@ -238,16 +238,21 @@ not meaningful — while Kozeny–Carman G≈1.5 is floor-independent (Fig. 5b).
 **not** claim "linear instability" or a "closed-form stability criterion": the base
 state is heterogeneous (no Jacobian along that trajectory is computed), the reported
 gain is controlled by an imposed floor, and any threshold is operational rather than
-derived. What *is* robust and floor-independent is the numerical concentration:
-poroelastic drives N_eff→1, Kozeny–Carman does not.
+derived. What *is* robust is the numerical concentration, and — addressing a
+reviewer point — this is now **measured, not asserted**: the N-tube integration is
+re-run at each conductance floor across the swept range (1e-9…1e-15), and the
+outcome is invariant (poroelastic N_eff→1.0, Kozeny–Carman N_eff≈83 at every floor).
+So the qualitative concentration result is genuinely floor-independent even though
+the closed-form gain is not.
 
 **What controls it.** The concentration is confined to flow control with zero
 homogenization (Fig. 5a, at fixed grind gs=1.1); under pressure control (independent
 tubes, no shared flow to steal) there is no collapse (N_eff≈84), and a homogenizing
 term (a proxy, **not** a physical transverse-Darcy exchange) suppresses it. The
-finding is that the parallel, non-exchanging streamtube composition is structurally
-unsafe once permeability evolves under flow control, and it motivates a physical
-lateral-exchange closure. *(A genuine stability result — a physical lateral operator,
+finding is that the parallel, non-exchanging streamtube composition **can concentrate
+strongly** once permeability evolves under flow control — a diagnosed
+composition-model failure mode, not a proven physical instability — and it motivates
+a physical lateral-exchange closure. *(A genuine stability result — a physical lateral operator,
 a Jacobian/finite-time-Lyapunov analysis, and floor/start-time/N/timestep/pressure/
 grind sweeps — is owed, §7.)*
 

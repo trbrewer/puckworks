@@ -119,7 +119,9 @@ rather than another tie:
    fast tubes*; that requires per-tube or per-depth observables, not a single
    flow trace. **(Delivered — §2.4:** the N-tube κ(t) union supplies exactly
    this per-tube coupling, and finds the concentration is not a mild signature
-   but an unconditional runaway under flow control.)**
+   but a strong finite-time concentration under flow control in the tested
+   near-choke configuration — floor-independent when measured, but exploratory,
+   not a proven instability.)**
 
 ---
 
@@ -271,10 +273,15 @@ once κ evolves — motivating a physically-derived lateral-coupling model.
   at floors 1e-9/1e-12/1e-15), i.e. it is *not* a floor-independent eigenvalue and
   its magnitude is meaningless; Kozeny–Carman G≈1.5 is floor-independent. The
   earlier "A ≈ 10¹², linearly unstable" is retracted (the log-linearization is
-  singular at a zero-conductance base state). The **robust, measured** result is
-  the numerical concentration: poroelastic **N_eff→1.0** (strong concentration in
-  the tested config), CK **N_eff≈83** (bounded). The closure sets *whether*
-  concentration happens; the gain magnitude does not.
+  singular at a zero-conductance base state). The **robust result is the numerical
+  concentration, and it is now MEASURED not asserted** (the reviewer flagged that
+  the old code ran the integration once at the hardcoded 1e-12 floor and only
+  *claimed* floor-independence): the N-tube integration is **re-run at each floor**
+  (`conductance_floor` is now an exposed arg the gain function sweeps), and the
+  outcome is invariant — poroelastic **N_eff→1.0**, CK **N_eff≈83** at floors
+  1e-9/1e-12/1e-15 alike (`n_eff_floor_independent=True` for both). The closure sets
+  *whether* concentration happens; the gain magnitude does not, but the concentration
+  verdict genuinely does not depend on the floor.
 - **Control regime.** The concentration is **specific to FLOW control** (fixed
   total flow shared → a fast tube steals → N_eff→1.0). Under **PRESSURE control**
   (independent tubes, no fixed pie) there is **no collapse** (N_eff≈84, max

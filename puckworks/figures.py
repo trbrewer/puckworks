@@ -253,14 +253,16 @@ def fig4_composition(outdir=OUTDIR_DEFAULT):
 
 
 # ---------------------------------------------------------------------------
-def fig5_stability(outdir=OUTDIR_DEFAULT):
+def fig5_concentration(outdir=OUTDIR_DEFAULT):
     """Fig 5 — N-tube finite-time concentration (Result 3, EXPLORATORY; NOT a
-    stability theorem). (a) effective channel count vs the homogenization
-    parameter, flow vs pressure control, at FIXED grind gs=1.1 (the strong
-    concentration is the flow-control + zero-homogenization corner); (b) the
-    conductance-ratio GAIN vs the numerical floor — poroelastic scales ~1/floor
-    (floor-controlled, so NOT a stability eigenvalue), Kozeny-Carman is
-    floor-independent (~1.5)."""
+    stability theorem — the filename/name deliberately avoids "stability").
+    (a) effective channel count vs the homogenization parameter, flow vs pressure
+    control, at FIXED grind gs=1.1 (the strong concentration is the flow-control +
+    zero-homogenization corner); (b) the closed-form conductance-ratio GAIN vs the
+    numerical floor — poroelastic scales ~1/floor (floor-controlled, so NOT a
+    stability eigenvalue), Kozeny-Carman is floor-independent (~1.5) — annotated
+    with the MEASURED numerical N_eff, which (re-run at every floor) IS
+    floor-independent: that is the robust result, the closed-form gain is not."""
     import numpy as np
     from puckworks import harness as h
     plt = _plt()
@@ -288,22 +290,34 @@ def fig5_stability(outdir=OUTDIR_DEFAULT):
         gains = np.array([float(g["%.0e" % f]) for f in floors])
         ax2.plot(floors, gains, "o-", color=col, lw=1.7, ms=5, label=name)
     ax2.set_xscale("log"); ax2.set_yscale("log"); ax2.invert_xaxis()
-    ax2.set_title("(b) conductance-ratio gain vs floor (floor-controlled)")
+    ax2.set_title("(b) closed-form gain vs floor (floor-controlled)")
     ax2.set_xlabel("conductance floor M₀ (smaller → larger 'gain')")
-    ax2.set_ylabel("finite-time gain M_f / M₀")
+    ax2.set_ylabel("closed-form gain M_f / M₀")
     ax2.legend(fontsize=8, loc="center left")
-    ax2.text(0.5, 0.08, "poroelastic gain ∝ 1/floor → NOT an eigenvalue;\n"
-             "CK floor-independent. Use N_eff (a), not this magnitude.",
-             transform=ax2.transAxes, fontsize=7.0, color=NULL, ha="center")
+    # the honest contrast: the MEASURED N_eff (re-run at each floor) is FLAT
+    poro = st["closures"]["poroelastic"]["n_eff_final_by_floor"]
+    ck = st["closures"]["ck"]["n_eff_final_by_floor"]
+    ax2.text(0.5, 0.06,
+             "closed-form gain ∝ 1/floor → NOT an eigenvalue.\n"
+             "But the MEASURED N_eff, re-run at every floor, is FLAT:\n"
+             "poroelastic N_eff=%s, CK N_eff≈%s across the range →\n"
+             "the robust concentration result IS floor-independent."
+             % ("/".join("%.0f" % v for v in poro.values()),
+                list(ck.values())[0]),
+             transform=ax2.transAxes, fontsize=6.6, color=NULL, ha="center")
     fig.suptitle("Result 3 (exploratory) — flow-control finite-time concentration; the closure sets whether it happens",
                  y=1.03, fontsize=10, fontweight="bold")
-    return _save(fig, outdir, "fig5_stability_map.png")
+    return _save(fig, outdir, "fig5_concentration_floortest.png")
+
+
+# back-compat alias (the old name implied a stability theorem it did not deliver)
+fig5_stability = fig5_concentration
 
 
 def render_all(outdir=OUTDIR_DEFAULT):
     """Render all five Paper-B figures. Returns the list of written paths."""
     paths = [fig1_result1(outdir), fig2_evidence_matrix(outdir), fig3_ladder(outdir),
-             fig4_composition(outdir), fig5_stability(outdir)]
+             fig4_composition(outdir), fig5_concentration(outdir)]
     for p in paths:
         print("wrote", p)
     return paths

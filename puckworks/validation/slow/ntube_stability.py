@@ -31,12 +31,14 @@ from puckworks import harness as h
 
 
 def report():
-    print("== (1) finite-time gain (floor-dependent -> NOT a stability eigenvalue) ==")
+    print("== (1) finite-time gain (closed-form floor-dependent -> NOT an eigenvalue; ")
+    print("       MEASURED numerical N_eff re-run at each floor -> floor-independent) ==")
     st = h.ntube_finite_time_gain()
     for name, d in st["closures"].items():
-        print("  %-11s gain-by-floor %s  floor_sensitive=%s | numeric N_eff_final=%.2f"
-              % (name, d["finite_time_gain_by_floor"], d["gain_is_floor_sensitive"],
-                 d["n_eff_final_numeric"]))
+        print("  %-11s gain-by-floor %s  gain_floor_sensitive=%s"
+              % (name, d["finite_time_gain_by_floor"], d["gain_is_floor_sensitive"]))
+        print("  %-11s numeric N_eff-by-floor %s  floor_independent=%s"
+              % ("", d["n_eff_final_by_floor"], d["n_eff_floor_independent"]))
     print("  ", st["verdict"])
 
     print("\n== (2) control regime (poroelastic, gs 1.1) ==")

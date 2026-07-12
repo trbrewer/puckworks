@@ -169,8 +169,11 @@ in an exploratory section or appendix — NOT "ready, only Fig 5 remaining".)*
   gain is the conductance ratio G=(M_f/M_0)^(1−lat), but M_0→0 at the near-choke
   shutoff so the poroelastic G is **floor-dependent** (∝1/floor — a singular
   log-linearization, NOT an eigenvalue); the earlier "A≈10¹², linearly unstable" is
-  retracted. The **robust, measured** result is the numerical concentration:
-  poroelastic **N_eff→1**, CK **N_eff≈83**. The closure sets *whether* it happens.
+  retracted. The **robust result is the numerical concentration — now MEASURED at
+  each floor**, not asserted (`conductance_floor` is an exposed arg the gain
+  function sweeps): poroelastic **N_eff→1.0**, CK **N_eff≈83** at floors
+  1e-9/1e-12/1e-15 alike (`n_eff_floor_independent=True`). The closure sets
+  *whether* it happens; the verdict does not depend on the floor.
 - **Flow- vs pressure-control — DONE.** The concentration is **flow-control-specific**
   (fixed total → stealing → N_eff→1); under pressure control (independent tubes)
   there is **none** (N_eff≈84). A pump/flow-controlled phenomenon.

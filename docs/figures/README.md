@@ -35,13 +35,16 @@ render functions, per the CLAUDE.md optional-dependency rule); rendering needs t
   extraction-only reduces to the poroelastic rung (0.116); adding the imported
   (pre-parameterized) swelling branch flattens Q (residual > the best-constant null
   over 15–95 s) — a diagnosed mis-scale, **a FAILED composite**, not a success.
-- **fig5_stability_map** — Result 3 (exploratory finite-time concentration, NOT a
-  stability theorem). (a) N_eff vs the homogenization parameter, flow vs pressure
-  control, at FIXED grind gs=1.1 — strong concentration is the flow-control +
-  zero-homogenization corner only; (b) the conductance-ratio gain M_f/M₀ vs the
-  numerical floor: poroelastic scales ∝1/floor (floor-controlled → NOT an
-  eigenvalue), Kozeny-Carman is floor-independent (~1.5). Use N_eff (a), not the
-  gain magnitude. *(The earlier "A≈10¹², linearly unstable" was retracted.)*
+- **fig5_concentration_floortest** — Result 3 (exploratory finite-time
+  concentration, NOT a stability theorem; filename deliberately not "stability").
+  (a) N_eff vs the homogenization parameter, flow vs pressure control, at FIXED
+  grind gs=1.1 — strong concentration is the flow-control + zero-homogenization
+  corner only; (b) the CLOSED-FORM conductance-ratio gain M_f/M₀ vs the numerical
+  floor: poroelastic scales ∝1/floor (floor-controlled → NOT an eigenvalue),
+  Kozeny-Carman floor-independent (~1.5) — annotated with the MEASURED numerical
+  N_eff, which (re-run at every floor) IS floor-independent (poro→1.0, CK≈83). Use
+  N_eff, not the gain magnitude. *(The earlier "A≈10¹², linearly unstable" was
+  retracted; floor-independence of the concentration is now tested, not asserted.)*
 
 **Status:** manuscript-DRAFT figures. They are the honest current state; captions
 still belong in the manuscript (LaTeX), and the underlying analyses carry the
