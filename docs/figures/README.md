@@ -24,13 +24,17 @@ render functions, per the CLAUDE.md optional-dependency rule); rendering needs t
 - **fig2_evidence_matrix** — mechanism evidence matrix (implemented / observable
   matched / params constrained / generates interior max / evidence strength).
   Qualitative; deliberately **not** a winner scoreboard.
-- **fig3_kappa_t_ladder** — Result 2. (a) Foster machine-only flow-minimum null
-  (post-fit); (b) 9-bar ladder RMSE (Φ(t) beats the flat floor 5.4×, sufficient
-  not unique); (c) cross-pressure OOS RMSE — regime-dependent, no universal winner.
+- **fig3_kappa_t_ladder** — Result 2, ONE window (15–95 s). (a) Foster
+  machine-only flow-minimum null (post-fit); (b) 9-bar ladder RMSE — three
+  DISTINCT constant nulls (best-in-window 0.573, long-run 0.641, static κ(P) 0.648)
+  vs Φ(t) 0.116 (0 params, ~4.9× better) vs a 4-param flexible cubic 0.096: time
+  variation is NEEDED, not a specific bed mechanism; (c) within-campaign
+  conditional-transfer RMSE — regime-dependent, no single mechanism lowest
+  everywhere (NOT independent out-of-sample validation).
 - **fig4_composition_diagnostic** — the registered shared-porosity composition:
-  extraction-only reduces to the poroelastic rung (0.116); adding the
-  parameter-free swelling branch flattens Q (residual 0.648 > 0.603 flat null) —
-  a diagnosed mis-scale, **a FAILED composite**, not a success.
+  extraction-only reduces to the poroelastic rung (0.116); adding the imported
+  (pre-parameterized) swelling branch flattens Q (residual > the best-constant null
+  over 15–95 s) — a diagnosed mis-scale, **a FAILED composite**, not a success.
 - **fig5_stability_map** — Result 3 (exploratory finite-time concentration, NOT a
   stability theorem). (a) N_eff vs the homogenization parameter, flow vs pressure
   control, at FIXED grind gs=1.1 — strong concentration is the flow-control +

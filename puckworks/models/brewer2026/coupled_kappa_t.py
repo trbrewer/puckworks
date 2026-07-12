@@ -105,8 +105,9 @@ def degeneracy_rmse(P_bar=9.0, window=(15.0, 95.0)):
 
 
 def composition_residual(P_bar=9.0, powder="M", window=(15.0, 95.0)):
-    """Add the swelling branch (parameter-free) and report the residual vs the
-    9-bar trace -- do NOT tune it away (card). mo2023_2's fresh-grain swelling
+    """Add the swelling branch (imported with mo2023_2's OWN pre-fitted
+    parameters -- not free here, not parameter-free either) and report the
+    residual vs the 9-bar trace -- do NOT tune it away (card). mo2023_2's fresh-grain swelling
     over-closes an already-swollen saturated rig, so the composite Q collapses ->
     a LARGE residual diagnosing that the swelling branch does not apply here."""
     tr = _d.waszkiewicz_traces()

@@ -172,15 +172,25 @@ itself, diagnostic of a bed mechanism, because the tested machine-only model can
 reconstruct it in the source configuration* — not that the shape carries zero
 information in every experimental design.
 
-**The 9-bar ladder, scoped.** At constant 9 bar a static pressure-dependence is
-observationally identical to a constant (RMSE 0.603 g/s each); an empirical
-dissolution-linked time-varying porosity trajectory beats that floor 5.4× (RMSE
-0.113; Fig. 3b). Scoped claim: *within the 15–95 s evaluation window and the
-specified null set, a time-varying bed term is needed to improve the
-reconstruction, and the dissolution-linked trajectory is sufficient — not uniquely
-identified.* The trajectory is soft-circular (dissolved mass derives from the same
-rig's TDS and flow); "parameter-free" is avoided because donor parameters were
-estimated elsewhere and the trajectory carries target-rig information.
+**The 9-bar ladder, scoped.** All comparisons use one explicit evaluation window,
+t = 15–95 s, and each baseline is evaluated at its own predicted level (no RMSE is
+copied between rungs). Three *distinct* constant nulls — the least-squares-optimal
+in-window constant (RMSE 0.573 g/s, one free level), a long-run constant calibrated
+on a real 10 s late interval (0.641), and the published static κ(P) evaluated at
+9 bar (0.648, zero free parameters) — all land at 0.57–0.65 g/s: at constant 9 bar
+a static pressure-dependence is observationally identical to a constant. A
+zero-free-parameter empirical dissolution-linked time-varying porosity trajectory
+reaches RMSE 0.116 g/s (Fig. 3b), beating the *best* of the three constant nulls
+~4.9× and the static κ(P) null ~5.6×. **Bound on the claim.** A purely
+phenomenological degree-3 polynomial in time (four free parameters, no mechanism)
+reaches RMSE 0.096 g/s — at least as good as the mechanistic trajectory. The
+honest, scoped claim is therefore: *within this window and null set, time variation
+is required (every constant baseline fails), but a specific bed mechanism is not
+thereby identified — a flexible non-mechanistic time curve fits equally well.* The
+non-trivial mechanistic content is that a **zero-parameter** poroelastic Φ(t)
+nearly reaches the four-parameter flexible floor. The trajectory is also
+soft-circular (dissolved mass derives from the same rig's TDS and flow), and we
+avoid "parameter-free" because the donor parameters were estimated elsewhere.
 
 **Cross-pressure — held-out, conditional on campaign calibration.** With the
 published static calibration from the same eleven-pressure campaign, we predict the
@@ -196,9 +206,10 @@ full-precision residual aggregation, residual autocorrelation, parameter counts,
 and leave-one-pressure-out refitting.)*
 
 **The composition attempt fails, honestly (Fig. 4).** The registered shared-porosity
-synthesis reduces exactly to the poroelastic rung under extraction-only; adding a
-parameter-free swelling branch flattens the predicted flow (residual 0.648 g/s,
-worse than the 0.603 flat null). Scoped statement: *the imported swelling
+synthesis reduces exactly to the poroelastic rung under extraction-only; adding an
+imported (pre-parameterized, not free) swelling branch flattens the predicted flow
+(residual 0.648 g/s over 15–95 s, worse than the best-constant null of 0.573 g/s on
+the same window). Scoped statement: *the imported swelling
 parameterization is incompatible with the observed 9-bar trajectory under the
 tested shared-porosity composition; the calculation does not distinguish
 control-regime, parameter-transfer, initial-condition, or composition-form errors.*

@@ -159,8 +159,10 @@ def fig2_evidence_matrix(outdir=OUTDIR_DEFAULT):
 # ---------------------------------------------------------------------------
 def fig3_ladder(outdir=OUTDIR_DEFAULT):
     """Fig 3 — null-first κ(t) ladder + regime-dependent cross-pressure.
-    (a) Foster machine-only flow minimum (post-fit); (b) 9-bar ladder RMSE bars;
-    (c) cross-pressure OOS RMSE per mechanism (no universal winner)."""
+    (a) Foster machine-only flow minimum (post-fit); (b) 9-bar ladder RMSE bars
+    over ONE window (15-95 s), three DISTINCT constant nulls + the flexible cubic;
+    (c) within-campaign conditional-transfer RMSE per mechanism (regime-dependent,
+    no single mechanism lowest everywhere)."""
     import numpy as np
     from puckworks import harness as h, data as d
     plt = _plt()
@@ -177,26 +179,34 @@ def fig3_ladder(outdir=OUTDIR_DEFAULT):
              transform=ax1.transAxes, fontsize=7.6, color=NULL, ha="center")
 
     lad = h.kappa_t_ladder()
-    names = ["const κ\n(rung1)", "static κ(P)\n(rung3)", "Φ(t) dissolution\n(rung4)"]
-    vals = [lad["rung1_const_kappa"], lad["rung3_static_kappaP"], lad["rung4_phi_of_t"]]
-    ax2.bar(names, vals, color=[NULL, NULL, ACCENT])
+    lo, hi = lad["window_s"]
+    names = ["best const\n(1p)", "long-run\nconst (1p)", "static κ(P)\n(0p)",
+             "Φ(t)\n(0p)", "flexible\ncubic (4p)"]
+    vals = [lad["rung1_const_kappa"], lad["rung1b_longrun_const"],
+            lad["rung3_static_kappaP"], lad["rung4_phi_of_t"],
+            lad["flexible_cubic_null"]]
+    cols = [NULL, NULL, NULL, ACCENT, GOOD]
+    ax2.bar(names, vals, color=cols)
     for i, v in enumerate(vals):
-        ax2.text(i, v+0.01, "%.3f" % v, ha="center", fontsize=8)
-    ax2.set_title("(b) 9-bar ladder (RMSE)")
+        ax2.text(i, v+0.01, "%.3f" % v, ha="center", fontsize=7.4)
+    ax2.set_title("(b) 9-bar ladder, window %d–%d s (RMSE)" % (lo, hi))
     ax2.set_ylabel("RMSE [g/s]"); ax2.set_ylim(0, 0.72)
-    ax2.text(0.5, 0.9, "Φ(t) beats the flat floor 5.4×\n(sufficient, not unique)",
-             transform=ax2.transAxes, fontsize=7.6, color=NULL, ha="center")
+    ax2.tick_params(axis="x", labelsize=6.6)
+    ax2.text(0.5, 0.88, "Φ(t) (0 params) beats every constant\nnull %.1f×; a 4-param "
+             "flexible curve\nalso does → time variation is NEEDED,\nnot a specific bed mechanism"
+             % lad["improvement_factor"],
+             transform=ax2.transAxes, fontsize=6.6, color=NULL, ha="center", va="top")
 
     cp = h.cross_pressure_discrimination()
     pp = cp["per_pressure"]
     P = sorted(pp)
     for key, col, lab in (("phi", ACCENT, "Φ(t)"), ("rc3b", GOOD, "RC-3b"), ("static", NULL, "static")):
         ax3.plot(P, [pp[p][key] for p in P], "o-", color=col, lw=1.5, ms=4, label=lab)
-    ax3.set_title("(c) Cross-pressure OOS (no universal winner)")
-    ax3.set_xlabel("pressure [bar]"); ax3.set_ylabel("out-of-sample RMSE [g/s]")
+    ax3.set_title("(c) Conditional cross-pressure transfer")
+    ax3.set_xlabel("pressure [bar]"); ax3.set_ylabel("conditional-transfer RMSE [g/s]")
     ax3.legend(fontsize=8, ncol=3, loc="upper center")
-    fig.suptitle("Result 2 — a time-dependent bed is required; the mechanism is regime-dependent",
-                 y=1.03, fontsize=11, fontweight="bold")
+    fig.suptitle("Result 2 — time variation is needed (not a specific mechanism); transfer is regime-dependent",
+                 y=1.03, fontsize=10.5, fontweight="bold")
     return _save(fig, outdir, "fig3_kappa_t_ladder.png")
 
 
@@ -211,11 +221,14 @@ def fig4_composition(outdir=OUTDIR_DEFAULT):
     plt = _plt()
     tr = d.waszkiewicz_traces()
     t = tr[9.0]["time__s"]; qobs = tr[9.0]["mass_flow_rate__g_per_s"]
+    WIN = (15.0, 95.0)                                    # same window as the RMSEs
     r_ext = ck.simulate(P_bar=9.0, t=t, branches=("extraction",))
     r_sw = ck.simulate(P_bar=9.0, t=t, branches=("extraction", "swelling"))
-    deg = ck.degeneracy_rmse(); comp = ck.composition_residual()["rmse"]
-    # flat null = long-run mean
-    q_flat = float(np.mean(qobs[t >= 100]))
+    deg = ck.degeneracy_rmse(window=WIN); comp = ck.composition_residual(window=WIN)["rmse"]
+    # flat null computed on the SAME window/object: LS-optimal constant over 15-95
+    sel = (t >= WIN[0]) & (t <= WIN[1])
+    q_flat = float(np.mean(qobs[sel]))
+    rmse_flat = float(np.sqrt(np.mean((q_flat - qobs[sel]) ** 2)))
 
     fig, ax = plt.subplots(figsize=(6.4, 4.0))
     ax.plot(t, qobs, color=INK, lw=2.0, label="observed 9-bar Q(t)")
@@ -223,17 +236,19 @@ def fig4_composition(outdir=OUTDIR_DEFAULT):
             label="extraction-only (rung 4, RMSE %.3f)" % deg)
     ax.plot(t, r_sw["Q"], color=BAD, lw=1.8, ls="--",
             label="extraction+swelling (RMSE %.3f)" % comp)
-    ax.axhline(q_flat, color=NULL, lw=1.4, ls=":", label="flat null (RMSE %.3f)" % 0.603)
+    ax.axhline(q_flat, color=NULL, lw=1.4, ls=":",
+               label="best const null 15–95 s (RMSE %.3f)" % rmse_flat)
     ax.set_xlim(0, 120); ax.set_ylim(0, 2.3)
     ax.set_xlabel("time [s]"); ax.set_ylabel("flow Q(t) [g/s]")
     ax.set_title("Fig 4 — shared-porosity composition: a FAILED composite")
     ax.legend(loc="center right", fontsize=8)
     ax.text(0.30, 0.26, "extraction-only reduces to the poroelastic rung.\n"
-            "Adding the parameter-free swelling branch OVER-closes\n"
-            "the porosity → Q FLATTENS (loses the rising structure),\n"
-            "residual 0.648 > 0.603 flat null: worse than doing nothing.\n"
-            "A diagnosed mis-scale, not a success.",
-            transform=ax.transAxes, va="center", fontsize=7.8, color=NULL)
+            "Adding the imported (pre-parameterized) swelling branch\n"
+            "OVER-closes the porosity → Q FLATTENS (loses the rising\n"
+            "structure), residual %.3f > %.3f best-constant null:\n"
+            "worse than a flat line. A diagnosed mis-scale, not a success."
+            % (comp, rmse_flat),
+            transform=ax.transAxes, va="center", fontsize=7.6, color=NULL)
     return _save(fig, outdir, "fig4_composition_diagnostic.png")
 
 

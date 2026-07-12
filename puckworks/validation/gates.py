@@ -383,42 +383,55 @@ def gate_cameron_conservation():
 
 def gate_p2_kappa_ladder():
     """P2 null-first ladder (item 2.2): on the Waszkiewicz 9-bar RISING-flow
-    trace, the empirical time-dependent Phi(t) (rung 4) beats the constant-kappa /
-    static-kappa(P) nulls (rungs 1/3) 5.4x -- a bed mechanism IS needed. Rung 5
-    RC-3b (Cameron-coupled, diffusion-limited Phi) beats the flat nulls too but is
-    ~3.5x WORSE than the empirical near-instant rung 4 -> near-instant dissolution
-    favored (§5.6). Discrimination result: Phi(t) is needed and near-instant."""
+    trace over ONE window (15-95 s), the empirical time-dependent Phi(t) (rung 4,
+    0 free params) beats the BEST of three DISTINCT constant nulls -- LS-optimal
+    in-window constant (~0.57), long-run constant (~0.64), published static
+    kappa(P) (~0.65) -- by ~4.9x: time variation IS needed. A 4-param flexible
+    (non-mechanistic) cubic reaches ~0.10, so the ladder establishes NEED for time
+    variation, not a specific bed mechanism; the mechanistic content is that a
+    zero-parameter poroelastic Phi(t) nearly reaches that flexible floor. Rung 5
+    RC-3b (Cameron-coupled, diffusion-limited Phi) beats the constant nulls too but
+    is ~3x WORSE than rung 4 -> near-instant dissolution favored (§5.6)."""
     from puckworks import harness as h
     L = h.kappa_t_ladder()
     passed = (L["rung4_beats_floor"] and L["improvement_factor"] > 2.0
               and L["rung4_phi_of_t"] < 0.2
+              # the three constant nulls are DISTINCT (not one RMSE copied twice)
+              and L["rung1_const_kappa"] < L["rung3_static_kappaP"]
               and L["rung5_rc3b_cameron_coupled"] < L["rung1_const_kappa"]   # beats null
               and L["rung5_rc3b_cameron_coupled"] > L["rung4_phi_of_t"])     # loses to empirical
-    return dict(passed=passed, rung1_rmse=L["rung1_const_kappa"],
-                rung4_rmse=L["rung4_phi_of_t"], rung5_rc3b_rmse=L["rung5_rc3b_cameron_coupled"],
+    return dict(passed=passed, window_s=L["window_s"],
+                rung1_best_const=L["rung1_const_kappa"],
+                rung1b_longrun=L["rung1b_longrun_const"],
+                rung3_static=L["rung3_static_kappaP"],
+                rung4_rmse=L["rung4_phi_of_t"],
+                flexible_cubic=L["flexible_cubic_null"],
+                cubic_beats_dynamic=L["cubic_beats_dynamic"],
+                rung5_rc3b_rmse=L["rung5_rc3b_cameron_coupled"],
                 factor=L["improvement_factor"], rc3b=L["rc3b_vs_rung4"])
 
 
 def gate_p2_cross_pressure():
-    """P2 cross-pressure discrimination (item 2.2, ANALYSIS_P2 §2.2): one fixed
-    calibration, predict all 11 Waszkiewicz pressures out of sample. The three
+    """P2 cross-pressure discrimination (item 2.2, ANALYSIS_P2 §2.2): one shared
+    campaign-wide calibration, predict all 11 Waszkiewicz pressures (within-campaign
+    CONDITIONAL transfer, NOT independent out-of-sample validation). The three
     kappa(t) mechanisms SEPARATE by regime rather than one dominating -- the
     discriminator the multi-pressure dataset was built for:
-      - dissolution Phi(t) has the best OOS mean (beats the static null),
-      - but RC-3b (flow-coupled) wins the low-pressure end (slow flow ->
+      - dissolution Phi(t) has the lowest transfer-mean RMSE (below the static null),
+      - but RC-3b (flow-coupled) is lower at the low-pressure end (slow flow ->
         pressure-dependent dissolution matters),
-      - and the static null wins mid-range (little time structure to explain).
-    Gating all three separations pins the 'no single winner' verdict so a later
-    refit can't quietly promote one mechanism to universal."""
+      - and the static null is lower mid-range (little time structure to explain).
+    Gating all three separations pins the 'no single mechanism lowest everywhere'
+    verdict so a later refit can't quietly promote one mechanism to universal."""
     from puckworks import harness as h
     X = h.cross_pressure_discrimination()
-    passed = (X["phi_generalizes"] and X["rc3b_wins_low_p"]
-              and X["static_wins_mid_p"])
-    return dict(passed=passed, oos_mean=X["oos_mean"],
+    passed = (X["phi_generalizes"] and X["rc3b_lower_low_p"]
+              and X["static_lower_mid_p"])
+    return dict(passed=passed, conditional_transfer_mean=X["conditional_transfer_mean"],
                 low_p_mean=X["low_p_mean"], mid_p_mean=X["mid_p_mean"],
-                separations=dict(phi_beats_static_oos=X["phi_generalizes"],
-                                 rc3b_beats_phi_low_p=X["rc3b_wins_low_p"],
-                                 static_beats_both_mid_p=X["static_wins_mid_p"]))
+                separations=dict(phi_below_static_transfer=X["phi_generalizes"],
+                                 rc3b_below_phi_low_p=X["rc3b_lower_low_p"],
+                                 static_below_both_mid_p=X["static_lower_mid_p"]))
 
 
 def gate_lee_feedback_negative_result():

@@ -34,12 +34,13 @@ def test_p2_rung5_rc3b():
 
 
 def test_p2_cross_pressure_separation():
-    """P2 cross-pressure: mechanisms separate by regime (no single winner) --
-    Phi(t) best on OOS mean, RC-3b wins low-P, static wins mid-P."""
+    """P2 cross-pressure: mechanisms separate by regime (no single mechanism
+    lowest everywhere) -- Phi(t) lowest transfer-mean, RC-3b lower low-P, static
+    lower mid-P."""
     X = h.cross_pressure_discrimination()
     assert X["phi_generalizes"]
-    assert X["rc3b_wins_low_p"]
-    assert X["static_wins_mid_p"]
+    assert X["rc3b_lower_low_p"]
+    assert X["static_lower_mid_p"]
 
 
 def test_lee2023_negative_result():

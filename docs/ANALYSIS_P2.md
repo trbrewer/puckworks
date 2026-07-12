@@ -67,19 +67,36 @@ evidential weight for any bed-side story** (swelling, compaction, fines,
 erosion) on its own. This null is the ladder's rung 2 and the single most
 clarifying result of the phase.
 
-**The ladder on Waszkiewicz 9-bar rising flow.**
+**The ladder on Waszkiewicz 9-bar rising flow** (ONE explicit window, t = 15–95 s
+— the same window used everywhere in the repo; each baseline is evaluated at its
+own predicted level, no RMSE is copied between rungs, and the free-parameter count
+is stated so the discrimination is read against complexity):
 
-| rung | mechanism | RMSE (g/s) |
-|---|---|---|
-| 1 | constant κ | 0.603 |
-| 3 | static κ(P) | 0.603 |
-| 4 | dissolution-driven Φ(t) | **0.113** |
+| rung | mechanism | free params | RMSE (g/s) |
+|---|---|---|---|
+| 1 | best-in-window constant κ (LS-optimal mean) | 1 | 0.573 |
+| 1b | long-run constant κ (mean over the real 10 s interval 85–95 s) | 1 | 0.641 |
+| 3 | published static κ(P) (q_static at 9 bar) | 0 | 0.648 |
+| 4 | dissolution-driven Φ(t) | 0 | **0.116** |
+| — | flexible cubic in *t* (non-mechanistic temporal null) | 4 | 0.096 |
 
-Rung 3's exact tie with rung 1 is itself informative: at constant 9 bar a
-static pressure dependence is observationally identical to a constant — the
-rising flow is *time* structure, and only a time-dependent bed can source it.
-Rung 4 beats the flat floor 5.4×: **a time-dependent bed mechanism is
-genuinely required, and dissolution-driven porosity growth is sufficient.**
+The three constant baselines are genuinely distinct (they are no longer one number
+copied twice): the LS-optimal constant is the *best case* a flat line can do
+in-window, the long-run constant is what a late-shot calibration would pick, and
+the published static κ(P) is a zero-free-parameter Darcy prediction. All three
+land at 0.57–0.65 — at constant 9 bar a static pressure dependence is
+observationally identical to a constant, so the rising flow is *time* structure
+that no flat model can source. Rung 4 (zero free parameters) beats the **best** of
+the three constant nulls ~4.9× (and the static κ(P) null ~5.6×).
+
+**What the flexible null establishes — and bounds.** A degree-3 polynomial in *t*
+(4 parameters, *no* mechanism) reaches RMSE 0.096, i.e. it does at least as well as
+the mechanistic Φ(t). So the ladder rigorously establishes that **time variation is
+needed** (every constant fails), *not* that a specific bed mechanism is validated —
+a purely phenomenological time curve matches. The mechanistic content is narrower
+and honest: a **zero-free-parameter** poroelastic Φ(t) nearly reaches the 4-param
+flexible floor, which is the non-trivial part (a constant with a free level cannot,
+a flexible curve needs four).
 
 **What this does and does not settle.** Sufficient is not unique. The
 challengers — mo2023_2 fines migration, fasano I/II, lee2023

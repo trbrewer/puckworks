@@ -103,29 +103,52 @@ def dissolution_speed_test():
 # --- P2 kappa(t) null-first discrimination ladder (item 2.2) --------------
 # Each rung must beat the rung below on the same trace before claiming a
 # residual. Rungs 1-4 use registered components; rung 5 (challengers) is Phase 3.
-def kappa_t_ladder():
-    """Run the P2 null-first ladder on the Waszkiewicz 9-bar RISING-flow trace.
-    Returns per-rung RMSE [g/s] over the saturated window (t = 15-115 s).
+_KAPPA_LADDER_WINDOW = (15.0, 95.0)   # ONE saturated-extraction window, everywhere
 
-    rung 1 recorded-pressure Darcy, constant kappa (flat Q)      -> the floor
-    rung 3 static kappa(P) equilibrium at constant P (also flat)
-    rung 4 waszkiewicz2025 time-dependent Phi(t) = m_d(t)/m0     -> rises with the data
+def kappa_t_ladder(window=_KAPPA_LADDER_WINDOW):
+    """Run the P2 null-first ladder on the Waszkiewicz 9-bar RISING-flow trace.
+    Returns per-rung RMSE [g/s] over ONE explicit saturated window (default
+    t = 15-95 s, the manuscript window; also used by coupled_kappa_t). Every
+    baseline is evaluated at its OWN predicted level -- no RMSE is copied between
+    rungs, and each rung's free-parameter count is reported so the discrimination
+    is read against complexity, not asserted.
+
+    THREE DISTINCT constant nulls (a constant kappa <=> a constant flow):
+      rung1 best-in-window constant  1 param, LS-optimal mean over the window
+      rung1b long-run constant       1 param, mean over a real 10 s calibration
+                                     interval [t_end-10, t_end] (not one sample)
+      rung3 published static kappa(P) 0 free params, wz.q_static at 9 bar
+    rung4 waszkiewicz2025 time-dependent Phi(t)=m_d(t)/m0  0 free params, rises.
+    rung5 RC-3b Cameron-coupled Phi(t) (Phase-3 challenger).
+    FLEXIBLE temporal null (diagnostic): a degree-3 polynomial in t, 4 params fit
+    to the SAME trace -- a NON-mechanistic curve. If it reaches rung4's RMSE then
+    the ladder establishes that TIME VARIATION is needed, NOT that a specific bed
+    mechanism is validated; the mechanistic content is that a ZERO-free-parameter
+    poroelastic Phi(t) nearly reaches that flexible floor.
     (rung 2, the foster2025 pump/headspace flow-MINIMUM null, is a distinct
      early-shot phenomenon validated by gate_foster_fig15_flowmin, not the
-     saturated rising-flow residual tested here; rung 5 challengers are Phase 3.)
+     saturated rising-flow residual tested here.)
     """
     import numpy as np
     from puckworks import data as d
     from puckworks.models.waszkiewicz2025 import poroelastic as wz
+    lo, hi = window
     tr = d.waszkiewicz_traces()
     t = tr[9.0]["time__s"]; q = tr[9.0]["mass_flow_rate__g_per_s"]
-    sel = (t >= 15) & (t <= 115)
+    sel = (t >= lo) & (t <= hi)
     td, qd = t[sel], q[sel]
-    q_flat = float(np.mean(q[t >= 100]))                 # long-run Darcy/static
-    rmse_flat = float(np.sqrt(np.mean((q_flat - qd) ** 2)))
+    rmse = lambda pred: float(np.sqrt(np.mean((np.asarray(pred) - qd) ** 2)))
+    # rung1: LS-optimal constant IN the window (1 param, best case for a constant)
+    lvl_best = float(np.mean(qd)); rmse_best = rmse(lvl_best)
+    # rung1b: constant calibrated on a real 10 s late interval, NOT one sample
+    late = (t >= hi - 10.0) & (t <= hi)
+    lvl_long = float(np.mean(q[late])); rmse_long = rmse(lvl_long)
     P_c, Q_c = wz.published_calibration()
     k_s, l_s, m_s = wz._solids_params()
     dose = d.waszkiewicz_constants()["dose__g"]
+    # rung3: published static characteristic at 9 bar (0 free params, no trace fit)
+    lvl_static = float(wz.q_static(9.0, P_c, Q_c)); rmse_static = rmse(lvl_static)
+    # rung4: empirical time-dependent Phi(t) (0 free params)
     q4 = wz.q_dynamic(td, 9.0, P_c, Q_c, k_s, l_s, m_s, dose)
     rmse4 = float(np.sqrt(np.nanmean((q4 - qd) ** 2)))
     # rung 5, RC-3b: Cameron-coupled Phi(t) = m_d_cameron(t)/m0 (NEW model, not
@@ -137,12 +160,35 @@ def kappa_t_ladder():
     md_cam = np.interp(td, r.t, r.m_cup * 1000.0)          # g
     q5 = wz.q_dynamic_from_md(9.0, P_c, Q_c, md_cam, dose)
     rmse5 = float(np.sqrt(np.nanmean((q5 - qd) ** 2)))
-    return dict(rung1_const_kappa=round(rmse_flat, 3),
-                rung3_static_kappaP=round(rmse_flat, 3),
+    # flexible NON-mechanistic temporal null: degree-3 polynomial, 4 params fit
+    Xc = np.column_stack([td ** kk for kk in range(4)])
+    cc, *_ = np.linalg.lstsq(Xc, qd, rcond=None)
+    rmse_cubic = rmse(Xc @ cc)
+    best_null = min(rmse_best, rmse_long, rmse_static)
+    return dict(window_s=(lo, hi), n_points=int(sel.sum()),
+                # rung1 kept as the STRONGEST constant null (LS-optimal in window)
+                rung1_const_kappa=round(rmse_best, 3),
+                rung1_const_level_g_per_s=round(lvl_best, 3),
+                rung1b_longrun_const=round(rmse_long, 3),
+                rung1b_longrun_level_g_per_s=round(lvl_long, 3),
+                rung3_static_kappaP=round(rmse_static, 3),
+                rung3_static_level_g_per_s=round(lvl_static, 3),
                 rung4_phi_of_t=round(rmse4, 3),
                 rung5_rc3b_cameron_coupled=round(rmse5, 3),
-                rung4_beats_floor=rmse4 < rmse_flat,
-                improvement_factor=round(rmse_flat / rmse4, 1),
+                flexible_cubic_null=round(rmse_cubic, 3),
+                free_params=dict(rung1=1, rung1b=1, rung3=0, rung4=0, rung5=0,
+                                 flexible_cubic=4),
+                rung4_beats_floor=rmse4 < best_null,
+                improvement_factor=round(best_null / rmse4, 1),      # vs BEST null
+                improvement_vs_static=round(rmse_static / rmse4, 1),
+                cubic_beats_dynamic=rmse_cubic < rmse4,
+                discrimination_reading=(
+                    "time variation is NEEDED (all constant nulls >=%.2f vs "
+                    "Phi(t) %.2f); a 4-param flexible curve reaches %.2f, so the "
+                    "ladder establishes NEED for time variation, not a specific "
+                    "bed mechanism -- the mechanistic content is a ZERO-param "
+                    "poroelastic Phi(t) nearly reaching the flexible floor"
+                    % (best_null, rmse4, rmse_cubic)),
                 rc3b_vs_rung4="worse (near-instant favored, §5.6)" if rmse5 > rmse4 else "better")
 
 
@@ -836,14 +882,17 @@ def result1_magnitude_comparison():
 
 
 # --- cross-pressure generalization discriminator (item 2.2, ANALYSIS_P2) ---
-# Waszkiewicz ran 11 pressures. Fix ONE calibration and predict every trace out
-# of sample: the mechanism that best explains all pressures wins, and where the
-# mechanisms disagree tells you which physics each is really capturing (CHAT
-# §2.2 point 1). All three mechanisms share the published static pair (P_c, Q_c);
-# nothing is refit per pressure.
+# Waszkiewicz ran 11 pressures. Fix ONE calibration (the campaign-wide static pair
+# P_c, Q_c fitted over all 11 pressures) and predict every trace: this is a
+# within-campaign CONDITIONAL transfer test (the constants are shared, so it is
+# NOT fully independent out-of-sample validation). Where the mechanisms disagree
+# tells you which physics each captures (CHAT §2.2 point 1). Nothing is refit per
+# pressure.
 def cross_pressure_discrimination(window=(15.0, 95.0)):
-    """Out-of-sample RMSE [g/s] of three kappa(t) mechanisms across all 11
-    Waszkiewicz pressures, using ONE fixed calibration (no per-pressure refit):
+    """Within-campaign CONDITIONAL-transfer RMSE [g/s] of three kappa(t)
+    mechanisms across all 11 Waszkiewicz pressures, using ONE shared calibration
+    (the campaign-wide static pair; no per-pressure refit). NOT fully independent
+    out-of-sample validation -- the constants are fitted over all 11 pressures.
 
       static kappa(P)      Q(t) = q_static(P)                    flat, rung-3 analog
       dissolution Phi(t)   empirical near-instant sigmoid m_d(t) rung 4
@@ -851,12 +900,14 @@ def cross_pressure_discrimination(window=(15.0, 95.0)):
 
     The empirical sigmoid is pressure-INDEPENDENT (one m_d(t) for every shot);
     RC-3b re-runs Cameron at each pressure, so its Phi(t) is flow-coupled. The
-    9-bar point is the sigmoid's home pressure; the other 10 are out of sample.
-    Returns per-pressure RMSE plus regime aggregates. Result (see ANALYSIS_P2
-    §2.2): Phi(t) wins on the OOS mean but NOT uniformly -- RC-3b wins at the
-    low-pressure end (flow-coupling matters where flow is slow) and the static
-    null wins mid-range (little time structure to explain). The mechanisms
-    separate across the set exactly as the design predicted; no single winner.
+    9-bar point is the sigmoid's home pressure; the other 10 are held-out
+    conditionally on the shared constants. Returns per-pressure RMSE plus regime
+    aggregates. Result (see ANALYSIS_P2 §2.2): Phi(t) has the lowest transfer-mean
+    RMSE but NOT uniformly -- RC-3b is lower at the low-pressure end (flow-coupling
+    matters where flow is slow) and the static null is lower mid-range (little time
+    structure to explain). The mechanisms separate by regime; no single mechanism
+    is lowest everywhere. Regime bins (low <=2 bar, mid 3.5-6 bar) are FIXED on the
+    slow-flow / near-equilibrium physics, not chosen after seeing the residuals.
     """
     from puckworks import data as d
     from puckworks.models.waszkiewicz2025 import poroelastic as wz
@@ -893,16 +944,19 @@ def cross_pressure_discrimination(window=(15.0, 95.0)):
     mid = [p for p in ps if 3.5 <= p <= 6.0]
     return dict(
         per_pressure=per,
-        oos_mean={m: round(_mean(oos, m), 3) for m in ("static", "phi", "rc3b")},
+        conditional_transfer_mean={m: round(_mean(oos, m), 3)
+                                   for m in ("static", "phi", "rc3b")},
         low_p_mean={m: round(_mean(low, m), 3) for m in ("phi", "rc3b")},
         mid_p_mean={m: round(_mean(mid, m), 3) for m in ("static", "phi", "rc3b")},
         # the two load-bearing separations (each a distinct physics claim):
         phi_generalizes=_mean(oos, "phi") < _mean(oos, "static"),
-        rc3b_wins_low_p=_mean(low, "rc3b") < _mean(low, "phi"),
-        static_wins_mid_p=_mean(mid, "static") < min(_mean(mid, "phi"),
+        rc3b_lower_low_p=_mean(low, "rc3b") < _mean(low, "phi"),
+        static_lower_mid_p=_mean(mid, "static") < min(_mean(mid, "phi"),
                                                       _mean(mid, "rc3b")),
-        reading="Phi(t) best on OOS mean but regime-dependent: RC-3b wins low-P "
-                "(flow-coupled dissolution), static wins mid-P (no time structure)")
+        reading="Phi(t) has the lowest transfer-mean RMSE but is regime-dependent: "
+                "RC-3b is lower low-P (flow-coupled dissolution), static is lower "
+                "mid-P (no time structure). No single mechanism is lowest at every "
+                "pressure. Conditional-transfer, NOT independent validation.")
 
 
 # --- N-tube kappa(t) union: streamtube channeling x coupled_kappa_t per-tube --

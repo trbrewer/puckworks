@@ -54,9 +54,11 @@ generate an interior grind maximum without a doctored constant — a **viability
 result, not identification (the target is a weak-R² empirical RSM feature and the
 closure is itself grind-calibrated; incomplete wetting is untested). On a 9-bar
 rising-flow trace a **null-first** ladder shows a time-varying porosity trajectory
-is required to beat the specified flat baselines and empirical dissolution-linked
-Φ(t) is sufficient (not uniquely identified); across 11 pressures the mechanisms
-are **regime-dependent with no universal winner**. Finally, an exploratory
+is required to beat the specified constant baselines, but a 4-parameter flexible
+temporal curve matches the mechanistic Φ(t) — so **time variation is needed, not a
+specific bed mechanism**; across 11 pressures the mechanisms are
+**regime-dependent, no single mechanism lowest everywhere** (within-campaign
+conditional transfer, not independent validation). Finally, an exploratory
 uncoupled-streamtube extension exhibits, **in the tested near-choke
 configuration**, flow concentration into a single effective channel, motivating a
 physically-derived lateral-coupling model. The unifying theme: integrated
@@ -133,9 +135,11 @@ post-fit at 9 bar; cross-pressure = within-rig generalization, not external.)*
   time-varying porosity trajectory is required and empirical dissolution-linked
   Φ(t) is sufficient (beats the floor ~5.4×) — *not uniquely identified*, and the
   Φ(t) trajectory is soft-circular (m_d from TDS+flow on the same rig).
-- **Cross-pressure is DONE (not pending).** One fixed calibration → predict all 11
-  pressures: **regime-dependent, no universal winner** (Φ(t) best OOS mean; RC-3b
-  low-P; static mid-P). Promote to main text; label within-rig generalization.
+- **Cross-pressure is DONE (not pending).** One shared campaign-wide calibration →
+  predict all 11 pressures: **regime-dependent, no single mechanism lowest
+  everywhere** (Φ(t) lowest transfer-mean; RC-3b lower low-P; static lower mid-P).
+  Promote to main text; label within-campaign conditional transfer (NOT independent
+  out-of-sample validation).
 - **Poroelastic scope.** "The tested 14× rise cannot be reconstructed from the
   adopted porosity trajectory with the auxiliary Kozeny–Carman relation; the
   near-choke poroelastic closure supplies the required sensitivity." Do NOT claim
