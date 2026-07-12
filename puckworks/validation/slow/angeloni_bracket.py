@@ -327,19 +327,31 @@ def refit_pannusch_angeloni(rate_grid=None):
                                          if (variety, col) in inv else None),
                             mape_on_grid=round(mp, 1), mape_holdout=round(mpo, 1))
         out[variety] = per
-    hold = np.mean([out[v][s]["mape_holdout"] for v in out for s in SPEC])
-    n_bound = sum(out[v][s]["rate_at_boundary"] for v in out for s in SPEC)
-    return dict(per_variety=out, mean_holdout_mape=round(float(hold), 1),
+    # M5: the HEADLINE macro-average is over the three NAMED solutes only; TDS is a
+    # source-specific aggregate-solids PROXY, reported separately (not a 4th solute).
+    named = ("caffeine", "trigonelline", "5CQA")
+    hold_named = np.mean([out[v][s]["mape_holdout"] for v in out for s in named])
+    hold_proxy = np.mean([out[v]["tds"]["mape_holdout"] for v in out])
+    hold_all = np.mean([out[v][s]["mape_holdout"] for v in out for s in SPEC])
+    n_bound = sum(out[v][s]["rate_at_boundary"] for v in out for s in named)
+    return dict(per_variety=out,
+                named_solutes=list(named),
+                mean_holdout_named=round(float(hold_named), 1),          # HEADLINE
+                mean_holdout_aggregate_solids_proxy=round(float(hold_proxy), 1),
+                mean_holdout_with_proxy=round(float(hold_all), 1),
+                mean_holdout_mape=round(float(hold_named), 1),           # back-compat = named
                 rate_domain=[round(float(rate_grid[0]), 2), round(float(rate_grid[-1]), 2)],
                 n_rate_at_boundary=n_bound,
-                strength="post-fit reconstruction (on-grid); 2-point off-grid holdout "
-                         "= weak independent check",
-                note="matched-mass (40 g) cups, exact weighted-median level, wide "
-                     "log rate domain. Refit is a NEW angeloni calibration (granulometry "
-                     "O only, 9-point fit); read the per-species rate/c_s0 as a valley "
-                     "point, NOT a mechanistic decomposition (see identifiability_panel). "
-                     "%d/%d fitted rates sit at the (widened) domain boundary." % (
-                         n_bound, len([1 for v in out for s in SPEC])))
+                strength="reconstruction (on-grid, a new calibration); 2-point off-grid "
+                         "O holdout = weak internal check",
+                note="matched-mass (40 g) cups, exact weighted-median level, wide log "
+                     "rate domain. HEADLINE macro-average is the three NAMED solutes "
+                     "(caffeine/trigonelline/5-CQA); TDS is a source-specific "
+                     "aggregate-solids PROXY reported separately, NOT a 4th solute (M5). "
+                     "Refit is a NEW angeloni calibration (granulometry O only, 9-point "
+                     "fit); read per-species rate/c_s0 as a valley point, NOT a "
+                     "mechanistic decomposition. %d/%d named-solute rates at the "
+                     "(widened) domain boundary." % (n_bound, len(named) * len(out)))
 
 
 # per-granulometry flow, from the card's OWN fitted hydraulic conductivity k_r(p)
@@ -877,7 +889,9 @@ def report():
             print(f"{v:>8} {sol:>13} {x['rate_scale']:>5} "
                   f"{str(x['c_s0_fit']) + t7:>13} {x['mape_on_grid']:>7}% "
                   f"{x['mape_holdout']:>7}%")
-    print(f"mean holdout MAPE {rf['mean_holdout_mape']}%. {rf['note']}")
+    print(f"mean holdout MAPE: NAMED solutes {rf['mean_holdout_named']}% (headline) | "
+          f"aggregate-solids proxy TDS {rf['mean_holdout_aggregate_solids_proxy']}% | "
+          f"with proxy {rf['mean_holdout_with_proxy']}%. {rf['note']}")
     print("\n== identifiability panel (caffeine whole-cup, Arabica O) ==")
     ip = identifiability_panel("Arabica", "caffeine")
     print(f"condition number {ip['condition_number']} (reliable={ip['hessian_reliable']}); "

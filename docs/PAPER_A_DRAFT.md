@@ -190,18 +190,24 @@ are stated thresholds, not confidence intervals).
 
 ## 3. Result 1 — an apparent success, and a flow-map sensitivity
 
-We ran three successively stricter tests on granulometry O (≈ the model's
-calibrated grind), all at the **matched 40 g cup** endpoint. *[The ~9 % holdout is a
-mean of two off-grid O points per solute × variety — a small check, not a robust
-validation (review M4); TDS/total-solids is a proxy reported separately from the
-named solutes (M5).]*
+**Observable convention (M5).** The primary headline is the macro-average over the
+**three named solutes** (caffeine, trigonelline, 5-CQA). Source-specific TDS /
+total-solids is treated as a separate **aggregate-solids proxy** — the Pannusch-side
+TDS is a modelled caffeine-like pseudo-component, Angeloni's is a gravimetric
+total-solids assay, and (§6) Waszkiewicz's is an optical-refractometer reading; these
+are not an equivalent analyte, so we never pool the proxy with named molecules.
+
+We ran three successively stricter tests on granulometry O (≈ the model's calibrated
+grind), all at the **matched 40 g cup** endpoint. *[The holdout is a mean of two
+off-grid O points per solute × variety — a small internal check, superseded by the
+leave-one-condition-out CV of §5 (M4).]*
 
 | test | result | reading | strength |
 |---|---|---|---|
-| pooled-envelope bracket | model brackets all 4 species | *optimistic* — the 66-shot ranges are wide | independent (wide envelope) |
-| per-condition, blind | overall MAPE **22.6 %** | > angeloni's own ~9–13 % model | independent, per-condition |
-| + Darcy `q~p/μ(T)` flow refinement | **22.6 %** (crude-τ 23.1) | closes only **~0.5 pp** — at matched mass the flow-map choice barely matters | independent, per-condition |
-| + refit `c_s0` + `rate_scale` (fit 9 on-grid, hold out 2 off-grid O) | **mean holdout ≈9 %** | a NEW angeloni calibration | post-fit (single grind); weak 2-pt holdout |
+| pooled-envelope bracket | model brackets the 3 named solutes + the aggregate proxy | *optimistic* — the 66-shot ranges are wide | external (wide envelope) |
+| per-condition, blind | overall MAPE **22.6 %** (incl. proxy) | > angeloni's own ~9–13 % model | external, per-condition |
+| + Darcy `q~p/μ(T)` flow refinement | **22.6 %** (crude-τ 23.1) | closes only **~0.5 pp** — at matched mass the flow-map choice barely matters | external, per-condition |
+| + refit `c_s0` + `rate_scale` (fit 9 on-grid, hold out 2 off-grid O) | **named-solute holdout ≈8.4 %** (aggregate-solids proxy TDS ≈11.5 %, reported separately) | a NEW angeloni calibration | reconstruction (single grind); weak 2-pt holdout |
 
 Two things changed from our earlier draft once the endpoint was matched. First, the
 blind per-condition gap dropped from ~31 % to **22.6 %** — the fixed-25 s window had
