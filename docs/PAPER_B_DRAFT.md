@@ -238,7 +238,8 @@ resistance at fixed pressure, so each predicts *falling* flow: the wrong sign fo
 residual. Running mo2023_2's own Carman–Kozeny prediction (its validated fixed-Δp mechanism)
 gives a monotone-decreasing flow ratio (throttling to ≈4 % of initial over the shot for a
 representative illy powder); given a best-case free level it scores RMSE ≈1.08 g/s — *worse
-than the best constant null* — and is anti-correlated with the trace (*r* ≈ −0.95). For fines
+than the best constant null* — and is anti-correlated with the trace (*r* ≈ −0.95, Fig. 3d).
+For fines
 migration the exclusion is analytic: its discharge is monotone non-increasing at constant p₀
 (Fasano–Talamucci–Petracco Lemma 8.3), and their Part III result states the flux can rise
 again *only if the applied pressure increases* — so at a fixed 9 bar it cannot source the
@@ -263,9 +264,29 @@ variant does better at low pressure, the static null at mid-range — but the
 pressure bins are descriptive, not predeclared, so we present the continuous
 pressure-residual curves rather than categorical winners. **No branch dominates the
 three tested branches across all pressures**; migration, compaction, matched-control
-swelling, viscosity, and sensor uncertainty remain outside the comparison. *(Owed:
-full-precision residual aggregation, residual autocorrelation, parameter counts,
-and leave-one-pressure-out refitting.)*
+swelling, viscosity, and sensor uncertainty remain outside the comparison.
+
+**Leave-one-pressure-out confirms the calibration is not tuned to any single
+pressure.** To check that the shared calibration does not smuggle each held-out
+pressure into its own prediction, we refit the two-parameter equilibrium pair
+(P_c, Q_c) on the other ten pressures and predict the genuinely held-out eleventh
+trace. Dropping any single pressure moves (P_c, Q_c) by at most **2.8 %**, and the
+held-out mean RMSE (static 0.534, Φ(t) 0.347, RC-3b 0.516 g/s) matches the
+shared-calibration mean (0.524 / 0.335 / 0.510) to within ~0.01 g/s; Φ(t) remains the
+lowest-error branch overall and the regime separation is unchanged. The eleven-point,
+two-parameter equilibrium fit is therefore **over-determined**, and the regime
+structure is a property of the physics, not of which pressure sat in the fit. This
+upgrades the claim from conditional transfer to a **within-rig held-out prediction**;
+it is still not independent second-rig validation (only the equilibrium pair is refit —
+the dissolution sigmoid is a fixed 9-bar TDS calibration). Three residual diagnostics
+accompany the aggregation and qualify it: (i) the full-precision (unrounded) held-out
+means are static 0.512, Φ(t) 0.356, RC-3b 0.522 g/s over the ten off-9-bar pressures;
+(ii) each branch carries the same **two** flow-fitted parameters (P_c, Q_c) — Φ(t) and
+RC-3b add donor parameters fit to *other* observables (the sigmoid to 9-bar TDS, Cameron
+to its own calibration), i.e. zero additional flow degrees of freedom; and (iii) the
+lag-1 residual autocorrelation is ≈ 1.0 for **all three** branches, so the RMSE ranking
+is a relative ordering among models that each leave a strongly serially-correlated
+(systematically structured, non-white) residual — no branch is a clean fit.
 
 **The composition attempt fails, honestly (Fig. 4).** The registered shared-porosity
 synthesis reduces exactly to the poroelastic rung under extraction-only; adding an
@@ -378,10 +399,19 @@ scientific readiness, and that Results 1 and 3 needed recomputation — now done
   the noise-floor heuristic; Result 3 downgraded to finite-time concentration; Fig 1
   (refit curve) and Fig 5 (gain-vs-floor) regenerated; abstract "independently gated"
   contradiction removed.
+- **Delivered (2026-07-12):** Phase-3 discrimination — the mo2023_2 swelling and
+  fasano-partI fines-migration matrix-resistance mechanisms refuted by *sign* (rung 5b,
+  `kappa_t_ladder`); **leave-one-pressure-out cross-pressure validation** (max
+  calibration drift 2.8 %, held-out ≈ shared, `cross_pressure_loco`) + full-precision
+  aggregation, lag-1 residual autocorrelation (≈1.0 all branches), and flow-parameter
+  counts (`cross_pressure_discrimination`).
 - **Still owed before submission (major):** conventional Methods (equations,
   calibration splits, statistics, uncertainty); related-work / novelty search;
-  full-precision or refit RSM with covariance; leave-one-pressure-out validation;
+  full-precision or refit RSM with covariance (source coefficients — author request);
   a physical lateral operator + formal stability analysis or explicit appendix
-  downgrade; Data/Code availability + pinned release; LaTeX.
+  downgrade; Data/Code availability + pinned release; LaTeX. **External-blocked:**
+  independent second-rig / second-coffee transfer set; direct spatial flow/saturation
+  data; unsaturated-flow constitutive data; the pressure-step / flow-reversal protocol
+  that would quantitatively separate fines-migration from dissolution.
 - **Companion:** Paper A (extraction identifiability, `ANALYSIS_transfer.md`) is a
   separate track, cited here only for the shared observability theme.

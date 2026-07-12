@@ -165,15 +165,17 @@ def fig2_evidence_matrix(outdir=OUTDIR_DEFAULT):
 
 # ---------------------------------------------------------------------------
 def fig3_ladder(outdir=OUTDIR_DEFAULT):
-    """Fig 3 — null-first κ(t) ladder + regime-dependent cross-pressure.
+    """Fig 3 — null-first κ(t) ladder, cross-pressure transfer, swelling wrong-sign.
     (a) Foster machine-only flow minimum (post-fit); (b) 9-bar ladder RMSE bars
     over ONE window (15-95 s), three DISTINCT constant nulls + the flexible cubic;
     (c) within-campaign conditional-transfer RMSE per mechanism (regime-dependent,
-    no single mechanism lowest everywhere)."""
+    no single mechanism lowest everywhere); (d) rung-5b swelling competitor — its
+    Carman-Kozeny flow ratio can only THROTTLE (falls), so it is anti-correlated
+    with the rising trace: the matrix-resistance mechanism refuted by sign."""
     import numpy as np
     from puckworks import harness as h, data as d
     plt = _plt()
-    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(11.2, 3.3))
+    fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(9.4, 6.6))
 
     f = d.foster_fig15_flow()
     t_s = np.array([x["t_s"] for x in f]); q = np.array([x["Q_norm"] for x in f])
@@ -199,10 +201,10 @@ def fig3_ladder(outdir=OUTDIR_DEFAULT):
     ax2.set_title("(b) 9-bar ladder, window %d–%d s (RMSE)" % (lo, hi))
     ax2.set_ylabel("RMSE [g/s]"); ax2.set_ylim(0, 0.72)
     ax2.tick_params(axis="x", labelsize=6.6)
-    ax2.text(0.5, 0.88, "Φ(t) (0 params) beats every constant\nnull %.1f×; a 4-param "
-             "flexible curve\nalso does → time variation is NEEDED,\nnot a specific bed mechanism"
+    ax2.text(0.97, 0.60, "Φ(t) (0 params) beats every\nconstant null %.1f×; a 4-param\n"
+             "flexible curve also does →\ntime variation is NEEDED,\nnot a specific mechanism"
              % lad["improvement_factor"],
-             transform=ax2.transAxes, fontsize=6.6, color=NULL, ha="center", va="top")
+             transform=ax2.transAxes, fontsize=6.4, color=NULL, ha="right", va="top")
 
     cp = h.cross_pressure_discrimination()
     pp = cp["per_pressure"]
@@ -212,8 +214,31 @@ def fig3_ladder(outdir=OUTDIR_DEFAULT):
     ax3.set_title("(c) Conditional cross-pressure transfer")
     ax3.set_xlabel("pressure [bar]"); ax3.set_ylabel("conditional-transfer RMSE [g/s]")
     ax3.legend(fontsize=8, ncol=3, loc="upper center")
-    fig.suptitle("Result 2 — time variation is needed (not a specific mechanism); transfer is regime-dependent",
-                 y=1.03, fontsize=10.5, fontweight="bold")
+
+    # (d) rung-5b swelling competitor: falling flow ratio vs the rising trace
+    from puckworks.models.mo2023_2 import swelling as mo2
+    tr = d.waszkiewicz_traces()
+    t = np.asarray(tr[9.0]["time__s"], float)
+    q = np.asarray(tr[9.0]["mass_flow_rate__g_per_s"], float)
+    sel = (t >= lo) & (t <= hi); td, qd = t[sel], q[sel]
+    t_full = np.linspace(0.0, hi, 120)
+    qrel = np.interp(td, t_full, mo2.flow_decay("M", t_full)["q_rel"])
+    a_star = float(np.dot(qrel, qd) / np.dot(qrel, qrel))     # LS-optimal level (1 param)
+    ax4.plot(td, qd, color=ACCENT, lw=1.9, label="measured 9-bar (rises)")
+    ax4.plot(td, a_star * qrel, color=BAD, lw=1.9, ls="--",
+             label="swelling pred. (throttles)")
+    ax4.set_title("(d) rung 5b swelling — wrong sign")
+    ax4.set_xlabel("time [s]"); ax4.set_ylabel("Q [g/s]")
+    ax4.legend(fontsize=7.4, loc="center right")
+    ax4.text(0.04, 0.95, "swelling only CLOSES pores → flow ratio\nfalls (to %.0f%% over the shot); "
+             "anti-correlated\nwith the rising trace r = %.2f, best-anchored\nRMSE %.2f g/s > any constant → refuted"
+             % (lad["rung5b_swelling_full_shot_decay"] * 100.0,
+                lad["rung5b_swelling_corr_with_trace"], lad["rung5b_swelling_mo2"]),
+             transform=ax4.transAxes, fontsize=6.6, color=NULL, ha="left", va="top")
+    fig.suptitle("Result 2 — time variation needed (not a specific mechanism); transfer regime-dependent; "
+                 "swelling refuted by sign",
+                 y=1.005, fontsize=10.2, fontweight="bold")
+    fig.tight_layout()
     return _save(fig, outdir, "fig3_kappa_t_ladder.png")
 
 

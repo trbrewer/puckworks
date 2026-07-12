@@ -56,6 +56,18 @@ def test_p2_cross_pressure_separation():
     assert X["static_lower_mid_p"]
 
 
+def test_p2_cross_pressure_loco():
+    """P2 leave-one-pressure-out: refitting the equilibrium pair without each
+    pressure barely moves (P_c,Q_c) and the held-out RMSE matches the shared
+    calibration -> the 11-point/2-param fit is over-determined, and Phi(t) stays
+    the lowest held-out mean (the regime structure is physics, not fit tuning)."""
+    r = h.cross_pressure_loco()
+    assert r["n_pressures"] == 11
+    assert r["max_calibration_drift"] < 0.10          # <10% drift dropping any point
+    assert r["heldout_matches_shared"]                # held-out ~ shared calibration
+    assert r["heldout_mean"]["phi"] < r["heldout_mean"]["static"]   # Phi lowest overall
+
+
 def test_lee2023_negative_result():
     """lee2023: imposed rho_c=798 gives a fine-grind decline; physical rho_c=399
     only plateaus (the paper's documented negative result). Never promote."""

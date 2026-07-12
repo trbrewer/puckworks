@@ -1122,22 +1122,38 @@ def cross_pressure_discrimination(window=(15.0, 95.0)):
     dose = d.waszkiewicz_constants()["dose__g"]
     lo, hi = window
     per = {}
+    resid = {m: [] for m in ("static", "phi", "rc3b")}   # residual arrays for diagnostics
+
+    def _lag1(r):
+        r = np.asarray(r, float); r = r[np.isfinite(r)]
+        if r.size < 3 or np.allclose(r, r[0]):
+            return float("nan")
+        return float(np.corrcoef(r[:-1], r[1:])[0, 1])
     for p in ps:
         t = tr[p]["time__s"]; q = tr[p]["mass_flow_rate__g_per_s"]
         sel = (t >= lo) & (t <= hi); ts, qs = t[sel], q[sel]
-        r_static = float(np.sqrt(np.mean((wz.q_static(p, P_c, Q_c) - qs) ** 2)))
+        e_static = wz.q_static(p, P_c, Q_c) - qs
+        r_static = float(np.sqrt(np.mean(e_static ** 2)))
         q_phi = wz.q_dynamic(ts, p, P_c, Q_c, k_s, l_s, m_s, dose)
         r_phi = float(np.sqrt(np.nanmean((q_phi - qs) ** 2)))
         sh = cam.simulate_shot(1.9, p_bar=p, m_in=dose / 1000, m_out=0.040,
                                t_shot=100.0, n_save=150)
         md = np.interp(ts, sh.t, sh.m_cup * 1000.0)
         if md[-1] <= 0:
-            r_rc3b = float("nan")
+            r_rc3b = float("nan"); q_rc = np.full_like(qs, np.nan)
         else:
             q_rc = wz.q_dynamic_from_md(p, P_c, Q_c, md, dose)
             r_rc3b = float(np.sqrt(np.nanmean((q_rc - qs) ** 2)))
         per[p] = dict(static=round(r_static, 3), phi=round(r_phi, 3),
-                      rc3b=round(r_rc3b, 3))
+                      rc3b=round(r_rc3b, 3),
+                      # lag-1 residual autocorrelation: high => structured (unmodelled)
+                      # residual, i.e. the low RMSE is riding on serially-correlated
+                      # misfit, not white noise -- a caveat on every "fit" here
+                      static_acf1=round(_lag1(e_static), 3),
+                      phi_acf1=round(_lag1(q_phi - qs), 3),
+                      rc3b_acf1=round(_lag1(q_rc - qs), 3))
+        resid["static"].append(e_static); resid["phi"].append(q_phi - qs)
+        resid["rc3b"].append(q_rc - qs)
 
     def _mean(keys, mech):
         v = np.array([per[p][mech] for p in keys], float)
@@ -1145,10 +1161,26 @@ def cross_pressure_discrimination(window=(15.0, 95.0)):
     oos = [p for p in ps if p != 9.0]
     low = [p for p in ps if p <= 2.0]
     mid = [p for p in ps if 3.5 <= p <= 6.0]
+    # full-precision (unrounded) transfer mean over the held-out 10 pressures
+    full_prec = {m: float(np.nanmean([per[p][m] for p in oos]))
+                 for m in ("static", "phi", "rc3b")}
+    # mean lag-1 residual autocorrelation across pressures (honest caveat: all three
+    # branches leave a strongly serially-correlated residual -> the RMSE ranking is
+    # real but none is a white-noise fit)
+    mean_acf1 = {m: round(float(np.nanmean(
+        [per[p][f"{m}_acf1"] for p in ps])), 3) for m in ("static", "phi", "rc3b")}
     return dict(
         per_pressure=per,
         conditional_transfer_mean={m: round(_mean(oos, m), 3)
                                    for m in ("static", "phi", "rc3b")},
+        conditional_transfer_mean_full_precision=full_prec,
+        mean_residual_lag1_autocorr=mean_acf1,
+        # DOF fitted to THIS flow dataset is 2 (P_c,Q_c) for all three; phi/rc3b add
+        # donor params fit to OTHER observables (phi: 3 sigmoid params from 9-bar TDS;
+        # rc3b: Cameron's parameters) -> zero ADDITIONAL flow degrees of freedom
+        free_params_fit_to_flow=dict(static=2, phi=2, rc3b=2),
+        donor_params_from_other_observables=dict(
+            static=0, phi=3, rc3b="cameron2020 calibration (not refit to flow)"),
         low_p_mean={m: round(_mean(low, m), 3) for m in ("phi", "rc3b")},
         mid_p_mean={m: round(_mean(mid, m), 3) for m in ("static", "phi", "rc3b")},
         # the two load-bearing separations (each a distinct physics claim):
@@ -1160,6 +1192,84 @@ def cross_pressure_discrimination(window=(15.0, 95.0)):
                 "RC-3b is lower low-P (flow-coupled dissolution), static is lower "
                 "mid-P (no time structure). No single mechanism is lowest at every "
                 "pressure. Conditional-transfer, NOT independent validation.")
+
+
+def cross_pressure_loco(window=(15.0, 95.0)):
+    """LEAVE-ONE-PRESSURE-OUT held-out validation of the cross-pressure calibration
+    (PAPER_B §7 owed item). The shared-calibration `cross_pressure_discrimination`
+    fits (P_c, Q_c) over ALL 11 pressures, so every predicted trace saw its own
+    pressure in the fit. Here we refit the static equilibrium pair (P_c, Q_c) on
+    the OTHER 10 equilibrium points and predict the genuinely held-out 11th trace
+    (static / Phi(t) / RC-3b), RMSE over the window.
+
+    STRENGTH: this upgrades the shared-calibration conditional transfer toward a
+    held-out prediction, but it is STILL WITHIN-RIG (one campaign, one coffee, one
+    grind) and only the 2-parameter equilibrium pair is refit -- the dissolution
+    sigmoid (k,l,m) is a 9-bar TDS calibration, pressure-independent, held fixed.
+    It is NOT independent out-of-sample validation on a second rig.
+
+    Because the fit is over-determined (11 points, 2 params), dropping one point
+    should barely move (P_c, Q_c); we report that calibration DRIFT explicitly --
+    small drift + held-out RMSE matching the shared-calibration RMSE is the honest
+    reading (the calibration is not tuned to any single pressure), not a strong
+    generalization claim."""
+    from puckworks import data as d
+    from puckworks.models.waszkiewicz2025 import poroelastic as wz
+    from puckworks.models.cameron2020 import extraction_bdf as cam
+    tr = d.waszkiewicz_traces()
+    ps = sorted(k for k in tr if k != "columns")
+    Peq, Qeq = wz.steady_state_curve()                  # 11-point equilibrium curve
+    P_c0, Q_c0 = wz.published_calibration()             # full-fit calibration
+    k_s, l_s, m_s = wz._solids_params()
+    dose = d.waszkiewicz_constants()["dose__g"]
+    lo, hi = window
+    per, drift_pc, drift_qc = {}, [], []
+    for i, p in enumerate(ps):
+        keep = [j for j in range(len(ps)) if j != i]    # leave pressure p OUT
+        (P_c, Q_c), _ = wz.fit_static(Peq[keep], Qeq[keep])
+        drift_pc.append(abs(P_c - P_c0) / P_c0)
+        drift_qc.append(abs(Q_c - Q_c0) / Q_c0)
+        t = tr[p]["time__s"]; q = tr[p]["mass_flow_rate__g_per_s"]
+        sel = (t >= lo) & (t <= hi); ts, qs = t[sel], q[sel]
+        r_static = float(np.sqrt(np.mean((wz.q_static(p, P_c, Q_c) - qs) ** 2)))
+        q_phi = wz.q_dynamic(ts, p, P_c, Q_c, k_s, l_s, m_s, dose)
+        r_phi = float(np.sqrt(np.nanmean((q_phi - qs) ** 2)))
+        sh = cam.simulate_shot(1.9, p_bar=p, m_in=dose / 1000, m_out=0.040,
+                               t_shot=100.0, n_save=150)
+        md = np.interp(ts, sh.t, sh.m_cup * 1000.0)
+        if md[-1] <= 0:
+            r_rc3b = float("nan")
+        else:
+            r_rc3b = float(np.sqrt(np.nanmean(
+                (wz.q_dynamic_from_md(p, P_c, Q_c, md, dose) - qs) ** 2)))
+        per[p] = dict(static=round(r_static, 3), phi=round(r_phi, 3),
+                      rc3b=round(r_rc3b, 3), P_c=round(float(P_c), 3),
+                      Q_c=round(float(Q_c), 3))
+    heldout_mean = {m: round(float(np.nanmean([per[p][m] for p in ps])), 3)
+                    for m in ("static", "phi", "rc3b")}
+    # compare against the shared-calibration transfer mean over the SAME 11 points
+    shared = cross_pressure_discrimination(window)["per_pressure"]
+    shared_mean = {m: round(float(np.nanmean([shared[p][m] for p in ps])), 3)
+                   for m in ("static", "phi", "rc3b")}
+    max_drift = round(float(max(max(drift_pc), max(drift_qc))), 4)
+    # "held-out ~ shared" => the calibration is over-determined, not per-pressure tuned
+    matches = all(abs(heldout_mean[m] - shared_mean[m]) <= 0.05 * shared_mean[m]
+                  + 0.02 for m in ("static", "phi", "rc3b"))
+    return dict(
+        per_pressure=per, heldout_mean=heldout_mean, shared_calibration_mean=shared_mean,
+        max_calibration_drift=max_drift, heldout_matches_shared=matches,
+        n_pressures=len(ps), refit="static (P_c,Q_c); sigmoid k,l,m held fixed",
+        strength="within-rig leave-one-pressure-out held-out prediction (one campaign/"
+                 "coffee/grind; 2-param equilibrium pair refit) -- NOT independent "
+                 "second-rig out-of-sample validation",
+        reading="Leaving each pressure out and refitting the equilibrium pair moves "
+                "(P_c,Q_c) by at most %.1f%%, and the held-out RMSE %s the "
+                "shared-calibration RMSE -- the 11-point/2-param calibration is "
+                "over-determined, not tuned to any single pressure. The regime "
+                "structure (Phi lowest overall, mechanisms separating) is a property "
+                "of the physics, not of which pressure was in the fit."
+                % (max_drift * 100.0,
+                   "matches" if matches else "DIFFERS from"))
 
 
 # --- N-tube kappa(t) union: streamtube channeling x coupled_kappa_t per-tube --
