@@ -142,10 +142,10 @@ register(Component(
                 "unidentified/unvalidated). Degeneracy: extraction-only == poroelastic "
                 "rung 4 EXACTLY (RMSE 0.116). Composition residual 0.648 (worse than "
                 "flat null) DIAGNOSES mo2023_2 swelling mis-scaled for the saturated rig "
-                "-- reported, not tuned. CARD AMBIGUITY FLAGGED: Eq.2 (kappa=Kozeny-"
-                "Carman) is inconsistent with the exact-poroelastic degeneracy (CK too "
-                "gentle for the 14x near-choke rise, RMSE ~1.5); flow uses the "
-                "poroelastic closure, CK reported as auxiliary -> Tim to reconcile Eq.2",
+                "-- reported, not tuned. Flow closure = waszkiewicz POROELASTIC (card "
+                "Eq.2, corrected 2026-07-11 from CK to match this code): required for "
+                "the 14x near-choke rise (CK too gentle, RMSE ~1.5 vs 0.116); CK "
+                "retained as auxiliary/illustrative only",
     notes="the physically-coupled (ODE) form of the kappa(t)=kappa0 f(P,eps,E) backlog "
           "item; generalizes waszkiewicz2025.poroelastic (its extraction-only special "
           "case, exact-reduction gated). compaction/fines branches are structural stubs "

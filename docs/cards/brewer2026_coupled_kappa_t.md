@@ -34,12 +34,17 @@ Single coupled porosity ODE (this card's defining equation):
 
 1. dε/dt = R_ext(EY, t) − R_swell(t) − R_comp(P, t) − R_fines(t)·ε
 
-with permeability from the shared porosity via Kozeny–Carman (consistent with
-the streamtube/wadsworth lineage):
+with permeability from the shared porosity via the poroelastic closure:
 
-2. κ(t) = f_CK(ε(t)) = κ_ref · [ε(t)³ / (1−ε(t))²] / [ε₀³ / (1−ε₀)²]
-
-normalized so κ(t=0) = κ₀ (the bed's initial permeability from BedState).
+2. κ(t) = f_poro(ε(t)) — the waszkiewicz2025 poroelastic permeability closure,
+   evaluated on the shared ε(t), normalized so κ(t=0)=κ₀. This closure is
+   REQUIRED (not Kozeny–Carman): the 9-bar trace rises ~14× on a small porosity
+   change (Φ 0.03→0.12) because the bed operates near choke, where κ is
+   hypersensitive to ε; Kozeny–Carman is far too gentle there (RMSE ~1.5 vs the
+   poroelastic 0.116) and using it would make the degeneracy gate — which
+   requires exact reduction to waszkiewicz2025.poroelastic — impossible to pass.
+   Kozeny–Carman is retained as an AUXILIARY/illustrative cross-reference for the
+   gentle (non-choke) regime only, never as the operative closure.
 
 **Branch definitions** — each term inherits its donor component's law; this card
 fixes only their signs, units, and coupling into ε:
@@ -105,14 +110,21 @@ implementation. **The validation must be parameter-free to earn any strength:**
 - **Stronger gate (cross-pressure, if params allow):** fix at 9 bar, predict a
   different pressure's Q(t) from Waszkiewicz's other traces. This is the
   Phase-2 cross-pressure discriminator; passing it is genuinely out-of-sample.
-- **Degeneracy check:** with swelling/compaction/fines branches disabled, the
-  ODE must reproduce waszkiewicz2025.poroelastic exactly (extraction-only
-  Φ(t)). This is a verification gate on the reduction.
+- **Degeneracy check (now exact by construction):** with swelling/compaction/
+  fines disabled, Eq. 1 reduces to extraction-only Φ(t) AND Eq. 2 is already the
+  poroelastic closure, so the component must reproduce waszkiewicz2025.poroelastic
+  bit-for-bit. This is the primary consistency gate and its passing is what
+  licenses the composition.
 
 ## Assumptions and validity range
 - One well-mixed porosity per bed (or per depth cell if run on the A8 per-cell
   BedState); no lateral structure (that is the streamtube component's job).
-- κ(ε) is Kozeny–Carman; shares that lineage's limits.
+- κ(ε) is the poroelastic closure (near-choke-sensitive), NOT Kozeny–Carman.
+  Consequence: all four branches inherit near-choke sensitivity, so the
+  parameter-free composition gate is demanding by construction — small
+  ε-contribution errors in any loss branch amplify through the steep κ(ε). A
+  failing gate should therefore be read as "a branch is mis-scaled," not "the
+  closure is wrong." This is intended: it makes the gate a real test.
 - **Framework-level validity only.** This synthesis is exactly as sound as its
   shakiest branch, and three of the four donors carry documented weaknesses:
   mo2023_2 swelling (fixed-Δp, unvalidated), fasano I and II (parameters

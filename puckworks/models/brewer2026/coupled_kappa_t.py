@@ -16,16 +16,15 @@ units/coupling):
   compaction  (-, closes): fasano2000_partII (8.69)     (params UNIDENTIFIED -> stub)
   fines       (-, closes): fasano2000_partI             (params UNIDENTIFIED -> stub)
 
-Flow closure -- CARD AMBIGUITY, flagged: card Eq.2 says kappa=Kozeny-Carman(eps),
-but its degeneracy gate requires the extraction-only limit to 'reproduce
-waszkiewicz2025.poroelastic EXACTLY' and states 'the poroelastic branch alone
-already fits (rung 4, RMSE 0.113)'. These are inconsistent: the 9-bar flow rises
-14x (0.14->2.0 g/s) on a small porosity change (Phi 0.03->0.12) because the flow
-is near-choke, where the poroelastic closure (Eq.18) amplifies tiny porosity
-changes -- Kozeny-Carman is far too gentle (RMSE ~1.5, not 0.116). So the FLOW is
-driven through waszkiewicz's poroelastic closure with the composite porosity as
-an effective m_d (extraction-only -> exact rung 4); kappa_CK(eps) is ALSO reported
-per Eq.2 but does NOT reproduce the near-choke flow. -> Tim to reconcile Eq.2.
+Flow closure -- POROELASTIC (card Eq.2, corrected 2026-07-11 to match this code):
+the flow is driven through waszkiewicz's poroelastic closure with the composite
+porosity as an effective m_d, so extraction-only reduces to rung 4 exactly. This
+closure is REQUIRED, not Kozeny-Carman: the 9-bar flow rises 14x (0.14->2.0 g/s)
+on a small porosity change (Phi 0.03->0.12) because the bed is near-choke, where
+kappa is hypersensitive to eps -- CK is far too gentle (RMSE ~1.5 vs 0.116).
+kappa_CK(eps) is retained as an AUXILIARY/illustrative cross-reference only (gentle
+non-choke regime), never the operative closure. (The card's first draft printed
+CK as Eq.2; it was corrected card-side in the same lineage as this note.)
 
 Framework-level validity only: as sound as its shakiest branch (three donors carry
 unidentified/unvalidated params). Label 'coupled kappa(t) FRAMEWORK; branch

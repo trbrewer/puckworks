@@ -513,13 +513,13 @@ def gate_kappa_t_degeneracy():
     fines OFF, the coupled porosity ODE reduces to waszkiewicz2025.poroelastic
     EXACTLY -- extraction-only Phi(t) == m_d(t)/m0, and the 9-bar Q(t) RMSE matches
     the poroelastic component alone (rung 4, ~0.113). Verification of the reduction.
-    (Flow uses the poroelastic closure, NOT Eq.2 Kozeny-Carman -- a flagged card
-    inconsistency: CK is far too gentle for the near-choke 14x flow rise.)"""
+    (Flow uses the poroelastic closure = card Eq.2 as corrected 2026-07-11; CK is
+    far too gentle for the near-choke 14x flow rise and is auxiliary only.)"""
     from puckworks.models.brewer2026 import coupled_kappa_t as ck
     rmse = ck.degeneracy_rmse(P_bar=9.0)
     passed = bool(rmse < 0.13)                              # == rung 4 (0.113)
     return dict(passed=passed, degeneracy_rmse=round(rmse, 3), rung4_ref=0.113,
-                note="exact reduction via the poroelastic closure; Eq.2 CK flagged")
+                note="exact reduction via the poroelastic closure (card Eq.2, corrected)")
 
 
 def gate_kappa_t_composition_diagnostic():
