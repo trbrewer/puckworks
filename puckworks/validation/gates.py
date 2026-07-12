@@ -592,15 +592,17 @@ def gate_p3_schmieder_peak_discrimination():
     corrections from a review made the old 'channeling reproduces the schmieder
     peak' verdict indefensible and this gate now asserts the honest replacement:
 
-    (1) TARGET is per-observable, never a mixed-unit average. schmieder's
-        `mass_in_cup` mixes mg (trigonelline/caffeine/5-CQA) and g (TDS) across
-        three brew ratios; the old aggregate had no coherent unit. The corrected
-        target (`schmieder_interior_max_target`) reads schmieder's OWN RSM per
-        observable: it is concave with an interior grind vertex for all four
-        (their model feature) — but the fit is WEAK (adj-R² 0.41–0.75) and the
-        raw cells at the one fully-sampled fixed condition are largely MONOTONE
-        (interior max for ≤1/4). And GL 1.7 is the FINEST d32, so it is a DIAL
-        peak, not a particle-size fine-grind dip.
+    (1) TARGET is per-observable, never a mixed-unit average. PRIMARY observable
+        = TDS-derived EY (= TDS cup mass / 20 g dose · 100 — the yield quantity a
+        model produces). schmieder's `mass_in_cup` mixes mg (trigonelline/caffeine/
+        5-CQA) and g (TDS) across three brew ratios; the old aggregate had no
+        coherent unit. The corrected target (`schmieder_interior_max_target`) reads
+        schmieder's OWN RSM per observable: concave with an interior grind vertex
+        for all four (their model feature) — but the fit is WEAK (adj-R² 0.41–0.75)
+        and the raw cells at the one fully-sampled fixed condition are largely
+        MONOTONE (the primary TDS-EY is 18.3/19.4/19.6% — monotone; interior max
+        for ≤1/4). And GL 1.7 is the FINEST d32, so it is a DIAL peak, not a
+        particle-size fine-grind dip.
     (2) CAPACITY, not identification. Of the implemented generators, only the
         empirically-calibrated static-heterogeneity closure produces an interior
         maximum without a doctored constant (lee needs ρ_c=798; size-exclusion /
@@ -613,19 +615,26 @@ def gate_p3_schmieder_peak_discrimination():
     from puckworks import data as _d
     r = h.schmieder_peak_discrimination(n_grid=6)
     t = r["target"]
+    p = t["primary"]                                            # TDS-EY
     # the mixed-unit hazard that made the old aggregate invalid, made explicit
     units = {row.get("mass_units") for row in _d.schmieder_cup_masses()}
     passed = bool(
         len(units) > 1                                          # mixed-unit hazard is real
-        and len(t["rsm_interior_max"]) == 4                     # RSM feature (weak) exists for all
+        and t["primary_observable"] == "tds_ey"                 # primary target is TDS-EY
+        and p["rsm"]["interior_max"]                            # RSM (weak) has interior max...
+        and not p["raw_interior"]                               # ...but raw TDS-EY is monotone
+        and len(t["rsm_interior_max"]) == 4                     # RSM feature exists for all
         and len(t["raw_interior_max"]) <= 1                     # raw cells do NOT robustly support it
         and r["generate_under_calibrated_params"] == ["static channeling σ(φ₁)"]
         and r["generate_only_under_doctored_params"] == ["lee2023 dissolution instability"])
     return dict(passed=passed,
                 schmieder_mass_units=sorted(u for u in units if u),
+                primary_observable=t["primary_observable"],
+                tds_ey_pct=[round(e, 2) for e in p["ey_means"]],
+                tds_ey_raw_interior=p["raw_interior"],
+                tds_ey_rsm_vertex=round(p["rsm"]["vertex_dial"], 3),
+                tds_ey_rsm_adj_r2=round(p["rsm"]["adj_r2"], 2),
                 rsm_interior_max=t["rsm_interior_max"],
-                rsm_adj_r2={o: round(v["rsm"]["adj_r2"], 2)
-                            for o, v in t["observables"].items()},
                 raw_interior_max=t["raw_interior_max"],
                 generate_under_calibrated_params=r["generate_under_calibrated_params"],
                 generate_only_under_doctored_params=r["generate_only_under_doctored_params"],

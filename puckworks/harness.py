@@ -431,18 +431,44 @@ def schmieder_rsm_grind_curve(component, brew_ratio, flow_ml_s, temp_C):
 # is itself non-monotonic), so any dial peak is NOT cleanly a fine-grind dip.
 _SCHM_CENTER = dict(flow_ml_s=2.0, temp_C=89.0, brew_ratio="1/2")
 _SCHM_OBS = ("tds", "trigonelline", "caffeine", "5cqa")
+SCHM_DOSE_G = 20.0   # nominal fixed dose (schmieder2023 card, Table row: 20.00 g)
+
+
+def schmieder_tds_ey(brew_ratio, temp_C, flow_ml_s, dose_g=SCHM_DOSE_G):
+    """PRIMARY Result-1 target: TDS-derived extraction yield EY(%) vs grind at a
+    fixed condition. EY = (TDS dissolved-solids mass in cup [g]) / dose [g] · 100
+    — the one physically-meaningful, single-unit observable to compare against an
+    extraction-YIELD model (the channeling ensemble outputs EY, not cup mass).
+    Returns the raw EY grind response (means/stds over reps) and the RSM-predicted
+    EY curve (schmieder's own TDS surface / dose). Dividing by a constant dose is
+    a pure rescale, so the interior-max STRUCTURE matches TDS mass; EY just makes
+    it comparable to model EY. Returns None if the grind axis is incomplete."""
+    raw = schmieder_grind_response("tds", brew_ratio, temp_C, flow_ml_s)
+    rsm = schmieder_rsm_grind_curve("tds", brew_ratio, flow_ml_s, temp_C)
+    if raw is None:
+        return None
+    ey_means = [m / dose_g * 100.0 for m in raw["means"]]
+    ey_stds = [s / dose_g * 100.0 for s in raw["stds"]]
+    lead = ey_means[1] - max(ey_means[0], ey_means[2])
+    noise = (float(np.mean(ey_stds)) or 1e-9)
+    return dict(grinds=raw["grinds"], ey_means=ey_means, ey_stds=ey_stds,
+                ns=raw["ns"], dose_g=dose_g, units="EY_%",
+                raw_prominence=lead / noise,           # scale-invariant
+                raw_interior=bool(lead > 0),
+                rsm=rsm)                                # concavity/vertex (unit-free)
 
 
 def schmieder_interior_max_target(center=None):
-    """CORRECTED P3 target. For each observable at ONE fixed condition, report
-    whether schmieder's data supports an interior grind maximum — via BOTH their
-    fitted RSM (concave + vertex interior, carrying adj-R²) and the raw cells
-    (peak prominence = interior lead / pooled replicate std). Replaces the old
-    dimensionless mixed-unit `_schmieder_mass_vs_grind`. Reading (see verdict):
-    the RSM is concave with an interior vertex for every observable, but the fit
-    is weak (0.41–0.75) and the raw cells at the one fully-sampled condition are
-    largely monotone/flat — so the 'peak at GL 1.7' is a weak-RSM feature, not a
-    robust raw signal, and it is a peak in DIAL not particle size."""
+    """CORRECTED P3 target. PRIMARY observable = TDS-derived EY (the yield quantity
+    an extraction model produces); the mg solutes are secondary cross-checks. For
+    each, report whether schmieder's data supports an interior grind maximum — via
+    BOTH their fitted RSM (concave + vertex interior, carrying adj-R²) and the raw
+    cells (prominence = interior lead / pooled replicate std). Replaces the old
+    dimensionless mixed-unit `_schmieder_mass_vs_grind`. Reading (see verdict): the
+    RSM is concave with an interior vertex for every observable INCLUDING TDS-EY,
+    but the fit is weak (0.41–0.75) and the raw cells at the one fully-sampled
+    condition are largely monotone/flat — so the 'peak at GL 1.7' is a weak-RSM
+    feature, not a robust raw signal, and it is a peak in DIAL not particle size."""
     c = center or _SCHM_CENTER
     out = {}
     for obs in _SCHM_OBS:
@@ -455,18 +481,26 @@ def schmieder_interior_max_target(center=None):
             prom = lead / noise                       # >0 = interior, in std units
         out[obs] = dict(rsm=rsm, raw=raw, raw_prominence=prom,
                         raw_interior=bool(prom is not None and prom > 0))
+    primary = schmieder_tds_ey(c["brew_ratio"], c["temp_C"], c["flow_ml_s"])
     rsm_interior = [o for o, v in out.items()
                     if v["rsm"] and v["rsm"]["interior_max"]]
     raw_interior = [o for o, v in out.items() if v["raw_interior"]]
-    return dict(center=c, observables=out,
+    return dict(center=c, dose_g=SCHM_DOSE_G,
+                primary_observable="tds_ey", primary=primary,
+                observables=out,
                 rsm_interior_max=rsm_interior, raw_interior_max=raw_interior,
-                verdict=("schmieder's RSM is concave with an interior grind vertex "
-                         "for %d/%d observables (weak adj-R² 0.41–0.75), but the raw "
-                         "cells at the fixed central condition show a prominent "
-                         "interior max for only %d/%d — the peak is a weak-model "
-                         "feature, and it is a DIAL peak (GL 1.7 = finest d32), not "
-                         "a particle-size fine-grind dip"
-                         % (len(rsm_interior), len(_SCHM_OBS),
+                verdict=("PRIMARY = TDS-EY: RSM concave with an interior grind "
+                         "vertex at dial %.2f (adj-R² %.2f) but the raw EY cells "
+                         "(%s%%) are %s; across all observables the RSM has an "
+                         "interior vertex for %d/%d (weak 0.41–0.75) yet the raw "
+                         "cells show a prominent interior max for only %d/%d — the "
+                         "'peak at GL 1.7' is a weak-model feature, and a DIAL peak "
+                         "(GL 1.7 = finest d32), not a particle-size fine-grind dip"
+                         % (primary["rsm"]["vertex_dial"], primary["rsm"]["adj_r2"],
+                            "/".join("%.1f" % e for e in primary["ey_means"]),
+                            "monotone" if primary["raw_prominence"] <= 0 else
+                            "interior (prom %.2fσ)" % primary["raw_prominence"],
+                            len(rsm_interior), len(_SCHM_OBS),
                             len(raw_interior), len(_SCHM_OBS))))
 
 

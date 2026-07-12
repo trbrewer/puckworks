@@ -61,24 +61,28 @@ CORRECTION below before treating it as a clean "cup mass peaks at GL 1.7" target
 qualitative / model-capacity. *(Downgraded 2026-07-12 after a review found the
 original target dimensionally invalid — see the CORRECTION box at the top.)*
 
-**The schmieder target — corrected, per observable.** The old table averaged
+**The schmieder target — corrected, PRIMARY = TDS-EY.** The old table averaged
 `mass_in_cup` across component, unit (mg solutes + g TDS), brew ratio, and
-temperature → no coherent unit; deleted. The right target is schmieder's own
-fitted RSM in the grind direction, per observable, at a fixed condition (flow 2.0,
-89 °C, BR 1/2), cross-checked against the raw cells:
+temperature → no coherent unit; deleted. The **primary** target is the yield
+quantity a model produces: **TDS-derived EY = TDS cup mass / 20 g dose · 100**,
+per observable at a fixed condition (flow 2.0, 89 °C, BR 1/2), against both
+schmieder's own RSM and the raw cells:
 
 | observable | RSM concave (β₅<0)? | RSM vertex in [1.4,2.0]? | adj-R² | raw cells (fixed condition) |
 |---|---|---|---|---|
-| TDS (g) | yes | 1.75 | 0.64 | monotone (prominence −1.1 σ) |
+| **TDS-EY (%) — PRIMARY** | yes | 1.75 | 0.64 | **18.3 / 19.4 / 19.6 % — monotone** (prom −1.1 σ) |
 | trigonelline (mg) | yes | 1.81 | 0.60 | monotone (−1.1 σ) |
 | caffeine (mg) | yes | 1.70 | 0.41 | flat-topped (+0.04 σ) |
 | 5-CQA (mg) | yes | 1.95 | 0.62 | monotone (−1.2 σ) |
 
-So schmieder's RSM *does* encode an interior grind maximum for every observable —
-but the fit is WEAK (adj-R² 0.41–0.75; caffeine barely fits) and the raw cells at
-the one fully-sampled fixed condition are **largely monotone** (a prominent
-interior max for ≤1/4). And **GL 1.7 is the FINEST grind by d₃₂** (26.9 vs
-28.3/29.2 µm), so any dial peak is not cleanly a fine-grind dip in particle size.
+So on the **primary TDS-EY target**, schmieder's RSM has an interior vertex at
+dial 1.75 (adj-R² 0.64) but the raw EY grind response is **monotone increasing**
+(18.3 → 19.4 → 19.6 %). The RSM encodes an interior maximum for every observable,
+but the fit is WEAK (0.41–0.75; caffeine barely fits) and the raw cells are
+largely monotone (prominent interior max for ≤1/4). And **GL 1.7 is the FINEST
+grind by d₃₂** (26.9 vs 28.3/29.2 µm), so any dial peak is not cleanly a
+fine-grind dip in particle size. Harness: `schmieder_tds_ey` /
+`schmieder_interior_max_target` (`primary`).
 
 **Mechanism scoreboard** — generates an interior grind maximum? and under what
 parameterization?

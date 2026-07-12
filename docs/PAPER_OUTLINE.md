@@ -87,19 +87,22 @@ observables erase the structure needed to discriminate mechanisms.
 ## 3. Result 1 — model-capacity discrimination (corrected target)
 *(gate_p3_schmieder_peak_discrimination, schmieder_interior_max_target. Strength:
 qualitative / model-capacity.)*
-- **Target, per observable (not a mixed-unit average).** schmieder's own RSM is
-  concave in grind (β₅<0) with an interior vertex for all four observables — but
-  weak (adj-R² 0.41–0.75) and, at the one fully-sampled fixed condition, the raw
-  cells are largely monotone (interior max ≤1/4). Report shape AND magnitude AND
-  uncertainty; do not infer a peak from an argmax.
+- **Target = TDS-derived EY (primary), per observable (not a mixed-unit average).**
+  EY = TDS cup mass / 20 g dose · 100 — the yield quantity the model outputs
+  (`harness.schmieder_tds_ey`). schmieder's own RSM is concave in grind (β₅<0)
+  with an interior vertex for all four observables — but weak (adj-R² 0.41–0.75),
+  and the raw TDS-EY grind response at the fixed condition is **monotone
+  increasing** (18.3 → 19.4 → 19.6 %); interior max for ≤1/4 across observables.
+  Report shape AND magnitude AND uncertainty; do not infer a peak from an argmax.
 - **Capacity result.** Of the implemented generators, only the empirically-
   calibrated static-heterogeneity closure produces an interior maximum without a
   doctored constant; lee needs ρ_c=798; size-exclusion/diffusion are monotone;
   incomplete wetting is unimplemented. Flag the σ-calibration circularity (σ was
   fit to cameron grind-deviation data).
-- **Fig 1** — one observable at a time (prefer TDS-EY): raw replicate points at
-  fixed flow/BR/temperature, uncertainty intervals, peak-prominence; separate panel
-  for the normalized model response. Do NOT overlay mixed-unit masses with EY.
+- **Fig 1** — the PRIMARY TDS-EY target: raw replicate EY points at fixed
+  flow/BR/temperature (18.3/19.4/19.6 % with error bars), the schmieder RSM EY
+  curve (interior vertex 1.75, adj-R² 0.64 annotated), and a separate panel for
+  the normalized model EY response. Do NOT overlay mixed-unit masses with EY.
 - **Fig 2** — mechanism **evidence matrix** (not a winner scoreboard): implemented?
   · observable matched? · parameters independently constrained? · generates peak? ·
   evidence strength · unresolved discriminating experiment.

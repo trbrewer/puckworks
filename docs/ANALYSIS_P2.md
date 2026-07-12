@@ -130,11 +130,14 @@ original claim ("only static channeling reproduces the schmieder peak from
 physical parameters") rested on an **invalid target**: `_schmieder_mass_vs_grind`
 averaged `mass_in_cup` across component, **unit** (mg solutes + g TDS), brew
 ratio, and temperature — no coherent unit. Corrected target
-(`harness.schmieder_interior_max_target`, per observable): schmieder's own RSM is
-concave with an interior grind vertex for all four observables, **but** the fit
-is weak (adj-R² 0.41–0.75) and the raw cells at the one fixed fully-sampled
-condition are largely **monotone** (interior max for ≤1/4); and GL 1.7 is the
-finest d₃₂, so it is a DIAL peak, not a particle-size dip. The honest result
+(`harness.schmieder_interior_max_target`), **primary observable = TDS-derived EY**
+(= TDS cup mass / 20 g dose · 100 — the yield quantity a model produces):
+schmieder's own RSM is concave with an interior vertex at dial 1.75 (adj-R² 0.64),
+**but** the raw TDS-EY grind response at the fixed condition is **monotone
+increasing** (18.3 → 19.4 → 19.6 %). Across all observables the RSM has an interior
+vertex for 4/4 but weak (0.41–0.75) and the raw cells are largely monotone
+(interior max ≤1/4); and GL 1.7 is the finest d₃₂, so it is a DIAL peak, not a
+particle-size dip. The honest result
 (`gate_p3_schmieder_peak_discrimination`): of the implemented generators, only
 the empirically-calibrated static-heterogeneity closure produces an interior
 maximum without a doctored constant (lee needs ρ_c=798; size-exclusion/diffusion
