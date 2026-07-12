@@ -4,6 +4,15 @@
 `python -m puckworks.validation.slow.angeloni_bracket` and its functions;
 validation-strength tags follow ROADMAP §0 and are load-bearing.*
 
+> **⚠ Under revision (`docs/PAPER_A_DRAFT_detailed_review.md` adopted).** The
+> analysis code now uses a **matched 40 g cup** endpoint (was fixed 25 s, B1), an
+> **exact weighted-median** MAPE level (was a grid, B3), and a **wider log-spaced
+> rate domain** (B6); the positive-control endpoint is a **sampled-fraction
+> aggregate**, not a whole cup (B2). Numeric values below (the §3 valley, §4
+> transfer, §6 ratios) are being **regenerated at the matched endpoint** and are
+> provisional until this banner is removed. See `PAPER_A_DRAFT.md` for the
+> in-progress corrected manuscript.
+
 ## Summary
 
 We tested whether a multi-solute espresso extraction model calibrated on one

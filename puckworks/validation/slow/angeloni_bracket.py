@@ -22,6 +22,37 @@ import numpy as np
 # approximate, UNCALIBRATED cross-grinder map (Mythos granulometry -> EK43 gs)
 _GRIND_MAP = {"F": 1.3, "O": 1.9, "C": 2.4}
 
+# --- matched-beverage endpoint (review B1) --------------------------------------
+# angeloni collect 40 +/- 2 g beverage at a 1:2 ratio (20 g dose); density ~1, so
+# ~40 mL. A fixed 25 s window is NOT a matched cup: with grind-specific flow it
+# represents ~50/77/29 mL for O/C/F. Terminate every simulation when the collected
+# volume reaches V_TARGET so the compared cups share the same endpoint.
+_V_TARGET_ML = 40.0
+
+
+def _matched_bounds(flow_mL_s, v_target=_V_TARGET_ML):
+    """[0, t_end] with t_end = V_target / Q -> a matched-mass cup (constant flow)."""
+    return [0.0, float(v_target) / float(flow_mL_s)]
+
+
+def _mape_level(f, m):
+    """EXACT minimiser of the MAPE objective over the inventory LEVEL c
+    (review B3). J(c) = mean_i (f_i/m_i)|c - m_i/f_i| is minimised by the WEIGHTED
+    MEDIAN of x_i = m_i/f_i with weights w_i = f_i/m_i -- not a grid argmin and not
+    the plain median. Returns (c*, MAPE% at c*)."""
+    f = np.asarray(f, float); m = np.asarray(m, float)
+    x = m / f; w = f / m
+    o = np.argsort(x); x, w = x[o], w[o]
+    cw = np.cumsum(w)
+    k = int(np.searchsorted(cw, 0.5 * cw[-1]))
+    c = float(x[min(k, len(x) - 1)])
+    return c, float(np.mean(np.abs(c * f - m) / m) * 100.0)
+
+
+# rate domain for the profiles (review B6): log-spaced and WIDER than the old
+# [0.4, 2.5] linear grid, so a boundary optimum is exposed rather than imposed.
+_RATE_DOMAIN = np.geomspace(0.15, 6.5, 18)
+
 
 def gate_angeloni_multispecies_bracket(p_bar=9.0, dose_g=20.0, bev_g=40.0):
     """Bracket cameron TDS against the angeloni per-granulometry TS ranges.
@@ -159,13 +190,14 @@ def gate_pannusch_angeloni_per_condition(t_shot_s=25.0, flow_map="darcy"):
             blind, matched, preds, meas = [], [], [], []
             for r in shots:
                 T = r["T_degC"]; flow = _flow(r["p_bar"], T)
+                bounds = _matched_bounds(flow)            # matched 40 g cup (B1)
                 m = tsmap[(variety, T, r["p_bar"])] if sol == "tds" else r[col]
-                pb = float(ps.simulate_fractions(T, flow, [0.0, t_shot_s],
+                pb = float(ps.simulate_fractions(T, flow, bounds,
                                                  params[sol], cl1=1.0)[0]) * conv
                 blind.append(abs(pb - m) / m * 100); preds.append(pb); meas.append(m)
                 if (variety, col) in inv:                # inventory-matched (CF/TR)
                     sp2 = dict(params[sol]); sp2["c_s0"] = inv[(variety, col)]
-                    pm = float(ps.simulate_fractions(T, flow, [0.0, t_shot_s],
+                    pm = float(ps.simulate_fractions(T, flow, bounds,
                                                      sp2, cl1=1.0)[0]) * conv
                     matched.append(abs(pm - m) / m * 100)
             cc = float(np.corrcoef(preds, meas)[0, 1]) if np.std(meas) > 0 else float("nan")
@@ -181,27 +213,32 @@ def gate_pannusch_angeloni_per_condition(t_shot_s=25.0, flow_map="darcy"):
                           "p->flow " + ("Darcy q~p/mu(T)" if flow_map == "darcy"
                                         else "crude linear tau") + ")"),
                 note="per-condition MAPE >> pooled-envelope bracket and angeloni's "
-                     "own ~9-13% model. Inventory-matching helps caffeine, HURTS "
-                     "trigonelline -> not pure inventory; per-species extraction "
-                     "fraction + (T,p) shape do NOT transfer cleanly across "
-                     "machine/coffee -- an irreducible-without-refit residual.")
+                     "own ~9-13% model, at MATCHED 40 g cups. Inventory-matching "
+                     "helps caffeine, HURTS trigonelline -> not pure inventory; the "
+                     "per-species (T,p) transfer residual is NOT REMOVED by the "
+                     "tested flow maps + inventory match (competing sources -- grain "
+                     "geometry, viscosity, assay -- are not separately bounded here).")
 
 
 def flow_map_refinement():
     """Report how much the refined Darcy(p,T) flow map closes the transfer gap vs
-    the crude linear-tau baseline. PARTIAL by design: it fixes the residence-time
-    component (the crude map over-attributed flow to high pressure); the residual
-    is cross-coffee inventory + kinetic mismatch, which no flow map can close."""
+    the crude linear-tau baseline. PARTIAL by design: it reduces the residence-time
+    component (the crude map over-attributed flow to high pressure). The residual is
+    NOT REMOVED by the two tested flow maps -- but competing sources (grain geometry,
+    viscosity, endpoint, assay) are not separately quantified, so this does not
+    uniquely attribute the residual to inventory+kinetics (review M2)."""
     crude = gate_pannusch_angeloni_per_condition(flow_map="tau")["overall_mape_blind"]
     darcy = gate_pannusch_angeloni_per_condition(flow_map="darcy")["overall_mape_blind"]
     return dict(overall_mape_crude_tau=crude, overall_mape_refined_darcy=darcy,
                 closed_pp=round(crude - darcy, 1),
-                residual_source="cross-coffee inventory + per-species kinetic mismatch",
+                residual_note="not removed by the two tested flow maps; competing "
+                              "sources not separately bounded",
                 note=f"refined Darcy(p,T) flow map cuts overall blind MAPE "
                      f"{crude}% -> {darcy}% (closes {round(crude - darcy, 1)} pp of "
-                     f"the residence-time gap); residual >> angeloni's ~9-13% is "
-                     f"NOT flow -- it is inventory + kinetics, only closable by "
-                     f"refitting to the angeloni coffee.")
+                     f"the residence-time component) at matched 40 g cups; the "
+                     f"residual >> angeloni's ~9-13% is NOT REMOVED by the two tested "
+                     f"maps -- attribution to inventory+kinetics is not established "
+                     f"until geometry/viscosity/endpoint are separately bounded.")
 
 
 def refit_pannusch_angeloni(rate_grid=None):
@@ -231,17 +268,15 @@ def refit_pannusch_angeloni(rate_grid=None):
     tsmap = {(r["variety"], r["T_degC"], r["p_bar"]): r["TS_g_100mL"] for r in ts}
     SPEC = {"caffeine": ("CF", 1.0), "trigonelline": ("TR", 1.0),
             "5CQA": ("5CQA", 1.0), "tds": ("TS", 0.1)}
-    rate_grid = np.linspace(0.4, 2.5, 8) if rate_grid is None else np.asarray(rate_grid)
+    rate_grid = _RATE_DOMAIN if rate_grid is None else np.asarray(rate_grid)
 
     def _frac(sp, rs, conds):
         s = dict(sp); s["A1"] = sp["A1"] * rs; s["A2"] = sp["A2"] * rs; s["c_s0"] = 1.0
-        return np.array([float(ps.simulate_fractions(T, _flow_darcy(p, T),
-                        [0.0, 25.0], s, cl1=1.0)[0]) for T, p in conds])
+        return np.array([float(ps.simulate_fractions(
+                        T, _flow_darcy(p, T), _matched_bounds(_flow_darcy(p, T)),
+                        s, cl1=1.0)[0]) for T, p in conds])
 
-    def _best_cs0(f, m):                                  # analytic level (linear in c_s0)
-        grid = np.linspace(0.3, 3.0, 50) * float(np.median(m / f))
-        mp = [float(np.mean(np.abs(c * f - m) / m)) for c in grid]
-        i = int(np.argmin(mp)); return float(grid[i]), mp[i] * 100.0
+    _best_cs0 = _mape_level                               # EXACT weighted-median (B3)
 
     out = {}
     for variety in ("Arabica", "Robusta"):
@@ -265,20 +300,26 @@ def refit_pannusch_angeloni(rate_grid=None):
             rs, cs0, mp = best
             fo = _frac(params[sol], rs, co)
             mpo = float(np.mean(np.abs(cs0 * fo - mo) / mo) * 100)
+            at_bound = bool(rs <= rate_grid[0] * 1.001 or rs >= rate_grid[-1] * 0.999)
             per[sol] = dict(rate_scale=round(rs, 2), c_s0_fit=round(cs0, 1),
+                            rate_at_boundary=at_bound,
                             c_s0_table7=(round(inv[(variety, col)], 1)
                                          if (variety, col) in inv else None),
                             mape_on_grid=round(mp, 1), mape_holdout=round(mpo, 1))
         out[variety] = per
     hold = np.mean([out[v][s]["mape_holdout"] for v in out for s in SPEC])
+    n_bound = sum(out[v][s]["rate_at_boundary"] for v in out for s in SPEC)
     return dict(per_variety=out, mean_holdout_mape=round(float(hold), 1),
+                rate_domain=[round(float(rate_grid[0]), 2), round(float(rate_grid[-1]), 2)],
+                n_rate_at_boundary=n_bound,
                 strength="post-fit reconstruction (on-grid); 2-point off-grid holdout "
                          "= weak independent check",
-                note="~31% blind transfer gap decomposes: caffeine rate~1.0 (pure "
-                     "inventory; fitted c_s0 recovers angeloni Table 7), trigonelline "
-                     "rate~0.4 (genuine kinetic difference -- pannusch over-extracts). "
-                     "Post-refit holdout mostly single-digit; angeloni-calibrated "
-                     "pannusch is a NEW calibration, granulometry O only, 9-point fit.")
+                note="matched-mass (40 g) cups, exact weighted-median level, wide "
+                     "log rate domain. Refit is a NEW angeloni calibration (granulometry "
+                     "O only, 9-point fit); read the per-species rate/c_s0 as a valley "
+                     "point, NOT a mechanistic decomposition (see identifiability_panel). "
+                     "%d/%d fitted rates sit at the (widened) domain boundary." % (
+                         n_bound, len([1 for v in out for s in SPEC])))
 
 
 # per-granulometry flow, from the card's OWN fitted hydraulic conductivity k_r(p)
@@ -331,10 +372,11 @@ def joint_multigrind_fit():
 
     def frac(sp, rs, conds, gran):
         s = dict(sp); s["A1"] = sp["A1"] * rs; s["A2"] = sp["A2"] * rs; s["c_s0"] = 1.0
-        return np.array([float(ps.simulate_fractions(T, _flow_gran(p, T, gran),
-                        [0.0, 25.0], s, cl1=1.0)[0]) for T, p in conds])
+        return np.array([float(ps.simulate_fractions(
+                        T, _flow_gran(p, T, gran), _matched_bounds(_flow_gran(p, T, gran)),
+                        s, cl1=1.0)[0]) for T, p in conds])
 
-    rate_grid = np.linspace(0.4, 2.5, 8)
+    rate_grid = _RATE_DOMAIN
     out = {}
     for variety in ("Arabica", "Robusta"):
         per = {}
@@ -346,34 +388,26 @@ def joint_multigrind_fit():
                 conds = [(r["T_degC"], r["p_bar"]) for r in rows]
                 meas[g] = np.array([r[col] for r in rows])
                 pug[g] = {rs: frac(params[sol], rs, conds, g) for rs in rate_grid}
-            # (a) JOINT: one rate + one global c_s0 across pooled O+C+F
+            # (a) JOINT: one rate + one global c_s0 (EXACT weighted median) over O+C+F
             best = None
             for rs in rate_grid:
                 f_all = np.concatenate([pug[g][rs] for g in GRINDS])
                 m_all = np.concatenate([meas[g] for g in GRINDS])
-                grid = np.linspace(0.3, 3.0, 60) * float(np.median(m_all / f_all))
-                mp = [float(np.mean(np.abs(c * f_all - m_all) / m_all)) for c in grid]
-                i = int(np.argmin(mp))
-                if best is None or mp[i] < best[2]:
-                    cs0 = float(grid[i])
+                cs0, mp = _mape_level(f_all, m_all)
+                if best is None or mp < best[2]:
                     pg = {g: round(float(np.mean(np.abs(cs0 * pug[g][rs] - meas[g])
                                                 / meas[g]) * 100), 0) for g in GRINDS}
-                    best = (float(rs), cs0, mp[i] * 100.0, pg)
+                    best = (float(rs), cs0, mp, pg)
             rs_j, cs0_j, mape_j, pergrind_j = best
             # (b) per-grind INDEPENDENT best (the reference)
             indep = {}
             for g in GRINDS:
-                bg = None
-                for rs in rate_grid:
-                    f = pug[g][rs]
-                    grid = np.linspace(0.3, 3.0, 60) * float(np.median(meas[g] / f))
-                    mp = [float(np.mean(np.abs(c * f - meas[g]) / meas[g])) for c in grid]
-                    j = int(np.argmin(mp))
-                    if bg is None or mp[j] < bg:
-                        bg = mp[j]
-                indep[g] = round(bg * 100, 0)
+                bg = min(_mape_level(pug[g][rs], meas[g])[1] for rs in rate_grid)
+                indep[g] = round(bg, 0)
+            at_bound = bool(rs_j <= rate_grid[0] * 1.001 or rs_j >= rate_grid[-1] * 0.999)
             per[sol] = dict(
                 joint_rate=round(rs_j, 2), joint_c_s0=round(cs0_j, 1),
+                joint_rate_at_boundary=at_bound,
                 joint_pooled_mape=round(mape_j, 0), joint_per_grind_mape=pergrind_j,
                 independent_per_grind_mape=indep,
                 cost_of_sharing_pp=round(mape_j - float(np.mean(list(indep.values()))), 0))
@@ -382,16 +416,24 @@ def joint_multigrind_fit():
                             for v in out for s in SPEC]))
     indep_mean = float(np.mean([m for v in out for s in SPEC
                                 for m in out[v][s]["independent_per_grind_mape"].values()]))
+    n_bound = sum(out[v][s]["joint_rate_at_boundary"] for v in out for s in SPEC)
+    n_tot = len([1 for v in out for s in SPEC])
     return dict(per_variety=out,
                 mean_joint_pooled_mape=round(pooled, 0),
                 mean_independent_per_grind_mape=round(indep_mean, 0),
-                verdict="a SINGLE shared (c_s0, rate) fitted jointly to O+C+F is "
-                        "markedly worse than the per-grind independent fits (pooled "
-                        "~30% vs ~20%; every solute driven to the rate boundary), "
-                        "and the residual concentrates on the COARSE and FINE "
-                        "(extreme) grinds while the middle O stays best -> no shared "
-                        "inventory+rate transfers across grind (NEGATIVE validation, "
-                        "the real transfer test of ANALYSIS_transfer §5).")
+                joint_rate_domain=[round(float(_RATE_DOMAIN[0]), 2),
+                                   round(float(_RATE_DOMAIN[-1]), 2)],
+                n_joint_rate_at_boundary=n_bound, n_species_variety=n_tot,
+                verdict="matched-mass (40 g) cups, exact weighted-median level, wide "
+                        "log rate domain. A SINGLE shared (c_s0, rate) fitted jointly "
+                        "to O+C+F gives pooled MAPE %.0f%% vs %.0f%% for the per-grind "
+                        "independent fits (cost-of-sharing ~%.0f pp). Where a well-fit "
+                        "shared calibration existed, joint and per-grind would coincide; "
+                        "the gap shows NO ADEQUATE shared (inventory, rate) was found "
+                        "within the tested model/domain (NEGATIVE validation, the real "
+                        "transfer test of ANALYSIS_transfer §5). %d/%d rates at the "
+                        "widened domain boundary." % (
+                            pooled, indep_mean, pooled - indep_mean, n_bound, n_tot))
 
 
 def validate_refit_granulometry():
@@ -425,19 +467,17 @@ def validate_refit_granulometry():
 
     def frac(sp, rs, conds, gran):
         s = dict(sp); s["A1"] = sp["A1"] * rs; s["A2"] = sp["A2"] * rs; s["c_s0"] = 1.0
-        return np.array([float(ps.simulate_fractions(T, _flow_gran(p, T, gran),
-                        [0.0, 25.0], s, cl1=1.0)[0]) for T, p in conds])
+        return np.array([float(ps.simulate_fractions(
+                        T, _flow_gran(p, T, gran), _matched_bounds(_flow_gran(p, T, gran)),
+                        s, cl1=1.0)[0]) for T, p in conds])
 
-    def best_cs0(f, m):
-        grid = np.linspace(0.3, 3.0, 50) * float(np.median(m / f))
-        mp = [float(np.mean(np.abs(c * f - m) / m)) for c in grid]
-        i = int(np.argmin(mp)); return float(grid[i]), mp[i] * 100.0
+    best_cs0 = _mape_level                                # EXACT weighted-median (B3)
 
     def fit(variety, sol, gran):
         rows = sh(variety, gran); col = SPEC[sol]
         conds = [(r["T_degC"], r["p_bar"]) for r in rows]; m = np.array([r[col] for r in rows])
         best = None
-        for rs in np.linspace(0.4, 2.5, 8):
+        for rs in _RATE_DOMAIN:                            # wide log domain (B6)
             f = frac(params[sol], rs, conds, gran); cs0, mp = best_cs0(f, m)
             if best is None or mp < best[2]:
                 best = (float(rs), cs0, mp)
@@ -474,14 +514,16 @@ def identifiability_panel(variety="Arabica", solute="caffeine", n_rate=29, n_cs0
     """FORMAL identifiability panel for the (inventory c_s0, kinetic rate) whole-cup
     degeneracy (PAPER_A_DRAFT §4/§8 owed): quantifies the flat valley beyond the
     tabulated sweep. On the angeloni on-grid granulometry-O whole-cup points, build
-    the SSE objective over (rate_scale, c_s0) — c_s0 enters linearly so its axis is
-    cheap once the per-rate fraction predictions are solved — locate the minimum,
-    fit a local Hessian in RELATIVE parameters (u=rate/rate*, v=c_s0/c_s0*, so the
-    eigenvalues are dimensionless), and report:
+    the SSE objective over (rate_scale, c_s0) at the MATCHED 40 g cup endpoint (B1)
+    — c_s0 enters linearly so its axis is cheap once the per-rate fraction
+    predictions are solved — locate the minimum, fit a local Hessian in LOG
+    parameters (u=ln rate, v=ln c_s0; geomspace grids are uniform in log so the
+    finite differences are valid on the non-uniform rate axis, and log-params are
+    the standard sloppiness basis), and report:
 
-      - condition number kappa = lambda_max/lambda_min of the relative Hessian
+      - condition number kappa = lambda_max/lambda_min of the log-param Hessian
         (LARGE -> a sloppy, practically non-identifiable direction);
-      - the sloppy eigenvector (its components in (rate, c_s0) relative space —
+      - the sloppy eigenvector (its components in (ln rate, ln c_s0) space —
         expected to lie along the c_s0*phi=const valley);
       - the rate<->c_s0 correlation from the inverse Hessian (expected ~ +/-1);
       - the profile-likelihood interval on the rate: the fraction of the swept
@@ -501,10 +543,11 @@ def identifiability_panel(variety="Arabica", solute="caffeine", n_rate=29, n_cs0
             and r["granulometry"] == "O" and r["on_grid"] == "True"]
     conds = [(r["T_degC"], r["p_bar"]) for r in rows]
     m = np.array([r[col] for r in rows], float)
-    rates = np.linspace(0.4, 2.5, n_rate)
-    # per-unit-level fraction predictions f(rate): one PDE solve per rate
+    rates = np.geomspace(_RATE_DOMAIN[0], _RATE_DOMAIN[-1], n_rate)   # wide log (B6)
+    # per-unit-level fraction predictions f(rate): one PDE solve per rate, at the
+    # matched 40 g cup endpoint (B1)
     F = np.array([[float(ps.simulate_fractions(
-                    T, _flow_darcy(p, T), [0.0, 25.0],
+                    T, _flow_darcy(p, T), _matched_bounds(_flow_darcy(p, T)),
                     {**params[solute], "A1": params[solute]["A1"] * rs,
                      "A2": params[solute]["A2"] * rs, "c_s0": 1.0}, cl1=1.0)[0])
                    for T, p in conds] for rs in rates])            # (n_rate, n_cond)
@@ -514,13 +557,15 @@ def identifiability_panel(variety="Arabica", solute="caffeine", n_rate=29, n_cs0
     sse_prof = np.array([sse(c_star[i] * F[i]) for i in range(n_rate)])
     i0 = int(np.argmin(sse_prof))
     rate_star, cs0_star, sse_min = float(rates[i0]), float(c_star[i0]), float(sse_prof[i0])
-    # 2D SSE on (rate grid x c_s0 grid) around the minimum
-    cs0 = cs0_star * np.linspace(0.6, 1.4, n_cs0)
+    # 2D SSE on (rate grid x c_s0 grid) around the minimum. Both axes are
+    # GEOMETRIC (uniform in LOG), so the Hessian below is taken in LOG parameters
+    # u=ln(rate), v=ln(c_s0) with constant steps -- the standard sloppiness basis,
+    # and correct for the non-uniform (geomspace) rate grid.
+    cs0 = cs0_star * np.geomspace(0.55, 1.8, n_cs0)
     S = np.array([[sse(c * F[i]) for c in cs0] for i in range(n_rate)])
     j0 = int(np.argmin(np.abs(cs0 - cs0_star)))
-    # central-difference Hessian in RELATIVE params at (i0, j0)
-    du = (rates[1] - rates[0]) / rate_star            # rate step, relative
-    dv = (cs0[1] - cs0[0]) / cs0_star                 # c_s0 step, relative
+    du = float(np.log(rates[1] / rates[0]))           # log-rate step (uniform)
+    dv = float(np.log(cs0[1] / cs0[0]))               # log-c_s0 step (uniform)
     ii = min(max(i0, 1), n_rate - 2); jj = min(max(j0, 1), n_cs0 - 2)
     Suu = (S[ii + 1, jj] - 2 * S[ii, jj] + S[ii - 1, jj]) / du ** 2
     Svv = (S[ii, jj + 1] - 2 * S[ii, jj] + S[ii, jj - 1]) / dv ** 2
@@ -559,18 +604,20 @@ def identifiability_panel(variety="Arabica", solute="caffeine", n_rate=29, n_cs0
         rate_star=round(rate_star, 3), c_s0_star=round(cs0_star, 3),
         rate_optimum_at_sweep_boundary=rate_at_boundary,
         condition_number=round(kappa, 1), condition_number_note=kappa_note,
+        parameter_basis="log (u=ln rate, v=ln c_s0); matched-mass 40 g cups",
+        rate_domain=[round(float(rates[0]), 2), round(float(rates[-1]), 2)],
         hessian_eigenvalues=[round(lam_min, 4), round(lam_max, 4)],
         hessian_reliable=hessian_reliable,             # False -> use the profile below
-        sloppy_direction_rate_cs0=[round(float(x), 3) for x in sloppy],
+        sloppy_direction_lnrate_lncs0=[round(float(x), 3) for x in sloppy],
         rate_cs0_correlation=round(corr, 3), correlation_degenerate=corr_degenerate,
         profile_rate_within10pct=[round(lo, 2), round(hi, 2)],
         profile_fraction_of_range=round(frac_within, 2),
         verdict=("(c_s0, rate) is PRACTICALLY NON-IDENTIFIABLE from single-grind "
-                 "whole-cup data. %s The MODEL-FREE evidence is the profile: the "
-                 "SSE (optimised over c_s0) stays within 10%% of the minimum over "
-                 "%.0f%% of the swept rate range [%.2f, %.2f] -> the data do not "
-                 "bound the rate; and the best rate sits at %s."
-                 % (("Relative-Hessian condition number %.0f with rate<->c_s0 "
+                 "matched-mass whole-cup data. %s The MODEL-FREE evidence is the "
+                 "profile: the SSE (optimised over c_s0) stays within 10%% of the "
+                 "minimum over %.0f%% of the swept rate range [%.2f, %.2f] -> the data "
+                 "do not bound the rate; and the best rate sits at %s."
+                 % (("Log-parameter Hessian condition number %.0f with rate<->c_s0 "
                      "correlation %.2f (~ -1, the valley direction)."
                      % (kappa, corr)) if hessian_reliable else
                     ("The rate optimum is at the sweep boundary / the sloppy "
