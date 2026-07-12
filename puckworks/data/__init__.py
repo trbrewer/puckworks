@@ -509,3 +509,22 @@ def liquor_rheology():
     EXTRAPOLATION toward pure water. Espresso IS Newtonian. Rows keyed by
     'quantity' (numeric/form values live in the 'value_or_form' column)."""
     return {r["quantity"]: r for r in _rows(G10R / "liquor_rheology.csv")}
+
+
+# --- bruno2026 roasted chemistry (item 0.8; Sci. Rep. 16, 15857, CC BY 4.0) ---
+BRUNO = DATA_DIR / "bruno2026"
+
+
+def bruno_roasted_composition():
+    """Bruno 2026 Table 2 — four roasted single origins x ten compounds (mean, SD),
+    long format. DATA-ONLY (roasting is upstream of the registry; the ODE model is
+    NOT implemented, per the card). Serves the G6 / ledger-A4 SoluteInventory prior:
+    an INDEPENDENT measured roasted-chemistry reference set (mg/kg roasted powder;
+    lipids % w/w dry basis). n=3 per cell."""
+    return _rows(BRUNO / "bruno2026_roasted_composition.csv")
+
+
+def bruno_roasted_composition_wide():
+    """Bruno 2026 Table 2 in wide format (one row per compound; origin columns).
+    Same data as `bruno_roasted_composition`, convenience layout."""
+    return _rows(BRUNO / "bruno2026_roasted_composition_wide.csv")

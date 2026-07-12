@@ -120,11 +120,14 @@ artifact (a per-species SoluteInventory feeding extraction) that does not exist,
 coupling is an offline calibration chain, never runtime. Adapters needed: essentially a new stage.
 
 ## Extractable data
-- **Table 2 → data/bruno2026_roasted_composition.csv (worth doing).** Four roasted single origins
+- **Table 2 → INTAKEN 2026-07-12 → `data/bruno2026/bruno2026_roasted_composition.csv`**
+  (+ `_wide.csv`), loaders `bruno_roasted_composition` / `_wide`, MANIFEST row
+  `bruno2026/roasted_composition`, smoke test. Four roasted single origins
   (Mexico/Rwanda Arabica, Nicaragua/Indonesia Robusta) × {caffeine, 3,5-diCGA, 5-CGA, 3-CGA,
   trigonelline, ferulic, tartaric, citric, acetic [mg/kg]; lipids [% w/w]}, mean ± SD over three
   reps. This is exactly the multi-class acid/alkaloid/lipid inventory the extraction backlog asks
-  for, at the roasted-bean level.
+  for, at the roasted-bean level. Data-only (no component); an inventory PRIOR for G6/A4, never
+  Bruno-ODE → extraction. **Closes item 0.8.**
 - Table 1 → green-coffee literature ranges (Arabica/Robusta) for 12 species (% w/w); secondary
   (not this group's measurements), lower value.
 - Table 3 → five roast temperature markers × four coffees; roasting thermal profiles, transcribable

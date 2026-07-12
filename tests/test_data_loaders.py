@@ -308,3 +308,15 @@ def test_mo2023_2_coupled_bed():
     assert m["mass_balance_floor"] > 0.90        # mass-conserving
     assert m["within_bars"] >= 5                  # beats reduced 4/9
     assert m["shape_spread_pct"] < 60             # beats reduced 110%
+
+
+def test_bruno_roasted_composition():
+    r = pwdata.bruno_roasted_composition()
+    assert len(r) == 40                       # 10 compounds x 4 origins
+    compounds = {x["compound"] for x in r}
+    assert {"Caffeine", "Trigonelline", "Lipids"} <= compounds
+    cf = {x["origin"]: float(x["mean"]) for x in r if x["compound"] == "Caffeine"}
+    # card-anchored: Robusta (Nicaragua/Indonesia) ~2x Arabica (Mexico/Rwanda)
+    assert abs(cf["Mexico"] - 8491.40) < 0.01
+    assert cf["Nicaragua"] > 1.5 * cf["Mexico"]
+    assert pwdata.bruno_roasted_composition_wide()[0]["unit"] == "mg/kg"
