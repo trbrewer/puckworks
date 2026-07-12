@@ -418,22 +418,31 @@ def joint_multigrind_fit():
                                 for m in out[v][s]["independent_per_grind_mape"].values()]))
     n_bound = sum(out[v][s]["joint_rate_at_boundary"] for v in out for s in SPEC)
     n_tot = len([1 for v in out for s in SPEC])
+    cost = pooled - indep_mean
+    # data-driven verdict: a small cost-of-sharing means a shared calibration DOES
+    # transfer; only a large gap is a transfer failure (was mis-stated pre-B1).
+    if cost <= 3.0:
+        read = ("a single shared (c_s0, rate) fitted jointly to O+C+F transfers "
+                "REASONABLY -- pooled MAPE %.0f%% vs %.0f%% for the per-grind fits "
+                "(cost-of-sharing only ~%.0f pp). So a shared cross-grind calibration "
+                "exists at matched mass; the large apparent transfer failure in the "
+                "pre-correction (fixed-25s) analysis was mostly an unmatched-endpoint "
+                "artifact (review B1)." % (pooled, indep_mean, cost))
+    else:
+        read = ("a single shared (c_s0, rate) fitted jointly to O+C+F is markedly "
+                "worse than the per-grind fits (pooled %.0f%% vs %.0f%%, cost ~%.0f pp) "
+                "-> no adequate shared calibration within the tested domain."
+                % (pooled, indep_mean, cost))
     return dict(per_variety=out,
                 mean_joint_pooled_mape=round(pooled, 0),
                 mean_independent_per_grind_mape=round(indep_mean, 0),
+                cost_of_sharing_pp=round(cost, 0),
                 joint_rate_domain=[round(float(_RATE_DOMAIN[0]), 2),
                                    round(float(_RATE_DOMAIN[-1]), 2)],
                 n_joint_rate_at_boundary=n_bound, n_species_variety=n_tot,
                 verdict="matched-mass (40 g) cups, exact weighted-median level, wide "
-                        "log rate domain. A SINGLE shared (c_s0, rate) fitted jointly "
-                        "to O+C+F gives pooled MAPE %.0f%% vs %.0f%% for the per-grind "
-                        "independent fits (cost-of-sharing ~%.0f pp). Where a well-fit "
-                        "shared calibration existed, joint and per-grind would coincide; "
-                        "the gap shows NO ADEQUATE shared (inventory, rate) was found "
-                        "within the tested model/domain (NEGATIVE validation, the real "
-                        "transfer test of ANALYSIS_transfer §5). %d/%d rates at the "
-                        "widened domain boundary." % (
-                            pooled, indep_mean, pooled - indep_mean, n_bound, n_tot))
+                        "log rate domain: " + read + " %d/%d rates at the widened "
+                        "domain boundary." % (n_bound, n_tot))
 
 
 def validate_refit_granulometry():
@@ -445,15 +454,16 @@ def validate_refit_granulometry():
         no refit. If the fit is a transferable coffee property it should hold.
     (2) DEGENERACY: refit independently at O/C/F and compare the fitted knobs.
 
-    Finding (tempers the earlier refit): the O-fit does NOT transfer -- held-out
-    C/F MAPE ~25-35% (vs the ~7% same-granulometry O holdout). And the (rate_scale,
-    c_s0) split is DEGENERATE: both mostly move the LEVEL, so the fit is
-    under-determined -- the fitted rate flips across granulometry and across flow
-    maps (caffeine picked 1.0 under the darcy anchor, 0.4 under the tau anchor).
-    So the refit is a per-granulometry CURVE FIT (~17-25% post-fit), NOT a
-    transferable calibration, and the earlier 'caffeine=inventory /
-    trigonelline=kinetic' decomposition was over-interpreted. Strength: this is a
-    negative validation result. NOTE: ~150 s of PDE solves (slow)."""
+    Finding (CORRECTED at matched mass, review B1): the O-fit (level+rate PAIR)
+    transfers REASONABLY to the held-out grinds (held-out C/F MAPE ~3-18%), a large
+    improvement over the pre-correction fixed-25s result (~25-49%) which was mostly
+    an unmatched-endpoint artifact. This EMPIRICALLY illustrates the identifiability
+    lesson (review M1): the (rate_scale, c_s0) split is DEGENERATE WITHIN a grind
+    (the fitted rate flips across flow-map/domain; see identifiability_panel), yet
+    predictions along that compensating manifold stay stable across grind -- so
+    individual non-identifiability does NOT imply predictive non-transfer. The
+    earlier 'no shared calibration / caffeine=inventory / trigonelline=kinetic'
+    reading was an over-interpretation of the endpoint artifact. NOTE: slow."""
     import numpy as np
     from puckworks.models.pannusch2024 import solver as ps
     from puckworks import data as d
@@ -502,12 +512,20 @@ def validate_refit_granulometry():
                 degeneracy[sol] = {g: (lambda b: dict(rate=round(b[0], 1),
                                    c_s0=round(b[1], 1), mape=round(b[2], 0)))(
                                    fit("Arabica", sol, g)) for g in ("O", "C", "F")}
+    hc = [t["heldout_C"] for t in transfer.values()]
+    hf = [t["heldout_F"] for t in transfer.values()]
     return dict(transfer=transfer, degeneracy_arabica=degeneracy,
-                verdict="O-refit does NOT transfer to C/F (held-out ~25-35% vs "
-                        "same-grind O holdout ~7%); (rate_scale,c_s0) split is "
-                        "DEGENERATE (rate flips across grind/flow-map) -> per-"
-                        "granulometry curve fit, NOT a transferable calibration; "
-                        "earlier inventory-vs-kinetic decomposition over-read.")
+                heldout_C_range=[min(hc), max(hc)], heldout_F_range=[min(hf), max(hf)],
+                verdict="At MATCHED 40 g cups the O-refit transfers REASONABLY to the "
+                        "held-out grinds (held-out C ~%.0f-%.0f%%, F ~%.0f-%.0f%%, vs the "
+                        "same-grind O fit ~2-12%%) -- a large improvement over the "
+                        "pre-correction fixed-25s result (~25-49%%), which was mostly "
+                        "an unmatched-endpoint artifact (review B1/B5). The (rate,c_s0) "
+                        "split remains DEGENERATE within a grind (the rate flips across "
+                        "flow-map/domain; see identifiability_panel) -- so the fitted "
+                        "rate is not a mechanistic estimate even though the level+rate "
+                        "PAIR predicts other grinds well." % (
+                            min(hc), max(hc), min(hf), max(hf)))
 
 
 def identifiability_panel(variety="Arabica", solute="caffeine", n_rate=29, n_cs0=41):

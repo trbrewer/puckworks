@@ -21,13 +21,21 @@ limit** that is easy to mistake for a successful transfer. Fitting the model's
 two adjustable knobs — a per-species solid **inventory** `c_s0` and a Sherwood
 mass-transfer **rate** scale — to whole-cup concentrations at a single grind
 gives an excellent held-out error (~7 %). But the fit is **degenerate**: over a
-6× range of the rate scale the error is essentially flat (16.2–18.8 %) while the
-inventory silently compensates, so the two are not separately identifiable from
-single-grind, whole-cup data. The apparent "the caffeine gap is inventory, the
-trigonelline gap is kinetics" decomposition is an artifact of where one lands on
-this flat valley, and the calibration **does not transfer across grind**
-(held-out coarse/fine error 25–49 %). The result is a cautionary methodological
-point for cross-dataset extraction-model validation.
+6× range of the rate scale the error is essentially flat while the inventory
+silently compensates, so the two are not separately identifiable from single-grind
+endpoint data (matched-mass log-Hessian condition number ~10³, correlation ~−1). The
+apparent "the caffeine gap is inventory, the trigonelline gap is kinetics"
+decomposition is an artifact of where one lands on this flat valley. **However — and
+correcting an earlier version of this note — the calibration DOES transfer across
+grind once cups are matched to the target beverage mass** (held-out coarse/fine
+~3–18 %; a shared joint fit is pooled ~6 % vs ~5 % per-grind). The earlier "25–49 %,
+does not transfer" reading was an artifact of an unmatched fixed-25 s integration
+window. So **identifiability and predictive transfer diverge here**: the parameters
+are individually non-identifiable, yet the level+rate pair predicts across grind —
+the cautionary methodological point is that endpoint accuracy, identification, and
+transfer are distinct, and matching the beverage endpoint is a prerequisite. *(§3–§4
+below retain the pre-correction numbers pending a full rewrite; the corrected
+manuscript is `PAPER_A_DRAFT.md`.)*
 
 ## 1. Setup
 
