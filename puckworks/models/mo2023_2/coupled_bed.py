@@ -46,9 +46,15 @@ def _deff():
 
 
 def simulate_bed(powder, q_mL_s, dose_g=None, t_end=40.0, N_z=14, M=8,
-                 K=K_PART, eps_b=EPS_B, n_save=120):
+                 K=K_PART, eps_b=EPS_B, n_save=120, filling_front=False):
     """Depth-resolved fixed-flow extraction. Returns t, beverage_mass(t) [g],
-    yield_frac(t) (eluted / extractable inventory), strength(t) (eluted conc)."""
+    yield_frac(t) (eluted / extractable inventory), strength(t) (eluted conc).
+
+    filling_front (card Eqs 29-30): a plug-flow dry->wet fill from the top at the
+    pore velocity dz_f/dt = q/(eps_b A) (LINEAR front, the fixed-flow analog of
+    foster2025.infiltration's fixed-pressure sqrt-time sharp front -- same
+    infiltration<->extraction coupling family, different driving). Cells below
+    the front are dry: their grains do not extract until wetted."""
     row = {r["powder"]: r for r in _d.mo2_granulometry()}[powder]
     tf, tc = row["theta_f"], row["theta_c"]
     Rf, Rc = row["2R_f_um"] / 2e6, row["2R_c_um"] / 2e6
@@ -67,6 +73,8 @@ def simulate_bed(powder, q_mL_s, dose_g=None, t_end=40.0, N_z=14, M=8,
     n_per_vol = (1.0 - eps_b) * theta / Vgrain
     xi = np.linspace(0.0, 1.0, M + 1); dxi = 1.0 / M
     Ng = len(R)
+    v_fill = Q / (eps_b * A)                            # front speed dz_f/dt (m/s)
+    z_center = (np.arange(N_z) + 0.5) * dz              # cell centres
     # state: u = xi*C_s for interior nodes 1..M-1 per grain (C_s0=1 normalized) + c_b[N_z]
     nU = Ng * (M - 1)
 
@@ -90,6 +98,11 @@ def simulate_bed(powder, q_mL_s, dose_g=None, t_end=40.0, N_z=14, M=8,
         Cn2 = full[:, M - 2] / xi[M - 2]
         dCdxi_R = (3.0 * Cn - 4.0 * Cn1 + Cn2) / (2.0 * dxi)
         flux = -Deff * 4.0 * np.pi * R * dCdxi_R        # >0 leaving the grain
+        if filling_front:                                # dry cells (ahead of z_f) don't extract
+            z_f = min(v_fill * t, L)
+            wet = (z_center[zidx] < z_f).astype(float)
+            flux = flux * wet
+            du = du * wet[:, None]                        # freeze grain diffusion when dry
         src_grain = n_per_vol * flux                    # per grain-type, per bed volume
         # sum fine+coarse source into each layer
         src = np.zeros(N_z)
@@ -106,7 +119,11 @@ def simulate_bed(powder, q_mL_s, dose_g=None, t_end=40.0, N_z=14, M=8,
     c_out = sol.y[nU + N_z - 1, :]                       # outlet layer concentration
     t = sol.t
     elut = np.concatenate([[0.0], np.cumsum(0.5 * (c_out[1:] + c_out[:-1]) * np.diff(t)) * Q])
-    vol = Q * t
+    # CUP beverage lags the pumped water by the bed dead volume when a filling
+    # front is on (that water fills the puck and never reaches the cup); the
+    # outlet only flows after the front reaches the bottom at t_fill.
+    t_fill = (eps_b * A * L / Q) if filling_front else 0.0
+    vol = Q * np.maximum(t - t_fill, 0.0)                # volume out of the CUP
     inv = (1.0 - eps_b) * A * L                          # grain solute content (C_s0=1 over grain)
     yield_frac = elut / inv
     strength = np.divide(elut, vol, out=np.zeros_like(elut), where=vol > 0)
