@@ -159,14 +159,21 @@ in an exploratory section or appendix — NOT "ready, only Fig 5 remaining".)*
   and EY response now at the SAME pressure (the earlier 9-bar-flow/5-bar-EY mismatch
   is fixed → 15.1%→2.4%). A homogenizing regularizer (a proxy, not a transverse-
   Darcy term) suppresses it.
-- **Not established (do not claim):** unconditional instability (no sweep over
-  grind/pressure/closure-slope/flow-vs-pressure control/tube count/clock; no
-  stability theorem); that lateral pressure equalization specifically is the cure.
-- **Work list before this is a headline (review §7):** derive a physical lateral-
-  exchange model; linear-stability analysis about uniform flow; a phase diagram
-  over the parameters above; alternative clocks + donor-uncertainty; converged
-  integration; single-tube/effective-channel metrics (done); distinguish model
-  instability from experimentally-observed channeling.
+- **Stability analysis — DONE** (`ntube_stability_analysis`, validation/slow).
+  Closed form: a perturbation's amplification is the conductance ratio
+  **A = (M(φ_max)/M(φ_0))^(1−lateral)** — poroelastic A≈10¹² (unstable, M→0 at the
+  near-choke shutoff), CK A≈1.5 (stable); the numerics match (N_eff→1 vs 83). The
+  latch is the analytical instability, not an artifact.
+- **Flow- vs pressure-control — DONE.** The latch is **flow-control-specific**
+  (fixed total → stealing → N_eff→1); under pressure control (independent tubes)
+  there is **no latch** (N_eff≈84). It is a pump/flow-controlled phenomenon.
+- **Phase diagram — DONE** (grind × lateral × control). The only latching region
+  is flow-control with zero lateral coupling; any lateral ≥0.3 **or** pressure
+  control keeps N_eff ≫ 1.
+- **Still card-blocked / not claimed:** the lateral term is a homogenizing PROXY,
+  not a physical transverse-Darcy exchange; a *registered* lateral-coupling model
+  needs a card (rule 1). Remaining review items: alternative clocks +
+  donor-uncertainty; the physical exchange closure; experimental channeling.
 - **Fig 5** — a **stability map** (phase boundary vs lateral conductance and
   near-choke sensitivity; flow- vs pressure-control; N_eff/max-share;
   convergence/tube-count checks; representative trajectories), not three curves.
@@ -203,7 +210,7 @@ in an exploratory section or appendix — NOT "ready, only Fig 5 remaining".)*
 | Result 2 9-bar ladder | **amber** | narrow to tested nulls/window; expose same-rig soft circularity |
 | Cross-pressure | **amber** | report the completed regime-dependent result; stop calling it pending/fully-independent |
 | Coupled κ(t) / Fig 4 | **fixed** (was red) | use shared-porosity component; report the failed composite; card status corrected |
-| Result 3 (N-tube) | **red/amber exploratory** | pressure fix (done); physical lateral model; stability analysis + parameter sweep |
+| Result 3 (N-tube) | **amber exploratory** | ✅ pressure fix + metrics + stability analysis + flow/pressure regime + phase diagram; still: physical lateral model (card-blocked), alt clocks/donor-uncertainty, experimental channeling |
 | Registry Methods | **amber** | correct universal-gate claim (done in §2); add observable/unit contracts; pin a commit |
 | Related work / novelty | **red** | complete before claiming no prior head-to-head comparison |
 | Figures | **red** | generate only after the analyses above; render none yet |
@@ -222,8 +229,10 @@ in an exploratory section or appendix — NOT "ready, only Fig 5 remaining".)*
    shared-porosity component's failed composite (done 2026-07-12).
 4. **Rewrite Result 2 prose** around its actual evidence: the 9-bar ladder, soft
    circularity, and the completed regime-dependent cross-pressure.
-5. **Repair + deepen Result 3**: ✅ pressure fix + proper metrics done; still need a
-   physical lateral-coupling model + a linear-stability analysis + a phase diagram.
+5. **Repair + deepen Result 3**: ✅ pressure fix + proper metrics + ✅ linear-
+   stability analysis (A = conductance ratio) + ✅ flow-vs-pressure regime + ✅
+   phase diagram (done 2026-07-12, validation/slow). Still card-blocked: a
+   *physical* lateral-coupling model (needs a card, rule 1).
 6. **Only then** generate figures, write the abstract, complete related work; pin
    the exact commit for every manuscript number.
 

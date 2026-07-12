@@ -227,13 +227,35 @@ an artifact:
 
 **Reading (scoped).** In this tested near-choke configuration, the
 parallel-non-exchanging streamtube ensemble concentrates flow into one channel
-once κ evolves — motivating a physically-derived lateral-coupling model. What is
-NOT established: unconditional instability (no parameter sweep over grind /
-pressure / closure-slope / flow-vs-pressure control / tube count / clock; no
-linear-stability theorem), and that lateral pressure equalization specifically is
-the cure. Those are the open gap **G-lat** (§4) and the Result-3 work list. The
-static streamtube ensemble remains the right tool for the *time-averaged* grind
-response; this dynamic upgrade is diagnostic/exploratory only.
+once κ evolves — motivating a physically-derived lateral-coupling model.
+
+**Deepening — linear stability, control regime, phase diagram** (2026-07-12;
+`harness.ntube_stability_analysis` + `validation/slow/ntube_stability.py`). The
+review's Result-3 work list, now largely done:
+- **Linear-stability (closed form).** Around the uniform state a perturbation's
+  amplification over the shot is the end-to-start conductance ratio
+  **A = (M(φ_max)/M(φ_0))^(1−lateral)**. For poroelastic, M→0 at the near-choke
+  shutoff so **A ≈ 10¹² (linearly UNSTABLE)**; for Kozeny–Carman **A ≈ 1.5
+  (STABLE)**. The numerics confirm it (N_eff→1.0 vs 83). So the "single-channel
+  latch" is not an artifact — it is the analytical instability, and the closure
+  sensitivity P2 required is exactly what makes A diverge.
+- **Control regime.** The latch is **specific to FLOW control** (fixed total flow
+  shared → a fast tube steals → latch, N_eff→1.0). Under **PRESSURE control**
+  (fixed Δp, independent tubes, no fixed pie) there is **no latch** (N_eff≈84,
+  max single-tube 0.04). The instability is a pump/flow-controlled (schmieder/DE1)
+  phenomenon, not a pressure-controlled one.
+- **Phase diagram** (N_eff over grind × lateral × control, poroelastic). The
+  **only** latching region is *flow control with zero lateral coupling* (N_eff→1
+  at every grind — the latch is closure-driven, not heterogeneity-driven). Any
+  lateral coupling ≥0.3 **or** pressure control keeps the ensemble distributed
+  (N_eff ≫ 1). So even modest lateral coupling breaks the latch.
+
+**Still open (honest):** the lateral term is a homogenizing PROXY, not a physical
+transverse-Darcy exchange, and a *registered* lateral-coupling component is
+card-blocked (rule 1). Gap **G-lat** now has an analytical stability criterion and
+a phase map, but still needs a physical exchange closure (a card) to become a
+model. The static streamtube ensemble remains the right tool for the
+*time-averaged* grind response; this dynamic upgrade is diagnostic/exploratory.
 
 ---
 

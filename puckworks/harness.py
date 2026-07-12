@@ -811,7 +811,7 @@ def cross_pressure_discrimination(window=(15.0, 95.0)):
 # --- N-tube kappa(t) union: streamtube channeling x coupled_kappa_t per-tube --
 def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
                         closure="poroelastic", lateral=0.0, substeps=8,
-                        compute_ey=True):
+                        compute_ey=True, control="flow"):
     """EXPLORATORY SYNTHESIS harness (qualitative). Fuses the two P3/P2 winners:
     the streamtube channeling ensemble (P3 verdict: static channeling is the
     unique physical reproducer of the fine-grind dip) and the coupled_kappa_t
@@ -875,6 +875,11 @@ def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
     Mofphi = lambda ph: np.clip(M(np.clip(ph, 0.0, phi_max)), 1e-12, None)
 
     # integrate the coupled throughput-clock ODE (Euler, substepped per interval)
+    # control='flow' (fixed total, tubes SHARE a fixed pie -> a faster tube STEALS):
+    #   w = g / mean(g)  (unit-mean; current mean).
+    # control='pressure' (fixed dP, tubes INDEPENDENT -> total flow can grow, no
+    #   stealing): w = g / mean(g0)  (normalized to the INITIAL mean reference).
+    g0bar = float(np.mean(k0 * Mofphi(Phi(np.zeros(N)))))
     tau = np.zeros(N)
     top = max(1, N // 10)
     top_share, max_share, n_eff = [], [], []
@@ -883,7 +888,8 @@ def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
         dt = (t[i] - t[i - 1]) / substeps
         for _ in range(substeps):
             g = k0 * Mofphi(Phi(tau))
-            w = g / float(np.mean(g))                      # unit-mean flow share
+            ref = float(np.mean(g)) if control == "flow" else g0bar
+            w = g / ref
             if lateral:
                 w = (1.0 - lateral) * w + lateral          # homogenizing proxy
             tau = tau + w * dt
@@ -910,6 +916,7 @@ def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
     concentrates = bool(top_share[-1] > 0.90 and not self_limiting)
     return dict(
         gs=gs, sigma=sigma, N=N, closure=closure, lateral=lateral, P_bar=P_bar,
+        control=control,
         top_decile_share_static=float(top_share[0]),      # t~0, phi~0 (== static)
         top_decile_share_peak=float(top_share[j_peak]),
         top_decile_share_final=float(top_share[-1]),
@@ -933,6 +940,56 @@ def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
                     ("self-limiting" if self_limiting else "bounded/stable"),
                     "drops" if ey_dyn < ey_static else "holds",
                     ey_static, ey_dyn, P_bar)))
+
+
+def ntube_stability_analysis(P_bar=9.0):
+    """LINEAR-stability analysis of the N-tube concentration around the uniform
+    state (Result-3 deepening the review asked for). Closed form + numerical
+    cross-check. Exploratory / qualitative.
+
+    Around the uniform state (all tubes identical, w_i=1), perturb one tube's
+    extraction age by dtau. Its conductance is g = k0*M(phi), phi=Phi(tau); the
+    growth of the perturbation obeys
+        d ln(dtau)/dt = (1-lateral) * d ln M / dt
+    (fixed-flow; the homogenizer scales the feedback by (1-lateral)). Integrating
+    over the shot, the LINEAR amplification of a perturbation is
+        A = ( M(phi_max) / M(phi_0) ) ** (1 - lateral)
+    -- the end-to-start CONDUCTANCE RATIO. This is the analytical origin of the
+    numerical latch: for the POROELASTIC closure M(phi_0)->0 at the near-choke
+    shutoff, so A diverges (linearly UNSTABLE, unbounded amplification); for the
+    gentle Kozeny-Carman closure A ~ 1.5 (STABLE). The classification (A>>1 vs
+    A~1) is robust to the shutoff floor. A homogenizing lateral term reduces the
+    EXPONENT (1-lateral) and its additive floor caps the realized concentration.
+
+    Returns the closed-form A per closure (+ log10), the stability classification,
+    and a numerical cross-check (N_eff_final from an actual ntube run) confirming
+    poroelastic latches (N_eff->~1) while CK stays bounded."""
+    from puckworks.models.brewer2026 import coupled_kappa_t as _ck
+    r = _ck.simulate(P_bar=P_bar, branches=("extraction",))
+    phi = r["phi"]["extraction"]
+    o = np.argsort(phi)
+    out = {}
+    for name, cond in (("poroelastic", r["Q"]), ("ck", r["kappa_ck"])):
+        c = np.clip(np.asarray(cond)[o], 1e-12, None)
+        M0, Mf = float(c[0]), float(c[-1])
+        A = Mf / M0
+        num = ntube_kappa_t_union(gs=1.1, N=150, closure=name, compute_ey=False)
+        out[name] = dict(M_phi0=M0, M_phimax=Mf, amplification_A=A,
+                         log10_A=float(np.log10(A)),
+                         unstable=bool(A > 1e2),          # A>>1 -> linearly unstable
+                         n_eff_final_numeric=round(num["n_eff_channels_final"], 2),
+                         concentrates_numeric=num["concentrates"])
+    return dict(
+        closures=out,
+        verdict=("linear amplification A = (M(phi_max)/M(phi_0))^(1-lateral): "
+                 "poroelastic A~%.1e (log10 %.1f) -> UNSTABLE (M->0 at the "
+                 "near-choke shutoff; numeric N_eff->%.1f, latches), CK A=%.2f -> "
+                 "STABLE (numeric N_eff=%.0f, bounded). The closed form is the "
+                 "analytical origin of the numerical single-channel latch and its "
+                 "closure-dependence; lateral coupling reduces the exponent (1-lat)."
+                 % (out["poroelastic"]["amplification_A"], out["poroelastic"]["log10_A"],
+                    out["poroelastic"]["n_eff_final_numeric"],
+                    out["ck"]["amplification_A"], out["ck"]["n_eff_final_numeric"])))
 
 
 # --- G4 temperature sensitivity: two independent closures + schmieder datum ---
