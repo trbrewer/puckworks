@@ -64,15 +64,29 @@ def fig1_result1(outdir=OUTDIR_DEFAULT):
     t = h.schmieder_interior_max_target()
     p = t["primary"]
     dials = np.array(p["grinds"]); ey = np.array(p["ey_means"]); err = np.array(p["ey_stds"])
-    # RSM EY curve over the dial range (shape only; overpredicts absolute -> normalized)
-    r = {(x["component"], x["brew_ratio"]): x for x in __import__(
-        "puckworks.data", fromlist=["schmieder_rsm"]).schmieder_rsm()}[("TDS", t["center"]["brew_ratio"])]
+    # RSM EY curve over the dial range: REFIT to the committed observations (the
+    # PRINTED Table-3 coefficients are rounded and cannot reconstruct the absolute
+    # level -- the earlier "overpredicts 1.7x" was a rounding artifact). The refit
+    # sits near the data (~3.9 g); we plot it for the SHAPE (concavity/vertex).
+    import numpy as _np
+    from puckworks import data as _d
     fl, tp = t["center"]["flow_ml_s"], t["center"]["temp_C"]
+    obs = []
+    comp = "TDS"
+    for x in _d.schmieder_cup_masses():
+        if x.get("component") != comp or x.get("brew_ratio") != t["center"]["brew_ratio"]:
+            continue
+        try:
+            obs.append((float(x["target_flow_ml_s"]), float(x["grind_level"]),
+                        float(x["target_temp_C"]), float(x["mass_in_cup"])))
+        except (TypeError, ValueError):
+            continue
+    O = _np.asarray(obs, float); Fo, Go, To, yo = O[:, 0], O[:, 1], O[:, 2], O[:, 3]
+    Xo = _np.column_stack([_np.ones_like(Fo), Fo, Go, To, Go**2, To**2, Fo*Go])
+    cf, *_ = _np.linalg.lstsq(Xo, yo, rcond=None)
     gg = np.linspace(1.4, 2.0, 60)
-    mcup = (r["beta0"] + r["beta1"]*fl + r["beta2"]*gg + r["beta3"]*tp + r["beta4"]*fl**2
-            + r["beta5"]*gg**2 + r["beta6"]*tp**2 + r["beta7"]*fl*gg + r["beta8"]*fl*tp + r["beta9"]*gg*tp)
-    rsm_ey = mcup / p["dose_g"] * 100.0
-    rsm_ey = rsm_ey - rsm_ey.mean() + ey.mean()          # de-mean: RSM is SHAPE-only (overpredicts 1.7x)
+    Xg = _np.column_stack([_np.ones_like(gg), fl+0*gg, gg, tp+0*gg, gg**2, (tp**2)+0*gg, fl*gg])
+    rsm_ey = (Xg @ cf) / p["dose_g"] * 100.0             # refit cup mass -> EY
     vtx = p["rsm"]["vertex_dial"]
 
     ch = h.channeling_sigma_sweep(gs_grid=np.linspace(1.0, 2.2, 7), s_ref=0.6, m=1.0, p_bar=5.0, n_grid=7)
@@ -80,7 +94,7 @@ def fig1_result1(outdir=OUTDIR_DEFAULT):
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8.2, 3.4))
     ax1.errorbar(dials, ey, yerr=err, fmt="o", color=INK, capsize=3, ms=6,
                  label="measured TDS-EY (raw cells)", zorder=3)
-    ax1.plot(gg, rsm_ey, color=ACCENT, lw=1.8, label="schmieder RSM (shape only)")
+    ax1.plot(gg, rsm_ey, color=ACCENT, lw=1.8, label="RSM refit (shape; printed coeffs rounded)")
     ax1.axvline(vtx, color=WARN, ls=":", lw=1.4)
     ax1.annotate("RSM vertex %.2f (adj-R² %.2f)" % (vtx, p["rsm"]["adj_r2"]),
                  (vtx, 0.98), xycoords=("data", "axes fraction"),

@@ -17,7 +17,7 @@ render functions, per the CLAUDE.md optional-dependency rule); rendering needs t
 ## The figures
 - **fig1_result1_tds_ey** — Result 1. (a) measured TDS-EY vs dial (monotone raw
   cells) + schmieder's own RSM EY curve (weak interior vertex 1.75, adj-R² 0.64,
-  **shape only** — the RSM overpredicts absolute cup mass ~1.7×); (b) the
+  **shape only** — the printed RSM coefficients are rounded, so a refit is used for the curve; the earlier "overpredicts ~1.7×" was a rounding artifact); (b) the
   channeling model's ensemble EY on its *own* (non-portable) dial axis — generates
   an interior max, but fragile (40% of the σ-closure grid) and weak.
   → *model capacity, not identification.*

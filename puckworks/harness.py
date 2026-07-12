@@ -394,9 +394,10 @@ def schmieder_grind_response(component, brew_ratio, temp_C, flow_ml_s):
     if grinds != [1.4, 1.7, 2.0]:
         return None
     means = [float(np.mean(byg[g])) for g in grinds]
-    stds = [float(np.std(byg[g])) for g in grinds]
+    stds = [float(np.std(byg[g])) for g in grinds]           # ddof=0 (descriptive)
     ns = [len(byg[g]) for g in grinds]
     return dict(grinds=grinds, means=means, stds=stds, ns=ns,
+                replicates=[list(map(float, byg[g])) for g in grinds],
                 units=(units.pop() if units else None))
 
 
@@ -449,11 +450,12 @@ def schmieder_tds_ey(brew_ratio, temp_C, flow_ml_s, dose_g=SCHM_DOSE_G):
         return None
     ey_means = [m / dose_g * 100.0 for m in raw["means"]]
     ey_stds = [s / dose_g * 100.0 for s in raw["stds"]]
+    ey_reps = [[m / dose_g * 100.0 for m in cell] for cell in raw["replicates"]]
     lead = ey_means[1] - max(ey_means[0], ey_means[2])
-    noise = (float(np.mean(ey_stds)) or 1e-9)
+    within = (float(np.mean(ey_stds)) or 1e-9)         # DESCRIPTIVE within-cell std
     return dict(grinds=raw["grinds"], ey_means=ey_means, ey_stds=ey_stds,
-                ns=raw["ns"], dose_g=dose_g, units="EY_%",
-                raw_prominence=lead / noise,           # scale-invariant
+                ey_replicates=ey_reps, ns=raw["ns"], dose_g=dose_g, units="EY_%",
+                raw_prominence=lead / within,          # scale-invariant, descriptive
                 raw_interior=bool(lead > 0),
                 rsm=rsm)                                # concavity/vertex (unit-free)
 
@@ -675,41 +677,90 @@ def channeling_interior_max_sensitivity(gs_grid=None,
                      next((c["prominence"] for c in pressure_sweep if c["p_bar"] == 9.0), float("nan")))))
 
 
+def schmieder_rsm_refit(component="tds", brew_ratio="1/2"):
+    """Refit schmieder's Eq.4 RSM to the COMMITTED cup-mass observations (same
+    retained terms as the printed Table-3 row), to separate a real model level
+    from a PRINTED-PRECISION artifact. The published coefficients are rounded (the
+    T² coefficient to 3 decimals), and with T²~7921 that rounding shifts the
+    absolute prediction by several grams -- so evaluating the printed row literally
+    is NOT the fitted curve. Returns the refit central-point prediction (which
+    reproduces the data ~3.9 g), the printed-coefficient central prediction (~6.7 g,
+    an artifact), and the raw central cell mean. Reading: use the RSM for SHAPE
+    (concavity/vertex, robust to the offset), NOT absolute magnitude -- because the
+    printed coefficients lack the precision for absolute reconstruction, NOT because
+    the source model is wrong."""
+    from puckworks import data as _d
+    comp = _SCHM_COMPONENT.get(component.lower(), component)
+    rows = _d.schmieder_cup_masses()
+    obs = []
+    for r in rows:
+        if r.get("component") != comp or r.get("brew_ratio") != brew_ratio:
+            continue
+        F, G, T, y = (_f_num(r.get("target_flow_ml_s")), _f_num(r.get("grind_level")),
+                      _f_num(r.get("target_temp_C")), _f_num(r.get("mass_in_cup")))
+        if None in (F, G, T, y):
+            continue
+        obs.append((F, G, T, y))
+    o = np.asarray(obs, float)
+    F, G, T, y = o[:, 0], o[:, 1], o[:, 2], o[:, 3]
+    # retained terms (TDS 1/2 printed): 1, F, G, T, G^2, T^2, FG (beta4/8/9 = 0)
+    X = np.column_stack([np.ones_like(F), F, G, T, G ** 2, T ** 2, F * G])
+    coef, *_ = np.linalg.lstsq(X, y, rcond=None)
+    fl, tp, g = _SCHM_CENTER["flow_ml_s"], _SCHM_CENTER["temp_C"], 1.7
+    xc = np.array([1, fl, g, tp, g ** 2, tp ** 2, fl * g])
+    refit_pred = float(xc @ coef)
+    # printed rounded-coefficient evaluation (the artifact)
+    pr = {(r["component"], r["brew_ratio"]): r for r in _d.schmieder_rsm()}[
+        ("TDS" if comp == "TDS" else comp.capitalize(), brew_ratio)]
+    printed_pred = float(pr["beta0"] + pr["beta1"] * fl + pr["beta2"] * g + pr["beta3"] * tp
+                         + pr["beta4"] * fl ** 2 + pr["beta5"] * g ** 2 + pr["beta6"] * tp ** 2
+                         + pr["beta7"] * fl * g + pr["beta8"] * fl * tp + pr["beta9"] * g * tp)
+    raw_central = float(np.mean([v for FF, GG, TT, v in obs
+                                 if FF == fl and GG == g and TT == tp]))
+    return dict(n_obs=len(obs), refit_central_g=refit_pred,
+                printed_central_g=printed_pred, raw_central_g=raw_central,
+                printed_is_artifact=bool(abs(printed_pred - raw_central) > 1.0
+                                         and abs(refit_pred - raw_central) < 0.5))
+
+
 def result1_magnitude_comparison():
     """Result-1 MAGNITUDE comparison (review ask): is the channeling interior-max
-    bump the same SIZE as the schmieder interior-max bump? All in EY-points.
+    bump the same SIZE as the schmieder interior-max feature? All in EY-points, on
+    the MEASURED cells.
 
     Three sides, kept honest:
-      - RAW target (measured, trustworthy): TDS-EY at the fixed central condition
-        (18.3/19.4/19.6 %), its interior 'bump' = middle - max(endpoints), and the
-        replicate NOISE floor (per-cell EY std).
-      - MODEL: channeling ensemble EY prominence at the calibrated closure, at
-        5 bar and 9 bar (two `channeling_sigma_sweep` calls).
-      - RSM caveat: schmieder's fitted RSM absolute cup mass vs the raw cells --
-        it OVERPREDICTS ~1.7x (6.7 vs 3.9 g; its β6·temp² term alone exceeds the
-        whole cup mass), so the RSM is a SHAPE tool (vertex/concavity), NOT an
-        absolute-magnitude one (the card's own 'order-of-magnitude only' caveat).
+      - RAW target: TDS-EY at the fixed central condition (18.3/19.4/19.6 %); the
+        middle-vs-higher-endpoint CONTRAST with a Welch t 95% CI (replicate-level).
+        The raw response is monotone (contrast <0) -- no formal noise-floor claim.
+      - MODEL: channeling ensemble EY prominence at the calibrated closure (5 & 9
+        bar); reported vs the descriptive within-cell replicate variation, NOT a
+        formal minimum-detectable-effect.
+      - RSM PRECISION note (CORRECTED 2026-07-12): schmieder's printed Table-3
+        coefficients are ROUNDED (T² to 3 decimals) and cannot reconstruct the
+        absolute level -- literal evaluation gives ~6.7 g, but a REFIT to the
+        committed observations gives ~3.9 g, near the data (`schmieder_rsm_refit`).
+        So the RSM is a SHAPE tool because of printed rounding, NOT because it
+        'overpredicts 1.7x' (that earlier claim was a rounding artifact; removed).
 
-    Reading (see verdict): the RAW data shows NO interior bump (slightly negative,
-    monotone), and the MODEL bump (~0.03-0.19 EY-pt) is BELOW the raw replicate
-    noise floor -- so there is no strong peak on either side to match or miss.
-    Neither over-predicts. Confirms model-capacity-not-identification; the
-    title/abstract cannot rest on a channeling peak. Strength: qualitative."""
-    from puckworks import data as _d
-    # RAW target side (fast; measured)
+    Reading (verdict): the RAW response is monotone; the MODEL bump (~0.03-0.19
+    EY-pt) is small relative to the within-cell replicate variation, but no formal
+    MDE analysis is claimed. Neither side has a strong peak to match/miss ->
+    model-capacity, not identification. Strength: qualitative."""
     ey = schmieder_tds_ey(_SCHM_CENTER["brew_ratio"], _SCHM_CENTER["temp_C"],
                           _SCHM_CENTER["flow_ml_s"])
     raw_bump = float(ey["ey_means"][1] - max(ey["ey_means"][0], ey["ey_means"][2]))
-    noise = float(np.mean(ey["ey_stds"]))
-    # RSM absolute-vs-raw discrepancy (shape-only caveat)
-    rsm = {(r["component"], r["brew_ratio"]): r for r in _d.schmieder_rsm()}
-    r = rsm[("TDS", _SCHM_CENTER["brew_ratio"])]
-    fl, tp, g = _SCHM_CENTER["flow_ml_s"], _SCHM_CENTER["temp_C"], 1.7
-    rsm_mcup = (r["beta0"] + r["beta1"] * fl + r["beta2"] * g + r["beta3"] * tp
-                + r["beta4"] * fl ** 2 + r["beta5"] * g ** 2 + r["beta6"] * tp ** 2
-                + r["beta7"] * fl * g + r["beta8"] * fl * tp + r["beta9"] * g * tp)
-    raw_mcup = ey["ey_means"][1] / 100.0 * ey["dose_g"]        # back to g
-    rsm_overpredict = float(rsm_mcup / raw_mcup)
+    within = float(np.mean(ey["ey_stds"]))          # DESCRIPTIVE within-cell std
+    # Welch t 95% CI for the middle(1.7)-vs-higher-endpoint(2.0) contrast
+    a, b = ey["ey_replicates"][1], ey["ey_replicates"][2]   # 1.7, 2.0 cells
+    a, b = np.asarray(a), np.asarray(b)
+    sa2, sb2 = a.var(ddof=1) / a.size, b.var(ddof=1) / b.size
+    diff = float(a.mean() - b.mean())
+    se = float(np.sqrt(sa2 + sb2))
+    dof = (sa2 + sb2) ** 2 / (sa2 ** 2 / (a.size - 1) + sb2 ** 2 / (b.size - 1))
+    from scipy import stats as _st
+    tcrit = float(_st.t.ppf(0.975, dof))
+    contrast_ci = [round(diff - tcrit * se, 3), round(diff + tcrit * se, 3)]
+    refit = schmieder_rsm_refit("tds", _SCHM_CENTER["brew_ratio"])
     # MODEL side: channeling prominence at the calibrated closure, 5 & 9 bar
     def _prom(p_bar):
         s = channeling_sigma_sweep(gs_grid=np.linspace(1.0, 2.2, 7),
@@ -717,25 +768,31 @@ def result1_magnitude_comparison():
         e = np.asarray(s["ey_ensemble"])
         ip = int(np.argmax(e))
         return float(e[ip] - max(e[0], e[-1]))
-    model_5 = _prom(5.0)
-    model_9 = _prom(9.0)
+    model_5, model_9 = _prom(5.0), _prom(9.0)
     return dict(
         raw_tds_ey=[round(x, 2) for x in ey["ey_means"]],
+        raw_mid_vs_endpoint_contrast_EYpt=round(diff, 3),
+        raw_contrast_welch_ci95=contrast_ci,      # excludes 0 on the low side -> monotone
         raw_interior_bump_EYpt=raw_bump,          # <=0 -> monotone, no bump
-        raw_noise_floor_EYpt=noise,
+        raw_within_cell_std_EYpt=within,          # DESCRIPTIVE (not a formal noise floor)
         model_prominence_5bar_EYpt=model_5,
         model_prominence_9bar_EYpt=model_9,
-        model_bump_below_noise=bool(max(model_5, model_9) < noise),
-        rsm_overpredicts_x=rsm_overpredict,       # ~1.7 -> shape-only
-        verdict=("raw TDS-EY shows NO interior bump (%.2f EY-pt, monotone); model "
-                 "channeling bump %.3f (5 bar)/%.3f (9 bar) EY-pt is %s the raw "
-                 "replicate noise floor (%.2f EY-pt). schmieder RSM overpredicts "
-                 "absolute cup mass %.2fx -> SHAPE tool only. Neither side has a "
-                 "strong peak to match/miss -> model-capacity, not identification; "
-                 "title/abstract must not rest on a channeling peak." % (
-                     raw_bump, model_5, model_9,
-                     "BELOW" if max(model_5, model_9) < noise else "above",
-                     noise, rsm_overpredict)))
+        model_bump_lt_within_cell_var=bool(max(model_5, model_9) < within),
+        rsm_refit_central_g=round(refit["refit_central_g"], 3),
+        rsm_printed_central_g=round(refit["printed_central_g"], 3),
+        rsm_raw_central_g=round(refit["raw_central_g"], 3),
+        rsm_printed_is_rounding_artifact=refit["printed_is_artifact"],
+        verdict=("raw TDS-EY is monotone (mid-minus-2.0 contrast %.2f EY-pt, "
+                 "Welch 95%% CI %s -- excludes 0); model channeling bump %.3f "
+                 "(5 bar)/%.3f (9 bar) EY-pt is small vs the within-cell replicate "
+                 "variation (%.2f EY-pt), no formal MDE claimed. RSM printed "
+                 "coeffs are rounded (refit %.2f g vs printed %.2f g vs data "
+                 "%.2f g) -> shape tool by PRECISION, not a 1.7x overprediction. "
+                 "Neither side has a strong peak -> model-capacity, not "
+                 "identification." % (
+                     diff, contrast_ci, model_5, model_9, within,
+                     refit["refit_central_g"], refit["printed_central_g"],
+                     refit["raw_central_g"])))
 
 
 # --- cross-pressure generalization discriminator (item 2.2, ANALYSIS_P2) ---

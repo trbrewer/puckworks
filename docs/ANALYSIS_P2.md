@@ -167,25 +167,33 @@ TARGET side (schmieder's weak RSM / monotone raw cells). Both point the same way
 on a channeling peak, and the σ(φ₁) closure's own parameters — not just the target
 — carry the uncertainty.
 
-**Magnitude comparison — model bump vs schmieder bump** (`result1_magnitude_comparison`).
-All in EY-points, on the measured (not RSM-absolute) target:
-- **Raw TDS-EY** at the fixed condition is 18.3/19.4/19.6 % → interior bump
-  **−0.24 EY-pt (monotone; no bump in the data)**, replicate **noise floor 0.22
-  EY-pt**.
-- **Model** channeling prominence is 0.19 EY-pt (5 bar) / 0.03 (9 bar) — **below
-  the raw noise floor** at both pressures.
-- **RSM caveat (new data-quality finding):** schmieder's fitted RSM overpredicts
-  the *absolute* cup mass by **~1.73×** (6.7 vs measured 3.9 g; its β₆·temp² term
-  alone exceeds the whole cup mass), so the RSM is a **shape** tool (concavity /
-  vertex), NOT an absolute-magnitude one — exactly the card's own "RSM
-  order-of-magnitude only" caveat. The magnitude comparison therefore uses the raw
-  cells, never the RSM absolute.
+**Magnitude comparison — model bump vs schmieder response** (`result1_magnitude_comparison`;
+corrected 2026-07-12 per the PAPER_B review). All in EY-points, on the measured
+cells:
+- **Raw TDS-EY** at the fixed condition is 18.3/19.4/19.6 %. The middle-vs-2.0
+  **contrast is −0.24 EY-pt with a Welch t 95 % CI [−0.42, −0.06]** — it **excludes
+  zero**, so the response is statistically monotone (no interior bump). The mean
+  within-cell replicate std is ~0.22 EY-pt — a *descriptive* spread, **not** a
+  formal noise floor / minimum-detectable-effect (the earlier "below the noise
+  floor" framing is retracted).
+- **Model** channeling prominence is 0.19 EY-pt (5 bar) / 0.03 (9 bar) — small
+  relative to the within-cell replicate variation, but no formal MDE is claimed.
+- **RSM PRECISION note (CORRECTED — the earlier "overpredicts 1.73×" was an
+  ARTIFACT):** the published Table-3 coefficients are ROUNDED (the T² coefficient
+  to 3 decimals; with T²≈7921 that rounding moves the absolute prediction by
+  several grams). Evaluating them literally gives ~6.7 g, but a **refit to the
+  committed observations reproduces ~3.9 g, near the data** (`schmieder_rsm_refit`;
+  the source's own Fig. 4 also sits near the observations). So the RSM is a
+  **shape** tool (concavity/vertex, robust to the offset) because the printed
+  coefficients lack the precision for absolute reconstruction — **NOT** because the
+  source model over-predicts by 70 %. That was a false criticism of the source and
+  is removed.
 
-**So neither side has a strong peak to match or miss:** the data is monotone, and
-the model's predicted bump sits under the measurement noise. The channeling
-mechanism does not over-predict a peak the data lacks, nor is it contradicted — it
-is simply un-identifiable at this magnitude. Decisive for the write-up: **the
-title/abstract cannot rest on a channeling peak.**
+**So neither side has a strong peak to match or miss:** the raw response is
+statistically monotone, and the model's predicted bump is small relative to the
+replicate spread. The channeling mechanism does not over-predict a peak the data
+lacks, nor is it contradicted — it is un-identifiable at this magnitude. Decisive
+for the write-up: **the title/abstract cannot rest on a channeling peak.**
 
 ---
 

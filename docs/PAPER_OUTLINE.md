@@ -108,11 +108,12 @@ qualitative / model-capacity.)*
   target side. Consequence: the title/abstract must not rest on a channeling peak.
 - **Magnitude comparison — DONE** (`result1_magnitude_comparison`). On the
   measured cells: raw TDS-EY interior bump = **−0.24 EY-pt (monotone; no bump)**,
-  noise floor 0.22 EY-pt; the model bump (0.19/0.03 EY-pt at 5/9 bar) sits **below
-  the noise floor**. New data-quality caveat: the schmieder RSM overpredicts
-  *absolute* cup mass ~1.73× (β₆·temp² alone exceeds the cup mass) → **shape tool
-  only**, so magnitudes are compared on the raw cells, never the RSM absolute.
-  Neither side has a strong peak to match/miss.
+  contrast Welch 95% CI [−0.42, −0.06], excludes 0 → statistically monotone; the
+  model bump (0.19/0.03 EY-pt at 5/9 bar) is small vs the ~0.22 EY-pt within-cell
+  replicate spread (descriptive, NOT a formal noise floor). RSM precision note
+  (CORRECTED): the printed Table-3 coefficients are rounded and cannot reconstruct
+  the absolute level — a refit reproduces ~3.9 g near the data, so the RSM is
+  shape-only by *precision*, not the earlier (retracted) "overpredicts 1.73×".
 - **Fig 1** — the PRIMARY TDS-EY target: raw replicate EY points at fixed
   flow/BR/temperature (18.3/19.4/19.6 % with error bars), the schmieder RSM EY
   curve (interior vertex 1.75, adj-R² 0.64 annotated), and a separate panel for
@@ -223,7 +224,7 @@ in an exploratory section or appendix — NOT "ready, only Fig 5 remaining".)*
    rewritten to the corrected target (done 2026-07-12).
 2. ✅ **Result 1 recomputed** — TDS-EY primary target + replicate uncertainty +
    peak-prominence + closure sensitivity (fragile/weak/converged) + magnitude
-   (model bump < noise; RSM shape-only, overpredicts 1.73×). All done 2026-07-12;
+   (model bump small vs replicate spread; RSM shape-only by printed-coeff rounding — the earlier "overpredicts 1.73×" was a rounding artifact, retracted). All done 2026-07-12;
    the analysis confirms the title/abstract must NOT rest on a channeling peak
    (already reflected in the §-above title/abstract). Ready for prose.
 3. ✅ **Coupled-κ lineage reconciled**: card status corrected; Fig 4 must use the
