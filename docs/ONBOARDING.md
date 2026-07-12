@@ -26,9 +26,11 @@ with CLAUDE.md, flag it rather than comply.
 3. `docs/cards/` — one card per model; the source of truth for each model's
    physics, parameters, assumptions, and VERDICT. Never implement from memory
    of a paper — implement from its card.
-4. `docs/ANALYSIS_P2.md` and `docs/P3_hypotheses.md` — the standing analysis
-   verdicts (extraction harness, κ(t) discrimination, the fine-grind-dip
-   scoreboard). Read these before reopening any of those threads.
+4. `docs/ANALYSIS_P2.md`, `docs/P3_hypotheses.md`, and `docs/ANALYSIS_transfer.md`
+   — the standing analysis verdicts (extraction harness, κ(t) discrimination, the
+   fine-grind-dip scoreboard, and the pannusch→angeloni cross-dataset transfer /
+   inventory–kinetics identifiability limit). Read these before reopening any of
+   those threads.
 
 ## 3. Verify the state is live, not remembered
 ```
@@ -64,11 +66,33 @@ ANALYSIS section, not just this file.
   without a §7.1 entry.
 - Three c_sat values (170 / 212.4 / 224) and per-lineage soluble inventories
   are surfaced side by side, never merged.
-- pannusch2024 is the carded multi-solute runtime; angeloni2023 is data-only
-  (independent validation target), NOT a competing runtime. Keep them
-  data-vs-model until a harness says otherwise.
+- pannusch2024 is the carded multi-solute runtime; angeloni2023 is data-only.
+  The transfer harness HAS now spoken (`ANALYSIS_transfer.md`): pannusch does NOT
+  transfer to angeloni across grind, and the single-grind whole-cup refit is a
+  NON-IDENTIFIABLE curve fit (inventory ↔ kinetics trade off — the flat valley),
+  not a validated calibration. Do NOT read the wide-envelope bracket as "it
+  transfers"; the fraction-vs-cup identifiability result (gap **G6**) is why. Keep
+  them data-vs-model.
+- **brewer2026.coupled_kappa_t is a SYNTHESIS component** (`kind=synthesis`, no
+  external paper — do not hunt for one). It is the coupled-porosity-ODE κ(t)
+  closure; label it "framework; branch fidelity inherited," never "validated
+  κ(t) law" (three of its four donor branches carry unidentified/unvalidated
+  params). Its flow closure is the **poroelastic** one, NOT Kozeny–Carman (card
+  Eq. 2 was corrected card-side; CK is auxiliary/illustrative only). Do not
+  re-adjudicate that.
+- **mo2023_2 has two extraction implementations, both kept on purpose:**
+  `mo2023_2.coupled_bed` (depth-resolved + filling front, the Fig-8 model,
+  supersedes for fidelity) and `mo2023_2.extraction` (reduced lumped, retained
+  for the fixed-q swelling-insensitivity gate). Do not merge or retire either.
+  The coupled bed's M_c=20 over-prediction is CONVERGED/genuine (the card's own
+  "overestimates beyond M_c~30 g"), not a bug to chase.
 - G1 (unsaturated flow) is blocked on CONSTITUTIVE data (coffee retention
   curves), not on solver choice; egidi2018 is skip. The wetting-atom probe is
   an analysis tool, not a registered component.
+- **G9 (basket/screen resistance) is RESOLVED for a clean basket:** the screen
+  resistance from schulman2011 geometry is ~5–6 orders below the puck →
+  negligible; the earlier fitted-vs-measured κ gap is coffee/grind, not screen.
+  The only open piece is fines CLOGGING mid-shot (unmeasured). Do not reopen G9
+  as "screen matters."
 
 If in doubt: read the changelog, run the gates, ask one clarifying question.
