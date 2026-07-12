@@ -8,6 +8,8 @@ provenance, assumptions, validity range, and **validation gates**
 runtime stage, plus offline calibration chains (LB, constitutive laws) feeding
 parameters in.
 
+**New session? Start with [docs/ONBOARDING.md](docs/ONBOARDING.md).**
+
 ## Founding components
 | stage | component | kind | source |
 |---|---|---|---|

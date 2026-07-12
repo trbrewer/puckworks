@@ -6,6 +6,8 @@ assumptions, validity range, and validation gates. A simulation is a
 configuration.
 
 ## Read first, always
+- `docs/ONBOARDING.md` — session entry point (read order, state-verification,
+  standing caveats).
 - `docs/ROADMAP.md` — the plan. §3 is the development sequence; work items by
   their numbers (0.x data intake, 1.x components, 2.x harnesses, 3.x later).
 - `docs/SPRINTS.md` — the current sprint breakdown and status checklist.
