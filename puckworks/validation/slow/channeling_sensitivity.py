@@ -41,10 +41,13 @@ def report():
           % (c["s_ref"], c["m"], c["p_bar"], c["n_grid"], c["interior"],
              c["peak_gs"], c["prominence"]))
     print()
-    print("(1) s_ref x m grid: interior-max in %d/%d (%.0f%%); peak_gs %s; "
-          "prominence median %.3f max %.3f EY-pt"
+    print("(1) s_ref x m grid: interior-max in %d/%d (%.0f%%); peak_gs %s"
           % (r["grid_interior_n"], r["grid_n"], 100 * r["grid_interior_fraction"],
-             r["peak_gs_range"], r["prominence_median"], r["prominence_max"]))
+             r["peak_gs_range"]))
+    print("    prominence: interior-only median %.3f max %.3f | FULL-GRID median %.3f "
+          "IQR %s EY-pt (full-grid median is the honest central tendency)"
+          % (r["prominence_median"], r["prominence_max"],
+             r["prominence_median_fullgrid"], r["prominence_iqr_fullgrid"]))
     print("    non-interior (s_ref,m):", r["grid_noninterior"])
     print("(2) pressure sweep:", [(x["p_bar"], x["interior"], round(x["peak_gs"], 2),
                                    round(x["prominence"], 3)) for x in r["pressure_sweep"]])
@@ -58,8 +61,10 @@ def report():
     ca = h.channeling_concavity_audit()
     print()
     print("== EY(k) concavity audit (Jensen premise) ==")
-    print("min concave fraction %.3f; max clip mass %.4f -> %s" % (
-        ca["min_concave_fraction"], ca["max_clip_mass"], ca["verdict"]))
+    print("min concave fraction %.3f; max clip mass %.4f; worst direct Jensen gap "
+          "%.3f EY-pt (all <=0: %s) -> %s" % (
+        ca["min_concave_fraction"], ca["max_clip_mass"], ca["max_jensen_gap_EYpt"],
+        ca["all_jensen_gaps_negative"], ca["verdict"]))
 
     # magnitude comparison: model bump vs raw schmieder bump (both EY-pts)
     m = h.result1_magnitude_comparison()

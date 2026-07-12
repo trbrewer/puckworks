@@ -662,19 +662,34 @@ def channeling_concavity_audit(gs_grid=(1.0, 1.4, 1.8, 2.2), pressures=(5.0, 9.0
             k = np.linspace(r.k_min, r.k_max, n_k)
             d2 = np.gradient(np.gradient(r.ey_of_k(k), k), k)
             clip = float(np.sum(w[(kk < r.k_min) | (kk > r.k_max)]))
+            # DIRECT Jensen gap J = E[EY(K)] - EY(E[K]).  The multipliers are
+            # unit-mean lognormal so E[K]=1; J<0 confirms a genuine ensemble
+            # deficit (a concave EY(k) loses yield to heterogeneity) WITHOUT
+            # relying only on the second-derivative sign. Nodes clipped to the
+            # spline support so EY(k) is evaluated where it is defined.
+            kc = np.clip(kk, r.k_min, r.k_max)
+            wn = w / w.sum()
+            E_ey = float(np.sum(wn * r.ey_of_k(kc)))
+            ey_mean_k = float(r.ey_of_k(np.clip(1.0, r.k_min, r.k_max)))
+            jensen_gap = E_ey - ey_mean_k                 # <=0 for concave EY(k)
             out.append(dict(gs=float(gs), p_bar=float(p), sigma=round(sig, 3),
                             concave_fraction=round(float(np.mean(d2 <= 1e-9)), 3),
-                            clip_mass=round(clip, 4)))
+                            clip_mass=round(clip, 4),
+                            jensen_gap_EYpt=round(jensen_gap, 4)))
     cf = [c["concave_fraction"] for c in out]
     cl = [c["clip_mass"] for c in out]
+    jg = [c["jensen_gap_EYpt"] for c in out]
     return dict(cells=out, min_concave_fraction=min(cf), max_clip_mass=max(cl),
                 concave_over_support=bool(min(cf) > 0.9),
                 clipping_negligible=bool(max(cl) < 0.01),
+                max_jensen_gap_EYpt=max(jg), all_jensen_gaps_negative=bool(max(jg) <= 0),
                 verdict=("EY(k) is concave over %.0f-%.0f%% of the tested support and "
-                         "the lognormal clip mass is <%.2f%% at all grinds/pressures "
-                         "-> the Jensen ensemble deficit holds over the tested support "
+                         "the lognormal clip mass is <%.2f%% at all grinds/pressures; "
+                         "the DIRECT Jensen gap J=E[EY(K)]-EY(1) is <=0 in every cell "
+                         "(worst %.3f EY-pt) -> the ensemble deficit is confirmed by "
+                         "direct measurement, not only by the 2nd-derivative sign "
                          "(global concavity NOT claimed); clipping is negligible."
-                         % (100 * min(cf), 100 * max(cf), 100 * max(cl))))
+                         % (100 * min(cf), 100 * max(cf), 100 * max(cl), max(jg))))
 
 
 def channeling_interior_max_sensitivity(gs_grid=None,
@@ -724,6 +739,11 @@ def channeling_interior_max_sensitivity(gs_grid=None,
             grid.append(dict(s_ref=s, m=m, **r))
     inter = [g for g in grid if g["interior"]]
     proms = [g["prominence"] for g in inter]
+    # ALL signed prominences over the FULL grid (not the success-conditional set):
+    # non-interior cells contribute ~0 (argmax at an endpoint), so the full-grid
+    # median is the honest central tendency -- reporting only interior cells
+    # conditions on success and inflates the typical bump.
+    all_proms = sorted(g["prominence"] for g in grid)
     calib = _probe(base, s_ref0, m0)
 
     # (2) pressure sweep at the calibrated closure
@@ -749,8 +769,13 @@ def channeling_interior_max_sensitivity(gs_grid=None,
         grid_noninterior=[(g["s_ref"], g["m"]) for g in grid if not g["interior"]],
         peak_gs_range=[min(g["peak_gs"] for g in inter), max(g["peak_gs"] for g in inter)]
         if inter else None,
-        prominence_median=float(np.median(proms)) if proms else None,
+        prominence_median=float(np.median(proms)) if proms else None,   # interior-only
         prominence_max=float(np.max(proms)) if proms else None,
+        # full-grid signed prominences (all cells, honest central tendency):
+        all_prominences=[round(x, 4) for x in all_proms],
+        prominence_median_fullgrid=round(float(np.median(all_proms)), 4),
+        prominence_iqr_fullgrid=[round(float(np.percentile(all_proms, 25)), 4),
+                                 round(float(np.percentile(all_proms, 75)), 4)],
         pressure_sweep=pressure_sweep,
         n_grid_convergence=n_conv, n_grid_converged=converged,
         verdict=("interior-max is REAL + n_grid-CONVERGED at the calibrated closure "
@@ -790,11 +815,38 @@ def schmieder_rsm_refit(component="tds", brew_ratio="1/2"):
     o = np.asarray(obs, float)
     F, G, T, y = o[:, 0], o[:, 1], o[:, 2], o[:, 3]
     # retained terms (TDS 1/2 printed): 1, F, G, T, G^2, T^2, FG (beta4/8/9 = 0)
+    # NOTE predictors are on the RAW scale (not centered), so the individual
+    # coefficients are not orthogonal and the vertex below combines b_G/b_G2/b_FG.
     X = np.column_stack([np.ones_like(F), F, G, T, G ** 2, T ** 2, F * G])
     coef, *_ = np.linalg.lstsq(X, y, rcond=None)
     fl, tp, g = _SCHM_CENTER["flow_ml_s"], _SCHM_CENTER["temp_C"], 1.7
     xc = np.array([1, fl, g, tp, g ** 2, tp ** 2, fl * g])
     refit_pred = float(xc @ coef)
+    # fit quality: R^2 and adjusted R^2 (p = 6 predictors excluding the intercept)
+    resid = y - X @ coef
+    ss_res = float(np.sum(resid ** 2)); ss_tot = float(np.sum((y - np.mean(y)) ** 2))
+    n, p = len(y), X.shape[1] - 1
+    r2 = 1.0 - ss_res / ss_tot if ss_tot > 0 else float("nan")
+    adj_r2 = (1.0 - (1.0 - r2) * (n - 1) / (n - p - 1)
+              if n > p + 1 else float("nan"))
+    # grind vertex at central F: dEY/dG = b_G + 2 b_G2 G + b_FG F = 0
+    #   G* = -(b_G + b_FG F) / (2 b_G2); only a maximum if b_G2 < 0.
+    def _vertex(c):
+        denom = 2.0 * c[4]
+        return float("nan") if denom == 0 else float(-(c[2] + c[6] * fl) / denom)
+    vertex_g = _vertex(coef)
+    vertex_is_max = bool(coef[4] < 0)
+    # case-resampling bootstrap CI on the vertex (deterministic seed -> reproducible)
+    rng = np.random.default_rng(0)
+    boot = []
+    for _ in range(2000):
+        idx = rng.integers(0, n, n)
+        cb, *_ = np.linalg.lstsq(X[idx], y[idx], rcond=None)
+        vb = _vertex(cb)
+        if np.isfinite(vb):
+            boot.append(vb)
+    vertex_ci95 = ([round(float(np.percentile(boot, 2.5)), 3),
+                    round(float(np.percentile(boot, 97.5)), 3)] if boot else None)
     # printed rounded-coefficient evaluation (the artifact)
     pr = {(r["component"], r["brew_ratio"]): r for r in _d.schmieder_rsm()}[
         ("TDS" if comp == "TDS" else comp.capitalize(), brew_ratio)]
@@ -805,6 +857,10 @@ def schmieder_rsm_refit(component="tds", brew_ratio="1/2"):
                                  if FF == fl and GG == g and TT == tp]))
     return dict(n_obs=len(obs), refit_central_g=refit_pred,
                 printed_central_g=printed_pred, raw_central_g=raw_central,
+                r2=round(r2, 4), adj_r2=round(adj_r2, 4), n=n, n_predictors=p,
+                vertex_g=round(vertex_g, 3) if np.isfinite(vertex_g) else None,
+                vertex_is_max=vertex_is_max, vertex_ci95_g=vertex_ci95,
+                predictors_centered=False,
                 printed_is_artifact=bool(abs(printed_pred - raw_central) > 1.0
                                          and abs(refit_pred - raw_central) < 0.5))
 

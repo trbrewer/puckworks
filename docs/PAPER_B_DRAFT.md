@@ -116,14 +116,19 @@ middle-versus-coarse contrast is −0.24 yield-points with a Welch t 95 % CI
 with no interior bump.
 
 An interior maximum exists only in the study's own fitted response surface, which
-is concave in grind for every observable but weak (adjusted R² 0.41–0.75). **A
-precision caveat, not a criticism of the source:** the *printed* Table-3
-coefficients are rounded (the T² coefficient to three decimals; with T²≈7921 that
-rounding moves the absolute prediction by several grams), so evaluating them
-literally gives ~6.7 g, whereas a refit to the committed observations reproduces
+is concave in grind for every observable but weak (schmieder's own adjusted R²
+0.41–0.75). Our refit to the committed TDS-1/2 observations gives adjusted R² 0.65
+(within that range) and a grind vertex at dial **1.73 (bootstrap 95 % CI
+[1.68, 1.81]**, 2000 case resamples), confirming the interior maximum is a real but
+modest feature of the response surface. **A precision caveat, not a criticism of the
+source:** the *printed* Table-3 coefficients are rounded (the T² coefficient to
+three decimals; with T²≈7921 that rounding moves the absolute prediction by several
+grams), so evaluating them literally gives ~6.7 g, whereas the refit reproduces
 ~3.9 g, near the data and the source's own Figure 4. We therefore use the response
 surface for *shape* only, because the published rounded coefficients are numerically
 insufficient for absolute reconstruction — **not** because the model over-predicts.
+*(Predictors are on the raw scale, so the reported vertex combines the linear,
+quadratic, and flow×grind coefficients rather than a single centered term.)*
 
 **Model capacity.** A static-heterogeneity streamtube ensemble represents
 permeability heterogeneity as a unit-mean lognormal. The sampled numerical yield
@@ -133,7 +138,11 @@ homogeneous response into a peaked ensemble response (Fig. 1b). This is audited
 (`harness.channeling_concavity_audit`): the numerical EY(k) is concave over
 **96–97 % of the tested support** at all grinds/pressures, and the lognormal
 quadrature mass reaching the clipped boundaries is **<0.2 %**, so clipping does not
-drive the ensemble. *(Global concavity is not claimed — only over the tested
+drive the ensemble. The deficit is also confirmed **directly**, not only through the
+second-derivative sign: the measured Jensen gap J = E[EY(K)] − EY(1) (the
+multipliers are unit-mean, so E[K]=1) is **negative in every cell** (worst ≈ −1.4
+yield-points), i.e. heterogeneity genuinely loses yield relative to the
+mean-permeability reference. *(Global concavity is not claimed — only over the tested
 support.)*
 
 **Why this is capacity, not identification, and why the comparison is asymmetric.**
@@ -156,12 +165,16 @@ matrix — implementation status, calibration data, evaluation data, observable,
 parameters, fitted-vs-predicted, evidence strength, and the decisive missing
 experiment), not a symmetric head-to-head. A closure-sensitivity sweep finds the
 interior maximum is real and grid-converged at the calibrated closure but **fragile
-over the tested (s_ref, m) rectangle** — present in **10 of 25 pre-specified
-combinations**, absent for weak channeling — and **small in magnitude** (median
-prominence ~0.14 yield-points; ~0.03, near-flat, at 9 bar). *(This grid fraction is
-descriptive over a chosen rectangle, not a robustness probability.)* The model's
-interior bump is small relative to the observed within-cell replicate variation,
-but no formal minimum-detectable-effect analysis is claimed.
+over the tested (s_ref, m) rectangle** — present in **10 of 25 fixed
+combinations**, absent for weak channeling — and **small in magnitude**. Reporting
+the prominence over the *full* grid rather than only the cells that succeed (which
+would condition on success and inflate the typical bump): the **full-grid median
+prominence is ≈ 0 yield-points** (interquartile range ≈ [0, 0]), because most of the
+grid has no interior maximum at all; among the cells that do, the interior-only
+median is ~0.14 yield-points, falling to ~0.03 (near-flat) at 9 bar. *(This grid
+fraction is descriptive over a fixed rectangle, not a robustness probability.)* The
+model's interior bump is small relative to the observed within-cell replicate
+variation, but no formal minimum-detectable-effect analysis is claimed.
 
 ## 4. Result 2 — a null-first κ(t) ladder within a specified model set (Fig. 3)
 
@@ -275,9 +288,11 @@ analyzed under a physically consistent machine/bed system and tested experimenta
 
 ## 7. Open gaps this paper defines
 
-- Full-precision response-surface reconstruction (source coefficients/model object)
-  or a documented raw-data refit with covariance, adjusted R², residual diagnostics,
-  and bootstrap vertex/prominence.
+- Full-precision response-surface reconstruction (source coefficients/model object).
+  *Partially addressed:* a documented raw-data refit now reports adjusted R² (0.65),
+  a bootstrap vertex CI ([1.68, 1.81]), and — via the leave-one-design-point-out
+  diagnostic — a Q² predictive score; still owed are the source's full-precision
+  coefficients (author request) and a full covariance/residual-diagnostic panel.
 - Direct spatial flow/saturation data; a second-rig or second-coffee transfer
   dataset; parameter-identifiability analysis for the temporal branches.
 - A physically-derived lateral-exchange network + a genuine stability analysis

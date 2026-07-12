@@ -87,7 +87,10 @@ def fig1_result1(outdir=OUTDIR_DEFAULT):
     gg = np.linspace(1.4, 2.0, 60)
     Xg = _np.column_stack([_np.ones_like(gg), fl+0*gg, gg, tp+0*gg, gg**2, (tp**2)+0*gg, fl*gg])
     rsm_ey = (Xg @ cf) / p["dose_g"] * 100.0             # refit cup mass -> EY
-    vtx = p["rsm"]["vertex_dial"]
+    # annotate the REFIT vertex + bootstrap CI (not the printed-coefficient vertex,
+    # which is a rounded-coefficient artifact); adj-R^2 is the refit's, ~schmieder's
+    rf = h.schmieder_rsm_refit()
+    vtx = rf["vertex_g"]; vtx_ci = rf["vertex_ci95_g"]; adj = rf["adj_r2"]
 
     ch = h.channeling_sigma_sweep(gs_grid=np.linspace(1.0, 2.2, 7), s_ref=0.6, m=1.0, p_bar=5.0, n_grid=7)
 
@@ -96,10 +99,13 @@ def fig1_result1(outdir=OUTDIR_DEFAULT):
                  label="measured TDS-EY (raw cells)", zorder=3)
     ax1.plot(gg, rsm_ey, color=ACCENT, lw=1.8, label="RSM refit (shape; printed coeffs rounded)")
     ax1.axvline(vtx, color=WARN, ls=":", lw=1.4)
-    ax1.annotate("RSM vertex %.2f (adj-R² %.2f)" % (vtx, p["rsm"]["adj_r2"]),
+    if vtx_ci:
+        ax1.axvspan(vtx_ci[0], vtx_ci[1], color=WARN, alpha=0.12, lw=0)
+    ax1.annotate("RSM refit vertex %.2f [%.2f,%.2f]\n(adj-R² %.2f)"
+                 % (vtx, vtx_ci[0], vtx_ci[1], adj),
                  (vtx, 0.98), xycoords=("data", "axes fraction"),
                  xytext=(4, -2), textcoords="offset points",
-                 color=WARN, fontsize=7.6, va="top")
+                 color=WARN, fontsize=7.2, va="top")
     ax1.set_title("(a) Target: TDS-EY vs dial")
     ax1.set_xlabel("grinder dial (schmieder E65S)"); ax1.set_ylabel("extraction yield [%]")
     ax1.legend(loc="lower right", fontsize=7.4)
@@ -113,8 +119,9 @@ def fig1_result1(outdir=OUTDIR_DEFAULT):
     ax2.set_title("(b) Model capacity (own dial axis)")
     ax2.set_xlabel("model grind gs (cameron; non-portable)"); ax2.set_ylabel("ensemble EY [%]")
     ax2.legend(loc="upper right", fontsize=8)
-    ax2.text(0.5, 0.45, "ensemble makes an interior max\n(fragile: 40% of closures; weak)",
-             transform=ax2.transAxes, va="center", ha="center", fontsize=7.6, color=NULL)
+    ax2.text(0.5, 0.42, "ensemble makes an interior max\n(fragile: 10/25 of a fixed closure grid;\n"
+             "full-grid median prominence ≈ 0)",
+             transform=ax2.transAxes, va="center", ha="center", fontsize=7.2, color=NULL)
     fig.suptitle("Result 1 — model capacity, not identification", y=1.02, fontsize=11, fontweight="bold")
     return _save(fig, outdir, "fig1_result1_tds_ey.png")
 
