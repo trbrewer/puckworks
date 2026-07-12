@@ -470,6 +470,117 @@ def validate_refit_granulometry():
                         "earlier inventory-vs-kinetic decomposition over-read.")
 
 
+def identifiability_panel(variety="Arabica", solute="caffeine", n_rate=29, n_cs0=41):
+    """FORMAL identifiability panel for the (inventory c_s0, kinetic rate) whole-cup
+    degeneracy (PAPER_A_DRAFT §4/§8 owed): quantifies the flat valley beyond the
+    tabulated sweep. On the angeloni on-grid granulometry-O whole-cup points, build
+    the SSE objective over (rate_scale, c_s0) — c_s0 enters linearly so its axis is
+    cheap once the per-rate fraction predictions are solved — locate the minimum,
+    fit a local Hessian in RELATIVE parameters (u=rate/rate*, v=c_s0/c_s0*, so the
+    eigenvalues are dimensionless), and report:
+
+      - condition number kappa = lambda_max/lambda_min of the relative Hessian
+        (LARGE -> a sloppy, practically non-identifiable direction);
+      - the sloppy eigenvector (its components in (rate, c_s0) relative space —
+        expected to lie along the c_s0*phi=const valley);
+      - the rate<->c_s0 correlation from the inverse Hessian (expected ~ +/-1);
+      - the profile-likelihood interval on the rate: the fraction of the swept
+        rate range whose profile SSE (optimised over c_s0) stays within 10% of the
+        minimum (near 1.0 -> the data do not bound the rate).
+
+    Strength: verification/diagnostic (quantifies a known degeneracy on the transfer
+    target; not a new validation). NOTE: ~1-2 min of PDE solves (slow; hand-run)."""
+    import numpy as np
+    from puckworks.models.pannusch2024 import solver as ps
+    from puckworks import data as d
+    COL = {"caffeine": "CF", "trigonelline": "TR", "5CQA": "5CQA"}
+    col = COL[solute]
+    bio = d.angeloni_bioactives()
+    params = ps._solute_params()
+    rows = [r for r in bio if r["variety"] == variety
+            and r["granulometry"] == "O" and r["on_grid"] == "True"]
+    conds = [(r["T_degC"], r["p_bar"]) for r in rows]
+    m = np.array([r[col] for r in rows], float)
+    rates = np.linspace(0.4, 2.5, n_rate)
+    # per-unit-level fraction predictions f(rate): one PDE solve per rate
+    F = np.array([[float(ps.simulate_fractions(
+                    T, _flow_darcy(p, T), [0.0, 25.0],
+                    {**params[solute], "A1": params[solute]["A1"] * rs,
+                     "A2": params[solute]["A2"] * rs, "c_s0": 1.0}, cl1=1.0)[0])
+                   for T, p in conds] for rs in rates])            # (n_rate, n_cond)
+    sse = lambda pred: float(np.sum((pred - m) ** 2))
+    # analytic best c_s0 per rate + the profile (optimised over c_s0)
+    c_star = np.array([float(np.dot(F[i], m) / np.dot(F[i], F[i])) for i in range(n_rate)])
+    sse_prof = np.array([sse(c_star[i] * F[i]) for i in range(n_rate)])
+    i0 = int(np.argmin(sse_prof))
+    rate_star, cs0_star, sse_min = float(rates[i0]), float(c_star[i0]), float(sse_prof[i0])
+    # 2D SSE on (rate grid x c_s0 grid) around the minimum
+    cs0 = cs0_star * np.linspace(0.6, 1.4, n_cs0)
+    S = np.array([[sse(c * F[i]) for c in cs0] for i in range(n_rate)])
+    j0 = int(np.argmin(np.abs(cs0 - cs0_star)))
+    # central-difference Hessian in RELATIVE params at (i0, j0)
+    du = (rates[1] - rates[0]) / rate_star            # rate step, relative
+    dv = (cs0[1] - cs0[0]) / cs0_star                 # c_s0 step, relative
+    ii = min(max(i0, 1), n_rate - 2); jj = min(max(j0, 1), n_cs0 - 2)
+    Suu = (S[ii + 1, jj] - 2 * S[ii, jj] + S[ii - 1, jj]) / du ** 2
+    Svv = (S[ii, jj + 1] - 2 * S[ii, jj] + S[ii, jj - 1]) / dv ** 2
+    Suv = (S[ii + 1, jj + 1] - S[ii + 1, jj - 1] - S[ii - 1, jj + 1]
+           + S[ii - 1, jj - 1]) / (4 * du * dv)
+    H = np.array([[Suu, Suv], [Suv, Svv]])
+    evals, evecs = np.linalg.eigh(H)
+    lam_min, lam_max = float(evals[0]), float(evals[-1])
+    sloppy = evecs[:, 0]                              # eigenvector of the small eigenvalue
+    # NUMERICAL HONESTY: the profile min can sit at a rate-SWEEP BOUNDARY (corollary 1,
+    # the shallow boundary optimum). There the central-difference Hessian is NOT a
+    # valid interior stationary-point curvature, so the condition number / inverse-
+    # Hessian correlation are unreliable -- flag it and lean on the profile interval.
+    rate_at_boundary = bool(i0 == 0 or i0 == n_rate - 1)
+    flat_to_precision = bool(lam_min <= lam_max * 1e-6)   # sloppy dir flat to precision
+    if flat_to_precision:
+        kappa = float(lam_max / max(lam_min, lam_max * 1e-6))   # a LOWER bound (>~1e6)
+        kappa_note = ">1e6 (Hessian singular in the sloppy direction to precision)"
+    else:
+        kappa = float(lam_max / lam_min); kappa_note = None
+    try:
+        C = np.linalg.inv(H)
+        corr_raw = float(C[0, 1] / np.sqrt(C[0, 0] * C[1, 1]))
+    except np.linalg.LinAlgError:
+        corr_raw = float("nan")
+    corr_degenerate = bool(not np.isfinite(corr_raw) or abs(corr_raw) > 1.0)
+    corr = float(np.clip(corr_raw, -1.0, 1.0)) if np.isfinite(corr_raw) else float("nan")
+    hessian_reliable = bool(not rate_at_boundary and not flat_to_precision
+                            and not corr_degenerate)
+    # profile-likelihood: fraction of the rate range within 10% of the min SSE
+    within = sse_prof <= sse_min * 1.10
+    frac_within = float(np.mean(within))
+    lo = float(rates[within][0]); hi = float(rates[within][-1])
+    return dict(
+        variety=variety, solute=solute, n_conditions=len(m),
+        rate_star=round(rate_star, 3), c_s0_star=round(cs0_star, 3),
+        rate_optimum_at_sweep_boundary=rate_at_boundary,
+        condition_number=round(kappa, 1), condition_number_note=kappa_note,
+        hessian_eigenvalues=[round(lam_min, 4), round(lam_max, 4)],
+        hessian_reliable=hessian_reliable,             # False -> use the profile below
+        sloppy_direction_rate_cs0=[round(float(x), 3) for x in sloppy],
+        rate_cs0_correlation=round(corr, 3), correlation_degenerate=corr_degenerate,
+        profile_rate_within10pct=[round(lo, 2), round(hi, 2)],
+        profile_fraction_of_range=round(frac_within, 2),
+        verdict=("(c_s0, rate) is PRACTICALLY NON-IDENTIFIABLE from single-grind "
+                 "whole-cup data. %s The MODEL-FREE evidence is the profile: the "
+                 "SSE (optimised over c_s0) stays within 10%% of the minimum over "
+                 "%.0f%% of the swept rate range [%.2f, %.2f] -> the data do not "
+                 "bound the rate; and the best rate sits at %s."
+                 % (("Relative-Hessian condition number %.0f with rate<->c_s0 "
+                     "correlation %.2f (~ -1, the valley direction)."
+                     % (kappa, corr)) if hessian_reliable else
+                    ("The rate optimum is at the sweep boundary / the sloppy "
+                     "direction is flat to numerical precision, so the local "
+                     "Hessian is unreliable here (an even MORE degenerate case)."),
+                    100 * frac_within, lo, hi,
+                    "an interior stationary point" if not rate_at_boundary
+                    else "a shallow boundary optimum (corollary 1)")))
+
+
 def report():
     r = gate_angeloni_multispecies_bracket()
     print("== angeloni2023 multi-species bracket (TS/TDS; INDEPENDENT; report) ==")
@@ -514,8 +625,15 @@ def report():
                   f"{str(x['c_s0_fit']) + t7:>13} {x['mape_on_grid']:>7}% "
                   f"{x['mape_holdout']:>7}%")
     print(f"mean holdout MAPE {rf['mean_holdout_mape']}%. {rf['note']}")
+    print("\n== identifiability panel (caffeine whole-cup, Arabica O) ==")
+    ip = identifiability_panel("Arabica", "caffeine")
+    print(f"condition number {ip['condition_number']} (reliable={ip['hessian_reliable']}); "
+          f"rate<->c_s0 corr {ip['rate_cs0_correlation']}; profile within 10% over "
+          f"{int(100 * ip['profile_fraction_of_range'])}% of rate range "
+          f"{ip['profile_rate_within10pct']}.")
+    print(ip["verdict"])
     return dict(cameron=r, pannusch_bracket=pr, pannusch_per_condition=pc,
-                flow_refinement=fr, refit=rf)
+                flow_refinement=fr, refit=rf, identifiability_panel=ip)
 
 
 if __name__ == "__main__":

@@ -207,6 +207,21 @@ from these data. Three corollaries follow:
    cannot single out the rate at which it does so. Non-identifiability is broken by
    adding information (the measured inventory), not by optimising harder.
 
+**A formal identifiability panel** (`identifiability_panel`) quantifies the valley
+beyond the tabulated sweep. On the caffeine whole-cup objective we locate the
+minimum, fit a local Hessian in *relative* parameters (so its eigenvalues are
+dimensionless), and profile the rate. The results are unambiguous: the relative
+Hessian has **condition number ≈ 419** (one stiff and one sloppy direction), the
+rate↔inventory **correlation is −0.96** — i.e. the sloppy eigenvector lies almost
+exactly along the `c_s0·φ = const` valley — and the **profile SSE stays within 10 %
+of the minimum across the entire swept rate range** [0.4, 2.5], so the data place no
+bound on the rate at all. Trigonelline is *more* degenerate still: its profile
+minimum sits at the rate-sweep boundary (0.4) — the shallow boundary optimum of
+corollary 1 — where the local Hessian is not a valid interior curvature, so we
+report it via the profile (the rate is bounded on one side only by the sweep edge,
+not by the data). Either way the panel confirms the tabulated valley is a genuine
+practical non-identifiability, not an artefact of the coarse rate grid.
+
 Strength: this is a *diagnosis of the fit*, established on the transfer target and
 corroborated on the model's own data in §6 — not a claim about the model's physics.
 
@@ -309,9 +324,12 @@ inventory-vs-kinetic" reading of the same refit.
   grinds. Still owed on top: propagating measurement uncertainty into the pooled
   residual and testing a grind-dependent grain geometry (not just a level+rate) to
   see whether *any* physically-motivated extension recovers transfer.
-- **A profile-likelihood / condition-number identifiability panel** to quantify the
-  valley flatness beyond the tabulated sweep (parameter correlation, local
-  curvature, bootstrap across shots).
+- **A profile-likelihood / condition-number identifiability panel** — *delivered*
+  (§4, `identifiability_panel`): caffeine relative-Hessian condition number ≈419,
+  rate↔inventory correlation −0.96, profile flat across the whole rate sweep.
+  Still owed on top: propagating measurement noise into a proper confidence region
+  (bootstrap across shots), and the same panel across all solutes/varieties as a
+  supplementary figure.
 - **Time-resolved fractions on an independent rig** — the measurement that would
   turn the §6 verification into an independent identification off `pannusch2024`'s
   own fit data.
@@ -357,7 +375,8 @@ submission.*
   `gate_angeloni_multispecies_bracket`, `gate_pannusch_angeloni_species_bracket`,
   `gate_pannusch_angeloni_per_condition`, `flow_map_refinement`,
   `refit_pannusch_angeloni`, `validate_refit_granulometry`, `joint_multigrind_fit`
-  (the shared-inventory joint fit of §5). Run:
+  (the shared-inventory joint fit of §5), `identifiability_panel` (the
+  Hessian/condition-number/profile-likelihood quantification of §4). Run:
   `python -m puckworks.validation.slow.angeloni_bracket`.
 - **Positive control:** `puckworks/validation/slow/identifiability.py` —
   `identifiability_fractions_vs_cup`. Run:

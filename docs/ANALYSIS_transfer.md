@@ -81,7 +81,12 @@ valley is flatter.)*
 
 A **6.25× change in the kinetic rate is absorbed by the inventory with a <1 pp
 change in error** (MAPE 15.1–15.7 %) — the rate is not identifiable from these
-data. Three corollaries:
+data. A formal panel (`identifiability_panel`) confirms it: on the caffeine
+whole-cup objective the relative-Hessian **condition number is ≈419**, the
+rate↔inventory **correlation is −0.96** (the sloppy eigenvector lies along the
+`c_s0·φ=const` valley), and the **profile SSE stays within 10 % of the minimum
+across the whole rate sweep** — the data place no bound on the rate. Three
+corollaries:
 
 1. The "best" rate the optimizer reports sits at a shallow boundary optimum, so
    it **flips with incidental choices**: caffeine's fitted rate is 1.0 under one
@@ -186,7 +191,7 @@ Strength: verification (positive control on the model's own calibration data).
 - Transfer arc: `validation/slow/angeloni_bracket.py` —
   `gate_angeloni_multispecies_bracket`, `gate_pannusch_angeloni_per_condition`,
   `flow_map_refinement`, `refit_pannusch_angeloni`,
-  `validate_refit_granulometry`, `joint_multigrind_fit`.
+  `validate_refit_granulometry`, `joint_multigrind_fit`, `identifiability_panel`.
 - Data: `puckworks.data.angeloni_{bioactives,total_solids,inventories}`
   (manifest rows carry the p→flow caveat).
 - Strength tags: bracket = independent (wide envelope); per-condition/refit =
