@@ -528,3 +528,16 @@ def bruno_roasted_composition_wide():
     """Bruno 2026 Table 2 in wide format (one row per compound; origin columns).
     Same data as `bruno_roasted_composition`, convenience layout."""
     return _rows(BRUNO / "bruno2026_roasted_composition_wide.csv")
+
+
+def khomyakov_kinematic_viscosity():
+    """khomyakov2020 (DOI 10.1088/1755-1315/548/2/022040, CC BY 3.0) MEASURED
+    coffee-extract KINEMATIC viscosity [mm^2/s], Table 1: dry-solids 15-70 wt% x
+    T 20-80 C (60 pts). REFERENCE/qualitative for espresso -- DOMAIN GUARD: the
+    lowest measured solids is 15 wt%, ABOVE espresso TDS (~4-12 wt%), so espresso
+    use is an extrapolation toward the dilute end; do NOT extrapolate below 15 wt%
+    silently. Industrial soluble-coffee extract, not a fraction-resolved espresso
+    series. NOTE: the source's density + dynamic-viscosity REGRESSIONS are
+    QUARANTINED (khomyakov2020_*_QUARANTINED/FLAGGED.csv in this dir; sign/typeset
+    conflicts) -- NOT loaded; only this measured kinematic table is usable."""
+    return _rows(G10R / "khomyakov2020_kinematic_viscosity.csv")

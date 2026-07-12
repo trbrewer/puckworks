@@ -320,3 +320,21 @@ def test_bruno_roasted_composition():
     assert abs(cf["Mexico"] - 8491.40) < 0.01
     assert cf["Nicaragua"] > 1.5 * cf["Mexico"]
     assert pwdata.bruno_roasted_composition_wide()[0]["unit"] == "mg/kg"
+
+
+def test_khomyakov_kinematic_viscosity():
+    r = pwdata.khomyakov_kinematic_viscosity()
+    assert len(r) == 60                       # 10 solids x 6 temps
+    solids = sorted({float(x["dry_solids_percent_w_w"]) for x in r})
+    assert min(solids) == 15.0                # DOMAIN GUARD: >= 15 wt% (above espresso TDS)
+    # physical consistency: nu DECREASES with T at fixed solids; INCREASES with solids at fixed T
+    for f in solids:
+        by_T = sorted(((float(x["temperature_C"]), float(x["kinematic_viscosity_mm2_s"]))
+                       for x in r if float(x["dry_solids_percent_w_w"]) == f))
+        vals = [v for _, v in by_T]
+        assert all(a > b for a, b in zip(vals, vals[1:]))   # monotone down in T
+    for T in sorted({float(x["temperature_C"]) for x in r}):
+        by_f = sorted(((float(x["dry_solids_percent_w_w"]), float(x["kinematic_viscosity_mm2_s"]))
+                       for x in r if float(x["temperature_C"]) == T))
+        vals = [v for _, v in by_f]
+        assert all(a < b for a, b in zip(vals, vals[1:]))   # monotone up in solids

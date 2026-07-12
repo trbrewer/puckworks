@@ -51,20 +51,35 @@ Four of five are acquisition/search projects, not quick drops.
 - **Unblocks:** the shared early-shot bias across RC-2/RC-3 gates (every
   flow-coupled model on file uses pure-water μ, ρ).
 - **Need:** coffee-extract **viscosity & density vs TDS and temperature**.
-- **Status (2026-07-12, 🔴→🟡):** Telis-Romero reference envelope on disk
-  (`g10_liquor_rheology/`, gated `gate_g10_reference_mu_above_water`);
-  quantitative per-cell μ(T,c) needs a Tim drop of the Telis-Romero 2001/2000
-  tables (paywalled, bot-blocked). A true espresso-TDS measurement (independent
-  strength) is a new open sub-search.
+- **Status (🟡):** Telis-Romero reference envelope on disk
+  (`g10_liquor_rheology/`, gated `gate_g10_reference_mu_above_water`).
+  **2026-07-12 — second measured source added:** khomyakov2020 MEASURED kinematic
+  viscosity grid (15–70 wt% × 20–80 °C, CC BY 3.0) →
+  `g10_liquor_rheology/khomyakov2020_kinematic_viscosity.csv`, loader
+  `khomyakov_kinematic_viscosity`, smoke-tested, card `khomyakov2020.md`. Its
+  density + dynamic-viscosity **regressions are QUARANTINED** (sign/typeset
+  conflicts; `*_FLAGGED/_QUARANTINED.csv`, not loaded). **Still 🟡:** khomyakov's
+  15 wt% floor is ABOVE espresso TDS (4–12 wt%) so espresso stays an
+  extrapolation; a production espresso μ(T,c) closure still needs a sub-15 wt%
+  measured source (Telis-Romero 2000/2001 full tables — Tim institutional drop;
+  author-clarification draft in `docs/sourcing/`) and/or a true espresso-TDS
+  measurement for independent strength.
 
 ### 🔴 G2 — transient-discharge validation data
 - **Unblocks:** G2 mass-conserving 5-state mobile-fines transport (fasano2000_partI
   is a 3-state skeleton with every parameter unidentified; ellero2019 was skipped
   as a component).
 - **Need:** **ASIC 1993/1997 Petracco/Bandini** transient-discharge proceedings;
-  and/or **Ellero & Navarini, J. Food Eng. 263 (2019)** (named intake candidate).
-- **Status:** "hard to obtain — acquisition project." ASIC proceedings are the
-  long shot; ellero2019 is Elsevier-hosted (reachability unverified).
+  and/or **Ellero & Navarini, J. Food Eng. 263 (2019)** raw discharge series.
+- **Status (🔴, but no longer a blind search — 2026-07-12):** the ellero2019
+  **primary source is located** (open institutional PDF; supplies the direct/inverse
+  forcing schedule + τ_v=0.16 s + a plotted experimental overlay) — but **NOT a
+  raw-data release**; the points are embedded in a figure and the ASIC 1993/1997
+  proceedings remain hard to obtain. So G2 is now a **defined acquisition/
+  digitization task**: request raw series from Ellero/Navarini/ASIC/illy AND
+  digitize the 2019 overlay as a labelled fallback (never call digitized points
+  raw). Source notes + digitization template + request path in `docs/sourcing/`
+  (`G2_TRANSIENT_DISCHARGE_SOURCE_NOTES.md`, `g2_..._digitization_template.csv`).
 
 ### 🟡 0.6 — Wadsworth raw 22-sample PSD zip
 - **Unblocks:** full `pack_generator` PSD-prior validation. **Does NOT block 1.5**
@@ -78,17 +93,28 @@ Four of five are acquisition/search projects, not quick drops.
 
 ## Tier 2 — exists but not yet intaken (transcription/drop)
 
-### 🟡 0.8 — bruno2026 Table 2 (four-origin roasted chemistry)
-- **No loader, no data on file** — the only genuinely-outstanding transcription.
-- **Serves:** G6 / ledger A4 seed (roasted-inventory prior → pannusch /
-  romancorrochano kinetics; the roasting model itself stays out of the chain per
-  its card). Priority 3.
-- **Action:** transcribe the article table (check host reachability first; if
-  MDPI/RS, needs a Tim drop).
+### ✅ 0.8 — bruno2026 Table 2 — RESOLVED (2026-07-12)
+- Transcribed from the open CC BY 4.0 article (Sci. Rep. 16, 15857) →
+  `data/bruno2026/` (long + wide), loaders `bruno_roasted_composition`/`_wide`,
+  MANIFEST row, smoke test. Data-only inventory prior for G6/A4 (never
+  Bruno-ODE → extraction, per card). **The last outstanding transcription item.**
 
 *Note:* the SPRINTS `[ ]` checkboxes for egidi2024, romancorrochano (4.9/4.10/6.1),
 mo2023, liang2021, foster2025_2, and fasano are **stale** — each has working
-loaders and gated components (data already on disk). Only bruno2026 remains.
+loaders and gated components (data already on disk). With bruno2026 done, **no
+transcription item remains outstanding**.
+
+### Acquisition instruments on disk (`docs/sourcing/`)
+For the still-blocked items, ready-to-send request drafts + measurement schemas
+are preserved so they are one step from acquisition (do NOT auto-send):
+- **G1** — experiment protocol, retention-measurement CSV schema, author-request
+  email (G1 is an experiment-design task, not a web search).
+- **G3** — DE1 pressure-sweep bench protocol, Q(P) CSV schema, Decent request.
+- **G2** — ellero2019 source notes + digitization template + ASIC/illy request.
+- **G10** — khomyakov density-sign author-clarification email; Telis-Romero targets.
+- **0.6** — Wadsworth PSD-ZIP follow-up email.
+- Provenance: `BLOCKED_INTAKE_SOURCING_REPORT.md`, `SOURCE_MANIFEST.csv`,
+  `TIER3_LEADS.md`.
 
 ---
 

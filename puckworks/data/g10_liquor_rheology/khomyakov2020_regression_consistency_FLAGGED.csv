@@ -1,0 +1,5 @@
+dry_solids_mass_fraction,temperature_C,measured_kinematic_viscosity_mm2_s,dynamic_viscosity_using_printed_density_mPa_s,literal_printed_power_law_mPa_s,literal_to_table_based_ratio,status,notes
+0.15,20,2.131,2.18289,12.6881,5.81254,SOURCE/EQUATION INTERPRETATION CONFLICT,"This is a diagnostic, not a corrected model. The literal equation mu=a*(T_C/100)^b does not reproduce the source's measured table."
+0.15,80,0.747,0.801045,4.54225,5.6704,SOURCE/EQUATION INTERPRETATION CONFLICT,"This is a diagnostic, not a corrected model. The literal equation mu=a*(T_C/100)^b does not reproduce the source's measured table."
+0.70,20,20417.0,26629.9,7.56245e+06,283.984,SOURCE/EQUATION INTERPRETATION CONFLICT,"This is a diagnostic, not a corrected model. The literal equation mu=a*(T_C/100)^b does not reproduce the source's measured table."
+0.70,80,291.2,393.79,470040,1193.63,SOURCE/EQUATION INTERPRETATION CONFLICT,"This is a diagnostic, not a corrected model. The literal equation mu=a*(T_C/100)^b does not reproduce the source's measured table."
