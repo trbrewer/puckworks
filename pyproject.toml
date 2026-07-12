@@ -9,6 +9,7 @@ dependencies = ["numpy", "scipy"]
 [project.optional-dependencies]
 lb = ["taichi"]
 dev = ["pytest"]
+figures = ["matplotlib"]
 
 [build-system]
 requires = ["setuptools>=64"]

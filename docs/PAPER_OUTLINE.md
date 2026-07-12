@@ -213,8 +213,8 @@ in an exploratory section or appendix — NOT "ready, only Fig 5 remaining".)*
 | Result 3 (N-tube) | **amber exploratory** | ✅ pressure fix + metrics + stability analysis + flow/pressure regime + phase diagram; still: physical lateral model (card-blocked), alt clocks/donor-uncertainty, experimental channeling |
 | Registry Methods | **amber** | correct universal-gate claim (done in §2); add observable/unit contracts; pin a commit |
 | Related work / novelty | **red** | complete before claiming no prior head-to-head comparison |
-| Figures | **red** | generate only after the analyses above; render none yet |
-| Overall Paper B | **not submission-ready** | scientific reanalysis, not just prose + rendering |
+| Figures | **draft rendered** | Figs 1–5 rendered from harness outputs (`puckworks/figures.py`, `[figures]` extra → `docs/figures/`); manuscript-draft quality, track the corrected findings. Remaining: LaTeX captions + journal sizing |
+| Overall Paper B | **not submission-ready** | scientific reanalysis mostly done (Results 1–3); remaining: prose, related work, abstract |
 
 ## Priority revision sequence (from the review)
 
