@@ -10,6 +10,14 @@ Shared external constraint on ALL five: **schmieder2023** measures non-monotonic
 cup mass at fixed flow with pressure(grind) — cup mass peaks at GL 1.7 (data in
 `data/schmieder2023/cup_masses.csv`). Any surviving mechanism must reproduce it.
 
+> **VERDICT (P3 synthesis, `gate_p3_schmieder_peak_discrimination` /
+> `harness.schmieder_peak_discrimination`):** of the four instrumented
+> mechanisms, **only static channeling (#1) reproduces the schmieder interior
+> peak from physical parameters.** Lee (#3) makes an interior EY maximum only at
+> a doctored ceiling ρ_c=798 (physical ρ_c=399 plateaus); size-exclusion (#4,
+> monotone y₀) and the diffusion/base-extraction null are monotone and cannot
+> produce a non-monotonic peak at all. See the "P3 VERDICT" section below.
+
 | # | hypothesis | card / component | discriminating observable | expected signature | status & current evidence |
 |---|---|---|---|---|---|
 | 1 | static channeling σ(φ₁) | `brewer2026.streamtube` | fitted σ vs fines fraction / grind | monotone σ(φ₁) relation | **INSTRUMENTED — `gate_p3_channeling_sigma_sweep` (`harness.channeling_sigma_sweep`).** A MONOTONE σ(grind) closure through the fines fraction, fed to the streamtube EY-deficit, turns the monotone base EY(grind) into a PEAKED ensemble EY (peak at gs≈1.5, near schmieder GL 1.7): the deficit is largest at the finest grind (most fines), so static channeling ALONE reproduces the fine-grind dip. Independent/qualitative. |
@@ -29,12 +37,63 @@ cup mass at fixed flow with pressure(grind) — cup mass peaks at GL 1.7 (data i
   minimum with **no bed mechanism** — any dip explanation invoking κ(t) must beat
   this null first.
 
+## P3 VERDICT — the fine-grind dip is a channeling phenomenon
+
+**Harness:** `harness.schmieder_peak_discrimination()` · **gate:**
+`gate_p3_schmieder_peak_discrimination` (QUICK). **Validation strength:**
+qualitative / mechanism-discrimination. It compares the SHAPE of each
+mechanism's grind response against the schmieder cup-mass shape — NOT the dial
+location: grinder dial spaces are non-portable (CLAUDE.md rule 9), so the claim
+is "does it make an interior maximum," not "does the peak land on GL 1.7."
+
+**The schmieder target, stated honestly.** Cup mass vs grind (mean over reps),
+by target flow (`data/schmieder2023`):
+
+| target flow (mL/s) | GL 1.4 | GL 1.7 | GL 2.0 | interior peak? |
+|---|---|---|---|---|
+| 1.0 | 96.8 | **97.7** | 96.5 | **yes @ GL 1.7** |
+| 2.0 | 90.5 | 96.9 | 97.0 | no (monotone ↑) |
+| 3.0 | 90.5 | **94.3** | 94.2 | marginal (0.1 g) |
+
+The non-monotonicity is REAL but WEAK (~1 g on ~97 g) and only unambiguous at the
+lowest flow; at flow 2 it is monotone-increasing, at flow 3 the GL 1.7 lead is
+within noise. So the target is "a small interior cup-mass peak at GL 1.7 that is
+present at low flow" — not a clean flow-monotone story. Do not overclaim a
+flow-washout.
+
+**Mechanism scoreboard** (interior maximum in the grind response, and whether it
+survives at physical parameters):
+
+| # | mechanism | interior peak? | physical? | reproduces schmieder? |
+|---|---|---|---|---|
+| 1 | static channeling σ(φ₁) | **yes** (peak gs≈1.5) | **yes** | **YES** |
+| 3 | lee2023 dissolution instability | yes | **no** (needs ρ_c=798) | only with doctored ceiling |
+| 4 | size-exclusion y₀(grind) | no (monotone 31.7→24.3%) | — | no |
+| — | base / diffusion extraction (null) | no (monotone) | — | no |
+
+**Reading.** The fine-grind dip / schmieder non-monotonicity is a **channeling**
+phenomenon: a monotone σ(grind) closure through the fines fraction (more fines at
+fine grinds → more static channeling → EY deficit largest at the finest grind),
+folded against the ordinary surface-area rise, is the *only* mechanism that turns
+a monotone base EY(grind) into an interior maximum without a doctored constant.
+Lee can make the shape but only by imposing an unphysical saturation ceiling;
+size-exclusion inventory and pure diffusion are structurally monotone and cannot
+produce non-monotonicity alone. This does not *exclude* #2 (incomplete wetting) —
+that mechanism lives in the still-open G1 continuous-saturation gap and is
+discriminated by first-drip DELAY, not by the EY/cup-mass shape (see the
+wetting-atom probe below). It says: among the mechanisms we *can* run, channeling
+is sufficient and uniquely physical for the schmieder cup-mass signature.
+
 ## What's needed to close P3 (mostly Phase 3 + CHAT)
 - Hypotheses 1 (static channeling), 3 (lee2023) and 4 (romancorrochano size-exclusion) are now instrumented. The ONLY remaining un-instrumented mechanism is #2 incomplete wetting, which needs the G1 continuous-saturation (Richards-type) model — no card on file, so it stays open.
 - Hypothesis 1 needs a per-grind σ(φ₁) sweep (streamtube × grindmap).
 - Hypothesis 2's discriminating observable is first-drip DELAY (probed; needs per-grind DE1 first-drip data to settle); a validated model still needs the G1 continuous-saturation constitutive gap closed.
 - The verdict ("which mechanism survives, and does any reproduce the schmieder
-  non-monotonic cup mass") is the CHAT workup feeding the paper.
+  non-monotonic cup mass") is now SETTLED at the EY/cup-mass level — see the
+  **P3 VERDICT** section above (`gate_p3_schmieder_peak_discrimination`): static
+  channeling (#1) is the unique physical reproducer. The one live discriminator
+  that could still promote #2 is a per-grind DE1 **first-drip DELAY** sweep
+  (channeling leaves first-drip unchanged; only the wetting atom delays it).
 
 ## Hypothesis #2 probe — composite wetting-atom over streamtube + foster
 

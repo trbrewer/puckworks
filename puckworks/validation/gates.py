@@ -587,6 +587,39 @@ def gate_p3_channeling_sigma_sweep():
                 ey_ensemble=[round(float(v), 2) for v in r["ey_ensemble"]])
 
 
+def gate_p3_schmieder_peak_discrimination():
+    """P3 fine-grind-dip VERDICT (the culmination of the P3 cluster). The
+    schmieder2023 target is a NON-MONOTONIC cup-mass curve with an interior peak
+    at GL 1.7 (real data; present at low flow, weak/absent at flow 2). This gate
+    runs every instrumented P3 mechanism and asserts the DISCRIMINATION result:
+    of the four (static channeling #1, lee dissolution #3, size-exclusion #4,
+    diffusion null), ONLY static channeling produces an interior grind maximum
+    from physical parameters. lee makes one only at a doctored ρ_c=798;
+    size-exclusion and the diffusion null are monotone. This is what adjudicates
+    the fine-grind dip as a channeling phenomenon. Validation strength:
+    qualitative / mechanism-discrimination (SHAPE, not dial location — grinder
+    dial spaces are non-portable, CLAUDE.md rule 9)."""
+    from puckworks import harness as h
+    r = h.schmieder_peak_discrimination(n_grid=6)
+    by = {b["name"]: b for b in r["board"]}
+    channeling_only = (r["reproduce_physical"] == ["static channeling σ(φ₁)"])
+    lee_needs_unphysical = ("lee2023 dissolution instability"
+                            in r["reproduce_only_unphysical"])
+    passed = bool(
+        r["schmieder_target"][r["low_flow"]][2]        # schmieder low-flow interior peak is real
+        and channeling_only                             # only channeling reproduces it (physical)
+        and lee_needs_unphysical                        # lee needs a doctored ceiling
+        and not by["size-exclusion entrapment y₀(grind)"]["produces_interior_peak"]
+        and not by["base / diffusion extraction (null)"]["produces_interior_peak"])
+    return dict(passed=passed,
+                schmieder_low_flow_peak_grind=r["low_flow_peak_grind"],
+                reproduce_physical=r["reproduce_physical"],
+                reproduce_only_unphysical=r["reproduce_only_unphysical"],
+                board={b["name"]: dict(interior_peak=b["produces_interior_peak"],
+                                       physical=b["physical"]) for b in r["board"]},
+                verdict=r["verdict"])
+
+
 def gate_roman_sphere_solver():
     """romancorrochano2017 extraction (3.5) solver verification: the spherical
     method-of-lines diffusion solver reproduces the classic Crank analytic
@@ -1023,5 +1056,6 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_mo2_coupled_bed_fig8,
          gate_fasano_cor82_nonmonotone, gate_fasano_reversal_signature,
          gate_fasano_freeboundary, gate_p3_channeling_sigma_sweep,
+         gate_p3_schmieder_peak_discrimination,
          gate_unified_kappa_t, gate_coupled_kappa_t, gate_g9_series_resistance,
          gate_kappa_t_degeneracy, gate_kappa_t_composition_diagnostic]
