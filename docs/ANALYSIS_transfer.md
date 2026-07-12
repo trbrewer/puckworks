@@ -142,6 +142,36 @@ The two stay model-vs-data (ONBOARDING §6), and the earlier §7.1 "gap closed /
 inventory-vs-kinetic" entry is corrected by the later "negative validation"
 entry.
 
+## 6. Positive control — fractions resolve what the cup hides
+
+The claim in §5 (the rate is identifiable from the extraction *curve* but not its
+endpoint) is directly testable on the **same model** and the **same data pannusch
+was fit to** — the Schmieder fraction kinetics (15 shots, 6 timed fractions each).
+For each solute we sweep the rate scale and, at each rate, re-optimize a single
+global level so the rate can only change the *shape*; then we score two ways —
+against the fraction curve, and against the very same shots **collapsed to one
+whole-cup value**. The identifiability ratio (max-edge MAPE / min MAPE) measures
+how sharp the trough is:
+
+| solute | fraction-scored (temporal) | whole-cup-scored (collapsed) |
+|---|---|---|
+| caffeine | min 6.1 % @ rate 0.8; **edge/min 4.0×** | min 2.8 %; edge/min 1.33× |
+| trigonelline | min 10.0 % @ rate 0.8; **edge/min 4.4×** | min 3.8 %; edge/min 1.22× |
+| 5-CQA | min 7.1 % @ rate 1.0; **edge/min 4.3×** | min 4.3 %; edge/min 1.19× |
+
+Scoring against the **fractions** produces a sharp trough with its minimum near
+rate = 1 (as it must — pannusch was calibrated here), rising 4× to the edges of a
+16× rate sweep: **the rate is identified.** Collapsing the identical shots to a
+single cup value flattens the objective to a ±20 % drift with no real minimum
+(edge/min ≈ 1.2–1.3): **the rate is not identified** — the same degeneracy as the
+angeloni whole-cup transfer (§3), now reproduced on pannusch's own fit data. The
+kinetic information is in the temporal shape, and the whole cup integrates it
+away. This is the positive counterpart that makes the negative result actionable,
+and it resolves gap **G6** (multi-class inventory ↔ kinetics): the two are
+separable only with time-resolved data.
+
+Strength: verification (positive control on the model's own calibration data).
+
 ## Reproducibility
 
 - Transfer arc: `validation/slow/angeloni_bracket.py` —
