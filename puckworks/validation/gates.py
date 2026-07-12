@@ -391,7 +391,12 @@ def gate_p2_kappa_ladder():
     variation, not a specific bed mechanism; the mechanistic content is that a
     zero-parameter poroelastic Phi(t) nearly reaches that flexible floor. Rung 5
     RC-3b (Cameron-coupled, diffusion-limited Phi) beats the constant nulls too but
-    is ~3x WORSE than rung 4 -> near-instant dissolution favored (§5.6)."""
+    is ~3x WORSE than rung 4 -> near-instant dissolution favored (§5.6). Rung 5b, the
+    mo2023_2 SWELLING competitor (Phase-3 discrimination), predicts the WRONG SIGN: its
+    Carman-Kozeny flow ratio is monotone non-increasing (throttles to ~4% over the shot),
+    so its best-anchored RMSE (~1.08) is WORSE than a constant and it is strongly
+    anti-correlated (r~-0.95) with the rising trace -> the swelling mechanism is refuted
+    as the driver of the rising-flow residual (card: 'enters with the wrong sign')."""
     from puckworks import harness as h
     L = h.kappa_t_ladder()
     passed = (L["rung4_beats_floor"] and L["improvement_factor"] > 2.0
@@ -399,7 +404,9 @@ def gate_p2_kappa_ladder():
               # the three constant nulls are DISTINCT (not one RMSE copied twice)
               and L["rung1_const_kappa"] < L["rung3_static_kappaP"]
               and L["rung5_rc3b_cameron_coupled"] < L["rung1_const_kappa"]   # beats null
-              and L["rung5_rc3b_cameron_coupled"] > L["rung4_phi_of_t"])     # loses to empirical
+              and L["rung5_rc3b_cameron_coupled"] > L["rung4_phi_of_t"]      # loses to empirical
+              # rung 5b swelling is the WRONG SIGN (anti-correlated, worse than a constant)
+              and L["swelling_wrong_sign"] and not L["swelling_beats_best_null"])
     return dict(passed=passed, window_s=L["window_s"],
                 rung1_best_const=L["rung1_const_kappa"],
                 rung1b_longrun=L["rung1b_longrun_const"],
@@ -408,6 +415,10 @@ def gate_p2_kappa_ladder():
                 flexible_cubic=L["flexible_cubic_null"],
                 cubic_beats_dynamic=L["cubic_beats_dynamic"],
                 rung5_rc3b_rmse=L["rung5_rc3b_cameron_coupled"],
+                rung5b_swelling_rmse=L["rung5b_swelling_mo2"],
+                rung5b_swelling_corr=L["rung5b_swelling_corr_with_trace"],
+                rung5b_swelling_full_shot_decay=L["rung5b_swelling_full_shot_decay"],
+                swelling_wrong_sign=L["swelling_wrong_sign"],
                 factor=L["improvement_factor"], rc3b=L["rc3b_vs_rung4"])
 
 

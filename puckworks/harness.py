@@ -160,6 +160,26 @@ def kappa_t_ladder(window=_KAPPA_LADDER_WINDOW):
     md_cam = np.interp(td, r.t, r.m_cup * 1000.0)          # g
     q5 = wz.q_dynamic_from_md(9.0, P_c, Q_c, md_cam, dose)
     rmse5 = float(np.sqrt(np.nanmean((q5 - qd) ** 2)))
+    # rung 5b, mo2023_2 SWELLING competitor (Phase-3 discrimination, wrong-sign).
+    # The card is explicit: swelling shrinks the fixed-height bed's porosity, so its
+    # Carman-Kozeny flow RATIO q(t)/q(0) is monotone NON-INCREASING at fixed dp --
+    # it can only THROTTLE flow, never source the observed 14x rise. We run its own
+    # native prediction (flow_decay, the validated Fig-3a mechanism) from t~0 across
+    # the window for a representative illy powder, give it its BEST-CASE free level
+    # (LS-optimal scalar anchor, 1 param), and report the wrong-sign signature: the
+    # sign of its within-window trend and its correlation with the rising trace.
+    # This is a QUALITATIVE cross-rig mechanism check (illy powder, not the wz
+    # coffee); the sign is grind/coffee-independent (any swelling => q_rel<=1), so
+    # the refutation is robust while the magnitude is not a fit to this coffee.
+    from puckworks.models.mo2023_2 import swelling as mo2
+    t_full = np.linspace(0.0, hi, 120)
+    fd = mo2.flow_decay("M", t_full)                       # q_rel(t)=q(t)/q(0), falls
+    qrel_win = np.interp(td, t_full, fd["q_rel"])
+    a_star = float(np.dot(qrel_win, qd) / np.dot(qrel_win, qrel_win))  # LS level, 1 param
+    rmse5b = float(np.sqrt(np.mean((a_star * qrel_win - qd) ** 2)))
+    swell_trend = float(qrel_win[-1] - qrel_win[0])        # <0: falling within window
+    swell_corr = float(np.corrcoef(qrel_win, qd)[0, 1])    # <0: anti-correlated w/ rise
+    full_shot_decay = float(fd["q_rel"][-1])               # q(95)/q(0) over the shot
     # flexible NON-mechanistic temporal null: degree-3 polynomial, 4 params fit
     Xc = np.column_stack([td ** kk for kk in range(4)])
     cc, *_ = np.linalg.lstsq(Xc, qd, rcond=None)
@@ -175,9 +195,17 @@ def kappa_t_ladder(window=_KAPPA_LADDER_WINDOW):
                 rung3_static_level_g_per_s=round(lvl_static, 3),
                 rung4_phi_of_t=round(rmse4, 3),
                 rung5_rc3b_cameron_coupled=round(rmse5, 3),
+                rung5b_swelling_mo2=round(rmse5b, 3),
+                rung5b_swelling_full_shot_decay=round(full_shot_decay, 3),
+                rung5b_swelling_window_trend=round(swell_trend, 4),
+                rung5b_swelling_corr_with_trace=round(swell_corr, 3),
+                # swelling can ONLY throttle: monotone-nonincreasing ratio,
+                # anti-correlated with the rising trace -> wrong sign for the driver
+                swelling_wrong_sign=bool(swell_corr < 0.0 and swell_trend <= 0.0),
+                swelling_beats_best_null=rmse5b < best_null,
                 flexible_cubic_null=round(rmse_cubic, 3),
                 free_params=dict(rung1=1, rung1b=1, rung3=0, rung4=0, rung5=0,
-                                 flexible_cubic=4),
+                                 rung5b_swelling=1, flexible_cubic=4),
                 rung4_beats_floor=rmse4 < best_null,
                 improvement_factor=round(best_null / rmse4, 1),      # vs BEST null
                 improvement_vs_static=round(rmse_static / rmse4, 1),

@@ -33,6 +33,19 @@ def test_p2_rung5_rc3b():
     assert L["rung5_rc3b_cameron_coupled"] > L["rung4_phi_of_t"]
 
 
+def test_p2_rung5b_swelling_wrong_sign():
+    """P2 rung 5b: the mo2023_2 swelling competitor predicts the WRONG SIGN -- its
+    Carman-Kozeny flow ratio is monotone non-increasing, so it is anti-correlated
+    with the rising trace and (best-anchored) worse than a constant -> refuted as
+    the driver of the rising-flow residual (card: 'enters with the wrong sign')."""
+    L = h.kappa_t_ladder()
+    assert L["swelling_wrong_sign"]                                # corr<0 and falling
+    assert L["rung5b_swelling_corr_with_trace"] < 0.0
+    assert L["rung5b_swelling_window_trend"] <= 0.0               # throttles, never rises
+    assert not L["swelling_beats_best_null"]                       # worse than a constant
+    assert L["rung5b_swelling_mo2"] > L["rung4_phi_of_t"]         # far worse than Phi(t)
+
+
 def test_p2_cross_pressure_separation():
     """P2 cross-pressure: mechanisms separate by regime (no single mechanism
     lowest everywhere) -- Phi(t) lowest transfer-mean, RC-3b lower low-P, static

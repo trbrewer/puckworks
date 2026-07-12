@@ -98,12 +98,38 @@ and honest: a **zero-free-parameter** poroelastic Φ(t) nearly reaches the 4-par
 flexible floor, which is the non-trivial part (a constant with a free level cannot,
 a flexible curve needs four).
 
-**What this does and does not settle.** Sufficient is not unique. The
-challengers — mo2023_2 fines migration, fasano I/II, lee2023
-dissolution–flow instability, and RC-3b poroelastic κ(P, Φ) — are Phase 3;
-until they run, the verdict is: *mechanism needed; Φ(t) fits; discrimination
-pending.* Two design notes for the Phase-3 discrimination so it is decisive
-rather than another tie:
+**What this does and does not settle — Phase-3 discrimination (partial, sign-decisive).**
+Sufficient is not unique, so we ran the challengers that *can* be evaluated on this
+observable and report an honest partial verdict rather than "pending":
+
+- **Matrix-resistance mechanisms are refuted by sign.** Both bed-mechanical competitors
+  can only *raise* resistance at fixed pressure, so both predict *falling* flow — the
+  wrong sign for a rising residual. **mo2023_2 swelling** (rung 5b): its own Carman–Kozeny
+  flow ratio is monotone non-increasing (throttles to ≈4 % of initial over the shot for a
+  representative illy powder), so even with a best-case free level it scores RMSE ≈1.08 g/s
+  — *worse than the best constant null* (0.573) — and is strongly anti-correlated with the
+  trace (*r* ≈ −0.95). **fasano2000_partI fines-migration**: analytically, its discharge is
+  monotone non-increasing at constant p₀ (Lemma 8.3), and Part III states the flux can rise
+  again *only if p₀(t) increases* — so at fixed 9 bar it cannot source the rise, independent
+  of the (unpublished, our-chosen) closures. The sign is grind/coffee-independent, so this
+  is a *qualitative* cross-rig refutation, not a fit to the Waszkiewicz coffee.
+- **Dissolution-driven porosity-opening (Φ(t), rung 4) is the only tested mechanism with the
+  correct sign** — a dissolving matrix *opens* porosity over time, which is what a rising
+  trace requires; RC-3b (rung 5, Cameron-coupled diffusion-limited Φ) has the right sign too
+  but is ~3× worse than the empirical near-instant Φ(t).
+- **Two challengers cannot be adjudicated on this observable (declared, not silently
+  dropped).** *fasano2000_partII* is card-only: the constitutive functions (δᵢ, g, h, ξ₁, ξ₂,
+  ε_*, ε*) are "not provided" in the source, so it has no parameters to run — **blocked**, not
+  tested. *lee2023* is a constant-*flow*, EK43-grind, EY-vs-grind model whose home is the
+  orthogonal fine-grind-dip axis (where it is instrumented and gated); forcing it onto a
+  constant-*pressure* flow trace would require a pressure-driven reformulation the paper does
+  not supply, so it is out of scope here, not refuted.
+
+So the flow-trace verdict is now: *mechanism needed; dissolution-opening Φ(t) fits and is the
+only competitor with the correct sign; the swelling and fines-migration matrix-resistance
+mechanisms are refuted as the driver by sign; full quantitative discrimination of
+fines-migration vs dissolution still needs the pressure-step / flow-reversal protocol (owed).*
+Two design notes for that remaining protocol so it is decisive rather than another tie:
 
 1. **Cross-pressure generalization is the discriminator Waszkiewicz makes
    possible.** Eleven pressures exist. Fit each mechanism at 9 bar only, then
@@ -342,7 +368,11 @@ wrapping criterion (a)+(b). Estimated effort S given both components exist.
 
 ---
 
-*Status implications:* 2.1 and 2.2 complete (2.2 verdict partial by design,
-pending Phase 3); 2.3 remains a living verdict with its two next computations
-named; 1.4 design ready for a CC session. ROADMAP §7.1 entries and SPRINTS
-ticks accompany this file's commit.
+*Status implications:* 2.1 and 2.2 complete (2.2 verdict now **partial but
+sign-decisive**: the Phase-3 matrix-resistance challengers — mo2023_2 swelling,
+fasano2000_partI fines-migration — are refuted by sign; dissolution-opening Φ(t)
+survives; fasano2000_partII is parameter-blocked and lee2023 is off-observable, both
+declared; the fines-vs-dissolution quantitative discrimination still awaits the
+pressure-step / flow-reversal protocol); 2.3 remains a living verdict with its two
+next computations named; 1.4 design ready for a CC session. ROADMAP §7.1 entries and
+SPRINTS ticks accompany this file's commit.

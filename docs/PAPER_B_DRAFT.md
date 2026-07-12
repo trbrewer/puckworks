@@ -229,6 +229,31 @@ nearly reaches the four-parameter flexible floor. The trajectory is also
 soft-circular (dissolved mass derives from the same rig's TDS and flow), and we
 avoid "parameter-free" because the donor parameters were estimated elsewhere.
 
+**The flexible null bounds *identification*, but a sign test still *excludes* the
+matrix-resistance mechanisms.** Fit quality alone does not single out a mechanism (the
+phenomenological cubic ties the poroelastic trajectory), yet the *direction* of each
+candidate's flow contribution does discriminate. Both bed-mechanical competitors —
+particle swelling (mo2023_2) and fines migration (fasano2000_partI) — can only *increase*
+resistance at fixed pressure, so each predicts *falling* flow: the wrong sign for a rising
+residual. Running mo2023_2's own Carman–Kozeny prediction (its validated fixed-Δp mechanism)
+gives a monotone-decreasing flow ratio (throttling to ≈4 % of initial over the shot for a
+representative illy powder); given a best-case free level it scores RMSE ≈1.08 g/s — *worse
+than the best constant null* — and is anti-correlated with the trace (*r* ≈ −0.95). For fines
+migration the exclusion is analytic: its discharge is monotone non-increasing at constant p₀
+(Fasano–Talamucci–Petracco Lemma 8.3), and their Part III result states the flux can rise
+again *only if the applied pressure increases* — so at a fixed 9 bar it cannot source the
+rise, independent of the (unpublished) constitutive closures. The sign is grind- and
+coffee-independent, so this is a *qualitative* cross-rig refutation, not a fit to this rig's
+coffee. Dissolution-driven porosity *opening* (the Φ(t) trajectory) is the only tested
+mechanism with the correct sign. Two named candidates are declared out of adjudication on
+this observable rather than silently dropped: the Fasano Part II porosity-evolution law has no
+published constitutive constants (an untested skeleton — parameter-blocked), and lee2023 is a
+constant-*flow*, grind-indexed extraction-yield model belonging to the orthogonal fine-grind
+axis, not this constant-pressure flow trace. Scoped statement: *time variation is required and
+the resistance-increasing bed mechanisms are excluded by sign, leaving dissolution-linked
+porosity opening as the surviving branch; distinguishing it quantitatively from fines
+migration still requires a pressure-step or flow-reversal protocol (owed).*
+
 **Cross-pressure — held-out, conditional on campaign calibration.** With the
 published static calibration from the same eleven-pressure campaign, we predict the
 other pressures (Fig. 3c). This is **within-rig generalization conditional on

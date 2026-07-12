@@ -179,9 +179,12 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
       → `harness.kappa_t_ladder()` + `gate_p2_kappa_ladder`. On the Waszkiewicz
       9-bar RISING flow: **rung 4 Φ(t) (RMSE 0.113) beats the flat null rungs
       1/3 (0.603) by 5.4×** → a bed mechanism IS needed. Rung 2 = foster
-      flow-minimum null (validated separately). **Rung 5 challengers (mo2023_2,
-      fasano I/II, lee2023, RC-3b) are Phase 3 — pending those implementations.**
-- [x] CHAT: which mechanism survives → `docs/ANALYSIS_P2.md` (§2.2; verdict partial by design — Φ(t) sufficient, discrimination pending Phase 3 rung 5)
+      flow-minimum null (validated separately). **Rung 5 RC-3b + rung 5b swelling
+      wired; discrimination now sign-decisive (2026-07-12):** the matrix-resistance
+      challengers (mo2023_2 swelling RMSE 1.082 / r=−0.95; fasano I fines-migration
+      by Lemma 8.3) predict the WRONG SIGN → refuted; dissolution-Φ(t) survives.
+      fasano II parameter-blocked, lee2023 off-observable (declared).
+- [x] CHAT: which mechanism survives → `docs/ANALYSIS_P2.md` (§2.2; verdict **partial but sign-decisive** — Φ(t) fits and is the only correct-sign branch; swelling + fines-migration refuted by sign; fasano-II blocked / lee2023 off-observable; fines-vs-dissolution quant. discrimination awaits the pressure-step/reversal protocol)
 
 ## Parallel tracks (not sprint-gated)
 - **TB**: §5.8 correspondence — Mo/Ellero (k1 units + volumes), Grudeva
