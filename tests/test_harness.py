@@ -82,3 +82,10 @@ def test_coupled_kappa_t():
     assert r["EY"][-1] > r["EY"][2] > 0
     imin = int(np.argmin(k))
     assert 0 < imin < len(k) - 1 and k[-1] > k[imin]
+
+
+def test_g9_series_resistance():
+    """G9: puck resistance (measured tamped kappa) is below the DE1 total, and the
+    fitted effective kappa sits below the measured tamped kappa (series residual)."""
+    g = h.g9_series_resistance()
+    assert g["puck_below_total"] and g["fitted_below_measured"]

@@ -217,6 +217,54 @@ def unified_kappa_t(P_bar=9.0, EY_final=0.20, t_shot_s=30.0, n=25, powder="M",
     return dict(t=t, kappa_over_kappa0=np.array(out))
 
 
+def g9_series_resistance():
+    """G9 — basket/screen/outlet hydraulic resistance. A standard Darcy
+    series-resistance decomposition R_total = R_puck + R_series (screen+fixture),
+    testing whether the puck alone explains the observed flow resistance.
+
+    R_total from DE1 fixture A (steady dP/Q). R_puck = mu L /(kappa A) from the
+    INDEPENDENTLY-MEASURED tamped permeability (romancorrochano Table 6.1), vs the
+    FITTED effective kappa lineages (DE1 k_from_kappa, Grudeva). The load-bearing
+    observation: the fitted effective kappa sits BELOW the measured tamped kappa
+    range, i.e. a fit lumps non-puck resistance into an over-dense effective kappa
+    -> R_puck(measured) < R_total, implying a series (screen+fixture) residual.
+
+    Strength: independent data, but CROSS-SOURCE (different coffee/grinder for the
+    measured kappa vs the DE1 shot) -> suggestive, not conclusive; and the revised
+    grudeva adjudication (kappa 2.2e-15 sits inside her K-C band) weakens the sieve
+    narrative. Verdict below: implemented + suggestive; a matched puck-kappa + in-
+    machine total-R measurement is needed to close G9."""
+    import json
+    import os
+    import numpy as np
+    from puckworks.models.cameron2020 import extraction_bdf as cam
+    from puckworks import data as _d
+    DATA = os.path.join(os.path.dirname(__file__), "data")
+    fx = json.load(open(os.path.join(DATA, "de1_fixtureA.json")))
+    t = np.array(fx["elapsed_s"]); P = np.array(fx["pressure_bar"]); fl = np.array(fx["flow_gs"])
+    sel = t >= t[-1] - 8
+    P_ss = float(np.mean(P[sel])); Q_ss = float(np.mean(fl[sel])) / 1e6   # g/s -> m^3/s
+    R_total = P_ss * 1e5 / Q_ss
+    mu = 3.15e-4; L = cam.bed_depth(fx["dose_g"] / 1000); A = np.pi * cam.R0 ** 2
+    k_meas = [r["kappa_m2"] for r in _d.roman_tamped_kappa()]
+    R_puck = lambda k: mu * L / (k * A)
+    from puckworks.models.foster2025 import infiltration as inf
+    k_de1 = inf.k_from_kappa(fx["grind_setting_assumed"], fx["dose_g"] / 1000, fx["kappa_fitted"])[0]
+    k_grud = 2.2e-15                                        # adjudicated grudeva kappa
+    frac = lambda k: R_puck(k) / R_total                    # puck share of total
+    return dict(R_total=R_total, R_puck_measured_range=[R_puck(max(k_meas)), R_puck(min(k_meas))],
+                puck_share_measured=[round(frac(max(k_meas)), 2), round(frac(min(k_meas)), 2)],
+                kappa_measured_range=[min(k_meas), max(k_meas)],
+                kappa_fitted_DE1=k_de1, kappa_fitted_grudeva=k_grud,
+                fitted_below_measured=bool(k_de1 < min(k_meas) and k_grud < min(k_meas)),
+                puck_below_total=bool(R_puck(min(k_meas)) < R_total),
+                verdict="series-resistance model implemented; fitted effective kappa "
+                        "(DE1, grudeva) sits below the measured tamped kappa -> a non-puck "
+                        "(screen+fixture) resistance is implied. CROSS-SOURCE + grudeva "
+                        "adjudication weakened -> suggestive, not conclusive; needs a "
+                        "matched puck-kappa + in-machine total-R measurement to close.")
+
+
 def coupled_kappa_t(P_bar=9.0, grind=1.9, dose_g=20.0, t_shot_s=30.0, powder="M",
                     eps0=0.17, n_save=40, branches=("compaction", "swelling", "extraction")):
     """COUPLED kappa(t) closure: composes the branch factors from LIVE registered-

@@ -489,6 +489,27 @@ def gate_unified_kappa_t():
                 f_extraction_by_EY=[round(v, 2) for v in extr])
 
 
+def gate_g9_series_resistance():
+    """G9 basket/screen/outlet resistance: the Darcy series-resistance
+    decomposition R_total = R_puck + R_series is consistent and SUGGESTS a non-puck
+    residual. Verifies (a) the puck resistance from the independently-measured
+    tamped kappa is a MINORITY of / below the DE1 total resistance (R_puck < R_total
+    for the whole measured kappa range), and (b) the FITTED effective kappa lineages
+    (DE1, grudeva) sit BELOW the measured tamped kappa -> a fit folds non-puck
+    resistance into an over-dense effective kappa. Strength: independent but
+    cross-source (suggestive, not conclusive; grudeva adjudication weakened) --
+    G9 stays open pending a matched puck-kappa + in-machine total-R measurement."""
+    from puckworks import harness as h
+    g = h.g9_series_resistance()
+    passed = bool(g["puck_below_total"] and g["fitted_below_measured"])
+    return dict(passed=passed, R_total=round(g["R_total"], -8),
+                puck_share_measured=g["puck_share_measured"],
+                kappa_fitted_DE1=g["kappa_fitted_DE1"],
+                kappa_measured_min=g["kappa_measured_range"][0],
+                fitted_below_measured=g["fitted_below_measured"],
+                note="suggestive/cross-source; G9 needs a matched measurement to close")
+
+
 def gate_coupled_kappa_t():
     """Coupled kappa(t) closure (kappa(t) backlog, runtime coupling): the four-branch
     framework driven by LIVE registered-model outputs over a real shot. Verifies
@@ -950,4 +971,4 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_mo2_swelling_flow_decay, gate_mo2_swelling_insensitivity,
          gate_fasano_cor82_nonmonotone, gate_fasano_reversal_signature,
          gate_fasano_freeboundary, gate_p3_channeling_sigma_sweep,
-         gate_unified_kappa_t, gate_coupled_kappa_t]
+         gate_unified_kappa_t, gate_coupled_kappa_t, gate_g9_series_resistance]
