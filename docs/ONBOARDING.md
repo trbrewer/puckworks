@@ -31,6 +31,11 @@ with CLAUDE.md, flag it rather than comply.
    fine-grind-dip scoreboard, and the pannusch→angeloni cross-dataset transfer /
    inventory–kinetics identifiability limit). Read these before reopening any of
    those threads.
+5. `docs/PAPER_OUTLINE.md` — the paper-assembly plan and readiness audit: two
+   papers (A extraction/identifiability = `ANALYSIS_transfer` draft; B flow/
+   bed-dynamics = P3 verdict + κ(t) ladder + N-tube instability) + a possible
+   methods note. Read before starting any manuscript work so you don't rebuild a
+   result that is already gated and ready.
 
 ## 3. Verify the state is live, not remembered
 ```
