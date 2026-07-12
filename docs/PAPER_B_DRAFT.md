@@ -279,15 +279,20 @@ two-parameter equilibrium fit is therefore **over-determined**, and the regime
 structure is a property of the physics, not of which pressure sat in the fit. This
 upgrades the claim from conditional transfer to a **within-rig held-out prediction**;
 it is still not independent second-rig validation (only the equilibrium pair is refit —
-the dissolution sigmoid is a fixed 9-bar TDS calibration). Three residual diagnostics
-accompany the aggregation and qualify it: (i) the full-precision (unrounded) held-out
-means are static 0.512, Φ(t) 0.356, RC-3b 0.522 g/s over the ten off-9-bar pressures;
-(ii) each branch carries the same **two** flow-fitted parameters (P_c, Q_c) — Φ(t) and
-RC-3b add donor parameters fit to *other* observables (the sigmoid to 9-bar TDS, Cameron
-to its own calibration), i.e. zero additional flow degrees of freedom; and (iii) the
-lag-1 residual autocorrelation is ≈ 1.0 for **all three** branches, so the RMSE ranking
-is a relative ordering among models that each leave a strongly serially-correlated
-(systematically structured, non-white) residual — no branch is a clean fit.
+the dissolution sigmoid is a fixed 9-bar TDS calibration). It is the trace-level,
+three-mechanism companion to the equilibrium-curve leave-one-pressure-out test of the
+static characteristic alone (`lopo_waszkiewicz_pressure`, Q² ≈ 0.81 on the eleven
+long-run points). Three diagnostics accompany the aggregation and qualify it: (i) the
+full-precision (unrounded) held-out means are static 0.512, Φ(t) 0.356, RC-3b 0.522 g/s
+over the ten off-9-bar pressures; (ii) each branch carries the same **two** flow-fitted
+parameters (P_c, Q_c) — Φ(t) and RC-3b add donor parameters fit to *other* observables
+(the sigmoid to 9-bar TDS, Cameron to its own calibration), i.e. zero additional flow
+degrees of freedom; and (iii) the residual serial-correlation diagnostic
+(`residual_autocorr.summary`, computed on the trace **decimated to 1 s** so it reflects
+model structure rather than the ≈10 Hz sample spacing) gives a mean Durbin–Watson ≈ 0.01
+— a strong positive autocorrelation, i.e. the zero-free-parameter dynamic model leaves a
+**systematically structured, non-white residual** (an honest lack-of-fit the RMSE ranking
+rides on, not clean noise).
 
 **The composition attempt fails, honestly (Fig. 4).** The registered shared-porosity
 synthesis reduces exactly to the poroelastic rung under extraction-only; adding an
@@ -373,9 +378,13 @@ analyzed under a physically consistent machine/bed system and tested experimenta
 
 - Full-precision response-surface reconstruction (source coefficients/model object).
   *Partially addressed:* a documented raw-data refit now reports adjusted R² (0.65),
-  a bootstrap vertex CI ([1.68, 1.81]), and — via the leave-one-design-point-out
-  diagnostic — a Q² predictive score; still owed are the source's full-precision
-  coefficients (author request) and a full covariance/residual-diagnostic panel.
+  a bootstrap vertex CI ([1.68, 1.81]), a leave-one-design-point-out Q² (0.48), and a
+  coefficient-covariance / residual-diagnostic panel (`schmieder_rsm_refit.diagnostics`:
+  per-coefficient standard errors, residual σ ≈ 0.11, max standardized residual ≈ 3.7,
+  max leverage 0.18, and a raw-scale design condition number ≈ 3×10¹² — so the individual
+  coefficients are numerically unstable and only the offset-robust vertex and the
+  predictive Q² are interpretable, reinforcing the shape-not-magnitude reading). Still
+  owed is the source's own full-precision coefficient/covariance matrix (author request).
 - A full design-aware, experiment-unit statistical model of the Result-1 dial
   response. *Partially addressed:* `harness.result1_design_aware_stats` now reports
   the per-dial achieved covariates, the single-experiment-per-cell structure, both
@@ -402,10 +411,13 @@ scientific readiness, and that Results 1 and 3 needed recomputation — now done
   contradiction removed.
 - **Delivered (2026-07-12):** Phase-3 discrimination — the mo2023_2 swelling and
   fasano-partI fines-migration matrix-resistance mechanisms refuted by *sign* (rung 5b,
-  `kappa_t_ladder`); **leave-one-pressure-out cross-pressure validation** (max
-  calibration drift 2.8 %, held-out ≈ shared, `cross_pressure_loco`) + full-precision
-  aggregation, lag-1 residual autocorrelation (≈1.0 all branches), and flow-parameter
-  counts (`cross_pressure_discrimination`).
+  `kappa_t_ladder`); **trace-level leave-one-pressure-out cross-pressure validation** (max
+  calibration drift 2.8 %, held-out ≈ shared, `cross_pressure_loco`; companion to the
+  existing equilibrium-curve `lopo_waszkiewicz_pressure`, Q² ≈ 0.81) + full-precision
+  aggregation and flow-parameter counts (`cross_pressure_discrimination`); residual
+  serial-correlation via the existing decimated `residual_autocorr.summary` (mean
+  Durbin–Watson ≈ 0.01 → honest lack-of-fit); RSM coefficient-covariance / leverage panel
+  (`schmieder_rsm_refit.diagnostics`; predictive Q² via `lopo_rsm_design_point`).
 - **Still owed before submission (major):** conventional Methods (equations,
   calibration splits, statistics, uncertainty); related-work / novelty search;
   full-precision or refit RSM with covariance (source coefficients — author request);

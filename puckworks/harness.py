@@ -994,6 +994,28 @@ def schmieder_rsm_refit(component="tds", brew_ratio="1/2"):
             boot.append(vb)
     vertex_ci95 = ([round(float(np.percentile(boot, 2.5)), 3),
                     round(float(np.percentile(boot, 97.5)), 3)] if boot else None)
+    # --- coefficient-covariance / residual-diagnostic panel (owed §7; OUR refit, not
+    # the source's unavailable full-precision coefficients). The PREDICTIVE score
+    # (leave-one-DESIGN-POINT-out Q^2, replicates held out together) lives in
+    # analysis/lopo_cv.lopo_rsm_design_point -- do NOT recompute a row-level PRESS Q^2
+    # here (it would leak replicates and disagree with that correct diagnostic). -----
+    XtX = X.T @ X
+    design_cond = float(np.linalg.cond(XtX))     # raw-scale collinearity (the note above)
+    diag = None
+    if n > p + 1:
+        sigma2 = ss_res / (n - p - 1)            # unbiased residual variance
+        XtX_inv = np.linalg.pinv(XtX)
+        coef_se = np.sqrt(np.clip(np.diag(sigma2 * XtX_inv), 0.0, None))
+        h = np.clip(np.diag(X @ XtX_inv @ X.T), 0.0, 1.0 - 1e-9)   # leverages
+        std_resid = resid / np.sqrt(sigma2 * (1.0 - h))
+        diag = dict(
+            coef_se=[round(float(s), 4) for s in coef_se],
+            design_condition_number=round(design_cond, 1),
+            residual_std=round(float(np.sqrt(sigma2)), 4),
+            max_abs_standardized_residual=round(float(np.max(np.abs(std_resid))), 3),
+            max_leverage=round(float(np.max(h)), 3),
+            ill_conditioned=bool(design_cond > 1e3),   # raw-scale predictors: SEs unstable
+            predictive_q2_ref="analysis.lopo_cv.lopo_rsm_design_point (design-point LOPO)")
     # printed rounded-coefficient evaluation (the artifact)
     pr = {(r["component"], r["brew_ratio"]): r for r in _d.schmieder_rsm()}[
         ("TDS" if comp == "TDS" else comp.capitalize(), brew_ratio)]
@@ -1007,7 +1029,7 @@ def schmieder_rsm_refit(component="tds", brew_ratio="1/2"):
                 r2=round(r2, 4), adj_r2=round(adj_r2, 4), n=n, n_predictors=p,
                 vertex_g=round(vertex_g, 3) if np.isfinite(vertex_g) else None,
                 vertex_is_max=vertex_is_max, vertex_ci95_g=vertex_ci95,
-                predictors_centered=False,
+                predictors_centered=False, diagnostics=diag,
                 printed_is_artifact=bool(abs(printed_pred - raw_central) > 1.0
                                          and abs(refit_pred - raw_central) < 0.5))
 
@@ -1122,38 +1144,22 @@ def cross_pressure_discrimination(window=(15.0, 95.0)):
     dose = d.waszkiewicz_constants()["dose__g"]
     lo, hi = window
     per = {}
-    resid = {m: [] for m in ("static", "phi", "rc3b")}   # residual arrays for diagnostics
-
-    def _lag1(r):
-        r = np.asarray(r, float); r = r[np.isfinite(r)]
-        if r.size < 3 or np.allclose(r, r[0]):
-            return float("nan")
-        return float(np.corrcoef(r[:-1], r[1:])[0, 1])
     for p in ps:
         t = tr[p]["time__s"]; q = tr[p]["mass_flow_rate__g_per_s"]
         sel = (t >= lo) & (t <= hi); ts, qs = t[sel], q[sel]
-        e_static = wz.q_static(p, P_c, Q_c) - qs
-        r_static = float(np.sqrt(np.mean(e_static ** 2)))
+        r_static = float(np.sqrt(np.mean((wz.q_static(p, P_c, Q_c) - qs) ** 2)))
         q_phi = wz.q_dynamic(ts, p, P_c, Q_c, k_s, l_s, m_s, dose)
         r_phi = float(np.sqrt(np.nanmean((q_phi - qs) ** 2)))
         sh = cam.simulate_shot(1.9, p_bar=p, m_in=dose / 1000, m_out=0.040,
                                t_shot=100.0, n_save=150)
         md = np.interp(ts, sh.t, sh.m_cup * 1000.0)
         if md[-1] <= 0:
-            r_rc3b = float("nan"); q_rc = np.full_like(qs, np.nan)
+            r_rc3b = float("nan")
         else:
             q_rc = wz.q_dynamic_from_md(p, P_c, Q_c, md, dose)
             r_rc3b = float(np.sqrt(np.nanmean((q_rc - qs) ** 2)))
         per[p] = dict(static=round(r_static, 3), phi=round(r_phi, 3),
-                      rc3b=round(r_rc3b, 3),
-                      # lag-1 residual autocorrelation: high => structured (unmodelled)
-                      # residual, i.e. the low RMSE is riding on serially-correlated
-                      # misfit, not white noise -- a caveat on every "fit" here
-                      static_acf1=round(_lag1(e_static), 3),
-                      phi_acf1=round(_lag1(q_phi - qs), 3),
-                      rc3b_acf1=round(_lag1(q_rc - qs), 3))
-        resid["static"].append(e_static); resid["phi"].append(q_phi - qs)
-        resid["rc3b"].append(q_rc - qs)
+                      rc3b=round(r_rc3b, 3))
 
     def _mean(keys, mech):
         v = np.array([per[p][mech] for p in keys], float)
@@ -1164,23 +1170,22 @@ def cross_pressure_discrimination(window=(15.0, 95.0)):
     # full-precision (unrounded) transfer mean over the held-out 10 pressures
     full_prec = {m: float(np.nanmean([per[p][m] for p in oos]))
                  for m in ("static", "phi", "rc3b")}
-    # mean lag-1 residual autocorrelation across pressures (honest caveat: all three
-    # branches leave a strongly serially-correlated residual -> the RMSE ranking is
-    # real but none is a white-noise fit)
-    mean_acf1 = {m: round(float(np.nanmean(
-        [per[p][f"{m}_acf1"] for p in ps])), 3) for m in ("static", "phi", "rc3b")}
+    # NOTE residual autocorrelation lives in analysis/residual_autocorr.py, which
+    # DECIMATES to 1 s first: the raw ~10 Hz trace already has lag-1 ACF ~1.0 from
+    # sample spacing, so a naive raw-series autocorrelation measures sampling, not
+    # lack-of-fit. Do NOT recompute it here on the native series.
     return dict(
         per_pressure=per,
         conditional_transfer_mean={m: round(_mean(oos, m), 3)
                                    for m in ("static", "phi", "rc3b")},
         conditional_transfer_mean_full_precision=full_prec,
-        mean_residual_lag1_autocorr=mean_acf1,
         # DOF fitted to THIS flow dataset is 2 (P_c,Q_c) for all three; phi/rc3b add
         # donor params fit to OTHER observables (phi: 3 sigmoid params from 9-bar TDS;
         # rc3b: Cameron's parameters) -> zero ADDITIONAL flow degrees of freedom
         free_params_fit_to_flow=dict(static=2, phi=2, rc3b=2),
         donor_params_from_other_observables=dict(
             static=0, phi=3, rc3b="cameron2020 calibration (not refit to flow)"),
+        residual_autocorr_ref="analysis.residual_autocorr.summary() (decimated DW)",
         low_p_mean={m: round(_mean(low, m), 3) for m in ("phi", "rc3b")},
         mid_p_mean={m: round(_mean(mid, m), 3) for m in ("static", "phi", "rc3b")},
         # the two load-bearing separations (each a distinct physics claim):
@@ -1201,6 +1206,13 @@ def cross_pressure_loco(window=(15.0, 95.0)):
     pressure in the fit. Here we refit the static equilibrium pair (P_c, Q_c) on
     the OTHER 10 equilibrium points and predict the genuinely held-out 11th trace
     (static / Phi(t) / RC-3b), RMSE over the window.
+
+    COMPANION to `analysis.lopo_cv.lopo_waszkiewicz_pressure`, which does the
+    equilibrium-curve LOPO (static characteristic only, Q^2 on the 11 long-run
+    points, Q^2~0.81). THIS function is the TRACE-LEVEL, three-mechanism companion:
+    it scores the held-out full Q(t) trace for static / Phi(t) / RC-3b over the
+    window, so it tests whether the mechanism DISCRIMINATION (not just the static
+    curve) survives held-out refit.
 
     STRENGTH: this upgrades the shared-calibration conditional transfer toward a
     held-out prediction, but it is STILL WITHIN-RIG (one campaign, one coffee, one

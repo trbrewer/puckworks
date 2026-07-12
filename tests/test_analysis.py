@@ -23,6 +23,20 @@ def test_residual_autocorr_runs():
     assert summary()["n_pressures"] == 11
 
 
+def test_rsm_refit_covariance_panel():
+    """The RSM refit exposes a coefficient-covariance / residual panel (owed §7):
+    per-coefficient SEs, a residual std, leverages, and the raw-scale design
+    condition number that flags the coefficients as numerically unstable (so the
+    interpretation stays shape/vertex, not individual coefficients or magnitude)."""
+    from puckworks.harness import schmieder_rsm_refit
+    d = schmieder_rsm_refit("tds", "1/2")["diagnostics"]
+    assert d is not None
+    assert len(d["coef_se"]) == 7                      # 6 predictors + intercept
+    assert d["residual_std"] > 0.0 and 0.0 < d["max_leverage"] <= 1.0
+    assert d["ill_conditioned"]                        # raw-scale collinearity flagged
+    assert "loo_q2" not in d                           # correct Q2 lives in lopo_cv
+
+
 def test_result1_design_aware_stats_runs():
     """Design-aware experiment-unit diagnostic for Result 1 (runs + sane-typed;
     NOT a threshold gate). Confirms the load-bearing structural facts: one
