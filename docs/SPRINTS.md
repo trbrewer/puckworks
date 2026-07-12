@@ -231,6 +231,34 @@ gaps G10 / G3 / G1.**
 | PV-10 | "a clean basket is not the bottleneck" | not-started | unsequenced (P0/P1) | — | `g9_series_resistance` + basket geometry (gap G9); PV-17 provides the bench validation | [§5](PUBLIC_VALUE.md#pv-10--a-clean-basket-is-not-the-bottleneck-visualize-the-pressure-resistance-budget) |
 | PV-12 | temperature explainer | not-started | unsequenced (P1) | — | `g4_temperature_sensitivity` + Schmieder temperature data (gap G4; two closures disagree on SIGN — surface, don't average) | [§5](PUBLIC_VALUE.md#pv-12--temperature-explainer-small-equilibrium-extraction-effect-unresolved-thermal-puck-physics) |
 
+## Submission track
+*Tracking surface for paper/venue submissions. **Spec + deadlines:**
+`docs/SUBMISSION_TARGETS.md` (front-edge ledger at its top — do not duplicate its
+tables here). **Deadline-bearing:** recheck each portal before submitting; mark a
+passed deadline PASSED, never delete. **Readiness gate (PAPER_OUTLINE):** Paper A is
+amber–green (journal + conference actionable after manuscript conversion); Paper B is
+red (conference ABSTRACT ONLY — journal routes held until the reanalysis /
+related-work / physical-lateral-coupling gaps are closed). Abstract wording obeys the
+§1 claim discipline. Status: `not-started` / `drafting` / `submitted` / `accepted` /
+`declined` / `PASSED`. **All not-started** — no submission actioned yet.*
+
+> ⏰ **APS DFD 2026-07-24 (Paper B abstract) is the nearest action** — ~12 days from
+> the 2026-07-12 authoring date. Internal target 2026-07-23.
+
+| venue | paper | deadline | status | owner-note | spec |
+|---|---|---|---|---|---|
+| APS DFD 2026 (oral abstract) | B | 2026-07-24 | not-started | **actionable NOW** (abstract ≠ manuscript); verb discipline binding | [ledger](SUBMISSION_TARGETS.md#deadline-ledger-front-edge) · [§B1](SUBMISSION_TARGETS.md#b1-aps-division-of-fluid-dynamics-annual-meeting-2026--priority-1-urgent) |
+| InterPore 2027 minisymposium proposal | B | 2026-08-14 | not-started | organizer route; recruit 2 co-organizers | [§6.2](SUBMISSION_TARGETS.md#62-interpore-2027-minisymposium-proposal--organizer-route-for-paper-b) |
+| CoFE 2026 (abstract) | A / B | 2026-08-15 | not-started | optional; distinct A vs B abstracts | [§A3](SUBMISSION_TARGETS.md#a3-conference-of-food-engineering-2026-cofe--priority-3) |
+| SDCC 2026 (oral abstract) | A (+B) | 2026-09-01 | not-started | Paper A priority-1 conference; **shared with PV track** | [§A1](SUBMISSION_TARGETS.md#a1-science-driven-coffee-cup-2026--priority-1) |
+| Gallery of Fluid Motion 2026 | B | 2026-09-17 | not-started | public visual companion; **shared with PV track** | [§6.1](SUBMISSION_TARGETS.md#61-aps-gallery-of-fluid-motion-2026--public-visual-companion-to-paper-b) |
+| Pittcon 2027 (oral abstract) | A (B cond.) | 2026-09-28 | not-started | analytical-method framing | [§A2](SUBMISSION_TARGETS.md#a2-pittcon-2027-oral-session--priority-2) |
+| ACS Spring 2027 | A (B med) | opens 2026-08-03, close 09-28 | not-started | inspect symposia 3 Aug before drafting | [§7.1](SUBMISSION_TARGETS.md#71-acs-spring-2027--opens-3-august-2026) |
+| Foods 2027 (abstract) | A / B | 2027-01-24 | not-started | fallback only | [§A5](SUBMISSION_TARGETS.md#a5-foods-2027--priority-5--broad-fallback) |
+| *Journal of Food Engineering* | A | rolling | not-started | **first journal**, after manuscript conversion | [§A-J1](SUBMISSION_TARGETS.md#a-j1-journal-of-food-engineering--recommended-first-journal) |
+| *Transport in Porous Media* / *Physics of Fluids* | B | rolling | not-started | **HELD** — do not submit until APS DFD feedback + related-work + lateral-coupling done | [§B-J2](SUBMISSION_TARGETS.md#b-j2-transport-in-porous-media--best-pure-scope-fit) |
+| World of Coffee 2027 / CSF poster · ASIC 2027 | A / B | TBD (monitor) | not-started | calls not yet posted; watchlist (WoC shared with PV) | [§7.2](SUBMISSION_TARGETS.md#72-world-of-coffee-new-orleans-2027--coffee-science-foundation-scientific-poster-session) |
+
 ## Status log
 | date | sprint | outcome |
 |---|---|---|

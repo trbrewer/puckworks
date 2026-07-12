@@ -213,6 +213,19 @@ in an exploratory section or appendix — NOT "ready, only Fig 5 remaining".)*
 
 ## Readiness audit (adopts the review's revised judgment)
 
+**Venue targets + verified deadlines:** see `docs/SUBMISSION_TARGETS.md` (live,
+deadline-bearing; front-edge ledger at its top). **This readiness audit gates which
+venues are actionable**, both directions:
+- **Paper A (amber–green)** → journal route (*J. Food Eng.* first) **and** conference
+  routes (SDCC 2026-09-01, Pittcon 2027, CoFE 2026-08-15) are actionable *after* the
+  manuscript conversion below.
+- **Paper B (red)** → the **APS DFD abstract (2026-07-24)** is actionable **now**
+  (an abstract is not a manuscript), and the Gallery of Fluid Motion companion
+  (2026-09-17); but the **journal routes (Transport in Porous Media / Physics of
+  Fluids) are BLOCKED** until the reanalysis + related-work + physical
+  lateral-coupling gaps below are closed. A change here flags the ledger, and vice
+  versa. Abstracts obey the same verb discipline as the manuscripts (§3 verb table).
+
 | element | status | requirement before submission |
 |---|---|---|
 | Two-paper division | **sound** | — |

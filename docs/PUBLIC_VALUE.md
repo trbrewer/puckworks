@@ -32,6 +32,15 @@ The recommended program is therefore:
 - Use model disagreement to design a small number of **mechanism-separating experiments** that ordinary espresso users can understand and, where feasible, help replicate.
 - Delay broad recipe optimization claims until cross-coffee, cross-grinder, and cross-machine transfer is substantially stronger.
 
+> **Shared with the submission track.** Several venues in `docs/SUBMISSION_TARGETS.md`
+> are *public-facing* and therefore serve this public-value goal directly — the
+> **Science-Driven Coffee Cup** (coffee ecosystem), the **APS Gallery of Fluid
+> Motion** (public visual, deadline 2026-09-17), and the **World of Coffee / Coffee
+> Science Foundation poster** (industry/practitioner). Where a story here maps to
+> one of those, the two tracks point at each other: the PV story supplies the
+> public figure/animation, the submission ledger supplies the deadline. Keep the
+> evidence-strength labels and §3 guardrails identical across both.
+
 ---
 
 ## 1. What “public value” should mean here

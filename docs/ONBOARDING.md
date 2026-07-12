@@ -45,6 +45,14 @@ with CLAUDE.md, flag it rather than comply.
    task reads §3 first.** The public track consumes results; it never softens an
    evidence-strength label. Sequencing/status lives in `docs/SPRINTS.md`
    "Public-value track (PV)".
+7. `docs/SUBMISSION_TARGETS.md` — the **live submission/venue schedule** (ranked,
+   date-verified venues for Papers A/B; a front-edge deadline ledger at its top).
+   **DEADLINE-BEARING and decaying** — recheck each portal before submitting; mark
+   a passed deadline PASSED, never delete. Nearest: **APS DFD 2026-07-24**. Anyone
+   working a paper/publication task reads its **§15 publication-ethics cautions
+   first** (distinct abstracts per venue; no concurrent journal submission; EFFoST
+   forbids previously-presented abstracts; SDCC ISBN-proceedings disclosure). Status
+   tracked in `docs/SPRINTS.md` "Submission track".
 
 ## 3. Verify the state is live, not remembered
 ```
