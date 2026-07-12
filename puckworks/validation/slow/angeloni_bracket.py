@@ -100,6 +100,73 @@ def gate_pannusch_angeloni_species_bracket(T_C=93.4, flow_mL_s=1.6, t_shot_s=25.
                      "so this is a regime check, not a per-condition validation.")
 
 
+def _flow_of_p(p_bar):
+    """p -> flow map from angeloni's OWN beverage/tau: 40 g over tau(p), with tau
+    interpolated across the card's stated 35 s @6 bar -> 13 s @12 bar. Transparent
+    and self-contained (no other coffee's permeability); flagged as a linear map."""
+    return 40.0 / float(np.interp(p_bar, [6, 12], [35, 13]))
+
+
+def gate_pannusch_angeloni_per_condition(t_shot_s=25.0):
+    """PER-CONDITION pannusch vs angeloni (the demanding test the wide-envelope
+    bracket is NOT). For granulometry O (~ pannusch grind 1.7), across the 9
+    on-grid (T,p) points per variety, predict pannusch cup concentration
+    (blind = pannusch's own coffee inventory; and inventory-MATCHED using
+    angeloni Table 7 C0_s for CF/TR) and score per-condition MAPE vs each angeloni
+    shot, plus the response-shape correlation. p->flow via _flow_of_p.
+
+    Finding (honest, tempering the envelope bracket): per-condition MAPE is
+    22-50% -- far above the pooled-envelope 'all-in' and angeloni's own ~9-13%
+    model. Inventory-matching helps caffeine but HURTS trigonelline, so the miss
+    is not pure inventory: pannusch's per-species extraction fraction and the
+    (T,p) response shape do NOT transfer cleanly across machine/coffee. INDEPENDENT,
+    per-condition. NOTE: ~100 s of PDE solves (slow; hand-run only)."""
+    from puckworks.models.pannusch2024 import solver as ps
+    from puckworks import data as d
+    bio = d.angeloni_bioactives(); ts = d.angeloni_total_solids()
+    params = ps._solute_params()
+    inv = {(r["variety"], r["species"]): r["C0_s_mg_L"] / 1000.0
+           for r in d.angeloni_inventories()}
+    tsmap = {(r["variety"], r["T_degC"], r["p_bar"]): r["TS_g_100mL"] for r in ts}
+    SPEC = {"caffeine": ("CF", 1.0), "trigonelline": ("TR", 1.0),
+            "5CQA": ("5CQA", 1.0), "tds": ("TS", 0.1)}
+    out = {}
+    for variety in ("Arabica", "Robusta"):
+        shots = sorted((r for r in bio if r["variety"] == variety
+                        and r["granulometry"] == "O" and r["on_grid"] == "True"),
+                       key=lambda x: (x["T_degC"], x["p_bar"]))
+        per = {}
+        for sol, (col, conv) in SPEC.items():
+            blind, matched, preds, meas = [], [], [], []
+            for r in shots:
+                T, flow = r["T_degC"], _flow_of_p(r["p_bar"])
+                m = tsmap[(variety, T, r["p_bar"])] if sol == "tds" else r[col]
+                pb = float(ps.simulate_fractions(T, flow, [0.0, t_shot_s],
+                                                 params[sol], cl1=1.0)[0]) * conv
+                blind.append(abs(pb - m) / m * 100); preds.append(pb); meas.append(m)
+                if (variety, col) in inv:                # inventory-matched (CF/TR)
+                    sp2 = dict(params[sol]); sp2["c_s0"] = inv[(variety, col)]
+                    pm = float(ps.simulate_fractions(T, flow, [0.0, t_shot_s],
+                                                     sp2, cl1=1.0)[0]) * conv
+                    matched.append(abs(pm - m) / m * 100)
+            cc = float(np.corrcoef(preds, meas)[0, 1]) if np.std(meas) > 0 else float("nan")
+            per[sol] = dict(mape_blind=round(float(np.mean(blind)), 1),
+                            mape_inv_matched=(round(float(np.mean(matched)), 1)
+                                              if matched else None),
+                            shape_corr=round(cc, 2), n=len(shots))
+        out[variety] = per
+    allmape = np.mean([out[v][s]["mape_blind"] for v in out for s in SPEC])
+    return dict(per_variety=out, n_conditions_per_variety=9,
+                overall_mape_blind=round(float(allmape), 1),
+                strength="independent, per-condition (granulometry O on-grid; "
+                         "p->flow via angeloni tau)",
+                note="per-condition MAPE 22-50% >> pooled-envelope bracket (all-in) "
+                     "and angeloni's own ~9-13% model. Inventory-matching helps "
+                     "caffeine, HURTS trigonelline -> not pure inventory; per-species "
+                     "extraction fraction + (T,p) shape do NOT transfer cleanly. The "
+                     "envelope bracket was optimistic.")
+
+
 def report():
     r = gate_angeloni_multispecies_bracket()
     print("== angeloni2023 multi-species bracket (TS/TDS; INDEPENDENT; report) ==")
@@ -120,7 +187,15 @@ def report():
               f"{x['predicted']:>7} {x['range_lo']:>6}-{x['range_hi']:<6} "
               f"{x['direction']:>7}")
     print(f"bracketed {pr['n_bracketed']}/{pr['n_species']}. {pr['note']}")
-    return dict(cameron=r, pannusch=pr)
+    print("\n== pannusch2024 PER-CONDITION vs angeloni (granulometry O on-grid) ==")
+    pc = gate_pannusch_angeloni_per_condition()
+    print(f"{'variety':>8} {'solute':>13} {'MAPE_blind':>10} {'MAPE_invmatch':>13} {'shape_r':>8}")
+    for v, per in pc["per_variety"].items():
+        for sol, x in per.items():
+            im = "-" if x["mape_inv_matched"] is None else f"{x['mape_inv_matched']}%"
+            print(f"{v:>8} {sol:>13} {x['mape_blind']:>9}% {im:>13} {x['shape_corr']:>8}")
+    print(f"overall blind MAPE {pc['overall_mape_blind']}%. {pc['note']}")
+    return dict(cameron=r, pannusch_bracket=pr, pannusch_per_condition=pc)
 
 
 if __name__ == "__main__":
