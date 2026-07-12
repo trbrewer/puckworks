@@ -31,22 +31,31 @@ Four of five are acquisition/search projects, not quick drops.
   or fitted van-Genuchten / Brooks–Corey (α, n, θ_r, θ_s) with real units — **NOT**
   a wetting-front position trace. Full acceptance criteria + negative filter +
   search strategy in `docs/cards/g1_retention_search_target.md`.
-- **Status:** OPEN SEARCH — no source identified. This is a soil-physics /
+- **Status:** OPEN SEARCH — no COFFEE source identified. This is a soil-physics /
   porous-media literature hunt (pressure-plate/centrifuge retention; NMR/MRI
   moisture profiling; µCT saturation segmentation on coffee), not a known drop.
+- **2026-07-12:** Reference-strength glass-bead analog now on disk
+  (`g1_glassbead_analog/`, gated `gate_g1_glassbead_closure_sane`); coffee
+  retention search target STILL OPEN.
 
-### 🔴 G3 — measured pump characteristic
+### 🟡 G3 — measured pump characteristic
 - **Unblocks:** RC-3 machine mode (currently rests on a *nominal* manufacturer
   quadratic; foster2025_2 + waszkiewicz supply only one rig each).
 - **Need:** a real pump/flow bench curve, DE1 preferred.
-- **Status:** not on file. Decent community documentation; machine-hydraulics
-  papers.
+- **Status (2026-07-12, 🔴→🟡):** Ulka envelope + DE1-shape context on disk
+  (`g3_pump_characteristic/`, gated `gate_g3_pump_envelope_bounds_quadratic`);
+  independent DE1 curve needs a TB bench pull or Decent request (new §5.8 line).
+  True DE1 Q(P) is closed ESP32 firmware.
 
-### 🔴 G10 — coffee-liquor rheology
+### 🟡 G10 — coffee-liquor rheology
 - **Unblocks:** the shared early-shot bias across RC-2/RC-3 gates (every
   flow-coupled model on file uses pure-water μ, ρ).
 - **Need:** coffee-extract **viscosity & density vs TDS and temperature**.
-- **Status:** not on file. Food-process rheology literature.
+- **Status (2026-07-12, 🔴→🟡):** Telis-Romero reference envelope on disk
+  (`g10_liquor_rheology/`, gated `gate_g10_reference_mu_above_water`);
+  quantitative per-cell μ(T,c) needs a Tim drop of the Telis-Romero 2001/2000
+  tables (paywalled, bot-blocked). A true espresso-TDS measurement (independent
+  strength) is a new open sub-search.
 
 ### 🔴 G2 — transient-discharge validation data
 - **Unblocks:** G2 mass-conserving 5-state mobile-fines transport (fasano2000_partI

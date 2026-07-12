@@ -1,0 +1,11 @@
+quantity,pump_model,voltage_freq,value,units,source,notes
+free_flow_debit,Ulka_EAX5_EAP5,120V_60Hz,650,cc_per_min,manufacturer datasheet (Ulka/Repa),"= 10.83 mL/s at zero back-pressure (deadhead-free); catalogue 'max flow rate'"
+free_flow_debit_alt,vibration_pump_generic,NA,8.0,mL_per_s,espressoaf community,"community 'water debit' figure for a vibe pump; ~8 mL/s is the practical unrestricted flow, lower than catalogue 10.8 (in-machine losses)"
+max_pressure_deadhead,Ulka_EAX5_EAP5,120V_60Hz,15,bar,manufacturer datasheet (Ulka/Repa),"catalogue max pressure at zero flow (fully stalled); OPV normally caps working system far below this"
+power,Ulka_EAX5,120V_60Hz,52,W,manufacturer datasheet,coil power; EP5 variant 41 W
+duty_cycle,Ulka_EAX5,120V_60Hz,1_on_1.5_off,min,manufacturer datasheet,"1 min ON / 1.5 min OFF rated; DE1 uses P500-class ~2/1 with lower duty stress (dual-pump waveform control)"
+operating_pressure_espresso,system_at_grouphead,NA,9,bar,convention,nominal espresso brew pressure; where OPV or DE1 pressure target usually sits
+char_shape,vibration_pump,NA,monotone_decreasing_Q_with_P,NA,coffeeforums/espressoaf physics,"vibe pump flow falls with back-pressure; NOT a clean quadratic. Stroke shortens as backpressure rises (compression stroke unfinished before next current pulse) -> nonlinear droop"
+char_endpoints,Ulka_EAX5_120V,NA,"(P=0,Q=10.8);(P=15,Q=0)",bar;mL/s,derived from datasheet endpoints,"ONLY the two endpoints are manufacturer-stated. Interior shape is concave (droops faster near stall). Do NOT interpolate linearly."
+de1_model_status,DE1_firmware,per-country calibrated,CLOSED_SOURCE,NA,decentespresso.com/blog,"DE1 ESP32 firmware carries a physics model of the pump giving flow from pressure+voltage+freq. Model is voltage/frequency dependent and country-calibrated; coefficients not published. de1app (Tcl, open) receives estimates, does not contain the pump curve."
+waszkiewicz_brewer_quad,waszkiewicz2025_rig,NA,DP=aQ^2+bQ+c,bar;g/s,"already on disk (MANIFEST: waszkiewicz2025/brewer_quadratic)","the ONE measured machine-stage quadratic already in repo; single rig; this G3 drop adds the Ulka physical envelope + DE1 shape context, not a second rig"

@@ -1161,3 +1161,63 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_g4_temperature_sensitivity,
          gate_unified_kappa_t, gate_coupled_kappa_t, gate_g9_series_resistance,
          gate_kappa_t_degeneracy, gate_kappa_t_composition_diagnostic]
+
+
+def gate_g1_glassbead_closure_sane():
+    """G1 analog closure is physically sane + monotone. CONSISTENCY CHECK, not
+    validation (reference-strength analog; no coffee theta(psi) exists -- search
+    target g1_retention_search_target.md is OPEN). Asserts only physical params
+    (0<S_r<0.2, n_Kr==3, alpha>0, K0>0) and monotone K_r(S) on [S_r,1]."""
+    from puckworks import data as d
+    c = d.glassbead_retention_kr()
+    S_r = float(c["residual_saturation"]["value"])
+    n = float(c["rel_perm_exponent"]["value"])
+    alpha = float(c["capillary_alpha"]["value"])
+    K0 = float(c["abs_permeability_scale"]["value"])
+    S = np.linspace(S_r + 1e-3, 1.0, 50)
+    Kr = ((S - S_r) / (1 - S_r)) ** n
+    monotone = bool(np.all(np.diff(Kr) > 0))
+    physical = (0.0 < S_r < 0.2) and abs(n - 3) < 1e-9 and alpha > 0 and K0 > 0
+    return dict(passed=(physical and monotone), S_r=S_r, n_Kr=n, alpha=alpha,
+                monotone_Kr=monotone,
+                strength="reference/qualitative (analog; G1 validation OPEN)")
+
+
+def gate_g3_pump_envelope_bounds_quadratic():
+    """Ulka envelope brackets the operative waszkiewicz brewer quadratic.
+    CONSISTENCY CHECK, not validation. The measured single-rig quadratic must lie
+    inside the manufacturer envelope over the working flow band. True DE1 Q(P) is
+    closed firmware -> independent curve owed."""
+    from puckworks import data as d
+    env = d.pump_characteristic_ulka()
+    Q_free = float(env["free_flow_debit"]["value"]) / 60.0   # cc/min -> mL/s
+    P_dead = float(env["max_pressure_deadhead"]["value"])    # 15 bar
+    q = d.waszkiewicz_brewer_quadratic()
+    a, b, c0 = float(q["a"]), float(q["b"]), float(q["c"])
+    Qs = np.linspace(0, min(Q_free, 3.0), 20)
+    dP = a * Qs**2 + b * Qs + c0
+    within = bool(np.all(dP <= P_dead + 1e-9) and Q_free > 1.90)
+    return dict(passed=within, Q_free_mL_s=round(Q_free, 2), P_deadhead_bar=P_dead,
+                max_quadratic_dP_bar=round(float(dP.max()), 2),
+                strength="reference (endpoints)/qualitative (shape); DE1 curve owed")
+
+
+def gate_g10_reference_mu_above_water():
+    """Reference espresso mu exceeds pure water and stays in the Newtonian band.
+    CONSISTENCY CHECK, not validation (no espresso-TDS rheology measured).
+    Asserts mu_espresso > pure water within 1.0-2.5x, and espresso TDS below the
+    non-Newtonian onset. Quantitative per-cell mu(T,c) still needs the
+    Telis-Romero tables (Tim drop). NOTE: the CSV's numeric column is
+    'value_or_form' (there is no bare 'value' column)."""
+    from puckworks import data as d
+    r = d.liquor_rheology()
+    mu_water = float(r["viscosity_water_baseline"]["value_or_form"])
+    est = r["viscosity_espresso_estimate"]["value_or_form"].replace("~", "")
+    lo, hi = (float(x) for x in est.split("-"))
+    ratio_lo, ratio_hi = lo / mu_water, hi / mu_water
+    newtonian = True   # espresso 4-12% solids < 36% onset (documented in CSV)
+    passed = (lo > mu_water and 1.0 < ratio_lo and ratio_hi < 2.5 and newtonian)
+    return dict(passed=passed, mu_water=mu_water,
+                mu_espresso_ratio=[round(ratio_lo, 2), round(ratio_hi, 2)],
+                espresso_newtonian=newtonian,
+                strength="reference/qualitative (espresso-TDS extrapolated)")

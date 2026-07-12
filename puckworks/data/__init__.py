@@ -473,3 +473,39 @@ def roman_fig74_espresso():
     PARAMETER-FREE bed-scale MPE. MPE_med_MW_pct is the headline non-fitted
     result (8.6-14.3% across all 15) -> the thesis '9-14%' / <=14% bed gate."""
     return _typed_rows_hashskip(RC17 / "fig7_4_mpe_espresso.csv")
+
+
+# --- G1/G3/G10 reference-strength sourcing (2026-07-12) ---
+# REFERENCE/qualitative priors, not independent measurements. The strength tag
+# lives in MANIFEST.csv; loaders do no fitting.
+from pathlib import Path as _Path
+_SRC0712 = _Path(__file__).parent
+G1GB = _SRC0712 / "g1_glassbead_analog"
+G3PC = _SRC0712 / "g3_pump_characteristic"
+G10R = _SRC0712 / "g10_liquor_rheology"
+
+
+def glassbead_retention_kr():
+    """Glass-bead retention/K_r closure (ANALOG shape prior, arXiv:2501.13361).
+    REFERENCE-STRENGTH: spherical glass beads, NOT coffee. Transfers K_r(S)
+    shape + S_r + linearized-VG slope, NOT magnitude. Coffee retention search
+    target STAYS OPEN. Rows keyed by 'quantity' (the CSV also carries a separate
+    'parameter' symbol column; the duplicate 'capillary_pressure_slope' rows
+    collapse to the last, which the closure gate does not consume)."""
+    return {r["quantity"]: r for r in _rows(G1GB / "glassbead_retention_kr.csv")}
+
+
+def pump_characteristic_ulka():
+    """Ulka vibe-pump P-Q envelope + DE1-shape context (reference/qualitative).
+    Manufacturer ENDPOINTS only measured (+/-15%); interior curve is a CONCAVE
+    DROOP, not a quadratic. True DE1 Q(P) is closed firmware. Rows keyed by
+    'quantity'."""
+    return {r["quantity"]: r for r in _rows(G3PC / "pump_characteristic_ulka.csv")}
+
+
+def liquor_rheology():
+    """Coffee-extract mu(T,c)/rho(T,c) envelope (Telis-Romero; reference).
+    Espresso TDS sits BELOW the sources' dilute end -> mu_espresso is an
+    EXTRAPOLATION toward pure water. Espresso IS Newtonian. Rows keyed by
+    'quantity' (numeric/form values live in the 'value_or_form' column)."""
+    return {r["quantity"]: r for r in _rows(G10R / "liquor_rheology.csv")}

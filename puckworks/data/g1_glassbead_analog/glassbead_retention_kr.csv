@@ -1,0 +1,11 @@
+quantity,medium,parameter,value,units,saturation_range,source_fig_eq,notes
+capillary_pressure_slope,GB2_wide_dist_50pct,d(Pc)/dS_reciprocal,-5.1,Pa*m_per_unit_S_reciprocal,0.2-0.8,Fig17 (from Sweijen2017 GB2),linear approx of van-Genuchten curve in intermediate S; product |Pc|*d plotted so slope carries the *d factor
+capillary_pressure_slope,GB1_narrow_dist_10pct,d(Pc)/dS_reciprocal,-9.5,Pa*m_per_unit_S_reciprocal,0.2-0.8,Fig17 (from Sweijen2017 GB1),narrow PSD analog; steeper slope than wide dist
+capillary_alpha,GB2_wide_dist_50pct,alpha,0.36,dimensionless,0.2-0.8,Eq39-40,"dPc/dS = -Gamma/(alpha*d); Gamma=surface energy water; alpha dimensionless shape constant"
+residual_saturation,glass_beads_180um,S_r,0.07,dimensionless,full,Fig18 (Topp-Miller1966 data),least-squares fit of K=K0((S-Sr)/(1-Sr))^3 to measured permeability; residual/irreversible bridge water
+rel_perm_exponent,glass_beads_180um,n_Kr,3,dimensionless,full,Eq41 / Fig18,"cubic K_r law: K = K0*((S-Sr)/(1-Sr))^3; confirmed by fit to 180um bead permeability data"
+abs_permeability_scale,glass_beads_180um,K0_measured_max,3.0e-11,m^2,S->1,Fig18 (exp data, mu=0.001 Pa*s assumed),peak measured water permeability at high saturation for 180um spherical beads
+kozeny_carman,generic_spheres,K0_formula,eps^3*d^2/(180*(1-eps)^2),m^2,S->1,Eq42,"Kozeny-Carman closure for K0(d,eps); use with bead/grind d and packing porosity"
+porosity_ref,GB2_analog,eps,0.49,dimensionless,NA,Sec results / Eq45,representative porosity for wide-distribution glass-bead bed used in De0L estimate
+diffusion_const_nondim,GB2_analog,De0L,6.9e-3,dimensionless,NA,Eq45 (alpha=0.36 eps=0.49),De0L = eps^3/(180*alpha*(1-eps)^2); non-dim apparent liquid diffusion constant
+retention_form,ALL,model,van_Genuchten_linearized,NA,0.2-0.8,Fig17 caption,"authors approximate VG capillary curve by a straight line over 0.2<S<0.8; Pc rises sharply near Sr and near S=1"

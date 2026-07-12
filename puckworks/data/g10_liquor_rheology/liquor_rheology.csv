@@ -1,0 +1,11 @@
+quantity,source,concentration_range,temperature_range,value_or_form,units,espresso_relevance,notes
+viscosity_form,telis_romero_2001,water_content_49-90pct,274-365_K,mu=f(T,Xw)_Newtonian_at_high_Xw,Pa*s,DILUTE_END_RELEVANT,"Newtonian at high water content (espresso regime); becomes power-law only below ~64% water (>36% solids) - far above espresso TDS"
+rheology_transition,telis_romero_2001,NA,NA,newtonian_above_64pct_water,dimensionless,ESPRESSO_IS_NEWTONIAN,"espresso TDS ~4-12% solids = 88-96% water = firmly Newtonian; no non-Newtonian correction needed for espresso liquor"
+density_range,telis_romero_2000,solids_10-50pct,NA,1000-1200,kg_per_m3,EXTRAPOLATE_TO_WATER,"density rises with solids, falls with T; espresso low-TDS end -> near pure water (~960-1000 at brew temp)"
+density_range_alt,tandfonline_2013_freezing,similar_Xs,near_freezing,1036-1277,kg_per_m3,LOW_T_ONLY,"consistent with Telis-Romero; measured near freezing so T-range not espresso-relevant, density magnitudes cross-check only"
+density_dependence,tandfonline_2013,NA,NA,stronger_on_Xs_than_T,NA,GUIDANCE,"density depends more strongly on solid content than on temperature; R2=0.989 for their fitted model"
+viscosity_water_baseline,reference,0pct_solids,90C,0.000315,Pa*s,BASELINE,"pure water at 90C ~0.315 mPa*s; current repo uses this everywhere (MANIFEST waszkiewicz2025/constants: mu=pure-water@90C)"
+viscosity_water_baseline_25C,reference,0pct_solids,25C,0.00089,Pa*s,BASELINE,pure water at 25C for comparison / rheometer conditions
+viscosity_espresso_estimate,derived_from_telis,~8pct_solids,90C,~0.0004-0.0006,Pa*s,ESTIMATE_ONLY,"REFERENCE-STRENGTH extrapolation: espresso liquor at brew temp ~1.3-2x pure water viscosity; NOT measured at espresso TDS by any source on file"
+model_temp_dependence,telis_romero_2001,NA,274-365_K,Arrhenius_type,NA,USABLE,"mu(T) follows Arrhenius exp(Ea/RT); Ea and pre-exponential are functions of water content in their 5-parameter fit"
+non_newtonian_threshold,telis_romero_2001,>36pct_solids,NA,power_law_onset,NA,NOT_ESPRESSO,"pseudoplastic+thixotropic above 36% solids; also swelling-driven viscosity creep on storage/heating - irrelevant to fresh espresso liquor"

@@ -338,3 +338,40 @@ register(Component(
                 "(2% of flat shot, 50% of blooming pause)",
     valid_range="validated on 59 mm basket, 10 g dose, time-resolved CT",
     notes="closed form under recorded P(t); pump/headspace model = backlog"))
+
+
+# --- G1/G3/G10 reference-strength sourcing (2026-07-12); all calibration,
+# reference/qualitative -- NONE closes its gap at independent strength ---
+register(Component(
+    name="sourcing2026.g1_glassbead_analog", stage="infiltration",
+    kind="calibration", paper="Yasuda, Katsuragi, Katsura (2025) arXiv:2501.13361",
+    doi="arXiv:2501.13361", module="puckworks.data:glassbead_retention_kr",
+    gates=[G.gate_g1_glassbead_closure_sane],
+    assumptions="ANALOG spherical glass beads; transfers K_r(S) shape + S_r, NOT "
+                "magnitude; valid 0.2<S<0.8",
+    valid_range="reference/qualitative; G1 coffee retention search target OPEN",
+    notes="Unblocks egidi2018 Richards MACHINERY for P3 hyp#2; validation OPEN."))
+
+register(Component(
+    name="sourcing2026.g3_pump_characteristic", stage="machine",
+    kind="calibration", paper="Ulka/Repa catalogue; Decent blog; espressoaf",
+    doi="", module="puckworks.data:pump_characteristic_ulka",
+    gates=[G.gate_g3_pump_envelope_bounds_quadratic],
+    assumptions="Manufacturer endpoints only (+/-15%); concave-droop shape; "
+                "120V/60Hz; cold-coil",
+    valid_range="reference (endpoints)/qualitative (shape); DE1 firmware closed",
+    notes="Does NOT replace waszkiewicz2025/brewer_quadratic; independent DE1 "
+          "curve = TB bench pull or Decent request."))
+
+register(Component(
+    name="sourcing2026.g10_liquor_rheology", stage="flow",
+    kind="calibration", paper="Telis-Romero et al. (2000, 2001)",
+    doi="10.1111/j.1745-4530.2001.tb00541.x",
+    module="puckworks.data:liquor_rheology",
+    gates=[G.gate_g10_reference_mu_above_water],
+    assumptions="Espresso TDS below sources' dilute end -> mu EXTRAPOLATED to "
+                "pure water; espresso Newtonian (power-law only >36% solids)",
+    valid_range="reference/qualitative; quantitative mu(T,c) needs Telis-Romero "
+                "tables (Tim drop)",
+    notes="Targets RC-2/RC-3 shared early-shot bias; confirm bias magnitude "
+          "consistent with only ~1.3-2x mu before attributing all of it here."))
