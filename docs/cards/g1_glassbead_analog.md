@@ -19,6 +19,18 @@ Richards machinery (egidi2018 solver) *run* with a physically-sane closure so
 P3 hypothesis #2 (incomplete wetting) becomes computable. It is a shape prior,
 not a validated coffee law.
 
+> **STATE (2026-07-12): the Richards machinery is NOT yet implemented.** egidi2018
+> is carded-only — there is no solver module and it is not a registered component
+> (ONBOARDING: "egidi2018 is skip"). So this closure cannot yet be "run"; a
+> minimal 1-D Richards solver must be BUILT first (M-effort). Two caveats that
+> make that build non-trivial and keep it a scope decision, not a ready task:
+> (a) Richards is stiff/nonlinear (robust implicit stepping needed); (b) this
+> closure is a **linearized VG valid only over 0.2<S<0.8** — a full dry→saturated
+> wetting front leaves that band, so the front region is outside the closure's
+> validity and the solver can only give a partial-saturation *profile* check, not
+> a full-front solve. Until built, the qualitative interim for hyp#2 remains
+> `validation/slow/hyp2_wetting_atom.py`, and G1 stays OPEN regardless.
+
 **It must be tagged `reference/qualitative` per ROADMAP §0** and must NOT be
 upgraded to `independent` without a §7.1 entry backed by a coffee-specific
 measurement. The search-target card stays OPEN.
