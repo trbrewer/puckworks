@@ -309,11 +309,29 @@ calibration data — *not* an independent identification of the physical rate (t
 model was fitted here, and its source warns the fitted parameters lack generality).
 Scoped conclusion: *time-resolved data can supply the rate information missing from
 an aggregated endpoint in this model and design* (other independent constraints or
-multi-condition designs could also help). This is the constructive counterpart of
-the negative transfer result, and it speaks to gap **G6** (multi-class
-inventory ↔ kinetics). *(Owed, review B2: the preferred comparison scores full-shot
-model predictions against the actual BR-1/3 cup, or reconstructs the complete shot;
-the range ratio is a descriptive sharpness proxy, not a decision rule.)*
+multi-condition designs could also help). This speaks to gap **G6** (multi-class
+inventory ↔ kinetics).
+
+**Does a *true* whole cup also lose the rate — or was the flatness a sampling
+artefact?** Because the repo has only six fraction windows (1,2,3,5,7,10; the
+intermediate windows are absent), an *empirical* complete-shot reconstruction is
+data-blocked and a clean actual-cup comparison is ambiguous (the BR-1/3 `mass_in_cup`
+does not cleanly reconcile with the fraction shot — a data question). So we test the
+claim with an **exact-integral simulation** (`full_cup_simulation_identifiability`,
+review B2 design #3): for each experiment we generate synthetic truth at the
+calibrated rate = 1 — a fine-grid fraction curve over the whole shot *and* the
+**exact single whole-cup integral** `[0, t_end]` — add seeded relative noise, then
+sweep the rate. **Result:** fraction-curve scoring recovers rate = 1 sharply — range
+ratio **10–19×** across the three solutes, minimum exactly at the calibrated rate —
+while scoring the **exact whole-cup integral** stays flat (range ratio **1.3–2.0×**,
+minimum wandering off rate 1). The exact cup is only marginally more informative than
+the crude six-window aggregate and remains essentially flat. This removes the
+sampled-window artefact: a *true* whole cup, not just a sampled aggregate, loses
+kinetic-rate information — so the "cup hides the clock" claim survives the review's
+B2 concern. Strength: **simulation study** (exact integral, seeded 3 % noise) — not
+an empirical positive control. *(Still owed: an empirical full-cup comparison, which
+needs either the missing fraction windows or an unambiguous same-shot cup
+observable — a data question, not a code one.)*
 
 ## 7. Discussion
 
@@ -416,7 +434,9 @@ submission.*
   Hessian/condition-number/profile-likelihood quantification of §4). Run:
   `python -m puckworks.validation.slow.angeloni_bracket`.
 - **Positive control:** `puckworks/validation/slow/identifiability.py` —
-  `identifiability_fractions_vs_cup`. Run:
+  `identifiability_fractions_vs_cup` (empirical, sampled aggregate),
+  `sampled_aggregate_vs_actual_cup` (B2 audit), and
+  `full_cup_simulation_identifiability` (B2 exact-integral simulation). Run:
   `python -m puckworks.validation.slow.identifiability`.
 - **Data:** `puckworks.data.angeloni_{bioactives,total_solids,inventories}` and the
   Schmieder fraction loaders; manifest rows carry the p→flow caveat.

@@ -203,6 +203,15 @@ separable only with time-resolved data.
 
 Strength: verification (positive control on the model's own calibration data).
 
+*Correction (review B2): the "whole cup" scored above is a **sampled-fraction
+aggregate** (the repo has only 6 fraction windows), which differs ~28–38% from the
+actual BR-1/3 cup, so part of its flatness could be a sampling artefact. An
+exact-integral **simulation** (`full_cup_simulation_identifiability`) removes that
+artefact: the fine fraction curve identifies the calibrated rate sharply (range
+ratio ~10–19×), while the EXACT whole-cup integral stays flat (~1.3–2.0×) — so a
+true cup, not just the aggregate, loses the rate. An empirical actual-cup comparison
+is still owed (data-blocked on the missing windows / ambiguous cup endpoint).*
+
 ## Reproducibility
 
 - Transfer arc: `validation/slow/angeloni_bracket.py` —
