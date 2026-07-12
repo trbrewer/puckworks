@@ -128,7 +128,8 @@ observable and report an honest partial verdict rather than "pending":
 So the flow-trace verdict is now: *mechanism needed; dissolution-opening Φ(t) fits and is the
 only competitor with the correct sign; the swelling and fines-migration matrix-resistance
 mechanisms are refuted as the driver by sign; full quantitative discrimination of
-fines-migration vs dissolution still needs the pressure-step / flow-reversal protocol (owed).*
+fines-migration vs dissolution still needs the pressure-step / flow-reversal protocol
+(owed — now fully specified in `PROTOCOL_kappa_t_discrimination.md`).*
 Two design notes for that remaining protocol so it is decisive rather than another tie:
 
 1. **Cross-pressure generalization is the discriminator Waszkiewicz makes

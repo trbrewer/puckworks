@@ -253,7 +253,8 @@ constant-*flow*, grind-indexed extraction-yield model belonging to the orthogona
 axis, not this constant-pressure flow trace. Scoped statement: *time variation is required and
 the resistance-increasing bed mechanisms are excluded by sign, leaving dissolution-linked
 porosity opening as the surviving branch; distinguishing it quantitatively from fines
-migration still requires a pressure-step or flow-reversal protocol (owed).*
+migration still requires a pressure-step or flow-reversal protocol (owed — specified in
+`docs/PROTOCOL_kappa_t_discrimination.md`).*
 
 **Cross-pressure — held-out, conditional on campaign calibration.** With the
 published static calibration from the same eleven-pressure campaign, we predict the
@@ -412,6 +413,7 @@ scientific readiness, and that Results 1 and 3 needed recomputation — now done
   downgrade; Data/Code availability + pinned release; LaTeX. **External-blocked:**
   independent second-rig / second-coffee transfer set; direct spatial flow/saturation
   data; unsaturated-flow constitutive data; the pressure-step / flow-reversal protocol
-  that would quantitatively separate fines-migration from dissolution.
+  that would quantitatively separate fines-migration from dissolution (design specified
+  in `docs/PROTOCOL_kappa_t_discrimination.md` — awaiting a reversal/step/rebrew rig).
 - **Companion:** Paper A (extraction identifiability, `ANALYSIS_transfer.md`) is a
   separate track, cited here only for the shared observability theme.
