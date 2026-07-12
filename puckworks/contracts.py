@@ -8,8 +8,9 @@ from dataclasses import dataclass, field
 from typing import Callable, Optional
 import numpy as np
 
-SCHEMA_VERSION = "0.5"   # 0.5: A8 per-depth-cell porosity / fines fields (additive)
-# history: 0.4 A1 pressure-node fields; 0.3 GrindState.fines_radius_m; 0.2 A7
+SCHEMA_VERSION = "0.6"   # 0.6: A4 SoluteInventory (per-species initial chemistry, additive)
+# history: 0.5 A8 per-depth-cell porosity/fines; 0.4 A1 pressure-node fields;
+#          0.3 GrindState.fines_radius_m; 0.2 A7
 
 # Plausible SI permeability window [m^2]. The Forchheimer k_I closures
 # (k_I = exp(g2 k^tau)) fail SILENTLY off-SI (ledger A7), so k is asserted, not
@@ -86,6 +87,33 @@ class MachineState:
     P_basket: Optional[Callable[[float], float]] = None  # basket gauge / puck
     dP_bed: Optional[Callable[[float], float]] = None   # drop across the wet bed
     pump: Optional[PumpHeadspace] = None                # machine-mode source (A1)
+
+@dataclass
+class SoluteInventory:
+    """A4 — per-species INITIAL solute chemistry (ledger A4). The contract carrier
+    that links a measured roasted-chemistry inventory (bruno2026) to per-species
+    extraction kinetics (pannusch2024 / romancorrochano2017): Bruno provides
+    INVENTORY, not kinetics; before this, no contract carried species.
+
+    LOAD-BEARING CAVEAT: `species[name]["amount"]` is a per-species CONTENT on
+    `basis` (e.g. total roasted-bean content, mg/kg) -- it is NOT an extractable
+    solid inventory c_s0. The total->extractable mapping needs a per-species
+    EXTRACTABILITY factor that Bruno does not measure; `extractable_fraction`
+    holds it (default None = UNKNOWN). A consumer MUST NOT substitute a
+    total-content amount for c_s0 without an explicit extractability assumption
+    (that would be an unvalidated leap). Used as a PRIOR / cross-check, never as
+    a fitted inventory, and never `Bruno-ODE -> extraction` (bruno card)."""
+    species: dict                         # canonical name -> {amount, sd, unit, basis}
+    origin: Optional[str] = None          # e.g. "Nicaragua" / species "Robusta"
+    source: Optional[str] = None          # provenance (DOI / card)
+    strength: str = "reference"           # §0 validation strength of the prior
+    extractable_fraction: Optional[dict] = None   # canonical name -> f_extractable (None = unknown)
+
+    def amount(self, name):
+        """Content [on its unit/basis] for a canonical species, or None."""
+        s = self.species.get(name)
+        return None if s is None else s["amount"]
+
 
 @dataclass
 class ShotResultState:

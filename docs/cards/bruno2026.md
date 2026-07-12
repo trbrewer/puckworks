@@ -115,9 +115,14 @@ Inputs consumed: a roasting temperature profile Tb(t) and a green-bean initial c
 neither is a registry contract field (MachineState.P_of_t is a *brew* pressure trace, not a roast
 thermal history). Outputs produced: an end-of-roast composition vector. No current contract carries
 per-species solute chemistry — ShotResultState (EY/TDS/traces) and BedState (k, kappa, porosity)
-do not. So there is **no clean interface today**: consuming this would require a new upstream
-artifact (a per-species SoluteInventory feeding extraction) that does not exist, and even then the
-coupling is an offline calibration chain, never runtime. Adapters needed: essentially a new stage.
+do not. **(Resolved 2026-07-12: the per-species carrier now exists —
+`contracts.SoluteInventory`, ledger A4, SCHEMA 0.6; provider
+`inventory.bruno_solute_inventory`; gate `gate_bruno_solute_inventory_prior`.)**
+The carrier holds bruno's TOTAL roasted content as a REFERENCE prior only —
+`extractable_fraction=None`, because Bruno measures no extractability — so the
+coupling remains an OFFLINE calibration/cross-check chain (never runtime, never
+Bruno-ODE→extraction). Turning the prior into a quantitative extractable c_s0
+still needs a per-species extractability measurement that does not exist.
 
 ## Extractable data
 - **Table 2 → INTAKEN 2026-07-12 → `data/bruno2026/bruno2026_roasted_composition.csv`**

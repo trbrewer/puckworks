@@ -1134,6 +1134,40 @@ def gates_data():
     return data
 
 
+
+def gate_bruno_solute_inventory_prior():
+    """A4 SoluteInventory / G6 seed: the bruno2026 roasted-chemistry inventory
+    populates the A4 contract carrier and links (at the contract level) to the
+    per-species extraction kinetics. CONSISTENCY CHECK, reference/qualitative --
+    NOT a validation and NOT an extraction fit. Asserts: (1) all four origins
+    build a well-formed SoluteInventory with positive amounts; (2) the three
+    pannusch-linkable species (caffeine/trigonelline/5-CQA) are present in each;
+    (3) the inventory ORDERING is chemically meaningful -- Robusta caffeine >
+    Arabica caffeine (~1.8x); (4) extractable_fraction stays None (the prior is
+    TOTAL content, NOT c_s0 -- the total->extractable mapping is unmeasured, so
+    the link is a prior/cross-check, never a c_s0 substitution)."""
+    from puckworks import inventory as inv
+    invs = inv.bruno_all_inventories()
+    well_formed = all(
+        si.species and all(v["amount"] > 0 for v in si.species.values())
+        for si in invs.values())
+    linkable = all(all(s in si.species for s in inv.PANNUSCH_LINKABLE)
+                   for si in invs.values())
+    # Robusta (Nicaragua/Indonesia) caffeine > Arabica (Mexico/Rwanda)
+    cf = {o: si.amount("caffeine") for o, si in invs.items()}
+    robusta_hi = bool(min(cf["Nicaragua"], cf["Indonesia"]) > max(cf["Mexico"], cf["Rwanda"]))
+    ratio = inv.species_ratio("caffeine", "Nicaragua", "Mexico")
+    total_content_flagged = all(si.extractable_fraction is None for si in invs.values())
+    is_reference = all(si.strength.startswith("reference") for si in invs.values())
+    passed = bool(well_formed and linkable and robusta_hi and total_content_flagged
+                  and is_reference)
+    return dict(passed=passed, well_formed=well_formed, linkable_species_present=linkable,
+                robusta_caffeine_gt_arabica=robusta_hi,
+                robusta_arabica_caffeine_ratio=round(ratio, 2),
+                extractable_fraction_none=total_content_flagged,
+                origins=list(invs),
+                strength="reference/qualitative (total-content prior, NOT c_s0)")
+
 QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_waszkiewicz_static_refit, gate_waszkiewicz_dynamic_9bar,
          gate_grindmap_refit, gate_grindmap_polydispersity,
@@ -1160,7 +1194,8 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_p3_schmieder_peak_discrimination, gate_ntube_kappa_t_union,
          gate_g4_temperature_sensitivity,
          gate_unified_kappa_t, gate_coupled_kappa_t, gate_g9_series_resistance,
-         gate_kappa_t_degeneracy, gate_kappa_t_composition_diagnostic]
+         gate_kappa_t_degeneracy, gate_kappa_t_composition_diagnostic,
+         gate_bruno_solute_inventory_prior]
 
 
 def gate_g1_glassbead_closure_sane():
