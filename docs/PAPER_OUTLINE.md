@@ -22,7 +22,7 @@ review. **Finish Paper A first** — its evidentiary chain is much stronger.
 | | Paper A (extraction / identifiability) | Paper B (flow / bed-dynamics) |
 |---|---|---|
 | thesis | single-grind whole-cup data cannot separate inventory from kinetics; fractions restore the rate | **mechanism discrimination + model-hierarchy limits** for the fine-grind response and time-dependent flow (NOT "the anomaly is a channeling instability") |
-| status | draft exists (`ANALYSIS_transfer.md`); **amber–green** | outline below; **not manuscript-ready — needs reanalysis, not just prose/figures** |
+| status | **manuscript draft `docs/PAPER_A_DRAFT.md`** (converted from `ANALYSIS_transfer.md`, 2026-07-12); **amber–green** — owes Methods polish, an identifiability panel, related-work search, and a joint multi-grind fit | outline below; **not manuscript-ready — needs reanalysis, not just prose/figures** |
 | core data | angeloni2023 (independent), schmieder2023 fractions | schmieder2023 RSM (per observable), waszkiewicz2025 traces, cameron2020, romancorrochano2017 |
 | core result | flat valley (G6); fractions resolve it | model-capacity discrimination + null-first κ(t) ladder + regime-dependent cross-pressure + an exploratory concentration result (G-lat) |
 | venue feel | food-analytical / chemometrics | transport in porous media / applied math (Foster–Moroney lineage) |

@@ -32,7 +32,8 @@ with CLAUDE.md, flag it rather than comply.
    inventory–kinetics identifiability limit). Read these before reopening any of
    those threads.
 5. `docs/PAPER_OUTLINE.md` — the paper-assembly plan and readiness audit: two
-   papers (A extraction/identifiability = `ANALYSIS_transfer` draft; B flow/
+   papers (A extraction/identifiability = `docs/PAPER_A_DRAFT.md`, converted from
+   the `ANALYSIS_transfer` analysis; B flow/
    bed-dynamics = P3 verdict + κ(t) ladder + N-tube instability) + a possible
    methods note. Read before starting any manuscript work so you don't rebuild a
    result that is already gated and ready.

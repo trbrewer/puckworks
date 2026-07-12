@@ -71,12 +71,17 @@ single grind and re-optimizing `c_s0` at each `rate_scale` makes this explicit
 
 | rate_scale | 0.4 | 0.7 | 1.0 | 1.5 | 2.0 | 2.5 |
 |---|---|---|---|---|---|---|
-| best-fit c_s0 | 17.3 | 15.2 | 14.2 | 13.3 | 12.8 | **12.5** |
-| MAPE (%) | 16.2 | 16.5 | 16.9 | 17.6 | 18.3 | 18.8 |
+| best-fit c_s0 | 15.9 | 14.0 | 13.0 | 12.1 | 11.6 | 11.3 |
+| MAPE (%) | 15.5 | 15.2 | 15.1 | 15.2 | 15.4 | 15.7 |
 
-A **6.25× change in the kinetic rate is absorbed by the inventory with a <3 pp
-change in error** — the rate is not identifiable from these data. Three
-corollaries:
+*(Table refreshed 2026-07-12 from the current `refit_pannusch_angeloni` /
+`_flow_darcy` path; an earlier printing of this table used the superseded flow
+anchor and read 16.2–18.8 %. The degeneracy is if anything **stronger** now — the
+valley is flatter.)*
+
+A **6.25× change in the kinetic rate is absorbed by the inventory with a <1 pp
+change in error** (MAPE 15.1–15.7 %) — the rate is not identifiable from these
+data. Three corollaries:
 
 1. The "best" rate the optimizer reports sits at a shallow boundary optimum, so
    it **flips with incidental choices**: caffeine's fitted rate is 1.0 under one
@@ -86,9 +91,10 @@ corollaries:
 2. The inventory absorbs the ambiguity too: the fitted `c_s0` that should equal
    the grind-independent Table 7 value spreads **17.8 → 20.3 → 8.8** (2.3×)
    across O/C/F.
-3. The only tie-breaker is *external*: at `rate_scale = 2.5` the best-fit `c_s0`
-   coincides with the independently measured Table 7 inventory (12.5). The
-   beverage data alone cannot select it; the measured inventory can.
+3. The only tie-breaker is *external*: the best-fit `c_s0` passes through the
+   independently measured Table 7 inventory along the valley (caffeine fitted 13.0
+   near the measured 12.5; Robusta 17.4 near 18.6), but the beverage data alone
+   cannot single out the rate at which it does. The measured inventory can.
 
 ## 4. Transfer failure across granulometry
 
