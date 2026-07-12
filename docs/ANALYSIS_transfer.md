@@ -167,11 +167,12 @@ time-resolved data. On the strength ladder, the pannusch→angeloni refit is
 **post-fit reconstruction at a single grind; it does not reach independent
 validation and does not transfer across grind.**
 
-**Standing position.** `pannusch2024` remains a Schmieder-calibrated runtime;
-`angeloni2023` is an independent transfer *target* it does not meet across grind.
-The two stay model-vs-data (ONBOARDING §6), and the earlier §7.1 "gap closed /
-inventory-vs-kinetic" entry is corrected by the later "negative validation"
-entry.
+**Standing position (superseded — see the banner at the top).** `pannusch2024`
+remains a Schmieder-calibrated runtime; `angeloni2023` is an independent target. At
+matched mass a refit to angeloni *does* transfer across grind (it is a new
+calibration, not evidence the original kinetics are identified). The corrected
+manuscript is `PAPER_A_DRAFT.md`; the earlier "gap closed / inventory-vs-kinetic"
+and the interim "does not transfer" readings are both superseded.
 
 ## 6. Positive control — fractions resolve what the cup hides
 

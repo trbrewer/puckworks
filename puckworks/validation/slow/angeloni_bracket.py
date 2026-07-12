@@ -117,10 +117,12 @@ def gate_pannusch_angeloni_species_bracket(T_C=93.4, flow_mL_s=1.6, t_shot_s=25.
     (T on-grid, flow ~beverage/tau, grind 1.7). angeloni bioactives are g/L =
     mg/mL (pannusch's units); TS g/100 mL = pannusch TDS(mg/mL)/10.
 
-    Report semantics (not hard pass/fail): reports per-species hits/misses. The
+    Report semantics (not hard pass/fail): reports per-observable hits/misses. The
     finding is that pannusch's kinetics -- fit to a DIFFERENT machine/coffee --
-    land INSIDE the angeloni envelope for all four species (near the low edge),
-    where cameron's TDS reads low. INDEPENDENT strength."""
+    land INSIDE the angeloni envelope for the three named solutes AND the
+    aggregate-solids proxy TDS (near the low edge), where cameron's TDS reads low.
+    INDEPENDENT strength. (TDS is a source-specific aggregate-solids proxy, NOT a
+    fourth named solute -- reported alongside but semantically distinct, M5.)"""
     from puckworks.models.pannusch2024 import solver as ps
     from puckworks import data as d
     bio = d.angeloni_bioactives(); ts = d.angeloni_total_solids()
@@ -142,8 +144,9 @@ def gate_pannusch_angeloni_species_bracket(T_C=93.4, flow_mL_s=1.6, t_shot_s=25.
     n_hit = sum(r["bracketed"] for r in rows)
     return dict(per_species=rows, n_bracketed=n_hit, n_species=len(rows),
                 strength="independent (different machine/coffee/basket than pannusch's fit)",
-                note="pannusch (multi-solute kinetics) brackets all four species in "
-                     "the angeloni envelope, near the low edge -- vs cameron's TDS "
+                note="pannusch (multi-solute kinetics) brackets the three named "
+                     "solutes + the aggregate-solids proxy TDS in the angeloni "
+                     "envelope, near the low edge -- vs cameron's TDS "
                      "reading low. Envelope is wide (66 shots x conditions x variety) "
                      "so this is a regime check, not a per-condition validation.")
 
@@ -373,7 +376,7 @@ def joint_multigrind_fit():
     Finding (expected, consistent with §4/§5): no single (c_s0, rate) fits O, C, and
     F together — the joint fit is markedly worse than the per-grind fits and the
     residual concentrates on the fine grind, whose flow departs most from the
-    others. Strength: NEGATIVE validation (a shared-inventory joint fit fails).
+    others. Strength: external stress test (shared-inventory joint fit).
     NOTE: ~2-3 min of PDE solves (slow; hand-run). """
     import numpy as np
     from puckworks.models.pannusch2024 import solver as ps
@@ -510,7 +513,7 @@ def validate_refit_granulometry():
                 best = (float(rs), cs0, mp)
         return best                                       # rate, c_s0, mape
 
-    transfer, degeneracy = {}, {}
+    transfer, degeneracy, points = {}, {}, {}
     for variety in ("Arabica", "Robusta"):
         for sol, col in SPEC.items():
             rsO, cs0O, mpO = fit(variety, sol, "O")       # O-refit
@@ -520,7 +523,11 @@ def validate_refit_granulometry():
                 conds = [(r["T_degC"], r["p_bar"]) for r in rows]
                 m = np.array([r[col] for r in rows])
                 f = frac(params[sol], rsO, conds, g)
-                held[g] = round(float(np.mean(np.abs(cs0O * f - m) / m) * 100), 0)
+                pred = cs0O * f                            # matched-mass prediction
+                held[g] = round(float(np.mean(np.abs(pred - m) / m) * 100), 0)
+                points[f"{variety}:{sol}:{g}"] = [
+                    dict(T=float(T), p=float(p), obs=float(mo), pred=float(pr))
+                    for (T, p), mo, pr in zip(conds, m, pred)]
             transfer[(variety, sol)] = dict(O_fit_mape=round(mpO, 0),
                                             heldout_C=held["C"], heldout_F=held["F"])
         # degeneracy: refit at each granulometry (Arabica only, representative)
@@ -531,7 +538,7 @@ def validate_refit_granulometry():
                                    fit("Arabica", sol, g)) for g in ("O", "C", "F")}
     hc = [t["heldout_C"] for t in transfer.values()]
     hf = [t["heldout_F"] for t in transfer.values()]
-    return dict(transfer=transfer, degeneracy_arabica=degeneracy,
+    return dict(transfer=transfer, degeneracy_arabica=degeneracy, points=points,
                 heldout_C_range=[min(hc), max(hc)], heldout_F_range=[min(hf), max(hf)],
                 verdict="At MATCHED 40 g cups the O-refit transfers REASONABLY to the "
                         "held-out grinds (held-out C ~%.0f-%.0f%%, F ~%.0f-%.0f%%, vs the "
@@ -561,9 +568,11 @@ def identifiability_panel(variety="Arabica", solute="caffeine", n_rate=29, n_cs0
       - the sloppy eigenvector (its components in (ln rate, ln c_s0) space —
         expected to lie along the c_s0*phi=const valley);
       - the rate<->c_s0 correlation from the inverse Hessian (expected ~ +/-1);
-      - the profile-likelihood interval on the rate: the fraction of the swept
-        rate range whose profile SSE (optimised over c_s0) stays within 10% of the
-        minimum (near 1.0 -> the data do not bound the rate).
+      - the profiled-objective interval on the rate: the fraction of the swept
+        rate range whose profiled MAPE objective (optimised over c_s0) stays within
+        10% of the minimum (near 1.0 -> the data do not bound the rate). NOTE this is
+        a PROFILED MAPE OBJECTIVE, not a profile LIKELIHOOD (no explicit likelihood /
+        noise model), so the 10% band is a stated tolerance, not a confidence interval.
 
     Strength: verification/diagnostic (quantifies a known degeneracy on the transfer
     target; not a new validation). NOTE: ~1-2 min of PDE solves (slow; hand-run)."""
@@ -630,7 +639,7 @@ def identifiability_panel(variety="Arabica", solute="caffeine", n_rate=29, n_cs0
     corr = float(np.clip(corr_raw, -1.0, 1.0)) if np.isfinite(corr_raw) else float("nan")
     hessian_reliable = bool(not rate_at_boundary and not flat_to_precision
                             and not corr_degenerate)
-    # profile-likelihood: fraction of the rate range within 10% of the min SSE
+    # profiled MAPE objective (NOT a profile likelihood): fraction of the rate range within 10% of the min SSE
     within = sse_prof <= sse_min * 1.10
     frac_within = float(np.mean(within))
     lo = float(rates[within][0]); hi = float(rates[within][-1])
@@ -647,6 +656,14 @@ def identifiability_panel(variety="Arabica", solute="caffeine", n_rate=29, n_cs0
         rate_cs0_correlation=round(corr, 3), correlation_degenerate=corr_degenerate,
         profile_rate_within10pct=[round(lo, 2), round(hi, 2)],
         profile_fraction_of_range=round(frac_within, 2),
+        # --- surface + profile + Hessian for the objective-surface figure (Fig 2) ---
+        surface=dict(rates=[float(x) for x in rates],
+                     cs0=[float(x) for x in cs0],
+                     sse=[[float(v) for v in row] for row in S]),
+        profile=dict(rates=[float(x) for x in rates],
+                     c_star=[float(x) for x in c_star],
+                     sse=[float(x) for x in sse_prof], sse_min=float(sse_min)),
+        hessian_logparams=[[float(Suu), float(Suv)], [float(Suv), float(Svv)]],
         verdict=("(c_s0, rate) is PRACTICALLY NON-IDENTIFIABLE from single-grind "
                  "matched-mass whole-cup data. %s The MODEL-FREE evidence is the "
                  "profile: the SSE (optimised over c_s0) stays within 10%% of the "
@@ -693,10 +710,10 @@ def loco_cv_refit(varieties=("Arabica", "Robusta"),
                         {**params[sol], "A1": params[sol]["A1"] * rs,
                          "A2": params[sol]["A2"] * rs, "c_s0": 1.0}, cl1=1.0)[0])
                        for (T, p) in conds] for rs in _RATE_DOMAIN])
-        return F, m
+        return F, m, conds
 
-    def _loco(F, m, level):                               # held-out |%err| per condition
-        n = len(m); errs = []
+    def _loco(F, m, level):                               # held-out |%err| + (obs,pred)
+        n = len(m); errs, preds = [], []
         for i in range(n):
             tr = [j for j in range(n) if j != i]
             best = None
@@ -705,25 +722,29 @@ def loco_cv_refit(varieties=("Arabica", "Robusta"),
                 if best is None or mp < best[1]:
                     best = (c, mp, k)
             c, _, k = best
+            preds.append(float(c * F[k, i]))
             errs.append(abs(c * F[k, i] - m[i]) / m[i] * 100.0)
-        return np.array(errs)
+        return np.array(errs), np.array(preds)
 
-    per, all_mape, all_log = {}, [], []
+    per, all_mape, all_log, pts = {}, [], [], {}
     for variety in varieties:
         for sol in solutes:
-            F, m = _pred_matrix(variety, sol)
-            e = _loco(F, m, _mape_level)
-            el = _loco(F, m, _log_level_mape)
+            F, m, conds = _pred_matrix(variety, sol)
+            e, pr = _loco(F, m, _mape_level)
+            el, _ = _loco(F, m, _log_level_mape)
             all_mape.extend(e); all_log.extend(el)
             per[f"{variety}:{sol}"] = dict(
                 n=len(e), loco_median=round(float(np.median(e)), 1),
                 loco_mean=round(float(np.mean(e)), 1),
                 loco_range=[round(float(e.min()), 1), round(float(e.max()), 1)],
                 heldout_pct_err=[round(float(x), 1) for x in e])
+            pts[f"{variety}:{sol}"] = [dict(T=float(T), p=float(p), obs=float(mo),
+                                            pred=float(prd))
+                                       for (T, p), mo, prd in zip(conds, m, pr)]
     all_mape = np.array(all_mape)
     boot = np.array([all_mape[rng.integers(0, len(all_mape), len(all_mape))].mean()
                      for _ in range(n_boot)])
-    return dict(per_fit=per,
+    return dict(per_fit=per, points=pts,
                 pooled_loco_mean_mape=round(float(all_mape.mean()), 1),
                 pooled_loco_median_mape=round(float(np.median(all_mape)), 1),
                 pooled_loco_ci95=[round(float(np.percentile(boot, 2.5)), 1),

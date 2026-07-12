@@ -12,12 +12,17 @@
 > transfer across grind" claim was an endpoint artefact** — at matched mass the
 > frozen calibration transfers reasonably (~3–18 %) and a shared calibration exists
 > (joint pooled ~6 % vs ~5 % per-grind). The paper is rewritten around this
-> (identifiability ≠ transfer). **Still blocked / owed (flagged, not fabricated):**
-> the identifiability/inverse-problem related-work review (M9), the figure set, the
-> full reproducibility/paper-build package + CI (M10), an independent fraction
-> dataset, the full-shot actual-cup reconstruction (B2 preferred — data present in
-> `raw_fractions.csv`, doable next), uncertainty/bootstrap (M4/M6), and the
-> grain-geometry sensitivity hierarchy (B5).*
+> (identifiability ≠ transfer). **Now also done** (post-review + handoff): the
+> uncertainty/bootstrap + leave-one-condition-out CV (M4/M6), grain-geometry
+> sensitivity (B5), the exact-integral full-cup simulation (B2 design #3), the six
+> figures, JFE-standard terminology, the named-solute/aggregate-proxy split (M5), the
+> M9 related-work section + documented-scoping-search scaffold, and an independent
+> second-rig external TDS test (Waszkiewicz 2026). **Still owed / blocked (flagged,
+> not fabricated):** executing the full Scopus/WoS database search (at submission,
+> §9), replicate-level named-solute external data (Kuhn/Vaca Guerra requests), the
+> empirical full-shot actual-cup reconstruction (repo has only 6 fraction windows),
+> and the frozen reproducibility tag `paper-a-v1.0.0` (created at submission, not
+> now).*
 
 *Manuscript draft, converted from `docs/ANALYSIS_transfer.md` (the analysis of
 record; this file is the manuscript layer, that file stays the analysis spec).
@@ -111,9 +116,11 @@ van't Hoff equilibrium partition `K(T)`, and a Sherwood mass-transfer correlatio
 fraction kinetics. A load-bearing structural property, used throughout, is that the
 whole-cup concentration is **exactly linear in `c_s0`** — the normalisation
 constant `cl1` cancels in the normalised solver — so the inventory acts as a pure
-level. This makes the best-fit inventory at any fixed rate available analytically
-(a rescale), which is what lets us map the objective valley exactly rather than by
-noisy re-optimisation.
+level. This makes the best-fit inventory at any fixed rate available in closed form
+— for the MAPE objective it is the exact **weighted median** of the per-condition
+ratios (not a plain rescale, not a grid search) — so the level axis of the objective
+is solved exactly and only the **rate** is profiled over a stated (wide, log-spaced)
+grid.
 
 ### 2.2 Data
 
@@ -163,13 +170,21 @@ report the **identifiability ratio** = (max-edge MAPE)/(min MAPE). A sharp troug
 (ratio ≫ 1) means the rate is identified; a flat valley (ratio ≈ 1) means it is
 not.
 
-### 2.6 Validation-strength vocabulary (ROADMAP §0)
+### 2.6 Evidence vocabulary (JFE-standard terms)
 
-*Independent* — held-out data on a genuinely different system. *Post-fit
-reconstruction* — a model evaluated on data used to fit or calibrate it.
-*Verification* — reproducing a known result or a positive control on a model's own
-fit data. *Negative validation* — a held-out test the model fails. These labels are
-attached to every result below and are not upgraded.
+We keep the evidence types explicit and standard (the repo's internal labels are
+kept only in a supplement): *calibration / reconstruction* — a model evaluated on
+data used to fit it; *internal holdout / internal prediction* — held-out points from
+the same campaign (e.g. leave-one-condition-out CV); *external prediction /
+cross-dataset prediction* — a genuinely different rig/coffee; *failed external
+prediction* — an external test the model does not pass; *in-sample verification /
+objective localization* — reproducing a positive control on the model's own fit
+data. These are attached to every result below and are not upgraded. We use
+*practical identifiability* (over the tested design, domain, and objective)
+throughout — never *structural* identifiability, which would need an analytic
+proof — and we call the rate profiles *profiled MAPE objectives*, not *profile
+likelihoods* (there is no explicit likelihood/noise model, so the tolerance bands
+are stated thresholds, not confidence intervals).
 
 ---
 
@@ -395,7 +410,7 @@ first over-claimed identification, the second was an endpoint artefact.
   plots by (T, p, grind, variety, solute), and per-point measurement-uncertainty
   weighting (only total-solids carries RSD; the named-solute rows are single
   measurements).
-- **A profile-likelihood / condition-number identifiability panel** — *delivered*
+- **A profiled-objective / condition-number identifiability panel** — *delivered*
   (§4, `identifiability_panel`): caffeine log-Hessian condition number ≈1930,
   rate↔inventory correlation −0.99, profile flat over ~76 % of a wide rate sweep.
   Still owed on top: the same panel across all solutes/varieties as a supplementary
@@ -408,6 +423,27 @@ first over-claimed identification, the second was an endpoint artefact.
   own fit data.
 - **A per-species inventory measurement on the calibration coffee** to close the
   external tie-breaker without borrowing angeloni's Table 7.
+
+## Figures
+
+Six figures (`docs/figures/paper_a/`, rendered from the corrected matched-mass
+analysis via `python -m puckworks.figures_paper_a`; every value regenerates from the
+slow analysis functions, none hand-typed):
+
+- **Fig 1** — study & evidence design: calibration → Angeloni-O fit → held-out
+  leave-one-condition-out CV → frozen O→C/F transfer → Table 7 tie-breaker →
+  in-sample verification, arrows colour-coded by evidence type.
+- **Fig 2** — inventory–rate objective surface (caffeine, trigonelline): the flat
+  valley, the profiled path, the Table 7 inventory line, and the condition number
+  (§4).
+- **Fig 3** — every leave-one-condition-out held-out point (observed vs predicted)
+  by solute × variety — the distribution behind the pooled 6.5 % (§5, M4).
+- **Fig 4** — frozen O→C/F transfer at matched 40 g cups: observed vs predicted per
+  condition, grinds C and F (§5).
+- **Fig 5** — joint shared-(c_s0, rate) residual by variety × solute × grind, with
+  the cost-of-sharing and rate-boundary flags (§5).
+- **Fig 6** — rate profiles: fraction scoring (sharp) vs the sampled aggregate and
+  the exact-integral whole cup (both flat) (§6).
 
 ## 9. Related work
 
@@ -450,7 +486,7 @@ submission.*
   `gate_pannusch_angeloni_per_condition`, `flow_map_refinement`,
   `refit_pannusch_angeloni`, `validate_refit_granulometry`, `joint_multigrind_fit`
   (the shared-inventory joint fit of §5), `identifiability_panel` (the
-  Hessian/condition-number/profile-likelihood quantification of §4),
+  Hessian/condition-number/profiled-objective quantification of §4),
   `loco_cv_refit` (leave-one-condition-out CV + bootstrap + loss sensitivity, M4/M6),
   `geometry_sensitivity_transfer` (B5). Run:
   `python -m puckworks.validation.slow.angeloni_bracket`.
