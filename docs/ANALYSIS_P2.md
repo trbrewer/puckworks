@@ -237,33 +237,36 @@ an artifact:
 parallel-non-exchanging streamtube ensemble concentrates flow into one channel
 once κ evolves — motivating a physically-derived lateral-coupling model.
 
-**Deepening — linear stability, control regime, phase diagram** (2026-07-12;
-`harness.ntube_stability_analysis` + `validation/slow/ntube_stability.py`). The
-review's Result-3 work list, now largely done:
-- **Linear-stability (closed form).** Around the uniform state a perturbation's
-  amplification over the shot is the end-to-start conductance ratio
-  **A = (M(φ_max)/M(φ_0))^(1−lateral)**. For poroelastic, M→0 at the near-choke
-  shutoff so **A ≈ 10¹² (linearly UNSTABLE)**; for Kozeny–Carman **A ≈ 1.5
-  (STABLE)**. The numerics confirm it (N_eff→1.0 vs 83). So the "single-channel
-  latch" is not an artifact — it is the analytical instability, and the closure
-  sensitivity P2 required is exactly what makes A diverge.
-- **Control regime.** The latch is **specific to FLOW control** (fixed total flow
-  shared → a fast tube steals → latch, N_eff→1.0). Under **PRESSURE control**
-  (fixed Δp, independent tubes, no fixed pie) there is **no latch** (N_eff≈84,
-  max single-tube 0.04). The instability is a pump/flow-controlled (schmieder/DE1)
-  phenomenon, not a pressure-controlled one.
-- **Phase diagram** (N_eff over grind × lateral × control, poroelastic). The
-  **only** latching region is *flow control with zero lateral coupling* (N_eff→1
-  at every grind — the latch is closure-driven, not heterogeneity-driven). Any
-  lateral coupling ≥0.3 **or** pressure control keeps the ensemble distributed
-  (N_eff ≫ 1). So even modest lateral coupling breaks the latch.
+**Deepening — finite-time concentration, control regime, phase map** (2026-07-12;
+`harness.ntube_finite_time_gain` + `validation/slow/ntube_stability.py`).
+*(Downgraded per the PAPER_B review — this is NOT a stability theorem.)*
+- **Finite-time gain, NOT a linear-stability result.** A perturbation grows, to
+  leading order under fixed-flow, by the conductance ratio
+  **G = (M(φ_max)/M(φ_0))^(1−lateral)** — but M→0 at the near-choke shutoff, so the
+  poroelastic G is **FLOOR-DEPENDENT** (it scales ~1/floor: 1.9e9 / 1.9e12 / 1.9e15
+  at floors 1e-9/1e-12/1e-15), i.e. it is *not* a floor-independent eigenvalue and
+  its magnitude is meaningless; Kozeny–Carman G≈1.5 is floor-independent. The
+  earlier "A ≈ 10¹², linearly unstable" is retracted (the log-linearization is
+  singular at a zero-conductance base state). The **robust, measured** result is
+  the numerical concentration: poroelastic **N_eff→1.0** (strong concentration in
+  the tested config), CK **N_eff≈83** (bounded). The closure sets *whether*
+  concentration happens; the gain magnitude does not.
+- **Control regime.** The concentration is **specific to FLOW control** (fixed
+  total flow shared → a fast tube steals → N_eff→1.0). Under **PRESSURE control**
+  (independent tubes, no fixed pie) there is **no collapse** (N_eff≈84, max
+  single-tube 0.04). A pump/flow-controlled phenomenon.
+- **Phase map** (N_eff over grind × homogenization × control, poroelastic). The
+  **only** concentrating region is *flow control with zero homogenization* (N_eff→1
+  at every grind — closure-driven, not heterogeneity-driven). Any homogenization
+  ≥0.3 **or** pressure control keeps the ensemble distributed (N_eff ≫ 1).
 
 **Still open (honest):** the lateral term is a homogenizing PROXY, not a physical
 transverse-Darcy exchange, and a *registered* lateral-coupling component is
-card-blocked (rule 1). Gap **G-lat** now has an analytical stability criterion and
-a phase map, but still needs a physical exchange closure (a card) to become a
-model. The static streamtube ensemble remains the right tool for the
-*time-averaged* grind response; this dynamic upgrade is diagnostic/exploratory.
+card-blocked (rule 1). A GENUINE stability result needs a physical lateral
+operator + a Jacobian / finite-time-Lyapunov analysis — not done. Gap **G-lat**
+has a phase map and an honest finite-time diagnostic, but no stability theorem.
+The static streamtube ensemble remains the right tool for the *time-averaged*
+grind response; this dynamic upgrade is diagnostic/exploratory only.
 
 ---
 

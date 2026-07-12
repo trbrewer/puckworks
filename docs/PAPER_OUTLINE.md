@@ -160,24 +160,27 @@ in an exploratory section or appendix — NOT "ready, only Fig 5 remaining".)*
   and EY response now at the SAME pressure (the earlier 9-bar-flow/5-bar-EY mismatch
   is fixed → 15.1%→2.4%). A homogenizing regularizer (a proxy, not a transverse-
   Darcy term) suppresses it.
-- **Stability analysis — DONE** (`ntube_stability_analysis`, validation/slow).
-  Closed form: a perturbation's amplification is the conductance ratio
-  **A = (M(φ_max)/M(φ_0))^(1−lateral)** — poroelastic A≈10¹² (unstable, M→0 at the
-  near-choke shutoff), CK A≈1.5 (stable); the numerics match (N_eff→1 vs 83). The
-  latch is the analytical instability, not an artifact.
-- **Flow- vs pressure-control — DONE.** The latch is **flow-control-specific**
+- **Finite-time concentration, NOT a stability theorem** (`ntube_finite_time_gain`,
+  validation/slow; downgraded per the PAPER_B review). A perturbation's leading-order
+  gain is the conductance ratio G=(M_f/M_0)^(1−lat), but M_0→0 at the near-choke
+  shutoff so the poroelastic G is **floor-dependent** (∝1/floor — a singular
+  log-linearization, NOT an eigenvalue); the earlier "A≈10¹², linearly unstable" is
+  retracted. The **robust, measured** result is the numerical concentration:
+  poroelastic **N_eff→1**, CK **N_eff≈83**. The closure sets *whether* it happens.
+- **Flow- vs pressure-control — DONE.** The concentration is **flow-control-specific**
   (fixed total → stealing → N_eff→1); under pressure control (independent tubes)
-  there is **no latch** (N_eff≈84). It is a pump/flow-controlled phenomenon.
-- **Phase diagram — DONE** (grind × lateral × control). The only latching region
-  is flow-control with zero lateral coupling; any lateral ≥0.3 **or** pressure
-  control keeps N_eff ≫ 1.
-- **Still card-blocked / not claimed:** the lateral term is a homogenizing PROXY,
-  not a physical transverse-Darcy exchange; a *registered* lateral-coupling model
-  needs a card (rule 1). Remaining review items: alternative clocks +
-  donor-uncertainty; the physical exchange closure; experimental channeling.
-- **Fig 5** — a **stability map** (phase boundary vs lateral conductance and
-  near-choke sensitivity; flow- vs pressure-control; N_eff/max-share;
-  convergence/tube-count checks; representative trajectories), not three curves.
+  there is **none** (N_eff≈84). A pump/flow-controlled phenomenon.
+- **Phase map — DONE** (grind × homogenization × control). The only concentrating
+  region is flow-control with zero homogenization; any homogenization ≥0.3 **or**
+  pressure control keeps N_eff ≫ 1.
+- **Not claimed / open:** the lateral term is a homogenizing PROXY, not a physical
+  transverse-Darcy exchange (card-blocked, rule 1). A GENUINE stability result needs
+  a physical lateral operator + a Jacobian/finite-time-Lyapunov analysis — NOT done.
+  Also owed: N/timestep/floor/pressure/grind sensitivity sweeps; alternative clocks.
+- **Fig 5** — (a) N_eff vs homogenization at FIXED grind gs=1.1, flow vs pressure
+  control; (b) the conductance-ratio gain vs the floor (poroelastic ∝1/floor →
+  floor-controlled, CK flat) — an HONEST depiction that the "gain" is not an
+  eigenvalue, NOT a phase-boundary/eigenvalue stability figure.
 
 ## 6. Discussion
 - Unifying theme (the real thesis): **integrated observables erase discriminating

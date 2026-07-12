@@ -239,45 +239,49 @@ def fig4_composition(outdir=OUTDIR_DEFAULT):
 
 # ---------------------------------------------------------------------------
 def fig5_stability(outdir=OUTDIR_DEFAULT):
-    """Fig 5 — N-tube stability map (Result 3, exploratory).
-    (a) N_eff_final vs lateral coupling, flow vs pressure control (the latch is
-        flow-control + lateral=0 only); (b) closed-form amplification A per closure
-        (log scale) — poroelastic unstable, Kozeny-Carman stable."""
+    """Fig 5 — N-tube finite-time concentration (Result 3, EXPLORATORY; NOT a
+    stability theorem). (a) effective channel count vs the homogenization
+    parameter, flow vs pressure control, at FIXED grind gs=1.1 (the strong
+    concentration is the flow-control + zero-homogenization corner); (b) the
+    conductance-ratio GAIN vs the numerical floor — poroelastic scales ~1/floor
+    (floor-controlled, so NOT a stability eigenvalue), Kozeny-Carman is
+    floor-independent (~1.5)."""
     import numpy as np
     from puckworks import harness as h
     plt = _plt()
     laterals = [0.0, 0.2, 0.4, 0.6, 0.8, 0.95]
-    N = 120
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(9.0, 3.6))
+    N = 150
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(9.2, 3.6))
     for ctrl, col, ls in (("flow", ACCENT, "-"), ("pressure", GOOD, "--")):
         neff = [h.ntube_kappa_t_union(gs=1.1, N=N, closure="poroelastic", lateral=L,
                                       control=ctrl, compute_ey=False)["n_eff_channels_final"]
                 for L in laterals]
         ax1.plot(laterals, neff, "o"+ls, color=col, lw=1.7, ms=5, label="%s control" % ctrl)
     ax1.axhline(1.0, color=BAD, lw=1.2, ls=":")
-    ax1.text(0.02, 1.0/N*100 if False else 3, "single-channel latch (N_eff→1)", color=BAD, fontsize=7.5)
-    ax1.set_title("(a) Phase: N_eff vs lateral coupling")
-    ax1.set_xlabel("lateral coupling (homogenizing proxy)")
+    ax1.text(0.02, 6, "single effective channel (N_eff→1)", color=BAD, fontsize=7.5)
+    ax1.set_title("(a) N_eff vs homogenization (fixed grind gs=1.1)")
+    ax1.set_xlabel("homogenization parameter (proxy for lateral coupling)")
     ax1.set_ylabel("effective # channels N_eff  (of %d)" % N)
     ax1.legend(fontsize=8, loc="center right")
 
-    st = h.ntube_stability_analysis()
-    closures = list(st["closures"].items())
-    names = [c[0] for c in closures]
-    A = [max(c[1]["amplification_A"], 1.0) for c in closures]
-    cols = [BAD if c[1]["unstable"] else GOOD for c in closures]
-    ax2.bar(names, A, color=cols)
-    ax2.set_yscale("log")
-    ax2.axhline(1e2, color=WARN, lw=1.2, ls=":")
-    ax2.text(1.02, 1.5e2, "instability\nthreshold", color=WARN, fontsize=7.5, transform=ax2.get_yaxis_transform())
-    for i, (n, d) in enumerate(closures):
-        ax2.text(i, A[i]*1.6, "A~%.0e" % d["amplification_A"] if A[i] > 10 else "A=%.2f" % A[i],
-                 ha="center", fontsize=8)
-    ax2.set_title("(b) Linear amplification A = M(φ_max)/M(φ₀)")
-    ax2.set_ylabel("perturbation amplification A")
-    ax2.set_ylim(0.3, 1e14)
-    fig.suptitle("Result 3 — flow-control single-channel latch (tested config); the closure sets stability",
-                 y=1.03, fontsize=10.5, fontweight="bold")
+    # (b) floor-dependence of the conductance-ratio gain (the honest replacement
+    # for the earlier single "A~1e12, instability threshold" bar)
+    st = h.ntube_finite_time_gain(floors=(1e-6, 1e-9, 1e-12, 1e-15))
+    floors = np.array([1e-6, 1e-9, 1e-12, 1e-15])
+    for name, col in (("poroelastic", BAD), ("ck", GOOD)):
+        g = st["closures"][name]["finite_time_gain_by_floor"]
+        gains = np.array([float(g["%.0e" % f]) for f in floors])
+        ax2.plot(floors, gains, "o-", color=col, lw=1.7, ms=5, label=name)
+    ax2.set_xscale("log"); ax2.set_yscale("log"); ax2.invert_xaxis()
+    ax2.set_title("(b) conductance-ratio gain vs floor (floor-controlled)")
+    ax2.set_xlabel("conductance floor M₀ (smaller → larger 'gain')")
+    ax2.set_ylabel("finite-time gain M_f / M₀")
+    ax2.legend(fontsize=8, loc="center left")
+    ax2.text(0.5, 0.08, "poroelastic gain ∝ 1/floor → NOT an eigenvalue;\n"
+             "CK floor-independent. Use N_eff (a), not this magnitude.",
+             transform=ax2.transAxes, fontsize=7.0, color=NULL, ha="center")
+    fig.suptitle("Result 3 (exploratory) — flow-control finite-time concentration; the closure sets whether it happens",
+                 y=1.03, fontsize=10, fontweight="bold")
     return _save(fig, outdir, "fig5_stability_map.png")
 
 

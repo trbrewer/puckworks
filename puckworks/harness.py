@@ -999,54 +999,67 @@ def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
                     ey_static, ey_dyn, P_bar)))
 
 
-def ntube_stability_analysis(P_bar=9.0):
-    """LINEAR-stability analysis of the N-tube concentration around the uniform
-    state (Result-3 deepening the review asked for). Closed form + numerical
-    cross-check. Exploratory / qualitative.
+def ntube_finite_time_gain(P_bar=9.0, floors=(1e-9, 1e-12, 1e-15)):
+    """FINITE-TIME concentration diagnostic for the N-tube model (Result 3).
+    EXPLORATORY / qualitative -- NOT a proven linear-stability result (see the
+    PAPER_B review). Renamed from `ntube_stability_analysis` 2026-07-12 to stop
+    implying a theorem.
 
-    Around the uniform state (all tubes identical, w_i=1), perturb one tube's
-    extraction age by dtau. Its conductance is g = k0*M(phi), phi=Phi(tau); the
-    growth of the perturbation obeys
-        d ln(dtau)/dt = (1-lateral) * d ln M / dt
-    (fixed-flow; the homogenizer scales the feedback by (1-lateral)). Integrating
-    over the shot, the LINEAR amplification of a perturbation is
-        A = ( M(phi_max) / M(phi_0) ) ** (1 - lateral)
-    -- the end-to-start CONDUCTANCE RATIO. This is the analytical origin of the
-    numerical latch: for the POROELASTIC closure M(phi_0)->0 at the near-choke
-    shutoff, so A diverges (linearly UNSTABLE, unbounded amplification); for the
-    gentle Kozeny-Carman closure A ~ 1.5 (STABLE). The classification (A>>1 vs
-    A~1) is robust to the shutoff floor. A homogenizing lateral term reduces the
-    EXPONENT (1-lateral) and its additive floor caps the realized concentration.
+    What it is (honest scope): a perturbation to one tube's extraction age grows,
+    to leading order under fixed-flow, by the end-to-start conductance ratio
+        G = ( M(phi_max) / M(phi_0) )^(1-lateral).
+    But this is a FINITE-HORIZON gain from a specified start, NOT a floor-
+    independent eigenvalue: for the poroelastic closure M(phi_0)->0 at the
+    near-choke shutoff, so G depends on the numerical conductance FLOOR (a
+    zero-conductance base state makes the log-linearization singular). We therefore
+    report G across a RANGE of floors to expose that dependence -- the poroelastic
+    G scales ~1/floor (it is floor-controlled), while Kozeny-Carman G~1.5 is
+    floor-independent. So G is NOT a stability criterion; it is a qualitative
+    explanation of WHY the closure matters, and its magnitude is not meaningful.
 
-    Returns the closed-form A per closure (+ log10), the stability classification,
-    and a numerical cross-check (N_eff_final from an actual ntube run) confirming
-    poroelastic latches (N_eff->~1) while CK stays bounded."""
+    What IS robust is the NUMERICAL concentration (measured, floor-independent):
+    the poroelastic closure drives N_eff -> ~1 (strong finite-time concentration in
+    the tested near-choke, flow-controlled config) while CK stays bounded
+    (N_eff ~110). The `unstable` field is REMOVED; use `concentrates_numeric`.
+    A genuine stability result needs a physical lateral operator + a Jacobian /
+    finite-time-Lyapunov analysis (open; the lateral term here is a homogenizing
+    proxy, not a transverse-Darcy exchange)."""
     from puckworks.models.brewer2026 import coupled_kappa_t as _ck
     r = _ck.simulate(P_bar=P_bar, branches=("extraction",))
     phi = r["phi"]["extraction"]
     o = np.argsort(phi)
     out = {}
     for name, cond in (("poroelastic", r["Q"]), ("ck", r["kappa_ck"])):
-        c = np.clip(np.asarray(cond)[o], 1e-12, None)
-        M0, Mf = float(c[0]), float(c[-1])
-        A = Mf / M0
+        c = np.asarray(cond)[o]
+        Mf = float(c[-1])
+        # gain vs floor -> exposes floor-dependence (poroelastic ~1/floor)
+        gain_by_floor = {fl: float(Mf / max(float(c[0]), fl)) for fl in floors}
+        floor_sensitive = bool(max(gain_by_floor.values()) / min(gain_by_floor.values()) > 10)
         num = ntube_kappa_t_union(gs=1.1, N=150, closure=name, compute_ey=False)
-        out[name] = dict(M_phi0=M0, M_phimax=Mf, amplification_A=A,
-                         log10_A=float(np.log10(A)),
-                         unstable=bool(A > 1e2),          # A>>1 -> linearly unstable
-                         n_eff_final_numeric=round(num["n_eff_channels_final"], 2),
-                         concentrates_numeric=num["concentrates"])
+        out[name] = dict(
+            M_phimax=Mf, M_phi0_raw=float(c[0]),
+            finite_time_gain_by_floor={("%.0e" % k): round(v, 3) if v < 1e4 else v
+                                       for k, v in gain_by_floor.items()},
+            gain_is_floor_sensitive=floor_sensitive,   # True = NOT a stability eigenvalue
+            n_eff_final_numeric=round(num["n_eff_channels_final"], 2),
+            concentrates_numeric=num["concentrates"])   # the ROBUST result
     return dict(
         closures=out,
-        verdict=("linear amplification A = (M(phi_max)/M(phi_0))^(1-lateral): "
-                 "poroelastic A~%.1e (log10 %.1f) -> UNSTABLE (M->0 at the "
-                 "near-choke shutoff; numeric N_eff->%.1f, latches), CK A=%.2f -> "
-                 "STABLE (numeric N_eff=%.0f, bounded). The closed form is the "
-                 "analytical origin of the numerical single-channel latch and its "
-                 "closure-dependence; lateral coupling reduces the exponent (1-lat)."
-                 % (out["poroelastic"]["amplification_A"], out["poroelastic"]["log10_A"],
-                    out["poroelastic"]["n_eff_final_numeric"],
-                    out["ck"]["amplification_A"], out["ck"]["n_eff_final_numeric"])))
+        verdict=("FINITE-TIME concentration (not a stability theorem): the "
+                 "conductance-ratio gain G=M_f/M_0 is FLOOR-DEPENDENT for "
+                 "poroelastic (M_0->0 at the near-choke shutoff -> G scales ~1/floor, "
+                 "so its magnitude is not meaningful), while CK G~1.5 is "
+                 "floor-independent. The ROBUST, measured result is the numerical "
+                 "concentration: poroelastic N_eff->%.1f (strong concentration in "
+                 "the tested config), CK N_eff=%.0f (bounded). The closure sets "
+                 "WHETHER concentration happens; a proven instability needs a "
+                 "physical lateral operator + Jacobian/Lyapunov analysis (open)."
+                 % (out["poroelastic"]["n_eff_final_numeric"],
+                    out["ck"]["n_eff_final_numeric"])))
+
+
+# back-compat alias (old name implied a theorem it did not deliver)
+ntube_stability_analysis = ntube_finite_time_gain
 
 
 # --- G4 temperature sensitivity: two independent closures + schmieder datum ---
