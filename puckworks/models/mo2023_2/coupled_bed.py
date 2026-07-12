@@ -1,15 +1,16 @@
 """coupled_bed.py — mo2023_2 depth-resolved coupled bed extraction (Fig 8) [WIP].
 
-*** STATUS: WIP / not registered, not gated. *** The depth-resolved structure
-works and improves the yield(M_c) SHAPE over the reduced lumped bed (the implied
-absolute-scale spread narrows from ~50-60 to ~91-110 across M_c, i.e. the low-M_c
-under-extraction is partly fixed), but it does NOT yet pass the card's gate-3
-(within replicate bars, M_c<30 g -- 3/9 vs the reduced model's 4/9). Three things
-remain before it closes: (a) a residual ~2-3x absolute-normalization factor (the
-fitted inventory scale lands ~70-110 where physical max-EY is ~30-45 -> a flux or
-inventory-units bug to find); (b) the card's REQUIRED initial filling front (Eqs
-29-30, not implemented here); (c) reconciliation with the paper's exact Appendix
-A.2 numerics. Preserved as a continuation point, not a finished component.
+*** STATUS: WIP / not registered, not gated. ***
+(a) NORMALIZATION BUG FIXED (2026-07-11): the grain->bed flux took du/dxi where
+    it needed dC/dxi (state is u=xi*C) -> ~12x solute loss, un-conserving mass;
+    plus a spurious eps_p in the inventory. Fixed: with adequate time sampling
+    mass conserves to 0.993 and eluted_frac -> ~1.0 of the grain inventory at
+    full extraction. yield_frac is now a true fraction of the grain content.
+(b) STILL TODO: the card's REQUIRED initial filling front (Eqs 29-30) -- until
+    it is in, every cell extracts from t=0 and over-extracts, so do NOT score
+    within-bars yet (check foster2025.infiltration reuse first).
+(c) STILL TODO: reconcile with the paper's exact Appendix A.2 numerics.
+Preserved as a continuation point, not a finished component.
 
 
 
@@ -81,8 +82,13 @@ def simulate_bed(powder, q_mL_s, dose_g=None, t_end=40.0, N_z=14, M=8,
         full[:, 1:M] = u
         d2 = (full[:, 2:] - 2.0 * full[:, 1:M] + full[:, :M - 1]) / dxi ** 2
         du = rate[:, None] * d2
-        # grain outflux (per grain): -Deff 4pi R dC/dxi|_1 ; C=u/xi, at xi=1 dC/dxi=du/dxi - u
-        dCdxi_R = (3.0 * full[:, M] - 4.0 * full[:, M - 1] + full[:, M - 2]) / (2.0 * dxi)
+        # grain outflux (per grain) = -Deff 4pi R dC/dxi|_1. State is u=xi*C, so
+        # reconstruct C = u/xi at the surface nodes BEFORE the gradient (the bug
+        # was taking du/dxi here, which broke grain<->bed mass conservation).
+        Cn = full[:, M]                                 # xi=1 -> C = u
+        Cn1 = full[:, M - 1] / xi[M - 1]
+        Cn2 = full[:, M - 2] / xi[M - 2]
+        dCdxi_R = (3.0 * Cn - 4.0 * Cn1 + Cn2) / (2.0 * dxi)
         flux = -Deff * 4.0 * np.pi * R * dCdxi_R        # >0 leaving the grain
         src_grain = n_per_vol * flux                    # per grain-type, per bed volume
         # sum fine+coarse source into each layer
@@ -101,11 +107,29 @@ def simulate_bed(powder, q_mL_s, dose_g=None, t_end=40.0, N_z=14, M=8,
     t = sol.t
     elut = np.concatenate([[0.0], np.cumsum(0.5 * (c_out[1:] + c_out[:-1]) * np.diff(t)) * Q])
     vol = Q * t
-    inv = EPS_P0 * (1.0 - eps_b) * A * L                 # extractable = C_s0 x grain pore vol
+    inv = (1.0 - eps_b) * A * L                          # grain solute content (C_s0=1 over grain)
     yield_frac = elut / inv
     strength = np.divide(elut, vol, out=np.zeros_like(elut), where=vol > 0)
     bev_g = vol * RHO_W * 1e3
-    return dict(t=t, beverage_g=bev_g, yield_frac=yield_frac, strength=strength)
+    # --- mass balance (diagnostic): grain content + bed pore + eluted vs initial ---
+    Vcell = A * dz
+    n_grains = n_per_vol * Vcell                          # grains of each type per its layer
+    xi_full = xi
+    grain_tot = np.zeros(len(t))
+    for k in range(len(t)):
+        u_k = sol.y[:nU, k].reshape(Ng, M - 1)
+        c_surf_k = np.clip(sol.y[nU + zidx, k] / K, 0.0, None)
+        full = np.empty((Ng, M + 1)); full[:, 0] = 0.0; full[:, M] = c_surf_k; full[:, 1:M] = u_k
+        Cr = np.zeros((Ng, M + 1)); Cr[:, 1:] = full[:, 1:] / xi_full[1:]; Cr[:, 0] = full[:, 1] / xi_full[1]
+        content_per_grain = 4.0 * np.pi * R ** 3 * np.trapezoid(Cr * xi_full ** 2, xi_full, axis=1)
+        grain_tot[k] = float(np.sum(n_grains * content_per_grain))
+    pore_tot = np.array([float(np.sum(sol.y[nU:nU + N_z, k])) for k in range(len(t))]) * eps_b * Vcell
+    inv_true = float(np.sum(n_grains * (4.0 * np.pi * R ** 3 / 3.0)))   # initial grain content
+    balance = (grain_tot + pore_tot + elut) / inv_true
+    return dict(t=t, beverage_g=bev_g, yield_frac=yield_frac, strength=strength,
+                mass_balance=balance, inv_true=inv_true, inv_used=inv,
+                grain_frac=grain_tot / inv_true, eluted_frac=elut / inv_true,
+                pore_frac=pore_tot / inv_true)
 
 
 def yield_strength_curve(powder, q_mL_s, M_c_targets, EY_scale, **kw):
