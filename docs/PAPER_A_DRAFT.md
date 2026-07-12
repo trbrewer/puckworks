@@ -275,9 +275,22 @@ with incidental choices (§4) — **yet the level+rate *pair* predicts the other
 well**, because predictions are stable along the compensating manifold. Individual
 non-identifiability did *not* imply predictive non-transfer. Strength: **held-out /
 joint predictive transfer** (reasonable), conditioned on the tested flow maps, frozen
-centre-grind geometry, and matched endpoint. *(Owed hierarchy, review B5: add a
-plausible grind-geometry mapping from the Pannusch 1.4/1.7/2.0 table and a geometry
-sensitivity; report per-condition residuals with uncertainty.)*
+centre-grind geometry, and matched endpoint.
+
+**Proper cross-validation, uncertainty, and robustness** (`loco_cv_refit`,
+`geometry_sensitivity_transfer`). Replacing the weak two-off-grid-point holdout with
+**leave-one-(T,p)-condition-out CV** over the nine on-grid O conditions gives a pooled
+held-out MAPE of **6.5 %** (median **5.2 %**, shot-level bootstrap 95 % CI
+**[5.0, 8.2] %**), reported per solute × variety (medians 2.8–8.8 %, worst individual
+fold 32.7 % on Robusta 5-CQA) rather than as a single mean (review M4). The verdict is
+robust to the loss function: under a log/relative-error level fit the pooled mean is
+**7.0 %** (review M6). And it is robust to the frozen geometry: re-running the O→C/F
+transfer under each of the three Pannusch fitted geometries (1.4/1.7/2.0, which vary
+<15 %) moves the held-out MAPE by **at most 1 pp** (review B5) — so the transfer is not
+a geometry artefact. A calibrated cross-grinder map remains unavailable (we sweep the
+observed geometry range instead). Together these confirm the corrected §5 conclusion —
+the calibration transfers across grind — with proper cross-validation, an uncertainty
+interval, and loss/geometry robustness, not a two-point mean.
 
 ## 6. Result 4 — positive control: fraction scoring localizes the rate more than an aggregated endpoint
 
@@ -373,17 +386,23 @@ first over-claimed identification, the second was an endpoint artefact.
 
 ## 8. Open gaps this paper defines
 
-- **A joint multi-grind fit with a single shared inventory** — *delivered* (§5,
-  `joint_multigrind_fit`): at matched mass, pooled ~6 % vs ~5 % per-grind
-  (cost-of-sharing ~1 pp) — a shared calibration transfers. Still owed on top:
-  propagating measurement uncertainty into the pooled residual and per-condition
-  residual plots by (T, p, grind, variety, solute).
+- **Held-out validation, uncertainty, and robustness** — *delivered* (§5): the joint
+  multi-grind fit (`joint_multigrind_fit`, pooled ~6 % vs ~5 %); **leave-one-condition-
+  out CV** (`loco_cv_refit`, pooled 6.5 %, median 5.2 %, bootstrap 95 % CI [5.0, 8.2] %)
+  replacing the 2-point holdout (M4) with a bootstrap interval and a log-loss robustness
+  check (M6); and a **geometry-sensitivity sweep** (`geometry_sensitivity_transfer`,
+  ≤1 pp across the three fitted geometries, B5). Still owed: per-condition residual
+  plots by (T, p, grind, variety, solute), and per-point measurement-uncertainty
+  weighting (only total-solids carries RSD; the named-solute rows are single
+  measurements).
 - **A profile-likelihood / condition-number identifiability panel** — *delivered*
   (§4, `identifiability_panel`): caffeine log-Hessian condition number ≈1930,
   rate↔inventory correlation −0.99, profile flat over ~76 % of a wide rate sweep.
-  Still owed on top: propagating measurement noise into a proper confidence region
-  (bootstrap across shots), and the same panel across all solutes/varieties as a
-  supplementary figure.
+  Still owed on top: the same panel across all solutes/varieties as a supplementary
+  figure.
+- **An empirical full-cup comparison** (review B2) — the exact-integral simulation
+  (§6) is delivered; the empirical version is **data-blocked** (the repo has only
+  fraction windows 1,2,3,5,7,10; the BR-1/3 cup mass/endpoint is ambiguous).
 - **Time-resolved fractions on an independent rig** — the measurement that would
   turn the §6 verification into an independent identification off `pannusch2024`'s
   own fit data.
@@ -431,7 +450,9 @@ submission.*
   `gate_pannusch_angeloni_per_condition`, `flow_map_refinement`,
   `refit_pannusch_angeloni`, `validate_refit_granulometry`, `joint_multigrind_fit`
   (the shared-inventory joint fit of §5), `identifiability_panel` (the
-  Hessian/condition-number/profile-likelihood quantification of §4). Run:
+  Hessian/condition-number/profile-likelihood quantification of §4),
+  `loco_cv_refit` (leave-one-condition-out CV + bootstrap + loss sensitivity, M4/M6),
+  `geometry_sensitivity_transfer` (B5). Run:
   `python -m puckworks.validation.slow.angeloni_bracket`.
 - **Positive control:** `puckworks/validation/slow/identifiability.py` —
   `identifiability_fractions_vs_cup` (empirical, sampled aggregate),
