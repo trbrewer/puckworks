@@ -214,7 +214,8 @@ in an exploratory section or appendix — NOT "ready, only Fig 5 remaining".)*
 | Registry Methods | **amber** | correct universal-gate claim (done in §2); add observable/unit contracts; pin a commit |
 | Related work / novelty | **red** | complete before claiming no prior head-to-head comparison |
 | Figures | **draft rendered** | Figs 1–5 rendered from harness outputs (`puckworks/figures.py`, `[figures]` extra → `docs/figures/`); manuscript-draft quality, track the corrected findings. Remaining: LaTeX captions + journal sizing |
-| Overall Paper B | **not submission-ready** | scientific reanalysis mostly done (Results 1–3); remaining: prose, related work, abstract |
+| Paper B prose | **draft written** (`PAPER_B_DRAFT.md`) | full manuscript draft (title/abstract/§1–7) with verb discipline + figure refs; needs related-work + LaTeX |
+| Overall Paper B | **not submission-ready** | Results 1–3 + Figs + prose draft done; remaining: related work / novelty positioning, journal framing, LaTeX |
 
 ## Priority revision sequence (from the review)
 
