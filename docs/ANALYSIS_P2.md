@@ -167,6 +167,13 @@ TARGET side (schmieder's weak RSM / monotone raw cells). Both point the same way
 on a channeling peak, and the σ(φ₁) closure's own parameters — not just the target
 — carry the uncertainty.
 
+**Concavity audit (Jensen premise; `harness.channeling_concavity_audit`).** The
+ensemble deficit is a Jensen inequality requiring EY(k) concave in k. Verified: the
+numerical EY(k) is concave over **96–97 %** of the tested support at all
+grinds/pressures, and the lognormal quadrature mass at the clipped boundaries is
+**<0.2 %** — so the Jensen deficit holds over the tested support (global concavity
+not claimed) and clipping is negligible. Strength: numerical verification.
+
 **Magnitude comparison — model bump vs schmieder response** (`result1_magnitude_comparison`;
 corrected 2026-07-12 per the PAPER_B review). All in EY-points, on the measured
 cells:

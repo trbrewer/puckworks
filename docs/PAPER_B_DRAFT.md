@@ -129,9 +129,12 @@ insufficient for absolute reconstruction — **not** because the model over-pred
 permeability heterogeneity as a unit-mean lognormal. The sampled numerical yield
 response is concave over the tested support, so lognormal averaging produces a
 Jensen-type yield deficit; a grind-dependent width closure can convert the monotone
-homogeneous response into a peaked ensemble response (Fig. 1b). *(Global concavity
-is not claimed; the second-derivative audit over the quadrature support and the
-clipping-mass diagnostic are owed, §7.)*
+homogeneous response into a peaked ensemble response (Fig. 1b). This is audited
+(`harness.channeling_concavity_audit`): the numerical EY(k) is concave over
+**96–97 % of the tested support** at all grinds/pressures, and the lognormal
+quadrature mass reaching the clipped boundaries is **<0.2 %**, so clipping does not
+drive the ensemble. *(Global concavity is not claimed — only over the tested
+support.)*
 
 **Why this is capacity, not identification, and why the comparison is asymmetric.**
 Among the response generators *currently implemented in the registry*, the

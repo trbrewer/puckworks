@@ -54,18 +54,28 @@ def report():
     print()
     print("VERDICT:", r["verdict"])
 
+    # concavity audit (Jensen premise; review Priority 3.1)
+    ca = h.channeling_concavity_audit()
+    print()
+    print("== EY(k) concavity audit (Jensen premise) ==")
+    print("min concave fraction %.3f; max clip mass %.4f -> %s" % (
+        ca["min_concave_fraction"], ca["max_clip_mass"], ca["verdict"]))
+
     # magnitude comparison: model bump vs raw schmieder bump (both EY-pts)
     m = h.result1_magnitude_comparison()
     print()
-    print("== Result-1 MAGNITUDE comparison (model bump vs schmieder bump) ==")
-    print("raw TDS-EY %s -> interior bump %.3f EY-pt (<=0 = monotone); noise floor "
-          "%.3f EY-pt" % (m["raw_tds_ey"], m["raw_interior_bump_EYpt"],
-                          m["raw_noise_floor_EYpt"]))
-    print("model channeling bump: %.3f (5 bar) / %.3f (9 bar) EY-pt; below noise=%s"
+    print("== Result-1 MAGNITUDE comparison (model bump vs schmieder response) ==")
+    print("raw TDS-EY %s -> mid-vs-2.0 contrast %.3f EY-pt, Welch 95%% CI %s "
+          "(excludes 0 -> monotone); within-cell std %.3f (descriptive)"
+          % (m["raw_tds_ey"], m["raw_mid_vs_endpoint_contrast_EYpt"],
+             m["raw_contrast_welch_ci95"], m["raw_within_cell_std_EYpt"]))
+    print("model channeling bump: %.3f (5 bar) / %.3f (9 bar) EY-pt; < within-cell "
+          "var=%s (no formal MDE)"
           % (m["model_prominence_5bar_EYpt"], m["model_prominence_9bar_EYpt"],
-             m["model_bump_below_noise"]))
-    print("schmieder RSM overpredicts absolute cup mass %.2fx -> SHAPE tool only"
-          % m["rsm_overpredicts_x"])
+             m["model_bump_lt_within_cell_var"]))
+    print("RSM: refit %.2f g vs printed %.2f g vs data %.2f g -> shape tool by "
+          "PRINTED-COEFF ROUNDING, not a 1.7x overprediction"
+          % (m["rsm_refit_central_g"], m["rsm_printed_central_g"], m["rsm_raw_central_g"]))
     print("VERDICT:", m["verdict"])
     return dict(sensitivity=r, magnitude=m)
 
