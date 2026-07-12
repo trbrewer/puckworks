@@ -61,11 +61,12 @@ jointly to all grinds nearly matches the per-grind fits (cost-of-sharing ~1
 percentage point): predictions are stable along the compensating manifold. This
 corrects an earlier version of this analysis, which — using an **unmatched fixed-time
 integration window** — reported a large cross-grind transfer failure; that failure
-was mostly a measurement-window artefact. Finally, an **in-sample verification** on
-the model's own calibration campaign shows fraction-resolved scoring localizes the
-rate profile more sharply than an aggregated endpoint (the aggregate here is a
-sampled-fraction statistic, not a full cup — it differs from the actual cup by
-~30 %). The lesson is that a low endpoint error need not identify a mechanism even
+was mostly a measurement-window artefact. Finally, across an **in-sample
+verification** on the model's own calibration campaign and an **independent
+second-rig TDS trajectory** (Waszkiewicz et al. 2026), retaining temporal resolution
+consistently constrains the rate while an integrated aggregate does not — most
+starkly on the single external shot, whose integrated cup carries no rate information
+at all. The lesson is that a low endpoint error need not identify a mechanism even
 when it *does* transfer: identifiability, transfer, and endpoint accuracy are
 distinct properties and must be reported separately, and matching the beverage
 endpoint is a prerequisite for any of them.
@@ -313,7 +314,7 @@ observed geometry range instead). Together these confirm the corrected §5 concl
 the calibration transfers across grind — with proper cross-validation, an uncertainty
 interval, and loss/geometry robustness, not a two-point mean.
 
-## 6. Result 4 — positive control: fraction scoring localizes the rate more than an aggregated endpoint
+## 6. In-sample fraction verification and an independent external TDS trajectory test
 
 The claim in §4 (the rate constrains the extraction *curve* more than an aggregated
 endpoint) is testable on the **same model** and the **same data `pannusch2024` was
@@ -363,9 +364,38 @@ the crude six-window aggregate and remains essentially flat. This removes the
 sampled-window artefact: a *true* whole cup, not just a sampled aggregate, loses
 kinetic-rate information — so the "cup hides the clock" claim survives the review's
 B2 concern. Strength: **simulation study** (exact integral, seeded 3 % noise) — not
-an empirical positive control. *(Still owed: an empirical full-cup comparison, which
-needs either the missing fraction windows or an unambiguous same-shot cup
-observable — a data question, not a code one.)*
+an empirical positive control.
+
+**An independent external test** (`external_waszkiewicz`). The Pannusch fraction data
+above are part of the model's own calibration lineage, so they provide *in-sample
+verification* of objective localization, not independent identification. To add a
+genuinely external observation class we evaluate the public five-second TDS fractions
+of Waszkiewicz et al. (2026, *Phys. Fluids* **38**, 063113; already in the repo as
+`waszkiewicz2025`, same Zenodo release), collected on a **second café-grade rig** with
+a simultaneously measured flow trace. We freeze the Pannusch TDS kinetics and predict
+the fraction-resolved TDS trajectory using the measured 9-bar flow trace and a
+flow-weighted 5 s interval operator, profiling the level (the coffee and inventory
+differ). **Result:** the twelve-fraction trajectory *does* constrain the kinetic rate
+— a profiled-MAPE trough (fraction range ratio **~2×**, best rate **~0.4**, minimum
+MAPE **~27 %**) — whereas the single integrated cup carries **no rate information at
+all**: a single averaged shot's integrated value is fit exactly at every rate, so its
+profile is perfectly flat (range ratio 1.0×). The localization is **weaker** than the
+in-sample Schmieder result (range ratio ~2× vs ~10×) and the minimum MAPE is high
+(~27 %): the frozen Pannusch TDS kinetics reconstruct this different coffee's
+aggregate trajectory only moderately, and the best-fit rate (~0.4) reflects a
+faster-decaying trajectory than the model at rate 1 — honest external limits, not a
+tight fit. The *direction*, however, is robust across declared time-origin offsets
+(0/2/4 s, since brewer activation precedes first drip) and with or without the
+single-replicate first bin (no imputation of its missing standard deviation):
+fraction scoring always constrains the rate (ratio 1.6–2.1×), the cup never does
+(1.0×). Scoped conclusion (handoff §2.6): *on the independent TDS
+trajectory, fraction-resolved observations produced a more localized profiled
+objective than the corresponding cup-integrated aggregate, under the tested model,
+parameter domain, time-alignment assumptions, and aggregate-solids observation
+operator.* **This is an aggregate-solids proxy (optical TDS), one coffee and one
+grind — an external objective-localization panel, not independent named-solute
+identification.** *(Owed: a named-solute, multi-PSD external dataset — Kuhn 2017 /
+Vaca Guerra 2024 requests in `docs/data_requests/`.)*
 
 ## 7. Discussion
 
@@ -548,6 +578,11 @@ observation map, datasets, parameter domain, and error model.*
   `sampled_aggregate_vs_actual_cup` (B2 audit), and
   `full_cup_simulation_identifiability` (B2 exact-integral simulation). Run:
   `python -m puckworks.validation.slow.identifiability`.
+- **Independent external test:** `puckworks/validation/slow/external_waszkiewicz.py`
+  — `waszkiewicz_external_tds` (frozen external prediction of the Waszkiewicz 2026 5 s
+  TDS trajectory; measured 9-bar flow trace; flow-weighted interval operator;
+  time-offset + first-bin sensitivity). Run:
+  `python -m puckworks.validation.slow.external_waszkiewicz`.
 - **Data:** `puckworks.data.angeloni_{bioactives,total_solids,inventories}` and the
   Schmieder fraction loaders; manifest rows carry the p→flow caveat.
 - **Strength tags:** bracket = independent (wide envelope); per-condition/refit =
