@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+title: "puckworks — a component registry for espresso process models"
+message: "If you use this software or its analyses, please cite it using these metadata."
+type: software
+authors:
+  - given-names: Tim
+    family-names: Brewer
+    email: brewer@synthetik-technologies.com
+repository-code: "https://github.com/trbrewer/puckworks"
+license: "MIT"
+version: "0.1.0"
+# NOTE (handoff M10): a manuscript-specific reproducibility snapshot is tagged
+# separately as `paper-a-v1.0.0` at submission (NOT the package version above),
+# archived via a GitHub Release + Zenodo version DOI. Do not cite moving `main`.
+references:
+  - type: article
+    title: "Model-based kinetic espresso brewing control chart for representative taste components"
+    authors:
+      - family-names: Pannusch
+        given-names: S.
+    journal: "Journal of Food Engineering"
+    volume: "367"
+    year: 2024
+    doi: "10.1016/j.jfoodeng.2023.111887"
