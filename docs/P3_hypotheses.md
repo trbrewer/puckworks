@@ -6,21 +6,37 @@ hypothesis, its discriminating observable, and the current registry evidence. It
 is maintained as harnesses/components land; the interpretive verdict is CHAT
 work that feeds the paper. Source: ROADMAP §1 cluster P3.
 
-Shared external constraint on ALL five: **schmieder2023** measures non-monotonic
-cup mass at fixed flow with pressure(grind) — cup mass peaks at GL 1.7 (data in
-`data/schmieder2023/cup_masses.csv`). Any surviving mechanism must reproduce it.
+Shared external constraint on ALL five: **schmieder2023** — but see the
+CORRECTION below before treating it as a clean "cup mass peaks at GL 1.7" target.
 
-> **VERDICT (P3 synthesis, `gate_p3_schmieder_peak_discrimination` /
-> `harness.schmieder_peak_discrimination`):** of the four instrumented
-> mechanisms, **only static channeling (#1) reproduces the schmieder interior
-> peak from physical parameters.** Lee (#3) makes an interior EY maximum only at
-> a doctored ceiling ρ_c=798 (physical ρ_c=399 plateaus); size-exclusion (#4,
-> monotone y₀) and the diffusion/base-extraction null are monotone and cannot
-> produce a non-monotonic peak at all. See the "P3 VERDICT" section below.
+> **⚠️ CORRECTION (2026-07-12, from a review of PAPER_OUTLINE).** The earlier
+> P3 verdict ("only static channeling reproduces the schmieder peak from physical
+> parameters") rested on an **invalid target**. `harness._schmieder_mass_vs_grind`
+> averaged `mass_in_cup` across component, **unit** (trigonelline/caffeine/5-CQA
+> in **mg**, TDS in **g**), brew ratio, and temperature — a dimensionless-nonsense
+> aggregate. The gate passed (software reproducibility) while adjudicating a
+> quantity with no coherent unit. The corrected target
+> (`harness.schmieder_interior_max_target`, per observable at a fixed condition):
+> schmieder's OWN RSM is concave with an interior grind vertex for all four
+> observables, **but** the fit is WEAK (adj-R² 0.41–0.75) and the raw cells at
+> the one fully-sampled fixed condition (T 89 °C, BR 1/2, flow 2.0) are largely
+> **monotone** (a prominent interior max for ≤1/4). Also **GL 1.7 is the FINEST
+> grind by Sauter d₃₂** (26.9 µm vs 28.3/29.2), so this is a peak in DIAL, not a
+> particle-size fine-grind dip.
+>
+> **Downgraded verdict (`gate_p3_schmieder_peak_discrimination`):** MODEL
+> CAPACITY, not identification. Of the implemented generators, only the
+> empirically-calibrated static-heterogeneity closure produces an interior grind
+> maximum without a doctored constant (lee needs ρ_c=798; size-exclusion #4 and
+> the diffusion null are monotone; incomplete wetting #2 is untested). This
+> establishes that channeling is a **viable candidate generator**, NOT that it
+> "reproduces the schmieder peak" or "is the mechanism." The σ(φ₁) closure is
+> itself empirical (calibrated on cameron grind-deviation data), so this is a
+> viability check, not a validation. See the corrected "P3 VERDICT" section.
 
 | # | hypothesis | card / component | discriminating observable | expected signature | status & current evidence |
 |---|---|---|---|---|---|
-| 1 | static channeling σ(φ₁) | `brewer2026.streamtube` | fitted σ vs fines fraction / grind | monotone σ(φ₁) relation | **INSTRUMENTED — `gate_p3_channeling_sigma_sweep` (`harness.channeling_sigma_sweep`).** A MONOTONE σ(grind) closure through the fines fraction, fed to the streamtube EY-deficit, turns the monotone base EY(grind) into a PEAKED ensemble EY (peak at gs≈1.5, near schmieder GL 1.7): the deficit is largest at the finest grind (most fines), so static channeling ALONE reproduces the fine-grind dip. Independent/qualitative. |
+| 1 | static channeling σ(φ₁) | `brewer2026.streamtube` | fitted σ vs fines fraction / grind | monotone σ(φ₁) relation | **INSTRUMENTED — `gate_p3_channeling_sigma_sweep` (`harness.channeling_sigma_sweep`).** A MONOTONE σ(grind) closure through the fines fraction, fed to the streamtube EY-deficit, turns the monotone base EY(grind) into a PEAKED ensemble EY (peak at gs≈1.5, near schmieder GL 1.7): the deficit is largest at the finest grind (most fines), so a static-heterogeneity closure CAN GENERATE an interior maximum (model capacity). NOT "reproduces the dip" — see the CORRECTION box + P3 VERDICT: the target is a weak-R² RSM feature and σ(φ₁) is empirical (partly circular). Qualitative. |
 | 2 | incomplete wetting, tubes at k→0 | `foster2025.machine_mode` / `.infiltration` | per-grind first-drip timing; CT saturation | delayed / partial wetting at fine grinds | **gated & data-validated.** Foster infiltration (first-drip triangle on DE1) + machine mode (Figs 12-15). The "tubes at k→0" atom the lognormal lacks (foster card). Foster's model is sharp-front and **declines the coarse grind** (front visibly non-uniform) → the unsaturated-flow gap **G1** is where this hypothesis actually lives; no continuous-saturation model on file yet. **mckeonaloe2021 (SKIP)** articulates the conceptual frame — *pre-wetting* (capillary √t, may leave the puck incompletely wet) ≠ *pre-infusion* (pressure-driven) — which is exactly this hypothesis's failure mode, but it is a single uncalibrated pixel-unit √t trial (superseded by foster2025.infiltration's capillary branch) and, critically, is silent on partial saturation behind the front → it does **NOT** supply the continuous-saturation constitutive data G1 needs. |
 | 3 | dissolution–flow instability + saturation ceiling | `lee2023` | pathway-resolved depletion | fast pathway saturates/depletes first | **INSTRUMENTED — `lee2023.feedback` (item 3.4).** `gate_lee_feedback_negative_result` reproduces the paper's behaviour + its negative result: δ=0.035 seed amplifies (pathway EY diverges) at all g; imposed ρ_c=798 gives an interior EY(g) peak with a fine-side decline (weak ~0.2 pp); physical ρ_c=399 only plateaus (no decline). Discriminator: pathway-resolved depletion → one region fully extracted → bitterness signature. Not a data fit. |
 | 4 | size-exclusion entrapment | `romancorrochano2017_extraction` | extractable inventory y₀(grind) | inventory falls with coarseness | **INSTRUMENTED — `gate_roman_y0_ceiling_sizeexclusion` (0.5 intake).** Thesis Fig 4.19 y₀(grind) decreases monotonically along the coarsening ladder ΨA→ΨH (31.7→24.3%): finer grinds expose more extractable inventory, coarser entrap it — the size-exclusion signal. Same gate also lands the §5.5 nested-ceiling cross-check (y₀ 0.317 > Cameron 0.245 > Liang 0.215). Independent + qualitative. |
@@ -37,63 +53,72 @@ cup mass at fixed flow with pressure(grind) — cup mass peaks at GL 1.7 (data i
   minimum with **no bed mechanism** — any dip explanation invoking κ(t) must beat
   this null first.
 
-## P3 VERDICT — the fine-grind dip is a channeling phenomenon
+## P3 VERDICT — a model-capacity result, not an identification
 
-**Harness:** `harness.schmieder_peak_discrimination()` · **gate:**
+**Harness:** `harness.schmieder_peak_discrimination()` +
+`harness.schmieder_interior_max_target()` · **gate:**
 `gate_p3_schmieder_peak_discrimination` (QUICK). **Validation strength:**
-qualitative / mechanism-discrimination. It compares the SHAPE of each
-mechanism's grind response against the schmieder cup-mass shape — NOT the dial
-location: grinder dial spaces are non-portable (CLAUDE.md rule 9), so the claim
-is "does it make an interior maximum," not "does the peak land on GL 1.7."
+qualitative / model-capacity. *(Downgraded 2026-07-12 after a review found the
+original target dimensionally invalid — see the CORRECTION box at the top.)*
 
-**The schmieder target, stated honestly.** Cup mass vs grind (mean over reps),
-by target flow (`data/schmieder2023`):
+**The schmieder target — corrected, per observable.** The old table averaged
+`mass_in_cup` across component, unit (mg solutes + g TDS), brew ratio, and
+temperature → no coherent unit; deleted. The right target is schmieder's own
+fitted RSM in the grind direction, per observable, at a fixed condition (flow 2.0,
+89 °C, BR 1/2), cross-checked against the raw cells:
 
-| target flow (mL/s) | GL 1.4 | GL 1.7 | GL 2.0 | interior peak? |
+| observable | RSM concave (β₅<0)? | RSM vertex in [1.4,2.0]? | adj-R² | raw cells (fixed condition) |
 |---|---|---|---|---|
-| 1.0 | 96.8 | **97.7** | 96.5 | **yes @ GL 1.7** |
-| 2.0 | 90.5 | 96.9 | 97.0 | no (monotone ↑) |
-| 3.0 | 90.5 | **94.3** | 94.2 | marginal (0.1 g) |
+| TDS (g) | yes | 1.75 | 0.64 | monotone (prominence −1.1 σ) |
+| trigonelline (mg) | yes | 1.81 | 0.60 | monotone (−1.1 σ) |
+| caffeine (mg) | yes | 1.70 | 0.41 | flat-topped (+0.04 σ) |
+| 5-CQA (mg) | yes | 1.95 | 0.62 | monotone (−1.2 σ) |
 
-The non-monotonicity is REAL but WEAK (~1 g on ~97 g) and only unambiguous at the
-lowest flow; at flow 2 it is monotone-increasing, at flow 3 the GL 1.7 lead is
-within noise. So the target is "a small interior cup-mass peak at GL 1.7 that is
-present at low flow" — not a clean flow-monotone story. Do not overclaim a
-flow-washout.
+So schmieder's RSM *does* encode an interior grind maximum for every observable —
+but the fit is WEAK (adj-R² 0.41–0.75; caffeine barely fits) and the raw cells at
+the one fully-sampled fixed condition are **largely monotone** (a prominent
+interior max for ≤1/4). And **GL 1.7 is the FINEST grind by d₃₂** (26.9 vs
+28.3/29.2 µm), so any dial peak is not cleanly a fine-grind dip in particle size.
 
-**Mechanism scoreboard** (interior maximum in the grind response, and whether it
-survives at physical parameters):
+**Mechanism scoreboard** — generates an interior grind maximum? and under what
+parameterization?
 
-| # | mechanism | interior peak? | physical? | reproduces schmieder? |
-|---|---|---|---|---|
-| 1 | static channeling σ(φ₁) | **yes** (peak gs≈1.5) | **yes** | **YES** |
-| 3 | lee2023 dissolution instability | yes | **no** (needs ρ_c=798) | only with doctored ceiling |
-| 4 | size-exclusion y₀(grind) | no (monotone 31.7→24.3%) | — | no |
-| — | base / diffusion extraction (null) | no (monotone) | — | no |
+| # | mechanism | generates interior max? | parameterization |
+|---|---|---|---|
+| 1 | static channeling σ(φ₁) | **yes** (vertex gs≈1.5) | empirical σ(φ₁) closure (calibrated, not doctored) |
+| 3 | lee2023 dissolution instability | yes | ONLY under doctored ρ_c=798 (2× measured) |
+| 4 | size-exclusion y₀(grind) | no (monotone) | measured inventory — different observable |
+| — | base / diffusion extraction (null) | no (monotone) | source model |
+| 2 | incomplete wetting | **untested** | unimplemented (needs G1 data) |
 
-**Reading.** The fine-grind dip / schmieder non-monotonicity is a **channeling**
-phenomenon: a monotone σ(grind) closure through the fines fraction (more fines at
-fine grinds → more static channeling → EY deficit largest at the finest grind),
-folded against the ordinary surface-area rise, is the *only* mechanism that turns
-a monotone base EY(grind) into an interior maximum without a doctored constant.
-Lee can make the shape but only by imposing an unphysical saturation ceiling;
-size-exclusion inventory and pure diffusion are structurally monotone and cannot
-produce non-monotonicity alone. This does not *exclude* #2 (incomplete wetting) —
-that mechanism lives in the still-open G1 continuous-saturation gap and is
-discriminated by first-drip DELAY, not by the EY/cup-mass shape (see the
-wetting-atom probe below). It says: among the mechanisms we *can* run, channeling
-is sufficient and uniquely physical for the schmieder cup-mass signature.
+**Reading — model capacity, not identification.** Of the *implemented* response
+generators, the empirically-calibrated static-heterogeneity closure is the only
+one that produces an interior grind maximum without a doctored constant. That is
+a **viability** result: a static-heterogeneity model *can* generate the shape
+schmieder's weak RSM shows. It is **not** an identification — (a) the schmieder
+target is a weak-R² empirical surface, not a robust raw signal; (b) σ(φ₁) is
+itself empirical, calibrated on cameron grind-deviation data, so reproducing a
+grind non-monotonicity is partly circular; (c) incomplete wetting (#2) is
+untested and lives in the open G1 gap, discriminated by first-drip DELAY not EY
+shape. Do NOT write "channeling is the mechanism" or "reproduces the schmieder
+peak." The defensible claim: *among implemented generators, static heterogeneity
+is the only viable one under its registered parameterization; incomplete wetting
+remains untested; identification requires a corrected observable analysis and a
+direct spatial/first-drip discriminator.*
 
 ## What's needed to close P3 (mostly Phase 3 + CHAT)
 - Hypotheses 1 (static channeling), 3 (lee2023) and 4 (romancorrochano size-exclusion) are now instrumented. The ONLY remaining un-instrumented mechanism is #2 incomplete wetting, which needs the G1 continuous-saturation (Richards-type) model — no card on file, so it stays open.
 - Hypothesis 1 needs a per-grind σ(φ₁) sweep (streamtube × grindmap).
 - Hypothesis 2's discriminating observable is first-drip DELAY (probed; needs per-grind DE1 first-drip data to settle); a validated model still needs the G1 continuous-saturation constitutive gap closed.
 - The verdict ("which mechanism survives, and does any reproduce the schmieder
-  non-monotonic cup mass") is now SETTLED at the EY/cup-mass level — see the
-  **P3 VERDICT** section above (`gate_p3_schmieder_peak_discrimination`): static
-  channeling (#1) is the unique physical reproducer. The one live discriminator
-  that could still promote #2 is a per-grind DE1 **first-drip DELAY** sweep
-  (channeling leaves first-drip unchanged; only the wetting atom delays it).
+  non-monotonic cup mass") is **NOT settled** — see the **P3 VERDICT** section:
+  it is a MODEL-CAPACITY result (static heterogeneity is the only implemented
+  generator that makes an interior max under calibrated params), not an
+  identification, because the schmieder target is a weak-R² RSM feature and σ(φ₁)
+  is empirical/partly circular. Identification still needs (a) a corrected
+  per-observable target analysis with uncertainty and closure-sensitivity, and
+  (b) a per-grind DE1 **first-drip DELAY** sweep to test #2 (channeling leaves
+  first-drip unchanged; only the wetting atom delays it).
 
 ## Hypothesis #2 probe — composite wetting-atom over streamtube + foster
 

@@ -347,57 +347,150 @@ def channeling_sigma_sweep(gs_grid=(1.0, 1.4, 1.8, 2.2, 2.5), s_ref=0.6, m=1.0,
                 deficit_largest_at_finest=bool(deficit[0] == deficit.max()))
 
 
-def _schmieder_mass_vs_grind():
-    """Extract the schmieder2023 cup-mass-vs-grind curve at each target flow.
-    Returns {flow: (grinds, masses, interior_peak_bool, peak_grind)}. Data are
-    mixed-type (some grind/mass cells are strings) → coerce defensively."""
+def _f_num(x):
+    try:
+        return float(x)
+    except (TypeError, ValueError):
+        return None
+
+
+# canonical observable key -> schmieder data component string (units differ:
+# trigonelline/caffeine/5-CQA are mg, TDS is g -- never averaged together)
+_SCHM_COMPONENT = {"tds": "TDS", "trigonelline": "trigonelline",
+                   "caffeine": "caffeine", "5cqa": "5-CQA", "5-cqa": "5-CQA"}
+
+
+def schmieder_grind_response(component, brew_ratio, temp_C, flow_ml_s):
+    """Coherent RAW cup-mass grind response for ONE observable at ONE fixed
+    condition (component × brew_ratio × temperature × flow). GUARDED by the
+    'no silent observable merge' rule: schmieder's `mass_in_cup` is per-solute
+    and MIXED-UNIT (trigonelline/caffeine/5-CQA in mg, TDS in g) across three
+    brew ratios; averaging across any of those (or across temperature, which the
+    RSM models explicitly) yields a dimensionless nonsense aggregate. This
+    function raises ValueError if the selected rows carry more than one unit.
+    Returns dict(grinds, means, stds, ns, units) or None if the {1.4,1.7,2.0}
+    grind axis is not fully sampled at this condition."""
     import collections
     from puckworks import data as _d
-    rows = _d.schmieder_cup_masses()
-    def _f(x):
-        try:
-            return float(x)
-        except (TypeError, ValueError):
-            return None
-    by_flow = collections.defaultdict(lambda: collections.defaultdict(list))
-    for r in rows:
-        fl, gl, m = _f(r.get("target_flow_ml_s")), _f(r.get("grind_level")), _f(r.get("mass_in_cup"))
-        if None in (fl, gl, m):
+    comp = _SCHM_COMPONENT.get(component.lower(), component)
+    byg = collections.defaultdict(list)
+    units = set()
+    for r in _d.schmieder_cup_masses():
+        if r.get("component") != comp or r.get("brew_ratio") != brew_ratio:
             continue
-        by_flow[fl][gl].append(m)
+        if _f_num(r.get("target_temp_C")) != temp_C:
+            continue
+        if _f_num(r.get("target_flow_ml_s")) != flow_ml_s:
+            continue
+        g, m = _f_num(r.get("grind_level")), _f_num(r.get("mass_in_cup"))
+        if g is None or m is None:
+            continue
+        byg[g].append(m)
+        units.add(r.get("mass_units"))
+    if len(units) > 1:
+        raise ValueError("no silent observable merge: mixed units %s for "
+                         "component=%s br=%s" % (units, component, brew_ratio))
+    grinds = sorted(byg)
+    if grinds != [1.4, 1.7, 2.0]:
+        return None
+    means = [float(np.mean(byg[g])) for g in grinds]
+    stds = [float(np.std(byg[g])) for g in grinds]
+    ns = [len(byg[g]) for g in grinds]
+    return dict(grinds=grinds, means=means, stds=stds, ns=ns,
+                units=(units.pop() if units else None))
+
+
+def schmieder_rsm_grind_curve(component, brew_ratio, flow_ml_s, temp_C):
+    """schmieder2023's OWN fitted response surface (Eq. 4, full-quadratic) in the
+    grind (dial) direction at fixed flow+temp, per observable. The x_grind²
+    coefficient β₅ and the grind vertex x* = -(β₂+β₇·flow+β₉·temp)/(2β₅) decide
+    whether the surface has an INTERIOR maximum inside the DoE dial range
+    [1.4, 2.0]. Returns the concavity, vertex, interior flag, and the adj-R²
+    (LOAD-BEARING: schmieder's RSM is weak, 0.41–0.75, machine/grinder-specific).
+    This is the corrected P3 target: schmieder's model feature, not a mixed-unit
+    average of raw cells."""
+    from puckworks import data as _d
+    # RSM table capitalizes: TDS/Trigonelline/Caffeine/5-CQA
+    key = {"tds": "TDS", "trigonelline": "Trigonelline", "caffeine": "Caffeine",
+           "5cqa": "5-CQA", "5-cqa": "5-CQA"}.get(component.lower(), component)
+    row = next((r for r in _d.schmieder_rsm()
+                if r["component"] == key and r["brew_ratio"] == brew_ratio), None)
+    if row is None:
+        return None
+    b2, b5, b7, b9 = row["beta2"], row["beta5"], row["beta7"], row["beta9"]
+    concave = b5 < 0
+    vertex = (-(b2 + b7 * flow_ml_s + b9 * temp_C) / (2.0 * b5)) if b5 != 0 else None
+    interior = bool(vertex is not None and 1.4 < vertex < 2.0)
+    return dict(component=key, brew_ratio=brew_ratio, beta5=b5, adj_r2=row["adj_r2"],
+                units=row["beta_units"], concave=concave, vertex_dial=vertex,
+                interior_max=bool(concave and interior))
+
+
+# schmieder DoE central point (all observables fully sampled here); GL 1.7 is the
+# FINEST grind by Sauter d32 (26.9 µm vs 28.3/29.2 at 1.4/2.0 — the dial→size map
+# is itself non-monotonic), so any dial peak is NOT cleanly a fine-grind dip.
+_SCHM_CENTER = dict(flow_ml_s=2.0, temp_C=89.0, brew_ratio="1/2")
+_SCHM_OBS = ("tds", "trigonelline", "caffeine", "5cqa")
+
+
+def schmieder_interior_max_target(center=None):
+    """CORRECTED P3 target. For each observable at ONE fixed condition, report
+    whether schmieder's data supports an interior grind maximum — via BOTH their
+    fitted RSM (concave + vertex interior, carrying adj-R²) and the raw cells
+    (peak prominence = interior lead / pooled replicate std). Replaces the old
+    dimensionless mixed-unit `_schmieder_mass_vs_grind`. Reading (see verdict):
+    the RSM is concave with an interior vertex for every observable, but the fit
+    is weak (0.41–0.75) and the raw cells at the one fully-sampled condition are
+    largely monotone/flat — so the 'peak at GL 1.7' is a weak-RSM feature, not a
+    robust raw signal, and it is a peak in DIAL not particle size."""
+    c = center or _SCHM_CENTER
     out = {}
-    for fl, gd in by_flow.items():
-        grinds = sorted(gd)
-        if len(grinds) < 3:
-            continue
-        masses = [float(np.mean(gd[g])) for g in grinds]
-        ip = int(np.argmax(masses))
-        out[fl] = (grinds, masses, bool(0 < ip < len(grinds) - 1), grinds[ip])
-    return out
+    for obs in _SCHM_OBS:
+        rsm = schmieder_rsm_grind_curve(obs, c["brew_ratio"], c["flow_ml_s"], c["temp_C"])
+        raw = schmieder_grind_response(obs, c["brew_ratio"], c["temp_C"], c["flow_ml_s"])
+        prom = None
+        if raw is not None:
+            lead = raw["means"][1] - max(raw["means"][0], raw["means"][2])
+            noise = (float(np.mean(raw["stds"])) or 1e-9)
+            prom = lead / noise                       # >0 = interior, in std units
+        out[obs] = dict(rsm=rsm, raw=raw, raw_prominence=prom,
+                        raw_interior=bool(prom is not None and prom > 0))
+    rsm_interior = [o for o, v in out.items()
+                    if v["rsm"] and v["rsm"]["interior_max"]]
+    raw_interior = [o for o, v in out.items() if v["raw_interior"]]
+    return dict(center=c, observables=out,
+                rsm_interior_max=rsm_interior, raw_interior_max=raw_interior,
+                verdict=("schmieder's RSM is concave with an interior grind vertex "
+                         "for %d/%d observables (weak adj-R² 0.41–0.75), but the raw "
+                         "cells at the fixed central condition show a prominent "
+                         "interior max for only %d/%d — the peak is a weak-model "
+                         "feature, and it is a DIAL peak (GL 1.7 = finest d32), not "
+                         "a particle-size fine-grind dip"
+                         % (len(rsm_interior), len(_SCHM_OBS),
+                            len(raw_interior), len(_SCHM_OBS))))
 
 
 def schmieder_peak_discrimination(n_grid=6):
-    """P3 fine-grind-dip VERDICT harness. The schmieder2023 target: at fixed
-    flow, cup mass is NON-MONOTONIC in grind — an interior peak at GL 1.7 that
-    appears only at LOW flow and washes out to monotone at higher flow. This
-    runs each instrumented P3 mechanism and asks the single discriminating
-    question: does it produce an INTERIOR MAXIMUM in the grind response (the
-    schmieder signature), and from PHYSICAL parameters?
+    """P3 MECHANISM-CAPACITY comparison (downgraded 2026-07-12 after the target
+    bug). Two separate questions, kept separate:
 
-    Scoreboard entries carry: produces_interior_peak (bool) and
-    physical (bool — True if the peak survives at physically-admissible params,
-    False if it needs a doctored constant). Validation strength: qualitative /
-    mechanism-discrimination (the schmieder curve is real data; the mechanism
-    grind-responses are each on their own native grind axis — dial spaces are
-    non-portable per CLAUDE.md rule 9, so this compares SHAPE, not GL location)."""
+    (A) THE TARGET — does schmieder show an interior grind maximum? Answered per
+        observable at a fixed condition via `schmieder_interior_max_target`
+        (RSM concavity + raw prominence). NOT a single mixed-unit cup mass.
+    (B) MODEL CAPACITY — of the instrumented response generators, which can
+        PRODUCE an interior grind maximum, and under what parameterization?
+
+    This does NOT claim any mechanism 'reproduces the schmieder peak': the target
+    is a weak-R² empirical RSM feature, the generators live on their own
+    (non-portable) dial axes, and incomplete wetting is untested. The honest
+    result is model VIABILITY, not identification. Strength: qualitative."""
     from puckworks.models.lee2023 import feedback as _lee
     from puckworks import data as _d
 
-    target = _schmieder_mass_vs_grind()
-    lo = min(target)  # lowest target flow — where the peak lives
-    hi = max(target)
+    target = schmieder_interior_max_target()
 
-    # (1) static channeling σ(φ₁) — streamtube EY-deficit through fines fraction
+    # (1) static channeling σ(φ₁) — EMPIRICAL closure (registry: calibrated over a
+    # limited dial range, not externally validated). Generates an interior max.
     ch = channeling_sigma_sweep(gs_grid=(1.0, 1.5, 2.0, 2.5), n_grid=n_grid)
 
     # (2) size-exclusion entrapment — romancorrochano extractable inventory y₀(grind)
@@ -406,10 +499,10 @@ def schmieder_peak_discrimination(n_grid=6):
     y0_seq = [next(r["y0_pct"] for r in y0 if r["grind"] == g) for g in ladder]
     y0_ip = int(np.argmax(y0_seq))
 
-    # (3) lee2023 dissolution instability — interior peak only at unphysical ρ_c
+    # (3) lee2023 dissolution instability — interior peak only at DOCTORED ρ_c
     g = np.linspace(1.1, 2.3, 13)
-    lee_phys = _lee.peak_and_fine_decline(g, rho_c=399.0)   # physical
-    lee_unphys = _lee.peak_and_fine_decline(g, rho_c=798.0)  # doctored ceiling
+    lee_phys = _lee.peak_and_fine_decline(g, rho_c=399.0)   # physical (measured)
+    lee_unphys = _lee.peak_and_fine_decline(g, rho_c=798.0)  # deliberately altered
 
     # (4) base / diffusion extraction — the monotone null (no bed mechanism)
     base = ch["ey_homog"]
@@ -417,40 +510,49 @@ def schmieder_peak_discrimination(n_grid=6):
 
     board = [
         dict(hyp=1, name="static channeling σ(φ₁)",
-             produces_interior_peak=bool(ch["ensemble_peaks_interior"]),
-             physical=True,
-             note="monotone σ(grind) closure → peaked ensemble EY (peak gs≈%.2f); "
-                  "deficit largest at finest grind. Peak from physical params." % ch["peak_gs"]),
+             generates_interior_max=bool(ch["ensemble_peaks_interior"]),
+             parameterization="empirical σ(φ₁) closure (calibrated, not doctored)",
+             note="monotone σ(grind) closure → peaked ensemble EY (vertex gs≈%.2f). "
+                  "Model-capacity result: a static-heterogeneity closure CAN "
+                  "generate an interior maximum. σ was calibrated on cameron's "
+                  "grind-deviation data — a viability check, not identification." % ch["peak_gs"]),
         dict(hyp=3, name="lee2023 dissolution instability",
-             produces_interior_peak=bool(lee_unphys["fine_side_decline"]),
-             physical=bool(lee_phys["fine_side_decline"]),
-             note="interior EY(g) peak only at imposed ρ_c=798; physical ρ_c=399 "
-                  "plateaus (no fine-side decline). Peak needs a doctored ceiling."),
+             generates_interior_max=bool(lee_unphys["fine_side_decline"]),
+             parameterization="only under DOCTORED ρ_c=798 (2× measured 399)",
+             note="interior EY(g) max only at the deliberately-altered ceiling; "
+                  "physical ρ_c=399 plateaus (no fine-side decline)."),
         dict(hyp=4, name="size-exclusion entrapment y₀(grind)",
-             produces_interior_peak=bool(0 < y0_ip < len(y0_seq) - 1),
-             physical=True,
-             note="y₀ monotone-decreasing along fine→coarse ladder (%.1f→%.1f%%); "
-                  "no interior maximum." % (y0_seq[0], y0_seq[-1])),
+             generates_interior_max=bool(0 < y0_ip < len(y0_seq) - 1),
+             parameterization="measured inventory (different observable)",
+             note="y₀ monotone-decreasing fine→coarse (%.1f→%.1f%%); no interior "
+                  "maximum. A different observable (inventory ceiling), not EY." % (y0_seq[0], y0_seq[-1])),
         dict(hyp=None, name="base / diffusion extraction (null)",
-             produces_interior_peak=not base_monotone,
-             physical=True,
-             note="homogeneous EY(grind) monotone — no bed mechanism, no peak."),
+             generates_interior_max=not base_monotone,
+             parameterization="source model",
+             note="homogeneous EY(grind) monotone — no bed mechanism, no max."),
+        dict(hyp=2, name="incomplete wetting",
+             generates_interior_max=None,
+             parameterization="UNIMPLEMENTED (needs G1 constitutive data)",
+             note="not tested here; discriminated by first-drip DELAY, not EY shape."),
     ]
-    # a mechanism REPRODUCES the schmieder peak iff it makes an interior maximum
-    # from physical params.
-    reproduce = [b for b in board if b["produces_interior_peak"] and b["physical"]]
-    reproduce_unphysical = [b for b in board
-                            if b["produces_interior_peak"] and not b["physical"]]
+    generate_calibrated = [b["name"] for b in board
+                           if b["generates_interior_max"] and "DOCTORED" not in b["parameterization"]
+                           and "UNIMPLEMENTED" not in b["parameterization"]
+                           and b["hyp"] is not None]
+    generate_only_doctored = [b["name"] for b in board
+                              if b["generates_interior_max"] and "DOCTORED" in b["parameterization"]]
     return dict(
-        schmieder_target=target,
-        low_flow=lo, high_flow=hi,
-        low_flow_interior_peak=target[lo][2], low_flow_peak_grind=target[lo][3],
-        high_flow_interior_peak=target[hi][2],
+        target=target,
         board=board,
-        reproduce_physical=[b["name"] for b in reproduce],
-        reproduce_only_unphysical=[b["name"] for b in reproduce_unphysical],
-        verdict=("static channeling (#1) is the only mechanism reproducing the "
-                 "schmieder interior peak from physical parameters"))
+        generate_under_calibrated_params=generate_calibrated,
+        generate_only_under_doctored_params=generate_only_doctored,
+        verdict=("MODEL-CAPACITY, not identification: of the implemented generators, "
+                 "the empirically-calibrated static-heterogeneity closure is the "
+                 "only one that produces an interior grind maximum without a "
+                 "doctored constant; lee needs ρ_c=798; size-exclusion/diffusion "
+                 "are monotone; incomplete wetting is untested. The schmieder "
+                 "target itself is a weak-R² RSM feature (see target.verdict), so "
+                 "this establishes viability, not that channeling IS the mechanism."))
 
 
 # --- cross-pressure generalization discriminator (item 2.2, ANALYSIS_P2) ---

@@ -121,24 +121,29 @@ Scoreboard against `docs/P3_hypotheses.md`, folding in the harness evidence:
 - **Untested:** #3 lee2023 (with a documented required negative-result gate)
   and #4 size-exclusion inventory (needs 0.5 intake). #5 pannusch is a
   pointer, not a mechanism, per its card.
-- **Shared constraint standing over all five:** schmieder2023's non-monotonic
-  cup mass peaking at GL 1.7 at fixed flow — **now run against every
-  instrumented mechanism** (`gate_p3_schmieder_peak_discrimination`).
+- **Shared constraint standing over all five:** schmieder2023's grind response —
+  but see the CORRECTION: the "cup mass peaks at GL 1.7" target was rebuilt after
+  a review found the original aggregation dimensionally invalid.
 
-**Verdict: SETTLED at the EY/cup-mass level (2026-07-11).** The discrimination
-harness (`harness.schmieder_peak_discrimination`) runs all four instrumented
-mechanisms against the schmieder target and asks the one question that
-separates them — does it make an INTERIOR grind maximum, from PHYSICAL
-parameters? **Only static channeling (#1) does.** Lee (#3) makes the shape only
-at a doctored ceiling ρ_c=798 (physical ρ_c=399 plateaus); size-exclusion (#4,
-monotone y₀) and the diffusion/base null are structurally monotone. So the
-fine-grind dip is a **channeling** phenomenon (full scoreboard: `P3_hypotheses.md`
-VERDICT section). This does NOT exclude #2 (incomplete wetting) — that lives in
-the open G1 continuous-saturation gap and is discriminated by first-drip DELAY,
-not EY shape; #1 and #2 are not mutually exclusive (incomplete wetting is the
-k→0 atom the lognormal lacks). Cheap experimental discriminator still standing:
-per-grind first-drip timing on the DE1 (wetting delay moves it; static
-channeling does not).
+**Verdict: MODEL CAPACITY, not identification (corrected 2026-07-12).** The
+original claim ("only static channeling reproduces the schmieder peak from
+physical parameters") rested on an **invalid target**: `_schmieder_mass_vs_grind`
+averaged `mass_in_cup` across component, **unit** (mg solutes + g TDS), brew
+ratio, and temperature — no coherent unit. Corrected target
+(`harness.schmieder_interior_max_target`, per observable): schmieder's own RSM is
+concave with an interior grind vertex for all four observables, **but** the fit
+is weak (adj-R² 0.41–0.75) and the raw cells at the one fixed fully-sampled
+condition are largely **monotone** (interior max for ≤1/4); and GL 1.7 is the
+finest d₃₂, so it is a DIAL peak, not a particle-size dip. The honest result
+(`gate_p3_schmieder_peak_discrimination`): of the implemented generators, only
+the empirically-calibrated static-heterogeneity closure produces an interior
+maximum without a doctored constant (lee needs ρ_c=798; size-exclusion/diffusion
+are monotone; incomplete wetting #2 is untested). This is model **viability**,
+not identification — the target is weak and σ(φ₁) is itself calibrated on
+cameron grind-deviation data (partly circular). Do NOT write "the fine-grind dip
+is a channeling phenomenon." Identification needs a corrected per-observable
+analysis with uncertainty + a per-grind DE1 **first-drip DELAY** discriminator
+for #2 (wetting delay moves it; static channeling does not).
 
 ---
 

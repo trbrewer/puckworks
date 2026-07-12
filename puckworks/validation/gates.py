@@ -588,35 +588,48 @@ def gate_p3_channeling_sigma_sweep():
 
 
 def gate_p3_schmieder_peak_discrimination():
-    """P3 fine-grind-dip VERDICT (the culmination of the P3 cluster). The
-    schmieder2023 target is a NON-MONOTONIC cup-mass curve with an interior peak
-    at GL 1.7 (real data; present at low flow, weak/absent at flow 2). This gate
-    runs every instrumented P3 mechanism and asserts the DISCRIMINATION result:
-    of the four (static channeling #1, lee dissolution #3, size-exclusion #4,
-    diffusion null), ONLY static channeling produces an interior grind maximum
-    from physical parameters. lee makes one only at a doctored ρ_c=798;
-    size-exclusion and the diffusion null are monotone. This is what adjudicates
-    the fine-grind dip as a channeling phenomenon. Validation strength:
-    qualitative / mechanism-discrimination (SHAPE, not dial location — grinder
-    dial spaces are non-portable, CLAUDE.md rule 9)."""
+    """P3 MODEL-CAPACITY test (downgraded 2026-07-12 — see ROADMAP §7.1). Two
+    corrections from a review made the old 'channeling reproduces the schmieder
+    peak' verdict indefensible and this gate now asserts the honest replacement:
+
+    (1) TARGET is per-observable, never a mixed-unit average. schmieder's
+        `mass_in_cup` mixes mg (trigonelline/caffeine/5-CQA) and g (TDS) across
+        three brew ratios; the old aggregate had no coherent unit. The corrected
+        target (`schmieder_interior_max_target`) reads schmieder's OWN RSM per
+        observable: it is concave with an interior grind vertex for all four
+        (their model feature) — but the fit is WEAK (adj-R² 0.41–0.75) and the
+        raw cells at the one fully-sampled fixed condition are largely MONOTONE
+        (interior max for ≤1/4). And GL 1.7 is the FINEST d32, so it is a DIAL
+        peak, not a particle-size fine-grind dip.
+    (2) CAPACITY, not identification. Of the implemented generators, only the
+        empirically-calibrated static-heterogeneity closure produces an interior
+        maximum without a doctored constant (lee needs ρ_c=798; size-exclusion /
+        diffusion are monotone; incomplete wetting is untested). This is model
+        VIABILITY — the gate no longer claims channeling IS the mechanism.
+
+    Also asserts the 'no silent observable merge' data hazard is real (schmieder
+    carries >1 mass unit across components). Strength: qualitative."""
     from puckworks import harness as h
+    from puckworks import data as _d
     r = h.schmieder_peak_discrimination(n_grid=6)
-    by = {b["name"]: b for b in r["board"]}
-    channeling_only = (r["reproduce_physical"] == ["static channeling σ(φ₁)"])
-    lee_needs_unphysical = ("lee2023 dissolution instability"
-                            in r["reproduce_only_unphysical"])
+    t = r["target"]
+    # the mixed-unit hazard that made the old aggregate invalid, made explicit
+    units = {row.get("mass_units") for row in _d.schmieder_cup_masses()}
     passed = bool(
-        r["schmieder_target"][r["low_flow"]][2]        # schmieder low-flow interior peak is real
-        and channeling_only                             # only channeling reproduces it (physical)
-        and lee_needs_unphysical                        # lee needs a doctored ceiling
-        and not by["size-exclusion entrapment y₀(grind)"]["produces_interior_peak"]
-        and not by["base / diffusion extraction (null)"]["produces_interior_peak"])
+        len(units) > 1                                          # mixed-unit hazard is real
+        and len(t["rsm_interior_max"]) == 4                     # RSM feature (weak) exists for all
+        and len(t["raw_interior_max"]) <= 1                     # raw cells do NOT robustly support it
+        and r["generate_under_calibrated_params"] == ["static channeling σ(φ₁)"]
+        and r["generate_only_under_doctored_params"] == ["lee2023 dissolution instability"])
     return dict(passed=passed,
-                schmieder_low_flow_peak_grind=r["low_flow_peak_grind"],
-                reproduce_physical=r["reproduce_physical"],
-                reproduce_only_unphysical=r["reproduce_only_unphysical"],
-                board={b["name"]: dict(interior_peak=b["produces_interior_peak"],
-                                       physical=b["physical"]) for b in r["board"]},
+                schmieder_mass_units=sorted(u for u in units if u),
+                rsm_interior_max=t["rsm_interior_max"],
+                rsm_adj_r2={o: round(v["rsm"]["adj_r2"], 2)
+                            for o, v in t["observables"].items()},
+                raw_interior_max=t["raw_interior_max"],
+                generate_under_calibrated_params=r["generate_under_calibrated_params"],
+                generate_only_under_doctored_params=r["generate_only_under_doctored_params"],
+                target_verdict=t["verdict"],
                 verdict=r["verdict"])
 
 
