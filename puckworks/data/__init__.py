@@ -393,9 +393,28 @@ def angeloni_inventories():
     """angeloni2023 Table 7: measured R&G solid inventory C0_s [mg/L] per species
     (CF/CQA/TR/CA/AA/TA/FA/LP) per variety (Arabica/Robusta). Extraction-inventory
     priors + an INDEPENDENT multi-species target (different machine/coffee/basket
-    than pannusch's fit). The 66-shot chemical campaign (Tables 2-5) is a PENDING
-    drop -- MDPI is Cloudflare-blocked and the values are not in the card."""
+    than pannusch's fit)."""
     return _typed_rows_hashskip(DATA_DIR / "angeloni2023" / "inventories.csv")
+
+
+def angeloni_bioactives():
+    """angeloni2023 Tables 4+5: per-species bioactives [g/L] for all 66 shots
+    (33 Arabica + 33 Robusta), joined to the Table 1 condition matrix. Species:
+    TR TA AA CA 3CQA 5CQA CF FA 3_5diCQA totCQA totOA. on_grid ('True'/'False')
+    flags the 54 calibration vs 12 off-grid validation points."""
+    return _typed_rows_hashskip(DATA_DIR / "angeloni2023" / "bioactives.csv")
+
+
+def angeloni_total_solids():
+    """angeloni2023 Table 2: total solids TS [g/100 mL] + %RSD, 66 shots, joined
+    to conditions. (TS g/100 mL ~ TDS %.)"""
+    return _typed_rows_hashskip(DATA_DIR / "angeloni2023" / "total_solids.csv")
+
+
+def angeloni_lipids():
+    """angeloni2023 Table 3: total lipids [g/100 mL] + %RSD, 66 shots, joined to
+    conditions."""
+    return _typed_rows_hashskip(DATA_DIR / "angeloni2023" / "lipids.csv")
 
 
 def _fasano1():

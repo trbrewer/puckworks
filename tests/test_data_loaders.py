@@ -282,3 +282,14 @@ def test_angeloni2023_inventories():
     assert {x["variety"] for x in r} == {"Arabica", "Robusta"}
     cf_a = [x["C0_s_mg_L"] for x in r if x["variety"] == "Arabica" and x["species"] == "CF"][0]
     assert cf_a == 12540.0
+
+
+def test_angeloni2023_66shot_intake():
+    bio = pwdata.angeloni_bioactives()
+    assert len(bio) == 66 and {r["variety"] for r in bio} == {"Arabica", "Robusta"}
+    assert abs([r for r in bio if r["sample"] == "A1"][0]["CF"] - 5.27) < 1e-9
+    # 54 on-grid + 12 off-grid
+    ong = sum(1 for r in bio if r["on_grid"] == "True")
+    assert ong == 54 and len(bio) - ong == 12
+    assert len(pwdata.angeloni_total_solids()) == 66
+    assert len(pwdata.angeloni_lipids()) == 66
