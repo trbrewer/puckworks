@@ -274,3 +274,11 @@ def test_mo2023_2_swelling_insensitivity():
     # but fixed-dP throttles hard (Fig 3a) -- the headline contrast
     assert r["fixeddp_flow_ratio"] < 0.2
     assert all(v["rises_with_Mc"] for v in r["per_flow"].values())
+
+
+def test_angeloni2023_inventories():
+    r = pwdata.angeloni_inventories()
+    assert len(r) == 16
+    assert {x["variety"] for x in r} == {"Arabica", "Robusta"}
+    cf_a = [x["C0_s_mg_L"] for x in r if x["variety"] == "Arabica" and x["species"] == "CF"][0]
+    assert cf_a == 12540.0

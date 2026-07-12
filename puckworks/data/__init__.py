@@ -389,6 +389,15 @@ def mo2_sim_lines():
     return _typed_rows(_mo2() / "figs7_9_simulation_lines.csv")
 
 
+def angeloni_inventories():
+    """angeloni2023 Table 7: measured R&G solid inventory C0_s [mg/L] per species
+    (CF/CQA/TR/CA/AA/TA/FA/LP) per variety (Arabica/Robusta). Extraction-inventory
+    priors + an INDEPENDENT multi-species target (different machine/coffee/basket
+    than pannusch's fit). The 66-shot chemical campaign (Tables 2-5) is a PENDING
+    drop -- MDPI is Cloudflare-blocked and the values are not in the card."""
+    return _typed_rows_hashskip(DATA_DIR / "angeloni2023" / "inventories.csv")
+
+
 def _fasano1():
     return DATA_DIR / "fasano2000_partI"
 

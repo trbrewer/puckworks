@@ -40,6 +40,17 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
 - [ ] liang2021 Figs. 3–5 · foster2025_2 Figs. 6/8/12–15 + Tables I/II ·
       fasano Figs. 8.1/8.4 (flag qualitative)
 
+## Sprint D4 — angeloni2023 multi-species intake (data-only) [partial]
+- [x] cards committed: `angeloni2023` (data-only), `egidi2018` (skip)
+- [x] Table 7 inventories → `data/angeloni2023/inventories.csv` (16 rows,
+      8 species × 2 varieties) + loader + MANIFEST row
+- [ ] Tables 2–5 (66-shot bioactives / total solids / lipids) — **BLOCKED**:
+      values not in card, MDPI (Appl. Sci. 13, 2688) Cloudflare-blocked; needs a
+      Tim drop (like prior transcriptions). NOT fabricated.
+- [ ] `gate_angeloni_multispecies_bracket` (validation/slow/) — deferred with the
+      66-shot drop (needs per-condition ranges). Independent multi-species target
+      for pannusch2024 (post-fit only today).
+
 ## Sprint 1 — first components (CC) [1.2 + 1.5, both S; needs D1]
 - [x] 1.2 waszkiewicz2025 poroelastic κ(P,Φ) — refit (Q_c,P_c)=(1.90,12);
       9-bar Q(t) with zero extra params (RC-3a scope only)
@@ -197,3 +208,4 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
 | 2026-07-11 | Sprint 8 (CC part) | 2.1 P1 extraction harness: `puckworks/harness.py` + `gate_extraction_harness` — surfaces c_sat/inventory hazards (no silent merge), tagged per-dataset residuals, §5.6 dissolution discriminator (near-instant dissolution, early/peak 0.968). CHAT workup (2.3) not-CC. 18 quick gates; 21 tests. |
 | 2026-07-11 | Sprint 7 done | 1.6 foster machine-mode data-validated vs digitized Figs 12-15 (Tim drop): Fig 15 flow-minimum Q/Qm=0.181@2s RMSE 1e-4 (P2 null baseline); trajectory matches fitted curves to line width. 20 gates. |
 | 2026-07-11 | Sprint 9 (CC part) | 2.2 A8 per-cell BedState fields (SCHEMA 0.5) + P2 null-first ladder: on 9-bar rising flow, Φ(t) rung 4 (RMSE 0.113) beats flat null rungs (0.603) 5.4×. Rung 5 challengers Phase 3. CHAT (which mechanism survives) not-CC. 21 quick gates; 23 tests. |
+| 2026-07-11 | D4 (partial) | angeloni2023 + egidi2018 cards committed; D4 intake PARTIAL — Table 7 inventories (16 rows) + loader + manifest; 66-shot chemistry (Tables 2-5) BLOCKED pending Tim drop (MDPI Cloudflare-blocked, not in card, not fabricated). G1 refined (egidi2018 = soil Richards solver; gap is constitutive θ(ψ)/K(ψ); interim = a4a17a9 wetting-atom probe). angeloni = first independent multi-species target for pannusch2024. |

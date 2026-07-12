@@ -1,0 +1,23 @@
+# Source: Angeloni et al., Appl. Sci. 2023, 13, 2688 -- Table 7 (measured R&G solid
+#   inventory C0_s per species per variety). Transcribed from the article tables
+#   (no repository exists). Species: CF caffeine, CQA total chlorogenic acids,
+#   TR trigonelline, CA citric, AA acetic, TA tartaric, FA ferulic, LP lipids.
+# UNITS: mg/L (= mg/kg, article assumes 1 kg = 1 L). Feeds: extraction inventory
+#   priors; independent multi-species validation target for pannusch2024.
+variety,species,C0_s_mg_L
+Arabica,CF,12540
+Arabica,CQA,22130
+Arabica,TR,7970
+Arabica,CA,39970
+Arabica,AA,11870
+Arabica,TA,7700
+Arabica,FA,790
+Arabica,LP,138700
+Robusta,CF,18580
+Robusta,CQA,16080
+Robusta,TR,5960
+Robusta,CA,40920
+Robusta,AA,27910
+Robusta,TA,5970
+Robusta,FA,1060
+Robusta,LP,96200
