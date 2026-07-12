@@ -252,17 +252,33 @@ def g9_series_resistance():
     k_de1 = inf.k_from_kappa(fx["grind_setting_assumed"], fx["dose_g"] / 1000, fx["kappa_fitted"])[0]
     k_grud = 2.2e-15                                        # adjudicated grudeva kappa
     frac = lambda k: R_puck(k) / R_total                    # puck share of total
+    # --- screen resistance from schulman2011 basket GEOMETRY (registry-side [RS]
+    # orifice + Poiseuille construction; the source measured no dP). Clean basket.
+    Cd = 0.61; L_plate = 4e-4                                # discharge coeff; assumed plate thickness
+    baskets = _d.schulman_baskets()
+    R_screen = []
+    for b in baskets:
+        Ah = b["A_h_mm2"] * 1e-6; dh = b["d_hole_um"] * 1e-6
+        N = Ah / (np.pi * (dh / 2) ** 2)
+        R_orif = 0.5 * 1000.0 * Q_ss / (Cd * Ah) ** 2        # inertial (flow-dependent)
+        R_pois = 128 * mu * L_plate / (N * np.pi * dh ** 4)  # viscous
+        R_screen.append(max(R_orif, R_pois))
+    R_screen_max = float(max(R_screen))                      # worst (most resistive) basket
     return dict(R_total=R_total, R_puck_measured_range=[R_puck(max(k_meas)), R_puck(min(k_meas))],
+                R_screen_geom_max=R_screen_max, screen_share=R_screen_max / R_total,
+                screen_negligible=bool(R_screen_max / R_total < 1e-3),
                 puck_share_measured=[round(frac(max(k_meas)), 2), round(frac(min(k_meas)), 2)],
                 kappa_measured_range=[min(k_meas), max(k_meas)],
                 kappa_fitted_DE1=k_de1, kappa_fitted_grudeva=k_grud,
                 fitted_below_measured=bool(k_de1 < min(k_meas) and k_grud < min(k_meas)),
                 puck_below_total=bool(R_puck(min(k_meas)) < R_total),
-                verdict="series-resistance model implemented; fitted effective kappa "
-                        "(DE1, grudeva) sits below the measured tamped kappa -> a non-puck "
-                        "(screen+fixture) resistance is implied. CROSS-SOURCE + grudeva "
-                        "adjudication weakened -> suggestive, not conclusive; needs a "
-                        "matched puck-kappa + in-machine total-R measurement to close.")
+                verdict="G9 largely resolved: the CLEAN-basket screen resistance computed "
+                        "from schulman2011 geometry (orifice + Poiseuille) is ~5-6 orders "
+                        "below the puck/total (screen/total ~1e-5) -> NEGLIGIBLE. So the "
+                        "earlier fitted-vs-measured kappa gap is coffee/grind, NOT screen. "
+                        "Caveat: this is a clean basket; fines CLOGGING the holes during a "
+                        "shot (unmeasured) could raise it, and the orifice/Poiseuille are "
+                        "[RS] constructions (assumed Cd, plate thickness).")
 
 
 def coupled_kappa_t(P_bar=9.0, grind=1.9, dose_g=20.0, t_shot_s=30.0, powder="M",

@@ -1,0 +1,16 @@
+# Source: Schulman (another_jim/Team HB), "How filter baskets affect espresso taste and barista technique," Home-Barista.com (Aug 2011). Hole-size distributions by J. Weiss (image analysis). Transcribed from the card table (Part-1 geometry). NON-peer-reviewed; A_h is face-side area (holes tapered; narrowest section governs -- unknown bias). NO ΔP/resistance measured -- screen resistance is a registry-side orifice/Poiseuille CONSTRUCTION [RS].
+basket,D_base_mm,d_hole_um,sigma_hole_um,A_h_mm2,grid
+Faema single 1,28.8,396.7,37.5,28.2,H
+Faema single 2,28.8,382.2,25.9,27.5,H
+LM single 1,31.0,367.2,28.2,37.9,S
+Faema double 1,43.0,285.8,39.2,36.6,H
+Faema double 2,43.0,286.3,48.1,36.9,H
+MicroFine double 1,43.0,342.3,30.8,59.3,S
+MicroFine double 2,43.0,366.8,38.8,68.5,S
+LM double 1,43.0,401.9,50.7,81.9,S
+LM double 2,43.0,409.9,46.3,85.0,S
+VST 15,49.4,310.6,14.3,54.3,H
+VST 18,49.4,351.2,9.8,69.3,H
+VST 22,49.4,377.1,15.4,80.0,H
+OEM triple 1,48.9,384.0,41.5,87.7,H
+OEM triple 2,48.9,387.0,42.5,88.7,H

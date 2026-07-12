@@ -293,3 +293,10 @@ def test_angeloni2023_66shot_intake():
     assert ong == 54 and len(bio) - ong == 12
     assert len(pwdata.angeloni_total_solids()) == 66
     assert len(pwdata.angeloni_lipids()) == 66
+
+
+def test_schulman_baskets():
+    b = pwdata.schulman_baskets()
+    assert len(b) == 14
+    vst18 = [x for x in b if x["basket"] == "VST 18"][0]
+    assert abs(vst18["A_h_mm2"] - 69.3) < 1e-6 and vst18["grid"] == "H"
