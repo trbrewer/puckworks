@@ -633,3 +633,104 @@ def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
                      ("self-limiting" if self_limiting else "bounded/stable"),
                      "drops" if ey_dyn < ey_static else "holds",
                      ey_static, ey_dyn)))
+
+
+# --- G4 temperature sensitivity: two independent closures + schmieder datum ---
+def g4_temperature_sensitivity(T_lo=80.0, T_hi=98.0, grind="PsiC", mw="med",
+                               R=1.5e-4, t_shot_s=30.0, pore_to_bath=0.2):
+    """G4 (temperature) PARTIAL resolution. Quantifies the extraction-chemistry
+    temperature sensitivity over the espresso range from TWO INDEPENDENT on-file
+    closures -- romancorrochano2017 (Arrhenius K(T) + Stokes-Einstein Deff(T)) and
+    pannusch2024 (van't Hoff K(T) + Wilke-Chang D(T)) -- and tests pannusch's
+    'effects above 80 C are small' conclusion against schmieder2023's measured
+    80/89/98 C cup outcome at fixed grind+flow (the matching NEGATIVE datum).
+    Does NOT model in-puck thermal transients or T-dependence of wetting/swelling
+    (foster2025_2's open flag) -- those are the G4 REMAINDER, still open.
+    Validation strength: verification (reproducing published closures) +
+    independent/qualitative (the schmieder empirical slope)."""
+    import numpy as np
+    from puckworks import data as _d
+    from puckworks.models.pannusch2024 import closures as _pc
+    from puckworks.models.romancorrochano2017 import extraction as _rx
+    tK = lambda c: 273.15 + c
+    frac = lambda a, b: b / a - 1.0                        # fractional change lo->hi
+
+    # (1) partition K(T): two independent closures over the range
+    rK_lo, rK_hi = _rx.K_of_T(T_lo), _rx.K_of_T(T_hi)
+    t2 = {r["solute"]: r for r in _d.pannusch_table2()}
+    pK = {s: (float(_pc.vant_hoff_K(tK(T_lo), t2[s]["K_ref"], t2[s]["gamma"])),
+              float(_pc.vant_hoff_K(tK(T_hi), t2[s]["K_ref"], t2[s]["gamma"])))
+          for s in t2}
+    K_frac_roman = frac(rK_lo, rK_hi)
+    K_frac_pann = {s: frac(*pK[s]) for s in pK}
+
+    # (2) diffusion D(T): two independent closures
+    rD_lo, rD_hi = _rx.deff_of(grind, mw, T_lo), _rx.deff_of(grind, mw, T_hi)
+    pD = {s: (float(_pc.diffusion_coeff(tK(T_lo), s)),
+              float(_pc.diffusion_coeff(tK(T_hi), s))) for s in t2}
+    D_frac_roman = frac(rD_lo, rD_hi)
+    D_frac_pann = {s: frac(*pD[s]) for s in pD}
+
+    # (3) extraction sensitivity: propagate through the romancorrochano stirred
+    # vessel (same solver, only K(T),Deff(T) change) at a fixed shot time
+    te = np.linspace(0.0, t_shot_s, 60)
+    _, f_lo = _rx.stirred_vessel(rD_lo, R, rK_lo, pore_to_bath, te)
+    _, f_hi = _rx.stirred_vessel(rD_hi, R, rK_hi, pore_to_bath, te)
+    ey_lo, ey_hi = float(f_lo[-1]), float(f_hi[-1])
+    ey_abs_pp = (ey_hi - ey_lo) * 100.0                    # extraction-extent shift [pp]
+
+    # (4) schmieder NEGATIVE datum: measured cup concentration vs target temp at
+    # the DoE-center grind+flow (GL 1.7, target flow 2.0), PER component (the four
+    # solutes are reported separately). Report each solute's max/min span over the
+    # 80/89/98 C axis -- the empirical size of the temperature effect.
+    import collections
+    rows = _d.schmieder_cup_masses()
+    def _f(x):
+        try:
+            return float(x)
+        except (TypeError, ValueError):
+            return None
+    by_comp = collections.defaultdict(lambda: collections.defaultdict(list))
+    for r in rows:
+        fl, gl, T, c = (_f(r.get("target_flow_ml_s")), _f(r.get("grind_level")),
+                        _f(r.get("target_temp_C")), _f(r.get("conc_in_cup")))
+        if None in (fl, gl, T, c) or gl != 1.7 or fl != 2.0:
+            continue
+        by_comp[r.get("component")][T].append(c)
+    sch_spans = {}
+    for comp, bt in by_comp.items():
+        Ts = sorted(bt)
+        if len(Ts) >= 2:
+            means = [float(np.mean(bt[T])) for T in Ts]
+            sch_spans[comp] = float(max(means) / min(means) - 1.0)
+    sch_median_span = float(np.median(list(sch_spans.values()))) if sch_spans else None
+
+    # smallness + agreement verdict (over the ~18 C espresso window). NOTE the two
+    # K(T) closures use DIFFERENT partition conventions -> they can DISAGREE on the
+    # sign of dK/dT; surface that (rule 6: no silent merge), do not average them.
+    all_K = [K_frac_roman] + list(K_frac_pann.values())
+    K_small = bool(all(abs(v) < 0.15 for v in all_K))       # magnitude small
+    K_sign_agree = bool(all(v > 0 for v in all_K) or all(v < 0 for v in all_K))
+    sch_small = bool(sch_median_span is not None and sch_median_span < 0.10)
+    return dict(
+        T_lo=T_lo, T_hi=T_hi, span_C=T_hi - T_lo,
+        K_roman=(rK_lo, rK_hi), K_frac_roman=K_frac_roman,
+        K_pann=pK, K_frac_pann=K_frac_pann,
+        D_frac_roman=D_frac_roman, D_frac_pann=D_frac_pann,
+        ey_extent_lo=ey_lo, ey_extent_hi=ey_hi, ey_shift_pp=ey_abs_pp,
+        schmieder_spans=sch_spans, schmieder_median_span=sch_median_span,
+        K_small_both=K_small, K_sign_agree=K_sign_agree, schmieder_small=sch_small,
+        reading=("over %d C both K(T) closures are SMALL in magnitude (roman "
+                 "%+.1f%%, pann %+.1f..%+.1f%%) but %s on sign (partition-convention "
+                 "difference -- surfaced, not merged); D(T) roman %+.0f%% / pann "
+                 "%+.0f%%; extraction extent shifts %+.2f pp; schmieder cup conc "
+                 "spans a median %s across 80/89/98 C. Extraction-chemistry "
+                 "T-effect is SMALL and empirically confirmed; in-puck thermal "
+                 "transients + wetting/swelling-T stay OPEN (G4 remainder)." % (
+                     T_hi - T_lo, 100 * K_frac_roman,
+                     100 * min(K_frac_pann.values()), 100 * max(K_frac_pann.values()),
+                     "AGREE" if K_sign_agree else "DISAGREE",
+                     100 * D_frac_roman,
+                     100 * float(np.mean(list(D_frac_pann.values()))), ey_abs_pp,
+                     ("%.1f%%" % (100 * sch_median_span))
+                     if sch_median_span is not None else "n/a")))

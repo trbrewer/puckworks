@@ -620,6 +620,37 @@ def gate_p3_schmieder_peak_discrimination():
                 verdict=r["verdict"])
 
 
+def gate_g4_temperature_sensitivity():
+    """G4 (temperature) PARTIAL resolution. Over the espresso window (80→98 °C)
+    the extraction-CHEMISTRY temperature sensitivity is SMALL and empirically
+    confirmed: two independent partition closures (romancorrochano Arrhenius,
+    pannusch van't Hoff) both move K by <15%, the propagated extraction-extent
+    shift is <3 pp, and schmieder2023's measured cup concentration spans a median
+    <10% across its 80/89/98 °C axis at the DoE-center grind+flow (the matching
+    negative datum). The gate ALSO surfaces (does not require) that the two K(T)
+    closures DISAGREE on the SIGN of dK/dT — a partition-convention difference
+    reported side by side, never merged (rule 6). G4 REMAINDER (in-puck thermal
+    transients + T-dependence of wetting/swelling) stays open. Strength:
+    verification (closures) + independent/qualitative (schmieder datum)."""
+    from puckworks import harness as h
+    r = h.g4_temperature_sensitivity()
+    passed = bool(
+        r["K_small_both"]                                  # both K(T) closures small
+        and abs(r["ey_shift_pp"]) < 3.0                    # extraction extent barely moves
+        and r["schmieder_small"]                           # data confirms small effect
+        and r["schmieder_median_span"] is not None)
+    return dict(passed=passed,
+                K_frac_roman=round(r["K_frac_roman"], 4),
+                K_frac_pann={k: round(v, 4) for k, v in r["K_frac_pann"].items()},
+                K_small_both=r["K_small_both"],
+                K_sign_agree=r["K_sign_agree"],           # surfaced finding (False)
+                D_frac_roman=round(r["D_frac_roman"], 4),
+                ey_shift_pp=round(r["ey_shift_pp"], 3),
+                schmieder_spans={k: round(v, 4) for k, v in r["schmieder_spans"].items()},
+                schmieder_median_span=round(r["schmieder_median_span"], 4),
+                reading=r["reading"])
+
+
 def gate_ntube_kappa_t_union():
     """N-tube κ(t) union (streamtube channeling × coupled_kappa_t per-tube):
     EXPLORATORY SYNTHESIS, qualitative strength. Asserts the robust qualitative
@@ -1096,5 +1127,6 @@ QUICK = [gate_lb_channel, gate_wadsworth_collapse, gate_infiltration_triangle,
          gate_fasano_cor82_nonmonotone, gate_fasano_reversal_signature,
          gate_fasano_freeboundary, gate_p3_channeling_sigma_sweep,
          gate_p3_schmieder_peak_discrimination, gate_ntube_kappa_t_union,
+         gate_g4_temperature_sensitivity,
          gate_unified_kappa_t, gate_coupled_kappa_t, gate_g9_series_resistance,
          gate_kappa_t_degeneracy, gate_kappa_t_composition_diagnostic]

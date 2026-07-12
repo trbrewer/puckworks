@@ -94,6 +94,16 @@ ANALYSIS section, not just this file.
 - G1 (unsaturated flow) is blocked on CONSTITUTIVE data (coffee retention
   curves), not on solver choice; egidi2018 is skip. The wetting-atom probe is
   an analysis tool, not a registered component.
+- **G4 (temperature) extraction-chemistry part is PARTIALLY resolved:** two
+  independent K(T) closures (romancorrochano Arrhenius, pannusch van't Hoff) +
+  schmieder's 80/89/98 °C data all agree the extraction-chemistry T-effect is
+  SMALL (`gate_g4_temperature_sensitivity`). The two closures DISAGREE on the
+  SIGN of dK/dT (partition-convention difference — surfaced, not merged; do not
+  average them). In-puck thermal transients + wetting/swelling-T remain OPEN.
+- **G-lat is a new gap:** dynamic per-tube channeling-κ(t) is unconditionally
+  unstable without lateral tube coupling (ANALYSIS_P2 §2.4). The static
+  streamtube is the right tool for the time-averaged dip; the dynamic union is
+  diagnostic only.
 - **G9 (basket/screen resistance) is RESOLVED for a clean basket:** the screen
   resistance from schulman2011 geometry is ~5–6 orders below the puck →
   negligible; the earlier fitted-vs-measured κ gap is coffee/grind, not screen.
