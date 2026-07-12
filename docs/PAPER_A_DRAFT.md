@@ -453,37 +453,84 @@ slow analysis functions, none hand-typed):
 
 ## 9. Related work
 
-*Bibliographic details below are taken from the model cards on file; entries are
-flagged where a detail could not be verified from the card and needs a check before
-submission.*
+*Citations are verified against the source DOIs collated in
+`docs/literature_search/references.bib`; the search is a **documented scoping
+search** (protocol + log in `docs/literature_search/`), not a PRISMA-complete
+review — the full Scopus/Web-of-Science query is run and archived at submission, so
+novelty is stated as "to our knowledge, following a documented scoping search," not
+as categorical priority.*
 
-- **Extraction-model lineage.** Moroney, Lee, O'Brien, Suijver & Marra, "Asymptotic
-  analysis of the dominant mechanisms in the coffee extraction process," *SIAM J.
-  Appl. Math.* **76**(6), 2196–2217 (2016), DOI 10.1137/15M1036658 — the
-  double-porosity reduction (fast surface dissolution + slow kernel diffusion) that
-  `pannusch2024` extends. Cameron et al., "Systematically improving espresso,"
-  *Matter* **2**, 631–648 (2020), DOI 10.1016/j.matt.2019.12.019 — the espresso
-  extraction/EY model used elsewhere in the registry (Paper B) and the lineage's
-  best-known application.
-- **The model under test.** Pannusch et al., "Model-based kinetic espresso brewing
-  control chart for representative taste components," *J. Food Eng.* **367**, 111887
-  (2024), DOI 10.1016/j.jfoodeng.2023.111887 (reprinted as Article 3 of the Pannusch
-  TU Munich dissertation, 2024).
-- **The transfer target.** Angeloni, Giacomini, Maponi, Perticarini, Vittori,
-  Cognigni & Fioretti, "Computer Percolation Models for Espresso Coffee: State of
-  the Art, Results and Future Perspectives," *Appl. Sci.* **13**, 2688 (2023), DOI
-  10.3390/app13042688; and the group's numerical-scheme work, Egidi, Giacomini,
-  Larsson & Perticarini, *Chaos, Solitons & Fractals* **188**, 115625 (2024), DOI
-  10.1016/j.chaos.2024.115625.
-- **The calibration dataset.** Schmieder, Pannusch, Vannieuwenhuyse, Briesen &
-  Minceva, extraction-kinetics DoE, *Foods* **12**, 2871 (2023), DOI
-  10.3390/foods12152871 (open access, CC BY).
-- **To be added before submission (not on file as verified citations):** the
-  broader identifiability / practical-non-identifiability methods literature
-  (profile-likelihood and sloppy-model analyses) and any prior explicit treatment
-  of inventory–kinetics confounding in beverage extraction. *Flagged: a systematic
-  related-work search is owed; do not assert novelty of the identifiability framing
-  until it is done.*
+**Structural and practical identifiability.** Parameter estimation in mechanistic
+models must distinguish structural identifiability from practical identifiability.
+Structural identifiability concerns uniqueness under ideal, noise-free observations
+for a specified model, input, initial condition, parameterization, and observation
+map, whereas practical identifiability concerns whether finite and noisy data
+localize the parameters under the actual experimental design and objective.
+Structural-identifiability methods have been compared and systematized by Chis et al.
+(2011), Miao et al. (2011), Villaverde et al. (2016), and Villaverde (2019). Raue et
+al. (2009), Wieland et al. (2021), Heinrich et al. (2025), and Simpson & Maclaren
+(2023) emphasize that a parameter may be structurally identifiable yet practically
+weakly constrained, and that nonlinear profiles can reveal asymmetric or effectively
+unbounded uncertainty that a local covariance approximation misses.
+
+**Profiles, sloppiness, and parameter compensation.** Profile-likelihood and
+profile-wise analyses characterize how the optimum changes when one parameter is
+fixed and the rest are re-optimized — useful for detecting compensation, boundaries,
+and asymmetric uncertainty. Work on "sloppy" models describes broad spectra of
+parameter sensitivities and a geometric model manifold with narrow and broad
+directions (Gutenkunst et al., 2007; Transtrum et al., 2011, 2015). Sloppiness and
+identifiability are related but not equivalent (Tönsing et al., 2014; Chis et al.,
+2016), and experimental design may improve some weak directions without guaranteeing
+that all parameters become well determined (Apgar et al., 2010; White et al., 2016).
+We therefore use the descriptive term *inventory–rate profile valley* unless a
+scaled sensitivity-spectrum analysis is explicitly reported, and (because we
+minimize MAPE, not a likelihood) we report a *profiled MAPE objective*, not a
+profile likelihood.
+
+**Reaction/transport confounding and design.** Similar parameter-confounding
+problems occur in environmental, reaction–transport, gas–liquid mass-transfer, and
+dissolution models, where kinetic coefficients, diffusivities, transfer
+coefficients, inventories, and boundary conditions can induce nearly collinear
+output changes (Brun et al., 2001; Navarro-Laboulais et al., 2008; Haario et al.,
+2007; Browning et al., 2024). Optimal experimental-design studies seek inputs,
+conditions, and sampling times that create distinct sensitivity directions (Banga &
+Balsa-Canto, 2008; Bandara et al., 2009; Liepe et al., 2013; Lages et al., 2012).
+For extraction models this motivates combining early, middle, and late fractions,
+multiple operating conditions, and independent inventory measurements rather than
+relying on a single integrated endpoint.
+
+**Coffee lineage and the gap.** Coffee-extraction modelling includes multiscale and
+asymptotic formulations (Moroney et al., 2015, 2016), well-mixed kinetics (Moroney
+et al., 2017), porous-bed non-uniformity (Moroney et al., 2019), brewing-control-
+chart and espresso-optimization studies (Melrose et al., 2018; Cameron et al., 2020),
+mesoscopic and porous-media simulations (Ellero & Navarini, 2019; Giacomini et al.,
+2020), and component-resolved or dispersive packed-bed models (Schmieder et al.,
+2023; Pannusch et al., 2024; Vaca Guerra et al., 2024). Time-resolved experiments
+have measured caffeine and trigonelline across particle-size distributions (Kuhn et
+al., 2017), representative nonvolatile solutes and TDS across process conditions
+(Schmieder et al., 2023), volatile release online (Sánchez-López et al., 2014, 2016),
+and independent TDS fractions with simultaneous flow measurements (Waszkiewicz et
+al., 2026). In our documented scoping search we did not find an espresso study that
+explicitly profiles inventory–rate compensation and separates in-sample
+localization, internal holdout, frozen external prediction, and target-data
+refitting. Paper A addresses that applied gap using established identifiability
+methods.
+
+**Novelty (case study + model/data observation, not a new method).** To our
+knowledge, based on a documented scoping search, mechanistic coffee-extraction
+modelling and the mature inverse-problem toolkit (structural/practical
+identifiability, profile analysis, parameter-compensation manifolds, model-based
+experimental design) have not previously been combined in a systematic
+practical-identifiability study of inventory–rate confounding in a multi-solute
+espresso-extraction model evaluated with internal holdouts and independent coffee
+datasets. Our contribution is therefore an espresso case study and a
+model–data-specific result, not a new general identifiability method: under the
+tested whole-cup design, inventory and kinetic rate occupy a broad compensating
+profile, whereas fraction-resolved observations provide substantially stronger
+localization of the rate. *These results do not establish that cup-integrated
+observations are structurally incapable of identifying extraction kinetics in
+general; they establish weak practical localization for the tested model,
+observation map, datasets, parameter domain, and error model.*
 
 ## Reproducibility
 
