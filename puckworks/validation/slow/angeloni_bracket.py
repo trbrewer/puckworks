@@ -281,6 +281,98 @@ def refit_pannusch_angeloni(rate_grid=None):
                      "pannusch is a NEW calibration, granulometry O only, 9-point fit.")
 
 
+# per-granulometry flow, from the card's OWN fitted hydraulic conductivity k_r(p)
+# and per-granulometry shot times tau (angeloni2023.md): flow(p,T,gran) =
+# (40 g / tau_gran) * k_r(p)/k_r(9) * mu(T_ref)/mu(T).
+_TAU_GRAN = {"O": 20.0, "C": 13.0, "F": 35.0}
+_KR = {"O": (2.60e-9, -6.50e-8, 5.08e-7), "C": (3.90e-9, -1.05e-7, 8.50e-7),
+       "F": (1.20e-9, -3.17e-8, 2.56e-7)}
+
+
+def _flow_gran(p_bar, T_C, gran):
+    from puckworks.models.pannusch2024 import closures as pc
+    a, b, c = _KR[gran]
+    kr = lambda p: a * p * p + b * p + c
+    mu = pc.water_viscosity(T_C + 273.15); mu_ref = pc.water_viscosity(_T_REF + 273.15)
+    return (40.0 / _TAU_GRAN[gran]) * (kr(p_bar) / kr(9.0)) * (mu_ref / mu)
+
+
+def validate_refit_granulometry():
+    """Validate the angeloni refit ACROSS granulometries C/F (held-out grinds).
+    Uses the card's own per-granulometry flow (k_r(p) + tau). Two tests, on the
+    clean g/L species (CF/TR/5CQA; TDS dropped -- unit-aggregate artifact):
+
+    (1) TRANSFER: fit (rate_scale, c_s0) on granulometry O, PREDICT C and F with
+        no refit. If the fit is a transferable coffee property it should hold.
+    (2) DEGENERACY: refit independently at O/C/F and compare the fitted knobs.
+
+    Finding (tempers the earlier refit): the O-fit does NOT transfer -- held-out
+    C/F MAPE ~25-35% (vs the ~7% same-granulometry O holdout). And the (rate_scale,
+    c_s0) split is DEGENERATE: both mostly move the LEVEL, so the fit is
+    under-determined -- the fitted rate flips across granulometry and across flow
+    maps (caffeine picked 1.0 under the darcy anchor, 0.4 under the tau anchor).
+    So the refit is a per-granulometry CURVE FIT (~17-25% post-fit), NOT a
+    transferable calibration, and the earlier 'caffeine=inventory /
+    trigonelline=kinetic' decomposition was over-interpreted. Strength: this is a
+    negative validation result. NOTE: ~150 s of PDE solves (slow)."""
+    import numpy as np
+    from puckworks.models.pannusch2024 import solver as ps
+    from puckworks import data as d
+    bio = d.angeloni_bioactives()
+    params = ps._solute_params()
+    SPEC = {"caffeine": "CF", "trigonelline": "TR", "5CQA": "5CQA"}
+
+    def sh(variety, gran):
+        return [r for r in bio if r["variety"] == variety
+                and r["granulometry"] == gran and r["on_grid"] == "True"]
+
+    def frac(sp, rs, conds, gran):
+        s = dict(sp); s["A1"] = sp["A1"] * rs; s["A2"] = sp["A2"] * rs; s["c_s0"] = 1.0
+        return np.array([float(ps.simulate_fractions(T, _flow_gran(p, T, gran),
+                        [0.0, 25.0], s, cl1=1.0)[0]) for T, p in conds])
+
+    def best_cs0(f, m):
+        grid = np.linspace(0.3, 3.0, 50) * float(np.median(m / f))
+        mp = [float(np.mean(np.abs(c * f - m) / m)) for c in grid]
+        i = int(np.argmin(mp)); return float(grid[i]), mp[i] * 100.0
+
+    def fit(variety, sol, gran):
+        rows = sh(variety, gran); col = SPEC[sol]
+        conds = [(r["T_degC"], r["p_bar"]) for r in rows]; m = np.array([r[col] for r in rows])
+        best = None
+        for rs in np.linspace(0.4, 2.5, 8):
+            f = frac(params[sol], rs, conds, gran); cs0, mp = best_cs0(f, m)
+            if best is None or mp < best[2]:
+                best = (float(rs), cs0, mp)
+        return best                                       # rate, c_s0, mape
+
+    transfer, degeneracy = {}, {}
+    for variety in ("Arabica", "Robusta"):
+        for sol, col in SPEC.items():
+            rsO, cs0O, mpO = fit(variety, sol, "O")       # O-refit
+            held = {}
+            for g in ("C", "F"):
+                rows = sh(variety, g)
+                conds = [(r["T_degC"], r["p_bar"]) for r in rows]
+                m = np.array([r[col] for r in rows])
+                f = frac(params[sol], rsO, conds, g)
+                held[g] = round(float(np.mean(np.abs(cs0O * f - m) / m) * 100), 0)
+            transfer[(variety, sol)] = dict(O_fit_mape=round(mpO, 0),
+                                            heldout_C=held["C"], heldout_F=held["F"])
+        # degeneracy: refit at each granulometry (Arabica only, representative)
+        if variety == "Arabica":
+            for sol in SPEC:
+                degeneracy[sol] = {g: (lambda b: dict(rate=round(b[0], 1),
+                                   c_s0=round(b[1], 1), mape=round(b[2], 0)))(
+                                   fit("Arabica", sol, g)) for g in ("O", "C", "F")}
+    return dict(transfer=transfer, degeneracy_arabica=degeneracy,
+                verdict="O-refit does NOT transfer to C/F (held-out ~25-35% vs "
+                        "same-grind O holdout ~7%); (rate_scale,c_s0) split is "
+                        "DEGENERATE (rate flips across grind/flow-map) -> per-"
+                        "granulometry curve fit, NOT a transferable calibration; "
+                        "earlier inventory-vs-kinetic decomposition over-read.")
+
+
 def report():
     r = gate_angeloni_multispecies_bracket()
     print("== angeloni2023 multi-species bracket (TS/TDS; INDEPENDENT; report) ==")
