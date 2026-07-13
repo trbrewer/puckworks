@@ -187,6 +187,106 @@ def paper_b_evidence_dictionary_audit():
             "complete": (not undefined and not uncited)}
 
 
+# --- visualizer.coffee two-tier store (ROADMAP 0.13; DATA-ONLY) ----------
+# The corpus is gitignored and NOT redistributed (see visualizer/PROVENANCE.md +
+# docs/cards/visualizer_coffee.md). These loaders READ the on-disk store at
+# runtime and degrade gracefully when it is absent — the corpus is populated by
+# `python -m puckworks.lib.visualizer_harvest full`, never by a test.
+VIS = DATA_DIR / "visualizer"
+VIS_RAW = VIS / "raw"
+
+# stored-unit contract (asserted per CLAUDE.md rule 7)
+_VIS_HYDRAULIC_SI = {
+    "time__s": "s", "pressure__Pa": "Pa", "pressure_goal__Pa": "Pa",
+    "flow__kg_per_s": "kg/s", "flow_weight__kg_per_s": "kg/s",
+    "flow_goal__kg_per_s": "kg/s", "weight__kg": "kg", "water_dispensed__kg": "kg",
+    "temperature_basket__K": "K", "temperature_mix__K": "K",
+    "temperature_goal__K": "K",
+}
+_VIS_OUTCOME_SI = {"tds__fraction": "fraction", "ey__fraction": "fraction"}
+
+
+def visualizer_index():
+    """Return the per-shot summary index (raw/_index.csv) if the corpus is on
+    disk, else {'present': False}. Never raises on an absent corpus."""
+    p = VIS_RAW / "_index.csv"
+    if not p.exists():
+        return {"present": False}
+    rows = _rows(p)
+    return {"present": True, "n_shots": len(rows), "rows": rows}
+
+
+def _vis_corpus_present():
+    return VIS_RAW.exists() and any(VIS_RAW.glob("shard_*.jsonl.gz"))
+
+
+def visualizer_iter_shots(filter=None):
+    """Yield TidyShot dicts from the gitignored shards (generator; never loads
+    all into memory). Optional ``filter`` is a predicate on the shot dict.
+
+    Raises a clear 'run the harvester' RuntimeError when the corpus is absent —
+    this is a MISSING-DATA condition, not a test failure (tests use fixtures)."""
+    if not _vis_corpus_present():
+        raise RuntimeError(
+            "visualizer corpus not found under %s — it is gitignored and not "
+            "redistributed. Populate it with: pip install -e \".[harvest]\" && "
+            "python -m puckworks.lib.visualizer_harvest full "
+            "(see puckworks/data/visualizer/PROVENANCE.md)." % VIS_RAW)
+    import gzip
+    import json
+    for shard in sorted(VIS_RAW.glob("shard_*.jsonl.gz")):
+        with gzip.open(shard, "rt", encoding="utf-8") as fh:
+            for line in fh:
+                line = line.strip()
+                if not line:
+                    continue
+                shot = json.loads(line)
+                if filter is None or filter(shot):
+                    yield shot
+
+
+def visualizer_hydraulic(shot):
+    """Return the hydraulic tier of a TidyShot as SI numpy arrays, asserting the
+    per-channel stored unit matches the SI contract (rule 7). Missing channels
+    are simply absent from the returned dict (never invented)."""
+    hy = shot.get("hydraulic") or {}
+    units = (shot.get("units") or {}).get("hydraulic") or {}
+    out = {}
+    for name, series in hy.items():
+        if name == "state_change":
+            out[name] = np.asarray(series)  # categorical codes, no unit
+            continue
+        expected = _VIS_HYDRAULIC_SI.get(name)
+        if expected is not None:
+            got = (units.get(name) or {}).get("si")
+            assert got == expected, (
+                "visualizer hydraulic channel %r stored as %r, expected SI %r "
+                "(rule 7)" % (name, got, expected))
+        out[name] = np.asarray([np.nan if v is None else v for v in series],
+                               dtype=float)
+    return out
+
+
+def visualizer_outcomes(shot):
+    """Return the user-entered outcomes tier (tds/ey fractions + sensory ints),
+    asserting the stored unit is a dimensionless fraction where present (rule 7).
+
+    These are NOT groundtruth (see PROVENANCE.md) — the accessor does not upgrade
+    them; it only surfaces them with their units checked."""
+    oc = shot.get("outcomes") or {}
+    units = (shot.get("units") or {}).get("outcomes") or {}
+    out = {"sensory": dict(oc.get("sensory") or {})}
+    for name, expected in _VIS_OUTCOME_SI.items():
+        val = oc.get(name)
+        if val is not None:
+            got = (units.get(name) or {}).get("si")
+            assert got == expected, (
+                "visualizer outcome %r stored as %r, expected %r (rule 7)"
+                % (name, got, expected))
+        out[name] = val
+    return out
+
+
 # --- wadsworth2026 grind map (ROADMAP 0.6 / 1.5) -------------------------
 WADS = DATA_DIR / "wadsworth2026"
 

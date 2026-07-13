@@ -13,6 +13,13 @@ puckworks/data/pannusch2024/*
 !puckworks/data/pannusch2024/table2_fitted_params.csv
 !puckworks/data/pannusch2024/table2_grind_psi_ds2.csv
 !puckworks/data/pannusch2024/experimental_kinetics.csv
+# visualizer.coffee: user-contributed shot CORPUS has NO research-use license
+# (visualizer app is MIT, app code only). The raw harvested store is NEVER
+# committed (ROADMAP 0.13). Only PROVENANCE.md and the small DERIVED
+# aggregate_stats.csv are tracked (force-added), exactly like pannusch2024.
+puckworks/data/visualizer/*
+!puckworks/data/visualizer/PROVENANCE.md
+!puckworks/data/visualizer/aggregate_stats.csv
 # schmieder2023: large MDPI binaries + extracted supplementary dirs
 puckworks/data/schmieder2023/*.zip
 puckworks/data/schmieder2023/*.epub

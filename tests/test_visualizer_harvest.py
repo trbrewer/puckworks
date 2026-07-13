@@ -124,3 +124,50 @@ def test_default_dev_salt_warns():
         warnings.simplefilter("always")
         vh.HarvestConfig(out_dir=FIX)  # no salt, no env -> DEV salt + loud warning
         assert any("PUCKWORKS_VIS_SALT" in str(x.message) for x in w)
+
+
+# --- data-module two-tier loaders (part C): degrade cleanly + assert units ---
+from puckworks import data as pwdata
+
+
+def test_loader_index_absent_returns_present_false(tmp_path, monkeypatch):
+    monkeypatch.setattr(pwdata, "VIS_RAW", tmp_path / "does_not_exist")
+    assert pwdata.visualizer_index() == {"present": False}
+
+
+def test_loader_iter_absent_raises_run_the_harvester(tmp_path, monkeypatch):
+    monkeypatch.setattr(pwdata, "VIS_RAW", tmp_path / "does_not_exist")
+    with pytest.raises(RuntimeError, match="visualizer_harvest full"):
+        list(pwdata.visualizer_iter_shots())
+
+
+def test_loader_iter_and_accessors_on_populated_store(tmp_path, monkeypatch):
+    # build a real shard from the fixtures, point the loader at it
+    cfg = _cfg(tmp_path)
+    recs = [vh.normalize_shot(_load(n), cfg) for n in
+            ("decent_full.json", "meticulous_partial.json")]
+    vh._write_shard(cfg, 0, recs)
+    vh._append_index(cfg, [vh._index_row(r) for r in recs])
+    monkeypatch.setattr(pwdata, "VIS_RAW", tmp_path)
+
+    idx = pwdata.visualizer_index()
+    assert idx["present"] and idx["n_shots"] == 2
+
+    shots = list(pwdata.visualizer_iter_shots(filter=lambda s: s["machine"] == "decent"))
+    assert len(shots) == 1 and shots[0]["id"] == "FAKE-decent-0001"
+
+    import numpy as np
+    hy = pwdata.visualizer_hydraulic(shots[0])
+    assert isinstance(hy["pressure__Pa"], np.ndarray)
+    assert hy["pressure__Pa"][2] == pytest.approx(9.0e5)   # SI, asserted units
+    oc = pwdata.visualizer_outcomes(shots[0])
+    assert oc["tds__fraction"] == pytest.approx(0.094)
+    assert oc["sensory"]["flavor"] == 7
+
+
+def test_accessor_unit_assertion_catches_off_si(tmp_path):
+    # a corrupted stored unit must trip the rule-7 assertion, not pass silently
+    tidy = vh.normalize_shot(_load("decent_full.json"), _cfg(tmp_path))
+    tidy["units"]["hydraulic"]["pressure__Pa"]["si"] = "bar"  # wrong
+    with pytest.raises(AssertionError, match="rule 7"):
+        pwdata.visualizer_hydraulic(tidy)
