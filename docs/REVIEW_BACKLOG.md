@@ -187,7 +187,9 @@ DONE below; the large additions + conversion are deferred.
   endpoint×density (the current sweep tests only the blind residual).
 - **A4-07 / §6.12** continuous/converged profile-set → condition-wise C/F envelopes.
 - **A4-10/11/12** Fig 3/4 source-data export + Fig 4 baseline/envelope redesign + Fig 2
-  MAPE panel & censoring marks. **A4-17** Hessian sensitivity table. **A4-21** joint null
+  MAPE panel (Fig 2 **censoring marks already DONE** — `profile_upper_censored` renders
+  the "set open (censored)" arrow; MAPE cross-check panel still owed). **A4-17** Hessian
+  sensitivity table. **A4-21** joint null
   ladder. **A4-27/28** off-grid sim + discrepancy in figures. **A4-37** vector figures
   **DONE** (2026-07-13, handoff VENUE-2: SVG/PDF export + Okabe-Ito palette + captions;
   full production re-render owed).
@@ -215,13 +217,17 @@ DONE below; the large additions + conversion are deferred.
 ### UNBLOCKED-LARGE (deferred)
 - **B5-08-full** real trajectory-convergence study (interpolated common grid, norms,
   event-time error vs spatial+temporal refinement, higher-order/adaptive solver).
-- **B5-09** N-tube state classifier redesign (explicit single/oligarchic/distributed/
-  transient thresholds on top-1 share, N_eff, entropy, persistence).
+- **B5-09** N-tube state classifier — **DONE** (2026-07-13, `edeb363`: explicit
+  single/oligarchic/distributed/transient thresholds on top-1 share + N_eff +
+  persistence; `state` field; near-choke stays single-channel, lateral cases no longer
+  mislabelled).
 - **B5-24/25/26/27/28** N-tube physical balances (solute inventory, pressure-work,
   lateral-flux, age), donor-extrapolation audit, event-time + start-state sensitivity.
 - **B5-13/14/15/16** RSM leverage-adjusted wild bootstrap, post-selection uncertainty,
   design-support, first-stage endpoint propagation.
-- **B5-18/20** block-length sensitivity + residual-ACF figure. **B5-31** Fig 2 ontology.
+- **B5-20** residual-ACF figure — **DONE** (2026-07-13: supplementary `fig6_residual_acf`
+  + residual traces/ACF in `result2_residual_diagnostics`). **B5-18** block-length
+  sensitivity still owed. **B5-31** Fig 2 ontology.
 - **B5-33/34/35/36** template prose/figures from the frozen bundle + full dependency manifest.
 - **B5-39/40/44/45** figure reworks + complete source data + vector figures.
 

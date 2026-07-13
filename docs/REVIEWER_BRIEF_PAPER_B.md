@@ -60,11 +60,10 @@ to identify a unique physical mechanism**. Per result:
 | Known limitation | Status | Why it is open | Where disclosed / evidence |
 |---|---|---|---|
 | Real trajectory-convergence study (common physical-time grid, norms, event-time error vs spatial+temporal refinement, higher-order/adaptive solver) | UNBLOCKED-LARGE, deferred | current study is collapse-time under explicit-Euler refinement only | backlog B5-08; review §2.1(6) |
-| N-tube state classifier redesign (explicit single/oligarchic/distributed/transient thresholds) | UNBLOCKED-LARGE, deferred | current labels can call a top-decile/low-share state "concentrates" | backlog B5-09 |
+| Block-length sensitivity for the Result-2 conditional interval (4/8/16/24 s) | deferred | one 8 s block length used | backlog B5-18 |
 | Physical N-tube balances (solute inventory, pressure-work, lateral-flux, age) | UNBLOCKED-LARGE, deferred | current "conservation" is a **numerical-invariant** audit, not physical balances | backlog B5-24/25/26; review §2.1(7) |
 | Physical transverse-Darcy lateral-exchange operator + Jacobian/Lyapunov growth | **CARD-BLOCKED** (rule 1) | no card exists for the physical lateral operator (= gap G-lat / PV-14) | backlog B5-29 / B-AR10 |
 | RSM advanced uncertainty: leverage-adjusted (HC2/HC3) wild bootstrap, post-selection, design-support, first-stage endpoint propagation | UNBLOCKED-LARGE, deferred | RSM intervals are **conditional** on the selected form + reconstructed endpoint | backlog B5-13/14/15/16 |
-| Block-length sensitivity (4/8/16/24 s) + residual-vs-time/ACF figure | deferred | residual autocorrelation reported numerically; not plotted | backlog B5-18/20 |
 | Stochastic seed count (16; ≥100 or exact order-statistic intervals) | PARTIAL | 16 seeds; event-time variability now reported (not called "tight") | review §2.1(7); backlog B5-10 |
 | Template prose/figures from the frozen bundle + full dependency manifest | deferred | figures currently recompute; some headline numbers still authored | backlog B5-33/34/35/36 |
 | Complete per-panel source data + figure reworks (Fig 3/5 layout, Fig 4 ablation) | deferred | partial source data exported | backlog B5-39/40/44 |
@@ -87,6 +86,11 @@ Fixed in the current tree (the 5th review was partly stale on some):
   as explicitly separate from the 576 valid runs (schema-contract test).
 - N-tube switching claim scoped to collapse-time-under-Euler; "tight distribution"
   dropped; event-time variability reported.
+- N-tube **end-state classifier** now uses explicit top-1-share/N_eff/persistence
+  thresholds (single-channel / oligarchic / distributed / transient); a high
+  top-decile share no longer mislabels a distributed state as concentration.
+- Result-2 **residual diagnostics figure** (Fig 6, supplementary): residual-vs-time
+  + ACF-by-branch, making the coherent non-white lack-of-fit visible.
 - Both flagged DOIs verified (lee2023 10.1063/5.0138998; waszkiewicz2026
   10.1063/5.0319611).
 - Earlier rounds: achieved-predictor RSM refit, deletion + wild-bootstrap
