@@ -128,15 +128,22 @@ mid-vs-coarse step (dial 1.7 − 2.0 = −0.24 EY-pt, Welch 95 % CI [−0.42, �
 p ≈ 0.016) but **not** the fine-to-mid step (dial 1.4 − 1.7 = −1.11 EY-pt, CI
 [−2.41, +0.19], p ≈ 0.068 — includes zero). The overall replicate-level trend is a
 rise of +2.26 EY-pt per dial (95 % CI [1.29, 3.23]). Crucially these are
-**nominal-condition, not achieved-condition, comparisons, and there is no
-between-experiment replication**: each dial cell is a *single* DoE experiment
-(1.4 = an axis point, n = 3; 1.7 = the repeated centre point, n = 6; 2.0 = an axis
-point, n = 3), so the within-cell spread is a within-experiment variance, and the
-*achieved* conditions differ across the three experiments — mean achieved flow
+**nominal-condition, not achieved-condition, comparisons**. The source ran each
+setting as **three independently prepared extraction repetitions** (six at the centre
+point); those extraction runs — not fractions or dense sensor samples — are the
+experimental unit here (1.4 axis, n = 3; 1.7 centre, n = 6; 2.0 axis, n = 3), so the
+within-setting spread is run-to-run variance at fixed *nominal* dial, and the Welch
+contrast is a **within-campaign, setting-level** difference conditional on those runs
+being independent. There is **no replication across machines, coffees, or campaigns**
+(one machine, one main coffee), so it does not generalise beyond this campaign. The
+*achieved* conditions also differ across the three settings — mean achieved flow
 1.92 / 1.90 / 2.00 mL s⁻¹ and, most notably, mean maximum pressure **3.91 / 3.41 /
-3.33 bar** at dial 1.4 / 1.7 / 2.0. Dial is therefore confounded with the achieved
-conditions. The ordering is descriptive and rules out a middle-dial maximum, but a
-causal "dial alone moves EY" reading is not licensed; a full design-aware model
+3.33 bar** at dial 1.4 / 1.7 / 2.0 — so dial is **confounded** with the achieved
+conditions and the Welch contrast is not evidence that dial *alone* caused the
+difference. Safely stated: the **observed central-setting cell means contain no
+middle-dial maximum** (the middle mean is below the 2.0 mean in this campaign);
+inferential exclusion of an underlying conditional-response maximum would require a
+model for the achieved covariates and run-level variation — a full design-aware model
 (achieved covariates + experiment blocks over the whole DoE) is owed (§7).
 
 An interior maximum exists only in the study's own fitted response surface, which

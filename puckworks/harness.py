@@ -542,12 +542,13 @@ def result1_design_aware_stats(brew_ratio="1/2", temp_C=89.0, flow_ml_s=2.0,
     (b) the experimental-unit structure, and (c) both a trend and pairwise view.
     NOT a gate, NOT in run_all_gates -- it quantifies a known caveat honestly.
 
-    The load-bearing structural fact: in the Schmieder DoE each dial cell is ONE
-    experiment (dial 1.4 = an axis-point experiment, 1.7 = the repeated centre
-    point, 2.0 = another axis point), so there is NO between-experiment replication
-    -- the replicate spread within a cell is a WITHIN-experiment (measurement +
-    shot-to-shot) variance, not a between-condition one. A replicate-level Welch
-    test therefore answers a within-experiment question; it does not license a
+    The load-bearing structural fact (review MAJ-03): in the Schmieder DoE each dial
+    cell is ONE design point run as 3 independently prepared extraction repetitions
+    (6 at the centre 1.7). Those runs are the experimental unit, so the within-cell
+    spread is run-to-run variance at a fixed NOMINAL dial, and there is NO replication
+    across machines/coffees/campaigns (one machine, one coffee). A replicate-level
+    Welch test therefore answers a within-campaign, setting-level question conditional
+    on run independence; it does not license a
     causal 'dial alone moves EY' claim. Reported so the manuscript's statistical
     language matches the design.
 
