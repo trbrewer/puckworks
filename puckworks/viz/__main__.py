@@ -40,7 +40,7 @@ def _cmd_render(a):
     sel = [a.id] if a.id else None
     run_slow = a.slow or a.video or a.with_3d or bool(a.id)
     for r in render_all(select=sel, cls=a.klass, with_3d=a.with_3d, video=a.video,
-                        run_slow=run_slow):
+                        run_slow=run_slow, hires=a.hires):
         print(" ", r)
     return 0
 
@@ -62,6 +62,8 @@ def main(argv=None):
         sp.add_argument("--with-3d", dest="with_3d", action="store_true")
         sp.add_argument("--video", action="store_true")
         sp.add_argument("--slow", action="store_true")
+        sp.add_argument("--hires", action="store_true",
+                        help="also write 300-dpi stills to frames/ (gitignored)")
     a = p.parse_args(argv)
     return {"list": _cmd_list, "compute": _cmd_compute, "render": _cmd_render,
             "gallery": _cmd_gallery}[a.cmd](a)

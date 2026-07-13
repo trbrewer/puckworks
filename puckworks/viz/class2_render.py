@@ -14,17 +14,11 @@ import numpy as np
 
 from ..figures import _plt, INK, ACCENT, NULL, GOOD, BAD
 from .palette import FIELD_SEQUENTIAL, FIELD_SEQUENTIAL_ALT
-from .registry import stamp_fig, producer_data
+from .registry import producer_data, save_figure
 
 
-def _save_thumb(fig, spec, outdir, name="thumb.png", dpi=120):
-    os.makedirs(outdir, exist_ok=True)
-    stamp_fig(fig, spec)
-    path = os.path.join(outdir, name)
-    fig.savefig(path, dpi=dpi, bbox_inches="tight", facecolor="white")
-    import matplotlib.pyplot as plt
-    plt.close(fig)
-    return path
+def _save_thumb(fig, spec, outdir, name="thumb.png"):
+    return save_figure(fig, spec, outdir, name=name)
 
 
 def draw_puck_flow_field(spec, outdir, with_3d=False, video=False):

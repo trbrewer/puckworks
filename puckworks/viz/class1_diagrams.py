@@ -15,17 +15,11 @@ import numpy as np
 
 from ..figures import _plt, INK, ACCENT, NULL, GOOD, GRID
 from .palette import BADGE_COLORS, STAGE_FILL, STAGE_EDGE
-from .registry import stamp_fig
+from .registry import save_figure
 
 
-def _save_thumb(fig, spec, outdir, name="thumb.png", dpi=120):
-    os.makedirs(outdir, exist_ok=True)
-    stamp_fig(fig, spec)
-    path = os.path.join(outdir, name)
-    fig.savefig(path, dpi=dpi, bbox_inches="tight", facecolor="white")
-    import matplotlib.pyplot as plt
-    plt.close(fig)
-    return path
+def _save_thumb(fig, spec, outdir, name="thumb.png"):
+    return save_figure(fig, spec, outdir, name=name)
 
 
 def draw_process_schematic(spec, outdir, with_3d=False, video=False):

@@ -257,6 +257,29 @@ def _resolve(render_fn):
     return getattr(importlib.import_module(mod), fn)
 
 
+# render-time options read by save_figure (avoids threading through every draw sig)
+_RENDER_OPTS = {"hires": False}
+
+
+def save_figure(fig, spec, outdir, name="thumb.png"):
+    """Stamp + save the committed thumb (dpi 120); when --hires is active also write
+    a full-res 300-dpi still into the gitignored frames/ dir (heavy, local-only).
+    Single stamping site for every render module."""
+    import os
+    stamp_fig(fig, spec)
+    os.makedirs(outdir, exist_ok=True)
+    thumb = os.path.join(outdir, name)
+    fig.savefig(thumb, dpi=120, bbox_inches="tight", facecolor="white")
+    if _RENDER_OPTS.get("hires"):
+        fdir = os.path.join(outdir, "frames")
+        os.makedirs(fdir, exist_ok=True)
+        fig.savefig(os.path.join(fdir, "still_300dpi.png"), dpi=300,
+                    bbox_inches="tight", facecolor="white")
+    import matplotlib.pyplot as plt
+    plt.close(fig)
+    return thumb
+
+
 def producer_data(spec: VizSpec) -> dict:
     """Call the spec's bound producer FUNCTION and return its full output dict (arrays
     included). `producer.compute()` returns only the mapped provenance scalars; a
@@ -265,18 +288,22 @@ def producer_data(spec: VizSpec) -> dict:
     return getattr(importlib.import_module(p.module), p.function)(**p.kwargs)
 
 
-def render_spec(spec: VizSpec, outdir=None, with_3d=False, video=False):
+def render_spec(spec: VizSpec, outdir=None, with_3d=False, video=False, hires=False):
     """Resolve the spec's render_fn and draw it (badge-stamped). The render_fn owns
     compute+draw+stamp+save and returns a dict with at least {'thumb': path}."""
     import os
     spec.source_commit = source_commit()
     outdir = outdir or os.path.join("docs/figures/viz", spec.id)
     os.makedirs(outdir, exist_ok=True)
-    return _resolve(spec.render_fn)(spec, outdir, with_3d=with_3d, video=video)
+    _RENDER_OPTS["hires"] = hires
+    try:
+        return _resolve(spec.render_fn)(spec, outdir, with_3d=with_3d, video=video)
+    finally:
+        _RENDER_OPTS["hires"] = False
 
 
 def render_all(select=None, out="docs/figures/viz", cls=None, with_3d=False,
-               video=False, run_slow=False):
+               video=False, run_slow=False, hires=False):
     """Render selected specs. Skips slow specs unless run_slow (LB/3D/video are not
     CI work). `select` = list of ids; `cls` = 1 or 2 to filter by class."""
     import os
@@ -290,7 +317,7 @@ def render_all(select=None, out="docs/figures/viz", cls=None, with_3d=False,
             results.append({"id": spec.id, "skipped": "slow (needs --slow/--video/--with-3d)"})
             continue
         results.append(render_spec(spec, outdir=os.path.join(out, spec.id),
-                                   with_3d=with_3d, video=video))
+                                   with_3d=with_3d, video=video, hires=hires))
     return results
 
 

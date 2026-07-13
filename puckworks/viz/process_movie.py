@@ -11,7 +11,7 @@ import os
 
 from ..figures import _plt, INK, NULL
 from .palette import BADGE_COLORS, STAGE_FILL, STAGE_EDGE
-from .registry import stamp_fig, producer_data
+from .registry import stamp_fig, producer_data, save_figure
 
 
 # the lenses that make up the movie, each its own component + badge
@@ -60,12 +60,7 @@ def _montage(spec, playhead=None):
 def draw_hidden_puck_movie(spec, outdir, with_3d=False, video=False):
     """Static montage still (committed thumb); optional scrubbed video (gitignored)."""
     os.makedirs(outdir, exist_ok=True)
-    fig = _montage(spec)
-    stamp_fig(fig, spec)
-    thumb = os.path.join(outdir, "thumb.png")
-    fig.savefig(thumb, dpi=120, bbox_inches="tight", facecolor="white")
-    import matplotlib.pyplot as plt
-    plt.close(fig)
+    thumb = save_figure(_montage(spec), spec, outdir)   # stamps + thumb (+ hi-res if --hires)
     outputs = ["thumb.png"]
     if video:
         outputs += _assemble_video(spec, outdir)
