@@ -39,6 +39,15 @@ _CLAIMS = [
     ("cross-pressure Phi transfer ~0.356",  "cross_pressure.conditional_transfer_mean_full_precision.phi", 0.356, 0.02),
     ("LOPO held-out Phi ~0.347",            "loco.heldout_mean.phi", 0.347, 0.02),
     ("LOPO max calibration drift ~2.8%",    "loco.max_calibration_drift", 0.0283, 0.01),
+    # MAJ-12/13 RSM deletion + wild-bootstrap diagnostics (review §5.2/§5.4 targets)
+    ("RSM most-influential Cook's D ~0.44 (exp 10)",
+     "rsm_diagnostics.deletion.most_influential_run.cooks_d", 0.441, 0.03),
+    ("RSM full-quadratic vertex ~1.737 (§5.5)",
+     "rsm_diagnostics.model_form.full_quadratic_vertex", 1.7373, 0.02),
+    # MAJ-14 leave-one-setting-out Q^2 frozen at full precision
+    ("RSM LOPO Q2 ~0.470", "rsm_lopo.Q2_predictive", 0.470, 0.03),
+    # MAJ-17 Jensen audit: max evaluated-mean shift after clipping is tiny
+    ("Jensen post-clip mean shift <0.02", "channeling_audit.max_evaluated_mean_shift", 0.005, 0.02),
 ]
 
 
@@ -78,8 +87,19 @@ def _env():
 
 
 def _data_hashes():
+    # review MAJ-06/B3-28: hash every input that can change a manuscript number or curve
+    # -- run-level cup masses, RSM coefficients, the Waszkiewicz TDS fractions + replicate
+    # traces + time-dependent flow traces + static/solids calibrations + constants, and
+    # the evidence matrix.
     files = ["schmieder2023/cup_masses.csv", "schmieder2023/rsm_coefficients.csv",
-             "waszkiewicz2025/tds_fractions.csv", "paper_b_evidence_matrix.csv"]
+             "schmieder2023/kinetics_fit_params_avg.csv",
+             "waszkiewicz2025/tds_fractions.csv",
+             "waszkiewicz2025/tds_fractions_replicates.csv",
+             "waszkiewicz2025/traces_time_dependent.csv",
+             "waszkiewicz2025/static_calibration.csv",
+             "waszkiewicz2025/solids_calibration.csv",
+             "waszkiewicz2025/constants.csv",
+             "paper_b_evidence_matrix.csv"]
     out = {}
     for rel in files:
         p = os.path.join(_DATA, rel)
@@ -96,24 +116,36 @@ def _jsonable(o):
     return o
 
 
-def compute(out_path=_BUNDLE):
-    """Run the Result-1/2/4 analyses ONCE and cache the bundle (~2-3 min)."""
+def compute(out_path=_BUNDLE, include_slow=True):
+    """Run the Result-1/2/3/4 analyses ONCE and cache the bundle. ~2-3 min without the
+    Result-3 robustness study, ~6-8 min with it (include_slow=True; review B3-03)."""
     from puckworks import harness as h
+    from puckworks.analysis import lopo_cv
     bundle = dict(
         source_commit=_git("rev-parse", "HEAD"),
+        git_dirty=bool(_git("status", "--porcelain")),
         rsm=h.schmieder_rsm_refit("tds", "1/2", predictors="achieved"),
+        rsm_diagnostics=h.schmieder_rsm_diagnostics("tds", "1/2"),   # MAJ-12/13 + §5.5
+        rsm_lopo=lopo_cv.lopo_rsm_design_point("tds", "1/2", predictors="achieved"),  # MAJ-14
         result1=h.result1_design_aware_stats(),
+        channeling_audit=h.channeling_concavity_audit(),             # MAJ-17 Jensen
         ladder=h.kappa_t_ladder(),
         cross_pressure=h.cross_pressure_discrimination(),
         loco=h.cross_pressure_loco(),
     )
+    if include_slow:
+        bundle["ntube_robustness"] = h.ntube_robustness_study()      # Result 3 (MAJ-33..41)
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     with open(out_path, "w") as f:
         json.dump(_jsonable(bundle), f)
     return bundle
 
 
-def verify(bundle_path=_BUNDLE, timestamp=None, write_manifest=True):
+def verify(bundle_path=_BUNDLE, timestamp=None, write_manifest=True, strict=False):
+    """Check the manuscript claims against the bundle. With strict=True (a RELEASE build)
+    a STALE or DIRTY tree is ALSO a failure (review MAJ-04/B3-02); with strict=False (the
+    routine claim check, which runs on dirty dev trees) the freshness is only recorded as
+    manifest fields, not counted as a claim failure."""
     with open(bundle_path) as f:
         bundle = json.load(f)
     failures, checked = [], []
@@ -129,10 +161,25 @@ def verify(bundle_path=_BUNDLE, timestamp=None, write_manifest=True):
         if not ok:
             failures.append(f"{label}: bundle {actual} vs manuscript {expected} "
                             f"(|Δ| {abs(actual - expected):.4f} > tol {tol})")
+    # review MAJ-04/B3-02: a passing claim check from a STALE or DIRTY tree cannot certify
+    # the current manuscript. Freshness is a first-class manifest field, and a RELEASE
+    # build (strict=True) treats a stale/dirty bundle as a failure so a clean release is
+    # provable.
+    head = _git("rev-parse", "HEAD")
+    dirty = bool(_git("status", "--porcelain"))
+    bundle_commit = bundle.get("source_commit")
+    bundle_matches_head = bool(bundle_commit == head and head != "UNKNOWN")
+    fresh = bool(bundle_matches_head and not dirty)
+    if strict and not bundle_matches_head:
+        failures.append("RELEASE: bundle source_commit %s != git HEAD %s (stale, MAJ-04)"
+                        % (str(bundle_commit)[:12], str(head)[:12]))
+    if strict and dirty:
+        failures.append("RELEASE: git tree is dirty -- bundle cannot certify the current "
+                        "manuscript (MAJ-04)")
     manifest = dict(
-        paper="B", source_commit=_git("rev-parse", "HEAD"),
-        git_dirty=bool(_git("status", "--porcelain")), timestamp_utc=timestamp,
-        bundle_source_commit=bundle.get("source_commit"),
+        paper="B", source_commit=head, git_dirty=dirty, timestamp_utc=timestamp,
+        bundle_source_commit=bundle_commit, bundle_matches_head=bundle_matches_head,
+        release_fresh=fresh,
         bundle_sha256=_sha256(bundle_path), environment=_env(),
         data_sha256=_data_hashes(), n_claims=len(_CLAIMS), n_failures=len(failures),
         claims=checked, verified=(len(failures) == 0))
@@ -146,24 +193,27 @@ def verify(bundle_path=_BUNDLE, timestamp=None, write_manifest=True):
 def main(argv=None):
     import argparse
     p = argparse.ArgumentParser(prog="puckworks.paper_b.build")
-    p.add_argument("cmd", choices=["compute", "verify", "full"], nargs="?", default="verify")
+    p.add_argument("cmd", choices=["compute", "verify", "full", "release"],
+                   nargs="?", default="verify")
     p.add_argument("--timestamp", default=None)
     a = p.parse_args(argv)
-    if a.cmd in ("compute", "full"):
-        print("computing bundle (~2-3 min)...")
+    if a.cmd in ("compute", "full", "release"):
+        print("computing bundle (~6-8 min with Result-3 robustness)...")
         compute()
-    if a.cmd in ("verify", "full"):
-        ok, failures, manifest = verify(timestamp=a.timestamp)
+    if a.cmd in ("verify", "full", "release"):
+        strict = (a.cmd == "release")   # a RELEASE build also requires a fresh clean tree
+        ok, failures, manifest = verify(timestamp=a.timestamp, strict=strict)
         print(f"manifest -> {os.path.relpath(_MANIFEST, _ROOT)}")
-        print(f"commit {manifest['source_commit'][:12]} (dirty={manifest['git_dirty']}); "
-              f"env {manifest['environment']}")
+        print(f"commit {manifest['source_commit'][:12]} (dirty={manifest['git_dirty']}, "
+              f"fresh={manifest['release_fresh']}); env {manifest['environment']}")
         print(f"claims: {manifest['n_claims'] - manifest['n_failures']}/"
               f"{manifest['n_claims']} pass")
         for fmsg in failures:
             print("  FAIL:", fmsg)
         if not ok:
             sys.exit(1)
-        print("VERIFY OK — Paper B headline numbers match the results bundle.")
+        print("VERIFY OK — Paper B headline numbers match the results bundle."
+              + (" RELEASE: clean fresh tree." if strict else ""))
 
 
 if __name__ == "__main__":

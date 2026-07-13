@@ -218,8 +218,11 @@ def fig3_ladder(outdir=OUTDIR_DEFAULT):
 
     lad = h.kappa_t_ladder()
     lo, hi = lad["window_s"]
-    names = ["best const\n(1p)", "long-run\nconst (1p)", "static κ(P)\n(0p)",
-             "Φ(t)\n(0p)", "flexible\ncubic (4p)"]
+    # review MAJ-21/B3-09: "0p" read as parameter-free; the empirical branches fit ZERO
+    # coefficients to THIS 9-bar flow trace (they import equilibrium/TDS params from other
+    # observables) -- so label them "0 fit to Q(t)", not "0p".
+    names = ["best const\n(1p)", "long-run\nconst (1p)", "static κ(P)\n(0 fit Q(t))",
+             "Φ(t)\n(0 fit Q(t))", "flexible\ncubic (4p)"]
     vals = [lad["rung1_const_kappa"], lad["rung1b_longrun_const"],
             lad["rung3_static_kappaP"], lad["rung4_phi_of_t"],
             lad["flexible_cubic_null"]]
@@ -326,11 +329,13 @@ def fig5_concentration(outdir=OUTDIR_DEFAULT):
     """Fig 5 — N-tube finite-time concentration (Result 3, EXPLORATORY; NOT a stability
     theorem), redesigned around the numerical evidence (review AR-B2-21):
     (a) N_eff(t) and max single-tube share over time (the trajectory, baseline config);
-    (b) endpoint convergence in N and timestep (the concentration is invariant);
+    (b) endpoint N_eff SATURATES at the ~1 lower bound for every N/timestep -- endpoint
+        saturation, NOT proof of trajectory/collapse-time convergence (review MAJ-35);
     (c) the physical CONTINGENCY — N_eff vs lateral homogenisation for flow vs pressure
         control (concentration is destroyed by pressure control or lateral ≥0.3);
-    (d) supplementary floor audit — the closed-form gain is floor-controlled (not an
-        eigenvalue), while the measured N_eff is floor-independent."""
+    (d) supplementary floor audit — the closed-form gain is floor-CONTROLLED (∝1/floor, a
+        regularisation diagnostic, not an eigenvalue), while the MEASURED N_eff plotted on
+        the same panel is floor-INDEPENDENT (review MAJ-42/43)."""
     import numpy as np
     from puckworks import harness as h
     plt = _plt()
@@ -359,8 +364,14 @@ def fig5_concentration(outdir=OUTDIR_DEFAULT):
     ax2.plot(Ns, neN, "o-", color=ACCENT, lw=1.6, ms=5, label="vs N (substeps 8)")
     ax2b = ax2.twiny()
     ax2b.plot(subs, neS, "s--", color=GOOD, lw=1.5, ms=5, label="vs substeps (N 400)")
-    ax2.set_ylim(0.9, 1.5); ax2.set_title("(b) endpoint convergence (invariant)")
+    ax2.set_ylim(0.9, 1.5)
+    # review MAJ-35: the endpoint N_eff saturates at the ~1 lower bound for every N/substep
+    # -- this is endpoint SATURATION, not proof of trajectory/collapse-time convergence
+    ax2.set_title("(b) endpoint N_eff saturates at ~1 (N/substep)", fontsize=8.6)
     ax2.set_xlabel("tube count N"); ax2.set_ylabel("N_eff final")
+    ax2.text(0.5, 0.90, "saturated at the lower bound (~1);\nN_eff/N → 0 as N grows —\n"
+             "endpoint saturation, NOT trajectory convergence",
+             transform=ax2.transAxes, fontsize=5.6, color=NULL, ha="center", va="top")
     ax2b.set_xlabel("substeps (timestep)", fontsize=8)
     h1, l1 = ax2.get_legend_handles_labels(); h2, l2 = ax2b.get_legend_handles_labels()
     ax2.legend(h1 + h2, l1 + l2, fontsize=6.8, loc="upper right")
@@ -378,23 +389,34 @@ def fig5_concentration(outdir=OUTDIR_DEFAULT):
     ax3.set_xlabel("lateral homogenisation"); ax3.set_ylabel("N_eff final (log)")
     ax3.legend(fontsize=7.4, loc="center right")
 
-    # (d) supplementary floor audit (moved from main panel)
+    # (d) supplementary floor audit — review MAJ-42/MAJ-43: plot BOTH the closed-form
+    # gain (floor-CONTROLLED, an analytical diagnostic of the 1/floor regularisation) AND
+    # the MEASURED numerical N_eff (floor-INDEPENDENT), so the "floor-independent" claim is
+    # shown IN THIS PANEL rather than mis-cross-referenced to panel c.
     st = h.ntube_finite_time_gain(floors=(1e-6, 1e-9, 1e-12, 1e-15))
     floors = np.array([1e-6, 1e-9, 1e-12, 1e-15])
     for name, col in (("poroelastic", BAD), ("ck", GOOD)):
         g = st["closures"][name]["finite_time_gain_by_floor"]
         ax4.plot(floors, np.array([float(g["%.0e" % f]) for f in floors]),
-                 "o-", color=col, lw=1.5, ms=4, label=name)
+                 "o-", color=col, lw=1.5, ms=4, label="%s gain (closed-form)" % name)
     ax4.set_xscale("log"); ax4.set_yscale("log"); ax4.invert_xaxis()
-    ax4.set_title("(d) supp.: closed-form gain vs floor (floor-controlled)", fontsize=9)
+    ax4.set_title("(d) supp.: closed-form gain (∝1/floor) vs MEASURED N_eff", fontsize=8.4)
     ax4.set_xlabel("conductance floor M₀"); ax4.set_ylabel("gain M_f/M₀")
-    ax4.legend(fontsize=7.4, loc="lower left")
-    ax4.text(0.5, 0.9, "closed-form gain ∝ 1/floor (not an eigenvalue);\n"
-             "measured N_eff is floor-independent (panel c)",
-             transform=ax4.transAxes, fontsize=6.4, color=NULL, ha="center", va="top")
-    fig.suptitle("Result 3 (exploratory) — finite-time concentration: robust to N/timestep, "
-                 "CONTINGENT on flow-control + low lateral",
-                 y=1.0, fontsize=9.8, fontweight="bold")
+    ax4d = ax4.twinx()                                   # measured N_eff, floor-independent
+    for name, col in (("poroelastic", "#b5651d"), ("ck", "#2f6f4f")):
+        nf = st["closures"][name].get("n_eff_final_by_floor", {})
+        if nf:
+            ax4d.plot(floors, [float(nf["%.0e" % f]) for f in floors], "^:",
+                      color=col, lw=1.4, ms=5, label="%s N_eff (measured)" % name)
+    ax4d.set_ylabel("measured N_eff (floor-indep.)", fontsize=8)
+    ax4.legend(fontsize=6.0, loc="lower left")
+    ax4d.legend(fontsize=6.0, loc="upper right")
+    ax4.text(0.5, 0.62, "closed-form gain ∝ 1/floor\n(regularisation diagnostic, not an\n"
+             "eigenvalue); MEASURED N_eff (▲) is\nfloor-independent",
+             transform=ax4.transAxes, fontsize=6.0, color=NULL, ha="center", va="top")
+    fig.suptitle("Result 3 (exploratory) — finite-time concentration: endpoint invariant on "
+                 "numerical axes (N/timestep), CONTINGENT on flow-control + low lateral",
+                 y=1.0, fontsize=9.2, fontweight="bold")
     fig.tight_layout()
     return _save(fig, outdir, "fig5_concentration_floortest.png")
 

@@ -39,6 +39,85 @@ def test_paper_b_build_verifies_manuscript_claims():
     assert all(v != "MISSING" for v in manifest["data_sha256"].values())
 
 
+def test_ntube_conservation_audit_full_trajectory():
+    """review MAJ-33: the conservation audit must be TRUE trajectory extrema (not the
+    final step) and track raw non-negativity + the control-law flow balance. Under FLOW
+    control the raw total relative flow is conserved (mean w == 1); under PRESSURE control
+    it is NOT (total flow is free) -- the honest distinction the old code hid."""
+    from puckworks.harness import ntube_kappa_t_union
+    rf = ntube_kappa_t_union(N=80, substeps=4, control="flow", compute_ey=False)
+    ca = rf["conservation_audit"]
+    assert ca["n_substeps_total"] > 1                      # audited over every substep
+    assert ca["nonnegative_throughout"] is True
+    assert ca["share_sum_max_deviation"] < 1e-6            # normalized share sums to 1
+    assert ca["raw_total_flow_conserved"] is True          # flow control imposes the total
+    rp = ntube_kappa_t_union(N=80, substeps=4, control="pressure", compute_ey=False)
+    assert rp["conservation_audit"]["raw_total_flow_conserved"] is False  # free under pressure
+
+
+def test_ntube_robustness_is_ofat_not_factorial():
+    """review MAJ-34/39/40/41: the study must NOT claim to be factorial, must derive the
+    pressure range from config (6-11 not 6-12), separate invariance by axis type, and
+    report N_eff/N. SLOW -- skipped unless explicitly enabled."""
+    import os
+    import pytest
+    if not os.environ.get("PUCKWORKS_SLOW"):
+        pytest.skip("slow N-tube robustness study (set PUCKWORKS_SLOW=1)")
+    from puckworks.harness import ntube_robustness_study
+    r = ntube_robustness_study()
+    assert "NOT a full factorial" in r["design_type"]
+    assert r["pressure_range_bar"] == [6.0, 11.0]
+    assert {"numerical_convergence_invariant", "stochastic_invariant",
+            "operating_invariant"} <= set(r)
+    assert r["n_eff_over_N_range_when_concentrating"] is not None
+
+
+def test_rsm_diagnostics_deletion_wild_bootstrap():
+    """review MAJ-12/13/§5.5: the RSM diagnostics must reproduce the review's independent
+    deletion ranges + influential run and provide wild-bootstrap + full-quadratic
+    sensitivity (all conditional on the seven-term fit)."""
+    from puckworks.harness import schmieder_rsm_diagnostics
+    r = schmieder_rsm_diagnostics()
+    d = r["deletion"]
+    lo, hi = d["leave_one_run_vertex_range"]
+    assert 1.73 <= lo <= 1.74 and 1.76 <= hi <= 1.77       # review 1.736-1.765
+    assert d["leave_one_setting_concave_in_domain"].endswith("/15")
+    assert abs(d["most_influential_run"]["cooks_d"] - 0.441) < 0.03
+    assert abs(d["most_influential_run"]["leverage"] - 0.187) < 0.02
+    b = r["bootstrap"]
+    assert {"iid_residual", "wild_rademacher", "wild_mammen"} <= set(b)
+    assert r["model_form"]["retained_beats_full"] is True
+    assert abs(r["model_form"]["full_quadratic_vertex"] - 1.737) < 0.01
+
+
+def test_jensen_audit_uses_evaluated_mean():
+    """review MAJ-17: the Jensen gap must use the ACTUAL post-clipping evaluated mean
+    E[K], not EY(1); the clipping mean-shift must be reported and small, and the sign
+    conclusion (all gaps negative) unchanged."""
+    from puckworks.harness import channeling_concavity_audit
+    r = channeling_concavity_audit()
+    assert "max_evaluated_mean_shift" in r
+    assert r["max_evaluated_mean_shift"] < 0.02            # clipping shift is tiny
+    assert r["all_jensen_gaps_negative"] is True
+    assert all("evaluated_mean_k" in c for c in r["cells"])
+
+
+def test_paper_b_build_freshness_guard():
+    """review MAJ-04: a RELEASE (strict) verify must FAIL on a stale/dirty tree, while the
+    routine claim check still passes; the manifest exposes release_fresh."""
+    import os
+    from puckworks.paper_b import build
+    if not os.path.exists(build._BUNDLE):
+        import pytest
+        pytest.skip("Paper B bundle not computed")
+    ok_routine, _, man = build.verify(write_manifest=False)          # strict=False
+    assert "release_fresh" in man and "bundle_matches_head" in man
+    ok_strict, fails, _ = build.verify(write_manifest=False, strict=True)
+    if not man["release_fresh"]:                                     # dirty/stale dev tree
+        assert not ok_strict and any("RELEASE" in f for f in fails)
+        assert ok_routine                                           # routine check unaffected
+
+
 def test_paper_b_evidence_matrix_is_data_driven():
     """review MAJ-09: Fig 2 must render from the committed evidence CSV, and every
     status must be a defined code the figure knows how to draw (no hard-coded cells,
