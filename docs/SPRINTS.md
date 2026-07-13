@@ -220,9 +220,10 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
   (repo check first), Egidi (Eq. 4 definitions); Wadsworth already out; PV-19
   capstone shot — pull the named shot (DE1, EK43 dial 1.7, 20/40, Schmieder-matched
   coffee, per-shot κ refit) and measure cup TDS + caffeine/trigonelline/CGA (fractions
-  if feasible); promotes RC-4b. **Miha Rekar (miha@visualizer.coffee)** — request
-  sanctioned research/bulk use of the visualizer.coffee shot corpus (§5.8); the public
-  API harvest is already in place (0.13), this gates redistribution/publication use.
+  if feasible); promotes RC-4b. **Miha Rekar (miha@visualizer.coffee)** — sanctioned
+  research/bulk use of the visualizer.coffee shot corpus (§5.8): **SENT 2026-07-13 by
+  Tim, awaiting reply**; the public API harvest is already in place (0.13), this gates
+  redistribution/publication use.
 - **INTAKE**: gap-target papers as found — G1 (Richards/two-phase), G2
   (Ellero J. Food Eng. 263; Mo 2021/2022), G9 (screen hydraulics), G10
   (extract rheology)

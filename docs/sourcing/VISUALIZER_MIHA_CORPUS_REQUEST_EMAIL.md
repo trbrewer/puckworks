@@ -64,7 +64,7 @@ With appreciation for the resource,
 
 ---
 
-*Status: **not sent** (draft). See ROADMAP §5.8 (Miha Rekar row) and the
+*Status: **SENT 2026-07-13 by Tim** — awaiting reply. See ROADMAP §5.8 (Miha Rekar row) and the
 `visualizer_coffee` data-only card. The public-API harvester
 (`puckworks/lib/visualizer_harvest.py`) is already the default fallback and works
 without this reply; the corpus is gitignored and not redistributed. This request

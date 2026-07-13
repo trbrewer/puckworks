@@ -134,6 +134,6 @@ SPRINTS D5); what remains is external/local, not actionable in-repo.
 - Miha Rekar corpus-use request email DRAFTED (`docs/sourcing/VISUALIZER_MIHA_CORPUS_REQUEST_EMAIL.md`).
 
 ### BLOCKED-EXTERNAL / TB / DEFERRED (not actionable here)
-- **Miha Rekar reply** — sanctioned bulk/research use of the corpus (email drafted, **not sent**; TB to verify address + send). BLOCKED-EXTERNAL: gates **redistribution / publication** use only; the public-API harvest works without it. If a sanctioned bulk export is offered, prefer it over API paging. §5.8.
+- **Miha Rekar reply** — sanctioned bulk/research use of the corpus (**SENT 2026-07-13 by Tim, awaiting reply**). BLOCKED-EXTERNAL: gates **redistribution / publication** use only; the public-API harvest works without it. If a sanctioned bulk export is offered, prefer it over API paging. §5.8.
 - **Populate the corpus (TB, local)** — the corpus is gitignored / not redistributed, so it is NOT populated in-repo. Tim runs `python -m puckworks.lib.visualizer_harvest full` locally, then `stats --write-aggregate` to replace the zero-state `aggregate_stats.csv`. Until then all coverage numbers are 0 by construction.
 - **G3/P2/P6 ecological consumers** — UNBLOCKED-LARGE but downstream: build the population pump/flow (P–Q) envelope, the Fo_F population, and the PV-06/PV-17 at-scale companion ON the harvested corpus. Deferred until the corpus is on disk (and, for any published use, until the Miha reply lands). Reference-strength / selection-biased — the label rides along, never upgrades a controlled result.
