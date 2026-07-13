@@ -1,6 +1,6 @@
-mechanism,implemented,observable,params_provenance,generates_interior_max,evidence_strength,decisive_missing_measurement
-static channeling sigma(phi1),implemented,cross-dataset-proxy,same-campaign-transfer,capacity,qualitative-capacity,pathway-resolved / spatial flow or dye-front imaging
-lee2023 dissolution,implemented,observable-mismatch,target-fitted,elevated-param-only,qualitative-capacity,per-pathway EY (bitterness signature)
-size-exclusion y0,implemented,observable-mismatch,literature-fixed,no,reference,matched-observable extraction fractions
-diffusion null,implemented,observable-matched,literature-fixed,no,qualitative-null,n/a (null baseline)
-incomplete wetting #2,not-implemented,parameter-blocked,parameter-blocked,not-evaluated,not-implemented,per-grind first-drip timing / uCT wetting front
+mechanism,implemented,observable,params_provenance,generates_interior_max,evidence_strength,decisive_missing_measurement,citation
+static channeling sigma(phi1),implemented,cross-dataset-proxy,same-campaign-transfer,capacity,qualitative-capacity,pathway-resolved / spatial flow or dye-front imaging,waszkiewicz2025 (poroelastic static kappa(P); arXiv:2512.21528) + puckworks empirical sigma(phi1) closure
+lee2023 dissolution,implemented,observable-mismatch,target-fitted,elevated-param-only,qualitative-capacity,per-pathway EY (bitterness signature),lee2023 (Phys. Fluids 35 054110 2023; DOI 10.1063/5.0138998 believed)
+size-exclusion y0,implemented,observable-mismatch,literature-fixed,no,reference,matched-observable extraction fractions,romancorrochano2017 (EngD thesis Univ. Birmingham; Sec 4.4.1 y0 inventory)
+diffusion null,implemented,observable-matched,literature-fixed,no,qualitative-null,n/a (null baseline),moroney2016 (SIAM J. Appl. Math. 76(6) 2196; DOI 10.1137/15M1036658)
+incomplete wetting #2,not-implemented,parameter-blocked,parameter-blocked,not-evaluated,not-implemented,per-grind first-drip timing / uCT wetting front,foster2025 (infiltration; parameter-blocked -- no wet-bed parameters published)

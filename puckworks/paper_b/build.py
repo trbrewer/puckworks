@@ -48,6 +48,12 @@ _CLAIMS = [
     ("RSM LOPO Q2 ~0.470", "rsm_lopo.Q2_predictive", 0.470, 0.03),
     # MAJ-17 Jensen audit: max evaluated-mean shift after clipping is tiny
     ("Jensen post-clip mean shift <0.02", "channeling_audit.max_evaluated_mean_shift", 0.005, 0.02),
+    # MAJ-38 Result-3 stochastic distribution median N_eff/N (16 realisations)
+    ("N-tube stochastic N_eff/N median tiny (concentrated)",
+     "ntube_robustness.stochastic_distribution.n_eff_over_N_median", 0.0025, 0.02),
+    # MAJ-23 Result-2 block-bootstrap RMSE difference: Phi(t) beats best constant (<0)
+    ("Phi(t) block-bootstrap beats best constant ~-0.39 g/s",
+     "result2_residuals.rmse_diff_phi_minus_best_const.median", -0.391, 0.08),
 ]
 
 
@@ -99,7 +105,8 @@ def _data_hashes():
              "waszkiewicz2025/static_calibration.csv",
              "waszkiewicz2025/solids_calibration.csv",
              "waszkiewicz2025/constants.csv",
-             "paper_b_evidence_matrix.csv"]
+             "paper_b_evidence_matrix.csv",
+             "paper_b_evidence_dictionary.csv"]
     out = {}
     for rel in files:
         p = os.path.join(_DATA, rel)
@@ -130,11 +137,13 @@ def compute(out_path=_BUNDLE, include_slow=True):
         result1=h.result1_design_aware_stats(),
         channeling_audit=h.channeling_concavity_audit(),             # MAJ-17 Jensen
         ladder=h.kappa_t_ladder(),
+        result2_residuals=h.result2_residual_diagnostics(),         # MAJ-23 block bootstrap
         cross_pressure=h.cross_pressure_discrimination(),
         loco=h.cross_pressure_loco(),
     )
     if include_slow:
         bundle["ntube_robustness"] = h.ntube_robustness_study()      # Result 3 (MAJ-33..41)
+        bundle["ntube_switching_convergence"] = h.ntube_switching_convergence()  # MAJ-36
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     with open(out_path, "w") as f:
         json.dump(_jsonable(bundle), f)

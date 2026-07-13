@@ -1,12 +1,12 @@
 {
   "paper": "B",
-  "source_commit": "23eb3963b840abd2fa780aa7f6af9a8731a702d3",
+  "source_commit": "fa4ec00d743973734a3190007a7437948cf9a405",
   "git_dirty": true,
   "timestamp_utc": null,
-  "bundle_source_commit": "23eb3963b840abd2fa780aa7f6af9a8731a702d3",
+  "bundle_source_commit": "fa4ec00d743973734a3190007a7437948cf9a405",
   "bundle_matches_head": true,
   "release_fresh": false,
-  "bundle_sha256": "fca712c33fd5fe02f6961cd46c532b9f648758edb0cd17ca593fade37d7d9890",
+  "bundle_sha256": "0837332c70981ee3ab9393349f1389e9a20a17171d47960316edd00e86519e52",
   "environment": {
     "python": "3.13.13",
     "numpy": "2.5.1",
@@ -23,9 +23,10 @@
     "waszkiewicz2025/static_calibration.csv": "2a2fdd129cbfb7742196abb493409c76aab11e2bef9f74aafb3df996c6b21ce5",
     "waszkiewicz2025/solids_calibration.csv": "570a6df44852d7dc2c4e4c91908988a1bf87f3e0a9b4e7abdd2c7a5e697239b6",
     "waszkiewicz2025/constants.csv": "0428390dae9c3032adb31d155dfc21b56ee34f0b407e8089fee3a31e47abf4ee",
-    "paper_b_evidence_matrix.csv": "c1e6aae3e2b43bfed2c3224c22edd4233d9e94d29a189a3e92d5ff8634faa6be"
+    "paper_b_evidence_matrix.csv": "13b739e86c7069934c73d7a0c15add66fcd9aa2aa56a0f51fc1c6f739e577304",
+    "paper_b_evidence_dictionary.csv": "38b807ff9bfb99952e09cef892e8a8d95e5383c0e27644f44fb3b5afbdccaf16"
   },
-  "n_claims": 16,
+  "n_claims": 18,
   "n_failures": 0,
   "claims": [
     {
@@ -154,6 +155,22 @@
       "expected": 0.005,
       "actual": 0.0051,
       "tol": 0.02,
+      "ok": true
+    },
+    {
+      "claim": "N-tube stochastic N_eff/N median tiny (concentrated)",
+      "path": "ntube_robustness.stochastic_distribution.n_eff_over_N_median",
+      "expected": 0.0025,
+      "actual": 0.0025,
+      "tol": 0.02,
+      "ok": true
+    },
+    {
+      "claim": "Phi(t) block-bootstrap beats best constant ~-0.39 g/s",
+      "path": "result2_residuals.rmse_diff_phi_minus_best_const.median",
+      "expected": -0.391,
+      "actual": -0.391,
+      "tol": 0.08,
       "ok": true
     }
   ],

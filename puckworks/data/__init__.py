@@ -155,8 +155,36 @@ def schmieder_rsm():
 def paper_b_evidence_matrix():
     """Committed structured evidence matrix for Paper B Figure 2 (review MAJ-09): one
     row per mechanism with a DEFINED status per dimension + the decisive missing
-    measurement, so the figure is generated from data, not hard-coded plotting cells."""
+    measurement + a source citation, so the figure is generated from data, not
+    hard-coded plotting cells."""
     return _rows(DATA_DIR / "paper_b_evidence_matrix.csv")
+
+
+def paper_b_evidence_dictionary():
+    """Data dictionary for Figure 2 (review MAJ-20/B3-20): one row per (dimension,
+    status_token) defining every status word used in the evidence matrix, plus the
+    ROADMAP Sec 0 validation rung it maps to. This is the published legend so no matrix
+    cell is an undefined token."""
+    return _rows(DATA_DIR / "paper_b_evidence_dictionary.csv")
+
+
+def paper_b_evidence_dictionary_audit():
+    """MAJ-20 completeness gate: every status token that appears in the matrix must be
+    defined in the dictionary, and every implemented/not-implemented mechanism must carry
+    a citation. Returns the set of undefined tokens and uncited mechanisms (both empty on
+    a complete dictionary) so a test/gate can assert closure without hard-coding the
+    vocabulary."""
+    rows = paper_b_evidence_matrix()
+    dims = ["implemented", "observable", "params_provenance",
+            "generates_interior_max", "evidence_strength"]
+    defined = {(r["dimension"], r["status_token"])
+               for r in paper_b_evidence_dictionary()}
+    undefined = sorted({(dim, r[dim]) for r in rows for dim in dims
+                        if (dim, r[dim]) not in defined})
+    uncited = sorted(r["mechanism"] for r in rows
+                     if not r.get("citation", "").strip())
+    return {"undefined_tokens": undefined, "uncited_mechanisms": uncited,
+            "complete": (not undefined and not uncited)}
 
 
 # --- wadsworth2026 grind map (ROADMAP 0.6 / 1.5) -------------------------

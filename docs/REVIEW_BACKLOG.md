@@ -99,14 +99,14 @@ already made to defer, e.g. release tag).
 | MAJ-26/B3-12 | Prose relies on LOPO but Fig 3c showed only shared calibration | Fig 3c now overlays the LOPO held-out RMSE by pressure (open markers) for all three branches + manuscript ref |
 | MAJ-21/28/09/30/02/07 | wording | "0p"→"0 fit Q(t)"; "regime-dependent"→"errors vary continuously with pressure"; "raw cells"→"source-derived run-level endpoint estimate"; swelling sign-vs-magnitude; title→"Limits of mechanism discrimination…"; test docstring made operational |
 
-### UNBLOCKED-LARGE remaining (deferred)
-| id | task | notes |
+### UNBLOCKED-LARGE — now DONE
+| id | task | resolution |
 |---|---|---|
-| MAJ-36/B3-14 | N-tube early-switching: physical-time axis + smaller-timestep + event-time convergence | honest labels added (saturation not convergence); the full switching-convergence investigation (adaptive integrator, event times) remains |
-| MAJ-38/B3-26 | >4 stochastic realisations + normalized concentration metrics (entropy/Gini/top-k) | bump seed count + add distributional metrics |
-| MAJ-23/B3-23 | Result-2 residual ACF plots + block/prequential bootstrap uncertainty | residual autocorr already computed (DW≈0.01) + prose confined to in-sample; the residual-trace/ACF figure + block bootstrap remain |
-| MAJ-16/B3-19 | Fig 1 RSM bootstrap band + run-point visibility | the wild-bootstrap vertex CI now exists; add the curve envelope |
-| MAJ-20/B3-20 | Fig 2 full evidence data dictionary (per-status fields + citations) | publish the full evidence table alongside the compressed figure |
+| MAJ-36/B3-14 | N-tube early-switching: physical-time axis + smaller-timestep + event-time convergence | `ntube_switching_convergence` reruns the baseline at 4/8/16/32/64 substeps and reports collapse-time convergence (~2.9 s, spread ≲0.1 s → a CONVERGED physical event, not a stepping artefact); trajectory now carries `time_s_trajectory`/`collapse_time_s`; Fig 5a on a physical-time axis. In bundle + claim + test + manuscript |
+| MAJ-38/B3-26 | >4 stochastic realisations + normalized concentration metrics (entropy/Gini/top-k) | 16 seeds; `concentration_metrics` (N_eff/N, normalized entropy, Gini, top-1/top-decile share, collapse time); `stochastic_distribution` (N_eff/N median+p5/p95, entropy, collapse range). In bundle + claim + test + manuscript |
+| MAJ-23/B3-23 | Result-2 residual ACF plots + block/prequential bootstrap uncertainty | `result2_residual_diagnostics`: per-branch residual ACF (lag-1≈0.99), moving-block bootstrap (8 s blocks): Φ(t) beats best constant by −0.39 g/s CI [−0.60,−0.23] (excludes 0) but TIES the flexible cubic (+0.02, [−0.01,+0.05], straddles 0); ranking persists across 3 windows. In bundle + claim + test + manuscript |
+| MAJ-16/B3-19 | Fig 1 RSM bootstrap band + run-point visibility | `schmieder_rsm_diagnostics().curve_band` iid-residual bootstrap envelope drawn on Fig 1 (done earlier, commit 23eb396) |
+| MAJ-20/B3-20 | Fig 2 full evidence data dictionary (per-status fields + citations) | added `citation` column to `paper_b_evidence_matrix.csv`; new `paper_b_evidence_dictionary.csv` defines every status token + its ROADMAP §0 rung; `fig2_evidence_dictionary_md` exports the published legend; `paper_b_evidence_dictionary_audit` gate asserts no undefined token / uncited mechanism. In data hashes + test + manuscript |
 
 ### BLOCKED-EXTERNAL / VENUE / DEFERRED
 - **MAJ-01/B3-01, §11 editorial, B3-31/32/33** full manuscript conversion (remove open-gaps/status, add Methods/References/Data-availability, self-contained captions) — VENUE.

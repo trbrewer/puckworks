@@ -55,6 +55,62 @@ def test_ntube_conservation_audit_full_trajectory():
     assert rp["conservation_audit"]["raw_total_flow_conserved"] is False  # free under pressure
 
 
+def test_fig2_evidence_dictionary_is_complete():
+    """review MAJ-20/B3-20: the Figure-2 data dictionary must DEFINE every status token
+    that appears in the evidence matrix and every mechanism row must carry a citation, so
+    no figure cell is an undefined word. The markdown export must render off the same
+    committed CSVs. Fast."""
+    from puckworks import data as d
+    from puckworks.figures import fig2_evidence_dictionary_md
+    audit = d.paper_b_evidence_dictionary_audit()
+    assert audit["undefined_tokens"] == [], audit["undefined_tokens"]
+    assert audit["uncited_mechanisms"] == [], audit["uncited_mechanisms"]
+    assert audit["complete"] is True
+    import tempfile, os
+    with tempfile.TemporaryDirectory() as tmp:
+        path = fig2_evidence_dictionary_md(tmp)
+        assert os.path.exists(path)
+        text = open(path).read()
+        assert "Status-token definitions" in text and "citation" in text
+
+
+def test_result2_block_bootstrap_and_window_sensitivity():
+    """review MAJ-23/B3-23: a dependence-aware (moving-block) bootstrap must show Phi(t)
+    robustly beats the best constant (CI excludes 0) but only TIES the flexible cubic (CI
+    straddles 0), and the Phi-over-constant ranking must persist across windows -- the
+    honest in-sample-not-mechanism reading. Fast."""
+    from puckworks.harness import result2_residual_diagnostics
+    r = result2_residual_diagnostics(n_boot=400)
+    assert r["rmse_diff_phi_minus_best_const"]["excludes_zero"] is True
+    assert r["rmse_diff_phi_minus_best_const"]["median"] < 0          # phi lower RMSE
+    assert r["rmse_diff_phi_minus_cubic"]["excludes_zero"] is False   # ties the cubic
+    assert r["phi_ranking_persists_across_windows"] is True
+    assert r["residual_acf_lag1_by_branch"]["phi"] > 0.9             # strong dependence
+
+
+def test_ntube_physical_time_and_concentration_metrics():
+    """review MAJ-36/MAJ-38: the trajectory must surface PHYSICAL time (seconds) and a
+    collapse time, plus normalized concentration metrics (entropy/Gini/top-k) portable
+    across N. Fast (small N)."""
+    from puckworks.harness import ntube_kappa_t_union
+    r = ntube_kappa_t_union(N=100, substeps=8, compute_ey=False)
+    assert "time_s_trajectory" in r and r["time_s_trajectory"][-1] > 10  # real seconds
+    cm = r["concentration_metrics"]
+    assert 0.0 <= cm["entropy_normalized"] <= 1.0 and 0.0 <= cm["gini"] <= 1.0
+    assert cm["collapse_time_s"] is None or cm["collapse_time_s"] > 0
+    assert 0.0 < cm["n_eff_over_N"] <= 1.0
+
+
+def test_ntube_switching_converges_under_refinement():
+    """review MAJ-36/B3-14: the early collapse must CONVERGE as the timestep shrinks
+    (event is physical, not a stepping artefact). Uses a coarse config for speed."""
+    from puckworks.harness import ntube_switching_convergence
+    r = ntube_switching_convergence(substeps_list=(4, 8, 16), N=100)
+    assert r["collapse_time_converges"] is True
+    assert r["n_eff_final_converges"] is True
+    assert r["collapse_time_spread_s"] is not None and r["collapse_time_spread_s"] < 1.0
+
+
 def test_ntube_robustness_is_ofat_not_factorial():
     """review MAJ-34/39/40/41: the study must NOT claim to be factorial, must derive the
     pressure range from config (6-11 not 6-12), separate invariance by axis type, and

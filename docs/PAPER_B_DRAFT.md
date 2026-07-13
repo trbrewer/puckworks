@@ -225,7 +225,11 @@ and observables differ, and incomplete wetting is not yet represented:
 This is a **model-availability and model-capacity audit** (Fig. 2, an evidence
 matrix — implementation status, calibration data, evaluation data, observable, free
 parameters, fitted-vs-predicted, evidence strength, and the decisive missing
-experiment), not a symmetric head-to-head. A closure-sensitivity sweep finds the
+experiment), not a symmetric head-to-head. Every status token in the matrix is
+defined, and every mechanism row carries its literature source, in the published
+Figure-2 data dictionary (`docs/figures/fig2_evidence_dictionary.md`, generated from
+the committed `paper_b_evidence_matrix.csv` + `paper_b_evidence_dictionary.csv`; each
+evidence-strength cell also names the ROADMAP §0 validation rung it maps to). A closure-sensitivity sweep finds the
 interior maximum is real and grid-converged at the calibrated closure but **fragile
 over the tested (s_ref, m) rectangle** — present in **10 of 25 fixed
 combinations**, absent for weak channeling — and **small in magnitude**. Reporting
@@ -274,6 +278,18 @@ and scored on the *same* 15–95 s trace, so its RMSE is an **in-sample flexibil
 not a fair predictive competitor. The Φ(t) trajectory is also soft-circular (dissolved
 mass derives from the same rig's TDS and flow), and we avoid "parameter-free" because the
 donor parameters were estimated elsewhere.
+
+Because the residuals are strongly autocorrelated (lag-1 residual autocorrelation ≈0.99 in
+every branch, consistent with the near-zero Durbin–Watson above), a naïve pointwise RMSE
+comparison overstates its own precision. A moving-block bootstrap (8 s blocks, 1000
+resamples) that preserves this dependence confirms both halves of the reading and neither
+more: Φ(t) beats the best constant by ΔRMSE ≈ −0.39 g/s with a 95 % block-bootstrap
+interval of [−0.60, −0.23] that excludes zero — *time variation of some form* is robustly
+required — whereas Φ(t) versus the flexible cubic gives ΔRMSE ≈ +0.02 g/s with interval
+[−0.01, +0.05] straddling zero — the two are statistically indistinguishable on this trace,
+so the fit does not identify the *mechanism*. The Φ-beats-constant ordering persists across
+all three fit windows (10–90, 15–95, 20–90 s); the Φ-versus-cubic tie does not survive as a
+strict ordering in any of them (`result2_residual_diagnostics`).
 
 | branch | fitted to THIS Q(t) trace | fitted elsewhere in same campaign | literature/donor-fixed |
 |---|---:|---|---|
@@ -436,7 +452,17 @@ is **contingent on two physical assumptions**: fixed-*flow* control (under fixed
 control tubes do not steal, and N_eff≈219) and near-zero lateral coupling (a homogenisation
 blend of only 0.3 already suppresses it, N_eff≈307). Note the endpoint N_eff saturates at
 its ~1 lower bound, so its invariance across N is endpoint saturation, not a demonstration
-of trajectory/collapse-time convergence (MAJ-35).
+of trajectory/collapse-time convergence (MAJ-35). We therefore add a **timestep-refinement
+convergence study** of the switching itself (`ntube_switching_convergence`, review
+MAJ-36/B3-14): plotted on the **physical clock** (Fig. 5a, seconds — not normalized shot
+time), the abrupt early collapse is a **converged event**, with the collapse time (first
+second half the flow enters one tube) stabilising near **≈2–3 s** as the Euler step is
+refined 8–16× (spread ≲0.1 s) and the final N_eff unchanged — so the early switching is a
+real feature of the near-choke closure under this boundary condition, not a stepping
+artefact. A **16-realisation stochastic distribution** (review MAJ-38) gives a tight
+median N_eff/N with a 5–95 % interval and consistent normalized entropy/Gini, rather than a
+four-point anecdote. A higher-order/adaptive integrator remains owed before any stability
+claim.
 This is a genuine sweep-and-conservation robustness result within the tested family, **not**
 a proven instability: a physical transverse-Darcy lateral-exchange operator and a formal
 Jacobian/finite-time-Lyapunov growth analysis remain owed (§7). We therefore keep Result 3

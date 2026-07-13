@@ -201,6 +201,42 @@ def fig2_evidence_matrix(outdir=OUTDIR_DEFAULT):
     return _save(fig, outdir, "fig2_evidence_matrix.png")
 
 
+def fig2_evidence_dictionary_md(outdir=OUTDIR_DEFAULT):
+    """MAJ-20/B3-20: write the published Figure-2 data dictionary as markdown -- the
+    per-mechanism citation table plus the definition of every status token used in the
+    matrix -- generated from the committed CSVs so the legend cannot drift from the
+    figure. A completeness audit refuses to write an incomplete dictionary."""
+    import os
+    from puckworks import data as d
+    audit = d.paper_b_evidence_dictionary_audit()
+    if not audit["complete"]:
+        raise ValueError(
+            "Fig 2 dictionary incomplete: undefined tokens %s; uncited mechanisms %s"
+            % (audit["undefined_tokens"], audit["uncited_mechanisms"]))
+    mat = d.paper_b_evidence_matrix()
+    dic = d.paper_b_evidence_dictionary()
+    lines = ["# Figure 2 data dictionary (Paper B)", "",
+             "Generated from `puckworks/data/paper_b_evidence_matrix.csv` and "
+             "`paper_b_evidence_dictionary.csv` — do not hand-edit.", "",
+             "## Mechanism sources", "",
+             "| mechanism | evidence strength | decisive missing measurement | citation |",
+             "|---|---|---|---|"]
+    for r in mat:
+        lines.append("| %s | %s | %s | %s |" % (
+            r["mechanism"], r["evidence_strength"],
+            r["decisive_missing_measurement"], r["citation"]))
+    lines += ["", "## Status-token definitions", "",
+              "| dimension | token | rung | definition |", "|---|---|---|---|"]
+    for r in dic:
+        lines.append("| %s | %s | %s | %s |" % (
+            r["dimension"], r["status_token"], r["tier"], r["definition"]))
+    os.makedirs(outdir, exist_ok=True)
+    path = os.path.join(outdir, "fig2_evidence_dictionary.md")
+    with open(path, "w") as f:
+        f.write("\n".join(lines) + "\n")
+    return path
+
+
 # ---------------------------------------------------------------------------
 def fig3_ladder(outdir=OUTDIR_DEFAULT):
     """Fig 3 — null-first κ(t) ladder, cross-pressure transfer, swelling sign test.
@@ -366,15 +402,22 @@ def fig5_concentration(outdir=OUTDIR_DEFAULT):
     plt = _plt()
     fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(9.6, 6.8))
 
-    # (a) trajectory: N_eff(t) and max-share(t) for the baseline concentrating config
+    # (a) trajectory: N_eff(t) and max-share(t) on the PHYSICAL clock (review MAJ-36),
+    # with the converged collapse time marked (timestep-refinement stable, see the
+    # switching-convergence study in the bundle/text).
     base = h.ntube_kappa_t_union(gs=1.1, N=400, closure="poroelastic", lateral=0.0,
                                  control="flow", compute_ey=False)
     ne = np.array(base["n_eff_trajectory"]); ms = np.array(base["max_share_trajectory"])
-    xt = np.linspace(0, 1, len(ne))
+    xt = np.array(base.get("time_s_trajectory") or np.linspace(0, 1, len(ne)))
     ax1.plot(xt, ne / ne[0], color=ACCENT, lw=1.9, label="N_eff(t)/N_eff(0)")
     ax1.plot(xt, ms, color=BAD, lw=1.7, ls="--", label="max single-tube share")
+    ct = base.get("collapse_time_s")
+    if ct is not None:
+        ax1.axvline(ct, color=NULL, ls=":", lw=1.1)
+        ax1.text(ct, 0.5, " collapse ≈%.1f s\n(timestep-converged)" % ct, fontsize=6.0,
+                 color=NULL, ha="left", va="center")
     ax1.set_title("(a) trajectory (baseline: flow, gs=1.1, N=400)")
-    ax1.set_xlabel("normalized shot time"); ax1.set_ylabel("fraction")
+    ax1.set_xlabel("time [s] (physical)"); ax1.set_ylabel("fraction")
     ax1.legend(fontsize=7.4, loc="center right")
 
     # (b) endpoint convergence in N and timestep
@@ -452,7 +495,8 @@ fig5_stability = fig5_concentration
 
 def render_all(outdir=OUTDIR_DEFAULT):
     """Render all five Paper-B figures. Returns the list of written paths."""
-    paths = [fig1_result1(outdir), fig2_evidence_matrix(outdir), fig3_ladder(outdir),
+    paths = [fig1_result1(outdir), fig2_evidence_matrix(outdir),
+             fig2_evidence_dictionary_md(outdir), fig3_ladder(outdir),
              fig4_composition(outdir), fig5_concentration(outdir)]
     for p in paths:
         print("wrote", p)

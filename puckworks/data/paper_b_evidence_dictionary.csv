@@ -1,0 +1,19 @@
+dimension,status_token,short_label,tier,definition
+implemented,implemented,impl,n/a,A runnable registry component exists for this mechanism and was executed to produce the row's other cells.
+implemented,not-implemented,not-impl,n/a,No runnable component; the row is a placeholder recording why (see params_provenance) and what would unblock it.
+observable,observable-matched,matched,n/a,The mechanism is compared against the SAME physical observable it predicts (e.g. extraction fraction vs extraction fraction).
+observable,observable-mismatch,mismatch,n/a,The available comparison is against a DIFFERENT observable than the mechanism natively predicts; agreement or disagreement is only suggestive.
+observable,cross-dataset-proxy,proxy,n/a,No same-dataset observable exists; a proxy quantity from a different dataset stands in (weakest observable link).
+observable,parameter-blocked,param-blocked,n/a,The mechanism cannot be evaluated at all because required parameters are unpublished (see BLOCKED_INTAKE.md).
+params_provenance,literature-fixed,literature,n/a,Parameters are fixed from published literature values and NOT fitted to any trace in this study.
+params_provenance,same-campaign-transfer,same-campaign,n/a,Parameters are transferred from another dataset in the same research campaign (not this exact trace; soft-circular).
+params_provenance,target-fitted,target-fit,n/a,One or more parameters were least-squares fitted to the very target the mechanism is then scored against (in-sample).
+params_provenance,parameter-blocked,param-blocked,n/a,Required parameters are unpublished so no provenance can be assigned.
+generates_interior_max,capacity,capacity,n/a,"The mechanism CAN generate an interior maximum (a peaked grind response) as a matter of model capacity -- a capability statement, not a validated prediction."
+generates_interior_max,elevated-param-only,elevated-rhoc,n/a,An interior maximum appears ONLY when a parameter is pushed beyond its measured value (e.g. rho_c doubled); not at measured parameters.
+generates_interior_max,no,no,n/a,The mechanism monotonically fails to produce an interior maximum under its stated assumptions.
+generates_interior_max,not-evaluated,n/e,n/a,Not evaluated because the mechanism is not implemented / parameter-blocked.
+evidence_strength,reference,reference,independent,"Rung: independent -- a distinct measured quantity constrains the mechanism (ROADMAP Sec 0 validation vocabulary)."
+evidence_strength,qualitative-capacity,qual-cap,qualitative,Rung: qualitative -- the mechanism qualitatively CAN produce the effect (capacity) but is not quantitatively validated.
+evidence_strength,qualitative-null,qual-null,qualitative,Rung: qualitative -- a null/baseline whose qualitative behaviour is consistent with the data but carries no discriminating power.
+evidence_strength,not-implemented,not-impl,n/a,No evidence rung assigned: the mechanism is not implemented.
