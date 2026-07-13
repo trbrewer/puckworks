@@ -257,6 +257,14 @@ def _resolve(render_fn):
     return getattr(importlib.import_module(mod), fn)
 
 
+def producer_data(spec: VizSpec) -> dict:
+    """Call the spec's bound producer FUNCTION and return its full output dict (arrays
+    included). `producer.compute()` returns only the mapped provenance scalars; a
+    render needs the whole series — but from the SAME named function (still honest)."""
+    p = spec.producer
+    return getattr(importlib.import_module(p.module), p.function)(**p.kwargs)
+
+
 def render_spec(spec: VizSpec, outdir=None, with_3d=False, video=False):
     """Resolve the spec's render_fn and draw it (badge-stamped). The render_fn owns
     compute+draw+stamp+save and returns a dict with at least {'thumb': path}."""
