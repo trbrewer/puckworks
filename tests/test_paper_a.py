@@ -50,6 +50,29 @@ def test_waszkiewicz_sensitivity_localization_invariant():
     assert all(c["cup_carries_no_rate_info"] for c in s["cells"])
 
 
+def test_identifiability_convergence_144_and_continuous():
+    """review A2-06/07 + MAJ-04: the bundle must carry the density/domain convergence
+    (through the 144-pt grid) AND a grid-free continuous optimiser confirming the flat
+    valley is not a discretisation artefact. Reads the committed bundle (fast)."""
+    import json
+    import os
+    bundle = "docs/figures/paper_a/results.json"
+    if not os.path.exists(bundle):
+        import pytest
+        pytest.skip("Paper A bundle not present")
+    with open(bundle) as f:
+        c = json.load(f).get("identifiability_convergence")
+    if c is None:
+        import pytest
+        pytest.skip("convergence not in this bundle (recompute with `full`)")
+    labels = [r["label"] for r in c["rows"]]
+    assert any("144" in x for x in labels)                 # the 144-pt grid ran
+    assert c["condition_number_stable_across_density"] is True
+    co = c["continuous_optimiser"]
+    assert co["optimum_is_interior"] is True               # grid-free optimum is interior
+    assert co["valley_log_half_width_within10pct"] > 0.5   # a genuinely flat valley
+
+
 def test_discrepancy_control_dose_response():
     """review MAJ-13: the bundle must carry the model-discrepancy positive control as a
     DOSE-RESPONSE. Moderate discrepancy leaves an irreducible floor above noise while the

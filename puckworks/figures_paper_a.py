@@ -52,6 +52,7 @@ def compute_all(out_path=RESULTS):
                     trigonelline=inv.get(("Arabica", "TR"))),
         panel_caffeine=ab.identifiability_panel("Arabica", "caffeine"),
         panel_trigonelline=ab.identifiability_panel("Arabica", "trigonelline"),
+        identifiability_convergence=ab.identifiability_panel_convergence(),  # A2-06/07 + MAJ-04
         transfer=ab.validate_refit_granulometry(),
         joint=ab.joint_multigrind_fit(),
         loco=ab.loco_cv_refit(),

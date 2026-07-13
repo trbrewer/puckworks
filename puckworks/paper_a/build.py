@@ -52,6 +52,8 @@ _CLAIMS = [
      "full_cup_discrepancy.mean_irreducible_frac_mape_floor", 4.82, 0.7),
     ("discrepancy large-dose biases located rate (100% of seeds)",
      "full_cup_discrepancy_large.mean_located_rate_biased_fraction", 1.0, 0.05),
+    ("continuous-optimiser rate optimum interior ~0.66",
+     "identifiability_convergence.continuous_optimiser.continuous_rate_optimum", 0.66, 0.20),
 ]
 
 

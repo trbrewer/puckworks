@@ -794,6 +794,7 @@ def identifiability_panel_convergence(variety="Arabica", solute="caffeine"):
     configs = [("grid-18/default", 18, None, None),
                ("grid-36/default", 36, None, None),
                ("grid-72/default", 72, None, None),
+               ("grid-144/default", 144, None, None),
                ("grid-36/narrow[0.3,3]", 36, 0.3, 3.0),
                ("grid-36/wide[0.1,10]", 36, 0.1, 10.0)]
     for label, nr, rlo, rhi in configs:
@@ -810,7 +811,7 @@ def identifiability_panel_convergence(variety="Arabica", solute="caffeine"):
             threshold_set_touches_boundary=bool(
                 p["profile_rate_within10pct"][0] <= p["rate_domain"][0] * 1.001
                 or p["profile_rate_within10pct"][1] >= p["rate_domain"][1] * 0.999)))
-    # stability across the three DEFAULT-domain densities (the coarse-grid check)
+    # stability across the DEFAULT-domain densities (the coarse-grid check; now to 144)
     dens = [r for r in rows if "default" in r["label"] and r["hessian_reliable"]]
     kappa_vals = [r["condition_number"] for r in dens]
     lw_vals = [r["profile_log_width"] for r in dens]
@@ -818,17 +819,83 @@ def identifiability_panel_convergence(variety="Arabica", solute="caffeine"):
                         and (max(kappa_vals) - min(kappa_vals)) <= 0.5 * min(kappa_vals))
     lw_stable = bool(len(lw_vals) >= 2
                      and (max(lw_vals) - min(lw_vals)) <= 0.2 * max(lw_vals))
+
+    # CONTINUOUS 1-D optimiser (review A2-06/A-MAJ04): confirm the located rate and the
+    # flat valley WITHOUT any grid discretisation. Define the profiled SSE as a smooth
+    # function of a CONTINUOUS log-rate -- one PDE solve per (rate, condition), analytic
+    # best c_s0 -- and minimise it with bounded Brent. Then quantify the valley by the
+    # LOG-RATE HALF-WIDTH within which the profiled SSE stays within 10% of that
+    # continuous minimum (bisection on each side), independent of any grid.
+    from scipy import optimize
+    from puckworks.models.pannusch2024 import solver as ps
+    from puckworks import data as d
+    COL = {"caffeine": "CF", "trigonelline": "TR", "5CQA": "5CQA"}
+    bio = d.angeloni_bioactives(); params = ps._solute_params()
+    brows = [r for r in bio if r["variety"] == variety
+             and r["granulometry"] == "O" and r["on_grid"] == "True"]
+    conds = [(r["T_degC"], r["p_bar"]) for r in brows]
+    mvec = np.array([r[COL[solute]] for r in brows], float)
+
+    def _prof_sse(logr):
+        rs = float(np.exp(logr))
+        F = np.array([float(ps.simulate_fractions(
+            T, _flow_darcy(p, T), _matched_bounds(_flow_darcy(p, T)),
+            {**params[solute], "A1": params[solute]["A1"] * rs,
+             "A2": params[solute]["A2"] * rs, "c_s0": 1.0}, cl1=1.0)[0])
+            for (T, p) in conds])
+        c = float(np.dot(F, mvec) / np.dot(F, F))          # analytic best level
+        return float(np.sum((c * F - mvec) ** 2))
+
+    lo_b, hi_b = np.log(_RATE_DOMAIN[0]), np.log(_RATE_DOMAIN[-1])
+    opt = optimize.minimize_scalar(_prof_sse, bounds=(lo_b, hi_b), method="bounded",
+                                   options=dict(xatol=1e-3))
+    logr_star = float(opt.x); sse_star = float(opt.fun)
+    thr = sse_star * 1.10                                   # 10% tolerance band
+    interior = bool(lo_b + 1e-2 < logr_star < hi_b - 1e-2)
+
+    def _edge(direction):
+        """bisect for the log-rate where the profiled SSE first exceeds the 10% band,
+        walking from the optimum toward the domain edge; returns the domain edge
+        (right-censored) if the band never breaks."""
+        a = logr_star; b = hi_b if direction > 0 else lo_b
+        if _prof_sse(b) <= thr:
+            return b, True                                 # censored: band open at edge
+        for _ in range(30):
+            mid = 0.5 * (a + b)
+            if _prof_sse(mid) <= thr:
+                a = mid
+            else:
+                b = mid
+        return 0.5 * (a + b), False
+
+    hi_edge, hi_cens = _edge(+1); lo_edge, lo_cens = _edge(-1)
+    cont = dict(
+        continuous_rate_optimum=round(float(np.exp(logr_star)), 3),
+        optimum_is_interior=interior,
+        profiled_sse_min=sse_star,
+        valley_log_half_width_within10pct=round(0.5 * (hi_edge - lo_edge), 3),
+        valley_rate_within10pct=[round(float(np.exp(lo_edge)), 3),
+                                 round(float(np.exp(hi_edge)), 3)],
+        valley_right_censored=bool(hi_cens or lo_cens),
+        method="scipy bounded Brent on continuous log-rate profiled SSE; "
+               "10% band edges by bisection (grid-free)")
     return dict(
-        variety=variety, solute=solute, rows=rows,
+        variety=variety, solute=solute, rows=rows, continuous_optimiser=cont,
         condition_number_stable_across_density=kappa_stable,
         log_width_stable_across_density=lw_stable,
-        verdict=("Across rate grids of 18/36/72 points the log-parameter SSE condition "
-                 "number and the domain-independent profile log-width are stable "
-                 "(kappa stable=%s, log-width stable=%s), and the flat valley persists "
-                 "on a narrower [0.3,3] and a wider [0.1,10] domain -- so the practical "
-                 "non-identifiability is NOT an artefact of a coarse grid or the chosen "
-                 "sweep domain. Threshold sets that reach a sweep boundary are flagged "
-                 "right-censored per config." % (kappa_stable, lw_stable)))
+        verdict=("Across rate grids of 18/36/72/144 points the log-parameter SSE "
+                 "condition number and the domain-independent profile log-width are "
+                 "stable (kappa stable=%s, log-width stable=%s), and the flat valley "
+                 "persists on a narrower [0.3,3] and a wider [0.1,10] domain. A GRID-FREE "
+                 "continuous Brent optimiser on the profiled SSE places the rate optimum "
+                 "at %.2f (interior=%s) with a 10%%-band log half-width of %.2f%s -- so "
+                 "the practical non-identifiability is NOT an artefact of a coarse grid, "
+                 "the chosen sweep domain, or grid discretisation. Threshold sets that "
+                 "reach a sweep boundary are flagged right-censored per config."
+                 % (kappa_stable, lw_stable, cont["continuous_rate_optimum"],
+                    cont["optimum_is_interior"],
+                    cont["valley_log_half_width_within10pct"],
+                    " (right-censored)" if cont["valley_right_censored"] else "")))
 
 
 def loco_cv_refit(varieties=("Arabica", "Robusta"),

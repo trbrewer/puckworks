@@ -1,11 +1,11 @@
 {
   "paper": "A",
-  "source_commit": "f47709d5be546699d4b6778e1faf30634e3f3ee8",
+  "source_commit": "2b44161b7ebf29759ac24b2c5203044821b96b0f",
   "git_dirty": true,
   "timestamp_utc": "2026-07-12T00:00:00Z",
   "bundle_source_commit": "838f397f35b09462372b471432653fd7937200ee",
   "bundle_schema_version": 2,
-  "bundle_sha256": "392990bba4e987edc20c137ddbda67000ad708805bdf7acc1f440408d0f7bcea",
+  "bundle_sha256": "d90e8d8d58be3ae6316a33d1f3fb65b4eef6ddf55d1783e0bf15f60241bfd54e",
   "environment": {
     "python": "3.13.13",
     "numpy": "2.5.1",
@@ -20,7 +20,7 @@
     "schmieder2023/rsm_coefficients.csv": "9de2503130ad6689f6f0ad08ef0c781b2bcc099687b5db31443edb0a60d08adc",
     "waszkiewicz2025/tds_fractions.csv": "f22ee533f4c3e4c4c2587192a9aefa9af43bf8d47dd4456a611bfd92fb673847"
   },
-  "n_claims": 16,
+  "n_claims": 17,
   "n_failures": 0,
   "claims": [
     {
@@ -149,6 +149,14 @@
       "expected": 1.0,
       "actual": 1.0,
       "tol": 0.05,
+      "ok": true
+    },
+    {
+      "claim": "continuous-optimiser rate optimum interior ~0.66",
+      "path": "identifiability_convergence.continuous_optimiser.continuous_rate_optimum",
+      "expected": 0.66,
+      "actual": 0.66,
+      "tol": 0.2,
       "ok": true
     }
   ],
