@@ -426,13 +426,16 @@ def fig5_joint_residual(results=None, outdir=OUTDIR):
 
 
 def fig6_fraction_vs_endpoint(results=None, outdir=OUTDIR):
-    """Fig 6 — rate profiles: fraction scoring (sharp) vs endpoint scoring (flat),
-    both the empirical sampled aggregate and the exact-integral simulation."""
+    """Fig 6 — fraction-resolved vs aggregated scoring, in THREE clearly separated
+    evidence tiers (review A3-05/6.30): (a-c) in-sample Schmieder empirical fraction +
+    same-model exact-cup simulation with the ±1σ seed band; (d) the INDEPENDENT external
+    Waszkiewicz TDS trajectory as a target-profiled SHAPE test -- a shallow, high-residual
+    minimum with an alignment-sensitivity band, and the algebraically-flat single cup."""
     import numpy as np
     r = _load(results); plt = _plt()
     pc = r["positive_control"]["per_solute"]; sim = r["full_cup_sim"]["per_solute"]
-    fig, axes = plt.subplots(1, 3, figsize=(11.4, 3.6), sharey=False)
-    for ax, sol in zip(axes, ("caffeine", "trigonelline", "5CQA")):
+    fig, axes = plt.subplots(1, 4, figsize=(14.8, 3.7), sharey=False)
+    for ax, sol in zip(axes[:3], ("caffeine", "trigonelline", "5CQA")):
         x = pc[sol]; rr = np.array(x["rates"])
         ax.plot(rr, x["fraction_mape"], "o-", color=ACCENT, lw=1.7, ms=4,
                 label="fraction (empirical)")
@@ -441,24 +444,45 @@ def fig6_fraction_vs_endpoint(results=None, outdir=OUTDIR):
         sx = sim[sol]; sr = np.array(sx["rates"])
         ax.plot(sr, sx["exact_cup_mape"], "^:", color=GOOD, lw=1.5, ms=4,
                 label="exact whole cup (sim)")
-        # seed-distribution band (review A2-16): +/-1 std over the 20 noise realizations
-        # around the EXACT-CUP SIMULATION curve (the one plotted here) -- shows its
-        # flatness is not a single-seed accident. (The empirical-fraction curve above is
-        # seed-free real data, so it carries no seed band.) Drawn only when the harness
-        # surfaced the per-rate seed stats.
         if "exact_cup_mape_seed_mean" in sx and "exact_cup_mape_seed_std" in sx:
             cmean = np.array(sx["exact_cup_mape_seed_mean"]); cstd = np.array(sx["exact_cup_mape_seed_std"])
             ax.fill_between(sr, cmean - cstd, cmean + cstd, color=GOOD, alpha=0.18, lw=0,
                             label="exact-cup ±1σ over 20 seeds")
         ax.axvline(1.0, color=WARN, ls=":", lw=1.0)
-        ax.set_xscale("log"); ax.set_title(sol)
+        ax.set_xscale("log"); ax.set_title("(%s) %s · in-sample+sim"
+                                           % ("abc"[list(("caffeine", "trigonelline",
+                                              "5CQA")).index(sol)], sol), fontsize=8.2)
         ax.set_xlabel("rate scale (log)"); ax.set_ylabel("MAPE (%)")
         _logclean(ax)
-        ax.legend(fontsize=6.5, loc="upper center")
-    fig.suptitle("Fig 6 — fraction-resolved scoring localizes the rate objective more "
-                 "strongly than aggregated scoring (in the tested designs); "
-                 "empirical + same-model simulation",
-                 y=1.03, fontsize=10, fontweight="bold")
+        ax.legend(fontsize=6.0, loc="upper center")
+    # (d) EXTERNAL tier: Waszkiewicz target-profiled shape test
+    axe = axes[3]
+    ew = r.get("external_waszkiewicz")
+    if ew is not None:
+        er = np.array(ew["rates"], float)
+        cases = [v["fraction_mape"] for v in ew["per_case"].values()]
+        stack = np.array(cases, float)                    # (n_case, n_rate) alignment band
+        head = ew["per_case"].get("offset0s_no_first_bin") or list(ew["per_case"].values())[0]
+        axe.fill_between(er, stack.min(0), stack.max(0), color="#4a6fa5", alpha=0.18, lw=0,
+                         label="alignment/first-bin band")
+        axe.plot(er, head["fraction_mape"], "o-", color="#4a6fa5", lw=1.7, ms=4,
+                 label="fraction (target-profiled)")
+        axe.plot(er, head["cup_mape"], "^:", color=NULL, lw=1.5, ms=4,
+                 label="single cup (algebraically flat)")
+        bi = head["fraction_best_rate"]; mn = head["fraction_min_mape"]
+        axe.axvline(bi, color=WARN, ls=":", lw=1.0)
+        axe.annotate("shallow min ~%.0f%%\n(best rate %.1f, ratio %.1f×)"
+                     % (mn, bi, head["fraction_range_ratio"]),
+                     (bi, mn), textcoords="offset points", xytext=(6, 18), fontsize=6.2,
+                     color=BAD)
+        axe.set_xscale("log"); _logclean(axe)
+        axe.set_title("(d) EXTERNAL Waszkiewicz shape test", fontsize=8.2)
+        axe.set_xlabel("rate scale (log)"); axe.set_ylabel("MAPE (%)")
+        axe.legend(fontsize=6.0, loc="upper center")
+    fig.suptitle("Fig 6 — temporal resolution moves the rate objective more than an "
+                 "aggregate (three evidence tiers: in-sample · same-model sim · "
+                 "independent external shape test)", y=1.04, fontsize=9.4,
+                 fontweight="bold")
     return _save(fig, outdir, "fig6_fraction_vs_endpoint.png")
 
 

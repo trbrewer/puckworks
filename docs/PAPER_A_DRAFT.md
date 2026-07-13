@@ -607,8 +607,11 @@ slow analysis functions, none hand-typed):
   O-trained level-only constant baseline** and reporting the pooled skill (§5, A3-01).
 - **Fig 5** — joint shared-(c_s0, rate) residual by variety × solute × grind, with
   the cost-of-sharing and rate-boundary flags (§5).
-- **Fig 6** — rate profiles: fraction scoring (sharp) vs the sampled aggregate and
-  the exact-integral whole cup (both flat) (§6).
+- **Fig 6** — rate profiles in **three evidence tiers** (§6): (a–c) in-sample Schmieder
+  empirical fraction + same-model exact-cup simulation with the ±1σ 20-seed band;
+  (d) the **independent external Waszkiewicz** TDS trajectory as a target-profiled shape
+  test — a shallow ~27 % minimum with an alignment-sensitivity band and the
+  algebraically-flat single cup (one scalar + one profiled level).
 
 ## 9. Related work
 
