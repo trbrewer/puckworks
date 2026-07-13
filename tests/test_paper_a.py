@@ -18,6 +18,94 @@ def test_matched_bounds_is_mass_consistent():
     assert abs(hi - 25.0) < 1e-9                        # 40 / 1.6 = 25 s
 
 
+def _load_bundle():
+    import json
+    import os
+    bundle = "docs/figures/paper_a/results.json"
+    if not os.path.exists(bundle):
+        import pytest
+        pytest.skip("Paper A bundle not present")
+    with open(bundle) as f:
+        return json.load(f)
+
+
+def test_bundle_has_no_stale_evidence_taxonomy():
+    """review A3-32: bundle-facing verdict/strength strings must use the current evidence
+    taxonomy -- no 'REAL transfer test', 'external stress test', 'Frozen external
+    prediction', 'transfers reasonably', or 'no rate information at all'."""
+    b = _load_bundle()
+    forbidden = ["REAL transfer test", "external stress test",
+                 "Frozen external prediction", "transfers reasonably",
+                 "transfers REASONABLY", "no rate information at all"]
+    hits = []
+
+    def walk(o):
+        if isinstance(o, dict):
+            for v in o.values():
+                walk(v)
+        elif isinstance(o, list):
+            for v in o:
+                walk(v)
+        elif isinstance(o, str):
+            for ph in forbidden:
+                if ph.lower() in o.lower():
+                    hits.append(ph)
+    walk(b)
+    assert not hits, "stale evidence-taxonomy phrases in bundle: " + ", ".join(set(hits))
+
+
+def test_transfer_skill_reports_null_benchmark():
+    """review A3-01: the bundle must carry the null-benchmark skill package and it must
+    report the honest split -- the mechanistic O->C/F transfer adds only small skill over
+    an O-trained level-only constant and is worse on a large share of held-out points."""
+    ts = _load_bundle().get("transfer_skill")
+    if ts is None:
+        import pytest
+        pytest.skip("transfer_skill not in this bundle (recompute with `full`)")
+    assert "skill_vs_const" in ts and "pooled_const_mape" in ts
+    # small incremental skill: model within a couple pp of the constant
+    assert abs(ts["pooled_model_mape"] - ts["pooled_const_mape"]) < 3.0
+    # honestly report the model is worse than the constant on a meaningful share
+    assert ts["n_model_worse_than_const"] >= ts["n_points"] // 4
+
+
+def test_geometry_spread_is_full_precision():
+    """review A3-03: the geometry spread must NOT be integer-rounded before the spread is
+    taken (a sub-1pp spread must survive). Guards against round-before-aggregate."""
+    gs = _load_bundle().get("geometry_sensitivity")
+    if gs is None:
+        import pytest
+        pytest.skip("geometry_sensitivity not in this bundle")
+    sp = gs["max_geometry_spread_pp"]
+    # a genuinely full-precision spread is (almost surely) not an exact integer
+    assert sp != round(sp), "geometry spread looks integer-rounded (A3-03 regression)"
+
+
+def test_joint_independent_mean_from_raw():
+    """review A3-03: the joint fit must expose raw independent per-grind fields and the
+    headline independent mean must match the raw average (not the rounded dict)."""
+    import numpy as np
+    j = _load_bundle().get("joint")
+    if j is None or "per_variety" not in j:
+        import pytest
+        pytest.skip("joint not in this bundle")
+    raws = [j["per_variety"][v][s]["independent_mean_raw"]
+            for v in j["per_variety"] for s in j["per_variety"][v]]
+    assert abs(float(np.mean(raws)) - j["mean_independent_per_grind_mape"]) < 0.06
+
+
+def test_identifiability_panel_boundary_and_overlap_fields():
+    """review A3-04/A3-09/A3-12: the panel must flag domain censoring of the 10% set and
+    report a quantitative SSE<->MAPE overlap (Jaccard), not just a binary agreement flag."""
+    p = _load_bundle().get("panel_caffeine")
+    if p is None:
+        import pytest
+        pytest.skip("panel_caffeine not in this bundle")
+    assert "profile_upper_censored" in p and "profile_lower_censored" in p
+    assert "sse_mape_threshold_jaccard" in p
+    assert p["profile_upper_censored"] is True         # caffeine set reaches upper edge
+
+
 def test_paper_a_build_verifies_manuscript_claims():
     """review A2-05/A2-13: the strict build must confirm every manuscript-facing
     headline number equals the value in the results bundle (fails on drift). Runs

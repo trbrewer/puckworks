@@ -388,14 +388,17 @@ def refit_pannusch_angeloni(rate_grid=None):
                             rate_at_boundary=at_bound,
                             c_s0_table7=(round(inv[(variety, col)], 1)
                                          if (variety, col) in inv else None),
-                            mape_on_grid=round(mp, 1), mape_holdout=round(mpo, 1))
+                            mape_on_grid=round(mp, 1), mape_holdout=round(mpo, 1),
+                            # review A3-03: raw holdout for the headline macro-average
+                            mape_holdout_raw=float(mpo), mape_on_grid_raw=float(mp))
         out[variety] = per
     # M5: the HEADLINE macro-average is over the three NAMED solutes only; TDS is a
     # source-specific aggregate-solids PROXY, reported separately (not a 4th solute).
+    # A3-03: average RAW per-fit holdouts, not the rounded display fields.
     named = ("caffeine", "trigonelline", "5CQA")
-    hold_named = np.mean([out[v][s]["mape_holdout"] for v in out for s in named])
-    hold_proxy = np.mean([out[v]["tds"]["mape_holdout"] for v in out])
-    hold_all = np.mean([out[v][s]["mape_holdout"] for v in out for s in SPEC])
+    hold_named = np.mean([out[v][s]["mape_holdout_raw"] for v in out for s in named])
+    hold_proxy = np.mean([out[v]["tds"]["mape_holdout_raw"] for v in out])
+    hold_all = np.mean([out[v][s]["mape_holdout_raw"] for v in out for s in SPEC])
     n_bound = sum(out[v][s]["rate_at_boundary"] for v in out for s in named)
     return dict(per_variety=out,
                 named_solutes=list(named),
@@ -434,10 +437,11 @@ def _flow_gran(p_bar, T_C, gran):
 
 
 def joint_multigrind_fit():
-    """The REAL transfer test named in ANALYSIS_transfer §5 / PAPER_A_DRAFT §7(ii):
-    fit ONE shared, grind-INDEPENDENT (rate_scale, c_s0) jointly to all three
-    granulometries O+C+F at once (each grind with its own measured flow), and
-    report the residual STRUCTURE rather than forcing a success.
+    """IN-SAMPLE shared-parameter compatibility check (review A3-32: this is NOT a
+    held-out transfer test -- all O+C+F data are fitted jointly). Fit ONE shared,
+    grind-INDEPENDENT (rate_scale, c_s0) jointly to all three granulometries O+C+F at
+    once (each grind with its own measured flow), and report the residual STRUCTURE
+    rather than forcing a success.
 
     Method (per variety, per clean g/L species): pool the on-grid points of O, C, F;
     for each rate_scale, choose the single global c_s0 (level, linear -> analytic)
@@ -448,11 +452,11 @@ def joint_multigrind_fit():
     per-grind residual (one grind carrying the error) is the signature of
     non-transferability.
 
-    Finding (expected, consistent with §4/§5): no single (c_s0, rate) fits O, C, and
-    F together — the joint fit is markedly worse than the per-grind fits and the
-    residual concentrates on the fine grind, whose flow departs most from the
-    others. Strength: external stress test (shared-inventory joint fit).
-    NOTE: ~2-3 min of PDE solves (slow; hand-run). """
+    Finding (expected, consistent with §4/§5): the residual STRUCTURE across grinds
+    (whether one grind carries the error) is the signature of interest. Strength:
+    IN-SAMPLE shared-parameter compatibility (all grinds fitted; NOT a held-out
+    transfer test, and adequacy must be read against reduced-model baselines, not an
+    absolute rule -- review A3-19). NOTE: ~2-3 min of PDE solves (slow; hand-run). """
     import numpy as np
     from puckworks.models.pannusch2024 import solver as ps
     from puckworks import data as d
@@ -502,37 +506,44 @@ def joint_multigrind_fit():
                 indep[g] = float(min(_mape_level(pug[g][rs], meas[g])[1]
                                      for rs in rate_grid))
             at_bound = bool(rs_j <= rate_grid[0] * 1.001 or rs_j >= rate_grid[-1] * 0.999)
+            # review A3-03: keep RAW per-grind arrays for every headline aggregate; the
+            # rounded copies are display-only. `indep_mean`/`cost` below MUST read the raw
+            # fields, never the rounded ones.
+            indep_mean_fit = float(np.mean(list(indep.values())))
             per[sol] = dict(
                 joint_rate=round(rs_j, 2), joint_c_s0=round(cs0_j, 1),
                 joint_rate_at_boundary=at_bound,
                 joint_pooled_mape=float(mape_j),              # full precision
                 joint_per_grind_mape={g: round(pergrind_j[g], 1) for g in GRINDS},
+                joint_per_grind_mape_raw={g: float(pergrind_j[g]) for g in GRINDS},
                 independent_per_grind_mape={g: round(indep[g], 1) for g in GRINDS},
-                cost_of_sharing_pp=round(mape_j - float(np.mean(list(indep.values()))), 1))
+                independent_per_grind_mape_raw={g: float(indep[g]) for g in GRINDS},
+                independent_mean_raw=indep_mean_fit,
+                cost_of_sharing_pp=round(mape_j - indep_mean_fit, 1))
         out[variety] = per
     # pooled == MACRO-AVERAGE across the 6 (variety x solute) joint fits, from full
-    # precision (review MAJ-12); cost-of-sharing = paired joint-minus-independent
+    # precision (review MAJ-12/A3-03); cost-of-sharing = paired joint-minus-independent.
+    # BOTH numerator and independent comparator read RAW fields (not the rounded dicts).
     pooled = float(np.mean([out[v][s]["joint_pooled_mape"]
                             for v in out for s in SPEC]))
-    indep_mean = float(np.mean([float(np.mean(list(out[v][s]["independent_per_grind_mape"].values())))
+    indep_mean = float(np.mean([out[v][s]["independent_mean_raw"]
                                 for v in out for s in SPEC]))
     n_bound = sum(out[v][s]["joint_rate_at_boundary"] for v in out for s in SPEC)
     n_tot = len([1 for v in out for s in SPEC])
     cost = pooled - indep_mean
-    # data-driven verdict: a small cost-of-sharing means a shared calibration DOES
-    # transfer; only a large gap is a transfer failure (was mis-stated pre-B1).
-    if cost <= 3.0:
-        read = ("a single shared (c_s0, rate) fitted jointly to O+C+F transfers "
-                "REASONABLY -- pooled MAPE %.1f%% vs %.1f%% for the per-grind fits "
-                "(cost-of-sharing only ~%.1f pp). So a shared cross-grind calibration "
-                "exists at matched mass; the large apparent transfer failure in the "
-                "pre-correction (fixed-25s) analysis was mostly an unmatched-endpoint "
-                "artifact (review B1)." % (pooled, indep_mean, cost))
-    else:
-        read = ("a single shared (c_s0, rate) fitted jointly to O+C+F is markedly "
-                "worse than the per-grind fits (pooled %.1f%% vs %.1f%%, cost ~%.1f pp) "
-                "-> no adequate shared calibration within the tested domain."
-                % (pooled, indep_mean, cost))
+    # IN-SAMPLE compatibility reading (review A3-19/A3-32): the cost-of-sharing is the
+    # in-sample penalty for forcing one (c_s0, rate) across grinds vs per-grind fits.
+    # This is NOT a held-out transfer result and adequacy is NOT decided by a bare
+    # threshold -- it must be read against reduced-model baselines (one constant per
+    # grind is nearly competitive; see transfer_skill_vs_baselines). We report the gap
+    # descriptively and flag that the per-grind fits have MORE flexibility, so lower
+    # in-sample error there is expected.
+    read = ("forcing a single shared (c_s0, rate) across O+C+F costs %.1f pp of in-sample "
+            "MAPE vs the more flexible per-grind fits (pooled %.1f%% vs %.1f%%). This is "
+            "an IN-SAMPLE parameter-sharing penalty, NOT a held-out transfer test; whether "
+            "it counts as 'adequate' depends on reduced-model baselines (a per-grind "
+            "constant is nearly competitive), not on an absolute cutoff." % (
+                cost, pooled, indep_mean))
     return dict(per_variety=out,
                 pooled_definition="macro-average across the 6 (variety x solute) joint fits",
                 mean_joint_pooled_mape=round(pooled, 1),
@@ -541,9 +552,10 @@ def joint_multigrind_fit():
                 joint_rate_domain=[round(float(_RATE_DOMAIN[0]), 2),
                                    round(float(_RATE_DOMAIN[-1]), 2)],
                 n_joint_rate_at_boundary=n_bound, n_species_variety=n_tot,
-                verdict="matched-mass (40 g) cups, exact weighted-median level, wide "
-                        "log rate domain: " + read + " %d/%d rates at the widened "
-                        "domain boundary." % (n_bound, n_tot))
+                is_in_sample_not_heldout=True,
+                verdict="IN-SAMPLE shared-parameter compatibility (matched-mass 40 g cups, "
+                        "exact weighted-median level, wide log rate domain): " + read
+                        + " %d/%d rates at the widened domain boundary." % (n_bound, n_tot))
 
 
 def validate_refit_granulometry():
@@ -658,20 +670,159 @@ def validate_refit_granulometry():
                 point_worst_heldout_mape=round(mani_worst_point, 2),
                 heldout_C_range=[round(min(hc), 1), round(max(hc), 1)],
                 heldout_F_range=[round(min(hf), 1), round(max(hf), 1)],
-                verdict="At MATCHED 40 g cups the O-refit transfers REASONABLY to the "
-                        "held-out grinds (point-optimum held-out C ~%.0f-%.0f%%, F "
-                        "~%.0f-%.0f%%) -- a large improvement over the pre-correction "
-                        "fixed-25s result (~25-49%%), an unmatched-endpoint artifact "
-                        "(review B1/B5). MANIFOLD TEST (review A2-02): transferring the "
-                        "WHOLE near-optimal O-grind set (O-MAPE within 10%% of the min) "
-                        "to C/F, the worst held-out MAPE across the manifold is %.1f%% "
-                        "(vs %.1f%% at the point optimum) -- so predictions are stable "
-                        "along the compensating manifold, not just at one selected "
-                        "optimum. The (rate,c_s0) split remains DEGENERATE within a grind "
-                        "(the rate flips across flow-map/domain; see identifiability_"
-                        "panel), yet the level+rate PAIR predicts other grinds well." % (
+                verdict="At MATCHED 40 g cups the O-refit produces held-out C/F absolute "
+                        "MAPE of ~%.0f-%.0f%% (C) and ~%.0f-%.0f%% (F) at the point "
+                        "optimum -- a large improvement over the pre-correction fixed-25s "
+                        "result (~25-49%%), an unmatched-endpoint artifact (review B1/B5). "
+                        "NULL-BENCHMARK CAVEAT (review A3-01): these ABSOLUTE errors do "
+                        "NOT by themselves establish mechanistic transfer skill -- an "
+                        "O-trained level-only constant is nearly as accurate; see "
+                        "transfer_skill_vs_baselines for the skill scores. MANIFOLD SET "
+                        "(review A2-02/A3-02): transferring the DISCRETE near-optimal "
+                        "O-grind MAPE set (within 10%% of the min on the 18-point rate "
+                        "grid) to C/F, the worst AGGREGATE held-out MAPE across the set is "
+                        "%.1f%% (vs %.1f%% at the point optimum) -- so the aggregate error "
+                        "is stable across the set, though condition-wise prediction "
+                        "envelopes remain owed (A3-11). The (rate,c_s0) split remains "
+                        "DEGENERATE within a grind (the rate flips across flow-map/domain; "
+                        "see identifiability_panel)." % (
                             min(hc), max(hc), min(hf), max(hf),
                             mani_worst, mani_worst_point))
+
+
+def transfer_skill_vs_baselines(varieties=("Arabica", "Robusta"),
+                                solutes=("caffeine", "trigonelline", "5CQA")):
+    """A3-01 (submission-blocking null benchmark): does the mechanistic O->C/F transfer
+    add predictive SKILL beyond simple level-only baselines available at prediction time?
+    A low absolute MAPE can arise from analyte levels that are stable across operating
+    conditions, even if the model contributes little condition-specific signal (the
+    review's own data-only check found an O-trained constant within ~0.4 pp of the model).
+    So we compare the mechanistic transfer against PREDECLARED baselines fit ONLY on the
+    O training grind:
+
+      - O-trained MAPE-optimal CONSTANT: one level fit to the 9 O obs by the exact
+        weighted-median MAPE solution, applied UNCHANGED to every held-out C/F point --
+        captures ONLY the analyte level, no temperature/pressure/flow/kinetic response;
+      - SAME-(T,p) O lookup: the observed O concentration at the matching (T,p) DoE
+        condition -- uses the same-campaign O response across grind, no mechanistic model.
+
+    For each variety x named solute we fit the model on O (rate + weighted-median level)
+    and predict held-out C/F (mirroring validate_refit_granulometry's flow map/fit), then
+    report FULL-PRECISION per-grind and pooled MAPE for the model and each baseline, the
+    skill score 1 - MAPE_model/MAPE_baseline, and PAIRED per-condition loss differences
+    (model - constant). NOTE: ~2-3 min of PDE solves (slow; hand-run)."""
+    import numpy as np
+    from puckworks.models.pannusch2024 import solver as ps
+    from puckworks import data as d
+    bio = d.angeloni_bioactives(); params = ps._solute_params()
+    SPEC = {"caffeine": "CF", "trigonelline": "TR", "5CQA": "5CQA"}
+
+    def sh(variety, gran):
+        return [r for r in bio if r["variety"] == variety
+                and r["granulometry"] == gran and r["on_grid"] == "True"]
+
+    def frac(sp, rs, conds, gran):
+        s = dict(sp); s["A1"] = sp["A1"] * rs; s["A2"] = sp["A2"] * rs; s["c_s0"] = 1.0
+        return np.array([float(ps.simulate_fractions(
+                        T, _flow_gran(p, T, gran), _matched_bounds(_flow_gran(p, T, gran)),
+                        s, cl1=1.0)[0]) for T, p in conds])
+
+    per = {}
+    grind_err = {"C": {"model": [], "const": [], "lookup": []},
+                 "F": {"model": [], "const": [], "lookup": []}}
+    n_model_worse_than_const = 0; n_cases = 0
+    for variety in varieties:
+        for sol in solutes:
+            col = SPEC[sol]
+            rowsO = sh(variety, "O"); condsO = [(r["T_degC"], r["p_bar"]) for r in rowsO]
+            mO = np.array([r[col] for r in rowsO], float)
+            # mechanistic model: fit rate on O by MAPE (weighted-median level per rate)
+            best = None
+            for rs in _RATE_DOMAIN:
+                f = frac(params[sol], rs, condsO, "O"); c, mp = _mape_level(f, mO)
+                if best is None or mp < best[2]:
+                    best = (float(rs), c, mp)
+            rsO, cs0O, _ = best
+            # O-trained MAPE-optimal constant: fit a level to a UNIT prediction on O
+            c_const = float(_mape_level(np.ones(len(mO)), mO)[0])
+            o_by_tp = {(r["T_degC"], r["p_bar"]): float(r[col]) for r in rowsO}
+            entry = {}
+            for g in ("C", "F"):
+                rows = sh(variety, g); conds = [(r["T_degC"], r["p_bar"]) for r in rows]
+                m = np.array([r[col] for r in rows], float)
+                e_model = np.abs(cs0O * frac(params[sol], rsO, conds, g) - m) / m * 100.0
+                e_const = np.abs(c_const - m) / m * 100.0
+                lookup = np.array([o_by_tp[(T, p)] for (T, p) in conds], float)
+                e_lookup = np.abs(lookup - m) / m * 100.0
+                grind_err[g]["model"].extend(e_model)
+                grind_err[g]["const"].extend(e_const)
+                grind_err[g]["lookup"].extend(e_lookup)
+                entry[g] = dict(
+                    model_mape=round(float(e_model.mean()), 2),
+                    const_mape=round(float(e_const.mean()), 2),
+                    lookup_mape=round(float(e_lookup.mean()), 2),
+                    paired_model_minus_const=[round(float(a - b), 2)
+                                              for a, b in zip(e_model, e_const)])
+                for a, b in zip(e_model, e_const):
+                    n_cases += 1
+                    if a > b + 1e-9:
+                        n_model_worse_than_const += 1
+            fit_model = float(np.mean([entry[g]["model_mape"] for g in ("C", "F")]))
+            fit_const = float(np.mean([entry[g]["const_mape"] for g in ("C", "F")]))
+            per[f"{variety}:{sol}"] = dict(
+                C=entry["C"], F=entry["F"],
+                model_macro_mape=round(fit_model, 2),
+                const_macro_mape=round(fit_const, 2),
+                skill_vs_const=round(1.0 - fit_model / fit_const, 3))
+
+    def _mean(xs):
+        return float(np.mean(xs)) if len(xs) else float("nan")
+    # pooled model / baseline MAPE and skill, per grind and overall
+    pooled = {}
+    for g in ("C", "F"):
+        mm = _mean(grind_err[g]["model"]); mc = _mean(grind_err[g]["const"])
+        ml = _mean(grind_err[g]["lookup"])
+        pooled[g] = dict(model_mape=round(mm, 2), const_mape=round(mc, 2),
+                         lookup_mape=round(ml, 2),
+                         skill_vs_const=round(1.0 - mm / mc, 3),
+                         skill_vs_lookup=round(1.0 - mm / ml, 3))
+    all_model = grind_err["C"]["model"] + grind_err["F"]["model"]
+    all_const = grind_err["C"]["const"] + grind_err["F"]["const"]
+    all_lookup = grind_err["C"]["lookup"] + grind_err["F"]["lookup"]
+    macro_model = _mean(all_model); macro_const = _mean(all_const)
+    macro_lookup = _mean(all_lookup)
+    skill_const = 1.0 - macro_model / macro_const
+    skill_lookup = 1.0 - macro_model / macro_lookup
+    # paired model-minus-constant loss (all held-out C/F points)
+    paired = np.array(all_model) - np.array(all_const)
+    return dict(
+        per_fit=per, pooled_by_grind=pooled,
+        pooled_model_mape=round(macro_model, 2),
+        pooled_const_mape=round(macro_const, 2),
+        pooled_lookup_mape=round(macro_lookup, 2),
+        skill_vs_const=round(skill_const, 3),
+        skill_vs_lookup=round(skill_lookup, 3),
+        paired_model_minus_const_mean_pp=round(float(paired.mean()), 3),
+        paired_model_minus_const_median_pp=round(float(np.median(paired)), 3),
+        n_points=n_cases,
+        n_model_worse_than_const=n_model_worse_than_const,
+        baselines=["O-trained MAPE-optimal constant", "same-(T,p) O lookup"],
+        verdict=("NULL-BENCHMARK skill (review A3-01): the mechanistic O->C/F transfer "
+                 "gives pooled held-out MAPE %.2f%% vs %.2f%% for an O-trained level-only "
+                 "constant (skill %.1f%%) and %.2f%% for a same-(T,p) O lookup (skill "
+                 "%.1f%%). The model is WORSE than the constant on %d of %d held-out "
+                 "points, and the paired mean model-minus-constant loss is %+.2f pp. "
+                 "READING: low absolute C/F MAPE does NOT by itself establish mechanistic "
+                 "transfer skill -- a constant carrying only the O level is nearly "
+                 "competitive; the incremental skill of the kinetic/transport structure "
+                 "over a level-only baseline is small and must be reported alongside the "
+                 "absolute error, not in place of it." % (
+                     macro_model, macro_const, 100 * skill_const, macro_lookup,
+                     100 * skill_lookup, n_model_worse_than_const, n_cases,
+                     float(paired.mean()))),
+        strength="predeclared null-benchmark skill comparison (level-only baselines, "
+                 "full precision); quantifies incremental mechanistic skill, not just "
+                 "absolute fit")
 
 
 def identifiability_panel(variety="Arabica", solute="caffeine", n_rate=29, n_cs0=41,
@@ -787,12 +938,23 @@ def identifiability_panel(variety="Arabica", solute="caffeine", n_rate=29, n_cs0
     within = sse_prof <= sse_min * 1.10
     frac_within = float(np.mean(within))                  # fraction of LOG-rate grid pts
     lo = float(rates[within][0]); hi = float(rates[within][-1])
-    log_width = float(np.log(hi / lo))                    # domain-independent width
+    log_width = float(np.log(hi / lo))                    # width WITHIN the tested domain
+    # A3-04: is the 10% tolerance set CENSORED by the tested domain? If it reaches an
+    # edge, the true near-optimal extent is open there and log_width is a LOWER BOUND.
+    lower_censored = bool(within[0]); upper_censored = bool(within[-1])
+    width_censored = bool(lower_censored or upper_censored)
     # MAPE cross-check: same 10% tolerance under the predictive metric
     mape_min = float(np.min(mape_prof))
     within_mape = mape_prof <= mape_min * 1.10
     frac_within_mape = float(np.mean(within_mape))
-    mape_agrees = bool(frac_within_mape >= 0.30 and frac_within >= 0.30)  # both flat
+    # A3-09/A3-12: QUANTITATIVE agreement between the SSE and MAPE tolerance sets --
+    # Jaccard overlap of grid membership + log-distance between the two objective
+    # minima -- replaces the arbitrary "both fractions > 0.30" binary flag.
+    inter = int(np.sum(within & within_mape)); union = int(np.sum(within | within_mape))
+    jaccard = float(inter / union) if union else float("nan")
+    rate_mape_min = float(rates[int(np.argmin(mape_prof))])
+    best_rate_log_distance = float(abs(np.log(rate_star / rate_mape_min)))
+    mape_agrees = bool(np.isfinite(jaccard) and jaccard >= 0.5)  # DERIVED from overlap
     return dict(
         variety=variety, solute=solute, n_conditions=len(m),
         rate_star=round(rate_star, 3), c_s0_star=round(cs0_star, 3),
@@ -810,8 +972,15 @@ def identifiability_panel(variety="Arabica", solute="caffeine", n_rate=29, n_cs0
         profile_rate_within10pct=[round(lo, 2), round(hi, 2)],
         profile_fraction_of_log_grid=round(frac_within, 2),
         profile_log_width=round(log_width, 3),
+        # A3-04: censoring of the 10% tolerance set by the tested rate domain
+        profile_lower_censored=lower_censored,
+        profile_upper_censored=upper_censored,
+        profile_log_width_censored=width_censored,
         # MAPE cross-check (secondary metric): same flat-valley conclusion?
         mape_profile_fraction_within10pct=round(frac_within_mape, 2),
+        # A3-09/A3-12: quantitative SSE<->MAPE set agreement (not an arbitrary flag)
+        sse_mape_threshold_jaccard=round(jaccard, 2) if np.isfinite(jaccard) else None,
+        sse_mape_best_rate_log_distance=round(best_rate_log_distance, 3),
         mape_cross_check_agrees=mape_agrees,
         # --- surface + profile + Hessian for the objective-surface figure (Fig 2) ---
         surface=dict(rates=[float(x) for x in rates],
@@ -822,11 +991,12 @@ def identifiability_panel(variety="Arabica", solute="caffeine", n_rate=29, n_cs0
                      sse=[float(x) for x in sse_prof], sse_min=float(sse_min)),
         hessian_logparams=[[float(Suu), float(Suv)], [float(Suv), float(Svv)]],
         verdict=("(c_s0, rate) is PRACTICALLY NON-IDENTIFIABLE from single-grind "
-                 "matched-mass whole-cup data. %s The MODEL-FREE evidence is the "
-                 "profile: the SSE (optimised over c_s0) stays within 10%% of the "
-                 "minimum over %.0f%% of the swept log-rate grid [%.2f, %.2f] -> the "
-                 "data do not bound the rate (the MAPE cross-check agrees: %.0f%% of "
-                 "the grid); and the best rate sits at %s."
+                 "matched-mass whole-cup data. %s The objective-based evidence "
+                 "(conditional on the model and observation operator) is the profile: "
+                 "the SSE (optimised over c_s0) stays within 10%% of the minimum over "
+                 "%.0f%% of the swept log-rate grid [%.2f, %.2f]%s -> the data do not "
+                 "bound the rate; the MAPE tolerance set overlaps the SSE set with "
+                 "Jaccard %.2f. The best rate sits at %s."
                  % (("Log-parameter SSE-Hessian condition number %.0f with an inverse-"
                      "curvature coupling %.2f (~ -1, the valley direction; a geometric "
                      "diagnostic, NOT a statistical correlation)."
@@ -834,7 +1004,10 @@ def identifiability_panel(variety="Arabica", solute="caffeine", n_rate=29, n_cs0
                     ("The rate optimum is at the sweep boundary / the sloppy "
                      "direction is flat to numerical precision, so the local "
                      "Hessian is unreliable here (an even MORE degenerate case)."),
-                    100 * frac_within, lo, hi, 100 * frac_within_mape,
+                    100 * frac_within, lo, hi,
+                    (" (upper extent RIGHT-CENSORED by the tested domain)" if upper_censored
+                     else (" (lower extent censored)" if lower_censored else "")),
+                    jaccard if np.isfinite(jaccard) else float("nan"),
                     "an interior stationary point" if not rate_at_boundary
                     else "a shallow boundary optimum (corollary 1)")))
 
@@ -1129,27 +1302,36 @@ def geometry_sensitivity_transfer(varieties=("Arabica", "Robusta"),
                     conds = [(r["T_degC"], r["p_bar"]) for r in rows]
                     m = np.array([r[col] for r in rows], float)
                     f = frac(params[sol], rs, conds, g, geom)
-                    held[g] = round(float(np.mean(np.abs(c * f - m) / m) * 100), 0)
+                    # review A3-03: keep FULL PRECISION; a sub-1 pp spread was being
+                    # rounded to integers before the spread was computed. Round only
+                    # for the display copy below.
+                    held[g] = float(np.mean(np.abs(c * f - m) / m) * 100)
                 per_geom[gname] = held
-            cvals = [per_geom[g2]["C"] for g2 in _PGEOM]
+            cvals = [per_geom[g2]["C"] for g2 in _PGEOM]      # raw floats
             fvals = [per_geom[g2]["F"] for g2 in _PGEOM]
             out[f"{variety}:{sol}"] = dict(
-                per_geometry=per_geom,
-                heldout_C_spread=[min(cvals), max(cvals)],
-                heldout_F_spread=[min(fvals), max(fvals)])
-    max_spread = max(max(x["heldout_C_spread"][1] - x["heldout_C_spread"][0],
-                         x["heldout_F_spread"][1] - x["heldout_F_spread"][0])
-                     for x in out.values())
-    return dict(per_fit=out, max_geometry_spread_pp=max_spread,
+                per_geometry={gn: {g: round(v, 2) for g, v in hd.items()}
+                              for gn, hd in per_geom.items()},   # display only
+                heldout_C_spread=[round(min(cvals), 2), round(max(cvals), 2)],
+                heldout_F_spread=[round(min(fvals), 2), round(max(fvals), 2)],
+                # raw spread for the headline (NOT rounded upstream)
+                _c_spread_raw=max(cvals) - min(cvals),
+                _f_spread_raw=max(fvals) - min(fvals))
+    max_spread = max(max(x["_c_spread_raw"], x["_f_spread_raw"])
+                     for x in out.values())                   # full precision
+    return dict(per_fit=out, max_geometry_spread_pp=round(max_spread, 2),
                 geometries=_PGEOM,
                 verdict="Re-running the frozen O->C/F transfer under each of the three "
-                        "pannusch fitted geometries (1.4/1.7/2.0) moves the held-out "
-                        "C/F MAPE by at most %.0f pp -- the geometry varies <15%% across "
-                        "grinds, so the §5 transfer conclusion is ROBUST to the frozen-"
-                        "geometry choice (the residual is not a geometry artefact). A "
-                        "calibrated cross-grinder map is still unavailable (rule 9); "
-                        "this sweeps the observed geometry range instead." % max_spread,
-                strength="geometry sensitivity (sweep of the fitted grind geometries)")
+                        "pannusch fitted geometries (1.4/1.7/2.0) applied GLOBALLY moves "
+                        "the held-out C/F MAPE by at most %.2f pp. This shows only LIMITED "
+                        "sensitivity to the tested GLOBAL Pannusch geometry choice; it does "
+                        "NOT test a grind-specific cross-grinder geometry map (O/C/F -> "
+                        "different Pannusch geometries), which is unavailable (rule 9/A3-20). "
+                        "So the residual is not highly sensitive to the tested global "
+                        "geometry setting -- not that it is broadly geometry-independent."
+                        % max_spread,
+                strength="global-geometry sensitivity (sweep of the fitted grind "
+                         "geometries applied to all grinds); NOT a cross-grinder map test")
 
 
 def flow_map_sensitivity_transfer(variety="Arabica", solute="caffeine",

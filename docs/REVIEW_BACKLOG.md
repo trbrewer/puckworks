@@ -52,3 +52,34 @@ already made to defer, e.g. release tag).
   panel relabel, Fig 4 neutralisation, experimental-unit hierarchy correction, **MAJ-04**
   achieved-predictor RSM refit, **MAJ-09** data-driven Figure 2.
 - See ROADMAP §7.1 (2026-07-12/13 entries) for the full changelog and commit trail.
+
+## Paper A (`PAPER_A_THIRD_DETAILED_REVIEW.md`, 2026-07-13)
+
+### DONE this round (code + manuscript + figures, committed)
+| id | task | notes |
+|---|---|---|
+| A3-01 | Null-benchmark skill package | `transfer_skill_vs_baselines`: O-trained MAPE-optimal constant + same-(T,p) O lookup vs the mechanistic O→C/F transfer, full precision. Finding CONFIRMS the review: pooled model **8.2 %** vs constant **8.6 %** → skill **≈4 %**, model worse than the constant on **50/108** held-out points. In the bundle + 3 build claims + test + Fig 4 panel (c). Abstract/Result 3/Discussion rewritten around it |
+| A3-03 | Round-before-aggregate defects | `geometry_sensitivity_transfer` (was integer-rounded → **0.6 pp** at full precision), `joint_multigrind_fit` (`independent_mean_raw`; indep mean from raw), `refit_pannusch_angeloni` (`mape_holdout_raw`). Regression tests added |
+| A3-04 | Boundary censoring + language | panel now returns `profile_lower/upper_censored`, `profile_log_width_censored`; "no bounded minimum" removed from abstract/Result 2 ("interior minimum, but the 10 % set is right-censored"); Fig 2 shows a right-open arrow |
+| A3-09/A3-12 | SSE↔MAPE overlap replaces binary flag | panel returns `sse_mape_threshold_jaccard` (0.86 caffeine) + `sse_mape_best_rate_log_distance`; `mape_cross_check_agrees` now derived from Jaccard≥0.5 |
+| A3-06/A3-23/A3-32 | Evidence-taxonomy sync | `joint_multigrind_fit` → in-sample compatibility (not "REAL transfer test"/"transfers reasonably"); `validate_refit_granulometry` verdict → null-benchmark caveat; `external_waszkiewicz` → "target-profiled external shape test" (not "Frozen external prediction"), cup flatness labelled algebraic. Terminology guard test added |
+| A3-05 (part) | Figures | Fig 4 redesigned with the null-baseline skill panel + neutral title + matched-volume label; Fig 2 censoring arrow + MAPE-fraction/Jaccard annotation + neutral title |
+| A3-07 (part) | Matched-volume terminology | abstract/Result 1/Fig 4 now say "matched beverage endpoint (40 mL matched-volume proxy)" (endpoint-mass sensitivity already run last round, A2-09) |
+| A3-14 (part) | Ratio wording | manuscript uses profile fraction/width directly; identifiability.py already labels the ratio a descriptive range-dependent proxy |
+
+### UNBLOCKED-LARGE remaining (deferred; can be done later)
+| id | task | notes |
+|---|---|---|
+| A3-02 | Grid-converged / continuous profile-wise PREDICTION set (not just aggregate MAPE); propagate to condition-level C/F | the SSE profile continuous optimiser + 18/36/72/144 grid convergence already exist (A2-06/MAJ-04); what remains is propagating the near-optimal SET to per-condition prediction envelopes (A3-11) and threshold-sensitivity (2/5/10/20 %) |
+| A3-11 | Condition-wise prediction envelopes across the profile set (per T,p,grind,solute) | needs per-point propagation surfaced through the harness + a Fig 4 envelope overlay |
+| A3-05 (rest) | Fig 6 external Waszkiewicz panel + 3-tier redesign; Fig 3 residual-vs-(T,p) + baseline; Fig 5 reduced-model ladder | Fig 7/8 already give per-group + residual scatter; the Fig 6 external tier and Fig 3/5 baseline overlays remain |
+| A3-15/A3-16 | Same-model simulation: off-grid truth + model discrepancy already delivered (A-MAJ13 dose-response); still owed: correlated/heteroscedastic noise, continuous fitted rate | |
+| A3-13 | Table 7 quantitative intersection (inventory band → implied rate range) | needs a unit-conversion audit + intersection solve |
+| A3-19 | Reduced-model ladder for the joint fit (Model 0–3, parameter counts) | |
+| A3-24 (rest) | More contract tests (profile-set construction, figure/result sync) | core precision/skill/censoring/taxonomy tests added |
+
+### BLOCKED-EXTERNAL / VENUE / DEFERRED (not actionable here)
+- **A3-12/6.13, A3-21** replicate-level RSD / heteroscedastic weighting — needs source re-intake (same as A-MAJ22).
+- **A3-08, A3-27(bib), 6.35–6.40, §7** full manuscript conversion (equations, Methods, bibliography, remove review IDs/ledger) — VENUE; large writing.
+- **A3-08(release)** frozen `paper-a-v1.0.0` tag + env lock + DOI + vector figures — DEFERRED to submission RC.
+- **A3-06(likelihood)** likelihood-based profile confidence/prediction intervals — needs a specified noise model (out of scope by design).

@@ -54,6 +54,7 @@ def compute_all(out_path=RESULTS):
         panel_trigonelline=ab.identifiability_panel("Arabica", "trigonelline"),
         identifiability_convergence=ab.identifiability_panel_convergence(),  # A2-06/07 + MAJ-04
         transfer=ab.validate_refit_granulometry(),
+        transfer_skill=ab.transfer_skill_vs_baselines(),   # A3-01 null-benchmark skill
         joint=ab.joint_multigrind_fit(),
         loco=ab.loco_cv_refit(),
         positive_control=idn.identifiability_fractions_vs_cup(),
@@ -226,14 +227,25 @@ def fig2_objective_surface(results=None, outdir=OUTDIR):
                          % (100 * p["profile_fraction_of_log_grid"]))
         axp.set_xscale("log"); _logclean(axp)
         axp.set_ylim(0, 0.6)
+        # A3-04/A3-27: mark right-censoring where the 10% set reaches the tested boundary
+        if p.get("profile_upper_censored"):
+            rmax = float(pr[-1])
+            axp.annotate("", xy=(rmax, 0.05), xytext=(rmax / 1.7, 0.05),
+                         arrowprops=dict(arrowstyle="->", color=BAD, lw=1.6))
+            axp.text(rmax, 0.085, "set open\n(≥ %.1f, censored)" % rmax, color=BAD,
+                     ha="right", va="bottom", fontsize=6.2)
+        axp.text(0.03, 0.95, "MAPE set: %.0f%% of grid\nSSE∩MAPE Jaccard %.2f"
+                 % (100 * p["mape_profile_fraction_within10pct"],
+                    p.get("sse_mape_threshold_jaccard") or float("nan")),
+                 transform=axp.transAxes, va="top", ha="left", fontsize=6.2, color=NULL)
         axp.set_xlabel("rate scale (dimensionless, log)")
         axp.set_ylabel("profiled $(J-J_{\\min})/J_{\\min}$")
         axp.legend(fontsize=6.8, loc="upper center")
     cb = fig.colorbar(im, ax=axes[0, :].tolist(), shrink=0.85, pad=0.02,
                       label="normalized SSE increase $(J-J_{\\min})/J_{\\min}$")
-    fig.suptitle("Fig 2 — inventory–rate SSE surface + profile: a flat valley "
-                 "(practical non-identifiability)", y=0.99, fontsize=10.5,
-                 fontweight="bold")
+    fig.suptitle("Fig 2 — inventory–rate SSE surface and profiled objective "
+                 "(10 % tolerance set right-censored at the domain edge)", y=0.99,
+                 fontsize=10.0, fontweight="bold")
     return _save(fig, outdir, "fig2_objective_surface.png")
 
 
@@ -267,13 +279,18 @@ def fig3_holdouts(results=None, outdir=OUTDIR):
 
 
 def fig4_transfer(results=None, outdir=OUTDIR):
-    """Fig 4 — matched-cup O->C/F frozen transfer: observed vs predicted by
-    condition, held-out grinds C and F."""
+    """Fig 4 — matched-volume O->C/F transfer with a NULL BENCHMARK (review A3-01/A3-05):
+    panels (a,b) observed vs predicted for held-out C and F; panel (c) the mechanistic
+    model's held-out MAPE against an O-trained level-only constant per fit x grind, with
+    the pooled skill. Neutral title; the central message is that the model barely beats
+    the constant."""
     import numpy as np
     r = _load(results); plt = _plt()
     pts = r["transfer"]["points"]
-    fig, axes = plt.subplots(1, 2, figsize=(9.2, 4.4))
-    for ax, g in zip(axes, ("C", "F")):
+    ts = r.get("transfer_skill")
+    fig, axes = plt.subplots(1, 3, figsize=(13.2, 4.3),
+                             gridspec_kw=dict(width_ratios=[1, 1, 1.25]))
+    for ax, g in zip(axes[:2], ("C", "F")):
         mx = 0
         for variety in ("Arabica", "Robusta"):
             for sol in ("caffeine", "trigonelline", "5CQA"):
@@ -285,12 +302,34 @@ def fig4_transfer(results=None, outdir=OUTDIR):
                            label=f"{sol} ({variety[:3]})")
                 mx = max([mx] + obs + pred)
         ax.plot([0, mx * 1.1], [0, mx * 1.1], color=NULL, ls=":", lw=1.2)
-        ax.set_title("(%s) held-out grind %s (matched 40 g cups)"
-                     % ("a" if g == "C" else "b", g))
+        ax.set_title("(%s) held-out grind %s (matched-volume proxy)"
+                     % ("a" if g == "C" else "b", g), fontsize=9)
         ax.set_xlabel("observed (g L$^{-1}$)"); ax.set_ylabel("predicted (g L$^{-1}$)")
         ax.legend(fontsize=6, loc="upper left", ncol=2)
-    fig.suptitle("Fig 4 — frozen O->C/F transfer at matched mass (transfers "
-                 "reasonably; ≤1 pp geometry-sensitive)", y=1.02, fontsize=10,
+    # (c) model vs O-trained-constant baseline: paired MAPE per fit x grind
+    axc = axes[2]
+    if ts is not None:
+        labels, model_v, const_v = [], [], []
+        for key, x in ts["per_fit"].items():
+            var, sol = key.split(":")
+            for g in ("C", "F"):
+                labels.append(f"{var[:3]}:{sol[:4]}:{g}")
+                model_v.append(x[g]["model_mape"]); const_v.append(x[g]["const_mape"])
+        idx = np.arange(len(labels)); w = 0.4
+        axc.barh(idx - w / 2, const_v, w, color=NULL, label="O-trained constant")
+        axc.barh(idx + w / 2, model_v, w, color=ACCENT, label="mechanistic model")
+        axc.set_yticks(idx); axc.set_yticklabels(labels, fontsize=5.6)
+        axc.invert_yaxis()
+        axc.set_xlabel("held-out MAPE (%)")
+        axc.set_title("(c) model vs null baseline — pooled skill %.0f%%"
+                      % (100 * ts["skill_vs_const"]), fontsize=9)
+        axc.legend(fontsize=6.5, loc="lower right")
+        axc.text(0.97, 0.30, "model worse than\nconstant on %d/%d points"
+                 % (ts["n_model_worse_than_const"], ts["n_points"]),
+                 transform=axc.transAxes, ha="right", va="bottom", fontsize=6.2,
+                 color=BAD)
+    fig.suptitle("Fig 4 — O→C/F transfer vs an O-trained level-only baseline "
+                 "(matched-volume proxy for the 40 g endpoint)", y=1.02, fontsize=9.6,
                  fontweight="bold")
     return _save(fig, outdir, "fig4_transfer.png")
 

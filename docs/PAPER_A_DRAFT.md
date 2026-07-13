@@ -25,36 +25,50 @@ data (`pannusch2024`, calibrated on the Schmieder kinetics) retains a unique kin
 interpretation when refitted to an independent endpoint dataset (`angeloni2023`; a
 different machine, coffee, and basket). Profiling the model's two adjustable knobs —
 a per-species solid **inventory** and a Sherwood mass-transfer **rate** scale —
-against **matched-beverage-mass** cup concentrations at a single grind reveals a
-strong **practical non-identifiability**: the rate is not separately estimable over
-the tested domain because the inventory compensates, quantified on the SSE surface by
-a log-parameter Hessian condition number of order 10³ and a local inverse-curvature
-coupling near −1 (a geometric diagnostic of the SSE valley, **not** a statistical
-parameter correlation — no likelihood is specified), with a rate profile that stays
-within 10 % of its minimum across most of a wide rate sweep (and a MAPE cross-check
-that agrees).
-Crucially, we report **parameter identifiability and predictive transfer as separate
-properties** — and they diverge. Although the individual parameters are not
-identifiable, a calibration frozen on one grind **predicts the held-out coarse/fine
-grinds reasonably** (~3–18 % error at the point optimum). We test this along the whole
-valley rather than at one point: transferring the **entire near-optimal O-grind set**
-(rates within 10 % of the fit minimum), not just the selected optimum, the worst held-out
-C/F error rises modestly to **~22 %** (from ~18 % at the point optimum) — so predictions
-are **reasonably, though not perfectly, stable along the compensating manifold**; the
-compensation is approximately prediction-invariant, tested not assumed (review A2-02). A single shared (inventory, rate) fitted jointly to all grinds
-reconstructs the pooled data at 6.4 % macro-MAPE vs 4.9 % for separate per-grind fits (a
-modest **in-sample** compatibility cost of parameter sharing, not a held-out prediction).
+against cup concentrations at a **matched beverage endpoint** (a 40 mL matched-volume
+proxy for the 40 g cup) at a single grind reveals a strong **practical
+non-identifiability**: the rate is not separately estimable over the tested domain
+because the inventory compensates. On the SSE surface a local log-parameter Hessian is
+highly ill-conditioned (condition number of order 10³, basis- and discretisation-
+dependent) with an inverse-curvature coupling near −1 (a geometric diagnostic of the
+SSE valley, **not** a statistical parameter correlation — no likelihood is specified);
+more robustly, the profiled objective stays within 10 % of its minimum from ≈0.4 up to
+the **upper tested rate boundary** (so its upper extent is **right-censored** by the
+domain, not closed), and a MAPE tolerance set overlaps the SSE set.
+Crucially, we report **parameter identifiability, predictive transfer, and incremental
+skill over a null model as separate properties**. Although the individual parameters are
+not identifiable, a calibration frozen on one grind produces held-out coarse/fine-grind
+absolute errors of **~3–18 %** at the point optimum. But absolute error alone does **not**
+establish mechanistic transfer skill: against an **O-trained level-only constant**
+baseline (a single concentration fit to the O grind, carrying no temperature/pressure/
+flow/kinetic response), the mechanistic model's pooled held-out MAPE is **8.2 %** versus
+**8.6 %** for the constant — an incremental skill of only **≈4 %** relative, and the
+model is worse than the constant on **50 of 108 held-out points**. The kinetic/transport
+structure therefore adds little beyond the transferred level; the scientifically robust
+statement is that the fitted level-plus-rate pair does not catastrophically deteriorate
+across grinds, not that the mechanism transfers. Propagating the **discrete 10 %-near-
+optimal MAPE grid set** (rates within 10 % of the O-fit minimum on an 18-point rate grid,
+a declared set — not a continuous manifold) to C/F, the worst **aggregate** held-out MAPE
+rises to **~22 %**; condition-wise prediction envelopes remain owed. A single shared
+(inventory, rate) fitted jointly to all grinds reconstructs the pooled data at 6.4 %
+macro-MAPE vs 4.9 % for separate per-grind fits — an **in-sample** parameter-sharing
+penalty (not a held-out prediction), whose adequacy must be judged against reduced-model
+baselines since a per-grind constant is nearly competitive.
 This corrects an earlier version of this analysis, which — using an **unmatched fixed-time
 integration window** — reported a large cross-grind transfer failure; that failure
 was mostly a measurement-window artefact. Finally, across an **in-sample
 verification** on the model's own calibration campaign and an **independent
 second-rig TDS trajectory** (Waszkiewicz et al. 2026), retaining temporal resolution
-consistently constrains the rate while an integrated aggregate does not — most
-starkly on the single external shot, whose integrated cup carries no rate information
-at all. The lesson is that a low endpoint error need not identify a mechanism even
-when it *does* transfer: identifiability, transfer, and endpoint accuracy are
-distinct properties and must be reported separately, and matching the beverage
-endpoint is a prerequisite for any of them.
+moves the rate objective more than an integrated aggregate does — though on the single
+external shot the flat integrated-cup profile is **algebraic** (one scalar concentration
+is matched by one profiled level at every rate), not an empirical no-information result,
+and the external trajectory minimum remains shallow and high-error (~27 % MAPE). The
+lesson is that a low endpoint error need not identify a mechanism, and need not even
+signal mechanistic transfer skill beyond a level-only baseline: identifiability,
+predictive transfer, endpoint accuracy, and incremental skill over a null model are
+**distinct properties** that must be reported separately. A validation score is
+interpretable only when the model output is mapped to the **same observation window and
+endpoint** as the data.
 
 ---
 
@@ -213,7 +227,8 @@ total-solids assay, and (§6) Waszkiewicz's is an optical-refractometer reading;
 are not an equivalent analyte, so we never pool the proxy with named molecules.
 
 We ran three successively stricter tests on granulometry O (≈ the model's calibrated
-grind), all at the **matched 40 g cup** endpoint. *[The holdout is a mean of two
+grind), all at the **matched beverage endpoint** (40 mL matched-volume proxy for the
+40 g cup, ρ≈1). *[The holdout is a mean of two
 off-grid O points per solute × variety — a small internal check, superseded by the
 leave-one-condition-out CV of §5 (M4).]*
 
@@ -273,11 +288,15 @@ the matched endpoint, *stronger* than before: **condition number ≈ 1930** (one
 one sloppy direction; interior optimum, reliable Hessian) and a **local inverse-curvature
 coupling ≈ −0.99** — a geometric diagnostic of the SSE valley (the sloppy eigenvector
 lies almost exactly along `c_s0·φ = const`), **not** a statistical parameter correlation,
-since no likelihood is specified. The profiled SSE stays within 10 % of the minimum over
-**~76 % of the swept log-rate grid** [0.4–6.5] (log-width ≈ 2.8), and the **MAPE
-cross-check agrees** (the exact weighted-median MAPE profile is flat within 10 % over
-**~66 %** of the grid — a broad plateau with no bounded minimum under either objective;
-the earlier "33 %" was a tuple-indexing bug, review A2-01, now corrected and unit-tested).
+since no likelihood is specified. The profiled SSE has an **interior numerical minimum**, but its 10 %-above-minimum set
+extends from ≈0.4 up to the **upper tested rate boundary (6.5)** — so the set is
+**right-censored** by the tested domain (its upper extent is not closed, and the reported
+log-width ≈ 2.8 is a *lower bound* on the full near-optimal extent, not a domain-
+independent width). It covers **~76 % of the swept log-rate grid**. The exact
+weighted-median **MAPE** profile agrees quantitatively — its 10 % set overlaps the SSE set
+with **Jaccard ≈ 0.86** and covers ~66 % of the grid (replacing the earlier arbitrary
+binary "agreement" flag; the still-earlier "33 %" was a tuple-indexing bug, review A2-01,
+now corrected and unit-tested).
 Trigonelline is similar (condition number ≈ 3600,
 coupling ≈ −0.84, SSE profile flat over ~45 % of the grid). This is practical
 non-identifiability over the tested domain, quantified — robust to the matched-mass and
@@ -313,36 +332,47 @@ hydraulic conductivity, nominal grind-specific shot time, and viscosity correcti
 | trigonelline | 2–4 % | 7–8 % | 3–7 % |
 | 5-CQA | 5–12 % | 10–18 % | 5–9 % |
 
-The frozen O calibration **transfers reasonably** to the other grinds (held-out
-C ~7–18 %, F ~3–9 %). This is a large improvement over our pre-correction draft,
-which reported **25–49 %** held-out error and concluded the model "does not transfer
-across grind." **That failure was mostly an artefact of the unmatched 25 s
-endpoint** (review B1/B5): once cups are matched to the target beverage mass, the
-transfer is much better. **This is an internal cross-grind holdout** — C and F are
-held-out granulometries from the *same* Angeloni campaign (same varieties, platform,
-assay), a within-campaign design extrapolation, not an external-rig prediction (review
-A2-03). A **shared-parameter compatibility analysis** complements it: a *single shared*
+The frozen O calibration produces held-out **absolute** errors of C ~7–18 %, F ~3–9 %
+— a large improvement over our pre-correction draft, which reported **25–49 %** held-out
+error and concluded the model "does not transfer across grind." **That failure was mostly
+an artefact of the unmatched 25 s endpoint** (review B1/B5): once cups are matched to the
+target beverage endpoint, the absolute error is much smaller. **This is an internal
+cross-grind holdout** — C and F are held-out granulometries from the *same* Angeloni
+campaign (same varieties, platform, assay), a within-campaign design extrapolation, not
+an external-rig prediction (review A2-03).
+
+**Null benchmark (review A3-01): absolute error alone does not establish transfer skill.**
+Because the model profiles a free inventory level, a constant carrying only that level is
+the natural null. Against an **O-trained MAPE-optimal constant** — one concentration fit
+to the nine O observations and applied unchanged to C/F, with no temperature, pressure,
+flow, or kinetic response — the mechanistic model's pooled held-out MAPE is **8.2 %**
+versus **8.6 %** for the constant (`transfer_skill_vs_baselines`). That is an incremental
+skill of only **≈4 % relative** (0.4 pp), and the model is **worse than the constant on
+50 of 108 held-out points** (better than a same-(T,p) O lookup, 10.8 %, by ~2.6 pp). The
+honest reading is therefore that the fitted level-plus-rate pair *does not catastrophically
+deteriorate* across grinds — **not** that the kinetic/transport mechanism transfers: its
+incremental predictive skill over a level-only baseline is small, and endpoint-level MAPE
+does not diagnose mechanism. This sharpens rather than weakens the paper's thesis.
+
+A **shared-parameter compatibility analysis** complements the holdout: a *single shared*
 `(c_s0, rate_scale)` fitted jointly to O+C+F (`joint_multigrind_fit`) reconstructs the
 pooled data at **6.4 % macro-MAPE against 4.9 %** for the per-grind independent fits — a
-modest **in-sample** cost-of-sharing of ~1.5 pp, with every rate interior to the widened
-domain. This is a compatibility test (it scores the same pooled observations it was
-fitted to), **not** a held-out prediction; it shows an adequate shared cross-grind
-calibration *exists* at the matched endpoint without over-claiming predictive transfer.
+modest **in-sample** cost-of-sharing of ~1.5 pp. This is an in-sample compatibility test
+(it scores the same pooled observations it was fitted to), **not** a held-out prediction,
+and its adequacy must be judged against reduced-model baselines (a per-grind constant is
+nearly competitive), not an absolute cutoff.
 
-This is the empirical payoff of separating the two questions (review M1): the
-`(inventory, rate)` split is **degenerate within a grind** — the fitted rate flips
-with incidental choices (§4) — **yet the level+rate *pair* predicts the other grinds
-well**. Transferring the *whole* near-optimal O-grind set (O-MAPE within 10 % of the
-minimum), the worst held-out C/F error rises only to **21.7 %** (vs 18.2 % at the point
-optimum; `validate_refit_granulometry.manifold_transfer`) — so predictions are
-**reasonably, not perfectly, stable along the compensating manifold**: the compensation
-is approximately prediction-invariant, degrading a few percentage points at the manifold
-edges rather than blowing up. This is the empirical distinction between parameter
-identifiability and prediction stability, *tested* (review A2-02) rather than asserted.
-Individual
-non-identifiability did *not* imply predictive non-transfer. Strength: **held-out /
-joint predictive transfer** (reasonable), conditioned on the tested flow maps, frozen
-centre-grind geometry, and matched endpoint.
+The `(inventory, rate)` split is **degenerate within a grind** — the fitted rate flips
+with incidental choices (§4). Propagating the **discrete 10 %-near-optimal MAPE grid set**
+(O-MAPE within 10 % of the minimum on the 18-point rate grid — a *declared set*, not a
+continuous manifold), the worst **aggregate** held-out C/F error rises to **21.7 %** (vs
+18.2 % at the point optimum; `validate_refit_granulometry.manifold_transfer`) — so the
+*aggregate* error is stable across the set, though condition-wise prediction envelopes
+remain owed (review A3-11). This illustrates the distinction between parameter
+identifiability and aggregate prediction stability, *tested* (review A2-02) rather than
+asserted. Strength: **within-campaign cross-grind holdout with a null-model skill
+comparison**, conditioned on the tested flow maps, frozen centre-grind geometry, and
+matched endpoint.
 
 **Cross-validation, uncertainty, and robustness** (`loco_cv_refit`,
 `geometry_sensitivity_transfer`). Replacing the weak two-off-grid-point holdout with
@@ -373,8 +403,10 @@ refitted and transferred under the perturbed map, moves the held-out MAPE by **�
 *prediction* barely moves) — so the transfer conclusion does not hinge on the exact
 flow-map magnitude, though it remains conditional on the inferred-map *form* (a per-shot
 measured flow trace is still owed). Together these support the corrected §5 conclusion —
-the calibration transfers reasonably across grind — with cross-validation, descriptive
-uncertainty, and loss/geometry/flow-map robustness, not a two-point mean.
+the calibration's held-out **absolute** error is modest and does not catastrophically
+deteriorate across grind (while its incremental skill over a level-only null is small,
+per the benchmark above) — with cross-validation, descriptive uncertainty, and
+loss/geometry/flow-map robustness, not a two-point mean.
 
 ## 6. In-sample fraction verification and an independent external TDS trajectory test
 
@@ -477,27 +509,30 @@ this design and objective, not a theorem that every endpoint design identifies o
 a product — sufficiently informative endpoints at different residence times, flows,
 or temperatures could in principle carry rate information.
 
-**Identifiability and transfer diverge here.** The single-grind endpoint does not
-pin the rate (§4), yet the frozen level+rate pair transfers reasonably across grind
-and a shared calibration exists (§5). This is the textbook distinction between
-*parameter* identifiability and *predictive* transfer: predictions are stable along
-the compensating manifold even though the parameters on it are not individually
-estimable. What would separately *identify* the rate is different information —
-holding the inventory to an independent measurement, or time-resolved fractions,
-which constrain the rate via the early-time slope where an aggregated endpoint does
-so weakly (§6). Angeloni report an endpoint only, which is why *this* dataset does
-not, on its own, identify the two — though it transfers.
+**Four distinct properties.** The single-grind endpoint does not pin the rate (§4); the
+frozen level+rate pair's held-out **absolute** error across grind is modest (§5); but its
+**incremental skill over a level-only null is small** (§5, A3-01); and a shared fit is
+*in-sample* compatible (§5). These are four separate properties — **parameter
+identifiability, endpoint accuracy, predictive skill over a benchmark, and cross-grind
+transferability** — and they do not coincide here. Aggregate prediction is stable across
+the near-optimal set even though the parameters on it are not individually estimable, but
+that stability is *not* the same as adding mechanistic information beyond a transferred
+level. What would separately *identify* the rate is different information — holding the
+inventory to an independent measurement, or time-resolved fractions, which constrain the
+rate via the early-time slope where an aggregated endpoint does so weakly (§6).
 
-**Lesson for cross-dataset extraction-model validation.** A single-grind endpoint
-MAPE — even a low held-out one, and even one that *transfers* — need not identify a
-mechanism: **endpoint accuracy, parameter identification, and frozen-parameter
-transfer are distinct properties and must be reported separately.** A second lesson
-is procedural: **matching the beverage endpoint is a prerequisite** — an unmatched
-fixed-time window manufactured a spurious cross-grind transfer failure in our earlier
-draft, which the correction removed. On the strength ladder, the
-`pannusch2024`→`angeloni2023` refit is **post-fit reconstruction (a new calibration
-on the angeloni coffee) whose frozen predictions transfer reasonably across grind at
-matched mass, but which does not, on this dataset, identify the kinetic rate.**
+**Lesson for cross-dataset extraction-model validation.** A single-grind endpoint MAPE —
+even a low held-out one — need not identify a mechanism *and need not signal mechanistic
+skill beyond a null model*: **endpoint accuracy, parameter identification, cross-grind
+transferability, and incremental skill are distinct properties and must be reported
+separately.** A second, procedural lesson: **a validation score is interpretable only when
+the model output is mapped to the same observation window and endpoint as the data** — an
+unmatched fixed-time window manufactured a spurious cross-grind transfer failure in our
+earlier draft, which the correction removed. On the strength ladder, the
+`pannusch2024`→`angeloni2023` refit is **post-fit reconstruction (a new calibration on the
+angeloni coffee) whose frozen held-out error is modest at the matched endpoint but whose
+incremental skill over a level-only baseline is small, and which does not, on this
+dataset, identify the kinetic rate.**
 
 **Standing position.** `pannusch2024` remains a Schmieder-calibrated runtime;
 `angeloni2023` is an independent target. A refit to angeloni transfers across grind
@@ -551,8 +586,9 @@ slow analysis functions, none hand-typed):
   (§4).
 - **Fig 3** — every leave-one-condition-out held-out point (observed vs predicted)
   by solute × variety — the distribution behind the pooled 6.5 % (§5, M4).
-- **Fig 4** — frozen O→C/F transfer at matched 40 g cups: observed vs predicted per
-  condition, grinds C and F (§5).
+- **Fig 4** — O→C/F transfer at the matched-volume endpoint proxy: observed vs predicted
+  per condition (grinds C, F) **plus a third panel comparing the model against an
+  O-trained level-only constant baseline** and reporting the pooled skill (§5, A3-01).
 - **Fig 5** — joint shared-(c_s0, rate) residual by variety × solute × grind, with
   the cost-of-sharing and rate-boundary flags (§5).
 - **Fig 6** — rate profiles: fraction scoring (sharp) vs the sampled aggregate and

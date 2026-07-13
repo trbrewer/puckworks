@@ -56,6 +56,15 @@ _CLAIMS = [
      "identifiability_convergence.continuous_optimiser.continuous_rate_optimum", 0.66, 0.20),
     ("endpoint-mass caveat: MAPE moves ~5pp over 38-42 mL",
      "endpoint_mass_sensitivity.overall_mape_spread_pp", 5.3, 1.5),
+    # A3-01 null-benchmark skill (submission-blocking finding)
+    ("null-benchmark skill vs O-constant ~4% (small)",
+     "transfer_skill.skill_vs_const", 0.042, 0.04),
+    ("model pooled held-out MAPE ~8.2%", "transfer_skill.pooled_model_mape", 8.23, 0.5),
+    ("O-trained constant baseline MAPE ~8.6%",
+     "transfer_skill.pooled_const_mape", 8.59, 0.5),
+    # A3-03 geometry spread at FULL precision (was rounded to integers)
+    ("geometry spread ~0.6pp full precision (A3-03)",
+     "geometry_sensitivity.max_geometry_spread_pp", 0.6, 0.5),
 ]
 
 

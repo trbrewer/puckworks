@@ -46,8 +46,10 @@ def _level_mape(pred, m):
 def waszkiewicz_external_tds(T_C=93.0, pressure=9.0,
                              rates=(0.25, 0.4, 0.6, 0.8, 1.0, 1.4, 2.0, 3.0, 4.0),
                              time_offsets=(0.0, 2.0, 4.0), q_floor=0.05):
-    """Frozen external prediction of the Waszkiewicz 5 s TDS trajectory (Pannusch TDS
-    pseudo-solute; measured 9-bar flow trace; flow-weighted 5 s interval operator).
+    """Target-profiled external SHAPE test on the Waszkiewicz 5 s TDS trajectory (review
+    A3-06/A3-25: NOT a frozen external prediction -- a target-specific level is profiled at
+    each rate, so this localizes temporal SHAPE, not absolute concentration). Pannusch TDS
+    pseudo-solute; measured 9-bar flow trace; flow-weighted 5 s interval operator.
     Sweep rate; at each rate fit the level (exact weighted median). Report, per time
     offset and WITH/WITHOUT the single-replicate first bin: the fraction-scored MAPE
     sweep (min, best rate, range ratio) and the integrated-cup range ratio (flat by
@@ -109,18 +111,23 @@ def waszkiewicz_external_tds(T_C=93.0, pressure=9.0,
         per_case=out, rates=rates, T_C=T_C, pressure_bar=pressure,
         source="Waszkiewicz et al. 2026 Phys. Fluids 38, 063113 (repo waszkiewicz2025)",
         observable="aggregate-solids proxy (optical TDS); NOT named solutes",
-        verdict=("Independent second-rig external test: with the MEASURED 9-bar flow "
-                 "trace, the 12-fraction TDS trajectory constrains the kinetic rate "
-                 "(fraction range ratio %.1fx, best rate %.1f, min MAPE %.1f%%) while "
-                 "the single integrated cup does NOT (range ratio ~%.1fx -- a single "
-                 "averaged shot, so the level absorbs it). Robust across time offsets "
-                 "0/2/4 s and with/without the single-replicate first bin. AGGREGATE "
-                 "TDS proxy, one coffee/grind -- an external objective-localization "
-                 "panel, NOT independent named-solute identification."
+        verdict=("Target-profiled external SHAPE test (review A3-06/A3-23): with the "
+                 "MEASURED 9-bar flow trace, the 12-fraction TDS trajectory produces a "
+                 "SHALLOW rate-dependent MAPE minimum (range ratio only %.1fx, best rate "
+                 "%.1f) but the minimum MAPE stays HIGH at ~%.1f%% -- so this is evidence "
+                 "that temporal shape moves the objective more than a single aggregate "
+                 "under the tested operator, NOT a validated rate estimate. The single "
+                 "integrated cup is flat (range ratio ~%.1fx) ALGEBRAICALLY -- one scalar "
+                 "paired with one profiled level is exactly matchable at every rate -- so "
+                 "this is not an empirical no-information finding. A target-specific level "
+                 "is profiled, so absolute concentration is NOT tested; aggregate TDS "
+                 "proxy, one coffee/grind, NOT named-solute identification."
                  % (head["fraction_range_ratio"], head["fraction_best_rate"],
                     head["fraction_min_mape"], head["cup_range_ratio"])),
-        strength="external prediction / objective localization (one coffee, one grind, "
-                 "aggregate TDS proxy); NOT independent named-solute identification")
+        strength="external-data shape-objective localization (target-specific level "
+                 "profiled; shallow high-residual minimum); a target-profiled shape test, "
+                 "NOT a frozen absolute-concentration prediction and NOT named-solute "
+                 "identification")
 
 
 def waszkiewicz_sensitivity(temps=(89.0, 91.0, 93.0, 95.0),
