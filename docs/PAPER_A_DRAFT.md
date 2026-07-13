@@ -1,43 +1,20 @@
 # Paper A — draft prose (rev. 2026-07-12)
 
-> **⚠ MAJOR REVISION (detailed review adopted, `docs/PAPER_A_DRAFT_detailed_review.md`).**
-> The review found two real observable-contract bugs and a mislabelled optimiser,
-> now fixed in code and **regenerated at the matched endpoint**: a **matched 40 g
-> cup** (`t_end = 40 mL / Q`) not a fixed 25 s (B1); the **exact weighted-median**
-> MAPE level not a grid falsely called "analytic" (B3); a **widened, log-spaced**
-> rate domain (B6); the positive-control endpoint relabelled a **sampled-fraction
-> aggregate** with an audit that it differs ~28–38 % from the actual BR-1/3 cup (B2).
-> **Headline outcome of the correction:** the single-grind **non-identifiability is
-> confirmed and stronger** (condition number ~10³), but the earlier **"does not
-> transfer across grind" claim was an endpoint artefact** — at matched mass the
-> frozen calibration transfers reasonably (~3–18 %) and a shared calibration exists
-> (joint pooled ~6 % vs ~5 % per-grind). The paper is rewritten around this
-> (identifiability ≠ transfer). **Now also done** (post-review + handoff): the
-> uncertainty/bootstrap + leave-one-condition-out CV (M4/M6), grain-geometry
-> sensitivity (B5), the exact-integral full-cup simulation (B2 design #3), the six
-> figures, JFE-standard terminology, the named-solute/aggregate-proxy split (M5), the
-> M9 related-work section + documented-scoping-search scaffold, and an independent
-> second-rig external TDS test (Waszkiewicz 2026). **Still owed / blocked (flagged,
-> not fabricated):** executing the full Scopus/WoS database search (at submission,
-> §9), replicate-level named-solute external data (Kuhn/Vaca Guerra requests), the
-> empirical full-shot actual-cup reconstruction (repo has only 6 fraction windows),
-> and the frozen reproducibility tag `paper-a-v1.0.0` (created at submission, not
-> now).*
-
-*Manuscript draft, converted from `docs/ANALYSIS_transfer.md` (the analysis of
-record; this file is the manuscript layer, that file stays the analysis spec).
-**[Internal — strip before submission:** the verb-discipline note, ROADMAP/G6
-pointers, and change-log prose are repo-internal.] **Verb discipline (load-bearing):**
-"shows/predicts" only for independent evidence; "reconstructs / is consistent with"
-for post-fit; "verifies" for an in-sample positive control; never "identifies /
+*__[REPOSITORY NOTE — strip before submission.__ This is the working draft; the
+manuscript body starts at the Title below. Full revision provenance (the two
+observable-contract corrections adopted from `docs/PAPER_A_DETAILED_REVIEW.md` and
+its predecessor, the matched-endpoint regeneration, and the P0 objective/units/
+uncertainty corrections) lives in the ROADMAP §7.1 change log, not here. Verb
+discipline (load-bearing, retained): "shows/predicts" only for independent evidence;
+"reconstructs / is consistent with" for post-fit; "verifies" for an in-sample
+positive control; "localizes" for an objective-profile result; never "identifies /
 proves / transfers" unless the evidence tier supports it. Numbers regenerate from
-`puckworks.validation.slow.angeloni_bracket` and `…identifiability` (see
-Reproducibility — a single paper-build command is still owed, M10). Validation
-strength labels ride along unchanged and control the verbs.*
+`puckworks.figures_paper_a compute` (`angeloni_bracket`, `identifiability`,
+`external_waszkiewicz`); a frozen `paper-a-v1.0.0` tag and pinned environment remain
+owed at submission.]_*
 
-**Title (case-study scope until the formal analysis + actual-cup comparison are
-complete, review §6).** The cup can hide the clock: practical inventory–kinetics
-confounding in a cross-dataset espresso extraction case study.
+**Title.** The cup can hide the clock: practical inventory–kinetics confounding in a
+cross-dataset espresso extraction case study.
 
 ---
 
@@ -50,15 +27,19 @@ different machine, coffee, and basket). Profiling the model's two adjustable kno
 a per-species solid **inventory** and a Sherwood mass-transfer **rate** scale —
 against **matched-beverage-mass** cup concentrations at a single grind reveals a
 strong **practical non-identifiability**: the rate is not separately estimable over
-the tested domain because the inventory compensates, quantified by a log-parameter
-Hessian condition number of order 10³, a rate↔inventory correlation near −1, and a
-rate profile that stays within 10 % of its minimum across most of a wide rate sweep.
+the tested domain because the inventory compensates, quantified on the SSE surface by
+a log-parameter Hessian condition number of order 10³ and a local inverse-curvature
+coupling near −1 (a geometric diagnostic of the SSE valley, **not** a statistical
+parameter correlation — no likelihood is specified), with a rate profile that stays
+within 10 % of its minimum across most of a wide rate sweep (and a MAPE cross-check
+that agrees).
 Crucially, we report **parameter identifiability and predictive transfer as separate
 properties** — and they diverge. Although the individual parameters are not
 identifiable, a calibration frozen on one grind **predicts the held-out coarse/fine
 grinds reasonably** (~3–18 % error), and a single shared (inventory, rate) fitted
-jointly to all grinds nearly matches the per-grind fits (cost-of-sharing ~1
-percentage point): predictions are stable along the compensating manifold. This
+jointly to all grinds nearly matches the per-grind fits (pooled 6.4 % vs 4.9 %,
+cost-of-sharing ~1.5 percentage points): predictions are stable along the compensating
+manifold. This
 corrects an earlier version of this analysis, which — using an **unmatched fixed-time
 integration window** — reported a large cross-grind transfer failure; that failure
 was mostly a measurement-window artefact. Finally, across an **in-sample
@@ -90,10 +71,15 @@ adjustable degrees of freedom that both act as a *level* on the beverage
 concentration: the amount of extractable material initially present (the
 **inventory**), and the rate at which it is released (the **kinetic rate**). When
 only the endpoint of the extraction is observed, these two knobs are confounded —
-a faster rate and a smaller inventory can produce the same cup as a slower rate and
-a larger inventory. A single-grind whole-cup fit therefore constrains only their
-product, and an optimiser that reports a specific (inventory, rate) pair is
-reporting a point on a flat valley, not an identified mechanism.
+a faster rate and a smaller inventory can produce nearly the same cup as a slower
+rate and a larger inventory. Under the tested single-grind whole-cup design,
+inventory and rate are therefore **practically confounded**: changes in one can be
+largely compensated by changes in the other over the evaluated domain, so an
+optimiser that reports a specific (inventory, rate) pair is reporting a point on a
+near-flat valley rather than an identified mechanism. This is an empirical statement
+about the tested model, observation map, parameterisation, operating design, and
+objective — not a claim of exact product invariance; with multiple temperatures,
+pressures, flows, or endpoints the compensation need not be exact.
 
 We make this quantitative on a real transfer attempt (§3–§5) and then close the
 loop with a positive control that recovers the lost information from time-resolved
@@ -126,12 +112,17 @@ grid.
 ### 2.2 Data
 
 - **Calibration (time-resolved).** The Schmieder 2023 extraction-kinetics DoE
-  (*Foods* **12**, 2871, 2023; CC BY): 15 shots × 6 timed fractions per shot, per
-  solute — the dataset `pannusch2024` was fitted to. Used here only as the positive
-  control (§6), on the model's own fit data.
+  (*Foods* **12**, 2871, 2023; CC BY). The source study collected **ten** consecutive
+  fractions across **15 experimental settings** (three repetitions, six at the centre
+  point); the `pannusch2024` port uses a **derived six-window subset** (fractions 1, 2,
+  3, 5, 7, 10) across the 15 conditions. Used here only as the positive control (§6),
+  on the model's own fit data.
 - **Transfer target (independent, whole-cup).** Angeloni et al. 2023 (*Appl. Sci.*
-  **13**, 2688): a 66-shot campaign (Arabica + Robusta) on a different machine,
-  coffee, and basket, across a 3×3×3 temperature × pressure × granulometry grid
+  **13**, 2688): **66 condition-level sample records** (33 per variety, each based on
+  duplicate extractions in the source, which also reports analyte RSD ≈ 0.3–19.7 %; the
+  repository retains reported central values, not the replicate-level uncertainty), on a
+  different machine, coffee, and basket, across a 3×3×3 temperature × pressure ×
+  granulometry grid
   plus off-grid points. It reports measured beverage concentrations (g/L) for
   caffeine (CF), trigonelline (TR), 5-CQA, and total solids, and — separately — the
   roast-and-ground **solid inventory per species** (their Table 7), which we use
@@ -183,9 +174,12 @@ objective localization* — reproducing a positive control on the model's own fi
 data. These are attached to every result below and are not upgraded. We use
 *practical identifiability* (over the tested design, domain, and objective)
 throughout — never *structural* identifiability, which would need an analytic
-proof — and we call the rate profiles *profiled MAPE objectives*, not *profile
-likelihoods* (there is no explicit likelihood/noise model, so the tolerance bands
-are stated thresholds, not confidence intervals).
+proof. The formal identifiability panel (§4) profiles **unweighted concentration-scale
+SSE** with a least-squares nuisance level — SSE is a smooth local-curvature diagnostic,
+and MAPE (the paper's predictive metric) is reported there only as a cross-check that
+agrees. Because there is no explicit likelihood/noise model, the 10 % tolerance bands
+are stated thresholds, not confidence intervals, and the inverse-Hessian coupling is a
+geometric coupling of the SSE surface, not a statistical parameter correlation.
 
 ---
 
@@ -247,19 +241,25 @@ along the valley (caffeine ~13 near the measured 12.5; Robusta ~14–17 near 18.
 the beverage data alone cannot single out the rate — the measured inventory is **one
 available external tie-breaker**.
 
-**A formal identifiability panel** (`identifiability_panel`) quantifies the valley on
-the caffeine matched-mass objective: locate the minimum, fit a local Hessian in **log
-parameters** (u = ln rate, v = ln c_s0; the standard sloppiness basis, valid on the
-log-spaced grid), and profile the rate. The result is unambiguous and, at the matched
-endpoint, *stronger* than before: **condition number ≈ 1930** (one stiff, one sloppy
-direction; interior optimum, reliable Hessian), rate↔inventory **correlation −0.99**
-(the sloppy eigenvector lies almost exactly along the `c_s0·φ = const` valley), and
-the profile SSE stays within 10 % of the minimum over **~76 % of the swept rate
-range** [0.4–6.5] — the data place essentially no bound on the rate. Trigonelline is
-similar (condition number ≈ 3600, correlation −0.84, profile flat over ~45 % of the
-range). This is practical non-identifiability over the tested domain, quantified —
-robust to the matched-mass and exact-level corrections, not an artefact of a coarse
-grid.
+**A numerical identifiability panel** (`identifiability_panel`) quantifies the valley on
+the caffeine matched-mass **SSE** objective (unweighted concentration-scale SSE with a
+least-squares nuisance level — a smooth local-curvature diagnostic; MAPE, the paper's
+predictive metric, is reported as a cross-check): locate the minimum, fit a local
+Hessian in **log parameters** (u = ln rate, v = ln c_s0; the standard sloppiness basis,
+valid on the log-spaced grid), and profile the rate. The result is unambiguous and, at
+the matched endpoint, *stronger* than before: **condition number ≈ 1930** (one stiff,
+one sloppy direction; interior optimum, reliable Hessian) and a **local inverse-curvature
+coupling ≈ −0.99** — a geometric diagnostic of the SSE valley (the sloppy eigenvector
+lies almost exactly along `c_s0·φ = const`), **not** a statistical parameter correlation,
+since no likelihood is specified. The profiled SSE stays within 10 % of the minimum over
+**~76 % of the swept log-rate grid** [0.4–6.5] (log-width ≈ 2.8), and the **MAPE
+cross-check agrees** (flat over ~33 % of the grid — tighter than SSE but still a broad
+plateau with no bounded minimum). Trigonelline is similar (condition number ≈ 3600,
+coupling ≈ −0.84, SSE profile flat over ~45 % of the grid). This is practical
+non-identifiability over the tested domain, quantified — robust to the matched-mass and
+exact-level corrections and consistent across the SSE and MAPE objectives, not an
+artefact of a coarse grid (grid-density and domain robustness remain an owed appendix,
+review MAJ-04).
 
 Strength: this is a *diagnosis of the fit*, established on the transfer target and
 corroborated on the model's own data in §6 — not a claim about the model's physics.
@@ -271,7 +271,9 @@ a compensating manifold can leave predictions stable even when the parameters ar
 individually non-identifiable. **The corrected results show exactly this** — and, in
 doing so, overturn a claim in our earlier draft.* We freeze the O calibration
 (level+rate pair) and predict the held-out coarse (C) and fine (F) grinds at **matched
-40 g cups**, each with its own measured flow:
+40 g cups**, each with its own **study-derived, inferred pressure–flow map** (fitted
+hydraulic conductivity, nominal grind-specific shot time, and viscosity correction —
+*not* a per-shot measured flow trace; transfer conclusions are conditional on this map):
 
 | species | O-fit | held-out C | held-out F |
 |---|---|---|---|
@@ -299,20 +301,28 @@ non-identifiability did *not* imply predictive non-transfer. Strength: **held-ou
 joint predictive transfer** (reasonable), conditioned on the tested flow maps, frozen
 centre-grind geometry, and matched endpoint.
 
-**Proper cross-validation, uncertainty, and robustness** (`loco_cv_refit`,
+**Cross-validation, uncertainty, and robustness** (`loco_cv_refit`,
 `geometry_sensitivity_transfer`). Replacing the weak two-off-grid-point holdout with
 **leave-one-(T,p)-condition-out CV** over the nine on-grid O conditions gives a pooled
-held-out MAPE of **6.5 %** (median **5.2 %**, shot-level bootstrap 95 % CI
-**[5.0, 8.2] %**), reported per solute × variety (medians 2.8–8.8 %, worst individual
-fold 32.7 % on Robusta 5-CQA) rather than as a single mean (review M4). The verdict is
-robust to the loss function: under a log/relative-error level fit the pooled mean is
-**7.0 %** (review M6). And it is robust to the frozen geometry: re-running the O→C/F
-transfer under each of the three Pannusch fitted geometries (1.4/1.7/2.0, which vary
-<15 %) moves the held-out MAPE by **at most 1 pp** (review B5) — so the transfer is not
-a geometry artefact. A calibrated cross-grinder map remains unavailable (we sweep the
-observed geometry range instead). Together these confirm the corrected §5 conclusion —
-the calibration transfers across grind — with proper cross-validation, an uncertainty
-interval, and loss/geometry robustness, not a two-point mean.
+held-out MAPE of **6.5 %** (median **5.2 %**), reported per solute × variety (medians
+2.8–8.8 %, worst individual fold 32.7 % on Robusta 5-CQA) rather than as a single mean
+(review M4). Because the 54 held-out errors share overlapping folds and repeated
+conditions, we report uncertainty two ways (review MAJ-05): a **descriptive
+residual-resampling interval** that ignores fold dependence (**not** a
+coverage-calibrated confidence interval, **[5.0, 8.2] %**), and a **dependence-aware
+condition-cluster bootstrap** over the nine (T,p) macro errors (macro mean 6.5 %,
+**[5.1, 8.3] %**) — the two intervals nearly coincide here, so the fold dependence does
+not materially widen the interval on this design. The verdict is robust to the loss
+function: under a log/relative-error level
+fit the pooled mean is **7.0 %** (review M6). It is also robust to the choice of a
+single **global** frozen geometry: re-running the O→C/F transfer under each of the three
+Pannusch fitted geometries (1.4/1.7/2.0, applied globally to all grinds) moves the
+held-out MAPE by **at most ~1 pp** (review B5) — which supports limited sensitivity to
+the *global* geometry choice over that range, but does **not** validate a grind-specific
+geometry map (a calibrated cross-grinder map remains unavailable; geometry stays an
+unresolved structural uncertainty). Together these support the corrected §5 conclusion —
+the calibration transfers reasonably across grind — with cross-validation, descriptive
+and cluster-aware uncertainty, and loss/global-geometry robustness, not a two-point mean.
 
 ## 6. In-sample fraction verification and an independent external TDS trajectory test
 
@@ -355,14 +365,19 @@ does not cleanly reconcile with the fraction shot — a data question). So we te
 claim with an **exact-integral simulation** (`full_cup_simulation_identifiability`,
 review B2 design #3): for each experiment we generate synthetic truth at the
 calibrated rate = 1 — a fine-grid fraction curve over the whole shot *and* the
-**exact single whole-cup integral** `[0, t_end]` — add seeded relative noise, then
-sweep the rate. **Result:** fraction-curve scoring recovers rate = 1 sharply — range
-ratio **10–19×** across the three solutes, minimum exactly at the calibrated rate —
-while scoring the **exact whole-cup integral** stays flat (range ratio **1.3–2.0×**,
-minimum wandering off rate 1). The exact cup is only marginally more informative than
-the crude six-window aggregate and remains essentially flat. This removes the
-sampled-window artefact: a *true* whole cup, not just a sampled aggregate, loses
-kinetic-rate information — so the "cup hides the clock" claim survives the review's
+**exact single whole-cup integral** `[0, t_end]` — add seeded relative noise over **20
+independent seeds** (the PDE predictions are seed-independent, so this is inexpensive),
+then sweep the rate. **Result:** fraction-curve scoring recovers rate = 1 sharply — mean
+range ratio **9.8× / 20.3× / 13.2×** (caffeine / trigonelline / 5-CQA; seed std ≤ 1.1),
+with the best rate exactly at the calibrated value in **100 %** of seeds — while scoring
+the **exact whole-cup integral** stays flat (range ratio **1.5 / 1.5 / 1.7×**). The exact
+cup is only marginally more informative than the crude six-window aggregate and remains
+essentially flat. This isolates the information-content difference from the
+sampled-window artefact — within this **same-model, best-case** design (an inverse crime,
+no model discrepancy): a *true* whole cup, not just a sampled aggregate, carries far less
+kinetic-rate information than the resolved fractions. It is **not** evidence that a real
+experimental cup lacks rate information, nor that the model is correctly specified (a
+model-discrepancy variant is owed). So the "cup hides the clock" reading survives the review's
 B2 concern. Strength: **simulation study** (exact integral, seeded 3 % noise) — not
 an empirical positive control.
 
@@ -372,14 +387,18 @@ verification* of objective localization, not independent identification. To add 
 genuinely external observation class we evaluate the public five-second TDS fractions
 of Waszkiewicz et al. (2026, *Phys. Fluids* **38**, 063113; already in the repo as
 `waszkiewicz2025`, same Zenodo release), collected on a **second café-grade rig** with
-a simultaneously measured flow trace. We freeze the Pannusch TDS kinetics and predict
-the fraction-resolved TDS trajectory using the measured 9-bar flow trace and a
-flow-weighted 5 s interval operator, profiling the level (the coffee and inventory
-differ). **Result:** the twelve-fraction trajectory *does* constrain the kinetic rate
-— a profiled-MAPE trough (fraction range ratio **~2×**, best rate **~0.4**, minimum
-MAPE **~27 %**) — whereas the single integrated cup carries **no rate information at
-all**: a single averaged shot's integrated value is fit exactly at every rate, so its
-profile is perfectly flat (range ratio 1.0×). The localization is **weaker** than the
+a simultaneously measured flow trace. We freeze the Pannusch TDS *kinetics* and, at
+each rate, **profile a target-specific concentration level** against the Waszkiewicz
+observations (the coffee and inventory differ). This is therefore **external-data
+objective localization**, *not* a blind frozen concentration prediction — the level is
+fitted to the target trajectory, so only the rate shapes the profile. **Result:** the
+twelve-fraction trajectory *does* constrain the kinetic rate — a profiled-MAPE trough
+(fraction range ratio **~2×**, best rate **~0.4**, minimum MAPE **~27 %**) — whereas the
+single integrated cup carries **no rate information**: with one integrated scalar and
+one free multiplicative level, the model matches that scalar exactly at every rate, so
+the flat cup profile (range ratio 1.0×) is **algebraic by construction**, not an
+empirical discovery that cup-integrated designs generally lack rate information (a
+multi-cup design at different flows/endpoints could still localize the rate). The localization is **weaker** than the
 in-sample Schmieder result (range ratio ~2× vs ~10×) and the minimum MAPE is high
 (~27 %): the frozen Pannusch TDS kinetics reconstruct this different coffee's
 aggregate trajectory only moderately, and the best-fit rate (~0.4) reflects a
@@ -438,9 +457,10 @@ first over-claimed identification, the second was an endpoint artefact.
 ## 8. Open gaps this paper defines
 
 - **Held-out validation, uncertainty, and robustness** — *delivered* (§5): the joint
-  multi-grind fit (`joint_multigrind_fit`, pooled ~6 % vs ~5 %); **leave-one-condition-
-  out CV** (`loco_cv_refit`, pooled 6.5 %, median 5.2 %, bootstrap 95 % CI [5.0, 8.2] %)
-  replacing the 2-point holdout (M4) with a bootstrap interval and a log-loss robustness
+  multi-grind fit (`joint_multigrind_fit`, pooled 6.4 % vs 4.9 %, cost 1.5 pp); **leave-one-condition-
+  out CV** (`loco_cv_refit`, pooled 6.5 %, median 5.2 %; descriptive residual-resampling
+  interval + dependence-aware condition-cluster bootstrap, MAJ-05)
+  replacing the 2-point holdout (M4) with interval estimates and a log-loss robustness
   check (M6); and a **geometry-sensitivity sweep** (`geometry_sensitivity_transfer`,
   ≤1 pp across the three fitted geometries, B5). Still owed: per-condition residual
   plots by (T, p, grind, variety, solute), and per-point measurement-uncertainty
@@ -513,9 +533,11 @@ identifiability are related but not equivalent (Tönsing et al., 2014; Chis et a
 2016), and experimental design may improve some weak directions without guaranteeing
 that all parameters become well determined (Apgar et al., 2010; White et al., 2016).
 We therefore use the descriptive term *inventory–rate profile valley* unless a
-scaled sensitivity-spectrum analysis is explicitly reported, and (because we
-minimize MAPE, not a likelihood) we report a *profiled MAPE objective*, not a
-profile likelihood.
+scaled sensitivity-spectrum analysis is explicitly reported. The formal panel profiles
+**SSE** (a smooth local-curvature diagnostic) with MAPE as an agreeing cross-check, and
+— because no likelihood or noise model is specified — we report a *profiled objective*,
+not a profile likelihood, and an inverse-curvature **coupling** coefficient, not a
+statistical parameter correlation.
 
 **Reaction/transport confounding and design.** Similar parameter-confounding
 problems occur in environmental, reaction–transport, gas–liquid mass-transfer, and
@@ -542,9 +564,9 @@ al., 2017), representative nonvolatile solutes and TDS across process conditions
 and independent TDS fractions with simultaneous flow measurements (Waszkiewicz et
 al., 2026). In our documented scoping search we did not find an espresso study that
 explicitly profiles inventory–rate compensation and separates in-sample
-localization, internal holdout, frozen external prediction, and target-data
+localization, internal holdout, external-data objective localization, and target-data
 refitting. Paper A addresses that applied gap using established identifiability
-methods.
+methods (an applied espresso case study, not a new identifiability method).
 
 **Novelty (case study + model/data observation, not a new method).** To our
 knowledge, based on a documented scoping search, mechanistic coffee-extraction
@@ -579,8 +601,9 @@ observation map, datasets, parameter domain, and error model.*
   `full_cup_simulation_identifiability` (B2 exact-integral simulation). Run:
   `python -m puckworks.validation.slow.identifiability`.
 - **Independent external test:** `puckworks/validation/slow/external_waszkiewicz.py`
-  — `waszkiewicz_external_tds` (frozen external prediction of the Waszkiewicz 2026 5 s
-  TDS trajectory; measured 9-bar flow trace; flow-weighted interval operator;
+  — `waszkiewicz_external_tds` (external-data objective localization on the Waszkiewicz
+  2026 5 s TDS trajectory, target-profiled level; measured 9-bar flow trace on the same
+  shifted time origin as the observed-cup bin masses; flow-weighted interval operator;
   time-offset + first-bin sensitivity). Run:
   `python -m puckworks.validation.slow.external_waszkiewicz`.
 - **Data:** `puckworks.data.angeloni_{bioactives,total_solids,inventories}` and the

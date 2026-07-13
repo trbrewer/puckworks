@@ -127,22 +127,25 @@ def sampled_aggregate_vs_actual_cup(solutes=("caffeine", "trigonelline", "5CQA")
 def full_cup_simulation_identifiability(
         solutes=("caffeine", "trigonelline", "5CQA"),
         rates=(0.25, 0.4, 0.6, 0.8, 1.0, 1.4, 2.0, 3.0, 4.0),
-        n_fine=12, noise=0.03, seed=0):
-    """B2 design #3 -- an EXACT-INTEGRAL simulation study that removes the
-    sampled-window artifact (the repo has only 6 fraction windows, so an empirical
-    complete reconstruction is data-blocked). Per experiment (its real T, flow, and
-    shot duration t_end), generate SYNTHETIC TRUTH at the calibrated rate=1: a
-    fine-grid fraction curve (n_fine contiguous windows over the WHOLE shot) and the
-    EXACT whole-cup concentration (the single [0, t_end] integral). Add stated
-    relative Gaussian noise (seeded). Then sweep rate and, at each rate, fit the
-    exact MAPE level and score against (a) the fine fraction curve and (b) the exact
-    full cup. If fraction scoring recovers rate=1 sharply while the EXACT full cup
-    stays flat, the 'cup hides the clock' claim holds for a TRUE whole cup, not just
-    a sampled aggregate. Returns per-solute min-MAPE, best rate, and range ratio for
-    each scoring. Strength: SIMULATION study (not an empirical positive control).
-    NOTE: ~4-6 min of PDE solves (slow; hand-run)."""
+        n_fine=12, noise=0.03, seed=0, n_seeds=20):
+    """B2 design #3 -- a SAME-MODEL, BEST-CASE structural design simulation (review
+    MAJ-13): an inverse-crime study (truth generated and refit with the SAME solver)
+    that isolates the information-content difference between fraction-resolved and
+    whole-cup observations, with NO model discrepancy. It is NOT evidence that a real
+    experimental cup lacks rate information, nor that the model is correctly specified.
+
+    Per experiment (its real T, flow, shot duration t_end), generate synthetic truth
+    at the calibrated rate=1: a fine-grid fraction curve (n_fine contiguous windows
+    over the WHOLE shot) and the EXACT whole-cup concentration (the single [0, t_end]
+    integral). Add stated relative Gaussian noise over n_seeds independent
+    realizations (the PDE predictions are seed-independent, so this is ~free), sweep
+    rate, fit the exact MAPE level, and score against (a) the fine fraction curve and
+    (b) the exact full cup. Report per-solute the DISTRIBUTION over seeds of the range
+    ratio and best rate for each scoring -- fraction-resolved scoring LOCALIZES the
+    rate objective more sharply than the aggregated cup within this same-model design.
+    Owed (review MAJ-13): a model-discrepancy variant (altered geometry/flow/IC between
+    generation and fitting). NOTE: ~4-6 min of PDE solves (slow; hand-run)."""
     from puckworks.models.pannusch2024 import solver as ps
-    rng = np.random.default_rng(seed)
     exps = ps._exp_kinetics()
     # per-experiment (T, flow, fine edges over the whole shot, t_end)
     shots = []
@@ -170,26 +173,42 @@ def full_cup_simulation_identifiability(
         sp0 = ps._solute_params()[sol]
         frac_true = _predict(sp0, 1.0, "frac")
         cup_true = _predict(sp0, 1.0, "cup")
-        frac_meas = frac_true * (1.0 + noise * rng.standard_normal(frac_true.shape))
-        cup_meas = cup_true * (1.0 + noise * rng.standard_normal(cup_true.shape))
-        fm, cm = [], []
-        for rate in rates:
-            fm.append(round(_fit_level_mape(_predict(sp0, rate, "frac"), frac_meas), 2))
-            cm.append(round(_fit_level_mape(_predict(sp0, rate, "cup"), cup_meas), 2))
-        fi, ci = int(np.argmin(fm)), int(np.argmin(cm))
-        out[sol] = dict(rates=rates, fraction_mape=fm, exact_cup_mape=cm,
-                        frac_best_rate=rates[fi], cup_best_rate=rates[ci],
-                        frac_range_ratio=round(max(fm) / min(fm), 2),
-                        exact_cup_range_ratio=round(max(cm) / min(cm), 2))
-    return dict(per_solute=out, n_fine=n_fine, noise=noise, seed=seed,
-                verdict="EXACT-integral simulation (no sampled-window artifact): "
-                        "fine fraction-curve scoring recovers rate=1 sharply, while "
-                        "scoring the EXACT whole-cup integral stays comparatively flat "
-                        "-> the whole cup loses kinetic-rate information even without "
-                        "the sampling artifact, for a TRUE cup. Compare the range "
-                        "ratios per solute.",
-                strength="simulation study (exact integral; seeded noise); NOT an "
-                         "empirical positive control")
+        # cache the seed-INDEPENDENT per-rate predictions (the expensive PDE solves)
+        frac_preds = [_predict(sp0, rate, "frac") for rate in rates]
+        cup_preds = [_predict(sp0, rate, "cup") for rate in rates]
+        frr, crr, fbest = [], [], []          # per-seed range ratios + frac best rate
+        fm0 = cm0 = None
+        for s in range(n_seeds):
+            rs = np.random.default_rng(seed + s)
+            f_meas = frac_true * (1.0 + noise * rs.standard_normal(frac_true.shape))
+            c_meas = cup_true * (1.0 + noise * rs.standard_normal(cup_true.shape))
+            fm = [_fit_level_mape(frac_preds[k], f_meas) for k in range(len(rates))]
+            cm = [_fit_level_mape(cup_preds[k], c_meas) for k in range(len(rates))]
+            frr.append(max(fm) / min(fm)); crr.append(max(cm) / min(cm))
+            fbest.append(rates[int(np.argmin(fm))])
+            if s == 0:
+                fm0 = [round(v, 2) for v in fm]; cm0 = [round(v, 2) for v in cm]
+        frr = np.array(frr); crr = np.array(crr)
+        out[sol] = dict(rates=rates, fraction_mape=fm0, exact_cup_mape=cm0,   # seed 0 (figure)
+                        frac_range_ratio=round(float(frr.mean()), 2),
+                        frac_range_ratio_std=round(float(frr.std()), 2),
+                        exact_cup_range_ratio=round(float(crr.mean()), 2),
+                        exact_cup_range_ratio_std=round(float(crr.std()), 2),
+                        frac_best_rate_median=float(np.median(fbest)),
+                        frac_best_rate_is_1_frac=round(float(np.mean(np.array(fbest) == 1.0)), 2))
+    return dict(per_solute=out, n_fine=n_fine, noise=noise, seed=seed, n_seeds=n_seeds,
+                verdict="SAME-MODEL best-case simulation (inverse crime; no model "
+                        "discrepancy): over %d noise seeds, fine fraction-curve scoring "
+                        "localizes rate=1 far more sharply (range ratio ~%.0fx) than the "
+                        "EXACT whole-cup integral (~%.0fx) -- the aggregated cup carries "
+                        "less rate information than the resolved fractions, within this "
+                        "same-model design. NOT evidence about real cups or model "
+                        "correctness." % (
+                            n_seeds,
+                            np.mean([out[s]["frac_range_ratio"] for s in solutes]),
+                            np.mean([out[s]["exact_cup_range_ratio"] for s in solutes])),
+                strength="same-model best-case simulation (inverse crime; seeded noise "
+                         "distribution); NOT an empirical positive control")
 
 
 def identifiability_fractions_vs_cup(solutes=("caffeine", "trigonelline", "5CQA"),

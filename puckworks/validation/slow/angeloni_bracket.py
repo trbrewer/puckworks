@@ -108,14 +108,18 @@ def gate_angeloni_multispecies_bracket(p_bar=9.0, dose_g=20.0, bev_g=40.0):
                      "2.1). Misses are the finding, not a gate failure.")
 
 
-def gate_pannusch_angeloni_species_bracket(T_C=93.4, flow_mL_s=1.6, t_shot_s=25.0):
+def gate_pannusch_angeloni_species_bracket(T_C=93.4, flow_mL_s=1.6):
     """PER-SPECIES bracket: pannusch2024 (multi-solute, T/flow-resolved kinetics)
     forward-predicted cup concentrations vs the angeloni per-species measured
     RANGES. Unlike cameron (single lumped solute -> TDS only), pannusch produces
     caffeine (CF), trigonelline (TR), 5CQA, and TDS. Blind forward run (cl1
-    cancels in the normalized solver, verified) at a matched espresso condition
-    (T on-grid, flow ~beverage/tau, grind 1.7). angeloni bioactives are g/L =
-    mg/mL (pannusch's units); TS g/100 mL = pannusch TDS(mg/mL)/10.
+    cancels in the normalized solver, verified) at a representative espresso
+    condition (T on-grid, grind 1.7), integrated to the MATCHED 40 g/mL beverage
+    endpoint (t_end = 40 mL / flow, review MAJ-08 -- no longer a fixed 25 s). At
+    the 1.6 mL/s default this endpoint is ~25 s, so the envelope screen is
+    essentially unchanged but now shares the paper's matched-mass contract.
+    angeloni bioactives are g/L = mg/mL (pannusch's units); TS g/100 mL =
+    pannusch TDS(mg/mL)/10.
 
     Report semantics (not hard pass/fail): reports per-observable hits/misses. The
     finding is that pannusch's kinetics -- fit to a DIFFERENT machine/coffee --
@@ -132,7 +136,7 @@ def gate_pannusch_angeloni_species_bracket(T_C=93.4, flow_mL_s=1.6, t_shot_s=25.
                 "5CQA": ("5CQA", 1.0, bio), "tds": ("TS_g_100mL", 0.1, ts)}
     rows = []
     for sol, (col, conv, src) in spec_map.items():
-        pred = float(ps.simulate_fractions(T_C, flow_mL_s, [0.0, t_shot_s],
+        pred = float(ps.simulate_fractions(T_C, flow_mL_s, _matched_bounds(flow_mL_s),
                                            params[sol], cl1=1.0)[0]) * conv
         vals = [x[col] for x in src]
         lo, hi = float(min(vals)), float(max(vals))
@@ -427,27 +431,32 @@ def joint_multigrind_fit():
                 m_all = np.concatenate([meas[g] for g in GRINDS])
                 cs0, mp = _mape_level(f_all, m_all)
                 if best is None or mp < best[2]:
-                    pg = {g: round(float(np.mean(np.abs(cs0 * pug[g][rs] - meas[g])
-                                                / meas[g]) * 100), 0) for g in GRINDS}
+                    # FULL PRECISION per-grind MAPE (review MAJ-12: no rounding before
+                    # aggregation -- round only for display in the returned dict)
+                    pg = {g: float(np.mean(np.abs(cs0 * pug[g][rs] - meas[g])
+                                           / meas[g]) * 100) for g in GRINDS}
                     best = (float(rs), cs0, mp, pg)
             rs_j, cs0_j, mape_j, pergrind_j = best
-            # (b) per-grind INDEPENDENT best (the reference)
+            # (b) per-grind INDEPENDENT best (the reference), full precision
             indep = {}
             for g in GRINDS:
-                bg = min(_mape_level(pug[g][rs], meas[g])[1] for rs in rate_grid)
-                indep[g] = round(bg, 0)
+                indep[g] = float(min(_mape_level(pug[g][rs], meas[g])[1]
+                                     for rs in rate_grid))
             at_bound = bool(rs_j <= rate_grid[0] * 1.001 or rs_j >= rate_grid[-1] * 0.999)
             per[sol] = dict(
                 joint_rate=round(rs_j, 2), joint_c_s0=round(cs0_j, 1),
                 joint_rate_at_boundary=at_bound,
-                joint_pooled_mape=round(mape_j, 0), joint_per_grind_mape=pergrind_j,
-                independent_per_grind_mape=indep,
-                cost_of_sharing_pp=round(mape_j - float(np.mean(list(indep.values()))), 0))
+                joint_pooled_mape=float(mape_j),              # full precision
+                joint_per_grind_mape={g: round(pergrind_j[g], 1) for g in GRINDS},
+                independent_per_grind_mape={g: round(indep[g], 1) for g in GRINDS},
+                cost_of_sharing_pp=round(mape_j - float(np.mean(list(indep.values()))), 1))
         out[variety] = per
+    # pooled == MACRO-AVERAGE across the 6 (variety x solute) joint fits, from full
+    # precision (review MAJ-12); cost-of-sharing = paired joint-minus-independent
     pooled = float(np.mean([out[v][s]["joint_pooled_mape"]
                             for v in out for s in SPEC]))
-    indep_mean = float(np.mean([m for v in out for s in SPEC
-                                for m in out[v][s]["independent_per_grind_mape"].values()]))
+    indep_mean = float(np.mean([float(np.mean(list(out[v][s]["independent_per_grind_mape"].values())))
+                                for v in out for s in SPEC]))
     n_bound = sum(out[v][s]["joint_rate_at_boundary"] for v in out for s in SPEC)
     n_tot = len([1 for v in out for s in SPEC])
     cost = pooled - indep_mean
@@ -455,20 +464,21 @@ def joint_multigrind_fit():
     # transfer; only a large gap is a transfer failure (was mis-stated pre-B1).
     if cost <= 3.0:
         read = ("a single shared (c_s0, rate) fitted jointly to O+C+F transfers "
-                "REASONABLY -- pooled MAPE %.0f%% vs %.0f%% for the per-grind fits "
-                "(cost-of-sharing only ~%.0f pp). So a shared cross-grind calibration "
+                "REASONABLY -- pooled MAPE %.1f%% vs %.1f%% for the per-grind fits "
+                "(cost-of-sharing only ~%.1f pp). So a shared cross-grind calibration "
                 "exists at matched mass; the large apparent transfer failure in the "
                 "pre-correction (fixed-25s) analysis was mostly an unmatched-endpoint "
                 "artifact (review B1)." % (pooled, indep_mean, cost))
     else:
         read = ("a single shared (c_s0, rate) fitted jointly to O+C+F is markedly "
-                "worse than the per-grind fits (pooled %.0f%% vs %.0f%%, cost ~%.0f pp) "
+                "worse than the per-grind fits (pooled %.1f%% vs %.1f%%, cost ~%.1f pp) "
                 "-> no adequate shared calibration within the tested domain."
                 % (pooled, indep_mean, cost))
     return dict(per_variety=out,
-                mean_joint_pooled_mape=round(pooled, 0),
-                mean_independent_per_grind_mape=round(indep_mean, 0),
-                cost_of_sharing_pp=round(cost, 0),
+                pooled_definition="macro-average across the 6 (variety x solute) joint fits",
+                mean_joint_pooled_mape=round(pooled, 1),
+                mean_independent_per_grind_mape=round(indep_mean, 1),
+                cost_of_sharing_pp=round(cost, 1),
                 joint_rate_domain=[round(float(_RATE_DOMAIN[0]), 2),
                                    round(float(_RATE_DOMAIN[-1]), 2)],
                 n_joint_rate_at_boundary=n_bound, n_species_variety=n_tot,
@@ -575,16 +585,25 @@ def identifiability_panel(variety="Arabica", solute="caffeine", n_rate=29, n_cs0
     finite differences are valid on the non-uniform rate axis, and log-params are
     the standard sloppiness basis), and report:
 
-      - condition number kappa = lambda_max/lambda_min of the log-param Hessian
+      - condition number kappa = lambda_max/lambda_min of the log-param SSE Hessian
         (LARGE -> a sloppy, practically non-identifiable direction);
       - the sloppy eigenvector (its components in (ln rate, ln c_s0) space —
         expected to lie along the c_s0*phi=const valley);
-      - the rate<->c_s0 correlation from the inverse Hessian (expected ~ +/-1);
-      - the profiled-objective interval on the rate: the fraction of the swept
-        rate range whose profiled MAPE objective (optimised over c_s0) stays within
-        10% of the minimum (near 1.0 -> the data do not bound the rate). NOTE this is
-        a PROFILED MAPE OBJECTIVE, not a profile LIKELIHOOD (no explicit likelihood /
-        noise model), so the 10% band is a stated tolerance, not a confidence interval.
+      - the LOCAL INVERSE-CURVATURE COUPLING coefficient from the inverse SSE Hessian
+        (expected ~ +/-1). This is a geometric coupling diagnostic of the SSE surface,
+        NOT a statistical parameter correlation: no likelihood or measurement-error
+        model is specified, so it carries no confidence interpretation (review MAJ-03).
+      - the profiled-objective interval on the rate: the fraction of the swept LOG-rate
+        grid whose profiled SSE (optimised over c_s0) stays within 10% of the minimum
+        (near 1.0 -> the data do not bound the rate), plus the log-width of that set.
+
+    OBJECTIVE CONTRACT (review MAJ-02): the profile, surface, Hessian, condition
+    number and coupling coefficient are all built on unweighted concentration-scale
+    SSE with a LEAST-SQUARES nuisance level -- SSE is a smooth local-curvature
+    diagnostic. MAPE (the exact weighted-median level) is the paper's PREDICTIVE
+    metric elsewhere; here it is reported ONLY as a cross-check (frac_within_mape) to
+    confirm the qualitative non-identifiability is not an SSE artefact. The 10% band
+    is a stated tolerance, not a confidence interval (no likelihood is specified).
 
     Strength: verification/diagnostic (quantifies a known degeneracy on the transfer
     target; not a new validation). NOTE: ~1-2 min of PDE solves (slow; hand-run)."""
@@ -608,9 +627,13 @@ def identifiability_panel(variety="Arabica", solute="caffeine", n_rate=29, n_cs0
                      "A2": params[solute]["A2"] * rs, "c_s0": 1.0}, cl1=1.0)[0])
                    for T, p in conds] for rs in rates])            # (n_rate, n_cond)
     sse = lambda pred: float(np.sum((pred - m) ** 2))
-    # analytic best c_s0 per rate + the profile (optimised over c_s0)
+    # analytic best c_s0 per rate + the SSE profile (least-squares nuisance level)
     c_star = np.array([float(np.dot(F[i], m) / np.dot(F[i], F[i])) for i in range(n_rate)])
     sse_prof = np.array([sse(c_star[i] * F[i]) for i in range(n_rate)])
+    # MAPE cross-check (review MAJ-02): profile the SAME degeneracy under the paper's
+    # PREDICTIVE metric -- exact weighted-median level per rate -- to confirm the
+    # flat valley is not an SSE artefact. Reported as a secondary contract only.
+    mape_prof = np.array([_mape_level(F[i], m) for i in range(n_rate)])
     i0 = int(np.argmin(sse_prof))
     rate_star, cs0_star, sse_min = float(rates[i0]), float(c_star[i0]), float(sse_prof[i0])
     # 2D SSE on (rate grid x c_s0 grid) around the minimum. Both axes are
@@ -644,30 +667,47 @@ def identifiability_panel(variety="Arabica", solute="caffeine", n_rate=29, n_cs0
         kappa = float(lam_max / lam_min); kappa_note = None
     try:
         C = np.linalg.inv(H)
-        corr_raw = float(C[0, 1] / np.sqrt(C[0, 0] * C[1, 1]))
+        coupling_raw = float(C[0, 1] / np.sqrt(C[0, 0] * C[1, 1]))
     except np.linalg.LinAlgError:
-        corr_raw = float("nan")
-    corr_degenerate = bool(not np.isfinite(corr_raw) or abs(corr_raw) > 1.0)
-    corr = float(np.clip(corr_raw, -1.0, 1.0)) if np.isfinite(corr_raw) else float("nan")
+        coupling_raw = float("nan")
+    coupling_degenerate = bool(not np.isfinite(coupling_raw) or abs(coupling_raw) > 1.0)
+    # local inverse-curvature COUPLING coefficient (geometric, log-param space) --
+    # NOT a statistical correlation (review MAJ-03): no likelihood/noise model.
+    coupling = (float(np.clip(coupling_raw, -1.0, 1.0))
+                if np.isfinite(coupling_raw) else float("nan"))
     hessian_reliable = bool(not rate_at_boundary and not flat_to_precision
-                            and not corr_degenerate)
-    # profiled MAPE objective (NOT a profile likelihood): fraction of the rate range within 10% of the min SSE
+                            and not coupling_degenerate)
+    # profiled SSE objective (a stated 10% tolerance, NOT a confidence set): fraction
+    # of the swept LOG-rate grid within 10% of the min, and the log-width of that set
     within = sse_prof <= sse_min * 1.10
-    frac_within = float(np.mean(within))
+    frac_within = float(np.mean(within))                  # fraction of LOG-rate grid pts
     lo = float(rates[within][0]); hi = float(rates[within][-1])
+    log_width = float(np.log(hi / lo))                    # domain-independent width
+    # MAPE cross-check: same 10% tolerance under the predictive metric
+    mape_min = float(np.min(mape_prof))
+    within_mape = mape_prof <= mape_min * 1.10
+    frac_within_mape = float(np.mean(within_mape))
+    mape_agrees = bool(frac_within_mape >= 0.30 and frac_within >= 0.30)  # both flat
     return dict(
         variety=variety, solute=solute, n_conditions=len(m),
         rate_star=round(rate_star, 3), c_s0_star=round(cs0_star, 3),
         rate_optimum_at_sweep_boundary=rate_at_boundary,
+        objective="unweighted concentration-scale SSE, least-squares nuisance level",
         condition_number=round(kappa, 1), condition_number_note=kappa_note,
         parameter_basis="log (u=ln rate, v=ln c_s0); matched-mass 40 g cups",
         rate_domain=[round(float(rates[0]), 2), round(float(rates[-1]), 2)],
+        fd_steps_logparams=[round(du, 4), round(dv, 4)],
         hessian_eigenvalues=[round(lam_min, 4), round(lam_max, 4)],
         hessian_reliable=hessian_reliable,             # False -> use the profile below
         sloppy_direction_lnrate_lncs0=[round(float(x), 3) for x in sloppy],
-        rate_cs0_correlation=round(corr, 3), correlation_degenerate=corr_degenerate,
+        # geometric coupling of the SSE surface, NOT a statistical correlation (MAJ-03)
+        local_curvature_coupling=round(coupling, 3), coupling_degenerate=coupling_degenerate,
         profile_rate_within10pct=[round(lo, 2), round(hi, 2)],
-        profile_fraction_of_range=round(frac_within, 2),
+        profile_fraction_of_log_grid=round(frac_within, 2),
+        profile_log_width=round(log_width, 3),
+        # MAPE cross-check (secondary metric): same flat-valley conclusion?
+        mape_profile_fraction_within10pct=round(frac_within_mape, 2),
+        mape_cross_check_agrees=mape_agrees,
         # --- surface + profile + Hessian for the objective-surface figure (Fig 2) ---
         surface=dict(rates=[float(x) for x in rates],
                      cs0=[float(x) for x in cs0],
@@ -679,15 +719,17 @@ def identifiability_panel(variety="Arabica", solute="caffeine", n_rate=29, n_cs0
         verdict=("(c_s0, rate) is PRACTICALLY NON-IDENTIFIABLE from single-grind "
                  "matched-mass whole-cup data. %s The MODEL-FREE evidence is the "
                  "profile: the SSE (optimised over c_s0) stays within 10%% of the "
-                 "minimum over %.0f%% of the swept rate range [%.2f, %.2f] -> the data "
-                 "do not bound the rate; and the best rate sits at %s."
-                 % (("Log-parameter Hessian condition number %.0f with rate<->c_s0 "
-                     "correlation %.2f (~ -1, the valley direction)."
-                     % (kappa, corr)) if hessian_reliable else
+                 "minimum over %.0f%% of the swept log-rate grid [%.2f, %.2f] -> the "
+                 "data do not bound the rate (the MAPE cross-check agrees: %.0f%% of "
+                 "the grid); and the best rate sits at %s."
+                 % (("Log-parameter SSE-Hessian condition number %.0f with an inverse-"
+                     "curvature coupling %.2f (~ -1, the valley direction; a geometric "
+                     "diagnostic, NOT a statistical correlation)."
+                     % (kappa, coupling)) if hessian_reliable else
                     ("The rate optimum is at the sweep boundary / the sloppy "
                      "direction is flat to numerical precision, so the local "
                      "Hessian is unreliable here (an even MORE degenerate case)."),
-                    100 * frac_within, lo, hi,
+                    100 * frac_within, lo, hi, 100 * frac_within_mape,
                     "an interior stationary point" if not rate_at_boundary
                     else "a shallow boundary optimum (corollary 1)")))
 
@@ -701,10 +743,19 @@ def loco_cv_refit(varieties=("Arabica", "Robusta"),
     per-condition matched-mass prediction matrix once (rate x condition); then for
     each held-out condition, fit the exact level on the other 8, choose the rate by
     the 8-point training MAPE, and predict the held-out condition. Reports EVERY
-    held-out error, plus median/range/mean (M4). For M6 robustness it also reports
-    (a) a shot-level bootstrap 95% CI on the pooled LOCO mean and (b) the pooled LOCO
-    mean under an alternative LOG (relative-error) level loss. Named g/L solutes only
-    (TDS excluded, review M5). NOTE: ~3-5 min of PDE solves (slow; hand-run)."""
+    held-out error, plus median/range/mean (M4).
+
+    UNCERTAINTY (review MAJ-05): the 54 held-out errors (9 conditions x 3 solutes x 2
+    varieties) are NOT independent -- folds share overlapping training sets, the same
+    (T,p) conditions recur across solutes/varieties, and the source rows are
+    condition-level values (duplicate extractions in Angeloni), not 54 independent
+    shots. We therefore report (a) a DESCRIPTIVE residual-resampling interval
+    (resampling the 54 errors) that IGNORES fold dependence -- NOT a coverage-calibrated
+    confidence interval and NOT a 'shot-level' bootstrap; and (b) a CONDITION-CLUSTER
+    summary: one macro error per held-out (T,p) fold (averaged across solutes/varieties)
+    plus a cluster bootstrap over the 9 conditions (the dependence-aware view). For M6
+    it also reports the pooled mean under a LOG (relative-error) level loss. Named g/L
+    solutes only (TDS excluded, review M5). ~3-5 min of PDE solves (slow; hand-run)."""
     import numpy as np
     from puckworks.models.pannusch2024 import solver as ps
     from puckworks import data as d
@@ -754,25 +805,51 @@ def loco_cv_refit(varieties=("Arabica", "Robusta"),
                                             pred=float(prd))
                                        for (T, p), mo, prd in zip(conds, m, pr)]
     all_mape = np.array(all_mape)
+    # (a) descriptive residual-resampling interval (IGNORES fold dependence)
     boot = np.array([all_mape[rng.integers(0, len(all_mape), len(all_mape))].mean()
                      for _ in range(n_boot)])
+    resamp_interval = [round(float(np.percentile(boot, 2.5)), 1),
+                       round(float(np.percentile(boot, 97.5)), 1)]
+    # (b) CONDITION-CLUSTER view: one macro error per held-out (T,p), averaged across
+    # solute/variety (preserves the condition cluster), then a cluster bootstrap over
+    # the distinct conditions -- the dependence-aware interval (review MAJ-05)
+    by_cond = {}
+    for key, plist in pts.items():
+        for pt in plist:
+            by_cond.setdefault((pt["T"], pt["p"]), []).append(
+                abs(pt["pred"] - pt["obs"]) / pt["obs"] * 100.0)
+    cond_keys = sorted(by_cond)
+    cond_macro = np.array([float(np.mean(by_cond[k])) for k in cond_keys])
+    cboot = np.array([cond_macro[rng.integers(0, len(cond_macro), len(cond_macro))].mean()
+                      for _ in range(n_boot)])
+    cluster_interval = [round(float(np.percentile(cboot, 2.5)), 1),
+                        round(float(np.percentile(cboot, 97.5)), 1)]
     return dict(per_fit=per, points=pts,
                 pooled_loco_mean_mape=round(float(all_mape.mean()), 1),
                 pooled_loco_median_mape=round(float(np.median(all_mape)), 1),
-                pooled_loco_ci95=[round(float(np.percentile(boot, 2.5)), 1),
-                                  round(float(np.percentile(boot, 97.5)), 1)],
+                # descriptive only -- ignores fold dependence; NOT a confidence interval
+                residual_resampling_interval95=resamp_interval,
+                interval_is_dependence_aware=False,
+                # dependence-aware condition-cluster view (9 (T,p) macro errors)
+                condition_macro_mean=round(float(cond_macro.mean()), 1),
+                n_condition_clusters=len(cond_keys),
+                condition_cluster_bootstrap95=cluster_interval,
                 pooled_loco_mean_LOGloss=round(float(np.array(all_log).mean()), 1),
-                verdict="Leave-one-condition-out CV (9 folds/fit, matched mass) gives "
-                        "pooled held-out MAPE %.1f%% (median %.1f%%, bootstrap 95%% CI "
-                        "[%.1f, %.1f]) -- a proper replacement for the 2-point holdout. "
-                        "Under a LOG (relative-error) level loss the pooled mean is "
-                        "%.1f%%, so the transfer verdict is robust to the loss function "
-                        "(M6)." % (
+                verdict="Leave-one-condition-out holdout (9 folds/fit, matched mass) gives "
+                        "pooled held-out MAPE %.1f%% (median %.1f%%). A DESCRIPTIVE "
+                        "residual-resampling interval (ignoring fold dependence, NOT a "
+                        "confidence interval) is [%.1f, %.1f]; the dependence-aware "
+                        "condition-cluster bootstrap (9 (T,p) macro errors) is [%.1f, "
+                        "%.1f] around a %.1f%% macro mean. Under a LOG (relative-error) "
+                        "level loss the pooled mean is %.1f%%, so the transfer verdict is "
+                        "robust to the loss function (M6)." % (
                             float(all_mape.mean()), float(np.median(all_mape)),
-                            float(np.percentile(boot, 2.5)), float(np.percentile(boot, 97.5)),
-                            float(np.array(all_log).mean())),
-                strength="internal cross-validation (leave-one-condition-out) + "
-                         "shot-level bootstrap + loss-function sensitivity")
+                            resamp_interval[0], resamp_interval[1],
+                            cluster_interval[0], cluster_interval[1],
+                            float(cond_macro.mean()), float(np.array(all_log).mean())),
+                strength="internal leave-one-condition-out holdout + descriptive "
+                         "residual resampling + condition-cluster bootstrap + loss "
+                         "sensitivity (within-rig; not population-level coverage)")
 
 
 def geometry_sensitivity_transfer(varieties=("Arabica", "Robusta"),
@@ -895,9 +972,10 @@ def report():
     print("\n== identifiability panel (caffeine whole-cup, Arabica O) ==")
     ip = identifiability_panel("Arabica", "caffeine")
     print(f"condition number {ip['condition_number']} (reliable={ip['hessian_reliable']}); "
-          f"rate<->c_s0 corr {ip['rate_cs0_correlation']}; profile within 10% over "
-          f"{int(100 * ip['profile_fraction_of_range'])}% of rate range "
-          f"{ip['profile_rate_within10pct']}.")
+          f"curvature coupling {ip['local_curvature_coupling']} (NOT a correlation); "
+          f"SSE profile within 10% over {int(100 * ip['profile_fraction_of_log_grid'])}% "
+          f"of the log-rate grid {ip['profile_rate_within10pct']} "
+          f"(MAPE cross-check {int(100 * ip['mape_profile_fraction_within10pct'])}%).")
     print(ip["verdict"])
     print("\n== leave-one-condition-out CV + bootstrap + loss sensitivity (M4/M6) ==")
     lc = loco_cv_refit()

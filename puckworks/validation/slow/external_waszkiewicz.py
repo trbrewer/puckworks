@@ -61,8 +61,6 @@ def waszkiewicz_external_tds(T_C=93.0, pressure=9.0,
     qq = np.asarray(tr["mass_flow_rate__g_per_s"], float)   # g/s ~ mL/s (rho~1)
     massarr = np.asarray(tr["mass__g"], float)
     edges = np.arange(0.0, 60.001, 5.0)                     # 13 edges -> 12 bins
-    binmass = np.array([np.interp(edges[i + 1], tt, massarr) - np.interp(edges[i], tt, massarr)
-                        for i in range(12)])
     sp0 = ps._solute_params()["tds"]
     rates = list(rates)
 
@@ -75,6 +73,11 @@ def waszkiewicz_external_tds(T_C=93.0, pressure=9.0,
         # flow trace shifted so TDS time = flow time + offset (brewer-vs-drip origin)
         def qf(ts, off=offset):
             return max(q_floor, float(np.interp(ts - off, tt, qq, left=0.0, right=qq[-1])))
+        # review MAJ-16(1): the observed-cup bin masses MUST use the SAME shifted time
+        # origin as the model flow -- collect the mass in flow-time [edge-offset] for
+        # each fixed 5 s TDS bin, not the unshifted trace.
+        binmass = np.array([np.interp(edges[i + 1] - offset, tt, massarr)
+                            - np.interp(edges[i] - offset, tt, massarr) for i in range(12)])
         for drop_first in (False, True):
             idx = slice(1, 12) if drop_first else slice(0, 12)
             m_obs = meas[idx]; bm = binmass[idx]

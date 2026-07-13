@@ -31,6 +31,7 @@ def compute_all(out_path=RESULTS):
     import subprocess
     from .validation.slow import angeloni_bracket as ab
     from .validation.slow import identifiability as idn
+    from .validation.slow import external_waszkiewicz as ew
     from . import data as d
     inv = {(r["variety"], r["species"]): r["C0_s_mg_L"] / 1000.0
            for r in d.angeloni_inventories()}
@@ -39,8 +40,14 @@ def compute_all(out_path=RESULTS):
                                          stderr=subprocess.DEVNULL).decode().strip()
     except Exception:
         commit = "UNKNOWN"
+    # EVERY slow analysis the manuscript cites is regenerated here (review MAJ-19):
+    # not just the six that feed the figures, but also the blind bracket, per-condition
+    # result, flow-map refinement, refit summary, geometry sensitivity, sampled-aggregate
+    # audit, and the external Waszkiewicz analysis.
     res = dict(
         source_commit=commit,
+        schema_version=2,                                  # bumped: SSE/coupling relabel,
+                                                           # g/L units, cluster CI, full-prec
         table7=dict(caffeine=inv.get(("Arabica", "CF")),
                     trigonelline=inv.get(("Arabica", "TR"))),
         panel_caffeine=ab.identifiability_panel("Arabica", "caffeine"),
@@ -50,6 +57,13 @@ def compute_all(out_path=RESULTS):
         loco=ab.loco_cv_refit(),
         positive_control=idn.identifiability_fractions_vs_cup(),
         full_cup_sim=idn.full_cup_simulation_identifiability(),
+        # --- previously-omitted manuscript analyses (MAJ-19) ---
+        species_bracket=ab.gate_pannusch_angeloni_species_bracket(),
+        per_condition=ab.gate_pannusch_angeloni_per_condition(),
+        flow_map_refinement=ab.flow_map_refinement(),
+        geometry_sensitivity=ab.geometry_sensitivity_transfer(),
+        sampled_aggregate_audit=idn.sampled_aggregate_vs_actual_cup(),
+        external_waszkiewicz=ew.waszkiewicz_external_tds(),
     )
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     with open(out_path, "w") as f:
@@ -181,12 +195,13 @@ def fig3_holdouts(results=None, outdir=OUTDIR):
         ax.plot([0, mx * 1.1], [0, mx * 1.1], color=NULL, ls=":", lw=1.2)
         ax.set_title("(%s) %s — held-out O conditions"
                      % ("a" if variety == "Arabica" else "b", variety))
-        ax.set_xlabel("observed (mg/g)"); ax.set_ylabel("predicted (mg/g)")
+        ax.set_xlabel("observed (g L$^{-1}$)"); ax.set_ylabel("predicted (g L$^{-1}$)")
         ax.legend(fontsize=7.5, loc="upper left")
     lc = r["loco"]
     fig.suptitle("Fig 3 — leave-one-condition-out holdouts (pooled %.1f%%, median "
-                 "%.1f%%, 95%% CI %s)" % (lc["pooled_loco_mean_mape"],
-                 lc["pooled_loco_median_mape"], lc["pooled_loco_ci95"]),
+                 "%.1f%%; condition-cluster bootstrap %s)"
+                 % (lc["pooled_loco_mean_mape"], lc["pooled_loco_median_mape"],
+                    lc["condition_cluster_bootstrap95"]),
                  y=1.02, fontsize=10, fontweight="bold")
     return _save(fig, outdir, "fig3_holdouts.png")
 
@@ -212,7 +227,7 @@ def fig4_transfer(results=None, outdir=OUTDIR):
         ax.plot([0, mx * 1.1], [0, mx * 1.1], color=NULL, ls=":", lw=1.2)
         ax.set_title("(%s) held-out grind %s (matched 40 g cups)"
                      % ("a" if g == "C" else "b", g))
-        ax.set_xlabel("observed (mg/g)"); ax.set_ylabel("predicted (mg/g)")
+        ax.set_xlabel("observed (g L$^{-1}$)"); ax.set_ylabel("predicted (g L$^{-1}$)")
         ax.legend(fontsize=6, loc="upper left", ncol=2)
     fig.suptitle("Fig 4 — frozen O->C/F transfer at matched mass (transfers "
                  "reasonably; ≤1 pp geometry-sensitive)", y=1.02, fontsize=10,
@@ -243,8 +258,8 @@ def fig5_joint_residual(results=None, outdir=OUTDIR):
             ax.text(k, i, "%.0f" % M[i, k], ha="center", va="center", fontsize=7.5,
                     color=INK if M[i, k] < 0.6 * M.max() else "white")
     fig.colorbar(im, ax=ax, shrink=0.7, label="joint-fit MAPE (%)")
-    ax.set_title("Fig 5 — joint shared-(c_s0,rate) residual by grind\n"
-                 "pooled %d%% vs %d%% per-grind (cost ~%d pp); * = rate at boundary"
+    ax.set_title("Fig 5 — joint shared-$(c_{s,0},\\mathrm{rate})$ residual by grind\n"
+                 "pooled %.1f%% vs %.1f%% per-grind (cost ~%.1f pp); * = rate at boundary"
                  % (r["joint"]["mean_joint_pooled_mape"],
                     r["joint"]["mean_independent_per_grind_mape"],
                     r["joint"]["cost_of_sharing_pp"]), fontsize=9.5)
@@ -272,8 +287,9 @@ def fig6_fraction_vs_endpoint(results=None, outdir=OUTDIR):
         ax.set_xlabel("rate scale (log)"); ax.set_ylabel("MAPE (%)")
         _logclean(ax)
         ax.legend(fontsize=6.5, loc="upper center")
-    fig.suptitle("Fig 6 — fraction scoring identifies the rate (sharp); the whole "
-                 "cup does not (flat) — empirical + exact-integral simulation",
+    fig.suptitle("Fig 6 — fraction-resolved scoring localizes the rate objective more "
+                 "strongly than aggregated scoring (in the tested designs); "
+                 "empirical + same-model simulation",
                  y=1.03, fontsize=10, fontweight="bold")
     return _save(fig, outdir, "fig6_fraction_vs_endpoint.png")
 
