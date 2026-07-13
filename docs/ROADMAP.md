@@ -111,6 +111,11 @@ C-obs = observables/measurement kernel.
 | observables | grudeva2023 vial-splitting kernel (6.15–6.16) | C-obs | fraction-resolved measurement adapter |
 | observables | schmieder2023 fraction/exponential kernel | C-obs / C-gate | empirical; per-solute λ, c₀ |
 
+Each stage now also has a bound **VizSpec lens** (`puckworks/viz/`, §8): the
+`process_schematic` diagram and the PV-09 `hidden_puck_movie` compose these
+per-stage lenses, each carrying its own component's badge + evidence label. The
+viz layer CONSUMES this map; it adds no component and changes no label.
+
 ### Parallel clusters
 
 **P1 — extraction runtime (COMPETE → comparison harness).**
@@ -674,6 +679,7 @@ them. **Status promotions (`verification-gated` → `gated`, `gated` →
 ### 7.1 Change log
 | date | change | evidence (dataset + gate script) | affected RCs / items |
 |---|---|---|---|
+| 2026-07-13 | **§8 VISUALIZATION LAYER added (`puckworks/viz/`) — a CONSUMING layer, NO component, NO gate.** An evidence-bound viz capability: every visual is a `VizSpec` bound to a `public.schema.Producer` (numbers recompute from a named function), carrying ONE public badge + a §0 evidence strength + a fidelity ceiling drawn INTO the graphic by `stamp_fig`. Extends `puckworks/public/` (reuses BADGES/EVIDENCE_STRENGTHS verbatim) and leaves `figures*.py` UNTOUCHED (class-1 visuals route through the SAME producers; `python -m puckworks.figures` still emits the same Paper-B PNGs). **10 VizSpecs** (4 class-1, 5 class-2, 1 PV-09 montage). `[viz]`=matplotlib/pillow/imageio, `[viz3d]`=pyvista/vtk (lazy; core imports without them). Heavy renders (LB/3D/video) gitignored + never in CI; only code + `thumb.png` + `data.json` + `GALLERY.md` tracked. `tests/test_viz.py` (9 offline, NOT in run_all_gates): honesty-contract validation, anti-fabrication rejection, badge-stamp-present, fidelity-ceiling coverage, and the acceptance test that the generated gallery reproduces the hand-authored seed. **Seed reconciliation (generated-vs-seed diff, per the acceptance addendum):** ceilings VERBATIM (0 drift after glyph normalization); the ONLY divergences are 3 sanctioned Note-1 items — `process_schematic` and `hidden_puck_movie` encode the STRICTEST lens badge (`EXPLORATORY_SIMULATION`) with per-lens badges drawn inline (seed said "per-stage"/"per-lens"), and `hidden_puck_movie` evidence stores the closed-vocab floor `qualitative` (seed said "per-lens (unchanged)", a meta-label, not a strength word). Producer refs are thin `viz.producers` wrappers over the seed-named functions (numbers still recompute from a named fn); `identifiability_valley_fig` binds `angeloni_bracket.identifiability_panel` as the seed named. No spec label was found wrong and no seed label was overridden — the divergences are the prescribed encodings, asserted `== _SANCTIONED` in the test. | `puckworks/viz/` (spec/registry/palette/producers/class1_diagrams/class2_render/process_movie), `docs/figures/viz/GALLERY.md` (generated) + `GALLERY_SEED.md` (fixture), `tests/test_viz.py`, `pyproject` `[viz]/[viz3d]` | §8 viz layer (tooling; consumes registered components; labels ride along) |
 | 2026-07-13 | **0.13 visualizer.coffee data intake + harvester tool (data-only; NO component, NO gate).** A respectful harvester for the visualizer.coffee public shot API (v1.13.0, public read only) + a gitignored **two-tier** on-disk store: machine **HYDRAULIC** telemetry and user **OUTCOMES** are kept as SEPARATE evidence tiers (never merged). `puckworks/lib/visualizer_harvest.py` (new `puckworks/lib/` subpackage; `requests` behind a new `[harvest]` extra, lazily imported so core still imports): rate-limited ≤30 req/min + exp-backoff on 429/5xx, resume cursor + `--max-requests`, gzip-JSONL shards + `_index.csv`. `normalize_shot` converts to SI at the boundary (bar→Pa, g/s→kg/s, g→kg, degC→K, %→fraction), records raw units per channel, FLAGS missing/off-unit (rule 7), and applies the PRIVACY drop (user_name/user_id/avatar_url/barista/*_notes → gone; only a salted one-way hash of user_id kept). **License posture:** the user-contributed corpus has NO research-use license (visualizer app is MIT, app code only) → raw store NEVER committed (gitignored like pannusch2024); only harvester code, fixtures, PROVENANCE, 2 MANIFEST rows, the data-only card and the small DERIVED `aggregate_stats.csv` are tracked. Data-only card `visualizer_coffee` (verdict data-only): serves G3 ecological pump/flow envelope + P2 ecological variability + P6 Fo_F population + a PV at-scale companion; CANNOT give EY groundtruth / PSD / geometry (selection bias). Tests run against 3 committed synthetic fixtures, never the live API; NOT in `run_all_gates`. §6 (+2 rows), §4-G3 (ecological-vs-controlled folded in, no forced gap), §1 machine C-gate row, §5.8 (Miha Rekar), SPRINTS D5 + PV-06/PV-17 coupling, ONBOARDING §6 caveat. | `puckworks/lib/visualizer_harvest.py`, `puckworks/data/visualizer/{PROVENANCE.md,aggregate_stats.csv}`, `docs/cards/visualizer_coffee.md`, MANIFEST rows `visualizer/hydraulic_timeseries` + `visualizer/user_outcomes`, `tests/test_visualizer_harvest.py` (+fixtures) | Phase-0 data intake 0.13 (ecological G3/P2/P6 population; tool only, no component/gate) |
 | 2026-07-13 | **PAPER_B second review (`PAPER_B_UPDATED_DETAILED_REVIEW.md`) — P0 code bugs fixed; RSM/cross-pressure harmonised.** **MAJ-05:** the Result-1 trend interval used a normal 1.96 multiplier → now t-based (10 dof): [1.16, 3.36] not [1.29, 3.23]. **MAJ-07:** the achieved-predictor "central" cross-section averaged every grind-1.7 row → now the nominal centre point (experiment 7, 6 runs, achieved flow 1.9011); guarded by `test_rsm_center_mask_is_experiment_7`. **MAJ-08:** report the JOINT concave-and-in-domain bootstrap fraction (0.9985), not two separate fractions; "confirms the interior max is real" → "the selected quadratic has a conditional vertex near 1.74". **MAJ-09:** report the CENTERED/SCALED κ₂(X)≈3.9 (raw 1.7e6 is a parameterisation artefact) + Cook's distance (max 0.44, exp-10 rep-1). **MAJ-10:** `lopo_rsm_design_point` now holds out the **15 experiment settings** with achieved predictors (was target predictors + "18 design points"). **MAJ-06:** the achieved-predictor fixed-design residual bootstrap is now the manuscript's PRIMARY RSM estimand (vertex 1.74, [1.70,1.82]); nominal/case in a sensitivity line. **AR-B2-09:** `cross_pressure_loco` averaged rounded per-pressure RMSEs → now full precision (raw); new `test_cross_pressure_loco_full_precision`. **AR-B2-10:** "zero-parameter Φ(t)" → "0 additional coefficients fitted to this trace" + a parameter-provenance table; cubic labelled an in-sample flexibility bound. Wording: abstract "regime-dependent" → continuous residual-vs-pressure; N-tube floor prose 1e-9…1e-15 → 1e-6…1e-15 (matches code) + explicit "one-config floor-independence, not general robustness"; §7 hierarchy corrected; Waszkiewicz-2026 / Mo-2022 key-vs-year note; Fig 1 "measured"→"source-derived". 90 tests green. Deferred → `REVIEW_BACKLOG.md` (Result-3 robustness AR-B2-12, single-source build AR-B2-13, full manuscript AR-B2-01). | `harness.py` (RSM/result1/cross_pressure_loco), `analysis/lopo_cv.py`, `figures.py`, `PAPER_B_DRAFT.md`, `tests/test_analysis.py` | Paper B 2nd-review P0: RSM/cross-pressure bugs fixed, estimands harmonised |
 | 2026-07-13 | **PAPER_A second review (`PAPER_A_UPDATED_DETAILED_REVIEW.md`) — P0 blockers fixed; all analyses regenerated.** **A2-01 (definite bug):** the MAPE cross-check in `identifiability_panel` stored the whole `(level, MAPE)` tuple, so min/threshold/mean mixed inventory levels with MAPEs — now takes `_mape_level(...)[1]`; corrected caffeine MAPE-flat fraction **66 %** (was the buggy 33 %), still agreeing with SSE's 76 %; new `test_mape_level_returns_pair_and_profile_is_1d`. **A2-02 (manifold untested):** `validate_refit_granulometry` now transfers the **whole near-optimal O-grind set** (O-MAPE within 10 % of min) to C/F and reports the held-out envelope — worst **21.7 %** vs 18.2 % at the point optimum, so predictions are *reasonably, not perfectly*, stable along the compensating manifold (tested, not asserted; abstract/§5 corrected). **A2-03:** O→C/F reclassified an **internal cross-grind holdout** (not "external prediction"), Table 7 a **same-campaign orthogonal-measurement constraint**, the joint fit an **in-sample compatibility analysis** (not "confirms transfer") — abstract/§5/§8/Fig 1 caption. **A2-04:** the condition-cluster interval relabelled a **descriptive** condition-level resampling (not "dependence-aware CI"; key `condition_cluster_resampling95`, `interval_is_coverage_calibrated=False`). **A2-05:** `refit_pannusch_angeloni` (Result-1 8.4 %/11.5 %) added to `compute_all`. **A2-13:** fixed broken `report()` keys in `identifiability.py`. Full precision through geometry/transfer aggregation (A2-11/12). 88 tests green. Deferred → `REVIEW_BACKLOG.md` (A2-06/07 grid convergence, A2-08 weighted objective, A2-09 density/40 g, A2-10 flow-map uncertainty, A2-16 figure redesigns, A2-17/18 manuscript prose). | `angeloni_bracket` (panel/transfer/loco), `identifiability` (report), `figures_paper_a` (compute_all), `PAPER_A_DRAFT.md`, `tests/test_paper_a.py` | Paper A 2nd-review P0 actioned: MAPE bug fixed, manifold tested, taxonomy corrected |
@@ -780,3 +786,69 @@ resolution and evidence, then move to docs/archive/.
 | entry | resolution | evidence | resolved date |
 |---|---|---|---|
 | 5.1 Grudeva source conflict | resolved 1.7a — see `docs/cards/grudeva2025.md` RECONCILIATION LOG; adjudicated no-ε form; two named parameter configs; emergent finding: κ and P_app carry decade typos in both sources, adjudicated κ ≈ 2.2e-15 m². | `docs/cards/grudeva2025.md` (merged card of record); retired grudeva2023.md + grudeva2026.md | 2026-07-11 |
+
+---
+
+## 8. VISUALIZATION LAYER
+
+`puckworks/viz/` (ROADMAP item 8.1). A **consuming** layer — NOT a registry
+component and NOT a physics gate (CLAUDE.md rule 1 governs components; rendering
+is tooling that consumes registered components / harness / data). It EXTENDS
+`puckworks/public/`: it reuses `public.schema.BADGES` and `EVIDENCE_STRENGTHS`
+verbatim and mirrors the "numbers recompute from a named function, never
+hand-typed" discipline. `figures.py` / `figures_paper_a.py` stay the canonical
+full-page paper figures (unchanged); class-1 visuals route through the SAME
+producers, so `python -m puckworks.figures` still emits the same Paper-B PNGs.
+
+**Two classes.** Class 1 = functional 2D diagrams / annotated metric frames
+(house palette, colourblind-safe). Class 2 = high-fidelity 2D/3D renders (may be
+richer, but the badge + provenance are non-negotiable).
+
+**The honesty contract (load-bearing).** Every visual is a `VizSpec` that:
+1. binds to a `public.schema.Producer` (a render with no producer binding fails
+   its test);
+2. carries ONE of the four public badges (OBSERVED / RECONSTRUCTED / PREDICTED /
+   EXPLORATORY_SIMULATION) **rendered INTO the graphic** (not the caption) plus
+   the §0 evidence-strength string — labels ride along UNCHANGED from the source;
+3. declares a **fidelity ceiling** it may not exceed. Composites label per-lens
+   (the honest unit): the spec badge is the STRICTEST lens present, per-lens
+   badges drawn inline.
+
+**Per-component fidelity ceilings** (encoded in `viz/spec.py::FIDELITY_CEILINGS`,
+asserted in `tests/test_viz.py`):
+- `brewer2026.lb_reference/lb_taichi` (flow): computed Stokes flow, VERIFICATION
+  geometry → EXPLORATORY_SIMULATION / verification; never "the flow in your puck".
+- `brewer2026.pack_generator` (grains): Boolean-sphere geometry; fines are a
+  sub-voxel HETEROGENEITY FIELD, not resolved particles.
+- `brewer2026.streamtube` / N-tube (channeling): static σ(φ₁) empirical; dynamic
+  concentration is EXPLORATORY, ONE config (gs 1.1, 9 bar, N=200), not a proven
+  instability (ANALYSIS_P2 §2.4 / G-lat).
+- `fasano2000_partI.fines_migration`: fasano-STRUCTURED, zero identified params →
+  mechanism illustration only; closures are ours, not a coffee fit.
+- `foster2025.infiltration/machine_mode`: front CT-validated (independent); machine
+  times include a fitted t_shift (post-fit) — label it.
+- `mo2023_2.swelling/coupled_bed`: fixed-Δp swelling UNVALIDATED → qualitative;
+  `coupled_kappa_t` is kind=synthesis, "framework; branch fidelity inherited",
+  NEVER a "validated κ(t) law".
+- `visualizer.coffee`: reference-strength, selection-biased POPULATION; hydraulics
+  only; user TDS/EY/sensory never shown as groundtruth.
+
+If a requested visual cannot be honestly sourced from a component/loader, it is
+built as an explicitly-badged schematic ("illustrative — not model output") or
+flagged — never a quiet implication of fidelity.
+
+**Storage.** Small committed exemplars + all code + the gallery are tracked:
+`docs/figures/viz/GALLERY.md` (generated honesty index; `GALLERY_SEED.md` is the
+hand-authored acceptance fixture), `docs/figures/viz/<id>/thumb.png`,
+`docs/figures/viz/<id>/data.json` (provenance-stamped). Heavy outputs
+(frames/, *.mp4/gif/webm, *.vti/vtu) are gitignored — renders are regenerable
+outputs; only the recipe + a small exemplar + provenance are tracked. `[viz]` /
+`[viz3d]` are lazy extras; heavy/3D/video runs LOCALLY or in Colab (like the LB
+sweeps), never in CI.
+
+    python -m puckworks.viz list | compute | render [--class 1|2] [--with-3d] [--video] | gallery
+
+Cross-links: PUBLIC_VALUE PV-00 (the claim/producer registry this consumes),
+PV-08 (the Puck Court dashboard renders VizSpecs, not a leaderboard), PV-09 (the
+`hidden_puck_movie` multi-lens montage); PAPER_OUTLINE (Paper A/B figures are
+class-1 VizSpecs).

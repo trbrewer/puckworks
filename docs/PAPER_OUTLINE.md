@@ -14,6 +14,14 @@ data". Post-fit → "reconstructs / is consistent with". Qualitative discriminat
 Exploratory synthesis → "exhibits in the tested configuration / motivates". NOT
 supported here → "identifies / proves / is the mechanism / unconditionally".
 
+**Figures pipeline (2026-07-13).** The Paper A/B figures are now **class-1
+VizSpecs** in the unified viz layer (`puckworks/viz/`, ROADMAP §8): the κ(t)
+ladder (Fig 3) and the identifiability valley (Fig 2) route through the SAME
+producers as the print figures. Regenerate with
+`python -m puckworks.viz render --class 1`; each carries its badge +
+evidence-strength + provenance. The canonical full-page PNGs stay
+`python -m puckworks.figures` / `figures_paper_a` (unchanged).
+
 ## 0. How many papers?
 
 Two independent papers plus a possible methods note. The split is endorsed by the

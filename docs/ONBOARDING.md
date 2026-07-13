@@ -54,6 +54,11 @@ with CLAUDE.md, flag it rather than comply.
    forbids previously-presented abstracts; SDCC ISBN-proceedings disclosure). Status
    tracked in `docs/SPRINTS.md` "Submission track".
 
+**For any VISUALIZATION work:** `puckworks/viz/` (the evidence-bound viz layer,
+ROADMAP §8) and `docs/figures/viz/GALLERY.md` (the honesty index — every visual,
+its badge, evidence, and fidelity ceiling) are the entry point. Do not add a
+figure outside a VizSpec.
+
 ## 3. Verify the state is live, not remembered
 ```
 pip install -e ".[dev]"
@@ -144,5 +149,14 @@ ANALYSIS section, not just this file.
   (`python -m puckworks.lib.visualizer_harvest full`); tests use a committed
   fixture, never the API. Hydraulic and outcome tiers are stored SEPARATELY;
   never merge them.
+
+- **Visualization is a CONSUMING layer** (`puckworks/viz/`, ROADMAP §8), not a
+  component. Every visual binds to a producer and carries a public badge +
+  evidence-strength label + a fidelity ceiling; a render may NOT depict a
+  mechanism above its source component's validity (fines transport =
+  fasano-STRUCTURED verification-only; N-tube concentration = one-config
+  exploratory; `coupled_kappa_t` = framework). Beautiful is allowed; over-claiming
+  is not. Heavy renders are gitignored; thumbs + `GALLERY.md` + `data.json` are
+  tracked.
 
 If in doubt: read the changelog, run the gates, ask one clarifying question.

@@ -215,6 +215,28 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
       fasano II parameter-blocked, lee2023 off-observable (declared).
 - [x] CHAT: which mechanism survives → `docs/ANALYSIS_P2.md` (§2.2; verdict **partial but sign-decisive** — Φ(t) fits and is the only correct-sign branch; swelling + fines-migration refuted by sign; fasano-II blocked / lee2023 off-observable; fines-vs-dissolution quant. discrimination awaits the pressure-step/reversal protocol)
 
+## Sprint V1 — visualization layer (CC, tooling) [DONE]
+*A CONSUMING viz layer (`puckworks/viz/`, ROADMAP §8) — NO registry component,
+NO physics gate. Item 8.1.*
+- [x] viz skeleton: `spec.py` (VizSpec + `.validate()` + FIDELITY_CEILINGS),
+      `palette.py`, `registry.py` (10 VIZZES + badge/provenance `stamp_fig` +
+      `write_gallery`), `producers.py`; `[viz]`/`[viz3d]` lazy extras.
+- [x] class-1 diagrams (process schematic, shot metric frame, κ(t) ladder,
+      identifiability valley) routed through the SAME producers as the paper
+      figures — `figures.py` untouched, Paper-B PNGs unchanged.
+- [x] class-2 renders (Stokes verification field, synthetic pack + heterogeneity
+      field, wetting front, channeling one-config, fines-migration mechanism;
+      pyvista 3D behind `[viz3d]`).
+- [x] PV-09 `hidden_puck_movie` — parallel labelled lenses on one shared clock
+      (display only), each its own badge; NOT a mega-model.
+- [x] `tests/test_viz.py` (9, offline, NOT in run_all_gates): honesty contract,
+      anti-fabrication rejection, badge-stamp-present, ceiling coverage, and the
+      acceptance test (generated `GALLERY.md` reproduces `GALLERY_SEED.md`).
+- [x] Heavy renders gitignored; thumbs + `data.json` + `GALLERY.md` tracked.
+- Each P0 public story gets a bound visual: PV-01/PV-02 → shot_metric_frame +
+      wetting_front; PV-03 → identifiability_valley; PV-04 → the ladder; PV-05 →
+      (composition diagnostic, future); PV-06 → channeling/shot lenses.
+
 ## Parallel tracks (not sprint-gated)
 - **TB**: §5.8 correspondence — Mo/Ellero (k1 units + volumes), Grudeva
   (repo check first), Egidi (Eq. 4 definitions); Wadsworth already out; PV-19
@@ -227,7 +249,9 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
 - **INTAKE**: gap-target papers as found — G1 (Richards/two-phase), G2
   (Ellero J. Food Eng. 263; Mo 2021/2022), G9 (screen hydraulics), G10
   (extract rheology)
-- **Colab**: full-grid Sweeps A/B (already queued); results → CHAT workup
+- **Colab / local**: full-grid Sweeps A/B (already queued); results → CHAT workup.
+  Also the HEAVY/3D/video viz renders (`python -m puckworks.viz render --with-3d
+  --video`, ROADMAP §8) run locally or in Colab — like the LB sweeps, NEVER in CI.
 - Phase 3 items (3.1–3.5) schedule after Sprint 9 defines the harness
 
 ## Public-value track (PV)
@@ -249,14 +273,14 @@ gaps G10 / G3 / G1.**
 
 | PV | short name | status | tier (§17) | depends-on | sci-dependency / coupling | spec |
 |---|---|---|---|---|---|---|
-| PV-00 | public-results export + claim registry | not-started | now | — (foundation) | `harness.py` public-ready fns + `figures.py` + registry/manifest provenance | [§5](PUBLIC_VALUE.md#pv-00--build-a-public-results-export-and-claim-registry) |
+| PV-00 | public-results export + claim registry | not-started | now | — (foundation) | `harness.py` public-ready fns + `figures.py` + registry/manifest provenance; **the viz layer (§8) CONSUMES this claim/producer registry — VizSpecs bind to public.schema.Producer** | [§5](PUBLIC_VALUE.md#pv-00--build-a-public-results-export-and-claim-registry) |
 | PV-01 | "the first drop is already strong" | not-started | now | — (pairs w/ PV-16) | `dissolution_speed_test` + foster2025_2 infiltration + fraction TDS; **G1 retention analog is REFERENCE-strength — label rides along** | [§5](PUBLIC_VALUE.md#pv-01--the-first-drop-is-already-strong-measured-fractions-plus-a-wetting-front-reveal) |
 | PV-02 | "the machine can fake a puck problem" | not-started | now | — (feeds PV-15) | Foster machine mode + `kappa_t_ladder` + `cross_pressure_discrimination` + the leave-one-pressure-out diagnostic (`ANALYSIS_cv_residual.md`) | [§5](PUBLIC_VALUE.md#pv-02--the-machine-can-fake-a-puck-problem-a-null-first-flow-curve-explainer) |
 | PV-05 | "adding physics made it worse" | not-started | now | — | `coupled_kappa_t` failed shared-porosity composite (anti-mega-model; Paper-B Fig 4) | [§5](PUBLIC_VALUE.md#pv-05--adding-more-physics-made-it-worse-the-anti-mega-model-story) |
 | PV-03 | "a good fit can still be wrong" | not-started | next | — | `ANALYSIS_transfer.md` inventory–kinetics identifiability (flat valley); Pannusch solver, Angeloni | [§5](PUBLIC_VALUE.md#pv-03--a-good-fit-can-still-be-wrong-the-inventorykinetics-flat-valley-interactive) |
 | PV-04 | "we killed our favorite result" | not-started | next | — | corrected fine-grind verdict (`ANALYSIS_P2.md` / `P3_hypotheses.md`); `schmieder_interior_max_target`, `result1_magnitude_comparison`, `channeling_interior_max_sensitivity` | [§5](PUBLIC_VALUE.md#pv-04--we-killed-our-favorite-result-a-transparent-analysis-autopsy) |
 | PV-06 | cross-pressure mechanism fingerprint | not-started | next | — (feeds PV-15) | waszkiewicz 11-pressure traces + `cross_pressure_discrimination`; Paper-B Fig 3; **visualizer.coffee is the at-scale ECOLOGICAL companion (0.13) — reference-strength, selection-biased; label rides along, does NOT upgrade** | [§5](PUBLIC_VALUE.md#pv-06--build-a-cross-pressure-mechanism-fingerprint-map) |
-| PV-08 | "Puck Court" evidence dashboard | not-started | next | PV-00 | registry + gates + manifest; Paper-B Fig 2 (evidence matrix, not a leaderboard) | [§5](PUBLIC_VALUE.md#pv-08--create-puck-court-a-public-evidence-dashboard-not-a-winner-leaderboard) |
+| PV-08 | "Puck Court" evidence dashboard | not-started | next | PV-00 | registry + gates + manifest; Paper-B Fig 2 (evidence matrix, not a leaderboard); **renders VizSpecs (§8), not a leaderboard** | [§5](PUBLIC_VALUE.md#pv-08--create-puck-court-a-public-evidence-dashboard-not-a-winner-leaderboard) |
 | PV-15 | model-disagreement experiment recommender | not-started | experiment | PV-02, PV-06 | consumes cross-mechanism disagreement across the harnesses | [§5](PUBLIC_VALUE.md#pv-15--build-a-model-disagreement-experiment-recommender) |
 | PV-16 | public first-drip / fraction replication | not-started | experiment | PV-01, PV-15 pilot | PV-01 protocol → public participation (after closed pilot) | [§5](PUBLIC_VALUE.md#pv-16--launch-a-public-first-drip-and-fraction-resolved-replication-study) |
 | PV-11 | "your grinder dial is not a unit" | not-started | program | — | G5 dial-non-portability gap + Wadsworth grind map (ledger A9/G5, rule 9) | [§5](PUBLIC_VALUE.md#pv-11--your-grinder-dial-is-not-a-unit-build-a-physical-grind-translation-study) |
@@ -265,7 +289,7 @@ gaps G10 / G3 / G1.**
 | PV-17 | pump-curve + screen-clogging bench | not-started | program | (validates PV-10) | **PUBLIC FACE of gap G3** (pump curve); also feeds G9 screen-clogging (`g9_series_resistance`); **visualizer.coffee is its at-scale ECOLOGICAL companion (0.13) — the controlled bench pull calibrates the uncontrolled population's selection bias; label rides along** | [§5](PUBLIC_VALUE.md#pv-17--measure-the-machine-and-outlet-pump-curve-plus-screen-clogging-bench-study) |
 | PV-18 | coffee-bed retention / continuous wetting | not-started | program | — | **PUBLIC FACE of gap G1** (retention curve θ(ψ)/K(ψ)); the measurement that would replace the reference-strength G1 analog PV-01 uses | [§5](PUBLIC_VALUE.md#pv-18--measure-continuous-coffee-bed-wetting-and-retention-not-just-the-front) |
 | PV-07 | compound extraction clocks | not-started | unsequenced (P1) | — | Pannusch solver + Schmieder fractions + transfer analysis (hypothesis generator only, transfer-limited) | [§5](PUBLIC_VALUE.md#pv-07--build-compound-extraction-clocks-and-search-for-same-strength-different-composition-shots) |
-| PV-09 | multi-lens "hidden puck" movie | not-started | unsequenced (P1) | — | Foster infiltration + pack_generator + LB solvers + extraction + streamtube/N-tube (parallel labelled lenses, no fake mega-model) | [§5](PUBLIC_VALUE.md#pv-09--produce-a-multi-lens-hidden-puck-movie-without-building-a-fake-mega-model) |
+| PV-09 | multi-lens "hidden puck" movie | not-started | unsequenced (P1) | — | Foster infiltration + pack_generator + LB solvers + extraction + streamtube/N-tube (parallel labelled lenses, no fake mega-model); **the montage IS the viz `hidden_puck_movie` VizSpec (§8) — thumb built, video local** | [§5](PUBLIC_VALUE.md#pv-09--produce-a-multi-lens-hidden-puck-movie-without-building-a-fake-mega-model) |
 | PV-10 | "a clean basket is not the bottleneck" | not-started | unsequenced (P0/P1) | — | `g9_series_resistance` + basket geometry (gap G9); PV-17 provides the bench validation | [§5](PUBLIC_VALUE.md#pv-10--a-clean-basket-is-not-the-bottleneck-visualize-the-pressure-resistance-budget) |
 | PV-12 | temperature explainer | not-started | unsequenced (P1) | — | `g4_temperature_sensitivity` + Schmieder temperature data (gap G4; two closures disagree on SIGN — surface, don't average) | [§5](PUBLIC_VALUE.md#pv-12--temperature-explainer-small-equilibrium-extraction-effect-unresolved-thermal-puck-physics) |
 | PV-19 | "the best-understood espresso shot" (named-shot capstone scorecard) | not-started | next | PV-00 | RC-1 + RC-4a gates, 1.8b adapter (RC-4b verification), §5.9 node identity, §5.2 Fo_F audit, Cameron low-read (egidi/angeloni brackets); **TB capstone cup measurement would promote RC-4b** | [§5](PUBLIC_VALUE.md#pv-19--the-best-understood-espresso-shot-one-named-recipe-every-component-evidence-attached) |
@@ -323,3 +347,4 @@ related-work / physical-lateral-coupling gaps are closed). Abstract wording obey
 | 2026-07-11 | refit C/F validation | NEGATIVE result (tempers the refit): the granulometry-O refit does NOT transfer to held-out C/F (~25-49% MAPE vs O holdout ~7%), and the (rate_scale,c_s0) split is degenerate/flow-confounded (caffeine rate flips 0.4/0.4/2.5 across O/C/F; c_s0 swings 2.3x for a fixed inventory). Earlier 'gap closed / inventory-vs-kinetic decomposition' was over-read -> pannusch stays a schmieder-fit runtime; angeloni is a transfer target it does not meet across grind. |
 | 2026-07-13 | D5 done | 0.13 visualizer.coffee harvester + two-tier intake (data-only tool; NO component/gate). puckworks/lib/ new subpackage; [harvest] extra (lazy requests). Hydraulic (reference-strength population) vs user-outcomes (not groundtruth) kept SEPARATE; SI at boundary + rule-7 flags; privacy drop + salted user-id hash; corpus gitignored/NOT redistributed (Miha corr. pending §5.8). 2 MANIFEST rows + data-only card visualizer_coffee + PROVENANCE + DERIVED aggregate_stats.csv (zero-state; Tim refreshes locally). 14 offline tests (fixtures, not live API); NOT in run_all_gates. |
 | 2026-07-13 | D5 corr. | Tim SENT the Miha Rekar (visualizer.coffee) corpus-use request email — sanctioned bulk/research use + possible export; awaiting reply. Gates redistribution/publication use only (public-API harvest already in place, 0.13). Status flipped across §5.8 / SPRINTS TB / REVIEW_BACKLOG / email footer / SOURCE_MANIFEST. |
+| 2026-07-13 | V1 done | 8.1 visualization layer (puckworks/viz/) — evidence-bound VizSpecs (10), NO component/gate; extends public/ badge system. Class-1 route through the SAME producers as the paper figures (figures.py untouched); class-2 2D fields now, 3D behind [viz3d]; PV-09 hidden_puck_movie multi-lens montage. Badge+evidence+fidelity-ceiling drawn INTO every graphic. Heavy renders gitignored/local; thumbs+data.json+GALLERY.md tracked. Generated GALLERY reproduces the hand-authored GALLERY_SEED (ceilings verbatim; 3 sanctioned Note-1 composite divergences recorded in ROADMAP §7.1). tests/test_viz.py (9, offline, not in run_all_gates). |
