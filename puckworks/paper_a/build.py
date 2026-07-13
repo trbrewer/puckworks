@@ -118,21 +118,33 @@ def _env():
 
 
 def _data_hashes():
-    """SHA-256 of the source-data files the Paper A analyses consume."""
-    files = ["angeloni2023/bioactives.csv", "angeloni2023/inventories.csv",
-             "angeloni2023/total_solids.csv", "schmieder2023/cup_masses.csv",
-             "schmieder2023/rsm_coefficients.csv", "waszkiewicz2025/tds_fractions.csv"]
+    """SHA-256 of every direct input the Paper A analyses consume (A4-34/§6.47): the
+    source data AND the analysis/plot/build modules + the manuscript, so a changed
+    input is detectable."""
+    data_files = ["angeloni2023/bioactives.csv", "angeloni2023/inventories.csv",
+                  "angeloni2023/total_solids.csv", "schmieder2023/cup_masses.csv",
+                  "schmieder2023/rsm_coefficients.csv", "waszkiewicz2025/tds_fractions.csv",
+                  "waszkiewicz2025/traces_time_dependent.csv"]
     out = {}
-    for rel in files:
+    for rel in data_files:
         p = os.path.join(_DATA, rel)
+        out[rel] = _sha256(p) if os.path.exists(p) else "MISSING"
+    # code + manuscript inputs (A4-34): the analyses depend on these, not just data
+    for rel in ["puckworks/validation/slow/angeloni_bracket.py",
+                "puckworks/validation/slow/identifiability.py",
+                "puckworks/figures_paper_a.py", "puckworks/paper_a/build.py",
+                "docs/PAPER_A_DRAFT.md"]:
+        p = os.path.join(_ROOT, rel)
         out[rel] = _sha256(p) if os.path.exists(p) else "MISSING"
     return out
 
 
-def verify(bundle_path=_BUNDLE, timestamp=None, write_manifest=True):
+def verify(bundle_path=_BUNDLE, timestamp=None, write_manifest=True, strict=False):
     """Check the manuscript claims against the bundle and write a provenance manifest.
-    Returns (ok, failures, manifest). `timestamp` is passed in (scripts cannot call the
-    clock deterministically); pass None to omit."""
+    Returns (ok, failures, manifest). With strict=True (a RELEASE build) a STALE or DIRTY
+    tree is ALSO a failure (A4-01/§6.1): a bundle from one commit, a manifest from
+    another, and a dirty tree cannot certify the manuscript. `timestamp` is passed in
+    (scripts cannot call the clock deterministically)."""
     with open(bundle_path) as f:
         bundle = json.load(f)
     failures = []
@@ -149,11 +161,23 @@ def verify(bundle_path=_BUNDLE, timestamp=None, write_manifest=True):
         if not ok:
             failures.append(f"{label}: bundle {actual} vs manuscript {expected} "
                             f"(|Δ| {abs(actual - expected):.3f} > tol {tol})")
+    # A4-01/§6.1: freshness is a first-class field; a RELEASE build fails on a
+    # stale/dirty tree so HEAD == manifest.source_commit == bundle.source_commit.
+    head = _git("rev-parse", "HEAD")
+    dirty = bool(_git("status", "--porcelain"))
+    bundle_commit = bundle.get("source_commit")
+    bundle_matches_head = bool(bundle_commit == head and head != "UNKNOWN")
+    release_fresh = bool(bundle_matches_head and not dirty)
+    if strict and not bundle_matches_head:
+        failures.append("RELEASE: bundle source_commit %s != git HEAD %s (stale, A4-01)"
+                        % (str(bundle_commit)[:12], str(head)[:12]))
+    if strict and dirty:
+        failures.append("RELEASE: git tree is dirty -- bundle cannot certify the current "
+                        "manuscript (A4-01)")
     manifest = dict(
-        paper="A", source_commit=_git("rev-parse", "HEAD"),
-        git_dirty=bool(_git("status", "--porcelain")),
-        timestamp_utc=timestamp,
-        bundle_source_commit=bundle.get("source_commit"),
+        paper="A", source_commit=head, git_dirty=dirty, timestamp_utc=timestamp,
+        bundle_source_commit=bundle_commit, bundle_matches_head=bundle_matches_head,
+        release_fresh=release_fresh,
         bundle_schema_version=bundle.get("schema_version"),
         bundle_sha256=_sha256(bundle_path),
         environment=_env(), data_sha256=_data_hashes(),
@@ -169,7 +193,8 @@ def verify(bundle_path=_BUNDLE, timestamp=None, write_manifest=True):
 def main(argv=None):
     import argparse
     p = argparse.ArgumentParser(prog="puckworks.paper_a.build")
-    p.add_argument("cmd", choices=["verify", "render", "full"], nargs="?", default="verify")
+    p.add_argument("cmd", choices=["verify", "render", "full", "release"],
+                   nargs="?", default="verify")
     p.add_argument("--timestamp", default=None, help="UTC timestamp to stamp the manifest")
     a = p.parse_args(argv)
     if a.cmd == "full":
@@ -179,11 +204,12 @@ def main(argv=None):
     if a.cmd in ("render", "full"):
         from puckworks.figures_paper_a import render_all
         print("rendered:", render_all())
-    if a.cmd in ("verify", "full"):
-        ok, failures, manifest = verify(timestamp=a.timestamp)
+    if a.cmd in ("verify", "full", "release"):
+        strict = (a.cmd == "release")   # a RELEASE build also requires a fresh clean tree
+        ok, failures, manifest = verify(timestamp=a.timestamp, strict=strict)
         print(f"manifest -> {os.path.relpath(_MANIFEST, _ROOT)}")
-        print(f"commit {manifest['source_commit'][:12]} (dirty={manifest['git_dirty']}); "
-              f"env {manifest['environment']}")
+        print(f"commit {manifest['source_commit'][:12]} (dirty={manifest['git_dirty']}, "
+              f"fresh={manifest['release_fresh']}); env {manifest['environment']}")
         print(f"claims: {manifest['n_claims'] - manifest['n_failures']}/"
               f"{manifest['n_claims']} pass")
         for fmsg in failures:

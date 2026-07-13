@@ -8,7 +8,8 @@ results file that one command regenerates:
     python -m puckworks.figures_paper_a render    # fast; -> docs/figures/paper_a/
 
 `compute` runs every slow analysis function ONCE (no hand-typed numbers) and dumps
-`docs/figures/paper_a/results.json`; `render` draws Fig 1-6 from it. matplotlib is a
+`docs/figures/paper_a/results.json`; `render` draws Fig 1-8 (six main + two
+condition-structure diagnostics) from it. matplotlib is a
 lazy `[figures]` extra (module imports cleanly without it), reusing the Paper-B
 figure style. Figures track the corrected findings: single-grind non-identifiability
 (strong) but predictive transfer that WORKS at matched mass (identifiability !=
@@ -566,11 +567,11 @@ def fig7_per_group_diagnostics(results=None, outdir=OUTDIR):
     ax.invert_yaxis()
     ax.set_xlabel("model–data shape correlation")
     ax.set_xlim(-0.6, 0.8)
-    ax.set_title("(b) trajectory-shape agreement (near 0 = shape not captured)",
-                 fontsize=9)
-    fig.suptitle("Fig 7 — per-group refit diagnostics: inventory-matching helps caffeine "
-                 "but HURTS trigonelline (residual not pure inventory); shape correlations "
-                 "cluster near zero", y=1.02, fontsize=9.5, fontweight="bold")
+    ax.set_title("(b) cross-condition model–data response correlation (n=9 conditions; "
+                 "not a temporal trajectory)", fontsize=8.5)
+    fig.suptitle("Fig 7 — per-group blind and inventory-matched errors, with "
+                 "cross-condition model–data association (n=9 O conditions/group; "
+                 "40 mL proxy endpoint)", y=1.02, fontsize=9.0, fontweight="bold")
     return _save(fig, outdir, "fig7_per_group_diagnostics.png")
 
 
@@ -616,10 +617,11 @@ def fig8_residuals_vs_conditions(results=None, outdir=OUTDIR):
     handles += [Line2D([], [], marker=smark[s], ls="", mfc=NULL, mec="white", label=s)
                 for s in solutes]
     axes[1].legend(handles=handles, fontsize=6.8, loc="upper right", ncol=2)
-    fig.suptitle("Fig 8 — signed transfer residuals are STRUCTURED: a solute- and "
-                 "variety-consistent negative offset (all conditions under-predict) that "
-                 "a pure inventory (level) rescale cannot remove", y=1.02, fontsize=9.0,
-                 fontweight="bold")
+    fig.suptitle("Fig 8 — blind source-model residuals by operating condition "
+                 "(pre target-level fit); solute/variety group offsets motivate the "
+                 "per-group target-level recalibration (a group level CAN remove these "
+                 "offsets; within-group (T,p) structure after level-fitting is not "
+                 "shown here — A4-08)", y=1.02, fontsize=8.2, fontweight="bold")
     return _save(fig, outdir, "fig8_residuals_vs_conditions.png")
 
 

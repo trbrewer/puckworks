@@ -1,6 +1,7 @@
 # Paper A figures (review §7)
 
-Six figures for `docs/PAPER_A_DRAFT.md`, rendered from the **corrected matched-mass**
+Eight figures (six main + two condition-structure diagnostics, Fig 7–8) for
+`docs/PAPER_A_DRAFT.md`, rendered from the **corrected matched-mass**
 analysis. Because Paper A's analysis is slow (PDE solves), the figures render from a
 cached `results.json` that one command regenerates:
 

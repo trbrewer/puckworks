@@ -595,9 +595,11 @@ first over-claimed identification, the second was an endpoint artefact.
 
 ## Figures
 
-Six figures (`docs/figures/paper_a/`, rendered from the corrected matched-mass
+**Eight figures** (`docs/figures/paper_a/`, rendered from the corrected matched-mass
 analysis via `python -m puckworks.figures_paper_a`; every value regenerates from the
-slow analysis functions, none hand-typed):
+slow analysis functions, none hand-typed): six main figures (1–6) and two
+condition-structure diagnostics (7–8; A4-09). All figure titles state design and
+quantities, not verdicts.
 
 - **Fig 1** — study & evidence design with campaign-accurate categories: source
   calibration → Angeloni-O target recalibration → within-campaign leave-one-condition-out
@@ -620,6 +622,15 @@ slow analysis functions, none hand-typed):
   (d) the **independent external Waszkiewicz** TDS trajectory as a target-profiled shape
   test — a shallow ~27 % minimum with an alignment-sensitivity band and the
   algebraically-flat single cup (one scalar + one profiled level).
+- **Fig 7** *(diagnostic)* — per-group blind and inventory-matched errors, with the
+  cross-condition model–data response correlation (n=9 O conditions/group; 40 mL proxy
+  endpoint). Panel (b) is a cross-condition association, **not** a temporal trajectory
+  (A4-31); the n=9 correlation is descriptive.
+- **Fig 8** *(diagnostic)* — blind source-model residuals by operating condition,
+  **before** the per-group target level is fitted. The solute/variety group offsets
+  motivate the target-level recalibration; a per-group level **can** remove such offsets,
+  so this figure motivates rather than proves irreducibility (A4-08). Within-group (T,p)
+  structure after level-fitting is the owed follow-up (§10.14, deferred).
 
 ## 9. Related work
 

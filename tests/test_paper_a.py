@@ -199,6 +199,30 @@ def test_paper_a_build_verifies_manuscript_claims():
     assert all(v != "MISSING" for v in manifest["data_sha256"].values())
 
 
+def test_paper_a_build_freshness_guard():
+    """review A4-01/§6.1: a passing claim check from a STALE/DIRTY tree must NOT certify
+    a release. verify(strict=True) fails on a dirty/stale bundle; the routine check still
+    passes; the manifest exposes release_fresh + bundle_matches_head."""
+    from puckworks.paper_a.build import verify
+    ok_routine, _, man = verify(write_manifest=False)                 # strict=False
+    assert "release_fresh" in man and "bundle_matches_head" in man
+    ok_strict, fails, _ = verify(write_manifest=False, strict=True)
+    if not man["release_fresh"]:                                      # dirty/stale dev tree
+        assert not ok_strict and any("RELEASE" in f for f in fails)
+        assert ok_routine                                            # routine check unaffected
+    # A4-34: the hash inventory now covers code + manuscript, not only data
+    assert any(k.endswith(".py") for k in man["data_sha256"])
+    assert "docs/PAPER_A_DRAFT.md" in man["data_sha256"]
+
+
+def test_paper_a_figure_count_contract():
+    """review A4-09/§9.5: the declared figure set (8: six main + two diagnostics) must
+    match the renderer, so a six-vs-eight drift is caught automatically."""
+    from puckworks import figures_paper_a as F
+    figs = [n for n in dir(F) if n.startswith("fig") and n[3:4].isdigit()]
+    assert len(figs) == 8, f"expected 8 figure functions, found {sorted(figs)}"
+
+
 def test_waszkiewicz_sensitivity_localization_invariant():
     """review A2-13b: the external-panel bundle must carry the nuisance sweep and it
     must report the localization conclusion INVARIANT (every temp x floor cell keeps

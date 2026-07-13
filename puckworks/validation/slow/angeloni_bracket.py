@@ -234,23 +234,30 @@ def gate_pannusch_angeloni_per_condition(t_shot_s=25.0, flow_map="darcy",
                 conditions.append(rec)
             cc = float(np.corrcoef(preds, meas)[0, 1]) if np.std(meas) > 0 else float("nan")
             per[sol] = dict(mape_blind=round(float(np.mean(blind)), 1),
+                            mape_blind_raw=float(np.mean(blind)),     # A4-06 full precision
                             mape_inv_matched=(round(float(np.mean(matched)), 1)
                                               if matched else None),
+                            mape_inv_matched_raw=(float(np.mean(matched))
+                                                  if matched else None),
                             shape_corr=round(cc, 2), n=len(shots),
                             conditions=conditions)         # signed residuals vs (T,p)
         out[variety] = per
-    allmape = np.mean([out[v][s]["mape_blind"] for v in out for s in SPEC])
+    # A4-06/§6.10: aggregate from the RAW group means, never the rounded display fields.
+    allmape = np.mean([out[v][s]["mape_blind_raw"] for v in out for s in SPEC])
     return dict(per_variety=out, n_conditions_per_variety=9, flow_map=flow_map,
                 overall_mape_blind=round(float(allmape), 1),
+                overall_mape_blind_raw=float(allmape),
                 strength=("independent, per-condition (granulometry O on-grid; "
                           "p->flow " + ("Darcy q~p/mu(T)" if flow_map == "darcy"
                                         else "crude linear tau") + ")"),
-                note="per-condition MAPE >> pooled-envelope bracket and angeloni's "
-                     "own ~9-13% model, at MATCHED 40 g cups. Inventory-matching "
-                     "helps caffeine, HURTS trigonelline -> not pure inventory; the "
-                     "per-species (T,p) transfer residual is NOT REMOVED by the "
-                     "tested flow maps + inventory match (competing sources -- grain "
-                     "geometry, viscosity, assay -- are not separately bounded here).")
+                note="per-condition MAPE exceeds the pooled-envelope bracket and "
+                     "angeloni's own ~9-13% model, at the 40 mL endpoint proxy. At this "
+                     "endpoint, inventory-matching LOWERS the caffeine blind MAPE and "
+                     "RAISES the trigonelline blind MAPE (Arabica); that sign is "
+                     "endpoint-sensitive (see endpoint_mass_sensitivity, A4-33/§6.45). "
+                     "The per-species (T,p) blind residual is not fully accounted for by "
+                     "the tested flow maps + inventory match; competing sources (grain "
+                     "geometry, viscosity, assay) are not separately bounded here.")
 
 
 def endpoint_mass_sensitivity(v_targets=(38.0, 40.0, 42.0)):
@@ -271,11 +278,13 @@ def endpoint_mass_sensitivity(v_targets=(38.0, 40.0, 42.0)):
         caf = ar["caffeine"]; tri = ar["trigonelline"]
         rows.append(dict(
             v_target_ml=v, overall_mape_blind=pc["overall_mape_blind"],
-            caffeine_matched_helps=bool(caf["mape_inv_matched"] is not None
-                                        and caf["mape_inv_matched"] < caf["mape_blind"]),
-            trigonelline_matched_hurts=bool(tri["mape_inv_matched"] is not None
-                                            and tri["mape_inv_matched"] > tri["mape_blind"])))
-    mapes = [r["overall_mape_blind"] for r in rows]
+            overall_mape_blind_raw=pc["overall_mape_blind_raw"],   # A4-06 full precision
+            caffeine_matched_helps=bool(caf["mape_inv_matched_raw"] is not None
+                                        and caf["mape_inv_matched_raw"] < caf["mape_blind_raw"]),
+            trigonelline_matched_hurts=bool(tri["mape_inv_matched_raw"] is not None
+                                            and tri["mape_inv_matched_raw"] > tri["mape_blind_raw"])))
+    # A4-06: spread/range from the RAW overall means, not the rounded display fields.
+    mapes = [r["overall_mape_blind_raw"] for r in rows]
     caffeine_invariant = all(r["caffeine_matched_helps"] for r in rows)
     trig_invariant = all(r["trigonelline_matched_hurts"] for r in rows)
     pattern_invariant = caffeine_invariant and trig_invariant
@@ -287,17 +296,17 @@ def endpoint_mass_sensitivity(v_targets=(38.0, 40.0, 42.0)):
         caffeine_helps_invariant=caffeine_invariant,
         trigonelline_hurts_invariant=trig_invariant,
         pattern_invariant_across_endpoints=pattern_invariant,
-        verdict=("HONEST endpoint-mass caveat (review A2-09): across matched-cup endpoints "
-                 "%s mL (the 40 +/- 2 g window at ~unit density), the overall blind "
-                 "transfer MAPE is MODERATELY endpoint-sensitive -- it moves %.1f pp "
-                 "(%.1f -> %.1f%%) -- and the finer trigonelline-hurts signature is NOT "
-                 "invariant (it flips near the +5%% endpoint). The ROBUST parts are the "
-                 "large per-condition transfer residual itself and the caffeine "
-                 "inventory-match improvement (both hold at every endpoint). So the "
-                 "headline (a large, structured residual not fixed by inventory alone) "
-                 "does not hinge on the 40 g approximation, but the exact MAPE magnitude "
-                 "and the trigonelline detail DO carry a ~5 pp endpoint uncertainty that "
-                 "the manuscript should state, not dismiss."
+        verdict=("Endpoint-mass sensitivity (review A2-09; A4-04/§6.8 scope note): across "
+                 "the %s mL endpoint proxies (approximating the reported 40 +/- 2 g "
+                 "beverage at ~unit density), the overall BLIND per-condition MAPE moves "
+                 "%.1f pp (%.1f -> %.1f%%), and the caffeine-lower / trigonelline-higher "
+                 "inventory-match sign is not invariant (trigonelline flips near the +5%% "
+                 "endpoint). What holds at every endpoint: the large per-condition blind "
+                 "residual and the caffeine inventory-match improvement. SCOPE: this "
+                 "sweeps the BLIND O-grind residual, NOT the frozen O->C/F transfer "
+                 "estimand (that full endpoint x density transfer rerun is deferred, "
+                 "A4-04). The ~5 pp endpoint uncertainty on the blind MAPE magnitude and "
+                 "the trigonelline sign should be stated, not dismissed."
                  % ("/".join("%g" % v for v in v_targets), spread, min(mapes), max(mapes))),
         strength="endpoint-mass robustness of the per-condition transfer (declared 40 g "
                  "approximation); does not re-open the independent-identification scope")
