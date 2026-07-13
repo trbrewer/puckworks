@@ -241,18 +241,25 @@ representative illy powder); given a best-case free level it scores RMSE ≈1.08
 than the best constant null* — and is anti-correlated with the trace (*r* ≈ −0.95, Fig. 3d).
 For fines
 migration the exclusion is analytic: its discharge is monotone non-increasing at constant p₀
-(Fasano–Talamucci–Petracco Lemma 8.3), and their Part III result states the flux can rise
-again *only if the applied pressure increases* — so at a fixed 9 bar it cannot source the
-rise, independent of the (unpublished) constitutive closures. The sign is grind- and
-coffee-independent, so this is a *qualitative* cross-rig refutation, not a fit to this rig's
-coffee. Dissolution-driven porosity *opening* (the Φ(t) trajectory) is the only tested
-mechanism with the correct sign. Two named candidates are declared out of adjudication on
-this observable rather than silently dropped: the Fasano Part II porosity-evolution law has no
-published constitutive constants (an untested skeleton — parameter-blocked), and lee2023 is a
-constant-*flow*, grind-indexed extraction-yield model belonging to the orthogonal fine-grind
-axis, not this constant-pressure flow trace. Scoped statement: *time variation is required and
-the resistance-increasing bed mechanisms are excluded by sign, leaving dissolution-linked
-porosity opening as the surviving branch; distinguishing it quantitatively from fines
+(Fasano–Talamucci–Petracco Lemma 8.3, under that model's stated assumptions), and their
+Part III result states the flux can rise again *only if the applied pressure increases* — so
+under the **imposed fixed-pressure boundary condition** an isolated resistance-only branch
+cannot by itself source the rise. This is a **conditional sign constraint** on an *isolated,
+resistance-only* branch with machine response and all other state variables held fixed; it is
+**not** a general refutation. A real or coupled bed can combine simultaneous dissolution
+opening, compaction relaxation, changing saturation, viscosity, gas release, machine/headspace
+response, and erosion — swelling or fines may be present while another process dominates the
+net sign — and a single transferred powder parameterization cannot license a "coffee-independent"
+magnitude or absence. Dissolution-driven porosity *opening* (the Φ(t) trajectory) is the only
+*implemented isolated branch in this comparison* with the required net sign. Two named
+candidates are declared out of adjudication on this observable rather than silently dropped:
+the Fasano Part II porosity-evolution law has no published constitutive constants (an untested
+skeleton — parameter-blocked), and lee2023 is a constant-*flow*, grind-indexed extraction-yield
+model belonging to the orthogonal fine-grind axis, not this constant-pressure flow trace.
+Scoped statement: *within the imposed fixed-pressure model, the tested resistance-only swelling
+and fines branches cannot by themselves generate the observed rising contribution; this
+constrains isolated branches, not their presence in a coupled bed. Distinguishing dissolution
+quantitatively from fines
 migration still requires a pressure-step or flow-reversal protocol (owed — specified in
 `docs/PROTOCOL_kappa_t_discrimination.md`).*
 
@@ -274,12 +281,14 @@ pressure into its own prediction, we refit the two-parameter equilibrium pair
 trace. Dropping any single pressure moves (P_c, Q_c) by at most **2.8 %**, and the
 held-out mean RMSE (static 0.534, Φ(t) 0.347, RC-3b 0.516 g/s) matches the
 shared-calibration mean (0.524 / 0.335 / 0.510) to within ~0.01 g/s; Φ(t) remains the
-lowest-error branch overall and the regime separation is unchanged. The eleven-point,
-two-parameter equilibrium fit is therefore **over-determined**, and the regime
-structure is a property of the physics, not of which pressure sat in the fit. This
-upgrades the claim from conditional transfer to a **within-rig held-out prediction**;
-it is still not independent second-rig validation (only the equilibrium pair is refit —
-the dissolution sigmoid is a fixed 9-bar TDS calibration). It is the trace-level,
+lowest-error branch overall and the descriptive separation is unchanged. The eleven-point,
+two-parameter equilibrium fit is therefore **not dominated by any single pressure point**.
+This does **not** establish that the residual pressure pattern is physical (review MAJ-14):
+the 9-bar solids trajectory and other donor assumptions remain fixed, so omitted machine
+dynamics, viscosity/sensor effects, an imperfect equilibrium form, or other omitted bed
+mechanisms could produce the same pattern — its physical origin is unresolved. This is a
+**within-campaign leave-one-pressure-out evaluation of the equilibrium calibration** (with the
+9-bar solids trajectory held fixed), not an independent second-rig validation. It is the trace-level,
 three-mechanism companion to the equilibrium-curve leave-one-pressure-out test of the
 static characteristic alone (`lopo_waszkiewicz_pressure`, Q² ≈ 0.81 on the eleven
 long-run points). Three diagnostics accompany the aggregation and qualify it: (i) the
@@ -377,14 +386,21 @@ analyzed under a physically consistent machine/bed system and tested experimenta
 ## 7. Open gaps this paper defines
 
 - Full-precision response-surface reconstruction (source coefficients/model object).
-  *Partially addressed:* a documented raw-data refit now reports adjusted R² (0.65),
-  a bootstrap vertex CI ([1.68, 1.81]), a leave-one-design-point-out Q² (0.48), and a
-  coefficient-covariance / residual-diagnostic panel (`schmieder_rsm_refit.diagnostics`:
+  *Partially addressed:* a documented raw-data refit now reports adjusted R² (0.65), a
+  **fixed-design residual-bootstrap** vertex CI ([1.69, 1.80]; a case bootstrap gives a
+  similar [1.68, 1.81], and 100 % of bootstrap fits are a concave maximum with the vertex
+  in the tested dial domain), a leave-one-design-point-out Q² (0.48), and a
+  coefficient-covariance / residual panel (`schmieder_rsm_refit.diagnostics`:
   per-coefficient standard errors, residual σ ≈ 0.11, max standardized residual ≈ 3.7,
-  max leverage 0.18, and a raw-scale design condition number ≈ 3×10¹² — so the individual
-  coefficients are numerically unstable and only the offset-robust vertex and the
-  predictive Q² are interpretable, reinforcing the shape-not-magnitude reading). Still
-  owed is the source's own full-precision coefficient/covariance matrix (author request).
+  max leverage 0.18). The raw (uncentered) predictors are ill-conditioned — the
+  **design-matrix** condition number κ₂(X) ≈ 1.7×10⁶ (the Gram κ₂(XᵀX) ≈ 2.7×10¹² is its
+  square, and is *not* the design condition number) — so the individual coefficients/SEs
+  are numerically unstable while the offset-invariant vertex and predictive Q² are not;
+  the interval is conditional on the retained quadratic model and design. Still owed is
+  the source's own full-precision coefficient/covariance matrix (author request) and a
+  refit on the source's **achieved** flow/temperature predictors (MAJ-04, achieved fields
+  are in the CSV; sensitivity expected small — the audited achieved-predictor vertex is
+  1.75 vs 1.73).
 - A full design-aware, experiment-unit statistical model of the Result-1 dial
   response. *Partially addressed:* `harness.result1_design_aware_stats` now reports
   the per-dial achieved covariates, the single-experiment-per-cell structure, both
@@ -409,9 +425,12 @@ scientific readiness, and that Results 1 and 3 needed recomputation — now done
   the noise-floor heuristic; Result 3 downgraded to finite-time concentration; Fig 1
   (refit curve) and Fig 5 (gain-vs-floor) regenerated; abstract "independently gated"
   contradiction removed.
-- **Delivered (2026-07-12):** Phase-3 discrimination — the mo2023_2 swelling and
-  fasano-partI fines-migration matrix-resistance mechanisms refuted by *sign* (rung 5b,
-  `kappa_t_ladder`); **trace-level leave-one-pressure-out cross-pressure validation** (max
+- **Delivered (2026-07-12; narrowed 2026-07-13 per PAPER_B_DETAILED_REVIEW):** Phase-3 —
+  a **conditional sign constraint** showing the mo2023_2 swelling and fasano-partI
+  fines-migration branches, *as isolated resistance-only branches under fixed pressure*,
+  cannot themselves source the rise (rung 5b, `kappa_t_ladder`; NOT a refutation in a
+  coupled bed); **trace-level leave-one-pressure-out cross-pressure** calibration-stability
+  check (max
   calibration drift 2.8 %, held-out ≈ shared, `cross_pressure_loco`; companion to the
   existing equilibrium-curve `lopo_waszkiewicz_pressure`, Q² ≈ 0.81) + full-precision
   aggregation and flow-parameter counts (`cross_pressure_discrimination`); residual

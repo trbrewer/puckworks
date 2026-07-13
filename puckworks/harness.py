@@ -983,38 +983,73 @@ def schmieder_rsm_refit(component="tds", brew_ratio="1/2"):
         return float("nan") if denom == 0 else float(-(c[2] + c[6] * fl) / denom)
     vertex_g = _vertex(coef)
     vertex_is_max = bool(coef[4] < 0)
-    # case-resampling bootstrap CI on the vertex (deterministic seed -> reproducible)
+    # FIXED-DESIGN residual bootstrap on the vertex (review MAJ-05): the design points
+    # were selected, not sampled, so a residual bootstrap (resample residuals, refit
+    # on the fixed X) is the conditional bootstrap appropriate to the fixed design --
+    # a case (row) bootstrap is also reported for comparison. Both condition on the
+    # retained quadratic term set (no model re-selection). We record the fraction of
+    # bootstrap fits that are a concave maximum AND whose vertex is in the tested dial
+    # domain, rather than silently accepting every finite algebraic vertex.
     rng = np.random.default_rng(0)
-    boot = []
+    yhat = X @ coef
+
+    def _boot(sampler):
+        vs, n_conc, n_dom = [], 0, 0
+        for _ in range(2000):
+            cb, *_ = np.linalg.lstsq(X, sampler(), rcond=None)
+            vb = _vertex(cb)
+            if not np.isfinite(vb):
+                continue
+            vs.append(vb)
+            if cb[4] < 0:
+                n_conc += 1
+            if 1.4 <= vb <= 2.0:
+                n_dom += 1
+        ci = ([round(float(np.percentile(vs, 2.5)), 3),
+               round(float(np.percentile(vs, 97.5)), 3)] if vs else None)
+        return ci, (n_conc / 2000.0), (n_dom / 2000.0)
+    vertex_ci95, frac_concave, frac_in_domain = _boot(
+        lambda: yhat + resid[rng.integers(0, n, n)])            # residual bootstrap
+    # case (row) bootstrap for comparison (resample rows of (X,y) together)
+    cboot = []
     for _ in range(2000):
         idx = rng.integers(0, n, n)
         cb, *_ = np.linalg.lstsq(X[idx], y[idx], rcond=None)
         vb = _vertex(cb)
         if np.isfinite(vb):
-            boot.append(vb)
-    vertex_ci95 = ([round(float(np.percentile(boot, 2.5)), 3),
-                    round(float(np.percentile(boot, 97.5)), 3)] if boot else None)
+            cboot.append(vb)
+    vertex_ci95_case = ([round(float(np.percentile(cboot, 2.5)), 3),
+                         round(float(np.percentile(cboot, 97.5)), 3)] if cboot else None)
     # --- coefficient-covariance / residual-diagnostic panel (owed §7; OUR refit, not
     # the source's unavailable full-precision coefficients). The PREDICTIVE score
     # (leave-one-DESIGN-POINT-out Q^2, replicates held out together) lives in
     # analysis/lopo_cv.lopo_rsm_design_point -- do NOT recompute a row-level PRESS Q^2
     # here (it would leak replicates and disagree with that correct diagnostic). -----
-    XtX = X.T @ X
-    design_cond = float(np.linalg.cond(XtX))     # raw-scale collinearity (the note above)
+    # CORRECTLY NAMED conditioning (review MAJ-06): kappa2(X) is the design-matrix
+    # condition number; kappa2(X^T X) is the Gram/normal-equation condition number
+    # (~ its square). "design condition number" must refer to kappa2(X), not the Gram.
+    kappa_X = float(np.linalg.cond(X))
+    kappa_gram = float(np.linalg.cond(X.T @ X))
     diag = None
     if n > p + 1:
         sigma2 = ss_res / (n - p - 1)            # unbiased residual variance
-        XtX_inv = np.linalg.pinv(XtX)
+        XtX_inv = np.linalg.pinv(X.T @ X)
         coef_se = np.sqrt(np.clip(np.diag(sigma2 * XtX_inv), 0.0, None))
         h = np.clip(np.diag(X @ XtX_inv @ X.T), 0.0, 1.0 - 1e-9)   # leverages
         std_resid = resid / np.sqrt(sigma2 * (1.0 - h))
         diag = dict(
             coef_se=[round(float(s), 4) for s in coef_se],
-            design_condition_number=round(design_cond, 1),
+            design_matrix_condition_number_kappa2_X=round(kappa_X, 1),
+            gram_condition_number_kappa2_XtX=round(kappa_gram, 1),
             residual_std=round(float(np.sqrt(sigma2)), 4),
             max_abs_standardized_residual=round(float(np.max(np.abs(std_resid))), 3),
             max_leverage=round(float(np.max(h)), 3),
-            ill_conditioned=bool(design_cond > 1e3),   # raw-scale predictors: SEs unstable
+            # raw (uncentered) predictors: T^2 ~ 7921 makes X ill-conditioned, so the
+            # individual coefficients/SEs are unstable and only the offset-robust vertex
+            # + predictive Q^2 are interpretable. Centering/scaling would remove this;
+            # the vertex is offset-invariant so it is unaffected (review MAJ-06).
+            raw_scale_ill_conditioned=bool(kappa_X > 1e3),
+            predictors_centered=False,
             predictive_q2_ref="analysis.lopo_cv.lopo_rsm_design_point (design-point LOPO)")
     # printed rounded-coefficient evaluation (the artifact)
     pr = {(r["component"], r["brew_ratio"]): r for r in _d.schmieder_rsm()}[
@@ -1028,7 +1063,12 @@ def schmieder_rsm_refit(component="tds", brew_ratio="1/2"):
                 printed_central_g=printed_pred, raw_central_g=raw_central,
                 r2=round(r2, 4), adj_r2=round(adj_r2, 4), n=n, n_predictors=p,
                 vertex_g=round(vertex_g, 3) if np.isfinite(vertex_g) else None,
-                vertex_is_max=vertex_is_max, vertex_ci95_g=vertex_ci95,
+                vertex_is_max=vertex_is_max,
+                vertex_ci95_g=vertex_ci95,                    # residual (fixed-design) bootstrap
+                vertex_ci95_g_case_bootstrap=vertex_ci95_case,
+                bootstrap_type="residual (fixed-design); case bootstrap reported for comparison",
+                bootstrap_concave_fraction=round(frac_concave, 3),
+                bootstrap_vertex_in_dial_domain_fraction=round(frac_in_domain, 3),
                 predictors_centered=False, diagnostics=diag,
                 printed_is_artifact=bool(abs(printed_pred - raw_central) > 1.0
                                          and abs(refit_pred - raw_central) < 0.5))
@@ -1130,9 +1170,14 @@ def cross_pressure_discrimination(window=(15.0, 95.0)):
     aggregates. Result (see ANALYSIS_P2 §2.2): Phi(t) has the lowest transfer-mean
     RMSE but NOT uniformly -- RC-3b is lower at the low-pressure end (flow-coupling
     matters where flow is slow) and the static null is lower mid-range (little time
-    structure to explain). The mechanisms separate by regime; no single mechanism
-    is lowest everywhere. Regime bins (low <=2 bar, mid 3.5-6 bar) are FIXED on the
-    slow-flow / near-equilibrium physics, not chosen after seeing the residuals.
+    structure to explain). No single mechanism is lowest everywhere. The low (<=2 bar)
+    / mid (3.5-6 bar) bins are DESCRIPTIVE summaries motivated by the slow-flow /
+    near-equilibrium physics -- NOT a timestamped pre-registration (review MAJ-13), so
+    the CONTINUOUS pressure-residual curve is the primary presentation and the bins are
+    a reading aid, not a mechanistic regime claim. The pattern is not caused by any one
+    equilibrium calibration point (see `cross_pressure_loco`), but its physical origin
+    remains unresolved -- the 9-bar solids trajectory and donor assumptions stay fixed
+    (review MAJ-14).
     """
     from puckworks import data as d
     from puckworks.models.waszkiewicz2025 import poroelastic as wz
@@ -1143,7 +1188,7 @@ def cross_pressure_discrimination(window=(15.0, 95.0)):
     k_s, l_s, m_s = wz._solids_params()
     dose = d.waszkiewicz_constants()["dose__g"]
     lo, hi = window
-    per = {}
+    per, raw = {}, {}                    # `per` = display-rounded; `raw` = full precision
     for p in ps:
         t = tr[p]["time__s"]; q = tr[p]["mass_flow_rate__g_per_s"]
         sel = (t >= lo) & (t <= hi); ts, qs = t[sel], q[sel]
@@ -1158,17 +1203,20 @@ def cross_pressure_discrimination(window=(15.0, 95.0)):
         else:
             q_rc = wz.q_dynamic_from_md(p, P_c, Q_c, md, dose)
             r_rc3b = float(np.sqrt(np.nanmean((q_rc - qs) ** 2)))
+        raw[p] = dict(static=r_static, phi=r_phi, rc3b=r_rc3b)   # UNROUNDED
         per[p] = dict(static=round(r_static, 3), phi=round(r_phi, 3),
                       rc3b=round(r_rc3b, 3))
 
+    # ALL summaries computed from RAW values, rounded only at display (review MAJ-12:
+    # the earlier `full_prec` averaged already-rounded per-pressure RMSEs -- a bug)
     def _mean(keys, mech):
-        v = np.array([per[p][mech] for p in keys], float)
+        v = np.array([raw[p][mech] for p in keys], float)
         return float(np.nanmean(v))
     oos = [p for p in ps if p != 9.0]
     low = [p for p in ps if p <= 2.0]
     mid = [p for p in ps if 3.5 <= p <= 6.0]
-    # full-precision (unrounded) transfer mean over the held-out 10 pressures
-    full_prec = {m: float(np.nanmean([per[p][m] for p in oos]))
+    # genuinely full-precision transfer mean over the held-out 10 pressures (from raw)
+    full_prec = {m: float(np.nanmean([raw[p][m] for p in oos]))
                  for m in ("static", "phi", "rc3b")}
     # NOTE residual autocorrelation lives in analysis/residual_autocorr.py, which
     # DECIMATES to 1 s first: the raw ~10 Hz trace already has lag-1 ACF ~1.0 from
@@ -1188,15 +1236,19 @@ def cross_pressure_discrimination(window=(15.0, 95.0)):
         residual_autocorr_ref="analysis.residual_autocorr.summary() (decimated DW)",
         low_p_mean={m: round(_mean(low, m), 3) for m in ("phi", "rc3b")},
         mid_p_mean={m: round(_mean(mid, m), 3) for m in ("static", "phi", "rc3b")},
-        # the two load-bearing separations (each a distinct physics claim):
+        # DESCRIPTIVE separations (reading aids over the continuous curve), NOT proven
+        # physical regimes (review MAJ-13):
         phi_generalizes=_mean(oos, "phi") < _mean(oos, "static"),
         rc3b_lower_low_p=_mean(low, "rc3b") < _mean(low, "phi"),
         static_lower_mid_p=_mean(mid, "static") < min(_mean(mid, "phi"),
                                                       _mean(mid, "rc3b")),
-        reading="Phi(t) has the lowest transfer-mean RMSE but is regime-dependent: "
-                "RC-3b is lower low-P (flow-coupled dissolution), static is lower "
-                "mid-P (no time structure). No single mechanism is lowest at every "
-                "pressure. Conditional-transfer, NOT independent validation.")
+        bins_are_descriptive_not_preregistered=True,
+        reading="Phi(t) has the lowest transfer-mean RMSE, but no single mechanism is "
+                "lowest at every pressure (descriptively: RC-3b lower at low P, static "
+                "lower mid-range). These are DESCRIPTIVE summaries of the continuous "
+                "pressure-residual curve, not pre-registered physical regimes; the "
+                "physical origin of the pattern is unresolved. Conditional-transfer, "
+                "NOT independent validation.")
 
 
 def cross_pressure_loco(window=(15.0, 95.0)):
@@ -1276,10 +1328,13 @@ def cross_pressure_loco(window=(15.0, 95.0)):
                  "second-rig out-of-sample validation",
         reading="Leaving each pressure out and refitting the equilibrium pair moves "
                 "(P_c,Q_c) by at most %.1f%%, and the held-out RMSE %s the "
-                "shared-calibration RMSE -- the 11-point/2-param calibration is "
-                "over-determined, not tuned to any single pressure. The regime "
-                "structure (Phi lowest overall, mechanisms separating) is a property "
-                "of the physics, not of which pressure was in the fit."
+                "shared-calibration RMSE -- so the two-parameter equilibrium "
+                "calibration is not dominated by any single pressure point. This does "
+                "NOT establish that the residual pressure pattern is physical (review "
+                "MAJ-14): the 9-bar solids trajectory and other donor assumptions "
+                "remain fixed, so omitted machine dynamics, viscosity/sensor effects, "
+                "an imperfect equilibrium form, or other omitted bed mechanisms could "
+                "produce the same pattern. Its physical origin is unresolved."
                 % (max_drift * 100.0,
                    "matches" if matches else "DIFFERS from"))
 

@@ -165,13 +165,14 @@ def fig2_evidence_matrix(outdir=OUTDIR_DEFAULT):
 
 # ---------------------------------------------------------------------------
 def fig3_ladder(outdir=OUTDIR_DEFAULT):
-    """Fig 3 — null-first κ(t) ladder, cross-pressure transfer, swelling wrong-sign.
-    (a) Foster machine-only flow minimum (post-fit); (b) 9-bar ladder RMSE bars
-    over ONE window (15-95 s), three DISTINCT constant nulls + the flexible cubic;
-    (c) within-campaign conditional-transfer RMSE per mechanism (regime-dependent,
-    no single mechanism lowest everywhere); (d) rung-5b swelling competitor — its
-    Carman-Kozeny flow ratio can only THROTTLE (falls), so it is anti-correlated
-    with the rising trace: the matrix-resistance mechanism refuted by sign."""
+    """Fig 3 — null-first κ(t) ladder, cross-pressure transfer, swelling sign test.
+    (a) Foster machine-MODEL-curve reproduction (NOT data; a null shape source);
+    (b) 9-bar ladder RMSE bars over ONE window (15-95 s), three DISTINCT constant
+    nulls + the flexible cubic; (c) within-campaign conditional-transfer RMSE per
+    mechanism (descriptive, no single mechanism lowest everywhere); (d) rung-5b
+    swelling as an ISOLATED resistance-only branch under fixed pressure: it can only
+    throttle, opposite to the rising trace -- a conditional sign constraint on the
+    isolated branch, NOT a refutation of swelling in a coupled bed (review MAJ-15)."""
     import numpy as np
     from puckworks import harness as h, data as d
     plt = _plt()
@@ -182,10 +183,11 @@ def fig3_ladder(outdir=OUTDIR_DEFAULT):
     ax1.plot(t_s, q, color=NULL, lw=1.8)
     imin = int(np.argmin(q))
     ax1.plot(t_s[imin], q[imin], "o", color=BAD, ms=6)
-    ax1.set_title("(a) Foster machine-only null")
+    ax1.set_title("(a) Foster machine MODEL curve (reproduction)")
     ax1.set_xlabel("time [s]"); ax1.set_ylabel("Q / Q_machine")
-    ax1.text(0.5, 0.1, "pump+headspace reproduce a\ndip-and-recover with NO bed\nmechanism (post-fit)",
-             transform=ax1.transAxes, fontsize=7.6, color=NULL, ha="center")
+    ax1.text(0.5, 0.1, "numerical reproduction of the published\nFoster et al. machine/infiltration MODEL\n"
+             "curve (not measured data): dip-and-recover\nis available with NO evolving bed resistance",
+             transform=ax1.transAxes, fontsize=7.0, color=NULL, ha="center")
 
     lad = h.kappa_t_ladder()
     lo, hi = lad["window_s"]
@@ -227,16 +229,17 @@ def fig3_ladder(outdir=OUTDIR_DEFAULT):
     ax4.plot(td, qd, color=ACCENT, lw=1.9, label="measured 9-bar (rises)")
     ax4.plot(td, a_star * qrel, color=BAD, lw=1.9, ls="--",
              label="swelling pred. (throttles)")
-    ax4.set_title("(d) rung 5b swelling — wrong sign")
+    ax4.set_title("(d) rung 5b swelling — isolated resistance-only branch")
     ax4.set_xlabel("time [s]"); ax4.set_ylabel("Q [g/s]")
     ax4.legend(fontsize=7.4, loc="center right")
-    ax4.text(0.04, 0.95, "swelling only CLOSES pores → flow ratio\nfalls (to %.0f%% over the shot); "
-             "anti-correlated\nwith the rising trace r = %.2f, best-anchored\nRMSE %.2f g/s > any constant → refuted"
+    ax4.text(0.04, 0.95, "as an ISOLATED resistance-only branch under fixed\npressure, swelling only closes pores → falls "
+             "(to %.0f%%);\nopposite net trend to the rising trace (r = %.2f,\nbest-anchored RMSE %.2f g/s). Constrains this "
+             "isolated\nbranch, NOT a coupled bed (review MAJ-15)."
              % (lad["rung5b_swelling_full_shot_decay"] * 100.0,
                 lad["rung5b_swelling_corr_with_trace"], lad["rung5b_swelling_mo2"]),
-             transform=ax4.transAxes, fontsize=6.6, color=NULL, ha="left", va="top")
-    fig.suptitle("Result 2 — time variation needed (not a specific mechanism); transfer regime-dependent; "
-                 "swelling refuted by sign",
+             transform=ax4.transAxes, fontsize=6.4, color=NULL, ha="left", va="top")
+    fig.suptitle("Result 2 — time variation needed (not a specific mechanism); transfer descriptive; "
+                 "swelling: opposite sign as isolated branch",
                  y=1.005, fontsize=10.2, fontweight="bold")
     fig.tight_layout()
     return _save(fig, outdir, "fig3_kappa_t_ladder.png")
@@ -244,9 +247,11 @@ def fig3_ladder(outdir=OUTDIR_DEFAULT):
 
 # ---------------------------------------------------------------------------
 def fig4_composition(outdir=OUTDIR_DEFAULT):
-    """Fig 4 — shared-porosity composition diagnostic (the FAILED composite).
-    extraction-only reduces to the poroelastic rung; adding swelling OVER-closes
-    (residual worse than the flat null)."""
+    """Fig 4 — shared-porosity composition diagnostic. Extraction-only reduces to the
+    poroelastic rung by construction (an implementation identity, review MAJ-17); adding
+    the imported swelling branch produces a flatter trajectory that underpredicts the
+    rise (higher window RMSE than the best constant). The 15-95 s evaluation window is
+    shaded; neutral wording per review MAJ-18."""
     import numpy as np
     from puckworks import data as d
     from puckworks.models.brewer2026 import coupled_kappa_t as ck
@@ -270,17 +275,20 @@ def fig4_composition(outdir=OUTDIR_DEFAULT):
             label="extraction+swelling (RMSE %.3f)" % comp)
     ax.axhline(q_flat, color=NULL, lw=1.4, ls=":",
                label="best const null 15–95 s (RMSE %.3f)" % rmse_flat)
+    ax.axvspan(WIN[0], WIN[1], color=GOOD, alpha=0.08, zorder=0,
+               label="15–95 s eval window")
     ax.set_xlim(0, 120); ax.set_ylim(0, 2.3)
     ax.set_xlabel("time [s]"); ax.set_ylabel("flow Q(t) [g/s]")
-    ax.set_title("Fig 4 — shared-porosity composition: a FAILED composite")
-    ax.legend(loc="center right", fontsize=8)
-    ax.text(0.30, 0.26, "extraction-only reduces to the poroelastic rung.\n"
-            "Adding the imported (pre-parameterized) swelling branch\n"
-            "OVER-closes the porosity → Q FLATTENS (loses the rising\n"
-            "structure), residual %.3f > %.3f best-constant null:\n"
-            "worse than a flat line. A diagnosed mis-scale, not a success."
+    ax.set_title("Fig 4 — tested shared-porosity composition worsens the 9-bar reconstruction")
+    ax.legend(loc="center right", fontsize=7.6)
+    ax.text(0.30, 0.24, "extraction-only reduces to the poroelastic rung by\n"
+            "construction (an implementation identity). Adding the\n"
+            "imported swelling branch produces a flatter trajectory\n"
+            "that underpredicts the rise (window RMSE %.3f > %.3f\n"
+            "best constant). Does NOT separate parameter-transfer,\n"
+            "initial-state, control-regime, and composition-form error."
             % (comp, rmse_flat),
-            transform=ax.transAxes, va="center", fontsize=7.6, color=NULL)
+            transform=ax.transAxes, va="center", fontsize=7.0, color=NULL)
     return _save(fig, outdir, "fig4_composition_diagnostic.png")
 
 
