@@ -24,6 +24,21 @@ def test_residual_autocorr_runs():
     assert summary()["n_pressures"] == 11
 
 
+def test_paper_b_build_verifies_manuscript_claims():
+    """review AR-B2-13: the Paper B strict build must confirm every manuscript-facing
+    headline number equals the value in the cached results bundle (fails on drift).
+    Runs verify against the committed bundle (fast); guards manuscript<->bundle."""
+    import os
+    from puckworks.paper_b import build
+    if not os.path.exists(build._BUNDLE):
+        import pytest
+        pytest.skip("Paper B bundle not computed (run `python -m puckworks.paper_b.build compute`)")
+    ok, failures, manifest = build.verify(timestamp=None, write_manifest=False)
+    assert ok, "Paper B numbers drifted from the bundle: " + "; ".join(failures)
+    assert manifest["n_claims"] >= 12 and manifest["n_failures"] == 0
+    assert all(v != "MISSING" for v in manifest["data_sha256"].values())
+
+
 def test_paper_b_evidence_matrix_is_data_driven():
     """review MAJ-09: Fig 2 must render from the committed evidence CSV, and every
     status must be a defined code the figure knows how to draw (no hard-coded cells,

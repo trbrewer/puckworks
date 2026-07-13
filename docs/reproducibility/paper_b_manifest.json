@@ -1,0 +1,121 @@
+{
+  "paper": "B",
+  "source_commit": "f47fc824519d3b5f203c95d6be60cef952b30df3",
+  "git_dirty": true,
+  "timestamp_utc": "2026-07-12T00:00:00Z",
+  "bundle_source_commit": "f47fc824519d3b5f203c95d6be60cef952b30df3",
+  "bundle_sha256": "52bfb7e7d2b94d08f3c56545f888dd39442807a8cc6c9fdf2ec3afc579557d2c",
+  "environment": {
+    "python": "3.13.13",
+    "numpy": "2.5.1",
+    "scipy": "1.18.0",
+    "matplotlib": "3.11.0"
+  },
+  "data_sha256": {
+    "schmieder2023/cup_masses.csv": "39b7c16f9d9da614f151f46cb0db1440d43f150fbf49d3d2119f3f2fa1622f43",
+    "schmieder2023/rsm_coefficients.csv": "9de2503130ad6689f6f0ad08ef0c781b2bcc099687b5db31443edb0a60d08adc",
+    "waszkiewicz2025/tds_fractions.csv": "f22ee533f4c3e4c4c2587192a9aefa9af43bf8d47dd4456a611bfd92fb673847",
+    "paper_b_evidence_matrix.csv": "c1e6aae3e2b43bfed2c3224c22edd4233d9e94d29a189a3e92d5ff8634faa6be"
+  },
+  "n_claims": 12,
+  "n_failures": 0,
+  "claims": [
+    {
+      "claim": "RSM achieved-predictor vertex ~1.74",
+      "path": "rsm.vertex_g",
+      "expected": 1.744,
+      "actual": 1.743,
+      "tol": 0.02,
+      "ok": true
+    },
+    {
+      "claim": "RSM achieved adj-R2 ~0.64",
+      "path": "rsm.adj_r2",
+      "expected": 0.643,
+      "actual": 0.6434,
+      "tol": 0.02,
+      "ok": true
+    },
+    {
+      "claim": "RSM joint concave+in-domain ~0.998",
+      "path": "rsm.bootstrap_concave_AND_in_domain_fraction",
+      "expected": 0.9985,
+      "actual": 0.9985,
+      "tol": 0.01,
+      "ok": true
+    },
+    {
+      "claim": "RSM centered kappa2(X) ~3.9",
+      "path": "rsm.diagnostics.centered_scaled_condition_number_kappa2_X",
+      "expected": 3.89,
+      "actual": 3.89,
+      "tol": 0.3,
+      "ok": true
+    },
+    {
+      "claim": "RSM n_center_runs = 6 (exp 7)",
+      "path": "rsm.n_center_runs",
+      "expected": 6,
+      "actual": 6.0,
+      "tol": 0.5,
+      "ok": true
+    },
+    {
+      "claim": "Result-1 trend slope ~2.26",
+      "path": "result1.trend.slope_EYpt_per_dial",
+      "expected": 2.258,
+      "actual": 2.258,
+      "tol": 0.05,
+      "ok": true
+    },
+    {
+      "claim": "ladder rung4 Phi(t) RMSE ~0.116",
+      "path": "ladder.rung4_phi_of_t",
+      "expected": 0.116,
+      "actual": 0.116,
+      "tol": 0.02,
+      "ok": true
+    },
+    {
+      "claim": "ladder best-const null ~0.573",
+      "path": "ladder.rung1_const_kappa",
+      "expected": 0.573,
+      "actual": 0.573,
+      "tol": 0.02,
+      "ok": true
+    },
+    {
+      "claim": "ladder flexible cubic ~0.096",
+      "path": "ladder.flexible_cubic_null",
+      "expected": 0.096,
+      "actual": 0.096,
+      "tol": 0.02,
+      "ok": true
+    },
+    {
+      "claim": "cross-pressure Phi transfer ~0.356",
+      "path": "cross_pressure.conditional_transfer_mean_full_precision.phi",
+      "expected": 0.356,
+      "actual": 0.3563347918230041,
+      "tol": 0.02,
+      "ok": true
+    },
+    {
+      "claim": "LOPO held-out Phi ~0.347",
+      "path": "loco.heldout_mean.phi",
+      "expected": 0.347,
+      "actual": 0.347,
+      "tol": 0.02,
+      "ok": true
+    },
+    {
+      "claim": "LOPO max calibration drift ~2.8%",
+      "path": "loco.max_calibration_drift",
+      "expected": 0.0283,
+      "actual": 0.0283,
+      "tol": 0.01,
+      "ok": true
+    }
+  ],
+  "verified": true
+}
