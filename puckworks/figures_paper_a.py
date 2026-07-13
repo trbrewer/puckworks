@@ -356,6 +356,15 @@ def fig6_fraction_vs_endpoint(results=None, outdir=OUTDIR):
         sx = sim[sol]; sr = np.array(sx["rates"])
         ax.plot(sr, sx["exact_cup_mape"], "^:", color=GOOD, lw=1.5, ms=4,
                 label="exact whole cup (sim)")
+        # seed-distribution band (review A2-16): +/-1 std over the 20 noise realizations
+        # around the EXACT-CUP SIMULATION curve (the one plotted here) -- shows its
+        # flatness is not a single-seed accident. (The empirical-fraction curve above is
+        # seed-free real data, so it carries no seed band.) Drawn only when the harness
+        # surfaced the per-rate seed stats.
+        if "exact_cup_mape_seed_mean" in sx and "exact_cup_mape_seed_std" in sx:
+            cmean = np.array(sx["exact_cup_mape_seed_mean"]); cstd = np.array(sx["exact_cup_mape_seed_std"])
+            ax.fill_between(sr, cmean - cstd, cmean + cstd, color=GOOD, alpha=0.18, lw=0,
+                            label="exact-cup ±1σ over 20 seeds")
         ax.axvline(1.0, color=WARN, ls=":", lw=1.0)
         ax.set_xscale("log"); ax.set_title(sol)
         ax.set_xlabel("rate scale (log)"); ax.set_ylabel("MAPE (%)")
@@ -375,8 +384,8 @@ def fig7_per_group_diagnostics(results=None, outdir=OUTDIR):
     per_condition note visible: inventory-matching HELPS caffeine but HURTS trigonelline
     (so the residual is not pure inventory), and the shape correlations cluster near
     zero -- the (T,p) transfer residual is not removed by the tested flow maps + inventory
-    match. HONEST SCOPE: this shows per-GROUP metrics; a residual-vs-(T,p) scatter needs
-    the per-condition residual VECTORS surfaced through the harness (still owed)."""
+    match. HONEST SCOPE: this shows per-GROUP metrics; the per-condition residual-vs-(T,p)
+    SCATTER is Fig 8."""
     import numpy as np
     r = _load(results); plt = _plt()
     pv = r["per_condition"]["per_variety"]
@@ -484,6 +493,69 @@ def fig8_residuals_vs_conditions(results=None, outdir=OUTDIR):
     return _save(fig, outdir, "fig8_residuals_vs_conditions.png")
 
 
+def export_source_data(results=None, outdir=OUTDIR):
+    """Write the numeric data behind the data-bearing figures as tidy CSVs (review
+    A2-16): reviewers can re-plot without the PDE stack. One CSV per figure series, from
+    the SAME bundle the figures render from (single source of truth). Returns the paths."""
+    import csv
+    r = _load(results)
+    sd = os.path.join(outdir, "source_data")
+    os.makedirs(sd, exist_ok=True)
+    written = []
+
+    def _w(name, header, rows):
+        path = os.path.join(sd, name)
+        with open(path, "w", newline="") as f:
+            wr = csv.writer(f); wr.writerow(header); wr.writerows(rows)
+        written.append(path)
+
+    # Fig 2 — identifiability profiles (rate, best c_s0 level, profiled SSE) per panel
+    for key, sol in (("panel_caffeine", "caffeine"), ("panel_trigonelline", "trigonelline")):
+        p = r.get(key)
+        prof = p.get("profile") if isinstance(p, dict) else None
+        if prof and "rates" in prof:
+            rows = list(zip(prof["rates"], prof.get("c_star", []), prof.get("sse", [])))
+            _w(f"fig2_{sol}_profile.csv", ["rate_scale", "best_c_s0", "profiled_sse"], rows)
+
+    # Fig 5 — joint vs independent per-grind MAPE (variety x solute x grind)
+    j = r.get("joint", {}).get("per_variety") if isinstance(r.get("joint"), dict) else None
+    if j:
+        rows = []
+        for var, sols in j.items():
+            for sol, x in sols.items():
+                for g in ("O", "C", "F"):
+                    rows.append([var, sol, g, x["joint_per_grind_mape"].get(g),
+                                 x["independent_per_grind_mape"].get(g)])
+        _w("fig5_joint_vs_independent.csv",
+           ["variety", "solute", "grind", "joint_shared_mape_pct", "independent_mape_pct"], rows)
+
+    # Fig 6 — fraction vs endpoint MAPE profiles per solute (empirical + simulation)
+    pc = r.get("positive_control", {}).get("per_solute", {})
+    sim = r.get("full_cup_sim", {}).get("per_solute", {})
+    for sol in ("caffeine", "trigonelline", "5CQA"):
+        x = pc.get(sol)
+        if x:
+            rows = list(zip(x["rates"], x["fraction_mape"], x.get("sampled_agg_mape", []),
+                            sim.get(sol, {}).get("exact_cup_mape", [])))
+            _w(f"fig6_{sol}_profiles.csv",
+               ["rate_scale", "fraction_mape", "sampled_aggregate_mape", "exact_cup_mape"], rows)
+
+    # Fig 7/8 — per-condition residuals (variety x solute x (T,p))
+    pv = r.get("per_condition", {}).get("per_variety", {})
+    rows = []
+    for var, sols in pv.items():
+        for sol, x in sols.items():
+            for c in x.get("conditions", []):
+                rows.append([var, sol, c["T_degC"], c["p_bar"], c["meas"],
+                             c["pred_blind"], c["signed_resid_blind_pct"],
+                             c.get("pred_matched"), c.get("signed_resid_matched_pct")])
+    if rows:
+        _w("fig7_8_per_condition_residuals.csv",
+           ["variety", "solute", "T_degC", "p_bar", "meas", "pred_blind",
+            "signed_resid_blind_pct", "pred_matched", "signed_resid_matched_pct"], rows)
+    return written
+
+
 def render_all(results=None, outdir=OUTDIR):
     res = _load(results)
     return [fig1_design(outdir), fig2_objective_surface(res, outdir),
@@ -504,6 +576,7 @@ def main(argv=None):
         compute_all()
     if a.cmd in ("render", "all"):
         print("rendered:", render_all(outdir=a.out))
+        print("source data:", export_source_data(outdir=a.out))
 
 
 if __name__ == "__main__":

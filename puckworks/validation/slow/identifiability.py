@@ -178,6 +178,7 @@ def full_cup_simulation_identifiability(
         cup_preds = [_predict(sp0, rate, "cup") for rate in rates]
         frr, crr, fbest = [], [], []          # per-seed range ratios + frac best rate
         fm0 = cm0 = None
+        fm_all, cm_all = [], []               # per-seed per-rate MAPE (for seed bands)
         for s in range(n_seeds):
             rs = np.random.default_rng(seed + s)
             f_meas = frac_true * (1.0 + noise * rs.standard_normal(frac_true.shape))
@@ -186,10 +187,17 @@ def full_cup_simulation_identifiability(
             cm = [_fit_level_mape(cup_preds[k], c_meas) for k in range(len(rates))]
             frr.append(max(fm) / min(fm)); crr.append(max(cm) / min(cm))
             fbest.append(rates[int(np.argmin(fm))])
+            fm_all.append(fm); cm_all.append(cm)
             if s == 0:
                 fm0 = [round(v, 2) for v in fm]; cm0 = [round(v, 2) for v in cm]
         frr = np.array(frr); crr = np.array(crr)
+        fm_all = np.array(fm_all); cm_all = np.array(cm_all)   # (n_seeds, n_rate)
         out[sol] = dict(rates=rates, fraction_mape=fm0, exact_cup_mape=cm0,   # seed 0 (figure)
+                        # per-rate seed distribution (mean +/- std over seeds) for bands
+                        fraction_mape_seed_mean=[round(v, 2) for v in fm_all.mean(0)],
+                        fraction_mape_seed_std=[round(v, 2) for v in fm_all.std(0)],
+                        exact_cup_mape_seed_mean=[round(v, 2) for v in cm_all.mean(0)],
+                        exact_cup_mape_seed_std=[round(v, 2) for v in cm_all.std(0)],
                         frac_range_ratio=round(float(frr.mean()), 2),
                         frac_range_ratio_std=round(float(frr.std()), 2),
                         exact_cup_range_ratio=round(float(crr.mean()), 2),
