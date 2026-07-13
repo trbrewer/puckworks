@@ -1,0 +1,5 @@
+• Whole-cup fits leave a broad inventory–kinetics compensation profile
+• Held-out error adds little skill over an optimal-grind constant baseline
+• Fraction-resolved observations localize the kinetic rate more strongly
+• Prediction, localization, benchmark skill, and transfer are kept distinct
+• All headline values are tied to machine-readable result bundles
