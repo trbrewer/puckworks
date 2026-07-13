@@ -11,6 +11,8 @@ lb = ["taichi"]
 dev = ["pytest"]
 figures = ["matplotlib"]
 harvest = ["requests"]
+viz = ["matplotlib", "pillow", "imageio"]
+viz3d = ["pyvista", "vtk"]
 
 [build-system]
 requires = ["setuptools>=64"]
