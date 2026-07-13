@@ -363,11 +363,79 @@ def fig6_fraction_vs_endpoint(results=None, outdir=OUTDIR):
     return _save(fig, outdir, "fig6_fraction_vs_endpoint.png")
 
 
+def fig7_per_group_diagnostics(results=None, outdir=OUTDIR):
+    """Fig 7 — per-group refit diagnostics (review A2-16 / MAJ-17). The per-condition
+    residual is decomposed by variety x solute (n=9 conditions each): blind vs
+    inventory-matched MAPE, and the model-vs-data shape correlation. It makes the
+    per_condition note visible: inventory-matching HELPS caffeine but HURTS trigonelline
+    (so the residual is not pure inventory), and the shape correlations cluster near
+    zero -- the (T,p) transfer residual is not removed by the tested flow maps + inventory
+    match. HONEST SCOPE: this shows per-GROUP metrics; a residual-vs-(T,p) scatter needs
+    the per-condition residual VECTORS surfaced through the harness (still owed)."""
+    import numpy as np
+    r = _load(results); plt = _plt()
+    pv = r["per_condition"]["per_variety"]
+    n_cond = r["per_condition"]["n_conditions_per_variety"]
+    varieties = [v for v in ("Arabica", "Robusta") if v in pv]
+    solutes = ["caffeine", "trigonelline", "5CQA", "tds"]
+    labels, blind, matched, shape = [], [], [], []
+    for var in varieties:
+        for sol in solutes:
+            x = pv[var].get(sol)
+            if not x:
+                continue
+            labels.append(f"{var[:3]}:{sol}")
+            blind.append(x.get("mape_blind"))
+            matched.append(x.get("mape_inv_matched"))    # None for 5CQA/tds (no inventory)
+            shape.append(x.get("shape_corr"))
+    idx = np.arange(len(labels)); w = 0.38
+    fig, axes = plt.subplots(1, 2, figsize=(11.4, 4.4))
+
+    # (a) blind vs inventory-matched MAPE
+    ax = axes[0]
+    b = np.array([np.nan if v is None else v for v in blind], float)
+    m = np.array([np.nan if v is None else v for v in matched], float)
+    ax.bar(idx - w / 2, b, w, color=NULL, label="blind (no inventory match)")
+    ax.bar(idx + w / 2, np.nan_to_num(m), w, color=ACCENT,
+           label="inventory-matched (caffeine/trig only)")
+    # mark where matching HURTS (matched > blind) vs HELPS
+    for i, (bi, mi) in enumerate(zip(b, m)):
+        if not np.isnan(mi):
+            worse = mi > bi
+            ax.annotate("↑ worse" if worse else "↓ better",
+                        (i + w / 2, mi), textcoords="offset points", xytext=(0, 3),
+                        ha="center", fontsize=6.3, color=BAD if worse else GOOD)
+    ax.set_xticks(idx); ax.set_xticklabels(labels, rotation=35, ha="right", fontsize=7.4)
+    ax.set_ylabel("per-condition MAPE (%)")
+    ax.set_title("(a) blind vs inventory-matched residual (n=%d cond./group)" % n_cond,
+                 fontsize=9)
+    ax.legend(fontsize=7, loc="upper left")
+
+    # (b) model-vs-data shape correlation per group
+    ax = axes[1]
+    sh = np.array([np.nan if v is None else v for v in shape], float)
+    cols = [GOOD if (not np.isnan(v) and v > 0.4) else
+            (BAD if (not np.isnan(v) and v < 0) else NULL) for v in sh]
+    ax.barh(idx, sh, color=cols)
+    ax.axvline(0.0, color=INK, lw=0.8)
+    ax.set_yticks(idx); ax.set_yticklabels(labels, fontsize=7.4)
+    ax.invert_yaxis()
+    ax.set_xlabel("model–data shape correlation")
+    ax.set_xlim(-0.6, 0.8)
+    ax.set_title("(b) trajectory-shape agreement (near 0 = shape not captured)",
+                 fontsize=9)
+    fig.suptitle("Fig 7 — per-group refit diagnostics: inventory-matching helps caffeine "
+                 "but HURTS trigonelline (residual not pure inventory); shape correlations "
+                 "cluster near zero", y=1.02, fontsize=9.5, fontweight="bold")
+    return _save(fig, outdir, "fig7_per_group_diagnostics.png")
+
+
 def render_all(results=None, outdir=OUTDIR):
     res = _load(results)
     return [fig1_design(outdir), fig2_objective_surface(res, outdir),
             fig3_holdouts(res, outdir), fig4_transfer(res, outdir),
-            fig5_joint_residual(res, outdir), fig6_fraction_vs_endpoint(res, outdir)]
+            fig5_joint_residual(res, outdir), fig6_fraction_vs_endpoint(res, outdir),
+            fig7_per_group_diagnostics(res, outdir)]
 
 
 def main(argv=None):

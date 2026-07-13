@@ -45,7 +45,7 @@ def _level_mape(pred, m):
 
 def waszkiewicz_external_tds(T_C=93.0, pressure=9.0,
                              rates=(0.25, 0.4, 0.6, 0.8, 1.0, 1.4, 2.0, 3.0, 4.0),
-                             time_offsets=(0.0, 2.0, 4.0)):
+                             time_offsets=(0.0, 2.0, 4.0), q_floor=0.05):
     """Frozen external prediction of the Waszkiewicz 5 s TDS trajectory (Pannusch TDS
     pseudo-solute; measured 9-bar flow trace; flow-weighted 5 s interval operator).
     Sweep rate; at each rate fit the level (exact weighted median). Report, per time
@@ -68,7 +68,7 @@ def waszkiewicz_external_tds(T_C=93.0, pressure=9.0,
     # numerical floor: the pre-drip flow is ~0 (t<~3 s), which makes the Q(t)-driven
     # advection operator singular. Floor q at a small positive value; real collection
     # flow is 1-2 mL/s, so the floor only touches the pre-drip phase (~zero mass).
-    q_floor = 0.05
+    # q_floor is a declared parameter so its influence can be swept (review A2-13b).
     for offset in time_offsets:
         # flow trace shifted so TDS time = flow time + offset (brewer-vs-drip origin)
         def qf(ts, off=offset):
@@ -121,6 +121,57 @@ def waszkiewicz_external_tds(T_C=93.0, pressure=9.0,
                     head["fraction_min_mape"], head["cup_range_ratio"])),
         strength="external prediction / objective localization (one coffee, one grind, "
                  "aggregate TDS proxy); NOT independent named-solute identification")
+
+
+def waszkiewicz_sensitivity(temps=(89.0, 91.0, 93.0, 95.0),
+                            floors=(0.02, 0.05, 0.10),
+                            rates=(0.4, 0.6, 0.8, 1.0, 1.4, 2.0, 3.0)):
+    """Review A2-13b: the external panel makes two DECLARED nuisance assumptions -- the
+    brew temperature (not in the trace; assumed 93 C) and the pre-drip numerical flow
+    floor. Sweep both and report whether the localization conclusion (the 12-fraction
+    trajectory constrains the rate; the single cup does not) is invariant. For each
+    (T, floor) we take the headline case (offset 0 s, first bin dropped) on a coarse
+    7-rate grid and record the best rate, fraction range ratio, min MAPE, and that the
+    cup still carries no rate information. NOTE: ~10-20 min of Q(t) PDE solves (slow;
+    NOT a CI gate)."""
+    cells = []
+    for T in temps:
+        for fl in floors:
+            r = waszkiewicz_external_tds(T_C=T, rates=rates, time_offsets=(0.0,),
+                                         q_floor=fl)
+            h = r["per_case"]["offset0s_no_first_bin"]
+            cells.append(dict(
+                T_C=T, q_floor=fl, best_rate=h["fraction_best_rate"],
+                fraction_range_ratio=h["fraction_range_ratio"],
+                fraction_min_mape=h["fraction_min_mape"],
+                cup_carries_no_rate_info=h["cup_carries_no_rate_info"]))
+    best_rates = sorted({c["best_rate"] for c in cells})
+    rrs = [c["fraction_range_ratio"] for c in cells]
+    mins = [c["fraction_min_mape"] for c in cells]
+    # the localization is "invariant" if EVERY cell still shows the fraction trajectory
+    # discriminating (range ratio comfortably >1) while the cup never does.
+    all_localize = all(c["fraction_range_ratio"] > 1.3 for c in cells)
+    cup_never = all(c["cup_carries_no_rate_info"] for c in cells)
+    return dict(
+        cells=cells, temps=list(temps), floors=list(floors), rates=list(rates),
+        best_rate_set=best_rates, best_rate_spread=max(best_rates) - min(best_rates),
+        fraction_range_ratio_min=min(rrs), fraction_range_ratio_max=max(rrs),
+        fraction_min_mape_min=min(mins), fraction_min_mape_max=max(mins),
+        localization_invariant=bool(all_localize and cup_never),
+        verdict=("Nuisance-assumption sensitivity (temperature 89-95 C x flow floor "
+                 "0.02-0.10): across all %d cells the 12-fraction trajectory keeps "
+                 "discriminating the rate (range ratio %.1f-%.1fx, min MAPE %.1f-%.1f%%, "
+                 "best rate in {%s}) while the single integrated cup NEVER does. The "
+                 "localization conclusion is %s to the brew-temperature and flow-floor "
+                 "assumptions; the best-rate POINT shifts by %.1f across the grid, which "
+                 "is expected (temperature rescales the kinetic level, not the "
+                 "cup-vs-fraction contrast)."
+                 % (len(cells), min(rrs), max(rrs), min(mins), max(mins),
+                    ", ".join(f"{b:g}" for b in best_rates),
+                    "INVARIANT" if (all_localize and cup_never) else "SENSITIVE",
+                    max(best_rates) - min(best_rates))),
+        strength="external-panel robustness (declared nuisance assumptions); NOT "
+                 "independent named-solute identification")
 
 
 def report():

@@ -16,7 +16,7 @@ already made to defer, e.g. release tag).
 |---|---|---|---|
 | A-MAJ04 | Grid-density / domain robustness appendix for the identifiability panel (18/36/72/144 rate grids; ≥2 domains; continuous 1-D optimisation; boundary reporting) | UNBLOCKED-LARGE | core rename + log-width + MAPE cross-check already done; the convergence *appendix* (multi-grid reruns) remains |
 | A-MAJ13 | Positive-control model-discrepancy variant (altered geometry/flow/IC between data-generation and fitting) | UNBLOCKED-LARGE | multi-seed distribution already delivered; the discrepancy scenario is new analysis |
-| A-MAJ17 | Residual-diagnostic faceted figures (residuals vs T/p, normalized within variety×solute series; per-group metrics) | UNBLOCKED-LARGE | new figure + per-group aggregation |
+| A-MAJ17 | Residual-diagnostic faceted figures (residuals vs T/p, normalized within variety×solute series; per-group metrics) | **PARTLY DONE** (2026-07-12) | Fig 7 (`fig7_per_group_diagnostics`) delivers the per-GROUP metrics — variety×solute blind vs inventory-matched MAPE + trajectory-shape correlation (n=9/group), making visible that inventory-matching helps caffeine but HURTS trigonelline. STILL OWED: the residual-vs-(T,p) SCATTER needs the per-condition residual VECTORS surfaced through the harness (only per-group summaries are currently in the bundle) |
 | A-AR13/MAJ19 | Strict one-command `puckworks/paper_a/build.py` | **DONE** (2026-07-13) | `verify` (fast) checks 13 manuscript claims vs the bundle + writes a provenance manifest (commit, env versions, 6 data-file SHA-256, bundle hash); `full` recomputes+renders+verifies. Guarded by `test_paper_a_build_verifies_manuscript_claims`. Owed: an env lockfile (uv/poetry) + the release tag |
 | A-MAJ22 | Recover replicate-level Angeloni/Schmieder uncertainty; uncertainty-weighted objective sensitivity | BLOCKED-EXTERNAL | repo has condition-level means; needs source re-intake |
 | A-AR15/MAJ21 | Execute the full Scopus/WoS systematic novelty search; populate the evidence matrix | BLOCKED-EXTERNAL | scaffold exists (`docs/literature_search/`); DB execution is a PI action |
@@ -27,7 +27,7 @@ already made to defer, e.g. release tag).
 | A2-09 | Density / 40 g-vs-40 mL endpoint sensitivity (38–42 g range) | **DOCUMENTED** (2026-07-13) | Methods now state the 40 g≈40 mL approximation (~0–2 % density + ±5 % tolerance), level-robust MAPE absorbs a common shift; the per-endpoint sweep remains a bounded owed check |
 | A2-10 | Propagate constructed pressure–flow-map uncertainty | **DONE** (2026-07-13) | `flow_map_sensitivity_transfer`: a systematic ±20% flow-scale perturbation (refit O, transfer C/F) moves held-out MAPE ≤0.6 pp; transfer robust to flow-map MAGNITUDE, still conditional on the inferred-map FORM. Owed: a per-shot measured flow trace |
 | A2-13b | Waszkiewicz sensitivity matrix (temperature, flow floor, density, alignment) | UNBLOCKED-LARGE | 2nd review; time-origin bug already fixed |
-| A2-16 | Further figure redesigns (residual panels, source-data export, seed distributions on Fig 6) | UNBLOCKED-LARGE | 2nd review; Fig 1/2/5 already redesigned |
+| A2-16 | Further figure redesigns (residual panels, source-data export, seed distributions on Fig 6) | **PARTLY DONE** (2026-07-12) | Fig 7 per-group residual-diagnostic panel added (see A-MAJ17). STILL OWED: source-data CSV export alongside each figure + seed-distribution bands on Fig 6 |
 | A2-17/18 | Convert to conventional journal manuscript + full Methods | VENUE | same as A-AR01 |
 
 ## Paper B (`PAPER_B_DETAILED_REVIEW.md`)
