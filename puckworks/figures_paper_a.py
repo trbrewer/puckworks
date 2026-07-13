@@ -55,6 +55,7 @@ def compute_all(out_path=RESULTS):
         identifiability_convergence=ab.identifiability_panel_convergence(),  # A2-06/07 + MAJ-04
         transfer=ab.validate_refit_granulometry(),
         transfer_skill=ab.transfer_skill_vs_baselines(),   # A3-01 null-benchmark skill
+        reduced_model_ladder=ab.reduced_model_ladder(),    # A3-19 nested ladder
         joint=ab.joint_multigrind_fit(),
         loco=ab.loco_cv_refit(),
         positive_control=idn.identifiability_fractions_vs_cup(),
@@ -294,6 +295,7 @@ def fig4_transfer(results=None, outdir=OUTDIR):
     import numpy as np
     r = _load(results); plt = _plt()
     pts = r["transfer"]["points"]
+    envs = r["transfer"].get("condition_envelopes", {})
     ts = r.get("transfer_skill")
     fig, axes = plt.subplots(1, 3, figsize=(13.2, 4.3),
                              gridspec_kw=dict(width_ratios=[1, 1, 1.25]))
@@ -304,13 +306,21 @@ def fig4_transfer(results=None, outdir=OUTDIR):
                 pp = pts.get(f"{variety}:{sol}:{g}", [])
                 obs = [x["obs"] for x in pp]; pred = [x["pred"] for x in pp]
                 mk = "o" if variety == "Arabica" else "s"
+                # A3-11: vertical profile-set PREDICTION ENVELOPE (pred_min..pred_max
+                # across the 10% near-optimal set) at each held-out condition
+                ev = envs.get(f"{variety}:{sol}:{g}", [])
+                if ev:
+                    for x in ev:
+                        ax.plot([x["obs"], x["obs"]], [x["pred_min"], x["pred_max"]],
+                                color=_SOL_COLOR[sol], lw=2.4, alpha=0.28,
+                                solid_capstyle="round", zorder=2)
                 ax.scatter(obs, pred, s=26, color=_SOL_COLOR[sol], marker=mk,
                            edgecolor="white", lw=0.5, zorder=3,
                            label=f"{sol} ({variety[:3]})")
                 mx = max([mx] + obs + pred)
         ax.plot([0, mx * 1.1], [0, mx * 1.1], color=NULL, ls=":", lw=1.2)
-        ax.set_title("(%s) held-out grind %s (matched-volume proxy)"
-                     % ("a" if g == "C" else "b", g), fontsize=9)
+        ax.set_title("(%s) grind %s — point + profile-set envelope"
+                     % ("a" if g == "C" else "b", g), fontsize=8.5)
         ax.set_xlabel("observed (g L$^{-1}$)"); ax.set_ylabel("predicted (g L$^{-1}$)")
         ax.legend(fontsize=6, loc="upper left", ncol=2)
     # (c) model vs O-trained-constant baseline: paired MAPE per fit x grind
@@ -342,8 +352,10 @@ def fig4_transfer(results=None, outdir=OUTDIR):
 
 
 def fig5_joint_residual(results=None, outdir=OUTDIR):
-    """Fig 5 — joint shared-fit vs per-grind residual structure (variety x solute x
-    grind), with the cost-of-sharing and rate-boundary flags."""
+    """Fig 5 — IN-SAMPLE shared-parameter compatibility (review A3-19/A3-29): top row,
+    joint shared-fit vs independent per-grind residual heatmaps + cost-of-sharing; bottom
+    row, the nested REDUCED-MODEL LADDER (constant / per-grind constant / shared mech /
+    per-grind mech) so the cost of sharing is read against level-only comparators."""
     import numpy as np
     r = _load(results); plt = _plt()
     j = r["joint"]["per_variety"]
@@ -356,7 +368,9 @@ def fig5_joint_residual(results=None, outdir=OUTDIR):
             bnd = " *" if x["joint_rate_at_boundary"] else ""
             labels.append(f"{variety[:3]}:{sol}{bnd}")
     Mj = np.array(Mj, float); Mi = np.array(Mi, float); D = Mj - Mi
-    fig, axes = plt.subplots(1, 3, figsize=(11.4, 4.6))
+    fig = plt.figure(figsize=(11.4, 6.6))
+    gs = fig.add_gridspec(2, 3, height_ratios=[1.35, 1.0], hspace=0.42, wspace=0.16)
+    axes = [fig.add_subplot(gs[0, c]) for c in range(3)]
     vmax = max(20.0, Mj.max(), Mi.max())
 
     def _heat(ax, M, title, cmap, vmin, vmax, center_white=0.6):
@@ -376,13 +390,37 @@ def fig5_joint_residual(results=None, outdir=OUTDIR):
     dmax = float(np.abs(D).max())
     imd = _heat(axes[2], D, "(c) cost of sharing = (a)−(b) (pp)", "RdBu_r",
                 -dmax, dmax, center_white=1.0)
-    fig.colorbar(im0, ax=axes[:2].tolist(), shrink=0.7, label="MAPE (%)")
+    fig.colorbar(im0, ax=[axes[0], axes[1]], shrink=0.7, label="MAPE (%)")
     fig.colorbar(imd, ax=axes[2], shrink=0.7, label="Δ MAPE (pp)")
-    fig.suptitle("Fig 5 — joint shared-$(c_{s,0},\\mathrm{rate})$ vs independent per-grind; "
-                 "pooled %.1f%% vs %.1f%% (mean cost ~%.1f pp); * = rate at domain boundary"
+
+    # (d) reduced-model ladder spanning the bottom row
+    lad = r.get("reduced_model_ladder")
+    axd = fig.add_subplot(gs[1, :])
+    if lad is not None:
+        keys = list(lad["per_fit"].keys())
+        models = [("model0_const", "constant (1p)", NULL),
+                  ("model1_pergrind_const", "per-grind const (3p)", "#8a8f98"),
+                  ("model2_shared_mech", "shared mech (2p)", ACCENT),
+                  ("model3_pergrind_mech", "per-grind mech (6p)", GOOD)]
+        idx = np.arange(len(keys)); w = 0.2
+        for mi, (mk, lab, cc) in enumerate(models):
+            axd.bar(idx + (mi - 1.5) * w, [lad["per_fit"][k][mk] for k in keys], w,
+                    color=cc, label=lab)
+        axd.set_xticks(idx)
+        axd.set_xticklabels([k.replace("Arabica", "Ara").replace("Robusta", "Rob")
+                             for k in keys], fontsize=6.6, rotation=20, ha="right")
+        axd.set_ylabel("in-sample macro-MAPE (%)")
+        axd.set_title("(d) reduced-model ladder — shared mechanistic (2p) beats per-grind "
+                      "constants (3p) in only %d/%d fits"
+                      % (lad["n_fits_mech_beats_pergrind_const"], lad["n_fits"]),
+                      fontsize=9)
+        axd.legend(fontsize=6.6, ncol=4, loc="upper center")
+    fig.suptitle("Fig 5 — in-sample shared-parameter compatibility + reduced-model ladder; "
+                 "pooled shared %.1f%% vs per-grind %.1f%% (cost ~%.1f pp); * = rate at "
+                 "domain boundary"
                  % (r["joint"]["mean_joint_pooled_mape"],
                     r["joint"]["mean_independent_per_grind_mape"],
-                    r["joint"]["cost_of_sharing_pp"]), y=1.0, fontsize=9.5,
+                    r["joint"]["cost_of_sharing_pp"]), y=1.0, fontsize=9.3,
                  fontweight="bold")
     return _save(fig, outdir, "fig5_joint_residual.png")
 

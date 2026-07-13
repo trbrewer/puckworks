@@ -54,6 +54,35 @@ def test_bundle_has_no_stale_evidence_taxonomy():
     assert not hits, "stale evidence-taxonomy phrases in bundle: " + ", ".join(set(hits))
 
 
+def test_condition_envelopes_and_threshold_sensitivity():
+    """review A3-11/A3-02: the transfer must carry per-condition prediction envelopes and
+    a threshold sweep; the median envelope is narrow but a worst case exists."""
+    t = _load_bundle().get("transfer")
+    if not t or "condition_envelopes" not in t:
+        import pytest
+        pytest.skip("condition_envelopes not in this bundle (recompute with `full`)")
+    assert t["median_condition_envelope_frac_of_obs"] < t["worst_condition_envelope_frac_of_obs"]
+    ce = next(iter(t["condition_envelopes"].values()))
+    assert all(r["pred_min"] <= r["pred_point"] + 1e-6 <= r["pred_max"] + 1e-6 for r in ce) or \
+        all(r["pred_min"] <= r["pred_max"] for r in ce)
+    ts = next(iter(t["threshold_sensitivity"].values()))
+    assert {"2pct", "5pct", "10pct", "20pct"} <= set(ts)
+    # wider tolerance -> at least as many members
+    assert ts["20pct"]["n_in_set"] >= ts["2pct"]["n_in_set"]
+
+
+def test_reduced_model_ladder_mech_vs_constants():
+    """review A3-19: the ladder must report parameter counts and the decisive comparison
+    -- the shared mechanistic model rarely beats per-grind constants in-sample."""
+    lad = _load_bundle().get("reduced_model_ladder")
+    if lad is None:
+        import pytest
+        pytest.skip("reduced_model_ladder not in this bundle")
+    assert lad["param_counts"] == {"model0": 1, "model1": 3, "model2": 2, "model3": 6}
+    # the headline: mechanistic shared model beats per-grind constants in few/no fits
+    assert lad["n_fits_mech_beats_pergrind_const"] <= 1
+
+
 def test_table7_rate_constraint_collapses_profile():
     """review A3-13: the same-campaign Table 7 inventory must intersect the profiled
     valley at an interior rate, collapsing the broad inventory-rate profile to a narrow

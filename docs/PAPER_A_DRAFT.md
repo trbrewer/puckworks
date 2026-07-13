@@ -365,19 +365,28 @@ A **shared-parameter compatibility analysis** complements the holdout: a *single
 `(c_s0, rate_scale)` fitted jointly to O+C+F (`joint_multigrind_fit`) reconstructs the
 pooled data at **6.4 % macro-MAPE against 4.9 %** for the per-grind independent fits — a
 modest **in-sample** cost-of-sharing of ~1.5 pp. This is an in-sample compatibility test
-(it scores the same pooled observations it was fitted to), **not** a held-out prediction,
-and its adequacy must be judged against reduced-model baselines (a per-grind constant is
-nearly competitive), not an absolute cutoff.
+(it scores the same pooled observations it was fitted to), **not** a held-out prediction.
+A **nested reduced-model ladder** (`reduced_model_ladder`, review A3-19) makes its
+adequacy auditable: mean in-sample macro-MAPE runs one-constant **7.1 %** (1 param) →
+per-grind-constant **5.1 %** (3 params) → shared-mechanistic **6.4 %** (2 params) →
+per-grind-mechanistic **4.9 %** (6 params). The decisive comparison is that the
+2-parameter **shared mechanistic model beats the 3-parameter per-grind constant in 0 of 6
+fits** — i.e. the mechanistic structure explains essentially nothing in-sample beyond
+grind-level offsets, consistent with the small held-out skill above.
 
 The `(inventory, rate)` split is **degenerate within a grind** — the fitted rate flips
 with incidental choices (§4). Propagating the **discrete 10 %-near-optimal MAPE grid set**
 (O-MAPE within 10 % of the minimum on the 18-point rate grid — a *declared set*, not a
 continuous manifold), the worst **aggregate** held-out C/F error rises to **21.7 %** (vs
-18.2 % at the point optimum; `validate_refit_granulometry.manifold_transfer`) — so the
-*aggregate* error is stable across the set, though condition-wise prediction envelopes
-remain owed (review A3-11). This illustrates the distinction between parameter
-identifiability and aggregate prediction stability, *tested* (review A2-02) rather than
-asserted. Strength: **within-campaign cross-grind holdout with a null-model skill
+18.2 % at the point optimum; `validate_refit_granulometry.manifold_transfer`). We now also
+propagate the set to **condition-wise prediction envelopes** (review A3-11): at each
+held-out (T, p) the predicted concentration ranges across the near-optimal set span a
+**median of only ~3 % of the observation** (worst ~16 %), and the worst-case held-out MAPE
+grows only modestly across declared tolerances (2/5/10/20 %: ~8.5→9.7 % for caffeine).
+So the *aggregate and pointwise* prediction is stable across the set even though the
+parameters on it are not — the distinction between parameter identifiability and
+prediction stability, *tested* (review A2-02) rather than asserted. This stability is,
+however, distinct from mechanistic skill (the ladder and null benchmark above). Strength: **within-campaign cross-grind holdout with a null-model skill
 comparison**, conditioned on the tested flow maps, frozen centre-grind geometry, and
 matched endpoint.
 

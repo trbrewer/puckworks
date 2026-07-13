@@ -623,36 +623,71 @@ def validate_refit_granulometry():
         return float(np.mean(np.abs(pred - m) / m) * 100), conds, m, pred
 
     transfer, degeneracy, points, manifold = {}, {}, {}, {}
+    condition_envelopes, threshold_sensitivity = {}, {}
+    TOLS = (0.02, 0.05, 0.10, 0.20)                       # A3-02/A3-10 threshold sweep
     for variety in ("Arabica", "Robusta"):
         for sol, col in SPEC.items():
             rates, cs0s, mpsO = o_profile(variety, sol)   # full O profile (A2-02)
             iO = int(np.argmin(mpsO)); rsO, cs0O, mpO = float(rates[iO]), float(cs0s[iO]), float(mpsO[iO])
             held = {}
+            # cache held-out (mape, per-condition pred) for EVERY rate in the widest
+            # tolerance set (20%) ONCE, then derive all narrower sets + envelopes from it
+            wide = np.where(mpsO <= mpsO[iO] * (1.0 + max(TOLS)))[0]
+            cache = {}                                     # g -> {k: (mape, pred_vec)}
+            gconds = {}; gmeas = {}
             for g in ("C", "F"):
                 hm, conds, m, pred = heldout_mape(variety, sol, g, rsO, cs0O)
                 held[g] = hm                              # FULL PRECISION (A2-11/12)
+                gconds[g] = conds; gmeas[g] = m
                 points[f"{variety}:{sol}:{g}"] = [
                     dict(T=float(T), p=float(p), obs=float(mo), pred=float(pr))
                     for (T, p), mo, pr in zip(conds, m, pred)]
+                cache[g] = {}
+                for k in wide:
+                    hmk, _, _, predk = heldout_mape(variety, sol, g, float(rates[k]),
+                                                    float(cs0s[k]))
+                    cache[g][k] = (hmk, np.asarray(predk, float))
             transfer[(variety, sol)] = dict(O_fit_mape=round(mpO, 2),
                                             heldout_C=round(held["C"], 2),
                                             heldout_F=round(held["F"], 2))
-            # A2-02: transfer the NEAR-OPTIMAL O-grind set (O-MAPE <= 1.10*min), not
-            # only the point optimum, and report the held-out C/F envelope over the
-            # compensating manifold -- so "stable along the manifold" is TESTED.
-            near = mpsO <= mpsO[iO] * 1.10
+            # A2-02: aggregate held-out C/F MAPE envelope over the 10% near-optimal set
+            near10 = set(int(k) for k in np.where(mpsO <= mpsO[iO] * 1.10)[0])
             env = {}
             for g in ("C", "F"):
-                vals = np.array([heldout_mape(variety, sol, g, float(rates[k]),
-                                              float(cs0s[k]))[0]
-                                 for k in np.where(near)[0]])
-                env[g] = dict(point=round(held[g], 2),
-                              n_in_set=int(near.sum()),
+                vals = np.array([cache[g][k][0] for k in sorted(near10)])
+                env[g] = dict(point=round(held[g], 2), n_in_set=len(near10),
                               median=round(float(np.median(vals)), 2),
-                              p5_p95=[round(float(np.percentile(vals, 5)), 2),
-                                      round(float(np.percentile(vals, 95)), 2)],
-                              worst=round(float(np.max(vals)), 2))
+                              # A3-02 minor#44: min-max of a small deterministic set, NOT p5/p95
+                              min_max=[round(float(vals.min()), 2), round(float(vals.max()), 2)],
+                              worst=round(float(vals.max()), 2))
             manifold[f"{variety}:{sol}"] = env
+            # A3-11: CONDITION-WISE prediction envelope -- for each held-out (T,p), the
+            # range of PREDICTED concentration across the 10% set vs the observation.
+            for g in ("C", "F"):
+                conds = gconds[g]; m = gmeas[g]
+                stack = np.array([cache[g][k][1] for k in sorted(near10)])   # (n_set, n_cond)
+                rows = []
+                for i, (T, p) in enumerate(conds):
+                    col_i = stack[:, i]
+                    rows.append(dict(
+                        T=float(T), p=float(p), obs=float(m[i]),
+                        pred_point=round(float(cache[g][iO][1][i]) if iO in cache[g]
+                                         else float(col_i[0]), 3),
+                        pred_min=round(float(col_i.min()), 3),
+                        pred_max=round(float(col_i.max()), 3),
+                        pred_median=round(float(np.median(col_i)), 3),
+                        # envelope width as a fraction of the observation (A3-11)
+                        envelope_frac_of_obs=round(float((col_i.max() - col_i.min())
+                                                         / m[i]), 3)))
+                condition_envelopes[f"{variety}:{sol}:{g}"] = rows
+            # A3-02/A3-10: threshold sensitivity -- set size + worst aggregate MAPE per tol
+            ts = {}
+            for tol in TOLS:
+                sel = [int(k) for k in wide if mpsO[k] <= mpsO[iO] * (1.0 + tol)]
+                worst = max(cache[g][k][0] for g in ("C", "F") for k in sel)
+                ts[f"{int(tol*100)}pct"] = dict(n_in_set=len(sel),
+                                                worst_heldout_mape=round(float(worst), 2))
+            threshold_sensitivity[f"{variety}:{sol}"] = ts
         # degeneracy: refit at each granulometry (Arabica only, representative)
         if variety == "Arabica":
             for sol in SPEC:
@@ -664,8 +699,17 @@ def validate_refit_granulometry():
     # manifold envelope: worst held-out MAPE across the near-optimal set, over all fits
     mani_worst = max(max(v["C"]["worst"], v["F"]["worst"]) for v in manifold.values())
     mani_worst_point = max(max(t["heldout_C"], t["heldout_F"]) for t in transfer.values())
+    # A3-11: worst condition-wise prediction-envelope width (fraction of the observation)
+    env_worst = max(row["envelope_frac_of_obs"]
+                    for rows in condition_envelopes.values() for row in rows)
+    env_median = float(np.median([row["envelope_frac_of_obs"]
+                                  for rows in condition_envelopes.values() for row in rows]))
     return dict(transfer=transfer, degeneracy_arabica=degeneracy, points=points,
                 manifold_transfer=manifold,
+                condition_envelopes=condition_envelopes,          # A3-11
+                threshold_sensitivity=threshold_sensitivity,      # A3-02
+                worst_condition_envelope_frac_of_obs=round(env_worst, 3),
+                median_condition_envelope_frac_of_obs=round(env_median, 3),
                 manifold_worst_heldout_mape=round(mani_worst, 2),
                 point_worst_heldout_mape=round(mani_worst_point, 2),
                 heldout_C_range=[round(min(hc), 1), round(max(hc), 1)],
@@ -866,6 +910,99 @@ def transfer_skill_vs_baselines(varieties=("Arabica", "Robusta"),
         strength="predeclared null-benchmark skill comparison (level-only baselines, "
                  "full precision); quantifies incremental mechanistic skill, not just "
                  "absolute fit")
+
+
+def reduced_model_ladder(varieties=("Arabica", "Robusta"),
+                         solutes=("caffeine", "trigonelline", "5CQA")):
+    """A3-19: a nested REDUCED-MODEL ladder for the in-sample O+C+F fit, so the joint
+    'cost of sharing' can be read against level-only comparators rather than only the more
+    flexible per-grind mechanistic fit. Per variety x named solute, all fitted to the SAME
+    pooled O+C+F observations (in-sample), with parameter counts:
+
+      - Model 0: one constant per variety x solute            (1 param)
+      - Model 1: one constant per variety x solute x grind    (3 params)
+      - Model 2: mechanistic SHARED (c_s0, rate) across grinds (2 params)
+      - Model 3: mechanistic SEPARATE (c_s0, rate) per grind   (6 params)
+
+    The decisive comparison is Model 2 (mechanistic, 2 params) vs Model 1 (per-grind
+    constants, 3 params): if the mechanistic shared model does not beat per-grind
+    constants, the kinetic/transport structure explains little beyond grind-level offsets.
+    All losses are macro-MAPE at full precision. NOTE: ~2-3 min of PDE solves (slow)."""
+    import numpy as np
+    from puckworks.models.pannusch2024 import solver as ps
+    from puckworks import data as d
+    bio = d.angeloni_bioactives(); params = ps._solute_params()
+    SPEC = {"caffeine": "CF", "trigonelline": "TR", "5CQA": "5CQA"}
+    GR = ("O", "C", "F")
+
+    def sh(variety, gran):
+        return [r for r in bio if r["variety"] == variety
+                and r["granulometry"] == gran and r["on_grid"] == "True"]
+
+    def frac(sp, rs, conds, gran):
+        s = dict(sp); s["A1"] = sp["A1"] * rs; s["A2"] = sp["A2"] * rs; s["c_s0"] = 1.0
+        return np.array([float(ps.simulate_fractions(
+                        T, _flow_gran(p, T, gran), _matched_bounds(_flow_gran(p, T, gran)),
+                        s, cl1=1.0)[0]) for T, p in conds])
+
+    per = {}
+    for variety in varieties:
+        for sol in solutes:
+            col = SPEC[sol]
+            meas, cds, pug = {}, {}, {}
+            for g in GR:
+                rows = sh(variety, g); cds[g] = [(r["T_degC"], r["p_bar"]) for r in rows]
+                meas[g] = np.array([r[col] for r in rows], float)
+                pug[g] = {rs: frac(params[sol], rs, cds[g], g) for rs in _RATE_DOMAIN}
+            m_all = np.concatenate([meas[g] for g in GR])
+            # Model 0: one constant on ALL pooled obs
+            c0 = float(_mape_level(np.ones(len(m_all)), m_all)[0])
+            mape0 = float(np.mean(np.abs(c0 - m_all) / m_all) * 100)
+            # Model 1: per-grind constant (macro over grinds)
+            m1 = []
+            for g in GR:
+                cg = float(_mape_level(np.ones(len(meas[g])), meas[g])[0])
+                m1.append(np.mean(np.abs(cg - meas[g]) / meas[g]) * 100)
+            mape1 = float(np.mean(m1))
+            # Model 2: shared mechanistic (rate + global level) -- pooled MAPE
+            best = None
+            for rs in _RATE_DOMAIN:
+                f_all = np.concatenate([pug[g][rs] for g in GR])
+                cs0, mp = _mape_level(f_all, m_all)
+                if best is None or mp < best[1]:
+                    best = (rs, mp)
+            mape2 = float(best[1])
+            # Model 3: per-grind mechanistic (macro over grinds)
+            m3 = [float(min(_mape_level(pug[g][rs], meas[g])[1] for rs in _RATE_DOMAIN))
+                  for g in GR]
+            mape3 = float(np.mean(m3))
+            per[f"{variety}:{sol}"] = dict(
+                model0_const=round(mape0, 2), model1_pergrind_const=round(mape1, 2),
+                model2_shared_mech=round(mape2, 2), model3_pergrind_mech=round(mape3, 2),
+                mech_shared_beats_pergrind_const=bool(mape2 < mape1),
+                mech_gain_over_pergrind_const_pp=round(mape1 - mape2, 2))
+    def _mean(key):
+        return float(np.mean([per[k][key] for k in per]))
+    n_beat = sum(per[k]["mech_shared_beats_pergrind_const"] for k in per)
+    return dict(
+        per_fit=per, param_counts=dict(model0=1, model1=3, model2=2, model3=6),
+        mean_model0_const=round(_mean("model0_const"), 2),
+        mean_model1_pergrind_const=round(_mean("model1_pergrind_const"), 2),
+        mean_model2_shared_mech=round(_mean("model2_shared_mech"), 2),
+        mean_model3_pergrind_mech=round(_mean("model3_pergrind_mech"), 2),
+        n_fits_mech_beats_pergrind_const=n_beat, n_fits=len(per),
+        verdict=("REDUCED-MODEL LADDER (in-sample O+C+F, review A3-19): mean macro-MAPE "
+                 "one-constant %.1f%% (1p) -> per-grind-constant %.1f%% (3p) -> "
+                 "shared-mechanistic %.1f%% (2p) -> per-grind-mechanistic %.1f%% (6p). "
+                 "Decisive comparison: the 2-parameter shared MECHANISTIC model beats the "
+                 "3-parameter per-grind CONSTANT model in only %d of %d fits -- so the "
+                 "mechanistic structure explains little in-sample variation beyond "
+                 "grind-level offsets, consistent with the small held-out skill (A3-01)."
+                 % (_mean("model0_const"), _mean("model1_pergrind_const"),
+                    _mean("model2_shared_mech"), _mean("model3_pergrind_mech"),
+                    n_beat, len(per))),
+        strength="in-sample nested reduced-model comparison with parameter counts; "
+                 "reads the joint cost-of-sharing against level-only comparators")
 
 
 def identifiability_panel(variety="Arabica", solute="caffeine", n_rate=29, n_cs0=41,

@@ -68,6 +68,12 @@ _CLAIMS = [
     # A3-13 Table 7 orthogonal inventory collapses the caffeine rate to ~0.95
     ("Table 7 inventory implies caffeine rate ~0.95",
      "table7_rate_constraint.caffeine.implied_rate", 0.95, 0.25),
+    # A3-11 condition-wise prediction envelope: median width ~3% of obs
+    ("condition-envelope median width ~0.03 of obs (A3-11)",
+     "transfer.median_condition_envelope_frac_of_obs", 0.029, 0.02),
+    # A3-19 reduced-model ladder: shared mech beats per-grind constants in 0/6 fits
+    ("reduced-model ladder: mech beats per-grind const in 0 fits (A3-19)",
+     "reduced_model_ladder.n_fits_mech_beats_pergrind_const", 0.0, 0.5),
 ]
 
 
