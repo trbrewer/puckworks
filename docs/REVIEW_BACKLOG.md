@@ -10,6 +10,11 @@ target journal; risk of rework if done speculatively) · **BLOCKED-EXTERNAL** (n
 author response, or infrastructure not available here) · **DEFERRED-DECISION** (a decision
 already made to defer, e.g. release tag).
 
+> **External reviewers:** this backlog uses internal IDs and mixes done/deferred. The
+> reviewer-facing disclosure registers are `docs/REVIEWER_BRIEF_PAPER_A.md` and
+> `docs/REVIEWER_BRIEF_PAPER_B.md` (plain-language known limitations + max defensible
+> claim per result + the review ask). Hand those to a reviewer, not this file.
+
 > **Human-owned tasks (TB / PI / VENUE)** — see
 > [`docs/HANDOFF_TB_PI_VENUE.md`](HANDOFF_TB_PI_VENUE.md) for the actionable
 > breakdown (IDs, acceptance criteria, existing scaffolds, first steps, and what a

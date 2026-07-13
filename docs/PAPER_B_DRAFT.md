@@ -1,5 +1,11 @@
 # Paper B — draft prose (rev. 2026-07-12, post detailed review)
 
+> **Reviewers:** please read `docs/REVIEWER_BRIEF_PAPER_B.md` first — it is a
+> disclosure register of the known/scoped limitations and the maximum defensible
+> claim per result (note Result 3 is explicitly exploratory), with an explicit ask
+> (assess whether our disclosure is adequate; flag anything new; say if a disclosed
+> limit undermines a claim).
+
 *Manuscript draft. Two rounds of detailed review adopted; the corrections and their
 evidence are logged in **ROADMAP §7.1** (2026-07-12) — see there rather than
 restating them here. Verb discipline (load-bearing): "shows/predicts" only for

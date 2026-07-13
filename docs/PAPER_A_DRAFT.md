@@ -1,5 +1,10 @@
 # Paper A — draft prose (rev. 2026-07-12)
 
+> **Reviewers:** please read `docs/REVIEWER_BRIEF_PAPER_A.md` first — it is a
+> disclosure register of the known/scoped limitations and the maximum defensible
+> claim per result, with an explicit ask (assess whether our disclosure is
+> adequate; flag anything new; say if a disclosed limit undermines a claim).
+
 *__[REPOSITORY NOTE — strip before submission.__ This is the working draft; the
 manuscript body starts at the Title below. Full revision provenance (the two
 observable-contract corrections adopted from `docs/PAPER_A_DETAILED_REVIEW.md` and

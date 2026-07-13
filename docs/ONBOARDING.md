@@ -59,6 +59,11 @@ ROADMAP §8) and `docs/figures/viz/GALLERY.md` (the honesty index — every visu
 its badge, evidence, and fidelity ceiling) are the entry point. Do not add a
 figure outside a VizSpec.
 
+**For an EXTERNAL REVIEW of Paper A / Paper B:** hand the reviewer
+`docs/REVIEWER_BRIEF_PAPER_A.md` / `docs/REVIEWER_BRIEF_PAPER_B.md` — reviewer-facing
+disclosure registers (known/scoped limitations + max defensible claim per result +
+the review ask) so a fresh reviewer does not re-flag already-known/blocked items.
+
 ## 3. Verify the state is live, not remembered
 ```
 pip install -e ".[dev]"
