@@ -215,9 +215,19 @@ def mape_for_experiment(exp_rows, solute, sp):
 
 
 def _interval_conc(cfrac, bounds, lo, hi):
-    """Concentration over [lo,hi] = weighted mean of the sub-interval concs."""
+    """Concentration over [lo,hi] = DURATION-weighted mean of the sub-interval concs
+    (review 7.4). At the constant Schmieder flow, sub-interval volume is proportional
+    to duration, so this is the exact volume/mass-weighted interval observation
+    C_i = integral(m_dot C)/integral(m_dot); it reduces to the single sub-interval
+    value for an adjacent window (the current case) and only differs for
+    unequal-duration or multi-sub-interval windows. NOTE: for a time-VARYING flow the
+    weights would need the per-sub-interval volumes rather than durations; this helper
+    is used only on the constant-flow kinetics path."""
     i0 = bounds.index(lo); i1 = bounds.index(hi)
-    return float(np.mean(cfrac[i0:i1])) if i1 > i0 else float(cfrac[i0])
+    if i1 <= i0:
+        return float(cfrac[i0])
+    w = np.diff(np.asarray(bounds, float))[i0:i1]      # sub-interval durations ∝ volume
+    return float(np.sum(np.asarray(cfrac[i0:i1]) * w) / np.sum(w))
 
 
 def mape_all():
