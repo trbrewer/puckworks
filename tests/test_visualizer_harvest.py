@@ -171,3 +171,23 @@ def test_accessor_unit_assertion_catches_off_si(tmp_path):
     tidy["units"]["hydraulic"]["pressure__Pa"]["si"] = "bar"  # wrong
     with pytest.raises(AssertionError, match="rule 7"):
         pwdata.visualizer_hydraulic(tidy)
+
+
+def test_intake_tracked_artifacts_present():
+    """The two-tier MANIFEST rows, the data-only card, PROVENANCE and the DERIVED
+    aggregate CSV are the tracked intake artifacts (ROADMAP 0.13)."""
+    import csv
+    root = Path(__file__).resolve().parent.parent
+    man = list(csv.DictReader(
+        open(root / "puckworks/data/MANIFEST.csv", encoding="utf-8-sig")))
+    by_id = {r["dataset_id"]: r for r in man}
+    assert "visualizer/hydraulic_timeseries" in by_id
+    assert "visualizer/user_outcomes" in by_id
+    # tiers kept separate: hydraulic is reference-strength population, outcomes not groundtruth
+    assert "reference-strength population" in by_id["visualizer/hydraulic_timeseries"]["validation_strength"]
+    assert "NONE as groundtruth" in by_id["visualizer/user_outcomes"]["gate_use"]
+    assert by_id["visualizer/hydraulic_timeseries"]["units_in_registry"] == "Pa; kg/s; kg; K; s"
+    assert (root / "docs/cards/visualizer_coffee.md").exists()
+    assert (root / "puckworks/data/visualizer/PROVENANCE.md").exists()
+    agg = (root / "puckworks/data/visualizer/aggregate_stats.csv").read_text()
+    assert agg.startswith("metric,key,value") and "total_shots" in agg
