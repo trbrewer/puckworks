@@ -80,6 +80,20 @@ def fig1_result1(outdir=OUTDIR_DEFAULT):
     ch = h.channeling_sigma_sweep(gs_grid=np.linspace(1.0, 2.2, 7), s_ref=0.6, m=1.0, p_bar=5.0, n_grid=7)
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8.2, 3.4))
+    # run-level jittered extraction-run points behind the cell means (review B-MAJ07):
+    # each dial cell is 3 (6 at the centre) independently prepared extraction runs -- the
+    # experimental unit. Showing the raw per-run EY makes the run-to-run spread and the
+    # small n visible, so the "cell means increase" reading is not mistaken for tight data.
+    reps = p.get("ey_replicates")
+    if reps is not None:
+        jitrng = np.random.default_rng(0)                 # deterministic jitter
+        for gd, cell in zip(dials, reps):
+            xs = gd + jitrng.uniform(-0.018, 0.018, size=len(cell))
+            ax1.scatter(xs, cell, s=14, color=NULL, alpha=0.55, lw=0, zorder=2,
+                        label="_nolegend_")
+        # one proxy handle for the legend
+        ax1.scatter([], [], s=14, color=NULL, alpha=0.55, lw=0,
+                    label="individual extraction runs (n=3; 6 at centre)")
     ax1.errorbar(dials, ey, yerr=err, fmt="o", color=INK, capsize=3, ms=6,
                  label="source-derived TDS-EY (cell means ± SD)", zorder=3)
     ax1.plot(gg, rsm_ey, color=ACCENT, lw=1.8,

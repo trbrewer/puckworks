@@ -39,7 +39,7 @@ already made to defer, e.g. release tag).
 | B-AR01/MAJ01 | Full conventional manuscript (Introduction/Data-and-observation-operators/Methods/Results/Discussion/Data-availability/References); remove project-management prose + status section | VENUE | large writing; venue-dependent; §9 of the review proposes an architecture |
 | B-AR16/MAJ23 | Execute the systematic related-work/novelty search | BLOCKED-EXTERNAL | scaffold exists (`docs/PAPER_B_RELATED_WORK.md`); DB execution is a PI action |
 | B-release | Frozen Paper B tag + pinned environment + archival DOI | DEFERRED-DECISION | at submission |
-| B-MAJ07-partial | Fig 1 run-level jittered extraction-run points (vs cell means) | UNBLOCKED-LARGE | needs run-level points surfaced through the harness; cell means + achieved-predictor curve + ddof wording already fixed |
+| B-MAJ07-partial | Fig 1 run-level jittered extraction-run points (vs cell means) | **DONE** (2026-07-12) | `schmieder_tds_ey` already surfaces `ey_replicates`; Fig 1(a) now overlays the individual per-run EY points (deterministic jitter) behind the cell means, making the run-to-run spread and small n (3; 6 at centre) visible -- the wide 1.4-dial cell is now honest |
 
 ## What is already DONE (do not redo)
 - **Paper A P0 (all):** SSE/MAPE objective consistency, curvature-coupling rename, LOCO
