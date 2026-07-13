@@ -1,0 +1,7 @@
+# Direct release stack recorded by docs/reproducibility/paper_release_environment.json.
+# This is intentionally a direct-version lock, not a complete transitive pip lock.
+# Resolve it in a clean Python 3.13.13 environment, then archive the resolved
+# environment (or its container digest) with the release.
+numpy==2.5.1
+scipy==1.18.0
+matplotlib==3.11.0

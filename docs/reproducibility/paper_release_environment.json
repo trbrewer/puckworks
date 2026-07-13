@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "description": "Exact interpreter and direct numerical/plotting stack recorded by the Paper A and Paper B reproducibility manifests used for the v1 release preparation.",
+  "python": "3.13.13",
+  "packages": {
+    "numpy": "2.5.1",
+    "scipy": "1.18.0",
+    "matplotlib": "3.11.0"
+  }
+}
