@@ -3,9 +3,12 @@
 **Card:** `docs/cards/pocketscience2024.md` (verdict: data-only; no model, no gate
 against the source itself).
 
-**Source.** Pocket Science Coffee (pseudonymous author), "Espresso Water Flow Part 1:
-Dispersion, Puck Screens and Baskets," blog post, 27 Feb 2024. Plots and Monte-Carlo
-error analysis by Jonathan Gagné. **No DOI; not peer-reviewed.** A destructive-sectioning
+**Source / citation (required on any use).** Pocket Science Coffee (pseudonymous author),
+"Espresso Water Flow Part 1: Dispersion, Puck Screens and Baskets," blog post, 27 Feb 2024.
+<https://pocketsciencecoffee.com/2024/02/27/espresso-water-flow-part-1-dispersion-puck-screens-and-baskets/>
+BibTeX key `pocketscience2024` (`docs/literature_search/references.bib`). Plots and
+Monte-Carlo error analysis by Jonathan Gagné. **No DOI; not peer-reviewed.** Data used
+**with the author's permission (Tim, 2026-07-13), attribution/citation required.** A destructive-sectioning
 experiment on a Decent DE1 measuring edge vs. center extraction yield across dispersion
 block (brass/teflon), puck screen (Y/N), basket (VST18 / Sworks High Flow), and shot
 style confounded with grinder (Niche↔traditional, Superjolly MP64↔turbo).
@@ -24,10 +27,11 @@ style confounded with grinder (Niche↔traditional, Superjolly MP64↔turbo).
 ## What is NOT tracked (raw workbook)
 The raw `Espresso water flow experiment.xlsx` (3 sheets, 60 shots × ~47 columns), the
 per-sheet CSVs, and the source PDF are held locally under this directory but are
-**gitignored, not redistributed** — the workbook is a pseudonymous hobbyist artifact with
-**no explicit data-use license** (public blog download ≠ redistribution grant). This
-mirrors the `pannusch2024` / `visualizer` precedent. If a per-shot transcription check or
-finer analysis is needed, the raw sheets are available locally for that work.
+**gitignored** — now purely a **repo-size** choice (a 138 KB binary workbook + a 2.3 MB
+PDF), not a licensing one: use is permitted with attribution (see above). The tracked
+card-derived summary + citation are sufficient for the stated offline gate use. If a
+per-shot transcription check or finer analysis is needed, force-track the raw sheets
+(they are available locally).
 
 ## Carried corrections / caveats (from the card)
 - **Column-label erratum:** the VST18 raw sheet labels its 0.31 as "outer to inner section

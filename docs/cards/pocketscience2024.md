@@ -1,6 +1,6 @@
 # Model card: Pocket Science Coffee 2024 — radially sectioned extraction yield (dispersion, puck screens, baskets)
 
-**Paper/thesis:** Pocket Science Coffee (pseudonymous author), "Espresso Water Flow Part 1: Dispersion, Puck Screens and Baskets," blog post, 27 Feb 2024. No DOI; not peer-reviewed. Plots and Monte-Carlo error analysis by Jonathan Gagné (credited collaborator). Raw workbook (`Espresso_water_flow_experiment.xlsx`, 3 sheets) published alongside the post and held in intake.
+**Paper/thesis:** Pocket Science Coffee (pseudonymous author), "Espresso Water Flow Part 1: Dispersion, Puck Screens and Baskets," blog post, 27 Feb 2024 — <https://pocketsciencecoffee.com/2024/02/27/espresso-water-flow-part-1-dispersion-puck-screens-and-baskets/> (BibTeX key `pocketscience2024`). No DOI; not peer-reviewed. Plots and Monte-Carlo error analysis by Jonathan Gagné (credited collaborator). Raw workbook (`Espresso_water_flow_experiment.xlsx`, 3 sheets) published alongside the post and held in intake. **Data used with the author's permission (Tim, 2026-07-13); attribution/citation required on any use.**
 **Stage(s):** bed_dynamics (radial extraction heterogeneity), observables (partitioned EY) · **Kind:** calibration (data source only)
 **Status:** intaken 2026-07-13 (data-only; card-derived 12-condition edge/center EY summary + LRR scalars tracked with a MANIFEST row + loader + smoke test; raw workbook gitignored, not redistributed — see `puckworks/data/pocketscience2024/PROVENANCE.md`). No gate against the source (verdict: data-only).
 
