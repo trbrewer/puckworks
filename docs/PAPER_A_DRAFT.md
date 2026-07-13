@@ -359,9 +359,16 @@ Pannusch fitted geometries (1.4/1.7/2.0, applied globally to all grinds) moves t
 held-out MAPE by **at most ~1 pp** (review B5) — which supports limited sensitivity to
 the *global* geometry choice over that range, but does **not** validate a grind-specific
 geometry map (a calibrated cross-grinder map remains unavailable; geometry stays an
-unresolved structural uncertainty). Together these support the corrected §5 conclusion —
+unresolved structural uncertainty). It is likewise robust to the **inferred flow-map
+magnitude** (`flow_map_sensitivity_transfer`, review A2-10): a systematic **±20 %** flow
+scale (a shot-time / hydraulic-conductivity uncertainty proxy), with the O calibration
+refitted and transferred under the perturbed map, moves the held-out MAPE by **≤ 0.6 pp**
+(the fitted rate shifts 0.71→0.88, as expected from the non-identifiability, while the
+*prediction* barely moves) — so the transfer conclusion does not hinge on the exact
+flow-map magnitude, though it remains conditional on the inferred-map *form* (a per-shot
+measured flow trace is still owed). Together these support the corrected §5 conclusion —
 the calibration transfers reasonably across grind — with cross-validation, descriptive
-and cluster-aware uncertainty, and loss/global-geometry robustness, not a two-point mean.
+uncertainty, and loss/geometry/flow-map robustness, not a two-point mean.
 
 ## 6. In-sample fraction verification and an independent external TDS trajectory test
 

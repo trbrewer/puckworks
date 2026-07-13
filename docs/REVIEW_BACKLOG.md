@@ -25,7 +25,7 @@ already made to defer, e.g. release tag).
 | A2-06/07 | Grid-density/domain convergence for the identifiability panel | **DONE** (2026-07-13) | `identifiability_panel_convergence`: κ 1924/2069/2067 across 18/36/72 grids, flat valley on [0.3,3]+[0.1,10], threshold right-censored. Still owed: 144-pt grid + continuous 1-D optimiser (marginal) |
 | A2-08 | Uncertainty-weighted / heteroscedastic objective sensitivity using source RSD | BLOCKED-EXTERNAL | needs replicate-level RSD (same as A-MAJ22) |
 | A2-09 | Density / 40 g-vs-40 mL endpoint sensitivity (38–42 g range) | **DOCUMENTED** (2026-07-13) | Methods now state the 40 g≈40 mL approximation (~0–2 % density + ±5 % tolerance), level-robust MAPE absorbs a common shift; the per-endpoint sweep remains a bounded owed check |
-| A2-10 | Propagate constructed pressure–flow-map uncertainty (hydraulic coeffs, shot times, viscosity, alignment) | UNBLOCKED-LARGE | 2nd review; transfer currently conditional on the map |
+| A2-10 | Propagate constructed pressure–flow-map uncertainty | **DONE** (2026-07-13) | `flow_map_sensitivity_transfer`: a systematic ±20% flow-scale perturbation (refit O, transfer C/F) moves held-out MAPE ≤0.6 pp; transfer robust to flow-map MAGNITUDE, still conditional on the inferred-map FORM. Owed: a per-shot measured flow trace |
 | A2-13b | Waszkiewicz sensitivity matrix (temperature, flow floor, density, alignment) | UNBLOCKED-LARGE | 2nd review; time-origin bug already fixed |
 | A2-16 | Further figure redesigns (residual panels, source-data export, seed distributions on Fig 6) | UNBLOCKED-LARGE | 2nd review; Fig 1/2/5 already redesigned |
 | A2-17/18 | Convert to conventional journal manuscript + full Methods | VENUE | same as A-AR01 |

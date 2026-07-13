@@ -1026,6 +1026,74 @@ def geometry_sensitivity_transfer(varieties=("Arabica", "Robusta"),
                 strength="geometry sensitivity (sweep of the fitted grind geometries)")
 
 
+def flow_map_sensitivity_transfer(variety="Arabica", solute="caffeine",
+                                  perturbs=(-0.2, -0.1, 0.0, 0.1, 0.2)):
+    """A2-10: is the O->C/F transfer robust to the CONSTRUCTED pressure-flow map? The
+    map is inferred (fitted hydraulic conductivity `k_r(p)`, nominal grind shot times
+    `_TAU_GRAN`, viscosity mu(T)), not a per-shot measured flow. Here we apply a
+    SYSTEMATIC flow-scale perturbation (equivalent to a shot-time / k_r-magnitude error)
+    to ALL grinds, REFIT the O calibration under the perturbed map, transfer to the
+    held-out C/F, and report how much the held-out MAPE moves. A small spread -> the
+    §5 transfer conclusion is not an artefact of the exact flow-map magnitude. Caffeine/
+    Arabica representative. NOTE: ~2-3 min of PDE solves (slow; hand-run)."""
+    import numpy as np
+    from puckworks.models.pannusch2024 import solver as ps
+    from puckworks import data as d
+    bio = d.angeloni_bioactives(); params = ps._solute_params()
+    COL = {"caffeine": "CF", "trigonelline": "TR", "5CQA": "5CQA"}[solute]
+
+    def rows(gran):
+        return [r for r in bio if r["variety"] == variety
+                and r["granulometry"] == gran and r["on_grid"] == "True"]
+
+    def frac(rs, conds, gran, scale):
+        sp = dict(params[solute]); sp["A1"] *= rs; sp["A2"] *= rs; sp["c_s0"] = 1.0
+        return np.array([float(ps.simulate_fractions(
+            T, scale * _flow_gran(p, T, gran),
+            _matched_bounds(scale * _flow_gran(p, T, gran)), sp, cl1=1.0)[0])
+            for T, p in conds])
+
+    out = {}
+    for pert in perturbs:
+        scale = 1.0 + pert
+        rO = rows("O"); condsO = [(r["T_degC"], r["p_bar"]) for r in rO]
+        mO = np.array([r[COL] for r in rO], float)
+        best = None
+        for rs in _RATE_DOMAIN:
+            f = frac(rs, condsO, "O", scale); cs0, mp = _mape_level(f, mO)
+            if best is None or mp < best[2]:
+                best = (float(rs), cs0, mp)
+        rsO, cs0O, _ = best
+        held = {}
+        for g in ("C", "F"):
+            rg = rows(g); conds = [(r["T_degC"], r["p_bar"]) for r in rg]
+            m = np.array([r[COL] for r in rg], float)
+            pred = cs0O * frac(rsO, conds, g, scale)
+            held[g] = float(np.mean(np.abs(pred - m) / m) * 100)
+        out[round(pert, 2)] = dict(flow_scale=round(scale, 2), fitted_rate=round(rsO, 2),
+                                   heldout_C=round(held["C"], 2), heldout_F=round(held["F"], 2))
+    base = out[0.0]
+    hc = [v["heldout_C"] for v in out.values()]; hf = [v["heldout_F"] for v in out.values()]
+    spread = round(max(max(hc) - min(hc), max(hf) - min(hf)), 2)
+    return dict(variety=variety, solute=solute, per_perturbation=out,
+                baseline_heldout=[base["heldout_C"], base["heldout_F"]],
+                heldout_C_range=[round(min(hc), 2), round(max(hc), 2)],
+                heldout_F_range=[round(min(hf), 2), round(max(hf), 2)],
+                max_spread_pp=spread,
+                verdict=("Perturbing the inferred flow-map magnitude by +/-20%% (a shot-"
+                         "time / k_r uncertainty proxy), refitting O and transferring to "
+                         "C/F, moves the held-out MAPE by at most %.1f pp (C in %s, F in "
+                         "%s) around the baseline %s -- so the §5 transfer conclusion is "
+                         "robust to the flow-map magnitude, though it remains CONDITIONAL "
+                         "on the inferred-map form (not a measured per-shot flow). A "
+                         "per-shot measured flow trace remains owed." % (
+                             spread, [round(min(hc), 1), round(max(hc), 1)],
+                             [round(min(hf), 1), round(max(hf), 1)],
+                             [base["heldout_C"], base["heldout_F"]])),
+                strength="flow-map magnitude sensitivity (systematic +/-20%% scale; "
+                         "conditional on the inferred-map FORM)")
+
+
 def report():
     r = gate_angeloni_multispecies_bracket()
     print("== angeloni2023 multi-species bracket (TS/TDS; INDEPENDENT; report) ==")
