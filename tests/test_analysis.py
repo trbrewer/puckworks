@@ -77,6 +77,18 @@ def test_rsm_achieved_predictor_sensitivity():
     assert 1.4 < a["vertex_g"] < 2.0                        # still interior
 
 
+def test_ntube_conservation_and_trajectory_keys():
+    """review AR-B2-12: the N-tube core reports conservation/non-negativity of the
+    flow shares and an N_eff(t) trajectory (not just the endpoint). A single small
+    run is enough to guard the contract (full sweep is a slow hand-run diagnostic)."""
+    from puckworks.harness import ntube_kappa_t_union
+    r = ntube_kappa_t_union(N=60, substeps=4, compute_ey=False)
+    assert r["share_sum_max_deviation"] < 1e-9      # shares sum to 1 (conservation)
+    assert r["min_flow_share"] >= 0.0                # non-negativity
+    assert len(r["n_eff_trajectory"]) >= 2           # trajectory, not just endpoint
+    assert isinstance(r["n_eff_monotone_decreasing"], bool)
+
+
 def test_cross_pressure_full_precision_from_raw():
     """review MAJ-12: the 'full precision' cross-pressure mean must be computed from
     UNROUNDED per-pressure RMSEs, so it can differ from the mean of the 3-dp display

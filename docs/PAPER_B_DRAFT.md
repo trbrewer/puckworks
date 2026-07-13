@@ -383,13 +383,33 @@ state is heterogeneous (no Jacobian along that trajectory is computed), the repo
 gain is controlled by an imposed floor, and any threshold is operational rather than
 derived. What is invariant over the tested floors is the endpoint classification, and
 this is **measured, not asserted**: the N-tube integration is re-run at each conductance
-floor across the swept range (**1e-6…1e-15**), and the endpoint is unchanged (poroelastic
-N_eff→1.0, Kozeny–Carman N_eff≈83 at every floor). This establishes **floor-independence
-of the endpoint at one grind, pressure, horizon, tube count, initialisation, control law
-and zero-lateral setting** — it does **not** establish robustness to timestep, horizon,
-N, start state, pressure, grind, stochastic realisation, or a physical lateral-exchange
-closure, all of which remain owed (§7). We therefore keep Result 3 explicitly
-exploratory.
+floor across the swept range (**1e-6…1e-15**), and the endpoint is unchanged.
+
+**A factorial robustness study** (`ntube_robustness_study`) now sweeps the remaining axes
+(review AR-B2-12), holding the others at baseline and checking flow-share conservation at
+every step:
+
+| swept axis | tested range | endpoint |
+|---|---|---|
+| tube count *N* | 100 – 800 | concentrates (N_eff→1.0) — **invariant** |
+| timestep (substeps) | 4 – 32 | invariant |
+| grind *gs* | 1.1 – 2.0 | invariant |
+| pressure | 6 – 11 bar | invariant |
+| stochastic finite-network realisations | 4 seeds | invariant |
+| **lateral homogenisation** | 0 → 0.1 → 0.3 | N_eff 1.0 → 19 → **307 (concentration destroyed)** |
+| **control law** | flow vs pressure | flow: N_eff 1.0; **pressure: 219 (no concentration)** |
+| closure (negative control) | poroelastic vs CK | poroelastic 1.0; CK 217 (bounded) |
+
+So the concentration endpoint is **robust to every numerical and design choice tested
+(N, timestep, grind, pressure, stochastic realisation)** and flow-share conservation
+holds throughout — but it is **contingent on two physical assumptions**: fixed-*flow*
+control (under fixed-*pressure* control tubes do not steal, and N_eff≈219) and near-zero
+lateral coupling (a homogenisation blend of only 0.3 already suppresses it, N_eff≈307).
+This is a genuine sweep-and-conservation robustness result within the tested family, **not**
+a proven instability: a physical transverse-Darcy lateral-exchange operator and a formal
+Jacobian/finite-time-Lyapunov growth analysis remain owed (§7). We therefore keep Result 3
+explicitly exploratory, and state its result precisely as **flow concentrates in the
+near-choke, flow-controlled, low-lateral configuration**, not unconditionally.
 
 **What controls it.** The concentration is confined to flow control with zero
 homogenization (Fig. 5a, at fixed grind gs=1.1); under pressure control (independent

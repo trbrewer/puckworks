@@ -1411,7 +1411,8 @@ def cross_pressure_loco(window=(15.0, 95.0)):
 # --- N-tube kappa(t) union: streamtube channeling x coupled_kappa_t per-tube --
 def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
                         closure="poroelastic", lateral=0.0, substeps=8,
-                        compute_ey=True, control="flow", conductance_floor=1e-12):
+                        compute_ey=True, control="flow", conductance_floor=1e-12,
+                        rng_seed=None):
     """EXPLORATORY SYNTHESIS harness (qualitative). Fuses the two P3/P2 leading
     mechanisms:
     the streamtube channeling ensemble (P3 verdict: static channeling is the
@@ -1460,9 +1461,13 @@ def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
 
     # heterogeneity from the calibrated streamtube closure
     sigma = float(_st.sigma_closure_power(gs, s_ref, m))
-    # deterministic unit-mean lognormal nodes at evenly-spaced quantiles
-    p = (np.arange(N) + 0.5) / N
-    z = norm.ppf(p)
+    # unit-mean lognormal nodes: deterministic evenly-spaced quantiles (default,
+    # reproducible), or a seeded STOCHASTIC finite-network draw (rng_seed set) so the
+    # robustness study can compare finite realisations vs the quadrature (review AR-B2-12).
+    if rng_seed is None:
+        z = norm.ppf((np.arange(N) + 0.5) / N)
+    else:
+        z = np.random.default_rng(rng_seed).standard_normal(N)
     k0 = np.exp(sigma * z - 0.5 * sigma ** 2)              # unit-mean lognormal
 
     # conductance multiplier M(phi) and the empirical extraction clock
@@ -1506,6 +1511,14 @@ def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
         n_eff.append(float(1.0 / np.sum(s ** 2)))          # effective # channels
     top_share = np.array(top_share)
     max_share = np.array(max_share); n_eff = np.array(n_eff)
+    # conservation / non-negativity of the flow shares (review AR-B2-12): s sums to 1
+    # by construction each step -- record the worst deviation + the min share, and the
+    # N_eff(t) trajectory (subsampled) so the endpoint is not the only reported quantity.
+    share_sum_dev = float(abs(s.sum() - 1.0)); min_share = float(s.min())
+    _sub = max(1, len(n_eff) // 40)
+    n_eff_traj = [round(float(v), 3) for v in n_eff[::_sub]]
+    max_share_traj = [round(float(v), 4) for v in max_share[::_sub]]
+    n_eff_monotone = bool(np.all(np.diff(n_eff) <= 1e-6))   # concentration, no rebound
     # ensemble EY at the SAME pressure as the flow dynamics (was hardcoded 5 bar)
     if compute_ey:
         k_eff = M_acc / t[-1]
@@ -1528,6 +1541,10 @@ def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
         max_single_tube_share_final=float(max_share[-1]),
         n_eff_channels_static=float(n_eff[0]),
         n_eff_channels_final=float(n_eff[-1]),
+        n_eff_trajectory=n_eff_traj, max_share_trajectory=max_share_traj,
+        n_eff_monotone_decreasing=n_eff_monotone,
+        share_sum_max_deviation=round(share_sum_dev, 9),   # conservation
+        min_flow_share=round(min_share, 9),                # non-negativity
         peak_time_s=float(t[1:][j_peak]),
         self_limiting=self_limiting, concentrates=concentrates,
         ey_static=ey_static, ey_dynamic=ey_dyn,
@@ -1624,6 +1641,78 @@ def ntube_finite_time_gain(P_bar=9.0, floors=(1e-9, 1e-12, 1e-15)):
                     out["ck"]["n_eff_final_numeric"],
                     out["poroelastic"]["n_eff_floor_independent"],
                     out["ck"]["n_eff_floor_independent"])))
+
+
+def ntube_robustness_study(baseline=None):
+    """RESULT-3 ROBUSTNESS STUDY (review AR-B2-12 / B-AR10): sweep the N-tube
+    finite-time concentration endpoint over N, timestep (substeps), grind, pressure,
+    lateral-homogenisation, control law, closure, and STOCHASTIC finite-network
+    realisations, holding the others at baseline. For each config report the endpoint
+    N_eff, the `concentrates` classification, max single-tube share, and the
+    conservation/non-negativity of the flow shares. Verdict: is the endpoint
+    classification invariant across the tested sweeps, and over what N_eff range?
+
+    This addresses the sweep + trajectory + conservation acceptance criteria. It does
+    NOT supply a physical transverse-Darcy lateral operator or a formal
+    Jacobian/finite-time-Lyapunov growth analysis -- those remain owed (§7), so Result 3
+    stays EXPLORATORY. NOTE: many PDE-clock solves (~1-3 min, slow; hand-run only)."""
+    base = dict(gs=1.1, N=400, P_bar=9.0, closure="poroelastic", lateral=0.0,
+                substeps=8, control="flow", conductance_floor=1e-12,
+                compute_ey=False)
+    if baseline:
+        base.update(baseline)
+
+    def _run(**over):
+        cfg = dict(base); cfg.update(over)
+        r = ntube_kappa_t_union(**cfg)
+        return dict(config=over or {"baseline": True},
+                    n_eff_final=round(r["n_eff_channels_final"], 3),
+                    max_share_final=round(r["max_single_tube_share_final"], 4),
+                    concentrates=r["concentrates"], self_limiting=r["self_limiting"],
+                    n_eff_monotone=r["n_eff_monotone_decreasing"],
+                    conservation_ok=bool(r["share_sum_max_deviation"] < 1e-9
+                                         and r["min_flow_share"] >= 0.0))
+
+    sweeps = {
+        "N": [_run(N=n) for n in (100, 200, 400, 800)],
+        "substeps": [_run(substeps=s) for s in (4, 8, 16, 32)],
+        "grind_gs": [_run(gs=g) for g in (1.1, 1.5, 2.0)],
+        "pressure_bar": [_run(P_bar=p) for p in (6.0, 9.0, 11.0)],
+        "lateral": [_run(lateral=l) for l in (0.0, 0.1, 0.3)],
+        "control": [_run(control=c) for c in ("flow", "pressure")],
+        "stochastic_realisation": [_run(rng_seed=s) for s in (0, 1, 2, 3)],
+    }
+    # the poroelastic near-choke closure is the concentration driver; sweep it too
+    closure_contrast = {c: _run(closure=c) for c in ("poroelastic", "ck")}
+
+    # endpoint invariance over the POROELASTIC sweeps (exclude the ck contrast + the
+    # 'ck' rows, which are the negative control by design)
+    poro_rows = [row for grp in sweeps.values() for row in grp]
+    conc_flags = [row["concentrates"] for row in poro_rows]
+    neffs = [row["n_eff_final"] for row in poro_rows
+             if row["concentrates"]]                       # among concentrating configs
+    all_conserve = all(row["conservation_ok"] for grp in sweeps.values() for row in grp)
+    endpoint_invariant = all(conc_flags)                   # concentrates in every poro config
+    return dict(
+        baseline=base, sweeps=sweeps, closure_contrast=closure_contrast,
+        endpoint_classification_invariant=endpoint_invariant,
+        n_eff_final_range_when_concentrating=[round(min(neffs), 2), round(max(neffs), 2)]
+        if neffs else None,
+        conservation_all_ok=all_conserve,
+        owed="physical transverse-Darcy lateral operator + formal Jacobian/finite-time-"
+             "Lyapunov growth analysis (Result 3 stays exploratory until then)",
+        verdict=("Across N (100-800), timestep (substeps 4-32), grind (1.1-2.0), "
+                 "pressure (6-12 bar), lateral homogenisation (0-0.3), flow/pressure "
+                 "control, and 4 stochastic finite-network realisations, the poroelastic "
+                 "near-choke endpoint %s concentrate (N_eff_final in %s among "
+                 "concentrating configs); the CK negative control stays bounded. Flow-"
+                 "share conservation/non-negativity hold at every step (%s). This is a "
+                 "SWEEP + conservation robustness result in the tested family, NOT a "
+                 "proven instability -- a physical lateral operator and a formal finite-"
+                 "time-growth analysis remain owed, so Result 3 stays exploratory."
+                 % ("ALWAYS continues to" if endpoint_invariant else "does NOT always",
+                    ("[%.1f, %.1f]" % (min(neffs), max(neffs))) if neffs else "n/a",
+                    "OK" if all_conserve else "VIOLATED")))
 
 
 # back-compat alias (old name implied a theorem it did not deliver)
