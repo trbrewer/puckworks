@@ -48,6 +48,10 @@ _CLAIMS = [
     ("Result-1 named holdout 8.4%",         "refit_summary.mean_holdout_named", 8.4, 0.5),
     ("Waszkiewicz sensitivity range-ratio floor >1.5",
      "external_waszkiewicz_sensitivity.fraction_range_ratio_min", 1.86, 0.15),
+    ("discrepancy control irreducible floor ~4.8% (moderate)",
+     "full_cup_discrepancy.mean_irreducible_frac_mape_floor", 4.82, 0.7),
+    ("discrepancy large-dose biases located rate (100% of seeds)",
+     "full_cup_discrepancy_large.mean_located_rate_biased_fraction", 1.0, 0.05),
 ]
 
 

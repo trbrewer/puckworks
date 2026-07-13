@@ -57,6 +57,9 @@ def compute_all(out_path=RESULTS):
         loco=ab.loco_cv_refit(),
         positive_control=idn.identifiability_fractions_vs_cup(),
         full_cup_sim=idn.full_cup_simulation_identifiability(),
+        full_cup_discrepancy=idn.full_cup_simulation_discrepancy(),  # MAJ-13 discrepancy control
+        full_cup_discrepancy_large=idn.full_cup_simulation_discrepancy(  # larger dose (bias emerges)
+            temp_offset_C=8.0, flow_scale=1.25),
         # --- previously-omitted manuscript analyses (MAJ-19 / A2-05) ---
         refit_summary=ab.refit_pannusch_angeloni(),        # Result 1 8.4%/11.5% (A2-05)
         species_bracket=ab.gate_pannusch_angeloni_species_bracket(),

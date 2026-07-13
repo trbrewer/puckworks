@@ -50,6 +50,31 @@ def test_waszkiewicz_sensitivity_localization_invariant():
     assert all(c["cup_carries_no_rate_info"] for c in s["cells"])
 
 
+def test_discrepancy_control_dose_response():
+    """review MAJ-13: the bundle must carry the model-discrepancy positive control as a
+    DOSE-RESPONSE. Moderate discrepancy leaves an irreducible floor above noise while the
+    located rate stays robust near 1.0; the larger dose BIASES the located rate off 1.0.
+    Reads the committed bundle (fast); the control is slow and runs in the `full` build."""
+    import json
+    import os
+    bundle = "docs/figures/paper_a/results.json"
+    if not os.path.exists(bundle):
+        import pytest
+        pytest.skip("Paper A bundle not present")
+    with open(bundle) as f:
+        b = json.load(f)
+    mod = b.get("full_cup_discrepancy"); lrg = b.get("full_cup_discrepancy_large")
+    if mod is None or lrg is None:
+        import pytest
+        pytest.skip("discrepancy control not in this bundle (recompute with `full`)")
+    # moderate: irreducible floor exceeds the 3% noise; located rate still mostly at 1.0
+    assert mod["mean_irreducible_frac_mape_floor"] > 3.0
+    assert mod["mean_located_rate_biased_fraction"] < 0.5
+    # larger dose: floor persists AND the located rate is now biased off 1.0
+    assert lrg["mean_located_rate_biased_fraction"] > mod["mean_located_rate_biased_fraction"]
+    assert lrg["per_solute"]["caffeine"]["frac_best_rate_median"] != 1.0
+
+
 def test_mape_level_returns_pair_and_profile_is_1d():
     """review A2-01: _mape_level returns (level, MAPE%); a MAPE profile must take the
     [1] element so it is 1-D, not a mix of levels and MAPEs. Guards the tuple bug."""
