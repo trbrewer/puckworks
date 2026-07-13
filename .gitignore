@@ -37,3 +37,6 @@ puckworks/data/schmieder2023/*.pdf
 puckworks/data/schmieder2023/*.opju
 puckworks/data/schmieder2023/foods-12-02871-s001/
 puckworks/data/schmieder2023/foods-12-02871-s001*/
+
+# handoff delivery bundle (binary; contents integrated into the tree)
+docs/puckworks_handoff_2026-07-13.zip
