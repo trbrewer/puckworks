@@ -524,11 +524,52 @@ def fig5_concentration(outdir=OUTDIR_DEFAULT):
 fig5_stability = fig5_concentration
 
 
+def fig6_residual_acf(outdir=OUTDIR_DEFAULT):
+    """Fig 6 (supplementary) — Result-2 residual diagnostics (review B5-20): the κ(t)
+    ladder RMSEs are RECONSTRUCTION scores on ONE strongly-autocorrelated trace, not
+    held-out validation. (a) the signed residual vs time for Φ(t) (winner) and the
+    best-constant null makes the coherent, non-white lack-of-fit visible; (b) the
+    residual autocorrelation vs lag stays near 1 for many seconds in every branch —
+    i.e. the residuals are not white, so pointwise RMSE overstates its own precision
+    (the block interval that follows is the honest correction)."""
+    import numpy as np
+    from puckworks import harness as h
+    plt = _plt()
+    r = h.result2_residual_diagnostics()
+    rt = r["residual_traces"]; ac = r["acf_by_lag"]
+    t = np.array(rt["time_s"], float)
+    fig, (axa, axb) = plt.subplots(1, 2, figsize=(9.0, 3.6))
+    axa.axhline(0, color=INK, lw=0.8)
+    axa.plot(t, rt["residual"]["best_const"], color=NULL, lw=1.4, label="best constant (null)")
+    axa.plot(t, rt["residual"]["phi"], color=ACCENT, lw=1.6, label="Φ(t) poroelastic")
+    axa.set_xlabel("time [s]"); axa.set_ylabel("residual q_obs − q_model [g/s]")
+    axa.set_title("(a) residual vs time (15–95 s): coherent, not white", loc="left",
+                  fontsize=9)
+    axa.legend(fontsize=7, loc="upper right")
+    lag = np.array(ac["lag_s"], float)
+    for name, col, lab in (("best_const", NULL, "best constant"),
+                           ("cubic", GOOD, "flexible cubic"),
+                           ("phi", ACCENT, "Φ(t)")):
+        axb.plot(lag, ac[name], color=col, lw=1.6, marker="o", ms=2.5, label=lab)
+    axb.axhline(0, color=GRID, lw=0.8)
+    axb.set_ylim(-0.2, 1.02)
+    axb.set_xlabel("lag [s]"); axb.set_ylabel("residual autocorrelation")
+    axb.set_title("(b) residual ACF by branch (lag-1 ≈ 0.99; DW ≈ 0.01)", loc="left",
+                  fontsize=9)
+    axb.legend(fontsize=7, loc="upper right")
+    fig.suptitle("Fig 6 (supp.) — Result-2 residuals are strongly serially correlated: "
+                 "RMSEs are reconstruction scores, not held-out validation", y=1.03,
+                 fontsize=9.5, fontweight="bold")
+    return _save(fig, outdir, "fig6_residual_acf.png")
+
+
 def render_all(outdir=OUTDIR_DEFAULT):
-    """Render all five Paper-B figures. Returns the list of written paths."""
+    """Render all Paper-B figures (five main + one supplementary residual diagnostic).
+    Returns the list of written paths."""
     paths = [fig1_result1(outdir), fig2_evidence_matrix(outdir),
              fig2_evidence_dictionary_md(outdir), fig3_ladder(outdir),
-             fig4_composition(outdir), fig5_concentration(outdir)]
+             fig4_composition(outdir), fig5_concentration(outdir),
+             fig6_residual_acf(outdir)]
     for p in paths:
         print("wrote", p)
     return paths

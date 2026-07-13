@@ -288,9 +288,25 @@ def result2_residual_diagnostics(windows=((10.0, 90.0), (15.0, 95.0), (20.0, 90.
                     excludes_zero=bool(np.percentile(d_, 2.5) > 0 or np.percentile(d_, 97.5) < 0))
     phi_minus_const = _mbb_rmsediff(pr["phi"], pr["best_const"])
     phi_minus_cubic = _mbb_rmsediff(pr["phi"], pr["cubic"])
+    # B5-20: expose the residual TRACES + a multi-lag ACF so the coherent, non-white
+    # lack-of-fit (the strong serial dependence the RMSE ranking rides on) is plottable.
+    residuals = {k: (qd - v) for k, v in pr.items()}
+    def _acf_curve(res, maxlag=25):
+        r = res - np.mean(res); denom = np.sum(r ** 2)
+        return [round(float(np.sum(r[L:] * r[:len(r) - L]) / denom), 4)
+                for L in range(maxlag + 1)]
+    stride = max(1, n // 200)
+    residual_traces = dict(
+        time_s=[round(float(x), 3) for x in td[::stride]],
+        residual={k: [round(float(x), 5) for x in residuals[k][::stride]] for k in pr})
+    acf_by_lag = dict(lag_s=[round(L * dt, 3) for L in range(26)],
+                      phi=_acf_curve(residuals["phi"]),
+                      best_const=_acf_curve(residuals["best_const"]),
+                      cubic=_acf_curve(residuals["cubic"]))
     return dict(
         primary_window_s=[15.0, 95.0], block_length_s=block_s, block_length_samples=block,
         n_points=n, n_boot=n_boot,
+        residual_traces=residual_traces, acf_by_lag=acf_by_lag,
         residual_acf_lag1_by_branch=acf_lag1_by_branch,     # strong positive -> lack of fit
         rmse_diff_phi_minus_best_const=phi_minus_const,     # <0 CI excluding 0 -> phi wins
         rmse_diff_phi_minus_cubic=phi_minus_cubic,          # straddles 0 -> ties the flex null
@@ -1824,6 +1840,7 @@ def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
         top_decile_share=round(float(top_share[-1]), 4),
         collapse_time_s=(round(collapse_time_s, 3) if collapse_time_s is not None else None),
         peak_share_time_s=round(float(t_rec[peak_share_idx]), 3))
+    # NB: `state` (B5-09) is added to concentration_metrics after it is classified below.
     # ensemble EY at the SAME pressure as the flow dynamics (was hardcoded 5 bar)
     if compute_ey:
         k_eff = M_acc / t[-1]
@@ -1835,8 +1852,34 @@ def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
     j_peak = int(np.argmax(top_share))
     self_limiting = bool(j_peak < len(top_share) - 1
                          and top_share[-1] < top_share[j_peak] - 1e-3)
-    # strong concentration == flow collapses toward a single effective channel
-    concentrates = bool(top_share[-1] > 0.90 and not self_limiting)
+    # --- B5-09: explicit end-state classifier -------------------------------
+    # Distinguish single-channel / oligarchic / distributed / transient-switching
+    # from EXPLICIT thresholds on the TOP-1 (max single-tube) share, N_eff, and
+    # persistence. The old flag keyed on the TOP-DECILE share alone, so a state
+    # where a few or many channels share the flow (e.g. N_eff~19, max single-tube
+    # ~0.07, top-decile > 0.9) was mislabelled a single-channel collapse.
+    top1_final = float(max_share[-1])          # max SINGLE-tube share
+    topdec_final = float(top_share[-1])         # top-decile share
+    neff_final = float(n_eff[-1]); neff_frac = neff_final / N
+    if self_limiting:
+        state = "transient_switching"           # peaks then relaxes; no stable concentrate
+    elif top1_final >= 0.5 and neff_final <= 2.0:
+        state = "single_channel"                # one tube carries the flow, N_eff -> ~1
+    elif topdec_final >= 0.9 and neff_frac <= 0.05:
+        state = "oligarchic"                    # a few channels dominate (NOT one)
+    elif neff_frac >= 0.10:
+        state = "distributed"                   # flow spread over many effective channels
+    else:
+        state = "intermediate"
+    # `concentrates` now means a GENUINE single-channel collapse (kept for
+    # back-compat with the floor-independence check + robustness study).
+    concentrates = bool(state == "single_channel")
+    _STATE_LABEL = {"single_channel": "single-channel collapse (N_eff->1)",
+                    "oligarchic": "oligarchic (few channels dominate, not one)",
+                    "distributed": "distributed (many effective channels)",
+                    "transient_switching": "transient switching (self-limiting)",
+                    "intermediate": "intermediate"}
+    concentration_metrics["state"] = state      # B5-09 explicit end-state class
     return dict(
         gs=gs, sigma=sigma, N=N, closure=closure, lateral=lateral, P_bar=P_bar,
         control=control, conductance_floor=conductance_floor,
@@ -1857,17 +1900,14 @@ def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
         min_flow_share=round(min_share, 9),                # non-negativity (min over traj)
         conservation_audit=conservation_audit,
         peak_time_s=float(t[1:][j_peak]),
-        self_limiting=self_limiting, concentrates=concentrates,
+        self_limiting=self_limiting, concentrates=concentrates, state=state,
         ey_static=ey_static, ey_dynamic=ey_dyn,
         deepens_dip=bool(ey_dyn < ey_static - 1e-6),
         reading=("[%s%s] top-decile share %.2f->%.2f, max single-tube %.2f, "
                  "N_eff %.0f->%.1f of %d; %s; ensemble EY %s (%.1f%%->%.1f%%) @%gbar"
                  % (closure, (" +lat%.2f" % lateral) if lateral else "",
                     top_share[0], top_share[-1], max_share[-1],
-                    n_eff[0], n_eff[-1], N,
-                    "STRONG concentration (tested near-choke config)"
-                    if concentrates else
-                    ("self-limiting" if self_limiting else "bounded/stable"),
+                    n_eff[0], n_eff[-1], N, _STATE_LABEL[state],
                     "drops" if ey_dyn < ey_static else "holds",
                     ey_static, ey_dyn, P_bar)))
 
@@ -1990,7 +2030,8 @@ def ntube_robustness_study(baseline=None):
                     max_share_final=round(r["max_single_tube_share_final"], 4),
                     entropy_normalized=cm.get("entropy_normalized"),          # MAJ-38
                     gini=cm.get("gini"), collapse_time_s=cm.get("collapse_time_s"),
-                    concentrates=r["concentrates"], self_limiting=r["self_limiting"],
+                    concentrates=r["concentrates"], state=r["state"],   # B5-09
+                    self_limiting=r["self_limiting"],
                     n_eff_monotone=r["n_eff_monotone_decreasing"],
                     # review MAJ-33: conservation is now judged from the FULL-trajectory
                     # audit (max share-sum deviation over every step + raw non-negativity)

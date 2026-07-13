@@ -288,8 +288,10 @@ mass derives from the same rig's TDS and flow), and we avoid "parameter-free" be
 donor parameters were estimated elsewhere.
 
 Because the residuals are strongly autocorrelated (lag-1 residual autocorrelation ≈0.99 in
-every branch, consistent with the near-zero Durbin–Watson above), a naïve pointwise RMSE
-comparison overstates its own precision. We therefore apply a **moving-block resampling of
+every branch, consistent with the near-zero Durbin–Watson above; the residual-vs-time and
+residual-ACF-by-branch views are **Fig. 6, supplementary**, which makes the coherent
+non-white lack-of-fit visible), a naïve pointwise RMSE comparison overstates its own
+precision. We therefore apply a **moving-block resampling of
 the already-computed per-timestep squared-error differences** (8 s blocks, 1000 resamples):
 this is a *conditional block interval on the fixed loss sequences* — it preserves the
 serial dependence but does **not** refit either branch inside each resample, so it is a

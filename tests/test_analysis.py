@@ -86,6 +86,27 @@ def test_result2_block_bootstrap_and_window_sensitivity():
     assert r["rmse_diff_phi_minus_cubic"]["excludes_zero"] is False   # ties the cubic
     assert r["phi_ranking_persists_across_windows"] is True
     assert r["residual_acf_lag1_by_branch"]["phi"] > 0.9             # strong dependence
+    # B5-20: residual traces + multi-lag ACF are exposed for the supplementary figure
+    rt = r["residual_traces"]; ac = r["acf_by_lag"]
+    assert len(rt["time_s"]) == len(rt["residual"]["phi"]) > 10
+    assert ac["phi"][0] == 1.0 and ac["phi"][1] > 0.9               # ACF(0)=1, slow decay
+    assert set(("phi", "best_const", "cubic")) <= set(ac)
+
+
+def test_ntube_state_classifier_distinguishes_single_channel(monkeypatch=None):
+    """review B5-09: the end-state classifier must call the tested near-choke config a
+    single-channel collapse (max single-tube share high, N_eff->1) but must NOT call an
+    oligarchic/distributed state (a few/many channels sharing the flow, low top-1 share)
+    'concentrates' just because the top-DECILE share is high. Fast."""
+    from puckworks.harness import ntube_kappa_t_union
+    base = ntube_kappa_t_union(gs=1.1, N=200, P_bar=9.0)
+    assert base["state"] == "single_channel" and base["concentrates"] is True
+    assert base["max_single_tube_share_final"] >= 0.5               # one tube dominates
+    lat = ntube_kappa_t_union(gs=1.1, N=200, P_bar=9.0, lateral=0.1)
+    # lateral exchange spreads the flow: NOT a single-channel collapse even if the
+    # top-decile share is high (the old bug labelled this 'concentrates').
+    assert lat["state"] != "single_channel" and lat["concentrates"] is False
+    assert lat["max_single_tube_share_final"] < 0.5
 
 
 def test_ntube_physical_time_and_concentration_metrics():

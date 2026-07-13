@@ -40,3 +40,10 @@ puckworks/data/schmieder2023/foods-12-02871-s001*/
 
 # handoff delivery bundle (binary; contents integrated into the tree)
 docs/puckworks_handoff_2026-07-13.zip
+
+# figure vector siblings are regenerable render outputs (produced at release render);
+# only the committed PNG exemplars + the export code are tracked.
+docs/figures/**/*.svg
+docs/figures/**/*.pdf
+docs/figures/*.svg
+docs/figures/*.pdf
