@@ -600,8 +600,10 @@ slow analysis functions, none hand-typed):
 - **Fig 2** — inventory–rate objective surface (caffeine, trigonelline): the flat
   valley, the profiled path, the Table 7 inventory line, and the condition number
   (§4).
-- **Fig 3** — every leave-one-condition-out held-out point (observed vs predicted)
-  by solute × variety — the distribution behind the pooled 6.5 % (§5, M4).
+- **Fig 3** — leave-one-condition-out holdouts: (a) observed vs predicted by solute ×
+  variety; (b, c) the **signed residual faceted against temperature and pressure**, which
+  exposes the within-group condition structure the near-diagonal cloud and the pooled
+  6.5 % hide (§5, M4; review A3-05).
 - **Fig 4** — O→C/F transfer at the matched-volume endpoint proxy: observed vs predicted
   per condition (grinds C, F) **plus a third panel comparing the model against an
   O-trained level-only constant baseline** and reporting the pooled skill (§5, A3-01).

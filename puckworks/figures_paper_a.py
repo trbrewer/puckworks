@@ -258,31 +258,51 @@ def fig2_objective_surface(results=None, outdir=OUTDIR):
 
 
 def fig3_holdouts(results=None, outdir=OUTDIR):
-    """Fig 3 — every leave-one-condition-out held-out point (observed vs predicted),
-    by solute and variety — the distribution the pooled mean hides."""
+    """Fig 3 — leave-one-condition-out holdouts (review A3-05/6.28): (a) observed vs
+    predicted for all held-out O conditions (the calibration diagonal looks favourable
+    because between-solute concentration differences dominate); (b,c) the SIGNED residual
+    faceted against temperature and pressure, which exposes the within-group condition
+    structure the pooled MAPE and the near-diagonal cloud hide."""
     import numpy as np
     r = _load(results); plt = _plt()
     pts = r["loco"]["points"]
-    fig, axes = plt.subplots(1, 2, figsize=(9.2, 4.4))
-    for ax, variety in zip(axes, ("Arabica", "Robusta")):
-        mx = 0
+    mk = {"Arabica": "o", "Robusta": "s"}
+    fig, axes = plt.subplots(1, 3, figsize=(13.2, 4.2))
+    # (a) observed vs predicted
+    axa = axes[0]; mx = 0
+    for variety in ("Arabica", "Robusta"):
         for sol in ("caffeine", "trigonelline", "5CQA"):
             pp = pts.get(f"{variety}:{sol}", [])
             obs = [x["obs"] for x in pp]; pred = [x["pred"] for x in pp]
-            ax.scatter(obs, pred, s=28, color=_SOL_COLOR[sol], label=sol,
-                       edgecolor="white", lw=0.5, zorder=3)
+            axa.scatter(obs, pred, s=24, color=_SOL_COLOR[sol], marker=mk[variety],
+                        edgecolor="white", lw=0.4, zorder=3,
+                        label=f"{sol} ({variety[:3]})")
             mx = max([mx] + obs + pred)
-        ax.plot([0, mx * 1.1], [0, mx * 1.1], color=NULL, ls=":", lw=1.2)
-        ax.set_title("(%s) %s — held-out O conditions"
-                     % ("a" if variety == "Arabica" else "b", variety))
-        ax.set_xlabel("observed (g L$^{-1}$)"); ax.set_ylabel("predicted (g L$^{-1}$)")
-        ax.legend(fontsize=7.5, loc="upper left")
+    axa.plot([0, mx * 1.1], [0, mx * 1.1], color=NULL, ls=":", lw=1.2)
+    axa.set_title("(a) observed vs predicted", fontsize=9)
+    axa.set_xlabel("observed (g L$^{-1}$)"); axa.set_ylabel("predicted (g L$^{-1}$)")
+    axa.legend(fontsize=5.6, loc="upper left", ncol=2)
+    # (b,c) signed residual vs T and p
+    for ax, xkey, xlabel, pan in ((axes[1], "T", "brew temperature (°C)", "b"),
+                                  (axes[2], "p", "pressure (bar)", "c")):
+        for variety in ("Arabica", "Robusta"):
+            for sol in ("caffeine", "trigonelline", "5CQA"):
+                pp = pts.get(f"{variety}:{sol}", [])
+                xv = [x[xkey] for x in pp]
+                res = [(x["pred"] - x["obs"]) / x["obs"] * 100.0 for x in pp]
+                ax.scatter(xv, res, s=24, color=_SOL_COLOR[sol], marker=mk[variety],
+                           edgecolor="white", lw=0.4, alpha=0.9)
+        ax.axhline(0.0, color=INK, lw=1.0)
+        ax.set_title("(%s) signed residual vs %s" % (pan, "temperature" if xkey == "T"
+                                                     else "pressure"), fontsize=9)
+        ax.set_xlabel(xlabel); ax.set_ylabel("(pred−obs)/obs [%]")
     lc = r["loco"]
-    fig.suptitle("Fig 3 — leave-one-condition-out holdouts (pooled %.1f%%, median "
-                 "%.1f%%; descriptive condition-level resampling %s)"
+    fig.suptitle("Fig 3 — leave-one-condition-out holdouts: calibration diagonal + signed "
+                 "residual structure vs (T, p) (pooled %.1f%%, median %.1f%%; descriptive "
+                 "condition-level resampling %s, not a CI)"
                  % (lc["pooled_loco_mean_mape"], lc["pooled_loco_median_mape"],
                     lc["condition_cluster_resampling95"]),
-                 y=1.02, fontsize=10, fontweight="bold")
+                 y=1.02, fontsize=8.8, fontweight="bold")
     return _save(fig, outdir, "fig3_holdouts.png")
 
 
