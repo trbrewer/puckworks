@@ -1,7 +1,7 @@
 {
   "paper": "A",
-  "source_commit": "6c7ad6a503e730a3a5996d270f8888147c33e96f",
-  "git_dirty": true,
+  "source_commit": "5b53403cbc2bd42fa88f957f65fd0fc20e73d434",
+  "git_dirty": false,
   "timestamp_utc": null,
   "bundle_source_commit": "838f397f35b09462372b471432653fd7937200ee",
   "bundle_schema_version": 2,

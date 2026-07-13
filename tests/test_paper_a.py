@@ -54,6 +54,26 @@ def test_bundle_has_no_stale_evidence_taxonomy():
     assert not hits, "stale evidence-taxonomy phrases in bundle: " + ", ".join(set(hits))
 
 
+def test_figures_render_from_bundle():
+    """review A3-24: the figures must render from the committed results bundle (figure /
+    result synchronization) without recomputing any PDE. Skips if matplotlib (the
+    [figures] extra) or the bundle is absent."""
+    import os
+    import pytest
+    try:
+        import matplotlib  # noqa: F401
+    except Exception:
+        pytest.skip("matplotlib not installed ([figures] extra)")
+    if not os.path.exists("docs/figures/paper_a/results.json"):
+        pytest.skip("Paper A bundle not present")
+    import tempfile
+    from puckworks import figures_paper_a as fpa
+    with tempfile.TemporaryDirectory() as d:
+        # a representative data-bearing figure that consumes the new fields
+        p = fpa.fig4_transfer(outdir=d)
+        assert os.path.exists(p) and os.path.getsize(p) > 1000
+
+
 def test_offgrid_noise_sim_fraction_beats_cup():
     """review A3-15/A3-16: the off-grid + realistic-noise simulation must show the
     fraction objective recovering the off-grid true rate far better than the single cup,
