@@ -309,59 +309,79 @@ def fig4_composition(outdir=OUTDIR_DEFAULT):
 
 # ---------------------------------------------------------------------------
 def fig5_concentration(outdir=OUTDIR_DEFAULT):
-    """Fig 5 — N-tube finite-time concentration (Result 3, EXPLORATORY; NOT a
-    stability theorem — the filename/name deliberately avoids "stability").
-    (a) effective channel count vs the homogenization parameter, flow vs pressure
-    control, at FIXED grind gs=1.1 (the strong concentration is the flow-control +
-    zero-homogenization corner); (b) the closed-form conductance-ratio GAIN vs the
-    numerical floor — poroelastic scales ~1/floor (floor-controlled, so NOT a
-    stability eigenvalue), Kozeny-Carman is floor-independent (~1.5) — annotated
-    with the MEASURED numerical N_eff, which (re-run at every floor) IS
-    floor-independent: that is the robust result, the closed-form gain is not."""
+    """Fig 5 — N-tube finite-time concentration (Result 3, EXPLORATORY; NOT a stability
+    theorem), redesigned around the numerical evidence (review AR-B2-21):
+    (a) N_eff(t) and max single-tube share over time (the trajectory, baseline config);
+    (b) endpoint convergence in N and timestep (the concentration is invariant);
+    (c) the physical CONTINGENCY — N_eff vs lateral homogenisation for flow vs pressure
+        control (concentration is destroyed by pressure control or lateral ≥0.3);
+    (d) supplementary floor audit — the closed-form gain is floor-controlled (not an
+        eigenvalue), while the measured N_eff is floor-independent."""
     import numpy as np
     from puckworks import harness as h
     plt = _plt()
-    laterals = [0.0, 0.2, 0.4, 0.6, 0.8, 0.95]
-    N = 150
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(9.2, 3.6))
+    fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(9.6, 6.8))
+
+    # (a) trajectory: N_eff(t) and max-share(t) for the baseline concentrating config
+    base = h.ntube_kappa_t_union(gs=1.1, N=400, closure="poroelastic", lateral=0.0,
+                                 control="flow", compute_ey=False)
+    ne = np.array(base["n_eff_trajectory"]); ms = np.array(base["max_share_trajectory"])
+    xt = np.linspace(0, 1, len(ne))
+    ax1.plot(xt, ne / ne[0], color=ACCENT, lw=1.9, label="N_eff(t)/N_eff(0)")
+    ax1.plot(xt, ms, color=BAD, lw=1.7, ls="--", label="max single-tube share")
+    ax1.set_title("(a) trajectory (baseline: flow, gs=1.1, N=400)")
+    ax1.set_xlabel("normalized shot time"); ax1.set_ylabel("fraction")
+    ax1.legend(fontsize=7.4, loc="center right")
+
+    # (b) endpoint convergence in N and timestep
+    Ns = [100, 200, 400, 800]
+    neN = [h.ntube_kappa_t_union(gs=1.1, N=n, closure="poroelastic", lateral=0.0,
+                                 control="flow", compute_ey=False)["n_eff_channels_final"]
+           for n in Ns]
+    subs = [4, 8, 16, 32]
+    neS = [h.ntube_kappa_t_union(gs=1.1, N=400, substeps=s, closure="poroelastic",
+                                 lateral=0.0, control="flow",
+                                 compute_ey=False)["n_eff_channels_final"] for s in subs]
+    ax2.plot(Ns, neN, "o-", color=ACCENT, lw=1.6, ms=5, label="vs N (substeps 8)")
+    ax2b = ax2.twiny()
+    ax2b.plot(subs, neS, "s--", color=GOOD, lw=1.5, ms=5, label="vs substeps (N 400)")
+    ax2.set_ylim(0.9, 1.5); ax2.set_title("(b) endpoint convergence (invariant)")
+    ax2.set_xlabel("tube count N"); ax2.set_ylabel("N_eff final")
+    ax2b.set_xlabel("substeps (timestep)", fontsize=8)
+    h1, l1 = ax2.get_legend_handles_labels(); h2, l2 = ax2b.get_legend_handles_labels()
+    ax2.legend(h1 + h2, l1 + l2, fontsize=6.8, loc="upper right")
+
+    # (c) the physical contingency: lateral x control
+    laterals = [0.0, 0.1, 0.2, 0.3]
     for ctrl, col, ls in (("flow", ACCENT, "-"), ("pressure", GOOD, "--")):
-        neff = [h.ntube_kappa_t_union(gs=1.1, N=N, closure="poroelastic", lateral=L,
+        neff = [h.ntube_kappa_t_union(gs=1.1, N=400, closure="poroelastic", lateral=L,
                                       control=ctrl, compute_ey=False)["n_eff_channels_final"]
                 for L in laterals]
-        ax1.plot(laterals, neff, "o"+ls, color=col, lw=1.7, ms=5, label="%s control" % ctrl)
-    ax1.axhline(1.0, color=BAD, lw=1.2, ls=":")
-    ax1.text(0.02, 6, "single effective channel (N_eff→1)", color=BAD, fontsize=7.5)
-    ax1.set_title("(a) N_eff vs homogenization (fixed grind gs=1.1)")
-    ax1.set_xlabel("homogenization parameter (proxy for lateral coupling)")
-    ax1.set_ylabel("effective # channels N_eff  (of %d)" % N)
-    ax1.legend(fontsize=8, loc="center right")
+        ax3.plot(laterals, neff, "o" + ls, color=col, lw=1.7, ms=5, label="%s control" % ctrl)
+    ax3.axhline(1.0, color=BAD, lw=1.0, ls=":")
+    ax3.set_yscale("log")
+    ax3.set_title("(c) CONTINGENT on control + low lateral")
+    ax3.set_xlabel("lateral homogenisation"); ax3.set_ylabel("N_eff final (log)")
+    ax3.legend(fontsize=7.4, loc="center right")
 
-    # (b) floor-dependence of the conductance-ratio gain (the honest replacement
-    # for the earlier single "A~1e12, instability threshold" bar)
+    # (d) supplementary floor audit (moved from main panel)
     st = h.ntube_finite_time_gain(floors=(1e-6, 1e-9, 1e-12, 1e-15))
     floors = np.array([1e-6, 1e-9, 1e-12, 1e-15])
     for name, col in (("poroelastic", BAD), ("ck", GOOD)):
         g = st["closures"][name]["finite_time_gain_by_floor"]
-        gains = np.array([float(g["%.0e" % f]) for f in floors])
-        ax2.plot(floors, gains, "o-", color=col, lw=1.7, ms=5, label=name)
-    ax2.set_xscale("log"); ax2.set_yscale("log"); ax2.invert_xaxis()
-    ax2.set_title("(b) closed-form gain vs floor (floor-controlled)")
-    ax2.set_xlabel("conductance floor M₀ (smaller → larger 'gain')")
-    ax2.set_ylabel("closed-form gain M_f / M₀")
-    ax2.legend(fontsize=8, loc="center left")
-    # the honest contrast: the MEASURED N_eff (re-run at each floor) is FLAT
-    poro = st["closures"]["poroelastic"]["n_eff_final_by_floor"]
-    ck = st["closures"]["ck"]["n_eff_final_by_floor"]
-    ax2.text(0.5, 0.06,
-             "closed-form gain ∝ 1/floor → NOT an eigenvalue.\n"
-             "But the MEASURED N_eff, re-run at every floor, is FLAT:\n"
-             "poroelastic N_eff=%s, CK N_eff≈%s across the range →\n"
-             "the robust concentration result IS floor-independent."
-             % ("/".join("%.0f" % v for v in poro.values()),
-                list(ck.values())[0]),
-             transform=ax2.transAxes, fontsize=6.6, color=NULL, ha="center")
-    fig.suptitle("Result 3 (exploratory) — flow-control finite-time concentration; the closure sets whether it happens",
-                 y=1.03, fontsize=10, fontweight="bold")
+        ax4.plot(floors, np.array([float(g["%.0e" % f]) for f in floors]),
+                 "o-", color=col, lw=1.5, ms=4, label=name)
+    ax4.set_xscale("log"); ax4.set_yscale("log"); ax4.invert_xaxis()
+    ax4.set_title("(d) supp.: closed-form gain vs floor (floor-controlled)", fontsize=9)
+    ax4.set_xlabel("conductance floor M₀"); ax4.set_ylabel("gain M_f/M₀")
+    ax4.legend(fontsize=7.4, loc="lower left")
+    ax4.text(0.5, 0.9, "closed-form gain ∝ 1/floor (not an eigenvalue);\n"
+             "measured N_eff is floor-independent (panel c)",
+             transform=ax4.transAxes, fontsize=6.4, color=NULL, ha="center", va="top")
+    fig.suptitle("Result 3 (exploratory) — finite-time concentration: robust to N/timestep, "
+                 "CONTINGENT on flow-control + low lateral",
+                 y=1.0, fontsize=9.8, fontweight="bold")
+    fig.tight_layout()
     return _save(fig, outdir, "fig5_concentration_floortest.png")
 
 

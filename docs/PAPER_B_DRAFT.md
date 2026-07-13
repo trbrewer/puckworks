@@ -377,7 +377,7 @@ tubes). The gentle Kozeny–Carman closure stays distributed (~83 of 150).
 G = (M(φ_max)/M(φ₀))^(1−λ), but M(φ₀)→0 at the near-choke shutoff, so for the
 poroelastic closure G is **floor-dependent** (it scales ∝1/floor; the
 log-linearization is singular at a zero-conductance base state) and its magnitude is
-not meaningful — while Kozeny–Carman G≈1.5 is floor-independent (Fig. 5b). We do
+not meaningful — while Kozeny–Carman G≈1.5 is floor-independent (Fig. 5d, supplementary). We do
 **not** claim "linear instability" or a "closed-form stability criterion": the base
 state is heterogeneous (no Jacobian along that trajectory is computed), the reported
 gain is controlled by an imposed floor, and any threshold is operational rather than
@@ -411,10 +411,11 @@ Jacobian/finite-time-Lyapunov growth analysis remain owed (§7). We therefore ke
 explicitly exploratory, and state its result precisely as **flow concentrates in the
 near-choke, flow-controlled, low-lateral configuration**, not unconditionally.
 
-**What controls it.** The concentration is confined to flow control with zero
-homogenization (Fig. 5a, at fixed grind gs=1.1); under pressure control (independent
-tubes, no shared flow to steal) there is no collapse (N_eff≈84), and a homogenizing
-term (a proxy, **not** a physical transverse-Darcy exchange) suppresses it. The
+**What controls it.** The concentration is confined to flow control with low
+homogenization (Fig. 5c); the trajectory (Fig. 5a) collapses N_eff→1 while the endpoint
+is invariant in N and timestep (Fig. 5b). Under pressure control (independent tubes, no
+shared flow to steal) there is no collapse (N_eff≈200+), and a homogenizing term (a
+proxy, **not** a physical transverse-Darcy exchange) of only 0.3 suppresses it. The
 finding is that the parallel, non-exchanging streamtube composition **can concentrate
 strongly** once permeability evolves under flow control — a diagnosed
 composition-model failure mode, not a proven physical instability — and it motivates
