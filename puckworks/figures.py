@@ -96,8 +96,19 @@ def fig1_result1(outdir=OUTDIR_DEFAULT):
                     label="individual extraction runs (n=3; 6 at centre)")
     ax1.errorbar(dials, ey, yerr=err, fmt="o", color=INK, capsize=3, ms=6,
                  label="source-derived TDS-EY (cell means ± SD)", zorder=3)
+    # review MAJ-16/B3-19: a bootstrap curve ENVELOPE (not only the vertex bar) so the
+    # RSM cross-section carries response uncertainty; labelled a conditional shape curve.
+    dg = h.schmieder_rsm_diagnostics()
+    cb = dg.get("curve_band")
+    if cb:
+        import numpy as _np
+        gband = _np.array(cb["grind"]); dose = p["dose_g"]
+        ax1.fill_between(gband, _np.array(cb["p2_5"]) / dose * 100.0,
+                         _np.array(cb["p97_5"]) / dose * 100.0,
+                         color=ACCENT, alpha=0.15, lw=0,
+                         label="RSM 95% bootstrap band (conditional)")
     ax1.plot(gg, rsm_ey, color=ACCENT, lw=1.8,
-             label="RSM refit (achieved predictors; shape only)")
+             label="RSM refit (achieved predictors; conditional shape)")
     ax1.axvline(vtx, color=WARN, ls=":", lw=1.4)
     if vtx_ci:
         ax1.axvspan(vtx_ci[0], vtx_ci[1], color=WARN, alpha=0.12, lw=0)

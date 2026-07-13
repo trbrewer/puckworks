@@ -1215,6 +1215,20 @@ def schmieder_rsm_diagnostics(component="tds", brew_ratio="1/2"):
                 round(joint / 2000.0, 4))
     iid_ci, iid_j = _boot(lambda: resid[rng.integers(0, n, n)])
     rad_ci, rad_j = _boot(lambda: resid * rng.choice([-1.0, 1.0], n))
+    # review MAJ-16/B3-19: a CURVE-level bootstrap band -- the grind EY cross-section at
+    # central achieved (F,T) with a p2.5/p50/p97.5 envelope over iid residual resamples,
+    # for Figure 1a (so the RSM curve carries response uncertainty, not only a vertex bar).
+    gg = np.linspace(1.4, 2.0, 40)
+    Xg = np.column_stack([np.ones_like(gg), fl + 0 * gg, gg, tp + 0 * gg,
+                          gg ** 2, (tp ** 2) + 0 * gg, fl * gg])
+    curve_bs = np.array([np.linalg.lstsq(X, yhat + resid[rng.integers(0, n, n)],
+                                         rcond=None)[0] @ Xg.T for _ in range(1000)])
+    curve_band = dict(
+        grind=[round(float(g), 4) for g in gg],
+        p2_5=[round(float(v), 4) for v in np.percentile(curve_bs, 2.5, axis=0)],
+        median=[round(float(v), 4) for v in np.percentile(curve_bs, 50, axis=0)],
+        p97_5=[round(float(v), 4) for v in np.percentile(curve_bs, 97.5, axis=0)],
+        units="cup mass (g) at central achieved (F,T); iid residual bootstrap")
     # Mammen two-point weights
     a, b = (1 - np.sqrt(5)) / 2, (1 + np.sqrt(5)) / 2
     pa = (np.sqrt(5) + 1) / (2 * np.sqrt(5))
@@ -1249,6 +1263,7 @@ def schmieder_rsm_diagnostics(component="tds", brew_ratio="1/2"):
         bootstrap=dict(iid_residual=dict(ci=iid_ci, joint_concave_in_domain=iid_j),
                        wild_rademacher=dict(ci=rad_ci, joint_concave_in_domain=rad_j),
                        wild_mammen=dict(ci=mam_ci, joint_concave_in_domain=mam_j)),
+        curve_band=curve_band,                                # MAJ-16 Fig-1 envelope
         deletion=dict(
             leave_one_run_vertex_range=[round(min(lor), 4), round(max(lor), 4)],
             leave_one_setting_vertex_range=[round(min(los), 4), round(max(los), 4)],
