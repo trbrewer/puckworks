@@ -18,6 +18,17 @@ def test_matched_bounds_is_mass_consistent():
     assert abs(hi - 25.0) < 1e-9                        # 40 / 1.6 = 25 s
 
 
+def test_paper_a_build_verifies_manuscript_claims():
+    """review A2-05/A2-13: the strict build must confirm every manuscript-facing
+    headline number equals the value in the results bundle (fails on drift). Runs
+    against the cached bundle (fast); guards the manuscript<->bundle contract."""
+    from puckworks.paper_a.build import verify
+    ok, failures, manifest = verify(timestamp=None, write_manifest=False)
+    assert ok, "manuscript numbers drifted from the bundle: " + "; ".join(failures)
+    assert manifest["n_claims"] >= 12 and manifest["n_failures"] == 0
+    assert all(v != "MISSING" for v in manifest["data_sha256"].values())
+
+
 def test_mape_level_returns_pair_and_profile_is_1d():
     """review A2-01: _mape_level returns (level, MAPE%); a MAPE profile must take the
     [1] element so it is 1-D, not a mix of levels and MAPEs. Guards the tuple bug."""
