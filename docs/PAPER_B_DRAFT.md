@@ -201,10 +201,12 @@ homogeneous response into a peaked ensemble response (Fig. 1b). This is audited
 **96–97 % of the tested support** at all grinds/pressures, and the lognormal
 quadrature mass reaching the clipped boundaries is **<0.2 %**, so clipping does not
 drive the ensemble. The deficit is also confirmed **directly**, not only through the
-second-derivative sign: the measured Jensen gap J = E[EY(K)] − EY(1) (the
-multipliers are unit-mean, so E[K]=1) is **negative in every cell** (worst ≈ −1.4
-yield-points), i.e. heterogeneity genuinely loses yield relative to the
-mean-permeability reference. *(Global concavity is not claimed — only over the tested
+second-derivative sign: the measured Jensen gap J = E[EY(K)] − EY(E[K_eval]) —
+evaluated against the **actual post-clipping multiplier mean** (clipping shifts it
+from unity by ≤0.005, so the reference is EY(E[K_eval]), not EY(1)) — is
+**negative in every cell** (deficit **−4.64 to −1.38 yield-points**; the
+largest-magnitude/worst loss ≈ −4.6, the smallest ≈ −1.4), i.e. heterogeneity
+genuinely loses yield relative to the mean-permeability reference. *(Global concavity is not claimed — only over the tested
 support.)*
 
 **Why this is capacity, not identification, and why the comparison is asymmetric.**
@@ -281,15 +283,20 @@ donor parameters were estimated elsewhere.
 
 Because the residuals are strongly autocorrelated (lag-1 residual autocorrelation ≈0.99 in
 every branch, consistent with the near-zero Durbin–Watson above), a naïve pointwise RMSE
-comparison overstates its own precision. A moving-block bootstrap (8 s blocks, 1000
-resamples) that preserves this dependence confirms both halves of the reading and neither
-more: Φ(t) beats the best constant by ΔRMSE ≈ −0.39 g/s with a 95 % block-bootstrap
-interval of [−0.60, −0.23] that excludes zero — *time variation of some form* is robustly
-required — whereas Φ(t) versus the flexible cubic gives ΔRMSE ≈ +0.02 g/s with interval
-[−0.01, +0.05] straddling zero — the two are statistically indistinguishable on this trace,
-so the fit does not identify the *mechanism*. The Φ-beats-constant ordering persists across
-all three fit windows (10–90, 15–95, 20–90 s); the Φ-versus-cubic tie does not survive as a
-strict ordering in any of them (`result2_residual_diagnostics`).
+comparison overstates its own precision. We therefore apply a **moving-block resampling of
+the already-computed per-timestep squared-error differences** (8 s blocks, 1000 resamples):
+this is a *conditional block interval on the fixed loss sequences* — it preserves the
+serial dependence but does **not** refit either branch inside each resample, so it is a
+dependence-aware uncertainty on the RMSE difference, not a bootstrap of the full
+fit-and-compare procedure (B5-04). Read that way it supports both halves of the reading and
+neither more: Φ(t) beats the best constant by ΔRMSE ≈ −0.39 g/s with a 95 % interval of
+[−0.60, −0.23] that excludes zero — *time variation of some form* is robustly required —
+whereas Φ(t) versus the flexible cubic gives ΔRMSE ≈ +0.02 g/s with interval [−0.01, +0.05]
+straddling zero, so **the difference is not resolved by this conditional interval** (B5-05;
+we do not claim the two are "statistically indistinguishable"), and the fit does not
+identify the *mechanism*. The Φ-beats-constant ordering persists across all three fit
+windows (10–90, 15–95, 20–90 s); the Φ-versus-cubic difference does not survive as a strict
+ordering in any of them (`result2_residual_diagnostics`).
 
 | branch | fitted to THIS Q(t) trace | fitted elsewhere in same campaign | literature/donor-fixed |
 |---|---:|---|---|
@@ -358,8 +365,8 @@ pressure.** To check that the shared calibration does not smuggle each held-out
 pressure into its own prediction, we refit the two-parameter equilibrium pair
 (P_c, Q_c) on the other ten pressures and predict the genuinely held-out eleventh
 trace. Dropping any single pressure moves (P_c, Q_c) by at most **2.8 %**, and the
-held-out mean RMSE (static 0.534, Φ(t) 0.347, RC-3b 0.516 g/s) matches the
-shared-calibration mean (0.524 / 0.335 / 0.510) to within ~0.01 g/s; Φ(t) remains the
+held-out mean RMSE (static 0.534, Φ(t) 0.347, RC-3b 0.525 g/s) matches the
+shared-calibration mean (0.524 / 0.334 / 0.519) to within ~0.01–0.02 g/s; Φ(t) remains the
 lowest-error branch overall and the descriptive separation is unchanged. The eleven-point,
 two-parameter equilibrium fit is therefore **not dominated by any single pressure point**.
 This does **not** establish that the residual pressure pattern is physical (review MAJ-14):
@@ -372,9 +379,9 @@ three-mechanism companion to the equilibrium-curve leave-one-pressure-out test o
 static characteristic alone (`lopo_waszkiewicz_pressure`, Q² ≈ 0.81 on the eleven
 long-run points). **Four distinct summaries are kept separate (review AR-B2-08), because
 they are easy to conflate:** (a) LOPO held-out, all 11 pressures — static 0.534 / Φ 0.347
-/ RC-3b 0.516; (b) shared-calibration, all 11 — 0.524 / 0.335 / 0.510; (c) shared-
-calibration, ten off-9-bar — 0.512 / 0.356 / 0.522 (`cross_pressure_discrimination`, full
-precision); (d) the equilibrium-curve LOPO Q² (0.81). The 0.512/0.356/0.522 values are the
+/ RC-3b 0.525; (b) shared-calibration, all 11 — 0.524 / 0.334 / 0.519; (c) shared-
+calibration, ten off-9-bar — 0.512 / 0.356 / 0.530 (`cross_pressure_discrimination`, full
+precision); (d) the equilibrium-curve LOPO Q² (0.81). The 0.512/0.356/0.530 values are the
 **shared-calibration off-9-bar** means (c), *not* leave-one-pressure-out held-out means.
 Three further diagnostics qualify the aggregation: (i) all summaries are computed from
 **unrounded** per-pressure RMSEs; (ii) each branch carries the same **two** flow-fitted
@@ -455,14 +462,19 @@ its ~1 lower bound, so its invariance across N is endpoint saturation, not a dem
 of trajectory/collapse-time convergence (MAJ-35). We therefore add a **timestep-refinement
 convergence study** of the switching itself (`ntube_switching_convergence`, review
 MAJ-36/B3-14): plotted on the **physical clock** (Fig. 5a, seconds — not normalized shot
-time), the abrupt early collapse is a **converged event**, with the collapse time (first
-second half the flow enters one tube) stabilising near **≈2–3 s** as the Euler step is
-refined 8–16× (spread ≲0.1 s) and the final N_eff unchanged — so the early switching is a
-real feature of the near-choke closure under this boundary condition, not a stepping
-artefact. A **16-realisation stochastic distribution** (review MAJ-38) gives a tight
-median N_eff/N with a 5–95 % interval and consistent normalized entropy/Gini, rather than a
-four-point anecdote. A higher-order/adaptive integrator remains owed before any stability
-claim.
+time), the **collapse-time event** (first second half the flow enters one tube) stabilises
+near **≈2–3 s** as the explicit-Euler step is refined 8–16× (spread ≲0.1 s), with the final
+N_eff unchanged. **Scope (B5-08):** this establishes convergence of the *collapse-time
+event measured on the output grid under Euler refinement* — NOT a grid-independent
+full-trajectory result. A full trajectory-norm convergence (interpolated onto a common
+physical-time grid, event-time error vs both spatial and temporal refinement, and at least
+one higher-order/adaptive solver) remains owed before the switching can be called a proven
+grid-independent physical event rather than a refinement-stable Euler feature. A
+**16-realisation stochastic distribution** (review MAJ-38) gives a small median N_eff/N; but
+we do NOT call it a "tight" distribution (B5-10): the collapse/switching **time** varies
+materially — by ≈39 % across tube count, by >1 s across grind/pressure, and over ≈1.4–3.5 s
+across the 16 seeds (some seeds end with two effective channels) — so we report those event
+distributions, not only the endpoint N_eff.
 This is a genuine sweep-and-conservation robustness result within the tested family, **not**
 a proven instability: a physical transverse-Darcy lateral-exchange operator and a formal
 Jacobian/finite-time-Lyapunov growth analysis remain owed (§7). We therefore keep Result 3

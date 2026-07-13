@@ -226,9 +226,14 @@ def result2_residual_diagnostics(windows=((10.0, 90.0), (15.0, 95.0), (20.0, 90.
     RMSE differences are pointwise on ONE strongly-autocorrelated trace, so a naive
     per-sample uncertainty is invalid. This reports (a) the per-BRANCH residual lag-1 ACF
     over the primary 15-95 s window (best-const / static / Phi(t) / cubic); (b) a
-    MOVING-BLOCK bootstrap CI on the RMSE differences (Phi(t)-best-const and Phi(t)-cubic)
-    that respects serial dependence via ~`block_s`-second blocks; and (c) WINDOW SENSITIVITY
-    -- whether Phi(t) beats the constant nulls across 10-90 / 15-95 / 20-90 s. Fast."""
+    CONDITIONAL MOVING-BLOCK RESAMPLING of the already-computed per-timestep squared-error
+    differences (Phi(t)-best-const and Phi(t)-cubic) via ~`block_s`-second blocks -- it
+    preserves serial dependence but does NOT refit either branch inside the resample, so it
+    is a dependence-aware interval on the FIXED loss sequences, not a bootstrap of the full
+    fit-and-compare procedure (review B5-04); and (c) WINDOW SENSITIVITY -- whether Phi(t)
+    beats the constant nulls across 10-90 / 15-95 / 20-90 s. A difference whose interval
+    straddles zero is 'not resolved by this conditional interval', NOT 'statistically
+    indistinguishable' (B5-05). Fast."""
     import numpy as np
     from puckworks import data as d
     from puckworks.models.waszkiewicz2025 import poroelastic as wz
@@ -928,18 +933,23 @@ def channeling_concavity_audit(gs_grid=(1.0, 1.4, 1.8, 2.2), pressures=(5.0, 9.0
     return dict(cells=out, min_concave_fraction=min(cf), max_clip_mass=max(cl),
                 concave_over_support=bool(min(cf) > 0.9),
                 clipping_negligible=bool(max(cl) < 0.01),
-                max_jensen_gap_EYpt=max(jg), all_jensen_gaps_negative=bool(max(jg) <= 0),
+                # B5-03: report BOTH the least- and most-negative deficit; "worst" is the
+                # LARGEST magnitude (min), not the max (which is least negative).
+                max_jensen_gap_EYpt=max(jg), min_jensen_gap_EYpt=min(jg),
+                all_jensen_gaps_negative=bool(max(jg) <= 0),
                 max_evaluated_mean_shift=round(max(c["mean_shift_from_unity"] for c in out), 4),
                 verdict=("EY(k) is concave over %.0f-%.0f%% of the tested support and "
                          "the lognormal clip mass is <%.2f%% at all grinds/pressures; "
-                         "the DIRECT Jensen gap J=E[EY(K)]-EY(E[K]) -- using the ACTUAL "
+                         "the DIRECT Jensen gap J=E[EY(K)]-EY(E[K_eval]) -- using the ACTUAL "
                          "post-clipping evaluated mean (shift from unity <=%.4f, review "
-                         "MAJ-17) not EY(1) -- is <=0 in every cell (worst %.3f EY-pt) -> "
+                         "MAJ-17) not EY(1) -- is <=0 in every cell (deficit %.3f to %.3f "
+                         "EY-pt, worst = most negative) -> "
                          "the ensemble deficit is confirmed by direct measurement, not "
                          "only by the 2nd-derivative sign (global concavity NOT claimed); "
                          "clipping is negligible."
                          % (100 * min(cf), 100 * max(cf), 100 * max(cl),
-                            max(c["mean_shift_from_unity"] for c in out), max(jg))))
+                            max(c["mean_shift_from_unity"] for c in out),
+                            min(jg), max(jg))))
 
 
 def channeling_interior_max_sensitivity(gs_grid=None,

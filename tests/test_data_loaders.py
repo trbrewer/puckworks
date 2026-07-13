@@ -358,3 +358,28 @@ def test_ellero2019_digitized_figures():
     dr = pwdata.ellero_fig4_caffeine_Dr()
     finals = {k: v["y"][-1] for k, v in dr.items()}
     assert finals["Dr=0.0200"] > finals["Dr=0.0050"] > finals["Dr=0.0010"]
+
+
+def test_schmieder_cup_masses_malformed_rows_are_explicit_design_summaries():
+    """review B5-07: the Schmieder-derived cup-mass CSV carries 36 rows that lack the
+    primary predictors/outcome (grind, cup mass, concentration). They must NOT vanish
+    silently through downstream filtering — they are exp-15 'DoE Corner Point'
+    design-summary rows, and this test pins that contract so a filtering/imputation
+    change cannot let malformed records enter an analysis unnoticed."""
+    import csv
+    from pathlib import Path
+    p = Path(__file__).resolve().parent.parent / "puckworks/data/schmieder2023/cup_masses.csv"
+    rows = list(csv.DictReader(open(p)))
+    def complete(r):
+        return (r.get("grind_level", "").strip() and r.get("mass_in_cup", "").strip()
+                and r.get("conc_in_cup", "").strip())
+    valid = [r for r in rows if complete(r)]
+    bad = [r for r in rows if not complete(r)]
+    assert len(valid) == 576, f"expected 576 complete run rows, got {len(valid)}"
+    assert len(bad) == 36, f"expected 36 malformed/design-summary rows, got {len(bad)}"
+    # every malformed row is an explicitly-tagged exp-15 corner-point design summary
+    assert {r["exp"] for r in bad} == {"15.0"}
+    assert {r["doe_role"] for r in bad} == {"DoE Corner Point"}
+    # the valid rows are the coherent 4 components x 3 brew ratios x 48 runs
+    assert len({r["component"] for r in valid}) == 4
+    assert len({r["brew_ratio"] for r in valid}) == 3
