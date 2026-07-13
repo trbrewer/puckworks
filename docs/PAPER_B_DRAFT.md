@@ -322,8 +322,13 @@ migration still requires a pressure-step or flow-reversal protocol (owed — spe
 
 **Cross-pressure — held-out, conditional on campaign calibration.** With the
 published static calibration from the same eleven-pressure campaign, we predict the
-other pressures (Fig. 3c). This is **within-rig generalization conditional on
-campaign-wide constants**, not fully independent out-of-sample validation. The relative
+other pressures. **Figure 3c now shows both** the shared-calibration curves and the
+**leave-one-pressure-out held-out RMSE by pressure** (open markers; review MAJ-26/B3-12) —
+the LOPO evidence the argument relies on is now in the figure, not only in the text; the
+held-out curves track the shared calibration (max calibration drift ≈2.8 %). This is
+**within-rig generalization conditional on campaign-wide constants** (the LOPO refits only
+the two-parameter equilibrium pair; the 9-bar-TDS solids trajectory and donor assumptions
+stay fixed, MAJ-27), not fully independent out-of-sample validation. The relative
 reconstruction errors **vary continuously with pressure** (we reserve "regime" for a
 formally defined transition, MAJ-28) — an empirical trajectory has the best held-out mean,
 a flow-coupled variant does better at low pressure, the static null at mid-range — but the

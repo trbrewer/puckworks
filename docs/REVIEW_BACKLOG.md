@@ -83,3 +83,35 @@ already made to defer, e.g. release tag).
 - **A3-08, A3-27(bib), 6.35–6.40, §7** full manuscript conversion (equations, Methods, bibliography, remove review IDs/ledger) — VENUE; large writing.
 - **A3-08(release)** frozen `paper-a-v1.0.0` tag + env lock + DOI + vector figures — DEFERRED to submission RC.
 - **A3-06(likelihood)** likelihood-based profile confidence/prediction intervals — needs a specified noise model (out of scope by design).
+
+## Paper B (`PAPER_B_CURRENT_DETAILED_REVIEW.md`, 2026-07-13)
+
+### DONE this round (code + manuscript + figures, committed)
+| id | task | notes |
+|---|---|---|
+| MAJ-33/B3-13 | Result-3 conservation audit was final-step-only, mislabeled "max"/"every step" | `ntube_kappa_t_union` now has a FULL-TRAJECTORY `conservation_audit`: running extrema over every substep of raw conductance/relative-flow/age + share-sum max deviation; honest control-law fact (raw total flow conserved under FLOW control, FREE under PRESSURE). Test + build claim |
+| MAJ-34/39/40/41/B3-15/16 | "factorial" mislabel; 6-12 vs 6-11; mixed axes; N_eff not normalized | `ntube_robustness_study` → OFAT + a crossed control×lateral×closure design (design_type="NOT a full factorial"); pressure range from config [6,11]; invariance SEPARATED per axis type (numerical/stochastic/operating vs physical contingencies); `n_eff_over_N` added |
+| MAJ-17/B3-08 | Jensen "exact gap" used EY(1) after clipping shifts E[K]≠1 | now uses the actual post-clip evaluated mean E[K] (shift ≤0.005); sign conclusion unchanged; build claim |
+| MAJ-12/13/§5.5/B3-05/07 | Deletion + wild-bootstrap + model-form "owed" | new `schmieder_rsm_diagnostics` reproduces the review's leave-one-run (1.736-1.765), leave-one-setting (1.720-1.777, 15/15), exp-10 Cook's D 0.441/leverage 0.187, wild Rademacher+Mammen, AICc (full-quad vertex 1.737). In bundle + 2 claims + test + Result-1 prose |
+| MAJ-14/B3-03 | Q² not frozen | `rsm_lopo` (Q²≈0.470) frozen in the bundle + claim |
+| MAJ-04/05/06/B3-02/03/28 | Stale/dirty bundle; narrow hashes; incomplete | bundle now includes rsm_diagnostics/rsm_lopo/channeling_audit/ntube_robustness; 10 input hashes; `release` mode / strict verify FAILS on stale/dirty tree (`release_fresh`); routine claim check unaffected. 16/16 claims |
+| MAJ-42/MAJ-35/B3-16 | Fig 5d wrong "(panel c)" cross-ref; endpoint saturation ≠ convergence | Fig 5d now plots MEASURED N_eff (floor-indep) beside the closed-form gain; panel b relabeled endpoint saturation |
+| MAJ-26/B3-12 | Prose relies on LOPO but Fig 3c showed only shared calibration | Fig 3c now overlays the LOPO held-out RMSE by pressure (open markers) for all three branches + manuscript ref |
+| MAJ-21/28/09/30/02/07 | wording | "0p"→"0 fit Q(t)"; "regime-dependent"→"errors vary continuously with pressure"; "raw cells"→"source-derived run-level endpoint estimate"; swelling sign-vs-magnitude; title→"Limits of mechanism discrimination…"; test docstring made operational |
+
+### UNBLOCKED-LARGE remaining (deferred)
+| id | task | notes |
+|---|---|---|
+| MAJ-36/B3-14 | N-tube early-switching: physical-time axis + smaller-timestep + event-time convergence | honest labels added (saturation not convergence); the full switching-convergence investigation (adaptive integrator, event times) remains |
+| MAJ-38/B3-26 | >4 stochastic realisations + normalized concentration metrics (entropy/Gini/top-k) | bump seed count + add distributional metrics |
+| MAJ-23/B3-23 | Result-2 residual ACF plots + block/prequential bootstrap uncertainty | residual autocorr already computed (DW≈0.01) + prose confined to in-sample; the residual-trace/ACF figure + block bootstrap remain |
+| MAJ-16/B3-19 | Fig 1 RSM bootstrap band + run-point visibility | the wild-bootstrap vertex CI now exists; add the curve envelope |
+| MAJ-20/B3-20 | Fig 2 full evidence data dictionary (per-status fields + citations) | publish the full evidence table alongside the compressed figure |
+
+### BLOCKED-EXTERNAL / VENUE / DEFERRED
+- **MAJ-01/B3-01, §11 editorial, B3-31/32/33** full manuscript conversion (remove open-gaps/status, add Methods/References/Data-availability, self-contained captions) — VENUE.
+- **MAJ-24/B3-11** source replicate-trajectory uncertainty — partly BLOCKED-EXTERNAL (a `tds_fractions_replicates.csv` exists but full propagation is a re-intake).
+- **MAJ-27/32** second-rig / second-coffee external transfer — BLOCKED (no second rig).
+- **MAJ-44/B3-27** physical transverse-Darcy lateral operator + Jacobian/Lyapunov — BLOCKED deep research (shared with B-AR10).
+- **B3-29** vector (PDF/SVG) figures; **B3-02** frozen release tag — DEFERRED to submission RC.
+- **B3-34** systematic related-work/novelty search — BLOCKED-EXTERNAL (PI/DB action).

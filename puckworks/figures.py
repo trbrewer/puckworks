@@ -195,8 +195,10 @@ def fig3_ladder(outdir=OUTDIR_DEFAULT):
     """Fig 3 — null-first κ(t) ladder, cross-pressure transfer, swelling sign test.
     (a) Foster machine-MODEL-curve reproduction (NOT data; a null shape source);
     (b) 9-bar ladder RMSE bars over ONE window (15-95 s), three DISTINCT constant
-    nulls + the flexible cubic; (c) within-campaign conditional-transfer RMSE per
-    mechanism (descriptive, no single mechanism lowest everywhere); (d) rung-5b
+    nulls + the flexible cubic; (c) cross-pressure RMSE per mechanism -- BOTH the
+    shared-calibration curves (solid) AND the leave-one-pressure-out held-out RMSE
+    (open triangles, review MAJ-26) -- descriptive, no single mechanism lowest
+    everywhere, LOPO tracks shared (max drift ~2.8%); (d) rung-5b
     swelling as an ISOLATED resistance-only branch under fixed pressure: it can only
     throttle, opposite to the rising trace -- a conditional sign constraint on the
     isolated branch, NOT a refutation of swelling in a coupled bed (review MAJ-15)."""
@@ -241,13 +243,25 @@ def fig3_ladder(outdir=OUTDIR_DEFAULT):
     cp = h.cross_pressure_discrimination()
     pp = cp["per_pressure"]
     P = sorted(pp)
+    # review MAJ-26/B3-12: show the actual LEAVE-ONE-PRESSURE-OUT held-out RMSE by pressure
+    # (open markers, dashed) alongside the shared-calibration curves (solid) -- the LOPO
+    # evidence the prose relies on is now IN the figure, not only "in text".
+    lc = h.cross_pressure_loco()
+    lpp = lc["per_pressure"]
+    Pl = sorted(lpp, key=float)
     for key, col, lab in (("phi", ACCENT, "Φ(t)"), ("rc3b", GOOD, "RC-3b"), ("static", NULL, "static")):
-        ax3.plot(P, [pp[p][key] for p in P], "o-", color=col, lw=1.5, ms=4, label=lab)
-    ax3.set_title("(c) Cross-pressure transfer (shared calibration; NOT LOPO)")
-    ax3.set_xlabel("pressure [bar]"); ax3.set_ylabel("shared-calibration RMSE [g/s]")
-    ax3.legend(fontsize=8, ncol=3, loc="upper center")
-    ax3.text(0.5, 0.02, "shared campaign-wide (P_c,Q_c); leave-one-pressure-out in text",
-             transform=ax3.transAxes, fontsize=6.0, color=NULL, ha="center")
+        ax3.plot(P, [pp[p][key] for p in P], "o-", color=col, lw=1.5, ms=4,
+                 label="%s shared" % lab)
+        ax3.plot([float(p) for p in Pl], [lpp[p][key] for p in Pl], "^--", color=col,
+                 lw=1.2, ms=4, mfc="none", label="%s LOPO held-out" % lab)
+    ax3.set_title("(c) Cross-pressure: shared calibration (—) vs LOPO held-out (▵--)",
+                  fontsize=8.6)
+    ax3.set_xlabel("pressure [bar]"); ax3.set_ylabel("RMSE [g/s]")
+    ax3.legend(fontsize=5.6, ncol=3, loc="upper center")
+    ax3.text(0.5, 0.02, "LOPO refits (P_c,Q_c) on 10/11 pressures, predicts the held-out "
+             "one; max drift %.1f%% (still conditional on the fixed 9-bar TDS trajectory)"
+             % (lc["max_calibration_drift"] * 100),
+             transform=ax3.transAxes, fontsize=5.4, color=NULL, ha="center")
 
     # (d) rung-5b swelling competitor: falling flow ratio vs the rising trace
     from puckworks.models.mo2023_2 import swelling as mo2
