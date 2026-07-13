@@ -14,6 +14,15 @@ already made to defer, e.g. release tag).
 > [`docs/HANDOFF_TB_PI_VENUE.md`](HANDOFF_TB_PI_VENUE.md) for the actionable
 > breakdown (IDs, acceptance criteria, existing scaffolds, first steps, and what a
 > CC session can pick up once each human step is done).
+>
+> **Handoff executed + integrated 2026-07-13** (`HANDOFF_EXECUTION_SUMMARY_2026-07-13.md`,
+> commits `9b98a75..bcdd93b`, ROADMAP §7.1): **PARTIAL/DONE** — TB-2 condition-level
+> Angeloni RSD recovered (solute-specific still owed); VENUE-2 vector-figure code +
+> captions **DONE** (full render owed); TB-1 release packager + env gate **DONE**
+> (tag/DOI owed); PI-1 both DOIs verified + novelty seed (licensed search owed);
+> VENUE-1 JFE draft + APS abstract **DONE-as-draft** (editorial cleanup owed);
+> **B5-32 DONE**. Still human-owned: git tag/DOI, exact-env bundle recompute,
+> solute-specific replicate table, licensed search, JFE cleanup, TB-4.
 
 ## Paper A (`PAPER_A_DETAILED_REVIEW.md`)
 
@@ -23,12 +32,12 @@ already made to defer, e.g. release tag).
 | A-MAJ13 | Positive-control model-discrepancy variant (altered geometry/flow/IC between data-generation and fitting) | **DONE** (2026-07-12) | `full_cup_simulation_discrepancy`: truth generated at T+ΔC (Arrhenius-nonlinear) × flow-scale, fit at nominal, sweeping rate only. DOSE-RESPONSE: moderate (T+4, ×1.10) leaves an irreducible MAPE floor ~4.8% (>> 3% noise) while the located rate stays ROBUST at 1.0; larger (T+8, ×1.25) raises the floor AND biases the located rate to 1.4 in 100% of seeds → a sharp minimum is necessary-not-sufficient. Both doses in the bundle + 2 build claims + `test_discrepancy_control_dose_response` |
 | A-MAJ17 | Residual-diagnostic faceted figures (residuals vs T/p, normalized within variety×solute series; per-group metrics) | **DONE** (2026-07-12) | Fig 7 (`fig7_per_group_diagnostics`) = per-GROUP metrics (variety×solute blind vs inventory-matched MAPE + shape correlation). Fig 8 (`fig8_residuals_vs_conditions`) = the residual-vs-(T,p) SCATTER: `gate_pannusch_angeloni_per_condition` now surfaces per-shot signed residual vectors, showing a solute- and variety-consistent negative offset (all conditions under-predict) that a pure inventory/level rescale cannot remove |
 | A-AR13/MAJ19 | Strict one-command `puckworks/paper_a/build.py` | **DONE** (2026-07-13) | `verify` (fast) checks 13 manuscript claims vs the bundle + writes a provenance manifest (commit, env versions, 6 data-file SHA-256, bundle hash); `full` recomputes+renders+verifies. Guarded by `test_paper_a_build_verifies_manuscript_claims`. Owed: an env lockfile (uv/poetry) + the release tag |
-| A-MAJ22 | Recover replicate-level Angeloni/Schmieder uncertainty; uncertainty-weighted objective sensitivity | BLOCKED-EXTERNAL | repo has condition-level means; needs source re-intake |
+| A-MAJ22 | Recover replicate-level Angeloni/Schmieder uncertainty; uncertainty-weighted objective sensitivity | **PARTIAL** (2026-07-13, handoff TB-2) | condition-level Angeloni total-solids/lipid RSD (132 pairs) now recovered + validated (`data/angeloni2023/*_rsd.csv`); solute-specific replicate/RSD for named analytes + Schmieder raw workbooks STILL owed → no weighted named-solute rerun yet |
 | A-AR15/MAJ21 | Execute the full Scopus/WoS systematic novelty search; populate the evidence matrix | BLOCKED-EXTERNAL | scaffold exists (`docs/literature_search/`); DB execution is a PI action |
 | A-AR14/MAJ20 | Frozen `paper-a-v1.0.0` tag + pinned environment + archival DOI | DEFERRED-DECISION | `tag_now:false` — create at submission RC step |
 | A-AR01 | Full conventional manuscript prose (Methods equations, references list, figure captions) | VENUE | manuscript form depends on target journal |
 | A2-06/07 | Grid-density/domain convergence for the identifiability panel | **DONE** (2026-07-13) | `identifiability_panel_convergence`: κ 1924/2069/2067 across 18/36/72 grids, flat valley on [0.3,3]+[0.1,10], threshold right-censored. Still owed: 144-pt grid + continuous 1-D optimiser (marginal) |
-| A2-08 | Uncertainty-weighted / heteroscedastic objective sensitivity using source RSD | BLOCKED-EXTERNAL | needs replicate-level RSD (same as A-MAJ22) |
+| A2-08 | Uncertainty-weighted / heteroscedastic objective sensitivity using source RSD | **PARTIAL** (2026-07-13) | condition-level RSD recovered (handoff TB-2); solute-specific replicate RSD still owed (same as A-MAJ22) |
 | A2-09 | Density / 40 g-vs-40 mL endpoint sensitivity (38–42 g range) | **DONE** (2026-07-12) | `endpoint_mass_sensitivity` re-runs the per-condition transfer at 38/40/42 mL. HONEST finding (not the optimistic prior framing): the overall blind MAPE is MODERATELY endpoint-sensitive — it moves ~5.3 pp (19.9→25.2%) — and the trigonelline-hurts detail FLIPS near +5%. ROBUST across endpoints: the large per-condition residual itself + the caffeine inventory-match improvement. So the headline holds but the exact magnitude + trigonelline detail carry a ~5 pp endpoint uncertainty the manuscript must STATE. In the bundle + build claim + test |
 | A2-10 | Propagate constructed pressure–flow-map uncertainty | **DONE** (2026-07-13) | `flow_map_sensitivity_transfer`: a systematic ±20% flow-scale perturbation (refit O, transfer C/F) moves held-out MAPE ≤0.6 pp; transfer robust to flow-map MAGNITUDE, still conditional on the inferred-map FORM. Owed: a per-shot measured flow trace |
 | A2-13b | Waszkiewicz sensitivity matrix (temperature, flow floor, density, alignment) | **DONE** (2026-07-12) | `waszkiewicz_sensitivity` sweeps temperature 89-95 C × flow floor 0.02-0.10 (12 cells): the localization conclusion is INVARIANT — every cell keeps the 12-fraction range ratio 1.9-2.0× while the single cup NEVER discriminates; best-rate point shifts only 0.4→0.6 (temperature rescales the level, not the cup-vs-fraction contrast). In the bundle + guarded by `test_waszkiewicz_sensitivity_localization_invariant` + a build claim. Time-alignment already swept (offset 0/2/4 s); density (40 g≈40 mL) documented in A2-09 |
@@ -174,13 +183,15 @@ DONE below; the large additions + conversion are deferred.
 - **A4-07 / §6.12** continuous/converged profile-set → condition-wise C/F envelopes.
 - **A4-10/11/12** Fig 3/4 source-data export + Fig 4 baseline/envelope redesign + Fig 2
   MAPE panel & censoring marks. **A4-17** Hessian sensitivity table. **A4-21** joint null
-  ladder. **A4-27/28** off-grid sim + discrepancy in figures. **A4-37** vector figures.
+  ladder. **A4-27/28** off-grid sim + discrepancy in figures. **A4-37** vector figures
+  **DONE** (2026-07-13, handoff VENUE-2: SVG/PDF export + Okabe-Ito palette + captions;
+  full production re-render owed).
 
 ### BLOCKED-VENUE / EXTERNAL
 - **A4-14/49, §7.1/7.20/7.22/7.23, A4-40/41/50** full journal manuscript conversion,
   references, declarations, completed novelty search — VENUE/PI.
-- **A4-15** clean tagged release + pinned env/container — TB/infra (build strictness done).
-- **A4-25 / §10.11** replicate/RSD propagation — BLOCKED-EXTERNAL (source re-intake; = A-MAJ22).
+- **A4-15** clean tagged release + pinned env/container — **release packager + env gate + direct-dep lock DONE** (2026-07-13, handoff TB-1); git tag + DOI + archival transitive lock still TB.
+- **A4-25 / §10.11** replicate/RSD propagation — **PARTIAL** (condition-level RSD recovered, handoff TB-2); solute-specific propagation still BLOCKED-EXTERNAL (= A-MAJ22).
 
 ## Paper B (`PAPER_B_FIFTH_DETAILED_REVIEW.md`, 2026-07-13)
 
@@ -212,4 +223,5 @@ DONE below; the large additions + conversion are deferred.
 ### BLOCKED-VENUE / CARD
 - **B5-01** clean tagged release — TB. **B5-11** manuscript conversion — VENUE.
 - **B5-29** physical transverse-Darcy lateral operator — CARD-BLOCKED (rule 1; = G-lat/PV-14).
-- **B5-43** systematic novelty search — PI. **B5-32** DOI verification — needs source check.
+- **B5-43** systematic novelty search — PI (open-web seed added, handoff PI-1). **B5-32** DOI verification — **DONE** (2026-07-13, handoff: lee2023 10.1063/5.0138998; waszkiewicz2026 10.1063/5.0319611).
+- **B5-45** vector figures — **DONE-as-code** (handoff VENUE-2: shared SVG/PDF export + colour-safe palette; full render owed).
