@@ -57,10 +57,12 @@ def test_p2_cross_pressure_separation():
 
 
 def test_p2_cross_pressure_loco():
-    """P2 leave-one-pressure-out: refitting the equilibrium pair without each
-    pressure barely moves (P_c,Q_c) and the held-out RMSE matches the shared
-    calibration -> the 11-point/2-param fit is over-determined, and Phi(t) stays
-    the lowest held-out mean (the regime structure is physics, not fit tuning)."""
+    """P2 leave-one-pressure-out (OPERATIONAL check, review MAJ-07): refitting the
+    equilibrium pair without each pressure barely moves (P_c,Q_c) and the held-out RMSE
+    matches the shared calibration -> the 11-point/2-param fit is over-determined, and
+    Phi(t) stays the lowest held-out mean. This tests that a RANKING/drift bound is
+    reproduced under the declared configuration; it does not assert the physical origin
+    (which the manuscript states is unresolved)."""
     r = h.cross_pressure_loco()
     assert r["n_pressures"] == 11
     assert r["max_calibration_drift"] < 0.10          # <10% drift dropping any point

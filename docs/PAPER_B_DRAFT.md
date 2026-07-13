@@ -10,11 +10,13 @@ synthesis; never "identifies / proves / is the mechanism / unconditionally /
 linearly unstable". Figures: `docs/figures/fig{1..5}`. Validation-strength tags stay
 in the text.*
 
-**Title (review-endorsed).** Mechanism discrimination in espresso flow and
-extraction: matched observables, null models, and transient streamtube
-concentration.
-*(A stability-focused title can be reconsidered only if a formal Jacobian/eigenmode
-analysis is completed — it is not.)*
+**Title.** **Limits of mechanism discrimination from integrated espresso measurements:
+matched observables, temporal nulls, and exploratory streamtube dynamics.**
+*(Revised per the 3rd review, MAJ-02/B3-21: the paper establishes model capacity,
+incompatibility, and a need for temporal flexibility while remaining insufficient to
+identify a unique mechanism, so the title leads with the LIMITS of discrimination rather
+than asserting it. A stability-focused title remains unavailable — no formal
+Jacobian/eigenmode analysis exists.)*
 
 ---
 
@@ -31,9 +33,12 @@ a single matched observable is an often-implicit prerequisite, which we make
 explicit). At the nominal central settings the TDS-derived extraction-yield cell
 means are 18.27, 19.38, and 19.62 % at grinder dials 1.4, 1.7, and 2.0: the means are
 **numerically ordered and the middle cell lies 0.24 EY-points below dial 2.0**
-(Welch 95 % CI [−0.42, −0.06]), so the raw cells do not support an interior maximum
-at the middle dial (the 1.4-vs-1.7 interval includes zero, and achieved flow/pressure
-vary across these nominal conditions). A calibrated lognormal static-heterogeneity
+(Welch 95 % CI [−0.42, −0.06]), so these **source-derived run-level endpoint estimates**
+(computed by the source from measured first fractions plus integration of fitted extraction
+kinetics to the target beverage mass — not a directly measured whole-cup endpoint) do not
+support an interior maximum at the middle dial in the three selected nominal settings (the
+1.4-vs-1.7 interval includes zero, and achieved flow/pressure vary across these nominal
+conditions). A calibrated lognormal static-heterogeneity
 streamtube ensemble can generate a small interior maximum for some closure choices,
 establishing **model capacity rather than identifying channeling** (the closure is
 grind-calibrated; incomplete wetting is unmodeled). Second, on a 9-bar rising-flow
@@ -72,7 +77,7 @@ distinct throughout.
 | Object | Observable | Dataset | Role here |
 |---|---|---|---|
 | Cameron fine-grind deviation | EY residual from a homogeneous model vs EK43 dial | cameron2020 | **Calibration source** for the σ(g) closure |
-| Schmieder raw TDS response | TDS-derived EY at a specified central condition | schmieder2023 | **Matched-observable empirical check** |
+| Schmieder source-derived TDS endpoint | TDS-derived EY (source-derived run-level estimate: measured first fraction + integrated fitted kinetics) at a specified central condition | schmieder2023 | **Matched-observable empirical check** |
 | Schmieder RSM curvature | fitted cup-mass surface vs flow, dial, temperature | schmieder2023 | Qualitative smooth/shape, subject to fit uncertainty |
 
 Two confounds are load-bearing. (i) The Schmieder grind axis is a grinder *dial*,
@@ -125,8 +130,8 @@ still owed; see §7.)*
 nominal central condition are **numerically ordered** across dial: 18.27, 19.38,
 19.62 % at dial 1.4/1.7/2.0. The middle-versus-coarse contrast is −0.24 yield-points
 with a Welch t 95 % CI [−0.42, −0.06] that **excludes zero**, so the middle cell
-lies below dial 2.0 and **the raw cells do not support an interior maximum at the
-middle dial**. We describe the means as *ordered*, not "statistically monotone": a design-aware,
+lies below dial 2.0 and **the three selected nominal-setting source-derived endpoint
+estimates do not support an interior maximum at the middle dial**. We describe the means as *ordered*, not "statistically monotone": a design-aware,
 experiment-unit diagnostic (`harness.result1_design_aware_stats`) resolves the
 mid-vs-coarse step (dial 1.7 − 2.0 = −0.24 EY-pt, Welch 95 % CI [−0.42, −0.06],
 p ≈ 0.016) but **not** the fine-to-mid step (dial 1.4 − 1.7 = −1.11 EY-pt, CI
@@ -167,9 +172,17 @@ quadratic surface has a conditional interior vertex near 1.74** — the interval
 conditional on the retained seven-term model and design; we do not claim the underlying
 physical response necessarily has a maximum. The raw (uncentered) predictors are
 ill-conditioned (κ₂(X) ≈ 1.7×10⁶), but the identical fit on centred/scaled predictors is
-well-conditioned (κ₂(X) ≈ 3.9) and the offset/scale-invariant vertex is unchanged; one
-run (experiment 10, rep 1) is mildly influential (Cook's *D* ≈ 0.44), which a
-leave-one-run sensitivity is owed to bound. **A precision caveat, not a criticism of the
+well-conditioned (κ₂(X) ≈ 3.9) and the offset/scale-invariant vertex is unchanged. The
+conditional vertex is **stable to deletion** (`schmieder_rsm_diagnostics`): leave-one-run
+gives 1.736–1.765 and leave-one-setting 1.720–1.777 (15/15 fits stay concave and
+in-domain); the one mildly influential run (experiment 10, replicate 1; Cook's *D* ≈ 0.44,
+leverage 0.19, standardised residual −3.7) does not move it. It is also stable to a
+**full-quadratic** form (vertex 1.737; retained-seven AICc lower). **Heteroskedasticity
+sensitivity:** the within-setting SD spans ~17× (0.014–0.242 g), so alongside the iid
+residual bootstrap we report **wild** bootstraps (Rademacher and Mammen), which preserve
+the vertex while modestly widening the interval — the conditional vertex is not an artefact
+of iid resampling. All intervals remain **conditional on the selected seven-term model**
+(post-selection uncertainty is a separate, disclosed limitation). **A precision caveat, not a criticism of the
 source:** the *printed* Table-3 coefficients are rounded (the T² coefficient to
 three decimals; with T²≈7921 that rounding moves the absolute prediction by several
 grams), so evaluating them literally gives ~6.7 g, whereas the refit reproduces
@@ -239,9 +252,10 @@ t = 15–95 s, and each baseline is evaluated at its own predicted level (no RMS
 copied between rungs). Three *distinct* constant nulls — the least-squares-optimal
 in-window constant (RMSE 0.573 g/s, one free level), a long-run constant calibrated
 on a real 10 s late interval (0.641), and the published static κ(P) evaluated at
-9 bar (0.648, zero free parameters) — all land at 0.57–0.65 g/s: at constant 9 bar
-a static pressure-dependence is observationally identical to a constant. A
-zero-free-parameter empirical dissolution-linked time-varying porosity trajectory
+9 bar (0.648, **0 coefficients fitted to this flow trace**) — all land at 0.57–0.65 g/s:
+at constant 9 bar a static pressure-dependence is observationally identical to a constant.
+An empirical dissolution-linked time-varying porosity trajectory with **0 coefficients
+fitted to this flow trace** (it imports donor parameters, see below)
 reaches RMSE 0.116 g/s (Fig. 3b), beating the *best* of the three constant nulls
 ~4.9× and the static κ(P) null ~5.6×. **Bound on the claim.** A purely
 phenomenological degree-3 polynomial in time (four free parameters, no mechanism)
@@ -279,6 +293,9 @@ residual. Running mo2023_2's own Carman–Kozeny prediction (its validated fixed
 gives a monotone-decreasing flow ratio (throttling to ≈4 % of initial over the shot for a
 representative illy powder); given a best-case free level it scores RMSE ≈1.08 g/s — *worse
 than the best constant null* — and is anti-correlated with the trace (*r* ≈ −0.95, Fig. 3d).
+(The **sign** follows from the branch assumptions; the ≈4 %/1.08 g/s **magnitude** is
+specific to this one transferred powder parameterization and is not offered as a general
+espresso prediction, review MAJ-30.)
 For fines
 migration the exclusion is analytic: its discharge is monotone non-increasing at constant p₀
 (Fasano–Talamucci–Petracco Lemma 8.3, under that model's stated assumptions), and their
@@ -306,9 +323,10 @@ migration still requires a pressure-step or flow-reversal protocol (owed — spe
 **Cross-pressure — held-out, conditional on campaign calibration.** With the
 published static calibration from the same eleven-pressure campaign, we predict the
 other pressures (Fig. 3c). This is **within-rig generalization conditional on
-campaign-wide constants**, not fully independent out-of-sample validation. It is
-regime-dependent — an empirical trajectory has the best held-out mean, a flow-coupled
-variant does better at low pressure, the static null at mid-range — but the
+campaign-wide constants**, not fully independent out-of-sample validation. The relative
+reconstruction errors **vary continuously with pressure** (we reserve "regime" for a
+formally defined transition, MAJ-28) — an empirical trajectory has the best held-out mean,
+a flow-coupled variant does better at low pressure, the static null at mid-range — but the
 pressure bins are descriptive, not predeclared, so we present the continuous
 pressure-residual curves rather than categorical winners. **No branch dominates the
 three tested branches across all pressures**; migration, compaction, matched-control
@@ -344,9 +362,11 @@ parameters (P_c, Q_c) — Φ(t) and RC-3b add donor parameters fit to *other* ob
 degrees of freedom; and (iii) the residual serial-correlation diagnostic
 (`residual_autocorr.summary`, computed on the trace **decimated to 1 s** so it reflects
 model structure rather than the ≈10 Hz sample spacing) gives a mean Durbin–Watson ≈ 0.01
-— a strong positive autocorrelation, i.e. the zero-free-parameter dynamic model leaves a
-**systematically structured, non-white residual** (an honest lack-of-fit the RMSE ranking
-rides on, not clean noise).
+— a strong positive autocorrelation, i.e. the dynamic model (0 coefficients fitted to this
+flow trace) leaves a **systematically structured, non-white residual** (an honest
+lack-of-fit the RMSE ranking rides on, not clean noise). Because these residuals are
+strongly serially dependent, the pointwise RMSE differences are **in-sample reconstruction
+scores over one window, not held-out predictive validation** (MAJ-22/23).
 
 **The composition attempt fails, honestly (Fig. 4).** The registered shared-porosity
 synthesis reduces exactly to the poroelastic rung under extraction-only; adding an
@@ -385,9 +405,11 @@ derived. What is invariant over the tested floors is the endpoint classification
 this is **measured, not asserted**: the N-tube integration is re-run at each conductance
 floor across the swept range (**1e-6…1e-15**), and the endpoint is unchanged.
 
-**A factorial robustness study** (`ntube_robustness_study`) now sweeps the remaining axes
-(review AR-B2-12), holding the others at baseline and checking flow-share conservation at
-every step:
+**A one-factor-at-a-time (OFAT) robustness study plus a crossed control×lateral×closure
+design** (`ntube_robustness_study`; not a full factorial, review MAJ-34) sweeps the
+remaining axes, and a **full-trajectory conservation audit** (review MAJ-33) records the
+worst share-sum deviation, raw non-negativity of conductance/relative-flow/age, and the
+control-law flow balance over **every substep** (not a final-step check):
 
 | swept axis | tested range | endpoint |
 |---|---|---|
@@ -400,11 +422,16 @@ every step:
 | **control law** | flow vs pressure | flow: N_eff 1.0; **pressure: 219 (no concentration)** |
 | closure (negative control) | poroelastic vs CK | poroelastic 1.0; CK 217 (bounded) |
 
-So the concentration endpoint is **robust to every numerical and design choice tested
-(N, timestep, grind, pressure, stochastic realisation)** and flow-share conservation
-holds throughout — but it is **contingent on two physical assumptions**: fixed-*flow*
-control (under fixed-*pressure* control tubes do not steal, and N_eff≈219) and near-zero
-lateral coupling (a homogenisation blend of only 0.3 already suppresses it, N_eff≈307).
+So the concentration endpoint is **invariant on the numerical (N, timestep), stochastic,
+and operating (grind, pressure) axes** — reported separately, not collapsed into one flag
+(MAJ-40) — and the full-trajectory conservation/non-negativity audit holds throughout
+(under flow control the raw total relative flow is conserved by construction; under
+pressure control it is free, which the audit now states rather than hides). The endpoint
+is **contingent on two physical assumptions**: fixed-*flow* control (under fixed-*pressure*
+control tubes do not steal, and N_eff≈219) and near-zero lateral coupling (a homogenisation
+blend of only 0.3 already suppresses it, N_eff≈307). Note the endpoint N_eff saturates at
+its ~1 lower bound, so its invariance across N is endpoint saturation, not a demonstration
+of trajectory/collapse-time convergence (MAJ-35).
 This is a genuine sweep-and-conservation robustness result within the tested family, **not**
 a proven instability: a physical transverse-Darcy lateral-exchange operator and a formal
 Jacobian/finite-time-Lyapunov growth analysis remain owed (§7). We therefore keep Result 3
