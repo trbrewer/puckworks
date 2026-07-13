@@ -105,74 +105,127 @@ def _load(results):
 
 # ---------------------------------------------------------------------------
 def fig1_design(outdir=OUTDIR):
-    """Fig 1 — study & evidence design: calibration -> O fit -> holdout -> transfer,
-    with each arrow labelled by evidence type."""
+    """Fig 1 — study & evidence design with CAMPAIGN-ACCURATE evidence categories
+    (review MAJ-18): 'external' is used ONLY for a genuinely different rig/coffee not
+    used for target fitting; the within-Angeloni O->C/F holdout is a within-campaign
+    holdout, Table 7 is an orthogonal measurement from the same study, and the
+    Waszkiewicz external trajectory is shown."""
     plt = _plt()
-    fig, ax = plt.subplots(figsize=(8.6, 4.2))
-    ax.set_xlim(0, 10); ax.set_ylim(0, 6); ax.axis("off")
+    # evidence-category palette (data use, not verb)
+    CAT = {"source": ("#8a8f98", "source calibration"),
+           "insample": ("#4a6fa5", "in-sample localization"),
+           "sim": ("#9a6f2f", "same-model simulation"),
+           "target": (ACCENT, "target recalibration"),
+           "within": (GOOD, "within-campaign holdout"),
+           "orth": ("#2f6f4f", "orthogonal measurement (same study)"),
+           "external": (BAD, "independent external")}
+    fig, ax = plt.subplots(figsize=(9.8, 5.6))
+    ax.set_xlim(0, 12); ax.set_ylim(0, 8); ax.axis("off")
 
-    def box(x, y, w, h, text, fc="#f3ece2"):
-        ax.add_patch(plt.Rectangle((x, y), w, h, facecolor=fc, edgecolor=INK, lw=1.3))
-        ax.text(x + w / 2, y + h / 2, text, ha="center", va="center", fontsize=8.2,
-                wrap=True)
+    def box(x, y, w, h, text, cat):
+        col = CAT[cat][0]
+        ax.add_patch(plt.Rectangle((x, y), w, h, facecolor="#f6f2ea", edgecolor=col,
+                                   lw=2.2))
+        ax.text(x + w / 2, y + h / 2, text, ha="center", va="center", fontsize=7.6)
 
-    def arrow(x0, y0, x1, y1, label, col):
+    def arrow(x0, y0, x1, y1, col=NULL):
         ax.annotate("", (x1, y1), (x0, y0),
-                    arrowprops=dict(arrowstyle="-|>", color=col, lw=1.6))
-        ax.text((x0 + x1) / 2, (y0 + y1) / 2 + 0.18, label, ha="center", fontsize=6.8,
-                color=col, style="italic")
+                    arrowprops=dict(arrowstyle="-|>", color=col, lw=1.5))
 
-    box(0.2, 4.3, 2.3, 1.3, "Schmieder / Pannusch\nfraction kinetics\n(model calibration)")
-    box(3.6, 4.3, 2.3, 1.3, "Angeloni O\non-grid fit\n(new calibration)")
-    box(7.1, 4.3, 2.6, 1.3, "Held-out O conditions\n(leave-one-out CV)")
-    box(3.6, 1.6, 2.3, 1.3, "Angeloni C / F\nfrozen transfer")
-    box(7.1, 1.6, 2.6, 1.3, "Table 7 inventory\n(independent tie-breaker)")
-    box(0.2, 1.6, 2.3, 1.3, "Fraction vs cup\n(in-sample verification)")
+    # lane 1 — Schmieder/Pannusch lineage (top)
+    ax.text(0.1, 7.5, "Schmieder / Pannusch lineage", fontsize=8, style="italic",
+            color=NULL)
+    box(0.2, 6.0, 2.6, 1.2, "Schmieder fractions\n→ Pannusch calibration", "source")
+    box(3.4, 6.0, 2.7, 1.2, "Fraction-vs-cup\nprofile (in-sample\nlocalization)", "insample")
+    box(6.7, 6.0, 2.7, 1.2, "Same-model exact-cup\nsimulation (synthetic\nillustration)", "sim")
+    arrow(2.8, 6.6, 3.4, 6.6); arrow(6.1, 6.6, 6.7, 6.6)
 
-    arrow(2.5, 5.0, 3.6, 5.0, "calibration", NULL)
-    arrow(5.9, 5.0, 7.1, 5.0, "internal holdout (CV)", GOOD)
-    arrow(4.75, 4.3, 4.75, 2.9, "external prediction", ACCENT)
-    arrow(5.9, 2.25, 7.1, 2.25, "external constraint", WARN)
-    arrow(2.5, 4.5, 2.4, 2.9, "in-sample\nverification", "#4a6fa5")
-    ax.text(5, 0.5, "Evidence types are colour-coded; the paper reports "
-            "identification, transfer, and verification as SEPARATE properties.",
-            ha="center", fontsize=7.2, color=NULL)
-    fig.suptitle("Fig 1 — Paper A study & evidence design", y=0.98, fontsize=11,
-                 fontweight="bold")
+    # lane 2 — Angeloni campaign (middle)
+    ax.text(0.1, 4.6, "Angeloni campaign (one study; different rig/coffee/basket)",
+            fontsize=8, style="italic", color=NULL)
+    box(0.2, 3.1, 2.6, 1.2, "Angeloni O\n→ target recalibration", "target")
+    box(3.4, 3.1, 2.7, 1.2, "Held-out O conditions\n(leave-one-condition-\nout CV)", "within")
+    box(6.7, 3.1, 2.7, 1.2, "Angeloni C / F\ncross-grind holdout\n(within-campaign)", "within")
+    box(9.6, 3.1, 2.2, 1.2, "Table 7 inventory\n(orthogonal\nmeasurement)", "orth")
+    arrow(2.8, 3.7, 3.4, 3.7); arrow(6.1, 3.7, 6.7, 3.7); arrow(9.4, 3.7, 9.6, 3.7)
+    arrow(1.5, 6.0, 1.5, 4.3)          # calibration -> target recalibration
+
+    # lane 3 — Waszkiewicz external (bottom)
+    ax.text(0.1, 1.9, "Waszkiewicz (independent second rig / coffee)", fontsize=8,
+            style="italic", color=NULL)
+    box(0.2, 0.4, 4.0, 1.2, "Waszkiewicz 5 s TDS fractions →\nexternal-data objective "
+        "localization\n(measured flow; target-profiled level)", "external")
+    arrow(2.2, 3.1, 2.2, 1.6)
+
+    # legend
+    hs = [plt.Line2D([0], [0], marker="s", ls="", mfc="#f6f2ea", mec=c[0], mew=2.2,
+                     ms=9, label=c[1]) for c in CAT.values()]
+    ax.legend(handles=hs, loc="lower right", fontsize=6.6, ncol=2, framealpha=0.9)
+    ax.text(6.0, 2.15, "‘external’ = genuinely different rig/coffee NOT used for target "
+            "fitting; O→C/F and Table 7 are within the Angeloni study.",
+            ha="center", fontsize=6.6, color=NULL)
+    fig.suptitle("Fig 1 — Paper A study & evidence design (campaign-accurate categories)",
+                 y=0.97, fontsize=10.5, fontweight="bold")
     return _save(fig, outdir, "fig1_design.png")
 
 
 def fig2_objective_surface(results=None, outdir=OUTDIR):
-    """Fig 2 — inventory-rate objective surface for caffeine & trigonelline: SSE
-    contours, the profiled valley path, and the Table 7 inventory line."""
+    """Fig 2 — inventory-rate SSE surface (top) + the 1-D profiled SSE (bottom) for
+    caffeine & trigonelline. Objective = unweighted concentration-scale SSE with a
+    least-squares nuisance level, plotted as the NORMALIZED increase (J-Jmin)/Jmin so
+    the two panels share one interpretable colour scale (review Fig 2). The dimensionless
+    rate scale is on a log axis; inventory carries g/L. The profile row shows the SSE
+    optimised over c_s0 with the 10 % tolerance band that defines the reported width."""
     import numpy as np
     r = _load(results); plt = _plt()
-    fig, axes = plt.subplots(1, 2, figsize=(9.6, 4.2))
-    for ax, key, sol in ((axes[0], "panel_caffeine", "caffeine"),
-                         (axes[1], "panel_trigonelline", "trigonelline")):
+    fig, axes = plt.subplots(2, 2, figsize=(9.6, 7.0), height_ratios=[1.6, 1.0])
+    im = None
+    for col, (key, sol) in enumerate((("panel_caffeine", "caffeine"),
+                                      ("panel_trigonelline", "trigonelline"))):
         p = r[key]; s = p["surface"]
         rates = np.array(s["rates"]); cs0 = np.array(s["cs0"]); S = np.array(s["sse"])
+        Jn = (S - S.min()) / S.min()                         # normalized objective increase
         RR, CC = np.meshgrid(rates, cs0, indexing="ij")
-        lo = S.min()
-        cs = ax.contourf(RR, CC, S, levels=np.linspace(lo, lo * 3, 14),
-                         cmap="YlOrBr_r", extend="max")
-        ax.contour(RR, CC, S, levels=[lo * 1.1], colors=[INK], linewidths=1.0)
+        ax = axes[0, col]
+        im = ax.contourf(RR, CC, Jn, levels=np.linspace(0.0, 2.0, 21),
+                         cmap="YlOrBr", extend="max")
+        ax.contour(RR, CC, Jn, levels=[0.10], colors=[INK], linewidths=1.1,
+                   linestyles="--")                          # the 10% tolerance contour
         prof = p["profile"]
         ax.plot(prof["rates"], prof["c_star"], color=ACCENT, lw=2.0,
-                label="profiled valley (c* per rate)")
+                label="profiled valley $c^*(\\mathrm{rate})$")
         t7 = r["table7"].get(sol)
         if t7:
-            ax.axhline(t7, color=GOOD, ls="--", lw=1.4, label="Table 7 inventory")
-        ax.set_xscale("log")
-        ax.plot(p["rate_star"], p["c_s0_star"], "o", color=INK, ms=6)
-        ax.set_title("(%s) %s — cond. no. %s"
-                     % ("a" if sol == "caffeine" else "b", sol,
-                        int(p["condition_number"])))
-        ax.set_xlabel("rate scale (log)"); ax.set_ylabel("inventory c_s0")
-        _logclean(ax)
-        ax.legend(fontsize=7, loc="upper right")
-    fig.suptitle("Fig 2 — inventory-rate objective surface: a flat valley "
-                 "(practical non-identifiability)", y=1.02, fontsize=10.5,
+            ax.axhline(t7, color="#2f6f4f", ls=":", lw=1.6, label="Table 7 inventory")
+        ax.plot(p["rate_star"], p["c_s0_star"], "o", color=INK, ms=7,
+                label="SSE optimum", zorder=5)
+        ax.set_xscale("log"); _logclean(ax)
+        ax.set_title("(%s) %s" % ("a" if col == 0 else "b", sol), fontsize=10)
+        ax.text(0.03, 0.03, "cond. no. %d\ncoupling %.2f"
+                % (int(p["condition_number"]), p["local_curvature_coupling"]),
+                transform=ax.transAxes, fontsize=7.2, va="bottom", ha="left",
+                bbox=dict(boxstyle="round", fc="white", ec=NULL, alpha=0.8))
+        ax.set_xlabel("rate scale (dimensionless, log)")
+        ax.set_ylabel("inventory $c_{s,0}$ (g L$^{-1}$)")
+        ax.legend(fontsize=6.8, loc="upper right")
+        # --- 1-D profile (SSE optimised over c_s0) with the 10% band ---
+        axp = axes[1, col]
+        pr = np.array(prof["rates"]); ss = np.array(prof["sse"]); smin = prof["sse_min"]
+        axp.plot(pr, (ss - smin) / smin, color=ACCENT, lw=1.8)
+        axp.axhline(0.10, color=INK, ls="--", lw=1.0)
+        within = (ss - smin) / smin <= 0.10
+        axp.fill_between(pr, 0, 0.10, where=within, color=WARN, alpha=0.18,
+                         label="within 10 %% (%.0f%% of grid)"
+                         % (100 * p["profile_fraction_of_log_grid"]))
+        axp.set_xscale("log"); _logclean(axp)
+        axp.set_ylim(0, 0.6)
+        axp.set_xlabel("rate scale (dimensionless, log)")
+        axp.set_ylabel("profiled $(J-J_{\\min})/J_{\\min}$")
+        axp.legend(fontsize=6.8, loc="upper center")
+    cb = fig.colorbar(im, ax=axes[0, :].tolist(), shrink=0.85, pad=0.02,
+                      label="normalized SSE increase $(J-J_{\\min})/J_{\\min}$")
+    fig.suptitle("Fig 2 — inventory–rate SSE surface + profile: a flat valley "
+                 "(practical non-identifiability)", y=0.99, fontsize=10.5,
                  fontweight="bold")
     return _save(fig, outdir, "fig2_objective_surface.png")
 
@@ -241,28 +294,43 @@ def fig5_joint_residual(results=None, outdir=OUTDIR):
     import numpy as np
     r = _load(results); plt = _plt()
     j = r["joint"]["per_variety"]
-    rows, labels = [], []
+    labels, Mj, Mi = [], [], []
     for variety in ("Arabica", "Robusta"):
         for sol in ("caffeine", "trigonelline", "5CQA"):
             x = j[variety][sol]
-            rows.append([x["joint_per_grind_mape"][g] for g in ("O", "C", "F")])
+            Mj.append([x["joint_per_grind_mape"][g] for g in ("O", "C", "F")])
+            Mi.append([x["independent_per_grind_mape"][g] for g in ("O", "C", "F")])
             bnd = " *" if x["joint_rate_at_boundary"] else ""
             labels.append(f"{variety[:3]}:{sol}{bnd}")
-    M = np.array(rows, float)
-    fig, ax = plt.subplots(figsize=(5.6, 5.0))
-    im = ax.imshow(M, cmap="YlOrBr", aspect="auto", vmin=0, vmax=max(20, M.max()))
-    ax.set_xticks(range(3)); ax.set_xticklabels(["O", "C", "F"])
-    ax.set_yticks(range(len(labels))); ax.set_yticklabels(labels, fontsize=7.5)
-    for i in range(M.shape[0]):
-        for k in range(M.shape[1]):
-            ax.text(k, i, "%.0f" % M[i, k], ha="center", va="center", fontsize=7.5,
-                    color=INK if M[i, k] < 0.6 * M.max() else "white")
-    fig.colorbar(im, ax=ax, shrink=0.7, label="joint-fit MAPE (%)")
-    ax.set_title("Fig 5 — joint shared-$(c_{s,0},\\mathrm{rate})$ residual by grind\n"
-                 "pooled %.1f%% vs %.1f%% per-grind (cost ~%.1f pp); * = rate at boundary"
+    Mj = np.array(Mj, float); Mi = np.array(Mi, float); D = Mj - Mi
+    fig, axes = plt.subplots(1, 3, figsize=(11.4, 4.6))
+    vmax = max(20.0, Mj.max(), Mi.max())
+
+    def _heat(ax, M, title, cmap, vmin, vmax, center_white=0.6):
+        im = ax.imshow(M, cmap=cmap, aspect="auto", vmin=vmin, vmax=vmax)
+        ax.set_xticks(range(3)); ax.set_xticklabels(["O", "C", "F"])
+        ax.set_yticks(range(len(labels)))
+        ax.set_yticklabels(labels if ax is axes[0] else [""] * len(labels), fontsize=7.2)
+        thr = vmin + center_white * (vmax - vmin)
+        for i in range(M.shape[0]):
+            for k in range(M.shape[1]):
+                ax.text(k, i, "%.1f" % M[i, k], ha="center", va="center", fontsize=6.8,
+                        color=INK if M[i, k] < thr else "white")
+        ax.set_title(title, fontsize=9)
+        return im
+    im0 = _heat(axes[0], Mj, "(a) joint shared-fit MAPE (%)", "YlOrBr", 0, vmax)
+    _heat(axes[1], Mi, "(b) independent per-grind MAPE (%)", "YlOrBr", 0, vmax)
+    dmax = float(np.abs(D).max())
+    imd = _heat(axes[2], D, "(c) cost of sharing = (a)−(b) (pp)", "RdBu_r",
+                -dmax, dmax, center_white=1.0)
+    fig.colorbar(im0, ax=axes[:2].tolist(), shrink=0.7, label="MAPE (%)")
+    fig.colorbar(imd, ax=axes[2], shrink=0.7, label="Δ MAPE (pp)")
+    fig.suptitle("Fig 5 — joint shared-$(c_{s,0},\\mathrm{rate})$ vs independent per-grind; "
+                 "pooled %.1f%% vs %.1f%% (mean cost ~%.1f pp); * = rate at domain boundary"
                  % (r["joint"]["mean_joint_pooled_mape"],
                     r["joint"]["mean_independent_per_grind_mape"],
-                    r["joint"]["cost_of_sharing_pp"]), fontsize=9.5)
+                    r["joint"]["cost_of_sharing_pp"]), y=1.0, fontsize=9.5,
+                 fontweight="bold")
     return _save(fig, outdir, "fig5_joint_residual.png")
 
 
