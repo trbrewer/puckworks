@@ -1,0 +1,4 @@
+search_date,source,query_or_record,scope,result,disposition
+2026-07-13,AIP Publishing,"Uneven extraction in coffee brewing; DOI 10.1063/5.0138998",publisher metadata verification,"Physics of Fluids 35(5), 054110; published 2023-05-09; authors W. T. Lee, A. Smith, A. Arshad; DOI matches",verified; add lee2023 to references.bib
+2026-07-13,arXiv,"2206.12373",secondary cross-check,"arXiv record links related DOI 10.1063/5.0138998 and states accepted in Physics of Fluids",supporting check only
+2026-07-13,AIP Publishing,"Under pressure: Poroelastic regulation of flow in espresso brewing; DOI 10.1063/5.0319611",publisher metadata verification,"Physics of Fluids 38, 063113; published 2026-06-23; DOI matches",verified; replace arXiv-only placeholder with waszkiewicz2026
