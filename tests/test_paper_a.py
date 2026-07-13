@@ -73,6 +73,27 @@ def test_identifiability_convergence_144_and_continuous():
     assert co["valley_log_half_width_within10pct"] > 0.5   # a genuinely flat valley
 
 
+def test_endpoint_mass_sensitivity_reports_honest_caveat():
+    """review A2-09: the bundle must carry the endpoint-mass sensitivity and it must
+    report the HONEST split -- the caffeine inventory-match improvement is robust across
+    38/40/42 mL, but the overall MAPE is endpoint-sensitive (a non-trivial spread). Reads
+    the committed bundle (fast)."""
+    import json
+    import os
+    bundle = "docs/figures/paper_a/results.json"
+    if not os.path.exists(bundle):
+        import pytest
+        pytest.skip("Paper A bundle not present")
+    with open(bundle) as f:
+        e = json.load(f).get("endpoint_mass_sensitivity")
+    if e is None:
+        import pytest
+        pytest.skip("endpoint sensitivity not in this bundle (recompute with `full`)")
+    assert e["caffeine_helps_invariant"] is True          # robust part
+    assert e["overall_mape_spread_pp"] > 1.0              # honestly non-negligible
+    assert len(e["rows"]) == 3
+
+
 def test_discrepancy_control_dose_response():
     """review MAJ-13: the bundle must carry the model-discrepancy positive control as a
     DOSE-RESPONSE. Moderate discrepancy leaves an irreducible floor above noise while the

@@ -66,6 +66,7 @@ def compute_all(out_path=RESULTS):
         species_bracket=ab.gate_pannusch_angeloni_species_bracket(),
         per_condition=ab.gate_pannusch_angeloni_per_condition(),
         flow_map_refinement=ab.flow_map_refinement(),
+        endpoint_mass_sensitivity=ab.endpoint_mass_sensitivity(),  # A2-09 endpoint caveat
         geometry_sensitivity=ab.geometry_sensitivity_transfer(),
         sampled_aggregate_audit=idn.sampled_aggregate_vs_actual_cup(),
         external_waszkiewicz=ew.waszkiewicz_external_tds(),

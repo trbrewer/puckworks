@@ -54,6 +54,8 @@ _CLAIMS = [
      "full_cup_discrepancy_large.mean_located_rate_biased_fraction", 1.0, 0.05),
     ("continuous-optimiser rate optimum interior ~0.66",
      "identifiability_convergence.continuous_optimiser.continuous_rate_optimum", 0.66, 0.20),
+    ("endpoint-mass caveat: MAPE moves ~5pp over 38-42 mL",
+     "endpoint_mass_sensitivity.overall_mape_spread_pp", 5.3, 1.5),
 ]
 
 

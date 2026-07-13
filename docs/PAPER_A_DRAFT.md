@@ -139,11 +139,17 @@ grid.
 solver integrates to a *volume* endpoint `t_end = V_target / Q`. We set `V_target = 40 mL`,
 i.e. we approximate 40 g as 40 mL — at a hot-beverage density ρ ≈ 0.98–1.00 g/mL this is a
 ≈ 0–2 % (≤ ~0.8 mL) endpoint shift, and the source's own ±2 g tolerance is a further ±5 %.
-Because the transfer conclusion is a MAPE that is level-robust (the exact weighted-median
-inventory level absorbs a common multiplicative scale), a small common endpoint shift
-moves all cups together and is largely absorbed; a per-endpoint sensitivity sweep over
-38–42 g and ρ ∈ [0.96, 1.00] is a bounded owed check (§8), and we use "matched beverage
-endpoint" rather than "matched 40 g" wherever the distinction could matter.
+We ran the per-endpoint sensitivity sweep (38 / 40 / 42 mL) rather than assert insensitivity
+(`endpoint_mass_sensitivity`). The result is a **quantified caveat, not a dismissal**: the
+overall blind transfer MAPE is *moderately* endpoint-sensitive — it moves ≈ 5.3 pp (19.9 →
+25.2 %) across the ±2 g window — and the finer *trigonelline-hurts-when-inventory-matched*
+detail flips near the +5 % endpoint. What is **robust** across every endpoint is the
+headline: the large per-condition transfer residual itself, and the caffeine inventory-match
+improvement. So the qualitative conclusion (a large, structured residual not removed by
+inventory alone) does not hinge on the 40 g ≈ 40 mL approximation, but the exact residual
+magnitude and the trigonelline detail carry a ≈ 5 pp endpoint uncertainty that we state
+here rather than absorb. We use "matched beverage endpoint" rather than "matched 40 g"
+wherever the distinction could matter.
 
 Angeloni report pressure; the model consumes flow. We map `p → flow` from the
 study's *own* hydraulics, not by fitting to its concentrations. The refined map is
