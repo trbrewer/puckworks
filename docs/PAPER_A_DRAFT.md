@@ -135,6 +135,16 @@ grid.
 
 ### 2.3 Pressure → flow map (an assumption, not a fit)
 
+**Endpoint contract (review A2-09).** The Angeloni cup is a **40 ± 2 g** beverage; the
+solver integrates to a *volume* endpoint `t_end = V_target / Q`. We set `V_target = 40 mL`,
+i.e. we approximate 40 g as 40 mL — at a hot-beverage density ρ ≈ 0.98–1.00 g/mL this is a
+≈ 0–2 % (≤ ~0.8 mL) endpoint shift, and the source's own ±2 g tolerance is a further ±5 %.
+Because the transfer conclusion is a MAPE that is level-robust (the exact weighted-median
+inventory level absorbs a common multiplicative scale), a small common endpoint shift
+moves all cups together and is largely absorbed; a per-endpoint sensitivity sweep over
+38–42 g and ρ ∈ [0.96, 1.00] is a bounded owed check (§8), and we use "matched beverage
+endpoint" rather than "matched 40 g" wherever the distinction could matter.
+
 Angeloni report pressure; the model consumes flow. We map `p → flow` from the
 study's *own* hydraulics, not by fitting to its concentrations. The refined map is
 Darcy-consistent, `q = q_ref · (p/p_ref) · (μ(T_ref)/μ(T))`, anchored to a single
@@ -265,9 +275,17 @@ the earlier "33 %" was a tuple-indexing bug, review A2-01, now corrected and uni
 Trigonelline is similar (condition number ≈ 3600,
 coupling ≈ −0.84, SSE profile flat over ~45 % of the grid). This is practical
 non-identifiability over the tested domain, quantified — robust to the matched-mass and
-exact-level corrections and consistent across the SSE and MAPE objectives, not an
-artefact of a coarse grid (grid-density and domain robustness remain an owed appendix,
-review MAJ-04).
+exact-level corrections and consistent across the SSE and MAPE objectives.
+
+**Grid-density and domain convergence** (`identifiability_panel_convergence`, review
+A2-06/07) confirms it is not a coarse-grid or chosen-domain artefact: across rate grids of
+**18 / 36 / 72** points the caffeine condition number is **1924 / 2069 / 2067** and the
+coupling **−0.99** (both stable to ≤10 %), and the flat valley persists on a **narrower
+[0.3, 3]** (log-width 2.0, 89 % of grid within 10 %) and a **wider [0.1, 10]** (log-width
+3.3) domain. In every configuration the 10 % threshold set **reaches the swept-domain
+boundary** — the profile is therefore **right-censored**: the flat region extends beyond
+the tested rate range, so the reported widths are lower bounds and the rate is, if
+anything, *less* bounded than the finite-domain numbers imply.
 
 Strength: this is a *diagnosis of the fit*, established on the transfer target and
 corroborated on the model's own data in §6 — not a claim about the model's physics.
@@ -493,7 +511,9 @@ first over-claimed identification, the second was an endpoint artefact.
   inverse-curvature coupling ≈ −0.99 (a geometric SSE-surface diagnostic, not a
   statistical correlation), SSE profile flat over ~76 % of a wide rate sweep (MAPE
   cross-check ~66 %). Still owed on top: the same panel across all solutes/varieties as
-  a supplementary figure, plus grid-density/domain convergence (review A2-06/07).
+  a supplementary figure. Grid-density/domain convergence is **delivered**
+  (`identifiability_panel_convergence`, A2-06/07): condition number 1924/2069/2067 across
+  18/36/72-point grids, flat valley on [0.3,3] and [0.1,10], threshold set right-censored.
 - **An empirical full-cup comparison** (review B2) — the exact-integral simulation
   (§6) is delivered; the empirical version is **data-blocked** (the repo has only
   fraction windows 1,2,3,5,7,10; the BR-1/3 cup mass/endpoint is ambiguous).

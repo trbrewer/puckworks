@@ -226,9 +226,11 @@ def fig3_ladder(outdir=OUTDIR_DEFAULT):
     P = sorted(pp)
     for key, col, lab in (("phi", ACCENT, "Φ(t)"), ("rc3b", GOOD, "RC-3b"), ("static", NULL, "static")):
         ax3.plot(P, [pp[p][key] for p in P], "o-", color=col, lw=1.5, ms=4, label=lab)
-    ax3.set_title("(c) Conditional cross-pressure transfer")
-    ax3.set_xlabel("pressure [bar]"); ax3.set_ylabel("conditional-transfer RMSE [g/s]")
+    ax3.set_title("(c) Cross-pressure transfer (shared calibration; NOT LOPO)")
+    ax3.set_xlabel("pressure [bar]"); ax3.set_ylabel("shared-calibration RMSE [g/s]")
     ax3.legend(fontsize=8, ncol=3, loc="upper center")
+    ax3.text(0.5, 0.02, "shared campaign-wide (P_c,Q_c); leave-one-pressure-out in text",
+             transform=ax3.transAxes, fontsize=6.0, color=NULL, ha="center")
 
     # (d) rung-5b swelling competitor: falling flow ratio vs the rising trace
     from puckworks.models.mo2023_2 import swelling as mo2
