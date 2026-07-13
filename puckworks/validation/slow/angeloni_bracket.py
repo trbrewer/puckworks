@@ -212,6 +212,7 @@ def gate_pannusch_angeloni_per_condition(t_shot_s=25.0, flow_map="darcy"):
         per = {}
         for sol, (col, conv) in SPEC.items():
             blind, matched, preds, meas = [], [], [], []
+            conditions = []                               # per-shot residual records (MAJ-17)
             for r in shots:
                 T = r["T_degC"]; flow = _flow(r["p_bar"], T)
                 bounds = _matched_bounds(flow)            # matched 40 g cup (B1)
@@ -219,16 +220,23 @@ def gate_pannusch_angeloni_per_condition(t_shot_s=25.0, flow_map="darcy"):
                 pb = float(ps.simulate_fractions(T, flow, bounds,
                                                  params[sol], cl1=1.0)[0]) * conv
                 blind.append(abs(pb - m) / m * 100); preds.append(pb); meas.append(m)
+                rec = dict(T_degC=T, p_bar=r["p_bar"], pred_blind=pb, meas=m,
+                           signed_resid_blind_pct=round((pb - m) / m * 100, 2),
+                           pred_matched=None, signed_resid_matched_pct=None)
                 if (variety, col) in inv:                # inventory-matched (CF/TR)
                     sp2 = dict(params[sol]); sp2["c_s0"] = inv[(variety, col)]
                     pm = float(ps.simulate_fractions(T, flow, bounds,
                                                      sp2, cl1=1.0)[0]) * conv
                     matched.append(abs(pm - m) / m * 100)
+                    rec["pred_matched"] = pm
+                    rec["signed_resid_matched_pct"] = round((pm - m) / m * 100, 2)
+                conditions.append(rec)
             cc = float(np.corrcoef(preds, meas)[0, 1]) if np.std(meas) > 0 else float("nan")
             per[sol] = dict(mape_blind=round(float(np.mean(blind)), 1),
                             mape_inv_matched=(round(float(np.mean(matched)), 1)
                                               if matched else None),
-                            shape_corr=round(cc, 2), n=len(shots))
+                            shape_corr=round(cc, 2), n=len(shots),
+                            conditions=conditions)         # signed residuals vs (T,p)
         out[variety] = per
     allmape = np.mean([out[v][s]["mape_blind"] for v in out for s in SPEC])
     return dict(per_variety=out, n_conditions_per_variety=9, flow_map=flow_map,

@@ -435,12 +435,62 @@ def fig7_per_group_diagnostics(results=None, outdir=OUTDIR):
     return _save(fig, outdir, "fig7_per_group_diagnostics.png")
 
 
+def fig8_residuals_vs_conditions(results=None, outdir=OUTDIR):
+    """Fig 8 — signed transfer residuals vs the (T, p) conditions (review A-MAJ17). For
+    each variety x solute, the per-condition BLIND residual (pred-meas)/meas is plotted
+    against brew temperature (a) and pressure (b) at the three DoE levels each. The clear
+    structure is a solute-consistent SIGN OFFSET -- every condition under-predicts (all
+    residuals negative), ordered by solute (5CQA most negative, then trigonelline, then
+    caffeine) and separated by variety -- exactly what a pure inventory (level) rescale
+    CANNOT remove, since a level shift moves all conditions together but not the
+    solute/variety-specific offsets. This is the residual-vs-(T,p) scatter the per-group
+    Fig 7 could not show; it consumes the per-condition residual vectors now surfaced by
+    the harness."""
+    import numpy as np
+    r = _load(results); plt = _plt()
+    pv = r["per_condition"]["per_variety"]
+    varieties = [v for v in ("Arabica", "Robusta") if v in pv]
+    solutes = ["caffeine", "trigonelline", "5CQA", "tds"]
+    vcol = {"Arabica": ACCENT, "Robusta": "#4a6fa5"}
+    smark = {"caffeine": "o", "trigonelline": "s", "5CQA": "^", "tds": "D"}
+    fig, axes = plt.subplots(1, 2, figsize=(11.4, 4.4))
+    for ax, xkey, xlabel in ((axes[0], "T_degC", "brew temperature (°C)"),
+                             (axes[1], "p_bar", "pressure (bar)")):
+        for var in varieties:
+            for sol in solutes:
+                x = pv[var].get(sol)
+                if not x or "conditions" not in x:
+                    continue
+                cs = x["conditions"]
+                xv = [c[xkey] for c in cs]
+                yv = [c["signed_resid_blind_pct"] for c in cs]
+                ax.scatter(xv, yv, marker=smark[sol], s=26, facecolor=vcol[var],
+                           edgecolor="white", lw=0.4, alpha=0.85, label="_nolegend_")
+        ax.axhline(0.0, color=INK, lw=1.0)
+        ax.set_xlabel(xlabel); ax.set_ylabel("signed blind residual (pred−meas)/meas [%]")
+        ax.set_title("(a) residual vs temperature" if xkey == "T_degC"
+                     else "(b) residual vs pressure", fontsize=9)
+    # a compact combined legend (variety = colour, solute = marker)
+    from matplotlib.lines import Line2D
+    handles = [Line2D([], [], marker="o", ls="", mfc=vcol[v], mec="white", label=v)
+               for v in varieties]
+    handles += [Line2D([], [], marker=smark[s], ls="", mfc=NULL, mec="white", label=s)
+                for s in solutes]
+    axes[1].legend(handles=handles, fontsize=6.8, loc="upper right", ncol=2)
+    fig.suptitle("Fig 8 — signed transfer residuals are STRUCTURED: a solute- and "
+                 "variety-consistent negative offset (all conditions under-predict) that "
+                 "a pure inventory (level) rescale cannot remove", y=1.02, fontsize=9.0,
+                 fontweight="bold")
+    return _save(fig, outdir, "fig8_residuals_vs_conditions.png")
+
+
 def render_all(results=None, outdir=OUTDIR):
     res = _load(results)
     return [fig1_design(outdir), fig2_objective_surface(res, outdir),
             fig3_holdouts(res, outdir), fig4_transfer(res, outdir),
             fig5_joint_residual(res, outdir), fig6_fraction_vs_endpoint(res, outdir),
-            fig7_per_group_diagnostics(res, outdir)]
+            fig7_per_group_diagnostics(res, outdir),
+            fig8_residuals_vs_conditions(res, outdir)]
 
 
 def main(argv=None):

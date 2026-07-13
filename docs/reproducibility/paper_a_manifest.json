@@ -1,11 +1,11 @@
 {
   "paper": "A",
-  "source_commit": "2b44161b7ebf29759ac24b2c5203044821b96b0f",
+  "source_commit": "19e07032517f8b32733ee15cc08c6a9399add110",
   "git_dirty": true,
-  "timestamp_utc": "2026-07-12T00:00:00Z",
+  "timestamp_utc": null,
   "bundle_source_commit": "838f397f35b09462372b471432653fd7937200ee",
   "bundle_schema_version": 2,
-  "bundle_sha256": "d90e8d8d58be3ae6316a33d1f3fb65b4eef6ddf55d1783e0bf15f60241bfd54e",
+  "bundle_sha256": "398f5199483314e87cd659d4629e24e56d80e1ceae9ee1cd9f1c5da9bd26a367",
   "environment": {
     "python": "3.13.13",
     "numpy": "2.5.1",
