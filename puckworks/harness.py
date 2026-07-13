@@ -936,7 +936,7 @@ def channeling_interior_max_sensitivity(gs_grid=None,
                      next((c["prominence"] for c in pressure_sweep if c["p_bar"] == 9.0), float("nan")))))
 
 
-def schmieder_rsm_refit(component="tds", brew_ratio="1/2"):
+def schmieder_rsm_refit(component="tds", brew_ratio="1/2", predictors="target"):
     """Refit schmieder's Eq.4 RSM to the COMMITTED cup-mass observations (same
     retained terms as the printed Table-3 row), to separate a real model level
     from a PRINTED-PRECISION artifact. The published coefficients are rounded (the
@@ -947,16 +947,28 @@ def schmieder_rsm_refit(component="tds", brew_ratio="1/2"):
     an artifact), and the raw central cell mean. Reading: use the RSM for SHAPE
     (concavity/vertex, robust to the offset), NOT absolute magnitude -- because the
     printed coefficients lack the precision for absolute reconstruction, NOT because
-    the source model is wrong."""
+    the source model is wrong.
+
+    PREDICTOR CONTRACT (review MAJ-04): the source Methods fit the RSM on set grind
+    plus the EXPERIMENTALLY ACHIEVED flow and temperature. `predictors='achieved'`
+    uses `scale_flow_ml_s` / `decent_temp_C` (achieved) and evaluates the vertex at
+    the MEAN ACHIEVED central-cell flow; `predictors='target'` (default, kept for
+    continuity) uses the nominal `target_flow_ml_s` / `target_temp_C`. The two are
+    reported side-by-side (`achieved_predictor_sensitivity`) so the vertex's
+    insensitivity to the predictor choice is explicit rather than assumed; this is a
+    documented REFIT of the source design, not a reconstruction of the source's own
+    full-precision OriginPro object."""
     from puckworks import data as _d
     comp = _SCHM_COMPONENT.get(component.lower(), component)
     rows = _d.schmieder_cup_masses()
+    fcol, tcol = (("scale_flow_ml_s", "decent_temp_C") if predictors == "achieved"
+                  else ("target_flow_ml_s", "target_temp_C"))
     obs = []
     for r in rows:
         if r.get("component") != comp or r.get("brew_ratio") != brew_ratio:
             continue
-        F, G, T, y = (_f_num(r.get("target_flow_ml_s")), _f_num(r.get("grind_level")),
-                      _f_num(r.get("target_temp_C")), _f_num(r.get("mass_in_cup")))
+        F, G, T, y = (_f_num(r.get(fcol)), _f_num(r.get("grind_level")),
+                      _f_num(r.get(tcol)), _f_num(r.get("mass_in_cup")))
         if None in (F, G, T, y):
             continue
         obs.append((F, G, T, y))
@@ -967,7 +979,15 @@ def schmieder_rsm_refit(component="tds", brew_ratio="1/2"):
     # coefficients are not orthogonal and the vertex below combines b_G/b_G2/b_FG.
     X = np.column_stack([np.ones_like(F), F, G, T, G ** 2, T ** 2, F * G])
     coef, *_ = np.linalg.lstsq(X, y, rcond=None)
-    fl, tp, g = _SCHM_CENTER["flow_ml_s"], _SCHM_CENTER["temp_C"], 1.7
+    # vertex/prediction eval centre: for ACHIEVED predictors use the mean achieved
+    # central-cell (grind 1.7) flow/temp; for TARGET use the nominal design centre.
+    g = 1.7
+    if predictors == "achieved":
+        cmask = np.abs(G - 1.7) < 1e-9
+        fl = float(np.mean(F[cmask])) if cmask.any() else float(np.mean(F))
+        tp = float(np.mean(T[cmask])) if cmask.any() else float(np.mean(T))
+    else:
+        fl, tp = _SCHM_CENTER["flow_ml_s"], _SCHM_CENTER["temp_C"]
     xc = np.array([1, fl, g, tp, g ** 2, tp ** 2, fl * g])
     refit_pred = float(xc @ coef)
     # fit quality: R^2 and adjusted R^2 (p = 6 predictors excluding the intercept)
@@ -1058,10 +1078,24 @@ def schmieder_rsm_refit(component="tds", brew_ratio="1/2"):
     printed_pred = float(pr["beta0"] + pr["beta1"] * fl + pr["beta2"] * g + pr["beta3"] * tp
                          + pr["beta4"] * fl ** 2 + pr["beta5"] * g ** 2 + pr["beta6"] * tp ** 2
                          + pr["beta7"] * fl * g + pr["beta8"] * fl * tp + pr["beta9"] * g * tp)
-    raw_central = float(np.mean([v for FF, GG, TT, v in obs
-                                 if FF == fl and GG == g and TT == tp]))
+    central = [v for FF, GG, TT, v in obs if abs(GG - g) < 1e-9
+               and abs(FF - fl) < 0.15 and abs(TT - tp) < 1.5]
+    raw_central = float(np.mean(central)) if central else float("nan")
+    # ACHIEVED-predictor sensitivity (review MAJ-04): report the source-contract
+    # (achieved flow/temp) vertex + adj-R^2 alongside, so the vertex's insensitivity to
+    # target-vs-achieved is explicit. Computed only in target mode (no recursion).
+    achieved_sens = None
+    if predictors == "target":
+        a = schmieder_rsm_refit(component, brew_ratio, predictors="achieved")
+        achieved_sens = dict(vertex_g=a["vertex_g"], adj_r2=a["adj_r2"],
+                             residual_std=(a["diagnostics"] or {}).get("residual_std"),
+                             eval_flow_ml_s=a["eval_flow_ml_s"],
+                             note="source Methods used achieved flow/temp; vertex shift "
+                                  "vs target spec is the predictor-contract sensitivity")
     return dict(n_obs=len(obs), refit_central_g=refit_pred,
                 printed_central_g=printed_pred, raw_central_g=raw_central,
+                predictors=predictors, eval_flow_ml_s=round(fl, 4), eval_temp_C=round(tp, 3),
+                coef=[float(c) for c in coef],   # 1,F,G,T,G^2,T^2,FG (for figure reuse)
                 r2=round(r2, 4), adj_r2=round(adj_r2, 4), n=n, n_predictors=p,
                 vertex_g=round(vertex_g, 3) if np.isfinite(vertex_g) else None,
                 vertex_is_max=vertex_is_max,
@@ -1070,8 +1104,10 @@ def schmieder_rsm_refit(component="tds", brew_ratio="1/2"):
                 bootstrap_type="residual (fixed-design); case bootstrap reported for comparison",
                 bootstrap_concave_fraction=round(frac_concave, 3),
                 bootstrap_vertex_in_dial_domain_fraction=round(frac_in_domain, 3),
+                achieved_predictor_sensitivity=achieved_sens,
                 predictors_centered=False, diagnostics=diag,
-                printed_is_artifact=bool(abs(printed_pred - raw_central) > 1.0
+                printed_is_artifact=bool(np.isfinite(raw_central)
+                                         and abs(printed_pred - raw_central) > 1.0
                                          and abs(refit_pred - raw_central) < 0.5))
 
 

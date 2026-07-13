@@ -403,11 +403,14 @@ analyzed under a physically consistent machine/bed system and tested experimenta
   **design-matrix** condition number κ₂(X) ≈ 1.7×10⁶ (the Gram κ₂(XᵀX) ≈ 2.7×10¹² is its
   square, and is *not* the design condition number) — so the individual coefficients/SEs
   are numerically unstable while the offset-invariant vertex and predictive Q² are not;
-  the interval is conditional on the retained quadratic model and design. Still owed is
-  the source's own full-precision coefficient/covariance matrix (author request) and a
-  refit on the source's **achieved** flow/temperature predictors (MAJ-04, achieved fields
-  are in the CSV; sensitivity expected small — the audited achieved-predictor vertex is
-  1.75 vs 1.73).
+  the interval is conditional on the retained quadratic model and design. The refit now
+  runs on **both** the nominal-target and the source's **achieved** flow/temperature
+  predictors (`schmieder_rsm_refit(predictors=…)`, MAJ-04): the vertex is insensitive to
+  the choice (achieved 1.74 vs target 1.73; adj-R² 0.643 vs 0.649), repairing the method
+  mismatch, and the plotted RSM curve (Fig 1) now uses the achieved-predictor fit
+  *consumed from the single analysis result* rather than re-fitted in the plotting layer.
+  Still owed is the source's own full-precision coefficient/covariance matrix (author
+  request).
 - A full design-aware, experiment-unit statistical model of the Result-1 dial
   response. *Partially addressed:* `harness.result1_design_aware_stats` now reports
   the per-dial achieved covariates, the single-experiment-per-cell structure, both

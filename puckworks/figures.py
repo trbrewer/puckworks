@@ -64,40 +64,26 @@ def fig1_result1(outdir=OUTDIR_DEFAULT):
     t = h.schmieder_interior_max_target()
     p = t["primary"]
     dials = np.array(p["grinds"]); ey = np.array(p["ey_means"]); err = np.array(p["ey_stds"])
-    # RSM EY curve over the dial range: REFIT to the committed observations (the
-    # PRINTED Table-3 coefficients are rounded and cannot reconstruct the absolute
-    # level -- the earlier "overpredicts 1.7x" was a rounding artifact). The refit
-    # sits near the data (~3.9 g); we plot it for the SHAPE (concavity/vertex).
-    import numpy as _np
-    from puckworks import data as _d
-    fl, tp = t["center"]["flow_ml_s"], t["center"]["temp_C"]
-    obs = []
-    comp = "TDS"
-    for x in _d.schmieder_cup_masses():
-        if x.get("component") != comp or x.get("brew_ratio") != t["center"]["brew_ratio"]:
-            continue
-        try:
-            obs.append((float(x["target_flow_ml_s"]), float(x["grind_level"]),
-                        float(x["target_temp_C"]), float(x["mass_in_cup"])))
-        except (TypeError, ValueError):
-            continue
-    O = _np.asarray(obs, float); Fo, Go, To, yo = O[:, 0], O[:, 1], O[:, 2], O[:, 3]
-    Xo = _np.column_stack([_np.ones_like(Fo), Fo, Go, To, Go**2, To**2, Fo*Go])
-    cf, *_ = _np.linalg.lstsq(Xo, yo, rcond=None)
+    # RSM EY curve over the dial range: consume the SINGLE analysis result
+    # `schmieder_rsm_refit` (no duplicated fit in the plotting layer, review MAJ-04),
+    # using the source-contract ACHIEVED flow/temperature predictors. The refit sits
+    # near the data; we plot it for the SHAPE (concavity/vertex), since the printed
+    # Table-3 coefficients are rounded and cannot reconstruct the absolute level.
+    rf = h.schmieder_rsm_refit(predictors="achieved")
+    cf = np.asarray(rf["coef"], float)                    # 1,F,G,T,G^2,T^2,FG
+    fl, tp = rf["eval_flow_ml_s"], rf["eval_temp_C"]      # mean achieved central flow/temp
     gg = np.linspace(1.4, 2.0, 60)
-    Xg = _np.column_stack([_np.ones_like(gg), fl+0*gg, gg, tp+0*gg, gg**2, (tp**2)+0*gg, fl*gg])
-    rsm_ey = (Xg @ cf) / p["dose_g"] * 100.0             # refit cup mass -> EY
-    # annotate the REFIT vertex + bootstrap CI (not the printed-coefficient vertex,
-    # which is a rounded-coefficient artifact); adj-R^2 is the refit's, ~schmieder's
-    rf = h.schmieder_rsm_refit()
+    Xg = np.column_stack([np.ones_like(gg), fl+0*gg, gg, tp+0*gg, gg**2, (tp**2)+0*gg, fl*gg])
+    rsm_ey = (Xg @ cf) / p["dose_g"] * 100.0              # refit cup mass -> EY
     vtx = rf["vertex_g"]; vtx_ci = rf["vertex_ci95_g"]; adj = rf["adj_r2"]
 
     ch = h.channeling_sigma_sweep(gs_grid=np.linspace(1.0, 2.2, 7), s_ref=0.6, m=1.0, p_bar=5.0, n_grid=7)
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8.2, 3.4))
     ax1.errorbar(dials, ey, yerr=err, fmt="o", color=INK, capsize=3, ms=6,
-                 label="measured TDS-EY (raw cells)", zorder=3)
-    ax1.plot(gg, rsm_ey, color=ACCENT, lw=1.8, label="RSM refit (shape; printed coeffs rounded)")
+                 label="measured TDS-EY (cell means ± SD)", zorder=3)
+    ax1.plot(gg, rsm_ey, color=ACCENT, lw=1.8,
+             label="RSM refit (achieved predictors; shape only)")
     ax1.axvline(vtx, color=WARN, ls=":", lw=1.4)
     if vtx_ci:
         ax1.axvspan(vtx_ci[0], vtx_ci[1], color=WARN, alpha=0.12, lw=0)
@@ -109,8 +95,9 @@ def fig1_result1(outdir=OUTDIR_DEFAULT):
     ax1.set_title("(a) Target: TDS-EY vs dial")
     ax1.set_xlabel("grinder dial (schmieder E65S)"); ax1.set_ylabel("extraction yield [%]")
     ax1.legend(loc="lower right", fontsize=7.4)
-    ax1.text(0.03, 0.80, "raw: monotone (no bump)\nRSM: weak interior max",
-             transform=ax1.transAxes, va="top", fontsize=7.6, color=NULL)
+    ax1.text(0.03, 0.80, "observed cell means increase\n(no middle-cell maximum);\n"
+             "RSM refit: weak interior vertex",
+             transform=ax1.transAxes, va="top", fontsize=7.2, color=NULL)
 
     ax2.plot(ch["gs"], ch["ey_homog"], "o-", color=NULL, lw=1.5, ms=4, label="homogeneous (base)")
     ax2.plot(ch["gs"], ch["ey_ensemble"], "s-", color=ACCENT, lw=1.8, ms=5, label="channeling ensemble")
@@ -127,36 +114,62 @@ def fig1_result1(outdir=OUTDIR_DEFAULT):
 
 
 # ---------------------------------------------------------------------------
+# status -> (colorblind-safe fill, short cell label). Palette avoids red/green-only
+# semantics (review MAJ-09 / Crameri et al. 2020); the text label carries the meaning.
+_EV_STATUS = {
+    "implemented": ("#2c7fb8", "impl"),
+    "observable-matched": ("#2c7fb8", "matched"),
+    "observable-mismatch": ("#d9a441", "mismatch"),
+    "cross-dataset-proxy": ("#d9a441", "proxy"),
+    "target-fitted": ("#d9a441", "target-fit"),
+    "same-campaign-transfer": ("#d9a441", "same-campaign"),
+    "literature-fixed": ("#7fb1d3", "literature"),
+    "capacity": ("#d9a441", "capacity"),
+    "elevated-param-only": ("#d9a441", "elevated-ρc"),
+    "no": ("#8a8f98", "no"),
+    "qualitative-capacity": ("#d9a441", "qual-cap"),
+    "qualitative-null": ("#7fb1d3", "qual-null"),
+    "reference": ("#7fb1d3", "reference"),
+    "not-implemented": ("#cfc6ba", "not-impl"),
+    "parameter-blocked": ("#cfc6ba", "param-blocked"),
+    "not-evaluated": ("#cfc6ba", "n/e"),
+}
+
+
 def fig2_evidence_matrix(outdir=OUTDIR_DEFAULT):
-    """Fig 2 — mechanism evidence matrix (NOT a winner scoreboard)."""
-    from puckworks import harness as h
+    """Fig 2 — mechanism evidence matrix, generated from the COMMITTED structured file
+    `data/paper_b_evidence_matrix.csv` (review MAJ-09): every cell is a defined status
+    from data, not hard-coded in plotting logic; a colorblind-safe fill plus a text
+    label carries meaning; a right-hand column names the decisive missing measurement."""
+    from puckworks import data as d
     plt = _plt()
-    r = h.schmieder_peak_discrimination()
-    by = {b["name"]: b for b in r["board"]}
-    # rows = mechanisms; columns = evidence dimensions; cell codes: 2 yes, 1 partial/only-under-elevated-param, 0 no, -1 untested
-    rows = [
-        ("static channeling σ(φ₁)", [2, 2, 1, 2, 1]),      # impl, obs-match(EY proxy), params-constrained(empirical), generates, strength(qual)
-        ("lee2023 dissolution", [2, 2, 1, 1, 1]),          # generates only under an elevated (2x measured) ρ_c
-        ("size-exclusion y₀", [2, 0, 2, 0, 1]),            # different observable
-        ("diffusion null", [2, 2, 2, 0, 1]),
-        ("incomplete wetting #2", [0, -1, -1, -1, -1]),    # unimplemented
-    ]
-    cols = ["implemented", "observable\nmatched", "params\nconstrained",
-            "generates\ninterior max", "evidence\nstrength"]
-    cmap = {2: GOOD, 1: WARN, 0: BAD, -1: "#cfc6ba"}
-    labels = {2: "yes", 1: "partial", 0: "no", -1: "untested"}
-    fig, ax = plt.subplots(figsize=(7.6, 3.4))
-    for i, (name, vals) in enumerate(rows):
-        for j, v in enumerate(vals):
-            ax.add_patch(plt.Rectangle((j, len(rows)-1-i), 1, 1, facecolor=cmap[v],
+    rows = d.paper_b_evidence_matrix()
+    dims = ["implemented", "observable", "params_provenance",
+            "generates_interior_max", "evidence_strength"]
+    col_labels = ["implemented", "observable", "parameter\nprovenance",
+                  "generates\ninterior max", "evidence\nstrength"]
+    nR, nC = len(rows), len(dims)
+    fig, ax = plt.subplots(figsize=(10.6, 3.6))
+    for i, row in enumerate(rows):
+        for j, dim in enumerate(dims):
+            status = row[dim]
+            fill, lab = _EV_STATUS.get(status, ("#cfc6ba", status[:10]))
+            y = nR - 1 - i
+            ax.add_patch(plt.Rectangle((j, y), 1, 1, facecolor=fill,
                                        edgecolor="white", lw=2))
-            ax.text(j+0.5, len(rows)-1-i+0.5, labels[v], ha="center", va="center",
-                    color="white", fontsize=7.5, fontweight="bold")
-    ax.set_xlim(0, len(cols)); ax.set_ylim(0, len(rows))
-    ax.set_xticks([j+0.5 for j in range(len(cols))]); ax.set_xticklabels(cols, fontsize=8)
-    ax.set_yticks([len(rows)-1-i+0.5 for i in range(len(rows))])
-    ax.set_yticklabels([n for n, _ in rows], fontsize=8.5)
-    ax.set_title("Fig 2 — mechanism evidence matrix (qualitative; not a winner scoreboard)")
+            ax.text(j + 0.5, y + 0.5, lab, ha="center", va="center",
+                    color="white", fontsize=7.0, fontweight="bold")
+        # decisive missing measurement column (text, past the grid)
+        ax.text(nC + 0.15, nR - 1 - i + 0.5, row["decisive_missing_measurement"],
+                ha="left", va="center", fontsize=6.6, color=NULL)
+    ax.text(nC + 0.15, nR + 0.12, "decisive missing measurement", ha="left",
+            fontsize=7.2, style="italic", color=NULL)
+    ax.set_xlim(0, nC + 4.6); ax.set_ylim(0, nR + 0.3)
+    ax.set_xticks([j + 0.5 for j in range(nC)]); ax.set_xticklabels(col_labels, fontsize=8)
+    ax.set_yticks([nR - 1 - i + 0.5 for i in range(nR)])
+    ax.set_yticklabels([r["mechanism"] for r in rows], fontsize=8.0)
+    ax.set_title("Fig 2 — mechanism evidence matrix (defined statuses; not a winner scoreboard)",
+                 loc="left", fontsize=10)
     ax.grid(False); ax.tick_params(length=0)
     for s in ax.spines.values():
         s.set_visible(False)

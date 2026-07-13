@@ -152,6 +152,13 @@ def schmieder_rsm():
     return _typed_rows(SCHM / "rsm_coefficients.csv")
 
 
+def paper_b_evidence_matrix():
+    """Committed structured evidence matrix for Paper B Figure 2 (review MAJ-09): one
+    row per mechanism with a DEFINED status per dimension + the decisive missing
+    measurement, so the figure is generated from data, not hard-coded plotting cells."""
+    return _rows(DATA_DIR / "paper_b_evidence_matrix.csv")
+
+
 # --- wadsworth2026 grind map (ROADMAP 0.6 / 1.5) -------------------------
 WADS = DATA_DIR / "wadsworth2026"
 

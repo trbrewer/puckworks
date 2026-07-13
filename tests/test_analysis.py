@@ -23,6 +23,34 @@ def test_residual_autocorr_runs():
     assert summary()["n_pressures"] == 11
 
 
+def test_paper_b_evidence_matrix_is_data_driven():
+    """review MAJ-09: Fig 2 must render from the committed evidence CSV, and every
+    status must be a defined code the figure knows how to draw (no hard-coded cells,
+    no undefined statuses)."""
+    from puckworks import data as d
+    from puckworks.figures import _EV_STATUS
+    rows = d.paper_b_evidence_matrix()
+    assert len(rows) >= 4
+    dims = ["implemented", "observable", "params_provenance",
+            "generates_interior_max", "evidence_strength"]
+    for r in rows:
+        assert r["mechanism"] and r["decisive_missing_measurement"]
+        for dim in dims:
+            assert r[dim] in _EV_STATUS, f"undefined status {r[dim]!r} for {dim}"
+
+
+def test_rsm_achieved_predictor_sensitivity():
+    """review MAJ-04: the RSM refit reports the source-contract ACHIEVED-predictor
+    vertex alongside the target-predictor one; the vertex is insensitive to the choice
+    (both interior, shift < 0.1 dial)."""
+    from puckworks.harness import schmieder_rsm_refit
+    r = schmieder_rsm_refit("tds", "1/2")
+    a = r["achieved_predictor_sensitivity"]
+    assert a is not None and a["vertex_g"] is not None
+    assert abs(r["vertex_g"] - a["vertex_g"]) < 0.1        # predictor choice barely moves it
+    assert 1.4 < a["vertex_g"] < 2.0                        # still interior
+
+
 def test_cross_pressure_full_precision_from_raw():
     """review MAJ-12: the 'full precision' cross-pressure mean must be computed from
     UNROUNDED per-pressure RMSEs, so it can differ from the mean of the 3-dp display
