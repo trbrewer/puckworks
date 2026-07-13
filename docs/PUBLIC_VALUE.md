@@ -171,6 +171,7 @@ Scores below are 1–5. **Ease** is reversed effort: 5 means an existing-analysi
 | PV-16 | Public fraction and first-drip replication study | 5 | 3 | 4 | 5 | 2 | 19 | P2 participation |
 | PV-17 | Pump-curve and screen-clogging bench study | 4 | 4 | 4 | 5 | 2 | 19 | P2 experiment |
 | PV-18 | Coffee-bed retention and continuous-wetting measurement | 4 | 2 | 5 | 4 | 1 | 16 | P2/P3 research |
+| PV-19 | “The best-understood espresso shot”: one named recipe, every component, evidence attached | 5 | 4 | 4 | 4 | 4 | 21 | **P0/P1 capstone story** |
 
 A sensible execution rule is:
 
@@ -1455,6 +1456,57 @@ A physically grounded wetting model could explain why first-drip delay changes w
 **Primary repo dependencies:** G1 roadmap search target, Foster infiltration, wetting-atom probe.  
 **Public success signal:** a measured constitutive curve predicts held-out first-drip/saturation behavior better than a sharp-front-only description.
 
+### PV-19 — “The best-understood espresso shot”: one named recipe, every component, evidence attached
+
+**Working headline**
+
+> **We fixed one exact espresso shot — machine, grinder dial, dose, coffee, temperature — and pointed every model we have at it. Here is what physics can predict about that single shot today, and what no model can yet promise.**
+
+**Public question:** if you fully specify a single espresso shot, how much of it can models actually predict — and where exactly does prediction stop and calibration begin?
+
+**The named shot (fixed spec — do not vary):** DE1 (fixture A traces) · EK43 grinder at dial 1.7 · 20 g in / 40 g out · the Schmieder study coffee · water 80–98 °C. This is the point where the validity ranges of the strength chain (RC-1) and the flavor chain (RC-4) overlap: dial 1.7 sits inside Cameron’s 1.1–2.3 and pannusch’s 1.4–2.0 and is pannusch’s own fitted centre-grind.
+
+**Existing finding:** the repository can already run this shot end-to-end with a registered, gated component in every occupied slot. Strength side (RC-1/RC-3a): parameter-free first-drip prediction 7.0 s / dead volume 8.8 g on this fixture (independent); Cameron Fig. 5 EY curve (independent); mass budgets closed. Flavor side (RC-4a): four-solute kinetics reproduce published fit MAPEs (post-fit) with the temperature set independent; RC-4b connects the machine model to the chemistry through a live adapter that reduces exactly to RC-4a on constant flow and shifts 6.6% under a flow ramp (verification). Three honest gaps are documented, not hidden: the fixture-A pressure-node identity is open (ROADMAP §5.9); the tamped fixture sits at/past the inertial-flow onset (§5.2 audit, Fo_F ≈ 0.86–5.7) so the Darcy slot runs flagged; and Cameron reads absolute EY/TDS low against both independent brackets (egidi; angeloni).
+
+**Why a layperson should care**
+
+- It answers the question people actually ask (“can you just simulate my shot?”) with a concrete, named shot instead of a vague yes.
+- It makes evidence strength tangible: on ONE recipe the reader can see measured, post-fit, verification, and open-gap side by side.
+- It shows why “the model works” is per-configuration: the bean is a validity parameter, the grinder dial is not a unit, and permeability is fitted per rig — complexity as the story, not the fine print.
+- It sets up a cliffhanger that is actually true: the whole end-to-end flavor chain is one physical measurement away from independent validation.
+
+**Analysis and production tasks**
+
+1. Build a stage-by-stage scorecard for the named shot: stage · component · what it predicts here · experimental anchor · validation-strength label (verbatim from cards/gates; no promotions).
+2. Run RC-1 end-to-end at the spec and export the EY/TDS trajectory with the Cameron low-read bias band drawn on it (egidi 19.1–22.6% bracket shown as OBSERVED context).
+3. Run RC-4a on the Schmieder measured Q(t)/T(t) and RC-4b via the 1.8b adapter on foster machine-mode output; plot the two four-solute cup predictions side by side, labelled post-fit + independent-T (4a) vs verification (4b).
+4. Mark the three honest gaps on the scorecard itself (§5.9 node, Fo_F flag, low-read bias) — each with one plain-language sentence.
+5. State the packing caveat explicitly: κ = 1.196 was fitted to fixture A with its own coffee; the capstone protocol below therefore includes a one-step per-shot κ refit from the wadsworth prior (this is the documented tiering, not a workaround).
+6. “One experiment wide” panel: what a single measured cup (TDS + caffeine + trigonelline + CGA) of this exact shot would promote, and what result would falsify the chain.
+7. Short article + interactive scorecard; technical appendix regenerated from a pinned commit via PV-00 conventions.
+
+**Deliverable package**
+
+- A public article: **“The best-understood espresso shot”** (scorecard as hero graphic).
+- An interactive per-stage scorecard (hover: component, anchor dataset, strength badge, caveat).
+- A one-page printable spec of the named shot + capstone measurement protocol (links PV-15/PV-16 style participation later — closed pilot first).
+- Technical appendix reproducing every number from the pinned commit.
+
+**Evidence-safe wording**
+
+- Good: “Every stage of this one shot runs inside a validated or independently gated component.”
+- Good: “The flavor chain is verified end-to-end and validated in parts; the combined prediction has not yet been tested against a measured cup.”
+- Avoid: “We can simulate any espresso shot.”
+- Avoid: “The model predicts flavor” (unqualified).
+
+**Strengthening experiment (the capstone shot — TB)**
+
+Physically pull the named shot on the DE1 (Schmieder-matched coffee; per-shot κ refit step included) and measure the cup: TDS plus caffeine, trigonelline, and CGA; time-resolved fractions if feasible. A match within the stated per-solute bands would promote the end-to-end RC-4b chain from adapter-verified toward independently validated — arguably the single highest-leverage measurement available to the project. A miss is equally publishable under PV-04 conventions.
+
+**Effort:** M for the current-data story; the capstone measurement is a TB item (assay access is the long pole).
+**Primary repo dependencies:** RC-1/RC-3a/RC-4a/RC-4b configurations, `harness.py`, `gate_extraction_harness`, foster machine-mode gates, 1.8b adapter gate, egidi/angeloni bracket results, PV-00 export layer.
+**Public success signal:** readers can correctly distinguish “validated on this rig” from “verified adapter” from “post-fit calibration” using the scorecard alone.
+
 ---
 ## 6. Convert the five existing scientific figures into five public stories
 
@@ -2136,6 +2188,7 @@ The following tickets can be created directly. They are ordered so that early wo
 | Retention/relative permeability | sharp-front wetting vs continuous saturation | `theta(psi)`, `K_r(theta)`, saturation profile | pressure plate/centrifuge or MRI/CT collaborator | bed gradually wets before first drip | swelling and dissolution confound water content |
 | Multi-grinder calibration | portable dial myth vs physical grind features | PSD, fines fraction, permeability | multiple grinders, PSD method, standard coffee | same dial, different distributions | unit/burr variation and sampling bias |
 | Matched-TDS profile pair | one-number strength vs composition trajectory | HPLC compound profile and sensory discrimination | profiling machine, chemical assay, panel | same strength gauge, different fingerprint | model transfer limitations; no sensory difference |
+| Named-shot capstone cup (PV-19) | end-to-end model prediction vs per-slot post-fit calibration; Cameron absolute low-read | four-solute cup composition (TDS + caffeine/trigonelline/CGA) of the named shot; time-resolved fractions if feasible | DE1 + EK43 (dial 1.7, 20/40 g), Schmieder-matched coffee, per-shot κ refit, chemical assay, refractometer | one fully-specified shot: predicted vs measured cup on the scorecard — promotes the RC-4b end-to-end chain from verification toward independent, tests Cameron low-read on a fully specified shot, and exercises the per-shot κ refit tiering | assay access and per-solute band width are the long poles |
 
 The first new-data experiment should ideally serve several stories at once. Targeted fractions with pressure/flow logging are especially efficient because they inform dissolution speed, identifiability, wetting, viscosity, machine dynamics, and cross-pressure interpretation.
 
@@ -2156,15 +2209,16 @@ The first new-data experiment should ideally serve several stories at once. Targ
 6. **PV-04 self-correction article.** This is likely the strongest trust-building and shareable research narrative.
 7. **PV-06 pressure fingerprint.** It turns the repository into a mechanism-discrimination tool.
 8. **PV-08 Puck Court.** Launch after the first claims establish the visual and evidence language.
+9. **PV-19 best-understood-shot scorecard.** It converts the registry’s per-slot evidence discipline into a single concrete story, and its capstone measurement is a natural PV-15 candidate.
 
 ### Use those outputs to choose one experiment
 
-9. Prototype **PV-15** and select a closed pilot, with targeted fractions as the default unless the disagreement calculation favors another intervention.
-10. Expand to PV-16 public participation only after the closed pilot demonstrates acceptable timing, metadata, and measurement quality.
+10. Prototype **PV-15** and select a closed pilot, with targeted fractions as the default unless the disagreement calculation favors another intervention.
+11. Expand to PV-16 public participation only after the closed pilot demonstrates acceptable timing, metadata, and measurement quality.
 
 ### Pursue as larger research programs
 
-11. Grinder transfer (PV-11), viscosity (PV-13), spatial flow/control (PV-14), machine/outlet characterization (PV-17), and retention curves (PV-18).
+12. Grinder transfer (PV-11), viscosity (PV-13), spatial flow/control (PV-14), machine/outlet characterization (PV-17), and retention curves (PV-18).
 
 This ordering maximizes public output per unit effort while preserving a path from communication to genuinely new science.
 

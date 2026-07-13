@@ -188,7 +188,10 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
 
 ## Parallel tracks (not sprint-gated)
 - **TB**: §5.8 correspondence — Mo/Ellero (k1 units + volumes), Grudeva
-  (repo check first), Egidi (Eq. 4 definitions); Wadsworth already out
+  (repo check first), Egidi (Eq. 4 definitions); Wadsworth already out; PV-19
+  capstone shot — pull the named shot (DE1, EK43 dial 1.7, 20/40, Schmieder-matched
+  coffee, per-shot κ refit) and measure cup TDS + caffeine/trigonelline/CGA (fractions
+  if feasible); promotes RC-4b.
 - **INTAKE**: gap-target papers as found — G1 (Richards/two-phase), G2
   (Ellero J. Food Eng. 263; Mo 2021/2022), G9 (screen hydraulics), G10
   (extract rheology)
@@ -233,6 +236,7 @@ gaps G10 / G3 / G1.**
 | PV-09 | multi-lens "hidden puck" movie | not-started | unsequenced (P1) | — | Foster infiltration + pack_generator + LB solvers + extraction + streamtube/N-tube (parallel labelled lenses, no fake mega-model) | [§5](PUBLIC_VALUE.md#pv-09--produce-a-multi-lens-hidden-puck-movie-without-building-a-fake-mega-model) |
 | PV-10 | "a clean basket is not the bottleneck" | not-started | unsequenced (P0/P1) | — | `g9_series_resistance` + basket geometry (gap G9); PV-17 provides the bench validation | [§5](PUBLIC_VALUE.md#pv-10--a-clean-basket-is-not-the-bottleneck-visualize-the-pressure-resistance-budget) |
 | PV-12 | temperature explainer | not-started | unsequenced (P1) | — | `g4_temperature_sensitivity` + Schmieder temperature data (gap G4; two closures disagree on SIGN — surface, don't average) | [§5](PUBLIC_VALUE.md#pv-12--temperature-explainer-small-equilibrium-extraction-effect-unresolved-thermal-puck-physics) |
+| PV-19 | "the best-understood espresso shot" (named-shot capstone scorecard) | not-started | next | PV-00 | RC-1 + RC-4a gates, 1.8b adapter (RC-4b verification), §5.9 node identity, §5.2 Fo_F audit, Cameron low-read (egidi/angeloni brackets); **TB capstone cup measurement would promote RC-4b** | [§5](PUBLIC_VALUE.md#pv-19--the-best-understood-espresso-shot-one-named-recipe-every-component-evidence-attached) |
 
 ## Submission track
 *Tracking surface for paper/venue submissions. **Spec + deadlines:**
