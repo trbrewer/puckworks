@@ -13,13 +13,15 @@ from __future__ import annotations
 import os
 
 # cohesive scientific palette (espresso-grounded, but print-neutral)
-INK = "#211a15"
-ACCENT = "#b5561f"        # model / winner
-NULL = "#8a7d70"          # baselines / nulls
-GOOD = "#2f7d4f"
-WARN = "#b7791f"
-BAD = "#b8402e"
-GRID = "#e7ddd0"
+# Okabe--Ito-derived, colour-vision-deficiency-safe palette.  Figures also use
+# markers, line styles, and direct text so status is never conveyed by colour alone.
+INK = "#1a1a1a"
+ACCENT = "#e69f00"        # orange: model / highlighted curve
+NULL = "#6b6b6b"          # neutral grey: baselines / nulls
+GOOD = "#0072b2"          # blue
+WARN = "#cc79a7"          # reddish purple
+BAD = "#d55e00"           # vermillion
+GRID = "#d9d9d9"
 OUTDIR_DEFAULT = "docs/figures"
 
 
@@ -41,14 +43,43 @@ def _plt():
         "xtick.color": INK, "ytick.color": INK, "axes.grid": True,
         "grid.color": GRID, "grid.linewidth": 0.7, "axes.axisbelow": True,
         "legend.frameon": False, "figure.facecolor": "white",
+        # Stable SVG element IDs make vector outputs byte-reproducible.
+        "svg.hashsalt": "puckworks",
+        "svg.fonttype": "none", "pdf.fonttype": 42, "ps.fonttype": 42,
     })
     return plt
 
 
 def _save(fig, outdir, name):
+    """Save the requested raster file and deterministic SVG/PDF siblings.
+
+    The original path remains the return value for backward compatibility with
+    callers and tests that expect a PNG.  Vector siblings use fixed metadata and
+    ``svg.hashsalt`` (set in :func:`_plt`) so repeated renders do not acquire a
+    wall-clock timestamp or randomized SVG element IDs.
+    """
     os.makedirs(outdir, exist_ok=True)
     path = os.path.join(outdir, name)
     fig.savefig(path, bbox_inches="tight")
+
+    stem, ext = os.path.splitext(path)
+    ext = ext.lower()
+    if ext != ".svg":
+        fig.savefig(
+            stem + ".svg",
+            bbox_inches="tight",
+            metadata={"Date": None, "Creator": "puckworks"},
+        )
+    if ext != ".pdf":
+        fig.savefig(
+            stem + ".pdf",
+            bbox_inches="tight",
+            metadata={
+                "Creator": "puckworks",
+                "CreationDate": None,
+                "ModDate": None,
+            },
+        )
     return path
 
 
@@ -471,7 +502,7 @@ def fig5_concentration(outdir=OUTDIR_DEFAULT):
     ax4.set_title("(d) supp.: closed-form gain (∝1/floor) vs MEASURED N_eff", fontsize=8.4)
     ax4.set_xlabel("conductance floor M₀"); ax4.set_ylabel("gain M_f/M₀")
     ax4d = ax4.twinx()                                   # measured N_eff, floor-independent
-    for name, col in (("poroelastic", "#b5651d"), ("ck", "#2f6f4f")):
+    for name, col in (("poroelastic", BAD), ("ck", GOOD)):
         nf = st["closures"][name].get("n_eff_final_by_floor", {})
         if nf:
             ax4d.plot(floors, [float(nf["%.0e" % f]) for f in floors], "^:",

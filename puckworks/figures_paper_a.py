@@ -12,8 +12,9 @@ results file that one command regenerates:
 condition-structure diagnostics) from it. matplotlib is a
 lazy `[figures]` extra (module imports cleanly without it), reusing the Paper-B
 figure style. Figures track the corrected findings: single-grind non-identifiability
-(strong) but predictive transfer that WORKS at matched mass (identifiability !=
-transfer).
+(strong); cross-grind transfer at the matched endpoint is reported baseline-relative
+(vs an O-trained level-only constant), not asserted "reasonable" — identifiability,
+absolute error, and baseline-relative skill are distinct (A4-13/§7.4).
 """
 from __future__ import annotations
 import json
@@ -23,7 +24,7 @@ from .figures import _plt, _save, INK, ACCENT, NULL, GOOD, WARN, BAD, GRID
 
 OUTDIR = "docs/figures/paper_a"
 RESULTS = os.path.join(OUTDIR, "results.json")
-_SOL_COLOR = {"caffeine": ACCENT, "trigonelline": GOOD, "5CQA": "#4a6fa5"}
+_SOL_COLOR = {"caffeine": ACCENT, "trigonelline": GOOD, "5CQA": "#009e73"}
 
 
 # ---------------------------------------------------------------------------
@@ -130,12 +131,12 @@ def fig1_design(outdir=OUTDIR):
     Waszkiewicz external trajectory is shown."""
     plt = _plt()
     # evidence-category palette (data use, not verb)
-    CAT = {"source": ("#8a8f98", "source calibration"),
-           "insample": ("#4a6fa5", "in-sample localization"),
-           "sim": ("#9a6f2f", "same-model simulation"),
+    CAT = {"source": (NULL, "source calibration"),
+           "insample": (GOOD, "in-sample localization"),
+           "sim": (WARN, "same-model simulation"),
            "target": (ACCENT, "target recalibration"),
            "within": (GOOD, "within-campaign holdout"),
-           "orth": ("#2f6f4f", "orthogonal measurement (same study)"),
+           "orth": (_SOL_COLOR["5CQA"], "orthogonal measurement (same study)"),
            "external": (BAD, "independent external")}
     fig, ax = plt.subplots(figsize=(9.8, 5.6))
     ax.set_xlim(0, 12); ax.set_ylim(0, 8); ax.axis("off")
@@ -214,7 +215,7 @@ def fig2_objective_surface(results=None, outdir=OUTDIR):
                 label="profiled valley $c^*(\\mathrm{rate})$")
         t7 = r["table7"].get(sol)
         if t7:
-            ax.axhline(t7, color="#2f6f4f", ls=":", lw=1.6, label="Table 7 inventory")
+            ax.axhline(t7, color=_SOL_COLOR["5CQA"], ls=":", lw=1.6, label="Table 7 inventory")
         ax.plot(p["rate_star"], p["c_s0_star"], "o", color=INK, ms=7,
                 label="SSE optimum", zorder=5)
         ax.set_xscale("log"); _logclean(ax)
@@ -421,7 +422,7 @@ def fig5_joint_residual(results=None, outdir=OUTDIR):
     if lad is not None:
         keys = list(lad["per_fit"].keys())
         models = [("model0_const", "constant (1p)", NULL),
-                  ("model1_pergrind_const", "per-grind const (3p)", "#8a8f98"),
+                  ("model1_pergrind_const", "per-grind const (3p)", NULL),
                   ("model2_shared_mech", "shared mech (2p)", ACCENT),
                   ("model3_pergrind_mech", "per-grind mech (6p)", GOOD)]
         idx = np.arange(len(keys)); w = 0.2
@@ -485,9 +486,9 @@ def fig6_fraction_vs_endpoint(results=None, outdir=OUTDIR):
         cases = [v["fraction_mape"] for v in ew["per_case"].values()]
         stack = np.array(cases, float)                    # (n_case, n_rate) alignment band
         head = ew["per_case"].get("offset0s_no_first_bin") or list(ew["per_case"].values())[0]
-        axe.fill_between(er, stack.min(0), stack.max(0), color="#4a6fa5", alpha=0.18, lw=0,
+        axe.fill_between(er, stack.min(0), stack.max(0), color="#009e73", alpha=0.18, lw=0,
                          label="alignment/first-bin band")
-        axe.plot(er, head["fraction_mape"], "o-", color="#4a6fa5", lw=1.7, ms=4,
+        axe.plot(er, head["fraction_mape"], "o-", color="#009e73", lw=1.7, ms=4,
                  label="fraction (target-profiled)")
         axe.plot(er, head["cup_mape"], "^:", color=NULL, lw=1.5, ms=4,
                  label="single cup (algebraically flat)")
@@ -591,7 +592,7 @@ def fig8_residuals_vs_conditions(results=None, outdir=OUTDIR):
     pv = r["per_condition"]["per_variety"]
     varieties = [v for v in ("Arabica", "Robusta") if v in pv]
     solutes = ["caffeine", "trigonelline", "5CQA", "tds"]
-    vcol = {"Arabica": ACCENT, "Robusta": "#4a6fa5"}
+    vcol = {"Arabica": ACCENT, "Robusta": GOOD}
     smark = {"caffeine": "o", "trigonelline": "s", "5CQA": "^", "tds": "D"}
     fig, axes = plt.subplots(1, 2, figsize=(11.4, 4.4))
     for ax, xkey, xlabel in ((axes[0], "T_degC", "brew temperature (°C)"),
