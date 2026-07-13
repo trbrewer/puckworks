@@ -73,6 +73,13 @@ def compute_all(out_path=RESULTS):
         external_waszkiewicz=ew.waszkiewicz_external_tds(),
         external_waszkiewicz_sensitivity=ew.waszkiewicz_sensitivity(),  # A2-13b nuisance sweep
     )
+    # A3-13: Table 7 orthogonal-inventory rate constraint (PDE-free post-processing of
+    # the panels: where the measured inventory intersects the profiled valley).
+    res["table7_rate_constraint"] = {
+        sol: ab.table7_rate_constraint(res[k], res["table7"].get(sol))
+        for k, sol in (("panel_caffeine", "caffeine"),
+                       ("panel_trigonelline", "trigonelline"))
+        if res["table7"].get(sol)}
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     with open(out_path, "w") as f:
         json.dump(_jsonable(res), f)

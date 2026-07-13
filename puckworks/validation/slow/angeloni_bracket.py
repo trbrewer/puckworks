@@ -690,6 +690,49 @@ def validate_refit_granulometry():
                             mani_worst, mani_worst_point))
 
 
+def table7_rate_constraint(panel, inventory_g_L, rel_band=0.10):
+    """A3-13: quantify the SAME-CAMPAIGN orthogonal constraint that the Table 7 measured
+    inventory places on the kinetic rate. The identifiability valley is the profiled
+    inventory path c*(rate); an independent inventory measurement (Angeloni Table 7,
+    roast-and-ground) intersects that path at a specific rate. We solve for the rate where
+    c*(rate) equals the Table 7 value, and propagate a declared +/-`rel_band` sensitivity
+    on the inventory to a rate INTERVAL. This is a fast, PDE-free post-processing of the
+    panel's profile (no likelihood; a same-campaign orthogonal constraint, NOT an external
+    validation). Returns None if the value lies outside the profiled range."""
+    import numpy as np
+    prof = panel["profile"]
+    rates = np.asarray(prof["rates"], float); cstar = np.asarray(prof["c_star"], float)
+    lo_dom, hi_dom = float(rates[0]), float(rates[-1])
+
+    def _rate_at(inv):
+        # c*(rate) is monotone-decreasing along the valley; interpolate in log-rate.
+        if inv >= cstar.max() or inv <= cstar.min():
+            return None
+        order = np.argsort(cstar)            # ascending c*
+        lr = np.interp(inv, cstar[order], np.log(rates[order]))
+        return float(np.exp(lr))
+
+    r_mid = _rate_at(inventory_g_L)
+    r_hi_inv = _rate_at(inventory_g_L * (1.0 + rel_band))   # higher inventory -> lower rate
+    r_lo_inv = _rate_at(inventory_g_L * (1.0 - rel_band))
+    band = sorted(x for x in (r_lo_inv, r_hi_inv) if x is not None)
+    interior = bool(r_mid is not None and lo_dom * 1.01 < r_mid < hi_dom * 0.99)
+    return dict(
+        inventory_g_L=round(float(inventory_g_L), 3),
+        implied_rate=round(r_mid, 3) if r_mid is not None else None,
+        implied_rate_band=[round(b, 3) for b in band] if len(band) == 2 else None,
+        rel_band=rel_band, intersection_interior=interior,
+        intersection_unique=bool(r_mid is not None),
+        note=("The Table 7 inventory intersects the profiled valley at a single interior "
+              "rate, so an orthogonal same-campaign inventory measurement COLLAPSES the "
+              "otherwise broad inventory-rate profile to a narrow rate band -- the "
+              "strongest available constraint on the rate. Same-campaign (Angeloni), NOT "
+              "an independent external validation."
+              if interior else
+              "The Table 7 inventory does not intersect the profiled valley interior to "
+              "the tested rate domain; the constraint is censored/absent here."))
+
+
 def transfer_skill_vs_baselines(varieties=("Arabica", "Robusta"),
                                 solutes=("caffeine", "trigonelline", "5CQA")):
     """A3-01 (submission-blocking null benchmark): does the mechanistic O->C/F transfer

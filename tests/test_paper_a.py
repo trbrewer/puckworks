@@ -54,6 +54,23 @@ def test_bundle_has_no_stale_evidence_taxonomy():
     assert not hits, "stale evidence-taxonomy phrases in bundle: " + ", ".join(set(hits))
 
 
+def test_table7_rate_constraint_collapses_profile():
+    """review A3-13: the same-campaign Table 7 inventory must intersect the profiled
+    valley at an interior rate, collapsing the broad inventory-rate profile to a narrow
+    band. Reads the committed bundle (fast; PDE-free post-processing)."""
+    tc = _load_bundle().get("table7_rate_constraint")
+    if not tc or "caffeine" not in tc:
+        import pytest
+        pytest.skip("table7_rate_constraint not in this bundle")
+    caf = tc["caffeine"]
+    assert caf["intersection_interior"] is True
+    assert caf["implied_rate"] is not None
+    # the implied-rate band is much narrower than the full tested rate domain (~0.15-6.5)
+    if caf["implied_rate_band"]:
+        lo, hi = caf["implied_rate_band"]
+        assert (hi - lo) < 3.0
+
+
 def test_transfer_skill_reports_null_benchmark():
     """review A3-01: the bundle must carry the null-benchmark skill package and it must
     report the honest split -- the mechanistic O->C/F transfer adds only small skill over

@@ -65,6 +65,9 @@ _CLAIMS = [
     # A3-03 geometry spread at FULL precision (was rounded to integers)
     ("geometry spread ~0.6pp full precision (A3-03)",
      "geometry_sensitivity.max_geometry_spread_pp", 0.6, 0.5),
+    # A3-13 Table 7 orthogonal inventory collapses the caffeine rate to ~0.95
+    ("Table 7 inventory implies caffeine rate ~0.95",
+     "table7_rate_constraint.caffeine.implied_rate", 0.95, 0.25),
 ]
 
 

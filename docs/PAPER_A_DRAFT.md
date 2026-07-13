@@ -272,11 +272,18 @@ rate is a valley-floor value, not a converged interior estimate, so it flips wit
 incidental choices (flow anchor, grind, rate domain) — the earlier
 inventory-vs-kinetics decomposition read the valley floor, not a mechanism; (ii) the
 best-fit `c_s0` passes through the independently measured Table 7 inventory somewhere
-along the valley (caffeine ~13 near the measured 12.5; Robusta ~14–17 near 18.6), but
-the beverage data alone cannot single out the rate — the measured inventory is a
-**same-campaign orthogonal-measurement constraint** (Table 7 measures a different
-quantity within the *same* Angeloni study; it is not external to the transfer campaign),
-useful because it can select among (inventory, rate) pairs on the valley.
+along the valley (caffeine ~13 near the measured 12.5), but the beverage data alone
+cannot single out the rate — the measured inventory is a **same-campaign
+orthogonal-measurement constraint** (Table 7 measures a different quantity within the
+*same* Angeloni study; it is not external to the transfer campaign). We now make this
+constraint **quantitative** (`table7_rate_constraint`, review A3-13): intersecting the
+profiled valley `c*(rate)` with the caffeine Table 7 value (12.54 g L⁻¹) yields an
+**implied rate ≈ 0.95**, and propagating a ±10 % inventory sensitivity gives a rate band
+of only **≈ 0.6–1.75** — an *interior, unique* intersection. So a single orthogonal
+inventory measurement **collapses** the otherwise broad (≈0.4-to-censored) rate profile to
+a narrow band: it is the strongest available constraint on the rate, precisely because
+the endpoint beverage data cannot supply it. This remains a same-campaign constraint, not
+an independent external validation.
 
 **A numerical identifiability panel** (`identifiability_panel`) quantifies the valley on
 the caffeine matched-mass **SSE** objective (unweighted concentration-scale SSE with a

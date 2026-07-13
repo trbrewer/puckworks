@@ -74,7 +74,7 @@ already made to defer, e.g. release tag).
 | A3-11 | Condition-wise prediction envelopes across the profile set (per T,p,grind,solute) | needs per-point propagation surfaced through the harness + a Fig 4 envelope overlay |
 | A3-05 (rest) | Fig 6 external Waszkiewicz panel + 3-tier redesign; Fig 3 residual-vs-(T,p) + baseline; Fig 5 reduced-model ladder | Fig 7/8 already give per-group + residual scatter; the Fig 6 external tier and Fig 3/5 baseline overlays remain |
 | A3-15/A3-16 | Same-model simulation: off-grid truth + model discrepancy already delivered (A-MAJ13 dose-response); still owed: correlated/heteroscedastic noise, continuous fitted rate | |
-| A3-13 | Table 7 quantitative intersection (inventory band → implied rate range) | needs a unit-conversion audit + intersection solve |
+| A3-13 | Table 7 quantitative intersection (inventory band → implied rate range) | **DONE** (2026-07-13) | `table7_rate_constraint`: PDE-free intersection of the profiled valley c*(rate) with the Table 7 inventory. Caffeine 12.54 g/L → implied rate ≈**0.95**, ±10% inventory band **≈0.6–1.75** (interior, unique) → an orthogonal same-campaign inventory COLLAPSES the broad rate profile. In the bundle + build claim + test + Result 2 sentence |
 | A3-19 | Reduced-model ladder for the joint fit (Model 0–3, parameter counts) | |
 | A3-24 (rest) | More contract tests (profile-set construction, figure/result sync) | core precision/skill/censoring/taxonomy tests added |
 
