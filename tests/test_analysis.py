@@ -9,7 +9,8 @@ run_all_gates().
 def test_lopo_rsm_runs():
     from puckworks.analysis.lopo_cv import lopo_rsm_design_point
     r = lopo_rsm_design_point("tds", "1/2")
-    assert r["n_design_points"] >= 10 and -1.0 <= r["Q2_predictive"] <= 1.0
+    assert r["n_settings"] == 15 and -1.0 <= r["Q2_predictive"] <= 1.0
+    assert r["predictors"] == "achieved"               # source contract (MAJ-10)
 
 
 def test_lopo_waszkiewicz_runs():
@@ -37,6 +38,31 @@ def test_paper_b_evidence_matrix_is_data_driven():
         assert r["mechanism"] and r["decisive_missing_measurement"]
         for dim in dims:
             assert r[dim] in _EV_STATUS, f"undefined status {r[dim]!r} for {dim}"
+
+
+def test_rsm_center_mask_is_experiment_7():
+    """review MAJ-07: the achieved-predictor 'central' cross-section must use the
+    nominal centre point (6 runs, experiment 7), not every grind-1.7 row."""
+    from puckworks.harness import schmieder_rsm_refit
+    r = schmieder_rsm_refit("tds", "1/2", predictors="achieved")
+    assert r["n_center_runs"] == 6
+    assert abs(r["eval_flow_ml_s"] - 1.9011) < 0.02   # mean achieved central flow
+    # review MAJ-08: report the JOINT concave-and-in-domain fraction
+    assert 0.9 <= r["bootstrap_concave_AND_in_domain_fraction"] <= 1.0
+
+
+def test_cross_pressure_loco_full_precision():
+    """review AR-B2-09: cross_pressure_loco must aggregate RAW per-pressure RMSEs,
+    not values already rounded to 3 dp (mirrors the discrimination-function guard)."""
+    from puckworks.harness import cross_pressure_loco
+    r = cross_pressure_loco()
+    assert set(r["heldout_mean"]) == {"static", "phi", "rc3b"}
+    assert r["max_calibration_drift"] < 0.10
+    # a full-precision mean generally won't equal the mean of 3-dp per-pressure values
+    import numpy as np
+    per = r["per_pressure"]
+    mean_of_rounded = float(np.nanmean([per[p]["phi"] for p in per]))
+    assert abs(r["heldout_mean"]["phi"] - mean_of_rounded) < 0.01   # close but computed from raw
 
 
 def test_rsm_achieved_predictor_sensitivity():

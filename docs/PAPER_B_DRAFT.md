@@ -41,8 +41,9 @@ trace a machine-only model shows a dip-and-recovery shape is not diagnostic of b
 dynamics, and an empirical time-varying porosity trajectory improves reconstruction
 relative to explicitly defined constant baselines — but a flexible non-mechanistic
 temporal null does as well, so this establishes a **need for time variation, not a
-specific bed mechanism**; conditional transfer across pressures is regime-dependent
-within the same campaign (not independent validation). Finally, an exploratory
+specific bed mechanism**; the pressure-varying reconstruction error is described by a
+continuous residual-vs-pressure curve within the same campaign (not independent
+validation, and not pre-specified pressure "regimes"). Finally, an exploratory
 uncoupled N-tube composition with extraction-dependent conductance can concentrate
 flow strongly in the implemented near-choke, fixed-total-flow, zero-homogenization
 configuration; the concentration is floor-independent under a completed numerical
@@ -109,7 +110,10 @@ asserts a single unit set (`harness.schmieder_grind_response`). Generalized rule
 normalization basis, experimental role, and conditioning variables are explicit and
 compatible.*
 
-Datasets, with a manifest row each carrying units, license, and validation strength:
+Datasets, with a manifest row each carrying units, license, and validation strength
+(names below are **repository dataset keys**, which may differ from the publication
+year — e.g. key `waszkiewicz2025` is the Zenodo release of Waszkiewicz et al., published
+in *Phys. Fluids* **2026**; the swelling model `mo2023_2` corresponds to Mo et al. *2022*):
 schmieder2023, waszkiewicz2025, cameron2020, romancorrochano2017, lee2023.
 *(A conventional Methods section — governing equations, calibration/evaluation
 splits, numerical tolerances, statistical model, reproducibility package — is
@@ -127,8 +131,12 @@ experiment-unit diagnostic (`harness.result1_design_aware_stats`) resolves the
 mid-vs-coarse step (dial 1.7 − 2.0 = −0.24 EY-pt, Welch 95 % CI [−0.42, −0.06],
 p ≈ 0.016) but **not** the fine-to-mid step (dial 1.4 − 1.7 = −1.11 EY-pt, CI
 [−2.41, +0.19], p ≈ 0.068 — includes zero). The overall replicate-level trend is a
-rise of +2.26 EY-pt per dial (95 % CI [1.29, 3.23]). Crucially these are
-**nominal-condition, not achieved-condition, comparisons**. The source ran each
+rise of +2.26 EY-pt per dial (**t-based** 95 % CI **[1.16, 3.36]**, 10 residual dof —
+the earlier [1.29, 3.23] used a normal 1.96 multiplier, an error for a 12-run OLS slope).
+Crucially these are **nominal-condition, not achieved-condition, comparisons**, a
+**secondary descriptive reanalysis of three selected axis/centre settings** (dose 20 g;
+15 nominal settings and 48 complete TDS/BR-1/2 runs in the full design), not the source's
+primary factorial inference. The source ran each
 setting as **three independently prepared extraction repetitions** (six at the centre
 point); those extraction runs — not fractions or dense sensor samples — are the
 experimental unit here (1.4 axis, n = 3; 1.7 centre, n = 6; 2.0 axis, n = 3), so the
@@ -148,10 +156,20 @@ model for the achieved covariates and run-level variation — a full design-awar
 
 An interior maximum exists only in the study's own fitted response surface, which
 is concave in grind for every observable but weak (schmieder's own adjusted R²
-0.41–0.75). Our refit to the committed TDS-1/2 observations gives adjusted R² 0.65
-(within that range) and a grind vertex at dial **1.73 (bootstrap 95 % CI
-[1.68, 1.81]**, 2000 case resamples), confirming the interior maximum is a real but
-modest feature of the response surface. **A precision caveat, not a criticism of the
+0.41–0.75). Our **primary refit** matches the source predictor contract — set grind
+plus the **achieved** flow and temperature, evaluated at the achieved conditions of the
+nominal centre point (experiment 7) — and uses a **fixed-design residual bootstrap**
+appropriate to the selected design points: adjusted R² **0.64**, grind vertex at dial
+**1.74 (95 % CI [1.70, 1.82]**, residual bootstrap), with **99.8 %** of bootstrap fits a
+concave maximum whose vertex lies inside the tested dial domain. (A nominal-predictor,
+case-bootstrap sensitivity gives a similar 1.73, [1.68, 1.81].) So **the selected
+quadratic surface has a conditional interior vertex near 1.74** — the interval is
+conditional on the retained seven-term model and design; we do not claim the underlying
+physical response necessarily has a maximum. The raw (uncentered) predictors are
+ill-conditioned (κ₂(X) ≈ 1.7×10⁶), but the identical fit on centred/scaled predictors is
+well-conditioned (κ₂(X) ≈ 3.9) and the offset/scale-invariant vertex is unchanged; one
+run (experiment 10, rep 1) is mildly influential (Cook's *D* ≈ 0.44), which a
+leave-one-run sensitivity is owed to bound. **A precision caveat, not a criticism of the
 source:** the *printed* Table-3 coefficients are rounded (the T² coefficient to
 three decimals; with T²≈7921 that rounding moves the absolute prediction by several
 grams), so evaluating them literally gives ~6.7 g, whereas the refit reproduces
@@ -231,13 +249,25 @@ reaches RMSE 0.096 g/s — at least as good as the mechanistic trajectory. The
 honest, scoped claim is therefore: *within this window and null set, time variation
 is required (every constant baseline fails), but a specific bed mechanism is not
 thereby identified — a flexible non-mechanistic time curve fits equally well.* The
-non-trivial mechanistic content is that a **zero-parameter** poroelastic Φ(t)
-nearly reaches the four-parameter flexible floor. The trajectory is also
-soft-circular (dissolved mass derives from the same rig's TDS and flow), and we
-avoid "parameter-free" because the donor parameters were estimated elsewhere.
+non-trivial mechanistic content is that a poroelastic Φ(t) with **zero additional
+coefficients fitted to this 9-bar flow trace** (though it imports two campaign-calibrated
+equilibrium parameters and a 9-bar-TDS-fitted solids sigmoid — see the provenance table
+below) nearly reaches the four-parameter flexible floor. The cubic, by contrast, is fit
+and scored on the *same* 15–95 s trace, so its RMSE is an **in-sample flexibility bound**,
+not a fair predictive competitor. The Φ(t) trajectory is also soft-circular (dissolved
+mass derives from the same rig's TDS and flow), and we avoid "parameter-free" because the
+donor parameters were estimated elsewhere.
 
-**The flexible null bounds *identification*, but a sign test still *excludes* the
-matrix-resistance mechanisms.** Fit quality alone does not single out a mechanism (the
+| branch | fitted to THIS Q(t) trace | fitted elsewhere in same campaign | literature/donor-fixed |
+|---|---:|---|---|
+| best constant | 1 (level) | 0 | 0 |
+| static κ(P) | 0 | 2 (equilibrium P_c,Q_c) | constitutive form |
+| empirical Φ(t) | 0 | 2 equilibrium + 3 TDS-sigmoid | constitutive form |
+| RC-3b | 0 | 2 equilibrium | Cameron donor calibration |
+| flexible cubic | 4 | 0 | polynomial form |
+
+**The flexible null bounds *identification*, but a sign test *constrains* the isolated
+matrix-resistance branches.** Fit quality alone does not single out a mechanism (the
 phenomenological cubic ties the poroelastic trajectory), yet the *direction* of each
 candidate's flow contribution does discriminate. Both bed-mechanical competitors —
 particle swelling (mo2023_2) and fines migration (fasano2000_partI) — can only *increase*
@@ -343,12 +373,15 @@ not meaningful — while Kozeny–Carman G≈1.5 is floor-independent (Fig. 5b).
 **not** claim "linear instability" or a "closed-form stability criterion": the base
 state is heterogeneous (no Jacobian along that trajectory is computed), the reported
 gain is controlled by an imposed floor, and any threshold is operational rather than
-derived. What *is* robust is the numerical concentration, and — addressing a
-reviewer point — this is now **measured, not asserted**: the N-tube integration is
-re-run at each conductance floor across the swept range (1e-9…1e-15), and the
-outcome is invariant (poroelastic N_eff→1.0, Kozeny–Carman N_eff≈83 at every floor).
-So the qualitative concentration result is genuinely floor-independent even though
-the closed-form gain is not.
+derived. What is invariant over the tested floors is the endpoint classification, and
+this is **measured, not asserted**: the N-tube integration is re-run at each conductance
+floor across the swept range (**1e-6…1e-15**), and the endpoint is unchanged (poroelastic
+N_eff→1.0, Kozeny–Carman N_eff≈83 at every floor). This establishes **floor-independence
+of the endpoint at one grind, pressure, horizon, tube count, initialisation, control law
+and zero-lateral setting** — it does **not** establish robustness to timestep, horizon,
+N, start state, pressure, grind, stochastic realisation, or a physical lateral-exchange
+closure, all of which remain owed (§7). We therefore keep Result 3 explicitly
+exploratory.
 
 **What controls it.** The concentration is confined to flow control with zero
 homogenization (Fig. 5a, at fixed grind gs=1.1); under pressure control (independent
@@ -395,8 +428,9 @@ analyzed under a physically consistent machine/bed system and tested experimenta
 - Full-precision response-surface reconstruction (source coefficients/model object).
   *Partially addressed:* a documented raw-data refit now reports adjusted R² (0.65), a
   **fixed-design residual-bootstrap** vertex CI ([1.69, 1.80]; a case bootstrap gives a
-  similar [1.68, 1.81], and 100 % of bootstrap fits are a concave maximum with the vertex
-  in the tested dial domain), a leave-one-design-point-out Q² (0.48), and a
+  similar [1.68, 1.81], and **99.8 %** of bootstrap fits are jointly concave-and-in-domain,
+  conditional on the retained seven-term model), a **leave-one-setting-out** Q² over the
+  15 experiment IDs with achieved predictors (0.48), and a
   coefficient-covariance / residual panel (`schmieder_rsm_refit.diagnostics`:
   per-coefficient standard errors, residual σ ≈ 0.11, max standardized residual ≈ 3.7,
   max leverage 0.18). The raw (uncentered) predictors are ill-conditioned — the
@@ -413,8 +447,9 @@ analyzed under a physically consistent machine/bed system and tested experimenta
   request).
 - A full design-aware, experiment-unit statistical model of the Result-1 dial
   response. *Partially addressed:* `harness.result1_design_aware_stats` now reports
-  the per-dial achieved covariates, the single-experiment-per-cell structure, both
-  adjacent pairwise Welch contrasts, and a replicate-level trend; still owed is a
+  the per-dial achieved covariates, the run-level replication (3 runs/setting, 6 at the
+  centre), both adjacent pairwise Welch contrasts, and a t-based replicate-level trend
+  ([1.16, 3.36]); still owed is a
   block/mixed-effects model over the whole DoE (not just the 3 central-condition
   cells) with achieved flow/temperature/pressure as covariates.
 - Direct spatial flow/saturation data; a second-rig or second-coffee transfer

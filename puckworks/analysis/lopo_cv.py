@@ -11,8 +11,8 @@ This module provides BOTH, each to its own schema. Neither invents data; both
 reuse the committed loaders and the same retained-term / fit paths the repo
 already uses (harness.schmieder_rsm_refit term set; poroelastic.fit_static).
 
-CONSISTENCY/DIAGNOSTIC strength, not a new validation gate: with 18 design
-points (RSM) and 11 pressures (waszkiewicz), these CV scores are small-sample
+CONSISTENCY/DIAGNOSTIC strength, not a new validation gate: with 15 experiment
+settings (RSM) and 11 pressures (waszkiewicz), these CV scores are small-sample
 diagnostics of predictive stability, NOT power-backed validations. Report the
 number of held-out units alongside every score so the reader can weight it.
 """
@@ -35,15 +35,18 @@ def _f(x):
         return None
 
 
-def _schm_design_rows(component="tds", brew_ratio="1/2"):
-    """Replicate-level (F,G,T,y) rows for one component x brew_ratio."""
+def _schm_design_rows(component="tds", brew_ratio="1/2", predictors="achieved"):
+    """Run-level (F,G,T,y,exp) rows for one component x brew_ratio. Uses the source's
+    ACHIEVED flow/temperature by default (review MAJ-10) to match the RSM contract."""
     comp = _SCHM_COMPONENT.get(component.lower(), component)
+    fcol, tcol = (("scale_flow_ml_s", "decent_temp_C") if predictors == "achieved"
+                  else ("target_flow_ml_s", "target_temp_C"))
     out = []
     for r in d.schmieder_cup_masses():
         if r.get("component") != comp or r.get("brew_ratio") != brew_ratio:
             continue
-        F, G, T, y = (_f(r.get("target_flow_ml_s")), _f(r.get("grind_level")),
-                      _f(r.get("target_temp_C")), _f(r.get("mass_in_cup")))
+        F, G, T, y = (_f(r.get(fcol)), _f(r.get("grind_level")),
+                      _f(r.get(tcol)), _f(r.get("mass_in_cup")))
         if None not in (F, G, T, y):
             out.append((F, G, T, y, r.get("exp")))
     return out
@@ -54,49 +57,45 @@ def _design_matrix(F, G, T):
     return np.column_stack([np.ones_like(F), F, G, T, G**2, T**2, F*G])
 
 
-def lopo_rsm_design_point(component="tds", brew_ratio="1/2"):
-    """Leave-one-DESIGN-POINT-out CV of the schmieder RSM refit.
+def lopo_rsm_design_point(component="tds", brew_ratio="1/2", predictors="achieved"):
+    """Leave-one-SETTING-out CV of the schmieder RSM refit (review MAJ-10).
 
-    A 'design point' = a distinct (F,G,T) condition (replicates travel together,
-    so a held-out point is never in the training fold). Refits the retained-term
-    model on the remaining points, predicts the mean response at the held-out
-    condition, and scores predicted-vs-observed-mean.
+    The held-out unit is one of the **15 experiment IDs** (a nominal design setting),
+    with ALL its repetitions held out together, so a held-out setting never appears in
+    the training fold. The design matrix uses the source's ACHIEVED flow/temperature
+    (matching `schmieder_rsm_refit(predictors='achieved')`). Refit on the other
+    settings, predict the held-out setting's mean, score predicted-vs-observed-mean.
 
-    Returns Q^2 (predictive R^2 = 1 - PRESS/TSS on condition means), RMSE_cv, and
-    the per-point held-out residuals. NOTE small n: report n_design_points.
+    Returns Q^2 (1 - PRESS/TSS on setting means), RMSE_cv, and per-setting residuals.
     """
-    rows = _schm_design_rows(component, brew_ratio)
+    rows = _schm_design_rows(component, brew_ratio, predictors)
     o = np.asarray([(F, G, T, y) for F, G, T, y, _ in rows], float)
     F, G, T, y = o[:, 0], o[:, 1], o[:, 2], o[:, 3]
-    # collapse replicates -> condition means (the held-out unit)
-    conds = {}
-    for i in range(len(F)):
-        conds.setdefault((F[i], G[i], T[i]), []).append(y[i])
-    keys = list(conds)
-    cond_mean = {k: float(np.mean(v)) for k, v in conds.items()}
-    ybar = np.mean([cond_mean[k] for k in keys])
+    exps = np.array([e for *_, e in rows])
+    # group by EXPERIMENT ID (nominal setting); all reps of a setting travel together
+    settings = sorted(set(exps))
+    set_mean = {s: float(np.mean(y[exps == s])) for s in settings}
+    ybar = np.mean([set_mean[s] for s in settings])
     press, resids = 0.0, {}
-    for held in keys:
-        tr = [(i) for i in range(len(F))
-              if (F[i], G[i], T[i]) != held]          # drop ALL reps of held cond
-        Xtr = _design_matrix(F[tr], G[tr], T[tr])
-        coef, *_ = np.linalg.lstsq(Xtr, y[tr], rcond=None)
-        xh = _design_matrix(np.array([held[0]]), np.array([held[1]]),
-                            np.array([held[2]]))[0]
-        pred = float(xh @ coef)
-        r = cond_mean[held] - pred
-        resids[held] = r
-        press += r**2
-    tss = sum((cond_mean[k] - ybar)**2 for k in keys)
-    q2 = 1.0 - press/tss if tss > 0 else float("nan")
-    rmse_cv = float(np.sqrt(press/len(keys)))
-    return dict(target="schmieder_rsm", held_out_unit="design_point",
-                component=component, brew_ratio=brew_ratio,
-                n_design_points=len(keys), n_replicate_rows=len(F),
+    for held in settings:
+        tr = exps != held                              # drop ALL reps of the held setting
+        coef, *_ = np.linalg.lstsq(_design_matrix(F[tr], G[tr], T[tr]), y[tr], rcond=None)
+        # predict the held setting at its OWN mean achieved (F,G,T)
+        fh, gh, th = (float(np.mean(F[exps == held])), float(np.mean(G[exps == held])),
+                      float(np.mean(T[exps == held])))
+        pred = float(_design_matrix(np.array([fh]), np.array([gh]), np.array([th]))[0] @ coef)
+        r = set_mean[held] - pred
+        resids[held] = r; press += r ** 2
+    tss = sum((set_mean[s] - ybar) ** 2 for s in settings)
+    q2 = 1.0 - press / tss if tss > 0 else float("nan")
+    rmse_cv = float(np.sqrt(press / len(settings)))
+    return dict(target="schmieder_rsm", held_out_unit="experiment_setting",
+                component=component, brew_ratio=brew_ratio, predictors=predictors,
+                n_settings=len(settings), n_run_rows=len(F),
                 Q2_predictive=round(q2, 4), RMSE_cv_g=round(rmse_cv, 4),
                 worst_residual_g=round(max(resids.values(), key=abs), 4),
-                caveat="small n; diagnostic not power-backed; pressure is NOT a "
-                       "factor so LOPO-by-pressure is inapplicable to the RSM")
+                caveat="15 settings held out with all reps together; achieved predictors; "
+                       "small n, diagnostic not power-backed; pressure is NOT an RSM factor")
 
 
 # ----------------------------------------------------------------------------

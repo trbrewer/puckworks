@@ -81,7 +81,7 @@ def fig1_result1(outdir=OUTDIR_DEFAULT):
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8.2, 3.4))
     ax1.errorbar(dials, ey, yerr=err, fmt="o", color=INK, capsize=3, ms=6,
-                 label="measured TDS-EY (cell means ± SD)", zorder=3)
+                 label="source-derived TDS-EY (cell means ± SD)", zorder=3)
     ax1.plot(gg, rsm_ey, color=ACCENT, lw=1.8,
              label="RSM refit (achieved predictors; shape only)")
     ax1.axvline(vtx, color=WARN, ls=":", lw=1.4)

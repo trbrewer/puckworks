@@ -618,8 +618,12 @@ def result1_design_aware_stats(brew_ratio="1/2", temp_C=89.0, flow_ml_s=2.0,
     xs = np.concatenate([[g] * len(ey_by[g]) for g in grinds])
     ys = np.concatenate([ey_by[g] for g in grinds])
     lr = stats.linregress(xs, ys)
-    slope_ci = [round(float(lr.slope - 1.96 * lr.stderr), 3),
-                round(float(lr.slope + 1.96 * lr.stderr), 3)]
+    # t-based interval (review MAJ-05): n runs, 2 estimated coefficients -> n-2 dof;
+    # the earlier 1.96 (normal) was wrong for a 12-run OLS slope (t_{0.975,10}~2.228)
+    n_runs = int(len(xs)); dof = n_runs - 2
+    tcrit = float(stats.t.ppf(0.975, dof))
+    slope_ci = [round(float(lr.slope - tcrit * lr.stderr), 3),
+                round(float(lr.slope + tcrit * lr.stderr), 3)]
 
     means = [c["ey_mean"] for c in cells]
     ordered = bool(means[0] <= means[1] <= means[2])       # monotone increasing?
@@ -631,22 +635,26 @@ def result1_design_aware_stats(brew_ratio="1/2", temp_C=89.0, flow_ml_s=2.0,
         trend=dict(slope_EYpt_per_dial=round(float(lr.slope), 3),
                    slope_ci95=slope_ci, r=round(float(lr.rvalue), 3),
                    p=round(float(lr.pvalue), 4)),
+        trend_ci_method=f"t-based, dof={dof} (n={n_runs} runs, 2 coeffs)",
         experimental_unit_note=(
-            "ONE experiment per dial (1.4=axis exp, 1.7=repeated centre point, "
-            "2.0=axis exp) -> NO between-experiment replication; the within-cell "
-            "spread is a within-experiment variance. A replicate-level Welch/trend "
-            "test answers a within-experiment question and does NOT license a causal "
-            "'dial alone moves EY' claim; a design-aware model would need the full "
-            "DoE (achieved covariates + experiment blocks), not these 3 cells."),
+            "Each dial setting was run as independently prepared extraction "
+            "repetitions (1.4 axis n=3, 1.7 centre n=6, 2.0 axis n=3); those runs are "
+            "the experimental unit, so the within-cell spread is run-to-run variance "
+            "at a fixed NOMINAL dial (review MAJ-03). There is NO replication across "
+            "machines/coffees/campaigns (one machine, one coffee), so a replicate-level "
+            "Welch/trend test is a within-campaign, setting-level contrast conditional "
+            "on run independence -- NOT a causal 'dial alone moves EY' claim; a "
+            "design-aware model would need the full DoE (achieved covariates + "
+            "experiment blocks), not these 3 selected cells."),
         achieved_confound=(
             "achieved flow/temperature/max-pressure differ across the three dial "
             "experiments (see cells) -> dial is confounded with the achieved "
             "conditions; the ordering is descriptive, not a clean dial effect."),
         cell_means_ordered=ordered, interior_maximum=interior_max,
-        verdict=("cell means %s (%.2f -> %.2f -> %.2f EY%%); the MIDDLE dial is %s the "
-                 "coarse end -> %s interior maximum. Described as ORDERED, not "
-                 "'statistically monotone' (see the 1.4-vs-1.7 CI). Achieved "
-                 "covariates differ across the three single-experiment cells."
+        verdict=("observed cell means %s (%.2f -> %.2f -> %.2f EY%%); the MIDDLE dial is "
+                 "%s the coarse end -> %s middle-dial maximum in the observed means. "
+                 "Described as ORDERED, not 'statistically monotone' (see the 1.4-vs-1.7 "
+                 "CI). Achieved covariates differ across the three selected settings."
                  % ("increase monotonically" if ordered else "are not monotone",
                     means[0], means[1], means[2],
                     "below" if means[1] < means[2] else "at/above",
@@ -963,7 +971,7 @@ def schmieder_rsm_refit(component="tds", brew_ratio="1/2", predictors="target"):
     rows = _d.schmieder_cup_masses()
     fcol, tcol = (("scale_flow_ml_s", "decent_temp_C") if predictors == "achieved"
                   else ("target_flow_ml_s", "target_temp_C"))
-    obs = []
+    obs, is_center = [], []
     for r in rows:
         if r.get("component") != comp or r.get("brew_ratio") != brew_ratio:
             continue
@@ -971,8 +979,14 @@ def schmieder_rsm_refit(component="tds", brew_ratio="1/2", predictors="target"):
                       _f_num(r.get(tcol)), _f_num(r.get("mass_in_cup")))
         if None in (F, G, T, y):
             continue
+        # the TRUE central design setting is the NOMINAL centre point (target F=2,
+        # grind=1.7, target T=89), i.e. experiment 7 -- NOT every grind-1.7 row, which
+        # also includes flow-/temp-axis settings (review MAJ-07).
+        tf, tt = _f_num(r.get("target_flow_ml_s")), _f_num(r.get("target_temp_C"))
         obs.append((F, G, T, y))
-    o = np.asarray(obs, float)
+        is_center.append(tf is not None and abs(tf - 2.0) < 1e-6
+                         and abs(G - 1.7) < 1e-6 and tt is not None and abs(tt - 89.0) < 1e-6)
+    o = np.asarray(obs, float); center_mask = np.asarray(is_center, bool)
     F, G, T, y = o[:, 0], o[:, 1], o[:, 2], o[:, 3]
     # retained terms (TDS 1/2 printed): 1, F, G, T, G^2, T^2, FG (beta4/8/9 = 0)
     # NOTE predictors are on the RAW scale (not centered), so the individual
@@ -980,12 +994,12 @@ def schmieder_rsm_refit(component="tds", brew_ratio="1/2", predictors="target"):
     X = np.column_stack([np.ones_like(F), F, G, T, G ** 2, T ** 2, F * G])
     coef, *_ = np.linalg.lstsq(X, y, rcond=None)
     # vertex/prediction eval centre: for ACHIEVED predictors use the mean achieved
-    # central-cell (grind 1.7) flow/temp; for TARGET use the nominal design centre.
+    # flow/temp of the NOMINAL centre point (experiment 7, review MAJ-07); for TARGET
+    # use the nominal design centre.
     g = 1.7
     if predictors == "achieved":
-        cmask = np.abs(G - 1.7) < 1e-9
-        fl = float(np.mean(F[cmask])) if cmask.any() else float(np.mean(F))
-        tp = float(np.mean(T[cmask])) if cmask.any() else float(np.mean(T))
+        cm = center_mask if center_mask.any() else (np.abs(G - 1.7) < 1e-9)
+        fl = float(np.mean(F[cm])); tp = float(np.mean(T[cm]))
     else:
         fl, tp = _SCHM_CENTER["flow_ml_s"], _SCHM_CENTER["temp_C"]
     xc = np.array([1, fl, g, tp, g ** 2, tp ** 2, fl * g])
@@ -1015,21 +1029,19 @@ def schmieder_rsm_refit(component="tds", brew_ratio="1/2", predictors="target"):
     yhat = X @ coef
 
     def _boot(sampler):
-        vs, n_conc, n_dom = [], 0, 0
+        vs, n_conc, n_dom, n_joint = [], 0, 0, 0
         for _ in range(2000):
             cb, *_ = np.linalg.lstsq(X, sampler(), rcond=None)
             vb = _vertex(cb)
             if not np.isfinite(vb):
                 continue
             vs.append(vb)
-            if cb[4] < 0:
-                n_conc += 1
-            if 1.4 <= vb <= 2.0:
-                n_dom += 1
+            conc = cb[4] < 0; dom = 1.4 <= vb <= 2.0
+            n_conc += conc; n_dom += dom; n_joint += (conc and dom)
         ci = ([round(float(np.percentile(vs, 2.5)), 3),
                round(float(np.percentile(vs, 97.5)), 3)] if vs else None)
-        return ci, (n_conc / 2000.0), (n_dom / 2000.0)
-    vertex_ci95, frac_concave, frac_in_domain = _boot(
+        return ci, (n_conc / 2000.0), (n_dom / 2000.0), (n_joint / 2000.0)
+    vertex_ci95, frac_concave, frac_in_domain, frac_joint = _boot(
         lambda: yhat + resid[rng.integers(0, n, n)])            # residual bootstrap
     # case (row) bootstrap for comparison (resample rows of (X,y) together)
     cboot = []
@@ -1051,6 +1063,16 @@ def schmieder_rsm_refit(component="tds", brew_ratio="1/2", predictors="target"):
     # (~ its square). "design condition number" must refer to kappa2(X), not the Gram.
     kappa_X = float(np.linalg.cond(X))
     kappa_gram = float(np.linalg.cond(X.T @ X))
+    # CENTERED/SCALED design condition number (review MAJ-09): the same fit on
+    # z-scored F,G,T is well-conditioned (kappa2 ~ a few), demonstrating the raw-scale
+    # ill-conditioning is a parameterisation artefact, not a data problem. The vertex
+    # is offset/scale-invariant, so the fitted curve is unchanged after back-transform.
+    def _kappa_centered():
+        Fc = (F - F.mean()) / (F.std() or 1); Gc = (G - G.mean()) / (G.std() or 1)
+        Tc = (T - T.mean()) / (T.std() or 1)
+        Xc = np.column_stack([np.ones_like(Fc), Fc, Gc, Tc, Gc**2, Tc**2, Fc*Gc])
+        return float(np.linalg.cond(Xc))
+    kappa_X_centered = _kappa_centered()
     diag = None
     if n > p + 1:
         sigma2 = ss_res / (n - p - 1)            # unbiased residual variance
@@ -1058,18 +1080,24 @@ def schmieder_rsm_refit(component="tds", brew_ratio="1/2", predictors="target"):
         coef_se = np.sqrt(np.clip(np.diag(sigma2 * XtX_inv), 0.0, None))
         h = np.clip(np.diag(X @ XtX_inv @ X.T), 0.0, 1.0 - 1e-9)   # leverages
         std_resid = resid / np.sqrt(sigma2 * (1.0 - h))
+        cooks = std_resid ** 2 / (p + 1) * (h / (1.0 - h))         # Cook's distance
+        i_infl = int(np.argmax(cooks))
         diag = dict(
             coef_se=[round(float(s), 4) for s in coef_se],
             design_matrix_condition_number_kappa2_X=round(kappa_X, 1),
             gram_condition_number_kappa2_XtX=round(kappa_gram, 1),
+            centered_scaled_condition_number_kappa2_X=round(kappa_X_centered, 3),
             residual_std=round(float(np.sqrt(sigma2)), 4),
             max_abs_standardized_residual=round(float(np.max(np.abs(std_resid))), 3),
             max_leverage=round(float(np.max(h)), 3),
+            max_cooks_distance=round(float(np.max(cooks)), 3),
+            most_influential_row_index=i_infl,
             # raw (uncentered) predictors: T^2 ~ 7921 makes X ill-conditioned, so the
             # individual coefficients/SEs are unstable and only the offset-robust vertex
-            # + predictive Q^2 are interpretable. Centering/scaling would remove this;
-            # the vertex is offset-invariant so it is unaffected (review MAJ-06).
+            # + predictive Q^2 are interpretable. On CENTERED/SCALED predictors kappa2(X)
+            # drops to ~%s, and the vertex is offset/scale-invariant (review MAJ-06/09).
             raw_scale_ill_conditioned=bool(kappa_X > 1e3),
+            well_conditioned_after_centering=bool(kappa_X_centered < 100.0),
             predictors_centered=False,
             predictive_q2_ref="analysis.lopo_cv.lopo_rsm_design_point (design-point LOPO)")
     # printed rounded-coefficient evaluation (the artifact)
@@ -1104,6 +1132,8 @@ def schmieder_rsm_refit(component="tds", brew_ratio="1/2", predictors="target"):
                 bootstrap_type="residual (fixed-design); case bootstrap reported for comparison",
                 bootstrap_concave_fraction=round(frac_concave, 3),
                 bootstrap_vertex_in_dial_domain_fraction=round(frac_in_domain, 3),
+                bootstrap_concave_AND_in_domain_fraction=round(frac_joint, 4),  # MAJ-08
+                n_center_runs=int(center_mask.sum()),        # MAJ-07 (expect 6 = exp 7)
                 achieved_predictor_sensitivity=achieved_sens,
                 predictors_centered=False, diagnostics=diag,
                 printed_is_artifact=bool(np.isfinite(raw_central)
@@ -1324,7 +1354,7 @@ def cross_pressure_loco(window=(15.0, 95.0)):
     k_s, l_s, m_s = wz._solids_params()
     dose = d.waszkiewicz_constants()["dose__g"]
     lo, hi = window
-    per, drift_pc, drift_qc = {}, [], []
+    per, raw, shared_raw, drift_pc, drift_qc = {}, {}, {}, [], []
     for i, p in enumerate(ps):
         keep = [j for j in range(len(ps)) if j != i]    # leave pressure p OUT
         (P_c, Q_c), _ = wz.fit_static(Peq[keep], Qeq[keep])
@@ -1332,30 +1362,32 @@ def cross_pressure_loco(window=(15.0, 95.0)):
         drift_qc.append(abs(Q_c - Q_c0) / Q_c0)
         t = tr[p]["time__s"]; q = tr[p]["mass_flow_rate__g_per_s"]
         sel = (t >= lo) & (t <= hi); ts, qs = t[sel], q[sel]
-        r_static = float(np.sqrt(np.mean((wz.q_static(p, P_c, Q_c) - qs) ** 2)))
-        q_phi = wz.q_dynamic(ts, p, P_c, Q_c, k_s, l_s, m_s, dose)
-        r_phi = float(np.sqrt(np.nanmean((q_phi - qs) ** 2)))
         sh = cam.simulate_shot(1.9, p_bar=p, m_in=dose / 1000, m_out=0.040,
                                t_shot=100.0, n_save=150)
         md = np.interp(ts, sh.t, sh.m_cup * 1000.0)
-        if md[-1] <= 0:
-            r_rc3b = float("nan")
-        else:
-            r_rc3b = float(np.sqrt(np.nanmean(
-                (wz.q_dynamic_from_md(p, P_c, Q_c, md, dose) - qs) ** 2)))
-        per[p] = dict(static=round(r_static, 3), phi=round(r_phi, 3),
-                      rc3b=round(r_rc3b, 3), P_c=round(float(P_c), 3),
+
+        def _rmse(Pc, Qc):                              # raw RMSE for a calibration pair
+            rs = float(np.sqrt(np.mean((wz.q_static(p, Pc, Qc) - qs) ** 2)))
+            rp = float(np.sqrt(np.nanmean(
+                (wz.q_dynamic(ts, p, Pc, Qc, k_s, l_s, m_s, dose) - qs) ** 2)))
+            rr = (float("nan") if md[-1] <= 0 else float(np.sqrt(np.nanmean(
+                (wz.q_dynamic_from_md(p, Pc, Qc, md, dose) - qs) ** 2))))
+            return dict(static=rs, phi=rp, rc3b=rr)
+        raw[p] = _rmse(P_c, Q_c)                        # held-out refit (UNROUNDED)
+        shared_raw[p] = _rmse(P_c0, Q_c0)               # full 11-pt calibration (UNROUNDED)
+        per[p] = dict(static=round(raw[p]["static"], 3), phi=round(raw[p]["phi"], 3),
+                      rc3b=round(raw[p]["rc3b"], 3), P_c=round(float(P_c), 3),
                       Q_c=round(float(Q_c), 3))
-    heldout_mean = {m: round(float(np.nanmean([per[p][m] for p in ps])), 3)
+    # ALL summaries from RAW values, rounded only at display (review AR-B2-09)
+    heldout_mean = {m: round(float(np.nanmean([raw[p][m] for p in ps])), 3)
                     for m in ("static", "phi", "rc3b")}
-    # compare against the shared-calibration transfer mean over the SAME 11 points
-    shared = cross_pressure_discrimination(window)["per_pressure"]
-    shared_mean = {m: round(float(np.nanmean([shared[p][m] for p in ps])), 3)
+    shared_mean = {m: round(float(np.nanmean([shared_raw[p][m] for p in ps])), 3)
                    for m in ("static", "phi", "rc3b")}
     max_drift = round(float(max(max(drift_pc), max(drift_qc))), 4)
     # "held-out ~ shared" => the calibration is over-determined, not per-pressure tuned
-    matches = all(abs(heldout_mean[m] - shared_mean[m]) <= 0.05 * shared_mean[m]
-                  + 0.02 for m in ("static", "phi", "rc3b"))
+    matches = all(abs(float(np.nanmean([raw[p][m] for p in ps]))
+                      - float(np.nanmean([shared_raw[p][m] for p in ps])))
+                  <= 0.05 * shared_mean[m] + 0.02 for m in ("static", "phi", "rc3b"))
     return dict(
         per_pressure=per, heldout_mean=heldout_mean, shared_calibration_mean=shared_mean,
         max_calibration_drift=max_drift, heldout_matches_shared=matches,
