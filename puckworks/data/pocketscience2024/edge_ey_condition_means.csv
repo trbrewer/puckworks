@@ -1,0 +1,13 @@
+basket,shot_style,grinder,puck_screen,dispersion_block,ey_center_pct,ey_edge_pct,edge_yield_loss_pct,shot_ey_filtered_pct,outer_mass_frac_of_dose,n_shots,provenance
+VST18,traditional,Niche,N,teflon,20.7,14.0,-32.1,19.4,0.31,4-5,measured
+VST18,traditional,Niche,Y,teflon,22.1,18.9,-14.5,21.9,0.31,4-5,measured
+VST18,turbo,Superjolly_MP64,N,teflon,18.7,19.3,2.8,20.3,0.31,4-5,measured
+VST18,turbo,Superjolly_MP64,Y,teflon,19.6,19.6,0.3,21.0,0.31,4-5,measured
+Sworks,traditional,Niche,N,teflon,22.5,20.6,-8.6,21.8,0.34,4-5,measured
+Sworks,traditional,Niche,Y,teflon,23.3,22.9,-1.5,23.2,0.34,4-5,measured
+Sworks,traditional,Niche,N,brass,22.3,19.5,-12.3,21.3,0.34,4-5,measured
+Sworks,traditional,Niche,Y,brass,23.0,19.9,-13.7,21.9,0.34,4-5,measured
+Sworks,turbo,Superjolly_MP64,N,teflon,21.6,22.2,2.3,21.8,0.34,4-5,measured
+Sworks,turbo,Superjolly_MP64,Y,teflon,21.8,21.8,-0.1,21.8,0.34,4-5,measured
+Sworks,turbo,Superjolly_MP64,N,brass,21.3,20.9,-1.9,21.2,0.34,4-5,measured
+Sworks,turbo,Superjolly_MP64,Y,brass,21.0,20.1,-4.2,20.7,0.34,4-5,measured

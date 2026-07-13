@@ -30,6 +30,14 @@ puckworks/data/pannusch2024/*
 puckworks/data/visualizer/*
 !puckworks/data/visualizer/PROVENANCE.md
 !puckworks/data/visualizer/aggregate_stats.csv
+# pocketscience2024: pseudonymous hobbyist blog workbook, NO explicit data-use
+# license (public download != redistribution grant). Raw xlsx / per-sheet CSVs /
+# PDF held locally but NEVER committed; only PROVENANCE.md + the card-derived
+# summary CSVs are tracked (force-added), like pannusch2024 / visualizer.
+puckworks/data/pocketscience2024/*
+!puckworks/data/pocketscience2024/PROVENANCE.md
+!puckworks/data/pocketscience2024/edge_ey_condition_means.csv
+!puckworks/data/pocketscience2024/lrr_scalars.csv
 # schmieder2023: large MDPI binaries + extracted supplementary dirs
 puckworks/data/schmieder2023/*.zip
 puckworks/data/schmieder2023/*.epub

@@ -383,3 +383,44 @@ def test_schmieder_cup_masses_malformed_rows_are_explicit_design_summaries():
     # the valid rows are the coherent 4 components x 3 brew ratios x 48 runs
     assert len({r["component"] for r in valid}) == 4
     assert len({r["brew_ratio"] for r in valid}) == 3
+
+
+def test_pocketscience2024_intake():
+    """pocketscience2024 data-only intake: 12-condition edge/center EY summary + LRR
+    scalars load, carry the card's SIGN structure, and are declared in the MANIFEST.
+    (No gate against the source; this guards the transcription + manifest contract.)"""
+    import csv
+    import os
+
+    edge = pwdata.pocketscience_edge_ey()
+    assert len(edge) == 12
+    need = {"basket", "shot_style", "grinder", "puck_screen", "dispersion_block",
+            "ey_center_pct", "ey_edge_pct", "edge_yield_loss_pct", "outer_mass_frac_of_dose"}
+    assert need <= set(edge[0].keys())
+
+    def _cell(basket, shot, screen, block):
+        m = [r for r in edge if r["basket"] == basket and r["shot_style"] == shot
+             and r["puck_screen"] == screen and r["dispersion_block"] == block]
+        assert len(m) == 1, (basket, shot, screen, block)
+        return m[0]
+
+    # card gate-design point: the worst edge loss is the traditional basket + traditional
+    # shot + NO screen; a modern basket + screen + turbo shot is near zero.
+    worst = _cell("VST18", "traditional", "N", "teflon")
+    best = _cell("Sworks", "turbo", "Y", "teflon")
+    assert float(worst["edge_yield_loss_pct"]) < -25.0        # strong under-extraction
+    assert abs(float(best["edge_yield_loss_pct"])) < 3.0       # near even
+    # label-erratum: outer fraction is outer-to-TOTAL (0.31 VST18, 0.34 Sworks)
+    assert abs(float(worst["outer_mass_frac_of_dose"]) - 0.31) < 1e-9
+    assert abs(float(best["outer_mass_frac_of_dose"]) - 0.34) < 1e-9
+
+    lrr = pwdata.pocketscience_lrr()
+    assert len(lrr) == 2
+    assert all(3.0 < float(r["lrr_g_per_g"]) < 3.6 for r in lrr)
+
+    # both datasets declared in the manifest (rule 5)
+    mp = os.path.join(os.path.dirname(__file__), "..", "puckworks", "data", "MANIFEST.csv")
+    with open(mp, newline="", encoding="utf-8") as fh:
+        ids = {row["dataset_id"] for row in csv.DictReader(fh)}
+    assert "pocketscience2024/edge_ey_condition_means" in ids
+    assert "pocketscience2024/lrr_scalars" in ids

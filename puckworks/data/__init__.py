@@ -744,3 +744,24 @@ def ellero_fig4_caffeine_Dr():
     (Db=0.005, theta=0.0058 fixed; 4 curves). Release rate Dr dominates in-cup
     concentration (card's central claim), not bulk diffusion Db."""
     return _ellero_wide("fig4_direct_discharge_caffeine_content_vary_Dr.csv")
+
+
+# --- pocketscience2024 (radially sectioned edge/center EY; data-only) ----------
+_PSCI = DATA_DIR / "pocketscience2024"
+
+
+def pocketscience_edge_ey():
+    """Pocket Science Coffee 2024 — 12-condition edge/center extraction-yield summary
+    (data-only; card `pocketscience2024`). Card-transcribed condition means: per-section
+    EY (%), fractional edge yield loss (%), and the outer-section mass fraction of dose
+    (label-erratum corrected to outer-to-TOTAL). Rows are (basket, shot_style, grinder,
+    puck_screen, dispersion_block). EY units are percent (dimensionless yields; no SI
+    conversion). NOT a model; no gate against the source. See PROVENANCE.md."""
+    return _rows(_PSCI / "edge_ey_condition_means.csv")
+
+
+def pocketscience_lrr():
+    """Pocket Science Coffee 2024 — grinder-level liquid-retained-ratio (LRR) means
+    (g water / g dose), lumped post-flush retention (n=5 each). NOT in-shot dead water
+    and NOT a retention curve theta(psi): does not satisfy the G1 search target."""
+    return _rows(_PSCI / "lrr_scalars.csv")
