@@ -65,6 +65,7 @@ def compute_all(out_path=RESULTS):
         geometry_sensitivity=ab.geometry_sensitivity_transfer(),
         sampled_aggregate_audit=idn.sampled_aggregate_vs_actual_cup(),
         external_waszkiewicz=ew.waszkiewicz_external_tds(),
+        external_waszkiewicz_sensitivity=ew.waszkiewicz_sensitivity(),  # A2-13b nuisance sweep
     )
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     with open(out_path, "w") as f:

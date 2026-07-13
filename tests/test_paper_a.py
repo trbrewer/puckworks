@@ -29,6 +29,27 @@ def test_paper_a_build_verifies_manuscript_claims():
     assert all(v != "MISSING" for v in manifest["data_sha256"].values())
 
 
+def test_waszkiewicz_sensitivity_localization_invariant():
+    """review A2-13b: the external-panel bundle must carry the nuisance sweep and it
+    must report the localization conclusion INVARIANT (every temp x floor cell keeps
+    the fraction range ratio >1, cup never discriminates). Reads the committed bundle
+    (fast); the sweep itself is slow and runs in the Paper A `full` build."""
+    import json
+    import os
+    bundle = os.path.join("docs/figures/paper_a/results.json")
+    if not os.path.exists(bundle):
+        import pytest
+        pytest.skip("Paper A bundle not present")
+    with open(bundle) as f:
+        s = json.load(f).get("external_waszkiewicz_sensitivity")
+    if s is None:
+        import pytest
+        pytest.skip("sensitivity block not in this bundle (recompute with `full`)")
+    assert s["localization_invariant"] is True
+    assert s["fraction_range_ratio_min"] > 1.0
+    assert all(c["cup_carries_no_rate_info"] for c in s["cells"])
+
+
 def test_mape_level_returns_pair_and_profile_is_1d():
     """review A2-01: _mape_level returns (level, MAPE%); a MAPE profile must take the
     [1] element so it is 1-D, not a mix of levels and MAPEs. Guards the tuple bug."""

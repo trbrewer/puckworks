@@ -46,6 +46,8 @@ _CLAIMS = [
     ("manifold worst held-out ~22%",        "transfer.manifold_worst_heldout_mape", 21.7, 2.0),
     ("point worst held-out ~18%",           "transfer.point_worst_heldout_mape", 18.2, 2.0),
     ("Result-1 named holdout 8.4%",         "refit_summary.mean_holdout_named", 8.4, 0.5),
+    ("Waszkiewicz sensitivity range-ratio floor >1.5",
+     "external_waszkiewicz_sensitivity.fraction_range_ratio_min", 1.86, 0.15),
 ]
 
 
