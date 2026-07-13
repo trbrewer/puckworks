@@ -137,3 +137,74 @@ SPRINTS D5); what remains is external/local, not actionable in-repo.
 - **Miha Rekar reply** — sanctioned bulk/research use of the corpus (**SENT 2026-07-13 by Tim, awaiting reply**). BLOCKED-EXTERNAL: gates **redistribution / publication** use only; the public-API harvest works without it. If a sanctioned bulk export is offered, prefer it over API paging. §5.8.
 - **Populate the corpus (TB, local)** — the corpus is gitignored / not redistributed, so it is NOT populated in-repo. Tim runs `python -m puckworks.lib.visualizer_harvest full` locally, then `stats --write-aggregate` to replace the zero-state `aggregate_stats.csv`. Until then all coverage numbers are 0 by construction.
 - **G3/P2/P6 ecological consumers** — UNBLOCKED-LARGE but downstream: build the population pump/flow (P–Q) envelope, the Fo_F population, and the PV-06/PV-17 at-scale companion ON the harvested corpus. Deferred until the corpus is on disk (and, for any published use, until the Miha reply lands). Reference-strength / selection-biased — the label rides along, never upgrades a controlled result.
+
+---
+
+## Paper A (`PAPER_A_FOURTH_DETAILED_REVIEW.md`, 2026-07-13)
+
+Many 4th-review findings were already resolved by prior rounds (A3-03/MAJ-12 added
+`_raw` fields to refit/joint/geometry/flow; Fig 4 already carries a level-only
+baseline; "matched 40 g" already softened). The still-present DEFINITE defects are
+DONE below; the large additions + conversion are deferred.
+
+### DONE this round (committed)
+- **A4-06** precision: `gate_pannusch_angeloni_per_condition` / `endpoint_mass_sensitivity`
+  now aggregate overall MAPE + spread + helps/hurts sign from RAW values (`_raw` fields).
+- **A4-33** verdict strings neutralised (per-condition note, endpoint verdict).
+- **A4-08** Fig 8 title withdrew the logically-false "a level rescale cannot remove"
+  claim; **A4-31** Fig 7 "trajectory" → "cross-condition correlation (n=9)".
+- **A4-09** figure-count drift fixed (manuscript/docstring/README declare 8; new test).
+- **A4-01/34/35** build strict release (fails dirty/stale) + `release_fresh`/
+  `bundle_matches_head` + code+manuscript hashes + freshness/figure-count tests.
+- **A4-05** "40 mL proxy" labelling; **A4-16/42** wording already correct.
+
+### UNBLOCKED-LARGE (deferred; computable now but substantial)
+- **A4-03 / §4 / §10.1 — baseline-relative transfer skill (the central finding).** A
+  full-precision O-trained constant / same-(T,p) O lookup / shared+per-grind constant
+  baseline module reporting skill = 1−L_model/L_baseline, paired loss diffs, and win
+  counts; then rewrite Result 3 + abstract baseline-relative (remove "reasonable"). The
+  review's own diagnostic: model ≈ level-only (8.23 vs 8.59; worse in 5/12). **Top item.**
+- **A4-04 / §6.8** `cross_grind_endpoint_sensitivity` — refit O + transfer C/F per
+  endpoint×density (the current sweep tests only the blind residual).
+- **A4-07 / §6.12** continuous/converged profile-set → condition-wise C/F envelopes.
+- **A4-10/11/12** Fig 3/4 source-data export + Fig 4 baseline/envelope redesign + Fig 2
+  MAPE panel & censoring marks. **A4-17** Hessian sensitivity table. **A4-21** joint null
+  ladder. **A4-27/28** off-grid sim + discrepancy in figures. **A4-37** vector figures.
+
+### BLOCKED-VENUE / EXTERNAL
+- **A4-14/49, §7.1/7.20/7.22/7.23, A4-40/41/50** full journal manuscript conversion,
+  references, declarations, completed novelty search — VENUE/PI.
+- **A4-15** clean tagged release + pinned env/container — TB/infra (build strictness done).
+- **A4-25 / §10.11** replicate/RSD propagation — BLOCKED-EXTERNAL (source re-intake; = A-MAJ22).
+
+## Paper B (`PAPER_B_FIFTH_DETAILED_REVIEW.md`, 2026-07-13)
+
+### DONE this round (committed)
+- **B5-03** Jensen formula + range + mean-shift corrected (code + prose; added
+  `min_jensen_gap_EYpt`; worst = most negative, −4.64..−1.38).
+- **B5-04/05** Result-2 block step relabelled a conditional block resampling of fixed
+  losses; "statistically indistinguishable" → "not resolved by this conditional interval".
+- **B5-06** stale RC-3b/phi cross-pressure numbers regenerated from the bundle.
+- **B5-07** Schmieder CSV schema-contract test (36 exp-15 corner-point design rows pinned
+  separate from 576 valid runs; no silent filtering).
+- **B5-08/10** N-tube switching-convergence scoped to collapse-time-under-Euler; dropped
+  "tight distribution"; reported event-time variability + two-channel seeds.
+- **B5-02** (Paper B strict release already exists from the MAJ-04 work).
+
+### UNBLOCKED-LARGE (deferred)
+- **B5-08-full** real trajectory-convergence study (interpolated common grid, norms,
+  event-time error vs spatial+temporal refinement, higher-order/adaptive solver).
+- **B5-09** N-tube state classifier redesign (explicit single/oligarchic/distributed/
+  transient thresholds on top-1 share, N_eff, entropy, persistence).
+- **B5-24/25/26/27/28** N-tube physical balances (solute inventory, pressure-work,
+  lateral-flux, age), donor-extrapolation audit, event-time + start-state sensitivity.
+- **B5-13/14/15/16** RSM leverage-adjusted wild bootstrap, post-selection uncertainty,
+  design-support, first-stage endpoint propagation.
+- **B5-18/20** block-length sensitivity + residual-ACF figure. **B5-31** Fig 2 ontology.
+- **B5-33/34/35/36** template prose/figures from the frozen bundle + full dependency manifest.
+- **B5-39/40/44/45** figure reworks + complete source data + vector figures.
+
+### BLOCKED-VENUE / CARD
+- **B5-01** clean tagged release — TB. **B5-11** manuscript conversion — VENUE.
+- **B5-29** physical transverse-Darcy lateral operator — CARD-BLOCKED (rule 1; = G-lat/PV-14).
+- **B5-43** systematic novelty search — PI. **B5-32** DOI verification — needs source check.
