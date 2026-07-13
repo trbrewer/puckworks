@@ -54,6 +54,22 @@ def test_bundle_has_no_stale_evidence_taxonomy():
     assert not hits, "stale evidence-taxonomy phrases in bundle: " + ", ".join(set(hits))
 
 
+def test_offgrid_noise_sim_fraction_beats_cup():
+    """review A3-15/A3-16: the off-grid + realistic-noise simulation must show the
+    fraction objective recovering the off-grid true rate far better than the single cup,
+    across iid/heteroscedastic/correlated noise -- so the contrast is not an artefact of
+    an on-grid true rate or iid noise. Reads the committed bundle (fast)."""
+    r = _load_bundle().get("full_cup_offgrid_noise")
+    if r is None:
+        import pytest
+        pytest.skip("full_cup_offgrid_noise not in this bundle (recompute with `full`)")
+    assert r["mean_frac_recovered_err_pct"] < r["mean_cup_recovered_err_pct"]
+    assert r["n_frac_beats_cup"] >= (2 * r["n_cases"]) // 3   # frac wins the clear majority
+    # true rates were genuinely off the original 9-point candidate grid
+    grid = {0.25, 0.4, 0.6, 0.8, 1.0, 1.4, 2.0, 3.0, 4.0}
+    assert all(tr not in grid for tr in r["true_rates"])
+
+
 def test_condition_envelopes_and_threshold_sensitivity():
     """review A3-11/A3-02: the transfer must carry per-condition prediction envelopes and
     a threshold sweep; the median envelope is narrow but a worst case exists."""

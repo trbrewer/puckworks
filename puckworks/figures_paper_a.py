@@ -63,6 +63,7 @@ def compute_all(out_path=RESULTS):
         full_cup_discrepancy=idn.full_cup_simulation_discrepancy(),  # MAJ-13 discrepancy control
         full_cup_discrepancy_large=idn.full_cup_simulation_discrepancy(  # larger dose (bias emerges)
             temp_offset_C=8.0, flow_scale=1.25),
+        full_cup_offgrid_noise=idn.full_cup_simulation_offgrid_noise(),  # A3-15/16 off-grid + noise
         # --- previously-omitted manuscript analyses (MAJ-19 / A2-05) ---
         refit_summary=ab.refit_pannusch_angeloni(),        # Result 1 8.4%/11.5% (A2-05)
         species_bracket=ab.gate_pannusch_angeloni_species_bracket(),

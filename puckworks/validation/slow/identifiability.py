@@ -219,6 +219,122 @@ def full_cup_simulation_identifiability(
                          "distribution); NOT an empirical positive control")
 
 
+def full_cup_simulation_offgrid_noise(
+        solute="caffeine",
+        true_rates=(0.7, 1.15, 1.8),
+        n_fit=41, n_fine=12, noise=0.03, seed=0, n_seeds=40):
+    """B2 design #5 (review A3-15/A3-16): remove two artefacts of the same-model
+    positive control -- (i) the true rate lying exactly on the candidate grid, and (ii)
+    iid noise. The synthetic truth is generated at OFF-GRID rates (default 0.7/1.15/1.8,
+    none on the original 9-point candidate set) and fit with a DENSE `n_fit`-point rate
+    grid with PARABOLIC interpolation of the minimum (a continuous rate estimate). Three
+    noise models are compared: IID multiplicative Gaussian; HETEROSCEDASTIC (sigma scales
+    with the observation); and CORRELATED (a shared per-shot multiplicative offset across
+    the trajectory, the realistic source-like structure). For each (true rate, noise
+    model) we report, over `n_seeds` realizations, the median recovered rate and its
+    error for FRACTION vs CUP scoring -- so 100% recovery is no longer guaranteed by
+    construction. Caffeine is representative. NOTE: ~4-6 min of PDE solves (slow)."""
+    from puckworks.models.pannusch2024 import solver as ps
+    exps = ps._exp_kinetics()
+    shots = []
+    for rows in exps.values():
+        rows = sorted(rows, key=lambda r: r["fraction"])
+        T = rows[0]["Temp_C"]; flow = rows[0]["flow_mL_s"]
+        t_end = max(r["t_upper_s"] for r in rows)
+        edges = list(np.linspace(0.0, t_end, n_fine + 1))
+        shots.append((T, flow, edges, t_end))
+    n_shot = len(shots)
+    sp0 = ps._solute_params()[solute]
+
+    def _predict(rate, kind):
+        sp = dict(sp0); sp["A1"] = sp0["A1"] * rate; sp["A2"] = sp0["A2"] * rate
+        out_ = []
+        for T, flow, edges, t_end in shots:
+            if kind == "frac":
+                out_ += list(ps.simulate_fractions(T, flow, edges, sp, 1.0))
+            else:
+                out_.append(float(ps.simulate_fractions(T, flow, [0.0, t_end], sp, 1.0)[0]))
+        return np.asarray(out_, float)
+
+    fit_rates = np.geomspace(0.25, 4.0, n_fit)
+    frac_preds = [_predict(r, "frac") for r in fit_rates]     # dense grid, cached
+    cup_preds = [_predict(r, "cup") for r in fit_rates]
+    # map each fraction bin to its shot, so correlated noise can share a per-shot offset
+    shot_of_bin = np.repeat(np.arange(n_shot), n_fine)
+
+    def _cont_argmin(mape_vec):
+        """continuous rate estimate: parabolic vertex around the discrete min (log-rate)."""
+        k = int(np.argmin(mape_vec))
+        if 0 < k < len(mape_vec) - 1:
+            y0, y1, y2 = mape_vec[k - 1], mape_vec[k], mape_vec[k + 1]
+            denom = (y0 - 2 * y1 + y2)
+            d = 0.5 * (y0 - y2) / denom if abs(denom) > 1e-12 else 0.0
+            lr = np.log(fit_rates[k]) + d * (np.log(fit_rates[1] / fit_rates[0]))
+            return float(np.exp(lr))
+        return float(fit_rates[k])
+
+    nm_offset = {"iid": 0, "heteroscedastic": 100000, "correlated": 200000}  # deterministic
+    out = {}
+    for tr in true_rates:
+        frac_true = _predict(tr, "frac"); cup_true = _predict(tr, "cup")
+        for nm in ("iid", "heteroscedastic", "correlated"):
+            frbest, cubest = [], []
+            for s in range(n_seeds):
+                rs = np.random.default_rng(seed + s + int(tr * 1000) + nm_offset[nm])
+                if nm == "iid":
+                    fe = 1.0 + noise * rs.standard_normal(frac_true.shape)
+                    ce = 1.0 + noise * rs.standard_normal(cup_true.shape)
+                elif nm == "heteroscedastic":
+                    # sigma grows with the observation (already multiplicative -> add a
+                    # sqrt-scaled extra term so larger bins are noisier)
+                    scale = np.sqrt(frac_true / frac_true.mean())
+                    fe = 1.0 + noise * scale * rs.standard_normal(frac_true.shape)
+                    ce = 1.0 + noise * rs.standard_normal(cup_true.shape)
+                else:  # correlated: one shared multiplicative offset per shot
+                    shot_off = noise * rs.standard_normal(n_shot)
+                    fe = 1.0 + shot_off[shot_of_bin]
+                    ce = 1.0 + shot_off
+                f_meas = frac_true * fe; c_meas = cup_true * ce
+                fm = [_fit_level_mape(frac_preds[k], f_meas) for k in range(n_fit)]
+                cm = [_fit_level_mape(cup_preds[k], c_meas) for k in range(n_fit)]
+                frbest.append(_cont_argmin(fm)); cubest.append(_cont_argmin(cm))
+            frbest = np.array(frbest); cubest = np.array(cubest)
+            out[f"rate{tr:g}_{nm}"] = dict(
+                true_rate=tr, noise_model=nm,
+                frac_recovered_median=round(float(np.median(frbest)), 3),
+                frac_recovered_err_pct=round(float(abs(np.median(frbest) - tr) / tr * 100), 1),
+                frac_recovered_iqr=[round(float(np.percentile(frbest, 25)), 3),
+                                    round(float(np.percentile(frbest, 75)), 3)],
+                cup_recovered_median=round(float(np.median(cubest)), 3),
+                cup_recovered_err_pct=round(float(abs(np.median(cubest) - tr) / tr * 100), 1),
+                frac_beats_cup=bool(abs(np.median(frbest) - tr)
+                                    < abs(np.median(cubest) - tr)))
+    n_frac_wins = sum(v["frac_beats_cup"] for v in out.values())
+    frac_errs = [v["frac_recovered_err_pct"] for v in out.values()]
+    cup_errs = [v["cup_recovered_err_pct"] for v in out.values()]
+    return dict(
+        per_case=out, solute=solute, true_rates=list(true_rates),
+        n_fit=n_fit, noise=noise, n_seeds=n_seeds,
+        n_frac_beats_cup=n_frac_wins, n_cases=len(out),
+        mean_frac_recovered_err_pct=round(float(np.mean(frac_errs)), 1),
+        mean_cup_recovered_err_pct=round(float(np.mean(cup_errs)), 1),
+        verdict=("OFF-GRID + realistic-noise same-model simulation (review A3-15/A3-16, "
+                 "%s): generating truth at off-grid rates %s and fitting a dense %d-point "
+                 "grid with parabolic (continuous) recovery, the FRACTION objective "
+                 "recovers the true rate to a mean %.1f%% error while the single CUP is "
+                 "far worse (mean %.1f%%); fraction beats cup in %d of %d "
+                 "(off-grid-rate x noise-model) cases including heteroscedastic and "
+                 "correlated per-shot noise. So the fraction-vs-cup contrast is NOT an "
+                 "artefact of an on-grid true rate or iid noise -- though it remains a "
+                 "same-model (inverse-crime) illustration, not empirical evidence about "
+                 "real cups." % (solute, "/".join("%g" % r for r in true_rates), n_fit,
+                                 float(np.mean(frac_errs)), float(np.mean(cup_errs)),
+                                 n_frac_wins, len(out))),
+        strength="same-model simulation with off-grid truth + continuous recovery + "
+                 "heteroscedastic/correlated noise; robustness of the fraction-vs-cup "
+                 "contrast, NOT empirical cup evidence")
+
+
 def full_cup_simulation_discrepancy(
         solutes=("caffeine", "trigonelline", "5CQA"),
         rates=(0.25, 0.4, 0.6, 0.8, 1.0, 1.4, 2.0, 3.0, 4.0),

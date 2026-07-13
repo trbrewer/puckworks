@@ -74,6 +74,11 @@ _CLAIMS = [
     # A3-19 reduced-model ladder: shared mech beats per-grind constants in 0/6 fits
     ("reduced-model ladder: mech beats per-grind const in 0 fits (A3-19)",
      "reduced_model_ladder.n_fits_mech_beats_pergrind_const", 0.0, 0.5),
+    # A3-15/16 off-grid + realistic-noise sim: fraction recovers, cup does not
+    ("off-grid+noise sim: fraction recovers off-grid rate <1% (A3-16)",
+     "full_cup_offgrid_noise.mean_frac_recovered_err_pct", 0.2, 1.0),
+    ("off-grid+noise sim: fraction beats cup in all 9 cases (A3-15)",
+     "full_cup_offgrid_noise.n_frac_beats_cup", 9.0, 0.5),
 ]
 
 

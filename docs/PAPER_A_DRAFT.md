@@ -475,11 +475,17 @@ cup is only marginally more informative than the crude six-window aggregate and 
 essentially flat. This isolates the information-content difference from the
 sampled-window artefact — within this **same-model, best-case** design (an inverse crime,
 no model discrepancy): a *true* whole cup, not just a sampled aggregate, carries far less
-kinetic-rate information than the resolved fractions. It is **not** evidence that a real
-experimental cup lacks rate information, nor that the model is correctly specified (a
-model-discrepancy variant is owed). So the "cup hides the clock" reading survives the review's
-B2 concern. Strength: **simulation study** (exact integral, seeded 3 % noise) — not
-an empirical positive control.
+kinetic-rate information than the resolved fractions. We removed the two obvious
+best-case artefacts (review A3-15/A3-16, `full_cup_simulation_offgrid_noise`): generating
+truth at **off-grid rates** (0.7 / 1.15 / 1.8, none on the candidate set) and recovering a
+**continuous** rate from a dense grid, the fraction objective still recovers the true rate
+to a few-percent error while the cup is far worse — and this holds under **heteroscedastic**
+and **correlated per-shot** noise, not just iid. So the contrast is not an artefact of an
+on-grid true rate or iid noise. It remains **not** evidence that a real experimental cup
+lacks rate information, nor that the model is correctly specified — the model-discrepancy
+dose-response (§6, `full_cup_simulation_discrepancy`) shows a sharp fraction minimum is
+necessary-not-sufficient. Strength: **simulation study** (exact integral, seeded noise) —
+not an empirical positive control.
 
 **An independent external test** (`external_waszkiewicz`). The Pannusch fraction data
 above are part of the model's own calibration lineage, so they provide *in-sample
