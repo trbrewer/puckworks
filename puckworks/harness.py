@@ -1064,7 +1064,7 @@ def channeling_interior_max_sensitivity(gs_grid=None,
                      next((c["prominence"] for c in pressure_sweep if c["p_bar"] == 9.0), float("nan")))))
 
 
-def schmieder_rsm_refit(component="tds", brew_ratio="1/2", predictors="target"):
+def schmieder_rsm_refit(component="tds", brew_ratio="1/2", predictors="achieved"):
     """Refit schmieder's Eq.4 RSM to the COMMITTED cup-mass observations (same
     retained terms as the printed Table-3 row), to separate a real model level
     from a PRINTED-PRECISION artifact. The published coefficients are rounded (the
@@ -1079,9 +1079,10 @@ def schmieder_rsm_refit(component="tds", brew_ratio="1/2", predictors="target"):
 
     PREDICTOR CONTRACT (review MAJ-04): the source Methods fit the RSM on set grind
     plus the EXPERIMENTALLY ACHIEVED flow and temperature. `predictors='achieved'`
+    (DEFAULT, the paper-primary source-contract fit; review B6-20)
     uses `scale_flow_ml_s` / `decent_temp_C` (achieved) and evaluates the vertex at
-    the MEAN ACHIEVED central-cell flow; `predictors='target'` (default, kept for
-    continuity) uses the nominal `target_flow_ml_s` / `target_temp_C`. The two are
+    the MEAN ACHIEVED central-cell flow; `predictors='target'` uses the nominal
+    `target_flow_ml_s` / `target_temp_C` (kept for the predictor-contract sensitivity). The two are
     reported side-by-side (`achieved_predictor_sensitivity`) so the vertex's
     insensitivity to the predictor choice is explicit rather than assumed; this is a
     documented REFIT of the source design, not a reconstruction of the source's own
@@ -1229,11 +1230,20 @@ def schmieder_rsm_refit(component="tds", brew_ratio="1/2", predictors="target"):
     central = [v for FF, GG, TT, v in obs if abs(GG - g) < 1e-9
                and abs(FF - fl) < 0.15 and abs(TT - tp) < 1.5]
     raw_central = float(np.mean(central)) if central else float("nan")
-    # ACHIEVED-predictor sensitivity (review MAJ-04): report the source-contract
-    # (achieved flow/temp) vertex + adj-R^2 alongside, so the vertex's insensitivity to
-    # target-vs-achieved is explicit. Computed only in target mode (no recursion).
-    achieved_sens = None
-    if predictors == "target":
+    # ACHIEVED-predictor summary (review MAJ-04, B6-20): the source-contract
+    # (achieved flow/temp) vertex + adj-R^2, ALWAYS reported so the source-Methods
+    # vertex is explicit regardless of which predictor set is primary. When 'achieved'
+    # is the primary (the default), this summarises THIS refit (no recursion); when
+    # 'target' is primary it is a single non-recursive achieved refit -- so the
+    # target-vs-achieved insensitivity stays visible either way.
+    if predictors == "achieved":
+        achieved_sens = dict(
+            vertex_g=round(vertex_g, 3) if np.isfinite(vertex_g) else None,
+            adj_r2=round(adj_r2, 4),
+            residual_std=(diag or {}).get("residual_std"),
+            eval_flow_ml_s=round(fl, 4),
+            note="primary refit; source Methods used achieved flow/temp")
+    else:
         a = schmieder_rsm_refit(component, brew_ratio, predictors="achieved")
         achieved_sens = dict(vertex_g=a["vertex_g"], adj_r2=a["adj_r2"],
                              residual_std=(a["diagnostics"] or {}).get("residual_std"),
@@ -1441,7 +1451,7 @@ def result1_magnitude_comparison():
     from scipy import stats as _st
     tcrit = float(_st.t.ppf(0.975, dof))
     contrast_ci = [round(diff - tcrit * se, 3), round(diff + tcrit * se, 3)]
-    refit = schmieder_rsm_refit("tds", _SCHM_CENTER["brew_ratio"])
+    refit = schmieder_rsm_refit("tds", _SCHM_CENTER["brew_ratio"], predictors="target")
     # MODEL side: channeling prominence at the calibrated closure, 5 & 9 bar
     def _prom(p_bar):
         s = channeling_sigma_sweep(gs_grid=np.linspace(1.0, 2.2, 7),
@@ -1822,8 +1832,30 @@ def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
     # half into one tube) so Fig 5a can be read on the real clock and event times compared.
     t_rec = np.asarray(t[1:], float)                        # physical time of each step
     time_traj = [round(float(v), 4) for v in t_rec[::_sub]]
-    _collapse_idx = np.where(max_share > 0.5)[0]
-    collapse_time_s = float(t_rec[_collapse_idx[0]]) if len(_collapse_idx) else None
+    # B6-03: distinguish a TRANSIENT first passage from PERSISTENT single-channel onset.
+    # `first_passage_top1_s` = first step max single-tube share crosses 0.5 (can be a
+    # transient excursion; it fires even in runs that later end distributed). The
+    # `collapse_time_s` we report is the PERSISTENT onset: the first step from which the
+    # single-channel condition (top-1 >= 0.5 AND N_eff <= 2) holds through the final
+    # recorded step. Non-persistent runs (e.g. pressure control, high lateral) get None,
+    # so a distributed endpoint is never reported as "collapsed" (B6-14).
+    _fp_idx = np.where(max_share > 0.5)[0]
+    first_passage_top1_s = float(t_rec[_fp_idx[0]]) if len(_fp_idx) else None
+    # persistent onset (prespecified rule, B6-03/§5.5.6): the first step from which the
+    # single-channel condition (top-1 >= 0.5 AND N_eff <= 2) holds CONTINUOUSLY for at
+    # least `_persist_s` seconds (or through the remainder of the shot if less remains).
+    # A fixed window (not "strictly to the last step") is robust to a late transient
+    # rebound while still excluding runs that only touch the threshold transiently.
+    _persist_s = 5.0
+    _single = (max_share > 0.5) & (n_eff <= 2.0)
+    persistent_onset_s = None
+    for _i in range(len(_single)):
+        if not _single[_i]:
+            continue
+        _win = (t_rec >= t_rec[_i]) & (t_rec <= t_rec[_i] + _persist_s)
+        if bool(_single[_win].all()):
+            persistent_onset_s = float(t_rec[_i]); break
+    collapse_time_s = persistent_onset_s                    # "collapse" == persistent onset
     peak_share_idx = int(np.argmax(max_share))
     # review MAJ-38: NORMALISED concentration metrics of the FINAL share distribution
     # (portable across N): Shannon entropy (1 = uniform, ->0 = single channel), Gini, and
@@ -1838,7 +1870,11 @@ def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
         gini=round(gini, 4),
         top1_share=round(float(max_share[-1]), 4),
         top_decile_share=round(float(top_share[-1]), 4),
+        # B6-03: collapse_time_s is the PERSISTENT single-channel onset (None if the run
+        # never persistently collapses); first_passage_top1_s is the transient first crossing.
         collapse_time_s=(round(collapse_time_s, 3) if collapse_time_s is not None else None),
+        first_passage_top1_s=(round(first_passage_top1_s, 3)
+                              if first_passage_top1_s is not None else None),
         peak_share_time_s=round(float(t_rec[peak_share_idx]), 3))
     # NB: `state` (B5-09) is added to concentration_metrics after it is classified below.
     # ensemble EY at the SAME pressure as the flow dynamics (was hardcoded 5 bar)
@@ -1892,6 +1928,8 @@ def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
         n_eff_trajectory=n_eff_traj, max_share_trajectory=max_share_traj,
         time_s_trajectory=time_traj,                       # MAJ-36 physical seconds
         collapse_time_s=(round(collapse_time_s, 3) if collapse_time_s is not None else None),
+        first_passage_top1_s=(round(first_passage_top1_s, 3)     # B6-03 transient crossing
+                              if first_passage_top1_s is not None else None),
         concentration_metrics=concentration_metrics,       # MAJ-38 entropy/Gini/top-k
         n_eff_monotone_decreasing=n_eff_monotone,
         # review MAJ-33: these are now TRUE trajectory extrema (max dev / min share over
@@ -2124,7 +2162,7 @@ def ntube_robustness_study(baseline=None):
         owed="physical transverse-Darcy lateral operator + formal Jacobian/finite-time-"
              "Lyapunov growth analysis (Result 3 stays exploratory until then)",
         verdict=("OFAT sweeps (N 100-800, substeps 4-32, grind 1.1-2.0, pressure "
-                 "%.0f-%.0f bar, 4 stochastic realisations) + a crossed control×lateral×"
+                 "%.0f-%.0f bar, %d stochastic realisations) + a crossed control×lateral×"
                  "closure design: concentration is invariant on the NUMERICAL (%s), "
                  "STOCHASTIC (%s), and OPERATING (%s) axes, and is DELIBERATELY suppressed "
                  "by the physical-contingency axes {%s} -- the scientific finding, not a "
@@ -2133,7 +2171,7 @@ def ntube_robustness_study(baseline=None):
                  "This is a SWEEP + conservation robustness result in the tested family, "
                  "NOT a proven instability -- a physical lateral operator + a formal "
                  "finite-time-growth analysis remain owed, so Result 3 stays exploratory."
-                 % (min(pressures), max(pressures), numerical_invariant,
+                 % (min(pressures), max(pressures), len(sto_rows), numerical_invariant,
                     stochastic_invariant, operating_invariant,
                     ", ".join(suppressors) if suppressors else "none",
                     ("[%.1f, %.1f]" % (min(conc_neffs), max(conc_neffs))) if conc_neffs else "n/a",
@@ -2144,32 +2182,44 @@ def ntube_robustness_study(baseline=None):
 def ntube_switching_convergence(substeps_list=(4, 8, 16, 32, 64), N=200,
                                 gs=1.1, P_bar=9.0):
     """RESULT-3 SWITCHING CONVERGENCE (review MAJ-36/B3-14): the baseline trajectory shows
-    an abrupt early collapse/rebound over the first few seconds; is that a converged
-    physical event or an artefact of the near-zero conductance floor and explicit Euler
-    stepping? Re-run the baseline concentrating config at increasing timestep resolution
-    (substeps 4-64, i.e. the Euler step shrinks 16x) and report, on the PHYSICAL clock,
-    whether the COLLAPSE TIME (first second half the flow is in one tube), the peak-share
-    time, and the final N_eff CONVERGE as dt->0, plus the max |N_eff(t)| trajectory
-    deviation against the finest reference. Convergence of the event times (not just the
-    saturated endpoint, MAJ-35) is the acceptance criterion. NOTE: several PDE-clock solves
-    (slow ~1-2 min)."""
+    an abrupt early collapse/rebound over the first few seconds; is the PERSISTENT
+    single-channel onset (B6-03) stable, or an artefact of the explicit Euler stepping?
+    Re-run the baseline concentrating config at increasing timestep resolution (substeps
+    4-64, i.e. the Euler step shrinks 16x) and report, on the PHYSICAL clock: the
+    persistent-onset collapse time, the first-passage time, the final N_eff, AND the
+    max |N_eff(t)| deviation of each run's trajectory (interpolated onto the finest run's
+    physical-time grid) from the finest reference. SCOPE (B6-04): this is Euler-substep
+    refinement at FIXED spatial discretization (N) and output grid -- it does NOT vary N
+    or use a higher-order/adaptive integrator, and event times are read on the recorded
+    output grid; it establishes substep stability of the event, not full grid-independent
+    trajectory convergence. NOTE: several PDE-clock solves (slow ~1-2 min)."""
+    import numpy as np
     rows = []
     for s in sorted(substeps_list):
         r = ntube_kappa_t_union(gs=gs, N=N, P_bar=P_bar, substeps=s, closure="poroelastic",
                                 lateral=0.0, control="flow", compute_ey=False)
         cm = r["concentration_metrics"]
         rows.append(dict(substeps=s,
-                         collapse_time_s=cm["collapse_time_s"],
+                         collapse_time_s=cm["collapse_time_s"],           # persistent onset
+                         first_passage_top1_s=cm["first_passage_top1_s"],
                          peak_share_time_s=cm["peak_share_time_s"],
                          n_eff_final=round(r["n_eff_channels_final"], 3),
-                         entropy_normalized=cm["entropy_normalized"]))
-    # event-time deltas vs the finest resolution
+                         entropy_normalized=cm["entropy_normalized"],
+                         _t=r["time_s_trajectory"], _neff=r["n_eff_trajectory"]))
     finest = rows[-1]
+    # B6-04: the documented trajectory norm -- interpolate each coarser run's N_eff(t)
+    # onto the finest run's physical-time grid and take the max abs deviation.
+    ft = np.asarray(finest["_t"], float); fn = np.asarray(finest["_neff"], float)
+    traj_dev = {}
+    for x in rows[:-1]:
+        xt = np.asarray(x["_t"], float); xn = np.asarray(x["_neff"], float)
+        traj_dev[x["substeps"]] = round(float(np.max(np.abs(np.interp(ft, xt, xn) - fn))), 4)
+    max_traj_dev = max(traj_dev.values()) if traj_dev else 0.0
+    for x in rows:
+        x.pop("_t"); x.pop("_neff")                        # drop bulky arrays from output
     ct = [x["collapse_time_s"] for x in rows if x["collapse_time_s"] is not None]
     ne = [x["n_eff_final"] for x in rows]
     collapse_spread = (round(max(ct) - min(ct), 3) if len(ct) >= 2 else None)
-    # "converges" iff the collapse time and final N_eff change little from the two
-    # finest resolutions (the event has stabilised under refinement)
     collapse_converges = bool(len(ct) >= 2 and abs(ct[-1] - ct[-2]) <= 0.5)
     neff_converges = bool(abs(ne[-1] - ne[-2]) <= 0.5)
     return dict(
@@ -2178,21 +2228,26 @@ def ntube_switching_convergence(substeps_list=(4, 8, 16, 32, 64), N=200,
         collapse_time_spread_s=collapse_spread,
         collapse_time_converges=collapse_converges,
         n_eff_final_converges=neff_converges,
+        max_neff_trajectory_deviation=max_traj_dev,        # B6-04 documented norm
+        neff_trajectory_deviation_by_substeps=traj_dev,
         finest=finest,
-        verdict=("Refining the Euler timestep 16x (substeps %d->%d, N=%d) the early "
-                 "collapse is a CONVERGED event on the physical clock: the collapse time "
-                 "(first second half the flow enters one tube) lands in %s s (spread "
-                 "%s s, converges=%s) and the final N_eff in [%.1f, %.1f] (converges=%s). "
-                 "So the abrupt early switching (Fig 5a) is a real feature of the "
-                 "near-choke closure under this boundary condition, not a stepping "
-                 "artefact -- though a higher-order/adaptive integrator and an explicit "
-                 "physical lateral operator remain owed before any stability claim."
+        verdict=("Refining the Euler timestep 16x (substeps %d->%d) at FIXED N=%d and "
+                 "output grid: the persistent single-channel onset lands in %s s (spread "
+                 "%s s, converges=%s), the final N_eff in [%.1f, %.1f] (converges=%s), and "
+                 "the N_eff(t) trajectory deviates from the finest run by at most %.3f "
+                 "channels. So the early switching event is STABLE under Euler substep "
+                 "refinement at fixed spatial discretization/output grid -- NOT a proven "
+                 "grid-independent physical event: a higher-order/adaptive integrator, an "
+                 "N-refinement, and interpolated event times remain owed (B6-04/B5-08), and "
+                 "a physical lateral operator + formal growth analysis before any stability "
+                 "claim."
                  % (min(substeps_list), max(substeps_list), N,
                     ("[%.2f, %.2f]" % (min(ct), max(ct))) if ct else "n/a",
                     collapse_spread, collapse_converges, min(ne), max(ne),
-                    neff_converges)),
-        strength="timestep-refinement convergence of the finite-time collapse EVENT "
-                 "(physical clock); NOT a formal stability/eigenmode result")
+                    neff_converges, max_traj_dev)),
+        strength="Euler-substep stability of the finite-time collapse EVENT at fixed N + "
+                 "output grid (physical clock); NOT a formal stability/eigenmode result "
+                 "and NOT full grid-independent trajectory convergence")
 
 
 # back-compat alias (old name implied a theorem it did not deliver)

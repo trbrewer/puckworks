@@ -5,7 +5,7 @@
 ## How to use this brief
 
 This is a **disclosure register**, not a "do not flag" list. Paper B has been
-through five detailed review rounds; the limitations below are already **known and
+through six detailed review rounds; the limitations below are already **known and
 scoped**. The most useful review does three things:
 
 1. **Assess whether each disclosure is adequate and correctly labelled** — e.g. is
@@ -21,8 +21,8 @@ is honest and sufficient is high value. Note especially: **Result 3 (N-tube) is
 explicitly an exploratory simulation**, not a stability result — please review it
 as such rather than against the standard for a validated instability claim.
 
-Authoritative sources this brief summarizes: the prior review
-`docs/PAPER_B_FIFTH_DETAILED_REVIEW.md`; `docs/REVIEW_BACKLOG.md` (Paper B section,
+Authoritative sources this brief summarizes: the prior reviews
+`docs/PAPER_B_{FIFTH,SIXTH}_DETAILED_REVIEW.md`; `docs/REVIEW_BACKLOG.md` (Paper B section,
 internal IDs); `docs/ROADMAP.md` §7.1 change log; `docs/HANDOFF_TB_PI_VENUE.md`.
 
 ## 1. Maximum defensible claim per result (calibrate against this scope)
@@ -46,8 +46,11 @@ to identify a unique physical mechanism**. Per result:
 - **Cross-pressure LOPO.** The two-parameter equilibrium calibration is **not
   dominated by any single pressure**. This is **not** physical validation of the
   residual-vs-pressure pattern (donor trajectories held fixed).
-- **Result 3 (N-tube channeling).** **Exploratory simulation.** One configuration
-  (gs 1.1, 9 bar, N=200); floor- and control-law-dependent; the lateral term is a
+- **Result 3 (N-tube channeling).** **Exploratory simulation.** One physical
+  configuration (gs 1.1, 9 bar, flow control, zero lateral), evaluated at the tube
+  count each sub-analysis needs: **N=400** trajectory / robustness baseline (with an
+  N-sweep over 100–800), **N=200** switching-convergence study, **N=150** conductance-floor
+  audit; floor- and control-law-dependent; the lateral term is a
   **homogenizing proxy, not a physical coupling operator** (card-blocked). The
   switching "convergence" is convergence of the collapse-time event **under Euler
   refinement on the output grid**, not a grid-independent full-trajectory result.
@@ -93,6 +96,18 @@ Fixed in the current tree (the 5th review was partly stale on some):
   + ACF-by-branch, making the coherent non-white lack-of-fit visible.
 - Both flagged DOIs verified (lee2023 10.1063/5.0138998; waszkiewicz2026
   10.1063/5.0319611).
+- Sixth-round: N-tube **collapse time** is now the *persistent* single-channel onset
+  (sustained ≥5 s), reported separately from a transient `first_passage_top1_s`, so a
+  brief top-1 excursion (pressure control, strong lateral) is not called a collapse.
+  The switching-convergence study now reports the **trajectory-deviation norm** (large
+  at the coarsest Euler step, →0 by ≥8 substeps), and the claim is explicitly "stable
+  under substep refinement at fixed N/grid", not grid-independent.
+- Sixth-round wording: Foster labelled a published *model* curve (not measured data);
+  "conservation audit" → "numerical-invariant audit"; §7 RSM figures refreshed to the
+  achieved-predictor fit (adj-R² 0.643, vertex CI [1.699,1.817], LOPO Q² 0.470); Fig 3
+  "0 params" → "0 coefficients fitted to Q(t)"; Fig 5d "MEASURED"→"computed"; Fig 1
+  "monotonically"→"numerically ordered". `schmieder_rsm_refit` now defaults to the
+  achieved-predictor (paper-primary) fit.
 - Earlier rounds: achieved-predictor RSM refit, deletion + wild-bootstrap
   diagnostics, data-driven Fig 2 + status dictionary, swelling sign-vs-magnitude
   narrowing, Result-3 downgraded to model-capacity / exploratory.

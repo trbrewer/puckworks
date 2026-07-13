@@ -236,3 +236,40 @@ DONE below; the large additions + conversion are deferred.
 - **B5-29** physical transverse-Darcy lateral operator — CARD-BLOCKED (rule 1; = G-lat/PV-14).
 - **B5-43** systematic novelty search — PI (open-web seed added, handoff PI-1). **B5-32** DOI verification — **DONE** (2026-07-13, handoff: lee2023 10.1063/5.0138998; waszkiewicz2026 10.1063/5.0319611).
 - **B5-45** vector figures — **DONE-as-code** (handoff VENUE-2: shared SVG/PDF export + colour-safe palette; full render owed).
+
+## Paper B (`PAPER_B_SIXTH_DETAILED_REVIEW.md`, 2026-07-13)
+
+### DONE this round (committed)
+- **B6-03/B6-14** `collapse_time_s` → **persistent** single-channel onset (top-1 >0.5 ∧ N_eff ≤2
+  sustained ≥5 s), NOT first-passage; new `first_passage_top1_s` reported separately;
+  regression guard `test_ntube_collapse_is_persistent_not_first_passage` (pressure-control +
+  lateral counterexamples report collapse None).
+- **B6-04** trajectory-deviation norm computed in `ntube_switching_convergence`
+  (`max_neff_trajectory_deviation`, by-substeps map); verdict/docstring narrowed to
+  "stable under Euler substep refinement at fixed N/output grid — not grid-independent".
+- **B6-07/B6-38** robustness verdict "4 realisations" → dynamic count (16); manuscript "4 seeds" → 16.
+- **B6-20** `schmieder_rsm_refit` default `predictors` target→**achieved** (paper-primary);
+  sensitivity field symmetric; internal `result1` caller pinned to `target` (numbers unchanged).
+- **B6-05** Foster = published model curve (not measured); **B6-15** "conservation audit" →
+  "numerical-invariant audit"; **B6-21** §7 stale RSM numbers → 0.643 / [1.699,1.817] / 0.470 / 0.19;
+  **B6-29** abstract floor claim scoped; **B6-30** fig count notes Fig 6 supp.; **B6-16** Fig 5d
+  "MEASURED"→"computed"; **B6-25** Fig 3 "0 params"→"0 coeffs fit to Q(t)"; **B6-22** Fig 1
+  "monotonically"→"numerically ordered"; **B6-26/27** Fig 6 caption "every branch"/"near unity" →
+  "plotted branches"/"strongly positive across displayed lags"; **B6-17** per-analysis N stated
+  (N=400 trajectory / N=200 convergence / N=150 floor) in draft + reviewer brief.
+- **B6-01/B6-02** Paper B bundle recomputed (18/18 claims pass; picks up the classifier fix +
+  onset/first-passage fields).
+
+### UNBLOCKED-LARGE (deferred)
+- **B6-FIG** deterministic figure-PNG re-render (fig3 "0 coeffs" / fig5 "computed" annotations live
+  in `figures.py` + captions; PNGs are env-nondeterministic here — unseeded bootstrap band + matplotlib
+  version — so a clean release render is owed. Vector siblings gitignored).
+- **B6-06/33** block-length sensitivity for the Result-2 conditional interval (= B5-18).
+- **B6-36/37** full temporal+spatial event-convergence study (common physical-time grid, higher-order
+  solver) — extends B5-08-full.
+- **B6-19** N-tube collapse-threshold sensitivity (top-1 / N_eff / persistence-window choices).
+
+### BLOCKED-VENUE / EXTERNAL
+- **B6-08/09/10/11/12** journal manuscript conversion (verifier-parses-manuscript, Methods,
+  full dependency manifest, figures-consume-bundle) — VENUE (= B5-11/33-36).
+- **B6-13/39** Fig 5a early-time inset — figure rework (batch with B5-39/40).

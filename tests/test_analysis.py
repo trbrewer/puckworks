@@ -122,6 +122,36 @@ def test_ntube_physical_time_and_concentration_metrics():
     assert 0.0 < cm["n_eff_over_N"] <= 1.0
 
 
+def test_ntube_collapse_is_persistent_not_first_passage():
+    """review B6-03/B6-14: `collapse_time_s` is the PERSISTENT single-channel onset
+    (top-1 share > 0.5 AND N_eff <= 2 sustained >= 5 s), NOT a first-passage crossing.
+    Regression guard: configurations that only transiently touch a high top-1 share
+    (pressure control; strong lateral homogenisation) must report collapse_time_s
+    None while still exposing a finite `first_passage_top1_s` -- so a transient
+    excursion is never mislabelled as a collapse. Fast (moderate N)."""
+    from puckworks.harness import ntube_kappa_t_union
+    near = ntube_kappa_t_union(gs=1.1, N=150, P_bar=9.0, compute_ey=False)
+    cm = near["concentration_metrics"]
+    # a genuine collapse: persistent onset exists, positive, and (clean collapse) equals
+    # the first-passage time -- the top-1 crossing here IS the persistent onset.
+    assert cm["collapse_time_s"] is not None and cm["collapse_time_s"] > 0
+    assert cm["first_passage_top1_s"] is not None
+    assert abs(cm["collapse_time_s"] - cm["first_passage_top1_s"]) < 1e-6
+
+    # counterexample 1: pressure control (independent tubes) -- transient top-1 excursion,
+    # no persistent collapse.
+    pc = ntube_kappa_t_union(gs=1.1, N=150, P_bar=9.0, control="pressure", compute_ey=False)
+    assert pc["concentrates"] is False
+    assert pc["concentration_metrics"]["collapse_time_s"] is None
+    # ...yet a first-passage crossing may still occur and must be reported (not conflated).
+    assert pc["concentration_metrics"]["first_passage_top1_s"] is not None
+
+    # counterexample 2: strong lateral homogenisation -- flow spread out, no collapse.
+    lat = ntube_kappa_t_union(gs=1.1, N=150, P_bar=9.0, lateral=0.3, compute_ey=False)
+    assert lat["concentrates"] is False
+    assert lat["concentration_metrics"]["collapse_time_s"] is None
+
+
 def test_ntube_switching_converges_under_refinement():
     """review MAJ-36/B3-14: the early collapse must CONVERGE as the timestep shrinks
     (event is physical, not a stepping artefact). Uses a coarse config for speed."""
@@ -241,7 +271,9 @@ def test_rsm_achieved_predictor_sensitivity():
     vertex alongside the target-predictor one; the vertex is insensitive to the choice
     (both interior, shift < 0.1 dial)."""
     from puckworks.harness import schmieder_rsm_refit
-    r = schmieder_rsm_refit("tds", "1/2")
+    # request the TARGET-predictor primary explicitly so this exercises the genuine
+    # target-vs-achieved comparison (the default is now 'achieved', review B6-20).
+    r = schmieder_rsm_refit("tds", "1/2", predictors="target")
     a = r["achieved_predictor_sensitivity"]
     assert a is not None and a["vertex_g"] is not None
     assert abs(r["vertex_g"] - a["vertex_g"]) < 0.1        # predictor choice barely moves it

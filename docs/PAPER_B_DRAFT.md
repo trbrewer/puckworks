@@ -13,7 +13,8 @@ independent evidence; "reconstructs/is consistent with" for post-fit; "can gener
 / does not generate under the tested parameterization" for qualitative
 discrimination; "exhibits in the tested configuration / motivates" for exploratory
 synthesis; never "identifies / proves / is the mechanism / unconditionally /
-linearly unstable". Figures: `docs/figures/fig{1..5}`. Validation-strength tags stay
+linearly unstable". Figures: `docs/figures/fig{1..5}` (main) plus `fig6` (supplementary,
+Result-2 residual diagnostics). Validation-strength tags stay
 in the text.*
 
 **Title.** **Limits of mechanism discrimination from integrated espresso measurements:
@@ -57,8 +58,9 @@ continuous residual-vs-pressure curve within the same campaign (not independent
 validation, and not pre-specified pressure "regimes"). Finally, an exploratory
 uncoupled N-tube composition with extraction-dependent conductance can concentrate
 flow strongly in the implemented near-choke, fixed-total-flow, zero-homogenization
-configuration; the concentration is floor-independent under a completed numerical
-floor sweep but remains regularization- and start-state-dependent and is **not a
+configuration; the endpoint class is unchanged over the tested conductance floors
+in that specified configuration (a completed numerical floor sweep) but remains
+regularization- and start-state-dependent and is **not a
 stability theorem**. Across the datasets and model classes tested here, integrated
 measurements do not uniquely identify a mechanism; spatial, pathway-resolved,
 first-drip, or independently measured bed-state observables would be more
@@ -253,8 +255,9 @@ variation, but no formal minimum-detectable-effect analysis is claimed.
 ## 4. Result 2 — a null-first κ(t) ladder within a specified model set (Fig. 3)
 
 **The null that must be beaten first.** A machine-only model (pump + headspace, no
-bed dynamics; foster2025) reconstructs a mid-shot flow minimum on the digitized
-source trace (Fig. 3a). Scoped statement: *the dip-and-recovery shape is not, by
+bed dynamics; foster2025) reconstructs a mid-shot flow minimum in the digitized
+Foster (2025) source curve — which is itself a **published model output, not a measured
+espresso flow record** (Fig. 3a). Scoped statement: *the dip-and-recovery shape is not, by
 itself, diagnostic of a bed mechanism, because the tested machine-only model can
 reconstruct it in the source configuration* — not that the shape carries zero
 information in every experimental design.
@@ -422,7 +425,14 @@ claim it is physically invalid for espresso beds in general).
 Results 1 and 2 supply a static heterogeneity mechanism and an evolving-porosity
 mechanism; we ask what happens when each streamtube carries its own
 extraction-driven conductance clock. We build this with grounded scales as an
-**exploratory** construction, not a registered component.
+**exploratory** construction, not a registered component. All runs share one physical
+configuration (gs 1.1, 9 bar, flow control, zero lateral); the tube count *N* is set
+per sub-analysis to what each needs — **N=400** for the trajectory and robustness
+baseline (with an explicit N-sweep over 100–800, below), **N=200** for the
+switching-convergence study, and **N=150** for the conductance-floor audit — so N
+values cited across the panels (e.g. the "~83 of 150" Kozeny–Carman channel count
+here vs. the N=400 trajectory in Fig. 5a) refer to the same configuration at
+different resolutions, not different experiments.
 
 **Result, scoped.** In the tested near-choke, flow-controlled configuration the
 flow concentrates into a single effective channel — measured by the maximum
@@ -443,7 +453,7 @@ floor across the swept range (**1e-6…1e-15**), and the endpoint is unchanged.
 
 **A one-factor-at-a-time (OFAT) robustness study plus a crossed control×lateral×closure
 design** (`ntube_robustness_study`; not a full factorial, review MAJ-34) sweeps the
-remaining axes, and a **full-trajectory conservation audit** (review MAJ-33) records the
+remaining axes, and a **full-trajectory numerical-invariant audit** (review MAJ-33) records the
 worst share-sum deviation, raw non-negativity of conductance/relative-flow/age, and the
 control-law flow balance over **every substep** (not a final-step check):
 
@@ -453,14 +463,14 @@ control-law flow balance over **every substep** (not a final-step check):
 | timestep (substeps) | 4 – 32 | invariant |
 | grind *gs* | 1.1 – 2.0 | invariant |
 | pressure | 6 – 11 bar | invariant |
-| stochastic finite-network realisations | 4 seeds | invariant |
+| stochastic finite-network realisations | 16 seeds | invariant |
 | **lateral homogenisation** | 0 → 0.1 → 0.3 | N_eff 1.0 → 19 → **307 (concentration destroyed)** |
 | **control law** | flow vs pressure | flow: N_eff 1.0; **pressure: 219 (no concentration)** |
 | closure (negative control) | poroelastic vs CK | poroelastic 1.0; CK 217 (bounded) |
 
 So the concentration endpoint is **invariant on the numerical (N, timestep), stochastic,
 and operating (grind, pressure) axes** — reported separately, not collapsed into one flag
-(MAJ-40) — and the full-trajectory conservation/non-negativity audit holds throughout
+(MAJ-40) — and the full-trajectory numerical-invariant/non-negativity audit holds throughout
 (under flow control the raw total relative flow is conserved by construction; under
 pressure control it is free, which the audit now states rather than hides). The endpoint
 is **contingent on two physical assumptions**: fixed-*flow* control (under fixed-*pressure*
@@ -483,7 +493,7 @@ we do NOT call it a "tight" distribution (B5-10): the collapse/switching **time*
 materially — by ≈39 % across tube count, by >1 s across grind/pressure, and over ≈1.4–3.5 s
 across the 16 seeds (some seeds end with two effective channels) — so we report those event
 distributions, not only the endpoint N_eff.
-This is a genuine sweep-and-conservation robustness result within the tested family, **not**
+This is a genuine sweep-and-numerical-invariant robustness result within the tested family, **not**
 a proven instability: a physical transverse-Darcy lateral-exchange operator and a formal
 Jacobian/finite-time-Lyapunov growth analysis remain owed (§7). We therefore keep Result 3
 explicitly exploratory, and state its result precisely as **flow concentrates in the
@@ -533,14 +543,15 @@ analyzed under a physically consistent machine/bed system and tested experimenta
 ## 7. Open gaps this paper defines
 
 - Full-precision response-surface reconstruction (source coefficients/model object).
-  *Partially addressed:* a documented raw-data refit now reports adjusted R² (0.65), a
-  **fixed-design residual-bootstrap** vertex CI ([1.69, 1.80]; a case bootstrap gives a
+  *Partially addressed:* a documented raw-data refit now reports adjusted R² (0.643,
+  achieved predictors), a
+  **fixed-design residual-bootstrap** vertex CI ([1.699, 1.817]; a case bootstrap gives a
   similar [1.68, 1.81], and **99.8 %** of bootstrap fits are jointly concave-and-in-domain,
   conditional on the retained seven-term model), a **leave-one-setting-out** Q² over the
-  15 experiment IDs with achieved predictors (0.48), and a
+  15 experiment IDs with achieved predictors (0.470), and a
   coefficient-covariance / residual panel (`schmieder_rsm_refit.diagnostics`:
   per-coefficient standard errors, residual σ ≈ 0.11, max standardized residual ≈ 3.7,
-  max leverage 0.18). The raw (uncentered) predictors are ill-conditioned — the
+  max leverage 0.19). The raw (uncentered) predictors are ill-conditioned — the
   **design-matrix** condition number κ₂(X) ≈ 1.7×10⁶ (the Gram κ₂(XᵀX) ≈ 2.7×10¹² is its
   square, and is *not* the design condition number) — so the individual coefficients/SEs
   are numerically unstable while the offset-invariant vertex and predictive Q² are not;

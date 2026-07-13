@@ -313,8 +313,9 @@ def fig3_ladder(outdir=OUTDIR_DEFAULT):
     ax2.set_title("(b) 9-bar ladder, window %d–%d s (RMSE)" % (lo, hi))
     ax2.set_ylabel("RMSE [g/s]"); ax2.set_ylim(0, 0.72)
     ax2.tick_params(axis="x", labelsize=6.6)
-    ax2.text(0.97, 0.60, "Φ(t) (0 params) beats every\nconstant null %.1f×; a 4-param\n"
-             "flexible curve also does →\ntime variation is NEEDED,\nnot a specific mechanism"
+    ax2.text(0.97, 0.60, "Φ(t) (0 coeffs fit to Q(t);\ndonor params imported) beats every\n"
+             "constant null %.1f×; a 4-param\nflexible curve also does →\ntime variation "
+             "helps, but no\nspecific mechanism is identified"
              % lad["improvement_factor"],
              transform=ax2.transAxes, fontsize=6.4, color=NULL, ha="right", va="top")
 
@@ -426,7 +427,7 @@ def fig5_concentration(outdir=OUTDIR_DEFAULT):
     (c) the physical CONTINGENCY — N_eff vs lateral homogenisation for flow vs pressure
         control (concentration is destroyed by pressure control or lateral ≥0.3);
     (d) supplementary floor audit — the closed-form gain is floor-CONTROLLED (∝1/floor, a
-        regularisation diagnostic, not an eigenvalue), while the MEASURED N_eff plotted on
+        regularisation diagnostic, not an eigenvalue), while the computed N_eff plotted on
         the same panel is floor-INDEPENDENT (review MAJ-42/43)."""
     import numpy as np
     from puckworks import harness as h
@@ -490,7 +491,7 @@ def fig5_concentration(outdir=OUTDIR_DEFAULT):
 
     # (d) supplementary floor audit — review MAJ-42/MAJ-43: plot BOTH the closed-form
     # gain (floor-CONTROLLED, an analytical diagnostic of the 1/floor regularisation) AND
-    # the MEASURED numerical N_eff (floor-INDEPENDENT), so the "floor-independent" claim is
+    # the computed numerical N_eff (floor-INDEPENDENT), so the "floor-independent" claim is
     # shown IN THIS PANEL rather than mis-cross-referenced to panel c.
     st = h.ntube_finite_time_gain(floors=(1e-6, 1e-9, 1e-12, 1e-15))
     floors = np.array([1e-6, 1e-9, 1e-12, 1e-15])
@@ -499,7 +500,7 @@ def fig5_concentration(outdir=OUTDIR_DEFAULT):
         ax4.plot(floors, np.array([float(g["%.0e" % f]) for f in floors]),
                  "o-", color=col, lw=1.5, ms=4, label="%s gain (closed-form)" % name)
     ax4.set_xscale("log"); ax4.set_yscale("log"); ax4.invert_xaxis()
-    ax4.set_title("(d) supp.: closed-form gain (∝1/floor) vs MEASURED N_eff", fontsize=8.4)
+    ax4.set_title("(d) supp.: closed-form gain (∝1/floor) vs computed N_eff", fontsize=8.4)
     ax4.set_xlabel("conductance floor M₀"); ax4.set_ylabel("gain M_f/M₀")
     ax4d = ax4.twinx()                                   # measured N_eff, floor-independent
     for name, col in (("poroelastic", BAD), ("ck", GOOD)):
@@ -511,7 +512,7 @@ def fig5_concentration(outdir=OUTDIR_DEFAULT):
     ax4.legend(fontsize=6.0, loc="lower left")
     ax4d.legend(fontsize=6.0, loc="upper right")
     ax4.text(0.5, 0.62, "closed-form gain ∝ 1/floor\n(regularisation diagnostic, not an\n"
-             "eigenvalue); MEASURED N_eff (▲) is\nfloor-independent",
+             "eigenvalue); computed N_eff (▲) is\nfloor-independent",
              transform=ax4.transAxes, fontsize=6.0, color=NULL, ha="center", va="top")
     fig.suptitle("Result 3 (exploratory) — finite-time concentration: endpoint invariant on "
                  "numerical axes (N/timestep), CONTINGENT on flow-control + low lateral",
@@ -529,7 +530,8 @@ def fig6_residual_acf(outdir=OUTDIR_DEFAULT):
     ladder RMSEs are RECONSTRUCTION scores on ONE strongly-autocorrelated trace, not
     held-out validation. (a) the signed residual vs time for Φ(t) (winner) and the
     best-constant null makes the coherent, non-white lack-of-fit visible; (b) the
-    residual autocorrelation vs lag stays near 1 for many seconds in every branch —
+    residual autocorrelation vs lag stays strongly positive across the displayed lags
+    in each plotted branch —
     i.e. the residuals are not white, so pointwise RMSE overstates its own precision
     (the block interval that follows is the honest correction)."""
     import numpy as np
