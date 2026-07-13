@@ -246,9 +246,12 @@ reaches RMSE 0.116 g/s (Fig. 3b), beating the *best* of the three constant nulls
 ~4.9× and the static κ(P) null ~5.6×. **Bound on the claim.** A purely
 phenomenological degree-3 polynomial in time (four free parameters, no mechanism)
 reaches RMSE 0.096 g/s — at least as good as the mechanistic trajectory. The
-honest, scoped claim is therefore: *within this window and null set, time variation
-is required (every constant baseline fails), but a specific bed mechanism is not
-thereby identified — a flexible non-mechanistic time curve fits equally well.* The
+honest, scoped claim is therefore: *within the 15–95 s window, tested model set, and
+RMSE metric, a time-varying reconstruction is needed (every constant baseline has
+substantially larger in-window reconstruction error), but a specific bed mechanism is not
+thereby identified — a flexible non-mechanistic time curve reconstructs equally well, and
+these are in-sample reconstruction errors on one trace with strongly structured residuals
+(mean decimated Durbin–Watson ≈ 0.01), not held-out predictive scores.* The
 non-trivial mechanistic content is that a poroelastic Φ(t) with **zero additional
 coefficients fitted to this 9-bar flow trace** (though it imports two campaign-calibrated
 equilibrium parameters and a 9-bar-TDS-fitted solids sigmoid — see the provenance table
@@ -328,9 +331,14 @@ mechanisms could produce the same pattern — its physical origin is unresolved.
 9-bar solids trajectory held fixed), not an independent second-rig validation. It is the trace-level,
 three-mechanism companion to the equilibrium-curve leave-one-pressure-out test of the
 static characteristic alone (`lopo_waszkiewicz_pressure`, Q² ≈ 0.81 on the eleven
-long-run points). Three diagnostics accompany the aggregation and qualify it: (i) the
-full-precision (unrounded) held-out means are static 0.512, Φ(t) 0.356, RC-3b 0.522 g/s
-over the ten off-9-bar pressures; (ii) each branch carries the same **two** flow-fitted
+long-run points). **Four distinct summaries are kept separate (review AR-B2-08), because
+they are easy to conflate:** (a) LOPO held-out, all 11 pressures — static 0.534 / Φ 0.347
+/ RC-3b 0.516; (b) shared-calibration, all 11 — 0.524 / 0.335 / 0.510; (c) shared-
+calibration, ten off-9-bar — 0.512 / 0.356 / 0.522 (`cross_pressure_discrimination`, full
+precision); (d) the equilibrium-curve LOPO Q² (0.81). The 0.512/0.356/0.522 values are the
+**shared-calibration off-9-bar** means (c), *not* leave-one-pressure-out held-out means.
+Three further diagnostics qualify the aggregation: (i) all summaries are computed from
+**unrounded** per-pressure RMSEs; (ii) each branch carries the same **two** flow-fitted
 parameters (P_c, Q_c) — Φ(t) and RC-3b add donor parameters fit to *other* observables
 (the sigmoid to 9-bar TDS, Cameron to its own calibration), i.e. zero additional flow
 degrees of freedom; and (iii) the residual serial-correlation diagnostic
