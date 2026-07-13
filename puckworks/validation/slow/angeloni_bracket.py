@@ -525,6 +525,16 @@ def validate_refit_granulometry():
 
     best_cs0 = _mape_level                                # EXACT weighted-median (B3)
 
+    def o_profile(variety, sol):
+        """Full O-grind profile: per-rate (c_s0, O-MAPE) over the wide domain."""
+        rows = sh(variety, "O"); col = SPEC[sol]
+        conds = [(r["T_degC"], r["p_bar"]) for r in rows]; m = np.array([r[col] for r in rows])
+        cs0s, mps = [], []
+        for rs in _RATE_DOMAIN:
+            f = frac(params[sol], rs, conds, "O"); cs0, mp = best_cs0(f, m)
+            cs0s.append(cs0); mps.append(mp)
+        return np.asarray(_RATE_DOMAIN, float), np.asarray(cs0s), np.asarray(mps)
+
     def fit(variety, sol, gran):
         rows = sh(variety, gran); col = SPEC[sol]
         conds = [(r["T_degC"], r["p_bar"]) for r in rows]; m = np.array([r[col] for r in rows])
@@ -535,43 +545,74 @@ def validate_refit_granulometry():
                 best = (float(rs), cs0, mp)
         return best                                       # rate, c_s0, mape
 
-    transfer, degeneracy, points = {}, {}, {}
+    def heldout_mape(variety, sol, gran, rs, cs0):
+        rows = sh(variety, gran); col = SPEC[sol]
+        conds = [(r["T_degC"], r["p_bar"]) for r in rows]; m = np.array([r[col] for r in rows])
+        pred = cs0 * frac(params[sol], rs, conds, gran)
+        return float(np.mean(np.abs(pred - m) / m) * 100), conds, m, pred
+
+    transfer, degeneracy, points, manifold = {}, {}, {}, {}
     for variety in ("Arabica", "Robusta"):
         for sol, col in SPEC.items():
-            rsO, cs0O, mpO = fit(variety, sol, "O")       # O-refit
+            rates, cs0s, mpsO = o_profile(variety, sol)   # full O profile (A2-02)
+            iO = int(np.argmin(mpsO)); rsO, cs0O, mpO = float(rates[iO]), float(cs0s[iO]), float(mpsO[iO])
             held = {}
             for g in ("C", "F"):
-                rows = sh(variety, g)
-                conds = [(r["T_degC"], r["p_bar"]) for r in rows]
-                m = np.array([r[col] for r in rows])
-                f = frac(params[sol], rsO, conds, g)
-                pred = cs0O * f                            # matched-mass prediction
-                held[g] = round(float(np.mean(np.abs(pred - m) / m) * 100), 0)
+                hm, conds, m, pred = heldout_mape(variety, sol, g, rsO, cs0O)
+                held[g] = hm                              # FULL PRECISION (A2-11/12)
                 points[f"{variety}:{sol}:{g}"] = [
                     dict(T=float(T), p=float(p), obs=float(mo), pred=float(pr))
                     for (T, p), mo, pr in zip(conds, m, pred)]
-            transfer[(variety, sol)] = dict(O_fit_mape=round(mpO, 0),
-                                            heldout_C=held["C"], heldout_F=held["F"])
+            transfer[(variety, sol)] = dict(O_fit_mape=round(mpO, 2),
+                                            heldout_C=round(held["C"], 2),
+                                            heldout_F=round(held["F"], 2))
+            # A2-02: transfer the NEAR-OPTIMAL O-grind set (O-MAPE <= 1.10*min), not
+            # only the point optimum, and report the held-out C/F envelope over the
+            # compensating manifold -- so "stable along the manifold" is TESTED.
+            near = mpsO <= mpsO[iO] * 1.10
+            env = {}
+            for g in ("C", "F"):
+                vals = np.array([heldout_mape(variety, sol, g, float(rates[k]),
+                                              float(cs0s[k]))[0]
+                                 for k in np.where(near)[0]])
+                env[g] = dict(point=round(held[g], 2),
+                              n_in_set=int(near.sum()),
+                              median=round(float(np.median(vals)), 2),
+                              p5_p95=[round(float(np.percentile(vals, 5)), 2),
+                                      round(float(np.percentile(vals, 95)), 2)],
+                              worst=round(float(np.max(vals)), 2))
+            manifold[f"{variety}:{sol}"] = env
         # degeneracy: refit at each granulometry (Arabica only, representative)
         if variety == "Arabica":
             for sol in SPEC:
                 degeneracy[sol] = {g: (lambda b: dict(rate=round(b[0], 1),
-                                   c_s0=round(b[1], 1), mape=round(b[2], 0)))(
+                                   c_s0=round(b[1], 1), mape=round(b[2], 2)))(
                                    fit("Arabica", sol, g)) for g in ("O", "C", "F")}
     hc = [t["heldout_C"] for t in transfer.values()]
     hf = [t["heldout_F"] for t in transfer.values()]
+    # manifold envelope: worst held-out MAPE across the near-optimal set, over all fits
+    mani_worst = max(max(v["C"]["worst"], v["F"]["worst"]) for v in manifold.values())
+    mani_worst_point = max(max(t["heldout_C"], t["heldout_F"]) for t in transfer.values())
     return dict(transfer=transfer, degeneracy_arabica=degeneracy, points=points,
-                heldout_C_range=[min(hc), max(hc)], heldout_F_range=[min(hf), max(hf)],
+                manifold_transfer=manifold,
+                manifold_worst_heldout_mape=round(mani_worst, 2),
+                point_worst_heldout_mape=round(mani_worst_point, 2),
+                heldout_C_range=[round(min(hc), 1), round(max(hc), 1)],
+                heldout_F_range=[round(min(hf), 1), round(max(hf), 1)],
                 verdict="At MATCHED 40 g cups the O-refit transfers REASONABLY to the "
-                        "held-out grinds (held-out C ~%.0f-%.0f%%, F ~%.0f-%.0f%%, vs the "
-                        "same-grind O fit ~2-12%%) -- a large improvement over the "
-                        "pre-correction fixed-25s result (~25-49%%), which was mostly "
-                        "an unmatched-endpoint artifact (review B1/B5). The (rate,c_s0) "
-                        "split remains DEGENERATE within a grind (the rate flips across "
-                        "flow-map/domain; see identifiability_panel) -- so the fitted "
-                        "rate is not a mechanistic estimate even though the level+rate "
-                        "PAIR predicts other grinds well." % (
-                            min(hc), max(hc), min(hf), max(hf)))
+                        "held-out grinds (point-optimum held-out C ~%.0f-%.0f%%, F "
+                        "~%.0f-%.0f%%) -- a large improvement over the pre-correction "
+                        "fixed-25s result (~25-49%%), an unmatched-endpoint artifact "
+                        "(review B1/B5). MANIFOLD TEST (review A2-02): transferring the "
+                        "WHOLE near-optimal O-grind set (O-MAPE within 10%% of the min) "
+                        "to C/F, the worst held-out MAPE across the manifold is %.1f%% "
+                        "(vs %.1f%% at the point optimum) -- so predictions are stable "
+                        "along the compensating manifold, not just at one selected "
+                        "optimum. The (rate,c_s0) split remains DEGENERATE within a grind "
+                        "(the rate flips across flow-map/domain; see identifiability_"
+                        "panel), yet the level+rate PAIR predicts other grinds well." % (
+                            min(hc), max(hc), min(hf), max(hf),
+                            mani_worst, mani_worst_point))
 
 
 def identifiability_panel(variety="Arabica", solute="caffeine", n_rate=29, n_cs0=41):
@@ -633,7 +674,9 @@ def identifiability_panel(variety="Arabica", solute="caffeine", n_rate=29, n_cs0
     # MAPE cross-check (review MAJ-02): profile the SAME degeneracy under the paper's
     # PREDICTIVE metric -- exact weighted-median level per rate -- to confirm the
     # flat valley is not an SSE artefact. Reported as a secondary contract only.
-    mape_prof = np.array([_mape_level(F[i], m) for i in range(n_rate)])
+    # NOTE _mape_level returns (c*, MAPE%); take ONLY the MAPE column (review A2-01 --
+    # the earlier code kept the whole tuple, so min/threshold/mean mixed levels + MAPEs).
+    mape_prof = np.array([_mape_level(F[i], m)[1] for i in range(n_rate)])
     i0 = int(np.argmin(sse_prof))
     rate_star, cs0_star, sse_min = float(rates[i0]), float(c_star[i0]), float(sse_prof[i0])
     # 2D SSE on (rate grid x c_s0 grid) around the minimum. Both axes are
@@ -811,8 +854,11 @@ def loco_cv_refit(varieties=("Arabica", "Robusta"),
     resamp_interval = [round(float(np.percentile(boot, 2.5)), 1),
                        round(float(np.percentile(boot, 97.5)), 1)]
     # (b) CONDITION-CLUSTER view: one macro error per held-out (T,p), averaged across
-    # solute/variety (preserves the condition cluster), then a cluster bootstrap over
-    # the distinct conditions -- the dependence-aware interval (review MAJ-05)
+    # solute/variety, then a bootstrap over the 9 distinct conditions. This is a
+    # DESCRIPTIVE condition-level resampling summary (review A2-04): it resamples
+    # already-computed fold errors WITHOUT repeating the fit, and the LOCO training
+    # sets overlap, so it is NOT coverage-calibrated and does NOT correct all fold
+    # dependence -- it is not a "dependence-aware CI".
     by_cond = {}
     for key, plist in pts.items():
         for pt in plist:
@@ -830,26 +876,29 @@ def loco_cv_refit(varieties=("Arabica", "Robusta"),
                 # descriptive only -- ignores fold dependence; NOT a confidence interval
                 residual_resampling_interval95=resamp_interval,
                 interval_is_dependence_aware=False,
-                # dependence-aware condition-cluster view (9 (T,p) macro errors)
+                # DESCRIPTIVE condition-level resampling (9 (T,p) macro errors); NOT
+                # coverage-calibrated, does not correct fold dependence (A2-04)
                 condition_macro_mean=round(float(cond_macro.mean()), 1),
                 n_condition_clusters=len(cond_keys),
-                condition_cluster_bootstrap95=cluster_interval,
-                pooled_loco_mean_LOGloss=round(float(np.array(all_log).mean()), 1),
+                condition_cluster_resampling95=cluster_interval,
+                interval_is_coverage_calibrated=False,
                 verdict="Leave-one-condition-out holdout (9 folds/fit, matched mass) gives "
                         "pooled held-out MAPE %.1f%% (median %.1f%%). A DESCRIPTIVE "
                         "residual-resampling interval (ignoring fold dependence, NOT a "
-                        "confidence interval) is [%.1f, %.1f]; the dependence-aware "
-                        "condition-cluster bootstrap (9 (T,p) macro errors) is [%.1f, "
-                        "%.1f] around a %.1f%% macro mean. Under a LOG (relative-error) "
-                        "level loss the pooled mean is %.1f%%, so the transfer verdict is "
-                        "robust to the loss function (M6)." % (
+                        "confidence interval) is [%.1f, %.1f]; a condition-level "
+                        "resampling of the 9 (T,p) macro errors gives [%.1f, %.1f] around "
+                        "a %.1f%% macro mean -- also DESCRIPTIVE (it resamples fold errors "
+                        "without repeating the fit and the LOCO training sets overlap, so "
+                        "it is not coverage-calibrated and does not correct all "
+                        "dependence). Under a LOG (relative-error) level loss the pooled "
+                        "mean is %.1f%%, robust to the loss function (M6)." % (
                             float(all_mape.mean()), float(np.median(all_mape)),
                             resamp_interval[0], resamp_interval[1],
                             cluster_interval[0], cluster_interval[1],
                             float(cond_macro.mean()), float(np.array(all_log).mean())),
-                strength="internal leave-one-condition-out holdout + descriptive "
-                         "residual resampling + condition-cluster bootstrap + loss "
-                         "sensitivity (within-rig; not population-level coverage)")
+                strength="internal leave-one-condition-out holdout + DESCRIPTIVE "
+                         "residual + condition-level resampling summaries + loss "
+                         "sensitivity (within-rig; not coverage-calibrated)")
 
 
 def geometry_sensitivity_transfer(varieties=("Arabica", "Robusta"),

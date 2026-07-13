@@ -36,11 +36,15 @@ that agrees).
 Crucially, we report **parameter identifiability and predictive transfer as separate
 properties** — and they diverge. Although the individual parameters are not
 identifiable, a calibration frozen on one grind **predicts the held-out coarse/fine
-grinds reasonably** (~3–18 % error), and a single shared (inventory, rate) fitted
-jointly to all grinds nearly matches the per-grind fits (pooled 6.4 % vs 4.9 %,
-cost-of-sharing ~1.5 percentage points): predictions are stable along the compensating
-manifold. This
-corrects an earlier version of this analysis, which — using an **unmatched fixed-time
+grinds reasonably** (~3–18 % error at the point optimum). We test this along the whole
+valley rather than at one point: transferring the **entire near-optimal O-grind set**
+(rates within 10 % of the fit minimum), not just the selected optimum, the worst held-out
+C/F error rises modestly to **~22 %** (from ~18 % at the point optimum) — so predictions
+are **reasonably, though not perfectly, stable along the compensating manifold**; the
+compensation is approximately prediction-invariant, tested not assumed (review A2-02). A single shared (inventory, rate) fitted jointly to all grinds
+reconstructs the pooled data at 6.4 % macro-MAPE vs 4.9 % for separate per-grind fits (a
+modest **in-sample** compatibility cost of parameter sharing, not a held-out prediction).
+This corrects an earlier version of this analysis, which — using an **unmatched fixed-time
 integration window** — reported a large cross-grind transfer failure; that failure
 was mostly a measurement-window artefact. Finally, across an **in-sample
 verification** on the model's own calibration campaign and an **independent
@@ -126,7 +130,7 @@ grid.
   plus off-grid points. It reports measured beverage concentrations (g/L) for
   caffeine (CF), trigonelline (TR), 5-CQA, and total solids, and — separately — the
   roast-and-ground **solid inventory per species** (their Table 7), which we use
-  only as the external tie-breaker in §4. Angeloni's own coupled FeFlow solver is
+  only as a same-campaign orthogonal-measurement constraint in §4. Angeloni's own coupled FeFlow solver is
   out of scope (the card marks it skip); we consume only its chemical campaign.
 
 ### 2.3 Pressure → flow map (an assumption, not a fit)
@@ -238,8 +242,10 @@ incidental choices (flow anchor, grind, rate domain) — the earlier
 inventory-vs-kinetics decomposition read the valley floor, not a mechanism; (ii) the
 best-fit `c_s0` passes through the independently measured Table 7 inventory somewhere
 along the valley (caffeine ~13 near the measured 12.5; Robusta ~14–17 near 18.6), but
-the beverage data alone cannot single out the rate — the measured inventory is **one
-available external tie-breaker**.
+the beverage data alone cannot single out the rate — the measured inventory is a
+**same-campaign orthogonal-measurement constraint** (Table 7 measures a different
+quantity within the *same* Angeloni study; it is not external to the transfer campaign),
+useful because it can select among (inventory, rate) pairs on the valley.
 
 **A numerical identifiability panel** (`identifiability_panel`) quantifies the valley on
 the caffeine matched-mass **SSE** objective (unweighted concentration-scale SSE with a
@@ -253,8 +259,10 @@ coupling ≈ −0.99** — a geometric diagnostic of the SSE valley (the sloppy 
 lies almost exactly along `c_s0·φ = const`), **not** a statistical parameter correlation,
 since no likelihood is specified. The profiled SSE stays within 10 % of the minimum over
 **~76 % of the swept log-rate grid** [0.4–6.5] (log-width ≈ 2.8), and the **MAPE
-cross-check agrees** (flat over ~33 % of the grid — tighter than SSE but still a broad
-plateau with no bounded minimum). Trigonelline is similar (condition number ≈ 3600,
+cross-check agrees** (the exact weighted-median MAPE profile is flat within 10 % over
+**~66 %** of the grid — a broad plateau with no bounded minimum under either objective;
+the earlier "33 %" was a tuple-indexing bug, review A2-01, now corrected and unit-tested).
+Trigonelline is similar (condition number ≈ 3600,
 coupling ≈ −0.84, SSE profile flat over ~45 % of the grid). This is practical
 non-identifiability over the tested domain, quantified — robust to the matched-mass and
 exact-level corrections and consistent across the SSE and MAPE objectives, not an
@@ -286,17 +294,28 @@ C ~7–18 %, F ~3–9 %). This is a large improvement over our pre-correction dr
 which reported **25–49 %** held-out error and concluded the model "does not transfer
 across grind." **That failure was mostly an artefact of the unmatched 25 s
 endpoint** (review B1/B5): once cups are matched to the target beverage mass, the
-transfer is much better. **The joint multi-grind fit confirms it:** a *single shared*
-`(c_s0, rate_scale)` fitted jointly to O+C+F (`joint_multigrind_fit`) gives a mean
-pooled MAPE of **~6 %, against ~5 % for the per-grind independent fits — a
-cost-of-sharing of only ~1 pp**, with every rate interior to the widened domain
-(none at the boundary). So, contrary to the earlier draft, **an adequate shared
-cross-grind calibration does exist** at the matched endpoint.
+transfer is much better. **This is an internal cross-grind holdout** — C and F are
+held-out granulometries from the *same* Angeloni campaign (same varieties, platform,
+assay), a within-campaign design extrapolation, not an external-rig prediction (review
+A2-03). A **shared-parameter compatibility analysis** complements it: a *single shared*
+`(c_s0, rate_scale)` fitted jointly to O+C+F (`joint_multigrind_fit`) reconstructs the
+pooled data at **6.4 % macro-MAPE against 4.9 %** for the per-grind independent fits — a
+modest **in-sample** cost-of-sharing of ~1.5 pp, with every rate interior to the widened
+domain. This is a compatibility test (it scores the same pooled observations it was
+fitted to), **not** a held-out prediction; it shows an adequate shared cross-grind
+calibration *exists* at the matched endpoint without over-claiming predictive transfer.
 
 This is the empirical payoff of separating the two questions (review M1): the
 `(inventory, rate)` split is **degenerate within a grind** — the fitted rate flips
 with incidental choices (§4) — **yet the level+rate *pair* predicts the other grinds
-well**, because predictions are stable along the compensating manifold. Individual
+well**. Transferring the *whole* near-optimal O-grind set (O-MAPE within 10 % of the
+minimum), the worst held-out C/F error rises only to **21.7 %** (vs 18.2 % at the point
+optimum; `validate_refit_granulometry.manifold_transfer`) — so predictions are
+**reasonably, not perfectly, stable along the compensating manifold**: the compensation
+is approximately prediction-invariant, degrading a few percentage points at the manifold
+edges rather than blowing up. This is the empirical distinction between parameter
+identifiability and prediction stability, *tested* (review A2-02) rather than asserted.
+Individual
 non-identifiability did *not* imply predictive non-transfer. Strength: **held-out /
 joint predictive transfer** (reasonable), conditioned on the tested flow maps, frozen
 centre-grind geometry, and matched endpoint.
@@ -307,14 +326,16 @@ centre-grind geometry, and matched endpoint.
 held-out MAPE of **6.5 %** (median **5.2 %**), reported per solute × variety (medians
 2.8–8.8 %, worst individual fold 32.7 % on Robusta 5-CQA) rather than as a single mean
 (review M4). Because the 54 held-out errors share overlapping folds and repeated
-conditions, we report uncertainty two ways (review MAJ-05): a **descriptive
-residual-resampling interval** that ignores fold dependence (**not** a
-coverage-calibrated confidence interval, **[5.0, 8.2] %**), and a **dependence-aware
-condition-cluster bootstrap** over the nine (T,p) macro errors (macro mean 6.5 %,
-**[5.1, 8.3] %**) — the two intervals nearly coincide here, so the fold dependence does
-not materially widen the interval on this design. The verdict is robust to the loss
-function: under a log/relative-error level
-fit the pooled mean is **7.0 %** (review M6). It is also robust to the choice of a
+conditions, we report **two descriptive resampling summaries**, neither of which is a
+coverage-calibrated confidence interval (review MAJ-05/A2-04): a residual-resampling
+interval that ignores fold dependence (**[5.0, 8.2] %**), and a condition-level
+resampling of the nine (T,p) macro errors (macro mean 6.5 %, **[5.1, 8.3] %**). The two
+nearly coincide, but this does **not** demonstrate that fold dependence is immaterial —
+both resample already-computed fold errors *without* repeating the fit, and the LOCO
+training sets overlap, so neither corrects the fold dependence; a coverage-calibrated
+interval would require a resampling scheme that repeats the fit (owed). The verdict is
+robust to the loss function: under a log/relative-error level fit the pooled mean is
+**7.0 %** (review M6). It is also robust to the choice of a
 single **global** frozen geometry: re-running the O→C/F transfer under each of the three
 Pannusch fitted geometries (1.4/1.7/2.0, applied globally to all grinds) moves the
 held-out MAPE by **at most ~1 pp** (review B5) — which supports limited sensitivity to
@@ -458,19 +479,21 @@ first over-claimed identification, the second was an endpoint artefact.
 
 - **Held-out validation, uncertainty, and robustness** — *delivered* (§5): the joint
   multi-grind fit (`joint_multigrind_fit`, pooled 6.4 % vs 4.9 %, cost 1.5 pp); **leave-one-condition-
-  out CV** (`loco_cv_refit`, pooled 6.5 %, median 5.2 %; descriptive residual-resampling
-  interval + dependence-aware condition-cluster bootstrap, MAJ-05)
-  replacing the 2-point holdout (M4) with interval estimates and a log-loss robustness
+  out CV** (`loco_cv_refit`, pooled 6.5 %, median 5.2 %; two DESCRIPTIVE resampling
+  summaries — residual and condition-level — neither coverage-calibrated, MAJ-05/A2-04)
+  replacing the 2-point holdout (M4) with descriptive intervals and a log-loss robustness
   check (M6); and a **geometry-sensitivity sweep** (`geometry_sensitivity_transfer`,
   ≤1 pp across the three fitted geometries, B5). Still owed: per-condition residual
-  plots by (T, p, grind, variety, solute), and per-point measurement-uncertainty
-  weighting (only total-solids carries RSD; the named-solute rows are single
-  measurements).
+  plots by (T, p, grind, variety, solute); per-point measurement-uncertainty weighting
+  (only total-solids carries RSD; the named-solute rows retain the source's reported
+  central values, not the replicate-level RSD); and a coverage-calibrated CV interval
+  that repeats the fit under resampling.
 - **A profiled-objective / condition-number identifiability panel** — *delivered*
-  (§4, `identifiability_panel`): caffeine log-Hessian condition number ≈1930,
-  rate↔inventory correlation −0.99, profile flat over ~76 % of a wide rate sweep.
-  Still owed on top: the same panel across all solutes/varieties as a supplementary
-  figure.
+  (§4, `identifiability_panel`): caffeine log-Hessian condition number ≈1930, local
+  inverse-curvature coupling ≈ −0.99 (a geometric SSE-surface diagnostic, not a
+  statistical correlation), SSE profile flat over ~76 % of a wide rate sweep (MAPE
+  cross-check ~66 %). Still owed on top: the same panel across all solutes/varieties as
+  a supplementary figure, plus grid-density/domain convergence (review A2-06/07).
 - **An empirical full-cup comparison** (review B2) — the exact-integral simulation
   (§6) is delivered; the empirical version is **data-blocked** (the repo has only
   fraction windows 1,2,3,5,7,10; the BR-1/3 cup mass/endpoint is ambiguous).
@@ -486,9 +509,10 @@ Six figures (`docs/figures/paper_a/`, rendered from the corrected matched-mass
 analysis via `python -m puckworks.figures_paper_a`; every value regenerates from the
 slow analysis functions, none hand-typed):
 
-- **Fig 1** — study & evidence design: calibration → Angeloni-O fit → held-out
-  leave-one-condition-out CV → frozen O→C/F transfer → Table 7 tie-breaker →
-  in-sample verification, arrows colour-coded by evidence type.
+- **Fig 1** — study & evidence design with campaign-accurate categories: source
+  calibration → Angeloni-O target recalibration → within-campaign leave-one-condition-out
+  holdout → within-campaign O→C/F cross-grind holdout → Table 7 same-campaign orthogonal
+  measurement → in-sample localization → independent Waszkiewicz external panel.
 - **Fig 2** — inventory–rate objective surface (caffeine, trigonelline): the flat
   valley, the profiled path, the Table 7 inventory line, and the condition number
   (§4).

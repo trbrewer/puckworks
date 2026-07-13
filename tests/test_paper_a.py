@@ -18,6 +18,21 @@ def test_matched_bounds_is_mass_consistent():
     assert abs(hi - 25.0) < 1e-9                        # 40 / 1.6 = 25 s
 
 
+def test_mape_level_returns_pair_and_profile_is_1d():
+    """review A2-01: _mape_level returns (level, MAPE%); a MAPE profile must take the
+    [1] element so it is 1-D, not a mix of levels and MAPEs. Guards the tuple bug."""
+    import numpy as np
+    f = np.array([1.0, 2.0, 3.0]); m = np.array([1.1, 2.2, 2.7])
+    pair = ab._mape_level(f, m)
+    assert isinstance(pair, tuple) and len(pair) == 2
+    c, mape = pair
+    assert mape >= 0.0
+    # a profile over several 'rates' (scaled f) must be 1-D when taking [1]
+    prof = np.array([ab._mape_level(f * s, m)[1] for s in (0.5, 1.0, 2.0)])
+    assert prof.ndim == 1 and prof.shape == (3,)
+    assert float(np.min(prof)) == min(prof)            # min is over MAPEs only
+
+
 def test_species_bracket_has_no_fixed_time_param():
     """The pooled species bracket must not expose a fixed t_shot_s knob -- it now
     integrates to the matched 40 mL endpoint (review MAJ-08)."""

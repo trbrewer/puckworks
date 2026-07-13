@@ -57,7 +57,8 @@ def compute_all(out_path=RESULTS):
         loco=ab.loco_cv_refit(),
         positive_control=idn.identifiability_fractions_vs_cup(),
         full_cup_sim=idn.full_cup_simulation_identifiability(),
-        # --- previously-omitted manuscript analyses (MAJ-19) ---
+        # --- previously-omitted manuscript analyses (MAJ-19 / A2-05) ---
+        refit_summary=ab.refit_pannusch_angeloni(),        # Result 1 8.4%/11.5% (A2-05)
         species_bracket=ab.gate_pannusch_angeloni_species_bracket(),
         per_condition=ab.gate_pannusch_angeloni_per_condition(),
         flow_map_refinement=ab.flow_map_refinement(),
@@ -252,9 +253,9 @@ def fig3_holdouts(results=None, outdir=OUTDIR):
         ax.legend(fontsize=7.5, loc="upper left")
     lc = r["loco"]
     fig.suptitle("Fig 3 — leave-one-condition-out holdouts (pooled %.1f%%, median "
-                 "%.1f%%; condition-cluster bootstrap %s)"
+                 "%.1f%%; descriptive condition-level resampling %s)"
                  % (lc["pooled_loco_mean_mape"], lc["pooled_loco_median_mape"],
-                    lc["condition_cluster_bootstrap95"]),
+                    lc["condition_cluster_resampling95"]),
                  y=1.02, fontsize=10, fontweight="bold")
     return _save(fig, outdir, "fig3_holdouts.png")
 

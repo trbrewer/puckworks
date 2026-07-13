@@ -259,9 +259,10 @@ def report():
     print("\n== EXACT-integral simulation: fraction curve vs TRUE whole cup ==")
     s = full_cup_simulation_identifiability()
     for sol, x in s["per_solute"].items():
-        print(f"  {sol:>13}: fraction range ratio {x['frac_range_ratio']}x "
-              f"(min@{x['frac_best_rate']}) | EXACT-cup range ratio "
-              f"{x['exact_cup_range_ratio']}x (min@{x['cup_best_rate']})")
+        print(f"  {sol:>13}: fraction range ratio {x['frac_range_ratio']}"
+              f"±{x['frac_range_ratio_std']}x (best rate median {x['frac_best_rate_median']}, "
+              f"=1 in {x['frac_best_rate_is_1_frac']:.0%} of seeds) | EXACT-cup range "
+              f"ratio {x['exact_cup_range_ratio']}±{x['exact_cup_range_ratio_std']}x")
     print(" ", s["verdict"])
     return dict(identifiability=r, audit=a, simulation=s)
 
