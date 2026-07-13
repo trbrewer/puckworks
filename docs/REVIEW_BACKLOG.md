@@ -115,3 +115,25 @@ already made to defer, e.g. release tag).
 - **MAJ-44/B3-27** physical transverse-Darcy lateral operator + Jacobian/Lyapunov — BLOCKED deep research (shared with B-AR10).
 - **B3-29** vector (PDF/SVG) figures; **B3-02** frozen release tag — DEFERRED to submission RC.
 - **B3-34** systematic related-work/novelty search — BLOCKED-EXTERNAL (PI/DB action).
+
+---
+
+## Visualizer.coffee intake (0.13 / Sprint D5, 2026-07-13)
+
+Phase-0 data intake + ingestion tool (NO registry component, NO physics gate). The
+tool + two-tier store + card + manifest rows landed and are committed (ROADMAP §7.1,
+SPRINTS D5); what remains is external/local, not actionable in-repo.
+
+### DONE this round (committed)
+- Harvester `puckworks/lib/visualizer_harvest.py` (`[harvest]` extra; lazy `requests`);
+  two-tier `normalize_shot` (hydraulic vs outcomes SEPARATE; SI at boundary + rule-7
+  flags; privacy drop + salted user-id hash); rate-limited resumable crawl.
+- Loaders (`visualizer_index` / `visualizer_iter_shots` / `visualizer_hydraulic` /
+  `visualizer_outcomes`), PROVENANCE, gitignore, 2 MANIFEST rows, data-only card
+  `visualizer_coffee`, DERIVED `aggregate_stats.csv` (zero-state), 14 offline tests.
+- Miha Rekar corpus-use request email DRAFTED (`docs/sourcing/VISUALIZER_MIHA_CORPUS_REQUEST_EMAIL.md`).
+
+### BLOCKED-EXTERNAL / TB / DEFERRED (not actionable here)
+- **Miha Rekar reply** — sanctioned bulk/research use of the corpus (email drafted, **not sent**; TB to verify address + send). BLOCKED-EXTERNAL: gates **redistribution / publication** use only; the public-API harvest works without it. If a sanctioned bulk export is offered, prefer it over API paging. §5.8.
+- **Populate the corpus (TB, local)** — the corpus is gitignored / not redistributed, so it is NOT populated in-repo. Tim runs `python -m puckworks.lib.visualizer_harvest full` locally, then `stats --write-aggregate` to replace the zero-state `aggregate_stats.csv`. Until then all coverage numbers are 0 by construction.
+- **G3/P2/P6 ecological consumers** — UNBLOCKED-LARGE but downstream: build the population pump/flow (P–Q) envelope, the Fo_F population, and the PV-06/PV-17 at-scale companion ON the harvested corpus. Deferred until the corpus is on disk (and, for any published use, until the Miha reply lands). Reference-strength / selection-biased — the label rides along, never upgrades a controlled result.
