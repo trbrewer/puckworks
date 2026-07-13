@@ -10,6 +10,7 @@ dependencies = ["numpy", "scipy"]
 lb = ["taichi"]
 dev = ["pytest"]
 figures = ["matplotlib"]
+harvest = ["requests"]
 
 [build-system]
 requires = ["setuptools>=64"]

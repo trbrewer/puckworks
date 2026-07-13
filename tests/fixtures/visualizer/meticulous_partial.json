@@ -1,0 +1,26 @@
+{
+  "id": "FAKE-meticulous-0002",
+  "user_id": "FAKE-user-bbb",
+  "user_name": "Another Fake Name",
+  "updated_at": 1700000500,
+  "duration": 32.0,
+  "bean_weight": 20.0,
+  "drink_weight": 40.0,
+  "drink_tds": 8.1,
+  "drink_ey": 0,
+  "grinder_model": "Niche Zero",
+  "grinder_setting": "18",
+  "profile_title": "Meticulous Default",
+  "roast_level": "light",
+  "tags": ["synthetic"],
+  "flavor": 6, "acidity": 8,
+  "brewdata": {"meticulous": {"algorithm": "test"}},
+  "data": {
+    "timeframe": [0.0, 1.0, 2.0, 3.0],
+    "espresso_pressure": [1.0, 6.0, 8.0, 8.0],
+    "espresso_flow": [0.0, 1.0, 2.0, 2.2],
+    "espresso_flow_weight": [0.0, 0.7, 1.8, 2.1],
+    "espresso_weight": [0.0, 0.5, 2.0, 5.0],
+    "espresso_temperature_basket": [92.0, 92.0, 93.0, 93.0]
+  }
+}
