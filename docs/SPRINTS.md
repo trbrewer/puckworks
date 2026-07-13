@@ -52,6 +52,35 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
       SAME direction as the egidi bracket → **Cameron-reads-low confirmed on a
       2nd independent dataset**. Report-style (misses are the finding).
 
+## Sprint D5 — visualizer.coffee harvester + intake (CC, data-only tool) [DONE]
+*Phase-0 data intake + ingestion tool — NO registry component, NO physics gate
+(CLAUDE.md rule 1 governs components; a harvester is tooling). Item 0.13.*
+- [x] (A) `puckworks/lib/visualizer_harvest.py` — new `puckworks/lib/` subpackage;
+      HarvestConfig + list/fetch/normalize + harvest_all/incremental + stats;
+      `requests` behind the new `[harvest]` extra (lazy import; core imports
+      without it). Rate-limited ≤30 req/min, exp-backoff on 429/5xx, resume
+      cursor + `--max-requests`, gzip-JSONL shards + `_index.csv`.
+- [x] (A) two-tier `normalize_shot`: SEPARATE hydraulic / outcomes tiers; SI at
+      the boundary + per-channel units block; missing/off-unit FLAGGED (rule 7);
+      privacy drop (user/notes gone; salted user-id hash only).
+- [x] (B) `data/visualizer/PROVENANCE.md` (tracked) — source/scope, privacy,
+      license posture (corpus not redistributed; §5.8), the field map.
+- [x] (C) loaders `visualizer_index` / `visualizer_iter_shots` (degrade cleanly;
+      raise "run the harvester" when absent) / `visualizer_hydraulic` /
+      `visualizer_outcomes` (SI accessors, rule-7 asserts).
+- [x] (D) `stats --write-aggregate` → DERIVED `aggregate_stats.csv` (tracked;
+      counts/mixes/histograms/unit-audit, NO per-shot rows) — committed zero-state,
+      Tim refreshes after a local `full`.
+- [x] (E) `tests/test_visualizer_harvest.py` + 3 synthetic fixtures — offline
+      only, tier split / privacy / units / missing→null+flag / loader degrade;
+      NOT in run_all_gates.
+- [x] (F) two MANIFEST rows (`visualizer/hydraulic_timeseries` reference-strength
+      population; `visualizer/user_outcomes` not-groundtruth), tiers separate.
+- [x] (G) data-only card `docs/cards/visualizer_coffee.md` (verdict data-only).
+- Corpus is **not** populated in-repo (gitignored, no license to redistribute):
+  Tim runs `python -m puckworks.lib.visualizer_harvest full` locally, then
+  `stats --write-aggregate` to refresh the tracked CSV.
+
 ## Sprint 1 — first components (CC) [1.2 + 1.5, both S; needs D1]
 - [x] 1.2 waszkiewicz2025 poroelastic κ(P,Φ) — refit (Q_c,P_c)=(1.90,12);
       9-bar Q(t) with zero extra params (RC-3a scope only)
@@ -191,7 +220,9 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
   (repo check first), Egidi (Eq. 4 definitions); Wadsworth already out; PV-19
   capstone shot — pull the named shot (DE1, EK43 dial 1.7, 20/40, Schmieder-matched
   coffee, per-shot κ refit) and measure cup TDS + caffeine/trigonelline/CGA (fractions
-  if feasible); promotes RC-4b.
+  if feasible); promotes RC-4b. **Miha Rekar (miha@visualizer.coffee)** — request
+  sanctioned research/bulk use of the visualizer.coffee shot corpus (§5.8); the public
+  API harvest is already in place (0.13), this gates redistribution/publication use.
 - **INTAKE**: gap-target papers as found — G1 (Richards/two-phase), G2
   (Ellero J. Food Eng. 263; Mo 2021/2022), G9 (screen hydraulics), G10
   (extract rheology)
@@ -223,14 +254,14 @@ gaps G10 / G3 / G1.**
 | PV-05 | "adding physics made it worse" | not-started | now | — | `coupled_kappa_t` failed shared-porosity composite (anti-mega-model; Paper-B Fig 4) | [§5](PUBLIC_VALUE.md#pv-05--adding-more-physics-made-it-worse-the-anti-mega-model-story) |
 | PV-03 | "a good fit can still be wrong" | not-started | next | — | `ANALYSIS_transfer.md` inventory–kinetics identifiability (flat valley); Pannusch solver, Angeloni | [§5](PUBLIC_VALUE.md#pv-03--a-good-fit-can-still-be-wrong-the-inventorykinetics-flat-valley-interactive) |
 | PV-04 | "we killed our favorite result" | not-started | next | — | corrected fine-grind verdict (`ANALYSIS_P2.md` / `P3_hypotheses.md`); `schmieder_interior_max_target`, `result1_magnitude_comparison`, `channeling_interior_max_sensitivity` | [§5](PUBLIC_VALUE.md#pv-04--we-killed-our-favorite-result-a-transparent-analysis-autopsy) |
-| PV-06 | cross-pressure mechanism fingerprint | not-started | next | — (feeds PV-15) | waszkiewicz 11-pressure traces + `cross_pressure_discrimination`; Paper-B Fig 3 | [§5](PUBLIC_VALUE.md#pv-06--build-a-cross-pressure-mechanism-fingerprint-map) |
+| PV-06 | cross-pressure mechanism fingerprint | not-started | next | — (feeds PV-15) | waszkiewicz 11-pressure traces + `cross_pressure_discrimination`; Paper-B Fig 3; **visualizer.coffee is the at-scale ECOLOGICAL companion (0.13) — reference-strength, selection-biased; label rides along, does NOT upgrade** | [§5](PUBLIC_VALUE.md#pv-06--build-a-cross-pressure-mechanism-fingerprint-map) |
 | PV-08 | "Puck Court" evidence dashboard | not-started | next | PV-00 | registry + gates + manifest; Paper-B Fig 2 (evidence matrix, not a leaderboard) | [§5](PUBLIC_VALUE.md#pv-08--create-puck-court-a-public-evidence-dashboard-not-a-winner-leaderboard) |
 | PV-15 | model-disagreement experiment recommender | not-started | experiment | PV-02, PV-06 | consumes cross-mechanism disagreement across the harnesses | [§5](PUBLIC_VALUE.md#pv-15--build-a-model-disagreement-experiment-recommender) |
 | PV-16 | public first-drip / fraction replication | not-started | experiment | PV-01, PV-15 pilot | PV-01 protocol → public participation (after closed pilot) | [§5](PUBLIC_VALUE.md#pv-16--launch-a-public-first-drip-and-fraction-resolved-replication-study) |
 | PV-11 | "your grinder dial is not a unit" | not-started | program | — | G5 dial-non-portability gap + Wadsworth grind map (ledger A9/G5, rule 9) | [§5](PUBLIC_VALUE.md#pv-11--your-grinder-dial-is-not-a-unit-build-a-physical-grind-translation-study) |
 | PV-13 | measure espresso-liquor viscosity | not-started | program | — | **PUBLIC FACE of gap G10** (liquor rheology); current G10 is REFERENCE-strength extrapolation — label rides along | [§5](PUBLIC_VALUE.md#pv-13--measure-espresso-liquor-viscosity-the-first-drops-are-not-just-hot-water) |
 | PV-14 | dynamic channeling, flow vs pressure | not-started | program | — | `ntube_finite_time_gain`; **BOUNDED by the lateral-coupling PROXY (CARD-BLOCKED, rule 1) — cannot claim physical lateral coupling until a card exists** | [§5](PUBLIC_VALUE.md#pv-14--visualize-dynamic-channel-concentration-under-flow-versus-pressure-control) |
-| PV-17 | pump-curve + screen-clogging bench | not-started | program | (validates PV-10) | **PUBLIC FACE of gap G3** (pump curve); also feeds G9 screen-clogging (`g9_series_resistance`) | [§5](PUBLIC_VALUE.md#pv-17--measure-the-machine-and-outlet-pump-curve-plus-screen-clogging-bench-study) |
+| PV-17 | pump-curve + screen-clogging bench | not-started | program | (validates PV-10) | **PUBLIC FACE of gap G3** (pump curve); also feeds G9 screen-clogging (`g9_series_resistance`); **visualizer.coffee is its at-scale ECOLOGICAL companion (0.13) — the controlled bench pull calibrates the uncontrolled population's selection bias; label rides along** | [§5](PUBLIC_VALUE.md#pv-17--measure-the-machine-and-outlet-pump-curve-plus-screen-clogging-bench-study) |
 | PV-18 | coffee-bed retention / continuous wetting | not-started | program | — | **PUBLIC FACE of gap G1** (retention curve θ(ψ)/K(ψ)); the measurement that would replace the reference-strength G1 analog PV-01 uses | [§5](PUBLIC_VALUE.md#pv-18--measure-continuous-coffee-bed-wetting-and-retention-not-just-the-front) |
 | PV-07 | compound extraction clocks | not-started | unsequenced (P1) | — | Pannusch solver + Schmieder fractions + transfer analysis (hypothesis generator only, transfer-limited) | [§5](PUBLIC_VALUE.md#pv-07--build-compound-extraction-clocks-and-search-for-same-strength-different-composition-shots) |
 | PV-09 | multi-lens "hidden puck" movie | not-started | unsequenced (P1) | — | Foster infiltration + pack_generator + LB solvers + extraction + streamtube/N-tube (parallel labelled lenses, no fake mega-model) | [§5](PUBLIC_VALUE.md#pv-09--produce-a-multi-lens-hidden-puck-movie-without-building-a-fake-mega-model) |
@@ -289,3 +320,4 @@ related-work / physical-lateral-coupling gaps are closed). Abstract wording obey
 | 2026-07-11 | flow-map refinement | pannusch<->angeloni per-condition: refined Darcy q~p/mu(T) flow map (registered viscosity, not fitted) closes 31.3->26.5% overall (4.8 pp, the residence-time part). +inventory-matching -> caffeine ~15% (near angeloni's own ~9%); but trigonelline/5CQA stay 20-47% = genuine per-species KINETIC gap, closable only by refitting to the angeloni coffee. Arabica TDS shape still r=0.74. Honest PARTIAL closure. |
 | 2026-07-11 | pannusch refit | pannusch kinetics refit to the angeloni coffee (post-fit calibration): per solute/variety, c_s0 (analytic level) + rate_scale (Sherwood kinetics) on 9 on-grid granulometry-O, held out 2 off-grid O. Mean holdout MAPE 7.2% -> transfer gap CLOSED under refit. Decomposition: caffeine rate 1.0 (pure inventory; fitted c_s0 recovers Table 7), trigonelline rate 0.4 (genuine kinetic difference). Post-fit on-grid + 2-pt holdout (weak independent). Kept in validation/slow/ (9-pt fit, gran O only); not registered. |
 | 2026-07-11 | refit C/F validation | NEGATIVE result (tempers the refit): the granulometry-O refit does NOT transfer to held-out C/F (~25-49% MAPE vs O holdout ~7%), and the (rate_scale,c_s0) split is degenerate/flow-confounded (caffeine rate flips 0.4/0.4/2.5 across O/C/F; c_s0 swings 2.3x for a fixed inventory). Earlier 'gap closed / inventory-vs-kinetic decomposition' was over-read -> pannusch stays a schmieder-fit runtime; angeloni is a transfer target it does not meet across grind. |
+| 2026-07-13 | D5 done | 0.13 visualizer.coffee harvester + two-tier intake (data-only tool; NO component/gate). puckworks/lib/ new subpackage; [harvest] extra (lazy requests). Hydraulic (reference-strength population) vs user-outcomes (not groundtruth) kept SEPARATE; SI at boundary + rule-7 flags; privacy drop + salted user-id hash; corpus gitignored/NOT redistributed (Miha corr. pending §5.8). 2 MANIFEST rows + data-only card visualizer_coffee + PROVENANCE + DERIVED aggregate_stats.csv (zero-state; Tim refreshes locally). 14 offline tests (fixtures, not live API); NOT in run_all_gates. |

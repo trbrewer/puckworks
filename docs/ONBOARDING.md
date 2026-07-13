@@ -135,4 +135,14 @@ ANALYSIS section, not just this file.
   The only open piece is fines CLOGGING mid-shot (unmeasured). Do not reopen G9
   as "screen matters."
 
+- **visualizer.coffee is a data-only intake** (card `visualizer_coffee.md`): a
+  LARGE but UNCONTROLLED, self-selected public shot corpus. Its machine-logged
+  hydraulics are reference-strength POPULATION data (G3/P2/P6 ecological
+  envelope); its user-entered TDS/EY/sensory are NOT groundtruth and must never
+  gate an extraction outcome. The corpus is gitignored and NOT redistributed
+  (license posture §5.8) — run the harvester to populate it
+  (`python -m puckworks.lib.visualizer_harvest full`); tests use a committed
+  fixture, never the API. Hydraulic and outcome tiers are stored SEPARATELY;
+  never merge them.
+
 If in doubt: read the changelog, run the gates, ask one clarifying question.
