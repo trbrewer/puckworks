@@ -5,6 +5,16 @@ results/
 .ipynb_checkpoints/
 .DS_Store
 
+# viz layer (ROADMAP §8): renders are REGENERABLE outputs — only the recipe (code),
+# a small exemplar (thumb.png), provenance (data.json) and GALLERY.md are tracked.
+# Heavy stills stacks / videos / 3D volumes are gitignored.
+docs/figures/viz/**/frames/
+docs/figures/viz/**/*.mp4
+docs/figures/viz/**/*.gif
+docs/figures/viz/**/*.webm
+*.vti
+*.vtu
+
 # Phase 0 raw data drops — kept on disk for reference, not tracked.
 # Curated CSVs, PROVENANCE.md, and small source/ files ARE tracked (force-added).
 # pannusch2024: whole Mendeley repo bulk ignored except its PROVENANCE.md

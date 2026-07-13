@@ -13,7 +13,9 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
-SEED = ROOT / "docs/figures/viz/GALLERY.md"
+# the hand-authored acceptance seed is preserved as a permanent fixture; GALLERY.md
+# is the machine-generated live gallery (which must reproduce the seed).
+SEED = ROOT / "docs/figures/viz/GALLERY_SEED.md"
 
 
 def test_viz_imports_without_viz3d():
