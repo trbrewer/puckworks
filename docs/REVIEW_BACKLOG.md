@@ -10,6 +10,11 @@ target journal; risk of rework if done speculatively) · **BLOCKED-EXTERNAL** (n
 author response, or infrastructure not available here) · **DEFERRED-DECISION** (a decision
 already made to defer, e.g. release tag).
 
+> **Human-owned tasks (TB / PI / VENUE)** — see
+> [`docs/HANDOFF_TB_PI_VENUE.md`](HANDOFF_TB_PI_VENUE.md) for the actionable
+> breakdown (IDs, acceptance criteria, existing scaffolds, first steps, and what a
+> CC session can pick up once each human step is done).
+
 ## Paper A (`PAPER_A_DETAILED_REVIEW.md`)
 
 | id | task | class | notes |
