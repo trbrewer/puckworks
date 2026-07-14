@@ -28,8 +28,15 @@ _SOL_COLOR = {"caffeine": ACCENT, "trigonelline": GOOD, "5CQA": "#009e73"}
 
 
 # ---------------------------------------------------------------------------
-def compute_all(out_path=RESULTS):
-    """Run every slow analysis ONCE and cache to JSON (provenance: source commit)."""
+def compute_all(out_path=RESULTS, resume=True):
+    """Run every slow analysis ONCE and cache to JSON (provenance: source commit).
+
+    RESUMABLE (resume=True): each analysis block is cached to a staging file as soon
+    as it finishes, and an interrupted/killed run is picked up where it left off (any
+    block already present for the CURRENT commit is skipped). This lets the ~25-30 min
+    PDE recompute survive an environment that reaps long jobs — re-launch until it
+    reports complete. The final bundle is byte-identical to a single uninterrupted run.
+    """
     import subprocess
     from .validation.slow import angeloni_bracket as ab
     from .validation.slow import identifiability as idn
@@ -43,40 +50,51 @@ def compute_all(out_path=RESULTS):
     except Exception:
         commit = "UNKNOWN"
     # EVERY slow analysis the manuscript cites is regenerated here (review MAJ-19):
-    # not just the six that feed the figures, but also the blind bracket, per-condition
-    # result, flow-map refinement, refit summary, geometry sensitivity, sampled-aggregate
-    # audit, and the external Waszkiewicz analysis.
-    res = dict(
-        source_commit=commit,
-        schema_version=2,                                  # bumped: SSE/coupling relabel,
-                                                           # g/L units, cluster CI, full-prec
-        table7=dict(caffeine=inv.get(("Arabica", "CF")),
-                    trigonelline=inv.get(("Arabica", "TR"))),
-        panel_caffeine=ab.identifiability_panel("Arabica", "caffeine"),
-        panel_trigonelline=ab.identifiability_panel("Arabica", "trigonelline"),
-        identifiability_convergence=ab.identifiability_panel_convergence(),  # A2-06/07 + MAJ-04
-        transfer=ab.validate_refit_granulometry(),
-        transfer_skill=ab.transfer_skill_vs_baselines(),   # A3-01 null-benchmark skill
-        reduced_model_ladder=ab.reduced_model_ladder(),    # A3-19 nested ladder
-        joint=ab.joint_multigrind_fit(),
-        loco=ab.loco_cv_refit(),
-        positive_control=idn.identifiability_fractions_vs_cup(),
-        full_cup_sim=idn.full_cup_simulation_identifiability(),
-        full_cup_discrepancy=idn.full_cup_simulation_discrepancy(),  # MAJ-13 discrepancy control
-        full_cup_discrepancy_large=idn.full_cup_simulation_discrepancy(  # larger dose (bias emerges)
-            temp_offset_C=8.0, flow_scale=1.25),
-        full_cup_offgrid_noise=idn.full_cup_simulation_offgrid_noise(),  # A3-15/16 off-grid + noise
-        # --- previously-omitted manuscript analyses (MAJ-19 / A2-05) ---
-        refit_summary=ab.refit_pannusch_angeloni(),        # Result 1 8.4%/11.5% (A2-05)
-        species_bracket=ab.gate_pannusch_angeloni_species_bracket(),
-        per_condition=ab.gate_pannusch_angeloni_per_condition(),
-        flow_map_refinement=ab.flow_map_refinement(),
-        endpoint_mass_sensitivity=ab.endpoint_mass_sensitivity(),  # A2-09 endpoint caveat
-        geometry_sensitivity=ab.geometry_sensitivity_transfer(),
-        sampled_aggregate_audit=idn.sampled_aggregate_vs_actual_cup(),
-        external_waszkiewicz=ew.waszkiewicz_external_tds(),
-        external_waszkiewicz_sensitivity=ew.waszkiewicz_sensitivity(),  # A2-13b nuisance sweep
-    )
+    # the blind bracket, per-condition result, flow-map refinement, refit summary,
+    # geometry sensitivity, sampled-aggregate audit, and external Waszkiewicz analysis.
+    # (key, thunk) so blocks can be computed + cached one at a time (resumable).
+    blocks = [
+        ("panel_caffeine", lambda: ab.identifiability_panel("Arabica", "caffeine")),
+        ("panel_trigonelline", lambda: ab.identifiability_panel("Arabica", "trigonelline")),
+        ("identifiability_convergence", ab.identifiability_panel_convergence),  # A2-06/07 + MAJ-04
+        ("transfer", ab.validate_refit_granulometry),
+        ("transfer_skill", ab.transfer_skill_vs_baselines),   # A3-01 null-benchmark skill
+        ("reduced_model_ladder", ab.reduced_model_ladder),    # A3-19 nested ladder
+        ("joint", ab.joint_multigrind_fit),
+        ("loco", ab.loco_cv_refit),
+        ("positive_control", idn.identifiability_fractions_vs_cup),
+        ("full_cup_sim", idn.full_cup_simulation_identifiability),
+        ("full_cup_discrepancy", idn.full_cup_simulation_discrepancy),  # MAJ-13 discrepancy control
+        ("full_cup_discrepancy_large",
+         lambda: idn.full_cup_simulation_discrepancy(temp_offset_C=8.0, flow_scale=1.25)),
+        ("full_cup_offgrid_noise", idn.full_cup_simulation_offgrid_noise),  # A3-15/16
+        ("refit_summary", ab.refit_pannusch_angeloni),        # Result 1 8.4%/11.5% (A2-05)
+        ("species_bracket", ab.gate_pannusch_angeloni_species_bracket),
+        ("per_condition", ab.gate_pannusch_angeloni_per_condition),
+        ("flow_map_refinement", ab.flow_map_refinement),
+        ("endpoint_mass_sensitivity", ab.endpoint_mass_sensitivity),  # A2-09 endpoint caveat
+        ("geometry_sensitivity", ab.geometry_sensitivity_transfer),
+        ("sampled_aggregate_audit", idn.sampled_aggregate_vs_actual_cup),
+        ("external_waszkiewicz", ew.waszkiewicz_external_tds),
+        ("external_waszkiewicz_sensitivity", ew.waszkiewicz_sensitivity),  # A2-13b nuisance sweep
+    ]
+    base = dict(source_commit=commit, schema_version=2,   # bumped: SSE/coupling relabel,
+                table7=dict(caffeine=inv.get(("Arabica", "CF")),  # g/L units, cluster CI
+                            trigonelline=inv.get(("Arabica", "TR"))))
+    staging = out_path + ".partial"
+    res = dict(base)
+    if resume and os.path.exists(staging):                # pick up a killed run
+        with open(staging) as f:
+            prev = json.load(f)
+        if prev.get("source_commit") == commit:           # only if the code is unchanged
+            res.update({k: v for k, v in prev.items() if k in dict(blocks)})
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    for key, fn in blocks:
+        if key in res:                                    # already computed this run
+            continue
+        res[key] = fn()
+        with open(staging, "w") as f:                     # checkpoint after each block
+            json.dump(_jsonable(res), f)
     # A3-13: Table 7 orthogonal-inventory rate constraint (PDE-free post-processing of
     # the panels: where the measured inventory intersects the profiled valley).
     res["table7_rate_constraint"] = {
@@ -84,9 +102,10 @@ def compute_all(out_path=RESULTS):
         for k, sol in (("panel_caffeine", "caffeine"),
                        ("panel_trigonelline", "trigonelline"))
         if res["table7"].get(sol)}
-    os.makedirs(os.path.dirname(out_path), exist_ok=True)
     with open(out_path, "w") as f:
         json.dump(_jsonable(res), f)
+    if os.path.exists(staging):
+        os.remove(staging)                                # complete -> drop the checkpoint
     return res
 
 
