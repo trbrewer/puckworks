@@ -454,31 +454,43 @@ def _crawl(cfg, updated_after):
             shard_idx += 1
             buffer, index_buffer = [], []
 
-    for sid, _clock, upd in list_public_shot_ids(
-            cfg, updated_after=updated_after, _session=session, _limiter=limiter):
-        if cfg.max_requests is not None and n_fetched >= cfg.max_requests:
-            break
-        if sid in seen and updated_after is None:
-            continue  # initial crawl dedups on id
-        raw = fetch_shot(cfg, sid, _session=session, _limiter=limiter)
-        n_fetched += 1
-        tidy = normalize_shot(raw, cfg)
-        if sid not in seen:
-            n_new += 1
-            seen.add(sid)
-        buffer.append(tidy)
-        index_buffer.append(_index_row(tidy))
-        if upd is not None:
-            max_updated = upd if max_updated is None else max(max_updated, upd)
-        if len(buffer) >= cfg.shard_size:
-            flush()
-    flush()
-    if max_updated is not None:
-        _save_cursor(cfg, max_updated)
+    stopped_early = None
+    try:
+        for sid, _clock, upd in list_public_shot_ids(
+                cfg, updated_after=updated_after, _session=session, _limiter=limiter):
+            if cfg.max_requests is not None and n_fetched >= cfg.max_requests:
+                break
+            if sid in seen and updated_after is None:
+                continue  # initial crawl dedups on id
+            try:
+                raw = fetch_shot(cfg, sid, _session=session, _limiter=limiter)
+            except Exception as exc:
+                # a persistent 429/5xx (retries exhausted), network drop, or a listing
+                # error: STOP GRACEFULLY so the finally-block preserves everything
+                # fetched so far. Re-running `full` resumes (id-dedup skips done shots).
+                stopped_early = "%s: %s" % (type(exc).__name__, exc)
+                break
+            n_fetched += 1
+            tidy = normalize_shot(raw, cfg)
+            if sid not in seen:
+                n_new += 1
+                seen.add(sid)
+            buffer.append(tidy)
+            index_buffer.append(_index_row(tidy))
+            if upd is not None:
+                max_updated = upd if max_updated is None else max(max_updated, upd)
+            if len(buffer) >= cfg.shard_size:
+                flush()
+    finally:
+        # NEVER lose the in-progress buffer or the resume cursor -- runs on normal exit,
+        # exception, or interruption (environment reap / Ctrl-C).
+        flush()
+        if max_updated is not None:
+            _save_cursor(cfg, max_updated)
     return {
         "n_fetched": n_fetched, "n_new": n_new,
         "rate_limit_wait_s": round(limiter.total_wait_s, 1),
-        "cursor": max_updated,
+        "cursor": max_updated, "stopped_early": stopped_early,
     }
 
 
