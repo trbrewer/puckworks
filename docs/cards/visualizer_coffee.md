@@ -6,7 +6,7 @@ archive of espresso shots logged by Decent DE1, Meticulous, Beanconqueror,
 Gaggiuino/GaggiMate and other machines; public read endpoints expose per-shot
 hydraulic time series plus user-entered outcomes.
 **Stage(s):** machine · flow · bed_dynamics (observational, cross-machine) ·
-**Kind:** data-only (no model) · **Status:** data-only (intake ROADMAP 0.13)
+**Kind:** data-only (no model) · **Status:** data-only (intake ROADMAP 0.13); **API research use AUTHORIZED by Miha Rekar 2026-07-14** (within rate limits; **attribution + collective user credit required in any publication** — see PROVENANCE + `[[visualizer-data-permission]]`); harvest in progress
 
 ## What the corpus is
 A LARGE but UNCONTROLLED, self-selected population of real espresso shots. Each

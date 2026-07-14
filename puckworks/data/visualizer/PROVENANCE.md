@@ -17,20 +17,32 @@ Card: `docs/cards/visualizer_coffee.md` (verdict `data-only`). Manifest rows:
   is a moving target (user-contributed, continuously added).
 
 ## License / redistribution posture
-The visualizer application is MIT (app code only). The **shot corpus has NO
-research-use license** and is user-contributed. Therefore:
+The visualizer application is MIT (app code only). The shot corpus is
+user-contributed and has no open data license, **but research use of the public
+shots via the documented API is AUTHORIZED by Miha Rekar** (miha@visualizer.coffee,
+email **2026-07-14**), on these conditions:
 
-- The **raw harvested corpus is NEVER committed** — `raw/shard_*.jsonl.gz`,
-  `raw/_index.csv` and `raw/_cursor.json` are gitignored (same mechanism as the
-  pannusch2024 Mendeley drop).
-- **Internal calibration use only; not redistributed.** Correspondence with
-  Miha Rekar (miha@visualizer.coffee) for sanctioned bulk/research use is
-  pending (ROADMAP §5.8). The public API works without it, but redistribution
-  or publication use is gated on that reply.
-- Only these are tracked (force-added): the harvester code, the offline
-  fixtures, this `PROVENANCE.md`, the two MANIFEST rows, the data-only card, and
-  the small DERIVED `aggregate_stats.csv` (counts / coverage histograms / unit
-  audit — **NOT** shot data).
+- **Access:** through the documented public API, **within the published rate
+  limits** (the API enforces them via errors; no separate bulk export needed).
+  Pagination + backoff + resume cursor as implemented here are explicitly
+  sanctioned. Our harvester runs at **≤30 req/min** with exponential backoff.
+- **ATTRIBUTION (required in any published work):** clearly credit **Visualizer as
+  the data source** and **collectively acknowledge the users who make their shots
+  public** — *not* individually by name, but as a group whose contributions make
+  the research possible. **This condition binds Paper 3 and any other output that
+  uses this corpus** — see `docs/paper3_resource/PAPER_3_PUCKWORKS_OUTLINE.md`.
+- **Share-back:** Miha is interested in seeing findings; share results back with
+  the community where possible.
+- The **raw harvested corpus is still NEVER committed** — `raw/shard_*.jsonl.gz`,
+  `raw/_index.csv`, `raw/_cursor.json`, and the production salt `raw/../.harvest_salt`
+  are gitignored (the grant is to *use* the public data via the API, not a grant to
+  *redistribute* the user corpus from our repo; keeping it out also respects user
+  privacy). Only the harvester code, offline fixtures, this `PROVENANCE.md`, the two
+  MANIFEST rows, the data-only card, and the small DERIVED `aggregate_stats.csv` are
+  tracked.
+- **Production salt:** `puckworks/data/visualizer/.harvest_salt` (gitignored) holds a
+  per-machine random salt so user hashes are not reproducible from the repo; keep it
+  stable so incremental runs dedup correctly.
 
 ## Privacy (applied at ingest by `normalize_shot`)
 Dropped and never stored: `user_name`, `user_id`, `avatar_url`, `barista`, and
