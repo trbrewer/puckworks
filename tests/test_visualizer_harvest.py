@@ -191,3 +191,27 @@ def test_intake_tracked_artifacts_present():
     assert (root / "puckworks/data/visualizer/PROVENANCE.md").exists()
     agg = (root / "puckworks/data/visualizer/aggregate_stats.csv").read_text()
     assert agg.startswith("metric,key,value") and "total_shots" in agg
+
+
+def test_num_tolerates_dirty_user_fields():
+    """Harvest crash-safety: user-entered numeric fields are free text ('18g', '8.5%',
+    'n/a'). `_num` must parse the leading number + flag dirtiness, or return None --
+    never raise (a raw '18g' crashed the live crawl)."""
+    from puckworks.lib.visualizer_harvest import _num
+    assert _num("18g") == (18.0, True)
+    assert _num("8.5%") == (8.5, True)
+    assert _num("n/a") == (None, True)
+    assert _num("") == (None, False) and _num(None) == (None, False)
+    assert _num(18) == (18.0, False) and _num(19.5) == (19.5, False)
+
+
+def test_normalize_shot_survives_dirty_dose():
+    """A shot with a unit-suffixed bean_weight ('18g') must normalize (dose parsed +
+    flagged), not raise -- guards the live-crawl crash."""
+    from puckworks.lib.visualizer_harvest import normalize_shot, HarvestConfig
+    cfg = HarvestConfig()
+    raw = {"id": "x", "user_id": "u", "updated_at": 1, "bean_weight": "18g",
+           "drink_weight": 40, "data": {}}
+    tidy = normalize_shot(raw, cfg)
+    assert abs(tidy["context"]["dose__kg"] - 0.018) < 1e-12
+    assert any("dirty_value:bean_weight" in f for f in tidy["flags"])

@@ -35,6 +35,7 @@ import gzip
 import hashlib
 import json
 import os
+import re
 import time
 import warnings
 from dataclasses import dataclass, field
@@ -260,6 +261,31 @@ def _infer_machine(raw):
     return None
 
 
+_NUM_RE = re.compile(r"[-+]?\d*\.?\d+")
+
+
+def _num(v):
+    """Tolerant numeric parse of a possibly-dirty USER-entered field.
+
+    Returns ``(value_or_None, dirty)``. User fields are free text: values like
+    ``'18g'``, ``'8.5%'``, ``'25 s'`` or ``'n/a'`` appear. We never `float()` them
+    blindly (that crashed the crawl on ``'18g'``). Numeric types pass through; a
+    string is parsed by stripping a leading number off the front — ``dirty=True``
+    flags that a suffix/garbage was present (so it is traceable per CLAUDE.md rule 7),
+    and an unparseable value yields ``(None, True)`` instead of raising.
+    """
+    if v in (None, "", 0):
+        return (None, False)
+    if isinstance(v, (int, float)):
+        return (float(v), False)
+    s = str(v).strip()
+    try:
+        return (float(s), False)
+    except (ValueError, TypeError):
+        m = _NUM_RE.match(s)
+        return (float(m.group(0)), True) if m else (None, True)
+
+
 def normalize_shot(raw, cfg):
     """Turn one raw API shot into a TidyShot dict with SEPARATE evidence tiers.
 
@@ -310,12 +336,16 @@ def normalize_shot(raw, cfg):
     outcomes = {}
     for src_key, (name, raw_u, si_u) in _OUTCOME_FRACTIONS.items():
         v = raw.get(src_key)
-        if v in (None, "", 0):
+        num, dirty = _num(v)
+        if num is None:
             outcomes[name] = None
-            flags.append(f"missing:{src_key}")
+            flags.append(f"missing:{src_key}" if v in (None, "", 0)
+                         else f"unparseable:{src_key}")
         else:
-            outcomes[name] = float(v) / 100.0  # percent -> fraction (SI-dimensionless)
+            outcomes[name] = num / 100.0  # percent -> fraction (SI-dimensionless)
             units["outcomes"][name] = {"raw": raw_u, "si": si_u}
+            if dirty:
+                flags.append(f"dirty_value:{src_key}")
     sensory = {}
     for key in _SENSORY_INTS:
         v = raw.get(key)
@@ -326,8 +356,12 @@ def normalize_shot(raw, cfg):
 
     # --- context: dose/drink weight, grinder, machine, profile, roast ---
     def _kg(field_name):
-        v = raw.get(field_name)
-        return None if v in (None, "", 0) else float(v) * _G_TO_KG
+        num, dirty = _num(raw.get(field_name))
+        if num is None:
+            return None
+        if dirty:
+            flags.append(f"dirty_value:{field_name}")
+        return num * _G_TO_KG
 
     machine = _infer_machine(raw)
     if machine is None:
@@ -335,7 +369,7 @@ def normalize_shot(raw, cfg):
     context = {
         "dose__kg": _kg("bean_weight"),
         "drink_weight__kg": _kg("drink_weight"),
-        "duration__s": (float(raw["duration"]) if raw.get("duration") else None),
+        "duration__s": _num(raw.get("duration"))[0],
         "grinder_model": raw.get("grinder_model") or None,
         "grinder_setting": raw.get("grinder_setting") or None,
         "machine": machine,
@@ -443,7 +477,7 @@ def _crawl(cfg, updated_after):
     seen = _read_index_ids(cfg)
     shard_idx = _next_shard_idx(cfg)
     buffer, index_buffer = [], []
-    n_fetched = n_new = 0
+    n_fetched = n_new = n_skipped = 0
     max_updated = _load_cursor(cfg).get("last_updated_at")
 
     def flush():
@@ -471,7 +505,14 @@ def _crawl(cfg, updated_after):
                 stopped_early = "%s: %s" % (type(exc).__name__, exc)
                 break
             n_fetched += 1
-            tidy = normalize_shot(raw, cfg)
+            try:
+                tidy = normalize_shot(raw, cfg)
+            except Exception:
+                # a single malformed record must not abort the crawl: skip it and
+                # continue (the tolerant `_num` parser already handles dirty user
+                # fields; this is a last-resort guard for anything unforeseen).
+                n_skipped += 1
+                continue
             if sid not in seen:
                 n_new += 1
                 seen.add(sid)
@@ -488,7 +529,7 @@ def _crawl(cfg, updated_after):
         if max_updated is not None:
             _save_cursor(cfg, max_updated)
     return {
-        "n_fetched": n_fetched, "n_new": n_new,
+        "n_fetched": n_fetched, "n_new": n_new, "n_skipped": n_skipped,
         "rate_limit_wait_s": round(limiter.total_wait_s, 1),
         "cursor": max_updated, "stopped_early": stopped_early,
     }
