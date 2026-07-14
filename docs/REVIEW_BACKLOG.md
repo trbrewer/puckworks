@@ -261,9 +261,15 @@ DONE below; the large additions + conversion are deferred.
   onset/first-passage fields).
 
 ### UNBLOCKED-LARGE (deferred)
-- **B6-FIG** deterministic figure-PNG re-render (fig3 "0 coeffs" / fig5 "computed" annotations live
-  in `figures.py` + captions; PNGs are env-nondeterministic here — unseeded bootstrap band + matplotlib
-  version — so a clean release render is owed. Vector siblings gitignored).
+- **B6-FIG** — **DONE** (2026-07-13). Diagnosis corrected: the figure PNGs are **already
+  byte-deterministic within a matplotlib version** (two in-env renders are identical; the RSM
+  bootstrap + Result-2 block resampling are seeded). The earlier churn was purely a
+  **matplotlib-version** difference vs. the committed PNGs, not an unseeded RNG. Fixed by
+  regenerating the committed Paper B PNGs at the current env (also landing the sixth-review fig3
+  "0 coeffs" / fig5 "computed" annotations) + two regression guards
+  (`test_paperb_figure_render_is_deterministic`, `test_paperb_bootstrap_analyses_are_deterministic`).
+  PNG bytes stay matplotlib-version-scoped by nature; the reproducibility manifest records the
+  version and the release render pins it.
 - **B6-06/33** block-length sensitivity for the Result-2 conditional interval (= B5-18).
 - **B6-36/37** full temporal+spatial event-convergence study (common physical-time grid, higher-order
   solver) — extends B5-08-full.
