@@ -227,7 +227,7 @@ DONE below; the large additions + conversion are deferred.
   design-support, first-stage endpoint propagation.
 - **B5-20** residual-ACF figure — **DONE** (2026-07-13: supplementary `fig6_residual_acf`
   + residual traces/ACF in `result2_residual_diagnostics`). **B5-18** block-length
-  sensitivity still owed. **B5-31** Fig 2 ontology.
+  sensitivity **DONE** (2026-07-13; see the sixth-review section). **B5-31** Fig 2 ontology.
 - **B5-33/34/35/36** template prose/figures from the frozen bundle + full dependency manifest.
 - **B5-39/40/44/45** figure reworks + complete source data + vector figures.
 
@@ -270,7 +270,11 @@ DONE below; the large additions + conversion are deferred.
   (`test_paperb_figure_render_is_deterministic`, `test_paperb_bootstrap_analyses_are_deterministic`).
   PNG bytes stay matplotlib-version-scoped by nature; the reproducibility manifest records the
   version and the release render pins it.
-- **B6-06/33** block-length sensitivity for the Result-2 conditional interval (= B5-18).
+- **B6-06/33 / B5-18** block-length sensitivity for the Result-2 conditional interval — **DONE**
+  (2026-07-13): `result2_residual_diagnostics` sweeps 4/8/16/24 s blocks. Φ>const excludes zero at
+  every block length (robust); the Φ~cubic tie is **borderline** (unresolved at 4–16 s, 24 s
+  marginally favours the cubic) — reported in the manuscript §4 + reviewer brief §2, guarded by
+  `test_result2_block_length_sensitivity`.
 - **B6-36/37** full temporal+spatial event-convergence study (common physical-time grid, higher-order
   solver) — extends B5-08-full.
 - **B6-19** N-tube collapse-threshold sensitivity (top-1 / N_eff / persistence-window choices).

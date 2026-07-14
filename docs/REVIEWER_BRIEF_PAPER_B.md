@@ -63,7 +63,7 @@ to identify a unique physical mechanism**. Per result:
 | Known limitation | Status | Why it is open | Where disclosed / evidence |
 |---|---|---|---|
 | Real trajectory-convergence study (common physical-time grid, norms, event-time error vs spatial+temporal refinement, higher-order/adaptive solver) | UNBLOCKED-LARGE, deferred | current study is collapse-time under explicit-Euler refinement only | backlog B5-08; review §2.1(6) |
-| Block-length sensitivity for the Result-2 conditional interval (4/8/16/24 s) | deferred | one 8 s block length used | backlog B5-18 |
+| Block-length sensitivity for the Result-2 conditional interval (4/8/16/24 s) | **DONE** (2026-07-13) | swept 4/8/16/24 s: Φ>const excludes zero at every block length (robust); the Φ~cubic tie is **borderline** — unresolved at 4–16 s, the 24 s block marginally favours the cubic | backlog B5-18/B6-06; `result2_residual_diagnostics.block_length_sensitivity` |
 | Physical N-tube balances (solute inventory, pressure-work, lateral-flux, age) | UNBLOCKED-LARGE, deferred | current "conservation" is a **numerical-invariant** audit, not physical balances | backlog B5-24/25/26; review §2.1(7) |
 | Physical transverse-Darcy lateral-exchange operator + Jacobian/Lyapunov growth | **CARD-BLOCKED** (rule 1) | no card exists for the physical lateral operator (= gap G-lat / PV-14) | backlog B5-29 / B-AR10 |
 | RSM advanced uncertainty: leverage-adjusted (HC2/HC3) wild bootstrap, post-selection, design-support, first-stage endpoint propagation | UNBLOCKED-LARGE, deferred | RSM intervals are **conditional** on the selected form + reconstructed endpoint | backlog B5-13/14/15/16 |

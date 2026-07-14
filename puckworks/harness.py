@@ -221,7 +221,8 @@ def kappa_t_ladder(window=_KAPPA_LADDER_WINDOW):
 
 
 def result2_residual_diagnostics(windows=((10.0, 90.0), (15.0, 95.0), (20.0, 90.0)),
-                                 block_s=8.0, n_boot=1000, seed=0):
+                                 block_s=8.0, n_boot=1000, seed=0,
+                                 block_lengths_s=(4.0, 8.0, 16.0, 24.0)):
     """RESULT-2 RESIDUAL / DEPENDENCE DIAGNOSTICS (review MAJ-23/B3-23): the 9-bar ladder
     RMSE differences are pointwise on ONE strongly-autocorrelated trace, so a naive
     per-sample uncertainty is invalid. This reports (a) the per-BRANCH residual lag-1 ACF
@@ -230,10 +231,13 @@ def result2_residual_diagnostics(windows=((10.0, 90.0), (15.0, 95.0), (20.0, 90.
     differences (Phi(t)-best-const and Phi(t)-cubic) via ~`block_s`-second blocks -- it
     preserves serial dependence but does NOT refit either branch inside the resample, so it
     is a dependence-aware interval on the FIXED loss sequences, not a bootstrap of the full
-    fit-and-compare procedure (review B5-04); and (c) WINDOW SENSITIVITY -- whether Phi(t)
-    beats the constant nulls across 10-90 / 15-95 / 20-90 s. A difference whose interval
-    straddles zero is 'not resolved by this conditional interval', NOT 'statistically
-    indistinguishable' (B5-05). Fast."""
+    fit-and-compare procedure (review B5-04); (c) WINDOW SENSITIVITY -- whether Phi(t)
+    beats the constant nulls across 10-90 / 15-95 / 20-90 s; and (d) BLOCK-LENGTH
+    SENSITIVITY (review B5-18/B6-06) -- the same conditional resampling re-run at
+    4/8/16/24 s blocks, reporting whether each conclusion holds at every block length
+    (`phi_beats_const_stable_across_blocks` / `phi_ties_cubic_stable_across_blocks`). A
+    difference whose interval straddles zero is 'not resolved by this conditional
+    interval', NOT 'statistically indistinguishable' (B5-05). Fast."""
     import numpy as np
     from puckworks import data as d
     from puckworks.models.waszkiewicz2025 import poroelastic as wz
@@ -274,12 +278,13 @@ def result2_residual_diagnostics(windows=((10.0, 90.0), (15.0, 95.0), (20.0, 90.
         return round(float(np.sum(r[1:] * r[:-1]) / np.sum(r ** 2)), 3)
     acf_lag1_by_branch = {k: _acf1(qd - v) for k, v in pr.items()}
 
-    def _mbb_rmsediff(a, b):
+    def _mbb_rmsediff(a, b, block_n=block, rng_local=rng):
         ea = (qd - a) ** 2; eb = (qd - b) ** 2
-        nblk = int(np.ceil(n / block)); diffs = []
+        block_n = int(max(2, min(block_n, n)))
+        nblk = int(np.ceil(n / block_n)); diffs = []
         for _ in range(n_boot):
-            starts = rng.integers(0, n - block + 1, nblk)
-            idx = np.concatenate([np.arange(s, s + block) for s in starts])[:n]
+            starts = rng_local.integers(0, n - block_n + 1, nblk)
+            idx = np.concatenate([np.arange(s, s + block_n) for s in starts])[:n]
             diffs.append(float(np.sqrt(np.mean(ea[idx])) - np.sqrt(np.mean(eb[idx]))))
         d_ = np.array(diffs)
         return dict(median=round(float(np.median(d_)), 3),
@@ -288,6 +293,29 @@ def result2_residual_diagnostics(windows=((10.0, 90.0), (15.0, 95.0), (20.0, 90.
                     excludes_zero=bool(np.percentile(d_, 2.5) > 0 or np.percentile(d_, 97.5) < 0))
     phi_minus_const = _mbb_rmsediff(pr["phi"], pr["best_const"])
     phi_minus_cubic = _mbb_rmsediff(pr["phi"], pr["cubic"])
+
+    # BLOCK-LENGTH SENSITIVITY (review B5-18/B6-06): the conditional interval above uses one
+    # 8 s block; a reviewer needs its stability to that arbitrary block choice. Re-run the
+    # moving-block resampling at 4/8/16/24 s (each with its own deterministic stream) and
+    # report whether BOTH conclusions hold at every block length -- Phi beats the constant
+    # (CI excludes 0) AND Phi only ties the cubic (CI straddles 0). This does not refit
+    # either branch; it is the same conditional resampling of the fixed loss sequences.
+    block_length_sensitivity = []
+    for _bl in block_lengths_s:
+        _bn = int(max(2, round(_bl / dt)))
+        _rng = np.random.default_rng((seed, int(round(_bl * 1000))))
+        _c = _mbb_rmsediff(pr["phi"], pr["best_const"], _bn, _rng)
+        _k = _mbb_rmsediff(pr["phi"], pr["cubic"], _bn, _rng)
+        block_length_sensitivity.append(dict(
+            block_length_s=_bl, block_length_samples=_bn,
+            phi_minus_best_const={"ci95": _c["ci95"], "excludes_zero": _c["excludes_zero"]},
+            phi_minus_cubic={"ci95": _k["ci95"], "excludes_zero": _k["excludes_zero"]}))
+    phi_beats_const_all_blocks = bool(all(x["phi_minus_best_const"]["excludes_zero"]
+                                          for x in block_length_sensitivity))
+    phi_ties_cubic_all_blocks = bool(all(not x["phi_minus_cubic"]["excludes_zero"]
+                                         for x in block_length_sensitivity))
+    conclusion_stable_across_block_lengths = bool(phi_beats_const_all_blocks
+                                                  and phi_ties_cubic_all_blocks)
     # B5-20: expose the residual TRACES + a multi-lag ACF so the coherent, non-white
     # lack-of-fit (the strong serial dependence the RMSE ranking rides on) is plottable.
     residuals = {k: (qd - v) for k, v in pr.items()}
@@ -310,19 +338,28 @@ def result2_residual_diagnostics(windows=((10.0, 90.0), (15.0, 95.0), (20.0, 90.
         residual_acf_lag1_by_branch=acf_lag1_by_branch,     # strong positive -> lack of fit
         rmse_diff_phi_minus_best_const=phi_minus_const,     # <0 CI excluding 0 -> phi wins
         rmse_diff_phi_minus_cubic=phi_minus_cubic,          # straddles 0 -> ties the flex null
+        block_length_sensitivity=block_length_sensitivity,  # B5-18/B6-06: interval vs block len
+        phi_beats_const_stable_across_blocks=phi_beats_const_all_blocks,
+        phi_ties_cubic_stable_across_blocks=phi_ties_cubic_all_blocks,
+        conclusion_stable_across_block_lengths=conclusion_stable_across_block_lengths,
         window_sensitivity=window_rank, phi_ranking_persists_across_windows=ranking_persists,
         verdict=("Block bootstrap (~%.0f s blocks, respecting the strong residual "
                  "autocorrelation -- lag-1 ACF %.2f for Phi(t)): Phi(t) beats the best "
                  "constant by %s g/s (95%% %s, excludes 0 = %s), but only TIES the "
                  "4-param cubic (diff %s, 95%% %s, excludes 0 = %s). The Phi-over-constant "
-                 "advantage persists across the 10-90/15-95/20-90 s windows (%s). So time "
-                 "variation robustly reduces IN-SAMPLE reconstruction error over constants, "
-                 "but a flexible non-mechanistic curve does equally well -- not predictive "
-                 "mechanism identification." % (
+                 "advantage persists across the 10-90/15-95/20-90 s windows (%s). Under "
+                 "block-length sensitivity (4/8/16/24 s) the Phi>const advantage is stable "
+                 "at every block length (%s), while the Phi~cubic TIE is borderline (stable "
+                 "= %s: the longest block marginally favors the cubic) -- if anything the "
+                 "flexible null does at least as well as Phi. So time variation robustly "
+                 "reduces IN-SAMPLE reconstruction error over constants, but a flexible "
+                 "non-mechanistic curve does equally well -- not predictive mechanism "
+                 "identification." % (
                      block_s, acf_lag1_by_branch["phi"], phi_minus_const["median"],
                      phi_minus_const["ci95"], phi_minus_const["excludes_zero"],
                      phi_minus_cubic["median"], phi_minus_cubic["ci95"],
-                     phi_minus_cubic["excludes_zero"], ranking_persists)),
+                     phi_minus_cubic["excludes_zero"], ranking_persists,
+                     phi_beats_const_all_blocks, phi_ties_cubic_all_blocks)),
         strength="dependence-aware (moving-block bootstrap) RMSE-difference uncertainty + "
                  "window sensitivity; IN-SAMPLE reconstruction, not held-out prediction")
 

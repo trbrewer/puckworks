@@ -307,7 +307,14 @@ straddling zero, so **the difference is not resolved by this conditional interva
 we do not claim the two are "statistically indistinguishable"), and the fit does not
 identify the *mechanism*. The Φ-beats-constant ordering persists across all three fit
 windows (10–90, 15–95, 20–90 s); the Φ-versus-cubic difference does not survive as a strict
-ordering in any of them (`result2_residual_diagnostics`).
+ordering in any of them (`result2_residual_diagnostics`). Because the 8 s block length is
+itself an arbitrary choice, we re-run the same conditional resampling at **4, 8, 16, and
+24 s blocks**: the Φ-beats-constant interval excludes zero at *every* block length (the
+required-time-variation reading is robust to the block choice), whereas the Φ-versus-cubic
+tie is **borderline** — it is unresolved at 4–16 s but the longest (24 s) block marginally
+favours the cubic ([+0.001, +0.04]). If anything, then, the non-mechanistic flexible curve
+does *at least* as well as Φ(t) under coarser blocking, which only reinforces that the
+ladder identifies a need for temporal flexibility, not a specific bed mechanism.
 
 | branch | fitted to THIS Q(t) trace | fitted elsewhere in same campaign | literature/donor-fixed |
 |---|---:|---|---|

@@ -341,3 +341,26 @@ def test_result1_design_aware_stats_runs():
     assert set(r["pairwise"]) == {"dial_1.4_vs_1.7", "dial_1.7_vs_2.0"}
     assert isinstance(r["cell_means_ordered"], bool)
     assert isinstance(r["interior_maximum"], bool)
+
+
+def test_result2_block_length_sensitivity():
+    """review B5-18/B6-06: the Result-2 conditional interval must report its stability to
+    the (arbitrary) moving-block length. `result2_residual_diagnostics` sweeps 4/8/16/24 s
+    blocks and exposes, per block length, the Phi-minus-best-const and Phi-minus-cubic
+    intervals, plus two stability flags. Guard: the Phi>const advantage is robust (CI
+    excludes 0 at EVERY block length); the combined flag is the AND of the two conclusions.
+    Fast."""
+    from puckworks.harness import result2_residual_diagnostics
+    r = result2_residual_diagnostics()
+    bls = r["block_length_sensitivity"]
+    assert [x["block_length_s"] for x in bls] == [4.0, 8.0, 16.0, 24.0]
+    for x in bls:
+        assert x["block_length_samples"] >= 2
+        for key in ("phi_minus_best_const", "phi_minus_cubic"):
+            assert len(x[key]["ci95"]) == 2 and isinstance(x[key]["excludes_zero"], bool)
+    # the headline Phi-over-constant advantage is robust to the block-length choice
+    assert r["phi_beats_const_stable_across_blocks"] is True
+    assert all(x["phi_minus_best_const"]["excludes_zero"] for x in bls)
+    # combined flag is exactly the AND of the two per-conclusion flags
+    assert r["conclusion_stable_across_block_lengths"] == (
+        r["phi_beats_const_stable_across_blocks"] and r["phi_ties_cubic_stable_across_blocks"])
