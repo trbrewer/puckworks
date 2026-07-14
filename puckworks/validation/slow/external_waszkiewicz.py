@@ -43,6 +43,58 @@ def _level_mape(pred, m):
     return float(np.mean(np.abs(c * pred - m) / m) * 100)
 
 
+def _isotonic_nondecreasing(y):
+    """L2 projection onto the nearest NONDECREASING sequence (pool-adjacent-violators).
+
+    A cumulative *collected* mass is physically monotone, but the measured Waszkiewicz
+    cumulative-mass trace has small local decreases (sensor noise; ~58 in the 9-bar
+    trace). PAVA gives the closest monotone reconstruction so its consecutive
+    differences (bin masses) are nonnegative. No SciPy dependency.
+    """
+    y = np.asarray(y, float)
+    val = []      # block means
+    size = []     # block sizes
+    for yi in y:
+        val.append(float(yi)); size.append(1)
+        while len(val) > 1 and val[-2] > val[-1]:     # pool the two out-of-order blocks
+            nv = (val[-1] * size[-1] + val[-2] * size[-2]) / (size[-1] + size[-2])
+            ns = size[-1] + size[-2]
+            val.pop(); size.pop()
+            val[-1] = nv; size[-1] = ns
+    out = np.empty(len(y)); i = 0
+    for v, s in zip(val, size):
+        out[i:i + s] = v; i += s
+    return out
+
+
+def observed_bin_masses(tt, massarr, edges, offset):
+    """Physically admissible 5 s observed-bin masses (review MC29 / A-03).
+
+    Naively differencing the raw (non-monotone) cumulative-mass trace produced a
+    NEGATIVE collected-mass bin under the 4 s alignment offset, i.e. a negative
+    cup-average weight. We first project the cumulative mass onto the nearest
+    nondecreasing sequence (:func:`_isotonic_nondecreasing`), then difference the
+    offset-shifted 5 s edges — so every bin mass is ``>= 0`` by construction and the
+    bins telescope to the total collected mass over the window. Returns
+    ``(binmass[len(edges)-1], diagnostics)`` and asserts nonnegativity.
+    """
+    massmono = _isotonic_nondecreasing(massarr)
+    bm = np.array([np.interp(edges[i + 1] - offset, tt, massmono)
+                   - np.interp(edges[i] - offset, tt, massmono)
+                   for i in range(len(edges) - 1)])
+    total = float(np.interp(edges[-1] - offset, tt, massmono)
+                  - np.interp(edges[0] - offset, tt, massmono))
+    diag = dict(bin_mass_min_g=float(bm.min()),
+                nonnegative=bool(bm.min() >= -1e-9),
+                total_collected_g=round(total, 4),
+                mass_balance_resid_g=float(abs(bm.sum() - total)),
+                n_raw_cumulative_decreases=int(np.sum(np.diff(np.asarray(massarr)) < 0)))
+    assert bm.min() >= -1e-9, (
+        "negative observed bin mass %.6g g at offset %.3g s (monotone reconstruction "
+        "failed)" % (float(bm.min()), offset))
+    return bm, diag
+
+
 def waszkiewicz_external_tds(T_C=93.0, pressure=9.0,
                              rates=(0.25, 0.4, 0.6, 0.8, 1.0, 1.4, 2.0, 3.0, 4.0),
                              time_offsets=(0.0, 2.0, 4.0), q_floor=0.05):
@@ -77,9 +129,9 @@ def waszkiewicz_external_tds(T_C=93.0, pressure=9.0,
             return max(q_floor, float(np.interp(ts - off, tt, qq, left=0.0, right=qq[-1])))
         # review MAJ-16(1): the observed-cup bin masses MUST use the SAME shifted time
         # origin as the model flow -- collect the mass in flow-time [edge-offset] for
-        # each fixed 5 s TDS bin, not the unshifted trace.
-        binmass = np.array([np.interp(edges[i + 1] - offset, tt, massarr)
-                            - np.interp(edges[i] - offset, tt, massarr) for i in range(12)])
+        # each fixed 5 s TDS bin, not the unshifted trace. review MC29/A-03: use a
+        # MONOTONE cumulative-mass reconstruction so no bin mass (cup weight) is negative.
+        binmass, mass_diag = observed_bin_masses(tt, massarr, edges, offset)
         for drop_first in (False, True):
             idx = slice(1, 12) if drop_first else slice(0, 12)
             m_obs = meas[idx]; bm = binmass[idx]
@@ -104,7 +156,8 @@ def waszkiewicz_external_tds(T_C=93.0, pressure=9.0,
                 fraction_mape=fm, fraction_min_mape=min(fm), fraction_best_rate=rates[fi],
                 fraction_range_ratio=round(max(fm) / min(fm), 2),
                 cup_mape=cm, cup_carries_no_rate_info=cup_flat,
-                cup_range_ratio=(1.0 if cup_flat else round(max(cm) / min(cm), 2)))
+                cup_range_ratio=(1.0 if cup_flat else round(max(cm) / min(cm), 2)),
+                mass_operator=mass_diag)    # A-03: nonnegative bin masses + mass balance
     # headline: offset 0, first bin dropped (most uncertain bin), for the range-ratio
     head = out["offset0s_no_first_bin"]
     return dict(

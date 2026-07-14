@@ -243,10 +243,23 @@ def gate_pannusch_angeloni_per_condition(t_shot_s=25.0, flow_map="darcy",
                             conditions=conditions)         # signed residuals vs (T,p)
         out[variety] = per
     # A4-06/§6.10: aggregate from the RAW group means, never the rounded display fields.
-    allmape = np.mean([out[v][s]["mape_blind_raw"] for v in out for s in SPEC])
+    # review A-07/MC7: the PRIMARY blind headline is the NAMED-SOLUTE macro-average
+    # (caffeine, trigonelline, 5CQA). The aggregate-solids TDS proxy is NOT pooled into
+    # it -- pooling it lowers the number to ~22.7% and violates the manuscript's declared
+    # named-solute convention. TDS is reported as a separate proxy-inclusive sensitivity.
+    _NAMED = ("caffeine", "trigonelline", "5CQA")
+    named_means = [out[v][s]["mape_blind_raw"] for v in out for s in SPEC if s in _NAMED]
+    all_means = [out[v][s]["mape_blind_raw"] for v in out for s in SPEC]
+    allmape = float(np.mean(named_means))                 # PRIMARY: named solutes only
+    allmape_proxy = float(np.mean(all_means))             # secondary: incl. TDS proxy
     return dict(per_variety=out, n_conditions_per_variety=9, flow_map=flow_map,
-                overall_mape_blind=round(float(allmape), 1),
-                overall_mape_blind_raw=float(allmape),
+                named_solutes=list(_NAMED),
+                overall_mape_blind=round(allmape, 1),               # named-solute PRIMARY
+                overall_mape_blind_raw=allmape,
+                overall_mape_blind_named=round(allmape, 1),
+                overall_mape_blind_named_raw=allmape,
+                overall_mape_blind_proxy_inclusive=round(allmape_proxy, 1),
+                overall_mape_blind_proxy_inclusive_raw=allmape_proxy,
                 strength=("independent, per-condition (granulometry O on-grid; "
                           "p->flow " + ("Darcy q~p/mu(T)" if flow_map == "darcy"
                                         else "crude linear tau") + ")"),

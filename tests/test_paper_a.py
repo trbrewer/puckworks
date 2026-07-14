@@ -336,3 +336,34 @@ def test_species_bracket_has_no_fixed_time_param():
     src = inspect.getsource(ab.gate_pannusch_angeloni_species_bracket)
     assert "_matched_bounds" in src                    # uses the matched endpoint
     assert "[0.0, t_shot_s]" not in src                # not the old fixed-time bounds
+
+
+def test_waszkiewicz_observed_bins_are_nonnegative():
+    """review MC29/A-03: the external Waszkiewicz observation operator must build 5 s
+    observed-bin masses from a MONOTONE cumulative-mass reconstruction, so no bin mass
+    (cup-average weight) is negative under any declared time offset. The raw trace has
+    ~58 local cumulative decreases; naive differencing gave a -0.018 g bin at the 4 s
+    offset. Fast (no PDE): tests the reconstruction operator directly, incl. that a
+    hand-built non-monotone trace still yields nonnegative, mass-balanced bins."""
+    import numpy as np
+    from puckworks import data as d
+    from puckworks.validation.slow.external_waszkiewicz import (
+        observed_bin_masses, _isotonic_nondecreasing)
+
+    tr = d.waszkiewicz_traces()[9.0]
+    tt = np.asarray(tr["time__s"], float)
+    massarr = np.asarray(tr["mass__g"], float)
+    edges = np.arange(0.0, 60.001, 5.0)
+    # the raw trace is genuinely non-monotone (guards that the fix is load-bearing)
+    assert int(np.sum(np.diff(massarr) < 0)) > 0
+    for off in (0.0, 2.0, 4.0):
+        bm, diag = observed_bin_masses(tt, massarr, edges, off)
+        assert diag["nonnegative"] is True and bm.min() >= -1e-9
+        assert diag["mass_balance_resid_g"] < 1e-6      # bins telescope to total
+    # PAVA truly removes decreases
+    assert int(np.sum(np.diff(_isotonic_nondecreasing(massarr)) < 0)) == 0
+    # synthetic non-monotone cumulative trace -> still nonnegative, balanced bins
+    t = np.linspace(0.0, 60.0, 200)
+    noisy = np.cumsum(np.abs(np.sin(t))) + np.sin(6 * t)   # dips below monotone
+    bm2, diag2 = observed_bin_masses(t, noisy, edges, 0.0)
+    assert bm2.min() >= -1e-9 and diag2["mass_balance_resid_g"] < 1e-6

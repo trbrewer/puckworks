@@ -72,6 +72,7 @@ def compute_all(out_path=RESULTS, resume=True):
         ("species_bracket", ab.gate_pannusch_angeloni_species_bracket),
         ("per_condition", ab.gate_pannusch_angeloni_per_condition),
         ("flow_map_refinement", ab.flow_map_refinement),
+        ("flow_map_sensitivity_transfer", ab.flow_map_sensitivity_transfer),  # A-05/§5 ±20% map
         ("endpoint_mass_sensitivity", ab.endpoint_mass_sensitivity),  # A2-09 endpoint caveat
         ("geometry_sensitivity", ab.geometry_sensitivity_transfer),
         ("sampled_aggregate_audit", idn.sampled_aggregate_vs_actual_cup),
@@ -365,6 +366,14 @@ def fig4_transfer(results=None, outdir=OUTDIR):
                      % ("a" if g == "C" else "b", g), fontsize=8.5)
         ax.set_xlabel("observed (g L$^{-1}$)"); ax.set_ylabel("predicted (g L$^{-1}$)")
         ax.legend(fontsize=6, loc="upper left", ncol=2)
+    # A-32/MC35: state the range semantics explicitly so the vertical bars are not read
+    # as statistical uncertainty.
+    axes[0].text(0.035, 0.98,
+                 "vertical bar = min–max prediction across the discrete\n"
+                 "10 %-MAPE objective-tolerance set (deterministic;\n"
+                 "NOT a confidence / prediction interval)",
+                 transform=axes[0].transAxes, va="top", ha="left", fontsize=6.0,
+                 color=INK, bbox=dict(boxstyle="round", fc="white", ec=GRID, alpha=0.85))
     # (c) model vs O-trained-constant baseline: paired MAPE per fit x grind
     axc = axes[2]
     if ts is not None:
@@ -561,8 +570,15 @@ def fig7_per_group_diagnostics(results=None, outdir=OUTDIR):
     b = np.array([np.nan if v is None else v for v in blind], float)
     m = np.array([np.nan if v is None else v for v in matched], float)
     ax.bar(idx - w / 2, b, w, color=NULL, label="blind (no inventory match)")
-    ax.bar(idx + w / 2, np.nan_to_num(m), w, color=ACCENT,
+    # A-23/MC32: the inventory-matched MAPE is UNDEFINED for 5CQA/tds (no inventory), so
+    # it must NOT be drawn as a zero-height bar (which reads as zero error). Draw a bar
+    # only where the matched value is defined; mark the missing groups "NA" at baseline.
+    mdef = ~np.isnan(m)
+    ax.bar(idx[mdef] + w / 2, m[mdef], w, color=ACCENT,
            label="inventory-matched (caffeine/trig only)")
+    for i in np.where(~mdef)[0]:
+        ax.text(i + w / 2, 0.0, "NA", ha="center", va="bottom", fontsize=6.4,
+                color=NULL, rotation=90)
     # mark where matching HURTS (matched > blind) vs HELPS
     for i, (bi, mi) in enumerate(zip(b, m)):
         if not np.isnan(mi):
