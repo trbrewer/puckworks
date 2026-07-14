@@ -70,6 +70,23 @@ model. The strongest each result supports:
 These were flagged in earlier reviews and are **fixed** in the current tree (the
 4th review was partly stale on several):
 
+- **5th-review (A-01..A-45) P0/P1 fixes now in-tree:** the Waszkiewicz observed-bin
+  operator uses an **isotonic monotone-mass reconstruction** (no negative bin/weight,
+  mass-balanced — A-03); the primary blind headline is the **named-solute macro-MAPE
+  26.3 %** with the TDS proxy (22.7 %) reported separately (A-07); **all
+  mechanistic-transfer wording removed** ("endpoint stability, not identified-mechanism
+  transfer"; 8.2 % vs 8.6 % null, worse 50/108 — A-08); finite-grid condition-wise
+  ranges are stated **reported** vs continuous **deferred** (A-09); the identifiability
+  metric is a **profile range ratio** (localization, not identification — A-28); Table 7
+  is a **conditional intersection band** 0.60–1.76, not a CI (A-16); the comparator
+  ladder is **non-nested in-sample** (A-17); `flow_map_sensitivity_transfer` is now in
+  the bundle (A-05); Fig 7 uses NA (not zero) bars and Fig 4 labels its tolerance-set
+  ranges (A-23/A-32). **Still genuinely open** (assess as such, don't re-flag as fixed):
+  the full endpoint×density *transfer* estimand (A-18), profile grid/threshold
+  convergence of prediction ranges (A-15), all-group flow-map sensitivity (A-19),
+  design-aware paired-skill uncertainty (A-20), and a clean commit-coherent release
+  (A-01/04) — all logged in `REVIEW_BACKLOG.md`.
+
 - Round-before-aggregate precision: refit / joint / geometry / flow and (latest)
   per-condition / endpoint now aggregate from full-precision arrays.
 - SSE-vs-MAPE objective labelled consistently; the inverse-Hessian statistic is a

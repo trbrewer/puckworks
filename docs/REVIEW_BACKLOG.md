@@ -159,6 +159,49 @@ SPRINTS D5); what remains is external/local, not actionable in-repo.
 
 ---
 
+## Paper A (`PAPER_A_FIFTH_DETAILED_REVIEW.md`, 2026-07-14)
+
+Major-revision review (45 actions A-01..A-45 + 80 minors). Unblocked P0/P1 actioned;
+large PDE reruns, release-coherence infra, and VENUE journal conversion deferred.
+
+### DONE this round (committed)
+- **A-03** Waszkiewicz negative-bin operator → isotonic monotone-mass reconstruction
+  (bins ≥0, mass-balanced) + `observed_bin_masses` helper + regression test.
+- **A-07** named-solute macro-MAPE 26.3 % is the primary blind headline; TDS proxy
+  22.7 % separated; guard test (named==headline, named>proxy, cited blocks present).
+- **A-05** `flow_map_sensitivity_transfer` added to `compute_all`.
+- **A-23/A-32** Fig 7 NA (not zero) bars; Fig 4 tolerance-set (not-a-CI) legend.
+- **A-08** all mechanistic-transfer wording removed (manuscript + JFE + docstrings).
+- **A-09** finite-grid ranges "reported" vs continuous "deferred" (3-way fix).
+- **A-14/16/17/28/29/33 + MC14** terminology (profile-range-ratio, interior-optimum,
+  comparator ladder, Table 7 conditional band, 40 mL proxy, domain-independent, §10.14).
+- **A-02** bundle recompute (verify 27/27) + all 8 figures rerendered.
+
+### UNBLOCKED-LARGE (deferred; PDE-heavy)
+- **A-13** Waszkiewicz alignment sensitivity rerun — **effectively done** (this recompute
+  ran the fixed operator); a dedicated per-offset best-rate/range table is still owed.
+- **A-15** profile grid/domain/threshold convergence of the *prediction* ranges (2/5/10/20 %).
+- **A-18** the full endpoint×density **transfer** estimand (refit O → transfer C/F →
+  recompute level-only baseline → paired skill at every endpoint) — the current sweep is
+  blind-discrepancy only.
+- **A-19** all-six-group flow-map magnitude sensitivity (currently Arabica-caffeine only).
+- **A-20/A-22** design-aware paired model-vs-null skill uncertainty; LOCO fold-level
+  parameter-stability panel (selected rates/levels/boundary hits).
+- **A-30/A-31** Hessian finite-difference/scaling table; RSD/heteroscedastic weighting sweep.
+- **A-24/A-26** post-level residual analysis (replace/demote Fig 8); off-grid/noise/
+  discrepancy control supplement.
+
+### BLOCKED — release-coherence infra (partly TB)
+- **A-01/A-04** one clean release command (recompute+render+export+strict-verify) with
+  `HEAD == bundle == manifest`; **A-06** artifact-derived (not hard-coded) verification;
+  **A-11** one canonical manuscript source (draft ↔ JFE); **A-12** hash all artifacts +
+  transitive inputs. *(One transfer-block verdict string lags the code until the next
+  full recompute — numbers coherent.)*
+
+### BLOCKED — VENUE
+- **A-34/A-35** journal Methods conversion (equations/params, remove internal IDs/ledger);
+  **A-43** references + declarations; **A-44** limitations table; **A-45** tagged release + DOI.
+
 ## Paper A (`PAPER_A_FOURTH_DETAILED_REVIEW.md`, 2026-07-13)
 
 Many 4th-review findings were already resolved by prior rounds (A3-03/MAJ-12 added
