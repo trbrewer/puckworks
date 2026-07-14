@@ -197,9 +197,12 @@ re-optimise a *single global level* so the rate can only change the extraction
 *shape*, not its magnitude. We then score two ways on the identical shots — against
 the six-fraction curve (temporal shape retained) and against the same shots
 collapsed to one volume-weighted whole-cup value (shape integrated away) — and
-report the **identifiability ratio** = (max-edge MAPE)/(min MAPE). A sharp trough
-(ratio ≫ 1) means the rate is identified; a flat valley (ratio ≈ 1) means it is
-not.
+report the **profile range ratio** (edge-to-minimum objective ratio) = (max-edge
+MAPE)/(min MAPE), with the edges being the tested rate-domain bounds. A sharp trough
+(ratio ≫ 1) means the rate objective is **more strongly localized over the tested
+domain**; a flat valley (ratio ≈ 1) means it is **weakly localized** — this is a
+localization contrast over the declared domain, not an identification theorem in a
+likelihood sense.
 
 ### 2.6 Evidence vocabulary (JFE-standard terms)
 
@@ -272,23 +275,25 @@ Over a wide log-spaced rate sweep the best-fit `c_s0` moves to compensate while 
 error barely changes. We describe inventory and rate as **practically
 non-identifiable over the tested rate domain under this single-grind endpoint
 design, flow assumptions, and objective** — not as an exact theorem that all
-endpoint designs identify only a product. Two robust corollaries: (i) the fitted
-rate is a valley-floor value, not a converged interior estimate, so it flips with
-incidental choices (flow anchor, grind, rate domain) — the earlier
+endpoint designs identify only a product. Two robust corollaries: (i) the numerical
+optimum is **interior**, but it is **weakly localized** — the near-optimal set is
+right-censored at the tested upper boundary — so the fitted rate is a valley-floor
+value that flips with incidental choices (flow anchor, grind, rate domain) — the earlier
 inventory-vs-kinetics decomposition read the valley floor, not a mechanism; (ii) the
 best-fit `c_s0` passes through the independently measured Table 7 inventory somewhere
 along the valley (caffeine ~13 near the measured 12.5), but the beverage data alone
 cannot single out the rate — the measured inventory is a **same-campaign
 orthogonal-measurement constraint** (Table 7 measures a different quantity within the
 *same* Angeloni study; it is not external to the transfer campaign). We now make this
-constraint **quantitative** (`table7_rate_constraint`, review A3-13): intersecting the
-profiled valley `c*(rate)` with the caffeine Table 7 value (12.54 g L⁻¹) yields an
-**implied rate ≈ 0.95**, and propagating a ±10 % inventory sensitivity gives a rate band
-of only **≈ 0.6–1.75** — an *interior, unique* intersection. So a single orthogonal
-inventory measurement **collapses** the otherwise broad (≈0.4-to-censored) rate profile to
-a narrow band: it is the strongest available constraint on the rate, precisely because
-the endpoint beverage data cannot supply it. This remains a same-campaign constraint, not
-an independent external validation.
+constraint **quantitative** (`table7_rate_constraint`, review A3-13/A-16): intersecting
+the profiled valley `c*(rate)` with the caffeine Table 7 value (12.54 g L⁻¹) yields a
+**conditional implied rate ≈ 0.95**. An **illustrative ±10 % inventory perturbation** — an
+analyst-selected sensitivity assumption, **not** a calibrated measurement-uncertainty
+model — maps to rates of **≈ 0.60–1.76**. This **narrows** the beverage-only tolerance set
+to a **conditional one-dimensional intersection band**, but it is **not a confidence
+interval**. It is nonetheless the strongest available *same-campaign* constraint on the
+rate, precisely because the endpoint beverage data cannot supply it; it is not an
+independent external validation.
 
 **A numerical identifiability panel** (`identifiability_panel`) quantifies the valley on
 the caffeine matched-mass **SSE** objective (unweighted concentration-scale SSE with a
@@ -327,14 +332,14 @@ anything, *less* bounded than the finite-domain numbers imply.
 Strength: this is a *diagnosis of the fit*, established on the transfer target and
 corroborated on the model's own data in §6 — not a claim about the model's physics.
 
-## 5. Result 3 — frozen-parameter transfer across grind
+## 5. Result 3 — cross-grind endpoint prediction versus a level-only baseline
 
 *Practical non-identifiability (§4) and predictive transfer are separate questions:
 a compensating manifold can leave predictions stable even when the parameters are
 individually non-identifiable. **The corrected results show exactly this** — and, in
 doing so, overturn a claim in our earlier draft.* We freeze the O calibration
 (level+rate pair) and predict the held-out coarse (C) and fine (F) grinds at **matched
-40 g cups**, each with its own **study-derived, inferred pressure–flow map** (fitted
+40 mL matched-volume proxies for the nominal 40 g cups**, each with its own **study-derived, inferred (not measured) pressure–flow map** (fitted
 hydraulic conductivity, nominal grind-specific shot time, and viscosity correction —
 *not* a per-shot measured flow trace; transfer conclusions are conditional on this map):
 
@@ -371,13 +376,17 @@ A **shared-parameter compatibility analysis** complements the holdout: a *single
 pooled data at **6.4 % macro-MAPE against 4.9 %** for the per-grind independent fits — a
 modest **in-sample** cost-of-sharing of ~1.5 pp. This is an in-sample compatibility test
 (it scores the same pooled observations it was fitted to), **not** a held-out prediction.
-A **nested reduced-model ladder** (`reduced_model_ladder`, review A3-19) makes its
-adequacy auditable: mean in-sample macro-MAPE runs one-constant **7.1 %** (1 param) →
+An **in-sample comparator ladder** (`reduced_model_ladder`, review A3-19) makes its
+adequacy auditable. These are **non-nested models of unequal flexibility, each scored on
+its own fitting data** (no complexity penalty or held-out evaluation), so the comparison
+is descriptive: mean in-sample macro-MAPE runs one-constant **7.1 %** (1 param) →
 per-grind-constant **5.1 %** (3 params) → shared-mechanistic **6.4 %** (2 params) →
-per-grind-mechanistic **4.9 %** (6 params). The decisive comparison is that the
-2-parameter **shared mechanistic model beats the 3-parameter per-grind constant in 0 of 6
-fits** — i.e. the mechanistic structure explains essentially nothing in-sample beyond
-grind-level offsets, consistent with the small held-out skill above.
+per-grind-mechanistic **4.9 %** (6 params). The salient comparison is that the
+2-parameter **shared mechanistic model has lower in-sample MAPE than the 3-parameter
+per-grind constant in none of six variety–solute comparisons** — i.e. the mechanistic
+response did not improve in-sample MAPE over grind-specific levels in this dataset,
+consistent with the small held-out skill above (this is a descriptive in-sample
+comparison, not proof that mechanism "explains nothing").
 
 The `(inventory, rate)` split is **degenerate within a grind** — the fitted rate flips
 with incidental choices (§4). Propagating the **discrete 10 %-near-optimal MAPE grid set**
@@ -561,12 +570,16 @@ angeloni coffee) whose frozen held-out error is modest at the matched endpoint b
 incremental skill over a level-only baseline is small, and which does not, on this
 dataset, identify the kinetic rate.**
 
-**Standing position.** `pannusch2024` remains a Schmieder-calibrated runtime;
-`angeloni2023` is an independent target. A refit to angeloni transfers across grind
-(matched mass) but is a new calibration, not evidence that the original kinetics are
-identified. This scoping supersedes both the earlier "gap closed / inventory-vs-
-kinetic" reading *and* the subsequent "does not transfer across grind" reading — the
-first over-claimed identification, the second was an endpoint artefact.
+**Standing position.** `pannusch2024` remains calibrated to the Schmieder fraction
+campaign, whereas `angeloni2023` is an independent target campaign. After
+target-specific O-grind recalibration and matched-endpoint mapping, absolute C/F errors
+were modest, but performance was **nearly matched by an O-trained level-only constant**
+(pooled 8.2 % vs 8.6 %; the mechanism was worse on 50/108 held-out points). The result
+therefore supports **endpoint prediction stability under the tested within-campaign
+design, not transfer of an identified kinetic mechanism**. This scoping supersedes both
+the earlier "gap closed / inventory-vs-kinetic" reading *and* the subsequent "does not
+transfer across grind" reading — the first over-claimed identification, the second was
+an endpoint artefact.
 
 ## 8. Open gaps this paper defines
 
@@ -635,7 +648,7 @@ quantities, not verdicts.
   **before** the per-group target level is fitted. The solute/variety group offsets
   motivate the target-level recalibration; a per-group level **can** remove such offsets,
   so this figure motivates rather than proves irreducibility (A4-08). Within-group (T,p)
-  structure after level-fitting is the owed follow-up (§10.14, deferred).
+  structure after level-fitting is the owed follow-up (deferred; see §8 Open gaps).
 
 ## 9. Related work
 

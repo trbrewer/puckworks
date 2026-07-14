@@ -584,12 +584,15 @@ angeloni coffee) whose frozen held-out error is modest at the matched endpoint b
 incremental skill over a level-only baseline is small, and which does not, on this
 dataset, identify the kinetic rate.**
 
-**Standing position.** `pannusch2024` remains a Schmieder-calibrated runtime;
-`angeloni2023` is an independent target. A refit to angeloni transfers across grind
-(matched mass) but is a new calibration, not evidence that the original kinetics are
-identified. This scoping supersedes both the earlier "gap closed / inventory-vs-
-kinetic" reading *and* the subsequent "does not transfer across grind" reading — the
-first over-claimed identification, the second was an endpoint artefact.
+**Standing position.** `pannusch2024` remains calibrated to the Schmieder fraction
+campaign, whereas `angeloni2023` is an independent target campaign. After
+target-specific O-grind recalibration and matched-endpoint mapping, absolute C/F errors
+were modest, but performance was nearly matched by an O-trained level-only constant
+(pooled 8.2 % vs 8.6 %; worse on 50/108 held-out points). The result therefore supports
+endpoint prediction stability under the tested within-campaign design, not transfer of
+an identified kinetic mechanism. This scoping supersedes both the earlier "gap closed /
+inventory-vs-kinetic" reading *and* the subsequent "does not transfer across grind"
+reading — the first over-claimed identification, the second was an endpoint artefact.
 
 ## 6. Limitations and future work
 

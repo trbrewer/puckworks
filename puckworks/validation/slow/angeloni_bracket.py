@@ -589,10 +589,12 @@ def validate_refit_granulometry():
         no refit. If the fit is a transferable coffee property it should hold.
     (2) DEGENERACY: refit independently at O/C/F and compare the fitted knobs.
 
-    Finding (CORRECTED at matched mass, review B1): the O-fit (level+rate PAIR)
-    transfers REASONABLY to the held-out grinds (held-out C/F MAPE ~3-18%), a large
-    improvement over the pre-correction fixed-25s result (~25-49%) which was mostly
-    an unmatched-endpoint artifact. This EMPIRICALLY illustrates the identifiability
+    Finding (CORRECTED at matched mass, review B1; A-08): the O-fit (level+rate PAIR)
+    yields MODEST ABSOLUTE ENDPOINT ERROR on the held-out grinds (held-out C/F MAPE
+    ~3-18%), a large improvement over the pre-correction fixed-25s result (~25-49%)
+    which was mostly an unmatched-endpoint artifact -- but it adds LITTLE SKILL over an
+    O-trained level-only constant (see `transfer_skill_vs_baselines`). This is endpoint
+    prediction stability, NOT transfer of an identified kinetic mechanism. This EMPIRICALLY illustrates the identifiability
     lesson (review M1): the (rate_scale, c_s0) split is DEGENERATE WITHIN a grind
     (the fitted rate flips across flow-map/domain; see identifiability_panel), yet
     predictions along that compensating manifold stay stable across grind -- so
@@ -1218,8 +1220,9 @@ def identifiability_panel_convergence(variety="Arabica", solute="caffeine"):
     """GRID-DENSITY + DOMAIN convergence for the identifiability panel (review
     A2-06/07): re-run the panel at increasing rate-grid densities (18/36/72) on the
     default domain, and on a NARROWER and a WIDER domain, and report the stability of
-    the condition number, curvature coupling, and the DOMAIN-INDEPENDENT profile
-    log-width. The point is to show the flat-valley conclusion is not an artefact of a
+    the condition number, curvature coupling, and the profile log-width (which stays
+    right-censored at the upper domain edge; review MC14 -- NOT domain-independent).
+    The point is to show the flat-valley conclusion is not an artefact of a
     coarse grid or the chosen domain, and to flag any threshold set that touches a
     sweep boundary (right-censored). NOTE: several 1-2 min panels (slow; hand-run)."""
     import numpy as np
@@ -1318,7 +1321,8 @@ def identifiability_panel_convergence(variety="Arabica", solute="caffeine"):
         condition_number_stable_across_density=kappa_stable,
         log_width_stable_across_density=lw_stable,
         verdict=("Across rate grids of 18/36/72/144 points the log-parameter SSE "
-                 "condition number and the domain-independent profile log-width are "
+                 "condition number and the profile log-width (right-censored at the "
+                 "upper edge) are "
                  "stable (kappa stable=%s, log-width stable=%s), and the flat valley "
                  "persists on a narrower [0.3,3] and a wider [0.1,10] domain. A GRID-FREE "
                  "continuous Brent optimiser on the profiled SSE places the rate optimum "
