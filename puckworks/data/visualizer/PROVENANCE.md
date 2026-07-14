@@ -116,10 +116,17 @@ aggregate_stats.csv    # DERIVED aggregate stats only (TRACKED)
 ## How to (re)populate
 ```
 pip install -e ".[harvest]"
-export PUCKWORKS_VIS_SALT="<a private salt>"    # production runs MUST set this
-python -m puckworks.lib.visualizer_harvest full            # initial crawl
-python -m puckworks.lib.visualizer_harvest incremental     # re-run: only new/updated
-python -m puckworks.lib.visualizer_harvest stats --write-aggregate   # refresh the tracked CSV
+export PUCKWORKS_VIS_SALT=$(cat puckworks/data/visualizer/.harvest_salt)   # keep this salt STABLE
+python -m puckworks.lib.visualizer_harvest full --req-per-min 10          # initial crawl
+python -m puckworks.lib.visualizer_harvest incremental --req-per-min 10   # re-run: only new/updated
+python -m puckworks.lib.visualizer_harvest stats --write-aggregate        # refresh the tracked CSV
 ```
+**Rate:** use `--req-per-min 10` (verified safe). Sustained **30/min returned HTTP 429**
+against the live API (2026-07-14) — the harvester backs off and now stops gracefully +
+resumes, but 10/min avoids tripping the limit at all. **Completing the full corpus is a
+multi-hour uninterrupted run** — best on a machine without a background-job reaper. The
+crawl is fully resumable (id-dedup + `_cursor.json`): re-run `full` and it continues from
+where it stopped, with **no data loss** on interruption. Refresh `aggregate_stats.csv`
+(the only tracked derived artifact) once the harvest is substantially complete.
 Tests use the committed fixtures in `tests/fixtures/visualizer/`, never the live
 API. The harvester is not a test dependency and is not in `run_all_gates`.
