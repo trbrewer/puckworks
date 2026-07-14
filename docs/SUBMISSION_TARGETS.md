@@ -1,5 +1,13 @@
 # Submission targets for Paper A and Paper B
 
+> **Portfolio forked 2026-07-14 (see `CLAIM_OWNERSHIP.md` / `PAPER_OUTLINE.md` §0):**
+> "Paper B" below now refers to the **narrow temporal recut, Paper B2**
+> (`PAPER_B2_TEMPORAL_OUTLINE.md`) — the APS DFD 2026 abstract already uses the temporal
+> story without the RSM lead or a channeling-instability claim, so it maps cleanly to B2.
+> A third **methods/resource paper (Puckworks, Paper 3)** and a deferred **Paper 4**
+> (spatial/control) are new; venue scouting for Paper 3 (JOSS / SoftwareX / methods
+> journal) and Paper 4 is **owed** and not yet in the ledger below.
+
 **Verified:** 12 July 2026  
 **Reference project:** [`trbrewer/puckworks`](https://github.com/trbrewer/puckworks)  
 **Purpose:** identify and rank credible conferences, journals, proceedings, visual-science venues, and industry-facing opportunities for Paper A and Paper B, while confirming whether submissions are open and recording the applicable dates and requirements.

@@ -24,20 +24,23 @@ evidence-strength + provenance. The canonical full-page PNGs stay
 
 ## 0. How many papers?
 
-Two independent papers plus a possible methods note. The split is endorsed by the
-review. **Finish Paper A first** — its evidentiary chain is much stronger.
+**PORTFOLIO FORKED 2026-07-14 → three near-term papers + one deferred** (executing
+`PUBLICATION_STRATEGY_REVIEW.md`; ownership map in `CLAIM_OWNERSHIP.md`). The earlier
+"two papers + optional methods note" is superseded: the methods contribution is now a
+full paper, and the broad Paper B is recut into a narrow temporal paper (its N-tube +
+RSM material re-homed). **Finish Paper A first** (scope-frozen), then recut Paper B.
 
-| | Paper A (extraction / identifiability) | Paper B (flow / bed-dynamics) |
-|---|---|---|
-| thesis | single-grind whole-cup data cannot separate inventory from kinetics; fractions restore the rate | **mechanism discrimination + model-hierarchy limits** for the fine-grind response and time-dependent flow (NOT "the anomaly is a channeling instability") |
-| status | **manuscript draft `docs/PAPER_A_DRAFT.md`** (converted from `ANALYSIS_transfer.md`, 2026-07-12); **amber–green** — owes Methods polish, an identifiability panel, related-work search, and a joint multi-grind fit | outline below; **not manuscript-ready — needs reanalysis, not just prose/figures** |
-| core data | angeloni2023 (independent), schmieder2023 fractions | schmieder2023 RSM (per observable), waszkiewicz2025 traces, cameron2020, romancorrochano2017 |
-| core result | flat valley (G6); fractions resolve it | model-capacity discrimination + null-first κ(t) ladder + regime-dependent cross-pressure + an exploratory concentration result (G-lat) |
-| venue feel | food-analytical / chemometrics | transport in porous media / applied math (Foster–Moroney lineage) |
+| | Paper A (`PAPER_A_DRAFT.md`) | Paper B2 (`PAPER_B2_TEMPORAL_OUTLINE.md`) | Paper 3 (`paper3_resource/`) | Paper 4 (`future/`) |
+|---|---|---|---|---|
+| title | The Cup Hides the Clock | One Flow Curve, Many Causes | Puckworks (executable evidence registry) | Spatial concentration & control mode |
+| thesis | whole-cup data cannot separate inventory from kinetics; fractions + orthogonal info restore the rate | a flow trace can require temporal dynamics but not identify the bed mechanism; perturbations discriminate | provenance-aware typed-contract registry enables matched-observable comparison without silent merges | control-mode + lateral coupling govern flow-heterogeneity amplification |
+| status | complete + submit (scope-frozen; 5th review in flight) | fork scaffold (recut from `PAPER_B_DRAFT.md`) | develop as methods/resource paper | **deferred** until physics + data mature |
+| venue feel | food-analytical / chemometrics / applied inverse problems | transport in porous media / systems identification | executable-review / methods / software (JOSS, SoftwareX) | porous-media / fluid physics |
 
-A short **methods note** on the registry (typed contracts, validation-strength
-vocabulary, no-silent-constant-merge, and now **no-silent-observable-merge**)
-could stand alone or be the shared Methods spine. Defer it.
+The broad `PAPER_B_DRAFT.md` is **retained intact** as the technical synthesis and the
+source the forks draw from; it is not itself submitted. The N-tube (Result 3) and the
+Schmieder RSM audit keep their code in the shared registry — only their *publication home*
+moved (Paper 4 and Paper 3 respectively).
 
 ---
 
