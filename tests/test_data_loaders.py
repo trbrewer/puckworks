@@ -424,3 +424,29 @@ def test_pocketscience2024_intake():
         ids = {row["dataset_id"] for row in csv.DictReader(fh)}
     assert "pocketscience2024/edge_ey_condition_means" in ids
     assert "pocketscience2024/lrr_scalars" in ids
+
+
+def test_mckeonaloe2022_basket_intake():
+    """mckeonaloe2022 basket open-area + hole geometry (data-only, G9 seed): 4 rows
+    (2 baskets x 2 faces) load, carry the card's structure, and are in the MANIFEST.
+    Single-specimen hobbyist imaging -- guards the transcription + manifest contract."""
+    import csv
+    import os
+
+    rows = pwdata.mckeonaloe_baskets()
+    assert len(rows) == 4
+    need = {"basket", "face", "open_area_pct", "mean_hole_diam_um", "std_hole_diam_um"}
+    assert need <= set(rows[0].keys())
+
+    by = {(r["basket"], r["face"]): r for r in rows}
+    # VST has a markedly smaller open area than the Wafo Classic on both faces.
+    assert by[("VST", "exit")]["open_area_pct"] < by[("Wafo_Classic", "exit")]["open_area_pct"]
+    assert by[("VST", "coffee")]["open_area_pct"] < by[("Wafo_Classic", "coffee")]["open_area_pct"]
+    # both baskets taper wider on the coffee face (exit face is flow-limiting):
+    for b in ("Wafo_Classic", "VST"):
+        assert by[(b, "coffee")]["mean_hole_diam_um"] >= by[(b, "exit")]["mean_hole_diam_um"]
+
+    mp = os.path.join(os.path.dirname(__file__), "..", "puckworks", "data", "MANIFEST.csv")
+    with open(mp, newline="", encoding="utf-8") as fh:
+        ids = {row["dataset_id"] for row in csv.DictReader(fh)}
+    assert "mckeonaloe2022/basket_open_area_geometry" in ids

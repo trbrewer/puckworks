@@ -1,0 +1,5 @@
+basket,face,open_area_pct,mean_hole_diam_um,mean_hole_diam_approx,std_hole_diam_um,n_baskets,provenance
+Wafo_Classic,exit,6.2,245,True,30,1,measured (open-area direct; mean diameter read off bar chart)
+Wafo_Classic,coffee,8.8,290,True,30,1,measured (open-area direct; mean diameter read off bar chart)
+VST,exit,2.1,255,True,30,1,measured (open-area direct; mean diameter read off bar chart)
+VST,coffee,2.7,290,True,30,1,measured (open-area direct; mean diameter read off bar chart)

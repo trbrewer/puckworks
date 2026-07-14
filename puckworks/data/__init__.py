@@ -531,6 +531,18 @@ def schulman_baskets():
     return _typed_rows_hashskip(DATA_DIR / "schulman2011" / "basket_geometry.csv")
 
 
+def mckeonaloe_baskets():
+    """mckeonaloe2022 filter-basket open-area + hole geometry: 2 baskets (Wafo Classic,
+    VST) x 2 faces (exit/coffee) with open-area fraction (%) and mean/std hole diameter
+    (µm). SINGLE-SPECIMEN hobbyist imaging (n=1 basket each); open-area is direct, mean
+    diameters are read off the source bar charts (`mean_hole_diam_approx`=True), no pixel
+    calibration or hole count published. Both baskets taper wider on the coffee face
+    (top/bottom mean-diameter ratio > 1, so the exit face is flow-limiting). Complements
+    the multi-brand `schulman_baskets` table for the G9 exit-boundary gap; measures
+    geometry only (no ΔP/resistance) -- a reference/qualitative seed, not a G9 closure."""
+    return _typed_rows_hashskip(DATA_DIR / "mckeonaloe2022" / "basket_open_area_geometry.csv")
+
+
 def angeloni_inventories():
     """angeloni2023 Table 7: measured R&G solid inventory C0_s [mg/L] per species
     (CF/CQA/TR/CA/AA/TA/FA/LP) per variety (Arabica/Robusta). Extraction-inventory

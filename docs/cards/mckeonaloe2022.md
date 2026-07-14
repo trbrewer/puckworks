@@ -2,7 +2,7 @@
 
 **Paper/thesis:** R. McKeon Aloe, "Wafo vs VST: Espresso Filter Basket Analysis," Medium (Coffee Data Science), 27 Dec 2022. No DOI; blog post, not peer-reviewed.
 **Stage(s):** flow (exit-boundary geometry), observables (none) · **Kind:** calibration (data source only)
-**Status:** proposed (card-only)
+**Status:** intaken 2026-07-13 (data-only; card-transcribed open-area + hole-diameter table → `data/mckeonaloe2022/basket_open_area_geometry.csv` + MANIFEST row + `data.mckeonaloe_baskets` loader + smoke test). No component, no gate (reference/qualitative, single-specimen; G9 geometry seed, does not close G9).
 
 ## Scope and mechanism
 Not a model. An imaging measurement of basket exit-hole geometry for two 58 mm baskets: one Wafo Classic and one VST (single specimen each). The author photographed each basket floor from the coffee side ("top") and the exit side ("bottom"), manually aligned the images in Procreate, and measured per-hole diameters on both faces, giving per-hole taper (top/bottom ratio), diameter distributions, and total open-area fraction per face. No flow measurement, no resistance model, no equations — the author explicitly defers "how changing the size difference affects flow" to future work.
