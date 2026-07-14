@@ -367,3 +367,26 @@ def test_waszkiewicz_observed_bins_are_nonnegative():
     noisy = np.cumsum(np.abs(np.sin(t))) + np.sin(6 * t)   # dips below monotone
     bm2, diag2 = observed_bin_masses(t, noisy, edges, 0.0)
     assert bm2.min() >= -1e-9 and diag2["mass_balance_resid_g"] < 1e-6
+
+
+def test_paper_a_bundle_named_headline_and_cited_blocks():
+    """review A-05/A-07: the frozen Paper A bundle must (a) contain every manuscript-cited
+    slow analysis, including flow_map_sensitivity_transfer (A-05); and (b) report the
+    NAMED-solute blind MAPE as the primary headline, distinct from and higher than the
+    proxy-inclusive value (A-07) -- so a proxy-diluted number can never populate the
+    named-solute headline field."""
+    import json
+    import os
+    p = os.path.join(os.path.dirname(__file__), "..", "docs", "figures", "paper_a",
+                     "results.json")
+    if not os.path.exists(p):
+        import pytest
+        pytest.skip("Paper A bundle not computed")
+    b = json.load(open(p))
+    for key in ("per_condition", "flow_map_refinement", "flow_map_sensitivity_transfer",
+                "endpoint_mass_sensitivity", "transfer_skill", "external_waszkiewicz"):
+        assert key in b, f"cited bundle block missing: {key}"
+    pc = b["per_condition"]
+    assert pc["overall_mape_blind"] == pc["overall_mape_blind_named"]           # headline = named
+    assert pc["overall_mape_blind_named_raw"] > pc["overall_mape_blind_proxy_inclusive_raw"]
+    assert pc["overall_mape_blind"] >= 25.0        # ~26.3 named, not the ~22.7 proxy-diluted

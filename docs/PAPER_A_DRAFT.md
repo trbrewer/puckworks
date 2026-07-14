@@ -47,14 +47,16 @@ absolute errors of **~3–18 %** at the point optimum. But absolute error alone 
 establish mechanistic transfer skill: against an **O-trained level-only constant**
 baseline (a single concentration fit to the O grind, carrying no temperature/pressure/
 flow/kinetic response), the mechanistic model's pooled held-out MAPE is **8.2 %** versus
-**8.6 %** for the constant — an incremental skill of only **≈4 %** relative, and the
+**8.6 %** for the constant — an incremental skill of only **≈4 % relative (0.36 pp absolute)**, and the
 model is worse than the constant on **50 of 108 held-out points**. The kinetic/transport
 structure therefore adds little beyond the transferred level; the scientifically robust
 statement is that the fitted level-plus-rate pair does not catastrophically deteriorate
 across grinds, not that the mechanism transfers. Propagating the **discrete 10 %-near-
 optimal MAPE grid set** (rates within 10 % of the O-fit minimum on an 18-point rate grid,
 a declared set — not a continuous manifold) to C/F, the worst **aggregate** held-out MAPE
-rises to **~22 %**; condition-wise prediction envelopes remain owed. A single shared
+rises to **~22 %**. Condition-wise ranges across this finite 18-point tolerance set **are
+reported** (Fig. 4); a continuous, grid-converged profile-prediction propagation remains
+future work. A single shared
 (inventory, rate) fitted jointly to all grinds reconstructs the pooled data at 6.4 %
 macro-MAPE vs 4.9 % for separate per-grind fits — an **in-sample** parameter-sharing
 penalty (not a held-out prediction), whose adequacy must be judged against reduced-model
@@ -160,11 +162,14 @@ i.e. we approximate 40 g as 40 mL — at a hot-beverage density ρ ≈ 0.98–1.
 ≈ 0–2 % (≤ ~0.8 mL) endpoint shift, and the source's own ±2 g tolerance is a further ±5 %.
 We ran the per-endpoint sensitivity sweep (38 / 40 / 42 mL) rather than assert insensitivity
 (`endpoint_mass_sensitivity`). The result is a **quantified caveat, not a dismissal**: the
-overall blind transfer MAPE is *moderately* endpoint-sensitive — it moves ≈ 5.3 pp (19.9 →
-25.2 %) across the ±2 g window — and the finer *trigonelline-hurts-when-inventory-matched*
-detail flips near the +5 % endpoint. What is **robust** across every endpoint is the
-headline: the large per-condition transfer residual itself, and the caffeine inventory-match
-improvement. So the qualitative conclusion (a large, structured residual not removed by
+overall blind per-condition **named-solute** MAPE is *moderately* endpoint-sensitive — it
+moves ≈ 5.0 pp (23.8 → 28.8 %) across the ±2 g window — and the finer
+*trigonelline-hurts-when-inventory-matched* detail flips near the +5 % endpoint. What is
+**robust** across every endpoint is the **blind discrepancy** itself (a large per-condition
+residual) and the caffeine inventory-match improvement. **This sweep quantifies the blind
+O-grind discrepancy only; it is not the O-refit→C/F transfer estimand** (refitting O,
+transferring to C/F, and recomputing the level-only baseline at each endpoint remains
+deferred — review A-18). So the qualitative conclusion (a large, structured blind residual not removed by
 inventory alone) does not hinge on the 40 g ≈ 40 mL approximation, but the exact residual
 magnitude and the trigonelline detail carry a ≈ 5 pp endpoint uncertainty that we state
 here rather than absorb. We use "matched beverage endpoint" rather than "matched 40 g"
@@ -243,12 +248,12 @@ leave-one-condition-out CV of §5 (M4).]*
 | test | result | reading | strength |
 |---|---|---|---|
 | pooled-envelope bracket | model brackets the 3 named solutes + the aggregate proxy | *optimistic* — the 66-shot ranges are wide | external (wide envelope) |
-| per-condition, blind | overall MAPE **22.6 %** (incl. proxy) | > angeloni's own ~9–13 % model | external, per-condition |
-| + Darcy `q~p/μ(T)` flow refinement | **22.6 %** (crude-τ 23.1) | closes only **~0.5 pp** — at matched mass the flow-map choice barely matters | external, per-condition |
+| per-condition, blind | **named-solute macro-MAPE 26.3 %** (proxy-inclusive 22.7 %, reported separately) | > angeloni's own ~9–13 % model | cross-dataset blind comparison, per-condition |
+| + Darcy `q~p/μ(T)` flow refinement | **26.3 %** (crude-τ 26.8) | closes only **~0.5 pp** — at matched mass the flow-map choice barely matters | cross-dataset blind comparison, per-condition |
 | + refit `c_s0` + `rate_scale` (fit 9 on-grid, hold out 2 off-grid O) | **named-solute holdout ≈8.4 %** (aggregate-solids proxy TDS ≈11.5 %, reported separately) | a NEW angeloni calibration | reconstruction (single grind); weak 2-pt holdout |
 
 Two things changed from our earlier draft once the endpoint was matched. First, the
-blind per-condition gap dropped from ~31 % to **22.6 %** — the fixed-25 s window had
+blind per-condition named-solute gap dropped from ~31 % to **26.3 %** — the fixed-25 s window had
 inflated it. Second, the flow-map refinement, which previously appeared to close
 ~5 pp, now closes only ~0.5 pp: **the residence-time "improvement" was largely an
 endpoint artefact, not a flow correction.** The refit then reads a per-species rate
@@ -364,7 +369,7 @@ the natural null. Against an **O-trained MAPE-optimal constant** — one concent
 to the nine O observations and applied unchanged to C/F, with no temperature, pressure,
 flow, or kinetic response — the mechanistic model's pooled held-out MAPE is **8.2 %**
 versus **8.6 %** for the constant (`transfer_skill_vs_baselines`). That is an incremental
-skill of only **≈4 % relative** (0.4 pp), and the model is **worse than the constant on
+skill of only **≈4 % relative** (**0.36 pp** absolute), and the model is **worse than the constant on
 50 of 108 held-out points** (better than a same-(T,p) O lookup, 10.8 %, by ~2.6 pp). The
 honest reading is therefore that the fitted level-plus-rate pair *does not catastrophically
 deteriorate* across grinds — **not** that the kinetic/transport mechanism transfers: its

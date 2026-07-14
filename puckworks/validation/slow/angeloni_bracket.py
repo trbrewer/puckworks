@@ -750,8 +750,10 @@ def validate_refit_granulometry():
                         "O-grind MAPE set (within 10%% of the min on the 18-point rate "
                         "grid) to C/F, the worst AGGREGATE held-out MAPE across the set is "
                         "%.1f%% (vs %.1f%% at the point optimum) -- so the aggregate error "
-                        "is stable across the set, though condition-wise prediction "
-                        "envelopes remain owed (A3-11). The (rate,c_s0) split remains "
+                        "is stable across the set; condition-wise prediction RANGES over "
+                        "this finite 18-point set are now reported (Fig 4), while a "
+                        "continuous/grid-converged profile-prediction propagation remains "
+                        "deferred (A3-11/A-09). The (rate,c_s0) split remains "
                         "DEGENERATE within a grind (the rate flips across flow-map/domain; "
                         "see identifiability_panel)." % (
                             min(hc), max(hc), min(hf), max(hf),

@@ -1,13 +1,13 @@
 {
   "paper": "A",
-  "source_commit": "4d8c0ac423fce76aafb9cbf34b2ee1dedfaf7b55",
+  "source_commit": "5bcc71bbc27e1fc2119c60e6a87d7b2d3b0bd959",
   "git_dirty": true,
   "timestamp_utc": null,
-  "bundle_source_commit": "ce177d78643537ef9c3585ec1085ce9319626f7a",
-  "bundle_matches_head": false,
+  "bundle_source_commit": "5bcc71bbc27e1fc2119c60e6a87d7b2d3b0bd959",
+  "bundle_matches_head": true,
   "release_fresh": false,
   "bundle_schema_version": 2,
-  "bundle_sha256": "3ffbcf142e0ee1bf13c99f1cd6f97aef09270731f8156dedb0cab14d4a35472a",
+  "bundle_sha256": "52a351fda3152043bafc78dceb3629b81fb3dcc2f91013e2b0175967fb4f22c7",
   "environment": {
     "python": "3.13.13",
     "numpy": "2.5.1",
@@ -22,11 +22,11 @@
     "schmieder2023/rsm_coefficients.csv": "9de2503130ad6689f6f0ad08ef0c781b2bcc099687b5db31443edb0a60d08adc",
     "waszkiewicz2025/tds_fractions.csv": "f22ee533f4c3e4c4c2587192a9aefa9af43bf8d47dd4456a611bfd92fb673847",
     "waszkiewicz2025/traces_time_dependent.csv": "40e76f43e1584912b55afcc4f15c28b797bf3ac6c3c380765b408cddd33d9fe9",
-    "puckworks/validation/slow/angeloni_bracket.py": "cfbe74a3915fa79bcdb4cd8b4a122ef89596255b4d26d8e6d91fb839bfabe292",
+    "puckworks/validation/slow/angeloni_bracket.py": "6d1d0e04370c1442999b1ffcca37c26f70c4aac74b255077a288c3dae82d2e53",
     "puckworks/validation/slow/identifiability.py": "2df7da903abc4881f8e2a23e184367705084a0644373befa055c3aca5252f358",
-    "puckworks/figures_paper_a.py": "57edcae66f1ade4d149acacf0f10bd9fd72a068d8881f8f10002a6c5fdae995a",
+    "puckworks/figures_paper_a.py": "b58c388a3ec5befb0a53290c9947b1de51407c8192d8c4ffbd97ebb1e1ba5684",
     "puckworks/paper_a/build.py": "67639ea61c664fa7a884ed3a84f101e7ecbd6798a938647faed0e4076aa7655f",
-    "docs/PAPER_A_DRAFT.md": "40936a4ba4ebea51157f944426131deb708b2b897017223832d2f217a71dfa00"
+    "docs/PAPER_A_DRAFT.md": "54e1518df1e013e9327427133d38053b30514f76637714bc396d3e697b02c0a2"
   },
   "n_claims": 27,
   "n_failures": 0,
@@ -171,7 +171,7 @@
       "claim": "endpoint-mass caveat: MAPE moves ~5pp over 38-42 mL",
       "path": "endpoint_mass_sensitivity.overall_mape_spread_pp",
       "expected": 5.3,
-      "actual": 5.3,
+      "actual": 5.0,
       "tol": 1.5,
       "ok": true
     },
