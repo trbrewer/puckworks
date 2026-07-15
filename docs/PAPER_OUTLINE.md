@@ -30,11 +30,11 @@ evidence-strength + provenance. The canonical full-page PNGs stay
 full paper, and the broad Paper B is recut into a narrow temporal paper (its N-tube +
 RSM material re-homed). **Finish Paper A first** (scope-frozen), then recut Paper B.
 
-| | Paper A (`PAPER_A_DRAFT.md`) | Paper B2 (`PAPER_B2_TEMPORAL_OUTLINE.md`) | Paper 3 (`paper3_resource/`) | Paper 4 (`future/`) |
+| | Paper A (`PAPER_A_DRAFT.md`) | Paper B2 (`PAPER_B2_TEMPORAL_DRAFT.md`) | Paper 3 (`PAPER_3_PUCKWORKS_DRAFT.md`) | Paper 4 (`future/`) |
 |---|---|---|---|---|
 | title | The Cup Hides the Clock | One Flow Curve, Many Causes | Puckworks (executable evidence registry) | Spatial concentration & control mode |
 | thesis | whole-cup data cannot separate inventory from kinetics; fractions + orthogonal info restore the rate | a flow trace can require temporal dynamics but not identify the bed mechanism; perturbations discriminate | provenance-aware typed-contract registry enables matched-observable comparison without silent merges | control-mode + lateral coupling govern flow-heterogeneity amplification |
-| status | complete + submit (scope-frozen; 5th review in flight) | fork scaffold (recut from `PAPER_B_DRAFT.md`) | develop as methods/resource paper | **deferred** until physics + data mature |
+| status | complete + submit (scope-frozen; 5th review in flight) | **draft realized** (2026-07-15; outline `PAPER_B2_TEMPORAL_OUTLINE.md`) | **draft realized** (2026-07-15; outline `paper3_resource/`; visualizer governance + timeframe-catch wired in) | **deferred** until physics + data mature |
 | venue feel | food-analytical / chemometrics / applied inverse problems | transport in porous media / systems identification | executable-review / methods / software (JOSS, SoftwareX) | porous-media / fluid physics |
 
 The broad `PAPER_B_DRAFT.md` is **retained intact** as the technical synthesis and the

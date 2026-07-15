@@ -17,8 +17,8 @@ the source the forks draw from; nothing is deleted and no analysis code is moved
 | # | Paper | Doc | Status |
 |---|---|---|---|
 | A | **The Cup Hides the Clock** — observation resolution & practical identifiability | `PAPER_A_DRAFT.md` | complete + submit (scope-frozen; 5th review in flight) |
-| B2 | **One Flow Curve, Many Causes** — null-first temporal inference & perturbation design | `PAPER_B2_TEMPORAL_OUTLINE.md` | fork scaffold (recut from `PAPER_B_DRAFT.md`) |
-| 3 | **Puckworks** — executable, provenance-aware evidence registry | `paper3_resource/PAPER_3_PUCKWORKS_OUTLINE.md` | develop as methods/resource paper |
+| B2 | **One Flow Curve, Many Causes** — null-first temporal inference & perturbation design | `PAPER_B2_TEMPORAL_DRAFT.md` (outline: `PAPER_B2_TEMPORAL_OUTLINE.md`) | **draft realized** (2026-07-15) — reviewed against this map + evidence discipline |
+| 3 | **Puckworks** — executable, provenance-aware evidence registry | `PAPER_3_PUCKWORKS_DRAFT.md` (outline: `paper3_resource/PAPER_3_PUCKWORKS_OUTLINE.md`) | **draft realized** (2026-07-15) — visualizer governance + timeframe-catch wired in |
 | 4 | **Spatial concentration & control mode** (future) | `future/PAPER_4_SPATIAL_CONTROL_NOTE.md` | deferred until physics + data mature |
 | — | Broad Paper B (superseded as a publication unit) | `PAPER_B_DRAFT.md` | **retained as technical synthesis + fork source; not itself submitted** |
 
@@ -46,6 +46,8 @@ the source the forks draw from; nothing is deleted and no analysis code is moved
 | Provenance/evidence tiers; manifests; claim bundles; strict release verification | ROADMAP §0/§7 + build | **3** | reproducibility architecture |
 | Experiment-design-from-disagreement output | harnesses / PUBLIC_VALUE | **3** | Experiment-design section |
 | End-to-end named-shot scorecard (PV-19) | PUBLIC_VALUE | **3** | evidentiary accounting demo |
+| External visualizer community corpus — governance/attribution/honest scope (ecological stress test, not validation; PII-stripped; attribution-required) | Paper 3 §6.6 | **3** | data-governance contribution; corpus still harvesting, no counts/results reported |
+| Live observable-contract catch — timeframe-location harvest bug (missing≠zero on ingested data) | Paper 3 §7.4 | **3** | Demonstration 1 addendum; real event (`visualizerCoffee_DATA_USE.md` §8.1, fix commit `09cbb19`) |
 | N-tube finite-time flow concentration; floor test; switching convergence | Paper B R3 | **4** | exploratory; deferred |
 | Control-mode (flow vs pressure) & lateral-coupling proxy behaviour | Paper B R3 | **4** | needs a physical lateral operator (CARD-BLOCKED G-lat) |
 | Fine-grind-dip anomaly as a central narrative | Paper B | **4** | demote from B2; future |
