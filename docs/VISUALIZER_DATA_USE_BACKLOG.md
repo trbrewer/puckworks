@@ -49,13 +49,25 @@ gracefully at 3,400 shots (throwaway: recent-window only + the §6/§8 bugs + no
   Deferred sub-item: rename the `raw/` dir (holds Bronze **and** normalized) to a clearer
   `bronze/`+`normalized/` split — cosmetic, do with the §3 latest-version refactor.
 
-### HIGH — before ANY re-harvest (most need the Visualizer-side access first)
-- **§3 latest-version-wins store.** Append-only + index-as-count double-counts on any
-  re-list (reproduced by the reviewer). Need `versions/ latest/ tombstones/` and a loader
-  that defaults to `latest`, keyed on `(shot_id, updated_at, content_hash)`.
-- **§4 deterministic resume.** Timestamp-only, newest-first cursor + integer-second ties →
-  high-water-mark omissions on interruption. Need keyset `(updated_at, id)` / opaque server
-  cursor; never advance the durable watermark on `completed == false`.
+### DONE (committed) — §3 latest-version store + §4 version-aware dedup
+- **§3 latest-version-wins view.** Shards + `_index.csv` stay append-only (the version log);
+  reading now DEFAULTS to latest-per-id. Lib: `latest_index_rows`/`latest_index_map`
+  (collapse index to newest `updated_at` per id, tie→last-written), `iter_store_latest`
+  (one record per id). Data layer: `visualizer_index()` reports `n_shots` (unique live ids)
+  vs `n_versions` (total rows); `visualizer_iter_shots()` defaults to latest, `versions=True`
+  for history; `compute_stats` uses the latest view so re-lists aren't double-counted.
+- **§4 version-aware dedup / no duplicate accumulation.** `_crawl` keys on
+  `id → latest updated_at`: a listed shot is fetched only when new OR its `updated_at` is
+  newer (an edit, stored as a new version); an already-held version is skipped WITHOUT a
+  fetch. Fixes the old "skip if id seen" that missed every edit and the append-dup on
+  re-list. `harvest_incremental` is now a safe periodic top-up; summary adds `n_updated`.
+  Also fixed a truthiness bug: `updated_at`/`duration` of `0` were collapsed to `""` (read
+  back as missing, defeating dedup) — now explicit None checks.
+  Tests: `test_version_dedup_reruns_add_nothing_and_capture_edits` (+ realistic
+  listing/detail `updated_at` agreement in the resume test).
+  *(Note: this is the client-side "acceptable temporary fix" from review §4. A true opaque
+  keyset `(updated_at,id)` server cursor still needs the Visualizer side; not required while
+  we re-list the small recent window and dedup client-side.)*
 - **§8 flow semantics (scientific-safety).** `espresso_flow → flow__kg_per_s` asserts mass
   flow while only flagging volumetric ambiguity. Rename to native + `*__semantic` + only
   populate `mass_flow__kg_per_s` when confirmed. **Staged, not done** — it is a record-schema

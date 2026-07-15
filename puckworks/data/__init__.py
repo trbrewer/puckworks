@@ -207,22 +207,30 @@ _VIS_OUTCOME_SI = {"tds__fraction": "fraction", "ey__fraction": "fraction"}
 
 
 def visualizer_index():
-    """Return the per-shot summary index (raw/_index.csv) if the corpus is on
-    disk, else {'present': False}. Never raises on an absent corpus."""
+    """Return the LATEST-version-per-shot summary (§3) if the corpus is on disk, else
+    {'present': False}. `n_shots` counts unique live shot ids (not stored versions);
+    `n_versions` is the total append-only row count; `rows` is the latest row per id.
+    Never raises on an absent corpus."""
     p = VIS_RAW / "_index.csv"
     if not p.exists():
         return {"present": False}
-    rows = _rows(p)
-    return {"present": True, "n_shots": len(rows), "rows": rows}
+    from types import SimpleNamespace
+    from puckworks.lib import visualizer_harvest as _vh
+    shim = SimpleNamespace(out_dir=VIS_RAW)
+    latest = _vh.latest_index_rows(shim)
+    n_versions = sum(1 for _ in _vh.iter_index_rows(shim))
+    return {"present": True, "n_shots": len(latest), "n_versions": n_versions,
+            "rows": list(latest.values())}
 
 
 def _vis_corpus_present():
     return VIS_RAW.exists() and any(VIS_RAW.glob("shard_*.jsonl.gz"))
 
 
-def visualizer_iter_shots(filter=None):
-    """Yield TidyShot dicts from the gitignored shards (generator; never loads
-    all into memory). Optional ``filter`` is a predicate on the shot dict.
+def visualizer_iter_shots(filter=None, versions=False):
+    """Yield TidyShot dicts from the gitignored shards (generator; never loads all into
+    memory). By default yields the LATEST version per shot id (§3); pass ``versions=True``
+    for the full append-only history. Optional ``filter`` is a predicate on the shot dict.
 
     Raises a clear 'run the harvester' RuntimeError when the corpus is absent —
     this is a MISSING-DATA condition, not a test failure (tests use fixtures)."""
@@ -232,17 +240,13 @@ def visualizer_iter_shots(filter=None):
             "redistributed. Populate it with: pip install -e \".[harvest]\" && "
             "python -m puckworks.lib.visualizer_harvest full "
             "(see puckworks/data/visualizer/PROVENANCE.md)." % VIS_RAW)
-    import gzip
-    import json
-    for shard in sorted(VIS_RAW.glob("shard_*.jsonl.gz")):
-        with gzip.open(shard, "rt", encoding="utf-8") as fh:
-            for line in fh:
-                line = line.strip()
-                if not line:
-                    continue
-                shot = json.loads(line)
-                if filter is None or filter(shot):
-                    yield shot
+    from types import SimpleNamespace
+    from puckworks.lib import visualizer_harvest as _vh
+    shim = SimpleNamespace(out_dir=VIS_RAW)
+    source = _vh.iter_store(shim) if versions else _vh.iter_store_latest(shim)
+    for shot in source:
+        if filter is None or filter(shot):
+            yield shot
 
 
 def visualizer_hydraulic(shot):

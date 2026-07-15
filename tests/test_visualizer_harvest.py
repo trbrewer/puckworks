@@ -231,7 +231,10 @@ def test_full_crawl_page_resume(tmp_path, monkeypatch):
                 return {"data": []}
             return {"data": [{"id": f"id{start+i}", "clock": 10000 - (start + i),
                               "updated_at": start + i} for i in range(min(100, 550 - start))]}
-        return {"id": path.split("/")[-1], "user_id": "u", "updated_at": 1, "data": {}}
+        sid = path.split("/")[-1]
+        # detail carries the SAME updated_at as the listing (id"idN" -> updated_at N), as the
+        # real API does; version-aware dedup relies on that agreement to skip on resume.
+        return {"id": sid, "user_id": "u", "updated_at": int(sid[2:]), "data": {}}
 
     monkeypatch.setattr(vh, "_get", fake_get)
     monkeypatch.setattr(vh, "_requests",
@@ -417,3 +420,60 @@ def test_renormalize_from_bronze_reproduces_records_offline(tmp_path, monkeypatc
         assert row["hashed_user"] == orig[sid]["hashed_user"]   # identity preserved
         assert row["hashed_user"]                                # and non-empty
         assert row["n_samples"] == orig[sid]["n_samples"]        # trace reproduced
+
+
+def _fake_transport(monkeypatch, listing, details):
+    """Wire vh._get to a scripted API: `listing` is a dict page->[(id, updated_at), ...];
+    `details` is a dict id->detail-response. Missing pages return empty."""
+    from puckworks.lib import visualizer_harvest as vh
+    import types
+
+    def fake_get(cfg, session, limiter, path, params=None):
+        if path == "/shots":
+            items = listing.get(params["page"], [])
+            return {"data": [{"id": i, "clock": 10 ** 9 - u, "updated_at": u}
+                             for (i, u) in items]}
+        sid = path.split("/")[-1]
+        return details[sid]
+    monkeypatch.setattr(vh, "_get", fake_get)
+    monkeypatch.setattr(vh, "_requests",
+                        lambda: types.SimpleNamespace(Session=lambda: None,
+                                                      RequestException=Exception))
+
+
+def test_version_dedup_reruns_add_nothing_and_capture_edits(tmp_path, monkeypatch):
+    """§3/§4: re-listing the moving window must NOT re-fetch or duplicate unchanged shots,
+    but MUST capture an edited shot (newer updated_at) as a new version, with the latest
+    view collapsing to one current record per id."""
+    from puckworks.lib import visualizer_harvest as vh
+
+    def detail(sid, upd, press):
+        return {"id": sid, "updated_at": upd, "user_id": f"u-{sid}",
+                "timeframe": [0.0, 1.0], "data": {"espresso_pressure": press}}
+
+    # run 1: two shots
+    listing = {1: [("a", 100), ("b", 101)]}
+    details = {"a": detail("a", 100, [6.0, 9.0]), "b": detail("b", 101, [5.0, 8.0])}
+    _fake_transport(monkeypatch, listing, details)
+    cfg = vh.HarvestConfig(out_dir=str(tmp_path / "s"), max_req_per_min=10 ** 9, salt="t")
+    r1 = vh.harvest_all(cfg)
+    assert r1["n_new"] == 2 and r1["n_fetched"] == 2
+
+    # run 2: SAME window, nothing changed -> zero fetches, zero new, no duplicate rows
+    r2 = vh.harvest_all(cfg)
+    assert r2["n_fetched"] == 0 and r2["n_new"] == 0 and r2["n_updated"] == 0
+
+    # run 3: shot "a" edited (updated_at bumped, pressure changed) -> fetched as a new version
+    details["a"] = detail("a", 200, [6.0, 9.5])
+    listing[1] = [("a", 200), ("b", 101)]
+    r3 = vh.harvest_all(cfg)
+    assert r3["n_fetched"] == 1 and r3["n_new"] == 0 and r3["n_updated"] == 1
+
+    # store now holds 3 VERSIONS but the latest view is 2 shots, with a's newest kept
+    assert sum(1 for _ in vh.iter_store(cfg)) == 3
+    latest = {s["id"]: s for s in vh.iter_store_latest(cfg)}
+    assert set(latest) == {"a", "b"}
+    assert latest["a"]["updated_at"] == 200
+    assert latest["a"]["hydraulic"]["pressure__Pa"][1] == pytest.approx(9.5e5)  # edited value
+    idx = vh.latest_index_rows(cfg)
+    assert len(idx) == 2 and vh._as_int(idx["a"]["updated_at"]) == 200

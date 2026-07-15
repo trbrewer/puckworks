@@ -466,12 +466,68 @@ def _cursor_path(cfg):
     return cfg.out_dir / "_cursor.json"
 
 
+def _as_int(x, default=None):
+    """Tolerant int parse for index fields (updated_at may be '' or a string)."""
+    try:
+        return int(x)
+    except (TypeError, ValueError):
+        return default
+
+
 def _read_index_ids(cfg):
     p = _index_path(cfg)
     if not p.exists():
         return set()
     with open(p, newline="", encoding="utf-8") as fh:
         return {row["id"] for row in csv.DictReader(fh)}
+
+
+def iter_index_rows(cfg):
+    """Yield every row of the append-only _index.csv (one per stored VERSION)."""
+    p = _index_path(cfg)
+    if not p.exists():
+        return
+    with open(p, newline="", encoding="utf-8") as fh:
+        for row in csv.DictReader(fh):
+            yield row
+
+
+def latest_index_rows(cfg):
+    """§3 latest-version view: collapse the append-only index to ONE row per shot id —
+    the latest by `updated_at` (ties resolved to the last-written row). This is the
+    default analytic view; the full version history stays in the shards + index."""
+    latest = {}
+    for row in iter_index_rows(cfg):
+        sid = row.get("id")
+        if sid is None:
+            continue
+        u = _as_int(row.get("updated_at"), default=-1)
+        prev = latest.get(sid)
+        if prev is None or u >= _as_int(prev.get("updated_at"), default=-1):
+            latest[sid] = row
+    return latest
+
+
+def latest_index_map(cfg):
+    """§4 dedup key: {shot_id -> latest stored updated_at (int, -1 if missing)}. Used both
+    to crawl only new/changed shots and to select latest versions when reading the store."""
+    return {sid: _as_int(r.get("updated_at"), default=-1)
+            for sid, r in latest_index_rows(cfg).items()}
+
+
+def iter_store_latest(cfg):
+    """§3: yield exactly one record per shot id — the latest version — from the append-only
+    shards. Superseded versions and duplicate rows from re-listing the moving window are
+    dropped, so counts and aggregates are not double-counted."""
+    winners = latest_index_map(cfg)
+    yielded = set()
+    for rec in iter_store(cfg):
+        sid = rec.get("id")
+        if sid in yielded:
+            continue
+        if _as_int(rec.get("updated_at"), default=-1) == winners.get(sid, -2):
+            yielded.add(sid)
+            yield rec
 
 
 def _index_row(tidy):
@@ -484,8 +540,10 @@ def _index_row(tidy):
         "has_ey": int((tidy["outcomes"].get("ey__fraction")) is not None),
         "has_sensory": int(any(v is not None for v in sensory.values())),
         "n_samples": tidy.get("n_samples", 0),
-        "duration_s": (tidy["context"].get("duration__s") or ""),
-        "updated_at": tidy.get("updated_at") or "",
+        # explicit None checks: a real 0 (duration/updated_at) must NOT collapse to "" via
+        # truthiness -- that would read back as missing and defeat §4 version dedup.
+        "duration_s": (d if (d := tidy["context"].get("duration__s")) is not None else ""),
+        "updated_at": (u if (u := tidy.get("updated_at")) is not None else ""),
     }
 
 
@@ -613,10 +671,14 @@ def _crawl(cfg, updated_after):
     cfg.out_dir.mkdir(parents=True, exist_ok=True)
     session = _requests().Session()
     limiter = _RateLimiter(cfg.max_req_per_min)
-    seen = _read_index_ids(cfg)
+    # §4 version-aware dedup: id -> latest stored updated_at. We fetch a listed shot only
+    # when it is new OR its updated_at is newer than what we hold (an edit); an already-held
+    # version is skipped WITHOUT a fetch. This captures edits (as new versions) instead of
+    # the old "skip if id seen" which silently missed every edit on a periodic re-list.
+    seen_versions = latest_index_map(cfg)
     shard_idx = _next_shard_idx(cfg)
     buffer, index_buffer, bronze_buffer = [], [], []
-    n_fetched = n_new = n_skipped = 0
+    n_fetched = n_new = n_updated = n_skipped = 0
     max_updated = _load_cursor(cfg).get("last_updated_at")
 
     def flush():
@@ -647,8 +709,10 @@ def _crawl(cfg, updated_after):
             cur_page = page
             if cfg.max_requests is not None and n_fetched >= cfg.max_requests:
                 break
-            if sid in seen and updated_after is None:
-                continue  # initial crawl dedups on id
+            upd_i = _as_int(upd, default=None)
+            have = seen_versions.get(sid)
+            if have is not None and upd_i is not None and upd_i <= have:
+                continue  # §4: already hold this version (or newer) -- no fetch
             # DISK GUARD: never fill the drive -- stop gracefully (finally-flush saves)
             # if free space drops below the floor. Checked every 100 fetched shots (cheap).
             if n_fetched % 100 == 0:
@@ -674,9 +738,17 @@ def _crawl(cfg, updated_after):
                 # fields; this is a last-resort guard for anything unforeseen).
                 n_skipped += 1
                 continue
-            if sid not in seen:
-                n_new += 1
-                seen.add(sid)
+            if sid not in seen_versions:
+                n_new += 1        # a shot id we had never stored before
+            elif upd_i is not None and have is not None and upd_i > have:
+                n_updated += 1    # a newer version of a shot we already held (an edit)
+            # record/refresh the latest version we now hold (from the record, fallback list)
+            stored_upd = _as_int(tidy.get("updated_at"), default=upd_i)
+            if stored_upd is not None:
+                seen_versions[sid] = (stored_upd if have is None
+                                      else max(have, stored_upd))
+            elif sid not in seen_versions:
+                seen_versions[sid] = -1
             buffer.append(tidy)
             index_buffer.append(_index_row(tidy))
             if cfg.store_bronze:
@@ -701,7 +773,8 @@ def _crawl(cfg, updated_after):
             # interrupted -> save the page reached so the next run resumes near it.
             _save_list_page(cfg, 1 if completed else cur_page)
     return {
-        "n_fetched": n_fetched, "n_new": n_new, "n_skipped": n_skipped,
+        "n_fetched": n_fetched, "n_new": n_new, "n_updated": n_updated,
+        "n_skipped": n_skipped,
         "rate_limit_wait_s": round(limiter.total_wait_s, 1),
         "cursor": max_updated, "stopped_early": stopped_early,
         "resumed_from_page": start_page, "last_page": cur_page, "completed": completed,
@@ -715,8 +788,11 @@ def harvest_all(cfg):
 
 
 def harvest_incremental(cfg):
-    """Re-run mode: list with updated_after=cursor, fetch+append only new/updated,
-    advance the cursor. Idempotent (dedup on id; last-write-wins on updated_at)."""
+    """Periodic top-up: re-list the public window and fetch only shots that are new or
+    have a newer `updated_at` than the version we already hold (§4 version-aware dedup).
+    Edits are appended as new versions; the latest-view reader (`iter_store_latest`,
+    `latest_index_rows`) collapses to one current record per shot (§3). Safe to re-run:
+    an unchanged shot is skipped without a fetch, so no duplicate accumulation."""
     cursor = _load_cursor(cfg).get("last_updated_at")
     return _crawl(cfg, updated_after=(cursor if cursor is not None else 0))
 
@@ -747,14 +823,15 @@ def _histogram(values, edges):
 
 
 def compute_stats(cfg):
-    """Aggregate coverage/mix/unit-audit statistics over the store (no per-shot rows)."""
+    """Aggregate coverage/mix/unit-audit statistics over the store (no per-shot rows).
+    Uses the §3 latest-version view so re-listed/edited shots are counted once."""
     total = 0
     machines, grinders = {}, {}
     n_tds = n_ey = n_sensory = 0
     durations, peak_pressure, peak_flow = [], [], []
     unit_audit = {"missing_timeframe": 0, "flow_unit_ambiguous": 0,
                   "length_mismatch": 0, "missing_machine": 0}
-    for shot in iter_store(cfg):
+    for shot in iter_store_latest(cfg):
         total += 1
         m = shot.get("machine") or "unknown"
         machines[m] = machines.get(m, 0) + 1
