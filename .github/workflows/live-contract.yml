@@ -1,8 +1,8 @@
 name: live-contract
 # Scheduled Visualizer API schema canary (WP3.1 live-contract lane). Schema-shape only:
 # NO corpus retention, explicit rate cap + privacy filter. Dispatch/schedule ONLY — never PRs.
-# NOTE: the canary script is a WP0 remaining item; this lane is wired but disabled until it
-# lands (guarded by the RUN_LIVE_CANARY secret so it never runs unintentionally).
+# The canary fetches 1 list page + 1 shot detail, asserts the schema shape, and retains
+# NOTHING. Guarded by the RUN_LIVE_CANARY secret so it never runs unintentionally.
 on:
   workflow_dispatch:
   schedule:
@@ -13,4 +13,9 @@ jobs:
     if: ${{ secrets.RUN_LIVE_CANARY == 'true' }}
     steps:
       - uses: actions/checkout@v4
-      - run: echo "live-contract canary not yet implemented (WP0 remaining item)"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[harvest]"
+      - name: Visualizer API schema canary (1 list + 1 detail, NO retention)
+        run: python -m puckworks.lib.visualizer_canary
