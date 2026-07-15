@@ -90,3 +90,30 @@ def test_pressure_atlas_never_pools_ambiguous_flow():
     # the guardrail: the atlas channels are pooling-safe, proxy flow is not
     assert vs.is_pooling_safe(atlas._ACHIEVED) and vs.is_pooling_safe(atlas._GOAL)
     assert vs.is_pooling_safe("flow_reported__native") is False
+
+
+def test_corpus_bundle_products_and_freeze_guard(tmp_path):
+    from puckworks.lib import visualizer_harvest as vh
+    from puckworks.data import visualizer_store as vs
+    from puckworks.analysis import corpus_bundle
+    cfg = vh.HarvestConfig(out_dir=str(tmp_path / "x"), salt="t")
+    a = _shot(cfg, "A", "u1",
+              {"espresso_pressure": [3.0, 9.0, 9.0, 9.0],
+               "espresso_pressure_goal": [3.0, 9.0, 9.0, 9.0]}, extra={"drink_tds": 9.0})
+    snap = _store(tmp_path, [a])                     # classification=exploratory-window
+    bundle = corpus_bundle.build_bundle(snap, dst_dir=tmp_path / "bundle")
+    assert bundle["exploratory"] is True and bundle["bundle_sha256"]
+    prods = bundle["products"]
+    assert set(prods) == {"census", "pressure_atlas", "eligibility", "claim_bundle"}
+    assert prods["claim_bundle"]["corpus"]["n_shots"] == 1
+    assert "latent puck" in prods["claim_bundle"]["evidence_ceiling"]     # ecological ceiling
+    assert (tmp_path / "bundle" / "bundle.json").exists()
+    # deterministic
+    assert corpus_bundle.build_bundle(snap)["bundle_sha256"] == bundle["bundle_sha256"]
+    # a publication bundle is refused on a non-frozen snapshot
+    import pytest as _pt
+    with _pt.raises(RuntimeError, match="publication-freeze"):
+        corpus_bundle.build_bundle(snap, require_freeze=True)
+    # ...but allowed once classified as a freeze
+    frozen = vs.CorpusSnapshot(tmp_path, name="f", classification="publication-freeze")
+    assert corpus_bundle.build_bundle(frozen, require_freeze=True)["exploratory"] is False

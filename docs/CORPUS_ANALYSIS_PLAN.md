@@ -14,7 +14,7 @@ mass flow; keep Visualizer telemetry inside the ecological-evidence ceiling.*
 | PR 3 | WP2 registry schema v2: execution_role / provenance_class / evidence_strength + migration | **landed** (`registry.py` v2) |
 | PR 4 | WP2 Paper-3 generators: Table 1, Appendix A, counts, gate matrix, registry export (producer-backed) | **landed** (`puckworks/paper3/`) |
 | PR 5 | WP3 CI lanes + Paper-3 verify/release extension | **landed** (`.github/workflows/` + `paper3/build.py`) |
-| PR 6 | WP4 frozen-snapshot bundle: final P0/P1/P2 aggregates + sensitivity + claim bundle | **BLOCKED on freeze** (needs a clean final crawl / maintainer export) |
+| PR 6 | WP4 frozen-snapshot bundle: final P0/P1/P2 aggregates + sensitivity + claim bundle | **machinery BUILT** (`corpus_bundle.build_bundle`); final RUN awaits the freeze |
 | PR 7 | Paper integration (Paper 3 first; B2 only where evidence genuinely strengthens it) | **BLOCKED on PR 6** |
 
 ## PR 1 (WP0) — landed so far (`puckworks/data/visualizer_store.py`)
@@ -94,11 +94,20 @@ until the WP0 canary lands), **release** (tag/dispatch clean-build + verify). `p
 verify` is the CI gate: fails on stale artifacts / invalid enums / missing bundle files;
 unclassified evidence is a warning. Tag/Zenodo/DOI stay human. Tests: `test_paper3_build.py`.
 
-## BLOCKED beyond PR 5
-- **PR 6 (freeze bundle)** and **PR 7 (paper integration)** require a **frozen publication
-  snapshot** — a clean final crawl under the current schema OR a maintainer static export.
-  The in-flight crawl is exploratory/mixed-schema (WP0 0.3) and must not be frozen as-is.
-  These are the definition-of-success items that need the Miha export / a deliberate re-crawl.
+## PR 6 machinery (WP4) — `puckworks/analysis/corpus_bundle.py`
+`build_bundle(snapshot, dst_dir, require_freeze)` assembles the census + pressure atlas + all
+eligibility reports + a claim bundle (with the ecological-evidence ceiling) + bundle manifest,
+deterministic + EXPLORATORY-marked. `require_freeze=True` REFUSES a non-`publication-freeze`
+snapshot, so partial/moving results can't be dressed up as paper-grade. Verified end-to-end on
+the rehearsal store (7.1k shots). Test in `test_visualizer_analysis.py`.
+
+## Clean re-crawl in progress → the freeze
+A deliberate single-pass crawl under current v6 code is running into
+`puckworks/data/visualizer/crawl_v6_20260715/` (uniform schema, every shot Bronze-backed, one
+run manifest). When it completes (listing exhausted), freeze it via `freeze_snapshot(...)`
+classification `publication-freeze` and run `build_bundle(snap, require_freeze=True)` → that is
+PR 6. It is a **recent-public cohort**, not the historical corpus (still needs the Miha export
+for that). **PR 7 (paper integration)** then consumes the frozen bundle.
 
 ## Remaining UNBLOCKED sub-items
 - ✅ WP1.3 measurement/source **dictionary render** (md/csv/json, producer-backed).
