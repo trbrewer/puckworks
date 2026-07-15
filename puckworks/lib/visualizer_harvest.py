@@ -14,9 +14,13 @@ Hard constraints honoured here (see the task spec / PROVENANCE.md):
   * PRIVACY — on ingest we DROP user_name, user_id, avatar_url, barista and all
     *_notes free-text; we keep only a salted one-way hash of user_id for
     dedup/selection-bias accounting.
-  * RATE LIMITS — default <=30 req/min with exponential backoff on 429/5xx, a
-    persistent resume cursor and a --max-requests cap. Safely re-runnable and
-    interruptible.
+  * RATE LIMITS (published API docs) — 50 requests/min AND **200 requests / 10 min**
+    per client IP; 429 on exceed. The 10-minute window is the BINDING sustained cap
+    (=20 req/min average), so a long crawl must average <=20/min regardless of the
+    50/min burst allowance. Default is a safe 18/min (180 per 10-min window); the
+    evenly-spaced limiter therefore respects the 10-min window inherently. Exponential
+    backoff on 429/5xx, a persistent resume cursor and a --max-requests cap keep it
+    safely re-runnable and interruptible.
   * UNITS — stored SI at the store boundary; raw units recorded; missing/off-unit
     fields are FLAGGED, not silently coerced (CLAUDE.md rule 7).
   * NETWORK-OPTIONAL — `requests` is lazily imported (the [harvest] extra). The
@@ -120,7 +124,7 @@ _INDEX_COLUMNS = [
 class HarvestConfig:
     base_url: str = _DEFAULT_BASE_URL
     out_dir: Path = _DEFAULT_OUT
-    max_req_per_min: int = 30
+    max_req_per_min: int = 18   # safe under the binding 200-req/10-min IP limit (=20/min)
     max_requests: Optional[int] = None
     shard_size: int = 500
     salt: str = field(default_factory=lambda: os.environ.get("PUCKWORKS_VIS_SALT", ""))
@@ -696,7 +700,7 @@ def main(argv=None):
     p = argparse.ArgumentParser(prog="puckworks.lib.visualizer_harvest")
     p.add_argument("cmd", choices=["full", "incremental", "stats"])
     p.add_argument("--max-requests", type=int, default=None)
-    p.add_argument("--req-per-min", type=int, default=30)
+    p.add_argument("--req-per-min", type=int, default=18)  # under 200/10min IP limit
     p.add_argument("--out", default=str(_DEFAULT_OUT))
     p.add_argument("--min-free-gb", type=float, default=1.0,
                    help="stop gracefully if the drive drops below this many GB free")

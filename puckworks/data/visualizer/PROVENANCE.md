@@ -23,9 +23,13 @@ shots via the documented API is AUTHORIZED by Miha Rekar** (miha@visualizer.coff
 email **2026-07-14**), on these conditions:
 
 - **Access:** through the documented public API, **within the published rate
-  limits** (the API enforces them via errors; no separate bulk export needed).
+  limits** (the API enforces them via 429; no separate bulk export needed).
   Pagination + backoff + resume cursor as implemented here are explicitly
-  sanctioned. Our harvester runs at **≤30 req/min** with exponential backoff.
+  sanctioned. **Published limits (API docs):** 50 req/min AND **200 req / 10 min** per
+  client IP (unauthenticated). The **10-minute window is the binding sustained cap**
+  (=20 req/min average), so a long crawl must average ≤20/min regardless of the 50/min
+  burst allowance. Our harvester default is **18 req/min** (180 per 10-min window,
+  evenly spaced → the 10-min window is respected inherently) with exponential backoff.
 - **ATTRIBUTION (required in any published work):** clearly credit **Visualizer as
   the data source** and **collectively acknowledge the users who make their shots
   public** — *not* individually by name, but as a group whose contributions make
@@ -117,16 +121,19 @@ aggregate_stats.csv    # DERIVED aggregate stats only (TRACKED)
 ```
 pip install -e ".[harvest]"
 export PUCKWORKS_VIS_SALT=$(cat puckworks/data/visualizer/.harvest_salt)   # keep this salt STABLE
-python -m puckworks.lib.visualizer_harvest full --req-per-min 10          # initial crawl
-python -m puckworks.lib.visualizer_harvest incremental --req-per-min 10   # re-run: only new/updated
+python -m puckworks.lib.visualizer_harvest full            # initial crawl (default 18/min)
+python -m puckworks.lib.visualizer_harvest incremental     # re-run: only new/updated
 python -m puckworks.lib.visualizer_harvest stats --write-aggregate        # refresh the tracked CSV
 ```
-**Rate:** use `--req-per-min 10` (verified safe). Sustained **30/min returned HTTP 429**
-against the live API (2026-07-14) — the harvester backs off and now stops gracefully +
-resumes, but 10/min avoids tripping the limit at all. **Completing the full corpus is a
-multi-hour uninterrupted run** — best on a machine without a background-job reaper. The
-crawl is fully resumable (id-dedup + `_cursor.json`): re-run `full` and it continues from
-where it stopped, with **no data loss** on interruption. Refresh `aggregate_stats.csv`
-(the only tracked derived artifact) once the harvest is substantially complete.
+**Rate:** the default **18/min** respects the binding **200-req/10-min** IP limit (=20/min
+average) with margin; do **not** raise it above ~19/min for a *sustained* crawl even
+though 50/min is allowed as a short burst — sustained 25–30/min exceeds 200/10min and
+returns 429 (observed 2026-07-14). The harvester backs off + stops gracefully + resumes
+on any 429, so it is safe either way, but 18/min avoids tripping the window at all.
+**Completing the full corpus is a multi-hour uninterrupted run** — best on a machine
+without a background-job reaper. The crawl is fully resumable (id-dedup + `_cursor.json`):
+re-run `full` and it continues from where it stopped, with **no data loss** on interruption
+(the crawl also stops gracefully if free disk drops below `--min-free-gb`, default 1 GB).
+Refresh `aggregate_stats.csv` (the only tracked derived artifact) once substantially complete.
 Tests use the committed fixtures in `tests/fixtures/visualizer/`, never the live
 API. The harvester is not a test dependency and is not in `run_all_gates`.
