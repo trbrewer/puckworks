@@ -11,9 +11,9 @@ mass flow; keep Visualizer telemetry inside the ecological-evidence ceiling.*
 |---|---|---|
 | PR 1 | WP0 snapshot contract: canonical view, latest-version semantics, manifest, measurement dictionary, QC, v2-bronze design | **in progress** (snapshot contract + dictionary + manifest landed) |
 | PR 2 | WP1 corpus atlas scaffold: shared eligibility engine, fixture-backed P0 census, pressure-only P2 metrics | **landed** (`puckworks/analysis/`) |
-| PR 3 | WP2 registry schema v2: execution_role / provenance_class / evidence_strength + migration | todo |
-| PR 4 | WP2 Paper-3 generators: Table 1, Appendix A, evidence matrix, registry export (producer-backed) | todo |
-| PR 5 | WP3 CI lanes + Paper-3 verify/release extension | todo |
+| PR 3 | WP2 registry schema v2: execution_role / provenance_class / evidence_strength + migration | **landed** (`registry.py` v2) |
+| PR 4 | WP2 Paper-3 generators: Table 1, Appendix A, counts, gate matrix, registry export (producer-backed) | **landed** (`puckworks/paper3/`) |
+| PR 5 | WP3 CI lanes + Paper-3 verify/release extension | **in progress** |
 | PR 6 | WP4 frozen-snapshot bundle: final P0/P1/P2 aggregates + sensitivity + claim bundle | blocked on freeze |
 | PR 7 | Paper integration (Paper 3 first; B2 only where evidence genuinely strengthens it) | todo |
 
@@ -71,6 +71,20 @@ mass flow; keep Visualizer telemetry inside the ecological-evidence ceiling.*
 - [ ] Flow tranche — deferred until quantity kinds are resolved (Gate C); pressure-first stands.
 - [ ] Statistical guardrails beyond one-shot-per-user: user-clustered bootstrap, predeclared
       primary metrics (do at freeze).
+
+## PR 3 (WP2.1) — registry schema v2 (`puckworks/registry.py`)
+Split `kind` into typed `execution_role` / `provenance_class` / `evidence_strength`;
+`register()` back-fills role+provenance from legacy kind/name (all 25 migrate with no edits),
+rejects duplicate ids, validates enums. `kind` kept as deprecated compat. Known debt:
+`evidence_strength` unclassified on all 25 (card-driven; never auto-assigned).
+
+## PR 4 (WP2.3/2.4) — Paper 3 generators (`puckworks/paper3/registry_artifacts.py`)
+Producer-generates, into `docs/paper3_resource/generated/` (deterministic; no timestamp/commit
+embedded): `table1_registry_overview.md`, `appendixA_component_catalog.md`,
+`registry_counts.json`, `component_gate_matrix.csv`, `registry_export.json` (with content
+hashes). CLI `--write` / `--verify`. Test `test_registry_artifacts.py` fails CI on a stale or
+hand-edited artifact (WP2.4). Remaining: populate `evidence_strength` from cards; wire
+component→dataset ids + card cross-reference once components carry dataset ids.
 
 ## Handling the in-flight crawl (WP0 0.3)
 The running crawl is **exploratory / rehearsal**, NOT a publication snapshot. It mixes v1

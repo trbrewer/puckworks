@@ -1,0 +1,27 @@
+{
+  "by_evidence_strength": {
+    "unclassified": 25
+  },
+  "by_execution_role": {
+    "calibration": 13,
+    "runtime": 12
+  },
+  "by_provenance_class": {
+    "project_model": 4,
+    "project_synthesis": 1,
+    "published_port": 17,
+    "reference_only": 3
+  },
+  "by_stage": {
+    "bed_dynamics": 5,
+    "extraction": 8,
+    "flow": 5,
+    "grind": 1,
+    "infiltration": 2,
+    "machine": 2,
+    "packing": 2
+  },
+  "content_sha256": "d0c16a545688a3bb288a2c983d9286ddca2757974fc31865b32049e9043989f1",
+  "n_components": 25,
+  "schema_version": 1
+}
