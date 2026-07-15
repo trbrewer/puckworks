@@ -1,0 +1,20 @@
+name: generated-artifacts
+# Regenerate producer-backed artifacts and FAIL on any drift (WP3.1 generated-artifacts lane).
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify-generated:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]"
+      - name: Paper 3 registry artifacts are up to date
+        run: python -m puckworks.paper3.registry_artifacts --verify
+      - name: Paper 3 build verify (schema + bundle)
+        run: python -m puckworks.paper3.build verify

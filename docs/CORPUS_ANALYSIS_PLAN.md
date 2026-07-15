@@ -13,9 +13,9 @@ mass flow; keep Visualizer telemetry inside the ecological-evidence ceiling.*
 | PR 2 | WP1 corpus atlas scaffold: shared eligibility engine, fixture-backed P0 census, pressure-only P2 metrics | **landed** (`puckworks/analysis/`) |
 | PR 3 | WP2 registry schema v2: execution_role / provenance_class / evidence_strength + migration | **landed** (`registry.py` v2) |
 | PR 4 | WP2 Paper-3 generators: Table 1, Appendix A, counts, gate matrix, registry export (producer-backed) | **landed** (`puckworks/paper3/`) |
-| PR 5 | WP3 CI lanes + Paper-3 verify/release extension | **in progress** |
-| PR 6 | WP4 frozen-snapshot bundle: final P0/P1/P2 aggregates + sensitivity + claim bundle | blocked on freeze |
-| PR 7 | Paper integration (Paper 3 first; B2 only where evidence genuinely strengthens it) | todo |
+| PR 5 | WP3 CI lanes + Paper-3 verify/release extension | **landed** (`.github/workflows/` + `paper3/build.py`) |
+| PR 6 | WP4 frozen-snapshot bundle: final P0/P1/P2 aggregates + sensitivity + claim bundle | **BLOCKED on freeze** (needs a clean final crawl / maintainer export) |
+| PR 7 | Paper integration (Paper 3 first; B2 only where evidence genuinely strengthens it) | **BLOCKED on PR 6** |
 
 ## PR 1 (WP0) — landed so far (`puckworks/data/visualizer_store.py`)
 - **Canonical snapshot view** — `CorpusSnapshot(out_dir, name, classification, as_of)`; the
@@ -85,6 +85,26 @@ embedded): `table1_registry_overview.md`, `appendixA_component_catalog.md`,
 hashes). CLI `--write` / `--verify`. Test `test_registry_artifacts.py` fails CI on a stale or
 hand-edited artifact (WP2.4). Remaining: populate `evidence_strength` from cards; wire
 component→dataset ids + card cross-reference once components carry dataset ids.
+
+## PR 5 (WP3) — CI lanes + Paper 3 verify (`.github/workflows/`, `puckworks/paper3/build.py`)
+Five separated lanes: **quick-pr** (3.10+3.12 matrix, offline unit/integrity — was `gates.yml`),
+**generated-artifacts** (`registry_artifacts --verify` + `build verify`, fails on drift),
+**slow-science** (dispatch+weekly), **live-contract** (scheduled canary, secret-gated, stub
+until the WP0 canary lands), **release** (tag/dispatch clean-build + verify). `paper3.build
+verify` is the CI gate: fails on stale artifacts / invalid enums / missing bundle files;
+unclassified evidence is a warning. Tag/Zenodo/DOI stay human. Tests: `test_paper3_build.py`.
+
+## BLOCKED beyond PR 5
+- **PR 6 (freeze bundle)** and **PR 7 (paper integration)** require a **frozen publication
+  snapshot** — a clean final crawl under the current schema OR a maintainer static export.
+  The in-flight crawl is exploratory/mixed-schema (WP0 0.3) and must not be frozen as-is.
+  These are the definition-of-success items that need the Miha export / a deliberate re-crawl.
+
+## Remaining UNBLOCKED sub-items (worked after PR1–5)
+- WP1.3 measurement/source **dictionary render** (Markdown + CSV/JSON) — a scientific output.
+- WP2 **evidence_strength** population from model cards (card-driven; never auto-assigned).
+- WP0 QC-columns tabular accessor; redacted live-shape fixtures; the live-contract canary.
+- WP5 bounded B2 review prep (related-work matrix, claim→evidence map, figure specs) — P2.
 
 ## Handling the in-flight crawl (WP0 0.3)
 The running crawl is **exploratory / rehearsal**, NOT a publication snapshot. It mixes v1

@@ -1,0 +1,19 @@
+name: release
+# Clean-build + bundle verification on a version tag or explicit dispatch (WP3.1 release lane).
+# Tag creation, Zenodo deposition, and DOI minting remain explicit human actions.
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*", "paper3-v*"]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]"
+      - run: pytest -q
+      - name: Paper 3 build verify
+        run: python -m puckworks.paper3.build verify

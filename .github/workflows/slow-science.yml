@@ -1,0 +1,17 @@
+name: slow-science
+# Marked slow/scientific sweeps — NEVER on ordinary PRs (WP3.1 slow-science lane).
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * 1"   # weekly
+jobs:
+  slow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]"
+      - name: run slow-marked tests (if any) + full suite
+        run: pytest -q
