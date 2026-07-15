@@ -100,11 +100,31 @@ unclassified evidence is a warning. Tag/Zenodo/DOI stay human. Tests: `test_pape
   The in-flight crawl is exploratory/mixed-schema (WP0 0.3) and must not be frozen as-is.
   These are the definition-of-success items that need the Miha export / a deliberate re-crawl.
 
-## Remaining UNBLOCKED sub-items (worked after PR1–5)
-- WP1.3 measurement/source **dictionary render** (Markdown + CSV/JSON) — a scientific output.
-- WP2 **evidence_strength** population from model cards (card-driven; never auto-assigned).
-- WP0 QC-columns tabular accessor; redacted live-shape fixtures; the live-contract canary.
-- WP5 bounded B2 review prep (related-work matrix, claim→evidence map, figure specs) — P2.
+## Remaining UNBLOCKED sub-items
+- ✅ WP1.3 measurement/source **dictionary render** (md/csv/json, producer-backed).
+- ✅ WP0.5 QC-columns tabular accessor (`CorpusSnapshot.qc_table()` + `QC_COLUMNS`).
+- ✅ WP0.6 redacted live-shape **fixture matrix** + contract test
+  (`tests/fixtures/visualizer/shapes/`, `test_visualizer_contract_shapes.py`).
+- ⚠ WP2 **evidence_strength** population — deliberately NOT auto-assigned: per CLAUDE.md
+  ("implement from cards, never from memory; no upgrading validation claims"), assigning
+  evidence tiers to 25 components must be a careful card-by-card pass, not a code sweep.
+  Left flagged as a warning by `validate_registry` / `build verify`. **Needs a human/card pass.**
+- ⛔ WP0 live-contract **canary** — needs network + rate/privacy care; lane wired, script pending.
+- WP5 bounded B2 review prep — P2, manuscript work; better after the atlas is frozen / reviewer input.
+
+## Cycle Definition-of-Success — status
+Met except the freeze-dependent + card-driven items:
+- ✅ stable snapshot interface; direct shard reads discouraged (CorpusSnapshot is the entry point)
+- ✅ deterministic manifests exposing revisions/conflicts/exclusions
+- ✅ privacy-stripped replay layer (Bronze) OR corpus classified exploratory-only (both)
+- ✅ P0 census + P1 dictionary + pressure-first P2 atlas run end-to-end
+- ✅ partial vs frozen cannot be confused (classification + EXPLORATORY marker)
+- ✅ user/profile/source sensitivity automatic (one-shot-per-user)
+- ✅ Paper 3 Table 1 + Appendix A generated from typed live metadata
+- ✅ registry role/provenance/evidence vocabularies explicit (evidence values = card debt)
+- ✅ CI quick / generated-artifact / slow / live-contract / release lanes
+- ⛔ final bundle from a clean checkout of a FROZEN snapshot — blocked on freeze (PR6)
+- ✅ manuscript language respects the ecological ceiling (EXPLORATORY-marked outputs)
 
 ## Handling the in-flight crawl (WP0 0.3)
 The running crawl is **exploratory / rehearsal**, NOT a publication snapshot. It mixes v1

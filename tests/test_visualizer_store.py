@@ -104,6 +104,24 @@ def test_snapshot_manifest_is_deterministic_and_complete(tmp_path):
     assert on_disk == frozen and frozen["classification"] == "publication-freeze"
 
 
+def test_qc_table_flat_columns(tmp_path):
+    cfg = tmp_path / "store"
+    c = vh.HarvestConfig(out_dir=str(cfg), salt="t")
+    good = vh.normalize_shot({"id": "A", "user_id": "u", "updated_at": 1,
+                              "timeframe": [0.0, 1.0, 2.0], "drink_tds": 9.0,
+                              "data": {"espresso_pressure": [6.0, 9.0, 9.0],
+                                       "espresso_pressure_goal": [6.0, 9.0, 9.0]}}, c)
+    _build_store(cfg, [good])
+    rows = list(vs.CorpusSnapshot(cfg).qc_table())
+    assert len(rows) == 1
+    row = rows[0]
+    assert set(row) == set(vs.QC_COLUMNS)                 # exactly the declared columns
+    assert row["id"] == "A" and row["n_samples"] == 3
+    assert row["has_pressure"] is True and row["has_pressure_goal"] is True
+    assert row["has_mass_flow"] is False and row["has_tds"] is True
+    assert row["time_monotonic"] is True and row["n_impossible_flags"] == 0
+
+
 def test_bad_classification_rejected(tmp_path):
     with pytest.raises(ValueError):
         vs.CorpusSnapshot(tmp_path, classification="totally-frozen")

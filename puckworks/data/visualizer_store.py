@@ -26,6 +26,15 @@ from puckworks.lib import visualizer_harvest as _vh
 
 CLASSIFICATIONS = ("exploratory-window", "current-state", "publication-freeze")
 
+# stable column order for CorpusSnapshot.qc_table() rows (WP0.5 tabular QC)
+QC_COLUMNS = (
+    "id", "hashed_user", "machine", "integration_source", "integration_source_provenance",
+    "n_samples", "time_present", "time_valid", "time_missing", "time_monotonic",
+    "time_duplicate_stamps", "dt_median_s", "dt_iqr_s", "has_pressure", "has_pressure_goal",
+    "has_mass_flow", "has_reported_flow", "has_tds", "has_ey", "has_sensory", "duration_s",
+    "start_time", "n_flags", "n_impossible_flags",
+)
+
 
 # --- P1 minimum measurement dictionary (first tranche) --------------------------------------
 # One entry per channel the first analyses touch. `commanded=True` marks a goal/setpoint
@@ -170,6 +179,49 @@ class CorpusSnapshot:
     def reconcile(self):
         """Store integrity report (delegates to the harvester reconciler)."""
         return _vh.reconcile_store(self._cfg)
+
+    def qc_table(self):
+        """Yield one FLAT QC/coverage row (scalar columns, keys in QC_COLUMNS order) per latest
+        shot, so downstream analysis reads tabular QC instead of re-deriving it from the nested
+        record (WP0.5). Channel presence uses the measurement-dictionary names."""
+        for shot in self.latest():
+            hy = shot.get("hydraulic") or {}
+            qc = shot.get("qc") or {}
+            ctx = shot.get("context") or {}
+            oc = shot.get("outcomes") or {}
+            flags = shot.get("flags") or []
+
+            def _has(ch):
+                s = hy.get(ch)
+                return bool(s) and any(x is not None for x in s)
+
+            yield {
+                "id": shot.get("id"),
+                "hashed_user": shot.get("hashed_user"),
+                "machine": ctx.get("machine"),
+                "integration_source": ctx.get("integration_source"),
+                "integration_source_provenance": ctx.get("integration_source_provenance"),
+                "n_samples": shot.get("n_samples") or 0,
+                "time_present": qc.get("time_present"),
+                "time_valid": qc.get("time_valid"),
+                "time_missing": qc.get("time_missing"),
+                "time_monotonic": qc.get("time_monotonic"),
+                "time_duplicate_stamps": qc.get("time_duplicate_stamps"),
+                "dt_median_s": qc.get("dt_median_s"),
+                "dt_iqr_s": qc.get("dt_iqr_s"),
+                "has_pressure": _has("pressure__Pa"),
+                "has_pressure_goal": _has("pressure_goal__Pa"),
+                "has_mass_flow": _has("mass_flow_from_scale__kg_per_s"),
+                "has_reported_flow": _has("flow_reported__native"),
+                "has_tds": oc.get("tds__fraction") is not None,
+                "has_ey": oc.get("ey__fraction") is not None,
+                "has_sensory": any(v is not None
+                                   for v in (oc.get("sensory") or {}).values()),
+                "duration_s": ctx.get("duration__s"),
+                "start_time": ctx.get("start_time"),
+                "n_flags": len(flags),
+                "n_impossible_flags": sum(1 for f in flags if f.startswith("impossible:")),
+            }
 
     # -- manifest ----------------------------------------------------------------------------
     def manifest(self, cutoff=None, collection_start=None, collection_end=None):
