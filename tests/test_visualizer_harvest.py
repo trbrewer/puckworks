@@ -248,3 +248,36 @@ def test_full_crawl_page_resume(tmp_path, monkeypatch):
     import csv
     ids = [row["id"] for row in csv.DictReader(open(tmp_path / "_index.csv"))]
     assert len(ids) == len(set(ids)) == 550                     # all shots, no dupes/misses
+
+
+def test_timeframe_read_from_top_level_and_legacy(monkeypatch):
+    """review §8.1 (P0): the live API puts `timeframe` at the TOP LEVEL of a shot detail,
+    alongside `data` (value channels only). The normalizer must read it there (with a
+    nested `data.timeframe` fallback for legacy fixtures) -- else every live trace loses
+    its time base (n_samples=0, missing:timeframe) despite having values."""
+    from puckworks.lib.visualizer_harvest import normalize_shot, HarvestConfig
+    cfg = HarvestConfig(salt="t")
+    # LIVE layout: timeframe top-level, values under data
+    live = {"id": "a", "user_id": "u", "updated_at": 1,
+            "timeframe": [0.0, 0.5, 1.0],
+            "data": {"espresso_pressure": [0.0, 6.0, 9.0], "espresso_flow": [0.0, 1.0, 2.0]}}
+    t = normalize_shot(live, cfg)
+    assert t["n_samples"] == 3
+    assert t["hydraulic"]["time__s"] == [0.0, 0.5, 1.0]
+    assert not any("timeframe" in f for f in t["flags"])
+    assert len(t["hydraulic"]["pressure__Pa"]) == 3
+    # LEGACY nested layout still works (fallback)
+    legacy = {"id": "b", "user_id": "u", "updated_at": 1,
+              "data": {"timeframe": [0.0, 0.5], "espresso_pressure": [1.0, 2.0]}}
+    assert normalize_shot(legacy, cfg)["n_samples"] == 2
+
+
+def test_sensory_zero_is_kept(monkeypatch):
+    """review §8.6 (P1): sensory scores are validated 0..15, so a real 0 must be kept, not
+    erased to None by truthiness; booleans are excluded; out-of-range is flagged."""
+    from puckworks.lib.visualizer_harvest import normalize_shot, HarvestConfig
+    cfg = HarvestConfig(salt="t")
+    raw = {"id": "c", "user_id": "u", "updated_at": 1, "timeframe": [0.0],
+           "data": {}, "espresso_enjoyment": 0}
+    t = normalize_shot(raw, cfg)
+    assert t["outcomes"]["sensory"]["espresso_enjoyment"] == 0     # kept, not None

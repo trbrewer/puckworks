@@ -333,8 +333,15 @@ def normalize_shot(raw, cfg):
     hashed_user = hash_user(cfg, raw.get("user_id"))
 
     # --- hydraulic tier: SI series on the shared time base ---------------
+    # review §8.1 (P0): the live Visualizer schema/serializer put `timeframe` at the
+    # TOP LEVEL of the shot-detail response, alongside `data` (which holds only the value
+    # channels). The old code read `data.timeframe`, which is absent -> every live trace
+    # was wrongly flagged missing:timeframe with n_samples=0 (values present, NO time
+    # base). Read top-level first, fall back to the nested layout for legacy fixtures.
     hydraulic = {}
-    timeframe = _series(data, "timeframe")
+    timeframe = _series(raw, "timeframe")
+    if timeframe is None:
+        timeframe = _series(data, "timeframe")
     if timeframe is None:
         flags.append("missing:timeframe")
         n_samples = 0
@@ -380,7 +387,15 @@ def normalize_shot(raw, cfg):
     sensory = {}
     for key in _SENSORY_INTS:
         v = raw.get(key)
-        sensory[key] = int(v) if isinstance(v, (int, float)) and v else None
+        # review §8.6 (P1): sensory scores are validated 0..15, so a real 0 must be KEPT
+        # (the old `and v` truthiness turned a valid 0 into None, distorting missingness
+        # and within-user distributions). Booleans are excluded (bool is an int subclass).
+        if isinstance(v, (int, float)) and not isinstance(v, bool):
+            sensory[key] = int(v) if 0 <= v <= 15 else None
+            if not (0 <= v <= 15):
+                flags.append(f"out_of_range:{key}")
+        else:
+            sensory[key] = None
     if not any(v is not None for v in sensory.values()):
         flags.append("missing:sensory")
     outcomes["sensory"] = sensory
