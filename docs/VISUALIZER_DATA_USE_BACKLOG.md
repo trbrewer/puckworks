@@ -68,10 +68,15 @@ gracefully at 3,400 shots (throwaway: recent-window only + the §6/§8 bugs + no
   *(Note: this is the client-side "acceptable temporary fix" from review §4. A true opaque
   keyset `(updated_at,id)` server cursor still needs the Visualizer side; not required while
   we re-list the small recent window and dedup client-side.)*
-- **§8 flow semantics (scientific-safety).** `espresso_flow → flow__kg_per_s` asserts mass
-  flow while only flagging volumetric ambiguity. Rename to native + `*__semantic` + only
-  populate `mass_flow__kg_per_s` when confirmed. **Staged, not done** — it is a record-schema
-  rename that touches the loader + analyses; do with the Bronze/latest refactor, not piecemeal.
+- **§8 flow semantics — DONE (committed).** `espresso_flow`/`espresso_flow_goal` (pump/model
+  estimates, possibly volumetric) are no longer labelled kg/s: kept NATIVE under
+  `flow_reported__native`/`flow_goal_reported__native` with `units.si=None` + a `semantic`
+  tag, flagged `unit_ambiguous:*`, and EXCLUDED from the SI accessor `visualizer_hydraulic`.
+  Only the scale-derived `espresso_flow_weight` (confirmed mass) becomes SI
+  `mass_flow_from_scale__kg_per_s`; `compute_stats` peak-flow uses only that. Data-layer
+  `_VIS_HYDRAULIC_SI` + `visualizer_hydraulic` (skip `si=None`) + `PROVENANCE.md` updated;
+  normalizer schema v2→v3. Test: `test_ambiguous_flow_kept_native_not_labelled_kg_per_s`.
+  Re-applies to already-harvested shots via `renormalize_from_bronze`.
 - **§7 integration/parser source — PARTIAL DONE (committed).** `_integration_source(raw)`
   records the origin app/parser SEPARATELY from `machine`, with provenance: `explicit`
   (a stable Visualizer field, if present) > `inferred` (brewdata) > `unknown` (flagged

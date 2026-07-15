@@ -75,12 +75,18 @@ _PRESSURE_CHANNELS = {
     "espresso_pressure_goal": ("pressure_goal__Pa", "bar", "Pa", lambda x: x * _BAR_TO_PA),
 }
 _FLOW_CHANNELS = {
-    # espresso_flow may be volumetric (mL/s) on some sources; espresso_flow_weight
-    # is the scale-derived mass flow (the trustworthier channel). We treat the
-    # published unit as g/s per the manifest and FLAG the volumetric ambiguity.
-    "espresso_flow": ("flow__kg_per_s", "g/s", "kg/s", lambda x: x * _GPS_TO_KGPS),
-    "espresso_flow_weight": ("flow_weight__kg_per_s", "g/s", "kg/s", lambda x: x * _GPS_TO_KGPS),
-    "espresso_flow_goal": ("flow_goal__kg_per_s", "g/s", "kg/s", lambda x: x * _GPS_TO_KGPS),
+    # SERIALIZER_REVIEW §8: only the SCALE-DERIVED channel is confirmed mass flow, so only it
+    # is converted to SI kg/s. Pump/model-estimated `espresso_flow` (which may be volumetric
+    # mL/s, mass g/s, or a machine proxy) is NOT labelled kg/s -- see _AMBIGUOUS_FLOW_CHANNELS.
+    "espresso_flow_weight": ("mass_flow_from_scale__kg_per_s", "g/s", "kg/s",
+                             lambda x: x * _GPS_TO_KGPS),
+}
+# Reported/estimated flow with UNKNOWN quantity kind: stored NATIVE (no unit conversion, no
+# kg/s label) with an explicit semantic tag. A warning flag alone did not make a kg_per_s
+# column scientifically safe; downstream must opt in knowing the value is not SI mass flow.
+_AMBIGUOUS_FLOW_CHANNELS = {
+    "espresso_flow": ("flow_reported__native", "reported_pump_or_model_estimate"),
+    "espresso_flow_goal": ("flow_goal_reported__native", "goal_reported_estimate"),
 }
 _WEIGHT_CHANNELS = {
     "espresso_weight": ("weight__kg", "g", "kg", lambda x: x * _G_TO_KG),
@@ -93,8 +99,6 @@ _TEMP_CHANNELS = {
 }
 # categorical channel, no unit conversion
 _STATE_CHANNELS = {"espresso_state_change": ("state_change", "code", "code", None)}
-
-_VOLUMETRIC_AMBIGUOUS = {"espresso_flow", "espresso_flow_goal"}
 
 # user-entered outcome scalars (SEPARATE evidence tier)
 _OUTCOME_FRACTIONS = {  # published percent → stored fraction
@@ -380,7 +384,7 @@ def _num(v):
         return (float(m.group(0)), True) if m else (None, True)
 
 
-_NORMALIZE_SCHEMA_VERSION = 2   # bump on any TidyShot field change; v2 adds §7 integration_source
+_NORMALIZE_SCHEMA_VERSION = 3   # v2: §7 integration_source; v3: §8 flow-semantics rename
 
 
 def normalize_shot(raw, cfg, hashed_user_override=None):
@@ -437,8 +441,22 @@ def normalize_shot(raw, cfg, hashed_user_override=None):
             units["hydraulic"][name] = {"raw": raw_u, "si": si_u}
             if n_bad:
                 flags.append(f"bad_samples:{src_key}={n_bad}")
-            if src_key in _VOLUMETRIC_AMBIGUOUS:
-                flags.append(f"unit_ambiguous:{src_key}=volumetric_or_mass")
+
+    # §8 ambiguous flow: kept NATIVE (no conversion, no kg/s label), with an explicit
+    # semantic tag and units.si=None so it is excluded from the SI hydraulic accessor.
+    for src_key, (name, semantic) in _AMBIGUOUS_FLOW_CHANNELS.items():
+        s = _series(data, src_key)
+        if s is None:
+            flags.append(f"missing:{src_key}")
+            continue
+        if timeframe is not None and len(s) != len(timeframe):
+            flags.append(f"length_mismatch:{src_key}")
+        vals, n_bad = _parse_series(s)
+        hydraulic[name] = vals   # native value as reported -- NOT SI mass flow
+        units["hydraulic"][name] = {"raw": "g/s_or_mL/s", "si": None, "semantic": semantic}
+        if n_bad:
+            flags.append(f"bad_samples:{src_key}={n_bad}")
+        flags.append(f"unit_ambiguous:{src_key}=volumetric_or_mass")
 
     # categorical state change: kept as-is (no unit)
     sc = _series(data, "espresso_state_change")
@@ -1027,8 +1045,9 @@ def compute_stats(cfg):
         pp = [x for x in (hy.get("pressure__Pa") or []) if x is not None]
         if pp:
             peak_pressure.append(max(pp) / _BAR_TO_PA)  # report in bar for readability
-        pf = [x for x in (hy.get("flow_weight__kg_per_s") or hy.get("flow__kg_per_s") or [])
-              if x is not None]
+        # §8: only the CONFIRMED scale-derived mass flow is a kg/s quantity; the ambiguous
+        # reported flow is native and must not enter a mass-flow histogram.
+        pf = [x for x in (hy.get("mass_flow_from_scale__kg_per_s") or []) if x is not None]
         if pf:
             peak_flow.append(max(pf) / _GPS_TO_KGPS)  # report in g/s
         for fl in shot.get("flags") or []:

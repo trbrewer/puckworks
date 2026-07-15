@@ -78,9 +78,9 @@ silently coerced (CLAUDE.md rule 7).
 | timeframe | time__s | s | s |
 | espresso_pressure | pressure__Pa | bar | Pa |
 | espresso_pressure_goal | pressure_goal__Pa | bar | Pa |
-| espresso_flow | flow__kg_per_s | g/s* | kg/s |
-| espresso_flow_weight | flow_weight__kg_per_s | g/s | kg/s |
-| espresso_flow_goal | flow_goal__kg_per_s | g/s* | kg/s |
+| espresso_flow | flow_reported__native* | native | *(none — native)* |
+| espresso_flow_weight | mass_flow_from_scale__kg_per_s | g/s | kg/s |
+| espresso_flow_goal | flow_goal_reported__native* | native | *(none — native)* |
 | espresso_weight | weight__kg | g | kg |
 | espresso_water_dispensed | water_dispensed__kg | g | kg |
 | espresso_temperature_basket | temperature_basket__K | degC | K |
@@ -88,9 +88,12 @@ silently coerced (CLAUDE.md rule 7).
 | espresso_temperature_goal | temperature_goal__K | degC | K |
 | espresso_state_change | state_change | code | code |
 
-\* `espresso_flow` / `espresso_flow_goal` may be volumetric (mL/s) rather than
-mass (g/s) depending on the source machine — flagged `unit_ambiguous:*`.
-`espresso_flow_weight` (scale-derived) is the trustworthier flow channel.
+\* SERIALIZER_REVIEW §8: `espresso_flow` / `espresso_flow_goal` are pump/model estimates
+that may be volumetric (mL/s), mass (g/s), or a machine proxy — so they are **kept native**
+(no conversion, `units.si = None`, a `semantic` tag) under `flow_reported__native` /
+`flow_goal_reported__native` and are flagged `unit_ambiguous:*`. They are NOT surfaced by
+`visualizer_hydraulic` (the SI accessor). Only `espresso_flow_weight` (scale-derived) is a
+confirmed mass flow and becomes SI `mass_flow_from_scale__kg_per_s`.
 
 ### outcomes tier (user-entered; separate)
 | raw key | tidy key | raw unit | stored unit |

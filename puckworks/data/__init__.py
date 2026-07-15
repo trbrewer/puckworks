@@ -195,11 +195,14 @@ def paper_b_evidence_dictionary_audit():
 VIS = DATA_DIR / "visualizer"
 VIS_RAW = VIS / "raw"
 
-# stored-unit contract (asserted per CLAUDE.md rule 7)
+# stored-unit contract (asserted per CLAUDE.md rule 7). SERIALIZER_REVIEW §8: only the
+# scale-derived mass flow is a confirmed kg/s quantity; the reported/ambiguous flow channels
+# (flow_reported__native, flow_goal_reported__native) are stored NATIVE with units.si=None
+# and are deliberately absent here so visualizer_hydraulic never surfaces them as SI.
 _VIS_HYDRAULIC_SI = {
     "time__s": "s", "pressure__Pa": "Pa", "pressure_goal__Pa": "Pa",
-    "flow__kg_per_s": "kg/s", "flow_weight__kg_per_s": "kg/s",
-    "flow_goal__kg_per_s": "kg/s", "weight__kg": "kg", "water_dispensed__kg": "kg",
+    "mass_flow_from_scale__kg_per_s": "kg/s", "weight__kg": "kg",
+    "water_dispensed__kg": "kg",
     "temperature_basket__K": "K", "temperature_mix__K": "K",
     "temperature_goal__K": "K",
 }
@@ -259,6 +262,11 @@ def visualizer_hydraulic(shot):
     for name, series in hy.items():
         if name == "state_change":
             out[name] = np.asarray(series)  # categorical codes, no unit
+            continue
+        if (units.get(name) or {}).get("si") is None:
+            # §8: an explicitly-native / unit-ambiguous channel (e.g. reported pump flow) is
+            # NOT SI mass flow -- excluded here so it can't be mistaken for kg/s. Read it
+            # directly from shot["hydraulic"] with its `semantic` tag if you need it.
             continue
         expected = _VIS_HYDRAULIC_SI.get(name)
         if expected is not None:

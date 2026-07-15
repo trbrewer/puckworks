@@ -31,7 +31,8 @@ def test_normalize_splits_three_tiers_with_si_units():
     # hydraulic converted to SI: 9 bar -> 9e5 Pa, 1.9 g/s -> 1.9e-3 kg/s,
     # 6 g -> 6e-3 kg, 90 degC -> 363.15 K
     assert hy["pressure__Pa"][2] == pytest.approx(9.0e5)
-    assert hy["flow_weight__kg_per_s"][2] == pytest.approx(1.9e-3)
+    # §8: scale-derived flow is CONFIRMED mass flow -> SI kg/s
+    assert hy["mass_flow_from_scale__kg_per_s"][2] == pytest.approx(1.9e-3)
     assert hy["weight__kg"][4] == pytest.approx(6.0e-3)
     assert hy["temperature_basket__K"][0] == pytest.approx(363.15)
     # outcomes tier kept SEPARATE, percent -> fraction
@@ -81,6 +82,31 @@ def test_machine_inference_from_brewdata():
 def test_flow_unit_ambiguity_is_flagged_not_coerced_silently():
     tidy = vh.normalize_shot(_load("decent_full.json"), _cfg())
     assert any(f.startswith("unit_ambiguous:espresso_flow") for f in tidy["flags"])
+
+
+def test_ambiguous_flow_kept_native_not_labelled_kg_per_s():
+    """§8: pump/model-estimated flow must NOT be stored as kg/s. It is kept native under
+    flow_reported__native with units.si=None + a semantic tag, and there is NO flow__kg_per_s
+    field asserting mass flow. The SI accessor excludes it."""
+    from puckworks import data as pwdata
+    cfg = _cfg()
+    raw = {"id": "f", "user_id": "u", "updated_at": 1, "timeframe": [0.0, 1.0, 2.0],
+           "data": {"espresso_pressure": [0.0, 6.0, 9.0],
+                    "espresso_flow": [0.0, 1.5, 2.2],           # ambiguous pump estimate
+                    "espresso_flow_weight": [0.0, 1.0, 1.9]}}   # scale-derived mass flow
+    t = vh.normalize_shot(raw, cfg)
+    hy, u = t["hydraulic"], t["units"]["hydraulic"]
+    # ambiguous flow: native value, NOT converted, NOT kg/s
+    assert hy["flow_reported__native"] == [0.0, 1.5, 2.2]
+    assert u["flow_reported__native"]["si"] is None
+    assert u["flow_reported__native"]["semantic"] == "reported_pump_or_model_estimate"
+    assert "flow__kg_per_s" not in hy                 # the old mislabelled field is gone
+    # scale-derived flow: confirmed SI mass flow
+    assert hy["mass_flow_from_scale__kg_per_s"][2] == pytest.approx(1.9e-3)
+    # the SI hydraulic accessor surfaces mass flow but NOT the native reported flow
+    si = pwdata.visualizer_hydraulic(t)
+    assert "mass_flow_from_scale__kg_per_s" in si
+    assert "flow_reported__native" not in si
 
 
 def test_zero_ey_is_treated_missing():
