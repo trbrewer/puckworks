@@ -687,13 +687,34 @@ def iter_quarantine(cfg):
                 yield json.loads(line)
 
 
+def _sha256_file(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as fh:
+        for chunk in iter(lambda: fh.read(1 << 16), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def _atomic_write_jsonl_gz(path, records, ensure_ascii=True):
+    """Write gz-compressed JSONL ATOMICALLY (temp file -> fsync -> os.replace), so a crash
+    or reap mid-write never leaves a torn shard that still reads as valid
+    (SERIALIZER_REVIEW atomicity). `mtime=0` keeps the gzip byte-for-byte reproducible so
+    checksums are stable. Returns the final path."""
+    tmp = path.with_name(path.name + ".tmp")
+    with open(tmp, "wb") as raw:
+        with gzip.GzipFile(fileobj=raw, mode="wb", mtime=0) as gz:
+            for rec in records:
+                gz.write((json.dumps(rec, ensure_ascii=ensure_ascii) + "\n").encode("utf-8"))
+        raw.flush()
+        os.fsync(raw.fileno())   # durable before the atomic rename
+    os.replace(tmp, path)        # atomic on POSIX
+    return path
+
+
 def _write_shard(cfg, shard_idx, tidy_records):
     cfg.out_dir.mkdir(parents=True, exist_ok=True)
-    path = cfg.out_dir / f"shard_{shard_idx:05d}.jsonl.gz"
-    with gzip.open(path, "wt", encoding="utf-8") as fh:
-        for rec in tidy_records:
-            fh.write(json.dumps(rec) + "\n")
-    return path
+    return _atomic_write_jsonl_gz(cfg.out_dir / f"shard_{shard_idx:05d}.jsonl.gz",
+                                  tidy_records, ensure_ascii=True)
 
 
 # --- Bronze: PII-stripped immutable raw layer (SERIALIZER_REVIEW §5) ------
@@ -726,11 +747,8 @@ def _bronze_record(cfg, raw, tidy):
 
 def _write_bronze_shard(cfg, shard_idx, bronze_records):
     cfg.out_dir.mkdir(parents=True, exist_ok=True)
-    path = cfg.out_dir / f"bronze_{shard_idx:05d}.jsonl.gz"
-    with gzip.open(path, "wt", encoding="utf-8") as fh:
-        for rec in bronze_records:
-            fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
-    return path
+    return _atomic_write_jsonl_gz(cfg.out_dir / f"bronze_{shard_idx:05d}.jsonl.gz",
+                                  bronze_records, ensure_ascii=False)
 
 
 def iter_bronze(cfg):
@@ -1006,6 +1024,78 @@ def iter_store(cfg):
                     yield json.loads(line)
 
 
+def rebuild_index(cfg):
+    """Regenerate `_index.csv` from the shards -- the index is DERIVED metadata, not the
+    source of record identity (SERIALIZER_REVIEW: index is rebuildable). Atomic replace.
+    Returns the number of rows written."""
+    rows = [_index_row(rec) for rec in iter_store(cfg)]
+    cfg.out_dir.mkdir(parents=True, exist_ok=True)
+    dst = _index_path(cfg)
+    tmp = dst.with_name(dst.name + ".tmp")
+    with open(tmp, "w", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=_INDEX_COLUMNS)
+        w.writeheader()
+        for r in rows:
+            w.writerow(r)
+        fh.flush()
+        os.fsync(fh.fileno())
+    os.replace(tmp, dst)
+    return len(rows)
+
+
+def reconcile_store(cfg):
+    """Verify store integrity (SERIALIZER_REVIEW reconciliation). Non-destructive; returns a
+    report dict: `ok` plus any problems. Checks that every shard is readable, index and
+    shards agree on ids, there are no duplicate `(id, updated_at)` version keys, the latest
+    view has exactly one record per id, and counts across shards/index/bronze/quarantine."""
+    problems = []
+    shard_ids, version_keys, n_records = set(), set(), 0
+    n_dup_versions = 0
+    for shard in sorted(cfg.out_dir.glob("shard_*.jsonl.gz")):
+        try:
+            with gzip.open(shard, "rt", encoding="utf-8") as fh:
+                for line in fh:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    rec = json.loads(line)
+                    n_records += 1
+                    sid = rec.get("id")
+                    shard_ids.add(sid)
+                    key = (sid, _as_int(rec.get("updated_at"), default=-1))
+                    if key in version_keys:
+                        n_dup_versions += 1
+                    version_keys.add(key)
+        except Exception as exc:                       # torn / corrupt shard
+            problems.append("unreadable_shard:%s:%s" % (shard.name, exc))
+    index_ids, n_index = set(), 0
+    for row in iter_index_rows(cfg):
+        n_index += 1
+        index_ids.add(row.get("id"))
+    records_not_in_index = shard_ids - index_ids
+    index_rows_not_in_store = index_ids - shard_ids
+    if records_not_in_index:
+        problems.append("records_not_in_index:%d" % len(records_not_in_index))
+    if index_rows_not_in_store:
+        problems.append("index_ids_not_in_store:%d" % len(index_rows_not_in_store))
+    if n_dup_versions:
+        problems.append("duplicate_version_keys:%d" % n_dup_versions)
+    n_latest = len(latest_index_rows(cfg))
+    if index_ids and n_latest != len(index_ids):
+        problems.append("latest_view_not_one_per_id:%d!=%d" % (n_latest, len(index_ids)))
+    return {
+        "ok": not problems,
+        "n_shard_records": n_records,
+        "n_index_rows": n_index,
+        "n_unique_ids": len(shard_ids),
+        "n_latest": n_latest,
+        "n_versions_extra": n_records - len(shard_ids),   # edits stored beyond one-per-id
+        "n_bronze": sum(1 for _ in iter_bronze(cfg)),
+        "n_quarantined": sum(1 for _ in iter_quarantine(cfg)),
+        "problems": problems,
+    }
+
+
 def _histogram(values, edges):
     counts = [0] * (len(edges) - 1)
     for v in values:
@@ -1131,7 +1221,8 @@ def _print_summary(title, d):
 def main(argv=None):
     import argparse
     p = argparse.ArgumentParser(prog="puckworks.lib.visualizer_harvest")
-    p.add_argument("cmd", choices=["full", "incremental", "stats"])
+    p.add_argument("cmd", choices=["full", "incremental", "stats", "reconcile",
+                                   "rebuild-index"])
     p.add_argument("--max-requests", type=int, default=None)
     p.add_argument("--req-per-min", type=int, default=18)  # under 200/10min IP limit
     p.add_argument("--out", default=str(_DEFAULT_OUT))
@@ -1148,6 +1239,11 @@ def main(argv=None):
     elif a.cmd == "incremental":
         summary = harvest_incremental(cfg)
         _print_summary("visualizer harvest (incremental)", summary)
+    elif a.cmd == "reconcile":
+        _print_summary("visualizer store reconcile", reconcile_store(cfg))
+    elif a.cmd == "rebuild-index":
+        n = rebuild_index(cfg)
+        print("  rebuilt _index.csv from shards: %d rows" % n)
     else:  # stats
         stats = compute_stats(cfg)
         _print_summary("visualizer store stats", {

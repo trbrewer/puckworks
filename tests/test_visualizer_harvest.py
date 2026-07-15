@@ -596,3 +596,46 @@ def test_integration_source_explicit_inferred_unknown():
     assert unk["context"]["integration_source"] is None
     assert unk["context"]["integration_source_provenance"] == "unknown"
     assert "missing:integration_source" in unk["flags"]
+
+
+def test_shard_writes_are_atomic_no_tmp_leftover(tmp_path, monkeypatch):
+    """Atomicity: shard/bronze writes go via a temp file + fsync + os.replace, leaving no
+    .tmp files behind and producing readable gzip shards."""
+    from puckworks.lib import visualizer_harvest as vh
+    import gzip
+    listing = {1: [("a", 10), ("b", 11)]}
+    details = {sid: {"id": sid, "updated_at": u, "user_id": "u",
+                     "timeframe": [0.0, 1.0], "data": {"espresso_pressure": [6.0, 9.0]}}
+               for sid, u in (("a", 10), ("b", 11))}
+    _fake_transport(monkeypatch, listing, details)
+    cfg = vh.HarvestConfig(out_dir=str(tmp_path / "s"), max_req_per_min=10 ** 9, salt="t")
+    vh.harvest_all(cfg)
+    out = cfg.out_dir
+    assert not list(out.glob("*.tmp"))                       # no torn temp files left
+    shard = sorted(out.glob("shard_*.jsonl.gz"))[0]
+    with gzip.open(shard, "rt") as fh:                        # fully readable gzip
+        assert sum(1 for _ in fh) == 2
+
+
+def test_reconcile_and_rebuild_index(tmp_path, monkeypatch):
+    """Reconciliation reports a clean store; the index is rebuildable derived metadata --
+    deleting it and rebuilding from shards reproduces the same ids, and reconcile stays ok."""
+    from puckworks.lib import visualizer_harvest as vh
+    listing = {1: [("a", 10), ("b", 11), ("c", 12)]}
+    details = {sid: {"id": sid, "updated_at": u, "user_id": "u",
+                     "timeframe": [0.0, 1.0], "data": {"espresso_pressure": [6.0, 9.0]}}
+               for sid, u in (("a", 10), ("b", 11), ("c", 12))}
+    _fake_transport(monkeypatch, listing, details)
+    cfg = vh.HarvestConfig(out_dir=str(tmp_path / "s"), max_req_per_min=10 ** 9, salt="t")
+    vh.harvest_all(cfg)
+
+    r = vh.reconcile_store(cfg)
+    assert r["ok"] and r["problems"] == []
+    assert r["n_unique_ids"] == 3 and r["n_latest"] == 3 and r["n_index_rows"] == 3
+
+    # index is rebuildable from the shards
+    vh._index_path(cfg).unlink()
+    n = vh.rebuild_index(cfg)
+    assert n == 3
+    assert {row["id"] for row in vh.iter_index_rows(cfg)} == {"a", "b", "c"}
+    assert vh.reconcile_store(cfg)["ok"]

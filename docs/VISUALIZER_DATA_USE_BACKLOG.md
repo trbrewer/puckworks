@@ -99,11 +99,21 @@ gracefully at 3,400 shots (throwaway: recent-window only + the §6/§8 bugs + no
   Tests: `test_trace_parsing_tolerates_bad_samples_without_dropping_shot`,
   `test_malformed_record_is_quarantined_not_silently_skipped`.
 
-### MEDIUM — remaining corpus-scale robustness (review §9 metrics, §10, §Atomicity)
+### DONE (committed) — atomicity + reconciliation
+- **Atomic shard/bronze writes.** `_atomic_write_jsonl_gz`: temp → fsync → `os.replace`
+  (`mtime=0` for reproducible gzip / stable checksums), so a crash/reap mid-write never
+  leaves a torn shard that reads as valid. `_write_shard`/`_write_bronze_shard` route through it.
+- **Reconciliation + rebuildable index.** `reconcile_store(cfg)` (non-destructive) verifies
+  every shard readable, index↔shards id agreement, no duplicate `(id, updated_at)` version
+  keys, latest-view one-per-id, and reports shard/index/bronze/quarantine counts.
+  `rebuild_index(cfg)` regenerates `_index.csv` from the shards (index = derived metadata),
+  atomically. CLI: `reconcile`, `rebuild-index`. `_sha256_file` helper. Tests:
+  `test_shard_writes_are_atomic_no_tmp_leftover`, `test_reconcile_and_rebuild_index`.
+
+### MEDIUM — remaining
 - First-class channel **QC metrics** (timestamp monotonicity, sampling jitter, duplicate
   timestamps, flatline, length-vs-timeframe) feeding declared eligibility rules — beyond
   the current `bad_samples`/`length_mismatch`/`missing:*` flags. Overlaps `visualizerCoffee` §8.14.
-- Atomic shard writes (temp→fsync→checksum→rename) + a reconciliation command.
 
 ### DONE (committed) — §10 per-run manifest
 - Every crawl writes `_runs/<run_id>.json` with mode, counts (`n_new/n_updated/n_quarantined`),
