@@ -93,10 +93,17 @@ gracefully at 3,400 shots (throwaway: recent-window only + the §6/§8 bugs + no
 - First-class channel **QC metrics** (timestamp monotonicity, sampling jitter, duplicate
   timestamps, flatline, length-vs-timeframe) feeding declared eligibility rules — beyond
   the current `bad_samples`/`length_mismatch`/`missing:*` flags. Overlaps `visualizerCoffee` §8.14.
-- Retain approved temporal/provenance fields + a per-run **manifest** (run_id, commits,
-  api/normalizer versions, cursors, counts, checksums, salt fingerprint). *(run_id now
-  exists; the manifest file is the remaining piece — §10.)*
 - Atomic shard writes (temp→fsync→checksum→rename) + a reconciliation command.
+
+### DONE (committed) — §10 per-run manifest
+- Every crawl writes `_runs/<run_id>.json` with mode, counts (`n_new/n_updated/n_quarantined`),
+  cursor, `started_at/completed_at`, `harvest_version`, `normalizer_schema_version`,
+  `bronze_schema_version`, `puckworks_commit` (best-effort), config, and a **salt
+  fingerprint** (12-hex of `sha256(salt)`, never the salt). `iter_run_manifests()` reader.
+  So a paper can name the exact corpus state it was built on. Test:
+  `test_run_manifest_written_with_provenance_and_salt_fingerprint`.
+  *(Remaining §10 piece: shard/index checksums in the manifest — pairs with the atomicity
+  item below.)*
 
 ### Acceptance gates before a canonical harvest (review Gates 1–9)
 corpus access · fresh-run reliability · deterministic enumeration · raw fidelity · semantic

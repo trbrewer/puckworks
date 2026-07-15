@@ -523,3 +523,28 @@ def test_malformed_record_is_quarantined_not_silently_skipped(tmp_path, monkeypa
     # the good shot is in the store; the bad one is NOT
     stored = {s["id"] for s in vh.iter_store_latest(cfg)}
     assert stored == {"ok"}
+
+
+def test_run_manifest_written_with_provenance_and_salt_fingerprint(tmp_path, monkeypatch):
+    """§10: every crawl writes a per-run manifest (counts, timestamps, schema versions,
+    mode) with a salt FINGERPRINT — never the salt itself."""
+    from puckworks.lib import visualizer_harvest as vh
+    import json, hashlib
+    listing = {1: [("a", 10), ("b", 11)]}
+    details = {sid: {"id": sid, "updated_at": u, "user_id": "u",
+                     "timeframe": [0.0, 1.0], "data": {"espresso_pressure": [6.0, 9.0]}}
+               for sid, u in (("a", 10), ("b", 11))}
+    _fake_transport(monkeypatch, listing, details)
+    cfg = vh.HarvestConfig(out_dir=str(tmp_path / "s"), max_req_per_min=10 ** 9,
+                           salt="secret-salt")
+    r = vh.harvest_all(cfg)
+    mans = list(vh.iter_run_manifests(cfg))
+    assert len(mans) == 1
+    m = mans[0]
+    assert m["run_id"] == r["run_id"] and m["completed"] is True
+    assert m["n_new"] == 2 and m["mode"] == "full"
+    assert m["normalizer_schema_version"] == vh._NORMALIZE_SCHEMA_VERSION
+    assert m["started_at"] <= m["completed_at"]
+    # the salt never appears; only a fingerprint of it
+    assert "secret-salt" not in json.dumps(m)
+    assert m["salt_fingerprint"] == hashlib.sha256(b"secret-salt").hexdigest()[:12]

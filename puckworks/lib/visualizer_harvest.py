@@ -42,6 +42,7 @@ import math
 import os
 import re
 import shutil
+import subprocess
 import time
 import warnings
 from dataclasses import dataclass, field, replace
@@ -362,6 +363,9 @@ def _num(v):
         return (float(m.group(0)), True) if m else (None, True)
 
 
+_NORMALIZE_SCHEMA_VERSION = 1   # bump when a TidyShot field changes meaning
+
+
 def normalize_shot(raw, cfg, hashed_user_override=None):
     """Turn one raw API shot into a TidyShot dict with SEPARATE evidence tiers.
 
@@ -484,7 +488,7 @@ def normalize_shot(raw, cfg, hashed_user_override=None):
     units["context"]["duration__s"] = {"raw": "s", "si": "s"}
 
     return {
-        "schema_version": 1,
+        "schema_version": _NORMALIZE_SCHEMA_VERSION,
         "id": raw.get("id"),
         "hashed_user": hashed_user,
         "machine": machine,
@@ -747,6 +751,43 @@ def _save_cursor(cfg, last_updated_at):
         json.dump({"last_updated_at": last_updated_at}, fh)
 
 
+# --- run manifest: per-crawl provenance so a paper can name its exact corpus state (§10) --
+_HARVEST_VERSION = 1        # bump when the store layout / crawl contract changes
+
+
+def _git_commit():
+    """Best-effort current git commit for provenance; None if git is unavailable."""
+    try:
+        out = subprocess.run(["git", "rev-parse", "HEAD"],
+                             capture_output=True, text=True, timeout=5)
+        return out.stdout.strip() if out.returncode == 0 and out.stdout.strip() else None
+    except Exception:
+        return None
+
+
+def _runs_dir(cfg):
+    return cfg.out_dir / "_runs"
+
+
+def _write_run_manifest(cfg, manifest):
+    d = _runs_dir(cfg)
+    d.mkdir(parents=True, exist_ok=True)
+    path = d / ("%s.json" % manifest["run_id"])
+    with open(path, "w", encoding="utf-8") as fh:
+        json.dump(manifest, fh, indent=2, sort_keys=True)
+    return path
+
+
+def iter_run_manifests(cfg):
+    """Yield the per-run manifests written by past crawls (provenance ledger)."""
+    d = _runs_dir(cfg)
+    if not d.exists():
+        return
+    for p in sorted(d.glob("*.json")):
+        with open(p, encoding="utf-8") as fh:
+            yield json.load(fh)
+
+
 def _crawl(cfg, updated_after):
     """Shared crawl body for full/incremental. Returns a run summary dict."""
     # Ensure the destination exists BEFORE the first disk-space check (SERIALIZER_REVIEW
@@ -763,7 +804,8 @@ def _crawl(cfg, updated_after):
     shard_idx = _next_shard_idx(cfg)
     buffer, index_buffer, bronze_buffer = [], [], []
     n_fetched = n_new = n_updated = n_quarantined = 0
-    run_id = "run_%d_%d" % (int(time.time()), os.getpid())  # §9/§10 per-run identity
+    started_at = time.time()
+    run_id = "run_%d_%d" % (int(started_at), os.getpid())  # §9/§10 per-run identity
     max_updated = _load_cursor(cfg).get("last_updated_at")
 
     def flush():
@@ -865,7 +907,7 @@ def _crawl(cfg, updated_after):
             # completed -> reset to page 1 so the next run re-scans newest for new shots;
             # interrupted -> save the page reached so the next run resumes near it.
             _save_list_page(cfg, 1 if completed else cur_page)
-    return {
+    summary = {
         "run_id": run_id,
         "n_fetched": n_fetched, "n_new": n_new, "n_updated": n_updated,
         "n_quarantined": n_quarantined,
@@ -873,6 +915,26 @@ def _crawl(cfg, updated_after):
         "cursor": max_updated, "stopped_early": stopped_early,
         "resumed_from_page": start_page, "last_page": cur_page, "completed": completed,
     }
+    # §10 per-run provenance manifest: which corpus state a paper/model was built on.
+    manifest = dict(summary)
+    manifest.update({
+        "mode": "full" if updated_after is None else "incremental",
+        "harvest_version": _HARVEST_VERSION,
+        "normalizer_schema_version": _NORMALIZE_SCHEMA_VERSION,
+        "bronze_schema_version": _BRONZE_SCHEMA_VERSION,
+        "puckworks_commit": _git_commit(),
+        "started_at": started_at,
+        "completed_at": time.time(),
+        "store_bronze": cfg.store_bronze,
+        "salt_fingerprint": hashlib.sha256(cfg.salt.encode("utf-8")).hexdigest()[:12],
+        "config": {"base_url": cfg.base_url, "max_req_per_min": cfg.max_req_per_min,
+                   "shard_size": cfg.shard_size, "min_free_gb": cfg.min_free_gb},
+    })
+    try:
+        _write_run_manifest(cfg, manifest)
+    except Exception:
+        pass   # a manifest write failure must never sink an otherwise-successful crawl
+    return summary
 
 
 def harvest_all(cfg):
