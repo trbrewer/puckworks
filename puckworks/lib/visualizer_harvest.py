@@ -126,7 +126,7 @@ class HarvestConfig:
     out_dir: Path = _DEFAULT_OUT
     max_req_per_min: int = 18   # safe under the binding 200-req/10-min IP limit (=20/min)
     max_requests: Optional[int] = None
-    shard_size: int = 500
+    shard_size: int = 100   # small so progress checkpoints often (survives short reaps)
     salt: str = field(default_factory=lambda: os.environ.get("PUCKWORKS_VIS_SALT", ""))
     items_per_page: int = 100
     timeout_s: float = 30.0
