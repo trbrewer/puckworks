@@ -10,7 +10,7 @@ mass flow; keep Visualizer telemetry inside the ecological-evidence ceiling.*
 | PR | Work package | Status |
 |---|---|---|
 | PR 1 | WP0 snapshot contract: canonical view, latest-version semantics, manifest, measurement dictionary, QC, v2-bronze design | **in progress** (snapshot contract + dictionary + manifest landed) |
-| PR 2 | WP1 corpus atlas scaffold: shared eligibility engine, fixture-backed P0 census, pressure-only P2 metrics | todo |
+| PR 2 | WP1 corpus atlas scaffold: shared eligibility engine, fixture-backed P0 census, pressure-only P2 metrics | **landed** (`puckworks/analysis/`) |
 | PR 3 | WP2 registry schema v2: execution_role / provenance_class / evidence_strength + migration | todo |
 | PR 4 | WP2 Paper-3 generators: Table 1, Appendix A, evidence matrix, registry export (producer-backed) | todo |
 | PR 5 | WP3 CI lanes + Paper-3 verify/release extension | todo |
@@ -46,6 +46,31 @@ mass flow; keep Visualizer telemetry inside the ecological-evidence ceiling.*
 - [ ] Redacted live-shape **fixtures** (top-level + legacy timeframe, revised records, zero
       sensory, mixed samples, ambiguous flow, missing goals, differing source families).
 - [ ] Small scheduled **live-contract canary** (schema-shape only; no retention) — WP3/CI lane.
+
+## PR 2 (WP1) — landed (`puckworks/analysis/`)
+- **Shared eligibility engine** (`visualizer_eligibility.py`): profiles `census_all`,
+  `hydraulic_valid`, `pressure_tracking_valid`, `mass_flow_tracking_valid`,
+  `exploratory_proxy_flow`, `outcome_descriptive_only`; `eligibility_report` gives inclusion
+  + exclusion-flow + source/user concentration.
+- **P0 census** (`visualizer_census.py`): source/machine mix, channel availability, outcome
+  coverage (SEPARATE tier), QC-by-source, duration/n-sample histograms, and a
+  **one-shot-per-user** sensitivity block.
+- **P2 pressure atlas** (`controller_atlas.py`): per-shot commanded-vs-achieved metrics
+  (coverage, goal transitions, RMSE/nRMSE, median/p90 abs error, bias, overshoot), aggregated
+  overall / by source family / one-shot-per-user. Hard guard: only pooling-safe pressure
+  channels (ambiguous flow refused).
+- Every product is a deterministic envelope with the snapshot manifest hash + an EXPLORATORY
+  marker. Tests: `tests/test_visualizer_analysis.py`.
+- **First live-store read (rehearsal, exploratory):** 6,200 shots; `integration_source` all
+  `unknown` (confirms P1-06 — no source-side enum); pressure present 5,929; **max 366 shots
+  from one of 480 users** → strong contributor concentration (why one-shot-per-user matters).
+  Pressure atlas: 1,510 eligible (359 one-per-user), RMSE median ≈2.5 bar. NOT paper-grade.
+
+### PR 2 remaining (before closing WP1)
+- [ ] P1 measurement/source **dictionary render** (Markdown + CSV/JSON) as a scientific output.
+- [ ] Flow tranche — deferred until quantity kinds are resolved (Gate C); pressure-first stands.
+- [ ] Statistical guardrails beyond one-shot-per-user: user-clustered bootstrap, predeclared
+      primary metrics (do at freeze).
 
 ## Handling the in-flight crawl (WP0 0.3)
 The running crawl is **exploratory / rehearsal**, NOT a publication snapshot. It mixes v1
