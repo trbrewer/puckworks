@@ -23,9 +23,14 @@ shots via the documented API is AUTHORIZED by Miha Rekar** (miha@visualizer.coff
 email **2026-07-14**), on these conditions:
 
 - **Access:** through the documented public API, **within the published rate
-  limits** (the API enforces them via 429; no separate bulk export needed).
-  Pagination + backoff + resume cursor as implemented here are explicitly
-  sanctioned. **Published limits (API docs):** 50 req/min AND **200 req / 10 min** per
+  limits** (the API enforces them via 429). Pagination + backoff + resume cursor as
+  implemented here are explicitly sanctioned. **SCOPE CAVEAT (SERIALIZER_REVIEW):** the
+  ordinary unauthenticated API enumerates only the **recent-updated public window** (a
+  `non_premium` ~1-month scope), NOT the full historical corpus — confirmed empirically
+  (all harvested shots fell inside a few-day `updated_at` span). Acquiring the historical
+  corpus needs a **maintainer-generated bulk export or a corpus-scoped token** (Miha).
+  What the current crawler produces is a *recent-public cohort*, not "the Visualizer corpus".
+  **Published limits (API docs):** 50 req/min AND **200 req / 10 min** per
   client IP (unauthenticated). The **10-minute window is the binding sustained cap**
   (=20 req/min average), so a long crawl must average ≤20/min regardless of the 50/min
   burst allowance. Our harvester default is **18 req/min** (180 per 10-min window,
@@ -48,12 +53,18 @@ email **2026-07-14**), on these conditions:
   per-machine random salt so user hashes are not reproducible from the repo; keep it
   stable so incremental runs dedup correctly.
 
-## Privacy (applied at ingest by `normalize_shot`)
-Dropped and never stored: `user_name`, `user_id`, `avatar_url`, `barista`, and
-all free-text (`espresso_notes`, `bean_notes`, `private_notes`, `notes`). The
-only user linkage kept is a **salted one-way hash of `user_id`** (16 hex chars),
-for dedup and selection-bias accounting. The salt defaults to a committed DEV
-value with a loud warning; production harvests must set `PUCKWORKS_VIS_SALT`.
+## Privacy (applied at ingest by `normalize_shot` / `_strip_pii`)
+Dropped at any nesting depth (case-insensitive denylist + `*_url` / `email` / `notes`
+patterns): `user_name`, `user_id`, `avatar[_url]`, `barista`, `email`, the `*_notes`
+free-text, `profile_title`, `tags`, `profile_url`, `image_url`, `owner`, `comment`,
+`location`, `username`. Profile/tags are replaced in context by presence-only signals
+(`profile_present`, `n_tags`). The only user linkage kept is a **salted one-way hash of
+`user_id`** (16 hex chars), for dedup and selection-bias accounting. **This is a denylist
+STOPGAP, not a proof that all free text is removed** (SERIALIZER_REVIEW_UPDATED_2 P1-3): a
+governed recursive allowlist + keyed HMAC (≥128-bit) pseudonym is the intended design for a
+paper-grade corpus; `grinder_model`/`grinder_setting`/`roast_level` string context is
+retained deliberately. The salt defaults to a committed DEV value with a loud warning;
+production harvests must set `PUCKWORKS_VIS_SALT`.
 
 ## Two evidence tiers (never merged into one "shot" record)
 1. **hydraulic** — machine-logged pressure/flow/weight/temperature time series.
@@ -114,29 +125,45 @@ confirmed mass flow and becomes SI `mass_flow_from_scale__kg_per_s`.
 
 ## Store layout (all under `puckworks/data/visualizer/`, gitignored except this file + `aggregate_stats.csv`)
 ```
-raw/shard_*.jsonl.gz   # normalized TidyShot records (NOT committed)
-raw/_index.csv         # per-shot 1-line summary for selection-bias accounting (NOT committed)
-raw/_cursor.json       # resume / incremental cursor (NOT committed)
+raw/shard_*.jsonl.gz   # normalized TidyShot records, atomic write (NOT committed)
+raw/bronze_*.jsonl.gz  # PII-stripped raw payloads for offline re-normalization (NOT committed)
+raw/_index.csv         # per-shot summary + content_sha256 version key (NOT committed)
+raw/_cursor.json       # incremental cursor, advanced only on completed runs (NOT committed)
+raw/_list_page.json    # full-crawl page-resume checkpoint (NOT committed)
+raw/_quarantine.jsonl  # malformed / lifecycle-failed records + payload (NOT committed)
+raw/_runs/*.json       # per-run provenance manifests (NOT committed)
 aggregate_stats.csv    # DERIVED aggregate stats only (TRACKED)
 ```
+Version history is append-only; the default readers/`stats` collapse to the LATEST version
+per shot. `reconcile` / `rebuild-index` subcommands verify and regenerate the derived index.
 
 ## How to (re)populate
 ```
 pip install -e ".[harvest]"
 export PUCKWORKS_VIS_SALT=$(cat puckworks/data/visualizer/.harvest_salt)   # keep this salt STABLE
-python -m puckworks.lib.visualizer_harvest full            # initial crawl (default 18/min)
-python -m puckworks.lib.visualizer_harvest incremental     # re-run: only new/updated
+python -m puckworks.lib.visualizer_harvest full            # crawl the recent-public window (default 18/min)
+python -m puckworks.lib.visualizer_harvest incremental     # re-list window + local version-aware dedup
+python -m puckworks.lib.visualizer_harvest reconcile       # verify store integrity
 python -m puckworks.lib.visualizer_harvest stats --write-aggregate        # refresh the tracked CSV
 ```
+**Incremental is NOT a source-side feed** (SERIALIZER_REVIEW §7.5): the unauthenticated API
+ignores `updated_after`, so `incremental` re-lists the recent window and skips versions we
+already hold by `(id, updated_at, content_sha256)`. Same-integer-second edits cannot be
+detected without a source subsecond/version token.
 **Rate:** the default **18/min** respects the binding **200-req/10-min** IP limit (=20/min
 average) with margin; do **not** raise it above ~19/min for a *sustained* crawl even
 though 50/min is allowed as a short burst — sustained 25–30/min exceeds 200/10min and
 returns 429 (observed 2026-07-14). The harvester backs off + stops gracefully + resumes
 on any 429, so it is safe either way, but 18/min avoids tripping the window at all.
-**Completing the full corpus is a multi-hour uninterrupted run** — best on a machine
-without a background-job reaper. The crawl is fully resumable (id-dedup + `_cursor.json`):
-re-run `full` and it continues from where it stopped, with **no data loss** on interruption
-(the crawl also stops gracefully if free disk drops below `--min-free-gb`, default 1 GB).
+**Runtime/scope (corrected, SERIALIZER_REVIEW §7.6/7.7):** a `full` run captures the recent
+public window, not the historical corpus; at 18/min a *hypothetical* million-record corpus
+would take **~weeks**, so the ordinary API is not the transfer path for a full corpus — that
+needs a maintainer export. Individual normalized + Bronze shard files are written atomically
+and interrupted runs preserve committed shards (re-run `full` to continue; the incremental
+cursor only advances on completed runs, so an interrupted run does not skip records). This is
+**not** an unconditional "no data loss / complete snapshot" guarantee: moving-feed pagination
+is not a coherent snapshot and same-second edits can be missed. The crawl also stops
+gracefully if free disk drops below `--min-free-gb` (default 1 GB).
 Refresh `aggregate_stats.csv` (the only tracked derived artifact) once substantially complete.
 Tests use the committed fixtures in `tests/fixtures/visualizer/`, never the live
 API. The harvester is not a test dependency and is not in `run_all_gates`.

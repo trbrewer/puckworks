@@ -6,6 +6,43 @@ The one **release-blocking data bug is fixed**; the rest are prioritized follow-
 
 ---
 
+## SERIALIZER_REVIEW_UPDATED_2 triage (2026-07-15) — FOURTH review
+
+*Confirms prior fixes hold; reproduces new integrity/governance issues. Unblocked code bugs
+actioned; the rest need the Visualizer side / governance / a large redesign.*
+
+### DONE (committed, tested)
+- **P0-05** detail 403/404/410 → quarantine lifecycle event + CONTINUE (was: 404 stopped the
+  whole crawl); persistent 429/5xx still stop gracefully.
+- **P1-01** re-normalizer refuses a non-empty destination (`replace_dst=True` to override) +
+  per-record quarantine instead of aborting.
+- **P1-02** list/detail id-mismatch quarantined, never stored under the wrong id.
+- **P1-04** `_git_commit` uses the module repo root (not process cwd); manifest adds
+  `normalizer_source_sha256` + `listing_exhausted` (≠ snapshot-complete).
+- **P1-05** reconcile reports `n_norm_without_bronze`; fails on it only with `require_bronze=True`.
+- **P2-02** non-integer sensory flagged (`noninteger_sensory:*`), not truncated.
+- **P1-07** physical-impossibility flags (`impossible:*`) — retained in Bronze, kept out of cohorts.
+- **P2-01** state channel gets length + non-code-value flags (no longer bypasses QC).
+- **P2-07** cursor / list-page / manifest written atomically (temp→fsync→replace).
+- **P1-03** privacy: case-insensitive denylist + drop `*_url`/`email`/`notes` variants
+  (stopgap; governed allowlist + HMAC-128 remains the real fix).
+- **§7 docs** PROVENANCE.md corrected: scope (recent window, not full corpus), privacy (tiered,
+  not blanket free-text drop), incremental (not a source feed), runtime (weeks not hours),
+  resume (no unconditional no-loss/snapshot claim); store-layout updated. Normalizer schema v5→v6.
+
+### DEFERRED — Visualizer-side / governance / large redesign
+- **P0-01** corpus access (Miha export/token) — the standing blocker.
+- **P0-02** moving-feed pagination is not a coherent snapshot; **P0-03** same-second edit
+  discovery — both need a source snapshot or subsecond/version token.
+- **P0-04** multi-file (shard+bronze+index) commit transaction + commit-marker manifests.
+- **P0-06** `brewdata`-only adapters (needs per-integration semantics).
+- **P1-06** explicit source enum; **P1-08** Parquet/DuckDB scale layer; HMAC-128 + allowlist
+  (governance, fragments existing linkage); **P2-03/04/05/06** field-policy/source-unit
+  contracts; **P2-08** HTTP-date Retry-After + full request accounting; **P2-09** rename
+  content_sha256 layers. All best done when the static export lands.
+
+---
+
 ## SERIALIZER_REVIEW_UPDATED triage (2026-07-15) — THIRD review, of commit `adbac42`
 
 *Confirms every prior fix holds, then reproduces new bugs. Actioned the unblocked code

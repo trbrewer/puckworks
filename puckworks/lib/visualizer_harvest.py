@@ -120,10 +120,22 @@ _SENSORY_INTS = list(_SENSORY_MAX)  # preserve stored key set + order
 # fields dropped on ingest for privacy (constraint 2), at ANY nesting depth (P1-3).
 # Includes free-text fields that can carry names/locations: profile titles and user tags.
 _PRIVACY_DROP = [
-    "user_name", "user_id", "avatar_url", "barista", "email",
+    "user_name", "user_id", "avatar_url", "avatar", "barista", "email",
     "espresso_notes", "bean_notes", "private_notes", "notes",
-    "profile_title", "tags",
+    "profile_title", "tags", "profile_url", "image_url",
+    "owner", "comment", "location", "username",
 ]
+_PRIVACY_DROP_LOWER = {k.lower() for k in _PRIVACY_DROP}
+
+
+def _drop_pii_key(key):
+    """SERIALIZER_REVIEW_UPDATED_2 P1-3: case-insensitive denylist plus pattern rules so
+    unknown/variant free-text keys (emailAddress, Owner, *_url relinking URLs) don't slip
+    through. This is still a denylist stopgap; a governed allowlist is the real fix."""
+    kl = str(key).lower()
+    return (kl in _PRIVACY_DROP_LOWER
+            or kl.endswith("_url") or kl == "url"
+            or "email" in kl or "notes" in kl)
 
 _KNOWN_MACHINE_KEYS = [
     "decent", "meticulous", "beanconqueror", "gaggiuino", "gaggimate",
@@ -273,11 +285,20 @@ def _load_list_page(cfg):
     return 1
 
 
+def _atomic_write_json(path, obj):
+    """Write a small JSON state file atomically (temp -> fsync -> os.replace) so a crash can
+    never leave a truncated/half-written cursor, page-checkpoint, or manifest (P2-07)."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(path.name + ".tmp")
+    with open(tmp, "w", encoding="utf-8") as fh:
+        json.dump(obj, fh, sort_keys=True)
+        fh.flush()
+        os.fsync(fh.fileno())
+    os.replace(tmp, path)
+
+
 def _save_list_page(cfg, page):
-    p = _list_page_path(cfg)
-    p.parent.mkdir(parents=True, exist_ok=True)
-    with open(p, "w", encoding="utf-8") as fh:
-        json.dump({"next_page": max(1, int(page))}, fh)
+    _atomic_write_json(_list_page_path(cfg), {"next_page": max(1, int(page))})
 
 
 def fetch_shot(cfg, shot_id, _session=None, _limiter=None):
@@ -899,7 +920,7 @@ def _strip_pii(obj):
     retained, in the Bronze wrapper (not here). The result is a privacy-FILTERED payload,
     not the exact raw response."""
     if isinstance(obj, dict):
-        return {k: _strip_pii(v) for k, v in obj.items() if k not in _PRIVACY_DROP}
+        return {k: _strip_pii(v) for k, v in obj.items() if not _drop_pii_key(k)}
     if isinstance(obj, list):
         return [_strip_pii(v) for v in obj]
     return obj
@@ -1002,9 +1023,7 @@ def _load_cursor(cfg):
 
 
 def _save_cursor(cfg, last_updated_at):
-    cfg.out_dir.mkdir(parents=True, exist_ok=True)
-    with open(_cursor_path(cfg), "w", encoding="utf-8") as fh:
-        json.dump({"last_updated_at": last_updated_at}, fh)
+    _atomic_write_json(_cursor_path(cfg), {"last_updated_at": last_updated_at})  # P2-07
 
 
 # --- run manifest: per-crawl provenance so a paper can name its exact corpus state (§10) --
@@ -1047,8 +1066,7 @@ def _write_run_manifest(cfg, manifest):
     d = _runs_dir(cfg)
     d.mkdir(parents=True, exist_ok=True)
     path = d / ("%s.json" % manifest["run_id"])
-    with open(path, "w", encoding="utf-8") as fh:
-        json.dump(manifest, fh, indent=2, sort_keys=True)
+    _atomic_write_json(path, manifest)   # P2-07: atomic so a partial manifest never appears
     return path
 
 
@@ -1290,12 +1308,17 @@ def _version_key(d):
             d.get("content_sha256") or "")
 
 
-def reconcile_store(cfg):
+def reconcile_store(cfg, require_bronze=False):
     """Verify store integrity (SERIALIZER_REVIEW reconciliation). Non-destructive; returns a
     report dict: `ok` plus any problems. Compares the exact MULTISET of content-addressed
     version keys `(id, updated_at, content_sha256)` between shards and index (not just id
     sets, which missed a stored version absent from the index — P1-1), flags duplicate
-    version keys and unreadable shards, and checks the latest view is one-per-id."""
+    version keys and unreadable shards, and checks the latest view is one-per-id.
+
+    `require_bronze=True` (SERIALIZER_UPDATED_2 P1-05) additionally requires one Bronze record
+    per stored normalized version by `(id, updated_at)`. It defaults OFF because a store that
+    legitimately mixes pre-Bronze and Bronze-backed shots would otherwise fail; `n_norm_
+    without_bronze` is always reported so the gap is visible."""
     problems = []
     shard_keys, n_records = Counter(), 0
     for shard in sorted(cfg.out_dir.glob("shard_*.jsonl.gz")):
@@ -1327,6 +1350,16 @@ def reconcile_store(cfg):
     n_latest = len(latest_index_rows(cfg))
     if shard_ids and n_latest != len(shard_ids):
         problems.append("latest_view_not_one_per_id:%d!=%d" % (n_latest, len(shard_ids)))
+    # P1-05: Bronze parity by (id, updated_at). Report the gap always; fail only if required.
+    norm_iu = Counter((k[0], k[1]) for k in shard_keys.elements())
+    bronze_iu, n_bronze = Counter(), 0
+    for b in iter_bronze(cfg):
+        n_bronze += 1
+        bronze_iu[(b.get("id"), _as_int(b.get("updated_at"), default=-1))] += 1
+    norm_without_bronze = norm_iu - bronze_iu
+    n_norm_without_bronze = sum(norm_without_bronze.values())
+    if require_bronze and n_norm_without_bronze:
+        problems.append("normalized_versions_without_bronze:%d" % n_norm_without_bronze)
     return {
         "ok": not problems,
         "n_shard_records": n_records,
@@ -1334,7 +1367,8 @@ def reconcile_store(cfg):
         "n_unique_ids": len(shard_ids),
         "n_latest": n_latest,
         "n_versions_extra": n_records - len(shard_ids),   # edits stored beyond one-per-id
-        "n_bronze": sum(1 for _ in iter_bronze(cfg)),
+        "n_bronze": n_bronze,
+        "n_norm_without_bronze": n_norm_without_bronze,
         "n_quarantined": sum(1 for _ in iter_quarantine(cfg)),
         "problems": problems,
     }

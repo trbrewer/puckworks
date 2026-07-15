@@ -902,6 +902,59 @@ def test_state_channel_qc_flags_alignment_and_bad_values():
     assert "length_mismatch:espresso_state_change" in short["flags"]
 
 
+def test_strip_pii_drops_urls_and_case_variants():
+    """P1-03: the privacy filter is case-insensitive and drops relinking URLs and unknown
+    free-text key variants (emailAddress, Owner, profile_url, image_url)."""
+    from puckworks.lib import visualizer_harvest as vh
+    import json
+    raw = {"id": "x", "espresso_pressure": [1, 2],
+           "emailAddress": "alice@example.test", "profile_url": "https://x/p",
+           "image_url": "https://x/i.jpg",
+           "metadata": {"Owner": "Alice", "comment": "Alice home", "location": "123 St",
+                        "keep": "ok"}}
+    stripped = vh._strip_pii(raw)
+    blob = json.dumps(stripped)
+    for banned in ("alice@example.test", "https://x/p", "https://x/i.jpg", "Alice",
+                   "Alice home", "123 St"):
+        assert banned not in blob
+    assert stripped["metadata"] == {"keep": "ok"}
+    assert stripped["espresso_pressure"] == [1, 2]        # telemetry preserved
+
+
+def test_reconcile_bronze_parity_optin(tmp_path, monkeypatch):
+    """P1-05: reconcile reports normalized versions lacking Bronze, and fails only when
+    require_bronze=True (so a legitimately mixed store still passes by default)."""
+    from puckworks.lib import visualizer_harvest as vh
+    cfg = _crawl_with_pii(tmp_path, monkeypatch)   # store WITH bronze
+    r = vh.reconcile_store(cfg)
+    assert r["ok"] and r["n_norm_without_bronze"] == 0
+    # a normalized-only shot (no bronze) is reported but ok by default, fails when required
+    extra = vh.normalize_shot({"id": "nb", "user_id": "u", "updated_at": 9,
+                               "timeframe": [0.0], "data": {}}, cfg)
+    vh._write_shard(cfg, 999, [extra])             # write normalized WITHOUT bronze
+    vh._append_index(cfg, [vh._index_row(extra)])
+    r2 = vh.reconcile_store(cfg)
+    assert r2["n_norm_without_bronze"] == 1 and r2["ok"] is True
+    assert vh.reconcile_store(cfg, require_bronze=True)["ok"] is False
+
+
+def test_state_files_written_atomically_no_tmp(tmp_path, monkeypatch):
+    """P2-07: cursor / list-page / manifest writes leave no .tmp files and are valid JSON."""
+    from puckworks.lib import visualizer_harvest as vh
+    import json
+    listing = {1: [("a", 10)]}
+    details = {"a": {"id": "a", "updated_at": 10, "user_id": "u",
+                     "timeframe": [0.0], "data": {}}}
+    _fake_transport(monkeypatch, listing, details)
+    cfg = vh.HarvestConfig(out_dir=str(tmp_path), max_req_per_min=10 ** 9, salt="t")
+    vh.harvest_all(cfg)
+    assert not list(cfg.out_dir.glob("*.tmp"))
+    assert not list((cfg.out_dir / "_runs").glob("*.tmp"))
+    json.load(open(cfg.out_dir / "_list_page.json"))          # valid, complete JSON
+    for m in (cfg.out_dir / "_runs").glob("*.json"):
+        json.load(open(m))
+
+
 def test_num_rejects_booleans_and_non_finite():
     """P1-4: scalar parsing must reject booleans (True != 1.0 dose) and NaN/Inf (they would
     later be mis-attributed to serialization), returning (None, dirty=True)."""
