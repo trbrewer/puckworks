@@ -110,10 +110,19 @@ gracefully at 3,400 shots (throwaway: recent-window only + the §6/§8 bugs + no
   atomically. CLI: `reconcile`, `rebuild-index`. `_sha256_file` helper. Tests:
   `test_shard_writes_are_atomic_no_tmp_leftover`, `test_reconcile_and_rebuild_index`.
 
-### MEDIUM — remaining
-- First-class channel **QC metrics** (timestamp monotonicity, sampling jitter, duplicate
-  timestamps, flatline, length-vs-timeframe) feeding declared eligibility rules — beyond
-  the current `bad_samples`/`length_mismatch`/`missing:*` flags. Overlaps `visualizerCoffee` §8.14.
+### DONE (committed) — first-class channel QC metrics
+- `_timeseries_qc` adds a per-shot `qc` block: timestamp monotonicity, non-increasing-step
+  count, duplicate-stamp count, sampling-interval median + min/max + **IQR (jitter)**, and
+  per-channel `valid`/`missing`/`flatline`/`len_matches_time`. High-level flags
+  `qc:time_not_monotonic` / `qc:duplicate_timestamps` feed declared eligibility rules
+  (beyond the raw `bad_samples`/`length_mismatch`/`missing:*` flags). Normalizer schema
+  v3→v4; re-applies to harvested shots via `renormalize_from_bronze`. Test:
+  `test_timeseries_qc_metrics`.
+
+### ALL SERIALIZER_REVIEW ITEMS ACTIONED except §1 corpus access (blocked on Miha)
+Every code-side review item (§2, §3, §4, §5, §6, §7*, §8, §9, §10, atomicity, QC) is
+committed and tested. §1 (historical-corpus access) and the fully-`explicit` §7 source enum
+require the Visualizer side and are out of our control.
 
 ### DONE (committed) — §10 per-run manifest
 - Every crawl writes `_runs/<run_id>.json` with mode, counts (`n_new/n_updated/n_quarantined`),

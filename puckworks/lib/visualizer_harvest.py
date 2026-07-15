@@ -326,6 +326,43 @@ def _parse_series(seq):
     return values, n_bad
 
 
+def _timeseries_qc(hydraulic, n_samples):
+    """First-class time-series QC metrics (SERIALIZER_REVIEW §9): timestamp monotonicity,
+    duplicate stamps, sampling-interval median + jitter (IQR), and per-channel valid /
+    flatline / length-vs-time. These feed declared eligibility rules downstream rather than
+    hiding inside a single opaque flag. Computed from the already-parsed hydraulic arrays."""
+    t = hydraulic.get("time__s")
+    qc = {"n_samples": n_samples, "time_present": bool(t)}
+    if t:
+        tv = [x for x in t if x is not None]
+        qc["time_valid"] = len(tv)
+        steps = [b - a for a, b in zip(tv, tv[1:])]
+        qc["time_nonincreasing_steps"] = sum(1 for s in steps if s <= 0)
+        qc["time_duplicate_stamps"] = sum(1 for s in steps if s == 0)
+        qc["time_monotonic"] = all(s > 0 for s in steps) if steps else True
+        if steps:
+            ss = sorted(steps)
+            n = len(ss)
+            qc["dt_median_s"] = ss[n // 2] if n % 2 else (ss[n // 2 - 1] + ss[n // 2]) / 2
+            qc["dt_min_s"] = ss[0]
+            qc["dt_max_s"] = ss[-1]
+            qc["dt_iqr_s"] = ss[min(n - 1, (3 * n) // 4)] - ss[n // 4]   # sampling jitter
+    channels = {}
+    for name, series in hydraulic.items():
+        if name in ("time__s", "state_change"):
+            continue
+        vals = [x for x in series if x is not None]
+        channels[name] = {
+            "length": len(series),
+            "valid": len(vals),
+            "missing": len(series) - len(vals),
+            "len_matches_time": (t is None or len(series) == len(t)),
+            "flatline": (len(set(vals)) == 1) if len(vals) > 1 else False,
+        }
+    qc["channels"] = channels
+    return qc
+
+
 def _infer_machine(raw):
     """Infer the source machine from the brewdata payload; null+flag if unknown."""
     bd = raw.get("brewdata")
@@ -384,7 +421,7 @@ def _num(v):
         return (float(m.group(0)), True) if m else (None, True)
 
 
-_NORMALIZE_SCHEMA_VERSION = 3   # v2: §7 integration_source; v3: §8 flow-semantics rename
+_NORMALIZE_SCHEMA_VERSION = 4   # v2: §7 integration_source; v3: §8 flow; v4: §9 qc block
 
 
 def normalize_shot(raw, cfg, hashed_user_override=None):
@@ -527,6 +564,12 @@ def normalize_shot(raw, cfg, hashed_user_override=None):
     units["context"]["drink_weight__kg"] = {"raw": "g", "si": "kg"}
     units["context"]["duration__s"] = {"raw": "s", "si": "s"}
 
+    qc = _timeseries_qc(hydraulic, n_samples)   # §9 first-class time-series QC
+    if qc.get("time_monotonic") is False:
+        flags.append("qc:time_not_monotonic")
+    if qc.get("time_duplicate_stamps"):
+        flags.append("qc:duplicate_timestamps")
+
     return {
         "schema_version": _NORMALIZE_SCHEMA_VERSION,
         "id": raw.get("id"),
@@ -539,6 +582,7 @@ def normalize_shot(raw, cfg, hashed_user_override=None):
         "units": units,
         "flags": flags,
         "n_samples": n_samples,
+        "qc": qc,
     }
 
 

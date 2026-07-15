@@ -639,3 +639,32 @@ def test_reconcile_and_rebuild_index(tmp_path, monkeypatch):
     assert n == 3
     assert {row["id"] for row in vh.iter_index_rows(cfg)} == {"a", "b", "c"}
     assert vh.reconcile_store(cfg)["ok"]
+
+
+def test_timeseries_qc_metrics():
+    """QC metrics: a clean trace reports monotonic time + sane dt; a non-monotonic /
+    duplicate-timestamp / flatline trace is measured and flagged, not silently accepted."""
+    from puckworks.lib.visualizer_harvest import normalize_shot, HarvestConfig
+    cfg = HarvestConfig(salt="t")
+    # clean, evenly-sampled trace
+    ok = normalize_shot({"id": "1", "user_id": "u", "updated_at": 1,
+                         "timeframe": [0.0, 0.5, 1.0, 1.5],
+                         "data": {"espresso_pressure": [1.0, 2.0, 3.0, 4.0]}}, cfg)
+    q = ok["qc"]
+    assert q["time_monotonic"] is True and q["time_duplicate_stamps"] == 0
+    assert q["dt_median_s"] == pytest.approx(0.5)
+    assert q["channels"]["pressure__Pa"]["flatline"] is False
+    assert q["channels"]["pressure__Pa"]["len_matches_time"] is True
+    assert "qc:time_not_monotonic" not in ok["flags"]
+
+    # non-monotonic time with a duplicate stamp + a flatline channel
+    bad = normalize_shot({"id": "2", "user_id": "u", "updated_at": 1,
+                          "timeframe": [0.0, 1.0, 1.0, 0.5],           # dup + goes backwards
+                          "data": {"espresso_pressure": [5.0, 5.0, 5.0, 5.0]}}, cfg)
+    q2 = bad["qc"]
+    assert q2["time_monotonic"] is False
+    assert q2["time_duplicate_stamps"] == 1
+    assert q2["time_nonincreasing_steps"] == 2                         # the dup + the reversal
+    assert q2["channels"]["pressure__Pa"]["flatline"] is True
+    assert "qc:time_not_monotonic" in bad["flags"]
+    assert "qc:duplicate_timestamps" in bad["flags"]
