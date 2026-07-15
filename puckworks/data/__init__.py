@@ -666,8 +666,42 @@ def liquor_rheology():
     """Coffee-extract mu(T,c)/rho(T,c) envelope (Telis-Romero; reference).
     Espresso TDS sits BELOW the sources' dilute end -> mu_espresso is an
     EXTRAPOLATION toward pure water. Espresso IS Newtonian. Rows keyed by
-    'quantity' (numeric/form values live in the 'value_or_form' column)."""
+    'quantity' (numeric/form values live in the 'value_or_form' column).
+    SUPERSEDED for the numeric estimate by `telisromero_viscosity_pas` (the actual
+    transcribed Eq-10 closure, card docs/cards/telisromero2001.md)."""
     return {r["quantity"]: r for r in _rows(G10R / "liquor_rheology.csv")}
+
+
+def telisromero_rheology_closures():
+    """Fitted rheology closures transcribed from docs/cards/telisromero2001.md
+    (Eqs 10/12/13), keyed by equation. Coefficients only; NOT the raw Table 1/Table 2
+    grids (those remain a digitization target needing the paper)."""
+    return {r["equation"]: r for r in _rows(G10R / "telisromero2001_closures.csv")}
+
+
+def telisromero_rheology_anchors():
+    """The two card-quoted MEASURED anchor points (Table 1 eta; Table 2 K) used to gate
+    that the Eq-10/13 closures were transcribed faithfully."""
+    return _rows(G10R / "telisromero2001_anchors.csv")
+
+
+_R_GAS = 8.314   # J/(mol K)
+
+
+def telisromero_viscosity_pas(T_K, Xw_pct):
+    """Telis-Romero 2001 Eq. (10) Newtonian viscosity closure [Pa*s].
+
+    eta = 1.99e6 * exp(14514/(R*T)) * Xw^-6.07, with T in KELVIN and Xw in PERCENT water
+    (wet basis) -- NOT a fraction (feeding fraction-form Xw is a documented ~10^2.6-10^6
+    hazard, card normalization note). Valid box: Xw 76-90 %, T 295-365 K (Newtonian domain).
+    At bulk espresso TDS (Xw~90, T~363 K) this gives ~1.06x pure water -- a NEGLIGIBLE
+    correction, correcting the paywalled-snippet envelope's ~1.3-2x guess; the 1.3-2x (up to
+    ~2-3x) applies to concentrated EARLY IN-PORE liquor (Xw~76). Composition caveat: fit on
+    industrial soluble-coffee extract, not fresh espresso liquor."""
+    import math
+    c = telisromero_rheology_closures()["eq10_newtonian"]
+    return (float(c["pre_factor"]) * math.exp(float(c["Ea_or_A"]) / (_R_GAS * T_K))
+            * Xw_pct ** float(c["Xw_exponent"]))
 
 
 # --- bruno2026 roasted chemistry (item 0.8; Sci. Rep. 16, 15857, CC BY 4.0) ---

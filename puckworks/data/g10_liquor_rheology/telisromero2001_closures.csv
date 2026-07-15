@@ -1,0 +1,4 @@
+equation,quantity,pre_factor,Ea_or_A,Xw_exponent,units,domain,r2,mean_err_pct,max_err_pct,notes
+eq10_newtonian,viscosity_eta,1.99e6,14514,-6.07,Pa*s,"Xw 76-90pct, T 295-365K",0.997,2.34,10.17,"eta = pre*exp(Ea/(R*T))*Xw^exp; Ea J/mol; T in K; Xw in PERCENT (not fraction); R=8.314"
+eq12_powerlaw_n,behavior_index_n,0.199,13.46,0.370,dimensionless,"Xw 49-64pct, T 274-353K",0.998,0.14,0.31,"n = pre*exp(A/T)*Xw^exp; A in K; T in K; Xw PERCENT"
+eq13_powerlaw_K,consistency_K,1.46e6,56924,-10.05,Pa*s^n,"Xw 49-64pct, T 274-353K",0.998,6.77,18.50,"K = pre*exp(Ea/(R*T))*Xw^exp; Ea J/mol; T in K; Xw PERCENT"

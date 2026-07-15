@@ -1,0 +1,3 @@
+quantity,Xw_pct,T_K,measured_value,units,source_table,notes
+eta,90,295,0.00100,Pa*s,Table 1,"card unit-check: Eq10 predicts 1.01e-3 vs 1.00e-3 measured (~1pct, within 2.34pct mean err)"
+K,49,293,0.200,Pa*s^n,Table 2,"card unit-check: Eq13 predicts 0.214 vs 0.200 measured (~7pct, near 6.77pct mean err)"

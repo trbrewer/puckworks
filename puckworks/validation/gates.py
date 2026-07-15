@@ -1303,3 +1303,31 @@ def gate_g10_mu_bias_directional():
                 suppresses_early_flow=r["suppresses_early_flow"],
                 preserves_equilibrium=r["preserves_equilibrium"],
                 reading=r["reading"])
+
+
+def gate_g10_telisromero_closure():
+    """Telis-Romero 2001 mu(T,Xw) closures were transcribed FAITHFULLY from the card: Eq (10)
+    reproduces the Table-1 eta anchor and Eq (13) the Table-2 K anchor within the authors'
+    stated fit error, and the Eq-10 bulk-shot-TDS viscosity is a NEGLIGIBLE ~1.06x pure water
+    -- correcting the paywalled-snippet envelope's ~1.3-2x guess (that magnitude belongs to
+    concentrated early in-pore liquor, not bulk shot TDS). Strength: post-fit reconstruction
+    of the source's OWN dilute industrial-extract data; espresso is still an extrapolation
+    with a composition caveat (NOT a validation of espresso-liquor rheology)."""
+    import math
+    from puckworks import data as d
+    anchors = {a["quantity"]: a for a in d.telisromero_rheology_anchors()}
+    ea = anchors["eta"]
+    eta_pred = d.telisromero_viscosity_pas(float(ea["T_K"]), float(ea["Xw_pct"]))
+    eta_err = abs(eta_pred - float(ea["measured_value"])) / float(ea["measured_value"])
+    c13 = d.telisromero_rheology_closures()["eq13_powerlaw_K"]
+    ka = anchors["K"]
+    K_pred = (float(c13["pre_factor"]) * math.exp(float(c13["Ea_or_A"]) / (8.314 * float(ka["T_K"])))
+              * float(ka["Xw_pct"]) ** float(c13["Xw_exponent"]))
+    K_err = abs(K_pred - float(ka["measured_value"])) / float(ka["measured_value"])
+    shot_ratio = d.telisromero_viscosity_pas(363.0, 90.0) / 3.15e-4   # vs pure water @ 90 C
+    passed = (eta_err <= 0.03 and K_err <= 0.10 and 1.0 < shot_ratio < 1.2)
+    return dict(passed=passed, eta_err_pct=round(eta_err * 100, 2),
+                K_err_pct=round(K_err * 100, 2),
+                shot_tds_mu_ratio_to_water=round(shot_ratio, 3),
+                strength="post-fit reconstruction of source's dilute-industrial data "
+                         "(espresso extrapolated; composition caveat)")

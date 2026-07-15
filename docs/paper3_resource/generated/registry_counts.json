@@ -5,8 +5,8 @@
     "exploratory_synthesis": 1,
     "post_fit_reconstruction": 5,
     "qualitative_capacity": 5,
-    "sign_or_compatibility": 3,
-    "source_curve_reproduction": 5,
+    "sign_or_compatibility": 2,
+    "source_curve_reproduction": 6,
     "within_campaign_held_out": 1
   },
   "by_execution_role": {
@@ -28,7 +28,7 @@
     "machine": 2,
     "packing": 2
   },
-  "content_sha256": "f5f8c13198aa2d0dafe977a4ab784970b79ec6e1942ca8b6544efa8c6eb43d2b",
+  "content_sha256": "cd2096699d55cc7676f65dde7a160320a625cae6b03125ff800ae0948225fbc9",
   "n_components": 25,
   "schema_version": 1
 }

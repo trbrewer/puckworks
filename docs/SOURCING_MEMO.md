@@ -9,7 +9,7 @@ strength, and what remains owed. All grades use ROADMAP §0 vocabulary.
 |-----|--------|----------|------------------------|-------------|
 | G1  | glass-bead retention/K_r closure (arXiv:2501.13361, open) | REFERENCE/qualitative | none — fetched clean | NO — analog shape prior; search-target stays OPEN |
 | G3  | Ulka vibe-pump P-Q envelope + DE1-shape context | reference (endpoints) + qualitative (shape) | none for envelope; bench pull or Decent request for independent DE1 curve | PARTIAL — no independent DE1 curve is publicly obtainable |
-| G10 | coffee-extract mu,rho vs T,TDS (Telis-Romero) | REFERENCE (espresso is extrapolated) | Tim drop of Telis-Romero 2001/2000 tables IF quantitative per-cell mu(T,c) wanted | PARTIAL — reference envelope yes; independent espresso-TDS measurement is a new open sub-search |
+| G10 | coffee-extract mu,rho vs T,TDS (Telis-Romero) | source_curve_reproduction for the EXTRACT rheology (espresso still extrapolated) | Table-1/Table-2 per-cell digitization for a mu(c,T) sensitivity study; independent espresso-TDS measurement | UPGRADED 2026-07-15 — telisromero2001 Eq(10)/(12)/(13) closures transcribed + gated (`data.telisromero_viscosity_pas`, `gate_g10_telisromero_closure`); bulk shot-TDS mu ~=1.06x water confirmed. Composition + dilute-end caveats stand |
 
 ## The honest headline
 None of the three closes its gap at `independent` strength — and that is not a

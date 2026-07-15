@@ -193,13 +193,13 @@
       "stage": "flow"
     },
     {
-      "doi": "10.1111/j.1745-4530.2001.tb00541.x",
-      "evidence_strength": "sign_or_compatibility",
+      "doi": "10.1111/j.1745-4530.2001.tb00542.x",
+      "evidence_strength": "source_curve_reproduction",
       "execution_role": "calibration",
       "id": "sourcing2026.g10_liquor_rheology",
       "kind_legacy": "calibration",
-      "module": "puckworks.data:liquor_rheology",
-      "n_gates": 2,
+      "module": "puckworks.data:telisromero_viscosity_pas",
+      "n_gates": 3,
       "paper": "Telis-Romero et al. (2000, 2001)",
       "provenance_class": "reference_only",
       "stage": "flow"
@@ -301,7 +301,7 @@
       "stage": "packing"
     }
   ],
-  "content_sha256": "fc80f9c190df4f18f4e5ee86cc29efd9a00de0435e184b23db6b01fc2f215979",
+  "content_sha256": "b4e19779200431010f3b95aae9a8c48a533cddbe10230716882b63a3293f4de5",
   "n_components": 25,
   "schema_version": 1
 }

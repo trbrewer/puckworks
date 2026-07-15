@@ -366,15 +366,23 @@ register(Component(
 register(Component(
     name="sourcing2026.g10_liquor_rheology", stage="flow",
     kind="calibration", paper="Telis-Romero et al. (2000, 2001)",
-    doi="10.1111/j.1745-4530.2001.tb00541.x",
-    module="puckworks.data:liquor_rheology",
-    gates=[G.gate_g10_reference_mu_above_water, G.gate_g10_mu_bias_directional],
-    assumptions="Espresso TDS below sources' dilute end -> mu EXTRAPOLATED to "
-                "pure water; espresso Newtonian (power-law only >36% solids)",
-    valid_range="reference/qualitative; quantitative mu(T,c) needs Telis-Romero "
-                "tables (Tim drop)",
-    notes="Targets RC-2/RC-3 shared early-shot bias; confirm bias magnitude "
-          "consistent with only ~1.3-2x mu before attributing all of it here."))
+    doi="10.1111/j.1745-4530.2001.tb00542.x",
+    module="puckworks.data:telisromero_viscosity_pas",
+    gates=[G.gate_g10_reference_mu_above_water, G.gate_g10_mu_bias_directional,
+           G.gate_g10_telisromero_closure],
+    assumptions="Telis-Romero (2001) Eq (10)/(12)/(13) closures now TRANSCRIBED "
+                "(T in K, X_w in %w/w water); soluble-coffee extract, NOT espresso "
+                "liquor -> unquantified composition bias; espresso TDS sits at/below "
+                "the source's dilute end -> mu EXTRAPOLATED toward water; espresso "
+                "Newtonian (power-law domain only >36% solids)",
+    valid_range="source_curve_reproduction for the extract rheology (reproduces the "
+                "authors' Table-1 eta / Table-2 K anchors within stated fit error); "
+                "espresso application remains extrapolation/compatibility-strength",
+    notes="Bulk shot-TDS mu ~= 1.06x pure water (NEGLIGIBLE Darcy correction) -- "
+          "corrects the paywalled-snippet envelope's ~1.3-2x guess, which belongs to "
+          "concentrated early in-pore liquor (X_w~76, ~2-3x water), not bulk TDS. "
+          "Targets RC-2/RC-3 shared early-shot bias; do NOT attribute all of it to "
+          "bulk mu given this magnitude."))
 
 
 # --- evidence_strength (schema v2, WP2) -----------------------------------
@@ -410,7 +418,11 @@ _EVIDENCE_STRENGTH = {
     "foster2025.infiltration": "controlled_independent",
     "sourcing2026.g1_glassbead_analog": "qualitative_capacity",
     "sourcing2026.g3_pump_characteristic": "sign_or_compatibility",
-    "sourcing2026.g10_liquor_rheology": "sign_or_compatibility",
+    # Promoted sign_or_compatibility -> source_curve_reproduction on 2001 closure intake
+    # (ROADMAP 7.1): Eq (10)/(13) now transcribed and reproduce the authors' own Table-1/
+    # Table-2 anchors within stated error. Espresso APPLICATION stays extrapolation-strength
+    # (composition + dilute-end caveat) -- the tier describes the extract-rheology reproduction.
+    "sourcing2026.g10_liquor_rheology": "source_curve_reproduction",
 }
 
 _missing_ev = {c.name for c in _R.components()} - set(_EVIDENCE_STRENGTH)
