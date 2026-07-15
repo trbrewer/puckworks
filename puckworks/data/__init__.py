@@ -789,3 +789,10 @@ def pocketscience_lrr():
     (g water / g dose), lumped post-flush retention (n=5 each). NOT in-shot dead water
     and NOT a retention curve theta(psi): does not satisfy the G1 search target."""
     return _rows(_PSCI / "lrr_scalars.csv")
+
+
+# --- canonical visualizer corpus snapshot interface (WP0/PR1) --------------
+# Analysis code should consume CorpusSnapshot, never the raw shard iterator.
+from puckworks.data.visualizer_store import (   # noqa: E402
+    CorpusSnapshot, measurement_dictionary, is_pooling_safe, freeze_snapshot,
+)
