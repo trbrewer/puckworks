@@ -281,3 +281,57 @@ def test_sensory_zero_is_kept(monkeypatch):
            "data": {}, "espresso_enjoyment": 0}
     t = normalize_shot(raw, cfg)
     assert t["outcomes"]["sensory"]["espresso_enjoyment"] == 0     # kept, not None
+
+
+def test_enjoyment_uses_0_100_scale_not_0_15():
+    """SERIALIZER_REVIEW §6: espresso_enjoyment is a 0..100 preference score, NOT a 0..15
+    tasting dimension. Validating it against 0..15 nulled every real value >15 (e.g. 82).
+    Tasting dimensions must still be validated on 0..15."""
+    from puckworks.lib.visualizer_harvest import normalize_shot, HarvestConfig
+    cfg = HarvestConfig(salt="t")
+    base = {"id": "e", "user_id": "u", "updated_at": 1, "timeframe": [0.0], "data": {}}
+    # enjoyment 82 is VALID on the 0..100 scale -> kept, not nulled, not flagged
+    t = normalize_shot({**base, "espresso_enjoyment": 82}, cfg)
+    assert t["outcomes"]["sensory"]["espresso_enjoyment"] == 82
+    assert not any("espresso_enjoyment" in f for f in t["flags"])
+    # enjoyment 100 valid; 101 out of range
+    assert normalize_shot({**base, "espresso_enjoyment": 100}, cfg)[
+        "outcomes"]["sensory"]["espresso_enjoyment"] == 100
+    over = normalize_shot({**base, "espresso_enjoyment": 101}, cfg)
+    assert over["outcomes"]["sensory"]["espresso_enjoyment"] is None
+    assert "out_of_range:espresso_enjoyment" in over["flags"]
+    # a tasting dimension is STILL 0..15: 16 is out of range
+    dim = normalize_shot({**base, "flavor": 16}, cfg)
+    assert dim["outcomes"]["sensory"]["flavor"] is None
+    assert "out_of_range:flavor" in dim["flags"]
+    assert normalize_shot({**base, "flavor": 15}, cfg)[
+        "outcomes"]["sensory"]["flavor"] == 15
+
+
+def test_crawl_creates_missing_output_dir(tmp_path, monkeypatch):
+    """SERIALIZER_REVIEW §2: a fresh harvest must not FileNotFoundError. The per-100 disk
+    guard fires on the first iteration, so _crawl must create out_dir before it. Point at a
+    not-yet-existent nested path and confirm the crawl runs and writes records."""
+    from puckworks.lib import visualizer_harvest as vh
+    import types, csv
+
+    def fake_get(cfg, session, limiter, path, params=None):
+        if path == "/shots":
+            if params["page"] > 1:
+                return {"data": []}
+            return {"data": [{"id": f"id{i}", "clock": 100 - i, "updated_at": i}
+                             for i in range(3)]}
+        return {"id": path.split("/")[-1], "user_id": "u", "updated_at": 1,
+                "timeframe": [0.0, 1.0], "data": {"espresso_pressure": [6.0, 9.0]}}
+
+    monkeypatch.setattr(vh, "_get", fake_get)
+    monkeypatch.setattr(vh, "_requests",
+                        lambda: types.SimpleNamespace(Session=lambda: None,
+                                                      RequestException=Exception))
+    fresh = tmp_path / "does" / "not" / "exist" / "yet"
+    assert not fresh.exists()
+    cfg = vh.HarvestConfig(out_dir=str(fresh), max_req_per_min=10 ** 9, salt="t")
+    r = vh.harvest_all(cfg)                      # must NOT raise FileNotFoundError
+    assert r["completed"] is True
+    ids = [row["id"] for row in csv.DictReader(open(fresh / "_index.csv"))]
+    assert len(ids) == 3

@@ -4,6 +4,72 @@
 scientific-use review). This is a substantial program; items are bucketed by priority.
 The one **release-blocking data bug is fixed**; the rest are prioritized follow-ups.*
 
+---
+
+## SERIALIZER_REVIEW triage (2026-07-15) — a SECOND independent review
+
+*Triaging `docs/SERIALIZER_REVIEW.md`. Confirms the timeframe fix worked, then finds the
+**real** blocker is no longer serialization: the public API route does not expose the
+historical corpus, and normalized-only storage makes any later fix un-repairable.*
+
+### DECISIVE FINDING — harvest scope (review §1), empirically confirmed → **harvest PAUSED**
+The unauthenticated API paginates the recently-**updated** public feed, not the historical
+corpus. **Verified against our own run:** all 3,400 harvested shots have `updated_at`
+inside a **4-day window** (2026-07-11 → 07-15); **zero** older than 30 days. So the crawl
+cannot acquire "the Visualizer corpus" — it is a recent-activity cohort over a live-moving
+feed. The standing "run until complete" premise is void. **The detached crawl was stopped
+gracefully at 3,400 shots (throwaway: recent-window only + the §6/§8 bugs + normalized-only).**
+- **NEEDS TIM → MIHA (blocking):** the grant must be implemented as a **bulk transfer**, not
+  permission to exercise the public API for weeks. Ask Miha for either (a) a server-side
+  bulk export (compressed NDJSON/Parquet, consistent DB snapshot), or (b) a corpus-scoped
+  endpoint/token that selects all `Shot.visible` and bypasses the ~1-month `non_premium`
+  scope (and does NOT substitute `Current.user.shots`). At 18 req/min, 1 M shots ≈ 39 days;
+  millions ≈ months — the ordinary API is not a viable acquisition path.
+
+### DONE (this commit) — safe code fixes that don't need the Visualizer side
+- **§6 enjoyment scale (data-corruption bug).** `espresso_enjoyment` is a **0..100**
+  preference score, but it was validated against **0..15** with the tasting dimensions, so
+  every real value >15 (e.g. 82) became `None`. Fixed: per-field ceilings (`_SENSORY_MAX`,
+  enjoyment→100, tasting dims→15); regression test (`test_enjoyment_uses_0_100_scale_not_0_15`).
+- **§2 fresh-run FileNotFoundError.** `_crawl` now `mkdir`s `out_dir` before the first
+  per-100 disk-space check (which fires on iteration 0); regression test
+  (`test_crawl_creates_missing_output_dir`).
+
+### HIGH — before ANY re-harvest (most need the Visualizer-side access first)
+- **§5 immutable Bronze layer.** Store the PII-stripped **raw** payload + content hash so
+  future normalizer fixes re-run offline (this is the same lever as `visualizerCoffee` §9.1).
+  The dir named `raw/` currently holds NORMALIZED records — rename to `normalized/` or make
+  it genuinely raw. **Do this before the next crawl so it is the last full crawl.**
+- **§3 latest-version-wins store.** Append-only + index-as-count double-counts on any
+  re-list (reproduced by the reviewer). Need `versions/ latest/ tombstones/` and a loader
+  that defaults to `latest`, keyed on `(shot_id, updated_at, content_hash)`.
+- **§4 deterministic resume.** Timestamp-only, newest-first cursor + integer-second ties →
+  high-water-mark omissions on interruption. Need keyset `(updated_at, id)` / opaque server
+  cursor; never advance the durable watermark on `completed == false`.
+- **§8 flow semantics (scientific-safety).** `espresso_flow → flow__kg_per_s` asserts mass
+  flow while only flagging volumetric ambiguity. Rename to native + `*__semantic` + only
+  populate `mass_flow__kg_per_s` when confirmed. **Staged, not done** — it is a record-schema
+  rename that touches the loader + analyses; do with the Bronze/latest refactor, not piecemeal.
+- **§7 integration/parser source.** Preserve a controlled `integration_source` enum (Decent,
+  Meticulous, Beanconqueror, Gaggiuino, GaggiMate, SEP, Pressensor, …); inference is fallback
+  only. Missing source = unexplained modeling heterogeneity.
+
+### MEDIUM — corpus-scale robustness (review §9–§10, §Atomicity, §Pagination)
+- Per-element trace parser (finite/missing/bool/string/non-finite), array-alignment via
+  nulls, channel QC metrics, `json.dumps(allow_nan=False)`, and a durable **quarantine
+  ledger** (never a silent skip). Overlaps `visualizerCoffee` §8.8/§8.14.
+- Retain approved temporal/provenance fields + a per-run **manifest** (run_id, commits,
+  api/normalizer versions, cursors, counts, checksums, salt fingerprint).
+- Atomic shard writes (temp→fsync→checksum→rename) + a reconciliation command.
+
+### Acceptance gates before a canonical harvest (review Gates 1–9)
+corpus access · fresh-run reliability · deterministic enumeration · raw fidelity · semantic
+correctness · source fixture matrix · malformed-data matrix · version/deletion behavior ·
+bounded 1k–10k pilot with a reconciliation report. Gate 1 (access) is the current blocker
+and is **not in our control** — it needs the Visualizer-side export/token above.
+
+---
+
 ## DONE (committed)
 - **§8.1 (P0) timeframe location** — the live API puts `timeframe` at the **top level**,
   not `data.timeframe`; the old normalizer produced `n_samples=0` / `missing:timeframe`

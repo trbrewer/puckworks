@@ -99,10 +99,16 @@ _OUTCOME_FRACTIONS = {  # published percent → stored fraction
     "drink_tds": ("tds__fraction", "%", "fraction"),
     "drink_ey": ("ey__fraction", "%", "fraction"),
 }
-_SENSORY_INTS = [
-    "fragrance", "aroma", "flavor", "aftertaste", "acidity", "bitterness",
-    "sweetness", "mouthfeel", "espresso_enjoyment",
-]
+# Tasting dimensions are scored 0..15; `espresso_enjoyment` is a SEPARATE 0..100
+# preference score (Visualizer shot model). Validating enjoyment against 0..15
+# nulled every real value >15 (SERIALIZER_REVIEW §6 — a fixture value of 82 became
+# None). Keep a per-field ceiling so each dimension is validated on its own scale.
+_SENSORY_MAX = {
+    "fragrance": 15, "aroma": 15, "flavor": 15, "aftertaste": 15,
+    "acidity": 15, "bitterness": 15, "sweetness": 15, "mouthfeel": 15,
+    "espresso_enjoyment": 100,
+}
+_SENSORY_INTS = list(_SENSORY_MAX)  # preserve stored key set + order
 
 # fields dropped on ingest for privacy (constraint 2)
 _PRIVACY_DROP = [
@@ -387,12 +393,13 @@ def normalize_shot(raw, cfg):
     sensory = {}
     for key in _SENSORY_INTS:
         v = raw.get(key)
-        # review §8.6 (P1): sensory scores are validated 0..15, so a real 0 must be KEPT
-        # (the old `and v` truthiness turned a valid 0 into None, distorting missingness
-        # and within-user distributions). Booleans are excluded (bool is an int subclass).
+        hi = _SENSORY_MAX[key]  # 0..15 tasting dims, 0..100 enjoyment (SERIALIZER_REVIEW §6)
+        # review §8.6 (P1): a real 0 must be KEPT (the old `and v` truthiness turned a valid
+        # 0 into None, distorting missingness and within-user distributions). Booleans are
+        # excluded (bool is an int subclass).
         if isinstance(v, (int, float)) and not isinstance(v, bool):
-            sensory[key] = int(v) if 0 <= v <= 15 else None
-            if not (0 <= v <= 15):
+            sensory[key] = int(v) if 0 <= v <= hi else None
+            if not (0 <= v <= hi):
                 flags.append(f"out_of_range:{key}")
         else:
             sensory[key] = None
@@ -518,6 +525,10 @@ def _save_cursor(cfg, last_updated_at):
 
 def _crawl(cfg, updated_after):
     """Shared crawl body for full/incremental. Returns a run summary dict."""
+    # Ensure the destination exists BEFORE the first disk-space check (SERIALIZER_REVIEW
+    # §2): the per-100 disk guard fires on the first iteration (n_fetched==0), which on a
+    # fresh out_dir would raise FileNotFoundError before any shard write creates it.
+    cfg.out_dir.mkdir(parents=True, exist_ok=True)
     session = _requests().Session()
     limiter = _RateLimiter(cfg.max_req_per_min)
     seen = _read_index_ids(cfg)
