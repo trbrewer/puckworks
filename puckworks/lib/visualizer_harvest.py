@@ -36,6 +36,7 @@ import hashlib
 import json
 import os
 import re
+import shutil
 import time
 import warnings
 from dataclasses import dataclass, field
@@ -125,6 +126,7 @@ class HarvestConfig:
     salt: str = field(default_factory=lambda: os.environ.get("PUCKWORKS_VIS_SALT", ""))
     items_per_page: int = 100
     timeout_s: float = 30.0
+    min_free_gb: float = 1.0   # stop gracefully if the drive drops below this many GB free
 
     def __post_init__(self):
         self.out_dir = Path(self.out_dir)
@@ -496,6 +498,14 @@ def _crawl(cfg, updated_after):
                 break
             if sid in seen and updated_after is None:
                 continue  # initial crawl dedups on id
+            # DISK GUARD: never fill the drive -- stop gracefully (finally-flush saves)
+            # if free space drops below the floor. Checked every 100 fetched shots (cheap).
+            if n_fetched % 100 == 0:
+                free_gb = shutil.disk_usage(cfg.out_dir).free / (1024 ** 3)
+                if free_gb < cfg.min_free_gb:
+                    stopped_early = "low_disk: %.2f GB free < %.2f GB floor" % (
+                        free_gb, cfg.min_free_gb)
+                    break
             try:
                 raw = fetch_shot(cfg, sid, _session=session, _limiter=limiter)
             except Exception as exc:
@@ -688,11 +698,13 @@ def main(argv=None):
     p.add_argument("--max-requests", type=int, default=None)
     p.add_argument("--req-per-min", type=int, default=30)
     p.add_argument("--out", default=str(_DEFAULT_OUT))
+    p.add_argument("--min-free-gb", type=float, default=1.0,
+                   help="stop gracefully if the drive drops below this many GB free")
     p.add_argument("--write-aggregate", action="store_true",
                    help="stats: also (re)write the tracked aggregate_stats.csv")
     a = p.parse_args(argv)
     cfg = HarvestConfig(out_dir=a.out, max_req_per_min=a.req_per_min,
-                        max_requests=a.max_requests)
+                        max_requests=a.max_requests, min_free_gb=a.min_free_gb)
     if a.cmd == "full":
         summary = harvest_all(cfg)
         _print_summary("visualizer harvest (full)", summary)
