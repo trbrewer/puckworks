@@ -548,3 +548,25 @@ def test_run_manifest_written_with_provenance_and_salt_fingerprint(tmp_path, mon
     # the salt never appears; only a fingerprint of it
     assert "secret-salt" not in json.dumps(m)
     assert m["salt_fingerprint"] == hashlib.sha256(b"secret-salt").hexdigest()[:12]
+
+
+def test_integration_source_explicit_inferred_unknown():
+    """§7: the data-origin app/parser is recorded SEPARATELY from machine, with provenance:
+    explicit (stable field) > inferred (brewdata) > unknown (flagged, never guessed)."""
+    from puckworks.lib.visualizer_harvest import normalize_shot, HarvestConfig
+    cfg = HarvestConfig(salt="t")
+    base = {"user_id": "u", "updated_at": 1, "timeframe": [0.0], "data": {}}
+    # explicit stable field wins
+    ex = normalize_shot({**base, "id": "1", "integration_source": "Decent_TCL"}, cfg)
+    assert ex["context"]["integration_source"] == "decent_tcl"
+    assert ex["context"]["integration_source_provenance"] == "explicit"
+    assert "missing:integration_source" not in ex["flags"]
+    # inferred from brewdata when no explicit field
+    inf = normalize_shot({**base, "id": "2", "brewdata": {"gaggiuino": {}}}, cfg)
+    assert inf["context"]["integration_source"] == "gaggiuino"
+    assert inf["context"]["integration_source_provenance"] == "inferred"
+    # unknown -> None + flag (never guessed)
+    unk = normalize_shot({**base, "id": "3"}, cfg)
+    assert unk["context"]["integration_source"] is None
+    assert unk["context"]["integration_source_provenance"] == "unknown"
+    assert "missing:integration_source" in unk["flags"]

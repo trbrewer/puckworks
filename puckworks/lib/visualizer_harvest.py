@@ -338,6 +338,23 @@ def _infer_machine(raw):
     return None
 
 
+def _integration_source(raw):
+    """Best-effort ``(source, provenance)`` for the data ORIGIN app/parser, kept SEPARATE
+    from machine make/model (SERIALIZER_REVIEW §7). Different integrations (Decent,
+    Meticulous, Beanconqueror, Gaggiuino, GaggiMate, SEP, Pressensor, …) differ in channel
+    definitions, units, cadence, and flow estimation, so an unknown source is unexplained
+    modeling heterogeneity. `provenance` is 'explicit' if Visualizer emits a stable field,
+    else 'inferred' from brewdata, else 'unknown' — source is never guessed from a machine."""
+    for key in ("integration_source", "integration", "parser"):
+        v = raw.get(key)
+        if isinstance(v, str) and v.strip():
+            return v.strip().lower(), "explicit"
+    m = _infer_machine(raw)
+    if m is not None:
+        return m, "inferred"
+    return None, "unknown"
+
+
 _NUM_RE = re.compile(r"[-+]?\d*\.?\d+")
 
 
@@ -363,7 +380,7 @@ def _num(v):
         return (float(m.group(0)), True) if m else (None, True)
 
 
-_NORMALIZE_SCHEMA_VERSION = 1   # bump when a TidyShot field changes meaning
+_NORMALIZE_SCHEMA_VERSION = 2   # bump on any TidyShot field change; v2 adds §7 integration_source
 
 
 def normalize_shot(raw, cfg, hashed_user_override=None):
@@ -472,6 +489,9 @@ def normalize_shot(raw, cfg, hashed_user_override=None):
     machine = _infer_machine(raw)
     if machine is None:
         flags.append("missing:machine_source")
+    integ_source, integ_prov = _integration_source(raw)   # §7: origin app/parser
+    if integ_prov == "unknown":
+        flags.append("missing:integration_source")
     context = {
         "dose__kg": _kg("bean_weight"),
         "drink_weight__kg": _kg("drink_weight"),
@@ -479,6 +499,8 @@ def normalize_shot(raw, cfg, hashed_user_override=None):
         "grinder_model": raw.get("grinder_model") or None,
         "grinder_setting": raw.get("grinder_setting") or None,
         "machine": machine,
+        "integration_source": integ_source,
+        "integration_source_provenance": integ_prov,
         "profile_title": raw.get("profile_title") or None,
         "roast_level": raw.get("roast_level") or None,
         "tags": list(raw.get("tags") or []),

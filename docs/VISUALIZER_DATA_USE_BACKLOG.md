@@ -72,9 +72,14 @@ gracefully at 3,400 shots (throwaway: recent-window only + the §6/§8 bugs + no
   flow while only flagging volumetric ambiguity. Rename to native + `*__semantic` + only
   populate `mass_flow__kg_per_s` when confirmed. **Staged, not done** — it is a record-schema
   rename that touches the loader + analyses; do with the Bronze/latest refactor, not piecemeal.
-- **§7 integration/parser source.** Preserve a controlled `integration_source` enum (Decent,
-  Meticulous, Beanconqueror, Gaggiuino, GaggiMate, SEP, Pressensor, …); inference is fallback
-  only. Missing source = unexplained modeling heterogeneity.
+- **§7 integration/parser source — PARTIAL DONE (committed).** `_integration_source(raw)`
+  records the origin app/parser SEPARATELY from `machine`, with provenance: `explicit`
+  (a stable Visualizer field, if present) > `inferred` (brewdata) > `unknown` (flagged
+  `missing:integration_source`, never guessed). Stored as
+  `context.integration_source` + `context.integration_source_provenance`; normalizer schema
+  bumped v1→v2. Test: `test_integration_source_explicit_inferred_unknown`.
+  *(Still needs the Visualizer side to emit a controlled `integration_source` enum so most
+  records are `explicit` rather than `inferred`/`unknown` — not in our control.)*
 
 ### DONE (committed) — §9 robust trace parsing + quarantine ledger
 - **Per-element trace parsing.** `_finite_float`/`_parse_series`: booleans (would fake a
