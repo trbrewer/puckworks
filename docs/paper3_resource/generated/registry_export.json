@@ -2,7 +2,7 @@
   "components": [
     {
       "doi": "",
-      "evidence_strength": "unclassified",
+      "evidence_strength": "exploratory_synthesis",
       "execution_role": "runtime",
       "id": "brewer2026.coupled_kappa_t",
       "kind_legacy": "synthesis",
@@ -14,7 +14,7 @@
     },
     {
       "doi": "",
-      "evidence_strength": "unclassified",
+      "evidence_strength": "within_campaign_held_out",
       "execution_role": "runtime",
       "id": "brewer2026.streamtube",
       "kind_legacy": "runtime",
@@ -26,7 +26,7 @@
     },
     {
       "doi": "",
-      "evidence_strength": "unclassified",
+      "evidence_strength": "qualitative_capacity",
       "execution_role": "calibration",
       "id": "fasano2000_partI.fines_migration",
       "kind_legacy": "calibration",
@@ -38,7 +38,7 @@
     },
     {
       "doi": "10.1016/j.jfoodeng.2023.111843",
-      "evidence_strength": "unclassified",
+      "evidence_strength": "source_curve_reproduction",
       "execution_role": "runtime",
       "id": "mo2023_2.swelling",
       "kind_legacy": "runtime",
@@ -50,7 +50,7 @@
     },
     {
       "doi": "10.5281/zenodo.18046315",
-      "evidence_strength": "unclassified",
+      "evidence_strength": "post_fit_reconstruction",
       "execution_role": "runtime",
       "id": "waszkiewicz2025.poroelastic",
       "kind_legacy": "runtime",
@@ -62,7 +62,7 @@
     },
     {
       "doi": "10.1016/j.matt.2019.12.019",
-      "evidence_strength": "unclassified",
+      "evidence_strength": "code_verification",
       "execution_role": "runtime",
       "id": "cameron2020.extraction_bdf",
       "kind_legacy": "runtime",
@@ -74,7 +74,7 @@
     },
     {
       "doi": "10.1017/S095679252500018X",
-      "evidence_strength": "unclassified",
+      "evidence_strength": "post_fit_reconstruction",
       "execution_role": "runtime",
       "id": "grudeva2025.reduced",
       "kind_legacy": "runtime",
@@ -86,7 +86,7 @@
     },
     {
       "doi": "10.1038/s41598-021-85787-1",
-      "evidence_strength": "unclassified",
+      "evidence_strength": "post_fit_reconstruction",
       "execution_role": "calibration",
       "id": "liang2021.desorption",
       "kind_legacy": "calibration",
@@ -98,7 +98,7 @@
     },
     {
       "doi": "10.1016/j.jfoodeng.2023.111843",
-      "evidence_strength": "unclassified",
+      "evidence_strength": "post_fit_reconstruction",
       "execution_role": "runtime",
       "id": "mo2023_2.coupled_bed",
       "kind_legacy": "runtime",
@@ -110,7 +110,7 @@
     },
     {
       "doi": "10.1137/15M1036658",
-      "evidence_strength": "unclassified",
+      "evidence_strength": "qualitative_capacity",
       "execution_role": "calibration",
       "id": "moroney2016.surrogate",
       "kind_legacy": "calibration",
@@ -122,7 +122,7 @@
     },
     {
       "doi": "10.1016/j.jfoodeng.2023.111887",
-      "evidence_strength": "unclassified",
+      "evidence_strength": "code_verification",
       "execution_role": "calibration",
       "id": "pannusch2024.closures",
       "kind_legacy": "calibration",
@@ -134,7 +134,7 @@
     },
     {
       "doi": "10.1016/j.jfoodeng.2023.111887",
-      "evidence_strength": "unclassified",
+      "evidence_strength": "post_fit_reconstruction",
       "execution_role": "runtime",
       "id": "pannusch2024.solver",
       "kind_legacy": "runtime",
@@ -146,7 +146,7 @@
     },
     {
       "doi": "",
-      "evidence_strength": "unclassified",
+      "evidence_strength": "sign_or_compatibility",
       "execution_role": "runtime",
       "id": "romancorrochano2017.extraction",
       "kind_legacy": "runtime",
@@ -158,7 +158,7 @@
     },
     {
       "doi": "",
-      "evidence_strength": "unclassified",
+      "evidence_strength": "code_verification",
       "execution_role": "calibration",
       "id": "brewer2026.lb_reference",
       "kind_legacy": "calibration",
@@ -170,7 +170,7 @@
     },
     {
       "doi": "",
-      "evidence_strength": "unclassified",
+      "evidence_strength": "code_verification",
       "execution_role": "calibration",
       "id": "brewer2026.lb_taichi",
       "kind_legacy": "calibration",
@@ -182,7 +182,7 @@
     },
     {
       "doi": "",
-      "evidence_strength": "unclassified",
+      "evidence_strength": "qualitative_capacity",
       "execution_role": "calibration",
       "id": "lee2023.feedback",
       "kind_legacy": "calibration",
@@ -194,7 +194,7 @@
     },
     {
       "doi": "10.1111/j.1745-4530.2001.tb00541.x",
-      "evidence_strength": "unclassified",
+      "evidence_strength": "sign_or_compatibility",
       "execution_role": "calibration",
       "id": "sourcing2026.g10_liquor_rheology",
       "kind_legacy": "calibration",
@@ -206,7 +206,7 @@
     },
     {
       "doi": "10.1098/rsos.252031",
-      "evidence_strength": "unclassified",
+      "evidence_strength": "source_curve_reproduction",
       "execution_role": "runtime",
       "id": "wadsworth2026.inertial",
       "kind_legacy": "runtime",
@@ -218,7 +218,7 @@
     },
     {
       "doi": "10.1098/rsos.252031",
-      "evidence_strength": "unclassified",
+      "evidence_strength": "source_curve_reproduction",
       "execution_role": "calibration",
       "id": "wadsworth2026.grindmap",
       "kind_legacy": "calibration",
@@ -230,7 +230,7 @@
     },
     {
       "doi": "10.1063/5.0245167",
-      "evidence_strength": "unclassified",
+      "evidence_strength": "controlled_independent",
       "execution_role": "runtime",
       "id": "foster2025.infiltration",
       "kind_legacy": "runtime",
@@ -242,7 +242,7 @@
     },
     {
       "doi": "arXiv:2501.13361",
-      "evidence_strength": "unclassified",
+      "evidence_strength": "qualitative_capacity",
       "execution_role": "calibration",
       "id": "sourcing2026.g1_glassbead_analog",
       "kind_legacy": "calibration",
@@ -254,7 +254,7 @@
     },
     {
       "doi": "10.1063/5.0245167",
-      "evidence_strength": "unclassified",
+      "evidence_strength": "source_curve_reproduction",
       "execution_role": "runtime",
       "id": "foster2025.machine_mode",
       "kind_legacy": "runtime",
@@ -266,7 +266,7 @@
     },
     {
       "doi": "",
-      "evidence_strength": "unclassified",
+      "evidence_strength": "sign_or_compatibility",
       "execution_role": "calibration",
       "id": "sourcing2026.g3_pump_characteristic",
       "kind_legacy": "calibration",
@@ -278,7 +278,7 @@
     },
     {
       "doi": "",
-      "evidence_strength": "unclassified",
+      "evidence_strength": "qualitative_capacity",
       "execution_role": "calibration",
       "id": "brewer2026.pack_generator",
       "kind_legacy": "calibration",
@@ -290,7 +290,7 @@
     },
     {
       "doi": "10.1098/rsos.252031",
-      "evidence_strength": "unclassified",
+      "evidence_strength": "source_curve_reproduction",
       "execution_role": "calibration",
       "id": "wadsworth2026.permeability",
       "kind_legacy": "calibration",
@@ -301,7 +301,7 @@
       "stage": "packing"
     }
   ],
-  "content_sha256": "95b9d0ddd680e38b456f79532bbc4e7a514f7a91ec5de1cf1ed66b962b3cdc60",
+  "content_sha256": "fc80f9c190df4f18f4e5ee86cc29efd9a00de0435e184b23db6b01fc2f215979",
   "n_components": 25,
   "schema_version": 1
 }

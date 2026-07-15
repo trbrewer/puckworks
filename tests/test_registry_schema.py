@@ -32,11 +32,11 @@ def test_synthesis_component_migrated():
     assert syn.provenance_class == "project_synthesis"
 
 
-def test_validate_registry_only_flags_unclassified_evidence():
-    # the schema itself is sound; the only known debt is that evidence_strength is not yet
-    # populated (it is card-driven and must never be auto-assigned).
-    problems = R.validate_registry()
-    assert all("unclassified evidence_strength" in p for p in problems)
+def test_registry_is_fully_classified():
+    # every component now carries a card-driven evidence_strength -> validate_registry clean.
+    assert R.validate_registry() == []
+    for c in R.components():
+        assert c.evidence_strength in R.EVIDENCE_STRENGTHS, (c.name, c.evidence_strength)
 
 
 def test_register_rejects_duplicate_and_bad_enums():

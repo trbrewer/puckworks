@@ -7,8 +7,8 @@ def test_verify_passes_on_current_tree():
     assert rep["ok"] is True, rep["problems"]
     assert rep["problems"] == []
     assert rep["bundle_missing"] == []
-    # the only warnings are the known card-driven evidence-classification debt
-    assert rep["warnings"] and all("unclassified evidence_strength" in w for w in rep["warnings"])
+    # evidence_strength is now populated card-driven -> no unclassified warnings remain.
+    assert not any("unclassified evidence_strength" in w for w in rep["warnings"])
 
 
 def test_bundle_contents_exist():

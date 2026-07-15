@@ -375,3 +375,46 @@ register(Component(
                 "tables (Tim drop)",
     notes="Targets RC-2/RC-3 shared early-shot bias; confirm bias magnitude "
           "consistent with only ~1.3-2x mu before attributing all of it here."))
+
+
+# --- evidence_strength (schema v2, WP2) -----------------------------------
+# Assigned card-driven from each component's model-card "Calibration and validation offered
+# by the source" section, at the WEAKEST DEFENSIBLE tier (never upgrade a claim). Kept in ONE
+# auditable block rather than scattered across registrations so the claim list is reviewable.
+# Low-confidence calls (see docs/CORPUS_ANALYSIS_PLAN.md) are open to correction before any
+# Paper 3 submission.
+from puckworks import registry as _R
+
+_EVIDENCE_STRENGTH = {
+    "cameron2020.extraction_bdf": "code_verification",
+    "brewer2026.streamtube": "within_campaign_held_out",
+    "brewer2026.pack_generator": "qualitative_capacity",
+    "brewer2026.lb_reference": "code_verification",
+    "brewer2026.lb_taichi": "code_verification",
+    "wadsworth2026.permeability": "source_curve_reproduction",
+    "pannusch2024.solver": "post_fit_reconstruction",
+    "pannusch2024.closures": "code_verification",
+    "grudeva2025.reduced": "post_fit_reconstruction",
+    "liang2021.desorption": "post_fit_reconstruction",
+    "moroney2016.surrogate": "qualitative_capacity",
+    "brewer2026.coupled_kappa_t": "exploratory_synthesis",
+    "fasano2000_partI.fines_migration": "qualitative_capacity",
+    "mo2023_2.coupled_bed": "post_fit_reconstruction",
+    "mo2023_2.swelling": "source_curve_reproduction",
+    "romancorrochano2017.extraction": "sign_or_compatibility",
+    "lee2023.feedback": "qualitative_capacity",
+    "wadsworth2026.inertial": "source_curve_reproduction",
+    "wadsworth2026.grindmap": "source_curve_reproduction",
+    "waszkiewicz2025.poroelastic": "post_fit_reconstruction",
+    "foster2025.machine_mode": "source_curve_reproduction",
+    "foster2025.infiltration": "controlled_independent",
+    "sourcing2026.g1_glassbead_analog": "qualitative_capacity",
+    "sourcing2026.g3_pump_characteristic": "sign_or_compatibility",
+    "sourcing2026.g10_liquor_rheology": "sign_or_compatibility",
+}
+
+_missing_ev = {c.name for c in _R.components()} - set(_EVIDENCE_STRENGTH)
+assert not _missing_ev, "components missing evidence_strength: %r" % _missing_ev
+for _name, _ev in _EVIDENCE_STRENGTH.items():
+    assert _ev in _R.EVIDENCE_STRENGTHS, (_name, _ev)
+    _R.get(_name).evidence_strength = _ev

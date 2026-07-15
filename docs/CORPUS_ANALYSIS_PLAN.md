@@ -105,11 +105,21 @@ unclassified evidence is a warning. Tag/Zenodo/DOI stay human. Tests: `test_pape
 - ✅ WP0.5 QC-columns tabular accessor (`CorpusSnapshot.qc_table()` + `QC_COLUMNS`).
 - ✅ WP0.6 redacted live-shape **fixture matrix** + contract test
   (`tests/fixtures/visualizer/shapes/`, `test_visualizer_contract_shapes.py`).
-- ⚠ WP2 **evidence_strength** population — deliberately NOT auto-assigned: per CLAUDE.md
-  ("implement from cards, never from memory; no upgrading validation claims"), assigning
-  evidence tiers to 25 components must be a careful card-by-card pass, not a code sweep.
-  Left flagged as a warning by `validate_registry` / `build verify`. **Needs a human/card pass.**
-- ⛔ WP0 live-contract **canary** — needs network + rate/privacy care; lane wired, script pending.
+- ✅ WP2 **evidence_strength** — populated card-driven (weakest-defensible tier) in one
+  auditable block (`puckworks/models/__init__.py` `_EVIDENCE_STRENGTH`); registry now fully
+  classified, `validate_registry`/`build verify` clean, Appendix A carries tiers. Spread:
+  1 controlled_independent (foster infiltration), 1 exploratory_synthesis (coupled_kappa_t),
+  5 post_fit_reconstruction, 5 source_curve_reproduction, 5 qualitative_capacity,
+  4 code_verification, 3 sign_or_compatibility, 1 within_campaign_held_out.
+  **OPEN FOR REVIEW before any Paper 3 submission** — low-confidence calls to sanity-check:
+  `foster2025.infiltration`=controlled_independent (a loose parameter-free first-drip bracket
+  on an independent rig — downgradeable to sign_or_compatibility); `moroney2016.surrogate` &
+  `lee2023.feedback`=qualitative_capacity (reproduce a source curve but sign/shape-only);
+  `mo2023_2.coupled_bed`=post_fit_reconstruction (no true held-out condition);
+  `romancorrochano2017.extraction`=sign_or_compatibility (Crank-verified solver but
+  reality-facing evidence is trend-only, raw curves unpublished).
+- ✅ WP0 live-contract **canary** — `puckworks/lib/visualizer_canary.py` (1 list + 1 detail,
+  retains nothing), wired into the secret-gated live-contract lane.
 - WP5 bounded B2 review prep — P2, manuscript work; better after the atlas is frozen / reviewer input.
 
 ## Cycle Definition-of-Success — status
