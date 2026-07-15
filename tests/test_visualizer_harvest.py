@@ -335,3 +335,85 @@ def test_crawl_creates_missing_output_dir(tmp_path, monkeypatch):
     assert r["completed"] is True
     ids = [row["id"] for row in csv.DictReader(open(fresh / "_index.csv"))]
     assert len(ids) == 3
+
+
+def _crawl_with_pii(tmp_path, monkeypatch):
+    """Run a small full crawl whose detail responses carry PII + a real trace, so we can
+    inspect the Bronze store. Returns the HarvestConfig used."""
+    from puckworks.lib import visualizer_harvest as vh
+    import types
+
+    def fake_get(cfg, session, limiter, path, params=None):
+        if path == "/shots":
+            if params["page"] > 1:
+                return {"data": []}
+            return {"data": [{"id": f"id{i}", "clock": 100 - i, "updated_at": 1000 + i}
+                             for i in range(2)]}
+        sid = path.split("/")[-1]
+        return {"id": sid, "updated_at": 1000,
+                "user_id": "SECRET-user-42", "user_name": "Not A Real Person",
+                "barista": "Not A Real Barista", "espresso_notes": "secret tasting note",
+                "timeframe": [0.0, 0.5, 1.0],
+                "data": {"espresso_pressure": [0.0, 6.0, 9.0]},
+                "espresso_enjoyment": 82}
+
+    monkeypatch.setattr(vh, "_get", fake_get)
+    monkeypatch.setattr(vh, "_requests",
+                        lambda: types.SimpleNamespace(Session=lambda: None,
+                                                      RequestException=Exception))
+    cfg = vh.HarvestConfig(out_dir=str(tmp_path / "store"), max_req_per_min=10 ** 9,
+                           salt="bronze-salt")
+    vh.harvest_all(cfg)
+    return cfg
+
+
+def test_bronze_stores_pii_stripped_raw_with_content_hash(tmp_path, monkeypatch):
+    """SERIALIZER_REVIEW §5: Bronze keeps the raw payload MINUS PII, plus a content hash and
+    the salted user hash, so a later normalizer fix can re-normalize offline."""
+    from puckworks.lib import visualizer_harvest as vh
+    import hashlib, json
+    cfg = _crawl_with_pii(tmp_path, monkeypatch)
+    bronze = list(vh.iter_bronze(cfg))
+    assert len(bronze) == 2
+    rec = bronze[0]
+    # PII is gone -- no direct identifiers or free text anywhere in the stored record
+    blob = json.dumps(rec)
+    for banned in ("SECRET-user-42", "Not A Real Person", "Not A Real Barista",
+                   "secret tasting note"):
+        assert banned not in blob
+    for banned_key in vh._PRIVACY_DROP:
+        assert banned_key not in rec["payload"]
+    # but the raw trace payload IS retained for re-normalization
+    assert rec["payload"]["timeframe"] == [0.0, 0.5, 1.0]
+    assert rec["payload"]["data"]["espresso_pressure"] == [0.0, 6.0, 9.0]
+    assert rec["payload"]["espresso_enjoyment"] == 82
+    # salted user hash is kept (not the id); content hash matches the stored payload
+    assert rec["hashed_user"] == vh.hash_user(cfg, "SECRET-user-42")
+    expect = hashlib.sha256(
+        json.dumps(rec["payload"], sort_keys=True, ensure_ascii=False).encode()).hexdigest()
+    assert rec["content_sha256"] == expect
+
+
+def test_renormalize_from_bronze_reproduces_records_offline(tmp_path, monkeypatch):
+    """The payoff: re-run the normalizer over Bronze with NO network and reproduce the
+    normalized store -- identities preserved via the stored hash despite user_id being
+    stripped. Network access during re-normalization would be a bug."""
+    from puckworks.lib import visualizer_harvest as vh
+    import csv
+    cfg = _crawl_with_pii(tmp_path, monkeypatch)
+    orig = {r["id"]: r for r in csv.DictReader(open(cfg.out_dir / "_index.csv"))}
+
+    # break the network so re-normalization proves it is fully offline
+    def boom(*a, **k):
+        raise AssertionError("re-normalization must not hit the network")
+    monkeypatch.setattr(vh, "_get", boom)
+
+    dst = tmp_path / "renorm"
+    summary = vh.renormalize_from_bronze(cfg, dst)
+    assert summary["n_records"] == 2
+    redone = {r["id"]: r for r in csv.DictReader(open(dst / "_index.csv"))}
+    assert set(redone) == set(orig)
+    for sid, row in redone.items():
+        assert row["hashed_user"] == orig[sid]["hashed_user"]   # identity preserved
+        assert row["hashed_user"]                                # and non-empty
+        assert row["n_samples"] == orig[sid]["n_samples"]        # trace reproduced

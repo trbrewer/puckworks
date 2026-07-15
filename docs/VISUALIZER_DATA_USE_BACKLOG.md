@@ -26,7 +26,7 @@ gracefully at 3,400 shots (throwaway: recent-window only + the §6/§8 bugs + no
   scope (and does NOT substitute `Current.user.shots`). At 18 req/min, 1 M shots ≈ 39 days;
   millions ≈ months — the ordinary API is not a viable acquisition path.
 
-### DONE (this commit) — safe code fixes that don't need the Visualizer side
+### DONE (committed) — safe code fixes that don't need the Visualizer side
 - **§6 enjoyment scale (data-corruption bug).** `espresso_enjoyment` is a **0..100**
   preference score, but it was validated against **0..15** with the tasting dimensions, so
   every real value >15 (e.g. 82) became `None`. Fixed: per-field ceilings (`_SENSORY_MAX`,
@@ -34,12 +34,22 @@ gracefully at 3,400 shots (throwaway: recent-window only + the §6/§8 bugs + no
 - **§2 fresh-run FileNotFoundError.** `_crawl` now `mkdir`s `out_dir` before the first
   per-100 disk-space check (which fires on iteration 0); regression test
   (`test_crawl_creates_missing_output_dir`).
+- **§5 immutable Bronze layer — DONE (why the periodic model is now safe).** The harvester
+  writes a **PII-stripped raw payload** (`bronze_NNNNN.jsonl.gz`, 1:1 with each normalized
+  shard) carrying `{id, updated_at, hashed_user, content_sha256, payload}` — the raw trace
+  is kept, all `_PRIVACY_DROP` fields incl. `user_id` are gone, only the salted hash remains.
+  `renormalize_from_bronze(cfg, dst)` re-runs the CURRENT normalizer **offline** over stored
+  Bronze, reproducing the normalized store (identities preserved via the stored hash). This
+  is the lever for the ephemeral recent-updated window: a normalizer fix (e.g. the pending
+  §8 flow-semantics rename) now re-applies to shots already harvested, even after they age
+  out of the API. Config flag `store_bronze` (default on); Bronze is gitignored with the
+  store. Tests: `test_bronze_stores_pii_stripped_raw_with_content_hash`,
+  `test_renormalize_from_bronze_reproduces_records_offline`. *(Legacy caveat: the ~3.4k shots
+  harvested before this land have no Bronze and cannot be re-normalized — a known one-time loss.)*
+  Deferred sub-item: rename the `raw/` dir (holds Bronze **and** normalized) to a clearer
+  `bronze/`+`normalized/` split — cosmetic, do with the §3 latest-version refactor.
 
 ### HIGH — before ANY re-harvest (most need the Visualizer-side access first)
-- **§5 immutable Bronze layer.** Store the PII-stripped **raw** payload + content hash so
-  future normalizer fixes re-run offline (this is the same lever as `visualizerCoffee` §9.1).
-  The dir named `raw/` currently holds NORMALIZED records — rename to `normalized/` or make
-  it genuinely raw. **Do this before the next crawl so it is the last full crawl.**
 - **§3 latest-version-wins store.** Append-only + index-as-count double-counts on any
   re-list (reproduced by the reviewer). Need `versions/ latest/ tombstones/` and a loader
   that defaults to `latest`, keyed on `(shot_id, updated_at, content_hash)`.

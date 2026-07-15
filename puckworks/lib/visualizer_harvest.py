@@ -43,7 +43,7 @@ import re
 import shutil
 import time
 import warnings
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 from typing import Iterator, Optional
 
@@ -137,6 +137,10 @@ class HarvestConfig:
     items_per_page: int = 100
     timeout_s: float = 30.0
     min_free_gb: float = 1.0   # stop gracefully if the drive drops below this many GB free
+    store_bronze: bool = True   # keep a PII-stripped raw payload so a later normalizer fix
+                                # can re-normalize OFFLINE (SERIALIZER_REVIEW §5). Essential
+                                # for the ephemeral recent-updated window: once a shot ages
+                                # out of the API it can never be re-fetched.
 
     def __post_init__(self):
         self.out_dir = Path(self.out_dir)
@@ -323,20 +327,24 @@ def _num(v):
         return (float(m.group(0)), True) if m else (None, True)
 
 
-def normalize_shot(raw, cfg):
+def normalize_shot(raw, cfg, hashed_user_override=None):
     """Turn one raw API shot into a TidyShot dict with SEPARATE evidence tiers.
 
     Returns {schema_version, id, hashed_user, machine, hydraulic, outcomes,
     context, units, flags}. Applies the privacy drop (constraint 2), converts
     known channels to SI (constraint 4), and NEVER invents a missing field —
     missing values become null and are flagged.
+
+    `hashed_user_override` lets re-normalization from Bronze reproduce the salted
+    user hash when the raw `user_id` has already been stripped from the payload.
     """
     flags = []
     units = {"hydraulic": {}, "outcomes": {}, "context": {}}
     data = raw.get("data") or {}
 
     # privacy: confirm we never carry a dropped field forward
-    hashed_user = hash_user(cfg, raw.get("user_id"))
+    hashed_user = (hashed_user_override if hashed_user_override is not None
+                   else hash_user(cfg, raw.get("user_id")))
 
     # --- hydraulic tier: SI series on the shared time base ---------------
     # review §8.1 (P0): the live Visualizer schema/serializer put `timeframe` at the
@@ -502,6 +510,80 @@ def _write_shard(cfg, shard_idx, tidy_records):
     return path
 
 
+# --- Bronze: PII-stripped immutable raw layer (SERIALIZER_REVIEW §5) ------
+# Keep the raw API payload (minus PII) beside the normalized record so a later
+# normalizer fix re-normalizes OFFLINE instead of losing data to the API's
+# ephemeral recent-updated window. Never committed (gitignored with the store).
+_BRONZE_SCHEMA_VERSION = 1
+
+
+def _strip_pii(raw):
+    """Drop every direct-identifier / free-text field before the payload is stored.
+    Only a salted one-way user hash is retained, in the Bronze wrapper (not here)."""
+    return {k: v for k, v in raw.items() if k not in _PRIVACY_DROP}
+
+
+def _bronze_record(cfg, raw, tidy):
+    """Wrap one PII-stripped raw payload with the metadata needed to re-normalize it
+    later: id, updated_at, the salted user hash, and a content hash of the payload."""
+    payload = _strip_pii(raw)
+    blob = json.dumps(payload, sort_keys=True, ensure_ascii=False)
+    return {
+        "bronze_schema_version": _BRONZE_SCHEMA_VERSION,
+        "id": tidy.get("id"),
+        "updated_at": tidy.get("updated_at"),
+        "hashed_user": tidy.get("hashed_user"),
+        "content_sha256": hashlib.sha256(blob.encode("utf-8")).hexdigest(),
+        "payload": payload,
+    }
+
+
+def _write_bronze_shard(cfg, shard_idx, bronze_records):
+    cfg.out_dir.mkdir(parents=True, exist_ok=True)
+    path = cfg.out_dir / f"bronze_{shard_idx:05d}.jsonl.gz"
+    with gzip.open(path, "wt", encoding="utf-8") as fh:
+        for rec in bronze_records:
+            fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    return path
+
+
+def iter_bronze(cfg):
+    """Yield every stored Bronze record (PII-stripped raw payload + wrapper)."""
+    for shard in sorted(cfg.out_dir.glob("bronze_*.jsonl.gz")):
+        with gzip.open(shard, "rt", encoding="utf-8") as fh:
+            for line in fh:
+                if line.strip():
+                    yield json.loads(line)
+
+
+def renormalize_from_bronze(cfg, dst_dir):
+    """Re-run the CURRENT normalizer over stored Bronze payloads, OFFLINE (no network),
+    writing a fresh normalized store (shards + index) into `dst_dir`. This is the payoff
+    of Bronze: a normalizer fix (e.g. the enjoyment-scale or flow-semantics corrections)
+    can be applied to shots already harvested, even after they age out of the API window.
+    The stored salted user hash is re-injected so identities are preserved without the raw
+    user_id ever being retained. Returns a summary dict."""
+    dst = replace(cfg, out_dir=Path(dst_dir))
+    dst.out_dir.mkdir(parents=True, exist_ok=True)
+    buf, idx_buf, shard_idx, n = [], [], 0, 0
+    for b in iter_bronze(cfg):
+        tidy = normalize_shot(b.get("payload") or {}, dst,
+                              hashed_user_override=b.get("hashed_user"))
+        buf.append(tidy)
+        idx_buf.append(_index_row(tidy))
+        n += 1
+        if len(buf) >= dst.shard_size:
+            _write_shard(dst, shard_idx, buf)
+            _append_index(dst, idx_buf)
+            shard_idx += 1
+            buf, idx_buf = [], []
+    if buf:
+        _write_shard(dst, shard_idx, buf)
+        _append_index(dst, idx_buf)
+        shard_idx += 1
+    return {"n_records": n, "n_shards": shard_idx}
+
+
 def _next_shard_idx(cfg):
     existing = sorted(cfg.out_dir.glob("shard_*.jsonl.gz")) if cfg.out_dir.exists() else []
     if not existing:
@@ -533,17 +615,19 @@ def _crawl(cfg, updated_after):
     limiter = _RateLimiter(cfg.max_req_per_min)
     seen = _read_index_ids(cfg)
     shard_idx = _next_shard_idx(cfg)
-    buffer, index_buffer = [], []
+    buffer, index_buffer, bronze_buffer = [], [], []
     n_fetched = n_new = n_skipped = 0
     max_updated = _load_cursor(cfg).get("last_updated_at")
 
     def flush():
-        nonlocal shard_idx, buffer, index_buffer
+        nonlocal shard_idx, buffer, index_buffer, bronze_buffer
         if buffer:
             _write_shard(cfg, shard_idx, buffer)
+            if cfg.store_bronze and bronze_buffer:
+                _write_bronze_shard(cfg, shard_idx, bronze_buffer)  # 1:1 with the shard idx
             _append_index(cfg, index_buffer)
             shard_idx += 1
-            buffer, index_buffer = [], []
+            buffer, index_buffer, bronze_buffer = [], [], []
 
     # LISTING-PAGE RESUME (full crawl only): the API lists newest-first, 100/page, with
     # no start-time filter, so reaching un-fetched OLDER shots means paging past the ones
@@ -595,6 +679,9 @@ def _crawl(cfg, updated_after):
                 seen.add(sid)
             buffer.append(tidy)
             index_buffer.append(_index_row(tidy))
+            if cfg.store_bronze:
+                # store the PII-stripped raw BEFORE it is lost -- kept 1:1 with `buffer`
+                bronze_buffer.append(_bronze_record(cfg, raw, tidy))
             if upd is not None:
                 max_updated = upd if max_updated is None else max(max_updated, upd)
             if len(buffer) >= cfg.shard_size:
