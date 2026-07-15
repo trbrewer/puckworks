@@ -76,12 +76,26 @@ gracefully at 3,400 shots (throwaway: recent-window only + the §6/§8 bugs + no
   Meticulous, Beanconqueror, Gaggiuino, GaggiMate, SEP, Pressensor, …); inference is fallback
   only. Missing source = unexplained modeling heterogeneity.
 
-### MEDIUM — corpus-scale robustness (review §9–§10, §Atomicity, §Pagination)
-- Per-element trace parser (finite/missing/bool/string/non-finite), array-alignment via
-  nulls, channel QC metrics, `json.dumps(allow_nan=False)`, and a durable **quarantine
-  ledger** (never a silent skip). Overlaps `visualizerCoffee` §8.8/§8.14.
+### DONE (committed) — §9 robust trace parsing + quarantine ledger
+- **Per-element trace parsing.** `_finite_float`/`_parse_series`: booleans (would fake a
+  1.0/0.0 sample), non-numeric strings, and NaN/Inf become `None` **in place** (array
+  alignment preserved) and are flagged `bad_samples:<channel>=N`; a single bad sample no
+  longer raises and drops the whole shot. `json.dumps(allow_nan=False)` guard so NaN/Inf
+  can never enter a shard.
+- **Quarantine ledger (never a silent skip).** A shot the normalizer/serializer cannot
+  handle is appended to `_quarantine.jsonl` with `{run_id, id, updated_at, failure_stage,
+  exception_type, reason, content_sha256}` and the crawl continues; `iter_quarantine()`
+  reader; summary reports `n_quarantined` (replaces the old silent `n_skipped`) + a `run_id`.
+  Tests: `test_trace_parsing_tolerates_bad_samples_without_dropping_shot`,
+  `test_malformed_record_is_quarantined_not_silently_skipped`.
+
+### MEDIUM — remaining corpus-scale robustness (review §9 metrics, §10, §Atomicity)
+- First-class channel **QC metrics** (timestamp monotonicity, sampling jitter, duplicate
+  timestamps, flatline, length-vs-timeframe) feeding declared eligibility rules — beyond
+  the current `bad_samples`/`length_mismatch`/`missing:*` flags. Overlaps `visualizerCoffee` §8.14.
 - Retain approved temporal/provenance fields + a per-run **manifest** (run_id, commits,
-  api/normalizer versions, cursors, counts, checksums, salt fingerprint).
+  api/normalizer versions, cursors, counts, checksums, salt fingerprint). *(run_id now
+  exists; the manifest file is the remaining piece — §10.)*
 - Atomic shard writes (temp→fsync→checksum→rename) + a reconciliation command.
 
 ### Acceptance gates before a canonical harvest (review Gates 1–9)

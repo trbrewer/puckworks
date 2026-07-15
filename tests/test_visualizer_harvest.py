@@ -477,3 +477,49 @@ def test_version_dedup_reruns_add_nothing_and_capture_edits(tmp_path, monkeypatc
     assert latest["a"]["hydraulic"]["pressure__Pa"][1] == pytest.approx(9.5e5)  # edited value
     idx = vh.latest_index_rows(cfg)
     assert len(idx) == 2 and vh._as_int(idx["a"]["updated_at"]) == 200
+
+
+def test_trace_parsing_tolerates_bad_samples_without_dropping_shot():
+    """§9: booleans, non-numeric strings, null, and NaN in a trace must become None IN PLACE
+    (alignment kept) and be flagged — never a false measurement and never dropping the shot."""
+    from puckworks.lib.visualizer_harvest import normalize_shot, HarvestConfig
+    import math
+    cfg = HarvestConfig(salt="t")
+    raw = {"id": "z", "user_id": "u", "updated_at": 1,
+           "timeframe": [0.0, 0.5, 1.0, 1.5, 2.0],
+           "data": {"espresso_pressure": [6.0, True, "bad", None, float("nan")]}}
+    t = normalize_shot(raw, cfg)                       # must NOT raise
+    p = t["hydraulic"]["pressure__Pa"]
+    assert len(p) == 5                                 # alignment preserved
+    assert p[0] == pytest.approx(6.0e5)                # good sample kept + converted
+    assert p[1] is None and p[2] is None and p[4] is None   # bool / non-numeric / NaN dropped
+    assert p[3] is None                                # explicit null stays null
+    assert any(f.startswith("bad_samples:espresso_pressure=") for f in t["flags"])
+    # and the whole record serializes with NaN rejection (no NaN leaked into the trace)
+    import json
+    json.dumps(t, allow_nan=False)
+
+
+def test_malformed_record_is_quarantined_not_silently_skipped(tmp_path, monkeypatch):
+    """§9: a shot the normalizer cannot handle is written to the quarantine ledger (with a
+    reason + content hash), not silently counted-and-dropped, and the crawl continues."""
+    from puckworks.lib import visualizer_harvest as vh
+    listing = {1: [("ok", 10), ("bad", 11)]}
+    details = {
+        "ok": {"id": "ok", "updated_at": 10, "user_id": "u",
+               "timeframe": [0.0, 1.0], "data": {"espresso_pressure": [6.0, 9.0]}},
+        # `data` is a string, not a dict -> normalize_shot raises -> quarantine
+        "bad": {"id": "bad", "updated_at": 11, "user_id": "u", "data": "not-a-dict"},
+    }
+    _fake_transport(monkeypatch, listing, details)
+    cfg = vh.HarvestConfig(out_dir=str(tmp_path / "s"), max_req_per_min=10 ** 9, salt="t")
+    r = vh.harvest_all(cfg)
+    assert r["completed"] is True
+    assert r["n_new"] == 1 and r["n_quarantined"] == 1     # good stored, bad quarantined
+    q = list(vh.iter_quarantine(cfg))
+    assert len(q) == 1
+    assert q[0]["id"] == "bad" and q[0]["failure_stage"] == "normalize"
+    assert q[0]["content_sha256"] and q[0]["run_id"] == r["run_id"]
+    # the good shot is in the store; the bad one is NOT
+    stored = {s["id"] for s in vh.iter_store_latest(cfg)}
+    assert stored == {"ok"}

@@ -38,6 +38,7 @@ import csv
 import gzip
 import hashlib
 import json
+import math
 import os
 import re
 import shutil
@@ -286,6 +287,40 @@ def _series(raw_data, key):
     return None
 
 
+def _finite_float(x):
+    """Parse one trace element to a FINITE float, else None (SERIALIZER_REVIEW §9).
+    A Python bool is NOT a measurement (it would become 1.0/0.0 -- a false sample); NaN
+    and infinity are rejected; a non-numeric string yields None. This keeps a single bad
+    sample from either faking a value or dropping the whole shot via a raised exception."""
+    if isinstance(x, bool):
+        return None
+    if isinstance(x, (int, float)):
+        return float(x) if math.isfinite(x) else None
+    if isinstance(x, str):
+        try:
+            f = float(x)
+        except ValueError:
+            return None
+        return f if math.isfinite(f) else None
+    return None
+
+
+def _parse_series(seq):
+    """Parse a raw trace to aligned floats: bad/non-finite/boolean elements become None in
+    place (array alignment preserved). Returns (values, n_bad) where n_bad counts positions
+    that held a non-null value we could not use as a finite number."""
+    values, n_bad = [], 0
+    for x in seq:
+        f = _finite_float(x)
+        if f is None:
+            values.append(None)
+            if x is not None:      # an explicit null is 'missing', not 'bad'
+                n_bad += 1
+        else:
+            values.append(f)
+    return values, n_bad
+
+
 def _infer_machine(raw):
     """Infer the source machine from the brewdata payload; null+flag if unknown."""
     bd = raw.get("brewdata")
@@ -360,9 +395,12 @@ def normalize_shot(raw, cfg, hashed_user_override=None):
         flags.append("missing:timeframe")
         n_samples = 0
     else:
-        hydraulic["time__s"] = [float(x) for x in timeframe]
+        tvals, t_bad = _parse_series(timeframe)   # §9: tolerant, keeps alignment
+        hydraulic["time__s"] = tvals
         units["hydraulic"]["time__s"] = {"raw": "s", "si": "s"}
         n_samples = len(timeframe)
+        if t_bad:
+            flags.append(f"bad_samples:timeframe={t_bad}")
 
     for group in (_PRESSURE_CHANNELS, _FLOW_CHANNELS, _WEIGHT_CHANNELS,
                   _TEMP_CHANNELS):
@@ -373,8 +411,11 @@ def normalize_shot(raw, cfg, hashed_user_override=None):
                 continue
             if timeframe is not None and len(s) != len(timeframe):
                 flags.append(f"length_mismatch:{src_key}")
-            hydraulic[name] = [None if x is None else conv(float(x)) for x in s]
+            vals, n_bad = _parse_series(s)   # §9: bool/non-finite/non-numeric -> None in place
+            hydraulic[name] = [None if v is None else conv(v) for v in vals]
             units["hydraulic"][name] = {"raw": raw_u, "si": si_u}
+            if n_bad:
+                flags.append(f"bad_samples:{src_key}={n_bad}")
             if src_key in _VOLUMETRIC_AMBIGUOUS:
                 flags.append(f"unit_ambiguous:{src_key}=volumetric_or_mass")
 
@@ -559,6 +600,49 @@ def _append_index(cfg, rows):
             w.writerow(r)
 
 
+# --- quarantine ledger: a malformed record is RECORDED, never silently skipped (§9) ---
+def _quarantine_path(cfg):
+    return cfg.out_dir / "_quarantine.jsonl"
+
+
+def _quarantine_record(run_id, sid, updated_at, raw, stage, exc):
+    """One record we could not normalize or serialize, captured with enough context to
+    re-examine it later: run, id, stage, exception, and a content hash of the PII-stripped
+    raw payload. A single bad shot must never abort the crawl or vanish without a trace."""
+    payload = _strip_pii(raw or {})
+    try:
+        blob = json.dumps(payload, sort_keys=True, ensure_ascii=False, default=str)
+    except Exception:
+        blob = repr(payload)
+    return {
+        "run_id": run_id, "id": sid, "updated_at": updated_at,
+        "failure_stage": stage,
+        "exception_type": type(exc).__name__,
+        "reason": str(exc)[:500],
+        "content_sha256": hashlib.sha256(blob.encode("utf-8")).hexdigest(),
+    }
+
+
+def _append_quarantine(cfg, records):
+    if not records:
+        return
+    cfg.out_dir.mkdir(parents=True, exist_ok=True)
+    with open(_quarantine_path(cfg), "a", encoding="utf-8") as fh:
+        for rec in records:
+            fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
+
+
+def iter_quarantine(cfg):
+    """Yield quarantine records (malformed shots recorded, not silently dropped)."""
+    p = _quarantine_path(cfg)
+    if not p.exists():
+        return
+    with open(p, encoding="utf-8") as fh:
+        for line in fh:
+            if line.strip():
+                yield json.loads(line)
+
+
 def _write_shard(cfg, shard_idx, tidy_records):
     cfg.out_dir.mkdir(parents=True, exist_ok=True)
     path = cfg.out_dir / f"shard_{shard_idx:05d}.jsonl.gz"
@@ -678,7 +762,8 @@ def _crawl(cfg, updated_after):
     seen_versions = latest_index_map(cfg)
     shard_idx = _next_shard_idx(cfg)
     buffer, index_buffer, bronze_buffer = [], [], []
-    n_fetched = n_new = n_updated = n_skipped = 0
+    n_fetched = n_new = n_updated = n_quarantined = 0
+    run_id = "run_%d_%d" % (int(time.time()), os.getpid())  # §9/§10 per-run identity
     max_updated = _load_cursor(cfg).get("last_updated_at")
 
     def flush():
@@ -730,13 +815,21 @@ def _crawl(cfg, updated_after):
                 stopped_early = "%s: %s" % (type(exc).__name__, exc)
                 break
             n_fetched += 1
+            # §9: a single malformed record must not abort the crawl AND must not vanish
+            # silently -- it is written to the quarantine ledger with a reason + content hash.
             try:
                 tidy = normalize_shot(raw, cfg)
-            except Exception:
-                # a single malformed record must not abort the crawl: skip it and
-                # continue (the tolerant `_num` parser already handles dirty user
-                # fields; this is a last-resort guard for anything unforeseen).
-                n_skipped += 1
+            except Exception as exc:
+                n_quarantined += 1
+                _append_quarantine(cfg, [_quarantine_record(
+                    run_id, sid, upd, raw, "normalize", exc)])
+                continue
+            try:
+                json.dumps(tidy, allow_nan=False)  # §9: NaN/Inf must never enter a shard
+            except Exception as exc:
+                n_quarantined += 1
+                _append_quarantine(cfg, [_quarantine_record(
+                    run_id, sid, upd, raw, "serialize", exc)])
                 continue
             if sid not in seen_versions:
                 n_new += 1        # a shot id we had never stored before
@@ -773,8 +866,9 @@ def _crawl(cfg, updated_after):
             # interrupted -> save the page reached so the next run resumes near it.
             _save_list_page(cfg, 1 if completed else cur_page)
     return {
+        "run_id": run_id,
         "n_fetched": n_fetched, "n_new": n_new, "n_updated": n_updated,
-        "n_skipped": n_skipped,
+        "n_quarantined": n_quarantined,
         "rate_limit_wait_s": round(limiter.total_wait_s, 1),
         "cursor": max_updated, "stopped_early": stopped_early,
         "resumed_from_page": start_page, "last_page": cur_page, "completed": completed,
