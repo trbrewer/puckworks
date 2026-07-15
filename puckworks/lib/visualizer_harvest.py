@@ -441,7 +441,41 @@ def _num(v):
         return (f, True) if math.isfinite(f) else (None, True)
 
 
-_NORMALIZE_SCHEMA_VERSION = 5   # v2 §7; v3 §8; v4 §9 qc; v5 content_sha256 + start_time + privacy
+_NORMALIZE_SCHEMA_VERSION = 6   # v5 + v6: physical-plausibility flags, state QC, sensory-int
+
+
+# Broad, documented physical-plausibility windows (P1-07). Values outside are RETAINED
+# (Bronze keeps everything) but FLAGGED so an impossible reading cannot silently enter a
+# modeling cohort. These are conservative defaults, not source-specific unit contracts.
+_PHYS_LIMITS = {
+    "pressure__Pa": (-1.0e5, 2.0e7),          # ~ -1 .. 200 bar
+    "temperature_basket__K": (253.0, 400.0),  # ~ -20 .. 127 degC
+    "temperature_mix__K": (253.0, 400.0),
+    "temperature_goal__K": (253.0, 400.0),
+    "weight__kg": (-1.0e-3, 5.0),             # up to ~5 kg beverage; tiny negative tolerance
+}
+
+
+def _physical_flags(hydraulic, outcomes, context):
+    """Hard physical-impossibility flags (P1-07): fractions outside 0..1, nonpositive dose or
+    duration, negative beverage weight, and out-of-window pressure/temperature/weight traces."""
+    out = []
+    for name, (lo, hi) in _PHYS_LIMITS.items():
+        s = hydraulic.get(name)
+        if s and any(x is not None and not (lo <= x <= hi) for x in s):
+            out.append(f"impossible:{name}")
+    for name in ("tds__fraction", "ey__fraction"):
+        val = outcomes.get(name)
+        if val is not None and not (0.0 <= val <= 1.0):
+            out.append(f"impossible:{name}")
+    for name in ("dose__kg", "duration__s"):
+        val = context.get(name)
+        if val is not None and val <= 0:
+            out.append(f"impossible:{name}_nonpositive")
+    dw = context.get("drink_weight__kg")
+    if dw is not None and dw < 0:
+        out.append("impossible:drink_weight_negative")
+    return out
 
 
 def normalize_shot(raw, cfg, hashed_user_override=None):
@@ -515,11 +549,19 @@ def normalize_shot(raw, cfg, hashed_user_override=None):
             flags.append(f"bad_samples:{src_key}={n_bad}")
         flags.append(f"unit_ambiguous:{src_key}=volumetric_or_mass")
 
-    # categorical state change: kept as-is (no unit)
+    # categorical state change: kept as-is (no unit), but P2-01: check alignment + validate
+    # values are codes (int / short string), flagging booleans and free text rather than
+    # silently retaining them.
     sc = _series(data, "espresso_state_change")
     if sc is not None:
         hydraulic["state_change"] = list(sc)
         units["hydraulic"]["state_change"] = {"raw": "code", "si": "code"}
+        if timeframe is not None and len(sc) != len(timeframe):
+            flags.append("length_mismatch:espresso_state_change")
+        n_bad_state = sum(1 for x in sc
+                          if isinstance(x, bool) or not isinstance(x, (int, str)))
+        if n_bad_state:
+            flags.append(f"invalid_state_values:{n_bad_state}")
 
     # --- outcomes tier: user-entered TDS/EY/sensory (NOT groundtruth) ----
     outcomes = {}
@@ -540,14 +582,20 @@ def normalize_shot(raw, cfg, hashed_user_override=None):
         v = raw.get(key)
         hi = _SENSORY_MAX[key]  # 0..15 tasting dims, 0..100 enjoyment (SERIALIZER_REVIEW §6)
         # review §8.6 (P1): a real 0 must be KEPT (the old `and v` truthiness turned a valid
-        # 0 into None, distorting missingness and within-user distributions). Booleans are
-        # excluded (bool is an int subclass).
-        if isinstance(v, (int, float)) and not isinstance(v, bool):
-            sensory[key] = int(v) if 0 <= v <= hi else None
-            if not (0 <= v <= hi):
-                flags.append(f"out_of_range:{key}")
+        # 0 into None, distorting missingness). Booleans are excluded (bool is an int subclass).
+        # P2-02: a non-integer sensory value (e.g. 7.9) must be FLAGGED, not silently
+        # truncated to 7 -- require an integer or an integer-valued float.
+        if isinstance(v, bool) or not isinstance(v, (int, float)):
+            sensory[key] = None
+        elif isinstance(v, float) and (not math.isfinite(v) or not v.is_integer()):
+            sensory[key] = None
+            if math.isfinite(v):
+                flags.append(f"noninteger_sensory:{key}")
+        elif 0 <= v <= hi:
+            sensory[key] = int(v)
         else:
             sensory[key] = None
+            flags.append(f"out_of_range:{key}")
     if not any(v is not None for v in sensory.values()):
         flags.append("missing:sensory")
     outcomes["sensory"] = sensory
@@ -600,6 +648,7 @@ def normalize_shot(raw, cfg, hashed_user_override=None):
         flags.append("qc:duplicate_timestamps")
     if qc.get("time_missing"):
         flags.append("qc:missing_timestamps")
+    flags.extend(_physical_flags(hydraulic, outcomes, context))   # P1-07
 
     rec = {
         "schema_version": _NORMALIZE_SCHEMA_VERSION,
@@ -886,19 +935,42 @@ def iter_bronze(cfg):
                     yield json.loads(line)
 
 
-def renormalize_from_bronze(cfg, dst_dir):
+def renormalize_from_bronze(cfg, dst_dir, replace_dst=False):
     """Re-run the CURRENT normalizer over stored Bronze payloads, OFFLINE (no network),
     writing a fresh normalized store (shards + index) into `dst_dir`. This is the payoff
     of Bronze: a normalizer fix (e.g. the enjoyment-scale or flow-semantics corrections)
     can be applied to shots already harvested, even after they age out of the API window.
     The stored salted user hash is re-injected so identities are preserved without the raw
-    user_id ever being retained. Returns a summary dict."""
+    user_id ever being retained.
+
+    P1-01: the destination MUST be empty (or pass `replace_dst=True`), else a second run
+    would overwrite shard 0 but APPEND duplicate index rows and corrupt the store. A single
+    bad Bronze record is quarantined rather than aborting the whole job. Returns a summary."""
     dst = replace(cfg, out_dir=Path(dst_dir))
+    if dst.out_dir.exists() and any(dst.out_dir.iterdir()):
+        if not replace_dst:
+            raise RuntimeError(
+                "re-normalization destination %s is not empty; pass replace_dst=True or "
+                "choose a new version directory (P1-01)" % dst.out_dir)
+        for p in dst.out_dir.glob("shard_*.jsonl.gz"):
+            p.unlink()
+        for p in dst.out_dir.glob("bronze_*.jsonl.gz"):
+            p.unlink()
+        for name in ("_index.csv", "_cursor.json", "_list_page.json"):
+            (dst.out_dir / name).unlink(missing_ok=True)
     dst.out_dir.mkdir(parents=True, exist_ok=True)
-    buf, idx_buf, shard_idx, n = [], [], 0, 0
+    run_id = "renorm_%d_%s" % (time.time_ns(), os.urandom(4).hex())
+    buf, idx_buf, shard_idx, n, n_bad = [], [], 0, 0, 0
     for b in iter_bronze(cfg):
-        tidy = normalize_shot(b.get("payload") or {}, dst,
-                              hashed_user_override=b.get("hashed_user"))
+        try:
+            tidy = normalize_shot(b.get("payload") or {}, dst,
+                                  hashed_user_override=b.get("hashed_user"))
+        except Exception as exc:                          # per-record, don't abort the job
+            n_bad += 1
+            _append_quarantine(dst, [_quarantine_record(
+                run_id, b.get("id"), b.get("updated_at"), b.get("payload") or {},
+                "renormalize", exc)])
+            continue
         buf.append(tidy)
         idx_buf.append(_index_row(tidy))
         n += 1
@@ -911,7 +983,7 @@ def renormalize_from_bronze(cfg, dst_dir):
         _write_shard(dst, shard_idx, buf)
         _append_index(dst, idx_buf)
         shard_idx += 1
-    return {"n_records": n, "n_shards": shard_idx}
+    return {"n_records": n, "n_shards": shard_idx, "n_quarantined": n_bad, "run_id": run_id}
 
 
 def _next_shard_idx(cfg):
@@ -940,13 +1012,31 @@ _HARVEST_VERSION = 1        # bump when the store layout / crawl contract change
 
 
 def _git_commit():
-    """Best-effort current git commit for provenance; None if git is unavailable."""
+    """Best-effort Puckworks git commit for provenance; None if git is unavailable. P1-04:
+    resolve from the module's own repo root (not the process cwd, which reported an unrelated
+    repo's HEAD when the harvester was invoked from elsewhere)."""
     try:
-        out = subprocess.run(["git", "rev-parse", "HEAD"],
+        repo_root = Path(__file__).resolve().parents[2]
+        out = subprocess.run(["git", "rev-parse", "HEAD"], cwd=str(repo_root),
                              capture_output=True, text=True, timeout=5)
         return out.stdout.strip() if out.returncode == 0 and out.stdout.strip() else None
     except Exception:
         return None
+
+
+def _normalizer_source_sha256():
+    """SHA-256 of this harvester source file — more reliable provenance than git HEAD when
+    the working tree has local edits (P1-04)."""
+    try:
+        return _sha256_file(Path(__file__))
+    except Exception:
+        return None
+
+
+def _http_status(exc):
+    """HTTP status code of a requests error, else None (used to classify fetch failures)."""
+    resp = getattr(exc, "response", None)
+    return getattr(resp, "status_code", None) if resp is not None else None
 
 
 def _runs_dir(cfg):
@@ -1037,12 +1127,28 @@ def _crawl(cfg, updated_after):
             try:
                 raw = fetch_shot(cfg, sid, _session=session, _limiter=limiter)
             except Exception as exc:
-                # a persistent 429/5xx (retries exhausted), network drop, or a listing
-                # error: STOP GRACEFULLY so the finally-block preserves everything
-                # fetched so far. Re-running `full` resumes (id-dedup skips done shots).
+                status = _http_status(exc)
+                if status in (403, 404, 410):
+                    # P0-05: the shot was deleted / made private / gone between list and
+                    # detail. Record a lifecycle event and CONTINUE -- one missing shot must
+                    # not kill the crawl (previously a 404 stopped the whole run).
+                    n_quarantined += 1
+                    _append_quarantine(cfg, [_quarantine_record(
+                        run_id, sid, upd, {"id": sid}, "fetch_%s" % status, exc)])
+                    continue
+                # a persistent 429/5xx (retries exhausted) or network drop: STOP GRACEFULLY so
+                # the finally-block preserves everything fetched so far. Re-running resumes.
                 stopped_early = "%s: %s" % (type(exc).__name__, exc)
                 break
             n_fetched += 1
+            # P1-02: the detail response must be for the shot we listed. A mismatch is an
+            # integrity failure (wrong-id record) -> quarantine, never store under the wrong id.
+            if raw.get("id") != sid:
+                n_quarantined += 1
+                _append_quarantine(cfg, [_quarantine_record(
+                    run_id, sid, upd, raw, "list_detail_id_mismatch",
+                    ValueError("detail id %r != listed %r" % (raw.get("id"), sid)))])
+                continue
             # §9: a single malformed record must not abort the crawl AND must not vanish
             # silently -- it is written to the quarantine ledger with a reason + content hash.
             try:
@@ -1114,6 +1220,8 @@ def _crawl(cfg, updated_after):
         "normalizer_schema_version": _NORMALIZE_SCHEMA_VERSION,
         "bronze_schema_version": _BRONZE_SCHEMA_VERSION,
         "puckworks_commit": _git_commit(),
+        "normalizer_source_sha256": _normalizer_source_sha256(),   # P1-04
+        "listing_exhausted": completed,   # P0-2: NOT a proof of snapshot completeness
         "started_at": started_at,
         "completed_at": time.time(),
         "store_bronze": cfg.store_bronze,

@@ -772,6 +772,136 @@ def test_quarantine_retains_payload_for_offline_repair(tmp_path, monkeypatch):
     assert q[0]["payload"]["espresso_pressure"] == [6.0, 9.0]
 
 
+def test_fetch_404_is_quarantined_and_crawl_continues(tmp_path, monkeypatch):
+    """P0-05: a 404 (shot deleted/private between list and detail) must record a lifecycle
+    event and CONTINUE, not stop the whole crawl. The valid sibling is still stored."""
+    from puckworks.lib import visualizer_harvest as vh
+    import types
+
+    class _Resp:
+        status_code = 404
+
+    def fake_get(cfg, session, limiter, path, params=None):
+        if path == "/shots":
+            if params["page"] > 1:
+                return {"data": []}
+            return {"data": [{"id": "gone", "clock": 2, "updated_at": 10},
+                             {"id": "ok", "clock": 1, "updated_at": 11}]}
+        if path.endswith("/gone"):
+            err = RuntimeError("404 Not Found")
+            err.response = _Resp()
+            raise err
+        return {"id": "ok", "updated_at": 11, "user_id": "u",
+                "timeframe": [0.0, 1.0], "data": {"espresso_pressure": [6.0, 9.0]}}
+
+    monkeypatch.setattr(vh, "_get", fake_get)
+    monkeypatch.setattr(vh, "_requests",
+                        lambda: types.SimpleNamespace(Session=lambda: None,
+                                                      RequestException=Exception))
+    cfg = vh.HarvestConfig(out_dir=str(tmp_path), max_req_per_min=10 ** 9, salt="t")
+    r = vh.harvest_all(cfg)
+    assert r["completed"] is True and r["n_quarantined"] == 1
+    assert {s["id"] for s in vh.iter_store_latest(cfg)} == {"ok"}     # sibling not lost
+    assert list(vh.iter_quarantine(cfg))[0]["failure_stage"] == "fetch_404"
+
+
+def test_list_detail_id_mismatch_is_quarantined(tmp_path, monkeypatch):
+    """P1-02: if the detail response's id != the listed id, it must be quarantined, never
+    stored under the wrong id."""
+    from puckworks.lib import visualizer_harvest as vh
+    listing = {1: [("A", 10)]}
+    details = {"A": {"id": "B", "updated_at": 10, "user_id": "u",     # WRONG id
+                     "timeframe": [0.0], "data": {}}}
+    _fake_transport(monkeypatch, listing, details)
+    cfg = vh.HarvestConfig(out_dir=str(tmp_path), max_req_per_min=10 ** 9, salt="t")
+    r = vh.harvest_all(cfg)
+    assert r["n_quarantined"] == 1 and r["n_new"] == 0
+    assert list(vh.iter_store_latest(cfg)) == []                      # nothing stored
+    assert list(vh.iter_quarantine(cfg))[0]["failure_stage"] == "list_detail_id_mismatch"
+
+
+def test_renormalize_refuses_nonempty_destination(tmp_path, monkeypatch):
+    """P1-01: re-normalizing into a non-empty destination must raise, not append duplicate
+    index rows; replace_dst=True is idempotent."""
+    from puckworks.lib import visualizer_harvest as vh
+    cfg = _crawl_with_pii(tmp_path, monkeypatch)
+    dst = tmp_path / "renorm"
+    vh.renormalize_from_bronze(cfg, dst)
+    with pytest.raises(RuntimeError, match="not empty"):
+        vh.renormalize_from_bronze(cfg, dst)                          # second run refused
+    s = vh.renormalize_from_bronze(cfg, dst, replace_dst=True)        # explicit replace ok
+    import csv
+    rows = list(csv.DictReader(open(dst / "_index.csv")))
+    assert len(rows) == s["n_records"]                               # no duplicate rows
+
+
+def test_git_commit_uses_repo_root_not_cwd(tmp_path, monkeypatch):
+    """P1-04: _git_commit resolves the Puckworks repo, not the process cwd (which reported an
+    unrelated repo's HEAD). Running from an unrelated dir must not change the answer."""
+    from puckworks.lib import visualizer_harvest as vh
+    import os
+    here = vh._git_commit()
+    old = os.getcwd()
+    try:
+        os.chdir(tmp_path)
+        assert vh._git_commit() == here      # unaffected by cwd
+    finally:
+        os.chdir(old)
+
+
+def test_sensory_noninteger_is_flagged_not_truncated():
+    """P2-02: a non-integer sensory value (7.9) must be flagged and dropped, not silently
+    truncated to 7. An integer-valued float (7.0) is accepted."""
+    from puckworks.lib.visualizer_harvest import normalize_shot, HarvestConfig
+    cfg = HarvestConfig(salt="t")
+    base = {"id": "s", "user_id": "u", "updated_at": 1, "timeframe": [0.0], "data": {}}
+    bad = normalize_shot({**base, "flavor": 7.9}, cfg)
+    assert bad["outcomes"]["sensory"]["flavor"] is None
+    assert "noninteger_sensory:flavor" in bad["flags"]
+    ok = normalize_shot({**base, "flavor": 7.0}, cfg)
+    assert ok["outcomes"]["sensory"]["flavor"] == 7          # integer-valued float accepted
+
+
+def test_physical_impossibility_is_flagged(monkeypatch):
+    """P1-07: impossible values are flagged (retained in Bronze, but must not silently enter
+    modeling cohorts): fractions outside 0..1, nonpositive dose/duration, out-of-window
+    pressure/temperature."""
+    from puckworks.lib.visualizer_harvest import normalize_shot, HarvestConfig
+    cfg = HarvestConfig(salt="t")
+    t = normalize_shot({"id": "p", "user_id": "u", "updated_at": 1,
+                        "drink_tds": 250.0,            # -> 2.5 fraction, impossible
+                        "bean_weight": "-18", "duration": "-30",
+                        "timeframe": [0.0, 1.0],
+                        "data": {"espresso_pressure": [-5.0, 9.0],   # -5 bar -> -5e5 Pa
+                                 "espresso_temperature_basket": [20.0, 1000.0]}}, cfg)
+    f = t["flags"]
+    assert "impossible:tds__fraction" in f
+    assert "impossible:dose__kg_nonpositive" in f
+    assert "impossible:duration__s_nonpositive" in f
+    assert "impossible:pressure__Pa" in f
+    assert "impossible:temperature_basket__K" in f
+    # a clean shot has none of these
+    ok = normalize_shot({"id": "q", "user_id": "u", "updated_at": 1, "timeframe": [0.0, 1.0],
+                         "data": {"espresso_pressure": [6.0, 9.0]}}, cfg)
+    assert not any(fl.startswith("impossible:") for fl in ok["flags"])
+
+
+def test_state_channel_qc_flags_alignment_and_bad_values():
+    """P2-01: the state channel must not bypass QC — length mismatch and non-code values
+    (booleans, free text) are flagged."""
+    from puckworks.lib.visualizer_harvest import normalize_shot, HarvestConfig
+    cfg = HarvestConfig(salt="t")
+    t = normalize_shot({"id": "st", "user_id": "u", "updated_at": 1,
+                        "timeframe": [0.0, 1.0, 2.0],
+                        "data": {"espresso_state_change": [0, True, "manual-note"]}}, cfg)
+    assert "length_mismatch:espresso_state_change" not in t["flags"]   # same length (3)
+    assert any(f.startswith("invalid_state_values:") for f in t["flags"])
+    short = normalize_shot({"id": "st2", "user_id": "u", "updated_at": 1,
+                            "timeframe": [0.0, 1.0, 2.0],
+                            "data": {"espresso_state_change": [0, 1]}}, cfg)  # too short
+    assert "length_mismatch:espresso_state_change" in short["flags"]
+
+
 def test_num_rejects_booleans_and_non_finite():
     """P1-4: scalar parsing must reject booleans (True != 1.0 dose) and NaN/Inf (they would
     later be mis-attributed to serialization), returning (None, dirty=True)."""
