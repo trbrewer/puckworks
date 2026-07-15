@@ -731,3 +731,83 @@ def test_run_id_is_unique_across_runs(tmp_path, monkeypatch):
     cfg = vh.HarvestConfig(out_dir=str(tmp_path), max_req_per_min=10 ** 9, salt="t")
     ids = {vh.harvest_all(cfg)["run_id"] for _ in range(5)}
     assert len(ids) == 5
+
+
+def test_strip_pii_is_recursive_and_drops_free_text():
+    """P1-3: PII must be dropped at ANY nesting depth, and free-text profile/tags too."""
+    from puckworks.lib import visualizer_harvest as vh
+    import json
+    raw = {"id": "x", "user_id": "SECRET", "espresso_pressure": [1, 2],
+           "metadata": {"user_name": "Klaus", "email": "k@example.com",
+                        "notes": "a private note", "keep": "ok"},
+           "profile_title": "2021.12_klaus_1mls_80C", "tags": ["klaus", "home"]}
+    stripped = vh._strip_pii(raw)
+    blob = json.dumps(stripped)
+    for banned in ("SECRET", "Klaus", "k@example.com", "a private note",
+                   "2021.12_klaus_1mls_80C", "klaus"):
+        assert banned not in blob
+    assert stripped["metadata"] == {"keep": "ok"}         # nested PII gone, benign kept
+    assert "profile_title" not in stripped and "tags" not in stripped
+    assert stripped["espresso_pressure"] == [1, 2]        # telemetry preserved
+    # and the normalized context keeps only privacy-safe presence signals
+    cfg = vh.HarvestConfig(salt="t")
+    ctx = vh.normalize_shot(raw, cfg)["context"]
+    assert ctx["profile_present"] is True and ctx["n_tags"] == 2
+    assert "profile_title" not in ctx and "tags" not in ctx
+
+
+def test_quarantine_retains_payload_for_offline_repair(tmp_path, monkeypatch):
+    """P1-2: a quarantined record keeps its PII-stripped payload so a future normalizer fix
+    can re-normalize it offline (previously only a hash + reason were stored)."""
+    from puckworks.lib import visualizer_harvest as vh
+    listing = {1: [("bad", 11)]}
+    details = {"bad": {"id": "bad", "updated_at": 11, "user_id": "u",
+                       "data": "not-a-dict", "espresso_pressure": [6.0, 9.0]}}
+    _fake_transport(monkeypatch, listing, details)
+    cfg = vh.HarvestConfig(out_dir=str(tmp_path), max_req_per_min=10 ** 9, salt="t")
+    vh.harvest_all(cfg)
+    q = list(vh.iter_quarantine(cfg))
+    assert len(q) == 1 and q[0]["payload"]                 # payload retained, not just hash
+    assert "user_id" not in q[0]["payload"]                # PII still stripped
+    assert q[0]["payload"]["espresso_pressure"] == [6.0, 9.0]
+
+
+def test_num_rejects_booleans_and_non_finite():
+    """P1-4: scalar parsing must reject booleans (True != 1.0 dose) and NaN/Inf (they would
+    later be mis-attributed to serialization), returning (None, dirty=True)."""
+    from puckworks.lib.visualizer_harvest import _num
+    assert _num(True) == (None, True)
+    assert _num(False) == (None, True)
+    assert _num(float("nan")) == (None, True)
+    assert _num(float("inf")) == (None, True)
+    assert _num("nan") == (None, True)
+    assert _num("inf") == (None, True)
+    assert _num(18.0) == (18.0, False)                     # a real number still passes
+    assert _num("18g") == (18.0, True)                     # dirty-suffix still parsed+flagged
+
+
+def test_start_time_retained_and_duration_dirty_flagged():
+    """P1-5: brew start_time is retained (distinct from updated_at). P1-4: a dirty duration
+    surfaces a flag instead of silently dropping it."""
+    from puckworks.lib.visualizer_harvest import normalize_shot, HarvestConfig
+    cfg = HarvestConfig(salt="t")
+    t = normalize_shot({"id": "s", "user_id": "u", "updated_at": 1784, "start_time": 1700,
+                        "duration": "30 s", "timeframe": [0.0], "data": {}}, cfg)
+    assert t["context"]["start_time"] == 1700
+    assert t["context"]["duration__s"] == 30.0
+    assert "dirty_value:duration" in t["flags"]
+
+
+def test_qc_gap_awareness_missing_timestamp():
+    """Review #2: a missing timestamp inside a series must be COUNTED, not silently bridged
+    into one large interval, and must not let an under-determined trace read as monotonic."""
+    from puckworks.lib.visualizer_harvest import normalize_shot, HarvestConfig
+    cfg = HarvestConfig(salt="t")
+    t = normalize_shot({"id": "g", "user_id": "u", "updated_at": 1,
+                        "timeframe": [0.0, None, 2.0],
+                        "data": {"espresso_pressure": [1.0, 2.0, 3.0]}}, cfg)
+    q = t["qc"]
+    assert q["time_missing"] == 1
+    assert q.get("dt_max_s") is None or q["dt_max_s"] < 2.0   # no bridged 2 s step
+    assert q["time_monotonic"] is None                       # not enough adjacency to judge
+    assert "qc:missing_timestamps" in t["flags"]

@@ -117,10 +117,12 @@ _SENSORY_MAX = {
 }
 _SENSORY_INTS = list(_SENSORY_MAX)  # preserve stored key set + order
 
-# fields dropped on ingest for privacy (constraint 2)
+# fields dropped on ingest for privacy (constraint 2), at ANY nesting depth (P1-3).
+# Includes free-text fields that can carry names/locations: profile titles and user tags.
 _PRIVACY_DROP = [
-    "user_name", "user_id", "avatar_url", "barista",
+    "user_name", "user_id", "avatar_url", "barista", "email",
     "espresso_notes", "bean_notes", "private_notes", "notes",
+    "profile_title", "tags",
 ]
 
 _KNOWN_MACHINE_KEYS = [
@@ -335,12 +337,17 @@ def _timeseries_qc(hydraulic, n_samples):
     t = hydraulic.get("time__s")
     qc = {"n_samples": n_samples, "time_present": bool(t)}
     if t:
-        tv = [x for x in t if x is not None]
-        qc["time_valid"] = len(tv)
-        steps = [b - a for a, b in zip(tv, tv[1:])]
+        n_valid = sum(1 for x in t if x is not None)
+        qc["time_valid"] = n_valid
+        qc["time_missing"] = len(t) - n_valid          # gap-aware: nulls are not dropped silently
+        # adjacency-aware: a step is only between two CONSECUTIVE non-null samples, so a gap
+        # (0.0, null, 2.0) does NOT read as one 2 s step (review additional-finding #2).
+        steps = [b - a for a, b in zip(t, t[1:]) if a is not None and b is not None]
         qc["time_nonincreasing_steps"] = sum(1 for s in steps if s <= 0)
         qc["time_duplicate_stamps"] = sum(1 for s in steps if s == 0)
-        qc["time_monotonic"] = all(s > 0 for s in steps) if steps else True
+        # need >=2 valid AND at least one adjacent pair to judge monotonicity; else None.
+        qc["time_monotonic"] = (all(s > 0 for s in steps) if (n_valid >= 2 and steps)
+                                else None)
         if steps:
             ss = sorted(steps)
             n = len(ss)
@@ -385,8 +392,10 @@ def _integration_source(raw):
     from machine make/model (SERIALIZER_REVIEW §7). Different integrations (Decent,
     Meticulous, Beanconqueror, Gaggiuino, GaggiMate, SEP, Pressensor, …) differ in channel
     definitions, units, cadence, and flow estimation, so an unknown source is unexplained
-    modeling heterogeneity. `provenance` is 'explicit' if Visualizer emits a stable field,
-    else 'inferred' from brewdata, else 'unknown' — source is never guessed from a machine."""
+    modeling heterogeneity. `provenance` is 'explicit' if Visualizer emits a stable field;
+    else 'inferred' — a BEST-EFFORT guess from the brewdata machine keys, which conflates
+    source app with machine and should be treated as low-confidence; else 'unknown'. Only an
+    explicit source-side enum removes the ambiguity (P1-6)."""
     for key in ("integration_source", "integration", "parser"):
         v = raw.get(key)
         if isinstance(v, str) and v.strip():
@@ -410,16 +419,26 @@ def _num(v):
     flags that a suffix/garbage was present (so it is traceable per CLAUDE.md rule 7),
     and an unparseable value yields ``(None, True)`` instead of raising.
     """
+    # P1-4: a bool is NOT a measurement (True would become a 1.0 dose/TDS/duration). Reject
+    # it BEFORE the falsy check below, since `False == 0` would otherwise slip through.
+    if isinstance(v, bool):
+        return (None, True)
     if v in (None, "", 0):
         return (None, False)
+    # NaN/Inf must never enter the tidy object (it would be mis-attributed to serialization
+    # later): reject as unparseable-dirty rather than passing it through.
     if isinstance(v, (int, float)):
-        return (float(v), False)
+        return (float(v), False) if math.isfinite(v) else (None, True)
     s = str(v).strip()
     try:
-        return (float(s), False)
+        f = float(s)
+        return (f, False) if math.isfinite(f) else (None, True)
     except (ValueError, TypeError):
         m = _NUM_RE.match(s)
-        return (float(m.group(0)), True) if m else (None, True)
+        if not m:
+            return (None, True)
+        f = float(m.group(0))
+        return (f, True) if math.isfinite(f) else (None, True)
 
 
 _NORMALIZE_SCHEMA_VERSION = 5   # v2 §7; v3 §8; v4 §9 qc; v5 content_sha256 + start_time + privacy
@@ -548,18 +567,27 @@ def normalize_shot(raw, cfg, hashed_user_override=None):
     integ_source, integ_prov = _integration_source(raw)   # §7: origin app/parser
     if integ_prov == "unknown":
         flags.append("missing:integration_source")
+    dur_num, dur_dirty = _num(raw.get("duration"))
+    if dur_dirty:
+        flags.append("dirty_value:duration")   # P1-4: duration ignored _num's dirty flag
     context = {
         "dose__kg": _kg("bean_weight"),
         "drink_weight__kg": _kg("drink_weight"),
-        "duration__s": _num(raw.get("duration"))[0],
+        "duration__s": dur_num,
+        # P1-5: brew EVENT time (start_time), distinct from updated_at (edit/upload time);
+        # needed for chronological splits / leakage audits. This store is gitignored; public
+        # extracts should bucket it (day/week) per the data-use review.
+        "start_time": raw.get("start_time"),
         "grinder_model": raw.get("grinder_model") or None,
         "grinder_setting": raw.get("grinder_setting") or None,
         "machine": machine,
         "integration_source": integ_source,
         "integration_source_provenance": integ_prov,
-        "profile_title": raw.get("profile_title") or None,
+        # P1-3: profile titles and tags are free text that can carry names/locations
+        # (e.g. "2021.12_klaus_..."). Keep only privacy-safe presence signals, not the text.
+        "profile_present": bool(raw.get("profile_title")),
         "roast_level": raw.get("roast_level") or None,
-        "tags": list(raw.get("tags") or []),
+        "n_tags": len(raw.get("tags") or []),
     }
     units["context"]["dose__kg"] = {"raw": "g", "si": "kg"}
     units["context"]["drink_weight__kg"] = {"raw": "g", "si": "kg"}
@@ -570,6 +598,8 @@ def normalize_shot(raw, cfg, hashed_user_override=None):
         flags.append("qc:time_not_monotonic")
     if qc.get("time_duplicate_stamps"):
         flags.append("qc:duplicate_timestamps")
+    if qc.get("time_missing"):
+        flags.append("qc:missing_timestamps")
 
     rec = {
         "schema_version": _NORMALIZE_SCHEMA_VERSION,
@@ -737,9 +767,10 @@ def _quarantine_path(cfg):
 
 
 def _quarantine_record(run_id, sid, updated_at, raw, stage, exc):
-    """One record we could not normalize or serialize, captured with enough context to
-    re-examine it later: run, id, stage, exception, and a content hash of the PII-stripped
-    raw payload. A single bad shot must never abort the crawl or vanish without a trace."""
+    """One record we could not normalize or serialize. P1-2: the PII-stripped PAYLOAD is
+    retained (not only a hash + reason) so the record most likely to need a future parser
+    fix can actually be re-normalized offline once the normalizer is corrected. A single bad
+    shot must never abort the crawl or vanish without a recoverable trace."""
     payload = _strip_pii(raw or {})
     try:
         blob = json.dumps(payload, sort_keys=True, ensure_ascii=False, default=str)
@@ -751,6 +782,7 @@ def _quarantine_record(run_id, sid, updated_at, raw, stage, exc):
         "exception_type": type(exc).__name__,
         "reason": str(exc)[:500],
         "content_sha256": hashlib.sha256(blob.encode("utf-8")).hexdigest(),
+        "payload": payload,
     }
 
 
@@ -811,10 +843,17 @@ def _write_shard(cfg, shard_idx, tidy_records):
 _BRONZE_SCHEMA_VERSION = 1
 
 
-def _strip_pii(raw):
-    """Drop every direct-identifier / free-text field before the payload is stored.
-    Only a salted one-way user hash is retained, in the Bronze wrapper (not here)."""
-    return {k: v for k, v in raw.items() if k not in _PRIVACY_DROP}
+def _strip_pii(obj):
+    """Recursively drop every direct-identifier / free-text field (at ANY nesting depth,
+    P1-3) before a payload is stored — nested `metadata.user_name`, `metadata.email`, etc.
+    would otherwise survive a top-level-only denylist. Only a salted one-way user hash is
+    retained, in the Bronze wrapper (not here). The result is a privacy-FILTERED payload,
+    not the exact raw response."""
+    if isinstance(obj, dict):
+        return {k: _strip_pii(v) for k, v in obj.items() if k not in _PRIVACY_DROP}
+    if isinstance(obj, list):
+        return [_strip_pii(v) for v in obj]
+    return obj
 
 
 def _bronze_record(cfg, raw, tidy):
@@ -1320,7 +1359,9 @@ def main(argv=None):
     p = argparse.ArgumentParser(prog="puckworks.lib.visualizer_harvest")
     p.add_argument("cmd", choices=["full", "incremental", "stats", "reconcile",
                                    "rebuild-index"])
-    p.add_argument("--max-requests", type=int, default=None)
+    p.add_argument("--max-requests", type=int, default=None,
+                   help="cap on DETAIL fetches (not total HTTP calls; list-page requests "
+                        "also use quota) -- SERIALIZER_REVIEW additional-finding #8")
     p.add_argument("--req-per-min", type=int, default=18)  # under 200/10min IP limit
     p.add_argument("--out", default=str(_DEFAULT_OUT))
     p.add_argument("--min-free-gb", type=float, default=1.0,

@@ -6,6 +6,52 @@ The one **release-blocking data bug is fixed**; the rest are prioritized follow-
 
 ---
 
+## SERIALIZER_REVIEW_UPDATED triage (2026-07-15) — THIRD review, of commit `adbac42`
+
+*Confirms every prior fix holds, then reproduces new bugs. Actioned the unblocked code
+bugs; the rest need the Visualizer side, a governance decision, or a large redesign.*
+
+### DONE (committed) — reproduced bugs fixed with regression tests
+- **P0-3 / P1-1 version identity.** Added `content_sha256` to every record + `_index.csv`
+  (version key `(id, updated_at, content_sha256)`). `iter_store_latest` returns the index's
+  last-wins winner by content hash (was: FIRST record sharing the timestamp → earlier
+  payload). `reconcile_store` compares exact version-key MULTISETS shards↔index (was: id
+  sets → certified a store missing a version). Schema v4→v5; `_append_index` self-heals the
+  new column.
+- **P0-2 incremental cursor.** Only advance the durable cursor when the run COMPLETED, so an
+  interrupted newest-first run can't skip unfetched records.
+- **P1-8 run_id collision.** `time_ns` + random suffix (was seconds+pid).
+- **P1-2 lossless quarantine.** The PII-stripped payload is stored on the quarantine record,
+  so failed records are re-normalizable offline (was: hash + reason only).
+- **P1-3 privacy depth.** `_strip_pii` is now recursive (nested `metadata.user_name/email/
+  notes` dropped); `profile_title` + `tags` added to the denylist and replaced in context by
+  privacy-safe `profile_present` / `n_tags`; added `email`.
+- **P1-4 scalar hardening.** `_num` rejects booleans and NaN/Inf (→ `(None, dirty)`); dirty
+  duration now surfaces `dirty_value:duration`.
+- **P1-5 chronology.** `context.start_time` (brew event time) retained, distinct from
+  `updated_at`.
+- **QC #2 gap-awareness.** `_timeseries_qc` counts `time_missing`, computes intervals
+  adjacency-aware (a null no longer bridges into one big step), marks monotonicity `None`
+  when under-determined; `qc:missing_timestamps` flag.
+- **P1-6 (doc) / #8 (doc).** `_integration_source` docstring marks `inferred` as a
+  low-confidence machine-derived guess; `--max-requests` help clarifies it caps DETAIL
+  fetches, not total HTTP.
+
+### DEFERRED — needs the Visualizer side, governance, or a large redesign
+- **P0-1 corpus access** (Miha bulk export / corpus token) — the standing blocker.
+- **P0-3(b)** same-integer-second EDIT is never re-fetched (`upd <= have`): needs a server
+  content hash or re-fetching every equal-timestamp shot — impractical for the recent window.
+- **P0-4** `brewdata`-only records → little telemetry: needs a shape audit + per-integration
+  adapters (and ideally source-side canonical chart data).
+- **P1-6 (full)** explicit `integration_source` enum — Visualizer-side.
+- **P1-7** list/detail id-match + 404/403-continue + tombstone/lifecycle — governance +
+  moderate work. **P1-9** full multi-file bundle transaction; **catalog** (SQLite/DuckDB);
+  **HMAC-128** user hash (fragments existing linkage — do at a corpus reset); **scalability**
+  (byte-sized shards, Parquet, streaming index); **concurrency lock**; **import-snapshot**
+  command + eligibility-tier functions. All best done when the static export lands.
+
+---
+
 ## SERIALIZER_REVIEW triage (2026-07-15) — a SECOND independent review
 
 *Triaging `docs/SERIALIZER_REVIEW.md`. Confirms the timeframe fix worked, then finds the
