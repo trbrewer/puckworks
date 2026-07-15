@@ -1,0 +1,87 @@
+{
+  "channels": {
+    "flow_goal_reported__native": {
+      "ambiguity": "volumetric_or_mass_or_proxy",
+      "canonical_unit": null,
+      "commanded": true,
+      "eligibility": "exploratory_proxy_flow",
+      "quantity_kind": "flow_UNRESOLVED",
+      "raw_unit": "native",
+      "sensor": "machine_setpoint",
+      "source_field": "espresso_flow_goal"
+    },
+    "flow_reported__native": {
+      "ambiguity": "volumetric_or_mass_or_proxy",
+      "canonical_unit": null,
+      "commanded": false,
+      "eligibility": "exploratory_proxy_flow",
+      "quantity_kind": "flow_UNRESOLVED",
+      "raw_unit": "native",
+      "sensor": "machine_estimate",
+      "source_field": "espresso_flow"
+    },
+    "mass_flow_from_scale__kg_per_s": {
+      "ambiguity": null,
+      "canonical_unit": "kg/s",
+      "commanded": false,
+      "eligibility": "mass_flow_tracking",
+      "quantity_kind": "mass_flow",
+      "raw_unit": "g/s",
+      "sensor": "scale_derived",
+      "source_field": "espresso_flow_weight"
+    },
+    "pressure__Pa": {
+      "ambiguity": null,
+      "canonical_unit": "Pa",
+      "commanded": false,
+      "eligibility": "pressure_tracking",
+      "quantity_kind": "pressure",
+      "raw_unit": "bar",
+      "sensor": "machine_pressure",
+      "source_field": "espresso_pressure"
+    },
+    "pressure_goal__Pa": {
+      "ambiguity": null,
+      "canonical_unit": "Pa",
+      "commanded": true,
+      "eligibility": "pressure_tracking",
+      "quantity_kind": "pressure",
+      "raw_unit": "bar",
+      "sensor": "machine_setpoint",
+      "source_field": "espresso_pressure_goal"
+    },
+    "state_change": {
+      "ambiguity": null,
+      "canonical_unit": "code",
+      "commanded": false,
+      "eligibility": "metadata",
+      "quantity_kind": "categorical_state",
+      "raw_unit": "code",
+      "sensor": "machine_state",
+      "source_field": "espresso_state_change"
+    },
+    "time__s": {
+      "ambiguity": null,
+      "canonical_unit": "s",
+      "commanded": false,
+      "eligibility": "core",
+      "quantity_kind": "time",
+      "raw_unit": "s",
+      "sensor": "clock",
+      "source_field": "timeframe"
+    },
+    "weight__kg": {
+      "ambiguity": null,
+      "canonical_unit": "kg",
+      "commanded": false,
+      "eligibility": "weight_tracking",
+      "quantity_kind": "cumulative_mass",
+      "raw_unit": "g",
+      "sensor": "scale",
+      "source_field": "espresso_weight"
+    }
+  },
+  "content_sha256": "9df1a4034eb1a8269c4631878d1d9c17904eec5dd47aa2d508b7f733880a9f6b",
+  "n_channels": 8,
+  "schema_version": 1
+}

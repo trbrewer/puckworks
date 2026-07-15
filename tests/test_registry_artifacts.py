@@ -49,6 +49,17 @@ def test_table1_and_counts_match_registry():
     assert ("| %d |" % len(comps)) in arts["table1_registry_overview.md"]
 
 
+def test_measurement_dictionary_render_reconciles(tmp_path):
+    from puckworks.data.visualizer_store import MEASUREMENT_DICTIONARY
+    arts = gen.generate()
+    dj = json.loads(arts["measurement_dictionary.json"])
+    assert dj["n_channels"] == len(MEASUREMENT_DICTIONARY)
+    assert set(dj["channels"]) == set(MEASUREMENT_DICTIONARY)
+    # the native (ambiguous) flow channels are marked non-SI in the render
+    assert "flow_reported__native" in arts["measurement_dictionary.md"]
+    assert "— (native)" in arts["measurement_dictionary.md"]
+
+
 def test_appendix_a_has_no_manual_rows():
     # Appendix A is exactly the generated catalog; a committed file differing from the
     # producer output is caught by test_committed_artifacts_are_not_stale. Here we assert the

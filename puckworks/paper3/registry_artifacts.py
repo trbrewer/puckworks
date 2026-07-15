@@ -115,6 +115,34 @@ def generate():
             len(c.gates), gate_names))
     arts["component_gate_matrix.csv"] = "\n".join(lines) + "\n"
 
+    # --- WP1.3 measurement/source dictionary render (a scientific output) ------------------
+    from puckworks.data.visualizer_store import MEASUREMENT_DICTIONARY
+    md_items = sorted(MEASUREMENT_DICTIONARY.items())
+    dict_body = {"schema_version": SCHEMA_VERSION,
+                 "n_channels": len(md_items),
+                 "channels": {k: v for k, v in md_items}}
+    dict_body["content_sha256"] = _sha(json.dumps(dict_body, sort_keys=True, ensure_ascii=False))
+    arts["measurement_dictionary.json"] = json.dumps(dict_body, indent=2, sort_keys=True) + "\n"
+
+    csv_cols = ["channel", "source_field", "quantity_kind", "raw_unit", "canonical_unit",
+                "sensor", "commanded", "ambiguity", "eligibility"]
+    csv_lines = [",".join(csv_cols)]
+    for ch, v in md_items:
+        csv_lines.append(",".join(str(v.get(c, "") if c != "channel" else ch)
+                                  for c in csv_cols))
+    arts["measurement_dictionary.csv"] = "\n".join(csv_lines) + "\n"
+
+    md_hdr = ["channel", "quantity kind", "raw unit", "canonical unit", "commanded/achieved",
+              "ambiguity", "eligibility"]
+    md_rows = [[ch, v["quantity_kind"], v["raw_unit"], v["canonical_unit"] or "— (native)",
+                "commanded" if v["commanded"] else "achieved", v["ambiguity"] or "—",
+                v["eligibility"]] for ch, v in md_items]
+    dict_md = [_BANNER, "", "# Measurement / source dictionary (P1 first tranche)", "",
+               "Channels with `canonical unit = — (native)` are NOT resolved SI quantities and "
+               "must not be pooled onto a physical axis (e.g. ambiguous reported flow).", "",
+               _md_table(md_hdr, md_rows), ""]
+    arts["measurement_dictionary.md"] = "\n".join(dict_md) + "\n"
+
     return arts
 
 

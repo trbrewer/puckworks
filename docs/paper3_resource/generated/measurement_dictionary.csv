@@ -1,0 +1,9 @@
+channel,source_field,quantity_kind,raw_unit,canonical_unit,sensor,commanded,ambiguity,eligibility
+flow_goal_reported__native,espresso_flow_goal,flow_UNRESOLVED,native,None,machine_setpoint,True,volumetric_or_mass_or_proxy,exploratory_proxy_flow
+flow_reported__native,espresso_flow,flow_UNRESOLVED,native,None,machine_estimate,False,volumetric_or_mass_or_proxy,exploratory_proxy_flow
+mass_flow_from_scale__kg_per_s,espresso_flow_weight,mass_flow,g/s,kg/s,scale_derived,False,None,mass_flow_tracking
+pressure__Pa,espresso_pressure,pressure,bar,Pa,machine_pressure,False,None,pressure_tracking
+pressure_goal__Pa,espresso_pressure_goal,pressure,bar,Pa,machine_setpoint,True,None,pressure_tracking
+state_change,espresso_state_change,categorical_state,code,code,machine_state,False,None,metadata
+time__s,timeframe,time,s,s,clock,False,None,core
+weight__kg,espresso_weight,cumulative_mass,g,kg,scale,False,None,weight_tracking
