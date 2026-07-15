@@ -215,3 +215,36 @@ def test_normalize_shot_survives_dirty_dose():
     tidy = normalize_shot(raw, cfg)
     assert abs(tidy["context"]["dose__kg"] - 0.018) < 1e-12
     assert any("dirty_value:bean_weight" in f for f in tidy["flags"])
+
+
+def test_full_crawl_page_resume(tmp_path, monkeypatch):
+    """A reaped full crawl must RESUME listing near where it stopped (not re-list the
+    whole newest-first prefix) and still collect every shot via id-dedup. Fakes a
+    550-shot / 6-page API; run 1 is bounded, run 2 resumes and completes."""
+    from puckworks.lib import visualizer_harvest as vh
+    import types
+
+    def fake_get(cfg, session, limiter, path, params=None):
+        if path == "/shots":
+            start = (params["page"] - 1) * 100
+            if start >= 550:
+                return {"data": []}
+            return {"data": [{"id": f"id{start+i}", "clock": 10000 - (start + i),
+                              "updated_at": start + i} for i in range(min(100, 550 - start))]}
+        return {"id": path.split("/")[-1], "user_id": "u", "updated_at": 1, "data": {}}
+
+    monkeypatch.setattr(vh, "_get", fake_get)
+    monkeypatch.setattr(vh, "_requests",
+                        lambda: types.SimpleNamespace(Session=lambda: None,
+                                                      RequestException=Exception))
+    cfg = vh.HarvestConfig(out_dir=str(tmp_path), max_req_per_min=10 ** 9, salt="t")
+    cfg.max_requests = 120
+    r1 = vh.harvest_all(cfg)
+    assert r1["completed"] is False and r1["last_page"] >= 2
+    cfg.max_requests = None
+    r2 = vh.harvest_all(cfg)
+    assert r2["completed"] is True
+    assert r2["resumed_from_page"] <= r1["last_page"]           # resumed near, not page 1+prefix
+    import csv
+    ids = [row["id"] for row in csv.DictReader(open(tmp_path / "_index.csv"))]
+    assert len(ids) == len(set(ids)) == 550                     # all shots, no dupes/misses

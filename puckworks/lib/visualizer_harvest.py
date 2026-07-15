@@ -213,16 +213,20 @@ def _get(cfg, session, limiter, path, params=None, _max_retries=6):
 
 
 # --- API access -----------------------------------------------------------
-def list_public_shot_ids(cfg, updated_after=None, _session=None, _limiter=None):
-    """Paginate GET /shots yielding (id, clock, updated_at) for PUBLIC shots.
+def list_public_shot_ids(cfg, updated_after=None, start_page=1,
+                         _session=None, _limiter=None):
+    """Paginate GET /shots yielding (page, id, clock, updated_at) for PUBLIC shots.
 
     Uses sort='updated_at' when updated_after is set (incremental), else
-    sort='start_time' (initial crawl). Stops when a page returns no rows.
+    sort='start_time' (initial crawl). Stops when a page returns no rows. `start_page`
+    lets a resumed full crawl skip re-listing the already-fetched prefix (the API sorts
+    newest-first and caps pages at 100 rows, so re-listing from page 1 is the dominant
+    resume cost once the store is large).
     """
     session = _session if _session is not None else _requests().Session()
     limiter = _limiter if _limiter is not None else _RateLimiter(cfg.max_req_per_min)
     sort = "updated_at" if updated_after is not None else "start_time"
-    page = 1
+    page = max(1, int(start_page))
     while True:
         params = {"page": page, "items": cfg.items_per_page, "sort": sort}
         if updated_after is not None:
@@ -232,8 +236,29 @@ def list_public_shot_ids(cfg, updated_after=None, _session=None, _limiter=None):
         if not rows:
             return
         for r in rows:
-            yield (r.get("id"), r.get("clock"), r.get("updated_at"))
+            yield (page, r.get("id"), r.get("clock"), r.get("updated_at"))
         page += 1
+
+
+def _list_page_path(cfg):
+    return cfg.out_dir / "_list_page.json"
+
+
+def _load_list_page(cfg):
+    p = _list_page_path(cfg)
+    if p.exists():
+        try:
+            return max(1, int(json.load(open(p)).get("next_page", 1)))
+        except Exception:
+            return 1
+    return 1
+
+
+def _save_list_page(cfg, page):
+    p = _list_page_path(cfg)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    with open(p, "w", encoding="utf-8") as fh:
+        json.dump({"next_page": max(1, int(page))}, fh)
 
 
 def fetch_shot(cfg, shot_id, _session=None, _limiter=None):
@@ -494,10 +519,22 @@ def _crawl(cfg, updated_after):
             shard_idx += 1
             buffer, index_buffer = [], []
 
+    # LISTING-PAGE RESUME (full crawl only): the API lists newest-first, 100/page, with
+    # no start-time filter, so reaching un-fetched OLDER shots means paging past the ones
+    # we already have. Persist the page reached; on resume, rewind a few pages (new shots
+    # shift boundaries) and let id-dedup absorb the overlap -- turns a ~N/100-page re-list
+    # into a handful of pages. Incremental crawls use the updated_after cursor instead.
+    use_page_resume = updated_after is None
+    _REWIND = 3
+    start_page = max(1, _load_list_page(cfg) - _REWIND) if use_page_resume else 1
+    cur_page = start_page
+    completed = False
     stopped_early = None
     try:
-        for sid, _clock, upd in list_public_shot_ids(
-                cfg, updated_after=updated_after, _session=session, _limiter=limiter):
+        for page, sid, _clock, upd in list_public_shot_ids(
+                cfg, updated_after=updated_after, start_page=start_page,
+                _session=session, _limiter=limiter):
+            cur_page = page
             if cfg.max_requests is not None and n_fetched >= cfg.max_requests:
                 break
             if sid in seen and updated_after is None:
@@ -536,16 +573,25 @@ def _crawl(cfg, updated_after):
                 max_updated = upd if max_updated is None else max(max_updated, upd)
             if len(buffer) >= cfg.shard_size:
                 flush()
+                if use_page_resume:
+                    _save_list_page(cfg, cur_page)   # checkpoint the listing position
+        else:
+            completed = True   # loop exhausted naturally = full crawl reached the oldest
     finally:
         # NEVER lose the in-progress buffer or the resume cursor -- runs on normal exit,
         # exception, or interruption (environment reap / Ctrl-C).
         flush()
         if max_updated is not None:
             _save_cursor(cfg, max_updated)
+        if use_page_resume:
+            # completed -> reset to page 1 so the next run re-scans newest for new shots;
+            # interrupted -> save the page reached so the next run resumes near it.
+            _save_list_page(cfg, 1 if completed else cur_page)
     return {
         "n_fetched": n_fetched, "n_new": n_new, "n_skipped": n_skipped,
         "rate_limit_wait_s": round(limiter.total_wait_s, 1),
         "cursor": max_updated, "stopped_early": stopped_early,
+        "resumed_from_page": start_page, "last_page": cur_page, "completed": completed,
     }
 
 
