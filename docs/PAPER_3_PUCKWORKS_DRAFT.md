@@ -4,7 +4,7 @@
 **Authors:** [Author names and affiliations to be inserted]  
 **Corresponding author:** [Name and email to be inserted]
 
-> **Draft status.** This manuscript was developed from `PAPER_3_PUCKWORKS_OUTLINE.md`, the Puckworks source tree, model and dataset cards, evidence tables, public-claim schema, release runbook, and the retained broad synthesis in `PAPER_B_DRAFT.md`. The present corpus is described as **curated**, not systematic. Repository counts are a snapshot and must be regenerated from a frozen release before submission. Demonstration figures are specified but not embedded. Statements about software readiness distinguish current functionality from work still required for a citable release.
+> **Draft status.** This manuscript was developed from `PAPER_3_PUCKWORKS_OUTLINE.md`, the Puckworks source tree, model and dataset cards, evidence tables, public-claim schema, release runbook, and the retained broad synthesis in `PAPER_B_DRAFT.md`. The present corpus is described as **curated**, not systematic. Repository counts are a snapshot; Table 1 and Appendix A are now producer-generated and CI-guarded (`docs/paper3_resource/generated/`), and must be re-emitted from the frozen release before submission. Demonstration figures are specified but not embedded. Statements about software readiness distinguish current functionality from work still required for a citable release.
 
 ## Abstract
 
@@ -30,7 +30,7 @@ This paper describes the architecture and demonstrates why it matters. We first 
 
 The current repository corpus is a curated development collection assembled to support explicit comparison and integration tasks. It is **not** described as a systematic review because an indexed search protocol with databases, complete queries, date limits, duplicate handling, screening records, and exclusion reasons has not yet been completed. The corpus is useful for methods development and domain synthesis, but completeness and prevalence claims would be premature.
 
-At the snapshot used to prepare this draft, the registry source contains 25 registered components and the data manifest contains 70 records [1]. The stage distribution is shown in Table 1. These counts are descriptive of one repository state and should be regenerated from the release artifact cited by the final paper.
+At the snapshot used to prepare this draft, the registry source contains 25 registered components and the data manifest contains 70 records [1]. The stage distribution is shown in Table 1. These counts are descriptive of one repository state and should be regenerated from the release artifact cited by the final paper. **Table 1 and Appendix A are now producer-generated** from the live registry (`python -m puckworks.paper3.registry_artifacts` → `docs/paper3_resource/generated/`), and a CI lane fails on any drift between the committed tables and the producer output, so the manuscript figures cannot silently diverge from the code. Each component now carries a typed `execution_role`, `provenance_class`, and card-derived `evidence_strength` (§5) rather than a single overloaded `kind` string.
 
 **Table 1. Registry snapshot used for this draft.**
 
@@ -531,7 +531,7 @@ A stage-by-stage horizontal chain for the illustrative 20 g/40 g configuration. 
 
 ## Appendix A. Current component snapshot
 
-The current source snapshot contains the following registered identifiers. The release version should generate this table automatically rather than maintain it by hand.
+The current source snapshot contains the following registered identifiers. **This table is now produced automatically** by `python -m puckworks.paper3.registry_artifacts` (see `docs/paper3_resource/generated/appendixA_component_catalog.md`, which additionally carries each component's execution role, provenance class, card-derived evidence strength, and gate count); the inline copy below is retained for reading and is CI-checked against the generated output. At the frozen release, replace it with the generated file.
 
 | Stage | Role | Component identifier |
 |---|---|---|
