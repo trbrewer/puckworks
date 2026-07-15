@@ -45,6 +45,7 @@ import shutil
 import subprocess
 import time
 import warnings
+from collections import Counter
 from dataclasses import dataclass, field, replace
 from pathlib import Path
 from typing import Iterator, Optional
@@ -128,7 +129,7 @@ _KNOWN_MACHINE_KEYS = [
 
 _INDEX_COLUMNS = [
     "id", "hashed_user", "machine", "has_tds", "has_ey", "has_sensory",
-    "n_samples", "duration_s", "updated_at",
+    "n_samples", "duration_s", "updated_at", "content_sha256",
 ]
 
 
@@ -421,7 +422,7 @@ def _num(v):
         return (float(m.group(0)), True) if m else (None, True)
 
 
-_NORMALIZE_SCHEMA_VERSION = 4   # v2: §7 integration_source; v3: §8 flow; v4: §9 qc block
+_NORMALIZE_SCHEMA_VERSION = 5   # v2 §7; v3 §8; v4 §9 qc; v5 content_sha256 + start_time + privacy
 
 
 def normalize_shot(raw, cfg, hashed_user_override=None):
@@ -570,7 +571,7 @@ def normalize_shot(raw, cfg, hashed_user_override=None):
     if qc.get("time_duplicate_stamps"):
         flags.append("qc:duplicate_timestamps")
 
-    return {
+    rec = {
         "schema_version": _NORMALIZE_SCHEMA_VERSION,
         "id": raw.get("id"),
         "hashed_user": hashed_user,
@@ -584,6 +585,18 @@ def normalize_shot(raw, cfg, hashed_user_override=None):
         "n_samples": n_samples,
         "qc": qc,
     }
+    # content hash for version identity (id, updated_at, content_sha256): distinguishes two
+    # edits that share an integer-second updated_at, and lets the latest view + reconciliation
+    # address the exact stored version rather than any record sharing a timestamp (P0-3/P1-1).
+    rec["content_sha256"] = _record_content_hash(rec)
+    return rec
+
+
+def _record_content_hash(rec):
+    """Stable SHA-256 over a normalized record's content (excluding the hash field itself)."""
+    core = {k: v for k, v in rec.items() if k != "content_sha256"}
+    return hashlib.sha256(json.dumps(core, sort_keys=True, ensure_ascii=False,
+                                     default=str).encode("utf-8")).hexdigest()
 
 
 # --- store layout ---------------------------------------------------------
@@ -645,18 +658,23 @@ def latest_index_map(cfg):
 
 
 def iter_store_latest(cfg):
-    """§3: yield exactly one record per shot id — the latest version — from the append-only
-    shards. Superseded versions and duplicate rows from re-listing the moving window are
-    dropped, so counts and aggregates are not double-counted."""
-    winners = latest_index_map(cfg)
-    yielded = set()
+    """§3: yield exactly one record per shot id — the latest version. The winner is the
+    index's latest row (max `updated_at`, ties → last-written); it is matched by
+    `(updated_at, content_sha256)` and, on a same-timestamp tie, the LAST physical record
+    that matches is chosen (P0-3) — not the first record sharing the timestamp."""
+    winners = {sid: (_as_int(r.get("updated_at"), default=-1), r.get("content_sha256") or "")
+               for sid, r in latest_index_rows(cfg).items()}
+    chosen = {}
     for rec in iter_store(cfg):
         sid = rec.get("id")
-        if sid in yielded:
+        w = winners.get(sid)
+        if w is None:
             continue
-        if _as_int(rec.get("updated_at"), default=-1) == winners.get(sid, -2):
-            yielded.add(sid)
-            yield rec
+        key = (_as_int(rec.get("updated_at"), default=-1), rec.get("content_sha256") or "")
+        if key == w:
+            chosen[sid] = rec      # keep the LAST match = index last-wins tie policy
+    for rec in chosen.values():
+        yield rec
 
 
 def _index_row(tidy):
@@ -673,19 +691,44 @@ def _index_row(tidy):
         # truthiness -- that would read back as missing and defeat §4 version dedup.
         "duration_s": (d if (d := tidy["context"].get("duration__s")) is not None else ""),
         "updated_at": (u if (u := tidy.get("updated_at")) is not None else ""),
+        "content_sha256": tidy.get("content_sha256") or "",
     }
+
+
+def _rewrite_index(cfg, rows):
+    """Atomically write the whole _index.csv with the current columns (fills any missing
+    field with ''). Used to self-heal a header that drifted after a column was added."""
+    cfg.out_dir.mkdir(parents=True, exist_ok=True)
+    dst = _index_path(cfg)
+    tmp = dst.with_name(dst.name + ".tmp")
+    with open(tmp, "w", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=_INDEX_COLUMNS, extrasaction="ignore")
+        w.writeheader()
+        for r in rows:
+            w.writerow({c: r.get(c, "") for c in _INDEX_COLUMNS})
+        fh.flush()
+        os.fsync(fh.fileno())
+    os.replace(tmp, dst)
 
 
 def _append_index(cfg, rows):
     p = _index_path(cfg)
-    new = not p.exists()
     cfg.out_dir.mkdir(parents=True, exist_ok=True)
+    if p.exists():
+        with open(p, newline="", encoding="utf-8") as fh:
+            header = next(csv.reader(fh), None)
+        if header != _INDEX_COLUMNS:
+            # a column was added since this file was written: migrate the whole file to the
+            # current columns (index is derived metadata) rather than append ragged rows.
+            _rewrite_index(cfg, list(iter_index_rows(cfg)) + list(rows))
+            return
+    new = not p.exists()
     with open(p, "a", newline="", encoding="utf-8") as fh:
-        w = csv.DictWriter(fh, fieldnames=_INDEX_COLUMNS)
+        w = csv.DictWriter(fh, fieldnames=_INDEX_COLUMNS, extrasaction="ignore")
         if new:
             w.writeheader()
         for r in rows:
-            w.writerow(r)
+            w.writerow({c: r.get(c, "") for c in _INDEX_COLUMNS})
 
 
 # --- quarantine ledger: a malformed record is RECORDED, never silently skipped (§9) ---
@@ -907,7 +950,9 @@ def _crawl(cfg, updated_after):
     buffer, index_buffer, bronze_buffer = [], [], []
     n_fetched = n_new = n_updated = n_quarantined = 0
     started_at = time.time()
-    run_id = "run_%d_%d" % (int(started_at), os.getpid())  # §9/§10 per-run identity
+    # Unique per run: time_ns + random suffix. `run_%d_%d % (seconds, pid)` collided for two
+    # runs started in the same second under one process, overwriting a manifest (P1-8).
+    run_id = "run_%d_%s" % (time.time_ns(), os.urandom(4).hex())
     max_updated = _load_cursor(cfg).get("last_updated_at")
 
     def flush():
@@ -1003,7 +1048,12 @@ def _crawl(cfg, updated_after):
         # NEVER lose the in-progress buffer or the resume cursor -- runs on normal exit,
         # exception, or interruption (environment reap / Ctrl-C).
         flush()
-        if max_updated is not None:
+        # P0-2: only advance the durable incremental cursor when the run COMPLETED. The
+        # source lists newest-first, so on an interrupted run max(updated_at seen) is past
+        # records not yet fetched; committing it would make the next `updated_after` query
+        # skip them permanently. On an incomplete run keep the prior cursor (re-listing
+        # re-sees already-stored versions, which version-aware dedup skips cheaply).
+        if completed and max_updated is not None:
             _save_cursor(cfg, max_updated)
         if use_page_resume:
             # completed -> reset to page 1 so the next run re-scans newest for new shots;
@@ -1087,14 +1137,20 @@ def rebuild_index(cfg):
     return len(rows)
 
 
+def _version_key(d):
+    """Content-addressed version identity (P0-3/P1-1): (id, updated_at, content_sha256)."""
+    return (d.get("id"), _as_int(d.get("updated_at"), default=-1),
+            d.get("content_sha256") or "")
+
+
 def reconcile_store(cfg):
     """Verify store integrity (SERIALIZER_REVIEW reconciliation). Non-destructive; returns a
-    report dict: `ok` plus any problems. Checks that every shard is readable, index and
-    shards agree on ids, there are no duplicate `(id, updated_at)` version keys, the latest
-    view has exactly one record per id, and counts across shards/index/bronze/quarantine."""
+    report dict: `ok` plus any problems. Compares the exact MULTISET of content-addressed
+    version keys `(id, updated_at, content_sha256)` between shards and index (not just id
+    sets, which missed a stored version absent from the index — P1-1), flags duplicate
+    version keys and unreadable shards, and checks the latest view is one-per-id."""
     problems = []
-    shard_ids, version_keys, n_records = set(), set(), 0
-    n_dup_versions = 0
+    shard_keys, n_records = Counter(), 0
     for shard in sorted(cfg.out_dir.glob("shard_*.jsonl.gz")):
         try:
             with gzip.open(shard, "rt", encoding="utf-8") as fh:
@@ -1104,29 +1160,26 @@ def reconcile_store(cfg):
                         continue
                     rec = json.loads(line)
                     n_records += 1
-                    sid = rec.get("id")
-                    shard_ids.add(sid)
-                    key = (sid, _as_int(rec.get("updated_at"), default=-1))
-                    if key in version_keys:
-                        n_dup_versions += 1
-                    version_keys.add(key)
+                    shard_keys[_version_key(rec)] += 1
         except Exception as exc:                       # torn / corrupt shard
             problems.append("unreadable_shard:%s:%s" % (shard.name, exc))
-    index_ids, n_index = set(), 0
+    index_keys, n_index = Counter(), 0
     for row in iter_index_rows(cfg):
         n_index += 1
-        index_ids.add(row.get("id"))
-    records_not_in_index = shard_ids - index_ids
-    index_rows_not_in_store = index_ids - shard_ids
-    if records_not_in_index:
-        problems.append("records_not_in_index:%d" % len(records_not_in_index))
-    if index_rows_not_in_store:
-        problems.append("index_ids_not_in_store:%d" % len(index_rows_not_in_store))
+        index_keys[_version_key(row)] += 1
+    in_shards_not_index = shard_keys - index_keys
+    in_index_not_shards = index_keys - shard_keys
+    n_dup_versions = sum(c - 1 for c in shard_keys.values() if c > 1)
+    if in_shards_not_index:
+        problems.append("versions_in_shards_not_index:%d" % sum(in_shards_not_index.values()))
+    if in_index_not_shards:
+        problems.append("index_versions_not_in_shards:%d" % sum(in_index_not_shards.values()))
     if n_dup_versions:
         problems.append("duplicate_version_keys:%d" % n_dup_versions)
+    shard_ids = {k[0] for k in shard_keys}
     n_latest = len(latest_index_rows(cfg))
-    if index_ids and n_latest != len(index_ids):
-        problems.append("latest_view_not_one_per_id:%d!=%d" % (n_latest, len(index_ids)))
+    if shard_ids and n_latest != len(shard_ids):
+        problems.append("latest_view_not_one_per_id:%d!=%d" % (n_latest, len(shard_ids)))
     return {
         "ok": not problems,
         "n_shard_records": n_records,

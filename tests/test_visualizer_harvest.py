@@ -668,3 +668,66 @@ def test_timeseries_qc_metrics():
     assert q2["channels"]["pressure__Pa"]["flatline"] is True
     assert "qc:time_not_monotonic" in bad["flags"]
     assert "qc:duplicate_timestamps" in bad["flags"]
+
+
+def test_latest_returns_last_written_on_timestamp_tie(tmp_path):
+    """P0-3: two versions of one shot share an integer-second updated_at with different
+    content. The latest view must return the index's last-wins winner (by content hash),
+    not the first physical record sharing that timestamp."""
+    from puckworks.lib import visualizer_harvest as vh
+    cfg = vh.HarvestConfig(out_dir=str(tmp_path), salt="t")
+    r1 = vh.normalize_shot({"id": "A", "user_id": "u", "updated_at": 100,
+                            "timeframe": [0.0, 1.0], "data": {"espresso_pressure": [1.0, 1.0]}}, cfg)
+    r2 = vh.normalize_shot({"id": "A", "user_id": "u", "updated_at": 100,
+                            "timeframe": [0.0, 1.0], "data": {"espresso_pressure": [9.0, 9.0]}}, cfg)
+    assert r1["content_sha256"] != r2["content_sha256"]       # distinct versions
+    vh._write_shard(cfg, 0, [r1, r2])
+    vh._append_index(cfg, [vh._index_row(r1), vh._index_row(r2)])
+    latest = {s["id"]: s for s in vh.iter_store_latest(cfg)}
+    assert latest["A"]["hydraulic"]["pressure__Pa"][0] == pytest.approx(9.0e5)  # last-written
+
+
+def test_reconcile_detects_version_missing_from_index(tmp_path):
+    """P1-1: a stored version absent from the index must be a reconcile FAILURE, not `ok`."""
+    from puckworks.lib import visualizer_harvest as vh
+    cfg = vh.HarvestConfig(out_dir=str(tmp_path), salt="t")
+    a100 = vh.normalize_shot({"id": "A", "user_id": "u", "updated_at": 100,
+                              "timeframe": [0.0], "data": {}}, cfg)
+    a101 = vh.normalize_shot({"id": "A", "user_id": "u", "updated_at": 101,
+                              "timeframe": [0.0], "data": {}}, cfg)
+    vh._write_shard(cfg, 0, [a100, a101])
+    vh._append_index(cfg, [vh._index_row(a101)])              # only the 101 version indexed
+    rep = vh.reconcile_store(cfg)
+    assert rep["ok"] is False
+    assert any("versions_in_shards_not_index" in p for p in rep["problems"])
+
+
+def test_incremental_cursor_not_advanced_on_incomplete_run(tmp_path, monkeypatch):
+    """P0-2: an interrupted descending incremental run must NOT advance its durable cursor
+    past a record it never fetched, else that record is skipped forever. A@200 fetched, run
+    stops; a second run must still capture B@199."""
+    from puckworks.lib import visualizer_harvest as vh
+    listing = {1: [("A", 200), ("B", 199)]}                  # newest-first
+    details = {sid: {"id": sid, "updated_at": u, "user_id": "u",
+                     "timeframe": [0.0], "data": {}} for sid, u in (("A", 200), ("B", 199))}
+    _fake_transport(monkeypatch, listing, details)
+    cfg = vh.HarvestConfig(out_dir=str(tmp_path), max_req_per_min=10 ** 9, salt="t")
+    vh._save_cursor(cfg, 100)                                 # prior committed cursor
+
+    cfg.max_requests = 1
+    r1 = vh.harvest_incremental(cfg)
+    assert r1["completed"] is False
+    assert vh._load_cursor(cfg)["last_updated_at"] == 100     # NOT advanced to 200
+
+    cfg.max_requests = None
+    vh.harvest_incremental(cfg)
+    assert {s["id"] for s in vh.iter_store_latest(cfg)} == {"A", "B"}   # B not lost
+
+
+def test_run_id_is_unique_across_runs(tmp_path, monkeypatch):
+    """P1-8: run ids must not collide (the old seconds+pid scheme could)."""
+    from puckworks.lib import visualizer_harvest as vh
+    _fake_transport(monkeypatch, {1: []}, {})
+    cfg = vh.HarvestConfig(out_dir=str(tmp_path), max_req_per_min=10 ** 9, salt="t")
+    ids = {vh.harvest_all(cfg)["run_id"] for _ in range(5)}
+    assert len(ids) == 5
