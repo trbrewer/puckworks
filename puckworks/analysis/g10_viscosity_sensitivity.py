@@ -65,11 +65,17 @@ def _pinned_shot(**kw):
         _em.C_S0 = saved
 
 
-def liquor_mu_pas(cl_kgm3, T_C: float = BREW_T_C):
+def liquor_mu_pas(cl_kgm3, T_C: float = BREW_T_C, excess_scale: float = 1.0):
     """Local liquor dynamic viscosity [Pa*s] from local solids concentration cl [kg/m^3].
 
     Uses the MEASURED Telis-Romero Table-1 grid inside its box and blends to pure water for
-    the dilute (X_w > 90 %) espresso regime. Vectorized over cl."""
+    the dilute (X_w > 90 %) espresso regime. Vectorized over cl.
+
+    `excess_scale` multiplies ONLY the coffee-solute viscosity elevation above pure water
+    (mu = mu_w + excess_scale*(mu_TR - mu_w)), leaving water itself unscaled. Used for the
+    khomyakov INTER-SOURCE robustness check: khomyakov's measured mu runs ~+37% (total) above
+    TR2001 in the overlap, so excess_scale=2.0 is a conservative upper bound on 'what if the
+    true liquor is markedly more viscous than TR2001' (see gate_g10_intersource_spread)."""
     cl = np.atleast_1d(np.asarray(cl_kgm3, float))
     T_K = T_C + 273.15
     mu_w = float(_pc.water_viscosity(T_K))
@@ -83,12 +89,13 @@ def liquor_mu_pas(cl_kgm3, T_C: float = BREW_T_C):
     for i, xw in enumerate(xw_pct):
         if xw <= 90.0:
             # in-box (or concentrated <76 -> interpolator clamps to 76): measured eta
-            out[i] = _d.telisromero_eta_measured(T_K, xw)
+            mu = _d.telisromero_eta_measured(T_K, xw)
         else:
             # dilute espresso: blend measured box-edge eta(90) -> pure water at X_w=100
             eta90 = _d.telisromero_eta_measured(T_K, 90.0)
             f = min((xw - 90.0) / 10.0, 1.0)     # 0 at 90 %, 1 at 100 %
-            out[i] = eta90 * (1.0 - f) + mu_w * f
+            mu = eta90 * (1.0 - f) + mu_w * f
+        out[i] = mu_w + excess_scale * (mu - mu_w)   # scale the coffee excess only
     return out if out.size > 1 else float(out[0])
 
 
@@ -105,20 +112,20 @@ def _depth_profiles(cond, n_snap):
     return base, tks, profs
 
 
-def run_condition(cond, T_C: float = BREW_T_C, n_snap: int = 6):
+def run_condition(cond, T_C: float = BREW_T_C, n_snap: int = 6, excess_scale: float = 1.0):
     """Full c(t)-resolved viscosity sensitivity for one operating point."""
     base, tks, profs = _depth_profiles(cond, n_snap)
     T_K = T_C + 273.15
     mu_w = float(_pc.water_viscosity(T_K))
 
     # depth-averaged series-Darcy flow factor F(t_k) = mu_w / mean_z mu(z, t_k)
-    F_depth = np.array([mu_w / np.mean(liquor_mu_pas(p, T_C)) for p in profs])
+    F_depth = np.array([mu_w / np.mean(liquor_mu_pas(p, T_C, excess_scale)) for p in profs])
     # conservative single-cell outlet bound over the whole shot
-    mu_out = liquor_mu_pas(base.cl_out, T_C)
+    mu_out = liquor_mu_pas(base.cl_out, T_C, excess_scale)
     F_out = mu_w / np.asarray(mu_out)
     # most concentrated liquor anywhere/anytime we sampled
     cl_peak = max(float(base.cl_out.max()), max(float(p.max()) for p in profs))
-    mu_peak_ratio = float(liquor_mu_pas(cl_peak, T_C)) / mu_w
+    mu_peak_ratio = float(liquor_mu_pas(cl_peak, T_C, excess_scale)) / mu_w
     # does any sampled cell enter the concentrated (<76% X_w) Table-2 regime?
     min_xw = 100.0
     for p in profs:
@@ -141,10 +148,14 @@ def run_condition(cond, T_C: float = BREW_T_C, n_snap: int = 6):
     )
 
 
-def run_sensitivity(conditions=None, T_C: float = BREW_T_C, n_snap: int = 6):
-    """Run the study across operating points and synthesize a verdict."""
+def run_sensitivity(conditions=None, T_C: float = BREW_T_C, n_snap: int = 6,
+                    excess_scale: float = 1.0):
+    """Run the study across operating points and synthesize a verdict.
+
+    excess_scale > 1 runs the khomyakov inter-source ROBUSTNESS variant (scales the coffee
+    viscosity excess above water; 2.0 conservatively covers khomyakov's ~+37% offset vs TR2001)."""
     conds = conditions or DEFAULT_CONDITIONS
-    results = [run_condition(c, T_C=T_C, n_snap=n_snap) for c in conds]
+    results = [run_condition(c, T_C=T_C, n_snap=n_snap, excess_scale=excess_scale) for c in conds]
     worst_int = max(r["shot_integrated_flow_deficit_pct"] for r in results)
     worst_peak = max(r["peak_flow_suppression_pct"] for r in results)
     worst_mu = max(r["mu_peak_ratio_to_water"] for r in results)
@@ -167,20 +178,22 @@ def run_sensitivity(conditions=None, T_C: float = BREW_T_C, n_snap: int = 6):
                 any_powerlaw_regime=any_powerlaw, verdict=verdict)
 
 
-def bulk_negligibility(gs=1.9, p_bar=9.0, m_in=0.020, m_out=0.036, T_C: float = BREW_T_C):
+def bulk_negligibility(gs=1.9, p_bar=9.0, m_in=0.020, m_out=0.036, T_C: float = BREW_T_C,
+                       excess_scale: float = 1.0):
     """FAST single-shot bound for the CI gate (no truncation loop).
 
     Uses the outlet liquor cl_out(t) (the MOST concentrated cell, a conservative bound) plus
     the end-of-shot depth profile. Returns the peak single-cell mu ratio, the outlet-bound
-    peak flow suppression, and the end-of-shot depth-averaged flow factor."""
+    peak flow suppression, and the end-of-shot depth-averaged flow factor. excess_scale>1 is
+    the khomyakov inter-source robustness variant."""
     r = _pinned_shot(gs=gs, p_bar=p_bar, m_in=m_in, m_out=m_out)
     T_K = T_C + 273.15
     mu_w = float(_pc.water_viscosity(T_K))
-    mu_out = np.asarray(liquor_mu_pas(r.cl_out, T_C))
+    mu_out = np.asarray(liquor_mu_pas(r.cl_out, T_C, excess_scale))
     cl_peak = max(float(r.cl_out.max()), float(r.cl_final.max()))
-    mu_peak_ratio = float(liquor_mu_pas(cl_peak, T_C)) / mu_w
+    mu_peak_ratio = float(liquor_mu_pas(cl_peak, T_C, excess_scale)) / mu_w
     F_out_min = float((mu_w / mu_out).min())
-    F_depth_end = mu_w / float(np.mean(liquor_mu_pas(r.cl_final, T_C)))
+    F_depth_end = mu_w / float(np.mean(liquor_mu_pas(r.cl_final, T_C, excess_scale)))
     return dict(
         mu_peak_ratio_to_water=round(mu_peak_ratio, 3),
         outlet_bound_peak_suppression_pct=round(100.0 * (1.0 - F_out_min), 2),

@@ -1,5 +1,11 @@
 # Data card: khomyakov2020 — coffee-extract kinematic viscosity (G10)
 
+> **See also [[khomyakov2020_2]]** — a fuller "model card" treatment of the SAME
+> paper (Eq 1/2/3, Table 2 μ-coefficients, and the registry-side finding that
+> khomyakov's measured μ runs ~+37% above the telisromero2001 closures in the
+> overlap). THIS card remains the intake-of-record for the loaded Table-1 data
+> (`khomyakov2020_kinematic_viscosity.csv`).
+
 **Paper:** Khomyakov, Mordanov & Khomyakova (2020), "The experimental data on the
 density, viscosity, and boiling temperature of the coffee extract," IOP Conf. Ser.:
 Earth Environ. Sci. 548, 022040. DOI 10.1088/1755-1315/548/2/022040. **CC BY 3.0.**

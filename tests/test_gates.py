@@ -68,6 +68,24 @@ def test_g10_viscosity_sensitivity_verdict():
     assert d.telisromero_eta_measured(363.0, 90.0) / muw < 1.10   # box edge ~1.07x
 
 
+def test_g10_intersource_spread():
+    from puckworks.validation.gates import gate_g10_intersource_spread
+    r = gate_g10_intersource_spread()
+    assert r["passed"], r
+    assert r["khomyakov_above_tr"] is True          # consistent sign
+    assert 25 <= r["offset_pct_median"] <= 50       # bounded systematic offset (~+37%)
+
+
+def test_g10_closure_robust_to_intersource_spread():
+    # even conservatively DOUBLING the coffee-viscosity excess (covers khomyakov's +37%
+    # vs TR2001), the G10 'no runtime hook' verdict survives.
+    from puckworks.analysis import g10_viscosity_sensitivity as vs
+    r = vs.run_sensitivity(n_snap=4, excess_scale=2.0)
+    assert r["any_powerlaw_regime"] is False
+    assert r["worst_shot_integrated_deficit_pct"] < 8.0    # baseline ~2.75%, robust ~5.3%
+    assert r["worst_mu_ratio_to_water"] < 1.15
+
+
 def test_g10_telisromero2000_thermal():
     from puckworks.validation.gates import gate_g10_telisromero2000_thermal
     r = gate_g10_telisromero2000_thermal()

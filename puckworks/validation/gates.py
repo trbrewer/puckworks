@@ -1434,3 +1434,41 @@ def gate_g10_viscosity_bulk_negligible():
                         "> 0.95 -> constant-water-mu safe; no runtime mu(c,T) hook warranted",
                 strength="verification (measured mu driven through a gated extraction model; "
                          "composition + dilute-end caveats stand)")
+
+
+def gate_g10_intersource_spread():
+    """INTER-SOURCE consistency check for the G10 liquor viscosity: two INDEPENDENT measured
+    datasets (khomyakov2020 kinematic nu -> dynamic mu = rho*nu; telisromero2001 Eq (10)) are
+    compared across their overlap box (X_w 76-90 %, T 295-365 K). They agree in sign and
+    direction (both > water, both rise with concentration / fall with T), but khomyakov runs
+    systematically ~+37% ABOVE the TR2001 closures -- a bounded material-difference offset
+    (Russian production extract vs Brazilian 51-Brix batch, different instruments), NOT random
+    scatter. This QUANTIFIES the G10 absolute-magnitude uncertainty at concentrated (in-pore)
+    strengths; the negligible-at-shot-TDS verdict is robust to it (gate_g10_viscosity_bulk_
+    negligible re-run with this offset still yields no runtime hook). Records, does not adjudicate."""
+    from puckworks import data as d
+    offs = []
+    for r in d.khomyakov_kinematic_viscosity():
+        f = float(r["dry_solids_mass_fraction"])
+        T_C = float(r["temperature_C"])
+        nu = float(r["kinematic_viscosity_mm2_s"]) * 1e-6
+        Xw_pct = 100.0 * (1.0 - f)
+        if not (76.0 <= Xw_pct <= 90.0 and 295.0 <= T_C + 273.15 <= 365.0):
+            continue
+        mu_kho = d.telisromero_density_kgm3(T_C, 1.0 - f) * nu
+        mu_tr = d.telisromero_viscosity_pas(T_C + 273.15, Xw_pct)
+        offs.append((mu_kho - mu_tr) / mu_tr * 100.0)
+    offs.sort()
+    n = len(offs)
+    median = offs[n // 2] if n % 2 else 0.5 * (offs[n // 2 - 1] + offs[n // 2])
+    all_positive = all(o > 0 for o in offs)      # khomyakov consistently >= TR2001
+    bounded = max(offs) < 60.0                    # a systematic offset, not order-of-magnitude
+    passed = (n >= 6 and all_positive and 25.0 <= median <= 50.0 and bounded)
+    return dict(passed=passed, n_overlap_cells=n,
+                offset_pct_min=round(min(offs), 0), offset_pct_median=round(median, 0),
+                offset_pct_max=round(max(offs), 0), khomyakov_above_tr=all_positive,
+                reading="two independent sources agree in sign/direction; khomyakov ~+37% above "
+                        "TR2001 in the overlap -> G10 absolute mu carries this inter-source "
+                        "uncertainty at concentrated strengths (bulk-espresso verdict robust)",
+                strength="reference/qualitative (records an inter-source discrepancy; neither "
+                         "dataset reaches bulk espresso TDS -- both extrapolate toward water)")

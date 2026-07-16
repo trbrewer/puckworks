@@ -370,7 +370,8 @@ register(Component(
     module="puckworks.data:telisromero_viscosity_pas",
     gates=[G.gate_g10_reference_mu_above_water, G.gate_g10_mu_bias_directional,
            G.gate_g10_telisromero_closure, G.gate_g10_telisromero2000_thermal,
-           G.gate_g10_telisromero_full_table, G.gate_g10_viscosity_bulk_negligible],
+           G.gate_g10_telisromero_full_table, G.gate_g10_viscosity_bulk_negligible,
+           G.gate_g10_intersource_spread],
     assumptions="Telis-Romero (2001) Eq (10)/(12)/(13) closures now TRANSCRIBED "
                 "(T in K, X_w in %w/w water); soluble-coffee extract, NOT espresso "
                 "liquor -> unquantified composition bias; espresso TDS sits at/below "
@@ -386,7 +387,10 @@ register(Component(
           "power-law regime) -> NO runtime mu(c,T) hook warranted "
           "(analysis.g10_viscosity_sensitivity). Bulk shot-TDS mu ~= 1.06x water; the old "
           "~1.3-2x envelope guess belongs to concentrated liquor that espresso does not "
-          "reach. Do NOT attribute RC-2/RC-3 early-shot bias to bulk mu."))
+          "reach. Do NOT attribute RC-2/RC-3 early-shot bias to bulk mu. INTER-SOURCE: "
+          "khomyakov2020 runs ~+37% above TR2001 in the overlap "
+          "(gate_g10_intersource_spread); verdict robust -- doubling the mu excess still "
+          "gives <=5.3% shot-integrated, no runtime hook."))
 
 
 # --- evidence_strength (schema v2, WP2) -----------------------------------
