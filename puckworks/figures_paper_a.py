@@ -286,7 +286,6 @@ def fig3_holdouts(results=None, outdir=OUTDIR):
     because between-solute concentration differences dominate); (b,c) the SIGNED residual
     faceted against temperature and pressure, which exposes the within-group condition
     structure the pooled MAPE and the near-diagonal cloud hide."""
-    import numpy as np
     r = _load(results); plt = _plt()
     pts = r["loco"]["points"]
     mk = {"Arabica": "o", "Robusta": "s"}
@@ -622,7 +621,6 @@ def fig8_residuals_vs_conditions(results=None, outdir=OUTDIR):
     solute/variety-specific offsets. This is the residual-vs-(T,p) scatter the per-group
     Fig 7 could not show; it consumes the per-condition residual vectors now surfaced by
     the harness."""
-    import numpy as np
     r = _load(results); plt = _plt()
     pv = r["per_condition"]["per_variety"]
     varieties = [v for v in ("Arabica", "Robusta") if v in pv]

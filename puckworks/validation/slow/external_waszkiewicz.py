@@ -235,7 +235,6 @@ def waszkiewicz_sensitivity(temps=(89.0, 91.0, 93.0, 95.0),
 
 
 def report():
-    import json
     r = waszkiewicz_external_tds()
     print("== Waszkiewicz 2026 external TDS trajectory test (independent second rig) ==")
     for k, x in r["per_case"].items():

@@ -11,7 +11,7 @@ skips slow specs unless --with-3d/--video/--slow selects them.
 from __future__ import annotations
 import argparse
 
-from .registry import (VIZZES, viz_by_id, render_all, compute_all, write_gallery,
+from .registry import (VIZZES, render_all, compute_all, write_gallery,
                        validate_all)
 
 

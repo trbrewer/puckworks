@@ -22,10 +22,14 @@ parameters in.
 
 ## Quickstart
 ```
-pip install -e .           # add [lb] for the Taichi GPU solver
+pip install -e ".[dev]"    # contributor install. extras: [figures] [harvest] [release] [lb]
 python -c "import puckworks; from puckworks.registry import run_all_gates; run_all_gates()"
-pytest                     # same gates, CI-style
+pytest -q -m "not slow and not live and not gpu and not external_data"   # the quick lane (~15s)
 ```
+- **Use a release** (not editable): `pip install dist/puckworks-*.whl` — builds via
+  `python -m puckworks.release build` (wheel + sdist + checksummed manifest); see `CONTRIBUTING.md`.
+- Test lanes + the card-first contribution process: `docs/CI_LANES.md`, `CONTRIBUTING.md`,
+  and the doc index `docs/CURRENT.md`.
 
 ## Adding a model
 1. Write its **model card** from `docs/cards/TEMPLATE.md` (this is where papers

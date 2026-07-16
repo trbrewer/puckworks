@@ -23,7 +23,6 @@ def test_bundle_contents_exist():
 def test_verify_detects_stale_generated(tmp_path, monkeypatch):
     # a stale generated artifact must make verify fail. Simulate by pointing the generator's
     # verify at an empty root (nothing on disk == everything stale).
-    from puckworks.paper3 import registry_artifacts as gen
     monkeypatch.setattr(build.gen, "verify", lambda root=None: ["registry_export.json"])
     rep = build.verify()
     assert rep["ok"] is False

@@ -261,7 +261,6 @@ def gate_pannusch_closures():
     """Pannusch constitutive closures reproduce physical anchors: water
     viscosity/density at 90 C, Wilke-Chang D, van't Hoff K(Tref)=Kref with weak
     T-dependence, and a positive Sherwood h_sl monotone in flow."""
-    import numpy as np
     from puckworks.models.pannusch2024 import closures as pc
     T90 = 363.15
     mu = float(pc.water_viscosity(T90)); rho = float(pc.water_density(T90))
@@ -1137,7 +1136,6 @@ def gate_extraction_harness():
     (no silent merge, §5.4), the §5.6 dissolution-speed discriminator favors
     near-instant dissolution on the Waszkiewicz TDS fractions, and the grudeva
     vial reconstruction reproduces the C1 total."""
-    import numpy as np
     from puckworks import harness as h
     from puckworks.models.grudeva2025 import reduced as gr
     csat = h.csat_values()

@@ -27,6 +27,8 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - run: pip install -e ".[dev]"
+      - name: lint (ruff, pyflakes ruleset)
+        run: ruff check --output-format=github puckworks/ tests/
       - name: environment diagnostics
         run: |
           python -VV

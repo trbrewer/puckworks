@@ -281,7 +281,6 @@ def endpoint_mass_sensitivity(v_targets=(38.0, 40.0, 42.0)):
     stable -- i.e. the transfer conclusion does not hinge on the exact 40 g/40 mL
     approximation or a +/-5% density/tolerance error. NOTE: ~1 min of PDE solves per
     endpoint (slow; hand-run)."""
-    import numpy as np
     rows = []
     for v in v_targets:
         pc = gate_pannusch_angeloni_per_condition(v_target=v)

@@ -8,7 +8,7 @@ here — only colour strings + colormap NAMES — so this module stays import-cl
 from __future__ import annotations
 
 # the existing house tokens (figures.py imports matplotlib lazily, not at top)
-from ..figures import INK, ACCENT, NULL, GOOD, WARN, BAD, GRID
+from ..figures import INK, NULL, GOOD
 
 # Badge colours — one per public.schema.BADGES entry. Blue/amber/green/grey,
 # colourblind-safe and consistent with the paper_b status palette convention
