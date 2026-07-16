@@ -86,23 +86,30 @@ def _proxy_outlet_share_1_over_alpha(case):
 
 
 def physical_row(case, Lambda):
-    """Physical observables at one (case, Lambda), plus the four discrimination tests."""
+    """Physical observables at one (case, Lambda), compared against the FROZEN UNCOUPLED
+    SHARE-PROXY COMPLETION (analysis.lateral_proxy.frozen_two_path_proxy). Reports the exact
+    Xi equalization group and closed-form gap fraction, and BOTH the continuous-alpha and
+    grid-alpha share matches so no match is missed between grid points."""
     gax = lc.g_axial_reference(*case.g)
     G = Lambda * gax
     r = lc.model1_two_path(case.P_in, *case.g, G)
     r0 = lc.model1_two_path(case.P_in, *case.g, 0.0)          # uncoupled reference
     gap0 = abs(r0["p1"] - r0["p2"])
     gap = abs(r["p1"] - r["p2"])
-    grf = (gap / gap0) if gap0 > 1e-300 else None            # gap_remaining_fraction
-    reduction = None if grf is None else (1.0 - grf)
-    if grf is None:
+
+    # EXACT equalization group Xi and closed-form gap fraction gap/gap0 = 1/(1+Xi).
+    Xi = lc.equalization_number(G, *case.g)
+    grf_closed = lc.gap_remaining_fraction(Xi)                # authoritative when gap0 > 0
+    grf_numeric = (gap / gap0) if gap0 > 1e-300 else None     # cross-check
+    # closed form must reproduce the numerical ratio to machine precision for a nonzero gap
+    grf_closed_matches_numeric = (grf_numeric is None) or (abs(grf_closed - grf_numeric)
+                                                           <= 1e-9 + 1e-9 * grf_numeric)
+    if gap0 <= 1e-300:                                        # symmetric -> no gap to reduce
         gap_class = "not_applicable"
-    elif reduction < 0.05:
-        gap_class = "pressure_gap_unchanged"
-    elif reduction >= 0.95:
-        gap_class = "pressure_gap_homogenized"
+        grf_report = None
     else:
-        gap_class = "pressure_gap_transition"
+        gap_class = lc.equalization_regime(Xi)               # Xi-driven, not Lambda-driven
+        grf_report = grf_closed
 
     q_in = r["q_in"]
     inlet_share_1 = r["q1_in"] / q_in if q_in else None
@@ -112,62 +119,99 @@ def physical_row(case, Lambda):
     Q_over_Q0 = r["Q"] / Q0 if Q0 else None
     eff0 = r0["effective_conductance"]
     eff_ratio = r["effective_conductance"] / eff0 if eff0 else None
-    # Test 4 — fixed-flow transform: Q_target = Q0 -> required inlet pressures
-    p_req_phys = Q0 / r["effective_conductance"]
-    p_req_unc = Q0 / eff0
-    p_req_ratio = p_req_phys / p_req_unc
+    # fixed-flow transform: to hold Q_target = Q0 the physical/uncoupled inlet-pressure ratio
+    p_req_ratio = (Q0 / r["effective_conductance"]) / (Q0 / eff0)
 
-    # Test 1 — outlet-share match over the full alpha grid
-    proxy_share = _proxy_outlet_share_1_over_alpha(case)
-    res_share = np.abs(proxy_share - outlet_share_1)
-    j = int(np.argmin(res_share))
-    alpha_star_share = ALPHA_GRID[j]
-    min_share_res = float(res_share[j])
-    exact_share_match = _tol_ok(min_share_res, outlet_share_1)
+    # uncoupled proxy share of path 1 (s0): the frozen completion's alpha=0 outlet share.
+    s0 = frozen_two_path_proxy(case.P_in, *case.g, 0.0)["proxy_outlet_share_1"]
+    proxy_share_alpha_invariant = abs(s0 - 0.5) <= _ATOL     # s0 == 0.5 -> proxy share is 0.5
+    #                                                          for EVERY alpha (mirror structure)
 
-    # Test 2 — share + Q/Q0 completion (the Q-component is alpha-independent: proxy Q/Q0 == 1)
-    q_res = abs(1.0 - Q_over_Q0)
+    # --- CONTINUOUS-alpha share match: s_proxy(alpha) = (1-alpha)*s0 + alpha/2 -----------------
+    if proxy_share_alpha_invariant:
+        # every alpha gives share 0.5; a match exists iff the physical share is (numerically) 0.5
+        alpha_star_continuous = None
+        continuous_share_residual = abs(outlet_share_1 - 0.5)
+        continuous_share_match_possible = _tol_ok(continuous_share_residual, 1.0)
+    else:
+        alpha_raw = (outlet_share_1 - s0) / (0.5 - s0)       # exact inverse of the proxy map
+        alpha_star_continuous = alpha_raw
+        in_unit = (-_ATOL <= alpha_raw <= 1.0 + _ATOL)
+        continuous_share_match_possible = in_unit
+        clamped = min(max(alpha_raw, 0.0), 1.0)
+        s_at = (1.0 - clamped) * s0 + clamped / 2.0
+        continuous_share_residual = 0.0 if in_unit else abs(s_at - outlet_share_1)
+
+    # --- GRID-alpha share match (audit sweep only; NEVER the basis of a "no match" verdict) ----
+    proxy_share_grid = _proxy_outlet_share_1_over_alpha(case)
+    res_grid = np.abs(proxy_share_grid - outlet_share_1)
+    j = int(np.argmin(res_grid))
+    alpha_star_grid = ALPHA_GRID[j]
+    grid_share_residual = float(res_grid[j])
+
+    # --- joint match: BOTH the outlet share (continuous) AND Q/Q0 to tolerance ----------------
+    q_res = abs(1.0 - Q_over_Q0)                             # proxy completion holds Q/Q0 == 1
     q_matchable = _tol_ok(q_res, 1.0)
-    # mathematically distinguishable: no alpha reproduces BOTH observables to tolerance
-    distinguishable = not (exact_share_match and q_matchable)
+    joint_match_possible = bool(continuous_share_match_possible and q_matchable)
+    # mathematically distinguishable: NO continuous alpha reproduces both matched observables.
+    distinguishable = not joint_match_possible
 
-    # practical-resolution scenarios (effect sizes vs hypothetical floors; NOT instrument specs)
+    # three DISTINCT notions, kept separate (item 9): the proxy structurally lacks a pressure
+    # law, so it can never produce p1/p2/q_lat/distinct-inlet-vs-outlet-share (representational
+    # non-equivalence, always true); mathematical distinguishability is the joint-match test
+    # above; practical experimental resolvability is OPEN (no instrument/noise model supplied).
+    representational_non_equivalence = True
+    practical_experimental_resolvability = None
+
+    # effect sizes (material differences in THIS synthetic case; NOT instrument accuracies)
     effects = {
         "Q_over_Q0_minus_1": abs(Q_over_Q0 - 1.0),
-        "outlet_share_1_shift": abs(outlet_share_1 - (r0["q1"] / Q0)),
-        "gap_reduction": 0.0 if reduction is None else reduction,
+        "outlet_share_1_shift": abs(outlet_share_1 - s0),
+        "gap_reduction": 0.0 if grf_report is None else (1.0 - grf_report),
         "depthwise_transfer": abs(transfer) if transfer is not None else 0.0,
         "p_required_ratio_dev": abs(p_req_ratio - 1.0),
     }
-    resolves = {k: {"%dpct" % int(f * 100): bool(v > f) for f in PRECISION_FLOORS}
+    material = {k: {"%dpct" % int(f * 100): bool(v > f) for f in PRECISION_FLOORS}
                 for k, v in effects.items()}
 
     def rd(x):
         return None if x is None else round(float(x), 9)
 
     return {
-        "case_id": case.case_id, "lambda": Lambda, "G_lat": rd(G), "g_axial_reference": rd(gax),
+        "case_id": case.case_id, "lambda_legacy_nominal": Lambda, "G_lat": rd(G),
+        "g_axial_reference": rd(gax), "Xi": rd(Xi),
         "p1_over_Pin": rd(r["p1"] / case.P_in), "p2_over_Pin": rd(r["p2"] / case.P_in),
         "pressure_gap_over_Pin": rd(gap / case.P_in),
-        "gap_remaining_fraction": ("not_applicable" if grf is None else rd(grf)),
+        "gap_remaining_fraction_closed_form": ("not_applicable" if grf_report is None
+                                               else rd(grf_report)),
+        "gap_closed_form_matches_numeric": grf_closed_matches_numeric,
         "pressure_gap_class": gap_class,
         "q1_in": rd(r["q1_in"]), "q2_in": rd(r["q2_in"]),
         "q1_out": rd(r["q1"]), "q2_out": rd(r["q2"]),
         "Q": rd(r["Q"]), "Q_over_Q0": rd(Q_over_Q0),
         "effective_conductance_ratio": rd(eff_ratio),
-        "q_lat_1to2": rd(r["q_lat_1to2"]), "q_lat_over_Q": rd(r["q_lat_1to2"] / r["Q"]) if r["Q"] else None,
+        "q_lat_1to2": rd(r["q_lat_1to2"]),
+        "q_lat_over_Q": rd(r["q_lat_1to2"] / r["Q"]) if r["Q"] else None,
         "inlet_share_1": rd(inlet_share_1), "outlet_share_1": rd(outlet_share_1),
+        "uncoupled_proxy_share_1": rd(s0),
+        "proxy_share_alpha_invariant": proxy_share_alpha_invariant,
         "depthwise_share_transfer_1": rd(transfer),
         "node1_residual": rd(r["node1_residual"]), "node2_residual": rd(r["node2_residual"]),
         "global_residual": rd(r["global_residual"]),
         "condition_number": rd(r["condition_number"]),
         "p_required_physical_over_uncoupled": rd(p_req_ratio),
-        # matched proxy comparison
-        "alpha_star_share": alpha_star_share, "min_share_residual": rd(min_share_res),
-        "exact_share_match_exists": exact_share_match,
+        # matched frozen-uncoupled-share-proxy-completion comparison
+        "alpha_star_continuous": rd(alpha_star_continuous),
+        "continuous_share_match_possible": continuous_share_match_possible,
+        "continuous_share_residual": rd(continuous_share_residual),
+        "alpha_star_grid": alpha_star_grid,
+        "grid_share_residual": rd(grid_share_residual),
         "completion_Q_residual": rd(q_res), "completion_Q_matchable": q_matchable,
+        "joint_match_possible": joint_match_possible,
         "mathematically_distinguishable": distinguishable,
-        "precision_scenarios": resolves,
+        "representational_non_equivalence": representational_non_equivalence,
+        "practical_experimental_resolvability": practical_experimental_resolvability,
+        "material_effect_scenarios": material,
     }
 
 
@@ -178,25 +222,46 @@ def _build():
         "schema_version": SCHEMA_VERSION,
         "GENERATED": "puckworks.analysis.lateral_coupling_discrimination --write (do not hand-edit)",
         "scope": "FEASIBILITY discrimination only — NOT Paper-4; no experimental fit, no "
-                 "alpha->Lambda map, no claim espresso lies in any regime or that Lambda is "
-                 "measurable.",
+                 "alpha->Lambda map, no transverse-permeability estimate, no claim espresso lies "
+                 "in any regime or that Lambda/Xi is measurable.",
+        "comparator": "frozen uncoupled share-proxy completion "
+                      "(analysis.lateral_proxy.frozen_two_path_proxy): the exact ntube share "
+                      "homogenizer w<-(1-alpha)*w+alpha applied to unit-mean relative flows under "
+                      "the uncoupled completion (Q/Q0==1, one share through the whole depth, NO "
+                      "pressure law). NOT the complete dynamic streamtube model.",
         "models": {
             "physical": "two-node steady Darcy network (models.lateral_coupling.model1_two_path)",
-            "proxy": "frozen streamtube share homogenizer w<-(1-alpha)*w+alpha "
-                     "(analysis.lateral_proxy.frozen_two_path_proxy); has NO pressure law.",
+            "proxy": "frozen uncoupled share-proxy completion (frozen_two_path_proxy); has NO "
+                     "pressure law and holds total flow at the uncoupled value.",
         },
         "sign_convention": "q_lat_1to2 = G_lat*(p1-p2) > 0 means flow path1 -> path2",
         "g_axial_reference_definition": "mean of the two uncoupled end-to-end series "
                                         "conductances g_series(g_top,g_bot)=g_top*g_bot/(g_top+g_bot)",
+        "equalization_number_definition": "Xi = G_lat*(1/A1 + 1/A2), Ai = gi_top+gi_bot; EXACT: "
+                                          "for a nonzero uncoupled gap, gap/gap0 = 1/(1+Xi). The "
+                                          "pressure_gap_class is driven by Xi (5%%/95%% cutoffs: "
+                                          "Xi<%.10g unchanged, Xi>=%g homogenized)."
+                                          % (lc.XI_UNCHANGED, lc.XI_HOMOGENIZED),
         "P_in": P_IN,
+        "lambda_note": "lambda_legacy_nominal is the axial-conductance-ratio grouping (WP6.3). "
+                       "Its 0.05 and 5 boundaries are LEGACY / PROVISIONAL NOMINAL labels kept "
+                       "for continuity — neither validated nor universal, and NOT the pressure "
+                       "classifier (Xi is).",
         "lambda_grid": LAMBDA_GRID,
-        "alpha_grid": {"start": 0.0, "stop": 1.0, "step": 0.001, "n": len(ALPHA_GRID)},
+        "alpha_grid": {"start": 0.0, "stop": 1.0, "step": 0.001, "n": len(ALPHA_GRID),
+                       "role": "audit sweep only; continuous alpha_star is the authoritative "
+                               "share-match test so no match is missed between grid points"},
         "cases": [c.__dict__ for c in CASES],
         "rows": rows,
         "boundary_rows": boundary,
-        "regime_labels_note": "the 0.05/5 Lambda labels are PROVISIONAL pressure-equalization "
-                              "descriptors, NOT a proved proxy-discrimination theorem; see the "
-                              "pressure_gap_class + mathematically_distinguishable columns.",
+        "three_distinct_notions": {
+            "representational_non_equivalence": "the proxy structurally cannot produce a pressure "
+                "law (p1/p2/q_lat/distinct inlet-vs-outlet share) — always true, model-structural.",
+            "mathematical_distinguishability": "no continuous alpha reproduces BOTH the outlet "
+                "share and Q/Q0 — the joint_match_possible test.",
+            "practical_experimental_resolvability": "OPEN — requires an instrument/noise model "
+                "that is NOT supplied here; never inferred from a nonzero synthetic difference.",
+        },
         "distinguishability_tolerance": {"rtol": _RTOL, "atol": _ATOL},
     }
     blob = json.dumps(doc, sort_keys=True, ensure_ascii=False)
@@ -205,13 +270,17 @@ def _build():
 
 
 def _csv(doc):
-    cols = ["case_id", "lambda", "G_lat", "g_axial_reference", "p1_over_Pin", "p2_over_Pin",
-            "pressure_gap_over_Pin", "gap_remaining_fraction", "pressure_gap_class",
-            "Q_over_Q0", "effective_conductance_ratio", "q_lat_1to2", "q_lat_over_Q",
-            "inlet_share_1", "outlet_share_1", "depthwise_share_transfer_1",
-            "p_required_physical_over_uncoupled", "alpha_star_share", "min_share_residual",
-            "exact_share_match_exists", "completion_Q_residual", "completion_Q_matchable",
-            "mathematically_distinguishable", "global_residual", "condition_number"]
+    cols = ["case_id", "lambda_legacy_nominal", "Xi", "G_lat", "g_axial_reference",
+            "p1_over_Pin", "p2_over_Pin", "pressure_gap_over_Pin",
+            "gap_remaining_fraction_closed_form", "gap_closed_form_matches_numeric",
+            "pressure_gap_class", "Q_over_Q0", "effective_conductance_ratio", "q_lat_1to2",
+            "q_lat_over_Q", "inlet_share_1", "outlet_share_1", "uncoupled_proxy_share_1",
+            "proxy_share_alpha_invariant", "depthwise_share_transfer_1",
+            "p_required_physical_over_uncoupled", "alpha_star_continuous",
+            "continuous_share_match_possible", "continuous_share_residual", "alpha_star_grid",
+            "grid_share_residual", "completion_Q_residual", "completion_Q_matchable",
+            "joint_match_possible", "mathematically_distinguishable",
+            "representational_non_equivalence", "global_residual", "condition_number"]
     buf = io.StringIO()
     buf.write("# GENERATED by puckworks.analysis.lateral_coupling_discrimination --write; "
               "do not hand-edit.\n")
@@ -229,59 +298,81 @@ def _md(doc):
          "**Scope / non-claims.** " + doc["scope"], "",
          "## Definitions",
          "- Physical: " + doc["models"]["physical"],
-         "- Proxy: " + doc["models"]["proxy"],
+         "- Comparator: " + doc["comparator"],
          "- Sign: " + doc["sign_convention"],
          "- Reference conductance: " + doc["g_axial_reference_definition"],
-         "- alpha and Lambda are INDEPENDENT parameters — no alpha=f(Lambda) mapping is used.",
+         "- Equalization number: " + doc["equalization_number_definition"],
+         "- alpha and Lambda/Xi are INDEPENDENT parameters — no alpha=f(Lambda) mapping is used.",
+         "- **Three distinct notions, never conflated:** representational non-equivalence "
+         "(structural) · mathematical distinguishability (the joint-match test) · practical "
+         "experimental resolvability (**OPEN** — no instrument/noise model here).",
          "", "## Why the comparison is matched",
-         "Both start from the same two uncoupled paths; the proxy homogenizes their flow SHARES,",
-         "the physical model adds a transverse PRESSURE conductance. For every physical Lambda we",
-         "search the whole alpha grid for any proxy match.", "",
+         "Both start from the same two uncoupled paths; the frozen uncoupled share-proxy",
+         "completion homogenizes their flow SHARES (holding total flow at the uncoupled value),",
+         "the physical model adds a transverse PRESSURE conductance. The outlet-share match is",
+         "solved EXACTLY in continuous alpha (`alpha_star_continuous`); the 0.001 alpha grid is an",
+         "audit sweep only, so no match is ever missed between grid points.", "",
          "## Synthetic cases",
          "| case | g1_top | g1_bot | g2_top | g2_bot | why |", "|---|---|---|---|---|---|"]
     for c in doc["cases"]:
         L.append("| %s | %g | %g | %g | %g | %s |" % (c["case_id"], c["g1_top"], c["g1_bot"],
                                                        c["g2_top"], c["g2_bot"], c["rationale"]))
-    L += ["", "## Main results (per case × Lambda)",
-          "| case | Lambda | gap_frac | gap_class | Q/Q0 | outlet_share_1 | transfer | "
-          "alpha* | share_res | Q_res | distinguishable |",
-          "|---|---|---|---|---|---|---|---|---|---|---|"]
+    L += ["", "## Main results (per case × Lambda_legacy_nominal)",
+          "`gap_frac` = 1/(1+Xi) (closed form). `a*_cont` is the exact continuous share-match "
+          "alpha; `share_match` is whether it lies in [0,1]; `joint` folds in Q/Q0.",
+          "| case | Lambda(nom) | Xi | gap_frac | gap_class | Q/Q0 | out_share | s0 | transfer | "
+          "a*_cont | share_match | joint | distinguishable |",
+          "|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for r in doc["rows"]:
-        L.append("| %s | %g | %s | %s | %s | %s | %s | %s | %s | %s | %s |" % (
-            r["case_id"], r["lambda"], r["gap_remaining_fraction"], r["pressure_gap_class"],
-            r["Q_over_Q0"], r["outlet_share_1"], r["depthwise_share_transfer_1"],
-            r["alpha_star_share"], r["min_share_residual"], r["completion_Q_residual"],
+        L.append("| %s | %g | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s |" % (
+            r["case_id"], r["lambda_legacy_nominal"], r["Xi"],
+            r["gap_remaining_fraction_closed_form"], r["pressure_gap_class"],
+            r["Q_over_Q0"], r["outlet_share_1"], r["uncoupled_proxy_share_1"],
+            r["depthwise_share_transfer_1"], r["alpha_star_continuous"],
+            r["continuous_share_match_possible"], r["joint_match_possible"],
             r["mathematically_distinguishable"]))
     # headline synthesis
-    mirror = [r for r in doc["rows"] if r["case_id"] == "isoresistive_mirror" and r["lambda"] > 0]
-    ident = [r for r in doc["rows"] if r["case_id"] == "identical_paths"]
     n_dist = sum(1 for r in doc["rows"] if r["mathematically_distinguishable"])
     L += ["", "## Fixed-pressure vs fixed-flow signatures",
           "Because the network is linear in P_in, the fixed-pressure total-flow rise (Q/Q0>1)",
-          "maps to a fixed-flow pressure drop (p_required_physical/uncoupled<1). The share proxy",
-          "alone has NO pressure law; any proxy pressure comes from retaining the independent",
-          "axial paths (the uncoupled completion), not from the homogenizing operator.", "",
-          "## Inside vs outside the provisional 0.05–5 Lambda band",
-          "The `pressure_gap_class` column shows where the *pressure gap* actually transitions;",
-          "compare it to the nominal Lambda labels — they do not coincide for every case.", "",
-          "## Conservation & scaling", "Every row's `global_residual` ~ 0 (see CSV). "
-          "`scaled_mirror` reproduces `isoresistive_mirror` pressures/shares with 10× flows.", "",
+          "maps to a fixed-flow pressure drop (p_required_physical/uncoupled<1). The frozen",
+          "uncoupled share-proxy completion has NO pressure law and holds Q/Q0==1; any proxy",
+          "pressure would come from retaining the independent axial paths, not from the",
+          "homogenizing operator.", "",
+          "## The mirror case and s0 = 0.5",
+          "For `isoresistive_mirror` (and `scaled_mirror`) the uncoupled proxy share s0 is exactly",
+          "0.5, so `s_proxy(alpha) = (1-alpha)*0.5 + alpha/2 = 0.5` for EVERY alpha — the proxy",
+          "share is alpha-invariant. Any physical outlet share != 0.5 is therefore unreachable by",
+          "the proxy at any alpha: the structural reason the mirror is a strong share-",
+          "discrimination case (not an artifact of the grid).", "",
+          "## Xi vs the legacy nominal Lambda band",
+          "The `pressure_gap_class` column is driven by the EXACT Xi (5%/95% cutoffs). The",
+          "0.05–5 `lambda_legacy_nominal` boundaries are legacy provisional nominal labels ONLY —",
+          "not a validated or universal transition band, and not the pressure classifier.", "",
+          "## Conservation & scaling", "Every row's `global_residual` ~ 0 and "
+          "`gap_closed_form_matches_numeric` is true (the 1/(1+Xi) identity is verified against "
+          "the solved gap). `scaled_mirror` reproduces `isoresistive_mirror` shares with 10× "
+          "flows.", "",
           "## Candidate observables (feasibility, synthetic effect sizes only)",
           "- total flow ratio Q/Q0 (equivalently the fixed-flow pressure ratio);",
           "- depthwise inlet-vs-outlet share transfer (identically 0 for the proxy);",
           "- outlet-share shift for asymmetric cases.",
-          "Per-observable 1%/2%/5% *scenario* flags are in the JSON `precision_scenarios` — these",
-          "are sensitivity scenarios, NOT instrument accuracies or an accessible-experiment claim.",
+          "Per-observable 1%/2%/5% flags in JSON `material_effect_scenarios` mark where the effect",
+          "is **material in the selected synthetic case** — they are NOT instrument accuracies and",
+          "NOT an accessible-experiment claim.",
           "", "## Go / no-go",
-          "- **%d / %d** case×Lambda rows are mathematically distinguishable (no alpha reproduces"
-          " both the outlet share and Q/Q0)." % (n_dist, len(doc["rows"])),
-          "- `isoresistive_mirror` (equal outlet shares, unequal mid-pressures) is distinguishable",
-          "  purely through total flow / depthwise transfer once Lambda>0 — the share-only proxy",
-          "  cannot see it.",
+          "- **%d / %d** case×Lambda rows are mathematically distinguishable (no continuous alpha"
+          " reproduces both the outlet share and Q/Q0)." % (n_dist, len(doc["rows"])),
+          "- `isoresistive_mirror` (uncoupled proxy share s0 = 0.5, so the proxy share is",
+          "  alpha-invariant) is distinguishable through total flow / depthwise transfer once",
+          "  coupled — the frozen uncoupled share-proxy completion cannot represent it.",
           "- `identical_paths` is NOT distinguishable (correct negative control: no lateral effect).",
-          "- This is **synthetic / mathematical** distinguishability. It does NOT establish that",
-          "  Lambda is experimentally measurable or that espresso sits in any regime. The",
-          "  measurability and identifiability go/no-go boxes stay OPEN; Paper 4 is NOT authorized.",
+          "- **The claim, stated precisely:** the minimal physical network is *mathematically",
+          "  distinguishable from the frozen uncoupled share-proxy completion on predeclared",
+          "  synthetic cases*. This is representational/mathematical only — NOT a claim that any",
+          "  effect is experimentally resolvable, that Lambda/Xi is measurable, or that espresso",
+          "  sits in any regime. The measurability and identifiability go/no-go boxes stay OPEN;",
+          "  Paper 4 is NOT authorized.",
           ""]
     return "\n".join(L) + "\n"
 

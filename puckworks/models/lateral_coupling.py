@@ -61,10 +61,57 @@ def strong_coupling_limit(P_in, g1_top, g1_bot, g2_top, g2_bot):
     """Exact G_lat -> infinity limit (mid-node pressures equalize):
         p_inf = P_in*(g1_top+g2_top) / (g1_top+g2_top+g1_bot+g2_bot);  Q_inf = (g1_bot+g2_bot)*p_inf."""
     _finite(P_in, "P_in")
+    if P_in < 0:
+        raise ValueError("P_in must be >= 0 under the P_out=0 gauge, got %r" % P_in)
     for nm, g in (("g1_top", g1_top), ("g1_bot", g1_bot), ("g2_top", g2_top), ("g2_bot", g2_bot)):
         _positive_conductance(g, nm)
     p_inf = P_in * (g1_top + g2_top) / (g1_top + g2_top + g1_bot + g2_bot)
     return {"p_inf": float(p_inf), "Q_inf": float((g1_bot + g2_bot) * p_inf)}
+
+
+def equalization_number(G_lat, g1_top, g1_bot, g2_top, g2_bot):
+    """Exact two-node pressure-equalization group Xi = G_lat*(1/A1 + 1/A2), with the per-path
+    axial conductance sums A1 = g1_top+g1_bot, A2 = g2_top+g2_bot. For ANY nonzero uncoupled
+    mid-node pressure gap the closed-form gap ratio is exactly ``gap/gap0 = 1/(1+Xi)`` (derived:
+    gap = (A2*b1 - A1*b2)/det, gap0 = (A2*b1 - A1*b2)/(A1*A2), det = A1*A2 + G_lat*(A1+A2)).
+    Xi is the physically exact equalization control; the axial-conductance-ratio Lambda (WP6.3)
+    is a separate, legacy nominal grouping and is NOT this closed form."""
+    _finite(G_lat, "G_lat")
+    if G_lat < 0:
+        raise ValueError("G_lat must be >= 0, got %r" % G_lat)
+    for nm, g in (("g1_top", g1_top), ("g1_bot", g1_bot), ("g2_top", g2_top), ("g2_bot", g2_bot)):
+        _positive_conductance(g, nm)
+    A1 = g1_top + g1_bot
+    A2 = g2_top + g2_bot
+    return float(G_lat) * (1.0 / A1 + 1.0 / A2)
+
+
+def gap_remaining_fraction(Xi):
+    """Closed-form residual pressure-gap fraction gap/gap0 = 1/(1+Xi) (Xi = equalization_number)."""
+    _finite(Xi, "Xi")
+    if Xi < 0:
+        raise ValueError("Xi must be >= 0, got %r" % Xi)
+    return 1.0 / (1.0 + Xi)
+
+
+# Xi thresholds are the EXACT images of the 5% / 95% gap-reduction cutoffs under 1/(1+Xi):
+#   reduction < 5%  <=> Xi < 1/0.95 - 1 ;  reduction >= 95% <=> Xi >= 1/0.05 - 1 = 19.
+XI_UNCHANGED = 1.0 / 0.95 - 1.0     # 0.05263157894736836
+XI_HOMOGENIZED = 1.0 / 0.05 - 1.0   # 19.0
+
+
+def equalization_regime(Xi, lo=XI_UNCHANGED, hi=XI_HOMOGENIZED):
+    """Physical pressure-equalization label from the EXACT Xi (not the legacy Lambda):
+    Xi < lo -> 'pressure_gap_unchanged'; lo <= Xi < hi -> 'pressure_gap_transition';
+    Xi >= hi -> 'pressure_gap_homogenized'. Only meaningful when the uncoupled gap is nonzero."""
+    _finite(Xi, "Xi")
+    if Xi < 0:
+        raise ValueError("Xi must be >= 0, got %r" % Xi)
+    if Xi < lo:
+        return "pressure_gap_unchanged"
+    if Xi >= hi:
+        return "pressure_gap_homogenized"
+    return "pressure_gap_transition"
 
 
 def model1_two_path(P_in, g1_top, g1_bot, g2_top, g2_bot, G_lat):
@@ -137,7 +184,10 @@ def coupling_number(G_lat, g_axial):
 
 
 def regime(Lambda, lo=0.05, hi=5.0):
-    """PROVISIONAL pressure-equalization labels (NOT a proved proxy-discrimination theorem):
+    """LEGACY / PROVISIONAL NOMINAL labels on the axial-conductance-ratio Lambda (WP6.3). These
+    are NOT the exact equalization control (use ``equalization_number`` / ``equalization_regime``
+    on Xi for that) and the Lambda=0.05 and Lambda=5 boundaries are neither validated nor
+    universal — they are nominal grouping cutoffs kept only for continuity:
     Lambda < lo -> uncoupled; lo <= Lambda <= hi -> transitional; Lambda > hi -> homogenized.
     Equality at lo and hi belongs to 'transitional'."""
     _finite(Lambda, "Lambda")
