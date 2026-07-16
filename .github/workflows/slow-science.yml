@@ -28,8 +28,11 @@ jobs:
       - run: pip install -e ".[dev,figures]"    # figures extra so figure-render tests run here
       - name: slow-marked science tests (with durations + JUnit artifact)
         run: pytest -q -m slow --durations=0 --junitxml=slow-report.xml
-      - name: offline full-suite backstop (excludes live/gpu/external_data)
-        run: pytest -q -m "not live and not gpu and not external_data"
+      - name: offline full-suite backstop (excludes live/gpu/external_data) + coverage baseline
+        run: >
+          pytest -q -m "not live and not gpu and not external_data"
+          --cov=puckworks --cov-report=xml --cov-report=term
+        # coverage is REPORTED as a baseline (P1.1/P1.3); no global threshold is imposed yet.
       - name: typed gate suite report (every gate runs; complete report)
         if: always()
         run: python -m puckworks.gate_runner --report=gate-report.json
@@ -43,4 +46,5 @@ jobs:
           path: |
             slow-report.xml
             gate-report.json
+            coverage.xml
             pip-freeze.txt

@@ -77,10 +77,13 @@ class PumpHeadspace:
 
 @dataclass
 class MachineState:
-    P_of_t: Optional[Callable[[float], float]] = None   # bar, gauge overpressure
-    profile_t: Optional[np.ndarray] = None
-    profile_p: Optional[np.ndarray] = None
-    # A1 pressure-node set (RC-3 node table): each is a callable of t [s] -> Pa,
+    # UNITS (see docs/UNITS_POLICY.md): P_of_t is the machine-facing recorded profile in
+    # BAR-GAUGE overpressure; the A1 pressure-node callables below are SI (Pa). Convert with
+    # puckworks.validate.bar_gauge_to_pa at the boundary — never mix bar and Pa in one expression.
+    P_of_t: Optional[Callable[[float], float]] = None   # bar-gauge overpressure (machine boundary)
+    profile_t: Optional[np.ndarray] = None              # s
+    profile_p: Optional[np.ndarray] = None              # bar-gauge (aligned with profile_t)
+    # A1 pressure-node set (RC-3 node table): each is a callable of t [s] -> Pa (SI),
     # or a scalar. Do NOT apply two pressure-drop corrections to one segment.
     p_p: Optional[Callable[[float], float]] = None      # pump outlet
     p_h: Optional[Callable[[float], float]] = None      # headspace / bed top

@@ -21,7 +21,7 @@ classifiers = [
 
 [project.optional-dependencies]
 lb = ["taichi"]
-dev = ["pytest", "ruff"]
+dev = ["pytest", "ruff", "pytest-cov"]   # pytest-cov: coverage baseline reporting (P1.1/P1.3)
 figures = ["matplotlib"]
 harvest = ["requests"]
 release = ["build", "twine", "pip-tools"]   # pip-tools: fully-resolved hashed lock (P0.5)
