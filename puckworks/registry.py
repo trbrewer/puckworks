@@ -21,7 +21,7 @@ registration explicitly instead of relying on an import side effect.
 """
 import copy
 from dataclasses import dataclass, field
-from typing import Callable, Optional
+from typing import Callable, Optional, Sequence
 
 SCHEMA_VERSION = 2   # 2: typed axes (execution_role/provenance_class/evidence_strength) authoritative
 
@@ -50,7 +50,8 @@ class Component:
     module: str = ""
     assumptions: str = ""
     valid_range: str = ""
-    gates: list[Gate] = field(default_factory=list)   # zero-arg callables -> dict(passed=bool, ...)
+    # Sequence so a live registry uses a list and a public snapshot uses a read-only tuple.
+    gates: Sequence[Gate] = field(default_factory=list)   # zero-arg callables -> dict(passed=bool)
     notes: str = ""
     # --- schema v2 typed axes (execution_role/provenance_class back-filled in register) ---
     execution_role: Optional[str] = None
