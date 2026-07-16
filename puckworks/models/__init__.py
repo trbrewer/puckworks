@@ -423,7 +423,12 @@ _EVIDENCE_STRENGTH = {
     "wadsworth2026.grindmap": "source_curve_reproduction",
     "waszkiewicz2025.poroelastic": "post_fit_reconstruction",
     "foster2025.machine_mode": "source_curve_reproduction",
-    "foster2025.infiltration": "controlled_independent",
+    # Demoted controlled_independent -> sign_or_compatibility (ROADMAP §7.1, 2026-07-16) under the
+    # adopted component->gate roll-up policy: the only wired gate (gate_infiltration_triangle) is
+    # gate-level sign_or_compatibility — k is from a kappa fitted to the same DE1 shot and the
+    # front is driven by that shot's own pressure trace, so the first-drip bracket is a
+    # wide-bracket compatibility check on in-sample data, NOT a parameter-free independent result.
+    "foster2025.infiltration": "sign_or_compatibility",
     "sourcing2026.g1_glassbead_analog": "qualitative_capacity",
     "sourcing2026.g3_pump_characteristic": "sign_or_compatibility",
     # Promoted sign_or_compatibility -> source_curve_reproduction on 2001 closure intake

@@ -122,8 +122,9 @@ def test_semantic_corrections_applied():
     # #1 infiltration: same fixture fits and evaluates -> NOT within_campaign_held_out
     inf = links["foster2025.infiltration::gate_infiltration_triangle"]
     assert inf["relationship"] == "same_campaign_not_held_out"
-    assert inf["evidence_strength"] == "sign_or_compatibility"     # not the registry's controlled_independent
-    assert inf["component_evidence_strength"] == "controlled_independent"
+    assert inf["evidence_strength"] == "sign_or_compatibility"
+    # the registry tier was demoted to match the gate (roll-up policy, ROADMAP §7.1)
+    assert inf["component_evidence_strength"] == "sign_or_compatibility"
     # #2 composition diagnostic: residual-based, not pure code verification
     comp = links["brewer2026.coupled_kappa_t::gate_kappa_t_composition_diagnostic"]
     assert comp["evidence_strength"] == "exploratory_synthesis"
@@ -190,7 +191,29 @@ def test_priority_gates_are_adjudicated():
     assert by_gate["gate_inertial_de1_audit"]["support_status"] == "admissible"
 
 
-def test_conflicts_report_surfaces_constants_and_infiltration():
+def test_conflicts_report_surfaces_constants_and_g10():
     md = EG.generate()["evidence_conflicts.md"]
     assert "c_sat" in md and "212.4" in md and "224" in md and "170" in md
-    assert "controlled_independent" in md            # the infiltration tier discrepancy note
+    assert "khomyakov" in md                          # the G10 inter-source viscosity tension
+
+
+def test_rollup_rule_no_component_overclaims_its_gates():
+    # the whole graph must satisfy the roll-up policy (reconcile is clean)
+    assert not any(p.startswith("ROLLUP") for p in EG.reconcile())
+    # ...and the demoted infiltration component now equals its only gate's tier
+    _, ctx = EG.registry_gate_wirings()
+    assert ctx["foster2025.infiltration"]["component_evidence_strength"] == "sign_or_compatibility"
+
+
+def test_rollup_rule_flags_a_synthetic_overclaim():
+    # forge a component tier stronger than any of its gates (mutate the live ctx via a link whose
+    # component tier is inflated) -> the rule must fire. We do it by hand-building a link set for
+    # one component whose stored tier is checked against the LIVE registry, so instead assert the
+    # rule logic directly on the strongest-gate comparison.
+    # controlled_independent declared over a sign_or_compatibility gate must be flagged...
+    assert EG._rollup_probe("controlled_independent", ["sign_or_compatibility"]).startswith("ROLLUP")
+    # ...a weaker/coarser summary tier over stronger gates is NOT an overclaim (no false positive)
+    assert EG._rollup_probe("qualitative_capacity", ["source_curve_reproduction"]) == ""
+    # ...and a tier its gate actually demonstrates is fine
+    assert EG._rollup_probe("post_fit_reconstruction",
+                            ["source_curve_reproduction", "post_fit_reconstruction"]) == ""

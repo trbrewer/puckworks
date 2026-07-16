@@ -23,7 +23,7 @@
 | flow | `sourcing2026.g10_liquor_rheology` | calibration | reference_only | source_curve_reproduction | Telis-Romero et al. (2000, 2001) | 10.1111/j.1745-4530.2001.tb00542.x | 7 |
 | flow | `wadsworth2026.inertial` | runtime | published_port | source_curve_reproduction | Wadsworth et al., R. Soc. Open Sci. 13, 252031 (2026) | 10.1098/rsos.252031 | 4 |
 | grind | `wadsworth2026.grindmap` | calibration | published_port | source_curve_reproduction | Wadsworth et al., R. Soc. Open Sci. 13, 252031 (2026) | 10.1098/rsos.252031 | 2 |
-| infiltration | `foster2025.infiltration` | runtime | published_port | controlled_independent | Foster et al., Phys. Fluids 37, 013383 (2025) | 10.1063/5.0245167 | 1 |
+| infiltration | `foster2025.infiltration` | runtime | published_port | sign_or_compatibility | Foster et al., Phys. Fluids 37, 013383 (2025) | 10.1063/5.0245167 | 1 |
 | infiltration | `sourcing2026.g1_glassbead_analog` | calibration | reference_only | qualitative_capacity | Yasuda, Katsuragi, Katsura (2025) arXiv:2501.13361 | arXiv:2501.13361 | 1 |
 | machine | `foster2025.machine_mode` | runtime | published_port | source_curve_reproduction | Foster et al., Phys. Fluids 37, 013383 (2025) | 10.1063/5.0245167 | 3 |
 | machine | `sourcing2026.g3_pump_characteristic` | calibration | reference_only | sign_or_compatibility | Ulka/Repa catalogue; Decent blog; espressoaf | — | 1 |

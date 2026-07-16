@@ -72,6 +72,9 @@ EVIDENCE_ROLES = ("fit", "eval", "reference", "context")
 SOURCE_INDEPENDENCE = ("independent", "held_out_same_campaign", "same_campaign", "same_data_as_fit",
                        "fit_input", "not_applicable")
 EVIDENCE_STRENGTHS = R.EVIDENCE_STRENGTHS
+# registry EVIDENCE_STRENGTHS is authored in DESCENDING strength order, so the tuple index is a
+# strength rank (0 = strongest). Used by the component->gate roll-up rule.
+_STRENGTH_RANK = {s: i for i, s in enumerate(EVIDENCE_STRENGTHS)}
 
 # asserted Paper-3 claims that the paper3 release gate is fail-closed on
 _ASSERTED_PAPER3_USES = ("primary_claim", "method_demonstration")
@@ -188,6 +191,19 @@ def _has_placeholder(link):
         if isinstance(v, str) and any(p in v for p in _PLACEHOLDERS) and v not in ADJUDICATION_STATES:
             return True
     return False
+
+
+def _rollup_probe(live_tier, gate_tiers):
+    """Return a ROLLUP problem string if a component's declared `live_tier` is STRONGER than the
+    strongest tier among `gate_tiers`, else ''. (Strength rank = registry order; 0 = strongest.)"""
+    tiers = [t for t in gate_tiers if t in _STRENGTH_RANK]
+    if not tiers or live_tier in (None, "unclassified") or live_tier not in _STRENGTH_RANK:
+        return ""
+    best = min(_STRENGTH_RANK[t] for t in tiers)
+    if _STRENGTH_RANK[live_tier] < best:
+        return ("ROLLUP: component declares %r but its strongest gate is only %r "
+                "(no gate demonstrates the declared tier)" % (live_tier, EVIDENCE_STRENGTHS[best]))
+    return ""
 
 
 def _provenance_resolved(link):
@@ -329,6 +345,22 @@ def reconcile(links=None, strict=False, scope="all"):
             if rel == "post_fit_same_data" and ev in ("controlled_independent",
                                                       "within_campaign_held_out"):
                 problems.append("%s: post_fit_same_data cannot carry tier %r" % (lid, ev))
+
+    # 3b. component -> gate ROLL-UP policy: a component may not DECLARE a tier STRONGER than the
+    # strongest tier any of its gates demonstrates. Enforced only when ALL of a component's gates
+    # are adjudicated (a still-draft gate could justify a stronger tier), and skipped for
+    # components with no gates (a separate, known "declared tier not gate-backed" gap).
+    comp_links = {}
+    for l in links:
+        comp_links.setdefault(l["component"], []).append(l)
+    for comp, ls in comp_links.items():
+        if any(l["adjudication_status"] != "ADJUDICATED" for l in ls):
+            continue
+        tiers = [l.get("evidence_strength") for l in ls if l.get("evidence_strength")]
+        live = ctx.get(comp, {}).get("component_evidence_strength")
+        probe = _rollup_probe(live, tiers)
+        if probe:
+            problems.append(probe.replace("ROLLUP:", "ROLLUP %s:" % comp, 1))
 
     # 4. scoped strict modes
     if strict and scope == "paper3":

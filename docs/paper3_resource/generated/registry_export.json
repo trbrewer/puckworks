@@ -230,7 +230,7 @@
     },
     {
       "doi": "10.1063/5.0245167",
-      "evidence_strength": "controlled_independent",
+      "evidence_strength": "sign_or_compatibility",
       "execution_role": "runtime",
       "id": "foster2025.infiltration",
       "kind_legacy": "runtime",
@@ -301,7 +301,7 @@
       "stage": "packing"
     }
   ],
-  "content_sha256": "abe30818a564f775b83331dda97b7019f456050b868b4e60d23dd7ab3721705e",
+  "content_sha256": "030dcfc40871a1687274aff89b91e217d3d51565a9cf94e29ee4f3b6673cb776",
   "n_components": 25,
   "schema_version": 1
 }
