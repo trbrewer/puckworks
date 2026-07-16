@@ -46,8 +46,8 @@ def test_register_rejects_duplicate_and_bad_enums():
         R.register(dup)
     bad = R.Component(name="__test_bad_enum__", stage="flow", kind="runtime", paper="x",
                       evidence_strength="totally_proven")
-    with pytest.raises(AssertionError):
-        R.register(bad)
+    with pytest.raises(ValueError, match="bad execution_role|bad provenance_class|bad evidence_strength"):
+        R.register(bad)                                  # WP4.4: explicit exception, not assert
     R._REGISTRY.pop("__test_bad_enum__", None)           # keep the global registry clean
 
 

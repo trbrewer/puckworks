@@ -63,12 +63,17 @@ This revises the earlier "freeze automatically as publication-freeze" plan.
 | Q5 | ~~PR2 — real freeze lifecycle~~ **DONE**: `corpus_freeze.{freeze_rehearse,freeze_materialize,freeze_verify}` + `FreezeCandidate`/`PublicationReceipt`; bundle gated on a VERIFIED receipt (not a label); moving window rejected; overwrite/mutation guards; 9 lifecycle tests | code | — | ✅ (pending commit) |
 | Q6 | ~~PR3 — sanctioned-export contract + synthetic importer~~ **DONE**: `corpus_export` + `SANCTIONED_EXPORT_SPEC.md` + end-to-end synthetic pipeline | code | — | ✅ committed |
 | Q7 | ~~PR4 — pressure-atlas spec + time engine~~ **DONE**: `PRESSURE_ATLAS_SPEC.md` (v1, hashed) + time-weighted/gap-aware/active-phase engine + deterministic one-shot-per-user + 8 analytic fixtures | code | — | ✅ (pending commit) |
-| Q8 | PR5 — hierarchical inference (user-cluster bootstrap CIs; seeded one-shot-per-user; concentration + exclusion-flow first-class) | code | — (next) | WP2.7-2.9 |
-| Q9 | (opportunistic) sanctioned corpus export runbook | maintainer | Miha export/token (external) | WP7 pilot on real export |
+| Q8 | ~~PR5 — hierarchical inference~~ **DONE**: user-cluster bootstrap CIs; seeded one-shot-per-user; concentration + exclusion-flow first-class | code | — | ✅ committed |
+| Q9 | **PR6 — Paper A submission RC** — code core DONE (`paper_a.build verify`: 27/27 claims match manuscript). **BLOCKED (PI)** on: venue choice, indexed literature-search reconciliation, author order/contributions/conflicts/funding, author approval, clean-tree release build | PI | human sign-off | Gate F |
+| Q10 | **PR7 — gate-level evidence graph** — WP4.4 validation-exceptions DONE (survive `python -O`). **BLOCKED (PI/scientific)** on WP4.1/4.5 EvidenceLink authoring: per-gate card+dataset+claim mapping needs adjudication (sourcing2026.*/brewer2026.* don't resolve by prefix; low-confidence tiers flagged earlier need review) | PI+code | claim/card/dataset adjudication | WP4 acceptance |
+| Q11 | PR9 — CI lanes (pytest markers; distinct quick/slow/live/release selections) — UNBLOCKED, mechanical | code | — | WP5 |
+| Q12 | PR10 — lateral-coupling feasibility CARD (source + governing eqs + regime map) — UNBLOCKED, docs+minimal model | code | — | WP6.1-6.3 |
+| Q13 | (opportunistic) sanctioned corpus export runbook | maintainer | Miha export/token (external) | WP7 pilot on real export |
 
-Then PR6 Paper A RC (expected human BLOCK: literature search + author sign-off) →
-PR7 evidence graph → PR8 Paper 3 RC → PR9 CI lanes → PR10 lateral-coupling
-feasibility. Product lane (Doc 1) follows this convergence.
+**Truly-blocked boundary reached for the release-critical + evidence-adjudication
+track:** PR6 needs author sign-off; PR7's evidence-link authoring needs claim/card
+adjudication (Tim). PR9 (CI lanes) + PR10 (lateral-coupling card) remain mechanical
+and can proceed on request. Product lane (Doc 1) follows this convergence.
 
 **WP1 acceptance now met:** a classification string can no longer create a
 publication snapshot (`freeze_snapshot` rejects the label; `build_bundle` requires a

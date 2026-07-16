@@ -69,7 +69,10 @@ def _derive_provenance_class(name: str, kind: str) -> str:
 
 
 def register(c: Component):
-    assert c.stage in STAGES, c.stage
+    # WP4.4: metadata validation raises EXPLICIT exceptions (not `assert`) so enum/stage checks
+    # cannot vanish under `python -O`.
+    if c.stage not in STAGES:
+        raise ValueError("component %r: bad stage %r (not in %r)" % (c.name, c.stage, STAGES))
     if c.name in _REGISTRY:
         raise ValueError("duplicate component id %r" % c.name)
     # migrate: back-fill the typed axes from the legacy kind/name when not explicitly set.
@@ -78,10 +81,12 @@ def register(c: Component):
     if c.provenance_class is None:
         c.provenance_class = _derive_provenance_class(c.name, c.kind)
     # validate every SET enum value (evidence_strength may legitimately be None = unclassified).
-    assert c.execution_role in EXECUTION_ROLES, c.execution_role
-    assert c.provenance_class in PROVENANCE_CLASSES, c.provenance_class
-    assert c.evidence_strength is None or c.evidence_strength in EVIDENCE_STRENGTHS, \
-        c.evidence_strength
+    if c.execution_role not in EXECUTION_ROLES:
+        raise ValueError("component %r: bad execution_role %r" % (c.name, c.execution_role))
+    if c.provenance_class not in PROVENANCE_CLASSES:
+        raise ValueError("component %r: bad provenance_class %r" % (c.name, c.provenance_class))
+    if c.evidence_strength is not None and c.evidence_strength not in EVIDENCE_STRENGTHS:
+        raise ValueError("component %r: bad evidence_strength %r" % (c.name, c.evidence_strength))
     _REGISTRY[c.name] = c
     return c
 
