@@ -1,3 +1,7 @@
+> **Historical planning snapshot — NOT an authoritative statement of current repository status.**
+> The canonical status is generated at `docs/planning/STATE_OF_TRUTH.md` from `docs/status/current.json`.
+> This file is retained for provenance only.
+
 # PUCKWORKS — UPDATED NEXT-STEP PLAN
 
 > Recorded verbatim 2026-07-16 (Tim strategic input). Review basis: main @ 19919c4.

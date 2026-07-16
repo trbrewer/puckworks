@@ -32,3 +32,19 @@ jobs:
         run: python -m puckworks.paper3.evidence_graph --reconcile
       - name: Evidence-graph artifacts are up to date (WP2.4)
         run: python -m puckworks.paper3.evidence_graph --verify
+
+  status-truth:
+    # Canonical status: STATE_OF_TRUTH.md must be generated from docs/status/current.json and
+    # internally consistent. fetch-depth: 0 so completed items' verified_commit values resolve.
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e "."
+      - name: Status source is valid and STATE_OF_TRUTH.md is up to date
+        run: python -m puckworks.statusdoc --verify

@@ -6,12 +6,12 @@ listed here wins.
 
 | topic | current document |
 |---|---|
-| **Project status / active queue** | [`docs/planning/STATE_OF_TRUTH.md`](planning/STATE_OF_TRUTH.md) — canonical status; states + exact SHAs |
+| **Project status / active queue** | [`docs/planning/STATE_OF_TRUTH.md`](planning/STATE_OF_TRUTH.md) — GENERATED from [`docs/status/current.json`](status/current.json) (`python -m puckworks.statusdoc`); curate the JSON, not the Markdown |
 | **Onboarding** | [`docs/ONBOARDING.md`](ONBOARDING.md) |
 | **Roadmap** | [`docs/ROADMAP.md`](ROADMAP.md) — §3 sequence, §7.1 changelog |
 | **Sprint status log** | [`docs/SPRINTS.md`](SPRINTS.md) |
 | **CI lanes** | [`docs/CI_LANES.md`](CI_LANES.md) |
-| **Strategic plans** | [`docs/planning/`](planning/) — product-first reprioritization + next-step plan |
+| **Strategic plans (historical)** | [`docs/planning/archive/`](planning/archive/) — superseded snapshots (product-first reprioritization, next-step plan); NOT authoritative |
 | **Data-use policy** | [`docs/visualizerCoffee_DATA_USE.md`](visualizerCoffee_DATA_USE.md) + memory `visualizer-data-permission` |
 | **Sanctioned corpus export contract** | [`docs/analysis/SANCTIONED_EXPORT_SPEC.md`](analysis/SANCTIONED_EXPORT_SPEC.md) |
 | **Pressure-atlas pre-analysis spec** | [`docs/analysis/PRESSURE_ATLAS_SPEC.md`](analysis/PRESSURE_ATLAS_SPEC.md) |
