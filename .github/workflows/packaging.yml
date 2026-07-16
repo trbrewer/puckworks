@@ -1,0 +1,41 @@
+name: packaging
+# P1.4 — test the distribution users actually receive. Builds wheel + sdist, asserts the file
+# inventory (no private/raw corpus; required package data present), installs the wheel in a
+# CLEAN environment outside the checkout and runs the public smoke, and rebuilds a wheel from the
+# sdist. Not a required branch check until the maintainer opts in.
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  distribution:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.12"
+      - run: pip install build
+      - name: build wheel + sdist
+        run: python -m build --outdir dist .
+      - name: inventory — no private paths; required package data present
+        run: python tools/packaging_check.py dist
+      - name: clean-room install of the WHEEL (outside the checkout) + public smoke
+        run: |
+          python -m venv /tmp/cr
+          /tmp/cr/bin/pip install dist/*.whl
+          cd /tmp && /tmp/cr/bin/python -c "import puckworks; puckworks.load_builtin_components(); s=puckworks.evaluate_all_gates(); assert s.passed; print('wheel ok', puckworks.__version__, len(puckworks.components()))"
+          cd /tmp && /tmp/cr/bin/python -c "import puckworks; assert 'site-packages' in puckworks.__file__, puckworks.__file__"
+      - name: sdist can rebuild a wheel
+        run: |
+          python -m venv /tmp/sd
+          /tmp/sd/bin/pip wheel --no-deps -w /tmp/sdwheel dist/*.tar.gz
+          ls /tmp/sdwheel/puckworks-*.whl

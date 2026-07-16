@@ -45,6 +45,10 @@ Paper 3 archive, a hardened CI supply chain, and a fully-adjudicated per-claim e
   lane; now `importorskip("matplotlib")` + `.[figures]` in slow-science. Invalid job-level
   `secrets` in `if:` replaced with a `vars`-gated pattern.
 - `all(...)` short-circuit in the gate runner (later failures were hidden) — see gate_runner.
+- **Private corpus could leak into the distribution**: the broad `puckworks.data` `**/*.csv`
+  package-data glob swept `visualizer/{raw,normalized_v3,crawl_*}` + `aggregate_stats.csv` into the
+  wheel/sdist. Added `exclude-package-data` + a `packaging` CI job that inventories the built
+  distributions (no private paths; required data present) and clean-room-installs the wheel.
 
 ### Scientific / evidence
 - Every asserted Paper-3 claim carries an honest per-gate tier, relationship, caveat, and
