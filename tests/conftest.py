@@ -49,6 +49,7 @@ SLOW = {
     "test_analysis.py::test_cross_pressure_full_precision_from_raw",
     "test_harness.py::test_p2_cross_pressure_separation",
     "test_harness.py::test_p2_cross_pressure_loco",
+    "test_gate_runner.py::test_real_registry_suite_passes",
 }
 
 

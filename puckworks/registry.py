@@ -117,16 +117,24 @@ def validate_registry():
 
 
 def run_gates(name: str, verbose=True) -> bool:
-    c = _REGISTRY[name]
-    ok = True
-    for g in c.gates:
-        r = g()
-        ok &= bool(r.get("passed"))
-        if verbose:
-            print(f"[{name}] {g.__name__}: {'PASS' if r.get('passed') else 'FAIL'}  "
-                  f"{ {k: v for k, v in r.items() if k != 'passed'} }")
-    return ok
+    """Boolean COMPAT wrapper. Prefer `gate_runner.evaluate_component_gates` for a typed report.
+    Evaluates every gate of the component (no short-circuit) and returns True iff none FAIL/ERROR.
+    A zero-gate component is NOT a vacuous pass — SKIP/ACKNOWLEDGED_EXCEPTION are non-failing but
+    explicit in the typed result."""
+    from puckworks.gate_runner import evaluate_component_gates, GateStatus
+    results = evaluate_component_gates(name)
+    if verbose:
+        for r in results:
+            print("[%s] %s: %s  %s" % (name, r.gate_id, r.status.value,
+                                       r.exception_message or r.metrics))
+    return not any(r.status in (GateStatus.FAIL, GateStatus.ERROR) for r in results)
 
 
 def run_all_gates(verbose=True) -> bool:
-    return all(run_gates(n, verbose) for n in sorted(_REGISTRY))
+    """Boolean COMPAT wrapper over `gate_runner.evaluate_all_gates` — runs EVERY gate (no
+    short-circuit) and returns the suite's pass state. Prefer the typed suite for reporting."""
+    from puckworks.gate_runner import evaluate_all_gates
+    suite = evaluate_all_gates()
+    if verbose:
+        print(suite.summary_text())
+    return suite.passed
