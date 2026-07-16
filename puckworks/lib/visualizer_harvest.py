@@ -734,20 +734,29 @@ def iter_index_rows(cfg):
             yield row
 
 
-def latest_index_rows(cfg):
-    """§3 latest-version view: collapse the append-only index to ONE row per shot id —
-    the latest by `updated_at` (ties resolved to the last-written row). This is the
-    default analytic view; the full version history stays in the shards + index."""
-    latest = {}
-    for row in iter_index_rows(cfg):
+def latest_index_rows(cfg, as_of=None):
+    """§3 / WP1.1 CANONICAL latest-version view: collapse the append-only index to ONE row
+    per shot id, selected by (max ``updated_at``, then max APPEND SEQUENCE = last-written).
+
+    The append sequence is DERIVED from append-only index order (``enumerate``) — it is
+    deterministic and reload-stable, and content-hash order is NEVER used for selection
+    (content_sha256 only IDENTIFIES the winning record downstream). ``as_of`` bounds the
+    view to versions with ``updated_at <= as_of``. This is the single rule shared by
+    ``iter_store_latest`` and the snapshot ``latest()``/``latest(as_of=...)`` so they cannot
+    disagree on an equal-timestamp conflict."""
+    latest = {}     # sid -> ((updated_at, append_seq), row)
+    for seq, row in enumerate(iter_index_rows(cfg)):
         sid = row.get("id")
         if sid is None:
             continue
         u = _as_int(row.get("updated_at"), default=-1)
+        if as_of is not None and u > as_of:
+            continue
+        key = (u, seq)
         prev = latest.get(sid)
-        if prev is None or u >= _as_int(prev.get("updated_at"), default=-1):
-            latest[sid] = row
-    return latest
+        if prev is None or key > prev[0]:
+            latest[sid] = (key, row)
+    return {sid: row for sid, (_key, row) in latest.items()}
 
 
 def latest_index_map(cfg):
@@ -757,22 +766,26 @@ def latest_index_map(cfg):
             for sid, r in latest_index_rows(cfg).items()}
 
 
-def iter_store_latest(cfg):
-    """§3: yield exactly one record per shot id — the latest version. The winner is the
-    index's latest row (max `updated_at`, ties → last-written); it is matched by
-    `(updated_at, content_sha256)` and, on a same-timestamp tie, the LAST physical record
-    that matches is chosen (P0-3) — not the first record sharing the timestamp."""
+def iter_store_latest(cfg, as_of=None):
+    """§3 / WP1.1: yield exactly one record per shot id — the canonical latest version
+    (max `updated_at`, ties → last-written by append sequence; see `latest_index_rows`).
+    The winning index row is IDENTIFIED in the shard store by `(updated_at, content_sha256)`
+    (content hash used only to locate the exact record, never to order versions). `as_of`
+    bounds the view to versions with `updated_at <= as_of`. Independent of shard glob order:
+    the winner is fixed by the index, so re-matching in any shard order yields it."""
     winners = {sid: (_as_int(r.get("updated_at"), default=-1), r.get("content_sha256") or "")
-               for sid, r in latest_index_rows(cfg).items()}
+               for sid, r in latest_index_rows(cfg, as_of=as_of).items()}
     chosen = {}
     for rec in iter_store(cfg):
         sid = rec.get("id")
         w = winners.get(sid)
         if w is None:
             continue
+        if as_of is not None and _as_int(rec.get("updated_at"), default=-1) > as_of:
+            continue
         key = (_as_int(rec.get("updated_at"), default=-1), rec.get("content_sha256") or "")
         if key == w:
-            chosen[sid] = rec      # keep the LAST match = index last-wins tie policy
+            chosen[sid] = rec      # index winner is unique per id; shard order is irrelevant
     for rec in chosen.values():
         yield rec
 

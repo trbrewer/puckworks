@@ -126,21 +126,12 @@ class CorpusSnapshot:
                 yield rec
 
     def latest(self):
-        """Yield exactly one logical record per shot id: the latest version (P0.1). When
-        ``as_of`` is set, the latest version at or before that cutoff."""
-        if self.as_of is None:
-            yield from _vh.iter_store_latest(self._cfg)
-            return
-        # as_of cutoff: recompute the winner per id over the bounded history
-        winners = {}       # id -> (updated_at, content_sha256, record)
-        for rec in self.iter_versions():
-            sid = rec.get("id")
-            key = (_as_int(rec.get("updated_at"), default=-1), rec.get("content_sha256") or "")
-            prev = winners.get(sid)
-            if prev is None or key >= prev[0]:
-                winners[sid] = (key, rec)
-        for _, rec in winners.values():
-            yield rec
+        """Yield exactly one logical record per shot id: the CANONICAL latest version
+        (WP1.1) — max ``updated_at``, ties → last-written by append sequence. When ``as_of``
+        is set, the latest version at or before that cutoff. Both cases route through the
+        SAME rule (`iter_store_latest`), so they cannot disagree on an equal-timestamp
+        conflict; content-hash order is never used to pick a winner."""
+        yield from _vh.iter_store_latest(self._cfg, as_of=self.as_of)
 
     # -- integrity ---------------------------------------------------------------------------
     def integrity_stats(self):

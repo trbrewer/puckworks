@@ -687,6 +687,69 @@ def test_latest_returns_last_written_on_timestamp_tie(tmp_path):
     assert latest["A"]["hydraulic"]["pressure__Pa"][0] == pytest.approx(9.0e5)  # last-written
 
 
+def _wp11_store(vh, cfg, versions, shard_layout=None):
+    """Build a store from `versions` = [(id, updated_at, pressure_bar), ...].
+    Index is appended in list order (= append sequence). `shard_layout`, if given, is a
+    list of index-lists placing versions into separate shards; default = all in shard 0."""
+    recs = [vh.normalize_shot({"id": sid, "user_id": "u", "updated_at": u,
+                               "timeframe": [0.0, 1.0],
+                               "data": {"espresso_pressure": [p, p]}}, cfg)
+            for (sid, u, p) in versions]
+    if shard_layout is None:
+        vh._write_shard(cfg, 0, recs)
+    else:
+        for i, idxs in enumerate(shard_layout):
+            vh._write_shard(cfg, i, [recs[j] for j in idxs])
+    vh._append_index(cfg, [vh._index_row(r) for r in recs])
+    return recs
+
+
+def test_wp1_1_canonical_version_selection(tmp_path):
+    """WP1.1: latest() and latest(as_of) share ONE rule — max updated_at, ties → last-written
+    by append sequence (NOT content-hash order) — so they cannot disagree on an equal-ts
+    conflict, and equal-ts conflicts stay visible/auditable."""
+    from puckworks.lib import visualizer_harvest as vh
+    from puckworks.data.visualizer_store import CorpusSnapshot
+    cfg = vh.HarvestConfig(out_dir=str(tmp_path), salt="t")
+    # A: two timestamps; B: equal-ts CONFLICT (p=1 then p=9); C: equal-ts EQUAL content
+    _wp11_store(vh, cfg, [("A", 100, 2.0), ("A", 200, 3.0),
+                          ("B", 100, 1.0), ("B", 100, 9.0),
+                          ("C", 100, 5.0), ("C", 100, 5.0)])
+
+    def latest(as_of=None):
+        return {s["id"]: round(s["hydraulic"]["pressure__Pa"][0] / 1e5, 3)
+                for s in CorpusSnapshot(tmp_path, as_of=as_of).latest()}
+
+    L = latest()
+    assert L["A"] == 3.0          # max updated_at
+    assert L["B"] == 9.0          # equal-ts conflict -> LAST-WRITTEN, not content-hash order
+    assert L["C"] == 5.0          # equal-ts equal content
+    # the old bug: as_of path picked a content-hash winner and could disagree. Now they agree.
+    assert latest(as_of=200)["B"] == 9.0
+    assert latest(as_of=100)["B"] == 9.0
+    # as_of BEFORE A's 2nd version -> bounded winner; as_of before ALL -> absent
+    assert latest(as_of=150)["A"] == 2.0
+    assert "A" not in latest(as_of=99)
+    # equal-ts CONFLICT counted (B); equal content NOT a conflict (C)
+    assert CorpusSnapshot(tmp_path).integrity_stats()["n_same_timestamp_conflicts"] == 1
+    # reload-from-disk: a fresh snapshot yields the identical winner
+    assert latest()["B"] == 9.0
+
+
+def test_wp1_1_shard_order_independent(tmp_path):
+    """WP1.1: the winner is fixed by index append order, so shard physical layout/glob order
+    cannot change it (the winning version is placed in an EARLIER shard than the loser)."""
+    from puckworks.lib import visualizer_harvest as vh
+    from puckworks.data.visualizer_store import CorpusSnapshot
+    cfg = vh.HarvestConfig(out_dir=str(tmp_path), salt="t")
+    # index append order [r0=(p1), r1=(p9)] -> r1 is the winner; but put r1 in shard 0 and
+    # r0 in shard 1, so "last physical record" would wrongly pick r0.
+    _wp11_store(vh, cfg, [("A", 100, 1.0), ("A", 100, 9.0)], shard_layout=[[1], [0]])
+    got = {s["id"]: round(s["hydraulic"]["pressure__Pa"][0] / 1e5, 3)
+           for s in CorpusSnapshot(tmp_path).latest()}
+    assert got["A"] == 9.0        # append-order winner regardless of shard layout
+
+
 def test_reconcile_detects_version_missing_from_index(tmp_path):
     """P1-1: a stored version absent from the index must be a reconcile FAILURE, not `ok`."""
     from puckworks.lib import visualizer_harvest as vh

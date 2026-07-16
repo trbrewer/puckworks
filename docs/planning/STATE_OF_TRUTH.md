@@ -8,18 +8,16 @@ checked/gated) · **release-ready** (clean-build/archive verified) · **submitte
 
 ---
 
-## 0. PRIMARY-LANE DECISION — **OPEN (blocks sprint selection)**
+## 0. PRIMARY-LANE DECISION — **RESOLVED 2026-07-16: publication-integrity first, then product**
 
-Two strategic docs were recorded 2026-07-16 with CONFLICTING single-choice picks:
+PI decision: drive the **NEXT_STEP_PLAN** publication-integrity + release
+convergence lane now (real freeze lifecycle + pressure-atlas v2 + Paper A RC +
+Paper 3 evidence graph), THEN pivot to the **PRODUCT_FIRST** vertical slice on a
+trustworthy spine. Converge/ship first; build the product second.
 
-| doc | primary lane | picks |
-|---|---|---|
-| [PRODUCT_FIRST_REPRIORITIZATION](PRODUCT_FIRST_REPRIORITIZATION.md) | build the consumer product | PV-19 vertical slice → Puck Court (PV-08) shell → PV-00 as content API; papers become derivative |
-| [NEXT_STEP_PLAN_2026-07-16](NEXT_STEP_PLAN_2026-07-16.md) | publication-integrity + release convergence | real freeze lifecycle + pressure-atlas v2 + Paper A RC + Paper 3 evidence graph |
-
-They are mutually exclusive as the IMMEDIATE next cycle. **Owner: PI.** Both share
-WP0 (this file) and both defer further G10 work. Everything below WP0 is
-lane-gated.
+Consequence: the freeze-lifecycle rebuild (WP1) IS in scope now (Doc 1 would have
+deferred it). Both docs still defer further G10 work. Merge sequence = Doc 2's
+PR0→PR12.
 
 ---
 
@@ -58,23 +56,26 @@ This revises the earlier "freeze automatically as publication-freeze" plan.
 
 | # | outcome | owner | blocking dependency | proof-of-done |
 |---|---|---|---|---|
-| Q1 | **Decide the primary lane** (product-first vs publication-integrity) | PI | — | this file §0 resolved |
-| Q2 | **B2 APS DFD abstract** submitted or explicit no-submit recorded | PI + code | human metadata (author/APS membership/eligibility); the abstract source | submitted text+hash in ledger, or recorded decline (Gate A) |
+| Q1 | ~~Decide the primary lane~~ **DONE** — publication-integrity first, then product | PI | — | §0 resolved |
+| Q2 | ~~B2 APS DFD abstract~~ **CLOSED — not submitting** (PI, 2026-07-16); recorded, no further action | PI | — | Gate A resolved: no-submit |
 | Q3 | Freeze the v6 crawl as `current-state` when it exits (NOT publication) | code | crawl exhausts window (monitor armed) | `current-state` snapshot manifest + EXPLORATORY mark |
-| Q4 | (lane-gated) first PR of the chosen lane | code | Q1 | PR1 of the chosen doc's merge sequence |
-| Q5 | (opportunistic) sanctioned corpus export runbook | maintainer | Miha export/token (external) | WP7 pilot on real export |
+| Q4 | **PR1 — logical-version selection correctness** (WP1.1): deterministic max(updated_at)+sequence tie-break; equal-ts conflicts visible; as_of + shard-order regression tests; replace touched registry asserts | code | — (in progress) | conflict/shard/as_of tests green |
+| Q5 | PR2 — real freeze lifecycle (rehearse/materialize/verify; derived PublicationSnapshot; immutable canonical view; negative publication-gate tests) | code | Q4 | WP1 acceptance criteria |
+| Q6 | (opportunistic) sanctioned corpus export runbook | maintainer | Miha export/token (external) | WP7 pilot on real export |
+
+Then PR3 export contract → PR4 pressure-atlas spec+time engine → PR5 hierarchical
+inference → PR6 Paper A RC → PR7 evidence graph → PR8 Paper 3 RC → PR9 CI lanes →
+PR10 lateral-coupling feasibility. Product lane (Doc 1) follows this convergence.
 
 **Deprioritized / not active:** further G10 viscosity work; broad registry growth;
-generic data intake for count's sake; publication-grade freeze architecture as a
-speculative build (only under the publication-integrity lane); manuscript release
-bundles ahead of the lane choice.
+generic data intake for count's sake; the product build (deferred to after
+convergence, per the lane decision).
 
 ---
 
 ## 4. DEADLINE FLAG
 
-**B2 APS DFD abstract (Q2)** is the only calendar-bound item and is a *human*
-action (author/affiliation/APS membership/presenter eligibility + portal limits);
-I can regenerate its quantitative statements from producers and verify against the
-claim ceiling, but I cannot submit it. If there is a live deadline, treat Q2 as
-the immediate exception per WP0.1 — independent of the lane choice and the corpus.
+**B2 APS DFD abstract — CLOSED (PI decision 2026-07-16: not submitting).** No
+calendar-bound items remain. Recorded here per WP0.1 acceptance ("submitted, or a
+recorded explicit decision not to"); no rehearsal-corpus metric was published; the
+broader B2 manuscript scope remains review-stable and untouched.
