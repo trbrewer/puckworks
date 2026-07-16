@@ -37,6 +37,5 @@ jobs:
       - name: sdist can rebuild a wheel
         run: |
           python -m venv /tmp/sd
-          /tmp/sd/bin/pip install build
-          /tmp/sd/bin/python -m build --wheel --outdir /tmp/sdwheel dist/*.tar.gz
-          ls /tmp/sdwheel/*.whl
+          /tmp/sd/bin/pip wheel --no-deps -w /tmp/sdwheel dist/*.tar.gz
+          ls /tmp/sdwheel/puckworks-*.whl
