@@ -3,7 +3,37 @@ auto-marked ``slow`` at collection, so quick-pr can select ``-m "not slow ..."``
 slow-science selects ``-m slow`` — the two lanes run DIFFERENT sets (not the same suite
 under two names). `test_ci_lanes.py` guards this list against staleness.
 """
+import socket
+
 import pytest
+
+# R2: the offline lanes must be PROVABLY network-free. Block outbound socket connects to
+# anything but loopback for every test that is not explicitly a live/external_data test, so an
+# accidental network call fails loudly instead of silently passing (or flaking) in CI.
+_LOOPBACK = {"127.0.0.1", "::1", "localhost", "0.0.0.0", ""}
+
+
+@pytest.fixture(autouse=True)
+def _block_network(request):
+    if request.node.get_closest_marker("live") or request.node.get_closest_marker("external_data"):
+        yield
+        return
+    real = socket.socket.connect
+
+    def guard(self, address):
+        host = address[0] if isinstance(address, (tuple, list)) else address
+        if host not in _LOOPBACK:
+            raise RuntimeError(
+                "network access blocked in an offline lane (mark the test `live` or "
+                "`external_data` if it must reach %r)" % (address,))
+        return real(self, address)
+
+    socket.socket.connect = guard
+    try:
+        yield
+    finally:
+        socket.socket.connect = real
+
 
 # nodeid suffixes ("<file>::<test>") of tests that take more than ~2 s (see --durations).
 SLOW = {
