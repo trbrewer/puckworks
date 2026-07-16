@@ -53,6 +53,20 @@ email **2026-07-14**), on these conditions:
   per-machine random salt so user hashes are not reproducible from the repo; keep it
   stable so incremental runs dedup correctly.
 
+## Retention & deletion policy (R8)
+- **What is retained:** the local raw/bronze store (gitignored, per-machine) for offline
+  re-normalization; and the small tracked derived summary (`aggregate_stats.csv`) + this
+  provenance. Nothing user-identifying is retained beyond the salted one-way hash.
+- **Never retained:** raw response payloads in logs or CI artifacts; the live canary retains
+  nothing; CI never checks out or uploads the raw corpus.
+- **Enforced:** `tests/test_data_privacy.py` fails if any raw shot data (`shard_*`/`bronze_*`
+  `.jsonl.gz`, a visualizer `_index.csv`, or a `crawl_v*` dir) becomes git-tracked, or enters
+  the Paper 3 bundle. `.gitignore` excludes the store.
+- **Deletion:** to purge a local corpus, delete the crawl directory under
+  `puckworks/data/visualizer/` (it is gitignored, so nothing is un-published). On a
+  reported privacy incident, rotate `PUCKWORKS_VIS_SALT` and re-derive so old hashes cannot
+  be correlated (see `SECURITY.md`).
+
 ## Privacy (applied at ingest by `normalize_shot` / `_strip_pii`)
 Dropped at any nesting depth (case-insensitive denylist + `*_url` / `email` / `notes`
 patterns): `user_name`, `user_id`, `avatar[_url]`, `barista`, `email`, the `*_notes`
