@@ -4,20 +4,12 @@
 
 Generated from `docs/status/current.json` (the single machine-readable status source). Regenerate with `python -m puckworks.statusdoc --write`; CI fails on stale or contradictory state. The active queue is capped at 5 outcomes; completed history and superseded plans are in their own sections below.
 
-## Active queue (3 / 5)
+## Active queue (2 / 5)
 
 | id | title | area | priority | owner | next gate | acceptance evidence |
 |---|---|---|---|---|---|---|
-| gate-evaluation-completeness | Typed, non-short-circuiting gate evaluation (every gate runs; failures all reported) | gate-runner | P0 | core-python-maintainer | evaluate_all_gates runs every gate after a failure; typed GateResult/GateSuiteResult; multi-failure + exception + zero-gate regression tests; JSON suite report in CI | tests/test_gate_runner.py (seeded multi-failure reports all); CI uploads a JSON gate report |
-| deterministic-paper3-archive | Real deterministic Paper 3 release archive (create/verify/inspect, full manifest) | release | P0 | release-engineer | create-archive builds a deterministic tar with a full sha256+role+provenance manifest; verify-archive validates it without the source checkout; privacy/license scan; clean-room example from the wheel | building twice from one commit gives equal archive hash (or documented normalized-manifest equality); altering any member fails verification |
-| release-env-ci-supply-chain | Aligned Python matrix + full transitive lock; Actions SHA-pinned; dependency review/audit | ci-release | P0 | packaging-release-maintainer | release interpreter matches the lock interpreter; a fully-resolved lock; Actions pinned to immutable SHAs with no deprecation warnings; dependency-review + vulnerability audit active | min-deps and locked-release lanes both pass; CI has no deprecated-action warnings |
-
-## Proposed (next up)
-
-| id | title | area | priority | owner |
-|---|---|---|---|---|
-| v0.2.0-release | Cut a verifiable v0.2.0 (version/citation/tag/manifest/notes agree) + a draft GitHub Release | release | P0 | release-manager |
-| contract-boundary-hardening | Explicit units (bar-gauge vs pascal), versioned trace schema + validators, typed public results | contracts | P1 | numerical-scientific-maintainer |
+| v0.2.0-release | Cut a verifiable v0.2.0 (version/citation/tag/manifest/notes agree) + a draft GitHub Release | release | P0 | release-manager | version/changelog/rehearsal landed (#24); remaining: tag v0.2.0, build wheel/sdist + hashed lock, create the DRAFT GitHub Release, verify from the download (release-manager step) | a fresh user installs the wheel and runs the bundled example without cloning; release provenance identifies one exact commit |
+| contract-boundary-hardening | Explicit units (bar-gauge vs pascal), versioned trace schema + validators, typed public results | contracts | P1 | numerical-scientific-maintainer | SI-internal units policy; pressure-field audit before any behaviour change; factor-of-100000 regression; versioned trace schema; type-check + coverage baselines for core modules | invalid dimensions/lengths/fractions fail early; existing valid examples numerically unchanged (regression tests) |
 
 ## Blocked
 
@@ -30,6 +22,10 @@ Generated from `docs/status/current.json` (the single machine-readable status so
 
 | id | title | PR | commit | date |
 |---|---|---|---|---|
+| canonical-status-source | Canonical status source (current.json -> generated STATE_OF_TRUTH.md) | #20 | 38c0881 | 2026-07-16 |
+| gate-evaluation-completeness | Typed, non-short-circuiting gate evaluation (every gate runs; failures all reported) | #21 | 6d28392 | 2026-07-16 |
+| deterministic-paper3-archive | Real deterministic Paper 3 release archive (create/verify/inspect, full manifest) | #22 | a562834 | 2026-07-16 |
+| release-env-ci-supply-chain | Aligned Python matrix + full transitive lock; Actions SHA-pinned; dependency review/audit | #23 | 0f0b282 | 2026-07-16 |
 | paper3-evidence-graph | Paper 3 per-claim evidence graph (schema v2): 51/51 adjudicated; roll-up + zero-gate policies enforced | #19 | 7b3f8f0 | 2026-07-16 |
 | lateral-coupling-feasibility | Lateral-coupling feasibility: two-node model + matched proxy discrimination (exact Xi, continuous alpha) | #14 | 6c5eb31 | 2026-07-16 |
 | remediation-r0-r9 | Remediation waves R0-R9 (quick-CI red fix, lane rigor, doc-truth, release pipeline, governance, lint, privacy) | #7 | 51f0988 | 2026-07-15 |
