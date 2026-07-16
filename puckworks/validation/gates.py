@@ -1470,3 +1470,52 @@ def gate_g10_intersource_spread():
                         "uncertainty at concentrated strengths (bulk-espresso verdict robust)",
                 strength="reference/qualitative (records an inter-source discrepancy; neither "
                          "dataset reaches bulk espresso TDS -- both extrapolate toward water)")
+
+
+def gate_streamtube_heldout():
+    """WITHIN-CAMPAIGN HELD-OUT: the sigma(GS) fines closure, fit on two of the paper's three
+    Fig-5 grinds, predicts the held-out grind's EY deviation. Leave-one-out over
+    GS 1.1/1.3/1.5 (measured relative deviations 13.1/6.1/2.6% — streamtube module docstring)."""
+    from puckworks.models.brewer2026 import streamtube as st
+    from puckworks import data as pwdata
+    rows = sorted(pwdata.cameron2020_fig5_grind_deviation(), key=lambda r: r["gs"])
+    GS = [r["gs"] for r in rows]
+    DEV = [r["rel_deviation"] for r in rows]
+    resp = {g: st.EYResponse(gs=g, p_bar=5.0, n_grid=9) for g in GS}   # ~1.5 s each
+    sig_cal = [resp[g].sigma_for_deficit(d) for g, d in zip(GS, DEV)]
+    errs = []
+    for i in range(len(GS)):
+        tr_gs = [GS[j] for j in range(len(GS)) if j != i]
+        tr_sig = [sig_cal[j] for j in range(len(GS)) if j != i]
+        fit = st.fit_closure(tr_gs, tr_sig, form="power")
+        sig_pred = float(fit["predict"](GS[i]))
+        dev_pred = float(resp[GS[i]].deficit(sig_pred))
+        errs.append(abs(dev_pred - DEV[i]))
+    max_err = float(max(errs))
+    return dict(passed=max_err < 0.02,                    # held-out deviation within 2 pp
+                max_heldout_abs_error=round(max_err, 4),
+                heldout_abs_errors=[round(e, 4) for e in errs],
+                calibrated_sigma=[round(s, 4) for s in sig_cal])
+
+
+def gate_pack_generator_admissible():
+    """QUALITATIVE CAPACITY: the overlapping-sphere pack generator hits its target solid fraction,
+    produces an admissible boolean pack at resolution (grain radius >= 10 voxels), and its
+    columnar heterogeneity field is zero-mean / unit-std (card admissibility properties)."""
+    from puckworks.models.brewer2026 import pack_generator as pg
+    gs, phis_target = 1.3, 0.55
+    r_um = pg.boulder_radius_um(gs)
+    vox = r_um / 11.0                                     # -> grain radius ~11 voxels (>= 10)
+    r_vox = r_um / vox
+    solid, meta = pg.make_pack(L=64, voxel_um=vox, gs=gs, phis_target=phis_target,
+                               seed=0, verbose=False)
+    phis = float(meta["phis"])
+    f = pg.hetero_field(48, 8, 0)
+    ok = (solid.dtype == bool and solid.shape == (64, 64, 64)
+          and abs(phis - phis_target) < 0.03           # hits target solid fraction
+          and 0.30 < (1.0 - phis) < 0.70                # sane porosity
+          and r_vox >= 10.0                             # resolution admissibility
+          and abs(float(f.mean())) < 1e-6 and abs(float(f.std()) - 1.0) < 0.05)
+    return dict(passed=bool(ok), phis=round(phis, 3), porosity=round(1.0 - phis, 3),
+                grain_radius_voxels=round(r_vox, 1),
+                hetero_mean=float(f.mean()), hetero_std=round(float(f.std()), 4))

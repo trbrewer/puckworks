@@ -15,6 +15,7 @@ register(Component(
 register(Component(
     name="brewer2026.streamtube", stage="bed_dynamics", kind="runtime",
     paper="Brewer 2026 (this project)", module="puckworks.models.brewer2026.streamtube",
+    gates=[G.gate_streamtube_heldout],
     assumptions="parallel non-exchanging tubes; unit-mean lognormal k; "
                 "sigma(phi1) is an EMPIRICAL closure over the calibrated domain",
     valid_range="calibrated at dial 1.1-1.5; LOO-interpolated, not externally validated",
@@ -23,6 +24,7 @@ register(Component(
 register(Component(
     name="brewer2026.pack_generator", stage="packing", kind="calibration",
     paper="Brewer 2026 (this project)", module="puckworks.models.brewer2026.pack_generator",
+    gates=[G.gate_pack_generator_admissible],
     assumptions="overlapping (Boolean) spheres - Wadsworth model class; fines sub-voxel, "
                 "represented via columnar heterogeneity field (w_floor >= 0.25)",
     valid_range="grain radius >= 10 voxels; columns >= 5 grain diameters for sigma"))
@@ -405,8 +407,12 @@ _EVIDENCE_STRENGTH = {
     "cameron2020.extraction_bdf": "code_verification",
     "brewer2026.streamtube": "within_campaign_held_out",
     "brewer2026.pack_generator": "qualitative_capacity",
-    "brewer2026.lb_reference": "code_verification",
+    # brewer2026.lb_taichi keeps code_verification but carries NO quick gate: per CLAUDE.md rule 3
+    # its 0.003% cross-check to lb_reference is out-of-CI (Taichi is an optional dep; code must
+    # import without it). It is recorded as an ACKNOWLEDGED zero-gate exception in
+    # paper3.evidence_graph (ZERO_GATE_EXCEPTIONS), not a silent gap.
     "brewer2026.lb_taichi": "code_verification",
+    "brewer2026.lb_reference": "code_verification",
     "wadsworth2026.permeability": "source_curve_reproduction",
     "pannusch2024.solver": "post_fit_reconstruction",
     "pannusch2024.closures": "code_verification",

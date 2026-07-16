@@ -19,7 +19,7 @@
       "id": "brewer2026.streamtube",
       "kind_legacy": "runtime",
       "module": "puckworks.models.brewer2026.streamtube",
-      "n_gates": 0,
+      "n_gates": 1,
       "paper": "Brewer 2026 (this project)",
       "provenance_class": "project_model",
       "stage": "bed_dynamics"
@@ -283,7 +283,7 @@
       "id": "brewer2026.pack_generator",
       "kind_legacy": "calibration",
       "module": "puckworks.models.brewer2026.pack_generator",
-      "n_gates": 0,
+      "n_gates": 1,
       "paper": "Brewer 2026 (this project)",
       "provenance_class": "project_model",
       "stage": "packing"
@@ -301,7 +301,7 @@
       "stage": "packing"
     }
   ],
-  "content_sha256": "030dcfc40871a1687274aff89b91e217d3d51565a9cf94e29ee4f3b6673cb776",
+  "content_sha256": "bed98dbdea5316a54da1aec9cd2e645e7c83f24a481a5bc26b77bec6229b0121",
   "n_components": 25,
   "schema_version": 1
 }

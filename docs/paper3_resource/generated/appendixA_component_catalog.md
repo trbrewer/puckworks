@@ -5,7 +5,7 @@
 | stage | id | execution_role | provenance_class | evidence_strength | paper | doi | n_gates |
 |---|---|---|---|---|---|---|---|
 | bed_dynamics | `brewer2026.coupled_kappa_t` | runtime | project_synthesis | exploratory_synthesis | This project (puckworks) — SYNTHESIS card, no external paper | — | 2 |
-| bed_dynamics | `brewer2026.streamtube` | runtime | project_model | within_campaign_held_out | Brewer 2026 (this project) | — | 0 |
+| bed_dynamics | `brewer2026.streamtube` | runtime | project_model | within_campaign_held_out | Brewer 2026 (this project) | — | 1 |
 | bed_dynamics | `fasano2000_partI.fines_migration` | calibration | published_port | qualitative_capacity | Fasano, Talamucci & Petracco, 'The Espresso Coffee Problem,' ch.8 in Complex Flows in Industrial Processes, Springer (2000) | — | 3 |
 | bed_dynamics | `mo2023_2.swelling` | runtime | published_port | source_curve_reproduction | Mo, Navarini, Suggi Liverani & Ellero, 'Modelling swelling effects in real espresso extraction using a 1-D coarse-grained model,' J. Food Eng. (2023) | 10.1016/j.jfoodeng.2023.111843 | 4 |
 | bed_dynamics | `waszkiewicz2025.poroelastic` | runtime | published_port | post_fit_reconstruction | Waszkiewicz et al., arXiv:2512.21528 (2025) | 10.5281/zenodo.18046315 | 2 |
@@ -27,6 +27,6 @@
 | infiltration | `sourcing2026.g1_glassbead_analog` | calibration | reference_only | qualitative_capacity | Yasuda, Katsuragi, Katsura (2025) arXiv:2501.13361 | arXiv:2501.13361 | 1 |
 | machine | `foster2025.machine_mode` | runtime | published_port | source_curve_reproduction | Foster et al., Phys. Fluids 37, 013383 (2025) | 10.1063/5.0245167 | 3 |
 | machine | `sourcing2026.g3_pump_characteristic` | calibration | reference_only | sign_or_compatibility | Ulka/Repa catalogue; Decent blog; espressoaf | — | 1 |
-| packing | `brewer2026.pack_generator` | calibration | project_model | qualitative_capacity | Brewer 2026 (this project) | — | 0 |
+| packing | `brewer2026.pack_generator` | calibration | project_model | qualitative_capacity | Brewer 2026 (this project) | — | 1 |
 | packing | `wadsworth2026.permeability` | calibration | published_port | source_curve_reproduction | Wadsworth et al., R. Soc. Open Sci. 13, 252031 (2026) | 10.1098/rsos.252031 | 1 |
 
