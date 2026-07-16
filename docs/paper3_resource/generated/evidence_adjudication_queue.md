@@ -2,59 +2,7 @@
 
 # Paper 3 evidence-graph — adjudication queue
 
-26 gate wiring(s) still need a curated per-claim adjudication. For each, fill the v2 fields in `EVIDENCE_LINKS.json` (claim, observable, claim_owner, paper3_use, reality_facing, relationship, sources[], evidence_strength, caveat, claim_not_supported, support_status) and flip `adjudication_status` to `ADJUDICATED`.
+0 gate wiring(s) still need a curated per-claim adjudication. For each, fill the v2 fields in `EVIDENCE_LINKS.json` (claim, observable, claim_owner, paper3_use, reality_facing, relationship, sources[], evidence_strength, caveat, claim_not_supported, support_status) and flip `adjudication_status` to `ADJUDICATED`.
 
-## `fasano2000_partI.fines_migration` — bed_dynamics (component tier: qualitative_capacity)
-- [ ] `gate_fasano_cor82_nonmonotone`
-- [ ] `gate_fasano_freeboundary`
-- [ ] `gate_fasano_reversal_signature`
-
-## `foster2025.machine_mode` — machine (component tier: source_curve_reproduction)
-- [ ] `gate_foster_ct_trajectory`
-
-## `grudeva2025.reduced` — extraction (component tier: post_fit_reconstruction)
-- [ ] `gate_grudeva_no_eps_kappa`
-- [ ] `gate_grudeva_reduced_solver`
-
-## `lee2023.feedback` — flow (component tier: qualitative_capacity)
-- [ ] `gate_lee_feedback_negative_result`
-
-## `liang2021.desorption` — extraction (component tier: post_fit_reconstruction)
-- [ ] `gate_liang_eoven_ceiling`
-
-## `mo2023_2.coupled_bed` — extraction (component tier: post_fit_reconstruction)
-- [ ] `gate_mo2_coupled_bed_fig8`
-
-## `mo2023_2.swelling` — bed_dynamics (component tier: source_curve_reproduction)
-- [ ] `gate_mo2_fixed_flow_trends`
-- [ ] `gate_mo2_k0_carman_kozeny`
-
-## `moroney2016.surrogate` — extraction (component tier: qualitative_capacity)
-- [ ] `gate_moroney_fig6_washthrough`
-
-## `pannusch2024.closures` — extraction (component tier: code_verification)
-- [ ] `gate_pannusch_closures`
-
-## `romancorrochano2017.extraction` — extraction (component tier: sign_or_compatibility)
-- [ ] `gate_roman_bed_flow_trend`
-- [ ] `gate_roman_mw_temperature_trends`
-- [ ] `gate_roman_sphere_solver`
-- [ ] `gate_roman_tamped_kappa`
-- [ ] `gate_roman_y0_ceiling_sizeexclusion`
-
-## `sourcing2026.g10_liquor_rheology` — flow (component tier: source_curve_reproduction)
-- [ ] `gate_g10_mu_bias_directional`
-- [ ] `gate_g10_telisromero_closure`
-
-## `sourcing2026.g1_glassbead_analog` — infiltration (component tier: qualitative_capacity)
-- [ ] `gate_g1_glassbead_closure_sane`
-
-## `wadsworth2026.grindmap` — grind (component tier: source_curve_reproduction)
-- [ ] `gate_grindmap_polydispersity`
-- [ ] `gate_grindmap_refit`
-
-## `wadsworth2026.inertial` — flow (component tier: source_curve_reproduction)
-- [ ] `gate_inertial_darcy_recovery`
-- [ ] `gate_inertial_fo_band`
-- [ ] `gate_mo_reynolds_overlay`
+_Queue empty — every gate wiring is adjudicated._
 

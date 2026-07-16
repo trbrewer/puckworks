@@ -71,8 +71,9 @@ names which one, and a `resolved_manifest` source must actually carry ids.
   resolved provenance. It does **not** fail for honestly out-of-scope / future / project-only /
   resource-context gates. Runs in `paper3-evidence.yml` (not yet a *required* branch check —
   make it required once PR C lands and it is green on main).
-- **`--strict --scope all`**: additionally require the WHOLE graph adjudicated. Manual
-  (`workflow_dispatch`) only; stays non-blocking until the full queue is reviewed.
+- **`--strict --scope all`**: additionally require the WHOLE graph adjudicated. The graph is now
+  fully adjudicated, so this runs on every PR/push in `paper3-evidence.yml` (green on main). It is
+  still **not** a required branch check — add it to branch protection when you want it to block.
 
 ## Packaging / release decision — **Option A (source-tree tooling)**
 
@@ -109,12 +110,12 @@ Global strict (`--scope all`) is deliberately **not** a required branch check.
 
 ## Status (v2 landing)
 
-49 links (48 wirings + the `gate_kappa_t_degeneracy` split). **23 adjudicated, 26 awaiting** (the
-7 priority gates — the three `gate_g10_*` closures/table checks, `gate_g3_pump_envelope_bounds_
-quadratic`, `gate_foster_fig15_flowmin`, `gate_mo2_swelling_flow_decay`, `gate_inertial_de1_audit`
-— are now resolved). `--strict --scope paper3` is **green** across all 10 asserted Paper-3 claims,
-so it MAY now be promoted to a required release check. `--strict --scope all` stays manual (26
-drafts remain). Semantic corrections applied in the v2 landing:
+49 links (48 wirings + the `gate_kappa_t_degeneracy` split). **All 49 adjudicated, 0 awaiting.**
+Both `--strict --scope paper3` (20 asserted claims, all admissible) and `--strict --scope all` are
+**green** — either may now be promoted to a required release check. Relationship distribution is
+honestly spread (code_verification 17, post_fit_same_data 16, same_campaign_not_held_out 8,
+not_empirical 6, within_campaign_held_out 1, independent_external 1) — the two strong-relationship
+labels are used sparingly. Semantic corrections applied in the v2 landing:
 
 - **`gate_infiltration_triangle`** — the same DE1 fixture supplies calibration and evaluation, so
   the relationship is `same_campaign_not_held_out` (not `within_campaign_held_out`); the gate tier
