@@ -16,6 +16,25 @@ State vocabulary: **proposed** · **implemented** (code+tests exist) · **CI-ver
 > Remediation proceeds via branch → PR → CI-verify → merge (guardrail 4). Lesson kept in the
 > vocabulary above: *implemented ≠ CI-verified*.
 
+> **LATERAL + EVIDENCE-GRAPH STATUS (2026-07-16).**
+> - **Lateral coupling feasibility** — PR #12 (`b7fb4bd`) landed the two-node physical model +
+>   matched frozen-uncoupled-share-proxy discrimination; PR #14 (`6c5eb31`) added the exact Ξ
+>   equalization group (`gap/gap0 = 1/(1+Ξ)`), continuous-α share matching, and precise comparator
+>   naming. **CI-verified.** Result is **representational/mathematical** distinguishability on
+>   synthetic cases only. **Open scientific gates:** measurability of Ξ (needs k_lat, w) and
+>   structural identifiability both stay OPEN; practical experimental resolvability is OPEN (no
+>   instrument/noise model). **Paper 4 NOT authorized.**
+> - **Paper-3 evidence graph** — PR #13 (`5d611df`) landed the v1 infrastructure as
+>   **draft-validated** (draft `--reconcile` + `--verify` in the required generated-artifacts
+>   lane). **This PR** adds schema v2 (claim_owner / paper3_use / reality_facing / support_status /
+>   typed `sources[]` / dataset_status), the scope-aware strict modes, the mechanical guards, and 3
+>   semantic corrections. **`--strict --scope paper3` (the release gate) is GREEN** — every
+>   asserted Paper-3 claim is admissible. **It is NOT yet a required branch check**: promote it
+>   after PR C. **`--strict --scope all` stays manual** (33 of 49 links still `NEEDS_ADJUDICATION`;
+>   7 priority gates are PR C's target).
+> - **Verified commit at this writing:** `6c5eb31` (main, post PR #14). This PR (evidence-graph
+>   v2) is on branch `fix/evidence-graph-scope-and-semantics`, pending CI.
+
 ---
 
 ## 0. PRIMARY-LANE DECISION — **RESOLVED 2026-07-16: publication-integrity first, then product**
@@ -37,7 +56,8 @@ PR0→PR12.
 |---|---|---|---|
 | G10 coffee-liquor rheology | **validated / CLOSED** | `gate_g10_*` (7 gates), `analysis.g10_viscosity_sensitivity`, ROADMAP §4 ✅ | NOT an active engineering track. Only optional upgrade: independent espresso-TDS measurement |
 | Paper A baseline-relative transfer skill | **validated** | task #45; handoff M-series; producer bundle | do NOT reimplement; needs the RELEASE-CANDIDATE wrapping (WP3), not new modeling |
-| Registry schema v2 (execution_role/provenance_class/evidence_strength) | **implemented** | `puckworks/models/__init__.py`; `paper3.registry_artifacts` | evidence is component-level; gate-level graph (WP4) NOT yet built |
+| Registry schema v2 (execution_role/provenance_class/evidence_strength) | **implemented** | `puckworks/models/__init__.py`; `paper3.registry_artifacts` | component-level; the gate-level graph (WP2.4) now exists (`paper3.evidence_graph`, v2) |
+| Gate-level evidence graph (WP2.4, schema v2) | **CI-verified (draft) + paper3-strict green** | `paper3.evidence_graph`; `EVIDENCE_LINKS.json`; `tests/test_evidence_graph.py` | 16/49 adjudicated; `--strict --scope paper3` green but not yet a required check; 33 drafts + 7 PR-C priority gates open |
 | Paper 3 generated artifacts + staleness guard | **implemented** | `docs/paper3_resource/generated/*`; `test_registry_artifacts`, `test_paper3_build` | `bundle` is manifest/path-level, NOT a real archive (WP4.6) |
 | Visualizer harvester + Bronze store + census + controller atlas + corpus_bundle | **implemented** | `puckworks/lib/visualizer_harvest.py`, `analysis/{visualizer_census,controller_atlas,corpus_bundle}.py` | corpus-freeze is a MANIFEST op, not a verified immutable snapshot (WP1) |
 | Live-contract canary + CI lanes (quick-pr / generated-artifacts / slow-science / live-contract / release) | **implemented** | `.github/workflows/*`, `puckworks/lib/visualizer_canary.py` | lanes not yet operationally DISTINCT by marker (WP5) |

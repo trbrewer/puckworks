@@ -1,133 +1,166 @@
-"""WP2.4 — the Paper-3 per-claim evidence graph: reconciliation against the LIVE registry,
-the integrity guards that forbid promoting a claim's tier by inference or mislabelling
-code/source-curve checks as empirical/independent, deterministic generated artifacts, and the
-draft-vs-strict CI contract.
+"""WP2.4 (schema v2) — the Paper-3 per-claim evidence graph: reconciliation against the LIVE
+registry, the scope-aware strict modes (paper3 release gate vs all), the mechanical integrity
+guards (no inferred promotion; code/conservation not empirical; fit/eval overlap not independent;
+stale component tier; placeholders), the applied semantic corrections, and deterministic
+generated artifacts.
 """
 import copy
-import json
 
 from puckworks.paper3 import evidence_graph as EG
 
 
 def test_draft_reconcile_is_clean():
-    # the committed EVIDENCE_LINKS.json must reconcile with the registry in DRAFT mode
     assert EG.reconcile() == []
+
+
+def test_paper3_strict_release_gate_is_clean():
+    # every ASSERTED Paper-3 claim (owner=paper3, use in method/primary) is admissible today
+    assert EG.reconcile(strict=True, scope="paper3") == []
+
+
+def test_all_strict_fails_while_drafts_remain():
+    problems = EG.reconcile(strict=True, scope="all")
+    n_draft = sum(1 for l in EG.load_links()
+                  if l["adjudication_status"] == "NEEDS_ADJUDICATION")
+    if n_draft:
+        assert any("STRICT(all)" in p for p in problems)
+    else:
+        assert problems == []
 
 
 def test_every_registry_wiring_is_covered_and_no_orphans():
     links = EG.load_links()
     wirings, _ = EG.registry_gate_wirings()
     covered = {(l["component"], l["gate"]) for l in links}
-    assert set(wirings) <= covered                      # bijection: no missing wiring
-    assert covered <= set(wirings)                      # ...and no orphan links
-    # bootstrap now finds nothing to add (graph is complete)
+    assert set(wirings) == covered
     assert EG.bootstrap_missing() == []
 
 
-def test_bootstrap_never_infers_a_tier():
-    # a fresh bootstrap of an empty graph must leave every per-gate tier BLANK and unadjudicated
-    drafts = EG.bootstrap_missing(links=[])
-    assert drafts, "expected draft skeletons for the live wirings"
-    for d in drafts:
+def test_bootstrap_never_infers_a_verdict():
+    for d in EG.bootstrap_missing(links=[]):
         assert d["adjudication_status"] == "NEEDS_ADJUDICATION"
-        assert d["evidence_strength"] is None           # never promoted by automation
-        assert d["claim"] is None and d["observable"] is None
-        # the component's declared tier is carried only as context, clearly separate
-        assert d["component_evidence_strength"] is not None
+        assert d["evidence_strength"] is None                # tier never inferred
+        assert d["relationship"] is None and d["sources"] is None
+        assert d["claim_owner"] is None and d["paper3_use"] is None
+        assert d["support_status"] == "needs_adjudication"
+        assert d["component_evidence_strength"] is not None   # context only, carried separately
 
 
-def test_strict_mode_fails_while_drafts_remain():
-    links = EG.load_links()
-    n_draft = sum(1 for l in links if l["adjudication_status"] == "NEEDS_ADJUDICATION")
-    problems = EG.reconcile(strict=True)
-    if n_draft:
-        assert any("STRICT" in p for p in problems)
-    else:
-        assert problems == []                           # fully adjudicated -> strict is clean
-
-
-def test_adjudicated_links_are_complete():
+def test_adjudicated_links_are_complete_and_typed():
     for l in EG.load_links():
         if l["adjudication_status"] != "ADJUDICATED":
             continue
         for f in EG._REQUIRED_WHEN_ADJUDICATED:
             assert l.get(f) not in (None, "", []), "%s missing %s" % (l["link_id"], f)
-        assert l["dataset_ids"] is not None             # [] allowed, null not
         assert l["evidence_strength"] in EG.EVIDENCE_STRENGTHS
-        assert l["independence"] in EG.INDEPENDENCE_KINDS
+        assert l["relationship"] in EG.RELATIONSHIPS
+        assert l["claim_owner"] in EG.CLAIM_OWNERS
+        assert l["paper3_use"] in EG.PAPER3_USES
+        assert l["support_status"] in EG.SUPPORT_STATUS
+        assert l["reality_facing"] in (True, False)
+        assert l["sources"] is not None
+        for s in l["sources"]:
+            assert s["dataset_status"] in EG.DATASET_STATUS
+            assert s["evidence_role"] in EG.EVIDENCE_ROLES
+            assert s["independence"] in EG.SOURCE_INDEPENDENCE
 
 
-def _adjudicated_example():
-    """A minimal VALID adjudicated link built on a real wiring, for guard tests to mutate."""
-    wirings, _ = EG.registry_gate_wirings()
-    comp, gate = ("cameron2020.extraction_bdf", "gate_cameron_conservation")
-    assert (comp, gate) in wirings
-    return {
-        "link_id": comp + "::" + gate, "component": comp, "gate": gate,
-        "card": "cameron2020", "claim": "mass is conserved in the solver",
-        "observable": "EY mass-budget residual", "source_cards": ["cameron2020"],
-        "dataset_ids": [], "dataset_role": {},
-        "independence": "code_verification", "evidence_strength": "code_verification",
-        "component_evidence_strength": "code_verification",
-        "caveat": "self-consistency only", "claim_not_supported": "no empirical match",
-        "conflict_note": None, "adjudication_status": "ADJUDICATED",
-    }
+def test_component_evidence_matches_live_registry():
+    _, ctx = EG.registry_gate_wirings()
+    for l in EG.load_links():
+        assert l["component_evidence_strength"] == ctx[l["component"]]["component_evidence_strength"]
 
 
-def test_guard_code_verification_cannot_be_empirical():
-    bad = _adjudicated_example()
-    bad["independence"] = "post_fit_reconstruction"     # code check mislabelled as empirical
-    problems = EG.reconcile(links=EG.load_links() + [_orphan_free(bad)])
-    assert any("code/conservation check is not empirical" in p for p in problems)
+def _adj(link_id):
+    return copy.deepcopy(next(l for l in EG.load_links() if l["link_id"] == link_id))
 
 
-def test_guard_source_curve_not_independent():
-    bad = _adjudicated_example()
-    bad["evidence_strength"] = "source_curve_reproduction"
-    bad["independence"] = "independent"                 # forbidden combination
-    problems = EG.reconcile(links=EG.load_links() + [_orphan_free(bad)])
-    assert any("may not be labelled independent" in p for p in problems)
-
-
-def test_guard_post_fit_cannot_be_top_tier():
-    bad = _adjudicated_example()
-    bad["independence"] = "post_fit_reconstruction"
-    bad["evidence_strength"] = "controlled_independent"
-    problems = EG.reconcile(links=EG.load_links() + [_orphan_free(bad)])
-    assert any("post-fit reconstruction cannot be tier" in p for p in problems)
-
-
-def _orphan_free(link):
-    """Give an extra test link a distinct id so only the guard (not duplicate/orphan) fires."""
+def _with_id(link, suffix):
     link = copy.deepcopy(link)
-    link["link_id"] = link["link_id"] + "::guardtest"
+    link["link_id"] = link["link_id"] + suffix
     return link
 
 
-def test_bad_dataset_id_is_rejected():
-    bad = _adjudicated_example()
-    bad["dataset_ids"] = ["not/a/real/dataset"]
-    bad["dataset_role"] = {"not/a/real/dataset": "eval"}
-    problems = EG.reconcile(links=EG.load_links() + [_orphan_free(bad)])
-    assert any("not in MANIFEST" in p for p in problems)
+def test_guard_code_verification_not_empirical():
+    bad = _with_id(_adj("cameron2020.extraction_bdf::gate_cameron_conservation"), "::g")
+    bad["relationship"] = "post_fit_same_data"
+    assert any("used as empirical" in p for p in EG.reconcile(links=EG.load_links() + [bad]))
+
+
+def test_guard_fit_eval_overlap_not_independent():
+    bad = _with_id(_adj("waszkiewicz2025.poroelastic::gate_waszkiewicz_static_refit"), "::g")
+    bad["relationship"] = "independent_external"            # static_refit overlaps fit/eval
+    probs = EG.reconcile(links=EG.load_links() + [bad])
+    assert any("independent_external" in p and "overlap" in p for p in probs)
+
+
+def test_guard_stale_component_tier():
+    bad = _with_id(_adj("cameron2020.extraction_bdf::gate_cameron_conservation"), "::g")
+    bad["component_evidence_strength"] = "controlled_independent"
+    assert any("!= live registry" in p for p in EG.reconcile(links=EG.load_links() + [bad]))
+
+
+def test_guard_placeholder_rejected():
+    bad = _with_id(_adj("cameron2020.extraction_bdf::gate_cameron_conservation"), "::g")
+    bad["caveat"] = "TODO write this"
+    assert any("placeholder" in p for p in EG.reconcile(links=EG.load_links() + [bad]))
+
+
+def test_guard_bad_dataset_id():
+    bad = _with_id(_adj("liang2021.desorption::gate_liang_kemax_refit"), "::g")
+    bad["sources"][0]["dataset_manifest_ids"] = ["not/a/real/dataset"]
+    assert any("not in MANIFEST" in p for p in EG.reconcile(links=EG.load_links() + [bad]))
+
+
+def test_semantic_corrections_applied():
+    links = {l["link_id"]: l for l in EG.load_links()}
+    # #1 infiltration: same fixture fits and evaluates -> NOT within_campaign_held_out
+    inf = links["foster2025.infiltration::gate_infiltration_triangle"]
+    assert inf["relationship"] == "same_campaign_not_held_out"
+    assert inf["evidence_strength"] == "sign_or_compatibility"     # not the registry's controlled_independent
+    assert inf["component_evidence_strength"] == "controlled_independent"
+    # #2 composition diagnostic: residual-based, not pure code verification
+    comp = links["brewer2026.coupled_kappa_t::gate_kappa_t_composition_diagnostic"]
+    assert comp["evidence_strength"] == "exploratory_synthesis"
+    assert comp["relationship"] == "post_fit_same_data"
+    # #3 waszkiewicz static refit: tier and relationship aligned
+    ws = links["waszkiewicz2025.poroelastic::gate_waszkiewicz_static_refit"]
+    assert ws["evidence_strength"] == "post_fit_reconstruction"
+    assert ws["relationship"] == "post_fit_same_data"
+
+
+def test_kappa_t_degeneracy_splits_into_two_links():
+    links = [l for l in EG.load_links() if l["gate"] == "gate_kappa_t_degeneracy"]
+    assert len(links) == 2
+    rels = {l["evidence_strength"] for l in links}
+    assert "code_verification" in rels and "post_fit_reconstruction" in rels
+
+
+def test_sources_use_manifest_provenance_not_name_prefix():
+    # g10 intersource pulls three DISTINCT source papers (not the component-name prefix)
+    l = next(l for l in EG.load_links()
+             if l["link_id"] == "sourcing2026.g10_liquor_rheology::gate_g10_intersource_spread")
+    cards = {s["source_card"] for s in l["sources"]}
+    assert {"khomyakov2020", "telisromero2001", "telisromero2000"} <= cards
 
 
 def test_generation_is_deterministic_and_bannered():
+    import json
     a = EG.generate()
-    b = EG.generate()
-    assert a == b
-    expected = {"evidence_graph_matrix.csv", "evidence_graph_matrix.md",
-                "evidence_graph.json", "evidence_adjudication_queue.md",
-                "evidence_conflicts.md"}
+    assert a == EG.generate()
+    expected = {"evidence_graph_matrix.csv", "evidence_graph_matrix.md", "evidence_graph.json",
+                "evidence_graph_summary.json", "paper3_priority_evidence_matrix.md",
+                "evidence_adjudication_queue.md", "evidence_conflicts.md"}
     assert set(a) == expected
     for content in a.values():
-        assert "GENERATED" in content                   # banner present
+        assert "GENERATED" in content
         assert "timestamp" not in content.lower()
-    doc = json.loads(a["evidence_graph.json"])
-    assert doc["content_sha256"] == json.loads(EG.generate()["evidence_graph.json"])["content_sha256"]
+    summary = json.loads(a["evidence_graph_summary.json"])
+    assert summary["paper3_scope_strict_clean"] is True
+    assert summary["n_asserted_paper3_claims"] == summary["n_asserted_paper3_admissible"]
 
 
-def test_generated_artifacts_verify(tmp_path):
+def test_generated_artifacts_stale_then_fresh(tmp_path):
     EG.write(root=tmp_path)
     assert EG.verify(root=tmp_path) == []
     target = tmp_path / EG.GENERATED_REL / "evidence_graph_matrix.md"
@@ -135,13 +168,7 @@ def test_generated_artifacts_verify(tmp_path):
     assert "evidence_graph_matrix.md" in EG.verify(root=tmp_path)
 
 
-def test_kappa_t_degeneracy_splits_into_two_links():
-    links = [l for l in EG.load_links() if l["gate"] == "gate_kappa_t_degeneracy"]
-    assert len(links) >= 2, "gate_kappa_t_degeneracy must be split into >=2 claim links"
-    assert len({l["link_id"] for l in links}) == len(links)   # distinct link_ids
-
-
-def test_conflicts_report_surfaces_constants():
+def test_conflicts_report_surfaces_constants_and_infiltration():
     md = EG.generate()["evidence_conflicts.md"]
-    assert "c_sat" in md                                # the un-reconciled saturation constant
-    assert "212.4" in md and "224" in md and "170" in md
+    assert "c_sat" in md and "212.4" in md and "224" in md and "170" in md
+    assert "controlled_independent" in md            # the infiltration tier discrepancy note
