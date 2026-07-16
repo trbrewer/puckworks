@@ -1,0 +1,15 @@
+quantity,value,uncertainty,units,roast,source,notes
+swelling_dd_rel,15,4,percent,medium,laser_diffraction_sieved,"isotropic diameter increase, outliers excluded (erosion-corrected)"
+swelling_dd_rel,15,7,percent,medium,laser_diffraction_sieved,"full dataset"
+swelling_dd_rel,15,3,percent,light,laser_diffraction_sieved,"outliers excluded"
+swelling_dd_rel,13,10,percent,light,laser_diffraction_sieved,"full dataset"
+swelling_vs_d0_slope,-2.95e-3,,percent_per_um,medium,regression_ANOVA,"size-independence: p=0.291 (NOT significant)"
+swelling_vs_d0_slope,-2.54e-3,,percent_per_um,light,regression_ANOVA,"p=0.498 (NOT significant)"
+aspect_ratio,0.7,0.1,dimensionless,both,microscopy,"0.6-0.8, unchanged by swelling (isotropy evidence)"
+dry_psd_mode_fine,25,,um,medium,laser_diffraction,"non-sieved; ~20-30 um"
+dry_psd_mode_coarse,400,,um,medium,laser_diffraction,"non-sieved"
+wet_psd_mode_fine,12,,um,medium,laser_diffraction,"90C; mixes swelling + erosion-driven fine repopulation"
+wet_psd_mode_coarse,330,,um,medium,laser_diffraction,"90C"
+grind_dial_fine,2.0,,EK43_dial,both,protocol,"Mahlkoenig EK43 (1-11 scale)"
+grind_dial_medium,5.0,,EK43_dial,both,protocol,
+grind_dial_coarse,8.0,,EK43_dial,both,protocol,

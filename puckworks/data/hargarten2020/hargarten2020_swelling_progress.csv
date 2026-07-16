@@ -1,0 +1,9 @@
+roast,T_C,time_s,progress_pct,source,notes
+medium,80,30,83,Table2,"progress = (d(t)-d0)/(df-d0)*100; df = d_proj at 20 min"
+medium,25,30,82,Table2,
+light,80,30,71,Table2,
+light,25,30,59,Table2,
+medium,80,240,109,Table2,">100% = steady state reached by 4 min + 20-min-normalization error, not literal overshoot"
+medium,25,240,111,Table2,
+light,80,240,101,Table2,
+light,25,240,108,Table2,

@@ -340,6 +340,29 @@ def test_khomyakov_kinematic_viscosity():
         assert all(a < b for a, b in zip(vals, vals[1:]))   # monotone up in solids
 
 
+def test_hargarten2020_loaders():
+    prog = pwdata.hargarten_swelling_progress()
+    assert len(prog) == 8                          # 2 roasts x 2 temps x 2 times
+    assert {r["roast"] for r in prog} == {"medium", "light"}
+    # 30 s < 4 min progress for every series (swelling monotone toward steady state)
+    by_key = {}
+    for r in prog:
+        by_key.setdefault((r["roast"], r["T_C"]), {})[int(r["time_s"])] = float(r["progress_pct"])
+    for series in by_key.values():
+        assert series[30] < series[240]
+    anchors = pwdata.hargarten_scalar_anchors()
+    dd = [float(a["value"]) for a in anchors if a["quantity"] == "swelling_dd_rel"]
+    assert dd and all(12 <= v <= 16 for v in dd)   # ~15% swelling anchor
+
+
+def test_telisromero2001_measured_tables():
+    t1 = pwdata.telisromero_table1_eta()
+    t2 = pwdata.telisromero_table2_Kn()
+    assert len(t1) == 24 and len(t2) == 27
+    # bilinear interpolator reproduces a measured Table-1 node exactly
+    assert abs(pwdata.telisromero_eta_measured(295.0, 76.0) - 2.81e-3) < 1e-9
+
+
 def test_ellero2019_digitized_figures():
     # FIGURE-DIGITIZED SPH simulation (qualitative); NOT raw coffee data.
     assert len(pwdata.ellero_fig2_forcing()) == 10

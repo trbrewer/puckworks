@@ -808,6 +808,29 @@ def bruno_roasted_composition_wide():
     return _rows(BRUNO / "bruno2026_roasted_composition_wide.csv")
 
 
+HARGARTEN = DATA_DIR / "hargarten2020"
+
+
+def hargarten_swelling_progress():
+    """hargarten2020 (JSFA 100(11), 2020; DOI 10.1002/jsfa.10440, CC BY-NC) Table 2 --
+    time-resolved swelling PROGRESS (%) at 30 s and 4 min, medium/light roast x 80/25 C
+    (8 printed values). DATA-ONLY: an empirical anchor for the (not-yet-open) bed_dynamics
+    swelling/erosion backlog; no predictive model exists in the source. Progress >100% at
+    4 min reflects 20-min-diameter normalization error, i.e. steady state effectively
+    reached, not literal overshoot. The PSD/single-particle FIGURES are OWED (digitization
+    Tim-drop); only the printed scalars are transcribed here."""
+    return _rows(HARGARTEN / "hargarten2020_swelling_progress.csv")
+
+
+def hargarten_scalar_anchors():
+    """hargarten2020 printed scalar anchors: ~15% isotropic swelling (size-/roast-independent,
+    erosion-corrected), non-significant size-dependence slopes, dry->wet PSD mode shifts,
+    aspect-ratio isotropy, and EK43 grind dials. Calibration targets a future swelling/erosion
+    closure (Mo 2021/2022) must reproduce. Ambient pressure only -- the ~9 bar espresso regime
+    is explicitly NOT covered (the card's key silence)."""
+    return _rows(HARGARTEN / "hargarten2020_scalar_anchors.csv")
+
+
 def khomyakov_kinematic_viscosity():
     """khomyakov2020 (DOI 10.1088/1755-1315/548/2/022040, CC BY 3.0) MEASURED
     coffee-extract KINEMATIC viscosity [mm^2/s], Table 1: dry-solids 15-70 wt% x
