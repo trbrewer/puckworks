@@ -1,0 +1,22 @@
+# Dependency-update service (remediation R5/R2.9). PRs it opens are dependency-upgrade WORK:
+# run them through the same CI; do not let them destabilize main without diagnosis. Requires
+# Dependabot version-updates enabled in Settings -> Code security.
+version: 2
+updates:
+  # Python packaging deps declared in pyproject.toml (runtime + optional extras).
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "deps"
+
+  # The pinned GitHub Actions in .github/workflows/*.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "ci"
