@@ -82,16 +82,16 @@
       "id": "contract-boundary-hardening",
       "title": "Explicit units (bar-gauge vs pascal), versioned trace schema + validators, typed public results",
       "area": "contracts",
-      "state": "active",
+      "state": "complete",
       "priority": "P1",
       "owner_type": "numerical-scientific-maintainer",
       "external_blocker": null,
       "resume_trigger": null,
-      "next_gate": "SI-internal units policy; pressure-field audit before any behaviour change; factor-of-100000 regression; versioned trace schema; type-check + coverage baselines for core modules",
+      "next_gate": null,
       "acceptance_evidence": "invalid dimensions/lengths/fractions fail early; existing valid examples numerically unchanged (regression tests)",
-      "issue_or_pr": null,
-      "verified_commit": null,
-      "verified_date": null
+      "issue_or_pr": "#25",
+      "verified_commit": "3031a25",
+      "verified_date": "2026-07-16"
     },
     {
       "id": "paper-a-human-signoff",
@@ -197,6 +197,66 @@
       "issue_or_pr": null,
       "verified_commit": null,
       "verified_date": null
+    },
+    {
+      "id": "registry-schema-completion",
+      "title": "Registry schema completion (explicit provenance, immutable views, explicit loader)",
+      "area": "engineering",
+      "state": "complete",
+      "priority": "P1",
+      "owner_type": "maintainer",
+      "external_blocker": null,
+      "resume_trigger": null,
+      "next_gate": null,
+      "acceptance_evidence": "CI-green squash-merge to main",
+      "issue_or_pr": "#26",
+      "verified_commit": "7918948",
+      "verified_date": "2026-07-16"
+    },
+    {
+      "id": "quality-ratchet",
+      "title": "Quality ratchet: Stage-1 mypy + critical-module coverage floor",
+      "area": "engineering",
+      "state": "complete",
+      "priority": "P1",
+      "owner_type": "maintainer",
+      "external_blocker": null,
+      "resume_trigger": null,
+      "next_gate": null,
+      "acceptance_evidence": "CI-green squash-merge to main",
+      "issue_or_pr": "#27",
+      "verified_commit": "e6eb7fd",
+      "verified_date": "2026-07-16"
+    },
+    {
+      "id": "public-api-boundary",
+      "title": "Explicit supported public API + stability policy + reader-path docs",
+      "area": "engineering",
+      "state": "complete",
+      "priority": "P1",
+      "owner_type": "maintainer",
+      "external_blocker": null,
+      "resume_trigger": null,
+      "next_gate": null,
+      "acceptance_evidence": "CI-green squash-merge to main",
+      "issue_or_pr": "#28",
+      "verified_commit": "2ecbc9e",
+      "verified_date": "2026-07-16"
+    },
+    {
+      "id": "distribution-testing",
+      "title": "Test the distribution + fix private-corpus leak in the wheel",
+      "area": "engineering",
+      "state": "complete",
+      "priority": "P1",
+      "owner_type": "maintainer",
+      "external_blocker": null,
+      "resume_trigger": null,
+      "next_gate": null,
+      "acceptance_evidence": "CI-green squash-merge to main",
+      "issue_or_pr": "#29",
+      "verified_commit": "cbc1956",
+      "verified_date": "2026-07-16"
     }
   ]
 }

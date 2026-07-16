@@ -4,12 +4,11 @@
 
 Generated from `docs/status/current.json` (the single machine-readable status source). Regenerate with `python -m puckworks.statusdoc --write`; CI fails on stale or contradictory state. The active queue is capped at 5 outcomes; completed history and superseded plans are in their own sections below.
 
-## Active queue (2 / 5)
+## Active queue (1 / 5)
 
 | id | title | area | priority | owner | next gate | acceptance evidence |
 |---|---|---|---|---|---|---|
 | v0.2.0-release | Cut a verifiable v0.2.0 (version/citation/tag/manifest/notes agree) + a draft GitHub Release | release | P0 | release-manager | version/changelog/rehearsal landed (#24); remaining: tag v0.2.0, build wheel/sdist + hashed lock, create the DRAFT GitHub Release, verify from the download (release-manager step) | a fresh user installs the wheel and runs the bundled example without cloning; release provenance identifies one exact commit |
-| contract-boundary-hardening | Explicit units (bar-gauge vs pascal), versioned trace schema + validators, typed public results | contracts | P1 | numerical-scientific-maintainer | SI-internal units policy; pressure-field audit before any behaviour change; factor-of-100000 regression; versioned trace schema; type-check + coverage baselines for core modules | invalid dimensions/lengths/fractions fail early; existing valid examples numerically unchanged (regression tests) |
 
 ## Blocked
 
@@ -26,9 +25,14 @@ Generated from `docs/status/current.json` (the single machine-readable status so
 | gate-evaluation-completeness | Typed, non-short-circuiting gate evaluation (every gate runs; failures all reported) | #21 | 6d28392 | 2026-07-16 |
 | deterministic-paper3-archive | Real deterministic Paper 3 release archive (create/verify/inspect, full manifest) | #22 | a562834 | 2026-07-16 |
 | release-env-ci-supply-chain | Aligned Python matrix + full transitive lock; Actions SHA-pinned; dependency review/audit | #23 | 0f0b282 | 2026-07-16 |
+| contract-boundary-hardening | Explicit units (bar-gauge vs pascal), versioned trace schema + validators, typed public results | #25 | 3031a25 | 2026-07-16 |
 | paper3-evidence-graph | Paper 3 per-claim evidence graph (schema v2): 51/51 adjudicated; roll-up + zero-gate policies enforced | #19 | 7b3f8f0 | 2026-07-16 |
 | lateral-coupling-feasibility | Lateral-coupling feasibility: two-node model + matched proxy discrimination (exact Xi, continuous alpha) | #14 | 6c5eb31 | 2026-07-16 |
 | remediation-r0-r9 | Remediation waves R0-R9 (quick-CI red fix, lane rigor, doc-truth, release pipeline, governance, lint, privacy) | #7 | 51f0988 | 2026-07-15 |
+| registry-schema-completion | Registry schema completion (explicit provenance, immutable views, explicit loader) | #26 | 7918948 | 2026-07-16 |
+| quality-ratchet | Quality ratchet: Stage-1 mypy + critical-module coverage floor | #27 | e6eb7fd | 2026-07-16 |
+| public-api-boundary | Explicit supported public API + stability policy + reader-path docs | #28 | 2ecbc9e | 2026-07-16 |
+| distribution-testing | Test the distribution + fix private-corpus leak in the wheel | #29 | cbc1956 | 2026-07-16 |
 
 ## Superseded planning snapshots
 
