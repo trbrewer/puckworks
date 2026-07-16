@@ -106,3 +106,26 @@ convergence, per the lane decision).
 calendar-bound items remain. Recorded here per WP0.1 acceptance ("submitted, or a
 recorded explicit decision not to"); no rehearsal-corpus metric was published; the
 broader B2 manuscript scope remains review-stable and untouched.
+
+---
+
+## 5. REMEDIATION STATUS (2026-07-16, remediation plan) — all via branch→PR→CI-verify→merge
+
+| item | state | evidence |
+|---|---|---|
+| R0 quick-CI red (matplotlib in quick lane) | **CI-verified fixed** | PR #1 (`acfe9d0`): quick 3.10+3.12 green; clean `.[dev]`-venv repro |
+| R1 invalid live-contract workflow | **CI-verified fixed** | PR #1: `vars`-gated, parses, no 0 s parse-fail |
+| R2 CI lane rigor (network-block + partition policy) | **CI-verified** | PR #2 (`5f775d6`) |
+| R3 doc-truth (CURRENT index + archive + link check) | **CI-verified** | PR #3 (`540185d`) |
+| R4 real release pipeline (wheel/sdist + clean-room) | **CI-verified + locally proven** | PR #4 (`86b1294`); wheel installed in a fresh venv, ran the registry example |
+| R5 governance (CODEOWNERS/PR-tmpl/CONTRIBUTING/SECURITY/CHANGELOG) | **CI-verified** | PR #5 |
+| R9 ruff lint in CI + hygiene + README | **CI-verified** | PR #6 |
+| R8 no-private-corpus guard + retention policy | **CI-verified** | this PR (`test_data_privacy`, PROVENANCE retention §) |
+
+**Blocked / deferred (owner):**
+- Branch protection on `main` + a dependency-update service — **repo-admin (PI)**; cannot be set from a PR.
+- N2 Paper A submission RC (venue, indexed literature search, author order/conflicts/funding, approval) — **PI**. Claims already verify (27/27).
+- N3 / WP4 gate-level evidence graph — **PI/scientific**: per-gate card+dataset+claim adjudication.
+- R6 registry/contract tightening (`kind` migration deprecation, typed gate results) — **P2, deliberately deferred** (plan: no broad rewrite; not required by release evidence). F841 unused-locals are the tracked ruff follow-up.
+- Sanctioned corpus export pilot (WP7) — **external** (Miha bulk export/token).
+- Product vertical slice (Doc 1) — **deferred by the lane decision** until the convergence spine is complete.
