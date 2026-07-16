@@ -5,15 +5,35 @@ on:
   workflow_dispatch:
   push:
     tags: ["v*", "paper3-v*"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - run: pip install -e ".[dev]"
-      - run: pytest -q
+      - name: full suite (release confidence)
+        run: pytest -q
       - name: Paper 3 build verify
         run: python -m puckworks.paper3.build verify
+      # NOTE (WP4.6/WP5.4): a real deterministic wheel+sdist archive with a checksum is PR8;
+      # this lane currently verifies + uploads the generated provenance artifacts.
+      - name: upload generated + reproducibility artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-evidence
+          path: |
+            docs/paper3_resource/generated/
+            docs/reproducibility/

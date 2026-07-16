@@ -7,9 +7,14 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "0 7 * * 1"
+
+permissions:
+  contents: read
+
 jobs:
   canary:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     if: ${{ secrets.RUN_LIVE_CANARY == 'true' }}
     steps:
       - uses: actions/checkout@v4

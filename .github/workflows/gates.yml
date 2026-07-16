@@ -1,13 +1,22 @@
 name: quick-pr
-# Fast, network-free unit + integrity tests on every push/PR (WP3.1 quick-pr lane).
+# Fast, network-free unit + integrity tests on every push/PR (WP5 quick lane).
+# Selects the QUICK marked set only — slow science sweeps run in slow-science.yml.
 on:
   push:
     branches: [main]
   pull_request:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: quick-pr-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   quick:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     strategy:
       matrix:
         python-version: ["3.10", "3.12"]
@@ -17,4 +26,5 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - run: pip install -e ".[dev]"
-      - run: pytest -q
+      - name: quick lane (offline, deterministic; excludes slow/live/gpu/external_data)
+        run: pytest -q -m "not slow and not live and not gpu and not external_data"

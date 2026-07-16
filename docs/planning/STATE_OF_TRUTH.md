@@ -66,7 +66,7 @@ This revises the earlier "freeze automatically as publication-freeze" plan.
 | Q8 | ~~PR5 — hierarchical inference~~ **DONE**: user-cluster bootstrap CIs; seeded one-shot-per-user; concentration + exclusion-flow first-class | code | — | ✅ committed |
 | Q9 | **PR6 — Paper A submission RC** — code core DONE (`paper_a.build verify`: 27/27 claims match manuscript). **BLOCKED (PI)** on: venue choice, indexed literature-search reconciliation, author order/contributions/conflicts/funding, author approval, clean-tree release build | PI | human sign-off | Gate F |
 | Q10 | **PR7 — gate-level evidence graph** — WP4.4 validation-exceptions DONE (survive `python -O`). **BLOCKED (PI/scientific)** on WP4.1/4.5 EvidenceLink authoring: per-gate card+dataset+claim mapping needs adjudication (sourcing2026.*/brewer2026.* don't resolve by prefix; low-confidence tiers flagged earlier need review) | PI+code | claim/card/dataset adjudication | WP4 acceptance |
-| Q11 | PR9 — CI lanes (pytest markers; distinct quick/slow/live/release selections) — UNBLOCKED, mechanical | code | — | WP5 |
+| Q11 | ~~PR9 — CI lanes~~ **DONE**: pytest markers + conftest auto-mark + policy test; quick-pr selects `not slow...` (13s vs 127s); slow-science runs `-m slow` + artifacts; workflows hardened (permissions/timeouts/concurrency) | code | — | ✅ (pending commit) |
 | Q12 | PR10 — lateral-coupling feasibility CARD (source + governing eqs + regime map) — UNBLOCKED, docs+minimal model | code | — | WP6.1-6.3 |
 | Q13 | (opportunistic) sanctioned corpus export runbook | maintainer | Miha export/token (external) | WP7 pilot on real export |
 

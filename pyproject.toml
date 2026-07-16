@@ -14,6 +14,16 @@ harvest = ["requests"]
 viz = ["matplotlib", "pillow", "imageio"]
 viz3d = ["pyvista", "vtk"]
 
+[tool.pytest.ini_options]
+# WP5: CI lanes select DIFFERENT marked sets (quick-pr excludes these; slow-science runs slow).
+markers = [
+    "slow: science-heavy test (>~2 s); excluded from quick-pr, run by slow-science",
+    "live: hits a live external service (bounded, secret-gated); never in quick-pr",
+    "release: release-build / archive verification",
+    "gpu: needs a GPU / taichi",
+    "external_data: needs non-redistributable external data",
+]
+
 [build-system]
 requires = ["setuptools>=64"]
 build-backend = "setuptools.build_meta"
