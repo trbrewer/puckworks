@@ -1,11 +1,10 @@
 {
   "by_evidence_strength": {
     "code_verification": 4,
-    "controlled_independent": 1,
     "exploratory_synthesis": 1,
     "post_fit_reconstruction": 5,
     "qualitative_capacity": 5,
-    "sign_or_compatibility": 2,
+    "sign_or_compatibility": 3,
     "source_curve_reproduction": 6,
     "within_campaign_held_out": 1
   },
@@ -28,7 +27,7 @@
     "machine": 2,
     "packing": 2
   },
-  "content_sha256": "cd2096699d55cc7676f65dde7a160320a625cae6b03125ff800ae0948225fbc9",
+  "content_sha256": "ddb5394bfdac1e4bf636e452c34f166bacabe18486bbf2e8987d13f7f0a0a56b",
   "n_components": 25,
   "schema_version": 1
 }

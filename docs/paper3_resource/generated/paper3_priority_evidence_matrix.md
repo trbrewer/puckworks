@@ -104,7 +104,7 @@ The claims the `--strict --scope paper3` release gate is fail-closed on (claim_o
     - `(registry [RS])` — resolved_manifest — role=fit, independence=fit_input
     - `foster2025` — not_applicable_source_equation — role=reference, independence=not_applicable — physics/equations or model card; supplies no MANIFEST dataset for this gate
     - `foster2025_2` — not_applicable_source_equation — role=reference, independence=not_applicable — physics/equations or model card; supplies no MANIFEST dataset for this gate
-- **caveat:** Permeability k comes from kappa_fitted=1.196 (fitted to this same shot's flow) and the front is driven by this same shot's P(t); only the two porosity bracket endpoints are a-priori and the bracket is wide (~1.86x). REGISTRY LABELS THIS controlled_independent — the code does not support that tier; honest per-gate strength is sign_or_compatibility.
+- **caveat:** Permeability k comes from kappa_fitted=1.196 (fitted to this same shot's flow) and the front is driven by this same shot's P(t); only the two porosity bracket endpoints are a-priori and the bracket is wide (~1.86x), so the first-drip match is a wide-bracket compatibility check on in-sample data.
 - **claim NOT supported:** Does NOT demonstrate a parameter-free prediction independent of the evaluated data: k and P(t) are from the same shot, so 'parameter-free' holds only in that no parameter was tuned to hit the first-drip time itself.
 
 ## `grudeva2025.reduced::gate_grudeva_no_eps_kappa`

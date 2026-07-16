@@ -59,7 +59,22 @@ names which one, and a `resolved_manifest` source must actually carry ids.
   - a `post_fit_same_data` relationship carrying a top tier;
   - a stored component tier differing from the live registry;
   - an `ADJUDICATED` link containing a placeholder;
-  - an in-scope asserted Paper-3 claim with no admissible evidence.
+  - an in-scope asserted Paper-3 claim with no admissible evidence;
+  - **(roll-up policy)** a component that declares an `evidence_strength` **stronger** than any of
+    its gates demonstrates.
+
+## Component → gate roll-up policy
+
+A component's declared `evidence_strength` (the registry tier) must be **demonstrated by at least
+one of its gates** — concretely, it may not be *stronger* than its strongest adjudicated gate
+tier, ranked by the registry's own descending `EVIDENCE_STRENGTHS` order. A weaker/coarser
+component summary (e.g. `qualitative_capacity` over gates that each do `source_curve_reproduction`)
+is **allowed** — the rule only fires on an over-claim. It is enforced only for components whose
+gates are **all adjudicated** (a still-draft gate could justify a stronger tier), and skipped for
+components with **no gates** (a separate, known "declared tier not gate-backed" gap:
+`brewer2026.streamtube`, `brewer2026.lb_taichi`, `brewer2026.pack_generator`). Gate-level evidence
+is authoritative; the component tier is a roll-up of it. Changing a component tier to satisfy this
+rule is a registry change and needs a ROADMAP §7.1 entry.
 
 ## Strict modes
 
@@ -118,11 +133,11 @@ not_empirical 6, within_campaign_held_out 1, independent_external 1) — the two
 labels are used sparingly. Semantic corrections applied in the v2 landing:
 
 - **`gate_infiltration_triangle`** — the same DE1 fixture supplies calibration and evaluation, so
-  the relationship is `same_campaign_not_held_out` (not `within_campaign_held_out`); the gate tier
-  is `sign_or_compatibility`, while the registry component tier (`controlled_independent`) is
-  carried untouched as context and the discrepancy is surfaced in the conflicts report. A
-  component→gate roll-up policy is a separate decision; until it is adopted, **gate-level evidence
-  is authoritative** for public/release claims.
+  the relationship is `same_campaign_not_held_out` (not `within_campaign_held_out`) and the gate
+  tier is `sign_or_compatibility`. The registry component tier was **demoted**
+  `controlled_independent → sign_or_compatibility` under the now-adopted roll-up policy (ROADMAP
+  §7.1, 2026-07-16), so the registry no longer declares any `controlled_independent` component and
+  the earlier discrepancy is resolved (the conflict_note is cleared).
 - **`gate_kappa_t_composition_diagnostic`** — reclassified from `code_verification` to
   `exploratory_synthesis` with `post_fit_same_data` (a residual-based diagnostic, not pure code).
 - **`gate_waszkiewicz_static_refit`** — tier and relationship aligned to
