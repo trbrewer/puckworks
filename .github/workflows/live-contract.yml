@@ -36,7 +36,7 @@ jobs:
             echo "enabled=false" >> "$GITHUB_OUTPUT"
             echo "Live canary intentionally disabled (set repo variable RUN_LIVE_CANARY=true or dispatch with run_live=true)." >> "$GITHUB_STEP_SUMMARY"
           fi
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         if: steps.gate.outputs.enabled == 'true'
       - uses: actions/setup-python@v5
         if: steps.gate.outputs.enabled == 'true'
