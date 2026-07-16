@@ -32,6 +32,12 @@ jobs:
         run: python -m puckworks.paper3.evidence_graph --reconcile
       - name: Evidence-graph artifacts are up to date (WP2.4)
         run: python -m puckworks.paper3.evidence_graph --verify
+      - name: Paper 3 archive builds deterministically and self-verifies (no dist)
+        run: |
+          python -m puckworks.paper3.archive create-archive --out /tmp/pa.tar.gz
+          python -m puckworks.paper3.archive create-archive --out /tmp/pb.tar.gz
+          cmp /tmp/pa.tar.gz /tmp/pb.tar.gz
+          python -m puckworks.paper3.archive verify-archive /tmp/pa.tar.gz
 
   status-truth:
     # Canonical status: STATE_OF_TRUTH.md must be generated from docs/status/current.json and
