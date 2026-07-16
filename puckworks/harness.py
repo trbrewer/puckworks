@@ -1817,7 +1817,8 @@ def ntube_kappa_t_union(gs=1.1, N=400, s_ref=0.6, m=1.0, P_bar=9.0,
             ref = float(np.mean(g)) if control == "flow" else g0bar
             w = g / ref
             if lateral:
-                w = (1.0 - lateral) * w + lateral          # homogenizing proxy
+                from puckworks.analysis.lateral_proxy import homogenize_relative_flow
+                w = homogenize_relative_flow(w, lateral)   # shared proxy operator (WP6)
             tau = tau + w * dt
             M_acc = M_acc + w * dt
             # RAW extrema over every substep (non-negativity + control-law balance)
