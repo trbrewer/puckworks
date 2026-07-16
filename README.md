@@ -22,14 +22,18 @@ parameters in.
 
 ## Quickstart
 ```
-pip install -e ".[dev]"    # contributor install. extras: [figures] [harvest] [release] [lb]
-python -c "import puckworks; from puckworks.registry import run_all_gates; run_all_gates()"
-pytest -q -m "not slow and not live and not gpu and not external_data"   # the quick lane (~15s)
+pip install puckworks            # or:  pip install -e ".[dev]"   (contributor install)
+python -c "import puckworks; s = puckworks.evaluate_all_gates(); print(s.summary_text())"
+python -c "import puckworks; print(len(puckworks.components()), 'components registered')"
 ```
+The **supported public API** is `puckworks.__all__` (`evaluate_all_gates`, `components`, `get`,
+`Component`, `contracts`, `validate`, …) — see [`docs/API.md`](docs/API.md) for the stability
+policy. Everything else (`harness`, `analysis`, `paper3`, …) is internal research tooling.
+
 - **Use a release** (not editable): `pip install dist/puckworks-*.whl` — builds via
   `python -m puckworks.release build` (wheel + sdist + checksummed manifest); see `CONTRIBUTING.md`.
-- Test lanes + the card-first contribution process: `docs/CI_LANES.md`, `CONTRIBUTING.md`,
-  and the doc index `docs/CURRENT.md`.
+- Contributor extras: `[figures] [harvest] [release] [lb] [viz]`. Test lanes + the card-first
+  contribution process: `docs/CI_LANES.md`, `CONTRIBUTING.md`, and the doc index `docs/CURRENT.md`.
 
 ## Adding a model
 1. Write its **model card** from `docs/cards/TEMPLATE.md` (this is where papers
