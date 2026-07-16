@@ -66,7 +66,11 @@ def verify(root=REPO_ROOT):
 def main(argv=None):   # pragma: no cover
     argv = list(sys.argv[1:] if argv is None else argv)
     cmd = argv[0] if argv else "verify"
-    if cmd == "bundle":
+    if cmd in ("bundle", "list-bundle"):
+        if cmd == "bundle":
+            print("NOTE: `bundle` only LISTS paths and is renamed to `list-bundle`. For the real "
+                  "immutable archive use `python -m puckworks.paper3.archive create-archive`.",
+                  file=sys.stderr)
         print(json.dumps(bundle_contents(), indent=2))
         return 0
     rep = verify()
