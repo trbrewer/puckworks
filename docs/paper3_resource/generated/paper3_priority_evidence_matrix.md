@@ -4,7 +4,7 @@
 
 The claims the `--strict --scope paper3` release gate is fail-closed on (claim_owner=paper3, paper3_use in primary_claim, method_demonstration). Each exposes source cards, exact dataset ids, dataset status, fit/eval role, independence, the caveat, and what is NOT supported.
 
-**8 asserted Paper-3 claim(s).**
+**10 asserted Paper-3 claim(s).**
 
 ## `brewer2026.coupled_kappa_t::gate_kappa_t_composition_diagnostic`
 - **claim:** Adding the parameter-free mo2023_2 swelling branch behaves as the framework predicts: the composite porosity closes below eps0 and the 9-bar Q(t) residual jumps from ~0.12 to ~0.65 g/s (worse than the flat null ~0.603), diagnosing that mo2023_2's fixed-dP fresh-grain swelling is mis-scaled for an already-swollen saturated pre-wet rig.
@@ -106,6 +106,39 @@ The claims the `--strict --scope paper3` release gate is fail-closed on (claim_o
     - `mo2023_2` — resolved_manifest — role=context, independence=not_applicable
 - **caveat:** No empirical yield data is compared — the gate checks a self-consistency property of the implemented model against the paper's Fig. 2 (itself model output); granulometry Table 1 enters as a model input, not a fit/eval target; the swelling magnitude C_M is assumed.
 - **claim NOT supported:** Does NOT validate the swelling mechanism or absolute yields against experiment — only that the code exhibits the offsetting-timescale insensitivity the paper asserts at fixed flow.
+
+## `sourcing2026.g10_liquor_rheology::gate_g10_viscosity_bulk_negligible`
+- **claim:** Driving cameron2020's own in-pore liquor concentration field through the MEASURED Telis-Romero 2001 eta(c,T) grid, the in-pore liquor never approaches saturation (peak mu < 1.15x water), so the constant-water-viscosity assumption used by every registered flow model gives <8% outlet flow suppression and >0.95 depth-averaged flow factor at espresso conditions.
+- **observable:** Darcy flow-suppression factor (mu_water / mu_local) implied by concentration-dependent liquor viscosity over a simulated shot's in-pore concentration field.
+- **tier / relationship:** sign_or_compatibility / not_empirical
+- **paper3_use / support:** method_demonstration / admissible
+- **reality_facing:** True
+- **fit datasets:** (none)
+- **eval datasets:** (none)
+- **sources:**
+    - `telisromero2000` — resolved_manifest — role=context, independence=not_applicable
+    - `telisromero2001` — resolved_manifest — role=context, independence=not_applicable
+    - `g10_liquor_rheology` — not_applicable_source_equation — role=reference, independence=not_applicable — physics/equations or model card; supplies no MANIFEST dataset for this gate
+    - `cameron2020` — not_applicable_source_equation — role=reference, independence=not_applicable — physics/equations or model card; supplies no MANIFEST dataset for this gate
+- **caveat:** The negligibility conclusion is derived from a MODEL (cameron2020's concentration field) fed measured mu, with permeability/pressure held fixed and no measured espresso flow to test against; a bounded compatibility result that excludes genuinely saturating (choked/ristretto) shots.
+- **claim NOT supported:** It does NOT empirically demonstrate real espresso flow is insensitive to liquor viscosity nor validate cameron2020's concentration field — only that IF that field is right, the measured mu(c,T) correction is small.
+
+## `wadsworth2026.inertial::gate_inertial_de1_audit`
+- **claim:** Computing Fo_F along the real DE1 fixture-A tamped trace (Darcy k from the fitted kappa=1.196 via the kappa->SI chain, k_I from the ceramics-fitted Zhou closure) yields a peak Fo_F that is O(1), falls inside the backlog's 0.3-0.9 gusher-regime estimate, and exceeds the card's untamped espresso ceiling (0.0639) by >10x.
+- **observable:** Peak Forchheimer number Fo_F = rho*k*q/(mu*k_I) evaluated along the recorded trace.
+- **tier / relationship:** sign_or_compatibility / post_fit_same_data
+- **paper3_use / support:** method_demonstration / admissible
+- **reality_facing:** True
+- **fit datasets:** de1_fixtureA
+- **eval datasets:** de1_fixtureA
+- **sources:**
+    - `(registry [RS])` — resolved_manifest — role=eval, independence=same_data_as_fit
+    - `(registry [RS])` — resolved_manifest — role=fit, independence=fit_input
+    - `wadsworth2026_inertial` — not_applicable_source_equation — role=reference, independence=not_applicable — physics/equations or model card; supplies no MANIFEST dataset for this gate
+    - `foster2025_2` — not_applicable_source_equation — role=reference, independence=not_applicable — physics/equations or model card; supplies no MANIFEST dataset for this gate
+    - `cameron2020` — not_applicable_source_equation — role=reference, independence=not_applicable — physics/equations or model card; supplies no MANIFEST dataset for this gate
+- **caveat:** kappa=1.196 was fitted to this same DE1 fixture-A trace (Fo_F then computed on it, nothing held out); k_I is a ceramics fit never calibrated on coffee and DE1 k~7e-15 sits below that fit's support (explicit extrapolation); the untamped band it beats is a hardcoded card number.
+- **claim NOT supported:** It does not empirically validate that espresso flow is inertial nor measure Fo_F; only that the model's computed Fo_F on one uncontrolled community fixture is compatible with the backlog's higher estimate.
 
 ## `waszkiewicz2025.poroelastic::gate_waszkiewicz_dynamic_9bar`
 - **claim:** With zero extra free parameters (static (P_c,Q_c) plus the dissolution sigmoid Phi(t)=m_d(t)/m0), Eq. 18 reproduces the measured 9-bar Q(t) ramp semi-quantitatively — long-run mean within 10% and correlation >0.90 over t>=15 s.
