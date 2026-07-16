@@ -1,47 +1,49 @@
-"""Paper 3 per-claim EVIDENCE GRAPH (WP2.4).
+"""Paper 3 per-claim EVIDENCE GRAPH (WP2.4; schema v2 — scope + semantic integrity).
 
-Replaces the gate-name-only `component_gate_matrix.csv` with a curated, TYPED evidence graph:
-one `EvidenceLink` per registry gate wiring (a gate may split into several links when it backs
-several distinct claims), each carrying the specific claim, the observable compared, the source
-cards, the exact MANIFEST dataset ids with their fit/eval roles, the independence of the
-evaluation, the honest per-gate evidence strength, a caveat, and what the gate does NOT
-establish.
+One typed `EvidenceLink` per registry gate wiring (a gate may split into several claim links).
+v2 adds the scoping and provenance fields needed for FAIL-CLOSED, SCOPED Paper-3 release
+validation without forcing every unrelated or future gate to be empirically resolved:
 
-Design invariants (integrity — enforced by `reconcile()`):
-  * The link set is reconciled against the LIVE registry: every (component, gate) wiring is
-    covered by >=1 link, and every link points at a real wiring, real dataset ids, real cards.
-  * NOTHING here promotes a claim's evidence tier by inference. The bootstrap emits only
-    `NEEDS_ADJUDICATION` drafts with `evidence_strength = null`; a link earns a tier ONLY by a
-    human setting `adjudication_status = "ADJUDICATED"` with every curated field filled.
-  * The registry's component-level `evidence_strength` is copied onto each link ONLY as
-    `component_evidence_strength` (context — the component's self-declared tier), never as the
-    link's own adjudicated verdict.
-  * Vocabulary guards forbid the two labelling errors the project bans: source-curve
-    reproduction may not be called `independent`; code/conservation checks may not be called
-    empirical (their independence must be `code_verification`/`not_empirical`).
-  * `dataset_ids = []` (gate loads no dataset) is DISTINCT from a null/absent field (not yet
-    adjudicated). Drafts leave curated fields `null`; adjudicated links must fill them.
+  * claim ownership + Paper-3 use + reality-facing + support status;
+  * a typed `sources[]` list (source_card + exact MANIFEST dataset ids + dataset_status +
+    evidence_role + independence + note) so an empty dataset list never silently stands for the
+    many distinct "no dataset" reasons;
+  * a link-level `relationship` (the honest fit/evaluation relationship) that the mechanical
+    guards check against the actual fit/eval dataset overlap.
 
-Source of truth (hand-curated, editable): `EVIDENCE_LINKS.json` (this directory).
-Generated (deterministic, no timestamp, banner, sha256 — CI fails on drift): the matrix, the
-machine export, the adjudication queue, and the G10 narrative conflicts report under
-`docs/paper3_resource/generated/`.
+Integrity invariants (enforced by `reconcile()`):
+  * bijection with the LIVE registry wirings;
+  * NOTHING promotes a claim's tier by inference — drafts carry null tiers and are the only thing
+    the bootstrap emits; a tier is set only by a human ADJUDICATED flip with every field filled;
+  * the stored `component_evidence_strength` must EQUAL the live registry value;
+  * fit/eval dataset overlap may not be labelled `independent_external` or `within_campaign_held_out`;
+  * `code_verification` may not be labelled empirical; `source_curve_reproduction` may not be
+    `independent_external`; a post-fit-same-data relationship may not carry a top tier.
+
+Scoped strict modes:
+  * `--strict --scope paper3` — fail-closed on the ASSERTED Paper-3 claims (claim_owner==paper3
+    and paper3_use in {primary_claim, method_demonstration}); ignores honestly out-of-scope,
+    future, or project-only gates. This is the release gate.
+  * `--strict --scope all` — additionally require the WHOLE graph adjudicated (manual/nonblocking).
+
+Source of truth (curate): `EVIDENCE_LINKS.json`. Generated (never hand-edit; CI fails on drift):
+the full matrix (csv/md), the machine export, the summary, the Paper-3 priority matrix, the
+adjudication queue, and the narrative conflicts report under `docs/paper3_resource/generated/`.
 
 CLI:
-    python -m puckworks.paper3.evidence_graph --reconcile [--strict]   # validate vs registry
-    python -m puckworks.paper3.evidence_graph --bootstrap             # print draft skeletons
-    python -m puckworks.paper3.evidence_graph --write                 # regenerate artifacts
-    python -m puckworks.paper3.evidence_graph --verify                # fail on stale artifacts
+    python -m puckworks.paper3.evidence_graph --reconcile [--strict --scope paper3|all]
+    python -m puckworks.paper3.evidence_graph --bootstrap | --write | --verify
 """
 import csv
 import hashlib
+import io
 import json
 from pathlib import Path
 
 import puckworks.models  # noqa: F401  (registers all components)
 from puckworks import registry as R
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 REPO_ROOT = Path(__file__).resolve().parents[2]
 GENERATED_REL = "docs/paper3_resource/generated"
 _LINKS_JSON = Path(__file__).resolve().parent / "EVIDENCE_LINKS.json"
@@ -55,24 +57,31 @@ _HTML_BANNER = "<!-- " + _BANNER + " -->"
 
 # ---- controlled vocabularies -------------------------------------------------------------
 ADJUDICATION_STATES = ("ADJUDICATED", "NEEDS_ADJUDICATION")
-INDEPENDENCE_KINDS = (
-    "independent",                 # eval data disjoint from fit / parameter-free
-    "within_campaign_held_out",    # held-out slice of the same measurement campaign
-    "post_fit_reconstruction",     # evaluated on the same data used to fit
-    "code_verification",           # checks a code/math property, not empirical
-    "not_empirical",               # no measured data compared at all
-)
-# per-link honest tier: the registry enum (registry.EVIDENCE_STRENGTHS is authoritative)
+CLAIM_OWNERS = ("paper3", "paper_b2", "paper_a", "paper4_future", "project_only")
+PAPER3_USES = ("primary_claim", "method_demonstration", "resource_context", "cited_science",
+               "not_in_scope")
+SUPPORT_STATUS = ("admissible", "context_only", "unsupported", "blocked_missing",
+                  "proposed_not_run", "needs_adjudication")
+# the honest fit/evaluation relationship of the link as a whole (authoritative for the guards)
+RELATIONSHIPS = ("independent_external", "within_campaign_held_out", "same_campaign_not_held_out",
+                 "post_fit_same_data", "code_verification", "not_empirical")
+DATASET_STATUS = ("resolved_manifest", "not_applicable_code", "not_applicable_source_equation",
+                  "not_applicable_synthetic", "proposed_experiment", "blocked_missing",
+                  "needs_adjudication")
+EVIDENCE_ROLES = ("fit", "eval", "reference", "context")
+SOURCE_INDEPENDENCE = ("independent", "held_out_same_campaign", "same_campaign", "same_data_as_fit",
+                       "fit_input", "not_applicable")
 EVIDENCE_STRENGTHS = R.EVIDENCE_STRENGTHS
-# curated fields that MUST be present for an ADJUDICATED link
-_REQUIRED_WHEN_ADJUDICATED = (
-    "claim", "observable", "independence", "evidence_strength", "caveat",
-    "claim_not_supported",
-)
 
-# Known un-reconciled physical constants (CLAUDE.md rule 6 — surfaced, never silently merged).
-# These are config fields with conflicting published values across source cards; the conflicts
-# report lists them so a reader sees the disagreement rather than an averaged-away number.
+# asserted Paper-3 claims that the paper3 release gate is fail-closed on
+_ASSERTED_PAPER3_USES = ("primary_claim", "method_demonstration")
+# sentinels that must never survive into an ADJUDICATED link
+_PLACEHOLDERS = ("TODO", "TBD", "NEEDS_ADJUDICATION", "FIXME", "XXX", "PLACEHOLDER")
+_REQUIRED_WHEN_ADJUDICATED = ("claim", "observable", "caveat", "claim_not_supported",
+                              "evidence_strength", "relationship", "claim_owner", "paper3_use",
+                              "support_status")
+
+# Known un-reconciled published constants (CLAUDE.md rule 6 — surfaced, never silently merged).
 CONSTANT_CONFLICTS = (
     {"constant": "c_sat (saturation concentration, kg/m^3)",
      "reference": "docs/ROADMAP.md §5.4",
@@ -87,10 +96,6 @@ CONSTANT_CONFLICTS = (
 
 
 # ---- registry / manifest / card views ----------------------------------------------------
-def _components():
-    return {c.name: c for c in R.components()}
-
-
 def registry_gate_wirings():
     """The live set of (component_id, gate_name) wirings, plus per-component context."""
     wirings = []
@@ -111,6 +116,16 @@ def _manifest_dataset_ids():
         return {row["dataset_id"] for row in csv.DictReader(fh) if row.get("dataset_id")}
 
 
+def _manifest_source_cards():
+    """The set of source_card provenance strings the MANIFEST declares (authoritative provenance;
+    some are docs/cards stems, some are descriptive strings like '(registry [RS])')."""
+    if not _MANIFEST.exists():
+        return set()
+    with open(_MANIFEST, newline="", encoding="utf-8-sig") as fh:
+        return {row.get("source_card", "").strip() for row in csv.DictReader(fh)
+                if row.get("source_card", "").strip()}
+
+
 def _card_stems():
     if not _CARDS_DIR.exists():
         return set()
@@ -127,31 +142,26 @@ def load_links(path=_LINKS_JSON):
 
 
 def _draft_skeleton(component, gate, ctx):
-    """A conservative NEEDS_ADJUDICATION skeleton. NOTHING is inferred: the per-gate
-    evidence_strength is null (only the component's declared tier is carried, as context)."""
+    """A conservative NEEDS_ADJUDICATION skeleton. NOTHING is inferred: every per-gate verdict
+    (tier, relationship, scope, support) is null; only the component's declared tier is carried
+    as context."""
     return {
         "link_id": "%s::%s" % (component, gate),
-        "component": component,
-        "gate": gate,
-        "card": None,
-        "claim": None,
-        "observable": None,
-        "source_cards": None,
-        "dataset_ids": None,
-        "dataset_role": None,
-        "independence": None,
+        "claim_id": "%s::%s" % (component, gate),
+        "component": component, "gate": gate, "card": None,
+        "claim": None, "observable": None,
+        "claim_owner": None, "paper3_use": None, "reality_facing": None,
+        "support_status": "needs_adjudication",
         "evidence_strength": None,
         "component_evidence_strength": ctx[component]["component_evidence_strength"],
-        "caveat": None,
-        "claim_not_supported": None,
-        "conflict_note": None,
+        "relationship": None, "sources": None,
+        "caveat": None, "claim_not_supported": None, "conflict_note": None,
         "adjudication_status": "NEEDS_ADJUDICATION",
     }
 
 
 def bootstrap_missing(links=None):
-    """Return draft skeletons for every registry wiring not already covered by a link.
-    Used once to prefill EVIDENCE_LINKS.json; never auto-writes (curation is a human step)."""
+    """Return draft skeletons for every registry wiring not already covered by a link."""
     if links is None:
         links = load_links()
     wirings, ctx = registry_gate_wirings()
@@ -159,10 +169,43 @@ def bootstrap_missing(links=None):
     return [_draft_skeleton(c, g, ctx) for (c, g) in wirings if (c, g) not in covered]
 
 
+# ---- helpers -----------------------------------------------------------------------------
+def _fit_eval_ids(link):
+    """Union of dataset ids playing a fit vs eval role across the link's sources."""
+    fit, ev = set(), set()
+    for s in (link.get("sources") or []):
+        role = s.get("evidence_role")
+        for d in (s.get("dataset_manifest_ids") or []):
+            if role == "fit":
+                fit.add(d)
+            elif role == "eval":
+                ev.add(d)
+    return fit, ev
+
+
+def _has_placeholder(link):
+    for v in link.values():
+        if isinstance(v, str) and any(p in v for p in _PLACEHOLDERS) and v not in ADJUDICATION_STATES:
+            return True
+    return False
+
+
+def _provenance_resolved(link):
+    """True iff every source has a concretely-resolved provenance state (nothing still pending)."""
+    for s in (link.get("sources") or []):
+        if s.get("dataset_status") in ("needs_adjudication", "blocked_missing"):
+            return False
+    return True
+
+
 # ---- reconciler --------------------------------------------------------------------------
-def reconcile(links=None, strict=False):
+def reconcile(links=None, strict=False, scope="all"):
     """Validate the link set against the live registry + manifest + cards. Returns a list of
-    problem strings (empty == clean). `strict` additionally requires zero NEEDS_ADJUDICATION."""
+    problem strings (empty == clean).
+
+    strict=False: structural validity + bijection + adjudicated-completeness + mechanical guards.
+    strict=True, scope='paper3': ALSO fail-closed on asserted Paper-3 claims (release gate).
+    strict=True, scope='all': ALSO require the WHOLE graph adjudicated (manual)."""
     if links is None:
         links = load_links()
     wirings, ctx = registry_gate_wirings()
@@ -171,7 +214,9 @@ def reconcile(links=None, strict=False):
     for c, g in wirings:
         comp_gates.setdefault(c, set()).add(g)
     manifest_ids = _manifest_dataset_ids()
+    manifest_cards = _manifest_source_cards()
     card_stems = _card_stems()
+    valid_source_card = card_stems | manifest_cards
     problems = []
 
     # 1. bijection with the registry wirings
@@ -179,12 +224,12 @@ def reconcile(links=None, strict=False):
     for (c, g) in wirings:
         if (c, g) not in covered:
             problems.append("MISSING LINK: registry wiring %s::%s has no evidence link" % (c, g))
+    wiring_set = set(wirings)
     for l in links:
-        if (l["component"], l["gate"]) not in set(wirings):
+        if (l["component"], l["gate"]) not in wiring_set:
             problems.append("ORPHAN LINK %s: (%s, %s) is not a live registry wiring"
                             % (l.get("link_id"), l["component"], l["gate"]))
 
-    # 2. per-link structural + integrity validation
     seen_ids = set()
     for l in links:
         lid = l.get("link_id") or "<no link_id>"
@@ -194,65 +239,120 @@ def reconcile(links=None, strict=False):
         c, g = l.get("component"), l.get("gate")
         if c not in comp_ids:
             problems.append("%s: unknown component %r" % (lid, c))
-        elif g not in comp_gates.get(c, set()):
+            continue
+        if g not in comp_gates.get(c, set()):
             problems.append("%s: gate %r is not wired to component %s" % (lid, g, c))
-        st = l.get("adjudication_status")
-        if st not in ADJUDICATION_STATES:
-            problems.append("%s: bad adjudication_status %r" % (lid, st))
-        ind = l.get("independence")
-        if ind is not None and ind not in INDEPENDENCE_KINDS:
-            problems.append("%s: bad independence %r" % (lid, ind))
-        ev = l.get("evidence_strength")
-        if ev is not None and ev not in EVIDENCE_STRENGTHS:
-            problems.append("%s: bad evidence_strength %r" % (lid, ev))
-        for stem_field in ("card",):
-            v = l.get(stem_field)
-            if v is not None and v not in card_stems:
-                problems.append("%s: %s %r is not a card stem" % (lid, stem_field, v))
-        for stem in (l.get("source_cards") or []):
-            if stem not in card_stems:
-                problems.append("%s: source_card %r is not a card stem" % (lid, stem))
-        for did in (l.get("dataset_ids") or []):
-            if did not in manifest_ids:
-                problems.append("%s: dataset_id %r not in MANIFEST" % (lid, did))
-        # dataset_role keys must be a subset of dataset_ids, values a known role
-        roles = l.get("dataset_role") or {}
-        for did, role in roles.items():
-            if did not in (l.get("dataset_ids") or []):
-                problems.append("%s: dataset_role references %r not in dataset_ids" % (lid, did))
-            if role not in ("fit", "eval", "both", "reference"):
-                problems.append("%s: bad dataset role %r for %r" % (lid, role, did))
 
-        # 3. completeness + vocabulary guards for ADJUDICATED links
+        # 2. structural / vocabulary validity
+        def _enum(field, allowed, nullable=True):
+            v = l.get(field)
+            if v is None and nullable:
+                return
+            if v not in allowed:
+                problems.append("%s: bad %s %r" % (lid, field, v))
+        _enum("adjudication_status", ADJUDICATION_STATES, nullable=False)
+        _enum("claim_owner", CLAIM_OWNERS)
+        _enum("paper3_use", PAPER3_USES)
+        _enum("support_status", SUPPORT_STATUS)
+        _enum("relationship", RELATIONSHIPS)
+        _enum("evidence_strength", EVIDENCE_STRENGTHS)
+        if l.get("reality_facing") not in (None, True, False):
+            problems.append("%s: reality_facing must be bool/null" % lid)
+        if l.get("card") is not None and l["card"] not in card_stems:
+            problems.append("%s: card %r is not a card stem" % (lid, l["card"]))
+        # component evidence must match the LIVE registry value (no stale stored context)
+        live = ctx[c]["component_evidence_strength"]
+        if l.get("component_evidence_strength") != live:
+            problems.append("%s: component_evidence_strength %r != live registry %r"
+                            % (lid, l.get("component_evidence_strength"), live))
+        # sources[]
+        for s in (l.get("sources") or []):
+            sc = s.get("source_card")
+            if sc is not None and sc not in valid_source_card:
+                problems.append("%s: source_card %r is neither a card stem nor a MANIFEST "
+                                "source_card" % (lid, sc))
+            if s.get("dataset_status") not in DATASET_STATUS:
+                problems.append("%s: bad dataset_status %r" % (lid, s.get("dataset_status")))
+            if s.get("evidence_role") not in EVIDENCE_ROLES:
+                problems.append("%s: bad evidence_role %r" % (lid, s.get("evidence_role")))
+            if s.get("independence") not in SOURCE_INDEPENDENCE:
+                problems.append("%s: bad source independence %r" % (lid, s.get("independence")))
+            for d in (s.get("dataset_manifest_ids") or []):
+                if d not in manifest_ids:
+                    problems.append("%s: dataset_id %r not in MANIFEST" % (lid, d))
+            # a resolved_manifest source must actually carry manifest ids; the not_applicable /
+            # proposed / blocked states must NOT carry resolved ids (empty != resolved)
+            if s.get("dataset_status") == "resolved_manifest" and not s.get("dataset_manifest_ids"):
+                problems.append("%s: resolved_manifest source has no dataset ids" % lid)
+
+        st = l.get("adjudication_status")
+        # 3. completeness + mechanical guards on ADJUDICATED links
         if st == "ADJUDICATED":
             for f in _REQUIRED_WHEN_ADJUDICATED:
                 if l.get(f) in (None, "", []):
                     problems.append("%s: ADJUDICATED but %s is empty" % (lid, f))
-            if l.get("dataset_ids") is None:
-                problems.append("%s: ADJUDICATED but dataset_ids is null (use [] if none)" % lid)
-            # every declared dataset must carry a role
-            for did in (l.get("dataset_ids") or []):
-                if did not in roles:
-                    problems.append("%s: ADJUDICATED but dataset %r has no fit/eval role"
-                                    % (lid, did))
-            # vocabulary integrity: the two banned mislabels
-            if ev == "code_verification" and ind not in ("code_verification", "not_empirical"):
-                problems.append("%s: evidence_strength=code_verification but independence=%r "
-                                "(a code/conservation check is not empirical)" % (lid, ind))
-            if ev == "controlled_independent" and ind != "independent":
-                problems.append("%s: controlled_independent requires independence=independent, "
-                                "got %r" % (lid, ind))
-            if ev == "source_curve_reproduction" and ind == "independent":
-                problems.append("%s: source_curve_reproduction may not be labelled independent"
+            if l.get("sources") is None:
+                problems.append("%s: ADJUDICATED but sources is null (use [] only if truly none)"
                                 % lid)
-            if ind == "post_fit_reconstruction" and ev in ("controlled_independent",
-                                                            "within_campaign_held_out"):
-                problems.append("%s: post-fit reconstruction cannot be tier %r" % (lid, ev))
+            if l.get("reality_facing") is None:
+                problems.append("%s: ADJUDICATED but reality_facing is null" % lid)
+            if _has_placeholder(l):
+                problems.append("%s: ADJUDICATED but contains a placeholder value" % lid)
 
-    if strict:
+            ev, rel = l.get("evidence_strength"), l.get("relationship")
+            fit, evl = _fit_eval_ids(l)
+            overlap = fit & evl
+            if overlap and rel == "independent_external":
+                problems.append("%s: fit/eval datasets overlap (%s) but relationship is "
+                                "independent_external" % (lid, sorted(overlap)))
+            if overlap and rel == "within_campaign_held_out":
+                problems.append("%s: fit/eval datasets overlap (%s) but relationship is "
+                                "within_campaign_held_out (held-out means disjoint)"
+                                % (lid, sorted(overlap)))
+            if ev == "controlled_independent":
+                has_indep_eval = any(s.get("evidence_role") == "eval"
+                                     and s.get("independence") == "independent"
+                                     for s in (l.get("sources") or []))
+                if not has_indep_eval:
+                    problems.append("%s: controlled_independent but no independent evaluation "
+                                    "source" % lid)
+            if ev == "within_campaign_held_out":
+                if rel != "within_campaign_held_out" or not evl:
+                    problems.append("%s: within_campaign_held_out but no held-out evaluation "
+                                    "source / relationship" % lid)
+            if ev == "code_verification" and rel not in ("code_verification", "not_empirical"):
+                problems.append("%s: evidence_strength=code_verification used as empirical "
+                                "(relationship=%r)" % (lid, rel))
+            if ev == "source_curve_reproduction" and rel == "independent_external":
+                problems.append("%s: source_curve_reproduction may not be independent_external"
+                                % lid)
+            if rel == "post_fit_same_data" and ev in ("controlled_independent",
+                                                      "within_campaign_held_out"):
+                problems.append("%s: post_fit_same_data cannot carry tier %r" % (lid, ev))
+
+    # 4. scoped strict modes
+    if strict and scope == "paper3":
+        for l in links:
+            if l.get("claim_owner") != "paper3":
+                continue
+            if l.get("paper3_use") not in _ASSERTED_PAPER3_USES:
+                continue
+            lid = l.get("link_id")
+            if l.get("adjudication_status") != "ADJUDICATED":
+                problems.append("PAPER3 %s: asserted Paper-3 claim not adjudicated" % lid)
+                continue
+            if l.get("support_status") != "admissible":
+                problems.append("PAPER3 %s: asserted Paper-3 claim lacks admissible support (%r)"
+                                % (lid, l.get("support_status")))
+            if not l.get("caveat") or not l.get("claim_not_supported"):
+                problems.append("PAPER3 %s: asserted Paper-3 claim lacks caveat / "
+                                "claim_not_supported" % lid)
+            if not _provenance_resolved(l):
+                problems.append("PAPER3 %s: asserted Paper-3 claim has unresolved provenance" % lid)
+    if strict and scope == "all":
         n_draft = sum(1 for l in links if l.get("adjudication_status") == "NEEDS_ADJUDICATION")
         if n_draft:
-            problems.append("STRICT: %d link(s) still NEEDS_ADJUDICATION" % n_draft)
+            problems.append("STRICT(all): %d link(s) still NEEDS_ADJUDICATION" % n_draft)
     return problems
 
 
@@ -269,31 +369,40 @@ def _join(seq):
     return ";".join(seq) if seq else ""
 
 
+def _all_dataset_ids(link):
+    out = []
+    for s in (link.get("sources") or []):
+        out.extend(s.get("dataset_manifest_ids") or [])
+    return out
+
+
 def _matrix_csv(links, ctx):
     cols = ["link_id", "component", "stage", "gate", "card", "adjudication_status",
-            "evidence_strength", "component_evidence_strength", "independence",
-            "observable", "dataset_ids", "fit_datasets", "eval_datasets",
-            "claim", "claim_not_supported"]
+            "claim_owner", "paper3_use", "support_status", "reality_facing",
+            "evidence_strength", "component_evidence_strength", "relationship",
+            "source_cards", "dataset_ids", "fit_datasets", "eval_datasets",
+            "observable", "claim", "claim_not_supported"]
     out = ["# " + _BANNER]
-    import io
     buf = io.StringIO()
     w = csv.DictWriter(buf, fieldnames=cols, extrasaction="ignore", lineterminator="\n")
     w.writeheader()
     for l in _sorted_links(links):
-        roles = l.get("dataset_role") or {}
-        fit = [d for d in (l.get("dataset_ids") or []) if roles.get(d) in ("fit", "both")]
-        ev = [d for d in (l.get("dataset_ids") or []) if roles.get(d) in ("eval", "both")]
+        fit, evl = _fit_eval_ids(l)
+        src_cards = [s.get("source_card") for s in (l.get("sources") or [])
+                     if s.get("source_card")]
         w.writerow({
             "link_id": l["link_id"], "component": l["component"],
             "stage": ctx[l["component"]]["stage"], "gate": l["gate"],
             "card": l.get("card") or "", "adjudication_status": l["adjudication_status"],
+            "claim_owner": l.get("claim_owner") or "", "paper3_use": l.get("paper3_use") or "",
+            "support_status": l.get("support_status") or "",
+            "reality_facing": "" if l.get("reality_facing") is None else l["reality_facing"],
             "evidence_strength": l.get("evidence_strength") or "",
             "component_evidence_strength": l.get("component_evidence_strength") or "",
-            "independence": l.get("independence") or "",
+            "relationship": l.get("relationship") or "",
+            "source_cards": _join(src_cards), "dataset_ids": _join(_all_dataset_ids(l)),
+            "fit_datasets": _join(sorted(fit)), "eval_datasets": _join(sorted(evl)),
             "observable": (l.get("observable") or "").replace("\n", " "),
-            "dataset_ids": _join(l.get("dataset_ids") if l.get("dataset_ids") is not None else []),
-            "fit_datasets": _join(fit), "eval_datasets": _join(ev),
-            # csv.DictWriter quotes fields containing commas — keep the prose intact
             "claim": (l.get("claim") or "").replace("\n", " "),
             "claim_not_supported": (l.get("claim_not_supported") or "").replace("\n", " "),
         })
@@ -304,27 +413,25 @@ def _matrix_csv(links, ctx):
 def _matrix_md(links, ctx):
     adj = [l for l in _sorted_links(links) if l["adjudication_status"] == "ADJUDICATED"]
     draft = [l for l in _sorted_links(links) if l["adjudication_status"] == "NEEDS_ADJUDICATION"]
-    L = [_HTML_BANNER, "",
-         "# Paper 3 — per-claim evidence graph", "",
+    L = [_HTML_BANNER, "", "# Paper 3 — per-claim evidence graph (schema v2)", "",
          "One row per registry gate wiring (a gate may split into several claim links). "
-         "`evidence_strength` is the **per-gate adjudicated** tier; "
-         "`component_evidence_strength` is the component's own declared tier (context only, "
-         "never inherited as a verdict). `NEEDS_ADJUDICATION` rows are drafts — their tier is "
-         "deliberately blank until a human curates them.", "",
+         "`evidence_strength` is the **per-gate adjudicated** tier; `component_evidence_strength` "
+         "is the component's own declared tier (context only). `relationship` is the honest "
+         "fit/evaluation relationship. `NEEDS_ADJUDICATION` rows are drafts — their verdicts are "
+         "deliberately blank until curated.", "",
          "**%d links total — %d adjudicated, %d awaiting adjudication.**"
          % (len(links), len(adj), len(draft)), "",
          "## Adjudicated claims", "",
-         "| link | stage | gate | tier | independence | observable | claim |",
-         "|---|---|---|---|---|---|---|"]
+         "| link | owner | p3 use | support | tier | relationship | observable | claim |",
+         "|---|---|---|---|---|---|---|---|"]
     for l in adj:
-        L.append("| `%s` | %s | `%s` | %s | %s | %s | %s |" % (
-            l["link_id"], ctx[l["component"]]["stage"], l["gate"],
-            l.get("evidence_strength") or "—", l.get("independence") or "—",
-            (l.get("observable") or "—").replace("|", "\\|"),
+        L.append("| `%s` | %s | %s | %s | %s | %s | %s | %s |" % (
+            l["link_id"], l.get("claim_owner") or "—", l.get("paper3_use") or "—",
+            l.get("support_status") or "—", l.get("evidence_strength") or "—",
+            l.get("relationship") or "—", (l.get("observable") or "—").replace("|", "\\|"),
             (l.get("claim") or "—").replace("|", "\\|")))
     L += ["", "## Awaiting adjudication (drafts)", "",
-          "| link | stage | gate | component tier (context) |",
-          "|---|---|---|---|"]
+          "| link | stage | gate | component tier (context) |", "|---|---|---|---|"]
     for l in draft:
         L.append("| `%s` | %s | `%s` | %s |" % (
             l["link_id"], ctx[l["component"]]["stage"], l["gate"],
@@ -333,18 +440,54 @@ def _matrix_md(links, ctx):
     return "\n".join(L) + "\n"
 
 
+def _priority_matrix_md(links, ctx):
+    """The Paper-3 priority matrix: asserted Paper-3 claims, with full provenance columns."""
+    rows = [l for l in _sorted_links(links) if l.get("claim_owner") == "paper3"
+            and l.get("paper3_use") in _ASSERTED_PAPER3_USES]
+    L = [_HTML_BANNER, "", "# Paper 3 — priority evidence matrix (asserted claims)", "",
+         "The claims the `--strict --scope paper3` release gate is fail-closed on "
+         "(claim_owner=paper3, paper3_use in %s). Each exposes source cards, exact dataset ids, "
+         "dataset status, fit/eval role, independence, the caveat, and what is NOT supported."
+         % (", ".join(_ASSERTED_PAPER3_USES)), "",
+         "**%d asserted Paper-3 claim(s).**" % len(rows), ""]
+    for l in rows:
+        fit, evl = _fit_eval_ids(l)
+        L += ["## `%s`" % l["link_id"],
+              "- **claim:** %s" % (l.get("claim") or "—"),
+              "- **observable:** %s" % (l.get("observable") or "—"),
+              "- **tier / relationship:** %s / %s"
+              % (l.get("evidence_strength") or "—", l.get("relationship") or "—"),
+              "- **paper3_use / support:** %s / %s"
+              % (l.get("paper3_use"), l.get("support_status")),
+              "- **reality_facing:** %s" % l.get("reality_facing"),
+              "- **fit datasets:** %s" % (_join(sorted(fit)) or "(none)"),
+              "- **eval datasets:** %s" % (_join(sorted(evl)) or "(none)"),
+              "- **sources:**"]
+        for s in (l.get("sources") or []):
+            L.append("    - `%s` — %s — role=%s, independence=%s%s"
+                     % (s.get("source_card") or "(none)",
+                        s.get("dataset_status"),
+                        s.get("evidence_role"), s.get("independence"),
+                        (" — %s" % s["note"]) if s.get("note") else ""))
+        L += ["- **caveat:** %s" % (l.get("caveat") or "—"),
+              "- **claim NOT supported:** %s" % (l.get("claim_not_supported") or "—"), ""]
+    if not rows:
+        L.append("_No asserted Paper-3 claims yet._")
+        L.append("")
+    return "\n".join(L) + "\n"
+
+
 def _queue_md(links, ctx):
     draft = [l for l in _sorted_links(links) if l["adjudication_status"] == "NEEDS_ADJUDICATION"]
     by_comp = {}
     for l in draft:
         by_comp.setdefault(l["component"], []).append(l)
-    L = [_HTML_BANNER, "",
-         "# Paper 3 evidence-graph — adjudication queue", "",
-         "%d gate wiring(s) still need a curated per-claim adjudication. For each, fill "
-         "`claim, observable, source_cards, dataset_ids (+ fit/eval role), independence, "
-         "evidence_strength, caveat, claim_not_supported` in `EVIDENCE_LINKS.json` and flip "
-         "`adjudication_status` to `ADJUDICATED`. The component's declared tier is shown only as "
-         "a ceiling to sanity-check against — it is NOT the per-gate verdict." % len(draft), ""]
+    L = [_HTML_BANNER, "", "# Paper 3 evidence-graph — adjudication queue", "",
+         "%d gate wiring(s) still need a curated per-claim adjudication. For each, fill the v2 "
+         "fields in `EVIDENCE_LINKS.json` (claim, observable, claim_owner, paper3_use, "
+         "reality_facing, relationship, sources[], evidence_strength, caveat, "
+         "claim_not_supported, support_status) and flip `adjudication_status` to `ADJUDICATED`."
+         % len(draft), ""]
     for comp in sorted(by_comp):
         L.append("## `%s` — %s (component tier: %s)"
                  % (comp, ctx[comp]["stage"], ctx[comp]["component_evidence_strength"]))
@@ -358,11 +501,8 @@ def _queue_md(links, ctx):
 
 
 def _conflicts_md(links, ctx):
-    """G10-centred narrative conflicts report: per-gate conflict notes + the un-reconciled
-    published constants (CLAUDE.md rule 6), surfaced rather than silently merged."""
     noted = [l for l in _sorted_links(links) if l.get("conflict_note")]
-    L = [_HTML_BANNER, "",
-         "# Paper 3 evidence-graph — narrative conflicts report", "",
+    L = [_HTML_BANNER, "", "# Paper 3 evidence-graph — narrative conflicts report", "",
          "Disagreements the registry deliberately does NOT average away. Each is a surfaced "
          "config field / documented tension, not a merged constant.", "",
          "## Gate-level conflict notes", ""]
@@ -388,10 +528,36 @@ def _conflicts_md(links, ctx):
     return "\n".join(L) + "\n"
 
 
+def _summary_json(links, ctx):
+    def _count(key):
+        out = {}
+        for l in links:
+            out[str(l.get(key))] = out.get(str(l.get(key)), 0) + 1
+        return dict(sorted(out.items()))
+    asserted = [l for l in links if l.get("claim_owner") == "paper3"
+                and l.get("paper3_use") in _ASSERTED_PAPER3_USES]
+    payload = {
+        "schema_version": SCHEMA_VERSION, "GENERATED": _BANNER,
+        "n_links": len(links),
+        "n_adjudicated": sum(1 for l in links if l["adjudication_status"] == "ADJUDICATED"),
+        "n_needs_adjudication": sum(1 for l in links
+                                    if l["adjudication_status"] == "NEEDS_ADJUDICATION"),
+        "n_asserted_paper3_claims": len(asserted),
+        "n_asserted_paper3_admissible": sum(1 for l in asserted
+                                            if l.get("support_status") == "admissible"),
+        "by_claim_owner": _count("claim_owner"),
+        "by_paper3_use": _count("paper3_use"),
+        "by_support_status": _count("support_status"),
+        "by_evidence_strength": _count("evidence_strength"),
+        "by_relationship": _count("relationship"),
+        "paper3_scope_strict_clean": reconcile(links, strict=True, scope="paper3") == [],
+    }
+    payload["content_sha256"] = _sha(json.dumps(payload, sort_keys=True, ensure_ascii=False))
+    return json.dumps(payload, indent=2, sort_keys=True) + "\n"
+
+
 def _export_json(links, ctx):
-    payload = {"schema_version": SCHEMA_VERSION,
-               "GENERATED": _BANNER,
-               "n_links": len(links),
+    payload = {"schema_version": SCHEMA_VERSION, "GENERATED": _BANNER, "n_links": len(links),
                "n_adjudicated": sum(1 for l in links
                                     if l["adjudication_status"] == "ADJUDICATED"),
                "links": _sorted_links(links)}
@@ -407,6 +573,8 @@ def generate():
         "evidence_graph_matrix.csv": _matrix_csv(links, ctx),
         "evidence_graph_matrix.md": _matrix_md(links, ctx),
         "evidence_graph.json": _export_json(links, ctx),
+        "evidence_graph_summary.json": _summary_json(links, ctx),
+        "paper3_priority_evidence_matrix.md": _priority_matrix_md(links, ctx),
         "evidence_adjudication_queue.md": _queue_md(links, ctx),
         "evidence_conflicts.md": _conflicts_md(links, ctx),
     }
@@ -434,14 +602,19 @@ def main(argv=None):
     import sys
     argv = sys.argv[1:] if argv is None else argv
     if "--reconcile" in argv:
-        problems = reconcile(strict="--strict" in argv)
+        strict = "--strict" in argv
+        scope = "all"
+        if "--scope" in argv:
+            i = argv.index("--scope")
+            scope = argv[i + 1] if i + 1 < len(argv) else "all"
+        problems = reconcile(strict=strict, scope=scope)
+        tag = (" --strict --scope %s" % scope) if strict else ""
         if problems:
-            print("EVIDENCE GRAPH RECONCILE FAILED (%d):" % len(problems))
+            print("EVIDENCE GRAPH RECONCILE FAILED%s (%d):" % (tag, len(problems)))
             for p in problems:
                 print("  -", p)
             return 1
-        print("evidence graph reconciles with the live registry%s"
-              % (" (strict)" if "--strict" in argv else ""))
+        print("evidence graph reconciles with the live registry%s" % tag)
         return 0
     if "--bootstrap" in argv:
         print(json.dumps(bootstrap_missing(), indent=2))

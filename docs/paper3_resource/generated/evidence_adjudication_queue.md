@@ -2,7 +2,7 @@
 
 # Paper 3 evidence-graph — adjudication queue
 
-33 gate wiring(s) still need a curated per-claim adjudication. For each, fill `claim, observable, source_cards, dataset_ids (+ fit/eval role), independence, evidence_strength, caveat, claim_not_supported` in `EVIDENCE_LINKS.json` and flip `adjudication_status` to `ADJUDICATED`. The component's declared tier is shown only as a ceiling to sanity-check against — it is NOT the per-gate verdict.
+33 gate wiring(s) still need a curated per-claim adjudication. For each, fill the v2 fields in `EVIDENCE_LINKS.json` (claim, observable, claim_owner, paper3_use, reality_facing, relationship, sources[], evidence_strength, caveat, claim_not_supported, support_status) and flip `adjudication_status` to `ADJUDICATED`.
 
 ## `fasano2000_partI.fines_migration` — bed_dynamics (component tier: qualitative_capacity)
 - [ ] `gate_fasano_cor82_nonmonotone`

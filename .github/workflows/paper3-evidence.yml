@@ -1,0 +1,41 @@
+name: paper3-evidence
+# WP2.4 — SCOPED evidence-graph strict validation.
+#   * paper3-scope-strict runs on every PR/push as the Paper-3 RELEASE gate (fail-closed on the
+#     asserted Paper-3 claims only). It is intentionally NOT yet a required branch check — make
+#     it required once the priority adjudication (PR C) lands and it is green on main.
+#   * all-scope-strict is MANUAL (workflow_dispatch) only: it requires the WHOLE graph to be
+#     adjudicated and stays non-blocking until the full queue is reviewed.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  paper3-scope-strict:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]"
+      - name: Paper-3 release gate — asserted claims are honestly and coherently resolved
+        run: python -m puckworks.paper3.evidence_graph --reconcile --strict --scope paper3
+
+  all-scope-strict:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]"
+      - name: Full graph strict (manual — expected to fail while the queue is non-empty)
+        run: python -m puckworks.paper3.evidence_graph --reconcile --strict --scope all
