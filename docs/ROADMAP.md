@@ -510,14 +510,22 @@ manufacturer flow data.
 Input revised (1.7a): adjudicated Grudeva κ = 2.2e-15 m² sits inside her
 Kozeny-Carman band; the 10x sieve-resistance gap narrative weakens by one order.
 
-**G10 — Concentration-dependent liquid properties / coffee-liquor rheology.**
-Every flow-coupled model on file uses pure-water μ, ρ (foster2025_2,
-waszkiewicz2025, grudeva, moroney2016, cameron lineage), yet grudeva2026
-explicitly flags that viscosity rises with concentration and the early-shot
-liquid sits near saturation — exactly where her plateau prediction lives.
-Matters: a shared systematic bias across RC-2 and RC-3 early-shot gates.
-Targets: coffee-extract viscosity/density vs TDS and temperature measurements;
-food-process rheology literature.
+**G10 — Concentration-dependent liquid properties / coffee-liquor rheology.
+✅ CLOSED (negligible-at-shot-TDS, 2026-07-15).** Every flow-coupled model on
+file uses pure-water μ, ρ (foster2025_2, waszkiewicz2025, grudeva, moroney2016,
+cameron lineage), yet grudeva2026 explicitly flags that viscosity rises with
+concentration and the early-shot liquid sits near saturation. **Resolution:**
+Telis-Romero (2000/2001) full Table 1/2 digitized (51 measured cells; closures
+reproduce them at the authors' own fit quality), and `analysis.g10_viscosity_
+sensitivity` drives the measured μ(c,T) through cameron2020's in-pore liquor
+field — across the espresso envelope the liquor never approaches saturation
+(peaks ~90% X_w, μ ≤ 1.05× water), so the constant-water-μ Darcy error is
+≤~3% shot-integrated. The feared RC-2/RC-3 shared bias is NOT bulk viscosity;
+no runtime μ(c,T) hook is warranted (gates `gate_g10_viscosity_bulk_negligible`,
+`gate_g10_telisromero_full_table`). Standing caveats: composition bias
+(soluble-coffee extract ≠ espresso liquor) and dilute-end extrapolation.
+Only remaining (optional) upgrade: an independent espresso-TDS viscosity
+measurement, which would lift the composition caveat to independent strength.
 
 **G-lat — Lateral tube coupling / pressure equalization for evolving-κ
 channeling.** Surfaced by the N-tube κ(t) union (`harness.ntube_kappa_t_union`,

@@ -16,13 +16,14 @@ subfolder, must be **downloaded by Tim and dropped into `puckworks/data/`**.
 See memory `data-host-reachability`.
 
 Legend: 🔴 blocks a named gap · 🟡 pending a drop/reply · 🟢 optional upgrade
-(has a working fallback) · ✅ resolved.
+(has a working fallback) · ✅ resolved/closed.
 
 ---
 
 ## Tier 1 — hard-missing data that blocks a gap (no source on file)
 
-Four of five are acquisition/search projects, not quick drops.
+Four of five are acquisition/search projects, not quick drops. The fifth (G10)
+is now ✅ CLOSED via Tim's Telis-Romero card + Table 1/2 drop (2026-07-15).
 
 ### 🔴 G1 — coffee-bed water-retention curve θ(ψ) + relative permeability K_r
 - **Unblocks:** the Richards G1 unsaturated-flow / wetting model + P3
@@ -47,23 +48,28 @@ Four of five are acquisition/search projects, not quick drops.
   independent DE1 curve needs a TB bench pull or Decent request (new §5.8 line).
   True DE1 Q(P) is closed ESP32 firmware.
 
-### 🟡 G10 — coffee-liquor rheology
+### ✅ G10 — coffee-liquor rheology  (CLOSED negligible-at-shot-TDS, 2026-07-15)
 - **Unblocks:** the shared early-shot bias across RC-2/RC-3 gates (every
   flow-coupled model on file uses pure-water μ, ρ).
 - **Need:** coffee-extract **viscosity & density vs TDS and temperature**.
-- **Status (🟡):** Telis-Romero reference envelope on disk
-  (`g10_liquor_rheology/`, gated `gate_g10_reference_mu_above_water`).
-  **2026-07-12 — second measured source added:** khomyakov2020 MEASURED kinematic
-  viscosity grid (15–70 wt% × 20–80 °C, CC BY 3.0) →
-  `g10_liquor_rheology/khomyakov2020_kinematic_viscosity.csv`, loader
-  `khomyakov_kinematic_viscosity`, smoke-tested, card `khomyakov2020.md`. Its
-  density + dynamic-viscosity **regressions are QUARANTINED** (sign/typeset
-  conflicts; `*_FLAGGED/_QUARANTINED.csv`, not loaded). **Still 🟡:** khomyakov's
-  15 wt% floor is ABOVE espresso TDS (4–12 wt%) so espresso stays an
-  extrapolation; a production espresso μ(T,c) closure still needs a sub-15 wt%
-  measured source (Telis-Romero 2000/2001 full tables — Tim institutional drop;
-  author-clarification draft in `docs/sourcing/`) and/or a true espresso-TDS
-  measurement for independent strength.
+- **Status (✅ CLOSED, 2026-07-15):** Tim dropped the Telis-Romero **2001 μ(T,X_w)
+  and 2000 ρ/Cp/k/α cards** + the **digitized Table 1/Table 2** (51 measured cells).
+  Transcribed closures reproduce every cell at the authors' own fit quality
+  (`gate_g10_telisromero_full_table`), and `analysis.g10_viscosity_sensitivity`
+  drives the measured μ(c,T) through cameron2020's in-pore liquor field: across the
+  espresso envelope (grind 1.0–1.9, 2–9 bar, ristretto→lungo) the liquor never
+  approaches saturation (peaks ~90% X_w, μ ≤ 1.05× water, never the <76% X_w
+  power-law regime), so the constant-water-μ Darcy error is ≤~3% shot-integrated
+  → **no runtime μ(c,T) hook warranted** (`gate_g10_viscosity_bulk_negligible`).
+  The RC-2/RC-3 shared bias is NOT bulk viscosity. Evidence
+  `source_curve_reproduction` for the extract rheology.
+- **Prior sources retained:** the earlier reference envelope
+  (`gate_g10_reference_mu_above_water`) and the khomyakov2020 MEASURED kinematic
+  grid (15–70 wt% × 20–80 °C; density + dynamic-μ regressions QUARANTINED for
+  sign/typeset conflicts, not loaded).
+- **Remaining (🟢 optional upgrade only):** an independent espresso-TDS viscosity
+  measurement would lift the composition caveat (soluble-coffee extract ≠ espresso
+  liquor) + dilute-end extrapolation to independent strength. Not blocking.
 
 ### 🔴 G2 — transient-discharge validation data
 - **Unblocks:** G2 mass-conserving 5-state mobile-fines transport (fasano2000_partI
