@@ -1,6 +1,6 @@
 [project]
 name = "puckworks"
-version = "0.1.0"
+version = "0.2.0"
 description = "Component registry for espresso process models: contracts, provenance, validation gates"
 readme = "README.md"
 license = {file = "LICENSE"}
@@ -24,7 +24,7 @@ lb = ["taichi"]
 dev = ["pytest", "ruff"]
 figures = ["matplotlib"]
 harvest = ["requests"]
-release = ["build", "twine"]
+release = ["build", "twine", "pip-tools"]   # pip-tools: fully-resolved hashed lock (P0.5)
 viz = ["matplotlib", "pillow", "imageio"]
 viz3d = ["pyvista", "vtk"]
 

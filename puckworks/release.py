@@ -36,6 +36,47 @@ def _git(*args, root=REPO_ROOT):
         return None
 
 
+def _find(pattern, text):
+    import re
+    m = re.search(pattern, text, re.MULTILINE)
+    return m.group(1) if m else None
+
+
+def package_versions(root=REPO_ROOT):
+    """The version declared in each authoritative source; all MUST agree."""
+    root = Path(root)
+    return {
+        "pyproject": _find(r'^version = "([^"]+)"', (root / "pyproject.toml").read_text()),
+        "__version__": _find(r'^__version__ = "([^"]+)"',
+                             (root / "puckworks" / "__init__.py").read_text()),
+        "citation": _find(r'^version: "([^"]+)"', (root / "CITATION.cff").read_text()),
+    }
+
+
+def versions_agree(root=REPO_ROOT):
+    """(ok, {source: version}). ok is True iff all code-declared versions are identical."""
+    v = package_versions(root)
+    return (None not in v.values() and len(set(v.values())) == 1), v
+
+
+def release_readiness(tag, root=REPO_ROOT):
+    """Release-time cross-checks that need the tag + changelog. Returns a list of problems.
+    Verifies tag == package version and the CHANGELOG has a matching version heading."""
+    root = Path(root)
+    problems = []
+    ok, v = versions_agree(root)
+    if not ok:
+        problems.append("code versions disagree: %r" % v)
+    ver = v["pyproject"]
+    tag_ver = tag[1:] if tag and tag.startswith("v") else tag
+    if tag_ver and ver and tag_ver != ver:
+        problems.append("tag %r != package version %r" % (tag, ver))
+    changelog = (root / "CHANGELOG.md").read_text()
+    if ver and ("## %s" % ver) not in changelog:
+        problems.append("CHANGELOG.md has no '## %s' section" % ver)
+    return problems
+
+
 def build(outdir, root=REPO_ROOT):
     """Build wheel + sdist into `outdir` via `python -m build`. Returns the artifact paths."""
     out = Path(outdir)
