@@ -10,8 +10,9 @@ The N-tube κ(t) union (`harness.ntube_kappa_t_union`, ROADMAP G-lat) found that
 streamtube carries an extraction-driven porosity clock, flow-controlled channeling can
 concentrate into one effective channel — but that harness used a PROXY homogenizing
 regularizer, not a physical transverse-Darcy term. This card asks: is a *physical*
-lateral-coupling model well-defined, conservative, and DISTINGUISHABLE from the proxy over a
-measurable regime — enough to justify a Paper-4 implementation?
+lateral-coupling model well-defined, conservative, and DISTINGUISHABLE from the frozen uncoupled
+share-proxy completion — and, separately, is any such difference experimentally resolvable —
+enough to justify a Paper-4 implementation?
 
 ## 1. Physical operator (WP6.1)
 
@@ -48,74 +49,91 @@ two-path coupled), solved exactly as a steady linear network.
 - **Positivity / admissibility:** the network matrix is symmetric diagonally-dominant → a
   unique physical solution.
 
-## 3. Regime map (WP6.3) — PROVISIONAL pressure-equalization labels
+## 3. Pressure-equalization: the EXACT number Ξ (and the legacy nominal Λ)
 
-| Λ = G_lat/g_axial_reference | label | pressure behaviour |
-|---|---|---|
-| < ~0.05 | uncoupled | mid-node pressure gap barely moves |
-| ~0.05 – ~5 | **transitional** | lateral flux measurably redistributes mid-node pressure |
-| > ~5 | homogenized | mid-node pressures approach equality |
+The mid-node pressure gap has an exact closed form. With per-path axial conductance sums
+A₁ = g1_top + g1_bot, A₂ = g2_top + g2_bot, define
 
-**These 0.05 / 5 labels are PROVISIONAL pressure-equalization descriptors, NOT a proved
-proxy-discrimination theorem.** Where the physical model actually diverges from the share proxy
-is a SEPARATE question, answered per case by the discrimination harness (§3a) via the
-`pressure_gap_class` and `mathematically_distinguishable` columns — the two boundaries do not
-coincide for every case (e.g. the mirror case is already distinguishable at Λ = 0.01, well
-below the nominal transitional band). The go/no-go question reduces to: **does the espresso puck
-sit where physical ≠ proxy, and can any accessible experiment resolve it?** k_lat/k_axial and
-inter-path spacing w set Λ; both are presently unmeasured — the decisive unknown.
+    Ξ = G_lat · (1/A₁ + 1/A₂).
+
+Then for **any** nonzero uncoupled gap,
+
+    gap_remaining_fraction = gap / gap₀ = 1 / (1 + Ξ)   (derived analytically; verified numerically).
+
+Ξ — not the axial-conductance ratio Λ — is the physically exact equalization control. Under the
+5 % / 95 % gap-reduction cutoffs the pressure classes are exactly:
+
+| class | condition |
+|---|---|
+| `pressure_gap_unchanged` | Ξ < 0.0526315789… (= 1/0.95 − 1) |
+| `pressure_gap_transition` | 0.0526315789… ≤ Ξ < 19 |
+| `pressure_gap_homogenized` | Ξ ≥ 19 |
+
+**Λ = G_lat/g_axial_reference is retained only for continuity as a legacy nominal grouping.** Its
+0.05 and 5 boundaries are **neither validated nor universal** and are NOT the pressure classifier
+— do not describe 0.05–5 as a validated or universal transition band. k_lat/k_axial and
+inter-path spacing w set G_lat (hence Ξ); both are presently unmeasured.
 
 ## 3a. Matched physical-vs-proxy discrimination (WP6.6, this step)
 
 `puckworks/analysis/lateral_coupling_discrimination.py` compares, on six predeclared synthetic
-cases over a Λ grid, the PHYSICAL two-node network against a matched **frozen streamtube SHARE
-proxy** (`analysis.lateral_proxy.frozen_two_path_proxy`). The proxy is the exact ntube operator
-`w ← (1−α)·w + α` on unit-mean relative flows under an *uncoupled completion*: it homogenizes
-flow SHARES only, has NO pressure law, retains total flow (Q/Q0 = 1), and carries one share
-through a path's whole depth (inlet share = outlet share). Physical quantities a share proxy
-cannot produce (p1, p2, mid-depth pressure gap, q_lat, distinct inlet-vs-outlet share, physical
-effective conductance) are reported as **None / unavailable — never a fabricated 0**.
+cases, the PHYSICAL two-node network against a matched **frozen uncoupled share-proxy
+completion** (`analysis.lateral_proxy.frozen_two_path_proxy`) — the exact ntube operator
+`w ← (1−α)·w + α` on unit-mean relative flows under the uncoupled completion: it homogenizes flow
+SHARES only, has NO pressure law, holds total flow at the uncoupled value (Q/Q0 = 1), and carries
+one share through a path's whole depth. **This comparator is NOT the complete dynamic streamtube
+model** — the result is distinguishability from *this frozen uncoupled completion*, not from every
+possible use of the full model. Physical quantities a share proxy cannot produce (p1, p2, gap,
+q_lat, distinct inlet-vs-outlet share, physical effective conductance) are reported as
+**None / unavailable — never a fabricated 0**.
 
-- **α and Λ are INDEPENDENT parameters.** No α = f(Λ) mapping is invented or fitted; for each
-  physical Λ the harness searches the WHOLE α grid for any proxy that reproduces the observables.
-  A case is `mathematically_distinguishable` only when NO α reproduces both the outlet share and
-  Q/Q0 to tolerance.
-- **Headline (synthetic):** the `isoresistive_mirror` case (3,1,1,3) has EQUAL uncoupled outlet
-  shares (0.5/0.5) yet, once coupled, redistributes total flow and transfers share depthwise —
-  e.g. at Λ = 0.5 (transitional band): Q/Q0 = 1.053, outlet_share_1 = 0.45 vs the proxy's fixed
-  0.5, depthwise transfer = −0.10. The share-only proxy cannot produce ANY of these for the
-  mirror, so no α matches — distinguishable. `identical_paths` (3,1,3,1) is the negative control:
-  p1 = p2 and q_lat = 0 at every Λ, `pressure_gap_class = not_applicable`, and NOT
-  distinguishable. `scaled_mirror` (×10) reproduces the mirror's pressures/shares with 10× flows
-  (dimensional-scaling check); path-swap symmetry is asserted in the tests.
-- **Distinguishing observables (synthetic effect sizes only):** total-flow ratio Q/Q0
-  (equivalently the fixed-flow pressure-drop ratio), depthwise inlet-vs-outlet share transfer
-  (identically 0 for the proxy), and outlet-share shift for conductance-asymmetric cases.
+- **α and Λ/Ξ are INDEPENDENT parameters.** No α = f(Λ) mapping is invented. The outlet-share
+  match is solved **exactly in continuous α**: `s_proxy(α) = (1−α)·s₀ + α/2`, so
+  `α* = (s_physical − s₀)/(0.5 − s₀)` when s₀ ≠ 0.5. The 0.001 α grid is an **audit sweep only**;
+  a "no share match" is NEVER reported merely because the exact α falls between grid points. Both
+  `alpha_star_continuous` / `continuous_share_residual` and `alpha_star_grid` / `grid_share_residual`
+  are reported.
+- **s₀ = 0.5 (mirror structure):** for `isoresistive_mirror` (3,1,1,3) and `scaled_mirror` the
+  uncoupled proxy share s₀ is exactly 0.5, so `s_proxy(α) = 0.5` for **every** α — the proxy share
+  is α-invariant. Any coupled physical outlet share ≠ 0.5 (e.g. 0.45 at Ξ = 0.1875) is therefore
+  unreachable by the proxy at any α. That structural fact — not a grid artifact — is why the
+  mirror is a strong share-discrimination case.
+- **Joint test:** a case is `mathematically_distinguishable` only when **no continuous α**
+  reproduces BOTH the outlet share and Q/Q0. Because the frozen completion holds Q/Q0 = 1, any
+  case whose coupling raises total flow is distinguished on the flow signature even where its
+  share alone is α-matchable (e.g. `top_contrast_only`). `identical_paths` (3,1,3,1) is the
+  negative control: p1 = p2, q_lat = 0, `pressure_gap_class = not_applicable`, NOT distinguishable.
+- **Three distinct notions, never conflated:** (i) *representational non-equivalence* — the proxy
+  structurally has no pressure law (always true); (ii) *mathematical distinguishability* — the
+  joint-match test above; (iii) *practical experimental resolvability* — **OPEN**, requires an
+  instrument/noise model not supplied here and never inferred from a nonzero synthetic difference.
 - **Regenerate (deterministic, no timestamps):**
-  `python -m puckworks.analysis.lateral_coupling_discrimination --write` /
-  `--verify`. Outputs: `docs/analysis/generated/lateral_coupling_discrimination.{json,csv,md}`
-  (generated — do not hand-edit; the `--verify` mode is wired into the generated-artifacts CI).
+  `python -m puckworks.analysis.lateral_coupling_discrimination --write` / `--verify`. Outputs:
+  `docs/analysis/generated/lateral_coupling_discrimination.{json,csv,md}` (generated — do not
+  hand-edit; `--verify` is wired into the generated-artifacts CI).
 
 ## 4. Go / no-go criteria (WP6.6) — all must hold to start Paper 4
 
 - [x] complete physical-operator card (this file)
 - [x] conservation + both limiting cases demonstrated with executable tests
-- [x] a meaningful nondimensional transition (Λ regime map) exists
-- [x] physical vs proxy predictions shown **mathematically / synthetically DISTINGUISHABLE** on
-      predeclared synthetic cases: ≥1 nontrivial case (isoresistive_mirror) is not reproducible
-      by ANY α within the transitional interval, survives path-swap and ×10 scaling, and is not a
-      sign / conservation / boundary-condition artifact (residuals ~0, canonical sign asserted).
-      **This is synthetic distinguishability of the MODELS — it does NOT show Λ is measurable or
-      that espresso sits in any regime.**
-- [ ] at least one accessible experiment/dataset can estimate Λ (needs k_lat and w — **OPEN**)
+- [x] a meaningful nondimensional transition (the exact Ξ pressure-equalization group) exists
+- [x] **The minimal physical network is mathematically distinguishable from the frozen uncoupled
+      share-proxy completion on predeclared synthetic cases.** ≥1 nontrivial case
+      (isoresistive_mirror) is not reproducible by any continuous α, survives path-swap and ×10
+      scaling, and is not a sign / conservation / boundary-condition artifact (residuals ~0,
+      canonical sign asserted). This is **representational / mathematical** distinguishability of
+      the MODELS — it does NOT show Ξ/Λ is measurable, that any effect is experimentally
+      resolvable, or that espresso sits in any regime.
+- [ ] at least one accessible experiment/dataset can estimate Ξ (needs k_lat and w — **OPEN**)
 - [ ] the inference is not structurally non-identifiable (**OPEN**)
 
-**Current verdict:** the operator is well-posed and conservative with the right limits, a real
-transition band, and — now — demonstrated *mathematical* distinguishability from the share proxy
-on synthetic cases. The two remaining boxes are the blocking unknowns: whether Λ is measurable
-(k_lat, w) and whether the inference is identifiable. Both stay OPEN. Paper 4 is **NOT**
-authorized: no N-path network, no PDE, no extraction clocks, no experimental fitting, no
-α→Λ mapping, no registry promotion follows from this step.
+**Current verdict:** the operator is well-posed and conservative with the right limits, an exact
+Ξ pressure-equalization group, and — now — demonstrated *mathematical* distinguishability from the
+**frozen uncoupled share-proxy completion** on synthetic cases. The two remaining boxes are the
+blocking unknowns: whether Ξ is measurable (k_lat, w) and whether the inference is identifiable.
+Both stay OPEN. Paper 4 is **NOT** authorized: no N-path network, no PDE, no extraction clocks, no
+experimental fitting, no transverse-permeability estimate, no α→Λ mapping, no registry promotion
+follows from this step.
 
 ## Overlaps
 

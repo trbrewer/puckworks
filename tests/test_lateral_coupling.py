@@ -9,7 +9,9 @@ import pytest
 
 from puckworks.models.lateral_coupling import (
     model0_uncoupled, model1_two_path, strong_coupling_limit,
-    g_series, g_axial_reference, coupling_number, regime)
+    g_series, g_axial_reference, coupling_number, regime,
+    equalization_number, gap_remaining_fraction, equalization_regime,
+    XI_UNCHANGED, XI_HOMOGENIZED)
 from puckworks.analysis.lateral_proxy import (
     homogenize_relative_flow, frozen_two_path_proxy)
 
@@ -123,6 +125,39 @@ def test_regime_map_and_boundaries():
     assert regime(5.0 + 1e-9) == "homogenized"
 
 
+def test_equalization_number_closed_form_matches_solved_gap():
+    # gap/gap0 = 1/(1+Xi) exactly, for a case with a nonzero uncoupled gap (mirror is symmetric-
+    # gap; use the asymmetric _G whose uncoupled p1 != p2)
+    r0 = model1_two_path(_P, G_lat=0.0, **_G)
+    gap0 = abs(r0["p1"] - r0["p2"])
+    assert gap0 > 0
+    for Glat in (0.0, 0.3, 1.0, 4.0, 25.0):
+        r = model1_two_path(_P, G_lat=Glat, **_G)
+        gap = abs(r["p1"] - r["p2"])
+        Xi = equalization_number(Glat, **_G)
+        assert gap_remaining_fraction(Xi) == pytest.approx(gap / gap0, rel=1e-9, abs=1e-12)
+
+
+def test_equalization_regime_thresholds():
+    # Xi thresholds are the exact images of the 5%/95% gap-reduction cutoffs
+    assert equalization_regime(XI_UNCHANGED - 1e-9) == "pressure_gap_unchanged"
+    assert equalization_regime(XI_UNCHANGED) == "pressure_gap_transition"
+    assert equalization_regime(1.0) == "pressure_gap_transition"
+    assert equalization_regime(XI_HOMOGENIZED - 1e-9) == "pressure_gap_transition"
+    assert equalization_regime(XI_HOMOGENIZED) == "pressure_gap_homogenized"
+    assert gap_remaining_fraction(XI_UNCHANGED) == pytest.approx(0.95)
+    assert gap_remaining_fraction(XI_HOMOGENIZED) == pytest.approx(0.05)
+
+
+def test_strong_coupling_limit_validates_P_in():
+    with pytest.raises(ValueError):
+        strong_coupling_limit(-1.0, **_G)                    # negative P_in
+    with pytest.raises(ValueError):
+        strong_coupling_limit(float("inf"), **_G)            # non-finite P_in
+    with pytest.raises(ValueError):
+        equalization_number(-1.0, **_G)                      # negative G_lat
+
+
 def test_invalid_inputs_raise():
     with pytest.raises(ValueError):
         model1_two_path(-1.0, G_lat=1.0, **_G)                # negative P_in
@@ -171,6 +206,13 @@ def test_frozen_proxy_is_a_share_homogenizer_only():
     assert p["physical_observables_available"] is False
     for v in p["physical_observables"].values():
         assert v is None
+
+
+def test_frozen_proxy_validates_P_in():
+    with pytest.raises(ValueError):
+        frozen_two_path_proxy(-1.0, 3.0, 1.0, 1.0, 3.0, alpha=0.5)   # negative P_in
+    with pytest.raises(ValueError):
+        frozen_two_path_proxy(float("nan"), 3.0, 1.0, 1.0, 3.0, alpha=0.5)   # non-finite
 
 
 def test_frozen_proxy_alpha_endpoints():

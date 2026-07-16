@@ -1,5 +1,7 @@
-"""WP6 — the existing streamtube share-homogenization proxy, as a pure helper + a frozen-state
-two-path adapter for matched comparison against the physical lateral model.
+"""WP6 — the streamtube share-homogenization operator as a pure helper + the FROZEN UNCOUPLED
+SHARE-PROXY COMPLETION adapter for matched comparison against the physical lateral model. This
+comparator is the frozen uncoupled completion of the share operator, NOT the complete dynamic
+streamtube model.
 
 The proxy is a SHARE/relative-flow homogenizer: ``w <- (1-alpha)*w + alpha`` (alpha in [0,1]).
 It is NOT a pressure network — it has no p1/p2, no G_lat, no transverse pressure gradient, no
@@ -40,6 +42,10 @@ def frozen_two_path_proxy(P_in, g1_top, g1_bot, g2_top, g2_bot, alpha):
     so ``proxy_inlet_share == proxy_outlet_share`` (share transfer is identically 0). Physical
     observables a share proxy cannot produce are None with ``physical_observables_available``
     False — not zero."""
+    if not np.isfinite(P_in):
+        raise ValueError("P_in must be finite, got %r" % (P_in,))
+    if P_in < 0:
+        raise ValueError("P_in must be >= 0 under the P_out=0 gauge, got %r" % (P_in,))
     g_eq = np.array([g_series(g1_top, g1_bot), g_series(g2_top, g2_bot)], float)
     q0 = P_in * g_eq
     w = g_eq / g_eq.mean()                      # unit-mean relative flows
