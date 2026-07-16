@@ -6,8 +6,6 @@ stale/regenerate contract of the generated-artifact check.
 """
 import json
 
-import pytest
-
 from puckworks.analysis import lateral_coupling_discrimination as D
 
 
