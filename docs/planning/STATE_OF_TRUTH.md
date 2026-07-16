@@ -67,13 +67,16 @@ This revises the earlier "freeze automatically as publication-freeze" plan.
 | Q9 | **PR6 — Paper A submission RC** — code core DONE (`paper_a.build verify`: 27/27 claims match manuscript). **BLOCKED (PI)** on: venue choice, indexed literature-search reconciliation, author order/contributions/conflicts/funding, author approval, clean-tree release build | PI | human sign-off | Gate F |
 | Q10 | **PR7 — gate-level evidence graph** — WP4.4 validation-exceptions DONE (survive `python -O`). **BLOCKED (PI/scientific)** on WP4.1/4.5 EvidenceLink authoring: per-gate card+dataset+claim mapping needs adjudication (sourcing2026.*/brewer2026.* don't resolve by prefix; low-confidence tiers flagged earlier need review) | PI+code | claim/card/dataset adjudication | WP4 acceptance |
 | Q11 | ~~PR9 — CI lanes~~ **DONE**: pytest markers + conftest auto-mark + policy test; quick-pr selects `not slow...` (13s vs 127s); slow-science runs `-m slow` + artifacts; workflows hardened (permissions/timeouts/concurrency) | code | — | ✅ (pending commit) |
-| Q12 | PR10 — lateral-coupling feasibility CARD (source + governing eqs + regime map) — UNBLOCKED, docs+minimal model | code | — | WP6.1-6.3 |
-| Q13 | (opportunistic) sanctioned corpus export runbook | maintainer | Miha export/token (external) | WP7 pilot on real export |
+| Q12 | ~~PR10 — lateral-coupling feasibility CARD~~ **DONE**: card (operator/BCs/nondim/regime map/go-no-go) + minimal conservative Model 0/1 (`models/lateral_coupling.py`) + conservation/limit/regime tests | code | — | ✅ (pending commit) |
+| Q13 | PR8 — Paper 3 REAL archive (rename bundle→list-bundle; wheel+sdist; checksum; clean-room example) | code | partly environment-constrained (fresh-env install) | WP4.6 |
+| Q14 | (opportunistic) sanctioned corpus export runbook | maintainer | Miha export/token (external) | WP7 pilot on real export |
 
-**Truly-blocked boundary reached for the release-critical + evidence-adjudication
-track:** PR6 needs author sign-off; PR7's evidence-link authoring needs claim/card
-adjudication (Tim). PR9 (CI lanes) + PR10 (lateral-coupling card) remain mechanical
-and can proceed on request. Product lane (Doc 1) follows this convergence.
+**TRULY-BLOCKED boundary reached.** All cleanly-unblocked lane PRs are done
+(PR0–PR5, PR7-WP4.4, PR9, PR10). Remaining work is either **PI-blocked** — PR6 Paper A
+submission (author sign-off, literature search, venue) and PR7-full evidence-link
+authoring (claim/card/dataset adjudication) — or **environment/packaging-constrained**
+(PR8 clean-room wheel/sdist archive) — or **external** (WP7 sanctioned export). The
+product lane (Doc 1) is the next major phase once these clear.
 
 **WP1 acceptance now met:** a classification string can no longer create a
 publication snapshot (`freeze_snapshot` rejects the label; `build_bundle` requires a
