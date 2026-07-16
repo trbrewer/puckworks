@@ -8,9 +8,15 @@ observables via TDS→viscosity) · **Kind:** calibration
 **Status:** implemented (2026-07-15) — Eqs (10)/(12)/(13) closures + 2 anchors in
 `puckworks/data/g10_liquor_rheology/telisromero2001_{closures,anchors}.csv`,
 loader `data.telisromero_viscosity_pas(T_K, Xw_pct)`, gate
-`gate_g10_telisromero_closure` wired to `sourcing2026.g10_liquor_rheology`. Table-1/
-Table-2 per-cell digitization (sensitivity study, card §Implementation estimate ii)
-still OWED.
+`gate_g10_telisromero_closure` wired to `sourcing2026.g10_liquor_rheology`.
+**Table 1/Table 2 per-cell digitization DONE (2026-07-15, Tim drop)** →
+`telisromero2001_table{1_eta,2_Kn}.csv` (24 η + 27 K/n measured cells) + loaders
+`data.telisromero_{table1_eta,table2_Kn,eta_measured}`; gate
+`gate_g10_telisromero_full_table` shows the closures reproduce all 51 cells at the
+authors' own fit quality. **Sensitivity study (§Impl-est ii) DONE** →
+`analysis.g10_viscosity_sensitivity` + gate `gate_g10_viscosity_bulk_negligible`:
+G10 closes as negligible-at-shot-TDS (constant-water-μ Darcy error ≤~3% shot-integrated;
+liquor never reaches the power-law regime), NO runtime μ(c,T) hook warranted.
 
 ## Scope and mechanism
 Empirical constitutive correlations for the viscosity of aqueous coffee extract as a

@@ -369,20 +369,24 @@ register(Component(
     doi="10.1111/j.1745-4530.2001.tb00542.x",
     module="puckworks.data:telisromero_viscosity_pas",
     gates=[G.gate_g10_reference_mu_above_water, G.gate_g10_mu_bias_directional,
-           G.gate_g10_telisromero_closure, G.gate_g10_telisromero2000_thermal],
+           G.gate_g10_telisromero_closure, G.gate_g10_telisromero2000_thermal,
+           G.gate_g10_telisromero_full_table, G.gate_g10_viscosity_bulk_negligible],
     assumptions="Telis-Romero (2001) Eq (10)/(12)/(13) closures now TRANSCRIBED "
                 "(T in K, X_w in %w/w water); soluble-coffee extract, NOT espresso "
                 "liquor -> unquantified composition bias; espresso TDS sits at/below "
                 "the source's dilute end -> mu EXTRAPOLATED toward water; espresso "
                 "Newtonian (power-law domain only >36% solids)",
-    valid_range="source_curve_reproduction for the extract rheology (reproduces the "
-                "authors' Table-1 eta / Table-2 K anchors within stated fit error); "
-                "espresso application remains extrapolation/compatibility-strength",
-    notes="Bulk shot-TDS mu ~= 1.06x pure water (NEGLIGIBLE Darcy correction) -- "
-          "corrects the paywalled-snippet envelope's ~1.3-2x guess, which belongs to "
-          "concentrated early in-pore liquor (X_w~76, ~2-3x water), not bulk TDS. "
-          "Targets RC-2/RC-3 shared early-shot bias; do NOT attribute all of it to "
-          "bulk mu given this magnitude."))
+    valid_range="source_curve_reproduction for the extract rheology (closures reproduce the "
+                "FULL digitized Table-1 eta / Table-2 K grids within the authors' stated fit "
+                "error); espresso application remains extrapolation/compatibility-strength",
+    notes="G10 QUANTITATIVELY CLOSED as negligible-at-shot-TDS (card telisromero2001 "
+          "Impl-est ii): driving the measured eta(c,T) through cameron2020's in-pore liquor "
+          "field, the constant-water-mu Darcy error is <=~3% shot-integrated across the "
+          "espresso envelope (mu peaks <=1.05x water; liquor never reaches the <76% X_w "
+          "power-law regime) -> NO runtime mu(c,T) hook warranted "
+          "(analysis.g10_viscosity_sensitivity). Bulk shot-TDS mu ~= 1.06x water; the old "
+          "~1.3-2x envelope guess belongs to concentrated liquor that espresso does not "
+          "reach. Do NOT attribute RC-2/RC-3 early-shot bias to bulk mu."))
 
 
 # --- evidence_strength (schema v2, WP2) -----------------------------------

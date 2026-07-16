@@ -1384,3 +1384,53 @@ def gate_g10_telisromero2000_thermal():
                 normalization_guard_fires=guard_fires,
                 strength="post-fit reconstruction of source's dilute-industrial data "
                          "(espresso extrapolated; composition caveat; Eq-6 typo corrected)")
+
+
+def gate_g10_telisromero_full_table():
+    """The transcribed Eq (10)/(13) closures reproduce the FULL digitized Telis-Romero 2001
+    Table 1 (24 measured eta cells) and Table 2 (27 measured K cells) at essentially the
+    authors' own reported fit quality -- cross-validating BOTH the digitization (Tim's drop)
+    AND the independently-transcribed closure coefficients. Strength: source_curve_reproduction
+    (the source's own published measured table; NOT independent of the paper)."""
+    import math
+    from puckworks import data as d
+    R = 8.314
+    c10 = d.telisromero_rheology_closures()["eq10_newtonian"]
+    p10, E10, x10 = float(c10["pre_factor"]), float(c10["Ea_or_A"]), float(c10["Xw_exponent"])
+    e1 = [abs(p10 * math.exp(E10 / (R * float(r["T_K"]))) * float(r["Xw_pct"]) ** x10
+              - float(r["eta_Pas"])) / float(r["eta_Pas"]) * 100
+          for r in d.telisromero_table1_eta()]
+    c13 = d.telisromero_rheology_closures()["eq13_powerlaw_K"]
+    p13, E13, x13 = float(c13["pre_factor"]), float(c13["Ea_or_A"]), float(c13["Xw_exponent"])
+    e2 = [abs(p13 * math.exp(E13 / (R * float(r["T_K"]))) * float(r["Xw_pct"]) ** x13
+              - float(r["K_Pasn"])) / float(r["K_Pasn"]) * 100
+          for r in d.telisromero_table2_Kn()]
+    eta_mean, eta_max = sum(e1) / len(e1), max(e1)
+    K_mean, K_max = sum(e2) / len(e2), max(e2)
+    # thresholds = authors' stated errors + a margin for 2-3 sig-fig digitization round-off
+    passed = (eta_mean <= 3.5 and eta_max <= 10.5 and K_mean <= 8.0 and K_max <= 22.0)
+    return dict(passed=passed, n_eta_cells=len(e1), n_K_cells=len(e2),
+                eta_mean_err_pct=round(eta_mean, 2), eta_max_err_pct=round(eta_max, 2),
+                K_mean_err_pct=round(K_mean, 2), K_max_err_pct=round(K_max, 2),
+                authors_stated="eta 2.34/10.17; K 6.77/18.50 (mean/max %)",
+                strength="source_curve_reproduction (measured Table 1/2; espresso extrapolated)")
+
+
+def gate_g10_viscosity_bulk_negligible():
+    """QUANTITATIVE close of G10 (card telisromero2001 §Impl-est ii): driving the MEASURED
+    Telis-Romero eta(c,T) with cameron2020's own in-pore liquor field shows the concentration-
+    dependent-viscosity correction to Darcy flow is small at espresso conditions -- the in-pore
+    liquor never approaches saturation, so mu stays within a few % of water and the constant-
+    water-mu assumption in every registered flow model is SAFE. Confirms the card's
+    'negligible at shot TDS' and bounds the early transient. Fast single-shot bound."""
+    from puckworks.analysis import g10_viscosity_sensitivity as vs
+    r = vs.bulk_negligibility()
+    passed = (r["mu_peak_ratio_to_water"] < 1.15
+              and r["outlet_bound_peak_suppression_pct"] < 8.0
+              and r["depthavg_end_flow_factor"] > 0.95)
+    return dict(passed=passed, **r,
+                reading="peak in-pore mu <= 1.15x water (single most-concentrated cell); "
+                        "outlet-bound peak flow suppression < 8%; depth-averaged flow factor "
+                        "> 0.95 -> constant-water-mu safe; no runtime mu(c,T) hook warranted",
+                strength="verification (measured mu driven through a gated extraction model; "
+                         "composition + dilute-end caveats stand)")

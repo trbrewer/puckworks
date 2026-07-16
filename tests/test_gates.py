@@ -37,6 +37,37 @@ def test_g10_telisromero_closure():
     assert 1.0 < r["shot_tds_mu_ratio_to_water"] < 1.2
 
 
+def test_g10_telisromero_full_table():
+    from puckworks.validation.gates import gate_g10_telisromero_full_table
+    r = gate_g10_telisromero_full_table()
+    assert r["passed"], r
+    assert r["n_eta_cells"] == 24 and r["n_K_cells"] == 27
+    # closures reproduce the measured grid at ~the authors' own fit quality
+    assert r["eta_mean_err_pct"] <= 3.5
+    assert r["K_mean_err_pct"] <= 8.0
+
+
+def test_g10_viscosity_bulk_negligible():
+    from puckworks.validation.gates import gate_g10_viscosity_bulk_negligible
+    r = gate_g10_viscosity_bulk_negligible()
+    assert r["passed"], r
+    assert r["mu_peak_ratio_to_water"] < 1.15          # in-pore liquor never strongly viscous
+    assert r["depthavg_end_flow_factor"] > 0.95        # constant-water-mu safe
+
+
+def test_g10_viscosity_sensitivity_verdict():
+    from puckworks.analysis import g10_viscosity_sensitivity as vs
+    r = vs.run_sensitivity(n_snap=4)
+    # G10 closes as negligible across the espresso envelope
+    assert r["any_powerlaw_regime"] is False
+    assert r["worst_shot_integrated_deficit_pct"] < 5.0
+    assert r["worst_mu_ratio_to_water"] < 1.15
+    # dilute-water fix: mid/late dilute liquor is ~water, not the 1.07x box edge
+    from puckworks import data as d
+    muw = 3.15e-4
+    assert d.telisromero_eta_measured(363.0, 90.0) / muw < 1.10   # box edge ~1.07x
+
+
 def test_g10_telisromero2000_thermal():
     from puckworks.validation.gates import gate_g10_telisromero2000_thermal
     r = gate_g10_telisromero2000_thermal()

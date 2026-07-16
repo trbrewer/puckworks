@@ -704,6 +704,46 @@ def telisromero_viscosity_pas(T_K, Xw_pct):
             * Xw_pct ** float(c["Xw_exponent"]))
 
 
+def telisromero_table1_eta():
+    """Telis-Romero 2001 Table 1 (Newtonian domain) MEASURED viscosity, long format:
+    eta [Pa*s] at 4 water fractions (76-90 %w/w) x 6 temperatures (295-365 K). 24 cells.
+    Digitized by Tim from the paywalled paper (source md in data/telisromero2001/).
+    The transcribed Eq (10) closure reproduces these within the authors' stated ~2.34%
+    mean error (gate_g10_telisromero_full_table)."""
+    return _rows(G10R / "telisromero2001_table1_eta.csv")
+
+
+def telisromero_table2_Kn():
+    """Telis-Romero 2001 Table 2 (power-law domain) MEASURED consistency index K [Pa*s^n]
+    and behavior index n at 3 water fractions (49-64 %w/w) x 9 temperatures (274-353 K).
+    27 cells. Concentrated / first-drip regime (>36% solids). n = 0.87-0.97 (near-Newtonian)."""
+    return _rows(G10R / "telisromero2001_table2_Kn.csv")
+
+
+def telisromero_eta_measured(T_K, Xw_pct):
+    """Bilinear interpolation of the MEASURED Table-1 eta(Xw, T) grid [Pa*s]. T in KELVIN,
+    Xw in PERCENT water. Clamps to the measured box (Xw 76-90 %, T 295-365 K) -- callers
+    handle out-of-box extrapolation explicitly (espresso is MORE dilute than 90% Xw, i.e.
+    an extrapolation toward pure water; the concentrated <76% regime is Table 2). Prefer
+    this over the Eq-10 closure when you want measured data rather than the fit."""
+    rows = telisromero_table1_eta()
+    xs = sorted({float(r["Xw_pct"]) for r in rows})
+    ts = sorted({float(r["T_K"]) for r in rows})
+    grid = {(float(r["Xw_pct"]), float(r["T_K"])): float(r["eta_Pas"]) for r in rows}
+    x = min(max(Xw_pct, xs[0]), xs[-1])
+    t = min(max(T_K, ts[0]), ts[-1])
+    x0 = max([v for v in xs if v <= x], default=xs[0])
+    x1 = min([v for v in xs if v >= x], default=xs[-1])
+    t0 = max([v for v in ts if v <= t], default=ts[0])
+    t1 = min([v for v in ts if v >= t], default=ts[-1])
+    fx = 0.0 if x1 == x0 else (x - x0) / (x1 - x0)
+    ft = 0.0 if t1 == t0 else (t - t0) / (t1 - t0)
+    e00, e01 = grid[(x0, t0)], grid[(x0, t1)]
+    e10, e11 = grid[(x1, t0)], grid[(x1, t1)]
+    return ((1 - fx) * (1 - ft) * e00 + (1 - fx) * ft * e01
+            + fx * (1 - ft) * e10 + fx * ft * e11)
+
+
 def telisromero_thermal_closures():
     """Telis-Romero 2000 thermophysical closures (rho/cp/k/alpha) transcribed from
     docs/cards/telisromero2000.md. Keyed by equation. Companion to the 2001 rheology
