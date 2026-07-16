@@ -28,6 +28,9 @@ jobs:
         run: pytest -q -m slow --durations=0 --junitxml=slow-report.xml
       - name: offline full-suite backstop (excludes live/gpu/external_data)
         run: pytest -q -m "not live and not gpu and not external_data"
+      - name: typed gate suite report (every gate runs; complete report)
+        if: always()
+        run: python -m puckworks.gate_runner --report=gate-report.json
       - name: pip environment (provenance)
         if: always()
         run: pip freeze > pip-freeze.txt
@@ -37,4 +40,5 @@ jobs:
           name: slow-science-evidence
           path: |
             slow-report.xml
+            gate-report.json
             pip-freeze.txt
