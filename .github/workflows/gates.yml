@@ -18,6 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     strategy:
+      fail-fast: false          # R0: one Python version must not cancel/hide the other
       matrix:
         python-version: ["3.10", "3.12"]
     steps:
@@ -26,5 +27,21 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - run: pip install -e ".[dev]"
+      - name: environment diagnostics
+        run: |
+          python -VV
+          python -m pip --version
+          python -m pip freeze
+          python -m pytest --version
+          echo "SHA=$GITHUB_SHA  PYTHONHASHSEED=${PYTHONHASHSEED:-unset}"
       - name: quick lane (offline, deterministic; excludes slow/live/gpu/external_data)
-        run: pytest -q -m "not slow and not live and not gpu and not external_data"
+        run: >
+          pytest -q -m "not slow and not live and not gpu and not external_data"
+          --junitxml=quick-report-${{ matrix.python-version }}.xml --durations=15
+      - name: upload diagnostics (even on failure)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: quick-pr-report-${{ matrix.python-version }}
+          path: quick-report-${{ matrix.python-version }}.xml
+          if-no-files-found: ignore

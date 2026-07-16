@@ -23,11 +23,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install -e ".[dev]"
+      - run: pip install -e ".[dev,figures]"    # figures extra so figure-render tests run here
       - name: slow-marked science tests (with durations + JUnit artifact)
         run: pytest -q -m slow --durations=0 --junitxml=slow-report.xml
-      - name: full-suite backstop
-        run: pytest -q
+      - name: offline full-suite backstop (excludes live/gpu/external_data)
+        run: pytest -q -m "not live and not gpu and not external_data"
       - name: pip environment (provenance)
         if: always()
         run: pip freeze > pip-freeze.txt

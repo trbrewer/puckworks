@@ -1,26 +1,49 @@
 name: live-contract
-# Scheduled Visualizer API schema canary (WP3.1 live-contract lane). Schema-shape only:
-# NO corpus retention, explicit rate cap + privacy filter. Dispatch/schedule ONLY — never PRs.
+# Scheduled Visualizer API schema canary (WP5 live lane). Schema-shape only: NO corpus
+# retention, explicit rate cap + privacy filter. Dispatch/schedule ONLY — never on PRs.
 # The canary fetches 1 list page + 1 shot detail, asserts the schema shape, and retains
-# NOTHING. Guarded by the RUN_LIVE_CANARY secret so it never runs unintentionally.
+# NOTHING. Disabled by default and gated by the RUN_LIVE_CANARY repository VARIABLE (the
+# `secrets` context is not valid in a job-level `if:` — R1); credentials, if any, are read
+# only inside the guarded step.
 on:
   workflow_dispatch:
+    inputs:
+      run_live:
+        description: "Actually hit the live API (else the job runs but skips the network step)"
+        type: boolean
+        default: false
   schedule:
     - cron: "0 7 * * 1"
 
 permissions:
   contents: read
 
+concurrency:
+  group: live-contract
+  cancel-in-progress: false
+
 jobs:
   canary:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    if: ${{ secrets.RUN_LIVE_CANARY == 'true' }}
     steps:
+      - name: resolve enablement
+        id: gate
+        run: |
+          if [ "${{ github.event.inputs.run_live }}" = "true" ] || [ "${{ vars.RUN_LIVE_CANARY }}" = "true" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "Live canary intentionally disabled (set repo variable RUN_LIVE_CANARY=true or dispatch with run_live=true)." >> "$GITHUB_STEP_SUMMARY"
+          fi
       - uses: actions/checkout@v4
+        if: steps.gate.outputs.enabled == 'true'
       - uses: actions/setup-python@v5
+        if: steps.gate.outputs.enabled == 'true'
         with:
           python-version: "3.12"
       - run: pip install -e ".[harvest]"
+        if: steps.gate.outputs.enabled == 'true'
       - name: Visualizer API schema canary (1 list + 1 detail, NO retention)
+        if: steps.gate.outputs.enabled == 'true'
         run: python -m puckworks.lib.visualizer_canary

@@ -3,8 +3,21 @@
 Canonical status queue (WP0.2). Supersedes stale backlog checkboxes where they
 conflict with code/tests/manuscripts. Last verified commit: **19919c4** (2026-07-16).
 
-State vocabulary: **implemented** (code+tests exist) · **validated** (scientifically
-checked/gated) · **release-ready** (clean-build/archive verified) · **submitted**.
+State vocabulary: **proposed** · **implemented** (code+tests exist) · **CI-verified**
+(passes required CI at its committed SHA) · **validated** (scientifically checked/gated) ·
+**release-ready** (clean-build/archive verified) · **submitted**. A bare "DONE" is banned —
+"implemented locally" is NOT "CI-verified".
+
+> **⚠️ CI REALITY (2026-07-16, remediation R0/R1).** `quick-pr` has been **RED on main**
+> since ~PR7 (`79bd091`) and `live-contract` fails at parse (0 s). Root cause (from the actual
+> GitHub Actions log, not local runs): `tests/test_figure_exports.py` needs matplotlib, but
+> the quick lane installs only `.[dev]` — the tests passed on my matplotlib-having machine and
+> FAILED on CI's 3.10/3.12. My earlier "all green / 265 passed" claims were **local-only** and
+> are retracted. Fix on branch `fix/r0-r1-red-ci` (figure tests `importorskip` matplotlib;
+> live-canary uses `vars` not job-level `secrets`; `fail-fast: false` + CI diagnostics). The
+> PRx commits below were implemented + locally-tested but **only `generated-artifacts` was
+> ever green on CI** — treat every "PRx committed" as *implemented*, not *CI-verified*, until
+> the red is cleared and re-checked.
 
 ---
 
