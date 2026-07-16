@@ -59,6 +59,16 @@ include = ["puckworks*"]
 puckworks = ["data/*.csv", "data/*.json"]
 "puckworks.data" = ["*.csv", "*.json", "*.md", "**/*.csv", "**/*.json", "**/*.md"]
 
+[tool.setuptools.exclude-package-data]
+# NEVER ship the private/raw visualizer corpus (P1.4 / privacy). The broad **/*.csv include above
+# would otherwise sweep it in. Keep only the PROVENANCE.md documentation under visualizer/.
+"puckworks.data" = [
+    "visualizer/raw/*", "visualizer/raw/**/*",
+    "visualizer/normalized_v3/*", "visualizer/normalized_v3/**/*",
+    "visualizer/crawl_*/*", "visualizer/crawl_*/**/*",
+    "visualizer/aggregate_stats.csv", "visualizer/*.log",
+]
+
 [tool.mypy]
 # P1.3 quality ratchet, Stage 1: type-check the core public/release/control modules only.
 # Lenient (no strict, no disallow-untyped) — the scientific numerical internals join later stages.
