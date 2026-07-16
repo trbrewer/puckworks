@@ -198,6 +198,68 @@
     },
     {
       "adjudication_status": "ADJUDICATED",
+      "card": null,
+      "caveat": "Checks only generator admissibility (target porosity, resolution, heterogeneity statistics), not that the generated microstructure matches a real coffee bed; fines are sub-voxel (columnar-field proxy); boulder radius is Cameron's table constant.",
+      "claim": "The overlapping-sphere pack generator hits its target solid fraction (0.55 -> 0.551), produces an admissible boolean pack at resolution (grain radius >= 10 voxels), and its columnar heterogeneity field is zero-mean / unit-std.",
+      "claim_id": "brewer2026.pack_generator::gate_pack_generator_admissible",
+      "claim_not_supported": "It does not validate the pack against measured coffee microstructure (CT/tomography) or permeability; it is a generator self-consistency / admissibility check.",
+      "claim_owner": "paper3",
+      "component": "brewer2026.pack_generator",
+      "component_evidence_strength": "qualitative_capacity",
+      "conflict_note": null,
+      "evidence_strength": "qualitative_capacity",
+      "gate": "gate_pack_generator_admissible",
+      "link_id": "brewer2026.pack_generator::gate_pack_generator_admissible",
+      "observable": "Generated solid fraction vs target, grain radius in voxels, and heterogeneity-field mean/std.",
+      "paper3_use": "method_demonstration",
+      "reality_facing": false,
+      "relationship": "not_empirical",
+      "sources": [
+        {
+          "dataset_manifest_ids": [],
+          "dataset_status": "not_applicable_code",
+          "evidence_role": "reference",
+          "independence": "not_applicable",
+          "note": "code-internal / generator admissibility check; no dataset, no card",
+          "source_card": null
+        }
+      ],
+      "support_status": "admissible"
+    },
+    {
+      "adjudication_status": "ADJUDICATED",
+      "card": null,
+      "caveat": "Only 3 in-campaign points (leave-one-out holds out 1 of 3); the power-law sigma(GS) closure form is chosen; calibrated at dial 1.1-1.5 and NOT externally validated; the deviations are transcribed from Cameron Fig 5.",
+      "claim": "The sigma(GS) fines closure, fit on two of Cameron's three Fig-5 grinds, predicts the held-out grind's relative EY deviation to <2 pp (leave-one-out over GS 1.1/1.3/1.5; observed max held-out error ~1.1 pp).",
+      "claim_id": "brewer2026.streamtube::gate_streamtube_heldout",
+      "claim_not_supported": "It does not externally validate the streamtube model nor extrapolate beyond dial 1.1-1.5; the held-out fold is 1 of only 3 same-campaign points.",
+      "claim_owner": "paper3",
+      "component": "brewer2026.streamtube",
+      "component_evidence_strength": "within_campaign_held_out",
+      "conflict_note": null,
+      "evidence_strength": "within_campaign_held_out",
+      "gate": "gate_streamtube_heldout",
+      "link_id": "brewer2026.streamtube::gate_streamtube_heldout",
+      "observable": "Held-out relative EY deviation (measured yield below the homogeneous-flow model) at the held-out grind.",
+      "paper3_use": "method_demonstration",
+      "reality_facing": true,
+      "relationship": "within_campaign_held_out",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "cameron2020/fig5_grind_deviation"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "eval",
+          "independence": "held_out_same_campaign",
+          "note": null,
+          "source_card": "cameron2020"
+        }
+      ],
+      "support_status": "admissible"
+    },
+    {
+      "adjudication_status": "ADJUDICATED",
       "card": "cameron2020",
       "caveat": "Loads NO MANIFEST dataset \u2014 it runs a self-contained simulate_shot and builds the ceiling from model-internal constants (R0, bed_depth, C_S0, phi_s), so the ceiling is self-referential.",
       "claim": "The cameron2020 BDF two-population solver conserves solute mass (cup-mass EY agrees with solid-depletion EY to within 0.5 pp) and the predicted EY stays strictly below the model's own per-bed soluble-inventory ceiling.",

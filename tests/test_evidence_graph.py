@@ -33,6 +33,30 @@ def test_no_drafts_remain():
     assert all(l["adjudication_status"] == "ADJUDICATED" for l in EG.load_links())
 
 
+def test_zero_gate_components_are_acknowledged():
+    # every registered component with no gate must be an acknowledged exception (reconcile clean)
+    assert not any(p.startswith("ZERO_GATE") for p in EG.reconcile())
+    import json
+    z = json.loads(EG.generate()["evidence_graph_summary.json"])["zero_gate_components"]
+    assert z["unacknowledged"] == []
+    assert "brewer2026.lb_taichi" in z["acknowledged"]        # the one legitimate exception
+
+
+def test_zero_gate_check_fires_on_unacknowledged(monkeypatch):
+    # drop the lb_taichi exception -> it becomes an unacknowledged zero-gate component -> flagged
+    monkeypatch.setattr(EG, "ZERO_GATE_EXCEPTIONS", {})
+    problems = EG.reconcile()
+    assert any(p.startswith("ZERO_GATE brewer2026.lb_taichi") for p in problems)
+
+
+def test_stale_zero_gate_exception_is_flagged(monkeypatch):
+    # a component that HAS a gate must not sit in the exception list (stale entry)
+    monkeypatch.setattr(EG, "ZERO_GATE_EXCEPTIONS",
+                        {"brewer2026.streamtube": "stale — it now has a gate"})
+    problems = EG.reconcile()
+    assert any("listed as a zero-gate exception but now HAS a gate" in p for p in problems)
+
+
 def test_every_registry_wiring_is_covered_and_no_orphans():
     links = EG.load_links()
     wirings, _ = EG.registry_gate_wirings()

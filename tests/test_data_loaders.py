@@ -19,6 +19,13 @@ def test_waszkiewicz_traces_11_pressures():
     assert "basket_pressure__bar" in t["columns"]
 
 
+def test_cameron_fig5_grind_deviation():
+    rows = pwdata.cameron2020_fig5_grind_deviation()
+    assert [r["gs"] for r in rows] == [1.1, 1.3, 1.5]         # the three Fig-5 grinds
+    assert [r["rel_deviation"] for r in rows] == [0.131, 0.061, 0.026]
+    assert all(0 < r["rel_deviation"] < 1 for r in rows)      # fractions, not percents
+
+
 def test_waszkiewicz_static_calibration_matches_card():
     c = pwdata.waszkiewicz_static_calibration()
     # card: (Q_c, P_c) = (1.90 g/s, 12 bar)

@@ -84,6 +84,16 @@ _REQUIRED_WHEN_ADJUDICATED = ("claim", "observable", "caveat", "claim_not_suppor
                               "evidence_strength", "relationship", "claim_owner", "paper3_use",
                               "support_status")
 
+# Components that legitimately carry NO quick gate, with the recorded reason. A registered
+# component with zero gates must appear here (else reconcile fails) so a new zero-gate over-claim
+# cannot slip in unnoticed. This is an ACKNOWLEDGED exception, not a silent gap.
+ZERO_GATE_EXCEPTIONS = {
+    "brewer2026.lb_taichi":
+        "code_verification evidence is a 0.003% cross-check to lb_reference that runs in the "
+        "notebook, not CI (Taichi is an optional dependency; code must import without it). "
+        "Physics anchor: lb_reference.gate_lb_channel.",
+}
+
 # Known un-reconciled published constants (CLAUDE.md rule 6 — surfaced, never silently merged).
 CONSTANT_CONFLICTS = (
     {"constant": "c_sat (saturation concentration, kg/m^3)",
@@ -362,6 +372,21 @@ def reconcile(links=None, strict=False, scope="all"):
         if probe:
             problems.append(probe.replace("ROLLUP:", "ROLLUP %s:" % comp, 1))
 
+    # 3c. every registered component with ZERO gates must be an ACKNOWLEDGED exception (with a
+    # recorded reason). Prevents a new zero-gate over-claim from slipping in unnoticed.
+    n_wired = {}
+    for c, g in wirings:
+        n_wired[c] = n_wired.get(c, 0) + 1
+    for comp in ctx:
+        if n_wired.get(comp, 0) == 0 and comp not in ZERO_GATE_EXCEPTIONS:
+            problems.append("ZERO_GATE %s: component has no gate and is not an acknowledged "
+                            "exception (add a gate or record it in ZERO_GATE_EXCEPTIONS with a "
+                            "reason)" % comp)
+    for comp in ZERO_GATE_EXCEPTIONS:
+        if n_wired.get(comp, 0) > 0:
+            problems.append("ZERO_GATE %s: listed as a zero-gate exception but now HAS a gate — "
+                            "remove it from ZERO_GATE_EXCEPTIONS" % comp)
+
     # 4. scoped strict modes
     if strict and scope == "paper3":
         for l in links:
@@ -568,6 +593,11 @@ def _summary_json(links, ctx):
         return dict(sorted(out.items()))
     asserted = [l for l in links if l.get("claim_owner") == "paper3"
                 and l.get("paper3_use") in _ASSERTED_PAPER3_USES]
+    wirings, _ = registry_gate_wirings()
+    n_wired = {}
+    for c, g in wirings:
+        n_wired[c] = n_wired.get(c, 0) + 1
+    zero_gate = sorted(c for c in ctx if n_wired.get(c, 0) == 0)
     payload = {
         "schema_version": SCHEMA_VERSION, "GENERATED": _BANNER,
         "n_links": len(links),
@@ -582,6 +612,11 @@ def _summary_json(links, ctx):
         "by_support_status": _count("support_status"),
         "by_evidence_strength": _count("evidence_strength"),
         "by_relationship": _count("relationship"),
+        "zero_gate_components": {
+            "acknowledged": {c: ZERO_GATE_EXCEPTIONS[c] for c in zero_gate
+                             if c in ZERO_GATE_EXCEPTIONS},
+            "unacknowledged": [c for c in zero_gate if c not in ZERO_GATE_EXCEPTIONS],
+        },
         "paper3_scope_strict_clean": reconcile(links, strict=True, scope="paper3") == [],
     }
     payload["content_sha256"] = _sha(json.dumps(payload, sort_keys=True, ensure_ascii=False))

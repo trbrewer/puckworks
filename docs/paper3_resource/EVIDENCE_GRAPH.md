@@ -70,11 +70,17 @@ one of its gates** — concretely, it may not be *stronger* than its strongest a
 tier, ranked by the registry's own descending `EVIDENCE_STRENGTHS` order. A weaker/coarser
 component summary (e.g. `qualitative_capacity` over gates that each do `source_curve_reproduction`)
 is **allowed** — the rule only fires on an over-claim. It is enforced only for components whose
-gates are **all adjudicated** (a still-draft gate could justify a stronger tier), and skipped for
-components with **no gates** (a separate, known "declared tier not gate-backed" gap:
-`brewer2026.streamtube`, `brewer2026.lb_taichi`, `brewer2026.pack_generator`). Gate-level evidence
-is authoritative; the component tier is a roll-up of it. Changing a component tier to satisfy this
-rule is a registry change and needs a ROADMAP §7.1 entry.
+gates are **all adjudicated** (a still-draft gate could justify a stronger tier). Gate-level
+evidence is authoritative; the component tier is a roll-up of it. Changing a component tier to
+satisfy this rule is a registry change and needs a ROADMAP §7.1 entry.
+
+**Zero-gate components.** A registered component with **no gate** can't be roll-up-checked, so
+`reconcile()` hard-fails unless it is listed in `ZERO_GATE_EXCEPTIONS` with a recorded reason (and,
+conversely, a component that *gains* a gate must be removed from that list). This prevents a new
+zero-gate over-claim from slipping in unnoticed. The only current exception is
+`brewer2026.lb_taichi` (its `code_verification` cross-check to `lb_reference` runs in the notebook,
+not CI, because Taichi is an optional dependency). `evidence_graph_summary.json` reports the
+`acknowledged` / `unacknowledged` split.
 
 ## Strict modes
 
@@ -125,9 +131,10 @@ Global strict (`--scope all`) is deliberately **not** a required branch check.
 
 ## Status (v2 landing)
 
-49 links (48 wirings + the `gate_kappa_t_degeneracy` split). **All 49 adjudicated, 0 awaiting.**
-Both `--strict --scope paper3` (20 asserted claims, all admissible) and `--strict --scope all` are
-**green** — either may now be promoted to a required release check. Relationship distribution is
+51 links (50 wirings + the `gate_kappa_t_degeneracy` split). **All 51 adjudicated, 0 awaiting.**
+(The two newest wirings, `gate_streamtube_heldout` and `gate_pack_generator_admissible`, closed the
+last two zero-gate components.) Both `--strict --scope paper3` (22 asserted claims, all admissible)
+and `--strict --scope all` are **green** — either may now be promoted to a required release check. Relationship distribution is
 honestly spread (code_verification 17, post_fit_same_data 16, same_campaign_not_held_out 8,
 not_empirical 6, within_campaign_held_out 1, independent_external 1) — the two strong-relationship
 labels are used sparingly. Semantic corrections applied in the v2 landing:

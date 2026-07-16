@@ -424,6 +424,18 @@ def mo2023_psd():
     return _typed_rows(MO2023 / "table1_laser_diffraction.csv")
 
 
+# --- cameron2020 (Matter 2, 2020), Fig 5 grind-deviation calibration ---------
+CAMERON = DATA_DIR / "cameron2020"
+
+
+def cameron2020_fig5_grind_deviation():
+    """Fig 5: the relative deviation of MEASURED extraction yield below the
+    homogeneous-flow model at three grind settings (GS 1.1/1.3/1.5 ->
+    13.1/6.1/2.6%). The within-campaign held-out target for the streamtube
+    sigma(GS) fines closure (gate_streamtube_heldout, leave-one-out)."""
+    return _typed_rows(CAMERON / "fig5_grind_deviation.csv")
+
+
 # --- egidi2024 (ROADMAP 0.3), RC-1 EY/TDS bracket ------------------------
 EGIDI = DATA_DIR / "egidi2024"
 

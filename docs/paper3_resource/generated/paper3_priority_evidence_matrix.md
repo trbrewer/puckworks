@@ -4,7 +4,7 @@
 
 The claims the `--strict --scope paper3` release gate is fail-closed on (claim_owner=paper3, paper3_use in primary_claim, method_demonstration). Each exposes source cards, exact dataset ids, dataset status, fit/eval role, independence, the caveat, and what is NOT supported.
 
-**20 asserted Paper-3 claim(s).**
+**22 asserted Paper-3 claim(s).**
 
 ## `brewer2026.coupled_kappa_t::gate_kappa_t_composition_diagnostic`
 - **claim:** Adding the parameter-free mo2023_2 swelling branch behaves as the framework predicts: the composite porosity closes below eps0 and the 9-bar Q(t) residual jumps from ~0.12 to ~0.65 g/s (worse than the flat null ~0.603), diagnosing that mo2023_2's fixed-dP fresh-grain swelling is mis-scaled for an already-swollen saturated pre-wet rig.
@@ -64,6 +64,32 @@ The claims the `--strict --scope paper3` release gate is fail-closed on (claim_o
     - `(none)` — not_applicable_code — role=reference, independence=not_applicable — closed-form/analytic or code-internal check; no dataset, no card
 - **caveat:** Compared against a closed-form analytic solution, not an empirical dataset, and no docs/cards/ card exists for this component (in-module validation docstring only); the module's sphere-array checks show -7 to -8% error at toy radii, but this gate exercises only the exact channel case.
 - **claim NOT supported:** Validates solver numerics against an analytic channel only — not against coffee/permeability data or sphere-drag at production resolution.
+
+## `brewer2026.pack_generator::gate_pack_generator_admissible`
+- **claim:** The overlapping-sphere pack generator hits its target solid fraction (0.55 -> 0.551), produces an admissible boolean pack at resolution (grain radius >= 10 voxels), and its columnar heterogeneity field is zero-mean / unit-std.
+- **observable:** Generated solid fraction vs target, grain radius in voxels, and heterogeneity-field mean/std.
+- **tier / relationship:** qualitative_capacity / not_empirical
+- **paper3_use / support:** method_demonstration / admissible
+- **reality_facing:** False
+- **fit datasets:** (none)
+- **eval datasets:** (none)
+- **sources:**
+    - `(none)` — not_applicable_code — role=reference, independence=not_applicable — code-internal / generator admissibility check; no dataset, no card
+- **caveat:** Checks only generator admissibility (target porosity, resolution, heterogeneity statistics), not that the generated microstructure matches a real coffee bed; fines are sub-voxel (columnar-field proxy); boulder radius is Cameron's table constant.
+- **claim NOT supported:** It does not validate the pack against measured coffee microstructure (CT/tomography) or permeability; it is a generator self-consistency / admissibility check.
+
+## `brewer2026.streamtube::gate_streamtube_heldout`
+- **claim:** The sigma(GS) fines closure, fit on two of Cameron's three Fig-5 grinds, predicts the held-out grind's relative EY deviation to <2 pp (leave-one-out over GS 1.1/1.3/1.5; observed max held-out error ~1.1 pp).
+- **observable:** Held-out relative EY deviation (measured yield below the homogeneous-flow model) at the held-out grind.
+- **tier / relationship:** within_campaign_held_out / within_campaign_held_out
+- **paper3_use / support:** method_demonstration / admissible
+- **reality_facing:** True
+- **fit datasets:** (none)
+- **eval datasets:** cameron2020/fig5_grind_deviation
+- **sources:**
+    - `cameron2020` — resolved_manifest — role=eval, independence=held_out_same_campaign
+- **caveat:** Only 3 in-campaign points (leave-one-out holds out 1 of 3); the power-law sigma(GS) closure form is chosen; calibrated at dial 1.1-1.5 and NOT externally validated; the deviations are transcribed from Cameron Fig 5.
+- **claim NOT supported:** It does not externally validate the streamtube model nor extrapolate beyond dial 1.1-1.5; the held-out fold is 1 of only 3 same-campaign points.
 
 ## `cameron2020.extraction_bdf::gate_cameron_conservation`
 - **claim:** The cameron2020 BDF two-population solver conserves solute mass (cup-mass EY agrees with solid-depletion EY to within 0.5 pp) and the predicted EY stays strictly below the model's own per-bed soluble-inventory ceiling.
