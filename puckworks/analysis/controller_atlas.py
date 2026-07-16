@@ -73,19 +73,25 @@ def _command_shape(Gbar, active_mask, amp):
 
 
 def pressure_tracking_metrics(shot):
-    """Per-shot TIME-WEIGHTED pressure tracking metrics over the active brewing interval, or
-    None if the shot lacks an eligible active interval (>= min_active_time_s). Bar / seconds."""
+    """Per-shot TIME-WEIGHTED pressure tracking metrics, or None if excluded. Public wrapper
+    over ``_metrics_ex`` (which also returns a stable exclusion reason for the atlas flow)."""
+    return _metrics_ex(shot)[0]
+
+
+def _metrics_ex(shot):
+    """Returns ``(metrics_dict_or_None, exclusion_reason_or_None)`` — a stable reason token so
+    the atlas can build an inclusion/exclusion flow with exact denominators (WP2.9)."""
     hy = shot.get("hydraulic") or {}
     t, a, g = hy.get("time__s"), hy.get(_ACHIEVED), hy.get(_GOAL)
     if not (t and a and g):
-        return None
+        return None, "no_pressure_or_goal_channel"
     n = min(len(t), len(a), len(g))
     T, A, G = [], [], []
     for i in range(n):
         if t[i] is not None and a[i] is not None and g[i] is not None:
             T.append(float(t[i])); A.append(float(a[i])); G.append(float(g[i]))
     if len(T) < 2:
-        return None
+        return None, "too_few_aligned_samples"
     T, A, G = np.asarray(T), np.asarray(A), np.asarray(G)
     Gbar, err = G / _BAR, (A - G) / _BAR
 
@@ -102,7 +108,7 @@ def pressure_tracking_metrics(shot):
             active_node[i] = active_node[i + 1] = True
     W = float(w.sum())
     if W < SPEC["min_active_time_s"]:
-        return None                                   # no eligible active interval
+        return None, "no_active_interval"             # idle / too short / all gaps
 
     def tw(x):
         return float(np.sum(w * x) / W)
@@ -143,7 +149,7 @@ def pressure_tracking_metrics(shot):
     else:
         m["lag_s"] = None
         m["lag_corrected_tw_mae_bar"] = None
-    return m
+    return m, None
 
 
 def _summarize(per_shot):
@@ -165,42 +171,100 @@ def _summarize(per_shot):
     return out
 
 
-def pressure_atlas(snapshot):
-    """Time-weighted pressure tracking atlas over eligible shots: overall, by source family,
-    and a STORE-ORDER-INDEPENDENT one-shot-per-user sensitivity (WP2.7 stopgap: the
-    lexicographically-smallest shot id per user; seeded bootstrap in PR5). Tracking-BEHAVIOUR
-    distributions, not machine rankings."""
-    by_source, all_shots = {}, []
-    per_user = {}          # key -> (shot_id, metrics) ; deterministic pick = min shot id
-    n_excluded = 0
+def _seed(user_keys):
+    """Deterministic, store-order-independent seed from the SORTED user set + the spec hash."""
+    blob = ",".join(sorted(map(str, user_keys))) + SPEC_HASH
+    return int(hashlib.sha256(blob.encode("utf-8")).hexdigest()[:8], 16)
+
+
+def _seeded_one_per_user(by_user, seed):
+    """Pick exactly one shot per user, deterministically (seeded per-user RNG over the user's
+    shots sorted by id). Store order cannot change the result (WP2.7)."""
+    out = []
+    for u in sorted(by_user, key=str):
+        shots = sorted(by_user[u], key=lambda x: x[0])          # by shot id
+        r = np.random.RandomState(
+            (seed ^ int(hashlib.sha256(str(u).encode()).hexdigest()[:8], 16)) & 0xFFFFFFFF)
+        out.append(shots[int(r.randint(len(shots)))][1])
+    return out
+
+
+def _user_cluster_bootstrap(by_user, metric, seed, n_boot=1000):
+    """User-clustered bootstrap CI (WP2.7): resample USERS with replacement (telemetry samples
+    and shots are NOT independent), pool their shot-level metric values, take the median."""
+    users = sorted(by_user, key=str)
+    uvals = {u: [s[1][metric] for s in by_user[u] if s[1].get(metric) is not None] for u in users}
+    users = [u for u in users if uvals[u]]
+    if len(users) < 2:
+        return None
+    allv = [v for u in users for v in uvals[u]]
+    r = np.random.RandomState(seed & 0xFFFFFFFF)
+    boots = []
+    for _ in range(n_boot):
+        pick = r.randint(0, len(users), len(users))
+        pool = [v for j in pick for v in uvals[users[j]]]
+        if pool:
+            boots.append(float(np.median(pool)))
+    if not boots:
+        return None
+    return {"metric": metric, "point_median": float(np.median(allv)),
+            "ci95_lo": float(np.percentile(boots, 2.5)),
+            "ci95_hi": float(np.percentile(boots, 97.5)),
+            "n_boot": n_boot, "n_users": len(users)}
+
+
+def _concentration(shots):
+    """Contributor concentration (WP2.8): user counts + effective-users (inverse Herfindahl)."""
+    from collections import Counter
+    c = Counter(s["_user"] for s in shots)
+    n = len(shots)
+    shares = np.asarray(list(c.values()), float) / max(n, 1)
+    return {"n_shots": n, "n_users": len(c),
+            "max_shots_per_user": int(max(c.values())) if c else 0,
+            "effective_users": round(float(1.0 / np.sum(shares ** 2)), 2) if len(c) else 0.0}
+
+
+def pressure_atlas(snapshot, n_boot=1000):
+    """Time-weighted pressure tracking atlas: overall, by source family, a SEEDED one-shot-per-
+    user sensitivity, USER-CLUSTERED bootstrap CIs, contributor concentration, and a full
+    inclusion/exclusion flow with stable reasons. Tracking-BEHAVIOUR distributions, not machine
+    rankings (source semantics are weak — Gate D)."""
+    by_source, all_shots, by_user, exclusions = {}, [], {}, {}
     for shot in snapshot.latest():
-        if is_included(shot, "pressure_tracking_valid") is not None:
-            n_excluded += 1
+        e = is_included(shot, "pressure_tracking_valid")
+        if e is not None:
+            exclusions["eligibility:%s" % e] = exclusions.get("eligibility:%s" % e, 0) + 1
             continue
-        m = pressure_tracking_metrics(shot)
+        m, reason = _metrics_ex(shot)
         if m is None:
-            n_excluded += 1
+            exclusions[reason] = exclusions.get(reason, 0) + 1
             continue
         src = (shot.get("context") or {}).get("integration_source") or "unknown"
-        m = dict(m, _source=src)
+        hu, sid = shot.get("hashed_user"), str(shot.get("id"))
+        ukey = hu if hu is not None else ("__nouser__", sid)
+        m = dict(m, _source=src, _user=ukey)
         all_shots.append(m)
         by_source.setdefault(src, []).append(m)
-        hu, sid = shot.get("hashed_user"), str(shot.get("id"))
-        key = hu if hu is not None else ("__nouser__", sid)
-        cur = per_user.get(key)
-        if cur is None or sid < cur[0]:
-            per_user[key] = (sid, m)
-    one_per_user = [v[1] for v in per_user.values()]
+        by_user.setdefault(ukey, []).append((sid, m))
+
+    seed = _seed(by_user.keys())
     results = {
         "n_eligible": len(all_shots),
-        "n_excluded": n_excluded,
+        "concentration": _concentration(all_shots),
+        "exclusion_flow": {"n_excluded": sum(exclusions.values()),
+                           "by_reason": dict(sorted(exclusions.items()))},
         "overall": _summarize(all_shots),
         "by_source_family": {src: _summarize(v) for src, v in sorted(by_source.items())},
-        "one_shot_per_user": _summarize(one_per_user),
+        "one_shot_per_user": _summarize(_seeded_one_per_user(by_user, seed)),
+        "user_cluster_bootstrap": {
+            mtr: _user_cluster_bootstrap(by_user, mtr, seed, n_boot=n_boot)
+            for mtr in ("tw_mae_bar", "tw_rmse_bar")},
+        "bootstrap_seed": seed,
     }
     return product_envelope(
         snapshot, "pressure_tracking_atlas", results,
         config={"eligibility": "pressure_tracking_valid",
                 "achieved_channel": _ACHIEVED, "goal_channel": _GOAL,
-                "spec_version": SPEC["spec_version"], "spec_hash": SPEC_HASH, "spec": SPEC},
+                "spec_version": SPEC["spec_version"], "spec_hash": SPEC_HASH, "spec": SPEC,
+                "n_boot": n_boot},
         metric_defs=_METRIC_DEFS)
