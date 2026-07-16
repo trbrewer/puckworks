@@ -42,7 +42,7 @@ jobs:
           --junitxml=quick-report-${{ matrix.python-version }}.xml --durations=15
       - name: upload diagnostics (even on failure)
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: quick-pr-report-${{ matrix.python-version }}
           path: quick-report-${{ matrix.python-version }}.xml
