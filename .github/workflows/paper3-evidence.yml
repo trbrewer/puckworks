@@ -1,10 +1,9 @@
 name: paper3-evidence
 # WP2.4 — SCOPED evidence-graph strict validation.
-#   * paper3-scope-strict runs on every PR/push as the Paper-3 RELEASE gate (fail-closed on the
-#     asserted Paper-3 claims only).
-#   * all-scope-strict now also runs on every PR/push (the whole graph is fully adjudicated as of
-#     the remaining-adjudication PR). Both are green on main; NEITHER is yet a required branch
-#     check — add them to branch protection when you want them to block merges.
+#   * paper3-scope-strict is the Paper-3 RELEASE gate (fail-closed on the asserted Paper-3 claims).
+#   * all-scope-strict requires the WHOLE graph to be adjudicated.
+# Whether these are REQUIRED to merge is a GitHub branch-protection setting, not a fact this file
+# can establish — query it with `python -m puckworks.statusdoc --audit-ruleset`.
 on:
   push:
     branches: [main]
