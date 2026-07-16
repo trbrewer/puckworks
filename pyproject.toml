@@ -21,7 +21,7 @@ classifiers = [
 
 [project.optional-dependencies]
 lb = ["taichi"]
-dev = ["pytest", "ruff", "pytest-cov"]   # pytest-cov: coverage baseline reporting (P1.1/P1.3)
+dev = ["pytest", "ruff", "pytest-cov", "mypy"]   # coverage + type-check baselines (P1.3)
 figures = ["matplotlib"]
 harvest = ["requests"]
 release = ["build", "twine", "pip-tools"]   # pip-tools: fully-resolved hashed lock (P0.5)
@@ -58,3 +58,22 @@ include = ["puckworks*"]
 [tool.setuptools.package-data]
 puckworks = ["data/*.csv", "data/*.json"]
 "puckworks.data" = ["*.csv", "*.json", "*.md", "**/*.csv", "**/*.json", "**/*.md"]
+
+[tool.mypy]
+# P1.3 quality ratchet, Stage 1: type-check the core public/release/control modules only.
+# Lenient (no strict, no disallow-untyped) — the scientific numerical internals join later stages.
+python_version = "3.12"
+ignore_missing_imports = true
+follow_imports = "silent"          # do not fail on non-target modules pulled in transitively
+warn_unused_ignores = true
+files = [
+    "puckworks/contracts.py",
+    "puckworks/registry.py",
+    "puckworks/gate_runner.py",
+    "puckworks/statusdoc.py",
+    "puckworks/validate.py",
+    "puckworks/release.py",
+    "puckworks/paper3/archive.py",
+    "puckworks/paper3/evidence_graph.py",
+    "puckworks/paper3/build.py",
+]

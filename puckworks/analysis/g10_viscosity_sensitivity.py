@@ -129,7 +129,7 @@ def run_condition(cond, T_C: float = BREW_T_C, n_snap: int = 6, excess_scale: fl
     # does any sampled cell enter the concentrated (<76% X_w) Table-2 regime?
     min_xw = 100.0
     for p in profs:
-        rho = 1000.0
+        rho = np.asarray(1000.0, float)                  # ndarray from the start (mypy-clean)
         for _ in range(6):
             xwf = np.clip(1.0 - p / rho, 0.49, 1.0)
             rho = np.array([_d.telisromero_density_kgm3(T_C, float(x)) for x in xwf])

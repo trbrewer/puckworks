@@ -67,3 +67,23 @@ jobs:
       - run: pip install "numpy==2.0.*" "scipy==1.13.*" pytest && pip install -e . --no-deps
       - name: offline suite on the declared minimum dependencies
         run: pytest -q -m "not slow and not live and not gpu and not external_data"
+
+  quality:
+    # P1.3 quality ratchet — Stage-1 mypy on the core public/release/control modules and a
+    # coverage FLOOR on those modules. Not a required check until the maintainer opts in.
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]"
+      - name: mypy (core modules, Stage 1)
+        run: mypy
+      - name: coverage floor on critical modules (baseline 70%; ratchet up over time)
+        run: |
+          pytest -q -m "not slow and not live and not gpu and not external_data" --cov=puckworks --cov-report=
+          coverage report --fail-under=70 --include="puckworks/validate.py,puckworks/statusdoc.py,puckworks/gate_runner.py,puckworks/registry.py,puckworks/release.py,puckworks/paper3/archive.py,puckworks/paper3/evidence_graph.py"
