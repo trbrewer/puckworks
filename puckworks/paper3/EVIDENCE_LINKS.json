@@ -369,25 +369,36 @@
       "support_status": "needs_adjudication"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "foster2025_2",
+      "caveat": "Fig 15 is the paper's OWN model output (manifest: 'model-reproduced curve ... not pixel-traced'), and the Table I fine-grind params driving solve() are the authors' fitted values transcribed into a hardcoded dataclass, not loaded from data.",
+      "claim": "The re-implemented Foster machine-mode ODE (pump characteristic + trapped-air headspace) reproduces the paper's own Fig 15 normalized bed-flow curve, dipping to Q/Qm~0.181 at t~2.0 s and recovering, to RMSE <0.01 over the t_p..t_s window.",
       "claim_id": "foster2025.machine_mode::gate_foster_fig15_flowmin",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does not validate the mid-shot flow minimum against any measured flow trace, nor establish that pump+headspace dynamics cause real early-shot flow dips (CT validation is a separate gate).",
+      "claim_owner": "paper3",
       "component": "foster2025.machine_mode",
       "component_evidence_strength": "source_curve_reproduction",
       "conflict_note": null,
-      "evidence_strength": null,
+      "evidence_strength": "source_curve_reproduction",
       "gate": "gate_foster_fig15_flowmin",
       "link_id": "foster2025.machine_mode::gate_foster_fig15_flowmin",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Normalized bed flow Q/Qm = min(Q_p, f(H,s))/Q_m vs experiment time.",
+      "paper3_use": "cited_science",
+      "reality_facing": false,
+      "relationship": "code_verification",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "foster2025_2/fig15_flow"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "context",
+          "independence": "not_applicable",
+          "note": null,
+          "source_card": "foster2025_2"
+        }
+      ],
+      "support_status": "context_only"
     },
     {
       "adjudication_status": "ADJUDICATED",
@@ -611,25 +622,37 @@
       "support_status": "needs_adjudication"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "mo2023_2",
+      "caveat": "The matched ratio is the paper's SIMULATED curve, not measurement (manifest: 'verification (MODEL output, not data) ... the paper's headline claim rests on ZERO data here'); D_W=1.25e-10 is a code constant fitted to a ~30 s timescale.",
+      "claim": "The re-implemented swelling-PDE -> Eq.21 bed-porosity -> Carman-Kozeny chain reproduces the paper's SIMULATED Fig 3(a) fixed-dp flow-decay ratio q(60s)/q(0) for all four powders within 20%, preserves the coarser-throttles-less ordering E<H<M<F, and matches the closed-form max swelling s_m=3.57%.",
       "claim_id": "mo2023_2.swelling::gate_mo2_swelling_flow_decay",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does not test the swelling-throttled-flow mechanism against any measured flow-decay data; the ordering is a reproduced property of the source's model, not an experimentally confirmed fact.",
+      "claim_owner": "paper3",
       "component": "mo2023_2.swelling",
       "component_evidence_strength": "source_curve_reproduction",
       "conflict_note": null,
-      "evidence_strength": null,
+      "evidence_strength": "source_curve_reproduction",
       "gate": "gate_mo2_swelling_flow_decay",
       "link_id": "mo2023_2.swelling::gate_mo2_swelling_flow_decay",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Fixed-dp flow-decay ratio q(60s)/q(0) (dp/mu/L cancelled) per powder E/H/M/F, plus the scalar s_m.",
+      "paper3_use": "cited_science",
+      "reality_facing": false,
+      "relationship": "code_verification",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "mo2023_2/fig3a_qdecay",
+            "mo2023_2/granulometry_table1"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "context",
+          "independence": "not_applicable",
+          "note": null,
+          "source_card": "mo2023_2"
+        }
+      ],
+      "support_status": "context_only"
     },
     {
       "adjudication_status": "ADJUDICATED",
@@ -1016,25 +1039,54 @@
       "support_status": "context_only"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "g10_liquor_rheology",
+      "caveat": "It reproduces the source's own figure-read endpoints for a dilute industrial extract and bundles code-property checks (typo diagnostic, alpha offset, normalization guard); espresso T/concentration are above/at the source's edge.",
+      "claim": "The transcribed Telis-Romero 2000 linear thermophysical closures (rho/cp/k/alpha) reproduce the card's figure-endpoint / water-limit anchors within plotting accuracy, the typo-corrected Eq(6) alpha coefficient reproduces the Fig-5 endpoint while the printed one does not, and the fraction-vs-percent guard raises on percent input.",
       "claim_id": "sourcing2026.g10_liquor_rheology::gate_g10_telisromero2000_thermal",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does NOT independently validate coffee-extract thermophysical properties (no external measurement) and says nothing about viscosity or flow \u2014 it confirms faithful transcription and flags the Eq-6 typo.",
+      "claim_owner": "paper3",
       "component": "sourcing2026.g10_liquor_rheology",
       "component_evidence_strength": "source_curve_reproduction",
-      "conflict_note": null,
-      "evidence_strength": null,
+      "conflict_note": "Supplies the density used to convert local concentration to X_w in the mu(c,T) study (bulk rho ~1003, <=1% over water; first-drip rho ~1196); the viscosity magnitude tensions live in the companion 2001/bulk gates.",
+      "evidence_strength": "source_curve_reproduction",
       "gate": "gate_g10_telisromero2000_thermal",
       "link_id": "sourcing2026.g10_liquor_rheology::gate_g10_telisromero2000_thermal",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Density rho, specific heat cp, thermal conductivity k and thermal diffusivity alpha of soluble-coffee extract vs T and water fraction (plus a unit guard).",
+      "paper3_use": "cited_science",
+      "reality_facing": false,
+      "relationship": "post_fit_same_data",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "g10_liquor_rheology/telisromero2000_thermal"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "eval",
+          "independence": "same_data_as_fit",
+          "note": null,
+          "source_card": "telisromero2000"
+        },
+        {
+          "dataset_manifest_ids": [
+            "g10_liquor_rheology/telisromero2000_thermal"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "fit",
+          "independence": "fit_input",
+          "note": null,
+          "source_card": "telisromero2000"
+        },
+        {
+          "dataset_manifest_ids": [],
+          "dataset_status": "not_applicable_source_equation",
+          "evidence_role": "reference",
+          "independence": "not_applicable",
+          "note": "physics/equations or model card; supplies no MANIFEST dataset for this gate",
+          "source_card": "g10_liquor_rheology"
+        }
+      ],
+      "support_status": "context_only"
     },
     {
       "adjudication_status": "NEEDS_ADJUDICATION",
@@ -1058,46 +1110,112 @@
       "support_status": "needs_adjudication"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "g10_liquor_rheology",
+      "caveat": "It reproduces the source's own dilute industrial soluble-coffee extract (X_w 76-90%, one 51-Brix batch) with the authors' own fitted closures; espresso TDS sits at/below the dilute edge, so any espresso application is extrapolation.",
+      "claim": "The independently transcribed Telis-Romero 2001 Eq(10)/(13) viscosity closures reproduce the full digitized Table 1 (24 eta cells) and Table 2 (27 K cells) at about the authors' own reported fit error, cross-checking the digitization against the transcribed coefficients.",
       "claim_id": "sourcing2026.g10_liquor_rheology::gate_g10_telisromero_full_table",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does NOT validate espresso-liquor viscosity nor independently confirm the closures against another lab/coffee \u2014 it only shows the two transcription paths of the SAME paper are mutually consistent.",
+      "claim_owner": "paper3",
       "component": "sourcing2026.g10_liquor_rheology",
       "component_evidence_strength": "source_curve_reproduction",
-      "conflict_note": null,
-      "evidence_strength": null,
+      "conflict_note": "Anchors the MEASURED eta grid that yields ~1.06x-water bulk-shot viscosity, undercutting the paywalled-snippet envelope's ~1.3-2x guess; it does not reconcile the separate khomyakov2020 ~+37%-above-TR2001 offset.",
+      "evidence_strength": "source_curve_reproduction",
       "gate": "gate_g10_telisromero_full_table",
       "link_id": "sourcing2026.g10_liquor_rheology::gate_g10_telisromero_full_table",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Newtonian dynamic viscosity eta (Pa.s) and power-law consistency index K (Pa.s^n) of soluble-coffee extract vs temperature and water fraction.",
+      "paper3_use": "cited_science",
+      "reality_facing": false,
+      "relationship": "post_fit_same_data",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "g10_liquor_rheology/telisromero2001_tables"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "eval",
+          "independence": "same_data_as_fit",
+          "note": null,
+          "source_card": "telisromero2001"
+        },
+        {
+          "dataset_manifest_ids": [
+            "g10_liquor_rheology/telisromero2001_closures"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "fit",
+          "independence": "fit_input",
+          "note": null,
+          "source_card": "telisromero2001"
+        },
+        {
+          "dataset_manifest_ids": [],
+          "dataset_status": "not_applicable_source_equation",
+          "evidence_role": "reference",
+          "independence": "not_applicable",
+          "note": "physics/equations or model card; supplies no MANIFEST dataset for this gate",
+          "source_card": "g10_liquor_rheology"
+        }
+      ],
+      "support_status": "context_only"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "g10_liquor_rheology",
+      "caveat": "The negligibility conclusion is derived from a MODEL (cameron2020's concentration field) fed measured mu, with permeability/pressure held fixed and no measured espresso flow to test against; a bounded compatibility result that excludes genuinely saturating (choked/ristretto) shots.",
+      "claim": "Driving cameron2020's own in-pore liquor concentration field through the MEASURED Telis-Romero 2001 eta(c,T) grid, the in-pore liquor never approaches saturation (peak mu < 1.15x water), so the constant-water-viscosity assumption used by every registered flow model gives <8% outlet flow suppression and >0.95 depth-averaged flow factor at espresso conditions.",
       "claim_id": "sourcing2026.g10_liquor_rheology::gate_g10_viscosity_bulk_negligible",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does NOT empirically demonstrate real espresso flow is insensitive to liquor viscosity nor validate cameron2020's concentration field \u2014 only that IF that field is right, the measured mu(c,T) correction is small.",
+      "claim_owner": "paper3",
       "component": "sourcing2026.g10_liquor_rheology",
       "component_evidence_strength": "source_curve_reproduction",
-      "conflict_note": null,
-      "evidence_strength": null,
+      "conflict_note": "Resolves the core G10 magnitude tension for BULK flow \u2014 measured TR2001 mu gives ~1.06x-water (negligible), refuting the ~1.3-2x snippet envelope for shot TDS \u2014 and is claimed robust even under the khomyakov2020 ~+37% offset.",
+      "evidence_strength": "sign_or_compatibility",
       "gate": "gate_g10_viscosity_bulk_negligible",
       "link_id": "sourcing2026.g10_liquor_rheology::gate_g10_viscosity_bulk_negligible",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Darcy flow-suppression factor (mu_water / mu_local) implied by concentration-dependent liquor viscosity over a simulated shot's in-pore concentration field.",
+      "paper3_use": "method_demonstration",
+      "reality_facing": true,
+      "relationship": "not_empirical",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "g10_liquor_rheology/telisromero2000_thermal"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "context",
+          "independence": "not_applicable",
+          "note": null,
+          "source_card": "telisromero2000"
+        },
+        {
+          "dataset_manifest_ids": [
+            "g10_liquor_rheology/telisromero2001_tables"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "context",
+          "independence": "not_applicable",
+          "note": null,
+          "source_card": "telisromero2001"
+        },
+        {
+          "dataset_manifest_ids": [],
+          "dataset_status": "not_applicable_source_equation",
+          "evidence_role": "reference",
+          "independence": "not_applicable",
+          "note": "physics/equations or model card; supplies no MANIFEST dataset for this gate",
+          "source_card": "g10_liquor_rheology"
+        },
+        {
+          "dataset_manifest_ids": [],
+          "dataset_status": "not_applicable_source_equation",
+          "evidence_role": "reference",
+          "independence": "not_applicable",
+          "note": "physics/equations or model card; supplies no MANIFEST dataset for this gate",
+          "source_card": "cameron2020"
+        }
+      ],
+      "support_status": "admissible"
     },
     {
       "adjudication_status": "NEEDS_ADJUDICATION",
@@ -1121,25 +1239,46 @@
       "support_status": "needs_adjudication"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "g3_pump_characteristic",
+      "caveat": "Explicitly a consistency/bounds check, not validation: the Ulka envelope is manufacturer catalogue ENDPOINTS only (+/-15%, cold water, 120V/60Hz) with a concave-droop (non-quadratic) shape, and the real DE1 Q(P) is closed firmware.",
+      "claim": "The operative measured single-rig Waszkiewicz brewer quadratic (dP=aQ^2+bQ+c) stays inside the Ulka manufacturer envelope over the working flow band (dP below the 15-bar deadhead, free-flow > 1.90 g/s) \u2014 a bounds consistency check between two on-disk datasets.",
       "claim_id": "sourcing2026.g3_pump_characteristic::gate_g3_pump_envelope_bounds_quadratic",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does NOT establish the quadratic is the correct pump physics or holds outside the measured band (the true vibe-pump curve is concave), nor provide an independent DE1-specific characteristic.",
+      "claim_owner": "paper3",
       "component": "sourcing2026.g3_pump_characteristic",
       "component_evidence_strength": "sign_or_compatibility",
       "conflict_note": null,
-      "evidence_strength": null,
+      "evidence_strength": "sign_or_compatibility",
       "gate": "gate_g3_pump_envelope_bounds_quadratic",
       "link_id": "sourcing2026.g3_pump_characteristic::gate_g3_pump_envelope_bounds_quadratic",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Pump/basket pressure drop dP (bar) vs flow Q over the working range, bounded against manufacturer free-flow debit and deadhead endpoints.",
+      "paper3_use": "resource_context",
+      "reality_facing": false,
+      "relationship": "code_verification",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "g3_pump_characteristic/ulka_envelope"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "context",
+          "independence": "not_applicable",
+          "note": null,
+          "source_card": "g3_pump_characteristic"
+        },
+        {
+          "dataset_manifest_ids": [
+            "waszkiewicz2025/brewer_quadratic"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "context",
+          "independence": "not_applicable",
+          "note": null,
+          "source_card": "waszkiewicz2025"
+        }
+      ],
+      "support_status": "context_only"
     },
     {
       "adjudication_status": "NEEDS_ADJUDICATION",
@@ -1205,25 +1344,70 @@
       "support_status": "needs_adjudication"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "wadsworth2026_inertial",
+      "caveat": "kappa=1.196 was fitted to this same DE1 fixture-A trace (Fo_F then computed on it, nothing held out); k_I is a ceramics fit never calibrated on coffee and DE1 k~7e-15 sits below that fit's support (explicit extrapolation); the untamped band it beats is a hardcoded card number.",
+      "claim": "Computing Fo_F along the real DE1 fixture-A tamped trace (Darcy k from the fitted kappa=1.196 via the kappa->SI chain, k_I from the ceramics-fitted Zhou closure) yields a peak Fo_F that is O(1), falls inside the backlog's 0.3-0.9 gusher-regime estimate, and exceeds the card's untamped espresso ceiling (0.0639) by >10x.",
       "claim_id": "wadsworth2026.inertial::gate_inertial_de1_audit",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does not empirically validate that espresso flow is inertial nor measure Fo_F; only that the model's computed Fo_F on one uncontrolled community fixture is compatible with the backlog's higher estimate.",
+      "claim_owner": "paper3",
       "component": "wadsworth2026.inertial",
       "component_evidence_strength": "source_curve_reproduction",
-      "conflict_note": null,
-      "evidence_strength": null,
+      "conflict_note": "Registry-internal source conflict: the wadsworth paper's own worked espresso band (Fo 0.0161-0.0639) vs the backlog's gusher-regime estimate (Fo ~0.3-0.9); the audit adjudicates toward the backlog's higher value.",
+      "evidence_strength": "sign_or_compatibility",
       "gate": "gate_inertial_de1_audit",
       "link_id": "wadsworth2026.inertial::gate_inertial_de1_audit",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Peak Forchheimer number Fo_F = rho*k*q/(mu*k_I) evaluated along the recorded trace.",
+      "paper3_use": "method_demonstration",
+      "reality_facing": true,
+      "relationship": "post_fit_same_data",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "de1_fixtureA"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "eval",
+          "independence": "same_data_as_fit",
+          "note": null,
+          "source_card": "(registry [RS])"
+        },
+        {
+          "dataset_manifest_ids": [
+            "de1_fixtureA"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "fit",
+          "independence": "fit_input",
+          "note": null,
+          "source_card": "(registry [RS])"
+        },
+        {
+          "dataset_manifest_ids": [],
+          "dataset_status": "not_applicable_source_equation",
+          "evidence_role": "reference",
+          "independence": "not_applicable",
+          "note": "physics/equations or model card; supplies no MANIFEST dataset for this gate",
+          "source_card": "wadsworth2026_inertial"
+        },
+        {
+          "dataset_manifest_ids": [],
+          "dataset_status": "not_applicable_source_equation",
+          "evidence_role": "reference",
+          "independence": "not_applicable",
+          "note": "physics/equations or model card; supplies no MANIFEST dataset for this gate",
+          "source_card": "foster2025_2"
+        },
+        {
+          "dataset_manifest_ids": [],
+          "dataset_status": "not_applicable_source_equation",
+          "evidence_role": "reference",
+          "independence": "not_applicable",
+          "note": "physics/equations or model card; supplies no MANIFEST dataset for this gate",
+          "source_card": "cameron2020"
+        }
+      ],
+      "support_status": "admissible"
     },
     {
       "adjudication_status": "NEEDS_ADJUDICATION",

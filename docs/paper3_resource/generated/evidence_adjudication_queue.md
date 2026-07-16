@@ -2,7 +2,7 @@
 
 # Paper 3 evidence-graph — adjudication queue
 
-33 gate wiring(s) still need a curated per-claim adjudication. For each, fill the v2 fields in `EVIDENCE_LINKS.json` (claim, observable, claim_owner, paper3_use, reality_facing, relationship, sources[], evidence_strength, caveat, claim_not_supported, support_status) and flip `adjudication_status` to `ADJUDICATED`.
+26 gate wiring(s) still need a curated per-claim adjudication. For each, fill the v2 fields in `EVIDENCE_LINKS.json` (claim, observable, claim_owner, paper3_use, reality_facing, relationship, sources[], evidence_strength, caveat, claim_not_supported, support_status) and flip `adjudication_status` to `ADJUDICATED`.
 
 ## `fasano2000_partI.fines_migration` — bed_dynamics (component tier: qualitative_capacity)
 - [ ] `gate_fasano_cor82_nonmonotone`
@@ -11,7 +11,6 @@
 
 ## `foster2025.machine_mode` — machine (component tier: source_curve_reproduction)
 - [ ] `gate_foster_ct_trajectory`
-- [ ] `gate_foster_fig15_flowmin`
 
 ## `grudeva2025.reduced` — extraction (component tier: post_fit_reconstruction)
 - [ ] `gate_grudeva_no_eps_kappa`
@@ -29,7 +28,6 @@
 ## `mo2023_2.swelling` — bed_dynamics (component tier: source_curve_reproduction)
 - [ ] `gate_mo2_fixed_flow_trends`
 - [ ] `gate_mo2_k0_carman_kozeny`
-- [ ] `gate_mo2_swelling_flow_decay`
 
 ## `moroney2016.surrogate` — extraction (component tier: qualitative_capacity)
 - [ ] `gate_moroney_fig6_washthrough`
@@ -46,16 +44,10 @@
 
 ## `sourcing2026.g10_liquor_rheology` — flow (component tier: source_curve_reproduction)
 - [ ] `gate_g10_mu_bias_directional`
-- [ ] `gate_g10_telisromero2000_thermal`
 - [ ] `gate_g10_telisromero_closure`
-- [ ] `gate_g10_telisromero_full_table`
-- [ ] `gate_g10_viscosity_bulk_negligible`
 
 ## `sourcing2026.g1_glassbead_analog` — infiltration (component tier: qualitative_capacity)
 - [ ] `gate_g1_glassbead_closure_sane`
-
-## `sourcing2026.g3_pump_characteristic` — machine (component tier: sign_or_compatibility)
-- [ ] `gate_g3_pump_envelope_bounds_quadratic`
 
 ## `wadsworth2026.grindmap` — grind (component tier: source_curve_reproduction)
 - [ ] `gate_grindmap_polydispersity`
@@ -63,7 +55,6 @@
 
 ## `wadsworth2026.inertial` — flow (component tier: source_curve_reproduction)
 - [ ] `gate_inertial_darcy_recovery`
-- [ ] `gate_inertial_de1_audit`
 - [ ] `gate_inertial_fo_band`
 - [ ] `gate_mo_reynolds_overlay`
 

@@ -109,9 +109,12 @@ Global strict (`--scope all`) is deliberately **not** a required branch check.
 
 ## Status (v2 landing)
 
-49 links (48 wirings + the `gate_kappa_t_degeneracy` split). **16 adjudicated, 33 awaiting.**
-`--strict --scope paper3` is **green** (every asserted Paper-3 claim is admissible). Semantic
-corrections applied in this version:
+49 links (48 wirings + the `gate_kappa_t_degeneracy` split). **23 adjudicated, 26 awaiting** (the
+7 priority gates — the three `gate_g10_*` closures/table checks, `gate_g3_pump_envelope_bounds_
+quadratic`, `gate_foster_fig15_flowmin`, `gate_mo2_swelling_flow_decay`, `gate_inertial_de1_audit`
+— are now resolved). `--strict --scope paper3` is **green** across all 10 asserted Paper-3 claims,
+so it MAY now be promoted to a required release check. `--strict --scope all` stays manual (26
+drafts remain). Semantic corrections applied in the v2 landing:
 
 - **`gate_infiltration_triangle`** — the same DE1 fixture supplies calibration and evaluation, so
   the relationship is `same_campaign_not_held_out` (not `within_campaign_held_out`); the gate tier

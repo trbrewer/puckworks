@@ -168,6 +168,23 @@ def test_generated_artifacts_stale_then_fresh(tmp_path):
     assert "evidence_graph_matrix.md" in EG.verify(root=tmp_path)
 
 
+def test_priority_gates_are_adjudicated():
+    # PR C acceptance: the 7 priority gates are honestly resolved (paper3 strict already green)
+    priority = {
+        "gate_g10_telisromero_full_table", "gate_g10_telisromero2000_thermal",
+        "gate_g10_viscosity_bulk_negligible", "gate_g3_pump_envelope_bounds_quadratic",
+        "gate_foster_fig15_flowmin", "gate_mo2_swelling_flow_decay", "gate_inertial_de1_audit",
+    }
+    by_gate = {l["gate"]: l for l in EG.load_links()}
+    for g in priority:
+        assert by_gate[g]["adjudication_status"] == "ADJUDICATED", g
+        assert by_gate[g]["evidence_strength"] in EG.EVIDENCE_STRENGTHS
+        assert by_gate[g]["sources"] is not None
+    # the two reality-facing asserted results must be admissible (release-gated)
+    assert by_gate["gate_g10_viscosity_bulk_negligible"]["support_status"] == "admissible"
+    assert by_gate["gate_inertial_de1_audit"]["support_status"] == "admissible"
+
+
 def test_conflicts_report_surfaces_constants_and_infiltration():
     md = EG.generate()["evidence_conflicts.md"]
     assert "c_sat" in md and "212.4" in md and "224" in md and "170" in md
