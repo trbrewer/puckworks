@@ -369,7 +369,7 @@ register(Component(
     doi="10.1111/j.1745-4530.2001.tb00542.x",
     module="puckworks.data:telisromero_viscosity_pas",
     gates=[G.gate_g10_reference_mu_above_water, G.gate_g10_mu_bias_directional,
-           G.gate_g10_telisromero_closure],
+           G.gate_g10_telisromero_closure, G.gate_g10_telisromero2000_thermal],
     assumptions="Telis-Romero (2001) Eq (10)/(12)/(13) closures now TRANSCRIBED "
                 "(T in K, X_w in %w/w water); soluble-coffee extract, NOT espresso "
                 "liquor -> unquantified composition bias; espresso TDS sits at/below "

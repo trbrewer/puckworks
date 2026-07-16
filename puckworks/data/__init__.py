@@ -704,6 +704,51 @@ def telisromero_viscosity_pas(T_K, Xw_pct):
             * Xw_pct ** float(c["Xw_exponent"]))
 
 
+def telisromero_thermal_closures():
+    """Telis-Romero 2000 thermophysical closures (rho/cp/k/alpha) transcribed from
+    docs/cards/telisromero2000.md. Keyed by equation. Companion to the 2001 rheology
+    closures -- together a mutually consistent mu/rho/cp/k/alpha(T,X_w) liquor set from
+    one material batch family. NOTE the Xw_basis field is 'mass_fraction_0_1' (0-1), NOT
+    the PERCENT the 2001 rheology closures use -- see the normalization guard below."""
+    return {r["equation"]: r for r in _rows(G10R / "telisromero2000_closures.csv")}
+
+
+def telisromero_thermal_anchors():
+    """Figure-read / water-limit endpoint anchors for the 2000 thermal closures."""
+    return _rows(G10R / "telisromero2000_anchors.csv")
+
+
+def _tr2000_check_frac(Xw_frac):
+    # Normalization guard (card hazard): the 2000 closures take X_w as a FRACTION (0-1),
+    # while telisromero_viscosity_pas takes PERCENT. A percent value (49-90) slipped in
+    # here would silently produce garbage -> fail loud instead (ledger-A7 spirit).
+    if not (0.0 < Xw_frac <= 1.0):
+        raise ValueError(
+            f"telisromero2000 closures take X_w as a FRACTION in (0,1], got {Xw_frac}. "
+            "Did you pass PERCENT (the telisromero2001 rheology basis)?")
+
+
+def telisromero_density_kgm3(T_C, Xw_frac):
+    """Telis-Romero 2000 Eq. (1) liquor density [kg/m^3]. T in degC, X_w mass FRACTION.
+    rho = 1422.57 - 451.98*Xw - 0.16*T. Espresso edge (Xw~0.90, ~82C) -> ~1003 (<=1% over
+    water, negligible for Darcy); first-drip (Xw=0.49) -> ~1196 (20% mass<->volume effect)."""
+    _tr2000_check_frac(Xw_frac)
+    c = telisromero_thermal_closures()["eq1_density"]
+    return (float(c["intercept"]) + float(c["Xw_coeff"]) * Xw_frac
+            + float(c["T_coeff"]) * T_C)
+
+
+def telisromero_thermal_diffusivity_m2s(T_C, Xw_frac):
+    """Telis-Romero 2000 Eq. (6) DIRECT thermal diffusivity [m^2/s], TYPO-CORRECTED
+    coefficient (2.12e-10, not the printed 0.0212e-10). T in degC, X_w mass FRACTION.
+    The direct alpha is convection-biased HIGH vs the self-consistent k/(rho*cp) path
+    (authors' mean offset -11.35%); do NOT mix the two paths (card)."""
+    _tr2000_check_frac(Xw_frac)
+    c = telisromero_thermal_closures()["eq6_alpha_direct"]
+    return (float(c["intercept"]) + float(c["Xw_coeff"]) * Xw_frac
+            + float(c["T_coeff"]) * T_C)
+
+
 # --- bruno2026 roasted chemistry (item 0.8; Sci. Rep. 16, 15857, CC BY 4.0) ---
 BRUNO = DATA_DIR / "bruno2026"
 

@@ -6,7 +6,15 @@ extract." *International Journal of Food Properties* 3(3) (2000) 375–384.
 DOI: 10.1080/10942910009524643.
 **Stage(s):** flow (liquor density closure) · observables (thermal-property
 closures for the "temperature effects" backlog) · **Kind:** calibration
-**Status:** card-only
+**Status:** implemented (2026-07-15, DATA-ONLY companion) — Eqs (1)/(3)/(4)/(6)
+direct closures + endpoint anchors in
+`puckworks/data/g10_liquor_rheology/telisromero2000_{closures,anchors}.csv`,
+loaders `data.telisromero_{density_kgm3,thermal_diffusivity_m2s}` +
+`telisromero_thermal_closures/anchors` (fraction-basis, with a percent-input
+normalization guard), gate `gate_g10_telisromero2000_thermal` wired to
+`sourcing2026.g10_liquor_rheology`. Eq (6) loaded with the TYPO-CORRECTED
+coefficient (printed noted). Water-referenced Eqs (2)/(5)/(7) and Fig 2-5
+per-point digitization still OWED.
 
 ## Scope and mechanism
 Empirical correlations for four thermophysical properties of aqueous coffee

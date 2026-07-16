@@ -1331,3 +1331,56 @@ def gate_g10_telisromero_closure():
                 shot_tds_mu_ratio_to_water=round(shot_ratio, 3),
                 strength="post-fit reconstruction of source's dilute-industrial data "
                          "(espresso extrapolated; composition caveat)")
+
+
+def gate_g10_telisromero2000_thermal():
+    """Telis-Romero 2000 thermophysical closures (rho/cp/k/alpha) transcribed FAITHFULLY:
+    the linear fits reproduce the card's Fig 2-5 endpoint / water-limit anchors, the
+    TYPO-CORRECTED Eq (6) alpha coefficient reproduces the Fig-5 endpoint while the PRINTED
+    coefficient does NOT (documents the ~100x exponent typo), and the self-consistent
+    alpha = k/(rho*cp) sits systematically BELOW the direct Eq-6 alpha (authors' -11.35%
+    convection offset). Same post-fit-reconstruction strength + composition/dilute-end
+    caveats as the 2001 rheology companion; espresso is extrapolation. Also asserts the
+    fraction-vs-percent normalization guard fires (card hazard vs the 2001 percent basis)."""
+    from puckworks import data as d
+    cl = d.telisromero_thermal_closures()
+
+    def lin(eq, T_C, Xw):   # evaluate a direct linear closure row
+        c = cl[eq]
+        return float(c["intercept"]) + float(c["Xw_coeff"]) * Xw + float(c["T_coeff"]) * T_C
+
+    errs = {}
+    for a in d.telisromero_thermal_anchors():
+        eq = {"rho": "eq1_density", "cp": "eq3_cp", "k": "eq4_k",
+              "alpha": "eq6_alpha_direct"}[a["quantity"]]
+        pred = lin(eq, float(a["T_C"]), float(a["Xw_frac"]))
+        errs[f'{a["quantity"]}@{a["Xw_frac"]},{a["T_C"]}'] = round(
+            abs(pred - float(a["value"])) / float(a["value"]) * 100, 2)
+    max_err = max(errs.values())
+
+    # typo diagnostic: printed 0.0212e-10 mispredicts the Fig-5 hi endpoint (~1.50e-7)
+    printed_alpha = 7.92e-8 + 5.93e-8 * 0.90 + 0.0212e-10 * 82.0
+    printed_err = abs(printed_alpha - 1.50e-7) / 1.50e-7 * 100
+
+    # self-consistent alpha is negative-offset vs the direct Eq-6 alpha (convection bias)
+    rho = lin("eq1_density", 82.0, 0.90)
+    cp = lin("eq3_cp", 82.0, 0.90)
+    k = lin("eq4_k", 82.0, 0.90)
+    a_direct = d.telisromero_thermal_diffusivity_m2s(82.0, 0.90)
+    alpha_offset = (k / (rho * cp) - a_direct) / a_direct * 100
+
+    # normalization guard must reject a PERCENT value on the fraction-basis loader
+    guard_fires = False
+    try:
+        d.telisromero_density_kgm3(82.0, 90.0)   # 90 = percent, illegal here
+    except ValueError:
+        guard_fires = True
+
+    passed = (max_err <= 1.5 and printed_err > 8.0 and -20.0 < alpha_offset < -5.0
+              and guard_fires)
+    return dict(passed=passed, max_anchor_err_pct=max_err, anchor_errs=errs,
+                printed_eq6_err_pct=round(printed_err, 1),
+                alpha_krocp_offset_pct=round(alpha_offset, 1),
+                normalization_guard_fires=guard_fires,
+                strength="post-fit reconstruction of source's dilute-industrial data "
+                         "(espresso extrapolated; composition caveat; Eq-6 typo corrected)")

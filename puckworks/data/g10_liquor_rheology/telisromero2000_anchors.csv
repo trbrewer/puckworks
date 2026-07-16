@@ -1,0 +1,7 @@
+quantity,Xw_frac,T_C,value,units,source,notes
+rho,0.90,82,1003,kg/m^3,Eq1/Fig2,"espresso-edge liquor density; <=1% over water -> negligible Darcy correction"
+rho,0.49,30,1196,kg/m^3,Eq1/Fig2,"concentrated first-drip; 20% denser than water -> matters for mass<->volume budget gates"
+cp,1.00,30,4133,J/(kg*degC),Eq3,"water-limit sanity (vs 4178 water, -1%); Eq3 best-behaved at Xw=1"
+k,1.00,82,0.557,W/(m*degC),Eq4,"water-limit UNDERSHOOT (vs ~0.67 water, -16%) -> do not extrapolate below ~10% solids"
+alpha,0.90,82,1.50e-7,m^2/s,Eq6corr/Fig5,"Fig5 endpoint reproduced by TYPO-CORRECTED Eq6 (printed coeff gives 1.33e-7, wrong)"
+alpha,0.49,30,1.15e-7,m^2/s,Eq6corr/Fig5,"Fig5 endpoint reproduced by typo-corrected Eq6"

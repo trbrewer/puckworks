@@ -37,6 +37,26 @@ def test_g10_telisromero_closure():
     assert 1.0 < r["shot_tds_mu_ratio_to_water"] < 1.2
 
 
+def test_g10_telisromero2000_thermal():
+    from puckworks.validation.gates import gate_g10_telisromero2000_thermal
+    r = gate_g10_telisromero2000_thermal()
+    assert r["passed"], r
+    assert r["max_anchor_err_pct"] <= 1.5        # closures reproduce Fig endpoints
+    assert r["printed_eq6_err_pct"] > 8.0        # printed coeff mispredicts -> typo documented
+    assert -20.0 < r["alpha_krocp_offset_pct"] < -5.0   # authors' convection offset (~-11%)
+    assert r["normalization_guard_fires"] is True
+
+
+def test_telisromero2000_normalization_guard():
+    import pytest
+    from puckworks import data as d
+    # fraction basis: legal
+    assert 990 < d.telisromero_density_kgm3(82.0, 0.90) < 1010
+    # percent basis (the 2001 rheology basis) must be REJECTED, not silently mis-evaluated
+    with pytest.raises(ValueError):
+        d.telisromero_density_kgm3(82.0, 90.0)
+
+
 def test_telisromero_loader_and_anchors():
     from puckworks import data as d
     # Eq (10) reproduces the Table-1 eta anchor (X_w=90, T=295 K -> 1.00e-3 Pa*s)
