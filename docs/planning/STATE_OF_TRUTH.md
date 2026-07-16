@@ -59,13 +59,20 @@ This revises the earlier "freeze automatically as publication-freeze" plan.
 | Q1 | ~~Decide the primary lane~~ **DONE** — publication-integrity first, then product | PI | — | §0 resolved |
 | Q2 | ~~B2 APS DFD abstract~~ **CLOSED — not submitting** (PI, 2026-07-16); recorded, no further action | PI | — | Gate A resolved: no-submit |
 | Q3 | Freeze the v6 crawl as `current-state` when it exits (NOT publication) | code | crawl exhausts window (monitor armed) | `current-state` snapshot manifest + EXPLORATORY mark |
-| Q4 | **PR1 — logical-version selection correctness** (WP1.1): deterministic max(updated_at)+sequence tie-break; equal-ts conflicts visible; as_of + shard-order regression tests; replace touched registry asserts | code | — (in progress) | conflict/shard/as_of tests green |
-| Q5 | PR2 — real freeze lifecycle (rehearse/materialize/verify; derived PublicationSnapshot; immutable canonical view; negative publication-gate tests) | code | Q4 | WP1 acceptance criteria |
-| Q6 | (opportunistic) sanctioned corpus export runbook | maintainer | Miha export/token (external) | WP7 pilot on real export |
+| Q4 | ~~PR1 — logical-version selection~~ **DONE** (e21a50f): canonical max(updated_at)+append-seq; equal-ts conflict determinism + as_of + shard-order tests | code | — | ✅ committed |
+| Q5 | ~~PR2 — real freeze lifecycle~~ **DONE**: `corpus_freeze.{freeze_rehearse,freeze_materialize,freeze_verify}` + `FreezeCandidate`/`PublicationReceipt`; bundle gated on a VERIFIED receipt (not a label); moving window rejected; overwrite/mutation guards; 9 lifecycle tests | code | — | ✅ (pending commit) |
+| Q6 | PR3 — sanctioned-export contract + synthetic importer (WP1.7) | code | — (next) | end-to-end import→freeze→verify→bundle on a synthetic export |
+| Q7 | (opportunistic) sanctioned corpus export runbook | maintainer | Miha export/token (external) | WP7 pilot on real export |
 
-Then PR3 export contract → PR4 pressure-atlas spec+time engine → PR5 hierarchical
-inference → PR6 Paper A RC → PR7 evidence graph → PR8 Paper 3 RC → PR9 CI lanes →
-PR10 lateral-coupling feasibility. Product lane (Doc 1) follows this convergence.
+Then PR4 pressure-atlas spec+time engine → PR5 hierarchical inference → PR6 Paper A
+RC → PR7 evidence graph → PR8 Paper 3 RC → PR9 CI lanes → PR10 lateral-coupling
+feasibility. Product lane (Doc 1) follows this convergence.
+
+**WP1 acceptance now met:** a classification string can no longer create a
+publication snapshot (`freeze_snapshot` rejects the label; `build_bundle` requires a
+verified receipt); the exploratory moving window is rejected by `freeze_rehearse`;
+materialization is immutable + non-overwriting; verification detects source/file
+mutation. Remaining WP1.7 (synthetic sanctioned export end-to-end) = PR3.
 
 **Deprioritized / not active:** further G10 viscosity work; broad registry growth;
 generic data intake for count's sake; the product build (deferred to after

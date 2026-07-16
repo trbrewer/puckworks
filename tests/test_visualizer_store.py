@@ -97,11 +97,15 @@ def test_snapshot_manifest_is_deterministic_and_complete(tmp_path):
     assert m1["reconcile_ok"] is True and m1["manifest_sha256"]
     assert m1["shards"] and all(s["sha256"] for s in m1["shards"])
     assert m1["measurement_dictionary_channels"] == sorted(vs.MEASUREMENT_DICTIONARY)
-    # freeze writes the same deterministic manifest to disk
+    # freeze_snapshot writes the same deterministic manifest to disk (current-state only)
     dst = tmp_path / "snap.json"
-    frozen = vs.freeze_snapshot(cfg, "pilot", dst, classification="publication-freeze")
+    frozen = vs.freeze_snapshot(cfg, "pilot", dst, classification="current-state")
     on_disk = json.load(open(dst))
-    assert on_disk == frozen and frozen["classification"] == "publication-freeze"
+    assert on_disk == frozen and frozen["classification"] == "current-state"
+    # WP1.2: the manifest writer CANNOT mint a publication freeze from a label
+    with pytest.raises(ValueError, match="publication freeze"):
+        vs.freeze_snapshot(cfg, "pilot", tmp_path / "x.json",
+                           classification="publication-freeze")
 
 
 def test_qc_table_flat_columns(tmp_path):

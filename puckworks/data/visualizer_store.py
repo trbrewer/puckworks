@@ -252,11 +252,19 @@ class CorpusSnapshot:
         return body
 
 
-def freeze_snapshot(out_dir, name, dst_path, classification="publication-freeze",
+def freeze_snapshot(out_dir, name, dst_path, classification="current-state",
                     as_of=None, cutoff=None, collection_start=None, collection_end=None):
-    """Write a deterministic snapshot manifest JSON to `dst_path` and return it. This is the
-    freeze contract: a paper-grade snapshot must be built with classification
-    'publication-freeze' AND against a store that no longer mutates. Returns the manifest."""
+    """Write a deterministic snapshot MANIFEST JSON to `dst_path` and return it.
+
+    NOTE (WP1.2): this is a manifest-only writer for EXPLORATORY / current-state snapshots.
+    It CANNOT mint a publication freeze — a paper-grade snapshot must go through
+    ``corpus_freeze.freeze_materialize`` + ``freeze_verify`` (which materialize the canonical
+    view and issue a verified receipt). Passing ``classification='publication-freeze'`` here is
+    rejected, so a bare label can never masquerade as a verified freeze."""
+    if classification == "publication-freeze":
+        raise ValueError(
+            "freeze_snapshot writes a manifest only and cannot create a publication freeze; "
+            "use corpus_freeze.freeze_materialize(...) + freeze_verify(...)")
     snap = CorpusSnapshot(out_dir, name=name, classification=classification, as_of=as_of)
     manifest = snap.manifest(cutoff=cutoff, collection_start=collection_start,
                              collection_end=collection_end)

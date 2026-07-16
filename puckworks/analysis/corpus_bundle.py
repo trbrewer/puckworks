@@ -26,7 +26,7 @@ def _sha(text):
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
-def _claim_bundle(snapshot, census, atlas):
+def _claim_bundle(snapshot, census, atlas, exploratory=True):
     """Headline numbers WITH denominators + sensitivity + the evidence ceiling. Deliberately
     reports one-shot-per-user alongside every all-shots number (contributor concentration)."""
     allc = census["results"]["all_shots"]
@@ -37,7 +37,7 @@ def _claim_bundle(snapshot, census, atlas):
         "evidence_ceiling": _CEILING,
         "snapshot_name": snapshot.name,
         "snapshot_classification": snapshot.classification,
-        "exploratory": snapshot.classification != "publication-freeze",
+        "exploratory": exploratory,
         "corpus": {
             "n_shots": allc["n_shots"],
             "n_unique_users": allc["n_unique_users"],
@@ -61,13 +61,24 @@ def _claim_bundle(snapshot, census, atlas):
     }
 
 
-def build_bundle(snapshot, dst_dir=None, require_freeze=False):
+def build_bundle(snapshot, dst_dir=None, require_freeze=False, receipt=None):
     """Build (and optionally write) the corpus analysis bundle. Returns the bundle dict with a
-    content hash. `require_freeze=True` refuses a non-publication-freeze snapshot."""
-    if require_freeze and snapshot.classification != "publication-freeze":
-        raise RuntimeError(
-            "a publication bundle requires a 'publication-freeze' snapshot; got %r"
-            % snapshot.classification)
+    content hash.
+
+    `require_freeze=True` (WP1.2) demands a VERIFIED publication receipt — a
+    ``corpus_freeze.PublicationReceipt`` with ``qualifies_for_publication``. A classification
+    STRING on the snapshot can no longer unlock a publication bundle; only a passing
+    materialize→verify does."""
+    if require_freeze:
+        ok = bool(receipt is not None and getattr(receipt, "qualifies_for_publication", False))
+        if not ok:
+            raise RuntimeError(
+                "a publication bundle requires a VERIFIED publication receipt "
+                "(corpus_freeze.freeze_verify on a publication-freeze snapshot); a "
+                "classification label is not sufficient. got receipt=%r" % (receipt,))
+    # publication status derives from the VERIFIED receipt, never from the snapshot label
+    is_publication = bool(require_freeze and receipt is not None
+                          and getattr(receipt, "qualifies_for_publication", False))
     manifest = snapshot.manifest()
     census = visualizer_census.corpus_census(snapshot)
     atlas = controller_atlas.pressure_atlas(snapshot)
@@ -76,13 +87,14 @@ def build_bundle(snapshot, dst_dir=None, require_freeze=False):
         "census": census,
         "pressure_atlas": atlas,
         "eligibility": eligibility,
-        "claim_bundle": _claim_bundle(snapshot, census, atlas),
+        "claim_bundle": _claim_bundle(snapshot, census, atlas, exploratory=not is_publication),
     }
     bundle = {
-        "bundle_schema_version": 1,
+        "bundle_schema_version": 2,
         "snapshot_name": snapshot.name,
         "classification": snapshot.classification,
-        "exploratory": snapshot.classification != "publication-freeze",
+        "exploratory": not is_publication,
+        "publication_receipt_sha256": getattr(receipt, "receipt_sha256", None) if is_publication else None,
         "snapshot_manifest_sha256": manifest["manifest_sha256"],
         "products": products,
     }

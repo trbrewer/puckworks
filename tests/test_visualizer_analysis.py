@@ -110,10 +110,17 @@ def test_corpus_bundle_products_and_freeze_guard(tmp_path):
     assert (tmp_path / "bundle" / "bundle.json").exists()
     # deterministic
     assert corpus_bundle.build_bundle(snap)["bundle_sha256"] == bundle["bundle_sha256"]
-    # a publication bundle is refused on a non-frozen snapshot
+    # WP1.2: a publication bundle needs a VERIFIED receipt, not a classification label.
     import pytest as _pt
-    with _pt.raises(RuntimeError, match="publication-freeze"):
+    with _pt.raises(RuntimeError, match="VERIFIED publication receipt"):
         corpus_bundle.build_bundle(snap, require_freeze=True)
-    # ...but allowed once classified as a freeze
-    frozen = vs.CorpusSnapshot(tmp_path, name="f", classification="publication-freeze")
-    assert corpus_bundle.build_bundle(frozen, require_freeze=True)["exploratory"] is False
+    # assigning the 'publication-freeze' label to a snapshot CANNOT unlock it (the old bug)
+    labelled = vs.CorpusSnapshot(tmp_path, name="f", classification="publication-freeze")
+    with _pt.raises(RuntimeError, match="VERIFIED publication receipt"):
+        corpus_bundle.build_bundle(labelled, require_freeze=True)
+    # a forged receipt (not qualifying) is also refused
+    class _Fake:
+        qualifies_for_publication = False
+        receipt_sha256 = "x"
+    with _pt.raises(RuntimeError, match="VERIFIED publication receipt"):
+        corpus_bundle.build_bundle(snap, require_freeze=True, receipt=_Fake())
