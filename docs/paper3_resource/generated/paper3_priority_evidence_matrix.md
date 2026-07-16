@@ -4,7 +4,7 @@
 
 The claims the `--strict --scope paper3` release gate is fail-closed on (claim_owner=paper3, paper3_use in primary_claim, method_demonstration). Each exposes source cards, exact dataset ids, dataset status, fit/eval role, independence, the caveat, and what is NOT supported.
 
-**10 asserted Paper-3 claim(s).**
+**20 asserted Paper-3 claim(s).**
 
 ## `brewer2026.coupled_kappa_t::gate_kappa_t_composition_diagnostic`
 - **claim:** Adding the parameter-free mo2023_2 swelling branch behaves as the framework predicts: the composite porosity closes below eps0 and the 9-bar Q(t) residual jumps from ~0.12 to ~0.65 g/s (worse than the flat null ~0.603), diagnosing that mo2023_2's fixed-dP fresh-grain swelling is mis-scaled for an already-swollen saturated pre-wet rig.
@@ -78,6 +78,19 @@ The claims the `--strict --scope paper3` release gate is fail-closed on (claim_o
 - **caveat:** Loads NO MANIFEST dataset — it runs a self-contained simulate_shot and builds the ceiling from model-internal constants (R0, bed_depth, C_S0, phi_s), so the ceiling is self-referential.
 - **claim NOT supported:** Does NOT establish that the model's EY matches any measured espresso yield — it is a numerical mass-budget self-consistency check, not empirical validation.
 
+## `fasano2000_partI.fines_migration::gate_fasano_freeboundary`
+- **claim:** A free-boundary fines-migration solver with puckworks' own (invented) closures exhibits Fasano's analytic structure: global mass balance <1%, q(t) monotone non-increasing, s(t)>= s_min, and a non-monotone q_inf(p0) with an interior peak.
+- **observable:** Discharge trace q(t), free-boundary position s(t), global fines mass balance, and q_inf vs injection pressure p0.
+- **tier / relationship:** code_verification / code_verification
+- **paper3_use / support:** method_demonstration / admissible
+- **reality_facing:** False
+- **fit datasets:** (none)
+- **eval datasets:** (none)
+- **sources:**
+    - `fasano2000_partI` — resolved_manifest — role=context, independence=not_applicable
+- **caveat:** The solver's closures K/M/gamma are invented/nominal (unpublished in the source); only the beta(q) shape comes from digitized Fig 8.7, so this verifies analytic properties of a fasano-STRUCTURED code, not the paper's curve and not physical reality.
+- **claim NOT supported:** It does not reproduce Fasano's Fig 8.6 curve, does not fit or validate against any measured flow trace, and identifies no physical parameter.
+
 ## `foster2025.infiltration::gate_infiltration_triangle`
 - **claim:** A sharp-front infiltration prediction, driven by the DE1 shot's own measured pressure trace and a permeability from that shot's fitted kappa, yields a bed-saturation-time window (across an a-priori porosity bracket 0.173-0.322) that brackets the observed first-drip time (~7 s).
 - **observable:** First-liquid / bed-saturation time (s): observed = time cup weight first exceeds 0.5 g; predicted = t_saturate when the modelled front reaches bed depth L, at porosity endpoints 0.173 and 0.322.
@@ -94,6 +107,74 @@ The claims the `--strict --scope paper3` release gate is fail-closed on (claim_o
 - **caveat:** Permeability k comes from kappa_fitted=1.196 (fitted to this same shot's flow) and the front is driven by this same shot's P(t); only the two porosity bracket endpoints are a-priori and the bracket is wide (~1.86x). REGISTRY LABELS THIS controlled_independent — the code does not support that tier; honest per-gate strength is sign_or_compatibility.
 - **claim NOT supported:** Does NOT demonstrate a parameter-free prediction independent of the evaluated data: k and P(t) are from the same shot, so 'parameter-free' holds only in that no parameter was tuned to hit the first-drip time itself.
 
+## `grudeva2025.reduced::gate_grudeva_no_eps_kappa`
+- **claim:** The reduced solver's capacitance coefficient B equals phi_l/phi_T + phi_f/phi_T with NO epsilon factor (the adjudicated no-eps form), and recomputing Eq 6.14 at 9.2 bar yields the adjudicated kappa ~2.2e-15 m^2 rather than the printed 2.2e-16 (decade-typo correction).
+- **observable:** The algebraic form of the capacitance coefficient B, and kappa from Eq 6.14 at nominal card inputs.
+- **tier / relationship:** code_verification / code_verification
+- **paper3_use / support:** method_demonstration / admissible
+- **reality_facing:** False
+- **fit datasets:** (none)
+- **eval datasets:** (none)
+- **sources:**
+    - `grudeva2025` — not_applicable_source_equation — role=reference, independence=not_applicable — physics/equations or model card; supplies no MANIFEST dataset for this gate
+- **caveat:** No MANIFEST dataset is loaded; inputs are hardcoded nominal card constants and kappa is a recomputation of the source's OWN Eq 6.14 — an internal typo adjudication, not a measured permeability.
+- **claim NOT supported:** It does not validate kappa against any independent permeability measurement nor the model against extraction data; it establishes only self-consistency of the adjudicated form.
+
+## `grudeva2025.reduced::gate_grudeva_reduced_solver`
+- **claim:** The reduced solve produces a post-first-drip saturated exit plateau and reconstructs the C1 per-vial solubles masses — total solute within 5% of the 14-shot mean and >=8 of 13 vials within 1 SD.
+- **observable:** Per-vial solubles mass (g) for vials 3-15, total solubles mass, and existence of the saturated exit plateau.
+- **tier / relationship:** post_fit_reconstruction / post_fit_same_data
+- **paper3_use / support:** method_demonstration / admissible
+- **reality_facing:** False
+- **fit datasets:** grudeva2025/exp13_vial_stats
+- **eval datasets:** grudeva2025/exp13_vial_stats
+- **sources:**
+    - `grudeva2025` — resolved_manifest — role=eval, independence=same_data_as_fit
+    - `grudeva2025` — resolved_manifest — role=fit, independence=fit_input
+- **caveat:** The card is explicit (config C1) that seven chemistry/porosity quantities were fitted to these same 13/14 shots, so the within-1-SD agreement is circular and must never be cited as independent; the solve also uses a coarse grid.
+- **claim NOT supported:** It does not establish independent or out-of-sample predictive accuracy — the forthcoming time-resolved companion dataset is the pending independent gate.
+
+## `liang2021.desorption::gate_liang_eoven_ceiling`
+- **claim:** The Eq-22 oven-drying kernel reproduces the Fig 4 oven branch (MAPE<0.15), the equilibrium E is flat at ~21%, and the immersion equilibrium ceiling K*E_max (0.215) sits below cameron's per-bed soluble-inventory ceiling.
+- **observable:** E_oven (%) and equilibrium E (%) vs brew ratio R_brew (>=3) from Fig 4, plus the inequality K*E_max < cameron_inventory_ceiling.
+- **tier / relationship:** source_curve_reproduction / within_campaign_held_out
+- **paper3_use / support:** method_demonstration / admissible
+- **reality_facing:** True
+- **fit datasets:** liang2021/fig3_tds
+- **eval datasets:** liang2021/fig4_E
+- **sources:**
+    - `liang2021` — resolved_manifest — role=eval, independence=held_out_same_campaign
+    - `liang2021` — resolved_manifest — role=fit, independence=fit_input
+- **caveat:** The kernel uses K*E_max=0.215 fitted from Liang's Fig 3 plus card constants, evaluated on the same-rig different-figure measured Fig 4 oven branch; E_max=0.30 is assumed; the K*E_max<cameron piece is a cross-source sign/compatibility bound between two model-derived ceilings, not a reality measurement.
+- **claim NOT supported:** The ceiling comparison does not establish either ceiling against data and is not a conflict resolution; nothing here validates espresso/flow extraction (Liang is immersion-only).
+
+## `mo2023_2.coupled_bed::gate_mo2_coupled_bed_fig8`
+- **claim:** The depth-resolved coupled through-flow bed reproduces mo2023_2's type-M fixed-flow yield-vs-beverage-mass (Fig 8, M_c<30 g) within the digitized replicate error bars at 5/9 points and with tighter shape-spread than the reduced lumped bed, while staying mass-conserving.
+- **observable:** Yield (%) vs beverage mass M_c (g), type-M, q=2/3/4 mL/s, M_c<30 g; within-bars count, shape spread, mass-balance floor.
+- **tier / relationship:** post_fit_reconstruction / post_fit_same_data
+- **paper3_use / support:** method_demonstration / admissible
+- **reality_facing:** True
+- **fit datasets:** mo2023_2/yield_strength_figs6_9
+- **eval datasets:** mo2023_2/yield_strength_figs6_9
+- **sources:**
+    - `mo2023_2` — resolved_manifest — role=eval, independence=same_data_as_fit
+    - `mo2023_2` — resolved_manifest — role=fit, independence=fit_input
+- **caveat:** A single inventory-scale EY_scale is chosen to maximize the within-bars count against the same Fig-8 points and K is tuned to 0.9, so fit and eval are the same figure; only type-M and only M_c<30 g (the M_c=20 over-prediction is converged/genuine).
+- **claim NOT supported:** It does not validate the swelling mechanism itself, does not hold for M_c>30 g, and is not an out-of-sample test.
+
+## `mo2023_2.swelling::gate_mo2_k0_carman_kozeny`
+- **claim:** The closed-form Carman-Kozeny k0 with eps_b=0.17, n=0.5 reproduces mo2023_2 Table 2 k0 from the Table 1 Sauter diameter for all four powders to <3%.
+- **observable:** Per-powder relative error between the recomputed CK k0 and the tabulated Table 2 k0 (m^2).
+- **tier / relationship:** code_verification / code_verification
+- **paper3_use / support:** method_demonstration / admissible
+- **reality_facing:** False
+- **fit datasets:** (none)
+- **eval datasets:** mo2023_2/granulometry_table1;mo2023_2/k0_table2
+- **sources:**
+    - `mo2023_2` — resolved_manifest — role=eval, independence=not_applicable
+- **caveat:** Table 2 k0 is a DERIVED quantity (the authors computed it from Table 1 via the same CK closure), so this is an algebraic identity/closure reproduction, not a measured-permeability comparison; eps_b=0.17 is nominal and validates only the t=0 flow closure.
+- **claim NOT supported:** It does not validate the swelling mechanism, does not compare k0 to any measured permeability, and says nothing about flow during a shot.
+
 ## `mo2023_2.swelling::gate_mo2_swelling_insensitivity`
 - **claim:** At fixed flow the implemented mo2023_2 two-population model gives nearly identical yield with swelling on vs off (max relative difference <5%) because swelling raises grain porosity/D_p (~+15%) but grows R^2 (~+7%) and these offset — reproducing the paper's Fig. 2 model behaviour.
 - **observable:** End-of-shot yield (fraction of extractable inventory) with swelling on vs off at q=2/3/4 mL/s (fixed-q), contrasted with the fixed-dP Carman-Kozeny flow-decay ratio.
@@ -106,6 +187,45 @@ The claims the `--strict --scope paper3` release gate is fail-closed on (claim_o
     - `mo2023_2` — resolved_manifest — role=context, independence=not_applicable
 - **caveat:** No empirical yield data is compared — the gate checks a self-consistency property of the implemented model against the paper's Fig. 2 (itself model output); granulometry Table 1 enters as a model input, not a fit/eval target; the swelling magnitude C_M is assumed.
 - **claim NOT supported:** Does NOT validate the swelling mechanism or absolute yields against experiment — only that the code exhibits the offsetting-timescale insensitivity the paper asserts at fixed flow.
+
+## `pannusch2024.closures::gate_pannusch_closures`
+- **claim:** The pannusch2024 constitutive closures reproduce physical anchors: water viscosity ~3.15e-4 Pa.s and density ~962 kg/m^3 at 90C, Wilke-Chang D in 5e-9..1.2e-8 m^2/s, van't Hoff K(Tref)=Kref with weak T-dependence, and a positive Sherwood h_sl monotone in flow.
+- **observable:** Scalar closure outputs at fixed inputs: mu(363K), rho(363K), D per solute, K(Tref)/K80/K98 ratios, and h_sl at two flow rates.
+- **tier / relationship:** code_verification / code_verification
+- **paper3_use / support:** method_demonstration / admissible
+- **reality_facing:** False
+- **fit datasets:** (none)
+- **eval datasets:** pannusch2024/table2_params
+- **sources:**
+    - `pannusch2024` — resolved_manifest — role=eval, independence=not_applicable
+- **caveat:** All anchors are literature/constitutive correlations or algebraic identities (K(Tref)=Kref is a tautology; weak-T and h monotonicity are math properties); Table 2 params are only fed in and the card states they lack generality; no measured extraction data are loaded.
+- **claim NOT supported:** It does not validate the extraction model's accuracy against any measurement (that is gate_pannusch_solver_mape) and does not test whether the closures reproduce real coffee behaviour.
+
+## `romancorrochano2017.extraction::gate_roman_bed_flow_trend`
+- **claim:** The lumped flow-through bed solver (Eq 3.36) is mass-conserving (<2%) with monotone yield, and at a matched beverage volume a lower flow Q yields both higher extraction and higher strength than a higher Q.
+- **observable:** Bed mass-balance residual and yield monotonicity over 40 s, plus ordering of yield and strength at fixed beverage volume for Q=0.8/1.5/3.0e-6 m^3/s.
+- **tier / relationship:** code_verification / code_verification
+- **paper3_use / support:** method_demonstration / admissible
+- **reality_facing:** False
+- **fit datasets:** (none)
+- **eval datasets:** (none)
+- **sources:**
+    - `romancorrochano2017_extraction` — not_applicable_source_equation — role=reference, independence=not_applicable — physics/equations or model card; supplies no MANIFEST dataset for this gate
+- **caveat:** Runs the puckworks bed_lumped solver with hand-set NOMINAL geometry and no dataset; the flow trend is geometry-independent (a math-guaranteed sign), not a fit to any data.
+- **claim NOT supported:** It does not reproduce or validate any measured espresso yield/strength magnitude; only conservation and the solver-guaranteed trend direction are checked, against no data.
+
+## `romancorrochano2017.extraction::gate_roman_sphere_solver`
+- **claim:** The spherical method-of-lines diffusion solver reproduces the Crank analytic fractional-release series (sphere into an infinite sink) to max abs error <1e-3 across seven times spanning the shot.
+- **observable:** Max abs difference between the numerical MOL sphere release (N=120) and the analytic Crank series at t=0.5..40 s.
+- **tier / relationship:** code_verification / code_verification
+- **paper3_use / support:** method_demonstration / admissible
+- **reality_facing:** False
+- **fit datasets:** (none)
+- **eval datasets:** (none)
+- **sources:**
+    - `romancorrochano2017_extraction` — not_applicable_source_equation — role=reference, independence=not_applicable — physics/equations or model card; supplies no MANIFEST dataset for this gate
+- **caveat:** No dataset and no coffee data involved; it runs the puckworks sphere solver only to check it against a textbook analytic solution, not against any measurement.
+- **claim NOT supported:** It says nothing about whether the diffusion physics, Deff values, or partition BC match real espresso extraction — only that the PDE numerics are correct.
 
 ## `sourcing2026.g10_liquor_rheology::gate_g10_viscosity_bulk_negligible`
 - **claim:** Driving cameron2020's own in-pore liquor concentration field through the MEASURED Telis-Romero 2001 eta(c,T) grid, the in-pore liquor never approaches saturation (peak mu < 1.15x water), so the constant-water-viscosity assumption used by every registered flow model gives <8% outlet flow suppression and >0.95 depth-averaged flow factor at espresso conditions.
@@ -122,6 +242,19 @@ The claims the `--strict --scope paper3` release gate is fail-closed on (claim_o
     - `cameron2020` — not_applicable_source_equation — role=reference, independence=not_applicable — physics/equations or model card; supplies no MANIFEST dataset for this gate
 - **caveat:** The negligibility conclusion is derived from a MODEL (cameron2020's concentration field) fed measured mu, with permeability/pressure held fixed and no measured espresso flow to test against; a bounded compatibility result that excludes genuinely saturating (choked/ristretto) shots.
 - **claim NOT supported:** It does NOT empirically demonstrate real espresso flow is insensitive to liquor viscosity nor validate cameron2020's concentration field — only that IF that field is right, the measured mu(c,T) correction is small.
+
+## `wadsworth2026.inertial::gate_inertial_darcy_recovery`
+- **claim:** As k_I->infinity the Forchheimer quadratic solver returns the Darcy velocity q=|grad p|k/mu to rtol 1e-6, and a finite k_I (Zhou closure) yields q below the Darcy value.
+- **observable:** Darcy-limit recovery of the Forchheimer momentum-equation root solver (code property).
+- **tier / relationship:** code_verification / code_verification
+- **paper3_use / support:** method_demonstration / admissible
+- **reality_facing:** False
+- **fit datasets:** (none)
+- **eval datasets:** (none)
+- **sources:**
+    - `wadsworth2026_inertial` — not_applicable_source_equation — role=reference, independence=not_applicable — physics/equations or model card; supplies no MANIFEST dataset for this gate
+- **caveat:** Code-internal only: synthetic inputs (k=1e-13 m^2, grad p=5e5/0.02 Pa/m); it tests that the quadratic root reduces to Darcy and that finite inertia slows flow — a numerical/algebraic property, no data.
+- **claim NOT supported:** It says nothing about whether the Forchheimer closure or the k_I(k) law is correct for coffee.
 
 ## `wadsworth2026.inertial::gate_inertial_de1_audit`
 - **claim:** Computing Fo_F along the real DE1 fixture-A tamped trace (Darcy k from the fitted kappa=1.196 via the kappa->SI chain, k_I from the ceramics-fitted Zhou closure) yields a peak Fo_F that is O(1), falls inside the backlog's 0.3-0.9 gusher-regime estimate, and exceeds the card's untamped espresso ceiling (0.0639) by >10x.

@@ -18,14 +18,19 @@ def test_paper3_strict_release_gate_is_clean():
     assert EG.reconcile(strict=True, scope="paper3") == []
 
 
-def test_all_strict_fails_while_drafts_remain():
+def test_all_scope_strict_reflects_draft_state():
+    # the full graph is adjudicated -> --scope all is clean; if any draft is reintroduced it fails
     problems = EG.reconcile(strict=True, scope="all")
     n_draft = sum(1 for l in EG.load_links()
                   if l["adjudication_status"] == "NEEDS_ADJUDICATION")
     if n_draft:
         assert any("STRICT(all)" in p for p in problems)
     else:
-        assert problems == []
+        assert problems == []                            # fully adjudicated today
+
+
+def test_no_drafts_remain():
+    assert all(l["adjudication_status"] == "ADJUDICATED" for l in EG.load_links())
 
 
 def test_every_registry_wiring_is_covered_and_no_orphans():

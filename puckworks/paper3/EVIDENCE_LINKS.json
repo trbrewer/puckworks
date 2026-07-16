@@ -227,67 +227,101 @@
       "support_status": "admissible"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "fasano2000_partI",
+      "caveat": "fig8_6 is DIGITIZED MODEL OUTPUT (Suski simulation, not experiment) and the closures are unpublished, so this is a structural consistency check between two of the paper's own figures via its own necessary condition, not a reproduction of Fig 8.6 from scratch.",
+      "claim": "In Fasano's digitized figures the peak of the asymptotic-discharge curve q_inf(p0) (Fig 8.6) sits at the flow where the detachment threshold beta(q) (Fig 8.7) drops steeply, the structural link the paper's Corollary 8.2 requires.",
       "claim_id": "fasano2000_partI.fines_migration::gate_fasano_cor82_nonmonotone",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does not reproduce the paper's model curve from the governing equations, identifies no parameter, and asserts nothing about physical reality.",
+      "claim_owner": "paper3",
       "component": "fasano2000_partI.fines_migration",
       "component_evidence_strength": "qualitative_capacity",
       "conflict_note": null,
-      "evidence_strength": null,
+      "evidence_strength": "sign_or_compatibility",
       "gate": "gate_fasano_cor82_nonmonotone",
       "link_id": "fasano2000_partI.fines_migration::gate_fasano_cor82_nonmonotone",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Location of the q_inf(p0) peak vs the steepest-slope knee of the beta(q) threshold, plus non-monotonicity of q_inf(p0).",
+      "paper3_use": "cited_science",
+      "reality_facing": false,
+      "relationship": "code_verification",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "fasano2000_partI/fig8_6_model_q_inf",
+            "fasano2000_partI/fig8_7_thresholds"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "context",
+          "independence": "not_applicable",
+          "note": null,
+          "source_card": "fasano2000_partI"
+        }
+      ],
+      "support_status": "context_only"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "fasano2000_partI",
+      "caveat": "The solver's closures K/M/gamma are invented/nominal (unpublished in the source); only the beta(q) shape comes from digitized Fig 8.7, so this verifies analytic properties of a fasano-STRUCTURED code, not the paper's curve and not physical reality.",
+      "claim": "A free-boundary fines-migration solver with puckworks' own (invented) closures exhibits Fasano's analytic structure: global mass balance <1%, q(t) monotone non-increasing, s(t)>= s_min, and a non-monotone q_inf(p0) with an interior peak.",
       "claim_id": "fasano2000_partI.fines_migration::gate_fasano_freeboundary",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does not reproduce Fasano's Fig 8.6 curve, does not fit or validate against any measured flow trace, and identifies no physical parameter.",
+      "claim_owner": "paper3",
       "component": "fasano2000_partI.fines_migration",
       "component_evidence_strength": "qualitative_capacity",
       "conflict_note": null,
-      "evidence_strength": null,
+      "evidence_strength": "code_verification",
       "gate": "gate_fasano_freeboundary",
       "link_id": "fasano2000_partI.fines_migration::gate_fasano_freeboundary",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Discharge trace q(t), free-boundary position s(t), global fines mass balance, and q_inf vs injection pressure p0.",
+      "paper3_use": "method_demonstration",
+      "reality_facing": false,
+      "relationship": "code_verification",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "fasano2000_partI/fig8_7_thresholds"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "context",
+          "independence": "not_applicable",
+          "note": null,
+          "source_card": "fasano2000_partI"
+        }
+      ],
+      "support_status": "admissible"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "fasano2000_partI",
+      "caveat": "It only re-reads the source's own single low-fidelity digitized experimental figure and confirms its qualitative peak ordering; no model is exercised and it is not an independent measurement.",
+      "claim": "In the digitized Fig 8.4 reversible-chamber experiment the direct segment and the chamber-inverted segment both replay a large transient discharge peak while the pressure-off/on resume segment stays at the low plateau \u2014 the fines-counter-migration reversal signature.",
       "claim_id": "fasano2000_partI.fines_migration::gate_fasano_reversal_signature",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does not independently reproduce the reversal from a mechanism, does not quantify amplitudes against controlled data, and provides no parameter identification.",
+      "claim_owner": "paper3",
       "component": "fasano2000_partI.fines_migration",
       "component_evidence_strength": "qualitative_capacity",
       "conflict_note": null,
-      "evidence_strength": null,
+      "evidence_strength": "source_curve_reproduction",
       "gate": "gate_fasano_reversal_signature",
       "link_id": "fasano2000_partI.fines_migration::gate_fasano_reversal_signature",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Peak discharge rate (mL/s) within each of the three experimental segments (direct / off-on resume / inverted).",
+      "paper3_use": "cited_science",
+      "reality_facing": false,
+      "relationship": "same_campaign_not_held_out",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "fasano2000_partI/fig8_4_reversal"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "eval",
+          "independence": "same_campaign",
+          "note": null,
+          "source_card": "fasano2000_partI"
+        }
+      ],
+      "support_status": "context_only"
     },
     {
       "adjudication_status": "ADJUDICATED",
@@ -348,25 +382,46 @@
       "support_status": "admissible"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "foster2025_2",
+      "caveat": "The decisive <0.2 mm RMSE threshold is against Foster's own fitted ODE output, and the CT-data bracketing uses the same campaign whose s/H curves the parameters were fitted to (card-flagged circularity); error bars widened to max(err,0.5 mm), only >=4 points required.",
+      "claim": "The machine-mode solver's front s(t) and headspace H(t) match Foster's own fitted ODE curves to <0.2 mm RMSE and each bracket at least 4 digitized CT data points within their (>=0.5 mm) error bars.",
       "claim_id": "foster2025.machine_mode::gate_foster_ct_trajectory",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does not establish parameter-free or out-of-sample prediction of the wetting-front trajectory; the paper validates model form, not parameter-free prediction.",
+      "claim_owner": "paper3",
       "component": "foster2025.machine_mode",
       "component_evidence_strength": "source_curve_reproduction",
       "conflict_note": null,
-      "evidence_strength": null,
+      "evidence_strength": "source_curve_reproduction",
       "gate": "gate_foster_ct_trajectory",
       "link_id": "foster2025.machine_mode::gate_foster_ct_trajectory",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Wetting-front depth s(t) and headspace height H(t) (mm) over the shot, vs the paper's fitted ODE curves and vs digitized CT measurements.",
+      "paper3_use": "cited_science",
+      "reality_facing": false,
+      "relationship": "same_campaign_not_held_out",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "foster2025_2/fig12_14_curves"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "eval",
+          "independence": "same_campaign",
+          "note": null,
+          "source_card": "foster2025_2"
+        },
+        {
+          "dataset_manifest_ids": [
+            "foster2025_2/fig12_14_curves"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "fit",
+          "independence": "fit_input",
+          "note": null,
+          "source_card": "foster2025_2"
+        }
+      ],
+      "support_status": "context_only"
     },
     {
       "adjudication_status": "ADJUDICATED",
@@ -443,88 +498,148 @@
       "support_status": "admissible"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "grudeva2025",
+      "caveat": "No MANIFEST dataset is loaded; inputs are hardcoded nominal card constants and kappa is a recomputation of the source's OWN Eq 6.14 \u2014 an internal typo adjudication, not a measured permeability.",
+      "claim": "The reduced solver's capacitance coefficient B equals phi_l/phi_T + phi_f/phi_T with NO epsilon factor (the adjudicated no-eps form), and recomputing Eq 6.14 at 9.2 bar yields the adjudicated kappa ~2.2e-15 m^2 rather than the printed 2.2e-16 (decade-typo correction).",
       "claim_id": "grudeva2025.reduced::gate_grudeva_no_eps_kappa",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does not validate kappa against any independent permeability measurement nor the model against extraction data; it establishes only self-consistency of the adjudicated form.",
+      "claim_owner": "paper3",
       "component": "grudeva2025.reduced",
       "component_evidence_strength": "post_fit_reconstruction",
-      "conflict_note": null,
-      "evidence_strength": null,
+      "conflict_note": "Encodes an intra/inter-source conflict: the adjudicated no-eps capacitance and kappa~2.2e-15 override S2's printed eps-multiplied equations and both sources' printed kappa=2.2e-16 / P_app=9.2e-6 (decade/exponent typos).",
+      "evidence_strength": "code_verification",
       "gate": "gate_grudeva_no_eps_kappa",
       "link_id": "grudeva2025.reduced::gate_grudeva_no_eps_kappa",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "The algebraic form of the capacitance coefficient B, and kappa from Eq 6.14 at nominal card inputs.",
+      "paper3_use": "method_demonstration",
+      "reality_facing": false,
+      "relationship": "code_verification",
+      "sources": [
+        {
+          "dataset_manifest_ids": [],
+          "dataset_status": "not_applicable_source_equation",
+          "evidence_role": "reference",
+          "independence": "not_applicable",
+          "note": "physics/equations or model card; supplies no MANIFEST dataset for this gate",
+          "source_card": "grudeva2025"
+        }
+      ],
+      "support_status": "admissible"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "grudeva2025",
+      "caveat": "The card is explicit (config C1) that seven chemistry/porosity quantities were fitted to these same 13/14 shots, so the within-1-SD agreement is circular and must never be cited as independent; the solve also uses a coarse grid.",
+      "claim": "The reduced solve produces a post-first-drip saturated exit plateau and reconstructs the C1 per-vial solubles masses \u2014 total solute within 5% of the 14-shot mean and >=8 of 13 vials within 1 SD.",
       "claim_id": "grudeva2025.reduced::gate_grudeva_reduced_solver",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does not establish independent or out-of-sample predictive accuracy \u2014 the forthcoming time-resolved companion dataset is the pending independent gate.",
+      "claim_owner": "paper3",
       "component": "grudeva2025.reduced",
       "component_evidence_strength": "post_fit_reconstruction",
       "conflict_note": null,
-      "evidence_strength": null,
+      "evidence_strength": "post_fit_reconstruction",
       "gate": "gate_grudeva_reduced_solver",
       "link_id": "grudeva2025.reduced::gate_grudeva_reduced_solver",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Per-vial solubles mass (g) for vials 3-15, total solubles mass, and existence of the saturated exit plateau.",
+      "paper3_use": "method_demonstration",
+      "reality_facing": false,
+      "relationship": "post_fit_same_data",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "grudeva2025/exp13_vial_stats"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "eval",
+          "independence": "same_data_as_fit",
+          "note": null,
+          "source_card": "grudeva2025"
+        },
+        {
+          "dataset_manifest_ids": [
+            "grudeva2025/exp13_vial_stats"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "fit",
+          "independence": "fit_input",
+          "note": null,
+          "source_card": "grudeva2025"
+        }
+      ],
+      "support_status": "admissible"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "lee2023",
+      "caveat": "Reproduces the paper's own model behaviour and reported numbers (sign/shape and tau_shot), not amplitude; the interior peak is weak by construction (~0.2 pp vs Fig 4's ~1.5 pp) and the decline requires an imposed unphysical rho_c=798 (2x measured).",
+      "claim": "The two-pathway extraction->porosity->permeability model reproduces lee2023's documented sign/shape behaviour \u2014 seed amplification, an interior EY(g) peak with fine-side decline ONLY at the imposed unphysical rho_c=798, a plateau at physical rho_c=399, and the reviewer's tau_shot cross-check values (1.12, 0.48).",
       "claim_id": "lee2023.feedback::gate_lee_feedback_negative_result",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does not validate the model against extraction data or reproduce the amplitude of the fine-grind EY dip; it is code/source-equation reproduction, not a data fit.",
+      "claim_owner": "paper3",
       "component": "lee2023.feedback",
       "component_evidence_strength": "qualitative_capacity",
       "conflict_note": null,
-      "evidence_strength": null,
+      "evidence_strength": "qualitative_capacity",
       "gate": "gate_lee_feedback_negative_result",
       "link_id": "lee2023.feedback::gate_lee_feedback_negative_result",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Sign of pathway EY divergence, qualitative shape of EY vs grind (peak+decline vs plateau) at two rho_c, and two nondimensional tau_shot values.",
+      "paper3_use": "cited_science",
+      "reality_facing": false,
+      "relationship": "not_empirical",
+      "sources": [
+        {
+          "dataset_manifest_ids": [],
+          "dataset_status": "not_applicable_source_equation",
+          "evidence_role": "reference",
+          "independence": "not_applicable",
+          "note": "physics/equations or model card; supplies no MANIFEST dataset for this gate",
+          "source_card": "lee2023"
+        }
+      ],
+      "support_status": "context_only"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "liang2021",
+      "caveat": "The kernel uses K*E_max=0.215 fitted from Liang's Fig 3 plus card constants, evaluated on the same-rig different-figure measured Fig 4 oven branch; E_max=0.30 is assumed; the K*E_max<cameron piece is a cross-source sign/compatibility bound between two model-derived ceilings, not a reality measurement.",
+      "claim": "The Eq-22 oven-drying kernel reproduces the Fig 4 oven branch (MAPE<0.15), the equilibrium E is flat at ~21%, and the immersion equilibrium ceiling K*E_max (0.215) sits below cameron's per-bed soluble-inventory ceiling.",
       "claim_id": "liang2021.desorption::gate_liang_eoven_ceiling",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "The ceiling comparison does not establish either ceiling against data and is not a conflict resolution; nothing here validates espresso/flow extraction (Liang is immersion-only).",
+      "claim_owner": "paper3",
       "component": "liang2021.desorption",
       "component_evidence_strength": "post_fit_reconstruction",
       "conflict_note": null,
-      "evidence_strength": null,
+      "evidence_strength": "source_curve_reproduction",
       "gate": "gate_liang_eoven_ceiling",
       "link_id": "liang2021.desorption::gate_liang_eoven_ceiling",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "E_oven (%) and equilibrium E (%) vs brew ratio R_brew (>=3) from Fig 4, plus the inequality K*E_max < cameron_inventory_ceiling.",
+      "paper3_use": "method_demonstration",
+      "reality_facing": true,
+      "relationship": "within_campaign_held_out",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "liang2021/fig4_E"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "eval",
+          "independence": "held_out_same_campaign",
+          "note": null,
+          "source_card": "liang2021"
+        },
+        {
+          "dataset_manifest_ids": [
+            "liang2021/fig3_tds"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "fit",
+          "independence": "fit_input",
+          "note": null,
+          "source_card": "liang2021"
+        }
+      ],
+      "support_status": "admissible"
     },
     {
       "adjudication_status": "ADJUDICATED",
@@ -559,67 +674,111 @@
       "support_status": "admissible"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "mo2023_2",
+      "caveat": "A single inventory-scale EY_scale is chosen to maximize the within-bars count against the same Fig-8 points and K is tuned to 0.9, so fit and eval are the same figure; only type-M and only M_c<30 g (the M_c=20 over-prediction is converged/genuine).",
+      "claim": "The depth-resolved coupled through-flow bed reproduces mo2023_2's type-M fixed-flow yield-vs-beverage-mass (Fig 8, M_c<30 g) within the digitized replicate error bars at 5/9 points and with tighter shape-spread than the reduced lumped bed, while staying mass-conserving.",
       "claim_id": "mo2023_2.coupled_bed::gate_mo2_coupled_bed_fig8",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does not validate the swelling mechanism itself, does not hold for M_c>30 g, and is not an out-of-sample test.",
+      "claim_owner": "paper3",
       "component": "mo2023_2.coupled_bed",
       "component_evidence_strength": "post_fit_reconstruction",
       "conflict_note": null,
-      "evidence_strength": null,
+      "evidence_strength": "post_fit_reconstruction",
       "gate": "gate_mo2_coupled_bed_fig8",
       "link_id": "mo2023_2.coupled_bed::gate_mo2_coupled_bed_fig8",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Yield (%) vs beverage mass M_c (g), type-M, q=2/3/4 mL/s, M_c<30 g; within-bars count, shape spread, mass-balance floor.",
+      "paper3_use": "method_demonstration",
+      "reality_facing": true,
+      "relationship": "post_fit_same_data",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "mo2023_2/yield_strength_figs6_9"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "eval",
+          "independence": "same_data_as_fit",
+          "note": null,
+          "source_card": "mo2023_2"
+        },
+        {
+          "dataset_manifest_ids": [
+            "mo2023_2/yield_strength_figs6_9"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "fit",
+          "independence": "fit_input",
+          "note": null,
+          "source_card": "mo2023_2"
+        }
+      ],
+      "support_status": "admissible"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "mo2023_2",
+      "caveat": "This gate exercises NO model \u2014 it only reads the source's own digitized experimental figure and confirms the sign/direction of two trends; a data-trend QC check, not a model prediction.",
+      "claim": "The digitized mo2023_2 fixed-flow yield data exhibit the paper's stated qualitative trends: slower flow gives higher yield at matched beverage mass, and finer grind (E>M>F) gives higher yield, monotone with no fine-grind dip.",
       "claim_id": "mo2023_2.swelling::gate_mo2_fixed_flow_trends",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It supports no model prediction and no quantitative accuracy; it merely confirms monotone trend directions already stated by the paper.",
+      "claim_owner": "paper3",
       "component": "mo2023_2.swelling",
       "component_evidence_strength": "source_curve_reproduction",
-      "conflict_note": null,
-      "evidence_strength": null,
+      "conflict_note": "Documents the divergence from cameron2020's non-monotonic fine-grind dip \u2014 the fixed-flow data are monotone (a fixed-flow machine defeats clogging), a noted contrast rather than a resolved conflict.",
+      "evidence_strength": "sign_or_compatibility",
       "gate": "gate_mo2_fixed_flow_trends",
       "link_id": "mo2023_2.swelling::gate_mo2_fixed_flow_trends",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Mean yield (%) over the M_c 18-32 g window, across q (2 vs 4 mL/s) and across powders E/M/F at matched q.",
+      "paper3_use": "cited_science",
+      "reality_facing": true,
+      "relationship": "same_campaign_not_held_out",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "mo2023_2/yield_strength_figs6_9"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "eval",
+          "independence": "same_campaign",
+          "note": null,
+          "source_card": "mo2023_2"
+        }
+      ],
+      "support_status": "context_only"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "mo2023_2",
+      "caveat": "Table 2 k0 is a DERIVED quantity (the authors computed it from Table 1 via the same CK closure), so this is an algebraic identity/closure reproduction, not a measured-permeability comparison; eps_b=0.17 is nominal and validates only the t=0 flow closure.",
+      "claim": "The closed-form Carman-Kozeny k0 with eps_b=0.17, n=0.5 reproduces mo2023_2 Table 2 k0 from the Table 1 Sauter diameter for all four powders to <3%.",
       "claim_id": "mo2023_2.swelling::gate_mo2_k0_carman_kozeny",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does not validate the swelling mechanism, does not compare k0 to any measured permeability, and says nothing about flow during a shot.",
+      "claim_owner": "paper3",
       "component": "mo2023_2.swelling",
       "component_evidence_strength": "source_curve_reproduction",
       "conflict_note": null,
-      "evidence_strength": null,
+      "evidence_strength": "code_verification",
       "gate": "gate_mo2_k0_carman_kozeny",
       "link_id": "mo2023_2.swelling::gate_mo2_k0_carman_kozeny",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Per-powder relative error between the recomputed CK k0 and the tabulated Table 2 k0 (m^2).",
+      "paper3_use": "method_demonstration",
+      "reality_facing": false,
+      "relationship": "code_verification",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "mo2023_2/granulometry_table1",
+            "mo2023_2/k0_table2"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "eval",
+          "independence": "not_applicable",
+          "note": null,
+          "source_card": "mo2023_2"
+        }
+      ],
+      "support_status": "admissible"
     },
     {
       "adjudication_status": "ADJUDICATED",
@@ -687,46 +846,78 @@
       "support_status": "admissible"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "moroney2016",
+      "caveat": "Fig 6 is digitized experimental data, but the model's a2/a3 derive from Table 1's fitted alpha*/beta* fitted to the same class of extraction profiles (partly circular); qualitative only, no source error metric, eps~0.127 implies ~13% first-order truncation.",
+      "claim": "The leading-order asymptotic composite exit-concentration solution reproduces Fig 6's saturated plateau for t<1 and the wash-through timing (c=1/2 near the data midpoint) with early-region RMSE<0.15 \u2014 qualitatively.",
       "claim_id": "moroney2016.surrogate::gate_moroney_fig6_washthrough",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does not capture the long-time diffusion tail (needs the outer solution, off-card) and is not a quantitative fit.",
+      "claim_owner": "paper3",
       "component": "moroney2016.surrogate",
       "component_evidence_strength": "qualitative_capacity",
       "conflict_note": null,
-      "evidence_strength": null,
+      "evidence_strength": "source_curve_reproduction",
       "gate": "gate_moroney_fig6_washthrough",
       "link_id": "moroney2016.surrogate::gate_moroney_fig6_washthrough",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Nondimensional exit concentration c_h vs time: model half-max time vs data t at c=0.5, and early-region RMSE.",
+      "paper3_use": "cited_science",
+      "reality_facing": true,
+      "relationship": "post_fit_same_data",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "moroney2016/fig6"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "eval",
+          "independence": "same_data_as_fit",
+          "note": null,
+          "source_card": "moroney2016"
+        },
+        {
+          "dataset_manifest_ids": [
+            "moroney2016/table1"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "fit",
+          "independence": "fit_input",
+          "note": null,
+          "source_card": "moroney2016"
+        }
+      ],
+      "support_status": "context_only"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "pannusch2024",
+      "caveat": "All anchors are literature/constitutive correlations or algebraic identities (K(Tref)=Kref is a tautology; weak-T and h monotonicity are math properties); Table 2 params are only fed in and the card states they lack generality; no measured extraction data are loaded.",
+      "claim": "The pannusch2024 constitutive closures reproduce physical anchors: water viscosity ~3.15e-4 Pa.s and density ~962 kg/m^3 at 90C, Wilke-Chang D in 5e-9..1.2e-8 m^2/s, van't Hoff K(Tref)=Kref with weak T-dependence, and a positive Sherwood h_sl monotone in flow.",
       "claim_id": "pannusch2024.closures::gate_pannusch_closures",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does not validate the extraction model's accuracy against any measurement (that is gate_pannusch_solver_mape) and does not test whether the closures reproduce real coffee behaviour.",
+      "claim_owner": "paper3",
       "component": "pannusch2024.closures",
       "component_evidence_strength": "code_verification",
       "conflict_note": null,
-      "evidence_strength": null,
+      "evidence_strength": "code_verification",
       "gate": "gate_pannusch_closures",
       "link_id": "pannusch2024.closures::gate_pannusch_closures",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Scalar closure outputs at fixed inputs: mu(363K), rho(363K), D per solute, K(Tref)/K80/K98 ratios, and h_sl at two flow rates.",
+      "paper3_use": "method_demonstration",
+      "reality_facing": false,
+      "relationship": "code_verification",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "pannusch2024/table2_params"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "eval",
+          "independence": "not_applicable",
+          "note": null,
+          "source_card": "pannusch2024"
+        }
+      ],
+      "support_status": "admissible"
     },
     {
       "adjudication_status": "ADJUDICATED",
@@ -781,25 +972,34 @@
       "support_status": "admissible"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "romancorrochano2017_extraction",
+      "caveat": "Runs the puckworks bed_lumped solver with hand-set NOMINAL geometry and no dataset; the flow trend is geometry-independent (a math-guaranteed sign), not a fit to any data.",
+      "claim": "The lumped flow-through bed solver (Eq 3.36) is mass-conserving (<2%) with monotone yield, and at a matched beverage volume a lower flow Q yields both higher extraction and higher strength than a higher Q.",
       "claim_id": "romancorrochano2017.extraction::gate_roman_bed_flow_trend",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does not reproduce or validate any measured espresso yield/strength magnitude; only conservation and the solver-guaranteed trend direction are checked, against no data.",
+      "claim_owner": "paper3",
       "component": "romancorrochano2017.extraction",
       "component_evidence_strength": "sign_or_compatibility",
       "conflict_note": null,
-      "evidence_strength": null,
+      "evidence_strength": "code_verification",
       "gate": "gate_roman_bed_flow_trend",
       "link_id": "romancorrochano2017.extraction::gate_roman_bed_flow_trend",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Bed mass-balance residual and yield monotonicity over 40 s, plus ordering of yield and strength at fixed beverage volume for Q=0.8/1.5/3.0e-6 m^3/s.",
+      "paper3_use": "method_demonstration",
+      "reality_facing": false,
+      "relationship": "code_verification",
+      "sources": [
+        {
+          "dataset_manifest_ids": [],
+          "dataset_status": "not_applicable_source_equation",
+          "evidence_role": "reference",
+          "independence": "not_applicable",
+          "note": "physics/equations or model card; supplies no MANIFEST dataset for this gate",
+          "source_card": "romancorrochano2017_extraction"
+        }
+      ],
+      "support_status": "admissible"
     },
     {
       "adjudication_status": "ADJUDICATED",
@@ -842,88 +1042,165 @@
       "support_status": "admissible"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "romancorrochano2017_extraction",
+      "caveat": "Deff ordering is a read of the transcribed Table 4.9; K(T) is the thesis's own 3-point Arrhenius fit reproduced against the same Table 4.10 values (post-fit on its own points); the t50/equilibrium checks are solver-guaranteed sign properties \u2014 no held-out prediction.",
+      "claim": "Driven by the thesis's own parameter tables, the model's Deff spectrum orders low>med>high>vhigh (Table 4.9), the Arrhenius K(T) reproduces Table 4.10 to <0.05 and rises with T, and a higher-Deff species reaches 50% extraction faster with equilibrium rising in K.",
       "claim_id": "romancorrochano2017.extraction::gate_roman_mw_temperature_trends",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "No out-of-sample or independent accuracy is demonstrated; the docstring's 'independent' label is an overclaim \u2014 it reproduces the source's own tables plus solver-guaranteed signs.",
+      "claim_owner": "paper3",
       "component": "romancorrochano2017.extraction",
       "component_evidence_strength": "sign_or_compatibility",
       "conflict_note": null,
-      "evidence_strength": null,
+      "evidence_strength": "source_curve_reproduction",
       "gate": "gate_roman_mw_temperature_trends",
       "link_id": "romancorrochano2017.extraction::gate_roman_mw_temperature_trends",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Deff class ordering (Table 4.9); K(20/50/80C) magnitude/monotonicity vs Table 4.10; t50 ordering by Deff and equilibrium-extent vs K in the stirred-vessel solver.",
+      "paper3_use": "cited_science",
+      "reality_facing": false,
+      "relationship": "same_campaign_not_held_out",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "romancorrochano2017/deff_table4_9",
+            "romancorrochano2017/partition_K_table4_10"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "eval",
+          "independence": "same_campaign",
+          "note": null,
+          "source_card": "romancorrochano2017"
+        },
+        {
+          "dataset_manifest_ids": [
+            "romancorrochano2017/partition_K_table4_10"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "fit",
+          "independence": "fit_input",
+          "note": null,
+          "source_card": "romancorrochano2017"
+        },
+        {
+          "dataset_manifest_ids": [],
+          "dataset_status": "not_applicable_source_equation",
+          "evidence_role": "reference",
+          "independence": "not_applicable",
+          "note": "physics/equations or model card; supplies no MANIFEST dataset for this gate",
+          "source_card": "romancorrochano2017_extraction"
+        }
+      ],
+      "support_status": "context_only"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "romancorrochano2017_extraction",
+      "caveat": "No dataset and no coffee data involved; it runs the puckworks sphere solver only to check it against a textbook analytic solution, not against any measurement.",
+      "claim": "The spherical method-of-lines diffusion solver reproduces the Crank analytic fractional-release series (sphere into an infinite sink) to max abs error <1e-3 across seven times spanning the shot.",
       "claim_id": "romancorrochano2017.extraction::gate_roman_sphere_solver",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It says nothing about whether the diffusion physics, Deff values, or partition BC match real espresso extraction \u2014 only that the PDE numerics are correct.",
+      "claim_owner": "paper3",
       "component": "romancorrochano2017.extraction",
       "component_evidence_strength": "sign_or_compatibility",
       "conflict_note": null,
-      "evidence_strength": null,
+      "evidence_strength": "code_verification",
       "gate": "gate_roman_sphere_solver",
       "link_id": "romancorrochano2017.extraction::gate_roman_sphere_solver",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Max abs difference between the numerical MOL sphere release (N=120) and the analytic Crank series at t=0.5..40 s.",
+      "paper3_use": "method_demonstration",
+      "reality_facing": false,
+      "relationship": "code_verification",
+      "sources": [
+        {
+          "dataset_manifest_ids": [],
+          "dataset_status": "not_applicable_source_equation",
+          "evidence_role": "reference",
+          "independence": "not_applicable",
+          "note": "physics/equations or model card; supplies no MANIFEST dataset for this gate",
+          "source_card": "romancorrochano2017_extraction"
+        }
+      ],
+      "support_status": "admissible"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "romancorrochano2017_extraction",
+      "caveat": "No puckworks solver or permeability model runs \u2014 the gate only re-checks a bound and a grind ordering on the transcribed Table 6.1 numbers; the density trend is deliberately NOT asserted (non-monotone at the coarsest grind).",
+      "claim": "The thesis's measured tamped-bed Darcy permeabilities (Table 6.1) all sit in the 1e-14..1e-12 m^2 literature band (max >1e-13) and, at every initial bed density, a coarser grind gives higher kappa.",
       "claim_id": "romancorrochano2017.extraction::gate_roman_tamped_kappa",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does not validate any permeability closure; passing implies nothing about predicting kappa, only that the measured data lands in a broad 2-decade band and orders with grind.",
+      "claim_owner": "paper3",
       "component": "romancorrochano2017.extraction",
       "component_evidence_strength": "sign_or_compatibility",
       "conflict_note": null,
-      "evidence_strength": null,
+      "evidence_strength": "sign_or_compatibility",
       "gate": "gate_roman_tamped_kappa",
       "link_id": "romancorrochano2017.extraction::gate_roman_tamped_kappa",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Band membership of the 12 measured kappa values and the grind-ordering monotonicity across three densities.",
+      "paper3_use": "cited_science",
+      "reality_facing": true,
+      "relationship": "same_campaign_not_held_out",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "romancorrochano2017/tamped_kappa"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "eval",
+          "independence": "same_campaign",
+          "note": null,
+          "source_card": "romancorrochano2017"
+        },
+        {
+          "dataset_manifest_ids": [],
+          "dataset_status": "not_applicable_source_equation",
+          "evidence_role": "reference",
+          "independence": "not_applicable",
+          "note": "physics/equations or model card; supplies no MANIFEST dataset for this gate",
+          "source_card": "romancorrochano2017_permeability"
+        }
+      ],
+      "support_status": "context_only"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "romancorrochano2017_extraction",
+      "caveat": "No solver runs; the size-exclusion part is a monotone-ordering check on the source's own (partly digitized) y0 table, and the nested-ceiling part is an ordering of three source-reported constants kept DISTINCT and unmerged per ROADMAP \u00a75.5 (reconciled as non-contradictory, not a genuine conflict).",
+      "claim": "The thesis's extractable-inventory ceiling y0=31.7% sits above Cameron's per-bed EY ceiling (24.5%) which sits above Liang's single-immersion equilibrium ceiling (21.5%), and y0 decreases monotonically along the coarsening grind ladder (size-exclusion signal).",
       "claim_id": "romancorrochano2017.extraction::gate_roman_y0_ceiling_sizeexclusion",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does not show the three ceilings measure the same physical quantity, nor validate a size-exclusion mechanism model; it confirms an ordering of source-reported numbers plus a monotone trend.",
+      "claim_owner": "paper3",
       "component": "romancorrochano2017.extraction",
       "component_evidence_strength": "sign_or_compatibility",
       "conflict_note": null,
-      "evidence_strength": null,
+      "evidence_strength": "sign_or_compatibility",
       "gate": "gate_roman_y0_ceiling_sizeexclusion",
       "link_id": "romancorrochano2017.extraction::gate_roman_y0_ceiling_sizeexclusion",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Ordering of y0 vs the cameron and liang code-constant ceilings, and monotone decrease of the transcribed y0(grind) across six grinds.",
+      "paper3_use": "cited_science",
+      "reality_facing": true,
+      "relationship": "same_campaign_not_held_out",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "romancorrochano2017/y0_extractable"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "eval",
+          "independence": "same_campaign",
+          "note": null,
+          "source_card": "romancorrochano2017"
+        },
+        {
+          "dataset_manifest_ids": [],
+          "dataset_status": "not_applicable_source_equation",
+          "evidence_role": "reference",
+          "independence": "not_applicable",
+          "note": "physics/equations or model card; supplies no MANIFEST dataset for this gate",
+          "source_card": "romancorrochano2017_extraction"
+        }
+      ],
+      "support_status": "context_only"
     },
     {
       "adjudication_status": "ADJUDICATED",
@@ -986,25 +1263,36 @@
       "support_status": "context_only"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "g10_liquor_rheology",
+      "caveat": "Uses the ~1.3-2x paywalled-snippet envelope guess (unmeasured at espresso TDS); no espresso-TDS flow measurement exists, so this is a bounded direction-of-effect check, not a magnitude test.",
+      "claim": "Substituting the reference espresso viscosity (~1.3-2x pure water) into a Darcy Q~1/mu relation suppresses early-shot flow to ~0.5-0.8x the pure-water prediction while leaving the dilute late/equilibrium flow unchanged.",
       "claim_id": "sourcing2026.g10_liquor_rheology::gate_g10_mu_bias_directional",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does not demonstrate that viscosity accounts for the observed early-shot flow bias, nor that the true early-shot mu ratio is 1.3-2x.",
+      "claim_owner": "paper3",
       "component": "sourcing2026.g10_liquor_rheology",
       "component_evidence_strength": "source_curve_reproduction",
-      "conflict_note": null,
-      "evidence_strength": null,
+      "conflict_note": "Applies the ~1.3-2x envelope to the whole early shot, whereas gate_g10_telisromero_closure shows bulk shot-TDS mu is only ~1.06x water (the 1.3-2x belonging only to concentrated early in-pore liquor).",
+      "evidence_strength": "sign_or_compatibility",
       "gate": "gate_g10_mu_bias_directional",
       "link_id": "sourcing2026.g10_liquor_rheology::gate_g10_mu_bias_directional",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Early-shot flow factor (mu_water/mu_espresso) and late/equilibrium flow factor under an algebraic Darcy Q~1/mu relation.",
+      "paper3_use": "resource_context",
+      "reality_facing": false,
+      "relationship": "not_empirical",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "g10_liquor_rheology/telis_romero_envelope"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "eval",
+          "independence": "not_applicable",
+          "note": null,
+          "source_card": "g10_liquor_rheology"
+        }
+      ],
+      "support_status": "context_only"
     },
     {
       "adjudication_status": "ADJUDICATED",
@@ -1089,25 +1377,54 @@
       "support_status": "context_only"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "g10_liquor_rheology",
+      "caveat": "Source is industrial soluble-coffee extract (51 Brix, dilute end ~90% water), NOT espresso liquor; espresso TDS is at/below the dilute end so mu_espresso is an extrapolation; only 2 of the ~24+27 cells are checked and the transcription reproduces the source's OWN closure.",
+      "claim": "The transcribed Telis-Romero 2001 Eq-10 (eta) and Eq-13 (K) closures reproduce the card's two quoted measured anchor points within the authors' stated fit error (eta<=3%, K<=10%), and the Eq-10 bulk-shot-TDS viscosity is ~1.06x pure water.",
       "claim_id": "sourcing2026.g10_liquor_rheology::gate_g10_telisromero_closure",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does not validate espresso-liquor rheology; it confirms faithful reproduction of the source's dilute-extract closure, not its applicability at espresso TDS.",
+      "claim_owner": "paper3",
       "component": "sourcing2026.g10_liquor_rheology",
       "component_evidence_strength": "source_curve_reproduction",
-      "conflict_note": null,
-      "evidence_strength": null,
+      "conflict_note": "Its ~1.06x bulk-shot-TDS result corrects the paywalled-snippet envelope's ~1.3-2x guess that gate_g10_mu_bias_directional relies on, reassigning the 1.3-2x to concentrated early in-pore liquor only.",
+      "evidence_strength": "source_curve_reproduction",
       "gate": "gate_g10_telisromero_closure",
       "link_id": "sourcing2026.g10_liquor_rheology::gate_g10_telisromero_closure",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Predicted eta at the Table-1 anchor cell and K at the Table-2 anchor cell (relative error vs the source's measured values), plus the bulk-shot mu/water ratio.",
+      "paper3_use": "resource_context",
+      "reality_facing": false,
+      "relationship": "post_fit_same_data",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "g10_liquor_rheology/telisromero2001_closures"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "eval",
+          "independence": "same_data_as_fit",
+          "note": null,
+          "source_card": "telisromero2001"
+        },
+        {
+          "dataset_manifest_ids": [
+            "g10_liquor_rheology/telisromero2001_closures"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "fit",
+          "independence": "fit_input",
+          "note": null,
+          "source_card": "telisromero2001"
+        },
+        {
+          "dataset_manifest_ids": [],
+          "dataset_status": "not_applicable_source_equation",
+          "evidence_role": "reference",
+          "independence": "not_applicable",
+          "note": "physics/equations or model card; supplies no MANIFEST dataset for this gate",
+          "source_card": "g10_liquor_rheology"
+        }
+      ],
+      "support_status": "context_only"
     },
     {
       "adjudication_status": "ADJUDICATED",
@@ -1218,25 +1535,36 @@
       "support_status": "admissible"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "g1_glassbead_analog",
+      "caveat": "Analog for spherical glass beads, NOT coffee \u2014 transfers shape/S_r only, not magnitude; valid only over 0.2<S<0.8; the coffee retention curve stays OPEN and the Richards solver is not yet implemented.",
+      "claim": "The glass-bead analog closure loads with physically sane parameters (0<S_r<0.2, cubic n=3, alpha>0, K0>0) and yields a monotone-increasing relative permeability K_r(S) on [S_r,1].",
       "claim_id": "sourcing2026.g1_glassbead_analog::gate_g1_glassbead_closure_sane",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does not validate any coffee retention/permeability curve and does not close G1.",
+      "claim_owner": "paper3",
       "component": "sourcing2026.g1_glassbead_analog",
       "component_evidence_strength": "qualitative_capacity",
       "conflict_note": null,
-      "evidence_strength": null,
+      "evidence_strength": "sign_or_compatibility",
       "gate": "gate_g1_glassbead_closure_sane",
       "link_id": "sourcing2026.g1_glassbead_analog::gate_g1_glassbead_closure_sane",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Parameter bounds and monotonicity of the cubic K_r(S)=((S-S_r)/(1-S_r))^3 curve.",
+      "paper3_use": "resource_context",
+      "reality_facing": false,
+      "relationship": "not_empirical",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "g1_glassbead_analog/retention_kr"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "eval",
+          "independence": "not_applicable",
+          "note": null,
+          "source_card": "g1_glassbead_analog"
+        }
+      ],
+      "support_status": "context_only"
     },
     {
       "adjudication_status": "ADJUDICATED",
@@ -1281,67 +1609,124 @@
       "support_status": "context_only"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "wadsworth2026_grindmap",
+      "caveat": "No fitting occurs: it only checks that S computed from the printed moments equals the printed S column and re-states the source's own S(G) rise across two similarly-roasted coffees.",
+      "claim": "Recomputing S=<R><R^2>/<R^3> from Table 1's printed moment columns reproduces the paper's printed S values (max err <5e-3), and the printed S rises with dial G within each coffee.",
       "claim_id": "wadsworth2026.grindmap::gate_grindmap_polydispersity",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does not establish that the moments/S are physically accurate or that the S(G) trend generalizes beyond these two coffees or this grinder.",
+      "claim_owner": "paper3",
       "component": "wadsworth2026.grindmap",
       "component_evidence_strength": "source_curve_reproduction",
       "conflict_note": null,
-      "evidence_strength": null,
+      "evidence_strength": "source_curve_reproduction",
       "gate": "gate_grindmap_polydispersity",
       "link_id": "wadsworth2026.grindmap::gate_grindmap_polydispersity",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Polydispersivity S (moment ratio) vs grinder dial setting G.",
+      "paper3_use": "cited_science",
+      "reality_facing": false,
+      "relationship": "code_verification",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "wadsworth2026/table1_full"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "eval",
+          "independence": "not_applicable",
+          "note": null,
+          "source_card": "wadsworth2026_grindmap / wadsworth2026 (one paper)"
+        },
+        {
+          "dataset_manifest_ids": [],
+          "dataset_status": "not_applicable_source_equation",
+          "evidence_role": "reference",
+          "independence": "not_applicable",
+          "note": "physics/equations or model card; supplies no MANIFEST dataset for this gate",
+          "source_card": "wadsworth2026_grindmap"
+        }
+      ],
+      "support_status": "context_only"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "wadsworth2026_grindmap",
+      "caveat": "Fits and evaluates on the same 22 samples and reproduces the paper's own linear map; the card beta/R0 were corrected to match this refit (a transcription-typo fix).",
+      "claim": "An OLS refit of <R>=beta*G+R0 to all 22 Table 1 samples is a high-R^2 (>0.99) monotone linear map whose predicted <R> at G=1 and G=11 bracket the measured range, reproducing the paper's corrected fit constants beta~5.805e-5, R0~1.380e-4.",
       "claim_id": "wadsworth2026.grindmap::gate_grindmap_refit",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does not demonstrate predictive accuracy on held-out settings, other grinders, or below G=1 (R0 is an extrapolation artifact, not a physical floor).",
+      "claim_owner": "paper3",
       "component": "wadsworth2026.grindmap",
       "component_evidence_strength": "source_curve_reproduction",
       "conflict_note": null,
-      "evidence_strength": null,
+      "evidence_strength": "post_fit_reconstruction",
       "gate": "gate_grindmap_refit",
       "link_id": "wadsworth2026.grindmap::gate_grindmap_refit",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Mean grain radius <R> vs dial G (linear grind map).",
+      "paper3_use": "cited_science",
+      "reality_facing": false,
+      "relationship": "post_fit_same_data",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "wadsworth2026/table1_full"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "eval",
+          "independence": "same_data_as_fit",
+          "note": null,
+          "source_card": "wadsworth2026_grindmap / wadsworth2026 (one paper)"
+        },
+        {
+          "dataset_manifest_ids": [
+            "wadsworth2026/table1_full"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "fit",
+          "independence": "fit_input",
+          "note": null,
+          "source_card": "wadsworth2026_grindmap / wadsworth2026 (one paper)"
+        },
+        {
+          "dataset_manifest_ids": [],
+          "dataset_status": "not_applicable_source_equation",
+          "evidence_role": "reference",
+          "independence": "not_applicable",
+          "note": "physics/equations or model card; supplies no MANIFEST dataset for this gate",
+          "source_card": "wadsworth2026_grindmap"
+        }
+      ],
+      "support_status": "context_only"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "wadsworth2026_inertial",
+      "caveat": "Code-internal only: synthetic inputs (k=1e-13 m^2, grad p=5e5/0.02 Pa/m); it tests that the quadratic root reduces to Darcy and that finite inertia slows flow \u2014 a numerical/algebraic property, no data.",
+      "claim": "As k_I->infinity the Forchheimer quadratic solver returns the Darcy velocity q=|grad p|k/mu to rtol 1e-6, and a finite k_I (Zhou closure) yields q below the Darcy value.",
       "claim_id": "wadsworth2026.inertial::gate_inertial_darcy_recovery",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It says nothing about whether the Forchheimer closure or the k_I(k) law is correct for coffee.",
+      "claim_owner": "paper3",
       "component": "wadsworth2026.inertial",
       "component_evidence_strength": "source_curve_reproduction",
       "conflict_note": null,
-      "evidence_strength": null,
+      "evidence_strength": "code_verification",
       "gate": "gate_inertial_darcy_recovery",
       "link_id": "wadsworth2026.inertial::gate_inertial_darcy_recovery",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Darcy-limit recovery of the Forchheimer momentum-equation root solver (code property).",
+      "paper3_use": "method_demonstration",
+      "reality_facing": false,
+      "relationship": "code_verification",
+      "sources": [
+        {
+          "dataset_manifest_ids": [],
+          "dataset_status": "not_applicable_source_equation",
+          "evidence_role": "reference",
+          "independence": "not_applicable",
+          "note": "physics/equations or model card; supplies no MANIFEST dataset for this gate",
+          "source_card": "wadsworth2026_inertial"
+        }
+      ],
+      "support_status": "admissible"
     },
     {
       "adjudication_status": "ADJUDICATED",
@@ -1410,46 +1795,74 @@
       "support_status": "admissible"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "wadsworth2026_inertial",
+      "caveat": "Source-equation / card-internal: k comes from the percolation equation and all inputs are the card's stated worked-estimate ranges (no MANIFEST dataset). It reproduces the paper's own model-chained number; the band merely reflects the assumed grind/pack k range.",
+      "claim": "Recomputing the card's worked espresso estimate (<R> 145-276 um, phi_p 0.3-0.5 via percolation k, q 5.36-5.74e-4 m/s, Zhou k_I) reproduces the paper's reported Forchheimer-number band Fo_F 0.0161-0.0639.",
       "claim_id": "wadsworth2026.inertial::gate_inertial_fo_band",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does not measure Fo_F on any real shot nor confirm inertia actually matters in espresso.",
+      "claim_owner": "paper3",
       "component": "wadsworth2026.inertial",
       "component_evidence_strength": "source_curve_reproduction",
-      "conflict_note": null,
-      "evidence_strength": null,
+      "conflict_note": "The reproduced band 0.0161-0.0639 (laminar) conflicts with the registry backlog's Fo~0.3-0.9 gusher-regime estimate at Cameron bed density \u2014 an inter-estimate disagreement driven by different k/phi_p assumptions, adjudicated separately on DE1 traces (gate_inertial_de1_audit).",
+      "evidence_strength": "source_curve_reproduction",
       "gate": "gate_inertial_fo_band",
       "link_id": "wadsworth2026.inertial::gate_inertial_fo_band",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Forchheimer number Fo_F band for the paper's worked espresso estimate.",
+      "paper3_use": "cited_science",
+      "reality_facing": false,
+      "relationship": "not_empirical",
+      "sources": [
+        {
+          "dataset_manifest_ids": [],
+          "dataset_status": "not_applicable_source_equation",
+          "evidence_role": "reference",
+          "independence": "not_applicable",
+          "note": "physics/equations or model card; supplies no MANIFEST dataset for this gate",
+          "source_card": "wadsworth2026_inertial"
+        }
+      ],
+      "support_status": "context_only"
     },
     {
-      "adjudication_status": "NEEDS_ADJUDICATION",
-      "card": null,
-      "caveat": null,
-      "claim": null,
+      "adjudication_status": "ADJUDICATED",
+      "card": "wadsworth2026_inertial",
+      "caveat": "Recomputes Re from mo2023's own SPH-derived digitized Fig 8a and checks it lands on mo's reported band plus the sign of the k decline; the underlying data is SPH simulation output, not a physical coffee-flow measurement.",
+      "claim": "Computing Re=rho(k grad p/mu)d43/mu from mo2023's digitized Fig 8a at their SPH conditions reproduces mo's reported Re band 0.84-3.86 and shows the apparent Darcy k declining with grad p (Forchheimer).",
       "claim_id": "wadsworth2026.inertial::gate_mo_reynolds_overlay",
-      "claim_not_supported": null,
-      "claim_owner": null,
+      "claim_not_supported": "It does not validate the Forchheimer closure against real espresso flow, and this Re is explicitly NOT interchangeable with wadsworth's Fo_F.",
+      "claim_owner": "paper3",
       "component": "wadsworth2026.inertial",
       "component_evidence_strength": "source_curve_reproduction",
-      "conflict_note": null,
-      "evidence_strength": null,
+      "conflict_note": "Encodes an inter-source convention conflict: mo2023's Re (SPH mu/rho, d43 length scale) and wadsworth's Fo_F are non-interchangeable diagnostics reported side by side; mo2023's k1/Forchheimer values also carry the \u00a75.3 units caveat.",
+      "evidence_strength": "source_curve_reproduction",
       "gate": "gate_mo_reynolds_overlay",
       "link_id": "wadsworth2026.inertial::gate_mo_reynolds_overlay",
-      "observable": null,
-      "paper3_use": null,
-      "reality_facing": null,
-      "relationship": null,
-      "sources": null,
-      "support_status": "needs_adjudication"
+      "observable": "Pore-scale Reynolds-number band and apparent-k decline derived from mo2023 Fig 8a.",
+      "paper3_use": "cited_science",
+      "reality_facing": false,
+      "relationship": "code_verification",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "mo2023/fig8a"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "eval",
+          "independence": "not_applicable",
+          "note": null,
+          "source_card": "mo2023"
+        },
+        {
+          "dataset_manifest_ids": [],
+          "dataset_status": "not_applicable_source_equation",
+          "evidence_role": "reference",
+          "independence": "not_applicable",
+          "note": "physics/equations or model card; supplies no MANIFEST dataset for this gate",
+          "source_card": "wadsworth2026_inertial"
+        }
+      ],
+      "support_status": "context_only"
     },
     {
       "adjudication_status": "ADJUDICATED",
