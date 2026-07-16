@@ -2,6 +2,12 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pytest
+
+# Figure rendering needs the optional [figures] extra (matplotlib). The quick lane installs
+# only [dev], so skip cleanly there — these run in slow-science, which installs [figures].
+pytest.importorskip("matplotlib")
+
 
 def test_save_writes_png_svg_pdf(tmp_path: Path) -> None:
     from puckworks.figures import _plt, _save
