@@ -1,0 +1,44 @@
+name: security
+# P0.6 — supply-chain checks. dependency-review runs on PRs (flags newly-introduced vulnerable /
+# incompatibly-licensed dependencies); pip-audit scans the installed environment on PRs and on a
+# schedule and before releases. Neither is a required branch check until the maintainer opts in
+# via branch protection.
+on:
+  pull_request:
+  schedule:
+    - cron: "0 7 * * 1"   # weekly
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-review:
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - name: Dependency review (new PR dependencies vs advisories + licenses)
+        uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
+        with:
+          fail-on-severity: high
+
+  pip-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.12"
+      - run: pip install -e "." pip-audit
+      - name: pip-audit (installed environment — known vulnerabilities)
+        # No --strict: puckworks itself is installed editable and is not on PyPI, so it is a
+        # "could not audit" WARNING (exit 0), while a real advisory in a resolved dependency
+        # (numpy/scipy/...) still fails the job.
+        run: pip-audit --desc

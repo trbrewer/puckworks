@@ -20,10 +20,13 @@ jobs:
     strategy:
       fail-fast: false          # R0: one Python version must not cancel/hide the other
       matrix:
-        python-version: ["3.10", "3.12"]
+        # oldest supported (3.10), primary/release (3.12), newest supported (3.13)
+        python-version: ["3.10", "3.12", "3.13"]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
         with:
           python-version: ${{ matrix.python-version }}
       - run: pip install -e ".[dev]"
@@ -42,8 +45,25 @@ jobs:
           --junitxml=quick-report-${{ matrix.python-version }}.xml --durations=15
       - name: upload diagnostics (even on failure)
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: quick-pr-report-${{ matrix.python-version }}
           path: quick-report-${{ matrix.python-version }}.xml
           if-no-files-found: ignore
+
+  min-deps:
+    # Prove the declared lower bounds actually work (P0.5): install the MINIMUM numpy/scipy on the
+    # oldest supported interpreter and run the offline suite. If this goes red, the pyproject floor
+    # is wrong — not a mystery. Not a required check until the maintainer opts in.
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.10"
+      - run: pip install "numpy==2.0.*" "scipy==1.13.*" pytest && pip install -e . --no-deps
+      - name: offline suite on the declared minimum dependencies
+        run: pytest -q -m "not slow and not live and not gpu and not external_data"

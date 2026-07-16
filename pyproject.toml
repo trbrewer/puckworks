@@ -4,8 +4,20 @@ version = "0.1.0"
 description = "Component registry for espresso process models: contracts, provenance, validation gates"
 readme = "README.md"
 license = {file = "LICENSE"}
+# Supported Python: 3.10 (oldest) .. 3.13 (newest); 3.12 is the primary/release interpreter.
+# All three are exercised in the quick-pr CI matrix.
 requires-python = ">=3.10"
-dependencies = ["numpy", "scipy"]
+# Minimum bounds justified by the APIs actually used: numpy>=2.0 (the code calls np.trapezoid,
+# which replaced np.trapz in numpy 2.0 — see models/fasano2000_partI, models/romancorrochano2017),
+# scipy>=1.13 (first scipy with numpy-2.0 support). No upper caps — added only if a concrete
+# incompatibility appears. The min-deps CI lane proves these floors on Python 3.10.
+dependencies = ["numpy>=2.0", "scipy>=1.13"]
+classifiers = [
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
 
 [project.optional-dependencies]
 lb = ["taichi"]
