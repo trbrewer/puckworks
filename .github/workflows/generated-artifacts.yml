@@ -26,3 +26,5 @@ jobs:
         run: python -m puckworks.paper3.registry_artifacts --verify
       - name: Paper 3 build verify (schema + bundle)
         run: python -m puckworks.paper3.build verify
+      - name: Lateral-coupling discrimination artifacts are up to date (WP6)
+        run: python -m puckworks.analysis.lateral_coupling_discrimination --verify
