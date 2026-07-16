@@ -1,0 +1,152 @@
+{
+  "brewer2026.coupled_kappa_t": {
+    "evidence_strength": "exploratory_synthesis",
+    "execution_role": "runtime",
+    "provenance_class": "project_synthesis",
+    "stage": "bed_dynamics"
+  },
+  "brewer2026.lb_reference": {
+    "evidence_strength": "code_verification",
+    "execution_role": "calibration",
+    "provenance_class": "project_model",
+    "stage": "flow"
+  },
+  "brewer2026.lb_taichi": {
+    "evidence_strength": "code_verification",
+    "execution_role": "calibration",
+    "provenance_class": "project_model",
+    "stage": "flow"
+  },
+  "brewer2026.pack_generator": {
+    "evidence_strength": "qualitative_capacity",
+    "execution_role": "calibration",
+    "provenance_class": "project_model",
+    "stage": "packing"
+  },
+  "brewer2026.streamtube": {
+    "evidence_strength": "within_campaign_held_out",
+    "execution_role": "runtime",
+    "provenance_class": "project_model",
+    "stage": "bed_dynamics"
+  },
+  "cameron2020.extraction_bdf": {
+    "evidence_strength": "code_verification",
+    "execution_role": "runtime",
+    "provenance_class": "published_port",
+    "stage": "extraction"
+  },
+  "fasano2000_partI.fines_migration": {
+    "evidence_strength": "qualitative_capacity",
+    "execution_role": "calibration",
+    "provenance_class": "published_port",
+    "stage": "bed_dynamics"
+  },
+  "foster2025.infiltration": {
+    "evidence_strength": "sign_or_compatibility",
+    "execution_role": "runtime",
+    "provenance_class": "published_port",
+    "stage": "infiltration"
+  },
+  "foster2025.machine_mode": {
+    "evidence_strength": "source_curve_reproduction",
+    "execution_role": "runtime",
+    "provenance_class": "published_port",
+    "stage": "machine"
+  },
+  "grudeva2025.reduced": {
+    "evidence_strength": "post_fit_reconstruction",
+    "execution_role": "runtime",
+    "provenance_class": "published_port",
+    "stage": "extraction"
+  },
+  "lee2023.feedback": {
+    "evidence_strength": "qualitative_capacity",
+    "execution_role": "calibration",
+    "provenance_class": "published_port",
+    "stage": "flow"
+  },
+  "liang2021.desorption": {
+    "evidence_strength": "post_fit_reconstruction",
+    "execution_role": "calibration",
+    "provenance_class": "published_port",
+    "stage": "extraction"
+  },
+  "mo2023_2.coupled_bed": {
+    "evidence_strength": "post_fit_reconstruction",
+    "execution_role": "runtime",
+    "provenance_class": "published_port",
+    "stage": "extraction"
+  },
+  "mo2023_2.swelling": {
+    "evidence_strength": "source_curve_reproduction",
+    "execution_role": "runtime",
+    "provenance_class": "published_port",
+    "stage": "bed_dynamics"
+  },
+  "moroney2016.surrogate": {
+    "evidence_strength": "qualitative_capacity",
+    "execution_role": "calibration",
+    "provenance_class": "published_port",
+    "stage": "extraction"
+  },
+  "pannusch2024.closures": {
+    "evidence_strength": "code_verification",
+    "execution_role": "calibration",
+    "provenance_class": "published_port",
+    "stage": "extraction"
+  },
+  "pannusch2024.solver": {
+    "evidence_strength": "post_fit_reconstruction",
+    "execution_role": "runtime",
+    "provenance_class": "published_port",
+    "stage": "extraction"
+  },
+  "romancorrochano2017.extraction": {
+    "evidence_strength": "sign_or_compatibility",
+    "execution_role": "runtime",
+    "provenance_class": "published_port",
+    "stage": "extraction"
+  },
+  "sourcing2026.g10_liquor_rheology": {
+    "evidence_strength": "source_curve_reproduction",
+    "execution_role": "calibration",
+    "provenance_class": "reference_only",
+    "stage": "flow"
+  },
+  "sourcing2026.g1_glassbead_analog": {
+    "evidence_strength": "qualitative_capacity",
+    "execution_role": "calibration",
+    "provenance_class": "reference_only",
+    "stage": "infiltration"
+  },
+  "sourcing2026.g3_pump_characteristic": {
+    "evidence_strength": "sign_or_compatibility",
+    "execution_role": "calibration",
+    "provenance_class": "reference_only",
+    "stage": "machine"
+  },
+  "wadsworth2026.grindmap": {
+    "evidence_strength": "source_curve_reproduction",
+    "execution_role": "calibration",
+    "provenance_class": "published_port",
+    "stage": "grind"
+  },
+  "wadsworth2026.inertial": {
+    "evidence_strength": "source_curve_reproduction",
+    "execution_role": "runtime",
+    "provenance_class": "published_port",
+    "stage": "flow"
+  },
+  "wadsworth2026.permeability": {
+    "evidence_strength": "source_curve_reproduction",
+    "execution_role": "calibration",
+    "provenance_class": "published_port",
+    "stage": "packing"
+  },
+  "waszkiewicz2025.poroelastic": {
+    "evidence_strength": "post_fit_reconstruction",
+    "execution_role": "runtime",
+    "provenance_class": "published_port",
+    "stage": "bed_dynamics"
+  }
+}

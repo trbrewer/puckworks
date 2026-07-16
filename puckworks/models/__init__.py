@@ -444,8 +444,47 @@ _EVIDENCE_STRENGTH = {
     "sourcing2026.g10_liquor_rheology": "source_curve_reproduction",
 }
 
-_missing_ev = {c.name for c in _R.components()} - set(_EVIDENCE_STRENGTH)
+# provenance_class is now EXPLICIT (no name-prefix inference in the registry). One auditable
+# table, applied here as the authoritative source. published_port unless it is project work.
+_PROVENANCE_CLASS = {
+    "brewer2026.coupled_kappa_t": "project_synthesis",
+    "brewer2026.lb_reference": "project_model",
+    "brewer2026.lb_taichi": "project_model",
+    "brewer2026.pack_generator": "project_model",
+    "brewer2026.streamtube": "project_model",
+    "cameron2020.extraction_bdf": "published_port",
+    "fasano2000_partI.fines_migration": "published_port",
+    "foster2025.infiltration": "published_port",
+    "foster2025.machine_mode": "published_port",
+    "grudeva2025.reduced": "published_port",
+    "lee2023.feedback": "published_port",
+    "liang2021.desorption": "published_port",
+    "mo2023_2.coupled_bed": "published_port",
+    "mo2023_2.swelling": "published_port",
+    "moroney2016.surrogate": "published_port",
+    "pannusch2024.closures": "published_port",
+    "pannusch2024.solver": "published_port",
+    "romancorrochano2017.extraction": "published_port",
+    "sourcing2026.g1_glassbead_analog": "reference_only",
+    "sourcing2026.g3_pump_characteristic": "reference_only",
+    "sourcing2026.g10_liquor_rheology": "reference_only",
+    "wadsworth2026.grindmap": "published_port",
+    "wadsworth2026.inertial": "published_port",
+    "wadsworth2026.permeability": "published_port",
+    "waszkiewicz2025.poroelastic": "published_port",
+}
+
+_names = {c.name for c in _R.components()}
+_missing_ev = _names - set(_EVIDENCE_STRENGTH)
 assert not _missing_ev, "components missing evidence_strength: %r" % _missing_ev
-for _name, _ev in _EVIDENCE_STRENGTH.items():
+_missing_prov = _names - set(_PROVENANCE_CLASS)
+assert not _missing_prov, "components missing provenance_class: %r" % _missing_prov
+for _name in _names:
+    _ev = _EVIDENCE_STRENGTH[_name]
     assert _ev in _R.EVIDENCE_STRENGTHS, (_name, _ev)
-    _R.get(_name).evidence_strength = _ev
+    _prov = _PROVENANCE_CLASS[_name]
+    assert _prov in _R.PROVENANCE_CLASSES, (_name, _prov)
+    _c = _R._mutable(_name)
+    _c.evidence_strength = _ev
+    _c.provenance_class = _prov
+_R.finalize_registry()
