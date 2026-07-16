@@ -340,7 +340,7 @@ def sweep_grind(gs_values, **kwargs):
 if __name__ == "__main__":
     # quick smoke test: the paper's reference recipe at GS = 2.1
     res = simulate_shot(2.1)
-    print(f"GS=2.1, 20 g in / 40 g out, 5 bar overpressure:")
+    print("GS=2.1, 20 g in / 40 g out, 5 bar overpressure:")
     print(f"  shot time        = {res.t_shot:6.1f} s   (Table S3: 26.6 s)")
     print(f"  extraction yield = {res.EY:6.2f} %  (Fig. 5 model, std-flow regime)")
     print(f"  EY (mass check)  = {res.EY_solid:6.2f} %")

@@ -2,7 +2,6 @@
 time-weighted metrics are computed by hand so the engine's behaviour is asserted exactly
 (not just "runs"). Builds shot dicts directly (bypasses normalization) to control the traces.
 """
-import numpy as np
 import pytest
 
 from puckworks.analysis import controller_atlas as atlas

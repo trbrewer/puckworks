@@ -15,7 +15,6 @@ Two heavier checks the quick gate (coarse N=150) only samples:
 
 Run by hand:  python -m puckworks.validation.slow.grudeva_convergence
 """
-import numpy as np
 
 from puckworks.models.grudeva2025 import reduced as gr
 

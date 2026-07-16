@@ -16,7 +16,7 @@ generator can render Paper 3 from live metadata (WP2.1):
 registrations migrate without changing behaviour.
 """
 from dataclasses import dataclass, field
-from typing import Callable, Optional
+from typing import Optional
 
 STAGES = ["grind", "packing", "machine", "infiltration", "flow",
           "extraction", "bed_dynamics", "observables"]

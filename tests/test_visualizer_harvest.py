@@ -509,7 +509,6 @@ def test_trace_parsing_tolerates_bad_samples_without_dropping_shot():
     """§9: booleans, non-numeric strings, null, and NaN in a trace must become None IN PLACE
     (alignment kept) and be flagged — never a false measurement and never dropping the shot."""
     from puckworks.lib.visualizer_harvest import normalize_shot, HarvestConfig
-    import math
     cfg = HarvestConfig(salt="t")
     raw = {"id": "z", "user_id": "u", "updated_at": 1,
            "timeframe": [0.0, 0.5, 1.0, 1.5, 2.0],

@@ -9,11 +9,10 @@ imports without it). These route through the SAME producers the paper figures us
 `python -m puckworks.figures` still emits the same Paper-B PNGs.
 """
 from __future__ import annotations
-import os
 
 import numpy as np
 
-from ..figures import _plt, INK, ACCENT, NULL, GOOD, GRID
+from ..figures import _plt, INK, ACCENT, NULL, GOOD
 from .palette import BADGE_COLORS, STAGE_FILL, STAGE_EDGE
 from .registry import save_figure
 

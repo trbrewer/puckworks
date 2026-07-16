@@ -195,7 +195,6 @@ def solve(solid_np, g=1e-6, tau_plus=1.5, max_steps=20000, check=100,
 # so iterating the odd pair-heads i = 1,3,...,17 exchanges each pair exactly once.
 
 if __name__ == "__main__":
-    import json
     init_lb(arch="cpu")
     # channel validation, identical bookkeeping to mini_lb
     Nz = 41

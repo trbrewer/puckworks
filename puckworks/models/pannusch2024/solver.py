@@ -22,7 +22,6 @@ grind assignment lives in the source's opaque parameter list, so this port uses
 the centre grind (1.7) for all experiments — psi/d_s2 vary <15% across grinds,
 so the effect on MAPE is second order (documented approximation).
 """
-import csv
 from functools import lru_cache
 
 import numpy as np

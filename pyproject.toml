@@ -9,12 +9,22 @@ dependencies = ["numpy", "scipy"]
 
 [project.optional-dependencies]
 lb = ["taichi"]
-dev = ["pytest"]
+dev = ["pytest", "ruff"]
 figures = ["matplotlib"]
 harvest = ["requests"]
 release = ["build", "twine"]
 viz = ["matplotlib", "pillow", "imageio"]
 viz3d = ["pyvista", "vtk"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+# R9: lightweight first. Enforce pyflakes (real errors: unused imports, redefinitions,
+# undefined names, bad f-strings) now; F841 (unused locals — some are intentional scaffolding
+# in scientific code) is a documented follow-up before strengthening the ruleset.
+select = ["F"]
+ignore = ["F841"]
 
 [tool.pytest.ini_options]
 # WP5: CI lanes select DIFFERENT marked sets (quick-pr excludes these; slow-science runs slow).

@@ -15,7 +15,7 @@ from __future__ import annotations
 import importlib
 import subprocess
 
-from .spec import VizSpec, FIDELITY_CEILINGS
+from .spec import VizSpec
 from .palette import BADGE_COLORS, BADGE_TEXT_COLOR, INK
 from ..public.schema import Producer
 

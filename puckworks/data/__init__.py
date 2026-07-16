@@ -935,6 +935,6 @@ def pocketscience_lrr():
 
 # --- canonical visualizer corpus snapshot interface (WP0/PR1) --------------
 # Analysis code should consume CorpusSnapshot, never the raw shard iterator.
-from puckworks.data.visualizer_store import (   # noqa: E402
+from puckworks.data.visualizer_store import (   # noqa: E402,F401  (public re-exports)
     CorpusSnapshot, measurement_dictionary, is_pooling_safe, freeze_snapshot,
 )

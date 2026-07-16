@@ -48,7 +48,7 @@ import warnings
 from collections import Counter
 from dataclasses import dataclass, field, replace
 from pathlib import Path
-from typing import Iterator, Optional
+from typing import Optional
 
 # The tracked, committed default DEV salt. Production runs MUST override it via
 # PUCKWORKS_VIS_SALT so the user hashes are not reproducible from this repo.

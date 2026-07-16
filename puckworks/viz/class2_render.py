@@ -13,7 +13,7 @@ import os
 import numpy as np
 
 from ..figures import _plt, INK, ACCENT, NULL, GOOD, BAD
-from .palette import FIELD_SEQUENTIAL, FIELD_SEQUENTIAL_ALT
+from .palette import FIELD_SEQUENTIAL
 from .registry import producer_data, save_figure
 
 
