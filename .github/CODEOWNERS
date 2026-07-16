@@ -1,0 +1,22 @@
+# Code owners (R5). Review is required from an owner for changes to these paths once branch
+# protection is enabled (repo-admin action). Default owner:
+*                                   @trbrewer
+
+# Core registry / contracts / scientific interfaces
+/puckworks/registry.py              @trbrewer
+/puckworks/contracts.py             @trbrewer
+/puckworks/models/                  @trbrewer
+
+# CI, release, and packaging
+/.github/workflows/                 @trbrewer
+/puckworks/release.py               @trbrewer
+/pyproject.toml                     @trbrewer
+
+# Data, privacy, and corpus lifecycle
+/puckworks/data/                    @trbrewer
+/puckworks/lib/visualizer_harvest.py @trbrewer
+
+# Publication artifacts + evidence
+/puckworks/paper_a/                 @trbrewer
+/puckworks/paper3/                  @trbrewer
+/docs/paper3_resource/generated/    @trbrewer
