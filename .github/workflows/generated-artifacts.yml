@@ -28,3 +28,7 @@ jobs:
         run: python -m puckworks.paper3.build verify
       - name: Lateral-coupling discrimination artifacts are up to date (WP6)
         run: python -m puckworks.analysis.lateral_coupling_discrimination --verify
+      - name: Evidence graph reconciles with the live registry (draft mode)
+        run: python -m puckworks.paper3.evidence_graph --reconcile
+      - name: Evidence-graph artifacts are up to date (WP2.4)
+        run: python -m puckworks.paper3.evidence_graph --verify
