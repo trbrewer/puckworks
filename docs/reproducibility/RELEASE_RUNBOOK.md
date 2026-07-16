@@ -158,3 +158,34 @@ receive a new semantic version tag.
 
 Tag creation, GitHub release publication, Zenodo deposition, DOI registration,
 author approval, and journal submission remain explicit human actions.
+
+---
+
+## v0.2.0 PACKAGE release rehearsal (P0.4/P0.5)
+
+The package release (distinct from the Paper A/B frozen-submission archives above) is cut from a
+single frozen commit and rehearsed GitHub-only before any PyPI publication.
+
+1. **Version sync** — `pyproject`, `puckworks.__version__`, and `CITATION.cff` must agree; the
+   CHANGELOG must have a matching `## <version>` heading:
+   ```
+   python -c "from puckworks import release; print(release.release_readiness('v0.2.0'))"   # -> []
+   ```
+2. **All lanes on the frozen commit** — offline (`quick-pr`), `generated-artifacts`,
+   `paper3-scope-strict`, `all-scope-strict`, `status-truth`, `slow-science`, `security`.
+3. **Fully-resolved hashed lock** (mechanism: pip-tools, under the release interpreter 3.12):
+   ```
+   pip install -e ".[release]"
+   pip-compile --generate-hashes --output-file requirements-release.lock.txt pyproject.toml
+   ```
+   Attach the lock beside the wheel/sdist; it is the reproducible publication environment.
+4. **Wheel + sdist + clean-room** — `python -m puckworks.release build` (wheel, sdist,
+   twine-check, checksummed manifest); install the wheel in a fresh venv OUTSIDE the checkout and
+   run the bundled example; rebuild a wheel from the sdist.
+5. **Deterministic archive** — `python -m puckworks.paper3.archive create-archive --with-dist
+   --out dist/paper3_archive.tar.gz` then `verify-archive` (independent of the checkout).
+6. **Draft GitHub Release** (HUMAN-APPROVED to promote): tag `v0.2.0`, attach wheel, sdist, the
+   Paper 3 archive, manifests + checksums, the lock, gate/evidence summaries, and release notes.
+   Verify the payload from the release DOWNLOAD, not the checkout.
+7. **PyPI** — a SEPARATE, explicitly-approved operation, only after at least one successful
+   GitHub-only rehearsal.
