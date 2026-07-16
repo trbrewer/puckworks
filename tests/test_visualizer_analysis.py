@@ -70,9 +70,10 @@ def test_pressure_atlas_metrics_and_aggregation(tmp_path):
               extra={"brewdata": {"decent": {}}})
     snap = _store(tmp_path, [a])
     m = atlas.pressure_tracking_metrics(snap.latest().__next__())
-    assert m["coverage_s"] == pytest.approx(3.0)
+    assert m["active_time_s"] == pytest.approx(3.0)        # time-weighted active interval
     assert m["n_goal_transitions"] == 1                    # 3->9 bar
-    assert m["rmse_bar"] > 0 and m["mean_signed_err_bar"] < 0   # achieved below goal on avg
+    assert m["tw_rmse_bar"] > 0 and m["tw_signed_bias_bar"] < 0   # achieved below goal on avg
+    assert 0.0 <= m["frac_time_within_1bar"] <= 1.0        # a fraction of active time
     prod = atlas.pressure_atlas(snap)
     assert prod["results"]["overall"]["n_shots"] == 1
     assert "decent" in prod["results"]["by_source_family"]

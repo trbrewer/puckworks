@@ -46,10 +46,13 @@ def _claim_bundle(snapshot, census, atlas, exploratory=True):
         },
         "pressure_tracking": {
             "n_eligible": ov["n_shots"],
-            "rmse_bar_median": ov.get("rmse_bar", {}).get("median"),
-            "rmse_bar_iqr": [ov.get("rmse_bar", {}).get("p25"),
-                             ov.get("rmse_bar", {}).get("p75")],
+            "tw_mae_bar_median": ov.get("tw_mae_bar", {}).get("median"),
+            "tw_rmse_bar_median": ov.get("tw_rmse_bar", {}).get("median"),
+            "tw_rmse_bar_iqr": [ov.get("tw_rmse_bar", {}).get("p25"),
+                                ov.get("tw_rmse_bar", {}).get("p75")],
+            "frac_time_within_0p5bar_median": ov.get("frac_time_within_0p5bar", {}).get("median"),
             "n_eligible_one_per_user": ospu_atlas["n_shots"],
+            "metric": "time-weighted, active-phase (pressure-atlas/v1)",
             "note": "tracking-behaviour distribution, NOT a machine ranking",
         },
         "caveats": [

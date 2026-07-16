@@ -61,11 +61,13 @@ This revises the earlier "freeze automatically as publication-freeze" plan.
 | Q3 | Freeze the v6 crawl as `current-state` when it exits (NOT publication) | code | crawl exhausts window (monitor armed) | `current-state` snapshot manifest + EXPLORATORY mark |
 | Q4 | ~~PR1 — logical-version selection~~ **DONE** (e21a50f): canonical max(updated_at)+append-seq; equal-ts conflict determinism + as_of + shard-order tests | code | — | ✅ committed |
 | Q5 | ~~PR2 — real freeze lifecycle~~ **DONE**: `corpus_freeze.{freeze_rehearse,freeze_materialize,freeze_verify}` + `FreezeCandidate`/`PublicationReceipt`; bundle gated on a VERIFIED receipt (not a label); moving window rejected; overwrite/mutation guards; 9 lifecycle tests | code | — | ✅ (pending commit) |
-| Q6 | PR3 — sanctioned-export contract + synthetic importer (WP1.7) | code | — (next) | end-to-end import→freeze→verify→bundle on a synthetic export |
-| Q7 | (opportunistic) sanctioned corpus export runbook | maintainer | Miha export/token (external) | WP7 pilot on real export |
+| Q6 | ~~PR3 — sanctioned-export contract + synthetic importer~~ **DONE**: `corpus_export` + `SANCTIONED_EXPORT_SPEC.md` + end-to-end synthetic pipeline | code | — | ✅ committed |
+| Q7 | ~~PR4 — pressure-atlas spec + time engine~~ **DONE**: `PRESSURE_ATLAS_SPEC.md` (v1, hashed) + time-weighted/gap-aware/active-phase engine + deterministic one-shot-per-user + 8 analytic fixtures | code | — | ✅ (pending commit) |
+| Q8 | PR5 — hierarchical inference (user-cluster bootstrap CIs; seeded one-shot-per-user; concentration + exclusion-flow first-class) | code | — (next) | WP2.7-2.9 |
+| Q9 | (opportunistic) sanctioned corpus export runbook | maintainer | Miha export/token (external) | WP7 pilot on real export |
 
-Then PR4 pressure-atlas spec+time engine → PR5 hierarchical inference → PR6 Paper A
-RC → PR7 evidence graph → PR8 Paper 3 RC → PR9 CI lanes → PR10 lateral-coupling
+Then PR6 Paper A RC (expected human BLOCK: literature search + author sign-off) →
+PR7 evidence graph → PR8 Paper 3 RC → PR9 CI lanes → PR10 lateral-coupling
 feasibility. Product lane (Doc 1) follows this convergence.
 
 **WP1 acceptance now met:** a classification string can no longer create a
