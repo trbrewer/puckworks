@@ -1,6 +1,8 @@
 name: release
-# Clean-build + bundle verification on a version tag or explicit dispatch (WP3.1 release lane).
-# Tag creation, Zenodo deposition, and DOI minting remain explicit human actions.
+# R4: clean-room build + install on a version tag or dispatch. Produces a real wheel + sdist,
+# metadata-checks them, INSTALLS the wheel in a fresh venv OUTSIDE the source tree and smoke-
+# tests it, writes a checksummed release manifest, and uploads the artifacts. Tag creation,
+# Zenodo/DOI, and PyPI publish remain explicit human actions.
 on:
   workflow_dispatch:
   push:
@@ -22,18 +24,30 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install -e ".[dev]"
-      - name: full suite (release confidence)
-        run: pytest -q
-      - name: Paper 3 build verify
-        run: python -m puckworks.paper3.build verify
-      # NOTE (WP4.6/WP5.4): a real deterministic wheel+sdist archive with a checksum is PR8;
-      # this lane currently verifies + uploads the generated provenance artifacts.
-      - name: upload generated + reproducibility artifacts
+      - run: pip install -e ".[dev,figures,release]"
+      - name: full offline suite (release confidence)
+        run: pytest -q -m "not live and not gpu and not external_data"
+      - name: generated-artifact + Paper 3 verify
+        run: |
+          python -m puckworks.paper3.registry_artifacts --verify
+          python -m puckworks.paper3.build verify
+      - name: build wheel + sdist, twine check, write manifest
+        run: python -m puckworks.release build --outdir dist
+      - name: clean-room install of the built wheel (outside the source tree)
+        run: |
+          python -m venv /tmp/cleanroom
+          /tmp/cleanroom/bin/pip install dist/*.whl
+          cd /tmp
+          /tmp/cleanroom/bin/python -c "import puckworks; from puckworks import registry, models; assert len(registry.components()) >= 20; print('clean-room import OK:', len(registry.components()), 'components')"
+      - name: upload release artifacts (wheel, sdist, manifest, generated evidence)
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: release-evidence
+          name: release-artifacts
           path: |
+            dist/*.whl
+            dist/*.tar.gz
+            dist/release_manifest.json
             docs/paper3_resource/generated/
             docs/reproducibility/
+          if-no-files-found: warn
