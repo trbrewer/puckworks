@@ -7,6 +7,7 @@ listed here wins.
 | topic | current document |
 |---|---|
 | **Project status / active queue** | [`docs/planning/STATE_OF_TRUTH.md`](planning/STATE_OF_TRUTH.md) — GENERATED from [`docs/status/current.json`](status/current.json) (`python -m puckworks.statusdoc`); curate the JSON, not the Markdown |
+| **Supported public API + stability policy** | [`docs/API.md`](API.md) — `puckworks.__all__`; what semver covers; internal vs public |
 | **Onboarding** | [`docs/ONBOARDING.md`](ONBOARDING.md) |
 | **Roadmap** | [`docs/ROADMAP.md`](ROADMAP.md) — §3 sequence, §7.1 changelog |
 | **Sprint status log** | [`docs/SPRINTS.md`](SPRINTS.md) |
