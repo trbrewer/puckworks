@@ -84,9 +84,10 @@ def test_sanitize_neutralizes_mentions_and_refs():
 
 
 def test_sanitize_strips_html_bidi_newlines_and_pipes():
-    raw = "Ti<script>x</script>tle‮en\nline | pipe"
+    rlo = chr(0x202E)  # right-to-left override, built via chr() so no literal bidi char sits in source
+    raw = "Ti<script>x</script>tle" + rlo + "en\nline | pipe"
     out = R.sanitize_text(raw)
-    assert "<script>" not in out and "‮" not in out and "\n" not in out and "\\|" in out
+    assert "<script>" not in out and rlo not in out and "\n" not in out and "\\|" in out
 
 
 def test_sanitize_escapes_markdown_link_injection():
