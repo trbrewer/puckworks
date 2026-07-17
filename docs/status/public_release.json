@@ -1,15 +1,16 @@
 {
   "schema_version": 1,
-  "note": "Explicit, hand-maintained record of the LATEST public release. The README project-pulse generator (tools/update_readme_pulse.py) reads this file rather than guessing a public release from the development version in pyproject.toml. Update this file (and only this file) at release time; there is no network lookup. puckworks is NOT on PyPI — the canonical distribution is the GitHub Release below.",
-  "latest_public_release": {
-    "tag": "v0.2.0",
-    "name": "puckworks v0.2.0",
-    "published_utc": "2026-07-17T01:08:00Z",
-    "release_url": "https://github.com/trbrewer/puckworks/releases/tag/v0.2.0",
-    "wheel_filename": "puckworks-0.2.0-py3-none-any.whl",
-    "wheel_url": "https://github.com/trbrewer/puckworks/releases/download/v0.2.0/puckworks-0.2.0-py3-none-any.whl",
-    "wheel_sha256": "0a54f8782e4173132308af24ce0c88bb48a2d334071382c07c0ff5ecc9082df1",
-    "sdist_sha256": "8b60626328897077ffd1f8de886a086610d808e5fa3a2c829e71a817bf59aaad",
-    "on_pypi": false
-  }
+  "note": "Compact machine-readable PROJECTION of durable release facts for public-experience tooling (README project-pulse + Colab quickstart). NOT a project-status authority: current work is governed by docs/status/current.json + generated STATE_OF_TRUTH.md; historical release verification is governed by docs/reproducibility/RELEASE_VERIFICATION_v0.2.0.md. Update and re-validate this file after each public release (see RELEASE_RUNBOOK.md). Validated by tools/release_record.py. puckworks is NOT on PyPI.",
+  "version": "0.2.0",
+  "tag": "v0.2.0",
+  "release_url": "https://github.com/trbrewer/puckworks/releases/tag/v0.2.0",
+  "published_at": "2026-07-17T01:08:00Z",
+  "source_commit": "458ee70bb2eedd79231385fa2d2dad2e1d457aaf",
+  "annotated_tag_object": "6501d561865a79ad904b970291dfb5c293417b98",
+  "wheel_filename": "puckworks-0.2.0-py3-none-any.whl",
+  "wheel_sha256": "0a54f8782e4173132308af24ce0c88bb48a2d334071382c07c0ff5ecc9082df1",
+  "sdist_filename": "puckworks-0.2.0.tar.gz",
+  "sdist_sha256": "8b60626328897077ffd1f8de886a086610d808e5fa3a2c829e71a817bf59aaad",
+  "manually_attached_asset_count": 10,
+  "registry_status": "github_only"
 }

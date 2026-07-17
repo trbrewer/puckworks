@@ -8,6 +8,9 @@ listed here wins.
 |---|---|
 | **Project status / active queue** | [`docs/planning/STATE_OF_TRUTH.md`](planning/STATE_OF_TRUTH.md) — GENERATED from [`docs/status/current.json`](status/current.json) (`python -m puckworks.statusdoc`); curate the JSON, not the Markdown |
 | **Supported public API + stability policy** | [`docs/API.md`](API.md) — `puckworks.__all__`; what semver covers; internal vs public |
+| **Public-experience / homepage policy** | [`docs/PUBLIC_EXPERIENCE.md`](PUBLIC_EXPERIENCE.md) — the design + review authority behind `README.md` (issue #41) |
+| **Accessibility / platform-support policy** | [`docs/ACCESSIBILITY.md`](ACCESSIBILITY.md) — one-click paths + one-wheel platform matrix (issue #43) |
+| **Public-release display metadata** | [`docs/status/public_release.json`](status/public_release.json) — compact machine-readable projection of release facts for README/Colab/public-access tooling, validated by `tools/release_record.py`. **NOT** a project-status authority (that stays `current.json` → STATE_OF_TRUTH.md) and **NOT** the historical release record (that stays `docs/reproducibility/RELEASE_VERIFICATION_v0.2.0.md`) |
 | **Onboarding** | [`docs/ONBOARDING.md`](ONBOARDING.md) |
 | **Roadmap** | [`docs/ROADMAP.md`](ROADMAP.md) — §3 sequence, §7.1 changelog |
 | **Current product implementation plan** | [`docs/planning/EXPLANATION_BUNDLE_VERTICAL_SLICE.md`](planning/EXPLANATION_BUNDLE_VERTICAL_SLICE.md) — the scoped evidence-aware explanation-bundle slice; the archived `PRODUCT_FIRST_REPRIORITIZATION.md` is historical design input, NOT authoritative |

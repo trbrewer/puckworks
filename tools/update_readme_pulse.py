@@ -86,8 +86,10 @@ def _status_outcomes() -> tuple[str, int]:
 
 
 def _public_release() -> dict:
-    data = json.loads(PUBLIC_RELEASE_JSON.read_text(encoding="utf-8"))
-    return data["latest_public_release"]
+    # Consume the ONE validated release record — fail loudly rather than render stale/invalid facts.
+    import release_record
+
+    return release_record.load_validated(PUBLIC_RELEASE_JSON)
 
 
 def render_block() -> str:
@@ -102,7 +104,8 @@ def render_block() -> str:
     order = ["PASS", "ACKNOWLEDGED_EXCEPTION", "FAIL", "ERROR", "SKIP"]
     parts = [f"{gate_counts[k]} {k}" for k in order if gate_counts.get(k)]
     outcome_summary = ", ".join(parts) if parts else "no gates"
-    suite_word = "all gates green" if gate_passed else "gate failure present"
+    suite_word = ("passed under the documented gate policy" if gate_passed
+                  else "gate failure present")
 
     rel_line = (
         f"[`{rel['tag']}`]({rel['release_url']}) "

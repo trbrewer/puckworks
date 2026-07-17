@@ -56,8 +56,10 @@ Floors (`numpy>=2.0`, `scipy>=1.13`) are proven on Python 3.10 by the `min-deps`
 
 ## 5. Optional-extra support
 
-The **core** support level above applies to `pip install puckworks` (numpy + scipy only). Optional
-extras are **not** guaranteed the same cross-platform level unless separately tested:
+The **core** support level above applies to installing the downloaded core wheel (numpy + scipy
+only) — puckworks is **not on PyPI**, so it cannot be installed from an index by name; install the
+release wheel per §7. Optional extras are **not** guaranteed the same cross-platform level unless
+separately tested:
 
 | Extra | Adds | Platform note |
 |---|---|---|

@@ -1,18 +1,26 @@
 name: notebook-smoke
-# Execute the CPU-first quickstart notebook deterministically, with NO network and NO GPU.
-# The notebook installs the RELEASE wheel by default; here we override PUCKWORKS_WHEEL to a
-# locally built wheel so the run is hermetic. Fails on any cell error or a missing completion
-# marker. Executed outputs go to a temp path and are never committed.
+# Two ways to prove the quickstart notebook works:
+#   * hermetic-dev-wheel  — build the CURRENT dev wheel, install it via the PUCKWORKS_WHEEL
+#     override, execute with NO network. Guards that development changes don't break the notebook.
+#   * public-release-wheel — verify the recorded v0.2.0 wheel SHA-256 against the live release
+#     asset, then execute the notebook's DEFAULT (download + hash-verify) path against that exact
+#     released wheel, and prove every API call the notebook makes exists in v0.2.0.
+# Executed outputs go to a temp path and are never committed.
 on:
   pull_request:
     paths:
       - "notebooks/puckworks_quickstart_colab.ipynb"
       - "puckworks/**"
       - "pyproject.toml"
+      - "docs/status/public_release.json"
+      - "README.md"
+      - "docs/ACCESSIBILITY.md"
       - ".github/workflows/notebook-smoke.yml"
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    - cron: "23 6 1 * *"      # monthly re-test of the canonical public release
 
 permissions:
   contents: read
@@ -22,11 +30,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  notebook:
+  hermetic-dev-wheel:
+    name: Mode 1 — hermetic (current dev wheel, no network)
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      MPLBACKEND: Agg          # headless matplotlib; no display required
+      MPLBACKEND: Agg
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
@@ -47,7 +56,7 @@ jobs:
           print("committed notebook is clean")
           PY
 
-      - name: build the local wheel (installed by the notebook via override)
+      - name: build the current dev wheel (installed by the notebook via override)
         run: |
           python -m pip install --quiet build
           python -m build --wheel --outdir dist .
@@ -58,29 +67,61 @@ jobs:
 
       - name: execute the notebook offline against the local wheel
         env:
-          # The notebook's install cell reads this and installs the LOCAL wheel — no network.
           PUCKWORKS_WHEEL_DIR: ${{ github.workspace }}/dist
         run: |
           export PUCKWORKS_WHEEL="$(ls "$PUCKWORKS_WHEEL_DIR"/puckworks-*.whl | head -n1)"
           echo "Installing wheel: $PUCKWORKS_WHEEL"
           jupyter nbconvert --to notebook --execute \
             --ExecutePreprocessor.timeout=300 \
-            --output /tmp/executed_quickstart.ipynb \
+            --output /tmp/executed_dev.ipynb \
             notebooks/puckworks_quickstart_colab.ipynb
 
-      - name: verify completion marker (and no residual errors)
+      - name: verify completion marker (no residual errors)
+        run: python .github/scripts/check_notebook_marker.py /tmp/executed_dev.ipynb
+
+  public-release-wheel:
+    name: Mode 2 — canonical v0.2.0 release (download + hash-verify)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.12"
+
+      - name: validate the release record
+        run: python tools/release_record.py
+
+      - name: recorded wheel SHA-256 equals the LIVE published asset
         run: |
           python - <<'PY'
-          import json
-          nb = json.load(open("/tmp/executed_quickstart.ipynb"))
-          text = []
-          for c in nb["cells"]:
-              for o in c.get("outputs", []):
-                  assert o.get("output_type") != "error", f"cell errored: {o.get('ename')}: {o.get('evalue')}"
-                  text += o.get("text", []) if isinstance(o.get("text"), list) else [o.get("text", "")]
-                  for line in o.get("data", {}).get("text/plain", []) if isinstance(o.get("data", {}).get("text/plain"), list) else []:
-                      text.append(line)
-          blob = "".join(t for t in text if t)
-          assert "QUICKSTART_COMPLETE" in blob, "quickstart did not reach its completion marker"
-          print("QUICKSTART_COMPLETE marker present; no cell errors")
+          import hashlib, json, urllib.request, sys
+          rec = json.load(open("docs/status/public_release.json"))
+          base = rec["release_url"].rsplit("/tag/", 1)[0]
+          url = f"{base}/download/{rec['tag']}/{rec['wheel_filename']}"
+          data = urllib.request.urlopen(url, timeout=60).read()
+          actual = hashlib.sha256(data).hexdigest()
+          print("recorded:", rec["wheel_sha256"]); print("actual  :", actual)
+          sys.exit(0 if actual == rec["wheel_sha256"] else 1)
           PY
+
+      - name: notebook execution tooling (CPU only)
+        run: python -m pip install --quiet jupyter nbconvert nbclient ipykernel matplotlib
+
+      - name: execute the notebook DEFAULT path (downloads + verifies v0.2.0)
+        run: |
+          jupyter nbconvert --to notebook --execute \
+            --ExecutePreprocessor.timeout=300 \
+            --output /tmp/executed_release.ipynb \
+            notebooks/puckworks_quickstart_colab.ipynb
+
+      - name: verify completion marker (no residual errors)
+        run: python .github/scripts/check_notebook_marker.py /tmp/executed_release.ipynb
+
+      - name: notebook used ONLY v0.2.0 public APIs (installed version is 0.2.0)
+        run: |
+          python -c "import puckworks; assert puckworks.__version__ == '0.2.0', puckworks.__version__; print('release-mode API compatibility: v0.2.0 OK')"

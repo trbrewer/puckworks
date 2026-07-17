@@ -158,3 +158,112 @@ def test_objective_value_process_precede_contributor_detail():
     assert why < contribute and process < contribute, (
         "objective/value/process must appear before deep contributor detail"
     )
+
+
+# ══════════════════════════════════════════════════════════════════════════════════
+# PR #44 finalize: release-record, evidence CTA, gate language, docs, notebook (Phase 8)
+# ══════════════════════════════════════════════════════════════════════════════════
+import json  # noqa: E402
+
+NOTEBOOK = REPO_ROOT / "notebooks" / "puckworks_quickstart_colab.ipynb"
+_NB = json.loads(NOTEBOOK.read_text(encoding="utf-8"))
+NB_TEXT = "\n".join("".join(c["source"]) for c in _NB["cells"])
+CURRENT_DOCS = [REPO_ROOT / "README.md", REPO_ROOT / "docs" / "ACCESSIBILITY.md",
+                REPO_ROOT / "docs" / "PUBLIC_EXPERIENCE.md"]
+
+
+def _record():
+    sys.path.insert(0, str(REPO_ROOT / "tools"))
+    import release_record
+    return release_record.load_validated(REPO_ROOT / "docs" / "status" / "public_release.json")
+
+
+def test_evidence_cta_targets_public_readme():
+    assert "[🔬 Explore the evidence](docs/public/README.md)" in TEXT
+    assert (REPO_ROOT / "docs" / "public" / "README.md").exists()
+
+
+def test_learn_architecture_is_a_separate_path():
+    assert "Learn the architecture" in TEXT and "docs/ONBOARDING.md" in TEXT
+
+
+def test_pulse_preserves_distinct_gate_counts_not_all_green():
+    block = TEXT.split("puckworks-pulse:start")[1].split("puckworks-pulse:end")[0]
+    assert "PASS" in block and "ACKNOWLEDGED_EXCEPTION" in block
+    assert "all gates green" not in block
+    assert "documented gate policy" in block
+
+
+def test_pulse_release_facts_come_from_the_validated_record():
+    rec = _record()
+    block = TEXT.split("puckworks-pulse:start")[1].split("puckworks-pulse:end")[0]
+    assert rec["tag"] in block and rec["wheel_filename"] in block
+
+
+def test_no_bare_pypi_install_in_any_current_doc():
+    for doc in CURRENT_DOCS:
+        text = doc.read_text(encoding="utf-8")
+        for m in re.finditer(r"pip install\s+([^\s`)]+)", text):
+            target = m.group(1)
+            if target.startswith("puckworks"):
+                assert target.endswith(".whl"), f"{doc.name}: bare PyPI install {target!r}"
+
+
+def test_current_md_lists_the_new_authorities():
+    cur = (REPO_ROOT / "docs" / "CURRENT.md").read_text(encoding="utf-8")
+    assert "docs/PUBLIC_EXPERIENCE.md" in cur
+    assert "docs/ACCESSIBILITY.md" in cur
+    assert "status/public_release.json" in cur
+
+
+def test_package_description_is_evidence_first():
+    pyproject = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    m = re.search(r'^description\s*=\s*"([^"]+)"', pyproject, re.M)
+    assert m, "no package description"
+    desc = m.group(1)
+    assert desc != "Component registry for espresso process models"
+    assert "Evidence-first" in desc and len(desc) <= 200
+
+
+# ── notebook (Phase 6) ──────────────────────────────────────────────────────────────
+def test_notebook_release_link_is_tag_not_download_dir():
+    assert "releases/tag/v0.2.0" in NB_TEXT
+    # no link to the bare (incomplete) download-directory URL
+    assert not re.search(r"releases/download/v0\.2\.0\s*[)\]\s]", NB_TEXT)
+
+
+def test_notebook_expected_wheel_hash_equals_record():
+    rec = _record()
+    assert rec["wheel_sha256"] in NB_TEXT, "notebook wheel hash must equal public_release.json"
+    assert rec["wheel_filename"] in NB_TEXT
+
+
+def test_notebook_verifies_hash_before_installing():
+    assert "urlretrieve" in NB_TEXT
+    assert "sha256" in NB_TEXT.lower()
+    assert "refusing to install" in NB_TEXT.lower() or "mismatch" in NB_TEXT.lower()
+
+
+def test_notebook_does_not_catch_broad_exception():
+    assert "except Exception" not in NB_TEXT, "broad except can hide a real notebook bug"
+    assert "except ImportError" in NB_TEXT
+
+
+def test_notebook_uses_only_released_public_apis():
+    import puckworks
+    referenced = set(re.findall(r"puckworks\.([A-Za-z_][A-Za-z0-9_]*)", NB_TEXT))
+    allowed = set(puckworks.__all__) | {"__file__"}
+    unknown = referenced - allowed
+    assert not unknown, f"notebook references non-public/unreleased API: {sorted(unknown)}"
+    assert "puckworks.product" not in NB_TEXT     # product is unreleased (not in v0.2.0)
+
+
+def test_notebook_has_no_committed_outputs():
+    for c in _NB["cells"]:
+        if c["cell_type"] == "code":
+            assert not c.get("outputs")
+            assert c.get("execution_count") in (None,)
+
+
+def test_notebook_has_completion_marker():
+    assert "QUICKSTART_COMPLETE" in NB_TEXT

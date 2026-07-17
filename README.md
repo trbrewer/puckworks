@@ -14,8 +14,9 @@
 
 **Evidence-first models for what happens inside an espresso puck.**
 
-Turn papers into typed components, challenge them with validation gates, compare explanations,
-and preserve what the data can — and cannot — support.
+Turn papers into typed components, challenge them with validation gates, and make their
+assumptions, evidence, validity ranges, and model behavior comparable — while preserving what the
+data can, and cannot, support.
 
 <p align="center">
   <a href="https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/puckworks_quickstart_colab.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open the Puckworks CPU quickstart in Google Colab"></a>
@@ -24,8 +25,9 @@ and preserve what the data can — and cannot — support.
 **Try it now:**
 [▶ Run the quickstart in Google Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/puckworks_quickstart_colab.ipynb)
  · [⬇ Download the latest public release](https://github.com/trbrewer/puckworks/releases/latest)
- · [🔬 Explore the evidence](docs/ONBOARDING.md)
+ · [🔬 Explore the evidence](docs/public/README.md)
  · [📊 View current project status](docs/planning/STATE_OF_TRUTH.md)
+ · [🧭 Learn the architecture](docs/ONBOARDING.md)
  · [🛠 Contribute a model or dataset](CONTRIBUTING.md)
 
 > **New session (human or agent)? Start with [docs/ONBOARDING.md](docs/ONBOARDING.md).**
@@ -93,7 +95,7 @@ simulated** — or is marked **unsupported**. Puckworks never upgrades an eviden
 | Latest public release | [`v0.2.0`](https://github.com/trbrewer/puckworks/releases/tag/v0.2.0) (`puckworks-0.2.0-py3-none-any.whl`; not on PyPI) |
 | Development source | `0.3.0.dev0` (unreleased) |
 | Registered components | 25 |
-| Validation gates | 51 total — 50 PASS, 1 ACKNOWLEDGED_EXCEPTION (all gates green) |
+| Validation gates | 51 total — 50 PASS, 1 ACKNOWLEDGED_EXCEPTION (passed under the documented gate policy) |
 | Active outcome | Deliver a versioned ShotExplanationBundle for one redistributable bundled shot |
 | Blocked outcomes | 2 (external sign-off / data) |
 | Supported Python | 3.10–3.13 (3.12 primary/release interpreter) |
@@ -103,7 +105,7 @@ simulated** — or is marked **unsupported**. Puckworks never upgrades an eviden
 *Development status and the latest public release are shown separately above — do not read the
 development source as a released capability.*
 
-## Try it in Colab (no install)
+## Try it in Colab (no local setup)
 
 The CPU-first [quickstart notebook](notebooks/puckworks_quickstart_colab.ipynb) runs top to
 bottom on a normal Colab CPU in about five minutes. It **installs the latest recorded public
