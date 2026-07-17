@@ -4,11 +4,9 @@
 
 Generated from `docs/status/current.json` (the single machine-readable status source). Regenerate with `python -m puckworks.statusdoc --write`; CI fails on stale or contradictory state. The active queue is capped at 5 outcomes; completed history and superseded plans are in their own sections below.
 
-## Active queue (1 / 5)
+## Active queue (0 / 5)
 
-| id | title | area | priority | owner | next gate | acceptance evidence |
-|---|---|---|---|---|---|---|
-| v0.2.0-release | Cut a verifiable v0.2.0 (version/citation/tag/manifest/notes agree) + a draft GitHub Release | release | P0 | release-manager | version/changelog/rehearsal landed (#24); remaining: tag v0.2.0, build wheel/sdist + hashed lock, create the DRAFT GitHub Release, verify from the download (release-manager step) | a fresh user installs the wheel and runs the bundled example without cloning; release provenance identifies one exact commit |
+_No active outcomes._
 
 ## Blocked
 
@@ -25,6 +23,7 @@ Generated from `docs/status/current.json` (the single machine-readable status so
 | gate-evaluation-completeness | Typed, non-short-circuiting gate evaluation (every gate runs; failures all reported) | #21 | 6d28392 | 2026-07-16 |
 | deterministic-paper3-archive | Real deterministic Paper 3 release archive (create/verify/inspect, full manifest) | #22 | a562834 | 2026-07-16 |
 | release-env-ci-supply-chain | Aligned Python matrix + full transitive lock; Actions SHA-pinned; dependency review/audit | #23 | 0f0b282 | 2026-07-16 |
+| v0.2.0-release | Publish and verify the Puckworks v0.2.0 GitHub Release | #31 | 458ee70 | 2026-07-17 |
 | contract-boundary-hardening | Explicit units (bar-gauge vs pascal), versioned trace schema + validators, typed public results | #25 | 3031a25 | 2026-07-16 |
 | paper3-evidence-graph | Paper 3 per-claim evidence graph (schema v2): 51/51 adjudicated; roll-up + zero-gate policies enforced | #19 | 7b3f8f0 | 2026-07-16 |
 | lateral-coupling-feasibility | Lateral-coupling feasibility: two-node model + matched proxy discrimination (exact Xi, continuous alpha) | #14 | 6c5eb31 | 2026-07-16 |
