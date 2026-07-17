@@ -296,11 +296,10 @@ def test_readme_does_not_overpromise_colab_duration():
 
 # ── 2F: public-experience reminder scheduled write is opt-in ────────────────────────
 def test_public_experience_reminder_scheduled_write_is_opt_in():
-    import yaml
-    wf = yaml.safe_load((REPO_ROOT / ".github" / "workflows" / "public-experience-review.yml").read_text())
-    cond = wf["jobs"]["remind"]["if"]
-    assert "ENABLE_PUBLIC_EXPERIENCE_REMINDERS == 'true'" in cond
-    assert "refs/heads/main" in cond and "workflow_dispatch" in cond
+    # Text search (no pyyaml — not a public-branch dev dependency).
+    wf = (REPO_ROOT / ".github" / "workflows" / "public-experience-review.yml").read_text(encoding="utf-8")
+    assert "ENABLE_PUBLIC_EXPERIENCE_REMINDERS == 'true'" in wf
+    assert "refs/heads/main" in wf and "workflow_dispatch" in wf
 
 
 # ── 2E: README public-API wording is a curated subset, not a false-exact list ───────
