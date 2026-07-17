@@ -61,8 +61,9 @@ The public value:
   validated inputs and outputs.
 - **A component registry** (`puckworks/registry.py`) — each model registered with source,
   assumptions, and validity range.
-- **Validation gates** wired to real reference data — a gate reports **PASS** or
-  **ACKNOWLEDGED_EXCEPTION**, never a silent pass.
+- **Validation gates** wired to real reference data — a gate reports **PASS**, **FAIL**, **SKIP**,
+  **ERROR**, or **ACKNOWLEDGED_EXCEPTION**; FAIL and ERROR make the suite fail, and zero-gate and
+  policy-exception cases are represented explicitly rather than as silent passes.
 - **Provenance discipline** — every result is reportable as *component names + versions + gate
   status*.
 
@@ -108,7 +109,7 @@ development source as a released capability.*
 ## Try it in Colab (no local setup)
 
 The CPU-first [quickstart notebook](notebooks/puckworks_quickstart_colab.ipynb) runs top to
-bottom on a normal Colab CPU in about five minutes. It **installs the latest recorded public
+bottom on a normal Colab CPU in a few minutes. It **installs the latest recorded public
 release wheel** — not unreleased main-branch code — and walks through the registry, the gates,
 and how to read evidence strength honestly.
 
@@ -130,8 +131,9 @@ python -c "import puckworks; s = puckworks.evaluate_all_gates(); print(s.summary
 python -c "import puckworks; print(len(puckworks.components()), 'components registered')"
 ```
 
-One pure-Python wheel serves **Windows, macOS, and Linux** (Python 3.10–3.13). Per-platform
-commands and the support matrix: [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md).
+The same pure-Python wheel is smoke-tested on **Windows, macOS, and Linux** under Python 3.12;
+interpreter CI additionally exercises Python 3.10, 3.12, and 3.13. Per-platform commands and the
+support matrix: [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md).
 
 The **supported public API** is `puckworks.__all__` (`evaluate_all_gates`, `components`, `get`,
 `Component`, `contracts`, `validate`, `load_builtin_components`, `GateStatus`, `GateResult`,

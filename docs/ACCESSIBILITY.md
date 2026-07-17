@@ -51,8 +51,11 @@ uninstalls cleanly.
 
 ## 4. Python version support
 
-Supported: **3.10 – 3.13**, per `pyproject.toml` (3.12 is the primary/release interpreter).
-Floors (`numpy>=2.0`, `scipy>=1.13`) are proven on Python 3.10 by the `min-deps` CI lane.
+Declared support: **3.10 – 3.13**, per `pyproject.toml` (3.12 is the primary/release interpreter).
+**Interpreter CI** (`quick-pr`) exercises **3.10, 3.12, and 3.13**; 3.11 is declared but not in the
+CI matrix. The cross-OS `platform-smoke` matrix runs under Python **3.12** only — it proves *artifact
+portability across operating systems*, distinct from *interpreter-version coverage*. Floors
+(`numpy>=2.0`, `scipy>=1.13`) are proven on Python 3.10 by the `min-deps` lane.
 
 ## 5. Optional-extra support
 

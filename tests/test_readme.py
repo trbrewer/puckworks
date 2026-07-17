@@ -136,12 +136,14 @@ def test_relative_markdown_links_resolve():
 
 
 def test_no_hidden_or_bidi_control_characters():
-    forbidden = {
-        "​", "‌", "‍", "‎", "‏",   # zero-width / LTR-RTL marks
-        "‪", "‫", "‬", "‭", "‮",   # bidi embedding/override
-        "⁦", "⁧", "⁨", "⁩",             # bidi isolates
-        "﻿",                                             # BOM / zero-width no-break space
-    }
+    # Built via chr() so no literal hidden/bidi character sits in this source file (a control-char
+    # scan of the test file itself stays clean).
+    forbidden = {chr(c) for c in (
+        0x200B, 0x200C, 0x200D, 0x200E, 0x200F,   # zero-width / LTR-RTL marks
+        0x202A, 0x202B, 0x202C, 0x202D, 0x202E,   # bidi embedding/override
+        0x2066, 0x2067, 0x2068, 0x2069,           # bidi isolates
+        0xFEFF,                                   # BOM / zero-width no-break space
+    )}
     present = sorted({hex(ord(c)) for c in TEXT if c in forbidden})
     assert not present, f"README contains hidden/bidi control characters: {present}"
 
@@ -267,3 +269,26 @@ def test_notebook_has_no_committed_outputs():
 
 def test_notebook_has_completion_marker():
     assert "QUICKSTART_COMPLETE" in NB_TEXT
+
+
+# ── PR #44 REQUEST-CHANGES corrections: gate + platform wording (3E/3F) ─────────────
+def test_readme_gate_sentence_matches_gatestatus_enum():
+    import puckworks
+    enum_names = {s.value for s in puckworks.GateStatus}   # PASS/FAIL/SKIP/ERROR/ACKNOWLEDGED_EXCEPTION
+    # the "What it does" gate bullet must name exactly the real status set (no narrowing)
+    para = TEXT.split("Validation gates**", 1)[1][:400]
+    named = {w for w in re.findall(r"\b[A-Z][A-Z_]+\b", para)}
+    named &= enum_names | {"PASS", "FAIL", "SKIP", "ERROR", "ACKNOWLEDGED_EXCEPTION"}
+    assert named == enum_names, f"README gate sentence names {named}, enum is {enum_names}"
+
+
+def test_readme_distinguishes_os_and_interpreter_coverage():
+    # OS smoke is Python 3.12; interpreter coverage names the tested versions separately.
+    assert "under Python 3.12" in TEXT
+    assert "3.10, 3.12, and 3.13" in TEXT
+    # must not claim the full 3.10–3.13 range is smoke-tested across all OSes
+    assert "Windows, macOS, and Linux** (Python 3.10" not in TEXT
+
+
+def test_readme_does_not_overpromise_colab_duration():
+    assert "five minutes" not in TEXT

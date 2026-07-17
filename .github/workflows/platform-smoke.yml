@@ -138,13 +138,14 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: download the recorded v0.2.0 wheel and VERIFY its SHA-256
+      - name: download the recorded v0.2.0 wheel and VERIFY it (via the validated record)
         run: |
           python - <<'PY'
-          import hashlib, json, urllib.request, sys
-          rec = json.load(open("docs/status/public_release.json"))
-          base = rec["release_url"].rsplit("/tag/", 1)[0]
-          url = f"{base}/download/{rec['tag']}/{rec['wheel_filename']}"
+          import hashlib, sys, urllib.request
+          sys.path.insert(0, "tools")
+          import release_record as R                       # strict semantic validation, not json.load
+          rec = R.load_validated("docs/status/public_release.json")
+          url = R.canonical_wheel_url(rec)
           data = urllib.request.urlopen(url, timeout=60).read()
           actual = hashlib.sha256(data).hexdigest()
           print("expected:", rec["wheel_sha256"]); print("actual  :", actual)
