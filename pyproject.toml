@@ -21,7 +21,8 @@ classifiers = [
 
 [project.optional-dependencies]
 lb = ["taichi"]
-dev = ["pytest", "ruff", "pytest-cov", "mypy"]   # coverage + type-check baselines (P1.3)
+radar = ["pyyaml"]   # research-radar query-config parsing (tools/research_radar.py); not a core dep
+dev = ["pytest", "ruff", "pytest-cov", "mypy", "pyyaml"]   # coverage + type-check baselines (P1.3); pyyaml for radar tests
 figures = ["matplotlib"]
 harvest = ["requests"]
 release = ["build", "twine", "pip-tools"]   # pip-tools: fully-resolved hashed lock (P0.5)
@@ -86,4 +87,9 @@ files = [
     "puckworks/paper3/archive.py",
     "puckworks/paper3/evidence_graph.py",
     "puckworks/paper3/build.py",
+    "puckworks/product/_enums.py",
+    "puckworks/product/_records.py",
+    "puckworks/product/_serialize.py",
+    "puckworks/product/_provenance.py",
+    "puckworks/product/__init__.py",
 ]

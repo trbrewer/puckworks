@@ -1,0 +1,283 @@
+# Puckworks research-radar query configuration (issue #42).
+#
+# Machine-readable input for tools/research_radar.py. Each query is a TRIAGE lens, not a decision
+# rule: a hit is a candidate for human review, never evidence, a card change, or a submission.
+#
+# Structured query model (per query):
+#   id                 stable unique slug (dedupe provenance)
+#   title              human label
+#   enabled            true/false — disabled queries are never sent
+#   lookback_days      recent window for a weekly scan (positive int; quarterly backfill is separate)
+#   maximum_candidates hard cap on candidates kept per run for this query (1..100)
+#   global_priority    ordering hint across queries (1 = highest)
+#   concept_groups     list of synonym groups. The scanner ANDs across groups and ORs within a
+#                      group -> arXiv: (all:"a" OR all:"b") AND (all:"c"); Crossref: bibliographic
+#                      free-text of the first synonym per group.
+#   exclusions         drop candidates whose title/abstract contains any of these
+#   source_families    subset of [arxiv, crossref] (default both; only official metadata APIs)
+#   relevance_notes    why this family matters to Puckworks
+#   coupled_cards      model cards / claims this query informs (provenance only)
+#   last_human_review  ISO date a human last reviewed this query's vocabulary (quarterly cadence)
+#   owner              who curates this query
+#
+# Vocabulary is reviewed QUARTERLY (docs/RESEARCH_RADAR.md §15). Editing terms here is a human
+# action; the scanner never edits this file. arXiv pacing >= 3 s/request; Crossref polite pool.
+
+version: 1
+defaults:
+  owner: maintainer
+  lookback_days: 21
+  maximum_candidates: 8
+
+queries:
+  - id: espresso-extraction
+    title: Espresso extraction modelling
+    enabled: true
+    lookback_days: 21
+    maximum_candidates: 8
+    global_priority: 1
+    concept_groups:
+      - ["espresso", "coffee extraction"]
+      - ["model", "simulation", "dynamics", "flow"]
+    exclusions: ["barista training", "marketing"]
+    required_any: ["espresso", "coffee"]
+    relevance_notes: Core process; informs the extraction-stage components.
+    coupled_cards: ["cameron2020", "pannusch2024", "mo2023_2"]
+    last_human_review: 2026-07-17
+    owner: maintainer
+
+  - id: coffee-extraction-kinetics
+    title: Coffee extraction kinetics and dissolution
+    enabled: true
+    lookback_days: 21
+    maximum_candidates: 8
+    global_priority: 1
+    concept_groups:
+      - ["coffee", "espresso"]
+      - ["extraction kinetics", "dissolution", "solute transport"]
+    exclusions: ["sensory panel", "consumer preference"]
+    required_any: ["espresso", "coffee"]
+    relevance_notes: Kinetic closures and solute inventory; K(T) / c_sat debates.
+    coupled_cards: ["romancorrochano2017", "pannusch2024", "schmieder"]
+    last_human_review: 2026-07-17
+    owner: maintainer
+
+  - id: coffee-porous-bed
+    title: Coffee packed bed and permeability
+    enabled: true
+    lookback_days: 21
+    maximum_candidates: 8
+    global_priority: 2
+    concept_groups:
+      - ["coffee", "espresso"]
+      - ["packed bed", "permeability", "porosity"]
+    exclusions: []
+    required_any: ["espresso", "coffee"]
+    relevance_notes: Bed permeability + packing; Wadsworth/Forchheimer lineage.
+    coupled_cards: ["wadsworth2026", "brewer2026.pack_generator"]
+    last_human_review: 2026-07-17
+    owner: maintainer
+
+  - id: deformable-porous-media
+    title: Deformable / poroelastic porous media
+    enabled: true
+    lookback_days: 30
+    maximum_candidates: 6
+    global_priority: 2
+    concept_groups:
+      - ["deformable porous media", "poroelastic", "consolidation"]
+    exclusions: ["geotechnical foundation"]
+    relevance_notes: Poroelastic flow closure behind coupled_kappa_t.
+    coupled_cards: ["brewer2026.coupled_kappa_t"]
+    last_human_review: 2026-07-17
+    owner: maintainer
+
+  - id: granular-packed-bed-flow
+    title: Granular compaction and packed-bed flow
+    enabled: true
+    lookback_days: 30
+    maximum_candidates: 6
+    global_priority: 3
+    concept_groups:
+      - ["granular", "packed bed flow"]
+      - ["compaction", "rearrangement"]
+    exclusions: []
+    relevance_notes: Grain rearrangement affecting bed dynamics.
+    coupled_cards: ["brewer2026.streamtube"]
+    last_human_review: 2026-07-17
+    owner: maintainer
+
+  - id: wetting-infiltration
+    title: Wetting and infiltration in porous media
+    enabled: true
+    lookback_days: 30
+    maximum_candidates: 6
+    global_priority: 3
+    concept_groups:
+      - ["wetting", "infiltration", "imbibition", "unsaturated flow"]
+    exclusions: []
+    relevance_notes: Infiltration front + unsaturated flow (G1 constitutive gap).
+    coupled_cards: ["foster2025.infiltration"]
+    last_human_review: 2026-07-17
+    owner: maintainer
+
+  - id: swelling-fines-migration
+    title: Swelling, fines migration, clogging, erosion
+    enabled: true
+    lookback_days: 30
+    maximum_candidates: 6
+    global_priority: 3
+    concept_groups:
+      - ["fines migration", "clogging", "colloid transport", "erosion"]
+    exclusions: []
+    relevance_notes: Mid-shot clogging (open G9 piece) and swelling.
+    coupled_cards: ["fasano2000", "mo2023_2.coupled_bed"]
+    last_human_review: 2026-07-17
+    owner: maintainer
+
+  - id: permeability-lattice-boltzmann
+    title: Permeability and lattice-Boltzmann pore-scale simulation
+    enabled: true
+    lookback_days: 30
+    maximum_candidates: 6
+    global_priority: 3
+    concept_groups:
+      - ["lattice Boltzmann", "pore scale"]
+      - ["permeability", "digital rock"]
+    exclusions: ["plasma", "astrophysics"]
+    relevance_notes: LB reference/taichi calibration lineage.
+    coupled_cards: ["brewer2026.lb_reference", "brewer2026.lb_taichi"]
+    last_human_review: 2026-07-17
+    owner: maintainer
+
+  - id: reactive-transport
+    title: Reactive transport and dissolution
+    enabled: true
+    lookback_days: 30
+    maximum_candidates: 6
+    global_priority: 4
+    concept_groups:
+      - ["reactive transport", "advection diffusion reaction", "dissolution"]
+    exclusions: ["groundwater remediation"]
+    relevance_notes: Coupled transport+reaction closures.
+    coupled_cards: ["pannusch2024"]
+    last_human_review: 2026-07-17
+    owner: maintainer
+
+  - id: inverse-problems
+    title: Inverse problems in porous / transport systems
+    enabled: true
+    lookback_days: 30
+    maximum_candidates: 6
+    global_priority: 4
+    concept_groups:
+      - ["inverse problem", "parameter estimation"]
+      - ["porous", "transport", "flow"]
+    exclusions: []
+    relevance_notes: Inversion for transport/kinetic parameters.
+    coupled_cards: ["ANALYSIS_transfer"]
+    last_human_review: 2026-07-17
+    owner: maintainer
+
+  - id: identifiability
+    title: Parameter identifiability
+    enabled: true
+    lookback_days: 45
+    maximum_candidates: 6
+    global_priority: 4
+    concept_groups:
+      - ["identifiability", "practical identifiability", "profile likelihood"]
+    exclusions: []
+    relevance_notes: Direct to the inventory<->kinetics non-identifiability (G6).
+    coupled_cards: ["ANALYSIS_transfer", "G6"]
+    last_human_review: 2026-07-17
+    owner: maintainer
+
+  - id: system-identification-doe
+    title: System identification and experiment design
+    enabled: true
+    lookback_days: 45
+    maximum_candidates: 6
+    global_priority: 5
+    concept_groups:
+      - ["system identification", "optimal experiment design", "D-optimal"]
+    exclusions: []
+    relevance_notes: Design better measurements to break identifiability limits.
+    coupled_cards: ["P3_hypotheses"]
+    last_human_review: 2026-07-17
+    owner: maintainer
+
+  - id: sensing-experiment-design
+    title: Pressure/flow/temperature sensing for brewing
+    enabled: true
+    lookback_days: 30
+    maximum_candidates: 6
+    global_priority: 5
+    concept_groups:
+      - ["flow sensor", "pressure sensor", "in-line measurement", "process sensing"]
+    exclusions: []
+    relevance_notes: Instrumentation for actionable uncertainty.
+    coupled_cards: ["visualizer_coffee"]
+    last_human_review: 2026-07-17
+    owner: maintainer
+
+  - id: food-process-digital-twins
+    title: Food/beverage process digital twins and control
+    enabled: true
+    lookback_days: 30
+    maximum_candidates: 6
+    global_priority: 5
+    concept_groups:
+      - ["digital twin", "process control"]
+      - ["food process", "beverage"]
+    exclusions: ["supply chain"]
+    relevance_notes: Process-control framing and food-engineering venues.
+    coupled_cards: []
+    last_human_review: 2026-07-17
+    owner: maintainer
+
+  - id: coffee-chemistry-measurement
+    title: Coffee chemistry and measurement (TDS/EY)
+    enabled: true
+    lookback_days: 30
+    maximum_candidates: 6
+    global_priority: 5
+    concept_groups:
+      - ["coffee"]
+      - ["total dissolved solids", "extraction yield", "refractometry"]
+    exclusions: []
+    required_any: ["espresso", "coffee"]
+    relevance_notes: Measurement methods for extraction outcomes.
+    coupled_cards: ["schmieder"]
+    last_human_review: 2026-07-17
+    owner: maintainer
+
+  - id: scientific-software-reproducibility
+    title: Scientific software methods and reproducibility
+    enabled: true
+    lookback_days: 30
+    maximum_candidates: 6
+    global_priority: 5
+    concept_groups:
+      - ["research software", "software paper"]
+      - ["reproducibility", "provenance"]
+    exclusions: []
+    relevance_notes: Methods/resource-paper venues (Paper 3) + reproducibility practice.
+    coupled_cards: ["Paper3"]
+    last_human_review: 2026-07-17
+    owner: maintainer
+
+  - id: public-communication-uncertainty
+    title: Public communication of uncertain science
+    enabled: false
+    lookback_days: 30
+    maximum_candidates: 5
+    global_priority: 6
+    source_families: ["crossref"]
+    concept_groups:
+      - ["science communication", "uncertainty communication", "public understanding"]
+    exclusions: []
+    relevance_notes: Public-value track; disabled by default (noisy) — enable per campaign.
+    coupled_cards: ["PUBLIC_VALUE"]
+    last_human_review: 2026-07-17
+    owner: maintainer
