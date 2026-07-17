@@ -58,25 +58,25 @@
       "external_blocker": null,
       "resume_trigger": null,
       "next_gate": null,
-      "acceptance_evidence": "min-deps and locked-release lanes both pass; CI has no deprecated-action warnings",
+      "acceptance_evidence": "min-deps and locked-release lanes pass; SHA-pinned Actions (no deprecated-action warnings); security lane pip-audit; the fully-resolved Python 3.12 hashed release lock (sha256 6c342564a5f4bb6e6a1dc6faafb13a23646752555c11a93b9ec963ffbd242888) ships as a v0.2.0 release ASSET (not tracked in-tree) and installs under pip --require-hashes",
       "issue_or_pr": "#23",
       "verified_commit": "0f0b282",
       "verified_date": "2026-07-16"
     },
     {
       "id": "v0.2.0-release",
-      "title": "Cut a verifiable v0.2.0 (version/citation/tag/manifest/notes agree) + a draft GitHub Release",
+      "title": "Publish and verify the Puckworks v0.2.0 GitHub Release",
       "area": "release",
-      "state": "active",
+      "state": "complete",
       "priority": "P0",
       "owner_type": "release-manager",
       "external_blocker": null,
       "resume_trigger": null,
-      "next_gate": "version/changelog/rehearsal landed (#24); remaining: tag v0.2.0, build wheel/sdist + hashed lock, create the DRAFT GitHub Release, verify from the download (release-manager step)",
-      "acceptance_evidence": "a fresh user installs the wheel and runs the bundled example without cloning; release provenance identifies one exact commit",
-      "issue_or_pr": null,
-      "verified_commit": null,
-      "verified_date": null
+      "next_gate": null,
+      "acceptance_evidence": "Public GitHub-only release https://github.com/trbrewer/puckworks/releases/tag/v0.2.0 (not on PyPI); record docs/reproducibility/RELEASE_VERIFICATION_v0.2.0.md; source 458ee70bb2eedd79231385fa2d2dad2e1d457aaf; tag-run https://github.com/trbrewer/puckworks/actions/runs/29545862493; canonical wheel sha256 0a54f8782e4173132308af24ce0c88bb48a2d334071382c07c0ff5ecc9082df1, sdist sha256 8b60626328897077ffd1f8de886a086610d808e5fa3a2c829e71a817bf59aaad; public-download SHA256SUMS all OK + py3.12 installed-wheel smoke = 25 components, 50 PASS + 1 ACKNOWLEDGED_EXCEPTION (brewer2026.lb_taichi), serialize round-trip + clean uninstall",
+      "issue_or_pr": "#31",
+      "verified_commit": "458ee70",
+      "verified_date": "2026-07-17"
     },
     {
       "id": "contract-boundary-hardening",
