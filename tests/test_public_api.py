@@ -4,7 +4,7 @@ import puckworks
 
 _EXPECTED_PUBLIC = {
     "__version__",
-    "contracts", "registry", "validate",
+    "contracts", "registry", "validate", "product",
     "Component", "components", "get", "load_builtin_components",
     "evaluate_all_gates", "GateStatus", "GateResult", "GateSuiteResult",
 }
