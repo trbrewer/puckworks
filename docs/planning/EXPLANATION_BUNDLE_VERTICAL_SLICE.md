@@ -158,15 +158,35 @@ negative tests (unsupported diagnosis, evidence upgrade, unit confusion must fai
 distinction preserved in export.
 
 ## 12. Ordered implementation PRs
-- **PR 1** — public product namespace; typed/versioned records; canonical JSON; source/build-provenance
-  contract; formally qualified single-shot fixture; fixture manifest; installed-wheel fixture-loading
-  and distribution tests. **PR 1 does NOT contain** `analyze_shot`, model execution, explanation
-  conclusions, or HTML output.
-- **PR 2** — normalization + analysis orchestration, deterministic golden bundle.
-- **PR 3** — human-readable static result/export + installed-wheel golden-path smoke.
-- **PR 4** — evidence-comprehension review + wording corrections.
+PR 1 was **split** so a rights-blocked fixture cannot block the rights-independent contract:
 
-Generic import begins only after the bundled result is understandable and scientifically modest.
+- **PR 1A — public product contract** (PR #34): public namespace; typed/versioned records; canonical
+  serialization; Git-free provenance; strict validation; a **test-only synthetic** golden; **no runtime
+  fixture**. No `analyze_shot`, model execution, explanation conclusions, or HTML.
+- **PR 1B — approved real fixture** (separate, after rights approval): one formally redistributable
+  individual shot; source and transformed hashes; manifest; attribution; public loader; wheel/sdist
+  inclusion; installed-wheel golden path. Blocked on the Waszkiewicz member-license clarification
+  (RadostW/espresso#1) or another explicitly-licensed single shot.
+- **PR 2A — normalization boundary** (**rights-independent**): explicit-unit validation; time
+  alignment; pressure-node/reference handling; flow-versus-mass semantics; synthetic/caller-owned test
+  data; **no model conclusions**. **May begin after PR 1A merges** — it does **not** require PR 1B.
+- **PR 2B — analysis orchestration**: fixture-supported explanation candidates; evidence/caveats; no
+  overall winner; next-measurement logic. **Requires BOTH PR 1B (approved real fixture) AND PR 2A.**
+- **PR 3 — human-readable static result/export** (follows PR 2B).
+- **PR 4 — evidence-comprehension review + wording corrections** (follows PR 3).
+
+**Dependency graph (so a blocked fixture cannot justify model conclusions):**
+```
+PR 1A (contract, no fixture, no analysis)  -- merged --> PR 2A (normalization, rights-independent)
+PR 1A ------------------------------------ rights ----> PR 1B (approved real fixture)
+PR 2A + PR 1B ---------------------------------------->  PR 2B (analysis) -> PR 3 -> PR 4
+```
+
+**Development-version gate: SATISFIED.** The `0.3.0.dev0` development line was opened through PR #35;
+source/development builds no longer identify themselves as the released v0.2.0.
+
+Issue #32 remains open until the complete outcome is delivered. Generic import begins only after the
+bundled result is understandable and scientifically modest.
 
 ## 13. Risks and stop conditions
 - No redistributable golden fixture qualifies → STOP at §5.

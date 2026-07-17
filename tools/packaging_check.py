@@ -18,6 +18,12 @@ REQUIRED_SUFFIXES = ("puckworks/data/MANIFEST.csv",
                      "puckworks/data/cameron2020/fig5_grind_deviation.csv",
                      "puckworks/data/visualizer/PROVENANCE.md")
 
+# No product runtime fixture ships in the contract-only PR 1A. Any file under puckworks/data/product/
+# would be an unreviewed product-data leak until PR 1B lands an approved fixture and re-adds an
+# explicit allowlist.
+PRODUCT_DATA_PREFIX = "puckworks/data/product/"
+PRODUCT_DATA_ALLOWLIST: set = set()
+
 
 def _members(path: Path):
     if path.suffix == ".whl" or path.suffix == ".zip":
@@ -39,6 +45,16 @@ def check_distribution(path: Path):
     for suf in REQUIRED_SUFFIXES:
         if not any(n.endswith(suf) for n in names):
             problems.append("%s: MISSING required package data: %s" % (path.name, suf))
+    # positive allowlist for product data: no unreviewed member may enter puckworks/data/product/
+    for n in names:
+        idx = n.find(PRODUCT_DATA_PREFIX)
+        if idx == -1:
+            continue
+        rel = n[idx:]
+        if rel.endswith("/") or "__pycache__" in rel or rel.rstrip("/") == PRODUCT_DATA_PREFIX.rstrip("/"):
+            continue
+        if rel not in PRODUCT_DATA_ALLOWLIST:
+            problems.append("%s: UNREVIEWED product-data file: %s" % (path.name, rel))
     return problems
 
 
