@@ -4,9 +4,11 @@
 
 Generated from `docs/status/current.json` (the single machine-readable status source). Regenerate with `python -m puckworks.statusdoc --write`; CI fails on stale or contradictory state. The active queue is capped at 5 outcomes; completed history and superseded plans are in their own sections below.
 
-## Active queue (0 / 5)
+## Active queue (1 / 5)
 
-_No active outcomes._
+| id | title | area | priority | owner | next gate | acceptance evidence |
+|---|---|---|---|---|---|---|
+| evidence-aware-explanation-bundle | Deliver a versioned ShotExplanationBundle for one redistributable bundled shot | product | P0 | maintainer | Approve the public `puckworks.product` v1 contract and one formally redistributable single-shot fixture, then verify deterministic contract serialization and fixture loading from an installed wheel. | Every available series has a measured/derived/fitted/predicted/simulated origin; availability is represented separately; compatibility and evidence strength are separate; one formally redistributable individual shot is used; the public boundary is puckworks.product; no more than three fixture-supported explanations are ultimately emitted; fewer than three is valid; no unsupported diagnosis, evidence upgrade, flavor prediction, or recipe optimization occurs. |
 
 ## Blocked
 

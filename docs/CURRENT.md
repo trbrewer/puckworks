@@ -10,6 +10,7 @@ listed here wins.
 | **Supported public API + stability policy** | [`docs/API.md`](API.md) — `puckworks.__all__`; what semver covers; internal vs public |
 | **Onboarding** | [`docs/ONBOARDING.md`](ONBOARDING.md) |
 | **Roadmap** | [`docs/ROADMAP.md`](ROADMAP.md) — §3 sequence, §7.1 changelog |
+| **Current product implementation plan** | [`docs/planning/EXPLANATION_BUNDLE_VERTICAL_SLICE.md`](planning/EXPLANATION_BUNDLE_VERTICAL_SLICE.md) — the scoped evidence-aware explanation-bundle slice; the archived `PRODUCT_FIRST_REPRIORITIZATION.md` is historical design input, NOT authoritative |
 | **Sprint status log** | [`docs/SPRINTS.md`](SPRINTS.md) |
 | **CI lanes** | [`docs/CI_LANES.md`](CI_LANES.md) |
 | **Strategic plans (historical)** | [`docs/planning/archive/`](planning/archive/) — superseded snapshots (product-first reprioritization, next-step plan); NOT authoritative |
