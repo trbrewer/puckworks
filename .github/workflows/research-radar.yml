@@ -157,17 +157,18 @@ jobs:
 
   publish:
     needs: [scan, plan]
-    # Trusted publication boundary. Only from this repo's main, on a non-failed scan, when publish
+    # Trusted publication boundary. Only from this repo's main, on a SUCCESSFUL scan, when publish
     # was requested. UNATTENDED (scheduled) writes are DISABLED BY DEFAULT: a scheduled run publishes
-    # only if the repo variable RADAR_UNATTENDED_WRITES == 'enabled' (a human's recorded opt-in) —
-    # so merging this PR does NOT by itself enable scheduled issue writes. A manual dispatch with
-    # publish_issue=true is an explicit human action and is always allowed here.
+    # only if the repo variable ENABLE_RESEARCH_RADAR_PUBLISH == 'true' (a human's recorded opt-in) —
+    # so merging this PR does NOT by itself enable scheduled issue writes. A partial/failed scan
+    # never publishes unattended. A manual dispatch with publish_issue=true is an explicit human
+    # action and is always allowed here.
     if: >-
       github.repository == 'trbrewer/puckworks'
       && github.ref == 'refs/heads/main'
       && needs.scan.outputs.publish == 'true'
-      && needs.scan.outputs.status != 'failed'
-      && (github.event_name == 'workflow_dispatch' || vars.RADAR_UNATTENDED_WRITES == 'enabled')
+      && needs.scan.outputs.status == 'success'
+      && (github.event_name == 'workflow_dispatch' || vars.ENABLE_RESEARCH_RADAR_PUBLISH == 'true')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:

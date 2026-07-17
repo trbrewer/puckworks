@@ -17,12 +17,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     # Unattended (scheduled) issue writes are DISABLED BY DEFAULT: a scheduled run posts the monthly
-    # reminder only if the repo variable RADAR_UNATTENDED_WRITES == 'enabled' (a human's recorded
-    # opt-in). A manual dispatch is an explicit human action and always runs. Merging does not by
-    # itself enable scheduled writes.
+    # reminder only if the repo variable ENABLE_VENUE_REMINDERS == 'true' (a human's recorded opt-in,
+    # SEPARATE from the radar-publish opt-in). A manual dispatch is an explicit human action and
+    # always runs, from main only. Merging does not by itself enable scheduled writes.
     if: >-
       github.repository == 'trbrewer/puckworks'
-      && (github.event_name == 'workflow_dispatch' || vars.RADAR_UNATTENDED_WRITES == 'enabled')
+      && github.ref == 'refs/heads/main'
+      && (github.event_name == 'workflow_dispatch' || vars.ENABLE_VENUE_REMINDERS == 'true')
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:

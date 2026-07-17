@@ -190,11 +190,17 @@ the issue.
 
 **Unattended writes are DISABLED BY DEFAULT.** Merging the radar workflows does **not** by itself
 enable scheduled issue writes. A scheduled run scans and uploads an artifact, but it only
-creates/comments on an issue when the repository variable `RADAR_UNATTENDED_WRITES` is set to
-`enabled` — a human's recorded opt-in (this applies to both the weekly radar and the monthly
-venue-deadline reminder). A manual `workflow_dispatch` with `publish_issue=true` is an explicit
-human action and always writes. To turn on unattended writes, a maintainer sets the repo variable
-(and records that decision on issue #42).
+creates/comments on an issue when the corresponding repository variable is set to `true` — a
+human's recorded opt-in, with **separate** switches per capability:
+
+- **weekly radar publishing** → `ENABLE_RESEARCH_RADAR_PUBLISH`;
+- **monthly venue reminder** → `ENABLE_VENUE_REMINDERS`.
+
+A manual `workflow_dispatch` (radar: `publish_issue=true`) is an explicit human action and always
+writes, from `main` only. **Unattended publishing requires a SUCCESSFUL scan** — a partial or
+failed scan never publishes on the schedule (so an incomplete radar result is never presented as
+complete). Publishing a partial scan is possible only via manual dispatch. To enable unattended
+writes, a maintainer sets the relevant variable and records that decision on issue #42.
 
 **Labels + safety:** monthly radar issues are labelled `research-radar` + `triage` — **never
 `standing`** (reserved for the permanent tracker #42), and may be closed after human triage. A
