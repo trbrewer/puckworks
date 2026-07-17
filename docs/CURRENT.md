@@ -14,6 +14,7 @@ listed here wins.
 | **Sprint status log** | [`docs/SPRINTS.md`](SPRINTS.md) |
 | **CI lanes** | [`docs/CI_LANES.md`](CI_LANES.md) |
 | **Strategic plans (historical)** | [`docs/planning/archive/`](planning/archive/) — superseded snapshots (product-first reprioritization, next-step plan); NOT authoritative |
+| **Literature / venue / collaboration discovery** | [`docs/RESEARCH_RADAR.md`](RESEARCH_RADAR.md) — governs discovery + triage (issue #42). Radar output is **candidate metadata, not evidence**; monthly radar issues are **disposable triage records**, not authorities. The venue/deadline ledger stays [`docs/SUBMISSION_TARGETS.md`](SUBMISSION_TARGETS.md) |
 | **Data-use policy** | [`docs/visualizerCoffee_DATA_USE.md`](visualizerCoffee_DATA_USE.md) + memory `visualizer-data-permission` |
 | **Sanctioned corpus export contract** | [`docs/analysis/SANCTIONED_EXPORT_SPEC.md`](analysis/SANCTIONED_EXPORT_SPEC.md) |
 | **Pressure-atlas pre-analysis spec** | [`docs/analysis/PRESSURE_ATLAS_SPEC.md`](analysis/PRESSURE_ATLAS_SPEC.md) |

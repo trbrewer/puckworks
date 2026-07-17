@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:arxiv="http://arxiv.org/schemas/atom">
+  <title>ArXiv Query Results</title>
+  <entry>
+    <id>http://arxiv.org/abs/2506.12345v2</id>
+    <published>2026-06-15T00:00:00Z</published>
+    <title>Permeability of coffee packed beds via lattice Boltzmann simulation</title>
+    <summary>We compute the permeability of a coffee packed bed using pore scale lattice
+      Boltzmann simulation and compare against measured porosity.</summary>
+    <author><name>A. Researcher</name></author>
+    <author><name>E. Coauthor</name></author>
+    <arxiv:doi>10.1000/shared.dup.1</arxiv:doi>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2505.00001v1</id>
+    <published>2026-05-01T00:00:00Z</published>
+    <title>Poroelastic consolidation of deformable porous media under flow</title>
+    <summary>A poroelastic consolidation model for deformable porous media subject to
+      pressure-driven flow, with a compaction closure.</summary>
+    <author><name>B. Author</name></author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2504.09999v1</id>
+    <published>2026-04-20T00:00:00Z</published>
+    <title>A barista training guide to espresso extraction</title>
+    <summary>A marketing overview of espresso extraction for barista training courses.</summary>
+    <author><name>C. Writer</name></author>
+  </entry>
+</feed>

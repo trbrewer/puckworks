@@ -1,0 +1,201 @@
+name: research-radar
+# Weekly metadata discovery (issue #42) with SEPARATED TRUST BOUNDARIES:
+#   * scan     — contents:read only; queries official APIs (arXiv paced >=3s, Crossref polite pool),
+#                sanitizes, and uploads a machine-readable candidate artifact. No issue API calls.
+#   * plan     — contents:read + issues:read; reads prior markers from ALL radar issues and computes
+#                a deterministic publication plan (tested Python). No issue write.
+#   * publish  — issues:write; runs ONLY from refs/heads/main on this repo under the trusted schedule
+#                or an explicit publish request, and only executes a create/comment plan.
+# Manual dispatch defaults to SCAN + ARTIFACT ONLY (publish_issue=false). Inputs are passed via env
+# vars and parsed/validated in Python — never interpolated into a shell command.
+on:
+  schedule:
+    - cron: "0 7 * * 1"      # 07:00 UTC every Monday
+  workflow_dispatch:
+    inputs:
+      publish_issue:
+        description: "Write/append the monthly radar issue (scheduled runs always publish)"
+        type: boolean
+        default: false
+      query_subset:
+        description: "Comma-separated query ids (blank = all enabled)"
+        type: string
+        default: ""
+      scan_date:
+        description: "Explicit scan date YYYY-MM-DD (blank = today, UTC)"
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: research-radar
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    outputs:
+      publish: ${{ steps.decide.outputs.publish }}
+      status: ${{ steps.scan.outputs.status }}
+    env:
+      INPUT_SCAN_DATE: ${{ github.event.inputs.scan_date }}
+      INPUT_QUERY_SUBSET: ${{ github.event.inputs.query_subset }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --quiet pyyaml
+
+      - name: decide publish (scheduled always; manual only if requested)
+        id: decide
+        run: |
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "schedule" ]]; then
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=${{ github.event.inputs.publish_issue }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: validate config, then scan (inputs via env, parsed in Python)
+        id: scan
+        run: |
+          set -euo pipefail
+          python tools/research_radar.py verify --config docs/research/radar_queries.yml
+          scan_date="${INPUT_SCAN_DATE:-}"
+          if [[ -z "$scan_date" ]]; then scan_date="$(date -u +%F)"; fi
+          args=(scan --config docs/research/radar_queries.yml --date "$scan_date" --out out/radar)
+          if [[ -n "${INPUT_QUERY_SUBSET:-}" ]]; then args+=(--queries "$INPUT_QUERY_SUBSET"); fi
+          python tools/research_radar.py "${args[@]}"
+          status="$(python -c "import json;print(json.load(open('out/radar/candidates.json'))['total_status'])")"
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: radar-scan
+          path: out/radar/
+          if-no-files-found: error
+          retention-days: 30
+
+  plan:
+    needs: scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      issues: read
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: radar-scan
+          path: out/radar
+
+      - name: collect prior candidate markers + radar issues (ALL states, read-only)
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const fs = require('fs');
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner, repo: context.repo.repo,
+              state: 'all', labels: 'research-radar', per_page: 100,
+            });
+            let blob = '';
+            const list = [];
+            for (const i of issues) {
+              if (i.pull_request) continue;
+              list.push({ number: i.number, title: i.title, state: i.state });
+              blob += (i.body || '') + '\n';
+              const comments = await github.paginate(github.rest.issues.listComments, {
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: i.number, per_page: 100,
+              });
+              for (const c of comments) blob += (c.body || '') + '\n';
+            }
+            fs.writeFileSync('out/seen.txt', blob);
+            fs.writeFileSync('out/issues.json', JSON.stringify(list));
+
+      - name: compute the issue plan (tested Python; dedup + sanitize + cap)
+        run: |
+          set -euo pipefail
+          PUB=""
+          if [[ "${{ needs.scan.outputs.publish }}" == "true" ]]; then PUB="--publish"; fi
+          python tools/research_radar_issue.py \
+            --candidates out/radar/candidates.json \
+            --seen out/seen.txt --issues out/issues.json \
+            $PUB --out out/plan.json
+          python - <<'PY'
+          import json
+          scan = json.load(open("out/radar/candidates.json")); plan = json.load(open("out/plan.json"))
+          print("total scan status:", scan["total_status"], "| heterogeneous_windows:", scan["heterogeneous_windows"])
+          for r in scan["source_runs"]:
+              print(f"  {r['source']}: {r['status']} ({r['queries_succeeded']}/{r['queries_attempted']}) "
+                    f"recv={r['candidates_received']} retained={r['candidates_retained']} err={r['error_category']}")
+          print("counts:", scan["counts"])
+          print("plan:", plan["action"], "-", plan["reason"], "| new:", plan.get("new_count",0),
+                "| body_bytes:", plan.get("body_bytes",0), "| target:", plan.get("existing_number"))
+          PY
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: radar-plan
+          path: out/plan.json
+          if-no-files-found: error
+          retention-days: 30
+
+  publish:
+    needs: [scan, plan]
+    # Trusted publication boundary. Only from this repo's main, on a SUCCESSFUL scan, when publish
+    # was requested. UNATTENDED (scheduled) writes are DISABLED BY DEFAULT: a scheduled run publishes
+    # only if the repo variable ENABLE_RESEARCH_RADAR_PUBLISH == 'true' (a human's recorded opt-in) —
+    # so merging this PR does NOT by itself enable scheduled issue writes. A partial/failed scan
+    # never publishes unattended. A manual dispatch with publish_issue=true is an explicit human
+    # action and is always allowed here.
+    if: >-
+      github.repository == 'trbrewer/puckworks'
+      && github.ref == 'refs/heads/main'
+      && needs.scan.outputs.publish == 'true'
+      && needs.scan.outputs.status == 'success'
+      && (github.event_name == 'workflow_dispatch' || vars.ENABLE_RESEARCH_RADAR_PUBLISH == 'true')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: radar-plan
+      - name: execute the plan (create/comment only)
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const fs = require('fs');
+            const plan = JSON.parse(fs.readFileSync('plan.json', 'utf8'));
+            if (plan.action === 'create') {
+              const r = await github.rest.issues.create({
+                owner: context.repo.owner, repo: context.repo.repo,
+                title: plan.title, labels: plan.labels, body: plan.body });
+              core.info(`created radar issue #${r.data.number}`);
+            } else if (plan.action === 'comment') {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: plan.existing_number, body: plan.body });
+              core.info(`appended ${plan.new_count} candidate(s) to #${plan.existing_number}`);
+            } else if (plan.action === 'needs_human') {
+              core.warning(plan.reason);
+            } else {
+              core.info(`no issue write: ${plan.action} — ${plan.reason}`);
+            }
