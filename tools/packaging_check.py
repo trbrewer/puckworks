@@ -17,9 +17,21 @@ PRIVATE_SUBSTRINGS = ("visualizer/raw", "visualizer/normalized", "visualizer/cra
 REQUIRED_SUFFIXES = ("puckworks/data/MANIFEST.csv",
                      "puckworks/data/cameron2020/fig5_grind_deviation.csv",
                      "puckworks/data/visualizer/PROVENANCE.md",
-                     # product fixture + manifest (issue #32 PR 1) — the bundled single-shot
+                     # product fixture + manifest + attribution (issue #32 PR 1) — the bundled single-shot
+                     "puckworks/data/product/__init__.py",
+                     "puckworks/data/product/ATTRIBUTION.md",
                      "puckworks/data/product/waszkiewicz2025_9bar_single_shot.csv",
                      "puckworks/data/product/waszkiewicz2025_9bar_single_shot.manifest.json")
+
+# POSITIVE allowlist for puckworks/data/product/: exactly the reviewed product-data set may ship.
+# A new file under this path fails CI until it is reviewed and added here.
+PRODUCT_DATA_PREFIX = "puckworks/data/product/"
+PRODUCT_DATA_ALLOWLIST = {
+    "puckworks/data/product/__init__.py",
+    "puckworks/data/product/ATTRIBUTION.md",
+    "puckworks/data/product/waszkiewicz2025_9bar_single_shot.csv",
+    "puckworks/data/product/waszkiewicz2025_9bar_single_shot.manifest.json",
+}
 
 
 def _members(path: Path):
@@ -42,6 +54,16 @@ def check_distribution(path: Path):
     for suf in REQUIRED_SUFFIXES:
         if not any(n.endswith(suf) for n in names):
             problems.append("%s: MISSING required package data: %s" % (path.name, suf))
+    # positive allowlist for product data: no unreviewed member may enter puckworks/data/product/
+    for n in names:
+        idx = n.find(PRODUCT_DATA_PREFIX)
+        if idx == -1:
+            continue
+        rel = n[idx:]
+        if rel.endswith("/") or "__pycache__" in rel or rel.rstrip("/") == PRODUCT_DATA_PREFIX.rstrip("/"):
+            continue
+        if rel not in PRODUCT_DATA_ALLOWLIST:
+            problems.append("%s: UNREVIEWED product-data file: %s" % (path.name, rel))
     return problems
 
 

@@ -30,25 +30,35 @@ puckworks.product                     # product-facing contract (see below)
 
 ### `puckworks.product` — product contract (issue #32)
 
+`puckworks.product` is **unreleased next-minor** additive public API work — the published v0.2.0 wheel
+and release assets are unchanged and do **not** contain it.
+
 ```python
 from puckworks import product
 
-product.available_fixtures()                       # -> tuple[str, ...]
-shot = product.load_bundled_shot("waszkiewicz2025_9bar_single_shot")   # -> ShotInput
-product.to_json(shot)                              # canonical, deterministic JSON (str)
-product.bundle_from_json(text)                     # -> ShotExplanationBundle
+product.available_fixtures()                       # -> tuple[str, ...] (APPROVED fixtures only)
+shot = product.load_bundled_shot("<fixture_id>")   # -> ShotInput (raises FixtureRightsError if rights pending)
+product.shot_input_to_json(shot)                   # canonical, deterministic JSON (str)
+product.bundle_to_json(bundle)                      # -> str; product.bundle_from_json(text) -> ShotExplanationBundle
 ```
 
-`puckworks.product` is a **supported, additive** namespace with its own `product.__all__`: the
-orthogonal enums (`SeriesKind`, `AvailabilityStatus`, `CompatibilityStatus`, `RecordKind`), the
-typed records (`ShotInput`, `ObservedSeries`, `TimeAxis`, `EvidenceReference`, `BuildProvenance`,
-`FixtureProvenance`, `DetectedEvent`, `Caveat`, `NextMeasurement`, `ExplanationCandidate`,
-`NormalizedShot`, `ShotExplanationBundle`), canonical serialization (`to_dict`/`to_json`/
-`bundle_from_*`/`shot_input_from_*`), and `build_provenance` / `load_bundled_shot`. Its records and
-serialized schemas (`SCHEMA_VERSION = 1`) follow the stability policy below. Every `_`-prefixed
-submodule (`_records`, `_serialize`, `_provenance`, `_fixtures`, `_enums`) is **internal**; no
-harness, paper, registry, or model implementation object is exposed. (PR 1 ships the contract,
-serialization, and one fixture only — no `analyze_shot`/model orchestration/HTML output.)
+- **Two separately-versioned public top-level schemas**: `ShotInput`
+  (`SHOT_INPUT_SCHEMA_VERSION = 1`) and `ShotExplanationBundle`
+  (`SHOT_EXPLANATION_BUNDLE_SCHEMA_VERSION = 1`), each carrying its own `schema_version`.
+- **Only explicit top-level serializers/readers are supported**: `shot_input_to_dict`/`_to_json`/
+  `_from_dict`/`_from_json` and `bundle_to_dict`/`_to_json`/`_from_dict`/`_from_json`. There is **no**
+  generic `to_json`/`to_dict`. Readers are strict — they require the schema version, reject
+  unsupported versions, unknown top-level fields, and duplicate JSON keys.
+- **`NormalizedShot` is deferred** until PR 2 (not public).
+- Records are frozen with immutable typed containers (e.g. `normalized_units` is a tuple of
+  `UnitBinding`, never a dict).
+- **Provenance**: a serialized bundle always carries a **full 40-hex `source_commit`**; there is no
+  runtime Git lookup. `build_provenance(source_commit=...)` requires an explicit or packaged commit
+  and raises `ProvenanceUnavailableError` otherwise.
+- **Rights/attribution** are carried by `FixtureProvenance`; the public loader only lists/returns a
+  fixture whose `rights_review_status == approved` and `redistribution_status == redistributable`.
+- Every `_`-prefixed submodule is **internal**; no harness, paper, registry, or model object is
+  exposed. PR 1 has **no** `analyze_shot`, model orchestration, explanation scoring, or HTML output.
 
 ## What is NOT public (internal research tooling)
 
@@ -69,8 +79,9 @@ a distinct supported surface built on narrow `_`-prefixed adapters, **not** thes
 - **Serialization compatibility**: every serialized public schema carries a `schema_version` and is
   extended additively (fields are added, never repurposed) — `contracts.SCHEMA_VERSION`,
   `registry.SCHEMA_VERSION`, `gate_runner`/`GateResult` `schema_version`, `validate.Trace`
-  `schema_version`, `product.SCHEMA_VERSION` (`ShotExplanationBundle`), the evidence-graph and
-  status-doc schema versions. A reader/migration is provided for any already-published schema.
+  `schema_version`, `product.SHOT_INPUT_SCHEMA_VERSION` and
+  `product.SHOT_EXPLANATION_BUNDLE_SCHEMA_VERSION`, the evidence-graph and status-doc schema versions.
+  A reader/migration is provided for any already-published schema.
 - **Internal churn is free**: harness/analysis/paper* internals may change in any release.
 
 ## Reader paths

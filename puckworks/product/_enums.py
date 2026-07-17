@@ -1,4 +1,4 @@
-"""Product enums — four orthogonal result dimensions (issue #32).
+"""Product enums — four orthogonal result dimensions plus rights/provenance vocabularies (issue #32).
 
 Series origin, availability, and explanation compatibility are SEPARATE concepts. Evidence strength
 is a fourth dimension carried by :class:`~puckworks.product._records.EvidenceReference` and preserves
@@ -45,9 +45,35 @@ class RecordKind(str, Enum):
     AGGREGATE_REFERENCE_CASE = "aggregate_reference_case"
 
 
+class ProvenanceSource(str, Enum):
+    """Where a build's source identity came from. Never a runtime Git call."""
+
+    EXPLICIT = "explicit"
+    PACKAGED_RESOURCE = "packaged_resource"
+
+
+class RightsReviewStatus(str, Enum):
+    """Whether a fixture's redistribution rights have been reviewed and approved."""
+
+    PENDING = "pending"
+    APPROVED = "approved"
+    PROHIBITED = "prohibited"
+
+
+class RedistributionStatus(str, Enum):
+    """Whether a fixture may be redistributed in the package."""
+
+    PENDING = "pending"
+    REDISTRIBUTABLE = "redistributable"
+    PROHIBITED = "prohibited"
+
+
 __all__ = [
     "SeriesKind",
     "AvailabilityStatus",
     "CompatibilityStatus",
     "RecordKind",
+    "ProvenanceSource",
+    "RightsReviewStatus",
+    "RedistributionStatus",
 ]
