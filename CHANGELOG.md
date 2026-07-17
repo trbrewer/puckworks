@@ -5,6 +5,13 @@ tracked in detail in `docs/ROADMAP.md` §7.1.
 
 ## Unreleased
 
+## 0.3.0.dev0
+
+Development line opened after the v0.2.0 release. Source/development builds now identify themselves
+as `0.3.0.dev0` rather than the immutable released `0.2.0`. No new functionality is released yet;
+unreleased work is tracked above and in `docs/ROADMAP.md` §7.1. The latest **public release remains
+v0.2.0** (GitHub Release); installation guidance is unchanged.
+
 ## 0.2.0
 
 First verifiable post-0.1 release: canonical status, complete gate evaluation, a deterministic
