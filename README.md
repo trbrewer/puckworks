@@ -21,19 +21,40 @@ parameters in.
 | flow | brewer2026.lb_reference / lb_taichi | calibration | this project |
 
 ## Quickstart
+
+> **puckworks is not currently published on PyPI.** The canonical v0.2.0 distributions are attached
+> to the [v0.2.0 GitHub Release](https://github.com/trbrewer/puckworks/releases/tag/v0.2.0).
+
+### Install the published GitHub release
+Download `puckworks-0.2.0-py3-none-any.whl` from the release, then:
 ```
-pip install puckworks            # or:  pip install -e ".[dev]"   (contributor install)
+python -m pip install puckworks-0.2.0-py3-none-any.whl
+```
+Or, where direct remote-wheel installation is acceptable:
+```
+python -m pip install \
+  "https://github.com/trbrewer/puckworks/releases/download/v0.2.0/puckworks-0.2.0-py3-none-any.whl"
+```
+Then:
+```
 python -c "import puckworks; s = puckworks.evaluate_all_gates(); print(s.summary_text())"
 python -c "import puckworks; print(len(puckworks.components()), 'components registered')"
 ```
+Supported Python: 3.10–3.13 (3.12 is the primary release interpreter).
+
 The **supported public API** is `puckworks.__all__` (`evaluate_all_gates`, `components`, `get`,
 `Component`, `contracts`, `validate`, …) — see [`docs/API.md`](docs/API.md) for the stability
 policy. Everything else (`harness`, `analysis`, `paper3`, …) is internal research tooling.
 
-- **Use a release** (not editable): `pip install dist/puckworks-*.whl` — builds via
-  `python -m puckworks.release build` (wheel + sdist + checksummed manifest); see `CONTRIBUTING.md`.
-- Contributor extras: `[figures] [harvest] [release] [lb] [viz]`. Test lanes + the card-first
-  contribution process: `docs/CI_LANES.md`, `CONTRIBUTING.md`, and the doc index `docs/CURRENT.md`.
+### Contributor / release-builder install
+```
+python -m pip install -e ".[dev]"
+```
+Contributors and release builders can build and install locally instead:
+`python -m puckworks.release build` (wheel + sdist + checksummed manifest) then
+`pip install dist/puckworks-*.whl`; see `CONTRIBUTING.md`. Contributor extras:
+`[figures] [harvest] [release] [lb] [viz]`. Test lanes + the card-first contribution process:
+`docs/CI_LANES.md`, `CONTRIBUTING.md`, and the doc index `docs/CURRENT.md`.
 
 ## Adding a model
 1. Write its **model card** from `docs/cards/TEMPLATE.md` (this is where papers

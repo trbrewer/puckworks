@@ -189,3 +189,48 @@ single frozen commit and rehearsed GitHub-only before any PyPI publication.
    Verify the payload from the release DOWNLOAD, not the checkout.
 7. **PyPI** — a SEPARATE, explicitly-approved operation, only after at least one successful
    GitHub-only rehearsal.
+
+A completed worked example of the full package-release verification is
+[`RELEASE_VERIFICATION_v0.2.0.md`](RELEASE_VERIFICATION_v0.2.0.md).
+
+## Package release failure and recovery
+
+Failure handling specific to the **package** release (wheel/sdist + GitHub Release), distinct from
+the build/verification "Failure interpretation" for the Paper A/B archives above.
+
+**Immutable-byte rule.** Once a GitHub Release is public, its tag and published artifact bytes are
+immutable release evidence. A correction receives a **new version** — never a silent re-point or
+re-upload under the same version.
+
+1. **Abort before tagging.** No immutable public object exists yet. Discard the candidate
+   artifacts, correct the source through an ordinary reviewed commit, and repeat every release gate
+   from the new commit.
+2. **Incorrect local tag that was never pushed.** Confirm it is local-only
+   (`git ls-remote origin refs/tags/<tag>` is empty). It may be deleted and recreated only before
+   remote publication; record the corrected source SHA before pushing.
+3. **Remote tag exists but no public release exists.** Stop; do **not** force-update the tag.
+   Determine whether the remote tag has been consumed (CI, clones, downstreams). Any deletion needs
+   explicit release-manager approval; prefer issuing a new patch version over rewriting a
+   remotely-visible tag.
+4. **Invalid draft release.** A draft may be corrected before publication. Any changed asset
+   requires **regenerated checksums and provenance** and a fresh full clean draft-download
+   verification. Never carry forward an old `SHA256SUMS.txt` after changing an asset. Delete/replace
+   assets only under explicit release-manager control.
+5. **Wrong-commit public tag or published Release.** Never move or force-update the tag; never
+   silently replace public bytes under the same version. Mark the release withdrawn or compromised
+   as appropriate, cut a corrective patch (e.g. `v0.2.1`) from reviewed source, and preserve an
+   incident record.
+6. **Package-registry publication error.** Do not upload a rebuilt file under the same version.
+   Yank/withdraw the affected registry release via the registry's supported human-controlled
+   process, keep the provenance record and original hashes, and publish a corrective patch version.
+7. **Compromised artifact or credential.** Immediately revoke/rotate affected credentials through
+   the provider; disable further publication; preserve logs and provenance; clearly mark affected
+   assets/releases. Do not silently swap an asset with a different file under the same name/version.
+   Cut a patch release after root-cause remediation and full re-verification.
+8. **Corrective patch.** Start from a new reviewed source commit; increment the version; rerun
+   version sync, all release gates, lock generation, canonical build, archive generation, checksums,
+   draft-download verification, and public-download verification. **Never reuse `v0.2.0`.**
+
+**PyPI separation (reinforced).** Package-registry publication is separate from GitHub publication,
+explicitly human-approved, performed from the exact canonical verified wheel and sdist, and **never**
+accompanied by a rebuild.
