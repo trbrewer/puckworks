@@ -97,6 +97,25 @@ markers from **all** radar issues (open and closed), and a candidate is posted o
 is absent everywhere — so a paper seen last month is not re-posted this month. Ordering is
 deterministic (match count, then date, then identity) so a re-run is reproducible.
 
+> **The marker ledger is operational discovery-deduplication only — not the authoritative
+> reviewed-paper ledger.** Editing or deleting an issue/comment can remove marker history, and the
+> mechanism may be rebuilt or lost. A marker records that a candidate was *surfaced*, never that a
+> paper was read, accepted, rejected, or linked to a model. Reviewed intake and model/registry
+> dispositions live in the controlled, checked-in ledger tracked by issue #46 — not in these
+> markers.
+
+**Date quality.** A candidate's date is classified: `day`/`month`/`year`/`unknown` precision and
+`verified_within_window` / `partial_date` / `future_date` / `out_of_window` / `invalid` quality. A
+year- or month-only date does **not** satisfy a day-level recency window (it is retained as
+`partial_date` for human review, not treated as recent); a full **future** date is `future_date`
+(forthcoming), never "already published"; impossible dates and clearly out-of-window full dates are
+dropped. Crossref `from-index-date` means recently *indexed*, not necessarily recently *published* —
+both concepts are preserved. Because per-query `lookback_days` differ, the scan output reports
+**per-query windows** (`query_runs`) plus a `heterogeneous_windows` flag rather than a single
+misleading top-level window; result semantics are independent of query order. Broad free-text
+queries carry a `required_any` domain-anchor list so a generic term (e.g. "model") cannot alone
+qualify a Crossref hit.
+
 ## 8. Triage rubric
 
 Every candidate is judged on **multiple axes** — never one opaque score: topical relevance;

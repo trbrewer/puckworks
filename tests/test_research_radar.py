@@ -419,3 +419,105 @@ def test_scan_does_not_write_repo(tmp_path, monkeypatch):
 def test_write_outputs_confined(tmp_path):
     info = R.write_outputs(_scan(_cfg(_query())), tmp_path / "radar")
     assert Path(info["json"]).resolve().is_relative_to((tmp_path / "radar").resolve())
+
+
+# ══════════════════════════════════════════════════════════════════════════════════
+# PR #45 REQUEST-CHANGES corrections: safe inputs, date quality, lookback, relevance (4A/D/E/F)
+# ══════════════════════════════════════════════════════════════════════════════════
+def test_parse_query_subset_valid():
+    cfg = _cfg(_query("a"), _query("b"))
+    assert R.parse_query_subset("a, b", cfg) == ["a", "b"]
+    assert R.parse_query_subset("", cfg) == []
+
+
+@pytest.mark.parametrize("raw", [
+    "a,,b",              # empty member
+    "a,a",               # duplicate
+    "--queries",         # option-looking
+    "-rf",               # option-looking
+    "a;rm -rf /",        # shell metacharacters
+    'a"quote',           # quote
+    "a\nb",              # newline
+    "unknown_id",        # not in config
+])
+def test_parse_query_subset_rejects_bad(raw):
+    cfg = _cfg(_query("a"), _query("b"))
+    with pytest.raises(ValueError):
+        R.parse_query_subset(raw, cfg)
+
+
+@pytest.mark.parametrize("date,expected_quality,expected_precision", [
+    ("2026-07-01", "verified_within_window", "day"),
+    ("2027-01-01", "future_date", "day"),
+    ("2026-01-01", "out_of_window", "day"),
+    ("2026-02-30", "invalid", "day"),
+    ("2026", "partial_date", "year"),
+    ("2026-06", "partial_date", "month"),
+    ("2030", "future_date", "year"),
+    ("", "unknown", "unknown"),
+])
+def test_classify_date(date, expected_quality, expected_precision):
+    prec, qual = R.classify_date(date, "2026-06-26", "2026-07-17")
+    assert (prec, qual) == (expected_precision, expected_quality)
+
+
+def test_within_window_tags_and_drops_out_of_window():
+    def c(d):
+        return R.Candidate("s", "t", [], d, None, None, None, None, None, "", "q")
+    keep = c("2026-07-01")
+    assert R.within_window(keep, "2026-06-26", "2026-07-17")
+    assert keep.date_quality == "verified_within_window"
+    drop = c("2020-01-01")
+    assert not R.within_window(drop, "2026-06-26", "2026-07-17")   # out_of_window dropped
+    partial = c("2026")
+    assert R.within_window(partial, "2026-06-26", "2026-07-17")    # retained but tagged
+    assert partial.date_quality == "partial_date"
+
+
+def test_scan_reports_heterogeneous_windows_and_query_runs():
+    cfg = _cfg(_query("a", lookback=21), _query("b", lookback=45))
+    res = R.scan(cfg, scan_date="2026-07-17", fixtures_dir=FIX)
+    assert res.heterogeneous_windows is True
+    ids = {qr["query_id"] for qr in res.query_runs}
+    assert ids == {"a", "b"}
+    looks = {qr["query_id"]: qr["lookback_days"] for qr in res.query_runs}
+    assert looks == {"a": 21, "b": 45}
+    # order-independence: reversing queries yields the same window set
+    cfg2 = _cfg(_query("b", lookback=45), _query("a", lookback=21))
+    res2 = R.scan(cfg2, scan_date="2026-07-17", fixtures_dir=FIX)
+    assert {qr["date_from"] for qr in res.query_runs} == {qr["date_from"] for qr in res2.query_runs}
+
+
+def test_required_any_anchor_filters_generic_hits():
+    off_topic = R.Candidate("crossref", "A generic model of time series dynamics", [], "2026-07-01",
+                            "2026-07-01", "10.1/x", None, None, None, "", "q")
+    on_topic = R.Candidate("crossref", "A model of espresso extraction dynamics", [], "2026-07-01",
+                           "2026-07-01", "10.1/y", None, None, None, "", "q")
+    kept = R.apply_required_any([off_topic, on_topic], ["espresso", "coffee"])
+    assert [c.doi for c in kept] == ["10.1/y"]
+    # no anchors -> no-op
+    assert len(R.apply_required_any([off_topic, on_topic], [])) == 2
+
+
+def test_shipped_config_required_any_validates():
+    pytest.importorskip("yaml", reason="pyyaml is a radar/dev extra")
+    cfg = R.load_config(_ROOT / "docs" / "research" / "radar_queries.yml")
+    assert R.validate_config(cfg) == []
+    # a bad required_any is rejected
+    bad = _query()
+    bad["required_any"] = "espresso"   # string not list
+    assert any("required_any" in p for p in R.validate_config({"queries": [bad]}))
+
+
+# ── workflow trust boundaries (4B/4C) — static config checks ─────────────────────────
+def test_radar_workflow_separates_permissions():
+    pytest.importorskip("yaml")
+    import yaml
+    wf = yaml.safe_load((_ROOT / ".github" / "workflows" / "research-radar.yml").read_text())
+    jobs = wf["jobs"]
+    assert jobs["scan"]["permissions"] == {"contents": "read"}          # scan cannot write issues
+    assert jobs["plan"]["permissions"] == {"contents": "read", "issues": "read"}
+    assert jobs["publish"]["permissions"] == {"contents": "read", "issues": "write"}
+    cond = jobs["publish"]["if"]
+    assert "refs/heads/main" in cond and "trbrewer/puckworks" in cond
+    assert "publish == 'true'" in cond and "status != 'failed'" in cond

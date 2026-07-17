@@ -40,6 +40,7 @@ queries:
       - ["espresso", "coffee extraction"]
       - ["model", "simulation", "dynamics", "flow"]
     exclusions: ["barista training", "marketing"]
+    required_any: ["espresso", "coffee"]
     relevance_notes: Core process; informs the extraction-stage components.
     coupled_cards: ["cameron2020", "pannusch2024", "mo2023_2"]
     last_human_review: 2026-07-17
@@ -55,6 +56,7 @@ queries:
       - ["coffee", "espresso"]
       - ["extraction kinetics", "dissolution", "solute transport"]
     exclusions: ["sensory panel", "consumer preference"]
+    required_any: ["espresso", "coffee"]
     relevance_notes: Kinetic closures and solute inventory; K(T) / c_sat debates.
     coupled_cards: ["romancorrochano2017", "pannusch2024", "schmieder"]
     last_human_review: 2026-07-17
@@ -70,6 +72,7 @@ queries:
       - ["coffee", "espresso"]
       - ["packed bed", "permeability", "porosity"]
     exclusions: []
+    required_any: ["espresso", "coffee"]
     relevance_notes: Bed permeability + packing; Wadsworth/Forchheimer lineage.
     coupled_cards: ["wadsworth2026", "brewer2026.pack_generator"]
     last_human_review: 2026-07-17
@@ -243,6 +246,7 @@ queries:
       - ["coffee"]
       - ["total dissolved solids", "extraction yield", "refractometry"]
     exclusions: []
+    required_any: ["espresso", "coffee"]
     relevance_notes: Measurement methods for extraction outcomes.
     coupled_cards: ["schmieder"]
     last_human_review: 2026-07-17

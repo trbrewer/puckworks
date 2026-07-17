@@ -79,6 +79,8 @@ class Candidate:
     match_reasons: list[str] = field(default_factory=list)
     score: float = 0.0                # ordering ONLY — never a decision
     sources: list[str] = field(default_factory=list)
+    date_precision: str = "unknown"   # day | month | year | unknown
+    date_quality: str = "unknown"     # verified_within_window | partial_date | future_date | ...
     triage_state: str = "new"
 
     def identity(self) -> str:
@@ -107,13 +109,15 @@ class SourceRun:
 @dataclass
 class ScanResult:
     scan_date: str
-    lookback_days: int
-    date_from: str
-    date_to: str
+    lookback_days: int                # DEFAULT lookback; per-query windows live in query_runs
+    date_from: str                    # min across queries
+    date_to: str                      # scan date
     total_status: str                 # success | partial | failed
     candidates: list[Candidate]
     source_runs: list[SourceRun]
     counts: dict
+    query_runs: list[dict] = field(default_factory=list)   # per-query {id, lookback_days, from, to}
+    heterogeneous_windows: bool = False
 
 
 # ─────────────────────────────── normalization ───────────────────────────────────
@@ -279,12 +283,84 @@ def apply_exclusions(cands: list[Candidate], exclusions: Iterable[str]) -> list[
             if not any(e in (c.title + " " + c.abstract_excerpt).lower() for e in ex)]
 
 
+def apply_required_any(cands: list[Candidate], required_any: Iterable[str]) -> list[Candidate]:
+    """Keep only candidates whose title/abstract contains at least one required domain anchor.
+    Tightens broad free-text sources (e.g. a generic 'model' Crossref hit) — with no anchors
+    configured, this is a no-op."""
+    anchors = [a.lower() for a in (required_any or []) if a]
+    if not anchors:
+        return list(cands)
+    return [c for c in cands
+            if any(a in (c.title + " " + c.abstract_excerpt).lower() for a in anchors)]
+
+
+def classify_date(date: str | None, date_from: str, date_to: str) -> tuple[str, str]:
+    """Return (precision, quality). Precision: day|month|year|unknown. Quality:
+    verified_within_window | partial_date | future_date | out_of_window | invalid | unknown.
+    A year/month-only date does NOT satisfy a day-level recency window (partial_date); a full
+    future date is future_date (forthcoming), not 'already published'; impossible dates are invalid."""
+    d = (date or "").strip()
+    if not d:
+        return "unknown", "unknown"
+    if re.fullmatch(r"\d{4}", d):
+        precision = "year"
+    elif re.fullmatch(r"\d{4}-\d{2}", d):
+        precision = "month"
+    elif re.fullmatch(r"\d{4}-\d{2}-\d{2}", d[:10]) and len(d) >= 10:
+        precision = "day"
+    else:
+        return "unknown", "unknown"
+
+    if precision == "day":
+        try:
+            _date.fromisoformat(d[:10])
+        except ValueError:
+            return "day", "invalid"
+        if d[:10] > date_to:
+            return "day", "future_date"
+        if d[:10] < date_from:
+            return "day", "out_of_window"
+        return "day", "verified_within_window"
+    # year/month-only: cannot satisfy a day window; classify future vs uncertain by the coarse bound
+    coarse = d if precision == "month" else d + "-01"
+    if coarse > date_to[:7] + "-99":   # entirely after the window's month
+        return precision, "future_date"
+    return precision, "partial_date"
+
+
+# quality classes that a scan RETAINS (each still human-triaged); out_of_window/invalid are dropped
+_RETAINED_QUALITY = {"verified_within_window", "partial_date", "future_date", "unknown"}
+
+
 def within_window(cand: Candidate, date_from: str, date_to: str) -> bool:
-    """Keep candidates with an unknown/year-only date (a source may lag) or a date within window."""
-    d = (cand.date or "")[:10]
-    if len(d) < 10:
-        return True
-    return date_from <= d <= date_to
+    """Retain a candidate unless its full date is out of window or impossible. Partial/future/unknown
+    dates are retained but tagged (see classify_date) so they are never treated as ordinary recent."""
+    precision, quality = classify_date(cand.date, date_from, date_to)
+    cand.date_precision, cand.date_quality = precision, quality
+    return quality in _RETAINED_QUALITY
+
+
+def parse_query_subset(raw: str | None, cfg: dict) -> list[str]:
+    """Parse a comma-separated query-id subset safely. Rejects empty members, duplicates, option-
+    looking tokens, and unknown/unconfigured ids. Never lets a value become another CLI option."""
+    if not raw or not raw.strip():
+        return []
+    known = {q.get("id") for q in cfg.get("queries", [])}
+    seen: list[str] = []
+    for token in raw.split(","):
+        t = token.strip()
+        if not t:
+            raise ValueError("empty query-subset member")
+        if t.startswith("-"):
+            raise ValueError(f"query id must not look like an option: {t!r}")
+        if not re.fullmatch(r"[A-Za-z0-9._-]+", t) or t.startswith("-"):
+            raise ValueError(f"invalid query id: {t!r}")
+        if t in seen:
+            raise ValueError(f"duplicate query id in subset: {t!r}")
+        if t not in known:
+            raise ValueError(f"unknown query id: {t!r}")
+        seen.append(t)
+    return seen
 
 
 def merge_candidates(cands: Iterable[Candidate]) -> list[Candidate]:
@@ -403,6 +479,9 @@ def validate_config(cfg: dict) -> list[str]:
         if "exclusions" in q and not (isinstance(q["exclusions"], list)
                                       and all(isinstance(t, str) for t in q["exclusions"])):
             problems.append(f"{qid}: exclusions must be a list of strings")
+        if "required_any" in q and not (isinstance(q["required_any"], list)
+                                        and all(isinstance(t, str) and t for t in q["required_any"])):
+            problems.append(f"{qid}: required_any must be a list of non-empty strings")
         for src in q.get("source_families", _SUPPORTED_SOURCES):
             if src not in _SUPPORTED_SOURCES:
                 problems.append(f"{qid}: unsupported source family {src!r}")
@@ -505,9 +584,9 @@ def scan(cfg: dict, *, scan_date: str, fixtures_dir: Path | None = None,
          limiters: dict | None = None) -> ScanResult:
     recorded_ids = recorded_ids or set()
     default_lookback = int(cfg.get("defaults", {}).get("lookback_days", 21))
-    lookback = default_lookback
     collected: list[Candidate] = []
     runs = {s: SourceRun(source=s) for s in _SUPPORTED_SOURCES}
+    query_runs: list[dict] = []
 
     for query in cfg.get("queries", []):
         if query_subset and query["id"] not in query_subset:
@@ -516,6 +595,8 @@ def scan(cfg: dict, *, scan_date: str, fixtures_dir: Path | None = None,
             continue
         lookback = int(query.get("lookback_days", default_lookback))
         date_from, date_to = date_window(scan_date, lookback)
+        query_runs.append({"query_id": query["id"], "lookback_days": lookback,
+                           "date_from": date_from, "date_to": date_to})
         per_query: list[Candidate] = []
         for source in query.get("source_families", _SUPPORTED_SOURCES):
             run = runs[source]
@@ -539,6 +620,7 @@ def scan(cfg: dict, *, scan_date: str, fixtures_dir: Path | None = None,
                 score_candidate(c, all_terms(query))
             per_query.extend(parsed)
         per_query = apply_exclusions(per_query, query.get("exclusions", []))
+        per_query = apply_required_any(per_query, query.get("required_any", []))
         per_query = [c for c in per_query if within_window(c, date_from, date_to)]
         per_query = sort_candidates(per_query)[: int(query.get("maximum_candidates", 8))]
         collected.extend(per_query)
@@ -559,13 +641,19 @@ def scan(cfg: dict, *, scan_date: str, fixtures_dir: Path | None = None,
         else:
             run.status = "partial"
 
-    date_from, date_to = date_window(scan_date, lookback)
+    lookbacks = {qr["lookback_days"] for qr in query_runs}
+    heterogeneous = len(lookbacks) > 1
+    date_from = min((qr["date_from"] for qr in query_runs), default=date_window(scan_date, default_lookback)[0])
+    date_to = date_window(scan_date, default_lookback)[1]
     counts = {"discovered": sum(r.candidates_received for r in runs.values()),
               "merged": len(merged), "omitted_prior_identity": len(merged) - len(fresh),
-              "omitted_by_cap": len(fresh) - len(capped), "retained": len(capped)}
-    return ScanResult(scan_date=scan_date, lookback_days=lookback, date_from=date_from,
+              "omitted_by_cap": len(fresh) - len(capped), "retained": len(capped),
+              "verified_within_window": sum(1 for c in capped if c.date_quality == "verified_within_window"),
+              "partial_or_future_date": sum(1 for c in capped if c.date_quality in ("partial_date", "future_date"))}
+    return ScanResult(scan_date=scan_date, lookback_days=default_lookback, date_from=date_from,
                       date_to=date_to, total_status=_total_status(runs.values()),
-                      candidates=capped, source_runs=list(runs.values()), counts=counts)
+                      candidates=capped, source_runs=list(runs.values()), counts=counts,
+                      query_runs=query_runs, heterogeneous_windows=heterogeneous)
 
 
 def _apply_caps(cands: list[Candidate]) -> list[Candidate]:
@@ -640,6 +728,7 @@ def result_to_dict(result: ScanResult) -> dict:
         "date_from": result.date_from, "date_to": result.date_to,
         "total_status": result.total_status, "issue_title": radar_issue_title(result.scan_date),
         "counts": result.counts, "source_runs": [asdict(r) for r in result.source_runs],
+        "query_runs": result.query_runs, "heterogeneous_windows": result.heterogeneous_windows,
         "candidates": [{**asdict(c), "identity": c.identity()} for c in result.candidates],
         "arxiv_acknowledgment": ARXIV_ACK,
     }
@@ -659,13 +748,15 @@ def write_outputs(result: ScanResult, out_dir: Path) -> dict:
 def _result_from_dict(d: dict) -> ScanResult:
     cands = [Candidate(**{k: c.get(k) for k in (
         "source", "title", "authors", "date", "published_date", "doi", "arxiv_id", "venue",
-        "url", "abstract_excerpt", "query_id", "match_reasons", "score", "sources", "triage_state")})
+        "url", "abstract_excerpt", "query_id", "match_reasons", "score", "sources",
+        "date_precision", "date_quality", "triage_state") if k in c})
         for c in d.get("candidates", [])]
     runs = [SourceRun(**{k: r.get(k) for k in SourceRun().__dict__}) for r in d.get("source_runs", [])]
     return ScanResult(scan_date=d["scan_date"], lookback_days=d["lookback_days"],
                       date_from=d["date_from"], date_to=d["date_to"],
                       total_status=d["total_status"], candidates=cands, source_runs=runs,
-                      counts=d["counts"])
+                      counts=d["counts"], query_runs=d.get("query_runs", []),
+                      heterogeneous_windows=d.get("heterogeneous_windows", False))
 
 
 def _recorded_ids_from(path: str | None) -> set[str]:
@@ -719,8 +810,17 @@ def main(argv: list[str] | None = None) -> int:
         if problems:
             print("INVALID query config; fix before scanning:", *problems, sep="\n  ", file=sys.stderr)
             return 1
+        try:
+            _date.fromisoformat(args.date)                 # reject impossible scan dates
+        except ValueError:
+            print(f"INVALID --date: {args.date!r} is not a real YYYY-MM-DD date", file=sys.stderr)
+            return 1
         fixtures = Path(args.offline_fixtures) if args.offline_fixtures else None
-        subset = [q.strip() for q in args.queries.split(",")] if args.queries else None
+        try:
+            subset = parse_query_subset(args.queries, cfg) or None
+        except ValueError as exc:
+            print(f"INVALID --queries: {exc}", file=sys.stderr)
+            return 1
         result = scan(cfg, scan_date=args.date, fixtures_dir=fixtures,
                       recorded_ids=_recorded_ids_from(args.recorded), query_subset=subset,
                       limiters=None if fixtures is not None else make_limiters())
