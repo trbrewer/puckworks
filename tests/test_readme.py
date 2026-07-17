@@ -292,3 +292,23 @@ def test_readme_distinguishes_os_and_interpreter_coverage():
 
 def test_readme_does_not_overpromise_colab_duration():
     assert "five minutes" not in TEXT
+
+
+# ── 2F: public-experience reminder scheduled write is opt-in ────────────────────────
+def test_public_experience_reminder_scheduled_write_is_opt_in():
+    import yaml
+    wf = yaml.safe_load((REPO_ROOT / ".github" / "workflows" / "public-experience-review.yml").read_text())
+    cond = wf["jobs"]["remind"]["if"]
+    assert "ENABLE_PUBLIC_EXPERIENCE_REMINDERS == 'true'" in cond
+    assert "refs/heads/main" in cond and "workflow_dispatch" in cond
+
+
+# ── 2E: README public-API wording is a curated subset, not a false-exact list ───────
+def test_readme_api_names_subset_of_all_and_not_false_exact():
+    import puckworks
+    para = TEXT.split("supported public API", 1)[1][:400]
+    names = set(re.findall(r"`([A-Za-z_][A-Za-z0-9_]*)`", para))
+    names.discard("__all__")
+    assert names and names <= set(puckworks.__all__), f"advertised {names - set(puckworks.__all__)} not in __all__"
+    # wording must present the list as a selection, not claim the parenthetical IS the whole __all__
+    assert "selected commonly-used entry points" in TEXT.lower()

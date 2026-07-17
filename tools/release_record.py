@@ -20,6 +20,8 @@ from __future__ import annotations
 
 import json
 import re
+import urllib.error
+import urllib.request
 from datetime import datetime
 from pathlib import Path
 
@@ -192,19 +194,33 @@ def parse_evidence_report(text: str) -> dict:
                 if key in out and out[key] != value:
                     raise ValueError(f"conflicting evidence for {key}: {out[key]!r} vs {value!r}")
                 out[key] = value
-    # wheel/sdist filename+sha come from the asset table (| `name` | ... | `sha` | ...)
+    # Artifact rows (| `name` | ... | `sha` | ...). Collect EVERY candidate wheel/sdist row with its
+    # own-row SHA — never first-match — then require exactly one canonical row of each kind.
+    wheel_rows: list[tuple[str, str]] = []
+    sdist_rows: list[tuple[str, str]] = []
     for line in text.splitlines():
         cells = [re.sub(r"[`*]", "", c).strip() for c in line.split("|")]
+        shas = [c for c in cells if _SHA256.fullmatch(c)]
         for cell in cells:
             if cell.endswith(".whl"):
-                out.setdefault("wheel_filename", cell)
-            if cell.endswith(".tar.gz") and cell.startswith("puckworks-") and "paper3" not in cell:
-                out.setdefault("sdist_filename", cell)
-        shas = [c for c in cells if _SHA256.fullmatch(c)]
-        if any(c.endswith(".whl") for c in cells) and shas:
-            out.setdefault("wheel_sha256", shas[0])
-        if any(c.endswith(".tar.gz") and c.startswith("puckworks-") and "paper3" not in c for c in cells) and shas:
-            out.setdefault("sdist_sha256", shas[0])
+                if len(shas) != 1:
+                    raise ValueError(f"wheel row has {len(shas)} SHA-256 values (need exactly 1): {cell}")
+                wheel_rows.append((cell, shas[0]))
+            elif cell.endswith(".tar.gz") and cell.startswith("puckworks-") and "paper3" not in cell:
+                if len(shas) != 1:
+                    raise ValueError(f"sdist row has {len(shas)} SHA-256 values (need exactly 1): {cell}")
+                sdist_rows.append((cell, shas[0]))
+
+    def _one(rows, kind):
+        uniq = set(rows)
+        if not uniq:
+            raise ValueError(f"missing {kind} artifact evidence")
+        if len(uniq) > 1:
+            raise ValueError(f"ambiguous/duplicate conflicting {kind} rows: {sorted(uniq)}")
+        return next(iter(uniq))
+
+    out["wheel_filename"], out["wheel_sha256"] = _one(wheel_rows, "wheel")
+    out["sdist_filename"], out["sdist_sha256"] = _one(sdist_rows, "sdist")
     return out
 
 
@@ -231,7 +247,6 @@ def _stream_sha256(url: str, *, timeout: float = 60.0, max_bytes: int = 64 * 102
     """Stream a URL to a temp file, hashing while streaming. Returns (sha256, size). Cleans up."""
     import hashlib
     import tempfile
-    import urllib.request
 
     h = hashlib.sha256()
     size = 0
@@ -254,74 +269,170 @@ def _stream_sha256(url: str, *, timeout: float = 60.0, max_bytes: int = 64 * 102
         Path(tmp.name).unlink(missing_ok=True)
 
 
-def verify_live(path: str | Path) -> dict:
-    """Strictly load the record, then verify it against the live GitHub release + PyPI absence.
-    Returns a deterministic evidence dict; raises on any mismatch."""
-    import urllib.request
+def classify_pypi_absence(status: int | None, category: str) -> tuple[bool, str]:
+    """FAIL-CLOSED registry check. Returns (affirmatively_absent, disposition).
+    ONLY an observed HTTP 404 is 'absent'; HTTP 200 is 'present'; any other status, redirect, or
+    transport/parse failure is 'indeterminate' (never treated as absence)."""
+    if category == "absent" and status == 404:
+        return True, "absent_404"
+    if status == 200 or category == "present":
+        return False, "present_200"
+    return False, f"indeterminate_{category}"
 
-    record = load_validated(path)
-    problems = []
-    api = f"https://api.github.com/repos/{OWNER}/{REPO}/releases/tags/{record['tag']}"
-    req = urllib.request.Request(api, headers={"User-Agent": "puckworks-release-verify/1.0",
+
+def _pypi_probe(repo: str, *, opener=None, timeout: float = 15.0) -> tuple[int | None, str]:
+    """Probe PyPI. Returns (status|None, category). 200->present, 404->absent, else fail-closed."""
+
+    opener = opener or urllib.request.urlopen
+    url = f"https://pypi.org/pypi/{repo}/json"
+    req = urllib.request.Request(url, headers={"User-Agent": "puckworks-release-verify/1.0"})
+    try:
+        with opener(req, timeout=timeout) as r:
+            code = getattr(r, "status", None) or r.getcode()
+        return code, ("present" if code == 200 else f"unexpected_{code}")
+    except urllib.error.HTTPError as e:
+        return e.code, ("absent" if e.code == 404 else f"http_{e.code}")
+    except (urllib.error.URLError, TimeoutError, OSError) as e:
+        return None, f"transport_{type(e).__name__}"
+    except Exception as e:                                    # parse/other — still fail-closed
+        return None, f"error_{type(e).__name__}"
+
+
+def _gh_json(path: str, *, opener=None, timeout: float = 30.0) -> dict:
+
+    opener = opener or urllib.request.urlopen
+    url = f"https://api.github.com/repos/{OWNER}/{REPO}/{path}"
+    req = urllib.request.Request(url, headers={"User-Agent": "puckworks-release-verify/1.0",
                                                "Accept": "application/vnd.github+json"})
-    with urllib.request.urlopen(req, timeout=30) as resp:
-        rel = json.loads(resp.read().decode("utf-8"))
+    with opener(req, timeout=timeout) as resp:
+        data = resp.read()
+    return json.loads(data.decode("utf-8") if isinstance(data, bytes) else data)
 
-    if rel.get("draft") or rel.get("prerelease"):
-        problems.append("release is draft/prerelease")
+
+def _canon_ts(ts: str) -> str:
+    from datetime import datetime
+    try:
+        return datetime.fromisoformat(ts.replace("Z", "+00:00")).astimezone().isoformat()
+    except (ValueError, AttributeError):
+        return ts
+
+
+def verify_live(path: str | Path, *, gh_json=_gh_json, stream=_stream_sha256,
+                pypi_probe=_pypi_probe) -> dict:
+    """Strictly load + cross-check the record, then bind it to the LIVE GitHub release, the git tag
+    object, the asset inventory, streamed artifact hashes, and a fail-closed PyPI check. Returns a
+    deterministic evidence dict; raises on any failure. Fetchers are injectable for offline tests."""
+    record = load_validated(path)
+    problems: list[str] = []
+
+    # 1. release identity
+    rel = gh_json(f"releases/tags/{record['tag']}")
     if rel.get("tag_name") != record["tag"]:
-        problems.append("release tag mismatch")
+        problems.append("release tag_name mismatch")
+    if rel.get("html_url") != record["release_url"]:
+        problems.append(f"release html_url mismatch: {rel.get('html_url')!r}")
+    if bool(rel.get("draft")):
+        problems.append("release is draft")
+    if bool(rel.get("prerelease")):
+        problems.append("release is prerelease")
+    if _canon_ts(rel.get("published_at", "")) != _canon_ts(record["published_at"]):
+        problems.append("release published_at mismatch")
+
+    # 2. git tag object identity (reject lightweight; bind annotated object + peeled commit)
+    ref = gh_json(f"git/ref/tags/{record['tag']}")
+    obj = ref.get("object", {})
+    if obj.get("type") != "tag":
+        problems.append("tag ref is not an annotated tag object (lightweight tag)")
+    elif obj.get("sha") != record["annotated_tag_object"]:
+        problems.append("annotated_tag_object SHA mismatch")
+    else:
+        tagobj = gh_json(f"git/tags/{obj['sha']}")
+        tgt = tagobj.get("object", {})
+        if tgt.get("type") != "commit":
+            problems.append("annotated tag does not peel to a commit")
+        elif tgt.get("sha") != record["source_commit"]:
+            problems.append("source_commit (peeled tag) mismatch")
+
+    # 3. asset identity
     asset_names = [a["name"] for a in rel.get("assets", [])]
     if len(asset_names) != len(set(asset_names)):
         problems.append("duplicate asset filenames in the release")
     if len(asset_names) != record["manually_attached_asset_count"]:
         problems.append(f"asset count {len(asset_names)} != recorded {record['manually_attached_asset_count']}")
+    sizes = {a["name"]: a.get("size") for a in rel.get("assets", [])}
     for fn in (record["wheel_filename"], record["sdist_filename"]):
         if fn not in asset_names:
             problems.append(f"expected asset missing from release: {fn}")
 
-    wheel_sha, wheel_size = _stream_sha256(canonical_wheel_url(record))
-    sdist_sha, sdist_size = _stream_sha256(canonical_sdist_url(record))
+    wheel_sha, wheel_size = stream(canonical_wheel_url(record))
+    sdist_sha, sdist_size = stream(canonical_sdist_url(record))
     if wheel_sha != record["wheel_sha256"]:
         problems.append("live wheel SHA-256 mismatch")
     if sdist_sha != record["sdist_sha256"]:
         problems.append("live sdist SHA-256 mismatch")
+    if sizes.get(record["wheel_filename"]) not in (None, wheel_size):
+        problems.append("wheel reported-size != streamed-size")
+    if sizes.get(record["sdist_filename"]) not in (None, sdist_size):
+        problems.append("sdist reported-size != streamed-size")
 
-    # registry_status consistency
-    pypi_code = None
-    try:
-        with urllib.request.urlopen(f"https://pypi.org/pypi/{REPO}/json", timeout=15) as r:
-            pypi_code = r.status
-    except urllib.error.HTTPError as e:  # type: ignore[name-defined]
-        pypi_code = e.code
-    except Exception:
-        pypi_code = None
-    if record["registry_status"] == "github_only" and pypi_code == 200:
-        problems.append("registry_status=github_only but PyPI project exists")
+    # 4. registry identity — fail-closed
+    pypi_status, pypi_cat = pypi_probe(REPO)
+    absent, pypi_disposition = classify_pypi_absence(pypi_status, pypi_cat)
+    if record["registry_status"] == "github_only" and not absent:
+        problems.append(f"registry_status=github_only requires an affirmative PyPI 404; got {pypi_disposition}")
 
     evidence = {
-        "tag": record["tag"], "wheel_filename": record["wheel_filename"],
-        "wheel_sha256": wheel_sha, "wheel_size": wheel_size,
-        "sdist_filename": record["sdist_filename"], "sdist_sha256": sdist_sha,
-        "sdist_size": sdist_size, "release_asset_count": len(asset_names),
-        "pypi_status": pypi_code, "problems": problems, "verified": not problems,
+        "tag": record["tag"], "release_url": record["release_url"],
+        "wheel_filename": record["wheel_filename"], "wheel_sha256": wheel_sha, "wheel_size": wheel_size,
+        "sdist_filename": record["sdist_filename"], "sdist_sha256": sdist_sha, "sdist_size": sdist_size,
+        "release_asset_count": len(asset_names), "annotated_tag_object": record["annotated_tag_object"],
+        "source_commit": record["source_commit"], "pypi_status": pypi_status,
+        "pypi_disposition": pypi_disposition, "problems": problems, "verified": not problems,
     }
     if problems:
         raise ValueError("live release verification failed:\n  " + "\n  ".join(problems)
-                         + "\n" + json.dumps(evidence, indent=2))
+                         + "\n" + json.dumps(evidence, indent=2, sort_keys=True))
     return evidence
+
+
+def verify_all(path: str | Path, evidence_report_path: str | Path, *, live: bool = False,
+               **live_kw) -> dict:
+    """Composite: (1) strict schema validation, (2) keyed durable-evidence cross-check, (3) optional
+    live verification. Fails (raises) on any layer. Never returns verified without the cross-check."""
+    record = load_validated(path)                      # layer 1 (raises on invalid)
+    evidence = parse_evidence_report(Path(evidence_report_path).read_text(encoding="utf-8"))
+    xproblems = cross_check(record, evidence)          # layer 2
+    if xproblems:
+        raise ValueError("durable-evidence cross-check failed:\n  " + "\n  ".join(xproblems))
+    result = {"schema": "ok", "cross_check": "ok", "layers": ["schema", "cross_check"]}
+    if live:
+        result["live"] = verify_live(path, **live_kw)  # layer 3 (raises on mismatch)
+        result["layers"].append("live")
+    return result
 
 
 if __name__ == "__main__":
     import sys
 
-    p = str(Path(__file__).resolve().parents[1] / "docs" / "status" / "public_release.json")
-    if "--verify-live" in sys.argv:
-        ev = verify_live(p)
-        print(json.dumps(ev, indent=2, sort_keys=True))
-    else:
-        probs = validate(load(p))
-        if probs:
-            print("INVALID:", *probs, sep="\n  ")
-            raise SystemExit(1)
-        print(f"public_release.json OK: {load(p)['tag']}")
+    _root = Path(__file__).resolve().parents[1]
+    p = str(_root / "docs" / "status" / "public_release.json")
+    evid = str(_root / "docs" / "reproducibility" / "RELEASE_VERIFICATION_v0.2.0.md")
+    known = {"--verify-live", "--verify-all", "--help", "-h"}
+    unknown = [a for a in sys.argv[1:] if a.startswith("-") and a not in known]
+    if unknown:
+        print(f"unknown option(s): {unknown}", file=sys.stderr)
+        raise SystemExit(2)
+    try:
+        if "--verify-all" in sys.argv:
+            # schema -> keyed durable cross-check -> live verification (all layers, fail on any)
+            res = verify_all(p, evid, live=True)
+            print(json.dumps(res, indent=2, sort_keys=True))
+        elif "--verify-live" in sys.argv:
+            print(json.dumps(verify_live(p), indent=2, sort_keys=True))
+        else:
+            # default: schema + keyed durable-evidence cross-check (offline, no network)
+            verify_all(p, evid, live=False)
+            print(f"public_release.json OK (schema + durable cross-check): {load(p)['tag']}")
+    except (ValueError, DuplicateKeyError) as exc:
+        print("VERIFICATION FAILED:", exc, file=sys.stderr)
+        raise SystemExit(1)

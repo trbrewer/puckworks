@@ -16,6 +16,14 @@ jobs:
   remind:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    # Scheduled comment writes are DISABLED BY DEFAULT: a scheduled run posts only when the repo
+    # variable ENABLE_PUBLIC_EXPERIENCE_REMINDERS == 'true' (a human's recorded opt-in). A manual
+    # workflow_dispatch is an explicit human action and always runs. Merging this workflow does not
+    # by itself enable scheduled issue comments.
+    if: >-
+      github.repository == 'trbrewer/puckworks'
+      && github.ref == 'refs/heads/main'
+      && (github.event_name == 'workflow_dispatch' || vars.ENABLE_PUBLIC_EXPERIENCE_REMINDERS == 'true')
     steps:
       - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:

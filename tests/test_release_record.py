@@ -144,3 +144,155 @@ def test_load_validated_raises_on_bad(tmp_path):
     p.write_text('{"schema_version": 1}', encoding="utf-8")
     with pytest.raises(ValueError):
         RR.load_validated(p)
+
+
+# ══════════════════════════════════════════════════════════════════════════════════
+# 2A/2B/2C/2D remediation: fail-closed PyPI, full live identity, composite, dup rows
+# ══════════════════════════════════════════════════════════════════════════════════
+
+
+def _fake_gh(record, overrides=None):
+    overrides = overrides or {}
+    n = record["manually_attached_asset_count"]
+    assets = [{"name": record["wheel_filename"], "size": 100},
+              {"name": record["sdist_filename"], "size": 200}]
+    assets += [{"name": f"asset{i}.txt", "size": 1} for i in range(n - 2)]
+    rel = {"tag_name": record["tag"], "html_url": record["release_url"], "draft": False,
+           "prerelease": False, "published_at": record["published_at"], "assets": assets}
+    rel.update(overrides.get("rel", {}))
+    ref = overrides.get("ref", {"object": {"type": "tag", "sha": record["annotated_tag_object"]}})
+    tagobj = overrides.get("tagobj", {"object": {"type": "commit", "sha": record["source_commit"]}})
+
+    def gh(path):
+        if path.startswith("releases/tags/"):
+            return rel
+        if path.startswith("git/ref/tags/"):
+            return ref
+        if path.startswith("git/tags/"):
+            return tagobj
+        raise KeyError(path)
+    return gh
+
+
+def _fake_stream(record, wheel_sha=None, sdist_sha=None, wheel_size=100, sdist_size=200):
+    def stream(url):
+        if url.endswith(".whl"):
+            return (wheel_sha or record["wheel_sha256"], wheel_size)
+        return (sdist_sha or record["sdist_sha256"], sdist_size)
+    return stream
+
+
+def _fake_pypi(status=404, cat="absent"):
+    return lambda repo: (status, cat)
+
+
+# ── 2A fail-closed PyPI ──────────────────────────────────────────────────────────
+@pytest.mark.parametrize("status,cat,absent", [
+    (404, "absent", True),
+    (200, "present", False),
+    (403, "http_403", False),
+    (429, "http_429", False),
+    (500, "http_500", False),
+    (None, "transport_URLError", False),
+    (None, "transport_TimeoutError", False),
+    (None, "error_JSONDecodeError", False),
+    (301, "unexpected_301", False),
+])
+def test_pypi_classifier_fail_closed(status, cat, absent):
+    got_absent, _disp = RR.classify_pypi_absence(status, cat)
+    assert got_absent is absent
+
+
+def test_verify_live_fails_closed_when_pypi_uncertain(record):
+    gh = _fake_gh(record)
+    for status, cat in [(None, "transport_URLError"), (500, "http_500"), (200, "present")]:
+        with pytest.raises(ValueError, match="affirmative PyPI 404"):
+            RR.verify_live(RECORD_PATH, gh_json=gh, stream=_fake_stream(record),
+                           pypi_probe=_fake_pypi(status, cat))
+
+
+def test_verify_live_passes_only_on_affirmative_404(record):
+    ev = RR.verify_live(RECORD_PATH, gh_json=_fake_gh(record), stream=_fake_stream(record),
+                        pypi_probe=_fake_pypi(404, "absent"))
+    assert ev["verified"] and ev["pypi_disposition"] == "absent_404"
+
+
+# ── 2B live identity binding ─────────────────────────────────────────────────────
+@pytest.mark.parametrize("overrides,needle", [
+    ({"rel": {"html_url": "https://github.com/trbrewer/puckworks/releases/tag/v9"}}, "html_url"),
+    ({"rel": {"published_at": "2000-01-01T00:00:00Z"}}, "published_at"),
+    ({"rel": {"draft": True}}, "draft"),
+    ({"rel": {"prerelease": True}}, "prerelease"),
+    ({"ref": {"object": {"type": "commit", "sha": "0" * 40}}}, "lightweight"),
+    ({"ref": {"object": {"type": "tag", "sha": "0" * 40}}}, "annotated_tag_object"),
+    ({"tagobj": {"object": {"type": "tag", "sha": "0" * 40}}}, "peel to a commit"),
+    ({"tagobj": {"object": {"type": "commit", "sha": "0" * 40}}}, "source_commit"),
+])
+def test_verify_live_binds_identity(record, overrides, needle):
+    with pytest.raises(ValueError, match=needle):
+        RR.verify_live(RECORD_PATH, gh_json=_fake_gh(record, overrides),
+                       stream=_fake_stream(record), pypi_probe=_fake_pypi())
+
+
+def test_verify_live_catches_asset_and_hash_faults(record):
+    # missing expected asset
+    ov = {"rel": {"assets": [{"name": "other.txt", "size": 1}] * record["manually_attached_asset_count"]}}
+    with pytest.raises(ValueError, match="missing from release"):
+        RR.verify_live(RECORD_PATH, gh_json=_fake_gh(record, ov), stream=_fake_stream(record),
+                       pypi_probe=_fake_pypi())
+    # wheel hash mismatch
+    with pytest.raises(ValueError, match="wheel SHA-256 mismatch"):
+        RR.verify_live(RECORD_PATH, gh_json=_fake_gh(record),
+                       stream=_fake_stream(record, wheel_sha="0" * 64), pypi_probe=_fake_pypi())
+    # reported size vs streamed size
+    with pytest.raises(ValueError, match="reported-size"):
+        RR.verify_live(RECORD_PATH, gh_json=_fake_gh(record),
+                       stream=_fake_stream(record, wheel_size=999), pypi_probe=_fake_pypi())
+
+
+def test_verify_live_duplicate_asset_name(record):
+    dup = [{"name": record["wheel_filename"], "size": 100}] * record["manually_attached_asset_count"]
+    with pytest.raises(ValueError, match="duplicate asset"):
+        RR.verify_live(RECORD_PATH, gh_json=_fake_gh(record, {"rel": {"assets": dup}}),
+                       stream=_fake_stream(record), pypi_probe=_fake_pypi())
+
+
+# ── 2C composite ─────────────────────────────────────────────────────────────────
+def test_verify_all_offline_passes(record):
+    res = RR.verify_all(RECORD_PATH, EVIDENCE, live=False)
+    assert res["layers"] == ["schema", "cross_check"]
+
+
+def test_verify_all_fails_on_conflicting_durable_evidence(tmp_path):
+    bad = tmp_path / "ev.md"
+    bad.write_text("| package version | 9.9.9 |\n"
+                   "| `puckworks-0.2.0-py3-none-any.whl` | " + "a" * 64 + " |\n"
+                   "| `puckworks-0.2.0.tar.gz` | " + "b" * 64 + " |\n", encoding="utf-8")
+    with pytest.raises(ValueError):
+        RR.verify_all(RECORD_PATH, bad, live=False)
+
+
+def test_verify_all_live_fails_when_live_fails(record):
+    with pytest.raises(ValueError):
+        RR.verify_all(RECORD_PATH, EVIDENCE, live=True, gh_json=_fake_gh(record),
+                      stream=_fake_stream(record), pypi_probe=_fake_pypi(500, "http_500"))
+
+
+# ── 2D duplicate/ambiguous artifact rows ─────────────────────────────────────────
+def test_parser_rejects_duplicate_conflicting_wheel_rows():
+    txt = ("| `puckworks-0.2.0-py3-none-any.whl` | " + "a" * 64 + " |\n"
+           "| `puckworks-0.2.0-py3-none-any.whl` | " + "b" * 64 + " |\n"
+           "| `puckworks-0.2.0.tar.gz` | " + "c" * 64 + " |\n")
+    with pytest.raises(ValueError, match="ambiguous/duplicate"):
+        RR.parse_evidence_report(txt)
+
+
+def test_parser_rejects_multiple_shas_in_one_row():
+    txt = ("| `puckworks-0.2.0-py3-none-any.whl` | " + "a" * 64 + " | " + "b" * 64 + " |\n")
+    with pytest.raises(ValueError, match="exactly 1"):
+        RR.parse_evidence_report(txt)
+
+
+def test_parser_requires_both_artifacts():
+    with pytest.raises(ValueError, match="missing sdist"):
+        RR.parse_evidence_report("| `puckworks-0.2.0-py3-none-any.whl` | " + "a" * 64 + " |\n")

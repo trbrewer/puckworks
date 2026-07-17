@@ -95,8 +95,8 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: strict validate + LIVE-verify the release record (wheel+sdist+assets+PyPI)
-        run: python tools/release_record.py --verify-live
+      - name: composite verify — schema + durable cross-check + LIVE (wheel+sdist+tag+assets+PyPI)
+        run: python tools/release_record.py --verify-all
 
       - name: notebook execution tooling (CPU only)
         run: python -m pip install --quiet jupyter nbconvert nbclient ipykernel matplotlib

@@ -135,10 +135,12 @@ The same pure-Python wheel is smoke-tested on **Windows, macOS, and Linux** unde
 interpreter CI additionally exercises Python 3.10, 3.12, and 3.13. Per-platform commands and the
 support matrix: [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md).
 
-The **supported public API** is `puckworks.__all__` (`evaluate_all_gates`, `components`, `get`,
-`Component`, `contracts`, `validate`, `load_builtin_components`, `GateStatus`, `GateResult`,
-`GateSuiteResult`) — see [`docs/API.md`](docs/API.md) for the stability policy. Everything else is
-internal research tooling.
+The **supported public API** is exactly `puckworks.__all__`; selected commonly-used entry points
+from it include `evaluate_all_gates`, `components`, `get`, `Component`, `contracts`, `validate`,
+`load_builtin_components`, `GateStatus`, `GateResult`, and `GateSuiteResult`. See
+[`docs/API.md`](docs/API.md) for the full surface and stability policy; everything else is internal
+research tooling. (The Colab quickstart installs the **v0.2.0** wheel — its API is v0.2.0's
+`__all__`, which may differ from the unreleased main branch.)
 
 Contributors / release builders: `python -m pip install -e ".[dev]"`; see
 [`CONTRIBUTING.md`](CONTRIBUTING.md).
