@@ -41,23 +41,30 @@ radar never invents scope.
 
 **Official metadata APIs only** — never scraped search-result HTML.
 
-- **arXiv API** (Atom) — preprints.
-- **Crossref REST** (`/works`) — published metadata + DOIs. A `mailto` is sent for the polite pool.
+- **arXiv API** (Atom) — preprints. Requests are paced at **≥ 3 s apart** with an identifying
+  User-Agent and bounded retries (honoring `Retry-After` on HTTP 429).
+- **Crossref REST** (`/works`) — published metadata + DOIs, via the **polite pool** (`mailto` +
+  identifying User-Agent). Recency is filtered server-side with `from-index-date`.
+
+> **Acknowledgment:** Thank you to arXiv for use of its open access interoperability. This does not
+> imply arXiv endorses Puckworks. This acknowledgment also appears in the workflow artifact metadata
+> and in each monthly radar issue footer.
 
 A source is added only after: its official API docs are reviewed; rate limits and attribution are
 understood; duplicate identity can be handled; and it adds real coverage. **Google Scholar
 scraping is prohibited.** No article PDFs are downloaded; no paywall is bypassed; no copyrighted
-full text is stored. Source rate limits are respected and an identifying User-Agent/contact string
-is sent.
+full text is stored.
 
 ## 4. Query families
 
-Queries live in [`docs/research/radar_queries.yml`](research/radar_queries.yml) — one record per
-family, each with `id`, `title`, `enabled`, `source_families`, `terms`, `exclusions`,
-`relevance_notes`, `coupled_cards`, `last_human_review`, `owner`, `max_candidates`. Editing the
-vocabulary is a **human** action (quarterly cadence); the scanner never edits this file. Families
-cover the §2 scope; `public-communication-uncertainty` ships disabled (noisy) and is enabled
-per-campaign.
+Queries live in [`docs/research/radar_queries.yml`](research/radar_queries.yml) — one **structured**
+record per family: `id`, `title`, `enabled`, `lookback_days`, `maximum_candidates`,
+`global_priority`, `concept_groups` (synonym groups — the scanner ANDs across groups and ORs within
+a group), `exclusions`, `source_families`, `coupled_cards`, `last_human_review`, `owner`. The config
+is strictly validated (unknown fields, empty terms, bool-as-int, impossible dates, and excessive
+limits are rejected **before** any network request). Editing the vocabulary is a **human** action
+(quarterly cadence); the scanner never edits this file. `public-communication-uncertainty` ships
+disabled (noisy) and is enabled per-campaign.
 
 ## 5. Cadence
 
@@ -79,10 +86,16 @@ retains **no full text and no PDF.**
 
 ## 7. Deduplication
 
-Identity is resolved in order: **DOI → arXiv id → normalized-title fallback** (lowercased,
-punctuation-stripped, whitespace-collapsed). Duplicates across sources (the same DOI from arXiv
-and Crossref) collapse to one record; candidates already recorded in a prior radar are excluded.
-Ordering is deterministic (match count, then date, then identity) so a re-run is reproducible.
+Identity is resolved in order: **DOI → arXiv id → normalized canonical HTTPS URL → normalized-title
+fallback** (lowercased, punctuation-stripped, whitespace-collapsed). Duplicates across sources (the
+same DOI from arXiv and Crossref) **merge** into one record — keeping both identifiers, the more
+complete author list, and the earliest preprint date plus the formal publication date separately.
+
+**Cross-month deduplication is durable, not issue-local.** Each posted candidate carries a hashed
+marker `<!-- radar-candidate:<sha256-of-normalized-identity> -->`. The weekly workflow reads the
+markers from **all** radar issues (open and closed), and a candidate is posted only if its marker
+is absent everywhere — so a paper seen last month is not re-posted this month. Ordering is
+deterministic (match count, then date, then identity) so a re-run is reproducible.
 
 ## 8. Triage rubric
 
@@ -123,11 +136,16 @@ Recurring venue coverage spans: Paper A; Paper B/B2; the Puckworks methods/resou
 engineering; fluid dynamics; porous media; analytical instrumentation; and open-science/software
 conferences.
 
-The monthly workflow raises a **human-review reminder** when: the ledger's verification date
-exceeds its freshness threshold; a deadline is within 90 days; a call previously marked
-*forthcoming* is now due for a check; or a methods/resource-paper venue remains unscouted. A
-passed deadline is marked **PASSED**, never deleted. **No deadline is ever rewritten from a
-scraper** — official pages are the only authority.
+The [`venue-deadline-review`](../.github/workflows/venue-deadline-review.yml) workflow posts a
+**monthly human venue/deadline review reminder** (a checklist + the ledger's recorded verification
+date). It does **not** parse deadlines, validate official pages, compute submission urgency, or
+detect newly opened calls — it reminds a human to do those checks against the official page. While
+reviewing, the human flags a venue when the ledger verification date is stale, a deadline is within
+~90 days, a *forthcoming* call is now due for a check, or a methods/resource-paper venue remains
+unscouted. A passed deadline is marked **PASSED**, never deleted. **No deadline is ever rewritten
+from a scraper** — official pages are the only authority. (If automated stale/90-day detection is
+wanted later, it requires a separate machine-readable venue config with strict verified dates and
+its own tests — not page scraping.)
 
 ## 12. Collaboration / contact rules
 
@@ -146,10 +164,21 @@ and rate limits are honored per each API's policy.
 ## 14. Audit log
 
 Each automated scan attaches its full machine-readable output (`candidates.json`) as a **workflow
-artifact** and appends only *new* candidates to the current monthly radar issue — it never commits
-generated candidates to the repository and never edits a scientific file. The monthly issue plus
-the workflow run history form the audit trail; triage decisions are recorded by humans on the
-issue.
+artifact** and appends only *new*, sanitized candidates to the current monthly radar issue — it
+never commits generated candidates to the repository and never edits a scientific file. The monthly
+issue plus the workflow run history form the audit trail; triage decisions are recorded by humans on
+the issue.
+
+**Labels + safety:** monthly radar issues are labelled `research-radar` + `triage` — **never
+`standing`** (reserved for the permanent tracker #42), and may be closed after human triage. A
+**failed** total scan writes no issue. A **closed** current-month issue is never silently
+duplicated — it is flagged for human action. **Manual dispatch defaults to scan + artifact only**
+(no issue write); writing requires `publish_issue=true`. Untrusted metadata (titles, authors,
+venues, URLs) is sanitized before rendering — control/bidi characters and HTML stripped, `@`
+mentions and `#` refs neutralized, non-HTTPS URLs dropped, lengths and issue-body size bounded — and
+the substantial issue logic lives in `tools/research_radar_issue.py` (offline-tested), not in the
+workflow YAML. Global caps bound candidates per query, per source, and per scan; omitted counts are
+reported, never silently dropped.
 
 ## 15. Standing review process
 

@@ -1,12 +1,28 @@
 name: research-radar
-# Weekly metadata discovery (issue #42). Runs the scanner against OFFICIAL metadata APIs (arXiv,
-# Crossref), then appends only NEW candidates to the current monthly rolling radar issue and
-# attaches the full machine-readable output as an artifact. It never commits candidates, never
-# edits a scientific file, never closes an issue, and never contacts or submits anything.
+# Weekly metadata discovery (issue #42). Scans OFFICIAL metadata APIs (arXiv paced >= 3 s/request,
+# Crossref polite pool), then — via TESTED Python logic (tools/research_radar_issue.py) — appends
+# only NEW candidates (deduplicated across ALL prior monthly issues) to the current monthly rolling
+# issue and attaches the full machine-readable output as an artifact. It never commits candidates,
+# never edits a scientific file, never closes an issue, and never contacts or submits anything.
+#
+# Manual dispatch defaults to SCAN + ARTIFACT ONLY (no issue write) — set publish_issue=true to write.
 on:
   schedule:
     - cron: "0 7 * * 1"      # 07:00 UTC every Monday
   workflow_dispatch:
+    inputs:
+      publish_issue:
+        description: "Write/append the monthly radar issue (scheduled runs always publish)"
+        type: boolean
+        default: false
+      query_subset:
+        description: "Comma-separated query ids to run (blank = all enabled)"
+        type: string
+        default: ""
+      scan_date:
+        description: "Explicit scan date YYYY-MM-DD (blank = today, UTC)"
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -19,7 +35,7 @@ concurrency:
 jobs:
   radar:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
@@ -29,14 +45,26 @@ jobs:
           python-version: "3.12"
       - run: python -m pip install --quiet pyyaml
 
-      - name: scan official metadata sources (arXiv + Crossref)
+      - name: resolve run parameters (date, publish, subset)
+        id: params
         run: |
+          DATE="${{ github.event.inputs.scan_date }}"
+          [ -z "$DATE" ] && DATE="$(date -u +%F)"
+          if [ "${{ github.event_name }}" = "schedule" ]; then PUBLISH=true; else PUBLISH="${{ github.event.inputs.publish_issue }}"; fi
+          echo "date=$DATE"        >> "$GITHUB_OUTPUT"
+          echo "publish=$PUBLISH"  >> "$GITHUB_OUTPUT"
+          echo "subset=${{ github.event.inputs.query_subset }}" >> "$GITHUB_OUTPUT"
+
+      - name: validate config, then scan (official metadata APIs)
+        run: |
+          python tools/research_radar.py verify --config docs/research/radar_queries.yml
+          SUBSET="${{ steps.params.outputs.subset }}"
+          ARGS=""
+          [ -n "$SUBSET" ] && ARGS="--queries $SUBSET"
           python tools/research_radar.py scan \
             --config docs/research/radar_queries.yml \
-            --date "$(date -u +%F)" \
-            --out out/radar
-          echo "----- radar.md -----"
-          cat out/radar/radar.md
+            --date "${{ steps.params.outputs.date }}" \
+            --out out/radar $ARGS
 
       - name: attach machine-readable output as an artifact (never committed)
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -46,70 +74,76 @@ jobs:
           if-no-files-found: warn
           retention-days: 30
 
-      - name: append NEW candidates to the current monthly radar issue
+      - name: collect prior candidate markers + radar issues (ALL states)
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             const fs = require('fs');
-            const data = JSON.parse(fs.readFileSync('out/radar/candidates.json', 'utf8'));
-            const title = data.issue_title;                       // "Research radar — YYYY-MM"
-            const labels = ['standing', 'research-radar'];
-
-            // Locate the current monthly issue (dedup by title among research-radar issues).
-            const open = await github.paginate(github.rest.issues.listForRepo, {
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
               owner: context.repo.owner, repo: context.repo.repo,
-              state: 'open', labels: 'research-radar', per_page: 100,
+              state: 'all', labels: 'research-radar', per_page: 100,
             });
-            let issue = open.find(i => i.title === title && !i.pull_request);
-
-            const disclaimer = [
-              `### ${title}`, '',
-              '> **Discovery is not validation.** Every item is a triage candidate for a human.',
-              '> A hit changes no card, claim, manuscript, roadmap entry, or submission plan, and',
-              '> creates no external contact. Official pages remain authoritative for deadlines.',
-              '', 'Triage states: `new` `inspect` `relevant` `already-covered` `out-of-scope`',
-              '`method-only` `data-opportunity` `collaboration-opportunity` `venue-opportunity`',
-              '`rejected-with-reason`.', '',
-            ].join('\n');
-
-            if (!issue) {
-              const created = await github.rest.issues.create({
+            let blob = '';
+            const list = [];
+            for (const i of issues) {
+              if (i.pull_request) continue;
+              list.push({ number: i.number, title: i.title, state: i.state });
+              blob += (i.body || '') + '\n';
+              const comments = await github.paginate(github.rest.issues.listComments, {
                 owner: context.repo.owner, repo: context.repo.repo,
-                title, labels, body: disclaimer,
+                issue_number: i.number, per_page: 100,
               });
-              issue = created.data;
-              core.info(`Created monthly radar issue #${issue.number}`);
+              for (const c of comments) blob += (c.body || '') + '\n';
             }
+            fs.writeFileSync('out/seen.txt', blob);
+            fs.writeFileSync('out/issues.json', JSON.stringify(list));
+            core.info(`collected markers from ${list.length} radar issue(s)`);
 
-            // Which candidate identities are already present (body + comments)?
-            const comments = await github.paginate(github.rest.issues.listComments, {
-              owner: context.repo.owner, repo: context.repo.repo,
-              issue_number: issue.number, per_page: 100,
-            });
-            const blob = (issue.body || '') + '\n' + comments.map(c => c.body || '').join('\n');
-            const fresh = data.candidates.filter(c => !blob.includes(`<!-- radar-cand:${c.identity} -->`));
+      - name: compute the issue plan (tested Python; dedup + sanitize + cap)
+        run: |
+          PUB=""
+          [ "${{ steps.params.outputs.publish }}" = "true" ] && PUB="--publish"
+          python tools/research_radar_issue.py \
+            --candidates out/radar/candidates.json \
+            --seen out/seen.txt --issues out/issues.json \
+            $PUB --out out/plan.json
 
-            if (!fresh.length) {
-              core.info(`No new candidates for ${title}; nothing appended.`);
-              return;
+      - name: pre-write summary (source health, counts, target, body size)
+        run: |
+          python - <<'PY'
+          import json
+          scan = json.load(open("out/radar/candidates.json"))
+          plan = json.load(open("out/plan.json"))
+          print("total scan status:", scan["total_status"])
+          for r in scan["source_runs"]:
+              print(f"  source {r['source']}: {r['status']} "
+                    f"({r['queries_succeeded']}/{r['queries_attempted']}) "
+                    f"received={r['candidates_received']} retained={r['candidates_retained']}")
+          print("counts:", scan["counts"])
+          print("plan action:", plan["action"], "| reason:", plan["reason"])
+          print("new candidates:", plan.get("new_count", 0),
+                "| issue-body bytes:", plan.get("body_bytes", 0),
+                "| target issue:", plan.get("existing_number"))
+          PY
+
+      - name: execute the plan (create/comment only; never on a failed scan)
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const fs = require('fs');
+            const plan = JSON.parse(fs.readFileSync('out/plan.json', 'utf8'));
+            if (plan.action === 'create') {
+              const r = await github.rest.issues.create({
+                owner: context.repo.owner, repo: context.repo.repo,
+                title: plan.title, labels: plan.labels, body: plan.body });
+              core.info(`created radar issue #${r.data.number}`);
+            } else if (plan.action === 'comment') {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: plan.existing_number, body: plan.body });
+              core.info(`appended ${plan.new_count} candidate(s) to #${plan.existing_number}`);
+            } else if (plan.action === 'needs_human') {
+              core.warning(plan.reason);
+            } else {
+              core.info(`no issue write: ${plan.action} — ${plan.reason}`);
             }
-
-            const rows = fresh.map(c => {
-              const idlink = c.doi ? `[doi:${c.doi}](https://doi.org/${c.doi})`
-                : (c.arxiv_id ? `[arXiv:${c.arxiv_id}](${c.url || ''})` : '—');
-              const reasons = (c.match_reasons || []).join(', ') || '—';
-              const t = (c.title || '').replace(/\|/g, '\\|');
-              return `<!-- radar-cand:${c.identity} -->\n- **${t}** — ${c.source} · ${c.date || '—'} · ${idlink}  \n  found by \`${c.query_id}\`; matched: ${reasons} · triage: \`new\``;
-            });
-
-            const body = [
-              `#### Scan ${data.scan_date} — ${fresh.length} new candidate(s)`, '',
-              ...rows, '',
-              '_Assign a triage state per candidate. Discovery is not validation._',
-            ].join('\n');
-
-            await github.rest.issues.createComment({
-              owner: context.repo.owner, repo: context.repo.repo,
-              issue_number: issue.number, body,
-            });
-            core.info(`Appended ${fresh.length} new candidate(s) to #${issue.number}.`);

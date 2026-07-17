@@ -92,9 +92,12 @@ jobs:
               '**Coverage to keep current:**',
               ...coverage.map(c => `- [ ] ${c}`),
               '',
-              'Flag a venue for action when: the ledger verification date is stale, a deadline is',
-              'within 90 days, a *forthcoming* call is now due for a check, or a methods/resource',
-              'venue remains unscouted. Mark passed deadlines **PASSED** — never delete them.',
+              'This is a **human reminder only**. It does not parse deadlines, validate official',
+              'pages, compute submission urgency, or detect newly opened calls — a human does those',
+              'checks against the official organizer/journal page. While reviewing, the human should',
+              'flag a venue when the ledger verification date is stale, a deadline is within ~90',
+              'days, a *forthcoming* call is now due for a check, or a methods/resource venue',
+              'remains unscouted. Mark passed deadlines **PASSED** — never delete them.',
             ].join('\n');
 
             await github.rest.issues.createComment({
