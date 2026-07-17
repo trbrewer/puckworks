@@ -16,22 +16,13 @@ PRIVATE_SUBSTRINGS = ("visualizer/raw", "visualizer/normalized", "visualizer/cra
 # package-data that MUST be present for the installed package to work
 REQUIRED_SUFFIXES = ("puckworks/data/MANIFEST.csv",
                      "puckworks/data/cameron2020/fig5_grind_deviation.csv",
-                     "puckworks/data/visualizer/PROVENANCE.md",
-                     # product fixture + manifest + attribution (issue #32 PR 1) — the bundled single-shot
-                     "puckworks/data/product/__init__.py",
-                     "puckworks/data/product/ATTRIBUTION.md",
-                     "puckworks/data/product/waszkiewicz2025_9bar_single_shot.csv",
-                     "puckworks/data/product/waszkiewicz2025_9bar_single_shot.manifest.json")
+                     "puckworks/data/visualizer/PROVENANCE.md")
 
-# POSITIVE allowlist for puckworks/data/product/: exactly the reviewed product-data set may ship.
-# A new file under this path fails CI until it is reviewed and added here.
+# No product runtime fixture ships in the contract-only PR 1A. Any file under puckworks/data/product/
+# would be an unreviewed product-data leak until PR 1B lands an approved fixture and re-adds an
+# explicit allowlist.
 PRODUCT_DATA_PREFIX = "puckworks/data/product/"
-PRODUCT_DATA_ALLOWLIST = {
-    "puckworks/data/product/__init__.py",
-    "puckworks/data/product/ATTRIBUTION.md",
-    "puckworks/data/product/waszkiewicz2025_9bar_single_shot.csv",
-    "puckworks/data/product/waszkiewicz2025_9bar_single_shot.manifest.json",
-}
+PRODUCT_DATA_ALLOWLIST: set = set()
 
 
 def _members(path: Path):

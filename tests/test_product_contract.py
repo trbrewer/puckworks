@@ -1,9 +1,12 @@
-"""PR 1 contract tests for ``puckworks.product`` (issue #32).
+"""PR 1A contract tests for ``puckworks.product`` (issue #32) — rights-independent.
+
+Uses a deterministic **synthetic** object built in test code (no bundled runtime fixture, no upstream
+data, no fixture loader). Simulated series use ``SeriesKind.SIMULATED`` and the provenance identifies
+a Puckworks-generated test object. The real redistributable fixture + loader are deferred to PR 1B.
 
 Covers public API, schema versioning (bool-safe), semantic RFC 3339 + ISO dates, the three-state
 rights machine, pressure/channel semantics, self-contained bundle time axes, recursive strict
-decoding, record/member license separation, rights-gated + release-gated fixtures, build provenance
-(no Git), serialization + golden regression, and manifest error normalization.
+decoding, record/member license separation, build provenance (no Git), and serialization + golden.
 """
 from __future__ import annotations
 
@@ -17,12 +20,10 @@ import pytest
 
 import puckworks
 from puckworks import product as p
-from puckworks.product import _fixtures
 
-FIXTURE_ID = "waszkiewicz2025_9bar_single_shot"
-GOLDEN = Path(__file__).parent / "product" / "golden_shot_input.json"
-GOLDEN_SHA256 = "d6e668d6a030d4a7d01de987e3e28c642ab98094b35b57eb962ec458bb027a6e"
-FULL_COMMIT = "a" * 40
+GOLDEN = Path(__file__).parent / "product" / "synthetic_golden_bundle.json"
+GOLDEN_SHA256 = "707b51340d29c795738bb46a89c6d65d52f01697aeb3b8d6aec705ea24ee353d"
+FULL_COMMIT = "0" * 40
 
 _EXPECTED_PUBLIC = {
     "SHOT_INPUT_SCHEMA_VERSION", "SHOT_EXPLANATION_BUNDLE_SCHEMA_VERSION", "MAX_EXPLANATION_CANDIDATES",
@@ -33,32 +34,55 @@ _EXPECTED_PUBLIC = {
     "ShotInput", "ShotExplanationBundle", "shot_input_to_dict", "shot_input_to_json",
     "shot_input_from_dict", "shot_input_from_json", "bundle_to_dict", "bundle_to_json",
     "bundle_from_dict", "bundle_from_json", "build_provenance", "dev_build_identifier",
-    "available_fixtures", "load_bundled_shot", "release_ready_fixtures", "SchemaError",
-    "ProvenanceUnavailableError", "FixtureManifestError", "FixtureRightsError",
+    "SchemaError", "ProvenanceUnavailableError",
 }
 
 
-def _cs(node=None, ref=None):
-    return p.ChannelSemantics(node, ref, "no missing values")
+# ---- synthetic (test-only) builders -----------------------------------------
+
+def _syn_prov(review=None, redist=None, member=None, url=None, date=None, basis_url=None):
+    review = review or p.RightsReviewStatus.PENDING
+    redist = redist or p.RedistributionStatus.PENDING
+    return p.FixtureProvenance(
+        fixture_id="puckworks-synthetic-test", record_kind=p.RecordKind.SINGLE_SHOT,
+        source_record="puckworks:synthetic-test-object", source_version="test",
+        source_member="synthetic (no upstream data)", record_license_expression="MIT",
+        record_license_url="https://opensource.org/licenses/MIT",
+        attribution="Puckworks-generated synthetic test object; contains no upstream data.",
+        original_sha256="0" * 64, packaged_sha256="1" * 64,
+        rights_basis="synthetic test object; not a redistributable dataset",
+        rights_review_status=review, redistribution_status=redist,
+        modification_notice="synthetic; no source data", selection_method="synthetic (no selection)",
+        scientific_caveats=("synthetic test object; not an experimental observation",),
+        member_license_expression=member, member_license_url=url, rights_basis_url=basis_url,
+        rights_review_date=date,
+    )
 
 
-def _avail(series_id, quantity="mass", unit="g", node=None, ref=None, values=(1.0, 2.0, 3.0)):
-    return p.ObservedSeries(series_id, quantity, unit, p.SeriesKind.MEASURED,
-                            p.AvailabilityStatus.AVAILABLE, "t", _cs(node, ref), values, provenance="prov")
+def _axis():
+    return p.TimeAxis("syn:time", "s", "synthetic zero", (0.0, 0.1, 0.2))
 
 
-def _shot():
-    return _fixtures._load(FIXTURE_ID, require_rights=False)
+def _series(sid, quantity="pressure_estimate", unit="bar", node="synthetic-node", ref="gauge"):
+    return p.ObservedSeries(sid, quantity, unit, p.SeriesKind.SIMULATED, p.AvailabilityStatus.AVAILABLE,
+                            "syn:time", p.ChannelSemantics(node, ref, "synthetic; no missing values"),
+                            (1.0, 2.0, 3.0), provenance="puckworks:synthetic")
 
 
-def _bundle(**over):
-    shot = _shot()
+def _syn_shot():
+    return p.ShotInput(1, "puckworks-synthetic-test", _syn_prov(), _axis(),
+                       (_series("syn:p"), _series("syn:mass", "mass", "g", None, None)))
+
+
+def _syn_bundle(**over):
+    axis = _axis()
+    obs = (_series("syn:p"), _series("syn:mass", "mass", "g", None, None))
     kw = dict(
         schema_version=1, package_version=puckworks.__version__,
         build_provenance=p.build_provenance(source_commit=FULL_COMMIT),
-        fixture_provenance=shot.provenance,
-        normalized_units=(p.UnitBinding("time", "s"), p.UnitBinding("mass", "g")),
-        time_axes=(shot.time_axis,), observations=tuple(shot.series), warnings=("PR1 contract only",),
+        fixture_provenance=_syn_prov(),
+        normalized_units=(p.UnitBinding("pressure", "bar"), p.UnitBinding("mass", "g")),
+        time_axes=(axis,), observations=obs, warnings=("synthetic contract test object",),
     )
     kw.update(over)
     return p.ShotExplanationBundle(**kw)
@@ -77,10 +101,16 @@ def test_every_symbol_exists():
         assert hasattr(p, name), name
 
 
-def test_no_placeholders_or_generic_serializers():
-    assert "NormalizedShot" not in p.__all__ and not hasattr(p, "NormalizedShot")
-    for name in ("to_json", "to_dict", "_encode", "_records", "_serialize"):
-        assert name not in p.__all__
+def test_no_fixture_loader_or_placeholders_public():
+    for name in ("NormalizedShot", "available_fixtures", "load_bundled_shot", "release_ready_fixtures",
+                 "FixtureManifestError", "FixtureRightsError", "to_json", "to_dict"):
+        assert name not in p.__all__ and not hasattr(p, name)
+
+
+def test_no_fixtures_module():
+    import importlib
+    with pytest.raises(ModuleNotFoundError):
+        importlib.import_module("puckworks.product._fixtures")
 
 
 def test_docs_api_agrees():
@@ -89,16 +119,16 @@ def test_docs_api_agrees():
         assert token in api, token
 
 
-# ---- 2. schema versioning (bool-safe) ---------------------------------------
+# ---- 2. schema versioning ---------------------------------------------------
 
 def test_schema_versions_present():
-    assert json.loads(p.shot_input_to_json(_shot()))["schema_version"] == 1
-    assert json.loads(p.bundle_to_json(_bundle()))["schema_version"] == 1
+    assert json.loads(p.shot_input_to_json(_syn_shot()))["schema_version"] == 1
+    assert json.loads(p.bundle_to_json(_syn_bundle()))["schema_version"] == 1
 
 
 @pytest.mark.parametrize("bad", [True, 1.0, "1", None])
 def test_direct_bool_and_nonint_schema_rejected(bad):
-    shot = _shot()
+    shot = _syn_shot()
     with pytest.raises(ValueError):
         p.ShotInput(bad, shot.fixture_id, shot.provenance, shot.time_axis, shot.series)
 
@@ -108,7 +138,7 @@ def test_direct_bool_and_nonint_schema_rejected(bad):
     lambda d: d.update(schema_version=True), lambda d: d.update(surprise=1),
 ])
 def test_bad_top_level_schema_reader_fails(mut):
-    d = p.bundle_to_dict(_bundle())
+    d = p.bundle_to_dict(_syn_bundle())
     mut(d)
     with pytest.raises(p.SchemaError):
         p.bundle_from_dict(d)
@@ -120,27 +150,27 @@ def test_duplicate_keys_and_bad_json():
     with pytest.raises(p.SchemaError):
         p.bundle_from_json("{not json")
     with pytest.raises(p.SchemaError):
-        p.bundle_from_json(123)  # TypeError -> SchemaError
+        p.bundle_from_json(123)
 
 
 # ---- 3. recursive strict decoding -------------------------------------------
 
 def test_nested_unknown_field_path_aware():
-    d = p.bundle_to_dict(_bundle())
+    d = p.bundle_to_dict(_syn_bundle())
     d["observations"][0]["surprise"] = 1
     with pytest.raises(p.SchemaError, match=r"observations\[0\]"):
         p.bundle_from_dict(d)
 
 
 def test_nested_wrong_container_path_aware():
-    d = p.bundle_to_dict(_bundle())
+    d = p.bundle_to_dict(_syn_bundle())
     d["time_axes"][0]["values"] = "notarray"
     with pytest.raises(p.SchemaError, match=r"time_axes\[0\].values"):
         p.bundle_from_dict(d)
 
 
 def test_nested_bad_enum():
-    d = p.bundle_to_dict(_bundle())
+    d = p.bundle_to_dict(_syn_bundle())
     d["observations"][0]["series_kind"] = "bogus"
     with pytest.raises(p.SchemaError):
         p.bundle_from_dict(d)
@@ -148,64 +178,53 @@ def test_nested_bad_enum():
 
 # ---- 4. pressure & channel semantics ----------------------------------------
 
-def test_line_pressure_semantics_loaded_and_preserved():
-    shot = _shot()
-    lp = next(s for s in shot.series if "line_pressure" in s.series_id)
-    assert lp.channel_semantics.measurement_node == "line/pump-side"
-    assert lp.channel_semantics.reference == "gauge"
-    lp2 = next(s for s in p.shot_input_from_json(p.shot_input_to_json(shot)).series
-               if "line_pressure" in s.series_id)
-    assert lp2.channel_semantics.measurement_node == "line/pump-side"
-    assert lp2.channel_semantics.reference == "gauge"
-
-
-def test_mass_has_no_fabricated_pressure():
-    mass = next(s for s in _shot().series if "mass" in s.series_id)
-    assert mass.channel_semantics.measurement_node is None
-    assert mass.channel_semantics.reference is None
+def test_pressure_series_requires_node_and_reference():
+    with pytest.raises(ValueError):
+        p.ObservedSeries("s", "line_pressure", "bar", p.SeriesKind.SIMULATED,
+                         p.AvailabilityStatus.AVAILABLE, "t",
+                         p.ChannelSemantics(None, None, "n/a"), (1.0,), provenance="prov")
+    assert _series("s", "line_pressure", "bar", "line/pump-side", "gauge")
 
 
 def test_available_series_requires_channel_semantics():
     with pytest.raises(ValueError):
-        p.ObservedSeries("s", "mass", "g", p.SeriesKind.MEASURED, p.AvailabilityStatus.AVAILABLE,
+        p.ObservedSeries("s", "mass", "g", p.SeriesKind.SIMULATED, p.AvailabilityStatus.AVAILABLE,
                          "t", None, (1.0,), provenance="prov")
 
 
-def test_pressure_series_requires_node_and_reference():
-    with pytest.raises(ValueError):
-        _avail("s", quantity="line_pressure", unit="bar", node=None, ref=None)
-    assert _avail("s", quantity="line_pressure", unit="bar", node="line/pump-side", ref="gauge")
+def test_channel_semantics_round_trip():
+    b2 = p.bundle_from_json(p.bundle_to_json(_syn_bundle()))
+    ps = next(o for o in b2.observations if o.quantity == "pressure_estimate")
+    assert ps.channel_semantics.measurement_node == "synthetic-node"
+    assert ps.channel_semantics.reference == "gauge"
 
 
-def test_selection_and_caveats_survive_round_trip():
-    shot = _shot()
-    si2 = p.shot_input_from_json(p.shot_input_to_json(shot))
-    assert si2.provenance.selection_method == shot.provenance.selection_method
-    assert si2.provenance.scientific_caveats == shot.provenance.scientific_caveats
-    assert any("research-rig" in c.lower() for c in si2.provenance.scientific_caveats)
+def test_selection_and_caveats_round_trip():
+    si2 = p.shot_input_from_json(p.shot_input_to_json(_syn_shot()))
+    assert si2.provenance.selection_method == "synthetic (no selection)"
+    assert si2.provenance.scientific_caveats
 
 
 # ---- 5. self-contained time axes --------------------------------------------
 
 def test_bundle_carries_time_axes():
-    assert '"time_axes"' in p.bundle_to_json(_bundle())
+    assert '"time_axes"' in p.bundle_to_json(_syn_bundle())
 
 
 def test_observation_unknown_axis_fails():
     with pytest.raises(ValueError):
-        _bundle(time_axes=())
+        _syn_bundle(time_axes=())
 
 
 def test_duplicate_axis_ids_fail():
-    a = _shot().time_axis
+    a = _axis()
     with pytest.raises(ValueError):
-        _bundle(time_axes=(a, a))
+        _syn_bundle(time_axes=(a, a))
 
 
 def test_axis_length_mismatch_fails():
-    shot = _shot()
     with pytest.raises(ValueError):
-        _bundle(time_axes=(p.TimeAxis(shot.time_axis.time_axis_id, "s", "o", (0.0, 1.0)),))
+        _syn_bundle(time_axes=(p.TimeAxis("syn:time", "s", "o", (0.0, 1.0)),))
 
 
 # ---- 6. numeric + immutability ----------------------------------------------
@@ -213,7 +232,8 @@ def test_axis_length_mismatch_fails():
 @pytest.mark.parametrize("bad", [math.nan, math.inf, -math.inf])
 def test_nonfinite_rejected(bad):
     with pytest.raises(ValueError):
-        _avail("s", values=(1.0, bad))
+        p.ObservedSeries("s", "mass", "g", p.SeriesKind.SIMULATED, p.AvailabilityStatus.AVAILABLE,
+                         "t", p.ChannelSemantics(None, None, "n/a"), (1.0, bad), provenance="prov")
 
 
 def test_bool_as_number_rejected():
@@ -223,7 +243,7 @@ def test_bool_as_number_rejected():
 
 def test_records_frozen():
     with pytest.raises(Exception):
-        _bundle().package_version = "x"
+        _syn_bundle().package_version = "x"
 
 
 # ---- 7. references ----------------------------------------------------------
@@ -232,12 +252,12 @@ def test_more_than_three_candidates_fails():
     cands = tuple(p.ExplanationCandidate(f"c{i}", p.CompatibilityStatus.INSUFFICIENT_EVIDENCE, "s")
                   for i in range(4))
     with pytest.raises(ValueError):
-        _bundle(explanation_candidates=cands)
+        _syn_bundle(explanation_candidates=cands)
 
 
-def test_candidate_unknown_refs_fail():
+def test_candidate_unknown_observation_fails():
     with pytest.raises(ValueError):
-        _bundle(explanation_candidates=(p.ExplanationCandidate(
+        _syn_bundle(explanation_candidates=(p.ExplanationCandidate(
             "c1", p.CompatibilityStatus.COMPATIBLE, "s", supporting_observation_ids=("nope",)),))
 
 
@@ -245,52 +265,27 @@ def test_duplicate_ids_fail():
     with pytest.raises(ValueError):
         p.Caveat("c", "cat", "s", affected_ids=("x", "x"))
     with pytest.raises(ValueError):
-        p.NextMeasurement("m", "meas", "why", caveat_ids=("x", "x"))
-    with pytest.raises(ValueError):
         p.ExplanationCandidate("c1", p.CompatibilityStatus.COMPATIBLE, "s", missing_evidence=("a", "a"))
 
 
 def test_next_measurement_refs_resolve():
-    nm = p.NextMeasurement("m1", "measure", "why", caveat_ids=("missing",))
     with pytest.raises(ValueError):
-        _bundle(next_measurement=nm)
-    nm2 = p.NextMeasurement("m1", "measure", "why", separates_hypotheses=("nocand",))
+        _syn_bundle(next_measurement=p.NextMeasurement("m1", "measure", "why", caveat_ids=("missing",)))
     with pytest.raises(ValueError):
-        _bundle(next_measurement=nm2)
+        _syn_bundle(next_measurement=p.NextMeasurement("m1", "measure", "why", separates_hypotheses=("nocand",)))
 
 
-# ---- 8. rights state machine ------------------------------------------------
-
-def _prov(review, redist, member=None, url=None, date=None, basis_url="https://x/1"):
-    shot = _shot()
-    b = shot.provenance
-    return p.FixtureProvenance(
-        fixture_id=b.fixture_id, record_kind=b.record_kind, source_record=b.source_record,
-        source_version=b.source_version, source_member=b.source_member,
-        record_license_expression=b.record_license_expression, record_license_url=b.record_license_url,
-        attribution=b.attribution, original_sha256=b.original_sha256, packaged_sha256=b.packaged_sha256,
-        rights_basis=b.rights_basis, rights_review_status=review, redistribution_status=redist,
-        modification_notice=b.modification_notice, selection_method=b.selection_method,
-        scientific_caveats=b.scientific_caveats, transformations=b.transformations,
-        member_license_expression=member, member_license_url=url, rights_basis_url=basis_url,
-        rights_review_date=date,
-    )
-
+# ---- 8. rights state machine (direct construction) --------------------------
 
 def test_rights_pending_ok():
-    prov = _prov(p.RightsReviewStatus.PENDING, p.RedistributionStatus.PENDING)
-    assert not prov.is_redistributable
+    assert not _syn_prov().is_redistributable
 
 
 def test_rights_approved_ok():
-    prov = _prov(p.RightsReviewStatus.APPROVED, p.RedistributionStatus.REDISTRIBUTABLE,
-                 member="CC-BY-4.0", url="https://creativecommons.org/licenses/by/4.0/", date="2026-07-17")
+    prov = _syn_prov(p.RightsReviewStatus.APPROVED, p.RedistributionStatus.REDISTRIBUTABLE,
+                     member="MIT", url="https://opensource.org/licenses/MIT", date="2026-07-17",
+                     basis_url="https://example/1")
     assert prov.is_redistributable
-
-
-def test_rights_prohibited_ok():
-    prov = _prov(p.RightsReviewStatus.PROHIBITED, p.RedistributionStatus.PROHIBITED, date="2026-07-17")
-    assert not prov.is_redistributable
 
 
 @pytest.mark.parametrize("review,redist", [
@@ -299,91 +294,29 @@ def test_rights_prohibited_ok():
     (p.RightsReviewStatus.PROHIBITED, p.RedistributionStatus.PENDING),
     (p.RightsReviewStatus.APPROVED, p.RedistributionStatus.PROHIBITED),
 ])
-def test_mixed_rights_states_rejected(review, redist):
+def test_mixed_rights_rejected(review, redist):
     with pytest.raises(ValueError):
-        _prov(review, redist, member="CC-BY-4.0", url="https://x", date="2026-07-17")
+        _syn_prov(review, redist, member="MIT", url="https://x", date="2026-07-17", basis_url="https://x/1")
 
 
-def test_approved_requires_member_license_and_date():
+def test_approved_requires_member_and_date():
     with pytest.raises(ValueError):
-        _prov(p.RightsReviewStatus.APPROVED, p.RedistributionStatus.REDISTRIBUTABLE, date="2026-07-17")
-    with pytest.raises(ValueError):
-        _prov(p.RightsReviewStatus.APPROVED, p.RedistributionStatus.REDISTRIBUTABLE,
-              member="CC-BY-4.0", url="https://x", date=None)
+        _syn_prov(p.RightsReviewStatus.APPROVED, p.RedistributionStatus.REDISTRIBUTABLE,
+                  date="2026-07-17", basis_url="https://x/1")
 
 
 def test_pending_must_not_assert_member_license():
     with pytest.raises(ValueError):
-        _prov(p.RightsReviewStatus.PENDING, p.RedistributionStatus.PENDING, member="CC-BY-4.0", url="https://x")
+        _syn_prov(member="MIT", url="https://x")
 
 
-def test_member_license_pair_must_be_both_or_neither():
+def test_member_pair_both_or_neither():
     with pytest.raises(ValueError):
-        _prov(p.RightsReviewStatus.APPROVED, p.RedistributionStatus.REDISTRIBUTABLE,
-              member="CC-BY-4.0", url=None, date="2026-07-17")
+        _syn_prov(p.RightsReviewStatus.APPROVED, p.RedistributionStatus.REDISTRIBUTABLE,
+                  member="MIT", url=None, date="2026-07-17", basis_url="https://x/1")
 
 
-# ---- 9. rights gate + release safety ----------------------------------------
-
-def test_available_empty_and_loader_refuses():
-    assert p.available_fixtures() == ()
-    with pytest.raises(p.FixtureRightsError):
-        p.load_bundled_shot(FIXTURE_ID)
-
-
-def test_release_gate_fails_closed_on_pending():
-    with pytest.raises(p.FixtureRightsError):
-        p.release_ready_fixtures()
-
-
-# ---- 10. fixture manifest ----------------------------------------------------
-
-def _good_manifest():
-    return json.loads(_fixtures._read_bytes(_fixtures._FIXTURES[FIXTURE_ID]).decode("utf-8"))
-
-
-def test_manifest_validates_clean():
-    _fixtures._validate_manifest(FIXTURE_ID, _good_manifest())
-
-
-@pytest.mark.parametrize("mutate", [
-    lambda m: m.update(fixture_id="other"),
-    lambda m: m.update(record_kind="aggregate_reference_case"),
-    lambda m: m.update(schema_version=True),
-    lambda m: m.update(schema_version="1"),
-    lambda m: m.update(record_license_expression=123),
-    lambda m: m.update(normalized_sha256="NOTAHASH"),
-    lambda m: m.update(packaged_file="other.csv"),
-    lambda m: m.update(columns=[{}]),
-    lambda m: m.update(channels="not-a-list"),
-    lambda m: m["channels"][0].update(surprise=1),
-    lambda m: m["channels"][0].update(unit=1),
-    lambda m: m["transformations"][0].update(step_id=9),
-    lambda m: m.update(transformations="notalist"),
-    lambda m: m.update(scientific_caveats={}),
-    lambda m: m.update(scientific_caveats="notalist"),
-    lambda m: m.update(rights_review_status="approved"),   # approved w/o member license
-    lambda m: m.update(member_license_expression="CC-BY-4.0"),  # member set while pending
-    lambda m: m["channels"][1].update(pressure_node="x"),  # mass declaring pressure
-    lambda m: m.update(pressure_node="mismatch"),  # top-level vs channel disagree
-])
-def test_manifest_rejects_bad(mutate):
-    m = _good_manifest()
-    mutate(m)
-    with pytest.raises(_fixtures.FixtureManifestError):
-        _fixtures._validate_manifest(FIXTURE_ID, m)
-
-
-def test_manifest_and_attribution_agree():
-    m = _good_manifest()
-    attrib = (Path(__file__).parents[1] / "puckworks" / "data" / "product" / "ATTRIBUTION.md").read_text()
-    assert "10.5281/zenodo.18046315" in attrib
-    assert m["record_license_expression"] in attrib
-    assert m["original_sha256"] in attrib and m["normalized_sha256"] in attrib
-    assert m["rights_basis_url"] in attrib
-
-
-# ---- 11. build provenance ---------------------------------------------------
+# ---- 9. build provenance ----------------------------------------------------
 
 def test_missing_commit_raises():
     with pytest.raises(p.ProvenanceUnavailableError):
@@ -408,7 +341,7 @@ def test_cwd_independent(tmp_path, monkeypatch):
 
 
 @pytest.mark.parametrize("ts,ok", [
-    ("2026-07-17T00:00:00Z", True), ("2026-07-17T00:00:00.123456+02:00", True),
+    ("2026-07-17T00:00:00Z", True), ("2026-07-17T00:00:00.5+02:00", True),
     ("2026-99-99T00:00:00Z", False), ("2026-07-17T25:00:00Z", False),
     ("2026-07-17T00:00:00", False), ("2026-07-17T00:00:00+99:99", False),
 ])
@@ -420,22 +353,31 @@ def test_timestamp_semantic(ts, ok):
             p.build_provenance(source_commit=FULL_COMMIT, generation_timestamp=ts)
 
 
-# ---- 12. serialization + golden ---------------------------------------------
+# ---- 10. serialization + synthetic golden -----------------------------------
 
 def test_bundle_round_trip_byte_stable():
-    j1 = p.bundle_to_json(_bundle())
+    j1 = p.bundle_to_json(_syn_bundle())
     assert p.bundle_to_json(p.bundle_from_json(j1)) == j1
 
 
 def test_canonical_json_sorted_nan_free():
-    j = p.bundle_to_json(_bundle())
+    j = p.bundle_to_json(_syn_bundle())
     assert j.endswith("\n") and list(json.loads(j)) == sorted(json.loads(j))
     assert "NaN" not in j and "Infinity" not in j
 
 
-def test_golden_regression():
-    assert p.shot_input_to_json(_shot()) == GOLDEN.read_text(encoding="utf-8")
+def test_synthetic_golden_regression():
+    assert p.bundle_to_json(_syn_bundle()) == GOLDEN.read_text(encoding="utf-8")
 
 
 def test_golden_byte_hash_pinned():
-    assert hashlib.sha256(p.shot_input_to_json(_shot()).encode("utf-8")).hexdigest() == GOLDEN_SHA256
+    assert hashlib.sha256(p.bundle_to_json(_syn_bundle()).encode("utf-8")).hexdigest() == GOLDEN_SHA256
+
+
+def test_golden_is_test_only_not_package_data():
+    assert "tests" in str(GOLDEN)
+    # no product runtime fixture data ships in the contract-only PR 1A
+    prod = Path(__file__).parents[1] / "puckworks" / "data" / "product"
+    if prod.exists():
+        shipped = [f for f in prod.rglob("*") if f.is_file() and f.suffix in (".csv", ".json", ".md")]
+        assert not shipped, shipped

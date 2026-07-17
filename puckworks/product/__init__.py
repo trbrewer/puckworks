@@ -7,9 +7,12 @@ are internal implementation and may change without notice. No harness, paper, re
 implementation object is exposed here.
 
 This is **unreleased next-minor** API work: the published v0.2.0 wheel does **not** contain
-``puckworks.product``. PR 1 scope is the versioned records, canonical serialization, build/fixture
-provenance, and one (rights-gated) single-shot fixture — there is deliberately **no** ``analyze_shot``
-/ model orchestration / explanation scoring / HTML output, and no public ``NormalizedShot`` yet.
+``puckworks.product``. PR 1A scope is the **rights-independent** contract only — the versioned
+records, canonical serialization, Git-free build provenance, and strict validation. There is
+deliberately **no** bundled runtime fixture, fixture discovery/loader, ``analyze_shot`` / model
+orchestration / explanation scoring / HTML output, and no public ``NormalizedShot``. The real
+redistributable fixture, its manifest/loader/distribution, arrive in a separate **PR 1B** after its
+license is approved; ``FixtureProvenance`` remains here because it is part of the record semantics.
 """
 from __future__ import annotations
 
@@ -21,13 +24,6 @@ from ._enums import (
     RedistributionStatus,
     RightsReviewStatus,
     SeriesKind,
-)
-from ._fixtures import (
-    FixtureManifestError,
-    FixtureRightsError,
-    available_fixtures,
-    load_bundled_shot,
-    release_ready_fixtures,
 )
 from ._provenance import ProvenanceUnavailableError, build_provenance, dev_build_identifier
 from ._records import (
@@ -98,15 +94,10 @@ __all__ = [
     "bundle_to_json",
     "bundle_from_dict",
     "bundle_from_json",
-    # provenance + fixtures
+    # provenance (fixture discovery/loading is deferred to PR 1B, after an approved fixture)
     "build_provenance",
     "dev_build_identifier",
-    "available_fixtures",
-    "load_bundled_shot",
-    "release_ready_fixtures",
     # exceptions
     "SchemaError",
     "ProvenanceUnavailableError",
-    "FixtureManifestError",
-    "FixtureRightsError",
 ]
