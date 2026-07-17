@@ -1,0 +1,215 @@
+# Puckworks research-radar query configuration (issue #42).
+#
+# Machine-readable input for tools/research_radar.py. Each query is a TRIAGE lens, not a decision
+# rule: a hit is a candidate for human review, never evidence, a card change, or a submission.
+#
+# Fields per query:
+#   id                 stable slug (used in issue bodies + dedupe provenance)
+#   title              human label
+#   enabled            true/false — disabled queries are never sent
+#   source_families    subset of [arxiv, crossref] (only official metadata APIs)
+#   terms              match/search terms (also used to explain WHY a candidate matched)
+#   exclusions         drop candidates whose title/abstract contains any of these
+#   relevance_notes    why this family matters to Puckworks
+#   coupled_cards      model cards / claims this query is meant to inform (provenance only)
+#   last_human_review  date a human last reviewed this query's vocabulary (quarterly cadence)
+#   owner              who curates this query
+#   max_candidates     hard cap on candidates kept per run for this query
+#
+# Vocabulary is reviewed QUARTERLY (see docs/RESEARCH_RADAR.md §15). Editing terms here is a
+# human action; the scanner never edits this file.
+
+version: 1
+defaults:
+  owner: maintainer
+  last_human_review: 2026-07-17
+  max_candidates: 8
+
+queries:
+  - id: espresso-extraction
+    title: Espresso extraction modelling
+    enabled: true
+    source_families: [arxiv, crossref]
+    terms: ["espresso", "extraction", "coffee bed", "brew"]
+    exclusions: ["marketing", "barista training"]
+    relevance_notes: Core process; informs the extraction-stage components.
+    coupled_cards: ["cameron2020", "pannusch2024", "mo2023_2"]
+    last_human_review: 2026-07-17
+    owner: maintainer
+    max_candidates: 8
+
+  - id: coffee-extraction-kinetics
+    title: Coffee extraction kinetics and dissolution
+    enabled: true
+    source_families: [arxiv, crossref]
+    terms: ["coffee", "extraction kinetics", "dissolution", "solute transport"]
+    exclusions: ["sensory panel", "consumer preference"]
+    relevance_notes: Kinetic closures and solute inventory; K(T) / c_sat debates.
+    coupled_cards: ["romancorrochano2017", "pannusch2024", "schmieder"]
+    last_human_review: 2026-07-17
+    max_candidates: 8
+
+  - id: coffee-porous-bed
+    title: Coffee packed bed and permeability
+    enabled: true
+    source_families: [arxiv, crossref]
+    terms: ["coffee", "packed bed", "permeability", "porosity"]
+    exclusions: []
+    relevance_notes: Bed permeability + packing; Wadsworth/Forchheimer lineage.
+    coupled_cards: ["wadsworth2026", "brewer2026.pack_generator"]
+    last_human_review: 2026-07-17
+    max_candidates: 8
+
+  - id: deformable-porous-media
+    title: Deformable / poroelastic porous media
+    enabled: true
+    source_families: [arxiv, crossref]
+    terms: ["deformable porous media", "poroelastic", "consolidation", "compaction"]
+    exclusions: ["geotechnical foundation"]
+    relevance_notes: Poroelastic flow closure behind coupled_kappa_t.
+    coupled_cards: ["brewer2026.coupled_kappa_t"]
+    last_human_review: 2026-07-17
+    max_candidates: 6
+
+  - id: granular-packed-bed-flow
+    title: Granular compaction and packed-bed flow
+    enabled: true
+    source_families: [arxiv, crossref]
+    terms: ["granular", "packed bed flow", "rearrangement", "compaction"]
+    exclusions: []
+    relevance_notes: Grain rearrangement affecting bed dynamics.
+    coupled_cards: ["brewer2026.streamtube"]
+    last_human_review: 2026-07-17
+    max_candidates: 6
+
+  - id: wetting-infiltration
+    title: Wetting and infiltration in porous media
+    enabled: true
+    source_families: [arxiv, crossref]
+    terms: ["wetting", "infiltration", "imbibition", "unsaturated flow"]
+    exclusions: []
+    relevance_notes: Infiltration front + unsaturated flow (G1 constitutive gap).
+    coupled_cards: ["foster2025.infiltration"]
+    last_human_review: 2026-07-17
+    max_candidates: 6
+
+  - id: swelling-fines-migration
+    title: Swelling, fines migration, clogging, erosion
+    enabled: true
+    source_families: [arxiv, crossref]
+    terms: ["fines migration", "clogging", "swelling", "erosion", "colloid transport"]
+    exclusions: []
+    relevance_notes: Mid-shot clogging (open G9 piece) and swelling.
+    coupled_cards: ["fasano2000", "mo2023_2.coupled_bed"]
+    last_human_review: 2026-07-17
+    max_candidates: 6
+
+  - id: permeability-lattice-boltzmann
+    title: Permeability and lattice-Boltzmann pore-scale simulation
+    enabled: true
+    source_families: [arxiv, crossref]
+    terms: ["lattice Boltzmann", "pore scale", "permeability", "digital rock"]
+    exclusions: ["plasma", "astrophysics"]
+    relevance_notes: LB reference/taichi calibration lineage.
+    coupled_cards: ["brewer2026.lb_reference", "brewer2026.lb_taichi"]
+    last_human_review: 2026-07-17
+    max_candidates: 6
+
+  - id: reactive-transport
+    title: Reactive transport and dissolution
+    enabled: true
+    source_families: [arxiv, crossref]
+    terms: ["reactive transport", "dissolution", "advection diffusion reaction"]
+    exclusions: ["groundwater remediation"]
+    relevance_notes: Coupled transport+reaction closures.
+    coupled_cards: ["pannusch2024"]
+    last_human_review: 2026-07-17
+    max_candidates: 6
+
+  - id: inverse-problems
+    title: Inverse problems in porous / transport systems
+    enabled: true
+    source_families: [arxiv, crossref]
+    terms: ["inverse problem", "parameter estimation", "regularization"]
+    exclusions: []
+    relevance_notes: Inversion for transport/kinetic parameters.
+    coupled_cards: ["ANALYSIS_transfer"]
+    last_human_review: 2026-07-17
+    max_candidates: 6
+
+  - id: identifiability
+    title: Parameter identifiability
+    enabled: true
+    source_families: [arxiv, crossref]
+    terms: ["identifiability", "practical identifiability", "profile likelihood"]
+    exclusions: []
+    relevance_notes: Direct to the inventory<->kinetics non-identifiability (G6).
+    coupled_cards: ["ANALYSIS_transfer", "G6"]
+    last_human_review: 2026-07-17
+    max_candidates: 6
+
+  - id: system-identification-doe
+    title: System identification and experiment design
+    enabled: true
+    source_families: [arxiv, crossref]
+    terms: ["system identification", "optimal experiment design", "D-optimal"]
+    exclusions: []
+    relevance_notes: Design better measurements to break identifiability limits.
+    coupled_cards: ["P3_hypotheses"]
+    last_human_review: 2026-07-17
+    max_candidates: 6
+
+  - id: sensing-experiment-design
+    title: Pressure/flow/temperature sensing for brewing
+    enabled: true
+    source_families: [arxiv, crossref]
+    terms: ["flow sensor", "pressure sensor", "in-line measurement", "process sensing"]
+    exclusions: []
+    relevance_notes: Instrumentation for actionable uncertainty.
+    coupled_cards: ["visualizer_coffee"]
+    last_human_review: 2026-07-17
+    max_candidates: 6
+
+  - id: food-process-digital-twins
+    title: Food/beverage process digital twins and control
+    enabled: true
+    source_families: [arxiv, crossref]
+    terms: ["digital twin", "process control", "food process engineering"]
+    exclusions: ["supply chain"]
+    relevance_notes: Process-control framing and food-engineering venues.
+    coupled_cards: []
+    last_human_review: 2026-07-17
+    max_candidates: 6
+
+  - id: coffee-chemistry-measurement
+    title: Coffee chemistry and measurement (TDS/EY)
+    enabled: true
+    source_families: [arxiv, crossref]
+    terms: ["coffee", "total dissolved solids", "extraction yield", "refractometry"]
+    exclusions: []
+    relevance_notes: Measurement methods for extraction outcomes.
+    coupled_cards: ["schmieder"]
+    last_human_review: 2026-07-17
+    max_candidates: 6
+
+  - id: scientific-software-reproducibility
+    title: Scientific software methods and reproducibility
+    enabled: true
+    source_families: [arxiv, crossref]
+    terms: ["research software", "reproducibility", "software paper", "provenance"]
+    exclusions: []
+    relevance_notes: Methods/resource-paper venues (Paper 3) + reproducibility practice.
+    coupled_cards: ["Paper3"]
+    last_human_review: 2026-07-17
+    max_candidates: 6
+
+  - id: public-communication-uncertainty
+    title: Public communication of uncertain science
+    enabled: false
+    source_families: [crossref]
+    terms: ["science communication", "uncertainty communication", "public understanding"]
+    exclusions: []
+    relevance_notes: Public-value track; disabled by default (noisy) — enable per campaign.
+    coupled_cards: ["PUBLIC_VALUE"]
+    last_human_review: 2026-07-17
+    max_candidates: 5

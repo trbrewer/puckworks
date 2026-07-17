@@ -1,0 +1,115 @@
+name: research-radar
+# Weekly metadata discovery (issue #42). Runs the scanner against OFFICIAL metadata APIs (arXiv,
+# Crossref), then appends only NEW candidates to the current monthly rolling radar issue and
+# attaches the full machine-readable output as an artifact. It never commits candidates, never
+# edits a scientific file, never closes an issue, and never contacts or submits anything.
+on:
+  schedule:
+    - cron: "0 7 * * 1"      # 07:00 UTC every Monday
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: research-radar
+  cancel-in-progress: false
+
+jobs:
+  radar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --quiet pyyaml
+
+      - name: scan official metadata sources (arXiv + Crossref)
+        run: |
+          python tools/research_radar.py scan \
+            --config docs/research/radar_queries.yml \
+            --date "$(date -u +%F)" \
+            --out out/radar
+          echo "----- radar.md -----"
+          cat out/radar/radar.md
+
+      - name: attach machine-readable output as an artifact (never committed)
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: research-radar-candidates
+          path: out/radar/
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: append NEW candidates to the current monthly radar issue
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const fs = require('fs');
+            const data = JSON.parse(fs.readFileSync('out/radar/candidates.json', 'utf8'));
+            const title = data.issue_title;                       // "Research radar — YYYY-MM"
+            const labels = ['standing', 'research-radar'];
+
+            // Locate the current monthly issue (dedup by title among research-radar issues).
+            const open = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner, repo: context.repo.repo,
+              state: 'open', labels: 'research-radar', per_page: 100,
+            });
+            let issue = open.find(i => i.title === title && !i.pull_request);
+
+            const disclaimer = [
+              `### ${title}`, '',
+              '> **Discovery is not validation.** Every item is a triage candidate for a human.',
+              '> A hit changes no card, claim, manuscript, roadmap entry, or submission plan, and',
+              '> creates no external contact. Official pages remain authoritative for deadlines.',
+              '', 'Triage states: `new` `inspect` `relevant` `already-covered` `out-of-scope`',
+              '`method-only` `data-opportunity` `collaboration-opportunity` `venue-opportunity`',
+              '`rejected-with-reason`.', '',
+            ].join('\n');
+
+            if (!issue) {
+              const created = await github.rest.issues.create({
+                owner: context.repo.owner, repo: context.repo.repo,
+                title, labels, body: disclaimer,
+              });
+              issue = created.data;
+              core.info(`Created monthly radar issue #${issue.number}`);
+            }
+
+            // Which candidate identities are already present (body + comments)?
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner, repo: context.repo.repo,
+              issue_number: issue.number, per_page: 100,
+            });
+            const blob = (issue.body || '') + '\n' + comments.map(c => c.body || '').join('\n');
+            const fresh = data.candidates.filter(c => !blob.includes(`<!-- radar-cand:${c.identity} -->`));
+
+            if (!fresh.length) {
+              core.info(`No new candidates for ${title}; nothing appended.`);
+              return;
+            }
+
+            const rows = fresh.map(c => {
+              const idlink = c.doi ? `[doi:${c.doi}](https://doi.org/${c.doi})`
+                : (c.arxiv_id ? `[arXiv:${c.arxiv_id}](${c.url || ''})` : '—');
+              const reasons = (c.match_reasons || []).join(', ') || '—';
+              const t = (c.title || '').replace(/\|/g, '\\|');
+              return `<!-- radar-cand:${c.identity} -->\n- **${t}** — ${c.source} · ${c.date || '—'} · ${idlink}  \n  found by \`${c.query_id}\`; matched: ${reasons} · triage: \`new\``;
+            });
+
+            const body = [
+              `#### Scan ${data.scan_date} — ${fresh.length} new candidate(s)`, '',
+              ...rows, '',
+              '_Assign a triage state per candidate. Discovery is not validation._',
+            ].join('\n');
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo,
+              issue_number: issue.number, body,
+            });
+            core.info(`Appended ${fresh.length} new candidate(s) to #${issue.number}.`);

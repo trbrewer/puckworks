@@ -1,0 +1,104 @@
+name: venue-deadline-review
+# Monthly REMINDER to verify venues/deadlines against official pages (issue #42). It posts a
+# checklist comment to the standing research-radar issue once per month. It does NOT scrape,
+# rewrite a deadline, edit any file, open a PR, close an issue, or contact anyone. Official
+# organizer/journal pages are the only authority for calls and deadlines.
+on:
+  schedule:
+    - cron: "0 8 1 * *"      # 08:00 UTC on the 1st of each month
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+
+      - name: read the ledger freshness date (no network, no rewrite)
+        id: ledger
+        run: |
+          # The ledger records "**Verified:** <date>". Surface it — never modify it.
+          verified="$(grep -oE '\*\*Verified:\*\*[^<]*' docs/SUBMISSION_TARGETS.md | head -n1 | sed 's/\*\*Verified:\*\*//; s/^ *//; s/ *$//')"
+          echo "verified=${verified:-unknown}" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        env:
+          LEDGER_VERIFIED: ${{ steps.ledger.outputs.verified }}
+        with:
+          script: |
+            const now = new Date();
+            const period = `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, '0')}`;
+            const marker = `<!-- venue-deadline-review:${period} -->`;
+
+            // The standing radar issue (program tracker), not a monthly rolling issue.
+            const open = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner, repo: context.repo.repo,
+              state: 'open', labels: 'standing,research-radar', per_page: 100,
+            });
+            const issue = open
+              .filter(i => !i.pull_request && /literature|radar/i.test(i.title))
+              .sort((a, b) => a.number - b.number)[0];
+            if (!issue) {
+              core.warning('No open standing research-radar issue found; not creating one.');
+              return;
+            }
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner, repo: context.repo.repo,
+              issue_number: issue.number, per_page: 100,
+            });
+            if (comments.some(c => c.body && c.body.includes(marker))) {
+              core.info(`Venue reminder already posted for ${period}; skipping.`);
+              return;
+            }
+
+            const checklist = [
+              'official call page still exists',
+              'submission is genuinely open',
+              'deadline + timezone confirmed',
+              'event date + location',
+              'presentation format + abstract length',
+              'registration / membership requirement',
+              'prior-publication restrictions (e.g. previously-presented abstracts)',
+              'proceedings / publication consequences',
+              'cost + logistics',
+              'fit with current evidence strength',
+              'internal preparation deadline set',
+            ];
+            const coverage = [
+              'Paper A', 'Paper B / B2', 'Puckworks methods/resource paper (Paper 3)',
+              'scientific-software venues', 'visualization / public-science venues',
+              'coffee-industry venues', 'food engineering', 'fluid dynamics', 'porous media',
+              'analytical instrumentation', 'open-science / software conferences',
+            ];
+            const body = [
+              marker,
+              `### 🗓 Monthly venue/deadline verification — ${period}`,
+              '',
+              `Ledger \`docs/SUBMISSION_TARGETS.md\` last **Verified:** ${process.env.LEDGER_VERIFIED}.`,
+              'Verify each item **against the official organizer/journal page** — this reminder',
+              'does not scrape or rewrite any deadline, and posting it is not proof a review happened.',
+              '',
+              '**Per venue, confirm:**',
+              ...checklist.map(c => `- [ ] ${c}`),
+              '',
+              '**Coverage to keep current:**',
+              ...coverage.map(c => `- [ ] ${c}`),
+              '',
+              'Flag a venue for action when: the ledger verification date is stale, a deadline is',
+              'within 90 days, a *forthcoming* call is now due for a check, or a methods/resource',
+              'venue remains unscouted. Mark passed deadlines **PASSED** — never delete them.',
+            ].join('\n');
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo,
+              issue_number: issue.number, body,
+            });
+            core.info(`Posted venue/deadline reminder to #${issue.number} for ${period}.`);

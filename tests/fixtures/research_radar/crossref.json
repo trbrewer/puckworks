@@ -1,0 +1,26 @@
+{
+  "status": "ok",
+  "message-type": "work-list",
+  "message": {
+    "items": [
+      {
+        "DOI": "10.1000/shared.dup.1",
+        "title": ["Permeability of coffee packed beds via lattice Boltzmann simulation"],
+        "author": [{"given": "A.", "family": "Researcher"}, {"given": "E.", "family": "Coauthor"}],
+        "issued": {"date-parts": [[2026, 6, 20]]},
+        "container-title": ["Journal of Coffee Physics"],
+        "URL": "https://doi.org/10.1000/shared.dup.1",
+        "abstract": "<jats:p>Pore scale permeability of coffee packed beds.</jats:p>"
+      },
+      {
+        "DOI": "10.1000/unique.2",
+        "title": ["Fines migration and clogging in packed beds"],
+        "author": [{"given": "D.", "family": "Scientist"}],
+        "issued": {"date-parts": [[2026, 3, 10]]},
+        "container-title": ["Transport in Porous Media"],
+        "URL": "https://doi.org/10.1000/unique.2",
+        "abstract": "Fines migration causes mid-bed clogging and permeability loss."
+      }
+    ]
+  }
+}
