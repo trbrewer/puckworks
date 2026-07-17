@@ -31,6 +31,9 @@ MAX_EXPLANATION_CANDIDATES = 3
 
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 _COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
+_RFC3339_RE = re.compile(
+    r"^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.\d+)?(?P<offset>Z|[+-]\d{2}:\d{2})$"
+)
 
 
 def _require_nonempty(value, field_name: str) -> None:
@@ -54,15 +57,27 @@ def _require_commit(value, field_name: str) -> None:
 
 
 def _require_timestamp(value, field_name: str) -> None:
-    """Semantic RFC 3339 with an explicit UTC offset (not a naive time)."""
+    """Semantic RFC 3339 with an explicit UTC offset (not a naive time).
+
+    Version-robust: parse the components with a regex and validate calendar/time ranges by
+    constructing ``datetime`` (consistent across Python 3.10-3.13, unlike ``fromisoformat`` whose
+    fractional-second/offset tolerance changed in 3.11).
+    """
     if not isinstance(value, str):
         raise ValueError(f"{field_name} must be an RFC 3339 string; got {value!r}")
+    m = _RFC3339_RE.match(value)
+    if not m:
+        raise ValueError(f"{field_name} is not a valid RFC 3339 timestamp: {value!r}")
+    year, month, day, hour, minute, second = (int(m.group(i)) for i in range(1, 7))
     try:
-        dt = datetime.fromisoformat(value.replace("Z", "+00:00") if value.endswith("Z") else value)
+        datetime(year, month, day, hour, minute, second)
     except ValueError as exc:
-        raise ValueError(f"{field_name} is not a valid RFC 3339 timestamp: {value!r}") from exc
-    if dt.utcoffset() is None:
-        raise ValueError(f"{field_name} must include an explicit UTC offset (no naive time): {value!r}")
+        raise ValueError(f"{field_name} has an invalid calendar date/time: {value!r}") from exc
+    offset = m.group("offset")
+    if offset != "Z":
+        oh, om = int(offset[1:3]), int(offset[4:6])
+        if oh > 23 or om > 59:
+            raise ValueError(f"{field_name} has an invalid UTC offset: {value!r}")
 
 
 def _require_iso_date(value, field_name: str) -> None:
