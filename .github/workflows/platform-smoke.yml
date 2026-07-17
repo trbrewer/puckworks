@@ -111,5 +111,5 @@ jobs:
         run: |
           python -m pip uninstall -y puckworks
           cd "$RUNNER_TEMP"
-          python -c "import importlib,sys; sys.exit(0 if importlib.util.find_spec('puckworks') is None else 1)" \
+          python -c "import importlib.util, sys; sys.exit(0 if importlib.util.find_spec('puckworks') is None else 1)" \
             && echo "clean uninstall verified"
