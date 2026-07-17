@@ -1,5 +1,13 @@
 # puckworks — docs/ROADMAP.md (rev. 2, incorporating review)
 
+> **Current execution (2026-07-17).** v0.2.0 release closure is **complete** (see
+> `docs/reproducibility/RELEASE_VERIFICATION_v0.2.0.md`). The primary active lane is the
+> **evidence-aware explanation-bundle vertical slice**
+> (`docs/planning/EXPLANATION_BUNDLE_VERTICAL_SLICE.md`). The blocked Paper A sign-off and sanctioned
+> corpus-export lanes remain blocked. Release-workflow automation is a secondary engineering
+> follow-up; PyPI remains a separate, unapproved operation. Authoritative status is governed by
+> `docs/planning/STATE_OF_TRUTH.md` (generated from `docs/status/current.json`).
+
 Synthesized from REGISTRY_STATE.md (v0.1.0, July 2026) and the 26 model cards on
 file. Every claim traces to a named card or to REGISTRY_STATE; statements
 sourced *only* from REGISTRY_STATE (registered-component status, held datasets,

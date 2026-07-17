@@ -79,6 +79,21 @@
       "verified_date": "2026-07-17"
     },
     {
+      "id": "evidence-aware-explanation-bundle",
+      "title": "Deliver a versioned ShotExplanationBundle for one redistributable bundled shot",
+      "area": "product",
+      "state": "active",
+      "priority": "P0",
+      "owner_type": "maintainer",
+      "external_blocker": null,
+      "resume_trigger": null,
+      "next_gate": "Approve the v1 ShotExplanationBundle contract and one redistributable golden-shot fixture, then demonstrate deterministic bundle generation from an installed wheel.",
+      "acceptance_evidence": "One bundled shot produces deterministic versioned JSON and a human-readable result from an installed wheel; every series is classified as measured, derived, fitted, predicted, or simulated; no more than three explanations state supporting, contradicting, and missing evidence, caveats, and one discriminating next measurement; units, provenance, component/claim IDs, schema/package/source versions, serialization round-trip, golden regression, and clean-room smoke are verified; no unsupported diagnosis, flavor prediction, or recipe optimization is emitted.",
+      "issue_or_pr": "#32",
+      "verified_commit": null,
+      "verified_date": null
+    },
+    {
       "id": "contract-boundary-hardening",
       "title": "Explicit units (bar-gauge vs pascal), versioned trace schema + validators, typed public results",
       "area": "contracts",
