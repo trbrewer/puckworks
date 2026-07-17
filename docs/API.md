@@ -53,14 +53,30 @@ product.bundle_to_json(bundle)                      # -> str; product.bundle_fro
 - **Self-contained bundle**: `ShotExplanationBundle` carries its own `time_axes`
   (`tuple[TimeAxis, ...]`); every available observation's `time_axis_id` resolves to a bundled axis,
   so the JSON is interpretable without loading the original fixture.
+- **Channel/pressure semantics are serialized**: every available `ObservedSeries` carries a
+  `ChannelSemantics` (measurement node, reference, missing-value semantics). A pressure series cannot
+  be available without an explicit **measurement node** and reference (e.g. line/pump-side, gauge); a
+  non-pressure series is not assigned a fabricated pressure node. `selection_method` and
+  `scientific_caveats` travel on `FixtureProvenance`, so the individual-shot selection rule and the
+  research-rig caveat survive `ShotInput` serialization.
 - **Record- vs member-level license** are separate `FixtureProvenance` fields
-  (`record_license_expression`/`_url` vs `member_license_expression`/`_url`); a fixture is
-  redistributable only when reviewed **approved** with a non-null **member** license.
+  (`record_license_expression`/`_url` vs `member_license_expression`/`_url`). Rights are a coherent
+  **three-state machine** — PENDING / APPROVED / PROHIBITED — with no mixed pairs; a fixture is
+  redistributable only when reviewed **approved** with a non-null member license and a review date.
+  A **pending** fixture is not publicly listed or loaded, but its candidate bytes may still exist in a
+  development branch/build and therefore **must not be released**.
 - **Strict recursive decoding**: readers validate every nested record's exact key set, reject
-  unknown/missing fields, wrong container types, and malformed enums with a path-aware `SchemaError`;
-  `generation_timestamp` must be RFC 3339.
+  unknown/missing fields, wrong container types, and malformed enums with a path-aware `SchemaError`.
+- **Schema versions reject bool and non-integer values**; `generation_timestamp` is a semantically
+  validated RFC 3339 timestamp with an explicit offset; `rights_review_date` is an ISO calendar date.
 - Records are frozen with immutable typed containers (every public sequence is parameterized, e.g.
   `normalized_units` is a `tuple[UnitBinding, ...]`, never a dict).
+
+> **Pre-merge gate (next-minor version):** `puckworks.product` is additive next-minor work; the
+> immutable v0.2.0 release does not contain it. Before PR #34 is marked ready, the project must open a
+> development version line (recommended `0.3.0.dev0`) so source builds no longer identify themselves
+> as the released v0.2.0 — or record a written maintainer decision keeping source-build identity
+> distinguishable. This is tracked as a blocking checklist item on PR #34.
 - **Provenance**: a serialized bundle always carries a **full 40-hex `source_commit`**; there is no
   runtime Git lookup. `build_provenance(source_commit=...)` requires an explicit or packaged commit
   and raises `ProvenanceUnavailableError` otherwise.

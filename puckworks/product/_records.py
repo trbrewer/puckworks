@@ -2,15 +2,17 @@
 
 Design rules: no NumPy in the public contract; no repository-relative paths; no NaN/infinity; no
 mutable containers inside a frozen public record; every public sequence is parameterized and every
-element validated; explicit units; full lowercase digests; unavailable results carry no fabricated
-numerical series; stable identifiers resolve; a serialized bundle is self-contained (it carries its
-own time axes); each serialized top-level record carries its own schema version.
+element validated; explicit units and pressure semantics; full lowercase digests; unavailable
+results carry no fabricated numerical series; stable identifiers resolve; a serialized bundle is
+self-contained (it carries its own time axes); each serialized top-level record carries its own
+schema version; the fixture-rights state is a coherent three-state machine.
 """
 from __future__ import annotations
 
 import math
 import re
 from dataclasses import dataclass
+from datetime import date, datetime
 from typing import Optional
 
 from ._enums import (
@@ -29,9 +31,6 @@ MAX_EXPLANATION_CANDIDATES = 3
 
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 _COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
-_RFC3339_RE = re.compile(
-    r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})$"
-)
 
 
 def _require_nonempty(value, field_name: str) -> None:
@@ -55,8 +54,31 @@ def _require_commit(value, field_name: str) -> None:
 
 
 def _require_timestamp(value, field_name: str) -> None:
-    if not isinstance(value, str) or not _RFC3339_RE.match(value):
-        raise ValueError(f"{field_name} must be an RFC 3339 timestamp with timezone; got {value!r}")
+    """Semantic RFC 3339 with an explicit UTC offset (not a naive time)."""
+    if not isinstance(value, str):
+        raise ValueError(f"{field_name} must be an RFC 3339 string; got {value!r}")
+    try:
+        dt = datetime.fromisoformat(value.replace("Z", "+00:00") if value.endswith("Z") else value)
+    except ValueError as exc:
+        raise ValueError(f"{field_name} is not a valid RFC 3339 timestamp: {value!r}") from exc
+    if dt.utcoffset() is None:
+        raise ValueError(f"{field_name} must include an explicit UTC offset (no naive time): {value!r}")
+
+
+def _require_iso_date(value, field_name: str) -> None:
+    if not isinstance(value, str):
+        raise ValueError(f"{field_name} must be an ISO YYYY-MM-DD date; got {value!r}")
+    try:
+        date.fromisoformat(value)
+    except ValueError as exc:
+        raise ValueError(f"{field_name} is not a valid ISO date: {value!r}") from exc
+
+
+def _require_schema_version(value, expected: int, field_name: str) -> None:
+    if isinstance(value, bool) or not isinstance(value, int):
+        raise ValueError(f"{field_name} must be an integer (not bool); got {value!r}")
+    if value != expected:
+        raise ValueError(f"unsupported {field_name} {value!r}; this build supports {expected}")
 
 
 def _check_number(v, field_name: str) -> None:
@@ -83,10 +105,12 @@ def _require_tuple(value, field_name: str) -> None:
         raise ValueError(f"{field_name} must be a tuple (immutable), got {type(value).__name__}")
 
 
-def _require_str_tuple(value, field_name: str) -> None:
+def _require_str_tuple(value, field_name: str, *, unique: bool = False) -> None:
     _require_tuple(value, field_name)
     for i in value:
         _require_nonempty(i, f"{field_name}[]")
+    if unique:
+        _no_duplicates(value, field_name)
 
 
 def _no_duplicates(ids, field_name: str) -> None:
@@ -98,9 +122,21 @@ def _no_duplicates(ids, field_name: str) -> None:
 
 
 @dataclass(frozen=True)
-class UnitBinding:
-    """An immutable (quantity, unit) pair — replaces a mutable units dict."""
+class ChannelSemantics:
+    """Measurement semantics needed to interpret a series without reopening the fixture manifest."""
 
+    measurement_node: Optional[str]
+    reference: Optional[str]
+    missing_value_semantics: str
+
+    def __post_init__(self) -> None:
+        _require_nonempty_or_none(self.measurement_node, "measurement_node")
+        _require_nonempty_or_none(self.reference, "reference")
+        _require_nonempty(self.missing_value_semantics, "missing_value_semantics")
+
+
+@dataclass(frozen=True)
+class UnitBinding:
     quantity: str
     unit: str
 
@@ -111,8 +147,6 @@ class UnitBinding:
 
 @dataclass(frozen=True)
 class TransformationStep:
-    """One documented deterministic transformation applied to source data."""
-
     step_id: str
     description: str
 
@@ -143,10 +177,7 @@ class EvidenceReference:
 
 @dataclass(frozen=True)
 class BuildProvenance:
-    """How the bundle-generating build identifies itself. Never sourced from a runtime Git call.
-
-    ``source_commit`` is mandatory and full-length: an ``unset`` public bundle is not permitted.
-    """
+    """How the bundle-generating build identifies itself. Never sourced from a runtime Git call."""
 
     package_version: str
     provenance_source: ProvenanceSource
@@ -168,10 +199,11 @@ class BuildProvenance:
 class FixtureProvenance:
     """Where a bundled fixture came from, its record- and member-level license, and rights state.
 
-    ``record_license_expression`` is what the source *record* displays (e.g. the Zenodo record
-    license). ``member_license_expression`` is the license confirmed for the *selected member* — it is
-    ``None`` until an authoritative rights review establishes it. These are different facts and are
-    kept separate.
+    Rights states are a coherent three-state machine (PENDING / APPROVED / PROHIBITED). Record- and
+    member-level licenses are different facts: ``record_license_*`` is what the source record
+    displays; ``member_license_*`` is the license confirmed for the selected member and is ``None``
+    until an authoritative review establishes it. ``selection_method`` and ``scientific_caveats``
+    travel with the fixture so a consumer sees them without reopening the package manifest.
     """
 
     fixture_id: str
@@ -188,6 +220,8 @@ class FixtureProvenance:
     rights_review_status: RightsReviewStatus
     redistribution_status: RedistributionStatus
     modification_notice: str
+    selection_method: str
+    scientific_caveats: tuple[str, ...]
     transformations: tuple[TransformationStep, ...] = ()
     member_license_expression: Optional[str] = None
     member_license_url: Optional[str] = None
@@ -198,16 +232,15 @@ class FixtureProvenance:
         _require_nonempty(self.fixture_id, "fixture_id")
         if not isinstance(self.record_kind, RecordKind):
             raise ValueError("record_kind must be a RecordKind")
-        _require_nonempty(self.source_record, "source_record")
-        _require_nonempty(self.source_version, "source_version")
-        _require_nonempty(self.source_member, "source_member")
-        _require_nonempty(self.record_license_expression, "record_license_expression")
-        _require_nonempty(self.record_license_url, "record_license_url")
-        _require_nonempty(self.attribution, "attribution")
-        _require_nonempty(self.modification_notice, "modification_notice")
-        _require_nonempty(self.rights_basis, "rights_basis")
+        for name in ("source_record", "source_version", "source_member", "record_license_expression",
+                     "record_license_url", "attribution", "modification_notice", "rights_basis",
+                     "selection_method"):
+            _require_nonempty(getattr(self, name), name)
         _require_sha256(self.original_sha256, "original_sha256")
         _require_sha256(self.packaged_sha256, "packaged_sha256")
+        _require_str_tuple(self.scientific_caveats, "scientific_caveats")
+        if not self.scientific_caveats:
+            raise ValueError("scientific_caveats must be a non-empty tuple")
         if not isinstance(self.rights_review_status, RightsReviewStatus):
             raise ValueError("rights_review_status must be a RightsReviewStatus")
         if not isinstance(self.redistribution_status, RedistributionStatus):
@@ -219,17 +252,10 @@ class FixtureProvenance:
         _require_nonempty_or_none(self.member_license_expression, "member_license_expression")
         _require_nonempty_or_none(self.member_license_url, "member_license_url")
         _require_nonempty_or_none(self.rights_basis_url, "rights_basis_url")
-        if self.rights_review_date is not None:
-            _require_nonempty(self.rights_review_date, "rights_review_date")
-        # consistency: an approved/redistributable fixture must have a member license.
-        approved = (
-            self.rights_review_status is RightsReviewStatus.APPROVED
-            or self.redistribution_status is RedistributionStatus.REDISTRIBUTABLE
+        _validate_rights_state(
+            self.rights_review_status, self.redistribution_status, self.member_license_expression,
+            self.member_license_url, self.rights_review_date, self.rights_basis_url,
         )
-        if approved and (self.member_license_expression is None or self.member_license_url is None):
-            raise ValueError(
-                "an approved/redistributable fixture requires member_license_expression + _url"
-            )
 
     @property
     def is_redistributable(self) -> bool:
@@ -241,10 +267,38 @@ class FixtureProvenance:
         )
 
 
+def _validate_rights_state(review, redist, member_expr, member_url, review_date, basis_url) -> None:
+    """Enforce the three allowed rights combinations; reject every mixed pair."""
+    # member license expression and URL are both null or both non-null.
+    if (member_expr is None) != (member_url is None):
+        raise ValueError("member_license_expression and member_license_url must both be set or both null")
+    if review is RightsReviewStatus.PENDING and redist is RedistributionStatus.PENDING:
+        if member_expr is not None:
+            raise ValueError("a pending fixture must not assert a member license")
+        if review_date is not None:
+            raise ValueError("a pending fixture must have a null rights_review_date")
+        return
+    if review is RightsReviewStatus.APPROVED and redist is RedistributionStatus.REDISTRIBUTABLE:
+        if member_expr is None:
+            raise ValueError("an approved fixture requires a member license")
+        if review_date is None:
+            raise ValueError("an approved fixture requires a rights_review_date")
+        _require_iso_date(review_date, "rights_review_date")
+        _require_nonempty(basis_url, "rights_basis_url (required when approved)")
+        return
+    if review is RightsReviewStatus.PROHIBITED and redist is RedistributionStatus.PROHIBITED:
+        if review_date is None:
+            raise ValueError("a prohibited fixture requires a rights_review_date")
+        _require_iso_date(review_date, "rights_review_date")
+        _require_nonempty(basis_url, "rights_basis_url (required when prohibited)")
+        return
+    raise ValueError(
+        f"incoherent rights state: review={review.value} + redistribution={redist.value}"
+    )
+
+
 @dataclass(frozen=True)
 class TimeAxis:
-    """A shared, strictly increasing time base for observed series."""
-
     time_axis_id: str
     unit: str
     origin: str
@@ -264,7 +318,7 @@ class TimeAxis:
 
 @dataclass(frozen=True)
 class ObservedSeries:
-    """One numerical channel with an explicit origin and availability."""
+    """One numerical channel with an explicit origin, availability, and measurement semantics."""
 
     series_id: str
     quantity: str
@@ -272,6 +326,7 @@ class ObservedSeries:
     series_kind: SeriesKind
     availability: AvailabilityStatus
     time_axis_id: str
+    channel_semantics: Optional[ChannelSemantics] = None
     values: tuple[float, ...] = ()
     provenance: Optional[str] = None
     uncertainty: Optional[tuple[float, ...]] = None
@@ -283,11 +338,21 @@ class ObservedSeries:
             raise ValueError("series_kind must be a SeriesKind")
         if not isinstance(self.availability, AvailabilityStatus):
             raise ValueError("availability must be an AvailabilityStatus")
+        if self.channel_semantics is not None and not isinstance(self.channel_semantics, ChannelSemantics):
+            raise ValueError("channel_semantics must be a ChannelSemantics or None")
         _require_tuple(self.values, f"values[{self.series_id}]")
+        is_pressure = "pressure" in self.quantity.lower()
         if self.availability is AvailabilityStatus.AVAILABLE:
             _require_nonempty(self.unit, "unit")
             _require_nonempty(self.time_axis_id, "time_axis_id")
             _require_nonempty(self.provenance, f"provenance[{self.series_id}]")
+            if self.channel_semantics is None:
+                raise ValueError(f"available series {self.series_id!r} requires channel_semantics")
+            if is_pressure and (not self.channel_semantics.measurement_node
+                                or not self.channel_semantics.reference):
+                raise ValueError(
+                    f"pressure series {self.series_id!r} requires a measurement_node and reference"
+                )
             if not self.values:
                 raise ValueError(f"available series {self.series_id!r} must carry values")
             _require_finite(self.values, f"values[{self.series_id}]")
@@ -329,6 +394,8 @@ class DetectedEvent:
 
 @dataclass(frozen=True)
 class Caveat:
+    """A caveat. ``affected_ids`` are free external identifiers (labels), not resolved references."""
+
     caveat_id: str
     category: str
     statement: str
@@ -338,11 +405,14 @@ class Caveat:
         _require_nonempty(self.caveat_id, "caveat_id")
         _require_nonempty(self.category, "caveat.category")
         _require_nonempty(self.statement, "statement")
-        _require_str_tuple(self.affected_ids, "caveat.affected_ids")
+        _require_str_tuple(self.affected_ids, "caveat.affected_ids", unique=True)
 
 
 @dataclass(frozen=True)
 class NextMeasurement:
+    """A discriminating next measurement. ``separates_hypotheses`` are candidate IDs (resolved at
+    the bundle level)."""
+
     measurement_id: str
     measurement: str
     rationale: str
@@ -354,8 +424,8 @@ class NextMeasurement:
         _require_nonempty(self.measurement_id, "measurement_id")
         _require_nonempty(self.measurement, "measurement")
         _require_nonempty(self.rationale, "rationale")
-        _require_str_tuple(self.separates_hypotheses, "separates_hypotheses")
-        _require_str_tuple(self.caveat_ids, "next_measurement.caveat_ids")
+        _require_str_tuple(self.separates_hypotheses, "separates_hypotheses", unique=True)
+        _require_str_tuple(self.caveat_ids, "next_measurement.caveat_ids", unique=True)
         _require_nonempty_or_none(self.required_channel, "required_channel")
 
 
@@ -376,14 +446,11 @@ class ExplanationCandidate:
         _require_nonempty(self.statement, "statement")
         if not isinstance(self.compatibility, CompatibilityStatus):
             raise ValueError("compatibility must be a CompatibilityStatus")
-        _require_str_tuple(self.supporting_observation_ids, "supporting_observation_ids")
-        _require_str_tuple(self.contradicting_observation_ids, "contradicting_observation_ids")
-        _require_str_tuple(self.missing_evidence, "missing_evidence")
-        _require_str_tuple(self.evidence_reference_ids, "evidence_reference_ids")
-        _require_str_tuple(self.caveat_ids, "candidate.caveat_ids")
-        _no_duplicates(self.supporting_observation_ids, "supporting_observation_ids")
-        _no_duplicates(self.contradicting_observation_ids, "contradicting_observation_ids")
-        _no_duplicates(self.evidence_reference_ids, "evidence_reference_ids")
+        _require_str_tuple(self.supporting_observation_ids, "supporting_observation_ids", unique=True)
+        _require_str_tuple(self.contradicting_observation_ids, "contradicting_observation_ids", unique=True)
+        _require_str_tuple(self.missing_evidence, "missing_evidence", unique=True)
+        _require_str_tuple(self.evidence_reference_ids, "evidence_reference_ids", unique=True)
+        _require_str_tuple(self.caveat_ids, "candidate.caveat_ids", unique=True)
         overlap = set(self.supporting_observation_ids) & set(self.contradicting_observation_ids)
         if overlap:
             raise ValueError(f"observation is both supporting and contradicting: {sorted(overlap)}")
@@ -392,8 +459,6 @@ class ExplanationCandidate:
 
 @dataclass(frozen=True)
 class ShotInput:
-    """The measured input for one shot (or reference case). PR 1 stops here — no analysis."""
-
     schema_version: int
     fixture_id: str
     provenance: FixtureProvenance
@@ -401,11 +466,7 @@ class ShotInput:
     series: tuple[ObservedSeries, ...]
 
     def __post_init__(self) -> None:
-        if self.schema_version != SHOT_INPUT_SCHEMA_VERSION:
-            raise ValueError(
-                f"unsupported ShotInput schema_version {self.schema_version!r}; "
-                f"this build supports {SHOT_INPUT_SCHEMA_VERSION}"
-            )
+        _require_schema_version(self.schema_version, SHOT_INPUT_SCHEMA_VERSION, "ShotInput.schema_version")
         _require_nonempty(self.fixture_id, "fixture_id")
         if not isinstance(self.provenance, FixtureProvenance):
             raise ValueError("provenance must be a FixtureProvenance")
@@ -416,10 +477,11 @@ class ShotInput:
         _require_tuple(self.series, "series")
         if not self.series:
             raise ValueError("a measured fixture must have at least one series")
-        _no_duplicates([s.series_id for s in self.series], "series ids")
         for s in self.series:
             if not isinstance(s, ObservedSeries):
                 raise ValueError("series must be ObservedSeries instances")
+        _no_duplicates([s.series_id for s in self.series], "series ids")
+        for s in self.series:
             if s.availability is AvailabilityStatus.AVAILABLE:
                 if s.time_axis_id != self.time_axis.time_axis_id:
                     raise ValueError(f"series {s.series_id!r} references an unknown time axis")
@@ -429,12 +491,6 @@ class ShotInput:
 
 @dataclass(frozen=True)
 class ShotExplanationBundle:
-    """The versioned, deterministic, self-contained product result.
-
-    It carries its own ``time_axes`` so a consumer can interpret every observation without loading
-    the original fixture. PR 1 emits it with no scientific explanations.
-    """
-
     schema_version: int
     package_version: str
     build_provenance: BuildProvenance
@@ -450,11 +506,8 @@ class ShotExplanationBundle:
     next_measurement: Optional[NextMeasurement] = None
 
     def __post_init__(self) -> None:
-        if self.schema_version != SHOT_EXPLANATION_BUNDLE_SCHEMA_VERSION:
-            raise ValueError(
-                f"unsupported bundle schema_version {self.schema_version!r}; "
-                f"this build supports {SHOT_EXPLANATION_BUNDLE_SCHEMA_VERSION}"
-            )
+        _require_schema_version(self.schema_version, SHOT_EXPLANATION_BUNDLE_SCHEMA_VERSION,
+                                "ShotExplanationBundle.schema_version")
         _require_nonempty(self.package_version, "package_version")
         if not isinstance(self.build_provenance, BuildProvenance):
             raise ValueError("build_provenance must be a BuildProvenance")
@@ -462,7 +515,6 @@ class ShotExplanationBundle:
             raise ValueError("fixture_provenance must be a FixtureProvenance")
         if self.package_version != self.build_provenance.package_version:
             raise ValueError("package_version must equal build_provenance.package_version")
-        # tuple + element types
         for name, typ in (("normalized_units", UnitBinding), ("time_axes", TimeAxis),
                           ("observations", ObservedSeries), ("events", DetectedEvent),
                           ("explanation_candidates", ExplanationCandidate),
@@ -475,7 +527,6 @@ class ShotExplanationBundle:
         _require_str_tuple(self.warnings, "warnings")
         if self.next_measurement is not None and not isinstance(self.next_measurement, NextMeasurement):
             raise ValueError("next_measurement must be a NextMeasurement or None")
-        # unique ids
         _no_duplicates([u.quantity for u in self.normalized_units], "normalized_units quantities")
         axis_ids = [a.time_axis_id for a in self.time_axes]
         _no_duplicates(axis_ids, "time_axis ids")
@@ -490,7 +541,6 @@ class ShotExplanationBundle:
         _no_duplicates(cand_ids, "candidate ids")
         if len(self.explanation_candidates) > MAX_EXPLANATION_CANDIDATES:
             raise ValueError(f"at most {MAX_EXPLANATION_CANDIDATES} explanation candidates allowed")
-        # observation -> time-axis resolution (self-contained)
         axis_set = set(axis_ids)
         axis_len = {a.time_axis_id: len(a.values) for a in self.time_axes}
         for o in self.observations:
@@ -499,13 +549,15 @@ class ShotExplanationBundle:
                     raise ValueError(f"observation {o.series_id!r} references unknown time axis {o.time_axis_id!r}")
                 if len(o.values) != axis_len[o.time_axis_id]:
                     raise ValueError(f"observation {o.series_id!r} length != its time axis")
-        # referential integrity for candidates
-        obs_set, evid_set, cav_set = set(obs_ids), set(evid_ids), set(cav_ids)
+        obs_set, evid_set, cav_set, cand_set = set(obs_ids), set(evid_ids), set(cav_ids), set(cand_ids)
         nm_ids = {self.next_measurement.measurement_id} if self.next_measurement else set()
         if self.next_measurement is not None:
             for cid in self.next_measurement.caveat_ids:
                 if cid not in cav_set:
                     raise ValueError(f"next_measurement references unknown caveat {cid!r}")
+            for hid in self.next_measurement.separates_hypotheses:
+                if hid not in cand_set:
+                    raise ValueError(f"next_measurement.separates_hypotheses references unknown candidate {hid!r}")
         for c in self.explanation_candidates:
             for oid in (*c.supporting_observation_ids, *c.contradicting_observation_ids):
                 if oid not in obs_set:
@@ -524,6 +576,7 @@ __all__ = [
     "SHOT_INPUT_SCHEMA_VERSION",
     "SHOT_EXPLANATION_BUNDLE_SCHEMA_VERSION",
     "MAX_EXPLANATION_CANDIDATES",
+    "ChannelSemantics",
     "UnitBinding",
     "TransformationStep",
     "EvidenceReference",

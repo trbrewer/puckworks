@@ -22,7 +22,13 @@ from ._enums import (
     RightsReviewStatus,
     SeriesKind,
 )
-from ._fixtures import FixtureManifestError, FixtureRightsError, available_fixtures, load_bundled_shot
+from ._fixtures import (
+    FixtureManifestError,
+    FixtureRightsError,
+    available_fixtures,
+    load_bundled_shot,
+    release_ready_fixtures,
+)
 from ._provenance import ProvenanceUnavailableError, build_provenance, dev_build_identifier
 from ._records import (
     MAX_EXPLANATION_CANDIDATES,
@@ -30,6 +36,7 @@ from ._records import (
     SHOT_INPUT_SCHEMA_VERSION,
     BuildProvenance,
     Caveat,
+    ChannelSemantics,
     DetectedEvent,
     EvidenceReference,
     ExplanationCandidate,
@@ -68,6 +75,7 @@ __all__ = [
     "RightsReviewStatus",
     "RedistributionStatus",
     # records
+    "ChannelSemantics",
     "UnitBinding",
     "TransformationStep",
     "EvidenceReference",
@@ -95,6 +103,7 @@ __all__ = [
     "dev_build_identifier",
     "available_fixtures",
     "load_bundled_shot",
+    "release_ready_fixtures",
     # exceptions
     "SchemaError",
     "ProvenanceUnavailableError",

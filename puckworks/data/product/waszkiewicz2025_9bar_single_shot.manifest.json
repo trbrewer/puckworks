@@ -30,8 +30,8 @@
     {"column": "line_pressure_bar", "quantity": "line_pressure", "unit": "bar", "series_kind": "measured", "pressure_node": "line/pump-side", "pressure_reference": "gauge"},
     {"column": "mass_g", "quantity": "mass", "unit": "g", "series_kind": "measured"}
   ],
-  "pressure_node": "line/pump-side (source column pressure__bar = P_line, MEASURED). The basket-pressure and mass-flow-rate channels in the source are DERIVED (pump-curve subtraction; savgol-filtered gradient) and are deliberately excluded from this measured-input fixture.",
-  "pressure_reference": "gauge (bar-gauge, per source rig convention)",
+  "pressure_node": "line/pump-side",
+  "pressure_reference": "gauge",
   "time_origin": "source pressure-settle alignment: t=0 at the last sample before line pressure settled within tolerance of the 9-bar reference (source format_measurements_time_dependent.py START_IDX); seconds.",
   "missing_value_semantics": "no missing values; every row has all three measured channels. Early mass values are small negative scale-tare readings, retained verbatim (not clipped).",
   "transformations": [
@@ -40,5 +40,9 @@
     {"step_id": "serialize", "description": "sort by time_s ascending; format time_s/line_pressure_bar/mass_g to 4 decimals; UTF-8, LF line endings, trailing newline."}
   ],
   "selection_method": "medoid of the 5 nine-bar replicates (9-1..9-5): z-scored L2 distance of measured line-pressure and mass to the ensemble median on a 0-20 s / 0.1 s grid; tie-break stable filename; model-independent (no model fit). Selected 9-4.txt (distance 6.45; others 9.02/12.58/14.39/17.32).",
-  "scientific_caveats": "Research-rig extraction measured to equilibrium (~140 g over ~100 s at ~9 bar), NOT a typical cafe-size espresso shot. Basket pressure and mass-flow rate are derived, not measured, and are excluded here. Only measured time, line pressure, and mass are included. No channeling, flavor, optimality, or ground-truth permeability conclusion is attached. Single rig; one identifiable brew."
+  "scientific_caveats": [
+    "Research-rig extraction measured to equilibrium (~140 g over ~100 s at ~9 bar), NOT a typical cafe-size espresso shot.",
+    "Line pressure is the MEASURED source channel (pressure__bar = P_line). Basket pressure and mass-flow rate in the source are DERIVED (pump-curve subtraction; savgol-filtered gradient) and are deliberately excluded from this measured-input fixture.",
+    "No channeling, flavor, optimality, or ground-truth permeability conclusion is attached. Single rig; one identifiable brew."
+  ]
 }

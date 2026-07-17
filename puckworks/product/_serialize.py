@@ -27,6 +27,7 @@ from ._records import (
     SHOT_INPUT_SCHEMA_VERSION,
     BuildProvenance,
     Caveat,
+    ChannelSemantics,
     DetectedEvent,
     EvidenceReference,
     ExplanationCandidate,
@@ -102,7 +103,7 @@ def _arr(data, path: str) -> list:
 def _enum(cls, value, path: str):
     try:
         return cls(value)
-    except ValueError as exc:
+    except (ValueError, TypeError) as exc:
         raise SchemaError(f"{path}: invalid {cls.__name__} {value!r}") from exc
 
 
@@ -159,13 +160,22 @@ def _fixture_provenance(d, path) -> FixtureProvenance:
         rights_basis=d["rights_basis"],
         rights_review_status=_enum(RightsReviewStatus, d["rights_review_status"], f"{path}.rights_review_status"),
         redistribution_status=_enum(RedistributionStatus, d["redistribution_status"], f"{path}.redistribution_status"),
-        modification_notice=d["modification_notice"],
+        modification_notice=d["modification_notice"], selection_method=d["selection_method"],
+        scientific_caveats=tuple(_arr(d["scientific_caveats"], f"{path}.scientific_caveats")),
         transformations=tuple(_transformation(t, f"{path}.transformations[{i}]")
                               for i, t in enumerate(_arr(d["transformations"], f"{path}.transformations"))),
         member_license_expression=d["member_license_expression"],
         member_license_url=d["member_license_url"], rights_basis_url=d["rights_basis_url"],
         rights_review_date=d["rights_review_date"],
     )
+
+
+def _channel_semantics(d, path):
+    if d is None:
+        return None
+    d = _obj(d, ChannelSemantics, path)
+    return _construct(ChannelSemantics, path, measurement_node=d["measurement_node"],
+                      reference=d["reference"], missing_value_semantics=d["missing_value_semantics"])
 
 
 def _time_axis(d, path) -> TimeAxis:
@@ -179,7 +189,9 @@ def _observed_series(d, path) -> ObservedSeries:
     return _construct(ObservedSeries, path, series_id=d["series_id"], quantity=d["quantity"],
                       unit=d["unit"], series_kind=_enum(SeriesKind, d["series_kind"], f"{path}.series_kind"),
                       availability=_enum(AvailabilityStatus, d["availability"], f"{path}.availability"),
-                      time_axis_id=d["time_axis_id"], values=tuple(_arr(d["values"], f"{path}.values")),
+                      time_axis_id=d["time_axis_id"],
+                      channel_semantics=_channel_semantics(d["channel_semantics"], f"{path}.channel_semantics"),
+                      values=tuple(_arr(d["values"], f"{path}.values")),
                       provenance=d["provenance"], uncertainty=_opt_tuple(d["uncertainty"], f"{path}.uncertainty"))
 
 
@@ -234,7 +246,7 @@ def _require_version(data: dict, expected: int, where: str) -> None:
 
 # ---- public top-level serializers -------------------------------------------
 
-def shot_input_to_dict(shot: ShotInput) -> dict:
+def shot_input_to_dict(shot: ShotInput) -> dict[str, object]:
     if not isinstance(shot, ShotInput):
         raise TypeError("shot_input_to_dict expects a ShotInput")
     return _encode(shot)
@@ -244,7 +256,7 @@ def shot_input_to_json(shot: ShotInput) -> str:
     return _canonical_json(shot_input_to_dict(shot))
 
 
-def shot_input_from_dict(data) -> ShotInput:
+def shot_input_from_dict(data: object) -> ShotInput:
     d = _obj(data, ShotInput, "ShotInput")
     _require_version(d, SHOT_INPUT_SCHEMA_VERSION, "ShotInput")
     return _construct(
@@ -259,12 +271,12 @@ def shot_input_from_dict(data) -> ShotInput:
 def shot_input_from_json(text: str) -> ShotInput:
     try:
         data = json.loads(text, object_pairs_hook=_no_duplicate_keys)
-    except json.JSONDecodeError as exc:
+    except (json.JSONDecodeError, TypeError) as exc:
         raise SchemaError(f"invalid JSON: {exc}") from exc
     return shot_input_from_dict(data)
 
 
-def bundle_to_dict(bundle: ShotExplanationBundle) -> dict:
+def bundle_to_dict(bundle: ShotExplanationBundle) -> dict[str, object]:
     if not isinstance(bundle, ShotExplanationBundle):
         raise TypeError("bundle_to_dict expects a ShotExplanationBundle")
     return _encode(bundle)
@@ -274,7 +286,7 @@ def bundle_to_json(bundle: ShotExplanationBundle) -> str:
     return _canonical_json(bundle_to_dict(bundle))
 
 
-def bundle_from_dict(data) -> ShotExplanationBundle:
+def bundle_from_dict(data: object) -> ShotExplanationBundle:
     d = _obj(data, ShotExplanationBundle, "ShotExplanationBundle")
     _require_version(d, SHOT_EXPLANATION_BUNDLE_SCHEMA_VERSION, "ShotExplanationBundle")
     B = "ShotExplanationBundle"
@@ -304,7 +316,7 @@ def bundle_from_dict(data) -> ShotExplanationBundle:
 def bundle_from_json(text: str) -> ShotExplanationBundle:
     try:
         data = json.loads(text, object_pairs_hook=_no_duplicate_keys)
-    except json.JSONDecodeError as exc:
+    except (json.JSONDecodeError, TypeError) as exc:
         raise SchemaError(f"invalid JSON: {exc}") from exc
     return bundle_from_dict(data)
 
