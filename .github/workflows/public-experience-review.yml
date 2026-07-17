@@ -1,0 +1,96 @@
+name: public-experience-review
+# A recurring REMINDER to review the README and accessibility surface. It appends one dated
+# checklist comment (at most once per month) to the standing public-experience and accessibility
+# issues. It does not modify source, open PRs, create issues, or close anything — and it never
+# claims a review actually happened. A human records the completed review on the issue.
+on:
+  schedule:
+    - cron: "0 9 1 * *"      # 09:00 UTC on the 1st of each month
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Scheduled comment writes are DISABLED BY DEFAULT: a scheduled run posts only when the repo
+    # variable ENABLE_PUBLIC_EXPERIENCE_REMINDERS == 'true' (a human's recorded opt-in). A manual
+    # workflow_dispatch is an explicit human action and always runs. Merging this workflow does not
+    # by itself enable scheduled issue comments.
+    if: >-
+      github.repository == 'trbrewer/puckworks'
+      && github.ref == 'refs/heads/main'
+      && (github.event_name == 'workflow_dispatch' || vars.ENABLE_PUBLIC_EXPERIENCE_REMINDERS == 'true')
+    steps:
+      - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const now = new Date();
+            const period = `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, '0')}`;
+            const marker = (kind) => `<!-- public-experience-review:${kind}:${period} -->`;
+
+            const targets = [
+              { kind: 'homepage', labels: ['standing', 'public-experience', 'documentation'] },
+              { kind: 'accessibility', labels: ['standing', 'accessibility'] },
+            ];
+
+            const checklist = [
+              'README mission / value / process still read correctly',
+              'current release link resolves',
+              'Colab quickstart executes CPU-only',
+              'platform matrix (Windows / macOS / Linux) green',
+              'public-API wording matches `puckworks.__all__`',
+              'visuals render in light + dark, alt text intact',
+              'accessibility surface (one-click paths, extras caveats) accurate',
+              'status pulse regenerates clean (`--verify`)',
+              'no stale / broken links',
+              'note the single most valuable next user-experience improvement',
+            ];
+
+            for (const t of targets) {
+              const found = await github.rest.issues.listForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'open',
+                labels: t.labels.join(','),
+              });
+              if (!found.data.length) {
+                core.warning(`No open standing issue found for ${t.kind} (labels: ${t.labels.join(', ')}); not creating one.`);
+                continue;
+              }
+              // The standing issue is unique; take the lowest number deterministically.
+              const issue = found.data.sort((a, b) => a.number - b.number)[0];
+
+              const comments = await github.paginate(github.rest.issues.listComments, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                per_page: 100,
+              });
+              if (comments.some(c => c.body && c.body.includes(marker(t.kind)))) {
+                core.info(`Reminder for ${t.kind} already posted for ${period} on #${issue.number}; skipping.`);
+                continue;
+              }
+
+              const body = [
+                marker(t.kind),
+                `### 🔁 Scheduled ${t.kind} review reminder — ${period}`,
+                '',
+                'This is a **reminder only**. Posting it does not mean the review happened.',
+                'A review is complete only when a human records, below: **date · reviewer · checks',
+                'performed · changes made (or a no-change rationale) · next review trigger.**',
+                '',
+                ...checklist.map(item => `- [ ] ${item}`),
+              ].join('\n');
+
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body,
+              });
+              core.info(`Posted ${t.kind} review reminder to #${issue.number} for ${period}.`);
+            }

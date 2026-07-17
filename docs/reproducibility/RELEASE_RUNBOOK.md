@@ -187,7 +187,14 @@ single frozen commit and rehearsed GitHub-only before any PyPI publication.
 6. **Draft GitHub Release** (HUMAN-APPROVED to promote): tag `v0.2.0`, attach wheel, sdist, the
    Paper 3 archive, manifests + checksums, the lock, gate/evidence summaries, and release notes.
    Verify the payload from the release DOWNLOAD, not the checkout.
-7. **PyPI** — a SEPARATE, explicitly-approved operation, only after at least one successful
+7. **Update the public-release display record** — after the release is published and verified from
+   the download, update [`docs/status/public_release.json`](../status/public_release.json) (version,
+   tag, `release_url`, `published_at`, `source_commit`, `annotated_tag_object`, wheel/sdist filename
+   + SHA-256, attached-asset count, `registry_status`) and run `python tools/release_record.py` +
+   `pytest tests/test_release_record.py` so it matches this runbook's verification report. The
+   README project-pulse and the Colab quickstart consume this one validated record — do not
+   hard-code release facts elsewhere.
+8. **PyPI** — a SEPARATE, explicitly-approved operation, only after at least one successful
    GitHub-only rehearsal.
 
 A completed worked example of the full package-release verification is

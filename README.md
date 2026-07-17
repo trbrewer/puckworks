@@ -1,16 +1,152 @@
+<!-- Landing page. The design authority is docs/PUBLIC_EXPERIENCE.md — edit that first.
+     The project-pulse block is generated: `python tools/update_readme_pulse.py --write`. -->
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/puckworks-hero-dark.svg">
+    <img src="docs/assets/readme/puckworks-hero-light.svg"
+         alt="puckworks — evidence-first models for what happens inside an espresso puck. Papers become typed components, components face validation gates, and every conclusion keeps its limits."
+         width="100%">
+  </picture>
+</p>
+
 # puckworks
 
-A component **registry** for espresso process models — not a mega-model.
-The process is decomposed into stages with typed contracts
-(`puckworks/contracts.py`); each published model becomes a component with
-provenance, assumptions, validity range, and **validation gates**
-(`puckworks/registry.py`). A simulation is a *configuration*: one component per
-runtime stage, plus offline calibration chains (LB, constitutive laws) feeding
-parameters in.
+**Evidence-first models for what happens inside an espresso puck.**
 
-**New session? Start with [docs/ONBOARDING.md](docs/ONBOARDING.md).**
+Turn papers into typed components, challenge them with validation gates, and make their
+assumptions, evidence, validity ranges, and model behavior comparable — while preserving what the
+data can, and cannot, support.
+
+<p align="center">
+  <a href="https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/puckworks_quickstart_colab.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open the Puckworks CPU quickstart in Google Colab"></a>
+</p>
+
+**Try it now:**
+[▶ Run the quickstart in Google Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/puckworks_quickstart_colab.ipynb)
+ · [⬇ Download the latest public release](https://github.com/trbrewer/puckworks/releases/latest)
+ · [🔬 Explore the evidence](docs/public/README.md)
+ · [📊 View current project status](docs/planning/STATE_OF_TRUTH.md)
+ · [🧭 Learn the architecture](docs/ONBOARDING.md)
+ · [🛠 Contribute a model or dataset](CONTRIBUTING.md)
+
+> **New session (human or agent)? Start with [docs/ONBOARDING.md](docs/ONBOARDING.md).**
+
+---
+
+## Why Puckworks exists
+
+Espresso extraction sits at the crossing of packed-bed flow, deformable porous media, wetting,
+and dissolution kinetics. The literature is full of models — but they arrive with different
+assumptions, different validity ranges, and claims of very different strength, and they are
+almost never comparable head-to-head.
+
+Puckworks makes them comparable **without hiding the assumptions**. It is a component
+**registry**, not a mega-model: the process is decomposed into stages with typed contracts, and
+each published model becomes a component carrying its provenance, assumptions, validity range,
+and validation gates. A simulation is a *configuration* of components — never one monolith that
+claims to explain everything.
+
+The public value:
+
+- **compare competing explanations** without burying the caveats;
+- **retain provenance and evidence strength** at every step;
+- **expose validity ranges and failed/null results** instead of hiding them;
+- **make uncertainty actionable** through better measurement design;
+- **make rigorous espresso-process science reachable** beyond manuscript readers.
+
+## What it does
+
+- **Typed contracts** at every stage boundary (`puckworks/contracts.py`) — strict SI units,
+  validated inputs and outputs.
+- **A component registry** (`puckworks/registry.py`) — each model registered with source,
+  assumptions, and validity range.
+- **Validation gates** wired to real reference data — a gate reports **PASS**, **FAIL**, **SKIP**,
+  **ERROR**, or **ACKNOWLEDGED_EXCEPTION**; FAIL and ERROR make the suite fail, and zero-gate and
+  policy-exception cases are represented explicitly rather than as silent passes.
+- **Provenance discipline** — every result is reportable as *component names + versions + gate
+  status*.
+
+## How evidence moves through the system
+
+<p align="center">
+  <img src="docs/assets/readme/evidence-pipeline.svg"
+       alt="How evidence moves through Puckworks: (1) a paper or dataset becomes (2) a model or source card capturing physics, assumptions and validity range; that becomes (3) a typed component with contracts and provenance; which faces (4) validation gates tested against real data, where exceptions are acknowledged not hidden; producing (5) an evidence-aware result labelled measured, derived, fitted, predicted or simulated; leading to (6) the next measurement or a bounded conclusion. Uncertainty feeds back to guide the next experiment."
+       width="440">
+</p>
+
+Every reported series carries an origin label — **measured · derived · fitted · predicted ·
+simulated** — or is marked **unsupported**. Puckworks never upgrades an evidence tag.
+
+## What you can do today
+
+- Install the released wheel and enumerate the registered components.
+- Run the full validation-gate suite and see, per gate, PASS versus ACKNOWLEDGED_EXCEPTION.
+- Inspect any component's provenance, assumptions, and validity range.
+- Serialize a gate result for a reproducible record.
+
+## Project pulse
+
+<!-- puckworks-pulse:start -->
+
+> Auto-generated from tracked repository state by `tools/update_readme_pulse.py` — inventory counts, not scientific claims. Regenerate with `--write`; CI fails if stale.
+
+| Project pulse | |
+|---|---|
+| Latest public release | [`v0.2.0`](https://github.com/trbrewer/puckworks/releases/tag/v0.2.0) (`puckworks-0.2.0-py3-none-any.whl`; not on PyPI) |
+| Development source | `0.3.0.dev0` (unreleased) |
+| Registered components | 25 |
+| Validation gates | 51 total — 50 PASS, 1 ACKNOWLEDGED_EXCEPTION (passed under the documented gate policy) |
+| Active outcome | Deliver a versioned ShotExplanationBundle for one redistributable bundled shot |
+| Blocked outcomes | 2 (external sign-off / data) |
+| Supported Python | 3.10–3.13 (3.12 primary/release interpreter) |
+
+<!-- puckworks-pulse:end -->
+
+*Development status and the latest public release are shown separately above — do not read the
+development source as a released capability.*
+
+## Try it in Colab (no local setup)
+
+The CPU-first [quickstart notebook](notebooks/puckworks_quickstart_colab.ipynb) runs top to
+bottom on a normal Colab CPU in a few minutes. It **installs the latest recorded public
+release wheel** — not unreleased main-branch code — and walks through the registry, the gates,
+and how to read evidence strength honestly.
+
+[▶ Open the quickstart in Google Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/puckworks_quickstart_colab.ipynb)
+
+Specialists: the advanced GPU / lattice-Boltzmann notebook remains at
+[`notebooks/espresso_lb_colab.ipynb`](notebooks/espresso_lb_colab.ipynb).
+
+## Install the public release
+
+> **puckworks is not published on PyPI.** The canonical distributions are attached to the
+> [latest GitHub Release](https://github.com/trbrewer/puckworks/releases/latest).
+
+Download `puckworks-<version>-py3-none-any.whl` from the release, then:
+
+```
+python -m pip install puckworks-0.2.0-py3-none-any.whl
+python -c "import puckworks; s = puckworks.evaluate_all_gates(); print(s.summary_text())"
+python -c "import puckworks; print(len(puckworks.components()), 'components registered')"
+```
+
+The same pure-Python wheel is smoke-tested on **Windows, macOS, and Linux** under Python 3.12;
+interpreter CI additionally exercises Python 3.10, 3.12, and 3.13. Per-platform commands and the
+support matrix: [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md).
+
+The **supported public API** is exactly `puckworks.__all__`; selected commonly-used entry points
+from it include `evaluate_all_gates`, `components`, `get`, `Component`, `contracts`, `validate`,
+`load_builtin_components`, `GateStatus`, `GateResult`, and `GateSuiteResult`. See
+[`docs/API.md`](docs/API.md) for the full surface and stability policy; everything else is internal
+research tooling. (The Colab quickstart installs the **v0.2.0** wheel — its API is v0.2.0's
+`__all__`, which may differ from the unreleased main branch.)
+
+Contributors / release builders: `python -m pip install -e ".[dev]"`; see
+[`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Founding components
+
 | stage | component | kind | source |
 |---|---|---|---|
 | extraction | cameron2020.extraction_bdf | runtime | Matter 2020 |
@@ -20,55 +156,46 @@ parameters in.
 | packing | brewer2026.pack_generator | calibration | this project |
 | flow | brewer2026.lb_reference / lb_taichi | calibration | this project |
 
-## Quickstart
+The value ceiling of this registry is set by **validation data, not model count** — reference
+datasets live in `puckworks/data/` with their sources documented.
 
-> **puckworks is not currently published on PyPI.** The canonical v0.2.0 distributions are attached
-> to the [v0.2.0 GitHub Release](https://github.com/trbrewer/puckworks/releases/tag/v0.2.0).
+## Choose your path
 
-### Install the published GitHub release
-Download `puckworks-0.2.0-py3-none-any.whl` from the release, then:
-```
-python -m pip install puckworks-0.2.0-py3-none-any.whl
-```
-Or, where direct remote-wheel installation is acceptable:
-```
-python -m pip install \
-  "https://github.com/trbrewer/puckworks/releases/download/v0.2.0/puckworks-0.2.0-py3-none-any.whl"
-```
-Then:
-```
-python -c "import puckworks; s = puckworks.evaluate_all_gates(); print(s.summary_text())"
-python -c "import puckworks; print(len(puckworks.components()), 'components registered')"
-```
-Supported Python: 3.10–3.13 (3.12 is the primary release interpreter).
+- **Enthusiast / layperson** → [run the Colab quickstart](notebooks/puckworks_quickstart_colab.ipynb)
+  and read *How evidence moves through the system* above.
+- **Researcher** → start at [docs/ONBOARDING.md](docs/ONBOARDING.md), then the model cards in
+  `docs/cards/` (the source of truth for each model's physics) and
+  [current status](docs/planning/STATE_OF_TRUTH.md).
+- **Contributor** → [CONTRIBUTING.md](CONTRIBUTING.md) and the card-first process; the public API
+  contract is [docs/API.md](docs/API.md).
 
-The **supported public API** is `puckworks.__all__` (`evaluate_all_gates`, `components`, `get`,
-`Component`, `contracts`, `validate`, …) — see [`docs/API.md`](docs/API.md) for the stability
-policy. Everything else (`harness`, `analysis`, `paper3`, …) is internal research tooling.
+## Current limits — what Puckworks deliberately does *not* claim
 
-### Contributor / release-builder install
-```
-python -m pip install -e ".[dev]"
-```
-Contributors and release builders can build and install locally instead:
-`python -m puckworks.release build` (wheel + sdist + checksummed manifest) then
-`pip install dist/puckworks-*.whl`; see `CONTRIBUTING.md`. Contributor extras:
-`[figures] [harvest] [release] [lb] [viz]`. Test lanes + the card-first contribution process:
-`docs/CI_LANES.md`, `CONTRIBUTING.md`, and the doc index `docs/CURRENT.md`.
+Puckworks is:
 
-## Adding a model
-1. Write its **model card** from `docs/cards/TEMPLATE.md` (this is where papers
-   get interrogated — do it before writing code).
-2. Implement under `puckworks/models/<key>/`, consuming/producing contract types.
+- **not** a universal mega-model;
+- **not** an automatic channeling detector;
+- **not** a flavor predictor;
+- **not** a universal recipe optimizer;
+- **not** a replacement for controlled experiments;
+- **not** a mechanism oracle.
+
+Most extraction agreements in the underlying science are *post-fit reconstruction*, not
+independent validation. The registry surfaces conflicting constants and per-lineage inventories
+side by side rather than merging them.
+
+## Contribute
+
+1. Write the **model card** from `docs/cards/TEMPLATE.md` (this is where papers get interrogated —
+   before any code).
+2. Implement under `puckworks/models/<key>/`, consuming and producing contract types.
 3. Register in `puckworks/models/__init__.py` with assumptions + validity range.
-4. Give it at least one gate wired to real data in `puckworks/data/`.
+4. Add at least one gate wired to real data in `puckworks/data/`.
 
-## Provenance discipline
-Every result should be reportable as: component names + versions + gate status.
-Reference datasets (Cameron tables, Wadsworth Table 1, DE1 fixtures) live in
-`puckworks/data/` with sources documented — the value ceiling of this registry
-is set by validation data, not model count.
+Details: [CONTRIBUTING.md](CONTRIBUTING.md), [docs/API.md](docs/API.md), and the doc index
+[docs/CURRENT.md](docs/CURRENT.md).
 
-## Related artifacts
-The Colab GPU sweep notebook, the paper build, and PUCK LAB live alongside this
-package and consume it; see `notebooks/`.
+## Cite and license
+
+Please cite via [`CITATION.cff`](CITATION.cff). Puckworks is released under the
+[MIT License](LICENSE).

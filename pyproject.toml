@@ -1,7 +1,7 @@
 [project]
 name = "puckworks"
 version = "0.3.0.dev0"
-description = "Component registry for espresso process models: contracts, provenance, validation gates"
+description = "Evidence-first espresso process modeling: papers become typed components, components face validation gates, and every conclusion retains its limits"
 readme = "README.md"
 license = {file = "LICENSE"}
 # Supported Python: 3.10 (oldest) .. 3.13 (newest); 3.12 is the primary/release interpreter.
