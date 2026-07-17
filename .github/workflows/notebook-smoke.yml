@@ -65,19 +65,21 @@ jobs:
       - name: notebook execution tooling (CPU only)
         run: python -m pip install --quiet jupyter nbconvert nbclient ipykernel matplotlib
 
-      - name: execute the notebook offline against the local wheel
+      - name: execute the notebook offline against the local wheel (outside the checkout)
         env:
           PUCKWORKS_WHEEL_DIR: ${{ github.workspace }}/dist
         run: |
           export PUCKWORKS_WHEEL="$(ls "$PUCKWORKS_WHEEL_DIR"/puckworks-*.whl | head -n1)"
           echo "Installing wheel: $PUCKWORKS_WHEEL"
+          # Run from RUNNER_TEMP so the repo's puckworks/ source does not shadow the installed wheel.
+          cp notebooks/puckworks_quickstart_colab.ipynb "$RUNNER_TEMP/nb.ipynb"
+          cd "$RUNNER_TEMP"
           jupyter nbconvert --to notebook --execute \
             --ExecutePreprocessor.timeout=300 \
-            --output /tmp/executed_dev.ipynb \
-            notebooks/puckworks_quickstart_colab.ipynb
+            --output executed_dev.ipynb nb.ipynb
 
       - name: verify completion marker (no residual errors)
-        run: python .github/scripts/check_notebook_marker.py /tmp/executed_dev.ipynb
+        run: python "$GITHUB_WORKSPACE/.github/scripts/check_notebook_marker.py" "$RUNNER_TEMP/executed_dev.ipynb"
 
   public-release-wheel:
     name: Mode 2 — canonical v0.2.0 release (download + hash-verify)
@@ -112,16 +114,20 @@ jobs:
       - name: notebook execution tooling (CPU only)
         run: python -m pip install --quiet jupyter nbconvert nbclient ipykernel matplotlib
 
-      - name: execute the notebook DEFAULT path (downloads + verifies v0.2.0)
+      - name: execute the notebook DEFAULT path (downloads + verifies v0.2.0), outside the checkout
         run: |
+          # Run from RUNNER_TEMP so the repo's puckworks/ source (0.3.0.dev0) cannot shadow the
+          # released wheel the notebook installs — this makes the release path actually be tested.
+          cp notebooks/puckworks_quickstart_colab.ipynb "$RUNNER_TEMP/nb.ipynb"
+          cd "$RUNNER_TEMP"
           jupyter nbconvert --to notebook --execute \
             --ExecutePreprocessor.timeout=300 \
-            --output /tmp/executed_release.ipynb \
-            notebooks/puckworks_quickstart_colab.ipynb
+            --output executed_release.ipynb nb.ipynb
 
       - name: verify completion marker (no residual errors)
-        run: python .github/scripts/check_notebook_marker.py /tmp/executed_release.ipynb
+        run: python "$GITHUB_WORKSPACE/.github/scripts/check_notebook_marker.py" "$RUNNER_TEMP/executed_release.ipynb"
 
       - name: notebook used ONLY v0.2.0 public APIs (installed version is 0.2.0)
         run: |
+          cd "$RUNNER_TEMP"
           python -c "import puckworks; assert puckworks.__version__ == '0.2.0', puckworks.__version__; print('release-mode API compatibility: v0.2.0 OK')"
