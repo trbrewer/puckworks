@@ -207,6 +207,7 @@ def test_write_outputs_is_confined_to_the_given_directory(tmp_path):
 
 # ── config ────────────────────────────────────────────────────────────────────────
 def test_shipped_query_config_validates():
+    pytest.importorskip("yaml", reason="pyyaml is a radar/dev extra, absent in the min-deps lane")
     cfg = R.load_config(_ROOT / "docs" / "research" / "radar_queries.yml")
     assert R.validate_config(cfg) == []
     assert any(q["enabled"] for q in cfg["queries"])
