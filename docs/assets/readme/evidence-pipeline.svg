@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 820" role="img"
+     aria-label="How evidence moves through Puckworks: 1 paper or dataset, to 2 a model or source card, to 3 a typed component, to 4 validation gates, to 5 an evidence-aware result, to 6 the next measurement or a bounded conclusion — which feeds back to the start.">
+  <!-- Self-contained light card with its own background so it stays legible on both light and
+       dark GitHub themes. No embedded fonts (system stack). Each stage is numbered AND labelled,
+       so nothing is conveyed by color alone. Vertical flow keeps text readable at mobile width. -->
+  <defs>
+    <style>
+      .t  { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+      .num{ font-weight: 700; fill: #ffffff; }
+      .hd { font-weight: 700; fill: #14181c; }
+      .sb { font-weight: 400; fill: #4b525a; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="6" refY="5" orient="auto">
+      <path d="M0 0 L8 5 L0 10 Z" fill="#5a616a"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="560" height="820" rx="16" fill="#f6f7f5"/>
+  <text x="280" y="42" text-anchor="middle" class="t hd" font-size="24">How evidence moves through Puckworks</text>
+
+  <!-- vertical connector -->
+  <line x1="280" y1="70" x2="280" y2="760" stroke="#c7ccc6" stroke-width="2"/>
+
+  <!-- stage template repeated -->
+  <!-- 1 -->
+  <g class="t">
+    <rect x="70" y="72" width="420" height="86" rx="12" fill="#ffffff" stroke="#cfd4ce" stroke-width="1.5"/>
+    <circle cx="104" cy="115" r="18" fill="#0e7490"/>
+    <text x="104" y="122" text-anchor="middle" class="num" font-size="20">1</text>
+    <text x="140" y="108" class="hd" font-size="20">Paper or dataset</text>
+    <text x="140" y="136" class="sb" font-size="15">published measurements, tables, or a source study</text>
+  </g>
+  <line x1="280" y1="158" x2="280" y2="188" stroke="#5a616a" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- 2 -->
+  <g class="t">
+    <rect x="70" y="190" width="420" height="86" rx="12" fill="#ffffff" stroke="#cfd4ce" stroke-width="1.5"/>
+    <circle cx="104" cy="233" r="18" fill="#0e7490"/>
+    <text x="104" y="240" text-anchor="middle" class="num" font-size="20">2</text>
+    <text x="140" y="226" class="hd" font-size="20">Model / source card</text>
+    <text x="140" y="254" class="sb" font-size="15">physics, parameters, assumptions, validity range</text>
+  </g>
+  <line x1="280" y1="276" x2="280" y2="306" stroke="#5a616a" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- 3 -->
+  <g class="t">
+    <rect x="70" y="308" width="420" height="86" rx="12" fill="#ffffff" stroke="#cfd4ce" stroke-width="1.5"/>
+    <circle cx="104" cy="351" r="18" fill="#0e7490"/>
+    <text x="104" y="358" text-anchor="middle" class="num" font-size="20">3</text>
+    <text x="140" y="344" class="hd" font-size="20">Typed component</text>
+    <text x="140" y="372" class="sb" font-size="15">code with a contract at every boundary + provenance</text>
+  </g>
+  <line x1="280" y1="394" x2="280" y2="424" stroke="#5a616a" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- 4 -->
+  <g class="t">
+    <rect x="70" y="426" width="420" height="86" rx="12" fill="#ffffff" stroke="#cfd4ce" stroke-width="1.5"/>
+    <circle cx="104" cy="469" r="18" fill="#b06a2c"/>
+    <text x="104" y="476" text-anchor="middle" class="num" font-size="20">4</text>
+    <text x="140" y="462" class="hd" font-size="20">Validation gates</text>
+    <text x="140" y="490" class="sb" font-size="15">tested against real data; exceptions acknowledged, not hidden</text>
+  </g>
+  <line x1="280" y1="512" x2="280" y2="542" stroke="#5a616a" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- 5 -->
+  <g class="t">
+    <rect x="70" y="544" width="420" height="86" rx="12" fill="#ffffff" stroke="#cfd4ce" stroke-width="1.5"/>
+    <circle cx="104" cy="587" r="18" fill="#0e7490"/>
+    <text x="104" y="594" text-anchor="middle" class="num" font-size="20">5</text>
+    <text x="140" y="580" class="hd" font-size="20">Evidence-aware result</text>
+    <text x="140" y="608" class="sb" font-size="15">labelled measured / derived / fitted / predicted / simulated</text>
+  </g>
+  <line x1="280" y1="630" x2="280" y2="660" stroke="#5a616a" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- 6 -->
+  <g class="t">
+    <rect x="70" y="662" width="420" height="86" rx="12" fill="#ffffff" stroke="#cfd4ce" stroke-width="1.5"/>
+    <circle cx="104" cy="705" r="18" fill="#3f7d3a"/>
+    <text x="104" y="712" text-anchor="middle" class="num" font-size="20">6</text>
+    <text x="140" y="698" class="hd" font-size="20">Next measurement or bounded conclusion</text>
+    <text x="140" y="726" class="sb" font-size="15">what to measure next — or what the data cannot support</text>
+  </g>
+
+  <!-- feedback loop 6 -> 1 -->
+  <path d="M70 705 C24 705 24 115 70 115" fill="none" stroke="#9aa1a8" stroke-width="2"
+        stroke-dasharray="6 6" marker-end="url(#arrow)"/>
+  <text x="20" y="410" text-anchor="middle" class="t sb" font-size="13"
+        transform="rotate(-90 20 410)">uncertainty guides the next experiment</text>
+</svg>

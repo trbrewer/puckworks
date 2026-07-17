@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" role="img"
+     aria-label="puckworks — evidence-first models for what happens inside an espresso puck">
+  <!-- Dark-mode hero. No embedded fonts (system font stack only). Decorative art;
+       all meaning is carried by the text below and by the README alt text. -->
+  <defs>
+    <style>
+      .wordmark { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="360" fill="#0d1117"/>
+  <rect x="0" y="356" width="1200" height="4" fill="#38bdf8"/>
+
+  <!-- Puck cross-section motif: stacked layers = the process decomposed into typed stages. -->
+  <g transform="translate(150 180)">
+    <ellipse cx="0" cy="86" rx="118" ry="26" fill="#161b22"/>
+    <g stroke="#e6edf3" stroke-width="2.5">
+      <path d="M-118 -60 a118 26 0 0 0 236 0 l0 96 a118 26 0 0 1 -236 0 Z" fill="#a9702e"/>
+      <ellipse cx="0" cy="-60" rx="118" ry="26" fill="#d69a4c"/>
+    </g>
+    <line x1="-118" y1="-24" x2="118" y2="-24" stroke="#e6edf3" stroke-width="1.5" stroke-dasharray="5 6" opacity="0.5"/>
+    <line x1="-118" y1="6" x2="118" y2="6" stroke="#e6edf3" stroke-width="1.5" stroke-dasharray="5 6" opacity="0.5"/>
+    <!-- flow arrow: pressure-driven infiltration through the bed -->
+    <g stroke="#38bdf8" stroke-width="4" fill="none">
+      <line x1="0" y1="-150" x2="0" y2="-92"/>
+      <path d="M-9 -104 L0 -90 L9 -104" />
+    </g>
+  </g>
+
+  <!-- Wordmark + mission -->
+  <g class="wordmark">
+    <text x="360" y="150" font-size="88" font-weight="700" fill="#f0f3f6">puckworks</text>
+    <text x="362" y="205" font-size="30" font-weight="400" fill="#c9d1d9">Evidence-first models for what happens inside an espresso puck.</text>
+    <text x="362" y="252" font-size="21" font-weight="400" fill="#9aa4af">Papers become typed components. Components face validation gates.</text>
+    <text x="362" y="282" font-size="21" font-weight="400" fill="#9aa4af">Every conclusion keeps its limits.</text>
+  </g>
+</svg>

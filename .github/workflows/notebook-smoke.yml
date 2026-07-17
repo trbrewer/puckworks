@@ -1,0 +1,86 @@
+name: notebook-smoke
+# Execute the CPU-first quickstart notebook deterministically, with NO network and NO GPU.
+# The notebook installs the RELEASE wheel by default; here we override PUCKWORKS_WHEEL to a
+# locally built wheel so the run is hermetic. Fails on any cell error or a missing completion
+# marker. Executed outputs go to a temp path and are never committed.
+on:
+  pull_request:
+    paths:
+      - "notebooks/puckworks_quickstart_colab.ipynb"
+      - "puckworks/**"
+      - "pyproject.toml"
+      - ".github/workflows/notebook-smoke.yml"
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: notebook-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  notebook:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      MPLBACKEND: Agg          # headless matplotlib; no display required
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.12"
+
+      - name: committed notebook carries no execution outputs
+        run: |
+          python - <<'PY'
+          import json
+          nb = json.load(open("notebooks/puckworks_quickstart_colab.ipynb"))
+          for i, c in enumerate(nb["cells"]):
+              if c["cell_type"] == "code":
+                  assert not c.get("outputs"), f"cell {i} has committed outputs"
+                  assert c.get("execution_count") in (None,), f"cell {i} has execution_count"
+          print("committed notebook is clean")
+          PY
+
+      - name: build the local wheel (installed by the notebook via override)
+        run: |
+          python -m pip install --quiet build
+          python -m build --wheel --outdir dist .
+          ls dist/*.whl
+
+      - name: notebook execution tooling (CPU only)
+        run: python -m pip install --quiet jupyter nbconvert nbclient ipykernel matplotlib
+
+      - name: execute the notebook offline against the local wheel
+        env:
+          # The notebook's install cell reads this and installs the LOCAL wheel — no network.
+          PUCKWORKS_WHEEL_DIR: ${{ github.workspace }}/dist
+        run: |
+          export PUCKWORKS_WHEEL="$(ls "$PUCKWORKS_WHEEL_DIR"/puckworks-*.whl | head -n1)"
+          echo "Installing wheel: $PUCKWORKS_WHEEL"
+          jupyter nbconvert --to notebook --execute \
+            --ExecutePreprocessor.timeout=300 \
+            --output /tmp/executed_quickstart.ipynb \
+            notebooks/puckworks_quickstart_colab.ipynb
+
+      - name: verify completion marker (and no residual errors)
+        run: |
+          python - <<'PY'
+          import json
+          nb = json.load(open("/tmp/executed_quickstart.ipynb"))
+          text = []
+          for c in nb["cells"]:
+              for o in c.get("outputs", []):
+                  assert o.get("output_type") != "error", f"cell errored: {o.get('ename')}: {o.get('evalue')}"
+                  text += o.get("text", []) if isinstance(o.get("text"), list) else [o.get("text", "")]
+                  for line in o.get("data", {}).get("text/plain", []) if isinstance(o.get("data", {}).get("text/plain"), list) else []:
+                      text.append(line)
+          blob = "".join(t for t in text if t)
+          assert "QUICKSTART_COMPLETE" in blob, "quickstart did not reach its completion marker"
+          print("QUICKSTART_COMPLETE marker present; no cell errors")
+          PY

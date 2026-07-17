@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "note": "Explicit, hand-maintained record of the LATEST public release. The README project-pulse generator (tools/update_readme_pulse.py) reads this file rather than guessing a public release from the development version in pyproject.toml. Update this file (and only this file) at release time; there is no network lookup. puckworks is NOT on PyPI — the canonical distribution is the GitHub Release below.",
+  "latest_public_release": {
+    "tag": "v0.2.0",
+    "name": "puckworks v0.2.0",
+    "published_utc": "2026-07-17T01:08:00Z",
+    "release_url": "https://github.com/trbrewer/puckworks/releases/tag/v0.2.0",
+    "wheel_filename": "puckworks-0.2.0-py3-none-any.whl",
+    "wheel_url": "https://github.com/trbrewer/puckworks/releases/download/v0.2.0/puckworks-0.2.0-py3-none-any.whl",
+    "wheel_sha256": "0a54f8782e4173132308af24ce0c88bb48a2d334071382c07c0ff5ecc9082df1",
+    "sdist_sha256": "8b60626328897077ffd1f8de886a086610d808e5fa3a2c829e71a817bf59aaad",
+    "on_pypi": false
+  }
+}
