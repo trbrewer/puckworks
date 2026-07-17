@@ -50,8 +50,17 @@ product.bundle_to_json(bundle)                      # -> str; product.bundle_fro
   generic `to_json`/`to_dict`. Readers are strict — they require the schema version, reject
   unsupported versions, unknown top-level fields, and duplicate JSON keys.
 - **`NormalizedShot` is deferred** until PR 2 (not public).
-- Records are frozen with immutable typed containers (e.g. `normalized_units` is a tuple of
-  `UnitBinding`, never a dict).
+- **Self-contained bundle**: `ShotExplanationBundle` carries its own `time_axes`
+  (`tuple[TimeAxis, ...]`); every available observation's `time_axis_id` resolves to a bundled axis,
+  so the JSON is interpretable without loading the original fixture.
+- **Record- vs member-level license** are separate `FixtureProvenance` fields
+  (`record_license_expression`/`_url` vs `member_license_expression`/`_url`); a fixture is
+  redistributable only when reviewed **approved** with a non-null **member** license.
+- **Strict recursive decoding**: readers validate every nested record's exact key set, reject
+  unknown/missing fields, wrong container types, and malformed enums with a path-aware `SchemaError`;
+  `generation_timestamp` must be RFC 3339.
+- Records are frozen with immutable typed containers (every public sequence is parameterized, e.g.
+  `normalized_units` is a `tuple[UnitBinding, ...]`, never a dict).
 - **Provenance**: a serialized bundle always carries a **full 40-hex `source_commit`**; there is no
   runtime Git lookup. `build_provenance(source_commit=...)` requires an explicit or packaged commit
   and raises `ProvenanceUnavailableError` otherwise.
