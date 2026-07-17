@@ -521,3 +521,14 @@ def test_radar_workflow_separates_permissions():
     cond = jobs["publish"]["if"]
     assert "refs/heads/main" in cond and "trbrewer/puckworks" in cond
     assert "publish == 'true'" in cond and "status != 'failed'" in cond
+    # unattended (scheduled) writes are disabled by default: gated on a repo variable opt-in
+    assert "RADAR_UNATTENDED_WRITES == 'enabled'" in cond
+    assert "workflow_dispatch" in cond
+
+
+def test_venue_reminder_scheduled_write_is_opt_in():
+    pytest.importorskip("yaml")
+    import yaml
+    wf = yaml.safe_load((_ROOT / ".github" / "workflows" / "venue-deadline-review.yml").read_text())
+    cond = wf["jobs"]["remind"]["if"]
+    assert "RADAR_UNATTENDED_WRITES == 'enabled'" in cond and "workflow_dispatch" in cond
