@@ -35,6 +35,8 @@ _EXPECTED_PUBLIC = {
     "shot_input_from_dict", "shot_input_from_json", "bundle_to_dict", "bundle_to_json",
     "bundle_from_dict", "bundle_from_json", "build_provenance", "dev_build_identifier",
     "SchemaError", "ProvenanceUnavailableError",
+    # PR 2A — rights-independent normalization boundary
+    "normalize_shot_input", "RawChannel", "SeriesRole", "synthetic_provenance", "NormalizationError",
 }
 
 

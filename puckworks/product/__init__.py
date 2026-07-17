@@ -46,6 +46,13 @@ from ._records import (
     TransformationStep,
     UnitBinding,
 )
+from ._normalize import (
+    NormalizationError,
+    RawChannel,
+    SeriesRole,
+    normalize_shot_input,
+    synthetic_provenance,
+)
 from ._serialize import (
     SchemaError,
     bundle_from_dict,
@@ -98,7 +105,13 @@ __all__ = [
     # provenance (fixture discovery/loading is deferred to PR 1B, after an approved fixture)
     "build_provenance",
     "dev_build_identifier",
+    # PR 2A — rights-independent normalization boundary (caller-owned/synthetic input only)
+    "normalize_shot_input",
+    "RawChannel",
+    "SeriesRole",
+    "synthetic_provenance",
     # exceptions
     "SchemaError",
     "ProvenanceUnavailableError",
+    "NormalizationError",
 ]
