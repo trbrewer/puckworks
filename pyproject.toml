@@ -58,6 +58,7 @@ include = ["puckworks*"]
 [tool.setuptools.package-data]
 puckworks = ["data/*.csv", "data/*.json"]
 "puckworks.data" = ["*.csv", "*.json", "*.md", "**/*.csv", "**/*.json", "**/*.md"]
+"puckworks.data.product" = ["*.csv", "*.json", "*.md"]
 
 [tool.setuptools.exclude-package-data]
 # NEVER ship the private/raw visualizer corpus (P1.4 / privacy). The broad **/*.csv include above
@@ -86,4 +87,10 @@ files = [
     "puckworks/paper3/archive.py",
     "puckworks/paper3/evidence_graph.py",
     "puckworks/paper3/build.py",
+    "puckworks/product/_enums.py",
+    "puckworks/product/_records.py",
+    "puckworks/product/_serialize.py",
+    "puckworks/product/_provenance.py",
+    "puckworks/product/_fixtures.py",
+    "puckworks/product/__init__.py",
 ]

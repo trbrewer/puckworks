@@ -16,7 +16,10 @@ PRIVATE_SUBSTRINGS = ("visualizer/raw", "visualizer/normalized", "visualizer/cra
 # package-data that MUST be present for the installed package to work
 REQUIRED_SUFFIXES = ("puckworks/data/MANIFEST.csv",
                      "puckworks/data/cameron2020/fig5_grind_deviation.csv",
-                     "puckworks/data/visualizer/PROVENANCE.md")
+                     "puckworks/data/visualizer/PROVENANCE.md",
+                     # product fixture + manifest (issue #32 PR 1) — the bundled single-shot
+                     "puckworks/data/product/waszkiewicz2025_9bar_single_shot.csv",
+                     "puckworks/data/product/waszkiewicz2025_9bar_single_shot.manifest.json")
 
 
 def _members(path: Path):

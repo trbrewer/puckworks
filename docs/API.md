@@ -25,15 +25,38 @@ puckworks.GateResult, puckworks.GateSuiteResult
 # public namespaces
 puckworks.contracts                   # typed physics state dataclasses (SCHEMA_VERSION)
 puckworks.validate                    # boundary units + validators + versioned Trace
+puckworks.product                     # product-facing contract (see below)
 ```
+
+### `puckworks.product` — product contract (issue #32)
+
+```python
+from puckworks import product
+
+product.available_fixtures()                       # -> tuple[str, ...]
+shot = product.load_bundled_shot("waszkiewicz2025_9bar_single_shot")   # -> ShotInput
+product.to_json(shot)                              # canonical, deterministic JSON (str)
+product.bundle_from_json(text)                     # -> ShotExplanationBundle
+```
+
+`puckworks.product` is a **supported, additive** namespace with its own `product.__all__`: the
+orthogonal enums (`SeriesKind`, `AvailabilityStatus`, `CompatibilityStatus`, `RecordKind`), the
+typed records (`ShotInput`, `ObservedSeries`, `TimeAxis`, `EvidenceReference`, `BuildProvenance`,
+`FixtureProvenance`, `DetectedEvent`, `Caveat`, `NextMeasurement`, `ExplanationCandidate`,
+`NormalizedShot`, `ShotExplanationBundle`), canonical serialization (`to_dict`/`to_json`/
+`bundle_from_*`/`shot_input_from_*`), and `build_provenance` / `load_bundled_shot`. Its records and
+serialized schemas (`SCHEMA_VERSION = 1`) follow the stability policy below. Every `_`-prefixed
+submodule (`_records`, `_serialize`, `_provenance`, `_fixtures`, `_enums`) is **internal**; no
+harness, paper, registry, or model implementation object is exposed. (PR 1 ships the contract,
+serialization, and one fixture only — no `analyze_shot`/model orchestration/HTML output.)
 
 ## What is NOT public (internal research tooling)
 
 `harness`, `analysis`, `paper3`, `paper_a`, `paper_b`, `figures`, `figures_paper_a`, `lib`, `viz`,
 `inventory`, `release`, `statusdoc`, and every `_`-prefixed name. These support the science and the
 release/publication machinery; they are importable but **not** covered by the stability policy, and
-should not be depended on by external code. (A product-facing API is a separate, later surface —
-see the roadmap; it will not simply be these internals because they are importable.)
+should not be depended on by external code. The product-facing API is `puckworks.product` (above) —
+a distinct supported surface built on narrow `_`-prefixed adapters, **not** these internals.
 
 ## Stability policy
 
@@ -46,8 +69,8 @@ see the roadmap; it will not simply be these internals because they are importab
 - **Serialization compatibility**: every serialized public schema carries a `schema_version` and is
   extended additively (fields are added, never repurposed) — `contracts.SCHEMA_VERSION`,
   `registry.SCHEMA_VERSION`, `gate_runner`/`GateResult` `schema_version`, `validate.Trace`
-  `schema_version`, the evidence-graph and status-doc schema versions. A reader/migration is
-  provided for any already-published schema.
+  `schema_version`, `product.SCHEMA_VERSION` (`ShotExplanationBundle`), the evidence-graph and
+  status-doc schema versions. A reader/migration is provided for any already-published schema.
 - **Internal churn is free**: harness/analysis/paper* internals may change in any release.
 
 ## Reader paths

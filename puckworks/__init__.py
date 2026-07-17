@@ -4,13 +4,15 @@ Not a mega-model: a set of stage implementations with typed contracts, provenanc
 gates. A model run is a configuration.
 
 SUPPORTED PUBLIC API (see docs/API.md for the stability policy). Everything named in ``__all__``
-below is covered by semantic versioning; everything else — ``harness``, ``analysis``, ``paper3``,
-``paper_a``, ``paper_b``, ``figures``, ``lib``, ``viz``, ``inventory`` — is INTERNAL research
-tooling and may change without notice.
+below is covered by semantic versioning, including the additive ``product`` namespace
+(``puckworks.product``); everything else — ``harness``, ``analysis``, ``paper3``, ``paper_a``,
+``paper_b``, ``figures``, ``lib``, ``viz``, ``inventory`` — is INTERNAL research tooling and may
+change without notice.
 """
 __version__ = "0.2.0"
 
 from puckworks import contracts, registry, validate   # noqa: F401  (public namespaces)
+from puckworks import product                          # noqa: F401  (supported product namespace)
 from puckworks.registry import (                       # noqa: F401
     Component, components, get, load_builtin_components)
 from puckworks.gate_runner import (                    # noqa: F401
@@ -21,7 +23,7 @@ import puckworks.models                                # noqa: F401  (registers 
 __all__ = [
     "__version__",
     # public namespaces
-    "contracts", "registry", "validate",
+    "contracts", "registry", "validate", "product",
     # registry query
     "Component", "components", "get", "load_builtin_components",
     # gate evaluation
