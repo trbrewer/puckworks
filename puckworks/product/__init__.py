@@ -2,9 +2,10 @@
 
 A stable boundary between the scientific internals and any consumer of a shot-explanation result.
 Everything named in :data:`__all__` follows the repository stability policy (``docs/API.md``);
-``_``-prefixed submodules (``_records``, ``_serialize``, ``_provenance``, ``_fixtures``, ``_enums``)
-are internal implementation and may change without notice. No harness, paper, registry, or model
-implementation object is exposed here.
+``_``-prefixed submodules (``_records``, ``_serialize``, ``_provenance``, ``_enums``) are internal
+implementation and may change without notice. There is **no fixture loader in PR 1A** (fixture
+discovery/loading is deferred to PR 1B). No harness, paper, registry, or model implementation object
+is exposed here.
 
 This is **unreleased next-minor** API work: the published v0.2.0 wheel does **not** contain
 ``puckworks.product``. PR 1A scope is the **rights-independent** contract only — the versioned

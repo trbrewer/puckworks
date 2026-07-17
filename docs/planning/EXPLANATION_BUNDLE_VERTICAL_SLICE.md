@@ -167,12 +167,23 @@ PR 1 was **split** so a rights-blocked fixture cannot block the rights-independe
   individual shot; source and transformed hashes; manifest; attribution; public loader; wheel/sdist
   inclusion; installed-wheel golden path. Blocked on the Waszkiewicz member-license clarification
   (RadostW/espresso#1) or another explicitly-licensed single shot.
-- **PR 2A — normalization boundary**: explicit-unit validation; time alignment; pressure-node/reference
-  handling; flow-versus-mass semantics; **no model conclusions**.
+- **PR 2A — normalization boundary** (**rights-independent**): explicit-unit validation; time
+  alignment; pressure-node/reference handling; flow-versus-mass semantics; synthetic/caller-owned test
+  data; **no model conclusions**. **May begin after PR 1A merges** — it does **not** require PR 1B.
 - **PR 2B — analysis orchestration**: fixture-supported explanation candidates; evidence/caveats; no
-  overall winner; next-measurement logic.
-- **PR 3 — human-readable static result/export.**
-- **PR 4 — evidence-comprehension review + wording corrections.**
+  overall winner; next-measurement logic. **Requires BOTH PR 1B (approved real fixture) AND PR 2A.**
+- **PR 3 — human-readable static result/export** (follows PR 2B).
+- **PR 4 — evidence-comprehension review + wording corrections** (follows PR 3).
+
+**Dependency graph (so a blocked fixture cannot justify model conclusions):**
+```
+PR 1A (contract, no fixture, no analysis)  -- merged --> PR 2A (normalization, rights-independent)
+PR 1A ------------------------------------ rights ----> PR 1B (approved real fixture)
+PR 2A + PR 1B ---------------------------------------->  PR 2B (analysis) -> PR 3 -> PR 4
+```
+
+**Development-version gate: SATISFIED.** The `0.3.0.dev0` development line was opened through PR #35;
+source/development builds no longer identify themselves as the released v0.2.0.
 
 Issue #32 remains open until the complete outcome is delivered. Generic import begins only after the
 bundled result is understandable and scientifically modest.

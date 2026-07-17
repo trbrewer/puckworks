@@ -22,7 +22,7 @@ import puckworks
 from puckworks import product as p
 
 GOLDEN = Path(__file__).parent / "product" / "synthetic_golden_bundle.json"
-GOLDEN_SHA256 = "707b51340d29c795738bb46a89c6d65d52f01697aeb3b8d6aec705ea24ee353d"
+GOLDEN_SHA256 = "656a6b9ebbff4ce2da2741395fc6c003cd29a022e396baff4eec5383feef47e5"
 FULL_COMMIT = "0" * 40
 
 _EXPECTED_PUBLIC = {
@@ -117,6 +117,17 @@ def test_docs_api_agrees():
     api = (Path(__file__).parents[1] / "docs" / "API.md").read_text()
     for token in ("puckworks.product", "shot_input_to_json", "time_axes", "measurement node"):
         assert token in api, token
+    # docs must NOT advertise removed/deferred fixture APIs (PR 1A is contract-only)
+    for removed in ("available_fixtures", "load_bundled_shot", "release_ready_fixtures",
+                    "FixtureManifestError", "FixtureRightsError"):
+        assert removed not in api, f"docs/API.md still advertises removed API: {removed}"
+
+
+def test_docstring_lists_no_fixtures_module():
+    doc = p.__doc__ or ""
+    assert "_fixtures" not in doc
+    for internal in ("_records", "_serialize", "_provenance", "_enums"):
+        assert internal in doc, internal
 
 
 # ---- 2. schema versioning ---------------------------------------------------
