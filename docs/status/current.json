@@ -133,8 +133,8 @@
       "external_blocker": "Miha-side bulk export/token; the public API only exposes a recent-updated window, not the historical corpus",
       "resume_trigger": "a sanctioned export exists with recorded redistribution rights, a stable pinned schema/version, and a committed checksum + provenance record",
       "next_gate": "run the WP7 pilot on the real immutable export (synthetic contract + importer already exist)",
-      "acceptance_evidence": "corpus_export + SANCTIONED_EXPORT_SPEC.md + synthetic end-to-end pipeline exist; awaiting the real export",
-      "issue_or_pr": null,
+      "acceptance_evidence": "tracking issue #36; publication-profile export-manifest validator (corpus_export.validate_export_manifest) + fail-closed freeze gate; synthetic end-to-end tests (tests/test_export_readiness.py); export-readiness packet (docs/analysis/VISUALIZER_EXPORT_READINESS.md); SANCTIONED_EXPORT_SPEC.md — awaiting the real Miha-side export",
+      "issue_or_pr": "#36",
       "verified_commit": null,
       "verified_date": null
     },

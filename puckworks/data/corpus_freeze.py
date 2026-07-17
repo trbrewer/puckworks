@@ -115,6 +115,14 @@ def freeze_rehearse(source_dir, as_of=None) -> FreezeCandidate:
     recon = snap.reconcile()
     exp = _export_manifest(source_dir)
     has_cutoff = bool(exp and exp.get("export_cutoff") is not None)
+    # a publication freeze requires a VALIDATED publication-profile source manifest, not merely a
+    # non-null cutoff (rights, checksum, aggregate-publication permission, governance record).
+    pub_problem = None
+    from puckworks.data.corpus_export import ExportManifestError, validate_export_manifest
+    try:
+        validate_export_manifest(exp or {}, profile="publication")
+    except ExportManifestError as _exc:
+        pub_problem = str(_exc)
 
     blockers = []
     if not recon.get("ok"):
@@ -130,6 +138,8 @@ def freeze_rehearse(source_dir, as_of=None) -> FreezeCandidate:
     if not has_cutoff:
         blockers.append("no coherent export cutoff — source is a moving feed, not an export "
                         "(sanctioned bulk export required for publication; WP1.5/WP7)")
+    elif pub_problem is not None:
+        blockers.append("export manifest fails the publication profile: %s" % pub_problem)
 
     return FreezeCandidate(
         source_dir=str(source_dir),

@@ -9,6 +9,20 @@ It imports into a NEW empty store, writes Bronze lineage, drops post-cutoff reco
 un-normalizable ones, and writes `source_export_manifest.json` — the coherence evidence a
 publication freeze checks for a non-null `export_cutoff`.
 
+## Manifest profiles (rehearsal vs publication)
+
+`corpus_export.validate_export_manifest(manifest, profile=...)` enforces two profiles:
+
+- **`rehearsal`** — requires only a non-null integer `export_cutoff`; supports deterministic synthetic
+  tests and marks its output non-publication.
+- **`publication`** — **fails closed** unless the full governance record is present and consistent
+  (`export_spec_version`, `source_name`, `source_authority`, `export_created_at`, `export_cutoff`,
+  `source_schema_version`, `record_count`, `archive_or_export_sha256`, `stable_record_id_semantics`,
+  `record_version_semantics`, `user_linkage_semantics`, `privacy_transform`, `rights_basis`,
+  `raw_redistribution_status`, `aggregate_publication_status`, `retention_policy`,
+  `deletion_or_correction_policy`, `contact_record`). A publication **freeze** now requires this to
+  pass (`corpus_freeze.freeze_rehearse`). See `docs/analysis/VISUALIZER_EXPORT_READINESS.md`.
+
 ## Export manifest (required / requested)
 
 | field | req | meaning |

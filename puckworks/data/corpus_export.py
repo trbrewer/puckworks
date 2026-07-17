@@ -25,6 +25,72 @@ EXPORT_SPEC_VERSION = 1
 # the importer tolerates missing optional fields but REQUIRES a non-null export_cutoff.
 REQUIRED_EXPORT_MANIFEST_FIELDS = ("export_cutoff",)
 
+# A PUBLICATION-profile manifest must additionally carry a full governance record before any
+# publication freeze may pass. Names align with SANCTIONED_EXPORT_SPEC.md.
+PUBLICATION_REQUIRED_FIELDS = (
+    "export_spec_version", "source_name", "source_authority", "export_created_at", "export_cutoff",
+    "source_schema_version", "record_count", "archive_or_export_sha256", "stable_record_id_semantics",
+    "record_version_semantics", "user_linkage_semantics", "privacy_transform", "rights_basis",
+    "raw_redistribution_status", "aggregate_publication_status", "retention_policy",
+    "deletion_or_correction_policy", "contact_record",
+)
+_REDIST_VOCAB = {"prohibited", "permitted"}
+_AGG_VOCAB = {"permitted", "prohibited"}
+
+
+class ExportManifestError(ValueError):
+    """Raised when a sanctioned-export manifest fails profile validation."""
+
+
+def _is_sha256(v) -> bool:
+    return isinstance(v, str) and len(v) == 64 and all(c in "0123456789abcdef" for c in v.lower())
+
+
+def validate_export_manifest(manifest, *, profile="rehearsal", n_records=None):
+    """Validate a sanctioned-export manifest under a profile.
+
+    ``rehearsal`` requires only enough identity to test import behaviour (a non-null integer
+    ``export_cutoff``) and marks its output non-publication. ``publication`` **fails closed** unless
+    the full governance record is present and internally consistent — missing rights, checksum,
+    aggregate-publication permission, or the immutable cutoff all raise :class:`ExportManifestError`.
+    Returns a classification dict; never returns silently on a publication gap.
+    """
+    if profile not in ("rehearsal", "publication"):
+        raise ValueError("profile must be 'rehearsal' or 'publication'")
+    if not isinstance(manifest, dict):
+        raise ExportManifestError("export manifest must be a mapping")
+    problems = []
+    cutoff = _vh._as_int(manifest.get("export_cutoff"), default=None)
+    if cutoff is None:
+        problems.append("export_cutoff must be a non-null integer (distinguishes an export from a feed)")
+    if profile == "publication":
+        for f in PUBLICATION_REQUIRED_FIELDS:
+            if manifest.get(f) in (None, "", []):
+                problems.append("missing required publication field %r" % f)
+        if manifest.get("archive_or_export_sha256") is not None and not _is_sha256(manifest["archive_or_export_sha256"]):
+            problems.append("archive_or_export_sha256 must be a full lowercase SHA-256")
+        rc = _vh._as_int(manifest.get("record_count"), default=None)
+        if manifest.get("record_count") is not None and rc is None:
+            problems.append("record_count must be an integer")
+        if rc is not None and n_records is not None and rc != n_records:
+            problems.append("record_count %r != actual %r" % (rc, n_records))
+        rr = manifest.get("raw_redistribution_status")
+        if rr is not None and rr not in _REDIST_VOCAB:
+            problems.append("raw_redistribution_status must be one of %s" % sorted(_REDIST_VOCAB))
+        ap = manifest.get("aggregate_publication_status")
+        if ap is not None and ap not in _AGG_VOCAB:
+            problems.append("aggregate_publication_status must be one of %s" % sorted(_AGG_VOCAB))
+        if ap == "prohibited":
+            problems.append("aggregate_publication_status is prohibited: publication is not permitted")
+    if problems:
+        raise ExportManifestError("; ".join(problems))
+    return {
+        "profile": profile,
+        "export_cutoff": cutoff,
+        "publication_qualified": profile == "publication",
+        "classification": "publication-source" if profile == "publication" else "rehearsal-source",
+    }
+
 
 def import_sanctioned_export(records, export_manifest, dst_dir, salt="import"):
     """Import a sanctioned export into a NEW empty store. Returns a summary dict. Writes shards,
@@ -122,10 +188,28 @@ def synthetic_export(cutoff=1000):
         {"id": "bad1", "user_id": "u3", "updated_at": 140, "timeframe": tf, "data": "nope"},  # quarantined
     ]
     manifest = {
+        # legacy/spec-v1 fields (kept for continuity)
         "export_cutoff": cutoff,
         "source": "visualizer.coffee sanctioned export (synthetic fixture)",
         "export_created_at": cutoff,          # deterministic; a real export stamps wall-clock
         "license": "per Miha permission 2026-07-14; attribution + collective user credit",
         "privacy": "salted one-way user hash; free-text/PII dropped on import",
+        # publication-profile governance record (synthetic-but-complete)
+        "export_spec_version": EXPORT_SPEC_VERSION,
+        "source_name": "visualizer.coffee",
+        "source_authority": "Miha (visualizer.coffee maintainer) — synthetic fixture stand-in",
+        "source_schema_version": 1,
+        "record_count": len(records),
+        "archive_or_export_sha256": "0" * 64,   # synthetic placeholder; a real export carries the real digest
+        "stable_record_id_semantics": "opaque per-shot id; stable across the export",
+        "record_version_semantics": "integer updated_at as the monotone version key",
+        "user_linkage_semantics": "salted one-way per-user token; no reversible identity",
+        "privacy_transform": "PII/free-text dropped on import; salted user hash",
+        "rights_basis": "synthetic fixture; a real export must carry the authorised research-use basis",
+        "raw_redistribution_status": "prohibited",
+        "aggregate_publication_status": "permitted",
+        "retention_policy": "synthetic; local-only; not retained beyond the rehearsal",
+        "deletion_or_correction_policy": "synthetic; deletions/corrections re-exported by the source",
+        "contact_record": "synthetic fixture; a real export records the authorising contact",
     }
     return records, manifest

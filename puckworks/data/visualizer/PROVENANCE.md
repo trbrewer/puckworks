@@ -146,10 +146,18 @@ raw/_cursor.json       # incremental cursor, advanced only on completed runs (NO
 raw/_list_page.json    # full-crawl page-resume checkpoint (NOT committed)
 raw/_quarantine.jsonl  # malformed / lifecycle-failed records + payload (NOT committed)
 raw/_runs/*.json       # per-run provenance manifests (NOT committed)
-aggregate_stats.csv    # DERIVED aggregate stats only (TRACKED)
+aggregate_stats.csv    # DERIVED aggregate stats only (TRACKED) — see classification below
+aggregate_stats.provenance.json  # provenance sidecar for aggregate_stats.csv (TRACKED)
 ```
 Version history is append-only; the default readers/`stats` collapse to the LATEST version
 per shot. `reconcile` / `rebuild-index` subcommands verify and regenerate the derived index.
+
+**`aggregate_stats.csv` is NOT a publication corpus result.** It is a DERIVED summary written by the
+`stats` action; the tracked file currently holds an all-zero template (written over an empty local
+store). It reflects the recent-updated public window model, not the historical corpus, and
+`publication_allowed = false`. See `aggregate_stats.provenance.json` for its classification and
+limitations. Publication-grade aggregates come only from a verified sanctioned-export freeze
+(`docs/analysis/SANCTIONED_EXPORT_SPEC.md`, `docs/analysis/VISUALIZER_EXPORT_READINESS.md`).
 
 ## How to (re)populate
 ```
