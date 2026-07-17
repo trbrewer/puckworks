@@ -30,22 +30,37 @@ def test_synthetic_export_end_to_end(tmp_path):
     assert latest["rev1"]["hydraulic"]["pressure__Pa"][-1] == pytest.approx(9.0e5)
     assert latest["conflict1"]["hydraulic"]["pressure__Pa"][0] == pytest.approx(9.0e5)
 
-    # a coherent export IS publication-ready (has export_cutoff, reconciles clean)
+    # a SYNTHETIC export reconciles/imports cleanly but can NEVER be publication-ready (source_kind).
     cand = cf.freeze_rehearse(store)
     assert cand.reconcile_ok and cand.has_export_cutoff
-    assert cand.ready_for_publication is True, cand.blockers
+    assert cand.ready_for_publication is False
+    assert any("source_kind" in b or "synthetic" in b for b in cand.blockers)
 
-    # materialize -> verify -> a qualifying receipt
+    # it may still be materialized as CURRENT-STATE (the non-publication route).
     snap_dir = tmp_path / "snap"
-    man = cf.freeze_materialize(store, snap_dir, classification="publication-freeze", name="pub")
+    man = cf.freeze_materialize(store, snap_dir, classification="current-state", name="cur")
     assert man["n_canonical_records"] == 5
-    # the equal-timestamp conflict is materialized for audit
     conflicts = json.loads((snap_dir / "version_conflicts.json").read_text())
     assert any(c["id"] == "conflict1" for c in conflicts)
+
+
+def test_real_export_mock_publication_path(tmp_path):
+    """Mechanics-only: a REAL-export mock governance record exercises the publication path. This
+    verifies software mechanics, NOT real source authorization or rights."""
+    records, _ = ce.synthetic_export(cutoff=1000)
+    manifest = ce._governance_record(len(records), 1000, source_kind="real_export")
+    store = tmp_path / "store"
+    ce.import_sanctioned_export(records, manifest, store)
+    snap = vs.CorpusSnapshot(store, name="imp", classification="current-state")
+
+    cand = cf.freeze_rehearse(store)
+    assert cand.ready_for_publication is True, cand.blockers
+
+    snap_dir = tmp_path / "snap"
+    cf.freeze_materialize(store, snap_dir, classification="publication-freeze", name="pub")
     receipt = cf.freeze_verify(snap_dir, source_dir=store)
     assert receipt.qualifies_for_publication is True
 
-    # the verified receipt unlocks a publication bundle
     bundle = corpus_bundle.build_bundle(snap, require_freeze=True, receipt=receipt)
     assert bundle["exploratory"] is False
     assert bundle["publication_receipt_sha256"] == receipt.receipt_sha256

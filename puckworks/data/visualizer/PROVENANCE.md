@@ -152,11 +152,11 @@ aggregate_stats.provenance.json  # provenance sidecar for aggregate_stats.csv (T
 Version history is append-only; the default readers/`stats` collapse to the LATEST version
 per shot. `reconcile` / `rebuild-index` subcommands verify and regenerate the derived index.
 
-**`aggregate_stats.csv` is NOT a publication corpus result.** It is a DERIVED summary written by the
-`stats` action; the tracked file currently holds an all-zero template (written over an empty local
-store). It reflects the recent-updated public window model, not the historical corpus, and
-`publication_allowed = false`. See `aggregate_stats.provenance.json` for its classification and
-limitations. Publication-grade aggregates come only from a verified sanctioned-export freeze
+**`aggregate_stats.csv` is an `empty_store_schema_template`, NOT a corpus result.** It is the column
+**shape** of the `stats` action's output, holding **all-zero** values (written over an empty/no-data
+store). It carries no empirical values, is not recent-window data, and `publication_allowed = false`;
+it must never support a scientific or product claim. See `aggregate_stats.provenance.json`.
+Publication-grade aggregates come only from a verified sanctioned-export freeze
 (`docs/analysis/SANCTIONED_EXPORT_SPEC.md`, `docs/analysis/VISUALIZER_EXPORT_READINESS.md`).
 
 ## How to (re)populate

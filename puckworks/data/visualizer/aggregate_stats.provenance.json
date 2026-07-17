@@ -1,22 +1,19 @@
 {
   "schema_version": 1,
   "artifact": "aggregate_stats.csv",
-  "artifact_classification": "exploratory_recent_window",
-  "note": "DERIVED summary written by puckworks.lib.visualizer_harvest.write_aggregate_csv (the `stats` action). The tracked file currently holds an ALL-ZERO template (total_shots=0): it was written over an empty/no-data local store and reflects no crawl. It is NOT a corpus result.",
-  "generated_at": null,
-  "generator_commit": "d047719",
-  "generator_version": "visualizer_harvest _HARVEST_VERSION=1",
-  "normalizer_schema_version": 6,
-  "source_window_start": null,
-  "source_window_end": null,
-  "source_snapshot_or_run_hash": null,
+  "artifact_classification": "empty_store_schema_template",
+  "note": "SHAPE/EXAMPLE FILE ONLY. The tracked aggregate_stats.csv holds all-zero values (total_shots=0): it is the column shape of the `stats` action's output produced over an empty/no-data store. It carries NO empirical values, is NOT a recent-window observation, and MUST NEVER support a scientific or product claim.",
+  "publication_allowed": false,
   "n_records": 0,
-  "n_users": null,
+  "source_snapshot_or_run_hash": null,
+  "generated_at": null,
+  "generator_commit": null,
+  "generator_version": "puckworks.lib.visualizer_harvest write_aggregate_csv (`stats` action)",
+  "normalizer_schema_version": 6,
   "limitations": [
-    "reflects the recent-updated public window model, NOT the historical corpus",
-    "current tracked values are all zero (empty local store at generation); not a measurement result",
-    "no retained run/crawl manifest backs the current values; a real run's provenance is not recoverable from the tracked file",
-    "predates full understanding of the recent-window limitation; treat as a schema/template artifact"
-  ],
-  "publication_allowed": false
+    "empty-store schema template: all values are zero; not a measurement result",
+    "not recent-window data and not the historical corpus",
+    "no retained source run/manifest backs it; a real run's provenance is not recoverable from the tracked file",
+    "publication-grade aggregates come only from a verified sanctioned-export freeze"
+  ]
 }

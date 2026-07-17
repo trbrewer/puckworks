@@ -26,19 +26,11 @@ def _store(d, versions, export_cutoff=None, shard=0):
     vh._write_shard(cfg, shard, recs)
     vh._append_index(cfg, [vh._index_row(r) for r in recs])
     if export_cutoff is not None:
-        # a publication-ready source carries a validated publication-profile governance manifest
-        man = {
-            "export_cutoff": export_cutoff, "source": "sanctioned-export-fixture",
-            "export_spec_version": 1, "source_name": "visualizer.coffee",
-            "source_authority": "fixture", "export_created_at": export_cutoff,
-            "source_schema_version": 1, "record_count": len(versions),
-            "archive_or_export_sha256": "0" * 64,
-            "stable_record_id_semantics": "opaque id", "record_version_semantics": "updated_at",
-            "user_linkage_semantics": "salted token", "privacy_transform": "PII dropped",
-            "rights_basis": "fixture research-use basis", "raw_redistribution_status": "prohibited",
-            "aggregate_publication_status": "permitted", "retention_policy": "fixture",
-            "deletion_or_correction_policy": "fixture", "contact_record": "fixture",
-        }
+        # a publication-ready source carries a validated publication-profile governance manifest.
+        # Mechanics-only real-export mock (not a real rights grant).
+        from puckworks.data.corpus_export import _governance_record
+        man = _governance_record(len(versions), export_cutoff, source_kind="real_export")
+        man["source"] = "sanctioned-export-fixture"
         (d / "source_export_manifest.json").write_text(json.dumps(man))
     return cfg
 

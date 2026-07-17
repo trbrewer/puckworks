@@ -11,15 +11,16 @@ import pytest
 from puckworks.data import corpus_freeze
 from puckworks.data.corpus_export import (
     ExportManifestError,
+    _governance_record,
     import_sanctioned_export,
     synthetic_export,
     validate_export_manifest,
 )
 
 
-def _pub_manifest():
-    _, man = synthetic_export()
-    return man
+def _pub_manifest(n=9):
+    # a REAL-export mock governance record (mechanics only; not a real rights grant)
+    return _governance_record(n, 1000, source_kind="real_export")
 
 
 # ---- validator profiles -----------------------------------------------------
@@ -65,6 +66,63 @@ def test_raw_prohibited_but_aggregate_permitted_is_valid():
     m["raw_redistribution_status"] = "prohibited"
     m["aggregate_publication_status"] = "permitted"
     assert validate_export_manifest(m, profile="publication")["publication_qualified"]
+
+
+def test_synthetic_source_can_never_qualify_for_publication():
+    _, syn = synthetic_export()
+    assert syn["source_kind"] == "synthetic_test_fixture"
+    with pytest.raises(ExportManifestError):
+        validate_export_manifest(syn, profile="publication")
+
+
+@pytest.mark.parametrize("field", ["export_spec_version", "export_cutoff", "source_schema_version",
+                                   "record_count"])
+@pytest.mark.parametrize("bad", [True, "1", 1.0])
+def test_strict_int_fields_reject_bool_str_float(field, bad):
+    m = _pub_manifest()
+    m[field] = bad
+    with pytest.raises(ExportManifestError):
+        validate_export_manifest(m, profile="publication")
+
+
+def test_wrong_export_spec_version_rejected():
+    m = _pub_manifest()
+    m["export_spec_version"] = 999
+    with pytest.raises(ExportManifestError):
+        validate_export_manifest(m, profile="publication")
+
+
+@pytest.mark.parametrize("ts", ["2026-99-99T00:00:00Z", "2026-07-17T00:00:00", 12345, "not-a-time"])
+def test_invalid_export_created_at_rejected(ts):
+    m = _pub_manifest()
+    m["export_created_at"] = ts
+    with pytest.raises(ExportManifestError):
+        validate_export_manifest(m, profile="publication")
+
+
+def test_uppercase_and_malformed_sha_rejected():
+    for bad in ["A" * 64, "0" * 63, "z" * 64]:
+        m = _pub_manifest()
+        m["archive_or_export_sha256"] = bad
+        with pytest.raises(ExportManifestError):
+            validate_export_manifest(m, profile="publication")
+
+
+def test_unknown_field_rejected_but_extension_allowed():
+    m = _pub_manifest()
+    m["surprise"] = 1
+    with pytest.raises(ExportManifestError):
+        validate_export_manifest(m, profile="publication")
+    m2 = _pub_manifest()
+    m2["x_note"] = "extension ok"
+    assert validate_export_manifest(m2, profile="publication")["publication_qualified"]
+
+
+def test_empty_governance_string_rejected():
+    m = _pub_manifest()
+    m["rights_basis"] = "   "
+    with pytest.raises(ExportManifestError):
+        validate_export_manifest(m, profile="publication")
 
 
 # ---- import + adversarial (synthetic) ---------------------------------------
@@ -122,3 +180,36 @@ def test_freeze_publication_ready_with_complete_manifest(tmp_path):
     _store(tmp_path / "src", 1000, complete=True)
     cand = corpus_freeze.freeze_rehearse(tmp_path / "src")
     assert cand.ready_for_publication is True
+
+
+# ---- aggregate template classification ---------------------------------------
+
+def test_aggregate_stats_is_empty_store_template():
+    import json
+    from pathlib import Path
+    p = Path(__file__).parents[1] / "puckworks" / "data" / "visualizer" / "aggregate_stats.provenance.json"
+    prov = json.loads(p.read_text())
+    assert prov["artifact_classification"] == "empty_store_schema_template"
+    assert prov["publication_allowed"] is False
+    assert prov["n_records"] == 0
+    assert prov["source_snapshot_or_run_hash"] is None
+    # the CSV itself is all-zero (a shape template, not empirical)
+    csv = (Path(__file__).parents[1] / "puckworks" / "data" / "visualizer" / "aggregate_stats.csv").read_text()
+    for line in csv.splitlines()[1:]:
+        val = line.split(",")[-1]
+        assert float(val) == 0.0
+
+
+# ---- governance files are part of source identity ---------------------------
+
+def test_governance_change_changes_source_digest(tmp_path):
+    from puckworks.data import corpus_freeze as cf
+    recs, man = synthetic_export()
+    store = tmp_path / "s"
+    import_sanctioned_export(recs, man, store, salt="t")
+    d1 = cf._source_state(store)["aggregate_sha256"]
+    # mutate the governance manifest's rights basis
+    mp = store / "source_export_manifest.json"
+    m = json.loads(mp.read_text()); m["rights_basis"] = "tampered"; mp.write_text(json.dumps(m))
+    d2 = cf._source_state(store)["aggregate_sha256"]
+    assert d1 != d2

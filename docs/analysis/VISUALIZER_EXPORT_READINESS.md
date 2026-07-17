@@ -51,8 +51,14 @@ tests). A real export replaces the synthetic placeholders (notably `archive_or_e
 
 ## 5. Checksum instructions
 
-`sha256sum <export-archive>` (or `shasum -a 256`), recorded in `archive_or_export_sha256`. Puckworks
-re-verifies the archive digest before import and refuses a mismatch.
+`sha256sum <export-archive>` (or `shasum -a 256`), recorded in `archive_or_export_sha256`.
+
+> **Note on verification status.** The publication-profile validator checks that
+> `archive_or_export_sha256` is a well-formed full lowercase SHA-256 — **validating a checksum string
+> is not the same as verifying the artifact bytes.** A publication import that receives the immutable
+> artifact path, hashes its bytes, compares them with the manifest, and refuses a mismatch before
+> writing the destination is a **documented, not-yet-implemented** gate (see the sanctioned-export
+> tracking issue). Until it lands, do not treat a passing manifest as a verified artifact.
 
 ## 6. Privacy and user-linkage requirements
 

@@ -72,14 +72,21 @@ class PublicationReceipt:
 # ---------------------------------------------------------------------------------------------
 
 def _source_files(source_dir: Path):
-    """Deterministically ordered list of the source's identity-bearing files."""
+    """Deterministically ordered list of the source's identity-bearing files.
+
+    Includes the data shards/index AND the governance/audit files that justify publication status, so
+    a change to rights basis, aggregate-publication permission, contact, retention, quarantine, or
+    exclusions changes the source aggregate digest.
+    """
     pats = ("shard_*.jsonl.gz", "bronze_*.jsonl.gz")
     files = []
     for pat in pats:
         files.extend(sorted(source_dir.glob(pat)))
-    idx = source_dir / "_index.csv"
-    if idx.exists():
-        files.append(idx)
+    for name in ("_index.csv", "source_export_manifest.json", "import_quarantine.json",
+                 "import_exclusions.json"):
+        f = source_dir / name
+        if f.exists():
+            files.append(f)
     return files
 
 
@@ -114,6 +121,8 @@ def freeze_rehearse(source_dir, as_of=None) -> FreezeCandidate:
     integ = snap.integrity_stats()
     recon = snap.reconcile()
     exp = _export_manifest(source_dir)
+    manifest_present = (source_dir / "source_export_manifest.json").exists()
+    manifest_malformed = manifest_present and exp is None
     has_cutoff = bool(exp and exp.get("export_cutoff") is not None)
     # a publication freeze requires a VALIDATED publication-profile source manifest, not merely a
     # non-null cutoff (rights, checksum, aggregate-publication permission, governance record).
@@ -135,6 +144,8 @@ def freeze_rehearse(source_dir, as_of=None) -> FreezeCandidate:
     if integ.get("n_missing_updated_at"):
         blockers.append("records missing updated_at (no time base): %d"
                         % integ["n_missing_updated_at"])
+    if manifest_malformed:
+        blockers.append("source_export_manifest.json is present but malformed/unreadable")
     if not has_cutoff:
         blockers.append("no coherent export cutoff — source is a moving feed, not an export "
                         "(sanctioned bulk export required for publication; WP1.5/WP7)")
