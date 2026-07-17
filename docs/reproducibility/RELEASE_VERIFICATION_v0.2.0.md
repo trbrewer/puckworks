@@ -118,5 +118,6 @@ later; this record does not imply the name will remain unclaimed indefinitely.
 
 ## 11. Final disposition
 - All R0 and Phase 2–10 release work is complete and verified.
-- The remaining repository action is the post-release status and documentation PR that adds this
-  record, extends the runbook, corrects installation guidance, and marks `v0.2.0-release` complete.
+- Repository closure is recorded by
+  [PR #31](https://github.com/trbrewer/puckworks/pull/31), which adds this report, extends the
+  runbook, corrects installation guidance, and marks `v0.2.0-release` complete.
