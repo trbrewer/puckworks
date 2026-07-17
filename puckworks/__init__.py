@@ -8,7 +8,7 @@ below is covered by semantic versioning; everything else — ``harness``, ``anal
 ``paper_a``, ``paper_b``, ``figures``, ``lib``, ``viz``, ``inventory`` — is INTERNAL research
 tooling and may change without notice.
 """
-__version__ = "0.2.0"
+__version__ = "0.3.0.dev0"
 
 from puckworks import contracts, registry, validate   # noqa: F401  (public namespaces)
 from puckworks.registry import (                       # noqa: F401
