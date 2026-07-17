@@ -311,3 +311,19 @@ def test_readme_api_names_subset_of_all_and_not_false_exact():
     assert names and names <= set(puckworks.__all__), f"advertised {names - set(puckworks.__all__)} not in __all__"
     # wording must present the list as a selection, not claim the parenthetical IS the whole __all__
     assert "selected commonly-used entry points" in TEXT.lower()
+
+
+# ── PR#44 Blocker 2: authoritative gate vocabulary must not drift from enum/README ──
+def test_public_experience_gate_vocabulary_matches_enum():
+    import puckworks
+    doc = (REPO_ROOT / "docs" / "PUBLIC_EXPERIENCE.md").read_text(encoding="utf-8")
+    enum_names = {s.value for s in puckworks.GateStatus}   # PASS/FAIL/SKIP/ERROR/ACKNOWLEDGED_EXCEPTION
+    # the authority doc's gate section must name exactly the full GateStatus set
+    section = doc.split("A validation gate reports", 1)
+    assert len(section) == 2, "PUBLIC_EXPERIENCE.md must describe gate statuses"
+    snippet = section[1][:800]
+    named = {w for w in re.findall(r"\b[A-Z][A-Z_]+\b", snippet)} & enum_names
+    assert named == enum_names, f"authority doc names {named}, enum is {enum_names}"
+    # semantics present: FAIL/ERROR suite-failing, SKIP not a pass, ACK never a pass
+    low = snippet.lower()
+    assert "suite-failing" in low and "never" in low

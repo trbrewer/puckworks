@@ -56,8 +56,18 @@ The homepage inherits the project's evidence-strength vocabulary and must never 
 
 - Every reported series carries an origin label: **measured · derived · fitted · predicted ·
   simulated**, plus **unsupported** for anything the release cannot establish.
-- A validation gate reports **PASS** or **ACKNOWLEDGED_EXCEPTION** — an acknowledged exception is
-  never silently presented as a pass.
+- A validation gate reports one of the `GateStatus` values: **PASS**, **FAIL**, **SKIP**,
+  **ERROR**, or **ACKNOWLEDGED_EXCEPTION**. Semantics (authoritative — the README and the homepage
+  must match this):
+  - **FAIL** and **ERROR** are **suite-failing** (a mandatory gate that FAILs or ERRORs makes the
+    suite not pass); they are never presented as passes.
+  - **SKIP** is permitted only when a gate is inapplicable in the current configuration (e.g. an
+    optional dependency such as GPU/Taichi is absent); a SKIP is never counted as a PASS.
+  - **ACKNOWLEDGED_EXCEPTION** is a *documented, maintainer-recorded* deviation with a recorded
+    rationale; it is reported **separately** and **never** silently presented as a PASS, and it
+    does **not** satisfy a mandatory gate in place of a real PASS.
+  A gate outcome is never softened or narrowed; zero-gate and policy-exception cases are represented
+  explicitly.
 - Most extraction agreements in the science are *post-fit reconstruction*, not independent
   validation. The homepage never upgrades a tag.
 - The README states what Puckworks **deliberately refuses to claim** (see the non-claims below),
