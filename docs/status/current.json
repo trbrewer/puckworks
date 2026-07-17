@@ -87,8 +87,8 @@
       "owner_type": "maintainer",
       "external_blocker": null,
       "resume_trigger": null,
-      "next_gate": "Approve the v1 ShotExplanationBundle contract and one redistributable golden-shot fixture, then demonstrate deterministic bundle generation from an installed wheel.",
-      "acceptance_evidence": "One bundled shot produces deterministic versioned JSON and a human-readable result from an installed wheel; every series is classified as measured, derived, fitted, predicted, or simulated; no more than three explanations state supporting, contradicting, and missing evidence, caveats, and one discriminating next measurement; units, provenance, component/claim IDs, schema/package/source versions, serialization round-trip, golden regression, and clean-room smoke are verified; no unsupported diagnosis, flavor prediction, or recipe optimization is emitted.",
+      "next_gate": "Approve the public `puckworks.product` v1 contract and one formally redistributable single-shot fixture, then verify deterministic contract serialization and fixture loading from an installed wheel.",
+      "acceptance_evidence": "Every available series has a measured/derived/fitted/predicted/simulated origin; availability is represented separately; compatibility and evidence strength are separate; one formally redistributable individual shot is used; the public boundary is puckworks.product; no more than three fixture-supported explanations are ultimately emitted; fewer than three is valid; no unsupported diagnosis, evidence upgrade, flavor prediction, or recipe optimization occurs.",
       "issue_or_pr": "#32",
       "verified_commit": null,
       "verified_date": null
