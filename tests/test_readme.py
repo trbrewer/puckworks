@@ -115,6 +115,15 @@ def test_hero_uses_the_maintainer_logo():
     assert (REPO_ROOT / hero).exists(), "the maintainer hero logo file must exist"
 
 
+def test_flat_valley_pages_cta_is_live():
+    # the third public path points at the deployed GitHub Pages interactive
+    assert "https://trbrewer.github.io/puckworks/flat-valley/" in TEXT
+    assert "cup hides the clock" in TEXT.lower()
+    # keeps the two Colab paths
+    assert "puckworks_quickstart_colab.ipynb" in TEXT
+    assert "guided_espresso_pull_colab.ipynb" in TEXT
+
+
 def test_guided_pull_colab_cta_is_live():
     low = TEXT.lower()
     assert "guided espresso pull" in low
