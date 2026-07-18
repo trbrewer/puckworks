@@ -48,7 +48,11 @@ where each model applies, and check predictions against the measurements that ar
 
 An espresso shot is a chain of physical steps:
 
-> **Grind → Form the puck → Deliver pressure and water → Wet the puck → Move water through it → Change the puck → Extract material into the cup**
+<p align="center">
+  <img src="docs/espresso_pull_process.jpg"
+       alt="The espresso pull as a chain of physical stages: grind, form the puck, deliver pressure and water, wet the puck, move water through it, change the puck, and extract material into the cup."
+       width="100%">
+</p>
 
 This is a *conceptual* sequence to organize the models. In a real shot the stages overlap and interact
 — water is still wetting deeper layers while the top is already extracting, and the puck keeps changing
