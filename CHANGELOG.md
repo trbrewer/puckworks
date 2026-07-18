@@ -10,9 +10,12 @@ tracked in detail in `docs/ROADMAP.md` §7.1.
 Development line opened after the v0.3.0 release. Source/development builds identify themselves as
 `0.4.0.dev0`; the latest **public release remains v0.3.0** (GitHub Release; not on PyPI) and its
 install/notebook guidance is unchanged. Unreleased work is tracked above and in `docs/ROADMAP.md`
-§7.1. PV-03 "The Cup Hides the Clock" is now **live**; the next public-value feature is **PV-05**
-"More Physics Made It Worse" (a static, generated model-composition interactive; no new model
-coupling), followed by **PV-04** "How We Falsified Our Own Espresso Headline".
+§7.1. PV-03 "The Cup Hides the Clock" and PV-05 "More Physics Made It Worse" (static, generated
+interactives; no new model coupling) are now **live**. **PV-04** "How We Falsified Our Own Espresso
+Headline" is the **active** public-value lane: its producer/schema correction, four-scene static
+interactive, and integrity tests are implemented and awaiting Pages deployment, live-hash
+verification, and activation (issue #62). This is development-line work only — not a release candidate;
+the latest public release remains v0.3.0.
 
 ## 0.3.0
 

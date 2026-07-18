@@ -1499,10 +1499,25 @@ def result1_magnitude_comparison():
     model_5, model_9 = _prom(5.0), _prom(9.0)
     return dict(
         raw_tds_ey=[round(x, 2) for x in ey["ey_means"]],
-        raw_mid_vs_endpoint_contrast_EYpt=round(diff, 3),
+        # --- replicate-level exposure (additive; PV-04 autopsy contract) ---------
+        # The three raw_tds_ey values above are CELL MEANS. These fields expose the
+        # underlying replicate points (grouped by dial), each cell's own sample SD,
+        # and n per cell, so a consumer can plot the observed dots instead of only
+        # the means. No new fit / smoothing -- straight from schmieder_tds_ey.
+        raw_tds_ey_replicates=[[round(x, 3) for x in cell] for cell in ey["ey_replicates"]],
+        raw_tds_ey_means=[round(float(m), 3) for m in ey["ey_means"]],
+        raw_tds_ey_cell_stds=[round(float(s), 3) for s in ey["ey_stds"]],
+        raw_tds_ey_ns=[int(n) for n in ey["ns"]],
+        # canonical contrast name: dial 1.7 (middle) minus dial 2.0 (coarse)
+        raw_mid_vs_coarse_contrast_EYpt=round(diff, 3),
+        # mean of the three cell sample SDs -- a DESCRIPTIVE reference across cells,
+        # NOT each cell's own error bar, a noise floor, or a minimum-detectable-effect
+        raw_mean_within_cell_std_EYpt=within,
+        # --- existing keys retained as compatibility aliases --------------------
+        raw_mid_vs_endpoint_contrast_EYpt=round(diff, 3),   # alias of _mid_vs_coarse_
         raw_contrast_welch_ci95=contrast_ci,      # excludes 0 on the low side -> monotone
         raw_interior_bump_EYpt=raw_bump,          # <=0 -> monotone, no bump
-        raw_within_cell_std_EYpt=within,          # DESCRIPTIVE (not a formal noise floor)
+        raw_within_cell_std_EYpt=within,          # alias: MEAN within-cell SD (descriptive)
         model_prominence_5bar_EYpt=model_5,
         model_prominence_9bar_EYpt=model_9,
         model_bump_lt_within_cell_var=bool(max(model_5, model_9) < within),

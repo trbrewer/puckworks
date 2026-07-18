@@ -2,9 +2,11 @@
 
 > **Current execution (2026-07-18).** The **v0.3.0 Guided Espresso Pull** is publicly released
 > (GitHub Release; not on PyPI); issue **#48** awaits only one signed-out human Colab acceptance run.
-> **PV-03 "The Cup Hides the Clock" is live** on GitHub Pages. The current public-value product lane is
-> **PV-05** ("More Physics Made It Worse", a static model-composition interactive), with **PV-04** (the
-> analysis autopsy) as the next larger public story. The **evidence-aware bundled-shot explanation lane
+> **PV-03 "The Cup Hides the Clock"** and **PV-05 "More Physics Made It Worse"** are **live** on GitHub
+> Pages. The current public-value product lane is **PV-04** ("How We Falsified Our Own Espresso
+> Headline", the analysis autopsy) — its producer/schema correction, four-scene static interactive, and
+> integrity/accessibility/security tests are implemented and awaiting Pages deployment + live
+> verification + activation (issue #62). The **evidence-aware bundled-shot explanation lane
 > remains blocked** on one formally qualified redistributable individual-shot fixture (issue #32) — but
 > no product work is blocked on that fixture-rights lane unless it actually needs the fixture. The
 > Paper A sign-off lane and sanctioned corpus-export lane remain blocked. PyPI remains a separate,

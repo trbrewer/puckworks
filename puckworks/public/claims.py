@@ -134,15 +134,20 @@ PUBLIC_CLAIMS = [
         practical_implication="Plot raw replicates before trend lines, use a coherent "
             "yield measure, and distinguish a machine-specific dial position from a "
             "physical grind characteristic.",
-        reproduction="python -c \"from puckworks.harness import result1_magnitude_comparison as f; print(f())\"",
+        reproduction="python -m puckworks.public.analysis_autopsy verify",
+        # Consumes the deterministic, hash-bound PV-04 snapshot (a FAST producer that reads the packaged
+        # data), not the slow harness function directly. numeric_result stays focused on the CORRECTED
+        # OBSERVED quantities so the claim's OBSERVED/independent label never silently covers the
+        # simulated model-capacity or derived RSM-audit values (those live in the richer snapshot with
+        # their own per-partition evidence labels).
         producer=Producer(
-            module=_H, function="result1_magnitude_comparison",
-            result_map={"ey_dial_1p4_pct": "raw_tds_ey.0",
-                        "ey_dial_1p7_pct": "raw_tds_ey.1",
-                        "ey_dial_2p0_pct": "raw_tds_ey.2",
-                        "mid_vs_coarse_contrast_EYpt": "raw_mid_vs_endpoint_contrast_EYpt",
-                        "welch_ci95_lo_EYpt": "raw_contrast_welch_ci95.0",
-                        "welch_ci95_hi_EYpt": "raw_contrast_welch_ci95.1"}),
+            module="puckworks.public.analysis_autopsy", function="pv04_values",
+            result_map={"ey_dial_1p4_pct": "ey_dial_1p4_pct",
+                        "ey_dial_1p7_pct": "ey_dial_1p7_pct",
+                        "ey_dial_2p0_pct": "ey_dial_2p0_pct",
+                        "mid_vs_coarse_contrast_EYpt": "mid_vs_coarse_contrast_EYpt",
+                        "welch_ci95_lo_EYpt": "welch_ci95_lo_EYpt",
+                        "welch_ci95_hi_EYpt": "welch_ci95_hi_EYpt"}),
         compares_grinder_dials=True,
     ),
 
