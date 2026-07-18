@@ -9,8 +9,11 @@ on:
       - "docs/public/site/**"
       - "puckworks/public/flat_valley.py"
       - "puckworks/public/data/pv03_flat_valley.json"
+      - "puckworks/public/model_composition.py"
+      - "puckworks/public/data/pv05_model_composition.json"
       - "docs/figures/paper_a/results.json"
       - "tests/test_flat_valley.py"
+      - "tests/test_model_composition.py"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -35,10 +38,12 @@ jobs:
           python-version: "3.12"
       - name: install (dev)
         run: python -m pip install --quiet -e ".[dev]"
-      - name: verify the PV-03 snapshot is hash-bound + current
-        run: python -m puckworks.public.flat_valley verify
+      - name: verify the PV-03 + PV-05 snapshots are producer-bound + current
+        run: |
+          python -m puckworks.public.flat_valley verify
+          python -m puckworks.public.model_composition verify
       - name: static-site + data-contract tests
-        run: python -m pytest tests/test_flat_valley.py -q
+        run: python -m pytest tests/test_flat_valley.py tests/test_model_composition.py -q
       - name: only the intended files are in the site directory
         run: |
           python - <<'PY'
@@ -48,6 +53,9 @@ jobs:
             "index.html",
             "flat-valley/index.html", "flat-valley/app.js", "flat-valley/styles.css",
             "flat-valley/data.json", "flat-valley/static-summary.png", "flat-valley/static-summary.txt",
+            "model-composition/index.html", "model-composition/app.js", "model-composition/styles.css",
+            "model-composition/data.json", "model-composition/static-summary.png",
+            "model-composition/static-summary.txt",
           }
           found = set()
           for r, _, fs in os.walk(site):

@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>More Physics Made It Worse — Puckworks</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="hero">
+    <p class="eyebrow">Puckworks · a model-composition story</p>
+    <h1>More Physics Made It Worse</h1>
+    <p class="subtitle">Scientific components do not automatically become a better model when they
+      share a variable.</p>
+    <p class="badge-row">
+      <span class="badge" id="badge">EXPLORATORY_SIMULATION</span>
+      <span class="strength">evidence: <b id="strength">qualitative</b></span>
+    </p>
+  </header>
+
+  <main id="main">
+    <p id="load-status" class="js-only" role="status">Loading the generated data…</p>
+
+    <!-- Fallback shown when JavaScript is off (CSS flips this on) -->
+    <div class="no-js-only">
+      <h2>Summary (JavaScript is off)</h2>
+      <p>This page normally lets you add model components one at a time and watch the fit change.
+        With JavaScript disabled, the complete result — every number and caveat — is in the generated
+        <a href="static-summary.txt"><strong>static text summary</strong></a> and the
+        <a href="static-summary.png">summary image</a> below. You can also download the
+        <a href="data.json">generated data</a>.</p>
+      <p><img src="static-summary.png" width="100%"
+        alt="Three flow-versus-time curves over one espresso shot. The observed flow rises and levels off. An extraction-only model tracks that rise closely. Adding a swelling branch makes the composite prediction a flat line at the wrong level that misses the rise. A lower panel shows the shared porosity: extraction opens it slightly above its reference, while the composite over-closes it well below the reference. The exact numbers are in the static text summary linked above."></p>
+    </div>
+
+    <!-- ===== SCENE 1 — target + simple baseline ===== -->
+    <section class="scene js-only" aria-labelledby="s1-h">
+      <h2 id="s1-h">1 · The target and the simplest baseline</h2>
+      <p>An espresso shot's flow rises as the puck opens. The <b>observed 9-bar flow</b> is our target.
+        A <b>constant</b> is deliberately the simplest possible prediction — the minimum benchmark a
+        more complex mechanism should beat. Its error over the
+        <b data-field="eval_window_start_s" data-fmt="int">·</b>–<b data-field="eval_window_end_s" data-fmt="int">·</b> s
+        window is <b data-field="const_baseline_rmse_g_per_s" data-fmt="num3">·</b> g/s at a level of
+        <b data-field="const_baseline_level_g_per_s" data-fmt="num3">·</b> g/s.</p>
+    </section>
+
+    <!-- ===== the shared flow chart, driven by the control below ===== -->
+    <section class="scene js-only" aria-labelledby="ctrl-h">
+      <h2 id="ctrl-h">Build the model, one component at a time</h2>
+      <fieldset id="model-control">
+        <legend>Which prediction to show against the observed flow</legend>
+        <label><input type="radio" name="model" value="const"> Constant baseline (1 free parameter)</label>
+        <label><input type="radio" name="model" value="extraction" checked> Extraction only (0 free parameters)</label>
+        <label><input type="radio" name="model" value="composite"> Extraction + swelling (shared porosity)</label>
+      </fieldset>
+      <p class="control-aux">
+        <label><input type="checkbox" id="show-porosity"> Show the shared porosity state</label>
+      </p>
+
+      <figure class="figure" id="flow-fig">
+        <figcaption>Predicted flow (selected model) vs the observed 9-bar trace. The shaded band is the
+          scored window.</figcaption>
+      </figure>
+      <p class="readout" id="flow-readout" role="status" aria-live="polite">·</p>
+      <details>
+        <summary>Show the numbers behind the flow plot (text table)</summary>
+        <div id="flow-table"></div>
+      </details>
+
+      <figure class="figure hidden" id="eps-fig" aria-hidden="true">
+        <figcaption>The shared porosity state over the shot. Extraction opens it above the reference;
+          the composite over-closes it below the reference.</figcaption>
+      </figure>
+      <details id="eps-details" class="hidden">
+        <summary>Show the numbers behind the porosity plot (text table)</summary>
+        <div id="eps-table"></div>
+      </details>
+    </section>
+
+    <!-- ===== SCENE 2 — extraction improves ===== -->
+    <section class="scene js-only" aria-labelledby="s2-h">
+      <h2 id="s2-h">2 · Extraction-only improves the fit</h2>
+      <p>The time-varying extraction branch follows the rising target far more closely: its error is
+        <b data-field="extraction_only_rmse_g_per_s" data-fmt="num3">·</b> g/s — about
+        <b data-field="extraction_vs_constant_improvement" data-fmt="num2">·</b>× better than the
+        constant, with <b data-field="extraction_free_params" data-fmt="int">·</b> free parameters. An
+        independent producer (<code>degeneracy_rmse</code>) reproduces it at
+        <b data-field="extraction_only_rmse_degeneracy_g_per_s" data-fmt="num3">·</b> g/s.</p>
+      <p class="caution">A lower residual does <strong>not</strong> prove that this mechanism is
+        uniquely identified or physically correct. This is verification against one trace, not
+        independent validation.</p>
+    </section>
+
+    <!-- ===== SCENE 3 — add swelling, it gets worse ===== -->
+    <section class="scene js-only" aria-labelledby="s3-h">
+      <h2 id="s3-h">3 · Add the tested swelling composition</h2>
+      <p>Both branches modify the <b>same</b> porosity state. Adding an imported swelling branch
+        over-closes that state — it drops to
+        <b data-field="min_shared_porosity" data-fmt="num3">·</b> (below the
+        <b data-field="eps0_reference_porosity" data-fmt="num2">·</b> reference). The dissolution-driven
+        opening term floors, so the composite prediction decouples from the rise and its error climbs to
+        <b data-field="composite_rmse_g_per_s" data-fmt="num3">·</b> g/s —
+        <b data-field="rmse_ratio_composite_over_constant" data-fmt="num2">·</b>× the constant baseline
+        and <b data-field="rmse_ratio_composite_over_extraction" data-fmt="num2">·</b>× the
+        extraction-only model.</p>
+      <p class="caution">This does <strong>not</strong> mean the swelling component is universally
+        invalid. It means this <em>composition</em> — these two branches through one shared state on a
+        saturated pre-wet rig — is incompatible.</p>
+    </section>
+
+    <!-- ===== SCENE 4 — components need contracts ===== -->
+    <section class="scene js-only" aria-labelledby="s4-h">
+      <h2 id="s4-h">4 · Model components need contracts</h2>
+      <p>Before two components are combined, the composition should answer:</p>
+      <ul id="checklist"></ul>
+      <p class="closing">More equations are not automatically more explanation. A model composition must
+        earn its interfaces.</p>
+    </section>
+
+    <section class="notproof js-only" aria-labelledby="np-h">
+      <h2 id="np-h">What this does not prove</h2>
+      <ul>
+        <li>It does <strong>not</strong> show that physics is universally harmful, or that a simpler
+          model is always true.</li>
+        <li>It does <strong>not</strong> show that swelling is absent from real espresso pucks — only
+          that <em>this</em> shared-porosity composition fails on this rig.</li>
+        <li>It does <strong>not</strong> prove the extraction-only mechanism is correct; a good fit here
+          is in-sample verification, not independent validation.</li>
+        <li>It is <strong>not</strong> coupled into the Guided Espresso Pull, and adds no new fit.</li>
+      </ul>
+      <p class="scope"><b>Scope.</b> <span data-field-text="scope">·</span></p>
+      <p class="scope"><b>Caveat.</b> <span data-field-text="caveat">·</span></p>
+    </section>
+
+    <section class="links js-only" aria-labelledby="links-h">
+      <h2 id="links-h">Trace every number</h2>
+      <ul>
+        <li>Synthesis card:
+          <a href="https://github.com/trbrewer/puckworks/blob/main/docs/cards/brewer2026_coupled_kappa_t.md">brewer2026_coupled_kappa_t</a>;
+          poroelastic model:
+          <a href="https://github.com/trbrewer/puckworks/blob/main/docs/cards/waszkiewicz2025.md">waszkiewicz2025</a>;
+          swelling model:
+          <a href="https://github.com/trbrewer/puckworks/blob/main/docs/cards/mo2023_2.md">mo2023_2</a>.</li>
+        <li>Producers: <code>puckworks.harness.kappa_t_ladder</code>,
+          <code>coupled_kappa_t.degeneracy_rmse / composition_residual / simulate</code>.</li>
+        <li>Public claim: <code>PV-05</code> in
+          <a href="https://github.com/trbrewer/puckworks/blob/main/docs/public/generated/claims.md">the generated claim cards</a>.</li>
+        <li>Generated data: <a href="data.json">data.json</a> ·
+          <a href="static-summary.txt">static text summary</a>.</li>
+        <li>Reproduce: <code>python -m puckworks.public.model_composition verify</code></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>Every number on this page is generated by a named Puckworks function and bound to the CC-BY
+      Waszkiewicz trace; nothing is hand-typed. <span data-field-text="attribution">·</span></p>
+    <p><a href="../">← Back to the Puckworks public stories</a></p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
