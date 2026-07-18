@@ -5,6 +5,14 @@ tracked in detail in `docs/ROADMAP.md` §7.1.
 
 ## Unreleased
 
+## 0.4.0.dev0
+
+Development line opened after the v0.3.0 release. Source/development builds identify themselves as
+`0.4.0.dev0`; the latest **public release remains v0.3.0** (GitHub Release; not on PyPI) and its
+install/notebook guidance is unchanged. Unreleased work is tracked above and in `docs/ROADMAP.md`
+§7.1 — first up: the PV-03 "The Cup Hides the Clock" flat-valley practical-identifiability interactive
+(a static, generated public surface; no new model coupling).
+
 ## 0.3.0
 
 First functional minor after v0.2.0. Adds the caller-owned input boundary and the **Guided Espresso
