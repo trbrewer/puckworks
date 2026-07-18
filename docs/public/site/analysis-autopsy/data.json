@@ -1,5 +1,5 @@
 {
-  "attribution": "Schmieder, Pannusch, Vannieuwenhuyse, Briesen, Minceva (2023), 'Influence of flow rate, particle size, and temperature on espresso extraction kinetics', Foods 12, 2871, DOI 10.3390/foods12152871, open access CC-BY. Derived extraction-yield and RSM values are published with attribution; no raw source file is redistributed.",
+  "attribution": "Schmieder, Pannusch, Vannieuwenhuyse, Briesen, Minceva (2023), 'Influence of flow rate, particle size, and temperature on espresso extraction kinetics', Foods 12, 2871, DOI 10.3390/foods12152871, open access CC-BY. DERIVED replicate-level extraction-yield values and RSM predictions are published with attribution; no raw source CSV is redistributed.",
   "badge": "OBSERVED",
   "caveat": "A dial number is NOT a particle size and is non-portable without a calibrated adapter; do not read a universal 'too-fine optimum'. Self-correction here downgrades ONE result — it does not prove every current result is correct. Static channeling remains a viable GENERATOR (model capacity); the data just do not identify it. The 1.4-vs-1.7 interval includes zero, so means are 'ordered', not 'statistically monotone'. No confidence claim beyond the reported Welch interval.",
   "compares_grinder_dials": true,
@@ -7,37 +7,97 @@
     "schmieder2023/cup_masses",
     "schmieder2023/rsm_coefficients"
   ],
+  "evidence_partitions": [
+    {
+      "badge": "OBSERVED",
+      "partition": "corrected_replicate_data",
+      "role": "observed",
+      "scope": "One machine, one coffee, one campaign, and one fixed nominal central condition; the within-cell spread is run-to-run variance at a fixed NOMINAL dial (the experimental unit), with no replication across machines/coffees/campaigns. A grinder dial is not a particle size and is non-portable to another grinder without a calibrated adapter.",
+      "strength": "independent"
+    },
+    {
+      "badge": "RECONSTRUCTED",
+      "partition": "rounded_coefficient_and_refit_audit",
+      "role": "derived",
+      "scope": "A computational audit: the literal rounded-coefficient central value vs a least-squares refit vs the observed central mean. Verification against the committed data, NOT independent experimental validation.",
+      "strength": "verification"
+    },
+    {
+      "badge": "EXPLORATORY_SIMULATION",
+      "partition": "model_interior_feature",
+      "role": "simulated",
+      "scope": "Model capacity to draw an interior feature at two pressures, compared with the descriptive replicate spread. This is capacity, NOT identification of channeling as the cause; 0.218 EY-points is a descriptive reference, not a formal minimum-detectable-effect or noise floor.",
+      "strength": "qualitative"
+    },
+    {
+      "badge": null,
+      "partition": "superseded_headline",
+      "role": "superseded",
+      "scope": "The interior 'fine-grind maximum' headline read from the literal rounded-coefficient central value and the mixed-unit target. Retained visibly as a revised record; it carries NO current evidence badge.",
+      "status": "superseded/revised"
+    }
+  ],
   "evidence_strength": "independent",
-  "fidelity_ceiling": "OBSERVED / independent for the raw replicate correction; the model-bump comparison is exploratory model-capacity context, never an identification claim.",
+  "fidelity_ceiling": "Per-partition, NOT one global class: the corrected replicate correction is OBSERVED / independent; the rounded-coefficient/refit audit is RECONSTRUCTED / verification (a computational audit, not independent experimental validation); the model interior feature is EXPLORATORY_SIMULATION / qualitative and is model capacity, never mechanism identification; the superseded interior-maximum headline carries no current evidence badge.",
   "generator": "puckworks.public.analysis_autopsy.build_payload",
   "producer": "puckworks.harness.result1_magnitude_comparison",
-  "redistribution_class": "CC-BY derived extraction-yield and RSM values, attributed; no raw source file redistributed",
+  "redistribution_class": "CC-BY DERIVED replicate-level extraction-yield values and RSM predictions, attributed; no raw Schmieder source CSV is redistributed",
   "revision_record": [
-    "Superseded headline: an interior 'fine-grind' extraction-yield maximum, read from a printed RSM central coefficient and a target that mixed mg solute masses with g TDS.",
-    "Correction 1 — coherent target: rebuild extraction yield from TDS on one consistent basis.",
-    "Correction 2 — precision: the printed central coefficient is a rounding artifact of a much smaller refit (refit vs printed vs raw central mass), not a real 1.7x over-prediction.",
-    "Corrected result: raw replicate yields are ORDERED across dial, the middle BELOW the coarse one; the Welch 95% interval on the middle-vs-coarse contrast excludes zero — no interior maximum.",
-    "Standing lesson: a channeling model can still GENERATE a small interior bump (model capacity), but it is smaller than the shot-to-shot replicate spread — capacity is not identification."
+    "Superseded internal headline: an interior 'fine-grind' extraction-yield maximum, read from a literal evaluation of the rounded published RSM coefficients at the central condition (~6.723 g, treated as if it were the real absolute level) and a target that mixed mg solute masses with g TDS.",
+    "Problem 1 — unit/aggregation: mg-scale solute masses and g-scale TDS/cup-mass quantities were aggregated before conversion to one coherent observable; the target must first be rebuilt as a single-basis TDS-derived extraction yield.",
+    "Problem 2 — printed precision: limited printed coefficient precision makes the literal absolute reconstruction unreliable; the project's least-squares refit central-condition prediction (~3.918 g) is near the observed central mean (~3.876 g). The 6.723 g figure is a literal evaluation of rounded coefficients, NOT itself a coefficient and NOT a real 1.7x over-prediction.",
+    "Correction — coherent target: extraction yield rebuilt from TDS on one consistent basis, so the three dial cells can be compared as one observable.",
+    "Corrected replicate-level finding: the raw cell means are ordered across dial with the middle below the coarse one (18.27 -> 19.38 -> 19.62 % EY); the Welch 95% interval on the middle-minus-coarse (dial 1.7 - dial 2.0) contrast excludes zero -> no observed interior maximum in these cells.",
+    "Remaining model-capacity statement: a channeling model can still GENERATE a small interior feature, but the tested feature is smaller than the descriptive within-cell replicate spread -- model capacity, not identification of channeling as the cause.",
+    "Resulting downgrade: the interior 'fine-grind maximum' interpretation is superseded and revised down to a model-capacity statement; self-correction here downgrades ONE result and does not prove every current result is correct."
   ],
-  "schema_version": 1,
+  "schema_version": 2,
   "scope": "Schmieder E65S grinder DoE at one fixed central flow/temperature condition; TDS-derived EY observable; grinder-dial positions (not particle sizes).",
   "series": [
     {
+      "badge": "OBSERVED",
       "categories": [
         "dial 1.4 (finer)",
         "dial 1.7 (middle)",
         "dial 2.0 (coarser)"
       ],
-      "caveat": "grinder-DIAL positions, non-portable to another grinder without a calibrated adapter; ordered (middle below coarse), no interior maximum",
-      "component": "schmieder2023 replicate cup masses -> TDS-derived EY",
-      "error": [
-        0.218,
-        0.218,
-        0.218
+      "caveat": "grinder-DIAL positions, non-portable to another grinder without a calibrated adapter; the cell means are ordered with the middle below the coarse cell, so there is no observed interior maximum here (the 1.4-vs-1.7 interval includes zero, so the means are ORDERED, not statistically monotone)",
+      "cell_stds": [
+        0.451,
+        0.145,
+        0.058
       ],
-      "label": "Raw extraction yield by grinder dial",
-      "method": "raw per-cell measured yields (error bar = within-cell replicate std)",
+      "component": "schmieder2023 replicate cup masses -> TDS-derived EY",
+      "label": "Observed extraction yield by grinder dial (replicate points)",
+      "method": "individual measured replicate yields per dial cell; the overlays are each cell's mean and each cell's OWN within-cell standard deviation (uncorrected, ddof=0 — a descriptive reference, not a Bessel-corrected estimator), with n per cell (3/6/3)",
+      "ns": [
+        3,
+        6,
+        3
+      ],
+      "replicates": [
+        [
+          17.743,
+          18.215,
+          18.843
+        ],
+        [
+          19.48,
+          19.439,
+          19.562,
+          19.284,
+          19.404,
+          19.117
+        ],
+        [
+          19.675,
+          19.649,
+          19.542
+        ]
+      ],
       "role": "observed",
+      "scope": "one machine, one coffee, one campaign, one fixed nominal central condition; grinder-DIAL positions, non-portable without a calibrated adapter",
+      "strength": "independent",
       "unit": "% EY",
       "values": [
         18.27,
@@ -46,16 +106,19 @@
       ]
     },
     {
+      "badge": "RECONSTRUCTED",
       "categories": [
-        "printed (rounded)",
-        "refit to data",
-        "raw data mean"
+        "rounded published coefficients",
+        "project refit",
+        "observed central mean"
       ],
-      "caveat": "the printed central coefficient is a rounding/precision artifact, not a real over-prediction",
-      "component": "schmieder RSM Eq.4 refit vs the printed coefficient",
-      "label": "RSM central coefficient: printed vs refit vs raw",
-      "method": "least-squares refit of the published RSM to the committed cup masses",
+      "caveat": "limited printed coefficient precision prevents reconstructing the absolute level from the printed values; the refit is near the observed mean. The 6.723 g figure is a literal evaluation of rounded coefficients, not itself a coefficient",
+      "component": "schmieder RSM Eq.4 evaluated/refit at the central condition",
+      "label": "Central-condition cup-mass value: rounded published coefficients vs project refit vs observed mean",
+      "method": "central-condition cup-mass prediction three ways: a literal evaluation of the rounded published coefficients (~6.723 g), the project's least-squares refit to the committed cup masses (~3.918 g), and the observed central-condition mean (~3.876 g)",
       "role": "derived",
+      "scope": "a computational audit against the committed data — verification, not independent experimental validation",
+      "strength": "verification",
       "unit": "g",
       "values": [
         6.723,
@@ -64,16 +127,19 @@
       ]
     },
     {
+      "badge": "EXPLORATORY_SIMULATION",
       "categories": [
-        "model bump (5 bar)",
-        "model bump (9 bar)",
-        "replicate spread"
+        "model interior prominence (5 bar)",
+        "model interior prominence (9 bar)",
+        "mean within-cell SD (descriptive, ddof=0)"
       ],
-      "caveat": "the model CAN draw a bump (capacity); it is smaller than replicate spread, so the data do not identify it",
-      "component": "channeling interior-max sensitivity vs measured spread",
-      "label": "Model interior bump vs replicate spread",
-      "method": "model interior prominence at two pressures compared with the within-cell std",
+      "caveat": "the model CAN draw an interior feature (capacity); the tested feature is smaller than the descriptive replicate spread, so the data do not identify it, and this is not identification of channeling as the cause. The 0.218 EY-point spread is a descriptive reference, not a formal minimum-detectable-effect or noise floor",
+      "component": "channeling interior-max sensitivity vs the descriptive replicate spread",
+      "label": "Model interior prominence vs descriptive replicate spread",
+      "method": "model interior prominence at two pressures compared with the mean within-cell sample SD across the three dial cells",
       "role": "simulated",
+      "scope": "model-capacity context on the tested closure grid; not a mechanism-identification claim",
+      "strength": "qualitative",
       "unit": "EY-points",
       "values": [
         0.19,
@@ -82,7 +148,7 @@
       ]
     }
   ],
-  "source_commit": "918cd8c13af67daf8397c847c9133ca344d643b9",
+  "source_commit": "08213fe86e7fb0304df8ccfcd71a83bcc7ed353e",
   "source_data_sha256": {
     "cup_masses.csv": "39b7c16f9d9da614f151f46cb0db1440d43f150fbf49d3d2119f3f2fa1622f43",
     "rsm_coefficients.csv": "9de2503130ad6689f6f0ad08ef0c781b2bcc099687b5db31443edb0a60d08adc"
@@ -96,6 +162,7 @@
     "ey_dial_1p4_pct": "% EY",
     "ey_dial_1p7_pct": "% EY",
     "ey_dial_2p0_pct": "% EY",
+    "mean_within_cell_std_EYpt": "EY-points",
     "mid_vs_coarse_contrast_EYpt": "EY-points",
     "model_bump_lt_within_cell_var": "boolean",
     "model_prominence_5bar_EYpt": "EY-points",
@@ -112,6 +179,7 @@
     "ey_dial_1p4_pct": 18.27,
     "ey_dial_1p7_pct": 19.38,
     "ey_dial_2p0_pct": 19.62,
+    "mean_within_cell_std_EYpt": 0.218,
     "mid_vs_coarse_contrast_EYpt": -0.241,
     "model_bump_lt_within_cell_var": true,
     "model_prominence_5bar_EYpt": 0.19,

@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>How We Falsified Our Own Espresso Headline — Puckworks</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="hero">
+    <p class="eyebrow">Puckworks · an analysis-autopsy story</p>
+    <h1>How We Falsified Our Own Espresso Headline</h1>
+    <p class="subtitle">The project correcting its own aggregation and interpretation — not a verdict on
+      the source authors.</p>
+    <p class="badge-row">
+      <span class="badge" id="badge">OBSERVED</span>
+      <span class="strength">evidence (corrected observed result): <b id="strength">independent</b></span>
+    </p>
+  </header>
+
+  <main id="main">
+    <p id="load-status" class="js-only" role="status">Loading the generated data…</p>
+
+    <!-- Fallback shown when JavaScript is off (CSS flips this on) -->
+    <div class="no-js-only">
+      <h2>Summary (JavaScript is off)</h2>
+      <p>This page normally lets you walk through four scenes: the superseded headline, the audit, the
+        corrected data, and what a model can and cannot claim. With JavaScript disabled, the complete
+        result — every number and caveat — is in the generated
+        <a href="static-summary.txt"><strong>static text summary</strong></a> and the
+        <a href="static-summary.png">summary image</a> below. You can also download the
+        <a href="data.json">generated data</a>.</p>
+      <p><img src="static-summary.png" width="100%"
+        alt="A scatter chart of observed espresso extraction yield in percent against grinder dial. Three dial cells (dial 1.4, dial 1.7, dial 2.0) each show individual replicate points as small squares with a horizontal line at the cell mean. The finer cell sits lowest, the middle cell sits just below the coarse cell, and a label reads the dial 1.7 minus dial 2.0 contrast as a small negative extraction-yield value. The exact numbers are in the static text summary linked above."></p>
+    </div>
+
+    <!-- ===== scene selector (native radios, keyboard-operable) ===== -->
+    <section class="scene js-only" aria-labelledby="ctrl-h">
+      <h2 id="ctrl-h">Walk through the revision</h2>
+      <fieldset id="scene-control">
+        <legend>Choose a scene</legend>
+        <label><input type="radio" name="scene" value="1" checked> 1 · The headline we wanted (superseded)</label>
+        <label><input type="radio" name="scene" value="2"> 2 · The audit</label>
+        <label><input type="radio" name="scene" value="3"> 3 · The corrected data</label>
+        <label><input type="radio" name="scene" value="4"> 4 · A model can draw it without identifying it</label>
+      </fieldset>
+      <p class="readout" id="scene-readout" role="status" aria-live="polite">·</p>
+    </section>
+
+    <!-- ===== SCENE 1 — the headline we wanted ===== -->
+    <section class="scene js-only scene-panel" data-scene="1" aria-labelledby="s1-h">
+      <h2 id="s1-h">1 · The headline we wanted
+        <span class="badge superseded">SUPERSEDED</span></h2>
+      <p>The attractive first reading was an interior <b>“fine-grind” extraction-yield maximum</b> — a
+        peak at the middle dial. It came from a literal evaluation of the rounded published response-
+        surface coefficients at the central condition (about
+        <b data-field="rsm_printed_central_g" data-fmt="num3">·</b> g, treated as if it were the real
+        level) together with a target that mixed milligram-scale solute masses with gram-scale TDS. We
+        are not hiding it; here is the whole revision, in order.</p>
+      <ol id="revision-record"></ol>
+      <p class="caution">We keep the earlier interpretation visible. This is the project correcting its
+        own aggregation and interpretation — <strong>not</strong> a verdict on the source authors.</p>
+    </section>
+
+    <!-- ===== SCENE 2 — the audit ===== -->
+    <section class="scene js-only scene-panel hidden" data-scene="2" aria-labelledby="s2-h">
+      <h2 id="s2-h">2 · The audit</h2>
+      <h3>A · The unit / observable contract</h3>
+      <p>The first target aggregated <b>milligram-scale solute masses</b> with <b>gram-scale TDS and
+        cup-mass quantities</b> before converting to one coherent observable. A quick unit-lint makes the
+        mistake obvious:</p>
+      <pre class="lint" id="unit-lint"></pre>
+      <p>The fix is to rebuild extraction yield from TDS on one consistent basis <em>before</em> any
+        aggregation, so the three dial cells are one comparable observable.</p>
+
+      <h3>B · Printed precision</h3>
+      <p>Evaluating the rounded published coefficients literally at the central condition gives about
+        <b data-field="rsm_printed_central_g" data-fmt="num3">·</b> g. The project’s least-squares refit
+        gives <b data-field="rsm_refit_central_g" data-fmt="num3">·</b> g, and the observed central mean
+        is <b data-field="rsm_raw_central_g" data-fmt="num3">·</b> g. Limited printed precision makes the
+        literal absolute reconstruction unreliable; the refit sits near the observed mean.</p>
+      <figure class="figure" id="rsm-fig">
+        <figcaption>Central-condition cup-mass value three ways: a literal evaluation of the rounded
+          published coefficients, the project refit, and the observed central mean.</figcaption>
+      </figure>
+      <details>
+        <summary>Show the numbers behind this plot (text table)</summary>
+        <div id="rsm-table"></div>
+      </details>
+      <p class="caution">The <b data-field="rsm_printed_central_g" data-fmt="num3">·</b> g figure is a
+        literal evaluation of rounded coefficients — <strong>not</strong> itself a coefficient and
+        <strong>not</strong> a real over-prediction. It is a precision artifact.</p>
+    </section>
+
+    <!-- ===== SCENE 3 — the corrected data (main visual) ===== -->
+    <section class="scene js-only scene-panel hidden" data-scene="3" aria-labelledby="s3-h">
+      <h2 id="s3-h">3 · The corrected data</h2>
+      <p>On one coherent TDS-derived yield, here are the <b>individual observed replicate points</b> per
+        grinder dial. The default view is the raw points; you can overlay each cell’s mean and its own
+        sample SD.</p>
+      <fieldset class="control-aux" id="scene3-control">
+        <legend>Overlays for the corrected-data plot</legend>
+        <label><input type="checkbox" id="show-means"> Show each cell’s mean</label>
+        <label><input type="checkbox" id="show-sds"> Show each cell’s own SD (descriptive, uncorrected)</label>
+      </fieldset>
+      <figure class="figure" id="obs-fig">
+        <figcaption>Observed extraction yield by grinder dial: individual replicate points, with optional
+          cell means and cell-specific sample SDs. Horizontal offsets are for legibility only; the
+          plotted yields are the exact generated values.</figcaption>
+      </figure>
+      <p class="readout" id="obs-readout" role="status" aria-live="polite">·</p>
+      <details>
+        <summary>Show the numbers behind this plot (text table)</summary>
+        <div id="obs-table"></div>
+      </details>
+      <p>The cell means are
+        <b data-field="ey_dial_1p4_pct" data-fmt="num2">·</b>,
+        <b data-field="ey_dial_1p7_pct" data-fmt="num2">·</b>, and
+        <b data-field="ey_dial_2p0_pct" data-fmt="num2">·</b> % EY. The middle-minus-coarse
+        (dial 1.7 − dial 2.0) contrast is
+        <b data-field="mid_vs_coarse_contrast_EYpt" data-fmt="num3">·</b> EY-points, with a Welch 95%
+        interval of [<b data-field="welch_ci95_lo_EYpt" data-fmt="num3">·</b>,
+        <b data-field="welch_ci95_hi_EYpt" data-fmt="num3">·</b>] EY-points (it excludes zero).</p>
+      <p class="keyline">The means are ordered, and the middle dial is below the coarse dial. This rules
+        out an observed interior maximum in these cells. It does not establish a statistically monotone
+        grinder response across the full range.</p>
+      <p class="caution">These are one machine, one coffee, one campaign, at a fixed nominal condition.
+        A grinder <b>dial</b> is not a particle size and is non-portable to another grinder without a
+        calibrated adapter. The achieved flow, temperature, and pressure differ across the three dial
+        settings (a design confound), and there is no replication across machines or coffees. This is not
+        a universal “too-fine” claim.</p>
+    </section>
+
+    <!-- ===== SCENE 4 — model capacity, not identification ===== -->
+    <section class="scene js-only scene-panel hidden" data-scene="4" aria-labelledby="s4-h">
+      <h2 id="s4-h">4 · A model can draw it without identifying it</h2>
+      <p>A channeling model <em>can</em> generate a small interior feature. Its prominence is
+        <b data-field="model_prominence_5bar_EYpt" data-fmt="num3">·</b> EY-points at 5 bar and
+        <b data-field="model_prominence_9bar_EYpt" data-fmt="num3">·</b> EY-points at 9 bar — both smaller
+        than the mean within-cell sample SD of
+        <b data-field="mean_within_cell_std_EYpt" data-fmt="num3">·</b> EY-points.</p>
+      <figure class="figure" id="model-fig">
+        <figcaption>Model interior prominence at two pressures against the mean within-cell sample SD.
+          The tested feature is smaller than the descriptive replicate spread.</figcaption>
+      </figure>
+      <details>
+        <summary>Show the numbers behind this plot (text table)</summary>
+        <div id="model-table"></div>
+      </details>
+      <p class="caution">This supports model <b>capacity</b>: the model can draw such a feature. It does
+        <strong>not</strong> identify channeling as the cause, and the
+        <b data-field="mean_within_cell_std_EYpt" data-fmt="num3">·</b> EY-point spread is a descriptive
+        reference — <strong>not</strong> a minimum-detectable-effect and <strong>not</strong> a noise
+        floor.</p>
+    </section>
+
+    <!-- ===== evidence partitions (the panels do not share one class) ===== -->
+    <section class="scene js-only" aria-labelledby="parts-h">
+      <h2 id="parts-h">Each panel carries its own evidence label</h2>
+      <p>The global <span class="badge">OBSERVED</span> badge refers to the corrected observed replicate
+        result only. The other panels are labelled separately:</p>
+      <div id="partitions"></div>
+    </section>
+
+    <section class="notproof js-only" aria-labelledby="np-h">
+      <h2 id="np-h">What this does not prove</h2>
+      <ul>
+        <li>It does <strong>not</strong> prove that self-correction makes every current result correct —
+          it documents <em>one</em> downgrade.</li>
+        <li>It does <strong>not</strong> show a universal “too-fine optimum”, and a grinder dial is
+          <strong>not</strong> a portable particle-size scale.</li>
+        <li>It does <strong>not</strong> disprove channeling or identify it as the cause — the data
+          simply do not identify it; the model only shows capacity.</li>
+        <li>The fine-grind reversal is <strong>not</strong> called “fake”; the interior maximum is just
+          not present in these observed cells.</li>
+      </ul>
+      <p class="scope"><b>Scope.</b> <span data-field-text="scope">·</span></p>
+      <p class="scope"><b>Caveat.</b> <span data-field-text="caveat">·</span></p>
+      <p class="scope"><b>Fidelity ceiling.</b> <span data-field-text="fidelity_ceiling">·</span></p>
+    </section>
+
+    <section class="links js-only" aria-labelledby="links-h">
+      <h2 id="links-h">Trace every number</h2>
+      <ul>
+        <li>Producer: <code>puckworks.harness.result1_magnitude_comparison</code>;
+          public snapshot producer: <code>puckworks.public.analysis_autopsy.pv04_values</code>.</li>
+        <li>Public claim: <code>PV-04</code> in
+          <a href="https://github.com/trbrewer/puckworks/blob/main/docs/public/generated/claims.md">the generated claim cards</a>.</li>
+        <li>Generated data: <a href="data.json">data.json</a> ·
+          <a href="static-summary.txt">static text summary</a> ·
+          <a href="static-summary.png">summary image</a>.</li>
+        <li>Reproduce: <code>python -m puckworks.public.analysis_autopsy verify</code></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>Every number on this page is generated by a named Puckworks function and bound to the CC-BY
+      Schmieder source files; nothing is hand-typed. <span data-field-text="attribution">·</span></p>
+    <p><a href="../">← Back to the Puckworks public stories</a></p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

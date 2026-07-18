@@ -11,9 +11,12 @@ on:
       - "puckworks/public/data/pv03_flat_valley.json"
       - "puckworks/public/model_composition.py"
       - "puckworks/public/data/pv05_model_composition.json"
+      - "puckworks/public/analysis_autopsy.py"
+      - "puckworks/public/data/pv04_analysis_autopsy.json"
       - "docs/figures/paper_a/results.json"
       - "tests/test_flat_valley.py"
       - "tests/test_model_composition.py"
+      - "tests/test_analysis_autopsy.py"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -38,12 +41,13 @@ jobs:
           python-version: "3.12"
       - name: install (dev)
         run: python -m pip install --quiet -e ".[dev]"
-      - name: verify the PV-03 + PV-05 snapshots are producer-bound + current
+      - name: verify the PV-03 + PV-05 + PV-04 snapshots are producer-bound + current
         run: |
           python -m puckworks.public.flat_valley verify
           python -m puckworks.public.model_composition verify
+          python -m puckworks.public.analysis_autopsy verify
       - name: static-site + data-contract tests
-        run: python -m pytest tests/test_flat_valley.py tests/test_model_composition.py -q
+        run: python -m pytest tests/test_flat_valley.py tests/test_model_composition.py tests/test_analysis_autopsy.py -q
       - name: only the intended files are in the site directory
         run: |
           python - <<'PY'
@@ -56,6 +60,9 @@ jobs:
             "model-composition/index.html", "model-composition/app.js", "model-composition/styles.css",
             "model-composition/data.json", "model-composition/static-summary.png",
             "model-composition/static-summary.txt",
+            "analysis-autopsy/index.html", "analysis-autopsy/app.js", "analysis-autopsy/styles.css",
+            "analysis-autopsy/data.json", "analysis-autopsy/static-summary.png",
+            "analysis-autopsy/static-summary.txt",
           }
           found = set()
           for r, _, fs in os.walk(site):
