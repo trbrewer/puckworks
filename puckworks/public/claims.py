@@ -146,41 +146,73 @@ PUBLIC_CLAIMS = [
         compares_grinder_dials=True,
     ),
 
-    # ---- PV-05 — "Adding more physics made it worse" -----------------------
+    # ---- PV-05 — "More Physics Made It Worse" (model-composition story) ------
     PublicClaim(
         claim_id="PV-05",
-        public_question="Does combining two plausible mechanisms automatically make a "
-                        "more realistic espresso model?",
-        headline="Adding a swelling branch to the extraction model made the prediction "
-                 "worse than a flat line.",
-        plain_language_finding="In a shared-porosity composition, extraction-only "
-            "reduces exactly to the poroelastic rung; adding an imported swelling "
-            "branch OVER-closes the shared porosity, so the combined flow prediction "
-            "FLATTENS and scores WORSE than a best-fit constant baseline. The lesson "
-            "is not that swelling is absent — it is that two individually plausible "
-            "branches can be incompatible when they share a state variable.",
-        numeric_result={"composite_rmse_g_per_s": 0.648},
-        units={"composite_rmse_g_per_s": "g/s"},
-        uncertainty_or_sensitivity="Over the same 15-95 s window, the composite 0.648 "
-            "g/s is worse than the best-constant null (~0.57 g/s, see PV-02) and the "
-            "extraction-only rung (~0.12 g/s) — a diagnosed mis-scale, reported not "
-            "tuned away.",
+        public_question="Can two individually plausible espresso components be combined "
+                        "safely just by sharing one state variable?",
+        headline="Adding a swelling branch made this tested model worse.",
+        plain_language_finding="A time-varying extraction model followed the rising flow "
+            "trace much better than a constant baseline. But when a swelling branch was "
+            "added through one shared porosity state, that state over-closed and the "
+            "composite prediction became worse than the constant. The result rejects "
+            "this composition, not swelling physics in general.",
+        numeric_result={
+            "const_baseline_rmse_g_per_s": 0.573,
+            "extraction_only_rmse_g_per_s": 0.116,
+            "composite_rmse_g_per_s": 0.648,
+            "rmse_ratio_composite_over_constant": 1.131,
+            "rmse_ratio_composite_over_extraction": 5.586,
+            "min_shared_porosity": 0.0998,
+            "eps0_reference_porosity": 0.17,
+            "swelling_closes_shared_state": True,
+            "eval_window_start_s": 15.0,
+            "eval_window_end_s": 95.0},
+        units={
+            "const_baseline_rmse_g_per_s": "g/s",
+            "extraction_only_rmse_g_per_s": "g/s",
+            "composite_rmse_g_per_s": "g/s",
+            "rmse_ratio_composite_over_constant": "ratio",
+            "rmse_ratio_composite_over_extraction": "ratio",
+            "min_shared_porosity": "porosity fraction (dimensionless)",
+            "eps0_reference_porosity": "porosity fraction (dimensionless)",
+            "swelling_closes_shared_state": "boolean",
+            "eval_window_start_s": "s",
+            "eval_window_end_s": "s"},
+        uncertainty_or_sensitivity="Over the 15-95 s window the composite 0.648 g/s is "
+            "1.13x the best-constant null (0.573 g/s) and 5.59x the extraction-only rung "
+            "(0.116 g/s, cross-checked by degeneracy_rmse); the shared porosity "
+            "over-closes to 0.0998 (below the 0.17 reference). A diagnosed mis-scale, "
+            "reported not tuned away.",
         evidence_strength="qualitative",
         badge="EXPLORATORY_SIMULATION",
         components=["brewer2026.coupled_kappa_t"],
-        dataset_manifest_ids=["waszkiewicz2025/traces_time_dependent"],
+        dataset_manifest_ids=["waszkiewicz2025/traces_time_dependent",
+                              "waszkiewicz2025/constants"],
         validity_range="9-bar Waszkiewicz trace; the imported swelling parameters are "
-            "mo2023_2's, applied to a saturated pre-wet rig.",
-        primary_caveat="Diagnoses THIS shared-porosity composition, not the existence "
-            "of swelling; and 'simple is always best' is NOT the lesson — complexity "
-            "is justified when it beats the baseline.",
-        practical_implication="Do not assume a more elaborate model is more "
-            "trustworthy; a simple baseline must stay visible and be beaten.",
-        reproduction="python -c \"from puckworks.models.brewer2026.coupled_kappa_t import composition_residual as f; print(f())\"",
+            "mo2023_2's, applied to a saturated pre-wet rig; one observation operator.",
+        primary_caveat="Diagnoses THIS shared-porosity composition, not the existence of "
+            "swelling; does NOT prove the extraction-only mechanism; and 'simple is "
+            "always best' is NOT the lesson — complexity is justified when it beats the "
+            "baseline. Not coupled into the Guided Espresso Pull.",
+        practical_implication="Do not assume a more elaborate model is more trustworthy; "
+            "a simple baseline must stay visible and be beaten before components are "
+            "combined through a shared state.",
+        reproduction="python -m puckworks.public.model_composition verify",
         producer=Producer(
-            module="puckworks.models.brewer2026.coupled_kappa_t",
-            function="composition_residual",
-            result_map={"composite_rmse_g_per_s": "rmse"}),
+            module="puckworks.public.model_composition",
+            function="pv05_values",
+            result_map={
+                "const_baseline_rmse_g_per_s": "const_baseline_rmse_g_per_s",
+                "extraction_only_rmse_g_per_s": "extraction_only_rmse_g_per_s",
+                "composite_rmse_g_per_s": "composite_rmse_g_per_s",
+                "rmse_ratio_composite_over_constant": "rmse_ratio_composite_over_constant",
+                "rmse_ratio_composite_over_extraction": "rmse_ratio_composite_over_extraction",
+                "min_shared_porosity": "min_shared_porosity",
+                "eps0_reference_porosity": "eps0_reference_porosity",
+                "swelling_closes_shared_state": "swelling_closes_shared_state",
+                "eval_window_start_s": "eval_window_start_s",
+                "eval_window_end_s": "eval_window_end_s"}),
     ),
 
     # ---- PV-03 — "The cup hides the clock" (flat-valley identifiability) -----

@@ -64,7 +64,7 @@ puckworks = ["data/*.csv", "data/*.json"]
 "puckworks.data" = ["*.csv", "*.json", "*.md", "**/*.csv", "**/*.json", "**/*.md"]
 # PV-03 flat-valley public snapshot: an EXACT path (not a broad wildcard), so the PV-03 claim
 # producer can read the hash-bound values from an installed wheel.
-"puckworks.public" = ["data/pv03_flat_valley.json"]
+"puckworks.public" = ["data/pv03_flat_valley.json", "data/pv05_model_composition.json"]
 
 [tool.setuptools.exclude-package-data]
 # NEVER ship gitignored/raw source data (P1.4 / privacy). The broad **/*.csv include above would
