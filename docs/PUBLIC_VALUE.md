@@ -398,81 +398,88 @@ Use PV-15 to select pressure-step, pause/resume, or control-mode experiments tha
 
 ---
 
-### PV-03 — “A good fit can still be wrong”: the inventory–kinetics flat-valley interactive
+### PV-03 — “The cup hides the clock”: the inventory–kinetics flat-valley interactive
+
+> **Corrected 2026-07-18 (matched-endpoint result).** The earlier large-error, transfer-failure
+> framing was an artifact of an unmatched fixed-25 s integration window and is retired; the corrected
+> reading uses a matched beverage endpoint. See `docs/ANALYSIS_transfer.md` and the corrected
+> manuscript `docs/PAPER_A_DRAFT.md`; every number below is a field in the committed Paper A result
+> bundle `docs/figures/paper_a/results.json`.
 
 **Working headline**
 
-> **This espresso model predicted the cup to about 7%—and still failed the real transfer test.**
+> **The final cup can hide very different extraction clocks.**
 
-Alternative article title:
+**Public question:** can a model match the final cup while leaving its hidden rate and inventory unresolved?
 
-> **The cup hides the clock.**
-
-**Public question:** if a model matches the final cup, has it learned how extraction works, or can different hidden explanations produce the same endpoint?
-
-**Existing finding:** fitting a per-species solid inventory and a kinetic rate scale to whole-cup concentrations at one grind can yield about 7.2% same-grind holdout error. Yet a 6.25-fold change in the rate scale can be largely absorbed by inventory with less than a three-percentage-point change in fit error. The calibration then fails across held-out grinds, with roughly 25–49% errors. On the model's fraction-resolved calibration data, temporal curves create a sharp rate optimum, while collapsing those same fractions into one cup flattens the objective.
+**Corrected finding.** Fitting a per-species solid inventory and a kinetic rate scale to whole-cup
+endpoints leaves the two **practically non-identifiable**: on the caffeine log-parameter objective the
+SSE-Hessian **condition number is ≈ 1,930** and the local **inverse-curvature coupling is ≈ −0.99** (a
+geometric objective-surface diagnostic, **not** a statistical parameter correlation). The
+10%-near-optimal profiled-SSE rate set covers **≈ 76%** of the tested log-rate grid and is
+**right-censored** at the upper tested boundary; the MAPE and SSE tolerance sets overlap with **Jaccard
+≈ 0.86**. Yet endpoints predict reasonably: across held-out grinds the mechanistic model’s pooled MAPE
+is **8.2%** versus **8.6%** for an O-trained **level-only constant**, and the mechanistic model is
+**worse than the constant on 50 of 108** held-out points. So the endpoint is reasonably *stable* to
+predict, but endpoint accuracy alone supplies little evidence that the kinetic **mechanism** transferred.
+Retaining the clock helps: timed fractions sharpen the rate optimum that a collapsed cup flattens, and
+an independently measured soluble inventory narrows the conditional rate range.
 
 **Why this has exceptional public and paper value**
 
-- It is a universal scientific lesson expressed through coffee: matching an endpoint is not the same as identifying a mechanism.
+- It is a universal scientific lesson expressed through coffee: **fitting an endpoint, identifying
+  parameters, predicting another condition, and demonstrating incremental mechanistic skill are four
+  different things**.
 - The “flat valley” is visually intuitive and interactive.
 - It explains why time-resolved measurement matters.
-- It turns a negative transfer result into a constructive technique: collect measurements that preserve the clock.
+- It is constructive: preserve the clock (timed fractions), measure inventory independently, and
+  compare against a level-only null before crediting a mechanism.
 
-**Analysis tasks**
+**Analysis tasks (already available in the bundle)**
 
-1. Reproduce the profile table and expand it into a dense two-dimensional error surface over inventory and rate scale.
-2. Add uncertainty and identifiability diagnostics:
-   - profile likelihood or objective contours;
-   - Hessian/eigenvalue or local condition-number diagnostic;
-   - bootstrap across shots;
-   - parameter correlation;
-   - comparison with inventory fixed to the independently measured value.
-3. Show three tests in order:
-   - same-grind fit;
-   - same-grind held-out shots;
-   - held-out coarse/fine grinds.
-4. Re-run the fraction-versus-whole-cup positive control and calculate a simple “information retained” index for each solute.
-5. Test a joint multi-grind fit with a shared, grind-independent inventory and report the residual structure rather than forcing a success.
-6. Extend this into a reusable transfer benchmark:
-   - fit on dataset/coffee/grind A;
-   - freeze parameters;
-   - predict B;
-   - report both fit and transfer scores;
-   - disallow post-hoc relabelling of a refit as prediction.
+1. The profiled SSE/MAPE valley and a dense 2-D SSE surface over inventory and rate scale
+   (`panel_caffeine.profile`, `panel_caffeine.surface`).
+2. Identifiability diagnostics: SSE-Hessian condition number and local inverse-curvature coupling; the
+   10%-near-optimal tolerance set with explicit right-censoring; the SSE↔MAPE Jaccard overlap
+   (`identifiability_panel`).
+3. The held-out comparison against the level-only constant baseline (`transfer_skill_vs_baselines`).
+4. The fraction-versus-whole-cup positive control (`identifiability_fractions_vs_cup`).
+5. The independent-inventory conditional rate (`table7_rate_constraint`).
 
-**Interactive design**
+**Interactive design (four scenes)**
 
-- Two sliders: **“amount available”** and **“speed of release.”**
-- A cup-concentration gauge stays nearly unchanged along the flat valley.
-- A hidden fraction curve changes dramatically as the rate slider moves.
-- A “change grind” button then reveals the transfer failure.
-- A final panel shows how collecting six timed fractions collapses the valley and recovers rate information.
-
-**Deliverable package**
-
-- Interactive explainer.
-- Public article or methods paper: **“The Cup Hides the Clock: why whole-cup espresso data cannot separate inventory from kinetics.”**
-- A short video showing many parameter pairs producing the same endpoint.
-- A reusable public “fit versus transfer” scoreboard for future components.
+1. **Same cup, different hidden parameters** — “amount available” and log-scale “speed of release”
+   controls select precomputed grid points; the endpoint stays similar along the near-optimal valley.
+2. **Keep or throw away the clock** — toggle whole-cup vs timed-fraction information and see the
+   objective sharpen; label fraction results by their real evidence class (in-sample verification), not
+   independent validation.
+3. **Prediction is not identification** — mechanistic held-out MAPE 8.2% vs constant 8.6%, worse on
+   50/108; show endpoint-prediction stability, parameter identifiability, and incremental skill
+   *separately*, never one red/green score.
+4. **What measurement would help** — timed fractions, independent inventory, multiple conditions, and a
+   null baseline each constrain a different ambiguity.
 
 **Practical implication**
 
-A coffee recipe or model tuned on one coffee and grind should not be trusted as a general rule without a frozen-parameter transfer test. For experiments intended to learn mechanism, collect temporal fractions rather than only final beverage concentration.
+A model tuned on one coffee and grind should not be credited with mechanism from endpoint accuracy
+alone. To learn mechanism, preserve time (timed fractions), obtain independent inventory measurements,
+and beat a simple level-only null — better *measurement design*, not a more confident endpoint fit,
+distinguishes hidden mechanisms.
 
 **Evidence-safe wording**
 
-- Good: “The single-grind endpoint fit was non-identifiable and did not transfer across grind.”
-- Avoid: “The Pannusch model is wrong.” The model reproduces its calibration data; the result concerns what a particular dataset and refit can identify and transfer.
-- Avoid: “7% error is meaningless.” It is useful for the fitted setting but insufficient evidence of mechanistic transfer.
+- Good: “The single-grind endpoint fit is **practically non-identifiable**; endpoint prediction is
+  reasonably stable but adds little skill over a level-only null.”
+- Avoid: “the mechanism transferred” — endpoint accuracy is not mechanistic validation.
+- Avoid the earlier large-error, transfer-failure reading — superseded by the matched-endpoint result.
+- Avoid calling the 10% objective set a **confidence interval**, or −0.99 a **statistical parameter
+  correlation** — the first is a tested-domain threshold set, the second is objective-surface geometry.
 
-**Potential viral angle**
-
-A strong first-person research narrative is: **“We got a great result. Then we changed the grind.”** It combines apparent success, a clean reveal, and a broadly applicable methodological lesson.
-
-**Effort:** M, approximately 1–2 weeks for polished analysis and interactive.  
-**Primary repo dependencies:** `docs/ANALYSIS_transfer.md`, Pannusch solver, Angeloni data, slow transfer validation.  
-**Public success signal:** viewers can explain why two hidden parameters may compensate and why timed fractions are more informative than a final cup.
+**Effort:** M, a static generated interactive from the committed bundle (v0.4.0 line).
+**Primary repo dependencies:** `docs/figures/paper_a/results.json`, `docs/ANALYSIS_transfer.md`,
+`docs/PAPER_A_DRAFT.md`, `puckworks/validation/slow/angeloni_bracket.py`.
+**Public success signal:** viewers can explain why two hidden parameters may compensate at the endpoint,
+why timed fractions are more informative than a final cup, and why prediction stability is not mechanism.
 
 ---
 
