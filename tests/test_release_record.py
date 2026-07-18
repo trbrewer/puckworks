@@ -16,7 +16,11 @@ sys.path.insert(0, str(_ROOT / "tools"))
 import release_record as RR  # noqa: E402
 
 RECORD_PATH = _ROOT / "docs" / "status" / "public_release.json"
-EVIDENCE = _ROOT / "docs" / "reproducibility" / "RELEASE_VERIFICATION_v0.2.0.md"
+# The durable verification record and the release facts are derived from the SHIPPED record version,
+# so this suite follows the release transition (v0.2.0 -> v0.3.0 -> ...) without hard-coded versions.
+_SHIPPED = RR.load(RECORD_PATH)
+VERSION = _SHIPPED["version"]
+EVIDENCE = _ROOT / "docs" / "reproducibility" / f"RELEASE_VERIFICATION_v{VERSION}.md"
 
 
 @pytest.fixture
@@ -28,13 +32,18 @@ def test_shipped_record_is_valid(record):
     assert RR.validate(record) == []
 
 
+def test_durable_evidence_record_exists_for_shipped_version():
+    assert EVIDENCE.exists(), f"missing durable verification record for v{VERSION}: {EVIDENCE}"
+
+
 def test_registry_status_is_github_only(record):
     assert record["registry_status"] == "github_only"
 
 
 def test_canonical_urls(record):
-    assert RR.canonical_wheel_url(record).endswith("v0.2.0/puckworks-0.2.0-py3-none-any.whl")
-    assert RR.canonical_sdist_url(record).endswith("v0.2.0/puckworks-0.2.0.tar.gz")
+    # derived from record fields, not literal version strings
+    assert RR.canonical_wheel_url(record).endswith(f"{record['tag']}/{record['wheel_filename']}")
+    assert RR.canonical_sdist_url(record).endswith(f"{record['tag']}/{record['sdist_filename']}")
     assert RR.canonical_wheel_url(record).startswith("https://")
 
 

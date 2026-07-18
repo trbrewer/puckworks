@@ -115,13 +115,18 @@ def test_hero_uses_the_maintainer_logo():
     assert (REPO_ROOT / hero).exists(), "the maintainer hero logo file must exist"
 
 
-def test_guided_pull_is_marked_upcoming_not_released():
+def test_guided_pull_colab_cta_is_live():
     low = TEXT.lower()
     assert "guided espresso pull" in low
     assert "docs/GUIDED_ESPRESSO_PULL.md" in TEXT
-    # must not present the guided notebook as an already-released one-click workflow
-    assert "guided_espresso_pull_colab.ipynb" not in TEXT
-    assert "not released yet" in low or "coming in v0.3.0" in low
+    # the guided notebook is now an active one-click Colab CTA
+    assert ("colab.research.google.com/github/trbrewer/puckworks/blob/main/"
+            "notebooks/guided_espresso_pull_colab.ipynb") in TEXT
+    # both distinct paths are offered
+    assert "puckworks_quickstart_colab.ipynb" in TEXT
+    assert "explore the component registry" in low and "run a guided espresso pull" in low
+    # the old upcoming/not-released wording is gone
+    assert "not released yet" not in low and "coming in v0.3.0" not in low
 
 
 def test_every_local_image_path_exists():
@@ -245,9 +250,10 @@ def test_package_description_is_evidence_first():
 
 # ── notebook (Phase 6) ──────────────────────────────────────────────────────────────
 def test_notebook_release_link_is_tag_not_download_dir():
-    assert "releases/tag/v0.2.0" in NB_TEXT
+    rec = _record()
+    assert f"releases/tag/{rec['tag']}" in NB_TEXT
     # no link to the bare (incomplete) download-directory URL
-    assert not re.search(r"releases/download/v0\.2\.0\s*[)\]\s]", NB_TEXT)
+    assert not re.search(rf"releases/download/{re.escape(rec['tag'])}\s*[)\]\s]", NB_TEXT)
 
 
 def test_notebook_expected_wheel_hash_equals_record():

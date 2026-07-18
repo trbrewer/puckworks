@@ -8,8 +8,8 @@ It is **not** an optimizer, a flavor/taste predictor, or a digital twin. It repo
 **composition** where supported — never sensory flavor. It ships and loads **no** upstream fixture
 data; everything is computed from model code plus your inputs.
 
-Public surface: `puckworks.product` (see [API.md](API.md)). It arrives in **v0.3.0** — the published
-v0.2.0 wheel does not contain it.
+Public surface: `puckworks.product` (see [API.md](API.md)). Released in **v0.3.0** (GitHub-only; not on
+PyPI).
 
 ## Presets
 
@@ -125,6 +125,6 @@ carries a **value role**: `prescribed_input`, `simulated`, or `derived`.
   --pressure-bar 9 --grind-setting 1.7 --report-dir build/guided-pull` (add `--domain-policy strict`
   to block extrapolations). Summary/JSON/Markdown modes need no matplotlib; `--figures` / `--report-dir`
   need the `puckworks[viz]` extra and print an actionable message if it is missing.
-- **Colab (from v0.3.0):** [`notebooks/guided_espresso_pull_colab.ipynb`](../notebooks/guided_espresso_pull_colab.ipynb)
-  with native form controls. Until v0.3.0 is released it runs only via a locally built candidate wheel
-  (`PUCKWORKS_WHEEL`); the public one-click download-and-verify path activates with the release.
+- **Colab (released, one-click):** [`notebooks/guided_espresso_pull_colab.ipynb`](../notebooks/guided_espresso_pull_colab.ipynb)
+  with native form controls. Its default path downloads the exact v0.3.0 release wheel and verifies
+  the SHA-256 before installing; `PUCKWORKS_WHEEL` remains for hermetic (offline) testing.
