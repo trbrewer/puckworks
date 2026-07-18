@@ -9,6 +9,13 @@
 
 # puckworks
 
+<p align="center">
+  <a href="https://github.com/trbrewer/puckworks/actions/workflows/gates.yml"><img src="https://github.com/trbrewer/puckworks/actions/workflows/gates.yml/badge.svg" alt="Continuous integration test status"></a>
+  <a href="https://github.com/trbrewer/puckworks/releases/latest"><img src="https://img.shields.io/github/v/release/trbrewer/puckworks?label=release" alt="Latest tagged GitHub release"></a>
+  <img src="https://img.shields.io/badge/python-3.10%20%7C%203.12%20%7C%203.13-blue" alt="Supported Python versions 3.10 to 3.13">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="Project license is MIT"></a>
+</p>
+
 **Physics-based models for the espresso pull — from grind and puck structure to water flow, puck
 change, and extraction.**
 
@@ -66,73 +73,38 @@ solver, an exploratory synthesis, or a source-data constraint. The roles below s
 
 <!-- puckworks-model-map:start -->
 
-**25 registered models**, grouped by the stage they address. Names are the exact identifiers used in
-the code; each links to its model card (the source of truth for that model's physics, assumptions, and
-limits). "Runs in Guided Pull" marks the one model chain the public product executes.
+**25 registered models**, in one table so the columns line up, ordered by the stage they address. Names are the exact identifiers used in the code; each links to its model card (the source of truth for that model's physics, assumptions, and limits). "Runs in Guided Pull" marks the one model chain the public product executes.
 
-### Grind
-
-| Model module | Role | What physics it represents |
-|---|---|---|
-| `wadsworth2026.grindmap` | Calibration / comparison | Maps a grinder dial to measured mean particle radius and size spread. Grinder-specific and **not portable** to other grinders. ([card](docs/cards/wadsworth2026_grindmap.md)) |
-
-### Puck formation and porous structure
-
-| Model module | Role | What physics it represents |
-|---|---|---|
-| `wadsworth2026.permeability` | Calibration / comparison | Permeability from particle size, porosity, and grain angularity. Validated untamped; the tamped range is an extrapolation. ([card](docs/cards/wadsworth2026.md)) |
-| `brewer2026.pack_generator` | Pore-scale reference | Builds synthetic overlapping-sphere pucks with controlled heterogeneity for pore-scale flow experiments (a Puckworks model). ([models](puckworks/models/brewer2026/)) |
-
-### Machine pressure and water delivery
-
-| Model module | Role | What physics it represents |
-|---|---|---|
-| `foster2025.machine_mode` | Executable model (separate) | Couples pump behavior, pipe resistance, trapped-air headspace, and puck filling to predict delivered pressure and flow. Fine grind; nominal pump. ([card](docs/cards/foster2025_2.md)) |
-| `sourcing2026.g3_pump_characteristic` | Source-data constraint | Bounds the pump pressure–flow envelope from manufacturer endpoints and community curves. Endpoints are reference-strength; the curve shape is qualitative. ([card](docs/cards/g3_pump_characteristic.md)) |
-
-### Wetting and infiltration
-
-| Model module | Role | What physics it represents |
-|---|---|---|
-| `foster2025.infiltration` | Executable model (separate) | Tracks a sharp water front advancing through an initially dry puck under a measured or prescribed pressure history. Validated against CT, fine grind. ([card](docs/cards/foster2025.md)) |
-| `sourcing2026.g1_glassbead_analog` | Source-data constraint | Uses glass-bead retention and relative-permeability measurements as a *shape* prior for wetting. This is an analogy, **not** coffee-specific validation of absolute values. ([card](docs/cards/g1_glassbead_analog.md)) |
-
-### Flow through the puck
-
-| Model module | Role | What physics it represents |
-|---|---|---|
-| `brewer2026.lb_reference` | Pore-scale reference solver | Resolves low-Reynolds pore flow with a D3Q19 two-relaxation-time lattice-Boltzmann solver (verification twin; a Puckworks model). ([models](puckworks/models/brewer2026/)) |
-| `brewer2026.lb_taichi` | Pore-scale reference solver | Accelerated (CPU/GPU) build of the same pore-scale flow physics; the `taichi` dependency is optional, so it is not run by default. ([models](puckworks/models/brewer2026/)) |
-| `lee2023.feedback` | Calibration / comparison | Competing flow paths in which extraction changes porosity and permeability, redistributing water. A qualitative fine-grind-dip hypothesis only — the decline needs an unphysical density. ([card](docs/cards/lee2023.md)) |
-| `wadsworth2026.inertial` | Executable supporting model | Adds a Forchheimer inertial-resistance correction where Darcy's linear pressure–flow law starts to fail. A regime flag; the fitted constant is extrapolated for tamped coffee. ([card](docs/cards/wadsworth2026_inertial.md)) |
-| `sourcing2026.g10_liquor_rheology` | Source-data constraint | Supplies coffee-liquid viscosity and density versus temperature and concentration for flow-resistance studies. Measured on soluble-coffee extract and extrapolated to espresso; the bulk-cup effect is near-negligible. ([card](docs/cards/g10_liquor_rheology.md)) |
-
-### Puck change and bed dynamics
-
-| Model module | Role | What physics it represents |
-|---|---|---|
-| `brewer2026.streamtube` | Executable model (separate) | Uneven flow through parallel, non-exchanging paths whose permeability follows a statistical distribution. Calibrated at low dials; interpolated, not externally validated (a Puckworks model). ([models](puckworks/models/brewer2026/)) |
-| `brewer2026.coupled_kappa_t` | Exploratory synthesis | Explores how swelling, compaction, fines movement, and extraction-driven porosity change might combine into a time-varying puck resistance. A framework only — as sound as its shakiest donor branch. ([card](docs/cards/brewer2026_coupled_kappa_t.md)) |
-| `fasano2000_partI.fines_migration` | Calibration / comparison | Tracks mobile fines, deposition and release, compacted layers, and their effect on Darcy flow. A mechanism demonstration; the closures are ours, not the source paper's. ([card](docs/cards/fasano2000_partI.md)) |
-| `mo2023_2.swelling` | Executable model (separate) | Water entering particles, swelling, loss of pore space, and the resulting decline in permeability and flow. The fixed-pressure flow-decay ratio is reproduced; the swelling claim is unvalidated in the source. ([card](docs/cards/mo2023_2.md)) |
-| `waszkiewicz2025.poroelastic` | Executable model (separate) | Couples puck deformation, pressure, permeability, and dissolution-driven pore change in a saturated poroelastic bed. One rig and coffee; quantitative only above about 5 bar. ([card](docs/cards/waszkiewicz2025.md)) |
-
-### Extraction and transport into the beverage
-
-| Model module | Role | What physics it represents |
-|---|---|---|
-| `cameron2020.extraction_bdf` | **Runs in Guided Pull** | One-dimensional saturated extraction with advection, in-particle diffusion, and nonlinear dissolution from fine and coarse particle families. EK43 dial 1.1–2.3; 20 g in / 40 g out class recipes. ([card](docs/cards/cameron2020.md)) |
-| `pannusch2024.solver` | Executable model (separate) | Extraction from fine and coarse particles with interphase mass transfer and temperature- and flow-dependent transport. 80–98 °C, 1–3 mL/s; the fitted Sherwood law lacks generality. ([card](docs/cards/pannusch2024.md)) |
-| `pannusch2024.closures` | Calibration / comparison | Supplies diffusivity, viscosity, density, Sherwood-number, temperature, and equilibrium relationships used by the pannusch extraction model. ([card](docs/cards/pannusch2024.md)) |
-| `grudeva2025.reduced` | Executable model (separate) | A reduced asymptotic extraction model with a moving wetting front and fine/coarse particle families. Saturated-fines regime; prescribed flow; verification-gated. ([card](docs/cards/grudeva2025.md)) |
-| `liang2021.desorption` | Calibration / comparison | An immersion-derived equilibrium extraction ceiling and retained-liquid correction. **Not** itself a flowing-puck model — it supplies a ceiling and a kernel. ([card](docs/cards/liang2021.md)) |
-| `moroney2016.surrogate` | Calibration / comparison | A reduced constant-pressure extraction model that captures early release, a plateau, and later wash-through. Qualitative reproduction of the source figure. ([card](docs/cards/moroney2016.md)) |
-| `mo2023_2.coupled_bed` | Executable model (separate) | Extraction resolved by bed depth using fine/coarse diffusion, partitioning, and a moving filling front under fixed flow. Type-M, cup mass below ~30 g; absolute yield needs one inventory scale. ([card](docs/cards/mo2023_2.md)) |
-| `romancorrochano2017.extraction` | Executable model (separate) | Molecular-size-dependent diffusion from spherical coffee grains with partitioning between solid and liquid. Solver verified against the analytic solution; supplies a flow *trend*, not absolute yield. ([card](docs/cards/romancorrochano2017_extraction.md)) |
+| Stage | Model module | Role | What physics it represents |
+|---|---|---|---|
+| Grind | `wadsworth2026.grindmap` | Calibration / comparison | Maps a grinder dial to measured mean particle radius and size spread. Grinder-specific and **not portable** to other grinders. ([card](docs/cards/wadsworth2026_grindmap.md)) |
+| Puck formation | `wadsworth2026.permeability` | Calibration / comparison | Permeability from particle size, porosity, and grain angularity. Validated untamped; the tamped range is an extrapolation. ([card](docs/cards/wadsworth2026.md)) |
+| Puck formation | `brewer2026.pack_generator` | Pore-scale reference | Builds synthetic overlapping-sphere pucks with controlled heterogeneity for pore-scale flow experiments (a Puckworks model). ([models](puckworks/models/brewer2026/)) |
+| Machine delivery | `foster2025.machine_mode` | Executable model (separate) | Couples pump behavior, pipe resistance, trapped-air headspace, and puck filling to predict delivered pressure and flow. Fine grind; nominal pump. ([card](docs/cards/foster2025_2.md)) |
+| Machine delivery | `sourcing2026.g3_pump_characteristic` | Source-data constraint | Bounds the pump pressure–flow envelope from manufacturer endpoints and community curves. Endpoints are reference-strength; the curve shape is qualitative. ([card](docs/cards/g3_pump_characteristic.md)) |
+| Wetting | `foster2025.infiltration` | Executable model (separate) | Tracks a sharp water front advancing through an initially dry puck under a measured or prescribed pressure history. Validated against CT, fine grind. ([card](docs/cards/foster2025.md)) |
+| Wetting | `sourcing2026.g1_glassbead_analog` | Source-data constraint | Uses glass-bead retention and relative-permeability measurements as a *shape* prior for wetting. This is an analogy, **not** coffee-specific validation of absolute values. ([card](docs/cards/g1_glassbead_analog.md)) |
+| Flow | `brewer2026.lb_reference` | Pore-scale reference solver | Resolves low-Reynolds pore flow with a D3Q19 two-relaxation-time lattice-Boltzmann solver (verification twin; a Puckworks model). ([models](puckworks/models/brewer2026/)) |
+| Flow | `brewer2026.lb_taichi` | Pore-scale reference solver | Accelerated (CPU/GPU) build of the same pore-scale flow physics; the `taichi` dependency is optional, so it is not run by default. ([models](puckworks/models/brewer2026/)) |
+| Flow | `lee2023.feedback` | Calibration / comparison | Competing flow paths in which extraction changes porosity and permeability, redistributing water. A qualitative fine-grind-dip hypothesis only — the decline needs an unphysical density. ([card](docs/cards/lee2023.md)) |
+| Flow | `wadsworth2026.inertial` | Executable supporting model | Adds a Forchheimer inertial-resistance correction where Darcy's linear pressure–flow law starts to fail. A regime flag; the fitted constant is extrapolated for tamped coffee. ([card](docs/cards/wadsworth2026_inertial.md)) |
+| Flow | `sourcing2026.g10_liquor_rheology` | Source-data constraint | Supplies coffee-liquid viscosity and density versus temperature and concentration for flow-resistance studies. Measured on soluble-coffee extract and extrapolated to espresso; the bulk-cup effect is near-negligible. ([card](docs/cards/g10_liquor_rheology.md)) |
+| Puck change | `brewer2026.streamtube` | Executable model (separate) | Uneven flow through parallel, non-exchanging paths whose permeability follows a statistical distribution. Calibrated at low dials; interpolated, not externally validated (a Puckworks model). ([models](puckworks/models/brewer2026/)) |
+| Puck change | `brewer2026.coupled_kappa_t` | Exploratory synthesis | Explores how swelling, compaction, fines movement, and extraction-driven porosity change might combine into a time-varying puck resistance. A framework only — as sound as its shakiest donor branch. ([card](docs/cards/brewer2026_coupled_kappa_t.md)) |
+| Puck change | `fasano2000_partI.fines_migration` | Calibration / comparison | Tracks mobile fines, deposition and release, compacted layers, and their effect on Darcy flow. A mechanism demonstration; the closures are ours, not the source paper's. ([card](docs/cards/fasano2000_partI.md)) |
+| Puck change | `mo2023_2.swelling` | Executable model (separate) | Water entering particles, swelling, loss of pore space, and the resulting decline in permeability and flow. The fixed-pressure flow-decay ratio is reproduced; the swelling claim is unvalidated in the source. ([card](docs/cards/mo2023_2.md)) |
+| Puck change | `waszkiewicz2025.poroelastic` | Executable model (separate) | Couples puck deformation, pressure, permeability, and dissolution-driven pore change in a saturated poroelastic bed. One rig and coffee; quantitative only above about 5 bar. ([card](docs/cards/waszkiewicz2025.md)) |
+| Extraction | `cameron2020.extraction_bdf` | **Runs in Guided Pull** | One-dimensional saturated extraction with advection, in-particle diffusion, and nonlinear dissolution from fine and coarse particle families. EK43 dial 1.1–2.3; 20 g in / 40 g out class recipes. ([card](docs/cards/cameron2020.md)) |
+| Extraction | `pannusch2024.solver` | Executable model (separate) | Extraction from fine and coarse particles with interphase mass transfer and temperature- and flow-dependent transport. 80–98 °C, 1–3 mL/s; the fitted Sherwood law lacks generality. ([card](docs/cards/pannusch2024.md)) |
+| Extraction | `pannusch2024.closures` | Calibration / comparison | Supplies diffusivity, viscosity, density, Sherwood-number, temperature, and equilibrium relationships used by the pannusch extraction model. ([card](docs/cards/pannusch2024.md)) |
+| Extraction | `grudeva2025.reduced` | Executable model (separate) | A reduced asymptotic extraction model with a moving wetting front and fine/coarse particle families. Saturated-fines regime; prescribed flow; verification-gated. ([card](docs/cards/grudeva2025.md)) |
+| Extraction | `liang2021.desorption` | Calibration / comparison | An immersion-derived equilibrium extraction ceiling and retained-liquid correction. **Not** itself a flowing-puck model — it supplies a ceiling and a kernel. ([card](docs/cards/liang2021.md)) |
+| Extraction | `moroney2016.surrogate` | Calibration / comparison | A reduced constant-pressure extraction model that captures early release, a plateau, and later wash-through. Qualitative reproduction of the source figure. ([card](docs/cards/moroney2016.md)) |
+| Extraction | `mo2023_2.coupled_bed` | Executable model (separate) | Extraction resolved by bed depth using fine/coarse diffusion, partitioning, and a moving filling front under fixed flow. Type-M, cup mass below ~30 g; absolute yield needs one inventory scale. ([card](docs/cards/mo2023_2.md)) |
+| Extraction | `romancorrochano2017.extraction` | Executable model (separate) | Molecular-size-dependent diffusion from spherical coffee grains with partitioning between solid and liquid. Solver verified against the analytic solution; supplies a flow *trend*, not absolute yield. ([card](docs/cards/romancorrochano2017_extraction.md)) |
 
 None of these models is coupled to the others into a single simulation. Each runs, or constrains, its
 own stage; the Guided Pull executes only the Cameron extraction chain above.
-
 <!-- puckworks-model-map:end -->
 
 ## What you can run today
@@ -207,6 +179,21 @@ number carries an origin label — **measured · derived · fitted · predicted 
        alt="How evidence moves through Puckworks, as a six-step single column: (1) a paper or dataset, to (2) a model card capturing the physics, parameters, assumptions and the conditions where each model applies, to (3) a testable model module with a checked data handoff between stages and a record of where it came from, to (4) automated scientific checks comparing it with equations, published curves, or independent data and showing known gaps rather than hiding them, to (5) an evidence-aware result with every number labelled measured, derived, fitted, predicted or simulated, to (6) what to measure next, or what the data cannot yet support. A dashed feedback loop returns from step 6 to step 1 because uncertainty guides the next experiment."
        width="440">
 </p>
+
+## The science, in depth
+
+Two longer reads go beyond this landing page:
+
+- **The public-value work** — [`docs/PUBLIC_VALUE.md`](docs/PUBLIC_VALUE.md) is the roadmap for turning
+  Puckworks' data, model disagreements, and negative results into things a non-specialist coffee
+  drinker can understand, check, and share. Its first interactive piece, *The Cup Hides the Clock*
+  (linked under "What you can run today"), is already live; the generated, evidence-labelled claim
+  cards that back these stories live in [`docs/public/README.md`](docs/public/README.md).
+- **The paper behind the flat-valley result** — [`docs/submission/PAPER_A_JFE_MANUSCRIPT.md`](docs/submission/PAPER_A_JFE_MANUSCRIPT.md)
+  is a **draft manuscript** (with a full abstract), *"Whole-cup measurements can obscure kinetic
+  parameter localization in espresso extraction models."* It shows how a model can match the final
+  cup while leaving the internal extraction rates weakly constrained — the technical write-up behind
+  the interactive. It is a working draft, **not yet submitted or peer-reviewed**.
 
 ## Project pulse
 

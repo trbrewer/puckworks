@@ -110,13 +110,16 @@ order is:
 6. Data used to check the models — the readable dataset inventory with evidence levels
 7. How Puckworks checks its work — provenance, typed interfaces, and validation gates, defined in
    plain language, plus the evidence-flow diagram
-8. Project pulse (generated)
-9. Install the public release / supported public API
-10. Choose your path (layperson · researcher · contributor)
-11. Current limits (the non-claims)
-12. Contribute
-13. **References** — the deduplicated bibliography drawn from the model cards
-14. Cite and license
+8. The science, in depth — links to the public-value work (`docs/PUBLIC_VALUE.md`, its generated
+   claim cards, and the live interactive) and to the current paper draft/abstract, each described
+   and honestly status-labelled (draft vs. submitted vs. peer-reviewed — never upgraded)
+9. Project pulse (generated)
+10. Install the public release / supported public API
+11. Choose your path (layperson · researcher · contributor)
+12. Current limits (the non-claims)
+13. Contribute
+14. **References** — the deduplicated bibliography drawn from the model cards
+15. Cite and license
 
 The physical process and the model map appear **before** the trust machinery and **before** deep
 contributor detail. The near-top inventories are wrapped in machine-readable markers so their
@@ -143,7 +146,12 @@ still links out to `docs/` and the cards rather than absorbing the whole documen
 - **Assets** live locally and versioned under `docs/assets/readme/` — light + dark hero, the
   evidence pipeline, and a 1280×640 social preview. Source SVG stays reviewable; no embedded
   fonts (system stacks only); no huge binaries.
-- **Restraint:** distinctive without a badge wall. At most a couple of status signals, never a
+- **Badges:** a small, curated row directly under the title is allowed — CI status, latest release,
+  supported Python, and license (three to five, each with descriptive alt text). Each must report a
+  true, current fact (CI from the real workflow, release/version from live sources); no fabricated or
+  stale "gates passing" shields. Never a wall of shields beyond this curated set.
+- **Restraint:** distinctive without a badge wall. Beyond the curated title row, at most a couple of
+  status signals, never a
   wall of shields.
 
 ## 7. Accessibility requirements
