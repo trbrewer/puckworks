@@ -5,6 +5,7 @@
 Fails (exit 1) if any distribution contains a private/raw corpus path, or is missing a required
 package-data file. Importable as a function for the packaging test.
 """
+import subprocess
 import sys
 import tarfile
 import zipfile
@@ -35,6 +36,17 @@ def _members(path: Path):
     return []
 
 
+def _file_members(path: Path):
+    """Only regular-file members (directory entries excluded), for git-tracking comparison."""
+    if path.suffix in (".whl", ".zip"):
+        with zipfile.ZipFile(path) as z:
+            return [i.filename for i in z.infolist() if not i.is_dir()]
+    if path.name.endswith(".tar.gz"):
+        with tarfile.open(path) as t:
+            return [m.name for m in t.getmembers() if m.isfile()]
+    return []
+
+
 def check_distribution(path: Path):
     names = _members(path)
     problems = []
@@ -58,7 +70,42 @@ def check_distribution(path: Path):
     return problems
 
 
-def check_distributions(dist_dir):
+def _normalize_member(name):
+    """Map a distribution member to its repo-relative path. sdist members are prefixed with
+    ``puckworks-<version>/``; wheel members are already repo-relative for the package tree."""
+    if name.startswith("puckworks/"):
+        return name
+    head, _, tail = name.partition("/")
+    if head.startswith("puckworks-") and tail:      # sdist container prefix
+        return tail
+    return name
+
+
+def git_tracked_paths(repo_root):
+    out = subprocess.check_output(["git", "-C", str(repo_root), "ls-files"], text=True)
+    return set(out.splitlines())
+
+
+def check_git_tracked(path, repo_root):
+    """Every shipped file under the ``puckworks/`` package tree MUST be git-tracked. This catches a
+    local build that swept a gitignored/untracked raw-data file off disk into the distribution (the
+    class of leak that the substring blocklist cannot enumerate)."""
+    tracked = git_tracked_paths(repo_root)
+    problems = []
+    for n in _file_members(path):
+        norm = _normalize_member(n)
+        if not norm.startswith("puckworks/") or norm.endswith("/"):
+            continue                                 # only guard the package tree
+        if "/__pycache__/" in norm or norm.endswith(".pyc"):
+            continue
+        if ".egg-info/" in norm or ".dist-info/" in norm:
+            continue                                 # packaging-generated metadata
+        if norm not in tracked:
+            problems.append("%s: UNTRACKED file shipped (not in git): %s" % (path.name, norm))
+    return problems
+
+
+def check_distributions(dist_dir, repo_root=None):
     dist = Path(dist_dir)
     dists = sorted(list(dist.glob("*.whl")) + list(dist.glob("*.tar.gz")))
     if not dists:
@@ -66,19 +113,28 @@ def check_distributions(dist_dir):
     problems = []
     for d in dists:
         problems += check_distribution(d)
+        if repo_root is not None:
+            problems += check_git_tracked(d, repo_root)
     return problems
 
 
 def main(argv=None):
     argv = sys.argv[1:] if argv is None else argv
     dist_dir = argv[0] if argv else "dist"
-    problems = check_distributions(dist_dir)
+    # Repo root = the git work tree containing this tool; enables the git-tracked guard.
+    try:
+        repo_root = subprocess.check_output(
+            ["git", "-C", str(Path(__file__).resolve().parent), "rev-parse", "--show-toplevel"],
+            text=True).strip()
+    except Exception:
+        repo_root = None
+    problems = check_distributions(dist_dir, repo_root=repo_root)
     if problems:
         print("PACKAGING CHECK FAILED (%d):" % len(problems))
         for p in problems:
             print("  -", p)
         return 1
-    print("distributions clean: no private paths, all required data present")
+    print("distributions clean: no private paths, no untracked files, all required data present")
     return 0
 
 

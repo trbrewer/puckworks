@@ -64,13 +64,20 @@ puckworks = ["data/*.csv", "data/*.json"]
 "puckworks.data" = ["*.csv", "*.json", "*.md", "**/*.csv", "**/*.json", "**/*.md"]
 
 [tool.setuptools.exclude-package-data]
-# NEVER ship the private/raw visualizer corpus (P1.4 / privacy). The broad **/*.csv include above
-# would otherwise sweep it in. Keep only the PROVENANCE.md documentation under visualizer/.
+# NEVER ship gitignored/raw source data (P1.4 / privacy). The broad **/*.csv include above would
+# otherwise sweep any such file present on a developer's disk into the wheel/sdist. Only the
+# git-tracked, card-derived summaries + PROVENANCE.md documentation are meant to ship. A build-time
+# guard (tools/packaging_check.py::check_git_tracked) fails if any UNTRACKED puckworks/ file ships.
 "puckworks.data" = [
     "visualizer/raw/*", "visualizer/raw/**/*",
     "visualizer/normalized_v3/*", "visualizer/normalized_v3/**/*",
     "visualizer/crawl_*/*", "visualizer/crawl_*/**/*",
     "visualizer/aggregate_stats.csv", "visualizer/*.log",
+    # pocketscience2024 raw workbook CSV exports ("Espresso water flow experiment - *.csv") are
+    # gitignored and must never ship. They CANNOT be excluded here: setuptools splits
+    # exclude-package-data patterns on whitespace, and these filenames contain spaces. The general
+    # backstop is tools/packaging_check.py::check_git_tracked (a build fails if ANY untracked
+    # puckworks/ file ships) plus building the release from a clean tree where they are absent.
 ]
 
 [tool.mypy]
