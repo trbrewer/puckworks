@@ -42,5 +42,5 @@ def test_status_records_pv05_live_with_the_artifact_hash():
     assert pv05["verified_commit"] and pv05["verified_date"]
     # the recorded acceptance hash must match the artifact it certifies (drift-proof)
     assert _sha(SNAPSHOT) in pv05["acceptance_evidence"], "acceptance hash != live snapshot hash"
-    # PV-04 is now the active public-value lane
-    assert items["pv04-analysis-autopsy"]["state"] == "active"
+    # PV-04 has since been activated too (its own guards live in tests/test_pv04_activation.py)
+    assert items["pv04-analysis-autopsy"]["state"] == "complete"

@@ -4,12 +4,11 @@
 
 Generated from `docs/status/current.json` (the single machine-readable status source). Regenerate with `python -m puckworks.statusdoc --write`; CI fails on stale or contradictory state. The active queue is capped at 5 outcomes; completed history and superseded plans are in their own sections below.
 
-## Active queue (2 / 5)
+## Active queue (1 / 5)
 
 | id | title | area | priority | owner | next gate | acceptance evidence |
 |---|---|---|---|---|---|---|
 | guided-espresso-pull | Guided Espresso Pull — v0.3.0 published; awaiting signed-out human Colab acceptance | product | P2 | maintainer | One signed-out human Guided Espresso Pull Colab run against the v0.3.0 wheel (sha256 4a88931fc0bbc069365242fc5e3ef4d226da9225c80384b6d013028e4b7a3ec0): hash verified before install, site-packages import of 0.3.0, domain report, full stage sequence, unsupported wetting/first-drip, prescribed pressure, recorded-only temperature, figures + exports, GUIDED_PULL_COMPLETE, warning retained un-clamped. | v0.3.0 PUBLISHED and ACTIVATED: release https://github.com/trbrewer/puckworks/releases/tag/v0.3.0 (source c5ab770); activation PR #52 merged to main 9c3fa54; deterministic reference output, authoritative traces agree with final observables, unsupported states labelled not fabricated, installed-wheel report + hermetic and live guided notebook pass, no private data packaged. Only the human signed-out acceptance remains before closing #48. |
-| pv04-analysis-autopsy | PV-04 'How We Falsified Our Own Espresso Headline' — analysis autopsy | public-value | P0 | maintainer | Merge the PV-04 product PR, deploy GitHub Pages, verify the live analysis-autopsy site (all six assets HTTP 200; live data.json SHA-256 == packaged snapshot; strict CSP; no external network), then open the activation PR and close #62. | Producer/schema corrected and completed (schema v2): result1_magnitude_comparison additively exposes replicate-level EY points, per-cell descriptive within-cell SDs (uncorrected, ddof=0) and n per cell; canonical middle-minus-coarse (dial 1.7 - dial 2.0) contrast ~-0.241 EY-pt with Welch 95% interval ~[-0.422, -0.060] excluding zero; cell means 18.27/19.38/19.62 % EY ordered with the middle below the coarse dial (no interior maximum); central-condition cup-mass prediction from rounded published coefficients ~6.723 g vs project refit ~3.918 g vs observed mean ~3.876 g (precision-limited, not an over-prediction); model interior prominence 0.19 (5 bar)/0.029 (9 bar) EY-pt below the descriptive replicate spread (0.218). PV-04 PublicClaim moved to public.analysis_autopsy.pv04_values (verify reproduction). Four-scene static site under docs/public/site/analysis-autopsy/ with per-panel evidence partitions, static text+PNG equivalents, strict CSP, safe DOM, native accessible controls; 49 PV-04 tests green. |
 
 ## Blocked
 
@@ -31,6 +30,7 @@ Generated from `docs/status/current.json` (the single machine-readable status so
 | v0.3.0-release | Publish and verify the Puckworks v0.3.0 GitHub Release (Guided Espresso Pull) | #51 | c5ab770 | 2026-07-18 |
 | pv03-flat-valley-interactive | PV-03 'The Cup Hides the Clock' — flat-valley practical-identifiability interactive | #54 | 1ba3e85 | 2026-07-18 |
 | pv05-model-composition | PV-05 'More Physics Made It Worse' — model-composition interactive | #59 | e8d94cf | 2026-07-18 |
+| pv04-analysis-autopsy | PV-04 'How We Falsified Our Own Espresso Headline' — analysis autopsy | #62 | 238714b | 2026-07-18 |
 | contract-boundary-hardening | Explicit units (bar-gauge vs pascal), versioned trace schema + validators, typed public results | #25 | 3031a25 | 2026-07-16 |
 | paper3-evidence-graph | Paper 3 per-claim evidence graph (schema v2): 51/51 adjudicated; roll-up + zero-gate policies enforced | #19 | 7b3f8f0 | 2026-07-16 |
 | lateral-coupling-feasibility | Lateral-coupling feasibility: two-node model + matched proxy discrimination (exact Xi, continuous alpha) | #14 | 6c5eb31 | 2026-07-16 |
