@@ -6,15 +6,22 @@ interactive and the PV-04 ``PublicClaim`` producer consume. **No headline number
 producer is authoritative, and the snapshot records the SHA-256 of the canonical CC-BY Schmieder source
 files so ``verify`` fails the moment the underlying data drifts.
 
-The story is a transparent analysis revision (not a humiliation narrative):
+The story is the project correcting its OWN aggregation and interpretation (not a humiliation
+narrative; the source authors are not blamed):
 
-    1. an initially attractive interior "fine-grind" bump (a printed RSM central coefficient);
-    2. the unit/precision problem that invalidated it (a mixed-unit target; the printed coefficient is
-       a rounding artifact of a much smaller refit);
-    3. the corrected raw-replicate result — extraction yields ORDERED across dial, the middle BELOW the
-       coarse one, with a Welch 95% interval on the contrast that excludes zero: no interior maximum;
-    4. the model still has the CAPACITY to draw such a bump, but it is smaller than replicate spread —
-       model capacity is not parameter identification.
+    1. a superseded internal headline: an interior "fine-grind" extraction-yield maximum, read from a
+       literal evaluation of the rounded published RSM coefficients at the central condition (~6.723 g,
+       treated as if it were the real level) and a target that mixed mg solute masses with g TDS;
+    2. the unit/aggregation problem — mg-scale solute masses and g-scale TDS/cup-mass quantities were
+       aggregated before conversion to one coherent TDS-derived EY target;
+    3. the printed-precision problem — limited printed coefficient precision makes the literal absolute
+       reconstruction unreliable; the project's refit central-condition prediction (~3.918 g) is near
+       the observed central mean (~3.876 g);
+    4. the corrected raw-replicate result — extraction-yield CELL MEANS ordered across dial with the
+       middle BELOW the coarse one, and a Welch 95% interval on the middle-minus-coarse (dial 1.7 −
+       dial 2.0) contrast that excludes zero: no observed interior maximum in these cells;
+    5. the model still has the CAPACITY to draw such an interior feature, but the tested feature is
+       smaller than the descriptive replicate spread — model capacity is not mechanism identification.
 
 Self-correction here does NOT prove every current result is right; it documents one downgrade.
 
@@ -31,10 +38,12 @@ import argparse
 import hashlib
 import json
 import math
+import struct
 import subprocess
+import zlib
 from pathlib import Path
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2                        # v2: additive replicate-level + evidence-partition contract
 STORY_ID = "PV-04"
 TITLE = "How We Falsified Our Own Espresso Headline"
 _PKG_DIR = Path(__file__).resolve().parent
@@ -43,7 +52,7 @@ SNAPSHOT = _PKG_DIR / "data" / "pv04_analysis_autopsy.json"
 SITE_DIR = _REPO / "docs" / "public" / "site" / "analysis-autopsy"
 GENERATOR = "puckworks.public.analysis_autopsy.build_payload"
 PRODUCER = "puckworks.harness.result1_magnitude_comparison"
-BADGE = "OBSERVED"                        # a corrected observation of measured replicates
+BADGE = "OBSERVED"                        # global badge: the corrected observation of measured replicates
 EVIDENCE_STRENGTH = "independent"         # raw replicates, independent of the fit (UNCHANGED)
 
 _SCHM_DIR = _REPO / "puckworks" / "data" / "schmieder2023"
@@ -57,8 +66,9 @@ DIAL_LABELS = ["dial 1.4 (finer)", "dial 1.7 (middle)", "dial 2.0 (coarser)"]
 DATASET_MANIFEST_IDS = ["schmieder2023/cup_masses", "schmieder2023/rsm_coefficients"]
 ATTRIBUTION = ("Schmieder, Pannusch, Vannieuwenhuyse, Briesen, Minceva (2023), 'Influence of flow "
                "rate, particle size, and temperature on espresso extraction kinetics', Foods 12, 2871, "
-               "DOI 10.3390/foods12152871, open access CC-BY. Derived extraction-yield and RSM values "
-               "are published with attribution; no raw source file is redistributed.")
+               "DOI 10.3390/foods12152871, open access CC-BY. DERIVED replicate-level extraction-yield "
+               "values and RSM predictions are published with attribution; no raw source CSV is "
+               "redistributed.")
 SOURCE_IDS = {"schmieder_doe": "Foods 12, 2871 (DOI 10.3390/foods12152871, CC-BY)"}
 
 # public value key -> dotted path into result1_magnitude_comparison()'s return (the no-hand-typed rule)
@@ -66,10 +76,11 @@ _VALUE_PATHS = {
     "ey_dial_1p4_pct": "raw_tds_ey.0",
     "ey_dial_1p7_pct": "raw_tds_ey.1",
     "ey_dial_2p0_pct": "raw_tds_ey.2",
-    "mid_vs_coarse_contrast_EYpt": "raw_mid_vs_endpoint_contrast_EYpt",
+    "mid_vs_coarse_contrast_EYpt": "raw_mid_vs_coarse_contrast_EYpt",
     "welch_ci95_lo_EYpt": "raw_contrast_welch_ci95.0",
     "welch_ci95_hi_EYpt": "raw_contrast_welch_ci95.1",
-    "within_cell_std_EYpt": "raw_within_cell_std_EYpt",
+    "mean_within_cell_std_EYpt": "raw_mean_within_cell_std_EYpt",
+    "within_cell_std_EYpt": "raw_within_cell_std_EYpt",   # compat alias == mean within-cell SD
     "model_prominence_5bar_EYpt": "model_prominence_5bar_EYpt",
     "model_prominence_9bar_EYpt": "model_prominence_9bar_EYpt",
     "model_bump_lt_within_cell_var": "model_bump_lt_within_cell_var",
@@ -82,23 +93,68 @@ _VALUE_PATHS = {
 _UNITS = {
     "ey_dial_1p4_pct": "% EY", "ey_dial_1p7_pct": "% EY", "ey_dial_2p0_pct": "% EY",
     "mid_vs_coarse_contrast_EYpt": "EY-points", "welch_ci95_lo_EYpt": "EY-points",
-    "welch_ci95_hi_EYpt": "EY-points", "within_cell_std_EYpt": "EY-points",
+    "welch_ci95_hi_EYpt": "EY-points",
+    "mean_within_cell_std_EYpt": "EY-points", "within_cell_std_EYpt": "EY-points",
     "model_prominence_5bar_EYpt": "EY-points", "model_prominence_9bar_EYpt": "EY-points",
     "model_bump_lt_within_cell_var": "boolean",
     "rsm_refit_central_g": "g", "rsm_printed_central_g": "g", "rsm_raw_central_g": "g",
     "rsm_printed_is_rounding_artifact": "boolean",
 }
 
+# The ordered record of the revision (Scene 1). Every internal number cited here is reproducible from
+# the producer (the ~6.723 g literal rounded-coefficient central value is `rsm_printed_central_g`); no
+# historical number or curve is invented to dramatise the story.
 REVISION_RECORD = [
-    "Superseded headline: an interior 'fine-grind' extraction-yield maximum, read from a printed RSM "
-    "central coefficient and a target that mixed mg solute masses with g TDS.",
-    "Correction 1 — coherent target: rebuild extraction yield from TDS on one consistent basis.",
-    "Correction 2 — precision: the printed central coefficient is a rounding artifact of a much smaller "
-    "refit (refit vs printed vs raw central mass), not a real 1.7x over-prediction.",
-    "Corrected result: raw replicate yields are ORDERED across dial, the middle BELOW the coarse one; "
-    "the Welch 95% interval on the middle-vs-coarse contrast excludes zero — no interior maximum.",
-    "Standing lesson: a channeling model can still GENERATE a small interior bump (model capacity), but "
-    "it is smaller than the shot-to-shot replicate spread — capacity is not identification.",
+    "Superseded internal headline: an interior 'fine-grind' extraction-yield maximum, read from a "
+    "literal evaluation of the rounded published RSM coefficients at the central condition (~6.723 g, "
+    "treated as if it were the real absolute level) and a target that mixed mg solute masses with g "
+    "TDS.",
+    "Problem 1 — unit/aggregation: mg-scale solute masses and g-scale TDS/cup-mass quantities were "
+    "aggregated before conversion to one coherent observable; the target must first be rebuilt as a "
+    "single-basis TDS-derived extraction yield.",
+    "Problem 2 — printed precision: limited printed coefficient precision makes the literal absolute "
+    "reconstruction unreliable; the project's least-squares refit central-condition prediction "
+    "(~3.918 g) is near the observed central mean (~3.876 g). The 6.723 g figure is a literal "
+    "evaluation of rounded coefficients, NOT itself a coefficient and NOT a real 1.7x over-prediction.",
+    "Correction — coherent target: extraction yield rebuilt from TDS on one consistent basis, so the "
+    "three dial cells can be compared as one observable.",
+    "Corrected replicate-level finding: the raw cell means are ordered across dial with the middle "
+    "below the coarse one (18.27 -> 19.38 -> 19.62 % EY); the Welch 95% interval on the middle-minus-"
+    "coarse (dial 1.7 - dial 2.0) contrast excludes zero -> no observed interior maximum in these "
+    "cells.",
+    "Remaining model-capacity statement: a channeling model can still GENERATE a small interior "
+    "feature, but the tested feature is smaller than the descriptive within-cell replicate spread -- "
+    "model capacity, not identification of channeling as the cause.",
+    "Resulting downgrade: the interior 'fine-grind maximum' interpretation is superseded and revised "
+    "down to a model-capacity statement; self-correction here downgrades ONE result and does not prove "
+    "every current result is correct.",
+]
+
+# The explicit evidence partitions (Phase 2): the site must not imply that all panels share the global
+# OBSERVED / independent class. Each partition names its own role, badge, strength, and scope.
+EVIDENCE_PARTITIONS = [
+    {"partition": "corrected_replicate_data", "role": "observed", "badge": "OBSERVED",
+     "strength": "independent",
+     "scope": "One machine, one coffee, one campaign, and one fixed nominal central condition; the "
+              "within-cell spread is run-to-run variance at a fixed NOMINAL dial (the experimental "
+              "unit), with no replication across machines/coffees/campaigns. A grinder dial is not a "
+              "particle size and is non-portable to another grinder without a calibrated adapter."},
+    {"partition": "rounded_coefficient_and_refit_audit", "role": "derived", "badge": "RECONSTRUCTED",
+     "strength": "verification",
+     "scope": "A computational audit: the literal rounded-coefficient central value vs a least-squares "
+              "refit vs the observed central mean. Verification against the committed data, NOT "
+              "independent experimental validation."},
+    {"partition": "model_interior_feature", "role": "simulated", "badge": "EXPLORATORY_SIMULATION",
+     "strength": "qualitative",
+     "scope": "Model capacity to draw an interior feature at two pressures, compared with the "
+              "descriptive replicate spread. This is capacity, NOT identification of channeling as the "
+              "cause; 0.218 EY-points is a descriptive reference, not a formal minimum-detectable-"
+              "effect or noise floor."},
+    {"partition": "superseded_headline", "role": "superseded", "status": "superseded/revised",
+     "badge": None,
+     "scope": "The interior 'fine-grind maximum' headline read from the literal rounded-coefficient "
+              "central value and the mixed-unit target. Retained visibly as a revised record; it "
+              "carries NO current evidence badge."},
 ]
 
 
@@ -143,30 +199,58 @@ def build_payload(source_commit: str | None = None) -> dict:
     raw = {k: _dig(res, p) for k, p in _VALUE_PATHS.items()}
     values = {k: (_r(v, 3) if not isinstance(v, bool) else v) for k, v in raw.items()}
 
-    ey = [values["ey_dial_1p4_pct"], values["ey_dial_1p7_pct"], values["ey_dial_2p0_pct"]]
+    # replicate-level structure (grouped by dial) — the corrected observed series carries actual
+    # replicate arrays, per-cell sample SDs, and n per cell, not three repeated descriptive bars.
+    reps = [[_r(x, 3) for x in cell] for cell in res["raw_tds_ey_replicates"]]
+    cell_stds = [_r(s, 3) for s in res["raw_tds_ey_cell_stds"]]
+    ns = [int(n) for n in res["raw_tds_ey_ns"]]
+    ey_means = [values["ey_dial_1p4_pct"], values["ey_dial_1p7_pct"], values["ey_dial_2p0_pct"]]
+
     series = [
-        {"label": "Raw extraction yield by grinder dial", "categories": DIAL_LABELS,
-         "values": ey, "error": [values["within_cell_std_EYpt"]] * 3, "unit": "% EY",
-         "role": "observed", "component": "schmieder2023 replicate cup masses -> TDS-derived EY",
-         "method": "raw per-cell measured yields (error bar = within-cell replicate std)",
+        {"label": "Observed extraction yield by grinder dial (replicate points)",
+         "categories": DIAL_LABELS, "values": ey_means, "unit": "% EY",
+         "replicates": reps, "cell_stds": cell_stds, "ns": ns,
+         "role": "observed", "badge": "OBSERVED", "strength": "independent",
+         "component": "schmieder2023 replicate cup masses -> TDS-derived EY",
+         "method": "individual measured replicate yields per dial cell; the overlays are each cell's "
+                   "mean and each cell's OWN within-cell standard deviation (uncorrected, ddof=0 — a "
+                   "descriptive reference, not a Bessel-corrected estimator), with n per cell (3/6/3)",
+         "scope": "one machine, one coffee, one campaign, one fixed nominal central condition; "
+                  "grinder-DIAL positions, non-portable without a calibrated adapter",
          "caveat": "grinder-DIAL positions, non-portable to another grinder without a calibrated "
-                   "adapter; ordered (middle below coarse), no interior maximum"},
-        {"label": "RSM central coefficient: printed vs refit vs raw", "categories":
-            ["printed (rounded)", "refit to data", "raw data mean"],
+                   "adapter; the cell means are ordered with the middle below the coarse cell, so there "
+                   "is no observed interior maximum here (the 1.4-vs-1.7 interval includes zero, so the "
+                   "means are ORDERED, not statistically monotone)"},
+        {"label": "Central-condition cup-mass value: rounded published coefficients vs project refit "
+                  "vs observed mean",
+         "categories": ["rounded published coefficients", "project refit", "observed central mean"],
          "values": [values["rsm_printed_central_g"], values["rsm_refit_central_g"],
                     values["rsm_raw_central_g"]], "unit": "g",
-         "role": "derived", "component": "schmieder RSM Eq.4 refit vs the printed coefficient",
-         "method": "least-squares refit of the published RSM to the committed cup masses",
-         "caveat": "the printed central coefficient is a rounding/precision artifact, not a real "
-                   "over-prediction"},
-        {"label": "Model interior bump vs replicate spread", "categories":
-            ["model bump (5 bar)", "model bump (9 bar)", "replicate spread"],
+         "role": "derived", "badge": "RECONSTRUCTED", "strength": "verification",
+         "component": "schmieder RSM Eq.4 evaluated/refit at the central condition",
+         "method": "central-condition cup-mass prediction three ways: a literal evaluation of the "
+                   "rounded published coefficients (~6.723 g), the project's least-squares refit to the "
+                   "committed cup masses (~3.918 g), and the observed central-condition mean (~3.876 g)",
+         "scope": "a computational audit against the committed data — verification, not independent "
+                  "experimental validation",
+         "caveat": "limited printed coefficient precision prevents reconstructing the absolute level "
+                   "from the printed values; the refit is near the observed mean. The 6.723 g figure is "
+                   "a literal evaluation of rounded coefficients, not itself a coefficient"},
+        {"label": "Model interior prominence vs descriptive replicate spread",
+         "categories": ["model interior prominence (5 bar)", "model interior prominence (9 bar)",
+                        "mean within-cell SD (descriptive, ddof=0)"],
          "values": [values["model_prominence_5bar_EYpt"], values["model_prominence_9bar_EYpt"],
-                    values["within_cell_std_EYpt"]], "unit": "EY-points",
-         "role": "simulated", "component": "channeling interior-max sensitivity vs measured spread",
-         "method": "model interior prominence at two pressures compared with the within-cell std",
-         "caveat": "the model CAN draw a bump (capacity); it is smaller than replicate spread, so the "
-                   "data do not identify it"},
+                    values["mean_within_cell_std_EYpt"]], "unit": "EY-points",
+         "role": "simulated", "badge": "EXPLORATORY_SIMULATION", "strength": "qualitative",
+         "component": "channeling interior-max sensitivity vs the descriptive replicate spread",
+         "method": "model interior prominence at two pressures compared with the mean within-cell "
+                   "sample SD across the three dial cells",
+         "scope": "model-capacity context on the tested closure grid; not a mechanism-identification "
+                  "claim",
+         "caveat": "the model CAN draw an interior feature (capacity); the tested feature is smaller "
+                   "than the descriptive replicate spread, so the data do not identify it, and this is "
+                   "not identification of channeling as the cause. The 0.218 EY-point spread is a "
+                   "descriptive reference, not a formal minimum-detectable-effect or noise floor"},
     ]
 
     payload = {
@@ -180,14 +264,15 @@ def build_payload(source_commit: str | None = None) -> dict:
         "dataset_manifest_ids": DATASET_MANIFEST_IDS,
         "source_ids": SOURCE_IDS,
         "attribution": ATTRIBUTION,
-        "redistribution_class": "CC-BY derived extraction-yield and RSM values, attributed; no raw "
-                                "source file redistributed",
+        "redistribution_class": "CC-BY DERIVED replicate-level extraction-yield values and RSM "
+                                "predictions, attributed; no raw Schmieder source CSV is redistributed",
         "badge": BADGE,
         "evidence_strength": EVIDENCE_STRENGTH,
         "compares_grinder_dials": True,
         "values": values,
         "units": _UNITS,
         "series": series,
+        "evidence_partitions": EVIDENCE_PARTITIONS,
         "revision_record": REVISION_RECORD,
         "scope": "Schmieder E65S grinder DoE at one fixed central flow/temperature condition; "
                  "TDS-derived EY observable; grinder-dial positions (not particle sizes).",
@@ -197,9 +282,13 @@ def build_payload(source_commit: str | None = None) -> dict:
                   "remains a viable GENERATOR (model capacity); the data just do not identify it. The "
                   "1.4-vs-1.7 interval includes zero, so means are 'ordered', not 'statistically "
                   "monotone'. No confidence claim beyond the reported Welch interval.",
-        "fidelity_ceiling": "OBSERVED / independent for the raw replicate correction; the model-bump "
-                            "comparison is exploratory model-capacity context, never an identification "
-                            "claim.",
+        "fidelity_ceiling": "Per-partition, NOT one global class: the corrected replicate correction is "
+                            "OBSERVED / independent; the rounded-coefficient/refit audit is "
+                            "RECONSTRUCTED / verification (a computational audit, not independent "
+                            "experimental validation); the model interior feature is "
+                            "EXPLORATORY_SIMULATION / qualitative and is model capacity, never mechanism "
+                            "identification; the superseded interior-maximum headline carries no current "
+                            "evidence badge.",
     }
     return payload
 
@@ -210,41 +299,178 @@ def _canonical_json(payload: dict) -> str:
 
 def _static_summary_text(p: dict) -> str:
     v = p["values"]
+    obs = next(s for s in p["series"] if s["role"] == "observed")
     lines = [
         "PV-04 — How We Falsified Our Own Espresso Headline (static text equivalent)",
         f"Generated by {p['generator']} from {p['producer']}, source commit {p['source_commit']}.",
-        f"Badge: {p['badge']}. Evidence strength: {p['evidence_strength']}.",
+        f"Global badge: {p['badge']}. Evidence strength: {p['evidence_strength']} "
+        "(this refers to the corrected observed replicate result only; see the per-panel partitions).",
         "",
-        "Finding: an apparently dramatic interior 'fine-grind' extraction-yield maximum weakened after "
-        "we rebuilt the target on a coherent TDS basis and checked the raw replicates. The raw yields "
-        "are ordered across dial with the middle below the coarse one; the model's interior bump is "
-        "smaller than the shot-to-shot spread. Model capacity is not parameter identification.",
+        "Finding: an apparently dramatic interior 'fine-grind' extraction-yield maximum was superseded "
+        "after the project rebuilt the target on a coherent TDS basis and checked the raw replicates. "
+        "The raw cell means are ordered across dial with the middle below the coarse one; the model's "
+        "interior feature is smaller than the shot-to-shot spread. Model capacity is not parameter "
+        "identification.",
         "",
         "Key numbers (each produced by result1_magnitude_comparison):",
-        f"- raw extraction yield by dial: {v['ey_dial_1p4_pct']} -> {v['ey_dial_1p7_pct']} -> "
-        f"{v['ey_dial_2p0_pct']} % EY (middle BELOW coarse)",
-        f"- middle-vs-coarse contrast: {v['mid_vs_coarse_contrast_EYpt']} EY-points, Welch 95% CI "
-        f"[{v['welch_ci95_lo_EYpt']}, {v['welch_ci95_hi_EYpt']}] (excludes zero)",
-        f"- within-cell replicate spread: {v['within_cell_std_EYpt']} EY-points",
-        f"- model interior bump: {v['model_prominence_5bar_EYpt']} (5 bar) / "
-        f"{v['model_prominence_9bar_EYpt']} (9 bar) EY-points; smaller than replicate spread: "
+        f"- observed extraction-yield CELL MEANS by dial: {v['ey_dial_1p4_pct']} -> "
+        f"{v['ey_dial_1p7_pct']} -> {v['ey_dial_2p0_pct']} % EY (middle BELOW coarse)",
+        "- observed replicate points per dial cell (n = "
+        f"{obs['ns'][0]} / {obs['ns'][1]} / {obs['ns'][2]}):",
+        f"    dial 1.4 (finer):   {obs['replicates'][0]} % EY (cell SD {obs['cell_stds'][0]})",
+        f"    dial 1.7 (middle):  {obs['replicates'][1]} % EY (cell SD {obs['cell_stds'][1]})",
+        f"    dial 2.0 (coarser): {obs['replicates'][2]} % EY (cell SD {obs['cell_stds'][2]})",
+        f"- middle-minus-coarse (dial 1.7 - dial 2.0) contrast: {v['mid_vs_coarse_contrast_EYpt']} "
+        f"EY-points, Welch 95% CI [{v['welch_ci95_lo_EYpt']}, {v['welch_ci95_hi_EYpt']}] "
+        "(excludes zero)",
+        f"- mean within-cell sample SD across the three dial cells (uncorrected, ddof=0): "
+        f"{v['mean_within_cell_std_EYpt']} EY-points — a DESCRIPTIVE reference only, not each cell's "
+        "error bar, not a noise floor, not a minimum-detectable-effect",
+        f"- model interior prominence: {v['model_prominence_5bar_EYpt']} (5 bar) / "
+        f"{v['model_prominence_9bar_EYpt']} (9 bar) EY-points; smaller than the descriptive spread: "
         f"{v['model_bump_lt_within_cell_var']}",
-        f"- RSM central coefficient: printed {v['rsm_printed_central_g']} g is a rounding artifact of "
-        f"the refit {v['rsm_refit_central_g']} g (raw {v['rsm_raw_central_g']} g): "
-        f"{v['rsm_printed_is_rounding_artifact']}",
+        f"- central-condition cup-mass value: a literal evaluation of the rounded published "
+        f"coefficients gives {v['rsm_printed_central_g']} g, the project refit gives "
+        f"{v['rsm_refit_central_g']} g, and the observed central mean is {v['rsm_raw_central_g']} g; "
+        "limited printed precision prevents reconstructing the absolute level "
+        f"(rounding-limited: {v['rsm_printed_is_rounding_artifact']})",
+        "",
+        "Evidence partitions (the panels do NOT share one global class):",
+    ]
+    for ep in p["evidence_partitions"]:
+        badge = ep.get("badge") or "(no current badge)"
+        strength = ep.get("strength") or ep.get("status", "")
+        lines.append(f"  - {ep['partition']}: {ep['role']} / {badge} / {strength} — {ep['scope']}")
+    lines += [
         "",
         "What this does NOT claim: that self-correction proves every current result is right; that a "
-        "universal 'too-fine optimum' exists; that channeling is ruled out (only that the data do not "
-        "identify it); any confidence claim beyond the reported Welch interval.",
+        "universal 'too-fine optimum' exists; that channeling is disproved or was identified as the "
+        "cause (only that the data do not identify it); that the fine-grind reversal is 'fake'; any "
+        "confidence claim beyond the reported Welch interval; that a grinder dial is a portable "
+        "particle-size scale.",
         "",
         f"Scope: {p['scope']}",
         f"Caveat: {p['caveat']}",
+        f"Fidelity ceiling: {p['fidelity_ceiling']}",
         "",
         "The documented revision record:",
     ]
     lines += [f"  - {q}" for q in p["revision_record"]]
     lines += ["", "Reproduce: python -m puckworks.public.analysis_autopsy verify", ""]
     return "\n".join(lines)
+
+
+# ── deterministic PNG static equivalent (pure stdlib; no wall clock, no fonts, byte-reproducible) ──
+_FONT3x5 = {
+    "0": ["111", "101", "101", "101", "111"], "1": ["010", "110", "010", "010", "111"],
+    "2": ["111", "001", "111", "100", "111"], "3": ["111", "001", "111", "001", "111"],
+    "4": ["101", "101", "111", "001", "001"], "5": ["111", "100", "111", "001", "111"],
+    "6": ["111", "100", "111", "101", "111"], "7": ["111", "001", "010", "010", "010"],
+    "8": ["111", "101", "111", "101", "111"], "9": ["111", "101", "111", "001", "111"],
+    ".": ["000", "000", "000", "000", "010"], "-": ["000", "000", "111", "000", "000"],
+    "%": ["101", "001", "010", "100", "101"], " ": ["000", "000", "000", "000", "000"],
+}
+
+
+class _Canvas:
+    def __init__(self, w, h, bg=(255, 255, 255)):
+        self.w, self.h = w, h
+        self.buf = bytearray(bg * (w * h))
+
+    def px(self, x, y, c):
+        if 0 <= x < self.w and 0 <= y < self.h:
+            i = (y * self.w + x) * 3
+            self.buf[i:i + 3] = bytes(c)
+
+    def rect(self, x, y, w, h, c):
+        for yy in range(int(y), int(y + h)):
+            for xx in range(int(x), int(x + w)):
+                self.px(xx, yy, c)
+
+    def hline(self, x0, x1, y, c, t=1):
+        for dy in range(t):
+            for x in range(int(x0), int(x1)):
+                self.px(x, int(y) + dy, c)
+
+    def vline(self, x, y0, y1, c, t=1):
+        for dx in range(t):
+            for y in range(int(y0), int(y1)):
+                self.px(int(x) + dx, y, c)
+
+    def text(self, x, y, s, c, scale=2):
+        cx = int(x)
+        for ch in s:
+            glyph = _FONT3x5.get(ch, _FONT3x5[" "])
+            for r in range(5):
+                for col in range(3):
+                    if glyph[r][col] == "1":
+                        self.rect(cx + col * scale, int(y) + r * scale, scale, scale, c)
+            cx += 4 * scale
+
+    def png(self):
+        def chunk(typ, data):
+            return (struct.pack(">I", len(data)) + typ + data
+                    + struct.pack(">I", zlib.crc32(typ + data) & 0xffffffff))
+        raw = bytearray()
+        stride = self.w * 3
+        for y in range(self.h):
+            raw.append(0)
+            raw.extend(self.buf[y * stride:(y + 1) * stride])
+        ihdr = struct.pack(">IIBBBBB", self.w, self.h, 8, 2, 0, 0, 0)
+        return (b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", ihdr)
+                + chunk(b"IDAT", zlib.compress(bytes(raw), 9)) + chunk(b"IEND", b""))
+
+
+def _static_summary_png(p: dict) -> bytes:
+    """Deterministic Scene-3 chart (observed replicate dots + cell means) built from the payload.
+
+    Byte-reproducible: no timestamps, no system fonts (an embedded 3x5 bitmap font), fixed geometry,
+    fixed zlib level. Regenerating from the committed snapshot yields identical bytes."""
+    obs = next(s for s in p["series"] if s["role"] == "observed")
+    ink, muted, line_c, teal, mean_c = (20, 24, 28), (90, 100, 110), (207, 212, 206), \
+        (14, 116, 144), (176, 106, 44)
+    W, H = 720, 420
+    ML, MR, MT, MB = 70, 24, 60, 60
+    cv = _Canvas(W, H)
+    # y-axis range covering all replicate points, padded to whole %EY
+    allv = [x for cell in obs["replicates"] for x in cell]
+    ylo, yhi = math.floor(min(allv)), math.ceil(max(allv))
+    if yhi - ylo < 2:
+        yhi = ylo + 2
+
+    def sy(v):
+        return MT + (yhi - v) / (yhi - ylo) * (H - MT - MB)
+    # axes
+    cv.vline(ML, MT, H - MB, muted, 2)
+    cv.hline(ML, W - MR, H - MB, muted, 2)
+    # y gridlines + labels (integer %EY)
+    for yv in range(ylo, yhi + 1):
+        py = sy(yv)
+        cv.hline(ML, W - MR, py, line_c, 1)
+        cv.text(8, py - 5, f"{yv}", muted, 2)
+    cv.text(8, MT - 22, "EY %", muted, 2)
+    # three dial columns
+    ncell = len(obs["replicates"])
+    colw = (W - MR - ML) / ncell
+    dials = ["1.4", "1.7", "2.0"]
+    for i, cell in enumerate(obs["replicates"]):
+        cx = ML + colw * (i + 0.5)
+        # replicate dots with deterministic horizontal offsets
+        m = len(cell)
+        for j, val in enumerate(cell):
+            ox = (j - (m - 1) / 2.0) * 14
+            px, py = int(cx + ox), int(sy(val))
+            cv.rect(px - 3, py - 3, 6, 6, teal)
+        # cell mean line (thicker, amber)
+        mean_y = sy(obs["values"][i])
+        cv.hline(cx - colw * 0.32, cx + colw * 0.32, mean_y, mean_c, 3)
+        # dial label on the x-axis
+        cv.text(cx - 12, H - MB + 12, dials[i], muted, 2)
+    cv.text(W // 2 - 40, H - 26, "dial", muted, 2)
+    # contrast readout (middle-minus-coarse) as text, from the payload
+    c = p["values"]["mid_vs_coarse_contrast_EYpt"]
+    cv.text(ML, MT - 44, f"1.7-2.0 {c}", ink, 2)
+    return cv.png()
 
 
 def export(out_dir: Path | str = SITE_DIR) -> dict:
@@ -256,6 +482,7 @@ def export(out_dir: Path | str = SITE_DIR) -> dict:
     out.mkdir(parents=True, exist_ok=True)
     (out / "data.json").write_text(text, encoding="utf-8")
     (out / "static-summary.txt").write_text(_static_summary_text(payload), encoding="utf-8")
+    (out / "static-summary.png").write_bytes(_static_summary_png(payload))
     return payload
 
 
@@ -277,10 +504,13 @@ def verify(out_dir: Path | str = SITE_DIR) -> list:
 
     for f in ("schema_version", "story_id", "title", "generator", "producer", "source_commit",
               "source_data_sha256", "dataset_manifest_ids", "attribution", "redistribution_class",
-              "badge", "evidence_strength", "values", "units", "series", "revision_record", "scope",
-              "caveat", "fidelity_ceiling"):
+              "badge", "evidence_strength", "values", "units", "series", "evidence_partitions",
+              "revision_record", "scope", "caveat", "fidelity_ceiling"):
         if f not in stored:
             problems.append(f"snapshot missing required field: {f}")
+
+    if stored.get("schema_version") != SCHEMA_VERSION:
+        problems.append(f"schema_version is {stored.get('schema_version')}, expected {SCHEMA_VERSION}")
 
     for k, val in stored.get("values", {}).items():
         if k not in stored.get("units", {}) or not str(stored["units"][k]).strip():
@@ -290,7 +520,8 @@ def verify(out_dir: Path | str = SITE_DIR) -> list:
 
     roles = {"observed", "benchmark", "simulated", "derived"}
     for s in stored.get("series", []):
-        for key in ("label", "categories", "values", "unit", "role", "component", "method", "caveat"):
+        for key in ("label", "categories", "values", "unit", "role", "component", "method", "caveat",
+                    "badge", "strength", "scope"):
             if key not in s or (isinstance(s.get(key), str) and not s[key].strip()):
                 problems.append(f"series '{s.get('label', '?')}' missing '{key}'")
         if s.get("role") not in roles:
@@ -300,16 +531,37 @@ def verify(out_dir: Path | str = SITE_DIR) -> list:
         if len(s.get("values", [])) != len(s.get("categories", [1])):
             problems.append(f"series '{s.get('label', '?')}' values/categories length mismatch")
 
+    # the corrected observed series must carry actual replicate arrays, cell SDs and n
+    obs = [s for s in stored.get("series", []) if s.get("role") == "observed"]
+    if not obs:
+        problems.append("no observed series in the snapshot")
+    else:
+        o = obs[0]
+        if not (isinstance(o.get("replicates"), list) and len(o["replicates"]) == 3
+                and all(isinstance(c, list) and c for c in o["replicates"])):
+            problems.append("observed series has no per-dial replicate arrays")
+        if not (isinstance(o.get("cell_stds"), list) and len(o.get("cell_stds", [])) == 3):
+            problems.append("observed series has no per-cell sample SDs")
+        if not (isinstance(o.get("ns"), list) and len(o.get("ns", [])) == 3):
+            problems.append("observed series has no per-cell n")
+
+    # the four evidence partitions are present and named honestly
+    parts = {ep.get("partition") for ep in stored.get("evidence_partitions", [])}
+    for need in ("corrected_replicate_data", "rounded_coefficient_and_refit_audit",
+                 "model_interior_feature", "superseded_headline"):
+        if need not in parts:
+            problems.append(f"evidence partition missing: {need}")
+
     # the load-bearing corrected-analysis facts (guard a silent producer regression)
     v = stored.get("values", {})
     if not (v.get("ey_dial_1p7_pct", 9) < v.get("ey_dial_2p0_pct", 0)):
         problems.append("raw EY is no longer ordered with the middle dial below the coarse one")
     if not (v.get("welch_ci95_hi_EYpt", 9) < 0):
-        problems.append("the middle-vs-coarse Welch 95% interval no longer excludes zero")
+        problems.append("the middle-minus-coarse Welch 95% interval no longer excludes zero")
     if not v.get("model_bump_lt_within_cell_var"):
-        problems.append("the model interior bump is no longer below replicate spread")
+        problems.append("the model interior feature is no longer below the descriptive replicate spread")
     if not v.get("rsm_printed_is_rounding_artifact"):
-        problems.append("the printed RSM coefficient is no longer flagged a rounding artifact")
+        problems.append("the printed RSM central value is no longer flagged rounding-limited")
 
     site_data = Path(out_dir) / "data.json"
     if site_data.exists() and site_data.read_text(encoding="utf-8") != stored_text:
@@ -319,6 +571,11 @@ def verify(out_dir: Path | str = SITE_DIR) -> list:
         problems.append("missing static-summary.txt (run export)")
     elif site_summary.read_text(encoding="utf-8") != _static_summary_text(stored):
         problems.append("static-summary.txt is stale vs the snapshot (run export)")
+    site_png = Path(out_dir) / "static-summary.png"
+    if not site_png.exists():
+        problems.append("missing static-summary.png (run export)")
+    elif site_png.read_bytes() != _static_summary_png(stored):
+        problems.append("static-summary.png is stale vs the snapshot (run export)")
 
     problems += _site_number_audit(Path(out_dir), stored)
     return problems
@@ -347,7 +604,9 @@ def _site_number_audit(site_dir: Path, snapshot: dict) -> list:
     _collect(snapshot.get("values", {}))
     for s in snapshot.get("series", []):
         _collect(s.get("values", []))
-        _collect(s.get("error", []))
+        _collect(s.get("replicates", []))
+        _collect(s.get("cell_stds", []))
+        _collect(s.get("ns", []))
     STRUCTURAL = {str(i) for i in range(0, 13)} | {"100", "1000", "16", "18", "20", "24", "40",
                                                    "50", "60", "64", "255", "1.4", "1.7", "2.0",
                                                    "0.5", "1.5", "2.5"}

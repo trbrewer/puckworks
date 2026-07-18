@@ -36,7 +36,7 @@
       "kwargs": {}
     },
     "compares_grinder_dials": false,
-    "source_commit": "e4bea4edfaf6f3cc1589e11a37d816e41c149fc3"
+    "source_commit": "08213fe86e7fb0304df8ccfcd71a83bcc7ed353e"
   },
   {
     "claim_id": "PV-02",
@@ -74,7 +74,7 @@
       "kwargs": {}
     },
     "compares_grinder_dials": false,
-    "source_commit": "e4bea4edfaf6f3cc1589e11a37d816e41c149fc3"
+    "source_commit": "08213fe86e7fb0304df8ccfcd71a83bcc7ed353e"
   },
   {
     "claim_id": "PV-04",
@@ -112,14 +112,14 @@
     "validity_range": "Schmieder E65S grinder DoE, fixed central flow/temperature condition; TDS-derived EY observable.",
     "primary_caveat": "These are Schmieder E65S grinder-DIAL positions \u2014 a dial number is NOT a particle size and is non-portable to another grinder without a calibrated adapter. Do not read a universal 'too-fine optimum'. Also: static channeling remains a viable GENERATOR (model capacity), the data just do not identify it as the cause.",
     "practical_implication": "Plot raw replicates before trend lines, use a coherent yield measure, and distinguish a machine-specific dial position from a physical grind characteristic.",
-    "reproduction": "python -c \"from puckworks.harness import result1_magnitude_comparison as f; print(f())\"",
+    "reproduction": "python -m puckworks.public.analysis_autopsy verify",
     "producer": {
-      "ref": "puckworks.harness.result1_magnitude_comparison",
+      "ref": "puckworks.public.analysis_autopsy.pv04_values",
       "slow": false,
       "kwargs": {}
     },
     "compares_grinder_dials": true,
-    "source_commit": "e4bea4edfaf6f3cc1589e11a37d816e41c149fc3"
+    "source_commit": "08213fe86e7fb0304df8ccfcd71a83bcc7ed353e"
   },
   {
     "claim_id": "PV-05",
@@ -170,7 +170,7 @@
       "kwargs": {}
     },
     "compares_grinder_dials": false,
-    "source_commit": "e4bea4edfaf6f3cc1589e11a37d816e41c149fc3"
+    "source_commit": "08213fe86e7fb0304df8ccfcd71a83bcc7ed353e"
   },
   {
     "claim_id": "PV-03",
@@ -226,6 +226,6 @@
       "kwargs": {}
     },
     "compares_grinder_dials": false,
-    "source_commit": "e4bea4edfaf6f3cc1589e11a37d816e41c149fc3"
+    "source_commit": "08213fe86e7fb0304df8ccfcd71a83bcc7ed353e"
   }
 ]
