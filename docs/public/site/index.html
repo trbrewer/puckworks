@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>Puckworks — evidence-first espresso process modeling</title>
+  <link rel="stylesheet" href="flat-valley/styles.css">
+</head>
+<body>
+  <header class="hero">
+    <h1>puckworks</h1>
+    <p class="sub">Evidence-first models for what happens inside an espresso puck. Papers become typed
+      components, components face validation gates, and every conclusion keeps its limits.</p>
+    <p class="meta">GitHub-only distribution — not on PyPI. Source and releases:
+      <a href="https://github.com/trbrewer/puckworks">github.com/trbrewer/puckworks</a>.</p>
+  </header>
+  <main id="main">
+    <h2>Explore</h2>
+    <div class="scene">
+      <h3>Explore why the cup hides the clock</h3>
+      <p>A static, generated interactive: many hidden inventory–rate combinations can produce nearly
+        the same final espresso cup, so a good endpoint fit can hide weak parameter identification.
+        Every number is generated from the committed Paper A result bundle.</p>
+      <p><a href="flat-valley/"><strong>Open “The Cup Hides the Clock” →</strong></a></p>
+    </div>
+    <div class="scene">
+      <h3>Explore the component registry (Google Colab)</h3>
+      <p>Run the CPU quickstart: the registered components, their provenance, and the validation gates
+        (installs the released wheel after verifying its SHA-256).</p>
+      <p><a href="https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/puckworks_quickstart_colab.ipynb"><strong>Open the quickstart in Colab →</strong></a></p>
+    </div>
+    <div class="scene">
+      <h3>Run a guided espresso pull (Google Colab)</h3>
+      <p>Enter a bounded recipe and run one coherent, model-backed pull stage by stage, with
+        evidence-labelled traces and honest domain warnings. It does not model puck wetting, physical
+        first drip, a dynamic pressure profile, temperature response, or flavor.</p>
+      <p><a href="https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/guided_espresso_pull_colab.ipynb"><strong>Open the Guided Espresso Pull in Colab →</strong></a></p>
+    </div>
+
+    <h2>Evidence and reproduction</h2>
+    <ul>
+      <li>Public claims (traceable, unit-carrying, badged):
+        <a href="https://github.com/trbrewer/puckworks/blob/main/docs/public/README.md">docs/public/README.md</a></li>
+      <li>Public API and stability policy:
+        <a href="https://github.com/trbrewer/puckworks/blob/main/docs/API.md">docs/API.md</a></li>
+      <li>Guided Espresso Pull guide:
+        <a href="https://github.com/trbrewer/puckworks/blob/main/docs/GUIDED_ESPRESSO_PULL.md">docs/GUIDED_ESPRESSO_PULL.md</a></li>
+      <li>Reproduce the flat-valley data: <code>python -m puckworks.public.flat_valley verify</code></li>
+    </ul>
+    <p class="meta">This site is a small landing page; the repository README remains the project
+      homepage. No analytics, no tracking, no external scripts.</p>
+  </main>
+</body>
+</html>

@@ -1,0 +1,91 @@
+/* PV-03 "The Cup Hides the Clock" — framework-free, local styles. No CDN, no remote fonts. */
+:root {
+  --ink: #1a1f24;
+  --paper: #ffffff;
+  --panel: #f4f1ea;
+  --edge: #cdbfad;
+  --accent: #0e7490;      /* teal */
+  --warn-bg: #fff4d6;     /* amber wash; status is ALSO named in words, never colour-only */
+  --warn-edge: #c98a3a;
+  --good: #3f7d3a;
+  --muted: #4a5560;
+  --link: #0b5a70;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; color: var(--ink); background: var(--paper);
+  font: 16px/1.55 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+main { max-width: 52rem; margin: 0 auto; padding: 1rem 1.1rem 4rem; }
+header.hero { padding: 1.4rem 1.1rem 0.5rem; max-width: 52rem; margin: 0 auto; }
+h1 { font-size: 1.7rem; line-height: 1.2; margin: 0.2rem 0 0.3rem; }
+h2 { font-size: 1.25rem; margin: 2rem 0 0.5rem; border-top: 2px solid var(--edge); padding-top: 1rem; }
+h3 { font-size: 1.02rem; margin: 1rem 0 0.35rem; }
+p { margin: 0.5rem 0; }
+a { color: var(--link); }
+.sub { color: var(--muted); font-size: 1.02rem; margin-top: 0; }
+.badge {
+  display: inline-block; background: var(--muted); color: #fff; font-weight: 700;
+  font-size: 0.72rem; letter-spacing: 0.03em; padding: 0.15rem 0.5rem; border-radius: 0.5rem;
+  vertical-align: middle;
+}
+.meta { color: var(--muted); font-size: 0.82rem; word-break: break-all; }
+.scene { background: var(--panel); border: 1px solid var(--edge); border-radius: 0.6rem;
+  padding: 0.9rem 1rem; margin: 1rem 0; }
+.controls { display: flex; flex-wrap: wrap; gap: 1rem 1.4rem; margin: 0.6rem 0; }
+.control { flex: 1 1 15rem; }
+.control label { display: block; font-weight: 600; margin-bottom: 0.2rem; }
+input[type="range"] { width: 100%; }
+.readout { background: #fff; border: 1px solid var(--edge); border-radius: 0.4rem;
+  padding: 0.5rem 0.7rem; margin: 0.5rem 0; }
+.readout b { font-variant-numeric: tabular-nums; }
+.figure { margin: 0.7rem 0; }
+.figure svg { width: 100%; height: auto; background: #fff; border: 1px solid var(--edge);
+  border-radius: 0.4rem; }
+figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 0.3rem; }
+button { font: inherit; cursor: pointer; background: var(--accent); color: #fff; border: 0;
+  border-radius: 0.4rem; padding: 0.45rem 0.9rem; }
+button.secondary { background: #fff; color: var(--ink); border: 1px solid var(--edge); }
+.pill { display: inline-block; padding: 0.1rem 0.5rem; border-radius: 0.5rem; font-weight: 700;
+  font-size: 0.82rem; border: 1px solid var(--edge); }
+.pill.near { background: var(--warn-bg); border-color: var(--warn-edge); }   /* labelled in words too */
+.indicators { display: grid; grid-template-columns: 1fr; gap: 0.6rem; margin: 0.6rem 0; }
+.indicator { background: #fff; border: 1px solid var(--edge); border-left: 6px solid var(--muted);
+  border-radius: 0.4rem; padding: 0.5rem 0.7rem; }
+.indicator .k { font-weight: 700; }
+.notproof { background: var(--warn-bg); border: 1px solid var(--warn-edge); border-radius: 0.6rem;
+  padding: 0.8rem 1rem; margin: 1.4rem 0; }
+table.data { border-collapse: collapse; width: 100%; font-size: 0.88rem; margin: 0.5rem 0; }
+table.data caption { text-align: left; font-weight: 600; margin-bottom: 0.3rem; }
+table.data th, table.data td { border: 1px solid var(--edge); padding: 0.25rem 0.45rem;
+  text-align: right; font-variant-numeric: tabular-nums; }
+table.data th:first-child, table.data td:first-child { text-align: left; }
+details { margin: 0.4rem 0; }
+summary { cursor: pointer; font-weight: 600; }
+.skip { position: absolute; left: -999px; top: 0; background: #fff; padding: 0.5rem; }
+.skip:focus { left: 0.5rem; top: 0.5rem; z-index: 10; }
+/* Visible keyboard focus everywhere. */
+a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible {
+  outline: 3px solid var(--accent); outline-offset: 2px;
+}
+/* Progressive enhancement: show/hide by JS availability. */
+.js .no-js-only { display: none; }
+.no-js .js-only { display: none; }
+.notproof h2 { border: 0; padding: 0; margin: 0 0 0.3rem; }
+fieldset { border: 1px solid var(--edge); border-radius: 0.4rem; margin: 0.5rem 0; }
+fieldset label { display: inline-block; margin-right: 1.2rem; }
+/* SVG plot styling (colour is paired with line style / markers / text, never colour alone). */
+.figure svg text { fill: var(--muted); }
+.figure svg .line-sse { stroke: var(--accent); }
+.figure svg .band { fill: var(--warn-bg); opacity: 0.6; }
+.figure svg .marker { fill: var(--ink); stroke: #fff; stroke-width: 1.5; }
+.figure svg .line-frac { stroke: var(--accent); }
+.figure svg .line-cup { stroke: var(--warn-edge); }
+@media (min-width: 40rem) { .indicators { grid-template-columns: 1fr 1fr 1fr; } }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
+@media (prefers-color-scheme: dark) {
+  :root { --ink:#e8eef2; --paper:#12171b; --panel:#1b2228; --edge:#39434c; --muted:#a9b6c0;
+          --link:#5cc4dc; --warn-bg:#3a2f16; --warn-edge:#c98a3a; }
+  table.data th, table.data td, .readout, .indicator, .figure svg { background: #12171b; }
+}
