@@ -19,9 +19,9 @@ def test_current_json_reflects_shipped_public_value():
     items = _items()
     # PV-03 shipped -> complete, not active/not-started
     assert items["pv03-flat-valley-interactive"]["state"] == "complete"
-    # PV-05 is the active public-value lane; PV-04 is queued next
-    assert items["pv05-model-composition"]["state"] == "active"
-    assert items["pv04-analysis-autopsy"]["state"] in ("proposed", "active")
+    # PV-05 is built (active while in flight, complete once live) — never back to not-started
+    assert items["pv05-model-composition"]["state"] in ("active", "complete")
+    assert items["pv04-analysis-autopsy"]["state"] in ("proposed", "active", "complete")
     # Guided Pull is released and awaiting signed-out human acceptance (still active, not milestone-B)
     gp = items["guided-espresso-pull"]
     assert gp["state"] == "active"
