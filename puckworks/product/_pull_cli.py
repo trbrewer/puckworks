@@ -55,6 +55,8 @@ def _cmd_presets(_args) -> int:
 
 
 def _cmd_run(args) -> int:
+    from ._pull import DomainStatus, render_pull_report
+
     recipe, config = load_pull_preset(args.preset)
     recipe = _apply_overrides(recipe, config, args)
     if args.domain_policy:
@@ -69,13 +71,34 @@ def _cmd_run(args) -> int:
     else:
         out = pull_run_summary(run) + "\n"
 
-    if args.out:
+    # Full visual report (JSON + Markdown + figures) needs a directory and the [viz] extra.
+    report_dir = args.report_dir or (args.out if args.figures else None)
+    if args.figures or args.report_dir:
+        if not report_dir:
+            report_dir = "guided-pull-report"
+        try:
+            art = render_pull_report(run, report_dir, overwrite=True)
+        except ModuleNotFoundError as exc:
+            print(f"cannot render figures: {exc}", file=sys.stderr)
+            return 3
+        print(f"wrote report ({len(art.files)} files) to {art.out_dir}", file=sys.stderr)
+    elif args.out:
         base = Path(args.out)
         base.parent.mkdir(parents=True, exist_ok=True)
         base.with_suffix(".json").write_text(pull_run_to_json(run), encoding="utf-8")
         base.with_suffix(".md").write_text(pull_run_to_markdown(run), encoding="utf-8")
         print(f"wrote {base.with_suffix('.json')} and {base.with_suffix('.md')}", file=sys.stderr)
+
     print(out, end="" if out.endswith("\n") else "\n")
+
+    # First drip is unavailable (not modeled) — printed as unavailable, never as 0.
+    fd = run.final_observables["first_drip_s"]
+    print(f"first drip: {fd.get('status', 'unavailable')} (not modeled: saturated-bed primary model)",
+          file=sys.stderr)
+    if any(f.status is DomainStatus.NOT_APPLICABLE and f.field == "brew_temperature_c"
+           for f in run.domain_findings):
+        print("note: brew_temperature_c is recorded-only — it does not affect the v0.3.0 model",
+              file=sys.stderr)
 
     if run.warnings:
         print(f"⚠ {len(run.warnings)} domain warning(s) — result is an EXTRAPOLATION beyond the "
@@ -105,6 +128,11 @@ def main(argv: list[str] | None = None) -> int:
     r.add_argument("--domain-policy", choices=["warn", "strict"], default=None)
     r.add_argument("--format", choices=["summary", "json", "markdown"], default="summary")
     r.add_argument("--out", default=None, help="write <out>.json and <out>.md")
+    r.add_argument("--report-dir", dest="report_dir", default=None,
+                   help="render the full visual report (JSON + Markdown + figures) into this directory")
+    r.add_argument("--figures", action="store_true",
+                   help="also render figures (into --report-dir, else --out, else ./guided-pull-report); "
+                        "needs the puckworks[viz] extra")
 
     args = ap.parse_args(argv)
     try:

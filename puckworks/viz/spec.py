@@ -87,6 +87,13 @@ FIDELITY_CEILINGS = {
     "de1_fixtureA": (
         "One held DE1 shot (P(t)/W(t)/flow). Pressure-NODE identity OPEN (§5.9); "
         "an independent parameter-free triangle, not a universal curve."),
+    "cameron2020.extraction_bdf": (
+        "Single-solute, saturated-bed BDF extraction (guided-pull primary chain): "
+        "EXPLORATORY_SIMULATION of extraction-yield / TDS / flow / outlet-"
+        "concentration trends and chemical composition only. Code-verified against "
+        "the source paper, NOT independently validated against a measured cup. Never "
+        "render puck wetting, physical first drip, a dynamic pressure profile, a "
+        "thermal transient, channeling, or flavor."),
 }
 
 
