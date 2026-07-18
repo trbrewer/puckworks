@@ -46,3 +46,46 @@ def test_pyproject_excludes_the_private_corpus():
     assert "[tool.setuptools.exclude-package-data]" in txt
     for pat in ("visualizer/raw", "visualizer/crawl", "aggregate_stats"):
         assert pat in txt, "exclude-package-data no longer strips %r from the distribution" % pat
+    # space-named pocketscience raw files can't be excluded via package-data; the guard covers them
+    assert "pocketscience2024" in txt and "check_git_tracked" in txt, (
+        "pyproject must document the git-tracked guard as the backstop for space-named raw data")
+
+
+def test_git_tracked_guard_is_wired_into_the_checker():
+    # the main packaging check must exercise check_git_tracked (not just the substring blocklist)
+    assert hasattr(P, "check_git_tracked")
+    src = (_ROOT / "tools" / "packaging_check.py").read_text()
+    assert "check_git_tracked" in src and "repo_root" in src
+
+
+def test_git_tracked_guard_flags_an_untracked_data_file(tmp_path):
+    # A distribution that shipped a gitignored/untracked data file must be flagged. Use a path that
+    # exists in the tree but is gitignored (a pocketscience raw export) so it is genuinely untracked.
+    d = _fake_dist(tmp_path, [
+        "puckworks/__init__.py",
+        "puckworks/data/pocketscience2024/Espresso water flow experiment - LRR.csv",  # gitignored!
+    ])
+    problems = P.check_git_tracked(d, _ROOT)
+    assert any("UNTRACKED file shipped" in x for x in problems)
+
+
+def test_git_tracked_guard_passes_tracked_only(tmp_path):
+    d = _fake_dist(tmp_path, [
+        "puckworks/__init__.py",
+        "puckworks/data/pocketscience2024/lrr_scalars.csv",   # git-tracked
+    ])
+    assert P.check_git_tracked(d, _ROOT) == []
+
+
+def test_git_tracked_guard_normalizes_sdist_prefix(tmp_path):
+    # sdist members carry a puckworks-<ver>/ container prefix; the guard must see through it.
+    p = tmp_path / "puckworks-0.0.0.tar.gz"
+    import tarfile, io
+    with tarfile.open(p, "w:gz") as t:
+        data = b"x"
+        for name in ("puckworks-0.0.0/puckworks/__init__.py",
+                     "puckworks-0.0.0/puckworks/data/pocketscience2024/Espresso water flow experiment - VST18.csv"):
+            info = tarfile.TarInfo(name); info.size = len(data)
+            t.addfile(info, io.BytesIO(data))
+    problems = P.check_git_tracked(p, _ROOT)
+    assert any("UNTRACKED file shipped" in x and "VST18" in x for x in problems)

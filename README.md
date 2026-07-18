@@ -91,7 +91,7 @@ simulated** — or is marked **unsupported**. Puckworks never upgrades an eviden
 | Project pulse | |
 |---|---|
 | Latest public release | [`v0.2.0`](https://github.com/trbrewer/puckworks/releases/tag/v0.2.0) (`puckworks-0.2.0-py3-none-any.whl`; not on PyPI) |
-| Development source | `0.3.0.dev0` (unreleased) |
+| Development source | `0.3.0` (unreleased) |
 | Registered components | 25 |
 | Validation gates | 51 total — 50 PASS, 1 ACKNOWLEDGED_EXCEPTION (passed under the documented gate policy) |
 | Active outcome | Deliver a versioned ShotExplanationBundle for one redistributable bundled shot |

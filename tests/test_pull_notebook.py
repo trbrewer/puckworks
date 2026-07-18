@@ -66,9 +66,13 @@ def test_local_wheel_override_and_no_unpinned_install(code_text):
         assert bad not in code_text, f"notebook does an unpinned/mutable install: {bad!r}"
 
 
-def test_development_preview_guard_present(code_text):
-    assert "RELEASED = False" in code_text
-    assert "Development preview" in code_text
+def test_release_wheel_url_and_hash_are_pinned_to_v030(code_text):
+    # Milestone C: the default path targets the exact immutable v0.3.0 Release asset + SHA-256.
+    assert "RELEASED = True" in code_text
+    assert "releases/download/v0.3.0/puckworks-0.3.0-py3-none-any.whl" in code_text
+    import re
+    assert re.search(r"WHEEL_SHA256 = '[0-9a-f]{64}'", code_text), "wheel SHA-256 must be pinned"
+    assert "puckworks-0.3.0-py3-none-any.whl" in code_text
 
 
 def test_hash_verification_precedes_installation(code_text):
