@@ -10,8 +10,9 @@ tracked in detail in `docs/ROADMAP.md` §7.1.
 Development line opened after the v0.3.0 release. Source/development builds identify themselves as
 `0.4.0.dev0`; the latest **public release remains v0.3.0** (GitHub Release; not on PyPI) and its
 install/notebook guidance is unchanged. Unreleased work is tracked above and in `docs/ROADMAP.md`
-§7.1 — first up: the PV-03 "The Cup Hides the Clock" flat-valley practical-identifiability interactive
-(a static, generated public surface; no new model coupling).
+§7.1. PV-03 "The Cup Hides the Clock" is now **live**; the next public-value feature is **PV-05**
+"More Physics Made It Worse" (a static, generated model-composition interactive; no new model
+coupling), followed by **PV-04** "How We Falsified Our Own Espresso Headline".
 
 ## 0.3.0
 

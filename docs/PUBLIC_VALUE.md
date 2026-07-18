@@ -19,11 +19,13 @@ The three best flagship public stories already latent in the repository are:
 
 1. **Before the first drop:** the first measured liquid in one fraction-resolved dataset was already about 97% of peak concentration, while infiltration models can reveal the invisible wetting front that precedes it.
 2. **One curve, many causes:** a dip-and-recovery in flow can be produced by machine hydraulics alone, while a separate rising-flow trace does require time-dependent bed behavior. A flow curve is not a diagnosis.
-3. **A good fit can still be wrong:** inventory and extraction rate can trade off so that a model fits a cup well at one grind yet fails badly at other grinds. Time-resolved fractions recover information that the whole cup erases.
+3. **A good fit can still be wrong:** whole-cup endpoint predictions can remain reasonably stable while the inventory–rate decomposition is practically non-identifiable and the mechanistic model adds little held-out skill over a level-only baseline. Time-resolved fractions recover information that the whole cup erases.
 
 A fourth story is especially valuable for credibility and likely shareability:
 
 4. **We killed our favorite result:** the apparently dramatic fine-grind optimum weakened after correcting a mixed-unit aggregation and comparing the model bump with raw replicate variation. This is a rare, honest story about how a bold result was downgraded by better analysis.
+
+**Delivery status (2026-07-18).** The public-results layer (PV-00) is built. **PV-03 "The Cup Hides the Clock" is live** at <https://trbrewer.github.io/puckworks/flat-valley/>. **PV-05 "More Physics Made It Worse"** is the **active** quick story (a static model-composition interactive; see §PV-05 below). **PV-04 "We killed our favorite result"** is the **next** flagship. The Guided Espresso Pull shipped in v0.3.0 (signed-out human acceptance pending, issue #48).
 
 The recommended program is therefore:
 

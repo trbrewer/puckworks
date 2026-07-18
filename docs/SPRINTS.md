@@ -263,8 +263,12 @@ claim regenerates from a pinned commit and carries its evidence-strength label
 UNCHANGED (measured / post-fit / verification / qualitative). Reference-strength and
 labelled-proxy results stay labelled in public form.*
 
-**Nothing here is built yet — all `not-started`.** This is integration + tracking
-only; PV-00 (the public-results export layer) is a future build, not started.
+**Present state (2026-07-18).** The public-value layer is no longer empty: **PV-00**
+(the public-results export + claim registry) is **complete**, **PV-03** "The Cup Hides
+the Clock" is **complete and live** on GitHub Pages, and the **Guided Espresso Pull**
+shipped in **v0.3.0** (signed-out human Colab acceptance pending under issue #48).
+**PV-05** ("More Physics Made It Worse") is the **active** quick story; **PV-04** (the
+analysis autopsy) is **next**. All other PV items remain not started.
 
 Sequence tiers from PUBLIC_VALUE.md §17. "Sci-dependency / coupling" is the
 load-bearing link that keeps the two tracks in sync: **a change on the scientific
@@ -274,12 +278,12 @@ gaps G10 / G3 / G1.**
 
 | PV | short name | status | tier (§17) | depends-on | sci-dependency / coupling | spec |
 |---|---|---|---|---|---|---|
-| PV-00 | public-results export + claim registry | not-started | now | — (foundation) | `harness.py` public-ready fns + `figures.py` + registry/manifest provenance; **the viz layer (§8) CONSUMES this claim/producer registry — VizSpecs bind to public.schema.Producer** | [§5](PUBLIC_VALUE.md#pv-00--build-a-public-results-export-and-claim-registry) |
+| PV-00 | public-results export + claim registry | complete | now | — (foundation) | `harness.py` public-ready fns + `figures.py` + registry/manifest provenance; **the viz layer (§8) CONSUMES this claim/producer registry — VizSpecs bind to public.schema.Producer** | [§5](PUBLIC_VALUE.md#pv-00--build-a-public-results-export-and-claim-registry) |
 | PV-01 | "the first drop is already strong" | not-started | now | — (pairs w/ PV-16) | `dissolution_speed_test` + foster2025_2 infiltration + fraction TDS; **G1 retention analog is REFERENCE-strength — label rides along** | [§5](PUBLIC_VALUE.md#pv-01--the-first-drop-is-already-strong-measured-fractions-plus-a-wetting-front-reveal) |
 | PV-02 | "the machine can fake a puck problem" | not-started | now | — (feeds PV-15) | Foster machine mode + `kappa_t_ladder` + `cross_pressure_discrimination` + the leave-one-pressure-out diagnostic (`ANALYSIS_cv_residual.md`) | [§5](PUBLIC_VALUE.md#pv-02--the-machine-can-fake-a-puck-problem-a-null-first-flow-curve-explainer) |
-| PV-05 | "adding physics made it worse" | not-started | now | — | `coupled_kappa_t` failed shared-porosity composite (anti-mega-model; Paper-B Fig 4) | [§5](PUBLIC_VALUE.md#pv-05--adding-more-physics-made-it-worse-the-anti-mega-model-story) |
-| PV-03 | "a good fit can still be wrong" | not-started | next | — | `ANALYSIS_transfer.md` inventory–kinetics identifiability (flat valley); Pannusch solver, Angeloni | [§5](PUBLIC_VALUE.md#pv-03--a-good-fit-can-still-be-wrong-the-inventorykinetics-flat-valley-interactive) |
-| PV-04 | "we killed our favorite result" | not-started | next | — | corrected fine-grind verdict (`ANALYSIS_P2.md` / `P3_hypotheses.md`); `schmieder_interior_max_target`, `result1_magnitude_comparison`, `channeling_interior_max_sensitivity` | [§5](PUBLIC_VALUE.md#pv-04--we-killed-our-favorite-result-a-transparent-analysis-autopsy) |
+| PV-05 | "more physics made it worse" | active | now | — | `coupled_kappa_t` failed shared-porosity composite (anti-mega-model; Paper-B Fig 4); static interactive via `public.model_composition` | [§5](PUBLIC_VALUE.md#pv-05--adding-more-physics-made-it-worse-the-anti-mega-model-story) |
+| PV-03 | "a good fit can still be wrong" | complete (live) | — | — | `ANALYSIS_transfer.md` inventory–kinetics identifiability (flat valley); Pannusch solver, Angeloni; live at trbrewer.github.io/puckworks/flat-valley/ | [§5](PUBLIC_VALUE.md#pv-03--a-good-fit-can-still-be-wrong-the-inventorykinetics-flat-valley-interactive) |
+| PV-04 | "we killed our favorite result" | next | next | — | corrected fine-grind verdict (`ANALYSIS_P2.md` / `P3_hypotheses.md`); `schmieder_interior_max_target`, `result1_magnitude_comparison`, `channeling_interior_max_sensitivity` | [§5](PUBLIC_VALUE.md#pv-04--we-killed-our-favorite-result-a-transparent-analysis-autopsy) |
 | PV-06 | cross-pressure mechanism fingerprint | not-started | next | — (feeds PV-15) | waszkiewicz 11-pressure traces + `cross_pressure_discrimination`; Paper-B Fig 3; **visualizer.coffee is the at-scale ECOLOGICAL companion (0.13) — reference-strength, selection-biased; label rides along, does NOT upgrade** | [§5](PUBLIC_VALUE.md#pv-06--build-a-cross-pressure-mechanism-fingerprint-map) |
 | PV-08 | "Puck Court" evidence dashboard | not-started | next | PV-00 | registry + gates + manifest; Paper-B Fig 2 (evidence matrix, not a leaderboard); **renders VizSpecs (§8), not a leaderboard** | [§5](PUBLIC_VALUE.md#pv-08--create-puck-court-a-public-evidence-dashboard-not-a-winner-leaderboard) |
 | PV-15 | model-disagreement experiment recommender | not-started | experiment | PV-02, PV-06 | consumes cross-mechanism disagreement across the harnesses | [§5](PUBLIC_VALUE.md#pv-15--build-a-model-disagreement-experiment-recommender) |
@@ -293,7 +297,7 @@ gaps G10 / G3 / G1.**
 | PV-09 | multi-lens "hidden puck" movie | not-started | unsequenced (P1) | — | Foster infiltration + pack_generator + LB solvers + extraction + streamtube/N-tube (parallel labelled lenses, no fake mega-model); **the montage IS the viz `hidden_puck_movie` VizSpec (§8) — thumb built, video local** | [§5](PUBLIC_VALUE.md#pv-09--produce-a-multi-lens-hidden-puck-movie-without-building-a-fake-mega-model) |
 | PV-10 | "a clean basket is not the bottleneck" | not-started | unsequenced (P0/P1) | — | `g9_series_resistance` + basket geometry (gap G9); PV-17 provides the bench validation | [§5](PUBLIC_VALUE.md#pv-10--a-clean-basket-is-not-the-bottleneck-visualize-the-pressure-resistance-budget) |
 | PV-12 | temperature explainer | not-started | unsequenced (P1) | — | `g4_temperature_sensitivity` + Schmieder temperature data (gap G4; two closures disagree on SIGN — surface, don't average) | [§5](PUBLIC_VALUE.md#pv-12--temperature-explainer-small-equilibrium-extraction-effect-unresolved-thermal-puck-physics) |
-| PV-19 | "the best-understood espresso shot" (named-shot capstone scorecard) | not-started | next | PV-00 | RC-1 + RC-4a gates, 1.8b adapter (RC-4b verification), §5.9 node identity, §5.2 Fo_F audit, Cameron low-read (egidi/angeloni brackets); **TB capstone cup measurement would promote RC-4b** | [§5](PUBLIC_VALUE.md#pv-19--the-best-understood-espresso-shot-one-named-recipe-every-component-evidence-attached) |
+| PV-19 | "the best-understood espresso shot" (named-shot capstone scorecard) | Guided Pull shipped v0.3.0 (acceptance pending #48); capstone scorecard not-started | next | PV-00 | RC-1 + RC-4a gates, 1.8b adapter (RC-4b verification), §5.9 node identity, §5.2 Fo_F audit, Cameron low-read (egidi/angeloni brackets); **TB capstone cup measurement would promote RC-4b** | [§5](PUBLIC_VALUE.md#pv-19--the-best-understood-espresso-shot-one-named-recipe-every-component-evidence-attached) |
 
 ## Submission track
 *Tracking surface for paper/venue submissions. **Spec + deadlines:**
