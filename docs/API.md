@@ -131,20 +131,41 @@ digital twin). The primary chain is anchored on the coherent `cameron2020.extrac
 (grind → machine/flow → extraction → cup); every other registered component gets an explicit
 **coverage disposition** (`ComponentDisposition`) rather than being silently coupled.
 
+Full guide: [`docs/GUIDED_ESPRESSO_PULL.md`](GUIDED_ESPRESSO_PULL.md).
+
 ```python
-from puckworks.product import load_pull_preset, simulate_pull, pull_run_to_json
+from puckworks.product import load_pull_preset, simulate_pull, pull_run_to_json, render_pull_report
 
 recipe, config = load_pull_preset("guided_v1")   # or "pv19_named" (fixed reference)
 run = simulate_pull(recipe, config)              # deterministic; run_id derives from inputs
 print(pull_run_to_json(run))                     # or pull_run_to_markdown(run)
+artifacts = render_pull_report(run, "guided_pull_report")   # JSON + Markdown + figures ([viz] extra)
 ```
 
-- **Records:** `PullRecipe`, `PullConfig`, `PullRun`, `StageResult`, `DomainFinding`.
+- **Records:** `PullRecipe`, `PullConfig`, `PullRun`, `StageResult`, `DomainFinding`,
+  `ComponentCoverage`, and the authoritative traces `PullSeries` / `PullTrace`, plus
+  `PullReportArtifacts`.
+- **Traces (`PullRun.traces`):** typed `PullTrace`/`PullSeries` copied from the solver at full
+  precision (JSON preserves it; only display rounds). Each series carries a **value role** —
+  `prescribed_input` (e.g. the prescribed constant pressure — never labelled measured), `simulated`
+  (model output, e.g. outlet concentration), or `derived` (e.g. cumulative beverage mass integrated
+  from the model flow). `SERIES_ROLES` names the vocabulary.
 - **Domain engine:** `DomainStatus` (`in_domain`/`warning`/`rejected`/`not_applicable`); hard-invalid
   inputs are REJECTED, evidence-range departures WARN under `domain_policy="warn"` and block under
   `"strict"`. Values are never silently clamped. `bean_label` is metadata only (changes no result);
   `coffee_profile` selects a named, model-backed parameter set (unknown profiles are rejected).
+  `brew_temperature_c` is recorded-only (`not_applicable`, no thermal transient); `preinfusion_*` and
+  `basket_diameter_mm` overrides are rejected.
+- **Unavailable observables:** `first_drip_s` is reported with `status="unavailable"` and a `reason`
+  (saturated-bed model — no wetting/first drip), never a fabricated number; the diagnostic
+  `first_modeled_solute_arrival_s` carries the numerical marker under an honest name.
+- **Coverage:** `ComponentCoverage` carries an explicit `executed: bool`; only the primary model is
+  `EXECUTED_PRIMARY`. Others are `CALIBRATION_ONLY`, `AVAILABLE_AS_SEPARATE_LENS` (eligible, **not**
+  executed), or excluded — never averaged into a consensus.
 - **Exports:** `pull_run_to_dict` / `pull_run_to_json` (deterministic, no wall-clock) /
-  `pull_run_to_markdown`. **CLI:** `puckworks-pull presets` and `puckworks-pull run …`.
+  `pull_run_to_markdown`; `render_pull_report` returns a `PullReportArtifacts` and consumes a
+  completed `PullRun` (never re-simulates or mutates it; matplotlib is lazy, so core stays
+  matplotlib-free). **CLI:** `puckworks-pull presets`, `puckworks-pull run …`, and
+  `puckworks-pull run … --report-dir DIR` / `--figures` (figures need the `puckworks[viz]` extra).
 - Chemical **composition** where supported — never sensory flavor. Rights-independent: no upstream
   fixture data is shipped or loaded.

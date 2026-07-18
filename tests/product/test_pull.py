@@ -5,6 +5,7 @@ domain warn/reject engine (no silent clamp), determinism, stage completeness, fu
 coverage, parallel-lens safety, conservation, and export/CLI paths.
 """
 import json
+import math
 import re
 
 import puckworks
@@ -107,10 +108,93 @@ def test_no_silent_clamp():
 
 
 def test_out_of_range_is_never_labelled_in_domain():
-    r, c = _guided(brew_temperature_c=70.0)   # below evidence range but computable
+    r, c = _guided(grind_setting=2.45)   # below evidence range but computable
     run = p.simulate_pull(r, c)
+    gs = [f for f in run.domain_findings if f.field == "grind_setting"][0]
+    assert gs.status is p.DomainStatus.WARNING and gs.status is not p.DomainStatus.IN_DOMAIN
+
+
+# ── temperature is recorded-only, not a model input (1C/1D) ───────────────────────
+def test_temperature_is_recorded_only_and_changes_nothing():
+    from dataclasses import replace
+    r, c = p.load_pull_preset("guided_v1")
+    a = p.pull_run_to_dict(p.simulate_pull(replace(r, brew_temperature_c=86.0), c))
+    b = p.pull_run_to_dict(p.simulate_pull(replace(r, brew_temperature_c=94.0), c))
+    # the computed numbers (traces + final observables) must be identical; only the *recorded* value
+    # (recipe echo, run_id, and the temperature it reports back) may differ.
+    assert a["traces"] == b["traces"], "temperature changed a model trace but must be recorded-only"
+    assert a["final_observables"] == b["final_observables"], "temperature changed a final observable"
+    run = p.simulate_pull(replace(r, brew_temperature_c=70.0), c)   # a valid, but recorded-only, value
     temp = [f for f in run.domain_findings if f.field == "brew_temperature_c"][0]
-    assert temp.status is p.DomainStatus.WARNING and temp.status is not p.DomainStatus.IN_DOMAIN
+    assert temp.status is p.DomainStatus.NOT_APPLICABLE     # never WARNING (model does not use it)
+    assert not any(w.startswith("brew_temperature_c") for w in run.warnings)
+
+
+def test_out_of_liquid_temperature_is_rejected():
+    r, c = _guided(brew_temperature_c=150.0)
+    with pytest.raises(p.PullDomainError, match="rejected"):
+        p.simulate_pull(r, c)
+
+
+# ── unsupported recipe fields are rejected, never silently accepted (1D) ──────────
+@pytest.mark.parametrize("field,value", [
+    ("preinfusion_s", 5.0),
+    ("preinfusion_pressure_bar", 3.0),
+    ("basket_diameter_mm", 58.0),
+])
+def test_unsupported_recipe_fields_are_rejected(field, value):
+    from dataclasses import replace
+    r, c = p.load_pull_preset("guided_v1")
+    with pytest.raises(p.PullDomainError, match="rejected"):
+        p.simulate_pull(replace(r, **{field: value}), c)
+
+
+# ── every active input actually changes a numerical result (1D) ───────────────────
+@pytest.mark.parametrize("field,value", [
+    ("dose_g", 18.0), ("target_beverage_g", 36.0), ("pressure_bar", 7.0), ("grind_setting", 1.9),
+])
+def test_active_inputs_change_the_calculation(field, value):
+    from dataclasses import replace
+    r, c = p.load_pull_preset("guided_v1")
+    base = p.pull_run_to_dict(p.simulate_pull(r, c))["final_observables"]
+    changed = p.pull_run_to_dict(p.simulate_pull(replace(r, **{field: value}), c))["final_observables"]
+    assert base != changed, f"{field} is an active control but changed nothing"
+
+
+# ── configuration enforcement (1E) ────────────────────────────────────────────────
+def test_unknown_config_is_rejected():
+    from dataclasses import replace
+    r, c = p.load_pull_preset("guided_v1")
+    with pytest.raises(p.PullDomainError, match="config_id"):
+        p.simulate_pull(r, replace(c, config_id="mystery"))
+    with pytest.raises(p.PullDomainError, match="config_version"):
+        p.simulate_pull(r, replace(c, config_version=99))
+
+
+def test_unsupported_stage_override_is_rejected():
+    from dataclasses import replace
+    r, c = p.load_pull_preset("guided_v1")
+    bad = replace(c, stage_components={"grind": "foster2025.machine_mode",
+                                       "machine_flow": "cameron2020.extraction_bdf",
+                                       "extraction": "cameron2020.extraction_bdf"})
+    with pytest.raises(p.PullDomainError, match="stage_components"):
+        p.simulate_pull(r, bad)
+
+
+def test_nonempty_lens_request_is_rejected():
+    from dataclasses import replace
+    r, c = p.load_pull_preset("guided_v1")
+    with pytest.raises(p.PullDomainError, match="lenses"):
+        p.simulate_pull(r, replace(c, lenses=("mo2023_2.coupled_bed",)))
+
+
+def test_nonconstant_pressure_profile_is_rejected():
+    with pytest.raises(p.PullDomainError, match="pressure_profile"):
+        p.PullConfig(config_id="guided_v1", config_version=1,
+                     stage_components={"grind": "cameron2020.extraction_bdf",
+                                       "machine_flow": "cameron2020.extraction_bdf",
+                                       "extraction": "cameron2020.extraction_bdf"},
+                     pressure_profile="ramp")
 
 
 # ── determinism (11,12) ───────────────────────────────────────────────────────────
@@ -145,13 +229,29 @@ def test_every_registered_component_appears_in_coverage():
 
 def test_primary_and_calibration_dispositions():
     by_id = {c.component_id: c for c in RUN.coverage}
-    assert by_id["cameron2020.extraction_bdf"].disposition is p.ComponentDisposition.USED_PRIMARY
+    cam = by_id["cameron2020.extraction_bdf"]
+    assert cam.disposition is p.ComponentDisposition.EXECUTED_PRIMARY and cam.executed is True
     # a known calibration component is labelled calibration-only
     assert by_id["wadsworth2026.permeability"].disposition is p.ComponentDisposition.CALIBRATION_ONLY
     # the optional GPU component is not silently primary
     assert by_id["brewer2026.lb_taichi"].disposition is p.ComponentDisposition.EXCLUDED_OPTIONAL_DEPENDENCY
     for c in RUN.coverage:
         assert c.reason, f"{c.component_id} has no disposition reason"
+
+
+def test_only_the_primary_is_marked_executed():
+    executed = [c for c in RUN.coverage if c.executed]
+    assert [c.component_id for c in executed] == ["cameron2020.extraction_bdf"]
+    # nothing is described as "compared" — no parallel lens is executed
+    for c in RUN.coverage:
+        assert "compared" not in c.reason.lower()
+
+
+def test_coverage_serializes_executed_flag():
+    cov = p.pull_run_to_dict(RUN)["coverage"]
+    cam = [c for c in cov if c["component_id"] == "cameron2020.extraction_bdf"][0]
+    assert cam["disposition"] == "executed_primary" and cam["executed"] is True
+    assert all("compared_as_lens" != c["disposition"] for c in cov)
 
 
 # ── parallel-lens safety (15,16) ──────────────────────────────────────────────────
@@ -171,6 +271,87 @@ def test_extraction_mass_is_self_consistent():
     # extracted mass = EY% * dose; dissolved-in-cup consistent within model tolerance
     assert abs(extracted - ey / 100.0 * RUN.recipe.dose_g) < 0.02   # within display rounding
     assert abs(dissolved - extracted) < 0.5     # holdup difference is bounded
+
+
+# ── authoritative traces (1A/1B) ──────────────────────────────────────────────────
+def _trace(run, tid):
+    return [t for t in run.traces if t.trace_id == tid][0]
+
+
+def _series(trace, sid):
+    return [s for s in trace.series if s.series_id == sid][0]
+
+
+def test_traces_are_present_and_well_formed():
+    ids = {t.trace_id for t in RUN.traces}
+    assert {"machine_flow_time", "extraction_time", "bed_liquid_profile"} <= ids
+    for t in RUN.traces:
+        assert t.axis_values and t.series and t.axis_unit and t.component_id == "cameron2020.extraction_bdf"
+        assert t.evidence_badge == "EXPLORATORY_SIMULATION" and t.fidelity_ceiling
+        for s in t.series:
+            assert len(s.values) == len(t.axis_values)          # series length matches axis
+            assert s.role in p.SERIES_ROLES and s.unit
+            assert all(math.isfinite(v) for v in s.values)      # no non-finite values
+
+
+def test_prescribed_pressure_is_labelled_prescribed_not_measured():
+    s = _series(_trace(RUN, "machine_flow_time"), "prescribed_pressure_bar")
+    assert s.role == "prescribed_input"          # never "measured" / "simulated"
+    assert set(s.values) == {RUN.recipe.pressure_bar}   # constant prescribed input
+
+
+def test_trace_time_endpoint_equals_shot_time():
+    t = _trace(RUN, "extraction_time")
+    assert abs(t.axis_values[-1] - RUN.final_observables["shot_duration_s"]["value"]) < 0.05
+
+
+def test_cumulative_beverage_endpoint_matches_final_beverage():
+    s = _series(_trace(RUN, "machine_flow_time"), "cumulative_beverage_g")
+    assert s.role == "derived"
+    assert abs(s.values[-1] - RUN.final_observables["beverage_mass_g"]["value"]) < 1e-6
+
+
+def test_cumulative_extracted_endpoint_matches_final_extracted():
+    s = _series(_trace(RUN, "extraction_time"), "cumulative_extracted_g")
+    assert s.role == "simulated"
+    assert abs(s.values[-1] - RUN.final_observables["extracted_mass_g"]["value"]) < 0.01
+
+
+def test_derived_yield_endpoint_matches_final_EY():
+    s = _series(_trace(RUN, "extraction_time"), "extraction_yield_pct")
+    assert s.role == "derived"
+    assert abs(s.values[-1] - RUN.final_observables["extraction_yield_pct"]["value"]) < 0.01
+
+
+def test_traces_preserve_solver_precision_in_json():
+    js = p.pull_run_to_dict(RUN)
+    ex = [t for t in js["traces"] if t["trace_id"] == "extraction_time"][0]
+    vals = [s for s in ex["series"] if s["series_id"] == "cumulative_extracted_g"][0]["values"]
+    # display observable is rounded to 3 dp; the trace keeps full precision (more significant digits)
+    assert any(len(repr(v).split(".")[-1]) > 4 for v in vals if isinstance(v, float))
+
+
+def test_traces_are_deterministic_in_json():
+    assert p.pull_run_to_json(_shared_run()) == p.pull_run_to_json(_shared_run())
+
+
+# ── first-drip correction (1C) ────────────────────────────────────────────────────
+def test_first_drip_is_unavailable_not_zero():
+    fd = RUN.final_observables["first_drip_s"]
+    assert fd["value"] is None and fd["status"] == "unavailable"
+    assert "saturated bed" in fd["reason"]
+    # the old number survives only under an honest diagnostic name
+    diag = RUN.final_observables["first_modeled_solute_arrival_s"]
+    assert diag["status"] == "diagnostic" and diag["value"] is not None
+    assert "first_drip" not in {s.stage_id for s in RUN.stages}   # not a stage
+    ex = [s for s in RUN.stages if s.stage_id == "extraction"][0]
+    assert "first_drip" not in ex.outputs and "first_modeled_solute_arrival" in ex.outputs
+
+
+def test_markdown_shows_first_drip_unavailable():
+    md = p.pull_run_to_markdown(RUN)
+    assert "first_drip_s**: unavailable" in md
+    assert "recorded-only" in md    # temperature marked recorded-only
 
 
 # ── export (20,21) ────────────────────────────────────────────────────────────────
@@ -205,6 +386,41 @@ def test_cli_writes_json_and_markdown(tmp_path):
     base = tmp_path / "out" / "guided"
     assert cli.main(["run", "--preset", "guided_v1", "--out", str(base)]) == 0
     assert base.with_suffix(".json").exists() and base.with_suffix(".md").exists()
+
+
+def test_cli_strict_mode_rejects_out_of_range():
+    from puckworks.product import _pull_cli as cli
+    # out of evidence range under strict policy -> nonzero (rejected)
+    assert cli.main(["run", "--preset", "guided_v1", "--grind-setting", "2.45",
+                     "--domain-policy", "strict"]) == 2
+
+
+def test_cli_summary_reports_first_drip_unavailable(capsys):
+    from puckworks.product import _pull_cli as cli
+    assert cli.main(["run", "--preset", "pv19_named", "--format", "summary"]) == 0
+    err = capsys.readouterr().err
+    assert "first drip: unavailable" in err and "recorded-only" in err
+
+
+def test_cli_figures_report(tmp_path):
+    pytest.importorskip("matplotlib")
+    from puckworks.product import _pull_cli as cli
+    d = tmp_path / "report"
+    assert cli.main(["run", "--preset", "guided_v1", "--report-dir", str(d)]) == 0
+    assert (d / "guided_pull_summary.png").exists()
+    assert (d / "guided_pull_results.json").exists()
+
+
+def test_cli_missing_viz_extra_message(tmp_path, monkeypatch, capsys):
+    from puckworks.product import _pull_cli as cli
+    import puckworks.product._pull as pull_mod
+
+    def _no_mpl(*a, **k):
+        raise ModuleNotFoundError("Guided pull figures require the `puckworks[viz]` optional dependencies")
+
+    monkeypatch.setattr(pull_mod, "render_pull_report", _no_mpl)
+    rc = cli.main(["run", "--preset", "guided_v1", "--report-dir", str(tmp_path / "r")])
+    assert rc == 3 and "puckworks[viz]" in capsys.readouterr().err
 
 
 # ── offline / no private data (23) ────────────────────────────────────────────────

@@ -108,6 +108,22 @@ def _readme_image_tags():
         yield m.group(2), m.group(1)
 
 
+def test_hero_uses_the_maintainer_logo():
+    # 5C-11: the selected hero path is the maintainer-supplied logo under the canonical asset dir.
+    hero = "docs/assets/readme/hero_image_logo.png"
+    assert hero in TEXT, "README hero must reference the maintainer logo"
+    assert (REPO_ROOT / hero).exists(), "the maintainer hero logo file must exist"
+
+
+def test_guided_pull_is_marked_upcoming_not_released():
+    low = TEXT.lower()
+    assert "guided espresso pull" in low
+    assert "docs/GUIDED_ESPRESSO_PULL.md" in TEXT
+    # must not present the guided notebook as an already-released one-click workflow
+    assert "guided_espresso_pull_colab.ipynb" not in TEXT
+    assert "not released yet" in low or "coming in v0.3.0" in low
+
+
 def test_every_local_image_path_exists():
     # <source srcset=...> too (dark-mode hero).
     srcsets = re.findall(r'srcset="([^"]+)"', TEXT)
