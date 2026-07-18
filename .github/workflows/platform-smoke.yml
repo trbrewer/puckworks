@@ -1,7 +1,7 @@
 name: platform-smoke
 # Portability of ONE artifact on Ubuntu/Windows/macOS (Python 3.12). Two matrices:
 #   * dev-wheel-smoke     — build the CURRENT dev wheel once, test THOSE EXACT bytes on all 3 OSes.
-#   * public-release-smoke — download the recorded v0.2.0 wheel, verify its SHA-256, test THOSE
+#   * public-release-smoke — download the recorded public-release wheel, verify its SHA-256, test THOSE
 #     EXACT released bytes on all 3 OSes. Neither builds a different wheel per OS. The core package
 #     is one pure-Python wheel; no per-OS release artifact is produced.
 on:
@@ -120,7 +120,7 @@ jobs:
             && echo "clean uninstall verified"
 
   public-release-smoke:
-    name: v0.2.0 release — same bytes on ${{ matrix.os }}
+    name: public release — same bytes on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 15
     strategy:
@@ -138,7 +138,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: download the recorded v0.2.0 wheel and VERIFY it (via the validated record)
+      - name: download the recorded release wheel and VERIFY it (via the validated record)
         run: |
           python - <<'PY'
           import hashlib, sys, urllib.request
@@ -155,23 +155,26 @@ jobs:
           print("verified release wheel written:", rec["wheel_filename"])
           PY
 
-      - name: install the EXACT verified release wheel + public smoke (0.2.0)
+      - name: install the EXACT verified release wheel + public smoke (recorded version)
         run: |
-          WHEEL="$(ls puckworks-0.2.0-py3-none-any.whl)"
+          # filename + expected version come from the validated record (version-driven across releases)
+          WHEEL="$(ls puckworks-*-py3-none-any.whl | head -n1)"
+          EXPECTED_VERSION="$(python -c "import sys; sys.path.insert(0,'tools'); import release_record as R; print(R.load_validated('docs/status/public_release.json')['version'])")"
           python -m pip install "$WHEEL"
           cd "$RUNNER_TEMP"
-          python - <<'PY'
-          import platform
+          python - "$EXPECTED_VERSION" <<'PY'
+          import platform, sys
           import puckworks
+          expected = sys.argv[1]
           assert "site-packages" in puckworks.__file__, puckworks.__file__
-          assert puckworks.__version__ == "0.2.0", puckworks.__version__
+          assert puckworks.__version__ == expected, (puckworks.__version__, expected)
           print("platform :", platform.system(), platform.machine(), "py", platform.python_version())
           puckworks.load_builtin_components()
           comps = puckworks.components()
           assert len(comps) >= 25, len(comps)
           suite = puckworks.evaluate_all_gates()
           assert suite.passed, "gate suite reported a genuine failure"
-          print("v0.2.0 release wheel OK:", len(comps), "components |", suite.summary_text())
+          print("release wheel OK (v%s):" % expected, len(comps), "components |", suite.summary_text())
           PY
 
       - name: uninstall cleanly
