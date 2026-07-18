@@ -915,9 +915,9 @@ def pull_run_to_markdown(run: PullRun) -> str:
     for t in run.traces:
         lines.append(f"### {t.trace_id} — vs {t.axis_label} ({t.axis_unit}) [{t.evidence_badge}]")
         lines.append(f"- fidelity ceiling: {t.fidelity_ceiling}")
-        for s in t.series:
-            end = s.values[-1] if s.values else float("nan")
-            lines.append(f"- **{s.label}** ({s.role}, {s.unit}): endpoint {round(end, 4)} — {s.method}")
+        for ser in t.series:
+            end = ser.values[-1] if ser.values else float("nan")
+            lines.append(f"- **{ser.label}** ({ser.role}, {ser.unit}): endpoint {round(end, 4)} — {ser.method}")
     if run.warnings:
         lines += ["", "## ⚠ Domain warnings"] + [f"- {w}" for w in run.warnings]
     lines += ["", "## Component coverage"]

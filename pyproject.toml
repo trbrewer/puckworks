@@ -95,5 +95,8 @@ files = [
     "puckworks/product/_serialize.py",
     "puckworks/product/_provenance.py",
     "puckworks/product/_normalize.py",
+    "puckworks/product/_pull.py",
+    "puckworks/product/_pull_cli.py",
     "puckworks/product/__init__.py",
+    "puckworks/viz/pull_report.py",
 ]

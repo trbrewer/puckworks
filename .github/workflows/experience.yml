@@ -1,0 +1,114 @@
+name: experience
+# The Guided Espresso Pull experience lane (issue #48, Milestone B). Keeps matplotlib / notebook
+# dependencies OUT of the core quick-pr lane: it installs the [viz] + notebook-execution deps, runs
+# the pull/report/notebook tests, builds a wheel, installs it into an isolated environment OUTSIDE
+# the source checkout, runs the CLI figure report from the installed wheel, and executes the guided
+# notebook hermetically against that exact wheel (PUCKWORKS_WHEEL, no network), asserting the
+# GUIDED_PULL_COMPLETE marker. Executed notebook outputs go to a temp path and are never committed.
+on:
+  pull_request:
+    paths:
+      - "puckworks/product/**"
+      - "puckworks/viz/pull_report.py"
+      - "notebooks/guided_espresso_pull_colab.ipynb"
+      - "tests/test_pull_report.py"
+      - "tests/test_pull_notebook.py"
+      - "tests/product/test_pull.py"
+      - "docs/GUIDED_ESPRESSO_PULL.md"
+      - ".github/workflows/experience.yml"
+      - ".github/scripts/check_notebook_marker.py"
+      - "pyproject.toml"
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: experience-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  experience:
+    name: guided pull — tests + installed-wheel report + hermetic notebook
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.12"
+
+      - name: install dev + viz extras
+        run: python -m pip install --quiet -e ".[dev,viz]"
+
+      - name: guided-pull tests (product + report + notebook)
+        run: |
+          python -m pytest -q \
+            tests/product/test_pull.py \
+            tests/test_pull_report.py \
+            tests/test_pull_notebook.py \
+            tests/test_product_contract.py \
+            tests/test_viz.py
+
+      - name: committed guided notebook carries no execution outputs
+        run: |
+          python - <<'PY'
+          import json
+          nb = json.load(open("notebooks/guided_espresso_pull_colab.ipynb"))
+          for i, c in enumerate(nb["cells"]):
+              if c["cell_type"] == "code":
+                  assert not c.get("outputs"), f"cell {i} has committed outputs"
+                  assert c.get("execution_count") in (None,), f"cell {i} has execution_count"
+          print("committed guided notebook is clean")
+          PY
+
+      - name: build the current dev wheel
+        run: |
+          python -m pip install --quiet build
+          python -m build --wheel --outdir dist .
+          ls dist/*.whl
+
+      - name: installed-wheel acceptance (isolated env OUTSIDE the checkout)
+        run: |
+          WHEEL="$(ls "$GITHUB_WORKSPACE"/dist/puckworks-*.whl | head -n1)"
+          python -m venv "$RUNNER_TEMP/wheelenv"
+          "$RUNNER_TEMP/wheelenv/bin/pip" install --quiet "$WHEEL[viz]"
+          cd "$RUNNER_TEMP"
+          # core CLI summary needs no figures
+          "$RUNNER_TEMP/wheelenv/bin/puckworks-pull" run --preset pv19_named --format summary
+          # full figure report from the installed wheel
+          "$RUNNER_TEMP/wheelenv/bin/puckworks-pull" run --preset guided_v1 \
+            --report-dir "$RUNNER_TEMP/guided-report" --figures
+          "$RUNNER_TEMP/wheelenv/bin/python" - <<'PY'
+          import os, puckworks
+          assert "site-packages" in puckworks.__file__, puckworks.__file__
+          d = os.path.join(os.environ["RUNNER_TEMP"], "guided-report")
+          for f in ("guided_pull_results.json", "guided_pull_report.md", "guided_pull_summary.png",
+                    "pressure_flow.png", "cup_progress.png", "extraction_progress.png",
+                    "guided_pull_captions.txt"):
+              p = os.path.join(d, f)
+              assert os.path.exists(p) and os.path.getsize(p) > 0, f
+          print("installed-wheel report OK; import path:", puckworks.__file__)
+          PY
+
+      - name: notebook execution tooling (CPU only)
+        run: python -m pip install --quiet jupyter nbconvert nbclient ipykernel matplotlib
+
+      - name: execute the guided notebook hermetically (PUCKWORKS_WHEEL, no network, outside checkout)
+        run: |
+          export PUCKWORKS_WHEEL="$(ls "$GITHUB_WORKSPACE"/dist/puckworks-*.whl | head -n1)"
+          echo "Installing candidate wheel: $PUCKWORKS_WHEEL"
+          cp notebooks/guided_espresso_pull_colab.ipynb "$RUNNER_TEMP/gnb.ipynb"
+          cd "$RUNNER_TEMP"
+          jupyter nbconvert --to notebook --execute \
+            --ExecutePreprocessor.timeout=300 \
+            --output executed_guided.ipynb gnb.ipynb
+
+      - name: verify GUIDED_PULL_COMPLETE marker (no residual errors)
+        run: python "$GITHUB_WORKSPACE/.github/scripts/check_notebook_marker.py" "$RUNNER_TEMP/executed_guided.ipynb" GUIDED_PULL_COMPLETE
