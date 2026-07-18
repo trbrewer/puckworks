@@ -62,6 +62,9 @@ include = ["puckworks*"]
 [tool.setuptools.package-data]
 puckworks = ["data/*.csv", "data/*.json"]
 "puckworks.data" = ["*.csv", "*.json", "*.md", "**/*.csv", "**/*.json", "**/*.md"]
+# PV-03 flat-valley public snapshot: an EXACT path (not a broad wildcard), so the PV-03 claim
+# producer can read the hash-bound values from an installed wheel.
+"puckworks.public" = ["data/pv03_flat_valley.json"]
 
 [tool.setuptools.exclude-package-data]
 # NEVER ship gitignored/raw source data (P1.4 / privacy). The broad **/*.csv include above would
@@ -106,4 +109,5 @@ files = [
     "puckworks/product/_pull_cli.py",
     "puckworks/product/__init__.py",
     "puckworks/viz/pull_report.py",
+    "puckworks/public/flat_valley.py",
 ]

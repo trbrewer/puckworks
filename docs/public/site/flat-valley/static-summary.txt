@@ -1,0 +1,21 @@
+PV-03 — The Cup Hides the Clock (static text equivalent)
+Generated from docs/figures/paper_a/results.json (SHA-256 52a351fda3152043bafc78dceb3629b81fb3dcc2f91013e2b0175967fb4f22c7), source commit 5bcc71bbc27e1fc2119c60e6a87d7b2d3b0bd959.
+Badge: RECONSTRUCTED. Evidence strength: negative validation.
+
+Finding: whole-cup endpoints leave the extraction model's inventory and rate practically non-identifiable, yet the endpoint still predicts reasonably — and barely beats a level-only null. Endpoint accuracy is not mechanistic validation.
+
+Key numbers (each a field of the committed Paper A result bundle):
+- caffeine SSE-Hessian condition number: 1927.0 (ratio)
+- local inverse-curvature coupling: -0.994 (geometric objective-surface diagnostic, NOT a statistical parameter correlation)
+- near-optimal (SSE within 10% of min) rate set covers 0.76 of the tested log-rate grid; the upper extent is RIGHT-CENSORED
+- SSE vs MAPE near-optimal set overlap (Jaccard): 0.86
+- held-out mechanistic MAPE: 8.23% vs level-only constant 8.59% (a tested-domain threshold set, NOT a confidence interval)
+- mechanistic model worse than the constant on 50 of 108 held-out points (skill vs const 0.042)
+- trigonelline condition number: 3619.2 (a tighter but still ill-conditioned valley)
+- with an independently measured inventory (~12.54 g/L) the valley collapses to an implied rate ~0.95
+
+What this does NOT prove: that the mechanism transferred; structural identifiability; a statistical confidence interval; or that timed fractions uniquely identify the true mechanism (fraction agreement here is in-sample verification, not independent validation).
+
+Scope: One model (pannusch2024) refit to one independent campaign (angeloni2023); conditional on the tested model, observation operator, data, objective, and domain. Practical (not structural) identifiability; no likelihood/noise model.
+Caveat: Endpoint prediction stability is not parameter identification and not mechanistic validation. The inverse-curvature coupling is objective-surface geometry, NOT a statistical parameter correlation. The 10% set is a tested-domain threshold set, NOT a confidence interval. Fraction agreement is in-sample verification, not independent validation. The tested rate range is right-censored.
+Reproduce: python -m puckworks.public.flat_valley verify

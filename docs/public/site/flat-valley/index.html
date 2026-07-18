@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>The Cup Hides the Clock — Puckworks</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="hero">
+    <p><span class="badge">EXPLORATORY · RECONSTRUCTED</span> <span class="badge">evidence: negative validation</span></p>
+    <h1>The Cup Hides the Clock</h1>
+    <p class="sub">Many hidden inventory–rate combinations can produce nearly the same final cup.
+      Timed measurements reveal what the endpoint conceals.</p>
+    <p class="meta" id="provenance">Generated from the committed Paper A result bundle.</p>
+    <p class="meta">Static equivalents:
+      <a href="static-summary.txt">text summary</a> ·
+      <a href="static-summary.png">summary image</a> ·
+      <a href="data.json">download the data (JSON)</a>.
+      Source: <a href="https://github.com/trbrewer/puckworks">github.com/trbrewer/puckworks</a>.</p>
+  </header>
+
+  <main id="main">
+    <p id="load-status" class="js-only" role="status">Loading the generated data…</p>
+
+    <div class="no-js-only">
+      <h2>Summary (JavaScript is off)</h2>
+      <p>This page is interactive with JavaScript enabled. The complete result — every number and
+        every caveat — is in the generated
+        <a href="static-summary.txt"><strong>static text summary</strong></a> and the
+        <a href="static-summary.png">summary image</a>. In short: fitting an extraction model to
+        whole-cup endpoints leaves its hidden inventory and release rate practically non-identifiable,
+        yet the endpoint still predicts reasonably and barely beats a level-only null — so endpoint
+        accuracy is not evidence that the mechanism transferred. Timed fractions and an independent
+        inventory measurement recover what the cup discards.</p>
+      <p><img src="static-summary.png" width="100%"
+        alt="Two plots. Left: fit error versus release rate forms a flat valley, so the whole cup
+        barely constrains the rate. Right: scored against timed fractions the error has a sharp trough
+        (the rate is identified), while scored against the whole cup it is nearly flat (the rate is
+        not identified). The exact numbers are in the static text summary linked above."></p>
+    </div>
+
+    <p class="js-only">Fitting an extraction model to a <strong>whole-cup endpoint</strong> leaves two
+      hidden things — how much soluble coffee is <em>available</em> (inventory) and how <em>fast</em> it
+      releases (rate) — practically <strong>non-identifiable</strong>: the fit-error valley is nearly
+      flat along a curve where the two trade off. On the caffeine objective the condition number is
+      <b data-field="condition_number" data-fmt="approx1000">·</b> and the inverse-curvature coupling
+      is <b data-field="inverse_curvature_coupling" data-fmt="num2">·</b> (this is objective-surface
+      <em>geometry</em>, not a statistical parameter correlation).</p>
+
+    <!-- SCENE 1 -->
+    <section class="scene js-only" aria-labelledby="s1">
+      <h2 id="s1">1 · Same cup, different hidden parameters</h2>
+      <p>Move the release rate. At each rate the best-fit inventory adjusts so the final cup stays
+        nearly the same — the fit barely changes across most of the tested range
+        (<b data-field="profile_fraction_of_log_grid" data-fmt="pctgrid">·</b> of it is
+        <em>near-optimal</em>, and the upper end is right-censored by the tested domain).</p>
+      <div class="controls">
+        <div class="control">
+          <label for="rate-slider">Speed of release (rate, log scale)</label>
+          <input type="range" id="rate-slider" aria-describedby="s1-readout">
+        </div>
+      </div>
+      <div class="readout" id="s1-readout" role="status" aria-live="polite">
+        rate <b id="r-rate">·</b> · best-fit inventory <b id="r-inv">·</b> · fit <b id="r-sse">·</b> ·
+        <span id="r-near" class="pill">·</span>
+      </div>
+      <p><button type="button" id="follow-valley" class="secondary">Follow the valley</button>
+        <span class="meta">steps through the near-optimal rate–inventory pairs; the endpoint stays similar.</span></p>
+      <figure class="figure" id="profile-fig">
+        <figcaption>Fit error (SSE) versus release rate. The shaded band is within 10% of the best fit
+          (the near-optimal set); the dot marks your selection.</figcaption>
+      </figure>
+      <details><summary>Show the numbers behind this plot (text table)</summary>
+        <div id="profile-table"></div></details>
+    </section>
+
+    <!-- SCENE 2 -->
+    <section class="scene js-only" aria-labelledby="s2">
+      <h2 id="s2">2 · Keep or throw away the clock</h2>
+      <p>A final cup collapses the whole time sequence into one endpoint. Timed fractions retain
+        information about how quickly material appeared.</p>
+      <fieldset>
+        <legend>What the objective is scored against</legend>
+        <label><input type="radio" name="clock" value="fractions" checked> Timed fractions</label>
+        <label><input type="radio" name="clock" value="cup"> Final cup only</label>
+      </fieldset>
+      <p class="readout" id="clock-note" role="status" aria-live="polite">·</p>
+      <figure class="figure" id="clock-fig">
+        <figcaption>Fit error versus rate. Solid line = timed-fraction scoring (a sharp trough);
+          dashed line = whole-cup scoring (nearly flat). Fraction agreement here is in-sample
+          verification on the model's own calibration data, not independent validation.</figcaption>
+      </figure>
+      <details><summary>Show the numbers behind this plot (text table)</summary>
+        <div id="clock-table"></div></details>
+    </section>
+
+    <!-- SCENE 3 -->
+    <section class="scene js-only" aria-labelledby="s3">
+      <h2 id="s3">3 · Prediction is not identification</h2>
+      <p>Across held-out grinds the mechanistic model predicts the cup about as well as simply carrying
+        the fitted concentration <em>level</em> — it adds little skill over that null.</p>
+      <div class="indicators">
+        <div class="indicator"><span class="k">Endpoint prediction</span><br>
+          mechanistic MAPE <b data-field="held_out_model_mape" data-fmt="pct1">·</b> vs level-only null
+          <b data-field="held_out_const_mape" data-fmt="pct1">·</b></div>
+        <div class="indicator"><span class="k">Parameter identifiability</span><br>
+          inventory and rate are practically non-identifiable at the endpoint (condition number
+          <b data-field="condition_number" data-fmt="approx1000">·</b>)</div>
+        <div class="indicator"><span class="k">Incremental mechanistic skill</span><br>
+          worse than the null on <b data-field="n_model_worse_than_const" data-fmt="int">·</b> of
+          <b data-field="n_points" data-fmt="int">·</b> held-out points</div>
+      </div>
+      <p class="readout" id="skill-verdict" role="status">·</p>
+      <p class="meta">Three <em>different</em> things — never one red/green score. A modest held-out
+        error is not mechanistic validation.</p>
+    </section>
+
+    <!-- SCENE 4 -->
+    <section class="scene js-only" aria-labelledby="s4">
+      <h2 id="s4">4 · What measurement would help?</h2>
+      <ul>
+        <li><strong>Timed fractions</strong> — constrain the release <em>rate</em> (the early slope),
+          which the endpoint discards.</li>
+        <li><strong>Independently measured inventory</strong> — pins the <em>amount available</em>; here
+          an inventory of about <b data-field="table7_inventory_g_L" data-fmt="num2">·</b> g/L collapses
+          the valley to an implied rate near
+          <b data-field="table7_implied_rate" data-fmt="num2">·</b> (same-campaign, not an independent
+          external check).</li>
+        <li><strong>Multiple controlled conditions</strong> — a shared fit must hold across grinds, not
+          just one.</li>
+        <li><strong>A simple null baseline</strong> — a mechanism must beat carrying the level.</li>
+      </ul>
+      <p><strong>Better measurement design, not a more confident endpoint fit, is what distinguishes
+        hidden mechanisms.</strong></p>
+    </section>
+
+    <div class="notproof">
+      <h2>What this does not prove</h2>
+      <ul>
+        <li>Not that the mechanism transferred — endpoint accuracy is not mechanistic validation.</li>
+        <li>Not structural identifiability, and not a statistical confidence interval (the 10% set is a
+          tested-domain threshold; the coupling is objective geometry, not a correlation).</li>
+        <li>Not that timed fractions uniquely identify the true mechanism — fraction agreement here is
+          in-sample verification, not independent validation.</li>
+        <li>No recipe optimization, no flavor prediction, no private data. Conditional on one model, one
+          campaign, one observation operator, one objective, and the tested domain (right-censored).</li>
+      </ul>
+    </div>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

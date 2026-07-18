@@ -1,0 +1,79 @@
+name: pages
+# Deploy the small public site (docs/public/site/) to GitHub Pages. It builds nothing dynamic: it
+# re-verifies the hash-bound PV-03 snapshot against the committed Paper A bundle and runs the static-
+# site tests, then uploads ONLY docs/public/site/. No secrets; least privilege; actions SHA-pinned.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/public/site/**"
+      - "puckworks/public/flat_valley.py"
+      - "puckworks/public/data/pv03_flat_valley.json"
+      - "docs/figures/paper_a/results.json"
+      - "tests/test_flat_valley.py"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: verify snapshot + build site artifact
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.12"
+      - name: install (dev)
+        run: python -m pip install --quiet -e ".[dev]"
+      - name: verify the PV-03 snapshot is hash-bound + current
+        run: python -m puckworks.public.flat_valley verify
+      - name: static-site + data-contract tests
+        run: python -m pytest tests/test_flat_valley.py -q
+      - name: only the intended files are in the site directory
+        run: |
+          python - <<'PY'
+          import os
+          site = "docs/public/site"
+          allowed = {
+            "index.html",
+            "flat-valley/index.html", "flat-valley/app.js", "flat-valley/styles.css",
+            "flat-valley/data.json", "flat-valley/static-summary.png", "flat-valley/static-summary.txt",
+          }
+          found = set()
+          for r, _, fs in os.walk(site):
+              for f in fs:
+                  found.add(os.path.relpath(os.path.join(r, f), site))
+          extra = found - allowed
+          assert not extra, f"unexpected files in the deployed site: {sorted(extra)}"
+          print("site contents OK:", sorted(found))
+          PY
+      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: docs/public/site
+
+  deploy:
+    name: deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0

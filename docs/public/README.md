@@ -53,9 +53,17 @@ python -m puckworks.public export --out docs/public/generated --slow # + slow Pr
 |---|---|---|---|---|
 | PV-01 | the first drop is already ~97% of peak | OBSERVED | independent | `harness.dissolution_speed_test` |
 | PV-02 | the machine can fake a puck problem | RECONSTRUCTED | post-fit reconstruction | `harness.kappa_t_ladder` |
+| PV-03 | the final cup can hide very different extraction clocks | RECONSTRUCTED | negative validation | `public.flat_valley.pv03_values` |
 | PV-04 | we killed our favorite result (fine-grind) | OBSERVED | independent | `harness.result1_magnitude_comparison` |
 | PV-05 | adding physics made it worse | EXPLORATORY_SIMULATION | qualitative | `coupled_kappa_t.composition_residual` |
 
-Not yet built: PV-00's website/card-image rendering, and every PV-01…PV-18
-*deliverable* (animations, interactives). This layer is the traceable data spine
-they will all draw from — see `docs/PUBLIC_VALUE.md` for the full backlog.
+**First live interactive:** PV-03 "The Cup Hides the Clock" is generated from the committed Paper A
+result bundle (`docs/figures/paper_a/results.json`) via
+`python -m puckworks.public.flat_valley export|verify` into a compact hash-bound snapshot
+(`puckworks/public/data/pv03_flat_valley.json`) and a static, framework-free interactive under
+`docs/public/site/flat-valley/`. Every headline number traces to a named bundle field; the snapshot
+records the source-bundle SHA-256 so `verify` fails on scientific drift.
+
+Not yet built: PV-00's website/card-image rendering, and the remaining PV-01…PV-18 *deliverables*
+(animations, interactives). This layer is the traceable data spine they all draw from — see
+`docs/PUBLIC_VALUE.md` for the full backlog.
