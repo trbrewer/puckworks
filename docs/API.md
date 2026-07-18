@@ -30,10 +30,9 @@ puckworks.product                     # product-facing contract (see below)
 
 ### `puckworks.product` — product contract (issue #32, PR 1A)
 
-`puckworks.product` is **unreleased next-minor** additive public API work — the published v0.2.0 wheel
-and release assets are unchanged and do **not** contain it. The `0.3.0.dev0` development line was
-opened through PR #35, so source/development builds no longer identify themselves as the released
-v0.2.0.
+`puckworks.product` is **released in v0.3.0** (GitHub-only; not on PyPI). It began as unreleased
+next-minor work on the `0.3.0.dev0` development line (opened through PR #35) and shipped in the v0.3.0
+GitHub Release. The earlier v0.2.0 wheel and assets are unchanged and do **not** contain it.
 
 **PR 1A provides the rights-independent public contract only:** enums; frozen records; schema
 versions; canonical serializers/readers; Git-free build provenance. **There is no bundled runtime

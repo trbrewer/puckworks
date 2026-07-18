@@ -416,7 +416,14 @@ if __name__ == "__main__":
 
     _root = Path(__file__).resolve().parents[1]
     p = str(_root / "docs" / "status" / "public_release.json")
-    evid = str(_root / "docs" / "reproducibility" / "RELEASE_VERIFICATION_v0.2.0.md")
+    # Derive the durable verification-record path from the VALIDATED record's version, so the release
+    # transition is reusable (v0.2.0 -> v0.3.0 -> ...) rather than hard-coded to one version.
+    try:
+        _rec_version = load_validated(p)["version"]
+    except (ValueError, DuplicateKeyError) as exc:
+        print("VERIFICATION FAILED:", exc, file=sys.stderr)
+        raise SystemExit(1)
+    evid = str(_root / "docs" / "reproducibility" / f"RELEASE_VERIFICATION_v{_rec_version}.md")
     known = {"--verify-live", "--verify-all", "--help", "-h"}
     unknown = [a for a in sys.argv[1:] if a.startswith("-") and a not in known]
     if unknown:

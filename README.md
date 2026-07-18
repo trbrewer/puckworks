@@ -90,7 +90,7 @@ simulated** — or is marked **unsupported**. Puckworks never upgrades an eviden
 
 | Project pulse | |
 |---|---|
-| Latest public release | [`v0.2.0`](https://github.com/trbrewer/puckworks/releases/tag/v0.2.0) (`puckworks-0.2.0-py3-none-any.whl`; not on PyPI) |
+| Latest public release | [`v0.3.0`](https://github.com/trbrewer/puckworks/releases/tag/v0.3.0) (`puckworks-0.3.0-py3-none-any.whl`; not on PyPI) |
 | Development source | `0.3.0` (unreleased) |
 | Registered components | 25 |
 | Validation gates | 51 total — 50 PASS, 1 ACKNOWLEDGED_EXCEPTION (passed under the documented gate policy) |
@@ -110,28 +110,23 @@ bottom on a normal Colab CPU in a few minutes. It **installs the latest recorded
 release wheel** — not unreleased main-branch code — and walks through the registry, the gates,
 and how to read evidence strength honestly.
 
-[▶ Open the quickstart in Google Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/puckworks_quickstart_colab.ipynb)
+Two one-click paths (both install the released v0.3.0 wheel after verifying its SHA-256):
+
+- **Explore the component registry** — [▶ Open the quickstart in Google Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/puckworks_quickstart_colab.ipynb): the registry, the gates, and how to read evidence strength honestly.
+- **Run a guided espresso pull** — [▶ Open the Guided Espresso Pull in Google Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/guided_espresso_pull_colab.ipynb): enter a bounded recipe and run one coherent, model-backed pull stage by stage, with evidence-labelled traces, a visual report, and honest domain warnings. It does **not** model puck wetting, physical first drip, a dynamic pressure profile, temperature response, or flavor; it reports chemical composition, never taste. See [`docs/GUIDED_ESPRESSO_PULL.md`](docs/GUIDED_ESPRESSO_PULL.md) and [issue #48](https://github.com/trbrewer/puckworks/issues/48).
 
 Specialists: the advanced GPU / lattice-Boltzmann notebook remains at
 [`notebooks/espresso_lb_colab.ipynb`](notebooks/espresso_lb_colab.ipynb).
-
-**Coming in v0.3.0 — the Guided Espresso Pull.** A rights-independent, runnable *guided mechanism
-explorer*: enter a bounded recipe and run one coherent, model-backed pull stage by stage, with
-evidence-labelled traces, a visual report, and honest domain warnings (it does not model puck
-wetting, physical first drip, a dynamic pressure profile, temperature response, or flavor). It is
-**not released yet** — the public one-click Colab workflow activates when v0.3.0 ships. See
-[`docs/GUIDED_ESPRESSO_PULL.md`](docs/GUIDED_ESPRESSO_PULL.md) and
-[issue #48](https://github.com/trbrewer/puckworks/issues/48).
 
 ## Install the public release
 
 > **puckworks is not published on PyPI.** The canonical distributions are attached to the
 > [latest GitHub Release](https://github.com/trbrewer/puckworks/releases/latest).
 
-Download `puckworks-<version>-py3-none-any.whl` from the release, then:
+Download `puckworks-0.3.0-py3-none-any.whl` from the release, then:
 
 ```
-python -m pip install puckworks-0.2.0-py3-none-any.whl
+python -m pip install puckworks-0.3.0-py3-none-any.whl
 python -c "import puckworks; s = puckworks.evaluate_all_gates(); print(s.summary_text())"
 python -c "import puckworks; print(len(puckworks.components()), 'components registered')"
 ```
@@ -144,7 +139,7 @@ The **supported public API** is exactly `puckworks.__all__`; selected commonly-u
 from it include `evaluate_all_gates`, `components`, `get`, `Component`, `contracts`, `validate`,
 `load_builtin_components`, `GateStatus`, `GateResult`, and `GateSuiteResult`. See
 [`docs/API.md`](docs/API.md) for the full surface and stability policy; everything else is internal
-research tooling. (The Colab quickstart installs the **v0.2.0** wheel — its API is v0.2.0's
+research tooling. (The Colab notebooks install the **v0.3.0** wheel — its API is v0.3.0's
 `__all__`, which may differ from the unreleased main branch.)
 
 Contributors / release builders: `python -m pip install -e ".[dev]"`; see

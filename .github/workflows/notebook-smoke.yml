@@ -2,9 +2,9 @@ name: notebook-smoke
 # Two ways to prove the quickstart notebook works:
 #   * hermetic-dev-wheel  — build the CURRENT dev wheel, install it via the PUCKWORKS_WHEEL
 #     override, execute with NO network. Guards that development changes don't break the notebook.
-#   * public-release-wheel — verify the recorded v0.2.0 wheel SHA-256 against the live release
+#   * public-release-wheel — verify the recorded v0.3.0 wheel SHA-256 against the live release
 #     asset, then execute the notebook's DEFAULT (download + hash-verify) path against that exact
-#     released wheel, and prove every API call the notebook makes exists in v0.2.0.
+#     released wheel, and prove every API call the notebook makes exists in v0.3.0.
 # Executed outputs go to a temp path and are never committed.
 on:
   pull_request:
@@ -82,7 +82,7 @@ jobs:
         run: python "$GITHUB_WORKSPACE/.github/scripts/check_notebook_marker.py" "$RUNNER_TEMP/executed_dev.ipynb"
 
   public-release-wheel:
-    name: Mode 2 — canonical v0.2.0 release (download + hash-verify)
+    name: Mode 2 — canonical v0.3.0 release (download + hash-verify)
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
@@ -101,9 +101,9 @@ jobs:
       - name: notebook execution tooling (CPU only)
         run: python -m pip install --quiet jupyter nbconvert nbclient ipykernel matplotlib
 
-      - name: execute the notebook DEFAULT path (downloads + verifies v0.2.0), outside the checkout
+      - name: execute the notebook DEFAULT path (downloads + verifies v0.3.0), outside the checkout
         run: |
-          # Run from RUNNER_TEMP so the repo's puckworks/ source (0.3.0.dev0) cannot shadow the
+          # Run from RUNNER_TEMP so the repo's puckworks/ source (0.3.0) cannot shadow the
           # released wheel the notebook installs — this makes the release path actually be tested.
           cp notebooks/puckworks_quickstart_colab.ipynb "$RUNNER_TEMP/nb.ipynb"
           cd "$RUNNER_TEMP"
@@ -114,7 +114,7 @@ jobs:
       - name: verify completion marker (no residual errors)
         run: python "$GITHUB_WORKSPACE/.github/scripts/check_notebook_marker.py" "$RUNNER_TEMP/executed_release.ipynb"
 
-      - name: notebook used ONLY v0.2.0 public APIs (installed version is 0.2.0)
+      - name: notebook used ONLY v0.3.0 public APIs (installed version is 0.3.0)
         run: |
           cd "$RUNNER_TEMP"
-          python -c "import puckworks; assert puckworks.__version__ == '0.2.0', puckworks.__version__; print('release-mode API compatibility: v0.2.0 OK')"
+          python -c "import puckworks; assert puckworks.__version__ == '0.3.0', puckworks.__version__; print('release-mode API compatibility: v0.3.0 OK')"
