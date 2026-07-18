@@ -55,7 +55,7 @@ python -m puckworks.public export --out docs/public/generated --slow # + slow Pr
 | PV-02 | the machine can fake a puck problem | RECONSTRUCTED | post-fit reconstruction | `harness.kappa_t_ladder` |
 | PV-03 | the final cup can hide very different extraction clocks | RECONSTRUCTED | negative validation | `public.flat_valley.pv03_values` |
 | PV-04 | we killed our favorite result (fine-grind) | OBSERVED | independent | `harness.result1_magnitude_comparison` |
-| PV-05 | adding physics made it worse | EXPLORATORY_SIMULATION | qualitative | `coupled_kappa_t.composition_residual` |
+| PV-05 | more physics made it worse (tested model composition) | EXPLORATORY_SIMULATION | qualitative | `public.model_composition.pv05_values` |
 
 **First live interactive:** PV-03 "The Cup Hides the Clock" is live at
 <https://trbrewer.github.io/puckworks/flat-valley/> (GitHub Pages, deployed from `docs/public/site/`).
