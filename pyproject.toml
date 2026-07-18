@@ -19,6 +19,9 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
 ]
 
+[project.scripts]
+puckworks-pull = "puckworks.product._pull_cli:main"
+
 [project.optional-dependencies]
 lb = ["taichi"]
 radar = ["pyyaml"]   # research-radar query-config parsing (tools/research_radar.py); not a core dep

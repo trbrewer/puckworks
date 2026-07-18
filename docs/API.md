@@ -123,3 +123,28 @@ a distinct supported surface built on narrow `_`-prefixed adapters, **not** thes
 
 Current project status is generated at `docs/planning/STATE_OF_TRUTH.md` from
 `docs/status/current.json` — do not depend on commit-specific planning prose.
+
+## Guided Espresso Pull (`puckworks.product`, issue #48)
+
+A rights-independent, runnable **guided mechanism explorer** (not an optimizer, flavor predictor, or
+digital twin). The primary chain is anchored on the coherent `cameron2020.extraction_bdf` shot model
+(grind → machine/flow → extraction → cup); every other registered component gets an explicit
+**coverage disposition** (`ComponentDisposition`) rather than being silently coupled.
+
+```python
+from puckworks.product import load_pull_preset, simulate_pull, pull_run_to_json
+
+recipe, config = load_pull_preset("guided_v1")   # or "pv19_named" (fixed reference)
+run = simulate_pull(recipe, config)              # deterministic; run_id derives from inputs
+print(pull_run_to_json(run))                     # or pull_run_to_markdown(run)
+```
+
+- **Records:** `PullRecipe`, `PullConfig`, `PullRun`, `StageResult`, `DomainFinding`.
+- **Domain engine:** `DomainStatus` (`in_domain`/`warning`/`rejected`/`not_applicable`); hard-invalid
+  inputs are REJECTED, evidence-range departures WARN under `domain_policy="warn"` and block under
+  `"strict"`. Values are never silently clamped. `bean_label` is metadata only (changes no result);
+  `coffee_profile` selects a named, model-backed parameter set (unknown profiles are rejected).
+- **Exports:** `pull_run_to_dict` / `pull_run_to_json` (deterministic, no wall-clock) /
+  `pull_run_to_markdown`. **CLI:** `puckworks-pull presets` and `puckworks-pull run …`.
+- Chemical **composition** where supported — never sensory flavor. Rights-independent: no upstream
+  fixture data is shipped or loaded.

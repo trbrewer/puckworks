@@ -37,6 +37,11 @@ _EXPECTED_PUBLIC = {
     "SchemaError", "ProvenanceUnavailableError",
     # PR 2A — rights-independent normalization boundary
     "normalize_shot_input", "RawChannel", "SeriesRole", "synthetic_provenance", "NormalizationError",
+    # Guided Espresso Pull (issue #48)
+    "PULL_RUN_SCHEMA_VERSION", "PullRecipe", "PullConfig", "PullRun", "StageResult", "DomainFinding",
+    "DomainStatus", "ComponentDisposition", "PullEvent", "simulate_pull", "available_pull_presets",
+    "load_pull_preset", "pull_run_to_dict", "pull_run_to_json", "pull_run_to_markdown",
+    "PullDomainError",
 }
 
 
