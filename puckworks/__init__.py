@@ -9,7 +9,7 @@ below is covered by semantic versioning, including the additive ``product`` name
 ``paper_b``, ``figures``, ``lib``, ``viz``, ``inventory`` — is INTERNAL research tooling and may
 change without notice.
 """
-__version__ = "0.3.0.dev0"
+__version__ = "0.3.0"
 
 from puckworks import contracts, registry, validate   # noqa: F401  (public namespaces)
 from puckworks import product                          # noqa: F401  (supported product namespace)

@@ -22,7 +22,7 @@ import puckworks
 from puckworks import product as p
 
 GOLDEN = Path(__file__).parent / "product" / "synthetic_golden_bundle.json"
-GOLDEN_SHA256 = "656a6b9ebbff4ce2da2741395fc6c003cd29a022e396baff4eec5383feef47e5"
+GOLDEN_SHA256 = "df73aa8888913433f0fd7a964509f89d1920c780df32ac47dae8f3de5fe6e319"
 FULL_COMMIT = "0" * 40
 
 _EXPECTED_PUBLIC = {

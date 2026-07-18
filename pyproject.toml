@@ -1,6 +1,6 @@
 [project]
 name = "puckworks"
-version = "0.3.0.dev0"
+version = "0.3.0"
 description = "Evidence-first espresso process modeling: papers become typed components, components face validation gates, and every conclusion retains its limits"
 readme = "README.md"
 license = {file = "LICENSE"}

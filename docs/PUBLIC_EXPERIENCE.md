@@ -160,7 +160,7 @@ The homepage always distinguishes:
 - **Latest public release** — the tagged GitHub Release (currently **v0.2.0**; the pulse block
   reflects whatever `public_release.json` records). puckworks is **not on PyPI**; the canonical
   distribution is the release wheel.
-- **Development source** — the live source version (currently `0.3.0.dev0`), clearly marked
+- **Development source** — the live source version (currently `0.3.0`, unreleased), clearly marked
   *unreleased*.
 
 No unreleased or rights-blocked capability may be presented as available. The Colab quickstart

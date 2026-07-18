@@ -5,12 +5,44 @@ tracked in detail in `docs/ROADMAP.md` §7.1.
 
 ## Unreleased
 
-## 0.3.0.dev0
+## 0.3.0
 
-Development line opened after the v0.2.0 release. Source/development builds now identify themselves
-as `0.3.0.dev0` rather than the immutable released `0.2.0`. No new functionality is released yet;
-unreleased work is tracked above and in `docs/ROADMAP.md` §7.1. The latest **public release remains
-v0.2.0** (GitHub Release); installation guidance is unchanged.
+First functional minor after v0.2.0. Adds the caller-owned input boundary and the **Guided Espresso
+Pull** — a rights-independent, runnable *guided mechanism explorer* — under the supported
+`puckworks.product` API. Rights-independent throughout: no upstream fixture data is shipped or loaded.
+puckworks remains **GitHub-only** (not on PyPI).
+
+### Added
+
+- `puckworks.product.normalize_shot_input` — a rights-independent normalization boundary mapping
+  caller-owned / synthetic channels to a versioned `ShotInput`.
+- Guided Espresso Pull core: `PullRecipe` / `PullConfig` / `PullRun` / `StageResult` /
+  `DomainFinding` / `ComponentCoverage`, `simulate_pull`, `evaluate_domain`, the `pv19_named`
+  (fixed reference) and `guided_v1` (range-limited) presets, deterministic JSON/Markdown export, a
+  full 25-component coverage ledger, and the `puckworks-pull` CLI. The one executed chain is the
+  coherent `cameron2020.extraction_bdf` shot model; every other component gets an explicit
+  disposition rather than being silently coupled.
+- Authoritative `PullRun.traces` (`PullSeries` / `PullTrace`) copied from the solver at full
+  precision, each labelled by value role (prescribed input · simulated output · derived quantity).
+- Stage-by-stage visual report: `render_pull_report` → `PullReportArtifacts` (evidence-badged
+  figures + captions + JSON/Markdown), matplotlib kept lazy so the core stays matplotlib-free;
+  `puckworks-pull run … --report-dir/--figures`.
+- Guided Colab notebook (`notebooks/guided_espresso_pull_colab.ipynb`) with native `#@param`
+  controls, a `PUCKWORKS_WHEEL` override for hermetic testing, and SHA-256 hash-verified install.
+
+### Changed
+
+- README hero updated to the maintainer-supplied logo; the development-source line now reads
+  `0.3.0`. The latest **public release remains v0.2.0** until v0.3.0 is published.
+
+### Scientific / evidence
+
+- The guided pull is an `EXPLORATORY_SIMULATION`, code-verified against the source paper, **not**
+  independently validated against a measured cup. It does **not** model puck wetting, physical first
+  drip (reported `unavailable`; the old number survives only as a diagnostic), a dynamic pressure
+  profile (pressure is a prescribed constant input), or a thermal transient (temperature is
+  recorded-only). It reports chemical **composition**, never sensory flavor, and never averages
+  alternative components into a consensus.
 
 ## 0.2.0
 
