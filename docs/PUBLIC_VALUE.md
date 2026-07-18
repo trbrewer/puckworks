@@ -25,7 +25,7 @@ A fourth story is especially valuable for credibility and likely shareability:
 
 4. **We killed our favorite result:** the apparently dramatic fine-grind optimum weakened after correcting a mixed-unit aggregation and comparing the model bump with raw replicate variation. This is a rare, honest story about how a bold result was downgraded by better analysis.
 
-**Delivery status (2026-07-18).** The public-results layer (PV-00) is built. **PV-03 "The Cup Hides the Clock" is live** at <https://trbrewer.github.io/puckworks/flat-valley/>. **PV-05 "More Physics Made It Worse"** is the **active** quick story (a static model-composition interactive; see §PV-05 below). **PV-04 "We killed our favorite result"** is the **next** flagship. The Guided Espresso Pull shipped in v0.3.0 (signed-out human acceptance pending, issue #48).
+**Delivery status (2026-07-18).** The public-results layer (PV-00) is built. **PV-03 "The Cup Hides the Clock" is live** at <https://trbrewer.github.io/puckworks/flat-valley/> and **PV-05 "More Physics Made It Worse" is live** at <https://trbrewer.github.io/puckworks/model-composition/>. **PV-04 "How We Falsified Our Own Espresso Headline"** is the **active** flagship lane: its producer/schema correction (replicate-level EY points, per-cell descriptive SDs, per-panel evidence partitions), four-scene static interactive, and integrity/accessibility/security tests are implemented; deployment, live-hash verification, and README/public-site activation follow (issue #62). The raw-replicate-points requirement and evidence-safe PV-04 language below are retained. The Guided Espresso Pull shipped in v0.3.0 (signed-out human acceptance pending, issue #48).
 
 The recommended program is therefore:
 

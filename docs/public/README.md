@@ -54,7 +54,7 @@ python -m puckworks.public export --out docs/public/generated --slow # + slow Pr
 | PV-01 | the first drop is already ~97% of peak | OBSERVED | independent | `harness.dissolution_speed_test` |
 | PV-02 | the machine can fake a puck problem | RECONSTRUCTED | post-fit reconstruction | `harness.kappa_t_ladder` |
 | PV-03 | the final cup can hide very different extraction clocks | RECONSTRUCTED | negative validation | `public.flat_valley.pv03_values` |
-| PV-04 | we killed our favorite result (fine-grind) | OBSERVED | independent | `harness.result1_magnitude_comparison` |
+| PV-04 | how we falsified our own espresso headline (fine-grind) | OBSERVED | independent | `public.analysis_autopsy.pv04_values` |
 | PV-05 | more physics made it worse (tested model composition) | EXPLORATORY_SIMULATION | qualitative | `public.model_composition.pv05_values` |
 
 **Live interactives** (GitHub Pages, deployed from `docs/public/site/`):
@@ -74,6 +74,23 @@ python -m puckworks.public export --out docs/public/generated --slow # + slow Pr
   rejecting one tested composition, not swelling in general. Bound by SHA-256 to the CC-BY Waszkiewicz
   trace.
 
+**Implemented, awaiting live activation:**
+
+- **PV-04 "How We Falsified Our Own Espresso Headline"** — producer `public.analysis_autopsy.pv04_values`.
+  Generated from `puckworks.harness.result1_magnitude_comparison` via
+  `python -m puckworks.public.analysis_autopsy export|verify` into the deterministic, hash-bound snapshot
+  `puckworks/public/data/pv04_analysis_autopsy.json` and a static four-scene interactive under
+  `docs/public/site/analysis-autopsy/`. It exposes the actual **replicate-level** extraction-yield points
+  per grinder dial (not just cell means), each cell's own descriptive within-cell SD, and n per cell; the
+  corrected cell means are ordered with the middle dial below the coarse dial (18.27 → 19.38 → 19.62 % EY)
+  and the middle-minus-coarse (dial 1.7 − dial 2.0) contrast's Welch 95% interval excludes zero — no
+  observed interior maximum. Evidence is **partitioned per panel** (corrected replicate data =
+  OBSERVED/independent; rounded-coefficient/refit audit = RECONSTRUCTED/verification; model interior
+  feature = EXPLORATORY_SIMULATION/qualitative; the superseded headline carries no current badge), so the
+  global OBSERVED badge never covers the simulated or derived panels. The snapshot records the CC-BY
+  Schmieder source SHA-256; only DERIVED replicate-level values are published, no raw source CSV. The
+  live URL and README activation follow after Pages deployment and live-hash verification.
+
 Not yet built: PV-00's website/card-image rendering, and the remaining PV-01…PV-18 *deliverables*
-(animations, interactives). This layer is the traceable data spine they all draw from — see
-`docs/PUBLIC_VALUE.md` for the full backlog.
+(animations, interactives) beyond the PV-03/PV-04/PV-05 interactives already implemented above. This
+layer is the traceable data spine they all draw from — see `docs/PUBLIC_VALUE.md` for the full backlog.
