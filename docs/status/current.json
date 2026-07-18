@@ -94,6 +94,21 @@
       "verified_date": null
     },
     {
+      "id": "guided-espresso-pull",
+      "title": "Guided Espresso Pull — rights-independent guided mechanism explorer (v0.3.0 lane)",
+      "area": "product",
+      "state": "active",
+      "priority": "P1",
+      "owner_type": "maintainer",
+      "external_blocker": null,
+      "resume_trigger": null,
+      "next_gate": "Merge Milestone B (experience: authoritative traces, stage-by-stage visual report, guided Colab notebook, installed-wheel + hermetic acceptance, public docs), then prepare the v0.3.0 release candidate and stop for exact-head maintainer approval before any tag or publication.",
+      "acceptance_evidence": "Deterministic reference output; authoritative traces agree with the final observables; unsupported states (physical first drip, wetting, temperature response) are labelled, not fabricated; installed-wheel report generation and the hermetic guided notebook pass; no private or rights-gated data is packaged; v0.3.0 is not tagged or published until an exact-head maintainer approval.",
+      "issue_or_pr": "#48",
+      "verified_commit": null,
+      "verified_date": null
+    },
+    {
       "id": "contract-boundary-hardening",
       "title": "Explicit units (bar-gauge vs pascal), versioned trace schema + validators, typed public results",
       "area": "contracts",

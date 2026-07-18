@@ -2,12 +2,9 @@
      The project-pulse block is generated: `python tools/update_readme_pulse.py --write`. -->
 
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/puckworks-hero-dark.svg">
-    <img src="docs/assets/readme/puckworks-hero-light.svg"
-         alt="puckworks — evidence-first models for what happens inside an espresso puck. Papers become typed components, components face validation gates, and every conclusion keeps its limits."
-         width="100%">
-  </picture>
+  <img src="docs/assets/readme/hero_image_logo.png"
+       alt="Puckworks logo for evidence-first espresso process modeling — a teal espresso cup with gears above the puckworks wordmark and the line 'tested physics for espresso'."
+       width="100%">
 </p>
 
 # puckworks
@@ -117,6 +114,14 @@ and how to read evidence strength honestly.
 
 Specialists: the advanced GPU / lattice-Boltzmann notebook remains at
 [`notebooks/espresso_lb_colab.ipynb`](notebooks/espresso_lb_colab.ipynb).
+
+**Coming in v0.3.0 — the Guided Espresso Pull.** A rights-independent, runnable *guided mechanism
+explorer*: enter a bounded recipe and run one coherent, model-backed pull stage by stage, with
+evidence-labelled traces, a visual report, and honest domain warnings (it does not model puck
+wetting, physical first drip, a dynamic pressure profile, temperature response, or flavor). It is
+**not released yet** — the public one-click Colab workflow activates when v0.3.0 ships. See
+[`docs/GUIDED_ESPRESSO_PULL.md`](docs/GUIDED_ESPRESSO_PULL.md) and
+[issue #48](https://github.com/trbrewer/puckworks/issues/48).
 
 ## Install the public release
 
