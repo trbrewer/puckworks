@@ -269,7 +269,10 @@ the Clock" is **complete and live** on GitHub Pages, and the **Guided Espresso P
 shipped in **v0.3.0** (signed-out human Colab acceptance pending under issue #48).
 **PV-05** ("More Physics Made It Worse") is **complete and live**
 (trbrewer.github.io/puckworks/model-composition/); **PV-04** (the analysis
-autopsy) is now the **active** lane. All other PV items remain not started.
+autopsy) is now **complete and live**
+(trbrewer.github.io/puckworks/analysis-autopsy/, issue #62). No next PV product
+lane has been authoritatively selected — selection is pending. All other PV items
+remain not started.
 
 Sequence tiers from PUBLIC_VALUE.md §17. "Sci-dependency / coupling" is the
 load-bearing link that keeps the two tracks in sync: **a change on the scientific
@@ -284,7 +287,7 @@ gaps G10 / G3 / G1.**
 | PV-02 | "the machine can fake a puck problem" | not-started | now | — (feeds PV-15) | Foster machine mode + `kappa_t_ladder` + `cross_pressure_discrimination` + the leave-one-pressure-out diagnostic (`ANALYSIS_cv_residual.md`) | [§5](PUBLIC_VALUE.md#pv-02--the-machine-can-fake-a-puck-problem-a-null-first-flow-curve-explainer) |
 | PV-05 | "more physics made it worse" | complete (live) | — | — | `coupled_kappa_t` failed shared-porosity composite (anti-mega-model; Paper-B Fig 4); static interactive via `public.model_composition`; live at trbrewer.github.io/puckworks/model-composition/ | [§5](PUBLIC_VALUE.md#pv-05--adding-more-physics-made-it-worse-the-anti-mega-model-story) |
 | PV-03 | "a good fit can still be wrong" | complete (live) | — | — | `ANALYSIS_transfer.md` inventory–kinetics identifiability (flat valley); Pannusch solver, Angeloni; live at trbrewer.github.io/puckworks/flat-valley/ | [§5](PUBLIC_VALUE.md#pv-03--a-good-fit-can-still-be-wrong-the-inventorykinetics-flat-valley-interactive) |
-| PV-04 | "we killed our favorite result" | active | now | — | corrected fine-grind verdict (`ANALYSIS_P2.md` / `P3_hypotheses.md`); `schmieder_interior_max_target`, `result1_magnitude_comparison`, `channeling_interior_max_sensitivity` | [§5](PUBLIC_VALUE.md#pv-04--we-killed-our-favorite-result-a-transparent-analysis-autopsy) |
+| PV-04 | "we killed our favorite result" | complete (live) | — | — | corrected fine-grind verdict (`ANALYSIS_P2.md` / `P3_hypotheses.md`); `result1_magnitude_comparison` -> `public.analysis_autopsy`; live at trbrewer.github.io/puckworks/analysis-autopsy/ | [§5](PUBLIC_VALUE.md#pv-04--we-killed-our-favorite-result-a-transparent-analysis-autopsy) |
 | PV-06 | cross-pressure mechanism fingerprint | not-started | next | — (feeds PV-15) | waszkiewicz 11-pressure traces + `cross_pressure_discrimination`; Paper-B Fig 3; **visualizer.coffee is the at-scale ECOLOGICAL companion (0.13) — reference-strength, selection-biased; label rides along, does NOT upgrade** | [§5](PUBLIC_VALUE.md#pv-06--build-a-cross-pressure-mechanism-fingerprint-map) |
 | PV-08 | "Puck Court" evidence dashboard | not-started | next | PV-00 | registry + gates + manifest; Paper-B Fig 2 (evidence matrix, not a leaderboard); **renders VizSpecs (§8), not a leaderboard** | [§5](PUBLIC_VALUE.md#pv-08--create-puck-court-a-public-evidence-dashboard-not-a-winner-leaderboard) |
 | PV-15 | model-disagreement experiment recommender | not-started | experiment | PV-02, PV-06 | consumes cross-mechanism disagreement across the harnesses | [§5](PUBLIC_VALUE.md#pv-15--build-a-model-disagreement-experiment-recommender) |
