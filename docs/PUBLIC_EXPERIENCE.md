@@ -28,14 +28,24 @@ researcher gets the evidence discipline, on the same page, in a deliberate readi
 
 ## 2. Project objective
 
-> **Puckworks turns espresso-process research into composable, auditable components, tests those
-> components against evidence, and communicates both what the measurements support and what they
+> **Puckworks models the physical espresso pull — grind, puck structure, pressure and water
+> delivery, wetting, flow, puck change, and extraction — keeping each published model as a
+> separate, testable module, and communicates both what the measurements support and what they
 > cannot establish.**
 
-It is a **component registry**, not a mega-model. The process is decomposed into stages with
-typed contracts; each published model becomes a component carrying provenance, assumptions, a
-validity range, and validation gates. A simulation is a *configuration* of components — never one
-monolith that claims to explain everything.
+**The physics leads; the machinery is the means.** The homepage opens with the physical process a
+reader already recognizes (the shot, stage by stage), and presents the models as separate,
+comparable explanations of those stages. The trust apparatus — typed interfaces, a model catalog,
+recorded source history, and automated checks — is introduced *after* the physics, as *how* the
+project earns trust, never as the headline.
+
+Under the hood this is a **component registry**, not a mega-model: the process is decomposed into
+stages with typed contracts; each published model becomes a component carrying provenance,
+assumptions, a validity range, and validation gates. A simulation is a *configuration* of
+components — never one monolith that claims to explain everything. But these internal terms
+(*contract*, *registry*, *provenance*, *validation gate*) must be **defined in plain language on
+first use** on the homepage — a plain statement first, a one-line technical clarification second, a
+link to the card or docs third — not assumed as prior knowledge.
 
 ## 3. Public value
 
@@ -86,26 +96,45 @@ Puckworks is:
 
 ## 5. Homepage content architecture
 
-The README follows this reading order (the layperson value is above the contributor detail):
+The README is **physics-first**: it leads with the physical espresso pull, then the models that
+address each stage, then the evidence and governance that make the models trustworthy. The reading
+order is:
 
-1. Hero (wordmark + one-line mission)
-2. One-sentence mission
+1. Hero (wordmark + physics headline)
+2. Physics-first opening — what Puckworks models, and the "separate, testable modules" framing
 3. Primary calls to action
-4. Why Puckworks exists
-5. What it does
-6. How evidence moves through the system
-7. What users can do today
-8. Try it in Colab
-9. Install the public release
-10. Project pulse (generated)
-11. Scientific stories / hooks
-12. Audience paths (layperson · researcher · contributor)
-13. Current limits (the non-claims)
-14. Contribute
+4. **The espresso pull, modeled stage by stage** — the stage sequence, the library-vs-Guided-Pull
+   distinction, and the near-top **model map** covering *every* registered component grouped by
+   stage, each with a one-to-two-line physics role and a card link
+5. What you can run today (the runnable public paths)
+6. Data used to check the models — the readable dataset inventory with evidence levels
+7. How Puckworks checks its work — provenance, typed interfaces, and validation gates, defined in
+   plain language, plus the evidence-flow diagram
+8. The science, in depth — links to the public-value work (`docs/PUBLIC_VALUE.md`, its generated
+   claim cards, and the live interactive) and to the current paper draft/abstract, each described
+   and honestly status-labelled (draft vs. submitted vs. peer-reviewed — never upgraded)
+9. Project pulse (generated)
+10. Install the public release / supported public API
+11. Choose your path (layperson · researcher · contributor)
+12. Current limits (the non-claims)
+13. Contribute
+14. **References** — the deduplicated bibliography drawn from the model cards
 15. Cite and license
 
-Objective, value, and process appear **before** deep contributor detail. The README stays a
-landing page — it links out to `docs/` rather than absorbing the whole documentation site.
+The physical process and the model map appear **before** the trust machinery and **before** deep
+contributor detail. The near-top inventories are wrapped in machine-readable markers so their
+coverage can be tested against the live registry, the manifest, and the cards:
+
+- `<!-- puckworks-model-map:start -->` … `:end` — every registered component, by stage, with the
+  live registry count and the Guided-Pull chain flagged;
+- `<!-- puckworks-data-inventory:start -->` … `:end` — the dataset families and their evidence
+  levels;
+- `<!-- puckworks-references:start -->` … `:end` — one entry per unique work, linking the related
+  cards, separating Puckworks-authored synthesis/sourcing notes from external literature.
+
+The generated `<!-- puckworks-pulse:start/end -->` block is preserved verbatim (see §8). The README
+stays a landing page — larger than a bare hero because it carries these inventories inline, but it
+still links out to `docs/` and the cards rather than absorbing the whole documentation site.
 
 ## 6. Visual language
 
@@ -117,7 +146,12 @@ landing page — it links out to `docs/` rather than absorbing the whole documen
 - **Assets** live locally and versioned under `docs/assets/readme/` — light + dark hero, the
   evidence pipeline, and a 1280×640 social preview. Source SVG stays reviewable; no embedded
   fonts (system stacks only); no huge binaries.
-- **Restraint:** distinctive without a badge wall. At most a couple of status signals, never a
+- **Badges:** a small, curated row directly under the title is allowed — CI status, latest release,
+  supported Python, and license (three to five, each with descriptive alt text). Each must report a
+  true, current fact (CI from the real workflow, release/version from live sources); no fabricated or
+  stale "gates passing" shields. Never a wall of shields beyond this curated set.
+- **Restraint:** distinctive without a badge wall. Beyond the curated title row, at most a couple of
+  status signals, never a
   wall of shields.
 
 ## 7. Accessibility requirements
@@ -182,7 +216,16 @@ no claim beyond the generated evidence.
 Run this at every release, every public-API change, every new runnable surface, and at least
 once a calendar month (issue #41):
 
-- [ ] objective / value / process visible immediately (above the fold reading order);
+- [ ] the page **leads with the physical espresso process**, not the governance vocabulary;
+- [ ] every internal term (contract / registry / provenance / validation gate) is defined in plain
+      language on first use;
+- [ ] the **model map** covers every registered component (checked against the live registry) with
+      the correct count and the Guided-Pull chain flagged;
+- [ ] the **data inventory** names each active source family with its evidence level, and hides no
+      rights-restricted corpus behind a claim of availability;
+- [ ] the **References** section represents every card backing a component or active dataset (minus
+      documented rights exceptions), with resolving links;
+- [ ] objective / value / process visible in the intended reading order;
 - [ ] current release link resolves;
 - [ ] one-click Colab demo opens the intended notebook and runs CPU-only;
 - [ ] install commands are truthful (no PyPI claim; wheel path correct);

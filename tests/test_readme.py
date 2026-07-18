@@ -16,8 +16,9 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 README = REPO_ROOT / "README.md"
 TEXT = README.read_text(encoding="utf-8")
 
-# A documented maximum: the README is a landing page, not the whole doc site.
-README_MAX_BYTES = 16_000
+# A documented maximum. The physics-first landing page carries the full stage-by-stage model map,
+# the dataset inventory, and the references section inline, so the cap is larger than a bare hero page.
+README_MAX_BYTES = 48_000
 
 
 def test_readme_exists_and_bounded():
@@ -26,17 +27,53 @@ def test_readme_exists_and_bounded():
     assert size <= README_MAX_BYTES, f"README is {size} bytes (> {README_MAX_BYTES}); keep it focused"
 
 
+def test_opening_is_physics_first():
+    """The homepage leads with the physical espresso process, not the governance machinery.
+
+    The first screen (before the first '## ' section heading) must name espresso and physics and
+    frame the models as separate/testable — and must NOT open by foregrounding the internal
+    vocabulary (contract/registry/provenance/validation gate), which the page defines later, in
+    plain language, as the *means* of trustworthiness.
+    """
+    opening = TEXT.split("\n## ", 1)[0].lower()
+    assert "espresso" in opening and "physics" in opening, "opening must lead with espresso physics"
+    assert "separate" in opening and "testable" in opening, "opening must frame models as separate/testable"
+    # governance jargon is introduced later (in 'How Puckworks checks its work'), not up top
+    for jargon in ("contract", "registry", "provenance", "validation gate"):
+        assert jargon not in opening, f"opening should not foreground {jargon!r} before it is explained"
+
+
 @pytest.mark.parametrize(
     "needle",
     [
-        "Evidence-first models for what happens inside an espresso puck",  # mission
-        "registry",           # what it is
-        "validation gates",   # process
-        "public value",       # value section (case-insensitive checked below)
+        "the espresso pull, modeled stage by stage",  # physics-first section
+        "registry",           # defined in plain language in the checks section
+        "validation gates",   # the automated checks
+        "references",         # bibliography near the bottom
     ],
 )
-def test_mission_and_value_sections_present(needle):
+def test_required_sections_present(needle):
     assert needle.lower() in TEXT.lower(), f"README missing required content: {needle!r}"
+
+
+def test_physics_first_section_order():
+    """Physics → what-you-can-run → data → how-we-check → install → references (bottom)."""
+    def idx(anchor):
+        i = TEXT.find(anchor)
+        assert i != -1, f"README missing section: {anchor}"
+        return i
+
+    stages = idx("## The espresso pull, modeled stage by stage")
+    run = idx("## What you can run today")
+    data = idx("## Data used to check the models")
+    checks = idx("## How Puckworks checks its work")
+    install = idx("## Install the public release")
+    references = idx("## References")
+    # physics leads; the model map precedes the trust machinery; references sit near the bottom
+    assert stages < run < data < checks, "physics/models/data must precede the how-we-check section"
+    assert idx("puckworks-model-map:start") < checks, "the stage-by-stage model map precedes the checks section"
+    assert install < references, "references belong near the bottom, after install"
+    assert references > TEXT.find("## Current limits"), "references follow the limitations section"
 
 
 def test_colab_link_targets_the_quickstart_notebook():
@@ -178,17 +215,17 @@ def test_no_hidden_or_bidi_control_characters():
     assert not present, f"README contains hidden/bidi control characters: {present}"
 
 
-def test_objective_value_process_precede_contributor_detail():
+def test_process_precedes_contributor_detail():
     def idx(anchor):
         i = TEXT.find(anchor)
         assert i != -1, f"README missing section: {anchor}"
         return i
 
-    why = idx("## Why Puckworks exists")
-    process = idx("## How evidence moves through the system")
+    stages = idx("## The espresso pull, modeled stage by stage")
+    process = idx("## How Puckworks checks its work")
     contribute = idx("## Contribute")
-    assert why < contribute and process < contribute, (
-        "objective/value/process must appear before deep contributor detail"
+    assert stages < contribute and process < contribute, (
+        "the physics overview and the how-we-check process must appear before deep contributor detail"
     )
 
 
@@ -306,8 +343,12 @@ def test_notebook_has_completion_marker():
 def test_readme_gate_sentence_matches_gatestatus_enum():
     import puckworks
     enum_names = {s.value for s in puckworks.GateStatus}   # PASS/FAIL/SKIP/ERROR/ACKNOWLEDGED_EXCEPTION
-    # the "What it does" gate bullet must name exactly the real status set (no narrowing)
-    para = TEXT.split("Validation gates**", 1)[1][:400]
+    # the gate sentence (in 'How Puckworks checks its work') must name exactly the real status set.
+    # Anchor on the plain-language definition, which precedes the pulse table's gate row.
+    low = TEXT.lower()
+    i = low.find("**validation gates**")
+    assert i != -1, "README must define validation gates in the checks section"
+    para = TEXT[i:i + 400]
     named = {w for w in re.findall(r"\b[A-Z][A-Z_]+\b", para)}
     named &= enum_names | {"PASS", "FAIL", "SKIP", "ERROR", "ACKNOWLEDGED_EXCEPTION"}
     assert named == enum_names, f"README gate sentence names {named}, enum is {enum_names}"
@@ -358,3 +399,209 @@ def test_public_experience_gate_vocabulary_matches_enum():
     # semantics present: FAIL/ERROR suite-failing, SKIP not a pass, ACK never a pass
     low = snippet.lower()
     assert "suite-failing" in low and "never" in low
+
+
+# ══════════════════════════════════════════════════════════════════════════════════
+# Physics-first rewrite: model-map / data-inventory / references coverage + assets
+# ══════════════════════════════════════════════════════════════════════════════════
+import csv  # noqa: E402
+
+CARDS = REPO_ROOT / "docs" / "cards"
+
+
+def _marked_block(name):
+    start = f"<!-- puckworks-{name}:start -->"
+    end = f"<!-- puckworks-{name}:end -->"
+    assert start in TEXT and end in TEXT, f"README missing {name} markers"
+    return TEXT.split(start, 1)[1].split(end, 1)[0]
+
+
+# Registered component id -> the model card that is the source of truth for its physics.
+# Project models under puckworks/models/brewer2026/ have no external card and are excluded here.
+_COMPONENT_CARD = {
+    "cameron2020.extraction_bdf": "cameron2020",
+    "pannusch2024.solver": "pannusch2024",
+    "pannusch2024.closures": "pannusch2024",
+    "waszkiewicz2025.poroelastic": "waszkiewicz2025",
+    "grudeva2025.reduced": "grudeva2025",
+    "liang2021.desorption": "liang2021",
+    "mo2023_2.swelling": "mo2023_2",
+    "mo2023_2.coupled_bed": "mo2023_2",
+    "moroney2016.surrogate": "moroney2016",
+    "romancorrochano2017.extraction": "romancorrochano2017_extraction",
+    "fasano2000_partI.fines_migration": "fasano2000_partI",
+    "foster2025.infiltration": "foster2025",
+    "foster2025.machine_mode": "foster2025_2",
+    "wadsworth2026.permeability": "wadsworth2026",
+    "wadsworth2026.grindmap": "wadsworth2026_grindmap",
+    "wadsworth2026.inertial": "wadsworth2026_inertial",
+    "lee2023.feedback": "lee2023",
+    "sourcing2026.g10_liquor_rheology": "g10_liquor_rheology",
+    "sourcing2026.g1_glassbead_analog": "g1_glassbead_analog",
+    "sourcing2026.g3_pump_characteristic": "g3_pump_characteristic",
+    "brewer2026.coupled_kappa_t": "brewer2026_coupled_kappa_t",
+}
+
+# Rights-restricted source: its raw corpus is not redistributable, so the README must not advertise
+# it. Documented exception to reference coverage (see test_no_rights_blocked_data_described_as_available).
+_REFERENCE_EXCEPTIONS = {"visualizer_coffee"}
+
+
+def _registered_components():
+    import puckworks
+    puckworks.load_builtin_components()
+    return sorted(c.name for c in puckworks.components())
+
+
+def test_model_map_covers_every_registered_component():
+    """Every model in the live registry appears in the near-top stage map, with the true count."""
+    block = _marked_block("model-map")
+    comps = _registered_components()
+    missing = [c for c in comps if f"`{c}`" not in block]
+    assert not missing, f"model map omits registered components: {missing}"
+    # the displayed count is derived from the registry, not hard-coded to a stale number
+    m = re.search(r"\*\*(\d+) registered models\*\*", block)
+    assert m, "model map must state how many models are registered"
+    assert int(m.group(1)) == len(comps), (
+        f"model map shows {m.group(1)} models but the registry has {len(comps)}"
+    )
+
+
+def test_model_map_marks_the_guided_pull_chain():
+    """Exactly the model the product executes is flagged; the rest are separate lenses."""
+    block = _marked_block("model-map")
+    assert "Runs in Guided Pull" in block, "the model map must flag the Guided Pull chain"
+    # the executed model is Cameron's extraction chain; its row carries the flag
+    cam_row = next((ln for ln in block.splitlines() if "`cameron2020.extraction_bdf`" in ln), "")
+    assert "Runs in Guided Pull" in cam_row, "cameron2020.extraction_bdf must be flagged as the Guided Pull chain"
+
+
+def _required_reference_cards():
+    """Cards backing a registered component OR an active manifest dataset — the set the References
+    section must represent, minus documented rights exceptions."""
+    required = set()
+    for name in _registered_components():
+        stem = _COMPONENT_CARD.get(name)
+        if stem and (CARDS / f"{stem}.md").exists():
+            required.add(stem)
+    with open(REPO_ROOT / "puckworks" / "data" / "MANIFEST.csv", newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            for tok in re.findall(r"[A-Za-z][A-Za-z0-9_]+", row.get("source_card", "")):
+                if (CARDS / f"{tok}.md").exists():
+                    required.add(tok)
+    return required - _REFERENCE_EXCEPTIONS
+
+
+def test_references_cover_every_relevant_card():
+    block = _marked_block("references")
+    linked = set(re.findall(r"docs/cards/([A-Za-z0-9_]+)\.md", block))
+    missing = sorted(_required_reference_cards() - linked)
+    assert not missing, f"References section omits cards for active components/datasets: {missing}"
+
+
+def test_reference_links_resolve_and_no_restricted_corpus():
+    block = _marked_block("references")
+    for stem in re.findall(r"docs/cards/([A-Za-z0-9_]+)\.md", block):
+        assert (CARDS / f"{stem}.md").exists(), f"reference links a missing card: {stem}"
+    # the rights-restricted corpus is never advertised as a citable source in the bibliography
+    assert "visualizer" not in block.lower()
+
+
+def test_data_inventory_families_and_vocabulary():
+    block = _marked_block("data-inventory")
+    low = block.lower()
+    # the evidence-strength vocabulary a reader needs to weigh each dataset
+    for level in ("independent", "post-fit reconstruction", "verification", "reference"):
+        assert level in low, f"data inventory must explain the {level!r} evidence level"
+    # a representative spread of active source families is named (not a single dump row)
+    for family in ("Waszkiewicz", "Wadsworth", "Schmieder", "Pannusch", "Foster", "Liang",
+                   "Roman-Corrochano", "Angeloni", "Telis-Romero", "Khomyakov"):
+        assert family in block, f"data inventory omits the {family} source family"
+    # the non-redistributable corpus is not listed as available data
+    assert "visualizer" not in low
+    # the inventory points at the row-level manifest
+    assert "puckworks/data/MANIFEST.csv" in block
+
+
+# ── evidence-pipeline SVG: structural + no-overflow-by-construction checks ───────────
+import xml.etree.ElementTree as ET  # noqa: E402
+
+SVG_PATH = REPO_ROOT / "docs" / "assets" / "readme" / "evidence-pipeline.svg"
+_SVG_NS = "{http://www.w3.org/2000/svg}"
+
+
+def test_evidence_svg_is_accessible_and_scalable():
+    root = ET.parse(SVG_PATH).getroot()
+    assert root.get("viewBox"), "SVG must declare a viewBox so it scales at any display width"
+    assert root.find(f"{_SVG_NS}title") is not None, "SVG needs a <title> for assistive tech"
+    assert root.find(f"{_SVG_NS}desc") is not None, "SVG needs a <desc> for assistive tech"
+    labelled = (root.get("aria-labelledby") or "").split()
+    assert {"ep-title", "ep-desc"} <= set(labelled), "aria-labelledby must reference title and desc ids"
+    # foreignObject text does not render on GitHub; wrapping must use native tspans instead
+    assert not any(True for _ in root.iter(f"{_SVG_NS}foreignObject")), "no foreignObject text"
+
+
+def test_evidence_svg_is_single_column_without_overlap():
+    root = ET.parse(SVG_PATH).getroot()
+    vb = [float(v) for v in root.get("viewBox").split()]
+    boxes = []
+    for g in root.findall(f"{_SVG_NS}g"):
+        r = g.find(f"{_SVG_NS}rect")
+        if r is None:
+            continue
+        boxes.append(tuple(float(r.get(k)) for k in ("x", "y", "width", "height")))
+    assert len(boxes) >= 6, "the pipeline needs its six stage boxes"
+    # single column: every box shares the same x and width
+    xs = {round(x, 1) for x, _, _, _ in boxes}
+    ws = {round(w, 1) for _, _, w, _ in boxes}
+    assert len(xs) == 1 and len(ws) == 1, "boxes must form one column (shared x and width)"
+    # vertical stacking never overlaps and every box stays inside the viewBox height
+    boxes.sort(key=lambda b: b[1])
+    for (_, y1, _, h1), (_, y2, _, _) in zip(boxes, boxes[1:]):
+        assert y1 + h1 < y2, "stage boxes must not vertically overlap"
+    x, y, w, h = boxes[-1]
+    assert y + h <= vb[3], "the last box must fit inside the viewBox height (nothing clipped)"
+
+
+# ── MANIFEST.csv integrity: well-formed rows, stable schema ─────────────────────────
+MANIFEST = REPO_ROOT / "puckworks" / "data" / "MANIFEST.csv"
+_MANIFEST_COLUMNS = [
+    "dataset_id", "source_card", "source_artifact", "extraction_method",
+    "units_as_published", "units_in_registry", "uncertainty_retained",
+    "license_access", "gate_use", "validation_strength", "caveat",
+]
+
+
+def test_manifest_is_well_formed():
+    raw = MANIFEST.read_bytes()
+    # CRLF line endings are the committed convention; a lone-LF row signals a mangled edit
+    assert b"\r\n" in raw, "MANIFEST.csv uses CRLF line endings"
+    text = raw.decode("utf-8")
+    rows = list(csv.reader(text.splitlines()))
+    assert rows, "MANIFEST.csv is empty"
+    header = rows[0]
+    assert header == _MANIFEST_COLUMNS, f"MANIFEST schema drift: {header}"
+    ncol = len(header)
+    for i, row in enumerate(rows[1:], start=2):
+        if not any(cell.strip() for cell in row):
+            continue
+        assert len(row) == ncol, f"MANIFEST row {i} has {len(row)} fields (expected {ncol}): {row[:2]}"
+        assert row[0].strip(), f"MANIFEST row {i} has an empty dataset_id"
+
+
+def test_manifest_source_cards_reference_real_cards_or_registry():
+    """Every source_card token that looks like a card names an existing card file."""
+    with open(MANIFEST, newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            cell = row.get("source_card", "")
+            for tok in re.findall(r"[a-z][a-z0-9_]{3,}", cell):
+                # tokens that match a card filename must resolve; prose words (e.g. 'registry',
+                # 'permeability', 'one', 'paper') simply won't match a file and are ignored.
+                if tok.endswith(("2000", "2001", "2016", "2017", "2019", "2020", "2021",
+                                 "2023", "2024", "2025", "2026")) or tok.startswith(("g1_", "g3_", "g10_")):
+                    # exact card, or a split-card family (e.g. romancorrochano2017 -> _extraction/_permeability)
+                    resolves = (CARDS / f"{tok}.md").exists() or any(CARDS.glob(f"{tok}_*.md"))
+                    assert resolves or tok in {"table1_full"}, (
+                        f"source_card token {tok!r} looks like a card but no {tok}[_*].md exists"
+                    )
