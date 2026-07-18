@@ -1,0 +1,127 @@
+{
+  "attribution": "Schmieder, Pannusch, Vannieuwenhuyse, Briesen, Minceva (2023), 'Influence of flow rate, particle size, and temperature on espresso extraction kinetics', Foods 12, 2871, DOI 10.3390/foods12152871, open access CC-BY. Derived extraction-yield and RSM values are published with attribution; no raw source file is redistributed.",
+  "badge": "OBSERVED",
+  "caveat": "A dial number is NOT a particle size and is non-portable without a calibrated adapter; do not read a universal 'too-fine optimum'. Self-correction here downgrades ONE result — it does not prove every current result is correct. Static channeling remains a viable GENERATOR (model capacity); the data just do not identify it. The 1.4-vs-1.7 interval includes zero, so means are 'ordered', not 'statistically monotone'. No confidence claim beyond the reported Welch interval.",
+  "compares_grinder_dials": true,
+  "dataset_manifest_ids": [
+    "schmieder2023/cup_masses",
+    "schmieder2023/rsm_coefficients"
+  ],
+  "evidence_strength": "independent",
+  "fidelity_ceiling": "OBSERVED / independent for the raw replicate correction; the model-bump comparison is exploratory model-capacity context, never an identification claim.",
+  "generator": "puckworks.public.analysis_autopsy.build_payload",
+  "producer": "puckworks.harness.result1_magnitude_comparison",
+  "redistribution_class": "CC-BY derived extraction-yield and RSM values, attributed; no raw source file redistributed",
+  "revision_record": [
+    "Superseded headline: an interior 'fine-grind' extraction-yield maximum, read from a printed RSM central coefficient and a target that mixed mg solute masses with g TDS.",
+    "Correction 1 — coherent target: rebuild extraction yield from TDS on one consistent basis.",
+    "Correction 2 — precision: the printed central coefficient is a rounding artifact of a much smaller refit (refit vs printed vs raw central mass), not a real 1.7x over-prediction.",
+    "Corrected result: raw replicate yields are ORDERED across dial, the middle BELOW the coarse one; the Welch 95% interval on the middle-vs-coarse contrast excludes zero — no interior maximum.",
+    "Standing lesson: a channeling model can still GENERATE a small interior bump (model capacity), but it is smaller than the shot-to-shot replicate spread — capacity is not identification."
+  ],
+  "schema_version": 1,
+  "scope": "Schmieder E65S grinder DoE at one fixed central flow/temperature condition; TDS-derived EY observable; grinder-dial positions (not particle sizes).",
+  "series": [
+    {
+      "categories": [
+        "dial 1.4 (finer)",
+        "dial 1.7 (middle)",
+        "dial 2.0 (coarser)"
+      ],
+      "caveat": "grinder-DIAL positions, non-portable to another grinder without a calibrated adapter; ordered (middle below coarse), no interior maximum",
+      "component": "schmieder2023 replicate cup masses -> TDS-derived EY",
+      "error": [
+        0.218,
+        0.218,
+        0.218
+      ],
+      "label": "Raw extraction yield by grinder dial",
+      "method": "raw per-cell measured yields (error bar = within-cell replicate std)",
+      "role": "observed",
+      "unit": "% EY",
+      "values": [
+        18.27,
+        19.38,
+        19.62
+      ]
+    },
+    {
+      "categories": [
+        "printed (rounded)",
+        "refit to data",
+        "raw data mean"
+      ],
+      "caveat": "the printed central coefficient is a rounding/precision artifact, not a real over-prediction",
+      "component": "schmieder RSM Eq.4 refit vs the printed coefficient",
+      "label": "RSM central coefficient: printed vs refit vs raw",
+      "method": "least-squares refit of the published RSM to the committed cup masses",
+      "role": "derived",
+      "unit": "g",
+      "values": [
+        6.723,
+        3.918,
+        3.876
+      ]
+    },
+    {
+      "categories": [
+        "model bump (5 bar)",
+        "model bump (9 bar)",
+        "replicate spread"
+      ],
+      "caveat": "the model CAN draw a bump (capacity); it is smaller than replicate spread, so the data do not identify it",
+      "component": "channeling interior-max sensitivity vs measured spread",
+      "label": "Model interior bump vs replicate spread",
+      "method": "model interior prominence at two pressures compared with the within-cell std",
+      "role": "simulated",
+      "unit": "EY-points",
+      "values": [
+        0.19,
+        0.029,
+        0.218
+      ]
+    }
+  ],
+  "source_commit": "918cd8c13af67daf8397c847c9133ca344d643b9",
+  "source_data_sha256": {
+    "cup_masses.csv": "39b7c16f9d9da614f151f46cb0db1440d43f150fbf49d3d2119f3f2fa1622f43",
+    "rsm_coefficients.csv": "9de2503130ad6689f6f0ad08ef0c781b2bcc099687b5db31443edb0a60d08adc"
+  },
+  "source_ids": {
+    "schmieder_doe": "Foods 12, 2871 (DOI 10.3390/foods12152871, CC-BY)"
+  },
+  "story_id": "PV-04",
+  "title": "How We Falsified Our Own Espresso Headline",
+  "units": {
+    "ey_dial_1p4_pct": "% EY",
+    "ey_dial_1p7_pct": "% EY",
+    "ey_dial_2p0_pct": "% EY",
+    "mid_vs_coarse_contrast_EYpt": "EY-points",
+    "model_bump_lt_within_cell_var": "boolean",
+    "model_prominence_5bar_EYpt": "EY-points",
+    "model_prominence_9bar_EYpt": "EY-points",
+    "rsm_printed_central_g": "g",
+    "rsm_printed_is_rounding_artifact": "boolean",
+    "rsm_raw_central_g": "g",
+    "rsm_refit_central_g": "g",
+    "welch_ci95_hi_EYpt": "EY-points",
+    "welch_ci95_lo_EYpt": "EY-points",
+    "within_cell_std_EYpt": "EY-points"
+  },
+  "values": {
+    "ey_dial_1p4_pct": 18.27,
+    "ey_dial_1p7_pct": 19.38,
+    "ey_dial_2p0_pct": 19.62,
+    "mid_vs_coarse_contrast_EYpt": -0.241,
+    "model_bump_lt_within_cell_var": true,
+    "model_prominence_5bar_EYpt": 0.19,
+    "model_prominence_9bar_EYpt": 0.029,
+    "rsm_printed_central_g": 6.723,
+    "rsm_printed_is_rounding_artifact": true,
+    "rsm_raw_central_g": 3.876,
+    "rsm_refit_central_g": 3.918,
+    "welch_ci95_hi_EYpt": -0.06,
+    "welch_ci95_lo_EYpt": -0.422,
+    "within_cell_std_EYpt": 0.218
+  }
+}
