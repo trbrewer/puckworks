@@ -57,8 +57,9 @@ python -m puckworks.public export --out docs/public/generated --slow # + slow Pr
 | PV-04 | we killed our favorite result (fine-grind) | OBSERVED | independent | `harness.result1_magnitude_comparison` |
 | PV-05 | adding physics made it worse | EXPLORATORY_SIMULATION | qualitative | `coupled_kappa_t.composition_residual` |
 
-**First live interactive:** PV-03 "The Cup Hides the Clock" is generated from the committed Paper A
-result bundle (`docs/figures/paper_a/results.json`) via
+**First live interactive:** PV-03 "The Cup Hides the Clock" is live at
+<https://trbrewer.github.io/puckworks/flat-valley/> (GitHub Pages, deployed from `docs/public/site/`).
+It is generated from the committed Paper A result bundle (`docs/figures/paper_a/results.json`) via
 `python -m puckworks.public.flat_valley export|verify` into a compact hash-bound snapshot
 (`puckworks/public/data/pv03_flat_valley.json`) and a static, framework-free interactive under
 `docs/public/site/flat-valley/`. Every headline number traces to a named bundle field; the snapshot

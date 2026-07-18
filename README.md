@@ -110,10 +110,11 @@ bottom on a normal Colab CPU in a few minutes. It **installs the latest recorded
 release wheel** — not unreleased main-branch code — and walks through the registry, the gates,
 and how to read evidence strength honestly.
 
-Two one-click paths (both install the released v0.3.0 wheel after verifying its SHA-256):
+Three public paths:
 
-- **Explore the component registry** — [▶ Open the quickstart in Google Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/puckworks_quickstart_colab.ipynb): the registry, the gates, and how to read evidence strength honestly.
+- **Explore the component registry** — [▶ Open the quickstart in Google Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/puckworks_quickstart_colab.ipynb): the registry, the gates, and how to read evidence strength honestly (installs the released v0.3.0 wheel after verifying its SHA-256).
 - **Run a guided espresso pull** — [▶ Open the Guided Espresso Pull in Google Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/guided_espresso_pull_colab.ipynb): enter a bounded recipe and run one coherent, model-backed pull stage by stage, with evidence-labelled traces, a visual report, and honest domain warnings. It does **not** model puck wetting, physical first drip, a dynamic pressure profile, temperature response, or flavor; it reports chemical composition, never taste. See [`docs/GUIDED_ESPRESSO_PULL.md`](docs/GUIDED_ESPRESSO_PULL.md) and [issue #48](https://github.com/trbrewer/puckworks/issues/48).
+- **Explore why the cup hides the clock** — [▶ Open the flat-valley interactive](https://trbrewer.github.io/puckworks/flat-valley/): a static, generated explainer of why a good whole-cup endpoint fit can hide weak parameter identification. Every number is generated from the committed Paper A result bundle; no install needed.
 
 Specialists: the advanced GPU / lattice-Boltzmann notebook remains at
 [`notebooks/espresso_lb_colab.ipynb`](notebooks/espresso_lb_colab.ipynb).
