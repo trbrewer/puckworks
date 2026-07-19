@@ -23,6 +23,18 @@ import numpy as np
 
 MU_90C = 0.315e-3      # Pa s
 RHO_90C = 965.0        # kg m^-3
+# First-drip weight threshold (g): the scale reading above which the first beverage is "on scale". This is
+# the SINGLE authoritative constant — the validation gate and the Lab native runner both consume it, so
+# the threshold can never drift between them.
+FIRST_DRIP_THRESHOLD_G = 0.5
+
+
+def observed_first_drip_s(t, weight_g, threshold_g=FIRST_DRIP_THRESHOLD_G):
+    """First time the recorded weight strictly crosses `threshold_g`, or None if it never does (no first
+    drip — never a spurious argmax-of-all-False at t[0])."""
+    t = np.asarray(t); w = np.asarray(weight_g)
+    above = np.flatnonzero(w > threshold_g)
+    return float(t[above[0]]) if above.size else None
 
 
 def front_from_pressure(t, P_bar, k_SI, phi_T, L, p_c_bar=0.0,

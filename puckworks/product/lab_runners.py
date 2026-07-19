@@ -84,27 +84,36 @@ def _gate(name: str) -> dict:
     return _plain(dict(getattr(G, name)()))
 
 
-# ── the runners (each calls the component's authoritative reference callables + its gate) ──────
+# display rounding is SEPARATE from the stored full-precision value (never round before hashing)
+def _out(name, value, unit, role, **extra):
+    """One output carrying the full-precision `value` plus a display-rounded companion (no rounding of the
+    scientific value itself)."""
+    disp = round(value, 6) if isinstance(value, float) else value
+    return {"name": name, "value": value, "display_value": disp, "unit": unit, "role": role, **extra}
+
+
+def _first_crossing_time(t, w, threshold: float):
+    """Back-compat alias for the authoritative model helper (single-sourced in foster2025.infiltration)."""
+    from puckworks.models.foster2025 import infiltration as inf
+    return inf.observed_first_drip_s(t, w, threshold)
+
+
+# ── the runners (each consumes ONE shared full-precision summary + surfaces the gate verdict) ──
 def _run_waszkiewicz_static() -> dict:
-    from puckworks.models.waszkiewicz2025 import poroelastic as wz
-    P, Q = wz.steady_state_curve()
-    (P_c, Q_c), _ = wz.fit_static(P, Q)
-    P_pub, Q_pub = wz.published_calibration()
-    gate = _gate("gate_waszkiewicz_static_refit")     # authoritative refit tolerances live in the gate
+    from puckworks.product import lab_reference_producers as P
+    s = P.waszkiewicz_static_summary()
+    v = s["values"]
+    gate = _gate(s["gate"])                            # authoritative refit tolerances live in the gate
     return {
-        "native_inputs": [
-            {"name": "equilibrium_curve", "value": f"{len(P)} basket-pressure points",
-             "unit": "bar; g/s", "provenance": "waszkiewicz2025 static calibration (Zenodo, CC-BY)"}],
+        "native_inputs": s["native_inputs"],
         "outputs": [
-            {"name": "refit_P_c", "value": _num(P_c), "unit": "bar", "role": "fitted"},
-            {"name": "refit_Q_c", "value": _num(Q_c), "unit": "g/s", "role": "fitted"},
-            {"name": "published_P_c", "value": _num(P_pub), "unit": "bar", "role": "reference"},
-            {"name": "published_Q_c", "value": _num(Q_pub), "unit": "g/s", "role": "reference"},
-            {"name": "refit_matches_published_gate", "value": bool(gate["passed"]), "unit": "boolean",
-             "role": "derived"}],
-        "gate_authority": {"gate": "gate_waszkiewicz_static_refit", "verdict": gate},
-        "method": "refit Eq.16 to the published 11-point equilibrium curve; the (P_c,Q_c) recovery "
-                  "verdict is the authoritative gate_waszkiewicz_static_refit result",
+            _out("refit_P_c", v["refit_P_c"], "bar", "fitted"),
+            _out("refit_Q_c", v["refit_Q_c"], "g/s", "fitted"),
+            _out("published_P_c", v["published_P_c"], "bar", "reference"),
+            _out("published_Q_c", v["published_Q_c"], "g/s", "reference"),
+            _out("refit_matches_published_gate", bool(gate["passed"]), "boolean", "derived")],
+        "gate_authority": {"gate": s["gate"], "verdict": gate},
+        "method": s["method"] + "; the recovery verdict is the authoritative gate result",
         "fidelity_ceiling": "one rig/coffee; post-fit reconstruction within the rig; not portable",
         "assumptions": ["quasi-static saturated poroelastic bed"],
         "caveat": "this is the component's native static-calibration reference, not the common scenario",
@@ -112,85 +121,51 @@ def _run_waszkiewicz_static() -> dict:
 
 
 def _run_wadsworth_permeability() -> dict:
-    import numpy as np
-    from puckworks.models.wadsworth2026 import permeability as wp
-    rows = wp.table1()
-    ratios = [r["k_m2"] / wp.k_star(r["phi_p"], r["s_p"]) / r["phi_p"] ** wp.B_PERC for r in rows]
-    gm = float(np.exp(np.mean(np.log(ratios))))
-    gate = _gate("gate_wadsworth_collapse")           # the 0.7 < ratio < 1.2 band lives in the gate
+    from puckworks.product import lab_reference_producers as P
+    s = P.wadsworth_collapse_summary()
+    v = s["values"]
+    gate = _gate(s["gate"])                            # the 0.7 < ratio < 1.2 band lives in the gate
     return {
-        "native_inputs": [
-            {"name": "table1", "value": f"{len(rows)} measured (k, phi_p, s_p) rows", "unit": "m^2; -; -",
-             "provenance": "wadsworth2026 Table 1 (measured permeability + packing)"}],
+        "native_inputs": s["native_inputs"],
         "outputs": [
-            {"name": "percolation_collapse_gm_ratio", "value": _num(gm), "unit": "ratio",
-             "role": "reference"},
-            {"name": "collapse_within_gate_band", "value": bool(gate["passed"]), "unit": "boolean",
-             "role": "derived",
-             "note": "band (0.7 < ratio < 1.2) is defined by gate_wadsworth_collapse, not this runner"}],
-        "gate_authority": {"gate": "gate_wadsworth_collapse", "verdict": gate},
-        "method": "collapse Table 1 onto the percolation k*(phi_p, s_p) * phi_p^B form; the pass band is "
-                  "the authoritative gate_wadsworth_collapse verdict",
+            _out("percolation_collapse_gm_ratio", v["percolation_collapse_gm_ratio"], "ratio", "reference"),
+            _out("collapse_within_gate_band", bool(gate["passed"]), "boolean", "derived",
+                 note="the band is defined by gate_wadsworth_collapse, not this runner")],
+        "gate_authority": {"gate": s["gate"], "verdict": gate},
+        "method": s["method"] + "; the pass band is the authoritative gate verdict",
         "fidelity_ceiling": "source-curve reproduction of the authors' own Table 1; untamped regime",
         "assumptions": ["percolation permeability closure"],
         "caveat": "this is the component's native permeability-collapse reference, not the common scenario",
     }
 
 
-def _first_crossing_time(t, w, threshold: float):
-    """First time the weight strictly crosses `threshold`, or None if it never does (NO first drip — never
-    a spurious argmax-of-all-False at t[0])."""
-    import numpy as np
-    above = np.flatnonzero(np.asarray(w) > threshold)
-    return float(np.asarray(t)[above[0]]) if above.size else None
-
-
-def _load_data_fixture(filename: str) -> dict:
-    """Load a packaged data fixture (module-level so tests can substitute one)."""
-    import os
-    data_dir = os.path.join(os.path.dirname(__import__("puckworks").__file__), "data")
-    with open(os.path.join(data_dir, filename)) as fh:
-        return json.load(fh)
-
-
 def _run_foster_infiltration() -> dict:
-    from puckworks.models.foster2025 import infiltration as inf
-    d = _load_data_fixture("de1_fixtureA.json")
-    import numpy as np
-    t = np.array(d["elapsed_s"]); P = np.array(d["pressure_bar"]); w = np.array(d["weight_g"])
-    # the 0.5 g first-drip threshold is the gate's; detect the crossing explicitly (no false crossing)
-    _DRIP_G = 0.5
-    t_drip = _first_crossing_time(t, w, _DRIP_G)
-    k, L = inf.k_from_kappa(d["grind_setting_assumed"], d["dose_g"] / 1000, d["kappa_fitted"])
-    ts = {phiT: inf.front_from_pressure(t, P, k, phiT, L)["t_saturate"] for phiT in (0.173, 0.322)}
-    lo, hi = ts[0.173], ts[0.322]
-    gate = _gate("gate_infiltration_triangle")        # the bracket verdict lives in the gate
-    drip_out = ({"name": "observed_first_drip_s", "value": _num(t_drip), "unit": "s", "role": "measured",
-                 "status": "available"}
+    from puckworks.product import lab_reference_producers as P
+    s = P.foster_first_drip_summary()
+    v = s["values"]
+    t_drip = v["observed_first_drip_s"]
+    lo, hi = v["predicted_bracket_lo_s"], v["predicted_bracket_hi_s"]
+    gate = _gate(s["gate"])                            # the bracket verdict lives in the gate
+    thr = s["threshold"]["first_drip_threshold_g"]
+    drip_out = (_out("observed_first_drip_s", t_drip, "s", "measured", status="available")
                 if t_drip is not None else
-                {"name": "observed_first_drip_s", "value": None, "unit": "s", "role": "measured",
-                 "status": "unavailable",
-                 "note": f"weight never crosses {_DRIP_G} g in this fixture; no first drip (not zero)"})
-    within = (bool(lo is not None and t_drip is not None and lo < t_drip < hi)
-              if t_drip is not None else None)
+                {"name": "observed_first_drip_s", "value": None, "display_value": None, "unit": "s",
+                 "role": "measured", "status": "unavailable",
+                 "note": f"weight never crosses {thr} g in this fixture; no first drip (not zero)"})
     return {
-        "native_inputs": [
-            {"name": "de1_fixtureA_pressure_trace", "value": f"{len(t)} samples", "unit": "s; bar; g",
-             "provenance": "DE1 fixture A (recorded pressure/weight); k from fitted kappa"}],
+        "native_inputs": s["native_inputs"],
         "outputs": [
             drip_out,
-            {"name": "predicted_first_drip_bracket_s",
-             "value": [None if lo is None else _num(lo), None if hi is None else _num(hi)],
+            {"name": "predicted_first_drip_bracket_s", "value": [lo, hi],
+             "display_value": [None if lo is None else round(lo, 6), None if hi is None else round(hi, 6)],
              "unit": "s", "role": "predicted"},
-            {"name": "observation_within_bracket_gate", "value": bool(gate["passed"]), "unit": "boolean",
-             "role": "derived",
-             "note": "authoritative bracket verdict is gate_infiltration_triangle"},
-            {"name": "observation_within_bracket_runner", "value": within, "unit": "boolean",
-             "role": "derived",
-             "note": "None when there is no observed first drip; never plotted as zero"}],
-        "gate_authority": {"gate": "gate_infiltration_triangle", "verdict": gate},
-        "method": "parameter-free wetting-front saturation time from the recorded pressure at two "
-                  "porosities; the observed first drip is an explicit threshold crossing (or unavailable)",
+            _out("observation_within_bracket_gate", bool(gate["passed"]), "boolean", "derived",
+                 note="authoritative bracket verdict is gate_infiltration_triangle"),
+            _out("observation_within_bracket_runner", v["observation_within_bracket"], "boolean", "derived",
+                 note="None when there is no observed first drip; never plotted as zero")],
+        "gate_authority": {"gate": s["gate"], "verdict": gate},
+        "threshold": s["threshold"],
+        "method": s["method"],
         "fidelity_ceiling": "sign/compatibility only; one fixture; a bracket, not a point prediction",
         "assumptions": ["sharp wetting front", "porosity between 0.173 and 0.322"],
         "caveat": "this is the component's native first-drip reference, not the common scenario",
@@ -291,6 +266,26 @@ def _validate_result_schema(result: dict) -> None:
     _assert_finite(result)
 
 
+# finite per-runner execution-state vocabulary (one consistent, case-consistent set)
+EXECUTION_STATES = (
+    "EXECUTED", "FAILED", "RIGHTS_BLOCKED", "RIGHTS_REVIEW_REQUIRED", "OPTIONAL_DEPENDENCY_UNAVAILABLE",
+    "RUNTIME_BUDGET_EXCEEDED", "NOT_REQUESTED", "NOT_APPLICABLE",
+)
+
+
+def _sanitize_error(exc: Exception) -> str:
+    """A concise, path-free, user-facing failure message — never a stack trace or a filesystem path
+    (developer detail is logged separately, not embedded in the published result)."""
+    import re
+    msg = str(exc)
+    # strip absolute filesystem paths (>=2 segments, at a word boundary) — not inline slashes like unit/role
+    msg = re.sub(r"(?<![\w])(?:/[\w.\-]+){2,}", "<path>", msg)
+    msg = msg.replace(chr(10), " ").strip()
+    if len(msg) > 200:
+        msg = msg[:197] + "..."
+    return f"{type(exc).__name__}: {msg}" if msg else type(exc).__name__
+
+
 def _sci_hash(result: dict) -> str:
     payload = {k: v for k, v in result.items() if k != "scientific_payload_hash"}
     return hashlib.sha256(
@@ -314,13 +309,18 @@ def execute_runner(component_id: str) -> dict:
             "output_publication_allowed": publish.allowed,
             "output_publication_severity": publish.severity,
             "label": "This is the component's native reference case, not the common Guided Pull scenario.",
-            "evidence": _evidence(component_id)}
+            "evidence": _evidence(component_id),
+            # a failure/skip result satisfies the full schema too (empty is explicit, not missing)
+            "native_inputs": [], "outputs": [], "gate_authority": None, "fidelity_ceiling": None,
+            "assumptions": [], "caveat": "", "error_code": None, "error": None,
+            "scientific_payload_hash": None}
     try:
         out = fn()
-        result = {**base, "status": "executed", **out}
+        result = {**base, "status": "executed", "execution_state": "EXECUTED", **out}
         _validate_result_schema(result)                # sanitized + finite before we publish it
     except Exception as exc:                            # isolate failure (producer OR schema violation)
-        return {**base, "status": "FAILED", "error": f"{type(exc).__name__}: {exc}"}
+        return {**base, "status": "FAILED", "execution_state": "FAILED",
+                "error_code": type(exc).__name__, "error": _sanitize_error(exc)}
     result["scientific_payload_hash"] = _sci_hash(result)
     return result
 
