@@ -51,6 +51,11 @@ jobs:
       LAB_PRESSURE_BAR: ${{ inputs.pressure_bar }}
       LAB_TEMPERATURE_C: ${{ inputs.temperature_c }}
       LAB_OUT_DIR: out/lab
+      # This is a PUBLIC artifact run: the batch runs a rights preflight BEFORE any producer and REFUSES
+      # to execute / publish a component that is not affirmatively cleared. Today the only common lens
+      # (cameron2020.extraction_bdf) is NOT_REVIEWED, so this run is EXPECTED to block until that rights
+      # review is completed — the rights preflight diagnostic is uploaded and the job fails clearly.
+      LAB_EXECUTION_CONTEXT: PUBLIC_ARTIFACT
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
@@ -68,12 +73,23 @@ jobs:
         run: |
           python -m venv "$RUNNER_TEMP/venv"
           "$RUNNER_TEMP/venv/bin/python" -m pip install --quiet "$(ls dist/*.whl)" matplotlib
-      - name: run the batch comparison (inputs + provenance via env, validated in Python)
-        # GITHUB_SHA / GITHUB_RUN_ID are GitHub-provided; LAB_WHEEL_SHA256 was recorded above.
+      - name: run the batch comparison (rights preflight first; inputs + provenance via env)
+        # GITHUB_SHA / GITHUB_RUN_ID are GitHub-provided; LAB_WHEEL_SHA256 was recorded above. A blocked
+        # public request writes only out/lab.rights_preflight.json (no scientific output) and fails.
         run: "$RUNNER_TEMP/venv/bin/python tools/lab_batch.py"
       - name: show the deterministic result summary
+        if: success()
         run: cat out/lab/guided_pull_lab.md
+      - name: upload the rights-preflight diagnostic when the public request was blocked
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: guided-pull-lab-rights-preflight
+          path: out/lab.rights_preflight.json
+          if-no-files-found: ignore
+          retention-days: 30
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: success()
         with:
           name: guided-pull-lab-batch
           path: out/lab/
