@@ -455,6 +455,23 @@ def adjudication_metrics(candidates, gold_labels: dict) -> dict:
     }
 
 
+def recall_metrics(retained_identities, gold_positive_identities) -> dict:
+    """Deterministic recall over a KNOWN-POSITIVE universe (the recall complement to precision). `retained`
+    is the set of identities the scan kept; `gold_positive_identities` is the human-curated set of records
+    that SHOULD be retained. recall = |retained ∩ positives| / |positives|; missed positives are named so
+    a regression (a positive that stops being retained) is caught, not hidden."""
+    retained = set(retained_identities)
+    positives = set(gold_positive_identities)
+    retrieved = sorted(positives & retained)
+    missed = sorted(positives - retained)
+    return {
+        "n_positives": len(positives),
+        "retrieved": retrieved,
+        "missed": missed,
+        "recall": (len(retrieved) / len(positives)) if positives else 0.0,
+    }
+
+
 def date_window(scan_date: str, lookback_days: int) -> tuple[str, str]:
     y, m, d = (int(x) for x in scan_date.split("-"))
     to = _date(y, m, d)

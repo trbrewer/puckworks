@@ -1,0 +1,25 @@
+{
+  "note": "Metadata-only recall gold set for the research radar (issue #42/#46). Titles + DOIs are public bibliographic metadata for papers ALREADY represented by this repo's cards; no abstracts or copyrighted text are stored. Positives SHOULD be retained by the scan; negatives SHOULD be rejected. This tests RECALL (the precision-only 51-candidate fixture cannot).",
+  "positives": [
+    {"class": "espresso_extraction", "source": "crossref",
+     "title": "Systematically improving espresso: Insights from mass transfer modeling",
+     "doi": "10.1016/j.matt.2019.12.019", "card": "cameron2020"},
+    {"class": "poroelastic_flow", "source": "crossref",
+     "title": "Poroelastic evolution of a coffee bed during an espresso extraction",
+     "doi": "10.1063/5.0319611", "card": "waszkiewicz2025"},
+    {"class": "porous_bed_infiltration", "source": "crossref",
+     "title": "Infiltration and wetting of a dry espresso coffee bed",
+     "doi": "10.1063/5.0245167", "card": "foster2025"},
+    {"class": "permeability", "source": "crossref",
+     "title": "Permeability of a packed coffee bed and its percolation collapse",
+     "doi": "10.1098/rsos.252031", "card": "wadsworth2026"}
+  ],
+  "negatives": [
+    {"class": "medical", "source": "crossref",
+     "title": "Solvent extraction of alkaloids from human plasma for clinical assay", "doi": "10.9999/med.1"},
+    {"class": "petroleum", "source": "crossref",
+     "title": "Enhanced oil recovery and permeability in a sandstone reservoir", "doi": "10.9999/pet.2"},
+    {"class": "iot", "source": "crossref",
+     "title": "A federated IoT telemetry platform for smart-city digital twins", "doi": "10.9999/iot.3"}
+  ]
+}
