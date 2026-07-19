@@ -9,6 +9,12 @@ request raises. No cross-basis conversion has been validated against data, there
 no second lens can be admitted by machinery that silently invents a scale factor.
 
 Nothing here changes any model's numerics; it is scaffolding for a future, evidence-backed adapter.
+
+NOTE (Phase 5): the ORTHOGONAL quantity ontology now lives in ``puckworks.product.quantity_semantics``
+(``QuantityDefinition``: numerator, reference-basis denominator, phase, species scope, spatial/temporal
+support, aggregation), which separates shared-scenario EXECUTION readiness from output COMPARABILITY.
+This module's ``QUANTITY_BASES`` is retained as the inventory-conversion machinery's basis vocabulary;
+per-species / flow-trend / profile are NOT denominators there — see ``quantity_semantics.REFERENCE_BASES``.
 """
 from __future__ import annotations
 
