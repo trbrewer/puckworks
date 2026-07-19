@@ -9,7 +9,7 @@ model agreement as validation, and is **not** a digital twin.
 ```bash
 python -m puckworks.product.lab matrix   --format md      # all-component coverage matrix
 python -m puckworks.product.lab compare  --format md      # common-scenario comparison + reference suite
-python -m puckworks.product.lab compare  --format json    # deterministic machine report (schema v4)
+python -m puckworks.product.lab compare  --format json    # deterministic machine report (schema v5)
 python -m puckworks.product.lab compare  --domain-policy strict --references none   # request controls
 ```
 
@@ -47,7 +47,7 @@ exactly one disposition: `COMMON_SCENARIO_READY`, `COMMON_SCENARIO_WITH_VERIFIED
 or `METADATA_INCOMPLETE` (an honest fallback when a component's registry metadata is missing — never an
 invented capability).
 
-## Contract (schema v4)
+## Contract (schema v5)
 
 Scenario identity is exact: a `pv19_named` run is `pv19_named`, a `guided_v1` run is `guided_v1`, and a
 custom `guided_v1` run records its base preset plus every applied override (`base` → `effective`). The
@@ -62,12 +62,19 @@ entry point is typed — `execute_scenario(ScenarioRequest) → ScenarioExecutio
   `REJECTED` input blocks under any policy; an evidence-range `WARNING` blocks under `strict`. When
   blocked the scientific producer is **not** called (`domain.producer_executed == false`), and the
   requested lens is surfaced as `REQUESTED_BUT_NOT_EXECUTABLE` — never silently produced as zero.
-- **`requested_lens_ids`** actually selects the common-scenario lenses (default: every executable common
-  lens — today just Cameron). An unknown id raises; a registered-but-non-executable id is surfaced as
-  `REQUESTED_BUT_NOT_EXECUTABLE`. `counts.executed_common_scenario_lenses` is **derived** from what ran.
-- **`reference_selection_policy`** (`none` | `interactive_fast` | `selected`) is unambiguous. Under
-  `selected`, `requested_reference_runner_ids` are validated (an unknown id raises; ids are meaningless
-  under any other policy, so that combination is rejected rather than silently ignored).
+- **`lens_selection_policy`** (`primary` | `all_ready` | `selected` | `none`) chooses which
+  common-scenario lenses run. Execution is **adapter-driven**: `prepare_scenario()` builds a
+  model-independent scenario (no producer call), then only the selected, ready, in-domain lenses execute
+  through their `LensAdapterSpec` (the first adapter wraps Cameron and calls the existing `simulate_pull`).
+  The producer is invoked **only** for a selected+ready+in-domain lens — selecting `none`, a
+  registered-but-non-ready component, a rights-blocked lens, or a domain-blocked Cameron runs **no**
+  producer, and `counts.common_scenario_producer_invocations == counts.executed_common_scenario_lenses`.
+  `requested_lens_ids` requires `selected`; duplicates canonicalize; adding a future adapter never changes
+  `primary`. Each lens keeps its OWN domain findings (Cameron's evidence domain is not applied globally).
+- **`reference_selection_policy`** (`none` | `interactive_fast` | `selected`) resolves **components**: a
+  registered component with no runner is `RUNNER_NOT_IMPLEMENTED`, a rights-blocked one is `RIGHTS_BLOCKED`
+  (never executed); only a non-registered id is "unknown" and raises. Ids are meaningful only under
+  `selected`.
 
 **Capability is never conflated with execution.** The `capability_snapshot.component_matrix` records the
 *static* `native_runner_capability` / `common_scenario_adapter_capability`; the *per-request*
@@ -162,7 +169,7 @@ adds a per-unit panel selector, a per-panel data table + CSV download, an axis u
 - Evidence labels ride through from the producer unchanged; no comparison result upgrades evidence.
 - Optional accelerator/GPU components (`brewer2026.lb_taichi`) are `OPTIONAL_DEPENDENCY_UNAVAILABLE` when
   absent and never enter the base install; a skip is never counted as a pass.
-- Serialization is deterministic (schema v4, distinct from `PullRun` v1) with no wall-clock in the
+- Serialization is deterministic (schema v5, distinct from `PullRun` v1) with no wall-clock in the
   canonical content, and rejects non-finite floats.
 
 ## How a lens/adapter enters later

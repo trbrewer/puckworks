@@ -73,16 +73,19 @@ def test_default_request_executes_the_cameron_common_lens():
 
 
 def test_unknown_requested_lens_raises_not_silently_dropped():
-    ex = lab.execute_scenario(lab.ScenarioRequest("pv19_named", requested_lens_ids=("not.a.component",)))
+    # v5: requested_lens_ids requires the 'selected' policy; an unknown id raises at lens resolution
+    req = lab.ScenarioRequest("pv19_named", lens_selection_policy="selected",
+                              requested_lens_ids=("not.a.component",))
     with pytest.raises(ValueError):
-        lab.build_comparison(ex)
+        lab.execute_scenario(req)
 
 
 def test_requested_but_non_executable_lens_is_surfaced():
     # a real registered component with no common-scenario adapter is REQUESTED_BUT_NOT_EXECUTABLE
     other = next(c.name for c in puckworks.components()
                  if c.name not in ("cameron2020.extraction_bdf",))
-    ex = lab.execute_scenario(lab.ScenarioRequest("pv19_named", requested_lens_ids=(other,)))
+    ex = lab.execute_scenario(lab.ScenarioRequest(
+        "pv19_named", lens_selection_policy="selected", requested_lens_ids=(other,)))
     r = lab.build_comparison(ex)
     rec = {ls["component_id"]: ls for ls in r["lens_selection"]}[other]
     assert rec["lens_request_state"] == "REQUESTED_BUT_NOT_EXECUTABLE"
