@@ -140,23 +140,100 @@ def render_table(catalog: dict | None = None) -> str:
     return "\n".join(lines) + "\n"
 
 
+def _sub(text: str, start: str, end: str, body: str) -> str:
+    return re.sub(re.escape(start) + r".*?" + re.escape(end), start + "\n" + body + end, text, flags=re.S)
+
+
 def _write_generated_table(check: bool = False) -> int:
     text = NEEDS_DOC.read_text(encoding="utf-8")
-    if _MARK_START not in text or _MARK_END not in text:
-        print("EXPERIMENTAL_DATA_NEEDS.md is missing the generated-table markers")
-        return 1
-    table = render_table()
-    new = re.sub(re.escape(_MARK_START) + r".*?" + re.escape(_MARK_END),
-                 _MARK_START + "\n" + table + _MARK_END, text, flags=re.S)
+    for s, e in ((_MARK_START, _MARK_END), (_MATRIX_START, _MATRIX_END)):
+        if s not in text or e not in text:
+            print(f"EXPERIMENTAL_DATA_NEEDS.md is missing the markers {s}")
+            return 1
+    new = _sub(text, _MARK_START, _MARK_END, render_table())
+    new = _sub(new, _MATRIX_START, _MATRIX_END, render_matrix())
     if check:
         if new != text:
-            print("generated campaign table is stale (run: python tools/experimental_data_needs.py render)")
+            print("generated sections are stale (run: python tools/experimental_data_needs.py render)")
             return 1
-        print("generated campaign table is current")
+        print("generated sections are current")
         return 0
     NEEDS_DOC.write_text(new, encoding="utf-8")
-    print(f"wrote generated campaign table ({len(load_catalog()['campaigns'])} campaigns)")
+    print(f"wrote generated sections ({len(load_catalog()['campaigns'])} campaigns, "
+          f"{len(model_to_measurement_matrix())} components)")
     return 0
+
+
+# ── model-to-measurement matrix (links the catalog to campaigns + blockers) ──────────
+def campaigns_for_component(component_id: str, catalog: dict | None = None) -> list:
+    cat = catalog or load_catalog()
+    return [c["campaign_id"] for c in cat["campaigns"]
+            if component_id in c.get("target_components", [])]
+
+
+def model_to_measurement_matrix(catalog: dict | None = None) -> list:
+    """One row per registered component: current evidence -> missing data -> campaign -> gate enabled.
+    A component with no campaign is shown explicitly (never silently omitted)."""
+    import puckworks
+    from puckworks.product import lab_catalog
+    cat = catalog or load_catalog()
+    by_comp = lab_catalog.catalog_by_id()
+    rows = []
+    for c in sorted(puckworks.components(), key=lambda c: c.name):
+        name = c.name
+        entry = by_comp.get(name)
+        camps = campaigns_for_component(name, cat)
+        camp_records = [x for x in cat["campaigns"] if x["campaign_id"] in camps]
+        gates_enabled = sorted({g for x in camp_records for g in x.get("target_gates", [])})
+        blockers = sorted({b for x in camp_records for b in x.get("measurement_agenda_blockers", [])})
+        rows.append({
+            "component_id": name,
+            "execution_role": getattr(c, "execution_role", ""),
+            "evidence_strength": getattr(c, "evidence_strength", ""),
+            "n_gates": len(entry.gate_ids) if entry else 0,
+            "campaigns": camps or [],
+            "gates_enabled": gates_enabled,
+            "blockers": blockers,
+            "has_campaign": bool(camps),
+        })
+    return rows
+
+
+def validate_matrix_coverage(catalog: dict | None = None) -> list:
+    """Every registered component appears in the matrix; every campaign target component is registered;
+    a component with no campaign is allowed but must be a calibration/closure or otherwise non-runnable
+    role (a runtime extraction lens or a component with a native runner should have a campaign)."""
+    cat = catalog or load_catalog()
+    problems: list = []
+    rows = model_to_measurement_matrix(cat)
+    from puckworks.product import lab_runners
+    for r in rows:
+        if not r["has_campaign"]:
+            # runtime extraction lenses + components with a native runner should have a campaign
+            has_runner = lab_runners.has_runner(r["component_id"])
+            is_extraction_runtime = (r["execution_role"] == "runtime")
+            if has_runner or is_extraction_runtime:
+                # allow an explicit exemption only via the campaign catalog's component_campaign_exemptions
+                if r["component_id"] not in set(cat.get("component_campaign_exemptions", [])):
+                    problems.append(f"{r['component_id']}: runtime/runner component has no campaign and "
+                                    "no documented exemption")
+    return problems
+
+
+def render_matrix(catalog: dict | None = None) -> str:
+    rows = model_to_measurement_matrix(catalog)
+    out = ["| Component | Role | Evidence | Gates | Campaigns | Blockers |",
+           "|---|---|---|---|---|---|"]
+    for r in rows:
+        camps = ", ".join(f"`{x}`" for x in r["campaigns"]) or "— (no current campaign)"
+        blk = ", ".join(f"`{x}`" for x in r["blockers"]) or "—"
+        out.append(f"| `{r['component_id']}` | {r['execution_role']} | {r['evidence_strength']} "
+                   f"({r['n_gates']} gates) | {', '.join(r['gates_enabled']) or '—'} | {camps} | {blk} |")
+    return "\n".join(out) + "\n"
+
+
+_MATRIX_START = "<!-- BEGIN GENERATED MODEL-MEASUREMENT MATRIX -->"
+_MATRIX_END = "<!-- END GENERATED MODEL-MEASUREMENT MATRIX -->"
 
 
 # ── submission-directory validation ─────────────────────────────────────────────────
@@ -288,13 +365,14 @@ def main(argv=None) -> int:
         print("submission OK")
         return 0
     if args.cmd == "verify":
-        problems = validate()
+        problems = validate() + validate_matrix_coverage()
         if problems:
             print("CAMPAIGN CATALOG INVALID:")
             for p in problems:
                 print("  -", p)
             return 1
-        print(f"campaign catalog OK: {len(load_catalog()['campaigns'])} campaigns valid")
+        print(f"campaign catalog OK: {len(load_catalog()['campaigns'])} campaigns valid; "
+              f"{len(model_to_measurement_matrix())} components covered")
         return 0
     if args.cmd == "list":
         for c in load_catalog().get("campaigns", []):

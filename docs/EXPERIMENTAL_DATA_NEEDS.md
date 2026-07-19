@@ -98,6 +98,43 @@ gate. The gate — not the raw submission — is what a status promotion depends
 §7.1). Reconstruction, calibration, and independent validation are labelled distinctly and never
 conflated.
 
+### Model → measurement matrix
+
+Which registered component each campaign would advance (generated; do not hand-edit between the markers):
+
+<!-- BEGIN GENERATED MODEL-MEASUREMENT MATRIX -->
+| Component | Role | Evidence | Gates | Campaigns | Blockers |
+|---|---|---|---|---|---|
+| `brewer2026.coupled_kappa_t` | runtime | exploratory_synthesis (2 gates) | gate_kappa_t_degeneracy, gate_mo2_swelling_flow_decay | `EXP-005` | — |
+| `brewer2026.lb_reference` | calibration | code_verification (1 gates) | — | — (no current campaign) | — |
+| `brewer2026.lb_taichi` | calibration | code_verification (0 gates) | — | — (no current campaign) | — |
+| `brewer2026.pack_generator` | calibration | qualitative_capacity (1 gates) | — | — (no current campaign) | — |
+| `brewer2026.streamtube` | runtime | within_campaign_held_out (1 gates) | gate_streamtube_heldout | `EXP-007` | `mo2023_2.coupled_bed#0` |
+| `cameron2020.extraction_bdf` | runtime | code_verification (1 gates) | gate_cameron_conservation | `EXP-001`, `EXP-008` | — |
+| `fasano2000_partI.fines_migration` | calibration | qualitative_capacity (3 gates) | — | — (no current campaign) | — |
+| `foster2025.infiltration` | runtime | sign_or_compatibility (1 gates) | gate_infiltration_triangle | `EXP-002` | — |
+| `foster2025.machine_mode` | runtime | source_curve_reproduction (3 gates) | — | — (no current campaign) | — |
+| `grudeva2025.reduced` | runtime | post_fit_reconstruction (2 gates) | — | — (no current campaign) | — |
+| `lee2023.feedback` | calibration | qualitative_capacity (1 gates) | — | — (no current campaign) | — |
+| `liang2021.desorption` | calibration | post_fit_reconstruction (2 gates) | — | — (no current campaign) | — |
+| `mo2023_2.coupled_bed` | runtime | post_fit_reconstruction (1 gates) | gate_streamtube_heldout | `EXP-007` | `mo2023_2.coupled_bed#0` |
+| `mo2023_2.swelling` | runtime | source_curve_reproduction (4 gates) | gate_kappa_t_degeneracy, gate_mo2_swelling_flow_decay | `EXP-005` | — |
+| `moroney2016.surrogate` | calibration | qualitative_capacity (1 gates) | — | — (no current campaign) | — |
+| `pannusch2024.closures` | calibration | code_verification (1 gates) | — | — (no current campaign) | — |
+| `pannusch2024.solver` | runtime | post_fit_reconstruction (1 gates) | gate_pannusch_solver_mape | `EXP-006` | `pannusch2024.solver#0` |
+| `romancorrochano2017.extraction` | runtime | sign_or_compatibility (6 gates) | gate_pannusch_solver_mape | `EXP-006` | `pannusch2024.solver#0` |
+| `sourcing2026.g10_liquor_rheology` | calibration | source_curve_reproduction (7 gates) | — | — (no current campaign) | — |
+| `sourcing2026.g1_glassbead_analog` | calibration | qualitative_capacity (1 gates) | — | — (no current campaign) | — |
+| `sourcing2026.g3_pump_characteristic` | calibration | sign_or_compatibility (1 gates) | — | — (no current campaign) | — |
+| `wadsworth2026.grindmap` | calibration | source_curve_reproduction (2 gates) | gate_wadsworth_collapse | `EXP-003` | `pannusch2024.solver#1` |
+| `wadsworth2026.inertial` | runtime | source_curve_reproduction (4 gates) | — | — (no current campaign) | — |
+| `wadsworth2026.permeability` | calibration | source_curve_reproduction (1 gates) | gate_wadsworth_collapse | `EXP-003` | `pannusch2024.solver#1` |
+| `waszkiewicz2025.poroelastic` | runtime | post_fit_reconstruction (2 gates) | gate_waszkiewicz_dynamic_9bar, gate_waszkiewicz_static_refit | `EXP-004` | — |
+<!-- END GENERATED MODEL-MEASUREMENT MATRIX -->
+
+A component shown with "no current campaign" is either calibration/closure, rights-blocked
+(`grudeva2025.reduced`, #73), or a documented backlog item (see `component_campaign_exemptions`).
+
 ## 9. What Puckworks will not infer from an insufficient dataset
 
 - a universal grinder-dial → particle-size mapping;

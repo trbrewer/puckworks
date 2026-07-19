@@ -8,6 +8,14 @@
 # Where such a value is not yet known it is recorded as one of: DESIGN_CALCULATION_REQUIRED,
 # SENSOR_SELECTION_REQUIRED, PILOT_REQUIRED. Validate with: python tools/experimental_data_needs.py verify
 schema_version: 1
+# runtime/runner components with no current experimental campaign, each for a documented reason:
+#   grudeva2025.reduced   — rights-blocked (#73); no campaign until the rights decision is made.
+#   foster2025.machine_mode — the pump/headspace "machine mode" backlog; no campaign is defined yet.
+#   wadsworth2026.inertial  — the inertial-flow supporting lens; no campaign is defined yet.
+component_campaign_exemptions:
+  - grudeva2025.reduced
+  - foster2025.machine_mode
+  - wadsworth2026.inertial
 evidence_levels:
   - protocol_only
   - feasibility_pilot
