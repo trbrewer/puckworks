@@ -1,0 +1,31 @@
+# Controlled research-intake record (issue #46). Metadata-only.
+# Records the journal publication identity for the already-carded, already-implemented component.
+stable_id: waszkiewicz2025_poroelastic
+title: "Under pressure: Poroelastic regulation of flow in espresso brewing"
+source_type: article
+organization: "AIP Publishing — Physics of Fluids 38, 063113 (2026)"
+authors:
+  - "Waszkiewicz, N."
+  - "Myck, M."
+  - "Białas, K."
+  - "Puciata-Mroczyńska, M."
+  - "Dzikowski, M."
+  - "Szymczak, P."
+  - "Lisicki, M."
+published_date: "2026-06-23"
+doi: "10.1063/5.0319611"
+arxiv_id: "2512.21528"
+url: "https://doi.org/10.1063/5.0319611"
+access_state: redistribution_prohibited      # AIP journal article — cite only, do not copy
+redistribution_state: redistribution_prohibited
+disposition: already-carded
+coupled_cards:
+  - waszkiewicz2025
+relevance: >-
+  Journal version of the already-carded, already-gated component waszkiewicz2025.poroelastic. The
+  journal DOI/metadata are verified from the DOI/Crossref record; the code+data are separately CC-BY
+  (Zenodo 10.5281/zenodo.18046315).
+notes: >-
+  The AIP journal article is NOT redistributable (cite only; no figures/text/tables copied). The
+  carded implementation and gates track the arXiv/Zenodo basis; a rights-cleared journal-vs-preprint
+  equation diff is a separate open follow-up. Card updated to gated status with the journal DOI.

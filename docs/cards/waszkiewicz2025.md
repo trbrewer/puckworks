@@ -1,8 +1,20 @@
 # Model card: Waszkiewicz 2025 poroelastic flow regulation
 
-**Paper:** Waszkiewicz, Myck, Białas, Puciata-Mroczynska, Dzikowski, Szymczak, Lisicki, "Under pressure: poroelastic regulation of flow in espresso brewing," arXiv:2512.21528 [physics.flu-dyn] (Dec 2025). No journal DOI yet; code+data DOI on Zenodo.
+**Paper:** Waszkiewicz, Myck, Białas, Puciata-Mroczyńska, Dzikowski, Szymczak, Lisicki, "Under pressure: Poroelastic regulation of flow in espresso brewing," *Physics of Fluids* **38**, 063113 (2026), DOI [10.1063/5.0319611](https://doi.org/10.1063/5.0319611), published 2026-06-23 (AIP Publishing). Preprint arXiv:2512.21528 [physics.flu-dyn] (Dec 2025). Code + data on Zenodo, DOI 10.5281/zenodo.18046315.
 **Stage(s):** bed_dynamics, flow · **Kind:** runtime
-**Status:** card-only
+**Status:** gated — registered as `waszkiewicz2025.poroelastic`; see "Implementation and registry status" below.
+
+## Implementation and registry status
+- **Registry ID:** `waszkiewicz2025.poroelastic` (stage `bed_dynamics`, kind `runtime`).
+- **Implementation:** `puckworks/models/waszkiewicz2025/poroelastic.py`, registered in `puckworks/models/__init__.py`.
+- **Gates:** `gate_waszkiewicz_static_refit` (static refit reproduces the published `(P_c, Q_c) = (12.39, 1.897)`) and `gate_waszkiewicz_dynamic_9bar` (parameter-free 9-bar `Q(t)` long-run within ~2%), in `puckworks/validation/gates.py`; a slow external cross-check lives in `puckworks/validation/slow/external_waszkiewicz.py`.
+- **Execution role / provenance / evidence:** `runtime` · `published_port` · `post_fit_reconstruction` (the 9-bar `Q(t)` uses `m_d(t)` from the same rig — a soft circularity, so this is reconstruction, not independent validation).
+- **Rights (kept separate):**
+  - *Journal article* — © AIP Publishing, DOI 10.1063/5.0319611. **Not redistributable**; cite only, do not copy figures/text/tables into this repository.
+  - *Code* — the authors' analysis code is GPLv3 on Zenodo/GitHub; it is **not ingested** into this MIT-licensed package (the component is an independent re-expression of the published equations, per the module header).
+  - *Data* — the transcribed flow/TDS/calibration series are CC-BY-4.0 (Zenodo record 18046315) with `MANIFEST.csv` rows and attribution.
+- **Public code/data provenance:** all displayed values derive from the Zenodo `formatted_measurements` / `fit_parameters` files (see the MANIFEST rows) and the re-implemented closed-form equations; no AIP-article content is reproduced.
+- **Journal-vs-preprint delta:** the journal metadata (Phys. Fluids 38, 063113; DOI 10.1063/5.0319611; 2026-06-23) is verified from the DOI/Crossref record. A full equation/parameter/validation diff against the journal PDF is **not** performed here because the AIP article is paywalled (no rights to ingest it); the implementation and gates track the arXiv/Zenodo basis on which the journal version is built, and the gates still reproduce the published constants. **No material implementation delta is claimed either way** — a rights-cleared journal-vs-preprint reconciliation remains an open, separate follow-up; model equations/values are unchanged by this metadata update.
 
 ## Scope and mechanism
 Quasi-static 1D poroelastic model of a saturated, tamped coffee bed: Darcy flow with a porosity-dependent Carman–Kozeny permeability, coupled to Terzaghi effective stress and a linear (Hookean) strain–porosity constitutive law (Hewitt et al. 2016 hydrogel-pack model, simplified). Pressure compacts the bed, reducing permeability, so the equilibrium pressure–flow curve is Darcy-linear below ~5 bar and saturates in the 9-bar brewing regime. A time-dependent extension makes the stress-free porosity Φ(t) proportional to the dissolved mass fraction, giving a closed-form predictor of Q(t) during the shot from two rig-calibration constants (P_c, Q_c) plus the dissolution curve. Explicitly does NOT model the first ~5–10 s (unsaturated wetting, air expulsion, swelling).

@@ -1,0 +1,32 @@
+# Controlled research-intake record (issue #46). Metadata-only — the privately uploaded SI PDF is
+# NOT redistributed; only the open-access article's public metadata is recorded here.
+stable_id: grudeva2026_infiltration_extraction
+title: "A multiscale model for espresso brewing: asymptotic analysis and numerical simulation"
+source_type: article
+organization: "European Journal of Applied Mathematics 37(2), 496-519 (2026)"
+authors:
+  - "Grudeva, Y."
+  - "Moroney, K."
+  - "Foster, J."
+published_date: "2025-05-27"
+doi: "10.1017/S095679252500018X"
+arxiv_id: null
+url: "https://doi.org/10.1017/S095679252500018X"
+access_state: open_access                    # EJAM article is CC-BY-4.0 (verified via Crossref license)
+redistribution_state: redistribution_permitted   # the CC-BY article equations may be re-used with attribution
+disposition: implement-candidate
+coupled_cards:
+  - grudeva2026_2
+coupled_issue: "#67"
+likely_variables:
+  - outlet-concentration
+  - first-drip-time
+  - saturation-plateau
+relevance: >-
+  The exact infiltration-extraction coupling backlog item; card-no-implementation (card exists,
+  no registered component yet). Implementation is scoped in issue #67, verification-only evidence.
+notes: >-
+  Article is CC-BY-4.0 (re-implement equations with attribution). The published reduced-solver repo
+  github.com/YoanaGrudeva/espresso-model declares NO license (all-rights-reserved) -> do not copy its
+  code; use its outputs only as parity targets. The privately uploaded SI PDF is not redistributed.
+  A disposition of implement-candidate is NOT an implementation authorization (issue #67 gates that).

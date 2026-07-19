@@ -1,0 +1,34 @@
+# Controlled research-intake record (issue #46). Metadata-only — no raw dataset, images, charts,
+# report text, or telemetry rows are copied. Contacting the organization is out of scope here.
+stable_id: wbc2025_in_numbers
+title: "WBC 2025 in Numbers (World Barista Championship telemetry report)"
+source_type: report
+organization: "World Coffee Events / Specialty Coffee Association"
+published_date: null            # official publication date not yet confirmed from the primary source
+doi: null
+arxiv_id: null
+url: null                        # official source URL to be confirmed; no private link recorded
+access_state: metadata_only
+redistribution_state: rights_pending
+disposition: data-access-and-license-review
+telemetry_scope: >-
+  Competition-run machine telemetry summarised at the event ("in numbers"): only variables the
+  official report explicitly describes should ever be recorded here. Likely-useful signals — recorded
+  ONLY as a possibility, not asserted as present — could include shot pressure, flow, mass, time, and
+  recipe/dose distribution across competitors.
+likely_variables:
+  - pressure
+  - flow
+  - mass
+  - time
+  - recipe-distribution
+coupled_cards:
+  - visualizer_coffee
+relevance: >-
+  Possible relevance to flow / pressure / mass / time and recipe-distribution validation of the
+  flow and extraction stages, IF an access-and-rights path exists. Metadata discovery is not evidence.
+notes: >-
+  Lead only. No raw dataset is assumed; no report text, images, charts, or telemetry rows are copied.
+  Redistribution rights and data access are UNRESOLVED (rights_pending). Requires a data-access and
+  license review before any ingestion; ingesting WBC telemetry without data access and rights is a
+  hard boundary. This record authorizes no implementation.
