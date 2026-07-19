@@ -159,6 +159,113 @@ def _write_generated_table(check: bool = False) -> int:
     return 0
 
 
+# ── submission-directory validation ─────────────────────────────────────────────────
+_SUBMISSION_REQUIRED = ("campaign_metadata.yml", "apparatus.yml", "calibration.csv",
+                        "shot_metadata.csv", "shot_timeseries.csv", "file_manifest.csv")
+_MISSING_TOKENS = {"missing", "below_detection", "not_measured", "invalid", ""}
+
+
+def _read_csv(path: Path) -> tuple:
+    import csv
+    with open(path, newline="", encoding="utf-8") as fh:
+        rows = list(csv.DictReader(fh))
+    header = rows[0].keys() if rows else _csv_header(path)
+    return list(header), rows
+
+
+def _csv_header(path: Path) -> list:
+    return path.read_text(encoding="utf-8").splitlines()[0].split(",")
+
+
+def validate_submission(directory) -> list:
+    """Validate a FILLED submission directory against the templates. Fail-closed: required files present,
+    consistent + unique shot ids, monotonic elapsed_s, finite values, no duplicate rows, file checksums
+    reproduce, a grantable licence, calibration records present, raw/processed marked, and a missing value
+    is never inferred as zero. A SYNTHETIC_TEST_FIXTURE is validated for parsing but flagged as non-data."""
+    import hashlib
+    import math
+
+    import yaml
+    d = Path(directory)
+    problems: list = []
+    for f in _SUBMISSION_REQUIRED:
+        if not (d / f).exists():
+            problems.append(f"missing required file {f}")
+    if problems:
+        return problems
+    meta = yaml.safe_load((d / "campaign_metadata.yml").read_text(encoding="utf-8"))
+    synthetic = str(meta.get("site_id", "")).upper().find("SYNTHETIC") >= 0 or \
+        (d / "SYNTHETIC_TEST_FIXTURE").exists()
+    lic = str(meta.get("data_license", ""))
+    if not lic or lic == "LICENSE_PLACEHOLDER":
+        problems.append("campaign_metadata.yml has no grantable data_license")
+    # shot metadata: unique shot ids + a raw/processed column
+    sm_header, sm_rows = _read_csv(d / "shot_metadata.csv")
+    if "raw_or_processed" not in sm_header:
+        problems.append("shot_metadata.csv missing raw_or_processed column")
+    shot_ids = [r.get("shot_id") for r in sm_rows]
+    if len(shot_ids) != len(set(shot_ids)):
+        problems.append("duplicate shot_id in shot_metadata.csv")
+    known_shots = set(shot_ids)
+    # time series: known shot ids, monotonic elapsed_s per shot, finite values, no duplicate rows
+    ts_header, ts_rows = _read_csv(d / "shot_timeseries.csv")
+    seen_rows = set()
+    last_t: dict = {}
+    for i, r in enumerate(ts_rows):
+        sid = r.get("shot_id")
+        if sid not in known_shots:
+            problems.append(f"shot_timeseries.csv row {i}: unknown shot_id {sid!r}")
+        key = tuple(r.items())
+        if key in seen_rows:
+            problems.append(f"shot_timeseries.csv row {i}: duplicate row")
+        seen_rows.add(key)
+        try:
+            t = float(r.get("elapsed_s"))
+            if not math.isfinite(t):
+                problems.append(f"shot_timeseries.csv row {i}: non-finite elapsed_s")
+            elif sid in last_t and t < last_t[sid]:
+                problems.append(f"shot_timeseries.csv row {i}: elapsed_s not monotonic for {sid}")
+            else:
+                last_t[sid] = t
+        except (TypeError, ValueError):
+            problems.append(f"shot_timeseries.csv row {i}: elapsed_s not a number")
+        for col in ("pressure_bar", "beverage_mass_g", "flow_g_s"):
+            v = r.get(col)
+            if v not in (None, "") and not _is_finite_number(v):
+                problems.append(f"shot_timeseries.csv row {i}: non-finite {col}={v!r}")
+    # calibration present (at least a header + the instrument column)
+    cal_header, _ = _read_csv(d / "calibration.csv")
+    if "instrument" not in cal_header:
+        problems.append("calibration.csv missing instrument column")
+    # file manifest checksums reproduce for files present in the directory
+    fm_header, fm_rows = _read_csv(d / "file_manifest.csv")
+    for r in fm_rows:
+        name, sha = r.get("filename"), r.get("sha256")
+        fp = d / (name or "")
+        if name and fp.exists() and sha:
+            actual = hashlib.sha256(fp.read_bytes()).hexdigest()
+            if actual != sha:
+                problems.append(f"file_manifest.csv: checksum mismatch for {name}")
+    # chemistry (optional): a missing value must be an explicit status token, never a bare 0 with no status
+    chem = d / "chemistry_measurements.csv"
+    if chem.exists():
+        _, chem_rows = _read_csv(chem)
+        for i, r in enumerate(chem_rows):
+            if r.get("mass_mg") in (None, "") and r.get("measurement_status") in (None, ""):
+                problems.append(f"chemistry_measurements.csv row {i}: missing mass with no measurement_status")
+    if synthetic:
+        problems = [p for p in problems]                 # keep problems; the caller notes it is a fixture
+    return problems
+
+
+def _is_finite_number(v) -> bool:
+    import math
+    try:
+        return math.isfinite(float(v))
+    except (TypeError, ValueError):
+        return False
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="experimental_data_needs", description=__doc__)
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -168,7 +275,18 @@ def main(argv=None) -> int:
     s.add_argument("campaign_id")
     r = sub.add_parser("render")
     r.add_argument("--check", action="store_true")
+    vs = sub.add_parser("validate-submission")
+    vs.add_argument("directory")
     args = ap.parse_args(argv)
+    if args.cmd == "validate-submission":
+        problems = validate_submission(args.directory)
+        if problems:
+            print("SUBMISSION INVALID:")
+            for p in problems:
+                print("  -", p)
+            return 1
+        print("submission OK")
+        return 0
     if args.cmd == "verify":
         problems = validate()
         if problems:

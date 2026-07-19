@@ -1,0 +1,17 @@
+# SYNTHETIC_TEST_FIXTURE — fabricated values to exercise the parser/QC ONLY. NOT measured data.
+# Excluded from puckworks/data/MANIFEST.csv; never used to validate a model or support a public claim.
+campaign_id: EXP-001
+site_id: SYNTHETIC_TEST_FIXTURE
+contributor: synthetic
+dataset_status: pilot_collected
+evidence_level_claimed: feasibility_pilot
+external_repository: SYNTHETIC
+doi: SYNTHETIC
+data_license: CC0
+timezone: UTC
+replicate_count: 2
+exclusions_recorded: true
+deviations_from_protocol: NONE
+declaration:
+  no_private_or_unlicensed_third_party_data: true
+  submission_does_not_authorize_a_model_or_evidence_upgrade: true

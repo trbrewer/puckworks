@@ -1,0 +1,6 @@
+# SYNTHETIC_TEST_FIXTURE
+apparatus_id: SYN-APP-1
+machine_make_model: synthetic
+grinder_make_model: synthetic
+signals:
+  - {observable: pressure, instrument: synthetic, native_unit: bar, prescribed_or_measured: measured}
