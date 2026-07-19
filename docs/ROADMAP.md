@@ -5,8 +5,10 @@
 > **PV-03 "The Cup Hides the Clock"**, **PV-05 "More Physics Made It Worse"**, and **PV-04 "How We
 > Falsified Our Own Espresso Headline"** (the analysis autopsy) are all **live** on GitHub Pages
 > (PV-04 at <https://trbrewer.github.io/puckworks/analysis-autopsy/>, deployed source 238714b, issue
-> #62 verified live). No next public-value product lane has been authoritatively selected yet —
-> selection is pending. The **evidence-aware bundled-shot explanation lane
+> #62 verified live). The **Guided Pull Laboratory (PV-19B, issue #70)** is now the second active
+> product lane (development `0.4.0.dev0`): a landed core exposes the full component registry and runs
+> the compatible subset as independent model lenses (one executed extraction lens today), never a
+> validated digital twin. The **evidence-aware bundled-shot explanation lane
 > remains blocked** on one formally qualified redistributable individual-shot fixture (issue #32) — but
 > no product work is blocked on that fixture-rights lane unless it actually needs the fixture. The
 > Paper A sign-off lane and sanctioned corpus-export lane remain blocked. PyPI remains a separate,
