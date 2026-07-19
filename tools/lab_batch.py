@@ -120,14 +120,30 @@ def _request_from_env(env: dict, preset: str, over: dict) -> "lab.ScenarioReques
 
 
 def run(env: dict | None = None) -> dict:
-    """Atomic: build every output in a STAGING dir, verify the artifact, then rename staging -> final. On
-    failure no partially valid final directory is left; a failure summary is written outside it."""
+    """Atomic: rights-preflight (before any producer), build every output in a STAGING dir, verify the
+    artifact, then rename staging -> final. On failure no partially valid final directory is left; a
+    failure summary is written outside it."""
     import shutil
+
+    from puckworks.product import lab_rights_gate as gate
     env = dict(os.environ if env is None else env)
     preset = env.get("LAB_PRESET") or "pv19_named"
     final_dir = Path(env.get("LAB_OUT_DIR") or "out/lab")
+    context = env.get("LAB_EXECUTION_CONTEXT") or "LOCAL_PRIVATE"
     over = _bounded(env)
-    execution = lab.execute_scenario(_request_from_env(env, preset, over))
+    request = _request_from_env(env, preset, over)
+
+    # RIGHTS PREFLIGHT — runs BEFORE any model/native-reference producer. A blocked public request writes
+    # only the rights decision (no scientific output) and fails; no producer is ever invoked.
+    verdict = gate.preflight(request, context)
+    if verdict["blocked"]:
+        final_dir.parent.mkdir(parents=True, exist_ok=True)
+        (final_dir.parent / (final_dir.name + ".rights_preflight.json")).write_text(
+            json.dumps(verdict, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        raise RuntimeError("rights preflight blocked (%s): %s — no producer was invoked, no scientific "
+                           "output emitted" % (context, "; ".join(verdict["blockers"])))
+
+    execution = lab.execute_scenario(request)
     report = lab.build_comparison(execution, provenance=_provenance(env))
 
     final_dir.parent.mkdir(parents=True, exist_ok=True)

@@ -136,7 +136,10 @@ See [`docs/GUIDED_PULL_LABORATORY.md`](docs/GUIDED_PULL_LABORATORY.md).
   **development** branch/version (`0.4.0.dev0`), not necessarily the latest release.
 - **Actions** — reproducible batch artifacts: the manually dispatched `guided-pull-batch` workflow
   (`workflow_dispatch`) builds the current wheel and writes deterministic JSON/Markdown/figure. It is a
-  batch runner, not a live UI.
+  batch runner, not a live UI. As a **public** artifact run it applies a rights preflight before any
+  producer: it is **gated pending an affirmative rights review of the extraction lens
+  (`cameron2020.extraction_bdf`, currently `NOT_REVIEWED`)**, so a public run currently blocks and emits
+  only the rights diagnostic. Local/private inspection is unaffected.
 
 **More public stories:**
 
