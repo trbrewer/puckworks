@@ -75,7 +75,7 @@ Couplings: runtime, in the shot chain. This is the registry's missing infiltrati
 ## Extractable data
 - Table 1 → data/grudeva2026_table1.csv: the authors' attempt at a first "complete" espresso parameter set (flag the P*_app typo and the fitted/literature/experiment provenance per row).
 - Table 2 dimensionless values (small, include in same csv).
-- Reduced-model Python solver is published: github.com/YoanaGrudeva/espresso-model (SI ref [1]) — transcribable and directly gateable. Full-model MATLAB code is not stated to be published.
+- Reduced-model Python solver is published: github.com/YoanaGrudeva/espresso-model (SI ref [1]). **Rights caveat (verified 2026-07-18):** the repo declares **no license** (GitHub API `license: null`) → all-rights-reserved; do **not** copy/vendor/transcribe the code. The equations themselves are CC-BY-4.0 (the EJAM article is open access), so re-implement independently from the published equations and use the solver's outputs only as external parity targets (or obtain explicit permission). Full-model MATLAB code is not stated to be published. Implementation is tracked in issue #67.
 - Figures 3–5 are model-vs-model curves (verification, not measurement) — worth digitising only as gate targets, not as reference data. No experimental tables. Time-resolved outlet-concentration data is promised in a follow-up paper; watch for it — that dataset would raise this component's value considerably.
 
 ## Overlaps and conflicts
