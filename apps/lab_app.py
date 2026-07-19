@@ -29,7 +29,16 @@ def preset_defaults(preset_id: str) -> dict:
 
 
 def format_finding(finding) -> tuple:
-    """(level, text, detail) for a DomainFinding. Unit-testable; no Streamlit dependency."""
+    """(level, text, detail) for a DomainFinding (object OR the serialized dict the execution carries).
+    Unit-testable; no Streamlit dependency."""
+    if isinstance(finding, dict):
+        status_v = str(finding.get("status") or "").lower()
+        field = finding.get("field", "")
+        plain = finding.get("plain_explanation", "") or ""
+        detail = finding.get("technical_reason", "") or ""
+        text = f"{field}: {plain}".strip(": ")
+        level = {"rejected": "error", "warning": "warning", "in_domain": "success"}.get(status_v, "info")
+        return level, text or field or status_v, detail
     status = getattr(finding, "status", None)
     status_v = str(getattr(status, "value", status) or "").lower()
     field = getattr(finding, "field", "")
@@ -76,6 +85,9 @@ def main():
                         key="brew_temperature_c", step=1.0)
         st.text_input("Grinder / particle input", value="reference recipe (no dial→size conversion)",
                       disabled=True, help="A grinder dial is not a universal particle size.")
+        st.selectbox("Domain policy", ["warn", "strict"], key="domain_policy",
+                     help="strict: an evidence-range departure blocks execution before the producer runs; "
+                          "warn: the run completes with the departure flagged.")
         st.button("Reset to preset", on_click=_apply_preset)
         run_clicked = st.button("Run comparison", type="primary")
 
@@ -89,62 +101,78 @@ def main():
     overrides = {k: float(st.session_state[k]) for k in BOUNDS
                  if abs(float(st.session_state[k]) - base[k]) > 1e-9}
     try:
-        request = lab.ScenarioRequest(preset_id=preset_id, overrides=overrides)
+        request = lab.ScenarioRequest(preset_id=preset_id, overrides=overrides,
+                                      domain_policy=st.session_state.get("domain_policy", "warn"))
         execution = lab.execute_scenario(request)
     except Exception as exc:                              # useful message, never a stack dump
         st.error(f"Could not run the scenario: {type(exc).__name__}: {exc}")
         return
 
-    # domain findings BEFORE results; REJECTED blocks execution
+    # domain findings BEFORE results; the execution already evaluated the domain through the authoritative
+    # product domain and decided whether the producer ran (REJECTED blocks always; WARNING blocks strict).
     st.subheader("Domain findings")
-    findings = prod.evaluate_domain(prod.load_pull_preset(preset_id)[0]) if not overrides else \
-        [f for f in _domain_findings_for(preset_id, overrides)]
-    rejected = False
+    findings = list(execution.domain_findings)
     for f in findings:
         level, text, detail = format_finding(f)
         {"error": st.error, "warning": st.warning, "success": st.success, "info": st.info}[level](text)
         if detail:
             with st.expander("technical reason"):
                 st.write(detail)
-        rejected = rejected or level == "error"
     if not findings:
         st.success("No domain findings.")
-    if rejected:
-        st.error("Scenario rejected by the domain policy; not executed.")
+    if execution.domain_blocked:
+        st.error(f"Scenario blocked by domain policy ({execution.effective_domain_policy}); the scientific "
+                 f"producer was not run. Reason: {execution.domain_block_reason}")
         return
 
     report = lab.build_comparison(execution, provenance=lab.BuildProvenance(
         package_version=__import__("puckworks").__version__))
+    cap = report["capability_snapshot"]
 
     st.subheader(f"Scenario: {report['scenario']['scenario_id']}")
     st.json(report["scenario"]["applied_overrides"] or {"overrides": "none (preset defaults)"})
 
-    lens = report["executed_lenses"][0]
-    st.subheader("Executed common-scenario lens")
-    st.markdown(f"**`{lens['component_id']}`** — {lens['status']} via `{lens['adapter']}`")
-    st.table([{"observable": o["name"], "value": o["value"], "unit": o["unit"], "role": o["role"],
-               "note": o["note"]} for o in lens["observables"]])
+    if not report["executed_lenses"]:
+        st.warning("No common-scenario lens executed for this request.")
+    else:
+        lens = report["executed_lenses"][0]
+        st.subheader("Executed common-scenario lens")
+        st.markdown(f"**`{lens['component_id']}`** — {lens['status']} via `{lens['adapter']}`")
+        st.table([{"observable": o["name"], "value": o["value"], "unit": o["unit"], "role": o["role"],
+                   "note": o["note"]} for o in lens["observables"]])
 
     st.subheader("Scientific trace plots")
-    for panel in lab.render_data(report):
-        st.markdown(f"**{panel['title']}**  — evidence: {panel['evidence_badge']}")
+    st.caption("Each panel carries exactly one unit on its y-axis — incompatible units "
+               "(bar / g/s / g / % / kg/m³) are never overlaid on one axis.")
+    panels = lab.render_data(report)
+    labels = {f"{p['component_id']} — {p['title'].split(': ', 1)[-1]}": p["panel_id"] for p in panels}
+    chosen = st.multiselect("Panels to show (one per unit)", list(labels), default=list(labels))
+    chosen_ids = {labels[c] for c in chosen}
+    for panel in panels:
+        if panel["panel_id"] not in chosen_ids:
+            continue
+        st.markdown(f"**{panel['title']}**  — y-axis: {panel['unit']} · evidence: "
+                    f"{panel['evidence_badge']}")
         chart = {panel["x_label"]: panel["x"]}
         for s in panel["series"]:
-            chart[f"{s['label']} [{s['role']}, {s['unit']}]"] = s["y"]
+            chart[f"{s['label']} [{s['role']}]"] = s["y"]        # all series share the panel's one unit
         try:
             import pandas as pd
             df = pd.DataFrame(chart).set_index(panel["x_label"])
-            st.line_chart(df)
-            with st.expander("data table"):
+            st.line_chart(df, y_label=panel["y_label"], x_label=panel["x_label"])
+            with st.expander("data table (text alternative)"):
                 st.dataframe(df, width="stretch")
+            st.download_button("Download panel CSV", data=df.to_csv().encode("utf-8"),
+                               file_name=f"{panel['panel_id'].replace('::', '__')}.csv",
+                               mime="text/csv", key=f"csv_{panel['panel_id']}")
         except Exception:
             st.table(chart)
 
     st.subheader("All-component coverage matrix")
     st.dataframe([{"component": r["component_id"], "stage": r["stage"], "role": r["execution_role"],
-                   "disposition": r["disposition"], "runner": r["native_runner_state"],
+                   "disposition": r["disposition"], "runner_capability": r["native_runner_capability"],
                    "rights": r["rights_state"], "gates": r["n_gates"]}
-                  for r in report["component_matrix"]], width="stretch")
+                  for r in cap["component_matrix"]], width="stretch")
 
     st.subheader("Executed native reference results")
     st.caption("Each is the component's OWN native reference case, not the common scenario.")
@@ -161,8 +189,8 @@ def main():
         st.info("No native reference runners executed in this request.")
 
     with st.expander("Reference-runner coverage (not-yet-implemented / rights-blocked / optional)"):
-        st.table([{"component": r["component_id"], "runner_state": r["runner_state"], "note": r["note"]}
-                  for r in report["reference_suite_coverage"]])
+        st.table([{"component": r["component_id"], "capability": r["native_runner_capability"],
+                   "note": r["note"]} for r in cap["reference_suite_coverage"]])
 
     st.subheader("What this does not prove")
     for s in report["what_this_does_not_prove"]:
@@ -174,12 +202,6 @@ def main():
                        file_name="guided_pull_lab.json", mime="application/json")
     st.download_button("Comparison Markdown", data=lab.render_markdown(report),
                        file_name="guided_pull_lab.md", mime="text/markdown")
-
-
-def _domain_findings_for(preset_id, overrides):
-    import dataclasses
-    recipe, _ = prod.load_pull_preset(preset_id)
-    return prod.evaluate_domain(dataclasses.replace(recipe, **overrides))
 
 
 if __name__ == "__main__":

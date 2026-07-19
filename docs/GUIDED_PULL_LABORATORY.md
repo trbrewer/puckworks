@@ -105,8 +105,21 @@ runner, or adapter; a release-readiness guard fails if a rights-blocked componen
 artifact. `capability_snapshot.reference_suite_coverage` lists runner *capabilities* honestly; only
 actually-executed references appear in `executed_reference_results`.
 
+## Unit-safe figures
+
+`lab.render_data(report)` is the single shared plotting layer for the Streamlit UI and the Actions batch,
+and it is **unit-safe by construction**: every source trace is split into one panel *per unit*, so a
+single ordinary y-axis never overlays incompatible units (bar / g/s / g / % / kg/m³). `assert_unit_safe`
+rejects a mixed-unit panel; both renderers call it, so neither can draw one. The batch writes one figure
+**and** one CSV (the text-alternative) per panel, records a `panel_inventory` in the manifest, and keeps
+the required-figure gate — if nothing is plottable the job fails, never a silent skip. The Streamlit UI
+adds a per-unit panel selector, a per-panel data table + CSV download, an axis unit label, and a
+`domain_policy` control that surfaces the strict block path.
+
 ## Honesty boundaries (enforced by tests)
 
+- **No incompatible units on one ordinary y-axis** (bar / g/s / g / % / kg/m³ are never overlaid); the
+  plotting layer splits by unit and a validator rejects a mixed-unit panel.
 - No summing/averaging of competing mechanisms; no ensemble without a defensible statistical model.
 - Competing extraction models (`grudeva2025.reduced`, `pannusch2024.solver`,
   `romancorrochano2017.extraction`, `mo2023_2.coupled_bed`) are `ADAPTER_REQUIRED`: their concentration
