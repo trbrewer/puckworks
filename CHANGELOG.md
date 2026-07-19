@@ -5,6 +5,18 @@ tracked in detail in `docs/ROADMAP.md` §7.1.
 
 ## Unreleased
 
+- **Guided Pull Laboratory contract hardening (schema v3, development `0.4.0.dev0`):** exact scenario
+  identity + override provenance (`guided_v1` runs are no longer mislabelled `pv19_named`); typed
+  `ScenarioRequest`/`ScenarioExecution` records; separated **scientific-payload** vs **full-artifact**
+  integrity hashes (the downloadable artifact now carries `source_commit`/`package_version`/
+  `workflow_run_id`/`wheel_sha256`, supplied explicitly — no git subprocess in the producer); correct
+  observable roles (prescribed/derived/simulated/unsupported/diagnostic); an explicit component
+  capability/rights matrix (with `grudeva2025.reduced` marked **RIGHTS_BLOCKED** pending issue #73);
+  honest reference-suite coverage (executed results vs not-yet-implemented placeholders); real
+  scientific trace plots in the Streamlit UI and the Actions batch (required figure — the batch fails if
+  it cannot render); and an artifact hash manifest. Still one executed common-scenario lens (Cameron);
+  no multi-model validation claim.
+
 - **Guided Pull Laboratory** (development `0.4.0.dev0`, not released): `puckworks.product.lab` exposes
   the full component registry as a coverage matrix and runs the compatible subset as independent model
   lenses (one executed extraction lens today) — never a validated digital twin. Added a Codespaces
