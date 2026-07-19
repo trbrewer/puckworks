@@ -105,6 +105,18 @@ runner, or adapter; a release-readiness guard fails if a rights-blocked componen
 artifact. `capability_snapshot.reference_suite_coverage` lists runner *capabilities* honestly; only
 actually-executed references appear in `executed_reference_results`.
 
+## Native reference runner authority
+
+Each native reference runner reuses the component's authoritative producer callables **and** delegates its
+pass/band verdict to that component's quick gate — the gate is the single source of every threshold. The
+wadsworth `0.7 < ratio < 1.2` collapse band, the foster `> 0.5 g` first-drip threshold, and the
+waszkiewicz refit tolerances live only in `gate_wadsworth_collapse` / `gate_infiltration_triangle` /
+`gate_waszkiewicz_static_refit`; the runner surfaces that verdict verbatim (a `gate_authority` block) and
+never re-derives the literal. The foster first-drip crossing is explicit: no crossing → `unavailable`
+(never a false `argmax` sample at t[0]). `RunnerSpec` and the registry are validated
+(`validate_runners()`), results are schema-sanitized and finite, and selection raises on an unknown id
+(`run_selected(..., strict=True)` by default; `available_runners()` lists the selectable set).
+
 ## Unit-safe figures
 
 `lab.render_data(report)` is the single shared plotting layer for the Streamlit UI and the Actions batch,
