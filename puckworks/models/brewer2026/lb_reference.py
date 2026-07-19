@@ -87,6 +87,30 @@ def solve(solid, g=1e-6, tau_plus=1.2, max_steps=20000, check=200, rtol=1e-7,
     return dict(q=float(q), k=float(k), phi=float(phi), nu=nu, steps=step,
                 seconds=round(time.time()-t0,1), ux=ux + 0.5*g)
 
+# ---------------- canonical plane-channel code-verification case ----------------
+# The single named verification case shared by the authoritative gate (gate_lb_channel) and the Guided
+# Pull Laboratory native reference runner, so the two can never carry divergent channel arithmetic. It
+# returns the FULL-PRECISION numeric summary vs the exact plane-Poiseuille permeability; the pass/fail
+# THRESHOLD is deliberately NOT here — the acceptance band lives only in gate_lb_channel (the authority).
+CHANNEL_VERIFICATION_CASE = dict(Nz=33, N=4, g=1e-6, tau_plus=1.2, max_steps=20000, check=200, rtol=1e-6)
+
+def channel_verification(Nz=33, N=4, g=1e-6, tau_plus=1.2, max_steps=20000, check=200, rtol=1e-6):
+    """Solve the plane channel ONCE and return the full-precision code-verification summary against the
+    exact plane-Poiseuille permeability k = h^2/12 (h = Nz - 2, the half-voxel wall spacing). No pass/fail
+    threshold is applied here (that is gate_lb_channel's sole authority). Deterministic: no randomness, so
+    two identical calls return identical numbers."""
+    solid = np.zeros((N, N, Nz), dtype=bool)
+    solid[:, :, 0] = True; solid[:, :, -1] = True
+    r = solve(solid, g=g, tau_plus=tau_plus, max_steps=max_steps, check=check, rtol=rtol, verbose=False)
+    h = float(Nz - 2)
+    k_exact = h * h / 12.0
+    k_meas = r["nu"] * (r["q"] * Nz / h) / g              # superficial velocity referenced to channel width
+    err_pct = 100.0 * (k_meas / k_exact - 1.0)
+    return dict(k_meas=float(k_meas), k_exact=float(k_exact), err_pct=float(err_pct), h=h,
+                nu=float(r["nu"]), q=float(r["q"]), phi=float(r["phi"]), steps=int(r["steps"]),
+                max_steps=int(max_steps), converged=bool(r["steps"] < max_steps),
+                seconds=float(r["seconds"]))
+
 # ---------------- validation cases ----------------
 def channel_case(Nz=41, N=4):
     solid = np.zeros((N, N, Nz), dtype=bool)
