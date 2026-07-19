@@ -201,6 +201,36 @@ def measurement_agenda() -> list:
     return agenda
 
 
+def roman_corrochano_lens_readiness() -> dict:
+    """Deterministic readiness record for adding romancorrochano2017.extraction as a SECOND common-scenario
+    lens (a separate-panel relative-trend lens — never converted to Cameron EY/TDS). The adapter is
+    DEFERRED because the affirmative rights review its public use requires was not completed: its code and
+    output rights remain NOT_REVIEWED (see docs/rights_review_notes.md). No adapter is implemented; no
+    cross-model arithmetic exists. This record links the blocker to the campaign that would validate it."""
+    from puckworks import rights
+    cid = "romancorrochano2017.extraction"
+    exe = shared_scenario_execution_readiness(cid)
+    rec = rights.rights_record(cid)
+    public_exec = rights.may_execute_in_public_batch(cid)
+    publish = rights.may_publish_outputs(cid)
+    return {
+        "component_id": cid,
+        "execution_readiness": exe["execution_readiness"],       # READY_FOR_SHARED_SCENARIO
+        "missing_inputs": exe["missing_inputs"],                 # none; no grinder-dial mapping needed
+        "output_comparability_vs_cameron_ey": candidate_comparability(cid),   # NOT_COMPARABLE (trend)
+        "presentation": "separate panel; relative trend only; no difference/ratio/ranking vs Cameron",
+        "code_rights_state": rec.code_rights_state,
+        "output_redistribution_state": rec.output_redistribution_state,
+        "public_execution_cleared": public_exec.allowed,         # False (NOT_REVIEWED)
+        "output_publication_cleared": publish.allowed,           # False (NOT_REVIEWED)
+        "adapter_status": "DEFERRED_PENDING_RIGHTS_REVIEW",
+        "blocker": "affirmative rights review (code execution + output redistribution) not completed; "
+                   "public use is blocked by the rights preflight",
+        "validation_campaign": "EXP-006",
+        "no_adapter_implemented": True,
+    }
+
+
 def build_report() -> dict:
     """The re-audit: for every candidate, the TWO independent decisions + the measurement agenda."""
     import puckworks
