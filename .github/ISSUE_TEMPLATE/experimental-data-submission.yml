@@ -1,0 +1,110 @@
+name: Experimental data proposal / submission
+description: Propose or submit measurements for a Puckworks experimental-data campaign (open this BEFORE uploading large files).
+title: "[data] "
+labels: ["experimental-data", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        See [docs/EXPERIMENTAL_DATA_NEEDS.md](../blob/main/docs/EXPERIMENTAL_DATA_NEEDS.md). Open this
+        issue **before** collecting or uploading large files. Do **not** attach private, personally
+        identifying, or unlicensed third-party data. Large raw data belongs in an external repository
+        (Zenodo / OSF) with a DOI — link it here, do not upload it.
+  - type: input
+    id: campaign_id
+    attributes:
+      label: Campaign ID
+      description: e.g. EXP-001 (or "new" if proposing a campaign)
+      placeholder: EXP-001
+    validations:
+      required: true
+  - type: dropdown
+    id: dataset_status
+    attributes:
+      label: Dataset status
+      options: [proposal only, pilot collected, controlled dataset collected, holdout reserved]
+    validations:
+      required: true
+  - type: input
+    id: contact
+    attributes:
+      label: Contact preference (no personal email required)
+      description: How should we reach you? A GitHub handle is fine.
+  - type: input
+    id: institution
+    attributes:
+      label: Institution or independent contributor (optional)
+  - type: textarea
+    id: apparatus
+    attributes:
+      label: Apparatus
+      description: Machine, grinder, sensors, analytical instruments.
+    validations:
+      required: true
+  - type: textarea
+    id: observables
+    attributes:
+      label: Observables and units
+      description: Which quantities, with units and whether prescribed or measured.
+    validations:
+      required: true
+  - type: textarea
+    id: calibration
+    attributes:
+      label: Calibration
+      description: Calibration records / method for each instrument.
+  - type: input
+    id: replicates
+    attributes:
+      label: Number of shots / replicates
+  - type: input
+    id: rights_holder
+    attributes:
+      label: Rights holder
+    validations:
+      required: true
+  - type: dropdown
+    id: proposed_license
+    attributes:
+      label: Proposed data licence
+      options: ["CC BY 4.0", "CC0", "other (describe)", "cannot grant a redistribution licence"]
+    validations:
+      required: true
+  - type: textarea
+    id: privacy
+    attributes:
+      label: Privacy concerns
+      description: Any personally identifying or third-party content? How is it handled?
+  - type: input
+    id: external_repo
+    attributes:
+      label: External repository (Zenodo / OSF)
+  - type: input
+    id: doi
+    attributes:
+      label: DOI (if deposited)
+  - type: input
+    id: checksum
+    attributes:
+      label: Checksum (SHA-256 of the deposited archive)
+  - type: textarea
+    id: deviations
+    attributes:
+      label: Deviations from protocol
+  - type: textarea
+    id: exclusions
+    attributes:
+      label: Exclusions (with reasons — never discard a replicate silently)
+  - type: input
+    id: related_component
+    attributes:
+      label: Related component / gate this would inform
+  - type: checkboxes
+    id: declaration
+    attributes:
+      label: Declaration
+      options:
+        - label: I am not uploading private, personally identifying, or unlicensed third-party material without permission.
+          required: true
+        - label: I understand a data submission does not authorize any model implementation or evidence-label upgrade.
+          required: true

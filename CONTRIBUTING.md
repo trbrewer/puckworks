@@ -38,8 +38,21 @@ are valid outcomes and must stay visible.
 ```
 python -m puckworks.paper3.registry_artifacts --write     # registry tables / evidence exports
 python -m puckworks.paper_a.build verify                  # Paper A claim ↔ manuscript check
+python tools/experimental_data_needs.py render            # the campaign table in EXPERIMENTAL_DATA_NEEDS.md
 ```
 `generated-artifacts` CI fails on any stale diff — regenerate and commit.
+
+## Contributing experimental data
+
+Puckworks needs measurements (see [`docs/EXPERIMENTAL_DATA_NEEDS.md`](docs/EXPERIMENTAL_DATA_NEEDS.md)).
+The workflow: open an **Experimental data proposal** issue *before* collecting/uploading; confirm the
+scientific question, fields + units, rights, and privacy; collect raw data without overwriting or
+smoothing it and preserve every replicate + exclusion; deposit large raw data in an external repository
+(Zenodo / OSF) with a DOI; submit metadata + a data dictionary + checksums + a licence + calibration +
+uncertainty + analysis code + the DOI. Maintainers update `puckworks/data/MANIFEST.csv` **only after
+acceptance**, and a gate lands in a *separate* scientific PR. A submission never auto-authorizes a model
+or an evidence-label upgrade. No private or unlicensed data may be committed. `campaigns` are validated
+by `python tools/experimental_data_needs.py verify`.
 
 ## Pull requests
 
