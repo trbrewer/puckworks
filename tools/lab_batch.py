@@ -156,12 +156,32 @@ def run(env: dict | None = None) -> dict:
     (out_dir / "guided_pull_lab.md").write_text(lab.render_markdown(report), encoding="utf-8")
     files["guided_pull_lab.json"] = None
     files["guided_pull_lab.md"] = None
+    # the CLEARED rights preflight travels WITH the published artifact (context + per-component verdict),
+    # so a downstream reader sees exactly which components were allowed and under which execution context
+    preflight_record = {"execution_context": context, **verdict}
+    (out_dir / "guided_pull_lab.rights_preflight.json").write_text(
+        json.dumps(preflight_record, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    files["guided_pull_lab.rights_preflight.json"] = None
 
-    # REQUIRED: at least one unit-safe scientific panel (figure + CSV). No plottable panel -> the job
-    # fails (never silently skipped). Every panel is single-unit by construction (lab.render_data).
+    # Scientific trace panels (figure + CSV; every panel is single-unit by construction). A trace panel
+    # exists only when a common-scenario lens produced a time series; a references-ONLY request (native
+    # reference summaries, no lens) legitimately has none, so the required-figure gate is conditional:
+    #   - a common-scenario lens executed  -> at least one panel is REQUIRED (fail if none; never skipped);
+    #   - references-only (no lens, >=1 native reference executed) -> no trace panel is required, and the
+    #     absence is RECORDED (not silently skipped); the scientific content is the reference summaries;
+    #   - nothing executed at all -> the job fails (no scientific output).
     panels = lab.render_data(report)
+    executed_lenses = report["counts"]["executed_common_scenario_lenses"]
+    executed_refs = report["counts"]["executed_native_references"]
+    no_trace_reason = ""
     if not panels:
-        raise RuntimeError("no scientific trace panels available to plot")
+        if executed_lenses:
+            raise RuntimeError("a common-scenario lens executed but produced no plottable trace panel")
+        if not executed_refs:
+            raise RuntimeError("no scientific output: neither a common-scenario lens nor a native "
+                               "reference executed")
+        no_trace_reason = ("references-only request: native reference summaries are scalar, so there is "
+                           "no time-series trace panel to plot (recorded, not silently skipped)")
     panel_inventory = []
     for i, panel in enumerate(panels):
         png = f"guided_pull_lab_panel_{panel['panel_id'].replace('::', '__')}.png"
@@ -173,9 +193,10 @@ def run(env: dict | None = None) -> dict:
         panel_inventory.append({"panel_id": panel["panel_id"], "unit": panel["unit"],
                                 "component_id": panel["component_id"], "figure": png, "csv": csvf,
                                 "n_series": len(panel["series"])})
-    # back-compat required-figure name: the first unit-safe panel (a single, single-unit y-axis)
-    _panel_figure(out_dir / "guided_pull_lab_trace.png", panels[0])
-    files["guided_pull_lab_trace.png"] = None
+    if panels:
+        # back-compat required-figure name: the first unit-safe panel (a single, single-unit y-axis)
+        _panel_figure(out_dir / "guided_pull_lab_trace.png", panels[0])
+        files["guided_pull_lab_trace.png"] = None
 
     # OPTIONAL diagnostic figure (may be marked skipped without failing the required outputs)
     optional = {"guided_pull_lab_coverage.png": {"required": False}}
@@ -193,6 +214,8 @@ def run(env: dict | None = None) -> dict:
     req = report["request"]
     manifest = {
         "schema_version": lab.ARTIFACT_SCHEMA_VERSION,
+        "execution_context": context,
+        "rights_preflight": preflight_record,
         "source_commit": report["provenance"].get("source_commit"),
         "workflow_run_id": report["provenance"].get("workflow_run_id"),
         "wheel_sha256": report["provenance"].get("wheel_sha256"),
@@ -210,6 +233,7 @@ def run(env: dict | None = None) -> dict:
         "replay_verification": {"schema_ok": verification["schema"]["ok"],
                                 "integrity_ok": verification["integrity"]["ok"]},
         "panel_inventory": panel_inventory,
+        "no_trace_panel_reason": no_trace_reason,       # non-empty only for a references-only artifact
         "optional_outputs": optional,
         "files": {},
     }
