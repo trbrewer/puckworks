@@ -252,6 +252,27 @@ queries:
     last_human_review: 2026-07-17
     owner: maintainer
 
+  - id: espresso-telemetry-datasets
+    title: Espresso/coffee telemetry and machine-log datasets
+    enabled: true
+    lookback_days: 45
+    maximum_candidates: 6
+    global_priority: 2
+    concept_groups:
+      - ["espresso", "coffee"]
+      - ["telemetry", "machine log", "shot data", "time series", "sensor log", "dataset"]
+      - ["pressure", "flow rate", "mass", "temperature", "TDS"]
+    exclusions: ["supply chain", "vending machine market", "consumer survey"]
+    required_any: ["espresso", "coffee"]
+    relevance_notes: >-
+      Espresso/coffee machine telemetry and shot-log datasets (pressure/flow/mass/temperature/TDS
+      time series) that could validate flow/bed/extraction components. Anchored to espresso/coffee
+      via required_any so it is not a general IoT/time-series feed. Added 2026-07-18 after the first
+      radar run showed the generic families return off-domain noise and produce no coffee telemetry.
+    coupled_cards: ["visualizer_coffee", "waszkiewicz2025", "foster2025.infiltration"]
+    last_human_review: 2026-07-18
+    owner: maintainer
+
   - id: scientific-software-reproducibility
     title: Scientific software methods and reproducibility
     enabled: true
