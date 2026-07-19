@@ -100,19 +100,20 @@ def test_batch_run_matches_package_output_and_writes_manifest(tmp_path):
     pytest.importorskip("matplotlib")     # the batch writes a required scientific figure
     lb = importlib.import_module("tools.lab_batch")
     from puckworks.product import lab
+    sha = "c" * 40
     report = lb.run({"LAB_OUT_DIR": str(tmp_path), "LAB_PRESET": "guided_v1",
-                     "GITHUB_SHA": "sha1", "GITHUB_RUN_ID": "7", "LAB_WHEEL_SHA256": "wh"})
+                     "GITHUB_SHA": sha, "GITHUB_RUN_ID": "7", "LAB_WHEEL_SHA256": "d" * 64})
     # batch output equals package output for the same request + provenance
     ex = lab.execute_scenario(lab.ScenarioRequest("guided_v1"))
     pkg = lab.build_comparison(ex, provenance=lab.BuildProvenance(
-        package_version=report["provenance"]["package_version"], source_commit="sha1",
-        workflow_run_id="7", wheel_sha256="wh"))
+        package_version=report["provenance"]["package_version"], source_commit=sha,
+        workflow_run_id="7", wheel_sha256="d" * 64))
     assert lab.artifact_sha256(report) == lab.artifact_sha256(pkg)
     # required scientific figure + manifest present
     assert (tmp_path / "guided_pull_lab_trace.png").exists()
     manifest = json.loads((tmp_path / "artifact_manifest.json").read_text())
     assert manifest["requested_preset"] == "guided_v1"
-    assert manifest["source_commit"] == "sha1" and manifest["workflow_run_id"] == "7"
+    assert manifest["source_commit"] == sha and manifest["workflow_run_id"] == "7"
     assert manifest["scientific_payload_sha256"] == report["integrity"]["scientific_payload_sha256"]
     # manifest file hashes reproduce
     for name, meta in manifest["files"].items():

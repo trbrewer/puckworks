@@ -22,7 +22,7 @@ def execution():
 def report(execution):
     return lab.build_comparison(execution, provenance=lab.BuildProvenance(
         package_version="0.4.0.dev0", source_commit="deadbeefcafe", workflow_run_id="123",
-        wheel_sha256="abc123"))
+        wheel_sha256="a" * 64))
 
 
 # ── SCENARIO IDENTITY ─────────────────────────────────────────────────────────────
@@ -70,12 +70,12 @@ def test_full_artifact_carries_build_provenance(report):
     prov = art["provenance"]
     assert prov["package_version"] == "0.4.0.dev0"
     assert prov["source_commit"] == "deadbeefcafe"       # NOT stripped from the downloadable artifact
-    assert prov["workflow_run_id"] == "123" and prov["wheel_sha256"] == "abc123"
+    assert prov["workflow_run_id"] == "123" and prov["wheel_sha256"] == "a" * 64
 
 
 def test_scientific_hash_stable_but_artifact_hash_changes_with_provenance(execution):
-    a = lab.build_comparison(execution, provenance=lab.BuildProvenance(source_commit="AAA"))
-    b = lab.build_comparison(execution, provenance=lab.BuildProvenance(source_commit="BBB"))
+    a = lab.build_comparison(execution, provenance=lab.BuildProvenance(source_commit="a" * 40))
+    b = lab.build_comparison(execution, provenance=lab.BuildProvenance(source_commit="b" * 40))
     assert lab.scientific_sha256(a) == lab.scientific_sha256(b)     # science unchanged
     assert lab.artifact_sha256(a) != lab.artifact_sha256(b)         # build identity changed
 
