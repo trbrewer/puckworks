@@ -52,6 +52,7 @@ ENVIRONMENTS = [
      "path": ".github/workflows/guided-pull-batch.yml"},
 ]
 
+# PUCKWORKS-IDENTITY-GUARD-ALLOW: this module names the former brand on purpose (it guards against it).
 OLD_EMAIL = "brewer@synthetik-technologies.com"
 _BRAND = re.compile(r"brewer@synthetik-technologies\.com|synthetik", re.I)
 

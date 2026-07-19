@@ -2,6 +2,8 @@
 
 Offline + deterministic. Confirms the verifier passes on the current tree and that each objective
 drift it is meant to catch actually fails it, without failing on subjective wording.
+
+PUCKWORKS-IDENTITY-GUARD-ALLOW: this test names the former brand on purpose (it checks the guard).
 """
 import importlib
 import sys
