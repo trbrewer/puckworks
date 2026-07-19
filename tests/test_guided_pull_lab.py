@@ -208,9 +208,11 @@ def test_render_data_matches_trace_data_exactly(report):
     assert panels
     traces = {t["trace_id"]: t for t in report["executed_lenses"][0]["traces"]}
     for p in panels:
-        t = traces[p["panel_id"]]
+        t = traces[p["trace_id"]]                            # v4: panel_id is trace_id::unit
         assert p["x"] == t["axis_values"]
         assert "(" in p["x_label"] and ")" in p["x_label"]   # units in label
+        # unit-safe: every series in a panel carries the panel's single unit
+        assert {ps["unit"] for ps in p["series"]} == {p["unit"]}
         for ps in p["series"]:
             assert ps["role"] and ps["unit"] is not None
 

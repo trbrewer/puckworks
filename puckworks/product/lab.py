@@ -758,23 +758,61 @@ def canonical_json(report: dict) -> str:
 
 
 # ── shared plotting-data layer (used by Streamlit + batch; no science recalculated here) ──
+def _unit_slug(unit) -> str:
+    import re
+    return re.sub(r"[^a-z0-9]+", "_", str(unit or "none").lower()).strip("_") or "none"
+
+
+def assert_unit_safe(panel: dict) -> dict:
+    """A single ordinary y-axis carries exactly one unit. Overlaying incompatible units (bar/g/s/g/%/
+    kg/m^3) on one axis is physically meaningless — reject it rather than draw it."""
+    units = {s["unit"] for s in panel.get("series", [])}
+    if len(units) > 1:
+        raise ValueError(f"panel {panel.get('panel_id')!r} mixes units {sorted(map(str, units))} on one "
+                         f"axis; split by unit before plotting")
+    return panel
+
+
 def render_data(report: dict) -> list:
-    """Return plot-ready panels straight from the artifact's trace data (units + roles preserved)."""
+    """Return **unit-safe** plot-ready panels straight from the artifact's trace data. Each source trace
+    is split into one panel PER UNIT, so a single y-axis never mixes incompatible units; same-unit series
+    legitimately share an axis. Units + roles are preserved (no science recalculated here). Panels are
+    emitted in a deterministic (trace, unit) order."""
     panels = []
     for lens in report["executed_lenses"]:
         for t in lens["traces"]:
-            series = [s for s in t["series"] if s.get("values")]
-            if not series:
-                continue
-            panels.append({
-                "panel_id": t["trace_id"], "component_id": t["component_id"],
-                "title": f"{t['component_id']}: {t['observable']}",
-                "x_label": f"{t['axis_label']} ({t['axis_unit']})", "x": t["axis_values"],
-                "series": [{"label": s["label"] or s["series_id"], "unit": s["unit"],
-                            "role": s["role"], "y": s["values"]} for s in series],
-                "evidence_badge": t["evidence_badge"], "fidelity_ceiling": t["fidelity_ceiling"],
-            })
+            by_unit: dict = {}
+            order: list = []
+            for s in t["series"]:
+                if not s.get("values"):
+                    continue
+                u = s.get("unit")
+                if u not in by_unit:
+                    by_unit[u] = []
+                    order.append(u)
+                by_unit[u].append(s)
+            for u in order:
+                series = by_unit[u]
+                panel = {
+                    "panel_id": f"{t['trace_id']}::{_unit_slug(u)}", "trace_id": t["trace_id"],
+                    "component_id": t["component_id"], "unit": u,
+                    "title": f"{t['component_id']}: {t['observable']} [{u}]",
+                    "x_label": f"{t['axis_label']} ({t['axis_unit']})",
+                    "y_label": f"{t['observable']} ({u})", "x": t["axis_values"],
+                    "series": [{"label": s["label"] or s["series_id"], "unit": s["unit"],
+                                "role": s["role"], "y": s["values"]} for s in series],
+                    "evidence_badge": t["evidence_badge"], "fidelity_ceiling": t["fidelity_ceiling"],
+                }
+                panels.append(assert_unit_safe(panel))
     return panels
+
+
+def panel_inventory(report: dict) -> list:
+    """A compact (panel_id, unit, series count) inventory of the unit-safe panels — for coverage
+    reporting (e.g. the before/after figure inventory)."""
+    return [{"panel_id": p["panel_id"], "component_id": p["component_id"], "unit": p["unit"],
+             "n_series": len(p["series"]), "roles": sorted({s["role"] for s in p["series"]})}
+            for p in render_data(report)]
 
 
 def render_markdown(report: dict) -> str:

@@ -53,22 +53,20 @@ def _provenance(env: dict) -> lab.BuildProvenance:
         wheel_sha256=env.get("LAB_WHEEL_SHA256") or None)
 
 
-def _sci_figure(path: Path, report: dict) -> None:
-    """Render at least one SCIENTIFIC trace panel. Raises if no plottable trace exists (the caller
-    fails the job — this is a required figure, never silently skipped)."""
+def _panel_figure(path: Path, panel: dict) -> None:
+    """Render ONE unit-safe panel (a single y-axis carries exactly one unit). The unit-safety is asserted
+    again here so a mixed-unit panel can never be drawn."""
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    panels = lab.render_data(report)
-    if not panels:
-        raise RuntimeError("no scientific trace panels available to plot")
-    panel = panels[0]
+    lab.assert_unit_safe(panel)
     fig, ax = plt.subplots(figsize=(8, 4.5))
     x = panel["x"]
     for s in panel["series"]:
         style = "--" if s["role"] == "prescribed_input" else "-"
         ax.plot(x, s["y"], style, label=f"{s['label']} [{s['role']}]")
     ax.set_xlabel(panel["x_label"])
+    ax.set_ylabel(panel["y_label"])                     # one unit on the axis, always labelled
     ax.set_title(panel["title"])
     ax.legend(fontsize=8)
     fig.tight_layout()
@@ -76,11 +74,23 @@ def _sci_figure(path: Path, report: dict) -> None:
     plt.close(fig)
 
 
+def _panel_csv(path: Path, panel: dict) -> None:
+    """Write the panel's raw x + per-series y as CSV — the text-alternative to the figure (accessibility)
+    and a reproducible data table. Columns carry units + roles; no science is recomputed."""
+    import csv
+    header = [panel["x_label"]] + [f"{s['label']} [{s['role']}, {s['unit']}]" for s in panel["series"]]
+    rows = zip(panel["x"], *[s["y"] for s in panel["series"]])
+    with open(path, "w", newline="", encoding="utf-8") as fh:
+        w = csv.writer(fh)
+        w.writerow(header)
+        w.writerows(rows)
+
+
 def _coverage_figure(path: Path, report: dict) -> None:
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    disp = report["counts"]["dispositions"]
+    disp = report["capability_snapshot"]["dispositions"]
     fig, ax = plt.subplots(figsize=(7, 4))
     ax.barh(list(disp.keys()), list(disp.values()), color="#0e7490")
     ax.set_xlabel("components")
@@ -104,9 +114,27 @@ def run(env: dict | None = None) -> dict:
     (out_dir / "guided_pull_lab.md").write_text(lab.render_markdown(report), encoding="utf-8")
     files["guided_pull_lab.json"] = None
     files["guided_pull_lab.md"] = None
-    # REQUIRED scientific figure (failure raises -> the job fails; never silently skipped)
-    _sci_figure(out_dir / "guided_pull_lab_trace.png", report)
+
+    # REQUIRED: at least one unit-safe scientific panel (figure + CSV). No plottable panel -> the job
+    # fails (never silently skipped). Every panel is single-unit by construction (lab.render_data).
+    panels = lab.render_data(report)
+    if not panels:
+        raise RuntimeError("no scientific trace panels available to plot")
+    panel_inventory = []
+    for i, panel in enumerate(panels):
+        png = f"guided_pull_lab_panel_{panel['panel_id'].replace('::', '__')}.png"
+        csvf = png[:-4] + ".csv"
+        _panel_figure(out_dir / png, panel)
+        _panel_csv(out_dir / csvf, panel)
+        files[png] = None
+        files[csvf] = None
+        panel_inventory.append({"panel_id": panel["panel_id"], "unit": panel["unit"],
+                                "component_id": panel["component_id"], "figure": png, "csv": csvf,
+                                "n_series": len(panel["series"])})
+    # back-compat required-figure name: the first unit-safe panel (a single, single-unit y-axis)
+    _panel_figure(out_dir / "guided_pull_lab_trace.png", panels[0])
     files["guided_pull_lab_trace.png"] = None
+
     # OPTIONAL diagnostic figure (may be marked skipped without failing the required outputs)
     optional = {"guided_pull_lab_coverage.png": {"required": False}}
     try:
@@ -127,6 +155,7 @@ def run(env: dict | None = None) -> dict:
         "requested_overrides": over,
         "scientific_payload_sha256": report["integrity"]["scientific_payload_sha256"],
         "artifact_sha256": report["integrity"]["artifact_sha256"],
+        "panel_inventory": panel_inventory,
         "optional_outputs": optional,
         "files": {},
     }
