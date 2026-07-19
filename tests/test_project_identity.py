@@ -35,11 +35,16 @@ def _tracked_text_files():
     return out
 
 
+# brand-guard modules legitimately name the former brand (they exist to reject it); they opt out of
+# this scan with an explicit in-file sentinel so no OTHER file can silently carry the brand.
+_ALLOW_SENTINEL = "PUCKWORKS-IDENTITY-GUARD-ALLOW"
+
+
 def test_no_old_email_or_corporate_brand_in_tracked_tree():
     offenders = []
     for f, text in _tracked_text_files():
-        if Path(f).name == _THIS:          # this guard names the forbidden strings on purpose
-            continue
+        if Path(f).name == _THIS or _ALLOW_SENTINEL in text:
+            continue                        # a brand-guard file names the forbidden strings on purpose
         for i, line in enumerate(text.splitlines(), 1):
             if _FORBIDDEN.search(line):
                 offenders.append(f"{f}:{i}: {line.strip()[:160]}")
