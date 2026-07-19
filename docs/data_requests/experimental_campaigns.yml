@@ -13,9 +13,12 @@ schema_version: 1
 #   foster2025.machine_mode — the pump/headspace "machine mode" backlog; no campaign is defined yet.
 #   wadsworth2026.inertial  — the inertial-flow supporting lens; no campaign is defined yet.
 component_campaign_exemptions:
-  - grudeva2025.reduced
-  - foster2025.machine_mode
-  - wadsworth2026.inertial
+  - grudeva2025.reduced       # rights-blocked pending #73 (no new data collection authorized)
+  - foster2025.machine_mode   # machine-mode backlog (no open campaign yet)
+  - wadsworth2026.inertial    # inertial-flow backlog (no open campaign yet)
+  - brewer2026.lb_reference   # synthetic NUMERICAL CODE VERIFICATION: its reference is the analytic
+                              # plane-Poiseuille solution (k=h^2/12), not an experimental measurement, so
+                              # no experimental campaign applies by construction (#70)
 evidence_levels:
   - protocol_only
   - feasibility_pilot

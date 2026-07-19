@@ -47,6 +47,13 @@ def _file_members(path: Path):
     return []
 
 
+# source-tree directories that are NOT part of the installable package and must never ship in a
+# distribution: docs (which contain the model cards), the dev-only Streamlit apps, notebooks, and any
+# transient staging tree left by the batch runner.
+FORBIDDEN_TREE_PREFIXES = ("docs/", "apps/", "notebooks/")
+FORBIDDEN_TREE_SUBSTRINGS = ("/cards/", ".staging/", "/out/lab")
+
+
 def check_distribution(path: Path):
     names = _members(path)
     problems = []
@@ -54,6 +61,10 @@ def check_distribution(path: Path):
         low = n.lower()
         if any(s in low for s in PRIVATE_SUBSTRINGS):
             problems.append("%s: PRIVATE path shipped: %s" % (path.name, n))
+        norm = _normalize_member(n)
+        if any(norm.startswith(p) for p in FORBIDDEN_TREE_PREFIXES) or \
+                any(s in norm for s in FORBIDDEN_TREE_SUBSTRINGS):
+            problems.append("%s: NON-PACKAGE tree shipped: %s" % (path.name, norm))
     for suf in REQUIRED_SUFFIXES:
         if not any(n.endswith(suf) for n in names):
             problems.append("%s: MISSING required package data: %s" % (path.name, suf))

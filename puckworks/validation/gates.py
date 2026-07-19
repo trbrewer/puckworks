@@ -7,17 +7,12 @@ import numpy as np
 DATA = os.path.join(os.path.dirname(__file__), "..", "data")
 
 def gate_lb_channel():
-    """Reference LB kernel vs exact plane-Poiseuille solution."""
+    """Reference LB kernel vs exact plane-Poiseuille solution. This gate OWNS the acceptance threshold
+    (abs err < 0.5%); the channel arithmetic is the component's canonical helper, shared with the Lab
+    native runner so the two can never diverge."""
     from puckworks.models.brewer2026 import lb_reference as lb
-    Nz, N = 33, 4
-    solid = np.zeros((N, N, Nz), dtype=bool)
-    solid[:, :, 0] = True; solid[:, :, -1] = True
-    r = lb.solve(solid, g=1e-6, tau_plus=1.2, max_steps=20000, check=200,
-                 rtol=1e-6, verbose=False)
-    h = float(Nz - 2)
-    k_meas = r["nu"] * (r["q"]*Nz/h) / 1e-6
-    err = 100*(k_meas/(h*h/12.0) - 1)
-    return dict(passed=abs(err) < 0.5, err_pct=round(err, 3))
+    v = lb.channel_verification()          # canonical shared computation; no threshold inside it
+    return dict(passed=abs(v["err_pct"]) < 0.5, err_pct=round(v["err_pct"], 3))
 
 def gate_wadsworth_collapse():
     """Percolation collapse reproduces from their own Table 1."""

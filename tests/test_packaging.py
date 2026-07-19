@@ -41,6 +41,35 @@ def test_no_distributions_is_a_problem(tmp_path):
     assert P.check_distributions(tmp_path)                 # empty dir -> flagged
 
 
+def test_checker_flags_non_package_trees(tmp_path):
+    # docs (incl. the model cards), dev apps, notebooks, and any staging tree must never ship
+    for leak in ("docs/cards/cameron2020.md", "apps/lab_app.py", "notebooks/x.ipynb",
+                 "out/lab.staging/guided_pull_lab.json"):
+        d = _fake_dist(tmp_path, ["puckworks/__init__.py", *P.REQUIRED_SUFFIXES, leak])
+        problems = P.check_distribution(d)
+        assert any("NON-PACKAGE tree shipped" in x for x in problems), leak
+
+
+def test_checker_flags_non_package_tree_in_sdist_prefix(tmp_path):
+    import tarfile
+    import io
+    p = tmp_path / "puckworks-0.0.0.tar.gz"
+    with tarfile.open(p, "w:gz") as t:
+        for name in ("puckworks-0.0.0/puckworks/__init__.py",
+                     "puckworks-0.0.0/docs/cards/foster2025.md"):   # a card leaked into the sdist
+            info = tarfile.TarInfo(name); info.size = 1
+            t.addfile(info, io.BytesIO(b"x"))
+    assert any("NON-PACKAGE tree shipped" in x and "docs/cards" in x
+               for x in P.check_distribution(p))
+
+
+def test_clean_distribution_with_tests_and_top_level_files_passes(tmp_path):
+    # a legitimate dist (package tree + required data + tests + top-level metadata) is NOT flagged
+    names = ["puckworks/__init__.py", "tests/test_x.py", "README.md", "pyproject.toml",
+             *P.REQUIRED_SUFFIXES]
+    assert P.check_distribution(_fake_dist(tmp_path, names)) == []
+
+
 def test_pyproject_excludes_the_private_corpus():
     txt = (_ROOT / "pyproject.toml").read_text()
     assert "[tool.setuptools.exclude-package-data]" in txt

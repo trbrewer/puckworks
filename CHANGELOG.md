@@ -5,6 +5,31 @@ tracked in detail in `docs/ROADMAP.md` §7.1.
 
 ## Unreleased
 
+- **First affirmatively-cleared public-artifact path — `brewer2026.lb_reference` (#70):** the first
+  tightly-bounded, per-component public-execution path, and the first affirmative outward rights clearance
+  in the repository. A bounded provenance review (`docs/rights_review_notes.md`) established that
+  `brewer2026.lb_reference` is **first-party** in-repo code (git blame 138/138 lines Tim Brewer, `c54a2a6`;
+  no port/copy/licence marker) whose verification input is **generated synthetically in code** and whose
+  reference is the **analytic** plane-Poiseuille `k = h²/12` — so `puckworks.rights` records code `CLEAR`,
+  data `NOT_APPLICABLE`, output `CLEAR`, bounded to that LB channel code-verification path and clearing no
+  other component, author, model class, or namespace. A **fourth** genuinely-executed native reference
+  runner ships (`brewer2026.lb_reference`, `batch-only`): its producer solves the canonical synthetic
+  channel once and its runner delegates the pass/fail band to `gate_lb_channel` verbatim (the acceptance
+  literal is single-sourced — a new `lb_reference.channel_verification()` helper is shared by gate and
+  runner, and the gate output is byte-identical). A request selecting **exactly** that runner
+  (`lens_selection_policy=none`, `reference_selection_policy=selected`,
+  `requested_reference_runner_ids=("brewer2026.lb_reference",)`) passes the `PUBLIC_ARTIFACT` preflight and
+  runs precisely one native producer; the batch now carries the cleared preflight record + execution
+  context in the artifact and makes the required-figure gate honest for a references-only run (a trace panel
+  is required only when a lens executed; the absence is recorded, never silently skipped). This is **not** a
+  generic bypass: the default/broad public batch still selects the `NOT_REVIEWED` Cameron lens and blocks
+  before any producer; a mixed request pairing the cleared LB runner with any `NOT_REVIEWED` runner blocks as
+  a whole; the clearance never propagates; `grudeva2025.reduced` stays `RIGHTS_BLOCKED` in every context
+  (#73). Fidelity ceiling is explicit in code and docs — *synthetic plane-channel numerical code
+  verification; does not validate porous coffee-bed physics, predict espresso extraction, establish
+  experimental accuracy, or provide a comparable beverage metric.* No version/tag/numeric change (registry
+  gates PASS=50 unchanged).
+
 - **Roman-Corrochano second-lens readiness — deferred, not faked (#70):** `romancorrochano2017.extraction` is execution-ready on the shared scenario (inputs map without invention; **no** grinder-dial mapping) and would be a **separate-panel relative-trend** lens (`NOT_COMPARABLE` with Cameron EY/TDS — never converted, no difference/ratio/ranking). But adding it for public use requires an affirmative rights review (code execution + output redistribution) that was **not** completed — both remain `NOT_REVIEWED` — so **no adapter is implemented** and its public path is blocked by the rights preflight. `quantity_semantics.roman_corrochano_lens_readiness()` records this deterministically (`adapter_status: DEFERRED_PENDING_RIGHTS_REVIEW`, `validation_campaign: EXP-006`); a test pins that no Roman adapter is registered, selecting it runs no producer, and its output is never presented as absolute EY/TDS. #70 stays open.
 
 - **Model→measurement matrix + catalog/quantity consolidation (#46/#70):** the Laboratory component catalog is now linked to the authoritative experiment metadata. `tools/experimental_data_needs.py` gains `model_to_measurement_matrix()` (one row per registered component: role → current evidence → campaigns → gates enabled → measurement-agenda blockers) and `validate_matrix_coverage()`, which requires every runtime/runner component to either name a campaign or carry a **documented exemption** (`grudeva2025.reduced` rights-blocked #73, `foster2025.machine_mode` machine-mode backlog, `wadsworth2026.inertial` inertial-flow backlog). The matrix renders deterministically into a second marker-bounded section of `EXPERIMENTAL_DATA_NEEDS.md`; `verify` now checks coverage; no component is silently omitted. `reference_basis.adapter_readiness` is explicitly **deprecated for readiness decisions** in favour of `quantity_semantics` (which separates shared-scenario execution readiness from output comparability and treats per-species / flow-trend / profile as non-denominator axes); it is retained only for the fail-closed inventory-conversion machinery. No model numerics changed (the Cameron lens still executes identically).
