@@ -55,6 +55,30 @@ python -m puckworks.paper_a.build verify                  # Paper A claim ↔ ma
 `python -m puckworks.release build` builds a wheel + sdist, `twine check`s them, and writes a
 checksummed manifest; `release.yml` additionally installs the wheel clean-room. See R4.
 
+## Activation / state-change PRs (process guard, learned from PR #65)
+
+An activation/release/state PR touches a set of files that must land *together*. PR #65 was needed
+because an activation commit's `git add` silently omitted `CHANGELOG.md`, leaving a stale claim on
+`main`. Before merging any activation/state/release PR:
+
+- write the **expected-file checklist** for the change;
+- run `git diff --name-only <base>...HEAD` and confirm it matches (no intended file — CHANGELOG,
+  `docs/status/current.json`, generated artifacts — omitted from the commit);
+- regenerate generated artifacts (`tools/update_readme_pulse.py --write`, `statusdoc --write`,
+  `tools/readme_governance.py verify`) and confirm the tree is **clean** afterwards;
+- reconcile CHANGELOG / current-state prose with what actually shipped.
+
+This is a completeness check, **not** a requirement that every PR edit CHANGELOG.
+
+## README publication governance (issue #41)
+
+Objective public facts must not silently drift out of the README. `tools/readme_governance.py verify`
+checks that every registered component, every live public interactive, every supported runnable
+environment, and every documented dataset is represented, that role/status wording does not contradict
+the registry/cards, that internal links resolve, and that the former corporate contact/brand stays
+absent. The `readme-governance` workflow runs it read-only on public-surface PRs and posts a monthly
+audit note to issue #41.
+
 ## Project independence
 
 Puckworks is independently developed and is not affiliated with or sponsored by any employer or

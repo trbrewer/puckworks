@@ -1,0 +1,117 @@
+name: readme-governance
+# README publication governance (issue #41). Two trust boundaries:
+#   * pull_request  — contents:read ONLY. Runs the deterministic README-governance + pulse verifiers on
+#                     changes that touch a public surface. Never writes an issue; never edits the README.
+#   * schedule/dispatch (trusted main) — uploads a deterministic report and appends at most one dated
+#                     comment per month to the standing homepage issue #41 (issues:write, contents:read).
+# The normal PR job stays read-only. Actions are SHA-pinned; user inputs are never interpolated into a
+# shell command.
+on:
+  pull_request:
+    paths:
+      - "README.md"
+      - "docs/public/README.md"
+      - "puckworks/models/**"
+      - "puckworks/product/**"
+      - "puckworks/data/**"
+      - "docs/cards/**"
+      - "docs/research/**"
+      - "docs/public/**"
+      - "notebooks/**"
+      - "pyproject.toml"
+      - "docs/status/**"
+      - "docs/planning/**"
+      - ".devcontainer/**"
+      - "apps/**"
+      - "tools/readme_governance.py"
+      - "tools/update_readme_pulse.py"
+      - ".github/workflows/readme-governance.yml"
+  schedule:
+    - cron: "0 8 1 * *"      # 08:00 UTC on the 1st of each month
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: readme-governance-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: README governance + pulse (read-only)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --quiet -e ".[dev]"
+      - name: README governance verify (objective coverage/drift)
+        run: python tools/readme_governance.py verify
+      - name: README pulse is current
+        run: python tools/update_readme_pulse.py --verify
+      - name: write the coverage report artifact
+        if: always()
+        run: python tools/readme_governance.py report > readme-governance-report.md
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: readme-governance-report
+          path: readme-governance-report.md
+          if-no-files-found: warn
+          retention-days: 30
+
+  monthly-note:
+    name: monthly note to the standing homepage issue (trusted main only)
+    needs: verify
+    # Only from this repo's main, on schedule/dispatch, and only when the human opt-in variable is set
+    # (a scheduled run does not write unless ENABLE_README_GOVERNANCE_NOTE == 'true'; a manual dispatch
+    # is an explicit human action and always runs).
+    if: >-
+      github.repository == 'trbrewer/puckworks'
+      && github.ref == 'refs/heads/main'
+      && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+      && (github.event_name == 'workflow_dispatch' || vars.ENABLE_README_GOVERNANCE_NOTE == 'true')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --quiet -e ".[dev]"
+      - name: generate the deterministic report
+        run: python tools/readme_governance.py report > readme-governance-report.md
+      - name: append at most one dated note per month to issue #41
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('readme-governance-report.md', 'utf8');
+            const now = new Date();
+            const period = `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, '0')}`;
+            const marker = `<!-- readme-governance:${period} -->`;
+            const issue_number = 41;
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner, repo: context.repo.repo, issue_number, per_page: 100,
+            });
+            if (comments.some(c => (c.body || '').includes(marker))) {
+              core.info('monthly README-governance note already present for ' + period);
+              return;
+            }
+            const body = `${marker}\n## README governance — monthly audit ${period}\n\n` +
+              `Automated, read-only. Zero drift is a useful result.\n\n` + report;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number, body });
+            core.info('appended README-governance note for ' + period);

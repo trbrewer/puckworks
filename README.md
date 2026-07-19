@@ -119,6 +119,9 @@ Three public paths (no local setup required):
 - **Run a guided espresso pull** — [▶ Open the Guided Espresso Pull in Google Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/guided_espresso_pull_colab.ipynb): enter a bounded recipe and run one coherent, model-backed pull stage by stage, with evidence-labelled traces and honest range warnings. You supply the dose, beverage mass, grinder dial, and pressure; the `cameron2020.extraction_bdf` model runs; you get extraction-yield, strength, flow, and a stage-by-stage report. It reports chemical composition, **not** taste; it does **not** model puck wetting, physical first drip, a dynamic pressure profile, temperature response, or flavor. See [`docs/GUIDED_ESPRESSO_PULL.md`](docs/GUIDED_ESPRESSO_PULL.md) and [issue #48](https://github.com/trbrewer/puckworks/issues/48).
 - **Explore why the cup hides the clock** — [▶ Open the flat-valley interactive](https://trbrewer.github.io/puckworks/flat-valley/): a static, generated explainer of why a good whole-cup endpoint fit can still hide weak parameter identification. Every number is generated from a committed result bundle; no install needed.
 
+Locally, after `pip install`, the **`puckworks-pull` command-line tool** runs the same guided espresso
+pull deterministically and writes JSON/Markdown/figures — see [`docs/GUIDED_ESPRESSO_PULL.md`](docs/GUIDED_ESPRESSO_PULL.md).
+
 **More public stories:**
 
 - [See why espresso model components do not simply add up](https://trbrewer.github.io/puckworks/model-composition/) — a static, generated interactive showing how adding a swelling branch to an extraction model, through one shared porosity state, makes the prediction *worse* than a flat baseline (it rejects one tested composition, not swelling in general).
