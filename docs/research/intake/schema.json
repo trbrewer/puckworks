@@ -1,0 +1,82 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/trbrewer/puckworks/docs/research/intake/schema.json",
+  "title": "Puckworks controlled research-intake record (issue #46, channel B)",
+  "description": "Metadata-only record for a paper/dataset/report deliberately supplied to the project (including privately uploaded material GitHub Actions cannot see). NEVER stores copyrighted full text, tokens, private links, email bodies, or uploaded private file contents. A disposition is NOT an implementation authorization.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "stable_id",
+    "title",
+    "source_type",
+    "access_state",
+    "redistribution_state",
+    "disposition"
+  ],
+  "properties": {
+    "stable_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_]{2,63}$",
+      "description": "Stable unique slug; also the filename stem."
+    },
+    "title": { "type": "string", "minLength": 3, "maxLength": 300 },
+    "source_type": {
+      "type": "string",
+      "enum": ["article", "preprint", "thesis", "dataset", "report", "code", "note"]
+    },
+    "organization": { "type": "string", "maxLength": 200 },
+    "authors": { "type": "array", "items": { "type": "string", "maxLength": 200 }, "maxItems": 50 },
+    "published_date": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "doi": { "type": ["string", "null"], "maxLength": 200 },
+    "arxiv_id": { "type": ["string", "null"], "maxLength": 60 },
+    "url": {
+      "type": ["string", "null"],
+      "description": "Official public source URL only — never a private/tokenised locator.",
+      "maxLength": 500
+    },
+    "access_state": {
+      "type": "string",
+      "enum": [
+        "metadata_only",
+        "open_access",
+        "project_private_review",
+        "rights_pending",
+        "redistribution_prohibited",
+        "redistribution_permitted"
+      ]
+    },
+    "redistribution_state": {
+      "type": "string",
+      "enum": [
+        "rights_pending",
+        "redistribution_prohibited",
+        "redistribution_permitted",
+        "not_applicable"
+      ]
+    },
+    "disposition": {
+      "type": "string",
+      "enum": [
+        "metadata_only",
+        "data-access-and-license-review",
+        "full-text-review",
+        "rights-review",
+        "already-carded",
+        "duplicate",
+        "superseded",
+        "implement-candidate",
+        "no-action"
+      ]
+    },
+    "telemetry_scope": { "type": "string", "maxLength": 500 },
+    "likely_variables": { "type": "array", "items": { "type": "string", "maxLength": 80 }, "maxItems": 40 },
+    "coupled_cards": { "type": "array", "items": { "type": "string", "maxLength": 80 }, "maxItems": 30 },
+    "coupled_issue": { "type": ["string", "null"], "maxLength": 20 },
+    "relevance": { "type": "string", "maxLength": 600 },
+    "supersedes": { "type": ["string", "null"], "maxLength": 64 },
+    "notes": { "type": "string", "maxLength": 1200 }
+  }
+}
