@@ -95,7 +95,7 @@ def test_integrity_hashes_are_self_consistent(report):
 
 
 def test_schema_versions(report, execution):
-    assert report["schema_version"] == 4 == lab.SCHEMA_VERSION
+    assert report["schema_version"] == 5 == lab.SCHEMA_VERSION
     assert execution.pull_run["schema_version"] == 1     # PullRun v1 not overloaded
 
 

@@ -55,13 +55,23 @@ import json
 import platform
 import sys
 
-SCHEMA_VERSION = 4
+SCHEMA_VERSION = 5
 ARTIFACT_SCHEMA_VERSION = 1
 _DEFAULT_PRESET = "pv19_named"
+PRIMARY_LENS_ID = "cameron2020.extraction_bdf"        # the single declared primary common-scenario lens
 
 # ── finite vocabularies ────────────────────────────────────────────────────────────
 DOMAIN_POLICIES = ("warn", "strict")
 REFERENCE_SELECTION_POLICIES = ("none", "interactive_fast", "selected")
+# how the common-scenario lenses are chosen (never a future-expanding empty-tuple default)
+LENS_SELECTION_POLICIES = ("primary", "all_ready", "selected", "none")
+# per-request state of a lens; component-level reference resolution states
+LENS_EXECUTION_STATES = ("NOT_REQUESTED", "EXECUTED", "REQUESTED_BUT_NOT_EXECUTABLE", "FAILED")
+LENS_READINESS_STATES = ("READY", "NO_ADAPTER", "RIGHTS_BLOCKED", "OUTSIDE_DOMAIN", "NOT_APPLICABLE")
+REFERENCE_RESOLUTION_STATES = (
+    "EXECUTED", "FAILED", "RUNNER_NOT_IMPLEMENTED", "RIGHTS_BLOCKED",
+    "OPTIONAL_DEPENDENCY_UNAVAILABLE", "RUNTIME_BUDGET_EXCEEDED", "NOT_APPLICABLE",
+)
 
 DISPOSITIONS = (
     "COMMON_SCENARIO_READY", "COMMON_SCENARIO_WITH_VERIFIED_ADAPTER", "NATIVE_REFERENCE_ONLY",
@@ -137,6 +147,7 @@ class ScenarioRequest:
     preset_id: str
     overrides: dict = dataclasses.field(default_factory=dict)
     domain_policy: str = "warn"
+    lens_selection_policy: str = "primary"
     requested_lens_ids: tuple = ()
     reference_selection_policy: str = "interactive_fast"
     requested_reference_runner_ids: tuple = ()
@@ -151,13 +162,23 @@ class ScenarioRequest:
             raise ValueError(f"unknown recipe override field(s): {sorted(bad)}")
         if self.domain_policy not in DOMAIN_POLICIES:
             raise ValueError(f"domain_policy must be one of {DOMAIN_POLICIES}, got {self.domain_policy!r}")
+        if self.lens_selection_policy not in LENS_SELECTION_POLICIES:
+            raise ValueError(f"lens_selection_policy must be one of {LENS_SELECTION_POLICIES}, "
+                             f"got {self.lens_selection_policy!r}")
         if self.reference_selection_policy not in REFERENCE_SELECTION_POLICIES:
             raise ValueError(f"reference_selection_policy must be one of {REFERENCE_SELECTION_POLICIES}, "
                              f"got {self.reference_selection_policy!r}")
-        # normalize the request tuples (deterministic, hashable) without dropping anything silently
-        object.__setattr__(self, "requested_lens_ids", tuple(self.requested_lens_ids))
+        # canonicalize the lens ids (dedupe preserving first-seen order — a documented rule, so
+        # 'Cameron twice' becomes one Cameron and executes once)
+        object.__setattr__(self, "requested_lens_ids", _dedupe(self.requested_lens_ids))
         object.__setattr__(self, "requested_reference_runner_ids",
                            tuple(self.requested_reference_runner_ids))
+        # unambiguous lens selection: requested ids are meaningful ONLY under the 'selected' policy
+        if self.requested_lens_ids and self.lens_selection_policy != "selected":
+            raise ValueError("requested_lens_ids requires lens_selection_policy='selected' "
+                             "(a non-'selected' policy would silently ignore them)")
+        if self.lens_selection_policy == "selected" and not self.requested_lens_ids:
+            raise ValueError("lens_selection_policy='selected' requires requested_lens_ids")
         # unambiguous reference selection: requested ids are meaningful ONLY under the 'selected' policy,
         # and 'selected' requires at least one id — never silently ignore either side.
         if self.requested_reference_runner_ids and self.reference_selection_policy != "selected":
@@ -174,12 +195,14 @@ class ScenarioExecution:
     effective_recipe: dict
     effective_config: dict
     applied_overrides: dict
-    pull_run: dict | None
-    domain_findings: tuple
+    pull_run: dict | None            # back-compat: the PRIMARY (Cameron) lens's raw run, or None
+    domain_findings: tuple           # back-compat: the primary lens's domain findings
     run_id: str | None
     effective_domain_policy: str = "warn"
     domain_blocked: bool = False
     domain_block_reason: str = ""
+    prepared: object = None          # PreparedScenario (model-independent)
+    lens_results: tuple = ()         # per-lens results (adapter-driven execution)
 
 
 @dataclasses.dataclass(frozen=True)
@@ -260,40 +283,223 @@ def _optional_dep_available(dep: str) -> bool:
     return importlib.util.find_spec(dep) is not None
 
 
-# ── scenario execution (exact identity + override provenance + operational domain policy) ──
-def execute_scenario(request: ScenarioRequest) -> ScenarioExecution:
-    """Run the authoritative producer for a bounded scenario, preserving the EXACT preset identity and
-    the applied overrides. The effective config carries the REQUEST's domain policy; the domain is
-    evaluated once, up front, and the producer is NOT called when the request is domain-blocked."""
+# ── model-independent scenario preparation (NO producer call) ───────────────────────
+def _dedupe(seq) -> tuple:
+    seen, out = set(), []
+    for x in seq:
+        if x not in seen:
+            seen.add(x)
+            out.append(x)
+    return tuple(out)
+
+
+@dataclasses.dataclass(frozen=True)
+class PreparedScenario:
+    """A bounded scenario mapped to a base recipe/config with NO model output. It carries no producer
+    result, no PullRun, and no lens-specific domain conclusion — those belong to each lens adapter."""
+    request: ScenarioRequest
+    base_preset: str
+    base_recipe: dict
+    effective_recipe: dict
+    applied_overrides: dict
+    effective_config: dict
+    shared_quantities: dict          # scenario inputs with units (model-independent)
+    scenario_findings: tuple         # scenario-level validation (not a lens's evidence domain)
+    source: str
+    recipe_obj: object = None        # non-serialized handles for adapters
+    config_obj: object = None
+
+
+def prepare_scenario(request: ScenarioRequest) -> PreparedScenario:
+    """Prepare the bounded scenario with EXACT preset identity + override provenance. Calls NO model
+    producer and reaches NO Cameron-specific domain conclusion."""
     import puckworks.product as prod
     base_recipe, config = prod.load_pull_preset(request.preset_id)
     base_dict = dataclasses.asdict(base_recipe)
     over = {k: float(v) if isinstance(v, (int, float)) else v for k, v in request.overrides.items()}
     eff_recipe = dataclasses.replace(base_recipe, **over) if over else base_recipe
     applied = {k: {"base": base_dict.get(k), "effective": getattr(eff_recipe, k)} for k in over}
-
-    # the effective config's domain policy IS the request's policy (operational, not cosmetic)
     effective_config = dataclasses.replace(config, domain_policy=request.domain_policy)
-    findings = tuple(_finding_to_dict(f) for f in prod.evaluate_domain(eff_recipe))
+    eff_dict = dataclasses.asdict(eff_recipe)
+    shared = {
+        "dose_g": {"value": eff_dict.get("dose_g"), "unit": "g"},
+        "target_beverage_g": {"value": eff_dict.get("target_beverage_g"), "unit": "g"},
+        "pressure_bar": {"value": eff_dict.get("pressure_bar"), "unit": "bar"},
+        "brew_temperature_c": {"value": eff_dict.get("brew_temperature_c"), "unit": "degC"},
+    }
+    return PreparedScenario(
+        request=request, base_preset=request.preset_id, base_recipe=base_dict, effective_recipe=eff_dict,
+        applied_overrides=applied, effective_config=_config_summary(effective_config),
+        shared_quantities=shared, scenario_findings=(),
+        source=f"puckworks.product.load_pull_preset('{request.preset_id}')"
+               + (" with explicit overrides" if applied else " (unmodified)"),
+        recipe_obj=eff_recipe, config_obj=effective_config)
+
+
+# ── lens adapter protocol + registry (the ONLY place a common-scenario producer is called) ──
+@dataclasses.dataclass(frozen=True)
+class LensAdapterSpec:
+    adapter_id: str
+    adapter_version: str
+    component_id: str
+    runtime_class: str
+    is_primary: bool
+    accepted_scenario_quantities: tuple
+    required_fixed_inputs: tuple
+    evidence: dict
+    evaluate_domain: object          # (prepared) -> tuple[finding dict]
+    prepare_inputs: object           # (prepared) -> (recipe_obj, config_obj, mapping dict)
+    producer: object                 # (recipe_obj, config_obj) -> raw PullRun dict
+    translate_outputs: object        # (raw run) -> {"observables":..., "traces":...}
+
+
+def _cameron_evaluate_domain(prepared: PreparedScenario) -> tuple:
+    import puckworks.product as prod
+    return tuple(_finding_to_dict(f) for f in prod.evaluate_domain(prepared.recipe_obj))
+
+
+def _cameron_prepare_inputs(prepared: PreparedScenario) -> tuple:
+    mapping = {"dose_g": "recipe.dose_g", "target_beverage_g": "recipe.target_beverage_g",
+               "pressure_bar": "recipe.pressure_bar", "brew_temperature_c": "recipe.brew_temperature_c",
+               "note": "the shared scenario recipe IS Cameron's native input (no re-mapping)"}
+    return prepared.recipe_obj, prepared.config_obj, mapping
+
+
+def _cameron_producer(recipe_obj, config_obj) -> dict:
+    import puckworks.product as prod
+    return prod.pull_run_to_dict(prod.simulate_pull(recipe_obj, config_obj))
+
+
+def _cameron_translate_outputs(run: dict) -> dict:
+    return {"observables": _observable_records(run), "traces": _trace_records(run)}
+
+
+_CAMERON_ADAPTER = LensAdapterSpec(
+    adapter_id="cameron2020_bdf_common_scenario", adapter_version="1", component_id=PRIMARY_LENS_ID,
+    runtime_class="interactive-fast", is_primary=True,
+    accepted_scenario_quantities=("dose_g", "target_beverage_g", "pressure_bar", "brew_temperature_c"),
+    required_fixed_inputs=("coffee_profile", "pressure_profile"),
+    evidence={"note": "executed via the existing authoritative producer; no equation is re-implemented"},
+    evaluate_domain=_cameron_evaluate_domain, prepare_inputs=_cameron_prepare_inputs,
+    producer=_cameron_producer, translate_outputs=_cameron_translate_outputs)
+
+# component_id -> adapter. The registry is explicit; adding an adapter never changes `primary` behavior.
+ADAPTERS: dict = {PRIMARY_LENS_ID: _CAMERON_ADAPTER}
+
+
+def _adapter_for(component_id: str) -> LensAdapterSpec | None:
+    return ADAPTERS.get(component_id)
+
+
+def lens_readiness(component_id: str) -> tuple:
+    """(readiness_state, ready_bool, reason). READY only when an adapter exists AND the component's code
+    is not rights-blocked for local execution."""
+    from puckworks import rights
+    if not any(c.name == component_id for c in _components()):
+        return "NOT_APPLICABLE", False, "not a registered component"
+    if rights.is_code_rights_blocked(component_id):
+        return "RIGHTS_BLOCKED", False, "code rights blocked (see rights registry / #73)"
+    if _adapter_for(component_id) is None:
+        return "NO_ADAPTER", False, "no common-scenario adapter for this component"
+    return "READY", True, ""
+
+
+def resolve_lens_selection(request: ScenarioRequest) -> list:
+    """The component ids to CONSIDER as common-scenario lenses, per the finite selection policy. An
+    unknown id (not a registered component) raises; a registered-but-not-ready id is still considered so
+    it can be surfaced as declined. Adding a future adapter never changes `primary`."""
+    policy = request.lens_selection_policy
+    registered = {c.name for c in _components()}
+    if policy == "none":
+        return []
+    if policy == "primary":
+        return [PRIMARY_LENS_ID]
+    if policy == "all_ready":
+        return sorted(cid for cid in ADAPTERS if lens_readiness(cid)[1])
+    # 'selected'
+    unknown = [i for i in request.requested_lens_ids if i not in registered]
+    if unknown:
+        raise ValueError(f"unknown requested lens id(s): {sorted(unknown)} (not registered components)")
+    return list(request.requested_lens_ids)
+
+
+def _decide_domain_block(findings: tuple, domain_policy: str) -> tuple:
+    """Mirror the producer's own gate: REJECTED always blocks; WARNING blocks only under strict."""
     rejected = [f for f in findings if f["status"] == "rejected"]
     warned = [f for f in findings if f["status"] == "warning"]
-    # mirror the producer's own gate: REJECTED always blocks; WARNING blocks only under strict.
-    blocked, reason = False, ""
     if rejected:
-        blocked = True
-        reason = "rejected input: " + ", ".join(f["field"] for f in rejected)
-    elif warned and request.domain_policy == "strict":
-        blocked = True
-        reason = "strict domain policy: out-of-range " + ", ".join(f["field"] for f in warned)
+        return True, "rejected input: " + ", ".join(f["field"] for f in rejected)
+    if warned and domain_policy == "strict":
+        return True, "strict domain policy: out-of-range " + ", ".join(f["field"] for f in warned)
+    return False, ""
 
-    run = None
-    if not blocked:
-        run = prod.pull_run_to_dict(prod.simulate_pull(eff_recipe, effective_config))
+
+def execute_lenses(prepared: PreparedScenario) -> list:
+    """Execute ONLY the selected, ready, in-domain common-scenario lenses. The producer of each adapter is
+    the sole place a common-scenario model runs; it is never called for a declined lens. One lens failing
+    never erases another's result."""
+    from puckworks import rights
+    request = prepared.request
+    considered = resolve_lens_selection(request)
+    results = []
+    for cid in considered:
+        readiness_state, ready, reason = lens_readiness(cid)
+        rights_decision = rights.may_execute_locally(cid).to_dict()
+        base = {"component_id": cid, "adapter_id": None, "requested_state": "REQUESTED_BUT_NOT_EXECUTABLE",
+                "adapter_readiness": readiness_state, "rights_use_decision": rights_decision,
+                "domain_findings": [], "producer_invoked": False, "status": "declined",
+                "input_mapping": {}, "observables": [], "traces": [], "decline_reason": reason}
+        if not ready:
+            results.append(base)
+            continue
+        adapter = _adapter_for(cid)
+        base["adapter_id"] = adapter.adapter_id
+        findings = adapter.evaluate_domain(prepared)
+        base["domain_findings"] = list(findings)
+        blocked, block_reason = _decide_domain_block(findings, request.domain_policy)
+        if blocked:
+            base["adapter_readiness"] = "OUTSIDE_DOMAIN"
+            base["decline_reason"] = block_reason
+            results.append(base)
+            continue
+        try:
+            recipe_obj, config_obj, mapping = adapter.prepare_inputs(prepared)
+            raw = adapter.producer(recipe_obj, config_obj)          # the ONLY common-scenario producer call
+            outputs = adapter.translate_outputs(raw)
+            results.append({**base, "requested_state": "EXECUTED", "producer_invoked": True,
+                            "status": "executed", "input_mapping": mapping,
+                            "observables": outputs["observables"], "traces": outputs["traces"],
+                            "adapter": f"{adapter.adapter_id}({request.preset_id})",
+                            "evidence_note": adapter.evidence.get("note", ""),
+                            "warnings": raw.get("warnings", []), "raw_run": raw,
+                            "disposition": "COMMON_SCENARIO_READY"})
+        except Exception as exc:                                    # isolate failure
+            results.append({**base, "requested_state": "FAILED", "producer_invoked": True,
+                            "status": "FAILED", "decline_reason": f"{type(exc).__name__}: {exc}"})
+    return results
+
+
+# ── scenario execution (compat entry point: prepare + execute selected lenses) ──────
+def execute_scenario(request: ScenarioRequest) -> ScenarioExecution:
+    """Prepare the bounded scenario and execute ONLY the selected common-scenario lenses (default policy
+    `primary` = Cameron). The producer is NOT called for a lens that is not selected, not ready, or
+    domain-blocked. Returns a ScenarioExecution carrying the prepared scenario and the per-lens results;
+    `pull_run` is the primary lens's raw run for back-compat (None if the primary did not execute)."""
+    prepared = prepare_scenario(request)
+    lens_results = execute_lenses(prepared)
+    primary = next((r for r in lens_results if r["component_id"] == PRIMARY_LENS_ID), None)
+    primary_executed = bool(primary and primary["status"] == "executed")
+    run = primary["raw_run"] if primary_executed else None
+    # back-compat domain fields reflect the PRIMARY lens (Cameron) when it was considered
+    dom_findings = tuple(primary["domain_findings"]) if primary else ()
+    blocked = bool(primary and primary["adapter_readiness"] == "OUTSIDE_DOMAIN")
+    block_reason = primary["decline_reason"] if blocked else ""
     return ScenarioExecution(
-        request=request, base_recipe=base_dict, effective_recipe=dataclasses.asdict(eff_recipe),
-        effective_config=_config_summary(effective_config), applied_overrides=applied, pull_run=run,
-        domain_findings=findings, run_id=(run or {}).get("run_id"),
-        effective_domain_policy=request.domain_policy, domain_blocked=blocked, domain_block_reason=reason)
+        request=request, base_recipe=prepared.base_recipe, effective_recipe=prepared.effective_recipe,
+        effective_config=prepared.effective_config, applied_overrides=prepared.applied_overrides,
+        pull_run=run, domain_findings=dom_findings, run_id=(run or {}).get("run_id"),
+        effective_domain_policy=request.domain_policy, domain_blocked=blocked,
+        domain_block_reason=block_reason, prepared=prepared, lens_results=tuple(lens_results))
 
 
 def _config_summary(config) -> dict:
@@ -410,30 +616,16 @@ def build_matrix(execution: ScenarioExecution) -> list:
 
 # ── common-scenario lens selection (requested_lens_ids actually controls execution) ──
 def _lens_selection(execution: ScenarioExecution) -> tuple[list, list]:
-    """Return (selection_records, executed_lens_ids). An unknown requested lens raises; a known but
-    non-executable lens (no common adapter, rights-blocked, or domain-blocked) is surfaced as
-    REQUESTED_BUT_NOT_EXECUTABLE — never silently discarded."""
-    from puckworks import rights
-    req = execution.request
-    registered = {c.name for c in _components()}
-    for lid in req.requested_lens_ids:
-        if lid not in registered:
-            raise ValueError(f"unknown requested lens id {lid!r} (not a registered component)")
-    selected = list(req.requested_lens_ids) if req.requested_lens_ids else list(_COMMON_SCENARIO_LENSES)
+    """(selection_records, executed_lens_ids) derived from the adapter-driven lens_results. Executed,
+    declined, and failed lenses are all surfaced honestly; nothing is silently discarded."""
     records, executed = [], []
-    for lid in selected:
-        if lid not in _COMMON_SCENARIO_LENSES:
-            state, reason = "REQUESTED_BUT_NOT_EXECUTABLE", "no common-scenario adapter for this component"
-        elif rights.is_code_rights_blocked(lid):
-            state, reason = "REQUESTED_BUT_NOT_EXECUTABLE", "code rights blocked (see rights registry)"
-        elif execution.domain_blocked:
-            state, reason = "REQUESTED_BUT_NOT_EXECUTABLE", execution.domain_block_reason
-        elif execution.pull_run is None:
-            state, reason = "REQUESTED_BUT_NOT_EXECUTABLE", "producer did not run"
-        else:
-            state, reason = "EXECUTED", ""
-            executed.append(lid)
-        records.append({"component_id": lid, "lens_request_state": state, "reason": reason})
+    for r in execution.lens_results:
+        state = "EXECUTED" if r["status"] == "executed" else (
+            "FAILED" if r["status"] == "FAILED" else "REQUESTED_BUT_NOT_EXECUTABLE")
+        records.append({"component_id": r["component_id"], "lens_request_state": state,
+                        "adapter_readiness": r["adapter_readiness"], "reason": r.get("decline_reason", "")})
+        if state == "EXECUTED":
+            executed.append(r["component_id"])
     return records, executed
 
 
@@ -471,59 +663,71 @@ def _trace_records(run: dict) -> list:
     return out
 
 
-def _lens_result(execution: ScenarioExecution) -> dict:
-    run = execution.pull_run or {}
+def _executed_lens_view(r: dict) -> dict:
+    """The report view of an executed lens result (the private raw_run is dropped from the artifact)."""
     return {
-        "component_id": "cameron2020.extraction_bdf",
-        "adapter": f"puckworks.product.simulate_pull({execution.request.preset_id})",
+        "component_id": r["component_id"], "adapter": r.get("adapter"),
         "status": "executed", "disposition": "COMMON_SCENARIO_READY",
-        "observables": _observable_records(run),
-        "traces": _trace_records(run),
-        "domain_findings": list(execution.domain_findings),
-        "warnings": run.get("warnings", []),
-        "evidence_note": "executed via the existing authoritative producer; no equation is re-implemented",
+        "observables": r["observables"], "traces": r["traces"],
+        "domain_findings": list(r["domain_findings"]), "warnings": r.get("warnings", []),
+        "input_mapping": r.get("input_mapping", {}),
+        "evidence_note": r.get("evidence_note", ""),
     }
 
 
 def _executed_lenses(execution: ScenarioExecution, executed_ids: list) -> list:
-    """The lens result objects for the lenses that actually executed (today: cameron only)."""
-    return [_lens_result(execution) for lid in executed_ids if lid == "cameron2020.extraction_bdf"]
+    """The report view of every lens that actually executed (deterministic order)."""
+    return [_executed_lens_view(r) for r in execution.lens_results if r["status"] == "executed"]
 
 
-# ── native reference selection (unambiguous policy; no silent discard) ───────────────
-def _resolve_reference_runner_ids(request: ScenarioRequest) -> list:
+# ── native reference selection (resolves COMPONENTS, not just runner registrations) ──
+def _resolve_reference_component_ids(request: ScenarioRequest) -> list:
+    """Component ids to resolve as native references. Under 'selected' an id that is a registered
+    component but has no runner is RESOLVED (to RUNNER_NOT_IMPLEMENTED), not rejected; only an id absent
+    from the registry is 'unknown' and raises."""
     from puckworks.product import lab_runners
     policy = request.reference_selection_policy
     if policy == "none":
         return []
     if policy == "interactive_fast":
         return list(lab_runners.INTERACTIVE_FAST)
-    # 'selected' — validate every requested id; an unknown id raises rather than being dropped
-    ids = list(request.requested_reference_runner_ids)
-    unknown = [i for i in ids if not lab_runners.has_runner(i)]
+    registered = {c.name for c in _components()}
+    unknown = [i for i in request.requested_reference_runner_ids if i not in registered]
     if unknown:
-        raise ValueError(f"unknown reference runner id(s): {sorted(unknown)}")
-    return ids
+        raise ValueError(f"unknown reference id(s): {sorted(unknown)} (not registered components)")
+    return list(request.requested_reference_runner_ids)
+
+
+def _reference_resolution_state(cid: str, ran: dict | None) -> str:
+    """Resolve a requested reference COMPONENT to a finite state (never a silent drop)."""
+    from puckworks import rights
+    from puckworks.product import lab_runners
+    if ran is not None:
+        return "EXECUTED" if ran.get("status") == "executed" else "FAILED"
+    if rights.is_code_rights_blocked(cid):
+        return "RIGHTS_BLOCKED"
+    if not lab_runners.has_runner(cid):
+        dep = _OPTIONAL_DEPENDENCY.get(cid)
+        if dep and not _optional_dep_available(dep):
+            return "OPTIONAL_DEPENDENCY_UNAVAILABLE"
+        return "RUNNER_NOT_IMPLEMENTED"
+    return "NOT_APPLICABLE"
 
 
 def _reference_selection(execution: ScenarioExecution) -> tuple[list, list]:
-    """Return (selection_records, executed_results). selection_records carry the per-request execution
-    state for every resolved runner; executed_results are the actually-run native reference cases."""
+    """(selection_records, executed_results). Every resolved COMPONENT gets a finite resolution state;
+    executed_results are the actually-run native reference cases. A rights-blocked component is never
+    executed; a registered component with no runner is RUNNER_NOT_IMPLEMENTED, not 'unknown'."""
+    from puckworks import rights
     from puckworks.product import lab_runners
-    resolved = _resolve_reference_runner_ids(execution.request)
-    executed = lab_runners.run_selected(resolved) if resolved else []
+    resolved = _resolve_reference_component_ids(execution.request)
+    # only components that HAVE a runner and are not rights-blocked are actually executed
+    to_run = [c for c in resolved if lab_runners.has_runner(c) and not rights.is_code_rights_blocked(c)]
+    executed = lab_runners.run_selected(to_run) if to_run else []
     by_id = {r["component_id"]: r for r in executed}
     records = []
     for cid in sorted(set(resolved)):
-        r = by_id.get(cid)
-        if r is None:
-            state = "NOT_APPLICABLE"
-        elif r.get("status") == "executed":
-            state = "EXECUTED"
-        elif r.get("status") == "FAILED":
-            state = "FAILED"
-        else:
-            state = "NOT_APPLICABLE"
+        state = _reference_resolution_state(cid, by_id.get(cid))
         records.append({"component_id": cid, "native_runner_execution_state": state,
                         "reference_selection_policy": execution.request.reference_selection_policy})
     return records, executed
@@ -582,12 +786,25 @@ def build_comparison(execution: ScenarioExecution, *, provenance: BuildProvenanc
     request_echo = {
         "preset_id": req.preset_id, "domain_policy": req.domain_policy,
         "effective_domain_policy": execution.effective_domain_policy,
+        "lens_selection_policy": req.lens_selection_policy,
         "requested_lens_ids": list(req.requested_lens_ids),
         "reference_selection_policy": req.reference_selection_policy,
         "requested_reference_runner_ids": list(req.requested_reference_runner_ids),
     }
+    # per-lens execution record (capability vs what actually ran, with each lens's OWN domain)
+    lens_execution = [{
+        "component_id": r["component_id"], "adapter_id": r["adapter_id"],
+        "requested_state": r["requested_state"], "adapter_readiness": r["adapter_readiness"],
+        "producer_invoked": r["producer_invoked"], "status": r["status"],
+        "rights_use_decision": r["rights_use_decision"],
+        "domain_finding_count": len(r["domain_findings"]),
+        "decline_reason": r.get("decline_reason", ""), "input_mapping": r.get("input_mapping", {}),
+    } for r in execution.lens_results]
+    producer_invocations = sum(1 for r in execution.lens_results if r["producer_invoked"])
+    # domain block reflects the PRIMARY lens (Cameron) when it was considered; per-lens domain lives above
     domain = {
         "policy": req.domain_policy, "effective_policy": execution.effective_domain_policy,
+        "primary_lens": PRIMARY_LENS_ID,
         "blocked": execution.domain_blocked, "block_reason": execution.domain_block_reason,
         "producer_executed": execution.pull_run is not None,
         "rejected_count": sum(1 for f in execution.domain_findings if f["status"] == "rejected"),
@@ -619,11 +836,13 @@ def build_comparison(execution: ScenarioExecution, *, provenance: BuildProvenanc
         "domain": domain,
         "counts": {"components": len(matrix),
                    "executed_common_scenario_lenses": len(executed_lenses),
+                   "common_scenario_producer_invocations": producer_invocations,
                    "executed_native_references": sum(1 for r in executed_refs
                                                       if r.get("status") == "executed"),
                    "failed_native_references": sum(1 for r in executed_refs
                                                    if r.get("status") == "FAILED")},
         "lens_selection": lens_records,
+        "lens_execution": lens_execution,
         "executed_lenses": executed_lenses,
         "reference_selection": ref_records,
         "executed_reference_results": executed_refs,
