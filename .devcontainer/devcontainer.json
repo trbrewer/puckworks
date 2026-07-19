@@ -1,0 +1,26 @@
+{
+  "name": "puckworks (dev + Guided Pull Laboratory UI)",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "postCreateCommand": "pip install -e '.[dev,viz,webapp]'",
+  "forwardPorts": [8501],
+  "portsAttributes": {
+    "8501": {
+      "label": "Guided Pull Laboratory (Streamlit)",
+      "onAutoForward": "notify"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-python.python"],
+      "settings": {
+        "python.testing.pytestEnabled": true
+      }
+    }
+  },
+  "remoteEnv": {
+    "STREAMLIT_BROWSER_GATHER_USAGE_STATS": "false"
+  },
+  "hostRequirements": {
+    "cpus": 2
+  }
+}

@@ -127,6 +127,17 @@ pull deterministically and writes JSON/Markdown/figures — see [`docs/GUIDED_ES
 subset as independent model lenses — it never averages competing mechanisms and is not a digital twin.
 See [`docs/GUIDED_PULL_LABORATORY.md`](docs/GUIDED_PULL_LABORATORY.md).
 
+**Ways to run it:**
+
+- **Colab** — the released, simple guided experience (quickstart + Guided Espresso Pull notebooks above).
+- **CLI** — local deterministic execution: `puckworks-pull` and `python -m puckworks.product.lab`.
+- **Codespaces** — the dynamic development UI. Open a [GitHub Codespace](https://github.com/codespaces/new?repo=trbrewer/puckworks)
+  (`.devcontainer/` installs `.[dev,viz,webapp]`), then `streamlit run apps/lab_app.py` — it runs the
+  **development** branch/version (`0.4.0.dev0`), not necessarily the latest release.
+- **Actions** — reproducible batch artifacts: the manually dispatched `guided-pull-batch` workflow
+  (`workflow_dispatch`) builds the current wheel and writes deterministic JSON/Markdown/figure. It is a
+  batch runner, not a live UI.
+
 **More public stories:**
 
 - [See why espresso model components do not simply add up](https://trbrewer.github.io/puckworks/model-composition/) — a static, generated interactive showing how adding a swelling branch to an extraction model, through one shared porosity state, makes the prediction *worse* than a flat baseline (it rejects one tested composition, not swelling in general).

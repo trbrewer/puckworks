@@ -5,6 +5,13 @@ tracked in detail in `docs/ROADMAP.md` §7.1.
 
 ## Unreleased
 
+- **Guided Pull Laboratory** (development `0.4.0.dev0`, not released): `puckworks.product.lab` exposes
+  the full component registry as a coverage matrix and runs the compatible subset as independent model
+  lenses (one executed extraction lens today) — never a validated digital twin. Added a Codespaces
+  devcontainer + Streamlit UI (`apps/lab_app.py`, `webapp` extra; not a core dependency) and a
+  reproducible `guided-pull-batch` Actions runner. Browser/Pyodide hosting is a documented feasibility
+  note only (`docs/PAGES_FEASIBILITY.md`); nothing is deployed to a third-party host.
+
 ## 0.4.0.dev0
 
 Development line opened after the v0.3.0 release. Source/development builds identify themselves as

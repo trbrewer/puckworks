@@ -1,0 +1,16 @@
+# Guided Pull Laboratory dev UI — privacy-first Streamlit config.
+[browser]
+# No usage statistics are collected or sent.
+gatherUsageStats = false
+
+[server]
+headless = true
+enableCORS = false
+enableXsrfProtection = true
+
+[runner]
+fastReruns = true
+
+[theme]
+# Neutral theme; no meaning is conveyed by color alone (labels + tables carry the meaning).
+base = "light"

@@ -46,15 +46,19 @@ def test_all_live_interactives_are_required():
 
 
 def test_conditional_environment_required_only_when_path_exists():
-    # Codespaces/Actions entries carry a `path`; they must be required only once that path exists
-    for env in RG.ENVIRONMENTS:
-        if env["name"] == "Codespaces":
-            assert env.get("path") == ".devcontainer/devcontainer.json"
-        if env["name"] == "Actions batch runner":
-            assert env.get("path") == ".github/workflows/guided-pull-batch.yml"
-    # neither devcontainer nor the batch workflow exists yet on this branch -> not required, verify clean
-    assert not (_ROOT / ".devcontainer" / "devcontainer.json").exists()
+    # Codespaces/Actions entries carry a `path`; they are required only once that path exists.
+    paths = {env["name"]: env.get("path") for env in RG.ENVIRONMENTS}
+    assert paths["Codespaces"] == ".devcontainer/devcontainer.json"
+    assert paths["Actions batch runner"] == ".github/workflows/guided-pull-batch.yml"
+    # whatever exists on this branch, governance must be self-consistent: a present environment must be
+    # documented, and the verifier passes on the current tree.
     assert RG.check_readme() == []
+    for env in RG.ENVIRONMENTS:
+        p = env.get("path")
+        if p and (_ROOT / p).exists():
+            readme = (_ROOT / "README.md").read_text(encoding="utf-8").lower()
+            assert any(m.lower() in readme for m in env["markers"]), \
+                f"{env['name']} exists but is undocumented"
 
 
 def test_report_is_deterministic_and_readable():

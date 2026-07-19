@@ -1,0 +1,78 @@
+name: guided-pull-batch
+# Reproducible, NON-INTERACTIVE Guided Pull Laboratory batch runner (#43 / #70). This is a batch
+# runner, NOT a live UI. It builds the exact current wheel, installs it in isolation, runs the public
+# comparison via tools/lab_batch.py with BOUNDED inputs passed through env vars (never shell-
+# interpolated), and uploads one artifact (JSON + Markdown + figure). contents:read only; no secrets;
+# no issue write; SHA-pinned actions; fixed timeout.
+on:
+  workflow_dispatch:
+    inputs:
+      preset:
+        description: "Preset scenario id"
+        type: choice
+        options: ["pv19_named", "guided_v1"]
+        default: "pv19_named"
+      dose_g:
+        description: "Dose in grams (5..30, blank = preset default)"
+        type: string
+        default: ""
+      target_beverage_g:
+        description: "Target beverage mass in grams (10..80, blank = preset default)"
+        type: string
+        default: ""
+      pressure_bar:
+        description: "Pressure in bar (1..12, blank = preset default)"
+        type: string
+        default: ""
+      temperature_c:
+        description: "Temperature in °C (80..98, blank = preset default)"
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: guided-pull-batch-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  batch:
+    name: build wheel + run the comparison batch
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    env:
+      # user inputs enter ONLY as env vars; tools/lab_batch.py validates + bounds them in Python
+      LAB_PRESET: ${{ inputs.preset }}
+      LAB_DOSE_G: ${{ inputs.dose_g }}
+      LAB_TARGET_BEVERAGE_G: ${{ inputs.target_beverage_g }}
+      LAB_PRESSURE_BAR: ${{ inputs.pressure_bar }}
+      LAB_TEMPERATURE_C: ${{ inputs.temperature_c }}
+      LAB_OUT_DIR: out/lab
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.12"
+      - name: build the exact current wheel
+        run: |
+          python -m pip install --quiet build
+          python -m build --wheel --outdir dist
+      - name: install the wheel + viz extra into an isolated venv (outside the source tree)
+        run: |
+          python -m venv "$RUNNER_TEMP/venv"
+          "$RUNNER_TEMP/venv/bin/python" -m pip install --quiet "$(ls dist/*.whl)" matplotlib
+      - name: run the batch comparison (inputs via env, validated in Python)
+        run: "$RUNNER_TEMP/venv/bin/python tools/lab_batch.py"
+      - name: show the deterministic result summary
+        run: cat out/lab/guided_pull_lab.md
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: guided-pull-lab-batch
+          path: out/lab/
+          if-no-files-found: error
+          retention-days: 30
