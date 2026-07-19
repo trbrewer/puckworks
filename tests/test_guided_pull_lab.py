@@ -95,7 +95,7 @@ def test_integrity_hashes_are_self_consistent(report):
 
 
 def test_schema_versions(report, execution):
-    assert report["schema_version"] == 3 == lab.SCHEMA_VERSION
+    assert report["schema_version"] == 4 == lab.SCHEMA_VERSION
     assert execution.pull_run["schema_version"] == 1     # PullRun v1 not overloaded
 
 
@@ -178,9 +178,10 @@ def test_only_executed_references_appear_in_executed_results(report):
 
 
 def test_missing_runner_is_labelled_not_implemented_not_a_result(report):
-    cov = {r["component_id"]: r for r in report["reference_suite_coverage"]}
+    # v4: capability coverage lives in the env-dependent capability_snapshot (excluded from the sci hash)
+    cov = {r["component_id"]: r for r in report["capability_snapshot"]["reference_suite_coverage"]}
     # a component with no runner must say "not yet implemented", never an "own native reference" result
-    not_impl = [r for r in cov.values() if r["runner_state"] == "RUNNER_NOT_IMPLEMENTED"]
+    not_impl = [r for r in cov.values() if r["native_runner_capability"] == "NOT_IMPLEMENTED"]
     assert not_impl
     for r in not_impl:
         assert "not yet implemented" in r["note"].lower()
@@ -188,15 +189,17 @@ def test_missing_runner_is_labelled_not_implemented_not_a_result(report):
 
 
 def test_optional_dependency_skip_is_not_a_pass(report):
-    cov = {r["component_id"]: r for r in report["reference_suite_coverage"]}
+    cov = {r["component_id"]: r for r in report["capability_snapshot"]["reference_suite_coverage"]}
     taichi = cov.get("brewer2026.lb_taichi")
-    assert taichi and taichi["runner_state"] in ("SKIPPED_OPTIONAL_DEPENDENCY", "RUNNER_NOT_IMPLEMENTED")
+    assert taichi and taichi["native_runner_capability"] in (
+        "OPTIONAL_DEPENDENCY_UNAVAILABLE", "NOT_IMPLEMENTED")
 
 
 def test_failed_reserved_for_errored_execution(report):
-    states = {r["runner_state"] for r in report["reference_suite_coverage"]}
-    assert "FAILED" not in states
-    assert "FAILED" in lab.RUNNER_STATES
+    # FAILED is a per-request EXECUTION state, never a static capability
+    caps = {r["native_runner_capability"] for r in report["capability_snapshot"]["reference_suite_coverage"]}
+    assert "FAILED" not in caps and "FAILED" not in lab.NATIVE_RUNNER_CAPABILITIES
+    assert "FAILED" in lab.REQUEST_EXECUTION_STATES
 
 
 # ── PLOTS ─────────────────────────────────────────────────────────────────────────
