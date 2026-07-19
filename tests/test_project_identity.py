@@ -57,8 +57,18 @@ def test_scientific_synthetic_is_preserved_and_never_flagged():
     assert hits > 0, "scientific 'synthetic' terminology unexpectedly absent"
 
 
-def test_citation_has_new_contact_and_is_valid_yaml():
-    import yaml                                           # dev/radar extra, not a core dependency
+def test_citation_carries_new_contact_not_old():
+    # yaml-free (runs even on the core-only min-deps lane): the contact metadata is correct
+    text = (_ROOT / "CITATION.cff").read_text(encoding="utf-8")
+    assert NEW_EMAIL in text, f"CITATION.cff must carry {NEW_EMAIL}"
+    assert OLD_EMAIL not in text
+
+
+def test_citation_is_valid_yaml_when_available():
+    # structural validation via the dev/radar pyyaml extra; skipped when pyyaml is absent
+    # (pyyaml is not a core runtime dependency)
+    import pytest
+    yaml = pytest.importorskip("yaml")
     data = yaml.safe_load((_ROOT / "CITATION.cff").read_text(encoding="utf-8"))
     assert str(data.get("cff-version", "")).strip(), "CITATION.cff missing cff-version"
     emails = [a.get("email") for a in data.get("authors", [])]
