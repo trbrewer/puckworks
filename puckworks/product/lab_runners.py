@@ -136,6 +136,18 @@ INTERACTIVE_FAST = tuple(cid for cid, (spec, _) in RUNNERS.items()
                          if spec.runtime_class == "interactive-fast")
 
 
+def _assert_no_rights_blocked_runners() -> None:
+    """Policy guard: a code-rights-blocked component (centralized puckworks.rights) can never have a
+    native reference runner. Fails loudly at import if one is ever registered."""
+    from puckworks import rights
+    bad = [cid for cid in RUNNERS if rights.is_code_rights_blocked(cid)]
+    if bad:
+        raise RuntimeError(f"rights-blocked components must not have native runners: {bad} (see #73)")
+
+
+_assert_no_rights_blocked_runners()
+
+
 def has_runner(component_id: str) -> bool:
     return component_id in RUNNERS
 

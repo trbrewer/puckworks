@@ -102,6 +102,11 @@ def check_readme(*, components=None) -> list:
     #     Heuristic guard: if a component is runtime and the README's line for it says
     #     "Source-data constraint" or "card-only", that is a contradiction.
     role_by_name = {c.name: getattr(c, "execution_role", "") for c in comps}
+    try:
+        from puckworks import rights
+        blocked = set(rights.blocked_components())
+    except Exception:                                     # pragma: no cover
+        blocked = set()
     for line in text.splitlines():
         for name, role in role_by_name.items():
             if f"`{name}`" in line:
@@ -109,6 +114,10 @@ def check_readme(*, components=None) -> list:
                 if role == "runtime" and ("source-data constraint" in ll or "card-only" in ll):
                     problems.append(f"README role wording for runtime component '{name}' contradicts "
                                     f"the registry (line says source/card-only)")
+                # a code-rights-BLOCKED component must not be presented as an executable model (#73)
+                if name in blocked and "executable model" in ll:
+                    problems.append(f"README labels rights-blocked component '{name}' as an "
+                                    f"'Executable model' — it must not invite execution (see #73)")
 
     # (4) every live public-value interactive appears in README and docs/public/README
     pub = PUBLIC_README.read_text(encoding="utf-8") if PUBLIC_README.exists() else ""
