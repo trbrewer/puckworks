@@ -20,11 +20,22 @@ Concretely:
 | Path | Who it is for | Cost to start |
 |---|---|---|
 | [CPU Colab quickstart](../notebooks/puckworks_quickstart_colab.ipynb) | laypeople, first look | none — runs in the browser |
+| [Guided Pull **Laboratory** Colab](../notebooks/guided_pull_laboratory_colab.ipynb) | laypeople who want to run a shot | none — a form + one **▶ Run** button, no terminal |
 | Release wheel install | users, scripting | one `pip install` of the release wheel |
 | Advanced GPU / LB notebook (`../notebooks/espresso_lb_colab.ipynb`) | specialists | GPU runtime |
 
 The quickstart is CPU-first, needs no secret and no private data, and installs the **released
 wheel** — not unreleased development code.
+
+The **Guided Pull Laboratory** Colab is the layperson path for *running a bounded shot*: fill a short
+form, press one **▶ Run the Laboratory** button — no Python, shell, `pip`, or CLI to type. It runs
+**privately** in the user's own Colab runtime (execution context `LOCAL_PRIVATE`); "private" means the
+model runs in a runtime the user controls and does **not** mean it is cleared for public hosting. Because
+the Laboratory ships in the unreleased `0.4.0.dev0`, this notebook installs an **exact commit-pinned
+DEVELOPMENT PREVIEW** (option B below), never mutable `main` and never under a "v0.3.0 release" badge. It
+is not a digital twin, optimizer, or taste predictor; component self-checks are each a model's *own*
+reference case, not a prediction of the chosen shot. `grudeva2025.reduced` is rights-blocked and never
+runs (#73).
 
 ## 3. Core platform-support matrix
 
@@ -77,11 +88,24 @@ those carry their own, weaker guarantees.
 
 ## 6. Colab
 
-- The [quickstart](../notebooks/puckworks_quickstart_colab.ipynb) is the primary layperson path.
-- It installs the release wheel; automated tests set `PUCKWORKS_WHEEL` to a locally built wheel to
-  run with no network.
+- The [quickstart](../notebooks/puckworks_quickstart_colab.ipynb) is the primary layperson *first-look*
+  path (registry tour). It installs the release wheel.
+- The [Guided Pull Laboratory](../notebooks/guided_pull_laboratory_colab.ipynb) is the layperson
+  *run-a-shot* path: a form + one **▶ Run** button, `LOCAL_PRIVATE` execution through the shared
+  rights-safe service (`puckworks.product.lab_service`). Three experience modes map to explicit bounded
+  requests — *Guided shot only* (primary lens, no references), *Guided shot + component self-checks*
+  (primary lens + interactive-fast references), *Catalog only* (the producer-free Explorer — runs
+  nothing). It installs a **commit-pinned DEVELOPMENT PREVIEW** (`0.4.0.dev0`), not a released wheel; the
+  `notebook-smoke` `laboratory-hermetic` job builds the current dev wheel, installs it via
+  `PUCKWORKS_WHEEL`, executes the notebook with no network, and asserts the `GUIDED_PULL_LAB_COMPLETE`
+  marker. It carries no committed outputs and requests no secret or upload.
 - The advanced GPU/LB notebook (`../notebooks/espresso_lb_colab.ipynb`) is retained for specialists
   and is unchanged.
+
+> **Human acceptance (pending, #43):** before the Laboratory Colab is called usable, a human must open
+> it from the badge, *not* open a terminal, change one form value, press the single run control, see the
+> evidence-range message + results + caveats + downloads, and confirm no Puckworks upload or secret is
+> requested. Not yet performed.
 
 ## 7. Local installation
 
