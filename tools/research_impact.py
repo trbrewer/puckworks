@@ -22,6 +22,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -105,11 +106,56 @@ def validate_record(rec: dict, schema: dict, *, source: str = "") -> list:
     return problems
 
 
-def load_intake(intake_dir: Path = INTAKE_DIR) -> list:
-    """Load and sort every intake record (by stable_id) for deterministic output."""
+# ── source scope: committed (tracked-only, canonical/CI) vs working_tree (local authoring) ──
+SOURCE_SCOPES = ("committed", "working_tree")
+
+
+def _tracked_repo_files(root: Path = _REPO) -> set | None:
+    """Repo-relative POSIX paths that git currently tracks, or None when this is not a git checkout
+    (e.g. an installed sdist). Deterministic for a given commit/index — the basis of committed scope."""
+    try:
+        out = subprocess.run(["git", "-C", str(root), "ls-files", "-z"],
+                             capture_output=True, text=True, check=True)
+    except (OSError, subprocess.CalledProcessError):
+        return None
+    return {p for p in out.stdout.split("\0") if p}
+
+
+def _rel(path: Path, root: Path) -> str | None:
+    try:
+        return path.resolve().relative_to(root.resolve()).as_posix()
+    except ValueError:
+        return None
+
+
+def _in_scope(path: Path, tracked: set | None, root: Path = _REPO) -> bool:
+    """Whether a file on disk is in scope. committed scope (tracked is a set) admits only tracked files;
+    working_tree scope (tracked is None) admits everything on disk."""
+    if tracked is None:
+        return True
+    rel = _rel(path, root)
+    return rel is None or rel in tracked                 # outside the repo -> always in scope
+
+
+def scoped_glob(directory: Path, pattern: str, tracked: set | None, root: Path = _REPO) -> tuple:
+    """Return (in_scope_paths, excluded_repo_paths) for a glob under committed/working_tree scope."""
+    in_scope, excluded = [], []
+    for p in sorted(directory.glob(pattern)):
+        if _in_scope(p, tracked, root):
+            in_scope.append(p)
+        else:
+            excluded.append(_rel(p, root) or str(p))
+    return in_scope, excluded
+
+
+def load_intake(intake_dir: Path = INTAKE_DIR, *, tracked: set | None = None,
+                root: Path = _REPO) -> list:
+    """Load and sort every intake record (by stable_id) for deterministic output. In committed scope
+    (`tracked` is a set) untracked .yml files are excluded, not silently included."""
     schema = load_schema()
     records = []
-    for p in sorted(intake_dir.glob("*.yml")):
+    paths, _excluded = scoped_glob(intake_dir, "*.yml", tracked, root)
+    for p in paths:
         rec = _load_yaml(p)
         rec["_source_file"] = p.name
         rec["_problems"] = validate_record(rec, schema, source=p.name)
@@ -151,9 +197,11 @@ def status_token(status: str) -> str:
     return lead
 
 
-def load_cards(cards_dir: Path = CARDS_DIR) -> dict:
+def load_cards(cards_dir: Path = CARDS_DIR, *, tracked: set | None = None,
+               root: Path = _REPO) -> dict:
     cards = {}
-    for p in sorted(cards_dir.glob("*.md")):
+    paths, _excluded = scoped_glob(cards_dir, "*.md", tracked, root)
+    for p in paths:
         if p.stem.upper() == "TEMPLATE":       # the card template is not a real card
             continue
         text = p.read_text(encoding="utf-8", errors="replace")
@@ -188,15 +236,38 @@ def _components() -> list:
 _STALE_CARD_STATUSES = ("card-only", "proposed")
 
 
+def resolve_scope(source_scope: str, repo_root: Path = _REPO) -> tuple:
+    """Return (resolved_scope, tracked_set). committed scope needs a git checkout; when git is absent it
+    degrades to 'working_tree_fallback' (recorded, not silently canonicalized)."""
+    if source_scope not in SOURCE_SCOPES:
+        raise ValueError(f"source_scope must be one of {SOURCE_SCOPES}, got {source_scope!r}")
+    if source_scope == "working_tree":
+        return "working_tree", None
+    tracked = _tracked_repo_files(repo_root)
+    if tracked is None:
+        return "working_tree_fallback", None            # not a git checkout: cannot scope to committed
+    return "committed", tracked
+
+
 def build_report(*, intake_dir: Path = INTAKE_DIR, cards_dir: Path = CARDS_DIR,
-                 components=None) -> dict:
-    """Compute the deterministic registry-impact report (no side effects, no network)."""
+                 components=None, source_scope: str = "committed", repo_root: Path = _REPO) -> dict:
+    """Compute the deterministic registry-impact report (no side effects, no network).
+
+    Default 'committed' scope examines only git-tracked cards/intake, so the canonical artifact is
+    reproducible from a commit and never silently incorporates a maintainer's untracked local files.
+    'working_tree' scope includes untracked files for local authoring. Excluded untracked paths and the
+    tracked/untracked split are recorded in the report."""
     if components is None:
         components = _components()
-    cards = load_cards(cards_dir)
+    resolved_scope, tracked = resolve_scope(source_scope, repo_root)
+    cards = load_cards(cards_dir, tracked=tracked, root=repo_root)
     card_keys = set(cards)
-    records = load_intake(intake_dir)
+    records = load_intake(intake_dir, tracked=tracked, root=repo_root)
     unique, dup_groups = dedupe(records)
+    # what committed scope excluded (empty in working_tree scope and in a clean CI checkout)
+    _, excluded_cards = scoped_glob(cards_dir, "*.md", tracked, repo_root)
+    _, excluded_intake = scoped_glob(intake_dir, "*.yml", tracked, repo_root)
+    excluded_untracked = sorted(excluded_cards + excluded_intake)
 
     # card DOIs (for stale-DOI + already-carded matching)
     card_dois = {d for c in cards.values() for d in c["dois"]}
@@ -315,9 +386,18 @@ def build_report(*, intake_dir: Path = INTAKE_DIR, cards_dir: Path = CARDS_DIR,
         summary[f["category"]] = summary.get(f["category"], 0) + 1
 
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "report": "puckworks-research-impact",
         "authorizes_implementation": False,
+        "source_scope": {
+            "scope": resolved_scope,
+            "requested_scope": source_scope,
+            "tracked_card_count": len(cards),
+            "tracked_intake_count": len(records),
+            "untracked_card_count": len(excluded_cards),
+            "untracked_intake_count": len(excluded_intake),
+            "excluded_untracked_paths": excluded_untracked,
+        },
         "counts": {
             "components": len(components),
             "cards": len(cards),
@@ -347,6 +427,16 @@ def render_markdown(report: dict) -> str:
         f"**{c['intake_records']}** (unique sources **{c['unique_sources']}**, duplicate groups "
         f"**{c['duplicate_groups']}**)",
         f"- findings: **{c['findings']}**",
+    ]
+    ss = report.get("source_scope")
+    if ss:
+        lines.append(
+            f"- source scope: **{ss['scope']}** (requested `{ss['requested_scope']}`); "
+            f"tracked cards **{ss['tracked_card_count']}**, untracked excluded "
+            f"**{ss['untracked_card_count']} card(s) / {ss['untracked_intake_count']} intake**")
+        if ss["excluded_untracked_paths"]:
+            lines.append(f"  - excluded untracked: {', '.join('`'+p+'`' for p in ss['excluded_untracked_paths'])}")
+    lines += [
         "",
         "## Findings by category",
         "",
@@ -368,11 +458,16 @@ def main(argv=None) -> int:
     r = sub.add_parser("report", help="compute the registry-impact report")
     r.add_argument("--format", choices=["md", "json"], default="md")
     r.add_argument("--out", default=None, help="write to a file instead of stdout")
-    sub.add_parser("validate", help="validate intake records only")
+    r.add_argument("--source-scope", choices=list(SOURCE_SCOPES), default="committed",
+                   help="committed (default; canonical/CI: tracked files only) or working_tree "
+                        "(local authoring: include untracked files)")
+    v = sub.add_parser("validate", help="validate intake records only")
+    v.add_argument("--source-scope", choices=list(SOURCE_SCOPES), default="committed")
     args = ap.parse_args(argv)
 
     if args.cmd == "validate":
-        records = load_intake()
+        _, tracked = resolve_scope(args.source_scope)
+        records = load_intake(tracked=tracked)
         problems = [p for rec in records for p in rec.get("_problems", [])]
         if problems:
             print("INTAKE VALIDATION FAILED:")
@@ -382,7 +477,7 @@ def main(argv=None) -> int:
         print(f"intake OK: {len(records)} record(s) valid")
         return 0
 
-    report = build_report()
+    report = build_report(source_scope=args.source_scope)
     text = canonical_json(report) if args.format == "json" else render_markdown(report)
     if args.out:
         Path(args.out).write_text(text, encoding="utf-8")
