@@ -67,7 +67,12 @@ Observable roles trace the producer: pressure and target beverage are **prescrib
 
 The component capability matrix is explicit (not a substring heuristic): every registered component has
 one validated record with callable/runtime/calibration flags, `native_runner_state`,
-`common_scenario_adapter_state`, `rights_state`, and concentration reference basis. `reference_suite_coverage`
+`common_scenario_adapter_state`, and concentration reference basis. **Rights truth is centralized in
+`puckworks.rights`** (one record per component with distinct `code_rights_state` / `data_rights_state` /
+`output_redistribution_state`; an unreviewed component is `NOT_REVIEWED`, never a silent `CLEAR`). The
+Lab consumes it: `grudeva2025.reduced` is `code RIGHTS_BLOCKED` (#73) and can never be a lens, native
+runner, or adapter; a release-readiness guard fails if a rights-blocked component would enter a new
+artifact. `reference_suite_coverage`
 lists runner states honestly; only actually-executed references appear in `executed_reference_results`.
 
 ## Honesty boundaries (enforced by tests)

@@ -1,5 +1,13 @@
 """reduced.py — Grudeva et al. reduced infiltration-coupled extraction model.
 
+RIGHTS STATUS — code RIGHTS_BLOCKED (issue #73). This module is a self-documented direct port of the
+unlicensed upstream solver (github.com/YoanaGrudeva/espresso-model, licence: null); no permission is on
+record. The EJAM article (CC-BY) licenses the equations/text, NOT this solver code. Rights truth is the
+centralized `puckworks.rights` record. Retained in current history (shipped in v0.3.0) but NOT available
+for Guided Pull Laboratory execution, native reference runners, adapters, or a newly approved release,
+pending the #73 maintainer decision. Do NOT extend, re-enable, or promote without resolving #73; a
+replacement must be an independent clean-room reimplementation from permitted equations/data only.
+
 Card: docs/cards/grudeva2025.md (merged card of record; ROADMAP item 1.7b).
 RUNTIME infiltration+extraction: a sharp wetting front sweeps the dry bed; behind
 it two-population (fines/boulders) extraction proceeds, with matched asymptotics
