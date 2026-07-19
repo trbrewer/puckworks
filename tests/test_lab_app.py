@@ -97,6 +97,7 @@ def test_batch_runner_bounds_inputs_and_never_clamps():
 
 
 def test_batch_run_matches_package_output_and_writes_manifest(tmp_path):
+    pytest.importorskip("matplotlib")     # the batch writes a required scientific figure
     lb = importlib.import_module("tools.lab_batch")
     from puckworks.product import lab
     report = lb.run({"LAB_OUT_DIR": str(tmp_path), "LAB_PRESET": "guided_v1",
@@ -120,6 +121,7 @@ def test_batch_run_matches_package_output_and_writes_manifest(tmp_path):
 
 
 def test_batch_scenario_identity_not_pv19_for_guided_v1(tmp_path):
+    pytest.importorskip("matplotlib")
     lb = importlib.import_module("tools.lab_batch")
     report = lb.run({"LAB_OUT_DIR": str(tmp_path), "LAB_PRESET": "guided_v1", "LAB_DOSE_G": "19"})
     assert report["scenario"]["scenario_id"] == "guided_v1"
@@ -127,6 +129,7 @@ def test_batch_scenario_identity_not_pv19_for_guided_v1(tmp_path):
 
 
 def test_required_scientific_figure_failure_would_fail_the_batch(tmp_path, monkeypatch):
+    pytest.importorskip("matplotlib")
     lb = importlib.import_module("tools.lab_batch")
     monkeypatch.setattr(lb.lab, "render_data", lambda report: [])   # no plottable panels
     with pytest.raises(RuntimeError):
