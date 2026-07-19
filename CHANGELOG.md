@@ -5,6 +5,22 @@ tracked in detail in `docs/ROADMAP.md` §7.1.
 
 ## Unreleased
 
+- **Form-driven Guided Pull Laboratory Colab (#43):** `notebooks/guided_pull_laboratory_colab.ipynb` — a
+  layperson browser path to *run a bounded shot* with a short form and one **▶ Run the Laboratory**
+  button, no Python/shell/`pip`/CLI to type. It executes through the shared rights-safe service
+  (`puckworks.product.lab_service`) with an explicit `LOCAL_PRIVATE` context, documented as a private
+  user-controlled runtime that is **not** a public-hosting clearance. Three experience modes map to
+  explicit finite requests — *Guided shot only* (primary lens, references none), *Guided shot + component
+  self-checks* (primary lens + interactive-fast references), *Catalog only* (the producer-free Explorer,
+  runs nothing). Install is an **exact commit-pinned DEVELOPMENT PREVIEW** (`0.4.0.dev0`), never mutable
+  `main`, never under a v0.3.0 badge; the notebook shows package version, pinned commit, and install
+  source. It carries no committed outputs, requests no secret or upload, and emits a
+  `GUIDED_PULL_LAB_COMPLETE` sentinel. A `notebook-smoke` `laboratory-hermetic` job builds the current dev
+  wheel, installs it via `PUCKWORKS_WHEEL`, executes the notebook with no network, and asserts the marker;
+  a static contract test pins one visible run cell, no terminal instruction, the pinned-preview install,
+  the service+context, the mode mapping, and that Grudeva is never offered. Human sign-off (open from
+  badge, no terminal, one run) remains pending (#43). No version/tag/release change.
+
 - **First affirmatively-cleared public-artifact path — `brewer2026.lb_reference` (#70):** the first
   tightly-bounded, per-component public-execution path, and the first affirmative outward rights clearance
   in the repository. A bounded provenance review (`docs/rights_review_notes.md`) established that
