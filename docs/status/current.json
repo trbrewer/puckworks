@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "generated_doc": "docs/planning/STATE_OF_TRUTH.md",
-  "note": "SINGLE machine-readable source of project status. Hand-edit THIS file; regenerate the Markdown with `python -m puckworks.statusdoc --write`. CI (`python -m puckworks.statusdoc --verify`) fails on stale/contradictory state. Active queue is capped at 5; completed history and superseded plans live in their own sections. Format is JSON (stdlib, no extra dependency) \u2014 the plan's `.yaml` was illustrative.",
+  "note": "SINGLE machine-readable source of project status. Hand-edit THIS file; regenerate the Markdown with `python -m puckworks.statusdoc --write`. CI (`python -m puckworks.statusdoc --verify`) fails on stale/contradictory state. Active queue is capped at 5; completed history and superseded plans live in their own sections. Format is JSON (stdlib, no extra dependency) — the plan's `.yaml` was illustrative.",
   "items": [
     {
       "id": "canonical-status-source",
@@ -110,7 +110,7 @@
     },
     {
       "id": "guided-espresso-pull",
-      "title": "Guided Espresso Pull \u2014 v0.3.0 published; awaiting signed-out human Colab acceptance",
+      "title": "Guided Espresso Pull — v0.3.0 published; awaiting signed-out human Colab acceptance",
       "area": "product",
       "state": "active",
       "priority": "P2",
@@ -132,15 +132,15 @@
       "owner_type": "maintainer",
       "external_blocker": null,
       "resume_trigger": null,
-      "next_gate": "Add verified adapters so a second compatible extraction lens can join the common scenario, and wire native reference runners for more executable components — without inventing units, grinder, or concentration-reference-volume conversions.",
-      "acceptance_evidence": "Core landed (development 0.4.0.dev0): puckworks/product/lab.py exposes the full 25-component coverage matrix with a finite disposition vocabulary (every component exactly one disposition), a comparison schema v2 (distinct from PullRun v1, deterministic, no wall-clock), and ONE executed common-scenario lens (cameron2020.extraction_bdf via the existing simulate_pull producer — no equation duplication). Competing extraction models (grudeva2025.reduced, pannusch2024.solver, romancorrochano2017.extraction, mo2023_2.coupled_bed) are ADAPTER_REQUIRED (different reference volume/observable, not overlaid); lb_taichi SKIPPED_OPTIONAL_DEPENDENCY. Native reference suite + 'what this does not prove' emitted; 15 lab tests green; docs/GUIDED_PULL_LABORATORY.md. Activated as the second active lane (queue cap 5). Not a validated digital twin; no evidence upgrade.",
+      "next_gate": "Add genuinely executed native reference runners for low-risk components, and a second common-scenario adapter only if a bounded conversion can be demonstrated without inventing a grinder/unit/reference-volume mapping.",
+      "acceptance_evidence": "Core + contract hardening landed (development 0.4.0.dev0). puckworks/product/lab.py: exact scenario identity + override provenance (typed ScenarioRequest/ScenarioExecution; guided_v1 runs no longer mislabelled pv19_named); comparison schema v3; separated scientific-payload vs full-artifact integrity hashes (downloadable artifact carries source_commit/package_version/workflow_run_id/wheel_sha256, supplied explicitly - no git subprocess in the producer); correct observable roles (prescribed/derived/simulated/unsupported/diagnostic); explicit 25-component capability/rights matrix (grudeva2025.reduced RIGHTS_BLOCKED pending #73); honest reference-suite coverage (executed vs runner-not-implemented); real scientific trace plots in Streamlit + Actions batch (required figure) + hash manifest. ONE executed common-scenario lens (cameron2020.extraction_bdf via simulate_pull; no equation duplication). Streamlit app verified booting locally (/_stcore/health 200). Not a validated digital twin; no evidence upgrade. Genuine native reference runners and a demonstrated second adapter remain (see #70).",
       "issue_or_pr": "#70",
       "verified_commit": null,
       "verified_date": null
     },
     {
       "id": "pv03-flat-valley-interactive",
-      "title": "PV-03 'The Cup Hides the Clock' \u2014 flat-valley practical-identifiability interactive",
+      "title": "PV-03 'The Cup Hides the Clock' — flat-valley practical-identifiability interactive",
       "area": "public-value",
       "state": "complete",
       "priority": "P0",
@@ -155,7 +155,7 @@
     },
     {
       "id": "pv05-model-composition",
-      "title": "PV-05 'More Physics Made It Worse' \u2014 model-composition interactive",
+      "title": "PV-05 'More Physics Made It Worse' — model-composition interactive",
       "area": "public-value",
       "state": "complete",
       "priority": "P0",
@@ -170,7 +170,7 @@
     },
     {
       "id": "pv04-analysis-autopsy",
-      "title": "PV-04 'How We Falsified Our Own Espresso Headline' \u2014 analysis autopsy",
+      "title": "PV-04 'How We Falsified Our Own Espresso Headline' — analysis autopsy",
       "area": "public-value",
       "state": "complete",
       "priority": "P0",
@@ -205,7 +205,7 @@
       "state": "blocked",
       "priority": "P1",
       "owner_type": "principal-investigator",
-      "external_blocker": "human sign-off (venue, authorship, approval) \u2014 not an engineering task",
+      "external_blocker": "human sign-off (venue, authorship, approval) — not an engineering task",
       "resume_trigger": "PI provides venue + author order/contributions/conflicts/funding + explicit approval to build the release",
       "next_gate": "clean-tree release build once the human decisions are recorded (code core already verifies: paper_a.build verify, 27/27 claims match)",
       "acceptance_evidence": "paper_a.build verify green (27/27); awaiting recorded human decisions",

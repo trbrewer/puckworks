@@ -58,15 +58,18 @@ jobs:
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
         with:
           python-version: "3.12"
-      - name: build the exact current wheel
+      - name: build the exact current wheel + record its SHA-256
         run: |
           python -m pip install --quiet build
           python -m build --wheel --outdir dist
+          wheel="$(ls dist/*.whl)"
+          echo "LAB_WHEEL_SHA256=$(python -c "import hashlib,sys;print(hashlib.sha256(open(sys.argv[1],'rb').read()).hexdigest())" "$wheel")" >> "$GITHUB_ENV"
       - name: install the wheel + viz extra into an isolated venv (outside the source tree)
         run: |
           python -m venv "$RUNNER_TEMP/venv"
           "$RUNNER_TEMP/venv/bin/python" -m pip install --quiet "$(ls dist/*.whl)" matplotlib
-      - name: run the batch comparison (inputs via env, validated in Python)
+      - name: run the batch comparison (inputs + provenance via env, validated in Python)
+        # GITHUB_SHA / GITHUB_RUN_ID are GitHub-provided; LAB_WHEEL_SHA256 was recorded above.
         run: "$RUNNER_TEMP/venv/bin/python tools/lab_batch.py"
       - name: show the deterministic result summary
         run: cat out/lab/guided_pull_lab.md

@@ -14,6 +14,10 @@ on:
       - "tests/test_pull_report.py"
       - "tests/test_pull_notebook.py"
       - "tests/product/test_pull.py"
+      - "tests/test_guided_pull_lab.py"
+      - "tests/test_lab_app.py"
+      - "apps/**"
+      - "tools/lab_batch.py"
       - "docs/GUIDED_ESPRESSO_PULL.md"
       - ".github/workflows/experience.yml"
       - ".github/scripts/check_notebook_marker.py"
@@ -45,16 +49,18 @@ jobs:
           python-version: "3.12"
 
       - name: install dev + viz extras
-        run: python -m pip install --quiet -e ".[dev,viz]"
+        run: python -m pip install --quiet -e ".[dev,viz,webapp]"
 
-      - name: guided-pull tests (product + report + notebook)
+      - name: guided-pull tests (product + report + notebook + Lab UI/batch with viz)
         run: |
           python -m pytest -q \
             tests/product/test_pull.py \
             tests/test_pull_report.py \
             tests/test_pull_notebook.py \
             tests/test_product_contract.py \
-            tests/test_viz.py
+            tests/test_viz.py \
+            tests/test_guided_pull_lab.py \
+            tests/test_lab_app.py
 
       - name: committed guided notebook carries no execution outputs
         run: |

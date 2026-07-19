@@ -32,6 +32,33 @@ exactly one disposition: `COMMON_SCENARIO_READY`, `COMMON_SCENARIO_WITH_VERIFIED
 `OUTSIDE_SCENARIO_DOMAIN`, `RIGHTS_BLOCKED`, `NOT_EXECUTABLE`, `SKIPPED_OPTIONAL_DEPENDENCY`, or `FAILED`
 (reserved for an execution that errored — never for an unsupported component).
 
+## Contract (schema v3)
+
+Scenario identity is exact: a `pv19_named` run is `pv19_named`, a `guided_v1` run is `guided_v1`, and a
+custom `guided_v1` run records its base preset plus every applied override (`base` → `effective`). The
+entry point is typed — `execute_scenario(ScenarioRequest) → ScenarioExecution` then
+`build_comparison(execution) → ComparisonRun` — so a bare `PullRun` dict can no longer be mislabelled.
+`run_scenario()` remains only as a documented compatibility wrapper returning the raw run.
+
+Two integrity layers travel with the artifact:
+
+- **scientific payload** (`scientific_payload_sha256`) — the science, free of build provenance and
+  wall-clock; stable across builds;
+- **full artifact** (`artifact_sha256`) — the complete downloadable JSON *including* build provenance
+  (`package_version`, `source_commit`, `workflow_run_id`, `wheel_sha256`), which changes when the build
+  changes. Provenance is supplied **explicitly** by the caller (the batch workflow passes `GITHUB_SHA` /
+  `GITHUB_RUN_ID` / the wheel SHA); the scientific producer runs no git subprocess.
+
+Observable roles trace the producer: pressure and target beverage are **prescribed**; mean flow is
+**derived**; extracted mass / extraction yield / TDS / shot duration are **simulated**; first drip is
+**unsupported** (saturated bed); first modeled solute arrival is a **derived diagnostic**, explicitly
+`is_physical_first_drip: false`.
+
+The component capability matrix is explicit (not a substring heuristic): every registered component has
+one validated record with callable/runtime/calibration flags, `native_runner_state`,
+`common_scenario_adapter_state`, `rights_state`, and concentration reference basis. `reference_suite_coverage`
+lists runner states honestly; only actually-executed references appear in `executed_reference_results`.
+
 ## Honesty boundaries (enforced by tests)
 
 - No summing/averaging of competing mechanisms; no ensemble without a defensible statistical model.
