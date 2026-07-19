@@ -125,7 +125,7 @@ def run(env: dict | None = None) -> dict:
     failure summary is written outside it."""
     import shutil
 
-    from puckworks.product import lab_rights_gate as gate
+    from puckworks.product import lab_service
     env = dict(os.environ if env is None else env)
     preset = env.get("LAB_PRESET") or "pv19_named"
     final_dir = Path(env.get("LAB_OUT_DIR") or "out/lab")
@@ -133,18 +133,20 @@ def run(env: dict | None = None) -> dict:
     over = _bounded(env)
     request = _request_from_env(env, preset, over)
 
-    # RIGHTS PREFLIGHT — runs BEFORE any model/native-reference producer. A blocked public request writes
-    # only the rights decision (no scientific output) and fails; no producer is ever invoked.
-    verdict = gate.preflight(request, context)
-    if verdict["blocked"]:
+    # Single rights-safe execution path (shared with the Streamlit + Colab surfaces): the service runs the
+    # rights preflight BEFORE any producer. A blocked request carries NO scientific report — we write only
+    # the rights decision (no scientific output) and fail; no producer is ever invoked.
+    result = lab_service.execute_lab_request(request, execution_context=context,
+                                             provenance=_provenance(env))
+    verdict = result.rights_preflight
+    if result.blocked:
         final_dir.parent.mkdir(parents=True, exist_ok=True)
         (final_dir.parent / (final_dir.name + ".rights_preflight.json")).write_text(
             json.dumps(verdict, indent=2, sort_keys=True) + "\n", encoding="utf-8")
         raise RuntimeError("rights preflight blocked (%s): %s — no producer was invoked, no scientific "
-                           "output emitted" % (context, "; ".join(verdict["blockers"])))
+                           "output emitted" % (context, "; ".join(result.blockers)))
 
-    execution = lab.execute_scenario(request)
-    report = lab.build_comparison(execution, provenance=_provenance(env))
+    report = result.report
 
     final_dir.parent.mkdir(parents=True, exist_ok=True)
     out_dir = final_dir.parent / (final_dir.name + ".staging")
