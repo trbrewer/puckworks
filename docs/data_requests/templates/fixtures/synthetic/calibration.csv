@@ -1,0 +1,2 @@
+apparatus_id,instrument,observable,unit,calibration_datetime_utc,calibration_method,offset,scale,notes
+SYN-APP-1,synthetic-pressure,pressure,bar,2026-01-01T00:00:00Z,synthetic,0,1,fixture

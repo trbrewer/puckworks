@@ -1,0 +1,3 @@
+campaign_id,site_id,apparatus_id,coffee_lot_id,grinder_id,basket_id,shot_id,replicate_id,dose_g,target_beverage_g,achieved_beverage_g,grinder_setting,brew_temperature_c,raw_or_processed,included,exclusion_reason
+EXP-001,SYNTHETIC_TEST_FIXTURE,SYN-APP-1,LOT1,GRND1,BASK1,SHOT1,1,18,36,36,5,93,raw,true,
+EXP-001,SYNTHETIC_TEST_FIXTURE,SYN-APP-1,LOT1,GRND1,BASK1,SHOT2,2,18,36,35,5,93,raw,true,

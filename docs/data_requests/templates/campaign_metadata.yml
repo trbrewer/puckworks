@@ -1,0 +1,16 @@
+# Campaign submission metadata (fill one per submission). Values below are PLACEHOLDERS, not data.
+campaign_id: EXP-000            # the campaign you are contributing to (see experimental_campaigns.yml)
+site_id: SITE_PLACEHOLDER       # a privacy-safe site identifier (not a personal name)
+contributor: CONTACT_PLACEHOLDER  # a GitHub handle or preferred non-personal contact
+dataset_status: pilot_collected  # proposal_only | pilot_collected | controlled_dataset | holdout_reserved
+evidence_level_claimed: feasibility_pilot
+external_repository: EXTERNAL_DOI_OR_URL   # Zenodo/OSF where the raw bulk lives (not committed here)
+doi: DOI_PLACEHOLDER
+data_license: LICENSE_PLACEHOLDER   # CC BY 4.0 / CC0 / other — must be one the contributor can grant
+timezone: TZ_PLACEHOLDER            # recorded SEPARATELY from the monotonic elapsed time base
+replicate_count: PILOT_REQUIRED     # a real count; do not invent
+exclusions_recorded: true
+deviations_from_protocol: NONE_OR_DESCRIBE
+declaration:
+  no_private_or_unlicensed_third_party_data: true
+  submission_does_not_authorize_a_model_or_evidence_upgrade: true

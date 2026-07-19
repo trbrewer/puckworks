@@ -1,0 +1,29 @@
+# Apparatus description (fill one per site/apparatus). Values are PLACEHOLDERS, not data.
+apparatus_id: APP_PLACEHOLDER
+machine_make_model: MACHINE_PLACEHOLDER
+grinder_make_model: GRINDER_PLACEHOLDER
+burr_geometry: BURR_PLACEHOLDER
+burr_wear_state: WEAR_PLACEHOLDER
+basket_geometry: BASKET_PLACEHOLDER
+# One row per instrumented signal. For each signal record how it was measured and synchronized.
+signals:
+  - observable: pressure
+    instrument: INSTRUMENT_PLACEHOLDER
+    native_unit: bar
+    native_sampling_rate: PILOT_REQUIRED        # preserve the fastest valid native rate; do not invent
+    calibration: see calibration.csv
+    uncertainty: SENSOR_SELECTION_REQUIRED
+    clock_source: CLOCK_PLACEHOLDER
+    synchronization_method: SYNC_PLACEHOLDER
+    offset_drift_estimate: DESIGN_CALCULATION_REQUIRED
+    prescribed_or_measured: measured           # e.g. measured pressure vs a prescribed profile
+  - observable: beverage_mass
+    instrument: SCALE_PLACEHOLDER
+    native_unit: g
+    native_sampling_rate: PILOT_REQUIRED
+    calibration: see calibration.csv
+    uncertainty: SENSOR_SELECTION_REQUIRED
+    clock_source: CLOCK_PLACEHOLDER
+    synchronization_method: SYNC_PLACEHOLDER
+    offset_drift_estimate: DESIGN_CALCULATION_REQUIRED
+    prescribed_or_measured: measured
