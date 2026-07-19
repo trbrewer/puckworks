@@ -39,10 +39,10 @@ from datetime import timedelta
 from pathlib import Path
 from typing import Callable, Iterable
 
-USER_AGENT = "puckworks-research-radar/1.0 (+https://github.com/trbrewer/puckworks; mailto:brewer@synthetik-technologies.com)"
+USER_AGENT = "puckworks-research-radar/1.0 (+https://github.com/trbrewer/puckworks; mailto:t_r_brewer@hotmail.com)"
 ARXIV_ENDPOINT = "http://export.arxiv.org/api/query"
 CROSSREF_ENDPOINT = "https://api.crossref.org/works"
-CROSSREF_MAILTO = "brewer@synthetik-technologies.com"
+CROSSREF_MAILTO = "t_r_brewer@hotmail.com"
 MAX_ABSTRACT_CHARS = 500          # short metadata excerpt only — never full text
 MAX_TITLE_CHARS = 300
 
