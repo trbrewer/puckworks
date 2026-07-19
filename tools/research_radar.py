@@ -407,6 +407,54 @@ def _neg_date(date: str) -> str:
     return "".join(chr(ord("9") - int(d)) for d in digits)
 
 
+# ── adjudication metrics (precision over a HUMAN-labelled retained set; issue #42/#46) ──
+def adjudication_metrics(candidates, gold_labels: dict) -> dict:
+    """Deterministic precision metrics over an ADJUDICATED retained set. `candidates` is the retained
+    list (dicts from a scan JSON or `Candidate` objects); `gold_labels` maps each candidate identity to a
+    human triage state (must be in TRIAGE_STATES). Precision@retained = relevant / retained — a scan that
+    retains only off-domain false positives scores 0.0 honestly. Per-query-family precision is included so
+    a specific noisy family can be identified before any config change. This computes NO relevance itself;
+    it only tallies the human adjudication."""
+    def _get(c, k):
+        return c.get(k) if isinstance(c, dict) else getattr(c, k, None)
+
+    def _identity(c):
+        if isinstance(c, dict):
+            return c.get("identity") or ""
+        return c.identity()
+
+    bad = sorted({v for v in gold_labels.values() if v not in TRIAGE_STATES})
+    if bad:
+        raise ValueError(f"gold labels not in TRIAGE_STATES: {bad}")
+    retained = len(candidates)
+    by_state: dict[str, int] = {}
+    by_family: dict[str, dict] = {}
+    unlabelled = []
+    for c in candidates:
+        ident = _identity(c)
+        state = gold_labels.get(ident)
+        if state is None:
+            unlabelled.append(ident)
+            state = "unlabelled"
+        by_state[state] = by_state.get(state, 0) + 1
+        fam = _get(c, "query_id") or "unknown"
+        d = by_family.setdefault(fam, {"retained": 0, "relevant": 0})
+        d["retained"] += 1
+        d["relevant"] += int(state == "relevant")
+    for d in by_family.values():
+        d["precision"] = (d["relevant"] / d["retained"]) if d["retained"] else 0.0
+    relevant = by_state.get("relevant", 0)
+    return {
+        "retained": retained,
+        "adjudicated": retained - len(unlabelled),
+        "unlabelled": sorted(unlabelled),
+        "relevant": relevant,
+        "precision_at_retained": (relevant / retained) if retained else 0.0,
+        "by_triage_state": dict(sorted(by_state.items())),
+        "by_query_family": dict(sorted(by_family.items())),
+    }
+
+
 def date_window(scan_date: str, lookback_days: int) -> tuple[str, str]:
     y, m, d = (int(x) for x in scan_date.split("-"))
     to = _date(y, m, d)

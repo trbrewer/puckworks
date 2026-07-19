@@ -1,0 +1,1716 @@
+{
+  "arxiv_acknowledgment": "Thank you to arXiv for use of its open access interoperability.",
+  "candidates": [
+    {
+      "abstract_excerpt": "Interior tomography reconstructs a region of interest (ROI) from truncated projection measurements. However, projection truncation makes the inverse problem severely ill-posed, leading to non-unique solutions, oversmoothing, and truncation-induced artifacts when conventional reconstruction methods are directly applied to interior tomography. Existing learning-based interior CT methods have shown promising performance, but their generalization across different truncation patterns, ROI sizes, and ",
+      "arxiv_id": "2607.14320",
+      "authors": [
+        "Kang Chen",
+        "Wenjun Xia",
+        "Jianxu Wang",
+        "Mahmud Wasif Nafee",
+        "Ge Wang"
+      ],
+      "date": "2026-07-15",
+      "date_precision": "day",
+      "date_quality": "verified_within_window",
+      "doi": null,
+      "identity": "arxiv:2607.14320",
+      "match_reasons": [
+        "flow",
+        "inverse problem"
+      ],
+      "published_date": null,
+      "query_id": "inverse-problems",
+      "score": 2.0,
+      "source": "arxiv",
+      "sources": [
+        "arxiv"
+      ],
+      "title": "FORCE-Interior: A Poisson Flow Generative Prior for Interior Tomography Reconstruction",
+      "triage_state": "new",
+      "url": "http://arxiv.org/abs/2607.14320v1",
+      "venue": "arXiv"
+    },
+    {
+      "abstract_excerpt": "Empirical quantum-software papers often report that one compiler, optimizer, backend, or ansatz outperforms another. Such comparisons are not properties of a tool alone: they can change with benchmark scope, circuit construction, compilation, sampling, backend or noise assumptions, optimizer choices, and resource budgets. Existing testing, benchmarking, and reproducibility methods help assess programs, tools, executions, and platforms, but they do not directly audit whether the reported comparis",
+      "arxiv_id": "2607.00516",
+      "authors": [
+        "Boshuai Ye",
+        "Peng Liang",
+        "Maryam Tavassoli Sabzevari",
+        "Arif Ali Khan"
+      ],
+      "date": "2026-07-01",
+      "date_precision": "day",
+      "date_quality": "verified_within_window",
+      "doi": null,
+      "identity": "arxiv:2607.00516",
+      "match_reasons": [
+        "reproducibility",
+        "software paper"
+      ],
+      "published_date": null,
+      "query_id": "scientific-software-reproducibility",
+      "score": 2.0,
+      "source": "arxiv",
+      "sources": [
+        "arxiv"
+      ],
+      "title": "Auditing Empirical Comparisons in Quantum Software",
+      "triage_state": "new",
+      "url": "http://arxiv.org/abs/2607.00516v1",
+      "venue": "arXiv"
+    },
+    {
+      "abstract_excerpt": "Modern enterprise networks operate under persistent threats that exploit cloud-native misconfigurations, identity sprawl, and API vulnerabilities at machine speed. Existing security operations center (SOC) architectures remain largely reactive, signature-dependent, and incapable of predicting multi-stage lateral movement. This paper proposes the Cognitive Cyber Defense Digital Twin (CCDT), a unified architecture integrating federated learning (FL), graph neural network (GNN)-based attack-path fo",
+      "arxiv_id": null,
+      "authors": [
+        "Sivaramakrishnan Narayanan"
+      ],
+      "date": "2028-08-27",
+      "date_precision": "day",
+      "date_quality": "future_date",
+      "doi": "10.32628/cseit251116279",
+      "identity": "doi:10.32628/cseit251116279",
+      "match_reasons": [
+        "digital twin"
+      ],
+      "published_date": "2028-08-27",
+      "query_id": "food-process-digital-twins",
+      "score": 1.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Cyber Defense Digital Twins: A Federated Learning and Zero-Trust AI Architecture for Autonomous Threat Prediction and Response",
+      "triage_state": "new",
+      "url": "https://doi.org/10.32628/cseit251116279",
+      "venue": "International Journal of Scientific Research in Computer Science, Engineering and Information Technology"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Ronaldo F. Zampolo",
+        "Rodrigo M.S. de Oliveira",
+        "Licinius D.S. de Alcantara",
+        "Caio B.O. de Oliveira",
+        "Lucas N.A. Cruz",
+        "Victor Dmitriev"
+      ],
+      "date": "2027-03",
+      "date_precision": "month",
+      "date_quality": "future_date",
+      "doi": "10.1016/j.epsr.2026.113774",
+      "identity": "doi:10.1016/j.epsr.2026.113774",
+      "match_reasons": [
+        "inverse problem"
+      ],
+      "published_date": "2027-03",
+      "query_id": "inverse-problems",
+      "score": 1.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Localization of partial discharges in high-voltage equipment by ozone emission as an inverse problem",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1016/j.epsr.2026.113774",
+      "venue": "Electric Power Systems Research"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Yimeng Wei",
+        "Kun Jiang",
+        "Zhanmu Wei",
+        "Wenwen Wei",
+        "Hui Jin",
+        "Jinwen Shi",
+        "Yongchen Yuan",
+        "Liejin Guo"
+      ],
+      "date": "2027-02",
+      "date_precision": "month",
+      "date_quality": "future_date",
+      "doi": "10.1016/j.fuel.2026.140536",
+      "identity": "doi:10.1016/j.fuel.2026.140536",
+      "match_reasons": [
+        "porous"
+      ],
+      "published_date": "2027-02",
+      "query_id": "deformable-porous-media",
+      "score": 1.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Preparation of high-performance porous biochar adsorbents from eucalyptus sawdust under supercritical CO2 pretreatment: Mechanistic insights into structure evolution and dye adsorption",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1016/j.fuel.2026.140536",
+      "venue": "Fuel"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Jingpeng Lin",
+        "Jin Zhou",
+        "Gengjiang Yao",
+        "Na Wu",
+        "Xuan Gu",
+        "Shanbo Li",
+        "Zecheng Li",
+        "Zhihui Zeng",
+        "Wei Liu",
+        "Jiurong Liu"
+      ],
+      "date": "2027-02",
+      "date_precision": "month",
+      "date_quality": "future_date",
+      "doi": "10.1016/j.jmst.2026.06.028",
+      "identity": "doi:10.1016/j.jmst.2026.06.028",
+      "match_reasons": [
+        "porous"
+      ],
+      "published_date": "2027-02",
+      "query_id": "deformable-porous-media",
+      "score": 1.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Lightweight porous electromagnetic interference shielding materials",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1016/j.jmst.2026.06.028",
+      "venue": "Journal of Materials Science &amp; Technology"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Wenhui Xing",
+        "Xiao Liu",
+        "Gengping Wan",
+        "Xuefei Xu",
+        "Xi Li",
+        "Huixiang Shen",
+        "Yilin Xu",
+        "Yongxin Qian",
+        "Guizhen Wang"
+      ],
+      "date": "2027-02",
+      "date_precision": "month",
+      "date_quality": "future_date",
+      "doi": "10.1016/j.jmst.2026.06.041",
+      "identity": "doi:10.1016/j.jmst.2026.06.041",
+      "match_reasons": [
+        "porous"
+      ],
+      "published_date": "2027-02",
+      "query_id": "inverse-problems",
+      "score": 1.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Defect-engineered CoNiO2 nanoneedle arrays on porous carbon foam for integrated electromagnetic attenuation and photothermal de-icing",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1016/j.jmst.2026.06.041",
+      "venue": "Journal of Materials Science &amp; Technology"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Can Wang",
+        "Simiao Tang",
+        "Meiyue Yan",
+        "Qing Li",
+        "Luteng Zhang",
+        "Zaiyong Ma",
+        "Qiang Lian",
+        "Wan Sun",
+        "Longxiang Zhu",
+        "Liangming Pan"
+      ],
+      "date": "2027-01",
+      "date_precision": "month",
+      "date_quality": "future_date",
+      "doi": "10.1016/j.ces.2026.124585",
+      "identity": "doi:10.1016/j.ces.2026.124585",
+      "match_reasons": [
+        "wetting"
+      ],
+      "published_date": "2027-01",
+      "query_id": "wetting-infiltration",
+      "score": 1.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Dynamic wetting and spreading behaviors of liquid sodium droplets with high density ratio based on an improved MRT-LBM",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1016/j.ces.2026.124585",
+      "venue": "Chemical Engineering Science"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Marco Ruggeri",
+        "Cecilia Silvestri",
+        "Donatella Restuccia",
+        "Roberto Ruggieri"
+      ],
+      "date": "2027-01",
+      "date_precision": "month",
+      "date_quality": "future_date",
+      "doi": "10.1016/j.eiar.2026.108618",
+      "identity": "doi:10.1016/j.eiar.2026.108618",
+      "match_reasons": [
+        "coffee"
+      ],
+      "published_date": "2027-01",
+      "query_id": "coffee-extraction-kinetics",
+      "score": 1.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Social life cycle assessment of primary coffee production in Brazil: A risk-based identification of social hotspots",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1016/j.eiar.2026.108618",
+      "venue": "Environmental Impact Assessment Review"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Wenzheng Jiang",
+        "Qiang Zhong",
+        "Zishuo Gao",
+        "Bin Xu",
+        "Zhiwei Peng",
+        "Tao Jiang"
+      ],
+      "date": "2027-01",
+      "date_precision": "month",
+      "date_quality": "future_date",
+      "doi": "10.1016/j.fuel.2026.140040",
+      "identity": "doi:10.1016/j.fuel.2026.140040",
+      "match_reasons": [
+        "permeability"
+      ],
+      "published_date": "2027-01",
+      "query_id": "permeability-lattice-boltzmann",
+      "score": 1.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "A clean and carbon-reducing pathway for iron ore sintering: Permeability optimization in ultra-high bed sintering",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1016/j.fuel.2026.140040",
+      "venue": "Fuel"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Xiuwei Sun",
+        "Shengyong Hu",
+        "Huigang Xu",
+        "Guobiao Jia",
+        "Wenli Fan"
+      ],
+      "date": "2027-01",
+      "date_precision": "month",
+      "date_quality": "future_date",
+      "doi": "10.1016/j.fuel.2026.140231",
+      "identity": "doi:10.1016/j.fuel.2026.140231",
+      "match_reasons": [
+        "wetting"
+      ],
+      "published_date": "2027-01",
+      "query_id": "wetting-infiltration",
+      "score": 1.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Synergistic enhancement mechanism of coal wetting and dissolution induced by surfactant-acid structural modification",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1016/j.fuel.2026.140231",
+      "venue": "Fuel"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Yuannan Zheng",
+        "Yingying Liu",
+        "Sheng Xue",
+        "Bo Ren"
+      ],
+      "date": "2027-01",
+      "date_precision": "month",
+      "date_quality": "future_date",
+      "doi": "10.1016/j.fuel.2026.140500",
+      "identity": "doi:10.1016/j.fuel.2026.140500",
+      "match_reasons": [
+        "wetting"
+      ],
+      "published_date": "2027-01",
+      "query_id": "wetting-infiltration",
+      "score": 1.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Study on the mechanism of synergistic wetting and dust reduction by micro-nano bubbles-surfactant-inorganic salt",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1016/j.fuel.2026.140500",
+      "venue": "Fuel"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Honggao Xie",
+        "Shuxun Sang",
+        "Xijian Li",
+        "Shiqi Liu",
+        "Xiaozhi Zhou",
+        "Sijie Han",
+        "Fansheng Huang",
+        "Zhihua Yan"
+      ],
+      "date": "2027-01",
+      "date_precision": "month",
+      "date_quality": "future_date",
+      "doi": "10.1016/j.fuel.2026.140622",
+      "identity": "doi:10.1016/j.fuel.2026.140622",
+      "match_reasons": [
+        "permeability"
+      ],
+      "published_date": "2027-01",
+      "query_id": "permeability-lattice-boltzmann",
+      "score": 1.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Mechanism of coal structure evolution and permeability response under variable temperature drying–water saturation cycle: multi-scale quantitative characterization and evaluation",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1016/j.fuel.2026.140622",
+      "venue": "Fuel"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Nicolas Elie",
+        "Pascal Jolly",
+        "Romain Lucas-Roper",
+        "Noël Brunetière"
+      ],
+      "date": "2027-01",
+      "date_precision": "month",
+      "date_quality": "future_date",
+      "doi": "10.1016/j.triboint.2026.112368",
+      "identity": "doi:10.1016/j.triboint.2026.112368",
+      "match_reasons": [
+        "wetting"
+      ],
+      "published_date": "2027-01",
+      "query_id": "wetting-infiltration",
+      "score": 1.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Influence of the wetting regime and of the cavity size on the apparent slip of a fluid over a textured surface",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1016/j.triboint.2026.112368",
+      "venue": "Tribology International"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Junyuan Yang",
+        "Zhuolin Xue",
+        "Ziyi Wu"
+      ],
+      "date": "2026-12",
+      "date_precision": "month",
+      "date_quality": "future_date",
+      "doi": "10.1016/j.apm.2026.117067",
+      "identity": "doi:10.1016/j.apm.2026.117067",
+      "match_reasons": [
+        "identifiability"
+      ],
+      "published_date": "2026-12",
+      "query_id": "identifiability",
+      "score": 1.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Dynamical analysis and parameter identifiability of a bidirectionally immuno-hand foot and mouth disease model",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1016/j.apm.2026.117067",
+      "venue": "Applied Mathematical Modelling"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Changjun Li",
+        "Yonghong Li",
+        "Shuang Hu",
+        "Sidong Xian",
+        "Linyan Zhou"
+      ],
+      "date": "2026-12",
+      "date_precision": "month",
+      "date_quality": "future_date",
+      "doi": "10.1016/j.eswa.2026.133114",
+      "identity": "doi:10.1016/j.eswa.2026.133114",
+      "match_reasons": [
+        "granular"
+      ],
+      "published_date": "2026-12",
+      "query_id": "granular-packed-bed-flow",
+      "score": 1.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "GBT-BiLSTM: A novel fusion network with granular-ball computing for financial time series forecasting",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1016/j.eswa.2026.133114",
+      "venue": "Expert Systems with Applications"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Qin Yao",
+        "Meiling Liang",
+        "Kunling Yang",
+        "Cheng Qi",
+        "Tiantian Kong",
+        "Bernard P. Binks",
+        "Zhou Liu"
+      ],
+      "date": "2026-12",
+      "date_precision": "month",
+      "date_quality": "future_date",
+      "doi": "10.1016/j.jcis.2026.141141",
+      "identity": "doi:10.1016/j.jcis.2026.141141",
+      "match_reasons": [
+        "granular"
+      ],
+      "published_date": "2026-12",
+      "query_id": "granular-packed-bed-flow",
+      "score": 1.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Gas marble-film reactors with programmable particle shells and capillary–granular stability",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1016/j.jcis.2026.141141",
+      "venue": "Journal of Colloid and Interface Science"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "S. Bini",
+        "C. Cantone",
+        "R. Carcione",
+        "A. Cemmi",
+        "S. Ceravolo",
+        "V. Ciccarella",
+        "F. Colao",
+        "E. Di Meco",
+        "I. Di Sarcina",
+        "E. Diociaiuti",
+        "B. D’Orsi",
+        "R. Gargiulo",
+        "F. Happacher",
+        "E. Leonardi",
+        "D. Lucchesi",
+        "M. Moulson",
+        "L. Palombini",
+        "N. Pastrone",
+        "A. Russo",
+        "A. Saputi",
+        "I. Sarra",
+        "J. Scifo",
+        "L. Sestini",
+        "R. Soleti",
+        "A. Verna",
+        "D. Zuliani"
+      ],
+      "date": "2026-12",
+      "date_precision": "month",
+      "date_quality": "future_date",
+      "doi": "10.1016/j.nima.2026.171855",
+      "identity": "doi:10.1016/j.nima.2026.171855",
+      "match_reasons": [
+        "granular"
+      ],
+      "published_date": "2026-12",
+      "query_id": "granular-packed-bed-flow",
+      "score": 1.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "The Crilin electromagnetic calorimeter: a fast, highly granular detector for a future Muon Collider",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1016/j.nima.2026.171855",
+      "venue": "Nuclear Instruments and Methods in Physics Research Section A: Accelerators, Spectrometers, Detectors and Associated Equipment"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Mohammed J. Mohammed",
+        "Salman H. Abbas",
+        "Musaab K. Rashed",
+        "Ali A. Abed",
+        "Raad Z. Homod",
+        "Hayder I. Mohammed",
+        "Musatafa A.A. Albadr"
+      ],
+      "date": "2026-12",
+      "date_precision": "month",
+      "date_quality": "future_date",
+      "doi": "10.1016/j.nxcen.2026.100082",
+      "identity": "doi:10.1016/j.nxcen.2026.100082",
+      "match_reasons": [
+        "granular"
+      ],
+      "published_date": "2026-12",
+      "query_id": "granular-packed-bed-flow",
+      "score": 1.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Statistical optimisation of methyl orange dye adsorption from wastewater using granular activated carbon and cement kiln dust",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1016/j.nxcen.2026.100082",
+      "venue": "Next Chemical Engineering"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Yucheng Li",
+        "Chongpu· Zhai",
+        "Deheng Wei",
+        "Raul Fuentes"
+      ],
+      "date": "2026-12",
+      "date_precision": "month",
+      "date_quality": "future_date",
+      "doi": "10.1016/j.powtec.2026.122849",
+      "identity": "doi:10.1016/j.powtec.2026.122849",
+      "match_reasons": [
+        "granular"
+      ],
+      "published_date": "2026-12",
+      "query_id": "granular-packed-bed-flow",
+      "score": 1.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "The role of concave–convex particle morphology in granular materials collapse via spherical harmonic reconstruction",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1016/j.powtec.2026.122849",
+      "venue": "Powder Technology"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Yuze Li",
+        "Zikeng Fang",
+        "Jiaqi Wan",
+        "Hongfu Zhang",
+        "Ying Yan",
+        "Dongming Guo"
+      ],
+      "date": "2026-12",
+      "date_precision": "month",
+      "date_quality": "future_date",
+      "doi": "10.1016/j.rineng.2026.111817",
+      "identity": "doi:10.1016/j.rineng.2026.111817",
+      "match_reasons": [
+        "wetting"
+      ],
+      "published_date": "2026-12",
+      "query_id": "wetting-infiltration",
+      "score": 1.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Dynamic wetting–induced gas entrapment on microstructured surfaces during photoresist droplet spreading",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1016/j.rineng.2026.111817",
+      "venue": "Results in Engineering"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Muhammad Mohsin Nawaz",
+        "Mathieu Lamandé",
+        "Emmanuel Arthur"
+      ],
+      "date": "2026-12",
+      "date_precision": "month",
+      "date_quality": "future_date",
+      "doi": "10.1016/j.still.2026.107342",
+      "identity": "doi:10.1016/j.still.2026.107342",
+      "match_reasons": [
+        "compaction",
+        "wetting"
+      ],
+      "published_date": "2026-12",
+      "query_id": "granular-packed-bed-flow",
+      "score": 1.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Drying-wetting cycles promote greater soil structure recovery after compaction more than freezing-thawing, but laboratory tests overestimate field responses",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1016/j.still.2026.107342",
+      "venue": "Soil and Tillage Research"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Wei Yi Yeoh"
+      ],
+      "date": "2026-12",
+      "date_precision": "month",
+      "date_quality": "future_date",
+      "doi": "10.1016/j.ultras.2026.108208",
+      "identity": "doi:10.1016/j.ultras.2026.108208",
+      "match_reasons": [
+        "identifiability"
+      ],
+      "published_date": "2026-12",
+      "query_id": "identifiability",
+      "score": 1.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Identifiability limits in ultrasonic microstructure characterisation using attenuation and velocity features: Canonical analysis and stochastic surrogate modelling",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1016/j.ultras.2026.108208",
+      "venue": "Ultrasonics"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Yue Liu",
+        "Philip K. Maini",
+        "Ruth E. Baker"
+      ],
+      "date": "2026-09",
+      "date_precision": "month",
+      "date_quality": "future_date",
+      "doi": "10.1016/j.mbs.2026.109710",
+      "identity": "doi:10.1016/j.mbs.2026.109710",
+      "match_reasons": [
+        "identifiability"
+      ],
+      "published_date": "2026-09",
+      "query_id": "identifiability",
+      "score": 1.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Optimal experiment design for practical parameter identifiability and model discrimination",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1016/j.mbs.2026.109710",
+      "venue": "Mathematical Biosciences"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Matylde Diouf",
+        "Jerome Lambert",
+        "Sylvie Chevret"
+      ],
+      "date": "2026-08",
+      "date_precision": "month",
+      "date_quality": "future_date",
+      "doi": "10.1016/j.jclinepi.2026.112301",
+      "identity": "doi:10.1016/j.jclinepi.2026.112301",
+      "match_reasons": [
+        "identifiability"
+      ],
+      "published_date": "2026-08",
+      "query_id": "identifiability",
+      "score": 1.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Identifiability and selection bias in indirect comparisons using real-world controls: a systematic review of methods and reporting",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1016/j.jclinepi.2026.112301",
+      "venue": "Journal of Clinical Epidemiology"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Tammam Bakeer",
+        "Max Herbers",
+        "Steffen Marx"
+      ],
+      "date": "2026-08",
+      "date_precision": "month",
+      "date_quality": "future_date",
+      "doi": "10.1016/j.ymssp.2026.114606",
+      "identity": "doi:10.1016/j.ymssp.2026.114606",
+      "match_reasons": [
+        "identifiability"
+      ],
+      "published_date": "2026-08",
+      "query_id": "identifiability",
+      "score": 1.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Sensor informativeness, identifiability, and uncertainty in Bayesian inverse problems for structural health monitoring",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1016/j.ymssp.2026.114606",
+      "venue": "Mechanical Systems and Signal Processing"
+    },
+    {
+      "abstract_excerpt": "Transfer learning (TL) improves model performance in a target domain with limited data by leveraging data from a source domain. When the source–target discrepancy is large, TL can degrade target-domain performance, a phenomenon known as negative transfer (NT). In linear regression, the coefficient vector is only partially identifiable when the target design matrix is rank-deficient. Although TL can exploit source information to address such non-identifiability, it may also amplify coefficient es",
+      "arxiv_id": null,
+      "authors": [
+        "Yuki Kobayashi"
+      ],
+      "date": "2026-07-26",
+      "date_precision": "day",
+      "date_quality": "future_date",
+      "doi": "10.69997/pse.129158",
+      "identity": "doi:10.69997/pse.129158",
+      "match_reasons": [
+        "identifiability"
+      ],
+      "published_date": "2026-07-26",
+      "query_id": "identifiability",
+      "score": 1.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Why Transfer Learning Fails Under Target Non-Identifiability",
+      "triage_state": "new",
+      "url": "https://doi.org/10.69997/pse.129158",
+      "venue": "Proceedings of the 3rd Foundations of Process/Product Analytics and Machine Learning (FOPAM 2026)"
+    },
+    {
+      "abstract_excerpt": "Hydrated electrons of opposite spins pair to form dielectrons at sufficiently high concentrations that can be achieved by dissolution of alkali metals in water. While experimental investigations of these systems are challenging due to their vigorous, even explosive, reactivity, simulations open the possibility to characterize the structure and reactivity of hydrated dielectrons and the effects of alkali cations thereon. Here, we present ab initio molecular dynamics simulations of a hydrated diel",
+      "arxiv_id": "2607.14476",
+      "authors": [
+        "Tatiana Nemirovich",
+        "Pavel Jungwirth",
+        "Ondrej Marsalek"
+      ],
+      "date": "2026-07-16",
+      "date_precision": "day",
+      "date_quality": "verified_within_window",
+      "doi": null,
+      "identity": "arxiv:2607.14476",
+      "match_reasons": [
+        "dissolution"
+      ],
+      "published_date": null,
+      "query_id": "reactive-transport",
+      "score": 1.0,
+      "source": "arxiv",
+      "sources": [
+        "arxiv"
+      ],
+      "title": "How Alkali Metal Cations Affect the Structure and Reactivity of the Hydrated Dielectron",
+      "triage_state": "new",
+      "url": "http://arxiv.org/abs/2607.14476v1",
+      "venue": "arXiv"
+    },
+    {
+      "abstract_excerpt": "Liquid transport growth (LTG) is a horizontal flux growth technique that is closely analogous to chemical vapor transport, with the key distinction that a molten flux rather than a vapor serves as the transport agent. Unlike conventional flux growth, LTG spatially separates charge dissolution and crystal precipitation and couples them through continuous solute transport under a deliberately imposed temperature gradient. This enables crystal growth to begin before the charge is completely dissolv",
+      "arxiv_id": "2607.15032",
+      "authors": [
+        "Jiaqiang Yan",
+        "Brenden Ortiz"
+      ],
+      "date": "2026-07-16",
+      "date_precision": "day",
+      "date_quality": "verified_within_window",
+      "doi": null,
+      "identity": "arxiv:2607.15032",
+      "match_reasons": [
+        "dissolution"
+      ],
+      "published_date": null,
+      "query_id": "reactive-transport",
+      "score": 1.0,
+      "source": "arxiv",
+      "sources": [
+        "arxiv"
+      ],
+      "title": "Recent progress on liquid transport growth of quantum materials",
+      "triage_state": "new",
+      "url": "http://arxiv.org/abs/2607.15032v1",
+      "venue": "arXiv"
+    },
+    {
+      "abstract_excerpt": "Recovering a latent potential from observed flow on a directed graph (a discrete Poisson problem with Dirichlet boundaries) is ill-posed, and the standard fix backfires: ridge regularization shrinks toward a gauge-meaningless origin, collapsing and reversing the recovered ordering ($+0.81\\to-0.42$ rank correlation against a planted ground truth). The gauge-invariant graph Dirichlet energy removes the hazard and delivers parameter-insensitivity: the estimate is stable across four orders of magnit",
+      "arxiv_id": "2607.13609",
+      "authors": [
+        "Mohammad Forouhesh"
+      ],
+      "date": "2026-07-15",
+      "date_precision": "day",
+      "date_quality": "verified_within_window",
+      "doi": null,
+      "identity": "arxiv:2607.13609",
+      "match_reasons": [
+        "flow"
+      ],
+      "published_date": null,
+      "query_id": "inverse-problems",
+      "score": 1.0,
+      "source": "arxiv",
+      "sources": [
+        "arxiv"
+      ],
+      "title": "Gauge-Invariant, Parameter-Insensitive Regularization for Potential Recovery from Flow on Directed Graphs",
+      "triage_state": "new",
+      "url": "http://arxiv.org/abs/2607.13609v1",
+      "venue": "arXiv"
+    },
+    {
+      "abstract_excerpt": "Quadratic Sum-Of-Squares (QSOS) optimization problems appear in system identification and machine learning, but standard Schur-complement and second-order cone liftings enlarge conic dimensions and create computational bottlenecks for interior-point methods. This paper introduces a lifting-free regularization that preserves the original conic structure by adding a norm penalty to SOS variables, yielding closed-form primal updates and an unconstrained, concave dual with Lipschitz-continuous gradi",
+      "arxiv_id": "2607.13701",
+      "authors": [
+        "Gabriel F. Machado",
+        "Ross Drummond",
+        "Morgan Jones"
+      ],
+      "date": "2026-07-15",
+      "date_precision": "day",
+      "date_quality": "verified_within_window",
+      "doi": null,
+      "identity": "arxiv:2607.13701",
+      "match_reasons": [
+        "system identification"
+      ],
+      "published_date": null,
+      "query_id": "system-identification-doe",
+      "score": 1.0,
+      "source": "arxiv",
+      "sources": [
+        "arxiv"
+      ],
+      "title": "Lifting-Free Quadratic Sum-Of-Squares Programming",
+      "triage_state": "new",
+      "url": "http://arxiv.org/abs/2607.13701v1",
+      "venue": "arXiv"
+    },
+    {
+      "abstract_excerpt": "The Multiconjugate adaptive Optics Relay For ELT Observations (MORFEO) is a first-generation adaptive optics module for the Extremely Large Telescope (ELT), designed to deliver a diffraction-limited, highly uniform 53x53 arcsec field of view to the MICADO near-infrared camera. As the project advances toward its Final Design Review (FDR), significant consolidations have been achieved across all subsystems. This paper presents an updated overview of the MORFEO system, highlighting its dual operati",
+      "arxiv_id": "2607.13258",
+      "authors": [
+        "Lorenzo Busoni",
+        "Guido Agapito",
+        "Marco Bonaglia",
+        "Alfio Puglisi",
+        "Marco Xompero",
+        "Matteo Aliverti",
+        "Francesca Annibali",
+        "Carmelo Arcidiacono",
+        "Natalia Auricchio",
+        "Nicolò Azzaroli",
+        "Andrea Balestra",
+        "Alessandro Ballone",
+        "Louis Barbier",
+        "Andrea Baruffolo",
+        "Federico Battaini",
+        "Maria Bergomi",
+        "Andrea Bianco",
+        "Michele Cantiello",
+        "Giulio Capasso",
+        "Giulia Carlà",
+        "Enrico Cascone",
+        "Ed Chapin",
+        "Manal Chebbo",
+        "Simonetta Chinellato",
+        "Vincenzo Cianniello",
+        "Paolo Ciliegi",
+        "Mirko Colapietro",
+        "Jean-Jacques Correia",
+        "Giuseppe Cosentino",
+        "Elia Costa",
+        "Matteo D'ambrogio",
+        "Vincenzo De Caprio",
+        "Giuseppe De Luca",
+        "Nicholas Devaney",
+        "Ivan Di Antonio",
+        "Amico Di Cianno",
+        "Simone Di Filippo",
+        "Benedetta Di Francesco",
+        "Ugo Di Giammatteo",
+        "Chiara Di Prospero",
+        "Gianluca Di Rico",
+        "Andrea Di Rocco",
+        "Daphne Diretto",
+        "Christian Eredia",
+        "Simone Esposito",
+        "Jacopo Farinato",
+        "Italo Foppiani",
+        "Takashi Funakawa",
+        "Fulvio Gianotti",
+        "Laurence Gluck",
+        "Davide Greggio",
+        "Sylvain Guieu",
+        "Marco Gullieuszik",
+        "Yuuichi Harikane",
+        "Masahiro Ikoma",
+        "Laurent Jocou",
+        "Dan Kerley",
+        "Mikio Kurita",
+        "Salvatore Lampitelli",
+        "Tommaso Lapucci",
+        "Fulvio Laudisio",
+        "Yves Magnard",
+        "Demetrio Magrin",
+        "Hossein Mahmoodzadeh",
+        "Dheeraj Malik",
+        "Luca Marafatto",
+        "Laurence Michaud",
+        "Christophe Michel",
+        "Satoshi Miyazaki",
+        "Kentaro Motohara",
+        "David Mouillet",
+        "Thibaut Moulin",
+        "Matteo Munari",
+        "Kentaro Nagamine",
+        "Sylvain Oberti",
+        "Fabrice Pancher",
+        "Giorgio Pariani",
+        "Sophie Penger",
+        "Amedeo Petrella",
+        "Laurent Pinard",
+        "Cédric Plantet",
+        "Elisa Portaluri",
+        "Kalyan Radhakrishnan",
+        "Roberto Ragazzoni",
+        "Edoardo Redaelli",
+        "Edgar Renault",
+        "Colin Richardson",
+        "Marco Riva",
+        "Sylvain Rochat",
+        "Gabriele Rodeghiero",
+        "Luca Rosignoli",
+        "Bernardo Salasnich",
+        "Benoit Sassolas",
+        "Salvatore Savarese",
+        "Marcello Scalera",
+        "Pietro Schipani",
+        "Danilo Selvestrel",
+        "Mahshid Shiri",
+        "Mina Sibalic",
+        "Malcolm Smith",
+        "Sebastian Soler",
+        "Rosanna Sordo",
+        "Alessandro Tacchini",
+        "Alessio Taranto",
+        "Ludovico Teodori",
+        "Gabriele Umbriaco",
+        "Yoshinori Uzawa",
+        "Angelo Valentini",
+        "Jean-Pierre Véran"
+      ],
+      "date": "2026-07-14",
+      "date_precision": "day",
+      "date_quality": "verified_within_window",
+      "doi": "10.5281/zenodo.21127865",
+      "identity": "doi:10.5281/zenodo.21127865",
+      "match_reasons": [
+        "consolidation"
+      ],
+      "published_date": null,
+      "query_id": "deformable-porous-media",
+      "score": 1.0,
+      "source": "arxiv",
+      "sources": [
+        "arxiv"
+      ],
+      "title": "MORFEO: Advancing Towards Final Design",
+      "triage_state": "new",
+      "url": "http://arxiv.org/abs/2607.13258v1",
+      "venue": "arXiv"
+    },
+    {
+      "abstract_excerpt": "Time-differential perturbed angular correlation (TDPAC or PAC) analysis is an ill-conditioned inverse problem in which site count, interaction type, correlated hyperfine parameters, damping, and initialization choices can produce competing numerical solutions. This software paper presents PAC Studio ML, a human-in-the-loop Python desktop environment for physics-informed inverse analysis of PAC spectra. The software integrates a Hamiltonian-based forward PAC model, user-defined synthetic training",
+      "arxiv_id": "2607.11298",
+      "authors": [
+        "Thien Thanh Dang",
+        "Doru Constantin Lupascu"
+      ],
+      "date": "2026-07-13",
+      "date_precision": "day",
+      "date_quality": "verified_within_window",
+      "doi": null,
+      "identity": "arxiv:2607.11298",
+      "match_reasons": [
+        "software paper"
+      ],
+      "published_date": null,
+      "query_id": "scientific-software-reproducibility",
+      "score": 1.0,
+      "source": "arxiv",
+      "sources": [
+        "arxiv"
+      ],
+      "title": "PAC Studio Machine Learning: Human-in-the-Loop Analysis of TDPAC Spectra",
+      "triage_state": "new",
+      "url": "http://arxiv.org/abs/2607.11298v1",
+      "venue": "arXiv"
+    },
+    {
+      "abstract_excerpt": "Modern control systems increasingly rely on heterogeneous sensors operating at different sampling rates, where intermittently missing outputs pose fundamental challenges for system identification. This paper proposes a non-iterative, control-oriented identification method for multirate systems based on cyclic reformulation. The method transforms multirate data into an expanded time-invariant representation and yields M parameter sets from a single input-output dataset, where M is the least commo",
+      "arxiv_id": "2607.09194",
+      "authors": [
+        "Hiroshi Okajima",
+        "Kakeru Ono"
+      ],
+      "date": "2026-07-10",
+      "date_precision": "day",
+      "date_quality": "verified_within_window",
+      "doi": null,
+      "identity": "arxiv:2607.09194",
+      "match_reasons": [
+        "system identification"
+      ],
+      "published_date": null,
+      "query_id": "system-identification-doe",
+      "score": 1.0,
+      "source": "arxiv",
+      "sources": [
+        "arxiv"
+      ],
+      "title": "Cyclic Reformulation-Based Identification and Polytopic Uncertainty Modeling for Multirate Systems",
+      "triage_state": "new",
+      "url": "http://arxiv.org/abs/2607.09194v1",
+      "venue": "arXiv"
+    },
+    {
+      "abstract_excerpt": "Relational states refer to concepts such as friendship or collaboration, in which a relationship persists over a certain amount of time. Study of relational states often involves figuring out what factors contribute to the creation or dissolution of these relationships. However, most methods available now restrict their attention to binary states, i.e., ties that are either present or absent, even though many real-world systems evolve through multiple relational states (e.g., acquaintance, frien",
+      "arxiv_id": "2607.09363",
+      "authors": [
+        "Rūta Juozaitienė",
+        "Ernst C. Wit"
+      ],
+      "date": "2026-07-10",
+      "date_precision": "day",
+      "date_quality": "verified_within_window",
+      "doi": null,
+      "identity": "arxiv:2607.09363",
+      "match_reasons": [
+        "dissolution"
+      ],
+      "published_date": null,
+      "query_id": "reactive-transport",
+      "score": 1.0,
+      "source": "arxiv",
+      "sources": [
+        "arxiv"
+      ],
+      "title": "Inference of large scale relational state processes",
+      "triage_state": "new",
+      "url": "http://arxiv.org/abs/2607.09363v1",
+      "venue": "arXiv"
+    },
+    {
+      "abstract_excerpt": "Large language models (LLMs) have become significant providers of mental health support, yet they remain products of an attention economy whose operational and commercial targets favour sustained engagement over the friction that effective psychological support often requires. Developers' safety responses have been largely reactive, addressing the most visible and acute harms while subtler, longer-term patterns of risk (e.g., dependency, boundary erosion, the amplification of distorted beliefs) ",
+      "arxiv_id": "2607.07766",
+      "authors": [
+        "Gwydion Williams",
+        "Sara Zannone",
+        "Bilal A Mateen"
+      ],
+      "date": "2026-07-08",
+      "date_precision": "day",
+      "date_quality": "verified_within_window",
+      "doi": null,
+      "identity": "arxiv:2607.07766",
+      "match_reasons": [
+        "erosion"
+      ],
+      "published_date": null,
+      "query_id": "swelling-fines-migration",
+      "score": 1.0,
+      "source": "arxiv",
+      "sources": [
+        "arxiv"
+      ],
+      "title": "Alignment Plausibility: A New Standard for Assuring AI in Healthcare",
+      "triage_state": "new",
+      "url": "http://arxiv.org/abs/2607.07766v1",
+      "venue": "arXiv"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [],
+      "date": "2036-06-23",
+      "date_precision": "day",
+      "date_quality": "future_date",
+      "doi": "10.3998/mij.7921",
+      "identity": "doi:10.3998/mij.7921",
+      "match_reasons": [],
+      "published_date": "2036-06-23",
+      "query_id": "deformable-porous-media",
+      "score": 0.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Title Pending 7921",
+      "triage_state": "new",
+      "url": "https://doi.org/10.3998/mij.7921",
+      "venue": "Media Industries"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Gabrielle Marceau",
+        "Maria George",
+        "Vishakha Raj"
+      ],
+      "date": "2028-01-01",
+      "date_precision": "day",
+      "date_quality": "future_date",
+      "doi": "10.1017/9781009599122.015",
+      "identity": "doi:10.1017/9781009599122.015",
+      "match_reasons": [],
+      "published_date": "2028-01-01",
+      "query_id": "system-identification-doe",
+      "score": 0.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Application of the General Rule of Interpretation by the WTO Dispute Settlement System",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1017/9781009599122.015",
+      "venue": "The Practice of Interpretation in International Law"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Aman Tiwary",
+        "Seema Chaudhary",
+        "Dipayan Guha",
+        "Roshni Maiti"
+      ],
+      "date": "2028",
+      "date_precision": "year",
+      "date_quality": "future_date",
+      "doi": "10.1504/ijaac.2028.10079256",
+      "identity": "doi:10.1504/ijaac.2028.10079256",
+      "match_reasons": [],
+      "published_date": "2028",
+      "query_id": "system-identification-doe",
+      "score": 0.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Disturbance observer-based robust control of twin-Rotor MIMO system with mismatched uncertainties",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1504/ijaac.2028.10079256",
+      "venue": "International Journal of Automation and Control"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Kawthar Abd Al Jabbar Hashim",
+        "Ekhlas Hameed Karam"
+      ],
+      "date": "2028",
+      "date_precision": "year",
+      "date_quality": "future_date",
+      "doi": "10.1504/ijaac.2028.10079258",
+      "identity": "doi:10.1504/ijaac.2028.10079258",
+      "match_reasons": [],
+      "published_date": "2028",
+      "query_id": "system-identification-doe",
+      "score": 0.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Different optimal controllers for cable driven continuum robot based on artificial circulation system algorithms",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1504/ijaac.2028.10079258",
+      "venue": "International Journal of Automation and Control"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Mehdi Allagui",
+        "Mohamed Abbes"
+      ],
+      "date": "2028",
+      "date_precision": "year",
+      "date_quality": "future_date",
+      "doi": "10.1504/ijaac.2028.10079273",
+      "identity": "doi:10.1504/ijaac.2028.10079273",
+      "match_reasons": [],
+      "published_date": "2028",
+      "query_id": "system-identification-doe",
+      "score": 0.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "An isolated drive system for BLDC motors based on the dual half bridge converter",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1504/ijaac.2028.10079273",
+      "venue": "International Journal of Automation and Control"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Ragini Bellapu",
+        "J. Vineesh Prakash"
+      ],
+      "date": "2028",
+      "date_precision": "year",
+      "date_quality": "future_date",
+      "doi": "10.1504/ijef.2028.10079417",
+      "identity": "doi:10.1504/ijef.2028.10079417",
+      "match_reasons": [],
+      "published_date": "2028",
+      "query_id": "food-process-digital-twins",
+      "score": 0.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Mapping digital financial inclusion in India: a systematic review of financial literacy, FinTech, reliability, and womens empowerment",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1504/ijef.2028.10079417",
+      "venue": "International Journal of Electronic Finance"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Roudlotus Sholikhah",
+        "Mochamad Bruri Triyono",
+        "Sukarno N.A.",
+        "Sudiyono N.A."
+      ],
+      "date": "2028",
+      "date_precision": "year",
+      "date_quality": "future_date",
+      "doi": "10.1504/ijil.2028.10079496",
+      "identity": "doi:10.1504/ijil.2028.10079496",
+      "match_reasons": [],
+      "published_date": "2028",
+      "query_id": "food-process-digital-twins",
+      "score": 0.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Constructing a future-oriented digital skills framework for vocational education teachers in green TVET",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1504/ijil.2028.10079496",
+      "venue": "International Journal of Innovation and Learning"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Lu Song",
+        "Nor Asniza Ishak",
+        "Yiran Wei"
+      ],
+      "date": "2028",
+      "date_precision": "year",
+      "date_quality": "future_date",
+      "doi": "10.1504/ijil.2028.10079749",
+      "identity": "doi:10.1504/ijil.2028.10079749",
+      "match_reasons": [],
+      "published_date": "2028",
+      "query_id": "sensing-experiment-design",
+      "score": 0.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "A longitudinal SEM study of positive academic emotions, flow experience, and learning engagement among Chinese university students in English language learning",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1504/ijil.2028.10079749",
+      "venue": "International Journal of Innovation and Learning"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Hung Sheng Chang",
+        "Chia Chun Wu"
+      ],
+      "date": "2028",
+      "date_precision": "year",
+      "date_quality": "future_date",
+      "doi": "10.1504/ijil.2028.10079792",
+      "identity": "doi:10.1504/ijil.2028.10079792",
+      "match_reasons": [],
+      "published_date": "2028",
+      "query_id": "food-process-digital-twins",
+      "score": 0.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Exploring learning and innovation in technology adoption: a cross-regional study of food delivery applications in Taiwan and Macau",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1504/ijil.2028.10079792",
+      "venue": "International Journal of Innovation and Learning"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Thi Phuong Mai Nguyen",
+        "Manh Trung Phung",
+        "Thi Mai Thom Do"
+      ],
+      "date": "2028",
+      "date_precision": "year",
+      "date_quality": "future_date",
+      "doi": "10.1504/ijmed.2028.10079257",
+      "identity": "doi:10.1504/ijmed.2028.10079257",
+      "match_reasons": [],
+      "published_date": "2028",
+      "query_id": "food-process-digital-twins",
+      "score": 0.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Navigating corporate governance and global integration for innovation performance: the mediating roles of digital transformation and ESG implementation in the maritime industry",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1504/ijmed.2028.10079257",
+      "venue": "International Journal of Management and Enterprise Development"
+    },
+    {
+      "abstract_excerpt": "This article examines the flow patterns and kinetics of granular media interacting with ascending and descending gas flows. Bulk material release control is a critical aspect of shaft furnace and hopper operation Experimental studies were conducted on a flat transparent model and a close-up \"hot\" model using high-speed video recording (SK-16). With an error in the calculated values of the critical speed, amounting from to -30.0 to +28.8 , the main parameters varied within the following limits: s",
+      "arxiv_id": null,
+      "authors": [
+        "S.S. Аkhmetova",
+        "G.K. Kabiyeva",
+        "A.B. Rakhatova"
+      ],
+      "date": "2027-07-14",
+      "date_precision": "day",
+      "date_quality": "future_date",
+      "doi": "10.31643/2028/6445.14",
+      "identity": "doi:10.31643/2028/6445.14",
+      "match_reasons": [],
+      "published_date": "2027-07-14",
+      "query_id": "sensing-experiment-design",
+      "score": 0.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Influence of gas flow parameters on the velocity of bulk materials",
+      "triage_state": "new",
+      "url": "https://doi.org/10.31643/2028/6445.14",
+      "venue": "Kompleksnoe Ispolzovanie Mineralnogo Syra = Complex Use of Mineral Resources"
+    },
+    {
+      "abstract_excerpt": "Justificación:Se ha documentado diferencias en la eficiencia de la ejecución presupuestaria de los GAD; sin embargo, la evidencia sobre los factores asociados permanece dispersa, lo que dificulta su integración y el reconocimiento de los elementos relacionados con este proceso. Objetivo:Identificar y sistematizar la evidencia disponible sobre los factores asociados a la eficiencia de la ejecución presupuestaria en los Gobiernos Autónomos Descentralizados de Manabí, Ecuador, entre 2020 y 2026. Me",
+      "arxiv_id": null,
+      "authors": [
+        "Richard Fernando Hurtado-Guevara",
+        "Jony Abigail Pasaca-Orellana",
+        "Evelyn Yusleivi Ramírez-Carranza",
+        "Jeampierre Alcivar-Pinargote",
+        "Simón Alejandro Cedeño-Rosado"
+      ],
+      "date": "2027-07-05",
+      "date_precision": "day",
+      "date_quality": "future_date",
+      "doi": "10.70171/yr5arv88",
+      "identity": "doi:10.70171/yr5arv88",
+      "match_reasons": [],
+      "published_date": "2027-07-05",
+      "query_id": "scientific-software-reproducibility",
+      "score": 0.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Factores Asociados a la Eficiencia de la Ejecución Presupuestaria en los GAD de Manabí, Ecuador: Revisión de la Literatura",
+      "triage_state": "new",
+      "url": "https://doi.org/10.70171/yr5arv88",
+      "venue": "Erevna Research Reports"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Ann A. Farid",
+        "Elhamy Abdelmonem",
+        "Eman Abdelsameea",
+        "Eman Wahba",
+        "Mary A. Naguib"
+      ],
+      "date": "2027-07-01",
+      "date_precision": "day",
+      "date_quality": "future_date",
+      "doi": "10.21608/ejmm.2026.488277.2412",
+      "identity": "doi:10.21608/ejmm.2026.488277.2412",
+      "match_reasons": [],
+      "published_date": "2027-07-01",
+      "query_id": "reactive-transport",
+      "score": 0.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Study of C-Reactive Protein Polymorphism in Patients with Chronic Hepatitis B and C Viral Infection",
+      "triage_state": "new",
+      "url": "https://doi.org/10.21608/ejmm.2026.488277.2412",
+      "venue": "Egyptian Journal of Medical Microbiology"
+    },
+    {
+      "abstract_excerpt": "In the era of artificial intelligence, how can we tell we are being tricked? Indeed, is deception an anomaly or rather a defining force in contemporary media, culture, and politics? In Gray Media: A Psychopolitics of Deception, Lisa Blackman tracks deception as it emerges across AI and algorithmic systems, information warfare, and the psychological and emotional abuse of gaslighting. The approach is radically interdisciplinary, weaving together insights from cultural and media studies, affect st",
+      "arxiv_id": null,
+      "authors": [
+        "Lisa Blackman"
+      ],
+      "date": "2027-05-01",
+      "date_precision": "day",
+      "date_quality": "future_date",
+      "doi": "10.53288/0570.1.00",
+      "identity": "doi:10.53288/0570.1.00",
+      "match_reasons": [],
+      "published_date": "2027-05-01",
+      "query_id": "deformable-porous-media",
+      "score": 0.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Gray Media",
+      "triage_state": "new",
+      "url": "https://doi.org/10.53288/0570.1.00",
+      "venue": "monograph"
+    },
+    {
+      "abstract_excerpt": "",
+      "arxiv_id": null,
+      "authors": [
+        "Deepak Joshi",
+        "Saugat Ghimire",
+        "Habib Wajid",
+        "Vaithianathan “Mani” Venkatasubramanian"
+      ],
+      "date": "2027-03",
+      "date_precision": "month",
+      "date_quality": "future_date",
+      "doi": "10.1016/j.epsr.2026.113694",
+      "identity": "doi:10.1016/j.epsr.2026.113694",
+      "match_reasons": [],
+      "published_date": "2027-03",
+      "query_id": "scientific-software-reproducibility",
+      "score": 0.0,
+      "source": "crossref",
+      "sources": [
+        "crossref"
+      ],
+      "title": "Forced oscillation analysis using physics-based and machine learning models on a comprehensive dataset library",
+      "triage_state": "new",
+      "url": "https://doi.org/10.1016/j.epsr.2026.113694",
+      "venue": "Electric Power Systems Research"
+    }
+  ],
+  "counts": {
+    "discovered": 186,
+    "merged": 68,
+    "omitted_by_cap": 17,
+    "omitted_prior_identity": 0,
+    "partial_or_future_date": 40,
+    "retained": 51,
+    "verified_within_window": 11
+  },
+  "date_from": "2026-06-03",
+  "date_to": "2026-07-18",
+  "heterogeneous_windows": true,
+  "issue_title": "Research radar — 2026-07",
+  "lookback_days": 21,
+  "query_runs": [
+    {
+      "date_from": "2026-06-27",
+      "date_to": "2026-07-18",
+      "lookback_days": 21,
+      "query_id": "espresso-extraction"
+    },
+    {
+      "date_from": "2026-06-27",
+      "date_to": "2026-07-18",
+      "lookback_days": 21,
+      "query_id": "coffee-extraction-kinetics"
+    },
+    {
+      "date_from": "2026-06-27",
+      "date_to": "2026-07-18",
+      "lookback_days": 21,
+      "query_id": "coffee-porous-bed"
+    },
+    {
+      "date_from": "2026-06-18",
+      "date_to": "2026-07-18",
+      "lookback_days": 30,
+      "query_id": "deformable-porous-media"
+    },
+    {
+      "date_from": "2026-06-18",
+      "date_to": "2026-07-18",
+      "lookback_days": 30,
+      "query_id": "granular-packed-bed-flow"
+    },
+    {
+      "date_from": "2026-06-18",
+      "date_to": "2026-07-18",
+      "lookback_days": 30,
+      "query_id": "wetting-infiltration"
+    },
+    {
+      "date_from": "2026-06-18",
+      "date_to": "2026-07-18",
+      "lookback_days": 30,
+      "query_id": "swelling-fines-migration"
+    },
+    {
+      "date_from": "2026-06-18",
+      "date_to": "2026-07-18",
+      "lookback_days": 30,
+      "query_id": "permeability-lattice-boltzmann"
+    },
+    {
+      "date_from": "2026-06-18",
+      "date_to": "2026-07-18",
+      "lookback_days": 30,
+      "query_id": "reactive-transport"
+    },
+    {
+      "date_from": "2026-06-18",
+      "date_to": "2026-07-18",
+      "lookback_days": 30,
+      "query_id": "inverse-problems"
+    },
+    {
+      "date_from": "2026-06-03",
+      "date_to": "2026-07-18",
+      "lookback_days": 45,
+      "query_id": "identifiability"
+    },
+    {
+      "date_from": "2026-06-03",
+      "date_to": "2026-07-18",
+      "lookback_days": 45,
+      "query_id": "system-identification-doe"
+    },
+    {
+      "date_from": "2026-06-18",
+      "date_to": "2026-07-18",
+      "lookback_days": 30,
+      "query_id": "sensing-experiment-design"
+    },
+    {
+      "date_from": "2026-06-18",
+      "date_to": "2026-07-18",
+      "lookback_days": 30,
+      "query_id": "food-process-digital-twins"
+    },
+    {
+      "date_from": "2026-06-18",
+      "date_to": "2026-07-18",
+      "lookback_days": 30,
+      "query_id": "coffee-chemistry-measurement"
+    },
+    {
+      "date_from": "2026-06-18",
+      "date_to": "2026-07-18",
+      "lookback_days": 30,
+      "query_id": "scientific-software-reproducibility"
+    }
+  ],
+  "scan_date": "2026-07-18",
+  "source_runs": [
+    {
+      "attempts": 16,
+      "candidates_received": 84,
+      "candidates_retained": 11,
+      "error_category": null,
+      "error_summary": null,
+      "queries_attempted": 16,
+      "queries_succeeded": 16,
+      "source": "arxiv",
+      "status": "success"
+    },
+    {
+      "attempts": 16,
+      "candidates_received": 102,
+      "candidates_retained": 40,
+      "error_category": null,
+      "error_summary": null,
+      "queries_attempted": 16,
+      "queries_succeeded": 16,
+      "source": "crossref",
+      "status": "success"
+    }
+  ],
+  "total_status": "success"
+}
