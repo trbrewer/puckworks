@@ -530,7 +530,8 @@ def test_coffee_anchor_keeps_relevant_and_drops_irrelevant_classes():
 
 
 def test_broad_porous_media_sensing_is_not_coffee_gated_in_the_shipped_config():
-    import yaml
+    import pytest
+    yaml = pytest.importorskip("yaml")     # pyyaml is a dev/radar extra, not core (min-deps lane)
     cfg = yaml.safe_load((_ROOT / "docs" / "research" / "radar_queries.yml").read_text())
     q = {x["id"]: x for x in cfg["queries"]}
     # the porous-media physics families stay BROAD (no required_any) so general poroelastic /
