@@ -22,21 +22,29 @@ python -m puckworks.product.lab compare  --domain-policy strict --references non
    only when observable definition, units, reference volume, and axis are compatible.
 2. **Component reference suite.** Executable components' native reference cases demonstrate that the
    registry works. Each is labelled *"the component's own native reference case, not the common Guided
-   Pull scenario."* Three genuinely-executed native reference runners ship today (`puckworks.product.
+   Pull scenario."* **Four** genuinely-executed native reference runners ship today (`puckworks.product.
    lab_runners`), each reusing the same authoritative callables the validation gates use — no equation
    duplication:
    - `waszkiewicz2025.poroelastic` — refit the published equilibrium curve; recover `(P_c, Q_c)` vs the
-     published calibration;
+     published calibration; `interactive-fast`;
    - `wadsworth2026.permeability` — collapse Table 1 onto the percolation permeability form (geometric-
-     mean ratio);
-   - `foster2025.infiltration` — parameter-free first-drip bracket vs the DE1 fixture observation.
+     mean ratio); `interactive-fast`;
+   - `foster2025.infiltration` — parameter-free first-drip bracket vs the DE1 fixture observation;
+     `interactive-fast`;
+   - `brewer2026.lb_reference` — solve the component's canonical **synthetic plane channel** and compare
+     the lattice permeability to the **exact plane-Poiseuille** `k = h²/12`; `batch-only`. Its verification
+     input is generated in code and its reference is the analytic channel solution — this is **numerical
+     code verification, not experimental evidence** and not coffee/espresso validation (fidelity ceiling:
+     *"does not validate porous coffee-bed physics, predict espresso extraction, establish experimental
+     accuracy, or provide a directly comparable beverage metric"*). A genuine multi-second LB solve, it is
+     honestly classified `batch-only` — outside the interactive-fast budget, selectable explicitly, and
+     not in the default fast sweep (the three source-data runners above stay `interactive-fast`).
 
-   All three are `interactive-fast`. Runner failures are isolated (one erroring never erases the
-   others; `FAILED` is a per-request *execution* state, never a static capability). A component's native
-   runner *capability* is `AVAILABLE` / `NOT_IMPLEMENTED` / `OPTIONAL_DEPENDENCY_UNAVAILABLE` /
-   `RIGHTS_BLOCKED` / `NOT_APPLICABLE`; `grudeva2025.reduced` is `RIGHTS_BLOCKED` (issue #73). A future
-   integrated chain may pick one compatible component per physical stage; competing models remain
-   branches.
+   Runner failures are isolated (one erroring never erases the others; `FAILED` is a per-request
+   *execution* state, never a static capability). A component's native runner *capability* is `AVAILABLE`
+   / `NOT_IMPLEMENTED` / `OPTIONAL_DEPENDENCY_UNAVAILABLE` / `RIGHTS_BLOCKED` / `NOT_APPLICABLE`;
+   `grudeva2025.reduced` is `RIGHTS_BLOCKED` (issue #73). A future integrated chain may pick one compatible
+   component per physical stage; competing models remain branches.
 
 ## Coverage vocabulary
 
@@ -122,6 +130,26 @@ adapter; the release guard hard-blocks only on code not cleared for release incl
 `rights.review_backlog()` surfaces the reviews still owed (Cameron code + outputs first).
 `capability_snapshot.reference_suite_coverage` lists runner *capabilities* honestly; only
 actually-executed references appear in `executed_reference_results`.
+
+### Selected-references-only public artifact (per-component, affirmative-only)
+
+Public execution is enabled **one component at a time, only after an affirmative outward rights review** —
+never a blanket switch. `brewer2026.lb_reference` is the **first** component with such a clearance (code
+`CLEAR`, data `NOT_APPLICABLE`, output `CLEAR`; bounded to its synthetic LB channel code-verification path,
+issue #70 — see `docs/rights_review_notes.md`). A request that selects **exactly** that runner
+(`lens_selection_policy=none`, `reference_selection_policy=selected`,
+`requested_reference_runner_ids=("brewer2026.lb_reference",)`) passes the `PUBLIC_ARTIFACT` preflight and
+runs precisely one native producer; the published artifact carries the cleared preflight record and the
+execution context alongside the scientific result. A references-only artifact has no common-scenario trace,
+so the batch's required-figure gate applies only when a lens executed; the absence of a trace panel is
+recorded, never silently skipped.
+
+This is **not** a generic public-execution bypass. The **default / broad** public Laboratory batch remains
+**gated**: it selects the Cameron primary lens (still `NOT_REVIEWED`), so a default `PUBLIC_BATCH` /
+`PUBLIC_ARTIFACT` run blocks before any producer and emits only the rights preflight. A mixed request
+pairing the cleared LB runner with any `NOT_REVIEWED` runner blocks as a whole (one blocked selection blocks
+the request); the LB clearance never propagates to Cameron, Roman, Waszkiewicz, Wadsworth, Foster, or any
+other component, and `grudeva2025.reduced` stays hard-blocked in every context (#73).
 
 ## Reference-basis groundwork (a possible second lens)
 
