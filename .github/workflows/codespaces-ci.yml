@@ -1,0 +1,71 @@
+name: codespaces-ci
+# Build the .devcontainer in CI and smoke-test the Guided Pull Laboratory UI inside the built
+# container (the reproducible fallback for a live Codespace, which requires the `codespace` token
+# scope + repo admin that this environment lacks — issue #43). It builds the devcontainer, then runs
+# the Streamlit health check + one comparison smoke INSIDE the container. contents:read only; no
+# secrets; the action is SHA-pinned.
+on:
+  pull_request:
+    paths:
+      - ".devcontainer/**"
+      - "apps/**"
+      - "puckworks/product/lab.py"
+      - "puckworks/product/lab_runners.py"
+      - ".streamlit/**"
+      - "pyproject.toml"
+      - ".github/workflows/codespaces-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: codespaces-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  devcontainer-smoke:
+    name: build devcontainer + Streamlit/comparison smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - name: build the devcontainer and run the in-container smoke
+        uses: devcontainers/ci@513af61f4de4f75d37e4438f184ba4358f0fc1ca # v0.3.1900000450
+        with:
+          push: never
+          runCmd: |
+            set -euo pipefail
+            python -m pip install --quiet -e ".[dev,viz,webapp]"
+            # (1) one comparison smoke: exact scenario identity + build provenance + scientific hash
+            LAB_PRESET=guided_v1 GITHUB_SHA="${GITHUB_SHA:-ci}" GITHUB_RUN_ID="${GITHUB_RUN_ID:-0}" \
+              LAB_OUT_DIR=/tmp/lab python tools/lab_batch.py
+            python - <<'PY'
+            import json
+            a = json.load(open("/tmp/lab/guided_pull_lab.json"))
+            assert a["scenario"]["scenario_id"] == "guided_v1", a["scenario"]["scenario_id"]
+            assert a["provenance"]["source_commit"], "artifact missing source_commit provenance"
+            assert a["integrity"]["scientific_payload_sha256"]
+            assert a["counts"]["executed_native_references"] >= 3
+            print("comparison smoke OK:", a["scenario"]["scenario_id"],
+                  "sci", a["integrity"]["scientific_payload_sha256"][:12])
+            PY
+            # (2) Streamlit health inside the container
+            STREAMLIT_BROWSER_GATHER_USAGE_STATS=false \
+              python -m streamlit run apps/lab_app.py --server.headless true \
+              --server.port 8501 --server.address 127.0.0.1 &
+            python - <<'PY'
+            import urllib.request, time, sys
+            for _ in range(40):
+                try:
+                    with urllib.request.urlopen("http://127.0.0.1:8501/_stcore/health", timeout=3) as r:
+                        body = r.read().decode()[:10]
+                        print("streamlit health:", r.status, body)
+                        sys.exit(0 if r.status == 200 else 1)
+                except Exception:
+                    time.sleep(2)
+            print("streamlit health check FAILED (no 200)")
+            sys.exit(1)
+            PY
