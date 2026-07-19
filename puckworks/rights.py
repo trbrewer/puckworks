@@ -96,7 +96,38 @@ class RightsRecord:
 # github.com/YoanaGrudeva/espresso-model, which declares NO licence (all-rights-reserved). The EJAM
 # article (CC-BY, DOI 10.1017/S095679252500018X) rights are SEPARATE and do NOT license the solver code
 # or the code derived from it. Decision pending in #73; no numerics changed by this record.
+# brewer2026.lb_reference: a FIRST-PARTY, in-repo numerical code-verification component. The module
+# (puckworks/models/brewer2026/lb_reference.py) is authored entirely in this repository (git blame:
+# 138/138 lines Tim Brewer; introduced c54a2a6 "puckworks v0.1.0"); it carries no port/copy/upstream
+# licence marker (contrast grudeva2025's self-documented "faithful port"). Its verification INPUT is
+# generated synthetically in code — the authoritative gate gate_lb_channel constructs a plane-channel
+# `solid` boolean array in memory and compares the solved lattice permeability to the ANALYTIC
+# plane-Poiseuille reference k = h^2/12; NO third-party experimental dataset is read, bundled, or
+# redistributed. The generated OUTPUT (simulated lattice permeability, analytic reference, relative
+# error) is therefore first-party numerical content. This is code-verification only — NOT coffee/espresso
+# validation. Decision issue #70. This record is bounded to the LB channel code-verification path and
+# clears NOTHING else (see rights_review_notes.md).
 _RECORDS: dict[str, RightsRecord] = {
+    "brewer2026.lb_reference": RightsRecord(
+        component_id="brewer2026.lb_reference",
+        code_rights_state="CLEAR",
+        data_rights_state="NOT_APPLICABLE",
+        output_redistribution_state="CLEAR",
+        rights_note=(
+            "First-party Puckworks LB plane-channel code-verification path only. Code: in-repo D3Q19 TRT "
+            "kernel authored by the maintainer (no port/copy). Data: NOT_APPLICABLE — the verification "
+            "input (channel `solid` array) is generated synthetically in code; no third-party dataset is "
+            "bundled or redistributed. Output: first-party numerical results (simulated permeability, "
+            "analytic k=h^2/12 reference, relative error). Scope is exactly this LB channel verification "
+            "runner and its outputs — this is NOT coffee-bed/espresso validation, and it clears NO other "
+            "component, author, model class, or namespace."),
+        source=("first-party module puckworks/models/brewer2026/lb_reference.py (git blame: 138/138 lines "
+                "Tim Brewer; introduced c54a2a6 'puckworks v0.1.0'; no port/copy/licence marker); the "
+                "authoritative gate puckworks.validation.gates.gate_lb_channel builds a synthetic plane "
+                "channel in code and compares to the analytic plane-Poiseuille k=h^2/12 (no bundled "
+                "dataset); issue #70"),
+        decision_issue="#70",
+        review_date="2026-07-19"),
     "grudeva2025.reduced": RightsRecord(
         component_id="grudeva2025.reduced",
         code_rights_state="RIGHTS_BLOCKED",

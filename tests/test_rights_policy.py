@@ -120,8 +120,11 @@ def test_review_backlog_surfaces_the_priority_reviews_without_asserting_clear():
     cam = [i for i in bl if i["component_id"] == "cameron2020.extraction_bdf"
            and i["use"] == "public_batch_execution"]
     assert cam and cam[0]["needs_review"] is True and cam[0]["governing_state"] == "NOT_REVIEWED"
-    # nothing in the backlog is asserted CLEAR
-    assert all(i["governing_state"] != "CLEAR" for i in bl)
+    # nothing that STILL NEEDS review is asserted CLEAR (no manufactured clearance for an unreviewed one)
+    assert all(i["governing_state"] != "CLEAR" for i in bl if i["needs_review"])
+    # the only CLEAR entries belong to the affirmatively-reviewed first-party LB component (issue #70)
+    assert {i["component_id"] for i in bl if i["governing_state"] == "CLEAR"} == {"brewer2026.lb_reference"}
+    assert all(i["needs_review"] is False for i in bl if i["governing_state"] == "CLEAR")
     # the data fixture is present as a review item
     assert any(i["component_id"] == "de1_fixtureA.json" for i in bl)
 

@@ -44,9 +44,44 @@ rights (see #73 for the contrasting Grudeva case).
    for Cameron; the native-reference fixtures embed authors' source data (see 2–4). No dataset is
    affirmatively cleared for public redistribution in-session.
 
+## Bounded affirmative review — `brewer2026.lb_reference` (2026-07-19, #70)
+
+- **Component ID:** `brewer2026.lb_reference`.
+- **Review date:** 2026-07-19.
+- **Files / commits inspected:** `puckworks/models/brewer2026/lb_reference.py` (git blame: 138/138 lines
+  Tim Brewer; introduced `c54a2a6` "puckworks v0.1.0"; full history is that single commit — no later
+  edits); its registry declaration in `puckworks/models/__init__.py`; the authoritative gate
+  `puckworks.validation.gates.gate_lb_channel`; the registry gate result (`err_pct = 0.052`, passes
+  `abs(err) < 0.5`). Provenance-marker grep of the module returned no `port` / `copyright` / `licence` /
+  `adapted from` / `based on` / upstream-solver marker (the only matches were the substring "port" inside
+  `import`).
+- **Code provenance / redistribution:** **`CLEAR`.** First-party in-repo code authored by the maintainer;
+  a self-contained numpy D3Q19 TRT lattice-Boltzmann kernel. No port/copy claim anywhere in the module
+  (contrast Grudeva 2025's self-documented "faithful port" of unlicensed upstream code). The D3Q19
+  lattice stencil constants (`C`, `W`, `OPP`) are standard textbook LB facts, not copyrightable content.
+- **Data / input provenance:** **`NOT_APPLICABLE`.** The verification input is generated synthetically in
+  code — the gate constructs a plane-channel `solid` boolean array in memory. No third-party experimental
+  dataset, velocity field, or numerical result is read, bundled, or redistributed (the module reads no
+  input files; its `__main__` block only *writes* a scratch JSON).
+- **Generated-output redistribution:** **`CLEAR`.** The outputs (simulated lattice permeability, the
+  analytic plane-Poiseuille reference `k = h²/12`, and their relative error) are first-party numerical
+  content produced by first-party code from a synthetic input.
+- **Limitations of the determination:** this is a **numerical code-verification** clearance only. It does
+  **not** establish that a porous coffee-bed simulation predicts espresso, and carries no claim of
+  experimental accuracy or beverage fidelity. It is bounded to the LB plane-channel verification path
+  (the runner and outputs of §"Native LB reference runner" once added); it does not extend to
+  `brewer2026.lb_taichi`, `brewer2026.pack_generator`, or any other component.
+- **Decision issue:** #70.
+- **Explicit non-application:** this conclusion applies to `brewer2026.lb_reference` **only**. It does
+  **not** clear Cameron, Grudeva, Roman-Corrochano, Wadsworth, Waszkiewicz, Foster, or any other
+  component, author, model class, or namespace. Those remain `NOT_REVIEWED` (or `RIGHTS_BLOCKED` for
+  Grudeva, #73). A rights record is per-component and never propagates.
+
 ## Net effect
 
-No affirmative outward clearance was recorded this session; every reviewed component remains
-`NOT_REVIEWED` (or `RIGHTS_BLOCKED` for Grudeva). The public Laboratory batch is therefore **gated**: a
-`PUBLIC_BATCH` / `PUBLIC_ARTIFACT` run blocks before any producer and emits only the rights preflight.
+`brewer2026.lb_reference` is the **first** component with an affirmative outward clearance (code `CLEAR`,
+data `NOT_APPLICABLE`, output `CLEAR`) — bounded to its synthetic LB channel code-verification path. Every
+other reviewed component remains `NOT_REVIEWED` (or `RIGHTS_BLOCKED` for Grudeva). A `PUBLIC_ARTIFACT`
+request therefore passes preflight **only** when it selects exactly the affirmatively-cleared component(s);
+a default/broad public request still blocks before any producer and emits only the rights preflight.
 Local/private inspection is unaffected.
