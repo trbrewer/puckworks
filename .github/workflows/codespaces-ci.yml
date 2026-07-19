@@ -40,7 +40,7 @@ jobs:
             set -euo pipefail
             python -m pip install --quiet -e ".[dev,viz,webapp]"
             # (1) one comparison smoke: exact scenario identity + build provenance + scientific hash
-            LAB_PRESET=guided_v1 GITHUB_SHA="${GITHUB_SHA:-ci}" GITHUB_RUN_ID="${GITHUB_RUN_ID:-0}" \
+            LAB_PRESET=guided_v1 GITHUB_SHA="${GITHUB_SHA:-0000000000000000000000000000000000000000}" GITHUB_RUN_ID="${GITHUB_RUN_ID:-0}" \
               LAB_OUT_DIR=/tmp/lab python tools/lab_batch.py
             python - <<'PY'
             import json
