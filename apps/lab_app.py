@@ -147,9 +147,16 @@ def main():
                   for r in report["component_matrix"]], width="stretch")
 
     st.subheader("Executed native reference results")
+    st.caption("Each is the component's OWN native reference case, not the common scenario.")
     if report["executed_reference_results"]:
-        st.table([{"component": r["component_id"], "status": r["status"]}
+        st.table([{"component": r["component_id"], "runner": r.get("runner_id"),
+                   "runtime": r.get("runtime_class"), "status": r["status"]}
                   for r in report["executed_reference_results"]])
+        for r in report["executed_reference_results"]:
+            if r.get("outputs"):
+                with st.expander(f"{r['component_id']} — native outputs"):
+                    st.table([{"output": o["name"], "value": o["value"], "unit": o["unit"],
+                               "role": o["role"]} for o in r["outputs"]])
     else:
         st.info("No native reference runners executed in this request.")
 

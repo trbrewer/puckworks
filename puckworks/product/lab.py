@@ -216,12 +216,16 @@ def _lab_spec(comp, executed_common: bool) -> dict:
     rights_blocked = name in _RIGHTS_BLOCKED
     is_common_lens = name in _COMMON_SCENARIO_LENSES
 
+    from puckworks.product import lab_runners
+    has_native_runner = lab_runners.has_runner(name)
     if rights_blocked:
         disposition = "RIGHTS_BLOCKED"; runner = "RIGHTS_BLOCKED"; adapter = "RIGHTS_BLOCKED"
     elif is_common_lens:
-        disposition = "COMMON_SCENARIO_READY"
-        runner = "EXECUTED_NATIVE_REFERENCE" if executed_common else "RUNNER_NOT_IMPLEMENTED"
-        adapter = "COMMON_SCENARIO_READY"
+        # the executed common-scenario lens; not a *separate* native reference runner
+        disposition = "COMMON_SCENARIO_READY"; runner = "NOT_APPLICABLE"; adapter = "COMMON_SCENARIO_READY"
+    elif has_native_runner:
+        disposition = "NATIVE_REFERENCE_ONLY"; runner = "EXECUTED_NATIVE_REFERENCE"
+        adapter = "ADAPTER_REQUIRED" if stage == "extraction" else "NOT_APPLICABLE"
     elif opt_dep and not available_in_env:
         disposition = "SKIPPED_OPTIONAL_DEPENDENCY"; runner = "SKIPPED_OPTIONAL_DEPENDENCY"; adapter = "NOT_APPLICABLE"
     elif opt_dep:
@@ -332,22 +336,13 @@ def _reference_suite_coverage(matrix: list) -> list:
     return out
 
 
-def _executed_reference_results(execution: ScenarioExecution, matrix: list) -> list:
-    """Only components with an ACTUAL executed native reference. Today: Cameron (the primary run also
-    serves as its native reference case)."""
-    out = []
-    for row in matrix:
-        if row["native_runner_state"] != "EXECUTED_NATIVE_REFERENCE":
-            continue
-        out.append({
-            "component_id": row["component_id"], "runner_id": "cameron_common_scenario_run",
-            "status": "executed",
-            "label": "This is the component's native reference case, not the common Guided Pull scenario "
-                     "(here it coincides with the executed common-scenario run).",
-            "observables": _observable_records(execution.pull_run),
-            "evidence_badge": execution.pull_run.get("traces", [{}])[0].get("evidence_badge"),
-        })
-    return out
+def _executed_reference_results(execution: ScenarioExecution) -> list:
+    """Actually-executed NATIVE reference cases (distinct from the common-scenario lens). The requested
+    runners default to the interactive-fast set; per-runner failures are isolated."""
+    from puckworks.product import lab_runners
+    req = execution.request.requested_reference_runner_ids
+    ids = list(req) if req else list(lab_runners.INTERACTIVE_FAST)
+    return lab_runners.run_selected(ids)
 
 
 # ── comparison assembly + integrity ─────────────────────────────────────────────────
@@ -361,6 +356,7 @@ def build_comparison(execution: ScenarioExecution, *, provenance: BuildProvenanc
     for r in matrix:
         by_disp[r["disposition"]] = by_disp.get(r["disposition"], 0) + 1
     lens = _lens_result(execution)
+    executed_refs = _executed_reference_results(execution)
     req = execution.request
     scenario = {
         "scenario_id": req.preset_id, "preset_id": req.preset_id,
@@ -380,7 +376,10 @@ def build_comparison(execution: ScenarioExecution, *, provenance: BuildProvenanc
         "report": "puckworks-guided-pull-laboratory",
         "scenario": scenario,
         "counts": {"components": len(matrix), "executed_common_scenario_lenses": 1,
-                   "executed_native_references": len(_executed_reference_results(execution, matrix)),
+                   "executed_native_references": sum(1 for r in executed_refs
+                                                      if r.get("status") == "executed"),
+                   "failed_native_references": sum(1 for r in executed_refs
+                                                   if r.get("status") == "FAILED"),
                    "dispositions": dict(sorted(by_disp.items()))},
         "executed_lenses": [lens],
         "excluded_or_dispositioned": [
@@ -389,7 +388,7 @@ def build_comparison(execution: ScenarioExecution, *, provenance: BuildProvenanc
              "reason": r["rights_note"] or r["native_runner_state"]}
             for r in matrix if r["disposition"] != "COMMON_SCENARIO_READY"],
         "component_matrix": matrix,
-        "executed_reference_results": _executed_reference_results(execution, matrix),
+        "executed_reference_results": executed_refs,
         "reference_suite_coverage": _reference_suite_coverage(matrix),
         "what_this_does_not_prove": WHAT_THIS_DOES_NOT_PROVE,
         "fidelity_ceiling": "One bounded scenario on one machine/coffee; one executed extraction lens; "

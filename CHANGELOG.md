@@ -5,6 +5,8 @@ tracked in detail in `docs/ROADMAP.md` §7.1.
 
 ## Unreleased
 
+- **Guided Pull Laboratory native reference runners (development):** three genuinely-executed native reference cases (`waszkiewicz2025.poroelastic` static refit, `wadsworth2026.permeability` Table-1 percolation collapse, `foster2025.infiltration` first-drip bracket), each reusing the validation-gate callables (no equation duplication), with per-runner failure isolation. The Lab now separates executed native references from not-yet-implemented coverage; `grudeva2025.reduced` stays RIGHTS_BLOCKED (#73).
+
 - **Guided Pull Laboratory contract hardening (schema v3, development `0.4.0.dev0`):** exact scenario
   identity + override provenance (`guided_v1` runs are no longer mislabelled `pv19_named`); typed
   `ScenarioRequest`/`ScenarioExecution` records; separated **scientific-payload** vs **full-artifact**

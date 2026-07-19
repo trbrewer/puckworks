@@ -137,12 +137,14 @@ def test_one_row_per_component_no_hardcoded_count(execution):
 
 
 def test_calibration_does_not_imply_runtime_execution(execution):
+    # calibration != runtime STAGE (though a calibration component may still have a native reference
+    # runner, e.g. wadsworth2026.permeability's Table-1 collapse)
     matrix = {r["component_id"]: r for r in lab.build_matrix(execution)}
     cal = [r for r in matrix.values() if r["execution_role"] == "calibration"]
     assert cal
     for r in cal:
         assert r["is_runtime_stage"] is False
-        assert r["native_runner_state"] != "EXECUTED_NATIVE_REFERENCE"
+        assert r["disposition"] != "COMMON_SCENARIO_READY"
 
 
 def test_grudeva2025_is_rights_blocked(execution):
@@ -163,11 +165,16 @@ def test_no_substring_heuristic_over_the_run(execution):
 
 # ── REFERENCE HONESTY ─────────────────────────────────────────────────────────────
 def test_only_executed_references_appear_in_executed_results(report):
-    executed = {r["component_id"] for r in report["executed_reference_results"]}
-    # today only Cameron (its common-scenario run coincides with its native reference)
-    assert executed <= {"cameron2020.extraction_bdf"}
+    from puckworks.product import lab_runners
+    executed = {r["component_id"] for r in report["executed_reference_results"]
+                if r["status"] == "executed"}
+    # exactly the genuinely-executed native runners (not the common-scenario lens Cameron)
+    assert executed == set(lab_runners.INTERACTIVE_FAST)
+    assert "cameron2020.extraction_bdf" not in executed        # Cameron is the common lens, not a ref
     for r in report["executed_reference_results"]:
-        assert r["status"] == "executed" and "not the common" in r["label"].lower()
+        assert "not the common" in r["label"].lower()
+        for o in r.get("outputs", []):
+            assert "unit" in o and "role" in o                 # native outputs carry units + roles
 
 
 def test_missing_runner_is_labelled_not_implemented_not_a_result(report):
