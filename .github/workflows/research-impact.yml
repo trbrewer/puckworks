@@ -1,0 +1,110 @@
+name: research-impact
+# Scheduled + dispatchable research-intake / registry-impact review (issue #46). Separated trust
+# boundaries:
+#   * pull_request  — contents:read ONLY. Validates the intake records + the radar config and computes
+#                     the deterministic impact report. Never writes an issue.
+#   * schedule/dispatch (trusted main) — uploads the deterministic JSON + Markdown report and appends at
+#                     most one dated comment per month to the standing issue #46 (issues:write). It runs
+#                     tools/research_impact.py only — it never authorizes implementation, never stores
+#                     full text or private locators, and creates no repeated issues.
+on:
+  pull_request:
+    paths:
+      - "docs/research/intake/**"
+      - "docs/research/radar_queries.yml"
+      - "docs/cards/**"
+      - "puckworks/models/__init__.py"
+      - "tools/research_impact.py"
+      - ".github/workflows/research-impact.yml"
+  schedule:
+    - cron: "0 14 * * 1"      # 14:00 UTC every Monday (intake+impact delta, per #46 §5A)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: research-impact-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  impact:
+    name: validate intake + compute the registry-impact report (read-only)
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --quiet -e ".[dev,radar]"
+      - name: radar config is valid
+        run: python tools/research_radar.py verify --config docs/research/radar_queries.yml
+      - name: intake records validate
+        run: python tools/research_impact.py validate
+      - name: compute the deterministic impact report (JSON + Markdown)
+        run: |
+          mkdir -p out/impact
+          python tools/research_impact.py report --format json --out out/impact/impact.json
+          python tools/research_impact.py report --format md   --out out/impact/impact.md
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: research-impact-report
+          path: out/impact/
+          if-no-files-found: error
+          retention-days: 30
+
+  report-to-issue:
+    name: monthly note to the standing intake/impact issue (trusted main only)
+    needs: impact
+    # Only from this repo's main, on schedule/dispatch, gated by a human opt-in variable for scheduled
+    # runs (a manual dispatch is an explicit human action and always runs). Never on a PR.
+    if: >-
+      github.repository == 'trbrewer/puckworks'
+      && github.ref == 'refs/heads/main'
+      && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+      && (github.event_name == 'workflow_dispatch' || vars.ENABLE_RESEARCH_IMPACT_NOTE == 'true')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --quiet -e ".[dev,radar]"
+      - name: compute the report
+        run: |
+          python tools/research_impact.py validate
+          python tools/research_impact.py report --format md --out impact.md
+      - name: append at most one dated note per month to issue #46
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('impact.md', 'utf8').slice(0, 60000);
+            const now = new Date();
+            const period = `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, '0')}`;
+            const marker = `<!-- research-impact:${period} -->`;
+            const issue_number = 46;
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner, repo: context.repo.repo, issue_number, per_page: 100,
+            });
+            if (comments.some(c => (c.body || '').includes(marker))) {
+              core.info('research-impact note already present for ' + period);
+              return;
+            }
+            const body = `${marker}\n## Research registry-impact — automated ${period}\n\n` +
+              `Read-only, deterministic. A disposition is NOT an implementation authorization; ` +
+              `no card/registry/model/claim was modified.\n\n` + report;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number, body });
+            core.info('appended research-impact note for ' + period);

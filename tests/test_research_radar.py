@@ -499,6 +499,47 @@ def test_required_any_anchor_filters_generic_hits():
     assert len(R.apply_required_any([off_topic, on_topic], [])) == 2
 
 
+# ── radar precision regression fixtures (issue #42/#46): relevant vs irrelevant classes ──
+def _cand(doi, title, abstract=""):
+    return R.Candidate("crossref", title, [], "2026-07-01", "2026-07-01", doi, None, None, None,
+                       abstract, "q")
+
+
+_RELEVANT = [
+    _cand("rel/espresso-extraction", "Kinetics of espresso extraction under pressure",
+          "coffee extraction yield and TDS versus flow"),
+    _cand("rel/porous-bed-infiltration", "Infiltration into a dry coffee puck",
+          "wetting front in an espresso packed bed"),
+    _cand("rel/espresso-telemetry", "An open dataset of espresso machine shot telemetry",
+          "pressure, flow, mass and temperature time series per coffee shot"),
+]
+_IRRELEVANT = [
+    _cand("irr/medical", "Solvent extraction of alkaloids from plasma",
+          "clinical pharmacokinetics of drug extraction"),
+    _cand("irr/petroleum", "Enhanced oil recovery in a sandstone reservoir",
+          "petroleum reservoir permeability and waterflooding"),
+    _cand("irr/iot", "A federated IoT telemetry platform for smart cities",
+          "edge sensor time series and cyber-defense digital twins"),
+]
+
+
+def test_coffee_anchor_keeps_relevant_and_drops_irrelevant_classes():
+    kept = {c.doi for c in R.apply_required_any(_RELEVANT + _IRRELEVANT, ["espresso", "coffee"])}
+    assert {c.doi for c in _RELEVANT} <= kept          # every relevant coffee paper survives
+    assert not ({c.doi for c in _IRRELEVANT} & kept)   # medical / petroleum / IoT all dropped
+
+
+def test_broad_porous_media_sensing_is_not_coffee_gated_in_the_shipped_config():
+    import pytest
+    yaml = pytest.importorskip("yaml")     # pyyaml is a dev/radar extra, not core (min-deps lane)
+    cfg = yaml.safe_load((_ROOT / "docs" / "research" / "radar_queries.yml").read_text())
+    q = {x["id"]: x for x in cfg["queries"]}
+    # the porous-media physics families stay BROAD (no required_any) so general poroelastic /
+    # infiltration / permeability papers are not missed just because 'coffee' is absent from the title
+    for fam in ("deformable-porous-media", "wetting-infiltration", "permeability-lattice-boltzmann"):
+        assert "required_any" not in q[fam], f"{fam} should not be coffee-gated"
+
+
 def test_shipped_config_required_any_validates():
     pytest.importorskip("yaml", reason="pyyaml is a radar/dev extra")
     cfg = R.load_config(_ROOT / "docs" / "research" / "radar_queries.yml")
