@@ -105,6 +105,20 @@ runner, or adapter; a release-readiness guard fails if a rights-blocked componen
 artifact. `capability_snapshot.reference_suite_coverage` lists runner *capabilities* honestly; only
 actually-executed references appear in `executed_reference_results`.
 
+## Reference-basis groundwork (a possible second lens)
+
+A second common-scenario lens would overlay another model's EY/TDS on Cameron's — meaningful only on the
+same quantity basis or through a **tested, inventory-conserving** conversion. `reference_basis` makes the
+basis a typed value (`QUANTITY_BASES`: `bed_volume` / `grain_volume` / `per_bed_cell` / `per_species` /
+`liquid_phase_profile` / `flow_trend` / …) and provides **fail-closed** conversion primitives: the only
+registered rule is the identity, so every cross-basis request raises `UnsupportedConversion` (no invented
+scale factor), and `assert_inventory_conserved` rejects any transform that does not conserve total solute
+inventory. Admissibility is therefore mechanical — `mo2023_2.coupled_bed` (per-bed-cell) and
+`pannusch2024.solver` (per-species) have no validated conversion, `romancorrochano2017.extraction` is a
+flow trend, and `grudeva2025.reduced` is rights-blocked (#73). **No candidate is admissible, so no second
+lens is added**; the ontology, validators, and audit are the deliverable. `python -m
+puckworks.product.reference_basis --format md` prints the readiness report.
+
 ## Native reference runner authority
 
 Each native reference runner reuses the component's authoritative producer callables **and** delegates its

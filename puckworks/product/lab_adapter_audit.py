@@ -81,13 +81,19 @@ def build_audit() -> dict:
     ev = {c.name: {"evidence_strength": c.evidence_strength, "validity_range": c.valid_range}
           for c in puckworks.components()}
     rows = []
+    from puckworks.product import reference_basis as rb
     for name in sorted(_extraction_candidates()):
         a = dict(_CANDIDATES.get(name, {"decision": "INSUFFICIENT_PROVENANCE",
                                         "reason": "no assessment on record; treat conservatively"}))
         a["component_id"] = name
         a["evidence_strength"] = ev.get(name, {}).get("evidence_strength")
         a["validity_range"] = ev.get(name, {}).get("validity_range")
+        # bind the prose decision to the machine-checked typed basis + admissibility (they cannot disagree)
+        readiness = rb.adapter_readiness(name)
+        a["quantity_basis"] = readiness["quantity_basis"]
+        a["admissible_as_second_lens"] = readiness["admissible_as_second_lens"]
         assert a["decision"] in DECISIONS
+        assert not (a["admissible_as_second_lens"] and a["decision"] != "READY_FOR_BOUNDED_ADAPTER")
         rows.append(a)
     rows.sort(key=lambda r: r["component_id"])
     ready = [r["component_id"] for r in rows if r["decision"] == "READY_FOR_BOUNDED_ADAPTER"]
@@ -124,6 +130,8 @@ def render_markdown(report: dict) -> str:
     lines += ["", "## Candidates", ""]
     for r in report["candidates"]:
         lines.append(f"### `{r['component_id']}` — **{r['decision']}**")
+        lines.append(f"- quantity basis (typed): `{r.get('quantity_basis')}` · admissible as second "
+                     f"lens: {r.get('admissible_as_second_lens')}")
         lines.append(f"- reference basis: {r.get('concentration_reference_basis')}")
         lines.append(f"- output definition: {r.get('output_definition')}")
         lines.append(f"- grind input: {r.get('grind_input')}")
