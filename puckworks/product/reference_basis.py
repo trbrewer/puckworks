@@ -155,10 +155,12 @@ def convert_inventory(values, from_basis: str, to_basis: str, *, cell_measures_f
 
 # ── second-lens admissibility (mechanical, from the typed basis + registered rules) ──
 def adapter_readiness(component_id: str) -> dict:
-    """Can this component be overlaid as a SECOND common-scenario (EY/TDS) lens on Cameron's basis? Only
-    if it shares Cameron's basis OR a validated inventory-conserving conversion to it is registered, and
-    its code is not rights-blocked for public execution. Rights are consumed from the centralized
-    use-specific policy; everything is derived — no prose judgement here."""
+    """DEPRECATED for readiness decisions — use ``quantity_semantics`` (which separates shared-scenario
+    EXECUTION readiness from output COMPARABILITY and treats per-species / flow-trend / profile as
+    non-denominator axes). Retained only for the fail-closed inventory-conversion machinery this module
+    still owns: it answers the narrow "can this be a SECOND EY/TDS overlay on Cameron's basis" question,
+    which requires the SAME basis or a validated inventory-conserving conversion, and non-blocked public
+    execution rights. Everything is derived — no prose judgement here."""
     from puckworks import rights
     spec = basis_of(component_id)
     exec_decision = rights.may_execute_in_public_batch(component_id)   # use-specific policy, not raw state
