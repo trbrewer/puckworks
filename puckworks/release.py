@@ -74,7 +74,6 @@ def release_readiness(tag, root=REPO_ROOT):
     changelog = (root / "CHANGELOG.md").read_text()
     if ver and ("## %s" % ver) not in changelog:
         problems.append("CHANGELOG.md has no '## %s' section" % ver)
-    problems += rights_release_problems(root)
     return problems
 
 
@@ -151,7 +150,14 @@ def main(argv=None):
     p.add_argument("cmd", choices=["build"], nargs="?", default="build")
     p.add_argument("--outdir", default=str(REPO_ROOT / "dist"))
     p.add_argument("--dirty-ok", action="store_true")
+    p.add_argument("--allow-rights-blocked", action="store_true",
+                   help="build despite a RIGHTS_BLOCKED component (only after an authorized removal)")
     a = p.parse_args(argv)
+    rights_problems = rights_release_problems()
+    if rights_problems and not a.allow_rights_blocked:
+        for prob in rights_problems:
+            print("RELEASE BLOCKED (rights): %s" % prob)
+        return 2
     build(a.outdir)
     twine_check(a.outdir)
     manifest = release_manifest(a.outdir, dirty_ok=a.dirty_ok)

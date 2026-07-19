@@ -96,16 +96,39 @@ def test_release_readiness_flags_blocked_component_in_the_package():
     assert any("grudeva2025.reduced" in p and "#73" in p for p in problems)
 
 
+def test_release_main_blocks_on_rights_without_building(monkeypatch):
+    import unittest.mock as mock
+
+    from puckworks import release
+    built = {"called": False}
+    monkeypatch.setattr(release, "build", lambda *a, **k: built.__setitem__("called", True))
+    monkeypatch.setattr(release, "twine_check", lambda *a, **k: None)
+    monkeypatch.setattr(release, "release_manifest", lambda *a, **k: {})
+    rc = release.main(["build"])
+    assert rc == 2 and built["called"] is False        # blocked before build, no artifact produced
+    # the authorized-removal override path still builds
+    with mock.patch.object(release, "rights_release_problems", return_value=[]):
+        built["called"] = False
+        monkeypatch.setattr(release, "release_manifest", lambda *a, **k: {"commit": "x", "dirty": False,
+                                                                          "python": "3", "artifacts": {}})
+        monkeypatch.setattr("pathlib.Path.write_text", lambda *a, **k: None)
+        assert release.main(["build"]) == 0
+
+
 def test_v030_history_and_model_numerics_untouched():
-    # v0.3.0 tree does NOT carry this session's rights banner -> history preserved (no rewrite)
+    # the component is still registered and gated (no deregistration; numerics unchanged)
+    comp = next(c for c in puckworks.components() if c.name == "grudeva2025.reduced")
+    assert comp.execution_role == "runtime" and len(comp.gates) == 2
+    # the v0.3.0 tag content is only present in a full checkout (CI quick lanes are shallow); when it
+    # is available, confirm history was NOT rewritten (the tag tree carries no session rights banner).
+    have_tag = subprocess.run(["git", "-C", str(_ROOT), "cat-file", "-e", "v0.3.0^{}"],
+                              capture_output=True).returncode == 0
+    if not have_tag:
+        pytest.skip("v0.3.0 tag content not present in this (shallow) checkout")
     old = subprocess.check_output(
         ["git", "-C", str(_ROOT), "show", "v0.3.0^{}:puckworks/models/grudeva2025/reduced.py"],
         text=True)
     assert "RIGHTS STATUS" not in old
-    # the component is still registered and gated (no deregistration; numerics unchanged)
-    comp = next(c for c in puckworks.components() if c.name == "grudeva2025.reduced")
-    assert comp.execution_role == "runtime" and len(comp.gates) == 2
-    # v0.3.0 tag still peels to the frozen commit
     peel = subprocess.check_output(["git", "-C", str(_ROOT), "rev-parse", "v0.3.0^{}"], text=True).strip()
     assert peel == "c5ab770b76ea2fb876c348ca48d802d604c112ca"
 
