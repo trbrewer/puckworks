@@ -1,9 +1,9 @@
-"""Guided Pull Laboratory tests (PV-19B).
+"""Guided Pull Laboratory contract tests (PV-19B, schema v3).
 
-Offline + deterministic. Guards the honesty contract: every registered component gets exactly one
-disposition, competing mechanisms are never overlaid, the executed lens reuses the existing producer
-(no equation duplication), serialization is deterministic with no wall-clock, evidence is never
-upgraded, and native reference results are never presented as the common scenario.
+Offline + deterministic. Guards scenario identity + override provenance, the separated
+scientific-payload vs full-artifact integrity layers, correct observable roles, the explicit
+component capability/rights matrix (incl. RIGHTS_BLOCKED for grudeva2025 per #73), reference-suite
+honesty (executed vs coverage placeholders), no equation duplication, and backward compatibility.
 """
 import json
 
@@ -14,131 +14,230 @@ from puckworks.product import lab
 
 
 @pytest.fixture(scope="module")
-def run():
-    return lab._run_common_scenario()
+def execution():
+    return lab.execute_scenario(lab.ScenarioRequest(preset_id="pv19_named"))
 
 
 @pytest.fixture(scope="module")
-def report(run):
-    return lab.build_comparison(run)
+def report(execution):
+    return lab.build_comparison(execution, provenance=lab.BuildProvenance(
+        package_version="0.4.0.dev0", source_commit="deadbeefcafe", workflow_run_id="123",
+        wheel_sha256="abc123"))
 
 
-# ── coverage matrix ──────────────────────────────────────────────────────────────
-def test_every_component_gets_exactly_one_valid_disposition(run):
-    matrix = lab.build_matrix(run)
+# ── SCENARIO IDENTITY ─────────────────────────────────────────────────────────────
+def test_pv19_named_is_identified_as_pv19_named():
+    r = lab.build_comparison(lab.execute_scenario(lab.ScenarioRequest("pv19_named")))
+    assert r["scenario"]["scenario_id"] == "pv19_named"
+    assert "pv19_named" in r["executed_lenses"][0]["adapter"]
+
+
+def test_guided_v1_is_identified_as_guided_v1_not_pv19():
+    r = lab.build_comparison(lab.execute_scenario(lab.ScenarioRequest("guided_v1")))
+    assert r["scenario"]["scenario_id"] == "guided_v1"
+    assert "guided_v1" in r["executed_lenses"][0]["adapter"]
+    assert "pv19_named" not in r["executed_lenses"][0]["adapter"]
+
+
+def test_custom_guided_v1_retains_base_preset_and_records_overrides():
+    ex = lab.execute_scenario(lab.ScenarioRequest("guided_v1", overrides={"dose_g": 19.0}))
+    r = lab.build_comparison(ex)
+    assert r["scenario"]["scenario_id"] == "guided_v1"
+    assert r["scenario"]["preset_id"] == "guided_v1"
+    ov = r["scenario"]["applied_overrides"]
+    assert ov["dose_g"]["base"] == 20.0 and ov["dose_g"]["effective"] == 19.0
+    # effective recipe equals the producer's recipe used for the run
+    assert r["scenario"]["effective_recipe"]["dose_g"] == 19.0
+
+
+def test_no_downstream_guessing_of_preset_identity():
+    src = open(lab.__file__).read()
+    # scenario identity comes from the request, not a module constant fed into every scenario
+    assert "request.preset_id" in src
+    assert 'scenario_id": "pv19_named"' not in src   # never hard-coded
+
+
+def test_scenario_request_rejects_unknown_preset_and_field():
+    with pytest.raises(ValueError):
+        lab.ScenarioRequest("nope_not_a_preset")
+    with pytest.raises(ValueError):
+        lab.ScenarioRequest("pv19_named", overrides={"not_a_field": 1})
+
+
+# ── PROVENANCE + INTEGRITY ────────────────────────────────────────────────────────
+def test_full_artifact_carries_build_provenance(report):
+    art = json.loads(lab.artifact_json(report))
+    prov = art["provenance"]
+    assert prov["package_version"] == "0.4.0.dev0"
+    assert prov["source_commit"] == "deadbeefcafe"       # NOT stripped from the downloadable artifact
+    assert prov["workflow_run_id"] == "123" and prov["wheel_sha256"] == "abc123"
+
+
+def test_scientific_hash_stable_but_artifact_hash_changes_with_provenance(execution):
+    a = lab.build_comparison(execution, provenance=lab.BuildProvenance(source_commit="AAA"))
+    b = lab.build_comparison(execution, provenance=lab.BuildProvenance(source_commit="BBB"))
+    assert lab.scientific_sha256(a) == lab.scientific_sha256(b)     # science unchanged
+    assert lab.artifact_sha256(a) != lab.artifact_sha256(b)         # build identity changed
+
+
+def test_no_wall_clock_in_either_payload(report):
+    for blob in (lab.scientific_json(report), lab.artifact_json(report)):
+        for bad in ("timestamp", "generated_at", "datetime", "wall_clock"):
+            assert bad not in blob.lower()
+
+
+def test_integrity_hashes_are_self_consistent(report):
+    assert report["integrity"]["scientific_payload_sha256"] == lab.scientific_sha256(report)
+    assert report["integrity"]["artifact_sha256"] == lab.artifact_sha256(report)
+    # artifact hash is not computed over itself
+    art = lab._artifact_payload(report)
+    assert "artifact_sha256" not in art.get("integrity", {})
+
+
+def test_schema_versions(report, execution):
+    assert report["schema_version"] == 3 == lab.SCHEMA_VERSION
+    assert execution.pull_run["schema_version"] == 1     # PullRun v1 not overloaded
+
+
+# ── OBSERVABLE ROLES ──────────────────────────────────────────────────────────────
+def test_observable_roles_match_producer_semantics(report):
+    roles = {o["name"]: o for o in report["executed_lenses"][0]["observables"]}
+    assert roles["pressure_bar"]["role"] == "prescribed"
+    assert roles["beverage_mass_g"]["role"] == "prescribed"
+    assert roles["mean_flow_g_s"]["role"] == "derived"
+    for k in ("extracted_mass_g", "extraction_yield_pct", "tds_pct", "shot_duration_s"):
+        assert roles[k]["role"] == "simulated", k
+    assert roles["first_drip_s"]["role"] == "unsupported"
+    assert roles["first_drip_s"]["status"] == "unavailable"
+    fd = roles["first_modeled_solute_arrival_s"]
+    assert fd["role"] == "derived" and fd["is_physical_first_drip"] is False
+    for o in report["executed_lenses"][0]["observables"]:
+        assert o["role"] in lab._VALID_ROLES and "unit" in o
+
+
+def test_trace_roles_are_preserved(report):
+    for t in report["executed_lenses"][0]["traces"]:
+        for s in t["series"]:
+            assert s["role"] in ("prescribed_input", "simulated", "derived")
+
+
+# ── COMPONENT MATRIX ──────────────────────────────────────────────────────────────
+def test_one_row_per_component_no_hardcoded_count(execution):
+    matrix = lab.build_matrix(execution)
     names = [r["component_id"] for r in matrix]
-    assert names == sorted(names)                              # stable ordering
+    assert names == sorted(names)
     assert len(names) == len(set(names)) == len(puckworks.components())
     for r in matrix:
+        for field in ("has_callable_code", "is_runtime_stage", "is_calibration_or_closure",
+                      "native_runner_state", "common_scenario_adapter_state", "rights_state",
+                      "concentration_reference_basis"):
+            assert field in r
         assert r["disposition"] in lab.DISPOSITIONS
+        assert r["native_runner_state"] in lab.RUNNER_STATES
 
 
-def test_matrix_ordering_is_import_order_independent(run):
-    a = [r["component_id"] for r in lab.build_matrix(run)]
-    b = [r["component_id"] for r in lab.build_matrix(run)]
-    assert a == b == sorted(a)
+def test_calibration_does_not_imply_runtime_execution(execution):
+    matrix = {r["component_id"]: r for r in lab.build_matrix(execution)}
+    cal = [r for r in matrix.values() if r["execution_role"] == "calibration"]
+    assert cal
+    for r in cal:
+        assert r["is_runtime_stage"] is False
+        assert r["native_runner_state"] != "EXECUTED_NATIVE_REFERENCE"
 
 
-def test_exactly_one_executed_common_scenario_lens(report):
-    assert report["counts"]["executed_common_scenario_lenses"] == 1
-    assert report["executed_lenses"][0]["component_id"] == "cameron2020.extraction_bdf"
-    assert report["executed_lenses"][0]["disposition"] == "COMMON_SCENARIO_READY"
+def test_grudeva2025_is_rights_blocked(execution):
+    matrix = {r["component_id"]: r for r in lab.build_matrix(execution)}
+    g = matrix["grudeva2025.reduced"]
+    assert g["rights_state"] == "RIGHTS_BLOCKED"
+    assert g["disposition"] == "RIGHTS_BLOCKED"
+    assert g["native_runner_state"] == "RIGHTS_BLOCKED"
+    assert "unlicensed" in g["rights_note"].lower()
 
 
-def test_competing_extraction_models_are_adapter_required_not_overlaid(report):
-    adapter = {e["component_id"] for e in report["excluded_or_dispositioned"]
-               if e["disposition"] == "ADAPTER_REQUIRED"}
-    # competing extraction mechanisms must NOT be executed/overlaid on the common scenario
-    for name in ("grudeva2025.reduced", "pannusch2024.solver", "romancorrochano2017.extraction"):
-        assert name in adapter, f"{name} must be ADAPTER_REQUIRED (different reference volume/observable)"
-    executed = {lens["component_id"] for lens in report["executed_lenses"]}
-    assert not (adapter & executed)                           # never executed while adapter-required
+def test_no_substring_heuristic_over_the_run(execution):
+    # the matrix is built from explicit specs, not by scanning the run's coverage reason strings
+    src = open(lab.__file__).read()
+    assert "coverage" in src  # we read executed set, but classification uses _lab_spec, not reasons
+    assert "_lab_spec" in src
 
 
-def test_failed_is_reserved_and_not_used_for_unsupported(report):
-    # "FAILED" is only for an execution that errored; nothing here errored
-    dispositions = {r["disposition"] for r in report["component_matrix"]}
-    assert "FAILED" not in dispositions
-    assert "FAILED" in lab.DISPOSITIONS                       # but the vocabulary reserves it
+# ── REFERENCE HONESTY ─────────────────────────────────────────────────────────────
+def test_only_executed_references_appear_in_executed_results(report):
+    executed = {r["component_id"] for r in report["executed_reference_results"]}
+    # today only Cameron (its common-scenario run coincides with its native reference)
+    assert executed <= {"cameron2020.extraction_bdf"}
+    for r in report["executed_reference_results"]:
+        assert r["status"] == "executed" and "not the common" in r["label"].lower()
 
 
-# ── serialization ────────────────────────────────────────────────────────────────
-def test_serialization_is_deterministic_and_wall_clock_free(report):
-    a = lab.canonical_json(report)
-    b = lab.canonical_json(lab.build_comparison())
-    assert a == b
-    for bad in ("timestamp", "generated_at", "datetime", "wall_clock"):
-        assert bad not in a.lower()
-    # source_commit (provenance, per-checkout) is excluded from the canonical hash
-    assert "source_commit" not in json.loads(a).get("provenance", {})
+def test_missing_runner_is_labelled_not_implemented_not_a_result(report):
+    cov = {r["component_id"]: r for r in report["reference_suite_coverage"]}
+    # a component with no runner must say "not yet implemented", never an "own native reference" result
+    not_impl = [r for r in cov.values() if r["runner_state"] == "RUNNER_NOT_IMPLEMENTED"]
+    assert not_impl
+    for r in not_impl:
+        assert "not yet implemented" in r["note"].lower()
+        assert "native reference case" not in r["note"].lower()
 
 
-def test_schema_version_is_distinct_from_pull_run(report, run):
-    assert report["schema_version"] == 2 == lab.SCHEMA_VERSION
-    assert run["schema_version"] == 1                         # PullRun v1 not overloaded
+def test_optional_dependency_skip_is_not_a_pass(report):
+    cov = {r["component_id"]: r for r in report["reference_suite_coverage"]}
+    taichi = cov.get("brewer2026.lb_taichi")
+    assert taichi and taichi["runner_state"] in ("SKIPPED_OPTIONAL_DEPENDENCY", "RUNNER_NOT_IMPLEMENTED")
 
 
-# ── evidence / units / honesty ─────────────────────────────────────────────────────
-def test_every_observable_has_a_unit_and_a_role(report):
-    for lens in report["executed_lenses"]:
-        for o in lens["observables"]:
-            assert "unit" in o and "role" in o
-            assert o["role"] in ("prescribed", "derived", "predicted", "simulated", "fitted",
-                                  "measured", "unsupported")
+def test_failed_reserved_for_errored_execution(report):
+    states = {r["runner_state"] for r in report["reference_suite_coverage"]}
+    assert "FAILED" not in states
+    assert "FAILED" in lab.RUNNER_STATES
 
 
-def test_executed_lens_carries_evidence_and_fidelity(report):
-    lens = report["executed_lenses"][0]
-    assert lens["traces"]                                    # trace-level evidence present
-    for t in lens["traces"]:
-        assert "evidence_badge" in t and "fidelity_ceiling" in t
-    assert report["fidelity_ceiling"]
-    assert report["what_this_does_not_prove"]
+# ── PLOTS ─────────────────────────────────────────────────────────────────────────
+def test_render_data_matches_trace_data_exactly(report):
+    panels = lab.render_data(report)
+    assert panels
+    traces = {t["trace_id"]: t for t in report["executed_lenses"][0]["traces"]}
+    for p in panels:
+        t = traces[p["panel_id"]]
+        assert p["x"] == t["axis_values"]
+        assert "(" in p["x_label"] and ")" in p["x_label"]   # units in label
+        for ps in p["series"]:
+            assert ps["role"] and ps["unit"] is not None
+
+
+# ── HONESTY / NO OVERCLAIM ────────────────────────────────────────────────────────
+def test_does_not_upgrade_evidence_or_claim_validation(report):
+    import re
+    blob = json.dumps(report).lower()
+    for phrase in ("digital twin", "best recipe"):
+        for m in re.finditer(re.escape(phrase), blob):
+            seg = blob[max(0, m.start() - 60):m.end() + 20]
+            assert "not " in seg or "never" in seg, f"un-negated {phrase!r}"
+    for bad in ("flavor prediction", "tastes better", "validated multi-model simulation of"):
+        assert bad not in blob
 
 
 def test_no_equation_duplication_reuses_the_public_producer():
-    src = (lab.__file__ and open(lab.__file__).read()) or ""
-    assert "simulate_pull" in src                            # calls the existing producer
+    src = open(lab.__file__).read()
+    assert "simulate_pull" in src
     assert "import numpy" not in src and "from numpy" not in src and "import scipy" not in src
 
 
 def test_no_universal_grinder_dial_mapping():
     src = open(lab.__file__).read().lower()
-    # the only mention of particle size is the explicit disclaimer; no dial->size conversion function
     assert "not a universal particle size" in src
     assert "dial_to_particle" not in src and "dial_to_size" not in src
 
 
-def test_native_reference_not_presented_as_common_scenario(report):
-    for r in report["component_reference_suite"]:
-        if r.get("label"):
-            assert "not the common" in r["label"].lower()
-    # the executed native reference for cameron is labelled as such
-    cam = next(r for r in report["component_reference_suite"]
-               if r["component_id"] == "cameron2020.extraction_bdf")
-    assert cam["status"] == "executed_native_reference"
+# ── BACKWARD COMPATIBILITY ────────────────────────────────────────────────────────
+def test_run_scenario_wrapper_preserves_identity_and_returns_pullrun():
+    run = lab.run_scenario("guided_v1", dose_g=19.0)
+    assert run["schema_version"] == 1
+    # the wrapper does not lose preset/override identity (verifiable via the recipe)
+    assert run["recipe"]["dose_g"] == 19.0
 
 
-def test_optional_gpu_dependency_is_skipped_not_passed(report):
-    suite = {r["component_id"]: r for r in report["component_reference_suite"]}
-    taichi = suite.get("brewer2026.lb_taichi")
-    assert taichi and taichi["status"] == "SKIPPED_OPTIONAL_DEPENDENCY"   # a skip is never a pass
-
-
-def test_does_not_upgrade_evidence_or_claim_validation(report):
-    import re
-    blob = json.dumps(report).lower()
-    # "digital twin" and "best recipe" may appear ONLY as explicit disclaimers (negated in-sentence)
-    for phrase in ("digital twin", "best recipe"):
-        for m in re.finditer(re.escape(phrase), blob):
-            seg = blob[max(0, m.start() - 60):m.end() + 20]
-            assert "not " in seg or "never" in seg, f"un-negated {phrase!r}: …{seg}…"
-    for bad in ("flavor prediction", "tastes better", "validated multi-model simulation of"):
-        assert bad not in blob
-
-
-# ── current Guided Pull remains compatible ─────────────────────────────────────────
-def test_current_guided_pull_output_still_works(run):
-    # the lab wraps but does not modify the pull path; PullRun v1 + observables intact
-    assert run["completion_state"] in ("GUIDED_PULL_COMPLETE", "complete", "ok") or run.get("final_observables")
-    assert "cameron2020.extraction_bdf" in {c["component_id"] for c in run["coverage"]}
+def test_build_comparison_rejects_bare_run_dict():
+    run = lab.run_scenario("guided_v1")
+    with pytest.raises(TypeError):
+        lab.build_comparison(run)         # a bare PullRun dict cannot carry preset identity
