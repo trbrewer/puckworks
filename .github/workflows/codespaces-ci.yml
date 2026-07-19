@@ -44,11 +44,16 @@ jobs:
               LAB_OUT_DIR=/tmp/lab python tools/lab_batch.py
             python - <<'PY'
             import json
+            from puckworks.product import lab
             a = json.load(open("/tmp/lab/guided_pull_lab.json"))
             assert a["scenario"]["scenario_id"] == "guided_v1", a["scenario"]["scenario_id"]
             assert a["provenance"]["source_commit"], "artifact missing source_commit provenance"
-            assert a["integrity"]["scientific_payload_sha256"]
+            # schema v4: three recomputed integrity layers, and tamper detection
+            for k in ("scientific_payload_sha256", "capability_snapshot_sha256", "artifact_sha256"):
+                assert a["integrity"][k], k
+            assert lab.verify_integrity(a)["ok"], "integrity self-check failed"
             assert a["counts"]["executed_native_references"] >= 3
+            assert a["domain"]["producer_executed"] is True
             print("comparison smoke OK:", a["scenario"]["scenario_id"],
                   "sci", a["integrity"]["scientific_payload_sha256"][:12])
             PY
