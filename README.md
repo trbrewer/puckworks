@@ -185,6 +185,14 @@ rather than validating the whole model.
 
 <!-- puckworks-data-inventory:end -->
 
+### Experimental data Puckworks needs
+
+Puckworks has explicit measurement **campaigns** — the datasets that would move a model from *reproduced*
+to *independently validated* and unlock new adapters. Community data can genuinely unlock validation.
+See [`docs/EXPERIMENTAL_DATA_NEEDS.md`](docs/EXPERIMENTAL_DATA_NEEDS.md) and propose or submit via the
+[experimental-data issue form](.github/ISSUE_TEMPLATE/experimental-data-submission.yml). A data submission
+never auto-authorizes a model or an evidence upgrade.
+
 ## How Puckworks checks its work
 
 Each model keeps a visible connection to the paper, dataset, assumptions, units, and conditions it came

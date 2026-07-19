@@ -1,0 +1,371 @@
+# Puckworks experimental-data campaigns (machine-readable catalog).
+#
+# Deterministic ordering by campaign_id. Every campaign names at least one model / gate / adapter
+# decision / evidence claim it would inform, and every structured measurement-agenda blocker
+# (quantity_semantics.measurement_agenda) is mapped to a campaign here (or explicitly deferred).
+#
+# NO measured value, sample size, sampling rate, sensor tolerance, or acceptance threshold is invented.
+# Where such a value is not yet known it is recorded as one of: DESIGN_CALCULATION_REQUIRED,
+# SENSOR_SELECTION_REQUIRED, PILOT_REQUIRED. Validate with: python tools/experimental_data_needs.py verify
+schema_version: 1
+evidence_levels:
+  - protocol_only
+  - feasibility_pilot
+  - controlled_replicated
+  - holdout_independent
+  - cross_condition_replication
+campaigns:
+  - campaign_id: EXP-001
+    title: Synchronized whole-shot telemetry and cup chemistry
+    status: proposed
+    priority: 1
+    scientific_question: >-
+      Does the guided-pull / Cameron chain reproduce the measured pressure/flow/mass time histories and
+      the final TDS/EY for a bounded shot on one machine + coffee?
+    decision_enabled: validation of cameron2020.extraction_bdf against independent whole-shot observations
+    target_components: [cameron2020.extraction_bdf]
+    target_gates: [gate_cameron_conservation]
+    quantity_definitions: [cameron.extraction_yield]
+    required_observables:
+      - {name: elapsed_time, unit: s, reference_basis: not_applicable}
+      - {name: basket_pressure, unit: bar, reference_basis: not_applicable}
+      - {name: beverage_mass, unit: g, reference_basis: not_applicable}
+      - {name: flow_rate, unit: g/s, reference_basis: not_applicable}
+      - {name: brew_temperature, unit: degC, reference_basis: not_applicable}
+      - {name: final_tds, unit: "%", reference_basis: beverage_mass}
+      - {name: final_extraction_yield, unit: "%", reference_basis: dry_coffee_mass}
+    required_metadata: [dose_g, target_beverage_g, grinder_id, grinder_setting, basket_id, coffee_lot_id]
+    prescribed_vs_measured:
+      - prescribed_pressure_vs_measured_pressure
+      - scale_derived_flow_vs_directly_measured_flow
+      - target_beverage_mass_vs_achieved_beverage_mass
+    design_factors: [dose_g, grinder_setting]
+    controls: [fixed machine, fixed coffee lot per block]
+    replication_design_status: DESIGN_CALCULATION_REQUIRED
+    instrument_requirements: SENSOR_SELECTION_REQUIRED
+    calibration_requirements: [pressure sensor pre/post, scale calibration mass]
+    synchronization_requirements: [single monotonic clock or documented per-signal offset]
+    raw_file_schema: shot_timeseries.csv + shot_metadata.csv
+    processed_file_schema: derived per-shot summary (separate from raw)
+    uncertainty_requirements: PILOT_REQUIRED
+    quality_control_checks: [monotonic time, non-negative mass, achieved vs target within recorded tolerance]
+    preregistered_analysis: PILOT_REQUIRED
+    acceptance_calculation: DESIGN_CALCULATION_REQUIRED
+    holdout_requirement: predeclared holdout shots before any fitting
+    current_evidence: feasibility_pilot
+    evidence_gap: no synchronized independent whole-shot dataset with cup chemistry is in the registry
+    evidence_ceiling: single machine/coffee validation is not a universal claim
+    measurement_agenda_blockers: []
+    related_issues: ["#70", "#48"]
+    code_rights_expectation: contributor-owned raw data; Puckworks code MIT
+    data_rights_expectation: contributor grants a redistribution licence (CC BY 4.0 or CC0 preferred)
+    output_rights_expectation: derived gates/plots redistributable once the dataset licence permits
+    recommended_repository: Zenodo or OSF with a DOI
+    data_license_status: REQUIRED_FROM_CONTRIBUTOR
+    submission_instructions: open an experimental-data proposal issue, then submit metadata + external DOI
+
+  - campaign_id: EXP-002
+    title: Initially dry puck infiltration and physical first drip
+    status: proposed
+    priority: 1
+    scientific_question: >-
+      Does the parameter-free Foster infiltration front bracket the physically observed first drip, kept
+      distinct from the first modeled solute arrival?
+    decision_enabled: validation of foster2025.infiltration; clean-room inputs for the future #67 scope
+    target_components: [foster2025.infiltration]
+    target_gates: [gate_infiltration_triangle]
+    quantity_definitions: []
+    required_observables:
+      - {name: inlet_pressure, unit: bar, reference_basis: not_applicable}
+      - {name: outlet_mass, unit: g, reference_basis: not_applicable}
+      - {name: physical_first_drip_time, unit: s, reference_basis: not_applicable}
+      - {name: bed_height, unit: m, reference_basis: not_applicable}
+      - {name: initial_dry_mass, unit: g, reference_basis: not_applicable}
+      - {name: initial_moisture, unit: "%", reference_basis: dry_coffee_mass}
+      - {name: porosity_estimate, unit: "-", reference_basis: not_applicable}
+    required_metadata: [bed_diameter, headspace_config, brew_temperature, grinder_id]
+    prescribed_vs_measured: [independent_first_drip_detector_vs_first_modeled_solute_arrival]
+    design_factors: [pressure_profile]
+    controls: [initially dry bed, recorded machine config]
+    replication_design_status: DESIGN_CALCULATION_REQUIRED
+    instrument_requirements: SENSOR_SELECTION_REQUIRED
+    calibration_requirements: [first-drip detector latency characterization]
+    synchronization_requirements: [drip detector synchronized to the pressure/mass clock]
+    raw_file_schema: shot_timeseries.csv + shot_metadata.csv
+    processed_file_schema: per-shot first-drip + saturation summary
+    uncertainty_requirements: PILOT_REQUIRED
+    quality_control_checks: [monotonic time, first drip after flow onset]
+    preregistered_analysis: PILOT_REQUIRED
+    acceptance_calculation: DESIGN_CALCULATION_REQUIRED
+    holdout_requirement: predeclared holdout fixtures
+    current_evidence: feasibility_pilot
+    evidence_gap: only one DE1 fixture is in the registry; no replicated independent first-drip dataset
+    evidence_ceiling: sign/compatibility bracket, not a point prediction
+    measurement_agenda_blockers: []
+    related_issues: ["#70", "#67"]
+    code_rights_expectation: contributor-owned raw data; Puckworks code MIT
+    data_rights_expectation: contributor grants a redistribution licence
+    output_rights_expectation: derived gates redistributable once the dataset licence permits
+    recommended_repository: Zenodo or OSF with a DOI
+    data_license_status: REQUIRED_FROM_CONTRIBUTOR
+    submission_instructions: open an experimental-data proposal issue, then submit metadata + external DOI
+
+  - campaign_id: EXP-003
+    title: Grinder-specific particle-size, packing, and permeability map
+    status: proposed
+    priority: 1
+    scientific_question: >-
+      For a specific grinder, how do particle-size metrics, packing, and permeability relate — so an
+      adapter can map a grinder setting to physics WITHOUT a universal dial->size assumption?
+    decision_enabled: >-
+      validation of wadsworth2026 grind/permeability; defensible per-grinder input adapters (e.g. the
+      EK43-dial input needed by pannusch2024.solver)
+    target_components: [wadsworth2026.permeability, wadsworth2026.grindmap]
+    target_gates: [gate_wadsworth_collapse]
+    quantity_definitions: []
+    required_observables:
+      - {name: particle_size_distribution, unit: um, reference_basis: not_applicable}
+      - {name: fines_fraction, unit: "%", reference_basis: dry_coffee_mass}
+      - {name: dry_dose, unit: g, reference_basis: not_applicable}
+      - {name: bed_porosity, unit: "-", reference_basis: not_applicable}
+      - {name: permeability, unit: m^2, reference_basis: not_applicable}
+      - {name: pressure_flow_curve, unit: "bar; g/s", reference_basis: not_applicable}
+    required_metadata: [grinder_make_model, burr_geometry, burr_wear_state, dial_zero_method, roast_metadata]
+    prescribed_vs_measured: [dial_setting_vs_measured_particle_size]
+    design_factors: [grinder_setting, operator, day]
+    controls: [fixed tamp procedure, fixed bed dimensions]
+    replication_design_status: DESIGN_CALCULATION_REQUIRED
+    instrument_requirements: SENSOR_SELECTION_REQUIRED
+    calibration_requirements: [particle sizer calibration, flow/pressure calibration]
+    synchronization_requirements: [not applicable for the static permeability test]
+    raw_file_schema: apparatus.yml + permeability_test.csv + psd.csv
+    processed_file_schema: per-setting permeability + PSD summary
+    uncertainty_requirements: PILOT_REQUIRED
+    quality_control_checks: [monotonic pressure ramp, PSD sums to unity within tolerance]
+    preregistered_analysis: PILOT_REQUIRED
+    acceptance_calculation: DESIGN_CALCULATION_REQUIRED
+    holdout_requirement: predeclared holdout grinder settings/days
+    current_evidence: controlled_replicated
+    evidence_gap: no per-grinder dial->physics map with repeatability across days/operators
+    evidence_ceiling: grinder-specific; a dial is never a universal particle size
+    measurement_agenda_blockers: ["pannusch2024.solver#1"]
+    related_issues: ["#70"]
+    code_rights_expectation: contributor-owned raw data; Puckworks code MIT
+    data_rights_expectation: contributor grants a redistribution licence
+    output_rights_expectation: derived maps redistributable once the dataset licence permits
+    recommended_repository: Zenodo or OSF with a DOI
+    data_license_status: REQUIRED_FROM_CONTRIBUTOR
+    submission_instructions: open an experimental-data proposal issue, then submit metadata + external DOI
+
+  - campaign_id: EXP-004
+    title: Poroelastic deformation, pressure, and flow
+    status: proposed
+    priority: 2
+    scientific_question: Does measured puck displacement/strain under a pressure cycle match a poroelastic coupling?
+    decision_enabled: independent test of waszkiewicz2025.poroelastic coupling
+    target_components: [waszkiewicz2025.poroelastic]
+    target_gates: [gate_waszkiewicz_static_refit, gate_waszkiewicz_dynamic_9bar]
+    quantity_definitions: []
+    required_observables:
+      - {name: pressure, unit: bar, reference_basis: not_applicable}
+      - {name: flow_rate, unit: g/s, reference_basis: not_applicable}
+      - {name: puck_displacement, unit: mm, reference_basis: not_applicable}
+      - {name: bed_porosity, unit: "-", reference_basis: not_applicable}
+      - {name: final_tds, unit: "%", reference_basis: beverage_mass}
+    required_metadata: [bed_diameter, dose_g, pressure_cycle_history]
+    prescribed_vs_measured: [measured_displacement_vs_inferred_porosity_change]
+    design_factors: [pressure_cycle]
+    controls: [fixed bed geometry, recorded rebrew where feasible]
+    replication_design_status: DESIGN_CALCULATION_REQUIRED
+    instrument_requirements: SENSOR_SELECTION_REQUIRED
+    calibration_requirements: [displacement sensor calibration]
+    synchronization_requirements: [displacement synchronized to pressure/flow clock]
+    raw_file_schema: shot_timeseries.csv + shot_metadata.csv
+    processed_file_schema: per-cycle displacement summary
+    uncertainty_requirements: PILOT_REQUIRED
+    quality_control_checks: [monotonic time, bounded displacement]
+    preregistered_analysis: PILOT_REQUIRED
+    acceptance_calculation: DESIGN_CALCULATION_REQUIRED
+    holdout_requirement: predeclared holdout cycles
+    current_evidence: feasibility_pilot
+    evidence_gap: no independent puck-displacement dataset under a controlled pressure cycle
+    evidence_ceiling: single rig; within-rig reconstruction
+    measurement_agenda_blockers: []
+    related_issues: ["#70"]
+    code_rights_expectation: contributor-owned raw data; Puckworks code MIT
+    data_rights_expectation: contributor grants a redistribution licence
+    output_rights_expectation: derived gates redistributable once the dataset licence permits
+    recommended_repository: Zenodo or OSF with a DOI
+    data_license_status: REQUIRED_FROM_CONTRIBUTOR
+    submission_instructions: open an experimental-data proposal issue, then submit metadata + external DOI
+
+  - campaign_id: EXP-005
+    title: Time-dependent bed-mechanism discrimination (kappa(t))
+    status: proposed
+    priority: 2
+    scientific_question: Which time-dependent bed mechanism best explains kappa(t) — see the existing protocol.
+    decision_enabled: mechanism discrimination for the coupled-bed / swelling components
+    target_components: [mo2023_2.swelling, brewer2026.coupled_kappa_t]
+    target_gates: [gate_mo2_swelling_flow_decay, gate_kappa_t_degeneracy]
+    quantity_definitions: []
+    required_observables:
+      - {name: pressure, unit: bar, reference_basis: not_applicable}
+      - {name: flow_rate, unit: g/s, reference_basis: not_applicable}
+      - {name: depth_resolved_porosity, unit: "-", reference_basis: not_applicable}
+    required_metadata: [protocol_ref, intervention_type]
+    prescribed_vs_measured: [flow_reversal_response_vs_baseline]
+    design_factors: [intervention_type]
+    controls: [spent-puck rebrew reference]
+    replication_design_status: PILOT_REQUIRED
+    instrument_requirements: SENSOR_SELECTION_REQUIRED
+    calibration_requirements: [documented in docs/PROTOCOL_kappa_t_discrimination.md]
+    synchronization_requirements: [documented in the protocol]
+    raw_file_schema: shot_timeseries.csv + intervention_metadata.csv
+    processed_file_schema: per-intervention kappa(t) summary
+    uncertainty_requirements: PILOT_REQUIRED
+    quality_control_checks: [monotonic time]
+    preregistered_analysis: see docs/PROTOCOL_kappa_t_discrimination.md
+    acceptance_calculation: DESIGN_CALCULATION_REQUIRED
+    holdout_requirement: predeclared holdout interventions
+    current_evidence: protocol_only
+    evidence_gap: no kappa(t) discrimination dataset exists yet (protocol proposed only)
+    evidence_ceiling: discriminates mechanisms; does not by itself validate a full shot model
+    measurement_agenda_blockers: []
+    related_issues: ["#70"]
+    code_rights_expectation: contributor-owned raw data; Puckworks code MIT
+    data_rights_expectation: contributor grants a redistribution licence
+    output_rights_expectation: derived gates redistributable once the dataset licence permits
+    recommended_repository: Zenodo or OSF with a DOI
+    data_license_status: REQUIRED_FROM_CONTRIBUTOR
+    submission_instructions: see docs/PROTOCOL_kappa_t_discrimination.md then the proposal issue
+
+  - campaign_id: EXP-006
+    title: Species-resolved fractional extraction
+    status: proposed
+    priority: 1
+    scientific_question: >-
+      Do common-scenario models reproduce species-specific extraction timing across timed beverage
+      fractions?
+    decision_enabled: >-
+      validation of pannusch2024 / romancorrochano2017 / native chemistry; enables a per-species input
+      mapping for pannusch2024.solver
+    target_components: [pannusch2024.solver, romancorrochano2017.extraction]
+    target_gates: [gate_pannusch_solver_mape]
+    quantity_definitions: [pannusch.species_concentration, romancorrochano.extraction_trend]
+    required_observables:
+      - {name: fraction_boundary_time, unit: s, reference_basis: not_applicable}
+      - {name: fraction_mass, unit: g, reference_basis: not_applicable}
+      - {name: fraction_tds, unit: "%", reference_basis: beverage_mass}
+      - {name: named_species_mass, unit: mg, reference_basis: beverage_volume}
+      - {name: dry_coffee_inventory, unit: g, reference_basis: not_applicable}
+    required_metadata: [analytical_method, calibration_curves, detection_limits, recovery, sample_handling]
+    prescribed_vs_measured: [measured_species_mass_vs_modeled_single_pool]
+    design_factors: [fraction_count]
+    controls: [whole-cup mass balance vs summed fractions]
+    replication_design_status: DESIGN_CALCULATION_REQUIRED
+    instrument_requirements: SENSOR_SELECTION_REQUIRED
+    calibration_requirements: [analytical calibration curves per species]
+    synchronization_requirements: [fraction boundaries logged against the shot clock]
+    raw_file_schema: fraction_metadata.csv + chemistry_measurements.csv
+    processed_file_schema: per-species fractional extraction summary
+    uncertainty_requirements: PILOT_REQUIRED
+    quality_control_checks: [summed fraction mass matches cup mass within tolerance, species recovery bounded]
+    preregistered_analysis: PILOT_REQUIRED
+    acceptance_calculation: DESIGN_CALCULATION_REQUIRED
+    holdout_requirement: predeclared holdout shots
+    current_evidence: feasibility_pilot
+    evidence_gap: no timed, species-resolved fractional dataset with a documented analytical method
+    evidence_ceiling: analytical-platform dependent; species set limited by lab capability
+    measurement_agenda_blockers: ["pannusch2024.solver#0"]
+    related_issues: ["#70"]
+    code_rights_expectation: contributor-owned raw data; Puckworks code MIT
+    data_rights_expectation: contributor grants a redistribution licence
+    output_rights_expectation: derived gates redistributable once the dataset licence permits
+    recommended_repository: Zenodo or OSF with a DOI
+    data_license_status: REQUIRED_FROM_CONTRIBUTOR
+    submission_instructions: open an experimental-data proposal issue, then submit metadata + external DOI
+
+  - campaign_id: EXP-007
+    title: Spatial flow/channeling and local extraction
+    status: proposed
+    priority: 2
+    scientific_question: >-
+      How heterogeneous is extraction across the bed (edge/center, depth), and does it match streamtube /
+      bed-cell predictions?
+    decision_enabled: >-
+      test bed heterogeneity for brewer2026.streamtube and the bed-cell inventory boundary that
+      mo2023_2.coupled_bed requires
+    target_components: [brewer2026.streamtube, mo2023_2.coupled_bed]
+    target_gates: [gate_streamtube_heldout]
+    quantity_definitions: [mo.cell_concentration]
+    required_observables:
+      - {name: segmented_outlet_mass, unit: g, reference_basis: local_cell_volume}
+      - {name: local_extraction, unit: "%", reference_basis: dry_coffee_mass}
+      - {name: local_porosity, unit: "-", reference_basis: not_applicable}
+      - {name: pressure, unit: bar, reference_basis: not_applicable}
+    required_metadata: [segmentation_geometry, invasiveness_note]
+    prescribed_vs_measured: [edge_vs_center_extraction]
+    design_factors: [radial_region, depth_region]
+    controls: [whole-cup mass balance vs summed regions]
+    replication_design_status: DESIGN_CALCULATION_REQUIRED
+    instrument_requirements: SENSOR_SELECTION_REQUIRED
+    calibration_requirements: [segmentation collection calibration]
+    synchronization_requirements: [regional collection logged against the shot clock]
+    raw_file_schema: segmented_collection.csv + shot_metadata.csv
+    processed_file_schema: per-region local extraction summary
+    uncertainty_requirements: PILOT_REQUIRED
+    quality_control_checks: [summed regional mass matches cup mass within tolerance]
+    preregistered_analysis: PILOT_REQUIRED
+    acceptance_calculation: DESIGN_CALCULATION_REQUIRED
+    holdout_requirement: predeclared holdout regions/shots
+    current_evidence: feasibility_pilot
+    evidence_gap: no spatially resolved local-extraction dataset with an honest invasiveness account
+    evidence_ceiling: spatial resolution is limited and can be invasive
+    measurement_agenda_blockers: ["mo2023_2.coupled_bed#0"]
+    related_issues: ["#70"]
+    code_rights_expectation: contributor-owned raw data; Puckworks code MIT
+    data_rights_expectation: contributor grants a redistribution licence
+    output_rights_expectation: derived gates redistributable once the dataset licence permits
+    recommended_repository: Zenodo or OSF with a DOI
+    data_license_status: REQUIRED_FROM_CONTRIBUTOR
+    submission_instructions: open an experimental-data proposal issue, then submit metadata + external DOI
+
+  - campaign_id: EXP-008
+    title: Cross-machine, cross-grinder, cross-coffee replication
+    status: proposed
+    priority: 2
+    scientific_question: How far do validated single-rig results transfer across machines, grinders, and coffees?
+    decision_enabled: transfer/generalization limits; prevents single-rig validation becoming a universal claim
+    target_components: [cameron2020.extraction_bdf]
+    target_gates: [gate_cameron_conservation]
+    quantity_definitions: [cameron.extraction_yield]
+    required_observables:
+      - {name: final_tds, unit: "%", reference_basis: beverage_mass}
+      - {name: final_extraction_yield, unit: "%", reference_basis: dry_coffee_mass}
+      - {name: beverage_mass, unit: g, reference_basis: not_applicable}
+    required_metadata: [machine_id, grinder_id, coffee_lot_id, complete equipment metadata]
+    prescribed_vs_measured: [predeclared_holdout_combinations]
+    design_factors: [machine, grinder, coffee_lot]
+    controls: [held-out machine/grinder/coffee combinations declared before fitting]
+    replication_design_status: DESIGN_CALCULATION_REQUIRED
+    instrument_requirements: SENSOR_SELECTION_REQUIRED
+    calibration_requirements: [per-site calibration records]
+    synchronization_requirements: [per-site clock discipline documented]
+    raw_file_schema: shot_metadata.csv across sites
+    processed_file_schema: cross-condition transfer summary
+    uncertainty_requirements: PILOT_REQUIRED
+    quality_control_checks: [complete per-site metadata present]
+    preregistered_analysis: PILOT_REQUIRED
+    acceptance_calculation: DESIGN_CALCULATION_REQUIRED
+    holdout_requirement: predeclared holdout machine/grinder/coffee combinations
+    current_evidence: protocol_only
+    evidence_gap: no multi-site replicated dataset with predeclared holdouts
+    evidence_ceiling: transfer is bounded by the conditions actually sampled
+    measurement_agenda_blockers: []
+    related_issues: ["#70", "#42"]
+    code_rights_expectation: contributor-owned raw data; Puckworks code MIT
+    data_rights_expectation: contributor grants a redistribution licence
+    output_rights_expectation: derived gates redistributable once the dataset licence permits
+    recommended_repository: Zenodo or OSF with a DOI
+    data_license_status: REQUIRED_FROM_CONTRIBUTOR
+    submission_instructions: open an experimental-data proposal issue, then submit metadata + external DOI
