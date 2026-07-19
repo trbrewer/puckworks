@@ -16,9 +16,16 @@ def test_every_runner_targets_a_registered_component():
         assert cid in names
 
 
-def test_at_least_three_runners_declared():
-    assert len(lr.RUNNERS) >= 3
-    assert set(lr.INTERACTIVE_FAST) == set(lr.RUNNERS)   # all fast today
+def test_runners_declared_with_honest_runtime_classes():
+    assert len(lr.RUNNERS) >= 4
+    # INTERACTIVE_FAST is the runtime-fast SUBSET, not every runner: the LB channel verification is a
+    # genuine multi-second solve, classified batch-only (never loosened to look fast).
+    assert set(lr.INTERACTIVE_FAST) <= set(lr.RUNNERS)
+    assert "brewer2026.lb_reference" not in lr.INTERACTIVE_FAST
+    assert lr.runtime_class("brewer2026.lb_reference") == "batch-only"
+    # the three source-data reference runners remain interactive-fast
+    assert set(lr.INTERACTIVE_FAST) == {"waszkiewicz2025.poroelastic", "wadsworth2026.permeability",
+                                        "foster2025.infiltration"}
 
 
 def test_no_model_equation_in_runner_module():

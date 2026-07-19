@@ -83,8 +83,43 @@ def foster_first_drip_summary() -> dict:
     }
 
 
+def lb_reference_channel_summary() -> dict:
+    """Plane-channel LB code-verification summary (full precision). The component solves its OWN canonical
+    synthetic channel once (no third-party dataset) and reports the simulated lattice permeability against
+    the exact plane-Poiseuille reference k = h^2/12. The gate (gate_lb_channel) independently owns the
+    acceptance band; this producer never re-derives that threshold. Deterministic."""
+    from puckworks.models.brewer2026 import lb_reference as lb
+    case = dict(lb.CHANNEL_VERIFICATION_CASE)
+    v = lb.channel_verification(**case)                  # canonical shared computation (no threshold here)
+    fluid_nodes = case["Nz"] - 2                          # resolved fluid width between the two bounce-back walls
+    return {
+        "native_inputs": [
+            {"name": "lattice_dimensions", "value": f"{case['N']}x{case['N']}x{case['Nz']}",
+             "unit": "lattice nodes", "provenance": "synthetic plane channel constructed in code; no dataset"},
+            {"name": "resolved_fluid_node_count", "value": fluid_nodes, "unit": "lattice nodes",
+             "provenance": "channel width between the two full-way bounce-back walls"},
+            {"name": "body_force_g", "value": case["g"], "unit": "lattice units",
+             "provenance": "constant body force in +x (documented lattice units)"},
+            {"name": "relaxation_tau_plus", "value": case["tau_plus"], "unit": "dimensionless",
+             "provenance": "TRT symmetric relaxation time (magic Lambda = 3/16 fixes the wall location)"},
+            {"name": "max_iterations", "value": case["max_steps"], "unit": "iterations",
+             "provenance": "solver iteration ceiling"},
+            {"name": "convergence_check_interval", "value": case["check"], "unit": "iterations",
+             "provenance": "steps between Darcy-velocity convergence checks"},
+            {"name": "convergence_tolerance", "value": case["rtol"], "unit": "dimensionless",
+             "provenance": "relative Darcy-velocity convergence tolerance"}],
+        "values": {"k_meas": v["k_meas"], "k_exact": v["k_exact"], "err_pct": v["err_pct"],
+                   "converged": v["converged"], "steps": v["steps"], "max_steps": v["max_steps"]},
+        "gate": "gate_lb_channel",
+        "case": case,
+        "method": "solve the canonical synthetic plane channel once; compare the lattice permeability to "
+                  "the exact plane-Poiseuille k = h^2/12; the pass/fail band is the authoritative gate",
+    }
+
+
 SUMMARIES: dict = {
     "waszkiewicz2025.poroelastic": waszkiewicz_static_summary,
     "wadsworth2026.permeability": wadsworth_collapse_summary,
     "foster2025.infiltration": foster_first_drip_summary,
+    "brewer2026.lb_reference": lb_reference_channel_summary,
 }

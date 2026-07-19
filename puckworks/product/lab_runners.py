@@ -172,7 +172,38 @@ def _run_foster_infiltration() -> dict:
     }
 
 
+def _run_lb_reference_channel() -> dict:
+    from puckworks.product import lab_reference_producers as P
+    s = P.lb_reference_channel_summary()
+    v = s["values"]
+    gate = _gate(s["gate"])                             # the abs(err) < 0.5% acceptance band lives in the gate
+    return {
+        "native_inputs": s["native_inputs"],
+        "outputs": [
+            _out("simulated_lattice_permeability", v["k_meas"], "lattice units", "simulated"),
+            _out("analytic_plane_poiseuille_permeability", v["k_exact"], "lattice units",
+                 "analytic_reference"),
+            _out("relative_error_pct", v["err_pct"], "percent", "derived"),
+            _out("converged", v["converged"], "boolean", "derived"),
+            _out("iterations_completed", v["steps"], "iterations", "derived"),
+            _out("verification_within_gate_band", bool(gate["passed"]), "boolean", "derived",
+                 note="the abs(err) < 0.5% acceptance band is defined by gate_lb_channel, not this runner")],
+        "gate_authority": {"gate": s["gate"], "verdict": gate},
+        "method": s["method"],
+        "fidelity_ceiling": (
+            "Synthetic plane-channel numerical code verification. This result does not validate porous "
+            "coffee-bed physics, predict espresso extraction, establish experimental accuracy, or provide "
+            "a directly comparable beverage metric."),
+        "assumptions": ["D3Q19 TRT (magic Lambda = 3/16)", "full-way bounce-back walls", "Stokes regime",
+                        "synthetic plane channel; analytic plane-Poiseuille reference"],
+        "caveat": "this is the component's native LB channel code-verification case, not the common scenario",
+    }
+
+
 RUNNERS: dict[str, tuple] = {
+    "brewer2026.lb_reference": (
+        RunnerSpec("lb_reference_channel", "1", "brewer2026.lb_reference", "batch-only"),
+        _run_lb_reference_channel),
     "waszkiewicz2025.poroelastic": (
         RunnerSpec("waszkiewicz_static_reference", "1", "waszkiewicz2025.poroelastic",
                    "interactive-fast"), _run_waszkiewicz_static),

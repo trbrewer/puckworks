@@ -98,7 +98,22 @@ def channel_verification(Nz=33, N=4, g=1e-6, tau_plus=1.2, max_steps=20000, chec
     """Solve the plane channel ONCE and return the full-precision code-verification summary against the
     exact plane-Poiseuille permeability k = h^2/12 (h = Nz - 2, the half-voxel wall spacing). No pass/fail
     threshold is applied here (that is gate_lb_channel's sole authority). Deterministic: no randomness, so
-    two identical calls return identical numbers."""
+    two identical calls return identical numbers.
+
+    Inputs are validated (never silently coerced): lattice dimensions and iteration counts must be
+    positive ints; g/tau_plus/rtol must be positive finite numbers; tau_plus > 0.5 keeps the viscosity
+    nu = (tau_plus - 0.5)/3 positive; Nz >= 3 leaves at least one fluid node between the two walls."""
+    import math
+    for nm, val in (("Nz", Nz), ("N", N), ("max_steps", max_steps), ("check", check)):
+        if isinstance(val, bool) or not isinstance(val, int) or val <= 0:
+            raise ValueError(f"channel_verification: {nm} must be a positive int, got {val!r}")
+    if Nz < 3:
+        raise ValueError(f"channel_verification: Nz must be >= 3 (two walls + >=1 fluid node), got {Nz}")
+    for nm, val in (("g", g), ("tau_plus", tau_plus), ("rtol", rtol)):
+        if isinstance(val, bool) or not isinstance(val, (int, float)) or not math.isfinite(val) or val <= 0:
+            raise ValueError(f"channel_verification: {nm} must be a positive finite number, got {val!r}")
+    if tau_plus <= 0.5:
+        raise ValueError(f"channel_verification: tau_plus must be > 0.5 (positive viscosity), got {tau_plus}")
     solid = np.zeros((N, N, Nz), dtype=bool)
     solid[:, :, 0] = True; solid[:, :, -1] = True
     r = solve(solid, g=g, tau_plus=tau_plus, max_steps=max_steps, check=check, rtol=rtol, verbose=False)
