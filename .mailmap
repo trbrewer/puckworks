@@ -1,0 +1,6 @@
+# Canonical commit identity mapping (does NOT rewrite history; git shortlog/log --use-mailmap apply it).
+# The erroneous historical identity (the moontowerrisk address, associated with the m00ntower GitHub
+# account) and a bare-username variant are canonicalized to Tim Brewer's current address. GitHub's web
+# contributor graph is NOT changed by .mailmap — that requires an account-level email reassociation.
+Tim Brewer <t_r_brewer@hotmail.com> <tim.brewer@moontowerrisk.com>
+Tim Brewer <t_r_brewer@hotmail.com> trbrewer <t_r_brewer@hotmail.com>

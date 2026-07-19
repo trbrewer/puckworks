@@ -147,6 +147,48 @@ def check_readme(*, components=None) -> list:
         if _BRAND.search(line):
             problems.append(f"README:{i} contains the former corporate contact/brand")
 
+    # (8) software authorship is consistent + the erroneous historical identity is not current
+    problems += _author_problems(text)
+
+    return problems
+
+
+# the two software authors (see AUTHORS.md / CITATION.cff / pyproject); an erroneous historical commit
+# identity that must NOT appear as a current author/contributor in any maintained metadata surface.
+SOFTWARE_AUTHORS = ("Tim Brewer", "Peter Vonk")
+# PUCKWORKS-IDENTITY-GUARD-ALLOW: this module names the erroneous identity on purpose (it guards it).
+_STALE_IDENTITY = re.compile(r"m00ntower|moontower", re.I)
+
+
+def _author_problems(readme_text: str) -> list:
+    problems: list = []
+    # both software authors named in the README
+    for a in SOFTWARE_AUTHORS:
+        if a not in readme_text:
+            problems.append(f"README does not name software author {a!r}")
+    # AUTHORS.md names both
+    authors_md = (_REPO / "AUTHORS.md")
+    at = authors_md.read_text(encoding="utf-8") if authors_md.exists() else ""
+    if not authors_md.exists():
+        problems.append("AUTHORS.md is missing")
+    for a in SOFTWARE_AUTHORS:
+        if a not in at:
+            problems.append(f"AUTHORS.md does not name software author {a!r}")
+    # CITATION.cff and pyproject software authors AGREE (both list Tim Brewer + Peter Vonk)
+    cff = (_REPO / "CITATION.cff").read_text(encoding="utf-8") if (_REPO / "CITATION.cff").exists() else ""
+    pyproject = (_REPO / "pyproject.toml").read_text(encoding="utf-8") \
+        if (_REPO / "pyproject.toml").exists() else ""
+    for a in SOFTWARE_AUTHORS:
+        if a.split()[0] not in cff or a.split()[-1] not in cff:
+            problems.append(f"CITATION.cff does not list software author {a!r}")
+        if a not in pyproject:
+            problems.append(f"pyproject.toml [project].authors does not list {a!r}")
+    # the erroneous historical identity must not appear as a CURRENT author/contributor surface
+    for label, blob in (("README", readme_text), ("AUTHORS.md", at), ("CITATION.cff", cff),
+                        ("pyproject.toml", pyproject)):
+        if _STALE_IDENTITY.search(blob):
+            problems.append(f"{label} names the erroneous historical identity as current "
+                            "(it belongs only in .mailmap)")
     return problems
 
 

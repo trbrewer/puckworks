@@ -355,10 +355,11 @@ These cards are Puckworks-authored technical notes, not peer-reviewed papers.
 
 <!-- puckworks-references:end -->
 
-## Cite and license
+## Developers and citation
 
-Please cite via [`CITATION.cff`](CITATION.cff). Puckworks is released under the
-[MIT License](LICENSE).
+Puckworks is co-developed by **Tim Brewer** ([@trbrewer](https://github.com/trbrewer)) and
+**Peter Vonk**. See [`AUTHORS.md`](AUTHORS.md) for what software authorship does and does not imply, and
+cite the software via [`CITATION.cff`](CITATION.cff).
 
-Puckworks is independently developed and is not affiliated with or sponsored by any employer or
-company. Contact: t_r_brewer@hotmail.com.
+Puckworks is released under the [MIT License](LICENSE). It is independently developed and is not
+affiliated with or sponsored by any employer or company. Contact: t_r_brewer@hotmail.com.

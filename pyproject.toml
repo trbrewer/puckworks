@@ -4,6 +4,12 @@ version = "0.4.0.dev0"
 description = "Evidence-first espresso process modeling: papers become typed components, components face validation gates, and every conclusion retains its limits"
 readme = "README.md"
 license = {file = "LICENSE"}
+# Software authors / co-developers (see AUTHORS.md + CITATION.cff). Software authorship is NOT the same
+# as authorship on any specific technical manuscript, which is maintained separately.
+authors = [
+    { name = "Tim Brewer", email = "t_r_brewer@hotmail.com" },
+    { name = "Peter Vonk" },
+]
 # Supported Python: 3.10 (oldest) .. 3.13 (newest); 3.12 is the primary/release interpreter.
 # All three are exercised in the quick-pr CI matrix.
 requires-python = ">=3.10"
