@@ -1104,14 +1104,34 @@ def assert_unit_safe(panel: dict) -> dict:
     return panel
 
 
+def assert_semantic_safe(panels: list) -> list:
+    """Semantic panel safety across a panel set: same unit is necessary but NOT sufficient to share a
+    panel. Two panels with the same panel_id must not carry different semantic groups (reference basis +
+    unit), and each panel is internally unit-safe. Rejects a collision rather than silently merging."""
+    by_id: dict[str, str] = {}
+    for p in panels:
+        assert_unit_safe(p)
+        pid, grp = p.get("panel_id"), p.get("semantic_group")
+        if pid in by_id and by_id[pid] != grp:
+            raise ValueError(f"panel_id {pid!r} collides across semantic groups "
+                             f"{by_id[pid]!r} vs {grp!r} (same unit is not sufficient to share a panel)")
+        by_id[pid] = grp
+    return panels
+
+
 def render_data(report: dict) -> list:
     """Return **unit-safe** plot-ready panels straight from the artifact's trace data. Each source trace
-    is split into one panel PER UNIT, so a single y-axis never mixes incompatible units; same-unit series
-    legitimately share an axis. Units + roles are preserved (no science recalculated here). Panels are
-    emitted in a deterministic (trace, unit) order."""
+    is split into one panel PER UNIT, so a single y-axis never mixes incompatible units. The panel id is
+    **component-qualified** (`component::trace::unit`) so identical trace ids from two components never
+    collide, and it carries a semantic grouping id (the component's reference basis + unit) so two
+    same-unit series on different reference bases cannot land in one panel. No science recalculated here."""
+    from puckworks.product import reference_basis as rb
     panels = []
     for lens in report["executed_lenses"]:
+        cid = lens["component_id"]
+        basis = rb.basis_of(cid).quantity_basis
         for t in lens["traces"]:
+            tcid = t["component_id"]
             by_unit: dict = {}
             order: list = []
             for s in t["series"]:
@@ -1125,9 +1145,11 @@ def render_data(report: dict) -> list:
             for u in order:
                 series = by_unit[u]
                 panel = {
-                    "panel_id": f"{t['trace_id']}::{_unit_slug(u)}", "trace_id": t["trace_id"],
-                    "component_id": t["component_id"], "unit": u,
-                    "title": f"{t['component_id']}: {t['observable']} [{u}]",
+                    "panel_id": f"{tcid}::{t['trace_id']}::{_unit_slug(u)}", "trace_id": t["trace_id"],
+                    "component_id": tcid, "unit": u,
+                    "semantic_group": f"{basis}::{_unit_slug(u)}",   # basis + unit; not unit alone
+                    "reference_basis": basis,
+                    "title": f"{tcid}: {t['observable']} [{u}]",
                     "x_label": f"{t['axis_label']} ({t['axis_unit']})",
                     "y_label": f"{t['observable']} ({u})", "x": t["axis_values"],
                     "series": [{"label": s["label"] or s["series_id"], "unit": s["unit"],

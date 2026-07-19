@@ -61,6 +61,43 @@ def _apply_preset():
         st.session_state[k] = v
 
 
+def build_request(preset_id, overrides, state) -> "lab.ScenarioRequest":
+    """Build a ScenarioRequest from the UI state (pure; unit-testable; no Streamlit dependency). Selected
+    ids are honoured only under the 'selected' policy — the request validates the combination."""
+    kw = dict(preset_id=preset_id, overrides=overrides,
+              domain_policy=state.get("domain_policy", "warn"),
+              lens_selection_policy=state.get("lens_policy", "primary"),
+              reference_selection_policy=state.get("ref_policy", "interactive_fast"))
+    if kw["lens_selection_policy"] == "selected":
+        kw["requested_lens_ids"] = tuple(state.get("selected_lens_ids") or ())
+    if kw["reference_selection_policy"] == "selected":
+        kw["requested_reference_runner_ids"] = tuple(state.get("selected_ref_ids") or ())
+    return lab.ScenarioRequest(**kw)
+
+
+def selection_preview(request) -> dict:
+    """What WILL run for this request, BEFORE execution: the selected lens ids + their readiness, rights
+    eligibility, and runtime class; and the resolved reference ids. A model is never executed merely
+    because it is available."""
+    from puckworks import rights
+    from puckworks.product import lab_runners
+    considered = lab.resolve_lens_selection(request)
+    lenses = []
+    for cid in considered:
+        state, ready, reason = lab.lens_readiness(cid)
+        lenses.append({"component_id": cid, "adapter_readiness": state, "will_execute": ready,
+                       "local_execution_allowed": rights.may_execute_locally(cid).allowed,
+                       "public_execution_allowed": rights.may_execute_in_public_batch(cid).allowed,
+                       "reason": reason})
+    refs = lab._resolve_reference_component_ids(request)
+    ref_rows = [{"component_id": c, "has_runner": lab_runners.has_runner(c),
+                 "runtime_class": lab_runners.runtime_class(c) if lab_runners.has_runner(c) else None,
+                 "rights_blocked": rights.is_code_rights_blocked(c)} for c in refs]
+    return {"lens_selection_policy": request.lens_selection_policy, "lenses": lenses,
+            "reference_selection_policy": request.reference_selection_policy, "references": ref_rows,
+            "note": "availability is not selection; a lens executes only if ready + in-domain"}
+
+
 def main():
     st.set_page_config(page_title="Guided Pull Laboratory", page_icon="☕", layout="wide")
     st.title("Guided Pull Laboratory")
@@ -88,6 +125,19 @@ def main():
         st.selectbox("Domain policy", ["warn", "strict"], key="domain_policy",
                      help="strict: an evidence-range departure blocks execution before the producer runs; "
                           "warn: the run completes with the departure flagged.")
+        st.header("Model lens selection")
+        st.selectbox("Lens selection policy", list(lab.LENS_SELECTION_POLICIES), key="lens_policy",
+                     help="primary: Cameron only · all_ready: every ready adapter · selected: choose · "
+                          "none: run no common-scenario model.")
+        st.multiselect("Selected lenses (only under 'selected')",
+                       [c.name for c in __import__("puckworks").components()], key="selected_lens_ids",
+                       help="A component with no adapter is surfaced as REQUESTED_BUT_NOT_EXECUTABLE.")
+        st.header("Native reference selection")
+        st.selectbox("Reference selection policy", list(lab.REFERENCE_SELECTION_POLICIES),
+                     key="ref_policy", index=1)
+        from puckworks.product import lab_runners as _lr
+        st.multiselect("Selected native references (only under 'selected')", _lr.available_runners(),
+                       key="selected_ref_ids")
         st.button("Reset to preset", on_click=_apply_preset)
         run_clicked = st.button("Run comparison", type="primary")
 
@@ -101,8 +151,14 @@ def main():
     overrides = {k: float(st.session_state[k]) for k in BOUNDS
                  if abs(float(st.session_state[k]) - base[k]) > 1e-9}
     try:
-        request = lab.ScenarioRequest(preset_id=preset_id, overrides=overrides,
-                                      domain_policy=st.session_state.get("domain_policy", "warn"))
+        request = build_request(preset_id, overrides, st.session_state)
+    except Exception as exc:
+        st.error(f"Invalid selection: {type(exc).__name__}: {exc}")
+        return
+    # pre-execution preview: what WILL run (a model does not run merely because it is available)
+    st.subheader("Selection preview (before execution)")
+    st.json(selection_preview(request))
+    try:
         execution = lab.execute_scenario(request)
     except Exception as exc:                              # useful message, never a stack dump
         st.error(f"Could not run the scenario: {type(exc).__name__}: {exc}")
