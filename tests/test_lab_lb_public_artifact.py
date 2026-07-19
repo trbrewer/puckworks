@@ -7,7 +7,6 @@ or default public request, a Grudeva selection, or an unreviewed selection still
 producer, and the LB clearance never propagates to another component.
 """
 import json
-import os
 
 import pytest
 
