@@ -28,7 +28,7 @@ _CANDIDATES = {
                                          "bed-volume basis — a justified per-species->pool collapse AND "
                                          "a reference-basis reconciliation are both required and untested",
         "output_definition": "multi-species (caffeine/trigonelline/CGA) — not the single pool Cameron reports",
-        "rights": "clear (post-fit reconstruction; published)",
+        "rights_note": "post-fit reconstruction; published article",
         "runtime": "measure before admitting (potentially batch-only)",
         "reason": "outputs are per-species on a different reference basis; comparison needs a tested "
                   "inventory-conserving conversion + a justified collapse — do NOT overlay yet",
@@ -39,7 +39,7 @@ _CANDIDATES = {
         "grind_input": "grain-scale microstructural diffusion; no dial mapping",
         "concentration_reference_basis": "supplies a flow *trend*, not absolute yield on Cameron's basis",
         "output_definition": "relative extraction trend (sign/compatibility evidence), not absolute EY/TDS",
-        "rights": "clear",
+        "rights_note": "published article",
         "runtime": "fast",
         "reason": "the model provides a trend, not an absolute EY/TDS on a comparable basis; overlaying "
                   "it as a second EY/TDS lens would be an evidence upgrade",
@@ -52,7 +52,7 @@ _CANDIDATES = {
                                          "an inventory-conserving conversion to Cameron's bed-volume basis "
                                          "is required and untested",
         "output_definition": "bed-depth-resolved; cup mass < ~30 g validity",
-        "rights": "clear",
+        "rights_note": "published article",
         "runtime": "measure before admitting",
         "reason": "per-bed-cell concentration needs a tested inventory scale before any overlay",
     },
@@ -62,7 +62,7 @@ _CANDIDATES = {
         "grind_input": "n/a",
         "concentration_reference_basis": "grain-volume incl. internal pores — differs from Cameron",
         "output_definition": "n/a",
-        "rights": "RIGHTS_BLOCKED — self-documented port of unlicensed upstream code (issue #73)",
+        "rights_note": "self-documented port of unlicensed upstream code (issue #73)",
         "runtime": "n/a",
         "reason": "rights unresolved (#73); excluded from lens consideration entirely",
     },
@@ -88,6 +88,13 @@ def build_audit() -> dict:
         a["component_id"] = name
         a["evidence_strength"] = ev.get(name, {}).get("evidence_strength")
         a["validity_range"] = ev.get(name, {}).get("validity_range")
+        # rights come from the centralized registry (never a hard-coded 'clear' in this module)
+        from puckworks import rights as _rights
+        rec = _rights.rights_record(name)
+        a["code_rights_state"] = rec.code_rights_state
+        a["data_rights_state"] = rec.data_rights_state
+        a["output_redistribution_state"] = rec.output_redistribution_state
+        a["public_execution_allowed"] = _rights.may_execute_in_public_batch(name).allowed
         # bind the prose decision to the machine-checked typed basis + admissibility (they cannot disagree)
         readiness = rb.adapter_readiness(name)
         a["quantity_basis"] = readiness["quantity_basis"]
@@ -136,8 +143,11 @@ def render_markdown(report: dict) -> str:
         lines.append(f"- output definition: {r.get('output_definition')}")
         lines.append(f"- grind input: {r.get('grind_input')}")
         lines.append(f"- temperature/flow: {r.get('temperature_flow')}")
-        lines.append(f"- rights: {r.get('rights')} · runtime: {r.get('runtime')} · "
-                     f"evidence: {r.get('evidence_strength')}")
+        lines.append(f"- rights (code/data/output): `{r.get('code_rights_state')}` / "
+                     f"`{r.get('data_rights_state')}` / `{r.get('output_redistribution_state')}` "
+                     f"(public execution allowed: {r.get('public_execution_allowed')}) — "
+                     f"{r.get('rights_note','')}")
+        lines.append(f"- runtime: {r.get('runtime')} · evidence: {r.get('evidence_strength')}")
         lines.append(f"- **reason:** {r.get('reason')}")
         lines.append("")
     lines += ["## Conclusion", "", report["conclusion"], "",

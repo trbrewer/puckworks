@@ -151,10 +151,12 @@ def convert_inventory(values, from_basis: str, to_basis: str, *, cell_measures_f
 def adapter_readiness(component_id: str) -> dict:
     """Can this component be overlaid as a SECOND common-scenario (EY/TDS) lens on Cameron's basis? Only
     if it shares Cameron's basis OR a validated inventory-conserving conversion to it is registered, and
-    its code rights are not blocked. Everything is derived — no prose judgement here."""
+    its code is not rights-blocked for public execution. Rights are consumed from the centralized
+    use-specific policy; everything is derived — no prose judgement here."""
     from puckworks import rights
     spec = basis_of(component_id)
-    rights_blocked = rights.is_code_rights_blocked(component_id)
+    exec_decision = rights.may_execute_in_public_batch(component_id)   # use-specific policy, not raw state
+    rights_blocked = exec_decision.severity == "blocked"
     same_basis = spec.quantity_basis == COMMON_LENS_BASIS
     rule = conversion_rule(spec.quantity_basis, COMMON_LENS_BASIS)
     has_validated_conversion = bool(rule and rule.validated and spec.quantity_basis != COMMON_LENS_BASIS)

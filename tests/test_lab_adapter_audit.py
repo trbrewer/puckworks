@@ -30,7 +30,10 @@ def test_no_candidate_is_ready_and_no_second_lens_is_invented():
 def test_grudeva_is_rights_blocked_in_the_audit():
     report = aa.build_audit()
     g = next(r for r in report["candidates"] if r["component_id"] == "grudeva2025.reduced")
-    assert g["decision"] == "RIGHTS_BLOCKED" and "#73" in g["rights"]
+    # rights now come from the centralized registry (no hard-coded "clear"/prose "rights" field)
+    assert g["decision"] == "RIGHTS_BLOCKED"
+    assert g["code_rights_state"] == "RIGHTS_BLOCKED" and g["public_execution_allowed"] is False
+    assert "#73" in g["rights_note"]
 
 
 def test_audit_is_deterministic():

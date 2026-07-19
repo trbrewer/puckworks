@@ -77,30 +77,50 @@ def release_readiness(tag, root=REPO_ROOT):
     return problems
 
 
+def _module_present(root: Path, component_id: str) -> bool:
+    pkg = component_id.split(".")[0]
+    return (root / "puckworks/models" / pkg).exists() or any(
+        root.glob("puckworks/models/%s/*.py" % pkg))
+
+
 def rights_release_problems(root=REPO_ROOT):
-    """A newly approved release artifact must not include any code-rights-BLOCKED component (issue #73).
-    Returns a problem per blocked component whose module file is still present under the package tree.
-    NOT_REVIEWED is a visible gap, not a block. This surfaces the exact component + decision issue."""
+    """A newly approved release artifact must not include any component whose CODE is not cleared for
+    release inclusion (`rights.may_include_code_in_release` -> severity 'blocked'). Returns a problem per
+    such component whose module is still present under the package tree. There is NO override flag: an
+    authorized removal makes this pass because the blocked module is gone, not by a 'build anyway' bypass.
+    NOT_REVIEWED is a reported gap (see rights_release_gaps), not a hard block."""
     root = Path(root)
     try:
         from puckworks import rights
-        records = rights.all_rights()
+        registered = [c.name for c in __import__("puckworks").components()]
     except Exception as exc:                       # pragma: no cover - import guard
         return ["could not evaluate rights guard: %r" % exc]
     problems = []
-    for rec in records:
-        if not rec.is_code_blocked:
-            continue
-        mod_path = root / (rec.component_id.split(".")[0] and
-                           "puckworks/models/%s" % rec.component_id.split(".")[0])
-        present = mod_path.exists() or any(
-            root.glob("puckworks/models/%s/*.py" % rec.component_id.split(".")[0]))
-        if present:
+    for cid in sorted(registered):
+        decision = rights.may_include_code_in_release(cid)
+        if decision.severity == "blocked" and _module_present(root, cid):
+            rec = rights.rights_record(cid)
             problems.append(
-                "RIGHTS_BLOCKED component %r would enter the release artifact (module under "
-                "puckworks/models/%s/); resolve %s before releasing"
-                % (rec.component_id, rec.component_id.split(".")[0], rec.decision_issue or "the rights review"))
+                "code-rights-blocked component %r would enter the release artifact (module under "
+                "puckworks/models/%s/); resolve %s before releasing (no override flag exists — an "
+                "authorized removal makes this pass)"
+                % (cid, cid.split(".")[0], rec.decision_issue or "the rights review"))
     return problems
+
+
+def rights_release_gaps(root=REPO_ROOT):
+    """Components present in the tree whose code rights are a reported GAP (NOT_REVIEWED /
+    RIGHTS_REVIEW_REQUIRED) for release inclusion. Not a hard block — surfaced so release readiness
+    reports the gap explicitly rather than silently passing."""
+    root = Path(root)
+    from puckworks import rights
+    registered = [c.name for c in __import__("puckworks").components()]
+    gaps = []
+    for cid in sorted(registered):
+        decision = rights.may_include_code_in_release(cid)
+        if decision.severity == "gap" and _module_present(root, cid):
+            gaps.append("%s (%s)" % (cid, decision.governing_state))
+    return gaps
 
 
 def build(outdir, root=REPO_ROOT):
@@ -150,14 +170,16 @@ def main(argv=None):
     p.add_argument("cmd", choices=["build"], nargs="?", default="build")
     p.add_argument("--outdir", default=str(REPO_ROOT / "dist"))
     p.add_argument("--dirty-ok", action="store_true")
-    p.add_argument("--allow-rights-blocked", action="store_true",
-                   help="build despite a RIGHTS_BLOCKED component (only after an authorized removal)")
     a = p.parse_args(argv)
+    # Rights guard: hard-block only on code not cleared for release inclusion. There is NO generic
+    # bypass flag — an authorized removal makes this pass by removing the blocked module.
     rights_problems = rights_release_problems()
-    if rights_problems and not a.allow_rights_blocked:
+    if rights_problems:
         for prob in rights_problems:
             print("RELEASE BLOCKED (rights): %s" % prob)
         return 2
+    for gap in rights_release_gaps():           # reported, not silently passed
+        print("RELEASE RIGHTS GAP (not a block; review owed): %s" % gap)
     build(a.outdir)
     twine_check(a.outdir)
     manifest = release_manifest(a.outdir, dirty_ok=a.dirty_ok)

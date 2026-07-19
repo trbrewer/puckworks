@@ -13,6 +13,7 @@ This module runs no git subprocess and imports the registry lazily to avoid an i
 from __future__ import annotations
 
 import dataclasses
+import re
 
 # finite project rights vocabulary
 RIGHTS_STATES = (
@@ -27,6 +28,18 @@ RIGHTS_STATES = (
 
 # states that must block new Lab execution / runners / adapters / release inclusion
 _BLOCKING = {"RIGHTS_BLOCKED"}
+# affirmative clearances — the ONLY states that positively permit a public/outward or release use
+_AFFIRMATIVE = {"CLEAR", "PERMISSION_DOCUMENTED", "INDEPENDENT_REIMPLEMENTATION"}
+# a determination is on record but is not a positive clearance (a visible gap, never "clear")
+_GAP = {"NOT_REVIEWED", "RIGHTS_REVIEW_REQUIRED"}
+
+_ISO_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+
+# finite use vocabulary for the use-specific policy layer
+RIGHTS_USES = (
+    "local_execution", "public_batch_execution", "output_publication",
+    "code_in_release", "data_in_release",
+)
 
 
 @dataclasses.dataclass(frozen=True)
@@ -39,12 +52,31 @@ class RightsRecord:
     source: str = ""                # evidence for the determination (non-private)
     decision_issue: str = ""
     review_date: str = ""           # ISO date the determination was made (empty if never reviewed)
+    permission: dict = dataclasses.field(default_factory=dict)  # non-private permission metadata summary
+    tombstone: bool = False         # a record for a removed component (registry existence not required)
+
+    _STATE_FIELDS = ("code_rights_state", "data_rights_state", "output_redistribution_state")
 
     def __post_init__(self):
-        for field in ("code_rights_state", "data_rights_state", "output_redistribution_state"):
-            v = getattr(self, field)
-            if v not in RIGHTS_STATES:
+        states = [getattr(self, f) for f in self._STATE_FIELDS]
+        for field, v in zip(self._STATE_FIELDS, states):
+            if v not in RIGHTS_STATES:                   # rejects any lowercase/local vocabulary too
                 raise ValueError(f"{self.component_id}: {field}={v!r} not in RIGHTS_STATES")
+        if self.review_date and not _ISO_DATE.match(self.review_date):
+            raise ValueError(f"{self.component_id}: review_date {self.review_date!r} is not ISO YYYY-MM-DD")
+        # a reviewed determination (anything past NOT_REVIEWED) must cite evidence + a review date
+        reviewed = any(s != "NOT_REVIEWED" for s in states)
+        if reviewed and not (self.source and self.review_date):
+            raise ValueError(f"{self.component_id}: a reviewed rights determination requires a nonempty "
+                             f"source and review_date")
+        if any(s in _BLOCKING for s in states) and not (self.decision_issue and self.rights_note):
+            raise ValueError(f"{self.component_id}: RIGHTS_BLOCKED requires a decision_issue and a reason "
+                             f"(rights_note)")
+        if any(s == "PERMISSION_DOCUMENTED" for s in states) and not self.permission:
+            raise ValueError(f"{self.component_id}: PERMISSION_DOCUMENTED requires permission metadata")
+        if any(s == "NOT_APPLICABLE" for s in states) and not self.rights_note:
+            raise ValueError(f"{self.component_id}: NOT_APPLICABLE requires a documented reason "
+                             f"(rights_note)")
 
     @property
     def is_code_blocked(self) -> bool:
@@ -109,3 +141,143 @@ def is_code_rights_blocked(component_id: str) -> bool:
 def blocked_components() -> list[str]:
     """Registered components whose code rights are blocked (must not enter new execution/release)."""
     return sorted(r.component_id for r in all_rights() if r.is_code_blocked)
+
+
+# ── use-specific rights policy ───────────────────────────────────────────────────────
+# One rights state is NOT universally sufficient: a component may be inspectable locally yet not cleared
+# for public execution, output redistribution, or release inclusion. Each use consults the relevant
+# code/data/output field with the strictness that use demands.
+@dataclasses.dataclass(frozen=True)
+class RightsUseDecision:
+    component_id: str
+    use: str                 # one of RIGHTS_USES
+    governing_field: str     # which rights field governed this use
+    governing_state: str
+    allowed: bool            # may this use proceed?
+    severity: str            # "clear" | "gap" | "blocked" | "not_applicable"
+    reason: str
+
+    def to_dict(self) -> dict:
+        return dataclasses.asdict(self)
+
+
+def _severity(state: str) -> str:
+    if state in _BLOCKING:
+        return "blocked"
+    if state in _AFFIRMATIVE:
+        return "clear"
+    if state == "NOT_APPLICABLE":
+        return "not_applicable"
+    return "gap"
+
+
+def _decide(component_id: str, use: str, field: str, state: str, *, mode: str) -> RightsUseDecision:
+    """mode: 'dev' (inspectable unless blocked), 'outward' (affirmative clearance required), 'release'
+    (hard-block only on RIGHTS_BLOCKED; gaps ship but are reported)."""
+    sev = _severity(state)
+    if mode == "outward":
+        allowed = state in _AFFIRMATIVE
+        reason = ("affirmatively cleared" if allowed else
+                  "blocked" if sev == "blocked" else
+                  "no output/use to publish" if sev == "not_applicable" else
+                  "not cleared for public/outward use — review required (NOT_REVIEWED is not clear)")
+    else:  # 'dev' and 'release' both hard-block only on RIGHTS_BLOCKED
+        allowed = state not in _BLOCKING
+        reason = ("blocked" if sev == "blocked" else
+                  "affirmatively cleared" if sev == "clear" else
+                  "not applicable" if sev == "not_applicable" else
+                  ("inspectable in development; not a clearance" if mode == "dev"
+                   else "ships as a reported gap; not a clearance"))
+    return RightsUseDecision(component_id, use, field, state, allowed, sev, reason)
+
+
+def may_execute_locally(component_id: str) -> RightsUseDecision:
+    r = rights_record(component_id)
+    return _decide(component_id, "local_execution", "code_rights_state", r.code_rights_state, mode="dev")
+
+
+def may_execute_in_public_batch(component_id: str) -> RightsUseDecision:
+    r = rights_record(component_id)
+    return _decide(component_id, "public_batch_execution", "code_rights_state", r.code_rights_state,
+                   mode="outward")
+
+
+def may_publish_outputs(component_id: str) -> RightsUseDecision:
+    r = rights_record(component_id)
+    return _decide(component_id, "output_publication", "output_redistribution_state",
+                   r.output_redistribution_state, mode="outward")
+
+
+def may_include_code_in_release(component_id: str) -> RightsUseDecision:
+    r = rights_record(component_id)
+    return _decide(component_id, "code_in_release", "code_rights_state", r.code_rights_state,
+                   mode="release")
+
+
+def may_include_data_in_release(component_id: str) -> RightsUseDecision:
+    r = rights_record(component_id)
+    return _decide(component_id, "data_in_release", "data_rights_state", r.data_rights_state,
+                   mode="release")
+
+
+# ── record-set validation (registry existence, duplicates, tombstones) ───────────────
+def validate_records(records: dict | None = None, registered: set | None = None) -> list[str]:
+    """Validate the authoritative record set: each key matches its record's component_id, non-tombstone
+    records name a registered component, and there are no duplicate component_ids. Returns problems
+    (empty == clean)."""
+    recs = _RECORDS if records is None else records
+    if registered is None:
+        import puckworks
+        registered = {c.name for c in puckworks.components()}
+    problems: list[str] = []
+    seen: set[str] = set()
+    for key, rec in recs.items():
+        if key != rec.component_id:
+            problems.append(f"record key {key!r} != component_id {rec.component_id!r}")
+        if rec.component_id in seen:
+            problems.append(f"duplicate rights record for {rec.component_id!r}")
+        seen.add(rec.component_id)
+        if not rec.tombstone and rec.component_id not in registered:
+            problems.append(f"rights record {rec.component_id!r} names no registered component "
+                            f"(mark tombstone=True if the component was removed)")
+    return problems
+
+
+# ── rights-review backlog (a visible gap list; affirmative records only from real evidence) ──
+def review_backlog(*, runner_ids=(), adapter_ids=(), release_component_ids=None,
+                   data_fixtures=()) -> list[dict]:
+    """A structured backlog of the rights reviews still owed, derived from the registry + the centralized
+    records. Every unreviewed/blocked-for-the-use item is surfaced; nothing is asserted CLEAR here."""
+    import puckworks
+    comps = {c.name for c in puckworks.components()}
+    rel = comps if release_component_ids is None else set(release_component_ids)
+    items: list[dict] = []
+
+    def add(component_id, use, decision):
+        items.append({"component_id": component_id, "use": use,
+                      "governing_state": decision.governing_state, "severity": decision.severity,
+                      "needs_review": decision.severity in ("gap",) or not decision.allowed,
+                      "reason": decision.reason})
+
+    # every registered component: local + public execution + output publication
+    for cid in sorted(comps):
+        add(cid, "local_execution", may_execute_locally(cid))
+        add(cid, "public_batch_execution", may_execute_in_public_batch(cid))
+        add(cid, "output_publication", may_publish_outputs(cid))
+    # native runners (their outputs may enter a public Actions artifact)
+    for cid in sorted(set(runner_ids)):
+        add(cid, "public_batch_execution", may_execute_in_public_batch(cid))
+        add(cid, "output_publication", may_publish_outputs(cid))
+    # proposed common-scenario adapters
+    for cid in sorted(set(adapter_ids)):
+        add(cid, "public_batch_execution", may_execute_in_public_batch(cid))
+    # everything that would enter the wheel
+    for cid in sorted(rel):
+        add(cid, "code_in_release", may_include_code_in_release(cid))
+        add(cid, "data_in_release", may_include_data_in_release(cid))
+    # data fixtures included in the wheel
+    for fx in sorted(set(data_fixtures)):
+        items.append({"component_id": fx, "use": "data_in_release", "governing_state": "NOT_REVIEWED",
+                      "severity": "gap", "needs_review": True,
+                      "reason": "packaged data fixture — redistribution rights not yet reviewed"})
+    return items
