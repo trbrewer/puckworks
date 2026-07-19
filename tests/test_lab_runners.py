@@ -22,11 +22,12 @@ def test_at_least_three_runners_declared():
 
 
 def test_no_model_equation_in_runner_module():
+    # the model calls live in the single-source producer module; the runners consume its summaries
+    from puckworks.product import lab_reference_producers as P
+    psrc = open(P.__file__).read()
+    assert "steady_state_curve" in psrc and "front_from_pressure" in psrc and "k_star" in psrc
     src = open(lr.__file__).read()
-    # the runners arrange inputs + call producers; they must not re-derive model math
-    assert "steady_state_curve" in src and "front_from_pressure" in src and "k_star" in src
-    # no bare numpy-based model equation authoring beyond calling producers / simple stats
-    assert "def _run_" in src
+    assert "def _run_" in src and "lab_reference_producers" in src
 
 
 def test_each_runner_executes_with_units_roles_and_evidence():

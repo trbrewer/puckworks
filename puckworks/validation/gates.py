@@ -34,7 +34,8 @@ def gate_infiltration_triangle():
     d = json.load(open(os.path.join(DATA, "de1_fixtureA.json")))
     t = np.array(d["elapsed_s"]); P = np.array(d["pressure_bar"])
     w = np.array(d["weight_g"])
-    t_drip = float(t[np.argmax(w > 0.5)])
+    # single authoritative threshold constant (shared with the Lab native runner); explicit crossing
+    t_drip = inf.observed_first_drip_s(t, w)
     k, L = inf.k_from_kappa(d["grind_setting_assumed"], d["dose_g"]/1000,
                             d["kappa_fitted"])
     ts = {}

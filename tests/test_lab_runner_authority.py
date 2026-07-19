@@ -59,9 +59,10 @@ def test_first_crossing_returns_the_first_true_sample():
 
 def test_foster_runner_never_reports_a_zero_first_drip_when_absent(monkeypatch):
     # force a no-crossing weight trace; the observed first drip must be unavailable, never 0.0
-    real = dict(lr._load_data_fixture("de1_fixtureA.json"))
-    real["weight_g"] = [0.0] * len(real["weight_g"])   # never crosses 0.5 g
-    monkeypatch.setattr(lr, "_load_data_fixture", lambda name: real)
+    from puckworks.product import lab_reference_producers as P
+    real = dict(P._data_fixture("de1_fixtureA.json"))
+    real["weight_g"] = [0.0] * len(real["weight_g"])   # never crosses the threshold
+    monkeypatch.setattr(P, "_data_fixture", lambda name: real)
     r = lr.execute_runner("foster2025.infiltration")
     obs = {o["name"]: o for o in r["outputs"]}["observed_first_drip_s"]
     assert obs["status"] == "unavailable" and obs["value"] is None
