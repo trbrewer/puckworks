@@ -102,7 +102,11 @@ Observable roles trace the producer: pressure and target beverage are **prescrib
 **unsupported** (saturated bed); first modeled solute arrival is a **derived diagnostic**, explicitly
 `is_physical_first_drip: false`.
 
-The component capability matrix is explicit (not a substring heuristic): every registered component has
+The component capability matrix is explicit (not a substring heuristic): the common-scenario
+**disposition** and **adapter capability** for every registered component are stated in the committed
+`puckworks.product.lab_catalog` (validated against the registry — gate ids resolve, runner/adapter ids
+resolve, rights match `puckworks.rights`, a rights-blocked component is dispositioned `RIGHTS_BLOCKED`),
+and `_lab_spec` consumes that catalog rather than a `stage`/`kind` heuristic. Every registered component has
 one validated `ComponentLabSpec` with callable/runtime/calibration flags, `native_runner_capability`,
 `common_scenario_adapter_capability`, and concentration reference basis. **Rights truth is centralized in
 `puckworks.rights`** (one record per component with distinct `code_rights_state` / `data_rights_state` /

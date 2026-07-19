@@ -111,7 +111,8 @@ WHAT_THIS_DOES_NOT_PROVE = [
 # Rights truth is NOT kept here: it lives in the centralized puckworks.rights registry (issue #73), so
 # the Lab consumes one authoritative record per component instead of a product-local dictionary.
 _OPTIONAL_DEPENDENCY = {"brewer2026.lb_taichi": "taichi"}
-_COMMON_SCENARIO_LENSES = {"cameron2020.extraction_bdf": "puckworks.product.simulate_pull"}
+# NOTE: which components have a common-scenario adapter is NOT a separate dict — it is the ADAPTERS
+# registry (defined below). Disposition/adapter capability come from the explicit lab_catalog.
 # concentration reference basis where known (honest; 'unspecified' otherwise)
 _REFERENCE_BASIS = {
     "cameron2020.extraction_bdf": "bed-volume (Cameron c_s0 = 118 / phi_s)",
@@ -550,38 +551,33 @@ def _lab_spec(comp) -> ComponentLabSpec:
     is_calibration = role == "calibration"
     opt_dep = _OPTIONAL_DEPENDENCY.get(name)
     available_in_env = (opt_dep is None) or _optional_dep_available(opt_dep)
-    is_common_lens = name in _COMMON_SCENARIO_LENSES
 
-    from puckworks.product import lab_runners
+    from puckworks.product import lab_catalog, lab_runners
     has_native_runner = lab_runners.has_runner(name)
 
-    if not metadata_complete:
+    # DISPOSITION + adapter capability come from the EXPLICIT committed catalog — never a stage/kind/role
+    # substring heuristic. A component absent from the catalog (or lacking registry metadata) is an
+    # honest METADATA_INCOMPLETE, never an invented capability.
+    if not metadata_complete or name not in lab_catalog._CAPABILITY:
         runner_cap, adapter_cap, disposition = "NOT_APPLICABLE", "NOT_APPLICABLE", "METADATA_INCOMPLETE"
-    elif rights_blocked:
-        runner_cap, adapter_cap, disposition = "RIGHTS_BLOCKED", "RIGHTS_BLOCKED", "RIGHTS_BLOCKED"
-    elif is_common_lens:
-        # Cameron is executed AS the common-scenario lens; it is not a *separate* native reference runner
-        runner_cap, adapter_cap, disposition = "NOT_APPLICABLE", "COMMON_SCENARIO_READY", \
-            "COMMON_SCENARIO_READY"
-    elif has_native_runner:
-        runner_cap = "AVAILABLE"
-        adapter_cap = "ADAPTER_REQUIRED" if stage == "extraction" else "NOT_APPLICABLE"
-        disposition = "NATIVE_REFERENCE_ONLY"
-    elif opt_dep and not available_in_env:
-        runner_cap, adapter_cap, disposition = "OPTIONAL_DEPENDENCY_UNAVAILABLE", "NOT_APPLICABLE", \
-            "SKIPPED_OPTIONAL_DEPENDENCY"
-    elif opt_dep:
-        runner_cap, adapter_cap, disposition = "NOT_IMPLEMENTED", "NOT_APPLICABLE", "NATIVE_REFERENCE_ONLY"
-    elif is_calibration:
-        runner_cap, adapter_cap, disposition = "NOT_IMPLEMENTED", "NOT_APPLICABLE", "CALIBRATION_OR_CLOSURE"
-    elif kind in ("reference", "synthesis"):
-        runner_cap, adapter_cap, disposition = "NOT_IMPLEMENTED", "NOT_APPLICABLE", "NATIVE_REFERENCE_ONLY"
-    elif stage == "extraction":
-        runner_cap, adapter_cap, disposition = "NOT_IMPLEMENTED", "ADAPTER_REQUIRED", "ADAPTER_REQUIRED"
-    elif stage in ("bed_dynamics", "flow", "infiltration", "machine"):
-        runner_cap, adapter_cap, disposition = "NOT_IMPLEMENTED", "ADAPTER_REQUIRED", "SUPPORTING_STAGE_LENS"
+        metadata_complete = False
     else:
-        runner_cap, adapter_cap, disposition = "NOT_IMPLEMENTED", "NOT_APPLICABLE", "NATIVE_REFERENCE_ONLY"
+        entry = lab_catalog.catalog_entry(comp)
+        disposition = entry.disposition
+        adapter_cap = entry.adapter_capability
+        # runner capability is an AUTHORITATIVE fact (registration + rights + optional dependency), not a
+        # heuristic: the runner either exists, is rights-blocked, needs a missing dependency, or is absent.
+        if rights_blocked:
+            runner_cap = "RIGHTS_BLOCKED"
+        elif name in ADAPTERS:                          # the common-scenario lens has no separate runner
+            runner_cap = "NOT_APPLICABLE"
+        elif has_native_runner:
+            runner_cap = "AVAILABLE"
+        elif opt_dep and not available_in_env:
+            runner_cap = "OPTIONAL_DEPENDENCY_UNAVAILABLE"
+            disposition = "SKIPPED_OPTIONAL_DEPENDENCY"  # env overlay of the committed catalog base
+        else:
+            runner_cap = "NOT_IMPLEMENTED"
 
     return ComponentLabSpec(
         component_id=name or "<unknown>", stage=stage, kind=kind, execution_role=role,
@@ -746,7 +742,7 @@ def _reference_suite_coverage(matrix: list) -> list:
             note = f"optional dependency '{row['optional_dependency']}' unavailable; a skip is not a pass"
         elif cap == "NOT_APPLICABLE":
             note = "common-scenario lens (not a separate native reference runner)" \
-                if row["component_id"] in _COMMON_SCENARIO_LENSES else "no native reference runner applies"
+                if row["component_id"] in ADAPTERS else "no native reference runner applies"
         else:
             note = "Native reference runner not yet implemented; no result was generated."
         out.append({"component_id": row["component_id"], "runner_state": cap,
