@@ -208,11 +208,23 @@ class ScenarioExecution:
 
 @dataclasses.dataclass(frozen=True)
 class BuildProvenance:
-    """Build/artifact identity supplied EXPLICITLY by the caller (never derived via git here)."""
+    """Build/artifact identity supplied EXPLICITLY by the caller (never derived via git here). Each field
+    is format-validated; None means 'not supplied' (a visible gap, not an error)."""
     package_version: str | None = None
     source_commit: str | None = None
     workflow_run_id: str | None = None
     wheel_sha256: str | None = None
+
+    def __post_init__(self):
+        import re
+        if self.source_commit is not None and not re.fullmatch(r"[0-9a-fA-F]{7,40}", self.source_commit):
+            raise ValueError(f"source_commit {self.source_commit!r} is not a 7-40 char git hex sha")
+        if self.wheel_sha256 is not None and not re.fullmatch(r"[0-9a-fA-F]{64}", self.wheel_sha256):
+            raise ValueError(f"wheel_sha256 {self.wheel_sha256!r} is not a 64-char hex sha-256")
+        if self.workflow_run_id is not None and not re.fullmatch(r"[0-9]+", str(self.workflow_run_id)):
+            raise ValueError(f"workflow_run_id {self.workflow_run_id!r} is not numeric")
+        if self.package_version is not None and not str(self.package_version).strip():
+            raise ValueError("package_version must be non-empty when supplied")
 
     def to_dict(self) -> dict:
         return {"package_version": self.package_version, "source_commit": self.source_commit,
@@ -949,13 +961,27 @@ def scientific_json(report: dict) -> str:
 
 
 def scientific_sha256(report: dict) -> str:
-    return report.get("integrity", {}).get("scientific_payload_sha256") \
-        or compute_scientific_result_sha256(report)
+    """ALWAYS recomputes from the report's own content (never returns the embedded claim). Use
+    embedded_scientific_sha256() to read the stored claim."""
+    return compute_scientific_result_sha256(report)
 
 
 def capability_snapshot_sha256(report: dict) -> str:
-    return report.get("integrity", {}).get("capability_snapshot_sha256") \
-        or compute_capability_snapshot_sha256(report)
+    """ALWAYS recomputes (see scientific_sha256)."""
+    return compute_capability_snapshot_sha256(report)
+
+
+# explicit accessors for the EMBEDDED claim (never conflate a stored claim with a fresh computation)
+def embedded_scientific_sha256(report: dict) -> str | None:
+    return report.get("integrity", {}).get("scientific_payload_sha256")
+
+
+def embedded_capability_sha256(report: dict) -> str | None:
+    return report.get("integrity", {}).get("capability_snapshot_sha256")
+
+
+def embedded_artifact_sha256(report: dict) -> str | None:
+    return report.get("integrity", {}).get("artifact_sha256")
 
 
 def artifact_json(report: dict) -> str:
@@ -964,12 +990,102 @@ def artifact_json(report: dict) -> str:
 
 
 def artifact_sha256(report: dict) -> str:
-    return report.get("integrity", {}).get("artifact_sha256") or compute_artifact_sha256(report)
+    """ALWAYS recomputes (see scientific_sha256)."""
+    return compute_artifact_sha256(report)
 
 
 # back-compat: the batch/UI download the FULL artifact (not a provenance-stripped payload)
 def canonical_json(report: dict) -> str:
     return artifact_json(report)
+
+
+# ── artifact replay verification (self-consistency vs producer reproduction are kept separate) ──
+def reconstruct_request(report: dict) -> ScenarioRequest:
+    """Rebuild the ScenarioRequest from an artifact's request echo + applied overrides."""
+    req = report["request"]
+    overrides = {k: v["effective"] for k, v in report["scenario"]["applied_overrides"].items()}
+    return ScenarioRequest(
+        preset_id=req["preset_id"], overrides=overrides, domain_policy=req["domain_policy"],
+        lens_selection_policy=req.get("lens_selection_policy", "primary"),
+        requested_lens_ids=tuple(req.get("requested_lens_ids", ())),
+        reference_selection_policy=req["reference_selection_policy"],
+        requested_reference_runner_ids=tuple(req.get("requested_reference_runner_ids", ())))
+
+
+def _first_diff_path(a, b, path="$"):
+    """First differing path between two JSON-able structures (or None)."""
+    if isinstance(a, dict) and isinstance(b, dict):
+        for k in sorted(set(a) | set(b)):
+            if k not in a or k not in b:
+                return f"{path}.{k}"
+            d = _first_diff_path(a[k], b[k], f"{path}.{k}")
+            if d:
+                return d
+        return None
+    if isinstance(a, list) and isinstance(b, list):
+        if len(a) != len(b):
+            return f"{path}[len {len(a)}!={len(b)}]"
+        for i, (x, y) in enumerate(zip(a, b)):
+            d = _first_diff_path(x, y, f"{path}[{i}]")
+            if d:
+                return d
+        return None
+    return None if a == b else path
+
+
+_REQUIRED_ARTIFACT_KEYS = ("schema_version", "scenario", "request", "domain", "counts",
+                           "executed_lenses", "capability_snapshot", "integrity", "provenance")
+
+
+def verify_artifact(report: dict, *, replay: bool = False, installed_version=None,
+                    wheel_sha256=None) -> dict:
+    """Verify a Guided Pull Laboratory artifact at up to four INDEPENDENT levels. A self-consistent
+    artifact (integrity) is NOT automatically a producer-reproduced one (replay) — the two are reported
+    separately; build identity reports 'not_verified' rather than guessing when inputs are unavailable."""
+    # (1) schema
+    schema_problems = [f"missing key {k}" for k in _REQUIRED_ARTIFACT_KEYS if k not in report]
+    if report.get("schema_version") != SCHEMA_VERSION:
+        schema_problems.append(f"schema_version {report.get('schema_version')} != {SCHEMA_VERSION}")
+    try:
+        _reject_nonfinite(report)
+    except ValueError as exc:
+        schema_problems.append(str(exc))
+    schema = {"ok": not schema_problems, "problems": schema_problems}
+
+    # (2) integrity — recompute all layers from the report's own content, compare embedded claims
+    integrity = verify_integrity(report)
+
+    # (3) producer replay — rerun the producer and compare the FRESH scientific hash
+    producer_replay = {"performed": False, "reproduced": None, "first_diff": None}
+    if replay:
+        try:
+            fresh = build_comparison(execute_scenario(reconstruct_request(report)))
+            fresh_sci = compute_scientific_result_sha256(fresh)
+            embedded_sci = embedded_scientific_sha256(report)
+            reproduced = (fresh_sci == embedded_sci)
+            diff = None if reproduced else _first_diff_path(
+                _scientific_payload(fresh), _scientific_payload(report))
+            producer_replay = {"performed": True, "reproduced": reproduced,
+                               "fresh_scientific_sha256": fresh_sci, "embedded_scientific_sha256": embedded_sci,
+                               "first_diff": diff}
+        except Exception as exc:                          # pragma: no cover - defensive
+            producer_replay = {"performed": True, "reproduced": False, "error": str(exc)}
+
+    # (4) build identity — compare installed version + wheel hash when supplied; else 'not_verified'
+    prov = report.get("provenance", {})
+    def _check(supplied, embedded):
+        if supplied is None or embedded is None:
+            return "not_verified"
+        return "match" if str(supplied) == str(embedded) else "mismatch"
+    build_identity = {
+        "package_version": _check(installed_version, prov.get("package_version")),
+        "wheel_sha256": _check(wheel_sha256, prov.get("wheel_sha256")),
+    }
+
+    ok = schema["ok"] and integrity["ok"] and (
+        producer_replay.get("reproduced") is not False) and "mismatch" not in build_identity.values()
+    return {"ok": ok, "schema": schema, "integrity": integrity,
+            "producer_replay": producer_replay, "build_identity": build_identity}
 
 
 # ── shared plotting-data layer (used by Streamlit + batch; no science recalculated here) ──
@@ -1104,7 +1220,19 @@ def main(argv=None) -> int:
                        default="interactive_fast")
         s.add_argument("--format", choices=["md", "json"], default="md")
         s.add_argument("--out", default=None)
+    va = sub.add_parser("verify-artifact", help="verify a saved artifact (schema/integrity/replay)")
+    va.add_argument("path")
+    va.add_argument("--replay", action="store_true", help="rerun the producer and compare the science")
+    va.add_argument("--installed-version", default=None)
+    va.add_argument("--wheel-sha256", default=None)
     args = ap.parse_args(argv)
+    if args.cmd == "verify-artifact":
+        from pathlib import Path
+        report = json.loads(Path(args.path).read_text(encoding="utf-8"))
+        result = verify_artifact(report, replay=args.replay,
+                                 installed_version=args.installed_version, wheel_sha256=args.wheel_sha256)
+        sys.stdout.write(json.dumps(result, indent=2, sort_keys=True) + "\n")
+        return 0 if result["ok"] else 1
     execution = execute_scenario(ScenarioRequest(
         preset_id=args.preset, domain_policy=args.domain_policy,
         reference_selection_policy=args.references))

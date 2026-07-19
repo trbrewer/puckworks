@@ -100,15 +100,41 @@ def _coverage_figure(path: Path, report: dict) -> None:
     plt.close(fig)
 
 
+def _request_from_env(env: dict, preset: str, over: dict) -> "lab.ScenarioRequest":
+    """Build the ScenarioRequest from validated env inputs (all parsed in Python; never shell-interpolated)."""
+    kw = {"preset_id": preset, "overrides": over,
+          "domain_policy": (env.get("LAB_DOMAIN_POLICY") or "warn")}
+    lens_policy = env.get("LAB_LENS_SELECTION_POLICY")
+    if lens_policy:
+        kw["lens_selection_policy"] = lens_policy
+        ids = [x for x in (env.get("LAB_LENS_IDS") or "").split(",") if x]
+        if ids:
+            kw["requested_lens_ids"] = tuple(ids)
+    ref_policy = env.get("LAB_REFERENCE_SELECTION_POLICY")
+    if ref_policy:
+        kw["reference_selection_policy"] = ref_policy
+        ids = [x for x in (env.get("LAB_REFERENCE_IDS") or "").split(",") if x]
+        if ids:
+            kw["requested_reference_runner_ids"] = tuple(ids)
+    return lab.ScenarioRequest(**kw)
+
+
 def run(env: dict | None = None) -> dict:
+    """Atomic: build every output in a STAGING dir, verify the artifact, then rename staging -> final. On
+    failure no partially valid final directory is left; a failure summary is written outside it."""
+    import shutil
     env = dict(os.environ if env is None else env)
     preset = env.get("LAB_PRESET") or "pv19_named"
-    out_dir = Path(env.get("LAB_OUT_DIR") or "out/lab")
+    final_dir = Path(env.get("LAB_OUT_DIR") or "out/lab")
     over = _bounded(env)
-    execution = lab.execute_scenario(lab.ScenarioRequest(preset_id=preset, overrides=over))
+    execution = lab.execute_scenario(_request_from_env(env, preset, over))
     report = lab.build_comparison(execution, provenance=_provenance(env))
 
-    out_dir.mkdir(parents=True, exist_ok=True)
+    final_dir.parent.mkdir(parents=True, exist_ok=True)
+    out_dir = final_dir.parent / (final_dir.name + ".staging")
+    if out_dir.exists():
+        shutil.rmtree(out_dir)
+    out_dir.mkdir(parents=True)
     files = {}
     (out_dir / "guided_pull_lab.json").write_text(lab.artifact_json(report), encoding="utf-8")
     (out_dir / "guided_pull_lab.md").write_text(lab.render_markdown(report), encoding="utf-8")
@@ -145,6 +171,10 @@ def run(env: dict | None = None) -> dict:
         optional["guided_pull_lab_coverage.png"]["generated"] = False
         optional["guided_pull_lab_coverage.png"]["reason"] = str(exc)
 
+    # verify the written artifact (schema + integrity) BEFORE publishing the final directory
+    written = json.loads((out_dir / "guided_pull_lab.json").read_text(encoding="utf-8"))
+    verification = lab.verify_artifact(written)
+    req = report["request"]
     manifest = {
         "schema_version": lab.ARTIFACT_SCHEMA_VERSION,
         "source_commit": report["provenance"].get("source_commit"),
@@ -153,8 +183,16 @@ def run(env: dict | None = None) -> dict:
         "package_version": report["provenance"].get("package_version"),
         "requested_preset": preset,
         "requested_overrides": over,
+        "domain_policy": req["domain_policy"],
+        "lens_selection_policy": req.get("lens_selection_policy"),
+        "requested_lens_ids": req.get("requested_lens_ids", []),
+        "reference_selection_policy": req["reference_selection_policy"],
+        "requested_reference_runner_ids": req.get("requested_reference_runner_ids", []),
         "scientific_payload_sha256": report["integrity"]["scientific_payload_sha256"],
+        "capability_snapshot_sha256": report["integrity"]["capability_snapshot_sha256"],
         "artifact_sha256": report["integrity"]["artifact_sha256"],
+        "replay_verification": {"schema_ok": verification["schema"]["ok"],
+                                "integrity_ok": verification["integrity"]["ok"]},
         "panel_inventory": panel_inventory,
         "optional_outputs": optional,
         "files": {},
@@ -165,6 +203,16 @@ def run(env: dict | None = None) -> dict:
                                    "sha256": hashlib.sha256(p.read_bytes()).hexdigest()}
     (out_dir / "artifact_manifest.json").write_text(
         json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+    if not (verification["schema"]["ok"] and verification["integrity"]["ok"]):
+        # never publish a partially valid final directory; record the failure OUTSIDE it
+        (final_dir.parent / (final_dir.name + ".FAILED.json")).write_text(
+            json.dumps(verification, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        raise RuntimeError("artifact verification failed; final output not published")
+    # atomic publish: replace the final directory with the fully-built, verified staging directory
+    if final_dir.exists():
+        shutil.rmtree(final_dir)
+    os.replace(out_dir, final_dir)
     return report
 
 
