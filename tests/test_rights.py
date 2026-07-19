@@ -43,11 +43,13 @@ def test_grudeva_is_code_rights_blocked_with_separate_dimensions():
 
 
 def test_article_and_code_rights_cannot_be_conflated():
-    # a record with a CC-BY article does not make its solver code CLEAR
+    # a record with a CC-BY article does not make its solver code CLEAR (reviewed => needs source+date;
+    # RIGHTS_BLOCKED => needs decision_issue + reason)
     r = rights.RightsRecord("x", code_rights_state="RIGHTS_BLOCKED", data_rights_state="CLEAR",
-                            output_redistribution_state="RIGHTS_BLOCKED")
+                            output_redistribution_state="RIGHTS_BLOCKED", rights_note="blocked port",
+                            source="module header", decision_issue="#73", review_date="2026-07-19")
     assert r.is_code_blocked and not r.code_rights_state == r.data_rights_state
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError):                      # unknown/lowercase vocabulary rejected
         rights.RightsRecord("y", code_rights_state="not_a_state", data_rights_state="CLEAR",
                             output_redistribution_state="CLEAR")
 

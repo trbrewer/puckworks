@@ -99,10 +99,17 @@ The component capability matrix is explicit (not a substring heuristic): every r
 one validated `ComponentLabSpec` with callable/runtime/calibration flags, `native_runner_capability`,
 `common_scenario_adapter_capability`, and concentration reference basis. **Rights truth is centralized in
 `puckworks.rights`** (one record per component with distinct `code_rights_state` / `data_rights_state` /
-`output_redistribution_state`; an unreviewed component is `NOT_REVIEWED`, never a silent `CLEAR`). The
-Lab consumes it: `grudeva2025.reduced` is `code RIGHTS_BLOCKED` (#73) and can never be a lens, native
-runner, or adapter; a release-readiness guard fails if a rights-blocked component would enter a new
-artifact. `capability_snapshot.reference_suite_coverage` lists runner *capabilities* honestly; only
+`output_redistribution_state`; an unreviewed component is `NOT_REVIEWED`, never a silent `CLEAR`). Rights
+are **use-specific** — `rights.may_execute_locally` / `may_execute_in_public_batch` /
+`may_publish_outputs` / `may_include_code_in_release` / `may_include_data_in_release` each consult the
+relevant field with the strictness that use demands: `RIGHTS_BLOCKED` is refused everywhere;
+`NOT_REVIEWED` stays inspectable **locally** but is a visible gap for public execution / output
+redistribution / release (never "clear"); only an affirmative clearance permits an outward or release
+use. `grudeva2025.reduced` is `code RIGHTS_BLOCKED` (#73) and can never be a lens, native runner, or
+adapter; the release guard hard-blocks only on code not cleared for release inclusion (no
+`--allow-rights-blocked` bypass — an authorized removal makes it pass) and reports `NOT_REVIEWED` gaps.
+`rights.review_backlog()` surfaces the reviews still owed (Cameron code + outputs first).
+`capability_snapshot.reference_suite_coverage` lists runner *capabilities* honestly; only
 actually-executed references appear in `executed_reference_results`.
 
 ## Reference-basis groundwork (a possible second lens)

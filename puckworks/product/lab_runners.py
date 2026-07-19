@@ -36,7 +36,8 @@ class RunnerSpec:
     component_id: str
     runtime_class: str
     dependency_requirements: tuple = ()
-    rights_state: str = "clear"
+    # NOTE: rights are NOT asserted here. A runner has no local "clear" claim; its rights come from the
+    # centralized puckworks.rights record for its component (consumed in execute_runner).
 
     def __post_init__(self):
         if not self.runner_id or not self.version or not self.component_id:
@@ -302,8 +303,16 @@ def execute_runner(component_id: str) -> dict:
     if component_id not in RUNNERS:
         raise KeyError(f"unknown runner id {component_id!r}; available: {available_runners()}")
     spec, fn = RUNNERS[component_id]
+    from puckworks import rights
+    rec = rights.rights_record(component_id)             # centralized rights truth, not a local "clear"
+    publish = rights.may_publish_outputs(component_id)   # may these outputs enter a public artifact?
     base = {"component_id": component_id, "runner_id": spec.runner_id, "runner_version": spec.version,
-            "runtime_class": spec.runtime_class, "rights_state": spec.rights_state,
+            "runtime_class": spec.runtime_class,
+            "code_rights_state": rec.code_rights_state, "data_rights_state": rec.data_rights_state,
+            "output_redistribution_state": rec.output_redistribution_state,
+            "rights_state": rec.code_rights_state,       # back-compat alias = code rights
+            "output_publication_allowed": publish.allowed,
+            "output_publication_severity": publish.severity,
             "label": "This is the component's native reference case, not the common Guided Pull scenario.",
             "evidence": _evidence(component_id)}
     try:
