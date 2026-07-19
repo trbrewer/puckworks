@@ -124,6 +124,21 @@
       "verified_date": null
     },
     {
+      "id": "guided-pull-laboratory",
+      "title": "PV-19B: Guided Pull Laboratory — compatible-model lenses + full registry exposure",
+      "area": "product",
+      "state": "active",
+      "priority": "P1",
+      "owner_type": "maintainer",
+      "external_blocker": null,
+      "resume_trigger": null,
+      "next_gate": "Add verified adapters so a second compatible extraction lens can join the common scenario, and wire native reference runners for more executable components — without inventing units, grinder, or concentration-reference-volume conversions.",
+      "acceptance_evidence": "Core landed (development 0.4.0.dev0): puckworks/product/lab.py exposes the full 25-component coverage matrix with a finite disposition vocabulary (every component exactly one disposition), a comparison schema v2 (distinct from PullRun v1, deterministic, no wall-clock), and ONE executed common-scenario lens (cameron2020.extraction_bdf via the existing simulate_pull producer — no equation duplication). Competing extraction models (grudeva2025.reduced, pannusch2024.solver, romancorrochano2017.extraction, mo2023_2.coupled_bed) are ADAPTER_REQUIRED (different reference volume/observable, not overlaid); lb_taichi SKIPPED_OPTIONAL_DEPENDENCY. Native reference suite + 'what this does not prove' emitted; 15 lab tests green; docs/GUIDED_PULL_LABORATORY.md. Activated as the second active lane (queue cap 5). Not a validated digital twin; no evidence upgrade.",
+      "issue_or_pr": "#70",
+      "verified_commit": null,
+      "verified_date": null
+    },
+    {
       "id": "pv03-flat-valley-interactive",
       "title": "PV-03 'The Cup Hides the Clock' \u2014 flat-valley practical-identifiability interactive",
       "area": "public-value",

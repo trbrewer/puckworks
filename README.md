@@ -122,6 +122,11 @@ Three public paths (no local setup required):
 Locally, after `pip install`, the **`puckworks-pull` command-line tool** runs the same guided espresso
 pull deterministically and writes JSON/Markdown/figures — see [`docs/GUIDED_ESPRESSO_PULL.md`](docs/GUIDED_ESPRESSO_PULL.md).
 
+*In development (`0.4.0.dev0`, not in the released v0.3.0):* the **Guided Pull Laboratory**
+(`python -m puckworks.product.lab compare`) exposes the full component registry and runs the compatible
+subset as independent model lenses — it never averages competing mechanisms and is not a digital twin.
+See [`docs/GUIDED_PULL_LABORATORY.md`](docs/GUIDED_PULL_LABORATORY.md).
+
 **More public stories:**
 
 - [See why espresso model components do not simply add up](https://trbrewer.github.io/puckworks/model-composition/) — a static, generated interactive showing how adding a swelling branch to an extraction model, through one shared porosity state, makes the prediction *worse* than a flat baseline (it rejects one tested composition, not swelling in general).
