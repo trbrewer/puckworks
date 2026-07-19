@@ -61,12 +61,27 @@ def _components():
     return list(puckworks.components())
 
 
+def run_scenario(preset_id: str = _PRESET, *, dose_g=None, target_beverage_g=None,
+                 pressure_bar=None, brew_temperature_c=None) -> dict:
+    """Run the existing authoritative producer for a bounded scenario, optionally overriding a few
+    recipe fields. Returns the PullRun dict. The UI and the batch runner both route through this — no
+    scenario value is hand-typed downstream. Raises only if the producer itself errors."""
+    import dataclasses
+
+    import puckworks.product as prod
+    recipe, config = prod.load_pull_preset(preset_id)
+    over = {k: float(v) for k, v in dict(
+        dose_g=dose_g, target_beverage_g=target_beverage_g, pressure_bar=pressure_bar,
+        brew_temperature_c=brew_temperature_c).items() if v is not None}
+    if over:
+        recipe = dataclasses.replace(recipe, **over)
+    return prod.pull_run_to_dict(prod.simulate_pull(recipe, config))
+
+
 def _run_common_scenario() -> dict:
     """Execute the existing authoritative producer for the common scenario (cameron2020.extraction_bdf).
     Returns the PullRun dict. Raises only if the producer itself errors."""
-    import puckworks.product as prod
-    recipe, config = prod.load_pull_preset(_PRESET)
-    return prod.pull_run_to_dict(prod.simulate_pull(recipe, config))
+    return run_scenario(_PRESET)
 
 
 def classify(comp, cov_disposition: str | None) -> tuple:

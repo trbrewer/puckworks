@@ -31,6 +31,7 @@ harvest = ["requests"]
 release = ["build", "twine", "pip-tools"]   # pip-tools: fully-resolved hashed lock (P0.5)
 viz = ["matplotlib", "pillow", "imageio"]
 viz3d = ["pyvista", "vtk"]
+webapp = ["streamlit>=1.30", "matplotlib"]   # dev-only Codespaces UI (apps/lab_app.py); NOT a core dep
 
 [tool.ruff]
 line-length = 100

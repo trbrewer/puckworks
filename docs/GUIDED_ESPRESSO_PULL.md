@@ -128,3 +128,17 @@ carries a **value role**: `prescribed_input`, `simulated`, or `derived`.
 - **Colab (released, one-click):** [`notebooks/guided_espresso_pull_colab.ipynb`](../notebooks/guided_espresso_pull_colab.ipynb)
   with native form controls. Its default path downloads the exact v0.3.0 release wheel and verifies
   the SHA-256 before installing; `PUCKWORKS_WHEEL` remains for hermetic (offline) testing.
+- **Codespaces (development `0.4.0.dev0`):** the dynamic **Guided Pull Laboratory** UI —
+  `streamlit run apps/lab_app.py` (installed via the `webapp` extra). It runs the development
+  branch/version, not the released v0.3.0. See [`GUIDED_PULL_LABORATORY.md`](GUIDED_PULL_LABORATORY.md).
+- **Actions (batch):** the manually dispatched `guided-pull-batch` workflow builds the current wheel and
+  writes deterministic JSON/Markdown/figure artifacts — a reproducible batch runner, not a live UI.
+
+## Runnable-environment matrix
+
+| Path | What | Version |
+|---|---|---|
+| Colab quickstart / guided pull | released, one-click, browser | v0.3.0 wheel |
+| CLI (`puckworks-pull`, `python -m puckworks.product.lab`) | local deterministic | installed package |
+| Codespaces + Streamlit (`apps/lab_app.py`) | dynamic development UI | 0.4.0.dev0 (development) |
+| Actions `guided-pull-batch` | reproducible batch artifacts | current wheel |
