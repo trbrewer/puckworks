@@ -164,3 +164,15 @@ def test_batch_workflow_is_secure_and_passes_provenance():
             assert "${{ inputs" not in line and "${{ github.event.inputs" not in line
     # wheel SHA is recorded and provenance flows to the runner
     assert "LAB_WHEEL_SHA256" in wf and "tools/lab_batch.py" in wf
+
+
+def test_codespaces_ci_workflow_is_secure_and_smokes_the_devcontainer():
+    wf = (_ROOT / ".github" / "workflows" / "codespaces-ci.yml").read_text(encoding="utf-8")
+    assert re.search(r"(?m)^permissions:\s*\n\s*contents:\s*read\s*$", wf)
+    assert "issues: write" not in wf and "secrets." not in wf
+    for use in re.findall(r"uses:\s*(\S+)", wf):
+        if "/" in use.split("@")[0]:
+            assert re.search(r"@[0-9a-f]{40}$", use), f"action not SHA-pinned: {use}"
+    # it builds the devcontainer and runs a Streamlit health + comparison smoke inside it
+    assert "devcontainers/ci@" in wf
+    assert "_stcore/health" in wf and "tools/lab_batch.py" in wf
