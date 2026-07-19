@@ -34,6 +34,32 @@ jobs:
           /tmp/cr/bin/pip install dist/*.whl
           cd /tmp && /tmp/cr/bin/python -c "import puckworks; puckworks.load_builtin_components(); s=puckworks.evaluate_all_gates(); assert s.passed; print('wheel ok', puckworks.__version__, len(puckworks.components()))"
           cd /tmp && /tmp/cr/bin/python -c "import puckworks; assert 'site-packages' in puckworks.__file__, puckworks.__file__"
+      - name: clean-room LB native runner + selected PUBLIC_ARTIFACT path from the WHEEL
+        run: |
+          cd /tmp && /tmp/cr/bin/python - <<'PY'
+          import puckworks
+          puckworks.load_builtin_components()
+          from puckworks.product import lab, lab_runners as lr, lab_rights_gate as gate
+          from puckworks import rights
+          # the fourth native runner is available from the installed wheel
+          assert lr.has_runner("brewer2026.lb_reference") and lr.runtime_class("brewer2026.lb_reference") == "batch-only"
+          r = lr.execute_runner("brewer2026.lb_reference"); assert r["status"] == "executed", r
+          # a selected LB-only PUBLIC_ARTIFACT request passes preflight and runs exactly one native producer
+          req = lab.ScenarioRequest("pv19_named", lens_selection_policy="none",
+                                    reference_selection_policy="selected",
+                                    requested_reference_runner_ids=("brewer2026.lb_reference",))
+          assert gate.preflight(req, "PUBLIC_ARTIFACT")["blocked"] is False
+          rep = lab.build_comparison(lab.execute_scenario(req))
+          assert rep["counts"]["common_scenario_producer_invocations"] == 0
+          assert rep["counts"]["executed_native_references"] == 1
+          assert rights.rights_record("brewer2026.lb_reference").code_rights_state == "CLEAR"
+          # a broad/default PUBLIC_ARTIFACT request and any Grudeva selection still block, from the wheel
+          assert gate.preflight(lab.ScenarioRequest("pv19_named"), "PUBLIC_ARTIFACT")["blocked"] is True
+          assert gate.preflight(lab.ScenarioRequest("pv19_named", lens_selection_policy="none",
+                  reference_selection_policy="selected",
+                  requested_reference_runner_ids=("grudeva2025.reduced",)), "LOCAL_PRIVATE")["blocked"] is True
+          print("installed-wheel LB service smoke ok")
+          PY
       - name: sdist can rebuild a wheel
         run: |
           python -m venv /tmp/sd
