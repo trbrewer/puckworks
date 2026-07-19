@@ -340,3 +340,6 @@ These cards are Puckworks-authored technical notes, not peer-reviewed papers.
 
 Please cite via [`CITATION.cff`](CITATION.cff). Puckworks is released under the
 [MIT License](LICENSE).
+
+Puckworks is independently developed and is not affiliated with or sponsored by any employer or
+company. Contact: t_r_brewer@hotmail.com.

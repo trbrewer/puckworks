@@ -54,3 +54,8 @@ python -m puckworks.paper_a.build verify                  # Paper A claim ↔ ma
 
 `python -m puckworks.release build` builds a wheel + sdist, `twine check`s them, and writes a
 checksummed manifest; `release.yml` additionally installs the wheel clean-room. See R4.
+
+## Project independence
+
+Puckworks is independently developed and is not affiliated with or sponsored by any employer or
+company. The maintainer contact is t_r_brewer@hotmail.com.
