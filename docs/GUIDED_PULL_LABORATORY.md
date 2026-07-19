@@ -21,8 +21,19 @@ python -m puckworks.product.lab compare  --format json    # deterministic machin
    only when observable definition, units, reference volume, and axis are compatible.
 2. **Component reference suite.** Executable components' native reference cases demonstrate that the
    registry works. Each is labelled *"the component's own native reference case, not the common Guided
-   Pull scenario."* A future integrated chain may pick one compatible component per physical stage;
-   competing models remain branches.
+   Pull scenario."* Three genuinely-executed native reference runners ship today (`puckworks.product.
+   lab_runners`), each reusing the same authoritative callables the validation gates use — no equation
+   duplication:
+   - `waszkiewicz2025.poroelastic` — refit the published equilibrium curve; recover `(P_c, Q_c)` vs the
+     published calibration;
+   - `wadsworth2026.permeability` — collapse Table 1 onto the percolation permeability form (geometric-
+     mean ratio);
+   - `foster2025.infiltration` — parameter-free first-drip bracket vs the DE1 fixture observation.
+
+   All three are `interactive-fast`. Runner failures are isolated (one erroring never erases the
+   others; `FAILED` is reserved for an execution that raised). Components with no runner are honestly
+   `RUNNER_NOT_IMPLEMENTED`; `grudeva2025.reduced` is `RIGHTS_BLOCKED` (issue #73). A future integrated
+   chain may pick one compatible component per physical stage; competing models remain branches.
 
 ## Coverage vocabulary
 
