@@ -60,10 +60,9 @@ WHAT_THIS_DOES_NOT_PROVE = [
     "common shot.",
 ]
 
-# ── explicit component capability / rights metadata (facts the registry does not encode) ──
-# rights states from the provenance audit (issue #73): grudeva2025.reduced is a self-documented port
-# of unlicensed upstream code -> RIGHTS_BLOCKED (never a lens or a native runner here).
-_RIGHTS_BLOCKED = {"grudeva2025.reduced": "self-documented port of unlicensed upstream code (issue #73)"}
+# ── explicit component capability metadata (facts the registry does not encode) ──
+# Rights truth is NOT kept here: it lives in the centralized puckworks.rights registry (issue #73), so
+# the Lab consumes one authoritative record per component instead of a product-local dictionary.
 _OPTIONAL_DEPENDENCY = {"brewer2026.lb_taichi": "taichi"}
 _COMMON_SCENARIO_LENSES = {"cameron2020.extraction_bdf": "puckworks.product.simulate_pull"}
 # concentration reference basis where known (honest; 'unspecified' otherwise)
@@ -213,7 +212,9 @@ def _lab_spec(comp, executed_common: bool) -> dict:
     is_calibration = role == "calibration"
     opt_dep = _OPTIONAL_DEPENDENCY.get(name)
     available_in_env = (opt_dep is None) or _optional_dep_available(opt_dep)
-    rights_blocked = name in _RIGHTS_BLOCKED
+    from puckworks import rights
+    rights_rec = rights.rights_record(name)
+    rights_blocked = rights_rec.is_code_blocked
     is_common_lens = name in _COMMON_SCENARIO_LENSES
 
     from puckworks.product import lab_runners
@@ -248,8 +249,11 @@ def _lab_spec(comp, executed_common: bool) -> dict:
         "has_callable_code": has_callable, "is_runtime_stage": is_runtime_stage,
         "is_calibration_or_closure": is_calibration,
         "available_in_env": available_in_env, "optional_dependency": opt_dep,
-        "rights_state": "RIGHTS_BLOCKED" if rights_blocked else "clear",
-        "rights_note": _RIGHTS_BLOCKED.get(name, ""),
+        "rights_state": rights_rec.code_rights_state,
+        "code_rights_state": rights_rec.code_rights_state,
+        "data_rights_state": rights_rec.data_rights_state,
+        "output_redistribution_state": rights_rec.output_redistribution_state,
+        "rights_note": rights_rec.rights_note, "rights_decision_issue": rights_rec.decision_issue,
         "native_runner_state": runner, "common_scenario_adapter_state": adapter,
         "concentration_reference_basis": _REFERENCE_BASIS.get(name, "unspecified"),
         "validity_range": comp.valid_range, "disposition": disposition,

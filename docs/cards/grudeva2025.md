@@ -4,6 +4,8 @@
 **Stage(s):** infiltration, extraction; observables (vial-splitting kernel S1 Eqs. 6.15–6.16) · **Kind:** runtime
 **Status:** proposed — this card supersedes and retires `grudeva2023.md` and `grudeva2026.md` (ROADMAP item 1.7a). Equation numbers cite S2 unless prefixed.
 
+> **⚠ RIGHTS STATUS — code RIGHTS_BLOCKED (issue [#73](https://github.com/trbrewer/puckworks/issues/73)).** The registered component `grudeva2025.reduced` self-documents a *direct port* of the reference solver at `github.com/YoanaGrudeva/espresso-model`, which declares **no licence** (all-rights-reserved). No permission is on record. The EJAM article (S2, CC-BY) licenses the **equations/text**, not the solver **code** — code, data, and output rights are tracked separately in `puckworks.rights`. The component is **retained in current history** (it shipped in v0.3.0) but is **not available for Guided Pull Laboratory execution, native reference runners, adapters, or a newly approved release**, pending the #73 maintainer decision. A future replacement must be a genuine clean-room reimplementation from the CC-BY equations/data by an implementer who has not inspected the upstream code or the current port. Do **not** call it "executable" without resolving #73.
+
 One card, one model: S1 and S2 present the same physics; S2 is the refereed, condensed derivation, S1 adds the experiment (Ch. 2), the fixed-pressure/κ closure (§6.3.1), the observables kernel, mass-conservation/grid-convergence checks, and the vial comparison (§6.3). Where the printed equations disagree, the adjudicated form below is the model; see RECONCILIATION LOG.
 
 ## Scope and mechanism

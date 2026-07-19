@@ -77,6 +77,32 @@ def release_readiness(tag, root=REPO_ROOT):
     return problems
 
 
+def rights_release_problems(root=REPO_ROOT):
+    """A newly approved release artifact must not include any code-rights-BLOCKED component (issue #73).
+    Returns a problem per blocked component whose module file is still present under the package tree.
+    NOT_REVIEWED is a visible gap, not a block. This surfaces the exact component + decision issue."""
+    root = Path(root)
+    try:
+        from puckworks import rights
+        records = rights.all_rights()
+    except Exception as exc:                       # pragma: no cover - import guard
+        return ["could not evaluate rights guard: %r" % exc]
+    problems = []
+    for rec in records:
+        if not rec.is_code_blocked:
+            continue
+        mod_path = root / (rec.component_id.split(".")[0] and
+                           "puckworks/models/%s" % rec.component_id.split(".")[0])
+        present = mod_path.exists() or any(
+            root.glob("puckworks/models/%s/*.py" % rec.component_id.split(".")[0]))
+        if present:
+            problems.append(
+                "RIGHTS_BLOCKED component %r would enter the release artifact (module under "
+                "puckworks/models/%s/); resolve %s before releasing"
+                % (rec.component_id, rec.component_id.split(".")[0], rec.decision_issue or "the rights review"))
+    return problems
+
+
 def build(outdir, root=REPO_ROOT):
     """Build wheel + sdist into `outdir` via `python -m build`. Returns the artifact paths."""
     out = Path(outdir)
@@ -124,7 +150,14 @@ def main(argv=None):
     p.add_argument("cmd", choices=["build"], nargs="?", default="build")
     p.add_argument("--outdir", default=str(REPO_ROOT / "dist"))
     p.add_argument("--dirty-ok", action="store_true")
+    p.add_argument("--allow-rights-blocked", action="store_true",
+                   help="build despite a RIGHTS_BLOCKED component (only after an authorized removal)")
     a = p.parse_args(argv)
+    rights_problems = rights_release_problems()
+    if rights_problems and not a.allow_rights_blocked:
+        for prob in rights_problems:
+            print("RELEASE BLOCKED (rights): %s" % prob)
+        return 2
     build(a.outdir)
     twine_check(a.outdir)
     manifest = release_manifest(a.outdir, dirty_ok=a.dirty_ok)

@@ -98,8 +98,10 @@ register(Component(
     valid_range="ε<<1 saturated-fines regime; prescribed flow (Darcy pre-drip + "
                 "empirical post-drip); constant μ,ρ; single solute; RC-2 verification-"
                 "gated (post-fit vial reconstruction) until companion dataset lands",
-    notes="s_d^{-1}(1)=6.40 == published; per-vial masses reproduce C1 (14-shot "
-          "total 2.9g, 9/13 within 1 SD); κ Eq6.14@9.2bar=2.27e-15 confirms decade "
+    notes="RIGHTS: code RIGHTS_BLOCKED (#73) -- self-documented port of the unlicensed upstream "
+          "solver; see puckworks.rights + docs/cards/grudeva2025.md; not for new Lab execution / "
+          "runners / adapters / release. s_d^{-1}(1)=6.40 == published; per-vial masses reproduce C1 "
+          "(14-shot total 2.9g, 9/13 within 1 SD); κ Eq6.14@9.2bar=2.27e-15 confirms decade "
           "adjudication. Resolution study is a slow ladder. Creates RC-2"))
 
 register(Component(
