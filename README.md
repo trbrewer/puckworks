@@ -31,7 +31,7 @@ where each model applies, and check predictions against the measurements that ar
 <table align="center">
   <tr>
     <td align="center"><b>🧪 Full Laboratory Tour</b><br><sub>run a bounded shot in your browser</sub></td>
-    <td align="center"><b>📋 Quickstart</b><br><sub>tour the model registry</sub></td>
+    <td align="center"><b>📋 Quickstart</b><br><sub>browse the espresso models</sub></td>
   </tr>
   <tr>
     <td align="center"><a href="https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/guided_pull_laboratory_colab.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open the Full Laboratory Tour in Google Colab"></a></td>
