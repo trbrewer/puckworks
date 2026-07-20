@@ -38,6 +38,14 @@ no enabled quick demonstration yet). "Ran successfully" and "directly comparable
 a gate pass is not experimental validation; a native reference is not a prediction of the user's shot; a
 calibration/closure gate is not an extraction model; a catalog listing is not an execution.
 
+The scientific-check routes go through one rights-aware runner,
+`puckworks.product.lab_component_checks.run_component_checks(component_ids, *, execution_context)` — the
+Laboratory never calls an unfiltered `evaluate_all_gates()`. It resolves rights **before** any gate/model
+call (a rights-blocked component receives zero calls; public contexts keep the affirmative requirement),
+reuses the authoritative `gate_runner` (thresholds not copied), isolates failures per-component and
+per-gate, and keeps `EXECUTED` / `CHECK_FAILED` / `EXECUTION_ERROR` / `RIGHTS_BLOCKED` /
+`RIGHTS_NOT_CLEARED` / `NO_GATE_ACKNOWLEDGED` / `NOT_SELECTED` distinct.
+
 `execute_laboratory_tour(scenario_request, *, manifest_id, execution_context)` runs every route through the
 rights-safe `lab_service` (preflight before producer) and returns one `TourComponentResult` per component,
 grouped by stage, with deterministic scientific hashes over canonical content only. The manifest is
