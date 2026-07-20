@@ -14,65 +14,20 @@ from __future__ import annotations
 import streamlit as st
 
 import puckworks.product as prod
-from puckworks.product import lab
+from puckworks.product import lab, lab_service
 
-# bounded input ranges (widget constraints, not model clamps)
-BOUNDS = {"dose_g": (5.0, 30.0), "target_beverage_g": (10.0, 80.0),
-          "pressure_bar": (1.0, 12.0), "brew_temperature_c": (80.0, 98.0)}
+try:  # importable both as `streamlit run apps/lab_app.py` and as the `apps.lab_app` module
+    from apps.lab_ui_common import BOUNDS, build_request, format_finding, preset_defaults
+except ImportError:  # pragma: no cover - streamlit-run path
+    from lab_ui_common import BOUNDS, build_request, format_finding, preset_defaults
 
-
-def preset_defaults(preset_id: str) -> dict:
-    import dataclasses
-    recipe, _ = prod.load_pull_preset(preset_id)
-    d = dataclasses.asdict(recipe)
-    return {k: float(d[k]) for k in BOUNDS}
-
-
-def format_finding(finding) -> tuple:
-    """(level, text, detail) for a DomainFinding (object OR the serialized dict the execution carries).
-    Unit-testable; no Streamlit dependency."""
-    if isinstance(finding, dict):
-        status_v = str(finding.get("status") or "").lower()
-        field = finding.get("field", "")
-        plain = finding.get("plain_explanation", "") or ""
-        detail = finding.get("technical_reason", "") or ""
-        text = f"{field}: {plain}".strip(": ")
-        level = {"rejected": "error", "warning": "warning", "in_domain": "success"}.get(status_v, "info")
-        return level, text or field or status_v, detail
-    status = getattr(finding, "status", None)
-    status_v = str(getattr(status, "value", status) or "").lower()
-    field = getattr(finding, "field", "")
-    plain = getattr(finding, "plain_explanation", "") or ""
-    detail = getattr(finding, "technical_reason", "") or ""
-    text = f"{field}: {plain}".strip(": ")
-    if status_v in ("rejected", "out_of_domain", "reject"):
-        level = "error"
-    elif status_v in ("warning", "warn", "extrapolation"):
-        level = "warning"
-    elif status_v in ("in_domain", "ok", "supported"):
-        level = "success"
-    else:
-        level = "info"
-    return level, text or field or status_v, detail
+# This app is the LOCAL/PRIVATE development surface; its execution context is FIXED (never user-selected).
+EXECUTION_CONTEXT = "LOCAL_PRIVATE"
 
 
 def _apply_preset():
     for k, v in preset_defaults(st.session_state.get("preset_id", "pv19_named")).items():
         st.session_state[k] = v
-
-
-def build_request(preset_id, overrides, state) -> "lab.ScenarioRequest":
-    """Build a ScenarioRequest from the UI state (pure; unit-testable; no Streamlit dependency). Selected
-    ids are honoured only under the 'selected' policy — the request validates the combination."""
-    kw = dict(preset_id=preset_id, overrides=overrides,
-              domain_policy=state.get("domain_policy", "warn"),
-              lens_selection_policy=state.get("lens_policy", "primary"),
-              reference_selection_policy=state.get("ref_policy", "interactive_fast"))
-    if kw["lens_selection_policy"] == "selected":
-        kw["requested_lens_ids"] = tuple(state.get("selected_lens_ids") or ())
-    if kw["reference_selection_policy"] == "selected":
-        kw["requested_reference_runner_ids"] = tuple(state.get("selected_ref_ids") or ())
-    return lab.ScenarioRequest(**kw)
 
 
 def selection_preview(request) -> dict:
@@ -157,17 +112,29 @@ def main():
         return
     # pre-execution preview: what WILL run (a model does not run merely because it is available)
     st.subheader("Selection preview (before execution)")
+    st.caption("This is the LOCAL_PRIVATE surface — private inspection on your machine. It is NOT a "
+               "public-hosting clearance; NOT_REVIEWED models are inspectable here but not publicly live.")
     st.json(selection_preview(request))
+    # single rights-safe path (shared with the public app + batch): the service runs the rights preflight
+    # BEFORE any producer. In LOCAL_PRIVATE only a RIGHTS_BLOCKED selection (e.g. Grudeva) is refused.
     try:
-        execution = lab.execute_scenario(request)
+        result = lab_service.execute_lab_request(
+            request, execution_context=EXECUTION_CONTEXT,
+            provenance=lab.BuildProvenance(package_version=__import__("puckworks").__version__))
     except Exception as exc:                              # useful message, never a stack dump
         st.error(f"Could not run the scenario: {type(exc).__name__}: {exc}")
         return
+    if result.blocked:
+        st.error("This request was blocked by the rights preflight — no model ran:")
+        for b in result.blockers:
+            st.markdown(f"- {b}")
+        return
+    report = result.report
 
-    # domain findings BEFORE results; the execution already evaluated the domain through the authoritative
+    # domain findings BEFORE results; the run already evaluated the domain through the authoritative
     # product domain and decided whether the producer ran (REJECTED blocks always; WARNING blocks strict).
     st.subheader("Domain findings")
-    findings = list(execution.domain_findings)
+    findings = list(report["domain"]["findings"])
     for f in findings:
         level, text, detail = format_finding(f)
         {"error": st.error, "warning": st.warning, "success": st.success, "info": st.info}[level](text)
@@ -176,13 +143,11 @@ def main():
                 st.write(detail)
     if not findings:
         st.success("No domain findings.")
-    if execution.domain_blocked:
-        st.error(f"Scenario blocked by domain policy ({execution.effective_domain_policy}); the scientific "
-                 f"producer was not run. Reason: {execution.domain_block_reason}")
+    if report["domain"]["blocked"]:
+        st.error(f"Scenario blocked by domain policy ({report['domain']['effective_policy']}); the "
+                 f"scientific producer was not run. Reason: {report['domain']['block_reason']}")
         return
 
-    report = lab.build_comparison(execution, provenance=lab.BuildProvenance(
-        package_version=__import__("puckworks").__version__))
     cap = report["capability_snapshot"]
 
     st.subheader(f"Scenario: {report['scenario']['scenario_id']}")
