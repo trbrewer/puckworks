@@ -1,0 +1,11 @@
+# Streamlit Community Cloud deployment manifest for the PUBLIC Guided Pull Laboratory Explorer.
+# Python 3.12. Entrypoint: apps/lab_public_app.py.  See docs/DEPLOYMENT.md.
+#
+# Installs THIS repository's puckworks package (the exact deployed revision, so the app files and the
+# package can never drift) plus the minimal UI dependencies ONLY. Deploy from a STABLE, pinned
+# branch/tag — never auto-deploy every development-main commit.
+#
+# Deliberately NO optional GPU ('taichi', the [lb] extra) and NO 3-D ('pyvista'/'vtk', the [viz3d]
+# extra). No secret, no telemetry, no network calls from the app.
+.[webapp]
+pandas

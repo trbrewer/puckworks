@@ -74,3 +74,19 @@ jobs:
             print("streamlit health check FAILED (no 200)")
             sys.exit(1)
             PY
+            # (3) Public Explorer app health (PUBLIC_ARTIFACT context, separate entrypoint)
+            STREAMLIT_BROWSER_GATHER_USAGE_STATS=false \
+              python -m streamlit run apps/lab_public_app.py --server.headless true \
+              --server.port 8502 --server.address 127.0.0.1 &
+            python - <<'PY'
+            import urllib.request, time, sys
+            for _ in range(40):
+                try:
+                    with urllib.request.urlopen("http://127.0.0.1:8502/_stcore/health", timeout=3) as r:
+                        print("public explorer health:", r.status, r.read().decode()[:10])
+                        sys.exit(0 if r.status == 200 else 1)
+                except Exception:
+                    time.sleep(2)
+            print("public explorer health check FAILED (no 200)")
+            sys.exit(1)
+            PY
