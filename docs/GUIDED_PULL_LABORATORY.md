@@ -13,6 +13,39 @@ python -m puckworks.product.lab compare  --format json    # deterministic machin
 python -m puckworks.product.lab compare  --domain-policy strict --references none   # request controls
 ```
 
+## Full Laboratory Tour (`full_laboratory_tour_v1`)
+
+`puckworks.product.lab_tour` turns the Laboratory into a broad, honest walk of the **whole** registry: it
+resolves **every** registered component to exactly **one** primary route and runs the ones that are
+scientifically and legally available — without pretending their outputs are directly comparable (it never
+averages, ranks, normalizes, or overlays). Six finite routes (richest available wins; a rights block
+overrides everything):
+
+| route | meaning | input origin |
+|---|---|---|
+| `COMMON_SCENARIO` | receives the entered recipe through a documented adapter | the entered recipe |
+| `NATIVE_REFERENCE` | runs its own provenance-bound reference case | the component's own case |
+| `SCIENTIFIC_CHECK` | runs its registered gate(s) — a check, **not** a full simulation | the gate's own fixture |
+| `OPTIONAL_DEPENDENCY` | needs an absent optional dependency/environment | — |
+| `RIGHTS_BLOCKED` | shown but receives **zero** execution calls | — |
+| `NO_EXECUTION_PATH` | catalogued; no defensible runner/check today | — |
+
+Today the frozen tour v1 resolves all **25** components and exercises **23** eligible code paths — **1**
+common-scenario run (Cameron), **4** native reference runs (including the batch-only LB reference —
+`interactive_fast` would omit it), and **18** registered scientific checks — with **1** rights-blocked
+(`grudeva2025.reduced`, #73, zero calls) and **1** optional-dependency component (`brewer2026.lb_taichi`,
+no enabled quick demonstration yet). "Ran successfully" and "directly comparable" are **separate** facts:
+a gate pass is not experimental validation; a native reference is not a prediction of the user's shot; a
+calibration/closure gate is not an extraction model; a catalog listing is not an execution.
+
+`execute_laboratory_tour(scenario_request, *, manifest_id, execution_context)` runs every route through the
+rights-safe `lab_service` (preflight before producer) and returns one `TourComponentResult` per component,
+grouped by stage, with deterministic scientific hashes over canonical content only. The manifest is
+**versioned and FROZEN**: `verify_tour_manifest()` fails when a new registry component is unclassified, a
+rights/runner change contradicts a frozen route, or a native runner/adapter is orphaned — the tour never
+silently expands. In a public context the tour still runs **only** affirmatively-cleared components (today
+just the LB reference); everything else is shown but not executed.
+
 ## Surfaces (one rights-safe execution path)
 
 Every surface — the Actions batch, the Colab notebook, and the two Streamlit apps — runs a request

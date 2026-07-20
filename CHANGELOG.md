@@ -5,6 +5,28 @@ tracked in detail in `docs/ROADMAP.md` §7.1.
 
 ## Unreleased
 
+- **Full Laboratory Tour — all available components, honestly (#43/#70):** `puckworks.product.lab_tour`
+  turns the Laboratory into a broad walk of the whole registry. A **versioned, frozen** manifest
+  (`full_laboratory_tour_v1`) resolves **every** registered component to exactly **one** primary route —
+  `COMMON_SCENARIO` / `NATIVE_REFERENCE` / `SCIENTIFIC_CHECK` / `OPTIONAL_DEPENDENCY` / `RIGHTS_BLOCKED` /
+  `NO_EXECUTION_PATH` (finite enums). `verify_tour_manifest()` fails when a new component is unclassified,
+  a rights/runner change contradicts a frozen route, or a native runner/adapter is orphaned, so the tour
+  never silently expands. `execute_laboratory_tour(scenario_request, *, manifest_id, execution_context)`
+  runs each route through the rights-safe `lab_service` (preflight before producer) and returns one
+  `TourComponentResult` per component, stage-grouped, with deterministic scientific hashes over canonical
+  content only. Today it resolves all **25** components and exercises **23** eligible code paths — 1
+  common-scenario (Cameron), 4 native references (including the batch-only LB reference, which
+  `interactive_fast` omits), and 18 registered scientific checks (reusing `gate_runner`, rights-filtered,
+  per-gate isolation) — with 1 rights-blocked (`grudeva2025.reduced`, **zero** producer/gate calls, #73)
+  and 1 optional (`brewer2026.lb_taichi`). Incompatible outputs are never averaged, ranked, or overlaid
+  (every component is comparable only to itself; only the common lens has a comparability group). The Colab
+  notebook gains four experience modes — **Full Laboratory Tour (default)**, Quick Tour, Your Shot Only,
+  Model Library Only — a pre-run coverage preview, and stage-grouped result cards with plain-language
+  badges (USES YOUR SHOT / NATIVE REFERENCE CASE / SCIENTIFIC CHECK / …). In a public context the tour
+  still runs only affirmatively-cleared components (no widening). "Ran successfully" and "directly
+  comparable" stay separate facts; a gate pass is not experimental validation; a native reference is not a
+  prediction of the entered shot. No version/tag change.
+
 - **Public/local Streamlit split + producer-free Explorer + one execution facade (#43/#70):** every
   Laboratory surface (batch, Colab, both Streamlit apps) now runs through a single rights-safe service,
   `puckworks.product.lab_service.execute_lab_request(request, *, execution_context, …)` — explicit context
