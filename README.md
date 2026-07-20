@@ -28,15 +28,20 @@ Rather than forcing every paper into one all-purpose model, Puckworks keeps each
 separate, testable module. This lets researchers compare alternative explanations, see the conditions
 where each model applies, and check predictions against the measurements that are actually available.
 
-<p align="center">
-  <a href="https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/puckworks_quickstart_colab.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open the Puckworks CPU quickstart in Google Colab"></a>
-  &nbsp;
-  <a href="https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/guided_pull_laboratory_colab.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open the Guided Pull Laboratory in Google Colab"></a>
-</p>
+<table align="center">
+  <tr>
+    <td align="center"><b>🧪 Full Laboratory Tour</b><br><sub>run a bounded shot in your browser</sub></td>
+    <td align="center"><b>📋 Quickstart</b><br><sub>browse the espresso models</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/guided_pull_laboratory_colab.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open the Full Laboratory Tour in Google Colab"></a></td>
+    <td align="center"><a href="https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/puckworks_quickstart_colab.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open the Puckworks CPU quickstart in Google Colab"></a></td>
+  </tr>
+</table>
 
 **Try it now:**
-[▶ Run the quickstart in Google Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/puckworks_quickstart_colab.ipynb)
- · [🧪 Open the **Guided Pull Laboratory** in Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/guided_pull_laboratory_colab.ipynb)
+[🧪 Open the **Full Laboratory Tour** in Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/guided_pull_laboratory_colab.ipynb) (run a shot)
+ · [📋 Run the **quickstart** in Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/puckworks_quickstart_colab.ipynb) (browse models)
  · [⬇ Download the latest public release](https://github.com/trbrewer/puckworks/releases/latest)
  · [🔬 Explore the evidence](docs/public/README.md)
  · [📊 View current project status](docs/planning/STATE_OF_TRUTH.md)
