@@ -74,13 +74,23 @@ def test_class1_render_is_stamped(tmp_path):
     out = render_spec(spec, outdir=str(tmp_path))
     thumb = Path(out["thumb"])
     assert thumb.exists() and thumb.stat().st_size > 1000
-    # the stamp writes the badge text onto the figure canvas
+    # the stamp writes the badge text onto the figure canvas — search ALL Text artists (the badge may
+    # live in a reserved header subfigure for tour figures, or in fig.texts for the ordinary stamp)
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
+
+    def all_text(fig):
+        out = list(fig.texts)
+        for sf in getattr(fig, "subfigs", []):
+            out += all_text(sf)
+        for ax in fig.axes:
+            out += list(ax.texts) + [ax.title, ax.xaxis.label, ax.yaxis.label]
+        return out
+
     fig = plt.figure()
     stamp_fig(fig, spec, commit="deadbeefcafe")
-    assert any(spec.badge in t.get_text() for t in fig.texts)
+    assert any(spec.badge in t.get_text() for t in all_text(fig))
     plt.close(fig)
 
 

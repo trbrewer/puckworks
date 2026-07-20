@@ -5,6 +5,27 @@ tracked in detail in `docs/ROADMAP.md` §7.1.
 
 ## Unreleased
 
+- **Deep-dive figure presentation/readability pass (#43) — formatting only.** The educational tour
+  figures are now laid out by a new `puckworks.viz.tour_style` with a **reserved header band** (evidence
+  badge) and **reserved footer band** (concise provenance + the fidelity ceiling wrapped as a `Scope:`
+  paragraph), built from stacked matplotlib subfigures — so the badge never overlaps a title and the
+  footer never overlaps an axis label. A local typography scale keeps every visible label ≥8 pt
+  (retiring the old 5.2 pt footer); no process-wide `rcParams` are touched. `stamp_fig` delegates to an
+  **idempotent** tour stamp when a figure carries the reserved bands, and keeps the ordinary corner stamp
+  for every other figure. Draw functions gained `presentation="notebook"|"standalone"`: notebook figures
+  no longer repeat the headline/question the notebook prints, small multiples share one figure-level axis
+  label, and the reference-condition star is explained once. Per-figure fixes: the Foster wetting front
+  is windowed to the saturation event (it was invisible on a 100 s axis); the LB profile is normalized to
+  fraction-of-maximum with wall/centre labels (no six-decimal lattice ticks); the synthetic pack is a
+  compact solid-vs-pore + heterogeneity-field landscape with a visual key and colorbar (no lattice ticks).
+  The novice explanation is restructured by a new tested `puckworks.product.lab_tour_notebook_display`
+  into short labelled sections (*What changes · What the model shows · Why this happens · Scope*) with all
+  technical evidence in a collapsed `<details>` block and **humanized** fixed inputs (`Dose: 20 g`, not
+  `dose_g=20.0`); the Colab deep dive is reworked to match (public headings, retina inline). Structural
+  bounding-box/typography tests (`tests/test_tour_layout.py`) guard the collisions from recurring. NO
+  computed value, badge, evidence strength, fidelity ceiling, VizSpec metadata, component ordering, rights
+  behavior, tour route, or scientific hash changed; no status promotion.
+
 - **Educational insight figures for the Full-Tour deep dive; gate scorecards removed (#43).** The novice
   deep dive no longer plots any scientific-check / gate numbers (the `_gate_figure` path,
   `_PASS_COLOR`/`_FAIL_COLOR`, and the "condition index" scorecard are deleted from
