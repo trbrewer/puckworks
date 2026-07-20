@@ -5,6 +5,25 @@ tracked in detail in `docs/ROADMAP.md` §7.1.
 
 ## Unreleased
 
+- **Public/local Streamlit split + producer-free Explorer + one execution facade (#43/#70):** every
+  Laboratory surface (batch, Colab, both Streamlit apps) now runs through a single rights-safe service,
+  `puckworks.product.lab_service.execute_lab_request(request, *, execution_context, …)` — explicit context
+  required, rights preflight before any producer, one blocked selection blocks the whole request, and a
+  typed blocked result carries the rights decision ONLY (no report/trace/observable/hash). A new
+  producer-free `puckworks.product.lab_explorer.explorer_catalog()` exposes the full registry in plain
+  language with **zero** execution (reuses the committed catalog + rights; keeps code/data/output rights
+  separate; public-live availability is affirmative-rights-only — today just `brewer2026.lb_reference`).
+  Two Streamlit entrypoints replace the single dev app: `apps/lab_app.py` (`LOCAL_PRIVATE`, dev) and
+  `apps/lab_public_app.py` (`PUBLIC_ARTIFACT`, **fixed in code** — never user/query/env selectable) with a
+  *Model library* (Explorer, runs nothing), *Component self-checks* (only rights-cleared components run
+  live; download carries the preflight + provenance), and a *Try a reference shot* view disabled with a
+  plain explanation + private-Colab link while Cameron is `NOT_REVIEWED`. Shared context-independent
+  presentation/logic lives in `apps/lab_ui_common.py` (plain-language labels; chart text-alternative
+  tables; novice result ordering). A Streamlit-Cloud deployment manifest (`requirements.txt`, minimal
+  deps, no GPU/3-D) + `docs/DEPLOYMENT.md` document the maintainer deploy; `codespaces-ci` now health-
+  smokes both apps. No public URL is advertised until a human verifies it signed out (#43). No public
+  execution widened — rights states unchanged; Grudeva stays `RIGHTS_BLOCKED` (#73). No version/tag change.
+
 - **Form-driven Guided Pull Laboratory Colab (#43):** `notebooks/guided_pull_laboratory_colab.ipynb` — a
   layperson browser path to *run a bounded shot* with a short form and one **▶ Run the Laboratory**
   button, no Python/shell/`pip`/CLI to type. It executes through the shared rights-safe service

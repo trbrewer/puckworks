@@ -15,6 +15,21 @@ Concretely:
 - a **user** can install **one wheel** and have it work identically on Windows, macOS, and Linux;
 - **no** access path presents an unreleased or rights-blocked capability as available.
 
+## 1a. Newcomer-facing hierarchy
+
+The order a non-programmer should meet Puckworks (least to most setup):
+
+1. **Explore the Laboratory** — the public web Explorer (`apps/lab_public_app.py`): one URL, browse the
+   full model library with **no execution**, run only the per-model rights-cleared components live. No
+   terminal command on this path.
+2. **Run privately in Colab** — the [Guided Pull Laboratory notebook](../notebooks/guided_pull_laboratory_colab.ipynb):
+   a form + one **▶ Run** button, `LOCAL_PRIVATE`, no terminal.
+3. **Advanced local / CLI** — `pip install` + `puckworks-pull` / `python -m puckworks.product.lab` for
+   deterministic, scriptable runs.
+4. **Contributor Codespaces** — the dev container + `streamlit run apps/lab_app.py` (`LOCAL_PRIVATE`).
+
+Novices are never sent to a terminal command on the primary path (1–2).
+
 ## 2. One-click paths
 
 | Path | Who it is for | Cost to start |
@@ -138,6 +153,21 @@ python3 -c "import puckworks; print(len(puckworks.components()), 'components')"
 
 No OS-specific release archives are published — there is no platform-specific payload to justify
 them.
+
+## 7a. Public web Explorer (Streamlit)
+
+`apps/lab_public_app.py` is the hosted, sign-out-friendly Explorer. Its execution context is fixed to
+`PUBLIC_ARTIFACT` **in code** — never selectable by the user, a query string, or an environment variable —
+and it runs through the shared `puckworks.product.lab_service`, so the rights preflight runs before any
+producer. It is useful even when no component is publicly cleared: the **Model library** view is the
+producer-free Explorer (runs nothing), and live-run controls are disabled with a plain explanation + a
+private-Colab link. **Component self-checks** run only affirmatively rights-cleared components (today just
+`brewer2026.lb_reference`); the download carries the rights preflight + provenance. Deployment parameters
+(repo, stable branch, entrypoint, Python 3.12, `requirements.txt`, no secrets) live in
+[`DEPLOYMENT.md`](DEPLOYMENT.md). Accessibility: every input has a visible label + help text; charts carry
+a text-alternative data table; no meaning is conveyed by colour alone; no login is required to browse; no
+recipe/result/telemetry leaves the app. **No public URL is advertised until a human verifies the deployed
+app signed out (#43).**
 
 ## 8. Contributor cloud environments
 

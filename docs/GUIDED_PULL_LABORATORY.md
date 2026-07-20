@@ -13,6 +13,29 @@ python -m puckworks.product.lab compare  --format json    # deterministic machin
 python -m puckworks.product.lab compare  --domain-policy strict --references none   # request controls
 ```
 
+## Surfaces (one rights-safe execution path)
+
+Every surface — the Actions batch, the Colab notebook, and the two Streamlit apps — runs a request
+through the **single** rights-safe service `puckworks.product.lab_service.execute_lab_request(request, *,
+execution_context, …)`, which owns the ordering *validate → rights preflight (before any producer) →
+execute lenses → execute native references → build comparison* and returns a typed result (a blocked
+request carries the rights decision only, no science):
+
+- **Browser, private (novice)** — `notebooks/guided_pull_laboratory_colab.ipynb`: a form + one **▶ Run**
+  button, `LOCAL_PRIVATE`, no terminal. Three experience modes map to explicit finite requests.
+- **Browser, public (hosted)** — `apps/lab_public_app.py` (`PUBLIC_ARTIFACT`, fixed in code, never
+  user/query/env selectable): a *Model library* (the producer-free `lab_explorer.explorer_catalog()`,
+  runs nothing), *Component self-checks* (only affirmatively rights-cleared components run live), and a
+  *Try a reference shot* view that is disabled with a plain explanation + a private-Colab link while its
+  common lens is `NOT_REVIEWED`. Deploy per `docs/DEPLOYMENT.md`.
+- **Local/dev** — `apps/lab_app.py` (`LOCAL_PRIVATE`): the full development controls.
+- **CLI / batch** — `python -m puckworks.product.lab` and `tools/lab_batch.py`.
+
+The **producer-free Explorer** (`lab_explorer.explorer_catalog()`) is the catalog view a public page uses
+with zero execution: it reuses the committed catalog + rights registry only, keeps code/data/output rights
+separate, derives public-live availability from use-specific rights (affirmative-only), and emits no
+scientific hash.
+
 ## Two modes
 
 1. **Common-scenario model lenses.** One bounded espresso scenario (the `pv19_named` fixed reference

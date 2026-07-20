@@ -30,10 +30,13 @@ where each model applies, and check predictions against the measurements that ar
 
 <p align="center">
   <a href="https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/puckworks_quickstart_colab.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open the Puckworks CPU quickstart in Google Colab"></a>
+  &nbsp;
+  <a href="https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/guided_pull_laboratory_colab.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open the Guided Pull Laboratory in Google Colab"></a>
 </p>
 
 **Try it now:**
 [▶ Run the quickstart in Google Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/puckworks_quickstart_colab.ipynb)
+ · [🧪 Open the **Guided Pull Laboratory** in Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/guided_pull_laboratory_colab.ipynb)
  · [⬇ Download the latest public release](https://github.com/trbrewer/puckworks/releases/latest)
  · [🔬 Explore the evidence](docs/public/README.md)
  · [📊 View current project status](docs/planning/STATE_OF_TRUTH.md)
@@ -113,27 +116,34 @@ own stage; the Guided Pull executes only the Cameron extraction chain above.
 
 ## What you can run today
 
-Three public paths (no local setup required):
+Four public paths (no local setup required):
 
 - **Explore the component registry** — [▶ Open the quickstart in Google Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/puckworks_quickstart_colab.ipynb): list the models, read each one's source and the conditions where it applies, and run the automated scientific checks. It installs the latest released wheel after verifying its SHA-256.
+- **Run the Guided Pull Laboratory in your browser** — [🧪 Open the Guided Pull Laboratory in Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/guided_pull_laboratory_colab.ipynb): a short **form** plus one **▶ Run the Laboratory** button — no terminal, no code to type. Pick *Guided shot only*, *Guided shot + component self-checks*, or *Catalog only* (browse every model, run nothing). It runs **privately** in your own Colab runtime (`LOCAL_PRIVATE`; that is not a public-hosting clearance) and installs a commit-pinned development preview (`0.4.0.dev0`). It is **not** a digital twin, optimizer, or taste predictor. See [`docs/GUIDED_PULL_LABORATORY.md`](docs/GUIDED_PULL_LABORATORY.md).
 - **Run a guided espresso pull** — [▶ Open the Guided Espresso Pull in Google Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/guided_espresso_pull_colab.ipynb): enter a bounded recipe and run one coherent, model-backed pull stage by stage, with evidence-labelled traces and honest range warnings. You supply the dose, beverage mass, grinder dial, and pressure; the `cameron2020.extraction_bdf` model runs; you get extraction-yield, strength, flow, and a stage-by-stage report. It reports chemical composition, **not** taste; it does **not** model puck wetting, physical first drip, a dynamic pressure profile, temperature response, or flavor. See [`docs/GUIDED_ESPRESSO_PULL.md`](docs/GUIDED_ESPRESSO_PULL.md) and [issue #48](https://github.com/trbrewer/puckworks/issues/48).
 - **Explore why the cup hides the clock** — [▶ Open the flat-valley interactive](https://trbrewer.github.io/puckworks/flat-valley/): a static, generated explainer of why a good whole-cup endpoint fit can still hide weak parameter identification. Every number is generated from a committed result bundle; no install needed.
 
 Locally, after `pip install`, the **`puckworks-pull` command-line tool** runs the same guided espresso
 pull deterministically and writes JSON/Markdown/figures — see [`docs/GUIDED_ESPRESSO_PULL.md`](docs/GUIDED_ESPRESSO_PULL.md).
 
-*In development (`0.4.0.dev0`, not in the released v0.3.0):* the **Guided Pull Laboratory**
-(`python -m puckworks.product.lab compare`) exposes the full component registry and runs the compatible
-subset as independent model lenses — it never averages competing mechanisms and is not a digital twin.
-See [`docs/GUIDED_PULL_LABORATORY.md`](docs/GUIDED_PULL_LABORATORY.md).
+*In development (`0.4.0.dev0`, not in the released v0.3.0):* the **Guided Pull Laboratory** exposes the
+full component registry and runs the compatible subset as independent model lenses — it never averages
+competing mechanisms and is not a digital twin. See [`docs/GUIDED_PULL_LABORATORY.md`](docs/GUIDED_PULL_LABORATORY.md).
 
-**Ways to run it:**
+**Ways to run it (novice-first):**
 
-- **Colab** — the released, simple guided experience (quickstart + Guided Espresso Pull notebooks above).
-- **CLI** — local deterministic execution: `puckworks-pull` and `python -m puckworks.product.lab`.
-- **Codespaces** — the dynamic development UI. Open a [GitHub Codespace](https://github.com/codespaces/new?repo=trbrewer/puckworks)
-  (`.devcontainer/` installs `.[dev,viz,webapp]`), then `streamlit run apps/lab_app.py` — it runs the
-  **development** branch/version (`0.4.0.dev0`), not necessarily the latest release.
+- **Explore the Laboratory** — the browser Colab above: a form + one Run button, no terminal.
+- **Run privately in Colab** — the same notebook runs models privately (`LOCAL_PRIVATE`), including ones
+  not yet cleared for public hosting.
+- **Public web Explorer** — `apps/lab_public_app.py` (`PUBLIC_ARTIFACT`): browse the full model library
+  with no execution, and run only the per-model, affirmatively rights-cleared components live. Deployment
+  is a maintainer step ([`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md)); no public URL is advertised until a
+  human verifies it signed out.
+- **Advanced — CLI / local Python** — `puckworks-pull` and `python -m puckworks.product.lab` for
+  deterministic, scriptable, reproducible runs.
+- **Contributor Codespaces** — the dynamic development UI. Open a [GitHub Codespace](https://github.com/codespaces/new?repo=trbrewer/puckworks)
+  (`.devcontainer/` installs `.[dev,viz,webapp]`), then `streamlit run apps/lab_app.py` (`LOCAL_PRIVATE`)
+  — it runs the **development** version (`0.4.0.dev0`), not necessarily the latest release.
 - **Actions** — reproducible batch artifacts: the manually dispatched `guided-pull-batch` workflow
   (`workflow_dispatch`) builds the current wheel and writes deterministic JSON/Markdown/figure. It is a
   batch runner, not a live UI. As a **public** artifact run it applies a rights preflight before any
