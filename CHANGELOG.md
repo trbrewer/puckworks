@@ -16,7 +16,11 @@ tracked in detail in `docs/ROADMAP.md` §7.1.
   fabricated) with a plain caption — a common-scenario time series, a measured-vs-reference bar, a
   first-drip bracket, or PASS/FAIL gate-metric bars — and returns `None` (a status note, not a fake plot)
   for blocked/optional/no-output components. No backend is forced, so figures embed inline in a notebook.
-  (The Colab notebook consumes these in a follow-up so its pinned dev-preview commit contains them.)
+  The Colab notebook now renders a **per-model deep dive**: one illustrated card per model in espresso
+  process order (Grind → … → Extraction), each with the stage + model, full reference, role and physics,
+  a plot of its own output with a plain caption, what it computes, and — caveated — what that might mean
+  for the cup. (The notebook's pinned dev-preview commit is bumped to a main commit that contains the two
+  modules; a static test binds the pin to the modules the notebook imports.)
 
 - **Fix: Colab Laboratory ImportError on `lab_tour` (#43).** The notebook's commit-pinned DEVELOPMENT
   PREVIEW pointed at a commit predating `puckworks.product.lab_tour` (the pin had not been bumped when the

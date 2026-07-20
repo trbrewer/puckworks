@@ -169,3 +169,14 @@ def test_result_cards_answer_the_novice_questions(code):
     # each card renders: what ran, inputs, comparability, and what it does not establish; id in technical
     for field in ("what ran:", "inputs:", "comparable?", "does NOT establish:", "technical id:"):
         assert field in code, f"result cards missing {field!r}"
+
+
+def test_per_model_deep_dive_renders_reference_role_physics_and_espresso(code):
+    # the per-model deep dive uses the narrative + plot modules and shows the required per-card content
+    assert "lab_component_stories" in code and "lab_tour_plots" in code
+    assert "component_figure" in code and "ordered_component_ids" in code   # process-order per-model cards
+    for field in ("Full reference:", "Role:", "What physics it represents:", "What it computes:",
+                  "What this might mean for your cup:"):
+        assert field in code, f"deep-dive card missing {field!r}"
+    # the standing caveat is displayed and figures embed inline
+    assert "STANDING_DISCLAIMER" in code and "matplotlib" in code and "inline" in code
