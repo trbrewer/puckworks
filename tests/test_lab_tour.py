@@ -83,6 +83,7 @@ def test_bad_context_and_bad_manifest_are_rejected():
 
 
 # ── execution (shared module tours) ──────────────────────────────────────────────────
+@pytest.mark.slow
 def test_full_tour_resolves_25_and_executes_23_local(local_tour):
     s = local_tour.summary
     assert s["registered"] == 25 and s["completed"] == 23   # 1 common + 4 native + 18 checks
@@ -93,6 +94,7 @@ def test_full_tour_resolves_25_and_executes_23_local(local_tour):
     assert set(ids) == {c.name for c in puckworks.components()} and len(ids) == 25   # one per component
 
 
+@pytest.mark.slow
 def test_common_native_and_check_counted_by_distinct_kinds(local_tour):
     by = {}
     for c in local_tour.components:
@@ -101,6 +103,7 @@ def test_common_native_and_check_counted_by_distinct_kinds(local_tour):
     assert by == {"COMMON_SCENARIO": 1, "NATIVE_REFERENCE": 4, "SCIENTIFIC_CHECK": 18}
 
 
+@pytest.mark.slow
 def test_blocked_and_unavailable_entries_carry_no_scientific_payload(local_tour):
     for c in local_tour.components:
         if c.execution_status in ("RIGHTS_BLOCKED", "OPTIONAL_UNAVAILABLE", "NO_EXECUTION_PATH",
@@ -108,11 +111,13 @@ def test_blocked_and_unavailable_entries_carry_no_scientific_payload(local_tour)
             assert c.outputs == [] and c.scientific_hash is None
 
 
+@pytest.mark.slow
 def test_grudeva_carries_no_payload(local_tour):
     g = next(c for c in local_tour.components if c.component_id == "grudeva2025.reduced")
     assert g.execution_status == "RIGHTS_BLOCKED" and g.outputs == [] and g.scientific_hash is None
 
 
+@pytest.mark.slow
 def test_tour_hashes_are_deterministic_across_identical_runs(local_pair):
     a, b = local_pair
     assert a.tour_scientific_hash == b.tour_scientific_hash
@@ -124,6 +129,7 @@ def test_tour_hashes_are_deterministic_across_identical_runs(local_pair):
     assert da != db or True                                  # (durations may coincide; hash equality is the assertion)
 
 
+@pytest.mark.slow
 def test_no_component_is_comparable_to_another(local_tour):
     for c in local_tour.components:
         assert c.comparable_component_ids in ([], [c.component_id])
@@ -131,6 +137,7 @@ def test_no_component_is_comparable_to_another(local_tour):
     assert grouped == ["cameron2020.extraction_bdf"]         # only the common lens has a group (singleton)
 
 
+@pytest.mark.slow
 def test_public_tour_executes_only_affirmatively_cleared_components(public_tour):
     executed = sorted(c.component_id for c in public_tour.components if c.execution_status == "EXECUTED")
     assert executed == ["brewer2026.lb_reference"]
@@ -141,6 +148,7 @@ def test_public_tour_executes_only_affirmatively_cleared_components(public_tour)
 
 
 # ── isolated monkeypatched runs (each runs its own tour) ─────────────────────────────
+@pytest.mark.slow
 def test_grudeva_receives_zero_producer_and_gate_calls(monkeypatch):
     from puckworks import gate_runner as G
     from puckworks.product import lab_runners
@@ -155,6 +163,7 @@ def test_grudeva_receives_zero_producer_and_gate_calls(monkeypatch):
     assert "grudeva2025.reduced" not in calls
 
 
+@pytest.mark.slow
 def test_check_failure_and_execution_error_stay_distinct(monkeypatch):
     from puckworks import gate_runner as G
     real = G.evaluate_component_gates

@@ -5,6 +5,20 @@ tracked in detail in `docs/ROADMAP.md` §7.1.
 
 ## Unreleased
 
+- **Rights-aware component-check runner (#43/#70):** `puckworks.product.lab_component_checks.
+  run_component_checks(component_ids, *, execution_context)` is the Laboratory's single, rights-aware way
+  to run a SELECTED set of components' registered gate(s) — the Laboratory never exposes an unfiltered
+  `evaluate_all_gates()`. Rights are resolved BEFORE any gate/model/import call (a `RIGHTS_BLOCKED`
+  component receives ZERO gate calls, returned as a typed non-scientific resolution; public contexts keep
+  the affirmative code/output requirement — no broadening); it reuses the authoritative `gate_runner`
+  (thresholds/formulas not copied), isolates failures per-component and per-gate, and keeps `EXECUTED` /
+  `CHECK_FAILED` / `EXECUTION_ERROR` / `RIGHTS_BLOCKED` / `RIGHTS_NOT_CLEARED` / `NO_GATE_ACKNOWLEDGED` /
+  `NOT_SELECTED` distinct (a numerical exception is an error, never a scientific zero). Each result carries
+  gate id/status/metrics/units, evidence, a deterministic scientific hash, duration, and a fidelity
+  ceiling (a gate pass is NOT experimental validation and NOT a full simulation). The Full Laboratory Tour
+  now delegates its scientific-check routes to this one runner (single source). No component numerics
+  changed.
+
 - **Full Laboratory Tour — all available components, honestly (#43/#70):** `puckworks.product.lab_tour`
   turns the Laboratory into a broad walk of the whole registry. A **versioned, frozen** manifest
   (`full_laboratory_tour_v1`) resolves **every** registered component to exactly **one** primary route —

@@ -311,23 +311,6 @@ def _rights_decision(cid: str) -> dict:
             "decision_issue": r.decision_issue}
 
 
-def _context_clearance(cid: str, execution_context: str):
-    """(allowed, blocker). LOCAL_PRIVATE: blocked only on RIGHTS_BLOCKED. Public: affirmative code (and
-    output for PUBLIC_ARTIFACT) required. This never broadens public availability."""
-    from puckworks import rights
-    if execution_context in ("PUBLIC_BATCH", "PUBLIC_ARTIFACT"):
-        code = rights.may_execute_in_public_batch(cid)
-        if not code.allowed:
-            return False, f"code not cleared for {execution_context} ({code.governing_state})"
-        if execution_context == "PUBLIC_ARTIFACT":
-            out = rights.may_publish_outputs(cid)
-            if not out.allowed:
-                return False, f"output not cleared for publication ({out.governing_state})"
-        return True, ""
-    d = rights.may_execute_locally(cid)
-    return d.allowed, ("" if d.allowed else f"rights-blocked ({d.governing_state})")
-
-
 # ── per-route execution (every executing route goes through lab_service: preflight before producer) ──
 def _scenario_kwargs(scenario_request) -> dict:
     return {"preset_id": scenario_request.preset_id, "overrides": dict(scenario_request.overrides),
@@ -414,47 +397,27 @@ def _run_native_reference(plan, scenario_request, execution_context) -> TourComp
 
 
 def _run_scientific_check(plan, execution_context) -> TourComponentResult:
-    """Run the component's registered gate(s) with rights checked FIRST. A rights-blocked component never
-    reaches this function (routed RIGHTS_BLOCKED); this second gate is defence in depth."""
-    allowed, blocker = _context_clearance(plan.component_id, execution_context)
-    if not allowed:
-        status = (TourExecutionStatus.RIGHTS_BLOCKED.value if "rights-blocked" in blocker
+    """Delegate to the single rights-aware component-check runner (the tour's ONE source of gate
+    execution). A rights-blocked component is refused there before any gate call (defence in depth: it is
+    also never routed here)."""
+    from puckworks.product import lab_component_checks as CC
+    cr = CC.run_component_checks([plan.component_id], execution_context=execution_context)[0]
+    if cr.execution_status in (CC.ComponentCheckStatus.RIGHTS_BLOCKED.value,
+                               CC.ComponentCheckStatus.RIGHTS_NOT_CLEARED.value):
+        status = (TourExecutionStatus.RIGHTS_BLOCKED.value
+                  if cr.execution_status == CC.ComponentCheckStatus.RIGHTS_BLOCKED.value
                   else TourExecutionStatus.RIGHTS_NOT_CLEARED.value)
-        return _blocked_card(plan, status, blocker)
-    from puckworks import gate_runner as G
-    t0 = time.perf_counter()
-    try:
-        gate_results = G.evaluate_component_gates(plan.component_id)   # per-gate isolation built in
-    except Exception as exc:                                           # pragma: no cover - defensive
-        return _blocked_card(plan, TourExecutionStatus.EXECUTION_ERROR.value,
-                             f"{type(exc).__name__}: {exc}", time.perf_counter() - t0)
-    dur = time.perf_counter() - t0
-    statuses = [gr.status.value for gr in gate_results]
-    if "ERROR" in statuses:
-        status = TourExecutionStatus.EXECUTION_ERROR.value
-    elif "FAIL" in statuses:
-        status = TourExecutionStatus.CHECK_FAILED.value
-    elif statuses == ["SKIP"] or statuses == ["ACKNOWLEDGED_EXCEPTION"]:
-        status = TourExecutionStatus.NO_GATE_ACKNOWLEDGED.value
-    else:
-        status = TourExecutionStatus.EXECUTED.value
-    outputs = [{"gate_id": gr.gate_id, "status": gr.status.value, "metrics": gr.metrics,
-                "summary": gr.summary} for gr in gate_results]
-    # canonical scientific content EXCLUDES durations/paths/timestamps
-    payload = {"component_id": plan.component_id, "gates": [{"gate_id": gr.gate_id,
-               "status": gr.status.value, "metrics": gr.metrics} for gr in gate_results]}
+        return _blocked_card(plan, status, cr.blocker)
+    outputs = [{"gate_id": g["gate_id"], "status": g["status"], "metrics": g["metrics"],
+                "summary": g["summary"]} for g in cr.gates]
     return TourComponentResult(
         component_id=plan.component_id, stage=plan.stage, execution_kind=plan.execution_kind.value,
-        execution_status=status, input_origin=plan.input_origin.value,
+        execution_status=cr.execution_status, input_origin=plan.input_origin.value,
         inputs_used=[{"source": "the gate's own registered fixture/data"}], outputs=outputs,
-        output_roles=["gate_metric"],
-        evidence={"evidence_strength": _evidence_strength(plan.component_id),
-                  "note": "a gate pass is a code/consistency check, NOT experimental validation"},
-        fidelity_ceiling="registered scientific check on the gate's own fixture; not a full model "
-                         "simulation and not experimental validation",
-        rights_decision=_rights_decision(plan.component_id), comparability_group=None,
-        comparable_component_ids=[plan.component_id], duration_seconds=dur,
-        scientific_hash=_sci_hash(payload),
+        output_roles=["gate_metric"], evidence=cr.evidence, fidelity_ceiling=cr.fidelity_ceiling,
+        rights_decision=cr.rights_decision, comparability_group=None,
+        comparable_component_ids=[plan.component_id], duration_seconds=cr.duration_seconds,
+        scientific_hash=cr.scientific_hash,
         message="ran the component's registered scientific gate(s)")
 
 
