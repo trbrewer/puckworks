@@ -12,6 +12,11 @@ tracked in detail in `docs/ROADMAP.md` §7.1.
   added a regression guard (`test_pinned_commit_contains_every_imported_puckworks_module`) that verifies —
   via `git cat-file` at the pinned commit — that every `puckworks.product` module the notebook imports
   exists there (the hermetic notebook smoke installs a local wheel and cannot catch a stale `git+` pin).
+  Also hardened the install cell: every dev build shares version `0.4.0.dev0`, so a plain `pip install`
+  would SKIP an already-present copy and leave stale code — the cell now **uninstalls first, then
+  installs** the pinned build, refuses to continue (with "Runtime → Restart runtime" guidance) if an
+  older `puckworks` was already imported in the session, and the environment-check cell fast-fails with
+  the same guidance if `lab_tour` is missing.
 
 - **Progressive Full-Tour results in Colab (#43):** `puckworks.product.lab_tour_display.
   tour_display_sections()` turns a tour result into ordered, plain-language sections — **Overview**, **Your
