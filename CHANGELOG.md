@@ -5,6 +5,14 @@ tracked in detail in `docs/ROADMAP.md` §7.1.
 
 ## Unreleased
 
+- **Fix: Colab Laboratory ImportError on `lab_tour` (#43).** The notebook's commit-pinned DEVELOPMENT
+  PREVIEW pointed at a commit predating `puckworks.product.lab_tour` (the pin had not been bumped when the
+  Full Laboratory Tour landed), so a real Colab run failed with `cannot import name 'lab_tour'` in the
+  coverage-preview cell. Bumped `PIN_COMMIT` to a main commit that contains all three tour modules, and
+  added a regression guard (`test_pinned_commit_contains_every_imported_puckworks_module`) that verifies —
+  via `git cat-file` at the pinned commit — that every `puckworks.product` module the notebook imports
+  exists there (the hermetic notebook smoke installs a local wheel and cannot catch a stale `git+` pin).
+
 - **Progressive Full-Tour results in Colab (#43):** `puckworks.product.lab_tour_display.
   tour_display_sections()` turns a tour result into ordered, plain-language sections — **Overview**, **Your
   reference shot**, the espresso-stage sections (Grind / Packing / Machine / Wetting / Flow / Bed dynamics
