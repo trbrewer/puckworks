@@ -135,6 +135,11 @@ def test_pre_run_coverage_preview_present(code):
 
 
 def test_result_badges_are_plain_language(code):
-    for badge in ("USES YOUR SHOT", "NATIVE REFERENCE CASE", "SCIENTIFIC CHECK", "RIGHTS BLOCKED",
-                  "OPTIONAL DEPENDENCY UNAVAILABLE", "NO EXECUTION PATH", "EXECUTION ERROR"):
-        assert badge in code, f"missing plain-language badge {badge!r}"
+    # the badges come from the display helper; the notebook renders them (badge-led, id in detail)
+    assert "lab_tour_display" in code and "tour_display_sections" in code
+
+
+def test_result_cards_answer_the_novice_questions(code):
+    # each card renders: what ran, inputs, comparability, and what it does not establish; id in technical
+    for field in ("what ran:", "inputs:", "comparable?", "does NOT establish:", "technical id:"):
+        assert field in code, f"result cards missing {field!r}"

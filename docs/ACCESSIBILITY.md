@@ -117,10 +117,21 @@ those carry their own, weaker guarantees.
 - The advanced GPU/LB notebook (`../notebooks/espresso_lb_colab.ipynb`) is retained for specialists
   and is unchanged.
 
-> **Human acceptance (pending, #43):** before the Laboratory Colab is called usable, a human must open
-> it from the badge, *not* open a terminal, change one form value, press the single run control, see the
-> evidence-range message + results + caveats + downloads, and confirm no Puckworks upload or secret is
-> requested. Not yet performed.
+The notebook default is the **Full Laboratory Tour**, which resolves all 25 registered components and runs
+the 23 that are available (one common-scenario run of the recipe, four native reference cases, eighteen
+registered scientific checks), with a pre-run coverage preview and results organized into plain-language
+sections (Overview · Your reference shot · the espresso-stage sections · Calibration and evidence checks ·
+Components not run · Technical provenance). Every card leads with a badge — not an internal id — and states
+what ran, where its inputs came from, whether it is comparable to another result, and what it does **not**
+establish.
+
+> **Human acceptance (pending, #43):** before the Laboratory Colab is called usable, a signed-in novice
+> must be able to: open the notebook from the badge; leave **Full Laboratory Tour** selected; press the
+> single **▶ Run** control (no terminal, no typed code); see progress across multiple espresso stages;
+> see **substantially more than Cameron** execute; understand which cards used their recipe, which used a
+> native case, and which ran checks only; see every registered component accounted for; download a
+> complete provenance-bearing report; and confirm no Puckworks upload or secret is requested. Not yet
+> performed — record the date, reviewer, and checks in issue #43.
 
 ## 7. Local installation
 
