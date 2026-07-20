@@ -196,6 +196,57 @@ VIZZES = [
         used_in="PV-09 fines lens (labelled); κ(t)-discrimination protocol explainer; "
                 "Paper B mechanism figure"),
 
+    # ===== Full Laboratory Tour — Cameron educational sweeps (hero deep dive) =====
+    VizSpec(
+        id="cameron_shot_timeseries",
+        title="The whole simulated shot over time (Cameron)", class_=1,
+        producer=Producer(module=_P, function="cameron_shot_timeseries",
+                          result_map={"n_panels": "n_panels"}),
+        badge="EXPLORATORY_SIMULATION", evidence_strength="qualitative",
+        fidelity_ceiling=(
+            "Exploratory saturated-bed BDF simulation: instantaneous flow/outlet-concentration and "
+            "cumulative dissolved-mass/EY/TDS over the shot, prescribed vs simulated split. Begins with a "
+            "WET puck — never renders puck wetting, physical first drip, a dynamic pressure profile, a "
+            "thermal transient, channeling, or flavour."),
+        render_fn="puckworks.viz.tour_insight_draw:render_cameron_shot_timeseries",
+        components=["cameron2020.extraction_bdf"],
+        caption="The whole simulated shot: prescribed pressure/target (dashed) vs simulated flow, outlet "
+                "concentration, dissolved mass, EY, TDS (solid). Saturated-bed simulation, not a measured cup.",
+        outputs=["thumb.png"], used_in="Full Laboratory Tour deep dive (Cameron hero, figure A)"),
+    VizSpec(
+        id="cameron_pressure_sweep",
+        title="Does more pressure make a stronger espresso? (Cameron)", class_=1,
+        producer=Producer(module=_P, function="cameron_pressure_sweep",
+                          result_map={"extraction_yield_pct": "extraction_yield_pct",
+                                      "tds_pct": "tds_pct", "mean_flow_g_s": "mean_flow_g_s"}),
+        badge="EXPLORATORY_SIMULATION", evidence_strength="qualitative",
+        fidelity_ceiling=(
+            "Exploratory saturated-bed simulation; only pressure is varied (fixed dose/grind/beverage). "
+            "Shows extraction-yield/strength/flow/shot-time TRENDS vs pressure — code-verified against the "
+            "source paper, NOT validated against a measured cup; no flavour, wetting, channeling, or "
+            "thermal claim. Domain-rejected points are skipped, never clamped."),
+        render_fn="puckworks.viz.tour_insight_draw:render_cameron_pressure_sweep",
+        components=["cameron2020.extraction_bdf"],
+        caption="Vary only pressure at fixed dose/grind/beverage: faster flow reaches the fixed cup mass "
+                "sooner, so in this model higher pressure LOWERS extraction and strength (less contact time).",
+        outputs=["thumb.png"], used_in="Full Laboratory Tour deep dive (Cameron hero, figure B)"),
+    VizSpec(
+        id="cameron_beverage_sweep",
+        title="Why can collecting more coffee raise extraction yet weaken the drink? (Cameron)", class_=1,
+        producer=Producer(module=_P, function="cameron_beverage_sweep",
+                          result_map={"extraction_yield_pct": "extraction_yield_pct",
+                                      "tds_pct": "tds_pct"}),
+        badge="EXPLORATORY_SIMULATION", evidence_strength="qualitative",
+        fidelity_ceiling=(
+            "Exploratory saturated-bed simulation; only target beverage mass (brew ratio) is varied. Shows "
+            "the extraction-vs-dilution trade-off (EY vs TDS) — code-verified, NOT a measured cup; no "
+            "flavour claim; the soluble ceiling is Cameron's, distinct from other models' ceilings."),
+        render_fn="puckworks.viz.tour_insight_draw:render_cameron_beverage_sweep",
+        components=["cameron2020.extraction_bdf"],
+        caption="Vary only beverage mass at fixed dose/pressure/grind: running more water keeps extracting "
+                "coffee (EY up) while diluting the cup (TDS down) — the extraction–dilution trade-off.",
+        outputs=["thumb.png"], used_in="Full Laboratory Tour deep dive (Cameron hero, figure C)"),
+
     # ===== Whole process — PV-09 multi-lens montage =======================
     VizSpec(
         id="hidden_puck_movie",

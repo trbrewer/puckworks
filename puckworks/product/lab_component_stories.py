@@ -160,12 +160,22 @@ def all_stories() -> dict:
     return dict(_STORIES)
 
 
+# Hero components lead the deep dive: the one model that turns the full recipe into a simulated shot is
+# shown FIRST (and most substantially), before we return to the start of the process stage by stage.
+HERO_COMPONENT_IDS = ("cameron2020.extraction_bdf",)
+
+
 def ordered_component_ids() -> list:
-    """Registered component ids in chronological process order (alphabetical within a stage)."""
+    """Registered component ids for the deep dive: hero components first (in explicit hero order), then
+    every remaining registered component in chronological process-stage order (alphabetical within a
+    stage). Each registered component appears exactly once."""
     import puckworks
     reg = {c.name for c in puckworks.components()}
     have = [cid for cid in _STORIES if cid in reg]
-    return sorted(have, key=lambda cid: (PROCESS_ORDER.index(_STORIES[cid].process_stage), cid))
+    heroes = [cid for cid in HERO_COMPONENT_IDS if cid in have]
+    rest = sorted((cid for cid in have if cid not in heroes),
+                  key=lambda cid: (PROCESS_ORDER.index(_STORIES[cid].process_stage), cid))
+    return heroes + rest
 
 
 def _norm(text):

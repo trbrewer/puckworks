@@ -172,11 +172,22 @@ def test_result_cards_answer_the_novice_questions(code):
 
 
 def test_per_model_deep_dive_renders_reference_role_physics_and_espresso(code):
-    # the per-model deep dive uses the narrative + plot modules and shows the required per-card content
-    assert "lab_component_stories" in code and "lab_tour_plots" in code
-    assert "component_figure" in code and "ordered_component_ids" in code   # process-order per-model cards
+    # the per-model deep dive uses the narrative + EDUCATIONAL-INSIGHT modules (NOT the removed gate
+    # scorecard path) and shows the required per-card content
+    assert "lab_component_stories" in code and "lab_tour_insights" in code
+    assert "component_figures" in code and "ordered_component_ids" in code   # 0/1/many figures per model
+    assert "lab_tour_plots" not in code                                      # gate-scorecard path is gone
     for field in ("Full reference:", "Role:", "What physics it represents:", "What it computes:",
                   "What this might mean for your cup:"):
         assert field in code, f"deep-dive card missing {field!r}"
     # the standing caveat is displayed and figures embed inline
     assert "STANDING_DISCLAIMER" in code and "matplotlib" in code and "inline" in code
+
+
+def test_deep_dive_is_cameron_hero_first_with_a_transition(code):
+    # Cameron leads the deep dive, and there is transition prose from the whole-shot hero to the stations
+    assert "HERO_COMPONENT_IDS" in code
+    assert "take it" in code and "apart" in code and "specialist stations" in code
+    # a figure carries its evidence badge + fidelity ceiling + fixed-condition disclosure (VizSpec honesty)
+    for field in ("evidence_badge", "fidelity_ceiling", "held fixed", "no_figure_reason"):
+        assert field in code, f"deep-dive figure missing {field!r}"

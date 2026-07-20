@@ -12,12 +12,21 @@ def test_stories_verify_clean_and_snapshot_matches_readme():
     assert S.verify_component_stories() == []
 
 
-def test_every_registered_component_has_a_story_in_process_order():
+def test_cameron_is_the_first_deep_dive_component():
+    ordered = S.ordered_component_ids()
+    assert ordered[0] == "cameron2020.extraction_bdf"          # the whole-shot lens leads the tour
+    assert ordered.count("cameron2020.extraction_bdf") == 1
+
+
+def test_every_registered_component_appears_exactly_once_hero_then_chronological():
     ordered = S.ordered_component_ids()
     assert set(ordered) == {c.name for c in puckworks.components()}
-    assert len(ordered) == 25
-    # non-decreasing process-stage index (chronological order)
-    idx = [S.PROCESS_ORDER.index(S.component_story(cid).process_stage) for cid in ordered]
+    assert len(ordered) == len(set(ordered)) == 25
+    # after the hero prefix, the remainder is in chronological process-stage order
+    heroes = [c for c in S.HERO_COMPONENT_IDS]
+    assert ordered[:len(heroes)] == heroes
+    rest = ordered[len(heroes):]
+    idx = [S.PROCESS_ORDER.index(S.component_story(cid).process_stage) for cid in rest]
     assert idx == sorted(idx)
 
 

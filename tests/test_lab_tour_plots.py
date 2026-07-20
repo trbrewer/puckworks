@@ -46,13 +46,18 @@ def test_bracket_output_makes_a_bracket_figure():
     plt.close(fig)
 
 
-def test_gate_metrics_make_a_scorecard_figure():
+def test_scientific_check_alone_yields_no_figure():
+    # the gate-scorecard path is REMOVED: gate/check numbers are technical evidence, not a novice figure
     r = _result(cid="c.check", kind="SCIENTIFIC_CHECK",
                 outputs=[{"gate_id": "g1", "status": "PASS", "metrics": {"ratio": 0.9, "ok": True}},
                          {"gate_id": "g2", "status": "PASS", "metrics": {"series": [0.24, 0.23, 0.22]}}])
-    fig, caption = P.component_figure(r)
-    assert "check" in caption.lower()
-    plt.close(fig)
+    assert P.component_figure(r) is None
+
+
+def test_no_gate_scorecard_path_remains():
+    import inspect
+    src = inspect.getsource(P)
+    assert "_gate_figure" not in src and "condition index" not in src and "_PASS_COLOR" not in src
 
 
 def test_no_numeric_output_returns_none():
@@ -69,21 +74,9 @@ def test_time_series_panels_render():
     plt.close(fig)
 
 
-@pytest.mark.slow
-def test_every_executed_component_renders_and_blocked_do_not():
-    from puckworks.product import lab, lab_tour
-    import io
-    t = lab_tour.execute_laboratory_tour(lab.ScenarioRequest("pv19_named"),
-                                         execution_context="LOCAL_PRIVATE").to_dict()
-    rendered = skipped = 0
-    for c in t["components"]:
-        res = P.component_figure(c)
-        if res is None:
-            assert c["execution_status"] in ("RIGHTS_BLOCKED", "OPTIONAL_UNAVAILABLE")
-            skipped += 1
-        else:
-            fig, cap = res
-            assert cap
-            fig.savefig(io.BytesIO(), format="png"); plt.close(fig)
-            rendered += 1
-    assert rendered == 23 and skipped == 2      # 23 executed render; grudeva + lb_taichi do not
+# NOTE: there is deliberately NO "all executable components render" test. Educational figures are the
+# insight system's job (tests/test_lab_tour_insights.py tests the EXPLICIT expected set); a component is
+# allowed to have no worthwhile public figure. A blocked/optional component still returns None here.
+def test_blocked_component_returns_none():
+    assert P.component_figure(_result(status="RIGHTS_BLOCKED")) is None
+    assert P.component_figure(_result(status="OPTIONAL_UNAVAILABLE")) is None

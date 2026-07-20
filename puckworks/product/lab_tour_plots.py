@@ -21,8 +21,6 @@ from __future__ import annotations
 _ROLE_COLOR = {"simulated": "#0e7490", "analytic_reference": "#b45309", "reference": "#b45309",
                "fitted": "#0e7490", "derived": "#6b7280", "prescribed": "#9ca3af", "measured": "#0e7490",
                "predicted": "#7c3aed"}
-_PASS_COLOR = "#15803d"
-_FAIL_COLOR = "#b91c1c"
 
 
 def _fig():
@@ -117,48 +115,6 @@ def _values_figure(numeric, title):
     return fig, caption
 
 
-def _gate_figure(gate_outputs, title):
-    plt = _fig()
-    # collect scalar numeric metrics (with their pass/fail) and the first numeric series, across gates
-    bars = []          # (label, value, passed)
-    series = None      # (label, [values])
-    for g in gate_outputs:
-        passed = g.get("status") == "PASS"
-        for k, v in (g.get("metrics") or {}).items():
-            if isinstance(v, bool):
-                continue
-            if isinstance(v, (int, float)):
-                bars.append((f"{k}", float(v), passed))
-            elif isinstance(v, list) and v and all(isinstance(x, (int, float)) for x in v) and series is None:
-                series = (f"{g['gate_id']}: {k}", [float(x) for x in v])
-    if not bars and not series:
-        return None
-    rows = 1 + (1 if (bars and series) else 0)
-    fig, axes = plt.subplots(rows, 1, figsize=(7.2, 2.2 * rows), squeeze=False)
-    ax_i = 0
-    if bars:
-        ax = axes[ax_i, 0]
-        bars = bars[:8]
-        ax.barh(range(len(bars)), [v for _, v, _ in bars],
-                color=[_PASS_COLOR if p else _FAIL_COLOR for _, _, p in bars])
-        ax.set_yticks(range(len(bars)))
-        ax.set_yticklabels([lab for lab, _, _ in bars], fontsize=8)
-        for i, (_, v, _) in enumerate(bars):
-            ax.annotate(f" {v:g}", (v, i), va="center", fontsize=8)
-        ax.invert_yaxis()
-        ax.set_title(title, fontsize=10)
-        ax_i += 1
-    if series:
-        ax = axes[ax_i, 0]
-        ax.plot(range(len(series[1])), series[1], "-o", color="#0e7490")
-        ax.set_title(series[0], fontsize=9)
-        ax.set_xlabel("condition index")
-    fig.tight_layout()
-    caption = ("The model's registered scientific-check numbers (green = the check passed, red = failed). "
-               "These are consistency/self-check metrics, not measured cup outcomes.")
-    return fig, caption
-
-
 def component_figure(result: dict, *, trace_panels=None):
     """(matplotlib Figure, caption) for a component's tour result, or None when there is nothing real to
     plot (blocked / optional / no numeric output). Never fabricates data."""
@@ -176,7 +132,6 @@ def component_figure(result: dict, *, trace_panels=None):
     numeric = _numeric_value_outputs(outputs)
     if numeric:
         return _values_figure(numeric, title)
-    gate_outputs = [o for o in outputs if "gate_id" in o]
-    if gate_outputs:
-        return _gate_figure(gate_outputs, title)
+    # scientific-check (gate) outputs alone get NO novice figure — gate numbers are technical evidence,
+    # not an educational relationship (the tour deep dive uses lab_tour_insights.component_figures).
     return None
