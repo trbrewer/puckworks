@@ -1,136 +1,331 @@
 """Drawing primitives for the tour's educational insight figures (#43, ROADMAP §8).
 
-Each `figure_*` is a PURE draw: it consumes a producer's output dict (never recomputes physics) + the
-relationship analyzer and returns ``(matplotlib.Figure, caption)`` where every number in the caption is
-recomputed from the data. Small multiples (one unit per axis, never a dual y-axis), markers + line styles
-(colour is never the sole encoding), units on every axis, and the reference scenario marked. The
-`render_*` wrappers give the gallery the standard ``(spec, outdir, ...)`` signature and stamp/save via the
-registry, so the gallery and the notebook draw with the SAME primitive.
+Each ``figure_*`` is a PURE draw: it consumes a producer's output dict (never recomputes physics) + the
+relationship analyzer and returns ``(matplotlib.Figure, TourFigureNarrative)`` where every number in the
+narrative is recomputed from the data. Layout, typography, and the reserved badge/scope bands come from
+``tour_style`` — the draw never calls ``tight_layout()`` and never stamps text over an Axes. Small
+multiples keep one unit per axis (never a dual y-axis), markers + line styles (colour is never the sole
+encoding), units on every axis, and the reference scenario marked with an explained key.
+
+Presentation:
+  * ``presentation="notebook"`` — the notebook already prints the headline + question, so the figure does
+    NOT repeat them (only concise panel titles remain); this is what ``component_figures`` requests.
+  * ``presentation="standalone"`` — a concise title is drawn in the reserved header (gallery/thumbnails).
+
+The ``render_*`` wrappers give the gallery the standard ``(spec, outdir, ...)`` signature and stamp/save
+via the registry, so the gallery and the notebook draw with the SAME primitive.
 """
 from __future__ import annotations
 
+from . import tour_style as TS
 from .relationship import classify_relationship, describe
-
-_REF = "#b91c1c"       # reference-scenario marker
-_LINE = "#0e7490"
-_MARKERS = ["o", "s", "^", "D", "v"]
+from .tour_style import TourFigureNarrative
 
 
-def _plt():
-    import matplotlib.pyplot as plt
-    return plt
-
-
-def _panel(ax, x, y, xlabel, ylabel, ref_x=None, marker="o"):
-    ax.plot(x, y, marker + "-", color=_LINE, markersize=5, lw=1.6)
-    if ref_x is not None and ref_x in x:
-        i = x.index(ref_x)
-        ax.plot([x[i]], [y[i]], "*", color=_REF, markersize=15, zorder=5)
-    ax.set_xlabel(xlabel, fontsize=8)
-    ax.set_ylabel(ylabel, fontsize=8)
-    ax.tick_params(labelsize=7)
-    ax.grid(True, alpha=0.25)
-
-
-def figure_cameron_pressure_sweep(data: dict):
-    plt = _plt()
+# ── Cameron hero figures ──────────────────────────────────────────────────────────────────
+def figure_cameron_pressure_sweep(data: dict, *, presentation="notebook", ceiling="", title=""):
     P = data["pressure_bar"]
-    fig, axes = plt.subplots(2, 2, figsize=(7.4, 5.0))
-    _panel(axes[0, 0], P, data["mean_flow_g_s"], "pressure (bar)", "mean flow (g/s)",
-           data["reference_pressure_bar"], "o")
-    _panel(axes[0, 1], P, data["shot_duration_s"], "pressure (bar)", "shot time (s)",
-           data["reference_pressure_bar"], "s")
-    _panel(axes[1, 0], P, data["extraction_yield_pct"], "pressure (bar)", "extraction yield (%)",
-           data["reference_pressure_bar"], "^")
-    _panel(axes[1, 1], P, data["tds_pct"], "pressure (bar)", "strength / TDS (%)",
-           data["reference_pressure_bar"], "D")
-    fig.suptitle("Does more pressure make a stronger espresso? (Cameron model)", fontsize=10)
-    fig.tight_layout(rect=(0, 0, 1, 0.96))
+    ref = data["reference_pressure_bar"]
+    f = data["fixed"]
+    tgt = f["target_beverage_g"]
+    fig, ax = TS.tour_figure(2, 2, figsize=(9.6, 6.4), ceiling=ceiling, presentation=presentation,
+                             title=title, has_reference_key=True, sharex=True)
+    key = None
+    TS.plot_curve(ax[0, 0], P, data["mean_flow_g_s"], marker="o")
+    TS.style_axis(ax[0, 0], ylabel="Mean beverage flow (g/s)", title="Mean flow")
+    key = TS.mark_reference(ax[0, 0], P, data["mean_flow_g_s"], ref,
+                            label=f"Your selected pressure: {ref:g} bar")
+    TS.plot_curve(ax[0, 1], P, data["shot_duration_s"], marker="s")
+    TS.style_axis(ax[0, 1], ylabel=f"Time to reach {tgt:g} g (s)", title="Time to target mass")
+    TS.mark_reference(ax[0, 1], P, data["shot_duration_s"], ref)
+    TS.plot_curve(ax[1, 0], P, data["extraction_yield_pct"], marker="^")
+    TS.style_axis(ax[1, 0], ylabel="Extraction yield (%)", title="Extraction yield")
+    TS.mark_reference(ax[1, 0], P, data["extraction_yield_pct"], ref)
+    TS.plot_curve(ax[1, 1], P, data["tds_pct"], marker="D")
+    TS.style_axis(ax[1, 1], ylabel="Strength (TDS, %)", title="Strength")
+    TS.mark_reference(ax[1, 1], P, data["tds_pct"], ref)
+    for a in ax[0, :]:
+        a.tick_params(labelbottom=False)
+    TS.shared_xlabel(fig, "Pressure (bar)")
+    TS.reference_key(fig, [key])
+
     flow = classify_relationship(P, data["mean_flow_g_s"])
     ey = classify_relationship(P, data["extraction_yield_pct"])
     tds = classify_relationship(P, data["tds_pct"])
-    f = data["fixed"]
     skipped = (f" Pressures outside the model's range were skipped: {data['domain_skipped_bar']}."
                if data.get("domain_skipped_bar") else "")
-    caption = (
-        f"**Question — does more pressure make a stronger, more-extracted shot?** We vary only pressure "
-        f"({P[0]:g}–{P[-1]:g} bar) at fixed dose {f['dose_g']:g} g, grind {f['grind_setting']:g}, and "
-        f"{f['target_beverage_g']:g} g beverage. **In this model:** {describe(flow, 'flow', 'pressure', 'g/s')}; "
-        f"{describe(ey, 'extraction yield', 'pressure', '%')}; and {describe(tds, 'strength/TDS', 'pressure', '%')}. "
-        f"**Why:** higher pressure pushes water through faster, so the fixed cup mass is reached in less "
-        f"time — and less contact time means less dissolved coffee, not more. **The surprising part:** "
-        f"'more pressure' does NOT mean 'stronger' here — because reaching the same 40 g faster shortens "
-        f"the time available for extraction.{skipped} This is an exploratory saturated-bed simulation of "
-        f"extraction-yield/strength trends only; it is not a flavour, wetting, channeling, or thermal "
-        f"prediction, and does not represent every real machine.")
-    return fig, caption
+    nar = TourFigureNarrative(
+        setup=(f"Pressure changes from {P[0]:g} to {P[-1]:g} bar. Dose ({f['dose_g']:g} g), grind "
+               f"({f['grind_setting']:g}), and target beverage mass ({tgt:g} g) stay fixed."),
+        finding=(f"In this model {describe(flow, 'mean flow', 'pressure', 'g/s')}; "
+                 f"{describe(ey, 'extraction yield', 'pressure', '%')}; and "
+                 f"{describe(tds, 'strength', 'pressure', '%')}."),
+        mechanism=(f"Higher pressure pushes water through faster, so the fixed {tgt:g} g cup is reached in "
+                   f"less time — and less contact time means less dissolved coffee, not more."),
+        takeaway=("'More pressure' does not mean 'stronger' here: reaching the same target mass faster "
+                  "shortens the time available for extraction."),
+        scope=("An exploratory saturated-bed simulation of extraction-yield and strength trends only — not "
+               "a flavour, wetting, channeling, or thermal prediction, and not every real machine." +
+               skipped))
+    return fig, nar
 
 
-def figure_cameron_beverage_sweep(data: dict):
-    plt = _plt()
+def figure_cameron_beverage_sweep(data: dict, *, presentation="notebook", ceiling="", title=""):
     B = data["target_beverage_g"]
-    fig, axes = plt.subplots(1, 3, figsize=(9.6, 3.2))
-    _panel(axes[0], B, data["extraction_yield_pct"], "beverage mass (g)", "extraction yield (%)",
-           data["reference_beverage_g"], "^")
-    _panel(axes[1], B, data["tds_pct"], "beverage mass (g)", "strength / TDS (%)",
-           data["reference_beverage_g"], "D")
-    _panel(axes[2], B, data["extracted_mass_g"], "beverage mass (g)", "extracted soluble mass (g)",
-           data["reference_beverage_g"], "o")
-    fig.suptitle("Why can collecting more coffee raise extraction yet weaken the drink? (Cameron model)",
-                 fontsize=10)
-    fig.tight_layout(rect=(0, 0, 1, 0.92))
+    ref = data["reference_beverage_g"]
+    f = data["fixed"]
+    fig, ax = TS.tour_figure(1, 3, figsize=(10.6, 4.0), ceiling=ceiling, presentation=presentation,
+                             title=title, has_reference_key=True)
+    TS.plot_curve(ax[0, 0], B, data["extraction_yield_pct"], marker="^")
+    TS.style_axis(ax[0, 0], ylabel="Extraction yield (%)", title="Extraction yield")
+    key = TS.mark_reference(ax[0, 0], B, data["extraction_yield_pct"], ref,
+                            label=f"Your selected beverage mass: {ref:g} g")
+    TS.plot_curve(ax[0, 1], B, data["tds_pct"], marker="D")
+    TS.style_axis(ax[0, 1], ylabel="Strength (TDS, %)", title="Strength")
+    TS.mark_reference(ax[0, 1], B, data["tds_pct"], ref)
+    TS.plot_curve(ax[0, 2], B, data["extracted_mass_g"], marker="o")
+    TS.style_axis(ax[0, 2], ylabel="Soluble coffee extracted (g)", title="Extracted mass")
+    TS.mark_reference(ax[0, 2], B, data["extracted_mass_g"], ref)
+    TS.shared_xlabel(fig, "Target beverage mass (g)")
+    TS.reference_key(fig, [key])
+
     ey = classify_relationship(B, data["extraction_yield_pct"])
     tds = classify_relationship(B, data["tds_pct"])
-    f = data["fixed"]
-    caption = (
-        f"**Question — if we collect more liquid, do we get more coffee or a weaker drink?** We vary only "
-        f"the target beverage mass ({B[0]:g}–{B[-1]:g} g, brew ratio {B[0]/f['dose_g']:.1f}–"
-        f"{B[-1]/f['dose_g']:.1f}) at fixed dose {f['dose_g']:g} g, {f['pressure_bar']:g} bar, grind "
-        f"{f['grind_setting']:g}. **In this model:** {describe(ey, 'extraction yield', 'beverage mass', '%')}, "
-        f"while {describe(tds, 'strength/TDS', 'beverage mass', '%')}. **Why:** running more water keeps "
-        f"pulling soluble coffee out of the grounds (yield rises), but that extra water also dilutes what "
-        f"is already in the cup (strength falls). **Why it matters:** this is the core extraction-vs-"
-        f"dilution trade-off — a bigger drink can be *more extracted yet less concentrated* at the same "
-        f"time. Exploratory saturated-bed simulation of yield/strength only; not a taste prediction, and "
-        f"the soluble ceiling is Cameron's, distinct from other models' ceilings.")
-    return fig, caption
+    br = data.get("brew_ratio", [B[0] / f["dose_g"], B[-1] / f["dose_g"]])
+    nar = TourFigureNarrative(
+        setup=(f"The target beverage mass changes from {B[0]:g} to {B[-1]:g} g (brew ratio "
+               f"{br[0]:.1f}–{br[-1]:.1f}). Dose ({f['dose_g']:g} g), pressure ({f['pressure_bar']:g} bar), "
+               f"and grind ({f['grind_setting']:g}) stay fixed."),
+        finding=(f"In this model {describe(ey, 'extraction yield', 'beverage mass', '%')}, while "
+                 f"{describe(tds, 'strength', 'beverage mass', '%')}; the total soluble coffee extracted "
+                 f"keeps rising."),
+        mechanism=("Running more water keeps pulling soluble coffee out of the grounds (yield rises), but "
+                   "that same extra water dilutes what is already in the cup (strength falls)."),
+        takeaway=("The core extraction-versus-dilution trade-off: a bigger drink can be more extracted yet "
+                  "less concentrated at the same time."),
+        scope=("An exploratory saturated-bed simulation of yield and strength only — not a taste "
+               "prediction; the soluble ceiling is Cameron's, distinct from other models' ceilings."))
+    return fig, nar
 
 
-def figure_cameron_shot_timeseries(data: dict):
-    plt = _plt()
+def figure_cameron_shot_timeseries(data: dict, *, presentation="notebook", ceiling="", title=""):
     panels = data["panels"]
     n = len(panels)
-    fig, axes = plt.subplots(n, 1, figsize=(7.2, 1.9 * n), squeeze=False)
-    for ax, panel in zip(axes[:, 0], panels):
-        for j, s in enumerate(panel["series"]):
-            style = "--" if "prescribed" in s.get("role", "") else "-"
-            ax.plot(panel["x"], s["y"], style, marker=_MARKERS[j % len(_MARKERS)], markersize=3,
-                    label=s["label"])
-        ax.set_xlabel(panel["x_label"], fontsize=8)
-        ax.set_ylabel(panel["y_label"], fontsize=8)
-        ax.legend(fontsize=6, loc="best")
-        ax.tick_params(labelsize=7)
-        ax.grid(True, alpha=0.25)
-    axes[0, 0].set_title("The whole simulated shot over time (Cameron model)", fontsize=10)
-    fig.tight_layout()
     f = data["fixed"]
-    caption = (
-        f"**Question — what does the whole simulated shot look like moment to moment?** At {f['dose_g']:g} g "
-        f"dose, {f['target_beverage_g']:g} g out, {f['pressure_bar']:g} bar, each panel keeps ONE unit on "
-        f"its axis (never mixing units). **Prescribed** inputs (pressure, target cup) are dashed; "
-        f"**simulated** outputs (flow, outlet concentration, cumulative dissolved mass, extraction yield, "
-        f"strength) are solid. **What to notice:** some quantities are instantaneous (flow, outlet "
-        f"concentration) while others are cumulative (dissolved mass, yield) and only ever rise. **Scope:** "
-        f"an exploratory, already-saturated-bed simulation — it begins with a wet puck, so it does NOT show "
-        f"puck wetting, a physical first drip, a dynamic pressure profile, a thermal transient, channeling, "
-        f"or flavour.")
-    return fig, caption
+    fig, ax = TS.tour_figure(n, 1, figsize=(7.8, 1.7 * n + 1.9), ceiling=ceiling,
+                             presentation=presentation, title=title, has_reference_key=True)
+    col = ax[:, 0]
+    # share the TIME axis among the time-based panels (all but any spatial-profile panel)
+    time_idx = [i for i, p in enumerate(panels) if p["x_label"].startswith("time")]
+    for i in time_idx[1:]:
+        col[i].sharex(col[time_idx[0]])
+    for i, (a, p) in enumerate(zip(col, panels)):
+        s = p["series"][0]
+        dashed = "prescribed" in s.get("role", "")
+        TS.plot_curve(a, p["x"], s["y"], marker="", ls="--" if dashed else "-")
+        TS.style_axis(a, ylabel=p["unit"], title=s["label"])
+        # time label only on the last time panel; the spatial panel keeps its own label
+        if i in time_idx and i != time_idx[-1]:
+            a.tick_params(labelbottom=False)
+        elif i == time_idx[-1]:
+            a.set_xlabel("Time (s)", fontsize=TS.FS_AXIS_LABEL)
+        else:
+            a.set_xlabel(p["x_label"].capitalize(), fontsize=TS.FS_AXIS_LABEL)
+    from matplotlib.lines import Line2D
+    TS.reference_key(fig, [
+        Line2D([0], [0], color=TS.LINE, lw=1.7, ls="-", label="Simulated output"),
+        Line2D([0], [0], color=TS.LINE, lw=1.7, ls="--", label="Prescribed input")])
+
+    nar = TourFigureNarrative(
+        setup=(f"At {f['dose_g']:g} g dose, {f['target_beverage_g']:g} g out, {f['pressure_bar']:g} bar, "
+               f"each panel keeps one unit on its own axis across the whole shot."),
+        finding=("Prescribed inputs (pump pressure, target cup) are dashed; simulated outputs (flow, "
+                 "dissolved mass, extraction yield, outlet concentration) are solid. Some quantities are "
+                 "instantaneous, such as flow; others are cumulative, such as dissolved mass and yield, "
+                 "and only ever rise."),
+        mechanism=("The bed starts already wet, so flow and extraction build smoothly from the first "
+                   "moment rather than waiting for the puck to soak."),
+        scope=("An exploratory, already-saturated-bed simulation — it does not show puck wetting, a "
+               "physical first drip, a dynamic pressure profile, a thermal transient, channeling, or "
+               "flavour."))
+    return fig, nar
 
 
-# ── gallery render_fn wrappers (same (spec, outdir, ...) signature the registry expects) ──
+# ── reused-VizSpec educational draws (consume the EXISTING light producers) ────────────────
+def figure_wetting_front(data: dict, *, presentation="notebook", ceiling="", title=""):
+    """foster2025.infiltration: wetting-front depth s(t), windowed to the event so it is visible."""
+    t = list(data["t_s"])
+    front = list(data["front_mm"])
+    L = data["params"].get("L_mm", data.get("L_mm"))
+    ts = data.get("t_saturate_s")
+    fig, ax = TS.tour_figure(1, 1, figsize=(7.4, 4.0), ceiling=ceiling, presentation=presentation,
+                             title=title)
+    a = ax[0, 0]
+    TS.plot_curve(a, t, front, marker="o")
+    a.axhline(L, color=TS.WALL, ls=":", lw=1.2)
+    a.text(0.98, L, f"full bed depth ({L:g} mm)", transform=a.get_yaxis_transform(),
+           ha="right", va="bottom", fontsize=TS.FS_ANNOTATION, color=TS.WALL)
+    # event-focused window: zero through several saturation times (never past the trace)
+    if ts is not None and ts > 0:
+        import numpy as np
+        xmax = min(max(t), max(0.6, 10.0 * ts))
+        a.set_xlim(0, xmax)
+        y_at_ts = float(np.interp(ts, t, front))          # land the arrow on the curve
+        TS.annotate_inside(a, f"puck full ≈ {ts:.2f} s", xy=(ts, y_at_ts),
+                           xytext=(xmax * 0.34, L * 0.42))
+    TS.style_axis(a, xlabel="Time (s)", ylabel="Wetting-front depth (mm)")
+
+    st = f"{ts:.2f}" if ts is not None else "—"
+    nar = TourFigureNarrative(
+        setup="Water enters a dry puck; the model advances a sharp wetting front down through the bed.",
+        finding=(f"In this model the front reaches the full {L:g} mm bed depth in about {st} s, then stays "
+                 f"at full depth for the rest of the shot (only the early window is shown)."),
+        mechanism=("Early flow rushes into dry, empty pore space, so the wetting boundary sweeps down the "
+                   "puck almost immediately."),
+        takeaway="Even, complete wetting before flow builds is what lets the whole puck extract together.",
+        scope=("The front is a SHARP binary boundary — the model says nothing about partial saturation "
+               "behind it or dry-pocket channeling; fine grind, CT-validated; a reconstruction, not your "
+               "machine."))
+    return fig, nar
+
+
+def figure_stokes_profile(data: dict, *, presentation="notebook", ceiling="", title=""):
+    """brewer2026.lb_reference: velocity profile across the channel, shown on a novice-readable scale."""
+    import numpy as np
+    u = np.asarray(data["u_profile"], float)
+    z = np.asarray(data["z"], float)
+    umax = data["u_max"]
+    un = u / umax if umax else u
+    zn = (z - z.min()) / (z.max() - z.min()) if z.max() > z.min() else z
+    fig, ax = TS.tour_figure(1, 1, figsize=(7.2, 4.2), ceiling=ceiling, presentation=presentation,
+                             title=title)
+    a = ax[0, 0]
+    a.plot(un, zn, marker="o", color=TS.LINE, markersize=4, lw=1.7)
+    a.set_yticks([0.0, 0.5, 1.0])
+    a.set_yticklabels(["lower wall", "centre", "upper wall"])
+    a.set_xlim(-0.05, 1.12)
+    TS.style_axis(a, xlabel="Flow speed (fraction of maximum)", ylabel="Position across channel")
+    a.annotate("no slip", xy=(0.0, 0.0), xytext=(0.18, 0.08), fontsize=TS.FS_ANNOTATION, color=TS.WALL,
+               arrowprops=dict(arrowstyle="->", color=TS.WALL, lw=1.0))
+    a.annotate("no slip", xy=(0.0, 1.0), xytext=(0.18, 0.92), fontsize=TS.FS_ANNOTATION, color=TS.WALL,
+               arrowprops=dict(arrowstyle="->", color=TS.WALL, lw=1.0))
+    a.annotate("fastest flow", xy=(1.0, 0.5), xytext=(0.55, 0.62), fontsize=TS.FS_ANNOTATION,
+               color=TS.REF, arrowprops=dict(arrowstyle="->", color=TS.REF, lw=1.0))
+
+    err = data["lb_err_pct_vs_analytic"]
+    nar = TourFigureNarrative(
+        setup=("Water flows down a clean, straight verification channel; the model reports the speed at "
+               "every height across it (shown as a fraction of the peak speed)."),
+        finding=(f"Speed is zero at both walls (no slip) and highest at the centre — a parabola. The "
+                 f"lattice-Boltzmann solver matches the exact analytic profile to {err:.2g}%. "
+                 f"(The true peak speed is {umax:.2e} lattice units.)"),
+        mechanism=("Friction at the walls holds the water back, so the middle of the channel carries most "
+                   "of the flow."),
+        scope=("This is VERIFICATION geometry (a clean channel), not the flow in your puck, and "
+               "Stokes-regime only."))
+    return fig, nar
+
+
+def figure_pack_slice(data: dict, *, presentation="notebook", ceiling="", title=""):
+    """brewer2026.pack_generator: compact landscape — solid/pore slice + heterogeneity field."""
+    import numpy as np
+    from matplotlib.patches import Patch
+    solid = np.asarray(data["solid_slice"]).T
+    hetero = np.asarray(data["hetero_slice"]).T
+    fig, ax = TS.tour_figure(1, 2, figsize=(9.2, 4.4), ceiling=ceiling, presentation=presentation,
+                             title=title)
+    aL, aR = ax[0, 0], ax[0, 1]
+    aL.imshow(solid, origin="lower", cmap="Greys", interpolation="nearest", aspect="equal")
+    aL.set_title("Solid coffee and pore space", fontsize=TS.FS_PANEL_TITLE)
+    aL.set_xticks([]); aL.set_yticks([])
+    aL.legend(handles=[Patch(facecolor="black", label="solid coffee"),
+                       Patch(facecolor="white", edgecolor="#999", label="pore space")],
+              loc="lower center", bbox_to_anchor=(0.5, -0.16), ncol=2, fontsize=TS.FS_LEGEND,
+              frameon=False)
+    from .palette import FIELD_SEQUENTIAL
+    im = aR.imshow(hetero, origin="lower", cmap=FIELD_SEQUENTIAL,
+                   interpolation="nearest", aspect="equal")
+    aR.set_title("Sub-voxel heterogeneity field", fontsize=TS.FS_PANEL_TITLE)
+    aR.set_xticks([]); aR.set_yticks([])
+    cbar = fig._tour_layout["plot"].colorbar(im, ax=aR, fraction=0.046, pad=0.04)
+    cbar.ax.tick_params(labelsize=TS.FS_TICK)
+    cbar.set_label("field value (a.u.)", fontsize=TS.FS_TICK)
+
+    nar = TourFigureNarrative(
+        setup=(f"A 2-D slice through the model's synthetic packing at solid fraction "
+               f"{data['phis']:.2f} (dark is solid coffee, light is pore space)."),
+        finding=("The right panel is the sub-voxel heterogeneity FIELD — a statistical stand-in for "
+                 "fine-scale variation, NOT resolved fine particles."),
+        mechanism=("Where the packing is looser, water finds easier paths; weak spots concentrate flow "
+                   "and cause uneven extraction."),
+        scope=("SYNTHETIC Boolean-sphere geometry, not a scan of a real puck; the heterogeneity field is "
+               "a field, never imaged coffee or resolved fines."))
+    return fig, nar
+
+
+def figure_fines_qinf(data: dict, *, presentation="notebook", ceiling="", title=""):
+    """fasano2000_partI.fines_migration: long-time flow q∞ vs driving pressure p0."""
+    p0, q = list(data["p0_bar"]), list(data["q_inf"])
+    fig, ax = TS.tour_figure(1, 1, figsize=(7.4, 4.0), ceiling=ceiling, presentation=presentation,
+                             title=title)
+    a = ax[0, 0]
+    TS.plot_curve(a, p0, q, marker="o")
+    rel = classify_relationship(p0, q)
+    if rel.turning_x is not None:
+        a.plot([rel.turning_x], [rel.y_turning], marker="*", color=TS.REF, markersize=15, zorder=6,
+               linestyle="none")
+        TS.annotate_inside(a, f"turning point ≈ {rel.turning_x:g} bar",
+                           xy=(rel.turning_x, rel.y_turning),
+                           xytext=(p0[0] + 0.15 * (p0[-1] - p0[0]), rel.y_turning))
+    TS.style_axis(a, xlabel="Driving pressure p₀ (bar)", ylabel="Long-time flow q∞ (model units)")
+
+    nar = TourFigureNarrative(
+        setup=(f"Only the driving pressure p₀ changes ({p0[0]:g}–{p0[-1]:g} bar); the model reports the "
+               f"long-run flow once mobile fines have settled."),
+        finding=f"In this model {describe(rel, 'the long-time flow', 'driving pressure')}.",
+        mechanism=("Higher pressure both drives flow and packs mobile fines into a tighter, more resistant "
+                   "layer — two effects that can oppose each other."),
+        takeaway="A non-monotonic response would mean more pressure is not always more flow.",
+        scope=("A MECHANISM ILLUSTRATION — the closures are Puckworks', not the paper's, with zero "
+               "identified coffee parameters; not a coffee fit."))
+    return fig, nar
+
+
+def figure_channeling(data: dict, *, presentation="notebook", ceiling="", title=""):
+    """brewer2026.streamtube / N-tube: flow concentration over time (one configuration)."""
+    t = list(data["time_s"])
+    share = list(data["max_share"])
+    fig, ax = TS.tour_figure(1, 1, figsize=(7.4, 4.0), ceiling=ceiling, presentation=presentation,
+                             title=title)
+    a = ax[0, 0]
+    a.plot(t, share, color=TS.LINE, lw=1.9)
+    ct = data.get("collapse_time_s")
+    if ct is not None:
+        a.axvline(ct, color=TS.REF, ls="--", lw=1.2)
+        TS.annotate_inside(a, f"flow collapses to one path ≈ {ct:g} s", xy=(ct, 0.5),
+                           xytext=(t[0] + 0.05 * (t[-1] - t[0]), 0.6))
+    a.set_ylim(0, 1.05)
+    TS.style_axis(a, xlabel="Time (s)", ylabel="Largest single-path flow share")
+
+    cfg = data.get("config", {})
+    nar = TourFigureNarrative(
+        setup=(f"One fixed configuration ({cfg}); the model tracks the largest single path's share of the "
+               f"total flow over the shot."),
+        finding=(f"In this model the largest path's share of the flow climbs over the shot, and the "
+                 f"effective number of active paths falls to N_eff/N ≈ {data['n_eff_over_N']:.2g}."),
+        mechanism=("A slightly faster path extracts and opens further, pulling in still more water — a "
+                   "run-away that starves the rest."),
+        takeaway="This is channeling: over-extracted fast lanes and under-extracted slow ones.",
+        scope=("ONE configuration, an exploratory result under flow control — NOT a proven general "
+               "instability."))
+    return fig, nar
+
+
+# ── gallery render_fn wrappers (same (spec, outdir, ...) signature the registry expects) ───
 def _render(spec, outdir, pure_fn):
     from .registry import producer_data, save_figure
-    fig, _caption = pure_fn(producer_data(spec))
+    fig, _nar = pure_fn(producer_data(spec), presentation="standalone",
+                        ceiling=spec.fidelity_ceiling, title=spec.title)
     thumb = save_figure(fig, spec, outdir)
     return {"id": spec.id, "thumb": thumb}
 
@@ -145,105 +340,3 @@ def render_cameron_beverage_sweep(spec, outdir, with_3d=False, video=False):
 
 def render_cameron_shot_timeseries(spec, outdir, with_3d=False, video=False):
     return _render(spec, outdir, figure_cameron_shot_timeseries)
-
-
-# ── reused-VizSpec educational draws (consume the EXISTING light producers) ──────────────
-def figure_wetting_front(data: dict):
-    """foster2025.infiltration: wetting-front position s(t) — how fast water soaks the dry puck."""
-    plt = _plt()
-    fig, ax = plt.subplots(figsize=(7.2, 3.4))
-    ax.plot(data["t_s"], data["front_mm"], "-", color=_LINE, lw=1.8)
-    ts = data.get("t_saturate_s")
-    if ts is not None:
-        ax.axvline(ts, color=_REF, ls="--", lw=1.2)
-        ax.annotate(f"puck full ≈ {ts:.1f} s", (ts, data["front_mm"][-1] * 0.5),
-                    fontsize=8, color=_REF, ha="right")
-    ax.set_xlabel("time (s)"); ax.set_ylabel("wetting-front depth (mm)")
-    ax.set_title("How fast does water soak through the dry puck? (Foster infiltration)", fontsize=10)
-    ax.grid(True, alpha=0.25); fig.tight_layout()
-    caption = (
-        f"**Question — how quickly does water reach the bottom of a dry puck?** The model advances a sharp "
-        f"wetting front from a recorded pressure history. **In this model** the front reaches the full "
-        f"{data['params'].get('L_mm', data.get('L_mm'))} mm bed at about {ts:.1f} s. **Why it matters:** even, "
-        f"complete wetting before flow starts is what lets the whole puck extract together. **Scope:** the "
-        f"front is a SHARP binary boundary — the model says nothing about partial saturation behind it or "
-        f"dry-pocket channeling; fine grind, CT-validated; a reconstruction, not your machine.")
-    return fig, caption
-
-
-def figure_stokes_profile(data: dict):
-    """brewer2026.lb_reference: velocity profile across the verification channel."""
-    plt = _plt()
-    fig, ax = plt.subplots(figsize=(7.2, 3.4))
-    ax.plot(data["u_profile"], data["z"], "-o", color=_LINE, markersize=3)
-    ax.set_xlabel("flow speed (lattice units)"); ax.set_ylabel("position across channel (lattice nodes)")
-    ax.set_title("Why is flow fastest in the middle and zero at the walls? (LB verification)", fontsize=10)
-    ax.grid(True, alpha=0.25); fig.tight_layout()
-    caption = (
-        f"**Question — how does speed vary across a channel of flowing water?** **In this model** the speed "
-        f"is zero at both walls (no-slip) and highest in the centre ({data['u_max']:.3g} lattice units) — a "
-        f"parabola. **Why:** friction at the walls holds water back, so the middle carries most of the flow. "
-        f"**Why it is trustworthy:** the lattice-Boltzmann solver matches the exact analytic profile to "
-        f"{data['lb_err_pct_vs_analytic']:.2g}%. **Scope:** this is VERIFICATION geometry (a clean channel), "
-        f"not the flow in your puck, and Stokes-regime only.")
-    return fig, caption
-
-
-def figure_pack_slice(data: dict):
-    """brewer2026.pack_generator: a 2-D slice of the synthetic Boolean-sphere pack."""
-    plt = _plt()
-    import numpy as np
-    fig, ax = plt.subplots(figsize=(4.8, 4.6))
-    ax.imshow(np.array(data["solid_slice"]).T, origin="lower", cmap="Greys", interpolation="nearest")
-    ax.set_xlabel("x (lattice)"); ax.set_ylabel("z (lattice)")
-    ax.set_title("A synthetic coffee puck (Boolean spheres)", fontsize=10)
-    fig.tight_layout()
-    caption = (
-        f"**Question — what does the model's 'puck' actually look like?** A 2-D slice through the synthetic "
-        f"packing (solid coffee dark, pore space light), solid fraction {data['phis']:.2f}. **Why it "
-        f"matters:** where the packing is looser, water finds easier paths — weak spots concentrate flow "
-        f"and cause uneven extraction. **Scope:** SYNTHETIC Boolean-sphere geometry, not a scan of a real "
-        f"puck; fines are a sub-voxel heterogeneity field, not resolved particles.")
-    return fig, caption
-
-
-def figure_fines_qinf(data: dict):
-    """fasano2000_partI.fines_migration: long-time flow q∞ vs driving pressure p0 (may be non-monotonic)."""
-    plt = _plt()
-    fig, ax = plt.subplots(figsize=(7.2, 3.4))
-    p0, q = list(data["p0_bar"]), list(data["q_inf"])
-    ax.plot(p0, q, "-o", color=_LINE, markersize=5)
-    rel = classify_relationship(p0, q)
-    if rel.turning_x is not None:
-        ax.plot([rel.turning_x], [rel.y_turning], "*", color=_REF, markersize=15, zorder=5)
-    ax.set_xlabel("driving pressure p₀ (bar)"); ax.set_ylabel("long-time flow q∞ (model units)")
-    ax.set_title("Can more pressure eventually give LESS flow when fines compact? (Fasano-structured)",
-                 fontsize=10)
-    ax.grid(True, alpha=0.25); fig.tight_layout()
-    caption = (
-        f"**Question — does pushing harder always give more flow once fines can move?** **In this model** "
-        f"{describe(rel, 'the long-time flow', 'driving pressure')}. **Why:** higher pressure both drives "
-        f"flow and packs mobile fines into a tighter, more resistant layer — two effects that can oppose "
-        f"each other. **Why it is interesting:** a non-monotonic response would mean more pressure is not "
-        f"always more flow. **Scope:** a MECHANISM ILLUSTRATION — the closures are Puckworks', not the "
-        f"paper's, with zero identified coffee parameters; not a coffee fit.")
-    return fig, caption
-
-
-def figure_channeling(data: dict):
-    """brewer2026.streamtube / N-tube: flow concentration over time (one configuration)."""
-    plt = _plt()
-    fig, ax = plt.subplots(figsize=(7.2, 3.4))
-    ax.plot(data["time_s"], data["max_share"], "-", color=_LINE, lw=1.8)
-    ax.set_xlabel("time (s)"); ax.set_ylabel("largest single-path flow share")
-    ax.set_title("Can uneven paths concentrate the flow? (one configuration)", fontsize=10)
-    ax.grid(True, alpha=0.25); fig.tight_layout()
-    cfg = data.get("config", {})
-    caption = (
-        f"**Question — when paths differ, does flow spread out or concentrate?** **In this model** the "
-        f"largest single path's share of the flow climbs over the shot, and the effective number of active "
-        f"paths falls to N_eff/N ≈ {data['n_eff_over_N']:.2g}. **Why:** a slightly faster path extracts and "
-        f"opens further, pulling in still more water — a run-away that starves the rest. **Why it matters:** "
-        f"this is channeling — over-extracted fast lanes and under-extracted slow ones. **Scope:** ONE "
-        f"configuration ({cfg}), an exploratory result under flow control, NOT a proven general instability.")
-    return fig, caption
