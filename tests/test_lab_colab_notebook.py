@@ -171,23 +171,52 @@ def test_result_cards_answer_the_novice_questions(code):
         assert field in code, f"result cards missing {field!r}"
 
 
-def test_per_model_deep_dive_renders_reference_role_physics_and_espresso(code):
-    # the per-model deep dive uses the narrative + EDUCATIONAL-INSIGHT modules (NOT the removed gate
-    # scorecard path) and shows the required per-card content
+def test_per_model_deep_dive_uses_structured_display_not_gate_scorecards(code):
+    # the deep dive draws from the EDUCATIONAL-INSIGHT module + the tested notebook-display helper
+    # (NOT the removed gate scorecard path), and builds each model section from structured blocks
     assert "lab_component_stories" in code and "lab_tour_insights" in code
+    assert "lab_tour_notebook_display" in code                               # tested formatting helper
     assert "component_figures" in code and "ordered_component_ids" in code   # 0/1/many figures per model
     assert "lab_tour_plots" not in code                                      # gate-scorecard path is gone
-    for field in ("Full reference:", "Role:", "What physics it represents:", "What it computes:",
-                  "What this might mean for your cup:"):
-        assert field in code, f"deep-dive card missing {field!r}"
-    # the standing caveat is displayed and figures embed inline
+    for helper in ("model_intro_blocks", "figure_headline_block", "narrative_blocks", "cup_block",
+                   "evidence_details_block"):
+        assert helper in code, f"deep dive missing {helper!r}"
+    # the standing caveat is displayed and figures embed inline (retina where supported)
     assert "STANDING_DISCLAIMER" in code and "matplotlib" in code and "inline" in code
+    assert "retina" in code
 
 
 def test_deep_dive_is_cameron_hero_first_with_a_transition(code):
     # Cameron leads the deep dive, and there is transition prose from the whole-shot hero to the stations
     assert "HERO_COMPONENT_IDS" in code
-    assert "take it" in code and "apart" in code and "specialist stations" in code
-    # a figure carries its evidence badge + fidelity ceiling + fixed-condition disclosure (VizSpec honesty)
-    for field in ("evidence_badge", "fidelity_ceiling", "held fixed", "no_figure_reason"):
-        assert field in code, f"deep-dive figure missing {field!r}"
+    assert "take it apart" in code and "specialist stations" in code
+    assert "no_figure_reason" in code                                        # zero-figure reasons explained
+
+
+def test_deep_dive_does_not_italicize_captions_or_render_figure_line(code):
+    # the notebook must NOT emit the old whole-caption italic line
+    assert "*Figure — " not in code
+    # the structured labels come from the helper, not one italic blob
+    from puckworks.product import lab_tour_notebook_display as ND
+    from puckworks.viz.tour_style import TourFigureNarrative
+    joined = "\n".join(ND.narrative_blocks(TourFigureNarrative(
+        setup="s", finding="f", mechanism="m", scope="sc", takeaway="t")))
+    for label in ("What changes", "What the model shows", "Why this happens", "Scope"):
+        assert label in joined, f"missing structured label {label!r}"
+
+
+def test_deep_dive_collapses_technical_detail_and_humanizes_inputs(code):
+    from puckworks.product import lab_component_stories as S
+    from puckworks.product import lab_tour_notebook_display as ND
+    assert "evidence_details_block" in code                                  # collapsed section in notebook
+    story = S.component_story("cameron2020.extraction_bdf")
+    det = ND.evidence_details_block("cameron2020.extraction_bdf", story,
+                                    {"execution_status": "EXECUTED"}, "ref", [])
+    assert "<details>" in det and "</details>" in det                        # collapsed <details> block
+    assert "cameron2020.extraction_bdf" in det                              # id lives IN the details...
+    # ...but NOT as the dominant heading (a public author-year name is)
+    heading = ND.model_heading(story, "cameron2020.extraction_bdf")
+    assert "cameron2020.extraction_bdf" not in heading and "Cameron (2020)" in heading
+    # fixed inputs are humanized, not raw parameter names
+    human = ND.humanize_fixed({"dose_g": 20.0, "pressure_bar": 9.0})
+    assert human == ["Dose: 20 g", "Pressure: 9 bar"]
