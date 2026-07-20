@@ -113,3 +113,28 @@ def test_no_auto_upload_or_credentials(code):
         assert bad not in low, f"notebook references {bad!r}"
     # a files.download() is a user-initiated DOWNLOAD (allowed); there is no automatic external upload
     assert "files.upload" not in low
+
+
+def test_full_laboratory_tour_is_the_default_mode(code):
+    # the experience-mode selector defaults to Full Laboratory Tour (first option)
+    m = re.search(r'experience_mode\s*=\s*"([^"]+)"\s*#@param\s*(\[[^\]]*\])', code)
+    assert m and m.group(1) == "Full Laboratory Tour"
+    options = m.group(2)
+    for mode in ("Full Laboratory Tour", "Quick Tour", "Your Shot Only", "Model Library Only"):
+        assert mode in options
+
+
+def test_full_tour_runs_the_versioned_tour_executor(code):
+    assert "lab_tour.execute_laboratory_tour" in code
+    assert 'execution_context="LOCAL_PRIVATE"' in code
+
+
+def test_pre_run_coverage_preview_present(code):
+    # a producer-free coverage preview (from the manifest) runs BEFORE the Run cell
+    assert "lab_tour.tour_manifest()" in code
+
+
+def test_result_badges_are_plain_language(code):
+    for badge in ("USES YOUR SHOT", "NATIVE REFERENCE CASE", "SCIENTIFIC CHECK", "RIGHTS BLOCKED",
+                  "OPTIONAL DEPENDENCY UNAVAILABLE", "NO EXECUTION PATH", "EXECUTION ERROR"):
+        assert badge in code, f"missing plain-language badge {badge!r}"
