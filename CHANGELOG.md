@@ -5,6 +5,19 @@ tracked in detail in `docs/ROADMAP.md` §7.1.
 
 ## Unreleased
 
+- **Per-model narratives + figures for the Full Tour (#43).** Two new package modules support a
+  layperson, per-model results view. `puckworks.product.lab_component_stories` carries, for every
+  registered component, its espresso **process stage** (chronological), an exact **snapshot of the README
+  model map** (Role + "What physics it represents", with `verify_component_stories` failing if the
+  snapshot drifts from the live README), a plain **what it computes**, and a **layperson espresso
+  implications** note framed as a general, caveated relationship (never a validated prediction — a
+  standing disclaimer and per-note caveats enforce this). `puckworks.product.lab_tour_plots.
+  component_figure` renders ONE matplotlib figure from a component's **actual** tour output (never
+  fabricated) with a plain caption — a common-scenario time series, a measured-vs-reference bar, a
+  first-drip bracket, or PASS/FAIL gate-metric bars — and returns `None` (a status note, not a fake plot)
+  for blocked/optional/no-output components. No backend is forced, so figures embed inline in a notebook.
+  (The Colab notebook consumes these in a follow-up so its pinned dev-preview commit contains them.)
+
 - **Fix: Colab Laboratory ImportError on `lab_tour` (#43).** The notebook's commit-pinned DEVELOPMENT
   PREVIEW pointed at a commit predating `puckworks.product.lab_tour` (the pin had not been bumped when the
   Full Laboratory Tour landed), so a real Colab run failed with `cannot import name 'lab_tour'` in the
