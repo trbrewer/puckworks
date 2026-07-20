@@ -5,6 +5,17 @@ tracked in detail in `docs/ROADMAP.md` §7.1.
 
 ## Unreleased
 
+- **Progressive Full-Tour results in Colab (#43):** `puckworks.product.lab_tour_display.
+  tour_display_sections()` turns a tour result into ordered, plain-language sections — **Overview**, **Your
+  reference shot**, the espresso-stage sections (Grind / Packing / Machine / Wetting / Flow / Bed dynamics
+  / Extraction, empty ones omitted), **Calibration and evidence checks**, **Components not run**, and
+  **Technical provenance** — with every registered component in exactly ONE section (`assert_every_
+  component_shown_once`). Each card leads with a plain badge and headline (never the internal id, which
+  sits in technical detail) and answers what ran, where its inputs came from, whether it is comparable to
+  another result (always "compared only to itself"), and what it does **not** establish. The Colab
+  notebook renders these sections; the human-acceptance checklist for the novice Full-Tour journey is
+  recorded in `docs/ACCESSIBILITY.md` (#43, pending). No component numerics changed.
+
 - **Rights-aware component-check runner (#43/#70):** `puckworks.product.lab_component_checks.
   run_component_checks(component_ids, *, execution_context)` is the Laboratory's single, rights-aware way
   to run a SELECTED set of components' registered gate(s) — the Laboratory never exposes an unfiltered
