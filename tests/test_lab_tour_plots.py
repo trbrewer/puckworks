@@ -4,8 +4,10 @@ Offline. The plotter renders REAL tour output (never fabricates), returns a plai
 None for blocked/optional/no-output components. Fast tests drive synthetic result dicts; one @slow test
 renders every card from a real tour.
 """
-import matplotlib
 import pytest
+
+pytest.importorskip("matplotlib")   # matplotlib is a viz/webapp extra, absent on the core quick lanes
+import matplotlib  # noqa: E402
 
 matplotlib.use("Agg")   # tests are headless
 import matplotlib.pyplot as plt  # noqa: E402
