@@ -154,3 +154,100 @@ def stokes_channel_field(Nz=25, N=3, tau_plus=1.2, g=1.0e-6):
             "lb_err_pct_vs_analytic": float(ver["err_pct"]),
             "Nz": Nz, "N": N,
             "note": "analytic Stokes channel; the LB twin verifies it (err_pct)"}
+
+
+# ── Cameron educational sweeps (thin: call the authoritative product simulate_pull) ─────
+_CAM_FIXED = dict(preset="pv19_named", dose_g=20.0, target_beverage_g=40.0, pressure_bar=9.0,
+                  grind_setting=1.7, brew_temperature_c=93.0)
+
+
+def _cam_obs(preset, dose_g, target_beverage_g, pressure_bar, grind_setting, brew_temperature_c):
+    """Run cameron2020.extraction_bdf via the product simulate_pull ONCE and return its scalar final
+    observables. Skips a point whose recipe the authoritative domain REJECTS (never clamps)."""
+    import dataclasses
+    import puckworks.product as prod
+    recipe, config = prod.load_pull_preset(preset)
+    recipe = dataclasses.replace(recipe, dose_g=float(dose_g), target_beverage_g=float(target_beverage_g),
+                                 pressure_bar=float(pressure_bar), grind_setting=float(grind_setting),
+                                 brew_temperature_c=float(brew_temperature_c))
+    for f in prod.evaluate_domain(recipe):
+        if str(getattr(getattr(f, "status", None), "value", "")).lower() == "rejected":
+            return None
+    o = prod.pull_run_to_dict(prod.simulate_pull(recipe, config))["final_observables"]
+
+    def val(k):
+        v = o[k]
+        return float(v["value"]) if isinstance(v, dict) else float(v)
+    return {"mean_flow_g_s": val("mean_flow_g_s"), "shot_duration_s": val("shot_duration_s"),
+            "extraction_yield_pct": val("extraction_yield_pct"), "tds_pct": val("tds_pct"),
+            "extracted_mass_g": val("extracted_mass_g")}
+
+
+def cameron_pressure_sweep(pressures=(5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0), **fixed):
+    """Vary ONLY brew pressure at fixed dose / grind / beverage mass. Returns flow, shot time, final EY
+    and TDS per pressure — the numbers a figure draws, recomputed from cameron2020.extraction_bdf. Points
+    the domain rejects are skipped and listed, never clamped."""
+    f = {**_CAM_FIXED, **fixed}
+    P, flow, shot, ey, tds, skipped = [], [], [], [], [], []
+    for p in pressures:
+        o = _cam_obs(f["preset"], f["dose_g"], f["target_beverage_g"], p, f["grind_setting"],
+                     f["brew_temperature_c"])
+        if o is None:
+            skipped.append(float(p)); continue
+        P.append(float(p)); flow.append(o["mean_flow_g_s"]); shot.append(o["shot_duration_s"])
+        ey.append(o["extraction_yield_pct"]); tds.append(o["tds_pct"])
+    return {"varied": "pressure_bar", "pressure_bar": P, "mean_flow_g_s": flow, "shot_duration_s": shot,
+            "extraction_yield_pct": ey, "tds_pct": tds, "domain_skipped_bar": skipped,
+            "reference_pressure_bar": f["pressure_bar"],
+            "fixed": {"dose_g": f["dose_g"], "target_beverage_g": f["target_beverage_g"],
+                      "grind_setting": f["grind_setting"], "brew_temperature_c": f["brew_temperature_c"]},
+            "units": {"pressure_bar": "bar", "mean_flow_g_s": "g/s", "shot_duration_s": "s",
+                      "extraction_yield_pct": "%", "tds_pct": "%"},
+            "source": "cameron2020.extraction_bdf via puckworks.product.simulate_pull"}
+
+
+def cameron_beverage_sweep(beverages=(30.0, 34.0, 38.0, 40.0, 44.0, 50.0, 56.0), **fixed):
+    """Vary ONLY target beverage mass (brew ratio) at fixed dose / grind / pressure. Returns final EY, TDS
+    and extracted soluble mass per beverage mass — the extraction-vs-dilution trade-off, recomputed from
+    cameron2020.extraction_bdf. Domain-rejected points are skipped, never clamped."""
+    f = {**_CAM_FIXED, **fixed}
+    B, ey, tds, extr, skipped = [], [], [], [], []
+    for b in beverages:
+        o = _cam_obs(f["preset"], f["dose_g"], b, f["pressure_bar"], f["grind_setting"],
+                     f["brew_temperature_c"])
+        if o is None:
+            skipped.append(float(b)); continue
+        B.append(float(b)); ey.append(o["extraction_yield_pct"]); tds.append(o["tds_pct"])
+        extr.append(o["extracted_mass_g"])
+    return {"varied": "target_beverage_g", "target_beverage_g": B, "extraction_yield_pct": ey,
+            "tds_pct": tds, "extracted_mass_g": extr, "domain_skipped_g": skipped,
+            "reference_beverage_g": f["target_beverage_g"], "brew_ratio": [round(b / f["dose_g"], 2) for b in B],
+            "fixed": {"dose_g": f["dose_g"], "pressure_bar": f["pressure_bar"],
+                      "grind_setting": f["grind_setting"], "brew_temperature_c": f["brew_temperature_c"]},
+            "units": {"target_beverage_g": "g", "extraction_yield_pct": "%", "tds_pct": "%",
+                      "extracted_mass_g": "g"},
+            "source": "cameron2020.extraction_bdf via puckworks.product.simulate_pull"}
+
+
+def cameron_shot_timeseries(**fixed):
+    """The reference-scenario whole-shot time series (unit-safe panels) from the product's own render_data
+    on a Cameron-only run — the prescribed pressure and the simulated flow / extraction / strength over
+    the shot. Data-only (no matplotlib)."""
+    f = {**_CAM_FIXED, **fixed}
+    from puckworks.product import lab, lab_service
+    req = lab.ScenarioRequest(f["preset"], overrides={"dose_g": f["dose_g"],
+                              "target_beverage_g": f["target_beverage_g"], "pressure_bar": f["pressure_bar"],
+                              "brew_temperature_c": f["brew_temperature_c"]},
+                              lens_selection_policy="all_ready", reference_selection_policy="none")
+    result = lab_service.execute_lab_request(req, execution_context="LOCAL_PRIVATE")
+    panels = [] if result.blocked else lab.render_data(result.report)
+    out = []
+    for p in panels:
+        out.append({"unit": p["unit"], "x": [float(v) for v in p["x"]], "x_label": p["x_label"],
+                    "y_label": p["y_label"], "title": p["title"],
+                    "series": [{"label": s["label"], "role": s["role"],
+                                "y": [None if v is None else float(v) for v in s["y"]]}
+                               for s in p["series"]]})
+    return {"panels": out, "n_panels": len(out),
+            "fixed": {k: f[k] for k in ("dose_g", "target_beverage_g", "pressure_bar", "brew_temperature_c")},
+            "source": "cameron2020.extraction_bdf via puckworks.product.lab.render_data"}

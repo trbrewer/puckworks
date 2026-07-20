@@ -54,6 +54,38 @@ rights/runner change contradicts a frozen route, or a native runner/adapter is o
 silently expands. In a public context the tour still runs **only** affirmatively-cleared components (today
 just the LB reference); everything else is shown but not executed.
 
+## Educational insight figures (deep dive) — distinct from tour execution
+
+Two different questions, kept separate:
+
+- **Tour execution** (`lab_tour`) answers *"what registered scientific path ran?"* — a common-scenario
+  run, a native reference case, or a registered scientific check — with rights + provenance + hashes.
+- **Educational insight figures** (`puckworks.product.lab_tour_insights.component_figures`) answer *"what
+  relationship does this model capture?"* Each figure teaches ONE idea (what changed, what the model
+  predicts, why, what is surprising, what it does not prove), is drawn from an authoritative producer, and
+  is governed by a registered `VizSpec` (badge + evidence strength + fidelity ceiling stamped into the
+  figure). Numerical claims in a caption are recomputed from the producer via a tested relationship
+  analyzer (`puckworks.viz.relationship`), never hand-typed; a one-grid-point wobble is never called a
+  reversal.
+
+Consequences enforced in code + tests:
+
+- **A scientific check is not a public figure.** Gate/check numbers are technical evidence of trust in a
+  component; the novice deep dive plots **no** gate scorecards (the `_gate_figure` path is removed).
+- **Zero, one, or several figures per component.** `component_figures` returns a list; a component with no
+  defensible public relationship yet returns `[]` with a finite reason
+  (`NO_DEFENSIBLE_PUBLIC_RELATIONSHIP_YET` / `RIGHTS_BLOCKED` / `OPTIONAL_DEPENDENCY_UNAVAILABLE` /
+  `REFERENCE_ONLY` / `TOO_EXPENSIVE_FOR_DEFAULT_TOUR`). **No figure is better than a filler figure.**
+- **An educational sweep is not a prediction of the entered shot.** A Cameron pressure/beverage sweep
+  varies one input at fixed conditions to show a *trend*, within the model's domain (domain-rejected
+  points are skipped, never clamped); it is not a flavour/wetting/channeling/thermal claim.
+- **Rights obeyed.** An insight producer obeys the component's tour rights decision — a not-executed or
+  rights-blocked component receives **zero** educational producer calls.
+
+`cameron2020.extraction_bdf` leads the deep dive as the hero (the one model that turns the whole recipe
+into a simulated shot), with three figures — the whole shot over time, a pressure sweep, and a
+beverage-mass (brew-ratio) sweep — after which the tour returns to the start of the process stage by stage.
+
 ## Surfaces (one rights-safe execution path)
 
 Every surface — the Actions batch, the Colab notebook, and the two Streamlit apps — runs a request

@@ -5,6 +5,26 @@ tracked in detail in `docs/ROADMAP.md` §7.1.
 
 ## Unreleased
 
+- **Educational insight figures for the Full-Tour deep dive; gate scorecards removed (#43).** The novice
+  deep dive no longer plots any scientific-check / gate numbers (the `_gate_figure` path,
+  `_PASS_COLOR`/`_FAIL_COLOR`, and the "condition index" scorecard are deleted from
+  `lab_tour_plots`) — gate metrics are technical evidence of trust, not a novice figure. In their place,
+  a new `puckworks.product.lab_tour_insights.component_figures(result, …)` returns **0, 1, or several**
+  VizSpec-governed educational figures per component, each teaching ONE relationship the model actually
+  produces, drawn from an **authoritative producer** (no equations reimplemented, no gate math copied) and
+  stamped with its badge + evidence strength + fidelity ceiling. Caption numbers are recomputed via a new,
+  tested relationship analyzer (`puckworks.viz.relationship.classify_relationship`) that labels a curve
+  increasing / decreasing / approximately_flat / non_monotonic / insufficient and refuses to call a
+  one-grid-point wobble a reversal. `cameron2020.extraction_bdf` is the **hero** — first deep-dive
+  component (`HERO_COMPONENT_IDS`) with three figures: the whole simulated shot over time, a pressure
+  sweep (EY falls as pressure rises, in-model), and a beverage-mass / brew-ratio sweep — plus reused
+  VizSpecs give at least five other components a figure. Every educational producer call **obeys the
+  component's tour rights decision**: a not-executed, rights-blocked, or optional-unavailable component
+  receives zero producer calls and a finite `no_figure_reason` (`NO_DEFENSIBLE_PUBLIC_RELATIONSHIP_YET` /
+  `RIGHTS_BLOCKED` / `OPTIONAL_DEPENDENCY_UNAVAILABLE` / `REFERENCE_ONLY` / `TOO_EXPENSIVE_FOR_DEFAULT_
+  TOUR`). Educational sweeps stay OUT of the canonical tour scientific hash; the frozen tour execution
+  contract is unchanged.
+
 - **Per-model narratives + figures for the Full Tour (#43).** Two new package modules support a
   layperson, per-model results view. `puckworks.product.lab_component_stories` carries, for every
   registered component, its espresso **process stage** (chronological), an exact **snapshot of the README
