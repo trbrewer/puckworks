@@ -129,6 +129,32 @@ def test_full_tour_runs_the_versioned_tour_executor(code):
     assert 'execution_context="LOCAL_PRIVATE"' in code
 
 
+def test_pinned_commit_contains_every_imported_puckworks_module(code):
+    # REGRESSION GUARD: the commit-pinned dev preview MUST contain every puckworks.product module the
+    # notebook imports (a stale pin — e.g. one from before lab_tour existed — makes Colab ImportError).
+    import subprocess
+    m = re.search(r'PIN_COMMIT\s*=\s*"([0-9a-f]{40})"', code)
+    assert m, "notebook has no 40-hex PIN_COMMIT"
+    pin = m.group(1)
+    mods = set()
+    for grp in re.findall(r"from puckworks\.product import ([\w ,]+)", code):
+        for part in grp.split(","):
+            name = part.strip().split(" as ")[0].strip()
+            if name:
+                mods.add(name)
+    assert "lab_tour" in mods and "lab_tour_display" in mods    # the tour modules are imported
+    # the pin object may be absent in a shallow CI checkout — verify only when it is present locally
+    if subprocess.run(["git", "cat-file", "-e", f"{pin}^{{commit}}"], cwd=str(REPO),
+                      capture_output=True).returncode != 0:
+        import pytest
+        pytest.skip("pinned commit not present in this (shallow) checkout")
+    for mod in sorted(mods):
+        r = subprocess.run(["git", "cat-file", "-e", f"{pin}:puckworks/product/{mod}.py"],
+                           cwd=str(REPO), capture_output=True)
+        assert r.returncode == 0, (f"pinned commit {pin[:12]} lacks puckworks/product/{mod}.py — the Colab "
+                                   f"install would ImportError; bump PIN_COMMIT")
+
+
 def test_pre_run_coverage_preview_present(code):
     # a producer-free coverage preview (from the manifest) runs BEFORE the Run cell
     assert "lab_tour.tour_manifest()" in code
