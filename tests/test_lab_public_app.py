@@ -72,6 +72,7 @@ def test_default_reference_shot_is_not_public_ready_today():
 
 
 def test_public_selfcheck_runs_only_the_cleared_component(monkeypatch):
+    pytest.importorskip("streamlit")
     app = importlib.import_module("apps.lab_public_app")
     from puckworks.product import lab_runners
     ran = []
@@ -98,6 +99,7 @@ def test_model_library_is_producer_free(monkeypatch):
 
 # ── a blocked request carries / displays no science; downloads carry preflight + provenance ──
 def test_public_artifact_bundle_carries_preflight_and_provenance_and_refuses_blocked():
+    pytest.importorskip("streamlit")
     app = importlib.import_module("apps.lab_public_app")
     result = app.run_public_selfcheck(["brewer2026.lb_reference"])
     bundle = app.public_artifact_bundle(result)
