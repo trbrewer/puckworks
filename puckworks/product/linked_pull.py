@@ -868,6 +868,7 @@ def _assemble(ctx: _Ctx, manifest_id: str) -> dict:
         "assumptions": [assumption_to_dict(a) for a in _sorted_assumptions(ctx)],
         "counts": counts,
         "component_dispositions": {cid: d.role for cid, d in MAN.COMPONENT_DISPOSITIONS.items()},
+        "figure_payloads": _figure_payloads(ctx, {s.component_id: s.content_hash() for s in ctx.stages}),
         "warnings": ctx.warnings,
         "hash_note": ("model_output_hash proves the numbers are deterministic; artifact_hash covers the "
                       "whole record. NEITHER is a validation or scientific-certainty hash."),
@@ -875,6 +876,42 @@ def _assemble(ctx: _Ctx, manifest_id: str) -> dict:
     result["model_output_hash"] = model_output_hash(ctx.stages)
     result["artifact_hash"] = artifact_hash(result)
     return result
+
+
+def _figure_payloads(ctx: _Ctx, stage_hashes: dict) -> list:
+    """Result-bound figure payloads built from ALREADY-computed authoritative data, so the figure layer
+    draws purely from the completed result (zero model/producer calls at draw time). Each payload records
+    its owning component(s), VizSpec id, and the source stage content hash for provenance."""
+    payloads = []
+
+    def _add(figure_id, station_id, owners, viz_spec_id, data):
+        payloads.append({"figure_id": figure_id, "station_id": station_id,
+                         "owner_component_ids": list(owners), "viz_spec_id": viz_spec_id,
+                         "source_stage_hashes": [stage_hashes[o] for o in owners if o in stage_hashes],
+                         "data": data})
+
+    # Extraction — the whole simulated shot (authoritative Cameron producer, invoked once here)
+    if "cameron2020.extraction_bdf" in stage_hashes:
+        try:
+            from ..viz import producers as P
+            r = ctx.request
+            panels = P.cameron_shot_timeseries(preset="pv19_named", dose_g=r.dose_g,
+                                               target_beverage_g=r.target_beverage_g,
+                                               pressure_bar=r.pressure_bar, grind_setting=r.grind_setting,
+                                               brew_temperature_c=r.brew_temperature_c)
+            _add("cameron_shot", "extraction", ["cameron2020.extraction_bdf"], "cameron_shot_timeseries",
+                 panels)
+        except Exception:  # noqa: BLE001 — a figure-data failure never breaks the run
+            pass
+    # Packing — the synthetic puck (from the pack-generator stage's cached data)
+    if "pack_data" in ctx.bus:
+        _add("synthetic_pack", "packing", ["brewer2026.pack_generator"], "grain_pack_3d",
+             ctx.bus["pack_data"])
+    # Wetting — the event-focused front from the linked-permeability infiltration run (no fallback k)
+    if "wetting_data" in ctx.bus:
+        _add("wetting_front", "wetting", ["foster2025.infiltration"], "wetting_front_sweep",
+             ctx.bus["wetting_data"])
+    return payloads
 
 
 def _counts(ctx: _Ctx) -> dict:
