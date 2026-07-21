@@ -39,7 +39,7 @@ with CLAUDE.md, flag it rather than comply.
    result that is already gated and ready.
 6. `docs/PUBLIC_VALUE.md` — the **public-value track** (a parallel workstream to
    the scientific ROADMAP): how the repo's data, disagreements, nulls, and
-   negative results become material a non-specialist can use (tasks PV-00–PV-18).
+   negative results become material a non-specialist can use (tasks PV-00–PV-20).
    Its §3 communication guardrails are binding on that track exactly as the
    standing caveats are binding on science threads — **a session working any PV
    task reads §3 first.** The public track consumes results; it never softens an
