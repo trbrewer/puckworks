@@ -30,18 +30,23 @@ where each model applies, and check predictions against the measurements that ar
 
 <table align="center">
   <tr>
-    <td align="center"><b>🧪 Full Laboratory Tour</b><br><sub>run a bounded shot in your browser</sub></td>
+    <td align="center"><b>🧪 Full Laboratory Tour</b><br><sub>visit every model independently</sub></td>
+    <td align="center"><b>🔗 Espresso Model Relay</b><br><sub>follow one illustrative pull through linked models</sub></td>
     <td align="center"><b>📋 Quickstart</b><br><sub>browse the espresso models</sub></td>
   </tr>
   <tr>
     <td align="center"><a href="https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/guided_pull_laboratory_colab.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open the Full Laboratory Tour in Google Colab"></a></td>
+    <td align="center"><a href="https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/illustrative_linked_pull_colab.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open the Espresso Model Relay in Google Colab"></a></td>
     <td align="center"><a href="https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/puckworks_quickstart_colab.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open the Puckworks CPU quickstart in Google Colab"></a></td>
   </tr>
 </table>
 
 **Try it now:**
-[🧪 Open the **Full Laboratory Tour** in Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/guided_pull_laboratory_colab.ipynb) (run a shot)
+[🧪 Open the **Full Laboratory Tour** in Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/guided_pull_laboratory_colab.ipynb) (visit every model independently)
+ · [🔗 Follow one illustrative pull through linked models](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/illustrative_linked_pull_colab.ipynb) — the **Espresso Model Relay**
  · [📋 Run the **quickstart** in Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/puckworks_quickstart_colab.ipynb) (browse models)
+
+> The **Espresso Model Relay** is an assumption-rich educational relay, **not** a validated coupled simulation. It is a separate experience from the Full Laboratory Tour, which remains unchanged.
  · [⬇ Download the latest public release](https://github.com/trbrewer/puckworks/releases/latest)
  · [🔬 Explore the evidence](docs/public/README.md)
  · [📊 View current project status](docs/planning/STATE_OF_TRUTH.md)
@@ -125,6 +130,7 @@ Four public paths (no local setup required):
 
 - **Explore the component registry** — [▶ Open the quickstart in Google Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/puckworks_quickstart_colab.ipynb): list the models, read each one's source and the conditions where it applies, and run the automated scientific checks. It installs the latest released wheel after verifying its SHA-256.
 - **Run the Full Laboratory Tour in your browser** — [🧪 Open the Guided Pull Laboratory in Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/guided_pull_laboratory_colab.ipynb): a short **form** plus one **▶ Run the Laboratory** button — no terminal, no code to type. The default **Full Laboratory Tour** resolves *all 25* registered components and runs the *23* that are scientifically and legally available — one common-scenario run of your recipe (Cameron), four native reference cases, and eighteen registered scientific checks — grouped by espresso stage with a plain-language badge on every card (other modes: *Quick Tour*, *Your Shot Only*, *Model Library Only*). Outputs are **never** averaged, ranked, or overlaid: a native case is not a prediction of your shot, and a gate pass is not experimental validation. It runs **privately** in your own Colab runtime (`LOCAL_PRIVATE`; not a public-hosting clearance), installs a commit-pinned development preview (`0.4.0.dev0`), keeps `grudeva2025.reduced` rights-blocked (#73), and is **not** a digital twin, optimizer, or taste predictor. See [`docs/GUIDED_PULL_LABORATORY.md`](docs/GUIDED_PULL_LABORATORY.md).
+- **Follow one illustrative pull through linked models** — [🔗 Open the Espresso Model Relay in Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/illustrative_linked_pull_colab.ipynb): one hypothetical espresso pull, passed from model to model. At each station it shows what the model calculates, what is handed forward, what had to be assumed, and what the result might mean for the cup. An **assumption-rich educational relay, not a validated coupled simulation** — a *separate* experience from the Full Laboratory Tour (which is unchanged). The default fast run executes 19 components with 11 explicit, serialized cross-model hand-offs (each labelled direct / documented-adapter / illustrative-assumption), a first-class assumption ledger, Cameron as a baseline (not the whole story), and a dashboard that **never** averages branches and produces no taste or confidence score. Runs **privately** (`LOCAL_PRIVATE`), keeps `grudeva2025.reduced` rights-blocked (#73), and is **not** a digital twin, optimizer, or taste predictor. See [`docs/ILLUSTRATIVE_LINKED_PULL.md`](docs/ILLUSTRATIVE_LINKED_PULL.md).
 - **Run a guided espresso pull** — [▶ Open the Guided Espresso Pull in Google Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/guided_espresso_pull_colab.ipynb): enter a bounded recipe and run one coherent, model-backed pull stage by stage, with evidence-labelled traces and honest range warnings. You supply the dose, beverage mass, grinder dial, and pressure; the `cameron2020.extraction_bdf` model runs; you get extraction-yield, strength, flow, and a stage-by-stage report. It reports chemical composition, **not** taste; it does **not** model puck wetting, physical first drip, a dynamic pressure profile, temperature response, or flavor. See [`docs/GUIDED_ESPRESSO_PULL.md`](docs/GUIDED_ESPRESSO_PULL.md) and [issue #48](https://github.com/trbrewer/puckworks/issues/48).
 - **Explore why the cup hides the clock** — [▶ Open the flat-valley interactive](https://trbrewer.github.io/puckworks/flat-valley/): a static, generated explainer of why a good whole-cup endpoint fit can still hide weak parameter identification. Every number is generated from a committed result bundle; no install needed.
 

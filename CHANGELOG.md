@@ -5,6 +5,30 @@ tracked in detail in `docs/ROADMAP.md` §7.1.
 
 ## Unreleased
 
+- **New product: the Espresso Model Relay (`illustrative_linked_pull_v1`).** A separate, clearly-labelled
+  educational experience that passes ONE illustrative espresso pull from model to model — *not* a validated
+  coupled simulation, digital twin, or taste predictor, and a distinct product from the Full Laboratory
+  Tour (which is unchanged). A product-level engine (`puckworks.product.linked_pull` plus manifest,
+  records, adapters, narrative, display, and figures modules) runs a directed **acyclic, one-way** relay:
+  it calls authoritative model producers (no equations reimplemented), hands typed `LinkedValue`s forward
+  through documented adapters, records every hand-off as a `LinkRecord`, and surfaces a first-class
+  A01–A12 assumption ledger (each with a `validation_needed` field). A frozen manifest classifies all 25
+  registered components exactly once (a new component fails verification). The default **fast** run (~4 s
+  on CPU) executes **19** components across grind → packing → machine → wetting → flow → extraction →
+  puck-change → heterogeneous → multi-solute with **11** cross-component hand-offs (2 direct, 7 documented
+  adapters, 2 illustrative assumptions): Cameron as a baseline (not the whole story), a one-way
+  Cameron→Waszkiewicz bed-response branch, a linked streamtube heterogeneity branch, a reduced Pannusch
+  multi-solute branch, and several alternative extraction lenses — reported in a dashboard that **never
+  averages** incompatible branches and produces **no taste or confidence score**. `grudeva2025.reduced`
+  receives **zero** model and adapter calls; Taichi is optional (extended mode adds the pack → LB → sigma →
+  streamtube pore-scale relay). Rights are enforced before every producer (`LOCAL_PRIVATE`; public
+  fail-closed). `model_output_hash`/`artifact_hash` are deterministic (timestamps excluded) and are **not**
+  validation hashes. Ships a CLI (`python -m puckworks.product.linked_pull`) and a one-click, output-free,
+  commit-pinned Colab notebook (`notebooks/illustrative_linked_pull_colab.ipynb`, marker
+  `LINKED_PULL_RELAY_COMPLETE`). Notebook figures **reuse** the existing evidence-bound VizSpecs. The relay
+  pins and restores Cameron's shared `C_S0` global so the Full Laboratory Tour's frozen scientific hash is
+  byte-identical (regression-tested). See `docs/ILLUSTRATIVE_LINKED_PULL.md`.
+
 - **Deep-dive figure presentation/readability pass (#43) — formatting only.** The educational tour
   figures are now laid out by a new `puckworks.viz.tour_style` with a **reserved header band** (evidence
   badge) and **reserved footer band** (concise provenance + the fidelity ceiling wrapped as a `Scope:`
