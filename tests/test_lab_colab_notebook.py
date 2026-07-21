@@ -111,8 +111,19 @@ def test_no_auto_upload_or_credentials(code):
     low = code.lower()
     for bad in ("drive.mount", "password", "token", "secret", "api_key", "requests.post", "urllib.request"):
         assert bad not in low, f"notebook references {bad!r}"
-    # a files.download() is a user-initiated DOWNLOAD (allowed); there is no automatic external upload
+    # exports are offered as click-to-download FileLink links, never an automatic download or upload
+    # (see test_exports_are_user_initiated_links_not_automatic_downloads); no external upload either
     assert "files.upload" not in low
+
+
+def test_exports_are_user_initiated_links_not_automatic_downloads(code):
+    # "Run all" must NOT trigger a browser download prompt. A direct files.download() executed during
+    # normal notebook flow is NOT user-initiated. The report is offered as explicit click-to-download
+    # FileLink links instead (the Espresso Model Relay pattern), so a download begins only on a click.
+    assert ".download(" not in code, "notebook triggers an automatic browser download during Run all"
+    assert "FileLink" in code, "notebook must offer generated exports as explicit FileLink links"
+    # the provenance-bearing report files are still generated
+    assert "laboratory_tour.json" in code and "laboratory_tour.md" in code
 
 
 def test_full_laboratory_tour_is_the_default_mode(code):
