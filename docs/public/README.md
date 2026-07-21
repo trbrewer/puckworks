@@ -2,7 +2,7 @@
 
 This directory is the **generated** public face of `puckworks`: traceable claim
 cards derived from the scientific harness, one per public story. It is the concrete
-first build of the public-value track (`docs/PUBLIC_VALUE.md`, tasks PV-00–PV-18);
+first build of the public-value track (`docs/PUBLIC_VALUE.md`, tasks PV-00–PV-20);
 `docs/SPRINTS.md` "Public-value track (PV)" tracks status.
 
 ## What is here
@@ -87,6 +87,6 @@ python -m puckworks.public export --out docs/public/generated --slow # + slow Pr
   so the global OBSERVED badge never covers the simulated or derived panels. The snapshot records the CC-BY
   Schmieder source SHA-256; only DERIVED replicate-level values are published, no raw source CSV.
 
-Not yet built: PV-00's website/card-image rendering, and the remaining PV-01…PV-18 *deliverables*
+Not yet built: PV-00's website/card-image rendering, and the remaining PV-01…PV-20 *deliverables*
 (animations, interactives) beyond the PV-03/PV-04/PV-05 interactives already implemented above. This
 layer is the traceable data spine they all draw from — see `docs/PUBLIC_VALUE.md` for the full backlog.

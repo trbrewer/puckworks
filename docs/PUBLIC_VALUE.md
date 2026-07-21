@@ -174,6 +174,7 @@ Scores below are 1–5. **Ease** is reversed effort: 5 means an existing-analysi
 | PV-17 | Pump-curve and screen-clogging bench study | 4 | 4 | 4 | 5 | 2 | 19 | P2 experiment |
 | PV-18 | Coffee-bed retention and continuous-wetting measurement | 4 | 2 | 5 | 4 | 1 | 16 | P2/P3 research |
 | PV-19 | “The best-understood espresso shot”: one named recipe, every component, evidence attached | 5 | 4 | 4 | 4 | 4 | 21 | **P0/P1 capstone story** |
+| PV-20 | “Why you can’t just bolt every espresso model together” | 5 | 4 | 5 | 4 | 4 | 22 | **P0/P1 flagship methods story** |
 
 A sensible execution rule is:
 
@@ -1517,6 +1518,138 @@ Physically pull the named shot on the DE1 (Schmieder-matched coffee; per-shot κ
 **Public success signal:** readers can correctly distinguish “validated on this rig” from “verified adapter” from “post-fit calibration” using the scorecard alone.
 
 ---
+
+### PV-20 — Why you can’t just bolt every espresso model together: an interoperability audit and a path to a unified framework
+
+**Working headline**
+
+> **We tried to pass one espresso pull through every model we could. The equations were not the hardest part — the interfaces were.**
+
+> **Scope.** The Espresso Model Relay is an illustrative, assumption-rich product-level chain. It reveals where definitions, domains, boundary conditions, scales, and evidence do not line up; it does **not** prove that a unified model is impossible.
+
+**Public question:** if espresso is one physical process, why can’t its grind, puck, machine, wetting, flow, bed-change, and extraction models simply be joined into one simulation?
+
+**Refined thesis.** A model output is not a valid downstream input merely because its dimensions appear compatible. The quantity must also match in physical **definition**, measurement **basis**, spatial **location/node**, temporal **representation**, operating **domain**, and calibration **lineage**. Each adapter or coupling is a **new hypothesis**: validation of source component A and of target component B does **not** validate the composition A→B. There is a strength ladder — a verified **unit conversion** is weaker than a **calibrated adapter**, which is weaker than a **pairwise-validated coupling**, which does **not** validate the **full chain**. The Espresso Model Relay should be read as an *executable compatibility audit*.
+
+> **Component validity does not compose automatically.**
+
+(Do not shorten this to “models do not compose” — some direct, documented handoffs are legitimate; the point is that composition is not automatic.)
+
+**The refined hypothesis, stated once for the record:** the primary barrier to a scientifically credible whole-shot espresso model is not a shortage of component equations. It is the absence of **validated interfaces** between components. Existing models often use different definitions of apparently similar variables, operate on different machines, coffees, geometries, scales, time representations, and control conditions, and were calibrated against different observables. Connecting them therefore introduces new assumptions whose validity and uncertainty are **not inherited** from either source component. A credible unified framework must be built through standardized state contracts, synchronized measurements, calibrated adapters, pairwise coupling tests, uncertainty propagation, and held-out whole-chain validation.
+
+**How this differs from existing work (an explicit distinction — do not duplicate or rename these):**
+
+- **vs PV-05** (“Adding physics made the model worse”): PV-05 demonstrates ONE specific *negative composition* — extraction+swelling through a single shared porosity state performs worse than a flat baseline; it rejects that *tested composition*, not swelling and not all coupled modelling. PV-20 is broader: it builds a *taxonomy* of interoperability barriers across the Relay, explains why component validation does not validate a connection or a chain, and proposes the staged route to credible integration. PV-20 may cite PV-05 as one case study; it must not re-derive it.
+- **vs PV-19** (“The best-understood espresso shot”): PV-19 is a *named-shot evidence scorecard* — for one fully specified shot, what can every model say and where does prediction stop? PV-20 is an *interoperability / compositional-validity* analysis — why those outputs cannot yet be treated as one validated causal simulation, and what interfaces and measurements would make that possible.
+- **vs Paper 3** (the registry / typed contracts / provenance / matched-observable comparison / executable evidence): PV-20 becomes a *public article task now*. It does **not** automatically declare a new standalone academic manuscript — see the publication-home decision gate below.
+
+**Existing evidence (ground the article in the live Relay, not generic modelling rhetoric).** Reference: the frozen Relay manifest (`puckworks/product/linked_pull_manifest.py`); the `LinkKind` and `ScenarioRelationship` enums and the runtime `LinkRecord`s (`linked_pull_records.py`); the first-class assumption ledger (`linked_pull_adapters.py`, the named A01–A12 framework while the manifest retains it — the implementation must verify the *live* ledger, not this list); model-card domains; the unit/basis contracts (`puckworks/contracts.py`, `puckworks/validate.py`); the rights and optional-execution dispositions; the **Full Laboratory Tour** as the independent-lens *control* experience; the **Relay** as the deliberate *linked* experience (`docs/ILLUSTRATIVE_LINKED_PULL.md`).
+
+> **Do not hard-code counts.** The eventual article must GENERATE the number of components, executed components, hand-offs, and direct/adapted/assumed edges from a pinned, audited Relay result — never type them into prose. (Post-stabilization the audited fast run is deterministic and reproducible; bind every number to its artifact hash.)
+
+#### The seven seams — a taxonomy of interoperability barriers
+
+1. **Meaning and basis.** The same ordinary word can denote different scientific quantities. Verify from the live cards/Relay: Cameron coarse-family (“boulder”) radius vs Wadsworth *mean* grain radius; connected hydraulic porosity vs synthetic-pack void fraction vs water-accessible porosity vs poroelastic porosity; total roasted-solute inventory vs *extractable* inventory; cumulative dissolved mass vs extraction yield; cup-basis vs oven-dry observables. Two different definitions are **not errors** — they can be entirely valid in their original model; the problem is *silently equating* them.
+2. **Calibration and operating domain.** Models may have been developed on different coffees, grinders, dial conventions, machines, baskets, bed densities, pressure ranges, temperatures, particle distributions, and flow regimes. A cross-rig or cross-coffee hand-off is not automatically a transfer *validation*.
+3. **Boundary conditions and measurement nodes.** Distinguish pump-outlet pressure, line/group pressure, headspace/bed-top pressure, basket pressure, pressure drop across the wet bed, imposed total flow, imposed pressure, and beverage flow. A scalar labelled “9 bar” is not sufficient provenance.
+4. **Clock and state.** Models may represent initially-dry vs fully-saturated beds; sharp-front vs continuous saturation; steady vs transient flow; scalar pressure vs a full P(t); scalar flow vs Q(t); fixed vs changing bed geometry; fixed temperature vs a thermal history. The Relay’s *sequential order is an educational/computational order* — the real processes overlap.
+5. **Spatial and model scale.** Distinguish particle-scale diffusion, pore-scale lattice flow, continuum bed flow, machine hydraulics, and whole-cup observables. Passing an averaged pore-scale output into a continuum model requires a **closure**; passing a whole-cup result *backward* into a local model is not automatically meaningful.
+6. **Causal direction and feedback.** A variable may be prescribed by one model, predicted by another, and held constant by a third. Connections can introduce double counting, missing feedback, one-way coupling, algebraic loops, incompatible control modes, two mechanisms acting on the same state, or loss of conservation. Use the Cameron→Waszkiewicz *one-way* branch and the shared-porosity PV-05 composition as examples, **with their exact current evidence limits**.
+7. **Validation, uncertainty, and synchronized data.** The validation ladder: (1) dimensionally compatible; (2) definition-compatible; (3) domain-overlapping; (4) adapter verified; (5) adapter calibrated; (6) pairwise coupling independently tested; (7) subsystem tested; (8) complete chain tested on held-out data; (9) transfer tested across coffee/grinder/machine/control mode. The current Relay occupies several levels *simultaneously* — do **not** assign one aggregate “chain confidence score.” The deepest recurring problem: many quantities were never measured **together** on one shot, one coffee, one rig.
+
+#### Concrete Relay case studies (use a few specific, reproducible hand-offs — not every component equally; include a case only if the current audited implementation still supports it)
+
+- **Case A — Particle size is not one transferable number.** Cameron’s particle-family representation; Wadsworth’s grinder-specific mean-radius map; the A01 radius match; the downstream influence on permeability and the inertial-regime diagnostic. Maximum defensible claim: matching one size *summary* enables an illustrative bridge — it does not make the grinder dials or the PSDs equivalent.
+- **Case B — Porosity is not one universal state variable.** Compare the explicitly-named porosity definitions used by permeability, synthetic packing, wetting, swelling, and poroelasticity. Show how silently merging them yields a visually seamless chain while destroying physical meaning.
+- **Case C — “Nine bar” is not a boundary condition.** The pressure-node issue and any representative-pressure reduction the Relay applies. Reducing a dynamic machine trace to one scalar may be *necessary* for a downstream model, but the reduction is part of the new **product-level** model, not the source component.
+- **Case D — Valid on different rigs is not validated together.** The permeability→wetting hand-off (or another current cross-rig edge): both components may retain their original evidence strengths while the cross-rig adapter remains illustrative.
+- **Case E — A new coupling inherits no validation.** The Cameron dissolved-mass→Waszkiewicz one-way coupling: physically motivated; transforms cumulative dissolved mass into a dissolution fraction; the resulting branch is scientifically *new*; Waszkiewicz’s original validation cannot be attached to the composite.
+- **Case F — Chemical inventory has incompatible meanings.** Total roasted inventory vs extractable inventory vs equilibrium ceiling vs per-solute inventory vs TDS vs EY. The multi-solute branch can honestly show release *clocks* while absolute per-solute *yields* remain unsupported without measured extractable fractions.
+
+#### Why this matters to a non-specialist
+
+This is not merely software architecture. It shapes familiar questions: does higher pressure increase extraction? does a falling flow trace prove the puck compacted? does one grinder’s dial correspond to another’s? does a wetting model describe the same porosity as a permeability model? can TDS be read as chemical composition? can a model that works on one coffee predict another? The practical lesson:
+
+> A polished whole-shot curve can conceal *more* assumptions than a collection of separate, plainly-labelled model lenses.
+
+(Do not translate any of this into taste certainty.)
+
+#### Constructive path to a unified framework (a staged program — the conclusion is a route, not a verdict of impossibility)
+
+- **Stage 0 — Canonical vocabulary and state contracts.** Explicit names/units/bases/nodes for particle-size summaries, porosity variants, permeability, pressure nodes, mass and volumetric flow, saturation, bed geometry, dissolved mass, EY, TDS, per-solute inventories, and temperature states. Do **not** force physically distinct quantities into one universal field.
+- **Stage 1 — One synchronized reference-shot dataset.** On the *same* coffee, grinder, puck, machine, and shot, measure: grinder/PSD; dose and geometry; packing density and relevant porosity; permeability; pump and basket pressure; flow and beverage mass; temperature; first drip and wetting; bed deformation where possible; fraction-resolved TDS; dissolved mass or chemical composition.
+- **Stage 2 — Calibrate adapters.** Per interface: state the transform; identify parameters; calibrate them *independently of the final chain target*; quantify uncertainty; define the valid domain; retain a **null adapter** where appropriate.
+- **Stage 3 — Validate pairs before chains.** grind→permeability; machine→wetting; permeability→flow; flow→extraction; extraction→bed response — each pair with an observable that can fail *independently*.
+- **Stage 4 — Validate subsystems.** machine+wetting; packing+flow; flow+extraction; extraction+evolving bed — with conservation checks and uncertainty propagation.
+- **Stage 5 — Test the complete chain.** Freeze all parameters before evaluating held-out shots; compare against simple baselines, uncoupled alternatives, reduced models, and observed uncertainty. A full chain must *earn* its value by improving held-out prediction or revealing new observable structure — not by containing more equations.
+- **Stage 6 — Test transfer.** Across pressure programs, flow-vs-pressure control, grind, coffee, grinder, machine, basket, and temperature. Do not claim a universal model after success on one named shot.
+
+#### Minimum data and action roadmap (cross-reference existing PV experiment tasks; do not duplicate them)
+
+| Gap | Needed measurement / action |
+|---|---|
+| Particle-size bridge | One PSD measured on the same coffee/grinder and mapped to *every* model’s size summary (see PV-11) |
+| Porosity definitions | Same puck measured for bulk, connected, accessible, and deformation-dependent porosity where possible (see PV-18) |
+| Pressure nodes | Simultaneous calibrated pump/group and basket/bed pressure (see PV-17) |
+| Cross-rig transfer | Permeability, wetting, flow, and extraction measured on one common rig |
+| Wetting state | Continuous saturation or validated retention / relative-permeability data (see PV-18) |
+| Bed change | Time-resolved bed height/deformation and flow under controlled pressure or flow (see PV-14) |
+| Dissolution coupling | Fraction-resolved dissolved mass synchronized with pressure and flow (see PV-16) |
+| Multi-solute inventory | Per-solute total *and* extractable inventories for the same coffee (see PV-13, PV-16) |
+| Whole-chain validation | Repeated held-out shots with complete synchronized metadata (see PV-19) |
+| Transfer | Replication across coffee, grind, machine, and control mode (see PV-15, PV-16) |
+
+PV-20 acts as the **synthesis** that explains *why* the PV-11/13/15/16/17/18/19 measurements are needed — it does not re-specify them.
+
+#### Deliverable package (a static generated article with strong figures is an acceptable MVP — no new interactive is required for the first article)
+
+1. **Public long-form article** — “Why You Can’t Just Bolt Every Espresso Model Together.”
+2. **Generated compatibility atlas** — every runtime or intended Relay edge with source/target quantity, unit, basis, node, domain overlap, adapter, assumptions, current validation level, and measurement needed.
+3. **Hero graphic** — the Relay graph with direct / adapted / assumed / diagnostic / optional / blocked edges (no colour-only encoding; edge labels generated from the manifest/result).
+4. **“Same word, different meaning” cards** — particle size; porosity; pressure; flow; extraction/inventory.
+5. **Validation-inheritance ladder** — component validation → whole-chain transfer validation.
+6. **Path-to-unification roadmap** — contracts; synchronized dataset; adapters; pairwise tests; subsystem tests; held-out chain; transfer.
+7. **Technical appendix** — generated from a pinned Relay result: exact component IDs, link IDs, assumption IDs, cards/source references, reproduction command, artifact hash.
+8. **Academic publication-home memo** — overlap audit against Paper 3, Paper B/PV-05, and PV-19; recommendation for standalone paper, Paper 3 section, or companion perspective.
+
+#### Hero visuals (four priority visuals; all *scientific* figures must eventually use the evidence-bound VizSpec system; product diagrams may be generated SVG/HTML but their data must come from the frozen compatibility artifact)
+
+- **Visual 1 — The tempting seamless chain vs the actual audited chain.** Top: `grind → puck → machine → wetting → flow → puck change → extraction → cup`. Bottom: the same chain annotated with direct edges, adapters, assumptions, alternative branches, missing interfaces, and rights/optional boundaries. The graphic must communicate that *the difficulty lives at the arrows*.
+- **Visual 2 — Same label, different quantity.** Cards for particle size, porosity, pressure, and extraction/inventory, each showing multiple model-specific definitions without calling one universally correct.
+- **Visual 3 — Validation does not jump the seam.** `validated component A + validated component B ≠ validated A→B composition`, followed by the full validation ladder.
+- **Visual 4 — What must be measured together.** A synchronized-shot measurement diagram: grinder/PSD, puck geometry, pressure nodes, flow, wetting, deformation, fractions, chemistry.
+
+#### Scientific-integrity requirements (the eventual article must distinguish these; the compatibility audit must be built on a *stabilized, provenance-consistent* Relay result)
+
+- **Interface incompatibility** — two quantities cannot be passed directly because definition, basis, node, scale, domain, or lineage differ.
+- **Model disagreement** — two models make different predictions for a genuinely *matched* observable and scenario.
+- **Missing implementation** — a meaningful interface could exist but has not been coded.
+- **Missing evidence** — an adapter/coupling is implemented but not independently tested.
+- **Software defect** — a bug, global-state mutation, silent clamp, wrong unit, duplicate execution, or mislabelled component is **not** a scientific incompatibility.
+
+> **Do not let software defects discovered during Relay stabilization become article evidence about physical model incompatibility.** (The post-merge stabilization already removed a streamtube→Cameron global-state mutation, silent clamps/fallbacks, and mislabelled executions; the compatibility audit must run on the stabilized result.)
+
+Do not: aggregate assumptions into one confidence number; rank models by number of assumptions; count every adapter as a scientific failure; treat an optional dependency as a physics incompatibility; treat a rights block as evidence that models cannot couple; infer taste from TDS/EY/compound clocks; or call a model “validated” when its card says verification, post-fit, qualitative, reference, or negative validation.
+
+**Evidence-safe wording**
+
+- Good: “The Relay required an assumed bridge at this hand-off.” · “These two models use different definitions of porosity.” · “Both components may be useful independently; their combination has not been validated.” · “A unit conversion verifies syntax, not scientific equivalence.” · “The current evidence supports a modular research program, not a universal simulator.” · “A credible unified framework remains possible, but its interfaces must earn validation.”
+- Avoid: “The models are incompatible” (without naming the precise incompatibility). · “The models contradict one another” (when they represent different quantities/domains). · “A unified model is impossible.” · “Puckworks has proven that mega-models fail.” · “All assumptions are equally serious.” · “Twelve assumptions means twelve errors.” · “The model with fewer assumptions is automatically better.” · “More physics always makes predictions worse.” · “The Relay predicts the user’s espresso.” · “The final cup will taste …”
+- The scope sentence must accompany the headline: *“The current Relay demonstrates interoperability barriers in this particular registry and reference pull. It does not prove that no unified espresso model can be built.”*
+
+**Publication-home decision gate (do not add a new paper number or manuscript file in the planning task).** Choose only after an explicit overlap audit against Paper 3, Paper B/PV-05, and their claim-ownership documents:
+
+- **Public article** — proceed when Relay provenance is frozen, compatibility examples are verified, generated visuals exist, and no new scientific conclusion is required.
+- **Paper 3 section** — prefer when the central contribution is typed contracts, provenance, and executable evidence, and the Relay is primarily a case study of the registry architecture.
+- **Standalone methods/perspective paper** — prefer only when the work contributes more than a project narrative: a reusable interoperability taxonomy, a formal compatibility schema, a generated audit method, a validation-inheritance framework, comparison with analogous multiphysics/co-simulation practice, or a reproducible case study showing how the framework changes integration decisions.
+- **Experimental paper** — not yet justified without synchronized new measurements or independent pairwise/whole-chain validation.
+
+**Effort:** M for the public article and generated compatibility atlas; M–L for a rigorous academic case study, depending on the overlap decision and whether new pairwise validation analysis is required.
+**Primary repo dependencies:** Espresso Model Relay manifest, runtime link records, assumption ledger, model cards, contract definitions, Full Laboratory Tour, PV-00 public-export conventions, PV-05, PV-19, and Paper 3.
+**Public success signal:** after reading the article, a non-specialist can correctly explain (1) why matching units is not enough; (2) why component validation does not validate a coupling; (3) one concrete Relay incompatibility; (4) one measurement that would replace an assumption; (5) why the conclusion is a path toward better integration rather than a claim that unified modelling is impossible.
+**Pre-release comprehension target:** ≥ 4 of those 5 correctly answered by lay reviewers who have read only the article, and reviewers can additionally name the *main limitation* alongside the headline (consistent with the §13 success metrics).
+
+---
 ## 6. Convert the five existing scientific figures into five public stories
 
 The repository already renders five manuscript figures from harness outputs. The fastest route to visible value is not to publish those figures unchanged; it is to create a public version of each with one message, one evidence badge, and one action or question.
@@ -1651,6 +1784,15 @@ A “viral” result is most likely when the technical finding, visual reveal, a
 - **Public article:** use as a question until measured.
 - **Academic paper:** strong new-data opportunity if the measurement and held-out flow test are rigorous.
 
+### Package H — **Why You Can’t Just Bolt Every Espresso Model Together** (PV-20)
+
+- **Core result:** the Espresso Model Relay exposes a set of typed direct, adapted, assumed, diagnostic, optional, and blocked hand-offs. Several apparently-simple connections require changes of definition, basis, node, scale, domain, or calibration lineage.
+- **Human narrative:** we tried to assemble the whole machine; the difficult part was not writing more equations but making the seams scientifically meaningful.
+- **Hero visual:** a clean ideal chain transforming into an audited Relay graph whose arrows reveal assumptions and missing validation.
+- **Public article:** viable after a pinned Relay provenance and compatibility audit.
+- **Academic output:** possible interoperability case study or methods perspective; publication home must be decided against Paper 3 overlap.
+- **Audience beyond coffee:** multiphysics modelling, scientific software, digital twins, model-based engineering, reproducibility, and system identification.
+
 ---
 
 ## 9. Evidence-safe headline bank
@@ -1674,6 +1816,8 @@ These are deliberately bold, but each is paired with the sentence that must acco
 | **At constant pressure, a pressure-only bed law cannot create a time trend.** | In the 9-bar ladder, static pressure-dependent permeability ties the constant-permeability null; some evolving state is required in the tested window. |
 | **Two equally strong cups may not be chemically identical.** | Treat this as a model-generated hypothesis until matched-TDS recipe pairs are confirmed chemically and, separately, sensorially. |
 | **Hotter is not one mechanism.** | Equilibrium chemistry, diffusivity, viscosity, transient heat transfer, wetting, and sensory effects must be separated rather than collapsed into one temperature rule. |
+| **A model can be valid on its own and still be unvalidated when connected to another.** | The Espresso Model Relay contains hand-offs that change definitions, bases, pressure nodes, domains, or model lineage; those adapters and combinations require their own validation, and this does not mean the source components are invalid. |
+| **The hardest part of a whole-shot espresso model is not adding equations — it is validating the arrows between them.** | In the current Relay, some links are direct while others require documented adapters or illustrative assumptions; the pattern is specific to the current components and does not prove that a unified model is impossible. |
 
 A headline should be rejected or rewritten if its scope sentence is too long to display with it. That is usually a sign that the headline overreaches the evidence.
 
@@ -2184,6 +2328,39 @@ The following tickets can be created directly. They are ordered so that early wo
 
 ---
 
+### Issue 9 — `PV-20a: model-interoperability audit + mega-model article`
+
+**Work**
+
+1. Freeze one audited reference Relay result at a pinned commit.
+2. Generate a compatibility record for every intended and runtime edge.
+3. Classify each edge by: unit; basis; physical definition; pressure/location node; temporal representation; spatial scale; source and target domains; calibration lineage; adapter; assumption IDs; conservation implications; present validation rung; measurement needed.
+4. Separate: direct compatibility; syntactic/unit conversion; documented scientific adapter; illustrative assumption; diagnostic-only relationship; alternative branch; optional path; rights block.
+5. Generate the four priority visuals (seamless-vs-audited chain; same-label-different-quantity cards; validation-does-not-jump-the-seam ladder; what-must-be-measured-together diagram).
+6. Draft the public article (“Why You Can’t Just Bolt Every Espresso Model Together”).
+7. Run a five-question lay-comprehension review.
+8. Produce the Paper 3 overlap / publication-home memo (audit against Paper 3, Paper B/PV-05, PV-19, and their claim-ownership docs).
+9. Bind every count and example to the pinned compatibility artifact.
+10. Add reproduction and verification commands.
+
+**Done when**
+
+- every claimed incompatibility references an exact component pair, field, adapter, assumption, card, or runtime link;
+- no count is hand-entered;
+- the compatibility artifact verifies against the live pinned Relay result;
+- the article distinguishes definition mismatch from scientific disagreement, and component validation from coupling validation;
+- the article does not claim unified modelling is impossible;
+- PV-05 and PV-19 are clearly cross-referenced rather than duplicated;
+- the public figures carry evidence and scope labels;
+- the validation ladder and measurement roadmap are present;
+- comprehension reviewers can identify the main limitation as well as the headline;
+- the academic publication home has been decided or explicitly remains pending with reasons;
+- software defects (bugs, global-state mutations, silent clamps, wrong units, duplicate executions, mislabelled components) are **excluded** as evidence of physical model incompatibility.
+
+*(Do not create the GitHub issue in the planning task unless explicitly authorized; this is the issue-ready specification only.)*
+
+---
+
 ## 16. Experiment portfolio: what each new measurement would resolve
 
 | Experiment | Primary competing explanations | Key observable | Minimum hardware/data | Public visual | Main risk |
@@ -2219,6 +2396,7 @@ The first new-data experiment should ideally serve several stories at once. Targ
 7. **PV-06 pressure fingerprint.** It turns the repository into a mechanism-discrimination tool.
 8. **PV-08 Puck Court.** Launch after the first claims establish the visual and evidence language.
 9. **PV-19 best-understood-shot scorecard.** It converts the registry’s per-slot evidence discipline into a single concrete story, and its capstone measurement is a natural PV-15 candidate.
+10. **PV-20 model-interoperability article** *(status: not-started)*. A **P0/P1 next candidate once the Relay provenance and execution-accounting baseline is frozen** (the post-merge stabilization did this). It naturally follows **PV-05** (which supplies one concrete failed composition) and complements **PV-19** (by explaining why the named-shot scorecard is not one validated whole-chain prediction). It can precede the larger experimental programs because its measurement roadmap explains *why* PV-11, PV-13, PV-15, PV-16, PV-17, PV-18, and PV-19 are needed. Adding this planning specification does **not** mark PV-20 “selected,” “in progress,” or “complete.”
 
 ### Use those outputs to choose one experiment
 
