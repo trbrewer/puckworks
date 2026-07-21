@@ -25,7 +25,7 @@ class TourFigure:
     viz_spec_id: str
     headline: str            # public hook (plain language, not the component id)
     question: str            # the ordinary-language question the figure answers
-    caption: str             # substantial computed caption (values from the producer)
+    caption: str             # backwards-compatible flat Markdown (composed from `narrative`)
     figure: object           # matplotlib Figure
     varied_input: str
     fixed_inputs: dict
@@ -33,6 +33,7 @@ class TourFigure:
     evidence_strength: str
     fidelity_ceiling: str
     producer_ref: str
+    narrative: object = None  # tour_style.TourFigureNarrative — structured novice explanation
 
 
 # component_id -> ordered list of insights: (viz_spec_id, headline, question, draw_fn_name, kwargs_fn)
@@ -119,14 +120,18 @@ def component_figures(result: dict, *, scenario: dict | None = None, trace_panel
         spec = R.viz_by_id(spec_id)
         data = getattr(R, "producer_data")(spec) if kwargs_fn is _none else \
             _run_producer(spec, kwargs_fn(scenario))
-        fig, caption = getattr(draw, draw_name)(data)
+        # notebook presentation: the notebook prints the headline + question, so the figure never repeats
+        # them. Pass the ceiling so the reserved footer band is sized to the wrapped scope text.
+        fig, narrative = getattr(draw, draw_name)(
+            data, presentation="notebook", ceiling=spec.fidelity_ceiling, title=spec.title)
         R.stamp_fig(fig, spec)                             # badge + evidence + fidelity stamped into the fig
         out.append(TourFigure(
-            component_id=cid, viz_spec_id=spec.id, headline=headline, question=question, caption=caption,
-            figure=fig, varied_input=data.get("varied", "reference case"),
+            component_id=cid, viz_spec_id=spec.id, headline=headline, question=question,
+            caption=narrative.to_caption(), figure=fig,
+            varied_input=data.get("varied", "reference case"),
             fixed_inputs=dict(data.get("fixed", {})), evidence_badge=spec.badge,
             evidence_strength=spec.evidence_strength, fidelity_ceiling=spec.fidelity_ceiling,
-            producer_ref=spec.producer.ref()))
+            producer_ref=spec.producer.ref(), narrative=narrative))
     return out
 
 

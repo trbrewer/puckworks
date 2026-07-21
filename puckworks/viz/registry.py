@@ -290,8 +290,15 @@ def source_commit() -> str:
 def stamp_fig(fig, spec: VizSpec, commit=None):
     """Draw the badge + evidence-strength + source commit onto the figure itself
     (PUBLIC_VALUE §3.1: put the badge in the graphic, not the caption). Returns the
-    badge string drawn, so a test can assert it is present."""
+    badge string drawn, so a test can assert it is present.
+
+    Tour educational figures (built by `tour_style.tour_figure`) carry reserved header/footer bands on
+    `fig._tour_layout`; for those the badge and a wrapped `Scope:` footer are drawn into the bands (never
+    over an Axes) and the call is idempotent. Every other figure keeps the ordinary corner stamp."""
     commit = commit if commit is not None else (spec.source_commit or source_commit())
+    layout = getattr(fig, "_tour_layout", None)
+    if layout is not None:
+        return _stamp_tour(fig, spec, layout, commit)
     color = BADGE_COLORS.get(spec.badge, INK)
     label = f" {spec.badge} · {spec.evidence_display()} "
     fig.text(0.008, 0.978, label, ha="left", va="top", fontsize=8,
@@ -300,6 +307,28 @@ def stamp_fig(fig, spec: VizSpec, commit=None):
     foot = f"{spec.id} · commit {str(commit)[:10]} · ceiling: {spec.fidelity_ceiling}"
     fig.text(0.008, 0.006, foot, ha="left", va="bottom", fontsize=5.2,
              color=INK, wrap=True)
+    return spec.badge
+
+
+def _stamp_tour(fig, spec: VizSpec, layout: dict, commit) -> str:
+    """Draw the badge into the reserved header band and the provenance + wrapped `Scope:` paragraph into
+    the reserved footer band. Idempotent: a second call is a no-op (no duplicate badge or footer)."""
+    from .tour_style import FS_BADGE, FS_FOOTER, wrap_scope
+    if layout.get("stamped"):
+        return spec.badge
+    color = BADGE_COLORS.get(spec.badge, INK)
+    # header: badge with human-readable spacing (EXPLORATORY SIMULATION · qualitative)
+    badge_text = f" {spec.badge.replace('_', ' ')} · {spec.evidence_display()} "
+    layout["header"].text(0.008, 0.5, badge_text, ha="left", va="center", fontsize=FS_BADGE,
+                          fontweight="bold", color=BADGE_TEXT_COLOR,
+                          bbox=dict(boxstyle="round,pad=0.35", facecolor=color, edgecolor="none"))
+    # footer: one concise provenance line, then the scope paragraph wrapped to fit
+    prov = f"{spec.id} · commit {str(commit)[:10]} · {spec.badge.replace('_', ' ')}"
+    scope_lines = wrap_scope(spec.fidelity_ceiling, layout["fig_w_in"])
+    block = prov + "\n" + "\n".join(scope_lines)
+    layout["footer"].text(0.008, 0.96, block, ha="left", va="top", fontsize=FS_FOOTER,
+                          color=INK, linespacing=1.4)
+    layout["stamped"] = True
     return spec.badge
 
 

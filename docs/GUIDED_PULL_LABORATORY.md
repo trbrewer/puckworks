@@ -82,6 +82,20 @@ Consequences enforced in code + tests:
 - **Rights obeyed.** An insight producer obeys the component's tour rights decision — a not-executed or
   rights-blocked component receives **zero** educational producer calls.
 
+**Presentation (calm, museum-style).** Each educational figure is laid out by `puckworks.viz.tour_style`
+with a **reserved header band** (the evidence badge) and a **reserved footer band** (a concise provenance
+line plus the fidelity ceiling wrapped as a `Scope:` paragraph) — neither band is ever drawn over an
+Axes, so the badge never lands on a title and the scope never lands on an axis label. A local typography
+scale keeps every visible label ≥8 pt (no more 5.2 pt footer). In the notebook the figure does **not**
+repeat the headline/question the notebook already prints; small multiples share one figure-level axis
+label and explain the reference-condition star once. The novice explanation is **structured**
+(`puckworks.product.lab_tour_notebook_display`): a public author–year heading, a one-line *what it
+computes*, then short labelled paragraphs — *What changes · What the model shows · Why this happens ·
+Scope* — with all technical evidence (badge, evidence strength, varied/fixed inputs, full fidelity
+ceiling, reference, raw identifiers) tucked into a collapsed **Evidence and technical details** block.
+Fixed inputs are humanized (`Dose: 20 g`, not `dose_g=20.0`). This is a presentation change only — no
+computed value, badge, evidence strength, fidelity ceiling, route, or hash changes.
+
 `cameron2020.extraction_bdf` leads the deep dive as the hero (the one model that turns the whole recipe
 into a simulated shot), with three figures — the whole shot over time, a pressure sweep, and a
 beverage-mass (brew-ratio) sweep — after which the tour returns to the start of the process stage by stage.
