@@ -32,11 +32,13 @@ where each model applies, and check predictions against the measurements that ar
   <tr>
     <td align="center"><b>🧪 Full Laboratory Tour</b><br><sub>visit every model independently</sub></td>
     <td align="center"><b>🔗 Espresso Model Relay</b><br><sub>follow one illustrative pull through linked models</sub></td>
+    <td align="center"><b>☕ Guided Espresso Pull</b><br><sub>run one recipe stage by stage</sub></td>
     <td align="center"><b>📋 Quickstart</b><br><sub>browse the espresso models</sub></td>
   </tr>
   <tr>
     <td align="center"><a href="https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/guided_pull_laboratory_colab.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open the Full Laboratory Tour in Google Colab"></a></td>
     <td align="center"><a href="https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/illustrative_linked_pull_colab.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open the Espresso Model Relay in Google Colab"></a></td>
+    <td align="center"><a href="https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/guided_espresso_pull_colab.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open the Guided Espresso Pull in Google Colab"></a></td>
     <td align="center"><a href="https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/puckworks_quickstart_colab.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open the Puckworks CPU quickstart in Google Colab"></a></td>
   </tr>
 </table>
@@ -44,6 +46,7 @@ where each model applies, and check predictions against the measurements that ar
 **Try it now:**
 [🧪 Open the **Full Laboratory Tour** in Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/guided_pull_laboratory_colab.ipynb) (visit every model independently)
  · [🔗 Follow one illustrative pull through linked models](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/illustrative_linked_pull_colab.ipynb) — the **Espresso Model Relay**
+ · [☕ Run a **Guided Espresso Pull** in Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/guided_espresso_pull_colab.ipynb) (one recipe, stage by stage)
  · [📋 Run the **quickstart** in Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/puckworks_quickstart_colab.ipynb) (browse models)
 
 > The **Espresso Model Relay** is an assumption-rich educational relay, **not** a validated coupled simulation. It is a separate experience from the Full Laboratory Tour, which remains unchanged.
