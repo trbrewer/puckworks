@@ -194,7 +194,8 @@ def simulate_shot(gs: float,
                   t_shot: float | None = None,
                   n_save: int = 120,
                   rtol: float = 1e-6,
-                  atol: float = 1e-8) -> ShotResult:
+                  atol: float = 1e-8,
+                  c_s0: float | None = None) -> ShotResult:
     """Simulate one espresso shot and return the extraction yield.
 
     Parameters
@@ -283,9 +284,13 @@ def simulate_shot(gs: float,
             S[base + M - 1, j] = 1                       # surface node <- cl
     S[i_mcup, n_cl - 1] = 1
 
+    # initial soluble concentration in the grounds; defaults to the module constant C_S0 (118 kg/m^3).
+    # Passing c_s0 explicitly lets a caller (e.g. brewer2026.streamtube) use its own calibrated basis
+    # WITHOUT mutating this module's global — imports must never rewrite another model's constant.
+    c_s0 = C_S0 if c_s0 is None else c_s0
     u0 = np.concatenate((np.zeros(N),                    # cl(z, 0) = 0
-                         np.full(n_cs, C_S0),            # cs(z, r, 0) = cs0
-                         np.full(n_cs, C_S0),
+                         np.full(n_cs, c_s0),            # cs(z, r, 0) = cs0
+                         np.full(n_cs, c_s0),
                          [0.0]))
 
     t_eval = np.linspace(0.0, t_shot, n_save)
@@ -310,7 +315,7 @@ def simulate_shot(gs: float,
     n1 = bet1 / (4 * np.pi * A1**2)      # number density of fines, 1/m^3 bed
     n2 = bet2 / (4 * np.pi * a2**2)
     solid_mass = lambda cs1_, cs2_: bed_vol * hz / L * 0  # placeholder
-    m_solid_0 = bed_vol * (phi1 + phi2) * C_S0
+    m_solid_0 = bed_vol * (phi1 + phi2) * c_s0
     m_solid_f = (bed_vol / N) * (
         n1 * (4 / 3 * np.pi * A1**3) * 0 +  # kept explicit below
         0)

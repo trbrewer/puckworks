@@ -25,16 +25,10 @@ from .linked_pull_records import (EXECUTED_STATUSES, AssumptionRecord, LinkedVal
 
 REFERENCE_PRESET = "illustrative_reference_v1"
 
-# Cameron's declared saturation-concentration default. Some models (e.g. brewer2026.streamtube) overwrite
-# this SHARED module global as an import side effect; the relay PINS it so every Cameron-backed branch
-# shares one soluble-ceiling basis and the run is deterministic regardless of import order. This changes no
-# equation — it fixes the constant to Cameron's own default.
-_CAMERON_C_S0 = 118.0
-
-
-def _pin_cameron_c_s0():
-    from ..models.cameron2020 import extraction_bdf as cam
-    cam.C_S0 = _CAMERON_C_S0
+# NOTE: the relay no longer touches Cameron's C_S0 global. brewer2026.streamtube used to mutate it at
+# import; that model-level defect is fixed (streamtube now passes its own c_s0 into simulate_shot(c_s0=)),
+# so Cameron's baseline uses its own default (118) and streamtube uses its calibrated basis — no import
+# order dependence, no global repair needed.
 
 # stipulated defaults surfaced in the report (NOT user inputs, NOT model outputs)
 STIPULATED_DEFAULTS = {
@@ -142,41 +136,28 @@ def execute_illustrative_linked_pull(request: RelayRequest, *, manifest_id: str 
         request = dataclasses.replace(request, mode=mode)
     ctx = _Ctx(request, execution_context)
 
-    # leave NO global side effect: some models mutate Cameron's shared C_S0 at import; snapshot and restore
-    # it so the relay never perturbs the separate Full Laboratory Tour running later in the same process.
-    from ..models.cameron2020 import extraction_bdf as _cam
-    _orig_c_s0 = _cam.C_S0
-    try:
-        _cache_cameron(ctx)          # cache the Cameron shot once (pins the canonical C_S0)
-        _station_recipe(ctx)
-        _station_grind(ctx)
-        _station_packing(ctx)
-        _station_machine(ctx)
-        _station_wetting(ctx)
-        _station_flow(ctx)
-        _station_pore_scale(ctx)
-        _station_extraction(ctx)
-        _station_puck_change(ctx)
-        _station_heterogeneous(ctx)
-        _station_multisolute(ctx)
-        _station_other_lenses(ctx)
-        # every classified component with no station stage -> record its disposition explicitly
-        _fill_unvisited(ctx)
-        return _assemble(ctx, manifest_id)
-    finally:
-        # Leave C_S0 in exactly the state a bare `import streamtube` produces, so a later Full Laboratory
-        # Tour streamtube CHECK is byte-identical to a fresh run. streamtube sets `C_S0 = 118.0 / PHI_S`
-        # at import (streamtube.py:62); once it is imported that is the module's canonical value.
-        import sys as _sys
-        if "puckworks.models.brewer2026.streamtube" in _sys.modules:
-            _cam.C_S0 = 118.0 / _cam.PHI_S
-        else:
-            _cam.C_S0 = _orig_c_s0
+    # No global-state management is required: streamtube no longer mutates Cameron's C_S0 at import, so
+    # the relay leaves no scientific global modified and does not perturb a later Full Laboratory Tour.
+    _cache_cameron(ctx)          # cache the Cameron shot once
+    _station_recipe(ctx)
+    _station_grind(ctx)
+    _station_packing(ctx)
+    _station_machine(ctx)
+    _station_wetting(ctx)
+    _station_flow(ctx)
+    _station_pore_scale(ctx)
+    _station_extraction(ctx)
+    _station_puck_change(ctx)
+    _station_heterogeneous(ctx)
+    _station_multisolute(ctx)
+    _station_other_lenses(ctx)
+    # every classified component with no station stage -> record its disposition explicitly
+    _fill_unvisited(ctx)
+    return _assemble(ctx, manifest_id)
 
 
 def _cache_cameron(ctx: _Ctx):
     from ..models.cameron2020 import extraction_bdf as cam
-    _pin_cameron_c_s0()
     r = ctx.request
     ctx.bus["cam_micro"] = cam.grind_microstructure(r.grind_setting)          # (phi1,phi2,a2,bet1,bet2)
     ctx.bus["cam_shot"] = cam.simulate_shot(r.grind_setting, p_bar=r.pressure_bar,
@@ -648,7 +629,6 @@ def _station_heterogeneous(ctx: _Ctx):
         ctx.stages.append(_stage(cid, ST.RIGHTS_BLOCKED, rights_decision=sev)); return
     try:
         from ..models.brewer2026 import streamtube as st
-        _pin_cameron_c_s0()   # streamtube import overwrites Cameron's C_S0; pin it back so basis matches
         r = ctx.request
         resp = st.EYResponse(gs=r.grind_setting, p_bar=r.pressure_bar, m_in=r.dose_g / 1000.0,
                              m_out=r.target_beverage_g / 1000.0)

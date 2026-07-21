@@ -58,8 +58,11 @@ from scipy.optimize import brentq, least_squares
 
 from puckworks.models.cameron2020 import extraction_bdf as em
 
-# per-bed-volume reinterpretation of cs0 (Stage 1 "physical mode")
-em.C_S0 = 118.0 / em.PHI_S
+# Streamtube's per-bed-volume reinterpretation of the initial soluble concentration cs0 (Stage 1
+# "physical mode"). This is a STREAMTUBE-LOCAL constant passed explicitly into Cameron via the
+# simulate_shot(c_s0=...) parameter — importing this module must NOT mutate Cameron's global C_S0
+# (that made Cameron import-order dependent). See extraction_bdf.simulate_shot's c_s0 parameter.
+C_S0_STREAMTUBE = 118.0 / em.PHI_S
 
 
 # ======================================================================
@@ -98,7 +101,7 @@ class EYResponse:
         for lk in self.lnk:
             k = float(np.exp(lk))
             r = em.simulate_shot(self.gs, p_bar=self.p_bar * k,
-                                 m_in=self.m_in, m_out=self.m_out * k)
+                                 m_in=self.m_in, m_out=self.m_out * k, c_s0=C_S0_STREAMTUBE)
             eys.append(r.EY)
         self.ey = np.array(eys)
         self._spl = PchipInterpolator(self.lnk, self.ey)
@@ -240,7 +243,7 @@ def simulate_ensemble_dynamic(gs=1.9, p_bar=5.0, m_in=0.020, m_out=0.040,
     eps = 1.0 - em.PHI_S
     area = np.pi * em.R0 ** 2
     hz = L / N
-    cs0, csat, krate = em.C_S0, em.C_SAT, em.K_RATE
+    cs0, csat, krate = C_S0_STREAMTUBE, em.C_SAT, em.K_RATE
 
     # ---- tubes: deterministic unit-mean lognormal quantile midpoints ----
     from scipy.stats import norm
@@ -350,8 +353,8 @@ def simulate_ensemble_dynamic(gs=1.9, p_bar=5.0, m_in=0.020, m_out=0.040,
 
 
 if __name__ == "__main__":
-    # validation: sigma=0, no migration -> must match the BDF reference
-    ref = em.simulate_shot(1.9)
+    # validation: sigma=0, no migration -> must match the BDF reference (streamtube's cs0 basis)
+    ref = em.simulate_shot(1.9, c_s0=C_S0_STREAMTUBE)
     dyn = simulate_ensemble_dynamic(gs=1.9, K=1, sigma=0.0)
     print(f"BDF reference EY = {ref.EY:.3f} | dynamic port EY = {dyn.EY:.3f} "
           f"(diff {abs(ref.EY - dyn.EY):.3f})")

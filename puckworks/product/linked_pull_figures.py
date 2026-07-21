@@ -34,9 +34,7 @@ def relay_figures(request: RelayRequest) -> dict:
     from ..models.cameron2020 import extraction_bdf as cam
     from ..models.foster2025 import infiltration as inf
     from ..viz import producers as P
-    from . import linked_pull as LP
 
-    LP._pin_cameron_c_s0()
     out = {}
     # Extraction — the whole simulated shot
     out["extraction"] = _figure("cameron_shot_timeseries", "figure_cameron_shot_timeseries",
