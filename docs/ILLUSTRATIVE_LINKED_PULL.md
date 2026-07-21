@@ -80,26 +80,39 @@ inventory. Each is a serialized `AssumptionRecord` with a `validation_needed` fi
 
 ## v1 component dispositions (all 25, exactly once)
 
-- **Executed hand-offs / lenses:** `wadsworth2026.grindmap`, `wadsworth2026.permeability`,
+The fast reference run **authoritatively executes 18 components with 10 serialized cross-component
+hand-offs** (2 direct, 6 documented adapters, 2 illustrative assumptions) and 9 named assumptions. These
+counts are derived from the audited reference result and frozen in
+`tests/test_linked_pull_execution_accounting.py` so they cannot drift.
+
+- **Authoritative executions (18):** `wadsworth2026.grindmap`, `wadsworth2026.permeability`,
   `brewer2026.pack_generator`, `foster2025.machine_mode`, `foster2025.infiltration`,
   `wadsworth2026.inertial`, `sourcing2026.g10_liquor_rheology`, `cameron2020.extraction_bdf`,
   `waszkiewicz2025.poroelastic`, `brewer2026.coupled_kappa_t`, `mo2023_2.swelling`,
-  `fasano2000_partI.fines_migration`, `brewer2026.streamtube`, `pannusch2024.solver`,
-  `pannusch2024.closures`, `romancorrochano2017.extraction`, `moroney2016.surrogate`,
-  `mo2023_2.coupled_bed`, `liang2021.desorption`.
-- **Reference-only:** `sourcing2026.g3_pump_characteristic`, `sourcing2026.g1_glassbead_analog`,
+  `fasano2000_partI.fines_migration`, `brewer2026.streamtube`, `pannusch2024.closures`,
+  `romancorrochano2017.extraction`, `moroney2016.surrogate`, `mo2023_2.coupled_bed`,
+  `liang2021.desorption`.
+- **Not selected (3):** `pannusch2024.solver` (the registered multi-solute *solver* is NOT run — the
+  release-clock diagnostic is derived from `pannusch2024.closures`; the solver needs an authoritative
+  linked Q(t)/T/inventory adapter), `brewer2026.lb_reference` and `brewer2026.lb_taichi` (slow optional
+  pore-scale path, run only in extended mode — *not* a missing dependency).
+- **Reference-only (3):** `sourcing2026.g3_pump_characteristic`, `sourcing2026.g1_glassbead_analog`,
   `lee2023.feedback` (guarded — its headline decline needs an unphysical density).
-- **Optional (extended mode):** `brewer2026.lb_reference`, `brewer2026.lb_taichi`.
 - **Rights-blocked (#73):** `grudeva2025.reduced` — shown in the chain map, **zero** model and adapter
   calls, no inputs, no outputs, no edges.
+
+In **extended** mode the pore-scale relay adds `brewer2026.lb_reference` (the reference LB solve, run
+once). `brewer2026.lb_taichi` is counted only if the actual Taichi-backed backend runs; the reference solve
+is never relabelled as Taichi (Taichi absent → optional-dependency-unavailable).
 
 ## Direct vs adapted vs assumed hand-offs
 
 Direct (unit + basis unchanged): permeability → inertial; Cameron response → streamtube. Documented
 adapters (unit/basis converted, formula recorded): grindmap → permeability / pack; permeability →
-infiltration; machine nodes → infiltration / inertial; machine flow → Pannusch; representative pressure →
-Cameron. Illustrative assumptions (dotted): Cameron boulder radius → grindmap dial (A01); Cameron dissolved
-mass → Waszkiewicz porosity response (A09); LB sigma → streamtube (A10, extended).
+infiltration; machine nodes → infiltration / inertial; representative pressure → Cameron. Illustrative
+assumptions (dotted): Cameron boulder radius → grindmap dial (A01); Cameron dissolved mass → Waszkiewicz
+porosity response (A09); LB sigma → streamtube (A10, extended). (The machine-flow → Pannusch *solver*
+hand-off is not a runtime link in v1: the solver is not-selected, so no hand-off is fabricated.)
 
 ## Fast vs extended mode
 

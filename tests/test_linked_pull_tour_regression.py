@@ -1,8 +1,19 @@
-"""Regression: the Espresso Model Relay must NOT change the Full Laboratory Tour (separate product)."""
+"""Regression: the Full Laboratory Tour's CLEAN-process result is stable and import-order invariant.
+
+The frozen hash was corrected in the post-merge stabilization pass. The previous value
+(``2054b04d…``) captured IMPORT-ORDER POLLUTION: importing ``brewer2026.streamtube`` used to mutate
+``cameron2020.extraction_bdf.C_S0`` (118 -> 118/PHI_S = 142.65) as an import side effect, so the tour's
+Cameron common-scenario and the liang/romancorrochano extraction lenses ran on streamtube's inflated
+soluble ceiling — the tour reported Cameron EY = 17.06 % instead of Cameron's own declared value of
+14.11 % (C_S0 = 118, extraction_bdf.py). That model-level defect is now fixed (streamtube passes its own
+``c_s0`` into ``simulate_shot`` instead of mutating the global), so every tour component uses its intended
+basis and the result is byte-identical regardless of import order. The new hash is the CLEAN, intended,
+import-order-invariant value — not a concealment of the change (see stabilization changelog).
+"""
 import pytest
 
-# frozen baseline captured before the relay landed (pv19_named, LOCAL_PRIVATE)
-_BASELINE_TOUR_HASH = "2054b04d651bb440bbe56de26de6bc95014ed021512b9e88860365b02fd785d1"
+# CLEAN, import-order-invariant baseline (pv19_named, LOCAL_PRIVATE) after the streamtube C_S0 fix.
+_BASELINE_TOUR_HASH = "1c1434ef1bfd930fefe37feab4b7841d161eea525fffef952c7ad4a2c8b3dddc"
 
 
 def test_tour_manifest_unchanged():

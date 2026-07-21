@@ -82,6 +82,16 @@ def test_technical_metadata_is_collapsible(code):
 def test_downloads_present_but_not_auto_triggered(code):
     assert "illustrative_linked_pull_v1.json" in code and "illustrative_linked_pull_v1.md" in code
     assert "files.upload" not in code
+    # NO automatic download call: links are user-initiated (FileLink), no browser prompt on run
+    assert ".download(" not in code
+    assert "FileLink" in code
+
+
+def test_figures_are_result_bound_by_owning_component(code):
+    # the notebook draws figures from the completed result, keyed by OWNING component (not station id)
+    assert "figures_by_owner(result)" in code
+    assert "relay_figures(request)" not in code
+    assert 'figs.get(stage["station_id"])' not in code
 
 
 def test_completion_sentinel_present(code):

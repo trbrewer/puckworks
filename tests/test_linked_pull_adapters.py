@@ -39,11 +39,38 @@ def test_representative_reductions_are_recorded():
     assert rep["flow_mL_s"] == pytest.approx(2.4) and rep["assumption_ids"] == ("A11", "A12")
 
 
-def test_dissolution_fraction_avoids_divide_by_zero_at_t0():
+def test_dissolution_fraction_masks_zero_start_without_clamping():
     import numpy as np
     out = AD.dissolution_fraction(np.array([0.0, 0.001, 0.002, 0.0028]), 0.020)
-    assert np.all(np.isfinite(out["phi"])) and out["phi"][0] > 0
+    # the exact-zero start is OMITTED via a recorded mask (not floored to 1e-6)
+    assert out["skipped_indices"] == [0] and out["n_skipped_zero"] == 1
+    assert np.all(out["phi"] > 0.0)                 # in (0, 1], not clamped to 1e-6/0.999
+    assert len(out["phi"]) == 3 and out["md_g_full"].shape == (4,)   # arrays stay length-aware
     assert out["assumption_ids"] == ("A09",)
+
+
+def test_dissolution_valid_increasing_trajectory():
+    import numpy as np
+    out = AD.dissolution_fraction(np.array([0.0005, 0.001, 0.002]), 0.020)
+    assert out["n_skipped_zero"] == 0 and np.all(np.diff(out["phi"]) > 0)
+
+
+def test_dissolution_rejects_negative_nan_inf_and_over_dose():
+    import numpy as np
+    with pytest.raises(AD.AdapterDomainError):
+        AD.dissolution_fraction(np.array([0.0, -0.001]), 0.020)          # negative
+    with pytest.raises(AD.AdapterDomainError):
+        AD.dissolution_fraction(np.array([0.0, np.nan]), 0.020)          # NaN
+    with pytest.raises(AD.AdapterDomainError):
+        AD.dissolution_fraction(np.array([0.0, np.inf]), 0.020)          # inf
+    with pytest.raises(AD.AdapterDomainError):
+        AD.dissolution_fraction(np.array([0.0, 0.025]), 0.020)           # 25 g > 20 g dose
+
+
+def test_dissolution_mass_exactly_at_dose_boundary_is_accepted():
+    import numpy as np
+    out = AD.dissolution_fraction(np.array([0.0, 0.020]), 0.020)         # exactly the dose
+    assert out["phi"][-1] == pytest.approx(1.0)
 
 
 def test_mass_flow_round_trips_with_darcy_velocity():

@@ -25,16 +25,10 @@ from .linked_pull_records import (EXECUTED_STATUSES, AssumptionRecord, LinkedVal
 
 REFERENCE_PRESET = "illustrative_reference_v1"
 
-# Cameron's declared saturation-concentration default. Some models (e.g. brewer2026.streamtube) overwrite
-# this SHARED module global as an import side effect; the relay PINS it so every Cameron-backed branch
-# shares one soluble-ceiling basis and the run is deterministic regardless of import order. This changes no
-# equation — it fixes the constant to Cameron's own default.
-_CAMERON_C_S0 = 118.0
-
-
-def _pin_cameron_c_s0():
-    from ..models.cameron2020 import extraction_bdf as cam
-    cam.C_S0 = _CAMERON_C_S0
+# NOTE: the relay no longer touches Cameron's C_S0 global. brewer2026.streamtube used to mutate it at
+# import; that model-level defect is fixed (streamtube now passes its own c_s0 into simulate_shot(c_s0=)),
+# so Cameron's baseline uses its own default (118) and streamtube uses its calibrated basis — no import
+# order dependence, no global repair needed.
 
 # stipulated defaults surfaced in the report (NOT user inputs, NOT model outputs)
 STIPULATED_DEFAULTS = {
@@ -142,41 +136,28 @@ def execute_illustrative_linked_pull(request: RelayRequest, *, manifest_id: str 
         request = dataclasses.replace(request, mode=mode)
     ctx = _Ctx(request, execution_context)
 
-    # leave NO global side effect: some models mutate Cameron's shared C_S0 at import; snapshot and restore
-    # it so the relay never perturbs the separate Full Laboratory Tour running later in the same process.
-    from ..models.cameron2020 import extraction_bdf as _cam
-    _orig_c_s0 = _cam.C_S0
-    try:
-        _cache_cameron(ctx)          # cache the Cameron shot once (pins the canonical C_S0)
-        _station_recipe(ctx)
-        _station_grind(ctx)
-        _station_packing(ctx)
-        _station_machine(ctx)
-        _station_wetting(ctx)
-        _station_flow(ctx)
-        _station_pore_scale(ctx)
-        _station_extraction(ctx)
-        _station_puck_change(ctx)
-        _station_heterogeneous(ctx)
-        _station_multisolute(ctx)
-        _station_other_lenses(ctx)
-        # every classified component with no station stage -> record its disposition explicitly
-        _fill_unvisited(ctx)
-        return _assemble(ctx, manifest_id)
-    finally:
-        # Leave C_S0 in exactly the state a bare `import streamtube` produces, so a later Full Laboratory
-        # Tour streamtube CHECK is byte-identical to a fresh run. streamtube sets `C_S0 = 118.0 / PHI_S`
-        # at import (streamtube.py:62); once it is imported that is the module's canonical value.
-        import sys as _sys
-        if "puckworks.models.brewer2026.streamtube" in _sys.modules:
-            _cam.C_S0 = 118.0 / _cam.PHI_S
-        else:
-            _cam.C_S0 = _orig_c_s0
+    # No global-state management is required: streamtube no longer mutates Cameron's C_S0 at import, so
+    # the relay leaves no scientific global modified and does not perturb a later Full Laboratory Tour.
+    _cache_cameron(ctx)          # cache the Cameron shot once
+    _station_recipe(ctx)
+    _station_grind(ctx)
+    _station_packing(ctx)
+    _station_machine(ctx)
+    _station_wetting(ctx)
+    _station_flow(ctx)
+    _station_pore_scale(ctx)
+    _station_extraction(ctx)
+    _station_puck_change(ctx)
+    _station_heterogeneous(ctx)
+    _station_multisolute(ctx)
+    _station_other_lenses(ctx)
+    # every classified component with no station stage -> record its disposition explicitly
+    _fill_unvisited(ctx)
+    return _assemble(ctx, manifest_id)
 
 
 def _cache_cameron(ctx: _Ctx):
     from ..models.cameron2020 import extraction_bdf as cam
-    _pin_cameron_c_s0()
     r = ctx.request
     ctx.bus["cam_micro"] = cam.grind_microstructure(r.grind_setting)          # (phi1,phi2,a2,bet1,bet2)
     ctx.bus["cam_shot"] = cam.simulate_shot(r.grind_setting, p_bar=r.pressure_bar,
@@ -346,33 +327,37 @@ def _station_wetting(ctx: _Ctx):
     p_top = ctx.bus.get("p_top_bar", ctx.request.pressure_bar)
     L_mm = ctx.bus["bed_depth_m"] * 1000.0
     phi_T = STIPULATED_DEFAULTS["water_accessible_porosity_phi_T"]
-    ins = []
-    received = []
-    if k is not None:
-        e1 = next(e for e in MAN.LINK_EDGES if e.edge_id == "permeability_to_infiltration")
-        received.append(ctx.add_link(e1, src_unit="m^2", tgt_unit="m^2", src_basis="Darcy permeability",
-                                     tgt_basis="Darcy permeability", conversion="SI guarded"))
-        ctx.use_assumption("A05")
-        ins.append(_lv("permeability", k, "m^2", "from Wadsworth (cross-rig)", VO.MODEL_OUTPUT,
-                       source_component_id="wadsworth2026.permeability", source_field="k_m2",
-                       assumption_ids=("A05",)))
-    e2 = next(e for e in MAN.LINK_EDGES if e.edge_id == "machine_to_infiltration")
-    received.append(ctx.add_link(e2, src_unit="bar-gauge", tgt_unit="bar-gauge", src_basis="bed-top node",
-                                 tgt_basis="pressure history", conversion="representative bed-top plateau"))
+    # No silent permeability fallback: linked infiltration requires the Wadsworth permeability. If the
+    # packing station did not hand one forward, this stage is honestly not selected (no fake success,
+    # no link claiming permeability was transferred).
+    if k is None:
+        ctx.stages.append(_stage(cid, ST.NOT_SELECTED, rights_decision=sev,
+                                 message="no linked permeability available from the packing station; the "
+                                         "linked wetting case is not run (no stipulated k fallback)."))
+        return
+    ins = [_lv("permeability", k, "m^2", "from Wadsworth (cross-rig)", VO.MODEL_OUTPUT,
+               source_component_id="wadsworth2026.permeability", source_field="k_m2",
+               assumption_ids=("A05",))]
     try:
         L_m = ctx.bus["bed_depth_m"]
         A_m2 = STIPULATED_DEFAULTS["basket_area_mm2"] * 1e-6
-        shot_t = ctx.bus["cam_shot"].t_shot
-        t = np.linspace(0.0, max(shot_t, 6.0), 300)
+        shot = ctx.bus["cam_shot"]
+        t = np.linspace(0.0, max(shot.t_shot, 6.0), 300)
         P_bar = np.full_like(t, float(p_top))
-        out = inf.front_from_pressure(t, P_bar, k if k else 2.0e-13, phi_T, L_m, A=A_m2)
+        out = inf.front_from_pressure(t, P_bar, k, phi_T, L_m, A=A_m2)   # linked k only — never a fallback
         ts = out.get("t_saturate")
+        # links are recorded ONLY now that the transfer completed successfully (§9.3)
+        ctx.use_assumption("A05")
+        e1 = next(e for e in MAN.LINK_EDGES if e.edge_id == "permeability_to_infiltration")
+        e2 = next(e for e in MAN.LINK_EDGES if e.edge_id == "machine_to_infiltration")
+        received = [ctx.add_link(e1, src_unit="m^2", tgt_unit="m^2", src_basis="Darcy permeability",
+                                 tgt_basis="Darcy permeability", conversion="SI guarded"),
+                    ctx.add_link(e2, src_unit="bar-gauge", tgt_unit="bar-gauge", src_basis="bed-top node",
+                                 tgt_basis="pressure history", conversion="representative bed-top plateau")]
         data = {"t_s": t.tolist(), "front_mm": (np.asarray(out["s"]) * 1000.0).tolist(),
-                "L_mm": L_mm, "t_saturate_s": ts,
-                "params": {"L_mm": L_mm, "k_SI": k, "phi_T": phi_T}}
+                "L_mm": L_mm, "t_saturate_s": ts, "params": {"L_mm": L_mm, "k_SI": k, "phi_T": phi_T}}
         ctx.bus["saturation_time_s"] = ts
         ctx.bus["wetting_data"] = data
-        shot = ctx.bus["cam_shot"]
         frac = (ts / shot.t_shot) if (ts and shot.t_shot) else None
         outs = [_lv("saturation_time", ts, "s", "sharp-front full-depth time", VO.MODEL_OUTPUT,
                     source_component_id=cid, source_field="t_saturate")]
@@ -384,8 +369,7 @@ def _station_wetting(ctx: _Ctx):
                                  findings=[f"Sharp front reaches the full {L_mm:.0f} mm bed in ~{ts:.2f} s."
                                            if ts else "no finite saturation time in window"]))
     except Exception as e:  # noqa: BLE001
-        ctx.stages.append(_stage(cid, ST.EXECUTION_ERROR, inputs=ins, received=received,
-                                 rights_decision=sev, message=str(e)))
+        ctx.stages.append(_stage(cid, ST.EXECUTION_ERROR, inputs=ins, rights_decision=sev, message=str(e)))
 
 
 # --- Station 5: flow -----------------------------------------------------------------------
@@ -464,28 +448,24 @@ def _station_flow(ctx: _Ctx):
 
 # --- Station 6: optional pore-scale --------------------------------------------------------
 def _station_pore_scale(ctx: _Ctx):
-    for cid in ("brewer2026.lb_reference", "brewer2026.lb_taichi"):
-        ok, sev = _rights_ok(cid, ctx)
-        if not ok:
-            ctx.stages.append(_stage(cid, ST.RIGHTS_BLOCKED, rights_decision=sev)); continue
-        if ctx.mode != "extended":
-            ctx.stages.append(_stage(cid, ST.OPTIONAL_DEPENDENCY_UNAVAILABLE, rights_decision=sev,
-                                     message="pore-scale relay runs only in extended mode"))
-            continue
-        if cid == "brewer2026.lb_taichi":
-            try:
-                import taichi  # noqa: F401
-            except Exception:
-                ctx.stages.append(_stage(cid, ST.OPTIONAL_DEPENDENCY_UNAVAILABLE, rights_decision=sev,
-                                         message="taichi not installed"))
-                continue
+    # brewer2026.lb_reference — the authoritative reference LB solve (run at most ONCE, extended only)
+    cid = "brewer2026.lb_reference"
+    ok, sev = _rights_ok(cid, ctx)
+    if not ok:
+        ctx.stages.append(_stage(cid, ST.RIGHTS_BLOCKED, rights_decision=sev))
+    elif ctx.mode != "extended":
+        # fast mode: intentionally NOT SELECTED (a slow optional path), NOT a missing dependency
+        ctx.stages.append(_stage(cid, ST.NOT_SELECTED, rights_decision=sev,
+                                 message="pore-scale LB is a slow optional path; not selected in fast mode."))
+    else:
         try:
             from ..models.brewer2026 import lb_reference as lb, pack_generator as pg
-            solid, meta = pg.make_pack(L=28, voxel_um=40.0, gs=ctx.request.grind_setting, seed=ctx.request.seed,
-                                       verbose=False)
+            solid, _meta = pg.make_pack(L=28, voxel_um=40.0, gs=ctx.request.grind_setting,
+                                        seed=ctx.request.seed, verbose=False)
             res = lb.solve(solid, verbose=False, max_steps=6000)
             sig = pg.sigma_micro(res["ux"], solid)
             ctx.bus["lb_sigma"] = float(sig["sigma"])
+            ctx.bus["lb_ref_result"] = res           # cached so lb_taichi can compare without re-solving
             ctx.use_assumption("A03"); ctx.use_assumption("A10")
             e1 = next(e for e in MAN.LINK_EDGES if e.edge_id == "pack_to_lb")
             eid = ctx.add_link(e1, src_unit="bool voxels", tgt_unit="bool voxels", src_basis="synthetic pack",
@@ -501,6 +481,29 @@ def _station_pore_scale(ctx: _Ctx):
                                                f"(lattice-scale, NOT the user's permeability)."]))
         except Exception as e:  # noqa: BLE001
             ctx.stages.append(_stage(cid, ST.EXECUTION_ERROR, rights_decision=sev, message=str(e)))
+
+    # brewer2026.lb_taichi — the ACCELERATED backend of the same physics. It is counted ONLY if the actual
+    # Taichi-backed solver runs. We NEVER relabel the reference solve as Taichi.
+    cid = "brewer2026.lb_taichi"
+    ok, sev = _rights_ok(cid, ctx)
+    if not ok:
+        ctx.stages.append(_stage(cid, ST.RIGHTS_BLOCKED, rights_decision=sev)); return
+    if ctx.mode != "extended":
+        ctx.stages.append(_stage(cid, ST.NOT_SELECTED, rights_decision=sev,
+                                 message="Taichi-accelerated LB is a slow optional path; not selected in "
+                                         "fast mode.")); return
+    try:
+        import taichi  # noqa: F401
+    except Exception:
+        ctx.stages.append(_stage(cid, ST.OPTIONAL_DEPENDENCY_UNAVAILABLE, rights_decision=sev,
+                                 message="Taichi is not installed; the accelerated backend did not run. The "
+                                         "reference LB result is NOT relabelled as Taichi."))
+        return
+    # Taichi is installed: the relay does not (yet) wire the accelerated authoritative solver, so we do not
+    # fabricate a Taichi execution from the reference result.
+    ctx.stages.append(_stage(cid, ST.OPTIONAL_DEPENDENCY_UNAVAILABLE, rights_decision=sev,
+                             message="Taichi is installed but the accelerated backend is not wired into the "
+                                     "relay; it is not counted, and the reference solve is not relabelled."))
 
 
 # --- Station 7: extraction baseline --------------------------------------------------------
@@ -545,25 +548,32 @@ def _station_puck_change(ctx: _Ctx):
         try:
             from ..models.waszkiewicz2025 import poroelastic as wz
             Pc, Qc = wz.published_calibration()
-            frac = AD.dissolution_fraction(shot.m_cup, r.dose_g / 1000.0)
+            frac = AD.dissolution_fraction(shot.m_cup, r.dose_g / 1000.0)  # validated; no silent clamp
             ctx.use_assumption("A09")
-            Q = wz.q_dynamic_from_md(r.pressure_bar, Pc, Qc, frac["md_g"], frac["dose_g"])
-            Q = np.asarray(Q, float)
-            Q = Q[np.isfinite(Q)]
+            # the masked (m>0) trajectory omits the exact-zero start; no non-finite Q is produced
+            Q = np.asarray(wz.q_dynamic_from_md(r.pressure_bar, Pc, Qc, frac["md_g"], frac["dose_g"]), float)
+            if not np.all(np.isfinite(Q)):
+                raise AD.AdapterDomainError("waszkiewicz coupled flow produced non-finite values")
             e1 = next(e for e in MAN.LINK_EDGES if e.edge_id == "cameron_to_waszkiewicz")
             eid = ctx.add_link(e1, src_unit="g", tgt_unit="", src_basis="cumulative dissolved mass",
                                tgt_basis="dissolution fraction", conversion=frac["conversion"])
             trend = 100.0 * (Q[-1] - Q[0]) / Q[0] if len(Q) > 1 and Q[0] else 0.0
+            skip_note = (f" The exact zero initial point (index {frac['skipped_indices']}) was omitted."
+                         if frac["n_skipped_zero"] else "")
             outs = [_lv("bed_flow_start", float(Q[0]), "g/s", "one-way coupled flow", VO.MODEL_OUTPUT,
                         source_component_id=cid, source_field="q_dynamic_from_md", assumption_ids=("A09",)),
                     _lv("bed_flow_end", float(Q[-1]), "g/s", "one-way coupled flow", VO.MODEL_OUTPUT,
                         source_component_id=cid, source_field="q_dynamic_from_md", assumption_ids=("A09",)),
-                    _lv("flow_trend_pct", trend, "%", "end vs start", VO.DOCUMENTED_DERIVATION)]
+                    _lv("flow_trend_pct", trend, "%", "end vs start", VO.DOCUMENTED_DERIVATION),
+                    _lv("dissolution_zero_points_omitted", frac["n_skipped_zero"], "", "masked start points",
+                        VO.DOCUMENTED_DERIVATION)]
             ctx.stages.append(_stage(cid, ST.EXECUTED_WITH_ASSUMPTIONS, outputs=outs, received=[eid],
                                      assumptions=["A09"], rights_decision=sev,
                                      message="NEW one-way Puckworks coupling; NOT validated by the "
-                                             "Waszkiewicz paper; not fed back into Cameron.",
-                                     findings=[f"Coupled bed flow trends {trend:+.0f}% over the shot."]))
+                                             "Waszkiewicz paper; not fed back into Cameron." + skip_note,
+                                     findings=[f"Coupled bed flow trends {trend:+.0f}% over the shot.{skip_note}"]))
+        except AD.AdapterDomainError as e:
+            ctx.stages.append(_stage(cid, ST.DOMAIN_REJECTED, rights_decision=sev, message=str(e)))
         except Exception as e:  # noqa: BLE001
             ctx.stages.append(_stage(cid, ST.EXECUTION_ERROR, rights_decision=sev, message=str(e)))
     else:
@@ -581,8 +591,9 @@ def _station_puck_change(ctx: _Ctx):
                         source_component_id=cid, source_field="clamped")]
             msg = ("Stress-test composition. Pore space CLAMPED (over-closure shown, not tuned away)."
                    if res["clamped"] else "Stress-test composition branch.")
-            ctx.stages.append(_stage(cid, ST.EXECUTED_WITH_ASSUMPTIONS, outputs=outs, rights_decision=sev,
-                                     message=msg, findings=[f"Combined kappa/kappa0 -> {res['kappa_ck'][-1]:.2f}."]))
+            ctx.stages.append(_stage(cid, ST.EXECUTED, rel=SR.ADAPTED_SCENARIO, outputs=outs,
+                                     rights_decision=sev, message=msg,
+                                     findings=[f"Combined kappa/kappa0 -> {res['kappa_ck'][-1]:.2f}."]))
         except Exception as e:  # noqa: BLE001
             ctx.stages.append(_stage(cid, ST.EXECUTION_ERROR, rights_decision=sev, message=str(e)))
     else:
@@ -596,7 +607,8 @@ def _station_puck_change(ctx: _Ctx):
             d = sw.flow_decay("M", np.linspace(0.0, max(shot.t_shot, 20.0), 24))
             outs = [_lv("flow_decay_ratio", float(d["q_rel"][-1]), "", "q(end)/q(0)", VO.MODEL_OUTPUT,
                         source_component_id=cid, source_field="q_rel")]
-            ctx.stages.append(_stage(cid, ST.EXECUTED_WITH_ASSUMPTIONS, outputs=outs, rights_decision=sev,
+            ctx.stages.append(_stage(cid, ST.EXECUTED, rel=SR.NATIVE_REFERENCE, outputs=outs,
+                                     rights_decision=sev,
                                      findings=[f"Swelling alone lowers flow to {100*d['q_rel'][-1]:.0f}% of "
                                                f"its start over the shot."]))
         except Exception as e:  # noqa: BLE001
@@ -648,7 +660,6 @@ def _station_heterogeneous(ctx: _Ctx):
         ctx.stages.append(_stage(cid, ST.RIGHTS_BLOCKED, rights_decision=sev)); return
     try:
         from ..models.brewer2026 import streamtube as st
-        _pin_cameron_c_s0()   # streamtube import overwrites Cameron's C_S0; pin it back so basis matches
         r = ctx.request
         resp = st.EYResponse(gs=r.grind_setting, p_bar=r.pressure_bar, m_in=r.dose_g / 1000.0,
                              m_out=r.target_beverage_g / 1000.0)
@@ -686,6 +697,8 @@ def _station_multisolute(ctx: _Ctx):
     r = ctx.request
     T_K = r.brew_temperature_c + 273.15
     # closures (executed): per-solute diffusion coefficients -> release-clock ordering
+    # pannusch2024.closures — the ONLY authoritatively executed multi-solute callable here: per-solute
+    # diffusion coefficients, from which we derive a release-clock ORDERING diagnostic (tau ~ d^2/6Deff).
     cid = "pannusch2024.closures"
     ok, sev = _rights_ok(cid, ctx)
     diffs = {}
@@ -693,42 +706,36 @@ def _station_multisolute(ctx: _Ctx):
         try:
             for s in ("caffeine", "trigonelline", "5CQA"):
                 diffs[s] = float(pc.diffusion_coeff(T_K, s))
+            d32 = 330e-6
+            clocks = {s: (d32 * d32) / (6.0 * diffs[s]) for s in diffs}
+            order = sorted(clocks, key=clocks.get)
             outs = [_lv(f"Deff_{s}", diffs[s], "m^2/s", "diffusion coefficient", VO.MODEL_OUTPUT,
                         source_component_id=cid, source_field="diffusion_coeff") for s in diffs]
+            outs += [_lv(f"release_timescale_{s}", clocks[s], "s", "tau ~ d^2/(6 Deff), closures-derived",
+                         VO.DOCUMENTED_DERIVATION) for s in clocks]
             ctx.stages.append(_stage(cid, ST.EXECUTED, rel=SR.NATIVE_REFERENCE, outputs=outs,
                                      rights_decision=sev,
-                                     findings=["Per-solute diffusion coefficients set different release "
-                                               "clocks at the same temperature."]))
+                                     message="A closures-DERIVED release-clock diagnostic (not the registered "
+                                             "pannusch solver): different compounds release on different "
+                                             "clocks; this is timing, not absolute per-solute cup yields.",
+                                     findings=[f"Release order (fastest first): {', '.join(order)}."]))
         except Exception as e:  # noqa: BLE001
             ctx.stages.append(_stage(cid, ST.EXECUTION_ERROR, rights_decision=sev, message=str(e)))
     else:
         ctx.stages.append(_stage(cid, ST.RIGHTS_BLOCKED, rights_decision=sev))
-    # solver (reduced, adapted): representative-flow-driven release timing (A11/A12)
+
+    # pannusch2024.solver — the authoritative multi-solute SOLVER did NOT run. The relay currently only
+    # derives a release-clock ordering from the closures above; counting the solver as executed would be
+    # false. It is NOT_SELECTED pending an authoritative linked Q(t)/T(t)/inventory adapter (A11/A12).
     cid = "pannusch2024.solver"
     ok, sev = _rights_ok(cid, ctx)
     if not ok:
         ctx.stages.append(_stage(cid, ST.RIGHTS_BLOCKED, rights_decision=sev)); return
-    mean_flow = ctx.bus.get("mean_flow_g_s", r.target_beverage_g / max(ctx.bus["shot_time_s"], 1e-9))
-    rep = AD.representative_flow(mean_flow)
-    ctx.use_assumption("A11"); ctx.use_assumption("A12")
-    e1 = next(e for e in MAN.LINK_EDGES if e.edge_id == "machine_to_pannusch")
-    eid = ctx.add_link(e1, src_unit="g/s", tgt_unit="mL/s", src_basis="machine flow trace",
-                       tgt_basis="representative flow", conversion=rep["conversion"])
-    # normalized release-clock proxy from diffusion timescale tau ~ d^2/Deff (documented reduction)
-    d32 = 330e-6
-    clocks = {s: (d32 * d32) / (6.0 * diffs[s]) for s in diffs} if diffs else {}
-    order = sorted(clocks, key=clocks.get)
-    outs = [_lv("representative_flow", rep["flow_mL_s"], "mL/s", "reduced machine flow",
-                VO.DOCUMENTED_DERIVATION, assumption_ids=("A11",))]
-    outs += [_lv(f"release_timescale_{s}", clocks[s], "s", "tau ~ d^2/(6 Deff)", VO.DOCUMENTED_DERIVATION)
-             for s in clocks]
-    ctx.stages.append(_stage(cid, ST.EXECUTED_WITH_ASSUMPTIONS, rel=SR.ADAPTED_SCENARIO, outputs=outs,
-                             received=[eid], assumptions=["A11", "A12"], rights_decision=sev,
-                             message="Reduced multi-solute branch: release-clock ordering from the "
-                                     "pannusch closures, not absolute per-solute cup yields (extractable "
-                                     "fractions unmeasured).",
-                             findings=[f"Release order (fastest first): {', '.join(order)}."
-                                       if order else "closures unavailable"]))
+    ctx.stages.append(_stage(cid, ST.NOT_SELECTED, rel=SR.NOT_EXECUTED, rights_decision=sev,
+                             message="The registered multi-solute solver was NOT run; the release-clock "
+                                     "diagnostic above comes from pannusch2024.closures. Running the solver "
+                                     "needs an authoritative linked flow Q(t)/temperature/inventory adapter "
+                                     "with per-solute extractable fractions (A11/A12) — not yet wired."))
 
 
 # --- Station 11: other lenses --------------------------------------------------------------
@@ -748,7 +755,7 @@ def _station_other_lenses(ctx: _Ctx):
                                                3.0e-4, t)[-1]) for mw in ("low", "high")}
             outs = [_lv(f"released_frac_{mw}", rel[mw], "fraction", "normalized release by MW", VO.MODEL_OUTPUT,
                         source_component_id=cid, source_field="sphere_release") for mw in rel]
-            ctx.stages.append(_stage(cid, ST.EXECUTED_WITH_ASSUMPTIONS, rel=SR.NEAREST_VALID_CASE, outputs=outs,
+            ctx.stages.append(_stage(cid, ST.EXECUTED, rel=SR.NEAREST_VALID_CASE, outputs=outs,
                                      rights_decision=sev,
                                      message="Nearest valid grind case; normalized release, NOT absolute EY.",
                                      findings=[f"Small molecules release faster than large "
@@ -764,7 +771,7 @@ def _station_other_lenses(ctx: _Ctx):
         try:
             from ..models.moroney2016 import surrogate as mo
             half = float(mo.washthrough_halfmax_time())
-            ctx.stages.append(_stage(cid, ST.EXECUTED_WITH_ASSUMPTIONS, rel=SR.ADAPTED_SCENARIO,
+            ctx.stages.append(_stage(cid, ST.EXECUTED, rel=SR.ADAPTED_SCENARIO,
                                      outputs=[_lv("washthrough_halfmax_tau", half, "dimensionless",
                                                   "nondimensional wash-through time", VO.MODEL_OUTPUT,
                                                   source_component_id=cid, source_field="washthrough_halfmax_time")],
@@ -784,7 +791,7 @@ def _station_other_lenses(ctx: _Ctx):
             from ..models.mo2023_2 import coupled_bed as cb
             q_ml = ctx.bus.get("mean_flow_g_s", 1.5)
             bd = cb.simulate_bed("M", q_mL_s=max(q_ml, 0.5), dose_g=r.dose_g, t_end=min(max(shot_t, 10.0), 40.0))
-            ctx.stages.append(_stage(cid, ST.EXECUTED_WITH_ASSUMPTIONS, rel=SR.ADAPTED_SCENARIO,
+            ctx.stages.append(_stage(cid, ST.EXECUTED, rel=SR.ADAPTED_SCENARIO,
                                      outputs=[_lv("yield_frac_end", float(bd["yield_frac"][-1]), "fraction",
                                                   "eluted / extractable inventory", VO.MODEL_OUTPUT,
                                                   source_component_id=cid, source_field="yield_frac")],
@@ -861,6 +868,7 @@ def _assemble(ctx: _Ctx, manifest_id: str) -> dict:
         "assumptions": [assumption_to_dict(a) for a in _sorted_assumptions(ctx)],
         "counts": counts,
         "component_dispositions": {cid: d.role for cid, d in MAN.COMPONENT_DISPOSITIONS.items()},
+        "figure_payloads": _figure_payloads(ctx, {s.component_id: s.content_hash() for s in ctx.stages}),
         "warnings": ctx.warnings,
         "hash_note": ("model_output_hash proves the numbers are deterministic; artifact_hash covers the "
                       "whole record. NEITHER is a validation or scientific-certainty hash."),
@@ -868,6 +876,42 @@ def _assemble(ctx: _Ctx, manifest_id: str) -> dict:
     result["model_output_hash"] = model_output_hash(ctx.stages)
     result["artifact_hash"] = artifact_hash(result)
     return result
+
+
+def _figure_payloads(ctx: _Ctx, stage_hashes: dict) -> list:
+    """Result-bound figure payloads built from ALREADY-computed authoritative data, so the figure layer
+    draws purely from the completed result (zero model/producer calls at draw time). Each payload records
+    its owning component(s), VizSpec id, and the source stage content hash for provenance."""
+    payloads = []
+
+    def _add(figure_id, station_id, owners, viz_spec_id, data):
+        payloads.append({"figure_id": figure_id, "station_id": station_id,
+                         "owner_component_ids": list(owners), "viz_spec_id": viz_spec_id,
+                         "source_stage_hashes": [stage_hashes[o] for o in owners if o in stage_hashes],
+                         "data": data})
+
+    # Extraction — the whole simulated shot (authoritative Cameron producer, invoked once here)
+    if "cameron2020.extraction_bdf" in stage_hashes:
+        try:
+            from ..viz import producers as P
+            r = ctx.request
+            panels = P.cameron_shot_timeseries(preset="pv19_named", dose_g=r.dose_g,
+                                               target_beverage_g=r.target_beverage_g,
+                                               pressure_bar=r.pressure_bar, grind_setting=r.grind_setting,
+                                               brew_temperature_c=r.brew_temperature_c)
+            _add("cameron_shot", "extraction", ["cameron2020.extraction_bdf"], "cameron_shot_timeseries",
+                 panels)
+        except Exception:  # noqa: BLE001 — a figure-data failure never breaks the run
+            pass
+    # Packing — the synthetic puck (from the pack-generator stage's cached data)
+    if "pack_data" in ctx.bus:
+        _add("synthetic_pack", "packing", ["brewer2026.pack_generator"], "grain_pack_3d",
+             ctx.bus["pack_data"])
+    # Wetting — the event-focused front from the linked-permeability infiltration run (no fallback k)
+    if "wetting_data" in ctx.bus:
+        _add("wetting_front", "wetting", ["foster2025.infiltration"], "wetting_front_sweep",
+             ctx.bus["wetting_data"])
+    return payloads
 
 
 def _counts(ctx: _Ctx) -> dict:
@@ -916,7 +960,6 @@ def _contract_version():
 # ── CLI ──────────────────────────────────────────────────────────────────────────────────────
 def _main(argv=None):
     import argparse
-    import json
     ap = argparse.ArgumentParser(description="Espresso Model Relay (illustrative_linked_pull_v1)")
     ap.add_argument("--preset", default=REFERENCE_PRESET)
     ap.add_argument("--mode", default="fast", choices=("fast", "extended"))
@@ -939,7 +982,8 @@ def _main(argv=None):
         from . import linked_pull_display as D
         text = D.relay_markdown(result)
     else:
-        text = json.dumps(result, indent=2, sort_keys=True, default=str)
+        from .linked_pull_records import canonical_json_text
+        text = canonical_json_text(result)      # same normalized values as the canonical hash path
     if args.output:
         with open(args.output, "w") as f:
             f.write(text)
