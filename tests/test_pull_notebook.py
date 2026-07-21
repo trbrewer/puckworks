@@ -125,3 +125,15 @@ def test_honesty_statements_present(text):
 
 def test_completion_marker_present(code_text):
     assert "GUIDED_PULL_COMPLETE" in code_text
+
+
+def test_exports_are_user_initiated_links_not_automatic_downloads(code_text):
+    # "Run all" must NOT trigger a browser download prompt. A direct files.download() looped over the
+    # generated artifacts is NOT user-initiated. Every generated file is offered as an explicit
+    # click-to-download FileLink instead (the Espresso Model Relay pattern), so a download begins
+    # only when the user clicks a link.
+    assert ".download(" not in code_text, "notebook triggers automatic browser download(s) during Run all"
+    assert "google.colab import files" not in code_text, "no Colab-specific download import for exports"
+    assert "FileLink" in code_text, "generated exports must be offered as explicit FileLink links"
+    # every generated artifact is still surfaced (the loop over artifacts.files is preserved)
+    assert "artifacts.files" in code_text
