@@ -50,7 +50,8 @@ where each model applies, and check predictions against the measurements that ar
  · [📋 Run the **quickstart** in Colab](https://colab.research.google.com/github/trbrewer/puckworks/blob/main/notebooks/puckworks_quickstart_colab.ipynb) (browse models)
 
 > The **Espresso Model Relay** is an assumption-rich educational relay, **not** a validated coupled simulation. It is a separate experience from the Full Laboratory Tour, which remains unchanged.
- · [⬇ Download the latest public release](https://github.com/trbrewer/puckworks/releases/latest)
+
+[⬇ Download the latest public release](https://github.com/trbrewer/puckworks/releases/latest)
  · [🔬 Explore the evidence](docs/public/README.md)
  · [📊 View current project status](docs/planning/STATE_OF_TRUTH.md)
  · [🧭 Learn the architecture](docs/ONBOARDING.md)

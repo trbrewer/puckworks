@@ -256,6 +256,34 @@ def test_learn_architecture_is_a_separate_path():
     assert "Learn the architecture" in TEXT and "docs/ONBOARDING.md" in TEXT
 
 
+def test_relay_warning_is_isolated_from_utility_links():
+    """The Espresso Model Relay disclaimer is its OWN blockquote; the general repository utility links
+    render as a normal paragraph after a blank line — not lazily continued inside the Relay warning
+    quote (which would make repo navigation look like part of the Relay caveat)."""
+    lines = TEXT.splitlines()
+    warn = next((i for i, ln in enumerate(lines)
+                 if ln.startswith("> ") and "Espresso Model Relay" in ln and "assumption-rich" in ln), None)
+    assert warn is not None, "the Relay disclaimer blockquote is missing"
+    dl = next((i for i, ln in enumerate(lines) if "Download the latest public release" in ln), None)
+    assert dl is not None, "the utility links (Download the latest public release) are missing"
+    # the utility-link paragraph must NOT be a blockquote line, and must be separated from the warning
+    assert not lines[dl].lstrip().startswith(">"), "utility links must render outside the Relay blockquote"
+    assert dl > warn and any(lines[j].strip() == "" for j in range(warn + 1, dl)), \
+        "a blank line must separate the Relay warning from the utility-link paragraph"
+    # the onboarding callout remains its own blockquote
+    assert any(ln.startswith("> ") and "New session" in ln for ln in lines), \
+        "the onboarding callout must remain its own blockquote"
+
+
+def test_top_badge_table_offers_all_four_colab_paths():
+    for label in ("Full Laboratory Tour", "Espresso Model Relay", "Guided Espresso Pull", "Quickstart"):
+        assert label in TEXT, f"the top navigation must offer the {label!r} path"
+    for nb in ("guided_pull_laboratory_colab.ipynb", "illustrative_linked_pull_colab.ipynb",
+               "guided_espresso_pull_colab.ipynb", "puckworks_quickstart_colab.ipynb"):
+        assert f"notebooks/{nb}" in TEXT, f"the top navigation must link {nb}"
+        assert (REPO_ROOT / "notebooks" / nb).exists(), f"linked notebook missing: {nb}"
+
+
 def test_pulse_preserves_distinct_gate_counts_not_all_green():
     block = TEXT.split("puckworks-pulse:start")[1].split("puckworks-pulse:end")[0]
     assert "PASS" in block and "ACKNOWLEDGED_EXCEPTION" in block
