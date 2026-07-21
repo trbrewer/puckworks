@@ -42,14 +42,17 @@ def test_at_least_six_cross_component_handoffs_serialized(result):
 
 def test_key_handoffs_present(result):
     edges = {link["edge_id"] for link in result["links"]}
+    # machine_to_pannusch is NOT here: the pannusch solver is not run, so no runtime link is fabricated
     for e in ("cameron_radius_to_grindmap", "permeability_to_infiltration", "machine_to_infiltration",
-              "cameron_to_waszkiewicz", "cameron_to_streamtube", "machine_to_pannusch"):
+              "cameron_to_waszkiewicz", "cameron_to_streamtube"):
         assert e in edges, e
+    assert "machine_to_pannusch" not in edges           # solver not executed -> no runtime hand-off
 
 
 def test_non_cameron_extraction_branch_runs(result):
     ids = {s["component_id"] for s in _executed(result)}
-    assert "pannusch2024.solver" in ids and "brewer2026.streamtube" in ids
+    # the multi-solute branch executes via the CLOSURES (the solver is honestly not-selected)
+    assert "pannusch2024.closures" in ids and "brewer2026.streamtube" in ids
 
 
 def test_linked_bed_response_branch_runs(result):

@@ -16,6 +16,8 @@ from __future__ import annotations
 import dataclasses
 import hashlib
 import json
+import math
+from collections.abc import Mapping
 from enum import Enum
 
 RELAY_SCHEMA_VERSION = "1.0"
@@ -186,19 +188,61 @@ def assumption_to_dict(a: AssumptionRecord) -> dict:
     return d
 
 
-def _jsonable(x):
+class NonCanonicalValue(TypeError):
+    """A value cannot be canonically serialized (unsupported type, non-finite float, non-string key)."""
+
+
+def normalize_for_json(value):
+    """Strict, explicit normalization for canonical provenance — NEVER `default=str`.
+
+    Supports dataclasses, enums, str-keyed mappings, tuples/lists, finite floats, ints, bools, str, None,
+    approved NumPy scalars, and NumPy arrays (-> deterministic lists). REJECTS NaN/inf, non-string mapping
+    keys, and unsupported objects (raising NonCanonicalValue) so a defect surfaces instead of being hidden.
+    """
     import numpy as np
-    if isinstance(x, (np.floating,)):
-        return float(x)
-    if isinstance(x, (np.integer,)):
-        return int(x)
-    if isinstance(x, np.ndarray):
-        return [_jsonable(v) for v in x.tolist()]
-    if isinstance(x, (list, tuple)):
-        return [_jsonable(v) for v in x]
-    if isinstance(x, dict):
-        return {k: _jsonable(v) for k, v in x.items()}
-    return x
+    if value is None or isinstance(value, (str, bool)):
+        return value
+    if isinstance(value, Enum):
+        return value.value
+    if isinstance(value, (int, np.integer)):
+        return int(value)
+    if isinstance(value, (float, np.floating)):
+        f = float(value)
+        if not math.isfinite(f):
+            raise NonCanonicalValue(f"non-finite float is not canonical: {f!r}")
+        return f
+    if isinstance(value, np.ndarray):
+        return [normalize_for_json(v) for v in value.tolist()]
+    if dataclasses.is_dataclass(value) and not isinstance(value, type):
+        return {k: normalize_for_json(v) for k, v in dataclasses.asdict(value).items()}
+    if isinstance(value, Mapping):
+        out = {}
+        for k, v in value.items():
+            if not isinstance(k, str):
+                raise NonCanonicalValue(f"non-string mapping key is not canonical: {k!r}")
+            out[k] = normalize_for_json(v)
+        return out
+    if isinstance(value, (list, tuple)):
+        return [normalize_for_json(v) for v in value]
+    raise NonCanonicalValue(f"unsupported type for canonical serialization: {type(value).__name__}")
+
+
+def canonical_json_bytes(value) -> bytes:
+    """Deterministic UTF-8 JSON bytes over `normalize_for_json(value)`; rejects NaN/inf (allow_nan=False)."""
+    text = json.dumps(normalize_for_json(value), sort_keys=True, separators=(",", ":"),
+                      ensure_ascii=False, allow_nan=False)
+    return text.encode("utf-8")
+
+
+def canonical_json_text(value, *, indent=2) -> str:
+    """Human-readable pretty JSON derived from the SAME normalized object (same values as the hash path)."""
+    return json.dumps(normalize_for_json(value), sort_keys=True, indent=indent,
+                      ensure_ascii=False, allow_nan=False)
+
+
+def _jsonable(x):
+    """Backwards-compatible alias used by value_to_dict (now strict)."""
+    return normalize_for_json(x)
 
 
 def _stage_payload(s: StageResult) -> dict:
@@ -214,7 +258,7 @@ def _stage_payload(s: StageResult) -> dict:
 
 
 def _sha(obj) -> str:
-    return hashlib.sha256(json.dumps(obj, sort_keys=True, default=str).encode()).hexdigest()
+    return hashlib.sha256(canonical_json_bytes(obj)).hexdigest()
 
 
 def model_output_hash(stages: list) -> str:

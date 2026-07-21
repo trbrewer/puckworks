@@ -194,14 +194,27 @@ def representative_flow(mean_flow_g_s: float, density_kg_m3: float = 1000.0) -> 
 
 
 def dissolution_fraction(m_cup_kg, dose_kg: float) -> dict:
-    """A09 — Cameron cumulative dissolved-mass trajectory (kg) -> dissolution fraction Phi(t)=m/dose,
-    evaluated where m>0 (t=0 skipped to avoid a 1/0 in the poroelastic factor)."""
+    """A09 — Cameron cumulative dissolved-mass trajectory (kg) -> dissolution fraction Phi(t)=m/dose.
+
+    Explicit validation, NO silent clamping: negative or non-finite dissolved mass is rejected; dissolved
+    mass exceeding the dry dose is rejected (raises AdapterDomainError); the exact zero initial point is
+    OMITTED via a recorded mask (not floored to 1e-6) so a positive-domain downstream calc is well-defined,
+    and time/state arrays stay aligned. `skipped_indices` records what was masked."""
     import numpy as np
     m = np.asarray(m_cup_kg, float) * 1000.0     # g
     dose_g = float(dose_kg) * 1000.0
     V.require_positive(dose_g, "dose_g")
-    phi = np.clip(m / dose_g, 1e-6, 0.999)        # floor away from 0 (and below 1)
-    return {"phi": phi, "md_g": m, "dose_g": dose_g,
+    if not np.all(np.isfinite(m)):
+        raise AdapterDomainError("dissolved-mass trajectory contains non-finite values")
+    if np.any(m < 0.0):
+        raise AdapterDomainError("dissolved-mass trajectory contains negative values")
+    if np.any(m > dose_g):
+        raise AdapterDomainError(f"dissolved mass exceeds the dry dose ({m.max():.3g} > {dose_g:.3g} g)")
+    keep = m > 0.0                                # omit the exact-zero start (1/0 in the poroelastic factor)
+    skipped = [int(i) for i in np.nonzero(~keep)[0]]
+    phi = (m[keep] / dose_g)                      # in (0, 1]; NOT clamped
+    return {"phi": phi, "md_g": m[keep], "md_g_full": m, "dose_g": dose_g, "keep_mask": keep,
+            "skipped_indices": skipped, "n_skipped_zero": len(skipped),
             "conversion": ASSUMPTIONS["A09"].mathematical_transform, "assumption_ids": ("A09",)}
 
 
