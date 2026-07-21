@@ -2400,12 +2400,12 @@ The first new-data experiment should ideally serve several stories at once. Targ
 
 ### Use those outputs to choose one experiment
 
-10. Prototype **PV-15** and select a closed pilot, with targeted fractions as the default unless the disagreement calculation favors another intervention.
-11. Expand to PV-16 public participation only after the closed pilot demonstrates acceptable timing, metadata, and measurement quality.
+11. Prototype **PV-15** and select a closed pilot, with targeted fractions as the default unless the disagreement calculation favors another intervention.
+12. Expand to PV-16 public participation only after the closed pilot demonstrates acceptable timing, metadata, and measurement quality.
 
 ### Pursue as larger research programs
 
-12. Grinder transfer (PV-11), viscosity (PV-13), spatial flow/control (PV-14), machine/outlet characterization (PV-17), and retention curves (PV-18).
+13. Grinder transfer (PV-11), viscosity (PV-13), spatial flow/control (PV-14), machine/outlet characterization (PV-17), and retention curves (PV-18).
 
 This ordering maximizes public output per unit effort while preserving a path from communication to genuinely new science.
 
