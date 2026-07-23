@@ -15,8 +15,9 @@
 > unapproved operation. Nearest external deadline: **APS DFD abstracts 2026-07-24**. Authoritative
 > status is governed by `docs/planning/STATE_OF_TRUTH.md` (generated from `docs/status/current.json`).
 
-Synthesized from REGISTRY_STATE.md (v0.1.0, July 2026) and the 26 model cards on
-file. Every claim traces to a named card or to REGISTRY_STATE; statements
+Synthesized from REGISTRY_STATE.md (v0.1.0, July 2026) and the model-card corpus
+on file (74 cards at time of writing; the intro synthesis predates later intakes —
+the §7.1 changelog is the authoritative record of what has since landed). Every claim traces to a named card or to REGISTRY_STATE; statements
 sourced *only* from REGISTRY_STATE (registered-component status, held datasets,
 DE1 fixture A κ=1.196, backlog items) are tagged **[RS]** so the document is
 auditable without the registry file open. Card disagreements are surfaced, not
@@ -40,6 +41,10 @@ front-edge ledger at its top). Ranked, date-verified venues for Papers A/B; read
 Card corpus (VERDICT · effort): foster2025_2 (implement-now · M; supersedes
 foster2025.md — **do not cite foster2025.md except as historical**) ·
 wadsworth2026_inertial (implement-now · S) · wadsworth2026_grindmap
+_(later intake batch, 2026-07-21/22 — all data-only unless noted): moroney2015
+(data-only · M) · sobolik2002 (calibration-provider · S) · moroney2019 · cooper2021 ·
+ribes2020 · ribes2021 · romancorrochano2015 · gagne2021 · khamitova2020 · smrke2024
+(each data-only · S) · +18 skip cards tracked for the record._ ·
 (calibration-provider · S) · waszkiewicz2025 (implement-now · S) · pannusch2024
 (implement-now · M) · grudeva2023 (implement-now · M) · grudeva2026
 (implement-later · M) / grudeva2026_2 (implement-now · M) **[same paper,
@@ -356,6 +361,13 @@ the known-hazard items (mo2023 k₁, wadsworth k_I SI-only, grudeva P_app typo).
 | 0.11 | foster2025_2 | Table I/II params; Figs. 6/8, 12–15 digitized | RC-3 machine-mode gates |
 | 0.12 | fasano2000_partI | Figs. 8.1, 8.4 digitized (low fidelity, flagged qualitative) | P2 discrimination targets |
 
+**0.13–0.22 (later intakes; authoritative record in §7.1):** 0.13 visualizer.coffee,
+0.14 pocketscience2024, then the 2026-07-21/22 batch — moroney2015, sobolik2002,
+moroney2019 (+cooper2021 h_sl erratum), ribes2020, ribes2021, romancorrochano2015,
+gagne2021 (grinder-arm summary + 11 `.shot` traces), khamitova2020, smrke2024 — each
+landed with a loader + MANIFEST row + smoke test; all data-only/calibration, **no new
+registered component**.
+
 ### Phase 1 — Implement-now components
 
 Dependency note: 1.8a depends only on Phase 0 data; it does **not** wait for
@@ -561,6 +573,15 @@ conservatively *doubled* (more than covering the khomyakov offset) still gives
 ≤5.3% shot-integrated Darcy error and no power-law regime → still no runtime
 hook. Only remaining (optional) upgrade: an independent espresso-TDS viscosity
 measurement, which would lift the composition caveat to independent strength.
+**Third/fourth source (2026-07-22):** `sobolik2002` (concentrated soluble-coffee
+μ(ω,T) + electrical conductivity, ω to 0.8, T to 95 °C) plus its Weisser (1972)
+refit land two more independent liquor-viscosity sources — the acquisition target
+`gagne2021` flagged. In the mutual overlap they side with khomyakov, making
+**TR2001 the probable low outlier (3-vs-1)**; the negligible-at-shot-TDS verdict is
+unchanged (every source is soluble-coffee extract that extrapolates toward water at
+espresso TDS — not a measured espresso liquor). Still no runtime hook; composition +
+dilute-end caveats stand. (Candidate gate: extend `gate_g10_intersource_spread` to a
+four-source spread — sobolik2002 Impl-est (iii).)
 
 **G-lat — Lateral tube coupling / pressure equalization for evolving-κ
 channeling.** Surfaced by the N-tube κ(t) union (`harness.ntube_kappa_t_union`,
@@ -614,7 +635,9 @@ annotation and Tables 2–5 headers. Resolve against the standard Forchheimer
 (§5.8). Manifest caveat column mandatory until resolved (Phase 0.4).
 
 **5.4 c_sat disagreement.** 212.4 kg m⁻³ (cameron2020, lee2023, moroney2016,
-egidi2024 — shared provenance) vs 224 (grudeva2026) vs 170 (grudeva2023).
+egidi2024 — shared provenance, now rooted in its **primary source `moroney2015`**,
+which estimates it as the highest observed concentration across its four
+experiments) vs 224 (grudeva2026) vs 170 (grudeva2023).
 Config field per P1 hazards table; surface in harness reports; no silent merge.
 Partially subsumed by 1.7a(ii).
 
@@ -623,7 +646,9 @@ Partially subsumed by 1.7a(ii).
 EY_max=33.8% (its own card: "perhaps a little high") vs romancorrochano y₀
 31.7–32.15 falling with coarseness (entrapment). At least two distinct physical
 quantities are conflated (soluble inventory vs equilibrium partition endpoint);
-the liang-vs-cameron long-time gate (1.3) is the designed probe.
+the liang-vs-cameron long-time gate (1.3) is the designed probe. `moroney2015`'s
+measured max-extractable solubles 28% (very fine)–32% (very coarse) at 90 °C
+independently bracket Cameron's 29.6% inventory ceiling (consistent).
 
 **5.6 Dissolution-speed tension.** waszkiewicz2025: solubles dissolve "almost
 instantaneously," TDS timescale set by flow; cameron2020: diffusion-limited
@@ -687,13 +712,17 @@ wadsworth2026_table1.csv; DE1 fixture A (P(t), W(t), flow, κ=1.196).
 | Cameron SI Tables S1–S5; Fig. 5 EY curve | cameron2020 | held **[RS]** (S1–S5 transcribed in code) | RC-1 | existing gated regression | held |
 | egidi2024 Table 2 (12-condition EY/TDS) | egidi2024 | transcribe from PDF | RC-1 | independent EY/TDS **bracket**; not a pressure/T response test | **2** |
 | Grudeva 13-shot vial TDS + flow | grudeva2023 | repo-check, else digitize/request | RC-2 | **post-fit reconstruction** unless companion provides holdout | **2** — RC-2 has no other experimental gate |
-| romancorrochano Table 6.1 (tamped κ) + Table 4.9 (Deff map) | romancorrochano2017_* | transcribe | G9 test, 3.5 | tamped permeability *data*; not a K–C validation | **2** |
+| romancorrochano Table 6.1 (tamped κ) + Table 4.9 (Deff map) | romancorrochano2017_* | transcribe — the tamped-κ target is now **superseded by the DOI'd version-of-record `romancorrochano2015`** (`romancorrochano2015_table2()`, K with SDs + Tukey groups) | G9 test, 3.5 | tamped permeability *data*; not a K–C validation | **2** |
 | foster2025_2 Table I/II + Figs. 6/8/15 | foster2025_2 | transcribe/digitize | RC-3 machine gates | CT fit = post-fit; DE1 first-drip triangle = independent | **2** |
 | mo2023 Tables 1–5 + Fig. 8a | mo2023 | transcribe (k₁ caveat) | P6, 1.1 | simulation-derived; literature-anchored; ε circular to cameron | **2** |
 | angeloni2023 Tables 1–7 (66-shot chemistry + inventories) **(intake DONE; brackets wired)** | angeloni2023 | transcribed from article tables (Tim xlsx drop; no repo) | **INDEPENDENT multi-species validation** for **pannusch2024** (was post-fit only) + cameron TDS | independent (different machine/coffee/basket) | **done** — pannusch brackets all 4 species (CF/TR/5CQA/TDS) in the angeloni envelope; cameron TDS reads low (2nd dataset after egidi). Multi-solute kinetics transfer, lumped does not |
 | bruno2026 Table 2 chemistry | bruno2026 | transcribe | G6/A4 seed | independent measured chemistry (reference set) | 3 |
 | liang2021 Figs. 3–5 | liang2021 | digitize | 1.3 gate | fit = post-fit; flat-E and E_oven structure = independent | 3 |
-| moroney2016 Table 1 (+ Moroney 2015 primary data) | moroney2016 | transcribe; consider Moroney 2015 intake | 1.4; P1 | graphical, partly post-fit | 3 |
+| moroney2016 Table 1 (+ Moroney 2015 primary data) | moroney2016 | transcribe; ~~consider Moroney 2015 intake~~ **DONE** — `moroney2015_data()` landed | 1.4; P1 | graphical, partly post-fit | 3 |
+| **moroney2015 primary Philips dataset** (Tables 1–2 + Figs 1/2/3/6/7/8/9/10/11/12) | moroney2015 | transcribed + digitized (Tim drop; loader `moroney2015_data()`) | κ=3.1 + 3 Δp permeability anchors vs wadsworth; c_sat 212.4 provenance; five-grind batch sweep; per-species kinetics | reference (measured/transcribed; drip-filter chamber, not espresso ratio) | **done** — the primary source moroney2016/2019/cooper2021 borrow from |
+| **sobolik2002 μ(ω,T)/κ(ω,T)** (Tables 1–2 + Eqs 1–11 + Figs 1/2/3/6) | sobolik2002 | transcribed/digitized (loader `sobolik2002_rheology()`) | G10 **third/fourth** liquor-viscosity source (adjudicates the TR2001/khomyakov offset) | reference (soluble-coffee extract; espresso = extrapolation) | **done** |
+| **gagne2021 11 DE1 `.shot` traces** | gagne2021 | published `.shot` files (loader `gagne2021_shots()`) | P2 κ(t)-vs-viscosity discrimination (competing hypothesis); 2nd-machine blooming-profile trace | reference (machine-logged hydraulics; source chain endpoint-anchored/circular) | **done** — traces landed; discriminating gate (H) needs the μ(TDS(t))→R chain |
+| **smrke2024 fines dynamics** (Fig 3 EY-vs-time; Fig S1 flow) | smrke2024 | figure digitization (loader `smrke2024_figures()`) | fines-act-via-permeability constraint; extraction-config consumer gate; Fig S1 = 2nd-machine flow | qualitative (figure-only; no published error stats) | **done** — data landed; consumer gate (I) needs an extraction-config run |
 | fasano Figs. 8.1/8.4 | fasano2000_partI | digitize (low fidelity) | P2 discrimination | qualitative | 3 |
 | visualizer.coffee HYDRAULIC time series (achieved P/Q/weight/T population) | visualizer_coffee | public API (harvester); corpus not redistributed | G3 ecological pump/flow envelope; P2 ecological variability; P6 Fo_F population | measured (machine-logged) but uncontrolled/self-selected → reference-strength POPULATION, not controlled | **2** |
 | visualizer.coffee USER OUTCOMES (TDS/EY/sensory) | visualizer_coffee | public API (harvester); corpus not redistributed | hypothesis/cross-reference only — NEVER an extraction-outcome gate | user-entered, uncalibrated across users (not groundtruth) | n/a (reference only) |
@@ -722,6 +751,7 @@ them. **Status promotions (`verification-gated` → `gated`, `gated` →
 ### 7.1 Change log
 | date | change | evidence (dataset + gate script) | affected RCs / items |
 |---|---|---|---|
+| 2026-07-22 | **New-data propagation — ROADMAP/card/README ripples + 3 new closed-form gates (docs + validation; NO evidence promotion).** Propagated the 10 newly-intaken datasets / 2 new cards through the repo (from a three-part audit of ROADMAP+gates, README, and PUBLIC_VALUE/papers/notebooks). **Docs:** intro card count (26 → corpus, 74); §4 **G10** records `sobolik2002` as a third/fourth independent liquor-viscosity source that — with khomyakov — makes **TR2001 the probable low outlier (3-vs-1)**; §5.4 roots the 212.4 c_sat cluster in its primary source `moroney2015`; §5.5 adds moroney2015's 28–32% max-extractable bracket vs Cameron's 29.6% ceiling; §6 validation-data-plan rows updated/added (moroney2015 intake DONE; +sobolik2002, gagne2021 traces, smrke2024; the romancorrochano Table-6.1 target superseded by the `romancorrochano2015` version of record); a Phase-0 addendum (0.13–0.22) + a card-corpus verdict line. **Card annotations (prescribed registry actions):** `moroney2019.md` Table 2 now carries the author-confirmed cooper2021 h_sl erratum note; `moroney2016.md` [14]→`moroney2015` marked DONE; `romancorrochano2017_permeability.md` Table 6.1 marked superseded; `ribes2021.md` "only 3-zone" claim amended (sibling `ribes2020`). README data-inventory adds Sobolík/Smrke/Moroney/Ribes families. **3 new gates (all reference/context-only, fully adjudicated in EVIDENCE_LINKS — no promotion):** `gate_g10_sobolik_closures` (reproduces sobolik's own Eq 4/5/11 spot values), `gate_g10_foursource_spread` (sobolik + khomyakov both above TR2001 → 3-vs-1), `gate_moroney2015_kappa_anchors` (moroney2015 Kozeny–Carman κ=3.1 + Table-2 φ_h reproduce both measured Δp anchors within ~5%). `run_all_gates` PASS=50→**53** (+3); no component status/tier changed. **Remaining gates scheduled (data landed):** moroney2015-vs-wadsworth cross-check + sobolik Eq-2 density (closed-form, ready); moroney2015 batch-ODE, moroney2019 1-D two-grain LDF, gagne2021 κ(t)-vs-μ-decline, smrke2024 fines-EY(t) consumer (each needs a net-new solver/run). PUBLIC_VALUE/papers/notebooks left unchanged — every candidate there was guardrailed (evidence promotion) or a self-flagged editorial count. | `puckworks/validation/gates.py` (+3 gates) + `puckworks/models/__init__.py` (wired to `sourcing2026.g10_liquor_rheology` + `moroney2016.surrogate`); `puckworks/paper3/EVIDENCE_LINKS.json` (+3 adjudicated links, artifacts regenerated); `docs/ROADMAP.md` §1/§4/§5/§6; `docs/cards/{moroney2019,moroney2016,romancorrochano2017_permeability,ribes2021}.md`; `README.md`; `tests/test_evidence_graph.py` 25 pass; `run_all_gates` PASS=53+1 | G10 (third/fourth source; TR2001 low outlier); P4 permeability (moroney2015 anchors); c_sat provenance; no component status changed |
 | 2026-07-22 | **Contributor data intake — 4 datasets wired from Tim's digitization + 2 new cards; a misfile corrected.** Tim delivered digitized/collected data that unblocks the previously-deferred cards. Wired (loader + MANIFEST row + smoke test): **`gagne2021/shots`** — the 11 published DE1 `.shot` traces (`shotfiles/`), parsed by a new `_parse_de1_shot` helper into aligned espresso_* channels (elapsed/pressure/flow/flow_weight/weight/basket+mix temp/water/goals); this is the asset that arms the κ(t)-vs-viscosity-decline discrimination and complements the DE1 fixture-A pressure-profile trace. **`khamitova2020/tamping`** — dissertation Tables 5.2–5.6 (total CQA / caffeine / trigonelline / nicotinic acid across pressure × temperature × tamping force 10/15/20/30 kgF + the ground-coffee assay); the registry's only tamping-force-resolved multi-compound set (tamping ≈ null at fixed 1:2 ratio). **`smrke2024/figures`** — digitized Fig 2–7 + Supp Fig S1 (core: Fig 3 EY-vs-time across 0/1/2/4 g added fines; Fig S1 per-shot flow profiles = a second-machine complement to fixture A). **`sobolik2002/rheology`** — NEW card (calibration-provider) + Tables 1–2, Eq. (1)–(11) computed lines, and Figs 1/2/3/6 digitized (each with an `evidence_strength` column): a THIRD independent liquor-viscosity source for gap **G10** (to adjudicate the ~40–55% telisromero/khomyakov offset). **`moroney2015/data`** — NEW card + the primary Philips multiscale dataset (the source moroney2016/moroney2019/cooper2021 all borrow from): verbatim Tables 1–2 (measured Kozeny–Carman κ = 3.1, c_sat = 212.4 kg/m³, and the Δp/L permeability anchors) + Figs 1/2/3/6/7/8/9/10/11/12 digitized, each with a `#` provenance header and a per-file evidence_strength manifest (drip-filter chamber, NOT espresso ratio). Corrected a misfile: the smrke2024 figure CSVs had been duplicated into `gagne2021/` (byte-identical to `smrke2024/`) and were removed. Bumped `README_MAX_BYTES` 48k→50k to hold the 9 new dataset-card bibliography entries the references-coverage test requires. No invented values; all evidence labels are reference/qualitative/extrapolation as the cards state — NO evidence promotion, NO new registered component or scientific gate. | `puckworks/data/{gagne2021/shotfiles,khamitova2020,smrke2024,sobolik2002,moroney2015}/*` (+5 loaders + `_parse_de1_shot` in `puckworks/data/__init__.py`, +5 MANIFEST rows); `tests/test_data_loaders.py` (5 smoke tests; 46 pass); `docs/cards/{sobolik2002,moroney2015}.md`; `references.bib` (sobolik2002) + README refs (khamitova2020/smrke2024/sobolik2002/moroney2015); `run_all_gates` PASS=50+1 | Phase-0 data intake (DE1 traces / tamping chemistry / fines dynamics / G10 viscosity); gagne κ(t) discrimination unblocked; G10 third source (sobolik2002); no component status changed |
 | 2026-07-21 | **Card upload intake — 26 cards tracked (18 skip, 8 data-only); 5 datasets landed; a real erratum fix.** Triaged the uploaded card set by VERDICT. **18 skips** tracked for the record only (no data/loader/manifest/gate, per the mckeonaloe2023 precedent): andueza2007, apiletti2020, baristahustle2024, barletta2025, cameron2020_si (exact duplicate of the registered `cameron2020.extraction_bdf`), champion2025, cunha2017, dandachi2025, folmer2017, icms2016, illy2002, kim2026, localscope2024_brewguide, mckeonaloe2023_2, mo2021 (records the Mohr–Coulomb erosion law Eq. 11 as a right-sign κ(t) mechanism candidate only), romancorrochano2013, siregar2026, taip2025. **8 data-only** cards → **5 datasets** full-intaken (CSV + loader + MANIFEST row + smoke test + `references.bib`): `moroney2019/table2` (Table 2 six fine/coarse two-population configs) **with the AUTHOR-CONFIRMED cooper2021 errata folded in as corrected columns — a silent ~10³ fix** (`h_sl_corrected = h_sl_reported/965.3`; species-split `D_v = h_sl_corrected·d_s`), so any kinetics check uses the corrected values; `ribes2020/radial_ey` (3×3-zone radial EY, outlet paper filter + convex tamper) and `ribes2021/radial_ey` (4×3-zone, contact screen above the puck) — the registry's only three-zone radial-EY interventions, G9 outlet-boundary context; `romancorrochano2015/table2` (DOI'd CC-BY version-of-record tamped-bed K with SDs + Tukey groups, supersedes the thesis Table 6.1 transcription target); `gagne2021/grinder_arm_summary` (11-shot blind DE1 low-fines contrast; the 11 `.shot` traces stay an external acquisition target). **Data deferred (card tracked, no data file) per each card's own instruction:** smrke2024 (nothing transcribable — figure-only regressions) and khamitova2020's tamping Tables 5.2–5.6 (optional weak-effect reference, not transcribed now). No invented values; all evidence labels are qualitative/reference/post-fit as the cards state — NO evidence promotion, NO new registered component or scientific gate. | `puckworks/data/{moroney2019,ribes2020,ribes2021,romancorrochano2015,gagne2021}/*.csv` (+5 loaders in `puckworks/data/__init__.py`, +5 MANIFEST rows, +5 `references.bib` entries); `tests/test_data_loaders.py` (5 smoke tests; 41 pass); `run_all_gates` PASS=50+1 | Phase-0 data intake (radial-EY / tamped-κ / two-population params); moroney2019 Table 2 erratum (cooper2021); G9 outlet-boundary context; no component status changed |
 | 2026-07-21 | **Six research programs captured (RP-A…RP-F) — planning/documentation only; nothing implemented, validated, or promoted.** New §9 "Research programs (scheduled backlog — NOT active)": RP-A component response & model-disagreement atlas (extends Phase 2 items 2.1/2.2; new pre-analysis spec `docs/analysis/COMPONENT_RESPONSE_ATLAS_SPEC.md`, reuses the §5.9/A1 node + §5.10/A10 observable conventions; public face PV-08), RP-B community experimental-design system (extension/execution layer for PV-15 + the campaign/protocol infrastructure), RP-C global sensitivity & decision-relevance (depends on the RP-A schema; new candidate PV-21), RP-D modular 3D pore-scale Taichi program (staged fidelity ladder Stage 0–6 from the accurate D3Q19 TRT Stokes permeability baseline — NOT a mega-model; heavy GPU stays out of CI), RP-E XCT-conditioned synthetic geometries/images (blocked on the §5.8 Wadsworth segmented-XCT scans; only preparatory interfaces allowed now; pack_generator is a baseline, not XCT-validated), RP-F bottom filter-paper mechanism study (new campaign EXP-009 + protocol pack; extends the G9 open clogging piece + PV-10; does NOT reopen the clean-basket screen finding). SPRINTS "Research-program backlog" holds session-sized candidate slices (none in the current sprint or active queue); PV-15/PV-10/PV-08 extended in place; PV-21 added to the §4 table + §5; RESEARCH_RADAR §2 scope extended with the new discovery families (enabling query families stays a human radar action). No component/gate/status change; no scientific result, sample size, tolerance, or evidence promotion. | `docs/analysis/COMPONENT_RESPONSE_ATLAS_SPEC.md`; `docs/ROADMAP.md` §9; `docs/data_requests/experimental_campaigns.yml` (EXP-009) + regenerated `docs/EXPERIMENTAL_DATA_NEEDS.md`; `docs/PUBLIC_VALUE.md` (PV-08/10/15/21); `docs/SPRINTS.md`; `docs/RESEARCH_RADAR.md`; `docs/CURRENT.md`; `python tools/experimental_data_needs.py verify` OK | RP-A…RP-F scheduled backlog (§9); PV-21 (new); EXP-009 (new); no component status changed |

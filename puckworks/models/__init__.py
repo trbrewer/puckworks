@@ -121,7 +121,7 @@ register(Component(
     name="moroney2016.surrogate", stage="extraction", kind="calibration",
     paper="Moroney et al., SIAM J. Appl. Math. 76(6), 2196 (2016)", doi="10.1137/15M1036658",
     module="puckworks.models.moroney2016.surrogate",
-    gates=[G.gate_moroney_fig6_washthrough],
+    gates=[G.gate_moroney_fig6_washthrough, G.gate_moroney2015_kappa_anchors],
     assumptions="matched-asymptotic constant-dP two-population reduction; "
                 "leading-order composite (Eq 3.45) only — outer bulk-diffusion "
                 "tail (3.61-3.62) and O(eps) correction not on card, not modeled",
@@ -375,7 +375,8 @@ register(Component(
     gates=[G.gate_g10_reference_mu_above_water, G.gate_g10_mu_bias_directional,
            G.gate_g10_telisromero_closure, G.gate_g10_telisromero2000_thermal,
            G.gate_g10_telisromero_full_table, G.gate_g10_viscosity_bulk_negligible,
-           G.gate_g10_intersource_spread],
+           G.gate_g10_intersource_spread, G.gate_g10_sobolik_closures,
+           G.gate_g10_foursource_spread],
     assumptions="Telis-Romero (2001) Eq (10)/(12)/(13) closures now TRANSCRIBED "
                 "(T in K, X_w in %w/w water); soluble-coffee extract, NOT espresso "
                 "liquor -> unquantified composition bias; espresso TDS sits at/below "

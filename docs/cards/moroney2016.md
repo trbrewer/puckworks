@@ -74,7 +74,7 @@ Couplings: offline calibration chain — fit (a2, a3, ε, η) or (α*, β*) to m
 
 ## Extractable data
 - Table 1: complete parameter set for the [14] cylindrical brewing-chamber experiments → data/moroney2016_table1.csv (transcribable now; complements Cameron's tables as an independent fine-grind parameterization).
-- Fig. 6(a): experimental exit-concentration points (nondimensional, JK drip filter grind) — digitizable, but the primary data lives in Moroney 2015 [14] (Chem. Eng. Sci.), which is the better acquisition target; consider a card/data pass on [14] itself.
+- Fig. 6(a): experimental exit-concentration points (nondimensional, JK drip filter grind) — digitizable, but the primary data lives in Moroney 2015 [14] (Chem. Eng. Sci.). **DONE (2026-07-22):** `[14]` is now carded and landed as `moroney2015` (`moroney2015_data()`) — the primary Philips dataset (Tables 1–2 + Figs 1–12, three Δp permeability anchors, five-grind batch sweep, per-species kinetics, measured κ=3.1). The "[14]" derived-parameter provenance in this card's parameter table resolves there.
 - No code or raw data published with this paper.
 
 ## Overlaps and conflicts

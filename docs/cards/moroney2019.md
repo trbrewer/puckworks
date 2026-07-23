@@ -35,6 +35,14 @@ Symbols: α_l, α_s = liquid/solid volume fractions; v⃗_l = liquid velocity; p
 ## Parameters
 Table 2 (per grind, per model configuration; c_s here is the initial value c_s0):
 
+> **ERRATUM (author-confirmed, via `cooper2021`).** The `h_sl` values printed below are the
+> CFD-scaled values reported in the 2019 paper; the true mass-transfer coefficients are
+> `h_sl(true) = h_sl(reported) / ρ_l`, ρ_l = 965.3 kg m⁻³ (a silent ~10³ correction), and the
+> paper used species-specific diffusivities `D_vi = h_sli·d_si` (not a single D_v). The landed
+> `data/moroney2019/table2.csv` carries both the reported and the corrected columns. **Any
+> transcription-check gate (reproduce the 1-D two-grain c_exit RMSE 5.81/6.23 kg m⁻³) MUST use
+> the corrected column or it fails by construction.** See `docs/cards/cooper2021.md`.
+
 | symbol | Fine: single | Fine: 2G small | Fine: 2G large | Coarse: single | Coarse: 2G small | Coarse: 2G large | units | source |
 |---|---|---|---|---|---|---|---|---|
 | d_s | 3.1823×10⁻⁵ | 2.517×10⁻⁵ | 5.63×10⁻⁴ | 4.5802×10⁻⁵ | 3.536×10⁻⁵ | 9.26×10⁻⁴ | m | fitted (one size fixed from PSD, the other fitted to observed Δp) |
