@@ -92,7 +92,13 @@ def require_fraction(a, name="fraction"):
 
 
 def require_monotonic_increasing(t, name="time", strict=True):
-    arr = require_finite(t, name)
+    arr = np.asarray(t, float)
+    if arr.ndim != 1:                      # scalar/2-D would make np.diff raise a raw NumPy error
+        raise ValueError("%s must be 1-D, got %d-D" % (name, arr.ndim))
+    if arr.size < 1:
+        raise ValueError("%s must be nonempty" % name)
+    if not np.all(np.isfinite(arr)):
+        raise ValueError("%s contains non-finite values (nan/inf)" % name)
     d = np.diff(arr)
     if strict and np.any(d <= 0):
         raise ValueError("%s must be strictly increasing (found a non-increasing step)" % name)
@@ -102,8 +108,13 @@ def require_monotonic_increasing(t, name="time", strict=True):
 
 
 def require_aligned(name_to_array):
-    """All arrays share one length. Returns that length."""
-    lengths = {k: len(np.asarray(v)) for k, v in name_to_array.items()}
+    """All arrays share one length (each must be 1-D). Returns that length."""
+    lengths = {}
+    for k, v in name_to_array.items():
+        arr = np.asarray(v)
+        if arr.ndim != 1:
+            raise ValueError("%s must be 1-D for alignment, got %d-D" % (k, arr.ndim))
+        lengths[k] = arr.shape[0]
     if len(set(lengths.values())) > 1:
         raise ValueError("misaligned array lengths: %r" % lengths)
     return next(iter(lengths.values())) if lengths else 0
@@ -140,19 +151,44 @@ class Trace:
 
     def validate(self):
         t = require_monotonic_increasing(self.time, "time", strict=True)
+        if not isinstance(self.channels, dict) or not isinstance(self.units, dict):
+            raise ValueError("channels and units must both be mappings")
+        if set(self.units) != set(self.channels):     # exact coverage: no missing/extra unit keys
+            raise ValueError("units keys %r must exactly match channel keys %r"
+                             % (sorted(self.units), sorted(self.channels)))
+        if not isinstance(self.source, str):
+            raise ValueError("source must be a string")
+        if self.schema_version != TRACE_SCHEMA_VERSION:
+            raise ValueError("unsupported trace schema_version %r (expected %d)"
+                             % (self.schema_version, TRACE_SCHEMA_VERSION))
         for name, arr in self.channels.items():
             a = np.asarray(arr, float)
+            if a.ndim != 1:
+                raise ValueError("channel %r must be 1-D, got %d-D" % (name, a.ndim))
             if a.shape[0] != t.shape[0]:
                 raise ValueError("channel %r length %d != time length %d"
                                  % (name, a.shape[0], t.shape[0]))
-            if name not in self.units:
-                raise ValueError("channel %r has no declared unit" % name)
+            # NaN is the explicit missing-sample marker; +/-inf is never allowed (would break JSON)
+            if np.any(np.isinf(a)):
+                raise ValueError("channel %r contains infinite values "
+                                 "(only finite values or nan-missing are allowed)" % name)
+            unit = self.units[name]
+            if not isinstance(unit, str) or not unit.strip():
+                raise ValueError("channel %r has an empty or non-string unit" % name)
         object.__setattr__(self, "_validated", True)
         return self
 
     def to_dict(self):
+        if not self._validated:            # never serialize an unvalidated trace
+            self.validate()
         return {"schema_version": self.schema_version, "source": self.source,
-                "time": list(map(float, self.time)),
+                "time": [float(v) for v in np.asarray(self.time, float)],
                 "units": dict(self.units),
-                "channels": {k: [None if v != v else float(v) for v in np.asarray(arr, float)]
+                "channels": {k: [None if np.isnan(v) else float(v) for v in np.asarray(arr, float)]
                              for k, arr in self.channels.items()}}
+
+    def to_json(self, **kwargs):
+        """Canonical strict JSON (allow_nan=False). Safe because validate() rejects +/-inf and
+        to_dict() maps nan-missing to null."""
+        import json
+        return json.dumps(self.to_dict(), allow_nan=False, **kwargs)
