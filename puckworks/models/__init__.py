@@ -377,7 +377,8 @@ register(Component(
            G.gate_g10_telisromero_closure, G.gate_g10_telisromero2000_thermal,
            G.gate_g10_telisromero_full_table, G.gate_g10_viscosity_bulk_negligible,
            G.gate_g10_intersource_spread, G.gate_g10_sobolik_closures,
-           G.gate_g10_foursource_spread, G.gate_gagne2021_viscosity_discrimination],
+           G.gate_g10_sobolik_density, G.gate_g10_foursource_spread,
+           G.gate_gagne2021_viscosity_discrimination],
     assumptions="Telis-Romero (2001) Eq (10)/(12)/(13) closures now TRANSCRIBED "
                 "(T in K, X_w in %w/w water); soluble-coffee extract, NOT espresso "
                 "liquor -> unquantified composition bias; espresso TDS sits at/below "

@@ -199,7 +199,7 @@
       "id": "sourcing2026.g10_liquor_rheology",
       "kind_legacy": "calibration",
       "module": "puckworks.data:telisromero_viscosity_pas",
-      "n_gates": 10,
+      "n_gates": 11,
       "paper": "Telis-Romero et al. (2000, 2001)",
       "provenance_class": "reference_only",
       "stage": "flow"
@@ -301,7 +301,7 @@
       "stage": "packing"
     }
   ],
-  "content_sha256": "29b3dcd373a7768897305e212846512f7640e34ac37c5e2ac6ddfd694c75d17c",
+  "content_sha256": "19c9f127dc4e7123700c4d44cb7c3ea3264f1b852adcf677526fe21962117e7a",
   "n_components": 25,
   "schema_version": 1
 }
