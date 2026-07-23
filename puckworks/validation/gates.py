@@ -1689,6 +1689,50 @@ def gate_moroney2019_ldf_verification():
                          "digitization)")
 
 
+def gate_smrke2024_fast_extraction_shape():
+    """SMRKE 2024 gate S-A -- the QUALITATIVE shape check that survives cross-setup transfer.
+
+    NOT the card's original +/-0.5 pt point-match (that is S-B, blocked -- see the card and
+    puckworks/analysis/smrke2024_envelope.py for why: cameron's coffee/EK43 grind/machine differ
+    from smrke's, and smrke's absolute EY 16.4-21.3% is setup-specific, so a +/-0.5 pt landing
+    would be coincidence). This gate asserts only what transfers: over an in-range EK43 grind sweep
+    at smrke's 20 g:40 g / 9 bar recipe, cameron2020's EY(t) (1) rises monotonically, (2) is
+    decelerating (fast-rise-then-plateau: first-half rate > second-half rate), (3) reaches >=80% of
+    its OWN final yield by t=15 s -- a NECESSARY-NOT-SUFFICIENT fast-extraction sanity check, the one
+    clause of the original gate intact across setups and matching smrke's own early shots (0.77-0.83
+    of ceiling), (4) plateaus inside a plausible espresso EY band that BRACKETS smrke's ceiling
+    (a ballpark sanity band, NOT a match -- the cross-coffee offset ~-30% is reported, not asserted),
+    and (5) across the sweep, longer shots yield MORE (EY-vs-t_shot slope SIGN matches smrke's Fig-3
+    master curve). sign_or_compatibility (qualitative); promotes nothing; reproduces no smrke curve."""
+    from puckworks.analysis import smrke2024_envelope as se
+    r = se.shape_report()
+    shots = r["shots"]
+    monotone = all(s["monotone"] for s in shots)
+    decelerating = all(s["decelerating"] for s in shots)
+    fast_extraction = all(s["frac_15"] >= 0.80 for s in shots)   # necessary-not-sufficient
+    in_band = all(s["in_band"] for s in shots)
+    slope_sign = r["slope_sign_matches"]
+    passed = monotone and decelerating and fast_extraction and in_band and slope_sign
+    return dict(passed=bool(passed),
+                monotone=monotone, decelerating=decelerating,
+                fast_extraction_frac15_ge_0p80=fast_extraction,
+                plateau_in_espresso_band=in_band, slope_sign_matches_fig3=slope_sign,
+                frac_15=[s["frac_15"] for s in shots],
+                ey_final=[s["ey_final"] for s in shots],
+                plateau_offset_vs_smrke_pct=[s["plateau_offset_vs_smrke_pct"] for s in shots],
+                smrke_ceiling_pct=r["env"]["ey_max"],
+                smrke_early_frac_range=[round(x, 3) for x in r["env"]["early_frac_vs_ceiling"]],
+                reading="cameron's EY(t) over an in-range grind sweep at 20g:40g/9bar is monotone, "
+                        "decelerating, reaches >=80% of its own final yield by 15 s (like smrke's "
+                        "early shots), plateaus in an espresso-plausible band bracketing smrke's "
+                        "ceiling, and rises with shot time -- the same slope sign as smrke's Fig-3. "
+                        "The absolute EY sits ~30% below smrke's ceiling (different coffee), REPORTED "
+                        "not asserted.",
+                strength="sign_or_compatibility (S-A qualitative shape/slope-sign match vs smrke's "
+                         "independent Fig-3 + fast-extraction sanity; the +/-0.5 pt point-match is "
+                         "S-B, BLOCKED on a grind adapter + ceiling calibration or smrke's raw data)")
+
+
 def gate_streamtube_heldout():
     """WITHIN-CAMPAIGN HELD-OUT: the sigma(GS) fines closure, fit on two of the paper's three
     Fig-5 grinds, predicts the held-out grind's EY deviation. Leave-one-out over

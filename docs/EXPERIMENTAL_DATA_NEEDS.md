@@ -111,7 +111,7 @@ Which registered component each campaign would advance (generated; do not hand-e
 | `brewer2026.lb_taichi` | calibration | code_verification (0 gates) | — | — (no current campaign) | — |
 | `brewer2026.pack_generator` | calibration | qualitative_capacity (1 gates) | — | — (no current campaign) | — |
 | `brewer2026.streamtube` | runtime | within_campaign_held_out (1 gates) | gate_streamtube_heldout | `EXP-007` | `mo2023_2.coupled_bed#0` |
-| `cameron2020.extraction_bdf` | runtime | code_verification (1 gates) | gate_cameron_conservation, gate_g9_series_resistance, gate_infiltration_triangle | `EXP-001`, `EXP-008`, `EXP-009` | — |
+| `cameron2020.extraction_bdf` | runtime | code_verification (2 gates) | gate_cameron_conservation, gate_g9_series_resistance, gate_infiltration_triangle | `EXP-001`, `EXP-008`, `EXP-009` | — |
 | `fasano2000_partI.fines_migration` | calibration | qualitative_capacity (3 gates) | — | — (no current campaign) | — |
 | `foster2025.infiltration` | runtime | sign_or_compatibility (1 gates) | gate_g9_series_resistance, gate_infiltration_triangle | `EXP-002`, `EXP-009` | — |
 | `foster2025.machine_mode` | runtime | source_curve_reproduction (3 gates) | — | — (no current campaign) | — |

@@ -67,7 +67,7 @@
       "id": "cameron2020.extraction_bdf",
       "kind_legacy": "runtime",
       "module": "puckworks.models.cameron2020.extraction_bdf",
-      "n_gates": 1,
+      "n_gates": 2,
       "paper": "Cameron et al., Matter 2, 631-648 (2020)",
       "provenance_class": "published_port",
       "stage": "extraction"
@@ -301,7 +301,7 @@
       "stage": "packing"
     }
   ],
-  "content_sha256": "97e1524965bb7901c7a4f6b4c462c5baa0ceb22e916fc05241c30e22c48e9948",
+  "content_sha256": "29b3dcd373a7768897305e212846512f7640e34ac37c5e2ac6ddfd694c75d17c",
   "n_components": 25,
   "schema_version": 1
 }
