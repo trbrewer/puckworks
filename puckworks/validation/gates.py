@@ -1500,16 +1500,21 @@ def gate_g10_sobolik_closures():
 
 
 def gate_g10_sobolik_density():
-    """SOBOLIK 2002 Eq-(1) refractive index + Eq-(2) density closed-form reproduction (the third
-    G10 sobolik channel, complementing gate_g10_sobolik_closures which covers only viscosity/
-    conductivity). Recomputes n_D^20 = 1.333 + 0.1728*w + 8.93e-2*w^2 and the volume-additive
-    density 1/rho = w/rho_C + (1-w)/rho_W (rho_W = 1000 - 0.036*T - 0.004*T^2, rho_C = 1654 -
-    1.79*T - 0.0063*T^2, T in C) from scratch and confirms they reproduce the tabulated columns to
-    the digitized precision. Records two physical facts the card leans on: (1) at w=0 the density
-    recovers PURE WATER exactly (unlike telisromero2000 Eq 1 -- the only registry density closure
-    exact at the water limit), and (2) drho/dT < 0 throughout. Eq-(3) thermal conductivity is
-    DELIBERATELY EXCLUDED -- the card marks its coefficients 'not reliably legible ... do not
-    implement'. Concentrated soluble-coffee extract (w = dry-coffee mass fraction), NOT espresso
+    """SOBOLIK 2002 Eq-(1) refractive index + Eq-(2) density + Eq-(3) thermal conductivity
+    closed-form reproduction (the third G10 sobolik channel, complementing gate_g10_sobolik_closures
+    which covers viscosity/electrical-conductivity). Recomputes all three physical-property closures
+    from scratch and confirms they reproduce the tabulated columns:
+      Eq 1: n_D^20 = 1.333 + 0.1728*w + 8.93e-2*w^2
+      Eq 2: 1/rho = w/rho_C + (1-w)/rho_W (rho_W = 1000 - 0.036*T - 0.004*T^2, rho_C = 1654 -
+            1.79*T - 0.0063*T^2, T in C)
+      Eq 3: lambda = 1e-3*(565.1 + 1.8*T - 0.0058*T^2)*(1 - 0.54*w)   [W/m/K, T in C]
+    Records three physical facts the card leans on: (1) at w=0 the density recovers PURE WATER
+    exactly (unlike telisromero2000 Eq 1 -- the only registry density closure exact at the water
+    limit); (2) drho/dT < 0 throughout; (3) Eq-3 is an ADOPTED sucrose-analog (Riedel) correlation
+    lambda = lambda_water(T)*(1 - 0.54*w) -- the T-polynomial is pure-water k(T) to ~0.3% and the
+    coffee content is only the 0.54 factor, which the authors adopted after finding coffee-solution
+    conductivity indistinguishable from sucrose solutions (equivalence measured; coefficients not
+    coffee-fit). Concentrated soluble-coffee extract (w = dry-coffee mass fraction), NOT espresso
     liquor -> reference/extrapolation. source_curve_reproduction; promotes nothing."""
     from puckworks import data as d
     rows = d.sobolik2002_rheology()["physical_properties_eq1_2_3"]
@@ -1522,36 +1527,48 @@ def gate_g10_sobolik_density():
         rho_C = 1654.0 - 1.79 * T - 0.0063 * T**2
         return 1.0 / (w / rho_C + (1.0 - w) / rho_W)
 
-    n_err, rho_relerr = [], []
+    def lam(w, T):                                           # Eq 3 (Riedel sucrose-analog)
+        return 1e-3 * (565.1 + 1.8 * T - 0.0058 * T**2) * (1.0 - 0.54 * w)
+
+    n_err, rho_relerr, lam_err = [], [], []
     water_rows, dT_by_w = [], {}
     for r in rows:
         w, T = float(r["omega"]), float(r["T_degC"])
         n_err.append(abs(n_D(w) - float(r["refractive_index_nD20"])))
         rho_tab = float(r["density_kg_m-3"])
         rho_relerr.append(abs(rho(w, T) - rho_tab) / rho_tab)
+        lam_err.append(abs(lam(w, T) - float(r["thermal_conductivity_W_m-1_degC-1"])))
         if abs(w) < 1e-9:                                    # w=0 -> pure water at temperature T
             water_rows.append((T, rho_tab, 1000.0 - 0.036 * T - 0.004 * T**2))
         dT_by_w.setdefault(w, []).append((T, rho_tab))
 
     n_max = max(n_err)
     rho_max = max(rho_relerr)
+    lam_max = max(lam_err)
     # w=0 recovers pure water (recomputed rho_W matches the tabulated w=0 density)
     water_ok = all(abs(tab - rw) / tab < 1e-4 for _, tab, rw in water_rows)
+    # Eq-3 base is pure-water k(T) to ~0.3% (lambda at w=0 vs standard water conductivity)
+    lam_water_ok = all(abs(lam(0.0, T) - kw) / kw < 5e-3
+                       for T, kw in ((20.0, 0.5985), (40.0, 0.6305), (60.0, 0.6543)))
     # drho/dT < 0 within every constant-w series
     drho_dT_negative = all(
         all(b[1] < a[1] for a, b in zip(sorted(s), sorted(s)[1:]))
         for s in dT_by_w.values() if len(s) > 1)
-    passed = n_max < 5e-4 and rho_max < 1e-3 and water_ok and drho_dT_negative
+    passed = (n_max < 5e-4 and rho_max < 1e-3 and lam_max < 5e-4
+              and water_ok and lam_water_ok and drho_dT_negative)
     return dict(passed=bool(passed),
                 n_D_max_abs_err=round(n_max, 6), rho_max_rel_err=round(rho_max, 6),
-                water_limit_exact=water_ok, drho_dT_negative=drho_dT_negative,
-                n_rows=len(rows),
-                reading="Sobolik Eq (1) n_D and Eq (2) volume-additive rho recompute to the "
-                        "tabulated columns; density is exact at the water limit (w=0) and drho/dT<0 "
-                        "throughout -- the only registry density closure exact at pure water",
-                strength="source_curve_reproduction (reproduces the authors' own computed Eq 1/2 "
-                         "columns; Eq 3 conductivity excluded as illegible per the card; "
-                         "concentrated soluble-coffee extract, reference for espresso TDS)")
+                lambda_max_abs_err=round(lam_max, 6),
+                water_limit_exact=water_ok, lambda_base_is_water=lam_water_ok,
+                drho_dT_negative=drho_dT_negative, n_rows=len(rows),
+                reading="Sobolik Eq (1) n_D, Eq (2) volume-additive rho, and Eq (3) thermal "
+                        "conductivity recompute to the tabulated columns; density is exact at the "
+                        "water limit and drho/dT<0; Eq-3 is an adopted Riedel sucrose-analog "
+                        "lambda = lambda_water(T)*(1 - 0.54 w) (equivalence measured, not coffee-fit)",
+                strength="source_curve_reproduction (reproduces the authors' own computed Eq 1/2/3 "
+                         "columns; Eq 3 is an adopted sucrose-analog correlation validated against "
+                         "coffee data, NOT a coffee-specific fit; concentrated soluble-coffee "
+                         "extract, reference for espresso TDS)")
 
 
 def gate_g10_foursource_spread():

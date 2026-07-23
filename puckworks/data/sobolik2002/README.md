@@ -40,7 +40,7 @@ Every data file carries an `evidence_strength` column or is exact by constructio
 | `eq9_eq10_conductivity_models_computed.csv` | Eqs. (9), (10) | Seven-parameter model and modified Casteel–Amis model on an ω × T grid. Eq. (9) gives the full lines in Fig. 6. |
 | `eq4_viscosity_concentrated_computed.csv` | Eq. (4) | μ(ω,T) for ω = 0.5–0.8, 25–95 °C (the fitted lines in Fig. 2). |
 | `eq5_viscosity_dilute_computed.csv` | Eq. (5) | μ(ω,T) for ω = 0–0.5, 0–80 °C (the fitted lines in Fig. 3). |
-| `eq1_eq2_eq3_physical_properties_computed.csv` | Eqs. (1), (2), (3) | Refractive index, density and thermal conductivity, reviewed from Weisser (1972). |
+| `eq1_eq2_eq3_physical_properties_computed.csv` | Eqs. (1), (2), (3) | Refractive index, density and thermal conductivity, reviewed from Weisser (1972). Eq-3 verified 2026-07-23 against a clean copy: `λ = 10⁻³(565.1 + 1.8T − 0.0058T²)(1 − 0.54ω)` W m⁻¹ K⁻¹ — an **adopted Riedel sucrose-analog** (base = pure-water k(T); the (1 − 0.54ω) factor is the sucrose-solution relation the authors adopted after measuring coffee ≈ sucrose, not a coffee-specific fit). The `thermal_conductivity_W_m-1_degC-1` column reproduces this to 5×10⁻⁶ W m⁻¹ K⁻¹. Reproduced by `gate_g10_sobolik_density`. |
 
 ### Digitized from figures
 
