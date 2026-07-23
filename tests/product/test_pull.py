@@ -435,7 +435,7 @@ def test_pw_pull_001_fixed_preset_rejects_every_override():
     # PW-PULL-001: pv19_named has editable_fields=(); the empty tuple used to be falsy and disabled
     # enforcement, and grinder_model/domain_policy were exempt. A fixed preset must reject ALL overrides.
     from types import SimpleNamespace
-    from puckworks.product._pull import load_pull_preset, PullConfig, PullDomainError
+    from puckworks.product._pull import load_pull_preset, PullDomainError
     from puckworks.product._pull_cli import _apply_overrides, _require_editable
 
     recipe, config = load_pull_preset("pv19_named")
