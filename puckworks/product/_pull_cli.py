@@ -32,6 +32,14 @@ def _progress(event: PullEvent, payload: dict) -> None:
               file=sys.stderr)
 
 
+def _require_editable(config: PullConfig, field: str) -> None:
+    """Enforce the preset's editability policy for one field.
+    editable_fields is None -> unrestricted; a tuple (incl. the empty tuple for a FIXED preset)
+    -> only the named fields may change. No field (grinder_model, domain_policy, ...) is exempt."""
+    if config.editable_fields is not None and field not in config.editable_fields:
+        raise PullDomainError(f"{field} is not editable in preset {config.config_id!r}")
+
+
 def _apply_overrides(recipe: PullRecipe, config: PullConfig, args) -> PullRecipe:
     changes = {}
     for field, val in (("dose_g", args.dose_g), ("target_beverage_g", args.beverage_g),
@@ -39,8 +47,7 @@ def _apply_overrides(recipe: PullRecipe, config: PullConfig, args) -> PullRecipe
                        ("grind_setting", args.grind_setting), ("coffee_profile", args.coffee_profile),
                        ("bean_label", args.bean_label), ("grinder_model", args.grinder_model)):
         if val is not None:
-            if config.editable_fields and field not in config.editable_fields and field != "grinder_model":
-                raise PullDomainError(f"{field} is not editable in preset {config.config_id!r}")
+            _require_editable(config, field)
             changes[field] = val
     from dataclasses import replace
     return replace(recipe, **changes) if changes else recipe
@@ -49,7 +56,8 @@ def _apply_overrides(recipe: PullRecipe, config: PullConfig, args) -> PullRecipe
 def _cmd_presets(_args) -> int:
     for pid in available_pull_presets():
         recipe, config = load_pull_preset(pid)
-        editable = ", ".join(config.editable_fields) or "(fixed reference)"
+        editable = ("(unrestricted)" if config.editable_fields is None
+                    else ", ".join(config.editable_fields) or "(fixed reference)")
         print(f"{pid}: policy={config.domain_policy}; editable: {editable}")
     return 0
 
@@ -60,6 +68,7 @@ def _cmd_run(args) -> int:
     recipe, config = load_pull_preset(args.preset)
     recipe = _apply_overrides(recipe, config, args)
     if args.domain_policy:
+        _require_editable(config, "domain_policy")   # domain_policy obeys the same editability policy
         from dataclasses import replace
         config = replace(config, domain_policy=args.domain_policy)
     run = simulate_pull(recipe, config, progress=_progress)

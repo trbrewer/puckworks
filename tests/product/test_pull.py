@@ -429,3 +429,58 @@ def test_runs_offline_and_uses_no_private_paths():
     # proves it needs no network. Also assert no data-file dependency string leaked into output.
     js = p.pull_run_to_json(_shared_run())
     assert "visualizer" not in js.lower() and "/raw/" not in js
+
+
+def test_pw_pull_001_fixed_preset_rejects_every_override():
+    # PW-PULL-001: pv19_named has editable_fields=(); the empty tuple used to be falsy and disabled
+    # enforcement, and grinder_model/domain_policy were exempt. A fixed preset must reject ALL overrides.
+    from types import SimpleNamespace
+    from puckworks.product._pull import load_pull_preset, PullConfig, PullDomainError
+    from puckworks.product._pull_cli import _apply_overrides, _require_editable
+
+    recipe, config = load_pull_preset("pv19_named")
+    assert config.editable_fields == ()   # fixed preset
+
+    def args(**kw):
+        base = dict(dose_g=None, beverage_g=None, temperature_c=None, pressure_bar=None,
+                    grind_setting=None, coffee_profile=None, bean_label=None, grinder_model=None)
+        base.update(kw)
+        return SimpleNamespace(**base)
+
+    for kw in (dict(dose_g=99.0), dict(grinder_model="OTHER"), dict(pressure_bar=15.0),
+               dict(beverage_g=80.0), dict(coffee_profile="x")):
+        with pytest.raises(PullDomainError):
+            _apply_overrides(recipe, config, args(**kw))
+    with pytest.raises(PullDomainError):
+        _require_editable(config, "domain_policy")   # domain_policy is not exempt either
+
+
+def test_pw_pull_001_semantics_none_unrestricted_vs_empty_fixed():
+    from types import SimpleNamespace
+    from puckworks.product._pull import load_pull_preset, PullDomainError
+    from puckworks.product._pull_cli import _apply_overrides
+
+    def args(**kw):
+        base = dict(dose_g=None, beverage_g=None, temperature_c=None, pressure_bar=None,
+                    grind_setting=None, coffee_profile=None, bean_label=None, grinder_model=None)
+        base.update(kw); return SimpleNamespace(**base)
+
+    # guided_v1 lists dose_g as editable but NOT grinder_model
+    recipe, config = load_pull_preset("guided_v1")
+    _apply_overrides(recipe, config, args(dose_g=20.0))          # allowed
+    with pytest.raises(PullDomainError):
+        _apply_overrides(recipe, config, args(grinder_model="OTHER"))   # not in its editable set
+
+
+def test_pw_pull_001_editable_fields_none_is_unrestricted():
+    # None means unrestricted (the backward-compatible default); a tuple (incl. ()) restricts.
+    from types import SimpleNamespace
+    from puckworks.product._pull import PullConfig
+    from puckworks.product._pull_cli import _apply_overrides, load_pull_preset
+    recipe, config = load_pull_preset("guided_v1")
+    open_cfg = PullConfig(config_id="x", config_version=1,
+                          stage_components=dict(config.stage_components), editable_fields=None)
+    args = SimpleNamespace(dose_g=1.0, beverage_g=None, temperature_c=None, pressure_bar=None,
+                           grind_setting=None, coffee_profile=None, bean_label=None,
+                           grinder_model="ANY")
+    _apply_overrides(recipe, open_cfg, args)   # unrestricted: no raise
