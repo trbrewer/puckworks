@@ -67,6 +67,18 @@ def test_invalid_return_types_are_errors_not_silent_pass():
     assert evaluate_gate("c", _g_nopassed).status == GateStatus.ERROR      # no 'passed'
 
 
+def test_non_boolean_passed_is_error_not_coerced():
+    # PW-GATE-001: bool("false")/bool("0")/bool(1) would silently PASS; must ERROR.
+    import numpy as np
+    for bad in ("false", "0", "", "true", 1, 0, 1.0, None, [], {}):
+        assert evaluate_gate("c", (lambda b=bad: dict(passed=b))).status == GateStatus.ERROR, bad
+    # real booleans (Python + numpy) still classify correctly
+    assert evaluate_gate("c", lambda: dict(passed=True)).status == GateStatus.PASS
+    assert evaluate_gate("c", lambda: dict(passed=False)).status == GateStatus.FAIL
+    assert evaluate_gate("c", lambda: dict(passed=np.True_)).status == GateStatus.PASS
+    assert evaluate_gate("c", lambda: dict(passed=np.False_)).status == GateStatus.FAIL
+
+
 def test_zero_gate_component_is_explicit_skip_not_pass():
     r = evaluate_component_gates("nogate", _comp("nogate", []))
     assert len(r) == 1 and r[0].status == GateStatus.SKIP

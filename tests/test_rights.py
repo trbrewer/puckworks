@@ -139,3 +139,31 @@ def test_grudeva2025_still_imports_and_runs_its_gate():
     # the module still imports and its no-eps kappa gate still passes (numerics unchanged by the banner)
     from puckworks.validation import gates as G
     assert G.gate_grudeva_no_eps_kappa()["passed"] is True
+
+
+def test_pw_rgt_003_review_date_is_semantically_validated():
+    # PW-RGT-003: a shape-only regex accepted impossible calendar dates.
+    from puckworks.rights import RightsRecord
+    for bad in ("2026-99-99", "2026-13-45", "2026-02-30", "2026-00-10", "not-a-date"):
+        with pytest.raises(ValueError):
+            RightsRecord("x", "NOT_REVIEWED", "NOT_REVIEWED", "NOT_REVIEWED", review_date=bad)
+    # a real date is accepted
+    RightsRecord("x", "NOT_REVIEWED", "NOT_REVIEWED", "NOT_REVIEWED", review_date="2026-02-28")
+
+
+def test_pw_rgt_003_permission_is_deep_immutable_and_defends_caller_mutation():
+    from puckworks.rights import RightsRecord
+    src = {"grant": "email", "conditions": ["attribution"]}
+    r = RightsRecord("x", "PERMISSION_DOCUMENTED", "NOT_REVIEWED", "NOT_REVIEWED",
+                     rights_note="n", source="s", decision_issue="#1", review_date="2026-07-14",
+                     permission=src)
+    # mutating the caller's original dict cannot change the record
+    src["grant"] = "TAMPERED"; src["conditions"].append("x")
+    assert r.permission["grant"] == "email" and list(r.permission["conditions"]) == ["attribution"]
+    # the record's own permission is read-only at top and nested levels
+    with pytest.raises(TypeError):
+        r.permission["grant"] = "y"
+    # to_dict returns plain, JSON-serializable containers
+    import json
+    d = r.to_dict()
+    assert isinstance(d["permission"], dict) and json.dumps(d)
