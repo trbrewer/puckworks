@@ -1468,6 +1468,113 @@ def gate_g10_intersource_spread():
                          "dataset reaches bulk espresso TDS -- both extrapolate toward water)")
 
 
+def gate_g10_sobolik_closures():
+    """SOBOLIK 2002 own-closure transcription check (G10 third/fourth liquor-viscosity source).
+    The Eq (4)/(5) viscosity and Eq (11) conductivity COMPUTED lines reproduce the authors' OWN
+    stated spot values -- mu(omega=0.5, 60 C) ~= 0.019 Pa.s (Eq 4); mu(omega=0, 20 C) ~= water
+    (Eq 5); electrical conductivity peaks ~3.2 S/m near omega~0.4, 70 C (Eq 11). Concentrated
+    soluble-coffee extract (omega = dry-coffee mass fraction), NOT espresso liquor -> reference/
+    extrapolation strength (espresso TDS sits far below omega=0.5). Records, promotes nothing."""
+    from puckworks import data as d
+    a = d.sobolik2002_rheology()
+
+    def spot(rows, om, T, col):
+        m = [r for r in rows if abs(float(r["omega"]) - om) < 1e-6
+             and abs(float(r["T_degC"]) - T) < 1e-6]
+        return float(m[0][col]) if m else None
+
+    mu_conc = spot(a["viscosity_concentrated_eq4"], 0.5, 60.0, "mu_Pa_s")
+    mu_water = spot(a["viscosity_dilute_eq5"], 0.0, 20.0, "mu_Pa_s")
+    kmax = max(float(r["kappa_S_m-1"]) for r in a["conductivity_eq11"])
+    ok = (mu_conc is not None and abs(mu_conc - 0.019) < 0.002        # Eq 4 spot ~0.019 Pa.s
+          and mu_water is not None and 0.0009 < mu_water < 0.0012     # Eq 5 -> water at 20 C
+          and 3.0 < kmax < 3.4)                                       # Eq 11 kappa_max ~3.2 S/m
+    return dict(passed=bool(ok),
+                mu_conc_eq4_om0p5_60C=round(mu_conc, 5) if mu_conc is not None else None,
+                mu_water_eq5_om0_20C=round(mu_water, 6) if mu_water is not None else None,
+                kappa_max_eq11_S_m=round(kmax, 3),
+                reading="Sobolik Eq (4)/(5)/(11) spot values reproduce (transcription check of "
+                        "the computed closure lines)",
+                strength="reference (concentrated soluble-coffee extract; espresso TDS far below "
+                         "omega=0.5 -> mu extrapolates toward water)")
+
+
+def gate_g10_foursource_spread():
+    """FOUR-SOURCE G10 inter-source spread: sobolik2002 (Eq 5 dilute) joins khomyakov2020 as a
+    THIRD independent liquor-viscosity source, each compared to the TR2001 closures over the mutual
+    overlap (X_w 76-90 %, T 30-80 C). BOTH khomyakov and sobolik run systematically ABOVE TR2001,
+    so TR2001 is the probable LOW outlier (3-vs-1). Records the spread; adjudicates no absolute
+    value and promotes nothing -- every source is soluble-coffee extract extrapolating toward water
+    at espresso TDS (the negligible-at-shot-TDS verdict is unchanged). Complements the 2-source
+    gate_g10_intersource_spread."""
+    from puckworks import data as d
+    a = d.sobolik2002_rheology()
+    sob_off = []
+    for r in a["viscosity_dilute_eq5"]:
+        om, T = float(r["omega"]), float(r["T_degC"])
+        Xw = 100.0 * (1.0 - om)
+        if not (76.0 <= Xw <= 90.0 and 30.0 <= T <= 80.0):
+            continue
+        mu_tr = d.telisromero_viscosity_pas(T + 273.15, Xw)
+        sob_off.append((float(r["mu_Pa_s"]) - mu_tr) / mu_tr * 100.0)
+    sob_off.sort()
+    n = len(sob_off)
+    sob_median = sob_off[n // 2] if n % 2 else 0.5 * (sob_off[n // 2 - 1] + sob_off[n // 2])
+    sob_above = bool(sob_off) and all(o > 0 for o in sob_off)
+    kho_above = all(
+        (d.telisromero_density_kgm3(float(r["temperature_C"]), float(r["dry_solids_mass_fraction"]))
+         * float(r["kinematic_viscosity_mm2_s"]) * 1e-6)
+        > d.telisromero_viscosity_pas(float(r["temperature_C"]) + 273.15,
+                                      100.0 * (1.0 - float(r["dry_solids_mass_fraction"])))
+        for r in d.khomyakov_kinematic_viscosity()
+        if 76.0 <= 100.0 * (1.0 - float(r["dry_solids_mass_fraction"])) <= 90.0
+        and 295.0 <= float(r["temperature_C"]) + 273.15 <= 365.0)
+    passed = (n >= 6 and sob_above and kho_above and 20.0 <= sob_median <= 90.0)
+    return dict(passed=bool(passed), n_sobolik_overlap=n,
+                sobolik_offset_pct_median=round(sob_median, 0),
+                sobolik_above_tr=sob_above, khomyakov_above_tr=kho_above,
+                reading="two independent sources (khomyakov, sobolik) both run above TR2001 in the "
+                        "overlap -> TR2001 is the probable low outlier (3-vs-1)",
+                strength="reference/qualitative (records the inter-source spread; every source is "
+                         "soluble-coffee extract extrapolating toward water at espresso TDS)")
+
+
+def gate_moroney2015_kappa_anchors():
+    """MORONEY 2015 permeability internal-consistency (the primary Philips dataset). The card's
+    Kozeny-Carman closure k_h = k_sv1^2 * phi_h^3 / (36 * kappa * (1-phi_h)^2) with the MEASURED
+    kappa=3.1 and the Table-2 (compacted, flow-matched) phi_h reproduces the measured cylindrical
+    Delta_p at Q=250 mL/min for BOTH grinds (JK drip-filter, Cimbali #20) within ~5% -- an internal
+    transcription/consistency check on the intaken Tables 1/2 (the primary source `moroney2016`
+    inherits its kappa=3.1 from). Drip-filter chamber, NOT espresso ratio -> reference strength;
+    records, promotes nothing."""
+    import math
+    from puckworks import data as d
+    m = d.moroney2015_data()
+    t1 = {r["parameter"]: r for r in m["table1_batch_params"]}
+    t2 = {r["parameter"]: r for r in m["table2_cylindrical_params"]}
+    kappa = float(t1["kappa"]["JK_drip_filter"])            # 3.1 (measured Kozeny-Carman factor)
+    Q = 250e-6 / 60.0                                       # 250 mL/min -> m^3/s
+    A = math.pi * (0.059 / 2.0) ** 2                        # 59 mm chamber ID
+    anchors, ratios = {}, []
+    for grind in ("JK_drip_filter", "Cimbali_20"):
+        k_sv1 = float(t1["k_sv1"][grind]) * 1e-6           # Sauter diameter um -> m
+        phi_h = float(t2["phi_h"][grind])                  # intergranular porosity (compacted)
+        L, mu = float(t2["L"][grind]), float(t1["mu"][grind])
+        dp_meas = float(t2["Delta_p"][grind])
+        k_h = k_sv1 ** 2 * phi_h ** 3 / (36.0 * kappa * (1.0 - phi_h) ** 2)
+        dp_pred = mu * L * Q / (k_h * A)
+        anchors[grind] = dict(k_h_m2=k_h, dp_pred_Pa=round(dp_pred), dp_meas_Pa=round(dp_meas))
+        ratios.append(dp_pred / dp_meas)
+    ok = (abs(kappa - 3.1) < 1e-9 and all(0.9 <= r <= 1.1 for r in ratios))   # within 10%
+    return dict(passed=bool(ok), kappa_measured=kappa,
+                dp_pred_over_meas=[round(r, 3) for r in ratios], anchors=anchors,
+                reading="moroney2015 Kozeny-Carman (kappa=3.1) + Table-2 phi_h reproduce the "
+                        "measured Delta_p at both permeability anchors within ~5% (internal "
+                        "consistency of the intaken Tables 1/2)",
+                strength="reference (measured/transcribed primary dataset; drip-filter chamber, "
+                         "not espresso ratio)")
+
+
 def gate_streamtube_heldout():
     """WITHIN-CAMPAIGN HELD-OUT: the sigma(GS) fines closure, fit on two of the paper's three
     Fig-5 grinds, predicts the held-out grind's EY deviation. Leave-one-out over

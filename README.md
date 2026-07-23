@@ -200,8 +200,8 @@ Every dataset and its evidence level is recorded, one row per artifact, in
 | Microstructural diffusion and permeability (Roman-Corrochano 2017) | Measured effective diffusivity, partition, hindrance, and tamped permeability | Sets diffusion in grains and a tamped-bed permeability target | Independent measurement; partition post-fit |
 | Microstructure and swelling (Mo 2023) | Micro-CT / SPH flow and granulometry, and a fixed-pressure flow-decay curve | Checks the inertial-flow overlay and the swelling / coupled-bed models | Independent (SPH-derived) / verification |
 | Multi-species independent validation (Angeloni 2023) | Caffeine, trigonelline, total solids, lipids, and roast-and-ground inventories | An out-of-fit test on a different machine, coffee, and basket | Independent measurement |
-| Fines migration (Fasano 2000; Ellero 2019) | Digitized fines-transport figures and SPH discharge curves | Demonstrates the fines-migration mechanism and its reversal signature | Qualitative / verification of model output |
-| Coffee-liquid rheology (Telis-Romero 2000, 2001; Khomyakov 2020) | Viscosity, density, and thermal properties of coffee extract vs temperature and concentration | Supplies the liquid-property closures for flow-resistance studies | Source-curve reproduction / reference |
+| Fines migration & dynamics (Fasano 2000; Ellero 2019; Smrke 2024) | Digitized fines-transport figures, SPH discharge curves, and a fines-vs-extraction dynamics set | Demonstrates the fines-migration mechanism, its reversal signature, and (Smrke) that fines act via permeability within the tested envelope | Qualitative / verification of model output |
+| Coffee-liquid rheology (Telis-Romero 2000, 2001; Khomyakov 2020; Sobolík 2002) | Viscosity, density, thermal, and electrical properties of coffee extract vs temperature and concentration | Supplies the liquid-property closures for flow-resistance studies; Sobolík is a third/fourth independent viscosity source that adjudicates the inter-source spread | Source-curve reproduction / reference |
 | Reference inputs and engineering constraints | Pump P–Q endpoints, glass-bead retention, basket geometry (Schulman 2011; McKeon Aloe 2022), swelling anchors (Hargarten 2020), roasted composition (Bruno 2026), edge/center yield (Pocket Science 2024), an EY/TDS bracket (Egidi 2024) | Provide physical properties, boundary conditions, and coarse validation brackets rather than validating a whole model | Reference / qualitative |
 
 Not shown here: one machine-logged hydraulic population source is used under permission and is **not
@@ -273,7 +273,7 @@ Two longer reads go beyond this landing page:
 | Latest public release | [`v0.3.0`](https://github.com/trbrewer/puckworks/releases/tag/v0.3.0) (`puckworks-0.3.0-py3-none-any.whl`; not on PyPI) |
 | Development source | `0.4.0.dev0` (unreleased) |
 | Registered components | 25 |
-| Validation gates | 51 total — 50 PASS, 1 ACKNOWLEDGED_EXCEPTION (passed under the documented gate policy) |
+| Validation gates | 54 total — 53 PASS, 1 ACKNOWLEDGED_EXCEPTION (passed under the documented gate policy) |
 | Active outcome | Guided Espresso Pull — v0.3.0 published; awaiting signed-out human Colab acceptance |
 | Blocked outcomes | 3 (external sign-off / data) |
 | Supported Python | 3.10–3.13 (3.12 primary/release interpreter) |

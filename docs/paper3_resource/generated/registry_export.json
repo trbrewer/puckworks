@@ -115,7 +115,7 @@
       "id": "moroney2016.surrogate",
       "kind_legacy": "calibration",
       "module": "puckworks.models.moroney2016.surrogate",
-      "n_gates": 1,
+      "n_gates": 2,
       "paper": "Moroney et al., SIAM J. Appl. Math. 76(6), 2196 (2016)",
       "provenance_class": "published_port",
       "stage": "extraction"
@@ -199,7 +199,7 @@
       "id": "sourcing2026.g10_liquor_rheology",
       "kind_legacy": "calibration",
       "module": "puckworks.data:telisromero_viscosity_pas",
-      "n_gates": 7,
+      "n_gates": 9,
       "paper": "Telis-Romero et al. (2000, 2001)",
       "provenance_class": "reference_only",
       "stage": "flow"
@@ -301,7 +301,7 @@
       "stage": "packing"
     }
   ],
-  "content_sha256": "bed98dbdea5316a54da1aec9cd2e645e7c83f24a481a5bc26b77bec6229b0121",
+  "content_sha256": "f9b0823f121e2a48ab9efd03e5a08b357d8856f456e97c5785844cc24b5193b7",
   "n_components": 25,
   "schema_version": 1
 }

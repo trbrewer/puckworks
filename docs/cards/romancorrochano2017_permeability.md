@@ -77,6 +77,11 @@ Adapters: needs a Sauter-diameter and sphericity adapter from GrindState; Model 
 per-grind n supplied as a fitted input (it is not predictive standalone).
 
 ## Extractable data
+> **SUPERSEDED (2026-07-22):** the Table 6.1 tamped-κ transcription target is now served by the
+> DOI'd CC-BY **version of record `romancorrochano2015`** (`romancorrochano2015_table2()` — the
+> same campaign's K with SDs + Tukey groups, fully printed). Prefer that landed dataset as the
+> tamped-κ source; the thesis (2017) card remains the record for the Deff map / partition K(T) /
+> hindrance tables not printed in the 2015 paper.
 - Table 6.1 → data/romancorrochano2017_permeability_table1.csv: experimental κ for
   4 grinds × 3 initial bed densities with uncertainties and ANOVA groupings. HIGH value —
   these are TAMPED/consolidated espresso-bed permeabilities, precisely the regime the

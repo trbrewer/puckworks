@@ -13,14 +13,14 @@
 | extraction | `grudeva2025.reduced` | runtime | published_port | post_fit_reconstruction | Grudeva PhD thesis (Portsmouth 2023) + Grudeva, Moroney & Foster, EJAM 37, 496 (2026) | 10.1017/S095679252500018X | 2 |
 | extraction | `liang2021.desorption` | calibration | published_port | post_fit_reconstruction | Liang, Chan & Ristenpart, Sci. Rep. 11, 6904 (2021) | 10.1038/s41598-021-85787-1 | 2 |
 | extraction | `mo2023_2.coupled_bed` | runtime | published_port | post_fit_reconstruction | Mo, Navarini, Suggi Liverani & Ellero, J. Food Eng. (2023) | 10.1016/j.jfoodeng.2023.111843 | 1 |
-| extraction | `moroney2016.surrogate` | calibration | published_port | qualitative_capacity | Moroney et al., SIAM J. Appl. Math. 76(6), 2196 (2016) | 10.1137/15M1036658 | 1 |
+| extraction | `moroney2016.surrogate` | calibration | published_port | qualitative_capacity | Moroney et al., SIAM J. Appl. Math. 76(6), 2196 (2016) | 10.1137/15M1036658 | 2 |
 | extraction | `pannusch2024.closures` | calibration | published_port | code_verification | Pannusch et al., J. Food Eng. 367, 111887 (2024) | 10.1016/j.jfoodeng.2023.111887 | 1 |
 | extraction | `pannusch2024.solver` | runtime | published_port | post_fit_reconstruction | Pannusch et al., J. Food Eng. 367, 111887 (2024) | 10.1016/j.jfoodeng.2023.111887 | 1 |
 | extraction | `romancorrochano2017.extraction` | runtime | published_port | sign_or_compatibility | Roman-Corrochano, B. 'Advancing the Engineering Understanding of Coffee Extraction.' EngD thesis, University of Birmingham (2017) | — | 6 |
 | flow | `brewer2026.lb_reference` | calibration | project_model | code_verification | Brewer 2026 (this project) | — | 1 |
 | flow | `brewer2026.lb_taichi` | calibration | project_model | code_verification | Brewer 2026 (this project) | — | 0 |
 | flow | `lee2023.feedback` | calibration | published_port | qualitative_capacity | Lee & Smith, 2023 (extraction->porosity->permeability feedback) | — | 1 |
-| flow | `sourcing2026.g10_liquor_rheology` | calibration | reference_only | source_curve_reproduction | Telis-Romero et al. (2000, 2001) | 10.1111/j.1745-4530.2001.tb00542.x | 7 |
+| flow | `sourcing2026.g10_liquor_rheology` | calibration | reference_only | source_curve_reproduction | Telis-Romero et al. (2000, 2001) | 10.1111/j.1745-4530.2001.tb00542.x | 9 |
 | flow | `wadsworth2026.inertial` | runtime | published_port | source_curve_reproduction | Wadsworth et al., R. Soc. Open Sci. 13, 252031 (2026) | 10.1098/rsos.252031 | 4 |
 | grind | `wadsworth2026.grindmap` | calibration | published_port | source_curve_reproduction | Wadsworth et al., R. Soc. Open Sci. 13, 252031 (2026) | 10.1098/rsos.252031 | 2 |
 | infiltration | `foster2025.infiltration` | runtime | published_port | sign_or_compatibility | Foster et al., Phys. Fluids 37, 013383 (2025) | 10.1063/5.0245167 | 1 |
