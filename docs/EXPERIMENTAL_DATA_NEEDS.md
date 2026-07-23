@@ -124,7 +124,7 @@ Which registered component each campaign would advance (generated; do not hand-e
 | `pannusch2024.closures` | calibration | code_verification (1 gates) | — | — (no current campaign) | — |
 | `pannusch2024.solver` | runtime | post_fit_reconstruction (1 gates) | gate_pannusch_solver_mape | `EXP-006` | `pannusch2024.solver#0` |
 | `romancorrochano2017.extraction` | runtime | sign_or_compatibility (6 gates) | gate_pannusch_solver_mape | `EXP-006` | `pannusch2024.solver#0` |
-| `sourcing2026.g10_liquor_rheology` | calibration | source_curve_reproduction (9 gates) | — | — (no current campaign) | — |
+| `sourcing2026.g10_liquor_rheology` | calibration | source_curve_reproduction (10 gates) | — | — (no current campaign) | — |
 | `sourcing2026.g1_glassbead_analog` | calibration | qualitative_capacity (1 gates) | — | — (no current campaign) | — |
 | `sourcing2026.g3_pump_characteristic` | calibration | sign_or_compatibility (1 gates) | — | — (no current campaign) | — |
 | `wadsworth2026.grindmap` | calibration | source_curve_reproduction (2 gates) | gate_wadsworth_collapse | `EXP-003` | `pannusch2024.solver#1` |

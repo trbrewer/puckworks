@@ -1033,6 +1033,14 @@ def gagne2021_shots():
             for p in sorted((DATA_DIR / "gagne2021" / "shotfiles").glob("*.shot"))}
 
 
+def gagne2021_resistance_decline():
+    """gagne2021 — per-shot post-bloom apparent-resistance decline ratio (peak/end of R=P/Q),
+    a card-derived summary of the 11 DE1 `.shot` traces (data-only; card `gagne2021`). This
+    SHIPS (small CSV); the raw `.shot` files stay git-tracked but out of the wheel (redistribution
+    posture unverified). Regenerate with `puckworks.analysis.gagne2021_resistance.regenerate_summary`."""
+    return _rows(DATA_DIR / "gagne2021" / "resistance_decline_summary.csv")
+
+
 # --- khamitova2020 (tamping-force-resolved espresso chemistry; data-only) ----------
 def khamitova2020_tamping():
     """khamitova2020 — tamping-force-resolved espresso chemistry (data-only; card

@@ -2283,6 +2283,56 @@
       "claim_not_supported": "Model-vs-itself VERIFICATION only (mass/shape/plausibility); NOT a fit to experimental data and NOT the reported RMSE 5.81/6.23 -- reproducing that needs moroney2019's own Fig-6 exit-concentration digitization, which is not in the registry.",
       "conflict_note": null,
       "adjudication_status": "ADJUDICATED"
+    },
+    {
+      "link_id": "sourcing2026.g10_liquor_rheology::gate_gagne2021_viscosity_discrimination",
+      "claim_id": "sourcing2026.g10_liquor_rheology::gate_gagne2021_viscosity_discrimination",
+      "component": "sourcing2026.g10_liquor_rheology",
+      "gate": "gate_gagne2021_viscosity_discrimination",
+      "card": "g10_liquor_rheology",
+      "claim": "Across the 11 gagne2021 DE1 .shot traces the post-bloom apparent resistance R=P/Q declines by a robust median ~2.7x (every shot declines); the telisromero2001 viscosity ratio brackets this (~2.7x at Gagne's reconstructed ~15% early first-drip TDS, ~1.6x at bulk ~7.5% TDS), so a mu(TDS) viscosity-decline is quantitatively ADMISSIBLE.",
+      "observable": "Per-shot post-bloom apparent-resistance decline ratio (peak/end of R=P/Q) vs the telisromero mu(TDS)/mu(water) ratio at bulk and early first-drip TDS.",
+      "claim_owner": "paper3",
+      "paper3_use": "resource_context",
+      "reality_facing": true,
+      "support_status": "context_only",
+      "evidence_strength": "sign_or_compatibility",
+      "component_evidence_strength": "source_curve_reproduction",
+      "relationship": "independent_external",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "gagne2021/shots"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "eval",
+          "independence": "independent",
+          "note": null,
+          "source_card": "gagne2021"
+        },
+        {
+          "dataset_manifest_ids": [
+            "g10_liquor_rheology/telisromero2001_closures"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "eval",
+          "independence": "independent",
+          "note": null,
+          "source_card": "telisromero2001"
+        },
+        {
+          "dataset_manifest_ids": [],
+          "dataset_status": "not_applicable_source_equation",
+          "evidence_role": "reference",
+          "independence": "not_applicable",
+          "note": "physics/equations or model card; supplies no MANIFEST dataset for this gate",
+          "source_card": "g10_liquor_rheology"
+        }
+      ],
+      "caveat": "Machine-logged apparent resistance (DE1 flow estimate drifts ~20% near shot end); single coffee/machine/blooming profile; no PSD; no independent TDS(t) to close the degeneracy.",
+      "claim_not_supported": "Does NOT establish viscosity as THE cause: the same magnitude is reachable by bed compaction/swelling, and with no independent TDS(t) the traces cannot separate the mechanisms (DEGENERATE). Gagne's own EY(t) reconstruction is endpoint-anchored/circular. The local mu ratio here is not the G10 shot-integrated Darcy error.",
+      "conflict_note": "Viscosity-decline and bed-compaction/swelling both reproduce the observed ~2.7x apparent-resistance decline; these traces do not discriminate.",
+      "adjudication_status": "ADJUDICATED"
     }
   ],
   "schema_version": 2
