@@ -4,7 +4,7 @@
 
 The claims the `--strict --scope paper3` release gate is fail-closed on (claim_owner=paper3, paper3_use in primary_claim, method_demonstration). Each exposes source cards, exact dataset ids, dataset status, fit/eval role, independence, the caveat, and what is NOT supported.
 
-**22 asserted Paper-3 claim(s).**
+**23 asserted Paper-3 claim(s).**
 
 ## `brewer2026.coupled_kappa_t::gate_kappa_t_composition_diagnostic`
 - **claim:** Adding the parameter-free mo2023_2 swelling branch behaves as the framework predicts: the composite porosity closes below eps0 and the 9-bar Q(t) residual jumps from ~0.12 to ~0.65 g/s (worse than the flat null ~0.603), diagnosing that mo2023_2's fixed-dP fresh-grain swelling is mis-scaled for an already-swollen saturated pre-wet rig.
@@ -213,6 +213,22 @@ The claims the `--strict --scope paper3` release gate is fail-closed on (claim_o
     - `mo2023_2` — resolved_manifest — role=context, independence=not_applicable
 - **caveat:** No empirical yield data is compared — the gate checks a self-consistency property of the implemented model against the paper's Fig. 2 (itself model output); granulometry Table 1 enters as a model input, not a fit/eval target; the swelling magnitude C_M is assumed.
 - **claim NOT supported:** Does NOT validate the swelling mechanism or absolute yields against experiment — only that the code exhibits the offsetting-timescale insensitivity the paper asserts at fixed flow.
+
+## `moroney2016.surrogate::gate_moroney2019_ldf_verification`
+- **claim:** A method-of-lines solve of moroney2019's 1-D two-grain LDF cylindrical reduction (Eqs 17-27) with the cooper2021-corrected h_sl closes the solute mass budget within the upwind numerical floor for both grinds, shows the physical fast/slow two-grain exit structure (coarse slower than fine), and confirms the erratum by physical plausibility: every corrected intragranular diffusivity D_v=h_sl*d_s <= free aqueous diffusion (~2.2e-9 m^2/s) whereas the uncorrected reported values exceed it by orders.
+- **observable:** Solute mass-budget closure, exit-concentration shape/timescales, and corrected-vs-reported intragranular diffusivity relative to free aqueous diffusion.
+- **tier / relationship:** code_verification / code_verification
+- **paper3_use / support:** method_demonstration / admissible
+- **reality_facing:** False
+- **fit datasets:** moroney2019/table2
+- **eval datasets:** moroney2019/table2
+- **sources:**
+    - `moroney2019` — resolved_manifest — role=eval, independence=same_data_as_fit
+    - `moroney2019` — resolved_manifest — role=fit, independence=fit_input
+    - `moroney2015` — resolved_manifest — role=reference, independence=not_applicable — bed height L for the Philips chamber
+    - `moroney2016` — not_applicable_source_equation — role=reference, independence=not_applicable — physics/equations or model card; supplies no MANIFEST dataset for this gate
+- **caveat:** Upwind advection carries numerical diffusion (budget closes ~0.95-0.99, not exactly 1); drip-filter chamber (60 g, 250 mL/min, ~1 L), not espresso; the fully-wetted IC c_l=0 gives an artificial early transient (the regime cooper2021's sequential-wetting IC fixes).
+- **claim NOT supported:** Model-vs-itself VERIFICATION only (mass/shape/plausibility); NOT a fit to experimental data and NOT the reported RMSE 5.81/6.23 -- reproducing that needs moroney2019's own Fig-6 exit-concentration digitization, which is not in the registry.
 
 ## `pannusch2024.closures::gate_pannusch_closures`
 - **claim:** The pannusch2024 constitutive closures reproduce physical anchors: water viscosity ~3.15e-4 Pa.s and density ~962 kg/m^3 at 90C, Wilke-Chang D in 5e-9..1.2e-8 m^2/s, van't Hoff K(Tref)=Kref with weak T-dependence, and a positive Sherwood h_sl monotone in flow.

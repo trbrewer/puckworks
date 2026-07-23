@@ -2223,6 +2223,66 @@
       "claim_not_supported": "Internal consistency of the intaken Tables 1/2 only (phi_h was flow-matched, so this is post-fit-same-data, not an independent permeability validation); a drip-filter chamber, NOT an espresso ratio -> reference strength; establishes no espresso claim.",
       "conflict_note": null,
       "adjudication_status": "ADJUDICATED"
+    },
+    {
+      "link_id": "moroney2016.surrogate::gate_moroney2019_ldf_verification",
+      "claim_id": "moroney2016.surrogate::gate_moroney2019_ldf_verification",
+      "component": "moroney2016.surrogate",
+      "gate": "gate_moroney2019_ldf_verification",
+      "card": "moroney2016",
+      "claim": "A method-of-lines solve of moroney2019's 1-D two-grain LDF cylindrical reduction (Eqs 17-27) with the cooper2021-corrected h_sl closes the solute mass budget within the upwind numerical floor for both grinds, shows the physical fast/slow two-grain exit structure (coarse slower than fine), and confirms the erratum by physical plausibility: every corrected intragranular diffusivity D_v=h_sl*d_s <= free aqueous diffusion (~2.2e-9 m^2/s) whereas the uncorrected reported values exceed it by orders.",
+      "observable": "Solute mass-budget closure, exit-concentration shape/timescales, and corrected-vs-reported intragranular diffusivity relative to free aqueous diffusion.",
+      "claim_owner": "paper3",
+      "paper3_use": "method_demonstration",
+      "reality_facing": false,
+      "support_status": "admissible",
+      "evidence_strength": "code_verification",
+      "component_evidence_strength": "qualitative_capacity",
+      "relationship": "code_verification",
+      "sources": [
+        {
+          "dataset_manifest_ids": [
+            "moroney2019/table2"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "eval",
+          "independence": "same_data_as_fit",
+          "note": null,
+          "source_card": "moroney2019"
+        },
+        {
+          "dataset_manifest_ids": [
+            "moroney2019/table2"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "fit",
+          "independence": "fit_input",
+          "note": null,
+          "source_card": "moroney2019"
+        },
+        {
+          "dataset_manifest_ids": [
+            "moroney2015/data"
+          ],
+          "dataset_status": "resolved_manifest",
+          "evidence_role": "reference",
+          "independence": "not_applicable",
+          "note": "bed height L for the Philips chamber",
+          "source_card": "moroney2015"
+        },
+        {
+          "dataset_manifest_ids": [],
+          "dataset_status": "not_applicable_source_equation",
+          "evidence_role": "reference",
+          "independence": "not_applicable",
+          "note": "physics/equations or model card; supplies no MANIFEST dataset for this gate",
+          "source_card": "moroney2016"
+        }
+      ],
+      "caveat": "Upwind advection carries numerical diffusion (budget closes ~0.95-0.99, not exactly 1); drip-filter chamber (60 g, 250 mL/min, ~1 L), not espresso; the fully-wetted IC c_l=0 gives an artificial early transient (the regime cooper2021's sequential-wetting IC fixes).",
+      "claim_not_supported": "Model-vs-itself VERIFICATION only (mass/shape/plausibility); NOT a fit to experimental data and NOT the reported RMSE 5.81/6.23 -- reproducing that needs moroney2019's own Fig-6 exit-concentration digitization, which is not in the registry.",
+      "conflict_note": null,
+      "adjudication_status": "ADJUDICATED"
     }
   ],
   "schema_version": 2

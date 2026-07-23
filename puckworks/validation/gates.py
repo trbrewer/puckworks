@@ -1575,6 +1575,46 @@ def gate_moroney2015_kappa_anchors():
                          "not espresso ratio)")
 
 
+def gate_moroney2019_ldf_verification():
+    """MORONEY 2019 1-D two-grain LDF solver -- VERIFICATION of the transcribed model (Eqs 17-27)
+    and the author-confirmed cooper2021 h_sl erratum. Solving the 1-D cylindrical reduction with
+    the CORRECTED h_sl: (1) closes the solute mass budget (removed from grains ~= carried out of
+    the bed) within the upwind numerical-diffusion floor for both grinds; (2) produces a physical
+    fast-rise / slow-decay exit concentration with the two-timescale (small << large) structure,
+    coarse slower than fine; (3) confirms the erratum by PHYSICAL PLAUSIBILITY -- every CORRECTED
+    intragranular diffusivity D_v = h_sl*d_s stays at/below free aqueous diffusion (~2.2e-9 m^2/s),
+    while the UNCORRECTED reported values exceed it by orders (impossible). NOT a fit to data
+    (reproducing moroney2019's reported c_exit RMSE 5.81/6.23 needs their own Fig-6 digitization,
+    which is not in the registry); a model-vs-itself verification. Records, promotes nothing."""
+    from puckworks.analysis import moroney2019_ldf as ldf
+    D_FREE = 2.2e-9                                   # coffee-in-water molecular diffusivity (card)
+    res = {g: ldf.solve(g) for g in ("fine", "coarse")}
+    budget_ok = all(0.92 <= r["budget_closure"] <= 1.0 for r in res.values())
+    shape_ok = all(float(r["cexit_kgm3"].min()) >= -1e-6 and r["cexit_peak"] < r["cs0_kgm3"]
+                   and r["cexit_end"] < r["cexit_peak"]                 # decays from an early peak
+                   and r["tau_small_s"] < r["tau_large_s"] for r in res.values())
+    slower_coarse = res["coarse"]["tau_large_s"] > res["fine"]["tau_large_s"]
+    corr = [v for r in res.values() for v in r["D_v_corrected"].values()]
+    rep = [v for r in res.values() for v in r["D_v_reported"].values()]
+    corrected_physical = all(v <= D_FREE for v in corr)
+    reported_unphysical = any(v > D_FREE for v in rep)                  # >= 1 reported > free diff
+    passed = (budget_ok and shape_ok and slower_coarse
+              and corrected_physical and reported_unphysical)
+    return dict(passed=bool(passed),
+                budget_closure={g: round(r["budget_closure"], 3) for g, r in res.items()},
+                cexit_peak_kgm3={g: round(r["cexit_peak"]) for g, r in res.items()},
+                tau_small_s={g: round(r["tau_small_s"]) for g, r in res.items()},
+                tau_large_s={g: round(r["tau_large_s"]) for g, r in res.items()},
+                D_v_corrected_max=max(corr), D_v_reported_max=max(rep), D_free_m2_s=D_FREE,
+                corrected_physical=corrected_physical, reported_unphysical=reported_unphysical,
+                reading="1-D two-grain LDF (corrected h_sl) closes the mass budget and shows the "
+                        "physical fast/slow two-grain exit structure; the cooper2021 erratum is "
+                        "confirmed -- corrected D_v <= free diffusion, reported values exceed it",
+                strength="verification (model-vs-itself budget/shape + physical plausibility; NOT a "
+                         "fit to experimental data -- the reported RMSE needs moroney2019's Fig-6 "
+                         "digitization)")
+
+
 def gate_streamtube_heldout():
     """WITHIN-CAMPAIGN HELD-OUT: the sigma(GS) fines closure, fit on two of the paper's three
     Fig-5 grinds, predicts the held-out grind's EY deviation. Leave-one-out over
