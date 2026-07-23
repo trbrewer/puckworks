@@ -20,7 +20,7 @@
 | flow | `brewer2026.lb_reference` | calibration | project_model | code_verification | Brewer 2026 (this project) | — | 1 |
 | flow | `brewer2026.lb_taichi` | calibration | project_model | code_verification | Brewer 2026 (this project) | — | 0 |
 | flow | `lee2023.feedback` | calibration | published_port | qualitative_capacity | Lee & Smith, 2023 (extraction->porosity->permeability feedback) | — | 1 |
-| flow | `sourcing2026.g10_liquor_rheology` | calibration | reference_only | source_curve_reproduction | Telis-Romero et al. (2000, 2001) | 10.1111/j.1745-4530.2001.tb00542.x | 10 |
+| flow | `sourcing2026.g10_liquor_rheology` | calibration | reference_only | source_curve_reproduction | Telis-Romero et al. (2000, 2001) | 10.1111/j.1745-4530.2001.tb00542.x | 11 |
 | flow | `wadsworth2026.inertial` | runtime | published_port | source_curve_reproduction | Wadsworth et al., R. Soc. Open Sci. 13, 252031 (2026) | 10.1098/rsos.252031 | 4 |
 | grind | `wadsworth2026.grindmap` | calibration | published_port | source_curve_reproduction | Wadsworth et al., R. Soc. Open Sci. 13, 252031 (2026) | 10.1098/rsos.252031 | 2 |
 | infiltration | `foster2025.infiltration` | runtime | published_port | sign_or_compatibility | Foster et al., Phys. Fluids 37, 013383 (2025) | 10.1063/5.0245167 | 1 |

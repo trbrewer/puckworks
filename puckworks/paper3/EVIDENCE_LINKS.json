@@ -2423,6 +2423,56 @@
    "claim_not_supported": "Does NOT support the card's original +/-0.5 pt (EY, t_shot) point-match to Fig-3 (that is S-B, BLOCKED: needs a smrke-grind->grain-size adapter + ceiling calibration [the G5 grind-transfer gap] or smrke's raw data). Establishes no quantitative validation and no fines-via-permeability claim -- only that cameron-style extraction has smrke's fast-shot morphology and Fig-3 slope sign.",
    "conflict_note": null,
    "adjudication_status": "ADJUDICATED"
+  },
+  {
+   "link_id": "sourcing2026.g10_liquor_rheology::gate_g10_sobolik_density",
+   "claim_id": "sourcing2026.g10_liquor_rheology::gate_g10_sobolik_density",
+   "component": "sourcing2026.g10_liquor_rheology",
+   "gate": "gate_g10_sobolik_density",
+   "card": "g10_liquor_rheology",
+   "claim": "Recomputing sobolik2002 Eq (1) refractive index n_D^20 = 1.333 + 0.1728 w + 8.93e-2 w^2 and Eq (2) volume-additive density 1/rho = w/rho_C + (1-w)/rho_W from scratch reproduces the authors' own tabulated columns (n_D max abs err ~5e-6; rho exact to the digits). Density is exact at the pure-water limit (w=0) and drho/dT<0 throughout -- the only registry density closure exact at pure water. Eq (3) thermal conductivity is excluded (card marks it illegible).",
+   "observable": "Refractive index n_D^20(w) and mixture density rho(w,T) vs the sobolik2002 computed physical-properties columns; the w=0 water-limit identity; the sign of drho/dT.",
+   "claim_owner": "paper3",
+   "paper3_use": "resource_context",
+   "reality_facing": false,
+   "support_status": "context_only",
+   "evidence_strength": "source_curve_reproduction",
+   "component_evidence_strength": "source_curve_reproduction",
+   "relationship": "post_fit_same_data",
+   "sources": [
+    {
+     "dataset_manifest_ids": [
+      "sobolik2002/rheology"
+     ],
+     "dataset_status": "resolved_manifest",
+     "evidence_role": "eval",
+     "independence": "same_data_as_fit",
+     "note": null,
+     "source_card": "sobolik2002"
+    },
+    {
+     "dataset_manifest_ids": [
+      "sobolik2002/rheology"
+     ],
+     "dataset_status": "resolved_manifest",
+     "evidence_role": "fit",
+     "independence": "fit_input",
+     "note": null,
+     "source_card": "sobolik2002"
+    },
+    {
+     "dataset_manifest_ids": [],
+     "dataset_status": "not_applicable_source_equation",
+     "evidence_role": "reference",
+     "independence": "not_applicable",
+     "note": "physics/equations or model card; supplies no MANIFEST dataset for this gate",
+     "source_card": "g10_liquor_rheology"
+    }
+   ],
+   "caveat": "Reproduces the SOURCE's own computed Eq 1/2 columns (secondhand from Weisser 1972 via sobolik2002), NOT an independent measurement; concentrated soluble-coffee extract (w = dry-coffee mass fraction), espresso TDS sits far below the range -> reference/extrapolation. Eq 3 conductivity deliberately excluded (illegible per the card).",
+   "claim_not_supported": "Does NOT validate coffee-liquor density/refractive index against independent data, and establishes no espresso claim (the water-limit exactness is a construction property, not an espresso-range measurement). Registry's k(T,X_w) source stays telisromero2000, not this.",
+   "conflict_note": null,
+   "adjudication_status": "ADJUDICATED"
   }
  ],
  "schema_version": 2
