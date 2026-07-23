@@ -190,7 +190,8 @@ the endpoints.
 - Silent on: pressure dependence (shot sees ~9 bar), sub-25 °C conductivity,
   crema/foam and suspended-solids rheology, time-resolved thixotropy
   parameters (behavior described qualitatively only), and any thermal
-  properties beyond the illegible reviewed Eq. (3).
+  properties beyond Eq. (3) (now transcribed — an adopted Riedel sucrose-analog,
+  see Governing equations).
 
 ## Interface mapping
 
