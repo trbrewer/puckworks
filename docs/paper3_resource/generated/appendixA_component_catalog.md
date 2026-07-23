@@ -9,7 +9,7 @@
 | bed_dynamics | `fasano2000_partI.fines_migration` | calibration | published_port | qualitative_capacity | Fasano, Talamucci & Petracco, 'The Espresso Coffee Problem,' ch.8 in Complex Flows in Industrial Processes, Springer (2000) | — | 3 |
 | bed_dynamics | `mo2023_2.swelling` | runtime | published_port | source_curve_reproduction | Mo, Navarini, Suggi Liverani & Ellero, 'Modelling swelling effects in real espresso extraction using a 1-D coarse-grained model,' J. Food Eng. (2023) | 10.1016/j.jfoodeng.2023.111843 | 4 |
 | bed_dynamics | `waszkiewicz2025.poroelastic` | runtime | published_port | post_fit_reconstruction | Waszkiewicz et al., arXiv:2512.21528 (2025) | 10.5281/zenodo.18046315 | 2 |
-| extraction | `cameron2020.extraction_bdf` | runtime | published_port | code_verification | Cameron et al., Matter 2, 631-648 (2020) | 10.1016/j.matt.2019.12.019 | 1 |
+| extraction | `cameron2020.extraction_bdf` | runtime | published_port | code_verification | Cameron et al., Matter 2, 631-648 (2020) | 10.1016/j.matt.2019.12.019 | 2 |
 | extraction | `grudeva2025.reduced` | runtime | published_port | post_fit_reconstruction | Grudeva PhD thesis (Portsmouth 2023) + Grudeva, Moroney & Foster, EJAM 37, 496 (2026) | 10.1017/S095679252500018X | 2 |
 | extraction | `liang2021.desorption` | calibration | published_port | post_fit_reconstruction | Liang, Chan & Ristenpart, Sci. Rep. 11, 6904 (2021) | 10.1038/s41598-021-85787-1 | 2 |
 | extraction | `mo2023_2.coupled_bed` | runtime | published_port | post_fit_reconstruction | Mo, Navarini, Suggi Liverani & Ellero, J. Food Eng. (2023) | 10.1016/j.jfoodeng.2023.111843 | 1 |
