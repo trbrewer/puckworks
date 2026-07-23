@@ -55,7 +55,7 @@ def test_every_measurement_agenda_blocker_is_mapped_or_deferred():
 def test_campaign_ids_stable_and_unique():
     ids = [c["campaign_id"] for c in EDN.load_catalog()["campaigns"]]
     assert ids == sorted(ids) and len(ids) == len(set(ids))
-    assert ids == ["EXP-00%d" % i for i in range(1, 9)]
+    assert ids == ["EXP-00%d" % i for i in range(1, 10)]
 
 
 def test_generated_table_is_deterministic_and_current():

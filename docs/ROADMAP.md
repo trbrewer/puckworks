@@ -404,6 +404,14 @@ preserved in §5.1.
 Skips stand as recorded: fasano2000_partIII (forced monolith), ellero2019
 (intake the J. Food Eng. 263 journal version instead), hendon2020 (editorial).
 
+**Research programs (scheduled backlog, NOT active — full scope in §9).** RP-A
+(component response & disagreement atlas, extends 2.1/2.2) · RP-C (global
+sensitivity & decision-relevance, depends on RP-A) · RP-D (modular 3D pore-scale
+Taichi program, staged from the D3Q19 TRT permeability baseline) · RP-E
+(XCT-conditioned synthetic geometry, blocked on the §5.8 Wadsworth scans) · RP-B
+(community experimental-design, extends PV-15) · RP-F (bottom filter-paper study,
+EXP-009, extends G9 clogging / PV-10). None is in the current sprint or active queue.
+
 ---
 
 ## 4. GAPS
@@ -524,6 +532,11 @@ extrapolation, and DE1 fixture A. Targets: filter/screen hydraulics; basket
 manufacturer flow data.
 Input revised (1.7a): adjudicated Grudeva κ = 2.2e-15 m² sits inside her
 Kozeny-Carman band; the 10x sieve-resistance gap narrative weakens by one order.
+G9 is RESOLVED for a clean basket (`gate_g9_series_resistance`; screen ~5–6 orders
+below the puck); the only open piece is a boundary accessory / mid-shot fines
+clogging. The bottom filter-paper study (**RP-F**, §9; campaign **EXP-009**) is the
+scheduled controlled test of that open piece and does NOT reopen "the screen
+matters"; its public face extends PV-10.
 
 **G10 — Concentration-dependent liquid properties / coffee-liquor rheology.
 ✅ CLOSED (negligible-at-shot-TDS, 2026-07-15).** Every flow-coupled model on
@@ -709,6 +722,7 @@ them. **Status promotions (`verification-gated` → `gated`, `gated` →
 ### 7.1 Change log
 | date | change | evidence (dataset + gate script) | affected RCs / items |
 |---|---|---|---|
+| 2026-07-21 | **Six research programs captured (RP-A…RP-F) — planning/documentation only; nothing implemented, validated, or promoted.** New §9 "Research programs (scheduled backlog — NOT active)": RP-A component response & model-disagreement atlas (extends Phase 2 items 2.1/2.2; new pre-analysis spec `docs/analysis/COMPONENT_RESPONSE_ATLAS_SPEC.md`, reuses the §5.9/A1 node + §5.10/A10 observable conventions; public face PV-08), RP-B community experimental-design system (extension/execution layer for PV-15 + the campaign/protocol infrastructure), RP-C global sensitivity & decision-relevance (depends on the RP-A schema; new candidate PV-21), RP-D modular 3D pore-scale Taichi program (staged fidelity ladder Stage 0–6 from the accurate D3Q19 TRT Stokes permeability baseline — NOT a mega-model; heavy GPU stays out of CI), RP-E XCT-conditioned synthetic geometries/images (blocked on the §5.8 Wadsworth segmented-XCT scans; only preparatory interfaces allowed now; pack_generator is a baseline, not XCT-validated), RP-F bottom filter-paper mechanism study (new campaign EXP-009 + protocol pack; extends the G9 open clogging piece + PV-10; does NOT reopen the clean-basket screen finding). SPRINTS "Research-program backlog" holds session-sized candidate slices (none in the current sprint or active queue); PV-15/PV-10/PV-08 extended in place; PV-21 added to the §4 table + §5; RESEARCH_RADAR §2 scope extended with the new discovery families (enabling query families stays a human radar action). No component/gate/status change; no scientific result, sample size, tolerance, or evidence promotion. | `docs/analysis/COMPONENT_RESPONSE_ATLAS_SPEC.md`; `docs/ROADMAP.md` §9; `docs/data_requests/experimental_campaigns.yml` (EXP-009) + regenerated `docs/EXPERIMENTAL_DATA_NEEDS.md`; `docs/PUBLIC_VALUE.md` (PV-08/10/15/21); `docs/SPRINTS.md`; `docs/RESEARCH_RADAR.md`; `docs/CURRENT.md`; `python tools/experimental_data_needs.py verify` OK | RP-A…RP-F scheduled backlog (§9); PV-21 (new); EXP-009 (new); no component status changed |
 | 2026-07-21 | **Post-merge stabilization + a real scientific-integrity fix (streamtube→Cameron global mutation).** `brewer2026.streamtube` mutated `cameron2020.extraction_bdf.C_S0` (118 → 118/PHI_S = 142.65) as an IMPORT side effect, making Cameron import-order dependent and POLLUTING the Full Laboratory Tour: whenever streamtube was imported before the tour's Cameron-backed components ran, the tour reported Cameron EY = **17.06 %** instead of Cameron's own declared **14.11 %** (C_S0 = 118) — inconsistent with the deep-dive figures, which used 14.1 %. Fixed at the model level: `simulate_shot` gains an explicit `c_s0=None` parameter (default = 118, so all existing callers/gates are byte-identical) and streamtube passes its own `C_S0_STREAMTUBE` via `simulate_shot(c_s0=…)` instead of touching the global; the relay's `_pin_cameron_c_s0`/finally repair machinery is removed. Cameron output is now import-order invariant; streamtube keeps its calibrated basis (17.06 %); all gates pass (PASS=50 + 1 ack). **The Full Laboratory Tour frozen scientific hash is CORRECTED `2054b04d…` → `1c1434ef…` — the CLEAN, import-order-invariant value (the old hash captured the pollution; Cameron read 17.06 %, not 14.11 %). Documented, not concealed; `test_lab_tour` determinism unaffected.** Relay accounting made strictly truthful: `pannusch2024.solver` → NOT_SELECTED (the release-clock diagnostic is closures-derived, not the registered solver); fast-mode LB → NOT_SELECTED (slow optional path, not a missing dependency); Taichi never represented by the reference solve; 5 stages mis-marked `EXECUTED_WITH_ASSUMPTIONS` with no assumption IDs → EXECUTED — the audited fast run is now **18 authoritative executions / 10 hand-offs / 9 assumptions** (was 19/11/11), frozen in a test. Adapter safety: removed the silent `k if k else 2e-13` wetting permeability fallback (→ NOT_SELECTED when unlinked) and the `np.clip(m/dose,1e-6,0.999)` dissolution clamp (→ explicit reject of negative/non-finite/over-dose + recorded zero-start mask); runtime links recorded only after a transfer completes. Strict canonical serializer (`normalize_for_json`/`canonical_json_bytes`, `allow_nan=False`, never `default=str`) for hashes + CLI. README/relay-doc counts corrected; README "Four public paths"→"Five". NOT a scientific-validation upgrade — provenance/engineering hardening only; no component status changed. | `puckworks/models/{cameron2020/extraction_bdf,brewer2026/streamtube}.py`; `puckworks/product/linked_pull{,_records,_adapters}.py`; `tests/test_{no_global_state_mutation,linked_pull_execution_accounting,linked_pull_serialization,linked_pull_tour_regression}.py`; `run_all_gates` PASS=50+1 | Full Laboratory Tour (#43) clean-hash CORRECTED; PV-19C relay accounting/provenance; no status change |
 | 2026-07-20 | **Espresso Model Relay (`illustrative_linked_pull_v1`) — a NEW, separate product; the Full Laboratory Tour is unchanged.** A product-level orchestration engine (`puckworks.product.linked_pull` + manifest/records/adapters/narrative/display/figures) passes ONE illustrative pull across the registered models: a directed ACYCLIC, one-way relay that calls authoritative producers (no equations reimplemented), hands typed `LinkedValue`s forward through documented adapters, records every hand-off as a `LinkRecord`, and surfaces a first-class A01–A12 assumption ledger. The frozen manifest classifies all 25 components exactly once (`verify_linked_pull_manifest`); the default fast run executes **19** components across grind→packing→machine→wetting→flow→extraction→puck-change→heterogeneous→multi-solute with **11** cross-component hand-offs (2 direct, 7 documented adapters, 2 illustrative assumptions), Cameron as a baseline (not the whole story), a one-way Cameron→Waszkiewicz branch, a linked streamtube heterogeneity branch, and a reduced Pannusch multi-solute branch. `grudeva2025.reduced` receives ZERO model/adapter calls; Taichi optional; no branch averaging; no taste/confidence score; deterministic `model_output_hash`/`artifact_hash` (timestamps excluded, NOT validation hashes). Rights preflight before every producer (`rights.may_execute_locally`; public fail-closed). NOT registered as a scientific component; NO evidence upgrade. The relay pins/restores Cameron's shared `C_S0` so the separate Full Laboratory Tour's frozen scientific hash `2054b04d…` is byte-identical. Fast mode ~4 s on CPU; CLI `python -m puckworks.product.linked_pull`; new Colab notebook (one run cell, output-free, commit-pinned, `LOCAL_PRIVATE`). Figures REUSE existing evidence-bound VizSpecs (no new gallery seed rows). | `puckworks/product/linked_pull*.py`; `tests/test_linked_pull_{manifest,adapters,engine,narrative,notebook,tour_regression}.py`; hermetic notebook smoke (`LINKED_PULL_RELAY_COMPLETE`) | PV-19C (Espresso Model Relay); Full Laboratory Tour (#43/#70) UNCHANGED; no component status changed |
 | 2026-07-20 | **Full-Tour deep dive — presentation/readability pass (formatting only, no science change).** New `puckworks.viz.tour_style` gives every educational tour figure a reserved header band (evidence badge) and footer band (concise provenance + the fidelity ceiling wrapped as a `Scope:` paragraph) built from stacked matplotlib subfigures, so the badge never overlaps a title and the footer never overlaps an axis label; a local typography scale keeps all visible text ≥8 pt (retires the 5.2 pt footer). `stamp_fig` now delegates to a tour stamp when a figure carries reserved bands and is idempotent; unrelated figures keep the ordinary corner stamp. Draw functions take `presentation="notebook"|"standalone"` (notebook figures no longer repeat the headline/question); small multiples share one figure-level axis label and explain the reference star once. Per-figure fixes: Foster wetting front windowed to the saturation event (was invisible on a 100 s axis); LB profile normalized to fraction-of-maximum with wall/centre labels (no six-decimal ticks); synthetic pack is a compact solid/pore + heterogeneity-field landscape with a key and colorbar (no lattice ticks). Novice text restructured via new `puckworks.product.lab_tour_notebook_display` into labelled sections + a collapsed `<details>` evidence block with humanized fixed inputs. NO computed value, badge, evidence strength, fidelity ceiling, VizSpec metadata, component ordering, rights behavior, tour route, or scientific hash changed; no status promotion. | `puckworks/viz/tour_style.py` + `tests/test_tour_layout.py` (bounding-box/typography/idempotency); `puckworks/product/lab_tour_notebook_display.py` + `tests/test_lab_tour_notebook_display.py`; `tests/test_viz.py` (all-text stamp search); `validate_all` CLEAN | Guided Pull Laboratory deep-dive presentation (#43/#70); no component status changed |
@@ -906,3 +920,220 @@ Cross-links: PUBLIC_VALUE PV-00 (the claim/producer registry this consumes),
 PV-08 (the Puck Court dashboard renders VizSpecs, not a leaderboard), PV-09 (the
 `hidden_puck_movie` multi-lens montage); PAPER_OUTLINE (Paper A/B figures are
 class-1 VizSpecs).
+
+---
+
+## 9. RESEARCH PROGRAMS (scheduled backlog — NOT active)
+
+Six connected research programs captured from a project tour. **None is active**;
+none is in the current sprint (SPRINTS.md "Research-program backlog"); none is in
+the active queue (`docs/status/current.json`). Documenting a program here does not
+implement, validate, or promote it, and no evidence level changes by its presence.
+Each program cross-references existing work rather than duplicating it; the
+session-sized candidate slices, with effort and next gate, live in SPRINTS.md. IDs
+are `RP-A`…`RP-F` (distinct from the card-driven Phase 0–3 items and from PV items).
+
+### RP-A — Component response & model-disagreement atlas
+*Extends Phase 2 harnesses 2.1 (extraction) / 2.2 (κ(t)); does not replace them.*
+
+- **Scope.** For every registered executable component, characterize the
+  input/state/output relationships it encodes (linear, locally linear, nonlinear,
+  saturating, thresholded, non-monotonic, history-dependent), and where components
+  answer the same question, whether they agree in sign/magnitude/curvature/limiting
+  behaviour/regime — and if not, why (physical assumption, boundary condition,
+  pressure-node convention, observable definition, valid range, parameter set,
+  calibration source, or numerical approximation). Full specification:
+  `docs/analysis/COMPONENT_RESPONSE_ATLAS_SPEC.md` (spec_version
+  `component-response-atlas/v1`).
+- **Dependencies.** Registry valid ranges + cards; the §5.9 pressure-node
+  convention (ledger A1) and §5.10 observable convention (ledger A10); reuses
+  `puckworks.viz.relationship.classify_relationship`. Missing relationships are
+  recorded explicitly (some components consume pressure, some flow, some produce no
+  whole-cup TDS/EY) — the atlas never fabricates a pressure→TDS mapping.
+- **Deliverables.** Machine-readable parameter/observable/comparability schema;
+  per-component response reports; a reproducible response-sweep spec; a
+  matched-comparison + disagreement report (6-way taxonomy); evidence-labelled
+  plots/tables; tests for units, valid-range enforcement, determinism, and explicit
+  unsupported-relationship cells.
+- **Acceptance evidence.** The bounded pilot (one extraction + one
+  hydraulics/permeability + one machine/wetting/deformation component, selected only
+  after inspecting registry support) reproduces each component's own analytic/numeric
+  response and classifies every candidate cross-component comparison at one of the
+  five comparability levels, with tests green.
+- **Effort.** M for the schema + pilot; L for full-registry coverage.
+- **Guardrail.** Public article ("Where espresso models agree, disagree, and answer
+  different questions", public face **PV-08**) is CONDITIONAL on ≥1 robust non-obvious
+  result; a manuscript is only a candidate on a novel method / important unresolved
+  disagreement / independently tested discrimination. Not scheduled now.
+
+### RP-B — Community experimental-design system
+*Extension + execution layer for **PV-15** and the `docs/data_requests/` infrastructure — NOT a second recommender.*
+
+- **Scope.** Convert a scientific decision → candidate interventions →
+  information-vs-cost ranking → contributor capability tier → protocol + schedule +
+  templates + preregistration + QC → submitted dataset → model scoring + evidence
+  update. Three capability tiers: **basic community** (scale, recipe metadata,
+  event/video timing, final mass, optional final TDS); **instrumented community**
+  (synchronized pressure/mass/flow, first drip, timed fractions, fraction TDS, achieved
+  machine profile); **research/laboratory** (independent sensors, multi-solute
+  chemistry, particle/fines, spatial flow, deformation, XCT/MRI).
+- **Required protocol outputs.** Equipment/feasibility checklist; calibration &
+  synchronization checklist; randomized/counterbalanced schedule; blocking rules; pilot
+  stage; sample-size/precision calc from pilot variance; predeclared primary &
+  secondary outcomes; preregistered analysis + exclusion rules; raw-data + metadata
+  templates; submission validator; failed-run retention; licensing/provenance; an
+  evidence ceiling. No invented sample counts, tolerances, sampling rates, or thresholds
+  — use `DESIGN_CALCULATION_REQUIRED` / `SENSOR_SELECTION_REQUIRED` / `PILOT_REQUIRED`.
+- **Dependencies.** PV-15 (feasible machine inputs, parameter uncertainty, measurement
+  noise, cost, preregistration, retrospective validation, positive/negative/inconclusive
+  scoring — all preserved); the campaign schema + protocol-pack templates
+  (`docs/data_requests/templates/`, `docs/data_requests/protocols/`); the submission
+  validator (`tools/experimental_data_needs.py validate-submission`).
+- **Deliverables.** PV-15 extended so ranked experiments emit/reference
+  capability-specific protocol packs; a tier→protocol-pack generator spec.
+- **Acceptance evidence.** The bottom-filter-paper study (**RP-F / EXP-009**) runs
+  end-to-end as the first pilot: decision → ranked intervention → tiered protocol pack →
+  preregistration → (contributor) dataset → scoring.
+- **Effort.** M for the tier→pack slice over EXP-009; L for the general system.
+
+### RP-C — Global sensitivity & decision-relevance study
+*Depends on the RP-A schema + a valid-range/observable audit; scientifically distinct from RP-A.*
+
+- **Scope.** Which controllable inputs move supported stage/cup outputs the most; which
+  uncertain parameters dominate prediction uncertainty; which interactions matter; are
+  rankings stable across reference shots/models/coffees-grinders (where supported) and
+  parameter distributions; which "important" parameters can be safely simplified within
+  a declared domain. Distinguish control/intervention sensitivity · fitted/physical
+  parameter uncertainty · measurement uncertainty · structural/model disagreement ·
+  practical decision relevance.
+- **Method (tiered).** (1) local derivatives + elasticities for every feasible
+  component; (2) one-at-a-time + pairwise sweeps; (3) Morris screening for
+  higher-dimensional components; (4) variance-based/Sobol where cost + defensible
+  parameter distributions permit; (5) derivative-based / validated-surrogate for
+  expensive models; (6) convergence, sampling-error, and ranking-stability checks. No
+  arbitrary uniform distributions — use card domains, measured/fitted uncertainty, or
+  explicitly labelled exploratory ranges.
+- **Pressure history as a functional intervention.** Perturb interpretable profile
+  features (preinfusion duration, ramp, peak, hold, decline, pause/resume, control mode)
+  — not every time sample. Registered contrasts (hypotheses, not expected conclusions,
+  each with practical-equivalence bounds + uncertainty; "not significant" ≠ "no
+  effect"): 6 vs 9 bar; constant 6/9 bar vs matched-output profiles; fixed pressure vs
+  fixed flow; static vs time-varying profiles. Reuses the §5.9 node convention.
+- **Deliverables.** A sensitivity registry tied to component IDs + card versions;
+  reproducible sweep configs; local/global sensitivity + interaction reports; SEPARATE
+  rankings for controllable inputs vs uncertain parameters; scenario + cross-model
+  rank-stability analysis. **No single pooled leaderboard** — per-model validity,
+  observables, and evidence labels preserved.
+- **Acceptance evidence.** A first sensitivity pilot after valid ranges/observables are
+  audited: rankings reproducible with convergence + ranking-stability checks passing.
+- **Effort.** M for the local/screening tier; L for variance-based over expensive models.
+- **Public face.** New candidate **PV-21** ("Which espresso controls actually move the
+  modeled cup?"), evidence-safe and conditional.
+
+### RP-D — Modular 3D pore-scale flow / reactive-transport program
+*A staged, modular program — explicitly NOT an unverified all-at-once mega-model.*
+
+- **Baseline (accurate).** `brewer2026.lb_taichi` / `brewer2026.lb_reference` are a
+  **D3Q19 TRT (magic Λ=3/16) Stokes-regime permeability/flow kernel** over cubic Boolean
+  voxel geometry with full-way bounce-back — a single-phase creeping-flow permeability
+  solver on a fixed geometry, NOT a coupled flow/chemistry/deformation digital twin.
+- **Fidelity ladder (each stage its own verification gate + evidence ceiling).**
+  Stage 0 scope/contracts/cards (intended questions & outputs; pore-scale vs continuum
+  responsibilities; adapters & non-goals; a model card before any new registered
+  component; a verification/validation matrix). Stage 1 general geometry & boundary
+  infrastructure (non-cubic domains; inlet/outlet/wall/basket boundaries; pressure- and
+  flow-driven modes; geometry ingestion + unit conversion; conservation/stability
+  instrumentation). Stage 2 verified 3D hydraulics (analytic channel; sphere/porous
+  benchmark; grid & timestep convergence; low-Mach/Re checks; CPU/reference cross-check;
+  permeability/tortuosity/residence-time). Stage 3 passive scalar advection/diffusion
+  (analytic/manufactured-solution verification; scalar mass conservation; numerical-
+  diffusion assessment; breakthrough/residence curves). Stage 4 surface dissolution &
+  multi-species transport (explicit soluble inventory; solid/liquid mass budget; one
+  species before many; declared dissolution & intraparticle closures). Stage 5
+  separately gated evolving-structure branches (swelling/poroelastic deformation; fines
+  migration/capture/clogging; incomplete wetting/two-phase; temperature/property
+  variation; gas release). Stage 6 scale bridging (infer effective permeability,
+  dispersion, residence-time, mass-transfer closures; compare against reduced components;
+  connect to cup outputs only through explicit adapters).
+- **Guardrail.** Heavy GPU runs stay LOCAL / Colab / slow validation, never normal CI
+  (CLAUDE.md rule 3; §8). Wording: "pore-scale reactive-transport laboratory" / "modular
+  3D solver program", never "validated full espresso digital twin".
+- **Effort.** S for Stage 0; M–L per subsequent stage.
+- **Sequencing.** Stage 0 architecture in a near phase; flow/general-geometry work in a
+  later scientific phase (after Phase 3), each stage entering by its own gate.
+
+### RP-E — XCT-conditioned synthetic geometries & synthetic XCT images
+*Conditional workstream linked to the Wadsworth XCT correspondence (§5.8) and RP-D. The scans have NOT arrived.*
+
+- **Two products.** **A. Synthetic physical microstructures** — 3D solid/pore geometries
+  conditioned on real segmented-XCT statistics; ensembles for numerical experiments &
+  uncertainty propagation. **B. Synthetic XCT acquisition images** — forward images from
+  a known digital geometry with voxelization, partial-volume, blur, noise, and documented
+  artifacts, to test reconstruction/segmentation while retaining known ground truth.
+- **Plan.** Confirm data arrival, voxel scale, metadata, licensing, redistribution,
+  publication & derivative-output rights; preserve raw + segmented data with provenance;
+  define descriptors (porosity, particle/pore-size distributions, connectivity,
+  tortuosity, throat/coordination, anisotropy, radial/depth gradients, two-point
+  correlations, directional permeability); treat `brewer2026.pack_generator`
+  (overlapping-sphere voxel geometry, `gate_pack_generator_admissible` =
+  qualitative_capacity) as a BASELINE, not an XCT-validated generator; compare multiple
+  reconstruction approaches only if justified; hold out real volumes before fitting;
+  validate geometry statistics AND flow/transport consequences; propagate segmentation
+  uncertainty; record seed / generator version / parent dataset / synthetic status on
+  every artifact. **Synthetic geometries never count as independent experimental
+  validation.**
+- **Allowed now (preparatory only).** Data contracts; geometry interfaces; descriptor
+  definitions; evaluation metrics; baseline synthetic fixtures.
+- **BLOCKED until scans + metadata + rights arrive.** XCT-conditioned fitting and any
+  XCT-conditioned claim. Status tracked at the §5.8 "Wadsworth group — segmented XCT
+  volumes — awaiting reply" row (blocks pack_generator validation; fallback = published
+  PSD zip).
+- **Effort.** S for the preparatory interfaces; M–L for conditioned generation once
+  unblocked.
+
+### RP-F — Bottom filter-paper mechanism study
+*Campaign **EXP-009** + a protocol pack; links **G9** and **PV-10/PV-17**; does NOT supersede the clean-basket screen-resistance finding.*
+
+- **Scope.** Does bottom filter paper change supported shot/cup outputs; if so, is the
+  mechanism added series resistance, fines capture/clogging, altered outlet distribution,
+  edge bypass, or another boundary effect; does the effect transfer across control mode,
+  grind, basket, paper, machine, or coffee. G9 is RESOLVED for a clean basket (screen
+  ~5–6 orders below the puck); this studies the OPEN piece (a boundary accessory /
+  mid-shot clogging), it does not reopen "the screen matters".
+- **Initial design.** Binary bottom-paper vs no-paper; bottom paper explicitly
+  distinguished from a top puck screen; no simultaneous accessory changes; matched
+  basket/coffee lot/water/dose/grind prep/distribution/tamp/temperature/target beverage
+  mass; randomized order within blocks; failed shots + exclusions preserved;
+  fixed-pressure and fixed-flow blocks where supported; pilot first, then a design
+  calculation. One predeclared primary outcome; pilot-informed practical-effect/
+  equivalence bound; treatment-by-control-mode analysis; treatment-by-grind only after
+  the first pilot; SEPARATE efficacy and mechanism conclusions; an evidence ceiling for a
+  single apparatus/coffee.
+- **Candidate outputs (no invented sizes/tolerances/effects).** Primary: final TDS,
+  extraction yield, time to target beverage mass, first-drip time, pressure/flow
+  trajectory, fraction-resolved TDS where feasible. Mechanism: inferred/measured added
+  hydraulic resistance, paper resistance before/after use, retained-fines mass or
+  controlled imaging, downstream suspended solids/turbidity, paper & puck-bottom images,
+  outlet/radial flow distribution where available, puck mass/height before & after.
+- **Deliverables.** EXP-009 (`docs/data_requests/experimental_campaigns.yml`) + a
+  protocol pack (`docs/data_requests/protocols/`); a conditional public output extending
+  **PV-10** ("What bottom filter paper changes — and what it does not") — a robust effect,
+  a bounded null, or an inconclusive result; NOT universal recipe advice.
+- **Acceptance evidence.** Pilot completes with preregistered analysis, randomization/
+  blocking, calibration/synchronization, and a treatment-by-control-mode read; efficacy
+  and mechanism reported separately.
+- **Effort.** S for the protocol pack; M for the pilot (contributor + apparatus).
+
+### Scheduling (dependency order; none active)
+
+1. Planning/specification capture (this change).
+2. Parameter/observable/comparability schema (RP-A).
+3. Small response-atlas pilot (RP-A).
+4. Community protocol-system slice (RP-B) and the bottom-filter-paper protocol (RP-F) in parallel.
+5. Filter-paper feasibility pilot (RP-F) when apparatus + contributor are available.
+6. Global-sensitivity pilot (RP-C) after valid ranges/observables are audited.
+7. Taichi Stage-0 architecture + verification plan (RP-D).
+8. Taichi flow / general-geometry work (RP-D) in later scientific phases.
+9. XCT-conditioned generation (RP-E) only after data + rights arrive.
+10. Public articles (PV-08 / PV-21 / PV-10 outputs) only after reproducible non-trivial or tightly bounded-null results exist.
+11. Paper assessment only after novelty + evidence are reviewed.

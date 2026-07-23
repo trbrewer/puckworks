@@ -175,6 +175,7 @@ Scores below are 1–5. **Ease** is reversed effort: 5 means an existing-analysi
 | PV-18 | Coffee-bed retention and continuous-wetting measurement | 4 | 2 | 5 | 4 | 1 | 16 | P2/P3 research |
 | PV-19 | “The best-understood espresso shot”: one named recipe, every component, evidence attached | 5 | 4 | 4 | 4 | 4 | 21 | **P0/P1 capstone story** |
 | PV-20 | “Why you can’t just bolt every espresso model together” | 5 | 4 | 5 | 4 | 4 | 22 | **P0/P1 flagship methods story** |
+| PV-21 | “Which espresso controls actually move the modeled cup?” (candidate) | 4 | 3 | 4 | 5 | 3 | 19 | candidate (program; depends on RP-A + RP-C) |
 
 A sensible execution rule is:
 
@@ -783,6 +784,16 @@ The public lesson is not “scientists cannot agree on a constant.” It is “t
 - An automatically generated “state of espresso modeling” report.
 - Optional annual article: **“What the models agree on, disagree on, and cannot yet test.”**
 
+**Computational engine — research program RP-A (ROADMAP §9, scheduled backlog).** The
+disagreement cards and the optional article are populated by the *component response &
+model-disagreement atlas* (`docs/analysis/COMPONENT_RESPONSE_ATLAS_SPEC.md`): a per-component
+response inventory (sign/magnitude/curvature/limiting behaviour/regime) + a comparability-tagged,
+six-way disagreement taxonomy that reuses the §5.9/A1 node and §5.10/A10 observable conventions
+and records missing relationships explicitly. The conditional article "Where espresso models
+agree, disagree, and answer different questions" is the same public output as this deliverable —
+CONDITIONAL on ≥1 robust, non-obvious result, with every source evidence-strength label unchanged;
+no manuscript is scheduled.
+
 **Practical implication**
 
 Consumers gain a way to judge the strength of a coffee claim rather than only its confidence. Researchers gain a visible incentive to provide data, uncertainty, and held-out tests.
@@ -900,6 +911,18 @@ The main action is conceptual: a visible stream from a basket compresses several
 - Short video of water-only versus puck-loaded flow.
 - Article: **“Is your basket slowing the shot, or is it almost all the puck?”**
 - A cleaning/clogging threshold experiment linked to PV-17.
+
+**Dedicated controlled study — research program RP-F (ROADMAP §9; campaign EXP-009).** The
+"basket plus paper/filter accessory" bench line above is operationalized as a controlled
+bottom-filter-paper mechanism study (`docs/data_requests/experimental_campaigns.yml` EXP-009 +
+a protocol pack): binary bottom-paper vs no-paper, bottom paper explicitly distinguished from a
+top puck screen, fixed-pressure and fixed-flow blocks, efficacy and mechanism (added series
+resistance vs fines capture/clogging vs altered outlet distribution vs edge bypass) reported
+separately. It studies the OPEN clogging/boundary-accessory piece of G9 and does NOT supersede
+the clean-basket screen-resistance finding. Conditional public output extending this item:
+**“What bottom filter paper changes — and what it does not”** — a robust effect, a bounded null,
+or an inconclusive result; never universal recipe advice. No sample size, tolerance, or expected
+effect is invented (design placeholders until pilot variance exists).
 
 **Practical implication**
 
@@ -1255,6 +1278,8 @@ Control mode may change the feedback structure of a shot, but the present result
 **Practical implication**
 
 The tool should recommend measurements, not a supposedly optimal-tasting recipe. Its value is reducing wasted experiments and making competing explanations falsifiable.
+
+**Extension — research program RP-B: community experimental-design & protocol-pack execution layer (ROADMAP §9, scheduled backlog).** RP-B is the *execution layer* for this recommender, not a second recommender: a ranked experiment emits or references a **capability-specific protocol pack** for one of three contributor tiers — **basic community** (scale, recipe metadata, event/video timing, final mass, optional final TDS); **instrumented community** (synchronized pressure/mass/flow, first drip, timed fractions, fraction TDS, achieved machine profile); **research/laboratory** (independent sensors, multi-solute chemistry, particle/fines, spatial flow, deformation, XCT/MRI). Each pack carries an equipment/feasibility checklist, calibration & synchronization checklist, randomized/counterbalanced schedule, blocking rules, a pilot stage, a sample-size/precision calculation *from pilot variance*, predeclared primary & secondary outcomes, preregistered analysis + exclusion rules, raw-data + metadata templates (`docs/data_requests/templates/`), a submission validator (`tools/experimental_data_needs.py validate-submission`), failed-run retention, licensing/provenance, and an evidence ceiling. This PV-15 requirement set — feasible machine inputs, propagated parameter uncertainty, measurement noise, cost, preregistration, retrospective validation, and scoring of positive/negative/inconclusive outcomes — is preserved unchanged. No universal sample counts, sensor tolerances, sampling rates, or acceptance thresholds are invented (`DESIGN_CALCULATION_REQUIRED` / `SENSOR_SELECTION_REQUIRED` / `PILOT_REQUIRED`). The bottom-filter-paper study (RP-F / campaign EXP-009) is the scheduled first end-to-end pilot of this system.
 
 **Evidence-safe wording**
 
@@ -1648,6 +1673,51 @@ Do not: aggregate assumptions into one confidence number; rank models by number 
 **Primary repo dependencies:** Espresso Model Relay manifest, runtime link records, assumption ledger, model cards, contract definitions, Full Laboratory Tour, PV-00 public-export conventions, PV-05, PV-19, and Paper 3.
 **Public success signal:** after reading the article, a non-specialist can correctly explain (1) why matching units is not enough; (2) why component validation does not validate a coupling; (3) one concrete Relay incompatibility; (4) one measurement that would replace an assumption; (5) why the conclusion is a path toward better integration rather than a claim that unified modelling is impossible.
 **Pre-release comprehension target:** ≥ 4 of those 5 correctly answered by lay reviewers who have read only the article, and reviewers can additionally name the *main limitation* alongside the headline (consistent with the §13 success metrics).
+
+---
+
+### PV-21 — “Which espresso controls actually move the modeled cup?” (candidate)
+
+*Candidate public output of research program **RP-C** (ROADMAP §9, scheduled backlog). Not started; conditional on results. Depends on the RP-A response schema + a valid-range/observable audit.*
+
+**Working headline**
+
+> **Of all the dials on an espresso machine, only some measurably change what the current models predict for the cup — and the models say which.**
+
+**Public question:** which controllable inputs (grind, dose, pressure, its profile shape, flow vs pressure control, beverage mass) have the largest *practically meaningful* effect on supported stage and cup outputs, which uncertain parameters dominate prediction uncertainty, and which controls can be simplified within a declared domain?
+
+**Existing gap:** the registry has no global-sensitivity / decision-relevance study; only local, per-model intuition exists. RP-C supplies tiered sensitivity (local derivatives + elasticities → one-at-a-time/pairwise sweeps → Morris screening → variance-based/Sobol where affordable → surrogate/derivative methods for expensive models), with convergence and ranking-stability checks and NO invented parameter distributions.
+
+**Why this is public-friendly**
+
+- It reframes recipe folklore as a testable, model-backed ranking of what matters.
+- It treats pressure *history* as an interpretable set of profile features (preinfusion, ramp, peak, hold, decline, pause/resume, control mode), not a wall of numbers.
+- It keeps controllable-input sensitivity separate from parameter-uncertainty sensitivity — two different questions the public usually conflates.
+
+**Analysis tasks**
+
+1. Consume the RP-A parameter/observable/comparability schema; audit valid ranges and observables first.
+2. Rank controllable inputs and (separately) uncertain parameters per supported output, with uncertainty envelopes from declared (never invented) parameter distributions.
+3. Present registered contrasts as hypotheses with practical-equivalence bounds: 6 vs 9 bar; constant vs matched-output profiles; fixed pressure vs fixed flow; static vs time-varying profiles. “Not statistically significant” is never reported as “no effect.”
+4. Report per-model, per-observable rankings with evidence-strength labels intact — **no single pooled leaderboard**.
+
+**Deliverables**
+
+- An interactive/short article ranking controls by modeled cup effect, per model, with uncertainty.
+- A separate “what dominates the uncertainty” view for parameters.
+
+**Practical implication**
+
+Points practitioners and contributors at the controls and measurements that actually change the modeled outcome, and flags where models disagree about what matters — an input to PV-15/RP-B experiment design.
+
+**Evidence-safe wording**
+
+- Good: “In the current models, within their valid ranges, control X changes predicted EY more than control Y.”
+- Avoid: “Control Y doesn’t matter” (a bounded null is not a proof of no effect); avoid ranking real machines or coffees.
+
+**Effort:** M for the local/screening tier over feasible components; L for variance-based analysis of expensive models.  
+**Primary repo dependencies:** the RP-A atlas schema, registry valid ranges, harness functions, the §5.9 node convention, public claim schema.  
+**Public success signal:** a reader can name which modeled controls move the cup and which are within the noise, and can state that this is a statement about the models, not a universal recipe.
 
 ---
 ## 6. Convert the five existing scientific figures into five public stories

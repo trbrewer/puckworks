@@ -21,6 +21,7 @@ listed here wins.
 | **Data-use policy** | [`docs/visualizerCoffee_DATA_USE.md`](visualizerCoffee_DATA_USE.md) + memory `visualizer-data-permission` |
 | **Sanctioned corpus export contract** | [`docs/analysis/SANCTIONED_EXPORT_SPEC.md`](analysis/SANCTIONED_EXPORT_SPEC.md) |
 | **Pressure-atlas pre-analysis spec** | [`docs/analysis/PRESSURE_ATLAS_SPEC.md`](analysis/PRESSURE_ATLAS_SPEC.md) |
+| **Component response & disagreement atlas spec** | [`docs/analysis/COMPONENT_RESPONSE_ATLAS_SPEC.md`](analysis/COMPONENT_RESPONSE_ATLAS_SPEC.md) — pre-analysis spec for research program RP-A (ROADMAP §9); scheduled backlog, not executed |
 | **Paper A manuscript** | [`docs/PAPER_A_DRAFT.md`](PAPER_A_DRAFT.md) — claims verified by `python -m puckworks.paper_a.build verify` |
 | **Model/source cards** | [`docs/cards/`](cards/) — one card per model; source of truth for the physics |
 | **Release / reproducibility** | `python -m puckworks.paper_a.build` / `.paper3.build`; `docs/reproducibility/` |
