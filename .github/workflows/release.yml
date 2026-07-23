@@ -34,7 +34,17 @@ jobs:
           python -m puckworks.paper3.registry_artifacts --verify
           python -m puckworks.paper3.build verify
       - name: build wheel + sdist, twine check, write manifest
-        run: python -m puckworks.release build --outdir dist
+        # A package tag (v*, not paper3-*) runs RELEASE mode: readiness gate + strict git provenance
+        # + tag==HEAD. paper3-* tags and manual dispatch run a non-publishable REHEARSAL build.
+        run: |
+          if [ "${GITHUB_REF_TYPE}" = "tag" ] && \
+             case "${GITHUB_REF_NAME}" in v*) [ "${GITHUB_REF_NAME#paper3-}" = "${GITHUB_REF_NAME}" ] ;; *) false ;; esac; then
+            echo "RELEASE mode for tag ${GITHUB_REF_NAME}"
+            python -m puckworks.release build --outdir dist --clean --tag "${GITHUB_REF_NAME}"
+          else
+            echo "REHEARSAL build (ref=${GITHUB_REF_NAME:-dispatch})"
+            python -m puckworks.release build --outdir dist --clean
+          fi
       - name: clean-room install of the built wheel (outside the source tree)
         run: |
           python -m venv /tmp/cleanroom
@@ -42,7 +52,8 @@ jobs:
           cd /tmp
           /tmp/cleanroom/bin/python -c "import puckworks; from puckworks import registry, models; assert len(registry.components()) >= 20; print('clean-room import OK:', len(registry.components()), 'components')"
       - name: upload release artifacts (wheel, sdist, manifest, generated evidence)
-        if: always()
+        # PW-REL-005: only publish the release bundle when EVERY prior step (tests, verify, build,
+        # twine, clean-room install) succeeded — never attach a partial/unverified candidate.
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: release-artifacts
@@ -53,3 +64,11 @@ jobs:
             docs/paper3_resource/generated/
             docs/reproducibility/
           if-no-files-found: warn
+      - name: upload failure diagnostics (never a release candidate)
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: release-failure-logs
+          path: |
+            dist/release_manifest.json
+          if-no-files-found: ignore
