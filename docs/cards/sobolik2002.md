@@ -66,10 +66,25 @@ unobtainable):
   ρ_W = 1000 − 0.036 T − 0.004 T² and ρ_C = 1654 − 1.79 T − 0.0063 T² [kg/m³,
   T °C]. By construction recovers pure water at ω = 0 (unlike telisromero2000
   Eq. 1) and gives ∂ρ/∂T < 0 throughout.
-- (3) Thermal-conductivity correlation: **not reliably legible in our copy**
-  (form approximately λ = 1.03·(0.565 + …T…)·(1 − 0.5ω); coefficients not
-  transcribed — do not implement from this card; the registry's k(T, X_w)
-  source remains telisromero2000 Eq. 4). Reacquire a clean scan if ever needed.
+- (3) Thermal conductivity (**legibly transcribed 2026-07-23 from a clean copy;
+  the earlier "illegible / do not implement" note was wrong — the shipped CSV
+  column was correct all along**):
+  **λ = 10⁻³ (565.1 + 1.8 T − 0.0058 T²)(1 − 0.54 ω)** [W m⁻¹ K⁻¹, T in °C, ω
+  mass fraction]. Product form (a + bT + cT²)(1 − dω); the 10⁻³ prefactor is
+  because the polynomial is written in mW m⁻¹ K⁻¹. There is **no 1.03 multiplier**
+  and the ω-coefficient is **0.54, not 0.5** (the card's earlier guessed shape
+  was wrong). **Provenance = ADOPTED sucrose-analog, not a coffee fit:** the
+  T-polynomial is pure-water k(T) to ~0.3% (0.5988 at 20 °C, 0.6278 at 40 °C),
+  and λ = λ_water(1 − 0.54 ω) is the classic **Riedel** correlation for
+  sucrose/sugar solutions. The authors measured coffee-solution conductivity,
+  found it indistinguishable from sucrose solutions, and adopted that relation
+  rather than fitting new coefficients — so the empirical claim is the *measured
+  equivalence to sucrose*, and the coefficients are the sucrose analog's, not
+  coffee-specific. Evidence label: **adopted-correlation (sucrose analog),
+  validated-against-coffee** (source_curve_reproduction for the transcription
+  gate). Reproduced by `gate_g10_sobolik_density` (Eq 1/2/3). The currently-wired
+  runtime k(T, X_w) source remains telisromero2000 Eq. 4 (no runtime change);
+  Eq-3 is now available and gated as a reference closure.
 - Surface tension data points (ω = 0.1): 0.042 N/m at 20 °C, 0.037 N/m at
   40 °C. No correlation given.
 
