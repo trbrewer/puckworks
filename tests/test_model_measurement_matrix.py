@@ -44,7 +44,7 @@ def test_campaigns_for_component_links_correctly():
 def test_matrix_rows_link_evidence_campaign_and_gate():
     rows = {r["component_id"]: r for r in EDN.model_to_measurement_matrix()}
     cam = rows["cameron2020.extraction_bdf"]
-    assert cam["campaigns"] == ["EXP-001", "EXP-008"]
+    assert cam["campaigns"] == ["EXP-001", "EXP-008", "EXP-009"]
     assert "gate_cameron_conservation" in cam["gates_enabled"]
     assert cam["n_gates"] >= 1
 

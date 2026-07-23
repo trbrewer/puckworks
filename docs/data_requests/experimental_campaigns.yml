@@ -380,3 +380,60 @@ campaigns:
     recommended_repository: Zenodo or OSF with a DOI
     data_license_status: REQUIRED_FROM_CONTRIBUTOR
     submission_instructions: open an experimental-data proposal issue, then submit metadata + external DOI
+
+  - campaign_id: EXP-009
+    title: Bottom filter-paper mechanism study
+    status: proposed
+    priority: 2
+    scientific_question: >-
+      Does bottom filter paper change supported shot or cup outputs, and if so is the mechanism added
+      series resistance, fines capture/clogging, altered outlet distribution, or edge bypass — and does
+      the effect transfer across control mode, grind, basket, paper, machine, or coffee?
+    decision_enabled: >-
+      tests the OPEN G9 piece (a bottom-paper boundary accessory / mid-shot clogging), distinct from the
+      already-resolved negligible clean-basket screen; first end-to-end pilot of the RP-B community
+      experimental-design system (ROADMAP RP-F/RP-B)
+    target_components: [cameron2020.extraction_bdf, foster2025.infiltration]
+    target_gates: [gate_g9_series_resistance, gate_infiltration_triangle]
+    quantity_definitions: [cameron.extraction_yield]
+    required_observables:
+      - {name: final_tds, unit: "%", reference_basis: beverage_mass}
+      - {name: final_extraction_yield, unit: "%", reference_basis: dry_coffee_mass}
+      - {name: beverage_mass, unit: g, reference_basis: not_applicable}
+      - {name: time_to_target_mass, unit: s, reference_basis: not_applicable}
+      - {name: physical_first_drip_time, unit: s, reference_basis: not_applicable}
+      - {name: basket_pressure, unit: bar, reference_basis: not_applicable}
+      - {name: flow_rate, unit: g/s, reference_basis: not_applicable}
+      - {name: fraction_tds, unit: "%", reference_basis: beverage_mass}
+      - {name: retained_fines_mass, unit: g, reference_basis: not_applicable}
+      - {name: downstream_suspended_solids, unit: mg, reference_basis: beverage_volume}
+      - {name: puck_height, unit: mm, reference_basis: not_applicable}
+    required_metadata: [basket_id, coffee_lot_id, water_profile, dose_g, grinder_id, grinder_setting, distribution_method, tamp_method, brew_temperature, target_beverage_g, paper_type, paper_position]
+    prescribed_vs_measured:
+      - bottom_paper_vs_no_paper
+      - bottom_paper_vs_top_puck_screen
+      - inferred_added_resistance_vs_measured_pressure_flow
+    design_factors: [bottom_paper_present, control_mode]
+    controls: [matched basket/coffee/water/dose/grind-prep/distribution/tamp/temperature/target-mass, no simultaneous accessory change]
+    replication_design_status: DESIGN_CALCULATION_REQUIRED
+    instrument_requirements: SENSOR_SELECTION_REQUIRED
+    calibration_requirements: [pressure sensor pre/post, scale calibration mass, first-drip detector latency, refractometer calibration]
+    synchronization_requirements: [single monotonic clock or documented per-signal offset; first-drip detector synchronized]
+    raw_file_schema: shot_timeseries.csv + shot_metadata.csv
+    processed_file_schema: per-shot efficacy and (separately) mechanism summary
+    uncertainty_requirements: PILOT_REQUIRED
+    quality_control_checks: [monotonic time, non-negative mass, first drip after flow onset, paper position recorded, single accessory change per condition]
+    preregistered_analysis: PILOT_REQUIRED
+    acceptance_calculation: DESIGN_CALCULATION_REQUIRED
+    holdout_requirement: predeclared holdout shots/blocks; treatment-by-grind only after the first pilot
+    current_evidence: protocol_only
+    evidence_gap: no controlled bottom-paper vs no-paper dataset separating efficacy from mechanism
+    evidence_ceiling: single apparatus/coffee; efficacy and mechanism reported separately; not universal recipe advice
+    measurement_agenda_blockers: []
+    related_issues: ["#70"]
+    code_rights_expectation: contributor-owned raw data; Puckworks code MIT
+    data_rights_expectation: contributor grants a redistribution licence
+    output_rights_expectation: derived gates/plots redistributable once the dataset licence permits
+    recommended_repository: Zenodo or OSF with a DOI
+    data_license_status: REQUIRED_FROM_CONTRIBUTOR
+    submission_instructions: open an experimental-data proposal issue, then submit metadata + external DOI

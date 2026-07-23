@@ -33,6 +33,19 @@ identification & experiment design; pressure/flow/mass/temperature/concentration
 beverage process engineering; digital twins & process control; scientific-software methods &
 reproducibility; public communication of uncertain results.
 
+Candidate discovery families for the §9 research programs (RP-A…RP-F), added as scope but NOT yet
+enabled query families: global sensitivity analysis (variance-based / Morris screening /
+elasticity) & decision-relevance; functional-input (pressure/flow profile-shape) sensitivity;
+optimal / model-discriminating experimental design (refines "system identification & experiment
+design"); community / federated / citizen-science experimental protocols & data quality;
+lattice-Boltzmann reactive transport with evolving/deforming porous geometry (refines
+"lattice-Boltzmann"); stochastic microstructure reconstruction from XCT/µCT;
+image-segmentation uncertainty propagated to permeability/transport; espresso bottom filter-paper,
+fines capture, clogging, and outlet/screen resistance (refines "swelling/fines
+migration/clogging/erosion"). Enabling any of these as an actual query family in
+`docs/research/radar_queries.yml` is a human quarterly action — the radar never invents scope, and
+these remain discovery metadata, not evidence.
+
 Out of scope: anything the radar cannot tie to a query family with a stated relevance note. When a
 new gap appears (a model, result, or product lane exposes one), a human adds a query family — the
 radar never invents scope.

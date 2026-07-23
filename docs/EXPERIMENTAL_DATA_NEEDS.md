@@ -52,6 +52,7 @@ The table below is generated from the catalog (do not hand-edit between the mark
 | **EXP-006** Species-resolved fractional extraction | 1 | validation of pannusch2024 / romancorrochano2017 / native chemistry; enables a per-species input mapping for pannusch2024.solver | `pannusch2024.solver`, `romancorrochano2017.extraction` | feasibility_pilot | `pannusch2024.solver#0` |
 | **EXP-007** Spatial flow/channeling and local extraction | 2 | test bed heterogeneity for brewer2026.streamtube and the bed-cell inventory boundary that mo2023_2.coupled_bed requires | `brewer2026.streamtube`, `mo2023_2.coupled_bed` | feasibility_pilot | `mo2023_2.coupled_bed#0` |
 | **EXP-008** Cross-machine, cross-grinder, cross-coffee replication | 2 | transfer/generalization limits; prevents single-rig validation becoming a universal claim | `cameron2020.extraction_bdf` | protocol_only | — |
+| **EXP-009** Bottom filter-paper mechanism study | 2 | tests the OPEN G9 piece (a bottom-paper boundary accessory / mid-shot clogging), distinct from the already-resolved negligible clean-basket screen; first end-to-end pilot of the RP-B community experimental-design system (ROADMAP RP-F/RP-B) | `cameron2020.extraction_bdf`, `foster2025.infiltration` | protocol_only | — |
 <!-- END GENERATED CAMPAIGN TABLE -->
 
 Priority-1 campaigns (EXP-001, EXP-002, EXP-003, EXP-006) unblock the most decisions; the others extend
@@ -110,9 +111,9 @@ Which registered component each campaign would advance (generated; do not hand-e
 | `brewer2026.lb_taichi` | calibration | code_verification (0 gates) | — | — (no current campaign) | — |
 | `brewer2026.pack_generator` | calibration | qualitative_capacity (1 gates) | — | — (no current campaign) | — |
 | `brewer2026.streamtube` | runtime | within_campaign_held_out (1 gates) | gate_streamtube_heldout | `EXP-007` | `mo2023_2.coupled_bed#0` |
-| `cameron2020.extraction_bdf` | runtime | code_verification (1 gates) | gate_cameron_conservation | `EXP-001`, `EXP-008` | — |
+| `cameron2020.extraction_bdf` | runtime | code_verification (1 gates) | gate_cameron_conservation, gate_g9_series_resistance, gate_infiltration_triangle | `EXP-001`, `EXP-008`, `EXP-009` | — |
 | `fasano2000_partI.fines_migration` | calibration | qualitative_capacity (3 gates) | — | — (no current campaign) | — |
-| `foster2025.infiltration` | runtime | sign_or_compatibility (1 gates) | gate_infiltration_triangle | `EXP-002` | — |
+| `foster2025.infiltration` | runtime | sign_or_compatibility (1 gates) | gate_g9_series_resistance, gate_infiltration_triangle | `EXP-002`, `EXP-009` | — |
 | `foster2025.machine_mode` | runtime | source_curve_reproduction (3 gates) | — | — (no current campaign) | — |
 | `grudeva2025.reduced` | runtime | post_fit_reconstruction (2 gates) | — | — (no current campaign) | — |
 | `lee2023.feedback` | calibration | qualitative_capacity (1 gates) | — | — (no current campaign) | — |

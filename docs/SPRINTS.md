@@ -303,6 +303,29 @@ gaps G10 / G3 / G1.**
 | PV-12 | temperature explainer | not-started | unsequenced (P1) | — | `g4_temperature_sensitivity` + Schmieder temperature data (gap G4; two closures disagree on SIGN — surface, don't average) | [§5](PUBLIC_VALUE.md#pv-12--temperature-explainer-small-equilibrium-extraction-effect-unresolved-thermal-puck-physics) |
 | PV-19 | "the best-understood espresso shot" (named-shot capstone scorecard) | Guided Pull shipped v0.3.0 (acceptance pending #48); capstone scorecard not-started | next | PV-00 | RC-1 + RC-4a gates, 1.8b adapter (RC-4b verification), §5.9 node identity, §5.2 Fo_F audit, Cameron low-read (egidi/angeloni brackets); **TB capstone cup measurement would promote RC-4b** | [§5](PUBLIC_VALUE.md#pv-19--the-best-understood-espresso-shot-one-named-recipe-every-component-evidence-attached) |
 | PV-20 | "why you can't just bolt every espresso model together" (model-interoperability audit + mega-model article) | not-started | next candidate (P0/P1) | PV-00; audited Relay provenance | Espresso Model Relay manifest + runtime `LinkRecord`s + A01–A12 assumption ledger + model cards + unit/basis contracts + PV-05 + PV-19; **public article now, academic home pending a Paper-3 overlap audit**; compatibility audit must run on the STABILIZED Relay (software defects are not physics incompatibilities) | [§5](PUBLIC_VALUE.md#pv-20--why-you-cant-just-bolt-every-espresso-model-together-an-interoperability-audit-and-a-path-to-a-unified-framework) |
+| PV-21 | "which espresso controls actually move the modeled cup?" (candidate) | not-started | candidate (program) | RP-A schema; valid-range/observable audit | PUBLIC face of **RP-C** global sensitivity & decision-relevance (ROADMAP §9 research programs, scheduled backlog); consumes the RP-A response atlas; per-model rankings, **no pooled leaderboard**, evidence labels ride along | [§5](PUBLIC_VALUE.md#pv-21--which-espresso-controls-actually-move-the-modeled-cup-candidate) |
+
+## Research-program backlog (scheduled; NOT in the current sprint)
+*Session-sized candidate slices for the six research programs captured in ROADMAP §9
+(RP-A…RP-F). **Full scope lives in ROADMAP §9, not here.** None of these is in the current
+sprint or the active queue (`docs/status/current.json`); they schedule in the §9 dependency
+order. Documenting a slice does not start, validate, or promote it.*
+
+| slice | program | depends on | effort | next gate / acceptance evidence |
+|---|---|---|---|---|
+| RP-A.1 parameter/observable/comparability schema + inventory | RP-A | registry valid ranges; §5.9/A1 node + §5.10/A10 observable conventions | M | machine-readable schema artifact; unit + valid-range + determinism tests green; missing-relationship cells explicit |
+| RP-A.2 bounded response-atlas pilot (3 components) | RP-A | RP-A.1 | M | per-component response reports + one matched-comparison/disagreement report with comparability tags; tests green |
+| RP-B.1 tier→protocol-pack generator over EXP-009 | RP-B | PV-15 contract; campaign schema; `templates/` | M | EXP-009 emits a capability-tier protocol pack with preregistration + submission validator |
+| RP-F.1 bottom-filter-paper protocol pack | RP-F | EXP-009 (landed); `templates/` | S | `protocols/protocol_EXP-009.md` with one predeclared primary outcome + design placeholders |
+| RP-F.2 filter-paper feasibility pilot (TB) | RP-F | RP-F.1; apparatus + contributor | M | pilot dataset; efficacy and mechanism reported SEPARATELY; treatment-by-control-mode read |
+| RP-C.1 global-sensitivity pilot | RP-C | RP-A.1; valid-range/observable audit | M | local + screening rankings reproducible; convergence + ranking-stability checks pass; separate control vs parameter rankings |
+| RP-D.1 Taichi Stage-0 architecture + V&V matrix | RP-D | — | S | Stage-0 scope/contracts/card + verification/validation matrix; NO new registered component yet |
+| RP-D.2 Taichi Stage-1/2 general geometry + verified 3D hydraulics | RP-D | RP-D.1 | M–L | analytic channel + sphere/porous benchmarks, grid/timestep convergence, CPU/reference cross-check; heavy runs LOCAL/Colab only, never CI |
+| RP-E.1 XCT prep interfaces (descriptors, data contracts, baseline fixtures) | RP-E | — | S | descriptor defs + geometry interfaces + baseline synthetic fixtures; NO XCT-conditioned fitting |
+| RP-E.2 XCT-conditioned generation | RP-E | **BLOCKED** on §5.8 Wadsworth segmented-XCT scans + rights | M–L | (blocked until data + metadata + rights arrive) |
+
+Public articles (PV-08 / PV-21 / PV-10 outputs) only after reproducible non-trivial or tightly
+bounded-null results exist; paper assessment only after novelty + evidence are reviewed.
 
 ## Submission track
 *Tracking surface for paper/venue submissions. **Spec + deadlines:**
