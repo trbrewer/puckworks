@@ -13,7 +13,7 @@
 | extraction | `grudeva2025.reduced` | runtime | published_port | post_fit_reconstruction | Grudeva PhD thesis (Portsmouth 2023) + Grudeva, Moroney & Foster, EJAM 37, 496 (2026) | 10.1017/S095679252500018X | 2 |
 | extraction | `liang2021.desorption` | calibration | published_port | post_fit_reconstruction | Liang, Chan & Ristenpart, Sci. Rep. 11, 6904 (2021) | 10.1038/s41598-021-85787-1 | 2 |
 | extraction | `mo2023_2.coupled_bed` | runtime | published_port | post_fit_reconstruction | Mo, Navarini, Suggi Liverani & Ellero, J. Food Eng. (2023) | 10.1016/j.jfoodeng.2023.111843 | 1 |
-| extraction | `moroney2016.surrogate` | calibration | published_port | qualitative_capacity | Moroney et al., SIAM J. Appl. Math. 76(6), 2196 (2016) | 10.1137/15M1036658 | 3 |
+| extraction | `moroney2016.surrogate` | calibration | published_port | qualitative_capacity | Moroney et al., SIAM J. Appl. Math. 76(6), 2196 (2016) | 10.1137/15M1036658 | 4 |
 | extraction | `pannusch2024.closures` | calibration | published_port | code_verification | Pannusch et al., J. Food Eng. 367, 111887 (2024) | 10.1016/j.jfoodeng.2023.111887 | 1 |
 | extraction | `pannusch2024.solver` | runtime | published_port | post_fit_reconstruction | Pannusch et al., J. Food Eng. 367, 111887 (2024) | 10.1016/j.jfoodeng.2023.111887 | 1 |
 | extraction | `romancorrochano2017.extraction` | runtime | published_port | sign_or_compatibility | Roman-Corrochano, B. 'Advancing the Engineering Understanding of Coffee Extraction.' EngD thesis, University of Birmingham (2017) | — | 6 |

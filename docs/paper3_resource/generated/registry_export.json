@@ -115,7 +115,7 @@
       "id": "moroney2016.surrogate",
       "kind_legacy": "calibration",
       "module": "puckworks.models.moroney2016.surrogate",
-      "n_gates": 3,
+      "n_gates": 4,
       "paper": "Moroney et al., SIAM J. Appl. Math. 76(6), 2196 (2016)",
       "provenance_class": "published_port",
       "stage": "extraction"
@@ -301,7 +301,7 @@
       "stage": "packing"
     }
   ],
-  "content_sha256": "8cf80d116022b9294387c263177ed31c7edcc2881fe2130645daba9378933aa3",
+  "content_sha256": "97e1524965bb7901c7a4f6b4c462c5baa0ceb22e916fc05241c30e22c48e9948",
   "n_components": 25,
   "schema_version": 1
 }

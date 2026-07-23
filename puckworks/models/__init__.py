@@ -122,7 +122,7 @@ register(Component(
     paper="Moroney et al., SIAM J. Appl. Math. 76(6), 2196 (2016)", doi="10.1137/15M1036658",
     module="puckworks.models.moroney2016.surrogate",
     gates=[G.gate_moroney_fig6_washthrough, G.gate_moroney2015_kappa_anchors,
-           G.gate_moroney2019_ldf_verification],
+           G.gate_moroney2019_ldf_verification, G.gate_moroney2015_batch_ode],
     assumptions="matched-asymptotic constant-dP two-population reduction; "
                 "leading-order composite (Eq 3.45) only — outer bulk-diffusion "
                 "tail (3.61-3.62) and O(eps) correction not on card, not modeled",
