@@ -274,6 +274,8 @@ validation/public/
 
 **Existing finding:** in the Waszkiewicz fraction data used by `dissolution_speed_test()`, the early/peak TDS ratio is 0.968, from approximately 24.4% versus 25.2% TDS. This favors rapid dissolution in that configuration and is in tension with a roughly 23-second boulder-diffusion timescale. The first fraction, however, has only one replicate, and the result is one rig/configuration rather than a universal claim.
 
+**Independent corroboration (qualitative, add as a second panel):** a separate published dataset (Smrke et al. 2024) reaches 0.77–0.83 of its final extraction yield within the first ~15 seconds, and the registry's Cameron shot reaches ≥80% of its own final yield by 15 s — two more independent signals that espresso extracts fast. Frame as a shape/rate corroboration only; the absolute yields differ across coffees (the Cameron plateau runs ~30% below Smrke's ceiling), so this supports the *story*, not a cross-dataset number.
+
 **Why a layperson should care**
 
 - It overturns the intuitive picture that the first drops must be dilute.
@@ -877,6 +879,8 @@ The main action is conceptual: a visible stream from a basket compresses several
 **Public question:** when a shot runs slowly, is the basket itself usually the dominant restriction, or is the coffee bed doing almost all the hydraulic work?
 
 **Existing finding:** the current geometry-based series-resistance calculation places clean basket/screen resistance approximately 5–6 orders of magnitude below the puck. The open question is fines clogging during a shot, not the clean screen.
+
+**Distribution caveat (qualitative context panel):** a small radial-extraction dataset (Ribes et al. 2020 — baseline vs bottom-paper vs convex tamper) shows the screen/tamper can shift how flow *distributes* across the bed even when it is negligible in *total* resistance. Use it (slide-grade, single machine, unknown replicate count) to keep the headline from being misread as "basket design never matters" — see §7.6. It qualifies the resistance-stack story; it is not a headline number.
 
 **Why this is public-friendly**
 
@@ -1786,6 +1790,18 @@ The repository explicitly distinguishes Reynolds number and the Wadsworth Forchh
 
 CO₂, concentration-dependent viscosity, temperature transients, and pump behavior can all confound early-shot mechanisms. A recurring “missing variable of the month” series could explain why a model gap is an invitation to measure rather than a license to invent a parameter.
 
+### 7.9 “Four labs measured coffee-liquor thickness and disagreed by tens of percent—yet all agree it barely changes the shot”
+
+Four independent sources now measure the viscosity of dissolved-coffee liquor (Telis-Romero, Sobolík, Khomyakov, and the closures cross-checked against them). They disagree with one another by 20–90% in absolute value, and three of the four run above the fourth — enough that the registry flags one as the probable low outlier. The data-literacy surprise is the *second* fact: despite that spread, all of them agree that at espresso strengths the liquor is close enough to water that the effect on the shot's own flow is small (of order one percent, shot-integrated). Build a visual with four disagreeing curves collapsing to a shared "barely matters here" band at espresso concentration. Evidence tier is **reference/qualitative** (concentrated soluble-coffee extract; espresso TDS is an extrapolation toward water). This is explicitly **not** the PV-13 headline ("first drops thick enough to change the hydraulics") — that claim needs an espresso-range measurement and stays blocked. Pairs naturally with the §7.2 saturation-concentration card.
+
+### 7.10 “A real machine's resistance fell almost threefold mid-shot—and two different causes fit it equally well”
+
+Across eleven logged shots on a commercial machine, the puck's apparent resistance drops by a median factor near 2.7 after the bloom. Two completely different stories reproduce that drop to the same accuracy: the liquor thinning as it dilutes (a viscosity effect), and the bed compacting/settling (a structure effect). With only the flow-and-pressure trace, they are indistinguishable — and the study's own yield reconstruction is circular, so it cannot break the tie either. The public insight is the cleanest possible statement of PV-02's thesis on *real* data: one curve, two equally-good causes, and the honest move is to name the measurement (an independent time-resolved concentration) that would separate them rather than pick a winner. Evidence tier is **discrimination/qualitative**; carry the caveat that the local viscosity ratio (large only at the early, concentrated first drops) is not the small shot-averaged flow effect of §7.9. Direct companion to PV-02 and a concrete seed for the PV-15 "which experiment separates them" recommender.
+
+### 7.11 “Adding fines didn't reshape the extraction clock; pressing harder barely moved the chemistry”
+
+Two controlled studies land as clean **null results**, and preserving nulls is itself the product. In one, sieved fines were spiked into the dose across a realistic range and the shots moved *along* a single extraction-yield-versus-time curve rather than off it — within that range, fines change how fast water gets through the bed, not the extraction mechanism (an absence-of-effect argument at three replicates per condition, one coffee/grinder/machine). In the other, varying tamping force at a fixed brew ratio left the measured per-compound chemistry essentially unchanged. Build a "we expected a difference and didn't find one" pair card. Evidence tier is **reference/qualitative**; both are single-rig and must not be stated as universal laws. Feeds the §10.9 negative-result set and PV-08.
+
 ---
 
 ## 8. High-potential article and paper packages
@@ -1979,6 +1995,13 @@ Maintain first-class public cards for:
 - unresolved data gap.
 
 A project that visibly preserves negative results will accumulate trust and unique content over time.
+
+Landed instances from the current corpus (all reference/qualitative, single-rig; see §7.9–§7.11):
+
+- **null-model success / weak effect:** added fines move shots along one extraction-yield-versus-time curve, not off it (fines act via permeability within the tested range); tamping force ≈ null on measured per-compound chemistry at fixed ratio (§7.11).
+- **closure disagreement:** four coffee-liquor viscosity sources disagree by tens of percent yet agree the shot-integrated effect is small; one flagged as the probable low outlier (§7.9).
+- **degeneracy / one-curve-many-causes:** a real machine's ~2.7× mid-shot resistance decline is fit equally well by liquor-thinning and by bed-compaction (§7.10).
+- **caught erratum:** a published intragranular diffusivity, off by a density factor (~10³), was blocked from propagation and re-derived against a physical bound (companion to PV-04's unit-linting theme).
 
 ---
 ## 11. Technical implementation plan for public outputs
