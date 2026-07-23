@@ -67,9 +67,22 @@ def test_trace_validation():
     with pytest.raises(ValueError, match="strictly increasing"):
         V.Trace(time=np.array([0.0, 2.0, 1.0]), channels={"q": np.zeros(3)},
                 units={"q": "g/s"}).validate()
-    # missing unit
-    with pytest.raises(ValueError, match="no declared unit"):
+    # missing unit (now caught by exact channel<->unit key coverage)
+    with pytest.raises(ValueError, match="must exactly match channel keys"):
         V.Trace(time=t, channels={"q": np.zeros(3)}, units={}).validate()
+    # PW-VAL-001/002: scalar time, infinite channel, 2-D channel, and extra unit key all rejected
+    with pytest.raises(ValueError, match="1-D"):
+        V.Trace(time=5.0, channels={"q": np.zeros(1)}, units={"q": "g/s"}).validate()
+    with pytest.raises(ValueError, match="infinite"):
+        V.Trace(time=t, channels={"q": np.array([0.0, np.inf, 1.0])}, units={"q": "g/s"}).validate()
+    with pytest.raises(ValueError, match="1-D"):
+        V.Trace(time=t, channels={"q": np.zeros((3, 2))}, units={"q": "g/s"}).validate()
+    with pytest.raises(ValueError, match="must exactly match"):
+        V.Trace(time=t, channels={"q": np.zeros(3)}, units={"q": "g/s", "x": "y"}).validate()
+    # nan is still an allowed missing marker and serializes strictly (allow_nan=False)
+    import json
+    tr2 = V.Trace(time=t, channels={"q": np.array([0.0, np.nan, 1.0])}, units={"q": "g/s"})
+    json.loads(tr2.to_json())
 
 
 def test_trace_to_dict_preserves_missing_as_null():

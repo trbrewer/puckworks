@@ -267,9 +267,17 @@ class PullConfig:
     grid_N: int = 40
     grid_M: int = 24
     seed: int = 0
-    editable_fields: tuple[str, ...] = ()   # which recipe fields guided mode may change
+    # which recipe/config fields guided mode may change:
+    #   None       -> unrestricted (any field editable)
+    #   ()         -> a FIXED preset: nothing is editable
+    #   (a, b, ..) -> only those named fields are editable
+    editable_fields: tuple[str, ...] | None = None
 
     def __post_init__(self):
+        if self.editable_fields is not None and (
+                not isinstance(self.editable_fields, tuple)
+                or not all(isinstance(f, str) for f in self.editable_fields)):
+            raise PullDomainError("editable_fields must be None or a tuple of field-name strings")
         if self.domain_policy not in ("warn", "strict"):
             raise PullDomainError("domain_policy must be 'warn' or 'strict'")
         if self.pressure_profile != _SUPPORTED_PRESSURE_PROFILE:
@@ -809,7 +817,7 @@ def _config_dict(c: PullConfig) -> dict:
             "stage_components": c.stage_components, "domain_policy": c.domain_policy,
             "pressure_profile": c.pressure_profile, "lenses": list(c.lenses),
             "grid_N": c.grid_N, "grid_M": c.grid_M, "seed": c.seed,
-            "editable_fields": list(c.editable_fields)}
+            "editable_fields": None if c.editable_fields is None else list(c.editable_fields)}
 
 
 def _finding_dict(f: DomainFinding) -> dict:

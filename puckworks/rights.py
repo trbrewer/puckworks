@@ -12,8 +12,29 @@ This module runs no git subprocess and imports the registry lazily to avoid an i
 """
 from __future__ import annotations
 
+import copy
 import dataclasses
+import datetime
 import re
+from types import MappingProxyType
+
+
+def _freeze(obj):
+    """Recursively convert dicts→read-only proxies and lists→tuples (deep immutability)."""
+    if isinstance(obj, dict):
+        return MappingProxyType({k: _freeze(v) for k, v in obj.items()})
+    if isinstance(obj, (list, tuple)):
+        return tuple(_freeze(v) for v in obj)
+    return obj
+
+
+def _thaw(obj):
+    """Inverse of _freeze: proxies→plain dicts, tuples→lists, for JSON-safe serialization."""
+    if isinstance(obj, MappingProxyType):
+        return {k: _thaw(v) for k, v in obj.items()}
+    if isinstance(obj, tuple):
+        return [_thaw(v) for v in obj]
+    return obj
 
 # finite project rights vocabulary
 RIGHTS_STATES = (
@@ -62,8 +83,19 @@ class RightsRecord:
         for field, v in zip(self._STATE_FIELDS, states):
             if v not in RIGHTS_STATES:                   # rejects any lowercase/local vocabulary too
                 raise ValueError(f"{self.component_id}: {field}={v!r} not in RIGHTS_STATES")
-        if self.review_date and not _ISO_DATE.match(self.review_date):
-            raise ValueError(f"{self.component_id}: review_date {self.review_date!r} is not ISO YYYY-MM-DD")
+        if self.review_date:
+            # regex fixes the exact YYYY-MM-DD shape (fromisoformat alone is lenient about
+            # separators on 3.11+); fromisoformat then rejects impossible calendar dates
+            # (e.g. 2026-99-99) that a shape-only check would accept.
+            if not _ISO_DATE.match(self.review_date):
+                raise ValueError(f"{self.component_id}: review_date {self.review_date!r} is not ISO YYYY-MM-DD")
+            try:
+                datetime.date.fromisoformat(self.review_date)
+            except ValueError:
+                raise ValueError(f"{self.component_id}: review_date {self.review_date!r} is not a valid calendar date")
+        # deep-freeze the permission metadata: deepcopy defends against a caller mutating the
+        # dict they passed in; _freeze makes the record's own copy read-only at every level.
+        object.__setattr__(self, "permission", _freeze(copy.deepcopy(dict(self.permission))))
         # a reviewed determination (anything past NOT_REVIEWED) must cite evidence + a review date
         reviewed = any(s != "NOT_REVIEWED" for s in states)
         if reviewed and not (self.source and self.review_date):
@@ -88,7 +120,11 @@ class RightsRecord:
                                             self.output_redistribution_state))
 
     def to_dict(self) -> dict:
-        return dataclasses.asdict(self)
+        # asdict cannot pickle the frozen mapping proxy; build the dict directly and thaw
+        # permission back to plain JSON-safe containers.
+        d = {f.name: getattr(self, f.name) for f in dataclasses.fields(self)}
+        d["permission"] = _thaw(self.permission)
+        return d
 
 
 # ── authoritative per-component records (only reviewed components are listed) ──────────

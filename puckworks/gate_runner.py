@@ -108,6 +108,18 @@ class GateSuiteResult:
 
 
 # --------------------------------------------------------------------------- evaluation
+def _is_strict_bool(x):
+    """True only for a real boolean (Python bool or numpy bool_). Not truthiness.
+    numpy renamed its scalar bool type between 1.x/2.x, so match np.bool_ by isinstance."""
+    if isinstance(x, bool):
+        return True
+    try:
+        import numpy as _np
+        return isinstance(x, _np.bool_)
+    except Exception:
+        return False
+
+
 def _coerce_legacy(component_id, gate_id, raw, duration_s):
     """Turn a legacy gate return value into a typed GateResult. A mapping must carry `passed`;
     anything else is an ERROR (never a silent pass)."""
@@ -122,7 +134,18 @@ def _coerce_legacy(component_id, gate_id, raw, duration_s):
                           summary="gate result missing 'passed'",
                           exception_type="KeyError", exception_message="'passed'",
                           duration_s=duration_s)
-    status = GateStatus.PASS if bool(raw["passed"]) else GateStatus.FAIL
+    passed = raw["passed"]
+    # `passed` must be an actual boolean. bool(x) would coerce truthy strings
+    # ("false", "0") and numbers into a PASS -- a silent schema failure. Accept
+    # only Python bool and numpy bool_; anything else is an ERROR, never a pass.
+    if not _is_strict_bool(passed):
+        return GateResult(component_id, gate_id, GateStatus.ERROR,
+                          summary="gate 'passed' is not a boolean",
+                          exception_type="TypeError",
+                          exception_message="expected bool, got %s %r"
+                                            % (type(passed).__name__, passed),
+                          duration_s=duration_s)
+    status = GateStatus.PASS if passed else GateStatus.FAIL
     metrics = {k: v for k, v in raw.items() if k != "passed"}
     summary = str(metrics.get("reading") or metrics.get("summary") or "")
     return GateResult(component_id, gate_id, status, summary=summary, metrics=metrics,
