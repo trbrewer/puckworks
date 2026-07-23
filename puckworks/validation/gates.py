@@ -1575,6 +1575,38 @@ def gate_moroney2015_kappa_anchors():
                          "not espresso ratio)")
 
 
+def gate_gagne2021_viscosity_discrimination():
+    """GAGNE 2021 apparent-resistance decline vs the liquor-viscosity hypothesis -- DISCRIMINATION
+    (records, does not adjudicate). Across the 11 published DE1 `.shot` traces, the post-bloom
+    apparent resistance R=P/Q declines by a robust median ~2.7x (every shot declines). The
+    telisromero2001 viscosity ratio brackets this over the shot's TDS trajectory: ~2.7x at Gagne's
+    reconstructed ~15% early first-drip TDS (== the observed decline) falling to ~1.6x at bulk
+    shot-TDS (~7.5%). So the viscosity-decline hypothesis is quantitatively ADMISSIBLE -- but it is
+    DEGENERATE with a bed-compaction/swelling explanation of the same magnitude, and the traces
+    alone (no independent TDS(t)) do NOT separate them (Gagne's own EY(t) reconstruction is
+    endpoint-anchored/circular). NB the *local* mu ratio here is not the G10 *shot-integrated*
+    Darcy error (which averages over the dilute bulk). NOT a validated kappa(t) law; promotes
+    nothing; discrimination/qualitative strength."""
+    from puckworks.analysis import gagne2021_resistance as gr
+    r = gr.discrimination()
+    obs = r["observed"]
+    passed = (obs["n_shots"] >= 8 and obs["lo"] > 1.0            # every shot declines post-bloom
+              and obs["median"] > 1.3                            # a large, robust decline
+              and r["viscosity_admissible"]                      # mu at ~15% early TDS ~= observed
+              and r["degenerate_with_bed"])                      # not discriminated by these traces
+    return dict(passed=bool(passed), n_shots=obs["n_shots"],
+                observed_decline_median=round(obs["median"], 2),
+                observed_decline_range=[round(obs["lo"], 2), round(obs["hi"], 2)],
+                mu_ratio_bulk_7p5pct=round(r["mu_ratio_bulk"], 2),
+                mu_ratio_early_15pct=round(r["mu_ratio_early"], 2),
+                reading="observed post-bloom R-decline (median ~2.7x) is quantitatively matched by "
+                        "the telisromero mu(TDS) ratio at ~15% early TDS (~2.7x) -> viscosity is "
+                        "ADMISSIBLE, but DEGENERATE with bed compaction/swelling; the traces alone "
+                        "do not discriminate (no independent TDS(t))",
+                strength="discrimination/qualitative (records a bounded degeneracy from machine-"
+                         "logged traces; no independent TDS(t); Gagne's EY(t) chain is circular)")
+
+
 def gate_moroney2019_ldf_verification():
     """MORONEY 2019 1-D two-grain LDF solver -- VERIFICATION of the transcribed model (Eqs 17-27)
     and the author-confirmed cooper2021 h_sl erratum. Solving the 1-D cylindrical reduction with

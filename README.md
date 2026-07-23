@@ -273,7 +273,7 @@ Two longer reads go beyond this landing page:
 | Latest public release | [`v0.3.0`](https://github.com/trbrewer/puckworks/releases/tag/v0.3.0) (`puckworks-0.3.0-py3-none-any.whl`; not on PyPI) |
 | Development source | `0.4.0.dev0` (unreleased) |
 | Registered components | 25 |
-| Validation gates | 55 total — 54 PASS, 1 ACKNOWLEDGED_EXCEPTION (passed under the documented gate policy) |
+| Validation gates | 56 total — 55 PASS, 1 ACKNOWLEDGED_EXCEPTION (passed under the documented gate policy) |
 | Active outcome | Guided Espresso Pull — v0.3.0 published; awaiting signed-out human Colab acceptance |
 | Blocked outcomes | 3 (external sign-off / data) |
 | Supported Python | 3.10–3.13 (3.12 primary/release interpreter) |
