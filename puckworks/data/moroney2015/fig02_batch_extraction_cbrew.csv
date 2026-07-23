@@ -1,0 +1,19 @@
+# Moroney, Lee, O'Brien, Suijver, Marra (2015) Chem. Eng. Sci. 137:216-234, doi:10.1016/j.ces.2015.06.003
+# Figure 2: batch (French-press) extraction, cbrew (kg/m3) vs time (s); 60 g coffee (~4% moisture), 0.5 l water, 80-90 C
+# extraction_method: PDF vector-path extraction (PyMuPDF); calibration from in-figure tick-mark coordinates; MEASURED (exact plotted coordinates, no raster digitization error)
+# calibration: frame = plot range 0-600 s x 0-40 kg/m3, verified by minor ticks (20 s / 2 kg/m3)
+# cross-check: values match Fig 6 experimental markers (independent MATLAB-figure calibration) to <0.2%
+series,time_s,cbrew_kg_m3
+JK_standard_drip_filter,34.73,29.012
+JK_standard_drip_filter,49.53,31.761
+JK_standard_drip_filter,88.0,34.395
+JK_standard_drip_filter,148.66,36.228
+JK_standard_drip_filter,349.15,36.343
+JK_standard_drip_filter,499.34,36.343
+Illy_Cimbali_20,28.77,17.125
+Illy_Cimbali_20,59.11,22.612
+Illy_Cimbali_20,118.66,25.343
+Illy_Cimbali_20,218.54,27.176
+Illy_Cimbali_20,299.18,28.067
+Illy_Cimbali_20,448.63,29.897
+Illy_Cimbali_20,588.83,30.925

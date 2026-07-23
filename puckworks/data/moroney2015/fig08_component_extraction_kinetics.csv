@@ -1,0 +1,56 @@
+# Moroney, Lee, O'Brien, Suijver, Marra (2015) Chem. Eng. Sci. 137:216-234, doi:10.1016/j.ces.2015.06.003
+# Figure 8: extraction kinetics of coffee components (normalized extraction profile vs fraction, mL); source figure is an embedded raster image
+# extraction_method: raster color-classification against legend-sampled series colors; ESTIMATED (JPEG-compressed source; +/- ~0.02 in y)
+# calibration ASSUMPTION: y=0 at category axis (row 435.5), y=1.2 at top plot border (row 10); no intermediate gridlines available to verify
+# x positions: 7 evenly spaced vertices between leftmost and rightmost curve pixels, labelled fractions 1-7
+# flag occluded_at_shared_point: series hidden under overplotted lines at the common fraction-1 point; shared visible value reported
+component,fraction_mL,normalized_extraction,flag
+Trigonelline,1,0.9462,
+Trigonelline,2,0.6162,
+Trigonelline,3,0.368,
+Trigonelline,4,0.3229,
+Trigonelline,5,0.1396,
+Trigonelline,6,0.0719,
+Trigonelline,7,0.0324,
+Caffeine,1,0.9462,occluded_at_shared_point
+Caffeine,2,0.7036,
+Caffeine,3,0.4696,
+Caffeine,4,0.3539,
+Caffeine,5,0.227,
+Caffeine,6,0.1199,
+Caffeine,7,0.0663,
+Nicotinic_acid,1,0.9462,occluded_at_shared_point
+Nicotinic_acid,2,0.5993,
+Nicotinic_acid,3,0.3934,
+Nicotinic_acid,4,0.3991,
+Nicotinic_acid,5,0.1622,
+Nicotinic_acid,6,0.0973,
+Nicotinic_acid,7,0.1706,
+Formic_acid,1,0.9462,
+Formic_acid,2,0.6021,
+Formic_acid,3,0.3469,
+Formic_acid,4,0.258,
+Formic_acid,5,0.1396,
+Formic_acid,6,0.0691,
+Formic_acid,7,0.0465,
+Furfuryl_alcohol,1,0.9462,
+Furfuryl_alcohol,2,0.6529,
+Furfuryl_alcohol,3,0.368,
+Furfuryl_alcohol,4,0.3286,
+Furfuryl_alcohol,5,0.1396,
+Furfuryl_alcohol,6,0.0691,
+Furfuryl_alcohol,7,0.0296,
+Acetic_acid,1,0.9462,occluded_at_shared_point
+Acetic_acid,2,0.6331,
+Acetic_acid,3,0.385,
+Acetic_acid,4,0.2665,
+Acetic_acid,5,0.1537,
+Acetic_acid,6,0.0945,
+Acetic_acid,7,0.0409,
+Lipids,1,0.9462,occluded_at_shared_point
+Lipids,2,0.5965,
+Lipids,3,0.4865,
+Lipids,4,0.4047,
+Lipids,5,0.2806,
+Lipids,6,0.1847,
+Lipids,7,0.1734,

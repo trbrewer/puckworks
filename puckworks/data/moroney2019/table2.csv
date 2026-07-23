@@ -1,0 +1,7 @@
+config,grind,model,d_s_m,alpha_s,c_s0_kgm3,h_sl_reported_ms,h_sl_corrected_ms,D_v_m2s
+fine_single,fine,single,3.1823e-5,0.8,358.587,4.31562e-4,4.471e-7,1.423e-11
+fine_2g_small,fine,two_grain_small,2.517e-5,0.5,358.587,5.1207e-4,5.305e-7,1.335e-11
+fine_2g_large,fine,two_grain_large,5.63e-4,0.3,358.587,1.43e-3,1.481e-6,8.34e-10
+coarse_single,coarse,single,4.5802e-5,0.75,305,9.5285e-4,9.871e-7,4.52e-11
+coarse_2g_small,coarse,two_grain_small,3.536e-5,0.45,305,1.661e-4,1.721e-7,6.08e-12
+coarse_2g_large,coarse,two_grain_large,9.26e-4,0.3,305,2.901e-4,3.005e-7,2.78e-10

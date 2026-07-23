@@ -1,0 +1,8 @@
+item,label_in_figure,description,dimension_mm,dimension_type,notes
+probe,1,conductivity probe LF 340 TetraCon 325/S,15.3,diameter,four graphite electrodes + embedded thermometer
+electrodes,2,"graphite electrodes, flush mounted in an axial groove",,,four electrodes
+cup,3,small cylindrical glass cup,28,outer diameter,
+cup,3,small cylindrical glass cup,7,wall/base offset shown in figure,
+cap,4,cap,,,
+sample,5,coffee sample,30,sample height,
+assembly,,overall assembly height,47,height,

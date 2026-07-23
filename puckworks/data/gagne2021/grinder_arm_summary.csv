@@ -1,0 +1,15 @@
+quantity,grinder_arm,value,uncertainty,units,n,read_method
+raw_ey,eg1_ssp_ulf,26.8,0.2,pct,6,measured
+raw_ey,niche,24.8,0.1,pct,5,measured
+vst_filtered_ey,eg1_ssp_ulf,24.1,0.3,pct,6,measured
+vst_filtered_ey,niche,22.7,0.2,pct,5,measured
+grinder_retention,eg1_ssp_ulf,0.23,0.02,g,,measured
+grinder_retention,niche,0.18,0.04,g,,measured
+mean_shot_temperature,eg1_ssp_ulf,95.43,,degC,,figure
+mean_shot_temperature,niche,95.60,,degC,,figure
+stable_resistance_showerhead,eg1_ssp_ulf,0.607,,de1_units,,figure
+stable_resistance_showerhead,niche,0.661,,de1_units,,figure
+stable_resistance_scale,eg1_ssp_ulf,0.698,,de1_units,,figure
+stable_resistance_scale,niche,0.745,,de1_units,,figure
+drips_during_bloom,eg1_ssp_ulf,3.85,,count,,figure
+drips_during_bloom,niche,4.9,,count,,figure
