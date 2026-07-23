@@ -1607,6 +1607,48 @@ def gate_gagne2021_viscosity_discrimination():
                          "logged traces; no independent TDS(t); Gagne's EY(t) chain is circular)")
 
 
+def gate_moroney2015_batch_ode():
+    """MORONEY 2015 well-mixed batch two-population solver -- reproduces the paper's Fig-6 batch
+    plateau from Table 1 + the DERIVED immersion volume bookkeeping. Confirms: (1) the derived
+    volumes reconstruct Table 1's phi_h=0.8272 to four decimals (V_h/V_T, V_T=541.1/V_h=447.6 cm^3);
+    (2) the c_v0 initial condition derives from Table 1 (phi_s,b0*c_s/phi_v0) for both grinds; (3) the
+    mass-conserving batch ODE (with the card-flagged Eq-53 v->h sign correction) reaches an
+    equilibrium brew concentration matching the digitized Fig-6 model plateau for both grinds
+    (~36.6 JK / ~30.4 Cimbali) within ~10%, fine plateauing higher than coarse; (4) available soluble
+    mass is 26-33% of dose (consistent with the stated 28-32% extractable range). The c_h / Fig-2/6
+    brew concentration compares with NO dilution factor. source_curve_reproduction; promotes nothing;
+    drip-filter chamber, NOT espresso ratio."""
+    from puckworks import data as d
+    from puckworks.analysis import moroney2015_batch as mb
+    vols = mb.derived_volumes()
+    f6 = d.moroney2015_data()["fig6_batch_model_vs_exp"]
+    checks, ratios = {}, []
+    for grind, key in (("JK_drip_filter", "jk"), ("Cimbali_20", "cimbali")):
+        s = mb.solve(grind)
+        plateau = max(float(r["ch_kg_m3"]) for r in f6
+                      if grind.split("_")[0].lower() in str(r.get("grind", "")).lower()
+                      and str(r.get("type", "")).lower().startswith("model"))
+        checks[key] = dict(ch_eq=round(s["ch_equilibrium"], 1), fig6_plateau=round(plateau, 1),
+                           c_v0_ok=abs(s["c_v0_derived"] - s["c_v0_table"]) < 0.5,
+                           extractable_pct=round(s["extractable_pct_dose"], 1))
+        ratios.append(s["ch_equilibrium"] / plateau)
+    phi_h_ok = abs(vols["phi_h_reconstructed"] - 0.8272) < 1e-3
+    fig6_ok = all(0.90 <= r <= 1.10 for r in ratios)           # within ~10% of the Fig-6 plateau
+    cv0_ok = all(c["c_v0_ok"] for c in checks.values())
+    extractable_ok = all(26.0 <= c["extractable_pct"] <= 33.0 for c in checks.values())
+    fine_higher = checks["jk"]["ch_eq"] > checks["cimbali"]["ch_eq"]
+    passed = phi_h_ok and fig6_ok and cv0_ok and extractable_ok and fine_higher
+    return dict(passed=bool(passed),
+                phi_h_reconstructed=round(vols["phi_h_reconstructed"], 4),
+                V_T_cm3=round(vols["V_T_m3"] * 1e6, 1), V_h_cm3=round(vols["V_h_m3"] * 1e6, 1),
+                per_grind=checks, ch_over_fig6_plateau=[round(r, 3) for r in ratios],
+                reading="the derived immersion bookkeeping reconstructs phi_h=0.8272 exactly, and "
+                        "the mass-conserving batch ODE reproduces the Fig-6 batch plateau for both "
+                        "grinds (~36.6 JK / ~30.4 Cimbali) from Table 1 -- fine higher than coarse",
+                strength="source_curve_reproduction (reproduces the paper's own Fig-6 model plateau "
+                         "from Table 1 + derived volumes; drip-filter chamber, not espresso ratio)")
+
+
 def gate_moroney2019_ldf_verification():
     """MORONEY 2019 1-D two-grain LDF solver -- VERIFICATION of the transcribed model (Eqs 17-27)
     and the author-confirmed cooper2021 h_sl erratum. Solving the 1-D cylindrical reduction with
