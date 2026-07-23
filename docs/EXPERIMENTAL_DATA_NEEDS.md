@@ -120,7 +120,7 @@ Which registered component each campaign would advance (generated; do not hand-e
 | `liang2021.desorption` | calibration | post_fit_reconstruction (2 gates) | — | — (no current campaign) | — |
 | `mo2023_2.coupled_bed` | runtime | post_fit_reconstruction (1 gates) | gate_streamtube_heldout | `EXP-007` | `mo2023_2.coupled_bed#0` |
 | `mo2023_2.swelling` | runtime | source_curve_reproduction (4 gates) | gate_kappa_t_degeneracy, gate_mo2_swelling_flow_decay | `EXP-005` | — |
-| `moroney2016.surrogate` | calibration | qualitative_capacity (2 gates) | — | — (no current campaign) | — |
+| `moroney2016.surrogate` | calibration | qualitative_capacity (3 gates) | — | — (no current campaign) | — |
 | `pannusch2024.closures` | calibration | code_verification (1 gates) | — | — (no current campaign) | — |
 | `pannusch2024.solver` | runtime | post_fit_reconstruction (1 gates) | gate_pannusch_solver_mape | `EXP-006` | `pannusch2024.solver#0` |
 | `romancorrochano2017.extraction` | runtime | sign_or_compatibility (6 gates) | gate_pannusch_solver_mape | `EXP-006` | `pannusch2024.solver#0` |
