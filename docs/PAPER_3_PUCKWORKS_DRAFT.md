@@ -200,7 +200,7 @@ The labels constrain language. A source-curve reproduction “reconstructs” or
 
 ### 5.2 Evidence vectors for components and claims
 
-A component can carry several evidence entries. For example, an extraction solver may have mass-conservation verification, reproduce a source fit, and read low against an independent extraction-yield range. These entries should coexist rather than collapse into the strongest or weakest badge. The claim layer then selects the evidence relevant to a particular statement.
+A component can carry several evidence entries. For example, an extraction solver may have mass-conservation verification, reproduce a source fit, and read low against an independent extraction-yield range. These entries should coexist rather than collapse into the strongest or weakest badge. The claim layer then selects the evidence relevant to a particular statement. Two landed gates illustrate how the same word — a "passing" gate — can carry different scientific meaning: one reproduces a published drip-batch concentration plateau from the source's own tabulated inputs and a derived volume bookkeeping (source-curve reproduction, no independent system tested), while another solves a reduced two-grain extraction model and checks it only against itself and a physical bound (code verification). Neither is validation against an independent system, and both carry the same scope caveat — a drip-filter brew chamber, not an espresso brew ratio — so neither result may be spoken of as an espresso prediction.
 
 The public schema uses four visual badges—`OBSERVED`, `RECONSTRUCTED`, `PREDICTED`, and `EXPLORATORY_SIMULATION`—while preserving the underlying evidence-strength label unchanged. Every numeric public claim also carries units, source dataset identifiers, validity range, a primary caveat, a reproduction command, and a named producer that regenerates the value. A claim whose numeric field has no producer mapping fails validation as hard-coded.
 
@@ -279,6 +279,9 @@ The first demonstration asks what happens when a comparison aligns quantities be
 | soluble inventory | convert total roasted chemistry directly to extractable inventory | carry basis and unknown extractable fraction; block substitution |
 | named-solute mass and TDS | average mg trigonelline/caffeine/5-CQA with g TDS | require one observable, component, unit, brew ratio, and conditioning set |
 | grinder dial | use the same numerical dial across grinder models | require grinder-specific calibration or PSD adapter |
+| printed transport coefficient off by a density factor ($\rho_\ell\approx10^3$) | use a published intragranular diffusivity at face value | recompute it from its definition and reject values that violate a physical bound — for one such author-confirmed erratum the corrected diffusivities fall at or below free aqueous diffusion, while the printed values exceed it by two to three orders |
+
+The last row is a landed case rather than a hypothetical. A porous-bed extraction study printed intragranular mass-transfer coefficients that, taken at face value, imply solid-phase diffusivities far above the free aqueous value — physically impossible. The correct scaling was confirmed by the original authors as an erratum; the registry records the correction on the source card, blocks propagation of the printed value, and a verification gate re-derives the corrected coefficients and checks each against the free-diffusion bound. The physics of the correction belongs to the correcting authors; the registry contribution is the propagation block plus the physical-plausibility check, an instance of code-verification-strength evidence (§5).
 
 ### 7.2 Mixed-unit chemistry example
 
@@ -340,7 +343,7 @@ Puckworks treats unresolved disagreement as an output. The registry identifies w
 |---|---|---|
 | whole-cup extraction endpoint | inventory and kinetic rate can compensate | timed fractions or named-solute trajectories |
 | dip-and-recovery flow shape | machine/headspace and evolving bed can both generate it | pressure-node-resolved machine null; inert load; first-drop timing |
-| rising flow at fixed nominal pressure | dissolution opening, omitted machine effects, coupled matrix processes | pressure step plus independent bed-state measurement |
+| rising flow at fixed nominal pressure | dissolution opening, a liquor-viscosity decline as dissolved solids fall, omitted machine effects, coupled matrix processes | pressure step plus independent bed-state measurement, and an independent time-resolved concentration to separate dissolution-opening from a same-sign viscosity decline |
 | fines migration versus local compaction | both can raise resistance in forward flow | matched-$\lvert\Delta P\rvert$ flow reversal and outlet-deposit imaging |
 | dissolution opening versus stress-state evolution | both can alter late-shot permeability | spent-puck rebrew with controlled unload/rest |
 | integrated outlet flow | different spatial pathways can integrate to one curve | depth-resolved porosity/fines or pathway-resolved flow |

@@ -232,6 +232,20 @@ and observables differ, and incomplete wetting is not yet represented:
 - the diffusion branch is a null;
 - incomplete wetting, a central competing hypothesis, is unimplemented.
 
+An external constraint on the fines interpretation comes from a controlled fines-spiking study
+(Smrke et al. 2024): within a fines share of roughly 15–31% (particles <100 µm), adding
+pre-sieved fines moved espresso shots *along* a single extraction-yield-versus-time master curve
+rather than off it, from which the authors conclude that within that envelope fines act by
+reducing bed permeability rather than by changing the extraction mechanism. Read cautiously — the
+claim is an absence-of-effect argument at three replicates per condition on one coffee, grinder,
+and machine — this weighs against a fines-*mechanism* explanation of the Result-1 response and
+toward the permeability/heterogeneity framing, without identifying it. Separately, that dataset
+supplies a small independent check on the Cameron extraction engine underlying the σ(g) closure: a
+registry gate confirms Cameron's yield-versus-time reproduces Smrke's fast-rise-then-plateau
+*shape* and its yield-versus-shot-time slope sign, with the absolute yield running about 30% below
+Smrke's ceiling (a different coffee) — a shape-consistency check, not a quantitative validation,
+and reported as such.
+
 This is a **model-availability and model-capacity audit** (Fig. 2, an evidence
 matrix — implementation status, calibration data, evaluation data, observable, free
 parameters, fitted-vs-predicted, evidence strength, and the decisive missing
@@ -349,8 +363,17 @@ opening, compaction relaxation, changing saturation, viscosity, gas release, mac
 response, and erosion — swelling or fines may be present while another process dominates the
 net sign — and a single transferred powder parameterization cannot license a "coffee-independent"
 magnitude or absence. Dissolution-driven porosity *opening* (the Φ(t) trajectory) is the only
-*implemented isolated branch in this comparison* with the required net sign. Two named
-candidates are declared out of adjudication on this observable rather than silently dropped:
+*implemented isolated branch in this comparison* with the required net sign. A second mechanism
+carries the same sign without being represented in the ladder here: a decline in liquor viscosity
+as dissolved solids fall over the shot lowers resistance, is supported by the registered
+coffee-liquor viscosity–concentration closures (Telis-Romero; Sobolík), and is corroborated on
+independent machine traces (the Gagné flow-controlled blooming set, in which the post-bloom
+apparent resistance falls by a median factor near 2.7 — reproduced by a viscosity decline from an
+early ~15%-solids first drip toward the dilute bulk). Because this viscosity branch is driven by
+the *same* falling-concentration clock as dissolution opening, it is degenerate with the Φ(t)
+branch on this integrated observable; separating them — as with separating dissolution from fines
+migration — requires an independent time-resolved concentration measurement, not only a pressure
+step. Two named candidates are declared out of adjudication on this observable rather than silently dropped:
 the Fasano Part II porosity-evolution law has no published constitutive constants (an untested
 skeleton — parameter-blocked), and lee2023 is a constant-*flow*, grind-indexed extraction-yield
 model belonging to the orthogonal fine-grind axis, not this constant-pressure flow trace.
@@ -538,7 +561,7 @@ degeneracy calls for):
 | result | what integration hides | discriminating measurement |
 |---|---|---|
 | 1 — fine-grind response | inventory vs kinetics vs channeling all fit the cup EY | matched-observable fractions (companion study) + per-grind **first-drip timing** (separates incomplete wetting) + spatial saturation |
-| 2 — κ(t) ladder | constant / static-κ(P) / dissolution-Φ(t) / flexible-cubic all reconstruct one trace within a factor | **multi-pressure** traces under matched control + an **independently measured bed-state** (porosity/compaction in situ) to break the Φ(t) soft-circularity |
+| 2 — κ(t) ladder | constant / static-κ(P) / dissolution-Φ(t) / flexible-cubic all reconstruct one trace within a factor; a same-sign liquor-viscosity decline is a further degenerate contributor | **multi-pressure** traces under matched control + an **independently measured bed-state** (porosity/compaction in situ) to break the Φ(t) soft-circularity + an **independent time-resolved concentration** (TDS(t)) to separate dissolution-opening from a liquor-viscosity decline of the same sign |
 | 3 — N-tube concentration | a single outlet flow cannot see channel structure | **pathway-resolved / spatial** flow or dye-front imaging; a second-rig transfer set |
 
 Practitioner-facing statement, kept cautious: *static flow heterogeneity remains a
