@@ -17,6 +17,9 @@ figure averages over the mostly-dilute bed; the apparent-resistance decline is d
 early high-TDS liquor.) Gagné's own EY(t) reconstruction is endpoint-anchored and circular (card
 `gagne2021.md`). NOT a registered component; NOT a validated κ(t) law.
 """
+import csv
+from pathlib import Path
+
 import numpy as np
 
 from puckworks import data as _data
@@ -25,21 +28,41 @@ _BLOOM_END_S = 42.0        # bloom is 10-40 s; take the established-flow window 
 _MIN_FLOW = 0.3            # g/s — established flow
 _MIN_PRESSURE = 1.0        # bar
 _BREW_T_K = 365.15         # ~92 C brew temperature (gagne temperature goal)
+# The derived per-shot R-decline summary SHIPS (a small card-derived CSV); the raw .shot traces
+# stay git-tracked but out of the wheel (redistribution posture unverified — MANIFEST caveat).
+_SUMMARY_CSV = Path(_data.DATA_DIR) / "gagne2021" / "resistance_decline_summary.csv"
 
 
-def observed_resistance_decline():
-    """Per-shot post-bloom apparent-resistance decline ratio (peak R / end-of-shot R), R = P/Q,
-    over the established-flow window. Returns dict with the per-shot ratios and their median/range."""
-    ratios = []
-    for sid, ch in _data.gagne2021_shots().items():
+def _decline_from_shots():
+    """Recompute the per-shot post-bloom apparent-resistance decline ratio (peak R / end-of-shot R,
+    R=P/Q) from the raw .shot traces. Used to (re)generate the shipping summary — NOT by the gate."""
+    out = []
+    for sid, ch in sorted(_data.gagne2021_shots().items()):
         t, P, Q = ch["espresso_elapsed"], ch["espresso_pressure"], ch["espresso_flow"]
         win = (t >= _BLOOM_END_S) & (Q > _MIN_FLOW) & (P > _MIN_PRESSURE)
         if int(win.sum()) < 8:
             continue
         R = P[win] / Q[win]
         Rs = np.convolve(R, np.ones(3) / 3.0, mode="valid")     # light smoothing
-        ratios.append(float(Rs.max() / Rs[-5:].mean()))         # peak vs end-of-shot
-    ratios = np.array(sorted(ratios))
+        out.append((sid, float(Rs.max() / Rs[-5:].mean())))     # peak vs end-of-shot
+    return out
+
+
+def regenerate_summary():
+    """Maintainer helper: rewrite the shipping summary CSV from the raw .shot traces."""
+    rows = _decline_from_shots()
+    with open(_SUMMARY_CSV, "w", newline="", encoding="utf-8") as fh:
+        w = csv.writer(fh)
+        w.writerow(["shot_id", "r_decline_ratio"])
+        for sid, ratio in rows:
+            w.writerow([sid, round(ratio, 4)])
+    return len(rows)
+
+
+def observed_resistance_decline():
+    """Per-shot post-bloom apparent-resistance decline ratios (from the shipping summary CSV, derived
+    from the 11 .shot traces). Returns the per-shot ratios and their median/range."""
+    ratios = np.array(sorted(float(r["r_decline_ratio"]) for r in _data.gagne2021_resistance_decline()))
     return dict(n_shots=int(ratios.size), ratios=ratios,
                 median=float(np.median(ratios)),
                 lo=float(ratios.min()), hi=float(ratios.max()))
