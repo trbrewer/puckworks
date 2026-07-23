@@ -1,0 +1,10 @@
+condition,tamper_base,bottom_paper_filter,zone,r_inner_mm,r_outer_mm,zone_ey_pct,shot_ey_pct
+baseline,flat,none,center,0,18,25,21
+baseline,flat,none,middle,18,25,23,21
+baseline,flat,none,outer,25,29,13,21
+bottom_filter,flat,v60_paper,center,0,18,25,24
+bottom_filter,flat,v60_paper,middle,18,25,24,24
+bottom_filter,flat,v60_paper,outer,25,29,22,24
+convex_tamper,us_curve,none,center,0,18,25,20
+convex_tamper,us_curve,none,middle,18,25,22,20
+convex_tamper,us_curve,none,outer,25,29,7,20

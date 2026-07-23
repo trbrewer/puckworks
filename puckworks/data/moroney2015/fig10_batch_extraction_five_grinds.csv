@@ -1,0 +1,35 @@
+# Moroney, Lee, O'Brien, Suijver, Marra (2015) Chem. Eng. Sci. 137:216-234, doi:10.1016/j.ces.2015.06.003
+# Figure 10: batch extraction cbrew (kg/m3) vs time (s) for five grinds; 60 g coffee (~4% moisture), 0.5 l water
+# extraction_method: PDF vector-path extraction (PyMuPDF); calibration from in-figure tick-mark coordinates; MEASURED (exact plotted coordinates, no raster digitization error)
+# calibration: MAJOR x-ticks (0-600 s at 100 s spacing); frame x-range is padded (~0-650 s) so frame-edge calibration would bias x by 8.3% - tick-anchored here
+# legend marker column (5 marker glyphs at a common x) identified and excluded
+# cross-check: JK and Cimbali#20 series match Fig 2 to <0.2%
+series,time_s,cbrew_kg_m3
+JK_standard_drip,34.75,29.023
+JK_standard_drip,49.55,31.772
+JK_standard_drip,88.02,34.406
+JK_standard_drip,148.68,36.239
+JK_standard_drip,349.16,36.354
+JK_standard_drip,499.34,36.354
+Illy_Cimbali_20,28.94,17.138
+Illy_Cimbali_20,59.27,22.624
+Illy_Cimbali_20,118.82,25.356
+Illy_Cimbali_20,218.69,27.188
+Illy_Cimbali_20,299.33,28.079
+Illy_Cimbali_20,448.77,29.91
+Illy_Cimbali_20,588.96,30.938
+Illy_Cimbali_30,48.87,12.527
+Illy_Cimbali_30,99.55,16.114
+Illy_Cimbali_30,149.12,19.801
+Illy_Cimbali_30,299.66,23.497
+Illy_Cimbali_30,578.93,27.264
+DE_standard_drip,31.87,26.778
+DE_standard_drip,44.44,29.069
+DE_standard_drip,69.59,31.818
+DE_standard_drip,298.93,36.285
+DE_standard_drip,599.29,36.285
+DE_coarse_drip,42.22,24.472
+DE_coarse_drip,59.24,26.419
+DE_coarse_drip,119.17,28.138
+DE_coarse_drip,179.83,30.428
+DE_coarse_drip,299.67,32.262

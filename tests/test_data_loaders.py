@@ -480,3 +480,188 @@ def test_mckeonaloe2022_basket_intake():
     with open(mp, newline="", encoding="utf-8") as fh:
         ids = {row["dataset_id"] for row in csv.DictReader(fh)}
     assert "mckeonaloe2022/basket_open_area_geometry" in ids
+
+
+def _manifest_ids():
+    import csv
+    import os
+    mp = os.path.join(os.path.dirname(__file__), "..", "puckworks", "data", "MANIFEST.csv")
+    with open(mp, newline="", encoding="utf-8") as fh:
+        return {row["dataset_id"] for row in csv.DictReader(fh)}
+
+
+def test_moroney2019_table2_intake():
+    """moroney2019 Table 2 (data-only) + cooper2021 author-confirmed errata: 6 configs
+    load, and the corrected columns satisfy h_sl_corrected = h_sl_reported/965.3 and
+    D_v = h_sl_corrected * d_s (the ~10^3 fix), declared in the MANIFEST."""
+    rows = pwdata.moroney2019_table2()
+    assert len(rows) == 6
+    need = {"config", "grind", "model", "d_s_m", "alpha_s", "c_s0_kgm3",
+            "h_sl_reported_ms", "h_sl_corrected_ms", "D_v_m2s"}
+    assert need <= set(rows[0].keys())
+    for r in rows:
+        # Erratum B: corrected = reported / rho_l(90C) = reported / 965.3
+        assert abs(r["h_sl_corrected_ms"] - r["h_sl_reported_ms"] / 965.3) \
+            < 0.02 * r["h_sl_corrected_ms"]
+        # Erratum A: species-split diffusivity D_v = h_sl_corrected * d_s
+        assert abs(r["D_v_m2s"] - r["h_sl_corrected_ms"] * r["d_s_m"]) < 0.02 * r["D_v_m2s"]
+    cs0 = {r["grind"]: r["c_s0_kgm3"] for r in rows}
+    assert cs0["fine"] == 358.587 and cs0["coarse"] == 305.0
+    assert "moroney2019/table2" in _manifest_ids()
+
+
+def test_ribes2020_radial_ey_intake():
+    """ribes2020 (data-only): 3 conditions x 3 zones; the baseline outer ring under-
+    extracts vs center, and a V60 paper filter BELOW the puck largely removes the
+    outer deficit. Slide-grade; guards the transcription + MANIFEST contract."""
+    rows = pwdata.ribes2020_radial_ey()
+    assert len(rows) == 9
+    need = {"condition", "tamper_base", "bottom_paper_filter", "zone",
+            "r_inner_mm", "r_outer_mm", "zone_ey_pct", "shot_ey_pct"}
+    assert need <= set(rows[0].keys())
+
+    def _ey(cond, zone):
+        m = [r for r in rows if r["condition"] == cond and r["zone"] == zone]
+        assert len(m) == 1, (cond, zone)
+        return float(m[0]["zone_ey_pct"])
+
+    assert _ey("baseline", "outer") < _ey("baseline", "center")            # outer deficit
+    assert _ey("bottom_filter", "outer") > _ey("baseline", "outer") + 5    # paper flattens
+    assert _ey("convex_tamper", "outer") < _ey("baseline", "outer")        # convex worsens
+    assert "ribes2020/radial_ey" in _manifest_ids()
+
+
+def test_ribes2021_radial_ey_intake():
+    """ribes2021 (data-only): 4 conditions x 3 zones; the outer ring under-extracts
+    without a contact screen above the puck, and a screen flattens it, on both VST and
+    Pullman baskets. Slide-grade; guards transcription + MANIFEST."""
+    rows = pwdata.ribes2021_radial_ey()
+    assert len(rows) == 12
+    for basket in ("vst_20g", "pullman_20g"):
+        def _ey(scr, zone):
+            m = [r for r in rows if r["basket"] == basket
+                 and r["contact_screen"] == scr and r["zone"] == zone]
+            assert len(m) == 1, (basket, scr, zone)
+            return float(m[0]["zone_ey_pct"])
+        assert _ey("no", "outer") < _ey("no", "center")               # outer deficit
+        assert _ey("yes", "outer") > _ey("no", "outer")               # screen flattens
+    assert "ribes2021/radial_ey" in _manifest_ids()
+
+
+def test_romancorrochano2015_table2_intake():
+    """romancorrochano2015 Table 2 (data-only): tamped-bed permeability K (m^2) with SD
+    and Tukey groups, 4 grinds x 3 bulk densities; K falls as the bed is packed denser
+    within a grind. Declared in the MANIFEST."""
+    rows = pwdata.romancorrochano2015_table2()
+    assert len(rows) == 12
+    need = {"grind", "bulk_density_kgm3", "permeability_m2", "permeability_sd_m2", "tukey_group"}
+    assert need <= set(rows[0].keys())
+    for grind in ("A", "B", "C", "D"):
+        by_rho = {r["bulk_density_kgm3"]: r for r in rows if r["grind"] == grind}
+        assert set(by_rho) == {360.0, 400.0, 480.0}
+        # the most-consolidated (480 kg/m^3) bed has the lowest K within each grind
+        # (the 360->400 trend is non-monotonic for the coarsest grind D — kept as-is)
+        assert by_rho[480.0]["permeability_m2"] == min(r["permeability_m2"] for r in by_rho.values())
+        assert all(r["permeability_sd_m2"] > 0 for r in by_rho.values())   # SD retained
+    assert "romancorrochano2015/table2" in _manifest_ids()
+
+
+def test_gagne2021_grinder_arm_intake():
+    """gagne2021 (data-only): grinder-arm EY/retention/temperature/resistance contrasts;
+    the low-fines EG-1+SSP arm reads a higher EY than the Niche arm (raw and VST-filtered).
+    The 11 .shot traces are a separate acquisition target. Declared in the MANIFEST."""
+    rows = pwdata.gagne2021_grinder_arm_summary()
+    assert len(rows) == 14
+    need = {"quantity", "grinder_arm", "value", "uncertainty", "units", "n", "read_method"}
+    assert need <= set(rows[0].keys())
+
+    def _val(quantity, arm):
+        m = [r for r in rows if r["quantity"] == quantity and r["grinder_arm"] == arm]
+        assert len(m) == 1, (quantity, arm)
+        return float(m[0]["value"])
+
+    assert _val("raw_ey", "eg1_ssp_ulf") > _val("raw_ey", "niche")
+    assert _val("vst_filtered_ey", "eg1_ssp_ulf") > _val("vst_filtered_ey", "niche")
+    assert {r["read_method"] for r in rows} <= {"measured", "figure"}
+    assert "gagne2021/grinder_arm_summary" in _manifest_ids()
+
+
+def test_gagne2021_shots_intake():
+    """gagne2021 raw DE1 .shot traces: all 11 shots parse into aligned espresso_*
+    channels with monotone elapsed time and plausible pressure, declared in the
+    MANIFEST. (Raw machine-logged hydraulics; no gate against the source.)"""
+    shots = pwdata.gagne2021_shots()
+    assert len(shots) == 11
+    for sid, ch in shots.items():
+        n = len(ch["espresso_elapsed"])
+        assert n > 100, sid                                       # a real shot
+        assert all(len(ch[c]) == n for c in ch), sid             # all channels aligned
+        el = ch["espresso_elapsed"]
+        assert (el[1:] >= el[:-1] - 1e-9).all(), sid             # elapsed non-decreasing
+        assert 0.0 <= float(ch["espresso_pressure"].max()) < 15.0, sid   # bar, plausible
+    assert "gagne2021/shots" in _manifest_ids()
+
+
+def test_khamitova2020_tamping_intake():
+    """khamitova2020 tamping-resolved chemistry (data-only): four compound tables +
+    the ground-coffee assay load, carry the 10/15/20/30 kgF tamping columns with RSD,
+    and rank caffeine > nicotinic acid; declared in the MANIFEST."""
+    tab = pwdata.khamitova2020_tamping()
+    assert set(tab) == {"total_cqa", "caffeine", "trigonelline", "nicotinic_acid", "ground_coffee"}
+    cqa = tab["total_cqa"]
+    assert len(cqa) == 9                                          # pressure x temperature grid
+    for tf in ("10", "15", "20", "30"):
+        assert f"{tf}kgF_mg_per_ml" in cqa[0] and f"{tf}kgF_RSD_pct" in cqa[0]
+    # caffeine is the most concentrated compound, nicotinic acid the least (per condition)
+    caf = tab["caffeine"][0]["20kgF_mg_per_ml"]
+    nic = tab["nicotinic_acid"][0]["20kgF_mg_per_ml"]
+    assert caf > nic
+    assert "khamitova2020/tamping" in _manifest_ids()
+
+
+def test_smrke2024_figures_intake():
+    """smrke2024 digitized figures (data-only): the figure set loads; the core Fig 3
+    EY-vs-time (46 pts across added-fines levels) and the Supp Fig S1 per-shot flow
+    profiles carry their expected columns; declared in the MANIFEST."""
+    figs = pwdata.smrke2024_figures()
+    assert "fig3_ey_vs_time" in figs and "figS1_flow_profiles" in figs
+    fig3 = figs["fig3_ey_vs_time"]
+    assert len(fig3) == 46
+    assert {"extraction_time_s", "extraction_pct", "series"} <= set(fig3[0].keys())
+    s1 = figs["figS1_flow_profiles"]
+    assert len(s1) > 1000
+    assert {"time_s", "flow_rate_g_per_s"} <= set(s1[0].keys())
+    assert "smrke2024/figures" in _manifest_ids()
+
+
+def test_sobolik2002_rheology_intake():
+    """sobolik2002 (calibration-provider): the viscosity/conductivity artifact set
+    loads; Table 1 has 11 concentration rows, the Eq. (4) viscosity line is positive,
+    and the digitized figures carry an evidence_strength column; MANIFEST-declared."""
+    art = pwdata.sobolik2002_rheology()
+    assert len(art) == 12
+    assert len(art["table1_kappa_coeffs"]) == 11                 # 11 mass fractions
+    eq4 = art["viscosity_concentrated_eq4"]
+    assert "mu_Pa_s" in eq4[0]
+    assert all(float(r["mu_Pa_s"]) > 0 for r in eq4[:20])
+    assert "evidence_strength" in art["viscosity_concentrated_fig2"][0]   # digitized -> labelled
+    assert "sobolik2002/rheology" in _manifest_ids()
+
+
+def test_moroney2015_data_intake():
+    """moroney2015 primary Philips dataset (data-only): the parameter tables +
+    digitized figures load (each past its `#` provenance header); Table 1 carries the
+    measured c_sat=212.4, kappa=3.1 and Table 2 the Delta_p/L permeability anchors;
+    the provenance manifest labels every file. MANIFEST-declared."""
+    art = pwdata.moroney2015_data()
+    assert {"table1_batch_params", "table2_cylindrical_params", "provenance_manifest"} <= set(art)
+    t1 = {r["parameter"]: r for r in art["table1_batch_params"]}
+    assert t1["c_sat"]["JK_drip_filter"] == 212.4 and t1["c_sat"]["Cimbali_20"] == 212.4
+    assert t1["kappa"]["JK_drip_filter"] == 3.1                      # measured Kozeny-Carman factor
+    assert t1["c_s"]["JK_drip_filter"] == 1400.0
+    t2 = {r["parameter"]: r for r in art["table2_cylindrical_params"]}
+    assert t2["Delta_p"]["JK_drip_filter"] == 230000.0 and t2["Delta_p"]["Cimbali_20"] == 65000.0
+    assert t2["L"]["JK_drip_filter"] == 0.0405                       # bed height (permeability anchor)
+    prov = art["provenance_manifest"]
+    assert len(prov) == 12 and {r["evidence_strength"] for r in prov} <= {"MEASURED", "ESTIMATED"}
+    assert "moroney2015/data" in _manifest_ids()

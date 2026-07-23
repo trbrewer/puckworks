@@ -1,0 +1,13 @@
+basket,contact_screen,zone,r_inner_mm,r_outer_mm,zone_ey_pct,shot_ey_pct
+vst_20g,no,center,0,18,25,22
+vst_20g,no,middle,18,25,23,22
+vst_20g,no,outer,25,29,17,22
+vst_20g,yes,center,0,18,26,24
+vst_20g,yes,middle,18,25,24,24
+vst_20g,yes,outer,25,29,22,24
+pullman_20g,no,center,0,18,25,21
+pullman_20g,no,middle,18,25,24,21
+pullman_20g,no,outer,25,29,16,21
+pullman_20g,yes,center,0,18,25,24
+pullman_20g,yes,middle,18,25,24,24
+pullman_20g,yes,outer,25,29,23,24

@@ -1,0 +1,16 @@
+# Digitization manifest: Moroney et al. (2015) Chem. Eng. Sci. 137:216-234, doi:10.1016/j.ces.2015.06.003
+# Generated 2026-07-22. Primary method: PDF vector-path extraction (PyMuPDF), tick-anchored calibration.
+# Evidence strength: MEASURED = exact plotted vector coordinates or verbatim text-layer values; ESTIMATED = raster color classification.
+file,figure_or_table,evidence_strength,series_count,notes
+fig01_grind_size_distributions.csv,Fig 1,MEASURED,2,vector paths; log-x tick calibration; path extends below displayed 0.1um edge
+fig02_batch_extraction_cbrew.csv,Fig 2,MEASURED,2,marker centroids; cross-validated vs Fig 6 exp markers (<0.2%)
+fig03_cylindrical_chamber_profiles.csv,Fig 3,MEASURED,4,major-tick calibration (frames padded); cross-validated vs Fig 7 (x1.033 density factor)
+fig06_batch_model_vs_experiment.csv,Fig 6,MEASURED,4,model polylines + experiment asterisk centroids
+fig07_cylindrical_model_vs_experiment.csv,Fig 7,MEASURED,4,model polylines + experiment asterisk centroids
+fig08_component_extraction_kinetics.csv,Fig 8,ESTIMATED,7,raster JPEG source; y-calibration assumes top border = 1.2; fraction-1 occlusions flagged
+fig09_grind_size_distributions_supplementary.csv,Fig 9,MEASURED,4,JK & Cimbali20 numerically identical to Fig 1 (max dy 0.0002)
+fig10_batch_extraction_five_grinds.csv,Fig 10,MEASURED,5,major-tick x calibration (frame padded ~8%); legend markers excluded
+fig11_bed_mass_comparison.csv,Fig 11,MEASURED,4,blue series duplicates Fig 3 a/b
+fig12_pressure_comparison.csv,Fig 12,MEASURED,4,blue series duplicates Fig 3 a/b
+table1_batch_simulation_parameters.csv,Table 1,MEASURED,2,verbatim text-layer transcription
+table2_cylindrical_simulation_parameters.csv,Table 2,MEASURED,2,verbatim text-layer transcription

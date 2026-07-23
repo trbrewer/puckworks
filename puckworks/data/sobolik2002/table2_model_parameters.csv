@@ -1,0 +1,18 @@
+model,parameter,units,value,confidence_interval_plus_minus
+model_9,kappa_c0,S m-1,5.833,0.5
+model_9,kappa_c1,S m-1 degC-1,0.2439,0.01
+model_9,a,-,1.731,0.11
+model_9,b,-,2.648,0.16
+model_9,c,degC-1,-0.0111,0.0012
+model_9,kappa_w,S m-1,0.0503,0.0005
+model_9,omega_c,-,0.454,0.01
+model_9,sigma,S m-1,0.0621,
+model_9,R,-,0.9975,
+model_10_modified_Casteel_Amis,kappa_max0,S m-1,0.3606,0.14
+model_10_modified_Casteel_Amis,kappa_max1,S m-1 degC-1,0.04198,0.0028
+model_10_modified_Casteel_Amis,omega_max0,-,0.2667,0.02
+model_10_modified_Casteel_Amis,omega_max1,degC-1,0.000678,0.00034
+model_10_modified_Casteel_Amis,x,-,0.4055,0.111
+model_10_modified_Casteel_Amis,y,-,-9.941,1.06
+model_10_modified_Casteel_Amis,sigma,S m-1,0.0982,
+model_10_modified_Casteel_Amis,R,-,0.9936,

@@ -7,6 +7,7 @@ subdirectories (e.g. ``waszkiewicz2025/``) with a ``PROVENANCE.md`` and a row in
 column header declares — units are asserted, not trusted (CLAUDE.md rule 7).
 """
 import csv
+import re
 from pathlib import Path
 
 import numpy as np
@@ -943,6 +944,198 @@ def pocketscience_lrr():
     (g water / g dose), lumped post-flush retention (n=5 each). NOT in-shot dead water
     and NOT a retention curve theta(psi): does not satisfy the G1 search target."""
     return _rows(_PSCI / "lrr_scalars.csv")
+
+
+# --- moroney2019 (extraction-uniformity CFD; Table 2 params + cooper2021 errata) --
+def moroney2019_table2():
+    """moroney2019 Table 2 — fine/coarse two-population LDF extraction parameters
+    (data-only; card `moroney2019`). Six (grind x model) configs: representative grain
+    diameter d_s (m), solid volume fraction alpha_s, initial intragranular concentration
+    c_s0 (kg/m^3), and mass-transfer coefficient h_sl (m/s). `h_sl_reported_ms` is the
+    value printed in the 2019 paper; `h_sl_corrected_ms` and the species-split diffusivity
+    `D_v_m2s` apply the AUTHOR-CONFIRMED cooper2021 errata (h_sl_true = h_sl_reported/965.3;
+    D_v = h_sl_corrected * d_s) — a silent ~10^3 fix. Use the corrected column for any
+    kinetics check. NOT a model; no gate against the source."""
+    return _typed_rows(DATA_DIR / "moroney2019" / "table2.csv")
+
+
+# --- ribes2020 (three-zone radial EY; outlet paper filter + tamper shape) ---------
+def ribes2020_radial_ey():
+    """ribes2020 — three-zone radial extraction yield on a DE1 (data-only; card
+    `ribes2020`). 3 conditions x 3 annular zones (center 0-18, middle 18-25, outer
+    25-29 mm) with per-zone and shot EY (%): baseline, a V60 paper filter BELOW the puck
+    (outlet-side), and a convex ('US curve') tamper. Slide-grade, unknown n; the robust
+    content is the pattern and the intervention deltas, not absolute zone EYs."""
+    return _rows(DATA_DIR / "ribes2020" / "radial_ey.csv")
+
+
+# --- ribes2021 (three-zone radial EY; contact screen above the puck) --------------
+def ribes2021_radial_ey():
+    """ribes2021 — three-zone radial extraction yield on a DE1 (data-only; card
+    `ribes2021`). 4 conditions (VST/Pullman 20 g x contact-screen no/yes) x 3 annular
+    zones (same radii as ribes2020) with per-zone and shot EY (%). Slide-grade, unknown
+    n; robust content is the outer-ring deficit and its flattening under a contact
+    screen above the puck, not absolute zone EYs."""
+    return _rows(DATA_DIR / "ribes2021" / "radial_ey.csv")
+
+
+# --- romancorrochano2015 (journal-of-record tamped-bed permeability) ---------------
+def romancorrochano2015_table2():
+    """romancorrochano2015 Table 2 — tamped-bed permeability K (m^2), mean +/- SD of
+    triplicate beds, per grind (A-D) x bulk density (360/400/480 kg/m^3), with the
+    paper's Tukey groups (alpha=0.05) (data-only; card `romancorrochano2015`). The DOI'd
+    CC-BY version of record that supersedes the thesis Table 6.1 transcription target; the
+    K-C equations remain non-predictive (take the table, skip the models)."""
+    return _typed_rows(DATA_DIR / "romancorrochano2015" / "table2.csv")
+
+
+# --- gagne2021 (standard vs low-fines blooming; grinder-arm summary) --------------
+def gagne2021_grinder_arm_summary():
+    """gagne2021 — grinder-arm summary of an 11-shot blind DE1 comparison (data-only;
+    card `gagne2021`). Per-arm (EG-1+SSP ULF n=6 vs Niche n=5) measured EY/retention and
+    figure-read temperature/resistance/drip contrasts; `read_method` flags measured vs
+    figure. The 11 `.shot` P/flow/T traces are a separate acquisition target (not held).
+    NOT a model; the source's own viscosity-decline reconstruction is endpoint-anchored."""
+    return _rows(DATA_DIR / "gagne2021" / "grinder_arm_summary.csv")
+
+
+# DE1 .shot time-series channels (aligned per shot; DE1 units s/bar/mL·s^-1/g/degC)
+_DE1_SHOT_CHANNELS = (
+    "espresso_elapsed", "espresso_pressure", "espresso_flow", "espresso_flow_weight",
+    "espresso_weight", "espresso_temperature_basket", "espresso_temperature_mix",
+    "espresso_water_dispensed", "espresso_pressure_goal", "espresso_flow_goal",
+    "espresso_temperature_goal",
+)
+
+
+def _parse_de1_shot(path):
+    """Parse a Decent DE1 `.shot` file (TCL `key {v1 v2 ...}` records) into aligned
+    float channels for the espresso_* time series. Reads verbatim — no unit conversion,
+    no resampling. Returns {channel: np.ndarray} (missing channel -> empty array)."""
+    text = Path(path).read_text(encoding="utf-8", errors="replace")
+    out = {}
+    for ch in _DE1_SHOT_CHANNELS:
+        m = re.search(r"^" + ch + r" \{([^{}]*)\}", text, re.M)
+        out[ch] = np.array([float(v) for v in m.group(1).split()], dtype=float) \
+            if m else np.array([], dtype=float)
+    return out
+
+
+def gagne2021_shots():
+    """gagne2021 — the 11 published DE1 `.shot` traces (data-only; card `gagne2021`).
+    Returns {shot_id: {channel: np.ndarray}} with the aligned espresso_* time series
+    (elapsed s, pressure bar, flow & flow_weight, cumulative weight g, basket/mix temp
+    degC, water dispensed, and the pressure/flow/temperature goals) for a flow-controlled
+    blooming profile — complements the DE1 fixture-A pressure-profile trace. The DE1
+    `puck resistance` channel is firmware-defined and ~20% end-of-shot flow-sensor drift
+    is documented on the card. NOT a model; no gate against the source."""
+    return {p.stem: _parse_de1_shot(p)
+            for p in sorted((DATA_DIR / "gagne2021" / "shotfiles").glob("*.shot"))}
+
+
+# --- khamitova2020 (tamping-force-resolved espresso chemistry; data-only) ----------
+def khamitova2020_tamping():
+    """khamitova2020 — tamping-force-resolved espresso chemistry (data-only; card
+    `khamitova2020`). Returns {compound: rows} for total CQA / caffeine / trigonelline /
+    nicotinic acid (Tables 5.2–5.5: mg per 40 mL and per mL + RSD %, across pressure ×
+    temperature × tamping force 10/15/20/30 kgF), plus `ground_coffee` (Table 5.6, the
+    dry-coffee assay). The registry's only tamping-force-resolved multi-compound set;
+    the tamping effect is ≈ null on per-species concentration at fixed 1:2 ratio. NOT a
+    model (the 3D solver duplicates angeloni2023); no gate against the source."""
+    files = {
+        "total_cqa": "Table_5.2_Total_CQA_concentration.csv",
+        "caffeine": "Table_5.3_Caffeine_concentration.csv",
+        "trigonelline": "Table_5.4_Trigonelline_concentration.csv",
+        "nicotinic_acid": "Table_5.5_Nicotinic_acid_concentration.csv",
+        "ground_coffee": "Table_5.6_Ground_coffee.csv",
+    }
+    return {k: _typed_rows(DATA_DIR / "khamitova2020" / v) for k, v in files.items()}
+
+
+# --- smrke2024 (fines in espresso extraction dynamics; digitized figures) ----------
+def smrke2024_figures():
+    """smrke2024 — digitized figures of the fines-vs-extraction study (data-only; card
+    `smrke2024`). Returns {figure: rows}. Core assets: `fig3_ey_vs_time` (~46 EY-vs-time
+    points across 4 added-fines levels 0/1/2/4 g) and `figS1_flow_profiles` (per-shot
+    flow-rate traces across the PSD grid — a second-machine complement to DE1 fixture A).
+    Also fig2 PSD summary, fig4 PLSR points + PSD curves, fig5 predicted-vs-measured,
+    fig6 PTR-MS groups, fig7 sensory. Figure digitization (see the dir's
+    DIGITIZATION_NOTES.md); overlap-split flags on marker clusters. No published
+    coefficients — no gate against the source is possible."""
+    P = "41598_2024_55831_"
+    files = {
+        "fig2_psd_summary": P + "Fig2_HTML.csv",
+        "fig3_ey_vs_time": P + "Fig3_HTML.csv",
+        "fig4_plsr_points": P + "Fig4_HTML_plsr_points.csv",
+        "fig4_psd_curves": P + "Fig4_HTML_psd_curves.csv",
+        "fig5_predicted_time": P + "Fig5_HTML_panel_a_time.csv",
+        "fig5_predicted_yield": P + "Fig5_HTML_panel_b_yield.csv",
+        "fig6_ptrms": P + "Fig6_HTML.csv",
+        "fig7_sensory": P + "Fig7_HTML.csv",
+        "figS1_flow_profiles": P + "MOESM1_ESM_FigS1.csv",
+    }
+    return {k: _rows(DATA_DIR / "smrke2024" / v) for k, v in files.items()}
+
+
+# --- sobolik2002 (coffee-extract viscosity & conductivity; G10 third source) --------
+def sobolik2002_rheology():
+    """sobolik2002 — viscosity μ(ω,T) and electrical conductivity κ(ω,T) of concentrated
+    soluble-coffee solutions (calibration-provider; card `sobolik2002`). A THIRD
+    independent liquor-viscosity source for gap G10, beside telisromero2001/2000 and
+    khomyakov2020. Returns {artifact: rows}: Table 1 κ quadratic coefficients, Table 2
+    model parameters, the Eq. (4)/(5) computed viscosity lines and their Fig. 2/3
+    digitized markers (each digitized file carries an `evidence_strength` column), the
+    Eq. (11)/(9)/(10) conductivity models + Fig. 6 markers, Eq. (1)-(3) physical
+    properties, the Fig. 1 flow curves, and the Fig. 4 apparatus dimensions. ω = kg dry
+    coffee / kg solution. See the dir's README.md for validation and anomaly flags."""
+    files = {
+        "table1_kappa_coeffs": "table1_kappa_quadratic_coefficients.csv",
+        "table2_model_params": "table2_model_parameters.csv",
+        "viscosity_concentrated_eq4": "eq4_viscosity_concentrated_computed.csv",
+        "viscosity_dilute_eq5": "eq5_viscosity_dilute_computed.csv",
+        "viscosity_concentrated_fig2": "fig2_viscosity_concentrated_digitized.csv",
+        "viscosity_dilute_fig3": "fig3_viscosity_dilute_weisser_digitized.csv",
+        "conductivity_eq11": "eq11_kappa_computed_from_table1.csv",
+        "conductivity_eq9_eq10": "eq9_eq10_conductivity_models_computed.csv",
+        "conductivity_fig6": "fig6_conductivity_vs_massfraction_digitized.csv",
+        "physical_properties_eq1_2_3": "eq1_eq2_eq3_physical_properties_computed.csv",
+        "flow_curves_fig1": "fig1_flow_curves_digitized.csv",
+        "apparatus_fig4": "fig4_apparatus_dimensions.csv",
+    }
+    return {k: _rows(DATA_DIR / "sobolik2002" / v) for k, v in files.items()}
+
+
+# --- moroney2015 (primary Philips multiscale dataset; data-only) --------------------
+def moroney2015_data():
+    """moroney2015 — the primary Philips multiscale dataset (data-only; card
+    `moroney2015`), the source moroney2016 / moroney2019 / cooper2021 all borrow from.
+    Returns {artifact: rows} (every file carries a `#` provenance header, skipped on
+    load): Table 1 (batch) and Table 2 (cylindrical) simulation parameters for
+    JK-drip-filter (fine) and Cimbali-#20 (coarse) — including the measured
+    Kozeny–Carman kappa = 3.1, c_sat = 212.4 kg/m^3, and the permeability anchors
+    (Delta_p, L per grind); the Fig 1/9 bimodal PSDs; the Fig 2/10 batch-extraction
+    curves (five grinds); the Fig 3/7 cylindrical chamber & exit profiles (fine AND
+    coarse); the Fig 6 batch model-vs-experiment; the Fig 8 per-component extraction
+    kinetics; the Fig 11/12 bed-mass / pressure-invariance comparisons; and the
+    `provenance_manifest` (per-file evidence_strength MEASURED/ESTIMATED). NOT a
+    runtime model — already registered in better forms (moroney2016 surrogate,
+    cameron2020 runtime); the brew ratio is drip-filter, not espresso."""
+    files = {
+        "table1_batch_params": "table1_batch_simulation_parameters.csv",
+        "table2_cylindrical_params": "table2_cylindrical_simulation_parameters.csv",
+        "fig1_psd": "fig01_grind_size_distributions.csv",
+        "fig2_batch_cbrew": "fig02_batch_extraction_cbrew.csv",
+        "fig3_cylindrical_profiles": "fig03_cylindrical_chamber_profiles.csv",
+        "fig6_batch_model_vs_exp": "fig06_batch_model_vs_experiment.csv",
+        "fig7_cylindrical_model_vs_exp": "fig07_cylindrical_model_vs_experiment.csv",
+        "fig8_component_kinetics": "fig08_component_extraction_kinetics.csv",
+        "fig9_psd_supplementary": "fig09_grind_size_distributions_supplementary.csv",
+        "fig10_batch_five_grinds": "fig10_batch_extraction_five_grinds.csv",
+        "fig11_bed_mass": "fig11_bed_mass_comparison.csv",
+        "fig12_pressure": "fig12_pressure_comparison.csv",
+        "provenance_manifest": "README_manifest.csv",
+    }
+    return {k: _typed_rows_hashskip(DATA_DIR / "moroney2015" / v) for k, v in files.items()}
 
 
 # --- canonical visualizer corpus snapshot interface (WP0/PR1) --------------

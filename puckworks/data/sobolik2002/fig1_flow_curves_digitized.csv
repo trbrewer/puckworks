@@ -1,0 +1,18 @@
+series,symbol,shear_rate_s-1,shear_stress_Pa,apparent_viscosity_Pa_s,evidence_strength,notes
+after_2h_and_passing_95C,open_circle,1.8905,6.1418,3.2488,DIGITIZED_HIGH,
+after_2h_and_passing_95C,open_circle,3.1438,10.8318,3.4454,DIGITIZED_HIGH,
+after_2h_and_passing_95C,open_circle,5.655,19.9581,3.5293,DIGITIZED_HIGH,
+after_2h_and_passing_95C,open_circle,9.4179,33.3651,3.5427,DIGITIZED_HIGH,
+after_2h_and_passing_95C,open_circle,16.9306,60.7702,3.5894,DIGITIZED_HIGH,
+after_2h_and_passing_95C,open_circle,28.1864,103.5208,3.6727,DIGITIZED_HIGH,
+after_2h_and_passing_95C,open_circle,50.6805,187.0484,3.6907,DIGITIZED_HIGH,
+after_2h_and_passing_95C,open_circle,151.7857,549.8021,3.6222,DIGITIZED_HIGH,
+immediately_after_sample_preparation,filled_circle,1.0544,6.2089,5.8883,DIGITIZED_HIGH,
+immediately_after_sample_preparation,filled_circle,1.8891,11.2084,5.9333,DIGITIZED_HIGH,
+immediately_after_sample_preparation,filled_circle,3.1446,18.4796,5.8766,DIGITIZED_HIGH,
+immediately_after_sample_preparation,filled_circle,5.662,33.014,5.8308,DIGITIZED_HIGH,
+immediately_after_sample_preparation,filled_circle,9.4244,53.4393,5.6703,DIGITIZED_HIGH,
+immediately_after_sample_preparation,filled_circle,16.9544,94.9453,5.6001,DIGITIZED_HIGH,
+immediately_after_sample_preparation,filled_circle,28.1999,151.7607,5.3816,DIGITIZED_HIGH,
+immediately_after_sample_preparation,filled_circle,50.6478,256.1746,5.058,DIGITIZED_HIGH,
+immediately_after_sample_preparation,filled_circle,84.4314,347.8999,4.1205,DIGITIZED_MEDIUM,overlapping/merged marker cluster; centroid uncertain

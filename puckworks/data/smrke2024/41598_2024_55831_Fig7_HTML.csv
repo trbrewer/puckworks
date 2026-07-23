@@ -1,0 +1,45 @@
+series,grind_setting,extraction_time_s,sensory_score,pixel_x,pixel_y,note
+1g_fines,250,11.84,2.163,333.5,837.5,split from overlapping label pair
+1g_fines,250,11.84,1.997,333.5,883.5,
+1g_fines,250,12.43,2.163,341.5,837.5,split from overlapping label pair
+1g_fines,210,22.44,3.998,476.0,327.5,
+1g_fines,210,23.89,3.664,495.5,420.5,split from horizontally-overlapping label pair
+1g_fines,210,25.97,3.664,523.5,420.5,split from horizontally-overlapping label pair
+1g_fines,190,35.05,3.332,645.5,512.5,ocr_corrected_from_130
+1g_fines,190,37.14,3.167,673.5,558.5,
+1g_fines,190,38.74,3.664,695.0,420.5,
+1g_fines,190,39.81,3.498,709.5,466.5,
+2g_fines,250,16.97,2.831,402.5,652.0,ocr_corrected_from_25
+2g_fines,250,17.34,3.0,407.5,605.0,
+2g_fines,250,18.24,2.663,419.5,698.5,
+2g_fines,210,31.03,3.664,591.5,420.5,
+2g_fines,210,33.12,4.164,619.5,281.5,
+2g_fines,210,34.53,3.498,638.5,466.5,ocr_corrected_from_710
+2g_fines,190,51.64,2.163,868.5,837.5,
+2g_fines,190,54.84,1.83,911.5,930.0,label occluded by overlapping 4g label; grind inferred from replicate set
+2g_fines,190,62.95,1.663,1020.5,976.5,
+4g_fines,250,29.73,2.663,574.0,698.5,
+4g_fines,250,32.89,3.165,616.5,559.0,
+4g_fines,250,33.38,3.0,623.0,605.0,
+4g_fines,210,54.88,1.83,912.0,930.0,ocr_corrected_from_216
+4g_fines,210,59.98,1.499,980.5,1022.0,
+4g_fines,210,60.68,1.83,990.0,930.0,
+4g_fines,190,79.58,1.163,1244.0,1115.5,ocr_corrected_from_130
+no_added_fines,250,8.27,1.997,285.5,883.5,
+no_added_fines,250,9.08,1.832,296.5,929.5,"overprinted label, ~2 coincident points inferred from ink density; 1 of 2"
+no_added_fines,250,9.08,1.832,296.5,929.5,"overprinted label, ~2 coincident points inferred from ink density; 2 of 2"
+no_added_fines,210,19.69,2.663,439.0,698.5,
+no_added_fines,210,19.95,2.831,442.5,652.0,split from merged label pair
+no_added_fines,190,22.63,2.831,478.5,652.0,split from merged label pair
+no_added_fines,190,23.3,3.332,487.5,512.5,
+no_added_fines,190,26.68,3.167,533.0,558.5,
+no_added_fines,190,28.36,3.998,555.5,327.5,
+no_added_fines,180,42.94,3.167,751.5,558.5,
+no_added_fines,180,45.65,2.498,788.0,744.5,
+no_added_fines,180,46.03,2.831,793.0,652.0,ocr_corrected_from_185
+no_added_fines,170,55.55,1.997,921.0,883.5,ocr_corrected_from_179
+no_added_fines,170,57.63,1.832,949.0,929.5,
+no_added_fines,170,58.6,1.332,962.0,1068.5,ocr_corrected_from_179
+no_added_fines,160,62.69,0.997,1017.0,1161.5,
+no_added_fines,160,67.79,0.997,1085.5,1161.5,
+no_added_fines,160,68.12,1.163,1090.0,1115.5,
