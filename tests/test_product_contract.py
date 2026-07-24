@@ -400,3 +400,31 @@ def test_golden_is_test_only_not_package_data():
     if prod.exists():
         shipped = [f for f in prod.rglob("*") if f.is_file() and f.suffix in (".csv", ".json", ".md")]
         assert not shipped, shipped
+
+
+def test_pw_prod_002_encoder_recurses_dicts_and_rejects_drift():
+    from enum import Enum
+    from puckworks.product._serialize import _encode, SchemaError
+    import pytest as _pt
+
+    class _E(Enum):
+        A = "a"
+    # dicts recurse with enum/list handling
+    assert _encode({"k": _E.A, "n": [1, _E.A]}) == {"k": "a", "n": [1, "a"]}
+    # non-string key, non-finite float, and arbitrary object all fail (never silently pass through)
+    with _pt.raises(SchemaError):
+        _encode({1: "x"})
+    with _pt.raises(SchemaError):
+        _encode(float("inf"))
+    with _pt.raises(SchemaError):
+        _encode(object())
+
+
+def test_pw_prod_001_detected_event_time_must_be_nonnegative():
+    from puckworks.product._records import DetectedEvent
+    from puckworks.product._enums import SeriesKind
+    import pytest as _pt
+    kind = list(SeriesKind)[0]
+    DetectedEvent(event_id="e", time_s=0.0, origin=kind, provenance="p")   # valid
+    with _pt.raises(ValueError):
+        DetectedEvent(event_id="e", time_s=-1.0, origin=kind, provenance="p")

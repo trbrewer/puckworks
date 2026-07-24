@@ -10,6 +10,7 @@ types, reports a path-aware :class:`SchemaError`, and never silently ignores or 
 from __future__ import annotations
 
 import json
+import math
 from dataclasses import fields, is_dataclass
 from enum import Enum
 
@@ -55,7 +56,22 @@ def _encode(obj):
         return obj.value
     if isinstance(obj, (list, tuple)):
         return [_encode(x) for x in obj]
-    return obj
+    if isinstance(obj, dict):                       # recurse into mappings with string-key validation
+        out = {}
+        for k, v in obj.items():
+            if not isinstance(k, str):
+                raise SchemaError("mapping key must be a string, got %s" % type(k).__name__)
+            out[k] = _encode(v)
+        return out
+    if obj is None or isinstance(obj, (bool, int, str)):
+        return obj
+    if isinstance(obj, float):
+        if not math.isfinite(obj):
+            raise SchemaError("non-finite float in a product record: %r" % (obj,))
+        return obj
+    # anything else (numpy scalar, Path, arbitrary object) is a schema drift — fail, never pass it
+    # through unencoded where json/allow_nan would then mask or mangle it.
+    raise SchemaError("unsupported product-record value type: %s" % type(obj).__name__)
 
 
 def _canonical_json(payload: dict) -> str:
