@@ -329,6 +329,20 @@ coupling ≈ −0.84, SSE profile flat over ~45 % of the grid). This is practica
 non-identifiability over the tested domain, quantified — robust to the matched-mass and
 exact-level corrections and consistent across the SSE and MAPE objectives.
 
+**Objective-family robustness** (P0-5 / review MC4; `identifiability_panel.objective_family`).
+Because the named-solute per-cell measurement uncertainty is unavailable (only a global RSD range
+exists), a *calibrated* weighting cannot be fit; instead we re-profile the same PDE predictions under
+a family of objectives — unweighted SSE, a relative-L2, and a robust **Huber** (δ per panel from
+1.345·1.4826·MAD at the SSE optimum), spanning the absolute- and relative-error ends — as a
+sensitivity sweep. The degeneracy is **invariant to the objective**: across caffeine, trigonelline and
+5-CQA and both varieties the 10 %-near-optimal rate set spans **31–76 %** of the tested log-rate grid
+and reaches a domain boundary in most panels, and the rate at the objective minimum **shifts with the
+loss** (Arabica caffeine 0.66 → 0.58 → 0.86 under SSE → relative → Huber) — a well-identified rate
+would not. A relative or robust weighting therefore does not close the valley; the weak localization
+is a property of the design, not of the unweighted objective. (Full table:
+`docs/paper1_resource/PAPER_A_P0-5_RESULTS.md`; the calibrated named-solute interval remains owed on
+the source replicate drop.)
+
 **Grid-density and domain convergence** (`identifiability_panel_convergence`, review
 A2-06/07) confirms it is not a coarse-grid or chosen-domain artefact: across rate grids of
 **18 / 36 / 72** points the caffeine condition number is **1924 / 2069 / 2067** and the
@@ -380,6 +394,16 @@ honest reading is therefore that the fitted level-plus-rate pair *does not catas
 deteriorate* across grinds — **not** that the kinetic/transport mechanism transfers: its
 incremental predictive skill over a level-only baseline is small, and endpoint-level MAPE
 does not diagnose mechanism. This sharpens rather than weakens the paper's thesis.
+
+Treating the 108 held-out points as the **dependent** observations they are (6 variety × solute
+groups × shared (T,p) conditions × two grinds), a **clustered bootstrap** of the paired model-minus-null
+loss (P0-5 / review MC4; B = 8000, seed 0) puts the 95 % interval on the pooled ΔMAPE at
+**[−0.73, +0.03] pp** resampling conditions within group (the primary unit — it **includes zero**) and
+**[−0.75, −0.03] pp** resampling whole groups (barely excluding it). The ≈0.4 pp advantage is
+therefore **not robustly distinguishable from zero** once the dependence is respected — the mechanism
+adds no resolvable skill over a learned level. (This resamples the two fixed predictors' precomputed
+losses; a coverage-calibrated LOCO interval that *repeats the fit* under resampling is deferred, P0-5
+sub-analysis C.)
 
 A **shared-parameter compatibility analysis** complements the holdout: a *single shared*
 `(c_s0, rate_scale)` fitted jointly to O+C+F (`joint_multigrind_fit`) reconstructs the
@@ -600,10 +624,12 @@ an endpoint artefact.
   replacing the 2-point holdout (M4) with descriptive intervals and a log-loss robustness
   check (M6); and a **geometry-sensitivity sweep** (`geometry_sensitivity_transfer`,
   ≤1 pp across the three fitted geometries, B5). Still owed: per-condition residual
-  plots by (T, p, grind, variety, solute); per-point measurement-uncertainty weighting
-  (only total-solids carries RSD; the named-solute rows retain the source's reported
-  central values, not the replicate-level RSD); and a coverage-calibrated CV interval
-  that repeats the fit under resampling.
+  plots by (T, p, grind, variety, solute); a *calibrated* per-point named-solute weighting
+  (only total-solids carries RSD; the named-solute rows retain the source's central values, not
+  replicate-level RSD — an **objective-family sensitivity sweep** is delivered in its place (P0-5,
+  §4), but the calibrated interval stays owed on the source replicate drop); and a coverage-calibrated
+  LOCO CV interval that repeats the fit under resampling (P0-5 sub-analysis **C, deferred**). A
+  dependence-aware **clustered bootstrap** of the model-vs-null skill **is** delivered (P0-5, §5).
 - **A profiled-objective / condition-number identifiability panel** — *delivered*
   (§4, `identifiability_panel`): caffeine log-Hessian condition number ≈1930, local
   inverse-curvature coupling ≈ −0.99 (a geometric SSE-surface diagnostic, not a
