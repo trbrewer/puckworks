@@ -27,7 +27,43 @@ Owner-types:
 | Declaration/reference placeholders remain (MC13, §4.12) | read JFE tail | **CONFIRMED** — `[Insert … statement.]` for CRediT/funding/COI/AI; References stub |
 | No manuscript-consistency / drift gate exists | search tools+tests | **CONFIRMED** — only `readme_governance`; nothing guards the two Paper-A files |
 
-## Gating decision (author) — blocks the mechanical P0 work
+## Status — 2026-07-24 mechanical batch (canonical = `PAPER_A_DRAFT.md`)
+
+Author decisions taken: **canonical source = `docs/PAPER_A_DRAFT.md`**; execute the **[mech]** batch.
+Landed on the conversion `docs/submission/PAPER_A_JFE_MANUSCRIPT.md` (no scientific rewording — every
+change is either a verbatim port of the canonical draft's already-corrected wording or a numbering/
+scaffolding cleanup):
+
+- **P0-1 direction set** — `PAPER_A_DRAFT.md` is canonical; the JFE file is a synced view. ✅
+- **P0-2 drift guard built** — `tools/paper_a_consistency.py` (5 banned + 5 required phrase pairs, with a
+  config-sanity check against the canonical draft) + `tests/test_paper_a_consistency.py` (5 tests). It runs
+  in the **quick-pr pytest lane**, so regression is caught at PR time without a workflow change. ✅
+- **P0-3 language sync** — all 5 retired phrases replaced with the canonical draft's wording: `identifiability
+  ratio`→`profile range ratio`; the Table 7 `collapses…narrow band`/`interior, unique`→`conditional
+  one-dimensional intersection band` (+ "not a confidence interval", "illustrative ±10 % perturbation");
+  `frozen-parameter transfer` heading→`cross-grind endpoint prediction versus a level-only baseline`;
+  `matched 40 g cups`→`40 mL matched-volume proxies…`; `nested reduced-model ladder`/`explains essentially
+  nothing`→`in-sample comparator ladder` (non-nested, descriptive). ✅
+- **P0-8 scaffolding (partial)** — removed the L9 editorial conversion note, converted the 4 inline `Strength:`
+  result labels to plain prose (content preserved, per MC11's "integrate into prose"), and removed the
+  Data/code-availability `Strength tags`/`not in CI`/change-log scaffolding. ✅ (partial — see deferred)
+- **P0-9 numbering (partial)** — Methods subsections `2.1`–`2.6`→`3.1`–`3.6`. ✅ (partial — see deferred)
+
+### Deliberately deferred from this batch (needs author judgment or new analysis — NOT mechanical)
+
+- **In-text §-cross-reference remap** (part of P0-9): the `(§4)/(§5)/(§6)/(§3–§5)` in-text refs are still on
+  the working-draft numbering. Remapping them is entangled with the fact that the canonical draft and the
+  conversion have **different top-level section structures**, so it needs the author's intended target
+  mapping — left for the author pass, not guessed.
+- **Evidence-vocabulary → study-design table** (MC11 / P1-7): the inline labels were de-tagged, but relocating
+  the §3.6 evidence taxonomy and the Result-1 table's `strength` column into one study-design table is [author].
+- **Declaration/reference/author placeholders** (`[insert]`, `[Insert … statement.]`, References stub): left in
+  place — these are needed fields to be **filled** (P0-7 [external], P2-4 [author]), not deleted.
+- All **[analysis]** (P0-4 Table 7 units audit, P0-5 uncertainty reruns) and **[author]/[external]** items below.
+
+## Gating decision (author) — RESOLVED: canonical = `PAPER_A_DRAFT.md` (mechanical stream above)
+
+*(retained for provenance)*
 
 MC1 requires choosing **one canonical Paper-A source** and regenerating the venue conversion from it, then
 adding a check that fails on divergence. Until that is chosen, patching `PAPER_A_JFE_MANUSCRIPT.md` directly
