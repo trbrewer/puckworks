@@ -36,6 +36,7 @@ def test_tour_manifest_unchanged():
 
 
 @pytest.mark.slow
+@pytest.mark.scientific_baseline
 def test_frozen_reference_request_reproduces_the_baseline_scientific_hash():
     from puckworks.product import lab, lab_tour
     t = lab_tour.execute_laboratory_tour(lab.ScenarioRequest("pv19_named"),

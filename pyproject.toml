@@ -57,6 +57,7 @@ markers = [
     "release: release-build / archive verification",
     "gpu: needs a GPU / taichi",
     "external_data: needs non-redistributable external data",
+    "scientific_baseline: asserts a FROZEN scientific hash / cross-model determinism / import-order invariance. Also slow (so quick-pr excludes it); the scientific-baseline CI job runs '-m scientific_baseline' on every PR so a silent baseline drift is caught at PR time.",
 ]
 
 [build-system]
