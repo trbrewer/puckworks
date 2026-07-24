@@ -1,8 +1,14 @@
 """CLI for the Guided Espresso Pull — ``puckworks-pull`` (issue #48).
 
 CPU-only, no network, no private data. Same validation as the Python API. Warnings go to stderr and
-into the exported reports; exit is nonzero for REJECTED input or a failed primary stage, and zero for
-a completed warning-mode extrapolation (with a conspicuous warning summary).
+into the exported reports.
+
+Exit codes (stable):
+  0  success (including a completed warning-mode extrapolation)
+  2  REJECTED input / unexecutable configuration (PullDomainError)
+  3  a required optional dependency for figures (matplotlib / the [viz] extra) is missing
+  4  an output path already exists (without --force) or an I/O error
+  5  the solver produced a non-finite / non-physical result (PullExecutionError)
 """
 from __future__ import annotations
 
@@ -14,6 +20,7 @@ from ._pull import (
     PullConfig,
     PullDomainError,
     PullEvent,
+    PullExecutionError,
     PullRecipe,
     available_pull_presets,
     load_pull_preset,
@@ -22,6 +29,8 @@ from ._pull import (
     pull_run_summary,
     simulate_pull,
 )
+
+_VIZ_MODULES = {"matplotlib", "matplotlib.pyplot", "mpl_toolkits"}
 
 
 def _progress(event: PullEvent, payload: dict) -> None:
@@ -62,9 +71,29 @@ def _cmd_presets(_args) -> int:
     return 0
 
 
+def _plain_out_targets(args):
+    """The <out>.json/<out>.md files written when NOT rendering a figures report (else ())."""
+    if args.out and not (args.figures or args.report_dir):
+        base = Path(args.out)
+        return (base.with_suffix(".json"), base.with_suffix(".md"))
+    return ()
+
+
+def _check_output_collisions(args) -> None:
+    """Refuse to overwrite existing outputs unless --force. Checked BEFORE the run so no scientific
+    work is done just to fail at write time."""
+    if args.force:
+        return
+    existing = [str(p) for p in _plain_out_targets(args) if p.exists()]
+    if existing:
+        raise FileExistsError("refusing to overwrite existing output(s): %s (pass --force)"
+                              % ", ".join(existing))
+
+
 def _cmd_run(args) -> int:
     from ._pull import DomainStatus, render_pull_report
 
+    _check_output_collisions(args)                    # fail before the run, not after
     recipe, config = load_pull_preset(args.preset)
     recipe = _apply_overrides(recipe, config, args)
     if args.domain_policy:
@@ -86,9 +115,15 @@ def _cmd_run(args) -> int:
         if not report_dir:
             report_dir = "guided-pull-report"
         try:
-            art = render_pull_report(run, report_dir, overwrite=True)
+            art = render_pull_report(run, report_dir, overwrite=args.force)
         except ModuleNotFoundError as exc:
-            print(f"cannot render figures: {exc}", file=sys.stderr)
+            # render_pull_report raises ModuleNotFoundError (its own message, or from matplotlib) when
+            # the optional [viz] backend is missing. Re-raise only if the missing module is an
+            # INTERNAL puckworks module — that is a real bug and must surface, not be reported as
+            # "figures unavailable".
+            if exc.name and exc.name.startswith("puckworks") and exc.name not in _VIZ_MODULES:
+                raise
+            print(f"cannot render figures (optional [viz] extra missing): {exc}", file=sys.stderr)
             return 3
         print(f"wrote report ({len(art.files)} files) to {art.out_dir}", file=sys.stderr)
     elif args.out:
@@ -114,8 +149,9 @@ def _cmd_run(args) -> int:
               "validated range:", file=sys.stderr)
         for w in run.warnings:
             print(f"    - {w}", file=sys.stderr)
-    if run.completion_state == "failed":
-        return 1
+    # No "failed" completion_state is reachable here: the producer raises (PullDomainError /
+    # PullExecutionError) on failure and never returns a failed PullRun (see PW-PULL-004). A run
+    # object in hand is a completed run.
     return 0
 
 
@@ -142,6 +178,8 @@ def main(argv: list[str] | None = None) -> int:
     r.add_argument("--figures", action="store_true",
                    help="also render figures (into --report-dir, else --out, else ./guided-pull-report); "
                         "needs the puckworks[viz] extra")
+    r.add_argument("--force", action="store_true",
+                   help="overwrite existing output files/report directory (default: refuse)")
 
     args = ap.parse_args(argv)
     try:
@@ -151,6 +189,15 @@ def main(argv: list[str] | None = None) -> int:
     except PullDomainError as exc:
         print(f"REJECTED: {exc}", file=sys.stderr)
         return 2
+    except PullExecutionError as exc:
+        print(f"EXECUTION ERROR: {exc}", file=sys.stderr)
+        return 5
+    except FileExistsError as exc:
+        print(f"{exc}", file=sys.stderr)
+        return 4
+    except OSError as exc:
+        print(f"I/O error: {exc}", file=sys.stderr)
+        return 4
 
 
 if __name__ == "__main__":

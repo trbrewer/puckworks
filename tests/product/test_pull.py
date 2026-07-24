@@ -561,3 +561,28 @@ def test_pw_pull_005_series_and_trace_invariants():
         trace([0.0, 1.0, 2.0], [good, series("s", [4.0, 5.0, 6.0])])
     with pytest.raises(PullDomainError):                        # length mismatch
         trace([0.0, 1.0], [good])
+
+
+def test_pw_cli_001_002_003_overwrite_and_exit_codes(tmp_path):
+    from puckworks.product import _pull_cli as cli
+    out = str(tmp_path / "run")
+    # first run succeeds and writes
+    assert cli.main(["run", "--preset", "pv19_named", "--out", out]) == 0
+    assert (tmp_path / "run.json").exists() and (tmp_path / "run.md").exists()
+    # PW-CLI-001: a second run refuses to overwrite (exit 4), and does NOT run first
+    assert cli.main(["run", "--preset", "pv19_named", "--out", out]) == 4
+    # --force allows the overwrite
+    assert cli.main(["run", "--preset", "pv19_named", "--out", out, "--force"]) == 0
+    # PW-CLI-002: a domain rejection exits 2 (stable code)
+    assert cli.main(["run", "--preset", "guided_v1", "--dose-g", "1e9"]) == 2
+
+
+def test_pw_cli_002_internal_import_error_is_not_masked_as_missing_figures(monkeypatch, tmp_path):
+    # a ModuleNotFoundError for a NON-viz module must propagate, not be reported as "no figures"
+    import puckworks.product._pull as _pull
+    def _boom(*a, **k):
+        raise ModuleNotFoundError("No module named 'puckworks._internal_x'", name="puckworks._internal_x")
+    monkeypatch.setattr(_pull, "render_pull_report", _boom)
+    from puckworks.product import _pull_cli as cli
+    with pytest.raises(ModuleNotFoundError):
+        cli.main(["run", "--preset", "pv19_named", "--report-dir", str(tmp_path / "r"), "--figures"])
