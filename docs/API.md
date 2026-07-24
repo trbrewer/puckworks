@@ -84,8 +84,9 @@ product.bundle_to_json(bundle)                        # -> str; product.bundle_f
   runtime Git lookup. `build_provenance(source_commit=...)` requires an explicit or packaged commit
   and raises `ProvenanceUnavailableError` otherwise.
 - Every `_`-prefixed submodule is **internal**; no harness, paper, registry, or model object is
-  exposed. PR 1A has **no** fixture loader, `analyze_shot`, model orchestration, explanation scoring,
-  or HTML output.
+  exposed. The public surface now includes the **Guided Espresso Pull orchestration** (`simulate_pull`,
+  the presets, and report rendering). Still absent: a bundled redistributable fixture and its loader
+  (pending license), a public `NormalizedShot`, and HTML explanation-scoring output.
 
 ## What is NOT public (internal research tooling)
 
