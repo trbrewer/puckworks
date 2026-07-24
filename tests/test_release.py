@@ -84,3 +84,17 @@ def test_pw_rel_001_main_enforces_readiness_before_build(monkeypatch):
 def test_artifact_version_parsing():
     assert release._artifact_version("puckworks-0.4.0.dev0-py3-none-any.whl") == "0.4.0.dev0"
     assert release._artifact_version("puckworks-0.4.0.dev0.tar.gz") == "0.4.0.dev0"
+
+
+def test_pw_rel_006_structured_version_parsing(tmp_path):
+    # a reformatted pyproject (comments, extra keys, inline comment) still yields the right version
+    (tmp_path / "pyproject.toml").write_text(
+        '[project]\nname = "x"\n# a comment\nversion = "9.9.9"  # inline\n')
+    assert release._toml_project_version(tmp_path / "pyproject.toml") == "9.9.9"
+    # a duplicate __version__ is ambiguous and fails, not silently first-wins
+    (tmp_path / "i.py").write_text('__version__ = "1.0"\n__version__ = "2.0"\n')
+    with pytest.raises(ValueError, match="multiple __version__"):
+        release._py_version(tmp_path / "i.py")
+    # the real repo's three sources parse and agree
+    ok, v = release.versions_agree()
+    assert ok and len(set(v.values())) == 1
