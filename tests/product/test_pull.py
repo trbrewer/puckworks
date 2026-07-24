@@ -586,3 +586,40 @@ def test_pw_cli_002_internal_import_error_is_not_masked_as_missing_figures(monke
     from puckworks.product import _pull_cli as cli
     with pytest.raises(ModuleNotFoundError):
         cli.main(["run", "--preset", "pv19_named", "--report-dir", str(tmp_path / "r"), "--figures"])
+
+
+def test_pw_pull_009_010_007_serialized_payload_changes():
+    from puckworks.product._pull import (simulate_pull, load_pull_preset, pull_run_to_dict,
+                                         pull_run_summary, PullConfig)
+    r, c = load_pull_preset("pv19_named")
+    run = simulate_pull(r, c)
+    d = pull_run_to_dict(run)
+    # PW-PULL-009: seed and wall-clock timing are gone from the config/record
+    assert "seed" not in d["config"]
+    assert not hasattr(PullConfig, "__dataclass_fields__") or "seed" not in PullConfig.__dataclass_fields__
+    for gone in ("started_at", "ended_at", "runtime_s"):
+        assert not hasattr(run, gone)
+    # PW-PULL-010: the citation field is source_citation, not the misnamed component_version
+    st = d["stages"][0]
+    assert "source_citation" in st and "component_version" not in st
+    # PW-PULL-007: the JSON keeps FULL solver precision, while the display summary rounds
+    ey = d["final_observables"]["extraction_yield_pct"]["value"]
+    assert isinstance(ey, float) and len(repr(ey).split(".")[-1]) > 3      # not pre-rounded to 2 dp
+    assert "%" in pull_run_summary(run)                                     # summary still renders
+    # deterministic: two runs produce identical JSON
+    assert pull_run_to_dict(simulate_pull(r, c)) == d
+
+
+def test_pw_pull_006_run_records_are_deeply_immutable():
+    from puckworks.product._pull import simulate_pull, load_pull_preset
+    r, c = load_pull_preset("pv19_named")
+    run = simulate_pull(r, c)
+    for m in (run.final_observables, run.stages[0].inputs, run.stages[0].outputs,
+              run.config.stage_components):
+        with pytest.raises(TypeError):
+            m["x"] = 1                                    # top-level read-only
+    # a nested dict inside final_observables is also read-only (deep freeze)
+    first_obs = next(iter(run.final_observables.values()))
+    if isinstance(first_obs, dict) or hasattr(first_obs, "__setitem__"):
+        with pytest.raises(TypeError):
+            first_obs["value"] = 0
