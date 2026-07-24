@@ -16,7 +16,8 @@ pytest -q -m "not slow and not live and not gpu and not external_data"   # the q
 ## Test lanes
 
 See [`docs/CI_LANES.md`](docs/CI_LANES.md). Quick CI is offline (a fixture blocks the network),
-runs on Python 3.10 + 3.12, and excludes `slow`/`live`/`gpu`/`external_data`. Mark heavy tests
+runs on Python 3.10, 3.11, 3.12, and 3.13 (every advertised interpreter), and excludes
+`slow`/`live`/`gpu`/`external_data`. Mark heavy tests
 `@pytest.mark.slow` (add the nodeid to `tests/conftest.py::SLOW`); mark anything hitting the
 network `live` or `external_data`.
 
@@ -57,7 +58,7 @@ by `python tools/experimental_data_needs.py verify`.
 ## Pull requests
 
 - Branch, open a PR (the template guides you). Keep PRs narrow and reviewable.
-- Required checks (`quick-pr` on 3.10 + 3.12, `generated-artifacts`) must pass.
+- Required checks (`quick-pr` on 3.10/3.11/3.12/3.13, `generated-artifacts`) must pass.
 - Changes to registry/contracts, CI/release, data/privacy, or publication artifacts get the
   matching `CODEOWNERS` review.
 - Completion claims cite evidence at an exact commit (CI run, artifact, or recorded decision);
