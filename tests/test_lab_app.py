@@ -190,6 +190,7 @@ def test_pw_app_007_public_reference_resolver_exists():
 
 def test_pw_app_002_public_bundle_serializes_strictly_without_default_str():
     # PW-APP-002: the downloadable public artifact must be canonical, allow_nan=False, no default=str.
+    pytest.importorskip("streamlit")                  # the public app imports streamlit at module load
     import json
     from apps.lab_public_app import public_artifact_bundle, run_public_selfcheck
     from puckworks.product import lab_explorer
