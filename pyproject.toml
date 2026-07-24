@@ -68,7 +68,9 @@ build-backend = "setuptools.build_meta"
 include = ["puckworks*"]
 
 [tool.setuptools.package-data]
-puckworks = ["data/*.csv", "data/*.json"]
+# py.typed (PEP 561): marks the package as typed so `puckworks.__all__` annotations are consumable
+# by a downstream type checker installed from the wheel (PW-CI-005).
+puckworks = ["data/*.csv", "data/*.json", "py.typed"]
 "puckworks.data" = ["*.csv", "*.json", "*.md", "**/*.csv", "**/*.json", "**/*.md"]
 # PV-03 flat-valley public snapshot: an EXACT path (not a broad wildcard), so the PV-03 claim
 # producer can read the hash-bound values from an installed wheel.
