@@ -514,3 +514,50 @@ def test_pw_pull_003_nonfinite_flux_is_controlled_error_not_leak(monkeypatch):
     monkeypatch.setattr(cam, "darcy_flux", lambda *a, **k: 0.0)
     with pytest.raises(_pull.PullExecutionError):
         _pull.simulate_pull(recipe, config)
+
+
+def test_pw_pull_004_exactly_one_terminal_event_success_and_failure():
+    import unittest.mock as mock
+    from puckworks.product._pull import (simulate_pull, load_pull_preset, PullEvent, PullExecutionError)
+    from puckworks.models.cameron2020 import extraction_bdf as cam
+    recipe, config = load_pull_preset("pv19_named")
+
+    # success: exactly one terminal event, RUN_COMPLETED, no RUN_FAILED
+    ev = []
+    simulate_pull(recipe, config, progress=lambda e, p: ev.append(e))
+    terminals = [e for e in ev if e in (PullEvent.RUN_COMPLETED, PullEvent.RUN_FAILED)]
+    assert terminals == [PullEvent.RUN_COMPLETED]
+
+    # a producer-phase (solver) failure emits exactly one RUN_FAILED, then re-raises
+    ev2 = []
+    with mock.patch.object(cam, "darcy_flux", return_value=0.0):
+        with pytest.raises(PullExecutionError):
+            simulate_pull(recipe, config, progress=lambda e, p: ev2.append((e, p.get("category"))))
+    fails = [(e, c) for e, c in ev2 if e == PullEvent.RUN_FAILED]
+    assert fails == [(PullEvent.RUN_FAILED, "execution")]
+
+
+def test_pw_pull_005_series_and_trace_invariants():
+    from puckworks.product._pull import PullSeries, PullTrace, PullDomainError
+
+    def series(sid, vals):
+        return PullSeries(sid, "l", tuple(float(v) for v in vals), "u", "simulated", "m", "c")
+
+    # empty series values rejected
+    with pytest.raises(PullDomainError):
+        series("s", ())
+    good = series("s", [1.0, 2.0, 3.0])
+
+    def trace(axis, series_list):
+        return PullTrace("t", "st", "comp", "ax", "u", tuple(float(a) for a in axis),
+                         tuple(series_list), "m", "b", "e", "f", "a", "c")
+
+    trace([0.0, 1.0, 2.0], [good])                              # valid
+    with pytest.raises(PullDomainError):                        # no series
+        trace([0.0, 1.0, 2.0], [])
+    with pytest.raises(PullDomainError):                        # non-increasing axis
+        trace([0.0, 0.0, 1.0], [good])
+    with pytest.raises(PullDomainError):                        # duplicate series ids
+        trace([0.0, 1.0, 2.0], [good, series("s", [4.0, 5.0, 6.0])])
+    with pytest.raises(PullDomainError):                        # length mismatch
+        trace([0.0, 1.0], [good])
