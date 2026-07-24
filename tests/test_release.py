@@ -98,3 +98,14 @@ def test_pw_rel_006_structured_version_parsing(tmp_path):
     # the real repo's three sources parse and agree
     ok, v = release.versions_agree()
     assert ok and len(set(v.values())) == 1
+
+
+def test_pw_ci_005_py_typed_marker_present_and_packaged():
+    # PEP 561: the package ships a py.typed marker and declares it in package-data so a downstream
+    # type checker can consume puckworks' annotations from an installed wheel.
+    import puckworks
+    from pathlib import Path
+    root = Path(puckworks.__file__).resolve().parent
+    assert (root / "py.typed").is_file(), "puckworks/py.typed marker is missing"
+    pyproject = (root.parent / "pyproject.toml").read_text()
+    assert '"py.typed"' in pyproject, "py.typed is not declared in [tool.setuptools.package-data]"
