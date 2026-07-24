@@ -67,16 +67,42 @@ def test_invalid_return_types_are_errors_not_silent_pass():
     assert evaluate_gate("c", _g_nopassed).status == GateStatus.ERROR      # no 'passed'
 
 
+def _named_gate(val):
+    # a named callable with a stable id (lambdas are rejected as anonymous by PW-GATE-002)
+    def gate():
+        return dict(passed=val)
+    gate.gate_id = "g_probe"
+    return gate
+
+
 def test_non_boolean_passed_is_error_not_coerced():
     # PW-GATE-001: bool("false")/bool("0")/bool(1) would silently PASS; must ERROR.
     import numpy as np
     for bad in ("false", "0", "", "true", 1, 0, 1.0, None, [], {}):
-        assert evaluate_gate("c", (lambda b=bad: dict(passed=b))).status == GateStatus.ERROR, bad
+        assert evaluate_gate("c", _named_gate(bad)).status == GateStatus.ERROR, bad
     # real booleans (Python + numpy) still classify correctly
-    assert evaluate_gate("c", lambda: dict(passed=True)).status == GateStatus.PASS
-    assert evaluate_gate("c", lambda: dict(passed=False)).status == GateStatus.FAIL
-    assert evaluate_gate("c", lambda: dict(passed=np.True_)).status == GateStatus.PASS
-    assert evaluate_gate("c", lambda: dict(passed=np.False_)).status == GateStatus.FAIL
+    assert evaluate_gate("c", _named_gate(True)).status == GateStatus.PASS
+    assert evaluate_gate("c", _named_gate(False)).status == GateStatus.FAIL
+    assert evaluate_gate("c", _named_gate(np.True_)).status == GateStatus.PASS
+    assert evaluate_gate("c", _named_gate(np.False_)).status == GateStatus.FAIL
+
+
+def test_pw_gate_002_anonymous_callable_is_error_not_repr_id():
+    import functools
+    r = evaluate_gate("c", lambda: dict(passed=True))     # anonymous -> deterministic ERROR
+    assert r.status == GateStatus.ERROR and r.gate_id == "<unnamed-gate>"
+    assert evaluate_gate("c", functools.partial(lambda: dict(passed=True))).status == GateStatus.ERROR
+
+
+def test_pw_gate_003_unsupported_metric_type_raises_not_stringified():
+    # a non-finite or unsupported metric must not be silently str()'d into the report
+    from puckworks.gate_runner import _json_safe
+    import numpy as np, pytest as _pt
+    assert _json_safe(np.int64(3)) == 3 and _json_safe(np.array([1.0, 2.0])) == [1.0, 2.0]
+    with _pt.raises(ValueError):
+        _json_safe(float("nan"))
+    with _pt.raises(TypeError):
+        _json_safe(object())
 
 
 def test_zero_gate_component_is_explicit_skip_not_pass():

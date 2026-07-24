@@ -27,6 +27,33 @@ from typing import Any, Callable, Optional
 SCHEMA_VERSION = 1
 
 
+def _json_safe(v, where="metric"):
+    """Recursively convert a gate-result value to a JSON-safe, standards-compliant form: numpy
+    scalars/arrays -> python, Path -> str, set/tuple -> list. Raises (naming the field) on a
+    non-finite float or an unsupported type, so schema drift surfaces instead of being silently
+    stringified by json's ``default=str``."""
+    import math
+    if v is None or isinstance(v, (bool, int, str)):
+        return v
+    if isinstance(v, float):
+        if not math.isfinite(v):
+            raise ValueError("non-finite gate value at %s: %r" % (where, v))
+        return v
+    typ = type(v)
+    if typ.__module__ == "numpy":
+        if getattr(v, "ndim", None) == 0:
+            return _json_safe(v.item(), where)
+        if hasattr(v, "tolist"):
+            return [_json_safe(x, where) for x in v.tolist()]
+    if isinstance(v, dict):
+        return {str(k): _json_safe(x, "%s.%s" % (where, k)) for k, x in v.items()}
+    if isinstance(v, (list, tuple, set)):
+        return [_json_safe(x, where) for x in v]
+    if isinstance(v, Path):
+        return str(v)
+    raise TypeError("unsupported gate-result value type at %s: %s" % (where, typ.__name__))
+
+
 class GateStatus(str, Enum):
     PASS = "PASS"
     FAIL = "FAIL"
@@ -56,6 +83,10 @@ class GateResult:
     def to_dict(self, include_runtime=True):
         d = asdict(self)
         d["status"] = self.status.value
+        # normalize free-form gate payloads to JSON-safe values (raises on non-finite/unsupported)
+        d["metrics"] = _json_safe(self.metrics, "metrics")
+        d["artifacts"] = _json_safe(self.artifacts, "artifacts")
+        d["evidence_links"] = _json_safe(self.evidence_links, "evidence_links")
         if not include_runtime:
             d.pop("duration_s", None)
         return d
@@ -152,9 +183,26 @@ def _coerce_legacy(component_id, gate_id, raw, duration_s):
                       duration_s=duration_s)
 
 
+def _gate_id(gate) -> Optional[str]:
+    """A STABLE, process-independent gate id: an explicit ``gate_id`` attribute or the callable's
+    ``__name__``. A ``repr()`` fallback is banned because it embeds a memory address, which would
+    make report ids differ run-to-run. Returns None for an anonymous/noncompliant callable."""
+    gid = getattr(gate, "gate_id", None) or getattr(gate, "__name__", None)
+    if isinstance(gid, str) and gid and gid != "<lambda>":
+        return gid
+    return None
+
+
 def evaluate_gate(component_id: str, gate: Callable[[], Any]) -> GateResult:
     """Run one gate, capturing exceptions as ERROR (never propagating)."""
-    gate_id = getattr(gate, "__name__", repr(gate))
+    gate_id = _gate_id(gate)
+    if gate_id is None:                          # anonymous callable -> deterministic ERROR, not a repr id
+        return GateResult(component_id, "<unnamed-gate>", GateStatus.ERROR,
+                          summary="gate has no stable id",
+                          exception_type="ValueError",
+                          exception_message="a gate must be a named function or expose a `gate_id` "
+                                            "attribute (anonymous callables are rejected)",
+                          duration_s=0.0)
     t0 = time.perf_counter()
     try:
         raw = gate()
@@ -185,10 +233,24 @@ def evaluate_component_gates(component_id: str, component=None) -> list:
     if component is None:
         from puckworks import registry as R
         component = R.get(component_id)
-    gates = sorted(component.gates, key=lambda g: getattr(g, "__name__", ""))
+    gates = list(component.gates)
     if not gates:
         return [_zero_gate_result(component_id)]
-    return [evaluate_gate(component_id, g) for g in gates]
+    # deterministic order by the SAME canonical id used in results (anonymous -> last, stable)
+    gates.sort(key=lambda g: (_gate_id(g) is None, _gate_id(g) or ""))
+    results, seen = [], set()
+    for g in gates:
+        gid = _gate_id(g)
+        if gid is not None and gid in seen:      # duplicate id on one component -> explicit ERROR, never silent
+            results.append(GateResult(component_id, gid, GateStatus.ERROR,
+                                      summary="duplicate gate id on this component",
+                                      exception_type="ValueError",
+                                      exception_message="duplicate gate id %r" % gid))
+            continue
+        if gid is not None:
+            seen.add(gid)
+        results.append(evaluate_gate(component_id, g))
+    return results
 
 
 def _commit():
@@ -222,7 +284,9 @@ def _pkg_version(name):
 
 def write_report(path, suite: GateSuiteResult):
     import json
-    Path(path).write_text(json.dumps(suite.to_dict(), indent=2, default=str) + "\n",
+    # to_dict() already normalizes to JSON-safe finite values, so no default=str masking is needed
+    # and allow_nan=False keeps the report standards-compliant.
+    Path(path).write_text(json.dumps(suite.to_dict(), indent=2, allow_nan=False) + "\n",
                           encoding="utf-8")
     return path
 
@@ -232,7 +296,7 @@ def main(argv=None):
     argv = sys.argv[1:] if argv is None else argv
     suite = evaluate_all_gates()
     if "--json" in argv:
-        print(json.dumps(suite.to_dict(), indent=2, default=str))
+        print(json.dumps(suite.to_dict(), indent=2, allow_nan=False))
     else:
         print(suite.summary_text())
     out = [a for a in argv if a.startswith("--report=")]
