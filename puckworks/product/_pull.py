@@ -40,6 +40,14 @@ _PRESSURE_EVIDENCE_BAR = (6.0, 9.0)
 # a departure is NOT model extrapolation (it is NOT_APPLICABLE, never a WARNING).
 _TEMP_LIQUID_C = (0.0, 100.0)
 
+# Hard COMPUTATIONAL-SAFETY ceilings (distinct from the evidence ranges above): generous
+# "nothing is physically sane past here" bounds that keep an absurd input (e.g. dose_g=1e9) out of
+# the solver, where it would blow up bed depth / flux and produce non-finite output. A value inside
+# the ceiling but outside the evidence range is still only a WARNING; only past the ceiling is REJECT.
+_DOSE_HARD_MAX = 100.0        # g  (espresso dose is ~7-25 g; 4x the evidence max)
+_BEV_HARD_MAX = 500.0         # g
+_PRESSURE_HARD_MAX = 20.0     # bar (Ulka deadhead ~15 bar)
+
 _PRIMARY = "cameron2020.extraction_bdf"
 _SUPPORTED_CONFIG_IDS = ("pv19_named", "guided_v1")
 _SUPPORTED_CONFIG_VERSION = 1
@@ -102,6 +110,26 @@ class PullEvent(str, Enum):
 class PullDomainError(ValueError):
     """Raised when a recipe/config is hard-invalid (REJECTED), or leaves evidence domain under
     ``domain_policy='strict'``."""
+
+
+class PullExecutionError(RuntimeError):
+    """Raised when the solver runs on an accepted recipe but produces a non-finite / non-physical
+    value (e.g. a zero/negative Darcy flux, or a non-finite yield). A controlled failure — never a
+    leaked ZeroDivision/SciPy/NumPy exception or a silent inf/nan in the result."""
+
+
+def _require_finite(name, value):
+    v = float(value)
+    if not math.isfinite(v):
+        raise PullExecutionError("solver produced a non-finite %s: %r" % (name, value))
+    return v
+
+
+def _require_finite_positive(name, value):
+    v = _require_finite(name, value)
+    if v <= 0:
+        raise PullExecutionError("solver produced a non-positive %s: %r" % (name, value))
+    return v
 
 
 ProgressCallback = Callable[[PullEvent, dict], None]
@@ -400,16 +428,21 @@ def evaluate_domain(recipe: PullRecipe) -> tuple[DomainFinding, ...]:
     WARNING; recorded-only / not-modeled inputs are NOT_APPLICABLE. Never clamps."""
     gs = recipe.grind_setting
     findings: list[DomainFinding | None] = [
-        _hard("dose_g", recipe.dose_g, recipe.dose_g > 0, ">0", "g",
-              "dose must be positive", "You must use some coffee.", "set a positive dose"),
-        _hard("target_beverage_g", recipe.target_beverage_g, recipe.target_beverage_g > 0, ">0", "g",
-              "beverage mass must be positive", "The cup must hold some liquid.", "set a positive target"),
+        _hard("dose_g", recipe.dose_g, 0 < recipe.dose_g <= _DOSE_HARD_MAX, f"0-{_DOSE_HARD_MAX:g}", "g",
+              "dose must be positive and within the solver-safe ceiling",
+              "You must use some coffee, and not an absurd amount.", "set a dose in ~15-25 g"),
+        _hard("target_beverage_g", recipe.target_beverage_g,
+              0 < recipe.target_beverage_g <= _BEV_HARD_MAX, f"0-{_BEV_HARD_MAX:g}", "g",
+              "beverage mass must be positive and within the solver-safe ceiling",
+              "The cup must hold some liquid, and not an absurd amount.", "set a target in ~25-60 g"),
         _hard("brew_temperature_c", recipe.brew_temperature_c,
               _TEMP_LIQUID_C[0] < recipe.brew_temperature_c < _TEMP_LIQUID_C[1],
               "0-100 (exclusive)", "degC", "not a liquid-water brew temperature",
               "Recorded brew temperature must be between 0 and 100 C.", "record ~85-96 C"),
-        _hard("pressure_bar", recipe.pressure_bar, recipe.pressure_bar > 0, ">0", "bar",
-              "pump overpressure must be positive", "The pump must push.", "use ~6-9 bar"),
+        _hard("pressure_bar", recipe.pressure_bar, 0 < recipe.pressure_bar <= _PRESSURE_HARD_MAX,
+              f"0-{_PRESSURE_HARD_MAX:g}", "bar",
+              "pump overpressure must be positive and within the solver-safe ceiling",
+              "The pump must push, but not past a physically implausible pressure.", "use ~6-9 bar"),
     ]
     if gs is not None:
         findings.append(_hard("grind_setting", gs, _GS_HARD[0] <= gs <= _GS_HARD[1],
@@ -680,9 +713,12 @@ def simulate_pull(recipe: PullRecipe, config: PullConfig, *,
     seq += 1
     _emit(progress, PullEvent.STAGE_STARTED, {"stage": "machine_flow"})
     t0 = time.monotonic()
-    L = cam_model.bed_depth(m_in)
-    q = cam_model.darcy_flux(gs, recipe.pressure_bar, L=L, L_ref=cam_model.bed_depth(0.020))
-    t_shot = m_out / (math.pi * cam_model.R0 ** 2 * cam_model.RHO_OUT * q)
+    L = _require_finite_positive("bed_depth", cam_model.bed_depth(m_in))
+    q = _require_finite_positive("darcy_flux",
+                                 cam_model.darcy_flux(gs, recipe.pressure_bar, L=L,
+                                                      L_ref=cam_model.bed_depth(0.020)))
+    t_shot = _require_finite_positive(
+        "shot_duration", m_out / (math.pi * cam_model.R0 ** 2 * cam_model.RHO_OUT * q))
     mf = _stage("machine_flow", seq, cam,
                 "Prescribed pump pressure drives a constant Darcy flow through the bed, setting the shot time.",
                 "darcy_flux(gs, p_bar); t_shot = m_out / (pi R0^2 rho_out q)",
@@ -708,6 +744,12 @@ def simulate_pull(recipe: PullRecipe, config: PullConfig, *,
     shot = cam_model.simulate_shot(gs=gs, p_bar=recipe.pressure_bar, m_in=m_in, m_out=m_out,
                                    N=config.grid_N, M=config.grid_M)
     solve_s = time.monotonic() - t0
+    # Validate the solver outputs before they reach any report field — a non-finite yield / TDS /
+    # duration / dissolved mass becomes a controlled PullExecutionError, never inf/nan in the JSON.
+    _require_finite("extraction_yield", shot.EY)
+    _require_finite("tds", shot.tds)
+    _require_finite_positive("shot_duration", shot.t_shot)
+    _require_finite("dissolved_mass", float(shot.m_cup[-1]))
     # DIAGNOSTIC, NOT physical first drip: the first time modeled cup solute becomes positive. The
     # primary model starts from a SATURATED bed and does not solve wetting/hydraulic breakthrough.
     first_arrival = next((float(shot.t[i]) for i in range(len(shot.t)) if shot.m_cup[i] > 0), 0.0)
