@@ -148,8 +148,12 @@ def test_no_generic_allow_rights_blocked_bypass_exists():
 
 def test_release_main_blocks_without_building_and_no_flag_can_bypass(monkeypatch):
     import unittest.mock as mock
+    from pathlib import Path
     built = {"called": False}
-    monkeypatch.setattr(release, "build", lambda *a, **k: built.__setitem__("called", True))
+    def _fake_build(*a, **k):                       # build() now returns {'wheel','sdist'} paths
+        built["called"] = True
+        return {"wheel": Path("w.whl"), "sdist": Path("s.tar.gz")}
+    monkeypatch.setattr(release, "build", _fake_build)
     monkeypatch.setattr(release, "twine_check", lambda *a, **k: None)
     monkeypatch.setattr(release, "release_manifest", lambda *a, **k: {})
     assert release.main(["build"]) == 2 and built["called"] is False    # blocked before build

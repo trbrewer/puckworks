@@ -29,3 +29,58 @@ def test_manifest_refuses_dirty_when_not_allowed(tmp_path, monkeypatch):
     monkeypatch.setattr(release, "_git", lambda *a, **k: "M some_file")   # simulate dirty tree
     with pytest.raises(RuntimeError, match="DIRTY"):
         release.release_manifest(tmp_path, dirty_ok=False)
+
+
+# ---- PW-REL-001/003/004 hardening ----------------------------------------------------------
+
+def test_rehearsal_manifest_is_marked_non_publishable(tmp_path):
+    (tmp_path / "puckworks-0.1.0-py3-none-any.whl").write_bytes(b"w")
+    m = release.release_manifest(tmp_path, dirty_ok=True, strict=False)
+    assert m["publishable"] is False and m["tag"] is None
+
+
+def test_pw_rel_004_strict_git_cannot_fail_open(tmp_path, monkeypatch):
+    # A short/absent commit must raise in strict mode (never inferred).
+    monkeypatch.setattr(release, "_git_strict", lambda *a, **k: "abc123")  # not 40-hex
+    with pytest.raises(RuntimeError, match="40-hex"):
+        release.release_manifest(tmp_path, strict=True)
+
+
+def test_pw_rel_004_strict_refuses_dirty_and_checks_tag(tmp_path, monkeypatch):
+    calls = {}
+    def fake_strict(*a, **k):
+        if a[0] == "rev-parse":
+            return "0" * 40
+        if a[0] == "status":
+            return ""            # clean
+        if a[0] == "rev-list":
+            calls["tag_checked"] = a[-1]
+            return "f" * 40       # tag points elsewhere -> mismatch
+        return ""
+    monkeypatch.setattr(release, "_git_strict", fake_strict)
+    with pytest.raises(RuntimeError, match="not HEAD"):
+        release.release_manifest(tmp_path, strict=True, tag="v1.2.3")
+    assert calls["tag_checked"] == "v1.2.3"
+
+
+def test_pw_rel_003_build_refuses_stale_artifacts(tmp_path, monkeypatch):
+    (tmp_path / "stale-9.9.9-py3-none-any.whl").write_bytes(b"old")
+    # build must refuse BEFORE invoking `python -m build`
+    monkeypatch.setattr(release.subprocess, "run",
+                        lambda *a, **k: (_ for _ in ()).throw(AssertionError("build ran")))
+    with pytest.raises(RuntimeError, match="non-empty"):
+        release.build(tmp_path)
+
+
+def test_pw_rel_001_main_enforces_readiness_before_build(monkeypatch):
+    monkeypatch.setattr(release, "rights_release_problems", lambda *a, **k: [])
+    monkeypatch.setattr(release, "rights_release_gaps", lambda *a, **k: [])
+    monkeypatch.setattr(release, "release_readiness", lambda tag, **k: ["tag != version"])
+    monkeypatch.setattr(release, "build",
+                        lambda *a, **k: (_ for _ in ()).throw(AssertionError("built despite not-ready")))
+    assert release.main(["build", "--tag", "v9.9.9"]) == 2
+
+
+def test_artifact_version_parsing():
+    assert release._artifact_version("puckworks-0.4.0.dev0-py3-none-any.whl") == "0.4.0.dev0"
+    assert release._artifact_version("puckworks-0.4.0.dev0.tar.gz") == "0.4.0.dev0"
