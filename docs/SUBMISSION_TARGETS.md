@@ -5,8 +5,10 @@
 > (`PAPER_B2_TEMPORAL_OUTLINE.md`) — the APS DFD 2026 abstract already uses the temporal
 > story without the RSM lead or a channeling-instability claim, so it maps cleanly to B2.
 > A third **methods/resource paper (Puckworks, Paper 3)** and a deferred **Paper 4**
-> (spatial/control) are new; venue scouting for Paper 3 (JOSS / SoftwareX / methods
-> journal) and Paper 4 is **owed** and not yet in the ledger below.
+> (spatial/control) are new. Paper 3 venue scouting is **started 2026-07-24** in
+> [§11a](#11a-paper-3-puckworks-methodsresource-paper--software--methods-venues)
+> (initial scouting — portal details **unverified**, no deadlines asserted; software
+> venues are rolling). Paper 4 (spatial/control) scouting remains **owed**.
 
 **Verified:** 12 July 2026  
 **Reference project:** [`trbrewer/puckworks`](https://github.com/trbrewer/puckworks)  
@@ -59,6 +61,10 @@ window reopened, no published close date). Journal routes (Part II) are **rollin
 (no fixed deadline) — Paper A ladder actionable after manuscript conversion; Paper B
 journal ladder **held** until APS DFD feedback + related-work/novelty + physical
 lateral-coupling work is done (do not submit Paper B to a journal yet, §11/§16).
+**Paper 3** (Puckworks software/methods paper) venues are rolling and profiled in
+[§11a](#11a-paper-3-puckworks-methodsresource-paper--software--methods-venues) —
+initial scouting only, portal details **unverified**, and gated on a tagged release +
+archived DOI; nothing to schedule here yet.
 
 ---
 
@@ -880,6 +886,84 @@ JFM requires fully developed, well-supported original research with significant 
 
 ---
 
+## 11a. Paper 3 (Puckworks methods/resource paper) — software & methods venues
+
+> **Initial scouting started 2026-07-24** (previously "owed", see §0 note). **Unlike the
+> conference and journal entries above, the portal profiles below were NOT verified against
+> official pages on any date** — they are candidate descriptions to confirm before drafting.
+> **No deadlines are asserted:** software-paper venues are rolling. Recheck each official page,
+> then set this section's own **Verified:** date once confirmed. Treat every "profile to
+> confirm" bullet as unverified until then.
+
+**What Paper 3 is.** The methods/resource paper for `puckworks` itself: an evidence-first
+component registry for espresso process models — typed contracts, model/source cards carrying
+provenance + assumptions + validity range, validation gates at graded evidence strengths
+(independent · post-fit reconstruction · verification · qualitative), and a reproducibility
+harness. The contribution is the **framework and its discipline** (card-first; never upgrade an
+author's evidence claim; gate-graded evidence), not a new espresso result. Natural audiences:
+research-software engineering, open science / reproducibility, scientific-computing methods, and
+modelling-framework readers in food/process engineering.
+
+**Readiness prerequisites (gate any software-paper submission — these venues review the
+software, not only the manuscript):**
+
+- a tagged release + an archived snapshot with a DOI (e.g. Zenodo) — the repo is currently
+  `v0.4.0.dev0`, so a release cut is a prerequisite, not a detail;
+- OSI-approved licence (confirm the repo `LICENSE`), public issue tracker, contribution guide
+  (`CONTRIBUTING.md` present), code of conduct (present);
+- automated tests + CI (present: quick-pr matrix, `run_all_gates`, scientific-baseline), plus
+  install/usage docs and an explicit **statement of need**;
+- authorship/affiliation posture consistent with `AUTHORS.md` / `CITATION.cff` and the
+  project-independence statement.
+
+### Candidate venues (verify before acting)
+
+**P3-J1. Journal of Open Source Software (JOSS) — likely primary.**
+- *Profile to confirm:* very short papers (~250–1000 words, a `paper.md`) about open-source
+  research software; open review conducted on GitHub against a checklist (docs, tests, example
+  usage, statement of need); free (no APC); rolling.
+- *Fit:* strong — Puckworks is exactly "research software with substantial scholarly effort."
+  Best when the claim is "a reusable, tested, documented tool."
+- *Watch-outs:* JOSS discourages thin wrappers and wants substantial effort; the paper is
+  deliberately minimal, so the **evidence-discipline methods story** may need a companion venue.
+
+**P3-J2. SoftwareX (Elsevier) — primary alternative / companion.**
+- *Profile to confirm:* original-software articles in a short structured format (motivation,
+  software description, impact, illustrative examples); software deposited in the referenced
+  repository; open access (APC applies — confirm current fee + any waiver).
+- *Fit:* strong — more room than JOSS to describe the architecture and the evidence-grading
+  contribution. Trade-off: APC cost.
+
+**P3-J3. Journal of Open Research Software (JORS) — software-metapaper route.**
+- *Profile to confirm:* "software metapapers" describing reusable research software and its
+  availability; Ubiquity Press; open access (APC); rolling.
+- *Fit:* reasonable third option; overlaps JOSS/SoftwareX. Choose only if its metapaper framing
+  or audience fits better than the two above.
+
+**P3-J4. A domain methods / modelling journal — only if the framework story outgrows a
+software note.**
+- If Paper 3 becomes a **full methods paper** (the evidence-grading + identifiability/experiment-
+  design framework as the contribution, with the registry as the instrument), a
+  computational-methods or food-process-modelling venue already profiled in this ledger is the
+  fallback. Do **not** double-submit with a software note: if both a JOSS/SoftwareX software
+  paper and a longer methods paper are pursued, they must be materially different works with
+  distinct contributions, and must cross-cite.
+
+### Recommended provisional ladder (confirm portals first)
+
+1. **JOSS** — free, fastest, best software-tool fit; after a tagged release + Zenodo DOI.
+2. **SoftwareX** — if a fuller architecture/impact article is wanted and the APC is acceptable.
+3. **JORS** or a domain methods journal — depending on whether the framing stays "software" or
+   becomes "methods."
+
+**Relationship to Papers A/B and the new methods cards.** Paper 3 is the natural home for the
+cross-cutting identifiability / experiment-design methods just carded (`liu2025`, `bakeer2025`,
+and the multiphase-LB reserve `kupershtokh2009` / `huang2016`) — they describe **how the registry
+audits and designs**, which is Paper 3's subject, not a Paper A/B result. Keep those methods
+claims in Paper 3 rather than retro-fitting them into A or B.
+
+---
+
 # Part III — Action plan
 
 ## 12. Deadline calendar
@@ -1041,4 +1125,10 @@ JFM requires fully developed, well-supported original research with significant 
 - [Physical Review Fluids](https://journals.aps.org/prfluids/authors)
 - [Chemical Engineering Science](https://www.sciencedirect.com/journal/chemical-engineering-science/publish/guide-for-authors)
 - [Journal of Fluid Mechanics](https://www.cambridge.org/core/journals/journal-of-fluid-mechanics/information/author-instructions)
+
+### Software / methods venues (Paper 3 — URLs unverified; confirm before use, see §11a)
+
+- [Journal of Open Source Software (JOSS)](https://joss.theoj.org) — confirm submission checklist + scholarly-effort bar
+- [SoftwareX](https://www.sciencedirect.com/journal/softwarex) — confirm article format + current APC
+- [Journal of Open Research Software (JORS)](https://openresearchsoftware.metajnl.com) — confirm metapaper requirements + APC
 
