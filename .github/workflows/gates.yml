@@ -20,8 +20,9 @@ jobs:
     strategy:
       fail-fast: false          # R0: one Python version must not cancel/hide the other
       matrix:
-        # oldest supported (3.10), primary/release (3.12), newest supported (3.13)
-        python-version: ["3.10", "3.12", "3.13"]
+        # EVERY advertised interpreter (pyproject classifiers 3.10-3.13) must be exercised:
+        # oldest (3.10), 3.11, primary/release (3.12), newest (3.13).
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
