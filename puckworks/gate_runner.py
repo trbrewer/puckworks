@@ -95,7 +95,6 @@ class GateResult:
 @dataclass
 class GateSuiteResult:
     results: list  # list[GateResult]
-    started_at: Optional[float] = None
     commit: Optional[str] = None
     environment: dict = field(default_factory=dict)
     schema_version: int = SCHEMA_VERSION
@@ -119,7 +118,6 @@ class GateSuiteResult:
             "results": [r.to_dict(include_runtime=include_runtime) for r in self.results],
         }
         if include_runtime:
-            d["started_at"] = self.started_at
             d["commit"] = self.commit
             d["environment"] = self.environment
         return d
@@ -219,8 +217,8 @@ def _zero_gate_result(component_id):
     evidence policy records it. NEVER a PASS."""
     try:
         from puckworks.paper3.evidence_graph import ZERO_GATE_EXCEPTIONS
-    except Exception:   # pragma: no cover
-        ZERO_GATE_EXCEPTIONS = {}
+    except ImportError:   # only a genuinely-absent optional module falls back to "no exceptions";
+        ZERO_GATE_EXCEPTIONS = {}   # a real error inside the evidence policy must surface, not SKIP
     if component_id in ZERO_GATE_EXCEPTIONS:
         return GateResult(component_id, "<none>", GateStatus.ACKNOWLEDGED_EXCEPTION,
                           summary=ZERO_GATE_EXCEPTIONS[component_id])
@@ -271,7 +269,7 @@ def evaluate_all_gates(components=None) -> GateSuiteResult:
         results.extend(evaluate_component_gates(c.name, c))
     env = {"python": sys.version.split()[0], "platform": platform.platform(),
            "numpy": _pkg_version("numpy"), "scipy": _pkg_version("scipy")}
-    return GateSuiteResult(results=results, started_at=None, commit=_commit(), environment=env)
+    return GateSuiteResult(results=results, commit=_commit(), environment=env)
 
 
 def _pkg_version(name):

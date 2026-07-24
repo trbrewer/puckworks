@@ -151,3 +151,12 @@ def test_real_registry_suite_passes():   # auto-marked slow via conftest.SLOW (r
     c = suite.counts_by_status
     assert c["FAIL"] == 0 and c["ERROR"] == 0
     assert c["ACKNOWLEDGED_EXCEPTION"] >= 1                   # lb_taichi
+
+
+def test_pw_gate_005_no_dead_started_at_field():
+    from types import SimpleNamespace
+    suite = evaluate_all_gates(components=[SimpleNamespace(name="a", gates=[_g_pass])])
+    d = suite.to_dict(include_runtime=True)
+    assert "started_at" not in d                    # the always-None field is gone
+    assert "commit" in d                            # real runtime metadata stays
+    assert not hasattr(suite, "started_at")
