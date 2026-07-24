@@ -1,0 +1,40 @@
+name: Feature request
+description: Propose a code/tooling capability (not a new model/component or a new dataset — those have their own card-first / data-submission flows).
+title: "feature: <short summary>"
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A **new model/component** starts card-first (`docs/cards/`, see `CONTRIBUTING.md`), and a
+        **new dataset** uses the *Experimental data submission* form. This form is for engineering,
+        tooling, or API features.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / motivation
+      description: What can't you do today, and why does it matter?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed capability
+      description: What the feature would do, and roughly how it fits the registry/contract/evidence architecture.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+    validations:
+      required: false
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope check
+      options:
+        - label: This does not upgrade any author's or the project's evidence/validation claim.
+          required: true
+        - label: This is not a request to invent a parameter a card marks "not provided".
+          required: true

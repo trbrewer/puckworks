@@ -4,6 +4,10 @@ puckworks is a **component registry for espresso process models**: typed contrac
 source cards, and validation gates. Work is card-first and evidence-gated. Start at
 [`docs/CURRENT.md`](docs/CURRENT.md).
 
+Participation is governed by our [Code of Conduct](CODE_OF_CONDUCT.md). To report a defect or
+propose a feature, open an issue (the **Bug report** / **Feature request** forms guide you); for a
+security problem follow [`SECURITY.md`](SECURITY.md) — never a public issue.
+
 ## Setup
 
 ```
