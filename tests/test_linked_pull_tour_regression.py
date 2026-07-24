@@ -9,11 +9,24 @@ soluble ceiling — the tour reported Cameron EY = 17.06 % instead of Cameron's 
 ``c_s0`` into ``simulate_shot`` instead of mutating the global), so every tour component uses its intended
 basis and the result is byte-identical regardless of import order. The new hash is the CLEAN, intended,
 import-order-invariant value — not a concealment of the change (see stabilization changelog).
+
+**2026-07-23 baseline update (1c1434ef… -> 1b5e4505…): added gates, NOT changed model numerics.**
+The tour runs many components via SCIENTIFIC_CHECK, whose per-component ``scientific_hash`` covers the
+``gate_metric`` outputs. A per-component diff of the tour result (baseline commit 608a203 vs HEAD) shows
+NO component added/removed and EXACTLY TWO per-component hashes changed — ``moroney2016.surrogate`` and
+``sourcing2026.g10_liquor_rheology`` — both still SCIENTIFIC_CHECK/EXECUTED, only their gate-metric hash.
+Every other component (incl. the Cameron common-scenario and all extraction lenses) is byte-identical, so
+no model numerics moved. Those two components each gained validation gates this session
+(moroney2016.surrogate: the moroney2015/2019 solver + kappa-anchor gates; sourcing2026.g10: the sobolik
+density + closures + four-source + gagne gates), which is why their gate-metric payload — and thus the
+tour hash — changed. Legitimate, intended drift; the models are unchanged. (This slow test is not in the
+quick CI lane, which is why the earlier gate PRs didn't flag the drift — worth wiring into CI separately.)
 """
 import pytest
 
-# CLEAN, import-order-invariant baseline (pv19_named, LOCAL_PRIVATE) after the streamtube C_S0 fix.
-_BASELINE_TOUR_HASH = "1c1434ef1bfd930fefe37feab4b7841d161eea525fffef952c7ad4a2c8b3dddc"
+# CLEAN, import-order-invariant baseline (pv19_named, LOCAL_PRIVATE): streamtube C_S0 fix + the
+# 2026-07-23 SCIENTIFIC_CHECK gate additions to moroney2016.surrogate / sourcing2026.g10 (see above).
+_BASELINE_TOUR_HASH = "1b5e45052afca29d63e36416deeecde9a6d4f98f5dc14846832306673080f802"
 
 
 def test_tour_manifest_unchanged():
