@@ -484,3 +484,33 @@ def test_pw_pull_001_editable_fields_none_is_unrestricted():
                            grind_setting=None, coffee_profile=None, bean_label=None,
                            grinder_model="ANY")
     _apply_overrides(recipe, open_cfg, args)   # unrestricted: no raise
+
+
+def test_pw_pull_003_hard_ceilings_reject_absurd_inputs():
+    # PW-PULL-003: dose/beverage/pressure had only >0 lower bounds; an absurd value reached the solver.
+    from dataclasses import replace
+    from puckworks.product._pull import (evaluate_domain, load_pull_preset, DomainStatus)
+    recipe, _ = load_pull_preset("pv19_named")
+    for field, bad in (("dose_g", 1e9), ("target_beverage_g", 1e9), ("pressure_bar", 1e6)):
+        findings = evaluate_domain(replace(recipe, **{field: bad}))
+        assert any(f.status is DomainStatus.REJECTED and f.field == field for f in findings), field
+
+
+def test_pw_pull_003_solver_finite_guards():
+    from puckworks.product._pull import _require_finite, _require_finite_positive, PullExecutionError
+    assert _require_finite_positive("q", 1.5) == 1.5
+    for bad in (0.0, -1.0, float("inf"), float("nan")):
+        with pytest.raises(PullExecutionError):
+            _require_finite_positive("q", bad)
+    with pytest.raises(PullExecutionError):
+        _require_finite("ey", float("nan"))
+
+
+def test_pw_pull_003_nonfinite_flux_is_controlled_error_not_leak(monkeypatch):
+    # a solver that returns a non-finite Darcy flux must raise PullExecutionError, not ZeroDivision/inf
+    from puckworks.product import _pull
+    from puckworks.models.cameron2020 import extraction_bdf as cam
+    recipe, config = _pull.load_pull_preset("pv19_named")
+    monkeypatch.setattr(cam, "darcy_flux", lambda *a, **k: 0.0)
+    with pytest.raises(_pull.PullExecutionError):
+        _pull.simulate_pull(recipe, config)
