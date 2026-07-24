@@ -8,7 +8,10 @@
 > (spatial/control) are new. Paper 3 venue scouting is **started 2026-07-24** in
 > [§11a](#11a-paper-3-puckworks-methodsresource-paper--software--methods-venues)
 > (initial scouting — portal details **unverified**, no deadlines asserted; software
-> venues are rolling). Paper 4 (spatial/control) scouting remains **owed**.
+> venues are rolling). Paper 4 (spatial/control) is scouted **contingently** in
+> [§11b](#11b-paper-4-future--spatial-concentration--control-mode--contingent-scouting-currently-blocked)
+> — **BLOCKED / not authorized** (card-blocked on gap G-lat; go/no-go boxes OPEN), so it is a
+> where-it-would-go watchlist, not an actionable plan.
 
 **Verified:** 12 July 2026  
 **Reference project:** [`trbrewer/puckworks`](https://github.com/trbrewer/puckworks)  
@@ -64,7 +67,10 @@ lateral-coupling work is done (do not submit Paper B to a journal yet, §11/§16
 **Paper 3** (Puckworks software/methods paper) venues are rolling and profiled in
 [§11a](#11a-paper-3-puckworks-methodsresource-paper--software--methods-venues) —
 initial scouting only, portal details **unverified**, and gated on a tagged release +
-archived DOI; nothing to schedule here yet.
+archived DOI; nothing to schedule here yet. **Paper 4** (spatial/control) is
+contingency-scouted in [§11b](#11b-paper-4-future--spatial-concentration--control-mode--contingent-scouting-currently-blocked)
+— **BLOCKED / not authorized** (card-blocked on G-lat; go/no-go OPEN); nothing to schedule
+until the feasibility gate clears.
 
 ---
 
@@ -964,6 +970,72 @@ claims in Paper 3 rather than retro-fitting them into A or B.
 
 ---
 
+## 11b. Paper 4 (future — spatial concentration & control mode) — CONTINGENT scouting (currently BLOCKED)
+
+> **⛔ Paper 4 is NOT authorized.** It is deferred and **card-blocked on gap G-lat** (the physical
+> lateral-coupling operator). The feasibility go/no-go (`docs/cards/lateral_coupling_feasibility.md`
+> §4) has **two OPEN, blocking boxes**: (i) no accessible experiment/dataset yet estimates the Ξ
+> pressure-equalization group (needs `k_lat` and `w`); (ii) the inference may be structurally
+> non-identifiable. Until both close there is **no submittable paper** — the N-tube result stays an
+> exploratory registry component, never a standalone instability claim. **This section is therefore
+> contingency scouting only — where Paper 4 would go *if* the gate clears; nothing here is actionable
+> now.** As in §11a, portal profiles are **unverified**, no deadlines are asserted, and the section
+> carries its own unset **Verified** date.
+
+**The future question** (sourced from `docs/future/PAPER_4_SPATIAL_CONTROL_NOTE.md`, not invented):
+*How do machine control mode and lateral hydraulic coupling govern the amplification or suppression
+of flow heterogeneity in a dynamically evolving, near-choke porous bed?* Scope: a physical
+lateral-exchange operator, control-mode (pressure- vs flow-control) dependence, spatial/depth-resolved
+concentration, and genuine stability / finite-time-amplification analysis.
+
+**Authorization gates before ANY submission** (maturation list, strategy-review §5.2 + go/no-go):
+- *physical model* — defensible lateral-exchange operator (the G-lat card), local + global
+  conservation, permeability–porosity–extraction coupling, matched pressure/flow BCs, tube↔region
+  mapping;
+- *mathematical* — defined base state; linear-stability / transient-growth / finite-time-amplification;
+  instability vs localization vs thresholded first-passage; perturbation-spectrum sensitivity;
+- *numerical* — full-trajectory convergence, independent-integrator comparison, timestep + spatial
+  refinement, per-step balance diagnostics;
+- *experimental* — spatially-resolved flow/wetting, depth-resolved porosity/extraction, imaging/tracer
+  data, repeated shots, controlled pressure/flow modes, a measurable definition of "channeling";
+- plus the two **OPEN** go/no-go boxes (Ξ measurability via `k_lat`/`w`; inference identifiability).
+
+### Candidate venues if authorized (verify before acting — mostly the Paper B ladder)
+
+The strategy review frames Paper 4 as "a strong **porous-media or fluid-physics** paper," so its
+journal ladder largely **reuses Paper B's** (§11), under the same readiness + anti-double-submit
+discipline: if both Paper B and Paper 4 ever exist they must be materially distinct works that
+cross-cite.
+
+- **P4-J1. Transport in Porous Media** — best pure-scope fit (deformable porous medium, control-mode
+  BCs, spatial heterogeneity); likely primary if the paper stays porous-media-centered.
+- **P4-J2. Physics of Fluids** / **P4-J3. Physical Review Fluids** — if the control-mode /
+  finite-time-amplification result establishes as general fluid physics.
+- **P4-J4. Journal of Fluid Mechanics** — very high stretch; only with a rigorous stability /
+  finite-time analysis and a broadly transferable result.
+- *Control-mode framing (secondary, speculative — confirm fit):* because pressure-vs-flow control
+  dependence is central, if that becomes the headline a **process-control / process-systems** venue
+  could fit instead of a fluids journal — e.g. *Journal of Process Control* or *Computers & Chemical
+  Engineering* (both **unverified** for this scope; confirm aims first). Do not default here over the
+  porous-media/fluids ladder unless the control result is the lead contribution.
+
+### Actionable NOW (interim, not blocked)
+
+The maturation note lists the only near-term homes for this material — **none is a Paper 4
+submission**:
+
+- **conference visual** — the N-tube flow-concentration animation → APS Gallery of Fluid Motion
+  (already in this ledger for Paper B, deadline 2026-09-17) as a public "one curve, many hidden
+  mechanisms" companion;
+- **technical note / preprint**, **hypothesis generator**, **grant figure**, and a
+  **spatial-experiment-design guide** feeding the discriminating experiments already proposed in
+  Paper B2 / Paper 3.
+
+So the near-term action for Paper 4 is **not venue submission** but closing G-lat (the Ξ-measurability
++ identifiability experiments). Until then it is scouted here as a watchlist only.
+
+---
+
 # Part III — Action plan
 
 ## 12. Deadline calendar
@@ -1131,4 +1203,13 @@ claims in Paper 3 rather than retro-fitting them into A or B.
 - [Journal of Open Source Software (JOSS)](https://joss.theoj.org) — confirm submission checklist + scholarly-effort bar
 - [SoftwareX](https://www.sciencedirect.com/journal/softwarex) — confirm article format + current APC
 - [Journal of Open Research Software (JORS)](https://openresearchsoftware.metajnl.com) — confirm metapaper requirements + APC
+
+### Paper 4 (future — spatial/control) — BLOCKED; contingent venues, see §11b
+
+Reuses the Paper B fluid-mechanics / porous-media links above (Transport in Porous Media, Physics of
+Fluids, Physical Review Fluids, Journal of Fluid Mechanics). Speculative control-mode alternatives
+(URLs + scope-fit **unverified**; only if the control result becomes the lead):
+
+- [Journal of Process Control](https://www.sciencedirect.com/journal/journal-of-process-control) — confirm scope fit
+- [Computers & Chemical Engineering](https://www.sciencedirect.com/journal/computers-and-chemical-engineering) — confirm scope fit
 
