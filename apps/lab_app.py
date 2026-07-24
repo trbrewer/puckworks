@@ -44,7 +44,7 @@ def selection_preview(request) -> dict:
                        "local_execution_allowed": rights.may_execute_locally(cid).allowed,
                        "public_execution_allowed": rights.may_execute_in_public_batch(cid).allowed,
                        "reason": reason})
-    refs = lab._resolve_reference_component_ids(request)
+    refs = lab.resolve_reference_component_ids(request)   # public selection-preview API (PW-APP-007)
     ref_rows = [{"component_id": c, "has_runner": lab_runners.has_runner(c),
                  "runtime_class": lab_runners.runtime_class(c) if lab_runners.has_runner(c) else None,
                  "rights_blocked": rights.is_code_rights_blocked(c)} for c in refs]

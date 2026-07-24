@@ -132,8 +132,11 @@ def _render_result(result):
     _plots(rep)
     # the download carries the rights preflight + provenance
     bundle = public_artifact_bundle(result)
+    # PW-APP-002: canonical, deterministic bytes — allow_nan=False and NO default=str masking, so a
+    # non-JSON-native value surfaces instead of being silently stringified into the downloaded artifact.
     st.download_button("Download artifact (JSON, includes rights preflight + provenance)",
-                       data=json.dumps(bundle, indent=2, sort_keys=True, default=str),
+                       data=json.dumps(bundle, indent=2, sort_keys=True, ensure_ascii=False,
+                                       allow_nan=False),
                        file_name="public_lab_artifact.json", mime="application/json")
 
 
@@ -151,8 +154,10 @@ def _plots(rep):
                                **{f"{s['label']} [{s['role']}]": s["y"] for s in panel["series"]}}
                               ).set_index(panel["x_label"])
             st.line_chart(df, y_label=panel["y_label"], x_label=panel["x_label"])
-        except Exception:
-            pass
+        except ImportError:
+            st.caption("_(interactive chart needs pandas; showing the data table below)_")
+        except Exception as exc:                          # noqa: BLE001 - chart is optional; degrade to the table
+            st.caption(f"_(chart unavailable: {type(exc).__name__}; showing the data table below)_")
         tbl = panel_table(panel)                          # text alternative (accessibility): always present
         with st.expander("data table (text alternative)"):
             st.table([dict(zip(tbl["headers"], row)) for row in tbl["rows"]])

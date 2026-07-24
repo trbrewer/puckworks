@@ -689,6 +689,13 @@ def _executed_lenses(execution: ScenarioExecution, executed_ids: list) -> list:
 
 
 # ── native reference selection (resolves COMPONENTS, not just runner registrations) ──
+def resolve_reference_component_ids(request: ScenarioRequest) -> list:
+    """Public, read-only selection preview: the component ids a scenario request would resolve as
+    native references (no execution). Stable entry point so consumers need not reach into the
+    underscore-prefixed internal (PW-APP-007)."""
+    return _resolve_reference_component_ids(request)
+
+
 def _resolve_reference_component_ids(request: ScenarioRequest) -> list:
     """Component ids to resolve as native references. Under 'selected' an id that is a registered
     component but has no runner is RESOLVED (to RUNNER_NOT_IMPLEMENTED), not rejected; only an id absent

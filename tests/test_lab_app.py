@@ -177,3 +177,30 @@ def test_codespaces_ci_workflow_is_secure_and_smokes_the_devcontainer():
     # it builds the devcontainer and runs a Streamlit health + comparison smoke inside it
     assert "devcontainers/ci@" in wf
     assert "_stcore/health" in wf and "tools/lab_batch.py" in wf
+
+
+def test_pw_app_007_public_reference_resolver_exists():
+    # PW-APP-007: a supported public resolver, so the app need not use the underscore-prefixed internal
+    from puckworks.product import lab
+    from puckworks.product.lab import ScenarioRequest
+    assert hasattr(lab, "resolve_reference_component_ids")
+    refs = lab.resolve_reference_component_ids(ScenarioRequest("pv19_named"))
+    assert isinstance(refs, list)
+
+
+def test_pw_app_002_public_bundle_serializes_strictly_without_default_str():
+    # PW-APP-002: the downloadable public artifact must be canonical, allow_nan=False, no default=str.
+    import json
+    from apps.lab_public_app import public_artifact_bundle, run_public_selfcheck
+    from puckworks.product import lab_explorer
+    live = lab_explorer.explorer_catalog()["public_live_component_ids"]
+    if not live:
+        import pytest as _pt
+        _pt.skip("no publicly-cleared component; the download path is rights-gated")
+    result = run_public_selfcheck([live[0]])
+    if result.blocked:
+        import pytest as _pt
+        _pt.skip("self-check blocked; no bundle")
+    bundle = public_artifact_bundle(result)
+    # strict serialization succeeds with NO default=str fallback (nothing is silently stringified)
+    json.dumps(bundle, indent=2, sort_keys=True, ensure_ascii=False, allow_nan=False)
