@@ -72,7 +72,7 @@ with a measured coffee density + propagated uncertainty (owed, out of scope). �
   the §3.6 evidence taxonomy and the Result-1 table's `strength` column into one study-design table is [author].
 - **Declaration/reference/author placeholders** (`[insert]`, `[Insert … statement.]`, References stub): left in
   place — these are needed fields to be **filled** (P0-7 [external], P2-4 [author]), not deleted.
-- **[analysis]** P0-5 uncertainty reruns (P0-4 Table 7 units audit is now done, above) and all **[author]/[external]** items below.
+- **[analysis]** P0-5 uncertainty reruns — **scope drafted for approval**, `PAPER_A_P0-5_UNCERTAINTY_SCOPE.md` (no analysis run; named-solute inferential weighting is data-blocked, so framed as a sensitivity sweep + clustered null bootstrap; awaiting author decisions). P0-4 Table 7 units audit is done, above. All **[author]/[external]** items below.
 
 ## Gating decision (author) — RESOLVED: canonical = `PAPER_A_DRAFT.md` (mechanical stream above)
 
