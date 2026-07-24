@@ -58,9 +58,30 @@ predictors, so it does not require repeating the fit — appropriate for the nul
 separate **LOCO coverage-calibrated interval that repeats the fit inside the resample loop**
 (sub-analysis C) remains **deferred** (cost) and owed.
 
-## Owed / deferred after this PR
+## (C) Coverage-calibrated LOCO interval that repeats the fit — DELIVERED (bounded)
 
-- **C** — coverage-calibrated LOCO with in-loop refit (bounded or full); deferred by decision.
+`loco_coverage_interval` (`_oob_coverage_bootstrap` core), 600-replicate cap, seed 0. The per-unit-level
+PDE matrix `F` is data-independent, so it is cached once (the only PDE cost) and each replicate
+resamples the nine (T,p) **conditions** (the dependence cluster), **refits** rate+level on the in-bag
+conditions, and scores the **out-of-bag** ones — a coverage-calibrated interval that genuinely repeats
+the fit, with no leave-one-out-on-resample leakage.
+
+| statistic | value |
+|---|---|
+| pooled held-out MAPE (OOB point) | **7.4 %** |
+| coverage-calibrated 95 % interval | **[4.3, 11.5] %** |
+| effective replicates | 599 / 600 (1 skipped, empty OOB) |
+
+**Reading.** Repeating the fit gives a **wider** interval than the two descriptive summaries
+([5.0, 8.2] % residual-resampling, [5.1, 8.3] % condition-cluster) — precisely because those omit the
+refitting variability. The OOB centre (7.4 %) runs slightly above the LOCO point estimate (6.5 %)
+because out-of-bag held-out sets (~3–4 of 9 conditions) are larger than LOCO's single condition, so
+this **complements** rather than replaces the LOCO estimate. The held-out error remains modest
+(single-to-low-double-digit) under the honest, coverage-calibrated interval — the §5 conclusion is
+unchanged; the uncertainty is just stated correctly.
+
+## Owed after this PR
+
 - **Calibrated named-solute weighting** — blocked on the Angeloni raw-replicate drop.
-- **Supplement** — all six solute × variety objective-family panels (four run here: Arabica ×3 +
+- **Supplement** — all six solute × variety objective-family panels (four run for A: Arabica ×3 +
   Robusta caffeine); Robusta trigonelline/5-CQA owed for completeness.
