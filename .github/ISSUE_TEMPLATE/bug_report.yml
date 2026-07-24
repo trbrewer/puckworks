@@ -1,0 +1,47 @@
+name: Bug report
+description: Report a defect in the puckworks code, gates, or generated artifacts (not a data submission or a science claim).
+title: "bug: <short summary>"
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For a **new experimental dataset**, use the *Experimental data submission* form instead.
+        For a **security vulnerability**, do NOT open a public issue — follow `SECURITY.md`.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: The incorrect behavior, and what you expected instead.
+      placeholder: "run_all_gates reports X, but the card says Y…"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Minimal reproduction
+      description: The exact commands / smallest code snippet that shows the problem, and the full output.
+      render: shell
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: puckworks version / commit
+      description: "`python -c \"import puckworks; print(puckworks.__version__)\"` and, if from a checkout, the commit SHA."
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      description: OS, Python version, and `numpy`/`scipy` versions (`pip freeze | grep -Ei 'numpy|scipy'`).
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence / affected card or gate
+      description: The relevant `docs/cards/<key>.md`, gate name, or generated artifact, if the bug touches a scientific claim. State the evidence tier involved — never request an unsupported promotion.
+    validations:
+      required: false
