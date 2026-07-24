@@ -64,14 +64,53 @@ def _find(pattern, text):
     return m.group(1) if m else None
 
 
+def _toml_project_version(path):
+    """pyproject [project].version via a real TOML parser (tomllib 3.11+ / tomli), so a formatting
+    change can't produce a false version. Falls back to a regex only where neither parser exists
+    (bare Python 3.10 without tomli — release builds run on 3.12)."""
+    text = Path(path).read_text()
+    try:
+        import tomllib as _toml
+    except ImportError:
+        try:
+            import tomli as _toml
+        except ImportError:
+            return _find(r'^version = "([^"]+)"', text)
+    return _toml.loads(text).get("project", {}).get("version")
+
+
+def _cff_version(path):
+    """CITATION.cff version via a YAML parser (pyyaml is in the [dev] extra); regex fallback."""
+    text = Path(path).read_text()
+    try:
+        import yaml
+    except ImportError:
+        return _find(r'^version: "([^"]+)"', text)
+    data = yaml.safe_load(text)
+    v = data.get("version") if isinstance(data, dict) else None
+    return None if v is None else str(v)
+
+
+def _py_version(path):
+    """puckworks/__init__.py __version__ via AST (robust to formatting). A DUPLICATE __version__
+    assignment is an ambiguous declaration and fails, rather than silently taking the first."""
+    import ast
+    tree = ast.parse(Path(path).read_text())
+    found = [n.value.value for n in ast.walk(tree)
+             if isinstance(n, ast.Assign) and isinstance(n.value, ast.Constant)
+             and any(isinstance(t, ast.Name) and t.id == "__version__" for t in n.targets)]
+    if len(found) > 1:
+        raise ValueError("multiple __version__ assignments in %s" % path)
+    return found[0] if found else None
+
+
 def package_versions(root=REPO_ROOT):
-    """The version declared in each authoritative source; all MUST agree."""
+    """The version declared in each authoritative source, parsed structurally; all MUST agree."""
     root = Path(root)
     return {
-        "pyproject": _find(r'^version = "([^"]+)"', (root / "pyproject.toml").read_text()),
-        "__version__": _find(r'^__version__ = "([^"]+)"',
-                             (root / "puckworks" / "__init__.py").read_text()),
-        "citation": _find(r'^version: "([^"]+)"', (root / "CITATION.cff").read_text()),
+        "pyproject": _toml_project_version(root / "pyproject.toml"),
+        "__version__": _py_version(root / "puckworks" / "__init__.py"),
+        "citation": _cff_version(root / "CITATION.cff"),
     }
 
 
