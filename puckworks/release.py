@@ -278,8 +278,9 @@ def main(argv=None):
     dst.write_text(json.dumps(manifest, indent=2, sort_keys=True), encoding="utf-8")
     print("release manifest -> %s" % dst)
     print("  commit %s (dirty=%s, publishable=%s) py %s"
-          % (manifest["commit"], manifest["dirty"], manifest["publishable"], manifest["python"]))
-    for name, meta in manifest["artifacts"].items():
+          % (manifest.get("commit"), manifest.get("dirty"),
+             manifest.get("publishable"), manifest.get("python")))
+    for name, meta in manifest.get("artifacts", {}).items():
         print("  %s  %s" % (meta["sha256"][:16], name))
     return 0
 
