@@ -204,6 +204,8 @@ class PullSeries:
                 f"PullSeries {self.series_id!r} role {self.role!r} not in {SERIES_ROLES}")
         if not isinstance(self.values, tuple):
             raise PullDomainError(f"PullSeries {self.series_id!r} values must be an immutable tuple")
+        if not self.values:
+            raise PullDomainError(f"PullSeries {self.series_id!r} must have at least one value")
         for v in self.values:
             if not isinstance(v, float) or not math.isfinite(v):
                 raise PullDomainError(f"PullSeries {self.series_id!r} has a non-finite value")
@@ -238,6 +240,15 @@ class PullTrace:
             if not isinstance(v, float) or not math.isfinite(v):
                 raise PullDomainError(f"PullTrace {self.trace_id!r} has a non-finite axis value")
         n = len(self.axis_values)
+        if n < 1:
+            raise PullDomainError(f"PullTrace {self.trace_id!r} axis must be non-empty")
+        if any(b <= a for a, b in zip(self.axis_values, self.axis_values[1:])):
+            raise PullDomainError(f"PullTrace {self.trace_id!r} axis must be strictly increasing")
+        if not self.series:
+            raise PullDomainError(f"PullTrace {self.trace_id!r} must have at least one series")
+        ids = [s.series_id for s in self.series]
+        if len(set(ids)) != len(ids):
+            raise PullDomainError(f"PullTrace {self.trace_id!r} has duplicate series ids {ids}")
         for s in self.series:
             if len(s.values) != n:
                 raise PullDomainError(
@@ -658,26 +669,51 @@ def _build_traces(cam_model, cam, recipe, gs, q, shot) -> tuple[PullTrace, ...]:
 
 def simulate_pull(recipe: PullRecipe, config: PullConfig, *,
                   progress: ProgressCallback | None = None) -> PullRun:
-    """Run the guided espresso pull. Raises :class:`PullDomainError` on hard-invalid input, an
-    unsupported configuration, or an evidence-range departure under ``domain_policy='strict'``. The
-    result serializes deterministically.
+    """Run the guided espresso pull. Raises :class:`PullDomainError` on hard-invalid input / an
+    unsupported configuration / a strict-mode evidence departure, or :class:`PullExecutionError` on a
+    non-finite solver result. Every started run emits exactly ONE terminal event: RUN_COMPLETED on
+    success, or RUN_FAILED (with a stable `category`) on ANY failure of the producer phase — model
+    import, solve, trace construction, or serialization — never a RUN_STARTED left dangling.
     """
+    emitted = {"started": False, "failed": False}
+    try:
+        return _simulate_pull_impl(recipe, config, progress, emitted)
+    except PullExecutionError as e:
+        _emit_run_failed(progress, emitted, str(e), "execution")
+        raise
+    except PullDomainError as e:
+        _emit_run_failed(progress, emitted, str(e), "domain")
+        raise
+    except Exception as e:                               # noqa: BLE001 - one terminal event, then re-raise
+        _emit_run_failed(progress, emitted, "%s: %s" % (type(e).__name__, e), "internal")
+        raise
+
+
+def _emit_run_failed(progress, emitted, reason, category):
+    """Emit RUN_FAILED at most once per started run (the impl already emits it for domain rejection)."""
+    if emitted["started"] and not emitted["failed"]:
+        emitted["failed"] = True
+        _emit(progress, PullEvent.RUN_FAILED, {"reason": reason, "category": category})
+
+
+def _simulate_pull_impl(recipe: PullRecipe, config: PullConfig, progress, emitted) -> PullRun:
     from puckworks.models.cameron2020 import extraction_bdf as cam_model
 
     _profile(recipe.coffee_profile)                     # validate profile (never bean-derived)
     _validate_config(config)                            # reject an unexecutable configuration
     started = time.monotonic()
     _emit(progress, PullEvent.RUN_STARTED, {"config": config.config_id})
+    emitted["started"] = True
 
     findings = evaluate_domain(recipe)
     if any(f.status is DomainStatus.REJECTED for f in findings):
-        _emit(progress, PullEvent.RUN_FAILED, {"reason": "rejected input"})
+        _emit_run_failed(progress, emitted, "rejected input", "domain")
         raise PullDomainError("recipe rejected: " + "; ".join(
             f"{f.field}={f.supplied_value} ({f.technical_reason})"
             for f in findings if f.status is DomainStatus.REJECTED))
     warns = [f for f in findings if f.status is DomainStatus.WARNING]
     if warns and config.domain_policy == "strict":
-        _emit(progress, PullEvent.RUN_FAILED, {"reason": "strict domain"})
+        _emit_run_failed(progress, emitted, "strict domain", "domain")
         raise PullDomainError("strict domain policy: out-of-range " + ", ".join(f.field for f in warns))
 
     gs = _grind_setting(recipe)
