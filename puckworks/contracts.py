@@ -28,6 +28,32 @@ def assert_si_permeability(k_m2, name="k"):
             f"{name}={k_m2} outside SI window [{K_SI_MIN:g}, {K_SI_MAX:g}] m^2; "
             "Forchheimer k_I closures require strict SI permeability (A7).")
 
+
+# PW-CORE-001 — boundary validators for the core physics contracts. Conservative on purpose:
+# finiteness + positivity + fraction bounds only, so a construction that carried a latent NaN /
+# negative dimension / out-of-[0,1] porosity now fails loudly instead of silently propagating.
+def _finite(name, v):
+    if isinstance(v, bool):
+        raise ValueError(f"{name} must be a number, not a bool")
+    try:
+        ok = bool(np.isfinite(v))
+    except (TypeError, ValueError):
+        raise ValueError(f"{name} must be a finite number, got {v!r}")
+    if not ok:
+        raise ValueError(f"{name} must be finite (no NaN/inf), got {v!r}")
+
+
+def _finite_pos(name, v):
+    _finite(name, v)
+    if v <= 0:
+        raise ValueError(f"{name} must be positive, got {v!r}")
+
+
+def _fraction(name, v):
+    _finite(name, v)
+    if not (0.0 <= v <= 1.0):
+        raise ValueError(f"{name} must be in [0, 1], got {v!r}")
+
 @dataclass
 class GrindState:
     setting: float                    # grinder dial (Cameron EK43 convention)
@@ -35,6 +61,15 @@ class GrindState:
     boulder_radius_m: Optional[float] = None    # a_2
     fines_radius_m: Optional[float] = None       # a_1 (grudeva2025 needs a*_f; G5-pre)
     mean_radius_m: Optional[float] = None       # <R> (Wadsworth convention)
+
+    def __post_init__(self):
+        _finite("GrindState.setting", self.setting)
+        if self.fines_fraction is not None:
+            _fraction("GrindState.fines_fraction", self.fines_fraction)
+        for n in ("boulder_radius_m", "fines_radius_m", "mean_radius_m"):
+            v = getattr(self, n)
+            if v is not None:
+                _finite_pos(f"GrindState.{n}", v)
 
 @dataclass
 class BedState:
@@ -53,6 +88,18 @@ class BedState:
     fines_mobile: Optional[np.ndarray] = None        # mobile fines inventory(z)
     fines_bound: Optional[np.ndarray] = None         # bound/deposited fines(z)
 
+    def __post_init__(self):
+        _finite_pos("BedState.dose_kg", self.dose_kg)
+        _finite_pos("BedState.depth_m", self.depth_m)
+        _finite_pos("BedState.area_m2", self.area_m2)
+        _fraction("BedState.porosity", self.porosity)
+        _finite("BedState.kappa", self.kappa)
+        _finite("BedState.sigma", self.sigma)
+        if self.k_m2 is not None:
+            _finite_pos("BedState.k_m2", self.k_m2)
+        if self.k_I_m is not None:
+            _finite_pos("BedState.k_I_m", self.k_I_m)
+
 @dataclass
 class FlowLaw:
     """Forchheimer flow-closure state (ledger A7). A Darcy law is the k_I=None
@@ -61,6 +108,13 @@ class FlowLaw:
     k_m2: float
     k_I_m: Optional[float] = None
     closure: str = "darcy"
+
+    def __post_init__(self):
+        _finite_pos("FlowLaw.k_m2", self.k_m2)
+        if self.k_I_m is not None:
+            _finite_pos("FlowLaw.k_I_m", self.k_I_m)
+        if not isinstance(self.closure, str) or not self.closure:
+            raise ValueError("FlowLaw.closure must be a non-empty string")
 
 
 @dataclass
@@ -74,6 +128,12 @@ class PumpHeadspace:
     H0: float                         # initial headspace height [m]
     beta: float = 1.0                 # trapped-air heating ratio T1/T0
     p_c: float = 0.0                  # capillary suction at the front [Pa]
+
+    def __post_init__(self):
+        for n in ("p_m", "Q_m", "R_f", "H0"):
+            _finite_pos(f"PumpHeadspace.{n}", getattr(self, n))
+        _finite("PumpHeadspace.beta", self.beta)
+        _finite("PumpHeadspace.p_c", self.p_c)
 
 
 @dataclass
@@ -145,3 +205,9 @@ class ShotResultState:
     t_shot_s: float
     beverage_g: float
     traces: dict = field(default_factory=dict)   # t, flow, weight, pressure arrays
+
+    def __post_init__(self):
+        _finite("ShotResultState.EY_pct", self.EY_pct)
+        _finite("ShotResultState.tds_pct", self.tds_pct)
+        _finite_pos("ShotResultState.t_shot_s", self.t_shot_s)
+        _finite_pos("ShotResultState.beverage_g", self.beverage_g)
