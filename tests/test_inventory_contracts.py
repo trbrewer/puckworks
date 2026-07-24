@@ -41,7 +41,6 @@ def test_pw_core_003_unknown_compounds_are_namespaced():
 
 
 def test_pw_core_001_contract_boundary_validation():
-    import numpy as np
     from puckworks.contracts import (GrindState, BedState, FlowLaw, PumpHeadspace, ShotResultState)
 
     # valid constructions still work
