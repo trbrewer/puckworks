@@ -465,8 +465,14 @@ interval that ignores fold dependence (**[5.0, 8.2] %**), and a condition-level
 resampling of the nine (T,p) macro errors (macro mean 6.5 %, **[5.1, 8.3] %**). The two
 nearly coincide, but this does **not** demonstrate that fold dependence is immaterial —
 both resample already-computed fold errors *without* repeating the fit, and the LOCO
-training sets overlap, so neither corrects the fold dependence; a coverage-calibrated
-interval would require a resampling scheme that repeats the fit (owed). The verdict is
+training sets overlap, so neither corrects the fold dependence. A coverage-calibrated
+interval that **does** repeat the fit — a condition-cluster out-of-bag bootstrap that
+resamples the nine (T,p) conditions, refits rate+level on the in-bag conditions, and scores
+the out-of-bag ones (P0-5 sub-analysis C; `loco_coverage_interval`, 600 replicates) — gives a
+pooled held-out MAPE of **7.4 %** with a **95 % interval of [4.3, 11.5] %**. As expected it is
+**wider** than the two descriptive intervals (which omit refitting variability), and its centre
+sits slightly above the LOCO 6.5 % because the out-of-bag held-out sets are larger than a single
+condition; the held-out error stays modest and the conclusion is unchanged. The verdict is
 robust to the loss function: under a log/relative-error level fit the pooled mean is
 **7.0 %** (review M6). It is also robust to the choice of a
 single **global** frozen geometry: re-running the O→C/F transfer under each of the three
@@ -641,9 +647,11 @@ reading — the first over-claimed identification, the second was an endpoint ar
   plots by (T, p, grind, variety, solute); a *calibrated* per-point named-solute weighting
   (only total-solids carries RSD; the named-solute rows retain the source's central values, not
   replicate-level RSD — an **objective-family sensitivity sweep** is delivered in its place (P0-5,
-  §4), but the calibrated interval stays owed on the source replicate drop); and a coverage-calibrated
-  LOCO CV interval that repeats the fit under resampling (P0-5 sub-analysis **C, deferred**). A
-  dependence-aware **clustered bootstrap** of the model-vs-null skill **is** delivered (P0-5, §5).
+  §4), but the calibrated interval stays owed on the source replicate drop). A coverage-calibrated
+  LOCO interval that repeats the fit **is now delivered** (P0-5 sub-analysis **C**: a
+  condition-cluster out-of-bag bootstrap, held-out MAPE 7.4 %, 95 % **[4.3, 11.5] %** — wider than
+  the descriptive intervals), as is a dependence-aware **clustered bootstrap** of the model-vs-null
+  skill (P0-5, §5).
 - **A profiled-objective / condition-number identifiability panel** — *delivered*
   (§4, `identifiability_panel`): caffeine log-Hessian condition number ≈1930, local
   inverse-curvature coupling ≈ −0.99 (a geometric SSE-surface diagnostic, not a

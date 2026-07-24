@@ -1482,6 +1482,96 @@ def identifiability_panel_convergence(variety="Arabica", solute="caffeine"):
                     " (right-censored)" if cont["valley_right_censored"] else "")))
 
 
+def _oob_coverage_bootstrap(panels, n_cond, n_boot=600, seed=0):
+    """P0-5 sub-analysis C, pure core: condition-cluster OUT-OF-BAG bootstrap that REPEATS
+    THE FIT. `panels` is a list of (F, m): F is (n_rate x n_cond) per-unit-level predictions
+    with columns aligned to a SHARED condition order, m the (n_cond,) observations. Each
+    replicate resamples the n_cond (T,p) CONDITIONS with replacement (the dependence cluster),
+    REFITS rate (min in-bag training MAPE) + the exact weighted-median level per panel on the
+    in-bag columns, and scores the OUT-OF-BAG conditions -- genuine held-out, so there is no
+    leave-one-out-on-resample leakage. Returns the coverage-calibrated 95% percentile interval
+    and point estimate of the pooled OOB MAPE. Deterministic given seed; NO PDE solves (F is
+    cached upstream), so the refit-in-loop is arithmetic and n_boot is a documented cap."""
+    import numpy as np
+    rng = np.random.default_rng(seed)
+    reps, n_skipped = [], 0
+    for _ in range(int(n_boot)):
+        inbag = rng.integers(0, n_cond, n_cond)
+        inset = set(inbag.tolist())
+        oob = np.array([j for j in range(n_cond) if j not in inset], int)
+        if oob.size == 0:                                 # all conditions drawn -> no OOB
+            n_skipped += 1; continue
+        pooled = []
+        for F, m in panels:
+            best = None
+            for k in range(F.shape[0]):
+                c, mp = _mape_level(F[k, inbag], m[inbag])
+                if best is None or mp < best[1]:
+                    best = (c, mp, k)
+            c, _, k = best
+            pooled.extend((np.abs(c * F[k, oob] - m[oob]) / m[oob] * 100.0).tolist())
+        reps.append(float(np.mean(pooled)))
+    reps = np.array(reps)
+    return dict(
+        n_boot_effective=int(reps.size), n_skipped_empty_oob=int(n_skipped),
+        oob_pooled_mape_point=round(float(reps.mean()), 2),
+        coverage_interval95=[round(float(np.percentile(reps, 2.5)), 2),
+                             round(float(np.percentile(reps, 97.5)), 2)])
+
+
+def loco_coverage_interval(varieties=("Arabica", "Robusta"),
+                           solutes=("caffeine", "trigonelline", "5CQA"),
+                           n_boot=600, seed=0):
+    """P0-5 sub-analysis C (bounded): the COVERAGE-CALIBRATED interval that REPEATS THE FIT
+    under resampling -- the item loco_cv_refit's descriptive intervals leave owed. Because the
+    per-unit-level PDE prediction matrix F is DATA-INDEPENDENT it is built ONCE per solute x
+    variety (the only PDE cost, ~3-5 min); each bootstrap replicate then resamples the 9 (T,p)
+    CONDITIONS (the dependence cluster) with replacement, REFITS rate+level on the in-bag
+    conditions (pure arithmetic over cached F, via _oob_coverage_bootstrap), and scores the
+    OUT-OF-BAG conditions. Condition-cluster resampling respects the fold dependence the
+    descriptive intervals ignore. NOTE on the estimand: OOB held-out sets (~3-4 of 9 conditions)
+    are LARGER than LOCO's single held-out condition, so this interval's central value may run
+    ABOVE the LOCO point estimate (~6.5%); it is a coverage-calibrated interval that repeats the
+    fit, COMPLEMENTING (not replacing) the LOCO point estimate. n_boot is a documented cap
+    (bounded run). Named g/L solutes only. Slow (the one-time F build); hand-run."""
+    import numpy as np
+    from puckworks.models.pannusch2024 import solver as ps
+    from puckworks import data as d
+    COL = {"caffeine": "CF", "trigonelline": "TR", "5CQA": "5CQA"}
+    bio = d.angeloni_bioactives(); params = ps._solute_params()
+
+    def _panel(variety, sol):
+        rows = [r for r in bio if r["variety"] == variety
+                and r["granulometry"] == "O" and r["on_grid"] == "True"]
+        rows = sorted(rows, key=lambda r: (r["T_degC"], r["p_bar"]))   # SHARED condition order
+        conds = [(r["T_degC"], r["p_bar"]) for r in rows]
+        m = np.array([r[COL[sol]] for r in rows], float)
+        F = np.array([[float(ps.simulate_fractions(
+                        T, _flow_darcy(p, T), _matched_bounds(_flow_darcy(p, T)),
+                        {**params[sol], "A1": params[sol]["A1"] * rs,
+                         "A2": params[sol]["A2"] * rs, "c_s0": 1.0}, cl1=1.0)[0])
+                       for (T, p) in conds] for rs in _RATE_DOMAIN])
+        return F, m, conds
+
+    panels, ncond = [], None
+    for v in varieties:
+        for s in solutes:
+            F, m, conds = _panel(v, s)
+            panels.append((F, m))
+            ncond = len(conds) if ncond is None else ncond
+    res = _oob_coverage_bootstrap(panels, ncond, n_boot=n_boot, seed=seed)
+    res.update(
+        n_panels=len(panels), n_conditions=ncond, n_boot_cap=int(n_boot), seed=int(seed),
+        method=("condition-cluster OOB bootstrap; refit (rate + weighted-median level) per "
+                "replicate on in-bag conditions, scored on out-of-bag; F cached "
+                "(data-independent), so the refit-in-loop is arithmetic (no PDE per replicate)"),
+        estimand_note=("OOB held-out sets (~3-4 of 9 conditions) are LARGER than LOCO's single "
+                       "held-out condition, so the central value may exceed the LOCO point "
+                       "estimate (~6.5%); coverage-calibrated, repeats the fit, complements LOCO"),
+        interval_is_coverage_calibrated=True)
+    return res
+
+
 def loco_cv_refit(varieties=("Arabica", "Robusta"),
                   solutes=("caffeine", "trigonelline", "5CQA"),
                   n_boot=1000, seed=0):

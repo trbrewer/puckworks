@@ -117,3 +117,28 @@ def test_bad_unit_raises():
     import pytest
     with pytest.raises(ValueError):
         AB.paired_clustered_bootstrap(_recs([1.0, 2.0]), unit="nonsense")
+
+
+# ── _oob_coverage_bootstrap (P0-5 sub-analysis C, pure core) ──────────────────────
+def test_oob_coverage_perfect_fit_is_zero():
+    # every rate predicts m exactly at unit level -> in-bag fit is perfect, OOB error 0.
+    m = np.array([5.0, 6.0, 4.5, 5.5, 6.2, 4.8, 5.1, 5.9, 4.9])
+    F = np.tile(m, (18, 1))
+    r = AB._oob_coverage_bootstrap([(F, m)], 9, n_boot=100, seed=0)
+    assert r["oob_pooled_mape_point"] == 0.0
+    assert r["coverage_interval95"] == [0.0, 0.0]
+    assert r["n_boot_effective"] > 0
+
+
+def test_oob_coverage_deterministic_and_positive():
+    rng = np.random.default_rng(1)
+    m = 5.0 + rng.normal(0, 0.5, 9)
+    # shape varies with rate so the level cannot fit all conditions -> positive OOB error
+    F = np.abs(np.array([m * (1 + 0.2 * np.sin(0.4 * k + np.arange(9))) for k in range(18)])) + 0.1
+    a = AB._oob_coverage_bootstrap([(F, m)], 9, n_boot=200, seed=3)
+    b = AB._oob_coverage_bootstrap([(F, m)], 9, n_boot=200, seed=3)
+    assert a == b                                        # deterministic given seed
+    assert a["oob_pooled_mape_point"] > 0
+    lo, hi = a["coverage_interval95"]
+    assert 0.0 <= lo <= hi
+    assert a["n_skipped_empty_oob"] >= 0
