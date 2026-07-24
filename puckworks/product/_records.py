@@ -398,6 +398,8 @@ class DetectedEvent:
     def __post_init__(self) -> None:
         _require_nonempty(self.event_id, "event_id")
         _check_number(self.time_s, "event.time_s")
+        if self.time_s < 0:                          # an event cannot occur before the shot starts
+            raise ValueError("event.time_s must be >= 0, got %r" % (self.time_s,))
         if not isinstance(self.origin, SeriesKind):
             raise ValueError("event origin must be a SeriesKind")
         _require_nonempty(self.provenance, "event.provenance")
