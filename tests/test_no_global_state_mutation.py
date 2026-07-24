@@ -35,6 +35,7 @@ def test_importing_streamtube_does_not_mutate_cameron_c_s0():
     "execute_illustrative_linked_pull(RelayRequest(mode='fast'))",   # a full relay run first
 ])
 @pytest.mark.slow
+@pytest.mark.scientific_baseline
 def test_cameron_output_is_import_order_invariant(preamble):
     out = _run(f"""
         {preamble}
@@ -81,6 +82,7 @@ def test_relay_does_not_pin_or_restore_cameron_globals():
 
 
 @pytest.mark.slow
+@pytest.mark.scientific_baseline
 def test_full_tour_hash_is_import_order_invariant():
     def tour_hash(preamble):
         return _run(f"""
