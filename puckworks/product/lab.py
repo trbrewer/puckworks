@@ -13,7 +13,7 @@ Two modes, kept scrupulously distinct:
   never presented as predictions of the common shot. Only actually-executed references appear in
   ``executed_reference_results``; the rest are honest coverage placeholders.
 
-Schema v4 (distinct from ``PullRun`` v1). Request semantics are explicit and validated:
+Schema v5 (see ``SCHEMA_VERSION``; distinct from ``PullRun`` v1). Request semantics are explicit and validated:
 
 * ``domain_policy`` (``warn`` | ``strict``) is *operational*: the effective config carries the request's
   policy and the domain is evaluated once through the authoritative product domain BEFORE the producer

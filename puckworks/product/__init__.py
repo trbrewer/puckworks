@@ -7,13 +7,14 @@ implementation and may change without notice. There is **no fixture loader in PR
 discovery/loading is deferred to PR 1B). No harness, paper, registry, or model implementation object
 is exposed here.
 
-This is **unreleased next-minor** API work: the published v0.2.0 wheel does **not** contain
-``puckworks.product``. PR 1A scope is the **rights-independent** contract only — the versioned
-records, canonical serialization, Git-free build provenance, and strict validation. There is
-deliberately **no** bundled runtime fixture, fixture discovery/loader, ``analyze_shot`` / model
-orchestration / explanation scoring / HTML output, and no public ``NormalizedShot``. The real
-redistributable fixture, its manifest/loader/distribution, arrive in a separate **PR 1B** after its
-license is approved; ``FixtureProvenance`` remains here because it is part of the record semantics.
+The module now exposes two layers: (1) the **rights-independent contract** — the versioned records,
+canonical serialization, Git-free build provenance, and strict validation; and (2) the **Guided
+Espresso Pull orchestration** — ``simulate_pull``, the presets (``available_pull_presets`` /
+``load_pull_preset``), and report rendering (``pull_run_to_json`` / ``pull_run_to_markdown`` /
+``render_pull_report``). See ``__all__`` for the exact stable surface. Still deliberately absent: a
+bundled redistributable runtime fixture and its discovery/loader (pending license approval), and any
+public ``NormalizedShot`` / HTML explanation-scoring object. ``FixtureProvenance`` remains here
+because it is part of the record semantics.
 """
 from __future__ import annotations
 
