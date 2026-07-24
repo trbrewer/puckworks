@@ -22,6 +22,7 @@ import math
 import time
 from dataclasses import dataclass
 from enum import Enum
+from types import MappingProxyType
 from typing import Callable
 
 import puckworks
@@ -118,6 +119,25 @@ class PullExecutionError(RuntimeError):
     leaked ZeroDivision/SciPy/NumPy exception or a silent inf/nan in the result."""
 
 
+def _freeze(obj):
+    """Recursively convert dicts→read-only proxies (and lists→tuples) so a frozen PullRun record is
+    deeply immutable (PW-PULL-006). Serializers call _thaw to recover plain JSON-safe containers."""
+    if isinstance(obj, dict):
+        return MappingProxyType({k: _freeze(v) for k, v in obj.items()})
+    if isinstance(obj, (list, tuple)):
+        return tuple(_freeze(v) for v in obj)
+    return obj
+
+
+def _thaw(obj):
+    """Inverse of _freeze for serialization: proxies→plain dicts, tuples→lists. JSON-neutral."""
+    if isinstance(obj, MappingProxyType):
+        return {k: _thaw(v) for k, v in obj.items()}
+    if isinstance(obj, tuple):
+        return [_thaw(v) for v in obj]
+    return obj
+
+
 def _require_finite(name, value):
     v = float(value)
     if not math.isfinite(v):
@@ -147,6 +167,9 @@ class CoffeeProfile:
     context: str              # applicable coffee/roast/grind context
     evidence_strength: str
     caveat: str
+
+    def __post_init__(self):
+        object.__setattr__(self, "parameters", _freeze(dict(self.parameters)))
 
 
 @dataclass(frozen=True)
@@ -275,7 +298,7 @@ class StageResult:
     stage_id: str
     sequence: int
     component_id: str
-    component_version: str
+    source_citation: str
     execution_role: str
     method_name: str
     method_plain: str
@@ -294,6 +317,10 @@ class StageResult:
     caveat: str
     references: str
 
+    def __post_init__(self):
+        for name in ("inputs", "outputs", "fitted_parameters"):
+            object.__setattr__(self, name, _freeze(dict(getattr(self, name))))
+
 
 @dataclass(frozen=True)
 class PullConfig:
@@ -305,7 +332,6 @@ class PullConfig:
     lenses: tuple[str, ...] = ()
     grid_N: int = 40
     grid_M: int = 24
-    seed: int = 0
     # which recipe/config fields guided mode may change:
     #   None       -> unrestricted (any field editable)
     #   ()         -> a FIXED preset: nothing is editable
@@ -327,10 +353,9 @@ class PullConfig:
             v = getattr(self, name)
             if not isinstance(v, int) or isinstance(v, bool) or v <= 0:
                 raise PullDomainError(f"{name} must be a positive integer")
-        if not isinstance(self.seed, int) or isinstance(self.seed, bool):
-            raise PullDomainError("seed must be an integer")
         if not isinstance(self.lenses, tuple):
             raise PullDomainError("lenses must be a tuple")
+        object.__setattr__(self, "stage_components", _freeze(dict(self.stage_components)))
 
 
 @dataclass(frozen=True)
@@ -374,10 +399,10 @@ class PullRun:
     assumptions_summary: tuple[str, ...]
     coverage: tuple[ComponentCoverage, ...]
     warnings: tuple[str, ...]
-    completion_state: str      # "completed" | "completed_with_warnings" | "failed"
-    started_at: float = 0.0    # wall-clock (NOT part of the deterministic payload)
-    ended_at: float = 0.0
-    runtime_s: float = 0.0
+    completion_state: str      # "completed" | "completed_with_warnings"
+
+    def __post_init__(self):
+        object.__setattr__(self, "final_observables", _freeze(dict(self.final_observables)))
 
 
 # ─────────────────────────────── coffee profiles ─────────────────────────────────
@@ -581,7 +606,7 @@ def _emit(progress, event, payload):
 def _stage(stage_id, seq, cam, method_plain, method_technical, inputs, outputs, findings, runtime_s, caveat):
     return StageResult(
         stage_id=stage_id, sequence=seq, component_id=_PRIMARY,
-        component_version=cam.paper, execution_role=cam.execution_role,
+        source_citation=cam.paper, execution_role=cam.execution_role,
         method_name="cameron2020 BDF single-solute bed model",
         method_plain=method_plain, method_technical=method_technical,
         inputs=inputs, outputs=outputs, evidence_badge="simulated",
@@ -701,7 +726,6 @@ def _simulate_pull_impl(recipe: PullRecipe, config: PullConfig, progress, emitte
 
     _profile(recipe.coffee_profile)                     # validate profile (never bean-derived)
     _validate_config(config)                            # reject an unexecutable configuration
-    started = time.monotonic()
     _emit(progress, PullEvent.RUN_STARTED, {"config": config.config_id})
     emitted["started"] = True
 
@@ -734,8 +758,8 @@ def _simulate_pull_impl(recipe: PullRecipe, config: PullConfig, progress, emitte
     gr = _stage("grind", seq, cam, "How fine the grind is, turned into the bed microstructure.",
                 "grind_microstructure(gs): fines/boulder volume fractions and radii for the dial",
                 {"grind_setting": {"value": gs, "unit": "EK43 dial"}},
-                {"fines_fraction": {"value": round(float(phi1), 4), "unit": "-"},
-                 "boulder_fraction": {"value": round(float(phi2), 4), "unit": "-"},
+                {"fines_fraction": {"value": float(phi1), "unit": "-"},
+                 "boulder_fraction": {"value": float(phi2), "unit": "-"},
                  "boulder_radius": {"value": float(a2), "unit": "m"}},
                 find("grind_setting"), time.monotonic() - t0,
                 "grind is represented by the model's two-family microstructure, not a measured PSD")
@@ -760,11 +784,11 @@ def _simulate_pull_impl(recipe: PullRecipe, config: PullConfig, progress, emitte
                 "darcy_flux(gs, p_bar); t_shot = m_out / (pi R0^2 rho_out q)",
                 {"pressure": {"value": recipe.pressure_bar, "unit": "bar",
                               "note": "prescribed constant input (not a predicted profile)"},
-                 "bed_depth": {"value": round(L, 5), "unit": "m"}},
+                 "bed_depth": {"value": float(L), "unit": "m"}},
                 {"darcy_flux": {"value": float(q), "unit": "m/s"},
-                 "mass_flow": {"value": round(math.pi * cam_model.R0 ** 2 * q * cam_model.RHO_OUT * 1000, 3),
+                 "mass_flow": {"value": float(math.pi * cam_model.R0 ** 2 * q * cam_model.RHO_OUT * 1000),
                                "unit": "g/s"},
-                 "shot_duration": {"value": round(t_shot, 2), "unit": "s"}},
+                 "shot_duration": {"value": float(t_shot), "unit": "s"}},
                 find("pressure_bar"), time.monotonic() - t0,
                 "constant-pressure Darcy flow; no dynamic channeling, wetting front, or preinfusion transient")
     stages.append(mf)
@@ -796,10 +820,10 @@ def _simulate_pull_impl(recipe: PullRecipe, config: PullConfig, progress, emitte
                  "target_beverage": {"value": recipe.target_beverage_g, "unit": "g"},
                  "temperature": {"value": recipe.brew_temperature_c, "unit": "degC",
                                  "note": "recorded-only; not a model input (no thermal transient)"}},
-                {"extraction_yield": {"value": round(float(shot.EY), 2), "unit": "%"},
-                 "tds": {"value": round(float(shot.tds), 2), "unit": "%"},
-                 "dissolved_mass": {"value": round(float(shot.m_cup[-1]) * 1000, 3), "unit": "g"},
-                 "first_modeled_solute_arrival": {"value": round(first_arrival, 2), "unit": "s",
+                {"extraction_yield": {"value": float(shot.EY), "unit": "%"},
+                 "tds": {"value": float(shot.tds), "unit": "%"},
+                 "dissolved_mass": {"value": float(shot.m_cup[-1]) * 1000, "unit": "g"},
+                 "first_modeled_solute_arrival": {"value": float(first_arrival), "unit": "s",
                      "note": "numerical diagnostic, NOT physical first drip (saturated-bed model)"}},
                 find("brew_temperature_c") + find("dose_g") + find("target_beverage_g"),
                 solve_s, "EY ceiling ~29.6% (per-bed-volume inventory); temperature enters only "
@@ -813,19 +837,19 @@ def _simulate_pull_impl(recipe: PullRecipe, config: PullConfig, progress, emitte
     final_obs = {
         "pressure_bar": {"value": recipe.pressure_bar, "unit": "bar",
                          "note": "prescribed constant input (v1); not a predicted profile"},
-        "mean_flow_g_s": {"value": round(recipe.target_beverage_g / t_shot, 3), "unit": "g/s",
+        "mean_flow_g_s": {"value": float(recipe.target_beverage_g / t_shot), "unit": "g/s",
                           "note": "constant model flow"},
         "first_drip_s": {"value": None, "unit": "s", "status": "unavailable",
                          "reason": "the primary configuration begins from a saturated bed and does not "
                                    "model puck wetting or hydraulic breakthrough"},
-        "first_modeled_solute_arrival_s": {"value": round(first_arrival, 2), "unit": "s",
+        "first_modeled_solute_arrival_s": {"value": float(first_arrival), "unit": "s",
                          "status": "diagnostic",
                          "note": "numerical diagnostic: first time modeled cup solute > 0; NOT physical first drip"},
-        "shot_duration_s": {"value": round(float(shot.t_shot), 2), "unit": "s"},
+        "shot_duration_s": {"value": float(shot.t_shot), "unit": "s"},
         "beverage_mass_g": {"value": recipe.target_beverage_g, "unit": "g"},
-        "extracted_mass_g": {"value": round(extracted_g, 3), "unit": "g"},
-        "extraction_yield_pct": {"value": round(float(shot.EY), 2), "unit": "%"},
-        "tds_pct": {"value": round(float(shot.tds), 2), "unit": "%"},
+        "extracted_mass_g": {"value": float(extracted_g), "unit": "g"},
+        "extraction_yield_pct": {"value": float(shot.EY), "unit": "%"},
+        "tds_pct": {"value": float(shot.tds), "unit": "%"},
         "composition": {"value": "single soluble pool (no per-species composition in this model)",
                         "unit": "-"},
     }
@@ -835,15 +859,13 @@ def _simulate_pull_impl(recipe: PullRecipe, config: PullConfig, progress, emitte
     completion = "completed_with_warnings" if warns else "completed"
     run_id = _run_id(recipe, config)
     _emit(progress, PullEvent.RUN_COMPLETED, {"run_id": run_id, "state": completion})
-    ended = time.monotonic()
 
     return PullRun(
         schema_version=PULL_RUN_SCHEMA_VERSION, package_version=puckworks.__version__,
         source_commit=None, run_id=run_id, recipe=recipe, config=config,
         stages=tuple(stages), lenses=(), traces=traces, final_observables=final_obs,
         domain_findings=findings, assumptions_summary=(cam.assumptions,), coverage=coverage,
-        warnings=warn_msgs, completion_state=completion,
-        started_at=0.0, ended_at=0.0, runtime_s=round(ended - started, 3))
+        warnings=warn_msgs, completion_state=completion)
 
 
 def _run_id(recipe: PullRecipe, config: PullConfig) -> str:
@@ -892,9 +914,9 @@ def _recipe_dict(r: PullRecipe) -> dict:
 
 def _config_dict(c: PullConfig) -> dict:
     return {"config_id": c.config_id, "config_version": c.config_version,
-            "stage_components": c.stage_components, "domain_policy": c.domain_policy,
+            "stage_components": _thaw(c.stage_components), "domain_policy": c.domain_policy,
             "pressure_profile": c.pressure_profile, "lenses": list(c.lenses),
-            "grid_N": c.grid_N, "grid_M": c.grid_M, "seed": c.seed,
+            "grid_N": c.grid_N, "grid_M": c.grid_M,
             "editable_fields": None if c.editable_fields is None else list(c.editable_fields)}
 
 
@@ -921,14 +943,14 @@ def _trace_dict(t: PullTrace) -> dict:
 
 def _stage_dict(s: StageResult) -> dict:
     return {"stage_id": s.stage_id, "sequence": s.sequence, "component_id": s.component_id,
-            "component_version": s.component_version, "execution_role": s.execution_role,
+            "source_citation": s.source_citation, "execution_role": s.execution_role,
             "method_name": s.method_name, "method_plain": s.method_plain,
-            "method_technical": s.method_technical, "inputs": s.inputs, "outputs": s.outputs,
+            "method_technical": s.method_technical, "inputs": _thaw(s.inputs), "outputs": _thaw(s.outputs),
             "evidence_badge": s.evidence_badge, "evidence_strength": s.evidence_strength,
             "provenance_class": s.provenance_class, "assumptions": s.assumptions,
             "valid_range": s.valid_range,
             "domain_findings": [_finding_dict(f) for f in s.domain_findings],
-            "fitted_parameters": s.fitted_parameters, "success": s.success, "caveat": s.caveat,
+            "fitted_parameters": _thaw(s.fitted_parameters), "success": s.success, "caveat": s.caveat,
             "references": s.references}    # runtime_s intentionally excluded (nondeterministic)
 
 
@@ -942,7 +964,7 @@ def pull_run_to_dict(run: PullRun) -> dict:
         "stages": [_stage_dict(s) for s in run.stages],
         "lenses": [_stage_dict(s) for s in run.lenses],
         "traces": [_trace_dict(t) for t in run.traces],
-        "final_observables": run.final_observables,
+        "final_observables": _thaw(run.final_observables),
         "domain_findings": [_finding_dict(f) for f in run.domain_findings],
         "assumptions_summary": list(run.assumptions_summary),
         "coverage": [{"component_id": c.component_id, "stage": c.stage,
@@ -957,12 +979,19 @@ def pull_run_to_json(run: PullRun) -> str:
                       allow_nan=False) + "\n"
 
 
+def _disp(x):
+    """Round a float to DISPLAY precision (4 decimals) for human-facing markdown/summary output.
+    Non-floats pass through. The serialized JSON payload keeps FULL solver precision (PW-PULL-007);
+    rounding lives only in the renderers."""
+    return round(x, 4) if isinstance(x, float) else x
+
+
 def _fmt_obs(k: str, v: dict) -> str:
     """One-line rendering of a final observable, honest about unavailable/diagnostic status."""
     status = v.get("status")
     if status == "unavailable":
         return f"- **{k}**: unavailable — {v.get('reason', 'not modeled')}"
-    val = v.get("value")
+    val = _disp(v.get("value"))
     unit = v.get("unit", "")
     line = f"- **{k}**: {val} {unit}".rstrip()
     if status == "diagnostic":
@@ -991,9 +1020,9 @@ def pull_run_to_markdown(run: PullRun) -> str:
     for s in run.stages:
         lines.append(f"### {s.sequence}. {s.stage_id} — {s.method_name} [{s.evidence_badge}]")
         lines.append(f"{s.method_plain}")
-        lines.append("- inputs: " + ", ".join(f"{k}={x['value']} {x['unit']}".rstrip()
+        lines.append("- inputs: " + ", ".join(f"{k}={_disp(x['value'])} {x['unit']}".rstrip()
                                                 for k, x in s.inputs.items()))
-        lines.append("- outputs: " + ", ".join(f"{k}={x['value']} {x['unit']}".rstrip()
+        lines.append("- outputs: " + ", ".join(f"{k}={_disp(x['value'])} {x['unit']}".rstrip()
                                                  for k, x in s.outputs.items()))
         lines.append(f"- evidence: {s.evidence_strength} · valid range: {s.valid_range}")
         lines.append(f"- caveat: {s.caveat}")
@@ -1038,7 +1067,7 @@ def render_pull_report(run: PullRun, out_dir, *, overwrite: bool = False) -> Pul
 def pull_run_summary(run: PullRun) -> str:
     obs = run.final_observables
     return (f"[{run.completion_state}] {run.config.config_id} {run.run_id}: "
-            f"EY {obs['extraction_yield_pct']['value']}% · TDS {obs['tds_pct']['value']}% · "
-            f"{obs['shot_duration_s']['value']}s · {obs['beverage_mass_g']['value']}g · "
+            f"EY {_disp(obs['extraction_yield_pct']['value'])}% · TDS {_disp(obs['tds_pct']['value'])}% · "
+            f"{_disp(obs['shot_duration_s']['value'])}s · {_disp(obs['beverage_mass_g']['value'])}g · "
             f"first drip unavailable (not modeled)"
             + (f" · {len(run.warnings)} warning(s)" if run.warnings else ""))
