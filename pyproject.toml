@@ -11,7 +11,7 @@ authors = [
     { name = "Peter Vonk" },
 ]
 # Supported Python: 3.10 (oldest) .. 3.13 (newest); 3.12 is the primary/release interpreter.
-# All three are exercised in the quick-pr CI matrix.
+# All four (3.10/3.11/3.12/3.13) are exercised in the quick-pr CI matrix.
 requires-python = ">=3.10"
 # Minimum bounds justified by the APIs actually used: numpy>=2.0 (the code calls np.trapezoid,
 # which replaced np.trapz in numpy 2.0 — see models/fasano2000_partI, models/romancorrochano2017),
