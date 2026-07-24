@@ -599,8 +599,29 @@ def _component_meta(component_id: str):
 
 
 def _emit(progress, event, payload):
-    if progress is not None:
+    # PW-PULL-011: a user progress callback is UNTRUSTED — its exception must not abort the scientific
+    # run. Isolate it, warn to stderr (never silently swallow), and continue producing the result.
+    if progress is None:
+        return
+    try:
         progress(event, payload)
+    except Exception as exc:   # noqa: BLE001 - callback isolation is the point
+        import sys
+        print("guided-pull progress callback raised %s (ignored, run continues): %s"
+              % (type(exc).__name__, exc), file=sys.stderr)
+
+
+def _md(text) -> str:
+    """Escape a string for safe INLINE markdown (PW-PULL-012): neutralize table pipes, code backticks,
+    and markdown emphasis, and collapse control characters/newlines to spaces so a user- or
+    model-provided label cannot corrupt the rendered report structure."""
+    s = "" if text is None else str(text)
+    s = "".join(" " if (ord(c) < 32) else c for c in s)          # control chars / newlines -> space
+    # escape the structurally-dangerous markdown characters. NOT underscore: GFM does not emphasize
+    # intra-word underscores, and escaping them would corrupt identifiers like extraction_yield_pct.
+    for ch in ("\\", "`", "|", "*", "#", "<", ">", "[", "]"):
+        s = s.replace(ch, "\\" + ch)
+    return s
 
 
 def _stage(stage_id, seq, cam, method_plain, method_technical, inputs, outputs, findings, runtime_s, caveat):
@@ -993,7 +1014,7 @@ def _fmt_obs(k: str, v: dict) -> str:
         return f"- **{k}**: unavailable — {v.get('reason', 'not modeled')}"
     val = _disp(v.get("value"))
     unit = v.get("unit", "")
-    line = f"- **{k}**: {val} {unit}".rstrip()
+    line = f"- **{_md(k)}**: {val} {_md(unit)}".rstrip()
     if status == "diagnostic":
         line += f" _(diagnostic — {v.get('note', '')})_"
     return line
@@ -1008,9 +1029,9 @@ def pull_run_to_markdown(run: PullRun) -> str:
         f"twin). Run id `{run.run_id}` · state: **{run.completion_state}**.*",
         "",
         "## Recipe",
-        f"- {r.dose_g} g in → {r.target_beverage_g} g out · {r.pressure_bar} bar · {r.grinder_model} "
-        f"dial {r.grind_setting} · profile `{r.coffee_profile}`"
-        + (f" · bean *{r.bean_label}* (label only)" if r.bean_label else ""),
+        f"- {r.dose_g} g in → {r.target_beverage_g} g out · {r.pressure_bar} bar · {_md(r.grinder_model)} "
+        f"dial {r.grind_setting} · profile `{_md(r.coffee_profile)}`"
+        + (f" · bean *{_md(r.bean_label)}* (label only)" if r.bean_label else ""),
         f"- brew temperature {r.brew_temperature_c} °C — *recorded-only; not a model input in v0.3.0*",
         "",
         "## Final observables",
@@ -1019,26 +1040,26 @@ def pull_run_to_markdown(run: PullRun) -> str:
     lines += ["", "## Stages (Recipe → Grind → Machine/Flow → Extraction → Cup)"]
     for s in run.stages:
         lines.append(f"### {s.sequence}. {s.stage_id} — {s.method_name} [{s.evidence_badge}]")
-        lines.append(f"{s.method_plain}")
-        lines.append("- inputs: " + ", ".join(f"{k}={_disp(x['value'])} {x['unit']}".rstrip()
+        lines.append(_md(s.method_plain))
+        lines.append("- inputs: " + ", ".join(f"{_md(k)}={_disp(x['value'])} {_md(x['unit'])}".rstrip()
                                                 for k, x in s.inputs.items()))
-        lines.append("- outputs: " + ", ".join(f"{k}={_disp(x['value'])} {x['unit']}".rstrip()
+        lines.append("- outputs: " + ", ".join(f"{_md(k)}={_disp(x['value'])} {_md(x['unit'])}".rstrip()
                                                  for k, x in s.outputs.items()))
         lines.append(f"- evidence: {s.evidence_strength} · valid range: {s.valid_range}")
-        lines.append(f"- caveat: {s.caveat}")
+        lines.append(f"- caveat: {_md(s.caveat)}")
     lines += ["", "## Authoritative traces (static text equivalent of the figures)"]
     for t in run.traces:
         lines.append(f"### {t.trace_id} — vs {t.axis_label} ({t.axis_unit}) [{t.evidence_badge}]")
         lines.append(f"- fidelity ceiling: {t.fidelity_ceiling}")
         for ser in t.series:
             end = ser.values[-1] if ser.values else float("nan")
-            lines.append(f"- **{ser.label}** ({ser.role}, {ser.unit}): endpoint {round(end, 4)} — {ser.method}")
+            lines.append(f"- **{_md(ser.label)}** ({ser.role}, {_md(ser.unit)}): endpoint {round(end, 4)} — {_md(ser.method)}")
     if run.warnings:
         lines += ["", "## ⚠ Domain warnings"] + [f"- {w}" for w in run.warnings]
     lines += ["", "## Component coverage"]
     for c in run.coverage:
         mark = "executed" if c.executed else "not executed"
-        lines.append(f"- `{c.component_id}` ({c.stage}): **{c.disposition.value}** ({mark}) — {c.reason}")
+        lines.append(f"- `{_md(c.component_id)}` ({c.stage}): **{c.disposition.value}** ({mark}) — {_md(c.reason)}")
     lines += ["", "## What this does not prove",
               "- Not your actual puck, not a flavor/taste prediction, not the 'best' recipe.",
               "- Physical first drip and puck wetting are NOT modeled (the primary model starts from a "

@@ -623,3 +623,26 @@ def test_pw_pull_006_run_records_are_deeply_immutable():
     if isinstance(first_obs, dict) or hasattr(first_obs, "__setitem__"):
         with pytest.raises(TypeError):
             first_obs["value"] = 0
+
+
+def test_pw_pull_011_raising_progress_callback_does_not_abort_run():
+    from puckworks.product._pull import simulate_pull, load_pull_preset
+    r, c = load_pull_preset("pv19_named")
+    def _boom(event, payload):
+        raise RuntimeError("callback bug")
+    run = simulate_pull(r, c, progress=_boom)          # must complete despite the raising callback
+    assert run.completion_state in ("completed", "completed_with_warnings")
+
+
+def test_pw_pull_012_markdown_escapes_injected_label():
+    from dataclasses import replace
+    from puckworks.product._pull import simulate_pull, load_pull_preset, pull_run_to_markdown, _md
+    # _md neutralizes structural markdown chars but leaves intra-word underscores intact
+    assert _md("a|b`c*d[e](x)") == "a\\|b\\`c\\*d\\[e\\](x)"
+    assert _md("extraction_yield_pct") == "extraction_yield_pct"
+    assert "\n" not in _md("line1\nline2")
+    # an injected bean label cannot inject a raw pipe / newline into the rendered report
+    r, c = load_pull_preset("pv19_named")
+    run = simulate_pull(replace(r, bean_label="evil | ` * [x](http://x)\nnewline"), c)
+    bean_line = next(l for l in pull_run_to_markdown(run).splitlines() if "bean" in l)
+    assert "\\|" in bean_line and "\n" not in bean_line
