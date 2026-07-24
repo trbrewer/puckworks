@@ -48,7 +48,12 @@ def bruno_solute_inventory(origin):
         raise KeyError("unknown bruno origin %r (have %s)" % (origin, _BRUNO_ORIGINS))
     species = {}
     for r in rows:
-        canon = _BRUNO_CANON.get(r["compound"], r["compound"])
+        # A raw compound label with no canonical mapping is namespaced under `unmapped:` rather than
+        # stored under its raw string — so a typo/variant can never silently masquerade as a canonical
+        # species and defeat a cross-origin ratio (PW-CORE-003).
+        canon = _BRUNO_CANON.get(r["compound"])
+        if canon is None:
+            canon = "unmapped:" + str(r["compound"])
         species[canon] = dict(amount=float(r["mean"]), sd=float(r["sd"]),
                               unit=r["unit"], basis=r["basis"])
     return SoluteInventory(
@@ -73,5 +78,10 @@ def species_ratio(name, num_origin, den_origin):
     a = bruno_solute_inventory(num_origin).amount(name)
     b = bruno_solute_inventory(den_origin).amount(name)
     if a is None or b is None:
+        return None
+    # zero/negative/non-finite denominator is not a valid content ratio — return None, never a
+    # ZeroDivisionError or an inf/nan leaking into a downstream cross-check.
+    import math
+    if not math.isfinite(b) or b <= 0:
         return None
     return a / b

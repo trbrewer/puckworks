@@ -4,6 +4,7 @@ Deliberately minimal: fields are those our registered components actually
 exchange. Extend by adding fields (never repurposing them); bump SCHEMA_VERSION
 on breaking change.
 """
+import math
 from dataclasses import dataclass, field
 from typing import Callable, Optional
 import numpy as np
@@ -112,10 +113,29 @@ class SoluteInventory:
     strength: str = "reference"           # §0 validation strength of the prior
     extractable_fraction: Optional[dict] = None   # canonical name -> f_extractable (None = unknown)
 
+    def __post_init__(self):
+        if not isinstance(self.species, dict):
+            raise ValueError("SoluteInventory.species must be a mapping")
+        for name, s in self.species.items():
+            if not isinstance(name, str) or not name:
+                raise ValueError("SoluteInventory species name must be a non-empty string, got %r" % (name,))
+            if not isinstance(s, dict) or "amount" not in s:
+                raise ValueError("SoluteInventory species %r must be a mapping carrying an 'amount'" % (name,))
+            amt = s["amount"]
+            if isinstance(amt, bool) or not isinstance(amt, (int, float)) or not math.isfinite(float(amt)):
+                raise ValueError("SoluteInventory species %r amount must be a finite number, got %r" % (name, amt))
+            if not s.get("unit") or not s.get("basis"):
+                raise ValueError("SoluteInventory species %r must declare a unit and a basis" % (name,))
+        if self.extractable_fraction is not None:
+            for k, v in self.extractable_fraction.items():
+                if isinstance(v, bool) or not isinstance(v, (int, float)) or not math.isfinite(float(v)) \
+                        or not (0.0 <= float(v) <= 1.0):
+                    raise ValueError("extractable_fraction[%r] must be a finite fraction in [0,1], got %r" % (k, v))
+
     def amount(self, name):
-        """Content [on its unit/basis] for a canonical species, or None."""
+        """Content [on its unit/basis] for a canonical species, or None if absent."""
         s = self.species.get(name)
-        return None if s is None else s["amount"]
+        return None if s is None else s.get("amount")
 
 
 @dataclass
