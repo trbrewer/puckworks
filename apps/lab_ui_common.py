@@ -11,7 +11,9 @@ from __future__ import annotations
 BOUNDS = {"dose_g": (5.0, 30.0), "target_beverage_g": (10.0, 80.0),
           "pressure_bar": (1.0, 12.0), "brew_temperature_c": (80.0, 98.0)}
 
-# the immutable public notebook fallback (a link the user clicks — NOT a network call from the app)
+# The LATEST (main-branch) public notebook — a link the user clicks, NOT a network call from the app.
+# It tracks `main`, so it is intentionally a moving reference, not an immutable/pinned one (PW-APP-003);
+# for a reproducible run, open the notebook at the commit/tag of the release you are using.
 COLAB_LAB_URL = ("https://colab.research.google.com/github/trbrewer/puckworks/blob/main/"
                  "notebooks/guided_pull_laboratory_colab.ipynb")
 
