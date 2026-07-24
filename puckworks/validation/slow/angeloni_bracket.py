@@ -53,6 +53,133 @@ def _mape_level(f, m):
 # [0.4, 2.5] linear grid, so a boundary optimum is exposed rather than imposed.
 _RATE_DOMAIN = np.geomspace(0.15, 6.5, 18)
 
+
+def _profile_objectives(rates, F, m, thresholds=(0.02, 0.05, 0.10, 0.20)):
+    """P0-5 / review MC4-A: profile the rate under a FAMILY of objectives, reusing the
+    same per-unit-level fraction matrix F (n_rate x n_cond) -- NO extra PDE solves. Pure
+    and deterministic. Because the named-solute per-cell RSD is unavailable (only a global
+    RSD range exists; docs/paper1_resource/PAPER_A_P0-5_UNCERTAINTY_SCOPE.md), a per-point
+    weighted scheme cannot be calibrated; the family instead brackets the two error-model
+    ends -- absolute (SSE) vs relative (relative-L2) -- plus a robust (Huber) objective that
+    caps single-condition leverage. This is a SENSITIVITY SWEEP, not a calibrated inference.
+
+    For each objective the level is solved in closed form (SSE, relative-L2) or by Huber
+    IRLS, then the profiled objective is evaluated over the rate grid and the near-optimal
+    set is reported at each tolerance. delta (Huber scale) is PREDECLARED as
+    1.345 * 1.4826 * MAD of the residuals at the SSE optimum (95%-efficiency tuning).
+
+    Returns {objective -> {rate_at_min, at_boundary, sets{<t>pct -> frac_within, rate_lo,
+    rate_hi, log_width, lower_censored, upper_censored}}, huber_delta}. The headline check
+    is whether the broad, right-censored valley PERSISTS across all three objectives."""
+    import numpy as np
+    rates = np.asarray(rates, float); m = np.asarray(m, float)
+    n = len(rates)
+
+    def _ls_level(Fi):
+        return float(np.dot(Fi, m) / np.dot(Fi, Fi))
+
+    def _rel_level(Fi):
+        w = 1.0 / m ** 2
+        return float(np.dot(w * Fi, m) / np.dot(w * Fi, Fi))
+
+    def _huber_level(Fi, delta, iters=50):
+        c = _ls_level(Fi)
+        for _ in range(iters):
+            r = c * Fi - m; a = np.abs(r)
+            w = np.where(a <= delta, 1.0, delta / np.maximum(a, 1e-12))
+            c_new = float(np.dot(w * Fi, m) / np.dot(w * Fi, Fi))
+            if abs(c_new - c) <= 1e-12 * max(abs(c), 1e-12):
+                c = c_new; break
+            c = c_new
+        return c
+
+    sse = np.array([np.sum((_ls_level(F[i]) * F[i] - m) ** 2) for i in range(n)])
+    rel = np.array([np.sum(((_rel_level(F[i]) * F[i] - m) / m) ** 2) for i in range(n)])
+    i0 = int(np.argmin(sse)); r0 = _ls_level(F[i0]) * F[i0] - m
+    mad = float(np.median(np.abs(r0 - np.median(r0))))
+    delta = 1.345 * 1.4826 * max(mad, 1e-9)
+
+    def _huber_obj(Fi):
+        c = _huber_level(Fi, delta); r = c * Fi - m; a = np.abs(r)
+        return float(np.sum(np.where(a <= delta, 0.5 * r ** 2, delta * (a - 0.5 * delta))))
+
+    hub = np.array([_huber_obj(F[i]) for i in range(n)])
+
+    out = {}
+    for name, prof in (("sse", sse), ("relative_l2", rel), ("huber", hub)):
+        pmin = float(np.min(prof)); i_min = int(np.argmin(prof))
+        sets = {}
+        for t in thresholds:
+            within = prof <= pmin * (1.0 + t)
+            lo = float(rates[within][0]); hi = float(rates[within][-1])
+            sets["%dpct" % int(round(t * 100))] = dict(
+                frac_within=round(float(np.mean(within)), 3),
+                rate_lo=round(lo, 3), rate_hi=round(hi, 3),
+                log_width=round(float(np.log(hi / lo)), 3),
+                lower_censored=bool(within[0]), upper_censored=bool(within[-1]))
+        out[name] = dict(rate_at_min=round(float(rates[i_min]), 3),
+                         at_boundary=bool(i_min == 0 or i_min == n - 1), sets=sets)
+    out["huber_delta"] = round(delta, 6)
+    return out
+
+
+def paired_clustered_bootstrap(records, B=4000, seed=0, unit="cond_in_group"):
+    """P0-5 / review MC4-B: dependence-aware bootstrap of the paired model-minus-null loss.
+    `records` is the per-point list emitted by transfer_skill_vs_baselines, each with keys
+    group ("variety:solute"), grind, T, p, delta (= e_model - e_const in pp; delta>0 => the
+    mechanistic model is WORSE than the O-trained constant). The 108 held-out points are NOT
+    independent -- they share (T,p) conditions and variety x solute groups -- so we resample
+    CLUSTERS, never points. Pure; deterministic given `seed`; no PDE solves.
+
+      unit='cond_in_group' : resample the (T,p) CONDITIONS within each group (each condition
+                             carries its C and F points together), group sizes fixed;
+      unit='group'         : resample the 6 variety x solute GROUPS (coarser; 6 clusters).
+
+    Returns the observed pooled mean delta, a 95% percentile CI, the bootstrap fraction with
+    model-worse (mean delta > 0), and whether the CI excludes zero. A CI straddling zero =>
+    the small +/-0.4 pp skill difference is NOT distinguishable from zero under the dependence
+    structure (which SHARPENS the null-benchmark point: the mechanism adds no resolvable skill
+    over a level-only constant)."""
+    import numpy as np
+    from collections import defaultdict
+    rng = np.random.default_rng(seed)
+    deltas_all = np.array([float(r["delta"]) for r in records], float)
+    obs_mean = float(deltas_all.mean())
+
+    if unit == "group":
+        clusters = defaultdict(list)
+        for r in records:
+            clusters[r["group"]].append(float(r["delta"]))
+        arrs = [np.array(v, float) for v in clusters.values()]
+
+        def _draw():
+            idx = rng.integers(0, len(arrs), len(arrs))
+            return np.concatenate([arrs[i] for i in idx])
+    elif unit == "cond_in_group":
+        bygroup = defaultdict(lambda: defaultdict(list))
+        for r in records:
+            bygroup[r["group"]][(r["T"], r["p"])].append(float(r["delta"]))
+        groups = [[np.array(v, float) for v in conds.values()]
+                  for conds in bygroup.values()]
+
+        def _draw():
+            parts = []
+            for condlist in groups:
+                idx = rng.integers(0, len(condlist), len(condlist))
+                parts.extend(condlist[i] for i in idx)
+            return np.concatenate(parts)
+    else:
+        raise ValueError("unit must be 'cond_in_group' or 'group'")
+
+    boot = np.array([_draw().mean() for _ in range(int(B))])
+    lo = float(np.percentile(boot, 2.5)); hi = float(np.percentile(boot, 97.5))
+    return dict(
+        unit=unit, B=int(B), seed=int(seed), n_points=len(records),
+        observed_mean_delta_pp=round(obs_mean, 3),
+        ci95_pp=[round(lo, 3), round(hi, 3)],
+        frac_boot_model_worse=round(float(np.mean(boot > 0)), 3),
+        excludes_zero=bool(lo > 0 or hi < 0))
+
 # pannusch2024 fitted per-grind grain geometry (card Table 2: psi, d_s2 for grind
 # 1.4/1.7/2.0). The port freezes the centre grind (1.7) for all experiments; B5
 # uses these to test geometry sensitivity. They vary <15% across grinds.
@@ -852,6 +979,7 @@ def transfer_skill_vs_baselines(varieties=("Arabica", "Robusta"),
     grind_err = {"C": {"model": [], "const": [], "lookup": []},
                  "F": {"model": [], "const": [], "lookup": []}}
     n_model_worse_than_const = 0; n_cases = 0
+    records = []                                          # P0-5 / MC4-B: per-point cluster records
     for variety in varieties:
         for sol in solutes:
             col = SPEC[sol]
@@ -878,6 +1006,10 @@ def transfer_skill_vs_baselines(varieties=("Arabica", "Robusta"),
                 grind_err[g]["model"].extend(e_model)
                 grind_err[g]["const"].extend(e_const)
                 grind_err[g]["lookup"].extend(e_lookup)
+                for (T, p), em, ec in zip(conds, e_model, e_const):
+                    records.append(dict(group="%s:%s" % (variety, sol), grind=g,
+                                        T=float(T), p=float(p), e_model=float(em),
+                                        e_const=float(ec), delta=float(em - ec)))
                 entry[g] = dict(
                     model_mape=round(float(e_model.mean()), 2),
                     const_mape=round(float(e_const.mean()), 2),
@@ -925,6 +1057,7 @@ def transfer_skill_vs_baselines(varieties=("Arabica", "Robusta"),
         skill_vs_lookup=round(skill_lookup, 3),
         paired_model_minus_const_mean_pp=round(float(paired.mean()), 3),
         paired_model_minus_const_median_pp=round(float(np.median(paired)), 3),
+        records=records,                                 # P0-5 / MC4-B: for paired_clustered_bootstrap
         n_points=n_cases,
         n_model_worse_than_const=n_model_worse_than_const,
         baselines=["O-trained MAPE-optimal constant", "same-(T,p) O lookup"],
@@ -1171,6 +1304,9 @@ def identifiability_panel(variety="Arabica", solute="caffeine", n_rate=29, n_cs0
     mape_agrees = bool(np.isfinite(jaccard) and jaccard >= 0.5)  # DERIVED from overlap
     return dict(
         variety=variety, solute=solute, n_conditions=len(m),
+        # P0-5 / MC4-A: objective-family sensitivity sweep (SSE vs relative-L2 vs Huber),
+        # reusing F -- does the broad right-censored valley persist under all objectives?
+        objective_family=_profile_objectives(rates, F, m),
         rate_star=round(rate_star, 3), c_s0_star=round(cs0_star, 3),
         rate_optimum_at_sweep_boundary=rate_at_boundary,
         objective="unweighted concentration-scale SSE, least-squares nuisance level",
