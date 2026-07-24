@@ -289,16 +289,21 @@ best-fit `c_s0` passes through the independently measured Table 7 inventory some
 along the valley (caffeine ~13 near the measured 12.5), but the beverage data alone
 cannot single out the rate — the measured inventory is a **same-campaign
 orthogonal-measurement constraint** (Table 7 measures a different quantity within the
-*same* Angeloni study; it is not external to the transfer campaign). We now make this
-constraint **quantitative** (`table7_rate_constraint`, review A3-13/A-16): intersecting
-the profiled valley `c*(rate)` with the caffeine Table 7 value (12.54 g L⁻¹) yields a
-**conditional implied rate ≈ 0.95**. An **illustrative ±10 % inventory perturbation** — an
-analyst-selected sensitivity assumption, **not** a calibrated measurement-uncertainty
-model — maps to rates of **≈ 0.60–1.76**. This **narrows** the beverage-only tolerance set
-to a **conditional one-dimensional intersection band**, but it is **not a confidence
-interval**. It is nonetheless the strongest available *same-campaign* constraint on the
-rate, precisely because the endpoint beverage data cannot supply it; it is not an
-independent external validation.
+*same* Angeloni study; it is not external to the transfer campaign). Intersecting
+the profiled valley `c*(rate)` with the caffeine Table 7 value
+(`table7_rate_constraint`, review A3-13/A-16) narrows the beverage-only tolerance set to
+a **conditional one-dimensional intersection band** near a rate of ~1 — but this is
+**qualitative, not a quantitative rate constraint**. As documented in
+`docs/paper1_resource/PAPER_A_TABLE7_UNITS_AUDIT.md`, the Table 7 value is a dry-coffee
+**mg kg⁻¹ assay reinterpreted as mg mL⁻¹ under an undefended `1 kg = 1 L` (ρ = 1 g mL⁻¹)
+convention**; defensible volume bases (bulk-coffee density, roasted-particle density, or
+per-unit-bed-volume) span roughly **4.8–16.3 mg mL⁻¹ (~3.4×)** — far exceeding a ±10 %
+inventory perturbation — and this basis is not shown to coincide with `pannusch2024`'s own
+**fitted** `c_s0` (10.80 mg mL⁻¹ for caffeine), whose volume basis is not independently
+anchored. The defensible reading is therefore that an independently measured inventory of
+the same order of magnitude is consistent with the valley and shows an orthogonal inventory
+measurement *could* break the inventory–rate compensation — **not** that it fixes the rate.
+It remains a *same-campaign* constraint, not an independent external validation.
 
 **A numerical identifiability panel** (`identifiability_panel`) quantifies the valley on
 the caffeine matched-mass **SSE** objective (unweighted concentration-scale SSE with a

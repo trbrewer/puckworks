@@ -45,6 +45,7 @@ REQUIRED_IN_CONVERSION: list[tuple[str, str]] = [
     ("in-sample comparator ladder", "corrected comparator framing (MC7)"),
     ("cross-grind endpoint prediction", "corrected Result 3 framing (MC6)"),
     ("40 mL matched-volume", "corrected endpoint framing (MC5)"),
+    ("qualitative, not a quantitative rate constraint", "MC5/P0-4: the Table 7 intersection is demoted to qualitative for an undefended unit basis (docs/paper1_resource/PAPER_A_TABLE7_UNITS_AUDIT.md); must not silently re-promote"),
 ]
 
 
