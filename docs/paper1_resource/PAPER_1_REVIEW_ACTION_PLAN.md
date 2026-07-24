@@ -49,7 +49,20 @@ scaffolding cleanup):
   Data/code-availability `Strength tags`/`not in CI`/change-log scaffolding. ✅ (partial — see deferred)
 - **P0-9 numbering (partial)** — Methods subsections `2.1`–`2.6`→`3.1`–`3.6`. ✅ (partial — see deferred)
 
-### Deliberately deferred from this batch (needs author judgment or new analysis — NOT mechanical)
+### P0-4 Table 7 dimensional audit — DONE (2026-07-24, demoted to qualitative)
+
+`docs/paper1_resource/PAPER_A_TABLE7_UNITS_AUDIT.md`: the intersection equates two `mg mL⁻¹` values
+whose physical volume bases are not shown to match — pannusch2024's `c_s0` (10.80) is **fitted** with
+an unanchored basis; Angeloni Table 7 (12.54) is a dry `mg kg⁻¹` assay reinterpreted via an undefended
+`1 kg = 1 L`. The assay alone spans **~4.8–16.3 mg mL⁻¹ (~3.4×)** across defensible bases — ≫ the ±10 %
+propagated — so `rate ≈ 0.95 [0.60–1.76]` is not secure. **Demoted to qualitative** in the canonical
+draft + synced JFE; the guard gained a required anti-regression phrase (`qualitative, not a quantitative
+rate constraint`); a unit-basis caveat added to `table7_rate_constraint`'s docstring (no computation
+change). The valid qualitative claim (an orthogonal inventory of the same order *could* break the
+compensation) is preserved. To re-quantify later: derive pannusch's `c_s0` basis + map the assay to it
+with a measured coffee density + propagated uncertainty (owed, out of scope). ✅
+
+### Deliberately deferred (needs author judgment or new analysis — NOT mechanical)
 
 - **In-text §-cross-reference remap** (part of P0-9): the `(§4)/(§5)/(§6)/(§3–§5)` in-text refs are still on
   the working-draft numbering. Remapping them is entangled with the fact that the canonical draft and the
@@ -59,7 +72,7 @@ scaffolding cleanup):
   the §3.6 evidence taxonomy and the Result-1 table's `strength` column into one study-design table is [author].
 - **Declaration/reference/author placeholders** (`[insert]`, `[Insert … statement.]`, References stub): left in
   place — these are needed fields to be **filled** (P0-7 [external], P2-4 [author]), not deleted.
-- All **[analysis]** (P0-4 Table 7 units audit, P0-5 uncertainty reruns) and **[author]/[external]** items below.
+- **[analysis]** P0-5 uncertainty reruns (P0-4 Table 7 units audit is now done, above) and all **[author]/[external]** items below.
 
 ## Gating decision (author) — RESOLVED: canonical = `PAPER_A_DRAFT.md` (mechanical stream above)
 

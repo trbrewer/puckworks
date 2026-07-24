@@ -767,7 +767,16 @@ def table7_rate_constraint(panel, inventory_g_L, rel_band=0.10):
     c*(rate) equals the Table 7 value, and propagate a declared +/-`rel_band` sensitivity
     on the inventory to a rate INTERVAL. This is a fast, PDE-free post-processing of the
     panel's profile (no likelihood; a same-campaign orthogonal constraint, NOT an external
-    validation). Returns None if the value lies outside the profiled range."""
+    validation). Returns None if the value lies outside the profiled range.
+
+    UNIT-BASIS CAVEAT (Paper 1 review MC5 / P0-4, docs/paper1_resource/PAPER_A_TABLE7_UNITS_AUDIT.md):
+    `inventory_g_L` is a dry-coffee mg/kg assay reinterpreted as mg/mL under an UNDEFENDED
+    `1 kg = 1 L` (rho = 1 g/mL) convention. Defensible volume bases (bulk-coffee density,
+    roasted-particle density, per-unit-bed-volume) span ~4.8-16.3 mg/mL (~3.4x) for caffeine --
+    far exceeding `rel_band` -- and this basis is not shown to match pannusch2024's own FITTED
+    c_s0. The returned `implied_rate`/band is therefore an ILLUSTRATIVE, basis-conditional
+    diagnostic ONLY; the Paper A manuscript treats Table 7 as QUALITATIVE, not a quantitative
+    rate constraint. Do not report the number as a measured rate."""
     import numpy as np
     prof = panel["profile"]
     rates = np.asarray(prof["rates"], float); cstar = np.asarray(prof["c_star"], float)
