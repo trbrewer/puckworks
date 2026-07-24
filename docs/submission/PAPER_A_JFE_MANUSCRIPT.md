@@ -6,8 +6,6 @@
 
 **Corresponding author:** [insert]
 
-> Editorial conversion draft for *Journal of Food Engineering*. Remove this note, all roadmap/review language, and all bracketed placeholders before submission. The licensed/indexed novelty search and weighted uncertainty reruns remain gates.
-
 ## Abstract
 
 Mechanistic food-process models can match integrated product measurements while leaving internal rates weakly constrained. We tested this risk in a multi-solute espresso extraction model calibrated previously to fraction-resolved kinetics and refitted to an independent endpoint campaign. Model output was mapped to the same 40 mL beverage endpoint as the observations. For each solute, a solid-inventory level and a Sherwood mass-transfer rate multiplier were estimated and profiled. The unweighted concentration-scale objective was highly ill-conditioned, and its 10%-above-minimum profile extended from about 0.4 to the upper tested rate boundary, showing strong inventory–rate compensation rather than a uniquely localized rate. A calibration frozen on the optimal grind produced coarse/fine held-out errors of approximately 3–18%, but its pooled mean absolute percentage error was 8.2% versus 8.6% for an optimal-grind level-only constant and it was worse on 50 of 108 held-out points. Thus, acceptable endpoint error added little skill beyond a transferred concentration level. A shared inventory–rate pair reconstructed all grinds with a modest in-sample sharing penalty, but this did not constitute predictive transfer. Fraction-resolved source-campaign data moved the rate objective more strongly than a whole-cup aggregate. An independent second-rig dissolved-solids trajectory also produced a rate minimum, although it was shallow and high-error, whereas the corresponding single-cup objective was algebraically flat after profiling its level. Matching the observation window is therefore necessary but not sufficient: parameter localization, endpoint accuracy, cross-condition prediction, and incremental skill over a null model should be reported separately.
@@ -136,7 +134,7 @@ observation map, datasets, parameter domain, and error model.*
 
 ## 3. Methods
 
-### 2.1 Model
+### 3.1 Model
 
 `pannusch2024` is a two-grain (fine/coarse), multi-solute one-dimensional
 extraction PDE (Pannusch et al., *J. Food Eng.* **367**, 111887, 2024), extending
@@ -153,7 +151,7 @@ ratios (not a plain rescale, not a grid search) — so the level axis of the obj
 is solved exactly and only the **rate** is profiled over a stated (wide, log-spaced)
 grid.
 
-### 2.2 Data
+### 3.2 Data
 
 - **Calibration (time-resolved).** The Schmieder 2023 extraction-kinetics DoE
   (*Foods* **12**, 2871, 2023; CC BY). The source study collected **ten** consecutive
@@ -173,7 +171,7 @@ grid.
   only as a same-campaign orthogonal-measurement constraint in §4. Angeloni's own coupled FeFlow solver is
   out of scope (the card marks it skip); we consume only its chemical campaign.
 
-### 2.3 Pressure → flow map (an assumption, not a fit)
+### 3.3 Pressure → flow map (an assumption, not a fit)
 
 **Endpoint contract (review A2-09).** The Angeloni cup is a **40 ± 2 g** beverage; the
 solver integrates to a *volume* endpoint `t_end = V_target / Q`. We set `V_target = 40 mL`,
@@ -201,7 +199,7 @@ angeloni's own fitted per-granulometry hydraulic conductivity `k_r(p)` and shot
 times `τ_{O,C,F} = 20/13/35 s`. All three are **assumptions**, labelled as such;
 none is fitted to the target concentrations.
 
-### 2.4 Fitting and evaluation protocol
+### 3.4 Fitting and evaluation protocol
 
 The transfer refit adjusts two knobs per solute per variety: `c_s0` (inventory
 level, obtained analytically) and `rate_scale` (a multiplier on the Sherwood
@@ -211,18 +209,20 @@ O points; the cross-granulometry test (§5) fits on O and predicts held-out C an
 No post-hoc relabelling of a refit as a prediction is permitted: a held-out score
 is reported only for data untouched by the fit.
 
-### 2.5 Identifiability metric
+### 3.5 Identifiability metric
 
 For the positive control (§6), we sweep `rate_scale` and, at each rate,
 re-optimise a *single global level* so the rate can only change the extraction
 *shape*, not its magnitude. We then score two ways on the identical shots — against
 the six-fraction curve (temporal shape retained) and against the same shots
 collapsed to one volume-weighted whole-cup value (shape integrated away) — and
-report the **identifiability ratio** = (max-edge MAPE)/(min MAPE). A sharp trough
-(ratio ≫ 1) means the rate is identified; a flat valley (ratio ≈ 1) means it is
-not.
+report the **profile range ratio** (edge-to-minimum objective ratio) = (max-edge
+MAPE)/(min MAPE), with the edges being the tested rate-domain bounds. A sharp trough
+(ratio ≫ 1) means the rate objective is **more strongly localized over the tested
+domain**; a flat valley (ratio ≈ 1) means it is **weakly localized** — this is a
+localization contrast over the declared domain, not an identification theorem.
 
-### 2.6 Evidence vocabulary (JFE-standard terms)
+### 3.6 Evidence vocabulary (JFE-standard terms)
 
 We keep the evidence types explicit and standard (the repo's internal labels are
 kept only in a supplement): *calibration / reconstruction* — a model evaluated on
@@ -304,14 +304,15 @@ along the valley (caffeine ~13 near the measured 12.5), but the beverage data al
 cannot single out the rate — the measured inventory is a **same-campaign
 orthogonal-measurement constraint** (Table 7 measures a different quantity within the
 *same* Angeloni study; it is not external to the transfer campaign). We now make this
-constraint **quantitative** (`table7_rate_constraint`, review A3-13): intersecting the
-profiled valley `c*(rate)` with the caffeine Table 7 value (12.54 g L⁻¹) yields an
-**implied rate ≈ 0.95**, and propagating a ±10 % inventory sensitivity gives a rate band
-of only **≈ 0.6–1.75** — an *interior, unique* intersection. So a single orthogonal
-inventory measurement **collapses** the otherwise broad (≈0.4-to-censored) rate profile to
-a narrow band: it is the strongest available constraint on the rate, precisely because
-the endpoint beverage data cannot supply it. This remains a same-campaign constraint, not
-an independent external validation.
+constraint **quantitative** (`table7_rate_constraint`, review A3-13/A-16): intersecting
+the profiled valley `c*(rate)` with the caffeine Table 7 value (12.54 g L⁻¹) yields a
+**conditional implied rate ≈ 0.95**. An **illustrative ±10 % inventory perturbation** — an
+analyst-selected sensitivity assumption, **not** a calibrated measurement-uncertainty
+model — maps to rates of **≈ 0.60–1.76**. This **narrows** the beverage-only tolerance set
+to a **conditional one-dimensional intersection band**, but it is **not a confidence
+interval**. It is nonetheless the strongest available *same-campaign* constraint on the
+rate, precisely because the endpoint beverage data cannot supply it; it is not an
+independent external validation.
 
 **A numerical identifiability panel** (`identifiability_panel`) quantifies the valley on
 the caffeine matched-mass **SSE** objective (unweighted concentration-scale SSE with a
@@ -347,17 +348,18 @@ boundary** — the profile is therefore **right-censored**: the flat region exte
 the tested rate range, so the reported widths are lower bounds and the rate is, if
 anything, *less* bounded than the finite-domain numbers imply.
 
-Strength: this is a *diagnosis of the fit*, established on the transfer target and
+This is a *diagnosis of the fit*, established on the transfer target and
 corroborated on the model's own data in §6 — not a claim about the model's physics.
 
-### 4.3 Result 3 — frozen-parameter transfer across grind
+### 4.3 Result 3 — cross-grind endpoint prediction versus a level-only baseline
 
 *Practical non-identifiability (§4) and predictive transfer are separate questions:
 a compensating manifold can leave predictions stable even when the parameters are
 individually non-identifiable. **The corrected results show exactly this** — and, in
 doing so, overturn a claim in our earlier draft.* We freeze the O calibration
-(level+rate pair) and predict the held-out coarse (C) and fine (F) grinds at **matched
-40 g cups**, each with its own **study-derived, inferred pressure–flow map** (fitted
+(level+rate pair) and predict the held-out coarse (C) and fine (F) grinds at **40 mL
+matched-volume proxies for the nominal 40 g cups**, each with its own **study-derived,
+inferred (not measured) pressure–flow map** (fitted
 hydraulic conductivity, nominal grind-specific shot time, and viscosity correction —
 *not* a per-shot measured flow trace; transfer conclusions are conditional on this map):
 
@@ -394,13 +396,17 @@ A **shared-parameter compatibility analysis** complements the holdout: a *single
 pooled data at **6.4 % macro-MAPE against 4.9 %** for the per-grind independent fits — a
 modest **in-sample** cost-of-sharing of ~1.5 pp. This is an in-sample compatibility test
 (it scores the same pooled observations it was fitted to), **not** a held-out prediction.
-A **nested reduced-model ladder** (`reduced_model_ladder`, review A3-19) makes its
-adequacy auditable: mean in-sample macro-MAPE runs one-constant **7.1 %** (1 param) →
+An **in-sample comparator ladder** (`reduced_model_ladder`, review A3-19) makes its
+adequacy auditable. These are **non-nested models of unequal flexibility, each scored on
+its own fitting data** (no complexity penalty or held-out evaluation), so the comparison
+is descriptive: mean in-sample macro-MAPE runs one-constant **7.1 %** (1 param) →
 per-grind-constant **5.1 %** (3 params) → shared-mechanistic **6.4 %** (2 params) →
-per-grind-mechanistic **4.9 %** (6 params). The decisive comparison is that the
-2-parameter **shared mechanistic model beats the 3-parameter per-grind constant in 0 of 6
-fits** — i.e. the mechanistic structure explains essentially nothing in-sample beyond
-grind-level offsets, consistent with the small held-out skill above.
+per-grind-mechanistic **4.9 %** (6 params). The salient comparison is that the
+2-parameter **shared mechanistic model has lower in-sample MAPE than the 3-parameter
+per-grind constant in none of six variety–solute comparisons** — i.e. the mechanistic
+response did not improve in-sample MAPE over grind-specific levels in this dataset,
+consistent with the small held-out skill above (this is a descriptive in-sample
+comparison, not proof that mechanism "explains nothing").
 
 The `(inventory, rate)` split is **degenerate within a grind** — the fitted rate flips
 with incidental choices (§4). Propagating the **discrete 10 %-near-optimal MAPE grid set**
@@ -414,7 +420,7 @@ grows only modestly across declared tolerances (2/5/10/20 %: ~8.5→9.7 % for ca
 So the *aggregate and pointwise* prediction is stable across the set even though the
 parameters on it are not — the distinction between parameter identifiability and
 prediction stability, *tested* (review A2-02) rather than asserted. This stability is,
-however, distinct from mechanistic skill (the ladder and null benchmark above). Strength: **within-campaign cross-grind holdout with a null-model skill
+however, distinct from mechanistic skill (the ladder and null benchmark above). This is a **within-campaign cross-grind holdout with a null-model skill
 comparison**, conditioned on the tested flow maps, frozen centre-grind geometry, and
 matched endpoint.
 
@@ -476,7 +482,7 @@ Scoring against the **fractions** produces a sharp trough with its minimum near
 rate = 1 (consistent with calibration on these data), rising ~4× to the edges of a
 16× rate sweep. Scoring the **sampled-fraction aggregate** stays flat (range ratio
 ≈ 1.2–1.4×, no real minimum). So **fraction-resolved scoring localizes the rate
-profile more sharply than the aggregated endpoint** on this campaign. Strength:
+profile more sharply than the aggregated endpoint** on this campaign. This is
 **in-sample verification of information content** on `pannusch2024`'s own
 calibration data — *not* an independent identification of the physical rate (the
 model was fitted here, and its source warns the fitted parameters lack generality).
@@ -512,7 +518,7 @@ and **correlated per-shot** noise, not just iid. So the contrast is not an artef
 on-grid true rate or iid noise. It remains **not** evidence that a real experimental cup
 lacks rate information, nor that the model is correctly specified — the model-discrepancy
 dose-response (§6, `full_cup_simulation_discrepancy`) shows a sharp fraction minimum is
-necessary-not-sufficient. Strength: **simulation study** (exact integral, seeded noise) —
+necessary-not-sufficient. This is a **simulation study** (exact integral, seeded noise) —
 not an empirical positive control.
 
 **An independent external test** (`external_waszkiewicz`). The Pannusch fraction data
@@ -652,13 +658,6 @@ For the tested multi-solute espresso model and datasets, a matched whole-cup end
   `python -m puckworks.validation.slow.external_waszkiewicz`.
 - **Data:** `puckworks.data.angeloni_{bioactives,total_solids,inventories}` and the
   Schmieder fraction loaders; manifest rows carry the p→flow caveat.
-- **Strength tags:** bracket = independent (wide envelope); per-condition/refit =
-  post-fit, single grind; granulometry validation = negative (held-out grind);
-  positive control = verification.
-- These functions are slow (PDE solves; minutes) and live in `validation/slow/`,
-  **not** in CI — the analysis is a paper-track deliverable, not a quick gate.
-
-*Change log: see ROADMAP §7.1 (2026-07-12, Paper A manuscript conversion).*
 
 ## Declarations
 
