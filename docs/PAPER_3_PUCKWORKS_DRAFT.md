@@ -409,27 +409,55 @@ The table prevents an occupied software slot from being read as an independently
 
 The highest-value promotion is a measured named shot with full pressure-node metadata, beverage mass, TDS, caffeine, trigonelline, and chlorogenic-acid-family output, preferably with timed fractions. The protocol should predeclare whether permeability is fixed from prior calibration or refitted per shot. A result with per-shot refitting tests reconstruction; a result with a frozen permeability tests prediction. Both are useful if labeled correctly.
 
-## 12. Discussion
+## 12. Related work and novelty
 
-### 12.1 An executable review is more than a model collection
+Puckworks draws on several established traditions in research-data and research-software engineering. Its contribution is not any single one of these ideas but their **joint operationalization** for a specific, adversarial problem: deciding whether published process models may be compared or composed. We position the work against six strands.
+
+### 12.1 FAIR data and software
+
+The FAIR principles [14] and their software specialization FAIR4RS [15] establish that research artifacts should be findable, accessible, interoperable, and reusable, and that software needs its own realization of those goals [16]. Puckworks operationalizes interoperability at the level where it actually fails for this literature — the *observable contract* — rather than at the level of file formats or metadata records alone: two components are interoperable only when their typed state carriers, units, pressure nodes, and inventory bases match, and the registry refuses a composition when they do not. FAIR is necessary but does not, by itself, prevent the semantically invalid compositions this paper targets.
+
+### 12.2 Provenance and research objects
+
+W3C PROV [17] provides a general model for entity/activity/agent provenance, and RO-Crate and research-compendium practice [18] package data, code, and results with their lineage. Puckworks uses the same instinct — every manuscript-facing value should trace to a producer, source commit, dataset, and environment — but adds an *evidence* axis that generic provenance omits: recording *how well* an output is validated (the relation between a result and the data behind it), not only *where it came from*. A provenance graph that faithfully records a source-curve reproduction still permits it to be described as validation unless the evidence relation is typed and enforced, which is the gap §5 addresses.
+
+### 12.3 Model and dataset documentation
+
+Model Cards [19] and Datasheets for Datasets [20] introduced structured, human-readable documentation of a model's or dataset's intended use, limitations, and provenance. Puckworks' model and source cards (§6.1) are in this lineage but are *interrogative and executable*: a card is written before implementation, is required to expose missing constants and observable mismatches, and is bound to gates and a registry entry so that a claim in a card can be checked against code rather than trusted as prose.
+
+### 12.4 Reproducible computational practice
+
+Community guidance on reproducible research [21] and good computational practice [22] recommends automation, version pinning, and one-command regeneration of results. Puckworks follows these (generated tables, a CI drift guard that fails when a manuscript count diverges from the live registry, a release-frozen bundle) and extends them to a discipline the guidance does not name: *no manuscript-facing scientific value without a named producer and a typed evidence relation*, enforced as a release gate rather than a convention.
+
+### 12.5 Model interchange standards
+
+Domain interchange standards such as SBML and FMI let independently developed models be exchanged and co-simulated within a domain. Puckworks is complementary and deliberately narrower: it does not standardize a model exchange format but records, for a fragmented literature that has no such standard, the assumptions, observable contracts, and evidence that would have to agree *before* any exchange or co-simulation could be scientifically valid — and reports when they do not.
+
+### 12.6 Novelty
+
+The novelty claim is correspondingly narrow. We do not claim to originate provenance, evidence typing, model documentation, or reproducible-build practice. We claim the **joint operationalization** of observable-semantic contracts, parameter provenance, a typed evidence relation, negative and failed-composition results, and producer-bound manuscript values, in one executable registry, for the purpose of adjudicating comparison and composition of published espresso process models — and, by construction, a template for other fragmented coupled-process-model literatures (§13.4).
+
+## 13. Discussion
+
+### 13.1 An executable review is more than a model collection
 
 The central object in Puckworks is not the solver but the evidence-bearing interface among source, state, observable, data, and claim. A repository that implements many models without preserving these relationships can increase, rather than reduce, scientific ambiguity. The risk grows with component count because more variables share familiar names while retaining incompatible meanings.
 
 Puckworks addresses this by making semantic friction visible. A blocked adapter, an unknown pressure node, a missing extractability factor, or a failed composition is a legitimate output. The architecture rewards refusing an invalid merge.
 
-### 12.2 Verification, calibration, reconstruction, and prediction
+### 13.2 Verification, calibration, reconstruction, and prediction
 
 Scientific software papers often report a test suite without explaining what the tests establish. Puckworks separates software verification from empirical evidence. Conservation, convergence, source-curve reproduction, and independent validation can all be automated, but they answer different questions. The evidence taxonomy should accompany every benchmark table and public claim.
 
 This separation also clarifies model reuse. A component verified against its source equations may be safe to use in a sensitivity analysis while remaining unsuitable for an absolute prediction. A calibrated component may be appropriate within one campaign but require a new calibration on another rig. A negative external result can coexist with correct implementation.
 
-### 12.3 Composition creates a new model
+### 13.3 Composition creates a new model
 
 The failed extraction-plus-swelling demonstration illustrates a general principle. Connecting two validated components creates a new model with new state-identification, normalization, and coupling assumptions. Those assumptions require reduction tests, conservation checks, sensitivity analysis, and empirical evidence. Validation does not compose automatically.
 
 This point is especially important for multiphysics repositories. A “more complete” configuration can double count a state change, mix reference volumes, or violate a boundary condition while producing a smooth output. Simple baselines and exact reduction limits should remain visible in every composition study.
 
-### 12.4 Generalization beyond espresso
+### 13.4 Generalization beyond espresso
 
 The architecture applies to other domains in which heterogeneous literature models are assembled around shared process stages: drying, filtration, chromatography, fermentation, reactive transport, battery porous electrodes, and biomedical perfusion. The transferable practices are:
 
@@ -443,7 +471,7 @@ The architecture applies to other domains in which heterogeneous literature mode
 
 The domain-specific contract fields will differ, but the evidence problem is the same.
 
-## 13. Limitations and submission readiness
+## 14. Limitations and submission readiness
 
 ### 13.1 Scientific and corpus limitations
 
@@ -474,7 +502,7 @@ The demonstrations are selected cases, not a quantitative estimate of how freque
 
 The paper should be submitted as a resource/methods article only after the release artifact satisfies the same strict checks the manuscript describes. A software-journal route additionally requires evidence that the tool is feature-complete for its stated purpose, documented, tested, openly developed, and usable by contributors outside the originating team.
 
-## 14. Conclusions
+## 15. Conclusions
 
 Puckworks addresses a problem that appears whenever heterogeneous process models are made executable together: similarly named quantities, parameters, and validation claims are not necessarily compatible. The registry represents models as provenance-tracked stage components, exchanges state through versioned contracts, records dataset transformations in a manifest, labels evidence at the claim level, and requires manuscript numbers to be regenerated by named producers.
 
@@ -623,6 +651,15 @@ The exact serialization may change, but every field is load-bearing. A graphic o
 11. Mo J, Navarini L, Suggi Liverani F, Ellero M. Modelling swelling effects in real espresso extraction using a 1-dimensional coarse-grained model. *Journal of Food Engineering*. 2024;365:111843. doi:10.1016/j.jfoodeng.2023.111843.
 12. Liang J, Chan KC, Ristenpart WD. An equilibrium desorption model for the strength and extraction yield of full immersion brewed coffee. *Scientific Reports*. 2021;11:6904. doi:10.1038/s41598-021-85787-1.
 13. [Authors]. One flow curve, many causes: null-first inference for machine and porous-bed dynamics in espresso. Companion manuscript in preparation.
+14. Wilkinson MD, Dumontier M, Aalbersberg IJ, et al. The FAIR Guiding Principles for scientific data management and stewardship. *Scientific Data*. 2016;3:160018. doi:10.1038/sdata.2016.18.
+15. Chue Hong NP, Katz DS, Barker M, et al. FAIR Principles for Research Software (FAIR4RS Principles). *Research Data Alliance*. 2022. doi:10.15497/RDA00068.
+16. Barker M, Chue Hong NP, Katz DS, et al. Introducing the FAIR Principles for research software. *Scientific Data*. 2022;9:622. doi:10.1038/s41597-022-01710-x.
+17. Moreau L, Missier P, et al. PROV-DM: The PROV Data Model. *W3C Recommendation*. 2013. <https://www.w3.org/TR/prov-dm/>.
+18. Soiland-Reyes S, Sefton P, Crosas M, et al. Packaging research artefacts with RO-Crate. *Data Science*. 2022;5(2):97–138. doi:10.3233/DS-210053.
+19. Mitchell M, Wu S, Zaldivar A, et al. Model Cards for model reporting. In: *Proceedings of the Conference on Fairness, Accountability, and Transparency (FAT\* '19)*. 2019. p. 220–229. doi:10.1145/3287560.3287596.
+20. Gebru T, Morgenstern J, Vecchione B, et al. Datasheets for datasets. *Communications of the ACM*. 2021;64(12):86–92. doi:10.1145/3458723.
+21. Sandve GK, Nekrutenko A, Taylor J, Hovig E. Ten simple rules for reproducible computational research. *PLOS Computational Biology*. 2013;9(10):e1003285. doi:10.1371/journal.pcbi.1003285.
+22. Wilson G, Bryan J, Cranston K, Kitzes J, Nederbragt L, Teal TK. Good enough practices in scientific computing. *PLOS Computational Biology*. 2017;13(6):e1005510. doi:10.1371/journal.pcbi.1005510.
 
 ## Repository provenance used to develop this draft
 
