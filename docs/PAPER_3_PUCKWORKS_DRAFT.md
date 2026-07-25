@@ -349,6 +349,9 @@ Puckworks treats unresolved disagreement as an output. The registry identifies w
 | integrated outlet flow | different spatial pathways can integrate to one curve | depth-resolved porosity/fines or pathway-resolved flow |
 | pressure- versus flow-control interpretation | same resistance change appears in different measured channels | matched preparation under both control modes with full node logging |
 | incomplete wetting versus extraction kinetics | delayed outlet appearance can coexist with strong first liquid | per-grind first-drop timing plus saturation imaging and early fractions |
+| tamped-bed permeability | an untamped-validated percolation prior and a measured tamped modified-Kozeny–Carman closure disagree by roughly an order of magnitude (~13–31×) in the tamped regime, where neither is independently validated | an independent, multi-material tamped-bed permeability measurement with a stated viscosity convention |
+
+The tamped-permeability row is a concrete instance the registry surfaces rather than averages: a percolation closure validated only on looser (untamped) beds and a modified-Kozeny–Carman closure fitted to a single dark-roast tamped dataset, evaluated on their shared operating points, differ by ~13–31× (median ~20×) precisely below the porosity floor at which the percolation model was tested, with the divergence growing as the bed tightens. Neither is promoted; the comparison is verification-strength on one material and is viscosity-convention-dependent, which is itself part of the discriminating-measurement specification.
 
 The process can be formalized:
 
