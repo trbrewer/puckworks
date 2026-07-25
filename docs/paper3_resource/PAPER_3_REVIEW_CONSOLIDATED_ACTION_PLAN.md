@@ -34,12 +34,12 @@ Accuracy corrections are **done in this PR** (they are corrections to recently-m
 | **U14** | Stale docstring / test comment / language | ✅ cameron docstring "rights-deferred" line corrected; cameron test comment fixed (it checks `r2_two`, the bi-exp fit); "Crank diffusion mode" language replaced. |
 | **U15** | "flow-limited" not established by the fit | ✅ replaced with **"aggregate flowing-bed response"** in paragraph/card/code. |
 | **U16** | Disclose curves are **model-generated / qualitative** | ✅ paragraph now states model-generated + "qualitative model-to-model probes, not validation"; card/code already did. |
-| **U6** | Identifiability (multistart, profile likelihood, bootstrap) beyond R² | ⏭ P1. We added a one-vs-two-exp comparison; full identifiability apparatus is a scoped analysis task. |
-| **U8** | Roman fitting-protocol sensitivity (window, bath ratio, radius) | ⏭ P1. Reviewer's sensitivity tables reproduced our numbers; a committed sensitivity bundle is P1. |
-| **U9** | Define **portability as a vector**, not a Boolean | ⏭ P1. Ties to MC4 (separate evidence axes) and MC16. |
-| **U10** | Add **Paper 3 claim records** + generated result bundle for the two producers | ⏭🔁 P1. Reviewer supplied two YAML claim stubs (`paper3.timescale_semantics.cameron/.roman_corrochano`). Depends on the evidence-graph/claim architecture (MC2/MC4). |
+| **U6** | Identifiability (multistart, profile likelihood, bootstrap) beyond R² | ✅ #179: cameron MULTISTART `phi_multistart_span` + `non_identifiable` (finer grinds span φ≈0–1) alongside one-vs-two-exp. Full profile-likelihood/bootstrap still a deeper option, but the non-identifiability is demonstrated + tested. |
+| **U8** | Roman fitting-protocol sensitivity (window, bath ratio, radius) | ✅ #179: `roman_protocol_sensitivity()` reproduces the reviewer's window (ratio 15.8→8.6) + bath-ratio tables from the registered solver; surfaced in §7.5. |
+| **U9** | Define **portability as a vector**, not a Boolean | ✅ #179: both producers carry a six-dimension `portability_vector` (observable/mechanism/population/estimation identity; numerical compatibility; predictive transfer) + derived `portability_verdict`. |
+| **U10** | Add **Paper 3 claim records** + generated result bundle for the two producers | ✅ #179 (as a bundle): `timescale_semantics_bundle()` emits the two producer-bound claim records (statement/producer/config/limitations/not_supported). NOT in `EVIDENCE_LINKS.json` — `reconcile()` requires a bijection with REGISTERED gate wirings, so formal-claim promotion is 🔁 blocked on the maille component-registration decision (flagged). |
 | **U12** | Separate descriptive shape reuse from physical transfer | ✅ paragraph now says the shared form is a useful **descriptive** basis, not a physical contract. |
-| **U13** | Move quantitative detail to a subsection/figure/supplement | ⏭ P1. Overlaps MC11/MC12 (figures, companion-paper ownership). |
+| **U13** | Move quantitative detail to a subsection/figure/supplement | ✅ U13 PR: §4.5 condensed to the principle; detail moved to new **§7.5 + Table 4a**. Figure (vs table) still open under MC12. |
 | **U7** | State all protocol choices in the manuscript | ✅ partially (paragraph now names 400 s/τ=0/20 µm fine class); full method table ⏭ P1 with MC12. |
 
 **Net:** all *accuracy/integrity* fixes (U1 prose, U2, U3, U4, U5, U11, U12, U14, U15, U16, U7-partial)
@@ -59,7 +59,7 @@ are done; the *added-rigor* asks (U6, U8, U9, U10, U13) are P1 and tracked below
 | **MC5** | Fix abstract "weakest load-bearing link" vs evidence-vector | P0 | ⏭ localized abstract edit; scoped PR. |
 | **MC7** | Define "executable" per layer (availability matrix) | P1 | ⏭ new machine-readable matrix. |
 | **MC8** | Implemented capability vs architectural intent | P1 | ⏭ implementation-status table. |
-| **MC9** | Rigorous **related work & novelty** (FAIR4RS, PROV, RO-Crate, model cards…) | P1 | ⏭ new section + references (absorbs U1 reference additions). |
+| **MC9** | Rigorous **related work & novelty** (FAIR4RS, PROV, RO-Crate, model cards…) | P1 | ✅ #180: new §12 (6 traditions) + refs [14]–[22]; novelty scoped to joint operationalization. |
 | **MC10** | **Evaluate the framework** (defect corpus + mutation tests) | P1 | ⏭ the fast/slow example is a proposed semantic-lint benchmark seed. |
 | **MC11** | Reduce duplication with companion papers (claim ownership) | P1 | ⏭ overlaps U13. |
 | **MC12** | Complete & consolidate **figures** (7 specs → 4 real) | **P0 (submission blocker)** | ⏭ needs real figure generation. |
