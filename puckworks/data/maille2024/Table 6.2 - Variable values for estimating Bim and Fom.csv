@@ -1,0 +1,6 @@
+Variable,Value,Units,Reference
+D_soln,2.3E-9,m2/s,Spiro et al. 1989
+D_eff,7.67E-10,m2/s,Estimate from Corrochano 2017
+delta,9.0E-5,m,Assumed
+R_P,9.0E-5,m,Assumed
+t,15,s,Time at Transition point

@@ -1,0 +1,5 @@
+Sample ID,Roast Degree,Sieve class (um),SSA avg (cm2 per g),SSA sd (cm2 per g)
+Omega_A,Light,1000-1180,61,1.5
+Omega_B,Light,710-1000,84,3.3
+Omega_C,Light,600-710,98,1.9
+Omega_D,Dark,710-1000,85,1.9

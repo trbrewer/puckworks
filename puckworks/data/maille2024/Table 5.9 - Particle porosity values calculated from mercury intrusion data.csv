@@ -1,0 +1,6 @@
+Sample ID,Roast,Sieve class (um),Corrected Envelope Density (g per cm3),Particle Density rho_s (g per cm3),Total Particle Porosity eps_p,Closed Particle Porosity eps_closed,Open Particle Porosity eps_open
+Omega_A,Light,1000-1180,0.702,0.78,0.447,0.176,0.271
+Omega_B,Light,710-1000,0.709,0.81,0.442,0.162,0.279
+Omega_C,Light,600-710,0.634,0.83,0.501,0.176,0.325
+Whole Bean,Light,*,0.708,*,0.443,*,*
+Whole Bean,Dark,*,0.549,*,0.568,*,*
