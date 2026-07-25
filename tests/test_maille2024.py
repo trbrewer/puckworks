@@ -98,26 +98,47 @@ def test_cross_model_timescale_cameron_two_regime_does_not_port():
     # cameron half; the roman-corrochano half is a sibling research computation (not rights-blocked)
     assert "cross_model_timescale_roman" in g["roman_corrochano_half"]
     assert len(g["per_grind"]) == 4
-    # the gate's finding: NO grind reproduces maille's fast timescale (lambda_fast > 19.1 s)
+    # the ROBUST finding: NO grind reproduces maille's fast timescale (lambda_fast > 19.1 s)
     assert g["passed"] and g["no_maille_fast_component"]
     assert not g["two_regime_ports_to_cameron"]
     for row in g["per_grind"]:
-        assert not row["fast_in_maille_band"]          # fitted lambda_fast is above maille's fast band
+        assert not row["fast_in_maille_band"]          # no fitted lambda_fast in maille's fast band
         assert row["lambda_fast_s"] > 19.1
-        assert row["r2"] > 0.98                         # a single-timescale form fits cameron well
+        # the fitted BI-EXPONENTIAL describes the curve well (this is r2_two, not a one-exp fit)
+        assert row["r2_two"] > 0.98
+
+
+def test_cameron_coarsest_is_not_flagged_single_timescale_by_distance_heuristic():
+    # review U5: gs=2.5 returns SEPARATED constants (~23.6 / 40.0 s); it must NOT be asserted
+    # single-timescale. Only the three finer settings collapse (and only via a one-vs-two-exp test,
+    # not a bare 50% distance rule).
+    g = m.cross_model_timescale_cameron()
+    coarsest = next(r for r in g["per_grind"] if r["gs"] == 2.5)
+    assert coarsest["lambda_fast_s"] != coarsest["lambda_slow_s"]
+    assert not coarsest["single_exp_like"]             # not collapsed
+    assert coarsest["needs_model_selection"]
+    assert g["n_settings_single_exp_like"] == 3        # only gs 1.0/1.5/2.0 collapse
+    assert g["coarsest_needs_model_selection"]
 
 
 def test_cross_model_timescale_roman_two_regime_does_not_port():
     g = m.cross_model_timescale_roman()
     assert len(g["per_grind"]) == 7                     # Blend-1 grinds PsiA..PsiH
-    assert g["passed"] and not g["two_regime_ports_to_roman"]
-    # the Crank shape is scale-invariant: grind-independent phi and slow/fast ratio
+    assert g["passed"] and not g["two_regime_ports_to_roman"]   # verdict is DERIVED (review U11)
+    # review U2: only the DIMENSIONLESS shape is invariant; the ABSOLUTE constants vary across grinds
     assert g["shape_is_scale_invariant"]
+    assert not g["absolute_timescales_are_grind_independent"]
+    fast = [r["lambda_fast_s"] for r in g["per_grind"]]
+    slow = [r["lambda_slow_s"] for r in g["per_grind"]]
+    assert max(fast) > min(fast) and max(slow) > min(slow)     # absolute constants DO vary
     assert abs(g["universal_ratio_slow_over_fast"] - 12.3) < 0.5
     assert abs(g["universal_phi"] - 0.32) < 0.03
-    # two-regime-shaped (better than a single exponential) but from ONE diffusion mode
+    # two-regime-shaped (better than a single exponential) but from ONE physical diffusion process
     assert g["two_regime_shaped_not_single_exp"]
-    # fine-class miss: no grind lands EITHER timescale in maille's bands
+    # review U3: verdict is fine-class ONLY; the coarse class is not evaluated (missing radius)
+    assert g["particle_class"] == "fine"
+    assert g["radius_m"] == 20e-6
+    assert g["coarse_class_status"] == "not_evaluated_missing_radius"
     assert g["none_in_maille_bands_fine_class"]
     for row in g["per_grind"]:
         assert not row["fast_in_maille_band"] and not row["slow_in_maille_band"]

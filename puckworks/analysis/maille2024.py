@@ -16,15 +16,17 @@ fits). The time-resolved extraction figures (Figs 4.6-4.10) are a separate digit
 5. phi_split_vs_cameron()       -- the card's headline gate (now UNBLOCKED by Cameron's digitized
    Fig-2 PSD): maille's phi closure on Cameron's binned PSD vs Cameron's fitted fines fraction --
    sign-agreeing but NOT commensurable (a definitional observable-semantics gap).
-6. cross_model_timescale_cameron() -- the cameron HALF of gate 4: fit Eq 6.2 to cameron's simulated
-   (flowing-bed) extraction curve and check maille's lambda bands. The two-regime split collapses
-   (single ~30 s timescale, no maille-fast component) -- non-portable. QUALITATIVE (cameron has no
-   well-mixed config; run past its recipe to plateau).
+6. cross_model_timescale_cameron() -- the cameron HALF of gate 4: fit Eq 6.2 to cameron's
+   model-generated (flowing-bed) extraction curve and check maille's lambda bands. No fitted
+   lambda_fast enters maille's fast band; the 3 finer settings are single-exponential-like while the
+   coarsest returns two separated constants (left to model selection). Non-portable. QUALITATIVE
+   (cameron has no well-mixed config; run past its recipe to plateau).
 7. cross_model_timescale_roman()   -- the Roman-Corrochano HALF of gate 4: the GENUINE well-mixed
-   (stirred-vessel) config. Fit Eq 6.2 to roman's model-generated single-species diffusion curve;
-   it fits a UNIVERSAL Crank shape (grind-independent phi ~0.32, ratio ~12.3) that is one diffusion
-   mode's short/long-time signature, NOT maille's material-varying two-POOL split; fine-class
-   timescales sit ~2 orders below maille's bands. Non-portable. QUALITATIVE. (This is a research
+   (stirred-vessel) config. Fit Eq 6.2 to roman's model-generated single-species diffusion curve; the
+   fitted dimensionless SHAPE (weight phi ~0.32, ratio ~12.3) is grind-invariant while the ABSOLUTE
+   constants vary ~1.9x with diffusivity -- the early/late-time signature of one physical diffusion
+   PROCESS, NOT maille's material-varying two-POOL split; the SELECTED 20um fine-class timescales sit
+   below maille's bands (coarse class not evaluated). Non-portable (semantic). QUALITATIVE. (Research
    computation; the #100 rights deferral gates only the public Laboratory product lens.)
 """
 from __future__ import annotations
@@ -244,13 +246,15 @@ def cross_model_timescale_cameron():
 
     The card asks whether maille's two-regime decomposition (Eq 6.2) ports off maille's stirred
     batch: fit Eq 6.2 to an independent rig's extraction curve and check whether lambda_fast lands
-    in maille's 2.2-19.1 s band and lambda_slow in 13-158 s. The Roman-Corrochano stirred-vessel
-    HALF is rights-deferred (product #100), so only the cameron2020 side runs here.
+    in maille's 2.2-19.1 s band and lambda_slow in 13-158 s. This is the cameron2020 half; the
+    Roman-Corrochano stirred-vessel half is a sibling research computation,
+    cross_model_timescale_roman() (NOT rights-blocked; the #100 rights deferral gates only the
+    public Laboratory product lens).
 
     THREE STANDING CAVEATS make this a QUALITATIVE probe, never a validation:
       (1) cameron2020 has NO well-mixed configuration -- it is intrinsically a flowing percolation
           bed (advection term q in the liquid balance). The card's literal 'well-mixed cameron
-          configuration' does not exist; what is fit here is cameron's simulated cumulative
+          configuration' does not exist; what is fit here is cameron's MODEL-GENERATED cumulative
           extraction curve m_cup(t)/m_cup(inf).
       (2) to expose lambda_slow up to maille's 158 s, cameron is run to solute exhaustion
           (~400 s) -- FAR beyond its validated ~30 s espresso recipe: an extrapolation of the
@@ -259,19 +263,27 @@ def cross_model_timescale_cameron():
           So cameron yields ONE (lambda_fast, lambda_slow) pair per grind, not per species, and
           tau is fixed to 0 (cameron models no hydration lag).
 
-    FINDING: across all four EK43 grinds the two-regime fit COLLAPSES -- fitted lambda_fast lands
-    at ~23-32 s (ABOVE maille's fast ceiling of 19.1 s) and, for the three finer grinds,
-    lambda_fast ~= lambda_slow, so the fast/slow split is unidentifiable and phi is degenerate.
-    Cameron's curve is essentially single-timescale (~28-32 s, which happens to sit inside maille's
-    broad SLOW band); it has NO distinct maille-fast component. i.e. maille's two-regime
-    decomposition does NOT port to cameron's flowing rig -- exactly the 'miss' the card anticipated.
-    Strength: qualitative."""
+    FINDING (robust, deterministic): NO cameron fit places its nominal fast constant inside maille's
+    2.2-19.1 s fast band, in any of the four EK43 grinds. Additionally, the three FINER settings
+    (gs 1.0/1.5/2.0) collapse to a single-exponential-like response -- the two fitted constants
+    coincide and a two-exponential fit gains ~0 R2 over one exponential (constants non-identifiable).
+    The COARSEST setting (gs 2.5) does NOT collapse: it returns two SEPARATED constants (~23.6 s and
+    ~40.0 s) whose two-vs-one adjudication is left to formal model selection and is NOT asserted here
+    to be single-timescale. So cameron does not reproduce maille's fast timescale, and is
+    single-exponential-like in 3 of 4 settings -- maille's two-regime decomposition does not port to
+    cameron's flowing rig. Strength: qualitative. NOTE we report a one- vs two-exponential R2
+    comparison per grind, not a heuristic distance threshold; a full identifiability treatment
+    (AICc/BIC on deterministic curves, multistart, profile likelihoods) is out of scope for this
+    quick probe (see the maille card / review action plan)."""
     import numpy as np
     from scipy.optimize import curve_fit
     from puckworks.models.cameron2020.extraction_bdf import GS_GRID, simulate_shot
 
     def _f(t, phi, lam_fast, lam_slow):    # Eq 6.2 with tau = 0
         return phi * (1.0 - np.exp(-t / lam_fast)) + (1.0 - phi) * (1.0 - np.exp(-t / lam_slow))
+
+    def _one(t, lam):                      # single exponential (one-timescale null)
+        return 1.0 - np.exp(-t / lam)
 
     fast_lo, fast_hi = _MAILLE_LAM_FAST_RANGE
     slow_lo, slow_hi = _MAILLE_LAM_SLOW_RANGE
@@ -284,32 +296,45 @@ def cross_model_timescale_cameron():
         p, _ = curve_fit(_f, t[mask], y[mask], p0=[0.5, 5.0, 40.0],
                          bounds=([0.0, 0.1, 1.0], [1.0, 200.0, 2000.0]), maxfev=20000)
         phi, lf, ls = (float(v) for v in p)
-        yhat = _f(t[mask], phi, lf, ls)
-        ss_res = float(np.sum((y[mask] - yhat) ** 2))
-        ss_tot = float(np.sum((y[mask] - y[mask].mean()) ** 2))
-        r2 = 1.0 - ss_res / ss_tot
-        # degenerate (single-timescale) when the two fitted constants nearly coincide
-        degenerate = abs(lf - ls) / max(ls, 1e-9) < 0.5
+        if lf > ls:                        # order the constants (remove label switching)
+            lf, ls, phi = ls, lf, 1.0 - phi
+        ss = lambda arr: float(np.sum(arr ** 2))
+        ss_tot = ss(y[mask] - y[mask].mean())
+        r2_two = 1.0 - ss(y[mask] - _f(t[mask], phi, lf, ls)) / ss_tot
+        p1, _ = curve_fit(_one, t[mask], y[mask], p0=[30.0], maxfev=20000)
+        r2_one = 1.0 - ss(y[mask] - _one(t[mask], float(p1[0]))) / ss_tot
+        # a SETTING-SPECIFIC collapse signal: the two constants coincide (tight) AND a second
+        # exponential buys essentially no R2 -- i.e. the bi-exponential is non-identifiable here.
+        constants_coincide = abs(lf - ls) / max(ls, 1e-9) < 0.1
+        single_exp_like = bool(constants_coincide and (r2_two - r2_one) < 1e-3)
         per.append(dict(gs=float(gs), phi=round(phi, 3), lambda_fast_s=round(lf, 2),
-                        lambda_slow_s=round(ls, 2), r2=round(r2, 4),
+                        lambda_slow_s=round(ls, 2), r2_two=round(r2_two, 5), r2_one=round(r2_one, 5),
+                        two_exp_r2_gain=round(r2_two - r2_one, 5),
                         fast_in_maille_band=bool(fast_lo <= lf <= fast_hi),
                         slow_in_maille_band=bool(slow_lo <= ls <= slow_hi),
-                        single_timescale=degenerate))
+                        single_exp_like=single_exp_like,
+                        needs_model_selection=bool(not constants_coincide)))
     # the robust, deterministic non-portability signal: NO grind reproduces maille's fast timescale
     no_fast_component = all(not row["fast_in_maille_band"] for row in per)
+    n_single_exp_like = sum(1 for row in per if row["single_exp_like"])
     return dict(
         per_grind=per,
         roman_corrochano_half="landed as a research computation -- cross_model_timescale_roman(); "
                               "the #100 rights deferral is product-lane (public Laboratory lens) only",
         no_maille_fast_component=no_fast_component,
+        n_settings_single_exp_like=n_single_exp_like,
+        coarsest_needs_model_selection=bool(per[-1]["needs_model_selection"]),
         two_regime_ports_to_cameron=bool(not no_fast_component),
         passed=bool(no_fast_component),
-        finding="Fitting maille's Eq-6.2 to cameron's run-to-exhaustion (~400 s) extraction curve, "
-                "the two-regime split COLLAPSES: fitted lambda_fast ~23-32 s lands ABOVE maille's "
-                "fast band (2.2-19.1 s) in ALL four grinds and coincides with lambda_slow for the "
-                "three finer grinds (phi degenerate). Cameron is single-timescale (~28-32 s, inside "
-                "maille's broad slow band) with NO distinct fast component -- maille's two-regime "
-                "decomposition does not port to cameron's flowing rig. QUALITATIVE: cameron has no "
+        finding="Fitting maille's Eq-6.2 to cameron's model-generated run-to-exhaustion (~400 s) "
+                "extraction curve, NO fitted lambda_fast enters maille's fast band (2.2-19.1 s) in "
+                "any of the four EK43 grinds. The three FINER settings (gs 1.0/1.5/2.0) are "
+                "single-exponential-like (constants coincide; a 2nd exponential buys ~0 R2 -> "
+                "non-identifiable); the COARSEST (gs 2.5) returns two SEPARATED constants "
+                "(~23.6/40.0 s) and is left for formal model selection, NOT asserted single-"
+                "timescale. So cameron does not reproduce maille's fast timescale and is single-"
+                "exponential-like in 3 of 4 settings -- maille's two-regime decomposition does not "
+                "port to cameron's flowing rig. QUALITATIVE: model-generated curve; cameron has no "
                 "well-mixed config and is pushed past its validated ~30 s recipe to plateau; NOT a "
                 "validation of either model. The Roman-Corrochano stirred-vessel half (a genuine "
                 "well-mixed config) is cross_model_timescale_roman().")
@@ -336,19 +361,24 @@ def cross_model_timescale_roman():
     per grind (Blend-1, PsiA..PsiH) on a time window matched to roman's own diffusion time.
 
     FINDING (two-fold):
-      * SHAPE (scale-invariant): a single-Deff sphere release has a FIXED shape -- every grind fits to
-        the SAME phi ~= 0.32 and the SAME lambda_slow/lambda_fast ~= 12.3; only the absolute timescale
-        (tau ~ R^2/(pi^2 Deff)) shifts. The two-regime form fits it well (R2 ~ 0.999 vs ~0.95 for one
-        exponential), but that split is the intrinsic short-time (t^1/2) / long-time signature of ONE
-        diffusion mode -- NOT two physical pools. maille's split, by contrast, is a modeled two-POOL
-        (fines < 186 um + coarse-particle shells) structure whose phi and separation VARY by material.
-        Same word ("two-regime"), different construct -- echoes the phi-split observable-semantics gap.
-      * ABSOLUTE bands: at roman's card-stated fine class the fitted lambda_fast ~0.03-0.06 s and
-        lambda_slow ~0.4-0.7 s -- ~2 orders of magnitude BELOW maille's bands (fast 2.2-19.1 s, slow
-        13-158 s). Roman's coarse class (d[4,3], not published in-repo) would raise tau by
-        (R_coarse/R_fine)^2 and is deliberately NOT fabricated.
+      * SHAPE (scale-invariant): a single-Deff sphere release has a FIXED dimensionless shape -- every
+        grind fits to the SAME weight phi ~= 0.32 and the SAME slow/fast RATIO ~= 12.3. Only the
+        dimensionless SHAPE is invariant; the ABSOLUTE constants scale with the diffusion time
+        (tau ~ R^2/(pi^2 Deff)) and vary ~1.9x across the seven grinds (review comment U2 -- do NOT
+        call the absolute constants grind-independent). The two-regime form fits well (R2 ~ 0.999 vs
+        ~0.95 for one exponential), but that split is the early/late-time signature of ONE physical
+        diffusion PROCESS in one particle/species class -- NOT two physical pools (avoid "single
+        mathematical mode"; a sphere solution is many eigenmodes, review comment U4). maille's split,
+        by contrast, is a modeled two-POOL (fines < 186 um + coarse-particle shells) structure whose
+        phi and separation VARY by material. Same word ("two-regime"), different construct.
+      * ABSOLUTE bands (SELECTED fine class only): at roman's card-stated 20 um fine class the fitted
+        lambda_fast ~0.03-0.06 s and lambda_slow ~0.36-0.68 s fall below maille's bands (fast
+        2.2-19.1 s, slow 13-158 s). This is fine-class-SPECIFIC, not a universal-numeric claim: the
+        coarse class (d[4,3], not published in-repo) would raise tau by (R_coarse/R_fine)^2 and could
+        enter maille's bands -- it is deliberately NOT fabricated (review comment U3).
 
-    So maille's two-regime decomposition does not port to roman's well-mixed diffusion physics either.
+    So a shared bi-exponential form is not a shared physical construct; the defensible conclusion is
+    SEMANTIC non-equivalence under the tested fine-class mapping, not a universal numerical theorem.
     Strength: qualitative (model-generated curve, single lumped species, fine class only)."""
     import numpy as np
     from scipy.optimize import curve_fit
@@ -390,31 +420,50 @@ def cross_model_timescale_roman():
                         slow_in_maille_band=bool(slow_lo <= ls <= slow_hi)))
     ratios = [row["ratio_slow_over_fast"] for row in per]
     phis = [row["phi"] for row in per]
-    # scale-invariant Crank shape: the fitted ratio and phi are grind-INDEPENDENT
+    fasts = [row["lambda_fast_s"] for row in per]
+    slows = [row["lambda_slow_s"] for row in per]
+    # scale-invariant Crank SHAPE: the fitted ratio and weight (phi) are grind-INDEPENDENT.
+    # (NB: only the dimensionless shape is invariant; the ABSOLUTE constants scale with R^2/Deff and
+    #  vary across grinds -- see absolute_timescales_are_grind_independent below. Review comment U2.)
     shape_universal = (max(ratios) - min(ratios) < 0.1) and (max(phis) - min(phis) < 0.02)
+    absolute_grind_independent = (max(fasts) - min(fasts) < 1e-9) and (max(slows) - min(slows) < 1e-9)
     # a single-Deff Crank curve is two-regime-SHAPED, not a single exponential
     two_regime_beats_one = all(row["r2_two"] > row["r2_one"] + 0.02 for row in per)
-    # fine-class miss: no grind lands EITHER timescale in maille's bands
+    # fine-class miss: no grind lands EITHER timescale in maille's bands (fine class R~20um ONLY;
+    # the coarse class d[4,3] is not published in-repo -> not evaluated, review comment U3)
     none_in_maille_bands = all(not row["fast_in_maille_band"] and not row["slow_in_maille_band"]
                                for row in per)
+    # the semantic verdict is DERIVED, not hard-coded (review comment U11): a shared bi-exponential
+    # form is not a shared physical construct -- the shape is one diffusion process's short/long-time
+    # signature, invariant across grinds, and the fine-class bands miss maille's.
+    ports_to_roman = not (shape_universal and two_regime_beats_one and none_in_maille_bands)
     return dict(
-        per_grind=per, config="well-mixed stirred vessel (genuine); model-generated (Crank-verified "
-                              "solver); single lumped medium-MW species; fine size class R~20um",
+        per_grind=per, config="well-mixed stirred vessel (genuine config); MODEL-GENERATED (Crank-"
+                              "verified solver, no raw roman curves published); single lumped medium-"
+                              "MW species; fine size class R~20um ONLY",
+        particle_class="fine", radius_m=_ROMAN_R_FINE_M,
+        coarse_class_status="not_evaluated_missing_radius",   # d[4,3] not in-repo; not fabricated (U3)
         rights_note="research computation; not rights-blocked (same published_port/NOT_REVIEWED class "
                     "as cameron2020, used here already). #100 deferral is the public product lens only.",
         universal_ratio_slow_over_fast=round(sum(ratios) / len(ratios), 2),
         universal_phi=round(sum(phis) / len(phis), 3),
         shape_is_scale_invariant=bool(shape_universal),
+        absolute_timescales_are_grind_independent=bool(absolute_grind_independent),   # False (U2)
         two_regime_shaped_not_single_exp=bool(two_regime_beats_one),
         none_in_maille_bands_fine_class=bool(none_in_maille_bands),
-        two_regime_ports_to_roman=False,
-        passed=bool(shape_universal and two_regime_beats_one and none_in_maille_bands),
-        finding="Roman's single-species WELL-MIXED (stirred-vessel) diffusion curve fits maille's "
-                "Eq-6.2 to a UNIVERSAL shape (phi ~0.32, lambda_slow/lambda_fast ~12.3, grind-"
-                "INDEPENDENT) -- the intrinsic short/long-time signature of ONE Crank diffusion mode, "
-                "not two physical pools. Two-regime-shaped (R2 ~0.999 vs ~0.95 for one exponential) "
-                "but NOT maille's material-varying two-POOL (fines + coarse shells) construct: same "
-                "word, different thing. At roman's card-stated fine class the timescales are sub-"
-                "second -- ~2 orders below maille's bands (roman's unpublished coarse d[4,3] NOT "
-                "fabricated). maille's two-regime decomposition does not port to roman's diffusion "
-                "physics. QUALITATIVE (model-generated curve, single lumped species, fine class).")
+        two_regime_ports_to_roman=bool(ports_to_roman),
+        passed=bool(not ports_to_roman),
+        finding="Roman's single-species WELL-MIXED (model-generated stirred-vessel) diffusion curve "
+                "fits maille's Eq-6.2 to a UNIVERSAL dimensionless SHAPE: the fitted weight (phi "
+                "~0.32) and slow/fast RATIO (~12.3) are invariant across grinds, while the ABSOLUTE "
+                "constants scale with the diffusion time (R^2/Deff) and vary ~1.9x across the seven "
+                "grinds -- shape invariance, NOT absolute-constant invariance. That shape is the "
+                "early/late-time signature of ONE physical diffusion process in one particle/species "
+                "class, two-regime-SHAPED (R2 ~0.999 vs ~0.95 for one exponential) but NOT maille's "
+                "material-varying two-POOL (fines + coarse shells) construct: same word, different "
+                "thing. For the SELECTED 20um fine class the timescales are sub-second, below maille's "
+                "2.2-19.1 s / 13-158 s bands; the coarse class d[4,3] is not published in-repo and was "
+                "NOT fabricated (larger radii would raise tau ~ R^2 and could enter maille's bands -- "
+                "so this is a fine-class-specific, not universal-numeric, result). The defensible "
+                "conclusion is SEMANTIC: a shared bi-exponential form is not a shared physical "
+                "construct. QUALITATIVE (model-generated curve, single lumped species, fine class).")
