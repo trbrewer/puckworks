@@ -50,16 +50,17 @@ they are **not** faked:
 - **4.13** a Paper-B2-specific **clean reproducibility release** (strict no-dirty-tree; claim map
   covering *every* number incl. Table 2/3, block endpoints, residual diagnostics, robustness).
 
-## Needs a Tim DECISION (❓)
+## Tim DECISIONS — RESOLVED (2026-07-25)
 
-- **4.6 viscosity/Gagné** — the reviewer **recommends removal** (Option A: cut from this paper, keep
-  one Discussion sentence) vs full integration (Option B: source subsection + citations
-  (Gagné/Telis-Romero/Sobolík) + scored ladder branch + uncertainty + figure + manifest). The
-  accuracy PR only fixed the *contradiction and overclaim*; the remove-vs-integrate call is yours.
-- **E16 title** — "One flow curve, many **causes**" → "many **explanations**" (the paper establishes
-  multiple admissible explanations, not multiple actual causes). A title change is your call; left as-is.
-- **4.12 novelty / systems-identification keyword** — either add a formal identifiability/observability
-  section or drop the "systems identification" keyword; needs a scoping decision.
+- ✅ **4.6 viscosity/Gagné — REMOVED (Option A).** Cut the integrated viscosity/Gagné material (§5.4
+  rewritten to keep dissolution-opening as the scored sign-carrier + a brief degenerate-second-candidate
+  note; Table 4 viscosity row, §6.5 Gagné sentences, and the Limitation-2 second-apparatus sentences
+  removed). Full material (closures, Gagné 2.7× dataset, 15%/1.6/1% numbers, degeneracy argument, and
+  what a scored version needs) **preserved for the perturbation-program follow-up** in
+  `docs/future/PAPER_B2_VISCOSITY_GAGNE_RESERVED.md`.
+- ✅ **E16 title — CHANGED** to "One flow curve, many **explanations**".
+- ✅ **4.12 keyword — DROPPED** "systems identification" (→ "inverse problems; model discrimination").
+  A formal identifiability section is deferred to the shot-level analysis work.
 
 ## Deferred — P1/P2 prose (⏭, lower urgency)
 
