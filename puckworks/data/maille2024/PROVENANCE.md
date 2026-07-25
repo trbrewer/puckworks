@@ -6,7 +6,9 @@ sponsor Keurig Dr Pepper). Card: `docs/cards/maille2024.md`.
 **Tables digitized (Tim drop 2026-07-25).** The card was written from the **redacted** release; this
 drop includes tables that were blanked there (Table 5.6 SSA-all-materials, Table 5.9 porosity), so
 the source here is the **unredacted** thesis for those. The time-resolved extraction **figures**
-(Figs 4.6–4.10) are a separate digitization that will follow.
+(Figs 4.6–4.10, material ΩA, 5 compounds) were digitized in a second drop (2026-07-25) and are
+included here (per-figure schemas normalized by the `maille_extraction_curves` loader). Cameron 2020's
+Figure-2 PSD (a separate drop under `data/cameron2020/`) unblocks the φ-split-vs-Cameron gate.
 
 **Material:** single 70 kg lot, washed, Antioquia Colombia; two roast levels (light/dark); coarse
 sieved fractions + full-PSD materials. Batch **well-mixed reactor** (WMBR) — no bed, no pressure,

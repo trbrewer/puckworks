@@ -11,16 +11,21 @@ fits). The time-resolved extraction figures (Figs 4.6-4.10) are a separate digit
 2. phi_closure_consistency()    -- Eq 6.7 (phi = fines + coarse) internal check + theta_v_fines
    (Table 6.3) vs the < 186 um volume fraction (Table 5.4).
 3. kinetics_flags()             -- surface the E5 internally-impossible 95% CIs (unusable rows).
-
-NOTE (blocked, owed): the phi-split-vs-Cameron discriminating gate (compute phi from Cameron's EK43
-PSD, compare to Cameron's fitted fast population) needs Cameron's measured BINNED PSD, which the
-registry does not yet hold (only a two-size-class idealisation) -- deferred.
+4. two_regime_reproduction()    -- the tabulated two-regime model (Eq 6.2) reproduces the digitized
+   Omega_A extraction curves (Figs 4.6-4.10) to ~the model's own MPE.
+5. phi_split_vs_cameron()       -- the card's headline gate (now UNBLOCKED by Cameron's digitized
+   Fig-2 PSD): maille's phi closure on Cameron's binned PSD vs Cameron's fitted fines fraction --
+   sign-agreeing but NOT commensurable (a definitional observable-semantics gap).
 """
 from __future__ import annotations
+
+import math
 
 from puckworks import data as d
 
 _D_C_M = 45e-6            # coffee cell diameter (card Parameters; SEM range 20-60 um)
+# tau (extraction delay) is NOT tabulated; the card gives visual-inspection values (0 for the acids)
+_TAU_S = {"Caffeine": 4.0, "3-CQA": 3.0, "Citric acid": 0.0, "Malic acid": 0.0, "Quinic acid": 0.0}
 
 
 def _shell_fraction(diameter_m, n_layers):
@@ -117,3 +122,100 @@ def kinetics_flags():
         passed=True,   # a report gate: it always "passes"; the value is the flagged list
         note="E5: rows where a 95%% CI does not bracket its own estimate are internally impossible "
              "(e.g. caffeine table 3-CQA and organic-acid quinic) -- carry as UNUSABLE, do not fit.")
+
+
+def _two_regime(t, phi, lam_fast, lam_slow, tau):
+    """Eq 6.2: C(t)/C_inf = phi(1-e^-(t-tau)/lam_fast) + (1-phi)(1-e^-(t-tau)/lam_slow); 0 for t<=tau."""
+    if t <= tau:
+        return 0.0
+    x = t - tau
+    return phi * (1.0 - math.exp(-x / lam_fast)) + (1.0 - phi) * (1.0 - math.exp(-x / lam_slow))
+
+
+def two_regime_reproduction():
+    """Source-curve reproduction (Figs 4.6-4.10, material Omega_A): the TABULATED two-regime model --
+    phi (Table 6.3), lambda_fast/lambda_slow (Tables 6.4/6.5), tau per the card's visual values --
+    reproduces the digitized early-time extraction curves to ~the model's own reported MPE (4-10%).
+    Strength: source_curve_reproduction (not an independent re-fit)."""
+    phi_a = float({r["Sample ID"]: r for r in d.maille_phi()}["Omega_A"]["phi"])
+    c = {r["Sample ID"]: r for r in d.maille_kinetics_caffeine_3cqa()}["Omega_A"]
+    a = {r["Sample ID"]: r for r in d.maille_kinetics_organic_acids()}["Omega_A"]
+    lam = {
+        "Caffeine": (float(c["Caffeine lambda_fast (s)"]), float(c["Caffeine lambda_slow (s)"])),
+        "3-CQA": (float(c["3-CQA lambda_fast (s)"]), float(c["3-CQA lambda_slow (s)"])),
+        "Citric acid": (float(a["Citric lambda_fast (s)"]), float(a["Citric lambda_slow (s)"])),
+        "Malic acid": (float(a["Malic lambda_fast (s)"]), float(a["Malic lambda_slow (s)"])),
+        "Quinic acid": (float(a["Quinic lambda_fast (s)"]), float(a["Quinic lambda_slow (s)"])),
+    }
+    curves = {}
+    for r in d.maille_extraction_curves():
+        curves.setdefault(r["analyte"], []).append((r["time_s"], r["C_over_Cinf"]))
+    per = {}
+    for an, pts in curves.items():
+        lf, ls = lam[an]
+        tau = _TAU_S[an]
+        errs = [abs(_two_regime(t, phi_a, lf, ls, tau) - y) / y * 100.0 for t, y in pts if y > 0]
+        per[an] = dict(n=len(errs), mape_pct=round(sum(errs) / len(errs), 1),
+                       lambda_fast=lf, lambda_slow=ls, tau_s=tau)
+    worst = max(v["mape_pct"] for v in per.values())
+    return dict(phi_omega_a=phi_a, per_analyte=per, worst_mape_pct=worst,
+                passed=bool(worst < 15.0),
+                note="tabulated phi/lambda + the card's visual tau reproduce the digitized Omega_A "
+                     "curves to MAPE ~4-10% (~the model's own reported MPE); source-curve "
+                     "reproduction, not an independent re-fit.")
+
+
+def _phi_from_psd(diam_um, vol, fines_cut_um=186.0, n_layers=2):
+    """maille phi = theta_v_fines + theta_v_coarse (Eqs 6.7-6.9, E1-resolved n_layers) from a binned
+    PSD (diameters [um] + per-bin volume). Returns (phi, theta_fines, theta_coarse)."""
+    tot = sum(vol)
+    depth_um = 2.0 * n_layers * _D_C_M * 1e6      # d_c per side per layer, in um
+    fines = coarse = 0.0
+    for dia, v in zip(diam_um, vol):
+        frac = v / tot
+        if dia < fines_cut_um:
+            fines += frac
+        else:
+            inner = max(dia - depth_um, 0.0)
+            coarse += frac * (1.0 - inner ** 3 / dia ** 3)
+    return fines + coarse, fines, coarse
+
+
+def phi_split_vs_cameron():
+    """The card's headline gate: apply maille's PSD->fast-fraction phi closure (E1-resolved two cell
+    layers) to Cameron 2020's MEASURED binned PSD (Figure 2, 4 grind settings) and compare to Cameron's
+    own fitted fines-population fraction PHI_S1/(PHI_S1+PHI_S2) of solid.
+
+    FINDING: both fast-fractions DECREASE as grind coarsens (sign agreement), but maille's phi runs
+    ~5-9x Cameron's fines fraction -- a DEFINITIONAL gap: maille 'fast' = fines <186 um + coarse-
+    particle outer shells; Cameron 'fast' = the 12 um fines class only. On Cameron's espresso-fine PSD
+    maille's phi is ~0.85-0.94 (vs maille's own 0.36-0.65 on coarser drip grinds -- an extrapolation).
+    The two 'fast fractions' are NOT commensurable; equating them would be a ~5-9x observable-semantics
+    error. Neither model is validated by the other. Strength: verification / discrimination."""
+    from puckworks.models.cameron2020.extraction_bdf import GS_GRID, PHI_S1_GRID, PHI_S2_GRID
+    rows = d.cameron2020_psd()
+    diam = [float(r["particle_diameter_um"]) for r in rows]
+    per = []
+    for gs, ps1, ps2 in zip(GS_GRID, PHI_S1_GRID, PHI_S2_GRID):
+        vol = [float(r["volume_percent_Gs_%.1f" % gs]) for r in rows]
+        phi, fines, _coarse = _phi_from_psd(diam, vol)
+        cam_fines = float(ps1) / (float(ps1) + float(ps2))
+        per.append(dict(gs=float(gs), maille_phi=round(phi, 3),
+                        maille_fines_lt186=round(fines, 3),
+                        cameron_fines_of_solid=round(cam_fines, 3),
+                        ratio_phi_over_cameron=round(float(phi / cam_fines), 1)))
+    maille_mono = all(per[i]["maille_phi"] > per[i + 1]["maille_phi"] for i in range(len(per) - 1))
+    cam_mono = all(per[i]["cameron_fines_of_solid"] > per[i + 1]["cameron_fines_of_solid"]
+                   for i in range(len(per) - 1))
+    ratios = [p["ratio_phi_over_cameron"] for p in per]
+    return dict(
+        per_grind=per, both_decrease_with_coarser_grind=bool(maille_mono and cam_mono),
+        ratio_range=[min(ratios), max(ratios)],
+        maille_phi_on_cameron_range=[per[-1]["maille_phi"], per[0]["maille_phi"]],
+        maille_own_phi_range=[0.356, 0.648], commensurable=False,
+        passed=bool(maille_mono and cam_mono and all(r > 1 for r in ratios)),
+        finding="maille phi on Cameron's espresso PSD ~0.85-0.94 (vs maille's own 0.36-0.65 -- "
+                "extrapolation); BOTH maille phi and Cameron's fitted fines fraction DECREASE as grind "
+                "coarsens (sign agreement). Magnitudes differ ~5-9x, but this is DEFINITIONAL (maille "
+                "fast = fines<186um + coarse shells; Cameron fast = 12um fines class). NOT commensurable "
+                "-- a registry-surfaced observable-semantics disagreement, not a validation of either.")

@@ -437,6 +437,18 @@ def cameron2020_fig5_grind_deviation():
     return _typed_rows(CAMERON / "fig5_grind_deviation.csv")
 
 
+def cameron2020_psd():
+    """cameron2020 Figure 2: the MEASURED particle-size distribution -- volume percent vs particle
+    diameter [um] at four EK43 grind settings (Gs 1.0/1.5/2.0/2.5), ~1-1900 um (Tim drop 2026-07-25).
+    The binned PSD the maille2024 phi-split-vs-Cameron gate needs (the model itself uses a two-size-
+    class idealisation, not this distribution)."""
+    import glob as _glob
+    m = sorted(_glob.glob(str(CAMERON / "Figure 2*.csv")))
+    if not m:
+        raise FileNotFoundError("cameron2020 Figure 2 PSD not found")
+    return _typed_rows(m[0])
+
+
 # --- egidi2024 (ROADMAP 0.3), RC-1 EY/TDS bracket ------------------------
 EGIDI = DATA_DIR / "egidi2024"
 
@@ -951,6 +963,29 @@ def maille_normalized_curves():
     """maille2024 Table 5.10: normalized extraction concentration vs time (10-180 s) for
     Omega_A-C x 5 compounds -- the only place early-time curve values appear as numbers."""
     return _maille("Table 5.10")
+
+
+def maille_extraction_curves():
+    """maille2024 Figs 4.6-4.10: digitized early-time (<~180 s) extraction curves C(t)/C_inf for
+    material Omega_A -- five compounds x replicates (Tim drop 2026-07-25). Normalizes the per-figure
+    digitization schemas to {analyte, time_s, C_over_Cinf, replicate}. The two-regime Eq-6.2
+    reproduction runs on these (analysis.maille2024.two_regime_reproduction)."""
+    import glob as _glob
+    specs = [("Caffeine", "Figure_4.6", "time_s", "C_t_over_C_inf"),
+             ("3-CQA", "Figure 4.7", "time_s", "C_over_Cinf"),
+             ("Citric acid", "Figure 4.8", "time_s_measured", "C_over_Cinf"),
+             ("Malic acid", "Figure 4.9", "time_s_measured", "C_over_Cinf"),
+             ("Quinic acid", "Figure 4.10", "time_s_measured", "C_over_Cinf")]
+    out = []
+    for analyte, pat, tcol, ccol in specs:
+        matches = sorted(_glob.glob(str(MAILLE / (pat + "*.csv"))))
+        for r in _typed_rows(matches[0]):
+            t, c = r.get(tcol), r.get(ccol)
+            if not isinstance(t, (int, float)) or not isinstance(c, (int, float)):
+                continue
+            out.append(dict(analyte=analyte, time_s=float(t), C_over_Cinf=float(c),
+                            replicate=r.get("replicate")))
+    return out
 
 
 def maille_ssa():
