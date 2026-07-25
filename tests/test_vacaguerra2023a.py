@@ -76,6 +76,20 @@ def test_permeability_scales_with_viscosity():
         assert abs(h["k_darcy_m2"] - 0.5 * b["k_darcy_m2"]) < 1e-18
 
 
+def test_lambda_refit_is_viscosity_convention_dependent():
+    import math
+    r = v.permeability_lambda_refit()
+    assert r["passed"] and r["lambda_published"] == 7.5
+    # the independent Darcy K exceeds the authors' Eq-11 -> refit at mu=3.5 mPa s is BELOW 7.5
+    assert r["lambda_refit_published_mu"] < 7.5
+    # registry G10 espresso-liquor mu is far below 3.5 mPa s
+    assert 0.3e-3 < r["mu_g10_pas"] < 0.6e-3
+    # lambda ~ sqrt(mu): the G10 refit scales up from the mu=3.5 refit by sqrt(mu_pub/mu_g10)
+    expected = r["lambda_refit_published_mu"] * math.sqrt(r["mu_published_pas"] / r["mu_g10_pas"])
+    assert r["lambda_refit_g10_mu"] > r["lambda_refit_published_mu"]
+    assert abs(r["lambda_refit_g10_mu"] - expected) < 0.1
+
+
 def test_wadsworth_cross_eval_overpredicts_tamped_regime():
     x = v.wadsworth_cross_eval()
     assert x["passed"] and len(x["points"]) == 9

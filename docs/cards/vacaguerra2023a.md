@@ -20,8 +20,12 @@ reproduces the authors' measured range (7/9 in band, all order-of-magnitude); an
 **`wadsworth2026.permeability` cross-eval** shows that model — validated untamped
 (φ_p 0.37–0.67) — **overpredicts vacaguerra's measured tamped K by ~13–31× (median 23×)**
 when extrapolated to ε₀ 0.24–0.36, the overprediction growing as ε₀ drops below the 0.37
-floor (tightest bed 25×, loosest 15×). **Still owed:** a full registered component
-(offline σ→ε₀→K closure) and a µ→G10-renormalized λ refit.
+floor (tightest bed 25×, loosest 15×); and the **µ→G10 λ refit** shows the Eq-11 constant
+is viscosity-convention-dependent (λ∝√µ) — the published **λ=7.5** (fit to the authors' K)
+refits to **3.47** against the independent Darcy K at µ=3.5 mPa·s, and to **≈10.0** under the
+registry's G10 espresso-liquor µ (≈0.42 mPa·s @ 65 °C, telisromero). **Still owed:** a full
+registered calibration component (offline σ→ε₀→K closure) if a registry-surface presence is
+wanted (tour/relay/evidence) — the card's Interface mapping otherwise keeps it "offline only".
 
 ## Scope and mechanism
 Two chained empirical closures on one dark-roast arabica material. (i) A dry-bed
