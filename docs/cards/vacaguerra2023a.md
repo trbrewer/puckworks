@@ -23,9 +23,12 @@ when extrapolated to ε₀ 0.24–0.36, the overprediction growing as ε₀ drop
 floor (tightest bed 25×, loosest 15×); and the **µ→G10 λ refit** shows the Eq-11 constant
 is viscosity-convention-dependent (λ∝√µ) — the published **λ=7.5** (fit to the authors' K)
 refits to **3.47** against the independent Darcy K at µ=3.5 mPa·s, and to **≈10.0** under the
-registry's G10 espresso-liquor µ (≈0.42 mPa·s @ 65 °C, telisromero). **Still owed:** a full
-registered calibration component (offline σ→ε₀→K closure) if a registry-surface presence is
-wanted (tour/relay/evidence) — the card's Interface mapping otherwise keeps it "offline only".
+registry's G10 espresso-liquor µ (≈0.42 mPa·s @ 65 °C, telisromero). **Decision (2026-07-25):
+kept as a data + analysis provider, NOT registered as a component** — the four verifications +
+the λ refit already run as CI tests, and the card's Interface mapping is "offline calibration
+chain only — no runtime component"; a public registry-surface presence (Full Tour / Model Relay /
+evidence graph) was deliberately declined for this single-material, post-fit, gated source.
+**Nothing further owed.**
 
 ## Scope and mechanism
 Two chained empirical closures on one dark-roast arabica material. (i) A dry-bed
