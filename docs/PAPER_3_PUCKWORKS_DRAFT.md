@@ -126,11 +126,25 @@ The registry currently contains runtime and calibration instances only; `observa
 
 The current contract schema is version 0.6. It uses Python dataclasses to carry named state between stages. The evolution rule is add fields without changing their meaning; repurposing a field requires a breaking schema version. Optional values use an explicit missing state rather than a numeric sentinel. Comments specify expected units and semantics, and selected high-risk conversions have executable guards.
 
-This is a typed state interface, not yet a full dimensional type system. A float annotated in a dataclass can still be supplied in the wrong unit. Puckworks therefore combines named fields, documented units, adapters, runtime assertions, and data-manifest metadata. A future release could add a units package or static dimensional checking without changing the semantic rule.
+This is a typed state interface, not yet a full dimensional type system. A float annotated in a dataclass can still be supplied in the wrong unit. Puckworks therefore combines named fields, documented units, adapters, runtime assertions, and data-manifest metadata as layers with *different* and deliberately partial coverage. Table 2 states, for each layer, the defect class it catches and the residual risk it does not, so that no single layer is read as a guarantee.
+
+**Table 2. Contract layers, what each catches, and the residual risk.**
+
+| Layer | Catches | Does *not* catch (residual risk) |
+|---|---|---|
+| Named typed fields | wrong quantity supplied to the wrong slot; a missing field | a correct field carrying a value in the wrong unit |
+| Enum / schema validation | an out-of-vocabulary stage, execution role, or evidence relation | a valid-but-wrong enum value chosen by mistake |
+| Runtime range / unit guards (e.g. the permeability window above) | gross unit/scale errors (µm² vs m², table-scaled values) — a **coarse sanity check**, not a proof of correctness | an in-range but physically wrong value, or the wrong closure/material/regime |
+| Observational adapters | comparing a model field to a dataset in the wrong observable or unit | an adapter that is itself mis-specified (adapters are testable objects, but only as well as their tests) |
+| Data-manifest metadata | undocumented provenance, license, or uncertainty on a dataset | a documented dataset used outside its stated validity |
+| Model / source cards (human) | missing constants, source inconsistencies, observable mismatches surfaced before code | anything the card author did not think to interrogate |
+| Static dimensional typing / a units package (*not yet implemented*) | wrong-unit values at the type level | — (future work) |
+
+The layers are complementary, not redundant: the permeability window is a coarse guard against a scale error, not a claim that an in-window permeability is correct; the observable adapter constrains *what* is compared, not whether the comparison is scientifically decisive; and the card is the only layer that can catch a missing constant before it becomes code. A future release could add a units package or static dimensional checking (the empty last row) without changing the semantic rule. §7.5 illustrates, and a systematic framework evaluation (future work) must establish, *which* defects the current layers demonstrably catch versus merely list.
 
 ### 4.2 Core state carriers
 
-**Table 2. Current state contracts and their main semantic obligations.**
+**Table 2a. Current state contracts and their main semantic obligations.**
 
 | Contract | Selected fields | Required interpretation |
 |---|---|---|
@@ -164,6 +178,8 @@ $$
 $$
 
 before using the relevant Forchheimer relations. The window is not a scientific prior on espresso permeability; it is a guard against supplying values in square micrometres or table-scaled units to an SI formula. The manifest retains both published and registry units so the conversion is auditable.
+
+The registry names the inertial-regime indicator explicitly as the **Forchheimer number** $Fo_F = k_I\,\rho\,|u| / \mu$ — the ratio of inertial to viscous drag at the pore scale, with $k_I$ the inertial (non-Darcy) permeability, $\rho$ and $\mu$ the liquid density and viscosity, and $|u|$ the superficial velocity. (The name is disambiguated by convention from the Fourier number $Fo_{\text{diff}}$; the unsubscripted symbol is never used on its own.) $Fo_F$ is a **regime diagnostic, not a validated correction**: values of order unity or larger flag that the fixture is at or beyond the onset of inertial (non-Darcy) flow, so an unflagged Darcy closure is unsafe there — but the registry does not thereby assert a specific validated Forchheimer correction for espresso, only that Darcy extrapolation into that regime must be marked. The value reported for the illustrative configuration (§11) is used in exactly this way: a flag on an extrapolation, not a prediction.
 
 ### 4.5 Concentration, inventory, and saturation semantics
 
@@ -475,7 +491,7 @@ This point is especially important for multiphysics repositories. A “more comp
 
 ### 13.4 Generalization beyond espresso
 
-The architecture applies to other domains in which heterogeneous literature models are assembled around shared process stages: drying, filtration, chromatography, fermentation, reactive transport, battery porous electrodes, and biomedical perfusion. The transferable practices are:
+We present cross-domain reach as a *proposed transferable pattern demonstrated in espresso*, not as an empirically demonstrated generalization: the espresso corpus is the only literature to which the registry has been applied here. The same structure should plausibly apply to other domains in which heterogeneous literature models are assembled around shared process stages — drying, filtration, chromatography, fermentation, reactive transport, battery porous electrodes, and biomedical perfusion — but that claim is a hypothesis for future work, not a result of this paper. The transferable practices we conjecture would carry over are:
 
 - represent model roles and stages explicitly;
 - define observable and state semantics before comparison;
