@@ -844,6 +844,55 @@ def hargarten_scalar_anchors():
     return _rows(HARGARTEN / "hargarten2020_scalar_anchors.csv")
 
 
+# --- vacaguerra2023a (PSD-aware bed compression + modified Kozeny-Carman; Tim drop 2026-07-25) ---
+VACAGUERRA = DATA_DIR / "vacaguerra2023a"
+
+
+def vacaguerra_extraction_conditions():
+    """vacaguerra2023a Table C.1: the 9 espresso permeability operating points (dark-roast
+    arabica), distribution A/B/C x dosage 22.2/19.86/17.5 g, with dry-bed porosity eps0,
+    pressure drop DeltaP [bar] (+/- sd), flow Q [mL/s] (+/- sd), and bed consolidation
+    delta_L [mm] (+/- sd). Enables an INDEPENDENT Darcy K recomputation
+    (analysis.vacaguerra2023a). Single material; steady (10 s -> end) window only."""
+    return _typed_rows(VACAGUERRA
+                       / "Table_C1_Extraction_conditions_from_permeability_experiments.csv")
+
+
+def vacaguerra_psd():
+    """vacaguerra2023a Table 1: the 3 PSDs (A/B/C) used in the extraction experiments --
+    coarse-fraction Rosin-Rammler mean alpha [um] and uniformity beta, Sauter d[3,2] [um],
+    fines fraction [%], sphericity psi."""
+    return _typed_rows(VACAGUERRA
+                       / "Table_1_Particle_size_distributions_used_in_extraction_experiments.csv")
+
+
+def _vacaguerra_coeffs(fname):
+    return {r["Coefficient"]: float(r["Value"]) for r in _rows(VACAGUERRA / fname)}
+
+
+def vacaguerra_phi_coefficients():
+    """vacaguerra2023a Table 2: ANOVA coefficients k1..k5 of the compression-factor phi
+    response surface (Eq. 9). SIGN CAVEAT: the printed k3 is positive but the +k3*beta form
+    is unphysical; use the -k3*beta convention (analysis.vacaguerra2023a.resolve_compression_sign)."""
+    return _vacaguerra_coeffs(
+        "Table_2_Empirical_coefficients_compression_factor_phi_Equation_9.csv")
+
+
+def vacaguerra_omega_coefficients():
+    """vacaguerra2023a Table 3: ANOVA coefficients x1..x4 of the repose-porosity omega
+    response surface (Eq. 10). Same -x3*beta sign convention -- see analysis.vacaguerra2023a."""
+    return _vacaguerra_coeffs(
+        "Table_3_Empirical_coefficients_compression_factor_omega_Equation_10.csv")
+
+
+def vacaguerra_dry_porosity_validation():
+    """vacaguerra2023a Figure 12: cross-device dry-bed porosity validation -- (measured,
+    calculated) pairs on two independent vessels (60 mm stainless portafilter; 50 mm acrylic
+    square). The authors report R^2 ~ 0.93; analysis.vacaguerra2023a.fig12_validation recomputes it."""
+    return _typed_rows(VACAGUERRA
+                       / "Figure_12_Calculated_versus_experimental_dry_bed_porosity_validation_experiments.csv")
+
+
 def khomyakov_kinematic_viscosity():
     """khomyakov2020 (DOI 10.1088/1755-1315/548/2/022040, CC BY 3.0) MEASURED
     coffee-extract KINEMATIC viscosity [mm^2/s], Table 1: dry-solids 15-70 wt% x
