@@ -1,6 +1,6 @@
 # Puckworks: an executable, provenance-aware evidence registry for espresso process models
 
-**Working manuscript draft — 15 July 2026**  
+**Working manuscript draft — 25 July 2026**  
 **Authors:** [Author names and affiliations to be inserted]  
 **Corresponding author:** [Name and email to be inserted]
 
@@ -8,7 +8,7 @@
 
 ## Abstract
 
-Published espresso models describe different parts of the brewing process with incompatible state variables, units, pressure locations, concentration conventions, inventory bases, experimental windows, and standards of evidence. Combining them by matching similarly named quantities can produce numerically plausible but scientifically invalid results. We present Puckworks, an executable, provenance-aware registry that represents espresso process models as stage-specific components with typed state carriers, explicit assumptions and validity ranges, source and dataset cards, validation gates, evidence labels, and reproducible claim producers. Puckworks is not a monolithic “digital twin.” A simulation is a declared configuration of components and adapters, and each output retains the provenance and evidence status of the weakest load-bearing link. In the current development snapshot, the registry contains 25 components across grind, packing, machine, infiltration, flow, extraction, and bed-dynamics stages, supported by 70 dataset-manifest records. We demonstrate the architecture in three cases. First, observable linting exposes incompatible saturation concentrations (170, 212.4, and 224 kg m⁻³), distinct pressure nodes, and an invalid mixed-unit aggregation of named-solute masses and total dissolved solids. After correction, raw total-dissolved-solids-derived extraction-yield cells are ordered across three grinder settings, while a conditional response-surface vertex remains a separate fitted object. Second, a null-first temporal-flow workflow preserves distinctions among machine capacity, static baselines, imported temporal trajectories, flexible in-sample curves, and held-out pressure assessments. Third, adding an imported swelling branch to a shared-porosity composition worsens reconstruction error from approximately 0.116 to 0.648 g s⁻¹, worse than a constant baseline, illustrating that component validity does not guarantee composition validity. A named-shot scorecard then shows how Puckworks reports observed, calibrated, verified, reconstructed, extrapolated, and open stages without presenting an unsupported end-to-end prediction. The contribution is a general method for executable reviews of coupled process models: make observable semantics and parameter provenance operational, preserve negative results, separate verification from validation, and translate model disagreement into discriminating experiments.
+Published espresso models describe different parts of the brewing process with incompatible state variables, units, pressure locations, concentration conventions, inventory bases, experimental windows, and standards of evidence. Combining them by matching similarly named quantities can produce numerically plausible but scientifically invalid results. We present Puckworks, an executable, provenance-aware registry that represents espresso process models as stage-specific components with typed state carriers, explicit assumptions and validity ranges, source and dataset cards, validation gates, evidence labels, and reproducible claim producers. Puckworks is not a monolithic “digital twin.” A simulation is a declared configuration of components and adapters, and each output retains the provenance and evidence status of the weakest load-bearing link. In the current development snapshot, the registry contains 25 components across grind, packing, machine, infiltration, flow, extraction, and bed-dynamics stages, supported by 104 dataset-manifest records. We demonstrate the architecture in three cases. First, observable linting exposes incompatible saturation concentrations (170, 212.4, and 224 kg m⁻³), distinct pressure nodes, and an invalid mixed-unit aggregation of named-solute masses and total dissolved solids. After correction, raw total-dissolved-solids-derived extraction-yield cells are ordered across three grinder settings, while a conditional response-surface vertex remains a separate fitted object. Second, a null-first temporal-flow workflow preserves distinctions among machine capacity, static baselines, imported temporal trajectories, flexible in-sample curves, and held-out pressure assessments. Third, adding an imported swelling branch to a shared-porosity composition worsens reconstruction error from approximately 0.116 to 0.648 g s⁻¹, worse than a constant baseline, illustrating that component validity does not guarantee composition validity. A named-shot scorecard then shows how Puckworks reports observed, calibrated, verified, reconstructed, extrapolated, and open stages without presenting an unsupported end-to-end prediction. The contribution is a general method for executable reviews of coupled process models: make observable semantics and parameter provenance operational, preserve negative results, separate verification from validation, and translate model disagreement into discriminating experiments.
 
 **Keywords:** scientific software; executable review; provenance; evidence registry; typed contracts; espresso; coupled process models; reproducibility; model validation; negative results
 
@@ -30,7 +30,7 @@ This paper describes the architecture and demonstrates why it matters. We first 
 
 The current repository corpus is a curated development collection assembled to support explicit comparison and integration tasks. It is **not** described as a systematic review because an indexed search protocol with databases, complete queries, date limits, duplicate handling, screening records, and exclusion reasons has not yet been completed. The corpus is useful for methods development and domain synthesis, but completeness and prevalence claims would be premature.
 
-At the snapshot used to prepare this draft, the registry source contains 25 registered components and the data manifest contains 70 records [1]. The stage distribution is shown in Table 1. These counts are descriptive of one repository state and should be regenerated from the release artifact cited by the final paper. **Table 1 and Appendix A are now producer-generated** from the live registry (`python -m puckworks.paper3.registry_artifacts` → `docs/paper3_resource/generated/`), and a CI lane fails on any drift between the committed tables and the producer output, so the manuscript figures cannot silently diverge from the code. Each component now carries a typed `execution_role`, `provenance_class`, and card-derived `evidence_strength` (§5) rather than a single overloaded `kind` string.
+At the snapshot used to prepare this draft, the registry source contains 25 registered components and the data manifest contains 104 records [1]. The stage distribution is shown in Table 1. These counts are descriptive of one repository state and should be regenerated from the release artifact cited by the final paper. **Table 1 and Appendix A are now producer-generated** from the live registry (`python -m puckworks.paper3.registry_artifacts` → `docs/paper3_resource/generated/`), and a CI lane fails on any drift between the committed tables and the producer output, so the manuscript figures cannot silently diverge from the code. Each component now carries a typed `execution_role`, `provenance_class`, and card-derived `evidence_strength` (§5) rather than a single overloaded `kind` string.
 
 **Table 1. Registry snapshot used for this draft.**
 
@@ -42,11 +42,13 @@ At the snapshot used to prepare this draft, the registry source contains 25 regi
 | Infiltration | 2 | wetting-front runtime or calibration analogue |
 | Flow | 5 | Darcy/Forchheimer runtime and flow-related calibrations |
 | Extraction | 8 | single- or multi-solute runtime models and calibration closures |
-| Bed dynamics | 5 | poroelasticity, swelling, fines migration, heterogeneity, synthesis |
+| Bed dynamics | 5 | poroelasticity, swelling, fines migration, heterogeneity, and a project-synthesis coupling |
 | Observables | 0 | reserved stage; observable logic currently resides mainly in adapters and harnesses |
-| **Total** | **25** | 11 runtime, 13 calibration, 1 synthesis |
+| **Total** | **25** | 12 runtime, 13 calibration (0 observational_adapter, 0 diagnostic) |
 
-The presence of an empty observables stage is informative. It records an intended architectural boundary that the current implementation has not yet fully promoted into first-class components. Similarly, the component dataclass comment currently lists `runtime` and `calibration`, while one registered component uses `synthesis`. This is not hidden as a harmless detail; it is schema debt to resolve before a stable public API.
+Execution role is one axis; provenance is another. The single project-synthesis component (`brewer2026.coupled_kappa_t`) executes at **runtime** but carries the `project_synthesis` *provenance* class — "synthesis" is not an execution role (§3.3). The role split above is generated from the live registry (`docs/paper3_resource/generated/table1_registry_overview.md`) and asserted against the manuscript by CI.
+
+The presence of an empty observables stage is informative. It records an intended architectural boundary that the current implementation has not yet fully promoted into first-class components — as do the schema-supported but uninstantiated `observational_adapter` and `diagnostic` execution roles. These are declared boundaries rather than hidden debt: schema v2 already separates the run-time, provenance, and evidence axes (§3.2), so the earlier ambiguity in which "synthesis" appeared to be an execution role is resolved (it is a `project_synthesis` provenance class on a runtime component); what remains before a stable public API is instantiating adapters/diagnostics and removing the deprecated `kind` field.
 
 ### 2.2 Inclusion logic for the curated corpus
 
@@ -94,7 +96,10 @@ The current `Component` record contains:
 |---|---|
 | `name` | stable component identifier |
 | `stage` | registry stage |
-| `kind` | operational class such as runtime, calibration, or synthesis |
+| `execution_role` | what the component *does* at run time (see §3.3) |
+| `provenance_class` | *where* it came from: `published_port`, `project_model`, `project_synthesis`, or `reference_only` |
+| `evidence_strength` | *how well* it is validated (§5); assigned from the card, never auto-inferred |
+| `kind` | **deprecated** legacy operational-class string, retained for back-compatibility only (`SCHEMA_VERSION = 2`); `execution_role` is derived from it by a documented 1:1 map and is authoritative |
 | `paper` and `doi` | source provenance |
 | `module` | executable implementation location |
 | `assumptions` | load-bearing model assumptions |
@@ -102,19 +107,18 @@ The current `Component` record contains:
 | `gates` | executable checks returning pass/fail plus diagnostics |
 | `notes` | unresolved caveats, lineage, or adapter requirements |
 
-A gate may verify a closed-form limit, reproduce a published curve, compare with a fitted dataset, or test an independent measurement. Passing a gate therefore does not have one universal scientific meaning. The evidence label belongs with the gate result.
+Schema v2 separates three independent axes that an earlier single `kind` string had conflated: **what a component does** (`execution_role`), **where it came from** (`provenance_class`), and **how well it is validated** (`evidence_strength`). A gate may verify a closed-form limit, reproduce a published curve, compare with a fitted dataset, or test an independent measurement. Passing a gate therefore does not have one universal scientific meaning. The evidence label belongs with the gate result.
 
-### 3.3 Operational roles
+### 3.3 Execution roles and provenance
 
-The paper distinguishes five roles even though not all are first-class enum values in the current code:
+`execution_role` is a first-class enumeration with exactly four values, all schema-supported:
 
 1. **Runtime component:** advances or evaluates the process state for a configuration.
 2. **Calibration component:** estimates a parameter or mapping used by another component.
 3. **Observational adapter:** maps model state to the exact observable and unit used by a dataset.
-4. **Diagnostic/exploratory component:** probes capacity, regime, sensitivity, or failure without being a validated runtime replacement.
-5. **Synthesis component:** combines registered mechanisms under an explicitly new composition rule.
+4. **Diagnostic component:** probes capacity, regime, sensitivity, or failure without being a validated runtime replacement.
 
-Promoting these roles into a versioned schema is a release-readiness task. In particular, adapters should be discoverable and testable objects rather than logic buried in analysis functions.
+The registry currently contains runtime and calibration instances only; `observational_adapter` and `diagnostic` are schema-supported but **uninstantiated** (making adapters discoverable, testable objects rather than logic buried in analysis functions remains a release-readiness task). "Synthesis" is deliberately **not** an execution role: a component that combines registered mechanisms under a new composition rule executes at runtime and is distinguished instead by its `provenance_class = project_synthesis`. Provenance is the separate axis (`published_port`, `project_model`, `project_synthesis`, `reference_only`) recording origin rather than run-time behaviour, and `evidence_strength` (§5) is a third axis recording validation. The legacy `kind` string is deprecated and scheduled for removal once no code path depends on it.
 
 ## 4. Typed contract architecture
 
@@ -230,7 +234,7 @@ Each dataset record includes:
 - validation strength; and
 - a caveat.
 
-This structure distinguishes, for example, a digitized model curve from a measured trace, a standard deviation from unreplicated points, and a source repository that cannot be redistributed from one licensed for inclusion. The current 70-row manifest is a provenance inventory, not a guarantee that every row provides independent validation.
+This structure distinguishes, for example, a digitized model curve from a measured trace, a standard deviation from unreplicated points, and a source repository that cannot be redistributed from one licensed for inclusion. The current 104-row manifest is a provenance inventory, not a guarantee that every row provides independent validation.
 
 ### 6.3 Gates, analysis harnesses, and generated results
 
@@ -323,7 +327,7 @@ The methodological lesson is that a comparison table needs more than rows of err
 
 ### 9.1 The shared-porosity composition
 
-A synthesis component combines an extraction-linked porosity-opening trajectory [3] with an imported particle-swelling trajectory [11] by assigning both to one shared porosity state. When the swelling factor is neutral, the synthesis reduces exactly to the extraction-only temporal branch. This reduction is a software verification of the composition.
+A project-synthesis component (`brewer2026.coupled_kappa_t`: runtime execution role, `project_synthesis` provenance) combines an extraction-linked porosity-opening trajectory [3] with an imported particle-swelling trajectory [11] by assigning both to one shared porosity state. When the swelling factor is neutral, the synthesis reduces exactly to the extraction-only temporal branch. This reduction is a software verification of the composition.
 
 Adding the imported swelling branch flattens the predicted flow. Over the same 15–95 s interval, reconstruction RMSE becomes 0.648 g s⁻¹. That is worse than the best constant baseline, approximately 0.573 g s⁻¹, and much worse than the extraction-only temporal trajectory, approximately 0.116 g s⁻¹.
 
@@ -453,9 +457,9 @@ The demonstrations are selected cases, not a quantitative estimate of how freque
 | Public API | component registry and schema version 0.6 | documented stable API, semantic versioning, deprecation policy |
 | Tutorials | onboarding and internal workflows referenced | public tutorials that run without private or local-only files |
 | Add-a-model path | README steps and card template | complete contributor tutorial with example PR and validation checklist |
-| Roles/schema | runtime, calibration, synthesis in use | first-class adapter/diagnostic roles; resolve `kind` vocabulary inconsistency |
+| Roles/schema | schema v2 axes (`execution_role`/`provenance_class`/`evidence_strength`); runtime and calibration instantiated | instantiate the schema-supported `observational_adapter`/`diagnostic` roles; remove the deprecated `kind` field |
 | Tests | gates and test suite; quick and slow analyses exist | CI-separated quick tests and archived slow scientific benchmarks |
-| Data provenance | 70-row manifest snapshot with licenses/caveats | release-frozen manifest; audit every redistributable artifact and license |
+| Data provenance | 104-row manifest snapshot with licenses/caveats | release-frozen manifest; audit every redistributable artifact and license |
 | Claims | producer-backed public-claim schema | manuscript claim bundle regenerated in CI with source-data exports |
 | Release tooling | environment check, external staging, checksums, manifest checks | clean tagged archive, full dependency lock or container digest, DOI |
 | Corpus method | curated cards and related-work notes | indexed search protocol, screening record, inclusion/exclusion appendix |
@@ -556,7 +560,7 @@ The current source snapshot contains the following registered identifiers. **Thi
 | Extraction | runtime | `grudeva2025.reduced` |
 | Extraction | calibration | `liang2021.desorption` |
 | Extraction | calibration | `moroney2016.surrogate` |
-| Bed dynamics | synthesis | `brewer2026.coupled_kappa_t` |
+| Bed dynamics | runtime | `brewer2026.coupled_kappa_t` |
 | Bed dynamics | calibration | `fasano2000_partI.fines_migration` |
 | Extraction | runtime | `mo2023_2.coupled_bed` |
 | Bed dynamics | runtime | `mo2023_2.swelling` |
