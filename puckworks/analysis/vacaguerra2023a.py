@@ -19,6 +19,7 @@ from __future__ import annotations
 import math
 
 from puckworks import data as d
+from puckworks.models.wadsworth2026 import permeability as _wads
 
 # --- geometry / properties (card `docs/cards/vacaguerra2023a.md` Parameters) ---
 _BED_DIAMETER_M = 0.059          # basket inner diameter 5.9 cm
@@ -149,3 +150,47 @@ def permeability_darcy(mu_pas=_MU_PUBLISHED_PAS):
              "The post-fit Eq-11 (lambda=7.5) runs ~%.0fx BELOW the as-published-mu Darcy K -- "
              "comparable to the 3-7x viscosity-convention factor above, i.e. Eq-11 is broadly "
              "consistent with a G10-renormalized K, not the mu=3.5 mPa s one." % median_ratio)
+
+
+def wadsworth_cross_eval(mu_pas=_MU_PUBLISHED_PAS):
+    """Cross-evaluate wadsworth2026.permeability (percolation closure) against vacaguerra's
+    MEASURED tamped Darcy K on the shared Table C.1 points -- localizing where wadsworth's
+    UNTAMPED-validated model (phi_p 0.37-0.67) diverges when extrapolated into the tamped regime
+    (the card's Gate-3 discriminating computation).
+
+    Adapter (FLAGGED, not silently assumed): phi_p <- eps0 -- both are the bed void fraction, and
+    vacaguerra's DRY tamped eps0 (0.24-0.36) sits BELOW wadsworth's validated floor 0.37, so this IS
+    the extrapolation being probed; R <- d32/2 -- the Sauter radius, exactly consistent with
+    wadsworth's own specific-surface definition s_p = 3(1-phi_p)/R. Caveats carried: vacaguerra's
+    eps0 is dry (NOT consolidation-corrected) porosity, and wadsworth's global angularity (alpha)
+    is NOT refit to this material. Strength: verification / discrimination -- promotes neither model.
+    """
+    psd = {r["Distribution"]: r for r in d.vacaguerra_psd()}
+    perm = permeability_darcy(mu_pas=mu_pas)
+    pts = []
+    for p in perm["points"]:
+        r_sauter = float(psd[p["distribution"]]["d_32_um"]) * 1e-6 / 2.0
+        k_w = float(_wads.k_percolation(r_sauter, p["eps0"]))
+        pts.append(dict(distribution=p["distribution"], dosage_g=p["dosage_g"], eps0=p["eps0"],
+                        R_sauter_m=r_sauter, k_wadsworth_m2=k_w,
+                        k_vacaguerra_darcy_m2=p["k_darcy_m2"],
+                        wadsworth_over_vacaguerra=round(k_w / p["k_darcy_m2"], 1)))
+    ratios = sorted(x["wadsworth_over_vacaguerra"] for x in pts)
+    median_ratio = ratios[len(ratios) // 2]
+    # divergence vs extrapolation distance: sort by eps0 ascending
+    by_eps = sorted(pts, key=lambda x: x["eps0"])
+    return dict(
+        adapter="phi_p<-eps0 (bed void fraction); R<-d32/2 (Sauter, surface-consistent)",
+        mu_pas=mu_pas,
+        wadsworth_validated_phi_p=[0.37, 0.67], vacaguerra_eps0_range=[0.24, 0.36],
+        ratio_range=[ratios[0], ratios[-1]], median_ratio=median_ratio,
+        tightest_bed=dict(eps0=by_eps[0]["eps0"], ratio=by_eps[0]["wadsworth_over_vacaguerra"]),
+        loosest_bed=dict(eps0=by_eps[-1]["eps0"], ratio=by_eps[-1]["wadsworth_over_vacaguerra"]),
+        points=pts,
+        passed=bool(all(x["wadsworth_over_vacaguerra"] > 1 for x in pts) and median_ratio > 5),
+        finding="wadsworth's untamped-validated percolation K, extrapolated into the tamped regime "
+                "(eps0 below its 0.37 floor), OVERPREDICTS the measured tamped Darcy K at every "
+                "operating point -- by ~%.0f-%.0fx (as-published mu=3.5 mPa s; LARGER under a "
+                "G10-renormalized mu, which lowers vacaguerra's Darcy K). The overprediction grows "
+                "as eps0 drops further below 0.37, localizing the failure of the tamped "
+                "extrapolation. Neither closure is promoted." % (ratios[0], ratios[-1]))

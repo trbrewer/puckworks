@@ -74,3 +74,17 @@ def test_permeability_scales_with_viscosity():
     half = v.permeability_darcy(mu_pas=1.75e-3)["points"]
     for b, h in zip(base, half):
         assert abs(h["k_darcy_m2"] - 0.5 * b["k_darcy_m2"]) < 1e-18
+
+
+def test_wadsworth_cross_eval_overpredicts_tamped_regime():
+    x = v.wadsworth_cross_eval()
+    assert x["passed"] and len(x["points"]) == 9
+    # wadsworth (validated phi_p >= 0.37) overpredicts the tamped measured K at EVERY point
+    assert all(p["wadsworth_over_vacaguerra"] > 1 for p in x["points"])
+    assert x["median_ratio"] > 5
+    # the divergence is worse for the tighter bed (deeper below wadsworth's 0.37 floor)
+    assert x["tightest_bed"]["eps0"] < x["loosest_bed"]["eps0"]
+    assert x["tightest_bed"]["ratio"] > x["loosest_bed"]["ratio"]
+    # a lower (G10-style) viscosity lowers vacaguerra's Darcy K -> the overprediction grows
+    lower_mu = v.wadsworth_cross_eval(mu_pas=1.0e-3)
+    assert lower_mu["median_ratio"] > x["median_ratio"]
