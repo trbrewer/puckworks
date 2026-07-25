@@ -5,11 +5,11 @@
 | stage | runtime | calibration | observational_adapter | diagnostic | total |
 |---|---|---|---|---|---|
 | bed_dynamics | 4 | 1 | 0 | 0 | 5 |
-| extraction | 5 | 3 | 0 | 0 | 8 |
+| extraction | 5 | 4 | 0 | 0 | 9 |
 | flow | 1 | 4 | 0 | 0 | 5 |
-| grind | 0 | 1 | 0 | 0 | 1 |
+| grind | 0 | 2 | 0 | 0 | 2 |
 | infiltration | 1 | 1 | 0 | 0 | 2 |
 | machine | 1 | 1 | 0 | 0 | 2 |
 | packing | 0 | 2 | 0 | 0 | 2 |
-| **Total** | 12 | 13 | 0 | 0 | 25 |
+| **Total** | 12 | 15 | 0 | 0 | 27 |
 

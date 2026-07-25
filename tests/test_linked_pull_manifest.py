@@ -11,7 +11,8 @@ def test_every_registered_component_classified_exactly_once():
     from puckworks import registry
     live = {c.name for c in registry.components()}
     assert set(M.COMPONENT_DISPOSITIONS) == live
-    assert len(M.COMPONENT_DISPOSITIONS) == len(live) == 25
+    # bound to the LIVE registry: the invariant is exactly-once classification, not a frozen total
+    assert len(M.COMPONENT_DISPOSITIONS) == len(live)
 
 
 def test_manifest_id_is_frozen():

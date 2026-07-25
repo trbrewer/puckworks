@@ -48,6 +48,8 @@ the source the forks draw from; nothing is deleted and no analysis code is moved
 | End-to-end named-shot scorecard (PV-19) | PUBLIC_VALUE | **3** | evidentiary accounting demo |
 | External visualizer community corpus — governance/attribution/honest scope (ecological stress test, not validation; PII-stripped; attribution-required) | Paper 3 §6.6 | **3** | data-governance contribution; corpus still harvesting, no counts/results reported |
 | Live observable-contract catch — timeframe-location harvest bug (missing≠zero on ingested data) | Paper 3 §7.4 | **3** | Demonstration 1 addendum; real event (`visualizerCoffee_DATA_USE.md` §8.1, fix commit `09cbb19`) |
+| Two "fast fractions" agree in sign but differ ~5–9× because they are definitionally different quantities (maille φ closure vs cameron fitted split) | Paper 3 §4.5 | **3** | observable-semantics demo; `maille2024.phi_closure::gate_maille_phi_split_vs_cameron`; sign_or_compatibility, validates neither model |
+| A shared bi-exponential form is not a shared physical construct — maille's two-regime split ports to neither cameron2020 nor romancorrochano2017 | Paper 3 §7.5 | **3** | Demonstration of parameter-provenance semantics; `maille2024.two_regime::gate_maille_timescale_portability_{cameron,roman}`; qualitative model-to-model, both curves model-generated |
 | N-tube finite-time flow concentration; floor test; switching convergence | Paper B R3 | **4** | exploratory; deferred |
 | Control-mode (flow vs pressure) & lateral-coupling proxy behaviour | Paper B R3 | **4** | needs a physical lateral operator (CARD-BLOCKED G-lat) |
 | Fine-grind-dip anomaly as a central narrative | Paper B | **4** | demote from B2; future |

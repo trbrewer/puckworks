@@ -9,7 +9,25 @@ White Rose eTheses Online. **Source used here is the REDACTED release**
 6.3–6.5, 6.9–6.12, 6.16–6.17, and most of §6.2.3) is blanked. Every gap noted below is a
 redaction artifact, not an omission by the author.
 **Stage(s):** extraction, grind (the φ closure is a PSD→fast-fraction map) · **Kind:** calibration
-**Status:** data-intaken (tables, 2026-07-25) — 14 thesis tables digitized (Tim drop, incl. the
+**Status:** **REGISTERED (2026-07-25)** — two calibration components, one per stage, matching the
+two roles Interface mapping names: **`maille2024.phi_closure`** (grind, `code_verification`;
+`puckworks/models/maille2024/phi_closure.py`) carrying Eqs 6.7–6.9 and the **PSD-binning adapter**
+this card listed as a dependency, and **`maille2024.two_regime`** (extraction,
+`source_curve_reproduction`; `.../two_regime.py`) carrying Eqs 6.1/6.2 and the λ tables. Seven
+quick gates wired (`gate_maille_e1_shell_depth`, `..._phi_closure_consistency`,
+`..._phi_split_vs_cameron`, `..._two_regime_reproduction`, `..._kinetics_ci_flags`,
+`..._timescale_portability_cameron`, `..._timescale_portability_roman`), each with an adjudicated
+EVIDENCE_LINKS claim — which **closes U10**: the two timescale-semantics claim records are now
+formal claims, the maille registration having been exactly the blocker
+`timescale_semantics_bundle()` recorded. φ_closure is deliberately **NOT** promoted to
+`source_curve_reproduction`: the per-bin PSD is unpublished, so the E1 gate reproduces Table 6.3
+only through the D[4,3] single-diameter approximation. The registration also forced the **ledger
+A11** decision — `GrindState` now carries `fines_threshold_um` / `fines_dispersion_method` /
+`fines_basis` (SCHEMA 0.7), declarations rather than conversions, with
+`assert_fines_fraction_comparable` refusing both a mismatch and an undeclared convention; this
+card's Table 5.2 (~2× fines-fraction disagreement by dispersion method) is the measurement behind
+the new ROADMAP P1 grind-side hazard subtable.
+Previously: data-intaken (tables, 2026-07-25) — 14 thesis tables digitized (Tim drop, incl. the
 unredacted 5.6/5.9) → `puckworks/data/maille2024/` + PROVENANCE + 11 loaders + 10 MANIFEST rows +
 README ref; three discriminating computations landed in `puckworks/analysis/maille2024.py`
 (CI-tested): **the Eq-6.9 shell-depth (E1) is RESOLVED to two cell layers** (two-layer reproduces
@@ -279,8 +297,11 @@ Regime boundaries and silences:
 **Inputs consumed:** `GrindState` — but not as the contract currently expresses it. Eqns 6.8–6.9
 need the **full binned PSD**, twice (liquid dispersion below 186 µm, air dispersion above), not
 the scalars `fines_fraction` / `mean_radius_m` / `boulder_radius_m`. `fines_fraction` is also
-threshold-incompatible: 186 µm here versus 100 µm in smrke2024 and khamitova2020, versus radius
-moments in wadsworth2026_grindmap.
+threshold-incompatible: 186 µm here versus 100 µm in khamitova2020, versus radius
+moments in wadsworth2026_grindmap. (Correction, 2026-07-25: this card originally also read
+smrke2024 as a 100 µm cut. Checked against its own card, smrke2024 uses **two** — a <120 µm *sieve*
+for its spiked fines and a 100 µm PSD *quantile* in its regressions — so it is recorded as
+UNDECLARED in `contracts.FINES_CONVENTIONS` rather than rounded to one number.)
 
 **Outputs produced:** none of `ShotResultState`. The model emits normalized per-species C_t/C_∞;
 `EY_pct` and `tds_pct` are unreachable because there is no solute inventory and no total-solids
@@ -480,8 +501,11 @@ registry-side construction `[RS]`, not a reproduction, and must be labelled as s
    physical-process shape at sub-Maille fine-class timescales. Both halves **qualitative**
    (model-generated curves; not a validation of any model).
 
-**Dependencies:** a PSD-binning adapter; a decision on `GrindState.fines_fraction` threshold
-semantics (blocks gate 1); and, for anything beyond calibration use, a `SoluteInventory` contract
-that does not yet exist.
+**Dependencies — ALL RESOLVED (2026-07-25, with the registration):** the PSD-binning adapter landed
+as `phi_closure.phi_from_binned_psd` / `grind_state_from_psd`; the `GrindState.fines_fraction`
+threshold-semantics decision landed as ledger **A11** (declare the threshold, dispersion method and
+basis; refuse to merge across conventions — no adapter invented); and `SoluteInventory` landed
+earlier as ledger A4 (SCHEMA 0.6). Note A11 does **not** make this model's φ portable — it makes the
+incompatibility *explicit*, which is the point.
 
 VERDICT: calibration-provider — the best early-time (<30 s) per-species extraction dataset in the registry and a parameter-free PSD→fast-fraction closure that cameron2020's fitted two-population split currently lacks, but it is a bed-free, flow-free, coarse-grind batch model whose λ are per-material curve fits and which cannot produce EY or TDS — effort M

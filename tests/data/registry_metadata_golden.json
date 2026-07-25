@@ -71,6 +71,18 @@
     "provenance_class": "published_port",
     "stage": "extraction"
   },
+  "maille2024.phi_closure": {
+    "evidence_strength": "code_verification",
+    "execution_role": "calibration",
+    "provenance_class": "published_port",
+    "stage": "grind"
+  },
+  "maille2024.two_regime": {
+    "evidence_strength": "source_curve_reproduction",
+    "execution_role": "calibration",
+    "provenance_class": "published_port",
+    "stage": "extraction"
+  },
   "mo2023_2.coupled_bed": {
     "evidence_strength": "post_fit_reconstruction",
     "execution_role": "runtime",

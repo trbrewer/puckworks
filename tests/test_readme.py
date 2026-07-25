@@ -18,7 +18,11 @@ TEXT = README.read_text(encoding="utf-8")
 
 # A documented maximum. The physics-first landing page carries the full stage-by-stage model map,
 # the dataset inventory, and the references section inline, so the cap is larger than a bare hero page.
-README_MAX_BYTES = 50_000  # grows with the dataset-card bibliography (references-coverage is enforced)
+# Grows with the dataset-card bibliography (references-coverage is enforced) AND with the model map,
+# which readme_governance requires to cover EVERY registered component — so each registration
+# necessarily adds a row. Raised 50_000 -> 52_000 on the 2026-07-25 maille2024 registration, which
+# left zero headroom. Still a "keep it focused" guard: tighten prose before raising it again.
+README_MAX_BYTES = 52_000
 
 
 def test_readme_exists_and_bounded():

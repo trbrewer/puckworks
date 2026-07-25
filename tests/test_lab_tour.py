@@ -37,8 +37,10 @@ def public_tour():
 def test_manifest_covers_every_component_exactly_once():
     assert T.verify_tour_manifest() == []
     plans = T.tour_manifest()
-    assert set(plans) == {c.name for c in puckworks.components()}
-    assert len(plans) == len(set(plans)) == 25
+    registered = {c.name for c in puckworks.components()}
+    assert set(plans) == registered
+    # bound to the LIVE registry: the invariant is exactly-once coverage, not a frozen total
+    assert len(plans) == len(set(plans)) == len(registered)
 
 
 def test_all_native_runners_and_the_common_adapter_are_represented():
@@ -84,14 +86,18 @@ def test_bad_context_and_bad_manifest_are_rejected():
 
 # ── execution (shared module tours) ──────────────────────────────────────────────────
 @pytest.mark.slow
-def test_full_tour_resolves_25_and_executes_23_local(local_tour):
+def test_full_tour_resolves_every_component_and_executes_all_but_two_local(local_tour):
     s = local_tour.summary
-    assert s["registered"] == 25 and s["completed"] == 23   # 1 common + 4 native + 18 checks
-    assert s["by_kind"] == {"COMMON_SCENARIO": 1, "NATIVE_REFERENCE": 4, "SCIENTIFIC_CHECK": 18,
+    registered = {c.name for c in puckworks.components()}
+    # the two non-executing routes are the standing exceptions: grudeva (rights-blocked, #73) and
+    # lb_taichi (optional taichi dependency). Everything else must execute.
+    assert s["registered"] == len(registered) and s["completed"] == len(registered) - 2
+    # the ROUTE SPLIT stays literal -- it is the reviewable frozen-manifest decision, not a total
+    assert s["by_kind"] == {"COMMON_SCENARIO": 1, "NATIVE_REFERENCE": 4, "SCIENTIFIC_CHECK": 20,
                             "OPTIONAL_DEPENDENCY": 1, "RIGHTS_BLOCKED": 1, "NO_EXECUTION_PATH": 0}
     assert s["rights_blocked"] == 1 and s["optional_unavailable"] == 1
     ids = [c.component_id for c in local_tour.components]
-    assert set(ids) == {c.name for c in puckworks.components()} and len(ids) == 25   # one per component
+    assert set(ids) == registered and len(ids) == len(registered)   # one per component
 
 
 @pytest.mark.slow
@@ -100,7 +106,7 @@ def test_common_native_and_check_counted_by_distinct_kinds(local_tour):
     for c in local_tour.components:
         if c.execution_status == "EXECUTED":
             by[c.execution_kind] = by.get(c.execution_kind, 0) + 1
-    assert by == {"COMMON_SCENARIO": 1, "NATIVE_REFERENCE": 4, "SCIENTIFIC_CHECK": 18}
+    assert by == {"COMMON_SCENARIO": 1, "NATIVE_REFERENCE": 4, "SCIENTIFIC_CHECK": 20}
 
 
 @pytest.mark.slow

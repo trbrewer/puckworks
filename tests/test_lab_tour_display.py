@@ -89,7 +89,8 @@ def test_synthetic_coverage_is_exactly_once():
 def test_real_tour_shows_every_registered_component_once():
     from puckworks.product import lab, lab_tour
     t = lab_tour.execute_laboratory_tour(lab.ScenarioRequest("pv19_named"), execution_context="LOCAL_PRIVATE")
-    D.assert_every_component_shown_once(t)                      # all 25, each once
+    import puckworks
+    D.assert_every_component_shown_once(t)                      # all registered, each once
     shown = [card["technical"]["component_id"]
              for _, cards in D.tour_display_sections(t) for card in cards if "technical" in card]
-    assert len(shown) == 25 == len(set(shown))
+    assert len(shown) == len(puckworks.components()) == len(set(shown))

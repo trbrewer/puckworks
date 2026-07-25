@@ -17,6 +17,10 @@ EXPECTED_FAST_AUTHORITATIVE_EXECUTIONS = frozenset({
     "brewer2026.coupled_kappa_t", "mo2023_2.swelling", "fasano2000_partI.fines_migration",
     "brewer2026.streamtube", "pannusch2024.closures", "romancorrochano2017.extraction",
     "moroney2016.surrogate", "mo2023_2.coupled_bed", "liang2021.desorption",
+    # maille2024 (registered 2026-07-25): both are DIAGNOSTIC_ONLY read-outs -- they run their own
+    # native checks and hand NOTHING forward, so they add to the executed set but NOT to the
+    # cross-component handoff count (see EXPECTED_FAST_HANDOFF_COUNT, unchanged at 10).
+    "maille2024.phi_closure", "maille2024.two_regime",
 })
 EXPECTED_FAST_NOT_SELECTED = frozenset({
     "pannusch2024.solver", "brewer2026.lb_reference", "brewer2026.lb_taichi",
@@ -25,7 +29,7 @@ EXPECTED_FAST_REFERENCE_ONLY = frozenset({
     "sourcing2026.g3_pump_characteristic", "sourcing2026.g1_glassbead_analog", "lee2023.feedback",
 })
 EXPECTED_FAST_RIGHTS_BLOCKED = frozenset({"grudeva2025.reduced"})
-EXPECTED_FAST_EXECUTED_COUNT = 18
+EXPECTED_FAST_EXECUTED_COUNT = 20
 EXPECTED_FAST_HANDOFF_COUNT = 10
 
 

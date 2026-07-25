@@ -118,7 +118,7 @@ def test_telisromero_loader_and_anchors():
 
 def test_a4_solute_inventory_contract():
     from puckworks import contracts, inventory
-    assert contracts.SCHEMA_VERSION == "0.6"      # A4 additive bump
+    assert contracts.SCHEMA_VERSION == "0.7"      # A4 landed at 0.6; 0.7 = A11 (both additive)
     si = inventory.bruno_solute_inventory("Nicaragua")
     assert isinstance(si, contracts.SoluteInventory)
     # linkable species present; content positive; NOT c_s0 (extractable unknown)

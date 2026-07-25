@@ -83,6 +83,10 @@ _TOUR_V1_ROUTES: dict[str, TourExecutionKind] = {
     "foster2025.machine_mode": _K.SCIENTIFIC_CHECK,
     "lee2023.feedback": _K.SCIENTIFIC_CHECK,
     "liang2021.desorption": _K.SCIENTIFIC_CHECK,
+    # maille2024: batch reactor, no bed/pressure/flow and no EY/TDS output, so neither a common
+    # scenario nor a native shot case -- its own gates are the only honest demonstration.
+    "maille2024.phi_closure": _K.SCIENTIFIC_CHECK,
+    "maille2024.two_regime": _K.SCIENTIFIC_CHECK,
     "mo2023_2.coupled_bed": _K.SCIENTIFIC_CHECK,
     "mo2023_2.swelling": _K.SCIENTIFIC_CHECK,
     "moroney2016.surrogate": _K.SCIENTIFIC_CHECK,

@@ -118,6 +118,8 @@ Which registered component each campaign would advance (generated; do not hand-e
 | `grudeva2025.reduced` | runtime | post_fit_reconstruction (2 gates) | — | — (no current campaign) | — |
 | `lee2023.feedback` | calibration | qualitative_capacity (1 gates) | — | — (no current campaign) | — |
 | `liang2021.desorption` | calibration | post_fit_reconstruction (2 gates) | — | — (no current campaign) | — |
+| `maille2024.phi_closure` | calibration | code_verification (3 gates) | — | — (no current campaign) | — |
+| `maille2024.two_regime` | calibration | source_curve_reproduction (4 gates) | — | — (no current campaign) | — |
 | `mo2023_2.coupled_bed` | runtime | post_fit_reconstruction (1 gates) | gate_streamtube_heldout | `EXP-007` | `mo2023_2.coupled_bed#0` |
 | `mo2023_2.swelling` | runtime | source_curve_reproduction (4 gates) | gate_kappa_t_degeneracy, gate_mo2_swelling_flow_decay | `EXP-005` | — |
 | `moroney2016.surrogate` | calibration | qualitative_capacity (4 gates) | — | — (no current campaign) | — |

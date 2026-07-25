@@ -4,7 +4,7 @@
 
 The claims the `--strict --scope paper3` release gate is fail-closed on (claim_owner=paper3, paper3_use in primary_claim, method_demonstration). Each exposes source cards, exact dataset ids, dataset status, fit/eval role, independence, the caveat, and what is NOT supported.
 
-**23 asserted Paper-3 claim(s).**
+**30 asserted Paper-3 claim(s).**
 
 ## `brewer2026.coupled_kappa_t::gate_kappa_t_composition_diagnostic`
 - **claim:** Adding the parameter-free mo2023_2 swelling branch behaves as the framework predicts: the composite porosity closes below eps0 and the 9-bar Q(t) residual jumps from ~0.12 to ~0.65 g/s (worse than the flat null ~0.603), diagnosing that mo2023_2's fixed-dP fresh-grain swelling is mis-scaled for an already-swollen saturated pre-wet rig.
@@ -173,6 +173,104 @@ The claims the `--strict --scope paper3` release gate is fail-closed on (claim_o
     - `liang2021` — resolved_manifest — role=fit, independence=fit_input
 - **caveat:** The kernel uses K*E_max=0.215 fitted from Liang's Fig 3 plus card constants, evaluated on the same-rig different-figure measured Fig 4 oven branch; E_max=0.30 is assumed; the K*E_max<cameron piece is a cross-source sign/compatibility bound between two model-derived ceilings, not a reality measurement.
 - **claim NOT supported:** The ceiling comparison does not establish either ceiling against data and is not a conflict resolution; nothing here validates espresso/flow extraction (Liang is immersion-only).
+
+## `maille2024.phi_closure::gate_maille_e1_shell_depth`
+- **claim:** The shell depth in the source's Eq 6.9 is TWO coffee-cell layers, not the one layer the equation as printed removes: recomputing theta_v,coarse at the hybrid D[4,3] reproduces the published Table 6.3 to mean |err| 0.018 at two layers against 0.207 at one, so the registry adopts the two-layer convention.
+- **observable:** Mean absolute error in theta_v,coarse (dimensionless volume fraction) against the source's published Table 6.3, at one- vs two-cell-layer shell depth, across 17 materials.
+- **tier / relationship:** code_verification / code_verification
+- **paper3_use / support:** method_demonstration / admissible
+- **reality_facing:** False
+- **fit datasets:** (none)
+- **eval datasets:** maille2024/phi
+- **sources:**
+    - `maille2024` — resolved_manifest — role=eval, independence=not_applicable — Table 6.3 -- the source's own published phi closure, the adjudication target.
+    - `maille2024` — resolved_manifest — role=reference, independence=not_applicable — Table 5.4 D[4,3] and sub-186um fraction: the inputs the shell kernel is evaluated at.
+- **caveat:** NOT a reproduction of the source's own computation: the per-bin PSD arrays (v_i,liquid / v_i,air) are UNPUBLISHED, so Eqs 6.8-6.9 cannot be run end-to-end from the thesis. This evaluates the shell kernel ONCE at the hybrid D[4,3] -- a single-diameter approximation. It resolves which of two readings of a printed equation matches the published table; it says nothing about whether either reading is physically right.
+- **claim NOT supported:** Does NOT validate the phi closure against any measurement of fast-extracting fraction, and does NOT establish that d_c = 45 um (an assumed value inside the SEM range 20-60 um) is correct -- a different d_c would move the adopted depth.
+
+## `maille2024.phi_closure::gate_maille_phi_closure_consistency`
+- **claim:** The transcribed phi closure is internally consistent: Eq 6.7 (phi = theta_v,fines + theta_v,coarse) holds exactly at all 17 materials, and Table 6.3's theta_v,fines matches Table 5.4's independently transcribed sub-186 um volume fraction to a mean absolute difference of 0.003.
+- **observable:** Count of Eq-6.7 violations, and mean/max absolute difference between theta_v,fines (Table 6.3) and the measured volume fraction below 186 um (Table 5.4), both dimensionless.
+- **tier / relationship:** code_verification / code_verification
+- **paper3_use / support:** method_demonstration / admissible
+- **reality_facing:** False
+- **fit datasets:** (none)
+- **eval datasets:** maille2024/phi;maille2024/psd_hybrid
+- **sources:**
+    - `maille2024` — resolved_manifest — role=eval, independence=not_applicable — Table 6.3: theta_v_fines, theta_v_coarse, phi.
+    - `maille2024` — resolved_manifest — role=eval, independence=not_applicable — Table 5.4: the independently transcribed sub-186um fraction the cross-check runs against.
+- **caveat:** A TRANSCRIPTION and internal-arithmetic check on two independently digitized tables from the same thesis -- it gates the DATA, not the physics. Two tables agreeing inside one source is not corroboration by an independent source.
+- **claim NOT supported:** Does NOT test whether the closure predicts any measured fast-extracting fraction, and cannot detect an error the source made consistently in both tables.
+
+## `maille2024.phi_closure::gate_maille_phi_split_vs_cameron`
+- **claim:** maille's PSD-predicted fast fraction and cameron2020's FITTED fines-population fraction agree in SIGN (both fall as the grind coarsens across the four EK43 settings) but differ in magnitude by ~5-9x, because the two 'fast fractions' are definitionally different quantities -- maille counts fines below 186 um PLUS a two-cell shell on every coarse particle, cameron only its 12 um fines class.
+- **observable:** maille phi computed from cameron's measured binned Fig-2 PSD vs cameron's fitted PHI_S1/(PHI_S1+PHI_S2) fines fraction of solid, per grind setting (both dimensionless), plus their ratio and monotonicity in grind.
+- **tier / relationship:** sign_or_compatibility / not_empirical
+- **paper3_use / support:** method_demonstration / admissible
+- **reality_facing:** False
+- **fit datasets:** (none)
+- **eval datasets:** (none)
+- **sources:**
+    - `cameron2020` — resolved_manifest — role=reference, independence=not_applicable — The measured binned EK43 PSD (Fig 2), digitized -- the input maille's closure is applied to. NOTE cameron's own model uses a two-size-class idealisation, not this distribution.
+    - `maille2024` — resolved_manifest — role=reference, independence=not_applicable — maille's own phi range (0.356-0.648) -- the extrapolation reference.
+- **caveat:** A NEGATIVE / DIAGNOSTIC gate, and a model-to-model comparison with no measurement of fast fraction on either side: cameron's number is FITTED, maille's is a closure evaluated outside its tested range (phi reaches 0.85-0.94 on cameron's espresso-fine PSD against maille's own measured 0.356-0.648, and the shell fraction is strongly size-dependent, so this probes the closure exactly where it is least supported). Passing means the registry has SURFACED the disagreement, not resolved it.
+- **claim NOT supported:** Does NOT validate either model, does NOT license substituting maille's phi for cameron's fitted split (that would be the ~5-9x error this gate quantifies), and the sign agreement is NOT evidence that the two quantities measure the same thing.
+
+## `maille2024.two_regime::gate_maille_kinetics_ci_flags`
+- **claim:** Exactly two of the source's published 95% confidence intervals are internally impossible -- Omega_T/3-CQA lambda_fast (upper bound 11.9 s below its own 12.2 s estimate) and Omega_L/quinic lambda_slow (bounds 65 and 54 s around a 44 s estimate) -- and both stay flagged as UNUSABLE rather than repaired.
+- **observable:** The set of (material, compound, regime) rows whose published 95% CI does not bracket its own point estimate, across all 33 transcribed kinetics rows.
+- **tier / relationship:** code_verification / code_verification
+- **paper3_use / support:** method_demonstration / admissible
+- **reality_facing:** False
+- **fit datasets:** (none)
+- **eval datasets:** maille2024/kinetics_caffeine_3cqa;maille2024/kinetics_organic_acids
+- **sources:**
+    - `maille2024` — resolved_manifest — role=eval, independence=not_applicable — Tables 6.4/6.5 as transcribed, including their published CI columns.
+- **caveat:** An ERRATA REPORT gate pinned to an exact expected set, so it fails in BOTH directions: a drop would mean a transcription 'fix' silently corrected the source (forbidden -- errata are flagged, never repaired), a rise would mean a new transcription error. Only the CIs are unusable; the point estimates remain usable, and the source's stated reason for over-narrow bands generally (PSD error is not propagated into the fixed phi) is a separate, wider caveat.
+- **claim NOT supported:** Does NOT assess whether any OTHER published CI is trustworthy -- bracketing its own estimate is a minimum consistency condition, not evidence the interval is correctly calibrated. The author states all bands are too narrow.
+
+## `maille2024.two_regime::gate_maille_timescale_portability_cameron`
+- **claim:** Under the declared 400 s run-to-exhaustion, tau=0 fitting protocol, no cameron2020 grinder setting reproduces maille's pooled fast-timescale band (2.2-19.1 s); three of the four curves are additionally single-exponential-like (a second exponential buys ~0 R2 and the mixture weight wanders across multistart), while the coarsest returns two separated constants and is left to formal model selection -- so maille's two-regime decomposition does not port to cameron's flowing bed under this mapping.
+- **observable:** Fitted lambda_fast/lambda_slow (s) and mixture weight from Eq 6.2 against cameron's model-generated cumulative cup fraction m_cup(t)/m_cup(inf), per EK43 setting, with one- vs two-exponential R2 and the multistart weight span.
+- **tier / relationship:** qualitative_capacity / not_empirical
+- **paper3_use / support:** method_demonstration / admissible
+- **reality_facing:** False
+- **fit datasets:** (none)
+- **eval datasets:** (none)
+- **sources:**
+    - `maille2024` — resolved_manifest — role=reference, independence=not_applicable — Tables 6.4/6.5 supply the 2.2-19.1 s / 13-158 s bands the fit is tested against. These are maille's EMPIRICAL RANGE, not a physical law.
+    - `cameron2020` — not_applicable_synthetic — role=reference, independence=not_applicable — The fit target is cameron2020.extraction_bdf's own MODEL-GENERATED curve -- no measured dataset is involved on the cameron side.
+- **caveat:** QUALITATIVE model-to-model probe of a MAPPING, never a validation of either model, under three standing caveats: cameron has NO well-mixed configuration (it is a percolation bed, so the fit target is its cup curve, not a batch concentration); it is run to ~400 s, far past its validated ~30 s recipe, purely to expose lambda_slow; and it lumps one solute where maille resolves five. Identifiability is assessed by multistart plus a one-vs-two-exponential R2 comparison, NOT a full profile-likelihood or information-criterion treatment.
+- **claim NOT supported:** Does NOT show cameron has only one physical extraction mechanism, does NOT establish non-portability under every fit protocol (the horizon, normalization and tau=0 choices are declared and load-bearing), and no out-of-sample transfer of a donor timescale was attempted.
+
+## `maille2024.two_regime::gate_maille_timescale_portability_roman`
+- **claim:** Under the declared fine-class stirred-vessel protocol, romancorrochano2017's single-species well-mixed release fits Eq 6.2 to a UNIVERSAL dimensionless shape -- weight ~0.32 and slow/fast ratio ~12.3 invariant across the seven grinds -- while the ABSOLUTE constants scale with the diffusion time R^2/D_eff and vary ~1.9x; that shape is the early/late-time signature of ONE physical diffusion process, not maille's material-varying two-POOL split, and at the selected 20 um fine class both constants sit below maille's bands.
+- **observable:** Fitted Eq-6.2 weight, lambda_fast/lambda_slow (s) and their ratio against the stirred-vessel fractional-release curve, per grind, with two- vs one-exponential R2 and band membership.
+- **tier / relationship:** qualitative_capacity / not_empirical
+- **paper3_use / support:** method_demonstration / admissible
+- **reality_facing:** False
+- **fit datasets:** (none)
+- **eval datasets:** (none)
+- **sources:**
+    - `maille2024` — resolved_manifest — role=reference, independence=not_applicable — Tables 6.4/6.5 supply maille's observed 2.2-19.1 s / 13-158 s bands.
+    - `romancorrochano2017_extraction` — not_applicable_synthetic — role=reference, independence=not_applicable — Roman's raw experimental curves were NEVER published, so the fit target is its Crank-verified stirred_vessel solver's model-generated curve.
+- **caveat:** QUALITATIVE and model-generated on both sides. The conclusion is SEMANTIC -- a shared bi-exponential form is not a shared physical construct -- not a universal numeric theorem. Only the DIMENSIONLESS SHAPE is grind-invariant; the absolute constants are not. The result covers ONLY the selected 20 um fine class with one lumped medium-MW species: Roman's coarse-class d[4,3] is not published in-repo and was deliberately NOT fabricated, and a larger radius would raise tau ~ R^2 and could enter maille's bands. The exact weight/ratio pair also drifts with the fit window and bath dilution, so it is protocol-specific rather than intrinsic.
+- **claim NOT supported:** Does NOT validate against Roman's experimental time curves (none exist publicly), does NOT support any absolute-timescale conclusion for the untested coarse class, and does NOT claim the spherical-diffusion solution is a single mathematical mode -- it is many eigenmodes of one physical process.
+
+## `maille2024.two_regime::gate_maille_two_regime_reproduction`
+- **claim:** Our Eq-6.2 implementation, driven entirely by the source's own tabulated parameters (phi from Table 6.3, lambda_fast/lambda_slow from Tables 6.4/6.5, tau at the card's visual-inspection values), reproduces the digitized Omega_A extraction curves for all five compounds to a worst-case MAPE of about the model's own reported mean percent error (4-10%).
+- **observable:** Per-analyte mean absolute percentage error between the tabulated two-regime model and the digitized Figs 4.6-4.10 normalized concentration curves C_t/C_inf (dimensionless) for material Omega_A.
+- **tier / relationship:** source_curve_reproduction / post_fit_same_data
+- **paper3_use / support:** method_demonstration / admissible
+- **reality_facing:** True
+- **fit datasets:** maille2024/kinetics_caffeine_3cqa;maille2024/kinetics_organic_acids;maille2024/phi
+- **eval datasets:** maille2024/extraction_curves
+- **sources:**
+    - `maille2024` — resolved_manifest — role=eval, independence=same_data_as_fit — Figs 4.6-4.10 digitized -- the SAME curves the source fitted its lambdas to.
+    - `maille2024` — resolved_manifest — role=fit, independence=fit_input — Tables 6.4/6.5: the source's fitted lambda_fast/lambda_slow, taken as given.
+    - `maille2024` — resolved_manifest — role=fit, independence=fit_input — Table 6.3 phi -- fixed a priori by the closure, not regressed.
+- **caveat:** POST-FIT ON THE SAME DATA and not an independent re-fit: every parameter comes from the source and the target curves are the source's own figures, so this certifies that our implementation and the digitization agree with the published fit -- nothing more. tau is not tabulated anywhere in the thesis; the card's visual-inspection values are used as such. Single material (Omega_A), single origin, batch reactor, drip-coarse grind.
+- **claim NOT supported:** Does NOT show the two-regime model predicts anything out of sample, does NOT validate the lambdas as material properties (they are per-material, per-compound curve fits), and says nothing about espresso, where the model's dilute/K=1 assumption fails.
 
 ## `mo2023_2.coupled_bed::gate_mo2_coupled_bed_fig8`
 - **claim:** The depth-resolved coupled through-flow bed reproduces mo2023_2's type-M fixed-flow yield-vs-beverage-mass (Fig 8, M_c<30 g) within the digitized replicate error bars at 5/9 points and with tighter shape-spread than the reduced lumped bed, while staying mass-conserving.

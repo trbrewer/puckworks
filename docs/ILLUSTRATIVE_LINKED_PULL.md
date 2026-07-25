@@ -80,7 +80,7 @@ inventory. Each is a serialized `AssumptionRecord` with a `validation_needed` fi
 
 ## v1 component dispositions (all 25, exactly once)
 
-The fast reference run **authoritatively executes 18 components with 10 serialized cross-component
+The fast reference run **authoritatively executes 20 components with 10 serialized cross-component
 hand-offs** (2 direct, 6 documented adapters, 2 illustrative assumptions) and 9 named assumptions. These
 counts are derived from the audited reference result and frozen in
 `tests/test_linked_pull_execution_accounting.py` so they cannot drift.

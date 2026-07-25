@@ -71,6 +71,12 @@ COMPONENT_DISPOSITIONS: dict = {d.component_id: d for d in (
     # grind
     _d("wadsworth2026.grindmap", "grind", _K.ILLUSTRATIVE_ASSUMPTION, _X.EXECUTED_WITH_ASSUMPTIONS,
        _R.ADAPTED_SCENARIO, "Assumption-labelled physical-size bridge from Cameron's boulder radius."),
+    _d("maille2024.phi_closure", "grind", _K.DIAGNOSTIC_ONLY, _X.EXECUTED,
+       _R.NATIVE_REFERENCE,
+       "Grind-side read-out only: predicts a fast-extracting fraction from a particle size "
+       "distribution, but hands NOTHING forward -- its fast fraction is not the same quantity as "
+       "the baseline model's fitted split (~5-9x apart), so passing it on would be the exact "
+       "observable-semantics error its own gate exists to surface."),
     # packing
     _d("wadsworth2026.permeability", "packing", _K.DOCUMENTED_ADAPTER, _X.EXECUTED_WITH_ASSUMPTIONS,
        _R.ADAPTED_SCENARIO, "Primary permeability prior from the matched physical radius."),
@@ -119,6 +125,11 @@ COMPONENT_DISPOSITIONS: dict = {d.component_id: d for d in (
        _R.ADAPTED_SCENARIO, "Secondary linked multi-solute extraction branch."),
     _d("pannusch2024.closures", "multisolute", _K.REFERENCE_CONSTRAINT, _X.EXECUTED,
        _R.NATIVE_REFERENCE, "Property and transport closures for the multi-solute branch."),
+    _d("maille2024.two_regime", "multisolute", _K.DIAGNOSTIC_ONLY, _X.EXECUTED,
+       _R.NATIVE_REFERENCE,
+       "Early-time per-compound release clock from a stirred BATCH vessel -- no bed, no pressure, "
+       "no flow, and no yield or strength output at all. A read-out for context on how differently "
+       "individual compounds come out; nothing is handed to the shot chain."),
     # other lenses
     _d("romancorrochano2017.extraction", "other_lenses", _K.ALTERNATIVE_BRANCH, _X.EXECUTED,
        _R.ADAPTED_SCENARIO, "Molecular-size diffusion-clock lens (normalized release)."),

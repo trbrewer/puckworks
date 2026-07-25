@@ -345,6 +345,70 @@ register(Component(
     notes="closed form under recorded P(t); pump/headspace model = backlog"))
 
 
+# --- maille2024 (2026-07-25): TWO calibration components, one per stage, matching the two roles
+# the card's Interface mapping names. Never runtime: no bed, no pressure, no flow to couple
+# through, and the dilute/K=1 assumption is violated in espresso (card "Kind justification"). ---
+register(Component(
+    name="maille2024.phi_closure", stage="grind", kind="calibration",
+    paper="Maille, M.J. 'Measuring Coffee Extraction Kinetics at Early Time Scales.' "
+          "PhD thesis, University of Sheffield (2024)", doi="",
+    module="puckworks.models.maille2024.phi_closure",
+    gates=[G.gate_maille_e1_shell_depth, G.gate_maille_phi_closure_consistency,
+           G.gate_maille_phi_split_vs_cameron],
+    assumptions="phi = theta_v,fines + theta_v,coarse (Eqs 6.7-6.9) predicted A PRIORI from a "
+                "measured binned PSD, NOT fitted; spherical particles (contradicted by the "
+                "source's own 1.02-1.85 aspect ratios); d_c = 45 um ASSUMED (SEM range 20-60); "
+                "E1 RESOLVED to a TWO-cell-layer shell (the printed one-layer Eq 6.9 is a typo; "
+                "two layers ~DOUBLE phi and reproduce the published Table 6.3)",
+    valid_range="INSTRUMENT-SPECIFIC: Malvern 100-bin scale, bin 75 ~ 186 um cut, liquid/air "
+                "hybrid splice. phi from any other PSD representation is a DIFFERENT quantity. "
+                "Source phi 0.356-0.648 over D[4,3] 537-1540 um (drip-coarse) -- cameron's "
+                "espresso PSDs give 0.85-0.94, an EXTRAPOLATION. Per-bin PSD arrays are "
+                "UNPUBLISHED, so Eqs 6.8-6.9 cannot be run end-to-end from the source; the E1 "
+                "gate uses the D[4,3] single-diameter approximation",
+    notes="the parameter-free closure cameron2020.extraction_bdf's FITTED two-population split "
+          "lacks -- but the two 'fast fractions' are NOT commensurable (~5-9x apart: maille "
+          "counts fines<186um PLUS coarse-particle shells, cameron only its 12 um fines class), "
+          "gated as an observable-semantics disagreement, not a validation. Supplies the A11 "
+          "fines_fraction convention (186 um / hybrid / volume) and the PSD-binning adapter "
+          "`grind_state_from_psd`; Table 5.2 is the P1 hazard measurement (same material, ~2x "
+          "fines fraction by dispersion method)"))
+
+register(Component(
+    name="maille2024.two_regime", stage="extraction", kind="calibration",
+    paper="Maille, M.J. 'Measuring Coffee Extraction Kinetics at Early Time Scales.' "
+          "PhD thesis, University of Sheffield (2024)", doi="",
+    module="puckworks.models.maille2024.two_regime",
+    gates=[G.gate_maille_two_regime_reproduction, G.gate_maille_kinetics_ci_flags,
+           G.gate_maille_timescale_portability_cameron,
+           G.gate_maille_timescale_portability_roman],
+    assumptions="two first-order regimes weighted by a FIXED phi (Eqs 6.1/6.2), so only "
+                "lambda_fast/lambda_slow are regressed -- per material AND per compound (~79 "
+                "independent 2-parameter fits, correlation of estimates 0.40-0.60, so the pair "
+                "is not independently identified); instantaneous hydration (A2 -- the card's "
+                "corrected Eq-6.3 estimate is ~3.2 s, the SAME order as the tau the model adds "
+                "separately, so tau may be hydration in disguise); dilute bulk, K=1 (A3 -- "
+                "explicitly NOT valid for espresso); no re-adsorption and NO solute inventory "
+                "(A4 -- C_inf is MEASURED at 600 s, never predicted); constant averaged D_eff "
+                "(A5), which is what licenses the sharp split and absorbs all treatment effects "
+                "into lambda_slow. tau is NOT tabulated anywhere: the card's visual-inspection "
+                "values (~4 s caffeine, ~3 s 3-CQA, 0 for the acids) are used AS SUCH, never fitted",
+    valid_range="stirred atmospheric BATCH reactor at 91.5 C, 0.028 g/mL, single Colombian lot, "
+                "two roasts, five species, 5-600 s with the first ~4 s unobserved. NO bed, NO "
+                "pressure, NO flow, NO permeability, NO EY, NO TDS -- it cannot yield a yield, "
+                "and ShotResultState is unreachable. Grind is DRIP-COARSE (D[4,3] 537-1540 um); "
+                "any use at espresso grind is EXTRAPOLATION. lambda are per-material curve fits, "
+                "not material properties -- they transfer nowhere on their own",
+    notes="the best early-time (<30 s) per-species kinetics in the registry (12+ points below "
+          "30 s where prior work had one or two) and the empirical analogue of moroney2016's "
+          "derived t_s/t_d. Gate 4 (BOTH halves, qualitative) finds the decomposition ports to "
+          "NEITHER cameron2020 (flowing bed; no fitted lambda_fast in the 2.2-19.1 s band, 3 of "
+          "4 settings single-exponential-like) NOR romancorrochano2017 (genuine well-mixed; one "
+          "physical diffusion process's universal SHAPE, sub-maille fine-class timescales) -- a "
+          "SEMANTIC result: a shared bi-exponential form is not a shared physical construct. "
+          "E5 errata (two internally-impossible 95% CIs) carried as flags, never repaired"))
+
+
 # --- G1/G3/G10 reference-strength sourcing (2026-07-12); all calibration,
 # reference/qualitative -- NONE closes its gap at independent strength ---
 register(Component(
@@ -430,6 +494,15 @@ _EVIDENCE_STRENGTH = {
     "mo2023_2.swelling": "source_curve_reproduction",
     "romancorrochano2017.extraction": "sign_or_compatibility",
     "lee2023.feedback": "qualitative_capacity",
+    # maille2024 — both at the WEAKEST defensible tier. phi_closure is NOT source_curve_reproduction:
+    # the per-bin PSD arrays are unpublished, so Eqs 6.8-6.9 cannot be run end-to-end from the source
+    # and the E1 gate reproduces Table 6.3 only through a D[4,3] single-diameter APPROXIMATION —
+    # that is verification of our implementation + the source's internal consistency, not a
+    # reproduction of the source's own computation. two_regime DOES reach source_curve_reproduction:
+    # the tabulated phi/lambda reproduce the digitized Omega_A figure curves to ~the model's own MPE.
+    # Neither is post-fit reconstruction: we never refit the source's parameters.
+    "maille2024.phi_closure": "code_verification",
+    "maille2024.two_regime": "source_curve_reproduction",
     "wadsworth2026.inertial": "source_curve_reproduction",
     "wadsworth2026.grindmap": "source_curve_reproduction",
     "waszkiewicz2025.poroelastic": "post_fit_reconstruction",
@@ -464,6 +537,8 @@ _PROVENANCE_CLASS = {
     "grudeva2025.reduced": "published_port",
     "lee2023.feedback": "published_port",
     "liang2021.desorption": "published_port",
+    "maille2024.phi_closure": "published_port",
+    "maille2024.two_regime": "published_port",
     "mo2023_2.coupled_bed": "published_port",
     "mo2023_2.swelling": "published_port",
     "moroney2016.surrogate": "published_port",

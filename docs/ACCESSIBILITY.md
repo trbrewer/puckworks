@@ -117,7 +117,7 @@ those carry their own, weaker guarantees.
 - The advanced GPU/LB notebook (`../notebooks/espresso_lb_colab.ipynb`) is retained for specialists
   and is unchanged.
 
-The notebook default is the **Full Laboratory Tour**, which resolves all 25 registered components and runs
+The notebook default is the **Full Laboratory Tour**, which resolves all 27 registered components and runs
 the 23 that are available (one common-scenario run of the recipe, four native reference cases, eighteen
 registered scientific checks), with a pre-run coverage preview and results organized into plain-language
 sections (Overview · Your reference shot · the espresso-stage sections · Calibration and evidence checks ·
