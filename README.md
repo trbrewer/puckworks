@@ -396,6 +396,7 @@ bibliographic field is invented.
 35. Moroney, K.; Lee, W.; O'Brien, S.; Suijver, F.; Marra, J. "Modelling of coffee extraction during brewing using multiscale methods: an experimentally validated model." *Chemical Engineering Science* 137 (2015): 216–234. [https://doi.org/10.1016/j.ces.2015.06.003](https://doi.org/10.1016/j.ces.2015.06.003). Related cards: [moroney2015](docs/cards/moroney2015.md).
 36. Vaca Guerra, M.; Harshe, Y. M.; Fries, L.; Rothberg, S.; Palzer, S.; Heinrich, S. "Influence of particle size distribution on espresso extraction via packed bed compression." *Journal of Food Engineering* 340 (2023): 111301. [https://doi.org/10.1016/j.jfoodeng.2022.111301](https://doi.org/10.1016/j.jfoodeng.2022.111301). Related cards: [vacaguerra2023a](docs/cards/vacaguerra2023a.md).
 37. Maille, M. J. "Measuring Coffee Extraction Kinetics at Early Time Scales." PhD thesis, University of Sheffield, 2024. No DOI is recorded in the model card (White Rose eTheses Online). Related cards: [maille2024](docs/cards/maille2024.md).
+38. Gloess, A. N.; Schönbächler, B.; Klopprogge, B.; D'Ambrosio, L.; Chatelain, K.; Bongartz, A.; Strittmatter, A.; Rast, M.; Yeretzian, C. "Comparison of nine common coffee extraction methods: instrumental and sensory analysis." *European Food Research and Technology* 236 (2013): 607–627. [https://doi.org/10.1007/s00217-013-1917-x](https://doi.org/10.1007/s00217-013-1917-x). Related cards: [gloess2013](docs/cards/gloess2013.md).
 
 ### Puckworks synthesis and sourcing notes
 

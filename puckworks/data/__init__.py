@@ -918,6 +918,24 @@ def _maille(prefix):
     return _typed_rows(matches[0])
 
 
+# --- gloess2013 (nine-method comparison; ONLY the DE espresso endpoint is in scope) ---
+GLOESS = DATA_DIR / "gloess2013"
+
+
+def gloess_de_espresso():
+    """gloess2013 Dalla Corte espresso endpoint (16.01 g -> 60 ml, 9 bar, 92 C, 28.7 s).
+
+    One row per measured quantity. CHECK THE `extraction_method` COLUMN before using a value:
+    `text_table` rows are exact with published uncertainty; `figure_read` rows are APPROXIMATE
+    figure reads with no uncertainty -- and that includes the headline TDS (~5.5 %) and EY (~20 %).
+    The ESM tables that would make them exact were not retrieved (see PROVENANCE.md).
+
+    Only the DE condition is transcribed; the paper's eight other methods are out of espresso scope.
+    Values are per 10 ml or per double shot as given by the `basis` column -- they are NOT
+    interchangeable."""
+    return _typed_rows(GLOESS / "de_espresso_endpoint.csv")
+
+
 def maille_materials():
     """maille2024 Table 5.1: material legend -- Sample ID (Omega_A..) -> roast degree, sieve class um."""
     return _maille("Table 5.1")
