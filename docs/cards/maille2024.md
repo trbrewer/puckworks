@@ -24,11 +24,14 @@ headline **φ-split-vs-Cameron** gate — maille's φ closure on Cameron's binne
 fraction **decrease as grind coarsens (sign agreement)**, but they differ ~5–9× because maille's
 "fast" (fines < 186 µm + coarse-particle shells) and Cameron's "fast" (the 12 µm fines class) are
 **not commensurable** — a registry-surfaced observable-semantics disagreement, not a validation of
-either. **Nothing further owed on the card**; the optional cameron half of **gate 4** (cross-model
-timescale portability) has since landed as a **qualitative** non-portability probe
-(`cross_model_timescale_cameron()`): maille's two-regime split collapses to a single ~30 s timescale
-on cameron's flowing curve, with no distinct maille-fast component — the Roman-Corrochano
-stirred-vessel half stays rights-deferred (product #100). See gate 4 below.
+either. **Nothing further owed on the card**; **gate 4** (cross-model timescale portability) has since landed
+in full as a **qualitative** non-portability probe — **both** halves. `cross_model_timescale_cameron()`:
+maille's two-regime split collapses to a single ~30 s timescale on cameron's flowing curve, no
+maille-fast component. `cross_model_timescale_roman()`: on Roman's genuine well-mixed stirred vessel
+the fit is a universal single-mode Crank shape (φ ≈ 0.32, ratio ≈ 12.3), not maille's two-*pool*
+split, at sub-maille fine-class timescales. Maille's decomposition ports to **neither**. (The roman
+half is a research computation; the product #100 rights deferral gates only the public Laboratory
+product lens, not internal validation.) See gate 4 below.
 
 ## Scope and mechanism
 Time-resolved extraction kinetics of five identified solutes — caffeine, chlorogenic acid
@@ -434,21 +437,35 @@ registry-side construction `[RS]`, not a reproduction, and must be labelled as s
 3. **θ_v,fines consistency gate (cheap, executable today).** Table 6.3's θ_v,fines should equal
    Table 5.4's volume-fraction-below-186 µm column. Spot checks agree (ΩA 0.025 vs 0.02; ΩG 0.148
    vs 0.15; ΩU 0.154 vs 0.15). Run it across all 17 rows as a transcription check.
-4. **Cross-model timescale gate — cameron HALF LANDED (qualitative); Roman-Corrochano half
-   rights-deferred.** Fit Eqn 6.2 to an independent rig's extraction curve and check whether λ_fast
-   lands in 2.2–19.1 s and λ_slow in 13–158 s; a miss indicates the two-regime decomposition is not
-   portable off Maille's rig. `analysis.maille2024.cross_model_timescale_cameron()` runs the
-   cameron2020 side and finds a **miss**: fitting Eqn 6.2 to cameron's simulated extraction curve,
-   the split **collapses** — fitted λ_fast ≈ 23–32 s (above the 19.1 s ceiling) in all four EK43
-   grinds and ≈ λ_slow for the three finer grinds, so cameron is single-timescale (~28–32 s, inside
-   the broad slow band) with **no distinct maille-fast component**. The decomposition does **not**
-   port to cameron's flowing rig. **Qualitative only**, with three standing caveats baked into the
-   function: cameron has **no well-mixed configuration** (it is a flowing percolation bed, so the
-   fit target is its cup curve, not a well-mixed curve); it is run to solute **exhaustion (~400 s),
-   past its validated ~30 s recipe**, to expose λ_slow; and it lumps one solute species (one
-   (λ_fast, λ_slow) pair, τ = 0) where Maille resolves five. Not a validation of either model. The
-   **Roman-Corrochano stirred-vessel half** (a genuine well-mixed curve) stays **deferred pending
-   the rights review (product #100)**.
+4. **Cross-model timescale gate — BOTH halves LANDED (qualitative); both a "miss".** Fit Eqn 6.2 to
+   an independent rig's extraction curve and check whether λ_fast lands in 2.2–19.1 s and λ_slow in
+   13–158 s; a miss indicates the two-regime decomposition is not portable off Maille's rig.
+   - **cameron half** (`analysis.maille2024.cross_model_timescale_cameron()`): fitting Eqn 6.2 to
+     cameron's simulated extraction curve, the split **collapses** — fitted λ_fast ≈ 23–32 s (above
+     the 19.1 s ceiling) in all four EK43 grinds and ≈ λ_slow for the three finer grinds, so cameron
+     is single-timescale (~28–32 s, inside the broad slow band) with **no distinct maille-fast
+     component**. Three caveats: cameron has **no well-mixed configuration** (flowing percolation
+     bed, so the fit target is its cup curve); it is run to **exhaustion (~400 s), past its ~30 s
+     recipe**, to expose λ_slow; and it lumps one solute (one (λ_fast, λ_slow) pair, τ = 0) where
+     Maille resolves five.
+   - **Roman-Corrochano half** (`cross_model_timescale_roman()`) — the **genuine well-mixed**
+     (stirred-vessel) config cameron lacked. **Not rights-blocked for this research use:**
+     romancorrochano2017.extraction is the same `published_port`/`NOT_REVIEWED` class as cameron2020
+     (which this module already runs); the product #100 deferral gates only the **public Laboratory
+     product lens**, not internal validation. Roman's raw curves were never published, so the curve
+     is model-generated by its Crank-verified `stirred_vessel` solver (single lumped medium-MW
+     species, fine size class R ≈ 20 µm). Finding is two-fold: **(a)** the fit is a **universal Crank
+     shape** — grind-independent φ ≈ 0.32, λ_slow/λ_fast ≈ 12.3 — the intrinsic short/long-time
+     signature of **one diffusion mode**, two-regime-*shaped* (R² ≈ 0.999 vs ≈ 0.95 for one
+     exponential) but **not** Maille's material-varying two-*pool* (fines + coarse-shell) construct;
+     **(b)** at Roman's card-stated fine class the timescales are **sub-second — ~2 orders below
+     Maille's bands** (Roman's coarse class d[4,3] is not published in-repo and is **not
+     fabricated**). Same word "two-regime", different construct — echoes the φ-split semantics gap.
+
+   **Verdict:** Maille's two-regime decomposition ports to **neither** rig — cameron's flowing bed is
+   effectively single-timescale, and Roman's well-mixed diffusion yields only the universal
+   single-mode Crank signature at sub-Maille timescales. Both halves **qualitative**; not a
+   validation of any model.
 
 **Dependencies:** a PSD-binning adapter; a decision on `GrindState.fines_fraction` threshold
 semantics (blocks gate 1); and, for anything beyond calibration use, a `SoluteInventory` contract

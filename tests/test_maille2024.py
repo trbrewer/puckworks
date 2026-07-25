@@ -95,8 +95,8 @@ def test_phi_split_vs_cameron_semantics():
 
 def test_cross_model_timescale_cameron_two_regime_does_not_port():
     g = m.cross_model_timescale_cameron()
-    # cameron-only half; roman-corrochano half stays rights-deferred
-    assert g["roman_corrochano_half"].startswith("deferred")
+    # cameron half; the roman-corrochano half is a sibling research computation (not rights-blocked)
+    assert "cross_model_timescale_roman" in g["roman_corrochano_half"]
     assert len(g["per_grind"]) == 4
     # the gate's finding: NO grind reproduces maille's fast timescale (lambda_fast > 19.1 s)
     assert g["passed"] and g["no_maille_fast_component"]
@@ -105,3 +105,20 @@ def test_cross_model_timescale_cameron_two_regime_does_not_port():
         assert not row["fast_in_maille_band"]          # fitted lambda_fast is above maille's fast band
         assert row["lambda_fast_s"] > 19.1
         assert row["r2"] > 0.98                         # a single-timescale form fits cameron well
+
+
+def test_cross_model_timescale_roman_two_regime_does_not_port():
+    g = m.cross_model_timescale_roman()
+    assert len(g["per_grind"]) == 7                     # Blend-1 grinds PsiA..PsiH
+    assert g["passed"] and not g["two_regime_ports_to_roman"]
+    # the Crank shape is scale-invariant: grind-independent phi and slow/fast ratio
+    assert g["shape_is_scale_invariant"]
+    assert abs(g["universal_ratio_slow_over_fast"] - 12.3) < 0.5
+    assert abs(g["universal_phi"] - 0.32) < 0.03
+    # two-regime-shaped (better than a single exponential) but from ONE diffusion mode
+    assert g["two_regime_shaped_not_single_exp"]
+    # fine-class miss: no grind lands EITHER timescale in maille's bands
+    assert g["none_in_maille_bands_fine_class"]
+    for row in g["per_grind"]:
+        assert not row["fast_in_maille_band"] and not row["slow_in_maille_band"]
+        assert row["r2_two"] > row["r2_one"]
