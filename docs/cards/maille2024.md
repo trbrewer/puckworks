@@ -16,9 +16,15 @@ README ref; three discriminating computations landed in `puckworks/analysis/mail
 Table 6.3 θ_v,coarse to mean |err| 0.018 vs 0.207 one-layer, D[4,3] approximation), the **φ closure
 is internally consistent** (φ = fines + coarse exactly; θ_v,fines tracks the Table-5.4 <186 µm
 fraction to 0.003), and the **two E5 impossible-CI rows are flagged** (ΩT/3-CQA, ΩL/quinic).
-**Still owed:** the **φ-split-vs-Cameron** discriminating gate (blocked — needs Cameron's measured
-*binned* EK43 PSD, which the registry lacks; it holds only a two-size-class idealisation), and the
-time-resolved extraction **figures** (Figs 4.6–4.10, ~60 events — a separate digitization in progress).
+The extraction **figures** (Figs 4.6–4.10, material ΩA) and **Cameron's Fig-2 PSD** were then
+digitized (Tim drop) — unblocking the last two computations: the **two-regime Eq-6.2 reproduction**
+(tabulated φ/λ reproduce the digitized ΩA curves to MAPE 4–10%, ≈ the model's own MPE) and the
+headline **φ-split-vs-Cameron** gate — maille's φ closure on Cameron's binned PSD gives φ ≈ 0.85–0.94
+(an extrapolation above maille's own 0.36–0.65) and **both** maille's φ and Cameron's fitted fines
+fraction **decrease as grind coarsens (sign agreement)**, but they differ ~5–9× because maille's
+"fast" (fines < 186 µm + coarse-particle shells) and Cameron's "fast" (the 12 µm fines class) are
+**not commensurable** — a registry-surfaced observable-semantics disagreement, not a validation of
+either. **Nothing further owed on the card.**
 
 ## Scope and mechanism
 Time-resolved extraction kinetics of five identified solutes — caffeine, chlorogenic acid

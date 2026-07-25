@@ -55,3 +55,39 @@ def test_kinetics_flags_catch_the_two_impossible_cis():
     hits = {(f["sample"], f["compound"], f["regime"]) for f in k["flagged"]}
     assert ("Omega_T", "3-CQA", "lambda_fast") in hits      # upper CI 11.9 < est 12.2
     assert ("Omega_L", "Quinic", "lambda_slow") in hits     # CI [65,54] does not bracket 44
+
+
+# ── extraction figures + phi-split-vs-Cameron (Figs 4.6-4.10 + Cameron Fig 2 drop) ──
+def test_extraction_curves_load_all_five_analytes():
+    rows = d.maille_extraction_curves()
+    analytes = {r["analyte"] for r in rows}
+    assert analytes == {"Caffeine", "3-CQA", "Citric acid", "Malic acid", "Quinic acid"}
+    assert len(rows) > 250                                   # ~99+60+56+48+56 digitized points
+    for r in rows:
+        assert 0.0 <= r["C_over_Cinf"] <= 1.2 and r["time_s"] > 0
+
+
+def test_two_regime_reproduces_omega_a_curves():
+    r = m.two_regime_reproduction()
+    assert r["passed"] and r["worst_mape_pct"] < 15.0       # tabulated params ~ the reported MPE
+    for an in ("Caffeine", "3-CQA", "Citric acid", "Malic acid", "Quinic acid"):
+        assert r["per_analyte"][an]["mape_pct"] < 15.0
+
+
+def test_cameron_psd_loads_four_grinds():
+    rows = d.cameron2020_psd()
+    assert len(rows) > 400
+    cols = [c for c in rows[0] if c.startswith("volume_percent_Gs_")]
+    assert set(cols) == {"volume_percent_Gs_1.0", "volume_percent_Gs_1.5",
+                         "volume_percent_Gs_2.0", "volume_percent_Gs_2.5"}
+
+
+def test_phi_split_vs_cameron_semantics():
+    p = m.phi_split_vs_cameron()
+    assert p["passed"] and not p["commensurable"]
+    # both fast-fractions decrease as grind coarsens (sign agreement)
+    assert p["both_decrease_with_coarser_grind"]
+    # maille phi on Cameron's espresso PSD is an EXTRAPOLATION above maille's own coarse-grind range
+    assert min(p["maille_phi_on_cameron_range"]) > max(p["maille_own_phi_range"])
+    # magnitudes differ several-fold (definitional gap), everywhere > 1
+    assert min(p["ratio_range"]) > 3.0
