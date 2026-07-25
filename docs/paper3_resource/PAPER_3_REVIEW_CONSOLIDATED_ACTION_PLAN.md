@@ -66,9 +66,9 @@ are done; the *added-rigor* asks (U6, U8, U9, U10, U13) are P1 and tracked below
 | **MC13** | Strengthen quantitative/statistical reporting; reconcile RMSE 0.573 vs 0.603 | P1 | ⏭ overlaps U6. |
 | **MC14** | Reconsider external community-corpus / governance | P1 | ❓ move/remove/document — Tim decision. |
 | **MC15** | Make curated-corpus method reproducible | P1 | ⏭ method + denominators. |
-| **MC16** | Scope & limits of typed contracts (per-layer defect table) | P1 | ⏭ overlaps U9. |
-| **MC17** | Generate & rename named-shot scorecard; define `Fo_F` | P1 | ⏭ overlaps MC12; note our house rule bans bare "Fo". |
-| **MC18** | Temper cross-domain generalization | P1 | ⏭ localized §12.4 edit. |
+| **MC16** | Scope & limits of typed contracts (per-layer defect table) | P1 | ✅ MC16/17/18 PR: new §4.1 Table 2 (per-layer catches + residual risk; permeability window = coarse sanity check). |
+| **MC17** | Generate & rename named-shot scorecard; define `Fo_F` | P1 | ◑ `Fo_F` **defined** (§4.4, diagnostic not correction; no bare Fo); scorecard already calls it an *illustrative configuration* (§11.1). Generating Table 6/Fig 4 from one record still open (MC12). |
+| **MC18** | Temper cross-domain generalization | P1 | ✅ §13.4 reframed as a proposed pattern demonstrated in espresso (hypothesis), not empirical generalization. |
 
 ---
 
