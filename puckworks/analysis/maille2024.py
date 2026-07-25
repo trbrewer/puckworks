@@ -16,6 +16,10 @@ fits). The time-resolved extraction figures (Figs 4.6-4.10) are a separate digit
 5. phi_split_vs_cameron()       -- the card's headline gate (now UNBLOCKED by Cameron's digitized
    Fig-2 PSD): maille's phi closure on Cameron's binned PSD vs Cameron's fitted fines fraction --
    sign-agreeing but NOT commensurable (a definitional observable-semantics gap).
+6. cross_model_timescale_cameron() -- the cameron-only HALF of gate 4: fit Eq 6.2 to cameron's
+   simulated extraction curve and check maille's lambda bands. The two-regime split collapses
+   (single ~30 s timescale, no maille-fast component) -- non-portable. QUALITATIVE (cameron has no
+   well-mixed config; run past its recipe to plateau). The Roman-Corrochano half is rights-deferred.
 """
 from __future__ import annotations
 
@@ -219,3 +223,84 @@ def phi_split_vs_cameron():
                 "coarsens (sign agreement). Magnitudes differ ~5-9x, but this is DEFINITIONAL (maille "
                 "fast = fines<186um + coarse shells; Cameron fast = 12um fines class). NOT commensurable "
                 "-- a registry-surfaced observable-semantics disagreement, not a validation of either.")
+
+
+# maille's observed two-regime timescale bands across all materials/species (card gate 4, from
+# Tables 6.4/6.5): lambda_fast in 2.2-19.1 s, lambda_slow in 13-158 s.
+_MAILLE_LAM_FAST_RANGE = (2.2, 19.1)
+_MAILLE_LAM_SLOW_RANGE = (13.0, 158.0)
+_CAMERON_EXHAUST_S = 400.0   # run cameron to solute exhaustion so the curve plateaus (lambda_slow
+                             # up to 158 s cannot be identified over the paper's ~30 s recipe window)
+
+
+def cross_model_timescale_cameron():
+    """Cameron-only HALF of the card's gate 4 (cross-model timescale portability).
+
+    The card asks whether maille's two-regime decomposition (Eq 6.2) ports off maille's stirred
+    batch: fit Eq 6.2 to an independent rig's extraction curve and check whether lambda_fast lands
+    in maille's 2.2-19.1 s band and lambda_slow in 13-158 s. The Roman-Corrochano stirred-vessel
+    HALF is rights-deferred (product #100), so only the cameron2020 side runs here.
+
+    THREE STANDING CAVEATS make this a QUALITATIVE probe, never a validation:
+      (1) cameron2020 has NO well-mixed configuration -- it is intrinsically a flowing percolation
+          bed (advection term q in the liquid balance). The card's literal 'well-mixed cameron
+          configuration' does not exist; what is fit here is cameron's simulated cumulative
+          extraction curve m_cup(t)/m_cup(inf).
+      (2) to expose lambda_slow up to maille's 158 s, cameron is run to solute exhaustion
+          (~400 s) -- FAR beyond its validated ~30 s espresso recipe: an extrapolation of the
+          cameron model itself.
+      (3) cameron lumps all solute into one species (one C_SAT, one D_S); maille resolves five.
+          So cameron yields ONE (lambda_fast, lambda_slow) pair per grind, not per species, and
+          tau is fixed to 0 (cameron models no hydration lag).
+
+    FINDING: across all four EK43 grinds the two-regime fit COLLAPSES -- fitted lambda_fast lands
+    at ~23-32 s (ABOVE maille's fast ceiling of 19.1 s) and, for the three finer grinds,
+    lambda_fast ~= lambda_slow, so the fast/slow split is unidentifiable and phi is degenerate.
+    Cameron's curve is essentially single-timescale (~28-32 s, which happens to sit inside maille's
+    broad SLOW band); it has NO distinct maille-fast component. i.e. maille's two-regime
+    decomposition does NOT port to cameron's flowing rig -- exactly the 'miss' the card anticipated.
+    Strength: qualitative."""
+    import numpy as np
+    from scipy.optimize import curve_fit
+    from puckworks.models.cameron2020.extraction_bdf import GS_GRID, simulate_shot
+
+    def _f(t, phi, lam_fast, lam_slow):    # Eq 6.2 with tau = 0
+        return phi * (1.0 - np.exp(-t / lam_fast)) + (1.0 - phi) * (1.0 - np.exp(-t / lam_slow))
+
+    fast_lo, fast_hi = _MAILLE_LAM_FAST_RANGE
+    slow_lo, slow_hi = _MAILLE_LAM_SLOW_RANGE
+    per = []
+    for gs in GS_GRID:
+        r = simulate_shot(float(gs), t_shot=_CAMERON_EXHAUST_S, n_save=300)
+        t = np.asarray(r.t, float)
+        y = np.asarray(r.m_cup, float) / float(r.m_cup[-1])
+        mask = t > 0.0
+        p, _ = curve_fit(_f, t[mask], y[mask], p0=[0.5, 5.0, 40.0],
+                         bounds=([0.0, 0.1, 1.0], [1.0, 200.0, 2000.0]), maxfev=20000)
+        phi, lf, ls = (float(v) for v in p)
+        yhat = _f(t[mask], phi, lf, ls)
+        ss_res = float(np.sum((y[mask] - yhat) ** 2))
+        ss_tot = float(np.sum((y[mask] - y[mask].mean()) ** 2))
+        r2 = 1.0 - ss_res / ss_tot
+        # degenerate (single-timescale) when the two fitted constants nearly coincide
+        degenerate = abs(lf - ls) / max(ls, 1e-9) < 0.5
+        per.append(dict(gs=float(gs), phi=round(phi, 3), lambda_fast_s=round(lf, 2),
+                        lambda_slow_s=round(ls, 2), r2=round(r2, 4),
+                        fast_in_maille_band=bool(fast_lo <= lf <= fast_hi),
+                        slow_in_maille_band=bool(slow_lo <= ls <= slow_hi),
+                        single_timescale=degenerate))
+    # the robust, deterministic non-portability signal: NO grind reproduces maille's fast timescale
+    no_fast_component = all(not row["fast_in_maille_band"] for row in per)
+    return dict(
+        per_grind=per, roman_corrochano_half="deferred (rights review, product #100)",
+        no_maille_fast_component=no_fast_component,
+        two_regime_ports_to_cameron=bool(not no_fast_component),
+        passed=bool(no_fast_component),
+        finding="Fitting maille's Eq-6.2 to cameron's run-to-exhaustion (~400 s) extraction curve, "
+                "the two-regime split COLLAPSES: fitted lambda_fast ~23-32 s lands ABOVE maille's "
+                "fast band (2.2-19.1 s) in ALL four grinds and coincides with lambda_slow for the "
+                "three finer grinds (phi degenerate). Cameron is single-timescale (~28-32 s, inside "
+                "maille's broad slow band) with NO distinct fast component -- maille's two-regime "
+                "decomposition does not port to cameron's flowing rig. QUALITATIVE: cameron has no "
+                "well-mixed config and is pushed past its validated ~30 s recipe to plateau; NOT a "
+                "validation of either model. Roman-Corrochano stirred-vessel half remains rights-deferred.")
