@@ -143,3 +143,48 @@ def test_cross_model_timescale_roman_two_regime_does_not_port():
     for row in g["per_grind"]:
         assert not row["fast_in_maille_band"] and not row["slow_in_maille_band"]
         assert row["r2_two"] > row["r2_one"]
+
+
+def test_cameron_multistart_identifiability_U6():
+    # U6: when the two constants coincide the mixture weight is non-identifiable -> multistart phi
+    # wanders. The finest grinds (gs 1.0/1.5) must be flagged non-identifiable; gs 2.5 (separated
+    # constants) must NOT be.
+    g = m.cross_model_timescale_cameron()
+    by_gs = {r["gs"]: r for r in g["per_grind"]}
+    assert by_gs[1.0]["non_identifiable"] and by_gs[1.5]["non_identifiable"]
+    assert by_gs[1.0]["phi_multistart_span"] > 0.5     # phi spans a wide range (arbitrary weight)
+    assert not by_gs[2.5]["non_identifiable"]
+    assert by_gs[2.5]["phi_multistart_span"] < 0.1     # separated constants pin phi
+    assert g["n_settings_non_identifiable"] >= 2
+
+
+def test_portability_vector_U9():
+    dims = {"observable_identity", "mechanism_identity", "population_identity",
+            "estimation_identity", "numerical_compatibility", "predictive_transfer"}
+    cam = m.cross_model_timescale_cameron()
+    rom = m.cross_model_timescale_roman()
+    assert set(cam["portability_vector"]) == dims
+    assert set(rom["portability_vector"]) == dims
+    assert cam["portability_verdict"] == "non_portability_under_declared_mapping"
+    assert rom["portability_verdict"] == "semantic_non_equivalence_under_tested_mapping"
+
+
+def test_roman_protocol_sensitivity_U8():
+    s = m.roman_protocol_sensitivity()
+    assert len(s["vs_fit_window"]) == 6 and len(s["vs_pore_to_bath"]) == 6
+    ratios = [r["ratio_slow_over_fast"] for r in s["vs_fit_window"]]
+    # the exact ratio is protocol-dependent (drifts across the fit window)
+    assert max(ratios) - min(ratios) > 1.0
+    assert s["ratio_drifts_with_protocol"]
+
+
+def test_timescale_semantics_bundle_U10():
+    import json
+    b = m.timescale_semantics_bundle()
+    ids = {c["claim_id"] for c in b["claims"]}
+    assert ids == {"paper3.timescale_semantics.cameron", "paper3.timescale_semantics.roman_corrochano"}
+    for c in b["claims"]:
+        assert c["evidence_relation"] == "model_to_model_qualitative"
+        assert c["limitations"] and c["not_supported"]        # caveats are mandatory
+        assert "portability_vector" in c
+    assert json.dumps(b)                                       # must be JSON-serializable

@@ -28,6 +28,12 @@ fits). The time-resolved extraction figures (Figs 4.6-4.10) are a separate digit
    PROCESS, NOT maille's material-varying two-POOL split; the SELECTED 20um fine-class timescales sit
    below maille's bands (coarse class not evaluated). Non-portable (semantic). QUALITATIVE. (Research
    computation; the #100 rights deferral gates only the public Laboratory product lens.)
+8. roman_protocol_sensitivity()    -- U8 rigor: the roman shape is grind-invariant, but the exact
+   weight/ratio pair drifts with the fit window and bath dilution -> protocol-specific, not intrinsic.
+9. timescale_semantics_bundle()    -- U10: producer-bound, machine-readable claim records for the two
+   timescale probes (NOT an EVIDENCE_LINKS claim; that needs the maille registration decision).
+   The cameron/roman producers also now carry a U9 `portability_vector` (portability as a vector, not
+   a Boolean) and cameron a U6 multistart `phi_multistart_span`/`non_identifiable` identifiability flag.
 """
 from __future__ import annotations
 
@@ -306,10 +312,27 @@ def cross_model_timescale_cameron():
         # a SETTING-SPECIFIC collapse signal: the two constants coincide (tight) AND a second
         # exponential buys essentially no R2 -- i.e. the bi-exponential is non-identifiable here.
         constants_coincide = abs(lf - ls) / max(ls, 1e-9) < 0.1
+        # U6: identifiability via MULTISTART. Fit the bi-exponential from a deterministic grid of
+        # starting weights; when the two constants coincide the mixture weight phi is arbitrary, so
+        # near-optimal fits span a wide phi range (non-identifiable) while a genuinely two-scale curve
+        # pins phi. Report the phi span rather than trusting a single fit's R2.
+        phi_starts = []
+        for w0 in (0.15, 0.35, 0.5, 0.65, 0.85):
+            try:
+                pm, _ = curve_fit(_f, t[mask], y[mask], p0=[w0, 3.0, 60.0],
+                                  bounds=([0.0, 0.1, 1.0], [1.0, 200.0, 2000.0]), maxfev=20000)
+                wm, am, bm = (float(v) for v in pm)
+                phi_starts.append(wm if am <= bm else 1.0 - wm)
+            except Exception:
+                pass
+        phi_span = (max(phi_starts) - min(phi_starts)) if phi_starts else 0.0
+        # non-identifiable when the two-exp gains ~0 R2 over one-exp AND phi wanders across multistart
+        non_identifiable = bool(constants_coincide and (r2_two - r2_one) < 1e-3 and phi_span > 0.3)
         single_exp_like = bool(constants_coincide and (r2_two - r2_one) < 1e-3)
         per.append(dict(gs=float(gs), phi=round(phi, 3), lambda_fast_s=round(lf, 2),
                         lambda_slow_s=round(ls, 2), r2_two=round(r2_two, 5), r2_one=round(r2_one, 5),
                         two_exp_r2_gain=round(r2_two - r2_one, 5),
+                        phi_multistart_span=round(phi_span, 3), non_identifiable=non_identifiable,
                         fast_in_maille_band=bool(fast_lo <= lf <= fast_hi),
                         slow_in_maille_band=bool(slow_lo <= ls <= slow_hi),
                         single_exp_like=single_exp_like,
@@ -317,13 +340,30 @@ def cross_model_timescale_cameron():
     # the robust, deterministic non-portability signal: NO grind reproduces maille's fast timescale
     no_fast_component = all(not row["fast_in_maille_band"] for row in per)
     n_single_exp_like = sum(1 for row in per if row["single_exp_like"])
+    n_non_identifiable = sum(1 for row in per if row["non_identifiable"])
+    # U9: portability is a VECTOR, not a Boolean.
+    portability_vector = {
+        "observable_identity": "differ (maille = measured multi-analyte batch concentration; cameron "
+                               "= model-generated flowing-bed cumulative cup fraction, run to ~400 s)",
+        "mechanism_identity": "differ (maille = geometric two-POOL split; cameron = aggregate "
+                              "flowing-bed response: advection + dissolution + intragrain diffusion)",
+        "population_identity": "differ (maille = 5 analytes; cameron = 1 lumped solute, one C_SAT/D_S)",
+        "estimation_identity": "differ (tau fixed 0; 400 s run-to-exhaustion extrapolation past the "
+                               "~30 s recipe; endpoint normalization)",
+        "numerical_compatibility": "no_fast_band_match (no fitted lambda_fast in maille's 2.2-19.1 s "
+                                   "band in any grind; 3 of 4 settings single-exponential-like)",
+        "predictive_transfer": "not_tested",
+    }
     return dict(
         per_grind=per,
         roman_corrochano_half="landed as a research computation -- cross_model_timescale_roman(); "
                               "the #100 rights deferral is product-lane (public Laboratory lens) only",
         no_maille_fast_component=no_fast_component,
         n_settings_single_exp_like=n_single_exp_like,
+        n_settings_non_identifiable=n_non_identifiable,
         coarsest_needs_model_selection=bool(per[-1]["needs_model_selection"]),
+        portability_vector=portability_vector,
+        portability_verdict="non_portability_under_declared_mapping",
         two_regime_ports_to_cameron=bool(not no_fast_component),
         passed=bool(no_fast_component),
         finding="Fitting maille's Eq-6.2 to cameron's model-generated run-to-exhaustion (~400 s) "
@@ -437,6 +477,22 @@ def cross_model_timescale_roman():
     # form is not a shared physical construct -- the shape is one diffusion process's short/long-time
     # signature, invariant across grinds, and the fine-class bands miss maille's.
     ports_to_roman = not (shape_universal and two_regime_beats_one and none_in_maille_bands)
+    # U9: portability is a VECTOR, not a Boolean -- a fitted timescale can fail to port for several
+    # independent reasons, and numerical-range overlap alone would not prove semantic portability.
+    portability_vector = {
+        "observable_identity": "differ (maille = measured multi-analyte batch concentration; roman = "
+                               "model-generated single-species stirred-vessel fractional release)",
+        "mechanism_identity": "differ (maille = geometric two-POOL fines+coarse-shell split; roman = "
+                              "ONE physical diffusion process, early/late-time signature)",
+        "population_identity": "differ (maille = 5 analytes over fines+coarse pools; roman = 1 lumped "
+                               "medium-MW species, fine class R~20um only, coarse class not evaluated)",
+        "estimation_identity": "differ (tau fixed 0; roman window = 20 diffusion times, finite-bath "
+                               "normalization -- protocol-specific, see roman_protocol_sensitivity())",
+        "numerical_compatibility": "fine_class_miss (both fitted timescales below maille's bands at "
+                                   "R~20um; a larger coarse radius could overlap but was not evaluated)",
+        "predictive_transfer": "not_tested (no out-of-sample transfer of a donor timescale attempted)",
+    }
+    portability_verdict = "semantic_non_equivalence_under_tested_mapping"
     return dict(
         per_grind=per, config="well-mixed stirred vessel (genuine config); MODEL-GENERATED (Crank-"
                               "verified solver, no raw roman curves published); single lumped medium-"
@@ -451,6 +507,8 @@ def cross_model_timescale_roman():
         absolute_timescales_are_grind_independent=bool(absolute_grind_independent),   # False (U2)
         two_regime_shaped_not_single_exp=bool(two_regime_beats_one),
         none_in_maille_bands_fine_class=bool(none_in_maille_bands),
+        portability_vector=portability_vector,
+        portability_verdict=portability_verdict,
         two_regime_ports_to_roman=bool(ports_to_roman),
         passed=bool(not ports_to_roman),
         finding="Roman's single-species WELL-MIXED (model-generated stirred-vessel) diffusion curve "
@@ -467,3 +525,119 @@ def cross_model_timescale_roman():
                 "so this is a fine-class-specific, not universal-numeric, result). The defensible "
                 "conclusion is SEMANTIC: a shared bi-exponential form is not a shared physical "
                 "construct. QUALITATIVE (model-generated curve, single lumped species, fine class).")
+
+
+def roman_protocol_sensitivity(grind="PsiA"):
+    """U8: the roman 'universal' shape (weight ~0.32, ratio ~12.3) is real ACROSS GRINDS at fixed
+    dimensionless settings, but the exact numeric pair is NOT a protocol-independent constant. Vary
+    the fit window and the pore-to-bath dilution (R = 20 um fine class, medium-MW Deff) and report
+    how the fitted weight/ratio drift -- so the manuscript can describe the pair as protocol-specific
+    rather than intrinsic. Reproduces the review's U8 sensitivity tables from the registered solver."""
+    import numpy as np
+    from scipy.optimize import curve_fit
+    from puckworks.models.romancorrochano2017 import extraction as rc
+
+    def _f(t, phi, lf, ls):
+        return phi * (1.0 - np.exp(-t / lf)) + (1.0 - phi) * (1.0 - np.exp(-t / ls))
+
+    R, T = _ROMAN_R_FINE_M, _ROMAN_T_DEGC
+    K = rc.K_of_T(T)
+    deff = rc.deff_of(grind, "med", T)
+    tau = R ** 2 / (math.pi ** 2 * deff)
+
+    def _fit(pore_to_bath, window_taus):
+        t_eval = np.linspace(0.0, window_taus * tau, 500)
+        t, frac = rc.stirred_vessel(deff, R, K, pore_to_bath=pore_to_bath, t_eval=t_eval)
+        y = np.asarray(frac, float) / float(frac[-1])
+        m = t > 0.0
+        p, _ = curve_fit(_f, t[m], y[m], p0=[0.5, 0.3 * tau, 2.0 * tau],
+                         bounds=([0.0, 1e-4, 1e-3], [1.0, 100.0 * tau, 1000.0 * tau]), maxfev=40000)
+        phi, a, b = (float(v) for v in p)
+        lf, ls = (a, b) if a <= b else (b, a)
+        return dict(phi=round(phi, 3), lambda_fast_s=round(lf, 4), lambda_slow_s=round(ls, 4),
+                    ratio_slow_over_fast=round(ls / lf, 2))
+    window_rows = [dict(window_diffusion_times=w, **_fit(0.01, w))
+                   for w in (3.0, 5.0, 10.0, 20.0, 40.0, 100.0)]
+    bath_rows = [dict(pore_to_bath=ptb, **_fit(ptb, 20.0))
+                 for ptb in (1e-4, 1e-3, 1e-2, 0.1, 1.0, 3.0)]
+    ratios_w = [r["ratio_slow_over_fast"] for r in window_rows]
+    return dict(
+        grind=grind, radius_m=R, temperature_degC=T,
+        vs_fit_window=window_rows, vs_pore_to_bath=bath_rows,
+        ratio_drifts_with_protocol=bool(max(ratios_w) - min(ratios_w) > 1.0),
+        note="shape invariance ACROSS GRINDS at fixed settings is real; the exact weight ~0.32 / "
+             "ratio ~12.3 pair is protocol-specific (drifts with fit window and dilution), so the "
+             "manuscript describes it as protocol-conditional, not an intrinsic universal constant.")
+
+
+# U10: two producer-bound, machine-readable claim records for the timescale-semantics result. These
+# are NOT added to EVIDENCE_LINKS.json: reconcile() enforces a bijection with REGISTERED registry
+# gate wirings, and maille2024 is a data+analysis provider (no registered gate), so a link here would
+# be flagged ORPHAN and break --strict. Promoting these to formal EVIDENCE_LINKS claims requires the
+# deferred maille component-registration decision. Until then they live as a standalone result bundle.
+def timescale_semantics_bundle():
+    """Assemble the U10 result bundle: the two gate-4 producers + the roman protocol sensitivity, with
+    claim-record metadata (statement / producer / configuration / limitations / not_supported), for a
+    generated, source-committable artifact the manuscript can cite. Returns a JSON-serializable dict."""
+    cam = cross_model_timescale_cameron()
+    rom = cross_model_timescale_roman()
+    sens = roman_protocol_sensitivity()
+    return {
+        "bundle": "paper3.timescale_semantics",
+        "note": "Qualitative model-to-model probes of whether maille's two-regime decomposition ports "
+                "to cameron2020 / romancorrochano2017. NOT a validation of any model. NOT an "
+                "EVIDENCE_LINKS claim (see module note): formal claim-record promotion needs the "
+                "maille component-registration decision.",
+        "claims": [
+            {
+                "claim_id": "paper3.timescale_semantics.cameron",
+                "statement": "Under the declared 400 s, tau=0 fitting protocol, no cameron2020 grinder "
+                             "setting reproduces maille's pooled fast-timescale band (2.2-19.1 s); "
+                             "three of four curves are single-exponential-like, while the coarsest "
+                             "requires formal two-vs-one model adjudication.",
+                "producer": "puckworks.analysis.maille2024.cross_model_timescale_cameron",
+                "components": ["maille2024 (analysis provider)", "cameron2020.extraction_bdf"],
+                "evidence_relation": "model_to_model_qualitative",
+                "outcome_polarity": "non_portability_under_declared_mapping",
+                "configuration": {"horizon_s": _CAMERON_EXHAUST_S, "normalization": "simulated_endpoint",
+                                  "delay_s": 0},
+                "portability_vector": cam["portability_vector"],
+                "result": {"no_maille_fast_component": cam["no_maille_fast_component"],
+                           "n_settings_single_exp_like": cam["n_settings_single_exp_like"],
+                           "coarsest_needs_model_selection": cam["coarsest_needs_model_selection"]},
+                "limitations": ["model-generated curve", "cameron extrapolated beyond ~30 s validation",
+                                "one lumped cameron solute vs five maille analytes",
+                                "identifiability by multistart + one-vs-two-exp, not full profile likelihood"],
+                "not_supported": ["external validation",
+                                  "that cameron has only one physical extraction mechanism",
+                                  "universal non-portability under every fit protocol"],
+            },
+            {
+                "claim_id": "paper3.timescale_semantics.roman_corrochano",
+                "statement": "Under the declared fine-class stirred-vessel protocol, the fitted "
+                             "dimensionless bi-exponential shape (weight ~0.32, slow/fast ratio ~12.3) "
+                             "is invariant across diffusivities while absolute constants vary with the "
+                             "diffusion time and remain below maille's bands at R=20 um.",
+                "producer": "puckworks.analysis.maille2024.cross_model_timescale_roman",
+                "components": ["maille2024 (analysis provider)", "romancorrochano2017.extraction"],
+                "evidence_relation": "model_to_model_qualitative",
+                "outcome_polarity": rom["portability_verdict"],
+                "configuration": {"radius_m": rom["radius_m"], "temperature_degC": _ROMAN_T_DEGC,
+                                  "molecular_weight_class": "medium", "pore_to_bath": 0.01,
+                                  "fit_window_diffusion_times": 20, "normalization": "finite_window_endpoint"},
+                "portability_vector": rom["portability_vector"],
+                "result": {"shape_is_scale_invariant": rom["shape_is_scale_invariant"],
+                           "absolute_timescales_are_grind_independent":
+                               rom["absolute_timescales_are_grind_independent"],
+                           "universal_phi": rom["universal_phi"],
+                           "universal_ratio_slow_over_fast": rom["universal_ratio_slow_over_fast"],
+                           "coarse_class_status": rom["coarse_class_status"]},
+                "protocol_sensitivity": {"ratio_drifts_with_protocol": sens["ratio_drifts_with_protocol"]},
+                "limitations": ["model-generated curve", "fine class only", "coarse-class radius unavailable",
+                                "protocol-sensitive empirical approximation"],
+                "not_supported": ["validation against roman experimental time curves",
+                                  "absolute-timescale conclusion for the untested coarse class",
+                                  "claim that the physical diffusion solution is one mathematical mode"],
+            },
+        ],
+    }
