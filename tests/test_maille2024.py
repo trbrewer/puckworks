@@ -91,3 +91,17 @@ def test_phi_split_vs_cameron_semantics():
     assert min(p["maille_phi_on_cameron_range"]) > max(p["maille_own_phi_range"])
     # magnitudes differ several-fold (definitional gap), everywhere > 1
     assert min(p["ratio_range"]) > 3.0
+
+
+def test_cross_model_timescale_cameron_two_regime_does_not_port():
+    g = m.cross_model_timescale_cameron()
+    # cameron-only half; roman-corrochano half stays rights-deferred
+    assert g["roman_corrochano_half"].startswith("deferred")
+    assert len(g["per_grind"]) == 4
+    # the gate's finding: NO grind reproduces maille's fast timescale (lambda_fast > 19.1 s)
+    assert g["passed"] and g["no_maille_fast_component"]
+    assert not g["two_regime_ports_to_cameron"]
+    for row in g["per_grind"]:
+        assert not row["fast_in_maille_band"]          # fitted lambda_fast is above maille's fast band
+        assert row["lambda_fast_s"] > 19.1
+        assert row["r2"] > 0.98                         # a single-timescale form fits cameron well

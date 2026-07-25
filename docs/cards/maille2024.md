@@ -24,7 +24,11 @@ headline **φ-split-vs-Cameron** gate — maille's φ closure on Cameron's binne
 fraction **decrease as grind coarsens (sign agreement)**, but they differ ~5–9× because maille's
 "fast" (fines < 186 µm + coarse-particle shells) and Cameron's "fast" (the 12 µm fines class) are
 **not commensurable** — a registry-surfaced observable-semantics disagreement, not a validation of
-either. **Nothing further owed on the card.**
+either. **Nothing further owed on the card**; the optional cameron half of **gate 4** (cross-model
+timescale portability) has since landed as a **qualitative** non-portability probe
+(`cross_model_timescale_cameron()`): maille's two-regime split collapses to a single ~30 s timescale
+on cameron's flowing curve, with no distinct maille-fast component — the Roman-Corrochano
+stirred-vessel half stays rights-deferred (product #100). See gate 4 below.
 
 ## Scope and mechanism
 Time-resolved extraction kinetics of five identified solutes — caffeine, chlorogenic acid
@@ -430,10 +434,21 @@ registry-side construction `[RS]`, not a reproduction, and must be labelled as s
 3. **θ_v,fines consistency gate (cheap, executable today).** Table 6.3's θ_v,fines should equal
    Table 5.4's volume-fraction-below-186 µm column. Spot checks agree (ΩA 0.025 vs 0.02; ΩG 0.148
    vs 0.15; ΩU 0.154 vs 0.15). Run it across all 17 rows as a transcription check.
-4. **Cross-model timescale gate.** Fit Eqn 6.2 to Roman-Corrochano's stirred-vessel curves and to
-   any cameron2020 well-mixed configuration; check whether λ_fast lands in 2.2–19.1 s and λ_slow
-   in 13–158 s. A miss would indicate the two-regime decomposition is not portable off Maille's
-   rig.
+4. **Cross-model timescale gate — cameron HALF LANDED (qualitative); Roman-Corrochano half
+   rights-deferred.** Fit Eqn 6.2 to an independent rig's extraction curve and check whether λ_fast
+   lands in 2.2–19.1 s and λ_slow in 13–158 s; a miss indicates the two-regime decomposition is not
+   portable off Maille's rig. `analysis.maille2024.cross_model_timescale_cameron()` runs the
+   cameron2020 side and finds a **miss**: fitting Eqn 6.2 to cameron's simulated extraction curve,
+   the split **collapses** — fitted λ_fast ≈ 23–32 s (above the 19.1 s ceiling) in all four EK43
+   grinds and ≈ λ_slow for the three finer grinds, so cameron is single-timescale (~28–32 s, inside
+   the broad slow band) with **no distinct maille-fast component**. The decomposition does **not**
+   port to cameron's flowing rig. **Qualitative only**, with three standing caveats baked into the
+   function: cameron has **no well-mixed configuration** (it is a flowing percolation bed, so the
+   fit target is its cup curve, not a well-mixed curve); it is run to solute **exhaustion (~400 s),
+   past its validated ~30 s recipe**, to expose λ_slow; and it lumps one solute species (one
+   (λ_fast, λ_slow) pair, τ = 0) where Maille resolves five. Not a validation of either model. The
+   **Roman-Corrochano stirred-vessel half** (a genuine well-mixed curve) stays **deferred pending
+   the rights review (product #100)**.
 
 **Dependencies:** a PSD-binning adapter; a decision on `GrindState.fines_fraction` threshold
 semantics (blocks gate 1); and, for anything beyond calibration use, a `SoluteInventory` contract
