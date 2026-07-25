@@ -64,7 +64,7 @@ are done; the *added-rigor* asks (U6, U8, U9, U10, U13) are P1 and tracked below
 | **MC11** | Reduce duplication with companion papers (claim ownership) | P1 | ⏭ overlaps U13. |
 | **MC12** | Complete & consolidate **figures** (7 specs → 4 real) | **P0 (submission blocker)** | ⏭ needs real figure generation. |
 | **MC13** | Strengthen quantitative/statistical reporting; reconcile RMSE 0.573 vs 0.603 | P1 | ⏭ overlaps U6. |
-| **MC14** | Reconsider external community-corpus / governance | P1 | ❓ move/remove/document — Tim decision. |
+| **MC14** | Reconsider external community-corpus / governance | P1 | ✅ Tim decided **fully document** (the §7.4 ingestion demo makes the corpus load-bearing). §6.6 expanded with ~11 governance items (lawful basis/grant scope, human-subjects determination as OPEN, minimization/retention, access control, deletion/withdrawal, small-cell/linkage, free-text, hash threat model, incident response, snapshot provenance, aggregate disclosure) + reframed as **pseudonymized, not anonymized** (the salted hash is a persistent linkage key). |
 | **MC15** | Make curated-corpus method reproducible | P1 | ⏭ method + denominators. |
 | **MC16** | Scope & limits of typed contracts (per-layer defect table) | P1 | ✅ MC16/17/18 PR: new §4.1 Table 2 (per-layer catches + residual risk; permeability window = coarse sanity check). |
 | **MC17** | Generate & rename named-shot scorecard; define `Fo_F` | P1 | ◑ `Fo_F` **defined** (§4.4, diagnostic not correction; no bare Fo); scorecard already calls it an *illustrative configuration* (§11.1). Generating Table 6/Fig 4 from one record still open (MC12). |
