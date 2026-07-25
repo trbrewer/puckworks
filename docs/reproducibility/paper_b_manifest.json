@@ -1,10 +1,10 @@
 {
   "paper": "B",
-  "source_commit": "ed504769091e7df0f189351e2481c7eebfe04e27",
+  "source_commit": "52cbc060bad01abc0b901c33d8bc14eaededbfd3",
   "git_dirty": true,
   "timestamp_utc": null,
   "bundle_source_commit": "ed504769091e7df0f189351e2481c7eebfe04e27",
-  "bundle_matches_head": true,
+  "bundle_matches_head": false,
   "release_fresh": false,
   "bundle_sha256": "900a40f61e68744dc2f7e81540b96e17559a5070a85ada7ef8b8ad07a8ba367a",
   "environment": {
