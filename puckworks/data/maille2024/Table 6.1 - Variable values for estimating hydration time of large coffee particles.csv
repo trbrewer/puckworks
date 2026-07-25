@@ -1,0 +1,7 @@
+Variable,Value,Units,Reference
+h_OmegaA,7.7E-4,m,This work
+h_OmegaJ,3.44E-4,m,This work
+gamma_lv,6.082E-3,N/m,Vargaftik et al. 1983
+mu_f,9.0E-5,Pa s,Kestin et al. 1978
+R_pore,1.12E-8,m,Schenker et al. 2000
+theta_d,80,deg,Estimate from Corrochano 2017

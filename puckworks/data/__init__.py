@@ -893,6 +893,76 @@ def vacaguerra_dry_porosity_validation():
                        / "Figure_12_Calculated_versus_experimental_dry_bed_porosity_validation_experiments.csv")
 
 
+# --- maille2024 (early-time two-regime batch extraction kinetics + PSD->phi; Tim drop 2026-07-25) ---
+MAILLE = DATA_DIR / "maille2024"
+
+
+def _maille(prefix):
+    """Load a maille2024 table by its 'Table N.N' prefix (files carry long descriptive names)."""
+    import glob as _glob
+    matches = sorted(_glob.glob(str(MAILLE / (prefix + " *.csv"))))
+    if not matches:
+        raise FileNotFoundError("maille2024 table %r not found" % prefix)
+    return _typed_rows(matches[0])
+
+
+def maille_materials():
+    """maille2024 Table 5.1: material legend -- Sample ID (Omega_A..) -> roast degree, sieve class um."""
+    return _maille("Table 5.1")
+
+
+def maille_phi():
+    """maille2024 Table 6.3: the PSD->fast-fraction closure -- theta_v_fines, theta_v_coarse, phi
+    (17 materials). phi = fines + coarse (Eq 6.7); adopt the TWO-cell-layer shell depth (E1 --
+    analysis.maille2024.e1_shell_depth_resolution)."""
+    return _maille("Table 6.3")
+
+
+def maille_psd_hybrid():
+    """maille2024 Table 5.4: hybrid PSD -- D[4,3], D[3,2] [um], volume fraction < 186 um (21)."""
+    return _maille("Table 5.4")
+
+
+def maille_psd_dispersion():
+    """maille2024 Table 5.2: PSD by LIQUID vs AIR dispersion (24) -- the fines fraction is
+    method-dependent by up to ~2x (a P1 grind-normalization hazard)."""
+    return _maille("Table 5.2")
+
+
+def maille_kinetics_caffeine_3cqa():
+    """maille2024 Table 6.4: two-regime kinetics for caffeine + 3-CQA -- lambda_fast, lambda_slow
+    (each +/- 95% CI), R2, MPE (17). E5: ObT/3-CQA lambda_fast CI is impossible; treat as unusable."""
+    return _maille("Table 6.4")
+
+
+def maille_kinetics_organic_acids():
+    """maille2024 Table 6.5: two-regime kinetics for citric/malic/quinic (16). E5: ObL/quinic
+    lambda_slow CI is impossible; treat as unusable."""
+    return _maille("Table 6.5")
+
+
+def maille_equilibrium():
+    """maille2024 Table 5.11: equilibrium concentrations [mg/L] mean+/-SD at 180/300/600 s,
+    5 compounds (21) -- per-species inventory at a known 0.028 g/mL brew ratio."""
+    return _maille("Table 5.11")
+
+
+def maille_normalized_curves():
+    """maille2024 Table 5.10: normalized extraction concentration vs time (10-180 s) for
+    Omega_A-C x 5 compounds -- the only place early-time curve values appear as numbers."""
+    return _maille("Table 5.10")
+
+
+def maille_ssa():
+    """maille2024 Table 5.6: specific surface area (Kr adsorption) for all materials [cm2/g]."""
+    return _maille("Table 5.6")
+
+
+def maille_particle_porosity():
+    """maille2024 Table 5.9: particle porosity eps_p / eps_open / eps_closed + densities (Hg intrusion)."""
+    return _maille("Table 5.9")
+
+
 def khomyakov_kinematic_viscosity():
     """khomyakov2020 (DOI 10.1088/1755-1315/548/2/022040, CC BY 3.0) MEASURED
     coffee-extract KINEMATIC viscosity [mm^2/s], Table 1: dry-solids 15-70 wt% x

@@ -9,7 +9,16 @@ White Rose eTheses Online. **Source used here is the REDACTED release**
 6.3–6.5, 6.9–6.12, 6.16–6.17, and most of §6.2.3) is blanked. Every gap noted below is a
 redaction artifact, not an omission by the author.
 **Stage(s):** extraction, grind (the φ closure is a PSD→fast-fraction map) · **Kind:** calibration
-**Status:** card-only
+**Status:** data-intaken (tables, 2026-07-25) — 14 thesis tables digitized (Tim drop, incl. the
+unredacted 5.6/5.9) → `puckworks/data/maille2024/` + PROVENANCE + 11 loaders + 10 MANIFEST rows +
+README ref; three discriminating computations landed in `puckworks/analysis/maille2024.py`
+(CI-tested): **the Eq-6.9 shell-depth (E1) is RESOLVED to two cell layers** (two-layer reproduces
+Table 6.3 θ_v,coarse to mean |err| 0.018 vs 0.207 one-layer, D[4,3] approximation), the **φ closure
+is internally consistent** (φ = fines + coarse exactly; θ_v,fines tracks the Table-5.4 <186 µm
+fraction to 0.003), and the **two E5 impossible-CI rows are flagged** (ΩT/3-CQA, ΩL/quinic).
+**Still owed:** the **φ-split-vs-Cameron** discriminating gate (blocked — needs Cameron's measured
+*binned* EK43 PSD, which the registry lacks; it holds only a two-size-class idealisation), and the
+time-resolved extraction **figures** (Figs 4.6–4.10, ~60 events — a separate digitization in progress).
 
 ## Scope and mechanism
 Time-resolved extraction kinetics of five identified solutes — caffeine, chlorogenic acid
