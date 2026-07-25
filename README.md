@@ -392,6 +392,7 @@ bibliographic field is invented.
 33. Smrke, S.; Eiermann, A.; Yeretzian, C. "The role of fines in espresso extraction dynamics." *Scientific Reports* 14 (2024): 5612. [https://doi.org/10.1038/s41598-024-55831-x](https://doi.org/10.1038/s41598-024-55831-x). Related cards: [smrke2024](docs/cards/smrke2024.md).
 34. Sobolík, V.; Žitný, R.; Tovcigrecko, V.; Delgado, M.; Allaf, K. "Viscosity and electrical conductivity of concentrated solutions of soluble coffee." *Journal of Food Engineering* 51 (2002): 93–98. [https://doi.org/10.1016/S0260-8774(01)00042-5](https://doi.org/10.1016/S0260-8774(01)00042-5). Related cards: [sobolik2002](docs/cards/sobolik2002.md).
 35. Moroney, K.; Lee, W.; O'Brien, S.; Suijver, F.; Marra, J. "Modelling of coffee extraction during brewing using multiscale methods: an experimentally validated model." *Chemical Engineering Science* 137 (2015): 216–234. [https://doi.org/10.1016/j.ces.2015.06.003](https://doi.org/10.1016/j.ces.2015.06.003). Related cards: [moroney2015](docs/cards/moroney2015.md).
+36. Vaca Guerra, M.; Harshe, Y. M.; Fries, L.; Rothberg, S.; Palzer, S.; Heinrich, S. "Influence of particle size distribution on espresso extraction via packed bed compression." *Journal of Food Engineering* 340 (2023): 111301. [https://doi.org/10.1016/j.jfoodeng.2022.111301](https://doi.org/10.1016/j.jfoodeng.2022.111301). Related cards: [vacaguerra2023a](docs/cards/vacaguerra2023a.md).
 
 ### Puckworks synthesis and sourcing notes
 

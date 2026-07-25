@@ -9,7 +9,19 @@ spot-check before citing page-level details). This is "target (1)" named on
 `vacaguerra2025_leseprobe.md`.
 **Stage(s):** packing (produces BedState.porosity from tamp stress; informs BedState.k
 priors) · **Kind:** calibration
-**Status:** card-only
+**Status:** data-intaken (2026-07-25) — Table C.1, Tables 1–3, and Fig. 12 digitized
+(Tim drop) → `puckworks/data/vacaguerra2023a/` + loaders + 5 MANIFEST rows; the three
+discriminating computations landed in `puckworks/analysis/vacaguerra2023a.py`
+(CI-tested, `tests/test_vacaguerra2023a.py`): **the Eq-9/10 β-sign error is RESOLVED
+(−k₃β/−x₃β)** — the printed +β gives unphysical ω 0.48–0.62 while −β gives ω 0.31–0.37
+matching Table C.1 + the Fig-9 fits; the Fig-12 cross-device compression validation
+recomputes to **R²=0.942** (authors ~0.93); an independent Darcy **K** from Table C.1
+reproduces the authors' measured range (7/9 in band, all order-of-magnitude); and the
+**`wadsworth2026.permeability` cross-eval** shows that model — validated untamped
+(φ_p 0.37–0.67) — **overpredicts vacaguerra's measured tamped K by ~13–31× (median 23×)**
+when extrapolated to ε₀ 0.24–0.36, the overprediction growing as ε₀ drops below the 0.37
+floor (tightest bed 25×, loosest 15×). **Still owed:** a full registered component
+(offline σ→ε₀→K closure) and a µ→G10-renormalized λ refit.
 
 ## Scope and mechanism
 Two chained empirical closures on one dark-roast arabica material. (i) A dry-bed
