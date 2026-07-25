@@ -152,6 +152,52 @@ def permeability_darcy(mu_pas=_MU_PUBLISHED_PAS):
              "consistent with a G10-renormalized K, not the mu=3.5 mPa s one." % median_ratio)
 
 
+def _g10_mu_pas(T_degC=65.0, Xw_pct=92.0):
+    """Registry G10 espresso-liquor viscosity (telisromero closure) at the vacaguerra permeability
+    measurement temperature and a representative espresso TDS (Xw=92% ~ 8% solids). ~0.42 mPa s at
+    65 C -- ~8x below the authors' 3.5 mPa s convention."""
+    return float(d.telisromero_viscosity_pas(T_degC + 273.15, Xw_pct))
+
+
+def permeability_lambda_refit(T_degC=65.0, Xw_pct=92.0):
+    """Refit the Eq-11 modified-Kozeny-Carman constant lambda so the closure reproduces the
+    INDEPENDENT Darcy K, under the as-published (mu=3.5 mPa s) vs the registry G10 viscosity
+    convention -- the card's owed mu-renormalization. Because K ∝ mu (Darcy) and Eq-11 K ∝ 1/lambda^2,
+    the fitted lambda is convention-dependent: lambda_refit(mu) = sqrt(geomean_i C_i / K_darcy_i(mu)),
+    with C_i = (psi d32)^2 eps^4.3 beta^0.43 / (72 (1-eps)^2) the lambda-free Eq-11 kernel. Reports
+    lambda under both conventions (and the published 7.5 for reference; note the published fit was to
+    the AUTHORS' K, which the independent Darcy K exceeds ~5x). Strength: post-fit reconstruction."""
+    psd = {r["Distribution"]: r for r in d.vacaguerra_psd()}
+
+    def _lambda_for(mu_pas):
+        perm = permeability_darcy(mu_pas=mu_pas)
+        logs = []
+        for p in perm["points"]:
+            pp = psd[p["distribution"]]
+            c = ((float(pp["psi"]) * float(pp["d_32_um"]) * 1e-6) ** 2
+                 * p["eps0"] ** _KC_EPS_EXP * float(pp["beta"]) ** _KC_BETA_EXP
+                 / (72.0 * (1.0 - p["eps0"]) ** 2))
+            logs.append(math.log(c / p["k_darcy_m2"]))
+        return math.exp(0.5 * (sum(logs) / len(logs)))
+
+    mu_g10 = _g10_mu_pas(T_degC, Xw_pct)
+    lam_pub_mu = _lambda_for(_MU_PUBLISHED_PAS)
+    lam_g10 = _lambda_for(mu_g10)
+    return dict(
+        lambda_published=_KC_LAMBDA,
+        lambda_refit_published_mu=round(lam_pub_mu, 2),
+        lambda_refit_g10_mu=round(lam_g10, 2),
+        mu_published_pas=_MU_PUBLISHED_PAS, mu_g10_pas=round(mu_g10, 6),
+        g10_conditions=dict(T_degC=T_degC, Xw_pct=Xw_pct, source="telisromero"),
+        passed=bool(lam_pub_mu > 0 and lam_g10 > 0),
+        note="lambda is viscosity-convention-dependent (lambda proportional to sqrt(mu)); the G10 "
+             "espresso-liquor mu (~%.2f mPa s at %.0f C) is ~%.0fx below the authors' 3.5 mPa s, so "
+             "lambda_G10 = lambda_pub-mu * sqrt(3.5e-3/mu_G10). The published 7.5 was fit to the "
+             "authors' own K; the independent Darcy K runs ~5x higher, so lambda_refit at mu=3.5 mPa s "
+             "is below 7.5. Report the convention explicitly; do NOT compare K across sources without "
+             "fixing mu." % (mu_g10 * 1000, T_degC, _MU_PUBLISHED_PAS / mu_g10))
+
+
 def wadsworth_cross_eval(mu_pas=_MU_PUBLISHED_PAS):
     """Cross-evaluate wadsworth2026.permeability (percolation closure) against vacaguerra's
     MEASURED tamped Darcy K on the shared Table C.1 points -- localizing where wadsworth's
