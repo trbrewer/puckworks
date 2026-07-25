@@ -84,6 +84,14 @@ def test_table1_role_split_matches_registry_and_has_no_synthesis_role():
         "manuscript still counts 'synthesis' as an execution role"
 
 
+def test_table3_relation_names_match_evidence_strength_enum():
+    # MC4: Table 3 relations must be the exact registry enum (no drift, no display-label aliases
+    # like "Independent external" standing in for `controlled_independent`).
+    text = _text()
+    for rel in R.EVIDENCE_STRENGTHS:
+        assert f"`{rel}`" in text, f"evidence relation {rel!r} is not documented in the manuscript"
+
+
 def test_manuscript_uses_schema_v2_axes_not_deprecated_kind_as_authoritative():
     text = _text()
     # the three authoritative axes must be named; 'kind' must be described as deprecated
