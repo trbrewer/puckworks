@@ -316,7 +316,8 @@ register(Component(
                 "empirical m_d(t) sigmoid (RC-3a scope; NOT the RC-3b Cameron coupling)",
     valid_range="Sanremo Zoe rig, one coffee/grind; quantitative only above ~5 bar; "
                 "silent on first ~5-10 s; constants per-rig/coffee/grind, not portable",
-    notes="static refit == published (P_c,Q_c)=(12.39,1.897); 9-bar Q(t) parameter-free "
+    notes="static refit == published (P_c,Q_c)=(12.39,1.897); 9-bar Q(t) with no coefficient "
+          "fitted to the scored trace (target-informed upstream, NOT parameter-free) "
           "long-run within ~2% (post-fit: m_d from same rig, soft circularity per card)"))
 
 register(Component(

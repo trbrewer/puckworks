@@ -264,5 +264,5 @@ def leave_one_shot_out_phi(window=WINDOW):
         remaining_target_reuse=["dissolved_mass_sigmoid_k_l_m (TDS replicates are not shot-matched "
                                 "to the flow traces, so it cannot be rebuilt per held-out shot)"],
         is_full_cross_fit=False,
-        note="Partial cross-fit: the equilibrium channel is genuinely held out, the solids-sigmoid "
+        note="Partial cross-fit: the equilibrium channel IS withheld, the solids-sigmoid "
              "channel is not. Do NOT describe this as a leave-one-shot-out validation of Phi(t).")

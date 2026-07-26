@@ -20,7 +20,7 @@ def test_dissolution_speed_discriminator():
 def test_p2_kappa_ladder():
     """P2: time-dependent Phi(t) (rung 4) beats the constant-kappa null."""
     L = h.kappa_t_ladder()
-    assert L["rung4_beats_floor"]
+    assert L["rung4_beats_flexible_benchmark"]
     assert L["rung4_phi_of_t"] < L["rung1_const_kappa"]
     assert L["improvement_factor"] > 2.0
 

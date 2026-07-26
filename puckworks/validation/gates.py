@@ -384,7 +384,8 @@ def gate_p2_kappa_ladder():
     kappa(P) (~0.65) -- by ~4.9x: time variation IS needed. A 4-param flexible
     (non-mechanistic) cubic reaches ~0.10, so the ladder establishes NEED for time
     variation, not a specific bed mechanism; the mechanistic content is that a
-    zero-parameter poroelastic Phi(t) nearly reaches that flexible floor. Rung 5
+    poroelastic Phi(t) -- no coefficient fitted to the scored trace, but target-informed
+    upstream -- approaches that same-trace descriptive benchmark. Rung 5
     RC-3b (Cameron-coupled, diffusion-limited Phi) beats the constant nulls too but
     is ~3x WORSE than rung 4 -> near-instant dissolution favored (§5.6). Rung 5b, the
     mo2023_2 SWELLING competitor (Phase-3 discrimination), predicts the WRONG SIGN: its
@@ -394,7 +395,7 @@ def gate_p2_kappa_ladder():
     as the driver of the rising-flow residual (card: 'enters with the wrong sign')."""
     from puckworks import harness as h
     L = h.kappa_t_ladder()
-    passed = (L["rung4_beats_floor"] and L["improvement_factor"] > 2.0
+    passed = (L["rung4_beats_flexible_benchmark"] and L["improvement_factor"] > 2.0
               and L["rung4_phi_of_t"] < 0.2
               # the three constant nulls are DISTINCT (not one RMSE copied twice)
               and L["rung1_const_kappa"] < L["rung3_static_kappaP"]

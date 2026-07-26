@@ -5,8 +5,10 @@ flow closure for a saturated tamped puck: pressure compacts the bed and reduces
 its Carman-Kozeny permeability, so the equilibrium pressure-flow curve is
 Darcy-linear below ~5 bar and saturates in the 9-bar regime. A time-dependent
 extension makes the stress-free porosity track the dissolved-mass fraction,
-giving a *parameter-free* predictor of Q(t) once the two rig constants
-(P_c, Q_c) and the dissolution sigmoid are fixed.
+giving a predictor of Q(t) with NO COEFFICIENT FITTED TO THE SCORED TRACE once
+(P_c, Q_c) and the dissolution sigmoid are fixed. This is not parameter-free: those
+rig constants and the m_d sigmoid are target-informed upstream (m_d comes from
+TDS(t) x Q(t) on this same rig). See puckworks.paper_b.evidence_ontology.
 
 Everything here is the authors' own closed form (their arXiv:2512.21528 code,
 Zenodo 10.5281/zenodo.18046315), re-expressed; nothing beyond their Phi->0 limit
@@ -17,7 +19,7 @@ enter here (see ROADMAP P2 ladder rung 5).
 Validation (see validation/gates.py):
  - static:  refitting Eq. 16 to their 11-pressure long-run curve recovers
    (P_c, Q_c) = (12.39 bar, 1.897 g/s) == their published static calibration.
- - dynamic: the parameter-free Eq. 18 reproduces the 9-bar Q(t) ramp
+ - dynamic: Eq. 18, with no coefficient fitted to the scored trace, reproduces the 9-bar ramp
    (long-run flow within ~2%, correlation ~0.98) — semi-quantitative, per card.
 
 Scope limits (card): silent on the first ~5-10 s (wetting/air/swelling); pure
