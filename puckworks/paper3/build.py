@@ -136,6 +136,29 @@ def _recomputation_problems(root=REPO_ROOT):
     return problems
 
 
+#: The gate's own REPORT, which the CLI writes into the tree. It must be excluded from the
+#: cleanliness check or the gate is not idempotent: the first run writes it, the second sees a
+#: dirty tree and fails. That was observed, not hypothesised. Excluding it is safe because the
+#: manifest is an output of the gate and an input to nothing -- no bundle, archive member or
+#: manuscript number is derived from it. The exclusion is exactly one path, so a hand-edit
+#: anywhere else is still caught.
+RELEASE_MANIFEST = "docs/reproducibility/paper3_release_manifest.json"
+
+
+def _dirty_paths(root=REPO_ROOT) -> list[str]:
+    """Porcelain paths that make the tree dirty, ignoring the gate's own report."""
+    out = []
+    for line in _git("status", "--porcelain", root=root).splitlines():
+        if not line.strip():
+            continue
+        parts = line.strip().split(maxsplit=1)          # "XY path" / "?? path" / "R  old -> new"
+        path = parts[1] if len(parts) > 1 else parts[0]
+        path = path.rpartition(" -> ")[2] or path        # renames report both sides
+        if path.strip().strip('"') != RELEASE_MANIFEST:
+            out.append(path)
+    return out
+
+
 def release(root=REPO_ROOT, out=None):
     """Strict release gate. Returns a report; `ok` is False on any problem.
 
@@ -148,9 +171,9 @@ def release(root=REPO_ROOT, out=None):
     rep = verify(root)
     problems = list(rep["problems"])
 
-    dirty = _git("status", "--porcelain", root=root)
+    dirty = _dirty_paths(root)
     if dirty:
-        problems.append("tree_dirty:%d_paths" % len(dirty.splitlines()))
+        problems.append("tree_dirty:%d_paths" % len(dirty))
 
     problems += _recomputation_problems(root)
 

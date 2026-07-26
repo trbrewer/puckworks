@@ -67,12 +67,53 @@ def test_the_archive_verifies_without_the_source_checkout(tmp_path):
     assert problems == [], problems
 
 
+def _fake_status(*lines):
+    """Stand in for `git status --porcelain`, in its real two-column format."""
+    return lambda *a, **k: "\n".join(lines) if a[0] == "status" else "abc"
+
+
 def test_release_refuses_a_dirty_tree(monkeypatch):
     """The gate's whole purpose. Simulated rather than by dirtying the real tree."""
-    monkeypatch.setattr(B, "_git", lambda *a, **k: "M some/file.py" if a[0] == "status" else "abc")
+    monkeypatch.setattr(B, "_git", _fake_status(" M some/file.py"))
     rep = B.release(_ROOT)
     assert rep["ok"] is False
     assert any(p.startswith("tree_dirty") for p in rep["problems"]), rep["problems"]
+
+
+def test_the_gate_does_not_count_its_own_report_as_a_dirty_tree(monkeypatch):
+    """OBSERVED DEFECT, not a hypothetical: the CLI writes the release manifest into the tree, so
+    running `release` twice in a row used to fail the second time with tree_dirty:1_paths. The gate
+    flipping red purely because it ran is worse than useless -- it teaches you to ignore it."""
+    monkeypatch.setattr(B, "_git", _fake_status("?? " + B.RELEASE_MANIFEST))
+    assert B._dirty_paths(_ROOT) == []
+
+    monkeypatch.setattr(B, "_git", _fake_status(" M " + B.RELEASE_MANIFEST))
+    assert B._dirty_paths(_ROOT) == []
+
+
+def test_the_exclusion_is_exactly_one_path_and_nothing_near_it(monkeypatch):
+    """Non-vacuity for the test above. An over-broad exclusion (a prefix or a directory) would
+    silently stop the gate noticing hand-edited artifacts, which is the failure it exists to catch.
+    Every neighbour of the manifest must still count as dirty."""
+    near = [
+        "docs/reproducibility/paper3_release_manifest.json.bak",
+        "docs/reproducibility/paper_a_manifest.json",
+        "docs/reproducibility/requirements-paper3.lock",
+        "docs/reproducibility/",
+        "docs/PAPER_3_PUCKWORKS_DRAFT.md",
+    ]
+    for path in near:
+        monkeypatch.setattr(B, "_git", _fake_status(" M " + path))
+        assert B._dirty_paths(_ROOT) == [path], f"{path} was wrongly excluded"
+
+
+def test_dirty_paths_parses_the_porcelain_shapes_git_actually_emits(monkeypatch):
+    """A parser that mishandled renames or staged-and-modified entries would drop real dirt."""
+    monkeypatch.setattr(B, "_git", _fake_status(
+        "?? new/file.py", "MM staged/and/modified.py", "R  old/name.py -> new/name.py",
+        " D deleted.py", "A  " + B.RELEASE_MANIFEST))
+    assert B._dirty_paths(_ROOT) == [
+        "new/file.py", "staged/and/modified.py", "new/name.py", "deleted.py"]
 
 
 def test_freshness_is_defined_by_recomputation_not_commit_equality():
