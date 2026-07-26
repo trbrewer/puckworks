@@ -95,3 +95,53 @@ def test_phi_is_not_claimed_to_be_cross_fitted():
     """Review 4.3/4.4 stay blocked -- the producer must say so rather than imply a cross-fit."""
     assert "NOT re-fitted per shot" in W.per_shot_ladder()["note"]
     assert "blocked" in W.per_shot_ladder()["note"]
+
+
+# --- equilibrium-window provenance (review 4.7 / P0.5) ---------------------------------------
+def test_equilibrium_observable_is_the_repository_endpoint_and_matches_the_published_fit():
+    """The manuscript must not attribute a 110-120 s statistic to this analysis. What it DOES use
+    -- the final 100 s value -- reproduces the source's own static fit, so the wording was the
+    only defect."""
+    r = W.equilibrium_window_sensitivity()
+    assert r["repository_observable"] == "endpoint_100s"
+    assert r["endpoint_matches_published"] is True
+    assert r["clean_region_insensitive"] is True          # endpoint vs 90-100 s mean agree
+
+
+def test_the_nominal_110_120s_window_is_unusable_as_published():
+    """One shot has ENDED inside the nominal window; it alone destroys the refit. This pins WHY the
+    source-faithful route was not taken, so nobody 'restores' it later without the exclusion."""
+    r = W.equilibrium_window_sensitivity()
+    assert r["contaminated_shots"] == ["9-1"]
+    assert r["nominal_110_120s_usable"] is False
+    assert r["windows"]["mean_110_120s"]["P_c_bar"] > 50          # nonsense with the bad shot in
+    assert 10.0 < r["windows"]["mean_110_120s_excl_contaminated"]["P_c_bar"] < 14.0   # sane without
+
+
+def test_solids_calibration_model_string_matches_the_implementation():
+    """Review P0.10: the metadata string said 0.5k(1 - tanh) while Eq 20 computes (1 + tanh).
+    Dissolved mass must RISE, so the code was right; the string was wrong and is now fixed."""
+    import numpy as np
+    from puckworks.models.waszkiewicz2025 import poroelastic as wz
+    txt = (__import__("pathlib").Path(__file__).resolve().parents[1]
+           / "puckworks/data/waszkiewicz2025/solids_calibration.csv").read_text(encoding="utf-8")
+    assert "1 + tanh" in txt and "1 - tanh" not in txt
+    k, l, m = wz._solids_params()
+    md = wz.solids_sigmoid(np.array([0.0, l, 1e3]), k, l, m)
+    assert md[0] < md[1] < md[2]                    # monotone RISING, as (1 + tanh) requires
+    assert md[2] == pytest.approx(k, rel=1e-6)      # saturates at k
+
+
+def test_partial_leave_one_shot_out_bounds_the_equilibrium_reuse_channel():
+    """Review 4.2/P0.2. Phi(t) reuses the target through two channels; the equilibrium calibration
+    IS cross-fittable and is removed here. The finding is that it contributes almost nothing:
+    held-out and in-sample scores differ by ~0.001 g/s, ~1 % of the shot noise floor. That BOUNDS
+    one channel as negligible and leaves the solids sigmoid as the only material one."""
+    r = W.leave_one_shot_out_phi()
+    assert r["n_shots"] == 5
+    assert r["cross_fitted_channels"] == ["equilibrium_calibration_P_c_Q_c"]
+    assert abs(r["optimism_pp_g_per_s"]) < 0.05 * r["shot_noise_floor_rmse_g_per_s"]
+    # honesty guards: this must never be sold as a full cross-fit
+    assert r["is_full_cross_fit"] is False
+    assert r["remaining_target_reuse"] and "sigmoid" in r["remaining_target_reuse"][0]
+    assert "Do NOT describe this as a leave-one-shot-out validation" in r["note"]

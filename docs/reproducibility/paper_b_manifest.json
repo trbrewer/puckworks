@@ -1,6 +1,6 @@
 {
   "paper": "B",
-  "source_commit": "52cbc060bad01abc0b901c33d8bc14eaededbfd3",
+  "source_commit": "037a57dc2f46e376de5749b39d1b5365ff3632ad",
   "git_dirty": true,
   "timestamp_utc": null,
   "bundle_source_commit": "ed504769091e7df0f189351e2481c7eebfe04e27",
@@ -21,7 +21,7 @@
     "waszkiewicz2025/tds_fractions_replicates.csv": "8900260934232051d4c54b565453f24c65d729743bd2fca480e00d0ef65bc239",
     "waszkiewicz2025/traces_time_dependent.csv": "40e76f43e1584912b55afcc4f15c28b797bf3ac6c3c380765b408cddd33d9fe9",
     "waszkiewicz2025/static_calibration.csv": "2a2fdd129cbfb7742196abb493409c76aab11e2bef9f74aafb3df996c6b21ce5",
-    "waszkiewicz2025/solids_calibration.csv": "570a6df44852d7dc2c4e4c91908988a1bf87f3e0a9b4e7abdd2c7a5e697239b6",
+    "waszkiewicz2025/solids_calibration.csv": "98cbdd42ea99dc454b7c150c86e07c78bca07e7987e5ac5a0f37b7008937e04d",
     "waszkiewicz2025/constants.csv": "0428390dae9c3032adb31d155dfc21b56ee34f0b407e8089fee3a31e47abf4ee",
     "paper_b_evidence_matrix.csv": "13b739e86c7069934c73d7a0c15add66fcd9aa2aa56a0f51fc1c6f739e577304",
     "paper_b_evidence_dictionary.csv": "38b807ff9bfb99952e09cef892e8a8d95e5383c0e27644f44fb3b5afbdccaf16"

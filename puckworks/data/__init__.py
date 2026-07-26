@@ -126,6 +126,21 @@ def waszkiewicz_traces_per_brew(pressure_bar=None):
     return out
 
 
+def waszkiewicz_equilibrium_windows():
+    """Per-shot long-run statistics over three candidate EQUILIBRIUM windows (Paper B2 review 4.7).
+
+    The manuscript attributed a 110-120 s equilibrium statistic to the source; the repository takes
+    the final point of a 0-100 s grid, because the source's formatter truncates there. The raw traces
+    are not truncated, so this file records mean basket pressure and mass flow per shot over
+    `endpoint_100s`, `mean_90_100s` and `mean_110_120s`, with `n_samples` per window.
+
+    READ THE CAVEAT: the 110-120 s window is NOT a clean equilibrium window in the published raw
+    data -- shot `9-1` has ended inside it (falling cup mass -> large negative flow derivative ->
+    -106 bar through the brewer subtraction), which alone drags a refit to P_c ~ 82 bar. Use
+    `analysis.waszkiewicz_shot_level.equilibrium_window_sensitivity` rather than these rows raw."""
+    return _typed_rows(WASZ / "equilibrium_windows.csv")
+
+
 def waszkiewicz_tds_fractions():
     """5-s TDS(t) fractions: {'time_s','tds_pct','tds_std_pct'} arrays."""
     rows = _rows(WASZ / "tds_fractions.csv")

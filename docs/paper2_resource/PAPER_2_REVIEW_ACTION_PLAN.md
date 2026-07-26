@@ -74,7 +74,19 @@ they are **not** faked:
 
   ⏭ *Manuscript edits deliberately NOT made here* — the numbers are landed and producer-backed
   first; changing §5.2/Table 2 and the abstract is a separate scoped pass.
-- 🔴 **4.3 / 4.4** leave-one-shot-out **cross-fitting of Φ(t)** — **BLOCKED ON DATA, not effort.**
+- ◑ **4.2 / P0.2 — PARTIALLY DONE (2026-07-25); my earlier "fully blocked" call was too strong.**
+  Φ(t) reuses the target through **two** channels and they are not equally blocked:
+  **(a) the equilibrium calibration** $(P_c, Q_c)$ is fitted across pressures with the 9-bar point
+  being the mean of the five 9-bar shots — so it *does* contain the held-out shot, and it **is**
+  cross-fittable. Now done (`leave_one_shot_out_phi`): per held-out shot the 9-bar point is rebuilt
+  from the other four, $(P_c,Q_c)$ refitted, Φ(t) recomputed, and only the held-out shot scored.
+  **Finding: this channel is negligible** — held-out mean RMSE 0.1897 vs in-sample 0.1886 g/s, an
+  optimism of **0.0011 g/s ≈ 1 % of the 0.149 g/s shot noise floor** ($P_c$ is unmoved at 12.394;
+  $Q_c$ spans 1.903–1.913). So target reuse through the equilibrium fit is *bounded and immaterial*.
+  **(b) the dissolved-mass sigmoid** $(k,l,m)$ is fitted from TDS(t)×Q(t) and **remains blocked** —
+  the deposit's TDS is three replicates that are not shot-matched to the flow traces. Reported, not
+  hidden (`remaining_target_reuse`), and a test forbids describing this as a full cross-fit.
+- 🔴 **4.3 / 4.4** full leave-one-shot-out **cross-fitting of Φ(t)** — **BLOCKED ON DATA, not effort.**
   Φ(t) = m_d(t)/m0 is built from TDS(t)×Q(t), and the deposit's TDS is 3 replicates that are **not
   shot-matched** to the 5 flow traces, so a held-out shot cannot have its own Φ(t) rebuilt. The
   per-shot ladder above therefore evaluates Φ(t) as a **zero-free-parameter prediction** and does
