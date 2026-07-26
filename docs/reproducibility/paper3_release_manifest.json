@@ -3,11 +3,11 @@
   "ok": true,
   "problems": [],
   "warnings": [],
-  "commit": "f52e8d70032d1d03ffdd229eca14f49c27559447",
+  "commit": "a493342065a033c8bc677c75779d5b824b7a592d",
   "tree_clean": true,
   "freshness": "by recomputation (generated artifacts regenerate identically)",
-  "archive_sha256": "7adddba2d2083bed22cf887ac4bb2193d2ee0a30368bf29e3ad8d4cb351a208a",
+  "archive_sha256": "ca0aa384d2532a432c1a35d8245810dea989946a591794ef8cb996358c83b757",
   "n_components": 27,
   "n_bundle_files": 149,
-  "tag_hint": "git tag -a paper-3-v1.0.0-rc.1 -m 'Paper 3 release candidate'"
+  "tag_hint": "git tag -a paper3-v1.0.0-rc.1 -m 'Paper 3 release candidate'"
 }
