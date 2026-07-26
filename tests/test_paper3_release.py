@@ -128,7 +128,7 @@ def test_the_exclusion_is_exactly_one_path_and_nothing_near_it(monkeypatch):
     near = [
         "docs/reproducibility/paper3_release_manifest.json.bak",
         "docs/reproducibility/paper_a_manifest.json",
-        "docs/reproducibility/requirements-paper3.lock",
+        "docs/reproducibility/requirements-papers.lock",
         "docs/reproducibility/",
         "docs/PAPER_3_PUCKWORKS_DRAFT.md",
     ]
@@ -200,7 +200,7 @@ def test_recomputation_finds_nothing_stale_right_now():
 def test_the_lock_pins_the_producing_environment():
     """A lock resolved without constraints would name matplotlib 3.11.1 while the figures were
     drawn with 3.11.0 -- a different environment from the one that ran."""
-    lock = (_ROOT / "docs/reproducibility/requirements-paper3.lock").read_text(encoding="utf-8")
+    lock = (_ROOT / "docs/reproducibility/requirements-papers.lock").read_text(encoding="utf-8")
     import matplotlib
     import numpy
     import scipy

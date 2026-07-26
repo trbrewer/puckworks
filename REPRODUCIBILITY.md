@@ -29,16 +29,16 @@ python -c "from puckworks.registry import run_all_gates; run_all_gates()"
 
 ## Pinned environment
 
-`docs/reproducibility/requirements-paper3.lock` pins the exact versions that **produced the
+`docs/reproducibility/requirements-papers.lock` pins the exact versions that **produced the
 committed artifacts**, not merely a set that satisfies the declared floors. The distinction matters:
 resolving `pyproject.toml` freshly today gives matplotlib 3.11.1, whereas the committed figures were
 drawn with 3.11.0, so a lock generated without constraints would quietly describe a different
 environment from the one that ran.
 
 ```bash
-uv pip sync docs/reproducibility/requirements-paper3.lock
+uv pip sync docs/reproducibility/requirements-papers.lock
 # or
-python -m pip install -r docs/reproducibility/requirements-paper3.lock
+python -m pip install -r docs/reproducibility/requirements-papers.lock
 ```
 
 `pyproject.toml` keeps deliberately **unbounded** floors (`numpy>=2.0`, `scipy>=1.13`) because the
@@ -51,27 +51,37 @@ Recorded producing environment: Python 3.13.13, numpy 2.5.1, scipy 1.18.0, matpl
 ### Which lock file to use
 
 Three lock artifacts exist and they answer different questions. They are **not** interchangeable,
-and the older two predate the Paper 3 lock rather than being superseded by it.
+and the older two predate the transitive lock rather than being superseded by it.
 
 | File | What it is | Installable elsewhere? | Use it for |
 |---|---|---|---|
-| `requirements-paper-release.lock` | **Direct** pins only (numpy/scipy/matplotlib) | Yes, but resolves transitives freshly | The Papers 1–2 release contract, per `docs/reproducibility/RELEASE_RUNBOOK.md` |
-| `docs/reproducibility/requirements-paper3.lock` | **Full transitive** resolution, constrained to the producing environment | Yes — this is the one to `pip install -r` | Reproducing the Paper 3 figures and artifacts |
+| `docs/reproducibility/requirements-papers.lock` | **Full transitive** resolution, constrained to the producing environment | Yes — this is the one to `pip install -r` | Reproducing **all three papers'** figures and artifacts |
+| `requirements-paper-release.lock` | **Direct** pins only (numpy/scipy/matplotlib) | Yes, but resolves transitives freshly | The older Papers 1–2 release contract in `docs/reproducibility/RELEASE_RUNBOOK.md`; kept because the runbook cites it |
 | `docs/reproducibility/requirements.lock` | `pip freeze` of the producing conda env | **No** — entries are `file:///` build paths | A *record* of what was installed; not a recipe |
 
-The Paper 3 lock is regenerable, which is why the constraints it was compiled against are committed
-rather than left in a scratch directory:
+The lock is regenerable, which is why the constraints it was compiled against are committed rather
+than left in a scratch directory:
 
 ```bash
 uv pip compile pyproject.toml --extra figures \
-    -c docs/reproducibility/constraints-paper3.txt \
-    -o docs/reproducibility/requirements-paper3.lock
+    -c docs/reproducibility/constraints-papers.txt \
+    -o docs/reproducibility/requirements-papers.lock
 ```
 
-The known gap: `requirements-paper-release.lock` is direct-only by design, so Papers 1–2 do not yet
-have a transitive lock of the kind Paper 3 now has. `docs/HANDOFF_EXECUTION_SUMMARY_2026-07-13.md`
-already records this as a pre-archival requirement; extending the Paper 3 approach to them is the
-obvious closure and has not been done.
+#### Why there is one lock and not three
+
+Papers 1, 2 and 3 all resolve from the same `pyproject.toml` with the same extra. Their producing
+modules — `figures_paper_a`, `paper_a.build`, `paper_b.build`, `figures_paper3`, `paper3.build`,
+`paper3.archive` — import nothing beyond **numpy, scipy and matplotlib**, so three per-paper locks
+would be three byte-identical files, each free to drift out of step with the others. A test asserts
+that import set, so if any paper's pipeline ever grows a fourth dependency the single lock stops
+being adequate *loudly* rather than silently.
+
+This closes the pre-archival requirement recorded in
+`docs/HANDOFF_EXECUTION_SUMMARY_2026-07-13.md`, which noted that
+`requirements-paper-release.lock` is direct-only and that a full transitive resolution was owed
+before the release could be called archival-grade. That lock is retained rather than deleted
+because `RELEASE_RUNBOOK.md` names it; it is now the narrower of two, not the only one.
 
 ## Regenerating each paper
 
