@@ -214,3 +214,22 @@ def test_reproducibility_doc_states_what_is_not_reproducible():
     assert "What is NOT yet reproducible" in text
     for gap in ("No archival DOI", "No independent reproduction", "Correctness is not certified"):
         assert gap in text, gap
+
+
+def test_the_archive_hash_depends_on_the_commit_not_only_the_contents(tmp_path, monkeypatch):
+    """A non-obvious reproducibility fact, verified rather than assumed: member mtimes come from
+    the commit's committer time, so the SAME files at a different commit hash differently. Anyone
+    trying to reproduce a published hash must build from the same commit (or set
+    SOURCE_DATE_EPOCH). REPRODUCIBILITY.md must keep saying so."""
+    a = A.create_archive(tmp_path / "a.tar.gz", root=_ROOT, dirty_ok=True)["archive_sha256"]
+    monkeypatch.setenv("SOURCE_DATE_EPOCH", "1000000000")
+    b = A.create_archive(tmp_path / "b.tar.gz", root=_ROOT, dirty_ok=True)["archive_sha256"]
+    assert a != b, "the archive hash is independent of the epoch -- the documented caveat is wrong"
+
+    # ...and pinning the epoch makes it reproducible again, which is the actual escape hatch.
+    c = A.create_archive(tmp_path / "c.tar.gz", root=_ROOT, dirty_ok=True)["archive_sha256"]
+    assert b == c
+
+    doc = (_ROOT / "REPRODUCIBILITY.md").read_text(encoding="utf-8")
+    assert "SOURCE_DATE_EPOCH" in doc and "different sha256" in doc, (
+        "the commit-dependence of the hash is no longer documented")

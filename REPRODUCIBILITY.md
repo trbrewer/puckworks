@@ -140,6 +140,26 @@ The archive is also the single definition of the paper bundle: `paper3.build.bun
 delegates to it, with a small floor list asserted so a globbing change cannot silently drop the
 manuscript. That unification immediately caught two evidence files the archive had been missing.
 
+### The archive hash is a function of the commit, not only of the file contents
+
+Member mtimes are taken from the commit's committer time (`SOURCE_DATE_EPOCH` if set, otherwise
+`git show -s --format=%ct HEAD`). **Identical file contents at a different commit therefore produce
+a different sha256** — verified, not assumed. To reproduce a published hash you must build from the
+same commit, or export `SOURCE_DATE_EPOCH` to that commit's committer time.
+
+This is why `paper3_release_manifest.json` records both the commit and the hash: the pair is the
+claim, and neither half means anything alone. It also means the manifest necessarily names the
+commit it *verified*, which is one behind `HEAD` once the manifest itself is committed — the
+in-tree cycle described above, recorded rather than hidden.
+
+### The gate is idempotent
+
+`release` writes its report into the tree, so the report's own path is excluded from the
+cleanliness check — otherwise the first run would make the second fail. The exclusion is exactly
+that one path (a `.bak` beside it, a sibling manifest, or the containing directory all still count
+as dirty), the manifest is an input to nothing, and it is not an archive member — which would make
+the archive hash self-referential. All four properties are tested.
+
 ## What is NOT yet reproducible
 
 Stated plainly, because a reproducibility document that only lists successes is not useful:
