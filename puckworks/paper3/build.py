@@ -136,6 +136,11 @@ def _recomputation_problems(root=REPO_ROOT):
     return problems
 
 
+#: Tag name the gate suggests. `paper3-v*` is one of the two trigger patterns in
+#: `.github/workflows/release.yml`; a tag outside those patterns fires nothing.
+RELEASE_TAG = "paper3-v1.0.0-rc.1"
+
+
 def release(root=REPO_ROOT, out=None):
     """Strict release gate. Returns a report; `ok` is False on any problem.
 
@@ -185,7 +190,10 @@ def release(root=REPO_ROOT, out=None):
         freshness="by recomputation (generated artifacts regenerate identically)",
         archive_sha256=archive_sha, n_components=rep["n_components"],
         n_bundle_files=len(rep["bundle_files"]),
-        tag_hint="git tag -a paper-3-v1.0.0-rc.1 -m 'Paper 3 release candidate'",
+        # The prefix must match a trigger in .github/workflows/release.yml ("v*", "paper3-v*").
+        # The hint originally said `paper-3-v1.0.0-rc.1`, which matches NEITHER, so following it
+        # would have created a tag that fired no workflow at all. Pinned by a test.
+        tag_hint="git tag -a %s -m 'Paper 3 release candidate'" % RELEASE_TAG,
     )
     if out:
         Path(out).parent.mkdir(parents=True, exist_ok=True)

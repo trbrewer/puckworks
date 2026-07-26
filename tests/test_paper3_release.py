@@ -233,3 +233,31 @@ def test_the_archive_hash_depends_on_the_commit_not_only_the_contents(tmp_path, 
     doc = (_ROOT / "REPRODUCIBILITY.md").read_text(encoding="utf-8")
     assert "SOURCE_DATE_EPOCH" in doc and "different sha256" in doc, (
         "the commit-dependence of the hash is no longer documented")
+
+
+def test_the_suggested_tag_actually_triggers_the_release_workflow():
+    """REAL DEFECT the gate itself shipped: the hint said `paper-3-v1.0.0-rc.1`, which matches
+    NEITHER trigger pattern in release.yml (`v*`, `paper3-v*`). Following the gate's own advice
+    would have created a tag that fired no workflow -- discoverable only after tagging."""
+    import fnmatch
+    import re
+    wf = (_ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
+    line = re.search(r"^\s*tags:\s*\[(.*)\]\s*$", wf, re.M)
+    assert line, "release.yml no longer declares tag triggers in the expected form"
+    patterns = [p.strip().strip('"').strip("'") for p in line.group(1).split(",")]
+    assert any(fnmatch.fnmatch(B.RELEASE_TAG, p) for p in patterns), (
+        f"{B.RELEASE_TAG!r} matches none of {patterns} -- tagging it would fire no workflow")
+
+    # non-vacuity: the name this originally used must still fail the same check
+    assert not any(fnmatch.fnmatch("paper-3-v1.0.0-rc.1", p) for p in patterns)
+
+    rep = B.release(_ROOT)
+    assert B.RELEASE_TAG in rep["tag_hint"]
+
+
+def test_the_strict_gate_runs_in_ci_for_paper3_tags():
+    """A gate nobody runs is decoration. release.yml must invoke it on the tags it certifies."""
+    wf = (_ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
+    assert "puckworks.paper3.build release" in wf, "the strict gate is not wired into CI"
+    assert "paper3-v" in wf
+    assert "figures" in wf, "the gate recomputes figure source data; the extra must be installed"

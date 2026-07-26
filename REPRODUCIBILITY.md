@@ -148,9 +148,13 @@ a different sha256** — verified, not assumed. To reproduce a published hash yo
 same commit, or export `SOURCE_DATE_EPOCH` to that commit's committer time.
 
 This is why `paper3_release_manifest.json` records both the commit and the hash: the pair is the
-claim, and neither half means anything alone. It also means the manifest necessarily names the
-commit it *verified*, which is one behind `HEAD` once the manifest itself is committed — the
-in-tree cycle described above, recorded rather than hidden.
+claim, and neither half means anything alone.
+
+It follows that the committed manifest names the commit it *verified*, not `HEAD`. Immediately
+after it is written that is one commit behind; after further work it is further behind, and the
+recorded hash no longer describes the current tree. **The manifest is a dated record, not a live
+status.** Regenerate it as part of tagging — `python -m puckworks.paper3.build release` — and read
+its `commit` field, never assume it means "now".
 
 ### The gate is idempotent
 
