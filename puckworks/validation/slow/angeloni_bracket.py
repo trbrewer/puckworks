@@ -1489,8 +1489,10 @@ def _oob_coverage_bootstrap(panels, n_cond, n_boot=600, seed=0):
     replicate resamples the n_cond (T,p) CONDITIONS with replacement (the dependence cluster),
     REFITS rate (min in-bag training MAPE) + the exact weighted-median level per panel on the
     in-bag columns, and scores the OUT-OF-BAG conditions -- genuine held-out, so there is no
-    leave-one-out-on-resample leakage. Returns the coverage-calibrated 95% percentile interval
-    and point estimate of the pooled OOB MAPE. Deterministic given seed; NO PDE solves (F is
+    leave-one-out-on-resample leakage. Returns the 95% PERCENTILE interval and point estimate of
+    the pooled OOB MAPE. NOT a coverage-calibrated interval (Paper 1 second review MC3): repeating
+    the fit removes one source of optimism, it does not establish nominal frequentist coverage --
+    that needs a simulation study under a specified data-generating process. Deterministic given seed; NO PDE solves (F is
     cached upstream), so the refit-in-loop is arithmetic and n_boot is a documented cap."""
     import numpy as np
     rng = np.random.default_rng(seed)
@@ -1531,8 +1533,9 @@ def loco_coverage_interval(varieties=("Arabica", "Robusta"),
     OUT-OF-BAG conditions. Condition-cluster resampling respects the fold dependence the
     descriptive intervals ignore. NOTE on the estimand: OOB held-out sets (~3-4 of 9 conditions)
     are LARGER than LOCO's single held-out condition, so this interval's central value may run
-    ABOVE the LOCO point estimate (~6.5%); it is a coverage-calibrated interval that repeats the
-    fit, COMPLEMENTING (not replacing) the LOCO point estimate. n_boot is a documented cap
+    ABOVE the LOCO point estimate (~6.5%); it is a percentile interval that REPEATS THE FIT,
+    COMPLEMENTING (not replacing) the LOCO point estimate. It is NOT coverage-calibrated (MC3),
+    and with only 9 clusters it is an exploratory summary, not a high-precision interval. n_boot is a documented cap
     (bounded run). Named g/L solutes only. Slow (the one-time F build); hand-run."""
     import numpy as np
     from puckworks.models.pannusch2024 import solver as ps
@@ -1566,9 +1569,15 @@ def loco_coverage_interval(varieties=("Arabica", "Robusta"),
                 "replicate on in-bag conditions, scored on out-of-bag; F cached "
                 "(data-independent), so the refit-in-loop is arithmetic (no PDE per replicate)"),
         estimand_note=("OOB held-out sets (~3-4 of 9 conditions) are LARGER than LOCO's single "
-                       "held-out condition, so the central value may exceed the LOCO point "
-                       "estimate (~6.5%); coverage-calibrated, repeats the fit, complements LOCO"),
-        interval_is_coverage_calibrated=True)
+                       "held-out condition, so this targets held-out error at a larger held-out "
+                       "fraction and its central value may exceed the LOCO point estimate "
+                       "(~6.5%); it repeats the fit and complements (does not replace) LOCO"),
+        # MC3: repeating the fit is NOT coverage calibration. Keep the two facts separate so no
+        # downstream label can promote one into the other.
+        interval_repeats_the_fit=True,
+        coverage_demonstrated=False,
+        coverage_note=("no coverage study was run; a percentile interval over only %d condition "
+                       "clusters is an exploratory uncertainty summary" % (ncond or 0)))
     return res
 
 

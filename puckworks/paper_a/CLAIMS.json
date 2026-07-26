@@ -10,19 +10,25 @@
   "claims": [
     {
       "id": "blind_per_condition_named",
-      "value": 26.3, "unit": "percent MAPE", "tolerance": 0.2,
+      "value": 26.3,
+      "unit": "percent MAPE",
+      "tolerance": 0.2,
       "observable_basis": "named_solute",
       "evidence_tier": "cross-dataset blind comparison, per-condition",
       "status": "delivered",
       "producer_key": "per_condition.overall_mape_blind_named",
       "is_headline": true,
       "must_appear_in_manuscripts": true,
-      "retired_values": [22.6],
+      "retired_values": [
+        22.6
+      ],
       "retired_note": "22.6 was the proxy-inclusive figure used as a headline in an earlier conversion. It is not merely stale -- it is a DIFFERENT observable basis."
     },
     {
       "id": "blind_per_condition_proxy_inclusive",
-      "value": 22.7, "unit": "percent MAPE", "tolerance": 0.2,
+      "value": 22.7,
+      "unit": "percent MAPE",
+      "tolerance": 0.2,
       "observable_basis": "proxy_inclusive",
       "evidence_tier": "cross-dataset blind comparison, per-condition",
       "status": "delivered",
@@ -34,45 +40,59 @@
     },
     {
       "id": "flow_map_crude_tau",
-      "value": 26.8, "unit": "percent MAPE", "tolerance": 0.2,
+      "value": 26.8,
+      "unit": "percent MAPE",
+      "tolerance": 0.2,
       "observable_basis": "named_solute",
       "evidence_tier": "cross-dataset blind comparison, per-condition",
       "status": "delivered",
       "producer_key": "flow_map_refinement.overall_mape_crude_tau",
       "is_headline": false,
       "must_appear_in_manuscripts": true,
-      "retired_values": [23.1],
+      "retired_values": [
+        23.1
+      ],
       "retired_note": "23.1 was the proxy-inclusive crude-tau value."
     },
     {
       "id": "flow_map_refined_darcy",
-      "value": 26.3, "unit": "percent MAPE", "tolerance": 0.2,
+      "value": 26.3,
+      "unit": "percent MAPE",
+      "tolerance": 0.2,
       "observable_basis": "named_solute",
       "evidence_tier": "cross-dataset blind comparison, per-condition",
       "status": "delivered",
       "producer_key": "flow_map_refinement.overall_mape_refined_darcy",
       "is_headline": false,
       "must_appear_in_manuscripts": true,
-      "retired_values": [22.6],
+      "retired_values": [
+        22.6
+      ],
       "retired_note": "The refinement closes ~0.5 pp on EITHER basis; the basis must still be stated."
     },
     {
       "id": "endpoint_sensitivity_spread",
-      "value": 5.0, "unit": "percentage points", "tolerance": 0.3,
+      "value": 5.0,
+      "unit": "percentage points",
+      "tolerance": 0.3,
       "observable_basis": "named_solute",
       "evidence_tier": "endpoint-mass robustness of the blind per-condition residual",
       "status": "delivered",
       "producer_key": "endpoint_mass_sensitivity.overall_mape_spread_pp",
       "is_headline": false,
       "must_appear_in_manuscripts": true,
-      "retired_values": [5.3],
+      "retired_values": [
+        5.3
+      ],
       "retired_note": "Sweeps the BLIND O-grind discrepancy only -- NOT the O-refit->C/F transfer estimand (deferred, A-18)."
     },
     {
       "id": "loco_pooled_mean",
-      "value": 6.5, "unit": "percent MAPE", "tolerance": 0.4,
+      "value": 6.5,
+      "unit": "percent MAPE",
+      "tolerance": 0.4,
       "observable_basis": "named_solute",
-      "evidence_tier": "leave-one-condition-out CV (descriptive; not coverage-calibrated)",
+      "evidence_tier": "leave-one-condition-out CV (descriptive; the resampling summaries do not repeat the fit)",
       "status": "delivered",
       "producer_key": "loco.pooled_loco_mean_mape",
       "is_headline": false,
@@ -81,7 +101,9 @@
     },
     {
       "id": "joint_pooled_mape",
-      "value": 6.4, "unit": "percent MAPE", "tolerance": 0.4,
+      "value": 6.4,
+      "unit": "percent MAPE",
+      "tolerance": 0.4,
       "observable_basis": "named_solute",
       "evidence_tier": "in-sample shared-parameter compatibility",
       "status": "delivered",
@@ -92,7 +114,9 @@
     },
     {
       "id": "result1_named_holdout",
-      "value": 8.4, "unit": "percent MAPE", "tolerance": 0.5,
+      "value": 8.4,
+      "unit": "percent MAPE",
+      "tolerance": 0.5,
       "observable_basis": "named_solute",
       "evidence_tier": "reconstruction (single grind); weak 2-point holdout",
       "status": "delivered",
@@ -105,11 +129,16 @@
   "status_claims": [
     {
       "id": "loco_coverage_calibrated_interval",
-      "description": "Coverage-calibrated LOCO interval that REPEATS THE FIT under resampling (condition-cluster out-of-bag bootstrap).",
+      "description": "Condition-cluster out-of-bag refit bootstrap: an interval that REPEATS THE FIT under resampling. Not coverage-calibrated (second review MC3).",
       "status": "delivered",
       "producer": "loco_coverage_interval",
       "reported_value": "held-out MAPE 7.4 %, 95 % [4.3, 11.5] %",
-      "must_not_be_described_as": ["deferred", "still owed", "not yet delivered"],
+      "must_not_be_described_as": [
+        "deferred",
+        "still owed",
+        "not yet delivered",
+        "coverage-calibrated"
+      ],
       "note": "MC1: both manuscripts previously called this deferred in one section and reported it delivered in another."
     },
     {
@@ -117,7 +146,9 @@
       "description": "Signed blind residuals versus (T, p), facetted by variety x solute.",
       "status": "delivered",
       "producer": "fig8_residuals_vs_conditions",
-      "must_not_be_described_as": ["still owed"],
+      "must_not_be_described_as": [
+        "still owed"
+      ],
       "note": "No grind facet exists on the BLIND residuals by construction -- the blind comparison is single-grind (granulometry O). Across-grind residuals are fig5_joint_residual."
     },
     {
@@ -125,12 +156,35 @@
       "description": "Table 7 orthogonal-inventory rate constraint.",
       "status": "qualitative_only",
       "producer": "table7_rate_constraint",
-      "must_not_be_described_as": ["quantitative", "numeric rate intersection"],
+      "must_not_be_described_as": [
+        "quantitative",
+        "numeric rate intersection"
+      ],
       "note": "Demoted 2026-07-24 after the dimensional audit: the 1 kg = 1 L mass->volume basis is undefended, so the ~0.95 numeric intersection was withdrawn."
+    },
+    {
+      "id": "objective_family_panels",
+      "description": "Objective-family sensitivity sweep (SSE / relative-L2 / Huber) of the profiled rate.",
+      "status": "complete",
+      "producer": "identifiability_panel.objective_family",
+      "archive": "docs/paper1_resource/PAPER_A_OBJECTIVE_FAMILY_PANELS.json",
+      "n_panels_required": 6,
+      "n_objectives_required": 3,
+      "reported_frac_range": [
+        0.31,
+        1.0
+      ],
+      "must_not_be_described_as": [
+        "31–76 %"
+      ],
+      "note": "Second review MC2: the manuscript claimed all three solutes and both varieties while only four panels had been run. The two Robusta panels were run; the archive must contain all six, and the reported span must match them. The retired '31-76 %' was the four-panel range."
     }
   ],
   "retired_labels": [
-    {"retired": "reduced-model ladder", "adopted": "in-sample comparator ladder",
-     "note": "The comparators are non-nested and unequally flexible, so no likelihood-ratio reading applies. Applies to manuscript prose, figure titles AND claim labels -- the phrase guard checked only the two manuscript files, so the figure title and the build.py claim label escaped it."}
+    {
+      "retired": "reduced-model ladder",
+      "adopted": "in-sample comparator ladder",
+      "note": "The comparators are non-nested and unequally flexible, so no likelihood-ratio reading applies. Applies to manuscript prose, figure titles AND claim labels -- the phrase guard checked only the two manuscript files, so the figure title and the build.py claim label escaped it."
+    }
   ]
 }

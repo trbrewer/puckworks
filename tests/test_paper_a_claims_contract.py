@@ -168,3 +168,55 @@ def test_every_internal_section_reference_resolves(which):
             continue
         dangling.append((ref, ctx))
     assert not dangling, f"{which}: dangling section references: {dangling}"
+
+
+# --- MC2: the objective-family claim may not exceed the panels actually run -------------------
+_OBJFAM = next(sc for sc in CONTRACT["status_claims"] if sc["id"] == "objective_family_panels")
+_OBJFAM_ARCHIVE = _ROOT / _OBJFAM["archive"]
+
+
+@pytest.fixture(scope="module")
+def objfam():
+    if not _OBJFAM_ARCHIVE.exists():
+        pytest.fail(f"objective-family archive missing: {_OBJFAM['archive']}")
+    return json.loads(_OBJFAM_ARCHIVE.read_text(encoding="utf-8"))
+
+
+def test_objective_family_archive_has_every_contracted_panel(objfam):
+    """The manuscript rebuts a central methodological criticism with this sweep, so the claimed
+    coverage must be the coverage that was computed. It previously said all three solutes and both
+    varieties on the strength of four panels."""
+    panels = objfam["panels"]
+    assert len(panels) == _OBJFAM["n_panels_required"], sorted(panels)
+    varieties = {k.split(":")[0] for k in panels}
+    solutes = {k.split(":")[1] for k in panels}
+    assert varieties == {"Arabica", "Robusta"}, varieties
+    assert solutes == {"caffeine", "trigonelline", "5CQA"}, solutes
+    for key, panel in panels.items():
+        fam = panel["objective_family"]
+        for objective in objfam["objectives"]:
+            assert objective in fam, (key, objective)
+            assert "10pct" in fam[objective]["sets"], (key, objective)
+
+
+def test_reported_near_optimal_span_matches_the_computed_panels(objfam):
+    """The span quoted in prose must be the span the archive actually contains."""
+    fracs = [panel["objective_family"][o]["sets"]["10pct"]["frac_within"]
+             for panel in objfam["panels"].values() for o in objfam["objectives"]]
+    assert len(fracs) == _OBJFAM["n_panels_required"] * _OBJFAM["n_objectives_required"]
+    lo, hi = _OBJFAM["reported_frac_range"]
+    assert min(fracs) == pytest.approx(lo, abs=5e-3), min(fracs)
+    assert max(fracs) == pytest.approx(hi, abs=5e-3), max(fracs)
+    for which in MANUSCRIPTS:
+        text = _text(which)
+        assert f"{round(lo * 100)}–{round(hi * 100)} %" in text, (
+            f"{which}: the objective-family span is not reported as "
+            f"{round(lo * 100)}–{round(hi * 100)} %")
+
+
+@pytest.mark.parametrize("which", sorted(MANUSCRIPTS))
+def test_the_four_panel_span_is_retired(which):
+    """The old four-panel range must not survive anywhere in either manuscript."""
+    text = _text(which)
+    for retired in _OBJFAM["must_not_be_described_as"]:
+        assert retired not in text, f"{which}: retired objective-family span «{retired}»"
