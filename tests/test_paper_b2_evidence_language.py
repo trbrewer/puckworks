@@ -16,7 +16,7 @@ import pathlib
 
 import pytest
 
-from puckworks.paper_b import evidence_ontology as EO
+from puckworks.paper_b2 import evidence_ontology as EO
 
 _ROOT = pathlib.Path(__file__).resolve().parents[1]
 
@@ -24,7 +24,7 @@ _ROOT = pathlib.Path(__file__).resolve().parents[1]
 B2_SOURCES = [
     "puckworks/models/waszkiewicz2025/poroelastic.py",
     "puckworks/analysis/waszkiewicz_shot_level.py",
-    "puckworks/paper_b/evidence_ontology.py",
+    "puckworks/paper_b2/evidence_ontology.py",
 ]
 
 

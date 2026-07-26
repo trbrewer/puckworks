@@ -106,7 +106,7 @@ def test_the_freeze_lock_is_documented_as_a_record_not_a_recipe():
 _PRODUCER_MODULES = (
     "puckworks/figures_paper_a.py",
     "puckworks/paper_a/build.py",
-    "puckworks/paper_b/build.py",
+    "puckworks/paper_b2/build.py",
     "puckworks/figures_paper3.py",
     "puckworks/paper3/build.py",
     "puckworks/paper3/archive.py",

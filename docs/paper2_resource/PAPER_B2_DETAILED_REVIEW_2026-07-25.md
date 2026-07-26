@@ -1311,7 +1311,7 @@ The independent calculations confirm the main rounded RMSE values and the neglig
 - [Manuscript at reviewed commit](https://github.com/trbrewer/puckworks/blob/93358f8e4d7d5c214470d82195d852f455651ff9/PAPER_B2_TEMPORAL_DRAFT.md)
 - [Puckworks harness at reviewed commit](https://github.com/trbrewer/puckworks/blob/93358f8e4d7d5c214470d82195d852f455651ff9/puckworks/harness.py)
 - [Waszkiewicz poroelastic implementation](https://github.com/trbrewer/puckworks/blob/93358f8e4d7d5c214470d82195d852f455651ff9/puckworks/models/waszkiewicz2025/poroelastic.py)
-- [Paper B build/claim logic](https://github.com/trbrewer/puckworks/blob/93358f8e4d7d5c214470d82195d852f455651ff9/puckworks/paper_b/build.py)
+- [Paper B build/claim logic](https://github.com/trbrewer/puckworks/blob/93358f8e4d7d5c214470d82195d852f455651ff9/puckworks/paper_b2/build.py)
 - [Current committed Paper B manifest](https://github.com/trbrewer/puckworks/blob/93358f8e4d7d5c214470d82195d852f455651ff9/docs/reproducibility/paper_b_manifest.json)
 
 ### Upstream Waszkiewicz evidence

@@ -190,7 +190,7 @@ def test_the_out_of_tree_release_tool_really_does_not_cover_paper_3():
     docstring and REPRODUCIBILITY.md both become stale and must be revisited."""
     tool = _ROOT / "tools/prepare_paper_release.py"
     src = tool.read_text(encoding="utf-8")
-    assert "def build_paper_a" in src and "def build_paper_b" in src, (
+    assert "def build_paper_a" in src and "def build_paper_b2" in src, (
         "the tool's shape changed -- re-derive which papers it covers")
     assert "def build_paper3" not in src and "def build_paper_3" not in src, (
         "Paper 3 now has an out-of-tree builder: update paper3/build.py and REPRODUCIBILITY.md, "

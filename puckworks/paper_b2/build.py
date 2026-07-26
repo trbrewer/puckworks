@@ -7,9 +7,9 @@ hand-typed numbers); `verify` checks the manuscript-facing headline numbers agai
 that bundle and writes a provenance manifest (commit, env, data hashes). The slow
 Result-3 robustness sweep (`ntube_robustness_study`) is referenced, not bundled here.
 
-    python -m puckworks.paper_b.build compute   # ~2-3 min: build the results bundle
-    python -m puckworks.paper_b.build verify     # fast: check bundle vs claims + manifest
-    python -m puckworks.paper_b.build full        # compute then verify
+    python -m puckworks.paper_b2.build compute   # ~2-3 min: build the results bundle
+    python -m puckworks.paper_b2.build verify     # fast: check bundle vs claims + manifest
+    python -m puckworks.paper_b2.build full        # compute then verify
 
 Mirrors puckworks/paper_a/build.py: the _CLAIMS table is the single source of truth
 linking each manuscript number to a bundle field with a declared tolerance.
@@ -440,7 +440,7 @@ def verify(bundle_path=_BUNDLE, timestamp=None, write_manifest=True, strict=Fals
 
 def main(argv=None):
     import argparse
-    p = argparse.ArgumentParser(prog="puckworks.paper_b.build")
+    p = argparse.ArgumentParser(prog="puckworks.paper_b2.build")
     p.add_argument("cmd", choices=["compute", "verify", "full", "release"],
                    nargs="?", default="verify")
     p.add_argument("--timestamp", default=None)

@@ -47,7 +47,7 @@ def test_every_figure_has_alt_text():
 def test_figures_render_from_the_bundle_the_claims_are_checked_against(bundle):
     """The point of rendering from `paper_b_results.json`: a figure cannot disagree with a claim
     that was verified against the same object."""
-    from puckworks.paper_b import build as B
+    from puckworks.paper_b2 import build as B
     assert os.path.samefile(F.BUNDLE, B._BUNDLE), (F.BUNDLE, B._BUNDLE)
     ok, failures, _ = B.verify(write_manifest=False)
     assert ok, failures

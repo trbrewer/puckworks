@@ -381,7 +381,7 @@ def held_out_flexible_comparator(window=WINDOW, n_segments=5):
 
     NAMING. This paper's surface retires the evidentiary phrase that was previously applied to a
     mechanistic branch whose temporal construction was in fact retained (see
-    puckworks.paper_b.evidence_ontology.RETIRED_LANGUAGE). That retirement stands and is not
+    puckworks.paper_b2.evidence_ontology.RETIRED_LANGUAGE). That retirement stands and is not
     loosened here. This comparator is a different object -- it is a NULL -- and what is withheld
     from it is stated per protocol below rather than asserted.
 

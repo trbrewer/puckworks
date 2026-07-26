@@ -189,7 +189,7 @@ they are **not** faked:
 - **`solids_calibration.csv` sign (review 4.3) — VERIFIED, deferred to the release rebuild.** The CSV `model` column documents `0.5·k·(1 − tanh)` but the implementing code (`waszkiewicz2025/poroelastic.py:77`, Eq. 20) computes `0.5·k·(1 + tanh)` — a documentation-only sign error (the string is not used in computation; `paper_b build verify` passes 18/18 with either). The correct fix is `1 + tanh`, but the CSV's SHA256 is pinned in `paper_b_manifest.json` **and** a PV-04 autopsy snapshot, so it must be corrected together with those frozen hashes in the 4.13 release rebuild rather than as an isolated edit.
 - ✅ **4.13 clean reproducibility release — DONE (2026-07-26).** The strict `release` verb already
   existed (no-dirty-tree + freshness); the gap was the claim map. New
-  `puckworks/paper_b/claim_coverage.py` audits **every numeral in the manuscript body** and forces
+  `puckworks/paper_b2/claim_coverage.py` audits **every numeral in the manuscript body** and forces
   each into a disposition. **Claims 18 → 118; unaccounted 150 → 0** (producer 137 / config 159 /
   dataset 17 / derived 5, each recomputed rather than waved through / structural 74). Tables 2 and
   3, the block endpoints, the residual diagnostics and the robustness study are all bound; the

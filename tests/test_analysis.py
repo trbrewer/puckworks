@@ -29,10 +29,10 @@ def test_paper_b_build_verifies_manuscript_claims():
     headline number equals the value in the cached results bundle (fails on drift).
     Runs verify against the committed bundle (fast); guards manuscript<->bundle."""
     import os
-    from puckworks.paper_b import build
+    from puckworks.paper_b2 import build
     if not os.path.exists(build._BUNDLE):
         import pytest
-        pytest.skip("Paper B bundle not computed (run `python -m puckworks.paper_b.build compute`)")
+        pytest.skip("Paper B bundle not computed (run `python -m puckworks.paper_b2.build compute`)")
     ok, failures, manifest = build.verify(timestamp=None, write_manifest=False)
     assert ok, "Paper B numbers drifted from the bundle: " + "; ".join(failures)
     assert manifest["n_claims"] >= 12 and manifest["n_failures"] == 0
@@ -213,7 +213,7 @@ def test_paper_b_build_freshness_guard():
     """review MAJ-04: a RELEASE (strict) verify must FAIL on a stale/dirty tree, while the
     routine claim check still passes; the manifest exposes release_fresh."""
     import os
-    from puckworks.paper_b import build
+    from puckworks.paper_b2 import build
     if not os.path.exists(build._BUNDLE):
         import pytest
         pytest.skip("Paper B bundle not computed")

@@ -126,7 +126,7 @@ def kappa_t_ladder(window=_KAPPA_LADDER_WINDOW):
     mechanism is validated; the mechanistic content is that a ZERO-free-parameter
     poroelastic Phi(t) approaches that same-trace descriptive benchmark. NOTE Phi(t) is NOT
     parameter-free: it carries rig constants and target-derived sigmoid parameters upstream (see
-    puckworks.paper_b.evidence_ontology).
+    puckworks.paper_b2.evidence_ontology).
     (rung 2, the foster2025 pump/headspace flow-MINIMUM null, is a distinct
      early-shot phenomenon validated by gate_foster_fig15_flowmin, not the
      saturated rising-flow residual tested here.)

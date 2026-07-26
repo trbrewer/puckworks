@@ -1,3 +1,28 @@
+> # ⚠️ SUPERSEDED — DO NOT CITE, DO NOT REVIEW
+>
+> This document is **frozen**. It is not a current manuscript. It is retained only as the
+> broad technical synthesis and fork source recorded in
+> [`docs/CLAIM_OWNERSHIP.md`](CLAIM_OWNERSHIP.md); it is not a publication unit.
+>
+> **The current manuscripts are:**
+>
+> | | manuscript | verified by |
+> |---|---|---|
+> | Paper 1 | [`PAPER_A_DRAFT.md`](PAPER_A_DRAFT.md) | `python -m puckworks.paper_a.build verify` |
+> | Paper 2 | [`PAPER_B2_TEMPORAL_DRAFT.md`](PAPER_B2_TEMPORAL_DRAFT.md) | `python -m puckworks.paper_b2.build verify` |
+> | Paper 3 | [`PAPER_3_PUCKWORKS_DRAFT.md`](PAPER_3_PUCKWORKS_DRAFT.md) | `python -m puckworks.paper3.build verify` |
+>
+> **Its numbers are NOT maintained and some are known to be stale.** No producer check, claim map
+> or numeral audit runs against this file, so nothing here is guaranteed to match the current
+> result bundle. A 2026-07-26 review confirmed at least the cross-pressure RC-3b values have
+> drifted: this document prints **0.525 / 0.519 / 0.530** where the producers now give
+> **0.516 / 0.510 / 0.522**. The corrected values live in
+> `PAPER_B2_TEMPORAL_DRAFT.md` Table 3, which is bound to `cross_pressure_loco` by a test.
+>
+> The reviewer instruction immediately below is part of the frozen text and **no longer applies**.
+
+---
+
 # Paper B — draft prose (rev. 2026-07-12, post detailed review)
 
 > **Reviewers:** please read `docs/REVIEWER_BRIEF_PAPER_B.md` first — it is a

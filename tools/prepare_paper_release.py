@@ -148,7 +148,7 @@ print(json.dumps(manifest))
     return json.loads(output.splitlines()[-1])
 
 
-def build_paper_b(worktree: Path, stage: Path, timestamp: str | None) -> dict[str, Any]:
+def build_paper_b2(worktree: Path, stage: Path, timestamp: str | None) -> dict[str, Any]:
     bundle = stage / "docs/figures/paper_b_results.json"
     figures = stage / "docs/figures"
     manifest = stage / "docs/reproducibility/paper_b_manifest.json"
@@ -156,7 +156,7 @@ def build_paper_b(worktree: Path, stage: Path, timestamp: str | None) -> dict[st
 import json
 from pathlib import Path
 from puckworks.figures import render_all
-from puckworks.paper_b.build import compute, verify
+from puckworks.paper_b2.build import compute, verify
 bundle = Path(__BUNDLE__)
 outdir = Path(__FIGURES__)
 manifest_path = Path(__MANIFEST__)
@@ -279,7 +279,7 @@ def prepare_one(
         manifest = (
             build_paper_a(worktree, stage, timestamp)
             if paper == "a"
-            else build_paper_b(worktree, stage, timestamp)
+            else build_paper_b2(worktree, stage, timestamp)
         )
         assert_manifest(manifest, head, paper.upper())
 
