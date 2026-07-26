@@ -194,6 +194,19 @@ _CLAIMS = [
      "result2_residuals.block_length_sensitivity.3.phi_minus_cubic.ci95.0", 0.001, 0.0005),
     ("24 s block Phi(t) minus cubic upper ~+0.04",
      "result2_residuals.block_length_sensitivity.3.phi_minus_cubic.ci95.1", 0.04, 0.002),
+    # §5.2b residual spectra (review 4.7) -- the structure is drift, not oscillation
+    ("residual power in slowest quarter, constant ~0.957",
+     "shot_level.residuals_1s.branches.rung1_const.spectrum.power_in_slowest_quarter", 0.9571, 0.002),
+    ("residual power in slowest quarter, static ~0.957",
+     "shot_level.residuals_1s.branches.rung3_static.spectrum.power_in_slowest_quarter", 0.9571, 0.002),
+    ("residual power in slowest quarter, Phi(t) ~0.990",
+     "shot_level.residuals_1s.branches.rung4_phi_of_t.spectrum.power_in_slowest_quarter", 0.9897, 0.002),
+    ("residual power in slowest quarter, cubic ~0.954",
+     "shot_level.residuals_1s.branches.flexible_cubic.spectrum.power_in_slowest_quarter", 0.954, 0.002),
+    ("dominant residual period, constant 80 s",
+     "shot_level.residuals_1s.branches.rung1_const.spectrum.dominant_period_s", 80.0, 0.1),
+    ("dominant residual period, Phi(t) 40 s",
+     "shot_level.residuals_1s.branches.rung4_phi_of_t.spectrum.dominant_period_s", 40.0, 0.1),
 ]
 
 

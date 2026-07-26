@@ -251,6 +251,39 @@ Reporting more than one error summary also changes one ordering, which is why we
 
 The temporal-versus-constant ordering persists in all three scoring windows. The strict ordering between $\Phi(t)$ and the cubic does not. Across 4, 8, 16, and 24 s blocks, the $\Phi(t)$-versus-constant interval excludes zero at every block duration. The $\Phi(t)$-versus-cubic interval is unresolved from 4 to 16 s; at 24 s it marginally favors the cubic, with an interval of approximately +0.001 to +0.04 g s⁻¹ for $\Phi(t)$ minus cubic. Coarser dependence treatment therefore weakens, rather than strengthens, a mechanistic reading of the fit.
 
+### 5.2b Residual structure is drift, not oscillation, in every branch
+
+Lag-1 autocorrelation says residuals are dependent; it does not say what the dependence *is*. A
+slowly drifting residual and a residual oscillating near the sampling rate can carry similar lag-1
+values while meaning very different things about model adequacy. We therefore report the
+autocorrelation across lags and the periodogram of each branch's residual, on the same 1 s series
+used for the scalar diagnostics.
+
+The answer is the same for all four branches and it is unambiguous: **more than 95 % of residual
+power sits in the lowest-frequency quarter of the spectrum** (0.957 for the best constant and the
+static branch, 0.990 for empirical $\Phi(t)$, 0.954 for the cubic). The residuals are slow drift
+relative to the 80 s scoring window, not oscillation. That is why the Durbin–Watson statistics sit
+near zero rather than near two, and it is the reason lag-1 autocorrelation near 0.95 coexists with
+temporal-branch RMSEs inside shot-to-shot variability: the branches capture the level and the
+overall rise, and what they leave behind is a slow excursion rather than noise they failed to
+smooth.
+
+The dominant period separates the branches in a way the scalars do not. The two static branches
+peak at **80 s** — the full window, i.e. a single unreversed drift, which is exactly what a
+constant leaves against a rising trace. Both temporal branches peak at **40 s**, half the window.
+The temporal construction therefore removes the slowest component and leaves a faster one, which is
+a more specific statement of inadequacy than "the residuals are autocorrelated": whatever the
+remaining structure is, it reverses within the shot, so it is not a monotone trend that a further
+level or slope term would absorb.
+
+This does not identify a mechanism, and we do not read it as evidence for one. It bounds what any
+smooth same-trace fit can be expected to fix, and it is the diagnostic a future measurement would
+have to explain.
+
+A figure overlaying residual-vs-time for all branches on the pointwise between-shot band is part of
+the Paper 2 figure set, which is not yet built; the underlying series are in the results bundle
+(`shot_level.residuals_1s`) so the panels can be drawn without re-running any analysis.
+
 ### 5.3 Cross-pressure assessment supports within-campaign temporal transfer but not a universal branch
 
 Leaving out one equilibrium pressure changes either fitted equilibrium parameter by at most approximately 2.8%. The two-parameter equilibrium calibration is therefore not dominated by a single pressure point. Its equilibrium-curve LOPO predictive coefficient is approximately $Q^2=0.81$.

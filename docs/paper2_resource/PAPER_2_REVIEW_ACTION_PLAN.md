@@ -171,11 +171,37 @@ they are **not** faked:
   **not** claim a cross-fit (`per_shot_ladder()["note"]` says so, and a test pins it). Unblocking
   needs shot-matched TDS from the authors — a correspondence item, not an analysis one.
 - **4.5** a genuinely **held-out flexible comparator** (penalized spline / GP mean; leave-segment-out CV).
-- **4.7** residual diagnostics as a first-class result (residual-vs-time all branches, ACFs, spectra,
-  overlaid on shot-level variability).
+- ✅ **4.7 residual diagnostics — ANALYSIS DONE (2026-07-26), figure still owed.** New §5.2b.
+  `residual_diagnostics()` now emits the **ACF across 20 lags** and a **periodogram** per branch
+  alongside the scalars, because lag-1 alone cannot separate a slow drift from a fast oscillation —
+  and they mean different things about adequacy. The finding: **>95 % of residual power sits in the
+  lowest-frequency quarter for every branch** (0.957 constant / 0.957 static / 0.990 Φ(t) / 0.954
+  cubic), so the residuals are slow drift over the 80 s window, not noise a smoother missed. The
+  dominant period separates the branches where the scalars do not: the static branches peak at
+  **80 s** (one unreversed drift, exactly what a constant leaves against a rising trace) and both
+  temporal branches at **40 s** — the temporal construction sheds the slowest component and leaves
+  one that *reverses within the shot*, so no further level or slope term would absorb it. Six
+  claims bound; 7 tests, including a non-vacuity check that a pure 4 s oscillation lands with
+  <0.1 power in the slowest quarter, so "drift" is not an artefact of the estimator.
+  **Still owed:** the overlay figure (residual-vs-time for all branches on the pointwise
+  between-shot band). It belongs to the Paper 2 figure set, which does not exist yet — there is no
+  `figures_paper_b` module and the manuscript still carries "Figure N near here" placeholders. The
+  series are in the bundle (`shot_level.residuals_1s`) so the panels can be drawn without re-running
+  anything.
 - **`solids_calibration.csv` sign (review 4.3) — VERIFIED, deferred to the release rebuild.** The CSV `model` column documents `0.5·k·(1 − tanh)` but the implementing code (`waszkiewicz2025/poroelastic.py:77`, Eq. 20) computes `0.5·k·(1 + tanh)` — a documentation-only sign error (the string is not used in computation; `paper_b build verify` passes 18/18 with either). The correct fix is `1 + tanh`, but the CSV's SHA256 is pinned in `paper_b_manifest.json` **and** a PV-04 autopsy snapshot, so it must be corrected together with those frozen hashes in the 4.13 release rebuild rather than as an isolated edit.
-- **4.13** a Paper-B2-specific **clean reproducibility release** (strict no-dirty-tree; claim map
-  covering *every* number incl. Table 2/3, block endpoints, residual diagnostics, robustness).
+- ✅ **4.13 clean reproducibility release — DONE (2026-07-26).** The strict `release` verb already
+  existed (no-dirty-tree + freshness); the gap was the claim map. New
+  `puckworks/paper_b/claim_coverage.py` audits **every numeral in the manuscript body** and forces
+  each into a disposition. **Claims 18 → 118; unaccounted 150 → 0** (producer 137 / config 159 /
+  dataset 17 / derived 5, each recomputed rather than waved through / structural 74). Tables 2 and
+  3, the block endpoints, the residual diagnostics and the robustness study are all bound; the
+  33-cell per-pressure table is **expanded from the producer**, not transcribed. **Three unbacked
+  numbers found:** the six recorded-pressure values were transcribed from a reviewer's table with
+  no producer of ours (now reproduced exactly by `recorded_pressure_robustness()`); "up to 0.61
+  bar" and "a mean 8.71 bar" are **not reproducible under any natural definition** and were
+  replaced with producer-backed values under a declared one; and a macro mean printed as 0.335
+  contradicted Table 3's 0.334. Also fixed `_get`, which split dotted paths naively and reported
+  every per-pressure cell MISSING. CI enforces a zero-unaccounted ratchet. 12 tests.
 
 ## Tim DECISIONS — RESOLVED (2026-07-25)
 

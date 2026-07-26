@@ -1,12 +1,12 @@
 {
   "paper": "B",
-  "source_commit": "20f83cd6c237db191b1f774fc0290e6798eefe4f",
+  "source_commit": "ccfbc03f17ddf870b4052783523e55735fed9744",
   "git_dirty": true,
   "timestamp_utc": null,
-  "bundle_source_commit": "20f83cd6c237db191b1f774fc0290e6798eefe4f",
+  "bundle_source_commit": "ccfbc03f17ddf870b4052783523e55735fed9744",
   "bundle_matches_head": true,
   "release_fresh": false,
-  "bundle_sha256": "ad87e5b80c59ad9aa3cb9d14faa1ef396705e6cb8e06877b05ef678105f33ccd",
+  "bundle_sha256": "ee9802e2055b9056b628fc11c80a6a0a69f1c5adc948c5ca054cd55dfb12b8fd",
   "environment": {
     "python": "3.13.13",
     "numpy": "2.5.1",
@@ -26,7 +26,7 @@
     "paper_b_evidence_matrix.csv": "13b739e86c7069934c73d7a0c15add66fcd9aa2aa56a0f51fc1c6f739e577304",
     "paper_b_evidence_dictionary.csv": "38b807ff9bfb99952e09cef892e8a8d95e5383c0e27644f44fb3b5afbdccaf16"
   },
-  "n_claims": 118,
+  "n_claims": 124,
   "n_failures": 0,
   "claims": [
     {
@@ -707,6 +707,54 @@
       "expected": 0.04,
       "actual": 0.04,
       "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "residual power in slowest quarter, constant ~0.957",
+      "path": "shot_level.residuals_1s.branches.rung1_const.spectrum.power_in_slowest_quarter",
+      "expected": 0.9571,
+      "actual": 0.9571,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "residual power in slowest quarter, static ~0.957",
+      "path": "shot_level.residuals_1s.branches.rung3_static.spectrum.power_in_slowest_quarter",
+      "expected": 0.9571,
+      "actual": 0.9571,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "residual power in slowest quarter, Phi(t) ~0.990",
+      "path": "shot_level.residuals_1s.branches.rung4_phi_of_t.spectrum.power_in_slowest_quarter",
+      "expected": 0.9897,
+      "actual": 0.9897,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "residual power in slowest quarter, cubic ~0.954",
+      "path": "shot_level.residuals_1s.branches.flexible_cubic.spectrum.power_in_slowest_quarter",
+      "expected": 0.954,
+      "actual": 0.954,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "dominant residual period, constant 80 s",
+      "path": "shot_level.residuals_1s.branches.rung1_const.spectrum.dominant_period_s",
+      "expected": 80.0,
+      "actual": 80.0,
+      "tol": 0.1,
+      "ok": true
+    },
+    {
+      "claim": "dominant residual period, Phi(t) 40 s",
+      "path": "shot_level.residuals_1s.branches.rung4_phi_of_t.spectrum.dominant_period_s",
+      "expected": 40.0,
+      "actual": 40.0,
+      "tol": 0.1,
       "ok": true
     },
     {

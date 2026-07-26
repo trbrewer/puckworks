@@ -499,6 +499,52 @@ def held_out_flexible_comparator(window=WINDOW, n_segments=5):
 
 
 # --- P0.7: residual diagnostics at ONE declared resolution --------------------------------------
+
+def _acf_by_lag(centred, max_lag):
+    """Sample autocorrelation at lags 1..max_lag of an already-centred series."""
+    import numpy as np
+    x = np.asarray(centred, dtype=float)
+    denom = float((x ** 2).sum())
+    if denom == 0 or max_lag < 1:
+        return []
+    return [round(float((x[:-k] * x[k:]).sum() / denom), 4) for k in range(1, int(max_lag) + 1)]
+
+
+def _periodogram(centred, dt_s, keep=12):
+    """One-sided periodogram of an already-centred residual series.
+
+    Reported as (period_s, relative_power) for the strongest components, and normalised so the
+    powers sum to 1. Absolute power in (g/s)^2 would invite comparison between branches with very
+    different residual magnitudes -- the question here is WHERE each branch's structure sits, not
+    how large it is; magnitude is already reported as RMSE.
+    """
+    import numpy as np
+    x = np.asarray(centred, dtype=float)
+    n = x.size
+    if n < 8 or dt_s <= 0:
+        return dict(period_s=[], relative_power=[], dominant_period_s=None,
+                    power_in_slowest_quarter=None)
+    power = np.abs(np.fft.rfft(x)) ** 2
+    freq = np.fft.rfftfreq(n, d=dt_s)
+    power, freq = power[1:], freq[1:]                 # drop the zero-frequency (mean) term
+    total = float(power.sum())
+    if total == 0:
+        return dict(period_s=[], relative_power=[], dominant_period_s=None,
+                    power_in_slowest_quarter=None)
+    rel = power / total
+    order = np.argsort(rel)[::-1][:keep]
+    order = order[np.argsort(freq[order])]
+    # "slowest quarter" = the lowest-frequency quarter of the spectrum; a residual dominated by it
+    # is drifting rather than oscillating.
+    q = max(1, len(freq) // 4)
+    return dict(
+        period_s=[round(float(1.0 / f), 3) for f in freq[order]],
+        relative_power=[round(float(v), 4) for v in rel[order]],
+        dominant_period_s=round(float(1.0 / freq[int(np.argmax(rel))]), 3),
+        power_in_slowest_quarter=round(float(rel[:q].sum()), 4),
+    )
+
+
 def residual_diagnostics(window=WINDOW, resolution_s=1.0):
     """Serial-dependence diagnostics for EVERY branch at ONE declared resolution (review P0.7).
 
@@ -553,6 +599,11 @@ def residual_diagnostics(window=WINDOW, resolution_s=1.0):
             standardized_residual_sd=round(float(r.std(ddof=1)
                                                  / pointwise_sd.mean()), 3),
             residual_vs_time_g_per_s=[round(float(x), 4) for x in r],
+            # review 4.7: lag-1 alone cannot distinguish "slowly drifting" from "oscillating".
+            # The ACF across lags and the periodogram show WHERE the structure sits, which is
+            # what makes the residuals a first-class result rather than a single number.
+            acf_by_lag=_acf_by_lag(rc, max_lag=min(20, len(rc) // 4)),
+            spectrum=_periodogram(rc, float(resolution_s)),
         )
     return dict(
         pressure_bar=PRESSURE_BAR, window_s=tuple(window), n_shots=len(ids),
