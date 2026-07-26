@@ -199,13 +199,26 @@ def test_recomputation_finds_nothing_stale_right_now():
 
 def test_the_lock_pins_the_producing_environment():
     """A lock resolved without constraints would name matplotlib 3.11.1 while the figures were
-    drawn with 3.11.0 -- a different environment from the one that ran."""
+    drawn with 3.11.0 -- a different environment from the one that ran.
+
+    Only packages that are actually importable here are compared. matplotlib comes from the
+    `figures` extra, which the quick and min-deps CI lanes deliberately do NOT install; a bare
+    `import matplotlib` made this test fail in both of them while passing locally.
+    """
+    import importlib
+
     lock = (_ROOT / "docs/reproducibility/requirements-papers.lock").read_text(encoding="utf-8")
-    import matplotlib
-    import numpy
-    import scipy
-    for mod in (numpy, scipy, matplotlib):
-        assert "%s==%s" % (mod.__name__, mod.__version__) in lock, mod.__name__
+    checked = []
+    for name in ("numpy", "scipy", "matplotlib"):
+        try:
+            mod = importlib.import_module(name)
+        except ModuleNotFoundError:
+            continue                      # optional extra absent in this lane
+        checked.append(name)
+        assert "%s==%s" % (name, mod.__version__) in lock, name
+    assert {"numpy", "scipy"} <= set(checked), (
+        "numpy and scipy are hard dependencies -- if they are missing the environment is broken, "
+        "not merely missing an extra")
 
 
 def test_reproducibility_doc_states_what_is_not_reproducible():
