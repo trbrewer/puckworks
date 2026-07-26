@@ -76,14 +76,18 @@ Answer (3) is a perfectly good answer and we would rather have it than silence.
 > With thanks and best regards,
 >
 > Tim Brewer
-> brewer@synthetik-technologies.com
+> [reply address — use the project contact in `CITATION.cff`, not a
+> former corporate address; `tests/test_project_identity.py` forbids the latter in this repo]
 
 ---
 
 ## Notes for Tim before sending
 
-- **Fill in the addresses** from the article title page. This repository does not hold them, and I
-  have not guessed them.
+- **Fill in the recipients' addresses** from the article title page. This repository does not hold
+  them, and I have not guessed them.
+- **Fill in your reply address.** It is deliberately left blank: the project moved off its former
+  corporate address, and `tests/test_project_identity.py` fails if that address appears anywhere in
+  the tracked tree. `CITATION.cff` carries the current contact.
 - Every number quoted in the message is producer-backed:
   `puckworks/analysis/waszkiewicz_shot_level.py::per_shot_ladder()` — 5 shots, 15–95 s, 9 bar,
   `rung4_phi_of_t` mean RMSE 0.1894 g s⁻¹ vs `rung1_const` mean 0.5798 g s⁻¹, 5/5 shots.

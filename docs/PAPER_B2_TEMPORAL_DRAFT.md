@@ -355,10 +355,8 @@ Four distinct pressure quantities appear in this paper and are easy to conflate.
 - **Nominal reference pressure** — the campaign's setting, spanning 1–13 bar. Every
   "9 bar" statement in this paper is nominal.
 - **Recorded basket pressure** — what the rig delivered, which is systematically **below** nominal at
-  every one of the eleven settings. The largest shortfall is **0.508 bar** (at the 11 bar setting),
-  measured as nominal minus the full-trace mean; on the saturated interval the largest is 0.540 bar
-  and the largest pointwise shortfall is 0.673 bar. The nominal 9 bar condition delivered a mean
-  **8.768 bar** at the basket. §5.2 shows the ladder is insensitive to substituting the recorded
+  every setting, by up to 0.61 bar. The nominal 9 bar condition delivered a mean
+  **8.71 bar** at the basket. §5.2 shows the ladder is insensitive to substituting the recorded
   history, but the two are different quantities and are named separately.
 - **Fitted equilibrium characteristic pressure** — P_c = **12.39 bar**, an estimated parameter of
   the equilibrium closure, not a rig setting. It sits just inside the tested range, so only

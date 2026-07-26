@@ -126,17 +126,31 @@ def test_the_recorded_pressure_values_now_have_a_producer():
     assert r["both_shifts_below_0p001"] and r["ordering_unchanged"]
 
 
-def test_the_pressure_deficit_numbers_the_audit_rejected_are_gone():
-    """The manuscript claimed "up to 0.61 bar" and "a mean 8.71 bar"; neither is reproducible under
-    any natural definition (the candidates are 0.508, 0.540, 0.673 and 8.768). Both were replaced
-    with producer-backed values under a stated definition, and must not come back."""
+def test_the_pressure_gap_numbers_are_bound_to_the_producer_that_already_existed():
+    """A CORRECTION to this work, kept as a test so the mistake cannot recur.
+
+    The coverage audit first reported "up to 0.61 bar" and "a mean 8.71 bar" as unbacked, and they
+    were briefly replaced with values computed from a new whole-trace producer (0.508 / 8.768).
+    That was wrong: `waszkiewicz_cross_pressure.pressure_domains()` already computed both, scoped
+    to the SETTLED EQUILIBRIUM ENDPOINTS rather than the whole trace — which is the right basis for
+    "what the rig delivered at this setting", since the early ramp is not delivery. The audit had
+    only searched the shot-level module and the bundle.
+
+    Two lessons are pinned here: the manuscript keeps the original values, and there is exactly ONE
+    producer for this quantity. Two nearly-equal numbers under different scopes is the precise
+    hazard these papers are about.
+    """
+    from puckworks.analysis import waszkiewicz_cross_pressure as X
     from puckworks.analysis import waszkiewicz_shot_level as W
-    r = W.nominal_vs_recorded_pressure()
-    assert r["max_mean_deficit_bar"] == pytest.approx(0.5076, abs=1e-3)
-    assert r["nine_bar_mean_recorded_bar"] == pytest.approx(8.7679, abs=1e-3)
-    assert r["recorded_below_nominal_everywhere"]
+
+    d = X.pressure_domains()
+    assert d["max_nominal_recorded_gap_bar"] == pytest.approx(0.606, abs=2e-3)
+    assert d["primary_analysis_recorded_bar"] == pytest.approx(8.713, abs=2e-3)
 
     text = C.MANUSCRIPT.read_text(encoding="utf-8")
-    assert "0.61 bar" not in text, "the unreproducible deficit is back in the manuscript"
-    assert "8.71 bar" not in text, "the unreproducible 9-bar mean is back in the manuscript"
-    assert "0.508 bar" in text and "8.768 bar" in text
+    assert "0.61 bar" in text and "8.71 bar" in text
+    assert "0.508 bar" not in text and "8.768 bar" not in text
+
+    assert not hasattr(W, "nominal_vs_recorded_pressure"), (
+        "the competing whole-trace producer is back; there must be exactly one definition of the "
+        "nominal-minus-recorded gap")

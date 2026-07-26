@@ -197,9 +197,11 @@ they are **not** faked:
   3, the block endpoints, the residual diagnostics and the robustness study are all bound; the
   33-cell per-pressure table is **expanded from the producer**, not transcribed. **Three unbacked
   numbers found:** the six recorded-pressure values were transcribed from a reviewer's table with
-  no producer of ours (now reproduced exactly by `recorded_pressure_robustness()`); "up to 0.61
-  bar" and "a mean 8.71 bar" are **not reproducible under any natural definition** and were
-  replaced with producer-backed values under a declared one; and a macro mean printed as 0.335
+  no producer of ours (now reproduced exactly by `recorded_pressure_robustness()`); a third verdict was **wrong and is corrected**: "up to
+  0.61 bar" and "a mean 8.71 bar" were flagged as unbacked, but `pressure_domains()` already
+  produced both on the settled equilibrium endpoints — the audit had only searched the shot-level
+  module. The original numbers stand, the competing whole-trace producer was deleted, and both are
+  now bound as claims; and a macro mean printed as 0.335
   contradicted Table 3's 0.334. Also fixed `_get`, which split dotted paths naively and reported
   every per-pressure cell MISSING. CI enforces a zero-unaccounted ratchet. 12 tests.
 

@@ -163,15 +163,12 @@ _CLAIMS = [
      "shot_level.window_sensitivity.windows.mean_110_120s_excl_contaminated.P_c_bar", 11.935, 0.002),
     ("window sensitivity 110-120 s (excl. contaminated) Q_c ~1.861",
      "shot_level.window_sensitivity.windows.mean_110_120s_excl_contaminated.Q_c_g_per_s", 1.861, 0.002),
-    # §5.3b — replaced two numbers the audit could not reproduce (0.61 bar, 8.71 bar)
-    ("max mean pressure deficit 0.508 bar",
-     "shot_level.nominal_vs_recorded.max_mean_deficit_bar", 0.5076, 0.001),
-    ("max saturated-interval mean deficit 0.540 bar",
-     "shot_level.nominal_vs_recorded.max_mean_deficit_saturated_bar", 0.5395, 0.001),
-    ("max pointwise deficit 0.673 bar",
-     "shot_level.nominal_vs_recorded.max_pointwise_deficit_saturated_bar", 0.6726, 0.001),
-    ("9-bar delivered mean 8.768 bar",
-     "shot_level.nominal_vs_recorded.nine_bar_mean_recorded_bar", 8.7679, 0.001),
+    # §5.3b — these were NOT unbacked; `pressure_domains()` computes them on the settled
+    # equilibrium endpoints. Binding them here is what the coverage audit should have found.
+    ("max nominal-minus-recorded gap ~0.61 bar",
+     "shot_level.pressure_domains.max_nominal_recorded_gap_bar", 0.606, 0.002),
+    ("9-bar delivered mean ~8.71 bar",
+     "shot_level.pressure_domains.primary_analysis_recorded_bar", 8.713, 0.002),
     # decimated-resolution RMSEs quoted in the MAE/RMSE ordering-reversal paragraph
     ("decimated RMSE, constant ~0.583",
      "shot_level.residuals_1s.branches.rung1_const.rmse_g_per_s", 0.5826, 0.002),
@@ -366,9 +363,12 @@ def compute(out_path=_BUNDLE, include_slow=True):
         # reviewer's independent table with no producer of ours behind them. This is that producer;
         # it reproduces the reviewer's numbers exactly.
         recorded_pressure=wsl.recorded_pressure_robustness(),
-        # §5.3b nominal-vs-recorded: the audit could not reproduce the stated 0.61 bar / 8.71 bar
-        # under any natural definition, so both are now computed here under a declared one.
-        nominal_vs_recorded=wsl.nominal_vs_recorded_pressure(),
+        # §5.3b nominal-vs-recorded. The producer already existed in
+        # `waszkiewicz_cross_pressure.pressure_domains()` and is scoped to the settled equilibrium
+        # endpoints, which is the right basis for "what the rig delivered at this setting"; it is
+        # bundled here so the claim map can bind to it.
+        pressure_domains=__import__(
+            "puckworks.analysis.waszkiewicz_cross_pressure", fromlist=["x"]).pressure_domains(),
     )
     if include_slow:
         bundle["ntube_robustness"] = h.ntube_robustness_study()      # Result 3 (MAJ-33..41)

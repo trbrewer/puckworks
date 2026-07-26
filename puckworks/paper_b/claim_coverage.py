@@ -109,6 +109,8 @@ DATASET_FACTS: dict[str, str] = {
     "11.935": "LOPO-EC equilibrium P_c (bar)",
     "1.861": "LOPO-EC equilibrium Q_c (g/s)",
     "0.007": "reported pressure-transducer resolution (bar, deposit)",
+    "0.61": "max nominal-minus-recorded gap; see pressure_domains (also a claim)",
+    "8.71": "9-bar delivered mean; see pressure_domains (also a claim)",
     "10": "raw logging rate (Hz, deposit)",
     "15.015": "first retained sample of the scoring window (s, grid artefact)",
     "94.995": "last retained sample of the scoring window (s, grid artefact)",

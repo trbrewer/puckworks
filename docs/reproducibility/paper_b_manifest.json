@@ -1,12 +1,12 @@
 {
   "paper": "B",
-  "source_commit": "ccfbc03f17ddf870b4052783523e55735fed9744",
+  "source_commit": "e68c8e8b6210256e1cae293b6c374ac9bdfb9445",
   "git_dirty": true,
   "timestamp_utc": null,
-  "bundle_source_commit": "ccfbc03f17ddf870b4052783523e55735fed9744",
+  "bundle_source_commit": "e68c8e8b6210256e1cae293b6c374ac9bdfb9445",
   "bundle_matches_head": true,
   "release_fresh": false,
-  "bundle_sha256": "ee9802e2055b9056b628fc11c80a6a0a69f1c5adc948c5ca054cd55dfb12b8fd",
+  "bundle_sha256": "cd5980fb4022e4116c1000fc2da5ccef37c3c7549af8ed9249bfd4cf58a91b0d",
   "environment": {
     "python": "3.13.13",
     "numpy": "2.5.1",
@@ -26,7 +26,7 @@
     "paper_b_evidence_matrix.csv": "13b739e86c7069934c73d7a0c15add66fcd9aa2aa56a0f51fc1c6f739e577304",
     "paper_b_evidence_dictionary.csv": "38b807ff9bfb99952e09cef892e8a8d95e5383c0e27644f44fb3b5afbdccaf16"
   },
-  "n_claims": 124,
+  "n_claims": 122,
   "n_failures": 0,
   "claims": [
     {
@@ -606,35 +606,19 @@
       "ok": true
     },
     {
-      "claim": "max mean pressure deficit 0.508 bar",
-      "path": "shot_level.nominal_vs_recorded.max_mean_deficit_bar",
-      "expected": 0.5076,
-      "actual": 0.5076,
-      "tol": 0.001,
+      "claim": "max nominal-minus-recorded gap ~0.61 bar",
+      "path": "shot_level.pressure_domains.max_nominal_recorded_gap_bar",
+      "expected": 0.606,
+      "actual": 0.606,
+      "tol": 0.002,
       "ok": true
     },
     {
-      "claim": "max saturated-interval mean deficit 0.540 bar",
-      "path": "shot_level.nominal_vs_recorded.max_mean_deficit_saturated_bar",
-      "expected": 0.5395,
-      "actual": 0.5395,
-      "tol": 0.001,
-      "ok": true
-    },
-    {
-      "claim": "max pointwise deficit 0.673 bar",
-      "path": "shot_level.nominal_vs_recorded.max_pointwise_deficit_saturated_bar",
-      "expected": 0.6726,
-      "actual": 0.6726,
-      "tol": 0.001,
-      "ok": true
-    },
-    {
-      "claim": "9-bar delivered mean 8.768 bar",
-      "path": "shot_level.nominal_vs_recorded.nine_bar_mean_recorded_bar",
-      "expected": 8.7679,
-      "actual": 8.7679,
-      "tol": 0.001,
+      "claim": "9-bar delivered mean ~8.71 bar",
+      "path": "shot_level.pressure_domains.primary_analysis_recorded_bar",
+      "expected": 8.713,
+      "actual": 8.713,
+      "tol": 0.002,
       "ok": true
     },
     {
