@@ -579,8 +579,17 @@ def fig6_fraction_vs_endpoint(results=None, outdir=OUTDIR):
                          label="alignment/first-bin band")
         axe.plot(er, head["fraction_mape"], "o-", color="#009e73", lw=1.7, ms=4,
                  label="fraction (target-profiled)")
-        axe.plot(er, head["cup_mape"], "^:", color=NULL, lw=1.5, ms=4,
-                 label="single cup (algebraically flat)")
+        # MC14/review Fig 6: plotting the single-cup MAPE at ~0 reads visually as PERFECT
+        # PREDICTION when it is the opposite -- one scalar observation paired with one
+        # profiled level is matched EXACTLY at every rate, so the cup is not estimable
+        # here. Draw it as a flat reference line at the panel's own scale and say so on
+        # the panel, rather than as a zero-error curve.
+        y_ref = float(np.nanmax(stack)) * 0.06
+        axe.plot(er, np.full_like(er, y_ref), "^:", color=NULL, lw=1.5, ms=4,
+                 label="single cup — NOT ESTIMABLE\n(one scalar, one fitted level:\n"
+                       "matched exactly at every rate)")
+        axe.text(er[len(er) // 2], y_ref, "fitted exactly by construction — not validation",
+                 fontsize=6.0, color=NULL, ha="center", va="bottom")
         bi = head["fraction_best_rate"]; mn = head["fraction_min_mape"]
         axe.axvline(bi, color=WARN, ls=":", lw=1.0)
         axe.annotate("shallow min ~%.0f%%\n(best rate %.1f, ratio %.1f×)"
@@ -588,9 +597,11 @@ def fig6_fraction_vs_endpoint(results=None, outdir=OUTDIR):
                      (bi, mn), textcoords="offset points", xytext=(6, 18), fontsize=6.2,
                      color=BAD)
         axe.set_xscale("log"); _logclean(axe)
-        axe.set_title("(d) EXTERNAL Waszkiewicz shape test", fontsize=8.2)
+        axe.set_title("(d) EXTERNAL Waszkiewicz shape test\n"
+                      "different observable, campaign, fitting rule and error level",
+                      fontsize=8.0)
         axe.set_xlabel("rate scale (log)"); axe.set_ylabel("MAPE (%)")
-        axe.legend(fontsize=6.0, loc="upper center")
+        axe.legend(fontsize=5.6, loc="upper center")
     fig.suptitle("Fig 6 — temporal resolution moves the rate objective more than an "
                  "aggregate (three evidence tiers: in-sample · same-model sim · "
                  "independent external shape test)", y=1.04, fontsize=9.4,

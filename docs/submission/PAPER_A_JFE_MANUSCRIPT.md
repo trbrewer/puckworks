@@ -29,8 +29,9 @@ worse on 50 of 108 held-out points; there was therefore no resolvable improvemen
 concentration level under the primary resampling scheme. Fraction-resolved source-campaign
 observations produced substantially sharper rate profiles than a sampled-window aggregate of the same
 shots or than a same-model exact-cup simulation. A separate, target-level-profiled dissolved-solids
-trajectory from an external rig produced only a shallow, high-error rate preference, while its
-single-cup objective was flat by construction. For espresso inverse problems, matched observation
+trajectory from an external rig produced only a shallow, high-error rate preference that was itself
+loss-dependent — it became shallower still, and boundary-censored, under an absolute-residual shape
+loss — while its single-cup objective was flat by construction. For espresso inverse problems, matched observation
 windows are necessary but not sufficient: parameter localization, prediction error, skill over a
 simple baseline, and cross-context evidence should be evaluated and reported separately.
 
@@ -361,6 +362,24 @@ itself — which we state rather than absorb. A mass endpoint would be preferabl
 the solver to integrate to collected mass under a declared beverage-density model; that is not
 available here. We use "matched beverage endpoint" rather than "matched 40 g"
 wherever the distinction could matter.
+**External-trajectory processing (the second-rig dissolved-solids panel).** The external panel
+carries several load-bearing processing choices that are declared here rather than left in code.
+The public release provides **twelve** five-second dissolved-solids bins spanning 0–60 s; the source
+article's own figure shows **fourteen**, so the public series is not the complete published series
+and the comparison is restricted to what is public. The time origin is ambiguous — brewer activation
+precedes first drip — so the alignment is swept over declared offsets of **0, 2 and 4 s**, applied
+to the flow trace and to the observed bin masses together. The **first** bin is a single replicate
+with no published standard deviation, so every case is reported **with and without** it and no value
+is imputed. Brew temperature is not in the released trace; **93 °C** is assumed and held fixed, and
+its influence is swept separately over 89–95 °C. The measured pre-drip flow is essentially zero,
+which makes the flow-driven advection operator singular, so the flow is floored at a declared
+**0.05 mL s⁻¹**; real collection flow is 1–2 mL s⁻¹, so the floor touches only the pre-drip phase,
+and it too is swept. The released cumulative-mass trace contains small local **decreases** (sensor
+noise), which would produce a negative collected mass in one bin under the 4 s alignment; we
+therefore project the cumulative mass onto its nearest non-decreasing sequence (pool-adjacent
+violators) before differencing, so every bin mass is non-negative by construction and the bins
+telescope to the total collected mass. The observed "cup" for this panel is the **mass-weighted**
+mean of the bin concentrations using those same bin masses, not an unweighted mean.
 
 Angeloni report pressure; the model consumes flow. We map `p → flow` from the
 study's *own* hydraulics, not by fitting to its concentrations. The refined map is
@@ -771,35 +790,22 @@ an aggregated endpoint in this model and design* (other independent constraints 
 multi-condition designs could also help). This speaks to gap **G6** (multi-class
 inventory ↔ kinetics).
 
-**Does a *true* whole cup also lose the rate — or was the flatness a sampling
-artefact?** Because the repo has only six fraction windows (1,2,3,5,7,10; the
-intermediate windows are absent), an *empirical* complete-shot reconstruction is
-data-blocked and a clean actual-cup comparison is ambiguous (the BR-1/3 `mass_in_cup`
-does not cleanly reconcile with the fraction shot — a data question). So we test the
-claim with an **exact-integral simulation** (`full_cup_simulation_identifiability`):
-for each experiment we generate synthetic truth at the
-calibrated rate = 1 — a fine-grid fraction curve over the whole shot *and* the
-**exact single whole-cup integral** `[0, t_end]` — add seeded relative noise over **20
-independent seeds** (the PDE predictions are seed-independent, so this is inexpensive),
-then sweep the rate. **Result:** fraction-curve scoring recovers rate = 1 sharply — mean
-range ratio **9.8× / 20.3× / 13.2×** (caffeine / trigonelline / 5-CQA; seed std ≤ 1.1),
-with the best rate exactly at the calibrated value in **100 %** of seeds — while scoring
-the **exact whole-cup integral** stays flat (range ratio **1.5 / 1.5 / 1.7×**). The exact
-cup is only marginally more informative than the crude six-window aggregate and remains
-essentially flat. This isolates the information-content difference from the
-sampled-window artefact — within this **same-model, best-case** design (an inverse crime,
-no model discrepancy): a *true* whole cup, not just a sampled aggregate, carries far less
-kinetic-rate information than the resolved fractions. We removed the two obvious
-best-case artefacts (`full_cup_simulation_offgrid_noise`): generating
-truth at **off-grid rates** (0.7 / 1.15 / 1.8, none on the candidate set) and recovering a
-**continuous** rate from a dense grid, the fraction objective still recovers the true rate
-to a few-percent error while the cup is far worse — and this holds under **heteroscedastic**
-and **correlated per-shot** noise, not just iid. So the contrast is not an artefact of an
-on-grid true rate or iid noise. It remains **not** evidence that a real experimental cup
-lacks rate information, nor that the model is correctly specified — the model-discrepancy
-dose-response (§4.4<!--sec:temporal-->, `full_cup_simulation_discrepancy`) shows a sharp fraction minimum is
-necessary-not-sufficient. This is a **simulation study** (exact integral, seeded noise) —
-not an empirical positive control.
+**Is that flatness a sampling artefact?** The sampled-window aggregate omits four of the ten
+windows, so it might be flat for a trivial reason. Because no empirical complete-shot
+reconstruction is available for this campaign, we test the question under the model instead: for
+each experiment, synthetic truth is generated at the calibrated rate, both as a fine-grid fraction
+curve over the whole shot and as the **exact single whole-cup integral**, seeded relative noise is
+added, and the rate is swept. Fraction-curve scoring recovers the true rate sharply — mean range
+ratio **9.8× / 20.3× / 13.2×** for caffeine / trigonelline / 5-CQA, with the best rate at the true
+value in **100 %** of seeds — while scoring the exact whole-cup integral stays flat (range ratio
+**1.5 / 1.5 / 1.7×**). The exact cup is therefore barely more informative than the six-window
+aggregate: the contrast is an information-content difference, not a sampling artefact. This is an
+**inverse crime** by construction — the same model generates and fits the data — so it demonstrates
+information loss **under the assumed model**, not the information content of every real espresso
+cup, and it is not evidence that the model is correctly specified. Robustness variants (off-grid
+true rates, continuous recovery from a dense grid, heteroscedastic and correlated per-shot noise,
+and a model-discrepancy dose-response showing that a sharp fraction minimum is necessary but not
+sufficient) are reported in the supplement.
 
 **An independent external test** (`external_waszkiewicz`). The Pannusch fraction data
 above are part of the model's own calibration lineage, so they provide *in-sample
@@ -812,8 +818,18 @@ each rate, **profile a target-specific concentration level** against the Waszkie
 observations (the coffee and inventory differ). This is therefore **external-data
 objective localization**, *not* a blind frozen concentration prediction — the level is
 fitted to the target trajectory, so only the rate shapes the profile. **Result:** the
-twelve-fraction trajectory *does* constrain the kinetic rate — a profiled-MAPE trough
-(fraction range ratio **~2×**, best rate **~0.4**, minimum MAPE **~27 %**) — whereas the
+twelve-fraction trajectory produces a **shallow rate-dependent objective preference** — a profiled
+MAPE trough with a fraction range ratio of only **~2×**, a best rate of **~0.4**, and a minimum
+MAPE that stays **high at ~27 %**. That preference is **partly an early-bin percentage-error
+effect**. Because early dissolved-solids fractions are small, MAPE weights them heavily; re-scoring
+the identical sweep under an absolute-residual shape loss — normalised RMSE after a least-squares
+level — makes the preference **shallower still** (range ratio **1.19–1.30** across the six
+alignment × first-bin cases, against 1.64–2.07 under MAPE), raises the minimum residual to
+**57–75 %**, and moves the preferred rate to **0.25, the lower boundary of the swept rate set**, so
+it is boundary-censored. We report both
+(`docs/paper1_resource/PAPER_A_EXTERNAL_PANEL_LOSSES.json`) and read the panel at the weaker of the
+two: this trajectory shows that *some* rate-dependent structure survives into an external
+aggregate-solids observable, and it does not localize the rate. Meanwhile the
 single integrated cup carries **no rate information**: with one integrated scalar and
 one free multiplicative level, the model matches that scalar exactly at every rate, so
 the flat cup profile (range ratio 1.0×) is **algebraic by construction**, not an
@@ -909,8 +925,10 @@ fixed: a single two-grain multi-solute lineage, one geometry choice applied glob
 treatment of model discrepancy beyond the residual diagnostics reported above. The exact-cup result
 is a same-model simulation and therefore demonstrates information loss *under the assumed model*,
 not the information content of every real espresso cup. The external dissolved-solids trajectory is
-an aggregate optical proxy on one coffee and one grind, and supports only a shallow, high-error rate
-preference.
+an aggregate optical proxy on one coffee and one grind. It supports only a shallow, high-error rate
+preference, and that preference is partly an artefact of percentage-error weighting on small early
+fractions: under an absolute-residual shape loss it becomes shallower still and its preferred rate
+falls on the swept boundary. We read the panel at the weaker of the two losses.
 
 **Generalizability.** The evidence base is one model lineage, two source campaigns, three named
 solutes, two varieties, and a small number of grinds and rigs. No independent named-solute

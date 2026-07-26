@@ -43,6 +43,18 @@ def _level_mape(pred, m):
     return float(np.mean(np.abs(c * pred - m) / m) * 100)
 
 
+def _level_sse(pred, m):
+    """Alternative SHAPE loss (Paper 1 second review MC14): least-squares level fit on the
+    CONCENTRATION scale, reported as a normalised root-mean-square residual in percent of the
+    mean observation. MAPE weights every bin by 1/y, so early low-TDS fractions dominate it; if
+    the shallow rate preference were an early-bin percentage-error artefact it would not survive
+    a loss that weights bins by absolute residual instead. Returns that percentage."""
+    pred = np.asarray(pred, float); m = np.asarray(m, float)
+    c = float(np.dot(pred, m) / np.dot(pred, pred))          # least-squares level
+    rmse = float(np.sqrt(np.mean((c * pred - m) ** 2)))
+    return float(100.0 * rmse / np.mean(m))
+
+
 def _isotonic_nondecreasing(y):
     """L2 projection onto the nearest NONDECREASING sequence (pool-adjacent-violators).
 
@@ -136,7 +148,7 @@ def waszkiewicz_external_tds(T_C=93.0, pressure=9.0,
             idx = slice(1, 12) if drop_first else slice(0, 12)
             m_obs = meas[idx]; bm = binmass[idx]
             cup_obs = float(np.sum(m_obs * bm) / bm.sum())   # measured mass-weighted cup
-            fm, cm = [], []
+            fm, cm, fs = [], [], []
             for rate in rates:
                 sp = dict(sp0); sp["A1"] = sp0["A1"] * rate; sp["A2"] = sp0["A2"] * rate
                 sp["c_s0"] = 1.0
@@ -144,7 +156,10 @@ def waszkiewicz_external_tds(T_C=93.0, pressure=9.0,
                 pred_cup = float(ps.simulate_fractions_qt(T_C, qf, [0.0, 60.0], sp, 1.0)[0])
                 fm.append(round(_level_mape(pred, m_obs), 2))
                 cm.append(round(_level_mape([pred_cup], [cup_obs]), 2))
+                # MC14: the SAME sweep under an absolute-residual shape loss
+                fs.append(round(_level_sse(pred, m_obs), 2))
             fi = int(np.argmin(fm))
+            si = int(np.argmin(fs))
             key = f"offset{offset:g}s_{'no_first_bin' if drop_first else 'all_bins'}"
             # a single averaged shot -> one integrated cup value -> the level fits it
             # EXACTLY at every rate (MAPE identically ~0) -> the cup carries NO rate
@@ -155,6 +170,9 @@ def waszkiewicz_external_tds(T_C=93.0, pressure=9.0,
                 time_offset_s=offset, first_bin_included=not drop_first,
                 fraction_mape=fm, fraction_min_mape=min(fm), fraction_best_rate=rates[fi],
                 fraction_range_ratio=round(max(fm) / min(fm), 2),
+                # MC14: alternative shape loss -- normalised RMSE after a least-squares level
+                fraction_nrmse=fs, fraction_min_nrmse=min(fs), fraction_best_rate_nrmse=rates[si],
+                fraction_range_ratio_nrmse=round(max(fs) / min(fs), 2),
                 cup_mape=cm, cup_carries_no_rate_info=cup_flat,
                 cup_range_ratio=(1.0 if cup_flat else round(max(cm) / min(cm), 2)),
                 mass_operator=mass_diag)    # A-03: nonnegative bin masses + mass balance
