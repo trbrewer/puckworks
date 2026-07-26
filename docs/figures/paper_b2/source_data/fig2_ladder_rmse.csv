@@ -1,0 +1,6 @@
+branch,rmse_g_per_s,free_params_fitted_to_scored_trace
+best_constant,0.573,1
+late_window_constant,0.641,1
+static_kappa_P,0.648,0
+empirical_phi_of_t,0.116,0
+flexible_cubic,0.096,4

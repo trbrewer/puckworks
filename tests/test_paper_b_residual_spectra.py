@@ -90,5 +90,9 @@ def test_the_manuscript_states_the_finding_with_the_computed_numbers(rd):
     assert "5.2b Residual structure is drift, not oscillation" in text
     for value in ("0.957", "0.990", "0.954", "80 s", "40 s"):
         assert value in text, value
-    assert "not yet built" in text, (
-        "the manuscript must still say the residual figure is not drawn")
+    # This assertion used to require the manuscript to say the figure was NOT drawn. The figure
+    # set now exists, so the claim is inverted rather than deleted: the manuscript must point at
+    # the generated figure instead of at an absence.
+    assert "not yet built" not in text, "the manuscript still claims the figure set is unbuilt"
+    assert "Figure 4 near here" in text
+    assert "python -m puckworks.figures_paper_b2" in text

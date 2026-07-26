@@ -183,11 +183,9 @@ they are **not** faked:
   one that *reverses within the shot*, so no further level or slope term would absorb it. Six
   claims bound; 7 tests, including a non-vacuity check that a pure 4 s oscillation lands with
   <0.1 power in the slowest quarter, so "drift" is not an artefact of the estimator.
-  **Still owed:** the overlay figure (residual-vs-time for all branches on the pointwise
-  between-shot band). It belongs to the Paper 2 figure set, which does not exist yet — there is no
-  `figures_paper_b` module and the manuscript still carries "Figure N near here" placeholders. The
-  series are in the bundle (`shot_level.residuals_1s`) so the panels can be drawn without re-running
-  anything.
+  ✅ **FIGURE NOW DRAWN (2026-07-26).** The whole Paper 2 figure set was built — see the
+  figures row below — and the residual overlay is Figure 2c, with the ACF/spectra panels as
+  Figure 4.
 - **`solids_calibration.csv` sign (review 4.3) — VERIFIED, deferred to the release rebuild.** The CSV `model` column documents `0.5·k·(1 − tanh)` but the implementing code (`waszkiewicz2025/poroelastic.py:77`, Eq. 20) computes `0.5·k·(1 + tanh)` — a documentation-only sign error (the string is not used in computation; `paper_b build verify` passes 18/18 with either). The correct fix is `1 + tanh`, but the CSV's SHA256 is pinned in `paper_b_manifest.json` **and** a PV-04 autopsy snapshot, so it must be corrected together with those frozen hashes in the 4.13 release rebuild rather than as an isolated edit.
 - ✅ **4.13 clean reproducibility release — DONE (2026-07-26).** The strict `release` verb already
   existed (no-dirty-tree + freshness); the gap was the claim map. New
@@ -221,7 +219,7 @@ they are **not** faked:
 
 - 4.8 LOPO renaming + fold-level reporting; 4.10 richer parameter-provenance table + dependency graph;
   4.11 operationalize the perturbation program (11 items/intervention, "establish"→"support");
-  4.12 systematic literature search + missing refs (Gagné, Telis-Romero, Sobolík); figures (P2).
+  4.12 systematic literature search + missing refs (Gagné, Telis-Romero, Sobolík). **Figures: ✅ DONE 2026-07-26** — `puckworks/figures_paper_b2.py` renders all five from the committed bundle.
 
 ---
 

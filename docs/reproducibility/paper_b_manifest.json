@@ -1,12 +1,12 @@
 {
   "paper": "B",
-  "source_commit": "e68c8e8b6210256e1cae293b6c374ac9bdfb9445",
+  "source_commit": "604a581f4d77b44284b5f649f3a309d307ba49ab",
   "git_dirty": true,
   "timestamp_utc": null,
-  "bundle_source_commit": "e68c8e8b6210256e1cae293b6c374ac9bdfb9445",
+  "bundle_source_commit": "604a581f4d77b44284b5f649f3a309d307ba49ab",
   "bundle_matches_head": true,
   "release_fresh": false,
-  "bundle_sha256": "cd5980fb4022e4116c1000fc2da5ccef37c3c7549af8ed9249bfd4cf58a91b0d",
+  "bundle_sha256": "8aa7b50cd3a702dd4c4be575f7852dccf5096cfee9ed25ce7f77b9dac9ddbb86",
   "environment": {
     "python": "3.13.13",
     "numpy": "2.5.1",
@@ -26,7 +26,7 @@
     "paper_b_evidence_matrix.csv": "13b739e86c7069934c73d7a0c15add66fcd9aa2aa56a0f51fc1c6f739e577304",
     "paper_b_evidence_dictionary.csv": "38b807ff9bfb99952e09cef892e8a8d95e5383c0e27644f44fb3b5afbdccaf16"
   },
-  "n_claims": 122,
+  "n_claims": 124,
   "n_failures": 0,
   "claims": [
     {
@@ -643,6 +643,22 @@
       "expected": 1.082,
       "actual": 1.082,
       "tol": 0.005,
+      "ok": true
+    },
+    {
+      "claim": "Foster machine-mode flow minimum ~0.181",
+      "path": "foster_machine_mode.flow_minimum_norm",
+      "expected": 0.181,
+      "actual": 0.1809,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "Foster machine-mode minimum at ~1.99 s",
+      "path": "foster_machine_mode.flow_minimum_time_s",
+      "expected": 1.99,
+      "actual": 1.995,
+      "tol": 0.02,
       "ok": true
     },
     {

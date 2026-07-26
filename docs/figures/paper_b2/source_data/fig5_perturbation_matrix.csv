@@ -1,0 +1,26 @@
+mechanism,perturbation,declared_prediction,discriminating
+Machine/headspace,Fixed-pressure forward trace,dip+recovery without bed,False
+Machine/headspace,Pressure step upward,"immediate, repeatable",False
+Machine/headspace,Flow reversal at matched |ΔP|,apparatus-only,False
+Machine/headspace,Rebrew of spent puck,repeats,False
+Machine/headspace,Depth-resolved end state,no signature,False
+Dissolution opening,Fixed-pressure forward trace,rising with mass removed,False
+Dissolution opening,Pressure step upward,static jump,False
+Dissolution opening,Flow reversal at matched |ΔP|,direction- independent,False
+Dissolution opening,Rebrew of spent puck,near-flat,False
+Dissolution opening,Depth-resolved end state,distributed,False
+Fines migration,Fixed-pressure forward trace,resistance ↑,False
+Fines migration,Pressure step upward,remobilize/ restart,False
+Fines migration,Flow reversal at matched |ΔP|,direction- ASYMMETRIC,True
+Fines migration,Rebrew of spent puck,reopen + re-clog,False
+Fines migration,Depth-resolved end state,outlet-side,False
+Compaction/recovery,Fixed-pressure forward trace,history- dependent,False
+Compaction/recovery,Pressure step upward,transient strain,False
+Compaction/recovery,Flow reversal at matched |ΔP|,more symmetric,False
+Compaction/recovery,Rebrew of spent puck,hysteresis,False
+Compaction/recovery,Depth-resolved end state,strain profile,False
+Particle swelling,Fixed-pressure forward trace,resistance ↑,False
+Particle swelling,Pressure step upward,own timescale,False
+Particle swelling,Flow reversal at matched |ΔP|,direction- independent,False
+Particle swelling,Rebrew of spent puck,persists/ relaxes,False
+Particle swelling,Depth-resolved end state,exposure profile,False

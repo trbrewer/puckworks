@@ -177,6 +177,10 @@ _CLAIMS = [
     # swelling branch scale (§5.4)
     ("swelling branch RMSE with a free level ~1.08",
      "ladder.rung5b_swelling_mo2", 1.082, 0.005),
+    ("Foster machine-mode flow minimum ~0.181",
+     "foster_machine_mode.flow_minimum_norm", 0.181, 0.002),
+    ("Foster machine-mode minimum at ~1.99 s",
+     "foster_machine_mode.flow_minimum_time_s", 1.99, 0.02),
     ("swelling correlation with the measured trace ~-0.951",
      "ladder.rung5b_swelling_corr_with_trace", -0.951, 0.005),
     # Block-bootstrap intervals quoted in §5.2 / §5.2a. The 24 s row is the one that excludes
@@ -370,6 +374,12 @@ def compute(out_path=_BUNDLE, include_slow=True):
         pressure_domains=__import__(
             "puckworks.analysis.waszkiewicz_cross_pressure", fromlist=["x"]).pressure_domains(),
     )
+    # Figure 1b prints the Foster machine-mode minimum, so it is a manuscript number and belongs
+    # in the bundle rather than being read off a gate at render time.
+    from puckworks.models.foster2025 import machine_mode as _fm
+    _q_min, _t_min = _fm.flow_minimum()
+    bundle["foster_machine_mode"] = dict(flow_minimum_norm=round(float(_q_min), 4),
+                                         flow_minimum_time_s=round(float(_t_min), 3))
     if include_slow:
         bundle["ntube_robustness"] = h.ntube_robustness_study()      # Result 3 (MAJ-33..41)
         bundle["ntube_switching_convergence"] = h.ntube_switching_convergence()  # MAJ-36
