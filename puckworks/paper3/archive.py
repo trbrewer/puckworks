@@ -90,6 +90,7 @@ def _source_date_epoch(root=REPO_ROOT):
 
 
 # ---- membership -------------------------------------------------------------------------
+
 def _static_members(root):
     """(repo_relpath, role, redistributable) for the fixed payload — only files that exist."""
     root = Path(root)
@@ -120,12 +121,24 @@ def _static_members(root):
         out.append((p.relative_to(root).as_posix(), "card", True))
     # Figures, their tidy source data, and the text alternatives (review MC12). Without these the
     # archive shipped a manuscript with no figures -- the reader could not check a single panel.
+    # DEFECT FIXED: this accepted `.svg` and `.pdf` as well, and globbed the WORKING TREE. Those
+    # vector siblings are regenerable render outputs and are gitignored (see .gitignore: "only the
+    # committed PNG exemplars + the export code are tracked"), so they existed on a machine that
+    # had rendered figures and not in a fresh checkout. The same commit therefore produced 155
+    # members here and 141 there -- the archive, and its sha256, were a function of the builder's
+    # working tree rather than of the commit, which is exactly what a citable archive must not be.
+    #
+    # The fix encodes the repository's own policy instead of consulting git: ship the tracked PNG
+    # exemplars, the alt text and the source data. It deliberately does NOT use `git ls-files`,
+    # because that returns nothing when the archive is built from an exported tree with no .git,
+    # which would silently ship an archive containing no figures at all.
+    _ARCHIVED_FIGURE_SUFFIXES = (".png",)
     figdir = root / "docs/figures/paper3"
     for p in sorted(figdir.glob("*")):
         if not p.is_file():
             continue
         rel = p.relative_to(root).as_posix()
-        if p.suffix in (".png", ".svg", ".pdf"):
+        if p.suffix in _ARCHIVED_FIGURE_SUFFIXES:
             out.append((rel, "figure", True))
         elif p.name == "ALT_TEXT.md":
             out.append((rel, "figure_alt_text", True))

@@ -29,14 +29,41 @@ def test_every_figure_renders(tmp_path):
         assert pathlib.Path(out).exists(), fn.__name__
 
 
-def test_committed_figures_exist_in_raster_and_vector():
-    """MC12 asks for both. The saver emits SVG and PDF siblings alongside the PNG."""
+def test_the_saver_emits_raster_and_vector(tmp_path):
+    """MC12 asks for both, and the saver emits SVG and PDF siblings alongside the PNG.
+
+    This RENDERS rather than inspecting the repository. It previously asserted that the .svg and
+    .pdf siblings were present in `docs/figures/paper3/`, but .gitignore deliberately excludes them
+    ("regenerable render outputs; only the committed PNG exemplars + the export code are tracked"),
+    so it passed on a machine that had rendered and failed in every fresh checkout. The property
+    that actually matters is that the pipeline PRODUCES all three formats.
+    """
+    for fn in F.FIGURES:
+        fn(outdir=str(tmp_path))
+        stem = fn.__name__
+        for ext in (".png", ".svg", ".pdf"):
+            assert (tmp_path / (stem + ext)).exists(), stem + ext
+
+
+def test_the_committed_png_exemplars_are_present():
+    """What the repository DOES track: one PNG per figure. The vectors are regenerable."""
     assert _COMMITTED.exists(), "figures have never been rendered into the repo"
     for fn in F.FIGURES:
-        stem = fn.__name__
-        assert (_COMMITTED / (stem + ".png")).exists(), stem
-        assert (_COMMITTED / (stem + ".svg")).exists(), stem
-        assert (_COMMITTED / (stem + ".pdf")).exists(), stem
+        assert (_COMMITTED / (fn.__name__ + ".png")).exists(), fn.__name__
+    # TRACKED-ness, not filesystem presence: a developer machine legitimately has rendered
+    # .svg/.pdf sitting in this directory. Conflating "on disk" with "in the commit" is precisely
+    # the mistake that made the archive non-deterministic.
+    import subprocess
+    try:
+        tracked = subprocess.run(
+            ["git", "ls-files", "docs/figures/paper3"], cwd=_ROOT,
+            capture_output=True, text=True, check=True).stdout.split()
+    except Exception:                       # pragma: no cover - no git available
+        return
+    assert tracked, "no figure files are tracked at all"
+    assert not [f for f in tracked if f.endswith((".svg", ".pdf"))], (
+        "vector siblings are tracked now -- .gitignore says they should not be, and the archive "
+        "payload assumes they are absent")
 
 
 def test_every_figure_has_alt_text():
@@ -95,8 +122,17 @@ def test_composition_source_data_matches_the_producer(tmp_path):
     path = tmp_path / "source_data" / "fig5_composition.csv"
     with path.open(newline="", encoding="utf-8") as fh:
         rows = {r["branch"]: float(r["rmse_g_per_s"]) for r in csv.DictReader(fh)}
-    assert rows["composite_with_swelling"] == ck.composition_residual()["rmse"]
-    assert rows["extraction_only"] == float(ck.degeneracy_rmse())
+    # Exported source data is ROUNDED to 6 decimals on purpose: writing repr(float) put 17
+    # significant digits into the file, so a last-ULP difference between numpy versions changed
+    # the bytes and broke the recomputation freshness check in CI. Compare at the declared export
+    # precision -- exact equality would re-introduce the coupling this rounding removed.
+    assert rows["composite_with_swelling"] == pytest.approx(
+        ck.composition_residual()["rmse"], abs=5e-7)
+    assert rows["extraction_only"] == pytest.approx(float(ck.degeneracy_rmse()), abs=5e-7)
+    # ...and the file must not carry float noise again
+    raw = path.read_text(encoding="utf-8")
+    assert not any(len(c.split(".")[-1]) > 6
+                   for line in raw.splitlines()[1:] for c in line.split(",")[1:]), raw
 
 
 def test_the_manuscript_references_generated_figures_not_specifications():

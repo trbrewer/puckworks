@@ -37,20 +37,32 @@ def test_the_required_floor_is_still_present(members):
 
 
 def test_the_archive_ships_the_figures(members):
-    """It previously shipped a manuscript with NO figures -- a reader could not check a panel."""
+    """It previously shipped a manuscript with NO figures -- a reader could not check a panel.
+
+    The count is against the TRACKED png exemplars. This test previously demanded >=21 members,
+    which counted the .svg/.pdf siblings -- files that are gitignored and therefore exist only on a
+    machine that has rendered them. It passed locally and failed in CI, and the assertion was
+    encoding my working tree rather than the commit.
+    """
     roles = [r for _p, r, _x in members]
-    assert roles.count("figure") >= 21, "figures missing from the archive payload"
+    n_png = len(list((_ROOT / "docs/figures/paper3").glob("*.png")))
+    assert n_png >= 7, n_png
+    assert roles.count("figure") == n_png, "figure payload does not match the committed exemplars"
     assert "figure_alt_text" in roles, "no text alternatives in the archive"
     assert roles.count("figure_source_data") >= 4, "figure source data missing"
 
 
 def test_every_committed_figure_is_in_the_archive(members):
+    """Every tracked PNG must ship. The vector siblings must NOT: they are gitignored render
+    outputs, so requiring them made the archive depend on whether the builder had rendered."""
     present = {rel for rel, _r, _x in members}
     for p in sorted((_ROOT / "docs/figures/paper3").glob("*.png")):
         rel = p.relative_to(_ROOT).as_posix()
         assert rel in present, rel
         for ext in (".svg", ".pdf"):
-            assert rel.replace(".png", ext) in present, rel.replace(".png", ext)
+            assert rel.replace(".png", ext) not in present, (
+                "a regenerable vector sibling is in the archive -- the payload again depends on "
+                "the builder's working tree rather than on the commit")
 
 
 def test_the_archive_is_deterministic(tmp_path):
@@ -197,28 +209,34 @@ def test_recomputation_finds_nothing_stale_right_now():
     assert B._recomputation_problems(_ROOT) == []
 
 
-def test_the_lock_pins_the_producing_environment():
-    """A lock resolved without constraints would name matplotlib 3.11.1 while the figures were
-    drawn with 3.11.0 -- a different environment from the one that ran.
+def test_the_lock_pins_the_recorded_producing_environment():
+    """The lock must pin the versions that PRODUCED the committed artifacts.
 
-    Only packages that are actually importable here are compared. matplotlib comes from the
-    `figures` extra, which the quick and min-deps CI lanes deliberately do NOT install; a bare
-    `import matplotlib` made this test fail in both of them while passing locally.
+    This test twice asserted the wrong thing. It first did a bare `import matplotlib`, which fails
+    in the three CI lanes that do not install the `figures` extra. The import guard then still left
+    it comparing the lock against whatever versions happen to be INSTALLED -- and CI resolves numpy
+    2.4.6 while the lock pins the producing 2.5.1, so it failed again. That comparison is wrong in
+    principle: the lock describes the environment that ran, not every environment the tests run in.
+    A lane that has not `pip sync`-ed the lock is expected to differ.
+
+    What must hold is internal consistency between the reproducibility artifacts, which is
+    checkable anywhere: the lock, the constraints and the recorded environment must agree.
     """
-    import importlib
+    import json
+    import re
 
     lock = (_ROOT / "docs/reproducibility/requirements-papers.lock").read_text(encoding="utf-8")
-    checked = []
-    for name in ("numpy", "scipy", "matplotlib"):
-        try:
-            mod = importlib.import_module(name)
-        except ModuleNotFoundError:
-            continue                      # optional extra absent in this lane
-        checked.append(name)
-        assert "%s==%s" % (name, mod.__version__) in lock, name
-    assert {"numpy", "scipy"} <= set(checked), (
-        "numpy and scipy are hard dependencies -- if they are missing the environment is broken, "
-        "not merely missing an extra")
+    recorded = json.loads(
+        (_ROOT / "docs/reproducibility/paper_release_environment.json").read_text(encoding="utf-8")
+    )["packages"]
+    assert recorded, "no producing environment recorded"
+    for name, version in recorded.items():
+        assert re.search(r"(?mi)^%s==%s\s*$" % (re.escape(name), re.escape(version)), lock), (
+            "%s==%s is recorded as the producing version but is not pinned in the lock"
+            % (name, version))
+
+    # non-vacuity: a version the producing environment did NOT use must not be pinned
+    assert "numpy==1.0.0" not in lock
 
 
 def test_reproducibility_doc_states_what_is_not_reproducible():

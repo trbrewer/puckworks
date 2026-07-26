@@ -743,10 +743,19 @@ def export_source_data(results=None, outdir=OUTDIR):
     os.makedirs(sd, exist_ok=True)
     written = []
 
+    #: Exported floats are ROUNDED. Writing `repr(float)` put 17 significant digits into a file
+    #: that is meant to be a stable, re-checkable artifact, so a last-ULP difference between numpy
+    #: versions changed the bytes. That is what made the Paper 3 recomputation freshness check fail
+    #: in CI while passing locally. Six decimals is far more precision than any figure or table
+    #: reports and far less than floating-point noise.
+    def _round(v):
+        return round(v, 6) if isinstance(v, float) else v
+
     def _w(name, header, rows):
         path = os.path.join(sd, name)
         with open(path, "w", newline="") as f:
-            wr = csv.writer(f); wr.writerow(header); wr.writerows(rows)
+            wr = csv.writer(f); wr.writerow(header)
+            wr.writerows([[_round(c) for c in row] for row in rows])
         written.append(path)
 
     # Fig 2 — identifiability profiles (rate, best c_s0 level, profiled SSE) per panel

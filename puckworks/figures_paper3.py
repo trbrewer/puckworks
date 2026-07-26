@@ -520,12 +520,20 @@ def export_source_data(outdir=OUTDIR):
     os.makedirs(sub, exist_ok=True)
     written = []
 
+    #: Exported floats are ROUNDED. Writing `repr(float)` put 17 significant digits into a file
+    #: that is meant to be a stable, re-checkable artifact, so a last-ULP difference between numpy
+    #: versions changed the bytes. That is what made the Paper 3 recomputation freshness check fail
+    #: in CI while passing locally. Six decimals is far more precision than any figure or table
+    #: reports and far less than floating-point noise.
+    def _round(v):
+        return round(v, 6) if isinstance(v, float) else v
+
     def _w(name, header, rows):
         path = os.path.join(sub, name)
         with open(path, "w", newline="", encoding="utf-8") as fh:
             w = csv.writer(fh)
             w.writerow(header)
-            w.writerows(rows)
+            w.writerows([[_round(c) for c in row] for row in rows])
         written.append(path)
 
     _w("fig2_stage_role_counts.csv", ["stage", "runtime", "calibration"],

@@ -26,9 +26,10 @@ CLI::
 from __future__ import annotations
 
 import json
-import re
 import sys
 from pathlib import Path
+
+from puckworks.review import number_audit as NA
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 MANUSCRIPT = REPO_ROOT / "docs" / "PAPER_B2_TEMPORAL_DRAFT.md"
@@ -157,174 +158,51 @@ def _derived_value(kind: str, a_path: str, b_path: str):
         return None
 
 
-#: Numerals that are structural rather than quantitative.
-_STRUCTURAL_PATTERNS = (
-    re.compile(r"§\s*\d+(?:\.\d+)?[a-z]?"),           # section references
-    re.compile(r"(?m)^#{1,6}\s+\d+(?:\.\d+)*[a-z]?"),  # markdown section HEADINGS
-    re.compile(r"\b(?:Table|Figure|Fig\.|Eq\.|Equation|Result|Rung|rung)\s*\d+[a-z]?"),
-    re.compile(r"\bRC-\d+[a-z]?"),                     # registry claim ids
-    re.compile(r"\b(?:19|20)\d{2}\b"),                 # years
-    re.compile(r"\b\d+\s*(?:of|/)\s*\d+\b"),           # "5 of 5", "3/4"
-    re.compile(r"\bP\d\.\d+\b|\bMAJ-\d+\b|\bB\d-\d+\b"),
-    re.compile(r"\bten|eleven\b"),                     # spelled-out, harmless anchor
-    re.compile(r"\[\d+(?:\s*,\s*\d+)*\]"),             # bracketed citation markers [3], [3, 7]
-)
-
-#: Spans whose numerals are NOT manuscript claims: LaTeX math (equation constants and exponents),
-#: fenced code, and inline code. A `4-6\widehat p` in a governing equation is part of the model, not
-#: a measurement, and treating it as an unbacked result would drown the real findings in noise.
-_EXCLUDED_SPANS = (
-    re.compile(r"\$\$.*?\$\$", re.S),
-    re.compile(r"\$[^$\n]+\$"),
-    re.compile(r"```.*?```", re.S),
-    re.compile(r"`[^`\n]+`"),
-)
-
-#: A numeral token: integer or decimal, optionally signed, optionally with a percent sign.
-_NUMERAL = re.compile(r"(?<![\w.$])(-?\d+(?:\.\d+)?)\s*(%?)(?![\w.])")
-
-
 def _claims():
     from puckworks.paper_b.build import _CLAIMS
     return list(_CLAIMS)
 
 
-def _body(text: str) -> str:
-    """The manuscript body, with non-result sections removed."""
-    cut = len(text)
-    for marker in _SKIP_SECTIONS:
-        i = text.find(marker)
-        if i != -1:
-            cut = min(cut, i)
-    return text[:cut]
+def _bundle():
+    import json
+    with open(REPO_ROOT / "docs" / "figures" / "paper_b_results.json", encoding="utf-8") as fh:
+        return json.load(fh)
 
 
-def _structural_spans(text: str) -> list[tuple[int, int]]:
-    spans = []
-    for rx in _STRUCTURAL_PATTERNS:
-        spans.extend((m.start(), m.end()) for m in rx.finditer(text))
-    return spans
+def _spec():
+    """Built PER CALL, not captured at import.
 
-
-def _excluded_spans(text: str) -> list[tuple[int, int]]:
-    spans = []
-    for rx in _EXCLUDED_SPANS:
-        spans.extend((m.start(), m.end()) for m in rx.finditer(text))
-    return spans
-
-
-def _context(body: str, start: int, end: int, width: int = 70) -> str:
-    """Text either side of the match, so a long paragraph does not report its first sentence for
-    every numeral it contains."""
-    a = max(0, start - width)
-    b = min(len(body), end + width)
-    return ("…" if a > 0 else "") + body[a:b].replace("\n", " ").strip() + ("…" if b < len(body) else "")
-
-
-def _in_span(pos: int, spans) -> bool:
-    return any(a <= pos < b for a, b in spans)
-
-
-def _matches_a_claim(value: float, claims) -> str | None:
-    """A manuscript numeral is producer-bound if it equals a registered claim's expected value.
-
-    The comparison is on the PRINTED value, and it deliberately allows the manuscript to round: a
-    claim expecting 0.1157 covers a printed 0.116. It does NOT allow the manuscript to state a
-    different number from the producer, which is the failure this exists to catch.
+    A module-level SPEC froze references to the registry dicts, so monkeypatching
+    `DERIVED_QUANTITIES` in a fault-injection test no longer reached the auditor and the test
+    silently stopped testing anything. Reading the current module globals keeps the injection
+    tests meaningful.
     """
-    for label, _path, expected, _tol in claims:
-        e = float(expected)
-        # The prose often states a magnitude where the producer carries a sign ("beats the
-        # constant by a mean of 0.390" for a stored -0.3904). Compare on |value| as well, since
-        # the direction is carried by the surrounding words rather than by the numeral.
-        for e in (float(expected), abs(float(expected))):
-            if value == e:
-                return label
-            # printed-rounding tolerance: match if the claim rounds to the printed value at
-            # the printed precision.
-            for places in range(0, 7):
-                if round(e, places) == value:
-                    return label
-            if e != 0 and abs(value - e) / abs(e) < 1e-9:
-                return label
-    return None
+    return NA.PaperSpec(
+        name="Paper B2 claim coverage",
+        manuscript=MANUSCRIPT,
+        claims=_claims,
+        skip_sections=_SKIP_SECTIONS,
+        config_constants=CONFIG_CONSTANTS,
+        dataset_facts=DATASET_FACTS,
+        cited_values=CITED_VALUES,
+        derived=DERIVED_QUANTITIES,
+        bundle=_bundle,
+        baseline=BASELINE_UNACCOUNTED,
+    )
 
 
-def audit(path: Path = MANUSCRIPT) -> dict:
-    text = path.read_text(encoding="utf-8")
-    body = _body(text)
-    claims = _claims()
-    structural = _structural_spans(body)
-    excluded = _excluded_spans(body)
-
-    findings = []
-    for m in _NUMERAL.finditer(body):
-        if _in_span(m.start(), excluded):
-            continue                      # inside math or code: a model constant, not a claim
-        raw, pct = m.group(1), m.group(2)
-        token = raw + pct
-        value = float(raw)
-        line = body.count("\n", 0, m.start()) + 1
-        context = _context(body, m.start(), m.end())
-
-        if _in_span(m.start(), structural):
-            disposition, why = "structural", "section/table/figure/count/year reference"
-        elif token in CONFIG_CONSTANTS or raw in CONFIG_CONSTANTS:
-            disposition, why = "config", CONFIG_CONSTANTS.get(token) or CONFIG_CONSTANTS[raw]
-        elif raw in DATASET_FACTS:
-            disposition, why = "dataset", DATASET_FACTS[raw]
-        elif raw in CITED_VALUES:
-            disposition, why = "cited", CITED_VALUES[raw]
-        else:
-            label = _matches_a_claim(value, claims)
-            if label:
-                disposition, why = "producer", label
-            elif raw in DERIVED_QUANTITIES:
-                kind, a_path, b_path = DERIVED_QUANTITIES[raw]
-                got = _derived_value(kind, a_path, b_path)
-                if got is None:
-                    disposition, why = "UNACCOUNTED", f"derived {kind} could not be recomputed"
-                elif round(got, 2 if abs(value) < 0.1 else 1) == round(value, 2 if abs(value) < 0.1 else 1):
-                    disposition, why = "derived", (
-                        f"{kind} of {a_path}" + (f" / {b_path}" if b_path else ""))
-                else:
-                    disposition, why = "UNACCOUNTED", (
-                        f"derived {kind} recomputes to {got:.4f}, manuscript prints {value}")
-            else:
-                disposition, why = "UNACCOUNTED", "no producer, config entry or citation"
-
-        findings.append(dict(token=token, value=value, line=line, disposition=disposition,
-                             why=why, context=context))
-
-    counts: dict[str, int] = {}
-    for f in findings:
-        counts[f["disposition"]] = counts.get(f["disposition"], 0) + 1
-    unaccounted = [f for f in findings if f["disposition"] == "UNACCOUNTED"]
-    try:
-        shown = str(path.relative_to(REPO_ROOT))
-    except ValueError:            # auditing a copy outside the repo (fault-injection tests)
-        shown = str(path)
-    return dict(manuscript=shown, n_numerals=len(findings),
-                counts=counts, n_claims=len(claims), unaccounted=unaccounted, findings=findings)
-
-
-def render(report: dict) -> str:
-    lines = [f"Paper B2 claim coverage — {report['manuscript']}", ""]
-    lines.append(f"{report['n_numerals']} numerals in the body; {report['n_claims']} registered claims")
-    for k in ("producer", "config", "dataset", "derived", "cited", "structural", "UNACCOUNTED"):
-        lines.append(f"  {k:12s} {report['counts'].get(k, 0)}")
-    if report["unaccounted"]:
-        lines += ["", "UNACCOUNTED — each must be bound to a producer or withdrawn:"]
-        for f in report["unaccounted"]:
-            lines.append(f"  L{f['line']:<5d} {f['token']:>10s}   {f['context']}")
-    return "\n".join(lines)
-
-
-#: Committed ceiling on unaccounted numerals. CI enforces that this never GROWS, which is the
-#: property that matters: a new manuscript number must arrive with a producer, a config entry or a
-#: citation. It is deliberately a ratchet and not a target — lowering it is the work, and the
-#: baseline is lowered whenever the count drops so it can never drift back up.
+#: Committed ceiling on unaccounted numerals. CI enforces that this never GROWS: a new manuscript
+#: number must arrive with a producer, a config entry or a citation. It is a ratchet -- lowering it
+#: is the work, and it is lowered whenever the count drops so it cannot drift back up.
 BASELINE_UNACCOUNTED = 0
+
+
+def audit(path=None):
+    return NA.audit(_spec(), path)
+
+
+def render(report):
+    return NA.render(report)
 
 
 def main(argv=None) -> int:
@@ -348,3 +226,14 @@ def main(argv=None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+
+# Re-exported so existing tests and callers keep working against one implementation.
+_NUMERAL = NA.NUMERAL
+_EXCLUDED_SPANS = NA.EXCLUDED_SPANS
+_STRUCTURAL_PATTERNS = NA.STRUCTURAL_PATTERNS
+_in_span = NA._in_span
+
+
+def _body(text):
+    return NA.body_of(text, _SKIP_SECTIONS)
