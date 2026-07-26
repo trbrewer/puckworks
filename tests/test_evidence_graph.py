@@ -5,6 +5,9 @@ stale component tier; placeholders), the applied semantic corrections, and deter
 generated artifacts.
 """
 import copy
+import pathlib
+
+_ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 from puckworks.paper3 import evidence_graph as EG
 
@@ -221,23 +224,64 @@ def test_conflicts_report_surfaces_constants_and_g10():
     assert "khomyakov" in md                          # the G10 inter-source viscosity tension
 
 
-def test_rollup_rule_no_component_overclaims_its_gates():
-    # the whole graph must satisfy the roll-up policy (reconcile is clean)
-    assert not any(p.startswith("ROLLUP") for p in EG.reconcile())
-    # ...and the demoted infiltration component now equals its only gate's tier
+def test_scope_membership_no_component_declares_an_undemonstrated_relation():
+    """Replaces the strongest-gate roll-up (review P0-3/P0-4). A component may declare only a
+    relation some gate actually demonstrates -- a SET-MEMBERSHIP test, which needs no ordering and
+    so no longer contradicts the paper's own argument that the relations are not on one scale."""
+    assert not any(p.startswith("SCOPE") for p in EG.reconcile())
     _, ctx = EG.registry_gate_wirings()
     assert ctx["foster2025.infiltration"]["component_evidence_strength"] == "sign_or_compatibility"
 
 
-def test_rollup_rule_flags_a_synthetic_overclaim():
-    # forge a component tier stronger than any of its gates (mutate the live ctx via a link whose
-    # component tier is inflated) -> the rule must fire. We do it by hand-building a link set for
-    # one component whose stored tier is checked against the LIVE registry, so instead assert the
-    # rule logic directly on the strongest-gate comparison.
-    # controlled_independent declared over a sign_or_compatibility gate must be flagged...
-    assert EG._rollup_probe("controlled_independent", ["sign_or_compatibility"]).startswith("ROLLUP")
-    # ...a weaker/coarser summary tier over stronger gates is NOT an overclaim (no false positive)
-    assert EG._rollup_probe("qualitative_capacity", ["source_curve_reproduction"]) == ""
-    # ...and a tier its gate actually demonstrates is fine
-    assert EG._rollup_probe("post_fit_reconstruction",
-                            ["source_curve_reproduction", "post_fit_reconstruction"]) == ""
+def test_no_ordering_over_evidence_relations_survives_in_the_module():
+    """The ordering was the concrete contradiction the review found: the paper says these relations
+    do not collapse onto one scale while the code ranked them. Assert it is gone."""
+    src = (_ROOT / "puckworks/paper3/evidence_graph.py").read_text(encoding="utf-8")
+    assert "_STRENGTH_RANK" not in src
+    assert "_rollup_probe" not in src
+    assert "deliberately NO rank/order" in src
+
+
+def _sv(*relations):
+    return tuple(EG.ScopedEvidence(relation=r, scope="an observable", gate="g",
+                                   outcome="supported", use="method_demonstration")
+                 for r in relations)
+
+
+def test_scope_membership_flags_an_overclaim():
+    assert EG._scope_membership_probe(
+        "x.y", "controlled_independent", _sv("sign_or_compatibility")).startswith("SCOPE")
+
+
+def test_scope_membership_also_flags_an_UNRECORDED_underclaim():
+    """Strictly more honest than the roll-up, which permitted a weaker declared tier silently.
+    Under-claiming is often right, but it must be visible."""
+    assert EG._scope_membership_probe(
+        "x.y", "qualitative_capacity", _sv("source_curve_reproduction")).startswith("SCOPE")
+
+
+def test_a_recorded_conservative_summary_is_allowed_and_carries_a_reason():
+    for comp, why in EG.CONSERVATIVE_SUMMARIES.items():
+        assert len(why.split()) >= 12, comp
+        assert EG._scope_membership_probe(comp, "qualitative_capacity",
+                                          _sv("source_curve_reproduction")) == ""
+
+
+def test_an_exactly_matching_declaration_passes():
+    assert EG._scope_membership_probe(
+        "x.y", "post_fit_reconstruction",
+        _sv("source_curve_reproduction", "post_fit_reconstruction")) == ""
+
+
+def test_every_scoped_record_carries_a_scope():
+    """A relation without the observable it was demonstrated on is the thing this change exists to
+    prevent, so an empty scope must never appear silently."""
+    vecs = EG.evidence_vectors()
+    assert vecs, "no evidence vectors at all -- this guard would be vacuous"
+    for comp, vec in vecs.items():
+        for s in vec:
+            assert s.scope and s.scope != "(scope not recorded)", (comp, s.gate)
+            assert s.relation in EG.EVIDENCE_STRENGTHS, (comp, s.relation)
+
+
+

@@ -36,7 +36,68 @@
       "kwargs": {}
     },
     "compares_grinder_dials": false,
-    "source_commit": "238714ba854cab414a21dab9297d47a7e12af3dc"
+    "source_commit": "c7bfb897f75aa0e330c87665ae5f5f02b87a380b",
+    "generated_from_commit": "c7bfb897f75aa0e330c87665ae5f5f02b87a380b",
+    "last_verified_against_commit": "c7bfb897f75aa0e330c87665ae5f5f02b87a380b",
+    "dependencies": [
+      {
+        "ref": "waszkiewicz2025/tds_fractions",
+        "kind": "dataset",
+        "role": "the measured 5 s TDS fractions this claim is computed from",
+        "evidence": []
+      },
+      {
+        "ref": "cameron2020.extraction_bdf",
+        "kind": "component",
+        "role": "supplies the boulder-timescale comparison the finding is stated against",
+        "evidence": [
+          {
+            "relation": "code_verification",
+            "public_relation": "verification",
+            "scope": "Extraction yield EY (%) via two internal accounting routes plus an inventory upper bound, all computed from the simulation and module constants.",
+            "gate": "gate_cameron_conservation",
+            "outcome": "supported"
+          },
+          {
+            "relation": "sign_or_compatibility",
+            "public_relation": "qualitative",
+            "scope": "EY(t) morphology (monotonicity, first-half vs second-half rate), fraction of final yield by t=15 s, plateau band, and the sign of the EY-vs-t_shot relation across the grind sweep vs smrke's digitized Fig-3 curve.",
+            "gate": "gate_smrke2024_fast_extraction_shape",
+            "outcome": "negative"
+          }
+        ]
+      },
+      {
+        "ref": "puckworks.harness.dissolution_speed_test",
+        "kind": "producer",
+        "role": "computes the reported fraction and its comparison",
+        "evidence": []
+      }
+    ],
+    "outcome": "supported",
+    "evidence_profile": [
+      {
+        "dependency": "cameron2020.extraction_bdf",
+        "kind": "component",
+        "relation": "code_verification",
+        "public_relation": "verification",
+        "scope": "Extraction yield EY (%) via two internal accounting routes plus an inventory upper bound, all computed from the simulation and module constants.",
+        "gate": "gate_cameron_conservation",
+        "outcome": "supported"
+      },
+      {
+        "dependency": "cameron2020.extraction_bdf",
+        "kind": "component",
+        "relation": "sign_or_compatibility",
+        "public_relation": "qualitative",
+        "scope": "EY(t) morphology (monotonicity, first-half vs second-half rate), fraction of final yield by t=15 s, plateau band, and the sign of the EY-vs-t_shot relation across the grind sweep vs smrke's digitized Fig-3 curve.",
+        "gate": "gate_smrke2024_fast_extraction_shape",
+        "outcome": "negative"
+      }
+    ],
+    "component_refs": [
+      "cameron2020.extraction_bdf"
+    ]
   },
   {
     "claim_id": "PV-02",
@@ -74,7 +135,124 @@
       "kwargs": {}
     },
     "compares_grinder_dials": false,
-    "source_commit": "238714ba854cab414a21dab9297d47a7e12af3dc"
+    "source_commit": "c7bfb897f75aa0e330c87665ae5f5f02b87a380b",
+    "generated_from_commit": "c7bfb897f75aa0e330c87665ae5f5f02b87a380b",
+    "last_verified_against_commit": "c7bfb897f75aa0e330c87665ae5f5f02b87a380b",
+    "dependencies": [
+      {
+        "ref": "waszkiewicz2025.poroelastic",
+        "kind": "component",
+        "role": "the bed-side temporal branch scored in the ladder",
+        "evidence": [
+          {
+            "relation": "post_fit_reconstruction",
+            "public_relation": "post-fit reconstruction",
+            "scope": "Mass flow Q(t) at 9 bar vs time (long-run mean g/s and Pearson correlation, t>=15 s).",
+            "gate": "gate_waszkiewicz_dynamic_9bar",
+            "outcome": "supported"
+          },
+          {
+            "relation": "post_fit_reconstruction",
+            "public_relation": "post-fit reconstruction",
+            "scope": "Steady-state basket-pressure vs mass-flow curve; recovered calibration parameters P_c, Q_c.",
+            "gate": "gate_waszkiewicz_static_refit",
+            "outcome": "supported"
+          }
+        ]
+      },
+      {
+        "ref": "foster2025.machine_mode",
+        "kind": "component",
+        "role": "the machine-only branch that reproduces a dip without any bed process",
+        "evidence": [
+          {
+            "relation": "source_curve_reproduction",
+            "public_relation": "post-fit reconstruction",
+            "scope": "Wetting-front depth s(t) and headspace height H(t) (mm) over the shot, vs the paper's fitted ODE curves and vs digitized CT measurements.",
+            "gate": "gate_foster_ct_trajectory",
+            "outcome": "negative"
+          },
+          {
+            "relation": "source_curve_reproduction",
+            "public_relation": "post-fit reconstruction",
+            "scope": "Normalized bed flow Q/Qm = min(Q_p, f(H,s))/Q_m vs experiment time.",
+            "gate": "gate_foster_fig15_flowmin",
+            "outcome": "negative"
+          },
+          {
+            "relation": "source_curve_reproduction",
+            "public_relation": "post-fit reconstruction",
+            "scope": "Two scalar times (s): ponding time t_p and saturation time t_s, model-computed vs the authors' reported values.",
+            "gate": "gate_foster_machine_tp_ts",
+            "outcome": "supported"
+          }
+        ]
+      },
+      {
+        "ref": "puckworks.harness.kappa_t_ladder",
+        "kind": "producer",
+        "role": "scores every branch on one window and returns the ladder",
+        "evidence": []
+      },
+      {
+        "ref": "waszkiewicz2025/traces_time_dependent",
+        "kind": "dataset",
+        "role": "the measured flow trace all branches are scored against",
+        "evidence": []
+      }
+    ],
+    "outcome": "supported",
+    "evidence_profile": [
+      {
+        "dependency": "waszkiewicz2025.poroelastic",
+        "kind": "component",
+        "relation": "post_fit_reconstruction",
+        "public_relation": "post-fit reconstruction",
+        "scope": "Mass flow Q(t) at 9 bar vs time (long-run mean g/s and Pearson correlation, t>=15 s).",
+        "gate": "gate_waszkiewicz_dynamic_9bar",
+        "outcome": "supported"
+      },
+      {
+        "dependency": "waszkiewicz2025.poroelastic",
+        "kind": "component",
+        "relation": "post_fit_reconstruction",
+        "public_relation": "post-fit reconstruction",
+        "scope": "Steady-state basket-pressure vs mass-flow curve; recovered calibration parameters P_c, Q_c.",
+        "gate": "gate_waszkiewicz_static_refit",
+        "outcome": "supported"
+      },
+      {
+        "dependency": "foster2025.machine_mode",
+        "kind": "component",
+        "relation": "source_curve_reproduction",
+        "public_relation": "post-fit reconstruction",
+        "scope": "Wetting-front depth s(t) and headspace height H(t) (mm) over the shot, vs the paper's fitted ODE curves and vs digitized CT measurements.",
+        "gate": "gate_foster_ct_trajectory",
+        "outcome": "negative"
+      },
+      {
+        "dependency": "foster2025.machine_mode",
+        "kind": "component",
+        "relation": "source_curve_reproduction",
+        "public_relation": "post-fit reconstruction",
+        "scope": "Normalized bed flow Q/Qm = min(Q_p, f(H,s))/Q_m vs experiment time.",
+        "gate": "gate_foster_fig15_flowmin",
+        "outcome": "negative"
+      },
+      {
+        "dependency": "foster2025.machine_mode",
+        "kind": "component",
+        "relation": "source_curve_reproduction",
+        "public_relation": "post-fit reconstruction",
+        "scope": "Two scalar times (s): ponding time t_p and saturation time t_s, model-computed vs the authors' reported values.",
+        "gate": "gate_foster_machine_tp_ts",
+        "outcome": "supported"
+      }
+    ],
+    "component_refs": [
+      "waszkiewicz2025.poroelastic",
+      "foster2025.machine_mode"
+    ]
   },
   {
     "claim_id": "PV-04",
@@ -119,7 +297,38 @@
       "kwargs": {}
     },
     "compares_grinder_dials": true,
-    "source_commit": "238714ba854cab414a21dab9297d47a7e12af3dc"
+    "source_commit": "c7bfb897f75aa0e330c87665ae5f5f02b87a380b",
+    "generated_from_commit": "c7bfb897f75aa0e330c87665ae5f5f02b87a380b",
+    "last_verified_against_commit": "c7bfb897f75aa0e330c87665ae5f5f02b87a380b",
+    "dependencies": [
+      {
+        "ref": "puckworks.harness.schmieder_interior_max_target",
+        "kind": "producer",
+        "role": "locates the interior maximum in the source response surface",
+        "evidence": []
+      },
+      {
+        "ref": "puckworks.harness.result1_magnitude_comparison",
+        "kind": "producer",
+        "role": "compares the modelled and measured magnitudes",
+        "evidence": []
+      },
+      {
+        "ref": "puckworks.harness.channeling_interior_max_sensitivity",
+        "kind": "producer",
+        "role": "tests whether the interior maximum survives the channeling account",
+        "evidence": []
+      },
+      {
+        "ref": "schmieder2023/rsm_coefficients",
+        "kind": "dataset",
+        "role": "the fitted response-surface coefficients the vertex is read from",
+        "evidence": []
+      }
+    ],
+    "outcome": "supported",
+    "evidence_profile": [],
+    "component_refs": []
   },
   {
     "claim_id": "PV-05",
@@ -170,7 +379,156 @@
       "kwargs": {}
     },
     "compares_grinder_dials": false,
-    "source_commit": "238714ba854cab414a21dab9297d47a7e12af3dc"
+    "source_commit": "c7bfb897f75aa0e330c87665ae5f5f02b87a380b",
+    "generated_from_commit": "c7bfb897f75aa0e330c87665ae5f5f02b87a380b",
+    "last_verified_against_commit": "c7bfb897f75aa0e330c87665ae5f5f02b87a380b",
+    "dependencies": [
+      {
+        "ref": "brewer2026.coupled_kappa_t",
+        "kind": "component",
+        "role": "the composition under test; adding the swelling branch is what worsens it",
+        "evidence": [
+          {
+            "relation": "exploratory_synthesis",
+            "public_relation": "qualitative",
+            "scope": "Minimum composite porosity (eps_min vs eps0) and the 9-bar Q(t) RMSE vs the measured Waszkiewicz trace (g/s).",
+            "gate": "gate_kappa_t_composition_diagnostic",
+            "outcome": "supported"
+          },
+          {
+            "relation": "post_fit_reconstruction",
+            "public_relation": "post-fit reconstruction",
+            "scope": "Mass flow Q(t) at 9 bar vs the measured Waszkiewicz trace over the 15-95 s saturated window (RMSE, g/s).",
+            "gate": "gate_kappa_t_degeneracy",
+            "outcome": "supported"
+          },
+          {
+            "relation": "code_verification",
+            "public_relation": "verification",
+            "scope": "Structural identity of the coupled model's extraction-only Phi(t)/Q(t) closure to the standalone poroelastic component (a code property).",
+            "gate": "gate_kappa_t_degeneracy",
+            "outcome": "supported"
+          }
+        ]
+      },
+      {
+        "ref": "mo2023_2.swelling",
+        "kind": "component",
+        "role": "the imported branch whose parameters are used unrefitted",
+        "evidence": [
+          {
+            "relation": "sign_or_compatibility",
+            "public_relation": "qualitative",
+            "scope": "Mean yield (%) over the M_c 18-32 g window, across q (2 vs 4 mL/s) and across powders E/M/F at matched q.",
+            "gate": "gate_mo2_fixed_flow_trends",
+            "outcome": "negative"
+          },
+          {
+            "relation": "code_verification",
+            "public_relation": "verification",
+            "scope": "Per-powder relative error between the recomputed CK k0 and the tabulated Table 2 k0 (m^2).",
+            "gate": "gate_mo2_k0_carman_kozeny",
+            "outcome": "supported"
+          },
+          {
+            "relation": "source_curve_reproduction",
+            "public_relation": "post-fit reconstruction",
+            "scope": "Fixed-dp flow-decay ratio q(60s)/q(0) (dp/mu/L cancelled) per powder E/H/M/F, plus the scalar s_m.",
+            "gate": "gate_mo2_swelling_flow_decay",
+            "outcome": "negative"
+          },
+          {
+            "relation": "code_verification",
+            "public_relation": "verification",
+            "scope": "End-of-shot yield (fraction of extractable inventory) with swelling on vs off at q=2/3/4 mL/s (fixed-q), contrasted with the fixed-dP Carman-Kozeny flow-decay ratio.",
+            "gate": "gate_mo2_swelling_insensitivity",
+            "outcome": "supported"
+          }
+        ]
+      },
+      {
+        "ref": "puckworks.public.model_composition.pv05_values",
+        "kind": "producer",
+        "role": "computes the composite and extraction-only residuals",
+        "evidence": []
+      },
+      {
+        "ref": "waszkiewicz2025/traces_time_dependent",
+        "kind": "dataset",
+        "role": "the measured trace the composite is scored against",
+        "evidence": []
+      }
+    ],
+    "outcome": "supported",
+    "evidence_profile": [
+      {
+        "dependency": "brewer2026.coupled_kappa_t",
+        "kind": "component",
+        "relation": "exploratory_synthesis",
+        "public_relation": "qualitative",
+        "scope": "Minimum composite porosity (eps_min vs eps0) and the 9-bar Q(t) RMSE vs the measured Waszkiewicz trace (g/s).",
+        "gate": "gate_kappa_t_composition_diagnostic",
+        "outcome": "supported"
+      },
+      {
+        "dependency": "brewer2026.coupled_kappa_t",
+        "kind": "component",
+        "relation": "post_fit_reconstruction",
+        "public_relation": "post-fit reconstruction",
+        "scope": "Mass flow Q(t) at 9 bar vs the measured Waszkiewicz trace over the 15-95 s saturated window (RMSE, g/s).",
+        "gate": "gate_kappa_t_degeneracy",
+        "outcome": "supported"
+      },
+      {
+        "dependency": "brewer2026.coupled_kappa_t",
+        "kind": "component",
+        "relation": "code_verification",
+        "public_relation": "verification",
+        "scope": "Structural identity of the coupled model's extraction-only Phi(t)/Q(t) closure to the standalone poroelastic component (a code property).",
+        "gate": "gate_kappa_t_degeneracy",
+        "outcome": "supported"
+      },
+      {
+        "dependency": "mo2023_2.swelling",
+        "kind": "component",
+        "relation": "sign_or_compatibility",
+        "public_relation": "qualitative",
+        "scope": "Mean yield (%) over the M_c 18-32 g window, across q (2 vs 4 mL/s) and across powders E/M/F at matched q.",
+        "gate": "gate_mo2_fixed_flow_trends",
+        "outcome": "negative"
+      },
+      {
+        "dependency": "mo2023_2.swelling",
+        "kind": "component",
+        "relation": "code_verification",
+        "public_relation": "verification",
+        "scope": "Per-powder relative error between the recomputed CK k0 and the tabulated Table 2 k0 (m^2).",
+        "gate": "gate_mo2_k0_carman_kozeny",
+        "outcome": "supported"
+      },
+      {
+        "dependency": "mo2023_2.swelling",
+        "kind": "component",
+        "relation": "source_curve_reproduction",
+        "public_relation": "post-fit reconstruction",
+        "scope": "Fixed-dp flow-decay ratio q(60s)/q(0) (dp/mu/L cancelled) per powder E/H/M/F, plus the scalar s_m.",
+        "gate": "gate_mo2_swelling_flow_decay",
+        "outcome": "negative"
+      },
+      {
+        "dependency": "mo2023_2.swelling",
+        "kind": "component",
+        "relation": "code_verification",
+        "public_relation": "verification",
+        "scope": "End-of-shot yield (fraction of extractable inventory) with swelling on vs off at q=2/3/4 mL/s (fixed-q), contrasted with the fixed-dP Carman-Kozeny flow-decay ratio.",
+        "gate": "gate_mo2_swelling_insensitivity",
+        "outcome": "supported"
+      }
+    ],
+    "component_refs": [
+      "brewer2026.coupled_kappa_t",
+      "mo2023_2.swelling"
+    ]
   },
   {
     "claim_id": "PV-03",
@@ -202,7 +560,7 @@
       "table7_implied_rate": "rate scale (dimensionless)"
     },
     "uncertainty_or_sensitivity": "Practical (not structural) non-identifiability; no likelihood/noise model. The tested rate range is RIGHT-CENSORED at its upper edge. The inverse-curvature coupling is objective-surface geometry, NOT a statistical parameter correlation; the 10% set is a tested-domain threshold set, NOT a confidence interval.",
-    "evidence_strength": "negative validation",
+    "evidence_strength": "qualitative",
     "badge": "RECONSTRUCTED",
     "components": [
       "pannusch2024.solver (refit)",
@@ -226,6 +584,57 @@
       "kwargs": {}
     },
     "compares_grinder_dials": false,
-    "source_commit": "238714ba854cab414a21dab9297d47a7e12af3dc"
+    "source_commit": "c7bfb897f75aa0e330c87665ae5f5f02b87a380b",
+    "generated_from_commit": "c7bfb897f75aa0e330c87665ae5f5f02b87a380b",
+    "last_verified_against_commit": "c7bfb897f75aa0e330c87665ae5f5f02b87a380b",
+    "dependencies": [
+      {
+        "ref": "pannusch2024.solver",
+        "kind": "component",
+        "role": "the extraction model, refitted to the target campaign for this claim",
+        "evidence": [
+          {
+            "relation": "post_fit_reconstruction",
+            "public_relation": "post-fit reconstruction",
+            "scope": "Per-solute MAPE (%) between simulated and measured fraction concentrations over 15 experiments x 6 time-fraction windows.",
+            "gate": "gate_pannusch_solver_mape",
+            "outcome": "supported"
+          }
+        ]
+      },
+      {
+        "ref": "angeloni2023/bioactives",
+        "kind": "dataset",
+        "role": "the whole-cup endpoint concentrations the profile is fitted to",
+        "evidence": []
+      },
+      {
+        "ref": "puckworks.validation.slow.angeloni_bracket.identifiability_panel",
+        "kind": "producer",
+        "role": "profiles the inventory-rate objective and reports the near-optimal set",
+        "evidence": []
+      },
+      {
+        "ref": "puckworks.validation.slow.angeloni_bracket.transfer_skill_vs_baselines",
+        "kind": "producer",
+        "role": "scores the cross-grind prediction against the level-only null",
+        "evidence": []
+      }
+    ],
+    "outcome": "negative",
+    "evidence_profile": [
+      {
+        "dependency": "pannusch2024.solver",
+        "kind": "component",
+        "relation": "post_fit_reconstruction",
+        "public_relation": "post-fit reconstruction",
+        "scope": "Per-solute MAPE (%) between simulated and measured fraction concentrations over 15 experiments x 6 time-fraction windows.",
+        "gate": "gate_pannusch_solver_mape",
+        "outcome": "supported"
+      }
+    ],
+    "component_refs": [
+      "pannusch2024.solver"
+    ]
   }
 ]

@@ -85,10 +85,14 @@ def test_manuscript_states_the_rollup_is_a_release_check_not_the_evidence_model(
     assert "scoped evidence profile" in _MANUSCRIPT
 
 
-def test_the_rollup_probe_documents_itself_as_a_release_check():
+def test_the_ordering_that_contradicted_the_paper_is_gone():
+    """P0-4 was resolved by REMOVING the ordering, not by documenting it. The paper argues the
+    relations answer different questions; the code now tests set membership against a component's
+    scoped evidence vector instead of ranking them."""
     src = (_ROOT / "puckworks/paper3/evidence_graph.py").read_text(encoding="utf-8")
-    assert "CONSERVATIVE RELEASE CHECK -- not the evidence model" in src
-    assert "LAUNDER SCOPE" in src
+    assert "_STRENGTH_RANK" not in src, "an ordering over the relations has come back"
+    assert "_scope_membership_probe" in src
+    assert "CONSERVATIVE_SUMMARIES" in src
 
 
 def test_the_public_schema_no_longer_claims_an_unchanged_vocabulary():

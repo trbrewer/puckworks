@@ -38,6 +38,11 @@ DERIVED_FIELDS = {
 REPEATABLE_FIELDS = {"numeric_result", "units", "components", "dataset_manifest_ids"}
 
 _FIELD_NOTES = {
+    "dependencies": "IDENTIFIED load-bearing inputs (registry component id, producer dotted path, "
+                    "or dataset manifest id) with the role each plays and, for components, their "
+                    "scoped evidence records. This is the authoritative dependency list",
+    "outcome": "supported / negative / indeterminate -- an OUTCOME axis kept separate from the "
+               "relation, so a negative result never has to masquerade as a relation",
     "claim_id": "stable identifier; the join key across manuscript, site and evidence graph",
     "public_question": "the scientific question in lay terms",
     "headline": "one-line answer",
@@ -47,7 +52,8 @@ _FIELD_NOTES = {
     "uncertainty_or_sensitivity": "what the number is sensitive to, or its spread",
     "evidence_strength": "PUBLIC lay relation, mapped from the registry relation via "
                          "`REGISTRY_TO_PUBLIC`; a coarser vocabulary, not the registry value",
-    "components": "registered component / harness identifiers used",
+    "components": "DEPRECATED free-text list retained for already-published artifacts; "
+                  "`dependencies` is authoritative",
     "dataset_manifest_ids": "rows that MUST exist in data/MANIFEST.csv",
     "validity_range": "explicit domain of applicability",
     "primary_caveat": "the limitation a reader must carry away",

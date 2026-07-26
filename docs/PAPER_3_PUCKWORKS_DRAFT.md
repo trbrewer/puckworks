@@ -71,36 +71,46 @@ Before making a systematic or exhaustive claim, the project should preregister o
 ### 2.4 Claim ownership and its relationship to the companion papers
 
 This paper is one of three drawing on the same repository, so a reader is entitled to know which
-results this paper *asserts* and which it *cites*. The division is recorded in the repository's claim
-map (`docs/CLAIM_OWNERSHIP.md`) and is reproduced here in summary, because a division of labour that
-exists only in a project file cannot be checked by a reader.
+results this paper *asserts* and which it *cites*, and where to go for each. The division is
+recorded in the repository's claim map (`docs/CLAIM_OWNERSHIP.md`) and reproduced here, because a
+division of labour that exists only in a project file cannot be checked by a reader.
 
-| Claim | Owner | Role in **this** paper |
-|---|---|---|
-| Whole-cup endpoints weakly separate extractable content from extraction rate | Companion identifiability paper | cited as motivation; not re-argued |
-| Cross-grind endpoint prediction adds little over a level-only baseline | Companion identifiability paper | cited; the registry supplies the evidence labels, not the finding |
-| Fraction-resolved observations localize the rate more strongly than aggregates | Companion identifiability paper | cited |
-| A machine-only model reproduces a mid-shot flow minimum without bed evolution | Companion temporal paper | cited as the null-first motivation |
-| The κ(t) null-first ladder and its cross-pressure assessment | Companion temporal paper | **the science is cited**; this paper uses the ladder only as an example of comparison *architecture* (§8) |
-| Isolated swelling and fines branches carry the wrong fixed-pressure sign | Companion temporal paper | cited |
-| Typed observable and unit contracts; no silent field repurposing | **This paper** | asserted (§4) |
-| Observable and unit linting, including the saturation-concentration and pressure-node cases | **This paper** | asserted (§7) |
-| Null-first comparison as a reusable *method* | **This paper** | asserted (§8); the physical conclusions belong to the companion paper |
-| A failed composition preserved rather than tuned away | **This paper** | asserted (§9) |
-| Provenance, evidence typing, manifests, claim bundles, release verification | **This paper** | asserted (§6) |
-| Guardrail evaluation by deliberate defect injection | **This paper** | asserted (§10) |
-| Disagreement-to-experiment mapping | **This paper** | asserted (§11) |
-| End-to-end named-shot evidence scorecard | **This paper** | asserted (§12) |
-| External community-corpus governance and attribution | **This paper** | asserted (§6.6) |
-| Definitionally different "fast fractions" that agree in sign but differ 5–9× | **This paper** | asserted (§7) |
-| A shared bi-exponential form is not a shared physical construct | **This paper** | asserted (§7.5) |
+The **role** column uses the same vocabulary as the evidence graph's `paper3_use` field: a *primary
+result* is asserted here; a *method demonstration* uses a companion result as a worked example of
+the architecture, with the science attributed rather than restated; *context* supplies background;
+and a *cross-reference* points to the owning paper without reusing its numbers.
 
-The rule we follow is that a *physical* conclusion is asserted once, in the paper whose design
-supports it, and that this paper asserts only *methodological* claims about representation, evidence
-and reproducibility. Where a companion result appears here it appears as a worked example of the
-architecture, with the scientific claim attributed rather than restated. Quantitative values shared
-between papers come from the same producers, so a number cannot diverge between them without a
-CI failure.
+| Claim ID | Primary publication | Role in this paper | Canonical producer | Canonical figure/table | Permitted reuse here |
+|---|---|---|---|---|---|
+| `A-WEAK-SEP` | Identifiability paper | cross-reference | `angeloni_bracket.identifiability_panel` | its Fig. 2 | statement of the finding only; no numbers |
+| `A-NULL-SKILL` | Identifiability paper | cross-reference | `angeloni_bracket.transfer_skill_vs_baselines` | its Fig. 3 | statement only; the ΔMAPE interval is not restated |
+| `A-TEMPORAL-INFO` | Identifiability paper | cross-reference | `identifiability.identifiability_fractions_vs_cup` | its Fig. 4 | statement only |
+| `B2-MACHINE-DIP` | Temporal paper | method demonstration | `gate_foster_fig15_flowmin` (component `foster2025.machine_mode`) | its Fig. 1 | the dip may be shown as a null-first motivation; the physical claim is attributed |
+| `B2-LADDER` | Temporal paper | method demonstration | `harness.kappa_t_ladder` | its Fig. 2 | the ladder is used as comparison **architecture** (§8); the RMSEs are quoted once, from the same producer |
+| `B2-SIGN` | Temporal paper | context | `harness.kappa_t_ladder` (`swelling_wrong_sign`) | its Fig. 3 | sign result cited, not re-derived |
+| `P3-CONTRACTS` | **This paper** | primary result | `puckworks.contracts` | Table 2 | asserted here (§4) |
+| `P3-LINT` | **This paper** | primary result | `paper3.evidence_graph._conflicts_md` (generates the conflict register) | Fig. 3 | asserted here (§7) |
+| `P3-SEMANTIC-FAST` | **This paper** | primary result | `maille2024.phi_closure::gate_maille_phi_split_vs_cameron` | §7 table | asserted here |
+| `P3-PORTABILITY` | **This paper** | primary result | `maille2024.two_regime::gate_maille_timescale_portability_*` | Table 4a | asserted here (§7.5) |
+| `P3-COMPOSITION` | **This paper** | primary result | `coupled_kappa_t.composition_residual` | Fig. 5 | asserted here (§9); the *measured trace* is the temporal paper's data |
+| `P3-DEFECTS` | **This paper** | primary result | `paper3.defect_injection.run_benchmark` | §10 table | asserted here |
+| `P3-PROVENANCE` | **This paper** | primary result | `paper3.evidence_graph.reconcile` | Table 3 | asserted here (§6) |
+| `P3-EXPERIMENTS` | **This paper** | primary result | `tools/experimental_data_needs.py` (the EXP-00n register) | Fig. 6 | asserted here (§11) |
+| `P3-SCORECARD` | **This paper** | primary result | **none — hand-maintained** | Fig. 7 | asserted here (§12), but see below |
+| `P3-CORPUS-GOV` | **This paper** | primary result | — (governance statement) | §6.6 | asserted here |
+
+One row deliberately reads "none". The named-shot scorecard of §12 is **not** generated by a
+producer; it is maintained by hand, so it is the one asserted result in this paper that the
+provenance machinery described here does not itself cover. Recording that in the ownership table
+rather than omitting the column is the point: a claim-ownership table whose producer column was
+filled in optimistically would be the same defect this paper is about.
+
+Two rules govern the table. A *physical* conclusion is asserted once, in the paper whose design
+supports it; this paper asserts only *methodological* claims about representation, evidence and
+reproducibility. And any quantitative value shared between papers is produced by the same named
+producer, so a number cannot diverge between them without a CI failure — the mechanism that caught a
+stale composition value during preparation of this manuscript.
+
 
 ## 3. Registry architecture: components rather than a mega-model
 
@@ -267,11 +277,52 @@ One consequence must be stated plainly, because the implementation and the argum
 
 The relation names above are the exact `EVIDENCE_STRENGTHS` enumeration in the registry (an earlier draft used the display label "Independent external" for `controlled_independent` and listed "Negative validation" as a tenth category; the former is renamed to match the code and the latter is now represented as the outcome-polarity axis). The labels constrain language. A `source_curve_reproduction` "reconstructs" or "reproduces"; a `within_campaign_held_out` result "predicts within the campaign"; a `qualitative_capacity` result "can generate"; a `sign_or_compatibility` test "is incompatible under the stated assumptions." The registry does not promote a result to a stronger verb because it appears in a public-facing graphic.
 
-### 5.2 Evidence vectors for components and claims
+### 5.2 Scoped evidence vectors for components and claims
 
-A component can carry several evidence entries. For example, an extraction solver may have mass-conservation verification, reproduce a source fit, and read low against an independent extraction-yield range. These entries should coexist rather than collapse into the strongest or weakest badge. The claim layer then selects the evidence relevant to a particular statement. Two landed gates illustrate how the same word — a "passing" gate — can carry different scientific meaning: one reproduces a published drip-batch concentration plateau from the source's own tabulated inputs and a derived volume bookkeeping (source-curve reproduction, no independent system tested), while another solves a reduced two-grain extraction model and checks it only against itself and a physical bound (code verification). Neither is validation against an independent system, and both carry the same scope caveat — a drip-filter brew chamber, not an espresso brew ratio — so neither result may be spoken of as an espresso prediction.
+A component can carry several evidence entries, and they should coexist rather than collapse into a
+strongest or weakest badge. Two landed gates illustrate how the same word — a "passing" gate — can
+carry different scientific meaning: one reproduces a published drip-batch concentration plateau from
+the source's own tabulated inputs and a derived volume bookkeeping (source-curve reproduction, no
+independent system tested), while another solves a reduced two-grain extraction model and checks it
+only against itself and a physical bound (code verification). Neither is validation against an
+independent system, and both carry the same scope caveat — a drip-filter brew chamber, not an
+espresso brew ratio — so neither result may be spoken of as an espresso prediction.
 
-The public schema uses four visual badges—`OBSERVED`, `RECONSTRUCTED`, `PREDICTED`, and `EXPLORATORY_SIMULATION`—while preserving the underlying evidence-strength label unchanged. Every numeric public claim also carries units, source dataset identifiers, validity range, a primary caveat, a reproduction command, and a named producer that regenerates the value. A claim whose numeric field has no producer mapping fails validation as hard-coded.
+**A relation is a property of an observable, not of a component.** The registry therefore stores a
+**scoped evidence vector**: for each component, every `(relation, scope, gate, outcome)` record it
+actually has, where the scope is the observable the gate examined. Collapsing that vector into one
+label is what allows scope laundering — one strong record on one observable being read as evidence
+for a component's other outputs — so the vector, not the label, is the representation.
+
+Two consequences follow, and both are enforced rather than described.
+
+First, **there is no ordering over the relations anywhere in the implementation.** An earlier
+version validated a component against its *strongest* gate, which required ranking relations that
+this section argues are not on one scale. That check is replaced by set membership: a component may
+declare only a relation that some gate actually demonstrates. The test needs no order, so the code
+no longer contradicts the argument. It is also stricter in a second direction — an *under*-claim,
+which the ordering permitted silently, must now be recorded with a reason. Three components declare
+a deliberately conservative summary on that basis.
+
+Second, **a public claim identifies its dependencies rather than describing them.** Each of the
+19 dependency edges across the public claims names a registry component (6), a
+producer function (8), or a dataset manifest row (5), and component dependencies
+carry their scoped evidence vector with them. A claim's **evidence profile** is the union of those
+records. The composition claim of §9, for example, resolves to a profile of **7 records
+spanning 5 different relations across 7 different observables** — a spread that a
+single `evidence_strength` field cannot express, and which is precisely the information a reader
+needs in order to see which part of the claim rests on what.
+
+This is a **profile, not a transitive closure**: the dependencies' own dependencies are not walked.
+That bound is deliberate and is restated in the limitations. Relation and outcome are also separate
+axes, so a negative result is recorded as a negative *outcome* on a named relation rather than as a
+relation of its own.
+
+The public schema uses four visual badges — `OBSERVED`, `RECONSTRUCTED`, `PREDICTED`, and
+`EXPLORATORY_SIMULATION` — derived from the authored fields rather than authored separately. Every
+numeric public claim also carries units, source dataset identifiers, validity range, a primary
+caveat, a reproduction command, and a named producer that regenerates the value. A claim whose
+numeric field has no producer mapping fails validation as hard-coded.
 
 ## 6. Provenance and reproducibility architecture
 
@@ -783,7 +834,7 @@ Every manuscript-facing quantitative claim is exportable as the record below. Fi
 | `uncertainty_or_sensitivity` | string | mandatory | what the number is sensitive to, or its spread |
 | `evidence_strength` | string | mandatory | PUBLIC lay relation, mapped from the registry relation via `REGISTRY_TO_PUBLIC`; a coarser vocabulary, not the registry value |
 | `badge` | string | derived | derived from the authored evidence fields (§5); never authored independently |
-| `components` | list | mandatory, repeatable | registered component / harness identifiers used |
+| `components` | list | mandatory, repeatable | DEPRECATED free-text list retained for already-published artifacts; `dependencies` is authoritative |
 | `dataset_manifest_ids` | list | mandatory, repeatable | rows that MUST exist in data/MANIFEST.csv |
 | `validity_range` | string | mandatory | explicit domain of applicability |
 | `primary_caveat` | string | mandatory | the limitation a reader must carry away |
@@ -794,6 +845,8 @@ Every manuscript-facing quantitative claim is exportable as the record below. Fi
 | `source_commit` | string (optional) | derived | DEPRECATED alias of generated_from_commit |
 | `generated_from_commit` | string (optional) | derived | stamped at first export; immutable thereafter |
 | `last_verified_against_commit` | string (optional) | derived | stamped at every successful verification; mutable |
+| `dependencies` | tuple | optional | IDENTIFIED load-bearing inputs (registry component id, producer dotted path, or dataset manifest id) with the role each plays and, for components, their scoped evidence records. This is the authoritative dependency list |
+| `outcome` | string | optional | supported / negative / indeterminate -- an OUTCOME axis kept separate from the relation, so a negative result never has to masquerade as a relation |
 
 **Commit provenance.** `generated_from_commit` is immutable — the commit the payload was produced at — while `last_verified_against_commit` moves on every successful re-verification. A snapshot may therefore verify at a later commit while still declaring the earlier commit it was generated from; those are different facts and are recorded separately. `source_commit` is retained only as a deprecated alias.
 
@@ -825,7 +878,7 @@ primary_caveat: One rig/config and a single first-fraction replicate — a stron
 ```yaml
 claim_id: PV-03
 headline: The final cup can hide very different extraction clocks.
-evidence_strength: negative validation
+evidence_strength: qualitative
 badge: RECONSTRUCTED
 numeric_result:
   condition_number: 1927.0   # unit: ratio

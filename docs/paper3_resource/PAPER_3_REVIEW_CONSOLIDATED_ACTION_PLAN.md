@@ -52,10 +52,10 @@ are done; the *added-rigor* asks (U6, U8, U9, U10, U13) are P1 and tracked below
 | ID | Title | Priority | Disposition |
 |---|---|---|---|
 | **MC6** | Infiltration "independently gated" overclaim | **P0 (immediate)** | ✅ **done in this PR** — Table 6 row reworded to "same-shot compatibility check across a predeclared porosity bracket — not an independent prediction". (Reviewer also wants a wider "independent/parameter-free/validation" sweep of figures/captions/notebooks ⏭.) |
-| **MC1** | Decide publication genre (JOSS ~1.75k / JORS ~3–4k / full methods) | P1 | ❓ **Tim decision** — drives length target (draft ≈10.2k words) and how much espresso detail stays. |
+| **MC1** | Decide publication genre | P1 | ✅ **DECIDED 2026-07-26 — Route A, methods/resource article**, matching the review's own P1-13 recommendation. The demonstrations, the failed composition and the defect-injection evaluation stay in the paper; in return it must meet methods-article expectations for evaluation and uncertainty, which §10 now partly discharges. Consequences accepted: figures (MC12) remain the submission blocker, and a 15–20 % trim of §2/§4 is owed. |
 | **MC2** | Repair manuscript-generation pipeline (counts/tables generated + CI) | P0 | ◑ counts are now bound to the live registry/manifest with a **CI drift guard** (`test_paper3_manuscript_consistency`), proven three times since (27 components; 105 then 106 manifest rows). Remaining: the **freeze target** (❓ Tim). |
 | **MC3** | Rewrite architecture around **schema v2** (`kind` deprecated) | P0 | ✅ §§2.1/3.2/3.3 rewritten; Table 1 + Appendix A generated from the live registry. |
-| **MC4** | Separate evidence relation / outcome / artifact role / badge | P0 | ✅ Table 3 evidence axes landed (P0 localized-integrity batch). |
+| **MC4** | Separate evidence relation / outcome / artifact role / badge | P0 | ✅ Table 3 landed earlier; **the implementation now matches (2026-07-26)** — `PublicClaim` gained an `outcome` field and PV-03's compound `"negative validation"` label was decomposed into `qualitative` + `negative`. `validate()` rejects any compound label if reintroduced. |
 | **MC5** | Fix abstract "weakest load-bearing link" vs evidence-vector | P0 | ✅ abstract reworded in the same P0 batch. |
 | **MC7** | Define "executable" per layer (availability matrix) | P1 | ⏭ new machine-readable matrix. |
 | **MC8** | Implemented capability vs architectural intent | P1 | ⏭ implementation-status table. |

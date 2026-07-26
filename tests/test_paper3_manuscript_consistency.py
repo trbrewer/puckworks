@@ -159,3 +159,97 @@ def test_the_defect_injection_section_exists_and_is_top_level():
     m = re.search(r"^## (\d+)\. Evaluating the guardrails by deliberate defect injection",
                   text, re.M)
     assert m, "the defect-injection benchmark section is missing or not top-level"
+
+
+# --- scoped evidence vector (review P0-4 option b + step 0) -----------------------------------
+def test_s5_2_dependency_counts_match_the_public_claims():
+    """S5.2 quotes how many dependency edges there are and how they split by kind. Bind them, so a
+    new claim or a re-identified dependency cannot leave the prose behind."""
+    import puckworks.models  # noqa: F401
+    from puckworks.public.claims import PUBLIC_CLAIMS
+    deps = [d for c in PUBLIC_CLAIMS for d in c.dependencies]
+    kinds = {k: sum(1 for d in deps if d.kind == k) for k in ("component", "producer", "dataset")}
+    text = _text()
+    assert "%d dependency edges" % len(deps) in text, len(deps)
+    assert "registry component (%d)" % kinds["component"] in text, kinds
+    assert "producer function (%d)" % kinds["producer"] in text, kinds
+    assert "dataset manifest row (%d)" % kinds["dataset"] in text, kinds
+
+
+def test_s5_2_evidence_profile_numbers_match_the_producer():
+    """The composition claim's profile is quoted as evidence that one label is insufficient."""
+    import puckworks.models  # noqa: F401
+    from puckworks.public.claims import PUBLIC_CLAIMS
+    c = next(x for x in PUBLIC_CLAIMS if x.claim_id == "PV-05")
+    prof = c.evidence_profile()
+    n_rel = len({r["relation"] for r in prof})
+    n_scope = len({r["scope"] for r in prof})
+    text = _text()
+    assert "%d records" % len(prof) in text, len(prof)
+    assert "%d different relations" % n_rel in text, n_rel
+    assert "%d different observables" % n_scope in text, n_scope
+    assert n_rel > 1, "a single-relation profile would not demonstrate the point S5.2 makes"
+
+
+def test_s5_2_states_the_profile_is_not_a_transitive_closure():
+    """The bound the abstract had to be softened for; it must stay stated."""
+    text = _text().lower()
+    assert "profile, not a transitive closure" in text
+
+
+def test_every_producer_named_in_the_claim_ownership_table_exists():
+    """P1-14. A claim-ownership table whose producer column is filled in optimistically is the
+    same defect this paper is about; four entries were invented on the first pass and caught here.
+    Rows that legitimately have no producer must say so in words, not name a plausible one."""
+    import importlib
+    import re
+
+    text = _text()
+    block = text[text.index("| Claim ID |"):]
+    block = block[:block.index("\n\n")]
+    refs, missing = [], []
+    for line in block.splitlines()[2:]:
+        cells = [c.strip() for c in line.split("|")]
+        if len(cells) < 6:
+            continue
+        producer = cells[4]
+        if producer in ("—", "") or "none" in producer.lower() or producer.startswith("**none"):
+            continue
+        m = re.search(r"`([A-Za-z0-9_.]+)`", producer)
+        if not m:
+            continue
+        refs.append(m.group(1))
+    assert refs, "no producer references parsed -- this guard would be vacuous"
+    from puckworks.paper3 import evidence_graph as _EG
+    gates = {l["gate"] for l in _EG.load_links()}
+    for ref in refs:
+        if ref in gates:                       # a wired gate is a legitimate canonical producer
+            continue
+        if ref.endswith(".py") or "/" in ref:
+            assert (_ROOT / ref).exists(), ref
+            continue
+        # resolve the FULL reference only: module = everything before the last dot, attribute =
+        # the last segment. An earlier version tried every prefix split, so naming a real module
+        # with an invented function passed -- exactly the failure this guard exists to catch.
+        mod, _, attr = ref.rpartition(".")
+        if not mod:
+            missing.append(ref)
+            continue
+        found = False
+        for base in ("puckworks.", "puckworks.validation.slow.", "puckworks.models.brewer2026.",
+                     "puckworks.models.", ""):
+            try:
+                if hasattr(importlib.import_module(base + mod), attr):
+                    found = True
+                    break
+            except Exception:  # noqa: BLE001
+                continue
+        if not found:
+            missing.append(ref)
+    assert not missing, f"producers named in the ownership table do not exist: {missing}"
+
+
+def test_the_scorecard_row_admits_it_has_no_producer():
+    """MC17 records the scorecard as hand-maintained; the table must not paper over it."""
+    text = _text()
+    assert "hand-maintained" in text
