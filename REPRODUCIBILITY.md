@@ -92,7 +92,7 @@ python -m puckworks.figures_paper_a compute     # SLOW (~25-30 min of PDE solves
 python -m puckworks.paper_a.build verify        # pins manuscript numbers to the bundle
 
 # Paper 2 (temporal)
-python -m puckworks.paper_b.build verify
+python -m puckworks.paper_b2.build verify
 
 # Paper 3 (registry/resource)
 python -m puckworks.figures_paper3              # figures + source data + alt text

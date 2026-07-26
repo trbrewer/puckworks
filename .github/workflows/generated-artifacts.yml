@@ -35,7 +35,7 @@ jobs:
       - name: Paper 1 claim coverage — every manuscript number is accounted for
         run: python -m puckworks.paper_a.claim_coverage
       - name: Paper 2 claim coverage — every manuscript number is accounted for (4.13)
-        run: python -m puckworks.paper_b.claim_coverage
+        run: python -m puckworks.paper_b2.claim_coverage
       - name: Paper 3 prose claim coverage — every prose number is accounted for
         run: python -m puckworks.paper3.claim_coverage
       - name: Lateral-coupling discrimination artifacts are up to date (WP6)

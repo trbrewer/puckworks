@@ -9,8 +9,8 @@ These tests hold the audit to the standard that makes it worth having: it must b
 """
 import pytest
 
-from puckworks.paper_b import build as B
-from puckworks.paper_b import claim_coverage as C
+from puckworks.paper_b2 import build as B
+from puckworks.paper_b2 import claim_coverage as C
 
 
 @pytest.fixture(scope="module")

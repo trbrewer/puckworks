@@ -20,8 +20,8 @@ it. This mirrors the Paper 3 discipline that already removed two untraceable val
 
 CLI::
 
-    python -m puckworks.paper_b.claim_coverage            # report; exit 1 if UNACCOUNTED remain
-    python -m puckworks.paper_b.claim_coverage --json     # machine-readable
+    python -m puckworks.paper_b2.claim_coverage            # report; exit 1 if UNACCOUNTED remain
+    python -m puckworks.paper_b2.claim_coverage --json     # machine-readable
 """
 from __future__ import annotations
 
@@ -142,7 +142,7 @@ def _derived_value(kind: str, a_path: str, b_path: str):
     bundle_path = REPO_ROOT / "docs" / "figures" / "paper_b_results.json"
     if not _os.path.exists(bundle_path):
         return None
-    from puckworks.paper_b.build import _get
+    from puckworks.paper_b2.build import _get
     try:
         with open(bundle_path) as fh:
             bundle = _json.load(fh)
@@ -159,7 +159,7 @@ def _derived_value(kind: str, a_path: str, b_path: str):
 
 
 def _claims():
-    from puckworks.paper_b.build import _CLAIMS
+    from puckworks.paper_b2.build import _CLAIMS
     return list(_CLAIMS)
 
 

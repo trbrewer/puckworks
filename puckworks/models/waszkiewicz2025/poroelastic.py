@@ -8,7 +8,7 @@ extension makes the stress-free porosity track the dissolved-mass fraction,
 giving a predictor of Q(t) with NO COEFFICIENT FITTED TO THE SCORED TRACE once
 (P_c, Q_c) and the dissolution sigmoid are fixed. This is not parameter-free: those
 rig constants and the m_d sigmoid are target-informed upstream (m_d comes from
-TDS(t) x Q(t) on this same rig). See puckworks.paper_b.evidence_ontology.
+TDS(t) x Q(t) on this same rig). See puckworks.paper_b2.evidence_ontology.
 
 Everything here is the authors' own closed form (their arXiv:2512.21528 code,
 Zenodo 10.5281/zenodo.18046315), re-expressed; nothing beyond their Phi->0 limit

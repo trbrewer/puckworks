@@ -705,7 +705,7 @@ A robust paper build should separate:
 
 **Required action:**
 
-- Create `python -m puckworks.paper_b.build --release <tag>` or equivalent.
+- Create `python -m puckworks.paper_b2.build --release <tag>` or equivalent.
 - Write a `results.json`/Parquet bundle containing raw and display-rounded values, parameter provenance, seeds, data hashes, commit SHA, package versions, and environment.
 - Make all plots consume that bundle only.
 - Add tests that manuscript headline values equal bundle fields.

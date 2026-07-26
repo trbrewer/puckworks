@@ -18,7 +18,7 @@ import pytest
 
 from puckworks.paper3 import claim_coverage as P3
 from puckworks.paper_a import claim_coverage as P1
-from puckworks.paper_b import claim_coverage as P2
+from puckworks.paper_b2 import claim_coverage as P2
 
 PAPERS = (("Paper 1", P1), ("Paper 2", P2), ("Paper 3", P3))
 

@@ -19,7 +19,7 @@ This review assesses the scientific argument, statistical interpretation, figure
 - `puckworks/harness.py`, especially the Result 1 response-surface analysis, the temporal-model ladder, the cross-pressure calculations, and the N-tube calculations;
 - `puckworks/figures.py`;
 - `analysis/lopo_cv.py` and `analysis/residual_autocorr.py`;
-- `puckworks/paper_b/build.py` and the committed `results.json`/manifest contract;
+- `puckworks/paper_b2/build.py` and the committed `results.json`/manifest contract;
 - the committed Schmieder-derived run table and Waszkiewicz time-series representation;
 - the current Paper B evidence matrix; and
 - relevant primary literature on the source experiments, espresso infiltration and swelling, structured validation, and heteroskedastic regression bootstrap.
@@ -284,7 +284,7 @@ The reviewed tree is `e297f54169d9b975750b3773d02a639d1e2fbc85`. A successful cl
 
 #### MAJ-05 — The build is not yet the single source of truth
 
-`puckworks/paper_b/build.py` assembles selected RSM, Result 1, ladder, cross-pressure, and LOPO outputs, but the paper also relies on Result 3 robustness, the Jensen audit, the channeling closure sweep, the evidence matrix, composition diagnostics, residual diagnostics, figure annotations, and source tables. Several figures still call analysis functions rather than reading a frozen results object.
+`puckworks/paper_b2/build.py` assembles selected RSM, Result 1, ladder, cross-pressure, and LOPO outputs, but the paper also relies on Result 3 robustness, the Jensen audit, the channeling closure sweep, the evidence matrix, composition diagnostics, residual diagnostics, figure annotations, and source tables. Several figures still call analysis functions rather than reading a frozen results object.
 
 **Required action:** one build command should produce:
 
@@ -719,7 +719,7 @@ The exploratory framing is now much better, but the current main-text prominence
 | N-tube floor sweep | `ntube_finite_time_gain` | Reruns floors; N differs from robustness study |
 | N-tube OFAT sweep | `ntube_robustness_study` | Axes added; mislabeled factorial; conservation audit defective |
 | Figure generation | `puckworks/figures.py` | Figures mix bundled and live-computed analyses |
-| Paper-wide reproducibility | `puckworks/paper_b/build.py`, results/manifest | Stale, dirty, incomplete |
+| Paper-wide reproducibility | `puckworks/paper_b2/build.py`, results/manifest | Stale, dirty, incomplete |
 
 ### 8.1 Minimum release-manifest fields
 

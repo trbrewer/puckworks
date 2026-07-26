@@ -16,7 +16,7 @@ The review covers:
 - `docs/PAPER_B_CAPTIONS.md`;
 - all six rendered Paper B figures—five main figures and one supplementary figure;
 - the principal figure-generation code in `puckworks/figures.py`;
-- the Paper B analysis/build paths in `puckworks/harness.py`, `puckworks/paper_b/build.py`, and `puckworks/analysis/residual_autocorr.py`;
+- the Paper B analysis/build paths in `puckworks/harness.py`, `puckworks/paper_b2/build.py`, and `puckworks/analysis/residual_autocorr.py`;
 - the committed `paper_b_results.json` bundle and `paper_b_manifest.json` reproducibility manifest;
 - the source-study descriptions and selected statistical claims against primary literature.
 
