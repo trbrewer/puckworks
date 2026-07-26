@@ -6,7 +6,19 @@ mechanism reads and writes, replacing the earlier multiplicative harness closure
 kappa = f1*f2*f3*f4 (which double-counts pore volume because the factors never
 see each other). The four branches compose ADDITIVELY on the shared porosity:
 
-    eps(t) = eps0 * (1 + Phi_ext(t) - Phi_swell(t) - Phi_comp(t) - Phi_fines(t))
+    eps(t) = eps0 * (1 + Phi_ext(t) + Phi_swell(t) + Phi_comp(t) + Phi_fines(t))
+
+    SIGN CONTRACT (Paper 3 review P0-7 -- adopt ONE convention and enforce it). Every branch
+    Phi_i is a SIGNED RELATIVE POROSITY INCREMENT, d(eps)/eps0, and branches ADD. It is NOT a
+    non-negative "closure magnitude" to be subtracted. So:
+        Phi_extraction >= 0   dissolution OPENS pore space
+        Phi_swelling   <= 0   swelling CLOSES it   (returns eps_b/eps0 - 1, which is negative)
+        Phi_compaction <= 0   compaction CLOSES it (structural stub)
+        Phi_fines      <= 0   deposition CLOSES it (structural stub)
+    An earlier docstring wrote this subtractively (`- Phi_swell`), which implied a non-negative
+    magnitude and contradicted the code, which adds a negative. The numbers were right either way;
+    the CONTRACT was ambiguous, and a downstream consumer could not tell which was meant. Signed
+    increments are used because they compose without per-branch sign bookkeeping.
     clamped to [eps_min, eps_max]  (a clamp hit is a DOCUMENTED regime edge)
 
 Branches (each inherits its donor component's law; this card fixes only signs/

@@ -7,7 +7,7 @@ The claims the `--strict --scope paper3` release gate is fail-closed on (claim_o
 **30 asserted Paper-3 claim(s).**
 
 ## `brewer2026.coupled_kappa_t::gate_kappa_t_composition_diagnostic`
-- **claim:** Adding the parameter-free mo2023_2 swelling branch behaves as the framework predicts: the composite porosity closes below eps0 and the 9-bar Q(t) residual jumps from ~0.12 to ~0.65 g/s (worse than the flat null ~0.603), diagnosing that mo2023_2's fixed-dP fresh-grain swelling is mis-scaled for an already-swollen saturated pre-wet rig.
+- **claim:** Adding the parameter-free mo2023_2 swelling branch behaves as the framework predicts: the composite porosity closes below eps0 and the 9-bar Q(t) residual jumps from 0.116 to 0.648 g/s (worse than the flat null 0.573 -- the LS-optimal constant on the same 15-95 s window), diagnosing that mo2023_2's fixed-dP fresh-grain swelling is mis-scaled for an already-swollen saturated pre-wet rig.
 - **observable:** Minimum composite porosity (eps_min vs eps0) and the 9-bar Q(t) RMSE vs the measured Waszkiewicz trace (g/s).
 - **tier / relationship:** exploratory_synthesis / post_fit_same_data
 - **paper3_use / support:** method_demonstration / admissible
@@ -23,7 +23,7 @@ The claims the `--strict --scope paper3` release gate is fail-closed on (claim_o
 - **claim NOT supported:** Does NOT show swelling improves or explains the 9-bar flow — the opposite: passing certifies the swelling branch makes the prediction worse and must not be tuned to hide the residual.
 
 ## `brewer2026.coupled_kappa_t::gate_kappa_t_degeneracy::reconstruction`
-- **claim:** In that extraction-only reduction the coupled model's predicted 9-bar Q(t) reproduces the measured Waszkiewicz 9-bar flow ramp with RMSE ~0.113 g/s (gate <0.13), matching the poroelastic component's own reconstruction (rung 4).
+- **claim:** In that extraction-only reduction the coupled model's predicted 9-bar Q(t) reproduces the measured Waszkiewicz 9-bar flow ramp with RMSE 0.116 g/s (gate <0.13), matching the poroelastic component's own reconstruction (rung 4) to a computed gap of 0.000 -- the reference is now derived from that component, not carried as a literal.
 - **observable:** Mass flow Q(t) at 9 bar vs the measured Waszkiewicz trace over the 15-95 s saturated window (RMSE, g/s).
 - **tier / relationship:** post_fit_reconstruction / post_fit_same_data
 - **paper3_use / support:** method_demonstration / admissible

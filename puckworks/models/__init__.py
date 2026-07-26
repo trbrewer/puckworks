@@ -146,7 +146,7 @@ register(Component(
     valid_range="FRAMEWORK-level only; as sound as its shakiest branch (3 donors "
                 "unidentified/unvalidated). Degeneracy: extraction-only == poroelastic "
                 "rung 4 EXACTLY (RMSE 0.116). Composition residual 0.648 (worse than "
-                "flat null) DIAGNOSES mo2023_2 swelling mis-scaled for the saturated rig "
+                "flat null 0.573) DIAGNOSES mo2023_2 swelling mis-scaled for the saturated rig "
                 "-- reported, not tuned. Flow closure = waszkiewicz POROELASTIC (card "
                 "Eq.2, corrected 2026-07-11 from CK to match this code): required for "
                 "the 14x near-choke rise (CK too gentle, RMSE ~1.5 vs 0.116); CK "

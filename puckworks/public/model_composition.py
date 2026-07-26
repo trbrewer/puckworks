@@ -236,7 +236,7 @@ def build_payload(source_commit: str | None = None) -> dict:
         {"label": "Shared porosity — composite", "values": at(sim_c["eps"]),
          "unit": "porosity fraction (dimensionless)", "role": "simulated",
          "component": "brewer2026.coupled_kappa_t (extraction+swelling)",
-         "method": "eps(t) = eps0*(1 + Phi_extraction - Phi_swelling); the swelling branch closes it",
+         "method": "eps(t) = eps0*(1 + Phi_extraction + Phi_swelling), branches ADD as SIGNED relative porosity increments; Phi_swelling is <= 0, so the swelling branch closes the pore space",
          "caveat": "drops below the eps0 reference (over-closure) — the failure mechanism"},
     ]
 

@@ -531,14 +531,33 @@ def gate_kappa_t_degeneracy():
     """brewer2026_coupled_kappa_t degeneracy (card gate): with swelling/compaction/
     fines OFF, the coupled porosity ODE reduces to waszkiewicz2025.poroelastic
     EXACTLY -- extraction-only Phi(t) == m_d(t)/m0, and the 9-bar Q(t) RMSE matches
-    the poroelastic component alone (rung 4, ~0.113). Verification of the reduction.
+    the poroelastic component alone (rung 4). Verification of the reduction.
     (Flow uses the poroelastic closure = card Eq.2 as corrected 2026-07-11; CK is
-    far too gentle for the near-choke 14x flow rise and is auxiliary only.)"""
+    far too gentle for the near-choke 14x flow rise and is auxiliary only.)
+
+    P0-5: the rung-4 reference is now COMPUTED from waszkiewicz2025.poroelastic on the same
+    window, not carried as a literal. It previously read 0.113 while the gate itself computed
+    0.116 -- a gate whose whole point is an EXACT reduction was comparing against a stale
+    number, and the evidence-graph claim prose copied that stale number."""
+    import numpy as np
+    from puckworks import data as d
     from puckworks.models.brewer2026 import coupled_kappa_t as ck
+    from puckworks.models.waszkiewicz2025 import poroelastic as wz
     rmse = ck.degeneracy_rmse(P_bar=9.0)
-    passed = bool(rmse < 0.13)                              # == rung 4 (0.113)
-    return dict(passed=passed, degeneracy_rmse=round(rmse, 3), rung4_ref=0.113,
-                note="exact reduction via the poroelastic closure (card Eq.2, corrected)")
+    # the reference: waszkiewicz's OWN q_dynamic on the same trace/window (this IS rung 4)
+    tr = d.waszkiewicz_traces()
+    t, qobs = tr[9.0]["time__s"], tr[9.0]["mass_flow_rate__g_per_s"]
+    sel = (t >= 15.0) & (t <= 95.0)
+    P_c, Q_c = wz.published_calibration()
+    k_s, l_s, m_s = wz._solids_params()
+    dose = d.waszkiewicz_constants()["dose__g"]
+    q4 = wz.q_dynamic(t[sel], 9.0, P_c, Q_c, k_s, l_s, m_s, dose)
+    rung4_ref = float(np.sqrt(np.nanmean((q4 - qobs[sel]) ** 2)))
+    passed = bool(rmse < 0.13 and abs(rmse - rung4_ref) < 0.005)   # EXACT reduction, computed
+    return dict(passed=passed, degeneracy_rmse=round(rmse, 3), rung4_ref=round(rung4_ref, 3),
+                reduction_gap=round(abs(rmse - rung4_ref), 4),
+                note="exact reduction via the poroelastic closure (card Eq.2, corrected); the "
+                     "rung-4 reference is computed, not a literal")
 
 
 def gate_kappa_t_composition_diagnostic():
@@ -546,7 +565,7 @@ def gate_kappa_t_composition_diagnostic():
     tune it away'). Adding the PARAMETER-FREE swelling branch (mo2023_2) to the
     shared porosity OVER-CLOSES the Waszkiewicz saturated pre-wet rig -> the
     composite eps drops below eps0 and the 9-bar residual jumps from ~0.12 to
-    ~0.65 (worse than the flat null 0.603). The residual DIAGNOSES a mis-scaled
+    0.648 (worse than the flat null 0.573). The residual DIAGNOSES a mis-scaled
     branch -- mo2023_2's fixed-dP swelling does not apply to an already-swollen
     saturated bed. Gate verifies the framework behaves correctly (shared-eps
     additive composition, swelling closes eps<eps0) and surfaces the diagnostic."""

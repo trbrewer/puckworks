@@ -422,7 +422,7 @@
       "caveat": "drops below the eps0 reference (over-closure) — the failure mechanism",
       "component": "brewer2026.coupled_kappa_t (extraction+swelling)",
       "label": "Shared porosity — composite",
-      "method": "eps(t) = eps0*(1 + Phi_extraction - Phi_swelling); the swelling branch closes it",
+      "method": "eps(t) = eps0*(1 + Phi_extraction + Phi_swelling), branches ADD as SIGNED relative porosity increments; Phi_swelling is <= 0, so the swelling branch closes the pore space",
       "role": "simulated",
       "unit": "porosity fraction (dimensionless)",
       "values": [
