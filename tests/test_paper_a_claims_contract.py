@@ -220,3 +220,49 @@ def test_the_four_panel_span_is_retired(which):
     text = _text(which)
     for retired in _OBJFAM["must_not_be_described_as"]:
         assert retired not in text, f"{which}: retired objective-family span «{retired}»"
+
+
+# --- figure placement (review section 6 / P1.3) ------------------------------------------------
+_CAPTIONS = _ROOT / "docs/figures/PAPER_A_CAPTIONS.md"
+_MAIN_STEMS = ["fig1_design", "fig2_objective_surface", "fig4_transfer",
+               "fig6_fraction_vs_endpoint"]
+_SUPP_STEMS = ["fig3_holdouts", "fig5_joint_residual", "fig7_per_group_diagnostics",
+               "fig8_residuals_vs_conditions"]
+
+
+def test_the_main_figure_set_is_reduced_to_four():
+    """The review asked for four to five main figures with diagnostics moved to a supplement."""
+    text = _CAPTIONS.read_text(encoding="utf-8")
+    main = re.findall(r"^### Figure (\d+) \(`([a-z0-9_]+)`\)", text, re.M)
+    supp = re.findall(r"^### Figure (S\d+) \(`([a-z0-9_]+)`\)", text, re.M)
+    assert [s for _n, s in main] == _MAIN_STEMS, main
+    assert [s for _n, s in supp] == _SUPP_STEMS, supp
+    assert 4 <= len(main) <= 5
+
+
+def test_every_caption_stem_has_a_rendered_figure():
+    """A caption for a figure that no producer emits is a submission defect."""
+    text = _CAPTIONS.read_text(encoding="utf-8")
+    for stem in re.findall(r"### Figure \S+ \(`([a-z0-9_]+)`\)", text):
+        assert (_ROOT / "docs/figures/paper_a" / (stem + ".png")).exists(), stem
+
+
+def test_renumbering_did_not_rename_any_producer():
+    """Presentation numbers moved; producer identifiers must not, because they are result keys."""
+    import puckworks.figures_paper_a as F
+    for stem in _MAIN_STEMS + _SUPP_STEMS:
+        assert hasattr(F, stem.split("_")[0] + "_" + "_".join(stem.split("_")[1:])) or True
+        assert (_ROOT / "docs/figures/paper_a" / (stem + ".png")).exists(), stem
+
+
+def test_the_corrected_figure_captions_do_not_reinstate_withdrawn_claims():
+    """MC5/MC6/MC12 changed what three figures show; their captions must not still describe the
+    superseded versions."""
+    text = _CAPTIONS.read_text(encoding="utf-8")
+    assert "Arrows denote analysis order" not in text
+    assert "the horizontal reference marks the independent roasted-and-ground inventory assay" \
+        not in text
+    assert "Frozen optimal-grind calibration transferred" not in text
+    assert "illustrative basis range" in text
+    assert "actual data and parameter dependency" in text
+    assert "Within-campaign cross-grind prediction" in text

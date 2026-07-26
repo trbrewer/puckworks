@@ -82,6 +82,8 @@ endpoint** as the data.
 
 ## 1. Introduction
 
+### 1.1 The problem
+
 Espresso extraction models are increasingly used to predict beverage composition
 from process settings, and a natural way to build confidence in a model is to show
 it reproduces a dataset it was not fitted to. In practice this cross-dataset check
@@ -113,19 +115,98 @@ about the tested model, observation map, parameterisation, operating design, and
 objective — not a claim of exact product invariance; with multiple temperatures,
 pressures, flows, or endpoints the compensation need not be exact.
 
-We make this quantitative on a real transfer attempt (§3<!--sec:result1-->–§5<!--sec:result3-->) and then close the
+We make this quantitative on a real transfer attempt (§3.1<!--sec:result1-->–§4<!--sec:result3-->) and then close the
 loop with a positive control that recovers the lost information from time-resolved
-data (§6<!--sec:temporal-->). The contribution is methodological: a matched-observable, held-out
+data (§5<!--sec:temporal-->). The contribution is methodological: a matched-observable, held-out
 protocol that distinguishes a calibration whose parameters are localized by the data from one
 whose parameters are only weakly separated, and a demonstration that the distinction is decided by
 whether the observable preserves the extraction's temporal shape.
 
 ---
 
-## 2. Methods
+### 1.2 Related work
 
+*This section is deliberately compact. The identifiability literature it draws on is mature and is not re-reviewed here; the extended treatment, with the full comparison of structural and practical identifiability methods, is in the supplement.*
 
-### 2.1 Model and governing equations
+**Structural and practical identifiability.** Parameter estimation in mechanistic
+models must distinguish structural identifiability from practical identifiability.
+Structural identifiability concerns uniqueness under ideal, noise-free observations
+for a specified model, input, initial condition, parameterization, and observation
+map, whereas practical identifiability concerns whether finite and noisy data
+localize the parameters under the actual experimental design and objective.
+Structural-identifiability methods have been compared and systematized by Chis et al.
+(2011), Miao et al. (2011), Villaverde et al. (2016), and Villaverde (2019). Raue et
+al. (2009), Wieland et al. (2021), Heinrich et al. (2025), and Simpson & Maclaren
+(2023) emphasize that a parameter may be structurally identifiable yet practically
+weakly constrained, and that nonlinear profiles can reveal asymmetric or effectively
+unbounded uncertainty that a local covariance approximation misses.
+
+**Profiles, sloppiness, and parameter compensation.** Profile-likelihood and
+profile-wise analyses characterize how the optimum changes when one parameter is
+fixed and the rest are re-optimized — useful for detecting compensation, boundaries,
+and asymmetric uncertainty. Work on "sloppy" models describes broad spectra of
+parameter sensitivities and a geometric model manifold with narrow and broad
+directions (Gutenkunst et al., 2007; Transtrum et al., 2011, 2015). Sloppiness and
+identifiability are related but not equivalent (Tönsing et al., 2014; Chis et al.,
+2016), and experimental design may improve some weak directions without guaranteeing
+that all parameters become well determined (Apgar et al., 2010; White et al., 2016).
+We therefore use the descriptive term *inventory–rate profile valley* unless a
+scaled sensitivity-spectrum analysis is explicitly reported. The formal panel profiles
+**SSE** (a smooth local-curvature diagnostic) with MAPE as an agreeing cross-check, and
+— because no likelihood or noise model is specified — we report a *profiled objective*,
+not a profile likelihood, and an inverse-curvature **coupling** coefficient, not a
+statistical parameter correlation.
+
+**Reaction/transport confounding and design.** Similar parameter-confounding
+problems occur in environmental, reaction–transport, gas–liquid mass-transfer, and
+dissolution models, where kinetic coefficients, diffusivities, transfer
+coefficients, inventories, and boundary conditions can induce nearly collinear
+output changes (Brun et al., 2001; Navarro-Laboulais et al., 2008; Haario et al.,
+2007; Browning et al., 2024). Optimal experimental-design studies seek inputs,
+conditions, and sampling times that create distinct sensitivity directions (Banga &
+Balsa-Canto, 2008; Bandara et al., 2009; Liepe et al., 2013; Lages et al., 2012).
+For extraction models this motivates combining early, middle, and late fractions,
+multiple operating conditions, and independent inventory measurements rather than
+relying on a single integrated endpoint.
+
+**Coffee lineage and the gap.** Coffee-extraction modelling includes multiscale and
+asymptotic formulations (Moroney et al., 2015, 2016), well-mixed kinetics (Moroney
+et al., 2017), porous-bed non-uniformity (Moroney et al., 2019), brewing-control-
+chart and espresso-optimization studies (Melrose et al., 2018; Cameron et al., 2020),
+mesoscopic and porous-media simulations (Ellero & Navarini, 2019; Giacomini et al.,
+2020), and component-resolved or dispersive packed-bed models (Schmieder et al.,
+2023; Pannusch et al., 2024; Vaca Guerra et al., 2024). Time-resolved experiments
+have measured caffeine and trigonelline across particle-size distributions (Kuhn et
+al., 2017), representative nonvolatile solutes and TDS across process conditions
+(Schmieder et al., 2023), volatile release online (Sánchez-López et al., 2014, 2016),
+and independent TDS fractions with simultaneous flow measurements (Waszkiewicz et
+al., 2026).
+
+To our knowledge, following the documented search, prior espresso studies have not combined
+mechanistic coffee-extraction modelling with the mature inverse-problem toolkit — practical
+identifiability, profile analysis, parameter-compensation manifolds and model-based experimental
+design — in a study of inventory–rate confounding in a multi-solute espresso model evaluated
+against internal holdouts and an independent coffee dataset. The contribution is therefore an
+applied espresso case study and a model- and data-specific result, not a new identifiability
+method: under the tested whole-cup design, inventory and kinetic rate occupy a broad compensating
+profile, whereas fraction-resolved observations localize the rate substantially more strongly. *These results do not establish that cup-integrated
+observations are structurally incapable of identifying extraction kinetics in
+general; they establish weak practical localization for the tested model,
+observation map, datasets, parameter domain, and error model.*
+
+### 1.3 Research questions and contribution
+
+The study is organised around three questions, each answered by one results section below.
+
+1. **How strongly do whole-cup endpoint observations separate extractable content from extraction rate?** (§3<!--sec:wholecup-->)
+2. **Does a mechanistic model's cross-grind endpoint prediction improve on a level-only baseline?** (§4<!--sec:result3-->)
+3. **Do time-resolved observations provide stronger information about the rate than cup-integrated ones?** (§5<!--sec:temporal-->)
+
+The contribution is a worked, matched-observable protocol for answering these separately, and the demonstration that the answers dissociate: a model can predict the cup acceptably while leaving its own parameters weakly separated, and while adding little to a baseline that carries no mechanism at all.
+
+## 2. Model, datasets, and observation operators
+
+### 2.1 Espresso extraction model and estimated quantities
 
 **Governing equations.** The extraction model (Pannusch et al., *J. Food Eng.* **367**,
 111887, 2024) is a one-dimensional, convection-dominated, saturated **two-grain** balance,
@@ -186,7 +267,58 @@ inventory is a pure multiplicative level, not merely an approximately linear one
 structural property of the model, not a numerical observation, and it is what makes the best-fit
 level available in closed form at every candidate rate.
 
-### 2.2 Observation operators
+### 2.2 Datasets and their analytical roles
+
+- **Calibration (time-resolved).** The Schmieder 2023 extraction-kinetics DoE
+  (*Foods* **12**, 2871, 2023; CC BY). The source study collected **ten** consecutive
+  fractions across **15 experimental settings** (three repetitions, six at the centre
+  point); the `pannusch2024` port uses a **derived six-window subset** (fractions 1, 2,
+  3, 5, 7, 10) across the 15 conditions. Used here only as the positive control (§5<!--sec:temporal-->),
+  on the model's own fit data.
+- **Transfer target (independent, whole-cup).** Angeloni et al. 2023 (*Appl. Sci.*
+  **13**, 2688): **66 condition-level sample records** (33 per variety, each based on
+  duplicate extractions in the source, which also reports analyte RSD ≈ 0.3–19.7 %; the
+  repository retains reported central values, not the replicate-level uncertainty), on a
+  different machine, coffee, and basket, across a 3×3×3 temperature × pressure ×
+  granulometry grid
+  plus off-grid points. It reports measured beverage concentrations (g/L) for
+  caffeine (CF), trigonelline (TR), 5-CQA, and total solids, and — separately — the
+  roast-and-ground **solid inventory per species** (their Table 7), which we use
+  only as a same-campaign orthogonal-measurement constraint in §3.2<!--sec:result2-->. Angeloni's own coupled FeFlow solver is
+  out of scope (the card marks it skip); we consume only its chemical campaign.
+
+**Dataset roles.** Every dataset used in this paper, what it is used for, what is fitted to it,
+and what is held out:
+
+| campaign | rig / coffee / basket | observable | conditions & replicates | role here | fitted to it | held out | evidence label | key limitation |
+|---|---|---|---|---|---|---|---|---|
+| Schmieder 2023 (via the calibration model) | source apparatus, one coffee | 6 retained collection windows of 10, per solute | 15 settings, 3 repetitions (6 at centre) | source-campaign fraction-vs-cup localization; the positive control | the model's published per-solute parameters | nothing — this is the model's own fit data | in-sample verification / objective localization | in-sample; the 6 retained windows are a sampled aggregate, not a cup |
+| Same model, synthetic | — | exact whole-cup integral and fine-grid fractions | simulated | information-content control at exact integration | level + rate re-estimated per experiment | truth is known by construction | same-model simulation (inverse crime, declared) | demonstrates loss **under the assumed model** only |
+| Angeloni 2023, optimal grind | different machine, coffee, basket | beverage concentration, 3 named solutes + total solids | 9 on-grid (T, p) + 2 off-grid; duplicate extractions, source RSD 0.3–19.7 % | target-specific recalibration; profile analysis; leave-one-condition-out CV | inventory level + rate multiplier, per solute × variety | the 2 off-grid points; each condition in turn under CV | target recalibration; within-campaign holdout | one grind; replicate-level uncertainty not published per named solute |
+| Angeloni 2023, coarse & fine grinds | same campaign | as above | 2 grinds × 9 conditions × 3 solutes × 2 varieties = 108 points | cross-grind prediction after target-specific calibration | nothing — parameters frozen from the optimal grind | all of it | within-campaign holdout | grind enters only through an **inferred** hydraulic map |
+| Angeloni 2023, Table 7 | same campaign | roast-and-ground solid inventory per species | one assay per species × variety | orthogonal comparison against the fitted inventory | nothing | not applicable | orthogonal measurement, same campaign | mass-to-volume basis undefended (see the profile analysis); qualitative only |
+| Waszkiewicz 2026 | independent second rig and coffee | optical total dissolved solids, 5 s fractions, measured flow | one coffee, one grind, one averaged trajectory | external shape stress test | a Waszkiewicz-specific level, re-fitted at every candidate rate | the kinetics, which are frozen from the calibration model | independent external, aggregate proxy | aggregate optical proxy, not named solutes; one grind |
+
+"Optimal", "coarse" and "fine" are the source study's own granulometry labels, not universal
+particle-size classes.
+
+**Parameters and units.** The quantities that are estimated, frozen or assumed in this paper:
+
+| symbol | meaning | unit | basis / source | estimated at what level |
+|---|---|---|---|---|
+| \(I\) (\(c_{s0}\)) | extractable-content level | mg mL⁻¹ (numerically g L⁻¹) | **fitted**; its physical volume basis is not independently anchored | per solute × variety × campaign |
+| \(k\) | rate multiplier on \(A_1, A_2\) | dimensionless | this study's profiled parameter | per solute × variety × campaign |
+| \(A_{x,i}, B_{x,i}\) | Sherwood prefactor / exponent | dimensionless | fitted by the source model, frozen here | per solute, per grain class |
+| \(K_{\mathrm{ref},i}, \gamma_i\) | van 't Hoff partition and slope | dimensionless, K | fitted by the source model, frozen here | per solute |
+| \(\alpha_l\) | bulk bed porosity | dimensionless | 0.17, source physical parameters | global |
+| \(\varphi_{v2}\) | coarse intragranular pore fraction | dimensionless | 0.40, source physical parameters | global |
+| \(d_{s1}\) | fine representative size | m | 24 µm, measured PSD peak | global |
+| \(d_{s2}, \psi\) | coarse size, fines volume fraction | m, dimensionless | 330 µm, 0.23 (centre grind) | per grind, from the source's fitted table |
+| \(L\), \(D_{\mathrm{bed}}\) | bed height, diameter | m | 0.015, 0.058 | global |
+| \(V_{\mathrm{target}}\) | collection endpoint | mL | 40, a matched-volume proxy | global |
+| \(Q(p,T)\) | flow map | mL s⁻¹ | inferred, not measured (see the flow-map subsection) | per grind |
+
+### 2.3 Whole-cup, fraction, and sampled-window observation operators
 
 The paper's organizing concept is the map from a model trajectory to a measurement. Writing
 \(Q(t)\) for the volumetric flow and \(C_{\mathrm{out}}(t;\theta)=c_l(L,t;\theta)\) for the
@@ -227,94 +359,7 @@ beverage **mass**; the solver terminates on **volume**, \(t_{\mathrm{end}}=V_{\m
 with \(V_{\mathrm{target}}=40\) mL, so the cup operator is evaluated at a matched-**volume** proxy
 for the nominal 40 g endpoint (below).
 
-### 2.3 Profile formulation and the closed-form level
-
-Because the inventory is exactly a level, the prediction for observation \(i\) factorizes,
-
-\[
-\hat y_i(I,k) = I\,f_i(k),
-\]
-
-where \(f_i(k)\) is the observable computed at unit inventory (\(c_{s0}=1\)) under rate
-multiplier \(k\) at condition \(i\), and \(I\) is the inventory level in the observable's own
-units. Each candidate rate therefore costs one PDE solve per condition and the level axis is
-solved exactly rather than searched. Profiling the level out gives
-
-\[
-J_{\mathrm{prof}}(k) = \min_{I}\ \sum_i \rho\!\left(I f_i(k) - y_i\right),
-\]
-
-with \(\rho\) the chosen loss. Two closed forms are used:
-
-* **Sum of squares** (\(\rho(r)=r^2\)): \(I^{\star}(k)=\sum_i f_i y_i \big/ \sum_i f_i^2\).
-* **MAPE** (\(\rho\) proportional to \(|If_i-y_i|/y_i\)): minimising
-  \(\frac1n\sum_i \frac{f_i}{y_i}\bigl|I-\frac{y_i}{f_i}\bigr|\) is a weighted
-  \(L_1\) problem, so \(I^{\star}(k)\) is the **weighted median** of \(x_i=y_i/f_i\) with
-  weights \(w_i=f_i/y_i\) — not the plain median, and not a grid minimum.
-
-The relative-\(L_2\) level is the weighted least-squares solution with \(w_i=y_i^{-2}\); the
-Huber level is obtained by iteratively reweighted least squares from the least-squares start.
-
-A compact way to see why whole-cup endpoints separate the two parameters weakly: with
-\(\hat y_i = I f_i(k)\), the log-sensitivity to the inventory is \(1\) for every observation,
-while the log-sensitivity to the rate is \(s_i=\partial\log f_i/\partial\log k\). When all
-observations share nearly the same \(s_i\) — as they do when every observation is one integral over
-a similar shot — the two sensitivity columns are nearly collinear and only the product is
-constrained. Fractions, and deliberately varied residence times, help precisely because they make
-\(s_i\) vary across observations.
-
-### 2.4 Datasets and their analytical roles
-
-- **Calibration (time-resolved).** The Schmieder 2023 extraction-kinetics DoE
-  (*Foods* **12**, 2871, 2023; CC BY). The source study collected **ten** consecutive
-  fractions across **15 experimental settings** (three repetitions, six at the centre
-  point); the `pannusch2024` port uses a **derived six-window subset** (fractions 1, 2,
-  3, 5, 7, 10) across the 15 conditions. Used here only as the positive control (§6<!--sec:temporal-->),
-  on the model's own fit data.
-- **Transfer target (independent, whole-cup).** Angeloni et al. 2023 (*Appl. Sci.*
-  **13**, 2688): **66 condition-level sample records** (33 per variety, each based on
-  duplicate extractions in the source, which also reports analyte RSD ≈ 0.3–19.7 %; the
-  repository retains reported central values, not the replicate-level uncertainty), on a
-  different machine, coffee, and basket, across a 3×3×3 temperature × pressure ×
-  granulometry grid
-  plus off-grid points. It reports measured beverage concentrations (g/L) for
-  caffeine (CF), trigonelline (TR), 5-CQA, and total solids, and — separately — the
-  roast-and-ground **solid inventory per species** (their Table 7), which we use
-  only as a same-campaign orthogonal-measurement constraint in §4<!--sec:result2-->. Angeloni's own coupled FeFlow solver is
-  out of scope (the card marks it skip); we consume only its chemical campaign.
-
-**Dataset roles.** Every dataset used in this paper, what it is used for, what is fitted to it,
-and what is held out:
-
-| campaign | rig / coffee / basket | observable | conditions & replicates | role here | fitted to it | held out | evidence label | key limitation |
-|---|---|---|---|---|---|---|---|---|
-| Schmieder 2023 (via the calibration model) | source apparatus, one coffee | 6 retained collection windows of 10, per solute | 15 settings, 3 repetitions (6 at centre) | source-campaign fraction-vs-cup localization; the positive control | the model's published per-solute parameters | nothing — this is the model's own fit data | in-sample verification / objective localization | in-sample; the 6 retained windows are a sampled aggregate, not a cup |
-| Same model, synthetic | — | exact whole-cup integral and fine-grid fractions | simulated | information-content control at exact integration | level + rate re-estimated per experiment | truth is known by construction | same-model simulation (inverse crime, declared) | demonstrates loss **under the assumed model** only |
-| Angeloni 2023, optimal grind | different machine, coffee, basket | beverage concentration, 3 named solutes + total solids | 9 on-grid (T, p) + 2 off-grid; duplicate extractions, source RSD 0.3–19.7 % | target-specific recalibration; profile analysis; leave-one-condition-out CV | inventory level + rate multiplier, per solute × variety | the 2 off-grid points; each condition in turn under CV | target recalibration; within-campaign holdout | one grind; replicate-level uncertainty not published per named solute |
-| Angeloni 2023, coarse & fine grinds | same campaign | as above | 2 grinds × 9 conditions × 3 solutes × 2 varieties = 108 points | cross-grind prediction after target-specific calibration | nothing — parameters frozen from the optimal grind | all of it | within-campaign holdout | grind enters only through an **inferred** hydraulic map |
-| Angeloni 2023, Table 7 | same campaign | roast-and-ground solid inventory per species | one assay per species × variety | orthogonal comparison against the fitted inventory | nothing | not applicable | orthogonal measurement, same campaign | mass-to-volume basis undefended (see the profile analysis); qualitative only |
-| Waszkiewicz 2026 | independent second rig and coffee | optical total dissolved solids, 5 s fractions, measured flow | one coffee, one grind, one averaged trajectory | external shape stress test | a Waszkiewicz-specific level, re-fitted at every candidate rate | the kinetics, which are frozen from the calibration model | independent external, aggregate proxy | aggregate optical proxy, not named solutes; one grind |
-
-"Optimal", "coarse" and "fine" are the source study's own granulometry labels, not universal
-particle-size classes.
-
-**Parameters and units.** The quantities that are estimated, frozen or assumed in this paper:
-
-| symbol | meaning | unit | basis / source | estimated at what level |
-|---|---|---|---|---|
-| \(I\) (\(c_{s0}\)) | extractable-content level | mg mL⁻¹ (numerically g L⁻¹) | **fitted**; its physical volume basis is not independently anchored | per solute × variety × campaign |
-| \(k\) | rate multiplier on \(A_1, A_2\) | dimensionless | this study's profiled parameter | per solute × variety × campaign |
-| \(A_{x,i}, B_{x,i}\) | Sherwood prefactor / exponent | dimensionless | fitted by the source model, frozen here | per solute, per grain class |
-| \(K_{\mathrm{ref},i}, \gamma_i\) | van 't Hoff partition and slope | dimensionless, K | fitted by the source model, frozen here | per solute |
-| \(\alpha_l\) | bulk bed porosity | dimensionless | 0.17, source physical parameters | global |
-| \(\varphi_{v2}\) | coarse intragranular pore fraction | dimensionless | 0.40, source physical parameters | global |
-| \(d_{s1}\) | fine representative size | m | 24 µm, measured PSD peak | global |
-| \(d_{s2}, \psi\) | coarse size, fines volume fraction | m, dimensionless | 330 µm, 0.23 (centre grind) | per grind, from the source's fitted table |
-| \(L\), \(D_{\mathrm{bed}}\) | bed height, diameter | m | 0.015, 0.058 | global |
-| \(V_{\mathrm{target}}\) | collection endpoint | mL | 40, a matched-volume proxy | global |
-| \(Q(p,T)\) | flow map | mL s⁻¹ | inferred, not measured (see the flow-map subsection) | per grind |
-
-### 2.5 Pressure → flow map and collection endpoint (assumptions, not fits)
+### 2.4 Endpoint and pressure-to-flow assumptions
 
 **Endpoint contract: a matched-volume proxy, and an estimand choice.** The Angeloni cup is a
 **40 ± 2 g** beverage while the solver integrates to a *volume* endpoint
@@ -366,24 +411,56 @@ study's *own* hydraulics, not by fitting to its concentrations. The refined map 
 Darcy-consistent, `q = q_ref · (p/p_ref) · (μ(T_ref)/μ(T))`, anchored to a single
 physical espresso point (40 g / ~24 s at 9 bar, 93.4 °C) with `μ(T)` from the
 registered water-viscosity closure. A cruder linear-shot-time baseline is retained
-for the sensitivity in §3<!--sec:result1-->. The per-granulometry transfer test (§5<!--sec:result3-->) instead uses
+for the sensitivity in §3.1<!--sec:result1-->. The per-granulometry transfer test (§4<!--sec:result3-->) instead uses
 angeloni's own fitted per-granulometry hydraulic conductivity `k_r(p)` and shot
 times `τ_{O,C,F} = 20/13/35 s`. All three are **assumptions**, labelled as such;
 none is fitted to the target concentrations.
 
-### 2.6 Fitting and evaluation protocol
+### 2.5 Profile, prediction, baseline, and uncertainty methods
+
+Because the inventory is exactly a level, the prediction for observation \(i\) factorizes,
+
+\[
+\hat y_i(I,k) = I\,f_i(k),
+\]
+
+where \(f_i(k)\) is the observable computed at unit inventory (\(c_{s0}=1\)) under rate
+multiplier \(k\) at condition \(i\), and \(I\) is the inventory level in the observable's own
+units. Each candidate rate therefore costs one PDE solve per condition and the level axis is
+solved exactly rather than searched. Profiling the level out gives
+
+\[
+J_{\mathrm{prof}}(k) = \min_{I}\ \sum_i \rho\!\left(I f_i(k) - y_i\right),
+\]
+
+with \(\rho\) the chosen loss. Two closed forms are used:
+
+* **Sum of squares** (\(\rho(r)=r^2\)): \(I^{\star}(k)=\sum_i f_i y_i \big/ \sum_i f_i^2\).
+* **MAPE** (\(\rho\) proportional to \(|If_i-y_i|/y_i\)): minimising
+  \(\frac1n\sum_i \frac{f_i}{y_i}\bigl|I-\frac{y_i}{f_i}\bigr|\) is a weighted
+  \(L_1\) problem, so \(I^{\star}(k)\) is the **weighted median** of \(x_i=y_i/f_i\) with
+  weights \(w_i=f_i/y_i\) — not the plain median, and not a grid minimum.
+
+The relative-\(L_2\) level is the weighted least-squares solution with \(w_i=y_i^{-2}\); the
+Huber level is obtained by iteratively reweighted least squares from the least-squares start.
+
+A compact way to see why whole-cup endpoints separate the two parameters weakly: with
+\(\hat y_i = I f_i(k)\), the log-sensitivity to the inventory is \(1\) for every observation,
+while the log-sensitivity to the rate is \(s_i=\partial\log f_i/\partial\log k\). When all
+observations share nearly the same \(s_i\) — as they do when every observation is one integral over
+a similar shot — the two sensitivity columns are nearly collinear and only the product is
+constrained. Fractions, and deliberately varied residence times, help precisely because they make
+\(s_i\) vary across observations.
 
 The transfer refit adjusts two knobs per solute per variety: `c_s0` (inventory
 level, obtained analytically) and `rate_scale` (a multiplier on the Sherwood
 prefactors A1, A2; the van't Hoff and Reynolds-exponent *structure* is held). We
 fit on the 9 on-grid granulometry-O points and evaluate on the 2 held-out off-grid
-O points; the cross-granulometry test (§5<!--sec:result3-->) fits on O and predicts held-out C and F.
+O points; the cross-granulometry test (§4<!--sec:result3-->) fits on O and predicts held-out C and F.
 No post-hoc relabelling of a refit as a prediction is permitted: a held-out score
 is reported only for data untouched by the fit.
 
-### 2.7 Profile analysis and localization diagnostics
-
-For the positive control (§6<!--sec:temporal-->), we sweep `rate_scale` and, at each rate,
+For the positive control (§5<!--sec:temporal-->), we sweep `rate_scale` and, at each rate,
 re-optimise a *single global level* so the rate can only change the extraction
 *shape*, not its magnitude. We then score two ways on the identical shots — against
 the six-fraction curve (temporal shape retained) and against the same shots
@@ -394,8 +471,6 @@ MAPE)/(min MAPE), with the edges being the tested rate-domain bounds. A sharp tr
 domain**; a flat valley (ratio ≈ 1) means it is **weakly localized** — this is a
 localization contrast over the declared domain, not an identification theorem in a
 likelihood sense.
-
-### 2.8 Numerical and statistical protocol
 
 *Solver.* The PDE is discretized on **200** axial nodes with a five-point biased-upwind first
 derivative and integrated with a stiff BDF method (relative and absolute tolerance \(10^{-6}\))
@@ -453,7 +528,7 @@ analysis.
 *External-trajectory nuisance assumptions.* These are stated with the external result in
 the temporal-resolution results.
 
-### 2.9 Evidence vocabulary
+### 2.6 Evidence vocabulary
 
 We keep the evidence types explicit and standard (the repo's internal labels are
 kept only in a supplement): *calibration / reconstruction* — a model evaluated on
@@ -465,7 +540,7 @@ objective localization* — reproducing a positive control on the model's own fi
 data. These are attached to every result below and are not upgraded. We use
 *practical identifiability* (over the tested design, domain, and objective)
 throughout — never *structural* identifiability, which would need an analytic
-proof. The formal identifiability panel (§4<!--sec:result2-->) profiles **unweighted concentration-scale
+proof. The formal identifiability panel (§3.2<!--sec:result2-->) profiles **unweighted concentration-scale
 SSE** with a least-squares nuisance level — SSE is a smooth local-curvature diagnostic,
 and MAPE (the paper's predictive metric) is reported there only as a cross-check that
 agrees. Because there is no explicit likelihood/noise model, the 10 % tolerance bands
@@ -474,20 +549,22 @@ geometric coupling of the SSE surface, not a statistical parameter correlation.
 
 ---
 
-## 3. Result 1 — an apparent success, and a flow-map sensitivity
+## 3. Whole-cup endpoints weakly separate extractable content from rate
+
+### 3.1 A matched endpoint changes the blind residual
 
 **Observable convention.** The primary headline is the macro-average over the
 **three named solutes** (caffeine, trigonelline, 5-CQA). Source-specific TDS /
 total-solids is treated as a separate **aggregate-solids proxy** — the Pannusch-side
 TDS is a modelled caffeine-like pseudo-component, Angeloni's is a gravimetric
-total-solids assay, and (§6<!--sec:temporal-->) Waszkiewicz's is an optical-refractometer reading; these
+total-solids assay, and (§5<!--sec:temporal-->) Waszkiewicz's is an optical-refractometer reading; these
 are not an equivalent analyte, so we never pool the proxy with named molecules.
 
 We ran three successively stricter tests on granulometry O (≈ the model's calibrated
 grind), all at the **matched beverage endpoint** (40 mL matched-volume proxy for the
 40 g cup, ρ≈1). *[The holdout is a mean of two
 off-grid O points per solute × variety — a small internal check, superseded by the
-leave-one-condition-out CV of §5<!--sec:result3-->.]*
+leave-one-condition-out CV of §4<!--sec:result3-->.]*
 
 | test | result | reading | strength |
 |---|---|---|---|
@@ -503,7 +580,7 @@ matched-endpoint error by only about **0.5 pp**. In other words, most of what a 
 refinement appears to buy at an unmatched endpoint is an endpoint effect, not a flow correction. The
 refit then reads a per-species rate
 (caffeine ~2.2, trigonelline at the domain edge, etc.), but **that per-species
-decomposition is not supported by the profile analysis** (§4<!--sec:result2-->): the fitted rate is a
+decomposition is not supported by the profile analysis** (§3.2<!--sec:result2-->): the fitted rate is a
 point on a flat valley, not an identified mechanism, and it moves with the endpoint
 and domain choices.
 
@@ -513,7 +590,7 @@ uniquely to inventory + kinetics, because competing sources — grain geometry (
 at the centre grind), the viscosity model, the endpoint definition, and the assay —
 are not separately quantified here.
 
-## 4. Result 2 — the degeneracy (core result)
+### 3.2 The inventory–rate profile is broad and right-censored
 
 The whole-cup concentration is, to good approximation, `C_cup ≈ c_s0 · φ(rate, flow,
 T)` with `φ` the fractional extraction. Because `c_s0` enters linearly and the rate
@@ -609,11 +686,11 @@ the tested rate range, so the reported widths are lower bounds and the rate is, 
 anything, *less* bounded than the finite-domain numbers imply.
 
 Strength: this is a *diagnosis of the fit*, established on the transfer target and
-corroborated on the model's own data in §6<!--sec:temporal--> — not a claim about the model's physics.
+corroborated on the model's own data in §5<!--sec:temporal--> — not a claim about the model's physics.
 
-## 5. Result 3 — cross-grind endpoint prediction versus a level-only baseline
+## 4. Cross-grind endpoint prediction adds little over a level-only baseline
 
-*Practical non-identifiability (§4<!--sec:result2-->) and predictive transfer are separate questions:
+*Practical non-identifiability (§3.2<!--sec:result2-->) and predictive transfer are separate questions:
 a compensating manifold can leave predictions stable even when the parameters are
 individually non-identifiable. **The results here show exactly this.*** We freeze the O
 calibration
@@ -680,7 +757,7 @@ consistent with the small held-out skill above (this is a descriptive in-sample
 comparison, not proof that mechanism "explains nothing").
 
 The `(inventory, rate)` split is **degenerate within a grind** — the fitted rate flips
-with incidental choices (§4<!--sec:result2-->). Propagating the **discrete 10 %-near-optimal MAPE grid set**
+with incidental choices (§3.2<!--sec:result2-->). Propagating the **discrete 10 %-near-optimal MAPE grid set**
 (O-MAPE within 10 % of the minimum on the 18-point rate grid — a *declared set*, not a
 continuous manifold), the worst **aggregate** held-out C/F error rises to **21.7 %** (vs
 18.2 % at the point optimum; `validate_refit_granulometry.manifold_transfer`). We now also
@@ -736,15 +813,15 @@ refitted and transferred under the perturbed map, moves the held-out MAPE by **�
 (the fitted rate shifts 0.71→0.88, as expected from the non-identifiability, while the
 *prediction* barely moves) — so the transfer conclusion does not hinge on the exact
 flow-map magnitude, though it remains conditional on the inferred-map *form* (a per-shot
-measured flow trace is not available for this campaign). Together these support the §5<!--sec:result3--> conclusion —
+measured flow trace is not available for this campaign). Together these support the §4<!--sec:result3--> conclusion —
 the calibration's held-out **absolute** error is modest and does not catastrophically
 deteriorate across grind (while its incremental skill over a level-only null is small,
 per the benchmark above) — with cross-validation, descriptive uncertainty, and
 loss/geometry/flow-map robustness, not a two-point mean.
 
-## 6. In-sample fraction verification and an independent external TDS trajectory test
+## 5. Time-resolved measurements provide stronger rate information
 
-The claim in §4<!--sec:result2--> (the rate constrains the extraction *curve* more than an aggregated
+The claim in §3.2<!--sec:result2--> (the rate constrains the extraction *curve* more than an aggregated
 endpoint) is testable on the **same model** and the **same data `pannusch2024` was
 fitted to** — the Schmieder fraction kinetics. For each solute we sweep the rate
 scale and, at each rate, re-optimise a single global level (the exact MAPE
@@ -830,7 +907,7 @@ tight fit. The *direction*, however, is robust across declared time-origin offse
 (0/2/4 s, since brewer activation precedes first drip) and with or without the
 single-replicate first bin (no imputation of its missing standard deviation):
 fraction scoring always constrains the rate (ratio 1.6–2.1×), the cup never does
-(1.0×). Scoped conclusion (§2.9<!--sec:evidence_vocab-->): *on the independent TDS
+(1.0×). Scoped conclusion (§2.6<!--sec:evidence_vocab-->): *on the independent TDS
 trajectory, fraction-resolved observations produced a more localized profiled
 objective than the corresponding cup-integrated aggregate, under the tested model,
 parameter domain, time-alignment assumptions, and aggregate-solids observation
@@ -840,7 +917,7 @@ identification.** A named-solute, multi-particle-size-distribution external data
 required to convert this panel into independent named-solute identification; no such dataset was
 available to us.
 
-## 7. Discussion
+## 6. Discussion
 
 **What a single-grind endpoint fit constrains here.** Over the tested domain it
 constrains essentially the *product* `c_s0 · φ` (the level); neither the inventory
@@ -849,17 +926,17 @@ this design and objective, not a theorem that every endpoint design identifies o
 a product — sufficiently informative endpoints at different residence times, flows,
 or temperatures could in principle carry rate information.
 
-**Four distinct properties.** The single-grind endpoint does not pin the rate (§4<!--sec:result2-->); the
-frozen level+rate pair's held-out **absolute** error across grind is modest (§5<!--sec:result3-->); but its
-**incremental skill over a level-only null is small** (§5<!--sec:result3-->); and a shared fit is
-*in-sample* compatible (§5<!--sec:result3-->). These are four separate properties — **parameter
+**Four distinct properties.** The single-grind endpoint does not pin the rate (§3.2<!--sec:result2-->); the
+frozen level+rate pair's held-out **absolute** error across grind is modest (§4<!--sec:result3-->); but its
+**incremental skill over a level-only null is small** (§4<!--sec:result3-->); and a shared fit is
+*in-sample* compatible (§4<!--sec:result3-->). These are four separate properties — **parameter
 identifiability, endpoint accuracy, predictive skill over a benchmark, and cross-grind
 transferability** — and they do not coincide here. Aggregate prediction is stable across
 the near-optimal set even though the parameters on it are not individually estimable, but
 that stability is *not* the same as adding mechanistic information beyond a transferred
 level. What would separately *identify* the rate is different information — holding the
 inventory to an independent measurement, or time-resolved fractions, which constrain the
-rate via the early-time slope where an aggregated endpoint does so weakly (§6<!--sec:temporal-->).
+rate via the early-time slope where an aggregated endpoint does so weakly (§5<!--sec:temporal-->).
 
 **Lesson for cross-dataset extraction-model validation.** A single-grind endpoint MAPE —
 even a low held-out one — need not identify a mechanism *and need not signal mechanistic
@@ -885,7 +962,7 @@ the earlier "gap closed / inventory-vs-kinetic" reading *and* the subsequent "do
 transfer across grind" reading — the first over-claimed identification, the second was
 an endpoint artefact.
 
-## 8. Limitations
+## 7. Limitations
 
 **Data uncertainty and replication.** The Angeloni source publishes global relative-standard-
 deviation ranges but not condition-specific replicate uncertainty for the named solutes, so no
@@ -925,14 +1002,28 @@ model's own calibration campaign. The quantitative values reported here should b
 to the tested model, observation maps, parameter domain and campaigns; what we claim to generalize
 is the reporting principle, not the numbers.
 
-
 ## Figures
 
-**Eight figures** (`docs/figures/paper_a/`, rendered from the corrected matched-mass
-analysis via `python -m puckworks.figures_paper_a`; every value regenerates from the
-slow analysis functions, none hand-typed): six main figures (1–6) and two
-condition-structure diagnostics (7–8). All figure titles state design and
-quantities, not verdicts.
+**Eight rendered figures** (`docs/figures/paper_a/`, produced by
+`python -m puckworks.figures_paper_a`; every value regenerates from the slow analysis functions,
+none hand-typed), split into **four main figures and four supplementary** per the review's request
+to reduce the main set. The main set carries the study design and the three findings; everything
+that supports rather than states a finding is supplementary. Presentation numbers differ from the
+producer identifiers, which are unchanged — see the mapping table in
+`docs/figures/PAPER_A_CAPTIONS.md`, which is the authoritative caption source.
+
+| presentation | producer | placement |
+|---|---|---|
+| Figure 1 | `fig1_design` | main — study design and dataset roles |
+| Figure 2 | `fig2_objective_surface` | main — weak separation |
+| Figure 3 | `fig4_transfer` | main — no resolvable gain over the null |
+| Figure 4 | `fig6_fraction_vs_endpoint` | main — temporal resolution |
+| Figure S1 | `fig3_holdouts` | supplement |
+| Figure S2 | `fig5_joint_residual` | supplement |
+| Figure S3 | `fig7_per_group_diagnostics` | supplement |
+| Figure S4 | `fig8_residuals_vs_conditions` | supplement |
+
+All figure titles state design and quantities, not verdicts.
 
 - **Fig 1** — study & evidence design with campaign-accurate categories: source
   calibration → Angeloni-O target recalibration → within-campaign leave-one-condition-out
@@ -940,17 +1031,17 @@ quantities, not verdicts.
   measurement → in-sample localization → independent Waszkiewicz external panel.
 - **Fig 2** — inventory–rate objective surface (caffeine, trigonelline): the flat
   valley, the profiled path, the Table 7 inventory line, and the condition number
-  (§4<!--sec:result2-->).
+  (§3.2<!--sec:result2-->).
 - **Fig 3** — leave-one-condition-out holdouts: (a) observed vs predicted by solute ×
   variety; (b, c) the **signed residual faceted against temperature and pressure**, which
   exposes the within-group condition structure the near-diagonal cloud and the pooled
-  6.5 % hide (§5<!--sec:result3-->).
+  6.5 % hide (§4<!--sec:result3-->).
 - **Fig 4** — O→C/F transfer at the matched-volume endpoint proxy: observed vs predicted
   per condition (grinds C, F) **plus a third panel comparing the model against an
-  O-trained level-only constant baseline** and reporting the pooled skill (§5<!--sec:result3-->).
+  O-trained level-only constant baseline** and reporting the pooled skill (§4<!--sec:result3-->).
 - **Fig 5** — joint shared-(c_s0, rate) residual by variety × solute × grind, with
-  the cost-of-sharing and rate-boundary flags (§5<!--sec:result3-->).
-- **Fig 6** — rate profiles in **three evidence tiers** (§6<!--sec:temporal-->): (a–c) in-sample Schmieder
+  the cost-of-sharing and rate-boundary flags (§4<!--sec:result3-->).
+- **Fig 6** — rate profiles in **three evidence tiers** (§5<!--sec:temporal-->): (a–c) in-sample Schmieder
   empirical fraction + same-model exact-cup simulation with the ±1σ 20-seed band;
   (d) the **independent external Waszkiewicz** TDS trajectory as a target-profiled shape
   test — a shallow ~27 % minimum with an alignment-sensitivity band and the
@@ -963,75 +1054,7 @@ quantities, not verdicts.
   **before** the per-group target level is fitted. The solute/variety group offsets
   motivate the target-level recalibration; a per-group level **can** remove such offsets,
   so this figure motivates rather than proves irreducibility. Within-group (T,p)
-  structure after level-fitting is not resolved by this figure (see §8<!--sec:limitations-->).
-
-## 9. Related work
-
-**Structural and practical identifiability.** Parameter estimation in mechanistic
-models must distinguish structural identifiability from practical identifiability.
-Structural identifiability concerns uniqueness under ideal, noise-free observations
-for a specified model, input, initial condition, parameterization, and observation
-map, whereas practical identifiability concerns whether finite and noisy data
-localize the parameters under the actual experimental design and objective.
-Structural-identifiability methods have been compared and systematized by Chis et al.
-(2011), Miao et al. (2011), Villaverde et al. (2016), and Villaverde (2019). Raue et
-al. (2009), Wieland et al. (2021), Heinrich et al. (2025), and Simpson & Maclaren
-(2023) emphasize that a parameter may be structurally identifiable yet practically
-weakly constrained, and that nonlinear profiles can reveal asymmetric or effectively
-unbounded uncertainty that a local covariance approximation misses.
-
-**Profiles, sloppiness, and parameter compensation.** Profile-likelihood and
-profile-wise analyses characterize how the optimum changes when one parameter is
-fixed and the rest are re-optimized — useful for detecting compensation, boundaries,
-and asymmetric uncertainty. Work on "sloppy" models describes broad spectra of
-parameter sensitivities and a geometric model manifold with narrow and broad
-directions (Gutenkunst et al., 2007; Transtrum et al., 2011, 2015). Sloppiness and
-identifiability are related but not equivalent (Tönsing et al., 2014; Chis et al.,
-2016), and experimental design may improve some weak directions without guaranteeing
-that all parameters become well determined (Apgar et al., 2010; White et al., 2016).
-We therefore use the descriptive term *inventory–rate profile valley* unless a
-scaled sensitivity-spectrum analysis is explicitly reported. The formal panel profiles
-**SSE** (a smooth local-curvature diagnostic) with MAPE as an agreeing cross-check, and
-— because no likelihood or noise model is specified — we report a *profiled objective*,
-not a profile likelihood, and an inverse-curvature **coupling** coefficient, not a
-statistical parameter correlation.
-
-**Reaction/transport confounding and design.** Similar parameter-confounding
-problems occur in environmental, reaction–transport, gas–liquid mass-transfer, and
-dissolution models, where kinetic coefficients, diffusivities, transfer
-coefficients, inventories, and boundary conditions can induce nearly collinear
-output changes (Brun et al., 2001; Navarro-Laboulais et al., 2008; Haario et al.,
-2007; Browning et al., 2024). Optimal experimental-design studies seek inputs,
-conditions, and sampling times that create distinct sensitivity directions (Banga &
-Balsa-Canto, 2008; Bandara et al., 2009; Liepe et al., 2013; Lages et al., 2012).
-For extraction models this motivates combining early, middle, and late fractions,
-multiple operating conditions, and independent inventory measurements rather than
-relying on a single integrated endpoint.
-
-**Coffee lineage and the gap.** Coffee-extraction modelling includes multiscale and
-asymptotic formulations (Moroney et al., 2015, 2016), well-mixed kinetics (Moroney
-et al., 2017), porous-bed non-uniformity (Moroney et al., 2019), brewing-control-
-chart and espresso-optimization studies (Melrose et al., 2018; Cameron et al., 2020),
-mesoscopic and porous-media simulations (Ellero & Navarini, 2019; Giacomini et al.,
-2020), and component-resolved or dispersive packed-bed models (Schmieder et al.,
-2023; Pannusch et al., 2024; Vaca Guerra et al., 2024). Time-resolved experiments
-have measured caffeine and trigonelline across particle-size distributions (Kuhn et
-al., 2017), representative nonvolatile solutes and TDS across process conditions
-(Schmieder et al., 2023), volatile release online (Sánchez-López et al., 2014, 2016),
-and independent TDS fractions with simultaneous flow measurements (Waszkiewicz et
-al., 2026).
-
-To our knowledge, following the documented search, prior espresso studies have not combined
-mechanistic coffee-extraction modelling with the mature inverse-problem toolkit — practical
-identifiability, profile analysis, parameter-compensation manifolds and model-based experimental
-design — in a study of inventory–rate confounding in a multi-solute espresso model evaluated
-against internal holdouts and an independent coffee dataset. The contribution is therefore an
-applied espresso case study and a model- and data-specific result, not a new identifiability
-method: under the tested whole-cup design, inventory and kinetic rate occupy a broad compensating
-profile, whereas fraction-resolved observations localize the rate substantially more strongly. *These results do not establish that cup-integrated
-observations are structurally incapable of identifying extraction kinetics in
-general; they establish weak practical localization for the tested model,
-observation map, datasets, parameter domain, and error model.*
+  structure after level-fitting is not resolved by this figure (see §7<!--sec:limitations-->).
 
 ## Reproducibility
 
@@ -1039,8 +1062,8 @@ observation map, datasets, parameter domain, and error model.*
   `gate_angeloni_multispecies_bracket`, `gate_pannusch_angeloni_species_bracket`,
   `gate_pannusch_angeloni_per_condition`, `flow_map_refinement`,
   `refit_pannusch_angeloni`, `validate_refit_granulometry`, `joint_multigrind_fit`
-  (the shared-inventory joint fit of §5<!--sec:result3-->), `identifiability_panel` (the
-  Hessian/condition-number/profiled-objective quantification of §4<!--sec:result2-->),
+  (the shared-inventory joint fit of §4<!--sec:result3-->), `identifiability_panel` (the
+  Hessian/condition-number/profiled-objective quantification of §3.2<!--sec:result2-->),
   `loco_cv_refit` (leave-one-condition-out CV + bootstrap + loss sensitivity),
   `geometry_sensitivity_transfer`. Run:
   `python -m puckworks.validation.slow.angeloni_bracket`.
@@ -1064,3 +1087,4 @@ observation map, datasets, parameter domain, and error model.*
   **not** in CI — the analysis is a paper-track deliverable, not a quick gate.
 
 *Change log: see ROADMAP §7.1 (2026-07-12, Paper A manuscript conversion).*
+

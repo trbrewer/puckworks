@@ -2,11 +2,12 @@
 
 Two failure modes the phrase guard in ``paper_a_consistency.py`` cannot see:
 
-**MC9 — cross-references.** The venue conversion inherited the canonical draft's section
-numbering even though the two files have different top-level structures, so a printed ``§4``
-resolved to "Results" in the conversion when it meant "Result 2 — the degeneracy" (conversion
-§4.2). Existence checks cannot catch this: the wrong number *does* name a real section. So each
-reference names its target inline::
+**MC9 — cross-references.** The venue conversion once inherited the canonical draft's section
+numbering even though the two files had different top-level structures, so a printed ``§4``
+resolved to "Results" in the conversion when it meant "Result 2 — the degeneracy". Existence
+checks cannot catch this: the wrong number *does* name a real section. The two files have since
+been converged on one architecture, which removes the root cause, but references still name their
+target inline so that any future renumbering fails loudly::
 
     §4.2<!--sec:result2-->
 
@@ -34,19 +35,21 @@ DRAFT = _REPO / "docs" / "PAPER_A_DRAFT.md"
 CONVERSION = _REPO / "docs" / "submission" / "PAPER_A_JFE_MANUSCRIPT.md"
 FILES = (DRAFT, CONVERSION)
 
-#: label -> substrings that identify that section's heading. The two files title several sections
-#: differently (the draft's "Open gaps"/"Related work" are the conversion's "Limitations and future
-#: work"/"Literature context"), so each label accepts any of its aliases.
+#: label -> substrings that identify that section's heading.
+#: Both manuscripts were converged on ONE architecture (Paper 1 second review section 7), so the
+#: aliases no longer need per-file variants. That convergence is itself the structural fix for MC9:
+#: the stale-reference class existed because the two files numbered the same sections differently.
 SECTION_ALIASES: dict[str, tuple[str, ...]] = {
-    "methods": ("Methods",),
+    "methods": ("Model, datasets, and observation operators",),
+    "wholecup": ("Whole-cup endpoints weakly separate",),
     "evidence_vocab": ("Evidence vocabulary",),
-    "result1": ("Result 1",),
-    "result2": ("Result 2",),
-    "result3": ("Result 3",),
-    "temporal": ("In-sample fraction verification",),
+    "result1": ("A matched endpoint changes the blind residual",),
+    "result2": ("inventory–rate profile is broad and right-censored",),
+    "result3": ("Cross-grind endpoint prediction adds little",),
+    "temporal": ("Time-resolved measurements provide stronger rate information",),
     "discussion": ("Discussion",),
-    "limitations": ("Limitations", "Open gaps"),
-    "related": ("Related work", "Literature context"),
+    "limitations": ("Limitations",),
+    "related": ("Related work",),
 }
 
 #: A numbered markdown heading: "## 4. Results" / "### 4.2 Result 2 — ...".

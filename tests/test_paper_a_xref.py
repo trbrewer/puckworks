@@ -49,12 +49,28 @@ def test_both_files_expose_every_labelled_section():
         assert not missing, f"{path.name} has no heading for {sorted(missing)}"
 
 
-def test_the_two_files_really_do_number_sections_differently():
-    """The premise of MC9. If this ever stops being true the linter is still correct, but the
-    numbering-drift risk it guards has changed and the guard should be revisited."""
+def test_the_two_files_now_share_one_section_architecture():
+    """This test previously asserted the OPPOSITE -- that the two files numbered the same sections
+    differently, which was the premise of MC9. The section-7 restructure converged them, so the
+    root cause is gone and the assertion is inverted rather than deleted: if the structures ever
+    diverge again, the stale-reference class returns and this fails.
+
+    The inline labels remain useful even so, because they also catch a renumbering INSIDE one
+    file."""
     a = X._headings(X.DRAFT.read_text(encoding="utf-8"))
     b = X._headings(X.CONVERSION.read_text(encoding="utf-8"))
-    assert a["result2"] != b["result2"]
+    assert a == b, "the manuscripts have diverged structurally: %s vs %s" % (a, b)
+
+
+def test_the_shared_architecture_is_the_one_the_review_specified():
+    """Guards the restructure itself: results are stated as findings, in the reviewed order."""
+    h = X._headings(X.CONVERSION.read_text(encoding="utf-8"))
+    assert h["methods"] == "2"
+    assert h["wholecup"] == "3"
+    assert h["result3"] == "4"
+    assert h["temporal"] == "5"
+    assert h["discussion"] == "6"
+    assert h["limitations"] == "7"
 
 
 def test_a_stale_number_is_caught_even_though_the_section_exists(tmp_path, relinked):

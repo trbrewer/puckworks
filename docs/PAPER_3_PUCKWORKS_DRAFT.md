@@ -67,6 +67,41 @@ A source is not excluded merely because it lacks code or numeric parameters. Ins
 
 Before making a systematic or exhaustive claim, the project should preregister or publish a search protocol covering bibliographic databases, grey-literature sources, query strings, date range, language rules, eligible model and data classes, duplicate/derivative handling, two-stage screening, adjudication, and a flow diagram. The protocol should distinguish papers that model espresso directly from transferable coffee, packed-bed, filtration, rheology, and extraction studies. It should also record searches that yield no usable constitutive data, because negative searches explain why a contract field remains open.
 
+
+### 2.4 Claim ownership and its relationship to the companion papers
+
+This paper is one of three drawing on the same repository, so a reader is entitled to know which
+results this paper *asserts* and which it *cites*. The division is recorded in the repository's claim
+map (`docs/CLAIM_OWNERSHIP.md`) and is reproduced here in summary, because a division of labour that
+exists only in a project file cannot be checked by a reader.
+
+| Claim | Owner | Role in **this** paper |
+|---|---|---|
+| Whole-cup endpoints weakly separate extractable content from extraction rate | Companion identifiability paper | cited as motivation; not re-argued |
+| Cross-grind endpoint prediction adds little over a level-only baseline | Companion identifiability paper | cited; the registry supplies the evidence labels, not the finding |
+| Fraction-resolved observations localize the rate more strongly than aggregates | Companion identifiability paper | cited |
+| A machine-only model reproduces a mid-shot flow minimum without bed evolution | Companion temporal paper | cited as the null-first motivation |
+| The κ(t) null-first ladder and its cross-pressure assessment | Companion temporal paper | **the science is cited**; this paper uses the ladder only as an example of comparison *architecture* (§8) |
+| Isolated swelling and fines branches carry the wrong fixed-pressure sign | Companion temporal paper | cited |
+| Typed observable and unit contracts; no silent field repurposing | **This paper** | asserted (§4) |
+| Observable and unit linting, including the saturation-concentration and pressure-node cases | **This paper** | asserted (§7) |
+| Null-first comparison as a reusable *method* | **This paper** | asserted (§8); the physical conclusions belong to the companion paper |
+| A failed composition preserved rather than tuned away | **This paper** | asserted (§9) |
+| Provenance, evidence typing, manifests, claim bundles, release verification | **This paper** | asserted (§6) |
+| Guardrail evaluation by deliberate defect injection | **This paper** | asserted (§10) |
+| Disagreement-to-experiment mapping | **This paper** | asserted (§11) |
+| End-to-end named-shot evidence scorecard | **This paper** | asserted (§12) |
+| External community-corpus governance and attribution | **This paper** | asserted (§6.6) |
+| Definitionally different "fast fractions" that agree in sign but differ 5–9× | **This paper** | asserted (§7) |
+| A shared bi-exponential form is not a shared physical construct | **This paper** | asserted (§7.5) |
+
+The rule we follow is that a *physical* conclusion is asserted once, in the paper whose design
+supports it, and that this paper asserts only *methodological* claims about representation, evidence
+and reproducibility. Where a companion result appears here it appears as a worked example of the
+architecture, with the scientific claim attributed rather than restated. Quantitative values shared
+between papers come from the same producers, so a number cannot diverge between them without a
+CI failure.
+
 ## 3. Registry architecture: components rather than a mega-model
 
 ### 3.1 A configuration is the unit of simulation

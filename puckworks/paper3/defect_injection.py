@@ -183,9 +183,18 @@ def _d_stale_cross_reference():
     """A section is renumbered and an in-text reference is left pointing at the old number. The
     old number still names a REAL section, so an existence check passes -- this is the exact bug
     the reviewer found in the venue conversion."""
+    import re
+
     import tools.paper_a_xref as X
-    edits = {"docs/PAPER_A_DRAFT.md": (
-        "§4<!--sec:result2-->", "§6<!--sec:result2-->")}
+    # Derive the anchor from the live file rather than hard-coding a section number: the corpus
+    # must survive a legitimate restructure and fail only when the LABEL disappears.
+    src = (REPO / "docs/PAPER_A_DRAFT.md").read_text(encoding="utf-8")
+    m = re.search(r"§(\d+(?:\.\d+)?)<!--sec:result2-->", src)
+    if not m:
+        return Outcome(False, "tools/paper_a_xref.py",
+                       "defect corpus is STALE: no tagged reference to 'result2' remains")
+    wrong = "9" if not m.group(1).startswith("9") else "8"
+    edits = {"docs/PAPER_A_DRAFT.md": (m.group(0), "§%s<!--sec:result2-->" % wrong)}
     with _corrupted_copies(edits) as f:
         with _patched(X, DRAFT=f["docs/PAPER_A_DRAFT.md"], CONVERSION=X.CONVERSION,
                       FILES=(f["docs/PAPER_A_DRAFT.md"], X.CONVERSION)):
@@ -197,10 +206,16 @@ def _d_stale_cross_reference():
 def _d_review_scaffolding_returns():
     """Repository scaffolding (an internal review ID and a status word) reintroduced into the
     manuscript by a regeneration or a careless paste."""
+    import re
+
     import tools.paper_a_xref as X
+    src = (REPO / "docs/PAPER_A_DRAFT.md").read_text(encoding="utf-8")
+    m = re.search(r"^## \d+\. Limitations.*$", src, re.M)
+    if not m:
+        return Outcome(False, "tools/paper_a_xref.py",
+                       "defect corpus is STALE: no Limitations heading found")
     edits = {"docs/PAPER_A_DRAFT.md": (
-        "## 8. Limitations",
-        "## 8. Limitations\n\nThis interval is deferred pending review A3-01.\n")}
+        m.group(0), m.group(0) + "\n\nThis interval is deferred pending review A3-01.\n")}
     with _corrupted_copies(edits) as f:
         with _patched(X, DRAFT=f["docs/PAPER_A_DRAFT.md"], CONVERSION=X.CONVERSION,
                       FILES=(f["docs/PAPER_A_DRAFT.md"], X.CONVERSION)):
