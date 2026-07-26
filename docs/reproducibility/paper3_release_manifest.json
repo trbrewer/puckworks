@@ -1,0 +1,13 @@
+{
+  "paper": "3",
+  "ok": true,
+  "problems": [],
+  "warnings": [],
+  "commit": "f52e8d70032d1d03ffdd229eca14f49c27559447",
+  "tree_clean": true,
+  "freshness": "by recomputation (generated artifacts regenerate identically)",
+  "archive_sha256": "7adddba2d2083bed22cf887ac4bb2193d2ee0a30368bf29e3ad8d4cb351a208a",
+  "n_components": 27,
+  "n_bundle_files": 149,
+  "tag_hint": "git tag -a paper-3-v1.0.0-rc.1 -m 'Paper 3 release candidate'"
+}
