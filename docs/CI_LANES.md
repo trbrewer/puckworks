@@ -13,7 +13,7 @@ Every test belongs to exactly one **primary lane** (enforced by
 | **generated-artifacts** | `generated-artifacts.yml` | push(main) + PR | `paper3.registry_artifacts --verify` + `paper3.build verify` | `.[dev]` | none | ~20 s | — | **yes** |
 | **slow-science** | `slow-science.yml` | dispatch + weekly cron | `-m slow` then offline full-suite backstop | `.[dev,figures]` | blocked (offline) | minutes | JUnit + durations + pip-freeze | no |
 | **live-contract** | `live-contract.yml` | dispatch + weekly cron | `visualizer_canary` (1 list + 1 detail) | `.[harvest]` | **live**, bounded | seconds | none (no retention) | no; gated on `vars.RUN_LIVE_CANARY` |
-| **release** | `release.yml` | tag `v*`/`paper3-v*` + dispatch | full suite + `paper3.build verify` + artifact upload | `.[dev]` | none | minutes | generated + reproducibility | no |
+| **release** | `release.yml` | tag `v*`/`paper3-v*` + dispatch | full suite + `paper3.build verify` + **`paper3.build release` (strict; `paper3-v*` tags only)** + artifact upload | `.[dev,figures,release]` | none | minutes | generated + reproducibility | no |
 
 ## Markers
 

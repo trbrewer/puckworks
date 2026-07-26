@@ -54,13 +54,222 @@ _CLAIMS = [
     # MAJ-23 Result-2 block-bootstrap RMSE difference: Phi(t) beats best constant (<0)
     ("Phi(t) block-bootstrap beats best constant ~-0.39 g/s",
      "result2_residuals.rmse_diff_phi_minus_best_const.median", -0.391, 0.08),
+
+    # ---- review 4.13: every number in Tables 2/3, the shot-level results, the held-out
+    # comparator and the residual diagnostics is bound to a producer. Before this, 18 claims
+    # covered a manuscript containing far more results, and an unregistered number was an
+    # unchecked number that looked exactly like a checked one.
+    # Table 2 — the remaining ladder rows and the two ratios stated in the prose
+    ("Table 2 late-window constant ~0.641",  "ladder.rung1b_longrun_const", 0.641, 0.01),
+    ("Table 2 static kappa(P) ~0.648",       "ladder.rung3_static_kappaP", 0.648, 0.01),
+    ("Table 2 improvement vs best constant ~4.9x", "ladder.improvement_factor", 4.9, 0.1),
+    ("Table 2 improvement vs static ~5.6x",  "ladder.improvement_vs_static", 5.6, 0.1),
+    # Table 3 — all nine cells
+    ("Table 3 LOPO-EC static ~0.534",        "loco.heldout_mean.static", 0.534, 0.01),
+    ("Table 3 LOPO-EC Phi(t) ~0.347",        "loco.heldout_mean.phi", 0.347, 0.01),
+    ("Table 3 LOPO-EC rc3b ~0.516",          "loco.heldout_mean.rc3b", 0.516, 0.01),
+    ("Table 3 shared static ~0.524",         "loco.shared_calibration_mean.static", 0.524, 0.01),
+    ("Table 3 shared Phi(t) ~0.334",         "loco.shared_calibration_mean.phi", 0.334, 0.01),
+    ("Table 3 shared rc3b ~0.510",           "loco.shared_calibration_mean.rc3b", 0.510, 0.01),
+    ("Table 3 off-9-bar static ~0.512",
+     "cross_pressure.conditional_transfer_mean_full_precision.static", 0.512, 0.01),
+    ("Table 3 off-9-bar rc3b ~0.522",
+     "cross_pressure.conditional_transfer_mean_full_precision.rc3b", 0.522, 0.01),
+    # Shot-level results (§5.2a) — the exact randomization test and the noise floor
+    ("shot noise floor ~0.149 g/s",
+     "shot_level.noise_floor.noise_floor_rmse_g_per_s", 0.1492, 0.005),
+    ("Phi(t) minus constant, per-shot mean ~-0.390 g/s",
+     "shot_level.paired.comparisons.phi_vs_const.mean_difference_g_per_s", -0.3904, 0.005),
+    ("Phi(t) minus static, per-shot mean ~-0.472 g/s",
+     "shot_level.paired.comparisons.phi_vs_static.mean_difference_g_per_s", -0.4717, 0.005),
+    ("exact randomization p = 2/32 (design floor)",
+     "shot_level.paired.comparisons.phi_vs_const.exact_randomization_p", 0.0625, 0.0001),
+    # Held-out flexible comparator (§5.2a) — the result that DOWN-scoped the temporal claim
+    ("leave-one-shot-out spline ~0.186", "shot_level.heldout.leave_one_shot_out_mean.spline", 0.1861, 0.003),
+    ("leave-one-shot-out Phi(t) ~0.189", "shot_level.heldout.leave_one_shot_out_mean.phi", 0.1894, 0.003),
+    ("leave-one-shot-out Phi(t) cross-fit ~0.190",
+     "shot_level.heldout.leave_one_shot_out_mean.phi_equilibrium_crossfit", 0.1897, 0.003),
+    ("leave-one-shot-out constant ~0.600", "shot_level.heldout.leave_one_shot_out_mean.const", 0.5995, 0.005),
+    ("leave-one-shot-out static ~0.661", "shot_level.heldout.leave_one_shot_out_mean.static", 0.6611, 0.005),
+    ("Phi(t) minus held-out spline ~0.003 (below the noise floor)",
+     "shot_level.heldout.phi_minus_spline_heldout_g_per_s", 0.0033, 0.002),
+    ("leave-segment-out interior Phi(t) ~0.158",
+     "shot_level.heldout.leave_segment_out_interior_mean.phi", 0.1579, 0.003),
+    ("leave-segment-out interior spline ~0.233",
+     "shot_level.heldout.leave_segment_out_interior_mean.spline", 0.233, 0.003),
+    ("leave-segment-out interior constant ~0.419",
+     "shot_level.heldout.leave_segment_out_interior_mean.const", 0.4193, 0.003),
+    # Residual diagnostics at the DECLARED 1 s resolution (§5.2a). The between-shot sd here
+    # (0.1529) is the decimated-series quantity and is NOT the same as the full-resolution
+    # 0.154 in shot_level.noise_floor -- two nearly-equal numbers that must not be swapped.
+    ("residual diagnostics between-shot sd ~0.153 (1 s series)",
+     "shot_level.residuals_1s.between_shot_sd_mean_g_per_s", 0.1529, 0.002),
+    ("residual lag-1 ACF, constant ~0.958",
+     "shot_level.residuals_1s.branches.rung1_const.lag1_autocorrelation", 0.9579, 0.002),
+    ("residual lag-1 ACF, Phi(t) ~0.969",
+     "shot_level.residuals_1s.branches.rung4_phi_of_t.lag1_autocorrelation", 0.9687, 0.002),
+    ("residual lag-1 ACF, cubic ~0.904",
+     "shot_level.residuals_1s.branches.flexible_cubic.lag1_autocorrelation", 0.9041, 0.002),
+    ("static MAE ~0.370 beats constant MAE ~0.478 (ordering reversal)",
+     "shot_level.residuals_1s.branches.rung3_static.mae_g_per_s", 0.3695, 0.003),
+    ("constant MAE ~0.478", "shot_level.residuals_1s.branches.rung1_const.mae_g_per_s", 0.478, 0.003),
+    ("static mean bias ~-0.312 (why MAE and RMSE disagree)",
+     "shot_level.residuals_1s.branches.rung3_static.mean_bias_g_per_s", -0.3121, 0.003),
+    ("residual/between-shot ratio, constant ~3.8",
+     "shot_level.residuals_1s.branches.rung1_const.residual_over_between_shot_sd", 3.81, 0.05),
+    ("residual/between-shot ratio, static ~4.3",
+     "shot_level.residuals_1s.branches.rung3_static.residual_over_between_shot_sd", 4.323, 0.05),
+    ("residual/between-shot ratio, Phi(t) ~0.76",
+     "shot_level.residuals_1s.branches.rung4_phi_of_t.residual_over_between_shot_sd", 0.756, 0.02),
+    ("residual/between-shot ratio, cubic ~0.65",
+     "shot_level.residuals_1s.branches.flexible_cubic.residual_over_between_shot_sd", 0.648, 0.02),
+    # The 5 s check that shows the structure is resolution-dependent
+    ("residual lag-1 ACF at 5 s, Phi(t) ~0.533",
+     "shot_level.residuals_5s.branches.rung4_phi_of_t.lag1_autocorrelation", 0.533, 0.005),
+    ("residual lag-1 ACF at 5 s, constant ~0.786",
+     "shot_level.residuals_5s.branches.rung1_const.lag1_autocorrelation", 0.786, 0.005),
+    ("residual lag-1 ACF at 5 s, cubic ~0.471",
+     "shot_level.residuals_5s.branches.flexible_cubic.lag1_autocorrelation", 0.471, 0.005),
+    ("residual DW at 1 s, Phi(t) ~0.047",
+     "shot_level.residuals_1s.branches.rung4_phi_of_t.durbin_watson", 0.0468, 0.002),
+    ("residual DW at 1 s, constant ~0.005",
+     "shot_level.residuals_1s.branches.rung1_const.durbin_watson", 0.0049, 0.002),
+    ("residual DW at 1 s, static ~0.004",
+     "shot_level.residuals_1s.branches.rung3_static.durbin_watson", 0.0038, 0.002),
+    ("residual DW at 1 s, cubic ~0.067",
+     "shot_level.residuals_1s.branches.flexible_cubic.durbin_watson", 0.0667, 0.002),
+    ("Phi(t) minus cubic, per-shot mean ~+0.083 g/s (below the noise floor)",
+     "shot_level.paired.comparisons.phi_vs_cubic.mean_difference_g_per_s", 0.0826, 0.003),
+    # Recorded-pressure robustness (§5.2). These six values were TRANSCRIBED from a reviewer's
+    # independent table until review 4.13's coverage audit found they had no producer here.
+    ("recorded-pressure static nominal 0.647696",
+     "shot_level.recorded_pressure.static_nominal_rmse_g_per_s", 0.647696, 1e-5),
+    ("recorded-pressure static recorded 0.646846",
+     "shot_level.recorded_pressure.static_recorded_rmse_g_per_s", 0.646846, 1e-5),
+    ("recorded-pressure static delta -0.00085",
+     "shot_level.recorded_pressure.static_delta_g_per_s", -0.00085, 1e-5),
+    ("recorded-pressure Phi(t) nominal 0.115769",
+     "shot_level.recorded_pressure.phi_nominal_rmse_g_per_s", 0.115769, 1e-5),
+    ("recorded-pressure Phi(t) recorded 0.116443",
+     "shot_level.recorded_pressure.phi_recorded_rmse_g_per_s", 0.116443, 1e-5),
+    ("recorded-pressure Phi(t) delta +0.000673",
+     "shot_level.recorded_pressure.phi_delta_g_per_s", 0.000673, 1e-5),
+    # Equilibrium-window sensitivity (§2) — the values quoted when justifying the observable
+    ("window sensitivity 90-100 s P_c ~12.391",
+     "shot_level.window_sensitivity.windows.mean_90_100s.P_c_bar", 12.391, 0.002),
+    ("window sensitivity 90-100 s Q_c ~1.914",
+     "shot_level.window_sensitivity.windows.mean_90_100s.Q_c_g_per_s", 1.914, 0.002),
+    ("window sensitivity 110-120 s (excl. contaminated) P_c ~11.935",
+     "shot_level.window_sensitivity.windows.mean_110_120s_excl_contaminated.P_c_bar", 11.935, 0.002),
+    ("window sensitivity 110-120 s (excl. contaminated) Q_c ~1.861",
+     "shot_level.window_sensitivity.windows.mean_110_120s_excl_contaminated.Q_c_g_per_s", 1.861, 0.002),
+    # §5.3b — these were NOT unbacked; `pressure_domains()` computes them on the settled
+    # equilibrium endpoints. Binding them here is what the coverage audit should have found.
+    ("max nominal-minus-recorded gap ~0.61 bar",
+     "shot_level.pressure_domains.max_nominal_recorded_gap_bar", 0.606, 0.002),
+    ("9-bar delivered mean ~8.71 bar",
+     "shot_level.pressure_domains.primary_analysis_recorded_bar", 8.713, 0.002),
+    # decimated-resolution RMSEs quoted in the MAE/RMSE ordering-reversal paragraph
+    ("decimated RMSE, constant ~0.583",
+     "shot_level.residuals_1s.branches.rung1_const.rmse_g_per_s", 0.5826, 0.002),
+    ("decimated RMSE, static ~0.661",
+     "shot_level.residuals_1s.branches.rung3_static.rmse_g_per_s", 0.661, 0.002),
+    # swelling branch scale (§5.4)
+    ("swelling branch RMSE with a free level ~1.08",
+     "ladder.rung5b_swelling_mo2", 1.082, 0.005),
+    ("Foster machine-mode flow minimum ~0.181",
+     "foster_machine_mode.flow_minimum_norm", 0.181, 0.002),
+    ("Foster machine-mode minimum at ~1.99 s",
+     "foster_machine_mode.flow_minimum_time_s", 1.99, 0.02),
+    ("swelling correlation with the measured trace ~-0.951",
+     "ladder.rung5b_swelling_corr_with_trace", -0.951, 0.005),
+    # Block-bootstrap intervals quoted in §5.2 / §5.2a. The 24 s row is the one that excludes
+    # zero; the 16 s row does not, and the manuscript distinguishes them.
+    ("Phi(t) minus cubic median ~+0.02",
+     "result2_residuals.rmse_diff_phi_minus_cubic.median", 0.022, 0.003),
+    ("Phi(t) minus cubic 95% lower ~-0.01",
+     "result2_residuals.rmse_diff_phi_minus_cubic.ci95.0", -0.008, 0.003),
+    ("Phi(t) minus cubic 95% upper ~+0.05",
+     "result2_residuals.rmse_diff_phi_minus_cubic.ci95.1", 0.053, 0.003),
+    ("24 s block Phi(t) minus cubic lower ~+0.001",
+     "result2_residuals.block_length_sensitivity.3.phi_minus_cubic.ci95.0", 0.001, 0.0005),
+    ("24 s block Phi(t) minus cubic upper ~+0.04",
+     "result2_residuals.block_length_sensitivity.3.phi_minus_cubic.ci95.1", 0.04, 0.002),
+    # §5.2b residual spectra (review 4.7) -- the structure is drift, not oscillation
+    ("residual power in slowest quarter, constant ~0.957",
+     "shot_level.residuals_1s.branches.rung1_const.spectrum.power_in_slowest_quarter", 0.9571, 0.002),
+    ("residual power in slowest quarter, static ~0.957",
+     "shot_level.residuals_1s.branches.rung3_static.spectrum.power_in_slowest_quarter", 0.9571, 0.002),
+    ("residual power in slowest quarter, Phi(t) ~0.990",
+     "shot_level.residuals_1s.branches.rung4_phi_of_t.spectrum.power_in_slowest_quarter", 0.9897, 0.002),
+    ("residual power in slowest quarter, cubic ~0.954",
+     "shot_level.residuals_1s.branches.flexible_cubic.spectrum.power_in_slowest_quarter", 0.954, 0.002),
+    ("dominant residual period, constant 80 s",
+     "shot_level.residuals_1s.branches.rung1_const.spectrum.dominant_period_s", 80.0, 0.1),
+    ("dominant residual period, Phi(t) 40 s",
+     "shot_level.residuals_1s.branches.rung4_phi_of_t.spectrum.dominant_period_s", 40.0, 0.1),
 ]
 
 
+def _per_pressure_claims():
+    """Expand the §5.3 per-pressure table into one claim per printed cell.
+
+    Generated rather than hand-written: the table has 11 pressures x 3 branches, and transcribing
+    33 claims by hand is precisely how Table 3's `rc3b` column went stale in every row. The claims
+    are derived from the SAME producer the manuscript's table is printed from, so a cell that
+    changes upstream either updates the table or fails the check.
+    """
+    import json as _json
+    import os as _os
+    if not _os.path.exists(_BUNDLE):
+        return []
+    try:
+        with open(_BUNDLE) as fh:
+            per_pressure = _json.load(fh)["cross_pressure"]["per_pressure"]
+    except (KeyError, ValueError, OSError):
+        return []
+    out = []
+    for pressure in sorted(per_pressure, key=float):
+        for branch, value in sorted(per_pressure[pressure].items()):
+            out.append((f"per-pressure {pressure} bar {branch} ~{value}",
+                        f"cross_pressure.per_pressure.{pressure}.{branch}",
+                        float(value), 0.0005))
+    return out
+
+
+#: The per-pressure cells are appended at import time so `verify` and the coverage audit see one
+#: claim list. They are read from the committed bundle, so this cannot invent a claim that no
+#: producer supports -- if the bundle is missing the table, zero claims are added and the coverage
+#: audit reports the cells as UNACCOUNTED rather than silently passing.
+_CLAIMS = _CLAIMS + _per_pressure_claims()
+
+
 def _get(obj, path):
+    """Resolve a dotted path, tolerating keys that themselves contain dots.
+
+    The per-pressure table is keyed by pressure ("11.0"), so a naive split on "." turns
+    `cross_pressure.per_pressure.11.0.phi` into a lookup for "11" then "0" and every cell reports
+    MISSING. At each step, prefer the longest key that actually exists in the mapping.
+    """
     cur = obj
-    for key in path.split("."):
-        cur = cur[key]
+    parts = path.split(".")
+    i = 0
+    while i < len(parts):
+        if isinstance(cur, dict):
+            for take in range(len(parts) - i, 0, -1):     # longest match first
+                key = ".".join(parts[i:i + take])
+                if key in cur:
+                    cur = cur[key]
+                    i += take
+                    break
+            else:
+                raise KeyError(parts[i])
+        elif isinstance(cur, (list, tuple)):
+            cur = cur[int(parts[i])]        # ci95.0 / block_length_sensitivity.3
+            i += 1
+        else:
+            cur = cur[parts[i]]
+            i += 1
     return cur
 
 
@@ -141,6 +350,36 @@ def compute(out_path=_BUNDLE, include_slow=True):
         cross_pressure=h.cross_pressure_discrimination(),
         loco=h.cross_pressure_loco(),
     )
+    # review 4.13: the shot-level layer is a first-class part of the results, so its producers
+    # belong in the bundle rather than being recomputed ad hoc. Without this, Tables 2/3 aside,
+    # every number in §5.2a was unregistered -- and an unregistered number is an unchecked one.
+    from puckworks.analysis import waszkiewicz_shot_level as wsl
+    bundle["shot_level"] = dict(
+        ladder=wsl.per_shot_ladder(),
+        noise_floor=wsl.shot_level_noise_floor(),
+        paired=wsl.paired_shot_uncertainty(),
+        loso_phi=wsl.leave_one_shot_out_phi(),
+        heldout=wsl.held_out_flexible_comparator(),
+        window_sensitivity=wsl.equilibrium_window_sensitivity(),
+        residuals_1s=wsl.residual_diagnostics(resolution_s=1.0),
+        residuals_5s=wsl.residual_diagnostics(resolution_s=5.0),
+        # review 4.13 found the six recorded-pressure values in §5.2 had been transcribed from a
+        # reviewer's independent table with no producer of ours behind them. This is that producer;
+        # it reproduces the reviewer's numbers exactly.
+        recorded_pressure=wsl.recorded_pressure_robustness(),
+        # §5.3b nominal-vs-recorded. The producer already existed in
+        # `waszkiewicz_cross_pressure.pressure_domains()` and is scoped to the settled equilibrium
+        # endpoints, which is the right basis for "what the rig delivered at this setting"; it is
+        # bundled here so the claim map can bind to it.
+        pressure_domains=__import__(
+            "puckworks.analysis.waszkiewicz_cross_pressure", fromlist=["x"]).pressure_domains(),
+    )
+    # Figure 1b prints the Foster machine-mode minimum, so it is a manuscript number and belongs
+    # in the bundle rather than being read off a gate at render time.
+    from puckworks.models.foster2025 import machine_mode as _fm
+    _q_min, _t_min = _fm.flow_minimum()
+    bundle["foster_machine_mode"] = dict(flow_minimum_norm=round(float(_q_min), 4),
+                                         flow_minimum_time_s=round(float(_t_min), 3))
     if include_slow:
         bundle["ntube_robustness"] = h.ntube_robustness_study()      # Result 3 (MAJ-33..41)
         bundle["ntube_switching_convergence"] = h.ntube_switching_convergence()  # MAJ-36

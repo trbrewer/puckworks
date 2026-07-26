@@ -142,13 +142,42 @@ def _load(results):
     return results
 
 
+
+# --- Table 7 basis range (Paper 1 second review MC5) -------------------------------------
+# The Angeloni Table 7 assay is a dry-coffee mg/kg value read as mg/mL under an undefended
+# 1 kg = 1 L convention. Defensible bases span roughly bulk R&G density (~0.38 g/mL) to
+# roasted-particle/skeletal density (~1.3 g/mL); expressed as multipliers of the assumed
+# 1.0 g/mL value these bracket the plausible inventory. See
+# docs/paper1_resource/PAPER_A_TABLE7_UNITS_AUDIT.md. NOT a model constraint -- an
+# illustration of why the intersection is basis-dependent.
+_T7_BASIS_LO, _T7_BASIS_HI = 0.38, 1.30
+
+
+def _two_sig(x):
+    """Round a local, discretization-dependent diagnostic to two significant figures
+    (review MC16: condition numbers and couplings must not be reported as if precise)."""
+    from math import floor, log10
+    x = float(x)
+    if not x or x != x:
+        return "%s" % x
+    d = int(floor(log10(abs(x))))
+    return "%g" % round(x, -(d - 1))
+
 # ---------------------------------------------------------------------------
 def fig1_design(outdir=OUTDIR):
-    """Fig 1 — study & evidence design with CAMPAIGN-ACCURATE evidence categories
-    (review MAJ-18): 'external' is used ONLY for a genuinely different rig/coffee not
-    used for target fitting; the within-Angeloni O->C/F holdout is a within-campaign
-    holdout, Table 7 is an orthogonal measurement from the same study, and the
-    Waszkiewicz external trajectory is shown."""
+    """Fig 1 — study design and use of each dataset, drawn as the ACTUAL dependency graph.
+
+    Paper 1 second review MC6: the previous layout ran an arrow from the Angeloni
+    optimal-grind recalibration DOWN into the Waszkiewicz box, implying the external shape
+    test inherits that recalibration. It does not: the external test freezes the Pannusch
+    kinetics and profiles a Waszkiewicz-specific level at each candidate rate. All four
+    branches therefore fan out from the Pannusch calibration. Table 7 is likewise not a
+    validation step after the cross-grind holdout -- it is an orthogonal measurement from
+    the same campaign, so it connects LATERALLY to the recalibration/profile analysis.
+
+    Evidence categories stay campaign-accurate: 'external' means a genuinely different
+    rig/coffee not used for target fitting.
+    """
     plt = _plt()
     # evidence-category palette (data use, not verb)
     CAT = {"source": (NULL, "source calibration"),
@@ -158,53 +187,68 @@ def fig1_design(outdir=OUTDIR):
            "within": (GOOD, "within-campaign holdout"),
            "orth": (_SOL_COLOR["5CQA"], "orthogonal measurement (same study)"),
            "external": (BAD, "independent external")}
-    fig, ax = plt.subplots(figsize=(9.8, 5.6))
-    ax.set_xlim(0, 12); ax.set_ylim(0, 8); ax.axis("off")
+    fig, ax = plt.subplots(figsize=(11.4, 6.8))
+    ax.set_xlim(0, 13.2); ax.set_ylim(-0.85, 9.2); ax.axis("off")
 
-    def box(x, y, w, h, text, cat):
+    def box(x, y, w, h, text, cat, fs=8.4):
         col = CAT[cat][0]
         ax.add_patch(plt.Rectangle((x, y), w, h, facecolor="#f6f2ea", edgecolor=col,
-                                   lw=2.2))
-        ax.text(x + w / 2, y + h / 2, text, ha="center", va="center", fontsize=7.6)
+                                   lw=2.4))
+        ax.text(x + w / 2, y + h / 2, text, ha="center", va="center", fontsize=fs)
 
-    def arrow(x0, y0, x1, y1, col=NULL):
+    def arrow(x0, y0, x1, y1, col=NULL, style="-|>"):
         ax.annotate("", (x1, y1), (x0, y0),
-                    arrowprops=dict(arrowstyle="-|>", color=col, lw=1.5))
+                    arrowprops=dict(arrowstyle=style, color=col, lw=1.6))
 
-    # lane 1 — Schmieder/Pannusch lineage (top)
-    ax.text(0.1, 7.5, "Schmieder / Pannusch lineage", fontsize=8, style="italic",
-            color=NULL)
-    box(0.2, 6.0, 2.6, 1.2, "Schmieder fractions\n→ Pannusch calibration", "source")
-    box(3.4, 6.0, 2.7, 1.2, "Fraction-vs-cup\nprofile (in-sample\nlocalization)", "insample")
-    box(6.7, 6.0, 2.7, 1.2, "Same-model exact-cup\nsimulation (synthetic\nillustration)", "sim")
-    arrow(2.8, 6.6, 3.4, 6.6); arrow(6.1, 6.6, 6.7, 6.6)
+    # --- root: the single calibration every branch descends from ------------------------
+    box(0.15, 4.05, 2.75, 1.5, "Schmieder fractions\n→ Pannusch calibration", "source")
 
-    # lane 2 — Angeloni campaign (middle)
-    ax.text(0.1, 4.6, "Angeloni campaign (one study; different rig/coffee/basket)",
-            fontsize=8, style="italic", color=NULL)
-    box(0.2, 3.1, 2.6, 1.2, "Angeloni O\n→ target recalibration", "target")
-    box(3.4, 3.1, 2.7, 1.2, "Held-out O conditions\n(leave-one-condition-\nout CV)", "within")
-    box(6.7, 3.1, 2.7, 1.2, "Angeloni C / F\ncross-grind holdout\n(within-campaign)", "within")
-    box(9.6, 3.1, 2.2, 1.2, "Table 7 inventory\n(orthogonal\nmeasurement)", "orth")
-    arrow(2.8, 3.7, 3.4, 3.7); arrow(6.1, 3.7, 6.7, 3.7); arrow(9.4, 3.7, 9.6, 3.7)
-    arrow(1.5, 6.0, 1.5, 4.3)          # calibration -> target recalibration
+    # --- fan spine: one arrow out of the root, then one stub per branch -----------------
+    SPINE, BX = 3.15, 3.55
+    rows = [("A", 8.0), ("B", 6.5), ("C", 4.8), ("D", 1.25)]
+    arrow(2.9, 4.8, SPINE, 4.8)
+    ax.plot([SPINE, SPINE], [rows[-1][1], rows[0][1]], color=NULL, lw=1.6, zorder=1)
+    for _, y in rows:
+        arrow(SPINE, y, BX, y)
 
-    # lane 3 — Waszkiewicz external (bottom)
-    ax.text(0.1, 1.9, "Waszkiewicz (independent second rig / coffee)", fontsize=8,
-            style="italic", color=NULL)
-    box(0.2, 0.4, 4.0, 1.2, "Waszkiewicz 5 s TDS fractions →\nexternal-data objective "
-        "localization\n(measured flow; target-profiled level)", "external")
-    arrow(2.2, 3.1, 2.2, 1.6)
+    # --- branch A: source-campaign fraction-versus-cup localization ---------------------
+    box(BX, 7.35, 3.3, 1.3, "A · source-campaign\nfraction-vs-cup localization\n(in-sample)",
+        "insample")
+    # --- branch B: same-model exact-cup simulation --------------------------------------
+    box(BX, 5.85, 3.3, 1.3, "B · same-model\nexact-cup simulation\n(synthetic control)", "sim")
+    # --- branch C: Angeloni recalibration -> within-campaign holdouts -------------------
+    box(BX, 4.15, 3.5, 1.3, "C · Angeloni optimal-grind\n→ target recalibration", "target")
+    box(7.45, 4.15, 2.6, 1.3, "held-out optimal-grind\nconditions\n(leave-one-condition-out)",
+        "within", fs=8.0)
+    box(10.35, 4.15, 2.7, 1.3, "coarse / fine grinds\ncross-grind holdout\n(within campaign)",
+        "within", fs=8.0)
+    arrow(7.05, 4.8, 7.45, 4.8); arrow(10.05, 4.8, 10.35, 4.8)
+    # Table 7 hangs LATERALLY off the recalibration/profile analysis, not off the holdout
+    box(BX, 2.35, 3.5, 1.15, "Table 7 solid inventory —\northogonal measurement,\nsame campaign",
+        "orth", fs=8.0)
+    arrow(BX + 1.75, 4.15, BX + 1.75, 3.5, col=_SOL_COLOR["5CQA"], style="<|-|>")
+    ax.text(BX + 1.9, 3.82, "compared, not fitted", fontsize=7.0, color=NULL,
+            ha="left", va="center", style="italic")
+    # --- branch D: external shape test (branches from the CALIBRATION, not from C) ------
+    box(BX, 0.6, 5.6, 1.3, "D · Waszkiewicz external TDS trajectory —\nPannusch kinetics frozen, "
+        "a Waszkiewicz-specific\nlevel profiled at each rate", "external", fs=8.0)
 
-    # legend
-    hs = [plt.Line2D([0], [0], marker="s", ls="", mfc="#f6f2ea", mec=c[0], mew=2.2,
-                     ms=9, label=c[1]) for c in CAT.values()]
-    ax.legend(handles=hs, loc="lower right", fontsize=6.6, ncol=2, framealpha=0.9)
-    ax.text(6.0, 2.15, "‘external’ = genuinely different rig/coffee NOT used for target "
-            "fitting; O→C/F and Table 7 are within the Angeloni study.",
-            ha="center", fontsize=6.6, color=NULL)
-    fig.suptitle("Fig 1 — Paper A study & evidence design (campaign-accurate categories)",
-                 y=0.97, fontsize=10.5, fontweight="bold")
+    # --- campaign annotations -----------------------------------------------------------
+    ax.text(0.15, 2.55, "Angeloni campaign\n(one study; different\nrig / coffee / basket)",
+            fontsize=7.8, style="italic", color=NULL, va="top")
+    ax.text(0.15, 1.05, "Waszkiewicz\n(independent second\nrig / coffee)", fontsize=7.8,
+            style="italic", color=NULL, va="top")
+
+    hs = [plt.Line2D([0], [0], marker="s", ls="", mfc="#f6f2ea", mec=c[0], mew=2.4,
+                     ms=10, label=c[1]) for c in CAT.values()]
+    ax.legend(handles=hs, loc="upper right", bbox_to_anchor=(1.0, 0.99), fontsize=7.6,
+              ncol=2, framealpha=0.95, columnspacing=1.0, handletextpad=0.5)
+    ax.text(6.6, 0.06, "Arrows show the actual data/parameter dependency. ‘External’ means a "
+            "different rig and coffee never used for target fitting.\nOptimal / coarse / fine "
+            "are the source study's own granulometry labels, not universal particle-size classes.",
+            ha="center", va="top", fontsize=7.4, color=NULL)
+    fig.suptitle("Fig 1 — Study design and use of each dataset", y=0.985, fontsize=12.0,
+                 fontweight="bold")
     return _save(fig, outdir, "fig1_design.png")
 
 
@@ -233,15 +277,28 @@ def fig2_objective_surface(results=None, outdir=OUTDIR):
         prof = p["profile"]
         ax.plot(prof["rates"], prof["c_star"], color=ACCENT, lw=2.0,
                 label="profiled valley $c^*(\\mathrm{rate})$")
+        # MC5: the prose demotes the Table 7 comparison to QUALITATIVE because the assay's
+        # mass->volume basis is undefended, yet a thin horizontal line reinstated it
+        # visually as a precise tie-breaker. Draw the defensible BASIS RANGE instead. The
+        # multipliers are the density ratios from the dimensional audit (bulk 0.38 g/mL and
+        # skeletal 1.3 g/mL against the assumed 1.0 g/mL), so they apply to any solute.
         t7 = r["table7"].get(sol)
         if t7:
-            ax.axhline(t7, color=_SOL_COLOR["5CQA"], ls=":", lw=1.6, label="Table 7 inventory")
+            lo7, hi7 = _T7_BASIS_LO * t7, _T7_BASIS_HI * t7
+            ax.axhspan(lo7, hi7, facecolor="white", alpha=0.13, zorder=2)
+            for y7 in (lo7, hi7):
+                ax.axhline(y7, color="#19e6ff", ls="--", lw=1.4, zorder=3)
+            ax.axhline(lo7, color="#19e6ff", ls="--", lw=1.4, zorder=3,
+                       label="Table 7 assay, illustrative basis range\n"
+                             "(NOT a quantitative model constraint)")
         ax.plot(p["rate_star"], p["c_s0_star"], "o", color=INK, ms=7,
                 label="SSE optimum", zorder=5)
         ax.set_xscale("log"); _logclean(ax)
         ax.set_title("(%s) %s" % ("a" if col == 0 else "b", sol), fontsize=10)
-        ax.text(0.03, 0.03, "cond. no. %d\ncoupling %.2f"
-                % (int(p["condition_number"]), p["local_curvature_coupling"]),
+        # MC16: two significant figures -- these are local, scale- and discretization-
+        # dependent diagnostics, not inferentially precise quantities.
+        ax.text(0.03, 0.03, "cond. no. ~%s\ncoupling %.2f"
+                % (_two_sig(p["condition_number"]), p["local_curvature_coupling"]),
                 transform=ax.transAxes, fontsize=7.2, va="bottom", ha="left",
                 bbox=dict(boxstyle="round", fc="white", ec=NULL, alpha=0.8))
         ax.set_xlabel("rate scale (dimensionless, log)")
@@ -261,22 +318,25 @@ def fig2_objective_surface(results=None, outdir=OUTDIR):
         # A3-04/A3-27: mark right-censoring where the 10% set reaches the tested boundary
         if p.get("profile_upper_censored"):
             rmax = float(pr[-1])
-            axp.annotate("", xy=(rmax, 0.05), xytext=(rmax / 1.7, 0.05),
+            axp.annotate("", xy=(rmax, 0.035), xytext=(rmax / 1.7, 0.035),
                          arrowprops=dict(arrowstyle="->", color=BAD, lw=1.6))
-            axp.text(rmax, 0.085, "set open\n(≥ %.1f, censored)" % rmax, color=BAD,
-                     ha="right", va="bottom", fontsize=6.2)
+            axp.text(rmax, 0.055, "set open (≥ %.1f, censored)" % rmax, color=BAD,
+                     ha="right", va="bottom", fontsize=6.6)
         axp.text(0.03, 0.95, "MAPE set: %.0f%% of grid\nSSE∩MAPE Jaccard %.2f"
                  % (100 * p["mape_profile_fraction_within10pct"],
                     p.get("sse_mape_threshold_jaccard") or float("nan")),
                  transform=axp.transAxes, va="top", ha="left", fontsize=6.2, color=NULL)
         axp.set_xlabel("rate scale (dimensionless, log)")
         axp.set_ylabel("profiled $(J-J_{\\min})/J_{\\min}$")
-        axp.legend(fontsize=6.8, loc="upper center")
+        axp.legend(fontsize=6.8, loc="upper right")
     cb = fig.colorbar(im, ax=axes[0, :].tolist(), shrink=0.85, pad=0.02,
                       label="normalized SSE increase $(J-J_{\\min})/J_{\\min}$")
-    fig.suptitle("Fig 2 — inventory–rate SSE surface and profiled objective "
+    fig.suptitle("Fig 2 — inventory–rate objective surface and profiled objective "
                  "(10 % tolerance set right-censored at the domain edge)", y=0.99,
                  fontsize=10.0, fontweight="bold")
+    fig.text(0.5, 0.005, "Inventory axis is the model's fitted level in g L$^{-1}$ "
+             "(numerically mg mL$^{-1}$); its physical volume basis is not independently "
+             "anchored — see the dimensional audit.", ha="center", fontsize=6.8, color=NULL)
     return _save(fig, outdir, "fig2_objective_surface.png")
 
 
@@ -395,9 +455,9 @@ def fig4_transfer(results=None, outdir=OUTDIR):
                  % (ts["n_model_worse_than_const"], ts["n_points"]),
                  transform=axc.transAxes, ha="right", va="bottom", fontsize=6.2,
                  color=BAD)
-    fig.suptitle("Fig 4 — O→C/F transfer vs an O-trained level-only baseline "
-                 "(matched-volume proxy for the 40 g endpoint)", y=1.02, fontsize=9.6,
-                 fontweight="bold")
+    fig.suptitle("Fig 4 — within-campaign cross-grind prediction vs an optimal-grind "
+                 "level-only baseline (40 mL matched-volume proxy for the 40 g endpoint)",
+                 y=1.02, fontsize=9.6, fontweight="bold")
     return _save(fig, outdir, "fig4_transfer.png")
 
 
@@ -443,7 +503,8 @@ def fig5_joint_residual(results=None, outdir=OUTDIR):
     fig.colorbar(im0, ax=[axes[0], axes[1]], shrink=0.7, label="MAPE (%)")
     fig.colorbar(imd, ax=axes[2], shrink=0.7, label="Δ MAPE (pp)")
 
-    # (d) reduced-model ladder spanning the bottom row
+    # (d) in-sample comparator ladder spanning the bottom row (NOT a nested reduced-model
+    # ladder: the comparators are non-nested, so no likelihood-ratio reading applies)
     lad = r.get("reduced_model_ladder")
     axd = fig.add_subplot(gs[1, :])
     if lad is not None:
@@ -460,12 +521,13 @@ def fig5_joint_residual(results=None, outdir=OUTDIR):
         axd.set_xticklabels([k.replace("Arabica", "Ara").replace("Robusta", "Rob")
                              for k in keys], fontsize=6.6, rotation=20, ha="right")
         axd.set_ylabel("in-sample macro-MAPE (%)")
-        axd.set_title("(d) reduced-model ladder — shared mechanistic (2p) beats per-grind "
+        axd.set_title("(d) in-sample comparator ladder — shared mechanistic (2p) beats per-grind "
                       "constants (3p) in only %d/%d fits"
                       % (lad["n_fits_mech_beats_pergrind_const"], lad["n_fits"]),
                       fontsize=9)
         axd.legend(fontsize=6.6, ncol=4, loc="upper center")
-    fig.suptitle("Fig 5 — in-sample shared-parameter compatibility + reduced-model ladder; "
+    fig.suptitle("Fig 5 — IN-SAMPLE shared-parameter compatibility + NON-NESTED comparator "
+                 "ladder (unequal flexibility; each model scored on its own fit data); "
                  "pooled shared %.1f%% vs per-grind %.1f%% (cost ~%.1f pp); * = rate at "
                  "domain boundary"
                  % (r["joint"]["mean_joint_pooled_mape"],
@@ -517,8 +579,17 @@ def fig6_fraction_vs_endpoint(results=None, outdir=OUTDIR):
                          label="alignment/first-bin band")
         axe.plot(er, head["fraction_mape"], "o-", color="#009e73", lw=1.7, ms=4,
                  label="fraction (target-profiled)")
-        axe.plot(er, head["cup_mape"], "^:", color=NULL, lw=1.5, ms=4,
-                 label="single cup (algebraically flat)")
+        # MC14/review Fig 6: plotting the single-cup MAPE at ~0 reads visually as PERFECT
+        # PREDICTION when it is the opposite -- one scalar observation paired with one
+        # profiled level is matched EXACTLY at every rate, so the cup is not estimable
+        # here. Draw it as a flat reference line at the panel's own scale and say so on
+        # the panel, rather than as a zero-error curve.
+        y_ref = float(np.nanmax(stack)) * 0.06
+        axe.plot(er, np.full_like(er, y_ref), "^:", color=NULL, lw=1.5, ms=4,
+                 label="single cup — NOT ESTIMABLE\n(one scalar, one fitted level:\n"
+                       "matched exactly at every rate)")
+        axe.text(er[len(er) // 2], y_ref, "fitted exactly by construction — not validation",
+                 fontsize=6.0, color=NULL, ha="center", va="bottom")
         bi = head["fraction_best_rate"]; mn = head["fraction_min_mape"]
         axe.axvline(bi, color=WARN, ls=":", lw=1.0)
         axe.annotate("shallow min ~%.0f%%\n(best rate %.1f, ratio %.1f×)"
@@ -526,9 +597,11 @@ def fig6_fraction_vs_endpoint(results=None, outdir=OUTDIR):
                      (bi, mn), textcoords="offset points", xytext=(6, 18), fontsize=6.2,
                      color=BAD)
         axe.set_xscale("log"); _logclean(axe)
-        axe.set_title("(d) EXTERNAL Waszkiewicz shape test", fontsize=8.2)
+        axe.set_title("(d) EXTERNAL Waszkiewicz shape test\n"
+                      "different observable, campaign, fitting rule and error level",
+                      fontsize=8.0)
         axe.set_xlabel("rate scale (log)"); axe.set_ylabel("MAPE (%)")
-        axe.legend(fontsize=6.0, loc="upper center")
+        axe.legend(fontsize=5.6, loc="upper center")
     fig.suptitle("Fig 6 — temporal resolution moves the rate objective more than an "
                  "aggregate (three evidence tiers: in-sample · same-model sim · "
                  "independent external shape test)", y=1.04, fontsize=9.4,
@@ -651,11 +724,12 @@ def fig8_residuals_vs_conditions(results=None, outdir=OUTDIR):
     handles += [Line2D([], [], marker=smark[s], ls="", mfc=NULL, mec="white", label=s)
                 for s in solutes]
     axes[1].legend(handles=handles, fontsize=6.8, loc="upper right", ncol=2)
-    fig.suptitle("Fig 8 — blind source-model residuals by operating condition "
-                 "(pre target-level fit); solute/variety group offsets motivate the "
-                 "per-group target-level recalibration (a group level CAN remove these "
-                 "offsets; within-group (T,p) structure after level-fitting is not "
-                 "shown here — A4-08)", y=1.02, fontsize=8.2, fontweight="bold")
+    fig.suptitle("Fig 8 — blind source-model residuals by operating condition, before the "
+                 "per-group target level is fitted", y=1.02, fontsize=8.6, fontweight="bold")
+    fig.text(0.5, -0.01, "Group offsets motivate the per-group recalibration; a group level "
+             "can remove such offsets, so this figure motivates rather than proves "
+             "irreducibility. Within-group (T, p) structure after level fitting is not shown.",
+             ha="center", fontsize=6.8, color=NULL)
     return _save(fig, outdir, "fig8_residuals_vs_conditions.png")
 
 
@@ -669,10 +743,19 @@ def export_source_data(results=None, outdir=OUTDIR):
     os.makedirs(sd, exist_ok=True)
     written = []
 
+    #: Exported floats are ROUNDED. Writing `repr(float)` put 17 significant digits into a file
+    #: that is meant to be a stable, re-checkable artifact, so a last-ULP difference between numpy
+    #: versions changed the bytes. That is what made the Paper 3 recomputation freshness check fail
+    #: in CI while passing locally. Six decimals is far more precision than any figure or table
+    #: reports and far less than floating-point noise.
+    def _round(v):
+        return round(v, 6) if isinstance(v, float) else v
+
     def _w(name, header, rows):
         path = os.path.join(sd, name)
         with open(path, "w", newline="") as f:
-            wr = csv.writer(f); wr.writerow(header); wr.writerows(rows)
+            wr = csv.writer(f); wr.writerow(header)
+            wr.writerows([[_round(c) for c in row] for row in rows])
         written.append(path)
 
     # Fig 2 — identifiability profiles (rate, best c_s0 level, profiled SSE) per panel

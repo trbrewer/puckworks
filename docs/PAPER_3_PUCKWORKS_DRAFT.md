@@ -8,7 +8,7 @@
 
 ## Abstract
 
-Published espresso models describe different parts of the brewing process with incompatible state variables, units, pressure locations, concentration conventions, inventory bases, experimental windows, and standards of evidence. Combining them by matching similarly named quantities can produce numerically plausible but scientifically invalid results. We present Puckworks, an executable, provenance-aware registry that represents espresso process models as stage-specific components with typed state carriers, explicit assumptions and validity ranges, source and dataset cards, validation gates, evidence labels, and reproducible claim producers. Puckworks is not a monolithic “digital twin.” A simulation is a declared configuration of components and adapters, and each output carries the provenance and the distinct evidence relations of all of its load-bearing components rather than collapsing them into a single score or a strongest/weakest badge. In the current development snapshot, the registry contains 25 components across grind, packing, machine, infiltration, flow, extraction, and bed-dynamics stages, supported by 104 dataset-manifest records. We demonstrate the architecture in three cases. First, observable linting exposes incompatible saturation concentrations (170, 212.4, and 224 kg m⁻³), distinct pressure nodes, and an invalid mixed-unit aggregation of named-solute masses and total dissolved solids. After correction, raw total-dissolved-solids-derived extraction-yield cells are ordered across three grinder settings, while a conditional response-surface vertex remains a separate fitted object. Second, a null-first temporal-flow workflow preserves distinctions among machine capacity, static baselines, imported temporal trajectories, flexible in-sample curves, and held-out pressure assessments. Third, adding an imported swelling branch to a shared-porosity composition worsens reconstruction error from approximately 0.116 to 0.648 g s⁻¹, worse than a constant baseline, illustrating that component validity does not guarantee composition validity. A named-shot scorecard then shows how Puckworks reports observed, calibrated, verified, reconstructed, extrapolated, and open stages without presenting an unsupported end-to-end prediction. The contribution is a general method for executable reviews of coupled process models: make observable semantics and parameter provenance operational, preserve negative results, separate verification from validation, and translate model disagreement into discriminating experiments.
+Published espresso models describe different parts of the brewing process with incompatible state variables, units, pressure locations, concentration conventions, inventory bases, experimental windows, and standards of evidence. Combining them by matching similarly named quantities can produce numerically plausible but scientifically invalid results. We present Puckworks, an executable, provenance-aware registry that represents espresso process models as stage-specific components with typed state carriers, explicit assumptions and validity ranges, source and dataset cards, validation gates, evidence labels, and reproducible claim producers. Puckworks is not a monolithic “digital twin.” A simulation is a declared configuration of components and adapters. Claim records link outputs to declared components, datasets, producers, caveats and evidence labels, and the evidence graph records the comparison relations supporting asserted claims, rather than collapsing them into a single score or a strongest/weakest badge. We do not yet emit a transitive dependency closure: a composition output can depend on components, adapters, calibration parameters, datasets, transforms and observation operators carrying different evidence relations, and the present outward claim schema cannot represent all of those distinctions per dependency. In the current development snapshot, the registry contains 27 components across grind, packing, machine, infiltration, flow, extraction, and bed-dynamics stages, supported by 107 dataset-manifest records. We demonstrate the architecture in three cases. First, observable linting exposes incompatible saturation concentrations (170, 212.4, and 224 kg m⁻³), distinct pressure nodes, and an invalid mixed-unit aggregation of named-solute masses and total dissolved solids. After correction, raw total-dissolved-solids-derived extraction-yield cells are ordered across three grinder settings, while a conditional response-surface vertex remains a separate fitted object. Second, a null-first temporal-flow workflow preserves distinctions among machine capacity, static baselines, imported temporal trajectories, flexible in-sample curves, and held-out pressure assessments. Third, adding an imported swelling branch to a shared-porosity composition worsens reconstruction error from approximately 0.116 to 0.648 g s⁻¹, worse than a constant baseline, illustrating that component validity does not guarantee composition validity. A named-shot scorecard then shows how Puckworks reports observed, calibrated, verified, reconstructed, extrapolated, and open stages without presenting an unsupported end-to-end prediction. The contribution is a method for executable reviews of coupled process models, demonstrated in espresso rather than validated across domains: make observable semantics and parameter provenance operational, preserve negative results, separate verification from validation, and translate model disagreement into discriminating experiments.
 
 **Keywords:** scientific software; executable review; provenance; evidence registry; typed contracts; espresso; coupled process models; reproducibility; model validation; negative results
 
@@ -30,21 +30,21 @@ This paper describes the architecture and demonstrates why it matters. We first 
 
 The current repository corpus is a curated development collection assembled to support explicit comparison and integration tasks. It is **not** described as a systematic review because an indexed search protocol with databases, complete queries, date limits, duplicate handling, screening records, and exclusion reasons has not yet been completed. The corpus is useful for methods development and domain synthesis, but completeness and prevalence claims would be premature.
 
-At the snapshot used to prepare this draft, the registry source contains 25 registered components and the data manifest contains 104 records [1]. The stage distribution is shown in Table 1. These counts are descriptive of one repository state and should be regenerated from the release artifact cited by the final paper. **Table 1 and Appendix A are now producer-generated** from the live registry (`python -m puckworks.paper3.registry_artifacts` → `docs/paper3_resource/generated/`), and a CI lane fails on any drift between the committed tables and the producer output, so the manuscript figures cannot silently diverge from the code. Each component now carries a typed `execution_role`, `provenance_class`, and card-derived `evidence_strength` (§5) rather than a single overloaded `kind` string.
+At the snapshot used to prepare this draft, the registry source contains 27 registered components and the data manifest contains 107 records [1]. The stage distribution is shown in Table 1. These counts are descriptive of one repository state and should be regenerated from the release artifact cited by the final paper. **Table 1 and Appendix A are now producer-generated** from the live registry (`python -m puckworks.paper3.registry_artifacts` → `docs/paper3_resource/generated/`), and a CI lane fails on any drift between the committed tables and the producer output, so the manuscript figures cannot silently diverge from the code. Each component now carries a typed `execution_role`, `provenance_class`, and card-derived `evidence_strength` (§5) rather than a single overloaded `kind` string.
 
 **Table 1. Registry snapshot used for this draft.**
 
 | Registry stage | Number of components | Typical role in the current corpus |
 |---|---:|---|
-| Grind | 1 | grinder-setting or particle-size calibration |
+| Grind | 2 | grinder-setting or particle-size calibration |
 | Packing | 2 | bed geometry and permeability calibration |
 | Machine | 2 | pressure/flow boundary generation or calibration |
 | Infiltration | 2 | wetting-front runtime or calibration analogue |
 | Flow | 5 | Darcy/Forchheimer runtime and flow-related calibrations |
-| Extraction | 8 | single- or multi-solute runtime models and calibration closures |
+| Extraction | 9 | single- or multi-solute runtime models and calibration closures |
 | Bed dynamics | 5 | poroelasticity, swelling, fines migration, heterogeneity, and a project-synthesis coupling |
 | Observables | 0 | reserved stage; observable logic currently resides mainly in adapters and harnesses |
-| **Total** | **25** | 12 runtime, 13 calibration (0 observational_adapter, 0 diagnostic) |
+| **Total** | **27** | 12 runtime, 15 calibration (0 observational_adapter, 0 diagnostic) |
 
 Execution role is one axis; provenance is another. The single project-synthesis component (`brewer2026.coupled_kappa_t`) executes at **runtime** but carries the `project_synthesis` *provenance* class — "synthesis" is not an execution role (§3.3). The role split above is generated from the live registry (`docs/paper3_resource/generated/table1_registry_overview.md`) and asserted against the manuscript by CI.
 
@@ -63,9 +63,127 @@ A publication or dataset enters the current resource when it contributes at leas
 
 A source is not excluded merely because it lacks code or numeric parameters. Instead, the card records whether it is implementable, parameter-blocked, data-only, qualitative, or superseded for a particular purpose. Derivative models are linked to their lineage rather than counted as independent evidence when they reuse the same equations or calibration data. Data records specify source artifact, extraction method, published units, registry units, retained uncertainty, access or license, gate use, validation strength, and caveat.
 
+### 2.2a Corpus-construction method and denominators
+
+Calling the corpus curated rather than systematic is honest, but it does not license leaving the
+selection undocumented. This section states how the corpus was built and reports the denominators
+that a component count alone conceals. Both are generated by
+`python -m puckworks.paper3.corpus`; the counts are derived from the live registry and the dataset
+manifest, and the method statements are declared.
+
+The single most important figure is the ratio. **The registry's 27 components derive from 19
+source publications, and only 9 of the 27 carry evidence beyond a reconstruction of their own
+source's output.** A reader who took "27 components" as "27 independent studies" would overstate
+the evidential base by roughly a factor of three; taking it as "27 independent bodies of evidence"
+would overstate it by more. The corpus is also a deliberately biased sample: the search was steered
+by missing stage contracts rather than by topic coverage, because a stage-typed registry cannot be
+exercised at all until each stage has a component.
+
+<!-- corpus:begin -->
+<!-- generated by puckworks.paper3.corpus — do not edit by hand -->
+
+**Corpus denominators.** Component count is the least informative number available. The registry's **27 components** derive from only **19 source publications** (11 carrying a DOI in the registry), i.e. **1.42 components per publication**. They are not 27 independent studies and not 27 independent bodies of evidence.
+
+| denominator | count |
+|---|---:|
+| registered components | 27 |
+| unique source publications | 19 |
+| unique DOIs recorded | 11 |
+| unique dataset sources (empirical campaigns) | 40 |
+| dataset manifest records | 107 |
+| model/source cards written | 96 |
+| components with evidence beyond reconstruction of their own source | 9 |
+| components rights- or data-blocked | 1 |
+| components that are calibration objects only | 15 |
+| components that are reference-only | 3 |
+
+**By provenance class.** `project_model`: 4, `project_synthesis`: 1, `published_port`: 19, `reference_only`: 3 — the project-created components are counted separately from published ports by schema, not by convention.
+
+**By evidence relation.** `code_verification`: 5, `exploratory_synthesis`: 1, `post_fit_reconstruction`: 5, `qualitative_capacity`: 5, `sign_or_compatibility`: 3, `source_curve_reproduction`: 7, `within_campaign_held_out`: 1.
+
+**By execution role.** `calibration`: 15, `runtime`: 12.
+
+| aspect | statement |
+|---|---|
+| status | EXPLORATORY AND CURATED, not systematic. No indexed database search has been executed. An indexed search is a declared submission gate (§2.3) and remains outstanding; the denominators below therefore describe a convenience corpus. |
+| seed papers | Selection began from espresso-specific process models with published equations AND either public data or reproducible published figures: Cameron 2020 (extraction kinetics), Waszkiewicz 2025 (poroelastic flow), Foster 2025 (machine/infiltration), Maille 2024 (grind/timescales). These were chosen because each supplies a different STAGE of the process chain, which is what a stage-typed registry needs in order to be exercised at all. |
+| sources searched | Publisher sites and DOIs reached from the seeds; arXiv; Zenodo and Mendeley Data for accompanying deposits; the SCA/coffee-science grey literature reachable without a subscription. Two publisher hosts (MDPI, Royal Society) are Cloudflare-blocked from this environment and were reached, when at all, through DOI metadata rather than full text. |
+| search dates | Rolling, 2026-05 through 2026-07-26. No frozen search date exists. |
+| search strings | Exploratory rather than fielded, e.g. 'espresso extraction model', 'coffee bed permeability', 'poroelastic coffee puck', 'espresso flow rate model', 'grind size extraction kinetics'. Strings were adapted as interface gaps appeared and were not held constant, which is one reason the corpus cannot be called systematic. |
+| citation tracing | Backward tracing from each seed's reference list; forward tracing via Crossref/Google Scholar citing-article lists. Tracing stopped at the point where candidates no longer supplied a stage contract the registry could type. |
+| inclusion rules | (1) a written model or calibration with stated equations or a stated fitted form; (2) enough parameter provenance to implement it without inventing values; (3) a stage the registry types; (4) at least one checkable quantity — a published constant, curve, or dataset — so a gate can be wired to something other than our own output. |
+| exclusion rules | Excluded: non-espresso brewing without a transferable mechanism; ANOVA/sensory studies with no process model; papers whose parameters are not recoverable ('not provided' in the card, never guessed); and models superseded by a later paper from the same group unless the earlier one carries data the later one drops. |
+| derivative and duplicate handling | A model re-expressed by a later paper is registered ONCE, against the source that supplies the parameters used. A dataset appearing in several papers gets one manifest row per distinct extraction, with the extraction method recorded, so the same underlying measurement is not counted twice as independent evidence. |
+| language limits | English only. No translation was attempted and no non-English candidate was assessed, so any non-English literature is missing rather than judged. |
+| inaccessible and rights blocked | Paywalled articles are cited from DOI metadata and NOT ingested; no figure, table or text is copied. GPL-licensed author code is not ingested into this MIT package — components are re-expressed from the published equations. A rights-blocked source is registered as `reference_only` with the block recorded, rather than omitted, so the gap is visible. |
+| project vs published | `provenance_class` separates them at the schema level: `published_port` re-expresses a published model; `project_model` and `project_synthesis` are ours. No project-created component is presented as literature-derived, and the counts below are reported by class for exactly this reason. |
+| response to interface gaps | The search was steered by missing stage contracts rather than by topic coverage: when a stage had no component able to supply a downstream input, candidates were sought for that stage specifically. This makes the corpus useful for exercising the registry and makes it an explicitly biased sample of the espresso literature. |
+
+| protocol choice | value | why |
+|---|---|---|
+| Integration horizon | 400 s | long enough for the slow branch to flatten in every compared model |
+| Initial condition | tau = 0 | all models started from the same zero-time origin so timescales are comparable |
+| Fine particle class | 20 um radius | the selected fine class; the coarse d[4,3] is NOT reported by the source and was not invented |
+| Coarse particle class | not evaluated | recorded as `coarse_class_status=not_evaluated_missing_radius` rather than estimated |
+| Fit comparison | one- vs two-exponential | replaces an earlier 50% distance heuristic; reports single_exp_like and two_exp_r2_gain |
+| Bath ratio / window | as published per source | reproduced by `roman_protocol_sensitivity()`; the window choice moves the ratio 15.8 -> 8.6 |
+| Curve status | model-generated | the compared curves are model output, so these are qualitative model-to-model probes, not validation |
+<!-- corpus:end -->
+
+The final table records the protocol choices behind the timescale comparison of
+§4.5<!--sec:timescales--> and §7.5<!--sec:timescale_detail-->, collected in one place rather than
+distributed through prose. It includes the choices that were *not* made: the coarse particle class
+is recorded as not evaluated because the source does not report its radius, and no value was
+substituted.
+
 ### 2.3 Planned systematic-search upgrade
 
 Before making a systematic or exhaustive claim, the project should preregister or publish a search protocol covering bibliographic databases, grey-literature sources, query strings, date range, language rules, eligible model and data classes, duplicate/derivative handling, two-stage screening, adjudication, and a flow diagram. The protocol should distinguish papers that model espresso directly from transferable coffee, packed-bed, filtration, rheology, and extraction studies. It should also record searches that yield no usable constitutive data, because negative searches explain why a contract field remains open.
+
+
+### 2.4 Claim ownership and its relationship to the companion papers
+
+This paper is one of three drawing on the same repository, so a reader is entitled to know which
+results this paper *asserts* and which it *cites*, and where to go for each. The division is
+recorded in the repository's claim map (`docs/CLAIM_OWNERSHIP.md`) and reproduced here, because a
+division of labour that exists only in a project file cannot be checked by a reader.
+
+The **role** column uses the same vocabulary as the evidence graph's `paper3_use` field: a *primary
+result* is asserted here; a *method demonstration* uses a companion result as a worked example of
+the architecture, with the science attributed rather than restated; *context* supplies background;
+and a *cross-reference* points to the owning paper without reusing its numbers.
+
+| Claim ID | Primary publication | Role in this paper | Canonical producer | Canonical figure/table | Permitted reuse here |
+|---|---|---|---|---|---|
+| `A-WEAK-SEP` | Identifiability paper | cross-reference | `angeloni_bracket.identifiability_panel` | its Fig. 2 | statement of the finding only; no numbers |
+| `A-NULL-SKILL` | Identifiability paper | cross-reference | `angeloni_bracket.transfer_skill_vs_baselines` | its Fig. 3 | statement only; the ΔMAPE interval is not restated |
+| `A-TEMPORAL-INFO` | Identifiability paper | cross-reference | `identifiability.identifiability_fractions_vs_cup` | its Fig. 4 | statement only |
+| `B2-MACHINE-DIP` | Temporal paper | method demonstration | `gate_foster_fig15_flowmin` (component `foster2025.machine_mode`) | its Fig. 1 | the dip may be shown as a null-first motivation; the physical claim is attributed |
+| `B2-LADDER` | Temporal paper | method demonstration | `harness.kappa_t_ladder` | its Fig. 2 | the ladder is used as comparison **architecture** (§8); the RMSEs are quoted once, from the same producer |
+| `B2-SIGN` | Temporal paper | context | `harness.kappa_t_ladder` (`swelling_wrong_sign`) | its Fig. 3 | sign result cited, not re-derived |
+| `P3-CONTRACTS` | **This paper** | primary result | `puckworks.contracts` | Table 2 | asserted here (§4) |
+| `P3-LINT` | **This paper** | primary result | `paper3.evidence_graph._conflicts_md` (generates the conflict register) | Fig. 3 | asserted here (§7) |
+| `P3-SEMANTIC-FAST` | **This paper** | primary result | `maille2024.phi_closure::gate_maille_phi_split_vs_cameron` | §7 table | asserted here |
+| `P3-PORTABILITY` | **This paper** | primary result | `maille2024.two_regime::gate_maille_timescale_portability_*` | Table 4a | asserted here (§7.5) |
+| `P3-COMPOSITION` | **This paper** | primary result | `coupled_kappa_t.composition_residual` | Fig. 5 | asserted here (§9); the *measured trace* is the temporal paper's data |
+| `P3-DEFECTS` | **This paper** | primary result | `paper3.defect_injection.run_benchmark` | §10 table | asserted here |
+| `P3-PROVENANCE` | **This paper** | primary result | `paper3.evidence_graph.reconcile` | Table 3 | asserted here (§6) |
+| `P3-EXPERIMENTS` | **This paper** | primary result | `tools/experimental_data_needs.py` (the EXP-00n register) | Fig. 6 | asserted here (§11) |
+| `P3-SCORECARD` | **This paper** | primary result | **none — hand-maintained** | Fig. 7 | asserted here (§12), but see below |
+| `P3-CORPUS-GOV` | **This paper** | primary result | — (governance statement) | §6.6 | asserted here |
+
+One row deliberately reads "none". The named-shot scorecard of §12 is **not** generated by a
+producer; it is maintained by hand, so it is the one asserted result in this paper that the
+provenance machinery described here does not itself cover. Recording that in the ownership table
+rather than omitting the column is the point: a claim-ownership table whose producer column was
+filled in optimistically would be the same defect this paper is about.
+
+Two rules govern the table. A *physical* conclusion is asserted once, in the paper whose design
+supports it; this paper asserts only *methodological* claims about representation, evidence and
+reproducibility. And any quantitative value shared between papers is produced by the same named
+producer, so a number cannot diverge between them without a CI failure — the mechanism that caught a
+stale composition value during preparation of this manuscript.
+
 
 ## 3. Registry architecture: components rather than a mega-model
 
@@ -119,6 +237,107 @@ Schema v2 separates three independent axes that an earlier single `kind` string 
 4. **Diagnostic component:** probes capacity, regime, sensitivity, or failure without being a validated runtime replacement.
 
 The registry currently contains runtime and calibration instances only; `observational_adapter` and `diagnostic` are schema-supported but **uninstantiated** (making adapters discoverable, testable objects rather than logic buried in analysis functions remains a release-readiness task). "Synthesis" is deliberately **not** an execution role: a component that combines registered mechanisms under a new composition rule executes at runtime and is distinguished instead by its `provenance_class = project_synthesis`. Provenance is the separate axis (`published_port`, `project_model`, `project_synthesis`, `reference_only`) recording origin rather than run-time behaviour, and `evidence_strength` (§5) is a third axis recording validation. The legacy `kind` string is deprecated and scheduled for removal once no code path depends on it.
+
+### 3.4 What "executable" means, per layer
+
+"Executable" is used in this paper's title, and it is not one property. A component can be
+registered but rights-blocked; importable but missing the data its gate needs; runnable on a
+maintainer's laptop but not cleared for public hosted execution. Reporting a single count of
+"executable components" collapses distinctions that are exactly the kind this paper argues should
+be kept apart.
+
+The registry therefore reports availability along eight dimensions, generated by
+`python -m puckworks.paper3.availability` and reproduced here. Each cell records whether it was
+**derived** from the registry, the rights records and the filesystem, or **declared** — 215 of 216
+cells are derived.
+
+<!-- availability:begin -->
+<!-- generated by puckworks.paper3.availability — do not edit by hand -->
+
+**Availability matrix — 27 registered components, 8 dimensions.** 215 of 216 cells are *derived* from the registry, the rights records or the filesystem; the remainder are *declared* and carry their reason.
+
+| dimension | counts |
+|---|---|
+| registered | `True`: 27 |
+| importable | `True`: 27 |
+| runnable_local | `True`: 26, `False`: 1 |
+| required_data_available | `True`: 26, `False`: 1 |
+| scientifically_eligible | `source_curve_reproduction`: 7, `code_verification`: 5, `post_fit_reconstruction`: 5, `qualitative_capacity`: 5, `sign_or_compatibility`: 3, `exploratory_synthesis`: 1, `within_campaign_held_out`: 1 |
+| redistribution_license_status | `code:NOT_REVIEWED/data:NOT_REVIEWED`: 25, `code:CLEAR/data:NOT_APPLICABLE`: 1, `code:RIGHTS_BLOCKED/data:RIGHTS_REVIEW_REQUIRED`: 1 |
+| public_hosting_status | `False`: 26, `True`: 1 |
+| included_in_release | `True`: 26, `False`: 1 |
+
+**Per component.**
+
+| component | stage | importable | local | data | evidence | public | release | blocker |
+|---|---|---|---|---|---|---|---|---|
+| `brewer2026.coupled_kappa_t` | bed_dynamics | yes | yes | yes | exploratory_synthesis | no | yes | — |
+| `brewer2026.lb_reference` | flow | yes | yes | yes | code_verification | yes | yes | — |
+| `brewer2026.lb_taichi` | flow | yes | yes | yes | code_verification | no | yes | — |
+| `brewer2026.pack_generator` | packing | yes | yes | yes | qualitative_capacity | no | yes | — |
+| `brewer2026.streamtube` | bed_dynamics | yes | yes | yes | within_campaign_held_out | no | yes | — |
+| `cameron2020.extraction_bdf` | extraction | yes | yes | yes | code_verification | no | yes | — |
+| `fasano2000_partI.fines_migration` | bed_dynamics | yes | yes | yes | qualitative_capacity | no | yes | — |
+| `foster2025.infiltration` | infiltration | yes | yes | yes | sign_or_compatibility | no | yes | — |
+| `foster2025.machine_mode` | machine | yes | yes | yes | source_curve_reproduction | no | yes | — |
+| `grudeva2025.reduced` | extraction | yes | **no** | **no** | post_fit_reconstruction | no | no | Legacy: a self-documented direct port of the unlicensed upst |
+| `lee2023.feedback` | flow | yes | yes | yes | qualitative_capacity | no | yes | — |
+| `liang2021.desorption` | extraction | yes | yes | yes | post_fit_reconstruction | no | yes | — |
+| `maille2024.phi_closure` | grind | yes | yes | yes | code_verification | no | yes | — |
+| `maille2024.two_regime` | extraction | yes | yes | yes | source_curve_reproduction | no | yes | — |
+| `mo2023_2.coupled_bed` | extraction | yes | yes | yes | post_fit_reconstruction | no | yes | — |
+| `mo2023_2.swelling` | bed_dynamics | yes | yes | yes | source_curve_reproduction | no | yes | — |
+| `moroney2016.surrogate` | extraction | yes | yes | yes | qualitative_capacity | no | yes | — |
+| `pannusch2024.closures` | extraction | yes | yes | yes | code_verification | no | yes | — |
+| `pannusch2024.solver` | extraction | yes | yes | yes | post_fit_reconstruction | no | yes | — |
+| `romancorrochano2017.extraction` | extraction | yes | yes | yes | sign_or_compatibility | no | yes | — |
+| `sourcing2026.g10_liquor_rheology` | flow | yes | yes | yes | source_curve_reproduction | no | yes | — |
+| `sourcing2026.g1_glassbead_analog` | infiltration | yes | yes | yes | qualitative_capacity | no | yes | — |
+| `sourcing2026.g3_pump_characteristic` | machine | yes | yes | yes | sign_or_compatibility | no | yes | — |
+| `wadsworth2026.grindmap` | grind | yes | yes | yes | source_curve_reproduction | no | yes | — |
+| `wadsworth2026.inertial` | flow | yes | yes | yes | source_curve_reproduction | no | yes | — |
+| `wadsworth2026.permeability` | packing | yes | yes | yes | source_curve_reproduction | no | yes | — |
+| `waszkiewicz2025.poroelastic` | bed_dynamics | yes | yes | yes | post_fit_reconstruction | no | yes | — |
+<!-- availability:end -->
+
+Three counts are worth stating in prose because they are the ones a reader would otherwise assume
+away. All 27 components are registered and importable, and 26 of 27 are runnable locally — the
+exception is `grudeva2025.reduced`, whose source is rights-blocked. But only **one** component is
+cleared for public hosted execution, and **25 of 27 carry no rights review on record**
+(`NOT_REVIEWED` on both the code and data axes). "Registered and importable" is therefore a much
+weaker statement than "openly executable", and the gap is a live gap rather than a rhetorical one.
+
+### 3.5 Implemented capability versus architectural intent
+
+A registry can describe an architecture more capable than the code that exists. Table 2b separates
+the two. Unlike the availability matrix it is **declared, not derived** — no registry field records
+whether adapter support is implemented or intended — so every row carries the evidence for its
+claim, and the table says so in its own header.
+
+<!-- implstatus:begin -->
+<!-- generated by puckworks.paper3.availability — do not edit by hand -->
+
+**Implementation status — 8 capabilities.** This table is **declared**, not derived: no registry field distinguishes an implemented capability from an architectural one. Each row carries the evidence for its claim. **2 of 8 capabilities are architectural intent rather than current functionality.**
+
+| capability | spec | impl | gated | demo | release | dev-main | public | evidence |
+|---|:--:|:--:|:--:|:--:|:--:|:--:|:--:|---|
+| Typed stage contracts with unit assertions at boundaries | ✓ | ✓ | ✓ | ✓ | ✓ | — | ✓ | puckworks/contracts.py + SCHEMA_VERSION; boundary assertions exercised by the quick gates |
+| First-class adapters between components | ✓ | ✓ | ✓ | ✓ | ✓ | — | ✓ | puckworks/product/linked_pull adapters; the relay's audited run records 7 adapter hand-offs. NOT automatic: each adapter is written and reviewed. |
+| Arbitrary multi-stage configuration (any component set composes) | ✓ | — | — | — | — | — | — | ARCHITECTURAL INTENT. The registry makes incompatibilities VISIBLE and supports SELECTED explicit configurations; it does not prove compatibility or synthesize an arbitrary chosen set. The failed swelling composition (§5) is the worked example of why. |
+| Observables stage | ✓ | — | — | — | — | — | — | ARCHITECTURAL INTENT. The stage exists in the taxonomy and holds zero registered components; Table 1 is generated, so the emptiness is visible rather than asserted. |
+| Named-shot scorecard generated from producers | ✓ | ✓ | ✓ | ✓ | — | ✓ | — | puckworks/paper3/named_shot_scorecard.py with --verify and a CI guard; landed after v0.3.0, so it is dev-main only. |
+| Deterministic redistributable archive with per-member manifest | ✓ | ✓ | ✓ | ✓ | — | ✓ | — | puckworks/paper3/archive.py; byte-identical across builds, verifies without the source checkout; post-v0.3.0. |
+| Community-corpus ingestion workflow | ✓ | ✓ | — | ✓ | — | ✓ | — | Harvest path exists and the §7.4 demo runs, but the canonical historical corpus is NOT obtainable through the public API, so no gate depends on it. |
+| Rights preflight before any producer call | ✓ | ✓ | ✓ | ✓ | ✓ | — | ✓ | puckworks/rights.py + product/lab_rights_gate.py; fail-closed for public paths. |
+<!-- implstatus:end -->
+
+Two rows carry the load. **Arbitrary multi-stage configuration is architectural intent, not
+implemented functionality**: Puckworks makes incompatibilities visible and executes selected,
+explicitly written configurations; it does not prove compatibility or synthesize an arbitrary
+chosen component set. The failed composition of §9<!--sec:composition--> is the worked example of
+why that distinction matters. The **observables stage** is likewise a taxonomy entry with zero
+registered components; because Table 1 is generated from the live registry, its emptiness is
+visible rather than asserted.
 
 ## 4. Typed contract architecture
 
@@ -179,7 +398,7 @@ $$
 
 before using the relevant Forchheimer relations. The window is not a scientific prior on espresso permeability; it is a guard against supplying values in square micrometres or table-scaled units to an SI formula. The manifest retains both published and registry units so the conversion is auditable.
 
-The registry names the inertial-regime indicator explicitly as the **Forchheimer number** $Fo_F = k_I\,\rho\,|u| / \mu$ — the ratio of inertial to viscous drag at the pore scale, with $k_I$ the inertial (non-Darcy) permeability, $\rho$ and $\mu$ the liquid density and viscosity, and $|u|$ the superficial velocity. (The name is disambiguated by convention from the Fourier number $Fo_{\text{diff}}$; the unsubscripted symbol is never used on its own.) $Fo_F$ is a **regime diagnostic, not a validated correction**: values of order unity or larger flag that the fixture is at or beyond the onset of inertial (non-Darcy) flow, so an unflagged Darcy closure is unsafe there — but the registry does not thereby assert a specific validated Forchheimer correction for espresso, only that Darcy extrapolation into that regime must be marked. The value reported for the illustrative configuration (§11) is used in exactly this way: a flag on an extrapolation, not a prediction.
+The registry names the inertial-regime indicator explicitly as the **Forchheimer number** $Fo_F = \rho\,k\,|q| / (\mu\,k_I)$ — the ratio of inertial to viscous drag obtained directly from the implemented momentum law $\nabla p = -(\mu/k)\,q - (\rho/k_I)\,|q|\,q$, with $k$ the Darcy permeability, $k_I$ the inertial (non-Darcy) permeability, $\rho$ and $\mu$ the liquid density and viscosity, and $|q|$ the **superficial (Darcy) velocity** $q = Q/A$ — *not* a pore velocity — the single convention used across card, code, manuscript and figure. (Earlier drafts of this section printed $k_I\rho|u|/\mu$, which omitted $k$ and inverted $k_I$; that was a transcription error in the manuscript only. The registered implementation `wadsworth2026.inertial.forchheimer_number` has always computed the form above, and `test_fo_f_manuscript_formula_matches_the_implementation` now pins the two together.) (The name is disambiguated by convention from the Fourier number $Fo_{\text{diff}}$; the unsubscripted symbol is never used on its own.) $Fo_F$ is a **regime diagnostic, not a validated correction**: values of order unity or larger flag that the fixture is at or beyond the onset of inertial (non-Darcy) flow, so an unflagged Darcy closure is unsafe there — but the registry does not thereby assert a specific validated Forchheimer correction for espresso, only that Darcy extrapolation into that regime must be marked. The value reported for the illustrative configuration (§12) is used in exactly this way: a flag on an extrapolation, not a prediction.
 
 ### 4.5 Concentration, inventory, and saturation semantics
 
@@ -205,12 +424,16 @@ The rule against repurposing is central. Once `k_m2` means Darcy permeability in
 
 Puckworks records evidence as a set of named categories rather than a single “validated” flag. Some categories are stronger for prediction; others answer different questions, such as whether code reproduces an equation or whether a mechanism has the correct sign. Table 3 defines the vocabulary used in this paper.
 
-Evidence is recorded along **four independent axes**, not one flat list, so that a passing check, its outcome, the artifact it was run against, and the badge shown publicly cannot be conflated:
+Evidence is recorded as **three separate authored fields plus one derived presentation field**, not one flat list, so that a passing check, its outcome, the artifact it was run against, and the badge shown publicly cannot be conflated. The first three are **authored** and orthogonal in the descriptive sense — they answer different questions, and knowing one does not determine another. They are *not* claimed to be statistically independent. The fourth is **derived** from the first three by a deterministic rule and is never authored on its own:
 
 1. **Evidence relation** — *what kind of comparison was made* (Table 3). This is the `evidence_strength` enum in the code; its values are the rows below.
 2. **Outcome polarity** — whether the declared check *passed or failed*. A **negative result** (a model, transfer, or composition failing a declared check) is a failed outcome on some relation in Table 3, not a relation of its own; it marks a boundary of applicability and prevents silent tuning, and it is recorded as an outcome flag alongside the relation rather than as a separate evidence category.
 3. **Artifact/model role** — whether the object compared against was a measured system, a source-published model curve, or the model's own fitted output (this is what separates reproduction from prediction).
-4. **Public claim badge** — the outward label (`OBSERVED`, `RECONSTRUCTED`, `PREDICTED`, `EXPLORATORY_SIMULATION`, §5.2), derived from the three internal axes and never assigned more strongly than they permit.
+4. **Public claim badge** (*derived, not authored*) — the outward label (`OBSERVED`, `RECONSTRUCTED`, `PREDICTED`, `EXPLORATORY_SIMULATION`, §5.2), computed deterministically from the three authored fields and never assignable more strongly than they permit. Because it is derived, it is a presentation field rather than an independent scientific fact, and it must not be cited as separate corroboration.
+
+The component-level `evidence_strength` enum is **one of these fields, not the evidence object**: it names the comparison relation only, and says nothing about outcome, artifact role, or scope.
+
+One consequence must be stated plainly, because the implementation and the argument could otherwise appear to disagree. The release checker applies a **conservative ordering** over evidence relations for exactly one purpose: to refuse a component that *declares* a tier stronger than any of its own gates demonstrates. That ordering is a release heuristic, **not** the evidence model, and it is not a claim that the relations form a single scale. It errs safely — it can only ever reject an over-strong declaration, never grant strength — but it has a known limitation: a strongest-gate roll-up can **launder scope**, letting one strong gate on one observable make a component look strongly evidenced while its other outputs, transients or compositions carry only verification or qualitative support. Independent evidence for one scalar output does not validate a component's other state fields. Replacing the single declared tier with a **scoped evidence profile** — a set of records per component, output and domain, with claim-level evidence selecting only the records matching that claim's observable and domain — is the correct architecture and is recorded as an open design decision rather than asserted as done.
 
 **Table 3. Evidence relations (`evidence_strength` values) and permitted interpretations.**
 
@@ -228,11 +451,52 @@ Evidence is recorded along **four independent axes**, not one flat list, so that
 
 The relation names above are the exact `EVIDENCE_STRENGTHS` enumeration in the registry (an earlier draft used the display label "Independent external" for `controlled_independent` and listed "Negative validation" as a tenth category; the former is renamed to match the code and the latter is now represented as the outcome-polarity axis). The labels constrain language. A `source_curve_reproduction` "reconstructs" or "reproduces"; a `within_campaign_held_out` result "predicts within the campaign"; a `qualitative_capacity` result "can generate"; a `sign_or_compatibility` test "is incompatible under the stated assumptions." The registry does not promote a result to a stronger verb because it appears in a public-facing graphic.
 
-### 5.2 Evidence vectors for components and claims
+### 5.2 Scoped evidence vectors for components and claims
 
-A component can carry several evidence entries. For example, an extraction solver may have mass-conservation verification, reproduce a source fit, and read low against an independent extraction-yield range. These entries should coexist rather than collapse into the strongest or weakest badge. The claim layer then selects the evidence relevant to a particular statement. Two landed gates illustrate how the same word — a "passing" gate — can carry different scientific meaning: one reproduces a published drip-batch concentration plateau from the source's own tabulated inputs and a derived volume bookkeeping (source-curve reproduction, no independent system tested), while another solves a reduced two-grain extraction model and checks it only against itself and a physical bound (code verification). Neither is validation against an independent system, and both carry the same scope caveat — a drip-filter brew chamber, not an espresso brew ratio — so neither result may be spoken of as an espresso prediction.
+A component can carry several evidence entries, and they should coexist rather than collapse into a
+strongest or weakest badge. Two landed gates illustrate how the same word — a "passing" gate — can
+carry different scientific meaning: one reproduces a published drip-batch concentration plateau from
+the source's own tabulated inputs and a derived volume bookkeeping (source-curve reproduction, no
+independent system tested), while another solves a reduced two-grain extraction model and checks it
+only against itself and a physical bound (code verification). Neither is validation against an
+independent system, and both carry the same scope caveat — a drip-filter brew chamber, not an
+espresso brew ratio — so neither result may be spoken of as an espresso prediction.
 
-The public schema uses four visual badges—`OBSERVED`, `RECONSTRUCTED`, `PREDICTED`, and `EXPLORATORY_SIMULATION`—while preserving the underlying evidence-strength label unchanged. Every numeric public claim also carries units, source dataset identifiers, validity range, a primary caveat, a reproduction command, and a named producer that regenerates the value. A claim whose numeric field has no producer mapping fails validation as hard-coded.
+**A relation is a property of an observable, not of a component.** The registry therefore stores a
+**scoped evidence vector**: for each component, every `(relation, scope, gate, outcome)` record it
+actually has, where the scope is the observable the gate examined. Collapsing that vector into one
+label is what allows scope laundering — one strong record on one observable being read as evidence
+for a component's other outputs — so the vector, not the label, is the representation.
+
+Two consequences follow, and both are enforced rather than described.
+
+First, **there is no ordering over the relations anywhere in the implementation.** An earlier
+version validated a component against its *strongest* gate, which required ranking relations that
+this section argues are not on one scale. That check is replaced by set membership: a component may
+declare only a relation that some gate actually demonstrates. The test needs no order, so the code
+no longer contradicts the argument. It is also stricter in a second direction — an *under*-claim,
+which the ordering permitted silently, must now be recorded with a reason. Three components declare
+a deliberately conservative summary on that basis.
+
+Second, **a public claim identifies its dependencies rather than describing them.** Each of the
+19 dependency edges across the public claims names a registry component (6), a
+producer function (8), or a dataset manifest row (5), and component dependencies
+carry their scoped evidence vector with them. A claim's **evidence profile** is the union of those
+records. The composition claim of §9, for example, resolves to a profile of **7 records
+spanning 5 different relations across 7 different observables** — a spread that a
+single `evidence_strength` field cannot express, and which is precisely the information a reader
+needs in order to see which part of the claim rests on what.
+
+This is a **profile, not a transitive closure**: the dependencies' own dependencies are not walked.
+That bound is deliberate and is restated in the limitations. Relation and outcome are also separate
+axes, so a negative result is recorded as a negative *outcome* on a named relation rather than as a
+relation of its own.
+
+The public schema uses four visual badges — `OBSERVED`, `RECONSTRUCTED`, `PREDICTED`, and
+`EXPLORATORY_SIMULATION` — derived from the authored fields rather than authored separately. Every
+numeric public claim also carries units, source dataset identifiers, validity range, a primary
+caveat, a reproduction command, and a named producer that regenerates the value. A claim whose
+numeric field has no producer mapping fails validation as hard-coded.
 
 ## 6. Provenance and reproducibility architecture
 
@@ -256,7 +520,7 @@ Each dataset record includes:
 - validation strength; and
 - a caveat.
 
-This structure distinguishes, for example, a digitized model curve from a measured trace, a standard deviation from unreplicated points, and a source repository that cannot be redistributed from one licensed for inclusion. The current 104-row manifest is a provenance inventory, not a guarantee that every row provides independent validation.
+This structure distinguishes, for example, a digitized model curve from a measured trace, a standard deviation from unreplicated points, and a source repository that cannot be redistributed from one licensed for inclusion. The current 107-row manifest is a provenance inventory, not a guarantee that every row provides independent validation.
 
 ### 6.3 Gates, analysis harnesses, and generated results
 
@@ -351,7 +615,7 @@ Because the contract refused to treat “values present, no time base” as a us
 
 ### 7.5 Shared curve form, non-shared parameters
 
-The preceding cases catch conflicts in *what* a value is. This case catches a subtler one: two models can share the same *fitting form* and the same visual curve while their fitted coefficients mean different things. Maille’s batch model parameterizes extraction as a fast phase plus a slow phase (a bi-exponential, weight φ on the fast pool). Cameron’s flowing-bed model [6] and Roman-Corrochano’s stirred-vessel model can each *produce* an extraction curve that the same bi-exponential describes well. We fit Maille’s form (hydration delay fixed to zero) to model-generated curves from the other two and ask whether the fitted timescales land in Maille’s pooled bands (fast 2.2–19.1 s, slow 13–158 s). These are qualitative model-to-model probes—both compared curves are model-generated, not measured—and validate no model; the producers are `analysis.maille2024.cross_model_timescale_cameron` / `_roman`, with a machine-readable result bundle (`timescale_semantics_bundle()`).
+The preceding cases catch conflicts in *what* a value is. This case catches a subtler one: two models can share the same *fitting form* and the same visual curve while their fitted coefficients mean different things. Maille’s batch model parameterizes extraction as a fast phase plus a slow phase (a bi-exponential, weight φ on the fast pool). Cameron’s flowing-bed model [6] and Roman-Corrochano’s stirred-vessel model can each *produce* an extraction curve that the same bi-exponential describes well. We fit Maille’s form (hydration delay fixed to zero) to model-generated curves from the other two and ask whether the fitted timescales land in Maille’s pooled bands (fast 2.2–19.1 s, slow 13–158 s). These are qualitative model-to-model probes—both compared curves are model-generated, not measured—and validate no model; the producers are `analysis.maille2024.cross_model_timescale_cameron` / `_roman`, with a machine-readable result bundle (`timescale_semantics_bundle()`). Both probes are wired as registry gates on the `maille2024.two_regime` component and carry adjudicated evidence-link records at `qualitative_capacity`, so each is subject to the same reconciliation the release gate applies to every other claim.
 
 The result is that the shared form hides three different constructs (Table 4a). On the Cameron curve—run to solute exhaustion at ~400 s, far past that model’s ~30 s validated recipe—**no** fitted fast constant enters Maille’s fast band in any of the four grinder settings; the three finer settings collapse to a single-exponential-like response (a multistart fit finds the mixture weight non-identifiable, spanning φ ≈ 0–1, and a second exponential buys essentially no R²), while the coarsest returns two *separated* constants (≈ 23.6 and 40.0 s) that a formal one- versus two-timescale adjudication would have to settle. On the Roman-Corrochano stirred-vessel curve, the fitted *weight* (≈ 0.32) and *slow/fast ratio* (≈ 12.3) are invariant across grinds, but only the dimensionless *shape* is invariant: the *absolute* constants scale with the diffusion time (∝ radius²) and vary ≈ 1.9× across grinds, and for the one particle class available in the repository (a ≈ 20 µm-radius fine class—the coarse-class size is unpublished and was not fabricated) both constants are sub-second, below Maille’s bands. That exact weight/ratio pair is itself protocol-dependent (`roman_protocol_sensitivity()` shows the ratio drifting ≈ 15.8 → 8.6 as the fit window widens), so it is a fine-class-and-protocol-specific result, not an intrinsic constant.
 
@@ -371,7 +635,7 @@ The companion temporal-inference paper develops the scientific result [13]; here
 
 On the 15–95 s interval, the best constant has RMSE 0.573 g s⁻¹, the static branch 0.648 g s⁻¹, the imported empirical temporal branch 0.116 g s⁻¹, and the four-parameter cubic 0.096 g s⁻¹. The registry attaches different interpretations to these numbers. The constant is an in-window null; the static result is a transferred equilibrium reconstruction; the temporal trajectory uses no coefficient fitted directly to the scored flow trace but imports same-campaign information; and the cubic is an in-sample flexibility bound. A moving-block calculation is labeled as an interval on fixed loss sequences, not a full model bootstrap.
 
-Cross-pressure LOPO evaluation is similarly explicit about what is held out. The equilibrium point at each pressure is omitted from the two-parameter calibration, but the 9-bar dissolved-mass trajectory and donor assumptions remain. The label is therefore “within-campaign held out,” not “independent validation.” The mean held-out RMSEs are 0.534, 0.347, and 0.525 g s⁻¹ for the static, empirical temporal, and donor-coupled branches, respectively. Per-pressure rankings vary and residuals remain structured.
+Cross-pressure LOPO evaluation is similarly explicit about what is held out. The equilibrium point at each pressure is omitted from the two-parameter calibration, but the 9-bar dissolved-mass trajectory and donor assumptions remain. The label is therefore “within-campaign held out,” not “independent validation.” The mean held-out RMSEs are 0.534, 0.347, and 0.516 g s⁻¹ for the static, empirical temporal, and donor-coupled branches, respectively. Per-pressure rankings vary and residuals remain structured.
 
 The methodological lesson is that a comparison table needs more than rows of errors. It needs the observable contract, fit/evaluation split, parameter provenance, evidence label, residual diagnostic, and scope. Without these fields, the lowest number invites an identifying claim that the analysis does not support.
 
@@ -381,7 +645,7 @@ The methodological lesson is that a comparison table needs more than rows of err
 
 A project-synthesis component (`brewer2026.coupled_kappa_t`: runtime execution role, `project_synthesis` provenance) combines an extraction-linked porosity-opening trajectory [3] with an imported particle-swelling trajectory [11] by assigning both to one shared porosity state. When the swelling factor is neutral, the synthesis reduces exactly to the extraction-only temporal branch. This reduction is a software verification of the composition.
 
-Adding the imported swelling branch flattens the predicted flow. Over the same 15–95 s interval, reconstruction RMSE becomes 0.648 g s⁻¹. That is worse than the best constant baseline, approximately 0.573 g s⁻¹, and much worse than the extraction-only temporal trajectory, approximately 0.116 g s⁻¹.
+Adding the imported swelling branch does not merely flatten the predicted flow — it removes the temporal signal entirely. Over the same 15–95 s interval, the composite's predicted flow is **constant to numerical precision** (spread below 10⁻⁹ g s⁻¹). The mechanism is explicit in the producer: the swelling branch drives the shared porosity below its initial value across the whole window, so the dissolved-mass proxy sits on its numerical floor for **100 %** of the window, the porosity fraction entering the flow closure goes to zero, and the closure returns its own Φ→0 limit, which is the static equilibrium curve. The composite reconstruction RMSE is therefore 0.648 g s⁻¹ — **numerically identical to the static branch's 0.648 g s⁻¹ by construction, not by coincidence** — worse than the best constant baseline of approximately 0.573 g s⁻¹ and far worse than the extraction-only temporal trajectory at approximately 0.116 g s⁻¹. Reporting only the residual would have concealed the more informative fact: this composition does not degrade the temporal prediction, it annihilates it.
 
 ### 9.2 Interpretation
 
@@ -393,7 +657,65 @@ The result does **not** show that swelling is absent from espresso. It diagnoses
 
 A conventional workflow may respond to this failure by adding a scale factor until the curve improves. Puckworks instead stores the unrepaired result, its configuration, and its caveat. A future alternative composition can then be compared against the failed baseline. This prevents complexity from receiving automatic evidentiary credit and allows negative results to define the boundary between reusable components and unsupported coupling assumptions.
 
-## 10. From model disagreement to experiment design
+## 10. Evaluating the guardrails by deliberate defect injection
+
+The demonstrations above show the registry refusing specific invalid operations. They do not
+establish how much of the failure space the guardrails cover, because each was chosen after the
+fact. To evaluate the framework rather than illustrate it, we maintain a defect corpus
+(`puckworks.paper3.defect_injection`): a set of realistic errors drawn from the failure classes this
+paper names, each injected into an isolated copy of the relevant state, with the guard that should
+catch it then run and its verdict recorded. Nothing in the working tree is modified; a test asserts
+that the manuscripts are byte-identical before and after a run.
+
+Of **18 defects**, **12 were detected** and **6 were not**. Coverage is uneven by construction:
+
+| defect class | detected / injected |
+|---|---|
+| evidence | 2 / 3 |
+| numeric_consistency | 1 / 1 |
+| observable_semantics | 2 / 3 |
+| physical_value | 0 / 1 |
+| prose_drift | 2 / 2 |
+| provenance | 3 / 4 |
+| unit | 2 / 4 |
+
+The undetected rows are the informative ones, and the corpus deliberately retains them; a benchmark
+reporting only its catches would reproduce the selected-demonstration problem it exists to correct.
+Four undetected defects are structural rather than incidental.
+
+**A range check cannot separate units whose scale factor is smaller than the quantity's own spread.**
+Injecting a permeability in mm² instead of m² is *not* caught. The declared SI window spans twelve
+orders of magnitude, so a value of 1×10⁻¹³ m² supplied as 1×10⁻⁷ mm² still lies inside it; the guard
+refuses the substitution only above about 1×10⁻¹² m², which is above the espresso range it exists to
+protect. The same holds for cm². A gross mis-unit such as darcy *is* refused. This was found by the
+benchmark, not known beforehand, and it bounds what dimensional typing can deliver: closing it
+requires either per-quantity plausible windows rather than one generic SI band, or units carried as
+typed objects rather than bare floats.
+
+**Agreement is not correctness.** If a producer is changed so that it computes the wrong quantity
+and the manuscript is then regenerated from it, every provenance and consistency guard passes. Those
+guards establish that prose equals code; only a gate wired to independent data can establish that
+the code is right, and only where such data exists.
+
+**Untyped distinctions are unenforceable.** Substituting basket pressure for pump pressure
+consistently is type-valid, because pressure-node identity is documented in prose but is not a field
+any contract carries. The same applies to a physically wrong but dimensionally valid constant: a bed
+porosity of 0.35 where the source card says 0.17 passes every finiteness, range and fraction check,
+because nothing compares a runtime value against the card that supplied it. This is the largest open
+gap in the present design.
+
+**Process rules are not executable rules.** Promoting a component's evidence strength requires a
+changelog entry by documented convention, and nothing enforces it.
+
+The honest summary is therefore narrower than the architecture section might suggest. The guardrails
+are effective against *representational* error — wrong units at gross scale, incompatible
+observables, drifted prose, desynced numbers, orphaned evidence, inflated labels — and are
+structurally unable to detect *substantive* error, where a defensible-looking value or a consistently
+applied wrong convention is simply incorrect. A detection rate of 67% over this corpus is a
+statement about this corpus, not a coverage guarantee: the defects we thought to write are biased
+toward the failures we have already seen.
+
+## 11. From model disagreement to experiment design
 
 Puckworks treats unresolved disagreement as an output. The registry identifies which observable or intervention would most efficiently separate surviving models. Table 5 summarizes current examples.
 
@@ -424,86 +746,90 @@ The process can be formalized:
 
 This workflow changes the role of an executable review. It does not merely summarize what the literature has modeled. It identifies which missing measurement prevents adjudication and provides a reproducible prediction matrix for collecting it.
 
-## 11. End-to-end named-shot evidence scorecard
+## 12. End-to-end named-shot evidence scorecard
 
-### 11.1 Purpose and configuration
+### 12.1 Purpose and configuration
 
 An end-to-end example is useful only if it exposes every weak link. The current proposed scorecard uses an illustrative configuration centered on a DE1 fixture, a nominal grinder setting of 1.7, 20 g dose, 40 g beverage, a coffee/chemistry lineage associated with the Schmieder–Pannusch data, and temperatures from 80 to 98 °C. The numerical dial label is not a portable physical coordinate; until a grinder-specific PSD adapter is supplied, the scorecard must mark the cross-grinder mapping as open rather than treat “1.7” as matched.
 
 The scorecard is an evidentiary ledger, not a digital twin. It answers: which stage can run, where its parameters came from, what evidence supports it, what extrapolation is being made, and what measurement is still missing for this exact shot?
 
-### 11.2 Stage-by-stage accounting
+### 12.2 Stage-by-stage accounting
 
-**Table 6. Draft named-shot scorecard. Statuses describe the current evidence chain, not universal model quality.**
+<!-- scorecard:begin -->
+**Table 6. Named-shot evidence scorecard (generated).** Statuses on stages with a registered component are derived from that component's scoped evidence vector; numbers are executed from named producers. 6 of 10 statuses are derived; 2 stages remain open.
 
-| Stage | Selected component or input | Current evidence status | Load-bearing caveat / promotion path |
+| Stage | Selected component or input | Evidence status | Load-bearing caveat |
 |---|---|---|---|
-| Named preparation | 20 g in / 40 g out; nominal dial 1.7; 80–98 °C | specified | grinder and coffee lineage must be physically matched, not matched by dial number |
-| Machine boundary | recorded DE1 fixture pressure/weight/flow | observed trace | exact pressure-node identity remains open |
-| Infiltration | Foster recorded-pressure sharp-front adapter | same-shot compatibility check across a predeclared first-drop/dead-volume porosity bracket — not an independent prediction (the same shot supplies the pressure trace, the fitted permeability, and the evaluation) | sharp binary saturation; fine-grind/source-domain limitation |
-| Packing/permeability | literature prior plus fitted fixture multiplier $\kappa\approx1.196$ | calibrated; per-shot fitted | not an independent permeability prediction; outlet/screen resistance may be absorbed |
-| Flow law | Darcy baseline with Forchheimer diagnostic | verified closure; extrapolation flag | estimated $Fo_F\approx0.86$–5.7 places the fixture near or beyond inertial onset, so unflagged Darcy use is unsafe |
-| Bed dynamics | selected static or temporal branch | reconstruction or exploratory, depending configuration | no direct porosity/strain measurement on the named shot |
-| Aggregate extraction | Cameron-type runtime | numerically verified and source-gated | absolute EY/TDS reads low against independent literature brackets in current comparison |
-| Named-solute extraction | Pannusch-type four-solute solver and flow/temperature adapter | post-fit reconstruction; adapter verification | fitted to its source campaign; no independent four-solute cup for the named fixture |
-| Ramp sensitivity | pressure-to-flow adapter audit | verification; approximately 6.6% shift in the current audit | sensitivity is adapter-dependent, not an observed shot effect |
-| Final exact cup | TDS plus caffeine, trigonelline, and chlorogenic-acid-family measurement | **open** | run the capstone shot, retain fractions or full cup, and predeclare whether $\kappa$ may be refitted |
+| Named preparation | `—` | specified *(declared)* | The grinder dial is not a portable physical coordinate; until a grinder-specific particle-size adapter exists, the cross-grinder mapping stays open rather than being treated as matched by dial number. |
+| Machine boundary | `de1_fixtureA` | observed *(declared)* | The exact pressure-node identity of the recorded trace is OPEN (basket gauge vs line), and node identity is documented in prose but is not a typed contract field, so a node substitution would be type-valid. |
+| Infiltration | `foster2025.infiltration` | compatibility check | Same-shot compatibility check across a predeclared porosity bracket, NOT an independent prediction: the same shot supplies the pressure trace, the fitted permeability and the evaluation. |
+| Packing / permeability | `wadsworth2026.permeability` | reconstructed (source curve) | Literature prior plus a per-shot fitted fixture multiplier; not an independent permeability prediction, and outlet/screen resistance may be absorbed into it. |
+| Flow law | `wadsworth2026.inertial` | verified (code only) + compatibility check + reconstructed (source curve) | Fo_F 0.86 (exp) to 5.7 (Zhou); k = 7.42e-15 m²; peak q = 1.54e-03 m s⁻¹. The two Forchheimer numbers are the SAME shot under two k_I closures -- a closure spread, not a measurement range -- and k_I is extrapolated from a ceramics fit, never coffee-calibrated. This is a model-derived regime flag, not empirical validation of inertial espresso flow. |
+| Bed dynamics | `waszkiewicz2025.poroelastic` | reconstructed | No direct porosity or strain measurement exists on the named shot; the branch is selected by configuration, and a different selection changes the status. |
+| Aggregate extraction | `cameron2020.extraction_bdf` | verified (code only) + compatibility check | Absolute extraction yield reads low against independent literature brackets in the current comparison. |
+| Named-solute extraction | `pannusch2024.solver` | reconstructed | Fitted to its source campaign; there is no independent four-solute cup for the named fixture. |
+| Ramp sensitivity | `—` | open *(declared)* | The pressure-to-flow adapter audit is a verification exercise, and its sensitivity is adapter-dependent rather than an observed shot effect. **WITHDRAWN:** A shift of 'approximately 6.6 %' was previously printed for this row. No producer in the repository emits it. It is withdrawn rather than reproduced; restoring it requires a named producer. |
+| Final exact cup | `—` | open *(declared)* | Requires running the capstone shot, retaining fractions or the full cup, and predeclaring whether the fitted fixture multiplier may be refitted. |
+
+**Claims withdrawn for want of a producer.** A shift of 'approximately 6.6 %' was previously printed for this row. No producer in the repository emits it. It is withdrawn rather than reproduced; restoring it requires a named producer.
+<!-- scorecard:end -->
 
 The table prevents an occupied software slot from being read as an independently validated stage. For example, the extraction solver can run and pass numerical gates while its absolute prediction remains low relative to an external range. The flow closure can be dimensionally verified while the named fixture lies outside the comfortable Darcy regime. The full chain therefore ends in an open cell rather than a synthetic “predicted cup” badge.
 
-### 11.3 Promotion experiment
+### 12.3 Promotion experiment
 
 The highest-value promotion is a measured named shot with full pressure-node metadata, beverage mass, TDS, caffeine, trigonelline, and chlorogenic-acid-family output, preferably with timed fractions. The protocol should predeclare whether permeability is fixed from prior calibration or refitted per shot. A result with per-shot refitting tests reconstruction; a result with a frozen permeability tests prediction. Both are useful if labeled correctly.
 
-## 12. Related work and novelty
+## 13. Related work and novelty
 
 Puckworks draws on several established traditions in research-data and research-software engineering. Its contribution is not any single one of these ideas but their **joint operationalization** for a specific, adversarial problem: deciding whether published process models may be compared or composed. We position the work against six strands.
 
-### 12.1 FAIR data and software
+### 13.1 FAIR data and software
 
 The FAIR principles [14] and their software specialization FAIR4RS [15] establish that research artifacts should be findable, accessible, interoperable, and reusable, and that software needs its own realization of those goals [16]. Puckworks operationalizes interoperability at the level where it actually fails for this literature — the *observable contract* — rather than at the level of file formats or metadata records alone: two components are interoperable only when their typed state carriers, units, pressure nodes, and inventory bases match, and the registry refuses a composition when they do not. FAIR is necessary but does not, by itself, prevent the semantically invalid compositions this paper targets.
 
-### 12.2 Provenance and research objects
+### 13.2 Provenance and research objects
 
 W3C PROV [17] provides a general model for entity/activity/agent provenance, and RO-Crate and research-compendium practice [18] package data, code, and results with their lineage. Puckworks uses the same instinct — every manuscript-facing value should trace to a producer, source commit, dataset, and environment — but adds an *evidence* axis that generic provenance omits: recording *how well* an output is validated (the relation between a result and the data behind it), not only *where it came from*. A provenance graph that faithfully records a source-curve reproduction still permits it to be described as validation unless the evidence relation is typed and enforced, which is the gap §5 addresses.
 
-### 12.3 Model and dataset documentation
+### 13.3 Model and dataset documentation
 
 Model Cards [19] and Datasheets for Datasets [20] introduced structured, human-readable documentation of a model's or dataset's intended use, limitations, and provenance. Puckworks' model and source cards (§6.1) are in this lineage but are *interrogative and executable*: a card is written before implementation, is required to expose missing constants and observable mismatches, and is bound to gates and a registry entry so that a claim in a card can be checked against code rather than trusted as prose.
 
-### 12.4 Reproducible computational practice
+### 13.4 Reproducible computational practice
 
 Community guidance on reproducible research [21] and good computational practice [22] recommends automation, version pinning, and one-command regeneration of results. Puckworks follows these (generated tables, a CI drift guard that fails when a manuscript count diverges from the live registry, a release-frozen bundle) and extends them to a discipline the guidance does not name: *no manuscript-facing scientific value without a named producer and a typed evidence relation*, enforced as a release gate rather than a convention.
 
-### 12.5 Model interchange standards
+### 13.5 Model interchange standards
 
 Domain interchange standards such as SBML and FMI let independently developed models be exchanged and co-simulated within a domain. Puckworks is complementary and deliberately narrower: it does not standardize a model exchange format but records, for a fragmented literature that has no such standard, the assumptions, observable contracts, and evidence that would have to agree *before* any exchange or co-simulation could be scientifically valid — and reports when they do not.
 
-### 12.6 Novelty
+### 13.6 Novelty
 
-The novelty claim is correspondingly narrow. We do not claim to originate provenance, evidence typing, model documentation, or reproducible-build practice. We claim the **joint operationalization** of observable-semantic contracts, parameter provenance, a typed evidence relation, negative and failed-composition results, and producer-bound manuscript values, in one executable registry, for the purpose of adjudicating comparison and composition of published espresso process models — and, by construction, a template for other fragmented coupled-process-model literatures (§13.4).
+The novelty claim is correspondingly narrow. We do not claim to originate provenance, evidence typing, model documentation, or reproducible-build practice. We claim the **joint operationalization** of observable-semantic contracts, parameter provenance, a typed evidence relation, negative and failed-composition results, and producer-bound manuscript values, in one executable registry, for the purpose of adjudicating comparison and composition of published espresso process models — and, by construction, a template for other fragmented coupled-process-model literatures (§14.4).
 
-## 13. Discussion
+## 14. Discussion
 
-### 13.1 An executable review is more than a model collection
+### 14.1 An executable review is more than a model collection
 
 The central object in Puckworks is not the solver but the evidence-bearing interface among source, state, observable, data, and claim. A repository that implements many models without preserving these relationships can increase, rather than reduce, scientific ambiguity. The risk grows with component count because more variables share familiar names while retaining incompatible meanings.
 
 Puckworks addresses this by making semantic friction visible. A blocked adapter, an unknown pressure node, a missing extractability factor, or a failed composition is a legitimate output. The architecture rewards refusing an invalid merge.
 
-### 13.2 Verification, calibration, reconstruction, and prediction
+### 14.2 Verification, calibration, reconstruction, and prediction
 
 Scientific software papers often report a test suite without explaining what the tests establish. Puckworks separates software verification from empirical evidence. Conservation, convergence, source-curve reproduction, and independent validation can all be automated, but they answer different questions. The evidence taxonomy should accompany every benchmark table and public claim.
 
 This separation also clarifies model reuse. A component verified against its source equations may be safe to use in a sensitivity analysis while remaining unsuitable for an absolute prediction. A calibrated component may be appropriate within one campaign but require a new calibration on another rig. A negative external result can coexist with correct implementation.
 
-### 13.3 Composition creates a new model
+### 14.3 Composition creates a new model
 
 The failed extraction-plus-swelling demonstration illustrates a general principle. Connecting two validated components creates a new model with new state-identification, normalization, and coupling assumptions. Those assumptions require reduction tests, conservation checks, sensitivity analysis, and empirical evidence. Validation does not compose automatically.
 
 This point is especially important for multiphysics repositories. A “more complete” configuration can double count a state change, mix reference volumes, or violate a boundary condition while producing a smooth output. Simple baselines and exact reduction limits should remain visible in every composition study.
 
-### 13.4 Generalization beyond espresso
+### 14.4 Generalization beyond espresso
 
 We present cross-domain reach as a *proposed transferable pattern demonstrated in espresso*, not as an empirically demonstrated generalization: the espresso corpus is the only literature to which the registry has been applied here. The same structure should plausibly apply to other domains in which heterogeneous literature models are assembled around shared process stages — drying, filtration, chromatography, fermentation, reactive transport, battery porous electrodes, and biomedical perfusion — but that claim is a hypothesis for future work, not a result of this paper. The transferable practices we conjecture would carry over are:
 
@@ -517,9 +843,9 @@ We present cross-domain reach as a *proposed transferable pattern demonstrated i
 
 The domain-specific contract fields will differ, but the evidence problem is the same.
 
-## 14. Limitations and submission readiness
+## 15. Limitations and submission readiness
 
-### 13.1 Scientific and corpus limitations
+### 15.1 Scientific and corpus limitations
 
 The corpus is not systematic and may omit relevant models, datasets, or non-English literature. Model maturity is uneven: some components have independent data, some only source reproduction, and some are exploratory project syntheses. The registry is concentrated on espresso-relevant conditions and cannot be assumed to represent all coffee extraction or packed-bed regimes.
 
@@ -527,28 +853,41 @@ The typed contracts are semantic Python dataclasses rather than a formal unit/on
 
 The demonstrations are selected cases, not a quantitative estimate of how frequently semantic errors occur in the literature. The named-shot scorecard is illustrative and contains open lineage and pressure-node issues. It should not be presented as a validated end-to-end prediction.
 
-### 13.2 Software/resource readiness table
+### 15.2 Software/resource readiness table
 
 **Table 7. Current state versus submission requirement.**
 
-| Area | Present in current snapshot | Required before journal submission |
+The previous version of this table understated what the repository already contains and, in
+consequence, did not identify the blockers that actually remain. Every "present" entry below was
+verified against the tree at the stated snapshot.
+
+| Area | Present in current snapshot (verified) | Required before journal submission |
 |---|---|---|
-| Installation | editable-install quickstart in README | tested clean installation on supported Python versions; packaged release |
-| Public API | component registry and schema version 0.6 | documented stable API, semantic versioning, deprecation policy |
-| Tutorials | onboarding and internal workflows referenced | public tutorials that run without private or local-only files |
-| Add-a-model path | README steps and card template | complete contributor tutorial with example PR and validation checklist |
-| Roles/schema | schema v2 axes (`execution_role`/`provenance_class`/`evidence_strength`); runtime and calibration instantiated | instantiate the schema-supported `observational_adapter`/`diagnostic` roles; remove the deprecated `kind` field |
-| Tests | gates and test suite; quick and slow analyses exist | CI-separated quick tests and archived slow scientific benchmarks |
-| Data provenance | 104-row manifest snapshot with licenses/caveats | release-frozen manifest; audit every redistributable artifact and license |
-| Claims | producer-backed public-claim schema | manuscript claim bundle regenerated in CI with source-data exports |
-| Release tooling | environment check, external staging, checksums, manifest checks | clean tagged archive, full dependency lock or container digest, DOI |
+| Installation | packaged release `v0.3.0` with published wheel and sdist and recorded SHA-256 for each; editable-install quickstart in README | tested clean installation on the supported Python versions from the archived artifact, not from the repository |
+| Public API | component registry at contract schema **0.7**; additive-only field policy with a version bump per change | documented stable API, semantic versioning, deprecation policy |
+| Tutorials | **five public Colab notebooks** (quickstart, guided pull, guided-pull laboratory, illustrative linked pull, lattice-Boltzmann), each exercised by a notebook-smoke CI lane | tutorials pinned to the archived release rather than to a moving branch |
+| Add-a-model path | `CONTRIBUTING.md`, card template, issue templates | complete contributor tutorial with a worked example pull request and validation checklist |
+| Roles/schema | schema v2 axes (`execution_role` / `provenance_class` / `evidence_strength`); **12 runtime and 15 calibration** instances | instantiate the schema-supported `observational_adapter` and `diagnostic` roles, which remain **uninstantiated**; remove the deprecated `kind` field, which is still written at every registration site |
+| Tests | **20 CI workflows**, with quick gates and the slow scientific lane already separated | archive the slow-lane outputs alongside the release |
+| Data provenance | 107-row manifest snapshot with licenses and caveats; a CI drift guard binds the manuscript's counts to it | release-frozen manifest; audit every redistributable artifact and license |
+| Claims | producer-backed public-claim schema; manuscript numbers regenerated by named producers and CI-guarded | claim bundle regenerated **from the frozen tag** with source-data exports |
+| Guardrail evaluation | defect-injection benchmark (§10) reporting which guard catches which class of introduced defect | extend the corpus as new guard classes are added |
+| Release tooling | environment check, external staging, checksums, manifest checks, release record validator | **dependency lock or container digest** (only unpinned floors `numpy>=2.0`, `scipy>=1.13` are declared today) and **Zenodo deposition with a citable DOI** — the release is currently GitHub-only |
 | Corpus method | curated cards and related-work notes | indexed search protocol, screening record, inclusion/exclusion appendix |
-| External use | not established in this draft | at least one documented external reproduction or user workflow |
-| Governance | roadmap and runbook | contribution guide, issue templates, changelog, code of conduct as appropriate |
+| External use | not established | at least one documented reproduction or workflow by someone outside the originating team |
+| Governance | `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `CHANGELOG.md`, `CITATION.cff`, issue templates, roadmap and release runbook | governance for the external community corpus (§6.6), where an ethics determination remains open |
+
+**The remaining blockers, stated plainly.** Most rows above are now presentational. Four are not,
+and they are the honest gate on submission: (i) there is **no archival DOI** — the release exists
+on GitHub only; (ii) there is **no pinned environment**, only unbounded minimum versions, so
+"reproducible" currently means "reproducible against whatever resolves today"; (iii) **no external
+party has reproduced anything**, so every reproducibility claim in this paper is self-attested; and
+(iv) the **corpus construction is curated rather than systematic** (§16). Of these, only (iii) and
+(iv) require work that cannot be scheduled purely by us.
 
 The paper should be submitted as a resource/methods article only after the release artifact satisfies the same strict checks the manuscript describes. A software-journal route additionally requires evidence that the tool is feature-complete for its stated purpose, documented, tested, openly developed, and usable by contributors outside the originating team.
 
-## 15. Conclusions
+## 16. Conclusions
 
 Puckworks addresses a problem that appears whenever heterogeneous process models are made executable together: similarly named quantities, parameters, and validation claims are not necessarily compatible. The registry represents models as provenance-tracked stage components, exchanges state through versioned contracts, records dataset transformations in a manifest, labels evidence at the claim level, and requires manuscript numbers to be regenerated by named producers.
 
@@ -580,35 +919,35 @@ The external community corpus (§6.6) is retrieved under a research-use grant, i
 
 [To be completed.] **Required, not optional:** any version of this paper that reports results derived from the external community corpus (§6.6) must credit the Visualizer coffee-analytics platform as the data source and collectively acknowledge the contributing users whose shots constitute the reference population, per the data-owner research-use grant.
 
-## Figure specifications and draft captions
+## Figures
 
-### Figure 1. Puckworks architecture
+All seven figures are **generated**, not specified: `python -m puckworks.figures_paper3` renders them from producers, writes one tidy source-data CSV per data-bearing figure, and emits a text alternative for each. Raster and vector versions are produced together. No number in any figure is transcribed from this manuscript.
 
-A directed graph from source paper and source artifact to model/source card, dataset manifest, registered component, typed contract, configuration, gate/harness, generated result bundle, claim producer, figure/source-data export, and archived release. Process stages appear as a second horizontal layer. Arrows distinguish data provenance, runtime state, calibration, and evidence. Caption: Puckworks is a registry and evidence system; a configuration selects components and adapters rather than instantiating every model.
+| Figure | File | Rendered from | Source data | Alt text |
+|---|---|---|---|---|
+| **Figure 1.** Puckworks architecture | `docs/figures/paper3/fig1_architecture` | registry stage/role inventory | — (schematic) | `ALT_TEXT.md` |
+| **Figure 2.** Process-stage and evidence map | `docs/figures/paper3/fig2_stage_evidence_map` | registry inventory + `evidence_graph.evidence_vectors` | `source_data/` CSV | `ALT_TEXT.md` |
+| **Figure 3.** Observable and unit linting | `docs/figures/paper3/fig3_observable_linting` | `evidence_graph.CONSTANT_CONFLICTS` + response-surface producers | — (schematic) | `ALT_TEXT.md` |
+| **Figure 4.** Null-first comparison as a registry workflow | `docs/figures/paper3/fig4_null_first_ladder` | `harness.kappa_t_ladder` | `source_data/` CSV | `ALT_TEXT.md` |
+| **Figure 5.** Negative composition result | `docs/figures/paper3/fig5_negative_composition` | `coupled_kappa_t.composition_residual` + `degeneracy_rmse` | `source_data/` CSV | `ALT_TEXT.md` |
+| **Figure 6.** From model disagreement to experiment design | `docs/figures/paper3/fig6_experiment_map` | `tools.experimental_data_needs.load_catalog` | — (schematic) | `ALT_TEXT.md` |
+| **Figure 7.** End-to-end named-shot evidence scorecard | `docs/figures/paper3/fig7_named_shot_scorecard` | `paper3.named_shot_scorecard.scorecard` | `source_data/` CSV | `ALT_TEXT.md` |
 
-### Figure 2. Process-stage and evidence map
+### Captions
 
-**Panel a:** Current component counts by stage and role. **Panel b:** evidence taxonomy showing that verification, reconstruction, held-out prediction, independent evidence, capacity, sign tests, and exploratory synthesis are different dimensions, not one undifferentiated validation score. **Panel c:** a small component card showing source, assumptions, valid range, gates, and caveats.
+**Figure 1.** Puckworks architecture. A directed pipeline from source paper and artifact to model and dataset cards, registered components with typed contracts, a configuration that SELECTS components rather than instantiating every model, gates and harnesses, result bundles and claim producers, and finally figure and source-data export into an archived release. The lower band lists the process stages; a component declares exactly one.
 
-### Figure 3. Observable and unit linting
+**Figure 2.** Process-stage and evidence map. (a) Registered components by stage, split into runtime and calibration roles. (b) The scoped evidence vectors: for each component, how many gates demonstrate each relation, every one at its own stated observable. The panel exists to show that a component holds SEVERAL relations at once and that they are dimensions rather than points on a scale — no ordering over the relations is used anywhere in the implementation. (c) A component card excerpt, showing that a declared relation is checked for membership in the component's evidence set.
 
-**Panel a:** incompatible $c_{\mathrm{sat}}$ and inventory conventions retained as separate configurations. **Panel b:** pressure-node diagram for pump outlet, headspace, basket, and bed drop. **Panel c:** invalid mixed-unit chemistry aggregation crossed out; corrected TDS-derived extraction yield shown with raw replicate cells. **Panel d:** raw-cell ordering and separately labeled conditional response-surface vertex. The caption states that the fitted vertex is not present as a maximum in the selected raw cells.
+**Figure 3.** Observable and unit linting. (a) Three published saturation concentrations retained as separate configuration fields with the sources that use each; there is no adapter because none is defensible. (b) Four distinct pressure nodes; the caption states the residual risk that node identity is documented but is NOT a typed contract field, so a substitution is type-valid. (c) An invalid mixed-unit aggregation of named-solute masses with an aggregate-solids percentage, refused, beside the corrected yield. (d) Raw extraction-yield cells ordered across grinder settings, with the fitted response-surface vertex marked as a separate object: the vertex is not present as a maximum in the selected raw cells.
 
-### Figure 4. Null-first comparison as a registry workflow
+**Figure 4.** Null-first comparison as a registry workflow. Each rung carries its reconstruction error, the number of free parameters fitted to the scored trace, and its parameter provenance. Orange marks rungs with no coefficient fitted to the scored trace — which is necessary but not sufficient for being held out, as the provenance line on each rung records. The figure shows comparison architecture; the physical conclusions belong to the companion temporal paper.
 
-A ladder from machine-only capacity to constant/static null, imported temporal candidate, flexible temporal null, held-out pressure assessment, sign test, and proposed intervention. Each rung carries parameter provenance and evidence label. Scientific details are cited to the companion temporal paper; the figure emphasizes comparison architecture.
+**Figure 5.** Negative composition result. (a) An extraction branch and an imported swelling branch sharing one porosity state. (b) The composite reduces exactly to the extraction-only branch when swelling is neutral — a structural identity, not a numerical coincidence. (c) The measured trace with the extraction-only prediction tracking it while the composite is flat. (d) Reconstruction errors, annotated to state that the composite value equals the static branch BY CONSTRUCTION: the shared porosity closes below its initial value across the whole window, so the closure returns its zero-porosity-change limit, a constant. This composition does not degrade the temporal prediction; it removes it. The result diagnoses this composition, not the existence of swelling.
 
-### Figure 5. Negative composition result
+**Figure 6.** From model disagreement to experiment design. Each row is a proposed campaign that would discriminate models the registry currently cannot separate, drawn from the campaign register, with its priority, status and the components it targets.
 
-**Panel a:** component graph for extraction-linked opening and swelling sharing porosity. **Panel b:** exact reduction to the extraction-only branch when swelling is neutral. **Panel c:** measured trace and predictions showing the combined branch flattening. **Panel d:** RMSE comparison: extraction-only approximately 0.116, best constant approximately 0.573, composite approximately 0.648 g s⁻¹. Caption: the result diagnoses this composition, not the existence of swelling.
-
-### Figure 6. Disagreement-to-experiment map
-
-Matrix connecting unresolved comparisons to timed fractions, first-drop timing, pressure steps, reversal, rebrew, control mode, and spatial end states. Each recommendation links back to the model card that supplies the directional prediction.
-
-### Figure 7. Named-shot evidence scorecard
-
-A stage-by-stage horizontal chain for the illustrative 20 g/40 g configuration. Every block is labeled observed, calibrated, verified, reconstructed, extrapolated, or open. Open pressure-node identity, grinder adapter, inertial-flow flag, low absolute extraction prediction, and absent exact four-solute cup are visibly retained. The final block is “measurement required,” not a synthetic cup prediction.
+**Figure 7.** End-to-end named-shot evidence scorecard, generated from the registry. Each block names the stage, the selected component or input, and its evidence status; statuses on stages with a registered component are DERIVED from that component's scoped evidence records rather than authored. One row carries a claim withdrawn for want of a producer. The chain ends in 'measurement required', not a synthetic cup prediction.
 
 ## Supplementary material plan
 
@@ -655,32 +994,88 @@ The current source snapshot contains the following registered identifiers. **Thi
 | Machine | calibration | `sourcing2026.g3_pump_characteristic` |
 | Flow | calibration | `sourcing2026.g10_liquor_rheology` |
 
-## Appendix B. Minimal machine-readable claim record
+<!-- appendix-b:begin -->
+## Appendix B. Machine-readable claim record (generated)
 
-A manuscript-facing quantitative claim should be exportable in a structure equivalent to:
+*Generated from `puckworks.public.schema.PublicClaim` by `python -m puckworks.paper3.appendix_b --write`; a CI check fails if this section drifts from the schema the release exports. Do not hand-edit.*
+
+Every manuscript-facing quantitative claim is exportable as the record below. Fields are marked **mandatory**, **optional**, **repeatable** or **derived**; a derived field is computed from the others or stamped by the export process and must never be authored independently, so it cannot be cited as separate corroboration.
+
+| field | type | obligation | meaning |
+|---|---|---|---|
+| `claim_id` | string | mandatory | stable identifier; the join key across manuscript, site and evidence graph |
+| `public_question` | string | mandatory | the scientific question in lay terms |
+| `headline` | string | mandatory | one-line answer |
+| `plain_language_finding` | string | mandatory | interpretation for a non-specialist reader |
+| `numeric_result` | mapping | mandatory, repeatable | producer-generated values; NEVER hand-entered |
+| `units` | mapping | mandatory, repeatable | one unit per numeric key -- a value without a unit is rejected |
+| `uncertainty_or_sensitivity` | string | mandatory | what the number is sensitive to, or its spread |
+| `evidence_strength` | string | mandatory | PUBLIC lay relation, mapped from the registry relation via `REGISTRY_TO_PUBLIC`; a coarser vocabulary, not the registry value |
+| `badge` | string | derived | derived from the authored evidence fields (§5); never authored independently |
+| `components` | list | mandatory, repeatable | DEPRECATED free-text list retained for already-published artifacts; `dependencies` is authoritative |
+| `dataset_manifest_ids` | list | mandatory, repeatable | rows that MUST exist in data/MANIFEST.csv |
+| `validity_range` | string | mandatory | explicit domain of applicability |
+| `primary_caveat` | string | mandatory | the limitation a reader must carry away |
+| `practical_implication` | string | mandatory | what it does and does not license in practice |
+| `reproduction` | string | mandatory | one-line command that regenerates the value |
+| `producer` | Producer | mandatory | executable identity: module, function, result path, kwargs, cost flag |
+| `compares_grinder_dials` | boolean | optional | if true the caveat MUST warn that dial spaces are non-portable |
+| `source_commit` | string (optional) | derived | DEPRECATED alias of generated_from_commit |
+| `generated_from_commit` | string (optional) | derived | stamped at first export; immutable thereafter |
+| `last_verified_against_commit` | string (optional) | derived | stamped at every successful verification; mutable |
+| `dependencies` | tuple | optional | IDENTIFIED load-bearing inputs (registry component id, producer dotted path, or dataset manifest id) with the role each plays and, for components, their scoped evidence records. This is the authoritative dependency list |
+| `outcome` | string | optional | supported / negative / indeterminate -- an OUTCOME axis kept separate from the relation, so a negative result never has to masquerade as a relation |
+
+**Commit provenance.** `generated_from_commit` is immutable — the commit the payload was produced at — while `last_verified_against_commit` moves on every successful re-verification. A snapshot may therefore verify at a later commit while still declaring the earlier commit it was generated from; those are different facts and are recorded separately. `source_commit` is retained only as a deprecated alias.
+
+**Evidence semantics.** `evidence_strength` here is the *public, lay* relation, mapped from the registry relation by `puckworks.public.schema.REGISTRY_TO_PUBLIC`. It is one field of the evidence model (§5), not the whole of it: outcome, artifact role and scope are recorded alongside it, and the badge is derived from them.
+
+**Example — a supported claim.**
 
 ```yaml
-claim_id: stable identifier
-question: scientific question
-result:
-  value_name: generated numeric value
-units:
-  value_name: physical unit
+claim_id: PV-01
+headline: The first liquid out of this espresso puck was already about 97% as concentrated as the peak.
+evidence_strength: independent
+badge: OBSERVED
+numeric_result:
+  early_over_peak: 0.968   # unit: ratio
+  early_tds_pct: 24.36   # unit: % TDS
+  peak_tds_pct: 25.16   # unit: % TDS
+  boulder_diffusion_timescale_s: 23.1   # unit: s
 producer:
-  module: executable module
-  function: generating function
-  result_path: location in returned result
-components: [registered component identifiers]
-datasets: [manifest identifiers]
-evidence_strength: named taxonomy value
-badge: observed | reconstructed | predicted | exploratory simulation
-validity_range: explicit domain
-caveat: primary limitation
-reproduction: one-line command or workflow target
-source_commit: filled at export
+  module: puckworks.harness
+  function: dissolution_speed_test
+  slow: False
+components: ['waszkiewicz2025 TDS fractions', 'cameron2020 (boulder timescale)']
+datasets: ['waszkiewicz2025/tds_fractions']
+primary_caveat: One rig/config and a single first-fraction replicate — a strong prompt for replication, NOT a un
 ```
 
-The exact serialization may change, but every field is load-bearing. A graphic or abstract number without this record should be treated as untracked.
+**Example — a negative outcome.** Negative results are first-class: a failed check is a failed *outcome* on some relation, never a relation of its own.
+
+```yaml
+claim_id: PV-03
+headline: The final cup can hide very different extraction clocks.
+evidence_strength: qualitative
+badge: RECONSTRUCTED
+numeric_result:
+  condition_number: 1927.0   # unit: ratio
+  inverse_curvature_coupling: -0.994   # unit: ratio (geometric, not statistical)
+  profile_fraction_of_log_grid: 0.76   # unit: fraction of tested log-rate grid
+  sse_mape_threshold_jaccard: 0.86   # unit: Jaccard overlap (0-1)
+  held_out_model_mape: 8.23   # unit: % MAPE
+  held_out_const_mape: 8.59   # unit: % MAPE
+producer:
+  module: puckworks.public.flat_valley
+  function: pv03_values
+  slow: False
+components: ['pannusch2024.solver (refit)', 'angeloni2023 endpoints', 'identifiability_panel', 'transfer_skill_vs_baselines']
+datasets: ['angeloni2023/bioactives', 'angeloni2023/total_solids', 'angeloni2023/inventories', 'pannusch2024/table2_params']
+primary_caveat: Endpoint prediction stability is NOT parameter identification and NOT mechanistic validation; th
+```
+
+A graphic or abstract number without such a record should be treated as untracked.
+<!-- appendix-b:end -->
 
 ## References
 
@@ -706,6 +1101,8 @@ The exact serialization may change, but every field is load-bearing. A graphic o
 20. Gebru T, Morgenstern J, Vecchione B, et al. Datasheets for datasets. *Communications of the ACM*. 2021;64(12):86–92. doi:10.1145/3458723.
 21. Sandve GK, Nekrutenko A, Taylor J, Hovig E. Ten simple rules for reproducible computational research. *PLOS Computational Biology*. 2013;9(10):e1003285. doi:10.1371/journal.pcbi.1003285.
 22. Wilson G, Bryan J, Cranston K, Kitzes J, Nederbragt L, Teal TK. Good enough practices in scientific computing. *PLOS Computational Biology*. 2017;13(6):e1005510. doi:10.1371/journal.pcbi.1005510.
+23. Maille MJ. *Measuring Coffee Extraction Kinetics at Early Time Scales* [PhD thesis]. Sheffield: Department of Chemical and Biological Engineering, University of Sheffield; 2024. No DOI assigned. Cited here from the author's redacted release; the proprietary-treatment sections are blanked in that version, and every gap noted in this paper is a redaction artifact rather than an omission by the author.
+24. Roman-Corrochano B. *Advancing the Engineering Understanding of Coffee Extraction* [EngD thesis]. Birmingham: University of Birmingham; 2017 (submitted 2015). No DOI assigned; University of Birmingham e-theses repository.
 
 ## Repository provenance used to develop this draft
 

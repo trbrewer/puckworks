@@ -9,9 +9,9 @@ from dataclasses import dataclass, field
 from typing import Callable, Optional
 import numpy as np
 
-SCHEMA_VERSION = "0.6"   # 0.6: A4 SoluteInventory (per-species initial chemistry, additive)
-# history: 0.5 A8 per-depth-cell porosity/fines; 0.4 A1 pressure-node fields;
-#          0.3 GrindState.fines_radius_m; 0.2 A7
+SCHEMA_VERSION = "0.7"   # 0.7: A11 fines_fraction PROVENANCE fields (threshold + dispersion method)
+# history: 0.6 A4 SoluteInventory; 0.5 A8 per-depth-cell porosity/fines;
+#          0.4 A1 pressure-node fields; 0.3 GrindState.fines_radius_m; 0.2 A7
 
 # Plausible SI permeability window [m^2]. The Forchheimer k_I closures
 # (k_I = exp(g2 k^tau)) fail SILENTLY off-SI (ledger A7), so k is asserted, not
@@ -54,6 +54,67 @@ def _fraction(name, v):
     if not (0.0 <= v <= 1.0):
         raise ValueError(f"{name} must be in [0, 1], got {v!r}")
 
+# A11 — `fines_fraction` PROVENANCE. The scalar is method-blind and threshold-ambiguous across the
+# registry (ROADMAP P1 hazards): maille2024 cuts at 186 um on a liquid/air HYBRID splice,
+# khamitova2020 at 100 um, smrke2024 uses TWO cuts in one paper (a <120 um sieve for its spiked
+# fines, a 100 um PSD quantile in its regressions), wadsworth2026.grindmap carries radius MOMENTS
+# (no threshold at all), and brewer2026.pack_generator treats fines sub-voxel. maille2024 Table 5.2 measures the SAME materials
+# by liquid and air dispersion and finds the fines fraction differs by up to ~2x (Omega_Q 0.31 vs
+# 0.17), widening as the material gets finer -- so the dispersion method is as load-bearing as the
+# threshold. DECISION (2026-07-25): `fines_fraction` carries its convention with it. The fields
+# below are DECLARATIONS, not conversions -- there is no adapter that maps one convention onto
+# another, and none is invented here. Cross-model use must call
+# `assert_fines_fraction_comparable`, which refuses a silent merge (CLAUDE.md rule 6).
+FINES_DISPERSION_METHODS = ("liquid", "air", "hybrid", "sieve", "image", "model", "unspecified")
+FINES_BASES = ("volume", "mass", "number", "unspecified")
+
+# The registry's known conventions, for reporting and for the P1 hazards surface. A component whose
+# convention is NOT declared is `None` here -- absence of a declaration is itself the hazard.
+FINES_CONVENTIONS = {
+    "maille2024":                 dict(threshold_um=186.0, dispersion_method="hybrid", basis="volume"),
+    # khamitova2020 is the one clean 100 um cut (Mastersizer 3000; 26% of ground volume).
+    "khamitova2020":              dict(threshold_um=100.0, dispersion_method="unspecified", basis="volume"),
+    # smrke2024 is ambiguous WITHIN ITSELF and is recorded as such rather than rounded to one
+    # number: the spiked fines are a <120 um SIEVE cut, while the regressions use Q100um, a PSD
+    # quantile at 100 um (Camsizer X2). Two different 'fines' in one paper.
+    "smrke2024":                  None,
+    # radius MOMENTS (<R>, <R^2>, <R^3>), no threshold: not expressible as a fines_fraction at all.
+    "wadsworth2026.grindmap":     None,
+    # sub-voxel columnar heterogeneity field, not a resolved size class.
+    "brewer2026.pack_generator":  None,
+}
+
+
+def assert_fines_fraction_comparable(a, b, name_a="a", name_b="b"):
+    """Raise unless two GrindStates declare the SAME fines convention (A11).
+
+    Guards the silent merge the P1 hazards table forbids: a 186 um hybrid-dispersion fines fraction
+    and a 100 um one are different quantities, and an UNDECLARED convention is not evidence of
+    agreement -- it is the hazard, so it also raises. There is deliberately no conversion path."""
+    for g, n in ((a, name_a), (b, name_b)):
+        if g.fines_fraction is None:
+            raise ValueError(f"{n}: no fines_fraction to compare")
+        if g.fines_threshold_um is None or g.fines_dispersion_method in (None, "unspecified"):
+            raise ValueError(
+                f"{n}: fines_fraction carries no declared convention (threshold_um="
+                f"{g.fines_threshold_um!r}, dispersion_method={g.fines_dispersion_method!r}); "
+                "an undeclared convention cannot be compared (A11) -- declare it or do not merge")
+    if abs(a.fines_threshold_um - b.fines_threshold_um) > 1e-9:
+        raise ValueError(
+            f"{name_a}/{name_b}: fines_fraction thresholds differ ({a.fines_threshold_um} vs "
+            f"{b.fines_threshold_um} um) -- these are different quantities; no adapter exists (A11)")
+    if a.fines_dispersion_method != b.fines_dispersion_method:
+        raise ValueError(
+            f"{name_a}/{name_b}: fines_fraction dispersion methods differ "
+            f"({a.fines_dispersion_method!r} vs {b.fines_dispersion_method!r}) -- maille2024 "
+            "Table 5.2 measures up to ~2x disagreement on the SAME material (A11)")
+    if a.fines_basis != b.fines_basis:
+        raise ValueError(
+            f"{name_a}/{name_b}: fines_fraction bases differ ({a.fines_basis!r} vs "
+            f"{b.fines_basis!r}) -- volume/mass/number fractions are not interchangeable (A11)")
+    return True
+
+
 @dataclass
 class GrindState:
     setting: float                    # grinder dial (Cameron EK43 convention)
@@ -61,6 +122,10 @@ class GrindState:
     boulder_radius_m: Optional[float] = None    # a_2
     fines_radius_m: Optional[float] = None       # a_1 (grudeva2025 needs a*_f; G5-pre)
     mean_radius_m: Optional[float] = None       # <R> (Wadsworth convention)
+    # A11 fines_fraction provenance (additive, default None = UNDECLARED, which blocks comparison)
+    fines_threshold_um: Optional[float] = None       # diameter cut defining "fines"
+    fines_dispersion_method: Optional[str] = None    # see FINES_DISPERSION_METHODS
+    fines_basis: Optional[str] = None                # see FINES_BASES
 
     def __post_init__(self):
         _finite("GrindState.setting", self.setting)
@@ -70,6 +135,20 @@ class GrindState:
             v = getattr(self, n)
             if v is not None:
                 _finite_pos(f"GrindState.{n}", v)
+        if self.fines_threshold_um is not None:
+            _finite_pos("GrindState.fines_threshold_um", self.fines_threshold_um)
+        if self.fines_dispersion_method is not None \
+                and self.fines_dispersion_method not in FINES_DISPERSION_METHODS:
+            raise ValueError("GrindState.fines_dispersion_method must be one of %r, got %r"
+                             % (FINES_DISPERSION_METHODS, self.fines_dispersion_method))
+        if self.fines_basis is not None and self.fines_basis not in FINES_BASES:
+            raise ValueError("GrindState.fines_basis must be one of %r, got %r"
+                             % (FINES_BASES, self.fines_basis))
+        # a declared convention with no value to attach it to is a construction error
+        if self.fines_fraction is None and any(
+                getattr(self, n) is not None
+                for n in ("fines_threshold_um", "fines_dispersion_method", "fines_basis")):
+            raise ValueError("GrindState declares a fines convention but carries no fines_fraction")
 
 @dataclass
 class BedState:

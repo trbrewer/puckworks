@@ -1,33 +1,33 @@
 {
   "by_evidence_strength": {
-    "code_verification": 4,
+    "code_verification": 5,
     "exploratory_synthesis": 1,
     "post_fit_reconstruction": 5,
     "qualitative_capacity": 5,
     "sign_or_compatibility": 3,
-    "source_curve_reproduction": 6,
+    "source_curve_reproduction": 7,
     "within_campaign_held_out": 1
   },
   "by_execution_role": {
-    "calibration": 13,
+    "calibration": 15,
     "runtime": 12
   },
   "by_provenance_class": {
     "project_model": 4,
     "project_synthesis": 1,
-    "published_port": 17,
+    "published_port": 19,
     "reference_only": 3
   },
   "by_stage": {
     "bed_dynamics": 5,
-    "extraction": 8,
+    "extraction": 9,
     "flow": 5,
-    "grind": 1,
+    "grind": 2,
     "infiltration": 2,
     "machine": 2,
     "packing": 2
   },
-  "content_sha256": "ddb5394bfdac1e4bf636e452c34f166bacabe18486bbf2e8987d13f7f0a0a56b",
-  "n_components": 25,
+  "content_sha256": "2cc8321540dd1dc1725fd713b1cf5f3fbc02615697e339b8933197592ebc7c1d",
+  "n_components": 27,
   "schema_version": 1
 }

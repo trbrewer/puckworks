@@ -1,0 +1,18 @@
+quantity,value,uncertainty,unit,basis,source_location,extraction_method,note
+dose,16.01,0.01,g,per double shot,Table 1,text_table,dry roast-and-ground charge
+beverage_volume,60,,ml,per double shot,Table 1,text_table,2 x 30 ml double-espresso target; VOLUME not mass (no density given)
+shot_time,28.7,0.2,s,per double shot,Table 1,text_table,
+inlet_temperature,92,,degC,machine setting,Table 1,text_table,"nominal machine setting, not a measured brew-water temperature"
+pressure,9,,bar,machine setting,Table 1,text_table,"nominal; gauge implied, not stated in source"
+psd_mode,400,,um,espresso grind,text,text_table,Ditting KED 640 milling degree 3.0; laser diffraction
+psd_fwhm,220,,um,espresso grind,text,text_table,mode + FWHM only; NO full distribution curve
+tds,5.5,,percent_w_w,per 10 ml,Fig 4a,figure_read,"APPROXIMATE (figure-read); text states only 'above 4%'"
+extraction_yield,20,,percent,total solids per g R&G,Fig 7a,figure_read,APPROXIMATE (figure-read)
+caffeine,21.0,0.4,mg,per 10 ml,text,text_table,HPLC
+cqa_3,5.8,0.2,mg,per 10 ml,text,text_table,HPLC; series maximum across the nine methods
+cqa_5,2.8,0.2,mg,per 10 ml,text,text_table,HPLC; series maximum across the nine methods
+esterified_fatty_acids,0.13,,percent_w_w,per beverage,Fig 4g,figure_read,APPROXIMATE (figure-read); ESTERIFIED acids only (free acids retained on column)
+ph,5.7,,-,per beverage,Fig 4c,figure_read,APPROXIMATE (figure-read); nine-method series spanned 5.51-5.92
+titratable_acidity_to_ph_6_6,1.15,,ml_0.1M_NaOH,per 10 ml,Fig 4e,figure_read,APPROXIMATE (figure-read)
+titratable_acidity_to_ph_8_0,2.4,,ml_0.1M_NaOH,per 10 ml,Fig 4f,figure_read,APPROXIMATE (figure-read)
+headspace_intensity,18000000,,area_counts,per 10 ml,Fig 4d,figure_read,APPROXIMATE (figure-read); HS-SPME-GC/MS summed aroma

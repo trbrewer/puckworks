@@ -79,6 +79,68 @@ def waszkiewicz_traces():
     return out
 
 
+WASZ_PER_BREW_MAX_TIME_S = 100.0
+WASZ_PER_BREW_NGRID = 1000
+
+
+def waszkiewicz_traces_per_brew(pressure_bar=None):
+    """PER-SHOT Q(t) traces -- the individual brews behind `waszkiewicz_traces()`.
+
+    `waszkiewicz_traces()` returns the published per-pressure MEAN with a `*_std` column that is a
+    STANDARD ERROR, not a standard deviation (the source aggregates with `sem`). That means the
+    shot-to-shot spread cannot be recovered from it, and any analysis run on it has the TIME POINT,
+    not the SHOT, as its unit. This loader returns the 57 individual brews so the shot can be the
+    unit: per-shot scoring, leave-one-shot-out, and shot-level uncertainty.
+
+    Returns {pressure_bar: {shot_id: {col: np.ndarray}}}, or a single pressure's dict when
+    `pressure_bar` is given. Time is reconstructed from `time_index` on the exact common grid
+    (0-100 s, 1000 points) the source interpolates onto; it is stored as an index rather than a
+    float so the grid is exact and joins cannot drift.
+
+    Shots per reference pressure: 1.0:5, 2.0:4, 3.5:3, 4.0:10, 5.0:5, 6.0:6, 7.0:4, 8.0:4,
+    9.0:5, 11.0:4, 13.0:7. The 9-bar condition -- the one Paper B2 scores -- has FIVE shots.
+
+    CAVEATS. These are the source's own reduction, reproduced (not re-derived): t=0 alignment,
+    the Savitzky-Golay flow derivative (window 31, polyorder 1, ~3 s) and the brewer-calibration
+    basket-pressure subtraction are all baked in, so the traces are smoothed and alignment-dependent,
+    not raw instrument output. The source's `excluded/` brews are NOT included. Filename prefixes are
+    NOT the reference pressure (e.g. `10-2` is 11 bar, `12-8-2` is 13 bar) -- pressure comes from the
+    median line pressure, as the source defines it."""
+    rows = _rows(WASZ / "traces_per_brew.csv")
+    dt = WASZ_PER_BREW_MAX_TIME_S / (WASZ_PER_BREW_NGRID - 1)
+    cols = [c for c in rows[0]
+            if c not in ("reference_pressure_round__bar", "shot_id", "time_index")]
+    out = {}
+    for r in rows:
+        p = round(float(r["reference_pressure_round__bar"]), 3)
+        d = out.setdefault(p, {}).setdefault(r["shot_id"], {c: [] for c in cols + ["time__s"]})
+        d["time__s"].append(int(r["time_index"]) * dt)
+        for c in cols:
+            v = r[c]
+            d[c].append(float(v) if v not in ("", None) else np.nan)
+    for p in out:
+        for s in out[p]:
+            out[p][s] = {c: np.asarray(v, float) for c, v in out[p][s].items()}
+    if pressure_bar is not None:
+        return out[round(float(pressure_bar), 3)]
+    return out
+
+
+def waszkiewicz_equilibrium_windows():
+    """Per-shot long-run statistics over three candidate EQUILIBRIUM windows (Paper B2 review 4.7).
+
+    The manuscript attributed a 110-120 s equilibrium statistic to the source; the repository takes
+    the final point of a 0-100 s grid, because the source's formatter truncates there. The raw traces
+    are not truncated, so this file records mean basket pressure and mass flow per shot over
+    `endpoint_100s`, `mean_90_100s` and `mean_110_120s`, with `n_samples` per window.
+
+    READ THE CAVEAT: the 110-120 s window is NOT a clean equilibrium window in the published raw
+    data -- shot `9-1` has ended inside it (falling cup mass -> large negative flow derivative ->
+    -106 bar through the brewer subtraction), which alone drags a refit to P_c ~ 82 bar. Use
+    `analysis.waszkiewicz_shot_level.equilibrium_window_sensitivity` rather than these rows raw."""
+    return _typed_rows(WASZ / "equilibrium_windows.csv")
+
+
 def waszkiewicz_tds_fractions():
     """5-s TDS(t) fractions: {'time_s','tds_pct','tds_std_pct'} arrays."""
     rows = _rows(WASZ / "tds_fractions.csv")
@@ -916,6 +978,24 @@ def _maille(prefix):
     if not matches:
         raise FileNotFoundError("maille2024 table %r not found" % prefix)
     return _typed_rows(matches[0])
+
+
+# --- gloess2013 (nine-method comparison; ONLY the DE espresso endpoint is in scope) ---
+GLOESS = DATA_DIR / "gloess2013"
+
+
+def gloess_de_espresso():
+    """gloess2013 Dalla Corte espresso endpoint (16.01 g -> 60 ml, 9 bar, 92 C, 28.7 s).
+
+    One row per measured quantity. CHECK THE `extraction_method` COLUMN before using a value:
+    `text_table` rows are exact with published uncertainty; `figure_read` rows are APPROXIMATE
+    figure reads with no uncertainty -- and that includes the headline TDS (~5.5 %) and EY (~20 %).
+    The ESM tables that would make them exact were not retrieved (see PROVENANCE.md).
+
+    Only the DE condition is transcribed; the paper's eight other methods are out of espresso scope.
+    Values are per 10 ml or per double shot as given by the `basis` column -- they are NOT
+    interchangeable."""
+    return _typed_rows(GLOESS / "de_espresso_endpoint.csv")
 
 
 def maille_materials():

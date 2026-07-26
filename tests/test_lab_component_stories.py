@@ -20,8 +20,11 @@ def test_cameron_is_the_first_deep_dive_component():
 
 def test_every_registered_component_appears_exactly_once_hero_then_chronological():
     ordered = S.ordered_component_ids()
-    assert set(ordered) == {c.name for c in puckworks.components()}
-    assert len(ordered) == len(set(ordered)) == 25
+    registered = {c.name for c in puckworks.components()}
+    assert set(ordered) == registered
+    # bound to the LIVE registry, not a hardcoded literal: the point is exactly-once coverage, and a
+    # frozen number just breaks on every registration without catching a real duplicate.
+    assert len(ordered) == len(set(ordered)) == len(registered)
     # after the hero prefix, the remainder is in chronological process-stage order
     heroes = [c for c in S.HERO_COMPONENT_IDS]
     assert ordered[:len(heroes)] == heroes

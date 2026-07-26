@@ -30,7 +30,13 @@ import pytest
 # PORTABLE, environment-independent structural fingerprint (pv19_named, LOCAL_PRIVATE): the sorted
 # per-component (id, stage, kind, status, #outputs, output_roles). Update it ONLY for an intended
 # structural change (component added/removed, route/status change, gate added/removed).
-_BASELINE_TOUR_STRUCTURE = "1f9a54a7c7067ef50a0c8f1e6c4830e6a180b71dbc0947b03784e47234c7fbd4"
+# 2026-07-25: updated 1f9a54a7… -> 58492fe8… for the maille2024 registration. VERIFIED to be an
+# exactly-additive change: dropping the two new rows
+#   ('maille2024.phi_closure', 'grind',      'SCIENTIFIC_CHECK', 'EXECUTED', 3, ('gate_metric',))
+#   ('maille2024.two_regime',  'extraction', 'SCIENTIFIC_CHECK', 'EXECUTED', 4, ('gate_metric',))
+# reproduces the previous hash bit-for-bit, so no existing component's route, status or gate count
+# moved (the 3/4 output counts are their gate counts). 25 rows -> 27.
+_BASELINE_TOUR_STRUCTURE = "58492fe8001a7ea438a106532eb972f72fb18eff03ef36e5375ff82790cd96ca"
 
 
 def _tour_structure_hash(tour) -> str:

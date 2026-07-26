@@ -1,0 +1,768 @@
+{
+ "note": "Paper A objective-family sensitivity sweep -- ALL SIX solute x variety panels (Paper 1 second review MC2: the manuscript previously claimed all three solutes and both varieties while only four panels had been run). Producer: puckworks.validation.slow.angeloni_bracket.identifiability_panel(...)['objective_family'] -- slow, hand-run, deterministic. Rate domain 0.15-6.5, 29-point geometric grid. Reproduction of the four previously recorded panels was verified exact.",
+ "producer": "puckworks.validation.slow.angeloni_bracket.identifiability_panel",
+ "producer_field": "objective_family",
+ "rate_domain": [
+  0.15,
+  6.5
+ ],
+ "n_rate_grid": 29,
+ "objectives": [
+  "sse",
+  "relative_l2",
+  "huber"
+ ],
+ "huber_delta_rule": "1.345 * 1.4826 * MAD of the residuals at the SSE optimum (95%-efficiency tuning), per panel",
+ "panels": {
+  "Arabica:caffeine": {
+   "n_conditions": 9,
+   "rate_domain": [
+    0.15,
+    6.5
+   ],
+   "n_rate_grid": 29,
+   "objective_family": {
+    "sse": {
+     "rate_at_min": 0.659,
+     "at_boundary": false,
+     "sets": {
+      "2pct": {
+       "frac_within": 0.207,
+       "rate_lo": 0.504,
+       "rate_hi": 0.987,
+       "log_width": 0.673,
+       "lower_censored": false,
+       "upper_censored": false
+      },
+      "5pct": {
+       "frac_within": 0.379,
+       "rate_lo": 0.44,
+       "rate_hi": 1.692,
+       "log_width": 1.346,
+       "lower_censored": false,
+       "upper_censored": false
+      },
+      "10pct": {
+       "frac_within": 0.759,
+       "rate_lo": 0.385,
+       "rate_hi": 6.5,
+       "log_width": 2.827,
+       "lower_censored": false,
+       "upper_censored": true
+      },
+      "20pct": {
+       "frac_within": 0.793,
+       "rate_lo": 0.336,
+       "rate_hi": 6.5,
+       "log_width": 2.961,
+       "lower_censored": false,
+       "upper_censored": true
+      }
+     }
+    },
+    "relative_l2": {
+     "rate_at_min": 0.576,
+     "at_boundary": false,
+     "sets": {
+      "2pct": {
+       "frac_within": 0.172,
+       "rate_lo": 0.504,
+       "rate_hi": 0.863,
+       "log_width": 0.538,
+       "lower_censored": false,
+       "upper_censored": false
+      },
+      "5pct": {
+       "frac_within": 0.276,
+       "rate_lo": 0.44,
+       "rate_hi": 1.13,
+       "log_width": 0.942,
+       "lower_censored": false,
+       "upper_censored": false
+      },
+      "10pct": {
+       "frac_within": 0.655,
+       "rate_lo": 0.385,
+       "rate_hi": 4.34,
+       "log_width": 2.423,
+       "lower_censored": false,
+       "upper_censored": false
+      },
+      "20pct": {
+       "frac_within": 0.828,
+       "rate_lo": 0.294,
+       "rate_hi": 6.5,
+       "log_width": 3.096,
+       "lower_censored": false,
+       "upper_censored": true
+      }
+     }
+    },
+    "huber": {
+     "rate_at_min": 0.863,
+     "at_boundary": false,
+     "sets": {
+      "2pct": {
+       "frac_within": 0.655,
+       "rate_lo": 0.576,
+       "rate_hi": 6.5,
+       "log_width": 2.423,
+       "lower_censored": false,
+       "upper_censored": true
+      },
+      "5pct": {
+       "frac_within": 0.69,
+       "rate_lo": 0.504,
+       "rate_hi": 6.5,
+       "log_width": 2.557,
+       "lower_censored": false,
+       "upper_censored": true
+      },
+      "10pct": {
+       "frac_within": 0.724,
+       "rate_lo": 0.44,
+       "rate_hi": 6.5,
+       "log_width": 2.692,
+       "lower_censored": false,
+       "upper_censored": true
+      },
+      "20pct": {
+       "frac_within": 0.793,
+       "rate_lo": 0.336,
+       "rate_hi": 6.5,
+       "log_width": 2.961,
+       "lower_censored": false,
+       "upper_censored": true
+      }
+     }
+    },
+    "huber_delta": 0.291957
+   }
+  },
+  "Arabica:trigonelline": {
+   "n_conditions": 9,
+   "rate_domain": [
+    0.15,
+    6.5
+   ],
+   "n_rate_grid": 29,
+   "objective_family": {
+    "sse": {
+     "rate_at_min": 3.794,
+     "at_boundary": false,
+     "sets": {
+      "2pct": {
+       "frac_within": 0.31,
+       "rate_lo": 2.214,
+       "rate_hi": 6.5,
+       "log_width": 1.077,
+       "lower_censored": false,
+       "upper_censored": true
+      },
+      "5pct": {
+       "frac_within": 0.379,
+       "rate_lo": 1.692,
+       "rate_hi": 6.5,
+       "log_width": 1.346,
+       "lower_censored": false,
+       "upper_censored": true
+      },
+      "10pct": {
+       "frac_within": 0.448,
+       "rate_lo": 1.292,
+       "rate_hi": 6.5,
+       "log_width": 1.615,
+       "lower_censored": false,
+       "upper_censored": true
+      },
+      "20pct": {
+       "frac_within": 0.517,
+       "rate_lo": 0.987,
+       "rate_hi": 6.5,
+       "log_width": 1.884,
+       "lower_censored": false,
+       "upper_censored": true
+      }
+     }
+    },
+    "relative_l2": {
+     "rate_at_min": 3.316,
+     "at_boundary": false,
+     "sets": {
+      "2pct": {
+       "frac_within": 0.345,
+       "rate_lo": 1.935,
+       "rate_hi": 6.5,
+       "log_width": 1.211,
+       "lower_censored": false,
+       "upper_censored": true
+      },
+      "5pct": {
+       "frac_within": 0.414,
+       "rate_lo": 1.479,
+       "rate_hi": 6.5,
+       "log_width": 1.481,
+       "lower_censored": false,
+       "upper_censored": true
+      },
+      "10pct": {
+       "frac_within": 0.483,
+       "rate_lo": 1.13,
+       "rate_hi": 6.5,
+       "log_width": 1.75,
+       "lower_censored": false,
+       "upper_censored": true
+      },
+      "20pct": {
+       "frac_within": 0.552,
+       "rate_lo": 0.863,
+       "rate_hi": 6.5,
+       "log_width": 2.019,
+       "lower_censored": false,
+       "upper_censored": true
+      }
+     }
+    },
+    "huber": {
+     "rate_at_min": 6.5,
+     "at_boundary": true,
+     "sets": {
+      "2pct": {
+       "frac_within": 0.276,
+       "rate_lo": 2.533,
+       "rate_hi": 6.5,
+       "log_width": 0.942,
+       "lower_censored": false,
+       "upper_censored": true
+      },
+      "5pct": {
+       "frac_within": 0.345,
+       "rate_lo": 1.935,
+       "rate_hi": 6.5,
+       "log_width": 1.211,
+       "lower_censored": false,
+       "upper_censored": true
+      },
+      "10pct": {
+       "frac_within": 0.448,
+       "rate_lo": 1.292,
+       "rate_hi": 6.5,
+       "log_width": 1.615,
+       "lower_censored": false,
+       "upper_censored": true
+      },
+      "20pct": {
+       "frac_within": 0.517,
+       "rate_lo": 0.987,
+       "rate_hi": 6.5,
+       "log_width": 1.884,
+       "lower_censored": false,
+       "upper_censored": true
+      }
+     }
+    },
+    "huber_delta": 0.158338
+   }
+  },
+  "Arabica:5CQA": {
+   "n_conditions": 9,
+   "rate_domain": [
+    0.15,
+    6.5
+   ],
+   "n_rate_grid": 29,
+   "objective_family": {
+    "sse": {
+     "rate_at_min": 6.5,
+     "at_boundary": true,
+     "sets": {
+      "2pct": {
+       "frac_within": 0.103,
+       "rate_lo": 4.966,
+       "rate_hi": 6.5,
+       "log_width": 0.269,
+       "lower_censored": false,
+       "upper_censored": true
+      },
+      "5pct": {
+       "frac_within": 0.207,
+       "rate_lo": 3.316,
+       "rate_hi": 6.5,
+       "log_width": 0.673,
+       "lower_censored": false,
+       "upper_censored": true
+      },
+      "10pct": {
+       "frac_within": 0.345,
+       "rate_lo": 1.935,
+       "rate_hi": 6.5,
+       "log_width": 1.211,
+       "lower_censored": false,
+       "upper_censored": true
+      },
+      "20pct": {
+       "frac_within": 0.483,
+       "rate_lo": 1.13,
+       "rate_hi": 6.5,
+       "log_width": 1.75,
+       "lower_censored": false,
+       "upper_censored": true
+      }
+     }
+    },
+    "relative_l2": {
+     "rate_at_min": 6.5,
+     "at_boundary": true,
+     "sets": {
+      "2pct": {
+       "frac_within": 0.138,
+       "rate_lo": 4.34,
+       "rate_hi": 6.5,
+       "log_width": 0.404,
+       "lower_censored": false,
+       "upper_censored": true
+      },
+      "5pct": {
+       "frac_within": 0.241,
+       "rate_lo": 2.898,
+       "rate_hi": 6.5,
+       "log_width": 0.808,
+       "lower_censored": false,
+       "upper_censored": true
+      },
+      "10pct": {
+       "frac_within": 0.345,
+       "rate_lo": 1.935,
+       "rate_hi": 6.5,
+       "log_width": 1.211,
+       "lower_censored": false,
+       "upper_censored": true
+      },
+      "20pct": {
+       "frac_within": 0.517,
+       "rate_lo": 0.987,
+       "rate_hi": 6.5,
+       "log_width": 1.884,
+       "lower_censored": false,
+       "upper_censored": true
+      }
+     }
+    },
+    "huber": {
+     "rate_at_min": 6.5,
+     "at_boundary": true,
+     "sets": {
+      "2pct": {
+       "frac_within": 0.103,
+       "rate_lo": 4.966,
+       "rate_hi": 6.5,
+       "log_width": 0.269,
+       "lower_censored": false,
+       "upper_censored": true
+      },
+      "5pct": {
+       "frac_within": 0.207,
+       "rate_lo": 3.316,
+       "rate_hi": 6.5,
+       "log_width": 0.673,
+       "lower_censored": false,
+       "upper_censored": true
+      },
+      "10pct": {
+       "frac_within": 0.345,
+       "rate_lo": 1.935,
+       "rate_hi": 6.5,
+       "log_width": 1.211,
+       "lower_censored": false,
+       "upper_censored": true
+      },
+      "20pct": {
+       "frac_within": 0.483,
+       "rate_lo": 1.13,
+       "rate_hi": 6.5,
+       "log_width": 1.75,
+       "lower_censored": false,
+       "upper_censored": true
+      }
+     }
+    },
+    "huber_delta": 0.619575
+   }
+  },
+  "Robusta:caffeine": {
+   "n_conditions": 9,
+   "rate_domain": [
+    0.15,
+    6.5
+   ],
+   "n_rate_grid": 29,
+   "objective_family": {
+    "sse": {
+     "rate_at_min": 0.196,
+     "at_boundary": false,
+     "sets": {
+      "2pct": {
+       "frac_within": 0.207,
+       "rate_lo": 0.15,
+       "rate_hi": 0.294,
+       "log_width": 0.673,
+       "lower_censored": true,
+       "upper_censored": false
+      },
+      "5pct": {
+       "frac_within": 0.241,
+       "rate_lo": 0.15,
+       "rate_hi": 0.336,
+       "log_width": 0.808,
+       "lower_censored": true,
+       "upper_censored": false
+      },
+      "10pct": {
+       "frac_within": 0.31,
+       "rate_lo": 0.15,
+       "rate_hi": 0.44,
+       "log_width": 1.077,
+       "lower_censored": true,
+       "upper_censored": false
+      },
+      "20pct": {
+       "frac_within": 0.621,
+       "rate_lo": 0.15,
+       "rate_hi": 6.5,
+       "log_width": 3.769,
+       "lower_censored": true,
+       "upper_censored": true
+      }
+     }
+    },
+    "relative_l2": {
+     "rate_at_min": 0.225,
+     "at_boundary": false,
+     "sets": {
+      "2pct": {
+       "frac_within": 0.207,
+       "rate_lo": 0.15,
+       "rate_hi": 0.294,
+       "log_width": 0.673,
+       "lower_censored": true,
+       "upper_censored": false
+      },
+      "5pct": {
+       "frac_within": 0.276,
+       "rate_lo": 0.15,
+       "rate_hi": 0.385,
+       "log_width": 0.942,
+       "lower_censored": true,
+       "upper_censored": false
+      },
+      "10pct": {
+       "frac_within": 0.345,
+       "rate_lo": 0.15,
+       "rate_hi": 0.504,
+       "log_width": 1.211,
+       "lower_censored": true,
+       "upper_censored": false
+      },
+      "20pct": {
+       "frac_within": 0.793,
+       "rate_lo": 0.15,
+       "rate_hi": 6.5,
+       "log_width": 3.769,
+       "lower_censored": true,
+       "upper_censored": true
+      }
+     }
+    },
+    "huber": {
+     "rate_at_min": 0.196,
+     "at_boundary": false,
+     "sets": {
+      "2pct": {
+       "frac_within": 0.207,
+       "rate_lo": 0.15,
+       "rate_hi": 0.294,
+       "log_width": 0.673,
+       "lower_censored": true,
+       "upper_censored": false
+      },
+      "5pct": {
+       "frac_within": 0.241,
+       "rate_lo": 0.15,
+       "rate_hi": 0.336,
+       "log_width": 0.808,
+       "lower_censored": true,
+       "upper_censored": false
+      },
+      "10pct": {
+       "frac_within": 0.31,
+       "rate_lo": 0.15,
+       "rate_hi": 0.44,
+       "log_width": 1.077,
+       "lower_censored": true,
+       "upper_censored": false
+      },
+      "20pct": {
+       "frac_within": 0.621,
+       "rate_lo": 0.15,
+       "rate_hi": 6.5,
+       "log_width": 3.769,
+       "lower_censored": true,
+       "upper_censored": true
+      }
+     }
+    },
+    "huber_delta": 1.029953
+   }
+  },
+  "Robusta:trigonelline": {
+   "n_conditions": 9,
+   "rate_domain": [
+    0.15,
+    6.5
+   ],
+   "n_rate_grid": 29,
+   "objective_family": {
+    "sse": {
+     "rate_at_min": 0.44,
+     "at_boundary": false,
+     "sets": {
+      "2pct": {
+       "frac_within": 0.207,
+       "rate_lo": 0.336,
+       "rate_hi": 0.659,
+       "log_width": 0.673,
+       "lower_censored": false,
+       "upper_censored": false
+      },
+      "5pct": {
+       "frac_within": 0.379,
+       "rate_lo": 0.294,
+       "rate_hi": 1.13,
+       "log_width": 1.346,
+       "lower_censored": false,
+       "upper_censored": false
+      },
+      "10pct": {
+       "frac_within": 0.655,
+       "rate_lo": 0.225,
+       "rate_hi": 2.533,
+       "log_width": 2.423,
+       "lower_censored": false,
+       "upper_censored": false
+      },
+      "20pct": {
+       "frac_within": 1.0,
+       "rate_lo": 0.15,
+       "rate_hi": 6.5,
+       "log_width": 3.769,
+       "lower_censored": true,
+       "upper_censored": true
+      }
+     }
+    },
+    "relative_l2": {
+     "rate_at_min": 0.576,
+     "at_boundary": false,
+     "sets": {
+      "2pct": {
+       "frac_within": 0.276,
+       "rate_lo": 0.44,
+       "rate_hi": 1.13,
+       "log_width": 0.942,
+       "lower_censored": false,
+       "upper_censored": false
+      },
+      "5pct": {
+       "frac_within": 0.517,
+       "rate_lo": 0.336,
+       "rate_hi": 2.214,
+       "log_width": 1.884,
+       "lower_censored": false,
+       "upper_censored": false
+      },
+      "10pct": {
+       "frac_within": 0.828,
+       "rate_lo": 0.294,
+       "rate_hi": 6.5,
+       "log_width": 3.096,
+       "lower_censored": false,
+       "upper_censored": true
+      },
+      "20pct": {
+       "frac_within": 0.931,
+       "rate_lo": 0.196,
+       "rate_hi": 6.5,
+       "log_width": 3.5,
+       "lower_censored": false,
+       "upper_censored": true
+      }
+     }
+    },
+    "huber": {
+     "rate_at_min": 0.504,
+     "at_boundary": false,
+     "sets": {
+      "2pct": {
+       "frac_within": 0.276,
+       "rate_lo": 0.336,
+       "rate_hi": 0.863,
+       "log_width": 0.942,
+       "lower_censored": false,
+       "upper_censored": false
+      },
+      "5pct": {
+       "frac_within": 0.517,
+       "rate_lo": 0.294,
+       "rate_hi": 1.935,
+       "log_width": 1.884,
+       "lower_censored": false,
+       "upper_censored": false
+      },
+      "10pct": {
+       "frac_within": 0.897,
+       "rate_lo": 0.225,
+       "rate_hi": 6.5,
+       "log_width": 3.365,
+       "lower_censored": false,
+       "upper_censored": true
+      },
+      "20pct": {
+       "frac_within": 1.0,
+       "rate_lo": 0.15,
+       "rate_hi": 6.5,
+       "log_width": 3.769,
+       "lower_censored": true,
+       "upper_censored": true
+      }
+     }
+    },
+    "huber_delta": 0.275678
+   }
+  },
+  "Robusta:5CQA": {
+   "n_conditions": 9,
+   "rate_domain": [
+    0.15,
+    6.5
+   ],
+   "n_rate_grid": 29,
+   "objective_family": {
+    "sse": {
+     "rate_at_min": 0.15,
+     "at_boundary": true,
+     "sets": {
+      "2pct": {
+       "frac_within": 0.414,
+       "rate_lo": 0.15,
+       "rate_hi": 0.659,
+       "log_width": 1.481,
+       "lower_censored": true,
+       "upper_censored": false
+      },
+      "5pct": {
+       "frac_within": 1.0,
+       "rate_lo": 0.15,
+       "rate_hi": 6.5,
+       "log_width": 3.769,
+       "lower_censored": true,
+       "upper_censored": true
+      },
+      "10pct": {
+       "frac_within": 1.0,
+       "rate_lo": 0.15,
+       "rate_hi": 6.5,
+       "log_width": 3.769,
+       "lower_censored": true,
+       "upper_censored": true
+      },
+      "20pct": {
+       "frac_within": 1.0,
+       "rate_lo": 0.15,
+       "rate_hi": 6.5,
+       "log_width": 3.769,
+       "lower_censored": true,
+       "upper_censored": true
+      }
+     }
+    },
+    "relative_l2": {
+     "rate_at_min": 0.44,
+     "at_boundary": false,
+     "sets": {
+      "2pct": {
+       "frac_within": 1.0,
+       "rate_lo": 0.15,
+       "rate_hi": 6.5,
+       "log_width": 3.769,
+       "lower_censored": true,
+       "upper_censored": true
+      },
+      "5pct": {
+       "frac_within": 1.0,
+       "rate_lo": 0.15,
+       "rate_hi": 6.5,
+       "log_width": 3.769,
+       "lower_censored": true,
+       "upper_censored": true
+      },
+      "10pct": {
+       "frac_within": 1.0,
+       "rate_lo": 0.15,
+       "rate_hi": 6.5,
+       "log_width": 3.769,
+       "lower_censored": true,
+       "upper_censored": true
+      },
+      "20pct": {
+       "frac_within": 1.0,
+       "rate_lo": 0.15,
+       "rate_hi": 6.5,
+       "log_width": 3.769,
+       "lower_censored": true,
+       "upper_censored": true
+      }
+     }
+    },
+    "huber": {
+     "rate_at_min": 0.336,
+     "at_boundary": false,
+     "sets": {
+      "2pct": {
+       "frac_within": 1.0,
+       "rate_lo": 0.15,
+       "rate_hi": 6.5,
+       "log_width": 3.769,
+       "lower_censored": true,
+       "upper_censored": true
+      },
+      "5pct": {
+       "frac_within": 1.0,
+       "rate_lo": 0.15,
+       "rate_hi": 6.5,
+       "log_width": 3.769,
+       "lower_censored": true,
+       "upper_censored": true
+      },
+      "10pct": {
+       "frac_within": 1.0,
+       "rate_lo": 0.15,
+       "rate_hi": 6.5,
+       "log_width": 3.769,
+       "lower_censored": true,
+       "upper_censored": true
+      },
+      "20pct": {
+       "frac_within": 1.0,
+       "rate_lo": 0.15,
+       "rate_hi": 6.5,
+       "log_width": 3.769,
+       "lower_censored": true,
+       "upper_censored": true
+      }
+     }
+    },
+    "huber_delta": 0.893282
+   }
+  }
+ }
+}

@@ -1,0 +1,8 @@
+stage,runtime,calibration
+grind,0,2
+packing,0,2
+machine,1,1
+infiltration,1,1
+flow,1,4
+extraction,5,4
+bed_dynamics,4,1

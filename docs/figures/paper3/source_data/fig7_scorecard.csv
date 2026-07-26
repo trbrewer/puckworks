@@ -1,0 +1,11 @@
+stage,label,selection,status,status_is_derived
+(configuration),Named preparation,,specified,False
+machine,Machine boundary,de1_fixtureA,observed,False
+infiltration,Infiltration,foster2025.infiltration,compatibility check,True
+packing,Packing / permeability,wadsworth2026.permeability,reconstructed (source curve),True
+flow,Flow law,wadsworth2026.inertial,verified (code only) + compatibility check + reconstructed (source curve),True
+bed_dynamics,Bed dynamics,waszkiewicz2025.poroelastic,reconstructed,True
+extraction,Aggregate extraction,cameron2020.extraction_bdf,verified (code only) + compatibility check,True
+extraction,Named-solute extraction,pannusch2024.solver,reconstructed,True
+(adapter),Ramp sensitivity,,open,False
+(measurement),Final exact cup,,open,False

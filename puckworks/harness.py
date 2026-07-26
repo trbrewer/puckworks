@@ -124,7 +124,9 @@ def kappa_t_ladder(window=_KAPPA_LADDER_WINDOW):
     to the SAME trace -- a NON-mechanistic curve. If it reaches rung4's RMSE then
     the ladder establishes that TIME VARIATION is needed, NOT that a specific bed
     mechanism is validated; the mechanistic content is that a ZERO-free-parameter
-    poroelastic Phi(t) nearly reaches that flexible floor.
+    poroelastic Phi(t) approaches that same-trace descriptive benchmark. NOTE Phi(t) is NOT
+    parameter-free: it carries rig constants and target-derived sigmoid parameters upstream (see
+    puckworks.paper_b.evidence_ontology).
     (rung 2, the foster2025 pump/headspace flow-MINIMUM null, is a distinct
      early-shot phenomenon validated by gate_foster_fig15_flowmin, not the
      saturated rising-flow residual tested here.)
@@ -206,7 +208,7 @@ def kappa_t_ladder(window=_KAPPA_LADDER_WINDOW):
                 flexible_cubic_null=round(rmse_cubic, 3),
                 free_params=dict(rung1=1, rung1b=1, rung3=0, rung4=0, rung5=0,
                                  rung5b_swelling=1, flexible_cubic=4),
-                rung4_beats_floor=rmse4 < best_null,
+                rung4_beats_flexible_benchmark=rmse4 < best_null,
                 improvement_factor=round(best_null / rmse4, 1),      # vs BEST null
                 improvement_vs_static=round(rmse_static / rmse4, 1),
                 cubic_beats_dynamic=rmse_cubic < rmse4,
@@ -214,8 +216,9 @@ def kappa_t_ladder(window=_KAPPA_LADDER_WINDOW):
                     "time variation is NEEDED (all constant nulls >=%.2f vs "
                     "Phi(t) %.2f); a 4-param flexible curve reaches %.2f, so the "
                     "ladder establishes NEED for time variation, not a specific "
-                    "bed mechanism -- the mechanistic content is a ZERO-param "
-                    "poroelastic Phi(t) nearly reaching the flexible floor"
+                    "bed mechanism -- the mechanistic content is a poroelastic Phi(t) with no "
+                    "coefficient fitted to the scored trace (though target-informed upstream) "
+                    "approaching the same-trace descriptive benchmark"
                     % (best_null, rmse4, rmse_cubic)),
                 rc3b_vs_rung4="worse (near-instant favored, §5.6)" if rmse5 > rmse4 else "better")
 
@@ -1648,7 +1651,9 @@ def cross_pressure_loco(window=(15.0, 95.0)):
     (PAPER_B §7 owed item). The shared-calibration `cross_pressure_discrimination`
     fits (P_c, Q_c) over ALL 11 pressures, so every predicted trace saw its own
     pressure in the fit. Here we refit the static equilibrium pair (P_c, Q_c) on
-    the OTHER 10 equilibrium points and predict the genuinely held-out 11th trace
+    the OTHER 10 equilibrium points and predict the 11th trace. This withholds the EQUILIBRIUM
+    CALIBRATION only -- the temporal construction is retained -- so it is an
+    `equilibrium_calibration_lopo` sensitivity, NOT held-out trace prediction
     (static / Phi(t) / RC-3b), RMSE over the window.
 
     COMPANION to `analysis.lopo_cv.lopo_waszkiewicz_pressure`, which does the

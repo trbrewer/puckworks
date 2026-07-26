@@ -1,0 +1,116 @@
+{
+  "architectural_intent_only": [
+    "Arbitrary multi-stage configuration (any component set composes)",
+    "Observables stage"
+  ],
+  "columns": [
+    "specified",
+    "implemented",
+    "gated",
+    "demonstrated",
+    "in_release",
+    "dev_main_only",
+    "public"
+  ],
+  "counts": {
+    "demonstrated": 6,
+    "dev_main_only": 3,
+    "gated": 5,
+    "implemented": 6,
+    "in_release": 3,
+    "public": 3,
+    "specified": 8
+  },
+  "how": "declared with per-row evidence",
+  "n_capabilities": 8,
+  "rows": [
+    {
+      "capability": "Typed stage contracts with unit assertions at boundaries",
+      "demonstrated": true,
+      "dev_main_only": false,
+      "evidence": "puckworks/contracts.py + SCHEMA_VERSION; boundary assertions exercised by the quick gates",
+      "gated": true,
+      "implemented": true,
+      "in_release": true,
+      "public": true,
+      "specified": true
+    },
+    {
+      "capability": "First-class adapters between components",
+      "demonstrated": true,
+      "dev_main_only": false,
+      "evidence": "puckworks/product/linked_pull adapters; the relay's audited run records 7 adapter hand-offs. NOT automatic: each adapter is written and reviewed.",
+      "gated": true,
+      "implemented": true,
+      "in_release": true,
+      "public": true,
+      "specified": true
+    },
+    {
+      "capability": "Arbitrary multi-stage configuration (any component set composes)",
+      "demonstrated": false,
+      "dev_main_only": false,
+      "evidence": "ARCHITECTURAL INTENT. The registry makes incompatibilities VISIBLE and supports SELECTED explicit configurations; it does not prove compatibility or synthesize an arbitrary chosen set. The failed swelling composition (\u00a75) is the worked example of why.",
+      "gated": false,
+      "implemented": false,
+      "in_release": false,
+      "public": false,
+      "specified": true
+    },
+    {
+      "capability": "Observables stage",
+      "demonstrated": false,
+      "dev_main_only": false,
+      "evidence": "ARCHITECTURAL INTENT. The stage exists in the taxonomy and holds zero registered components; Table 1 is generated, so the emptiness is visible rather than asserted.",
+      "gated": false,
+      "implemented": false,
+      "in_release": false,
+      "public": false,
+      "specified": true
+    },
+    {
+      "capability": "Named-shot scorecard generated from producers",
+      "demonstrated": true,
+      "dev_main_only": true,
+      "evidence": "puckworks/paper3/named_shot_scorecard.py with --verify and a CI guard; landed after v0.3.0, so it is dev-main only.",
+      "gated": true,
+      "implemented": true,
+      "in_release": false,
+      "public": false,
+      "specified": true
+    },
+    {
+      "capability": "Deterministic redistributable archive with per-member manifest",
+      "demonstrated": true,
+      "dev_main_only": true,
+      "evidence": "puckworks/paper3/archive.py; byte-identical across builds, verifies without the source checkout; post-v0.3.0.",
+      "gated": true,
+      "implemented": true,
+      "in_release": false,
+      "public": false,
+      "specified": true
+    },
+    {
+      "capability": "Community-corpus ingestion workflow",
+      "demonstrated": true,
+      "dev_main_only": true,
+      "evidence": "Harvest path exists and the \u00a77.4 demo runs, but the canonical historical corpus is NOT obtainable through the public API, so no gate depends on it.",
+      "gated": false,
+      "implemented": true,
+      "in_release": false,
+      "public": false,
+      "specified": true
+    },
+    {
+      "capability": "Rights preflight before any producer call",
+      "demonstrated": true,
+      "dev_main_only": false,
+      "evidence": "puckworks/rights.py + product/lab_rights_gate.py; fail-closed for public paths.",
+      "gated": true,
+      "implemented": true,
+      "in_release": true,
+      "public": true,
+      "specified": true
+    }
+  ]
+}

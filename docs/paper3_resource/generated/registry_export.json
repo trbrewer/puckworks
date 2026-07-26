@@ -97,6 +97,18 @@
       "stage": "extraction"
     },
     {
+      "doi": "",
+      "evidence_strength": "source_curve_reproduction",
+      "execution_role": "calibration",
+      "id": "maille2024.two_regime",
+      "kind_legacy": "calibration",
+      "module": "puckworks.models.maille2024.two_regime",
+      "n_gates": 4,
+      "paper": "Maille, M.J. 'Measuring Coffee Extraction Kinetics at Early Time Scales.' PhD thesis, University of Sheffield (2024)",
+      "provenance_class": "published_port",
+      "stage": "extraction"
+    },
+    {
       "doi": "10.1016/j.jfoodeng.2023.111843",
       "evidence_strength": "post_fit_reconstruction",
       "execution_role": "runtime",
@@ -217,6 +229,18 @@
       "stage": "flow"
     },
     {
+      "doi": "",
+      "evidence_strength": "code_verification",
+      "execution_role": "calibration",
+      "id": "maille2024.phi_closure",
+      "kind_legacy": "calibration",
+      "module": "puckworks.models.maille2024.phi_closure",
+      "n_gates": 3,
+      "paper": "Maille, M.J. 'Measuring Coffee Extraction Kinetics at Early Time Scales.' PhD thesis, University of Sheffield (2024)",
+      "provenance_class": "published_port",
+      "stage": "grind"
+    },
+    {
       "doi": "10.1098/rsos.252031",
       "evidence_strength": "source_curve_reproduction",
       "execution_role": "calibration",
@@ -301,7 +325,7 @@
       "stage": "packing"
     }
   ],
-  "content_sha256": "19c9f127dc4e7123700c4d44cb7c3ea3264f1b852adcf677526fe21962117e7a",
-  "n_components": 25,
+  "content_sha256": "e9eb4f618b21ea424b6c4ca8e08d287548e50afcef07b57d73d7cbd423408988",
+  "n_components": 27,
   "schema_version": 1
 }

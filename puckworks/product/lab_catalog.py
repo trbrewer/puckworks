@@ -56,6 +56,12 @@ _CAPABILITY: dict[str, dict] = {
     "lee2023.feedback": {"disposition": "CALIBRATION_OR_CLOSURE", "adapter_capability": "NOT_APPLICABLE"},
     "liang2021.desorption": {"disposition": "CALIBRATION_OR_CLOSURE",
                              "adapter_capability": "NOT_APPLICABLE"},
+    # maille2024: a stirred BATCH reactor -- no bed, no pressure, no flow, and no EY/TDS output at
+    # all, so it can never be an independent shot model or overlay a pull. Calibration/closure only.
+    "maille2024.phi_closure": {"disposition": "CALIBRATION_OR_CLOSURE",
+                               "adapter_capability": "NOT_APPLICABLE"},
+    "maille2024.two_regime": {"disposition": "CALIBRATION_OR_CLOSURE",
+                              "adapter_capability": "NOT_APPLICABLE"},
     "moroney2016.surrogate": {"disposition": "CALIBRATION_OR_CLOSURE",
                               "adapter_capability": "NOT_APPLICABLE"},
     "pannusch2024.closures": {"disposition": "CALIBRATION_OR_CLOSURE",

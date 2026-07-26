@@ -384,7 +384,8 @@ def gate_p2_kappa_ladder():
     kappa(P) (~0.65) -- by ~4.9x: time variation IS needed. A 4-param flexible
     (non-mechanistic) cubic reaches ~0.10, so the ladder establishes NEED for time
     variation, not a specific bed mechanism; the mechanistic content is that a
-    zero-parameter poroelastic Phi(t) nearly reaches that flexible floor. Rung 5
+    poroelastic Phi(t) -- no coefficient fitted to the scored trace, but target-informed
+    upstream -- approaches that same-trace descriptive benchmark. Rung 5
     RC-3b (Cameron-coupled, diffusion-limited Phi) beats the constant nulls too but
     is ~3x WORSE than rung 4 -> near-instant dissolution favored (§5.6). Rung 5b, the
     mo2023_2 SWELLING competitor (Phase-3 discrimination), predicts the WRONG SIGN: its
@@ -394,7 +395,7 @@ def gate_p2_kappa_ladder():
     as the driver of the rising-flow residual (card: 'enters with the wrong sign')."""
     from puckworks import harness as h
     L = h.kappa_t_ladder()
-    passed = (L["rung4_beats_floor"] and L["improvement_factor"] > 2.0
+    passed = (L["rung4_beats_flexible_benchmark"] and L["improvement_factor"] > 2.0
               and L["rung4_phi_of_t"] < 0.2
               # the three constant nulls are DISTINCT (not one RMSE copied twice)
               and L["rung1_const_kappa"] < L["rung3_static_kappaP"]
@@ -531,14 +532,33 @@ def gate_kappa_t_degeneracy():
     """brewer2026_coupled_kappa_t degeneracy (card gate): with swelling/compaction/
     fines OFF, the coupled porosity ODE reduces to waszkiewicz2025.poroelastic
     EXACTLY -- extraction-only Phi(t) == m_d(t)/m0, and the 9-bar Q(t) RMSE matches
-    the poroelastic component alone (rung 4, ~0.113). Verification of the reduction.
+    the poroelastic component alone (rung 4). Verification of the reduction.
     (Flow uses the poroelastic closure = card Eq.2 as corrected 2026-07-11; CK is
-    far too gentle for the near-choke 14x flow rise and is auxiliary only.)"""
+    far too gentle for the near-choke 14x flow rise and is auxiliary only.)
+
+    P0-5: the rung-4 reference is now COMPUTED from waszkiewicz2025.poroelastic on the same
+    window, not carried as a literal. It previously read 0.113 while the gate itself computed
+    0.116 -- a gate whose whole point is an EXACT reduction was comparing against a stale
+    number, and the evidence-graph claim prose copied that stale number."""
+    import numpy as np
+    from puckworks import data as d
     from puckworks.models.brewer2026 import coupled_kappa_t as ck
+    from puckworks.models.waszkiewicz2025 import poroelastic as wz
     rmse = ck.degeneracy_rmse(P_bar=9.0)
-    passed = bool(rmse < 0.13)                              # == rung 4 (0.113)
-    return dict(passed=passed, degeneracy_rmse=round(rmse, 3), rung4_ref=0.113,
-                note="exact reduction via the poroelastic closure (card Eq.2, corrected)")
+    # the reference: waszkiewicz's OWN q_dynamic on the same trace/window (this IS rung 4)
+    tr = d.waszkiewicz_traces()
+    t, qobs = tr[9.0]["time__s"], tr[9.0]["mass_flow_rate__g_per_s"]
+    sel = (t >= 15.0) & (t <= 95.0)
+    P_c, Q_c = wz.published_calibration()
+    k_s, l_s, m_s = wz._solids_params()
+    dose = d.waszkiewicz_constants()["dose__g"]
+    q4 = wz.q_dynamic(t[sel], 9.0, P_c, Q_c, k_s, l_s, m_s, dose)
+    rung4_ref = float(np.sqrt(np.nanmean((q4 - qobs[sel]) ** 2)))
+    passed = bool(rmse < 0.13 and abs(rmse - rung4_ref) < 0.005)   # EXACT reduction, computed
+    return dict(passed=passed, degeneracy_rmse=round(rmse, 3), rung4_ref=round(rung4_ref, 3),
+                reduction_gap=round(abs(rmse - rung4_ref), 4),
+                note="exact reduction via the poroelastic closure (card Eq.2, corrected); the "
+                     "rung-4 reference is computed, not a literal")
 
 
 def gate_kappa_t_composition_diagnostic():
@@ -546,7 +566,7 @@ def gate_kappa_t_composition_diagnostic():
     tune it away'). Adding the PARAMETER-FREE swelling branch (mo2023_2) to the
     shared porosity OVER-CLOSES the Waszkiewicz saturated pre-wet rig -> the
     composite eps drops below eps0 and the 9-bar residual jumps from ~0.12 to
-    ~0.65 (worse than the flat null 0.603). The residual DIAGNOSES a mis-scaled
+    0.648 (worse than the flat null 0.573). The residual DIAGNOSES a mis-scaled
     branch -- mo2023_2's fixed-dP swelling does not apply to an already-swollen
     saturated bed. Gate verifies the framework behaves correctly (shared-eps
     additive composition, swelling closes eps<eps0) and surfaces the diagnostic."""
@@ -1852,3 +1872,146 @@ def gate_pack_generator_admissible():
     return dict(passed=bool(ok), phis=round(phis, 3), porosity=round(1.0 - phis, 3),
                 grain_radius_voxels=round(r_vox, 1),
                 hetero_mean=float(f.mean()), hetero_std=round(float(f.std()), 4))
+
+
+# --- maille2024 (registered 2026-07-25): early-time two-regime batch kinetics + the PSD->phi
+# closure. BOTH components are `calibration` -- batch, stirred, bed-free, flow-free, coarse-grind,
+# no EY/TDS. Nothing here validates any model against reality; the strongest tier any of these
+# gates reaches is source_curve_reproduction (the source's OWN published numbers), and the two
+# portability probes are qualitative model-to-model comparisons. ------------------------------
+def gate_maille_e1_shell_depth():
+    """SOURCE-TABLE ADJUDICATION (card erratum E1): resolve the printed Eq-6.9 shell depth against
+    the source's own published Table 6.3.
+
+    Eq 6.9 as PRINTED removes ONE coffee-cell layer (2*d_c off a DIAMETER); the surrounding text
+    says "the first TWO layers". Recomputing theta_v,coarse at each depth from the hybrid D[4,3]
+    (the single-diameter approximation forced on us because the per-bin PSD is unpublished) settles
+    it: TWO layers reproduce Table 6.3, ONE does not. This gate PINS that convention -- it roughly
+    doubles phi, so a silent regression to the printed form would corrupt every downstream phi.
+    Strength: code_verification (an approximation reproducing the source's own derived table)."""
+    from puckworks.analysis import maille2024 as mz
+    r = mz.e1_shell_depth_resolution()
+    return dict(passed=bool(r["passed"] and r["adopted"] == "two_layer"),
+                adopted=r["adopted"], n_materials=r["n_materials"],
+                mean_abs_err_two_layer=r["mean_abs_err_two_layer"],
+                mean_abs_err_one_layer=r["mean_abs_err_one_layer"])
+
+
+def gate_maille_phi_closure_consistency():
+    """TRANSCRIPTION + INTERNAL CONSISTENCY of the phi closure across two independently digitized
+    tables: (a) Eq 6.7 phi = theta_v,fines + theta_v,coarse holds at every material; (b) Table 6.3's
+    theta_v,fines equals Table 5.4's measured sub-186 um volume fraction.
+
+    This gates the DATA, not the physics: it catches a transcription error in the 17-row phi table,
+    which is the single most reusable artifact taken from this source. Strength: code_verification."""
+    from puckworks.analysis import maille2024 as mz
+    r = mz.phi_closure_consistency()
+    return dict(passed=bool(r["passed"]), n_materials=r["n_materials"],
+                eq67_violations=r["eq67_violations"],
+                theta_v_fines_vs_psd_mean_abs_diff=r["theta_v_fines_vs_psd_mean_abs_diff"])
+
+
+def gate_maille_phi_split_vs_cameron():
+    """OBSERVABLE-SEMANTICS DISCRIMINATION (the card's headline gate): run maille's PSD->phi closure
+    on cameron2020's MEASURED binned EK43 PSD (Fig 2) and compare with the fines-population fraction
+    cameron's extraction_bdf actually FITS.
+
+    A NEGATIVE/diagnostic gate. Passing means the registry has SURFACED the disagreement, not
+    resolved it: both fast-fractions fall as the grind coarsens (sign agreement), but they differ
+    ~5-9x because maille's "fast" (fines < 186 um PLUS coarse-particle outer shells) and cameron's
+    "fast" (the 12 um fines class) are NOT the same quantity. Passing does NOT license using phi as
+    cameron's split -- it quantifies the error that substitution would make. Note maille's phi lands
+    at ~0.85-0.94 on cameron's espresso-fine PSD, well above its own measured 0.36-0.65: an
+    extrapolation of the closure into exactly the regime it was never tested in.
+    Strength: sign_or_compatibility."""
+    from puckworks.analysis import maille2024 as mz
+    r = mz.phi_split_vs_cameron()
+    return dict(passed=bool(r["passed"] and not r["commensurable"]),
+                both_decrease_with_coarser_grind=r["both_decrease_with_coarser_grind"],
+                ratio_range=r["ratio_range"], commensurable=r["commensurable"],
+                maille_phi_on_cameron_range=r["maille_phi_on_cameron_range"],
+                maille_own_phi_range=r["maille_own_phi_range"])
+
+
+def gate_maille_two_regime_reproduction():
+    """SOURCE-CURVE REPRODUCTION: the TABULATED model -- phi from Table 6.3, lambda_fast/lambda_slow
+    from Tables 6.4/6.5, tau at the card's visual values -- reproduces the digitized Omega_A
+    extraction curves (Figs 4.6-4.10, five compounds) to about the model's OWN reported MPE (4-10%).
+
+    NOT an independent re-fit and NOT a validation: every parameter comes from the source, and the
+    target curves come from the same source's figures. It certifies that our Eq-6.2 implementation
+    and the digitization agree with the published fit. Strength: source_curve_reproduction."""
+    from puckworks.analysis import maille2024 as mz
+    r = mz.two_regime_reproduction()
+    return dict(passed=bool(r["passed"]), worst_mape_pct=r["worst_mape_pct"],
+                phi_omega_a=r["phi_omega_a"],
+                per_analyte_mape_pct={k: v["mape_pct"] for k, v in r["per_analyte"].items()})
+
+
+def gate_maille_kinetics_ci_flags():
+    """ERRATA REPORT GATE (card E5): surface every published 95% CI that does not bracket its own
+    point estimate. Exactly two exist and both must stay visible -- Omega_T/3-CQA lambda_fast (upper
+    11.9 < estimate 12.2) and Omega_L/quinic lambda_slow ([65, 54] around 44).
+
+    This gate FAILS if the count changes: a drop would mean a transcription "fix" silently corrected
+    the source (forbidden -- errata are flagged, never repaired), a rise would mean a new
+    transcription error. The point estimates remain usable; only the CIs are unusable.
+    Strength: code_verification."""
+    from puckworks.models.maille2024 import two_regime as tr
+    r = tr.ci_flags()
+    flagged = r["flagged"]
+    keys = sorted((f["sample"], f["compound"], f["regime"]) for f in flagged)
+    expected = [("Omega_L", "Quinic", "lambda_slow"), ("Omega_T", "3-CQA", "lambda_fast")]
+    return dict(passed=bool(keys == expected), n_impossible_ci=len(flagged),
+                flagged=keys, expected=expected, n_rows_scanned=r["n_rows_scanned"])
+
+
+def gate_maille_timescale_portability_cameron():
+    """QUALITATIVE model-to-model portability probe (card gate 4, cameron half): fit maille's Eq 6.2
+    to cameron2020's MODEL-GENERATED cumulative extraction curve and ask whether the fitted
+    lambda_fast lands in maille's observed 2.2-19.1 s band.
+
+    It does not, in any of the four EK43 grinds -- so maille's two-regime decomposition does not
+    port to cameron's flowing bed. THREE caveats keep this qualitative and make it a probe of the
+    MAPPING, never a validation of either model: cameron has no well-mixed configuration (it is a
+    percolation bed, so the fit target is its cup curve); it is run to exhaustion (~400 s), far past
+    its validated ~30 s recipe, to expose lambda_slow at all; and it lumps one solute where maille
+    resolves five. Three of the four settings are additionally single-exponential-like (a second
+    exponential buys ~0 R2 and the mixture weight wanders across multistart -- non-identifiable);
+    the coarsest returns two separated constants and is left to formal model selection rather than
+    asserted single-timescale. Strength: qualitative_capacity."""
+    from puckworks.analysis import maille2024 as mz
+    r = mz.cross_model_timescale_cameron()
+    return dict(passed=bool(r["passed"] and not r["two_regime_ports_to_cameron"]),
+                no_maille_fast_component=r["no_maille_fast_component"],
+                n_settings_single_exp_like=r["n_settings_single_exp_like"],
+                n_settings_non_identifiable=r["n_settings_non_identifiable"],
+                coarsest_needs_model_selection=r["coarsest_needs_model_selection"],
+                portability_verdict=r["portability_verdict"])
+
+
+def gate_maille_timescale_portability_roman():
+    """QUALITATIVE model-to-model portability probe (card gate 4, Roman-Corrochano half) -- the
+    GENUINELY well-mixed stirred-vessel configuration cameron lacks.
+
+    Roman's raw curves were never published, so the target is again model-generated (its
+    Crank-verified spherical-diffusion solver, one lumped medium-MW species, fine class R ~ 20 um).
+    The finding is SEMANTIC, not numerical: the fitted dimensionless SHAPE is universal -- weight
+    ~0.32 and slow/fast ratio ~12.3 are invariant across the seven grinds -- while the ABSOLUTE
+    constants scale with the diffusion time R^2/D_eff and vary ~1.9x, so only the shape is
+    grind-invariant. That shape is the early/late-time signature of ONE physical diffusion process
+    in one particle class, NOT maille's material-varying two-POOL (fines + coarse shells) split.
+    Same curve form, different construct. At the SELECTED 20 um fine class both constants sit below
+    maille's bands; the coarse-class radius is not published in-repo and is deliberately NOT
+    fabricated, so that class is not evaluated. Strength: qualitative_capacity."""
+    from puckworks.analysis import maille2024 as mz
+    r = mz.cross_model_timescale_roman()
+    return dict(passed=bool(r["passed"] and not r["two_regime_ports_to_roman"]),
+                shape_is_scale_invariant=r["shape_is_scale_invariant"],
+                absolute_timescales_are_grind_independent=r[
+                    "absolute_timescales_are_grind_independent"],
+                universal_phi=r["universal_phi"],
+                universal_ratio_slow_over_fast=r["universal_ratio_slow_over_fast"],
+                none_in_maille_bands_fine_class=r["none_in_maille_bands_fine_class"],
+                coarse_class_status=r["coarse_class_status"],
+                portability_verdict=r["portability_verdict"])

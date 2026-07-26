@@ -37,6 +37,7 @@ CLI:
 import csv
 import hashlib
 import io
+import dataclasses as dc
 import json
 from pathlib import Path
 
@@ -73,8 +74,10 @@ SOURCE_INDEPENDENCE = ("independent", "held_out_same_campaign", "same_campaign",
                        "fit_input", "not_applicable")
 EVIDENCE_STRENGTHS = R.EVIDENCE_STRENGTHS
 # registry EVIDENCE_STRENGTHS is authored in DESCENDING strength order, so the tuple index is a
-# strength rank (0 = strongest). Used by the component->gate roll-up rule.
-_STRENGTH_RANK = {s: i for i, s in enumerate(EVIDENCE_STRENGTHS)}
+# NOTE: there is deliberately NO rank/order over EVIDENCE_STRENGTHS anywhere in this module.
+# The strongest-gate roll-up that once needed one was replaced by _scope_membership_probe, because
+# an ordering contradicted the paper's own argument that these relations answer different questions
+# (Paper 3 review P0-3/P0-4).
 
 # asserted Paper-3 claims that the paper3 release gate is fail-closed on
 _ASSERTED_PAPER3_USES = ("primary_claim", "method_demonstration")
@@ -203,17 +206,102 @@ def _has_placeholder(link):
     return False
 
 
-def _rollup_probe(live_tier, gate_tiers):
-    """Return a ROLLUP problem string if a component's declared `live_tier` is STRONGER than the
-    strongest tier among `gate_tiers`, else ''. (Strength rank = registry order; 0 = strongest.)"""
-    tiers = [t for t in gate_tiers if t in _STRENGTH_RANK]
-    if not tiers or live_tier in (None, "unclassified") or live_tier not in _STRENGTH_RANK:
+#: Components that DELIBERATELY declare a summary weaker than any of their gates demonstrates.
+#: Under-claiming is safe and sometimes right, but it must be VISIBLE rather than silently permitted
+#: by an ordering, so each one is recorded here with its reason (Paper 3 review P0-4 option 1).
+CONSERVATIVE_SUMMARIES = {
+    "fasano2000_partI.fines_migration":
+        "Its gates verify code and reproduce a source curve for the deposition sub-model, but the "
+        "component is used in this project only for the DIRECTION of the fixed-pressure response; "
+        "declaring the reproduction tier would imply the whole migration model is reconstructed "
+        "here, which it is not.",
+    "moroney2016.surrogate":
+        "Reproduces its source curve, but is carried as a bounding surrogate rather than as a "
+        "predictive component, so the weaker capacity claim is the one the project relies on.",
+    "sourcing2026.g1_glassbead_analog":
+        "A sourcing analogue used for order-of-magnitude bracketing only; its sign check is real "
+        "but the component is not offered as a quantitative espresso model.",
+}
+
+
+@dc.dataclass(frozen=True)
+class ScopedEvidence:
+    """One evidence record, WITH the scope it was demonstrated on.
+
+    The scope is the point. A relation is never a property of a component in general: it is a
+    property of a particular observable, established by a particular gate. Recording the pair is
+    what stops one strong record on one observable from being read as evidence for a component's
+    other outputs."""
+    relation: str
+    scope: str
+    gate: str
+    outcome: str
+    use: str
+
+    def as_dict(self):
+        return dc.asdict(self)
+
+
+def component_evidence_vector(component_id, links=None):
+    """The SCOPED EVIDENCE VECTOR for a component: every (relation, scope, gate, outcome) record it
+    actually has, in declaration order (Paper 3 review P0-4 option 1).
+
+    This replaces the single declared tier as the honest representation. A component with four
+    gates has four records, possibly carrying four different relations on four different
+    observables; collapsing them into one label discards exactly the information a reader needs to
+    know which of its outputs is evidenced and how."""
+    links = load_links() if links is None else links
+    out = []
+    for l in links:
+        if l.get("component") != component_id:
+            continue
+        rel = l.get("evidence_strength")
+        if not rel:
+            continue
+        out.append(ScopedEvidence(
+            relation=rel,
+            scope=(l.get("observable") or "").strip() or "(scope not recorded)",
+            gate=l.get("gate", ""),
+            outcome=("negative" if l.get("support_status") == "context_only"
+                     and l.get("claim_not_supported") else "supported"),
+            use=l.get("paper3_use", "")))
+    return tuple(out)
+
+
+def evidence_vectors(links=None):
+    """component id -> scoped evidence vector, for every component that has any evidence."""
+    links = load_links() if links is None else links
+    comps = []
+    for l in links:
+        if l.get("component") not in comps:
+            comps.append(l.get("component"))
+    return {c: component_evidence_vector(c, links) for c in comps if c}
+
+
+def _scope_membership_probe(component_id, declared, scoped):
+    """Replaces the strongest-gate roll-up (Paper 3 review P0-3/P0-4).
+
+    A component may declare a relation only if some gate actually DEMONSTRATES that relation, at
+    some recorded scope. This is a SET-MEMBERSHIP test: it needs no ordering over the relations,
+    and so it no longer contradicts the paper's own argument that code verification, source
+    reproduction, reconstruction, held-out transfer and independent comparison answer different
+    questions and do not lie on one scale.
+
+    It is strictly more honest than the roll-up it replaces in both directions. It still catches an
+    over-claim (a declared relation no gate demonstrates). It ALSO catches a silent under-claim,
+    which the ordering permitted without comment -- under-claiming is often correct, but it now has
+    to be recorded in CONSERVATIVE_SUMMARIES with a reason instead of passing invisibly."""
+    if declared in (None, "unclassified"):
         return ""
-    best = min(_STRENGTH_RANK[t] for t in tiers)
-    if _STRENGTH_RANK[live_tier] < best:
-        return ("ROLLUP: component declares %r but its strongest gate is only %r "
-                "(no gate demonstrates the declared tier)" % (live_tier, EVIDENCE_STRENGTHS[best]))
-    return ""
+    demonstrated = {s.relation for s in scoped}
+    if not demonstrated or declared in demonstrated:
+        return ""
+    if component_id in CONSERVATIVE_SUMMARIES:
+        return ""
+    return ("SCOPE: component declares %r but no gate demonstrates that relation "
+            "(gates demonstrate %s); either wire a gate that does, or record the declaration in "
+            "CONSERVATIVE_SUMMARIES with a reason"
+            % (declared, ", ".join(sorted(demonstrated))))
 
 
 def _provenance_resolved(link):
@@ -356,21 +444,20 @@ def reconcile(links=None, strict=False, scope="all"):
                                                       "within_campaign_held_out"):
                 problems.append("%s: post_fit_same_data cannot carry tier %r" % (lid, ev))
 
-    # 3b. component -> gate ROLL-UP policy: a component may not DECLARE a tier STRONGER than the
-    # strongest tier any of its gates demonstrates. Enforced only when ALL of a component's gates
-    # are adjudicated (a still-draft gate could justify a stronger tier), and skipped for
-    # components with no gates (a separate, known "declared tier not gate-backed" gap).
+    # 3b. component -> gate SCOPE-MEMBERSHIP policy (replaces the strongest-gate roll-up): a
+    # component may declare only a relation some gate actually demonstrates, or a recorded
+    # conservative summary. No ordering over relations is used anywhere. Enforced only when ALL of
+    # a component's gates are adjudicated, and skipped for components with no gates.
     comp_links = {}
     for l in links:
         comp_links.setdefault(l["component"], []).append(l)
     for comp, ls in comp_links.items():
         if any(l["adjudication_status"] != "ADJUDICATED" for l in ls):
             continue
-        tiers = [l.get("evidence_strength") for l in ls if l.get("evidence_strength")]
         live = ctx.get(comp, {}).get("component_evidence_strength")
-        probe = _rollup_probe(live, tiers)
+        probe = _scope_membership_probe(comp, live, component_evidence_vector(comp, links))
         if probe:
-            problems.append(probe.replace("ROLLUP:", "ROLLUP %s:" % comp, 1))
+            problems.append(probe.replace("SCOPE:", "SCOPE %s:" % comp, 1))
 
     # 3c. every registered component with ZERO gates must be an ACKNOWLEDGED exception (with a
     # recorded reason). Prevents a new zero-gate over-claim from slipping in unnoticed.

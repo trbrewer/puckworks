@@ -35,7 +35,12 @@ def regenerate(claims=None, run_slow=False):
     commit = _source_commit()
     drift = []
     for c in claims:
-        c.source_commit = commit
+        # P0-6: keep the immutable generation commit distinct from the verification commit. On a
+        # first export both equal HEAD; on a re-verify of an unchanged payload only the latter moves.
+        if c.generated_from_commit is None:
+            c.generated_from_commit = commit
+        c.last_verified_against_commit = commit
+        c.source_commit = c.generated_from_commit     # deprecated alias, kept for consumers
         if c.producer.slow and not run_slow:
             continue
         live = c.producer.compute()

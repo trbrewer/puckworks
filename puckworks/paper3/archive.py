@@ -51,6 +51,36 @@ def _git(*args, root=REPO_ROOT):
         return None
 
 
+#: The release gate's own REPORT. It is written INTO the tree by
+#: `python -m puckworks.paper3.build release`, so counting it as dirt makes the release
+#: non-idempotent: the first run writes it, the second refuses because the tree is dirty. Excluding
+#: it is safe because it is an output of the gate and an input to nothing -- no archive member,
+#: bundle entry or manuscript number derives from it, and it is NOT an archive member itself.
+#:
+#: This lives here, in the lower-level module, and `build.release` imports it. It was duplicated
+#: once and the duplicate was missed when the exclusion was added, so the second consecutive
+#: release still crashed. One definition, two callers.
+RELEASE_MANIFEST = "docs/reproducibility/paper3_release_manifest.json"
+
+
+def dirty_paths(root=REPO_ROOT) -> list[str]:
+    """Working-tree paths that make the tree dirty, ignoring the release gate's own report.
+
+    Parses the shapes `git status --porcelain` actually emits: `?? p`, `MM p`, ` D p`, and
+    renames as `R  old -> new`.
+    """
+    out = []
+    for line in (_git("status", "--porcelain", root=root) or "").splitlines():
+        if not line.strip():
+            continue
+        parts = line.strip().split(maxsplit=1)
+        path = parts[1] if len(parts) > 1 else parts[0]
+        path = path.rpartition(" -> ")[2] or path
+        if path.strip().strip('"') != RELEASE_MANIFEST:
+            out.append(path)
+    return out
+
+
 def _source_date_epoch(root=REPO_ROOT):
     env = os.environ.get("SOURCE_DATE_EPOCH")
     if env and env.isdigit():
@@ -60,6 +90,7 @@ def _source_date_epoch(root=REPO_ROOT):
 
 
 # ---- membership -------------------------------------------------------------------------
+
 def _static_members(root):
     """(repo_relpath, role, redistributable) for the fixed payload — only files that exist."""
     root = Path(root)
@@ -77,6 +108,10 @@ def _static_members(root):
     add("puckworks/paper3/EVIDENCE_LINKS.json", "evidence_source")
     add("puckworks/data/MANIFEST.csv", "data_provenance")
     add("puckworks/data/visualizer/PROVENANCE.md", "data_provenance")
+    # the evidence matrix + dictionary the paper's evidence-taxonomy figure draws on; these were
+    # listed by paper3.build as required and were NOT in the archive (caught by the floor check)
+    add("puckworks/data/paper_b_evidence_matrix.csv", "evidence_source")
+    add("puckworks/data/paper_b_evidence_dictionary.csv", "evidence_source")
     # ALL generated Paper-3 evidence artifacts (registry_artifacts + evidence_graph outputs)
     for p in sorted((root / gen.GENERATED_REL).glob("*")):
         if p.is_file():
@@ -84,6 +119,31 @@ def _static_members(root):
     # model/source cards (physics source of truth used by the paper)
     for p in sorted((root / "docs/cards").glob("*.md")):
         out.append((p.relative_to(root).as_posix(), "card", True))
+    # Figures, their tidy source data, and the text alternatives (review MC12). Without these the
+    # archive shipped a manuscript with no figures -- the reader could not check a single panel.
+    # DEFECT FIXED: this accepted `.svg` and `.pdf` as well, and globbed the WORKING TREE. Those
+    # vector siblings are regenerable render outputs and are gitignored (see .gitignore: "only the
+    # committed PNG exemplars + the export code are tracked"), so they existed on a machine that
+    # had rendered figures and not in a fresh checkout. The same commit therefore produced 155
+    # members here and 141 there -- the archive, and its sha256, were a function of the builder's
+    # working tree rather than of the commit, which is exactly what a citable archive must not be.
+    #
+    # The fix encodes the repository's own policy instead of consulting git: ship the tracked PNG
+    # exemplars, the alt text and the source data. It deliberately does NOT use `git ls-files`,
+    # because that returns nothing when the archive is built from an exported tree with no .git,
+    # which would silently ship an archive containing no figures at all.
+    _ARCHIVED_FIGURE_SUFFIXES = (".png",)
+    figdir = root / "docs/figures/paper3"
+    for p in sorted(figdir.glob("*")):
+        if not p.is_file():
+            continue
+        rel = p.relative_to(root).as_posix()
+        if p.suffix in _ARCHIVED_FIGURE_SUFFIXES:
+            out.append((rel, "figure", True))
+        elif p.name == "ALT_TEXT.md":
+            out.append((rel, "figure_alt_text", True))
+    for p in sorted((figdir / "source_data").glob("*.csv")):
+        out.append((p.relative_to(root).as_posix(), "figure_source_data", True))
     return out
 
 
@@ -154,8 +214,12 @@ def create_archive(out_path, root=REPO_ROOT, with_dist=False, dist_dir=None, dir
     commit = _git("rev-parse", "HEAD", root=root)
     if commit is None:
         raise RuntimeError("cannot determine the git commit — refusing to build an archive")
-    if not dirty_ok and _git("status", "--porcelain", root=root):
-        raise RuntimeError("refusing to build a release archive on a DIRTY tree")
+    if not dirty_ok:
+        dirt = dirty_paths(root)
+        if dirt:
+            raise RuntimeError(
+                "refusing to build a release archive on a DIRTY tree: %s%s"
+                % (", ".join(dirt[:5]), " …" if len(dirt) > 5 else ""))
     # fail closed on stale generated evidence — the archive must match the source
     from puckworks.paper3 import evidence_graph as eg
     stale = gen.verify(root) + eg.verify(root)

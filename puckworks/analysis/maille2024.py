@@ -40,20 +40,16 @@ from __future__ import annotations
 import math
 
 from puckworks import data as d
+# The physics lives in the REGISTERED component (2026-07-25); this module holds the discriminating
+# computations that consume it. Single source of truth -- the constants below are re-exported, not
+# redefined, so an analysis result can never drift from the component the gates run.
+from puckworks.models.maille2024 import phi_closure as _pc
+from puckworks.models.maille2024 import two_regime as _tr
 
-_D_C_M = 45e-6            # coffee cell diameter (card Parameters; SEM range 20-60 um)
+_D_C_M = _pc.D_C_M        # coffee cell diameter (card Parameters; SEM range 20-60 um)
 # tau (extraction delay) is NOT tabulated; the card gives visual-inspection values (0 for the acids)
-_TAU_S = {"Caffeine": 4.0, "3-CQA": 3.0, "Citric acid": 0.0, "Malic acid": 0.0, "Quinic acid": 0.0}
-
-
-def _shell_fraction(diameter_m, n_layers):
-    """Coarse-particle outer-shell volume fraction (Eq 6.9 kernel) at a representative diameter,
-    removing `n_layers` cell layers (depth = 2*n_layers*d_c off the diameter -- d_c per side per layer)."""
-    depth = 2.0 * n_layers * _D_C_M
-    inner = diameter_m - depth
-    if inner <= 0:
-        return 1.0
-    return 1.0 - inner ** 3 / diameter_m ** 3
+_TAU_S = _tr.TAU_S
+_shell_fraction = _pc.shell_fraction
 
 
 def e1_shell_depth_resolution():
@@ -115,26 +111,12 @@ def phi_closure_consistency(tol_phi=0.002):
 def kinetics_flags():
     """Surface the card's E5 internally-impossible 95% CIs (a lower bound above, or an upper bound
     below, the point estimate) across the caffeine/3-CQA (Table 6.4) and organic-acid (Table 6.5)
-    kinetics -- these rows' CIs are unusable and must be flagged, not fitted. Strength: verification."""
-    flagged = []
-    specs = [(d.maille_kinetics_caffeine_3cqa(), ("Caffeine", "3-CQA")),
-             (d.maille_kinetics_organic_acids(), ("Citric", "Malic", "Quinic"))]
-    n_rows = 0
-    for rows, compounds in specs:
-        for r in rows:
-            n_rows += 1
-            for c in compounds:
-                for regime in ("lambda_fast", "lambda_slow"):
-                    est = r.get("%s %s (s)" % (c, regime))
-                    lo = r.get("%s %s lower 95CI" % (c, regime))
-                    hi = r.get("%s %s upper 95CI" % (c, regime))
-                    try:                                  # '*' marks unreported cells -> skip
-                        est, lo, hi = float(est), float(lo), float(hi)
-                    except (TypeError, ValueError):
-                        continue
-                    if lo > est or hi < est:
-                        flagged.append(dict(sample=r["Sample ID"], compound=c, regime=regime,
-                                            est=est, lower=lo, upper=hi))
+    kinetics -- these rows' CIs are unusable and must be flagged, not fitted. Strength: verification.
+
+    The scan itself lives in the registered component (`two_regime.ci_flags`), so this reporting view
+    and `gate_maille_kinetics_ci_flags` can never disagree about which rows are flagged."""
+    r = _tr.ci_flags()
+    flagged, n_rows = r["flagged"], r["n_rows_scanned"]
     return dict(
         n_rows_scanned=n_rows, n_impossible_ci=len(flagged), flagged=flagged,
         passed=True,   # a report gate: it always "passes"; the value is the flagged list
@@ -142,12 +124,7 @@ def kinetics_flags():
              "(e.g. caffeine table 3-CQA and organic-acid quinic) -- carry as UNUSABLE, do not fit.")
 
 
-def _two_regime(t, phi, lam_fast, lam_slow, tau):
-    """Eq 6.2: C(t)/C_inf = phi(1-e^-(t-tau)/lam_fast) + (1-phi)(1-e^-(t-tau)/lam_slow); 0 for t<=tau."""
-    if t <= tau:
-        return 0.0
-    x = t - tau
-    return phi * (1.0 - math.exp(-x / lam_fast)) + (1.0 - phi) * (1.0 - math.exp(-x / lam_slow))
+_two_regime = _tr.fraction_extracted     # Eq 6.2, from the registered component
 
 
 def two_regime_reproduction():
@@ -183,20 +160,12 @@ def two_regime_reproduction():
                      "reproduction, not an independent re-fit.")
 
 
-def _phi_from_psd(diam_um, vol, fines_cut_um=186.0, n_layers=2):
+def _phi_from_psd(diam_um, vol, fines_cut_um=_pc.FINES_CUT_UM, n_layers=_pc.SHELL_LAYERS):
     """maille phi = theta_v_fines + theta_v_coarse (Eqs 6.7-6.9, E1-resolved n_layers) from a binned
-    PSD (diameters [um] + per-bin volume). Returns (phi, theta_fines, theta_coarse)."""
-    tot = sum(vol)
-    depth_um = 2.0 * n_layers * _D_C_M * 1e6      # d_c per side per layer, in um
-    fines = coarse = 0.0
-    for dia, v in zip(diam_um, vol):
-        frac = v / tot
-        if dia < fines_cut_um:
-            fines += frac
-        else:
-            inner = max(dia - depth_um, 0.0)
-            coarse += frac * (1.0 - inner ** 3 / dia ** 3)
-    return fines + coarse, fines, coarse
+    PSD -- the registered component's PSD ADAPTER (`phi_closure.phi_from_binned_psd`), unpacked to
+    the (phi, fines, coarse) tuple this module's callers use."""
+    r = _pc.phi_from_binned_psd(diam_um, vol, fines_cut_um=fines_cut_um, n_layers=n_layers)
+    return r["phi"], r["theta_v_fines"], r["theta_v_coarse"]
 
 
 def phi_split_vs_cameron():
@@ -240,9 +209,9 @@ def phi_split_vs_cameron():
 
 
 # maille's observed two-regime timescale bands across all materials/species (card gate 4, from
-# Tables 6.4/6.5): lambda_fast in 2.2-19.1 s, lambda_slow in 13-158 s.
-_MAILLE_LAM_FAST_RANGE = (2.2, 19.1)
-_MAILLE_LAM_SLOW_RANGE = (13.0, 158.0)
+# Tables 6.4/6.5): lambda_fast in 2.2-19.1 s, lambda_slow in 13-158 s. From the component.
+_MAILLE_LAM_FAST_RANGE = _tr.LAM_FAST_RANGE
+_MAILLE_LAM_SLOW_RANGE = _tr.LAM_SLOW_RANGE
 _CAMERON_EXHAUST_S = 400.0   # run cameron to solute exhaustion so the curve plateaus (lambda_slow
                              # up to 158 s cannot be identified over the paper's ~30 s recipe window)
 
@@ -570,15 +539,23 @@ def roman_protocol_sensitivity(grind="PsiA"):
              "manuscript describes it as protocol-conditional, not an intrinsic universal constant.")
 
 
-# U10: two producer-bound, machine-readable claim records for the timescale-semantics result. These
-# are NOT added to EVIDENCE_LINKS.json: reconcile() enforces a bijection with REGISTERED registry
-# gate wirings, and maille2024 is a data+analysis provider (no registered gate), so a link here would
-# be flagged ORPHAN and break --strict. Promoting these to formal EVIDENCE_LINKS claims requires the
-# deferred maille component-registration decision. Until then they live as a standalone result bundle.
+# U10 (CLOSED 2026-07-25): two producer-bound, machine-readable claim records for the timescale-
+# semantics result. These were previously blocked from EVIDENCE_LINKS.json -- reconcile() enforces a
+# bijection with REGISTERED registry gate wirings, and maille2024 was then a data+analysis provider
+# with no registered gate, so a link would have been flagged ORPHAN and broken --strict. The
+# maille component registration removed exactly that blocker: both claims are now FORMAL adjudicated
+# EVIDENCE_LINKS claims, carried by `gate_maille_timescale_portability_cameron` and
+# `..._roman` on maille2024.two_regime. This bundle remains as the machine-readable, manuscript-
+# citable rendering of the same two claims (it carries the full portability_vector and the U8
+# protocol-sensitivity result, which the link records summarize).
 def timescale_semantics_bundle():
     """Assemble the U10 result bundle: the two gate-4 producers + the roman protocol sensitivity, with
     claim-record metadata (statement / producer / configuration / limitations / not_supported), for a
-    generated, source-committable artifact the manuscript can cite. Returns a JSON-serializable dict."""
+    generated, source-committable artifact the manuscript can cite. Returns a JSON-serializable dict.
+
+    Since the 2026-07-25 maille registration these two claims ALSO exist as formal adjudicated
+    EVIDENCE_LINKS records (see the module note above); this bundle is the richer machine-readable
+    rendering, not a parallel unregistered claim set."""
     cam = cross_model_timescale_cameron()
     rom = cross_model_timescale_roman()
     sens = roman_protocol_sensitivity()

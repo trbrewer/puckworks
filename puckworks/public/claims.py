@@ -10,6 +10,25 @@ from .schema import PublicClaim, Producer
 
 _H = "puckworks.harness"
 
+
+def _dep(ref, kind, role):
+    """Build a Dependency, attaching the scoped evidence vector for registered components.
+
+    Producers and datasets carry no evidence RELATION of their own: a producer computes a value and
+    a dataset supplies one; neither is a comparison against reality. Only components do, and only
+    at the scope their gates actually cover."""
+    from puckworks.public.schema import Dependency, ScopedEvidenceRef, REGISTRY_TO_PUBLIC
+    evidence = ()
+    if kind == "component":
+        from puckworks.paper3 import evidence_graph as _EG
+        evidence = tuple(
+            ScopedEvidenceRef(relation=s.relation,
+                              public_relation=REGISTRY_TO_PUBLIC.get(s.relation, "qualitative"),
+                              scope=s.scope, gate=s.gate, outcome=s.outcome)
+            for s in _EG.component_evidence_vector(ref))
+    return Dependency(ref=ref, kind=kind, role=role, evidence=evidence)
+
+
 PUBLIC_CLAIMS = [
 
     # ---- PV-01 — "The first drop is already strong" -------------------------
@@ -34,6 +53,14 @@ PUBLIC_CLAIMS = [
         evidence_strength="independent",
         badge="OBSERVED",
         components=["waszkiewicz2025 TDS fractions", "cameron2020 (boulder timescale)"],
+        dependencies=(
+            _dep("waszkiewicz2025/tds_fractions", "dataset",
+                 "the measured 5 s TDS fractions this claim is computed from"),
+            _dep("cameron2020.extraction_bdf", "component",
+                 "supplies the boulder-timescale comparison the finding is stated against"),
+            _dep("puckworks.harness.dissolution_speed_test", "producer",
+                 "computes the reported fraction and its comparison"),
+        ),
         dataset_manifest_ids=["waszkiewicz2025/tds_fractions"],
         validity_range="One rig, one coffee, one configuration (pressure-controlled).",
         primary_caveat="One rig/config and a single first-fraction replicate — a "
@@ -76,6 +103,16 @@ PUBLIC_CLAIMS = [
         badge="RECONSTRUCTED",
         components=["waszkiewicz2025.poroelastic", "foster2025 machine mode",
                     "kappa_t_ladder"],
+        dependencies=(
+            _dep("waszkiewicz2025.poroelastic", "component",
+                 "the bed-side temporal branch scored in the ladder"),
+            _dep("foster2025.machine_mode", "component",
+                 "the machine-only branch that reproduces a dip without any bed process"),
+            _dep("puckworks.harness.kappa_t_ladder", "producer",
+                 "scores every branch on one window and returns the ladder"),
+            _dep("waszkiewicz2025/traces_time_dependent", "dataset",
+                 "the measured flow trace all branches are scored against"),
+        ),
         dataset_manifest_ids=["waszkiewicz2025/traces_time_dependent"],
         validity_range="One rig; the machine-null is on Foster's fitted trace, the "
             "ladder on the Waszkiewicz 9-bar rising-flow window.",
@@ -123,6 +160,16 @@ PUBLIC_CLAIMS = [
         badge="OBSERVED",
         components=["schmieder_interior_max_target", "result1_magnitude_comparison",
                     "channeling_interior_max_sensitivity"],
+        dependencies=(
+            _dep("puckworks.harness.schmieder_interior_max_target", "producer",
+                 "locates the interior maximum in the source response surface"),
+            _dep("puckworks.harness.result1_magnitude_comparison", "producer",
+                 "compares the modelled and measured magnitudes"),
+            _dep("puckworks.harness.channeling_interior_max_sensitivity", "producer",
+                 "tests whether the interior maximum survives the channeling account"),
+            _dep("schmieder2023/rsm_coefficients", "dataset",
+                 "the fitted response-surface coefficients the vertex is read from"),
+        ),
         dataset_manifest_ids=["schmieder2023/cup_masses", "schmieder2023/rsm_coefficients"],
         validity_range="Schmieder E65S grinder DoE, fixed central flow/temperature "
             "condition; TDS-derived EY observable.",
@@ -192,6 +239,16 @@ PUBLIC_CLAIMS = [
         evidence_strength="qualitative",
         badge="EXPLORATORY_SIMULATION",
         components=["brewer2026.coupled_kappa_t"],
+        dependencies=(
+            _dep("brewer2026.coupled_kappa_t", "component",
+                 "the composition under test; adding the swelling branch is what worsens it"),
+            _dep("mo2023_2.swelling", "component",
+                 "the imported branch whose parameters are used unrefitted"),
+            _dep("puckworks.public.model_composition.pv05_values", "producer",
+                 "computes the composite and extraction-only residuals"),
+            _dep("waszkiewicz2025/traces_time_dependent", "dataset",
+                 "the measured trace the composite is scored against"),
+        ),
         dataset_manifest_ids=["waszkiewicz2025/traces_time_dependent",
                               "waszkiewicz2025/constants"],
         validity_range="9-bar Waszkiewicz trace; the imported swelling parameters are "
@@ -252,10 +309,24 @@ PUBLIC_CLAIMS = [
             "edge. The inverse-curvature coupling is objective-surface geometry, NOT a "
             "statistical parameter correlation; the 10% set is a tested-domain threshold "
             "set, NOT a confidence interval.",
-        evidence_strength="negative validation",
+        # P0-4(b): "negative validation" was a COMPOUND -- a relation and an outcome fused into
+        # one label, which is exactly what S5 says must not happen. Decomposed: the relation is
+        # what was done, the outcome is what happened.
+        evidence_strength="qualitative",
+        outcome="negative",
         badge="RECONSTRUCTED",
         components=["pannusch2024.solver (refit)", "angeloni2023 endpoints",
                     "identifiability_panel", "transfer_skill_vs_baselines"],
+        dependencies=(
+            _dep("pannusch2024.solver", "component",
+                 "the extraction model, refitted to the target campaign for this claim"),
+            _dep("angeloni2023/bioactives", "dataset",
+                 "the whole-cup endpoint concentrations the profile is fitted to"),
+            _dep("puckworks.validation.slow.angeloni_bracket.identifiability_panel", "producer",
+                 "profiles the inventory-rate objective and reports the near-optimal set"),
+            _dep("puckworks.validation.slow.angeloni_bracket.transfer_skill_vs_baselines",
+                 "producer", "scores the cross-grind prediction against the level-only null"),
+        ),
         dataset_manifest_ids=["angeloni2023/bioactives", "angeloni2023/total_solids",
                               "angeloni2023/inventories", "pannusch2024/table2_params"],
         validity_range="One model refit to one independent campaign; conditional on the "

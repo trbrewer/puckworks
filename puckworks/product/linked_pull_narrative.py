@@ -109,6 +109,18 @@ _PHYSICS = {
     "grudeva2025.reduced": (
         "A reduced whole-shot extraction model with a moving front.",
         "Rights-blocked here, so it contributes nothing to this pull."),
+    "maille2024.phi_closure": (
+        "Particle size alone predicts what share of the solubles sits in the fast-releasing pool: "
+        "the fines, plus a thin outer shell on every coarse grain.",
+        "Grinding finer moves more of the cup into the fast phase. But this station's 'fast "
+        "fraction' is not the same quantity the baseline model fits, so it is read here as a "
+        "grind-side comment only — nothing is passed on."),
+    "maille2024.two_regime": (
+        "Five named compounds are released on two different clocks — a quick phase, then a slow "
+        "one — measured by stirring grounds in water rather than pulling a shot.",
+        "Different compounds arrive at different times, which is part of why a very short and a "
+        "very long shot taste different rather than merely stronger or weaker. There is no bed, "
+        "pressure or flow here, and no yield or strength figure, so it is context, not a prediction."),
 }
 
 

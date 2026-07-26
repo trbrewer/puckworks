@@ -74,6 +74,37 @@ with a measured coffee density + propagated uncertainty (owed, out of scope). �
   place — these are needed fields to be **filled** (P0-7 [external], P2-4 [author]), not deleted.
 - **[analysis]** P0-5 uncertainty reruns — **A+B DELIVERED** (`PAPER_A_P0-5_RESULTS.md`; scope `PAPER_A_P0-5_UNCERTAINTY_SCOPE.md`): (A) objective-family sweep (SSE/relative-L2/Huber) shows the inventory–rate valley **persists across all objectives** (10 % set 31–76 % of the log-rate grid, mostly boundary-censored; rate-at-min shifts with the loss) — not an unweighted-SSE artefact; (B) the model-vs-null clustered bootstrap 95 % CI on ΔMAPE is **[−0.73, +0.03] pp (conditions-in-group, includes 0)** / [−0.75, −0.03] (groups) — the ~0.4 pp edge is **not robustly distinguishable from zero**. Both written into the canonical draft + JFE (§4/§5 + limitations); pure helpers unit-tested (CI). **(C) DELIVERED (bounded):** `loco_coverage_interval` — a condition-cluster out-of-bag bootstrap (600 reps, F cached so refit-in-loop is arithmetic) that repeats the fit → coverage-calibrated held-out MAPE **7.4 %, 95 % [4.3, 11.5] %**, *wider* than the descriptive intervals; centre slightly above LOCO 6.5 % (OOB held-out sets larger). **Owed:** calibrated named-solute weighting (blocked on the Angeloni replicate drop); Robusta TR/5-CQA supplement panels. P0-4 Table 7 units audit is done, above. All **[author]/[external]** items below.
 
+## Author-voice pass — DONE (2026-07-26)
+
+The three items previously held back as editorial-voice decisions have been executed against the
+second review's own recommendations.
+
+- ✅ **Manuscript architecture (review §7).** Both files reorganised around the observation
+  operator: §1 Introduction (problem · compressed related work · **three explicit research
+  questions**), §2 Model, datasets and observation operators (2.1 model+equations · 2.2 dataset
+  roles · 2.3 the three operators · 2.4 endpoint and flow assumptions · 2.5 profile/prediction/
+  baseline/uncertainty · 2.6 evidence vocabulary), then the results **stated as findings** —
+  §3 "Whole-cup endpoints weakly separate extractable content from rate", §4 "Cross-grind endpoint
+  prediction adds little over a level-only baseline", §5 "Time-resolved measurements provide
+  stronger rate information" — §6 Discussion, §7 Limitations, §8 Conclusions. The standalone
+  literature mini-review is compressed into §1.2. Blocks were **moved, not rewritten**, and the
+  script asserted no citation and no bold numeric was lost (25→25 and 24→24 citations; 17→17
+  numerics in each file).
+
+  **Both files now share ONE architecture.** That is the structural fix for MC9: the stale-reference
+  class existed *because* the two files numbered the same sections differently. The test that
+  asserted they differ has been inverted to assert they agree, so a future divergence fails.
+
+- ✅ **Main vs supplementary figures (review §6).** Main set reduced from eight to **four**:
+  Figure 1 `fig1_design` (study design), Figure 2 `fig2_objective_surface` (weak separation),
+  Figure 3 `fig4_transfer` (no resolvable gain over the null), Figure 4 `fig6_fraction_vs_endpoint`
+  (temporal). Supplementary S1–S4 are `fig3_holdouts`, `fig5_joint_residual`,
+  `fig7_per_group_diagnostics`, `fig8_residuals_vs_conditions`. **Producer identifiers are
+  unchanged** — only presentation numbers moved, so no result key is renamed; the mapping is stated
+  in both the captions file and the draft. Three captions that described the superseded figures
+  were corrected (the Fig 1 "arrows denote analysis order" disclaimer, the Fig 2 "independent
+  inventory assay" horizontal line, and the Fig 4 "frozen transfer" title). 4 guards added.
+
 ## Gating decision (author) — RESOLVED: canonical = `PAPER_A_DRAFT.md` (mechanical stream above)
 
 *(retained for provenance)*

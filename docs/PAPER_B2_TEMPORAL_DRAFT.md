@@ -8,7 +8,7 @@
 
 ## Abstract
 
-Time-resolved espresso flow curves are often interpreted as direct signatures of swelling, compaction, fines migration, dissolution, or channel formation in the porous coffee bed. That interpretation is an inverse problem: the measured outlet flow integrates machine response, pressure boundary conditions, wetting, evolving bed resistance, and measurement effects, so visually similar traces can arise from different causes. We use a null-first comparison to ask two narrower questions: whether a measured trace requires temporal flexibility relative to specified static baselines, and whether that requirement identifies a bed mechanism. First, a published pump–headspace–infiltration model reconstructs a mid-shot flow minimum without any evolving bed process, showing that dip-and-recovery shape alone is not diagnostic. Second, on the saturated 15–95 s interval of a preprocessed across-shot mean 9-bar rising-flow trajectory (an averaged, smoothed, differentiated curve, not a single raw shot), the best constant baseline has root-mean-square error (RMSE) 0.573 g s⁻¹ and a static pressure-dependent poroelastic model has RMSE 0.648 g s⁻¹. A dissolution-linked time-varying porosity trajectory, with no coefficient fitted to that flow trace—though its temporal input is partly derived from the same flow—reaches 0.116 g s⁻¹. A four-parameter cubic fitted and scored on the same trace reaches 0.096 g s⁻¹. Conditional block-resampling of the fixed squared-error sequences (a dependence-sensitivity check, not a between-shot confidence interval) is consistent with the improvement of the temporal trajectory over the constant baseline (median ΔRMSE approximately −0.39 g s⁻¹; 95% interval −0.60 to −0.23) but do not resolve its difference from the flexible cubic (approximately +0.02 g s⁻¹; −0.01 to +0.05). Leave-one-pressure-out assessment across eleven pressures preserves the aggregate advantage of the empirical temporal branch within the same rig and campaign, while structured residuals and pressure-dependent rank changes show substantial omitted dynamics. Conditional sign tests further show that isolated swelling and fines-deposition branches increase resistance at fixed pressure and therefore cannot, by themselves, generate the observed rising contribution; this does not exclude their presence in a coupled bed. We conclude that the integrated flow trace supports temporal flexibility relative to the tested static nulls, but does not identify the responsible mechanism. Pressure steps, flow reversal, spent-puck rebrewing, and depth-resolved end states offer more discriminating evidence than another unconstrained fit to the same curve.
+Time-resolved espresso flow curves are often interpreted as direct signatures of swelling, compaction, fines migration, dissolution, or channel formation in the porous coffee bed. That interpretation is an inverse problem: the measured outlet flow integrates machine response, pressure boundary conditions, wetting, evolving bed resistance, and measurement effects, so visually similar traces can arise from different causes. We use a null-first comparison to ask two narrower questions: whether a measured trace requires temporal flexibility relative to specified static baselines, and whether that requirement identifies a bed mechanism. First, a published pump–headspace–infiltration model reconstructs a mid-shot flow minimum without any evolving bed process, showing that dip-and-recovery shape alone is not diagnostic. Second, on the saturated 15–95 s interval of a preprocessed across-shot mean 9-bar rising-flow trajectory (an averaged, smoothed, differentiated curve, not a single raw shot), the best constant baseline has root-mean-square error (RMSE) 0.573 g s⁻¹ and a static pressure-dependent poroelastic model has RMSE 0.648 g s⁻¹. A dissolution-linked time-varying porosity trajectory, with no coefficient fitted to that flow trace—though its temporal input is partly derived from the same flow—reaches 0.116 g s⁻¹. A four-parameter cubic fitted and scored on the same trace reaches 0.096 g s⁻¹. Taking the shot rather than the time sample as the experimental unit, the temporal trajectory beats the constant baseline on all five individual 9-bar brews by a mean of 0.390 g s⁻¹, about 2.6 times the shot-to-shot noise floor of 0.149 g s⁻¹; with five paired units the smallest attainable exact two-sided randomization p-value is 0.0625, so we report effect sizes rather than significance. A prespecified penalized spline that is genuinely held out — trained on four brews and scored on the fifth — reaches 0.186 g s⁻¹ against 0.189 g s⁻¹ for the temporal trajectory, a difference roughly forty times smaller than the noise floor, so the dissolution-linked closure earns no measurable predictive advantage over generic smoothness when predicting a new shot. It does retain an advantage when predicting an unobserved time interval within a shot (0.158 versus 0.233 g s⁻¹ on interior segments), indicating that its shape information is real but does not transfer into better shot-level prediction. Leave-one-pressure-out assessment across eleven pressures preserves the aggregate advantage of the empirical temporal branch within the same rig and campaign, but that aggregate hides strong heterogeneity: the best-reconstructing branch changes three times across the pressure range, and the temporal branch is best at only four of eleven pressures — the 7–11 bar band that contains the primary 9-bar analysis. Weighting pressures equally rather than by shot count also reorders the two non-preferred branches. Structured residuals and these pressure-dependent rank changes together indicate substantial omitted dynamics, and no pressure-independent claim is supported. Conditional sign tests further show that isolated swelling and fines-deposition branches increase resistance at fixed pressure and therefore cannot, by themselves, generate the observed rising contribution; this does not exclude their presence in a coupled bed. We conclude that the integrated flow trace supports temporal flexibility relative to the tested static nulls, but does not identify the responsible mechanism. Pressure steps, flow reversal, spent-puck rebrewing, and depth-resolved end states offer more discriminating evidence than another unconstrained fit to the same curve.
 
 **Keywords:** espresso; porous media; inverse problems; model discrimination; model comparison; temporal dynamics; permeability; poroelasticity; block resampling; experiment design
 
@@ -42,7 +42,7 @@ Foster et al. studied liquid infiltration into an espresso bed with time-resolve
 
 ### 2.3 Waszkiewicz pressure campaign
 
-Waszkiewicz et al. reported a campaign of 60 brews at eleven basket pressures spanning approximately 1 to 12.5 bar on one machine, coffee, grind, dose, and preparation protocol [2]. The dose was approximately 18.5 g in a 58 mm basket. Long-run flow for the equilibrium pressure–flow relation was summarized over 110–120 s. Time-dependent flow and total-dissolved-solids measurements were also reported. The source model explicitly excludes the first approximately 5–10 s, when wetting, air expulsion, and other unsaturated processes dominate. Our primary temporal analysis therefore uses the saturated interval from 15 to 95 s. Sensitivity analyses use 10–90 s and 20–90 s.
+Waszkiewicz et al. reported a campaign of 60 brews at eleven basket pressures spanning approximately 1 to 12.5 bar on one machine, coffee, grind, dose, and preparation protocol [2]. The dose was approximately 18.5 g in a 58 mm basket. The source summarized long-run flow for the equilibrium pressure–flow relation over 110–120 s. **This analysis does not use that statistic and does not claim to.** The source's own published formatter truncates every trace at 100 s, so the released aggregate cannot contain a 110–120 s value; our equilibrium observable is therefore the **final 100 s value of each preprocessed per-pressure mean**, stated here as a repository observable rather than attributed to the source. It is not a material choice: it reproduces the source's own static fit ($P_c$ 12.394 vs 12.39 bar; $Q_c$ 1.907 vs 1.897 g s⁻¹), and substituting a 90–100 s mean moves the fit by 0.003 bar and 0.007 g s⁻¹. We also checked the nominal 110–120 s window against the *raw* per-brew traces, which are not truncated: it is **not usable as published**, because one shot (`9-1`, at the scored 9-bar condition) has plainly ended inside it — cup mass falls, giving a large negative flow derivative and −106 bar through the brewer-calibration subtraction — and that single shot alone drags the refit to $P_c\approx82$ bar. Excluding it would be an exclusion the source did not make; done anyway it gives $P_c$ 11.935, $Q_c$ 1.861, i.e. broadly consistent. Producer: `analysis.waszkiewicz_shot_level.equilibrium_window_sensitivity`. Time-dependent flow and total-dissolved-solids measurements were also reported. The source model explicitly excludes the first approximately 5–10 s, when wetting, air expulsion, and other unsaturated processes dominate. Our primary temporal analysis therefore uses the saturated interval from 15 to 95 s. Sensitivity analyses use 10–90 s and 20–90 s.
 
 Pressure is treated as basket gauge pressure where the source dataset identifies that node. Flow is reported as mass flow in g s⁻¹. Time is measured from the source trace origin. The repository adapters align all candidate predictions to the same observed time points and apply one common scoring mask per comparison. No model is rewarded by using a different evaluation interval.
 
@@ -144,7 +144,7 @@ $$
 e_{m,i}=Q_i-\widehat Q_{m,i}.
 $$
 
-We report residual-versus-time curves, lag autocorrelation, and Durbin–Watson summaries on a trace decimated to 1 s for the cross-pressure diagnostic. Decimation prevents the approximately 10 Hz sampling interval from dominating the serial-correlation statistic. Strong positive correlation indicates coherent unmodeled structure and invalidates an interpretation of pointwise residuals as independent noise.
+We report residual-versus-time curves, lag-1 autocorrelation, and the Durbin–Watson statistic for **every** branch on the **same** declared grid, obtained by decimating the approximately 10 Hz trace to a stated resolution; 1 s is primary and 5 s is reported as a sensitivity. Reporting the two statistics at a common resolution matters because they are not resolution-invariant: for the $\Phi(t)$ branch the lag-1 autocorrelation falls from 0.969 at 1 s to 0.533 at 5 s and the Durbin–Watson statistic rises from 0.047 to 0.823. A summary that combined statistics computed at different sampling scales would not be interpretable. Each residual scale is additionally divided by the mean pointwise between-shot standard deviation, because a residual that is strongly autocorrelated but smaller than the shot-to-shot spread is a different situation from one that is both autocorrelated and larger than it. Strong positive correlation indicates coherent unmodeled structure and invalidates an interpretation of pointwise residuals as independent noise.
 
 ### 4.2 Conditional fixed-loss block-resampling sensitivity
 
@@ -154,9 +154,26 @@ $$
 d_i=(Q_i-\widehat Q_{A,i})^2-(Q_i-\widehat Q_{B,i})^2.
 $$
 
-Contiguous blocks of the $d_i$ sequence are sampled with replacement to form resampled loss sequences, following the general moving-block principle for dependent observations [6]. RMSE differences are recomputed from those resampled losses. The primary block duration is 8 s with 1,000 resamples; sensitivity uses 4, 8, 16, and 24 s blocks.
+Blocks are resampled from the two squared-error sequences **through common indices**, not from the difference sequence $d_i$: each resample draws $\lceil n/b\rceil$ contiguous index blocks of length $b$ with replacement, concatenates and truncates them to the original length $n$, and applies that **same index vector to both** $(Q_i-\widehat Q_{A,i})^2$ and $(Q_i-\widehat Q_{B,i})^2$. Each branch's RMSE is then recomputed from its own resampled loss sequence and the difference of the two RMSEs is recorded. Resampling the paired losses jointly preserves the pairing; resampling $d_i$ alone would not, and would also not reproduce the RMSE difference, which is not the mean of $d_i$. Block starts are drawn uniformly from $\{0,\dots,n-b\}$, so the scheme is **non-circular** — no wraparound — and end points are therefore slightly under-represented. The primary block duration is 8 s ($b$ rounded to the nearest sample at the trace's median spacing) with **1,000** resamples at seed 0; sensitivity uses 4, 8, 16, and 24 s blocks, each with its own deterministic stream derived from that seed and the block length. This follows the general moving-block principle for dependent observations [6].
 
-This procedure preserves local dependence in the already-computed loss sequences, but it does not refit the constant, cubic, equilibrium calibration, or temporal trajectory inside each resample. The resulting interval is therefore conditional on the fixed predictions. It is not a bootstrap confidence interval for the full fit–compare procedure, and it is not a test of model truth. We report whether an interval resolves the sign of the reconstruction difference rather than labeling unresolved differences “equivalent” or “statistically indistinguishable.”
+This procedure preserves local dependence in the already-computed loss sequences, but it does not refit the constant, cubic, equilibrium calibration, or temporal trajectory inside each resample. The resulting interval is therefore conditional on the fixed predictions. It is not a bootstrap confidence interval for the full fit–compare procedure, and it is not a test of model truth. We report whether an interval resolves the sign of the reconstruction difference rather than labeling unresolved differences “equivalent” or “statistically indistinguishable.” **This block analysis is a secondary within-curve sensitivity only.** The primary uncertainty statement is at the level of the shot (§4.2a).
+
+### 4.2a Shot-level paired uncertainty (primary)
+
+The independent experimental unit is the shot, not the time sample. The 9-bar condition comprises **five** brews, so the primary uncertainty statement re-scores every branch against each individual brew, re-optimizing each branch's own free parameters within each unit, and reports the five paired differences in full.
+
+With five units a percentile bootstrap is not credible, so the primary statement is exact rather than asymptotic. Under the sign-symmetry null we enumerate all $2^5=32$ sign assignments of the paired differences and report the exact two-sided randomization $p$-value. **A structural consequence must be stated before any result is read: with five paired units the smallest attainable two-sided $p$-value is $2/32=0.0625$, so no paired randomization test on this design can reach a conventional $0.05$ threshold, however large the effect.** We therefore report the effect size, the number of shots favouring each branch, and that exact $p$-value together, and we do not describe any comparison here as significant. A five-unit percentile bootstrap is reported alongside and labelled indicative.
+
+Differences are also read against a **shot-to-shot noise floor**: the mean RMSE between an individual brew and the across-shot mean curve that the manuscript scores. A difference comfortably inside that floor is not resolvable with five shots, whatever its point estimate.
+
+### 4.2b Held-out flexible temporal comparator
+
+The four-parameter cubic is fitted and scored on the same trace, so it establishes only that a smooth curve can interpolate the data. We therefore add a **prespecified penalized cubic B-spline** — twelve interior knots, second-difference penalty, smoothing weight chosen by generalized cross-validation **on the training data only** — evaluated under two protocols in which it never sees the points it is scored on:
+
+* **Leave-one-shot-out.** Fit on the mean of the other four brews; predict the held-out brew. The constant null is refitted the same way, so both are held out identically.
+* **Leave-segment-out.** Within each brew, hold out contiguous time segments in turn and predict them from the remaining segments of the same brew. The first and last segments require the spline to extrapolate beyond its support, where a penalized smoother is not defined in any useful sense; those segments are reported but the headline is the interior-segment mean, which is the interpolation question this protocol is meant to ask.
+
+For a like-for-like comparison the $\Phi(t)$ branch is also evaluated under its own equilibrium cross-fit, so neither comparator is scored on a calibration that saw the held-out brew through a channel that could have been withheld.
 
 ### 4.3 Window sensitivity
 
@@ -168,7 +185,7 @@ The equilibrium calibration uses eleven long-run pressure–flow points. Two for
 
 **Shared calibration.** One pair $(P_c,Q_c)$ is fitted using all eleven long-run points and then used to reconstruct all time traces.
 
-**Leave one pressure out (LOPO).** For each pressure $P_j$, $(P_c,Q_c)$ is refitted using the other ten equilibrium points. The held-out pair is then used to reconstruct the trace at $P_j$. The 9-bar dissolved-mass trajectory and donor assumptions are held fixed; only the two equilibrium parameters are refitted. Thus, LOPO prevents the held-out pressure’s equilibrium point from contributing to its own equilibrium calibration, but it is not a fully independent test of the temporal trajectory.
+**Leave-one-pressure-out equilibrium-calibration sensitivity (LOPO-EC).** The name states the scope deliberately: only the *equilibrium calibration* is withheld, so this is a calibration sensitivity and **not** held-out trace validation. We avoid the bare term "held-out" for it throughout. For each pressure $P_j$, $(P_c,Q_c)$ is refitted using the other ten equilibrium points. The held-out pair is then used to reconstruct the trace at $P_j$. The 9-bar dissolved-mass trajectory and donor assumptions are held fixed; only the two equilibrium parameters are refitted. Thus, LOPO prevents the held-out pressure’s equilibrium point from contributing to its own equilibrium calibration, but it is not a fully independent test of the temporal trajectory.
 
 We report per-pressure RMSE, mean RMSE across all eleven pressures, maximum calibration drift, and the leave-one-pressure-out predictive coefficient $Q^2$ for the equilibrium curve. We avoid categorical “regimes” because pressure bins were not prespecified and the residual patterns vary continuously.
 
@@ -212,13 +229,60 @@ The four-parameter cubic reaches 0.096 g s⁻¹. Its fit is at least as close as
 
 Residuals remain strongly structured. Lag-1 residual autocorrelation is approximately 0.99 in every branch, and the mean decimated Durbin–Watson statistic is approximately 0.01. The low RMSE of the temporal branches therefore coexists with coherent lack of fit. Neither branch reduces the residual to white measurement noise, so the small gap between the temporal branch (0.116) and the same-trace descriptive benchmark (0.096) should not be over-read.
 
+**Why the composite branch fails.** The imported swelling branch, added to the shared-porosity composition reported in the companion registry paper, produces a composite reconstruction RMSE of 0.648 g s⁻¹ — numerically identical to the static $\kappa(P)$ branch above. That coincidence is structural rather than accidental and is worth stating, because it changes what the failure means. The swelling branch pushes the shared porosity below its initial value across the entire scored window, so the dissolved-mass proxy that drives the temporal closure sits on its numerical floor for 100 % of the window and the closure returns its own $\Phi\to0$ limit, which is exactly the static equilibrium curve. The composite prediction is therefore constant to numerical precision. The composition does not degrade the temporal reconstruction; it removes it.
+
 **Recorded-pressure robustness.** The ladder above evaluates the branches at nominal 9 bar. Substituting the recorded basket-pressure history point by point changes the results negligibly: the static poroelastic RMSE moves from 0.647696 to 0.646846 g s⁻¹ (−0.00085) and the empirical $\Phi(t)$ RMSE from 0.115769 to 0.116443 g s⁻¹ (+0.00067); both shifts are below 0.001 g s⁻¹ and the branch ordering is unchanged. The observed rise is therefore not an artifact of the small measured pressure drift in this campaign — a robustness result, not evidence for any mechanism.
 
 **Figure 2 near here.**
 
 The conditional moving-block analysis supports the same two-part conclusion. For empirical $\Phi(t)$ minus the best constant, the median RMSE difference is approximately −0.39 g s⁻¹ with a 95% interval of −0.60 to −0.23 g s⁻¹. The interval excludes zero, supporting the need for temporal flexibility relative to the constant null. For empirical $\Phi(t)$ minus the cubic, the difference is approximately +0.02 g s⁻¹ with a 95% interval of −0.01 to +0.05 g s⁻¹. This interval does not resolve which branch reconstructs better.
 
+### 5.2a Shot-level results: the ordering survives, the mechanistic advantage does not
+
+Re-scoring against each of the five individual 9-bar brews reproduces the ordering the mean curve shows, and the exact randomization analysis attaches the strongest support this design can carry. The empirical $\Phi(t)$ branch beats the best constant on **5 of 5** brews, by a mean of **−0.390 g s⁻¹**, and beats the static $\kappa(P)$ branch on **5 of 5** by **−0.472 g s⁻¹**. Both carry the exact two-sided randomization $p=0.0625$, which is the floor for five paired units and therefore reflects the design, not the strength of the effect; the effects are 2.6 and 3.2 times the shot-to-shot noise floor of **0.149 g s⁻¹**. The $\Phi(t)$-versus-cubic difference is **+0.083 g s⁻¹** in the cubic's favour on 5 of 5 brews, but that gap is **smaller than the noise floor**, so it is not resolvable with five shots — and the cubic is in-sample in any case.
+
+The held-out flexible comparator changes the reading of the temporal claim, and it should. Under **leave-one-shot-out**, the penalized spline — which never sees the brew it is scored on — reaches **0.186 g s⁻¹**, against **0.189 g s⁻¹** for $\Phi(t)$ and **0.190 g s⁻¹** for $\Phi(t)$ under its equilibrium cross-fit. The difference of **0.003 g s⁻¹** is roughly **forty times smaller** than the shot-to-shot noise floor. Both are far better than the held-out constant (**0.600 g s⁻¹**) and the static branch (**0.661 g s⁻¹**). **A generic prespecified smoother, trained only on other brews, predicts a held-out brew as well as the dissolution-linked trajectory does.** The mechanistic closure therefore earns no measurable predictive advantage over smoothness at the level of predicting a new shot.
+
+Under **leave-segment-out** the answer differs, and the difference is informative. Predicting an unobserved contiguous time interval from the rest of the same brew, $\Phi(t)$ reaches **0.158 g s⁻¹** on interior segments against **0.233 g s⁻¹** for the spline and **0.419 g s⁻¹** for the constant. Filling a temporal gap requires the shape of the trajectory, which a local smoother does not supply; predicting a whole new brew does not. We read the two protocols together as follows: **the temporal trajectory carries shape information that a smoother lacks, but at the level of the experimental unit that information does not translate into better prediction of a new shot.** Neither statement identifies a mechanism.
+
+Residual diagnostics at the declared 1 s resolution show that every branch leaves coherent structure. Lag-1 autocorrelation is 0.958 for the constant, 0.958 for the static branch, 0.969 for $\Phi(t)$ and 0.904 for the cubic, with Durbin–Watson statistics of 0.005, 0.004, 0.047 and 0.067. Decimating further to 5 s reduces but does not remove the structure (0.786 / 0.786 / 0.533 / 0.471). Measured against the mean pointwise between-shot standard deviation of **0.153 g s⁻¹**, the constant and static residuals are **3.8** and **4.3** times shot-to-shot variability while $\Phi(t)$ and the cubic sit at **0.76** and **0.65** times it. The temporal branches therefore reconstruct to within shot-to-shot variability while still leaving strongly autocorrelated residuals — a combination that rules out reading either as a validated mechanism.
+
+Reporting more than one error summary also changes one ordering, which is why we report several. On mean absolute error the static $\kappa(P)$ branch (**0.370 g s⁻¹**) is *better* than the best constant (**0.478 g s⁻¹**), the reverse of their RMSE ranking (0.661 against 0.583), because the static branch carries a large mean bias of **−0.312 g s⁻¹** that RMSE penalizes more heavily than MAE does. (These four values are computed on the 1 s decimated series used for the diagnostics, so they differ slightly from the full-resolution 0.648 and 0.573 in the ladder table; the ordering reversal is present at both resolutions.) No conclusion in this paper rests on that pair, but it demonstrates that a single scalar is not complete evidence of relative adequacy. We therefore report RMSE, MAE, mean bias and the standardized residual scale for every branch.
+
 The temporal-versus-constant ordering persists in all three scoring windows. The strict ordering between $\Phi(t)$ and the cubic does not. Across 4, 8, 16, and 24 s blocks, the $\Phi(t)$-versus-constant interval excludes zero at every block duration. The $\Phi(t)$-versus-cubic interval is unresolved from 4 to 16 s; at 24 s it marginally favors the cubic, with an interval of approximately +0.001 to +0.04 g s⁻¹ for $\Phi(t)$ minus cubic. Coarser dependence treatment therefore weakens, rather than strengthens, a mechanistic reading of the fit.
+
+### 5.2b Residual structure is drift, not oscillation, in every branch
+
+Lag-1 autocorrelation says residuals are dependent; it does not say what the dependence *is*. A
+slowly drifting residual and a residual oscillating near the sampling rate can carry similar lag-1
+values while meaning very different things about model adequacy. We therefore report the
+autocorrelation across lags and the periodogram of each branch's residual, on the same 1 s series
+used for the scalar diagnostics.
+
+The answer is the same for all four branches and it is unambiguous: **more than 95 % of residual
+power sits in the lowest-frequency quarter of the spectrum** (0.957 for the best constant and the
+static branch, 0.990 for empirical $\Phi(t)$, 0.954 for the cubic). The residuals are slow drift
+relative to the 80 s scoring window, not oscillation. That is why the Durbin–Watson statistics sit
+near zero rather than near two, and it is the reason lag-1 autocorrelation near 0.95 coexists with
+temporal-branch RMSEs inside shot-to-shot variability: the branches capture the level and the
+overall rise, and what they leave behind is a slow excursion rather than noise they failed to
+smooth.
+
+The dominant period separates the branches in a way the scalars do not. The two static branches
+peak at **80 s** — the full window, i.e. a single unreversed drift, which is exactly what a
+constant leaves against a rising trace. Both temporal branches peak at **40 s**, half the window.
+The temporal construction therefore removes the slowest component and leaves a faster one, which is
+a more specific statement of inadequacy than "the residuals are autocorrelated": whatever the
+remaining structure is, it reverses within the shot, so it is not a monotone trend that a further
+level or slope term would absorb.
+
+This does not identify a mechanism, and we do not read it as evidence for one. It bounds what any
+smooth same-trace fit can be expected to fix, and it is the diagnostic a future measurement would
+have to explain.
+
+**Figure 4 near here.** Panel a shows the autocorrelation across lags, panel b the share of power
+in the slowest spectral quarter, and panel c the dominant period. Figure 2c overlays
+residual-versus-time for all branches on the pointwise between-shot band.
 
 ### 5.3 Cross-pressure assessment supports within-campaign temporal transfer but not a universal branch
 
@@ -230,11 +294,11 @@ Table 3 separates three trace-level summaries that should not be conflated.
 
 | Assessment | Static branch | Empirical $\Phi(t)$ | RC-3b dynamic variant |
 |---|---:|---:|---:|
-| LOPO held out, all 11 pressures | 0.534 | 0.347 | 0.525 |
-| Shared calibration, all 11 pressures | 0.524 | 0.334 | 0.519 |
-| Shared calibration, 10 off-9-bar pressures | 0.512 | 0.356 | 0.530 |
+| LOPO-EC (equilibrium calibration withheld), all 11 pressures | 0.534 | 0.347 | 0.516 |
+| Shared calibration, all 11 pressures | 0.524 | 0.334 | 0.510 |
+| Shared calibration, 10 off-9-bar pressures | 0.512 | 0.356 | 0.522 |
 
-The LOPO means are within approximately 0.01–0.02 g s⁻¹ of the corresponding shared-calibration means. The empirical $\Phi(t)$ branch has the lowest mean error in both summaries. This is evidence that the aggregate 9-bar result is not created solely by one equilibrium pressure point.
+The LOPO means are within 0.013 g s⁻¹ of the corresponding shared-calibration means (largest absolute gap across the three branches). The empirical $\Phi(t)$ branch has the lowest mean error in both summaries. This is evidence that the aggregate 9-bar result is not created solely by one equilibrium pressure point.
 
 The per-pressure view is less simple. Relative errors change continuously with pressure, and no branch is best at every pressure. A flow-coupled variant can improve at some low-pressure conditions; the static branch can be competitive at parts of the middle range; and all branches retain structured residuals. Because the 9-bar dissolved-mass trajectory and donor assumptions are held fixed during LOPO, the calculation is within-rig, within-campaign generalization conditional on those quantities. It does not establish transfer to another machine, coffee, grind, pressure node, or control mode.
 
@@ -247,6 +311,81 @@ The transferred Mo swelling parameterization produces a monotone decline in fixe
 The Fasano fines-migration model supplies the same fixed-pressure sign from a different mechanism. Deposition and compact-layer growth make discharge monotone non-increasing under the Part I assumptions; pressure increase is one route by which removal or flux can restart in the broader family of models [4]. Thus an isolated fines-deposition branch cannot source the measured rise while pressure is held fixed.
 
 These results rule out neither swelling nor fines migration as constituents of the real bed. They show only that, in the tested fixed-pressure isolation, those resistance-increasing branches cannot be the sole positive contribution. Dissolution-linked porosity opening does carry the required net sign for a rising fixed-pressure flow, and it is the scored temporal branch here. A second candidate — a decline in liquor viscosity as the dissolved-solids concentration falls over the shot — would carry the same sign, but it is *degenerate* with dissolution-linked opening: both are driven by the same falling-concentration clock, so the integrated forward trace cannot separate them, and distinguishing them requires an independent time-resolved concentration measurement. That viscosity analysis, and the flow-control dataset that motivates it, are reserved for the companion perturbation-program study (see the reserved-material note) and are not scored here. A coupled calculation in which swelling and extraction share porosity actually worsens the reconstruction; that negative composition result is analyzed as a software/evidence-governance demonstration in the companion Puckworks resource paper rather than used here as a headline physical claim.
+
+
+### 5.3a Cross-pressure heterogeneity, and what the macro mean hides
+
+The aggregate cross-pressure statement conceals three things a reader needs: which branch is best at
+which pressure, how many shots each pressure contributes, and which pressure a stated number refers
+to. All three are reported here.
+
+| nominal bar | shots | static κ(P) | empirical Φ(t) | RC-3b | best |
+|---|---|---|---|---|---|
+| 1.0 | 5 | 0.431 | 0.374 | 0.159 | rc3b |
+| 2.0 | 4 | 0.649 | 0.573 | 0.303 | rc3b |
+| 3.5 | 3 | 0.306 | 0.418 | 0.692 | static |
+| 4.0 | 10 | 0.246 | 0.374 | 0.785 | static |
+| 5.0 | 5 | 0.402 | 0.456 | 0.879 | static |
+| 6.0 | 6 | 0.453 | 0.502 | 0.912 | static |
+| 7.0 | 4 | 0.551 | 0.222 | 0.628 | phi |
+| 8.0 | 4 | 0.575 | 0.118 | 0.448 | phi |
+| 9.0 | 5 | 0.648 | 0.116 | 0.392 | phi |
+| 11.0 | 4 | 0.693 | 0.173 | 0.241 | phi |
+| 13.0 | 7 | 0.809 | 0.354 | 0.169 | rc3b |
+
+**The best branch is not constant across pressure — it changes three times.** RC-3b is best at 1–2
+bar, the static branch at 3.5–6 bar, Φ(t) at 7–11 bar, and RC-3b again at 13 bar. Φ(t) wins **4
+of 11** pressures, and the band it wins is the 7–11 bar band that contains this paper's primary
+9-bar analysis. The macro mean therefore reports a genuine aggregate advantage for Φ(t)
+(0.334 g s⁻¹ against 0.524 for the static branch) while understating how strongly
+that advantage is localised in pressure. The correct reading is that the temporal branch is
+preferred in the upper-pressure regime and is not preferred below about 7 bar; nothing in this
+campaign supports a pressure-independent claim.
+
+**The averaging scheme is a choice, and it changes the ordering.** The campaign contributes between
+3 and 10 shots per pressure. Weighting every reference pressure equally — the scheme used
+above — gives the order phi < rc3b < static. Weighting by the number of shots, which answers the different
+question of what happens to a randomly drawn shot, gives phi < static < rc3b: the second and third places
+exchange. Φ(t) is first under both. We report both rather than presenting either as neutral.
+
+### 5.3b Pressure domains and boundary nodes
+
+Four distinct pressure quantities appear in this paper and are easy to conflate.
+
+- **Nominal reference pressure** — the campaign's setting, spanning 1–13 bar. Every
+  "9 bar" statement in this paper is nominal.
+- **Recorded basket pressure** — what the rig delivered, which is systematically **below** nominal at
+  every setting, by up to 0.61 bar. The nominal 9 bar condition delivered a mean
+  **8.71 bar** at the basket. §5.2 shows the ladder is insensitive to substituting the recorded
+  history, but the two are different quantities and are named separately.
+- **Fitted equilibrium characteristic pressure** — P_c = **12.39 bar**, an estimated parameter of
+  the equilibrium closure, not a rig setting. It sits just inside the tested range, so only
+  **1 of 11** reference pressures reach or exceed it: the saturating branch of the
+  equilibrium curve is exercised by essentially one pressure, and the rest of the campaign probes
+  the sub-characteristic regime.
+- **Model-valid pressure range** — the tested interval 1–13 bar. No claim here
+  extends outside it.
+
+### 5.3c Parameter provenance as a dependency graph
+
+"No coefficient fitted to the scored trace" is a statement about parameter *count*, not about
+*access*. A branch is only as held out as its most target-proximal input, so each branch's inputs
+are enumerated and each is labelled by how it reaches the branch.
+
+| branch | free params fitted to the scored trace | access levels among its inputs | most target-proximal | held out? |
+|---|---|---|---|---|
+| `rung1_const` | 1 | direct_target | direct_target | no |
+| `rung1b_longrun_const` | 0 | same_shot | same_shot | no |
+| `rung3_static` | 0 | same_campaign, literature | same_campaign | no |
+| `rung4_phi_of_t` | 0 | indirect_target, same_campaign, literature | indirect_target | no |
+| `flexible_cubic` | 4 | direct_target | direct_target | no |
+| `penalized_spline_loso` | 0 | other_shots, prespecified | other_shots | yes |
+
+The consequence is visible in the table: the empirical Φ(t) branch has **zero** free parameters
+fitted to the scored trace and is nevertheless **not** held out, because its dissolved-mass sigmoid
+is derived from TDS(t) × Q(t) on this rig and Q(t) is the scored observable. Only the penalized
+spline of §4.2b is held out, and it is a null. Reporting the parameter count alone would have made
+Φ(t) and the spline look equivalent; they are not.
 
 ## 6. From curve fitting to discriminating experiments
 
@@ -298,7 +437,7 @@ The conclusion is model-relative. “Temporal dynamics are required” does not 
 
 ### 7.2 What the trace does not identify
 
-The flexible cubic reconstructs at least as well as the dissolution-linked trajectory, and both retain highly autocorrelated residuals. A single smooth curve therefore admits multiple effective state histories. The empirical porosity trajectory is scientifically interesting because it imports rather than refits its time dependence, but its dissolved-mass input is derived from measurements in the same campaign. This soft circularity prevents a strong causal interpretation.
+The flexible cubic reconstructs at least as well as the dissolution-linked trajectory, and both retain highly autocorrelated residuals. A single smooth curve therefore admits multiple effective state histories. The held-out comparator sharpens this: a prespecified penalized spline trained on other brews predicts a held-out brew as well as the mechanistic trajectory does, so the trajectory's reconstruction quality is attributable to smoothness plus a correct overall shape rather than to the specific poroelastic–dissolution closure. That the trajectory does beat the spline at filling an unobserved time interval shows its shape carries information a local smoother lacks — but shape information is not mechanism identification. The empirical porosity trajectory is scientifically interesting because it imports rather than refits its time dependence, but its dissolved-mass input is derived from measurements in the same campaign. This soft circularity prevents a strong causal interpretation.
 
 Sign tests add information that RMSE cannot. Under fixed-pressure isolation, swelling and fines deposition move flow in the wrong direction to be the sole source of the rise. Yet sign does not imply absence. In a coupled system, the measured derivative is a sum of contributions, some positive and some negative. A resistance-increasing process can be present while a stronger opening process controls the net sign. This distinction matters because categorical language such as “swelling is refuted” would exceed the analysis.
 
@@ -329,7 +468,7 @@ The analysis has six main limitations.
 
 First, the machine-only capacity test and the rising-flow measurement come from different source systems. This is deliberate for the logical point that machines can generate similar shapes, but it is not a calibrated machine explanation of the Waszkiewicz trace.
 
-Second, the primary temporal comparison uses one preprocessed across-shot mean 9-bar trajectory from one campaign. Window and block sensitivity address analysis choices, not shot-to-shot, coffee-lot, preparation, operator, grinder, or apparatus replication.
+Second, although the primary uncertainty statement is now at the shot level, it rests on **five** brews from one campaign at one pressure. Five paired units cannot reach a conventional significance threshold under an exact randomization test, and a percentile bootstrap over five units is indicative at best; the comparisons reported here are effect sizes read against a measured shot-to-shot noise floor, not tests. The cross-pressure and window analyses use one preprocessed across-shot mean 9-bar trajectory from one campaign. Window and block sensitivity address analysis choices, not shot-to-shot, coffee-lot, preparation, operator, grinder, or apparatus replication.
 
 Third, the empirical $\Phi(t)$ trajectory is soft-circular because dissolved mass is constructed from total dissolved solids and flow measured on the same rig. An independently measured mass-loss or porosity trajectory is needed to convert reconstruction into a stronger mechanistic test.
 
@@ -367,23 +506,45 @@ The Waszkiewicz data are documented in the repository manifest with the source r
 
 [To be completed.]
 
-## Figure specifications and draft captions
+## Figures
 
-### Figure 1. Machine-side non-uniqueness of a flow minimum
+All five figures are generated by `python -m puckworks.figures_paper_b2` from
+`docs/figures/paper_b_results.json` — the same bundle `paper_b.build.verify` checks every registered claim
+against, so a figure cannot disagree with a verified number. Raster and vector are emitted together,
+each data-bearing figure exports a tidy source-data CSV so a reviewer can re-plot without the solver
+stack, and every figure carries a text alternative in `docs/figures/paper_b2/ALT_TEXT.md`.
 
-**Panel a:** Schematic of pump outlet, pipe resistance, trapped-air headspace, ponding height, wetting front, and porous bed in the Foster model. Pressure nodes are labeled explicitly. **Panel b:** Published Foster normalized flow curve and repository reconstruction, showing a mid-shot minimum and recovery with no evolving bed mechanism. **Panel c:** Measured Waszkiewicz 9-bar rising-flow trace, shown only to establish that it is a separate evidence object and not fitted by the Foster parameterization. Caption language: the Foster system demonstrates machine-side capacity for the shape; it does not explain the Waszkiewicz trace.
+**Figure 1. Machine-side non-uniqueness of a flow minimum.** (a) The Foster machine path with its
+pressure nodes labelled: a "9 bar" statement must name which node it means. (b) The published Fig-15
+normalised flow series against the repository reconstruction, which reaches its minimum of 0.181 at
+1.99 s with no evolving bed mechanism; the reconstruction is drawn only over the interval the model
+covers. (c) The measured 9-bar trace on its own axes, included to establish that it is a separate
+evidence object the Foster parameterisation does not fit.
 
-### Figure 2. Null-first temporal ladder on the 9-bar trace
+**Figure 2. Null-first temporal ladder on the 9-bar trace.** (a) Measured flow with every branch
+overlaid on the 15–95 s window. (b) Reconstruction error by branch, annotated with how many free
+parameters each fitted to the scored trace; the cubic is labelled an in-sample flexibility bound,
+not a predictive model. (c) Residual against time at the declared 1 s resolution, over the mean
+pointwise between-shot band. (d) Conditional moving-block intervals: Φ(t) minus the best constant
+excludes zero, Φ(t) minus the cubic does not.
 
-**Panel a:** Measured flow with primary 15–95 s scoring window and predictions from the best constant, late-window constant, static $\kappa(P)$ model, empirical $\Phi(t)$ trajectory, and flexible cubic. **Panel b:** RMSE by branch with parameter-provenance labels. **Panel c:** Residual-versus-time curves. **Panel d:** Conditional moving-block intervals for $\Phi(t)$ minus best constant and $\Phi(t)$ minus cubic. The cubic is labeled “in-sample flexibility bound,” not “predictive model.”
+**Figure 3. Cross-pressure assessment.** (a) Per-pressure error for the static, Φ(t) and RC-3b
+branches; the best branch changes three times, and the band containing the primary 9-bar analysis is
+marked. (b) Leave-one-pressure-out held-out means against shared calibration. (c) Equilibrium
+calibration drift, plotted relative to the all-pressure fit against the stated ±2.8 % bound.
+(d) Nominal setting against recorded basket pressure, which is below nominal at every condition. The
+assessment is within-rig and conditional on the fixed dissolved-mass trajectory.
 
-### Figure 3. Cross-pressure assessment
+**Figure 4. Residual structure is slow drift.** (a) Autocorrelation across twenty lags. (b) Share of
+residual power in the slowest spectral quarter, above 0.95 for every branch. (c) Dominant residual
+period: 80 s for the static branches, 40 s for both temporal branches. The best constant and static
+κ(P) curves coincide exactly in (a) and (b) because both leave a constant-offset residual, so every
+centred diagnostic is identical by construction.
 
-**Panel a:** Shared-calibration prediction and observed trace at each pressure, faceted or arranged on a continuous pressure axis. **Panel b:** Per-pressure RMSE for static, empirical $\Phi(t)$, and RC-3b branches under shared calibration. **Panel c:** LOPO held-out RMSE with open markers; shared-calibration scores shown separately. **Panel d:** Calibration drift in $P_c$ and $Q_c$ when each pressure is omitted. **Panel e:** Decimated residual Durbin–Watson or another residual-structure summary. The caption states that the assessment is within-rig and conditional on the fixed 9-bar dissolved-mass trajectory and donor assumptions.
-
-### Figure 4. Mechanism-by-perturbation program
-
-A matrix with rows for machine/headspace, dissolution opening, fines migration, compaction/recovery, and swelling; columns for pressure step, flow reversal, spent-puck rebrew, control mode, first-drop timing, and depth-resolved end state. Each cell shows only a directional or hysteresis prediction supported by the corresponding model structure. A side panel gives the decision logic and identifies presently missing measurements.
+**Figure 5. Mechanism-by-perturbation prediction matrix.** Five candidate contributions against five
+perturbations. Every cell is a **declared** qualitative expectation conditional on the cited model
+structure; the repository contains no data from any of these protocols, so no cell is a result. Flow
+reversal is highlighted as the one column where the candidates differ in sign rather than degree.
 
 ## Supplementary material plan
 

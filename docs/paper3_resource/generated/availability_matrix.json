@@ -1,0 +1,1270 @@
+{
+  "counts": {
+    "importable": {
+      "True": 27
+    },
+    "included_in_release": {
+      "False": 1,
+      "True": 26
+    },
+    "public_hosting_status": {
+      "False": 26,
+      "True": 1
+    },
+    "redistribution_license_status": {
+      "code:CLEAR/data:NOT_APPLICABLE": 1,
+      "code:NOT_REVIEWED/data:NOT_REVIEWED": 25,
+      "code:RIGHTS_BLOCKED/data:RIGHTS_REVIEW_REQUIRED": 1
+    },
+    "registered": {
+      "True": 27
+    },
+    "required_data_available": {
+      "False": 1,
+      "True": 26
+    },
+    "runnable_local": {
+      "False": 1,
+      "True": 26
+    },
+    "scientifically_eligible": {
+      "code_verification": 5,
+      "exploratory_synthesis": 1,
+      "post_fit_reconstruction": 5,
+      "qualitative_capacity": 5,
+      "sign_or_compatibility": 3,
+      "source_curve_reproduction": 7,
+      "within_campaign_held_out": 1
+    }
+  },
+  "dimensions": [
+    "registered",
+    "importable",
+    "runnable_local",
+    "required_data_available",
+    "scientifically_eligible",
+    "redistribution_license_status",
+    "public_hosting_status",
+    "included_in_release"
+  ],
+  "n_cells_declared": 1,
+  "n_cells_derived": 215,
+  "n_components": 27,
+  "rows": [
+    {
+      "blocking_reason": "",
+      "component": "brewer2026.coupled_kappa_t",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.models.brewer2026.coupled_kappa_t"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": true,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "why": "code allowed; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "exploratory_synthesis",
+        "why": "registry evidence_strength; gate-backed=True"
+      },
+      "stage": "bed_dynamics"
+    },
+    {
+      "blocking_reason": "",
+      "component": "brewer2026.lb_reference",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.models.brewer2026.lb_reference"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": true,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=CLEAR: affirmatively cleared"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:CLEAR/data:NOT_APPLICABLE",
+        "why": "code allowed; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=CLEAR: affirmatively cleared"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "code_verification",
+        "why": "registry evidence_strength; gate-backed=True"
+      },
+      "stage": "flow"
+    },
+    {
+      "blocking_reason": "",
+      "component": "brewer2026.lb_taichi",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.models.brewer2026.lb_taichi"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": true,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "why": "code allowed; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "code_verification",
+        "why": "registry evidence_strength; gate-backed=False"
+      },
+      "stage": "flow"
+    },
+    {
+      "blocking_reason": "",
+      "component": "brewer2026.pack_generator",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.models.brewer2026.pack_generator"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": true,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "why": "code allowed; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "qualitative_capacity",
+        "why": "registry evidence_strength; gate-backed=True"
+      },
+      "stage": "packing"
+    },
+    {
+      "blocking_reason": "",
+      "component": "brewer2026.streamtube",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.models.brewer2026.streamtube"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": true,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "why": "code allowed; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "within_campaign_held_out",
+        "why": "registry evidence_strength; gate-backed=True"
+      },
+      "stage": "bed_dynamics"
+    },
+    {
+      "blocking_reason": "",
+      "component": "cameron2020.extraction_bdf",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.models.cameron2020.extraction_bdf"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": true,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "why": "code allowed; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "code_verification",
+        "why": "registry evidence_strength; gate-backed=True"
+      },
+      "stage": "extraction"
+    },
+    {
+      "blocking_reason": "",
+      "component": "fasano2000_partI.fines_migration",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.models.fasano2000_partI.fines_migration"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": true,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "why": "code allowed; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "qualitative_capacity",
+        "why": "registry evidence_strength; gate-backed=True"
+      },
+      "stage": "bed_dynamics"
+    },
+    {
+      "blocking_reason": "",
+      "component": "foster2025.infiltration",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.models.foster2025.infiltration"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": true,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "why": "code allowed; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "sign_or_compatibility",
+        "why": "registry evidence_strength; gate-backed=True"
+      },
+      "stage": "infiltration"
+    },
+    {
+      "blocking_reason": "",
+      "component": "foster2025.machine_mode",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.models.foster2025.machine_mode"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": true,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "why": "code allowed; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "source_curve_reproduction",
+        "why": "registry evidence_strength; gate-backed=True"
+      },
+      "stage": "machine"
+    },
+    {
+      "blocking_reason": "Legacy: a self-documented direct port of the unlicensed upstream solver (YoanaGrudeva/espresso-model, licence: null); no documented permission. The EJAM article (CC-BY) licenses the equations/text, NOT the solver code \u2014 the two are tracked separately. Retained in history and the current package pending the #73 decision; not for new Lab execution, native runners, adapters, or a newly approved release artifact.",
+      "component": "grudeva2025.reduced",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.models.grudeva2025.reduced"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": false,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=RIGHTS_BLOCKED: blocked"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:RIGHTS_BLOCKED/data:RIGHTS_REVIEW_REQUIRED",
+        "why": "code refused; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "declared",
+        "value": false,
+        "why": "source code and data are rights-blocked; nothing is vendored"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=RIGHTS_BLOCKED: blocked"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "post_fit_reconstruction",
+        "why": "registry evidence_strength; gate-backed=True"
+      },
+      "stage": "extraction"
+    },
+    {
+      "blocking_reason": "",
+      "component": "lee2023.feedback",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.models.lee2023.feedback"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": true,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "why": "code allowed; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "qualitative_capacity",
+        "why": "registry evidence_strength; gate-backed=True"
+      },
+      "stage": "flow"
+    },
+    {
+      "blocking_reason": "",
+      "component": "liang2021.desorption",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.models.liang2021.desorption"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": true,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "why": "code allowed; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "post_fit_reconstruction",
+        "why": "registry evidence_strength; gate-backed=True"
+      },
+      "stage": "extraction"
+    },
+    {
+      "blocking_reason": "",
+      "component": "maille2024.phi_closure",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.models.maille2024.phi_closure"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": true,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "why": "code allowed; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "code_verification",
+        "why": "registry evidence_strength; gate-backed=True"
+      },
+      "stage": "grind"
+    },
+    {
+      "blocking_reason": "",
+      "component": "maille2024.two_regime",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.models.maille2024.two_regime"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": true,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "why": "code allowed; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "source_curve_reproduction",
+        "why": "registry evidence_strength; gate-backed=True"
+      },
+      "stage": "extraction"
+    },
+    {
+      "blocking_reason": "",
+      "component": "mo2023_2.coupled_bed",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.models.mo2023_2.coupled_bed"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": true,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "why": "code allowed; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "post_fit_reconstruction",
+        "why": "registry evidence_strength; gate-backed=True"
+      },
+      "stage": "extraction"
+    },
+    {
+      "blocking_reason": "",
+      "component": "mo2023_2.swelling",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.models.mo2023_2.swelling"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": true,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "why": "code allowed; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "source_curve_reproduction",
+        "why": "registry evidence_strength; gate-backed=True"
+      },
+      "stage": "bed_dynamics"
+    },
+    {
+      "blocking_reason": "",
+      "component": "moroney2016.surrogate",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.models.moroney2016.surrogate"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": true,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "why": "code allowed; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "qualitative_capacity",
+        "why": "registry evidence_strength; gate-backed=True"
+      },
+      "stage": "extraction"
+    },
+    {
+      "blocking_reason": "",
+      "component": "pannusch2024.closures",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.models.pannusch2024.closures"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": true,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "why": "code allowed; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "code_verification",
+        "why": "registry evidence_strength; gate-backed=True"
+      },
+      "stage": "extraction"
+    },
+    {
+      "blocking_reason": "",
+      "component": "pannusch2024.solver",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.models.pannusch2024.solver"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": true,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "why": "code allowed; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "post_fit_reconstruction",
+        "why": "registry evidence_strength; gate-backed=True"
+      },
+      "stage": "extraction"
+    },
+    {
+      "blocking_reason": "",
+      "component": "romancorrochano2017.extraction",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.models.romancorrochano2017.extraction"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": true,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "why": "code allowed; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "sign_or_compatibility",
+        "why": "registry evidence_strength; gate-backed=True"
+      },
+      "stage": "extraction"
+    },
+    {
+      "blocking_reason": "",
+      "component": "sourcing2026.g10_liquor_rheology",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.data:telisromero_viscosity_pas"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": true,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "why": "code allowed; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "source_curve_reproduction",
+        "why": "registry evidence_strength; gate-backed=True"
+      },
+      "stage": "flow"
+    },
+    {
+      "blocking_reason": "",
+      "component": "sourcing2026.g1_glassbead_analog",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.data:glassbead_retention_kr"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": true,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "why": "code allowed; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "qualitative_capacity",
+        "why": "registry evidence_strength; gate-backed=True"
+      },
+      "stage": "infiltration"
+    },
+    {
+      "blocking_reason": "",
+      "component": "sourcing2026.g3_pump_characteristic",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.data:pump_characteristic_ulka"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": true,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "why": "code allowed; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "sign_or_compatibility",
+        "why": "registry evidence_strength; gate-backed=True"
+      },
+      "stage": "machine"
+    },
+    {
+      "blocking_reason": "",
+      "component": "wadsworth2026.grindmap",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.models.wadsworth2026.grindmap"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": true,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "why": "code allowed; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "source_curve_reproduction",
+        "why": "registry evidence_strength; gate-backed=True"
+      },
+      "stage": "grind"
+    },
+    {
+      "blocking_reason": "",
+      "component": "wadsworth2026.inertial",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.models.wadsworth2026.inertial"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": true,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "why": "code allowed; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "source_curve_reproduction",
+        "why": "registry evidence_strength; gate-backed=True"
+      },
+      "stage": "flow"
+    },
+    {
+      "blocking_reason": "",
+      "component": "wadsworth2026.permeability",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.models.wadsworth2026.permeability"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": true,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "why": "code allowed; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "source_curve_reproduction",
+        "why": "registry evidence_strength; gate-backed=True"
+      },
+      "stage": "packing"
+    },
+    {
+      "blocking_reason": "",
+      "component": "waszkiewicz2025.poroelastic",
+      "importable": {
+        "how": "derived",
+        "value": true,
+        "why": "importlib resolved puckworks.models.waszkiewicz2025.poroelastic"
+      },
+      "included_in_release": {
+        "how": "derived",
+        "value": true,
+        "why": "packaged in the wheel; gated on code redistribution rights"
+      },
+      "public_hosting_status": {
+        "how": "derived",
+        "value": false,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+      },
+      "redistribution_license_status": {
+        "how": "derived",
+        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "why": "code allowed; data allowed"
+      },
+      "registered": {
+        "how": "derived",
+        "value": true,
+        "why": "present in registry.components()"
+      },
+      "required_data_available": {
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
+      },
+      "runnable_local": {
+        "how": "derived",
+        "value": true,
+        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+      },
+      "scientifically_eligible": {
+        "how": "derived",
+        "value": "post_fit_reconstruction",
+        "why": "registry evidence_strength; gate-backed=True"
+      },
+      "stage": "bed_dynamics"
+    }
+  ]
+}

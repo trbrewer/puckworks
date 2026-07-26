@@ -2,6 +2,17 @@
 # This is intentionally a direct-version lock, not a complete transitive pip lock.
 # Resolve it in a clean Python 3.13.13 environment, then archive the resolved
 # environment (or its container digest) with the release.
+#
+# A full transitive lock now exists and covers ALL THREE papers:
+# docs/reproducibility/requirements-papers.lock. Prefer it. This file is kept because
+# RELEASE_RUNBOOK.md cites it by name, not because it is the better artifact.
+#
+# Three lock artifacts exist and they are NOT interchangeable -- see the table in
+# REPRODUCIBILITY.md ("Which lock file to use"):
+#   docs/reproducibility/requirements-papers.lock   full transitive resolution, all 3 papers; USE THIS
+#   this file                                       direct pins only; the older runbook contract
+#   docs/reproducibility/requirements.lock          pip freeze of the producing conda env; a RECORD,
+#                                                   not installable elsewhere (file:/// URLs)
 numpy==2.5.1
 scipy==1.18.0
 matplotlib==3.11.0

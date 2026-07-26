@@ -33,6 +33,13 @@ jobs:
         run: |
           python -m puckworks.paper3.registry_artifacts --verify
           python -m puckworks.paper3.build verify
+      - name: Paper 3 STRICT release gate (paper3-v* tags only)
+        # `verify` above catches stale artifacts. The strict gate additionally proves freshness by
+        # RECOMPUTATION and that the deterministic archive builds to the same hash twice -- the
+        # properties that make a Paper 3 tag citable. Restricted to paper3-v* tags because a
+        # package release (v*) is not required to ship a Paper 3 archive.
+        if: github.ref_type == 'tag' && startsWith(github.ref_name, 'paper3-v')
+        run: python -m puckworks.paper3.build release
       - name: build wheel + sdist, twine check, write manifest
         # A package tag (v*, not paper3-*) runs RELEASE mode: readiness gate + strict git provenance
         # + tag==HEAD. paper3-* tags and manual dispatch run a non-publishable REHEARSAL build.
