@@ -1,0 +1,137 @@
+"""Paper 3 strict release gate and archive payload (release-unblock work).
+
+The gate exists to make a tag meaningful. These tests hold the properties that make it so: the
+bundle has ONE definition, the archive actually contains the paper's figures, freshness is defined
+by recomputation rather than by an unsatisfiable commit-equality check, and the gate refuses a dirty
+tree.
+"""
+import pathlib
+
+import pytest
+
+import puckworks.models  # noqa: F401  (registers components)
+from puckworks.paper3 import archive as A
+from puckworks.paper3 import build as B
+
+_ROOT = pathlib.Path(__file__).resolve().parents[1]
+
+
+@pytest.fixture(scope="module")
+def members():
+    return A._static_members(_ROOT)
+
+
+def test_the_bundle_has_one_definition():
+    """`build.bundle_contents()` used to list 14 files while the archive shipped 148. They now
+    share a definition, so they cannot disagree again."""
+    bundle = set(B.bundle_contents(_ROOT))
+    archive = {rel for rel, _role, _redist in A._static_members(_ROOT)}
+    assert bundle == archive
+
+
+def test_the_required_floor_is_still_present(members):
+    """A globbing change must not silently drop the manuscript."""
+    present = {rel for rel, _r, _x in members}
+    for required in B._BUNDLE_STATIC:
+        assert required in present, required
+
+
+def test_the_archive_ships_the_figures(members):
+    """It previously shipped a manuscript with NO figures -- a reader could not check a panel."""
+    roles = [r for _p, r, _x in members]
+    assert roles.count("figure") >= 21, "figures missing from the archive payload"
+    assert "figure_alt_text" in roles, "no text alternatives in the archive"
+    assert roles.count("figure_source_data") >= 4, "figure source data missing"
+
+
+def test_every_committed_figure_is_in_the_archive(members):
+    present = {rel for rel, _r, _x in members}
+    for p in sorted((_ROOT / "docs/figures/paper3").glob("*.png")):
+        rel = p.relative_to(_ROOT).as_posix()
+        assert rel in present, rel
+        for ext in (".svg", ".pdf"):
+            assert rel.replace(".png", ext) in present, rel.replace(".png", ext)
+
+
+def test_the_archive_is_deterministic(tmp_path):
+    """Two builds from the same commit must give the same hash, or the archive is not citable."""
+    a = A.create_archive(tmp_path / "a.tar.gz", root=_ROOT, dirty_ok=True)
+    b = A.create_archive(tmp_path / "b.tar.gz", root=_ROOT, dirty_ok=True)
+    assert a["archive_sha256"] == b["archive_sha256"]
+
+
+def test_the_archive_verifies_without_the_source_checkout(tmp_path):
+    path = tmp_path / "a.tar.gz"
+    A.create_archive(path, root=_ROOT, dirty_ok=True)
+    problems = A.verify_archive(path)          # returns a LIST of problems; empty == clean
+    assert problems == [], problems
+
+
+def test_release_refuses_a_dirty_tree(monkeypatch):
+    """The gate's whole purpose. Simulated rather than by dirtying the real tree."""
+    monkeypatch.setattr(B, "_git", lambda *a, **k: "M some/file.py" if a[0] == "status" else "abc")
+    rep = B.release(_ROOT)
+    assert rep["ok"] is False
+    assert any(p.startswith("tree_dirty") for p in rep["problems"]), rep["problems"]
+
+
+def test_freshness_is_defined_by_recomputation_not_commit_equality():
+    """The design decision, pinned. Commit equality is unsatisfiable IN-TREE because committing the
+    bundle advances HEAD; recomputation tests the property a reader of the repository needs.
+
+    The scoping matters and is asserted: commit-equality is achievable out-of-tree, and
+    `tools/prepare_paper_release.py` already achieves it for Papers 1 and 2. An unqualified
+    "unsatisfiable" here would be false, so the docstring must name the in-tree scope and must not
+    claim impossibility in general."""
+    rep = B.release(_ROOT)
+    assert "recomputation" in rep["freshness"]
+    src = (_ROOT / "puckworks/paper3/build.py").read_text(encoding="utf-8")
+    flat = " ".join(src.split())          # reflow-insensitive: line wrapping must not break this
+    assert "IN-TREE it is unsatisfiable" in flat, "the in-tree scope is no longer stated"
+    assert "prepare_paper_release" in src, "the out-of-tree counterexample is no longer named"
+    assert "structurally unsatisfiable" not in src, (
+        "unqualified 'structurally unsatisfiable' is false -- "
+        "tools/prepare_paper_release.py satisfies commit-equality out-of-tree")
+
+
+def test_the_out_of_tree_release_tool_really_does_not_cover_paper_3():
+    """Guards the caveat above: if Paper 3 is later wired into prepare_paper_release.py, the
+    docstring and REPRODUCIBILITY.md both become stale and must be revisited."""
+    tool = _ROOT / "tools/prepare_paper_release.py"
+    src = tool.read_text(encoding="utf-8")
+    assert "def build_paper_a" in src and "def build_paper_b" in src, (
+        "the tool's shape changed -- re-derive which papers it covers")
+    assert "def build_paper3" not in src and "def build_paper_3" not in src, (
+        "Paper 3 now has an out-of-tree builder: update paper3/build.py and REPRODUCIBILITY.md, "
+        "which both state that it does not")
+
+
+def test_recomputation_check_covers_every_generated_surface():
+    """A freshness check that omitted a generated artifact would certify a stale release."""
+    src = (_ROOT / "puckworks/paper3/build.py").read_text(encoding="utf-8")
+    for surface in ("gen.verify", "appendix_b.verify", "named_shot_scorecard.verify",
+                    "export_source_data"):
+        assert surface in src, surface
+
+
+def test_recomputation_finds_nothing_stale_right_now():
+    assert B._recomputation_problems(_ROOT) == []
+
+
+def test_the_lock_pins_the_producing_environment():
+    """A lock resolved without constraints would name matplotlib 3.11.1 while the figures were
+    drawn with 3.11.0 -- a different environment from the one that ran."""
+    lock = (_ROOT / "docs/reproducibility/requirements-paper3.lock").read_text(encoding="utf-8")
+    import matplotlib
+    import numpy
+    import scipy
+    for mod in (numpy, scipy, matplotlib):
+        assert "%s==%s" % (mod.__name__, mod.__version__) in lock, mod.__name__
+
+
+def test_reproducibility_doc_states_what_is_not_reproducible():
+    """A reproducibility document that lists only successes is not useful."""
+    text = (_ROOT / "REPRODUCIBILITY.md").read_text(encoding="utf-8")
+    assert "What is NOT yet reproducible" in text
+    for gap in ("No archival DOI", "No independent reproduction", "Correctness is not certified"):
+        assert gap in text, gap

@@ -2,6 +2,13 @@
 # This is intentionally a direct-version lock, not a complete transitive pip lock.
 # Resolve it in a clean Python 3.13.13 environment, then archive the resolved
 # environment (or its container digest) with the release.
+#
+# Three lock artifacts exist and they are NOT interchangeable -- see the table in
+# REPRODUCIBILITY.md ("Which lock file to use"):
+#   this file                                  direct pins only; the release contract for Papers 1-2
+#   docs/reproducibility/requirements-paper3.lock   full transitive resolution (Paper 3, installable)
+#   docs/reproducibility/requirements.lock          pip freeze of the producing conda env; a RECORD,
+#                                                   not installable elsewhere (file:/// URLs)
 numpy==2.5.1
 scipy==1.18.0
 matplotlib==3.11.0

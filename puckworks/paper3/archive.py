@@ -77,6 +77,10 @@ def _static_members(root):
     add("puckworks/paper3/EVIDENCE_LINKS.json", "evidence_source")
     add("puckworks/data/MANIFEST.csv", "data_provenance")
     add("puckworks/data/visualizer/PROVENANCE.md", "data_provenance")
+    # the evidence matrix + dictionary the paper's evidence-taxonomy figure draws on; these were
+    # listed by paper3.build as required and were NOT in the archive (caught by the floor check)
+    add("puckworks/data/paper_b_evidence_matrix.csv", "evidence_source")
+    add("puckworks/data/paper_b_evidence_dictionary.csv", "evidence_source")
     # ALL generated Paper-3 evidence artifacts (registry_artifacts + evidence_graph outputs)
     for p in sorted((root / gen.GENERATED_REL).glob("*")):
         if p.is_file():
@@ -84,6 +88,19 @@ def _static_members(root):
     # model/source cards (physics source of truth used by the paper)
     for p in sorted((root / "docs/cards").glob("*.md")):
         out.append((p.relative_to(root).as_posix(), "card", True))
+    # Figures, their tidy source data, and the text alternatives (review MC12). Without these the
+    # archive shipped a manuscript with no figures -- the reader could not check a single panel.
+    figdir = root / "docs/figures/paper3"
+    for p in sorted(figdir.glob("*")):
+        if not p.is_file():
+            continue
+        rel = p.relative_to(root).as_posix()
+        if p.suffix in (".png", ".svg", ".pdf"):
+            out.append((rel, "figure", True))
+        elif p.name == "ALT_TEXT.md":
+            out.append((rel, "figure_alt_text", True))
+    for p in sorted((figdir / "source_data").glob("*.csv")):
+        out.append((p.relative_to(root).as_posix(), "figure_source_data", True))
     return out
 
 
