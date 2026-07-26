@@ -1,0 +1,6 @@
+rung,rmse_g_per_s,free_params_fitted_to_scored_trace,parameter_provenance
+best in-window constant,0.573,1,fitted to the scored trace
+long-run constant,0.641,0,"same shot, outside the window"
+static kappa(P),0.648,0,same-campaign equilibrium calibration
+empirical Phi(t),0.116,0,same-campaign; sigmoid derived from target
+flexible cubic,0.096,4,fitted to the scored trace

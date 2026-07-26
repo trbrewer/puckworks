@@ -582,20 +582,24 @@ The scorecard is an evidentiary ledger, not a digital twin. It answers: which st
 
 ### 12.2 Stage-by-stage accounting
 
-**Table 6. Draft named-shot scorecard. Statuses describe the current evidence chain, not universal model quality.**
+<!-- scorecard:begin -->
+**Table 6. Named-shot evidence scorecard (generated).** Statuses on stages with a registered component are derived from that component's scoped evidence vector; numbers are executed from named producers. 6 of 10 statuses are derived; 2 stages remain open.
 
-| Stage | Selected component or input | Current evidence status | Load-bearing caveat / promotion path |
+| Stage | Selected component or input | Evidence status | Load-bearing caveat |
 |---|---|---|---|
-| Named preparation | 20 g in / 40 g out; nominal dial 1.7; 80–98 °C | specified | grinder and coffee lineage must be physically matched, not matched by dial number |
-| Machine boundary | recorded DE1 fixture pressure/weight/flow | observed trace | exact pressure-node identity remains open |
-| Infiltration | Foster recorded-pressure sharp-front adapter | same-shot compatibility check across a predeclared first-drop/dead-volume porosity bracket — not an independent prediction (the same shot supplies the pressure trace, the fitted permeability, and the evaluation) | sharp binary saturation; fine-grind/source-domain limitation |
-| Packing/permeability | literature prior plus fitted fixture multiplier $\kappa\approx1.196$ | calibrated; per-shot fitted | not an independent permeability prediction; outlet/screen resistance may be absorbed |
-| Flow law | Darcy baseline with Forchheimer diagnostic | verified closure; extrapolation flag | $Fo_F\approx0.86$ (exp closure) to $5.7$ (Zhou closure) places the fixture near or beyond inertial onset, so unflagged Darcy use is unsafe. Reproduced by `wadsworth2026.inertial.de1_fixtureA_audit` from recorded inputs: $k=7.42\times10^{-15}$ m², peak superficial $q=1.54\times10^{-3}$ m s⁻¹ ($q=Q/A$, $A=2.68\times10^{-3}$ m²), $\rho=960$ kg m⁻³, $\mu=3.0\times10^{-4}$ Pa s, $k_I$ from the ceramics-fit closures; source dataset `de1_fixtureA` with $\kappa=1.196$. The two values are the SAME shot under two $k_I(k)$ closures — a closure spread, not a measurement range — and $k_I$ is **extrapolated from a ceramics fit**, never coffee-calibrated, so this is a model-derived regime flag, not empirical validation of inertial espresso flow |
-| Bed dynamics | selected static or temporal branch | reconstruction or exploratory, depending configuration | no direct porosity/strain measurement on the named shot |
-| Aggregate extraction | Cameron-type runtime | numerically verified and source-gated | absolute EY/TDS reads low against independent literature brackets in current comparison |
-| Named-solute extraction | Pannusch-type four-solute solver and flow/temperature adapter | post-fit reconstruction; adapter verification | fitted to its source campaign; no independent four-solute cup for the named fixture |
-| Ramp sensitivity | pressure-to-flow adapter audit | verification; approximately 6.6% shift in the current audit | sensitivity is adapter-dependent, not an observed shot effect |
-| Final exact cup | TDS plus caffeine, trigonelline, and chlorogenic-acid-family measurement | **open** | run the capstone shot, retain fractions or full cup, and predeclare whether $\kappa$ may be refitted |
+| Named preparation | `—` | specified *(declared)* | The grinder dial is not a portable physical coordinate; until a grinder-specific particle-size adapter exists, the cross-grinder mapping stays open rather than being treated as matched by dial number. |
+| Machine boundary | `de1_fixtureA` | observed *(declared)* | The exact pressure-node identity of the recorded trace is OPEN (basket gauge vs line), and node identity is documented in prose but is not a typed contract field, so a node substitution would be type-valid. |
+| Infiltration | `foster2025.infiltration` | compatibility check | Same-shot compatibility check across a predeclared porosity bracket, NOT an independent prediction: the same shot supplies the pressure trace, the fitted permeability and the evaluation. |
+| Packing / permeability | `wadsworth2026.permeability` | reconstructed (source curve) | Literature prior plus a per-shot fitted fixture multiplier; not an independent permeability prediction, and outlet/screen resistance may be absorbed into it. |
+| Flow law | `wadsworth2026.inertial` | verified (code only) + compatibility check + reconstructed (source curve) | Fo_F 0.86 (exp) to 5.7 (Zhou); k = 7.42e-15 m²; peak q = 1.54e-03 m s⁻¹. The two Forchheimer numbers are the SAME shot under two k_I closures -- a closure spread, not a measurement range -- and k_I is extrapolated from a ceramics fit, never coffee-calibrated. This is a model-derived regime flag, not empirical validation of inertial espresso flow. |
+| Bed dynamics | `waszkiewicz2025.poroelastic` | reconstructed | No direct porosity or strain measurement exists on the named shot; the branch is selected by configuration, and a different selection changes the status. |
+| Aggregate extraction | `cameron2020.extraction_bdf` | verified (code only) + compatibility check | Absolute extraction yield reads low against independent literature brackets in the current comparison. |
+| Named-solute extraction | `pannusch2024.solver` | reconstructed | Fitted to its source campaign; there is no independent four-solute cup for the named fixture. |
+| Ramp sensitivity | `—` | open *(declared)* | The pressure-to-flow adapter audit is a verification exercise, and its sensitivity is adapter-dependent rather than an observed shot effect. **WITHDRAWN:** A shift of 'approximately 6.6 %' was previously printed for this row. No producer in the repository emits it. It is withdrawn rather than reproduced; restoring it requires a named producer. |
+| Final exact cup | `—` | open *(declared)* | Requires running the capstone shot, retaining fractions or the full cup, and predeclaring whether the fitted fixture multiplier may be refitted. |
+
+**Claims withdrawn for want of a producer.** A shift of 'approximately 6.6 %' was previously printed for this row. No producer in the repository emits it. It is withdrawn rather than reproduced; restoring it requires a named producer.
+<!-- scorecard:end -->
 
 The table prevents an occupied software slot from being read as an independently validated stage. For example, the extraction solver can run and pass numerical gates while its absolute prediction remains low relative to an external range. The flow closure can be dimensionally verified while the named fixture lies outside the comfortable Darcy regime. The full chain therefore ends in an open cell rather than a synthetic “predicted cup” badge.
 
@@ -741,35 +745,35 @@ The external community corpus (§6.6) is retrieved under a research-use grant, i
 
 [To be completed.] **Required, not optional:** any version of this paper that reports results derived from the external community corpus (§6.6) must credit the Visualizer coffee-analytics platform as the data source and collectively acknowledge the contributing users whose shots constitute the reference population, per the data-owner research-use grant.
 
-## Figure specifications and draft captions
+## Figures
 
-### Figure 1. Puckworks architecture
+All seven figures are **generated**, not specified: `python -m puckworks.figures_paper3` renders them from producers, writes one tidy source-data CSV per data-bearing figure, and emits a text alternative for each. Raster and vector versions are produced together. No number in any figure is transcribed from this manuscript.
 
-A directed graph from source paper and source artifact to model/source card, dataset manifest, registered component, typed contract, configuration, gate/harness, generated result bundle, claim producer, figure/source-data export, and archived release. Process stages appear as a second horizontal layer. Arrows distinguish data provenance, runtime state, calibration, and evidence. Caption: Puckworks is a registry and evidence system; a configuration selects components and adapters rather than instantiating every model.
+| Figure | File | Rendered from | Source data | Alt text |
+|---|---|---|---|---|
+| **Figure 1.** Puckworks architecture | `docs/figures/paper3/fig1_architecture` | registry stage/role inventory | — (schematic) | `ALT_TEXT.md` |
+| **Figure 2.** Process-stage and evidence map | `docs/figures/paper3/fig2_stage_evidence_map` | registry inventory + `evidence_graph.evidence_vectors` | `source_data/` CSV | `ALT_TEXT.md` |
+| **Figure 3.** Observable and unit linting | `docs/figures/paper3/fig3_observable_linting` | `evidence_graph.CONSTANT_CONFLICTS` + response-surface producers | — (schematic) | `ALT_TEXT.md` |
+| **Figure 4.** Null-first comparison as a registry workflow | `docs/figures/paper3/fig4_null_first_ladder` | `harness.kappa_t_ladder` | `source_data/` CSV | `ALT_TEXT.md` |
+| **Figure 5.** Negative composition result | `docs/figures/paper3/fig5_negative_composition` | `coupled_kappa_t.composition_residual` + `degeneracy_rmse` | `source_data/` CSV | `ALT_TEXT.md` |
+| **Figure 6.** From model disagreement to experiment design | `docs/figures/paper3/fig6_experiment_map` | `tools.experimental_data_needs.load_catalog` | — (schematic) | `ALT_TEXT.md` |
+| **Figure 7.** End-to-end named-shot evidence scorecard | `docs/figures/paper3/fig7_named_shot_scorecard` | `paper3.named_shot_scorecard.scorecard` | `source_data/` CSV | `ALT_TEXT.md` |
 
-### Figure 2. Process-stage and evidence map
+### Captions
 
-**Panel a:** Current component counts by stage and role. **Panel b:** evidence taxonomy showing that verification, reconstruction, held-out prediction, independent evidence, capacity, sign tests, and exploratory synthesis are different dimensions, not one undifferentiated validation score. **Panel c:** a small component card showing source, assumptions, valid range, gates, and caveats.
+**Figure 1.** Puckworks architecture. A directed pipeline from source paper and artifact to model and dataset cards, registered components with typed contracts, a configuration that SELECTS components rather than instantiating every model, gates and harnesses, result bundles and claim producers, and finally figure and source-data export into an archived release. The lower band lists the process stages; a component declares exactly one.
 
-### Figure 3. Observable and unit linting
+**Figure 2.** Process-stage and evidence map. (a) Registered components by stage, split into runtime and calibration roles. (b) The scoped evidence vectors: for each component, how many gates demonstrate each relation, every one at its own stated observable. The panel exists to show that a component holds SEVERAL relations at once and that they are dimensions rather than points on a scale — no ordering over the relations is used anywhere in the implementation. (c) A component card excerpt, showing that a declared relation is checked for membership in the component's evidence set.
 
-**Panel a:** incompatible $c_{\mathrm{sat}}$ and inventory conventions retained as separate configurations. **Panel b:** pressure-node diagram for pump outlet, headspace, basket, and bed drop. **Panel c:** invalid mixed-unit chemistry aggregation crossed out; corrected TDS-derived extraction yield shown with raw replicate cells. **Panel d:** raw-cell ordering and separately labeled conditional response-surface vertex. The caption states that the fitted vertex is not present as a maximum in the selected raw cells.
+**Figure 3.** Observable and unit linting. (a) Three published saturation concentrations retained as separate configuration fields with the sources that use each; there is no adapter because none is defensible. (b) Four distinct pressure nodes; the caption states the residual risk that node identity is documented but is NOT a typed contract field, so a substitution is type-valid. (c) An invalid mixed-unit aggregation of named-solute masses with an aggregate-solids percentage, refused, beside the corrected yield. (d) Raw extraction-yield cells ordered across grinder settings, with the fitted response-surface vertex marked as a separate object: the vertex is not present as a maximum in the selected raw cells.
 
-### Figure 4. Null-first comparison as a registry workflow
+**Figure 4.** Null-first comparison as a registry workflow. Each rung carries its reconstruction error, the number of free parameters fitted to the scored trace, and its parameter provenance. Orange marks rungs with no coefficient fitted to the scored trace — which is necessary but not sufficient for being held out, as the provenance line on each rung records. The figure shows comparison architecture; the physical conclusions belong to the companion temporal paper.
 
-A ladder from machine-only capacity to constant/static null, imported temporal candidate, flexible temporal null, held-out pressure assessment, sign test, and proposed intervention. Each rung carries parameter provenance and evidence label. Scientific details are cited to the companion temporal paper; the figure emphasizes comparison architecture.
+**Figure 5.** Negative composition result. (a) An extraction branch and an imported swelling branch sharing one porosity state. (b) The composite reduces exactly to the extraction-only branch when swelling is neutral — a structural identity, not a numerical coincidence. (c) The measured trace with the extraction-only prediction tracking it while the composite is flat. (d) Reconstruction errors, annotated to state that the composite value equals the static branch BY CONSTRUCTION: the shared porosity closes below its initial value across the whole window, so the closure returns its zero-porosity-change limit, a constant. This composition does not degrade the temporal prediction; it removes it. The result diagnoses this composition, not the existence of swelling.
 
-### Figure 5. Negative composition result
+**Figure 6.** From model disagreement to experiment design. Each row is a proposed campaign that would discriminate models the registry currently cannot separate, drawn from the campaign register, with its priority, status and the components it targets.
 
-**Panel a:** component graph for extraction-linked opening and swelling sharing porosity. **Panel b:** exact reduction to the extraction-only branch when swelling is neutral. **Panel c:** measured trace and predictions showing the combined branch flattening. **Panel d:** RMSE comparison: extraction-only approximately 0.116, best constant approximately 0.573, composite approximately 0.648 g s⁻¹ — annotated to show that the composite value equals the static branch because the composite output is constant (its Φ→0 limit). Caption: the result diagnoses this composition, not the existence of swelling.
-
-### Figure 6. Disagreement-to-experiment map
-
-Matrix connecting unresolved comparisons to timed fractions, first-drop timing, pressure steps, reversal, rebrew, control mode, and spatial end states. Each recommendation links back to the model card that supplies the directional prediction.
-
-### Figure 7. Named-shot evidence scorecard
-
-A stage-by-stage horizontal chain for the illustrative 20 g/40 g configuration. Every block is labeled observed, calibrated, verified, reconstructed, extrapolated, or open. Open pressure-node identity, grinder adapter, inertial-flow flag, low absolute extraction prediction, and absent exact four-solute cup are visibly retained. The final block is “measurement required,” not a synthetic cup prediction.
+**Figure 7.** End-to-end named-shot evidence scorecard, generated from the registry. Each block names the stage, the selected component or input, and its evidence status; statuses on stages with a registered component are DERIVED from that component's scoped evidence records rather than authored. One row carries a claim withdrawn for want of a producer. The chain ends in 'measurement required', not a synthetic cup prediction.
 
 ## Supplementary material plan
 
