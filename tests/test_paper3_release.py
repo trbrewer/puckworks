@@ -74,6 +74,7 @@ def _fake_status(*lines):
 
 def test_release_refuses_a_dirty_tree(monkeypatch):
     """The gate's whole purpose. Simulated rather than by dirtying the real tree."""
+    monkeypatch.setattr(A, "_git", _fake_status(" M some/file.py"))
     monkeypatch.setattr(B, "_git", _fake_status(" M some/file.py"))
     rep = B.release(_ROOT)
     assert rep["ok"] is False
@@ -82,17 +83,46 @@ def test_release_refuses_a_dirty_tree(monkeypatch):
 
 def test_the_gate_does_not_count_its_own_report_as_a_dirty_tree(monkeypatch):
     """OBSERVED DEFECT, not a hypothetical: the CLI writes the release manifest into the tree, so
-    running `release` twice in a row used to fail the second time with tree_dirty:1_paths. The gate
-    flipping red purely because it ran is worse than useless -- it teaches you to ignore it."""
-    monkeypatch.setattr(B, "_git", _fake_status("?? " + B.RELEASE_MANIFEST))
-    assert B._dirty_paths(_ROOT) == []
+    running `release` twice in a row failed the second time. A gate that flips red purely because
+    it ran is worse than useless -- it teaches you to ignore it."""
+    monkeypatch.setattr(A, "_git", _fake_status("?? " + A.RELEASE_MANIFEST))
+    assert A.dirty_paths(_ROOT) == []
 
-    monkeypatch.setattr(B, "_git", _fake_status(" M " + B.RELEASE_MANIFEST))
-    assert B._dirty_paths(_ROOT) == []
+    monkeypatch.setattr(A, "_git", _fake_status(" M " + A.RELEASE_MANIFEST))
+    assert A.dirty_paths(_ROOT) == []
+
+
+def test_the_archive_uses_the_same_definition_of_dirty_as_the_gate(monkeypatch):
+    """SECOND SITE of the same defect. The first fix touched only build.release; create_archive
+    kept its own independent `git status` check, so the second consecutive run still died -- with
+    an unhandled RuntimeError rather than a reported problem. One definition, two callers."""
+    import inspect
+    src = inspect.getsource(A.create_archive)
+    assert "dirty_paths(" in src, "create_archive re-implemented its own dirtiness check"
+    assert "--porcelain" not in src, "create_archive still calls git status directly"
+    assert "dirty_paths" in inspect.getsource(B.release)
+
+    # ...and behaviourally: with only the manifest untracked, a strict archive build succeeds.
+    monkeypatch.setattr(A, "_git", _fake_status("?? " + A.RELEASE_MANIFEST))
+    assert A.dirty_paths(_ROOT) == []
+
+
+def test_a_refused_archive_is_reported_not_raised(monkeypatch):
+    """A gate asked 'is this releasable?' must answer in the manifest, not exit with a traceback."""
+    monkeypatch.setattr(B, "_recomputation_problems", lambda root: [])
+    monkeypatch.setattr(B, "verify", lambda root: dict(
+        problems=[], warnings=[], n_components=0, bundle_files=[]))
+    monkeypatch.setattr(A, "dirty_paths", lambda root=None: [])
+    def _boom(*a, **k):
+        raise RuntimeError("refusing to build a release archive on a DIRTY tree: x")
+    monkeypatch.setattr(A, "create_archive", _boom)
+    rep = B.release(_ROOT)
+    assert rep["ok"] is False
+    assert any(p.startswith("archive_refused:") for p in rep["problems"]), rep["problems"]
 
 
 def test_the_exclusion_is_exactly_one_path_and_nothing_near_it(monkeypatch):
-    """Non-vacuity for the test above. An over-broad exclusion (a prefix or a directory) would
+    """Non-vacuity for the tests above. An over-broad exclusion (a prefix or a directory) would
     silently stop the gate noticing hand-edited artifacts, which is the failure it exists to catch.
     Every neighbour of the manifest must still count as dirty."""
     near = [
@@ -103,17 +133,25 @@ def test_the_exclusion_is_exactly_one_path_and_nothing_near_it(monkeypatch):
         "docs/PAPER_3_PUCKWORKS_DRAFT.md",
     ]
     for path in near:
-        monkeypatch.setattr(B, "_git", _fake_status(" M " + path))
-        assert B._dirty_paths(_ROOT) == [path], f"{path} was wrongly excluded"
+        monkeypatch.setattr(A, "_git", _fake_status(" M " + path))
+        assert A.dirty_paths(_ROOT) == [path], f"{path} was wrongly excluded"
 
 
 def test_dirty_paths_parses_the_porcelain_shapes_git_actually_emits(monkeypatch):
     """A parser that mishandled renames or staged-and-modified entries would drop real dirt."""
-    monkeypatch.setattr(B, "_git", _fake_status(
+    monkeypatch.setattr(A, "_git", _fake_status(
         "?? new/file.py", "MM staged/and/modified.py", "R  old/name.py -> new/name.py",
-        " D deleted.py", "A  " + B.RELEASE_MANIFEST))
-    assert B._dirty_paths(_ROOT) == [
+        " D deleted.py", "A  " + A.RELEASE_MANIFEST))
+    assert A.dirty_paths(_ROOT) == [
         "new/file.py", "staged/and/modified.py", "new/name.py", "deleted.py"]
+
+
+def test_the_release_manifest_is_not_itself_an_archive_member():
+    """If it were, the archive hash would depend on the report of the run that produced it, which
+    is circular. It is a report ABOUT a release, not part of one."""
+    members = [m if isinstance(m, str) else str(m) for m in A._static_members(_ROOT)]
+    assert not any(A.RELEASE_MANIFEST in m for m in members), (
+        "the release manifest is inside the archive -- the hash is now self-referential")
 
 
 def test_freshness_is_defined_by_recomputation_not_commit_equality():

@@ -51,6 +51,36 @@ def _git(*args, root=REPO_ROOT):
         return None
 
 
+#: The release gate's own REPORT. It is written INTO the tree by
+#: `python -m puckworks.paper3.build release`, so counting it as dirt makes the release
+#: non-idempotent: the first run writes it, the second refuses because the tree is dirty. Excluding
+#: it is safe because it is an output of the gate and an input to nothing -- no archive member,
+#: bundle entry or manuscript number derives from it, and it is NOT an archive member itself.
+#:
+#: This lives here, in the lower-level module, and `build.release` imports it. It was duplicated
+#: once and the duplicate was missed when the exclusion was added, so the second consecutive
+#: release still crashed. One definition, two callers.
+RELEASE_MANIFEST = "docs/reproducibility/paper3_release_manifest.json"
+
+
+def dirty_paths(root=REPO_ROOT) -> list[str]:
+    """Working-tree paths that make the tree dirty, ignoring the release gate's own report.
+
+    Parses the shapes `git status --porcelain` actually emits: `?? p`, `MM p`, ` D p`, and
+    renames as `R  old -> new`.
+    """
+    out = []
+    for line in (_git("status", "--porcelain", root=root) or "").splitlines():
+        if not line.strip():
+            continue
+        parts = line.strip().split(maxsplit=1)
+        path = parts[1] if len(parts) > 1 else parts[0]
+        path = path.rpartition(" -> ")[2] or path
+        if path.strip().strip('"') != RELEASE_MANIFEST:
+            out.append(path)
+    return out
+
+
 def _source_date_epoch(root=REPO_ROOT):
     env = os.environ.get("SOURCE_DATE_EPOCH")
     if env and env.isdigit():
@@ -171,8 +201,12 @@ def create_archive(out_path, root=REPO_ROOT, with_dist=False, dist_dir=None, dir
     commit = _git("rev-parse", "HEAD", root=root)
     if commit is None:
         raise RuntimeError("cannot determine the git commit — refusing to build an archive")
-    if not dirty_ok and _git("status", "--porcelain", root=root):
-        raise RuntimeError("refusing to build a release archive on a DIRTY tree")
+    if not dirty_ok:
+        dirt = dirty_paths(root)
+        if dirt:
+            raise RuntimeError(
+                "refusing to build a release archive on a DIRTY tree: %s%s"
+                % (", ".join(dirt[:5]), " …" if len(dirt) > 5 else ""))
     # fail closed on stale generated evidence — the archive must match the source
     from puckworks.paper3 import evidence_graph as eg
     stale = gen.verify(root) + eg.verify(root)

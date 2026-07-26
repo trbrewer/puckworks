@@ -136,29 +136,6 @@ def _recomputation_problems(root=REPO_ROOT):
     return problems
 
 
-#: The gate's own REPORT, which the CLI writes into the tree. It must be excluded from the
-#: cleanliness check or the gate is not idempotent: the first run writes it, the second sees a
-#: dirty tree and fails. That was observed, not hypothesised. Excluding it is safe because the
-#: manifest is an output of the gate and an input to nothing -- no bundle, archive member or
-#: manuscript number is derived from it. The exclusion is exactly one path, so a hand-edit
-#: anywhere else is still caught.
-RELEASE_MANIFEST = "docs/reproducibility/paper3_release_manifest.json"
-
-
-def _dirty_paths(root=REPO_ROOT) -> list[str]:
-    """Porcelain paths that make the tree dirty, ignoring the gate's own report."""
-    out = []
-    for line in _git("status", "--porcelain", root=root).splitlines():
-        if not line.strip():
-            continue
-        parts = line.strip().split(maxsplit=1)          # "XY path" / "?? path" / "R  old -> new"
-        path = parts[1] if len(parts) > 1 else parts[0]
-        path = path.rpartition(" -> ")[2] or path        # renames report both sides
-        if path.strip().strip('"') != RELEASE_MANIFEST:
-            out.append(path)
-    return out
-
-
 def release(root=REPO_ROOT, out=None):
     """Strict release gate. Returns a report; `ok` is False on any problem.
 
@@ -171,7 +148,10 @@ def release(root=REPO_ROOT, out=None):
     rep = verify(root)
     problems = list(rep["problems"])
 
-    dirty = _dirty_paths(root)
+    # ONE definition of "dirty", shared with the archive (see `archive.RELEASE_MANIFEST`). It was
+    # duplicated once, the duplicate was missed, and the second consecutive `release` still died
+    # inside create_archive with an unhandled RuntimeError.
+    dirty = A.dirty_paths(root)
     if dirty:
         problems.append("tree_dirty:%d_paths" % len(dirty))
 
@@ -183,14 +163,20 @@ def release(root=REPO_ROOT, out=None):
         with tempfile.TemporaryDirectory() as tmp:
             a = Path(tmp) / "a1.tar.gz"
             b = Path(tmp) / "a2.tar.gz"
-            r1 = A.create_archive(a, root=root, dirty_ok=False)
-            r2 = A.create_archive(b, root=root, dirty_ok=False)
-            if r1["archive_sha256"] != r2["archive_sha256"]:
-                problems.append("archive_not_deterministic")
-            archive_sha = r1["archive_sha256"]
-            # and it must verify from the tarball alone, without this checkout
-            for bad in A.verify_archive(a):
-                problems.append("archive_verify:%s" % bad)
+            try:
+                r1 = A.create_archive(a, root=root, dirty_ok=False)
+                r2 = A.create_archive(b, root=root, dirty_ok=False)
+            except RuntimeError as exc:
+                # A gate must REPORT a refusal, not die with a traceback: the caller has asked
+                # "is this releasable?" and deserves the answer in the manifest either way.
+                problems.append("archive_refused:%s" % exc)
+            else:
+                if r1["archive_sha256"] != r2["archive_sha256"]:
+                    problems.append("archive_not_deterministic")
+                archive_sha = r1["archive_sha256"]
+                # and it must verify from the tarball alone, without this checkout
+                for bad in A.verify_archive(a):
+                    problems.append("archive_verify:%s" % bad)
 
     head = _git("rev-parse", "HEAD", root=root)
     report = dict(
