@@ -57,10 +57,16 @@ concentration: the amount of extractable material initially present (the
 only the endpoint of the extraction is observed, these two knobs are confounded —
 a faster rate and a smaller inventory can produce nearly the same cup as a slower
 rate and a larger inventory. Under the tested single-grind whole-cup design,
-inventory and rate are therefore **practically confounded**: changes in one can be
-largely compensated by changes in the other over the evaluated domain, so an
-optimiser that reports a specific (inventory, rate) pair is reporting a point on a
-near-flat valley rather than an identified mechanism. This is an empirical statement
+inventory and rate are therefore only **weakly separated**: changes in one can be largely
+compensated by changes in the other over the evaluated domain, so an optimiser that reports a
+specific (inventory, rate) pair is reporting a point on a near-flat valley rather than an identified
+mechanism. We use one vocabulary throughout, in three levels. The *numerical* result is that an
+interior point minimum exists for the profiled objective. The *robustness* result is that the
+near-optimal set around it is broad and reaches the tested domain boundary, and that the point
+minimum moves under plausible loss choices. The *interpretation* is that inventory and rate are
+weakly separated — weakly localized — under the tested design. We use "practical non-identifiability"
+only as a scoped shorthand for that third statement, always qualified by the tested model, design,
+parameter domain and objective, and never as a structural claim. This is an empirical statement
 about the tested model, observation map, parameterisation, operating design, and
 objective — not a claim of exact product invariance; with multiple temperatures,
 pressures, flows, or endpoints the compensation need not be exact.
@@ -68,9 +74,9 @@ pressures, flows, or endpoints the compensation need not be exact.
 We make this quantitative on a real transfer attempt (§4.1<!--sec:result1-->–§4.3<!--sec:result3-->) and then close the
 loop with a positive control that recovers the lost information from time-resolved
 data (§4.4<!--sec:temporal-->). The contribution is methodological: a matched-observable, held-out
-protocol that distinguishes a *transferred calibration* from a *non-identifiable
-curve fit masquerading as one*, and a demonstration that the distinction is
-decided by whether the observable preserves the extraction's temporal shape.
+protocol that distinguishes a calibration whose parameters are localized by the data from one
+whose parameters are only weakly separated, and a demonstration that the distinction is decided by
+whether the observable preserves the extraction's temporal shape.
 
 ---
 
@@ -453,6 +459,16 @@ conditions, and scores the out-of-bag conditions, with **600** draws at seed 0 o
 effective (one draw left no condition out of bag). Its estimand is held-out error at an out-of-bag
 fraction of roughly three to four conditions in nine, which is **not** the single-condition
 leave-one-out estimand.
+
+*Reporting hierarchy.* Several related diagnostics appear below and they are not
+interchangeable, so their standing is declared here. The **primary localization display** is the
+normalized profiled objective against rate together with its declared near-optimal set. The
+**primary prediction metric** is named-solute macro-MAPE. The alternative objective family and the
+threshold family are **robustness checks**, reported in a supplement table. The log-parameter
+Hessian condition number and inverse-curvature coupling are **secondary local diagnostics**, valid
+only at an interior minimum. The **profile range ratio** is **descriptive only**: it depends
+strongly on the tested boundaries and on selecting the larger edge value, so it supports a
+localization *contrast* between two observables and never an absolute statement about a parameter.
 
 *Missing uncertainty.* The source publishes global relative-standard-deviation ranges but not
 condition-specific replicate uncertainty for the named solutes, so no per-observation weighting is
