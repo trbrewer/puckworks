@@ -96,7 +96,16 @@ class PublicClaim:
     reproduction: str               # one-line command
     producer: Producer
     compares_grinder_dials: bool = False   # if True, caveat MUST warn non-portability
-    source_commit: str | None = None       # filled at export time
+    # --- commit provenance (Paper 3 review P0-6) -------------------------------------------
+    # `source_commit` was AMBIGUOUS: it is stamped at export time, so it meant "the commit at
+    # which this artifact was last regenerated" -- which a reader could equally read as "the
+    # commit the result was produced from" or "the current release commit". Those are different
+    # facts, and a snapshot can verify successfully at a later commit while still displaying an
+    # earlier value. The two are now recorded SEPARATELY. `source_commit` is retained as a
+    # deprecated alias of `generated_from_commit` because published artifacts already carry it.
+    source_commit: str | None = None            # DEPRECATED alias of generated_from_commit
+    generated_from_commit: str | None = None    # immutable: the commit the payload was produced at
+    last_verified_against_commit: str | None = None   # mutable: most recent successful verification
 
     # ---- structural guardrails (PUBLIC_VALUE.md §3; enforced, not by convention) --
     def validate(self) -> list:

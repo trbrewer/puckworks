@@ -7,7 +7,7 @@ The claims the `--strict --scope paper3` release gate is fail-closed on (claim_o
 **30 asserted Paper-3 claim(s).**
 
 ## `brewer2026.coupled_kappa_t::gate_kappa_t_composition_diagnostic`
-- **claim:** Adding the parameter-free mo2023_2 swelling branch behaves as the framework predicts: the composite porosity closes below eps0 and the 9-bar Q(t) residual jumps from 0.116 to 0.648 g/s (worse than the flat null 0.573 -- the LS-optimal constant on the same 15-95 s window), diagnosing that mo2023_2's fixed-dP fresh-grain swelling is mis-scaled for an already-swollen saturated pre-wet rig.
+- **claim:** Adding the mo2023_2 swelling branch -- no parameters were refit in this composition test; the branch uses parameters imported from its source configuration -- behaves as the framework predicts: the composite porosity closes below eps0 and the 9-bar Q(t) residual jumps from 0.116 to 0.648 g/s (worse than the flat null 0.573 -- the LS-optimal constant on the same 15-95 s window). This imported branch is incompatible with the tested shared-state mapping, initial/boundary conditions and observation operator; the result does NOT identify which of those assumptions is responsible.
 - **observable:** Minimum composite porosity (eps_min vs eps0) and the 9-bar Q(t) RMSE vs the measured Waszkiewicz trace (g/s).
 - **tier / relationship:** exploratory_synthesis / post_fit_same_data
 - **paper3_use / support:** method_demonstration / admissible
@@ -19,7 +19,7 @@ The claims the `--strict --scope paper3` release gate is fail-closed on (claim_o
     - `waszkiewicz2025` — resolved_manifest — role=eval, independence=same_data_as_fit
     - `waszkiewicz2025` — resolved_manifest — role=reference, independence=not_applicable
     - `brewer2026_coupled_kappa_t` — not_applicable_source_equation — role=reference, independence=not_applicable — physics/equations or model card; supplies no MANIFEST dataset for this gate
-- **caveat:** A NEGATIVE/diagnostic result: passing means the additive shared-eps bookkeeping works and the swelling branch demonstrably over-closes (degrades the fit), not that any physics is validated; the swelling branch carries mo2023_2's unvalidated fixed-dP parameters.
+- **caveat:** A NEGATIVE/diagnostic result: passing means the additive shared-eps bookkeeping works and the imported branch demonstrably over-closes (degrades the fit), not that any physics is validated. ONE failed shared-state mapping cannot identify the cause. Plausible alternatives, none excluded here: fresh-grain vs already-swollen initial state; fixed-pressure vs the actual rig control boundary; a different porosity or reference-volume definition; double counting of an already represented volume change; an incorrect porosity->flow observation operator; a net shared state where separate internal and intergranular porosities are required; an incompatible time origin or wetting history; or the additive coupling rule itself.
 - **claim NOT supported:** Does NOT show swelling improves or explains the 9-bar flow — the opposite: passing certifies the swelling branch makes the prediction worse and must not be tuned to hide the residual.
 
 ## `brewer2026.coupled_kappa_t::gate_kappa_t_degeneracy::reconstruction`

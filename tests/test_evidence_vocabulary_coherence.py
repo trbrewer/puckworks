@@ -97,3 +97,61 @@ def test_the_public_schema_no_longer_claims_an_unchanged_vocabulary():
     assert "DELIBERATELY COARSER" in src
     # and the per-field comment must not repeat the same false claim
     assert "(UNCHANGED from source)" not in src
+
+
+# --- commit provenance (P0-6) -----------------------------------------------------------------
+def test_commit_provenance_separates_generation_from_verification():
+    """P0-6: `source_commit` was stamped at export time, so it conflated 'produced at' with
+    'last verified at' -- a snapshot could verify at a later commit while still displaying an
+    earlier value. The two facts are now separate fields."""
+    from puckworks.public import schema as S
+    fields = {f.name for f in __import__("dataclasses").fields(S.PublicClaim)}
+    assert {"generated_from_commit", "last_verified_against_commit"} <= fields
+    src = (_ROOT / "puckworks/public/export.py").read_text(encoding="utf-8")
+    # generation commit is set ONCE; the verification commit moves every export
+    assert "if c.generated_from_commit is None:" in src
+    assert "c.last_verified_against_commit = commit" in src
+
+
+def test_source_commit_is_documented_as_a_deprecated_alias():
+    src = (_ROOT / "puckworks/public/schema.py").read_text(encoding="utf-8")
+    assert "DEPRECATED alias of generated_from_commit" in src
+
+
+# --- Appendix B is generated, not prose (P0-10) -----------------------------------------------
+def test_appendix_b_is_generated_from_the_real_schema_and_current():
+    """P0-10: Appendix B was a hand-written sketch that understated the public object and
+    overstated its evidence semantics. It is now emitted from PublicClaim itself; CI fails if it
+    drifts from the schema the release exports."""
+    from puckworks.paper3 import appendix_b as AB
+    assert AB.verify() == "", AB.verify()
+    assert "Minimal machine-readable claim record" not in _MANUSCRIPT_NOW()
+
+
+def _MANUSCRIPT_NOW():
+    return (_ROOT / "docs/PAPER_3_PUCKWORKS_DRAFT.md").read_text(encoding="utf-8")
+
+
+def test_appendix_b_covers_every_schema_field_and_marks_derived_ones():
+    """The omissions the review listed -- headline, plain-language finding, uncertainty, practical
+    implication, provenance -- must all appear, and derived fields must be labelled as derived so
+    the badge cannot be read as independent corroboration."""
+    import dataclasses
+    from puckworks.public import schema as S
+    from puckworks.paper3 import appendix_b as AB
+    block = AB.render()
+    for f in dataclasses.fields(S.PublicClaim):
+        assert f"`{f.name}`" in block, f"Appendix B omits {f.name}"
+    for name in ("headline", "plain_language_finding", "uncertainty_or_sensitivity",
+                 "practical_implication", "generated_from_commit"):
+        assert f"`{name}`" in block
+    assert "| derived |" in block and "| mandatory |" in block
+
+
+def test_appendix_b_shows_both_a_supported_and_a_negative_example():
+    """Review P0-10 asks for both outcomes; negative results are first-class in this paper."""
+    from puckworks.paper3 import appendix_b as AB
+    block = AB.render()
+    assert "Example — a supported claim" in block
+    assert "Example — a negative outcome" in block
+    assert "never a relation of its own" in block

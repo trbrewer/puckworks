@@ -168,7 +168,7 @@ The equilibrium calibration uses eleven long-run pressure–flow points. Two for
 
 **Shared calibration.** One pair $(P_c,Q_c)$ is fitted using all eleven long-run points and then used to reconstruct all time traces.
 
-**Leave one pressure out (LOPO).** For each pressure $P_j$, $(P_c,Q_c)$ is refitted using the other ten equilibrium points. The held-out pair is then used to reconstruct the trace at $P_j$. The 9-bar dissolved-mass trajectory and donor assumptions are held fixed; only the two equilibrium parameters are refitted. Thus, LOPO prevents the held-out pressure’s equilibrium point from contributing to its own equilibrium calibration, but it is not a fully independent test of the temporal trajectory.
+**Leave-one-pressure-out equilibrium-calibration sensitivity (LOPO-EC).** The name states the scope deliberately: only the *equilibrium calibration* is withheld, so this is a calibration sensitivity and **not** held-out trace validation. We avoid the bare term "held-out" for it throughout. For each pressure $P_j$, $(P_c,Q_c)$ is refitted using the other ten equilibrium points. The held-out pair is then used to reconstruct the trace at $P_j$. The 9-bar dissolved-mass trajectory and donor assumptions are held fixed; only the two equilibrium parameters are refitted. Thus, LOPO prevents the held-out pressure’s equilibrium point from contributing to its own equilibrium calibration, but it is not a fully independent test of the temporal trajectory.
 
 We report per-pressure RMSE, mean RMSE across all eleven pressures, maximum calibration drift, and the leave-one-pressure-out predictive coefficient $Q^2$ for the equilibrium curve. We avoid categorical “regimes” because pressure bins were not prespecified and the residual patterns vary continuously.
 
@@ -230,7 +230,7 @@ Table 3 separates three trace-level summaries that should not be conflated.
 
 | Assessment | Static branch | Empirical $\Phi(t)$ | RC-3b dynamic variant |
 |---|---:|---:|---:|
-| LOPO held out, all 11 pressures | 0.534 | 0.347 | 0.525 |
+| LOPO-EC (equilibrium calibration withheld), all 11 pressures | 0.534 | 0.347 | 0.525 |
 | Shared calibration, all 11 pressures | 0.524 | 0.334 | 0.519 |
 | Shared calibration, 10 off-9-bar pressures | 0.512 | 0.356 | 0.530 |
 

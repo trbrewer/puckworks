@@ -8,7 +8,7 @@
 
 ## Abstract
 
-Published espresso models describe different parts of the brewing process with incompatible state variables, units, pressure locations, concentration conventions, inventory bases, experimental windows, and standards of evidence. Combining them by matching similarly named quantities can produce numerically plausible but scientifically invalid results. We present Puckworks, an executable, provenance-aware registry that represents espresso process models as stage-specific components with typed state carriers, explicit assumptions and validity ranges, source and dataset cards, validation gates, evidence labels, and reproducible claim producers. Puckworks is not a monolithic “digital twin.” A simulation is a declared configuration of components and adapters, and each output carries the provenance and the distinct evidence relations of all of its load-bearing components rather than collapsing them into a single score or a strongest/weakest badge. In the current development snapshot, the registry contains 27 components across grind, packing, machine, infiltration, flow, extraction, and bed-dynamics stages, supported by 107 dataset-manifest records. We demonstrate the architecture in three cases. First, observable linting exposes incompatible saturation concentrations (170, 212.4, and 224 kg m⁻³), distinct pressure nodes, and an invalid mixed-unit aggregation of named-solute masses and total dissolved solids. After correction, raw total-dissolved-solids-derived extraction-yield cells are ordered across three grinder settings, while a conditional response-surface vertex remains a separate fitted object. Second, a null-first temporal-flow workflow preserves distinctions among machine capacity, static baselines, imported temporal trajectories, flexible in-sample curves, and held-out pressure assessments. Third, adding an imported swelling branch to a shared-porosity composition worsens reconstruction error from approximately 0.116 to 0.648 g s⁻¹, worse than a constant baseline, illustrating that component validity does not guarantee composition validity. A named-shot scorecard then shows how Puckworks reports observed, calibrated, verified, reconstructed, extrapolated, and open stages without presenting an unsupported end-to-end prediction. The contribution is a general method for executable reviews of coupled process models: make observable semantics and parameter provenance operational, preserve negative results, separate verification from validation, and translate model disagreement into discriminating experiments.
+Published espresso models describe different parts of the brewing process with incompatible state variables, units, pressure locations, concentration conventions, inventory bases, experimental windows, and standards of evidence. Combining them by matching similarly named quantities can produce numerically plausible but scientifically invalid results. We present Puckworks, an executable, provenance-aware registry that represents espresso process models as stage-specific components with typed state carriers, explicit assumptions and validity ranges, source and dataset cards, validation gates, evidence labels, and reproducible claim producers. Puckworks is not a monolithic “digital twin.” A simulation is a declared configuration of components and adapters. Claim records link outputs to declared components, datasets, producers, caveats and evidence labels, and the evidence graph records the comparison relations supporting asserted claims, rather than collapsing them into a single score or a strongest/weakest badge. We do not yet emit a transitive dependency closure: a composition output can depend on components, adapters, calibration parameters, datasets, transforms and observation operators carrying different evidence relations, and the present outward claim schema cannot represent all of those distinctions per dependency. In the current development snapshot, the registry contains 27 components across grind, packing, machine, infiltration, flow, extraction, and bed-dynamics stages, supported by 107 dataset-manifest records. We demonstrate the architecture in three cases. First, observable linting exposes incompatible saturation concentrations (170, 212.4, and 224 kg m⁻³), distinct pressure nodes, and an invalid mixed-unit aggregation of named-solute masses and total dissolved solids. After correction, raw total-dissolved-solids-derived extraction-yield cells are ordered across three grinder settings, while a conditional response-surface vertex remains a separate fitted object. Second, a null-first temporal-flow workflow preserves distinctions among machine capacity, static baselines, imported temporal trajectories, flexible in-sample curves, and held-out pressure assessments. Third, adding an imported swelling branch to a shared-porosity composition worsens reconstruction error from approximately 0.116 to 0.648 g s⁻¹, worse than a constant baseline, illustrating that component validity does not guarantee composition validity. A named-shot scorecard then shows how Puckworks reports observed, calibrated, verified, reconstructed, extrapolated, and open stages without presenting an unsupported end-to-end prediction. The contribution is a method for executable reviews of coupled process models, demonstrated in espresso rather than validated across domains: make observable semantics and parameter provenance operational, preserve negative results, separate verification from validation, and translate model disagreement into discriminating experiments.
 
 **Keywords:** scientific software; executable review; provenance; evidence registry; typed contracts; espresso; coupled process models; reproducibility; model validation; negative results
 
@@ -659,32 +659,86 @@ The current source snapshot contains the following registered identifiers. **Thi
 | Machine | calibration | `sourcing2026.g3_pump_characteristic` |
 | Flow | calibration | `sourcing2026.g10_liquor_rheology` |
 
-## Appendix B. Minimal machine-readable claim record
+<!-- appendix-b:begin -->
+## Appendix B. Machine-readable claim record (generated)
 
-A manuscript-facing quantitative claim should be exportable in a structure equivalent to:
+*Generated from `puckworks.public.schema.PublicClaim` by `python -m puckworks.paper3.appendix_b --write`; a CI check fails if this section drifts from the schema the release exports. Do not hand-edit.*
+
+Every manuscript-facing quantitative claim is exportable as the record below. Fields are marked **mandatory**, **optional**, **repeatable** or **derived**; a derived field is computed from the others or stamped by the export process and must never be authored independently, so it cannot be cited as separate corroboration.
+
+| field | type | obligation | meaning |
+|---|---|---|---|
+| `claim_id` | string | mandatory | stable identifier; the join key across manuscript, site and evidence graph |
+| `public_question` | string | mandatory | the scientific question in lay terms |
+| `headline` | string | mandatory | one-line answer |
+| `plain_language_finding` | string | mandatory | interpretation for a non-specialist reader |
+| `numeric_result` | mapping | mandatory, repeatable | producer-generated values; NEVER hand-entered |
+| `units` | mapping | mandatory, repeatable | one unit per numeric key -- a value without a unit is rejected |
+| `uncertainty_or_sensitivity` | string | mandatory | what the number is sensitive to, or its spread |
+| `evidence_strength` | string | mandatory | PUBLIC lay relation, mapped from the registry relation via `REGISTRY_TO_PUBLIC`; a coarser vocabulary, not the registry value |
+| `badge` | string | derived | derived from the authored evidence fields (§5); never authored independently |
+| `components` | list | mandatory, repeatable | registered component / harness identifiers used |
+| `dataset_manifest_ids` | list | mandatory, repeatable | rows that MUST exist in data/MANIFEST.csv |
+| `validity_range` | string | mandatory | explicit domain of applicability |
+| `primary_caveat` | string | mandatory | the limitation a reader must carry away |
+| `practical_implication` | string | mandatory | what it does and does not license in practice |
+| `reproduction` | string | mandatory | one-line command that regenerates the value |
+| `producer` | Producer | mandatory | executable identity: module, function, result path, kwargs, cost flag |
+| `compares_grinder_dials` | boolean | optional | if true the caveat MUST warn that dial spaces are non-portable |
+| `source_commit` | string (optional) | derived | DEPRECATED alias of generated_from_commit |
+| `generated_from_commit` | string (optional) | derived | stamped at first export; immutable thereafter |
+| `last_verified_against_commit` | string (optional) | derived | stamped at every successful verification; mutable |
+
+**Commit provenance.** `generated_from_commit` is immutable — the commit the payload was produced at — while `last_verified_against_commit` moves on every successful re-verification. A snapshot may therefore verify at a later commit while still declaring the earlier commit it was generated from; those are different facts and are recorded separately. `source_commit` is retained only as a deprecated alias.
+
+**Evidence semantics.** `evidence_strength` here is the *public, lay* relation, mapped from the registry relation by `puckworks.public.schema.REGISTRY_TO_PUBLIC`. It is one field of the evidence model (§5), not the whole of it: outcome, artifact role and scope are recorded alongside it, and the badge is derived from them.
+
+**Example — a supported claim.**
 
 ```yaml
-claim_id: stable identifier
-question: scientific question
-result:
-  value_name: generated numeric value
-units:
-  value_name: physical unit
+claim_id: PV-01
+headline: The first liquid out of this espresso puck was already about 97% as concentrated as the peak.
+evidence_strength: independent
+badge: OBSERVED
+numeric_result:
+  early_over_peak: 0.968   # unit: ratio
+  early_tds_pct: 24.36   # unit: % TDS
+  peak_tds_pct: 25.16   # unit: % TDS
+  boulder_diffusion_timescale_s: 23.1   # unit: s
 producer:
-  module: executable module
-  function: generating function
-  result_path: location in returned result
-components: [registered component identifiers]
-datasets: [manifest identifiers]
-evidence_strength: named taxonomy value
-badge: observed | reconstructed | predicted | exploratory simulation
-validity_range: explicit domain
-caveat: primary limitation
-reproduction: one-line command or workflow target
-source_commit: filled at export
+  module: puckworks.harness
+  function: dissolution_speed_test
+  slow: False
+components: ['waszkiewicz2025 TDS fractions', 'cameron2020 (boulder timescale)']
+datasets: ['waszkiewicz2025/tds_fractions']
+primary_caveat: One rig/config and a single first-fraction replicate — a strong prompt for replication, NOT a un
 ```
 
-The exact serialization may change, but every field is load-bearing. A graphic or abstract number without this record should be treated as untracked.
+**Example — a negative outcome.** Negative results are first-class: a failed check is a failed *outcome* on some relation, never a relation of its own.
+
+```yaml
+claim_id: PV-03
+headline: The final cup can hide very different extraction clocks.
+evidence_strength: negative validation
+badge: RECONSTRUCTED
+numeric_result:
+  condition_number: 1927.0   # unit: ratio
+  inverse_curvature_coupling: -0.994   # unit: ratio (geometric, not statistical)
+  profile_fraction_of_log_grid: 0.76   # unit: fraction of tested log-rate grid
+  sse_mape_threshold_jaccard: 0.86   # unit: Jaccard overlap (0-1)
+  held_out_model_mape: 8.23   # unit: % MAPE
+  held_out_const_mape: 8.59   # unit: % MAPE
+producer:
+  module: puckworks.public.flat_valley
+  function: pv03_values
+  slow: False
+components: ['pannusch2024.solver (refit)', 'angeloni2023 endpoints', 'identifiability_panel', 'transfer_skill_vs_baselines']
+datasets: ['angeloni2023/bioactives', 'angeloni2023/total_solids', 'angeloni2023/inventories', 'pannusch2024/table2_params']
+primary_caveat: Endpoint prediction stability is NOT parameter identification and NOT mechanistic validation; th
+```
+
+A graphic or abstract number without such a record should be treated as untracked.
+<!-- appendix-b:end -->
 
 ## References
 
