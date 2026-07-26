@@ -136,6 +136,34 @@ they are **not** faked:
   the 1 s and 5 s diagnostic resolutions. No conclusion rests on that pair, but it is recorded as
   the demonstration that one scalar is not complete evidence.
 
+- ✅ **P1.1 cross-pressure heterogeneity — DONE (2026-07-26), and it qualifies the paper.** The
+  macro mean says Φ(t) is best; the per-pressure table says the **best branch changes three times**
+  (RC-3b at 1–2 bar, static at 3.5–6, Φ(t) at 7–11, RC-3b at 13). Φ(t) wins **4 of 11** pressures —
+  and that band contains the primary 9-bar analysis, so the headline sits inside the only region
+  where the temporal branch is preferred. Shot counts per pressure range 3–10, so the averaging
+  scheme matters: equal-pressure gives phi < rc3b < static, shot-weighted gives phi < static < rc3b.
+  Both reported; abstract and §5.3a updated.
+
+- ✅ **P1.2 pressure domains — DONE (2026-07-26).** §5.3b separates the four pressures that were
+  being conflated: nominal setting, recorded basket pressure (**below nominal at every setting**, by
+  up to 0.61 bar; nominal 9 bar delivered **8.71 bar**), the fitted P_c = **12.39 bar** (a parameter,
+  not a setting, reached by only **1 of 11** pressures), and the tested range 1–13 bar.
+
+- ✅ **P1.3 provenance dependency graph — DONE (2026-07-26).** §5.3c replaces the flat
+  "target-informed" label with per-input access levels. The point it makes concrete: Φ(t) has
+  **zero** free parameters fitted to the scored trace and is still **not held out**, because its
+  sigmoid channel is derived from TDS(t)×Q(t) and Q(t) is the scored observable. Only the penalized
+  spline is held out, and it is a null.
+
+- 🔧 **DEFECT FOUND AND FIXED while doing P1.1: Table 3's rc3b column was stale in all three rows**
+  (0.525/0.519/0.530 against the producers' 0.516/0.510/0.522). `static` and `phi` matched exactly
+  in every row — a one-column transcription that survived because nothing checked it. Table 3 is now
+  bound to `cross_pressure_loco` / `cross_pressure_discrimination` by a test, proven non-vacuous by
+  restoring the stale value and confirming the failure.
+
+  Archive: `PAPER_B2_CROSS_PRESSURE_RESULTS.json`. Producer
+  `puckworks/analysis/waszkiewicz_cross_pressure.py`; 11 tests.
+
 - 🔴 **4.3 / 4.4** full leave-one-shot-out **cross-fitting of Φ(t)** — **BLOCKED ON DATA, not effort.**
   Φ(t) = m_d(t)/m0 is built from TDS(t)×Q(t), and the deposit's TDS is 3 replicates that are **not
   shot-matched** to the 5 flow traces, so a held-out shot cannot have its own Φ(t) rebuilt. The

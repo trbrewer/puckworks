@@ -8,7 +8,7 @@
 
 ## Abstract
 
-Time-resolved espresso flow curves are often interpreted as direct signatures of swelling, compaction, fines migration, dissolution, or channel formation in the porous coffee bed. That interpretation is an inverse problem: the measured outlet flow integrates machine response, pressure boundary conditions, wetting, evolving bed resistance, and measurement effects, so visually similar traces can arise from different causes. We use a null-first comparison to ask two narrower questions: whether a measured trace requires temporal flexibility relative to specified static baselines, and whether that requirement identifies a bed mechanism. First, a published pump–headspace–infiltration model reconstructs a mid-shot flow minimum without any evolving bed process, showing that dip-and-recovery shape alone is not diagnostic. Second, on the saturated 15–95 s interval of a preprocessed across-shot mean 9-bar rising-flow trajectory (an averaged, smoothed, differentiated curve, not a single raw shot), the best constant baseline has root-mean-square error (RMSE) 0.573 g s⁻¹ and a static pressure-dependent poroelastic model has RMSE 0.648 g s⁻¹. A dissolution-linked time-varying porosity trajectory, with no coefficient fitted to that flow trace—though its temporal input is partly derived from the same flow—reaches 0.116 g s⁻¹. A four-parameter cubic fitted and scored on the same trace reaches 0.096 g s⁻¹. Taking the shot rather than the time sample as the experimental unit, the temporal trajectory beats the constant baseline on all five individual 9-bar brews by a mean of 0.390 g s⁻¹, about 2.6 times the shot-to-shot noise floor of 0.149 g s⁻¹; with five paired units the smallest attainable exact two-sided randomization p-value is 0.0625, so we report effect sizes rather than significance. A prespecified penalized spline that is genuinely held out — trained on four brews and scored on the fifth — reaches 0.186 g s⁻¹ against 0.189 g s⁻¹ for the temporal trajectory, a difference roughly forty times smaller than the noise floor, so the dissolution-linked closure earns no measurable predictive advantage over generic smoothness when predicting a new shot. It does retain an advantage when predicting an unobserved time interval within a shot (0.158 versus 0.233 g s⁻¹ on interior segments), indicating that its shape information is real but does not transfer into better shot-level prediction. Leave-one-pressure-out assessment across eleven pressures preserves the aggregate advantage of the empirical temporal branch within the same rig and campaign, while structured residuals and pressure-dependent rank changes show substantial omitted dynamics. Conditional sign tests further show that isolated swelling and fines-deposition branches increase resistance at fixed pressure and therefore cannot, by themselves, generate the observed rising contribution; this does not exclude their presence in a coupled bed. We conclude that the integrated flow trace supports temporal flexibility relative to the tested static nulls, but does not identify the responsible mechanism. Pressure steps, flow reversal, spent-puck rebrewing, and depth-resolved end states offer more discriminating evidence than another unconstrained fit to the same curve.
+Time-resolved espresso flow curves are often interpreted as direct signatures of swelling, compaction, fines migration, dissolution, or channel formation in the porous coffee bed. That interpretation is an inverse problem: the measured outlet flow integrates machine response, pressure boundary conditions, wetting, evolving bed resistance, and measurement effects, so visually similar traces can arise from different causes. We use a null-first comparison to ask two narrower questions: whether a measured trace requires temporal flexibility relative to specified static baselines, and whether that requirement identifies a bed mechanism. First, a published pump–headspace–infiltration model reconstructs a mid-shot flow minimum without any evolving bed process, showing that dip-and-recovery shape alone is not diagnostic. Second, on the saturated 15–95 s interval of a preprocessed across-shot mean 9-bar rising-flow trajectory (an averaged, smoothed, differentiated curve, not a single raw shot), the best constant baseline has root-mean-square error (RMSE) 0.573 g s⁻¹ and a static pressure-dependent poroelastic model has RMSE 0.648 g s⁻¹. A dissolution-linked time-varying porosity trajectory, with no coefficient fitted to that flow trace—though its temporal input is partly derived from the same flow—reaches 0.116 g s⁻¹. A four-parameter cubic fitted and scored on the same trace reaches 0.096 g s⁻¹. Taking the shot rather than the time sample as the experimental unit, the temporal trajectory beats the constant baseline on all five individual 9-bar brews by a mean of 0.390 g s⁻¹, about 2.6 times the shot-to-shot noise floor of 0.149 g s⁻¹; with five paired units the smallest attainable exact two-sided randomization p-value is 0.0625, so we report effect sizes rather than significance. A prespecified penalized spline that is genuinely held out — trained on four brews and scored on the fifth — reaches 0.186 g s⁻¹ against 0.189 g s⁻¹ for the temporal trajectory, a difference roughly forty times smaller than the noise floor, so the dissolution-linked closure earns no measurable predictive advantage over generic smoothness when predicting a new shot. It does retain an advantage when predicting an unobserved time interval within a shot (0.158 versus 0.233 g s⁻¹ on interior segments), indicating that its shape information is real but does not transfer into better shot-level prediction. Leave-one-pressure-out assessment across eleven pressures preserves the aggregate advantage of the empirical temporal branch within the same rig and campaign, but that aggregate hides strong heterogeneity: the best-reconstructing branch changes three times across the pressure range, and the temporal branch is best at only four of eleven pressures — the 7–11 bar band that contains the primary 9-bar analysis. Weighting pressures equally rather than by shot count also reorders the two non-preferred branches. Structured residuals and these pressure-dependent rank changes together indicate substantial omitted dynamics, and no pressure-independent claim is supported. Conditional sign tests further show that isolated swelling and fines-deposition branches increase resistance at fixed pressure and therefore cannot, by themselves, generate the observed rising contribution; this does not exclude their presence in a coupled bed. We conclude that the integrated flow trace supports temporal flexibility relative to the tested static nulls, but does not identify the responsible mechanism. Pressure steps, flow reversal, spent-puck rebrewing, and depth-resolved end states offer more discriminating evidence than another unconstrained fit to the same curve.
 
 **Keywords:** espresso; porous media; inverse problems; model discrimination; model comparison; temporal dynamics; permeability; poroelasticity; block resampling; experiment design
 
@@ -261,9 +261,9 @@ Table 3 separates three trace-level summaries that should not be conflated.
 
 | Assessment | Static branch | Empirical $\Phi(t)$ | RC-3b dynamic variant |
 |---|---:|---:|---:|
-| LOPO-EC (equilibrium calibration withheld), all 11 pressures | 0.534 | 0.347 | 0.525 |
-| Shared calibration, all 11 pressures | 0.524 | 0.334 | 0.519 |
-| Shared calibration, 10 off-9-bar pressures | 0.512 | 0.356 | 0.530 |
+| LOPO-EC (equilibrium calibration withheld), all 11 pressures | 0.534 | 0.347 | 0.516 |
+| Shared calibration, all 11 pressures | 0.524 | 0.334 | 0.510 |
+| Shared calibration, 10 off-9-bar pressures | 0.512 | 0.356 | 0.522 |
 
 The LOPO means are within approximately 0.01–0.02 g s⁻¹ of the corresponding shared-calibration means. The empirical $\Phi(t)$ branch has the lowest mean error in both summaries. This is evidence that the aggregate 9-bar result is not created solely by one equilibrium pressure point.
 
@@ -278,6 +278,81 @@ The transferred Mo swelling parameterization produces a monotone decline in fixe
 The Fasano fines-migration model supplies the same fixed-pressure sign from a different mechanism. Deposition and compact-layer growth make discharge monotone non-increasing under the Part I assumptions; pressure increase is one route by which removal or flux can restart in the broader family of models [4]. Thus an isolated fines-deposition branch cannot source the measured rise while pressure is held fixed.
 
 These results rule out neither swelling nor fines migration as constituents of the real bed. They show only that, in the tested fixed-pressure isolation, those resistance-increasing branches cannot be the sole positive contribution. Dissolution-linked porosity opening does carry the required net sign for a rising fixed-pressure flow, and it is the scored temporal branch here. A second candidate — a decline in liquor viscosity as the dissolved-solids concentration falls over the shot — would carry the same sign, but it is *degenerate* with dissolution-linked opening: both are driven by the same falling-concentration clock, so the integrated forward trace cannot separate them, and distinguishing them requires an independent time-resolved concentration measurement. That viscosity analysis, and the flow-control dataset that motivates it, are reserved for the companion perturbation-program study (see the reserved-material note) and are not scored here. A coupled calculation in which swelling and extraction share porosity actually worsens the reconstruction; that negative composition result is analyzed as a software/evidence-governance demonstration in the companion Puckworks resource paper rather than used here as a headline physical claim.
+
+
+### 5.3a Cross-pressure heterogeneity, and what the macro mean hides
+
+The aggregate cross-pressure statement conceals three things a reader needs: which branch is best at
+which pressure, how many shots each pressure contributes, and which pressure a stated number refers
+to. All three are reported here.
+
+| nominal bar | shots | static κ(P) | empirical Φ(t) | RC-3b | best |
+|---|---|---|---|---|---|
+| 1.0 | 5 | 0.431 | 0.374 | 0.159 | rc3b |
+| 2.0 | 4 | 0.649 | 0.573 | 0.303 | rc3b |
+| 3.5 | 3 | 0.306 | 0.418 | 0.692 | static |
+| 4.0 | 10 | 0.246 | 0.374 | 0.785 | static |
+| 5.0 | 5 | 0.402 | 0.456 | 0.879 | static |
+| 6.0 | 6 | 0.453 | 0.502 | 0.912 | static |
+| 7.0 | 4 | 0.551 | 0.222 | 0.628 | phi |
+| 8.0 | 4 | 0.575 | 0.118 | 0.448 | phi |
+| 9.0 | 5 | 0.648 | 0.116 | 0.392 | phi |
+| 11.0 | 4 | 0.693 | 0.173 | 0.241 | phi |
+| 13.0 | 7 | 0.809 | 0.354 | 0.169 | rc3b |
+
+**The best branch is not constant across pressure — it changes three times.** RC-3b is best at 1–2
+bar, the static branch at 3.5–6 bar, Φ(t) at 7–11 bar, and RC-3b again at 13 bar. Φ(t) wins **4
+of 11** pressures, and the band it wins is the 7–11 bar band that contains this paper's primary
+9-bar analysis. The macro mean therefore reports a genuine aggregate advantage for Φ(t)
+(0.335 g s⁻¹ against 0.524 for the static branch) while understating how strongly
+that advantage is localised in pressure. The correct reading is that the temporal branch is
+preferred in the upper-pressure regime and is not preferred below about 7 bar; nothing in this
+campaign supports a pressure-independent claim.
+
+**The averaging scheme is a choice, and it changes the ordering.** The campaign contributes between
+3 and 10 shots per pressure. Weighting every reference pressure equally — the scheme used
+above — gives the order phi < rc3b < static. Weighting by the number of shots, which answers the different
+question of what happens to a randomly drawn shot, gives phi < static < rc3b: the second and third places
+exchange. Φ(t) is first under both. We report both rather than presenting either as neutral.
+
+### 5.3b Pressure domains and boundary nodes
+
+Four distinct pressure quantities appear in this paper and are easy to conflate.
+
+- **Nominal reference pressure** — the campaign's setting, spanning 1–13 bar. Every
+  "9 bar" statement in this paper is nominal.
+- **Recorded basket pressure** — what the rig delivered, which is systematically **below** nominal at
+  every setting, by up to 0.61 bar. The nominal 9 bar condition delivered a mean
+  **8.71 bar** at the basket. §5.2 shows the ladder is insensitive to substituting the recorded
+  history, but the two are different quantities and are named separately.
+- **Fitted equilibrium characteristic pressure** — P_c = **12.39 bar**, an estimated parameter of
+  the equilibrium closure, not a rig setting. It sits just inside the tested range, so only
+  **1 of 11** reference pressures reach or exceed it: the saturating branch of the
+  equilibrium curve is exercised by essentially one pressure, and the rest of the campaign probes
+  the sub-characteristic regime.
+- **Model-valid pressure range** — the tested interval 1–13 bar. No claim here
+  extends outside it.
+
+### 5.3c Parameter provenance as a dependency graph
+
+"No coefficient fitted to the scored trace" is a statement about parameter *count*, not about
+*access*. A branch is only as held out as its most target-proximal input, so each branch's inputs
+are enumerated and each is labelled by how it reaches the branch.
+
+| branch | free params fitted to the scored trace | access levels among its inputs | most target-proximal | held out? |
+|---|---|---|---|---|
+| `rung1_const` | 1 | direct_target | direct_target | no |
+| `rung1b_longrun_const` | 0 | same_shot | same_shot | no |
+| `rung3_static` | 0 | same_campaign, literature | same_campaign | no |
+| `rung4_phi_of_t` | 0 | indirect_target, same_campaign, literature | indirect_target | no |
+| `flexible_cubic` | 4 | direct_target | direct_target | no |
+| `penalized_spline_loso` | 0 | other_shots, prespecified | other_shots | yes |
+
+The consequence is visible in the table: the empirical Φ(t) branch has **zero** free parameters
+fitted to the scored trace and is nevertheless **not** held out, because its dissolved-mass sigmoid
+is derived from TDS(t) × Q(t) on this rig and Q(t) is the scored observable. Only the penalized
+spline of §4.2b is held out, and it is a null. Reporting the parameter count alone would have made
+Φ(t) and the spline look equivalent; they are not.
 
 ## 6. From curve fitting to discriminating experiments
 

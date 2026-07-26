@@ -99,3 +99,63 @@ def test_manuscript_uses_schema_v2_axes_not_deprecated_kind_as_authoritative():
         assert axis in text, f"schema-v2 axis {axis!r} not mentioned in the manuscript"
     assert re.search(r"`kind`[^.]*deprecated", text, re.IGNORECASE), \
         "manuscript must mark the legacy `kind` field as deprecated"
+
+
+# --- section numbering integrity (found while promoting the MC10 benchmark) -------------------
+def _headings(text):
+    import re
+    return re.findall(r"^(#{2,4})\s+(\d+(?:\.\d+)?)\.?\s+(.*)$", text, re.M)
+
+
+def test_every_subsection_number_matches_its_parent_section():
+    """Promoting a section to top level renumbered the parents but left the subsections behind,
+    which also exposed a pre-existing duplicate (two different sections both numbered 13.1). A
+    reader following '13.2' had no way to know which one was meant."""
+    import re
+    text = _text()
+    cur, bad = None, []
+    for line in text.splitlines():
+        m2 = re.match(r"^## (\d+)\. ", line)
+        m3 = re.match(r"^### (\d+)\.(\d+) ", line)
+        if m2:
+            cur = m2.group(1)
+        elif m3 and cur and m3.group(1) != cur:
+            bad.append((cur, line.strip()[:70]))
+    assert not bad, "subsection numbered outside its parent section: %s" % bad
+
+
+def test_top_level_section_numbers_are_contiguous_and_unique():
+    import re
+    nums = [int(m.group(1)) for m in re.finditer(r"^## (\d+)\. ", _text(), re.M)]
+    assert nums == sorted(nums), "sections out of order: %s" % nums
+    assert len(set(nums)) == len(nums), "duplicate section number: %s" % nums
+    assert nums == list(range(nums[0], nums[0] + len(nums))), "gap in numbering: %s" % nums
+
+
+def test_no_heading_number_is_used_twice():
+    seen = {}
+    for _lvl, num, title in _headings(_text()):
+        assert num not in seen, "number %s used by both %r and %r" % (num, seen[num], title)
+        seen[num] = title
+
+
+def test_every_internal_section_reference_resolves():
+    """A dangling reference is a reader-facing defect; a reference that resolves to the WRONG
+    section is worse, which is why the numbering tests above run alongside this one."""
+    import re
+    text = _text()
+    heads = {num for _lvl, num, _t in _headings(text)}
+    assert heads, "no numbered headings found -- this guard would be vacuous"
+    refs = set(re.findall(r"§(\d+(?:\.\d+)?)", text))
+    dangling = sorted(r for r in refs
+                      if r not in heads and not any(h.startswith(r + ".") for h in heads))
+    assert not dangling, "dangling section references: %s" % dangling
+
+
+def test_the_defect_injection_section_exists_and_is_top_level():
+    """MC10: the benchmark evaluates ALL guardrails, so it must not sit under Demonstration 1."""
+    import re
+    text = _text()
+    m = re.search(r"^## (\d+)\. Evaluating the guardrails by deliberate defect injection",
+                  text, re.M)
+    assert m, "the defect-injection benchmark section is missing or not top-level"

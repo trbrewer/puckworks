@@ -179,7 +179,7 @@ $$
 
 before using the relevant Forchheimer relations. The window is not a scientific prior on espresso permeability; it is a guard against supplying values in square micrometres or table-scaled units to an SI formula. The manifest retains both published and registry units so the conversion is auditable.
 
-The registry names the inertial-regime indicator explicitly as the **Forchheimer number** $Fo_F = \rho\,k\,|q| / (\mu\,k_I)$ — the ratio of inertial to viscous drag obtained directly from the implemented momentum law $\nabla p = -(\mu/k)\,q - (\rho/k_I)\,|q|\,q$, with $k$ the Darcy permeability, $k_I$ the inertial (non-Darcy) permeability, $\rho$ and $\mu$ the liquid density and viscosity, and $|q|$ the **superficial (Darcy) velocity** $q = Q/A$ — *not* a pore velocity — the single convention used across card, code, manuscript and figure. (Earlier drafts of this section printed $k_I\rho|u|/\mu$, which omitted $k$ and inverted $k_I$; that was a transcription error in the manuscript only. The registered implementation `wadsworth2026.inertial.forchheimer_number` has always computed the form above, and `test_fo_f_manuscript_formula_matches_the_implementation` now pins the two together.) (The name is disambiguated by convention from the Fourier number $Fo_{\text{diff}}$; the unsubscripted symbol is never used on its own.) $Fo_F$ is a **regime diagnostic, not a validated correction**: values of order unity or larger flag that the fixture is at or beyond the onset of inertial (non-Darcy) flow, so an unflagged Darcy closure is unsafe there — but the registry does not thereby assert a specific validated Forchheimer correction for espresso, only that Darcy extrapolation into that regime must be marked. The value reported for the illustrative configuration (§11) is used in exactly this way: a flag on an extrapolation, not a prediction.
+The registry names the inertial-regime indicator explicitly as the **Forchheimer number** $Fo_F = \rho\,k\,|q| / (\mu\,k_I)$ — the ratio of inertial to viscous drag obtained directly from the implemented momentum law $\nabla p = -(\mu/k)\,q - (\rho/k_I)\,|q|\,q$, with $k$ the Darcy permeability, $k_I$ the inertial (non-Darcy) permeability, $\rho$ and $\mu$ the liquid density and viscosity, and $|q|$ the **superficial (Darcy) velocity** $q = Q/A$ — *not* a pore velocity — the single convention used across card, code, manuscript and figure. (Earlier drafts of this section printed $k_I\rho|u|/\mu$, which omitted $k$ and inverted $k_I$; that was a transcription error in the manuscript only. The registered implementation `wadsworth2026.inertial.forchheimer_number` has always computed the form above, and `test_fo_f_manuscript_formula_matches_the_implementation` now pins the two together.) (The name is disambiguated by convention from the Fourier number $Fo_{\text{diff}}$; the unsubscripted symbol is never used on its own.) $Fo_F$ is a **regime diagnostic, not a validated correction**: values of order unity or larger flag that the fixture is at or beyond the onset of inertial (non-Darcy) flow, so an unflagged Darcy closure is unsafe there — but the registry does not thereby assert a specific validated Forchheimer correction for espresso, only that Darcy extrapolation into that regime must be marked. The value reported for the illustrative configuration (§12) is used in exactly this way: a flag on an extrapolation, not a prediction.
 
 ### 4.5 Concentration, inventory, and saturation semantics
 
@@ -397,7 +397,65 @@ The result does **not** show that swelling is absent from espresso. It diagnoses
 
 A conventional workflow may respond to this failure by adding a scale factor until the curve improves. Puckworks instead stores the unrepaired result, its configuration, and its caveat. A future alternative composition can then be compared against the failed baseline. This prevents complexity from receiving automatic evidentiary credit and allows negative results to define the boundary between reusable components and unsupported coupling assumptions.
 
-## 10. From model disagreement to experiment design
+## 10. Evaluating the guardrails by deliberate defect injection
+
+The demonstrations above show the registry refusing specific invalid operations. They do not
+establish how much of the failure space the guardrails cover, because each was chosen after the
+fact. To evaluate the framework rather than illustrate it, we maintain a defect corpus
+(`puckworks.paper3.defect_injection`): a set of realistic errors drawn from the failure classes this
+paper names, each injected into an isolated copy of the relevant state, with the guard that should
+catch it then run and its verdict recorded. Nothing in the working tree is modified; a test asserts
+that the manuscripts are byte-identical before and after a run.
+
+Of **18 defects**, **12 were detected** and **6 were not**. Coverage is uneven by construction:
+
+| defect class | detected / injected |
+|---|---|
+| evidence | 2 / 3 |
+| numeric_consistency | 1 / 1 |
+| observable_semantics | 2 / 3 |
+| physical_value | 0 / 1 |
+| prose_drift | 2 / 2 |
+| provenance | 3 / 4 |
+| unit | 2 / 4 |
+
+The undetected rows are the informative ones, and the corpus deliberately retains them; a benchmark
+reporting only its catches would reproduce the selected-demonstration problem it exists to correct.
+Four undetected defects are structural rather than incidental.
+
+**A range check cannot separate units whose scale factor is smaller than the quantity's own spread.**
+Injecting a permeability in mm² instead of m² is *not* caught. The declared SI window spans twelve
+orders of magnitude, so a value of 1×10⁻¹³ m² supplied as 1×10⁻⁷ mm² still lies inside it; the guard
+refuses the substitution only above about 1×10⁻¹² m², which is above the espresso range it exists to
+protect. The same holds for cm². A gross mis-unit such as darcy *is* refused. This was found by the
+benchmark, not known beforehand, and it bounds what dimensional typing can deliver: closing it
+requires either per-quantity plausible windows rather than one generic SI band, or units carried as
+typed objects rather than bare floats.
+
+**Agreement is not correctness.** If a producer is changed so that it computes the wrong quantity
+and the manuscript is then regenerated from it, every provenance and consistency guard passes. Those
+guards establish that prose equals code; only a gate wired to independent data can establish that
+the code is right, and only where such data exists.
+
+**Untyped distinctions are unenforceable.** Substituting basket pressure for pump pressure
+consistently is type-valid, because pressure-node identity is documented in prose but is not a field
+any contract carries. The same applies to a physically wrong but dimensionally valid constant: a bed
+porosity of 0.35 where the source card says 0.17 passes every finiteness, range and fraction check,
+because nothing compares a runtime value against the card that supplied it. This is the largest open
+gap in the present design.
+
+**Process rules are not executable rules.** Promoting a component's evidence strength requires a
+changelog entry by documented convention, and nothing enforces it.
+
+The honest summary is therefore narrower than the architecture section might suggest. The guardrails
+are effective against *representational* error — wrong units at gross scale, incompatible
+observables, drifted prose, desynced numbers, orphaned evidence, inflated labels — and are
+structurally unable to detect *substantive* error, where a defensible-looking value or a consistently
+applied wrong convention is simply incorrect. A detection rate of 67% over this corpus is a
+statement about this corpus, not a coverage guarantee: the defects we thought to write are biased
+toward the failures we have already seen.
+
+## 11. From model disagreement to experiment design
 
 Puckworks treats unresolved disagreement as an output. The registry identifies which observable or intervention would most efficiently separate surviving models. Table 5 summarizes current examples.
 
@@ -428,15 +486,15 @@ The process can be formalized:
 
 This workflow changes the role of an executable review. It does not merely summarize what the literature has modeled. It identifies which missing measurement prevents adjudication and provides a reproducible prediction matrix for collecting it.
 
-## 11. End-to-end named-shot evidence scorecard
+## 12. End-to-end named-shot evidence scorecard
 
-### 11.1 Purpose and configuration
+### 12.1 Purpose and configuration
 
 An end-to-end example is useful only if it exposes every weak link. The current proposed scorecard uses an illustrative configuration centered on a DE1 fixture, a nominal grinder setting of 1.7, 20 g dose, 40 g beverage, a coffee/chemistry lineage associated with the Schmieder–Pannusch data, and temperatures from 80 to 98 °C. The numerical dial label is not a portable physical coordinate; until a grinder-specific PSD adapter is supplied, the scorecard must mark the cross-grinder mapping as open rather than treat “1.7” as matched.
 
 The scorecard is an evidentiary ledger, not a digital twin. It answers: which stage can run, where its parameters came from, what evidence supports it, what extrapolation is being made, and what measurement is still missing for this exact shot?
 
-### 11.2 Stage-by-stage accounting
+### 12.2 Stage-by-stage accounting
 
 **Table 6. Draft named-shot scorecard. Statuses describe the current evidence chain, not universal model quality.**
 
@@ -455,59 +513,59 @@ The scorecard is an evidentiary ledger, not a digital twin. It answers: which st
 
 The table prevents an occupied software slot from being read as an independently validated stage. For example, the extraction solver can run and pass numerical gates while its absolute prediction remains low relative to an external range. The flow closure can be dimensionally verified while the named fixture lies outside the comfortable Darcy regime. The full chain therefore ends in an open cell rather than a synthetic “predicted cup” badge.
 
-### 11.3 Promotion experiment
+### 12.3 Promotion experiment
 
 The highest-value promotion is a measured named shot with full pressure-node metadata, beverage mass, TDS, caffeine, trigonelline, and chlorogenic-acid-family output, preferably with timed fractions. The protocol should predeclare whether permeability is fixed from prior calibration or refitted per shot. A result with per-shot refitting tests reconstruction; a result with a frozen permeability tests prediction. Both are useful if labeled correctly.
 
-## 12. Related work and novelty
+## 13. Related work and novelty
 
 Puckworks draws on several established traditions in research-data and research-software engineering. Its contribution is not any single one of these ideas but their **joint operationalization** for a specific, adversarial problem: deciding whether published process models may be compared or composed. We position the work against six strands.
 
-### 12.1 FAIR data and software
+### 13.1 FAIR data and software
 
 The FAIR principles [14] and their software specialization FAIR4RS [15] establish that research artifacts should be findable, accessible, interoperable, and reusable, and that software needs its own realization of those goals [16]. Puckworks operationalizes interoperability at the level where it actually fails for this literature — the *observable contract* — rather than at the level of file formats or metadata records alone: two components are interoperable only when their typed state carriers, units, pressure nodes, and inventory bases match, and the registry refuses a composition when they do not. FAIR is necessary but does not, by itself, prevent the semantically invalid compositions this paper targets.
 
-### 12.2 Provenance and research objects
+### 13.2 Provenance and research objects
 
 W3C PROV [17] provides a general model for entity/activity/agent provenance, and RO-Crate and research-compendium practice [18] package data, code, and results with their lineage. Puckworks uses the same instinct — every manuscript-facing value should trace to a producer, source commit, dataset, and environment — but adds an *evidence* axis that generic provenance omits: recording *how well* an output is validated (the relation between a result and the data behind it), not only *where it came from*. A provenance graph that faithfully records a source-curve reproduction still permits it to be described as validation unless the evidence relation is typed and enforced, which is the gap §5 addresses.
 
-### 12.3 Model and dataset documentation
+### 13.3 Model and dataset documentation
 
 Model Cards [19] and Datasheets for Datasets [20] introduced structured, human-readable documentation of a model's or dataset's intended use, limitations, and provenance. Puckworks' model and source cards (§6.1) are in this lineage but are *interrogative and executable*: a card is written before implementation, is required to expose missing constants and observable mismatches, and is bound to gates and a registry entry so that a claim in a card can be checked against code rather than trusted as prose.
 
-### 12.4 Reproducible computational practice
+### 13.4 Reproducible computational practice
 
 Community guidance on reproducible research [21] and good computational practice [22] recommends automation, version pinning, and one-command regeneration of results. Puckworks follows these (generated tables, a CI drift guard that fails when a manuscript count diverges from the live registry, a release-frozen bundle) and extends them to a discipline the guidance does not name: *no manuscript-facing scientific value without a named producer and a typed evidence relation*, enforced as a release gate rather than a convention.
 
-### 12.5 Model interchange standards
+### 13.5 Model interchange standards
 
 Domain interchange standards such as SBML and FMI let independently developed models be exchanged and co-simulated within a domain. Puckworks is complementary and deliberately narrower: it does not standardize a model exchange format but records, for a fragmented literature that has no such standard, the assumptions, observable contracts, and evidence that would have to agree *before* any exchange or co-simulation could be scientifically valid — and reports when they do not.
 
-### 12.6 Novelty
+### 13.6 Novelty
 
-The novelty claim is correspondingly narrow. We do not claim to originate provenance, evidence typing, model documentation, or reproducible-build practice. We claim the **joint operationalization** of observable-semantic contracts, parameter provenance, a typed evidence relation, negative and failed-composition results, and producer-bound manuscript values, in one executable registry, for the purpose of adjudicating comparison and composition of published espresso process models — and, by construction, a template for other fragmented coupled-process-model literatures (§13.4).
+The novelty claim is correspondingly narrow. We do not claim to originate provenance, evidence typing, model documentation, or reproducible-build practice. We claim the **joint operationalization** of observable-semantic contracts, parameter provenance, a typed evidence relation, negative and failed-composition results, and producer-bound manuscript values, in one executable registry, for the purpose of adjudicating comparison and composition of published espresso process models — and, by construction, a template for other fragmented coupled-process-model literatures (§14.4).
 
-## 13. Discussion
+## 14. Discussion
 
-### 13.1 An executable review is more than a model collection
+### 14.1 An executable review is more than a model collection
 
 The central object in Puckworks is not the solver but the evidence-bearing interface among source, state, observable, data, and claim. A repository that implements many models without preserving these relationships can increase, rather than reduce, scientific ambiguity. The risk grows with component count because more variables share familiar names while retaining incompatible meanings.
 
 Puckworks addresses this by making semantic friction visible. A blocked adapter, an unknown pressure node, a missing extractability factor, or a failed composition is a legitimate output. The architecture rewards refusing an invalid merge.
 
-### 13.2 Verification, calibration, reconstruction, and prediction
+### 14.2 Verification, calibration, reconstruction, and prediction
 
 Scientific software papers often report a test suite without explaining what the tests establish. Puckworks separates software verification from empirical evidence. Conservation, convergence, source-curve reproduction, and independent validation can all be automated, but they answer different questions. The evidence taxonomy should accompany every benchmark table and public claim.
 
 This separation also clarifies model reuse. A component verified against its source equations may be safe to use in a sensitivity analysis while remaining unsuitable for an absolute prediction. A calibrated component may be appropriate within one campaign but require a new calibration on another rig. A negative external result can coexist with correct implementation.
 
-### 13.3 Composition creates a new model
+### 14.3 Composition creates a new model
 
 The failed extraction-plus-swelling demonstration illustrates a general principle. Connecting two validated components creates a new model with new state-identification, normalization, and coupling assumptions. Those assumptions require reduction tests, conservation checks, sensitivity analysis, and empirical evidence. Validation does not compose automatically.
 
 This point is especially important for multiphysics repositories. A “more complete” configuration can double count a state change, mix reference volumes, or violate a boundary condition while producing a smooth output. Simple baselines and exact reduction limits should remain visible in every composition study.
 
-### 13.4 Generalization beyond espresso
+### 14.4 Generalization beyond espresso
 
 We present cross-domain reach as a *proposed transferable pattern demonstrated in espresso*, not as an empirically demonstrated generalization: the espresso corpus is the only literature to which the registry has been applied here. The same structure should plausibly apply to other domains in which heterogeneous literature models are assembled around shared process stages — drying, filtration, chromatography, fermentation, reactive transport, battery porous electrodes, and biomedical perfusion — but that claim is a hypothesis for future work, not a result of this paper. The transferable practices we conjecture would carry over are:
 
@@ -521,9 +579,9 @@ We present cross-domain reach as a *proposed transferable pattern demonstrated i
 
 The domain-specific contract fields will differ, but the evidence problem is the same.
 
-## 14. Limitations and submission readiness
+## 15. Limitations and submission readiness
 
-### 13.1 Scientific and corpus limitations
+### 15.1 Scientific and corpus limitations
 
 The corpus is not systematic and may omit relevant models, datasets, or non-English literature. Model maturity is uneven: some components have independent data, some only source reproduction, and some are exploratory project syntheses. The registry is concentrated on espresso-relevant conditions and cannot be assumed to represent all coffee extraction or packed-bed regimes.
 
@@ -531,28 +589,41 @@ The typed contracts are semantic Python dataclasses rather than a formal unit/on
 
 The demonstrations are selected cases, not a quantitative estimate of how frequently semantic errors occur in the literature. The named-shot scorecard is illustrative and contains open lineage and pressure-node issues. It should not be presented as a validated end-to-end prediction.
 
-### 13.2 Software/resource readiness table
+### 15.2 Software/resource readiness table
 
 **Table 7. Current state versus submission requirement.**
 
-| Area | Present in current snapshot | Required before journal submission |
+The previous version of this table understated what the repository already contains and, in
+consequence, did not identify the blockers that actually remain. Every "present" entry below was
+verified against the tree at the stated snapshot.
+
+| Area | Present in current snapshot (verified) | Required before journal submission |
 |---|---|---|
-| Installation | editable-install quickstart in README | tested clean installation on supported Python versions; packaged release |
-| Public API | component registry and schema version 0.6 | documented stable API, semantic versioning, deprecation policy |
-| Tutorials | onboarding and internal workflows referenced | public tutorials that run without private or local-only files |
-| Add-a-model path | README steps and card template | complete contributor tutorial with example PR and validation checklist |
-| Roles/schema | schema v2 axes (`execution_role`/`provenance_class`/`evidence_strength`); runtime and calibration instantiated | instantiate the schema-supported `observational_adapter`/`diagnostic` roles; remove the deprecated `kind` field |
-| Tests | gates and test suite; quick and slow analyses exist | CI-separated quick tests and archived slow scientific benchmarks |
-| Data provenance | 107-row manifest snapshot with licenses/caveats | release-frozen manifest; audit every redistributable artifact and license |
-| Claims | producer-backed public-claim schema | manuscript claim bundle regenerated in CI with source-data exports |
-| Release tooling | environment check, external staging, checksums, manifest checks | clean tagged archive, full dependency lock or container digest, DOI |
+| Installation | packaged release `v0.3.0` with published wheel and sdist and recorded SHA-256 for each; editable-install quickstart in README | tested clean installation on the supported Python versions from the archived artifact, not from the repository |
+| Public API | component registry at contract schema **0.7**; additive-only field policy with a version bump per change | documented stable API, semantic versioning, deprecation policy |
+| Tutorials | **five public Colab notebooks** (quickstart, guided pull, guided-pull laboratory, illustrative linked pull, lattice-Boltzmann), each exercised by a notebook-smoke CI lane | tutorials pinned to the archived release rather than to a moving branch |
+| Add-a-model path | `CONTRIBUTING.md`, card template, issue templates | complete contributor tutorial with a worked example pull request and validation checklist |
+| Roles/schema | schema v2 axes (`execution_role` / `provenance_class` / `evidence_strength`); **12 runtime and 15 calibration** instances | instantiate the schema-supported `observational_adapter` and `diagnostic` roles, which remain **uninstantiated**; remove the deprecated `kind` field, which is still written at every registration site |
+| Tests | **20 CI workflows**, with quick gates and the slow scientific lane already separated | archive the slow-lane outputs alongside the release |
+| Data provenance | 107-row manifest snapshot with licenses and caveats; a CI drift guard binds the manuscript's counts to it | release-frozen manifest; audit every redistributable artifact and license |
+| Claims | producer-backed public-claim schema; manuscript numbers regenerated by named producers and CI-guarded | claim bundle regenerated **from the frozen tag** with source-data exports |
+| Guardrail evaluation | defect-injection benchmark (§10) reporting which guard catches which class of introduced defect | extend the corpus as new guard classes are added |
+| Release tooling | environment check, external staging, checksums, manifest checks, release record validator | **dependency lock or container digest** (only unpinned floors `numpy>=2.0`, `scipy>=1.13` are declared today) and **Zenodo deposition with a citable DOI** — the release is currently GitHub-only |
 | Corpus method | curated cards and related-work notes | indexed search protocol, screening record, inclusion/exclusion appendix |
-| External use | not established in this draft | at least one documented external reproduction or user workflow |
-| Governance | roadmap and runbook | contribution guide, issue templates, changelog, code of conduct as appropriate |
+| External use | not established | at least one documented reproduction or workflow by someone outside the originating team |
+| Governance | `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `CHANGELOG.md`, `CITATION.cff`, issue templates, roadmap and release runbook | governance for the external community corpus (§6.6), where an ethics determination remains open |
+
+**The remaining blockers, stated plainly.** Most rows above are now presentational. Four are not,
+and they are the honest gate on submission: (i) there is **no archival DOI** — the release exists
+on GitHub only; (ii) there is **no pinned environment**, only unbounded minimum versions, so
+"reproducible" currently means "reproducible against whatever resolves today"; (iii) **no external
+party has reproduced anything**, so every reproducibility claim in this paper is self-attested; and
+(iv) the **corpus construction is curated rather than systematic** (§16). Of these, only (iii) and
+(iv) require work that cannot be scheduled purely by us.
 
 The paper should be submitted as a resource/methods article only after the release artifact satisfies the same strict checks the manuscript describes. A software-journal route additionally requires evidence that the tool is feature-complete for its stated purpose, documented, tested, openly developed, and usable by contributors outside the originating team.
 
-## 15. Conclusions
+## 16. Conclusions
 
 Puckworks addresses a problem that appears whenever heterogeneous process models are made executable together: similarly named quantities, parameters, and validation claims are not necessarily compatible. The registry represents models as provenance-tracked stage components, exchanges state through versioned contracts, records dataset transformations in a manifest, labels evidence at the claim level, and requires manuscript numbers to be regenerated by named producers.
 
