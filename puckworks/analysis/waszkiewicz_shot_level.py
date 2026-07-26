@@ -564,3 +564,125 @@ def residual_diagnostics(window=WINDOW, resolution_s=1.0):
              "Durbin-Watson near 2 indicates no lag-1 structure AT THIS RESOLUTION; the value "
              "changes with resolution, which is why the resolution is declared rather than "
              "implied.")
+
+
+def recorded_pressure_robustness(window=(15.0, 95.0), pressure_bar=9.0):
+    """Re-score the static and Phi(t) branches against the RECORDED basket-pressure history
+    instead of the nominal setpoint (Paper 2 review 4.9 / §5.2).
+
+    The manuscript printed six full-precision values for this check that were transcribed from a
+    reviewer's independent table rather than computed here — the claim-coverage audit (review
+    4.13) flagged them as having no producer. This is that producer.
+
+    The substitution is point-by-point: at each retained sample the branch is evaluated at the
+    measured basket pressure at that instant rather than at the nominal 9 bar. Everything else —
+    window, calibration, dissolution parameters, dose — is held fixed, so the only difference
+    between the two columns is the pressure argument.
+
+    Returns nominal and recorded RMSE for both branches, their differences, and whether the branch
+    ordering is unchanged. It is a ROBUSTNESS result: it says the reported rise is not an artifact
+    of the small measured pressure drift. It is not evidence for any mechanism.
+    """
+    import numpy as np
+
+    from puckworks import data as d
+    from puckworks.models.waszkiewicz2025 import poroelastic as wz
+
+    lo, hi = window
+    tr = d.waszkiewicz_traces()
+    rec = tr[pressure_bar]
+    t = np.asarray(rec["time__s"], dtype=float)
+    q = np.asarray(rec["mass_flow_rate__g_per_s"], dtype=float)
+    p_recorded = np.asarray(rec["basket_pressure__bar"], dtype=float)
+    sel = (t >= lo) & (t <= hi)
+    td, qd, pd = t[sel], q[sel], p_recorded[sel]
+
+    P_c, Q_c = wz.published_calibration()
+    k_s, l_s, m_s = wz._solids_params()
+    dose = d.waszkiewicz_constants()["dose__g"]
+
+    def _rmse(pred):
+        return float(np.sqrt(np.nanmean((np.asarray(pred, dtype=float) - qd) ** 2)))
+
+    static_nominal = _rmse(wz.q_static(pressure_bar, P_c, Q_c))
+    static_recorded = _rmse([wz.q_static(float(p), P_c, Q_c) for p in pd])
+    phi_nominal = _rmse(wz.q_dynamic(td, pressure_bar, P_c, Q_c, k_s, l_s, m_s, dose))
+    phi_recorded = _rmse(np.array(
+        [wz.q_dynamic(np.array([ti]), float(pi), P_c, Q_c, k_s, l_s, m_s, dose)[0]
+         for ti, pi in zip(td, pd)]))
+
+    d_static = static_recorded - static_nominal
+    d_phi = phi_recorded - phi_nominal
+    return dict(
+        pressure_bar=pressure_bar, window_s=(lo, hi), n_points=int(sel.sum()),
+        recorded_pressure_mean_bar=round(float(np.mean(pd)), 4),
+        recorded_pressure_range_bar=[round(float(np.min(pd)), 4), round(float(np.max(pd)), 4)],
+        static_nominal_rmse_g_per_s=round(static_nominal, 6),
+        static_recorded_rmse_g_per_s=round(static_recorded, 6),
+        static_delta_g_per_s=round(d_static, 6),
+        phi_nominal_rmse_g_per_s=round(phi_nominal, 6),
+        phi_recorded_rmse_g_per_s=round(phi_recorded, 6),
+        phi_delta_g_per_s=round(d_phi, 6),
+        max_abs_delta_g_per_s=round(max(abs(d_static), abs(d_phi)), 6),
+        both_shifts_below_0p001=bool(max(abs(d_static), abs(d_phi)) < 0.001),
+        ordering_unchanged=bool((phi_recorded < static_recorded) == (phi_nominal < static_nominal)),
+        note=("Point-by-point substitution of the recorded basket pressure for the nominal "
+              "setpoint; window, calibration, dissolution parameters and dose held fixed. A "
+              "robustness result, not evidence for any mechanism."),
+    )
+
+
+def nominal_vs_recorded_pressure(saturated_from_s=15.0):
+    """Nominal setpoint versus delivered basket pressure, across every pressure condition (§5.3b).
+
+    The manuscript stated "systematically below nominal at every setting, by up to 0.61 bar" and
+    "the nominal 9 bar condition delivered a mean 8.71 bar". The claim-coverage audit (review 4.13)
+    could not reproduce either number under ANY natural definition — the candidates are 0.508 bar
+    (max over conditions of nominal minus the full-trace mean), 0.540 bar (same on the saturated
+    interval) and 0.673 bar (max pointwise deficit) — so both were replaced by this producer's
+    values under a stated definition rather than left as transcriptions.
+
+    The headline `max_mean_deficit_bar` is defined on the FULL trace, since the statement is about
+    what the rig delivered rather than about the scoring window. Both alternatives are returned so
+    the choice is visible instead of implicit.
+    """
+    import numpy as np
+
+    from puckworks import data as d
+
+    per = {}
+    traces = d.waszkiewicz_traces()
+    # the mapping carries non-numeric bookkeeping keys alongside the pressure conditions
+    conditions = sorted(k for k in traces
+                        if isinstance(k, (int, float))
+                        and isinstance(traces[k], dict)
+                        and "basket_pressure__bar" in traces[k])
+    for nominal in conditions:
+        rec = traces[nominal]
+        p = np.asarray(rec["basket_pressure__bar"], dtype=float)
+        t = np.asarray(rec["time__s"], dtype=float)
+        sat = t >= saturated_from_s
+        per[str(float(nominal))] = dict(
+            nominal_bar=float(nominal),
+            mean_recorded_bar=round(float(np.mean(p)), 4),
+            mean_recorded_saturated_bar=round(float(np.mean(p[sat])), 4),
+            mean_deficit_bar=round(float(nominal) - float(np.mean(p)), 4),
+            max_pointwise_deficit_saturated_bar=round(float(nominal) - float(np.min(p[sat])), 4),
+        )
+    deficits = [v["mean_deficit_bar"] for v in per.values()]
+    return dict(
+        saturated_from_s=saturated_from_s,
+        n_conditions=len(per),
+        per_condition=per,
+        recorded_below_nominal_everywhere=bool(all(x > 0 for x in deficits)),
+        max_mean_deficit_bar=round(max(deficits), 4),
+        max_mean_deficit_at_bar=max(per.values(), key=lambda v: v["mean_deficit_bar"])["nominal_bar"],
+        max_mean_deficit_saturated_bar=round(
+            max(v["nominal_bar"] - v["mean_recorded_saturated_bar"] for v in per.values()), 4),
+        max_pointwise_deficit_saturated_bar=round(
+            max(v["max_pointwise_deficit_saturated_bar"] for v in per.values()), 4),
+        nine_bar_mean_recorded_bar=per["9.0"]["mean_recorded_bar"],
+        note=("Deficits are nominal minus recorded. The headline uses the full-trace mean; the "
+              "saturated-interval and pointwise variants are reported so the definition is "
+              "explicit rather than implied."),
+    )

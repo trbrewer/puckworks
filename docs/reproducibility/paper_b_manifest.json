@@ -1,12 +1,12 @@
 {
   "paper": "B",
-  "source_commit": "8b9ca64dc59d5dd125de0bcaaa2c9c6164228e38",
+  "source_commit": "20f83cd6c237db191b1f774fc0290e6798eefe4f",
   "git_dirty": true,
   "timestamp_utc": null,
-  "bundle_source_commit": "ed504769091e7df0f189351e2481c7eebfe04e27",
-  "bundle_matches_head": false,
+  "bundle_source_commit": "20f83cd6c237db191b1f774fc0290e6798eefe4f",
+  "bundle_matches_head": true,
   "release_fresh": false,
-  "bundle_sha256": "900a40f61e68744dc2f7e81540b96e17559a5070a85ada7ef8b8ad07a8ba367a",
+  "bundle_sha256": "ad87e5b80c59ad9aa3cb9d14faa1ef396705e6cb8e06877b05ef678105f33ccd",
   "environment": {
     "python": "3.13.13",
     "numpy": "2.5.1",
@@ -26,7 +26,7 @@
     "paper_b_evidence_matrix.csv": "13b739e86c7069934c73d7a0c15add66fcd9aa2aa56a0f51fc1c6f739e577304",
     "paper_b_evidence_dictionary.csv": "38b807ff9bfb99952e09cef892e8a8d95e5383c0e27644f44fb3b5afbdccaf16"
   },
-  "n_claims": 18,
+  "n_claims": 118,
   "n_failures": 0,
   "claims": [
     {
@@ -171,6 +171,806 @@
       "expected": -0.391,
       "actual": -0.391,
       "tol": 0.08,
+      "ok": true
+    },
+    {
+      "claim": "Table 2 late-window constant ~0.641",
+      "path": "ladder.rung1b_longrun_const",
+      "expected": 0.641,
+      "actual": 0.641,
+      "tol": 0.01,
+      "ok": true
+    },
+    {
+      "claim": "Table 2 static kappa(P) ~0.648",
+      "path": "ladder.rung3_static_kappaP",
+      "expected": 0.648,
+      "actual": 0.648,
+      "tol": 0.01,
+      "ok": true
+    },
+    {
+      "claim": "Table 2 improvement vs best constant ~4.9x",
+      "path": "ladder.improvement_factor",
+      "expected": 4.9,
+      "actual": 4.9,
+      "tol": 0.1,
+      "ok": true
+    },
+    {
+      "claim": "Table 2 improvement vs static ~5.6x",
+      "path": "ladder.improvement_vs_static",
+      "expected": 5.6,
+      "actual": 5.6,
+      "tol": 0.1,
+      "ok": true
+    },
+    {
+      "claim": "Table 3 LOPO-EC static ~0.534",
+      "path": "loco.heldout_mean.static",
+      "expected": 0.534,
+      "actual": 0.534,
+      "tol": 0.01,
+      "ok": true
+    },
+    {
+      "claim": "Table 3 LOPO-EC Phi(t) ~0.347",
+      "path": "loco.heldout_mean.phi",
+      "expected": 0.347,
+      "actual": 0.347,
+      "tol": 0.01,
+      "ok": true
+    },
+    {
+      "claim": "Table 3 LOPO-EC rc3b ~0.516",
+      "path": "loco.heldout_mean.rc3b",
+      "expected": 0.516,
+      "actual": 0.516,
+      "tol": 0.01,
+      "ok": true
+    },
+    {
+      "claim": "Table 3 shared static ~0.524",
+      "path": "loco.shared_calibration_mean.static",
+      "expected": 0.524,
+      "actual": 0.524,
+      "tol": 0.01,
+      "ok": true
+    },
+    {
+      "claim": "Table 3 shared Phi(t) ~0.334",
+      "path": "loco.shared_calibration_mean.phi",
+      "expected": 0.334,
+      "actual": 0.334,
+      "tol": 0.01,
+      "ok": true
+    },
+    {
+      "claim": "Table 3 shared rc3b ~0.510",
+      "path": "loco.shared_calibration_mean.rc3b",
+      "expected": 0.51,
+      "actual": 0.51,
+      "tol": 0.01,
+      "ok": true
+    },
+    {
+      "claim": "Table 3 off-9-bar static ~0.512",
+      "path": "cross_pressure.conditional_transfer_mean_full_precision.static",
+      "expected": 0.512,
+      "actual": 0.5115576619579402,
+      "tol": 0.01,
+      "ok": true
+    },
+    {
+      "claim": "Table 3 off-9-bar rc3b ~0.522",
+      "path": "cross_pressure.conditional_transfer_mean_full_precision.rc3b",
+      "expected": 0.522,
+      "actual": 0.5215997783603259,
+      "tol": 0.01,
+      "ok": true
+    },
+    {
+      "claim": "shot noise floor ~0.149 g/s",
+      "path": "shot_level.noise_floor.noise_floor_rmse_g_per_s",
+      "expected": 0.1492,
+      "actual": 0.1492,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "claim": "Phi(t) minus constant, per-shot mean ~-0.390 g/s",
+      "path": "shot_level.paired.comparisons.phi_vs_const.mean_difference_g_per_s",
+      "expected": -0.3904,
+      "actual": -0.3904,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "claim": "Phi(t) minus static, per-shot mean ~-0.472 g/s",
+      "path": "shot_level.paired.comparisons.phi_vs_static.mean_difference_g_per_s",
+      "expected": -0.4717,
+      "actual": -0.4717,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "claim": "exact randomization p = 2/32 (design floor)",
+      "path": "shot_level.paired.comparisons.phi_vs_const.exact_randomization_p",
+      "expected": 0.0625,
+      "actual": 0.0625,
+      "tol": 0.0001,
+      "ok": true
+    },
+    {
+      "claim": "leave-one-shot-out spline ~0.186",
+      "path": "shot_level.heldout.leave_one_shot_out_mean.spline",
+      "expected": 0.1861,
+      "actual": 0.1861,
+      "tol": 0.003,
+      "ok": true
+    },
+    {
+      "claim": "leave-one-shot-out Phi(t) ~0.189",
+      "path": "shot_level.heldout.leave_one_shot_out_mean.phi",
+      "expected": 0.1894,
+      "actual": 0.1894,
+      "tol": 0.003,
+      "ok": true
+    },
+    {
+      "claim": "leave-one-shot-out Phi(t) cross-fit ~0.190",
+      "path": "shot_level.heldout.leave_one_shot_out_mean.phi_equilibrium_crossfit",
+      "expected": 0.1897,
+      "actual": 0.1897,
+      "tol": 0.003,
+      "ok": true
+    },
+    {
+      "claim": "leave-one-shot-out constant ~0.600",
+      "path": "shot_level.heldout.leave_one_shot_out_mean.const",
+      "expected": 0.5995,
+      "actual": 0.5995,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "claim": "leave-one-shot-out static ~0.661",
+      "path": "shot_level.heldout.leave_one_shot_out_mean.static",
+      "expected": 0.6611,
+      "actual": 0.6611,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "claim": "Phi(t) minus held-out spline ~0.003 (below the noise floor)",
+      "path": "shot_level.heldout.phi_minus_spline_heldout_g_per_s",
+      "expected": 0.0033,
+      "actual": 0.0033,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "leave-segment-out interior Phi(t) ~0.158",
+      "path": "shot_level.heldout.leave_segment_out_interior_mean.phi",
+      "expected": 0.1579,
+      "actual": 0.1579,
+      "tol": 0.003,
+      "ok": true
+    },
+    {
+      "claim": "leave-segment-out interior spline ~0.233",
+      "path": "shot_level.heldout.leave_segment_out_interior_mean.spline",
+      "expected": 0.233,
+      "actual": 0.233,
+      "tol": 0.003,
+      "ok": true
+    },
+    {
+      "claim": "leave-segment-out interior constant ~0.419",
+      "path": "shot_level.heldout.leave_segment_out_interior_mean.const",
+      "expected": 0.4193,
+      "actual": 0.4193,
+      "tol": 0.003,
+      "ok": true
+    },
+    {
+      "claim": "residual diagnostics between-shot sd ~0.153 (1 s series)",
+      "path": "shot_level.residuals_1s.between_shot_sd_mean_g_per_s",
+      "expected": 0.1529,
+      "actual": 0.1529,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "residual lag-1 ACF, constant ~0.958",
+      "path": "shot_level.residuals_1s.branches.rung1_const.lag1_autocorrelation",
+      "expected": 0.9579,
+      "actual": 0.9579,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "residual lag-1 ACF, Phi(t) ~0.969",
+      "path": "shot_level.residuals_1s.branches.rung4_phi_of_t.lag1_autocorrelation",
+      "expected": 0.9687,
+      "actual": 0.9687,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "residual lag-1 ACF, cubic ~0.904",
+      "path": "shot_level.residuals_1s.branches.flexible_cubic.lag1_autocorrelation",
+      "expected": 0.9041,
+      "actual": 0.9041,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "static MAE ~0.370 beats constant MAE ~0.478 (ordering reversal)",
+      "path": "shot_level.residuals_1s.branches.rung3_static.mae_g_per_s",
+      "expected": 0.3695,
+      "actual": 0.3695,
+      "tol": 0.003,
+      "ok": true
+    },
+    {
+      "claim": "constant MAE ~0.478",
+      "path": "shot_level.residuals_1s.branches.rung1_const.mae_g_per_s",
+      "expected": 0.478,
+      "actual": 0.478,
+      "tol": 0.003,
+      "ok": true
+    },
+    {
+      "claim": "static mean bias ~-0.312 (why MAE and RMSE disagree)",
+      "path": "shot_level.residuals_1s.branches.rung3_static.mean_bias_g_per_s",
+      "expected": -0.3121,
+      "actual": -0.3121,
+      "tol": 0.003,
+      "ok": true
+    },
+    {
+      "claim": "residual/between-shot ratio, constant ~3.8",
+      "path": "shot_level.residuals_1s.branches.rung1_const.residual_over_between_shot_sd",
+      "expected": 3.81,
+      "actual": 3.81,
+      "tol": 0.05,
+      "ok": true
+    },
+    {
+      "claim": "residual/between-shot ratio, static ~4.3",
+      "path": "shot_level.residuals_1s.branches.rung3_static.residual_over_between_shot_sd",
+      "expected": 4.323,
+      "actual": 4.323,
+      "tol": 0.05,
+      "ok": true
+    },
+    {
+      "claim": "residual/between-shot ratio, Phi(t) ~0.76",
+      "path": "shot_level.residuals_1s.branches.rung4_phi_of_t.residual_over_between_shot_sd",
+      "expected": 0.756,
+      "actual": 0.756,
+      "tol": 0.02,
+      "ok": true
+    },
+    {
+      "claim": "residual/between-shot ratio, cubic ~0.65",
+      "path": "shot_level.residuals_1s.branches.flexible_cubic.residual_over_between_shot_sd",
+      "expected": 0.648,
+      "actual": 0.648,
+      "tol": 0.02,
+      "ok": true
+    },
+    {
+      "claim": "residual lag-1 ACF at 5 s, Phi(t) ~0.533",
+      "path": "shot_level.residuals_5s.branches.rung4_phi_of_t.lag1_autocorrelation",
+      "expected": 0.533,
+      "actual": 0.5326,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "claim": "residual lag-1 ACF at 5 s, constant ~0.786",
+      "path": "shot_level.residuals_5s.branches.rung1_const.lag1_autocorrelation",
+      "expected": 0.786,
+      "actual": 0.7863,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "claim": "residual lag-1 ACF at 5 s, cubic ~0.471",
+      "path": "shot_level.residuals_5s.branches.flexible_cubic.lag1_autocorrelation",
+      "expected": 0.471,
+      "actual": 0.4712,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "claim": "residual DW at 1 s, Phi(t) ~0.047",
+      "path": "shot_level.residuals_1s.branches.rung4_phi_of_t.durbin_watson",
+      "expected": 0.0468,
+      "actual": 0.0468,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "residual DW at 1 s, constant ~0.005",
+      "path": "shot_level.residuals_1s.branches.rung1_const.durbin_watson",
+      "expected": 0.0049,
+      "actual": 0.0049,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "residual DW at 1 s, static ~0.004",
+      "path": "shot_level.residuals_1s.branches.rung3_static.durbin_watson",
+      "expected": 0.0038,
+      "actual": 0.0038,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "residual DW at 1 s, cubic ~0.067",
+      "path": "shot_level.residuals_1s.branches.flexible_cubic.durbin_watson",
+      "expected": 0.0667,
+      "actual": 0.0667,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "Phi(t) minus cubic, per-shot mean ~+0.083 g/s (below the noise floor)",
+      "path": "shot_level.paired.comparisons.phi_vs_cubic.mean_difference_g_per_s",
+      "expected": 0.0826,
+      "actual": 0.0826,
+      "tol": 0.003,
+      "ok": true
+    },
+    {
+      "claim": "recorded-pressure static nominal 0.647696",
+      "path": "shot_level.recorded_pressure.static_nominal_rmse_g_per_s",
+      "expected": 0.647696,
+      "actual": 0.647696,
+      "tol": 1e-05,
+      "ok": true
+    },
+    {
+      "claim": "recorded-pressure static recorded 0.646846",
+      "path": "shot_level.recorded_pressure.static_recorded_rmse_g_per_s",
+      "expected": 0.646846,
+      "actual": 0.646846,
+      "tol": 1e-05,
+      "ok": true
+    },
+    {
+      "claim": "recorded-pressure static delta -0.00085",
+      "path": "shot_level.recorded_pressure.static_delta_g_per_s",
+      "expected": -0.00085,
+      "actual": -0.00085,
+      "tol": 1e-05,
+      "ok": true
+    },
+    {
+      "claim": "recorded-pressure Phi(t) nominal 0.115769",
+      "path": "shot_level.recorded_pressure.phi_nominal_rmse_g_per_s",
+      "expected": 0.115769,
+      "actual": 0.115769,
+      "tol": 1e-05,
+      "ok": true
+    },
+    {
+      "claim": "recorded-pressure Phi(t) recorded 0.116443",
+      "path": "shot_level.recorded_pressure.phi_recorded_rmse_g_per_s",
+      "expected": 0.116443,
+      "actual": 0.116443,
+      "tol": 1e-05,
+      "ok": true
+    },
+    {
+      "claim": "recorded-pressure Phi(t) delta +0.000673",
+      "path": "shot_level.recorded_pressure.phi_delta_g_per_s",
+      "expected": 0.000673,
+      "actual": 0.000673,
+      "tol": 1e-05,
+      "ok": true
+    },
+    {
+      "claim": "window sensitivity 90-100 s P_c ~12.391",
+      "path": "shot_level.window_sensitivity.windows.mean_90_100s.P_c_bar",
+      "expected": 12.391,
+      "actual": 12.391,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "window sensitivity 90-100 s Q_c ~1.914",
+      "path": "shot_level.window_sensitivity.windows.mean_90_100s.Q_c_g_per_s",
+      "expected": 1.914,
+      "actual": 1.914,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "window sensitivity 110-120 s (excl. contaminated) P_c ~11.935",
+      "path": "shot_level.window_sensitivity.windows.mean_110_120s_excl_contaminated.P_c_bar",
+      "expected": 11.935,
+      "actual": 11.935,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "window sensitivity 110-120 s (excl. contaminated) Q_c ~1.861",
+      "path": "shot_level.window_sensitivity.windows.mean_110_120s_excl_contaminated.Q_c_g_per_s",
+      "expected": 1.861,
+      "actual": 1.861,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "max mean pressure deficit 0.508 bar",
+      "path": "shot_level.nominal_vs_recorded.max_mean_deficit_bar",
+      "expected": 0.5076,
+      "actual": 0.5076,
+      "tol": 0.001,
+      "ok": true
+    },
+    {
+      "claim": "max saturated-interval mean deficit 0.540 bar",
+      "path": "shot_level.nominal_vs_recorded.max_mean_deficit_saturated_bar",
+      "expected": 0.5395,
+      "actual": 0.5395,
+      "tol": 0.001,
+      "ok": true
+    },
+    {
+      "claim": "max pointwise deficit 0.673 bar",
+      "path": "shot_level.nominal_vs_recorded.max_pointwise_deficit_saturated_bar",
+      "expected": 0.6726,
+      "actual": 0.6726,
+      "tol": 0.001,
+      "ok": true
+    },
+    {
+      "claim": "9-bar delivered mean 8.768 bar",
+      "path": "shot_level.nominal_vs_recorded.nine_bar_mean_recorded_bar",
+      "expected": 8.7679,
+      "actual": 8.7679,
+      "tol": 0.001,
+      "ok": true
+    },
+    {
+      "claim": "decimated RMSE, constant ~0.583",
+      "path": "shot_level.residuals_1s.branches.rung1_const.rmse_g_per_s",
+      "expected": 0.5826,
+      "actual": 0.5826,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "decimated RMSE, static ~0.661",
+      "path": "shot_level.residuals_1s.branches.rung3_static.rmse_g_per_s",
+      "expected": 0.661,
+      "actual": 0.661,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "swelling branch RMSE with a free level ~1.08",
+      "path": "ladder.rung5b_swelling_mo2",
+      "expected": 1.082,
+      "actual": 1.082,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "claim": "swelling correlation with the measured trace ~-0.951",
+      "path": "ladder.rung5b_swelling_corr_with_trace",
+      "expected": -0.951,
+      "actual": -0.951,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "claim": "Phi(t) minus cubic median ~+0.02",
+      "path": "result2_residuals.rmse_diff_phi_minus_cubic.median",
+      "expected": 0.022,
+      "actual": 0.022,
+      "tol": 0.003,
+      "ok": true
+    },
+    {
+      "claim": "Phi(t) minus cubic 95% lower ~-0.01",
+      "path": "result2_residuals.rmse_diff_phi_minus_cubic.ci95.0",
+      "expected": -0.008,
+      "actual": -0.008,
+      "tol": 0.003,
+      "ok": true
+    },
+    {
+      "claim": "Phi(t) minus cubic 95% upper ~+0.05",
+      "path": "result2_residuals.rmse_diff_phi_minus_cubic.ci95.1",
+      "expected": 0.053,
+      "actual": 0.053,
+      "tol": 0.003,
+      "ok": true
+    },
+    {
+      "claim": "24 s block Phi(t) minus cubic lower ~+0.001",
+      "path": "result2_residuals.block_length_sensitivity.3.phi_minus_cubic.ci95.0",
+      "expected": 0.001,
+      "actual": 0.001,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "24 s block Phi(t) minus cubic upper ~+0.04",
+      "path": "result2_residuals.block_length_sensitivity.3.phi_minus_cubic.ci95.1",
+      "expected": 0.04,
+      "actual": 0.04,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 1.0 bar phi ~0.374",
+      "path": "cross_pressure.per_pressure.1.0.phi",
+      "expected": 0.374,
+      "actual": 0.374,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 1.0 bar rc3b ~0.159",
+      "path": "cross_pressure.per_pressure.1.0.rc3b",
+      "expected": 0.159,
+      "actual": 0.159,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 1.0 bar static ~0.431",
+      "path": "cross_pressure.per_pressure.1.0.static",
+      "expected": 0.431,
+      "actual": 0.431,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 2.0 bar phi ~0.573",
+      "path": "cross_pressure.per_pressure.2.0.phi",
+      "expected": 0.573,
+      "actual": 0.573,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 2.0 bar rc3b ~0.303",
+      "path": "cross_pressure.per_pressure.2.0.rc3b",
+      "expected": 0.303,
+      "actual": 0.303,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 2.0 bar static ~0.649",
+      "path": "cross_pressure.per_pressure.2.0.static",
+      "expected": 0.649,
+      "actual": 0.649,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 3.5 bar phi ~0.418",
+      "path": "cross_pressure.per_pressure.3.5.phi",
+      "expected": 0.418,
+      "actual": 0.418,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 3.5 bar rc3b ~0.692",
+      "path": "cross_pressure.per_pressure.3.5.rc3b",
+      "expected": 0.692,
+      "actual": 0.692,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 3.5 bar static ~0.306",
+      "path": "cross_pressure.per_pressure.3.5.static",
+      "expected": 0.306,
+      "actual": 0.306,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 4.0 bar phi ~0.374",
+      "path": "cross_pressure.per_pressure.4.0.phi",
+      "expected": 0.374,
+      "actual": 0.374,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 4.0 bar rc3b ~0.785",
+      "path": "cross_pressure.per_pressure.4.0.rc3b",
+      "expected": 0.785,
+      "actual": 0.785,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 4.0 bar static ~0.246",
+      "path": "cross_pressure.per_pressure.4.0.static",
+      "expected": 0.246,
+      "actual": 0.246,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 5.0 bar phi ~0.456",
+      "path": "cross_pressure.per_pressure.5.0.phi",
+      "expected": 0.456,
+      "actual": 0.456,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 5.0 bar rc3b ~0.879",
+      "path": "cross_pressure.per_pressure.5.0.rc3b",
+      "expected": 0.879,
+      "actual": 0.879,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 5.0 bar static ~0.402",
+      "path": "cross_pressure.per_pressure.5.0.static",
+      "expected": 0.402,
+      "actual": 0.402,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 6.0 bar phi ~0.502",
+      "path": "cross_pressure.per_pressure.6.0.phi",
+      "expected": 0.502,
+      "actual": 0.502,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 6.0 bar rc3b ~0.912",
+      "path": "cross_pressure.per_pressure.6.0.rc3b",
+      "expected": 0.912,
+      "actual": 0.912,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 6.0 bar static ~0.453",
+      "path": "cross_pressure.per_pressure.6.0.static",
+      "expected": 0.453,
+      "actual": 0.453,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 7.0 bar phi ~0.222",
+      "path": "cross_pressure.per_pressure.7.0.phi",
+      "expected": 0.222,
+      "actual": 0.222,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 7.0 bar rc3b ~0.628",
+      "path": "cross_pressure.per_pressure.7.0.rc3b",
+      "expected": 0.628,
+      "actual": 0.628,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 7.0 bar static ~0.551",
+      "path": "cross_pressure.per_pressure.7.0.static",
+      "expected": 0.551,
+      "actual": 0.551,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 8.0 bar phi ~0.118",
+      "path": "cross_pressure.per_pressure.8.0.phi",
+      "expected": 0.118,
+      "actual": 0.118,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 8.0 bar rc3b ~0.448",
+      "path": "cross_pressure.per_pressure.8.0.rc3b",
+      "expected": 0.448,
+      "actual": 0.448,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 8.0 bar static ~0.575",
+      "path": "cross_pressure.per_pressure.8.0.static",
+      "expected": 0.575,
+      "actual": 0.575,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 9.0 bar phi ~0.116",
+      "path": "cross_pressure.per_pressure.9.0.phi",
+      "expected": 0.116,
+      "actual": 0.116,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 9.0 bar rc3b ~0.392",
+      "path": "cross_pressure.per_pressure.9.0.rc3b",
+      "expected": 0.392,
+      "actual": 0.392,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 9.0 bar static ~0.648",
+      "path": "cross_pressure.per_pressure.9.0.static",
+      "expected": 0.648,
+      "actual": 0.648,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 11.0 bar phi ~0.173",
+      "path": "cross_pressure.per_pressure.11.0.phi",
+      "expected": 0.173,
+      "actual": 0.173,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 11.0 bar rc3b ~0.241",
+      "path": "cross_pressure.per_pressure.11.0.rc3b",
+      "expected": 0.241,
+      "actual": 0.241,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 11.0 bar static ~0.693",
+      "path": "cross_pressure.per_pressure.11.0.static",
+      "expected": 0.693,
+      "actual": 0.693,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 13.0 bar phi ~0.354",
+      "path": "cross_pressure.per_pressure.13.0.phi",
+      "expected": 0.354,
+      "actual": 0.354,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 13.0 bar rc3b ~0.169",
+      "path": "cross_pressure.per_pressure.13.0.rc3b",
+      "expected": 0.169,
+      "actual": 0.169,
+      "tol": 0.0005,
+      "ok": true
+    },
+    {
+      "claim": "per-pressure 13.0 bar static ~0.809",
+      "path": "cross_pressure.per_pressure.13.0.static",
+      "expected": 0.809,
+      "actual": 0.809,
+      "tol": 0.0005,
       "ok": true
     }
   ],

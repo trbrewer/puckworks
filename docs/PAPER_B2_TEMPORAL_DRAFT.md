@@ -265,7 +265,7 @@ Table 3 separates three trace-level summaries that should not be conflated.
 | Shared calibration, all 11 pressures | 0.524 | 0.334 | 0.510 |
 | Shared calibration, 10 off-9-bar pressures | 0.512 | 0.356 | 0.522 |
 
-The LOPO means are within approximately 0.01–0.02 g s⁻¹ of the corresponding shared-calibration means. The empirical $\Phi(t)$ branch has the lowest mean error in both summaries. This is evidence that the aggregate 9-bar result is not created solely by one equilibrium pressure point.
+The LOPO means are within 0.013 g s⁻¹ of the corresponding shared-calibration means (largest absolute gap across the three branches). The empirical $\Phi(t)$ branch has the lowest mean error in both summaries. This is evidence that the aggregate 9-bar result is not created solely by one equilibrium pressure point.
 
 The per-pressure view is less simple. Relative errors change continuously with pressure, and no branch is best at every pressure. A flow-coupled variant can improve at some low-pressure conditions; the static branch can be competitive at parts of the middle range; and all branches retain structured residuals. Because the 9-bar dissolved-mass trajectory and donor assumptions are held fixed during LOPO, the calculation is within-rig, within-campaign generalization conditional on those quantities. It does not establish transfer to another machine, coffee, grind, pressure node, or control mode.
 
@@ -304,7 +304,7 @@ to. All three are reported here.
 bar, the static branch at 3.5–6 bar, Φ(t) at 7–11 bar, and RC-3b again at 13 bar. Φ(t) wins **4
 of 11** pressures, and the band it wins is the 7–11 bar band that contains this paper's primary
 9-bar analysis. The macro mean therefore reports a genuine aggregate advantage for Φ(t)
-(0.335 g s⁻¹ against 0.524 for the static branch) while understating how strongly
+(0.334 g s⁻¹ against 0.524 for the static branch) while understating how strongly
 that advantage is localised in pressure. The correct reading is that the temporal branch is
 preferred in the upper-pressure regime and is not preferred below about 7 bar; nothing in this
 campaign supports a pressure-independent claim.
@@ -322,8 +322,10 @@ Four distinct pressure quantities appear in this paper and are easy to conflate.
 - **Nominal reference pressure** — the campaign's setting, spanning 1–13 bar. Every
   "9 bar" statement in this paper is nominal.
 - **Recorded basket pressure** — what the rig delivered, which is systematically **below** nominal at
-  every setting, by up to 0.61 bar. The nominal 9 bar condition delivered a mean
-  **8.71 bar** at the basket. §5.2 shows the ladder is insensitive to substituting the recorded
+  every one of the eleven settings. The largest shortfall is **0.508 bar** (at the 11 bar setting),
+  measured as nominal minus the full-trace mean; on the saturated interval the largest is 0.540 bar
+  and the largest pointwise shortfall is 0.673 bar. The nominal 9 bar condition delivered a mean
+  **8.768 bar** at the basket. §5.2 shows the ladder is insensitive to substituting the recorded
   history, but the two are different quantities and are named separately.
 - **Fitted equilibrium characteristic pressure** — P_c = **12.39 bar**, an estimated parameter of
   the equilibrium closure, not a rig setting. It sits just inside the tested range, so only
