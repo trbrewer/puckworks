@@ -32,9 +32,38 @@ constants are per-rig / per-coffee / per-grind and NOT transferable.
 | `solids_calibration.csv` | `fit_parameters/solids_calibration.csv` | dissolved-mass sigmoid (Eq 20): k 2.257 g, ℓ 19.83 s, m 9.34 s, **first_drop_offset 8.0 s**. |
 | `brewer_quadratic_params.csv` | `fit_parameters/brewer_calibration.csv` | ΔP = aQ²+bQ+c: a 0.01718, b 0.03671, c 0.28316 (bar, g/s). |
 
+## Raw per-brew traces (ingested 2026-07-25) -> `traces_per_brew.csv`
+
+`measurements_time_dependent/*.txt` (57 raw per-brew JSON-lines traces) are now ingested as
+**per-shot** time series, because the published `traces_time_dependent.csv` is a per-pressure MEAN
+whose `*_std` columns are standard **ERRORS** (`sem`) -- so shot-to-shot variability is not
+recoverable from it, and any analysis on it has the time point, not the shot, as its unit.
+
+**Reduction.** Re-implemented from the method documented in the deposit's
+`format_measurements_time_dependent.py`; **that script is GPLv3 and is NOT ingested or copied** (the
+standing convention for this source: CC-BY-4.0 data, code not ingested). Steps: reference pressure =
+median `p2`, rounded to the nearest 0.5 bar, with the source's two manual corrections (`1-2.txt` ->
+1.0 bar; 1.5 -> 2.0); t=0 = the sample after the last out-of-tolerance `p2` within the first 500
+samples; truncate at 100 s; `p2` kPa -> bar; flow = Savitzky-Golay(gradient(mass, t), window 31,
+polyorder 1); basket pressure = p - (a q^2 + b q + c) from `brewer_quadratic_params.csv`; interpolate
+each shot onto a common 0-100 s, 1000-point grid.
+
+**Verification.** Re-aggregating these 57 shots by (pressure, time) with mean/`sem` reproduces the
+published `traces_time_dependent.csv` on **all 11 000 rows to max |delta| = 5e-7** -- i.e. exactly,
+within that file's own 1e-6 write precision. Guarded by
+`tests/test_waszkiewicz_per_brew.py::test_reaggregation_reproduces_the_published_means`.
+
+**Shots per reference pressure:** 1.0:5, 2.0:4, 3.5:3, 4.0:10, 5.0:5, 6.0:6, 7.0:4, 8.0:4,
+**9.0:5**, 11.0:4, 13.0:7 (57 total).
+
+**Caveats.** The source's reduction is baked in (alignment, ~3 s Savitzky-Golay smoothing, brewer
+subtraction), so these are processed, not raw instrument output. Filename prefixes are NOT the
+reference pressure (`10-2` is 11 bar, `12-8-2` is 13 bar). The source's `excluded/` brews are NOT
+included -- their exclusion is the authors' judgement and is not re-litigated here. Time is stored
+as `time_index` on the exact grid rather than a float, so joins cannot drift.
+
 ## Not ingested (available in the source zip if needed later)
-- `measurements_time_dependent/*.txt` (58 raw per-brew JSON-lines traces; the
-  formatted per-pressure means are the ingested product).
+- `measurements_time_dependent/excluded/*` (brews the authors excluded).
 - `formatted_measurements/debug_time_dependent.csv` (3.6 MB intermediate).
 - Figures (PDF), MATLAB/Python fitting code (GPLv3), `brew_restarting.txt`
   (Fig 10 delamination experiment — qualitative).

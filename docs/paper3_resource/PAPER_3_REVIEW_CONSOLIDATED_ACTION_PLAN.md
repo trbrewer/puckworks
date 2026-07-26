@@ -37,7 +37,7 @@ Accuracy corrections are **done in this PR** (they are corrections to recently-m
 | **U6** | Identifiability (multistart, profile likelihood, bootstrap) beyond R² | ✅ #179: cameron MULTISTART `phi_multistart_span` + `non_identifiable` (finer grinds span φ≈0–1) alongside one-vs-two-exp. Full profile-likelihood/bootstrap still a deeper option, but the non-identifiability is demonstrated + tested. |
 | **U8** | Roman fitting-protocol sensitivity (window, bath ratio, radius) | ✅ #179: `roman_protocol_sensitivity()` reproduces the reviewer's window (ratio 15.8→8.6) + bath-ratio tables from the registered solver; surfaced in §7.5. |
 | **U9** | Define **portability as a vector**, not a Boolean | ✅ #179: both producers carry a six-dimension `portability_vector` (observable/mechanism/population/estimation identity; numerical compatibility; predictive transfer) + derived `portability_verdict`. |
-| **U10** | Add **Paper 3 claim records** + generated result bundle for the two producers | ✅ #179 (as a bundle): `timescale_semantics_bundle()` emits the two producer-bound claim records (statement/producer/config/limitations/not_supported). NOT in `EVIDENCE_LINKS.json` — `reconcile()` requires a bijection with REGISTERED gate wirings, so formal-claim promotion is 🔁 blocked on the maille component-registration decision (flagged). |
+| **U10** | Add **Paper 3 claim records** + generated result bundle for the two producers | ✅ **CLOSED 2026-07-25.** #179 landed the bundle; the maille **component registration** then removed the blocker, so both claims are now **formal adjudicated `EVIDENCE_LINKS` records** carried by `gate_maille_timescale_portability_cameron` / `..._roman` on `maille2024.two_regime` (evidence reconciles `--strict --scope paper3`). `timescale_semantics_bundle()` remains the richer machine-readable rendering of the same two claims, not a parallel unregistered set. |
 | **U12** | Separate descriptive shape reuse from physical transfer | ✅ paragraph now says the shared form is a useful **descriptive** basis, not a physical contract. |
 | **U13** | Move quantitative detail to a subsection/figure/supplement | ✅ U13 PR: §4.5 condensed to the principle; detail moved to new **§7.5 + Table 4a**. Figure (vs table) still open under MC12. |
 | **U7** | State all protocol choices in the manuscript | ✅ partially (paragraph now names 400 s/τ=0/20 µm fine class); full method table ⏭ P1 with MC12. |
@@ -53,10 +53,10 @@ are done; the *added-rigor* asks (U6, U8, U9, U10, U13) are P1 and tracked below
 |---|---|---|---|
 | **MC6** | Infiltration "independently gated" overclaim | **P0 (immediate)** | ✅ **done in this PR** — Table 6 row reworded to "same-shot compatibility check across a predeclared porosity bracket — not an independent prediction". (Reviewer also wants a wider "independent/parameter-free/validation" sweep of figures/captions/notebooks ⏭.) |
 | **MC1** | Decide publication genre (JOSS ~1.75k / JORS ~3–4k / full methods) | P1 | ❓ **Tim decision** — drives length target (draft ≈10.2k words) and how much espresso detail stays. |
-| **MC2** | Repair manuscript-generation pipeline (counts/tables generated + CI) | P0 | ⏭🔁 the meta-fix behind every stale count; scoped PR. |
-| **MC3** | Rewrite architecture around **schema v2** (`kind` deprecated) | P0 | ⏭ rewrite §§2.1/3.2/3.3 + regenerate Table 1; scoped PR. |
-| **MC4** | Separate evidence relation / outcome / artifact role / badge | P0 | ⏭ Table 3 + §5; enables U9/U10. |
-| **MC5** | Fix abstract "weakest load-bearing link" vs evidence-vector | P0 | ⏭ localized abstract edit; scoped PR. |
+| **MC2** | Repair manuscript-generation pipeline (counts/tables generated + CI) | P0 | ◑ counts are now bound to the live registry/manifest with a **CI drift guard** (`test_paper3_manuscript_consistency`), proven three times since (27 components; 105 then 106 manifest rows). Remaining: the **freeze target** (❓ Tim). |
+| **MC3** | Rewrite architecture around **schema v2** (`kind` deprecated) | P0 | ✅ §§2.1/3.2/3.3 rewritten; Table 1 + Appendix A generated from the live registry. |
+| **MC4** | Separate evidence relation / outcome / artifact role / badge | P0 | ✅ Table 3 evidence axes landed (P0 localized-integrity batch). |
+| **MC5** | Fix abstract "weakest load-bearing link" vs evidence-vector | P0 | ✅ abstract reworded in the same P0 batch. |
 | **MC7** | Define "executable" per layer (availability matrix) | P1 | ⏭ new machine-readable matrix. |
 | **MC8** | Implemented capability vs architectural intent | P1 | ⏭ implementation-status table. |
 | **MC9** | Rigorous **related work & novelty** (FAIR4RS, PROV, RO-Crate, model cards…) | P1 | ✅ #180: new §12 (6 traditions) + refs [14]–[22]; novelty scoped to joint operationalization. |
@@ -76,15 +76,15 @@ are done; the *added-rigor* asks (U6, U8, U9, U10, U13) are P1 and tracked below
 
 | Item | Manuscript says | Repo actually (verified) | Fix |
 |---|---|---|---|
-| Component total | 25 | 25 (`registry_counts.json`) | consistent; generate at build (MC2) |
-| **Manifest total** | **70** (lines 11, 33) | **104 logical rows** (verified) | 🔁 update to 104 **via generation** (MC2) |
-| **Execution roles** | 11 runtime / 13 calibration / **1 synthesis** | **12 runtime / 13 calibration / 0** (synthesis is a *provenance* class, `project_synthesis`=1) | 🔁 regenerate Table 1 (MC3) |
-| Registry schema | §3.2 foregrounds `kind` | schema v2: `kind` deprecated; axes = execution_role/provenance_class/evidence_strength | ⏭ rewrite §3.2 (MC3) |
+| Component total | ~~25~~ **27** | 27 (`registry_counts.json`, after the maille2024 registration) | ✅ manuscript + generated Table 1 updated; CI drift guard binds them to the live registry |
+| **Manifest total** | ~~70~~ **106** | **106 logical rows** (gloess2013 + waszkiewicz per-brew intakes) | ✅ manuscript updated; the CI drift guard now fails on any divergence |
+| **Execution roles** | ~~11/13/1~~ **12 runtime / 15 calibration** | **12 runtime / 15 calibration / 0 / 0** (synthesis is a *provenance* class) | ✅ Table 1 regenerated; synthesis-as-role removed and guarded by a test |
+| Registry schema | §3.2 foregrounds `kind` | schema v2: `kind` deprecated | ✅ §3.2/§3.3 rewritten around the v2 axes (MC3) |
 | Evidence taxonomy | "Independent external", "Negative validation" | code: `controlled_independent`; no `negative_validation` strength | ⏭ Table 3 (MC4) |
 | **Infiltration** | "independently gated" | same shot supplies pressure + fitted κ + evaluation | ✅ **fixed this PR** (MC6) |
 | Release/readiness (Table 7) | editable-install-only; release owed | `v0.3.0` wheels/sdist, public Colabs, API docs, governance files exist | ⏭ rebuild Table 7 (MC-audit 10–13) |
 | Figures | 7 specified | none embedded | ⏭ submission blocker (MC12) |
-| Manuscript date | "15 July 2026" (line 3) | latest material merged 25 July 2026 | ⏭ freeze to a release/tag (MC2 P0-1) |
+| Manuscript date | ~~15 July~~ **25 July 2026** | latest material merged 25 July 2026 | ◑ date updated; freezing to a **tag** still needs the MC2 freeze-target decision |
 
 ---
 

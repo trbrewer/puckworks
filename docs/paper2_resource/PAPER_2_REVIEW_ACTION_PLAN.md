@@ -38,11 +38,48 @@ one verified metadata error:
 These require real analysis on the raw Waszkiewicz shot data and are the substance of the revision;
 they are **not** faked:
 
-- **4.1** per-shot ladder: reproduce the ladder on each individual 9-bar shot (five files); report
-  per-shot RMSE, shots-won, leave-one-shot-out. *The shot, not the time point, becomes the unit.*
-- **4.3 / 4.4** leave-one-shot-out **cross-fitting of Φ(t)** (rebuild mean/TDS/dissolved-mass/params
-  without the held-out shot) + shot-level uncertainty **with refitting** (replaces the fixed-loss
-  block resampling as the primary uncertainty).
+- ✅ **4.1 per-shot ladder — DONE (2026-07-25).** The blocker was an *intake* gap, not missing
+  data: the 57 raw per-brew traces were on Zenodo (CC-BY) but only the per-pressure means had been
+  ingested. They are now `waszkiewicz2025/traces_per_brew` (9 bar has **five** shots), and
+  re-aggregating them reproduces the published means on all 11 000 rows to 5e-7. Producer:
+  `analysis.waszkiewicz_shot_level` (`per_shot_ladder`, `shot_level_noise_floor`); 8 tests.
+
+  **Results, with the shot as the unit (window 15–95 s, n=5):**
+
+  | rung | mean RMSE g/s | SD | range |
+  |---|---|---|---|
+  | rung1 best-in-window constant (1 param, re-fit per shot) | 0.580 | 0.054 | 0.532–0.666 |
+  | rung3 published static κ(P) (0 free params) | 0.661 | 0.100 | 0.566–0.773 |
+  | **rung4 poroelastic Φ(t)** (0 free params) | **0.189** | 0.061 | 0.115–0.241 |
+  | flexible cubic (4 params, re-fit per shot) | 0.107 | 0.016 | 0.081–0.124 |
+
+  **Shot-to-shot noise floor: 0.149 g/s** (a single shot's RMSE from the mean curve the manuscript
+  scores; range 0.073–0.212; pointwise between-shot SD mean 0.154, max 0.359).
+
+  **What this CONFIRMS (the primary claim, now stronger).** Φ(t) beats the best-in-window constant
+  on **5 of 5 individual shots**, with a mean margin of 0.39 g/s ≈ **2.6× the noise floor**. The
+  headline ordering is not an artifact of averaging — it survives the unit change. Same for static
+  κ(P) (0.189 vs 0.661).
+
+  **What this REFUTES (the secondary claim).** On the averaged curve the manuscript reports Φ(t)
+  0.116 vs cubic 0.096 — a 0.020 gap supporting "Φ(t) nearly reaches the flexible floor". Per shot
+  the cubic wins clearly and the gap widens to **0.083 ± 0.050 g/s**, which is *inside* the 0.149
+  noise floor. With five shots that comparison is **not resolvable**, and the "nearly reaches the
+  flexible floor" framing cannot be asserted.
+
+  **Also: the absolute RMSEs are not shot-prediction accuracy.** Φ(t) scores 0.116 against the mean
+  but 0.189 against real shots — because averaging five brews removes noise the model never had to
+  predict. Any absolute RMSE quoted from the mean trace should be labelled as fit to a preprocessed
+  average, with 0.149 g/s given as the scale on which differences are read.
+
+  ⏭ *Manuscript edits deliberately NOT made here* — the numbers are landed and producer-backed
+  first; changing §5.2/Table 2 and the abstract is a separate scoped pass.
+- 🔴 **4.3 / 4.4** leave-one-shot-out **cross-fitting of Φ(t)** — **BLOCKED ON DATA, not effort.**
+  Φ(t) = m_d(t)/m0 is built from TDS(t)×Q(t), and the deposit's TDS is 3 replicates that are **not
+  shot-matched** to the 5 flow traces, so a held-out shot cannot have its own Φ(t) rebuilt. The
+  per-shot ladder above therefore evaluates Φ(t) as a **zero-free-parameter prediction** and does
+  **not** claim a cross-fit (`per_shot_ladder()["note"]` says so, and a test pins it). Unblocking
+  needs shot-matched TDS from the authors — a correspondence item, not an analysis one.
 - **4.5** a genuinely **held-out flexible comparator** (penalized spline / GP mean; leave-segment-out CV).
 - **4.7** residual diagnostics as a first-class result (residual-vs-time all branches, ACFs, spectra,
   overlaid on shot-level variability).

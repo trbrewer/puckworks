@@ -79,6 +79,53 @@ def waszkiewicz_traces():
     return out
 
 
+WASZ_PER_BREW_MAX_TIME_S = 100.0
+WASZ_PER_BREW_NGRID = 1000
+
+
+def waszkiewicz_traces_per_brew(pressure_bar=None):
+    """PER-SHOT Q(t) traces -- the individual brews behind `waszkiewicz_traces()`.
+
+    `waszkiewicz_traces()` returns the published per-pressure MEAN with a `*_std` column that is a
+    STANDARD ERROR, not a standard deviation (the source aggregates with `sem`). That means the
+    shot-to-shot spread cannot be recovered from it, and any analysis run on it has the TIME POINT,
+    not the SHOT, as its unit. This loader returns the 57 individual brews so the shot can be the
+    unit: per-shot scoring, leave-one-shot-out, and shot-level uncertainty.
+
+    Returns {pressure_bar: {shot_id: {col: np.ndarray}}}, or a single pressure's dict when
+    `pressure_bar` is given. Time is reconstructed from `time_index` on the exact common grid
+    (0-100 s, 1000 points) the source interpolates onto; it is stored as an index rather than a
+    float so the grid is exact and joins cannot drift.
+
+    Shots per reference pressure: 1.0:5, 2.0:4, 3.5:3, 4.0:10, 5.0:5, 6.0:6, 7.0:4, 8.0:4,
+    9.0:5, 11.0:4, 13.0:7. The 9-bar condition -- the one Paper B2 scores -- has FIVE shots.
+
+    CAVEATS. These are the source's own reduction, reproduced (not re-derived): t=0 alignment,
+    the Savitzky-Golay flow derivative (window 31, polyorder 1, ~3 s) and the brewer-calibration
+    basket-pressure subtraction are all baked in, so the traces are smoothed and alignment-dependent,
+    not raw instrument output. The source's `excluded/` brews are NOT included. Filename prefixes are
+    NOT the reference pressure (e.g. `10-2` is 11 bar, `12-8-2` is 13 bar) -- pressure comes from the
+    median line pressure, as the source defines it."""
+    rows = _rows(WASZ / "traces_per_brew.csv")
+    dt = WASZ_PER_BREW_MAX_TIME_S / (WASZ_PER_BREW_NGRID - 1)
+    cols = [c for c in rows[0]
+            if c not in ("reference_pressure_round__bar", "shot_id", "time_index")]
+    out = {}
+    for r in rows:
+        p = round(float(r["reference_pressure_round__bar"]), 3)
+        d = out.setdefault(p, {}).setdefault(r["shot_id"], {c: [] for c in cols + ["time__s"]})
+        d["time__s"].append(int(r["time_index"]) * dt)
+        for c in cols:
+            v = r[c]
+            d[c].append(float(v) if v not in ("", None) else np.nan)
+    for p in out:
+        for s in out[p]:
+            out[p][s] = {c: np.asarray(v, float) for c, v in out[p][s].items()}
+    if pressure_bar is not None:
+        return out[round(float(pressure_bar), 3)]
+    return out
+
+
 def waszkiewicz_tds_fractions():
     """5-s TDS(t) fractions: {'time_s','tds_pct','tds_std_pct'} arrays."""
     rows = _rows(WASZ / "tds_fractions.csv")
