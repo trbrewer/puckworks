@@ -402,8 +402,9 @@ loss (P0-5 / review MC4; B = 8000, seed 0) puts the 95 % interval on the pooled 
 **[−0.75, −0.03] pp** resampling whole groups (barely excluding it). The ≈0.4 pp advantage is
 therefore **not robustly distinguishable from zero** once the dependence is respected — the mechanism
 adds no resolvable skill over a learned level. (This resamples the two fixed predictors' precomputed
-losses; a coverage-calibrated LOCO interval that *repeats the fit* under resampling is deferred, P0-5
-sub-analysis C.)
+losses; a coverage-calibrated interval that *repeats the fit* under resampling is reported below
+(P0-5 sub-analysis C, `loco_coverage_interval`: pooled held-out MAPE **7.4 %**, 95 % **[4.3, 11.5] %**)
+— it is wider than these descriptive intervals, as expected.)
 
 A **shared-parameter compatibility analysis** complements the holdout: a *single shared*
 `(c_s0, rate_scale)` fitted jointly to O+C+F (`joint_multigrind_fit`) reconstructs the
@@ -629,8 +630,10 @@ an endpoint artefact.
   summaries — residual and condition-level — neither coverage-calibrated, MAJ-05/A2-04)
   replacing the 2-point holdout (M4) with descriptive intervals and a log-loss robustness
   check (M6); and a **geometry-sensitivity sweep** (`geometry_sensitivity_transfer`,
-  ≤1 pp across the three fitted geometries, B5). Still owed: per-condition residual
-  plots by (T, p, grind, variety, solute); a *calibrated* per-point named-solute weighting
+  ≤1 pp across the three fitted geometries, B5). Per-condition residual plots are **delivered**: signed blind
+  residuals versus brew temperature and pressure, facetted by variety x solute (`fig8_residuals_vs_conditions`),
+  and across-grind residuals for the joint shared fit (`fig5_joint_residual`). No grind facet exists on the
+  *blind* residuals by construction -- the blind comparison is single-grind (granulometry O). Still owed: a *calibrated* per-point named-solute weighting
   (only total-solids carries RSD; the named-solute rows retain the source's central values, not
   replicate-level RSD — an **objective-family sensitivity sweep** is delivered in its place (P0-5,
   §4), but the calibrated interval stays owed on the source replicate drop). A coverage-calibrated

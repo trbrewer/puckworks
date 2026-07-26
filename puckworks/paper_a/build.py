@@ -71,8 +71,10 @@ _CLAIMS = [
     # A3-11 condition-wise prediction envelope: median width ~3% of obs
     ("condition-envelope median width ~0.03 of obs (A3-11)",
      "transfer.median_condition_envelope_frac_of_obs", 0.029, 0.02),
-    # A3-19 reduced-model ladder: shared mech beats per-grind constants in 0/6 fits
-    ("reduced-model ladder: mech beats per-grind const in 0 fits (A3-19)",
+    # A3-19 in-sample COMPARATOR ladder (non-nested; no likelihood-ratio reading): the shared
+    # mechanistic fit beats per-grind constants in 0/6 fits. NOTE the bundle KEY keeps its historical
+    # `reduced_model_ladder.` prefix -- it is a frozen result-bundle identifier, not manuscript prose.
+    ("in-sample comparator ladder: mech beats per-grind const in 0 fits (A3-19)",
      "reduced_model_ladder.n_fits_mech_beats_pergrind_const", 0.0, 0.5),
     # A3-15/16 off-grid + realistic-noise sim: fraction recovers, cup does not
     ("off-grid+noise sim: fraction recovers off-grid rate <1% (A3-16)",

@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "note": "Paper A manuscript-facing CLAIMS CONTRACT (Paper 1 second review, MC1.4). One row per load-bearing value that appears in prose, tables, highlights or figure annotations. The phrase guard (tools/paper_a_consistency.py) checks WORDING; this contract checks the NUMBERS and the observable basis they are reported on. It exists because a curated phrase list cannot catch a stale figure: the venue conversion carried proxy-inclusive 22.6/23.1/19.9/25.2 while the canonical draft had already moved to named-solute 26.3/22.7/26.8/23.8/28.8, and every phrase check passed. Each row binds a value to its producer key in docs/figures/paper_a/results.json so a number can never be edited in prose alone.",
+  "observable_bases": {
+    "named_solute": "macro-average over the three NAMED solutes (caffeine, trigonelline, 5-CQA). The primary basis.",
+    "proxy_inclusive": "named solutes POOLED with the source-specific aggregate-solids proxy (modelled TDS / gravimetric total solids / refractometer). Reported separately, NEVER as the headline -- the proxy is not an equivalent analyte.",
+    "aggregate_proxy_only": "the aggregate-solids proxy alone.",
+    "not_applicable": "value is not an analyte-basis quantity."
+  },
+  "claims": [
+    {
+      "id": "blind_per_condition_named",
+      "value": 26.3, "unit": "percent MAPE", "tolerance": 0.2,
+      "observable_basis": "named_solute",
+      "evidence_tier": "cross-dataset blind comparison, per-condition",
+      "status": "delivered",
+      "producer_key": "per_condition.overall_mape_blind_named",
+      "is_headline": true,
+      "must_appear_in_manuscripts": true,
+      "retired_values": [22.6],
+      "retired_note": "22.6 was the proxy-inclusive figure used as a headline in an earlier conversion. It is not merely stale -- it is a DIFFERENT observable basis."
+    },
+    {
+      "id": "blind_per_condition_proxy_inclusive",
+      "value": 22.7, "unit": "percent MAPE", "tolerance": 0.2,
+      "observable_basis": "proxy_inclusive",
+      "evidence_tier": "cross-dataset blind comparison, per-condition",
+      "status": "delivered",
+      "producer_key": "per_condition.overall_mape_blind_proxy_inclusive",
+      "is_headline": false,
+      "must_appear_in_manuscripts": true,
+      "retired_values": [],
+      "retired_note": "Secondary only. Must never be presented as the primary blind metric."
+    },
+    {
+      "id": "flow_map_crude_tau",
+      "value": 26.8, "unit": "percent MAPE", "tolerance": 0.2,
+      "observable_basis": "named_solute",
+      "evidence_tier": "cross-dataset blind comparison, per-condition",
+      "status": "delivered",
+      "producer_key": "flow_map_refinement.overall_mape_crude_tau",
+      "is_headline": false,
+      "must_appear_in_manuscripts": true,
+      "retired_values": [23.1],
+      "retired_note": "23.1 was the proxy-inclusive crude-tau value."
+    },
+    {
+      "id": "flow_map_refined_darcy",
+      "value": 26.3, "unit": "percent MAPE", "tolerance": 0.2,
+      "observable_basis": "named_solute",
+      "evidence_tier": "cross-dataset blind comparison, per-condition",
+      "status": "delivered",
+      "producer_key": "flow_map_refinement.overall_mape_refined_darcy",
+      "is_headline": false,
+      "must_appear_in_manuscripts": true,
+      "retired_values": [22.6],
+      "retired_note": "The refinement closes ~0.5 pp on EITHER basis; the basis must still be stated."
+    },
+    {
+      "id": "endpoint_sensitivity_spread",
+      "value": 5.0, "unit": "percentage points", "tolerance": 0.3,
+      "observable_basis": "named_solute",
+      "evidence_tier": "endpoint-mass robustness of the blind per-condition residual",
+      "status": "delivered",
+      "producer_key": "endpoint_mass_sensitivity.overall_mape_spread_pp",
+      "is_headline": false,
+      "must_appear_in_manuscripts": true,
+      "retired_values": [5.3],
+      "retired_note": "Sweeps the BLIND O-grind discrepancy only -- NOT the O-refit->C/F transfer estimand (deferred, A-18)."
+    },
+    {
+      "id": "loco_pooled_mean",
+      "value": 6.5, "unit": "percent MAPE", "tolerance": 0.4,
+      "observable_basis": "named_solute",
+      "evidence_tier": "leave-one-condition-out CV (descriptive; not coverage-calibrated)",
+      "status": "delivered",
+      "producer_key": "loco.pooled_loco_mean_mape",
+      "is_headline": false,
+      "must_appear_in_manuscripts": true,
+      "retired_values": []
+    },
+    {
+      "id": "joint_pooled_mape",
+      "value": 6.4, "unit": "percent MAPE", "tolerance": 0.4,
+      "observable_basis": "named_solute",
+      "evidence_tier": "in-sample shared-parameter compatibility",
+      "status": "delivered",
+      "producer_key": "joint.mean_joint_pooled_mape",
+      "is_headline": false,
+      "must_appear_in_manuscripts": true,
+      "retired_values": []
+    },
+    {
+      "id": "result1_named_holdout",
+      "value": 8.4, "unit": "percent MAPE", "tolerance": 0.5,
+      "observable_basis": "named_solute",
+      "evidence_tier": "reconstruction (single grind); weak 2-point holdout",
+      "status": "delivered",
+      "producer_key": "refit_summary.mean_holdout_named",
+      "is_headline": false,
+      "must_appear_in_manuscripts": true,
+      "retired_values": []
+    }
+  ],
+  "status_claims": [
+    {
+      "id": "loco_coverage_calibrated_interval",
+      "description": "Coverage-calibrated LOCO interval that REPEATS THE FIT under resampling (condition-cluster out-of-bag bootstrap).",
+      "status": "delivered",
+      "producer": "loco_coverage_interval",
+      "reported_value": "held-out MAPE 7.4 %, 95 % [4.3, 11.5] %",
+      "must_not_be_described_as": ["deferred", "still owed", "not yet delivered"],
+      "note": "MC1: both manuscripts previously called this deferred in one section and reported it delivered in another."
+    },
+    {
+      "id": "per_condition_residual_plots",
+      "description": "Signed blind residuals versus (T, p), facetted by variety x solute.",
+      "status": "delivered",
+      "producer": "fig8_residuals_vs_conditions",
+      "must_not_be_described_as": ["still owed"],
+      "note": "No grind facet exists on the BLIND residuals by construction -- the blind comparison is single-grind (granulometry O). Across-grind residuals are fig5_joint_residual."
+    },
+    {
+      "id": "table7_rate_constraint",
+      "description": "Table 7 orthogonal-inventory rate constraint.",
+      "status": "qualitative_only",
+      "producer": "table7_rate_constraint",
+      "must_not_be_described_as": ["quantitative", "numeric rate intersection"],
+      "note": "Demoted 2026-07-24 after the dimensional audit: the 1 kg = 1 L mass->volume basis is undefended, so the ~0.95 numeric intersection was withdrawn."
+    }
+  ],
+  "retired_labels": [
+    {"retired": "reduced-model ladder", "adopted": "in-sample comparator ladder",
+     "note": "The comparators are non-nested and unequally flexible, so no likelihood-ratio reading applies. Applies to manuscript prose, figure titles AND claim labels -- the phrase guard checked only the two manuscript files, so the figure title and the build.py claim label escaped it."}
+  ]
+}

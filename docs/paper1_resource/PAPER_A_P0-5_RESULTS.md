@@ -3,7 +3,7 @@
 Scope + design: [`PAPER_A_P0-5_UNCERTAINTY_SCOPE.md`](PAPER_A_P0-5_UNCERTAINTY_SCOPE.md). Author decisions:
 run A+B now under the **sensitivity-sweep** framing (named-solute per-cell RSD is data-blocked),
 **Huber** primary robust objective, **both** bootstrap units. Sub-analysis **C** (coverage-calibrated
-LOCO that repeats the fit) is **deferred**. Producers: `identifiability_panel.objective_family` and
+LOCO that repeats the fit) is **DELIVERED (bounded)** -- see section (C) below; this header previously read 'deferred' and contradicted it. Producers: `identifiability_panel.objective_family` and
 `transfer_skill_vs_baselines.records` → `paired_clustered_bootstrap` in
 `puckworks/validation/slow/angeloni_bracket.py` (slow, hand-run; B=8000, seed 0).
 
@@ -56,7 +56,7 @@ change.
 **Note on scope.** This clustered bootstrap resamples the *precomputed* paired losses of two fixed
 predictors, so it does not require repeating the fit — appropriate for the null *comparison*. The
 separate **LOCO coverage-calibrated interval that repeats the fit inside the resample loop**
-(sub-analysis C) remains **deferred** (cost) and owed.
+(sub-analysis C) is **DELIVERED (bounded)** -- `loco_coverage_interval`, 600 replicates, held-out MAPE 7.4 %, 95 % [4.3, 11.5] %; see section (C).
 
 ## (C) Coverage-calibrated LOCO interval that repeats the fit — DELIVERED (bounded)
 

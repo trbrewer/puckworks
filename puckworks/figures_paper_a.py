@@ -443,7 +443,8 @@ def fig5_joint_residual(results=None, outdir=OUTDIR):
     fig.colorbar(im0, ax=[axes[0], axes[1]], shrink=0.7, label="MAPE (%)")
     fig.colorbar(imd, ax=axes[2], shrink=0.7, label="Δ MAPE (pp)")
 
-    # (d) reduced-model ladder spanning the bottom row
+    # (d) in-sample comparator ladder spanning the bottom row (NOT a nested reduced-model
+    # ladder: the comparators are non-nested, so no likelihood-ratio reading applies)
     lad = r.get("reduced_model_ladder")
     axd = fig.add_subplot(gs[1, :])
     if lad is not None:
@@ -460,12 +461,12 @@ def fig5_joint_residual(results=None, outdir=OUTDIR):
         axd.set_xticklabels([k.replace("Arabica", "Ara").replace("Robusta", "Rob")
                              for k in keys], fontsize=6.6, rotation=20, ha="right")
         axd.set_ylabel("in-sample macro-MAPE (%)")
-        axd.set_title("(d) reduced-model ladder — shared mechanistic (2p) beats per-grind "
+        axd.set_title("(d) in-sample comparator ladder — shared mechanistic (2p) beats per-grind "
                       "constants (3p) in only %d/%d fits"
                       % (lad["n_fits_mech_beats_pergrind_const"], lad["n_fits"]),
                       fontsize=9)
         axd.legend(fontsize=6.6, ncol=4, loc="upper center")
-    fig.suptitle("Fig 5 — in-sample shared-parameter compatibility + reduced-model ladder; "
+    fig.suptitle("Fig 5 — in-sample shared-parameter compatibility + comparator ladder; "
                  "pooled shared %.1f%% vs per-grind %.1f%% (cost ~%.1f pp); * = rate at "
                  "domain boundary"
                  % (r["joint"]["mean_joint_pooled_mape"],
