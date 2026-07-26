@@ -81,14 +81,84 @@ _CLAIMS = [
      "full_cup_offgrid_noise.mean_frac_recovered_err_pct", 0.2, 1.0),
     ("off-grid+noise sim: fraction beats cup in all 9 cases (A3-15)",
      "full_cup_offgrid_noise.n_frac_beats_cup", 9.0, 0.5),
+
+    # ---- review self-audit 2026-07-26: the claim map checked 27 numbers in a manuscript body
+    # holding ~530. Every value below was verified against its producer during that audit; they are
+    # registered here so a future edit cannot silently invalidate one, which is how Paper 2's
+    # Table 3 rc3b column went stale in every row.
+    # Section 3.1 — matched endpoint vs blind residual
+    ("named-solute macro-MAPE blind ~26.3%", "per_condition.overall_mape_blind", 26.3, 0.05),
+    ("proxy-inclusive macro-MAPE ~22.7%",
+     "per_condition.overall_mape_blind_proxy_inclusive", 22.7, 0.05),
+    ("crude-tau flow map ~26.8%", "flow_map_refinement.overall_mape_crude_tau", 26.8, 0.05),
+    ("refined Darcy flow map ~26.3%", "flow_map_refinement.overall_mape_refined_darcy", 26.3, 0.05),
+    ("flow-map refinement closes ~0.5 pp", "flow_map_refinement.closed_pp", 0.5, 0.05),
+    # Endpoint-mass sensitivity (38 / 40 / 42 mL)
+    ("endpoint 38 mL blind MAPE ~23.8%",
+     "endpoint_mass_sensitivity.rows.0.overall_mape_blind", 23.8, 0.05),
+    ("endpoint 42 mL blind MAPE ~28.8%",
+     "endpoint_mass_sensitivity.rows.2.overall_mape_blind", 28.8, 0.05),
+    ("endpoint MAPE spread ~5.0 pp",
+     "endpoint_mass_sensitivity.overall_mape_spread_pp", 5.0, 0.05),
+    # Section 3.2 — identifiability panels
+    ("caffeine condition number ~1900", "panel_caffeine.condition_number", 1927.0, 30.0),
+    ("caffeine curvature coupling ~-0.99", "panel_caffeine.local_curvature_coupling", -0.994, 0.01),
+    ("caffeine profile log-width ~2.8", "panel_caffeine.profile_log_width", 2.827, 0.02),
+    ("caffeine near-optimal set covers ~76% of the grid",
+     "panel_caffeine.profile_fraction_of_log_grid", 0.76, 0.005),
+    ("caffeine MAPE set covers ~66% of the grid",
+     "panel_caffeine.mape_profile_fraction_within10pct", 0.66, 0.005),
+    ("caffeine SSE/MAPE set Jaccard ~0.86",
+     "panel_caffeine.sse_mape_threshold_jaccard", 0.86, 0.005),
+    ("trigonelline condition number ~3600", "panel_trigonelline.condition_number", 3619.2, 30.0),
+    ("trigonelline curvature coupling ~-0.84",
+     "panel_trigonelline.local_curvature_coupling", -0.839, 0.005),
+    ("trigonelline SSE profile flat over ~45% of the grid",
+     "panel_trigonelline.profile_fraction_of_log_grid", 0.45, 0.005),
+    # Section 4 — transfer skill and the reduced-model ladder
+    ("pooled model MAPE ~8.2%", "transfer_skill.pooled_model_mape", 8.23, 0.02),
+    ("pooled constant MAPE ~8.6%", "transfer_skill.pooled_const_mape", 8.59, 0.02),
+    ("pooled lookup MAPE ~10.8%", "transfer_skill.pooled_lookup_mape", 10.79, 0.02),
+    ("paired model-minus-constant ~-0.36 pp",
+     "transfer_skill.paired_model_minus_const_mean_pp", -0.361, 0.005),
+    ("model worse than the constant on 50 points",
+     "transfer_skill.n_model_worse_than_const", 50, 0.5),
+    ("held-out points = 108", "transfer_skill.n_points", 108, 0.5),
+    ("LOCO pooled held-out MAPE ~6.5%", "loco.pooled_loco_mean_mape", 6.5, 0.05),
+    ("LOCO median held-out MAPE ~5.2%", "loco.pooled_loco_median_mape", 5.2, 0.05),
+    ("ladder one-constant ~7.1%", "reduced_model_ladder.mean_model0_const", 7.12, 0.03),
+    ("ladder per-grind constant ~5.1%",
+     "reduced_model_ladder.mean_model1_pergrind_const", 5.05, 0.03),
+    ("ladder shared mechanistic ~6.4%",
+     "reduced_model_ladder.mean_model2_shared_mech", 6.39, 0.03),
+    ("ladder per-grind mechanistic ~4.9%",
+     "reduced_model_ladder.mean_model3_pergrind_mech", 4.94, 0.03),
+    # Section 5 — sampled aggregate vs actual cup, and rate recovery
+    ("sampled aggregate vs cup, caffeine ~27.8%",
+     "sampled_aggregate_audit.per_solute.caffeine.mape_vs_actual_cup", 27.8, 0.05),
+    ("sampled aggregate vs cup, trigonelline ~38.3%",
+     "sampled_aggregate_audit.per_solute.trigonelline.mape_vs_actual_cup", 38.3, 0.05),
+    ("sampled aggregate vs cup, 5-CQA ~30.7%",
+     "sampled_aggregate_audit.per_solute.5CQA.mape_vs_actual_cup", 30.7, 0.05),
+    ("fraction range ratio, caffeine ~9.8x",
+     "full_cup_sim.per_solute.caffeine.frac_range_ratio", 9.8, 0.05),
+    ("fraction range ratio, trigonelline ~20.3x",
+     "full_cup_sim.per_solute.trigonelline.frac_range_ratio", 20.27, 0.05),
+    ("fraction range ratio, 5-CQA ~13.2x",
+     "full_cup_sim.per_solute.5CQA.frac_range_ratio", 13.15, 0.05),
+    ("best rate at the true value in 100% of seeds",
+     "full_cup_sim.per_solute.caffeine.frac_best_rate_is_1_frac", 1.0, 0.001),
 ]
 
 
 def _get(obj, path):
-    cur = obj
-    for key in path.split("."):
-        cur = cur[key]
-    return cur
+    """Dotted path, tolerating list indices ("rows.0") and keys containing dots.
+
+    The naive split broke on both. Paper 2 hit the same thing with a per-pressure table keyed
+    "11.0", where every cell reported MISSING; one implementation, one behaviour.
+    """
+    from puckworks.review.number_audit import _get as _shared
+    return _shared(obj, path)
 
 
 def _sha256(path):

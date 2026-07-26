@@ -55,6 +55,8 @@ STRUCTURAL_PATTERNS = (
 EXCLUDED_SPANS = (
     re.compile(r"\$\$.*?\$\$", re.S),
     re.compile(r"\$[^$\n]+\$"),
+    re.compile(r"\\\(.*?\\\)", re.S),        # inline LaTeX \( ... \): equation constants
+    re.compile(r"\\\[.*?\\\]", re.S),        # display LaTeX
     re.compile(r"```.*?```", re.S),
     re.compile(r"`[^`\n]+`"),
     re.compile(r"<!--.*?-->", re.S),
@@ -113,7 +115,38 @@ def context(body: str, start: int, end: int, width: int = 70) -> str:
     return ("…" if a > 0 else "") + " ".join(body[a:b].split()) + ("…" if b < len(body) else "")
 
 
-def matches_a_claim(value: float, claims) -> str | None:
+def _half_up(x: float, places: int) -> float:
+    """Round half AWAY FROM ZERO, the convention prose uses.
+
+    Python rounds half to even, so round(5.05, 1) is 5.0 while a manuscript writes 5.1. Matching on
+    the banker's result reported correct numbers as unaccounted.
+    """
+    from decimal import ROUND_HALF_UP, Decimal
+    q = Decimal(1).scaleb(-places)
+    return float(Decimal(repr(x)).quantize(q, rounding=ROUND_HALF_UP))
+
+
+def _sig_figs(token: str) -> int:
+    """Significant digits the PRINTED token carries.
+
+    An integer written with trailing zeros ("3600", "1900") is prose rounding to significant
+    figures, not an exact count, so those zeros do not count as significant.
+    """
+    s = token.lstrip("-")
+    if "." in s:
+        return len(s.replace(".", "").lstrip("0")) or 1
+    return len(s.rstrip("0").lstrip("0")) or 1
+
+
+def _round_sig(x: float, sig: int) -> float:
+    import math
+    if x == 0 or sig < 1:
+        return x
+    return round(x, -int(math.floor(math.log10(abs(x)))) + (sig - 1))
+
+
+def matches_a_claim(value: float, claims, is_percent: bool = False,
+                    token: str | None = None) -> str | None:
     """A numeral is producer-bound if it equals a registered claim's expected value.
 
     Rounding is allowed in the manuscript's favour (a claim of 0.1157 covers a printed 0.116), and
@@ -127,14 +160,27 @@ def matches_a_claim(value: float, claims) -> str | None:
             e0 = float(expected)
         except (TypeError, ValueError):
             continue
-        for e in (e0, abs(e0)):
+        # A percent token may be printed against a claim stored as a FRACTION ("76 %" for 0.76).
+        # Applied only when the token actually carries '%', so it cannot silently match unrelated
+        # values that happen to differ by 100x.
+        candidates = [e0, abs(e0)]
+        if is_percent:
+            candidates += [e0 * 100.0, abs(e0) * 100.0]
+        for e in candidates:
             if value == e:
                 return entry[0]
             for places in range(0, 7):
-                if round(e, places) == value:
+                if round(e, places) == value or _half_up(e, places) == value:
                     return entry[0]
             if e != 0 and abs(value - e) / abs(e) < 1e-9:
                 return entry[0]
+            # Prose also rounds to SIGNIFICANT FIGURES ("condition number ~= 3600" for 3619.2).
+            # Only applied when the printed token itself looks sig-fig rounded -- an integer whose
+            # trailing zeros are not significant -- so it cannot loosen ordinary decimals.
+            if token is not None and "." not in token.rstrip("%") and abs(value) >= 100:
+                sig = _sig_figs(token.rstrip("%"))
+                if sig < len(str(int(abs(value)))) and _round_sig(e, sig) == value:
+                    return entry[0]
     return None
 
 
@@ -208,7 +254,7 @@ def audit(spec: PaperSpec, path: Path | None = None) -> dict:
         elif raw in spec.cited_values:
             disposition, why = "cited", spec.cited_values[raw]
         else:
-            label = matches_a_claim(value, claims)
+            label = matches_a_claim(value, claims, is_percent=bool(pct), token=token)
             if label:
                 disposition, why = "producer", label
             elif raw in spec.derived:
