@@ -12,7 +12,6 @@ paper figure modules meet, and pin the three real defects found while building i
   beside published data and read as disagreement.
 """
 import csv
-import json
 import os
 
 import pytest

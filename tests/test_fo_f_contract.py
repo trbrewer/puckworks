@@ -7,7 +7,6 @@ together, so the paper and the code could disagree silently about a quantity the
 rests on. These tests close that gap by rederiving the diagnostic from the momentum law and by
 recording the exact inputs behind the reported named-shot range.
 """
-import numpy as np
 import pytest
 
 from puckworks.models.wadsworth2026 import inertial as W

@@ -165,7 +165,6 @@ def test_the_defect_injection_section_exists_and_is_top_level():
 def test_s5_2_dependency_counts_match_the_public_claims():
     """S5.2 quotes how many dependency edges there are and how they split by kind. Bind them, so a
     new claim or a re-identified dependency cannot leave the prose behind."""
-    import puckworks.models  # noqa: F401
     from puckworks.public.claims import PUBLIC_CLAIMS
     deps = [d for c in PUBLIC_CLAIMS for d in c.dependencies]
     kinds = {k: sum(1 for d in deps if d.kind == k) for k in ("component", "producer", "dataset")}
@@ -178,7 +177,6 @@ def test_s5_2_dependency_counts_match_the_public_claims():
 
 def test_s5_2_evidence_profile_numbers_match_the_producer():
     """The composition claim's profile is quoted as evidence that one label is insufficient."""
-    import puckworks.models  # noqa: F401
     from puckworks.public.claims import PUBLIC_CLAIMS
     c = next(x for x in PUBLIC_CLAIMS if x.claim_id == "PV-05")
     prof = c.evidence_profile()

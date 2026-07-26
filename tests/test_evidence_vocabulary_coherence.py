@@ -9,11 +9,8 @@ These tests make the relationship explicit and enforceable: every registry relat
 public term, no vocabulary may drift without the mapping being updated, and the manuscript must not
 describe the evidence model in ways the implementation contradicts.
 """
-import json
 import pathlib
-import re
 
-import pytest
 
 import puckworks.models  # noqa: F401  (registers components)
 from puckworks import registry as R

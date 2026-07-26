@@ -13,7 +13,6 @@ import json
 import pathlib
 
 import numpy as np
-import pytest
 
 from puckworks.models.brewer2026 import coupled_kappa_t as C
 
