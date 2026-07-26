@@ -266,3 +266,301 @@ def leave_one_shot_out_phi(window=WINDOW):
         is_full_cross_fit=False,
         note="Partial cross-fit: the equilibrium channel IS withheld, the solids-sigmoid "
              "channel is not. Do NOT describe this as a leave-one-shot-out validation of Phi(t).")
+
+
+# --- P0.3: shot-level paired uncertainty -------------------------------------------------------
+def paired_shot_uncertainty(window=WINDOW, seed=0):
+    """Primary uncertainty on the SHOT, not on the time point (Paper B2 review P0.3).
+
+    The published intervals resample time BLOCKS of the residual sequence of ONE derived mean
+    curve with every fit held fixed, so they condition on that mean and on those fits. This
+    replaces them as the primary statement: the unit is the shot, every branch's own free
+    parameters are re-optimized inside each unit, and the paired per-shot differences are reported
+    in full rather than summarized by an interval alone.
+
+    With **five** experimental units a percentile bootstrap is not credible, so the primary
+    statement is EXACT rather than asymptotic: over the 2**5 = 32 sign assignments of the paired
+    differences we compute the exact two-sided randomization p-value, and we report the full list
+    of five differences alongside it. A bootstrap over five units is reported too, explicitly
+    labelled coarse, because readers will ask; it is not the primary claim.
+
+    Strength: descriptive / exact randomization on five units. It bounds ORDERING, not accuracy,
+    and it says nothing about the channels of Phi(t) that are not cross-fitted."""
+    import itertools
+
+    lad = per_shot_ladder(window)
+    ids = lad["shot_ids"]
+    n = len(ids)
+
+    def _diff(a, b):
+        return np.array([lad["per_shot"][k][a] - lad["per_shot"][k][b] for k in ids], float)
+
+    signs = np.array(list(itertools.product((-1.0, 1.0), repeat=n)))     # 2**n assignments
+
+    def _exact(d):
+        """Exact two-sided randomization test on the paired differences under the sign-symmetry
+        null. Returns (mean, p, n_negative). Deterministic: the full sign group is enumerated."""
+        obs = float(np.abs(d.mean()))
+        null = np.abs((signs * d).mean(axis=1))
+        return (round(float(d.mean()), 4),
+                round(float((null >= obs - 1e-15).mean()), 4),
+                int((d < 0).sum()))
+
+    rng = np.random.default_rng(seed)
+    out = {}
+    for label, a, b in (("phi_vs_const", "rung4_phi_of_t", "rung1_const"),
+                        ("phi_vs_static", "rung4_phi_of_t", "rung3_static"),
+                        ("phi_vs_cubic", "rung4_phi_of_t", "flexible_cubic"),
+                        ("static_vs_const", "rung3_static", "rung1_const")):
+        d = _diff(a, b)
+        mean, p, n_neg = _exact(d)
+        boot = np.array([rng.choice(d, size=n, replace=True).mean() for _ in range(20000)])
+        out[label] = dict(
+            per_shot_difference_g_per_s={k: round(float(v), 4) for k, v in zip(ids, d)},
+            mean_difference_g_per_s=mean,
+            shots_favouring_first="%d/%d" % (n_neg, n),
+            exact_randomization_p=p,
+            exact_test="two-sided sign-symmetry randomization over all 2**%d assignments" % n,
+            coarse_bootstrap_95_g_per_s=[round(float(np.percentile(boot, 2.5)), 4),
+                                         round(float(np.percentile(boot, 97.5)), 4)],
+            bootstrap_caveat="five units: a percentile interval here is indicative only",
+        )
+    return dict(
+        pressure_bar=PRESSURE_BAR, window_s=tuple(window), n_shots=n, shot_ids=ids,
+        comparisons=out, seed=int(seed),
+        shot_noise_floor_rmse_g_per_s=lad["shot_noise_floor_rmse_g_per_s"],
+        supersedes="within-curve block resampling of the mean trace, which is retained only as a "
+                   "secondary within-curve sensitivity",
+        note="Free parameters are re-optimized per shot for the constant and the cubic. Phi(t) and "
+             "the static curve carry no free parameters here, but their upstream calibration is "
+             "only partially cross-fitted (see leave_one_shot_out_phi).")
+
+
+# --- P0.4: a flexible temporal comparator scored out of sample -----------------------------------
+_SPLINE_KNOTS = 12                 # prespecified, not tuned on any held-out shot
+_SPLINE_DEGREE = 3
+_LAMBDA_GRID = np.geomspace(1e-6, 1e3, 40)
+
+
+def _penalized_spline_basis(t, n_knots=_SPLINE_KNOTS, degree=_SPLINE_DEGREE):
+    """Cubic B-spline design matrix on `n_knots` interior knots, with a second-difference penalty
+    matrix. Prespecified: the knot count and degree are fixed constants, never chosen per fold."""
+    from scipy.interpolate import BSpline
+    lo, hi = float(t[0]), float(t[-1])
+    interior = np.linspace(lo, hi, n_knots + 2)[1:-1]
+    knots = np.r_[[lo] * (degree + 1), interior, [hi] * (degree + 1)]
+    B = np.asarray(BSpline.design_matrix(t, knots, degree, extrapolate=True).todense())
+    D = np.diff(np.eye(B.shape[1]), 2, axis=0)          # second-difference penalty
+    return B, D.T @ D
+
+
+def _fit_penalized_spline(B, P, y, lam_grid=_LAMBDA_GRID):
+    """Ridge-penalized least squares with the smoothing weight chosen by generalized
+    cross-validation ON THE SUPPLIED DATA ONLY. Returns (coefficients, lambda)."""
+    BtB = B.T @ B
+    Bty = B.T @ y
+    n = len(y)
+    best = None
+    for lam in lam_grid:
+        A = BtB + lam * P
+        try:
+            c = np.linalg.solve(A, Bty)
+        except np.linalg.LinAlgError:
+            continue
+        H_trace = float(np.trace(np.linalg.solve(A, BtB)))
+        rss = float(((B @ c - y) ** 2).sum())
+        denom = (1.0 - H_trace / n) ** 2
+        gcv = (rss / n) / denom if denom > 1e-12 else np.inf
+        if best is None or gcv < best[0]:
+            best = (gcv, c, float(lam))
+    return best[1], best[2]
+
+
+def held_out_flexible_comparator(window=WINDOW, n_segments=5):
+    """A flexible temporal comparator scored OUT OF SAMPLE (Paper B2 review P0.4).
+
+    NAMING. This paper's surface retires the evidentiary phrase that was previously applied to a
+    mechanistic branch whose temporal construction was in fact retained (see
+    puckworks.paper_b.evidence_ontology.RETIRED_LANGUAGE). That retirement stands and is not
+    loosened here. This comparator is a different object -- it is a NULL -- and what is withheld
+    from it is stated per protocol below rather than asserted.
+
+    The degree-3 polynomial null is fitted to the very trace it is scored on, so it establishes
+    only that a smooth curve can interpolate the data -- it is not a predictive comparator. This
+    adds a prespecified penalized cubic B-spline (%d interior knots, second-difference penalty,
+    smoothing weight by GCV) under two protocols that withhold the scored points entirely:
+
+      * LEAVE-ONE-SHOT-OUT -- fit on the other four shots, predict the excluded shot. The
+        constant null is refitted the same way, so both nulls are withheld identically.
+      * LEAVE-SEGMENT-OUT -- within each shot, hold out contiguous time segments in turn and
+        predict them from the remaining segments of the SAME shot. This asks the different
+        question of whether a smooth interpolator can fill a temporal gap.
+
+    Neither protocol lets the comparator see the points it is scored on. If the spline still beats
+    the mechanistic branch out of sample, the mechanism has not earned a temporal claim; if it does
+    not, the same-trace cubic was flattering it. Strength: held-out prediction (flexible
+    comparator); the mechanistic branches remain only partially cross-fitted upstream.""" % _SPLINE_KNOTS
+    from puckworks import data as d
+    from puckworks.models.waszkiewicz2025 import poroelastic as wz
+
+    ids, t, Q = _shots(window)
+    B, P = _penalized_spline_basis(t)
+    P_c, Q_c = wz.published_calibration()
+    k_s, l_s, m_s = wz._solids_params()
+    dose = d.waszkiewicz_constants()["dose__g"]
+    q_phi = wz.q_dynamic(t, PRESSURE_BAR, P_c, Q_c, k_s, l_s, m_s, dose)
+    lvl_static = float(wz.q_static(PRESSURE_BAR, P_c, Q_c))
+
+    # Phi(t) is also evaluated under its OWN cross-fit (equilibrium channel withheld per shot), so
+    # the comparison is like-for-like: neither comparator is scored on a calibration that saw the
+    # held-out shot through a channel that could be withheld.
+    phi_cf = leave_one_shot_out_phi(window)["per_shot"]
+
+    # --- protocol 1: leave one SHOT out ---------------------------------------------------------
+    loso = {}
+    for i, k in enumerate(ids):
+        train = np.delete(Q, i, axis=0)
+        y_train = train.mean(axis=0)                       # the other four shots
+        c, lam = _fit_penalized_spline(B, P, y_train)
+        pred = B @ c
+        held = Q[i]
+        loso[k] = dict(
+            spline_heldout_rmse=round(float(np.sqrt(((pred - held) ** 2).mean())), 4),
+            const_heldout_rmse=round(float(np.sqrt(((y_train.mean() - held) ** 2).mean())), 4),
+            phi_rmse=round(float(np.sqrt(np.nanmean((q_phi - held) ** 2))), 4),
+            phi_crossfit_rmse=phi_cf[k]["heldout_rmse"],
+            static_rmse=round(float(np.sqrt(((lvl_static - held) ** 2).mean())), 4),
+            spline_lambda=round(lam, 6))
+
+    # --- protocol 2: leave one contiguous SEGMENT out, within each shot -------------------------
+    # NOTE the first and last segments require the spline to EXTRAPOLATE beyond its support, where
+    # a penalized smoother is not defined in any useful sense. Those segments are computed and
+    # reported, but the headline is the INTERIOR-segment mean, where the task is interpolation --
+    # which is the question "can a smooth curve fill a temporal gap?" actually asks.
+    edges = np.linspace(0, len(t), n_segments + 1).astype(int)
+    lso, interior = {}, [s for s in range(n_segments) if 0 < s < n_segments - 1]
+    for i, k in enumerate(ids):
+        y = Q[i]
+        per_seg = {}
+        for s in range(n_segments):
+            hold = np.zeros(len(t), bool)
+            hold[edges[s]:edges[s + 1]] = True
+            c, _ = _fit_penalized_spline(B[~hold], P, y[~hold])
+            per_seg[s] = dict(
+                spline=float(np.sqrt(((B[hold] @ c - y[hold]) ** 2).mean())),
+                phi=float(np.sqrt(np.nanmean((q_phi[hold] - y[hold]) ** 2))),
+                const=float(np.sqrt(((y[~hold].mean() - y[hold]) ** 2).mean())),
+                extrapolating=bool(s not in interior))
+
+        def _m(key, segs):
+            return round(float(np.mean([per_seg[s][key] for s in segs])), 4)
+
+        lso[k] = dict(
+            per_segment={s: {kk: round(vv, 4) if isinstance(vv, float) else vv
+                             for kk, vv in per_seg[s].items()} for s in per_seg},
+            interior_spline_rmse=_m("spline", interior), interior_phi_rmse=_m("phi", interior),
+            interior_const_rmse=_m("const", interior),
+            all_segments_spline_rmse=_m("spline", range(n_segments)))
+
+    def _mean(dct, key):
+        return round(float(np.mean([dct[k][key] for k in ids])), 4)
+
+    floor = shot_level_noise_floor(window)["noise_floor_rmse_g_per_s"]
+    spline_mean = _mean(loso, "spline_heldout_rmse")
+    phi_mean = _mean(loso, "phi_rmse")
+    phi_cf_mean = _mean(loso, "phi_crossfit_rmse")
+    return dict(
+        pressure_bar=PRESSURE_BAR, window_s=tuple(window), n_shots=len(ids), shot_ids=ids,
+        comparator=dict(kind="penalized cubic B-spline", interior_knots=_SPLINE_KNOTS,
+                        degree=_SPLINE_DEGREE, penalty="second difference",
+                        smoothing_selection="GCV on the training data only",
+                        prespecified=True),
+        leave_one_shot_out=loso,
+        leave_one_shot_out_mean=dict(
+            spline=spline_mean, const=_mean(loso, "const_heldout_rmse"),
+            phi=phi_mean, phi_equilibrium_crossfit=phi_cf_mean,
+            static=_mean(loso, "static_rmse")),
+        leave_segment_out=lso, n_segments=int(n_segments),
+        leave_segment_out_interior_mean=dict(
+            spline=_mean(lso, "interior_spline_rmse"), phi=_mean(lso, "interior_phi_rmse"),
+            const=_mean(lso, "interior_const_rmse")),
+        leave_segment_out_all_segments_spline=_mean(lso, "all_segments_spline_rmse"),
+        leave_segment_out_caveat=("the first and last segments require the spline to extrapolate "
+                                  "beyond its support, where it is unstable; the interior mean is "
+                                  "the interpolation question and is the headline"),
+        shot_noise_floor_rmse_g_per_s=floor,
+        phi_minus_spline_heldout_g_per_s=round(phi_mean - spline_mean, 4),
+        phi_crossfit_minus_spline_heldout_g_per_s=round(phi_cf_mean - spline_mean, 4),
+        phi_beats_heldout_spline=bool(phi_mean < spline_mean),
+        difference_exceeds_shot_noise_floor=bool(abs(phi_mean - spline_mean) > floor),
+        note="The spline never sees the points it is scored on under either protocol. The "
+             "leave-one-shot-out spline is trained on the mean of the other four shots, which is "
+             "the same object the manuscript scores, so the protocols are comparable.")
+
+
+# --- P0.7: residual diagnostics at ONE declared resolution --------------------------------------
+def residual_diagnostics(window=WINDOW, resolution_s=1.0):
+    """Serial-dependence diagnostics for EVERY branch at ONE declared resolution (review P0.7).
+
+    The published summary mixed an autocorrelation computed at the native sample spacing with a
+    Durbin-Watson statistic computed on a different series, so the two described different
+    sampling scales and could not be read together. Here every branch is decimated to the SAME
+    declared resolution (default 1 s), and lag-1 autocorrelation, the Durbin-Watson statistic and
+    the residual scale are reported for each on that one grid.
+
+    Both statistics are reported against the SHOT-TO-SHOT scale as well, because a residual that is
+    strongly autocorrelated but smaller than the between-shot spread is a different situation from
+    one that is both autocorrelated and large. Strength: descriptive diagnostic."""
+    from puckworks import data as d
+    from puckworks.models.waszkiewicz2025 import poroelastic as wz
+
+    ids, t, Q = _shots(window)
+    step = max(1, int(round(resolution_s / float(np.median(np.diff(t))))))
+    td = t[::step]
+    Qd = Q[:, ::step]
+    mean_curve = Qd.mean(axis=0)
+    P_c, Q_c = wz.published_calibration()
+    k_s, l_s, m_s = wz._solids_params()
+    dose = d.waszkiewicz_constants()["dose__g"]
+    branches = {
+        "rung1_const": np.full_like(td, float(mean_curve.mean())),
+        "rung3_static": np.full_like(td, float(wz.q_static(PRESSURE_BAR, P_c, Q_c))),
+        "rung4_phi_of_t": wz.q_dynamic(td, PRESSURE_BAR, P_c, Q_c, k_s, l_s, m_s, dose),
+    }
+    Xc = np.column_stack([td ** k for k in range(4)])
+    cc, *_ = np.linalg.lstsq(Xc, mean_curve, rcond=None)
+    branches["flexible_cubic"] = Xc @ cc
+
+    pointwise_sd = Qd.std(axis=0, ddof=1)
+    out = {}
+    for name, pred in branches.items():
+        r = mean_curve - pred
+        r = r[np.isfinite(r)]
+        rc = r - r.mean()
+        acf1 = float((rc[:-1] * rc[1:]).sum() / (rc ** 2).sum())
+        dw = float((np.diff(r) ** 2).sum() / (r ** 2).sum())
+        rmse = float(np.sqrt((r ** 2).mean()))
+        out[name] = dict(
+            lag1_autocorrelation=round(acf1, 4),
+            durbin_watson=round(dw, 4),
+            # review P1.5: one scalar is not complete evidence -- report the error MAGNITUDE
+            # (RMSE, MAE), its DIRECTION (mean bias), and its SCALE relative to shot-to-shot
+            # variability, so a branch cannot look adequate on a single summary.
+            rmse_g_per_s=round(rmse, 4),
+            mae_g_per_s=round(float(np.abs(r).mean()), 4),
+            mean_bias_g_per_s=round(float(r.mean()), 4),
+            residual_over_between_shot_sd=round(rmse / float(pointwise_sd.mean()), 3),
+            standardized_residual_sd=round(float(r.std(ddof=1)
+                                                 / pointwise_sd.mean()), 3),
+            residual_vs_time_g_per_s=[round(float(x), 4) for x in r],
+        )
+    return dict(
+        pressure_bar=PRESSURE_BAR, window_s=tuple(window), n_shots=len(ids),
+        declared_resolution_s=float(resolution_s), decimation_step=int(step),
+        n_points_at_resolution=int(len(td)), time_s=[round(float(x), 3) for x in td],
+        branches=out,
+        between_shot_sd_mean_g_per_s=round(float(pointwise_sd.mean()), 4),
+        note="ACF and Durbin-Watson are computed on the SAME decimated series for every branch. "
+             "Durbin-Watson near 2 indicates no lag-1 structure AT THIS RESOLUTION; the value "
+             "changes with resolution, which is why the resolution is declared rather than "
+             "implied.")

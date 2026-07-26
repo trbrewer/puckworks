@@ -87,3 +87,47 @@ def test_pv05_matches_the_producers(canonical):
     m = re.search(r'"const_baseline_rmse_g_per_s":\s*([0-9.]+)', blob)
     assert m, "PV-05 no longer exposes the constant baseline"
     assert float(m.group(1)) == pytest.approx(canonical["flat_null"], abs=0.002)
+
+
+# --- HOW the composition fails, not just that it does -----------------------------------------
+def test_the_composite_collapses_to_the_static_limit_rather_than_merely_scoring_worse():
+    """The composite RMSE (0.6477) and the static kappa(P) RMSE (0.6477) are the SAME number, and
+    the manuscripts previously reported them as two independent facts. They coincide because the
+    imported swelling branch drives the shared porosity below its initial value everywhere in the
+    scored window, so the dissolved-mass proxy sits on its floor, Phi -> 0, and the flow closure
+    returns its own Phi->0 limit -- the static curve. The composite prediction is therefore
+    CONSTANT: the composition does not degrade the temporal reconstruction, it removes it.
+
+    If a future change makes the composite genuinely time-varying, this test fails and the
+    manuscripts' explanation must be revisited rather than silently left in place."""
+    import numpy as np
+
+    from puckworks import data as d
+    from puckworks.models.brewer2026 import coupled_kappa_t as ck
+    from puckworks.models.waszkiewicz2025 import poroelastic as wz
+
+    W, P = (15.0, 95.0), 9.0
+    r = ck.composition_residual(P_bar=P, window=W)
+    assert r["swelling_closes"] is True
+    assert r["phi_floor_fraction_in_window"] == 1.0, r["phi_floor_fraction_in_window"]
+    assert r["reduces_to_static_limit"] is True
+    assert r["predicted_flow_spread_g_per_s"] < 1e-9
+
+    # and the coincidence is exact, not a rounding artefact
+    tr = d.waszkiewicz_traces()
+    t = np.asarray(tr[P]["time__s"], float)
+    q = np.asarray(tr[P]["mass_flow_rate__g_per_s"], float)
+    sel = (t >= W[0]) & (t <= W[1])
+    P_c, Q_c = wz.published_calibration()
+    static_rmse = float(np.sqrt(np.nanmean((float(wz.q_static(P, P_c, Q_c)) - q[sel]) ** 2)))
+    assert abs(r["rmse"] - static_rmse) < 1e-9, (r["rmse"], static_rmse)
+
+
+def test_both_manuscripts_explain_the_coincidence_rather_than_reporting_two_numbers():
+    """Prose guard: the two 0.648 values must not be presented as independent evidence."""
+    for rel in ("docs/PAPER_3_PUCKWORKS_DRAFT.md", "docs/PAPER_B2_TEMPORAL_DRAFT.md"):
+        text = (_ROOT / rel).read_text(encoding="utf-8")
+        low = text.lower()
+        assert "static" in low and "0.648" in low, rel
+        assert ("by construction, not by coincidence" in low
+                or "structural rather than accidental" in low), rel

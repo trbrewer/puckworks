@@ -385,7 +385,7 @@ The methodological lesson is that a comparison table needs more than rows of err
 
 A project-synthesis component (`brewer2026.coupled_kappa_t`: runtime execution role, `project_synthesis` provenance) combines an extraction-linked porosity-opening trajectory [3] with an imported particle-swelling trajectory [11] by assigning both to one shared porosity state. When the swelling factor is neutral, the synthesis reduces exactly to the extraction-only temporal branch. This reduction is a software verification of the composition.
 
-Adding the imported swelling branch flattens the predicted flow. Over the same 15–95 s interval, reconstruction RMSE becomes 0.648 g s⁻¹. That is worse than the best constant baseline, approximately 0.573 g s⁻¹, and much worse than the extraction-only temporal trajectory, approximately 0.116 g s⁻¹.
+Adding the imported swelling branch does not merely flatten the predicted flow — it removes the temporal signal entirely. Over the same 15–95 s interval, the composite's predicted flow is **constant to numerical precision** (spread below 10⁻⁹ g s⁻¹). The mechanism is explicit in the producer: the swelling branch drives the shared porosity below its initial value across the whole window, so the dissolved-mass proxy sits on its numerical floor for **100 %** of the window, the porosity fraction entering the flow closure goes to zero, and the closure returns its own Φ→0 limit, which is the static equilibrium curve. The composite reconstruction RMSE is therefore 0.648 g s⁻¹ — **numerically identical to the static branch's 0.648 g s⁻¹ by construction, not by coincidence** — worse than the best constant baseline of approximately 0.573 g s⁻¹ and far worse than the extraction-only temporal trajectory at approximately 0.116 g s⁻¹. Reporting only the residual would have concealed the more informative fact: this composition does not degrade the temporal prediction, it annihilates it.
 
 ### 9.2 Interpretation
 
@@ -604,7 +604,7 @@ A ladder from machine-only capacity to constant/static null, imported temporal c
 
 ### Figure 5. Negative composition result
 
-**Panel a:** component graph for extraction-linked opening and swelling sharing porosity. **Panel b:** exact reduction to the extraction-only branch when swelling is neutral. **Panel c:** measured trace and predictions showing the combined branch flattening. **Panel d:** RMSE comparison: extraction-only approximately 0.116, best constant approximately 0.573, composite approximately 0.648 g s⁻¹. Caption: the result diagnoses this composition, not the existence of swelling.
+**Panel a:** component graph for extraction-linked opening and swelling sharing porosity. **Panel b:** exact reduction to the extraction-only branch when swelling is neutral. **Panel c:** measured trace and predictions showing the combined branch flattening. **Panel d:** RMSE comparison: extraction-only approximately 0.116, best constant approximately 0.573, composite approximately 0.648 g s⁻¹ — annotated to show that the composite value equals the static branch because the composite output is constant (its Φ→0 limit). Caption: the result diagnoses this composition, not the existence of swelling.
 
 ### Figure 6. Disagreement-to-experiment map
 

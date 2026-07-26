@@ -28,6 +28,14 @@ EVIDENCE_LABELS = {
         "The held-out SHOT is excluded from every stage that can be rebuilt without it. Currently "
         "attainable for the equilibrium channel only; the dissolved-mass sigmoid cannot be rebuilt "
         "because the TDS replicates are not shot-matched.",
+    "shot_held_out_null":
+        "A NULL comparator refitted on the other shots only and scored on the excluded shot. What "
+        "is withheld is stated per protocol, not asserted. This is a property of the comparator's "
+        "protocol, not evidence that any mechanistic branch is held out.",
+    "segment_held_out_null":
+        "A NULL comparator refitted on the remaining segments of the SAME shot and scored on an "
+        "excluded contiguous time interval. Tests interpolation of a temporal gap, a different "
+        "question from predicting a new shot.",
     "external_validation":
         "Scored against data from a different rig/campaign with no shared fitted constants. Not "
         "attained anywhere in this paper.",
@@ -42,6 +50,9 @@ BRANCH_EVIDENCE = {
     "flexible_cubic": "same_trace_fitted",
     "lopo_equilibrium": "equilibrium_calibration_lopo",
     "shot_loso_equilibrium": "shot_cross_fitted",
+    # P0.4 null comparators. They are held out; the MECHANISTIC branches above still are not.
+    "penalized_spline_loso": "shot_held_out_null",
+    "penalized_spline_segment": "segment_held_out_null",
 }
 
 #: Language that must not describe any branch in this paper's code or prose. Each maps to the
@@ -52,8 +63,12 @@ RETIRED_LANGUAGE = {
     "zero-param": "Same reason: a zero free-parameter COUNT is not the same as no target access.",
     "flexible floor": "The same-trace cubic is a descriptive benchmark, not a floor -- it is neither "
                       "a lower bound nor predictive.",
-    "genuinely held-out": "Only the equilibrium calibration is withheld; the temporal template is "
-                          "retained, so this is not held-out trace prediction.",
+    "genuinely held-out": "Retired for the MECHANISTIC branches: only the equilibrium calibration "
+                          "is withheld and the temporal template is retained, so those are not "
+                          "held-out trace prediction. The P0.4 null comparators genuinely are "
+                          "withheld, but they are described by their protocol "
+                          "(shot_held_out_null / segment_held_out_null) rather than by this "
+                          "phrase, so the phrase cannot leak back onto a mechanistic branch.",
 }
 
 
@@ -75,3 +90,8 @@ def is_target_informed(branch):
     never be described as parameter-free or independently held out."""
     return label_for(branch) in {"same_trace_fitted", "same_campaign_target_informed",
                                  "equilibrium_calibration_lopo"}
+
+
+def is_withheld_null(branch):
+    """True for the P0.4 comparators, whose fitting data excludes the scored points entirely."""
+    return label_for(branch) in {"shot_held_out_null", "segment_held_out_null"}

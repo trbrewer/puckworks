@@ -127,5 +127,31 @@ def composition_residual(P_bar=9.0, powder="M", window=(15.0, 95.0)):
     r = simulate(P_bar=P_bar, t=t, branches=("extraction", "swelling"), powder=powder)
     sel = (t >= window[0]) & (t <= window[1])
     rmse = float(np.sqrt(np.nanmean((r["Q"][sel] - q[sel]) ** 2)))
+
+    # HOW the composite fails matters more than that it fails (Paper 3 review MC13 / Paper B2).
+    # The imported swelling branch drives eps below eps0 everywhere in the window, so the
+    # dissolved-mass proxy m_d_eff sits on its floor, Phi -> ~0, and q_dynamic_from_md reduces
+    # to its OWN Phi->0 limit -- the STATIC curve. The composite therefore does not merely score
+    # worse than the temporal branch: it emits a CONSTANT and destroys the temporal signal
+    # entirely. Reporting the residual alone hides that, and makes the composite RMSE look like
+    # an independent number when it is numerically the static branch's RMSE.
+    floor = _np_dose_floor(r["m_d_eff"], r["eps0"])
+    q_pred = r["Q"][sel]
+    spread = float(np.nanmax(q_pred) - np.nanmin(q_pred))
     return dict(rmse=rmse, eps_min_reached=float(np.min(r["eps"])), clamped=r["clamped"],
-                swelling_closes=bool(np.min(r["eps"]) < r["eps0"]))
+                swelling_closes=bool(np.min(r["eps"]) < r["eps0"]),
+                phi_floor_fraction_in_window=round(float(np.mean(floor[sel])), 4),
+                predicted_flow_spread_g_per_s=round(spread, 9),
+                reduces_to_static_limit=bool(spread < 1e-9),
+                collapse_note=("the swelling branch pushes eps below eps0 across the window, so "
+                               "the dissolved-mass proxy is on its floor and the closure returns "
+                               "its Phi->0 limit: a CONSTANT flow equal to the static curve. The "
+                               "composite RMSE therefore coincides with the static branch's RMSE "
+                               "by construction, not by coincidence."))
+
+
+def _np_dose_floor(m_d_eff, eps0, rtol=1e-9):
+    """Boolean mask of where the dissolved-mass proxy sits on its floor (so Phi is not a physical
+    dissolved fraction there but a numerical guard keeping the closure defined)."""
+    m = np.asarray(m_d_eff, float)
+    return np.abs(m - np.nanmin(m)) <= rtol * max(float(np.nanmax(m)), 1.0)

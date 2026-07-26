@@ -86,6 +86,56 @@ they are **not** faked:
   **(b) the dissolved-mass sigmoid** $(k,l,m)$ is fitted from TDS(t)×Q(t) and **remains blocked** —
   the deposit's TDS is three replicates that are not shot-matched to the flow traces. Reported, not
   hidden (`remaining_target_reuse`), and a test forbids describing this as a full cross-fit.
+- ✅ **P0.3 shot-level paired uncertainty — DONE (2026-07-25).** The block-resampling interval is
+  demoted to a secondary within-curve sensitivity; the primary statement is now at the shot.
+  Producer `paired_shot_uncertainty`. With five paired units the exact two-sided randomization
+  p-value is enumerated over all 2⁵ = 32 sign assignments, and the **structural floor is 0.0625** —
+  no paired randomization test on this design can reach 0.05, which the manuscript now states
+  before reporting any result. Φ(t) beats the best constant on **5/5** shots by **−0.390 g/s**
+  (2.6× the 0.149 g/s shot noise floor) and the static branch on **5/5** by **−0.472 g/s**; the
+  Φ(t)-vs-cubic gap of **+0.083 g/s** is *below* the noise floor and therefore unresolvable.
+
+- ✅ **P0.4 held-out flexible comparator — DONE (2026-07-25), and it downgrades the paper.**
+  Producer `held_out_flexible_comparator`: a prespecified penalized cubic B-spline (12 interior
+  knots, second-difference penalty, GCV on training data only) under two protocols that withhold
+  the scored points. **Leave-one-shot-out:** spline **0.186 g/s** vs Φ(t) **0.189** (Φ(t) under its
+  own equilibrium cross-fit, **0.190**) — a gap ~40× smaller than the noise floor, against a
+  held-out constant of 0.600 and static 0.661. *A generic prespecified smoother trained only on
+  other brews predicts a held-out brew as well as the dissolution-linked trajectory does.*
+  **Leave-segment-out (interior):** Φ(t) **0.158** vs spline **0.233** vs constant **0.419** —
+  filling a temporal gap does need the trajectory's shape. Both are written into the abstract,
+  §5.2a and the Discussion; the ontology gains `shot_held_out_null` / `segment_held_out_null` so
+  the retired "genuinely held-out" phrase cannot leak back onto a mechanistic branch.
+
+- ✅ **P0.7 residual diagnostics at one resolution — DONE (2026-07-25).** Producer
+  `residual_diagnostics`: ACF, Durbin–Watson, residual-vs-time and residual/between-shot-SD for
+  **every** branch on the **same** decimated grid (1 s primary, 5 s sensitivity). The statistics
+  are demonstrably resolution-dependent (Φ(t) ACF 0.969→0.533, DW 0.047→0.823 from 1 s to 5 s),
+  which is why the resolution is declared. Every branch, including the flexible cubic, leaves
+  strongly autocorrelated residuals; Φ(t) and the cubic sit at 0.76× and 0.65× the between-shot SD
+  while the constant and static branches sit at 3.8× and 4.3×.
+
+  Archive: `PAPER_B2_SHOT_LEVEL_RESULTS.json`. 8 new tests, including one that proves the
+  leave-one-shot-out loop actually excludes the scored shot (fitting on all five scores better),
+  and one that fails if the mechanistic advantage over the withheld spline ever exceeds the noise
+  floor without new evidence.
+
+- ✅ **P1.4 block-resampling Methods corrected — DONE (2026-07-25).** The description was wrong
+  about what the code does, in the direction that matters: the producer resamples **common block
+  indices into the two paired squared-error sequences** and recomputes each branch's RMSE, whereas
+  the Methods said it sampled blocks of the *difference* sequence `d_i`. Resampling `d_i` alone
+  would break the pairing and would not reproduce an RMSE difference (which is not the mean of
+  `d_i`). Now stated with the block construction, the **non-circular** boundary convention (starts
+  drawn from 0..n−b, so end points are slightly under-represented), 1,000 resamples at seed 0, and
+  the per-block-length deterministic streams.
+
+- ✅ **P1.5 complementary metrics — DONE (2026-07-25).** RMSE, MAE, mean bias and standardized
+  residual scale per branch. They **change one ordering**: on MAE the static κ(P) branch (0.370)
+  beats the best constant (0.478), the reverse of their RMSE ranking (0.661 vs 0.583), because the
+  static branch carries a −0.312 g/s mean bias that RMSE penalizes more. Verified to hold at both
+  the 1 s and 5 s diagnostic resolutions. No conclusion rests on that pair, but it is recorded as
+  the demonstration that one scalar is not complete evidence.
+
 - 🔴 **4.3 / 4.4** full leave-one-shot-out **cross-fitting of Φ(t)** — **BLOCKED ON DATA, not effort.**
   Φ(t) = m_d(t)/m0 is built from TDS(t)×Q(t), and the deposit's TDS is 3 replicates that are **not
   shot-matched** to the 5 flow traces, so a held-out shot cannot have its own Φ(t) rebuilt. The

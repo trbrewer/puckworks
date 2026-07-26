@@ -145,3 +145,93 @@ def test_partial_leave_one_shot_out_bounds_the_equilibrium_reuse_channel():
     assert r["is_full_cross_fit"] is False
     assert r["remaining_target_reuse"] and "sigmoid" in r["remaining_target_reuse"][0]
     assert "Do NOT describe this as a leave-one-shot-out validation" in r["note"]
+
+
+# --- P0.3 / P0.4 / P0.7 (Paper B2 second review) ----------------------------------------------
+def test_paired_shot_uncertainty_is_exact_and_reports_its_own_floor():
+    """P0.3. With five paired units the smallest attainable two-sided randomization p-value is
+    2/32 = 0.0625. If a comparison ever reports something smaller, the enumeration is wrong --
+    and if the paper ever calls 0.0625 'significant', this pins why it cannot be."""
+    r = W.paired_shot_uncertainty()
+    assert r["n_shots"] == 5
+    for name, c in r["comparisons"].items():
+        assert len(c["per_shot_difference_g_per_s"]) == 5, name
+        assert c["exact_randomization_p"] >= 2 / 2 ** 5 - 1e-9, (name, c["exact_randomization_p"])
+        lo, hi = c["coarse_bootstrap_95_g_per_s"]
+        assert lo <= c["mean_difference_g_per_s"] <= hi, name
+
+
+def test_paired_uncertainty_is_deterministic_in_its_exact_part():
+    """The randomization test enumerates the full sign group, so it must not depend on the seed;
+    only the bootstrap may."""
+    a = W.paired_shot_uncertainty(seed=0)["comparisons"]
+    b = W.paired_shot_uncertainty(seed=7)["comparisons"]
+    for k in a:
+        assert a[k]["exact_randomization_p"] == b[k]["exact_randomization_p"]
+        assert a[k]["mean_difference_g_per_s"] == b[k]["mean_difference_g_per_s"]
+
+
+def test_the_flexible_comparator_never_sees_the_points_it_is_scored_on():
+    """P0.4. The whole value of the comparator is that it is withheld. Verify it directly rather
+    than trusting the docstring: fitting on ALL five shots must score BETTER on a held-out shot
+    than fitting on four -- if it does not, the leave-one-shot-out loop is not excluding anything."""
+    import numpy as np
+    ids, t, Q = W._shots(W.WINDOW)
+    B, P = W._penalized_spline_basis(t)
+    c_all, _ = W._fit_penalized_spline(B, P, Q.mean(axis=0))
+    leaky = float(np.sqrt(((B @ c_all - Q[0]) ** 2).mean()))
+    honest = W.held_out_flexible_comparator()["leave_one_shot_out"][ids[0]]["spline_heldout_rmse"]
+    assert honest > leaky, (honest, leaky)
+
+
+def test_held_out_comparator_reports_both_protocols_and_the_extrapolation_caveat():
+    r = W.held_out_flexible_comparator()
+    assert r["comparator"]["prespecified"] is True
+    loso = r["leave_one_shot_out_mean"]
+    assert {"spline", "const", "phi", "phi_equilibrium_crossfit", "static"} <= set(loso)
+    # both nulls are withheld the same way, so they are comparable
+    assert loso["const"] > loso["spline"], loso
+    # the interior-segment mean is the headline; edge segments extrapolate and are far worse
+    assert r["leave_segment_out_all_segments_spline"] > \
+        r["leave_segment_out_interior_mean"]["spline"]
+    assert "extrapolate" in r["leave_segment_out_caveat"]
+
+
+def test_the_mechanistic_advantage_over_the_held_out_spline_is_below_the_noise_floor():
+    """This is the paper's own downgrade and it must not silently reverse: if a future change makes
+    phi beat the withheld spline by more than shot-to-shot variability, that is a NEW claim that
+    needs its own evidence, and this test should fail so it cannot land unnoticed."""
+    r = W.held_out_flexible_comparator()
+    assert abs(r["phi_minus_spline_heldout_g_per_s"]) < r["shot_noise_floor_rmse_g_per_s"]
+    assert r["difference_exceeds_shot_noise_floor"] is False
+
+
+def test_residual_diagnostics_share_one_declared_resolution():
+    """P0.7. Every branch's ACF and Durbin-Watson must come from the SAME decimated series --
+    that is the defect the review found."""
+    r = W.residual_diagnostics(resolution_s=1.0)
+    n = r["n_points_at_resolution"]
+    assert n == len(r["time_s"])
+    for name, v in r["branches"].items():
+        assert len(v["residual_vs_time_g_per_s"]) == n, name
+        assert -1.0 <= v["lag1_autocorrelation"] <= 1.0
+        assert 0.0 <= v["durbin_watson"] <= 4.0
+
+
+def test_the_serial_correlation_summary_is_resolution_dependent():
+    """Why the resolution has to be declared rather than implied: the statistic genuinely moves."""
+    a = W.residual_diagnostics(resolution_s=1.0)["branches"]["rung4_phi_of_t"]
+    b = W.residual_diagnostics(resolution_s=5.0)["branches"]["rung4_phi_of_t"]
+    assert a["lag1_autocorrelation"] > b["lag1_autocorrelation"] + 0.1, (a, b)
+    assert b["durbin_watson"] > a["durbin_watson"] + 0.1, (a, b)
+
+
+def test_every_branch_leaves_autocorrelated_residuals_including_the_flexible_one():
+    """The manuscript's caveat, made enforceable: no branch reduces the residual to white noise,
+    so a low RMSE cannot be read as a validated mechanism."""
+    r = W.residual_diagnostics(resolution_s=1.0)["branches"]
+    for name, v in r.items():
+        assert v["lag1_autocorrelation"] > 0.5, (name, v["lag1_autocorrelation"])
+    # and the temporal branches sit BELOW shot-to-shot variability while the static ones do not
+    assert r["rung4_phi_of_t"]["residual_over_between_shot_sd"] < 1.0
+    assert r["rung1_const"]["residual_over_between_shot_sd"] > 2.0
