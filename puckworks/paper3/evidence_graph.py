@@ -204,8 +204,28 @@ def _has_placeholder(link):
 
 
 def _rollup_probe(live_tier, gate_tiers):
-    """Return a ROLLUP problem string if a component's declared `live_tier` is STRONGER than the
-    strongest tier among `gate_tiers`, else ''. (Strength rank = registry order; 0 = strongest.)"""
+    """CONSERVATIVE RELEASE CHECK -- not the evidence model (Paper 3 review P0-4).
+
+    Returns a problem string if a component DECLARES a tier stronger than the strongest tier any of
+    its gates demonstrates. This is deliberately a narrow release heuristic, and it is the ONLY
+    place an ordering over `EVIDENCE_STRENGTHS` is used.
+
+    WHY IT IS NOT THE EVIDENCE MODEL. The paper argues -- correctly -- that code verification,
+    source reproduction, reconstruction, held-out transfer and independent comparison answer
+    DIFFERENT questions and do not collapse onto one scale. A strongest-gate roll-up can therefore
+    LAUNDER SCOPE: one strong gate on one observable, regime or output can make a whole component
+    look strongly evidenced while its other outputs, transients or compositions carry only
+    verification or qualitative support. Independent evidence for one scalar output does not
+    validate a component's other state fields.
+
+    It is retained anyway because as a RELEASE check it errs in the safe direction: it can only ever
+    complain that a declared tier is too strong, never bless one. It must never be described as the
+    evidence representation, and a claim's evidence should select the records matching that claim's
+    exact observable and domain. The reviewer's preferred fix -- a scoped evidence VECTOR per
+    component/output/domain, replacing the single declared tier -- is a registry-wide change and is
+    recorded as an open architectural decision (review P0-4 option 1).
+
+    (Strength rank = registry order; 0 = strongest.)"""
     tiers = [t for t in gate_tiers if t in _STRENGTH_RANK]
     if not tiers or live_tier in (None, "unclassified") or live_tier not in _STRENGTH_RANK:
         return ""
