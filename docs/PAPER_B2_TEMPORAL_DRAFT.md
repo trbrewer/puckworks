@@ -319,6 +319,8 @@ The aggregate cross-pressure statement conceals three things a reader needs: whi
 which pressure, how many shots each pressure contributes, and which pressure a stated number refers
 to. All three are reported here.
 
+**Table 3a. Per-pressure reconstruction error and shot count.** Error for each branch at every nominal pressure, with the number of shots contributing and the best branch, so an aggregate mean cannot hide the rank structure.
+
 | nominal bar | shots | static κ(P) | empirical Φ(t) | RC-3b | best |
 |---|---|---|---|---|---|
 | 1.0 | 5 | 0.431 | 0.374 | 0.159 | rc3b |
@@ -371,6 +373,8 @@ Four distinct pressure quantities appear in this paper and are easy to conflate.
 "No coefficient fitted to the scored trace" is a statement about parameter *count*, not about
 *access*. A branch is only as held out as its most target-proximal input, so each branch's inputs
 are enumerated and each is labelled by how it reaches the branch.
+
+**Table 3b. Parameter provenance as an access hierarchy.** Every branch's inputs, the access level each carries, and the most target-proximal among them — a branch is only as held out as that input.
 
 | branch | free params fitted to the scored trace | access levels among its inputs | most target-proximal | held out? |
 |---|---|---|---|---|

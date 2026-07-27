@@ -121,6 +121,8 @@ def render():
            "computed from the others or stamped by the export process and must never be authored "
            "independently, so it cannot be cited as separate corroboration.",
            "",
+           "**Table B1. Contract fields and their obligations.** Every field a stage contract carries, "
+           "its type, the obligation it imposes and what it means.", "",
            "| field | type | obligation | meaning |",
            "|---|---|---|---|"]
     for f in dc.fields(S.PublicClaim):

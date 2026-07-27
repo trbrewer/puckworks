@@ -247,6 +247,8 @@ level available in closed form at every candidate rate.
 **Dataset roles.** Every dataset used in this paper, what it is used for, what is fitted to it,
 and what is held out:
 
+**Table 1. Dataset roles.** Every dataset used in this paper: what it is, what is fitted to it, what is held out, and the evidence label and key limitation attaching to each.
+
 | campaign | rig / coffee / basket | observable | conditions & replicates | role here | fitted to it | held out | evidence label | key limitation |
 |---|---|---|---|---|---|---|---|---|
 | Schmieder 2023 (via the calibration model) | source apparatus, one coffee | 6 retained collection windows of 10, per solute | 15 settings, 3 repetitions (6 at centre) | source-campaign fraction-vs-cup localization; the positive control | the model's published per-solute parameters | nothing — this is the model's own fit data | in-sample verification / objective localization | in-sample; the 6 retained windows are a sampled aggregate, not a cup |
@@ -260,6 +262,8 @@ and what is held out:
 particle-size classes.
 
 **Parameters and units.** The quantities that are estimated, frozen or assumed in this paper:
+
+**Table 2. Parameters and units.** Quantities estimated, frozen or assumed in this paper, with the basis or source of each and the level at which it is estimated.
 
 | symbol | meaning | unit | basis / source | estimated at what level |
 |---|---|---|---|---|
@@ -522,6 +526,8 @@ grind), all at the **matched beverage endpoint** (40 mL matched-volume proxy for
 off-grid O points per solute × variety — a small internal check, superseded by the
 leave-one-condition-out CV of §4<!--sec:result3-->.]*
 
+**Table 3. Matched-endpoint tests.** Each test, its result, the reading it supports, and the evidence strength that reading carries.
+
 | test | result | reading | strength |
 |---|---|---|---|
 | pooled-envelope bracket | model brackets the 3 named solutes + the aggregate proxy | *optimistic* — the 66-shot ranges are wide | external (wide envelope) |
@@ -656,6 +662,8 @@ matched-volume proxies for the nominal 40 g cups**, each with its own **study-de
 inferred (not measured) pressure–flow map** (fitted
 hydraulic conductivity, nominal grind-specific shot time, and viscosity correction —
 *not* a per-shot measured flow trace; transfer conclusions are conditional on this map):
+
+**Table 4. Cross-grind transfer errors by species.** Fit error on the source grind (O) against held-out error on the coarse (C) and fine (F) grinds.
 
 | species | O-fit | held-out C | held-out F |
 |---|---|---|---|
@@ -792,6 +800,8 @@ cup by **27.8 / 38.3 / 30.7 % MAPE** (caffeine / trigonelline / 5-CQA), so part 
 its flatness is a sampling artefact. An empirical whole-cup comparison on this campaign is
 not available (see Limitations); the exact-integral simulation below tests the same question under
 the model instead.
+
+**Table 5. Rate information by scoring target.** Minimum error and range ratio when scoring the time-resolved fractions against the sampled-fraction aggregate, per solute.
 
 | solute | fraction-scored (temporal) | sampled-fraction aggregate |
 |---|---|---|
