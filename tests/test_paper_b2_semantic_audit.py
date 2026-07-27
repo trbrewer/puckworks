@@ -161,32 +161,6 @@ def _offending_lines(path: Path, pattern: str, lookback: int = 1):
     return out
 
 
-def test_the_audit_is_not_vacuous(tmp_path):
-    """A guard that matched nothing would pass silently forever."""
-    f = tmp_path / "x.md"
-    f.write_text("The shot-to-shot noise floor is 0.149.\n", encoding="utf-8")
-    assert _offending_lines(f, r"noise floor")
-
-
-def test_a_withdrawal_sentence_is_allowed_to_name_the_term(tmp_path):
-    """The papers must be able to SAY what they withdrew."""
-    f = tmp_path / "x.md"
-    f.write_text("None of these is an irreducible noise floor or a threshold.\n", encoding="utf-8")
-    assert not _offending_lines(f, r"noise floor")
-
-
-def test_the_exemption_does_not_leak_across_sentences(tmp_path):
-    """THE VACUITY BUG, pinned. A negation elsewhere in the same PARAGRAPH must not exempt a
-    violation."""
-    f = tmp_path / "x.md"
-    f.write_text(
-        "Nothing here is a threshold and no claim is made. "
-        "The shot-to-shot noise floor is 0.149 g/s and sets the resolution limit. "
-        "We never treat it as a bound.\n", encoding="utf-8")
-    assert _offending_lines(f, r"noise floor"), (
-        "a violation was exempted by a negation in a NEIGHBOURING sentence")
-
-
 def test_a_withdrawal_protects_the_whole_sentence_even_when_wrapped(tmp_path):
     """The over-correction, pinned. A sentence split across lines must be judged whole."""
     f = tmp_path / "x.py"

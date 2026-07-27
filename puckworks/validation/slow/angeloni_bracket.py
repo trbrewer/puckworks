@@ -625,7 +625,7 @@ def joint_multigrind_fit():
         s = dict(sp); s["A1"] = sp["A1"] * rs; s["A2"] = sp["A2"] * rs; s["c_s0"] = 1.0
         return np.array([float(ps.simulate_fractions(
                         T, _flow_gran(p, T, gran),
-                        _matched_bounds(_flow_gran(p, T, gran), v_target),
+                        _matched_bounds(_flow_gran(p, T, gran)),
                         s, cl1=1.0)[0]) for T, p in conds])
 
     rate_grid = _RATE_DOMAIN
@@ -751,7 +751,7 @@ def validate_refit_granulometry():
         s = dict(sp); s["A1"] = sp["A1"] * rs; s["A2"] = sp["A2"] * rs; s["c_s0"] = 1.0
         return np.array([float(ps.simulate_fractions(
                         T, _flow_gran(p, T, gran),
-                        _matched_bounds(_flow_gran(p, T, gran), v_target),
+                        _matched_bounds(_flow_gran(p, T, gran)),
                         s, cl1=1.0)[0]) for T, p in conds])
 
     best_cs0 = _mape_level                                # EXACT weighted-median (B3)
@@ -1131,7 +1131,7 @@ def reduced_model_ladder(varieties=("Arabica", "Robusta"),
         s = dict(sp); s["A1"] = sp["A1"] * rs; s["A2"] = sp["A2"] * rs; s["c_s0"] = 1.0
         return np.array([float(ps.simulate_fractions(
                         T, _flow_gran(p, T, gran),
-                        _matched_bounds(_flow_gran(p, T, gran), v_target),
+                        _matched_bounds(_flow_gran(p, T, gran)),
                         s, cl1=1.0)[0]) for T, p in conds])
 
     per = {}
@@ -2141,7 +2141,7 @@ def numerical_convergence(node_counts=(100, 200, 400),
         v["rate_at_min_matches_reference"] = bool(
             abs(v["rate_at_min"] - ref["rate_at_min"]) < 1e-9)
 
-    default = cells[f"nz200_tol1e-06"]
+    default = cells["nz200_tol1e-06"]
     worst_cup = max(v["rel_dev_whole_cup_pct"] for v in cells.values())
     worst_late = max(v["rel_dev_late_pct"] for v in cells.values())
     worst_rr = max(v["rel_dev_range_ratio_pct"] for v in cells.values())
