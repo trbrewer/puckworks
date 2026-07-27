@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import importlib.util
+
+import pytest
 from pathlib import Path
 
 
@@ -22,7 +24,7 @@ def test_submission_text_is_within_declared_limits() -> None:
     # from `docs/submission/paper_a_front_matter.yaml`, so the expected values are read from that
     # single source rather than duplicated here -- duplicating them is what let the package drift
     # from the manuscript in the first place.
-    import yaml
+    yaml = pytest.importorskip("yaml", reason="pyyaml is a radar/dev extra")
     fm = yaml.safe_load(
         (Path(__file__).resolve().parents[1]
          / "docs/submission/paper_a_front_matter.yaml").read_text(encoding="utf-8"))

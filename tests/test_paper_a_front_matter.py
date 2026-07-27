@@ -23,6 +23,12 @@ import pytest
 
 _ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(_ROOT))
+
+# `paper_a_front_matter` parses the YAML single source, and pyproject declares pyyaml a radar/dev
+# extra ("not a core dep"). The min-deps lane installs neither, so importing the tool at module
+# scope made COLLECTION fail there rather than skipping. Same guard the radar tests use.
+pytest.importorskip("yaml", reason="pyyaml is a radar/dev extra")
+
 from tools import paper_a_front_matter as FM  # noqa: E402
 
 RETIRED_TITLE = "Whole-cup measurements can obscure kinetic parameter localization"

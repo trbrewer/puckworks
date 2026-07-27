@@ -19,6 +19,10 @@ import pytest
 _ROOT = Path(__file__).resolve().parents[1]
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
+
+# The contract composes the front-matter checker, which parses YAML; pyyaml is a radar/dev extra.
+pytest.importorskip("yaml", reason="pyyaml is a radar/dev extra")
+
 from tools import paper_a_consistency as C  # noqa: E402
 from tools import paper_a_supplement as S  # noqa: E402
 
