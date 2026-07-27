@@ -4,6 +4,8 @@ These captions are written to stand alone from the main text. They preserve the 
 
 **Main versus supplementary.** The second review asked for four to five main figures, with the diagnostics moved to a supplement. The main set carries the three findings and the study design; everything that supports rather than states a finding is supplementary. **Presentation numbers differ from the producer identifiers, which are unchanged** — the file stems remain the keys in `puckworks.figures_paper_a`, so no result is renamed by this reordering.
 
+**No embedded figure number.** The rendered images previously carried their producer number inside the image (`Fig 4 — …`, `Fig 6 — …`). Uploaded under the presentation numbering in the table below, an embedded "Fig 4" would have contradicted its own caption — producer `fig4_transfer` is presentation Figure 3, and producer `fig3_holdouts` is Figure S1. The generators now emit a short descriptive panel heading and **no figure number**; numbering is supplied by the caption system alone. `tests/test_figure_exports.py` fails if a number is reintroduced into an image title.
+
 | presentation | producer / file stem | placement | states |
 |---|---|---|---|
 | Figure 1 | `fig1_design` | **main** | study design and dataset roles |

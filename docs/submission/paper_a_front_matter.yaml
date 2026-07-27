@@ -1,0 +1,128 @@
+# Paper 1 / Paper A — SINGLE SOURCE OF SUBMISSION FRONT MATTER
+#
+# Third review P0-1: the manuscript and the JFE package described different papers. The package
+# carried a retired title, an older 237-word abstract, a seventh keyword, five repository-facing
+# Highlights, and a status line calling completed analyses outstanding. Repairing those copies by
+# hand is what produced the drift in the first place, so every submission-facing rendering of this
+# metadata is now GENERATED from this file by `tools/paper_a_front_matter.py` and checked in CI by
+# `tests/test_paper_a_front_matter.py`.
+#
+#   python tools/paper_a_front_matter.py            # report drift (exit 1 if any)
+#   python tools/paper_a_front_matter.py --write    # regenerate every rendering
+#
+# Do not edit the generated blocks in the manuscript, package, Highlights file or cover letter.
+# Edit this file and re-run the generator.
+
+venue:
+  name: Journal of Food Engineering
+  abstract_word_limit: 250
+  keyword_limit: 7
+  highlight_count: [3, 5]
+  highlight_char_limit: 85
+
+title: >-
+  Separating Extractable Content from Extraction Rate in Espresso Models: Limits of Whole-Cup
+  Measurements and the Value of Time-Resolved Data
+
+running_title: Whole-cup versus time-resolved espresso measurements
+
+article_type: Research paper / original research article
+
+# ---------------------------------------------------------------------------------------------
+# Abstract. Target 230-240 words so that differing whitespace/hyphen counters cannot push the
+# submitted file over the venue's 250-word limit. Current count is asserted by the test, not
+# trusted from this comment.
+#
+# Third review MC1: the previous abstract was ~313 words and its "The profile had an interior
+# numerical minimum..." sentence could be read as saying that ALL six solute x variety panels had
+# interior minima. They do not: the objective minimum is interior in only 13 of 18 panel x
+# objective cells, and Arabica 5-CQA sits at the upper boundary under all three objectives. The
+# interior-minimum statement is therefore restricted to the illustrative caffeine panel, and the
+# cross-panel summary reports the boundary-reaching count (16 of 18) instead.
+#
+# "clustered percentile range" replaces "95 % resampling interval": the procedure is a
+# fixed-predictor paired clustered resampling sensitivity range, not a calibrated confidence
+# interval, and the manuscript says so in Methods.
+# ---------------------------------------------------------------------------------------------
+abstract: >-
+  Whole-cup espresso measurements can be predicted accurately even when extractable content and
+  extraction rate are weakly separated. We examined a multi-solute extraction model calibrated to
+  fraction-resolved data, then recalibrated to optimal-grind whole-cup observations. Predictions
+  used a 40 mL proxy for the reported 40 g beverage endpoint. At each mass-transfer-rate
+  multiplier, a multiplicative inventory level was re-estimated and the objective profiled. In the
+  illustrative caffeine panel the minimum was interior, but its 10 %-near-optimal set reached the
+  upper tested boundary. Across six solute-by-variety panels and three objective families,
+  near-optimal sets were broad and reached a boundary in 16 of 18 cases. After optimal-grind
+  calibration, coarse- and fine-grind predictions had 8.2 % pooled MAPE, versus 8.6 % for a
+  concentration-only baseline. The paired difference was −0.36 percentage points; the primary
+  clustered percentile range (−0.73 to +0.03) crossed zero, and the model was worse on 50 of 108
+  held-out points. Acceptable endpoint prediction therefore gave no resolvable skill beyond a
+  transferred concentration level. Fraction-resolved observations produced sharper rate profiles
+  than aggregated or simulated whole-cup ones. An external dissolved-solids trajectory retained
+  only a shallow, high-error, loss-dependent preference; a single cup was uninformative by
+  construction. Matched endpoints are therefore necessary but insufficient: parameter
+  localization, prediction error, benchmark skill, and cross-context evidence should be reported
+  separately. Propagating the endpoint proxy through the whole benchmark left the difference
+  between −0.36 and −0.42 points, but whether its range excluded zero was endpoint-dependent.
+# Third review, front-matter section: `profile objective` is repository vocabulary and a poor
+# indexing term; `model transfer` and `porous media` were package-only. Six terms, within the
+# venue's limit of seven.
+keywords:
+  - espresso
+  - extraction modelling
+  - mass transfer
+  - practical identifiability
+  - time-resolved measurement
+  - experimental design
+
+# Elsevier asks that Highlights be accessible to a general audience. The retired set used
+# "inventory-kinetics compensation profile", "benchmark skill" and "machine-readable result
+# bundles" -- repository vocabulary, and the last is not a scientific finding at all.
+# Each bullet is <= 85 characters including spaces; the test asserts this rather than trusting the
+# counts, which is how the package's hand-maintained counts survived being wrong.
+highlights:
+  - Whole-cup espresso data weakly separate content from extraction rate
+  - A process model barely outperformed a concentration-only baseline
+  - Time-resolved samples constrained extraction rate more strongly
+  - Accurate prediction did not guarantee well-determined model parameters
+
+editor_significance: >-
+  Whole-cup measurements are common in food-process model calibration because they are economical
+  and directly relevant to product quality. This study shows that an apparently accurate integrated
+  endpoint can leave the extraction rate weakly localized through compensation with extractable
+  inventory, and that a mechanistic model can achieve acceptable held-out error while adding no
+  resolvable skill over a trained level-only baseline. It also demonstrates a reporting workflow
+  that separates parameter localization from held-out prediction and from incremental skill over a
+  null. The result bears directly on experimental design for extraction, leaching, dissolution and
+  other food processes in which integrated product measurements can conceal internal transport-rate
+  uncertainty.
+
+# ---------------------------------------------------------------------------------------------
+# UNRESOLVED SUBMISSION METADATA (third review P0-7).
+#
+# These are author/external actions, not repository-mechanical ones. They are represented here as
+# explicit nulls rather than as `[insert]` strings scattered through four files, so that a single
+# CI check can enumerate exactly what is still missing and block submission until it is supplied.
+# `tools/paper_a_front_matter.py --check-submission-ready` exits non-zero while any is null.
+# ---------------------------------------------------------------------------------------------
+authors: null                 # names in submission order
+affiliations: null
+corresponding_author: null    # name + institutional email
+orcids: null
+credit_roles: null            # per author; do not retain roles that were not performed
+funding: null
+competing_interests: null
+generative_ai_declaration: null   # must match the venue's current Editorial Manager wording
+release_doi: null             # archival DOI for the frozen Paper 1 release
+release_commit: null          # commit the archived release was built from
+
+# The package previously said the licensed/indexed novelty search "remains a PI action" while the
+# manuscript said "To our knowledge, following the documented search", which reads as final. The
+# manuscript sentence must stay hedged until this record is completed.
+novelty_search:
+  status: incomplete
+  database: null              # Scopus / Web of Science
+  query: null
+  run_date: null
+  inclusion_criteria: null
+  results_archived_at: null

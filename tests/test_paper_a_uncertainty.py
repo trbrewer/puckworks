@@ -142,3 +142,47 @@ def test_oob_coverage_deterministic_and_positive():
     lo, hi = a["coverage_interval95"]
     assert 0.0 <= lo <= hi
     assert a["n_skipped_empty_oob"] >= 0
+
+
+# ── objective-family grid record (third review MC3) ───────────────────────────────
+# `PAPER_A_P0-5_RESULTS.md` said the objective-family sweep used an 18-point rate grid while the
+# machine-readable record and the formal Methods said 29. The archived fractions decide it: every
+# panel x objective value is an exact 29th and none is a multiple of 1/18. This binds the four
+# places the grid is stated so the supporting record cannot drift from the producer again.
+def test_objective_family_grid_record_agrees_across_json_and_notes():
+    import json
+    import re
+
+    doc = _ROOT / "docs" / "paper1_resource"
+    rec = json.loads((doc / "PAPER_A_OBJECTIVE_FAMILY_PANELS.json").read_text(encoding="utf-8"))
+    n, domain = rec["n_rate_grid"], tuple(rec["rate_domain"])
+    assert (n, domain) == (29, (0.15, 6.5))
+
+    # Every panel carries the same grid.
+    for name, panel in rec["panels"].items():
+        assert panel["n_rate_grid"] == n, name
+        assert tuple(panel["rate_domain"]) == domain, name
+
+    # Every archived 10 % fraction is an exact k/29 -- the evidence that fixes the denominator.
+    for name, panel in rec["panels"].items():
+        for obj in rec["objectives"]:            # skips the scalar `huber_delta` sibling
+            res = panel["objective_family"][obj]
+            frac = res["sets"]["10pct"]["frac_within"]
+            k = round(frac * n)
+            assert abs(k / n - frac) < 5e-4, f"{name}/{obj}: {frac} is not a {n}th"
+            assert abs(round(frac * 18) / 18 - frac) > 5e-4 or frac in (0.0, 1.0), (
+                f"{name}/{obj}: {frac} is ambiguous between an 18- and {n}-point grid")
+
+    notes = (doc / "PAPER_A_P0-5_RESULTS.md").read_text(encoding="utf-8")
+    assert re.search(rf"0\.15[–-]6\.5,\s*\*\*{n}\*\*\s*\n?points", notes), (
+        "the P0-5 note must state the 29-point objective-family grid")
+    # Counts are printed with their denominator so a bare fraction cannot hide it (MC3).
+    assert notes.count(f"/{n} = ") >= 18, "grid counts must print as k/29 for all 18 cells"
+
+
+def test_manuscript_separates_the_ladder_grid_from_the_objective_family_grid():
+    """18 points is correct for the ladder/comparator analyses; 29 for the formal panel. The two
+    must stay distinguishable, not be collapsed into one number."""
+    man = (_ROOT / "docs" / "submission" / "PAPER_A_JFE_MANUSCRIPT.md").read_text(encoding="utf-8")
+    assert "**18** points for the ladder and comparator analyses" in man
+    assert "**29** points for the" in man
