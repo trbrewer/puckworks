@@ -72,8 +72,8 @@ def test_the_two_constant_branches_leave_identical_centred_diagnostics(bundle):
     import numpy as np
     rd = bundle["shot_level"]["residuals_1s"]["branches"]
     assert np.allclose(rd["rung1_const"]["acf_by_lag"], rd["rung3_static"]["acf_by_lag"], atol=1e-9)
-    assert (rd["rung1_const"]["spectrum"]["dominant_period_s"]
-            == rd["rung3_static"]["spectrum"]["dominant_period_s"])
+    assert (rd["rung1_const"]["spectrum"]["peak_bin_period_s"]
+            == rd["rung3_static"]["spectrum"]["peak_bin_period_s"])
 
 
 def test_the_foster_flow_minimum_is_unpacked_in_the_right_order():

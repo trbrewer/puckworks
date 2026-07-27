@@ -124,10 +124,14 @@ DATASET_FACTS: dict[str, str] = {
 #: fraction). They are not separate results and do not need their own claim, but they must not be
 #: waved through either: the auditor RECOMPUTES each one from the bundle and reports a mismatch.
 DERIVED_QUANTITIES: dict[str, tuple[str, str, str]] = {
-    "2.6": ("ratio", "shot_level.paired.comparisons.phi_vs_const.mean_difference_g_per_s",
-            "shot_level.noise_floor.noise_floor_rmse_g_per_s"),
-    "3.2": ("ratio", "shot_level.paired.comparisons.phi_vs_static.mean_difference_g_per_s",
-            "shot_level.noise_floor.noise_floor_rmse_g_per_s"),
+    # Third review P0.1: these ratios were taken against the LEAVE-IN dispersion (0.1492), which
+    # is optimistic by exactly n/(n-1). They are now taken against the honest other-four
+    # empirical-template RMSE (0.1864), which is why 2.6/3.2 became 2.1/2.5. They remain
+    # DESCRIPTIVE ratios and are not significance criteria.
+    "2.1": ("ratio", "shot_level.paired.comparisons.phi_vs_const.mean_difference_g_per_s",
+            "shot_level.dispersion.other_four_template_rmse_g_per_s"),
+    "2.5": ("ratio", "shot_level.paired.comparisons.phi_vs_static.mean_difference_g_per_s",
+            "shot_level.dispersion.other_four_template_rmse_g_per_s"),
     "2.8": ("percent", "loco.max_calibration_drift", ""),
     # "the LOPO means are within approximately 0.01-0.02 g/s of the shared-calibration means":
     # a stated closeness, recomputed as the largest absolute gap across the three branches.

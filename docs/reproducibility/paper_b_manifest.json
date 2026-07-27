@@ -1,12 +1,12 @@
 {
   "paper": "B",
-  "source_commit": "7ec68b4bd354dda2b1e288579bee368fa39d9834",
+  "source_commit": "99ea79f97894c68d53a779ab892ce7801aa7042b",
   "git_dirty": true,
   "timestamp_utc": null,
-  "bundle_source_commit": "604a581f4d77b44284b5f649f3a309d307ba49ab",
-  "bundle_matches_head": false,
+  "bundle_source_commit": "99ea79f97894c68d53a779ab892ce7801aa7042b",
+  "bundle_matches_head": true,
   "release_fresh": false,
-  "bundle_sha256": "8aa7b50cd3a702dd4c4be575f7852dccf5096cfee9ed25ce7f77b9dac9ddbb86",
+  "bundle_sha256": "d9860605788c5b93fde81ae326e60931926178278b1f8df11491464ee6223865",
   "environment": {
     "python": "3.13.13",
     "numpy": "2.5.1",
@@ -26,7 +26,7 @@
     "paper_b_evidence_matrix.csv": "13b739e86c7069934c73d7a0c15add66fcd9aa2aa56a0f51fc1c6f739e577304",
     "paper_b_evidence_dictionary.csv": "38b807ff9bfb99952e09cef892e8a8d95e5383c0e27644f44fb3b5afbdccaf16"
   },
-  "n_claims": 124,
+  "n_claims": 151,
   "n_failures": 0,
   "claims": [
     {
@@ -270,11 +270,115 @@
       "ok": true
     },
     {
-      "claim": "shot noise floor ~0.149 g/s",
-      "path": "shot_level.noise_floor.noise_floor_rmse_g_per_s",
+      "claim": "cross-pressure equal-pressure macro mean of mean-curve RMSE, static ~0.524",
+      "path": "cross_pressure_per_shot.equal_pressure_macro_mean_of_mean_curve.static",
+      "expected": 0.5239,
+      "actual": 0.5239,
+      "tol": 0.003,
+      "ok": true
+    },
+    {
+      "claim": "cross-pressure equal-pressure macro mean of mean-curve RMSE, Phi(t) ~0.335",
+      "path": "cross_pressure_per_shot.equal_pressure_macro_mean_of_mean_curve.phi",
+      "expected": 0.3345,
+      "actual": 0.3345,
+      "tol": 0.003,
+      "ok": true
+    },
+    {
+      "claim": "cross-pressure shot-count-weighted macro mean of mean-curve RMSE, static ~0.509",
+      "path": "cross_pressure_per_shot.shot_weighted_macro_mean_of_mean_curve.static",
+      "expected": 0.5094,
+      "actual": 0.5094,
+      "tol": 0.003,
+      "ok": true
+    },
+    {
+      "claim": "cross-pressure shot-count-weighted macro mean of mean-curve RMSE, Phi(t) ~0.343",
+      "path": "cross_pressure_per_shot.shot_weighted_macro_mean_of_mean_curve.phi",
+      "expected": 0.3431,
+      "actual": 0.3431,
+      "tol": 0.003,
+      "ok": true
+    },
+    {
+      "claim": "MEAN OF 57 INDIVIDUAL-SHOT RMSEs, static ~0.527",
+      "path": "cross_pressure_per_shot.mean_of_individual_shot_rmse.static",
+      "expected": 0.5271,
+      "actual": 0.5271,
+      "tol": 0.003,
+      "ok": true
+    },
+    {
+      "claim": "MEAN OF 57 INDIVIDUAL-SHOT RMSEs, Phi(t) ~0.363",
+      "path": "cross_pressure_per_shot.mean_of_individual_shot_rmse.phi",
+      "expected": 0.3632,
+      "actual": 0.3632,
+      "tol": 0.003,
+      "ok": true
+    },
+    {
+      "claim": "MEAN OF 57 INDIVIDUAL-SHOT RMSEs, RC-3b ~0.540",
+      "path": "cross_pressure_per_shot.mean_of_individual_shot_rmse.rc3b",
+      "expected": 0.54,
+      "actual": 0.54,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "claim": "pooled shot x time RMSE, static ~0.557",
+      "path": "cross_pressure_per_shot.pooled_shot_time_rmse.static",
+      "expected": 0.5567,
+      "actual": 0.5567,
+      "tol": 0.003,
+      "ok": true
+    },
+    {
+      "claim": "pooled shot x time RMSE, Phi(t) ~0.393",
+      "path": "cross_pressure_per_shot.pooled_shot_time_rmse.phi",
+      "expected": 0.3927,
+      "actual": 0.3927,
+      "tol": 0.003,
+      "ok": true
+    },
+    {
+      "claim": "57 shots included of 60 brews reported by the source",
+      "path": "cross_pressure_per_shot.n_shots_included",
+      "expected": 57,
+      "actual": 57.0,
+      "tol": 0,
+      "ok": true
+    },
+    {
+      "claim": "leave-in shot-to-full-mean dispersion ~0.149 g/s (NOT a noise floor)",
+      "path": "shot_level.dispersion.leave_in_dispersion_rmse_g_per_s",
       "expected": 0.1492,
       "actual": 0.1492,
       "tol": 0.005,
+      "ok": true
+    },
+    {
+      "claim": "leave-one-shot-out other-four empirical-template RMSE ~0.186 g/s",
+      "path": "shot_level.dispersion.other_four_template_rmse_g_per_s",
+      "expected": 0.1864,
+      "actual": 0.1864,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "claim": "mean pointwise between-shot SD ~0.154 g/s (full resolution)",
+      "path": "shot_level.dispersion.pointwise_between_shot_sd_mean_g_per_s",
+      "expected": 0.154,
+      "actual": 0.154,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "leave-in optimism factor is exactly n/(n-1) = 1.25",
+      "path": "shot_level.dispersion.leave_one_out_inflation_factor",
+      "expected": 1.25,
+      "actual": 1.25,
+      "tol": 1e-09,
       "ok": true
     },
     {
@@ -342,11 +446,83 @@
       "ok": true
     },
     {
-      "claim": "Phi(t) minus held-out spline ~0.003 (below the noise floor)",
+      "claim": "Phi(t) vs spline paired SD ~0.026 g/s",
+      "path": "shot_level.heldout.phi_minus_spline_paired_sd_g_per_s",
+      "expected": 0.0256,
+      "actual": 0.0256,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "Phi(t) better on 2 of 5 shots vs the held-out spline",
+      "path": "shot_level.heldout.phi_better_on_n_shots",
+      "expected": 2,
+      "actual": 2.0,
+      "tol": 0,
+      "ok": true
+    },
+    {
+      "claim": "spline better on 3 of 5 shots",
+      "path": "shot_level.heldout.spline_better_on_n_shots",
+      "expected": 3,
+      "actual": 3.0,
+      "tol": 0,
+      "ok": true
+    },
+    {
+      "claim": "Phi(t) vs spline exact sign-flip p = 0.8125 (no directional consistency)",
+      "path": "shot_level.heldout.phi_vs_spline_exact_sign_flip_p",
+      "expected": 0.8125,
+      "actual": 0.8125,
+      "tol": 0.0001,
+      "ok": true
+    },
+    {
+      "claim": "raw other-four template RMSE ~0.186 g/s",
+      "path": "shot_level.heldout.raw_other_four_template_rmse_g_per_s",
+      "expected": 0.1864,
+      "actual": 0.1864,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "the spline differs from the raw other-four template by ~0.0004 g/s",
+      "path": "shot_level.heldout.spline_minus_raw_template_g_per_s",
+      "expected": -0.0004,
+      "actual": -0.0004,
+      "tol": 0.001,
+      "ok": true
+    },
+    {
+      "claim": "Phi(t) minus held-out spline ~0.003 g/s",
       "path": "shot_level.heldout.phi_minus_spline_heldout_g_per_s",
       "expected": 0.0033,
       "actual": 0.0033,
       "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "leave-segment-out: linear interpolation beats Phi(t) at 5 segments (~0.071)",
+      "path": "shot_level.segment_sensitivity.by_segment_count.5.interior_mean_rmse_g_per_s.linear_interpolation",
+      "expected": 0.0705,
+      "actual": 0.0705,
+      "tol": 0.003,
+      "ok": true
+    },
+    {
+      "claim": "leave-segment-out: held-out cubic beats Phi(t) at 5 segments (~0.136)",
+      "path": "shot_level.segment_sensitivity.by_segment_count.5.interior_mean_rmse_g_per_s.heldout_cubic",
+      "expected": 0.1355,
+      "actual": 0.1355,
+      "tol": 0.003,
+      "ok": true
+    },
+    {
+      "claim": "leave-segment-out: the repository spline beats Phi(t) from 6 segments (~0.083)",
+      "path": "shot_level.segment_sensitivity.by_segment_count.6.interior_mean_rmse_g_per_s.spline",
+      "expected": 0.0831,
+      "actual": 0.0831,
+      "tol": 0.003,
       "ok": true
     },
     {
@@ -378,6 +554,46 @@
       "path": "shot_level.residuals_1s.between_shot_sd_mean_g_per_s",
       "expected": 0.1529,
       "actual": 0.1529,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "residual lag-1 ACF range, lower end ~0.904",
+      "path": "shot_level.residuals_1s.lag1_acf_min",
+      "expected": 0.9041,
+      "actual": 0.9041,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "residual lag-1 ACF range, upper end ~0.969",
+      "path": "shot_level.residuals_1s.lag1_acf_max",
+      "expected": 0.9687,
+      "actual": 0.9687,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "residual Durbin-Watson range, lower end ~0.004",
+      "path": "shot_level.residuals_1s.durbin_watson_min",
+      "expected": 0.0038,
+      "actual": 0.0038,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "residual Durbin-Watson range, upper end ~0.067",
+      "path": "shot_level.residuals_1s.durbin_watson_max",
+      "expected": 0.0667,
+      "actual": 0.0667,
+      "tol": 0.002,
+      "ok": true
+    },
+    {
+      "claim": "mean residual Durbin-Watson across branches ~0.031",
+      "path": "shot_level.residuals_1s.mean_durbin_watson",
+      "expected": 0.0306,
+      "actual": 0.0306,
       "tol": 0.002,
       "ok": true
     },
@@ -518,7 +734,7 @@
       "ok": true
     },
     {
-      "claim": "Phi(t) minus cubic, per-shot mean ~+0.083 g/s (below the noise floor)",
+      "claim": "Phi(t) minus cubic, per-shot mean ~+0.083 g/s",
       "path": "shot_level.paired.comparisons.phi_vs_cubic.mean_difference_g_per_s",
       "expected": 0.0826,
       "actual": 0.0826,
@@ -742,16 +958,16 @@
       "ok": true
     },
     {
-      "claim": "dominant residual period, constant 80 s",
-      "path": "shot_level.residuals_1s.branches.rung1_const.spectrum.dominant_period_s",
+      "claim": "residual peak-bin period, constant = 80 s (window length, not a measured timescale)",
+      "path": "shot_level.residuals_1s.branches.rung1_const.spectrum.peak_bin_period_s",
       "expected": 80.0,
       "actual": 80.0,
       "tol": 0.1,
       "ok": true
     },
     {
-      "claim": "dominant residual period, Phi(t) 40 s",
-      "path": "shot_level.residuals_1s.branches.rung4_phi_of_t.spectrum.dominant_period_s",
+      "claim": "residual peak-bin period, Phi(t) = 40 s (second Fourier bin, not a measured timescale)",
+      "path": "shot_level.residuals_1s.branches.rung4_phi_of_t.spectrum.peak_bin_period_s",
       "expected": 40.0,
       "actual": 40.0,
       "tol": 0.1,

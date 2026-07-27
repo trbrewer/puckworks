@@ -16,7 +16,7 @@ Four panels on cross-pressure assessment. Panel a shows per-pressure reconstruct
 
 ## `fig4_residual_structure`
 
-Three panels showing that the residual structure is slow drift rather than oscillation. Panel a shows the autocorrelation of each branch's residual across twenty lags, decaying slowly for every branch. Panel b shows the share of residual power in the lowest-frequency quarter of the spectrum, above 0.95 for all four branches. Panel c shows the dominant residual period: the two static branches peak at the full eighty-second window, a single unreversed drift, while both temporal branches peak at forty seconds, meaning what they leave behind reverses within the shot. The take-away is that no further level or slope term would absorb the remaining structure.
+Three panels showing that residual power is concentrated at low frequencies on the analysis window. Panel a shows the autocorrelation of each branch's residual across twenty lags, decaying slowly for every branch. Panel b shows the share of residual power in the lowest-frequency quarter of the available bins, above 0.95 for all four branches. Panel c shows the period of the peak bin: the two static branches peak at eighty seconds and both temporal branches at forty seconds. On an eighty-point, one-second series those ARE the first two nonzero Fourier periods, so the panel locates a bin rather than a measured timescale. The take-away is that every branch leaves coherent low-frequency lack of fit; the panel does not distinguish drift from oscillation and does not establish a physical periodicity.
 
 ## `fig5_perturbation_matrix`
 

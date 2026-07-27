@@ -7,9 +7,19 @@ was specified but never built: the manuscript carried four figure specifications
 Three properties are enforced rather than intended, following the pattern proven for the
 identifiability and registry papers:
 
-* **Every number comes from the committed bundle**, `docs/figures/paper_b_results.json` — the same
-  object `paper_b.build.verify` checks its 122 claims against. Figures therefore cannot disagree
-  with the claims, and rendering needs no re-analysis.
+* **Every plotted numerical field comes from the committed bundle**, `docs/figures/
+  paper_b_results.json` — the same object `paper_b2.build.verify` checks its registered claims
+  against. Rendering therefore needs no re-analysis, and a plotted VALUE cannot disagree with a
+  verified one.
+
+  That is a narrower guarantee than the one this docstring used to make. It previously said
+  "figures therefore cannot disagree with the claims", and carried a hard-coded count of 122 that
+  had already drifted from the manifest. Both were wrong in the same way. A figure can reproduce a
+  numeric field exactly while **mislabelling its estimand** — plotting the leave-in dispersion and
+  captioning it a noise floor, or plotting a Fourier bin and captioning it a physical period. This
+  repository has done both. Labels are therefore checked separately, by
+  `tests/test_paper_b2_semantic_audit.py`, and the claim count is not restated here because a
+  restated count is a thing that drifts.
 * **Every data-bearing figure exports a tidy CSV**, so a reviewer can re-plot without the solver
   stack.
 * **Every figure carries alt text**, because the finding must not be reachable only through the
@@ -69,7 +79,7 @@ ALT_TEXT = {
         "declared one-second grid, with the pointwise between-shot band drawn behind so residuals "
         "can be read against shot-to-shot variability. Panel d shows conditional moving-block "
         "intervals for the temporal branch minus the best constant, which excludes zero, and minus "
-        "the cubic, which does not. The cubic is labelled an in-sample flexibility bound, not a "
+        "the cubic, which does not. The cubic is labelled a same-trace descriptive comparator, not a "
         "predictive model.",
     "fig3_cross_pressure":
         "Four panels on cross-pressure assessment. Panel a shows per-pressure reconstruction error "
@@ -291,7 +301,7 @@ def fig2_null_first_ladder(outdir=OUTDIR, bundle=None):
     ax.set_xlim(0, max(r[1] for r in rows) * 1.55)
     ax.set_xlabel("RMSE (g s$^{-1}$)")
     ax.set_title("b  Error against free parameters fitted to the scored trace")
-    ax.text(0.98, 0.06, "the cubic is an in-sample flexibility bound,\nnot a predictive model",
+    ax.text(0.98, 0.06, "the cubic is a same-trace descriptive comparator,\nnot a predictive model",
             transform=ax.transAxes, ha="right", va="bottom", fontsize=6.6,
             style="italic", color=NULL)
 
@@ -334,7 +344,7 @@ def fig2_null_first_ladder(outdir=OUTDIR, bundle=None):
 
 
 def fig3_cross_pressure(outdir=OUTDIR, bundle=None):
-    """Per-pressure structure, held-out means, calibration drift, and the nominal/recorded gap."""
+    """Per-pressure structure, LOPO-EC mean trace errors, calibration drift, and the nominal/recorded gap."""
     import numpy as np
 
     b = bundle or _bundle()
@@ -378,7 +388,7 @@ def fig3_cross_pressure(outdir=OUTDIR, bundle=None):
                 "%.3f" % lo["heldout_mean"][k], ha="center", fontsize=6.6)
     ax.set_xticks(xs), ax.set_xticklabels([s[1] for s in styles], fontsize=7.2)
     ax.set_ylabel("mean trace RMSE (g s$^{-1}$)")
-    ax.set_title("b  Held-out means track shared calibration")
+    ax.set_title("b  LOPO-EC mean trace errors track shared calibration")
     ax.legend(fontsize=6.6)
 
     # -- c: calibration drift when each pressure is omitted -----------------------------
@@ -464,12 +474,12 @@ def fig4_residual_structure(outdir=OUTDIR, bundle=None):
     ax.set_xticks(range(len(keys)))
     ax.set_xticklabels([lab for _, lab, _, _ in BRANCHES], fontsize=6.4, rotation=18,
                        ha="right")
-    ax.set_ylim(0, 1.12), ax.set_ylabel("power in slowest spectral quarter")
-    ax.set_title("b  Drift, not oscillation")
+    ax.set_ylim(0, 1.12), ax.set_ylabel("power in lowest-frequency quarter of bins")
+    ax.set_title("b  Low-frequency concentration")
 
-    # -- c: dominant period ---------------------------------------------------------------
+    # -- c: lowest-frequency peak BIN (not a physical period; third review P0.5) ----------
     ax = axes[2]
-    periods = [rd[k]["spectrum"]["dominant_period_s"] for k in keys]
+    periods = [rd[k]["spectrum"]["peak_bin_period_s"] for k in keys]
     ax.barh(np.arange(len(keys))[::-1], periods, color=[c for _, _, c, _ in BRANCHES],
             height=0.6)
     for y, (p, k) in zip(np.arange(len(keys))[::-1], zip(periods, keys)):
@@ -477,13 +487,14 @@ def fig4_residual_structure(outdir=OUTDIR, bundle=None):
     ax.set_yticks(np.arange(len(keys))[::-1])
     ax.set_yticklabels([lab for _, lab, _, _ in BRANCHES], fontsize=6.8)
     ax.set_xlim(0, max(periods) * 1.55)
-    ax.set_xlabel("dominant residual period (s)")
-    ax.set_title("c  Temporal branches shed the slowest component")
+    ax.set_xlabel("period of peak bin (s) — a window property, not a measured timescale")
+    ax.set_title("c  Peak residual bin")
 
-    fig.suptitle("Residual structure is slow drift in every branch (review 4.7)",
+    fig.suptitle("Low-frequency residual structure on the 80 s analysis window",
                  fontsize=10, fontweight="bold")
-    note = ("80 s = one unreversed drift across the scoring window;  40 s reverses within the "
-            "shot, so no further level or slope term would absorb it.")
+    note = ("On an 80-point, 1 s-decimated series the first two nonzero Fourier periods ARE 80 s "
+            "and 40 s, so these bars locate a bin, not a physical periodicity. This panel shows "
+            "coherent low-frequency lack of fit; it does not distinguish drift from oscillation.")
     if coincide:
         note += ("\nThe best constant and static $\\kappa(P)$ curves coincide exactly in a and b: "
                  "both leave a constant-offset residual, so every centred diagnostic is identical "
@@ -596,10 +607,10 @@ def export_source_data(outdir=OUTDIR, bundle=None):
 
     _w("fig4_residual_structure.csv",
        ["branch", "lag1_acf", "durbin_watson", "power_in_slowest_quarter",
-        "dominant_period_s"],
+        "peak_bin_period_s"],
        [[k, rd[k]["lag1_autocorrelation"], rd[k]["durbin_watson"],
          rd[k]["spectrum"]["power_in_slowest_quarter"],
-         rd[k]["spectrum"]["dominant_period_s"]] for k, *_ in BRANCHES])
+         rd[k]["spectrum"]["peak_bin_period_s"]] for k, *_ in BRANCHES])
 
     _w("fig4_acf_by_lag.csv", ["lag_s"] + [k for k, *_ in BRANCHES],
        [[lag + 1] + [rd[k]["acf_by_lag"][lag] for k, *_ in BRANCHES]

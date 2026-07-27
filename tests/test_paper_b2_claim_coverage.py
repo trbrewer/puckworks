@@ -72,13 +72,16 @@ def test_a_number_that_disagrees_with_its_producer_is_not_silently_accepted(tmp_
 def test_a_derived_quantity_that_stops_recomputing_is_reported(monkeypatch, tmp_path):
     """Derived ratios are RECOMPUTED, not waved through. If the underlying producers move so the
     ratio no longer matches the printed value, the audit must say so."""
+    # Probe on 2.1 rather than 2.6: third review P0.1 re-based these descriptive ratios on the
+    # honest other-four empirical-template RMSE (0.1864) instead of the leave-in dispersion
+    # (0.1492), so 2.6/3.2 became 2.1/2.5 and `shot_level.noise_floor` no longer exists.
     monkeypatch.setattr(C, "DERIVED_QUANTITIES",
                         {**C.DERIVED_QUANTITIES,
-                         "2.6": ("ratio",
-                                 "shot_level.noise_floor.noise_floor_rmse_g_per_s",
-                                 "shot_level.noise_floor.noise_floor_rmse_g_per_s")})
-    out = C.audit()                      # that ratio is now 1.0, not 2.6
-    assert any(f["token"] == "2.6" and "recomputes to" in f["why"] for f in out["unaccounted"])
+                         "2.1": ("ratio",
+                                 "shot_level.dispersion.other_four_template_rmse_g_per_s",
+                                 "shot_level.dispersion.other_four_template_rmse_g_per_s")})
+    out = C.audit()                      # that ratio is now 1.0, not 2.1
+    assert any(f["token"] == "2.1" and "recomputes to" in f["why"] for f in out["unaccounted"])
 
 
 def test_the_claim_map_grew_to_cover_the_tables_the_review_named(report):
