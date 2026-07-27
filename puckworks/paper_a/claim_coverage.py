@@ -113,6 +113,8 @@ DATASET_FACTS: dict[str, str] = {
     "24": "fine representative particle size (um), measured PSD peak; also ~24 s espresso anchor",
     "330": "coarse representative particle size (um)",
     "0.23": "fines volume fraction at the centre grind",
+    "84": "d32 Sauter mean diameter at the centre grind (um), reported as measured on the "
+          "pannusch2024 source card; the manuscript now defines d32 (third review MC4.1)",
     "0.015": "bed height L (m)",
     "0.058": "bed diameter D_bed (m)",
     "60": "dissolved-solids bins span 0-60 s in the released trace",
@@ -174,7 +176,6 @@ SLOW_LANE_RESULTS: dict[str, str] = {
     "2100": "identifiability convergence: condition number at 36/72 rate points (2069.5/2067.0)",
     "2000": "identifiability convergence: condition number at 144 rate points (2021.8)",
     "0.99": "curvature coupling across the convergence sweep (-0.993/-0.994)",
-    "49": "unmatched fixed-window comparison, upper end (%)",
     "1.8": "inventory grid upper edge, times the profiled optimum",
     "0.17": "bulk bed porosity, source physical parameter",
     "6.0": "full-cup sim: caffeine minimum fraction MAPE (%)",
@@ -186,6 +187,30 @@ SLOW_LANE_RESULTS: dict[str, str] = {
     "10.0": "full-cup sim: trigonelline minimum fraction MAPE (%)",
     "1.6": "independent-trace check: lower fraction-scoring range ratio",
     "2.1": "independent-trace check: upper fraction-scoring range ratio",
+    # --- endpoint propagation through the full transfer-versus-null benchmark (P0-4) ----------
+    # Producer: validation.slow.angeloni_bracket.endpoint_propagation_benchmark; archive:
+    # docs/paper1_resource/PAPER_A_ENDPOINT_PROPAGATION.json. ~2-3 min of PDE solves per endpoint.
+    "8.17": "endpoint propagation: model pooled held-out MAPE at 38 mL (%)",
+    "8.20": "endpoint propagation: model pooled held-out MAPE at 42 mL (%)",
+    "0.421": "endpoint propagation: paired model-minus-null difference at 38 mL (pp)",
+    "0.361": "endpoint propagation: paired model-minus-null difference at 40 mL (pp)",
+    "0.392": "endpoint propagation: paired model-minus-null difference at 42 mL (pp)",
+    "0.79": "endpoint propagation: 38 mL clustered percentile range, lower bound (pp)",
+    "0.72": "endpoint propagation: 40 mL clustered percentile range, lower bound (pp)",
+    "0.78": "endpoint propagation: 42 mL clustered percentile range, lower bound (pp)",
+    "0.01": "endpoint propagation: 42 mL clustered percentile range, upper bound (pp)",
+    "51": "endpoint propagation: held-out points where the model is worse, at 38 mL",
+    "49": "endpoint propagation: held-out points where the model is worse, at 42 mL; "
+          "also the unmatched fixed-window comparison upper end (%)",
+    "0.06": "endpoint propagation: spread of the paired difference across 38/40/42 mL (pp)",
+    "0.42": "endpoint propagation: the paired difference rounded to 2 dp at 38 mL (-0.421), quoted as the range endpoint in prose",
+    # --- PDE discretisation / solver-tolerance convergence (MC4.4) ------------------------------
+    # Producer: validation.slow.angeloni_bracket.numerical_convergence; archive:
+    # docs/paper1_resource/PAPER_A_NUMERICAL_CONVERGENCE.json.
+    "400": "PDE convergence: finest axial resolution swept (nodes)",
+    "0.0004": "PDE convergence: worst-case relative deviation of the whole-cup concentration (%)",
+    "0.0013": "PDE convergence: worst-case relative deviation of the late fraction (%)",
+    "0.0204": "PDE convergence: worst-case relative deviation of the profile range ratio (%)",
 }
 
 DERIVED_QUANTITIES: dict[str, tuple[str, str, str]] = {}

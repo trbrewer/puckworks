@@ -1,0 +1,155 @@
+{
+ "v_targets": [
+  38.0,
+  40.0,
+  42.0
+ ],
+ "rows": [
+  {
+   "v_target_ml": 38.0,
+   "pooled_model_mape": 8.17,
+   "pooled_const_mape": 8.59,
+   "paired_difference_pp": -0.421,
+   "paired_median_pp": -0.062,
+   "n_points": 108,
+   "n_model_worse_than_const": 51,
+   "skill_vs_const": 0.049,
+   "clustered_range_within_group": [
+    -0.791,
+    -0.028
+   ],
+   "clustered_range_whole_group": [
+    -0.824,
+    -0.069
+   ],
+   "within_group_excludes_zero": true,
+   "per_fit": {
+    "Arabica:caffeine": {
+     "model_macro_mape": 6.76,
+     "const_macro_mape": 7.57
+    },
+    "Arabica:trigonelline": {
+     "model_macro_mape": 4.92,
+     "const_macro_mape": 4.96
+    },
+    "Arabica:5CQA": {
+     "model_macro_mape": 11.57,
+     "const_macro_mape": 12.82
+    },
+    "Robusta:caffeine": {
+     "model_macro_mape": 8.49,
+     "const_macro_mape": 8.41
+    },
+    "Robusta:trigonelline": {
+     "model_macro_mape": 7.79,
+     "const_macro_mape": 7.96
+    },
+    "Robusta:5CQA": {
+     "model_macro_mape": 9.46,
+     "const_macro_mape": 9.81
+    }
+   }
+  },
+  {
+   "v_target_ml": 40.0,
+   "pooled_model_mape": 8.23,
+   "pooled_const_mape": 8.59,
+   "paired_difference_pp": -0.361,
+   "paired_median_pp": -0.053,
+   "n_points": 108,
+   "n_model_worse_than_const": 50,
+   "skill_vs_const": 0.042,
+   "clustered_range_within_group": [
+    -0.725,
+    0.027
+   ],
+   "clustered_range_whole_group": [
+    -0.751,
+    -0.032
+   ],
+   "within_group_excludes_zero": false,
+   "per_fit": {
+    "Arabica:caffeine": {
+     "model_macro_mape": 6.93,
+     "const_macro_mape": 7.57
+    },
+    "Arabica:trigonelline": {
+     "model_macro_mape": 5.01,
+     "const_macro_mape": 4.96
+    },
+    "Arabica:5CQA": {
+     "model_macro_mape": 11.62,
+     "const_macro_mape": 12.82
+    },
+    "Robusta:caffeine": {
+     "model_macro_mape": 8.49,
+     "const_macro_mape": 8.41
+    },
+    "Robusta:trigonelline": {
+     "model_macro_mape": 7.82,
+     "const_macro_mape": 7.96
+    },
+    "Robusta:5CQA": {
+     "model_macro_mape": 9.51,
+     "const_macro_mape": 9.81
+    }
+   }
+  },
+  {
+   "v_target_ml": 42.0,
+   "pooled_model_mape": 8.2,
+   "pooled_const_mape": 8.59,
+   "paired_difference_pp": -0.392,
+   "paired_median_pp": -0.094,
+   "n_points": 108,
+   "n_model_worse_than_const": 49,
+   "skill_vs_const": 0.046,
+   "clustered_range_within_group": [
+    -0.778,
+    0.01
+   ],
+   "clustered_range_whole_group": [
+    -0.768,
+    -0.036
+   ],
+   "within_group_excludes_zero": false,
+   "per_fit": {
+    "Arabica:caffeine": {
+     "model_macro_mape": 6.62,
+     "const_macro_mape": 7.57
+    },
+    "Arabica:trigonelline": {
+     "model_macro_mape": 4.96,
+     "const_macro_mape": 4.96
+    },
+    "Arabica:5CQA": {
+     "model_macro_mape": 11.73,
+     "const_macro_mape": 12.82
+    },
+    "Robusta:caffeine": {
+     "model_macro_mape": 8.49,
+     "const_macro_mape": 8.41
+    },
+    "Robusta:trigonelline": {
+     "model_macro_mape": 7.84,
+     "const_macro_mape": 7.96
+    },
+    "Robusta:5CQA": {
+     "model_macro_mape": 9.55,
+     "const_macro_mape": 9.81
+    }
+   }
+  }
+ ],
+ "paired_difference_range_pp": [
+  -0.421,
+  -0.361
+ ],
+ "sign_is_stable": true,
+ "primary_range_crosses_zero_at_every_endpoint": false,
+ "conclusion_stable": false,
+ "estimand": "pooled held-out MAPE of the frozen optimal-grind mechanistic calibration MINUS that of the optimal-grind-trained level-only constant, both evaluated at the same endpoint proxy, over all held-out coarse/fine points",
+ "note": "This is NOT the same quantity as `endpoint_mass_sensitivity`, which reports the blind optimal-grind per-condition residual. Both predictors are re-derived at each endpoint here, so a shift common to both cancels -- which is exactly why the ~5 pp movement in the blind residual does not by itself imply that the model-versus-null conclusion is endpoint-dependent.",
+ "note_on_the_null": "The level-only constant's pooled MAPE is 8.59 % at ALL THREE endpoints, and that is a correctness check rather than a coincidence: the constant is fitted to MEASURED concentrations, which do not depend on where the solver terminates. Only the mechanistic predictor moves with the endpoint. If the baseline had moved too, the pipeline would not be doing what this analysis claims.",
+ "reading": "The effect SIZE is stable: -0.36 to -0.42 pp across 38/40/42 mL, a spread of 0.06 pp. That is an order of magnitude smaller than the ~5 pp movement in the blind optimal-grind residual over the same endpoints, which is what one expects when both predictors are re-derived at each endpoint so that a shift common to both cancels. The sign never changes and the model remains worse on roughly half the held-out points (49-51 of 108) at every endpoint. HOWEVER, the inferential reading is NOT endpoint-invariant: at 38 mL the primary conditions-within-group clustered percentile range is [-0.79, -0.03], which EXCLUDES zero, while at 40 mL ([-0.72, +0.03]) and 42 mL ([-0.78, +0.01]) it includes zero. The paper's 'small and unresolved' conclusion therefore holds at the 40 mL proxy it uses and at 42 mL, but at 38 mL the range narrowly excludes zero -- with an upper bound of -0.03 pp, i.e. an advantage of at most a third of a percentage point. This dependence is reported as part of the conclusion rather than buried, per the review's own decision rule."
+}

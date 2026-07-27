@@ -23,7 +23,7 @@ def test_every_branch_reports_acf_across_lags_and_a_spectrum(rd):
     for name, b in rd["branches"].items():
         assert len(b["acf_by_lag"]) >= 10, (name, len(b["acf_by_lag"]))
         assert b["spectrum"]["period_s"], name
-        assert b["spectrum"]["dominant_period_s"] is not None, name
+        assert b["spectrum"]["peak_bin_period_s"] is not None, name
 
 
 def test_residual_structure_is_drift_not_oscillation(rd):
@@ -33,16 +33,22 @@ def test_residual_structure_is_drift_not_oscillation(rd):
         assert share > 0.9, (name, share)
 
 
-def test_the_temporal_branches_shed_the_slowest_component(rd):
-    """The part the scalars do not show: static branches peak at the full window (a single
-    unreversed drift); the temporal branches peak at half of it, so what they leave reverses
-    within the shot."""
+def test_the_temporal_branches_peak_at_a_different_bin(rd):
+    """Third review P0.5. This test previously asserted that the static branches peak at "the full
+    window (a single unreversed drift)" and the temporal ones at half of it, "so what they leave
+    reverses within the shot". That INTERPRETATION is withdrawn: on an 80-point, 1 s-decimated
+    series, 80 s and 40 s are simply the first and second nonzero Fourier periods available, so
+    the values locate a BIN and cannot distinguish drift from oscillation.
+
+    The numerical fact is kept, because it is still a real difference between the branches; only
+    the physical reading is gone. The field is renamed `peak_bin_period_s` so the estimand is
+    honest at source rather than only in the prose."""
     br = rd["branches"]
-    assert br["rung1_const"]["spectrum"]["dominant_period_s"] == pytest.approx(80.0, abs=0.1)
-    assert br["rung3_static"]["spectrum"]["dominant_period_s"] == pytest.approx(80.0, abs=0.1)
-    assert br["rung4_phi_of_t"]["spectrum"]["dominant_period_s"] == pytest.approx(40.0, abs=0.1)
-    assert (br["rung4_phi_of_t"]["spectrum"]["dominant_period_s"]
-            < br["rung1_const"]["spectrum"]["dominant_period_s"])
+    assert br["rung1_const"]["spectrum"]["peak_bin_period_s"] == pytest.approx(80.0, abs=0.1)
+    assert br["rung3_static"]["spectrum"]["peak_bin_period_s"] == pytest.approx(80.0, abs=0.1)
+    assert br["rung4_phi_of_t"]["spectrum"]["peak_bin_period_s"] == pytest.approx(40.0, abs=0.1)
+    assert (br["rung4_phi_of_t"]["spectrum"]["peak_bin_period_s"]
+            < br["rung1_const"]["spectrum"]["peak_bin_period_s"])
 
 
 def test_the_spectrum_can_distinguish_oscillation_from_drift():
@@ -60,7 +66,7 @@ def test_the_spectrum_can_distinguish_oscillation_from_drift():
 
     assert s_drift["power_in_slowest_quarter"] > 0.9, s_drift
     assert s_fast["power_in_slowest_quarter"] < 0.1, s_fast
-    assert s_fast["dominant_period_s"] == pytest.approx(4.0, abs=0.5)
+    assert s_fast["peak_bin_period_s"] == pytest.approx(4.0, abs=0.5)
 
 
 def test_the_acf_estimator_is_not_vacuous():
@@ -81,15 +87,19 @@ def test_degenerate_inputs_do_not_raise():
     flat = np.zeros(40)
     assert W._periodogram(flat, 1.0)["period_s"] == []
     assert W._acf_by_lag(flat, 5) == []
-    assert W._periodogram(np.zeros(3), 1.0)["dominant_period_s"] is None
+    assert W._periodogram(np.zeros(3), 1.0)["peak_bin_period_s"] is None
 
 
 def test_the_manuscript_states_the_finding_with_the_computed_numbers(rd):
     import pathlib
     text = pathlib.Path("docs/PAPER_B2_TEMPORAL_DRAFT.md").read_text(encoding="utf-8")
-    assert "5.2b Residual structure is drift, not oscillation" in text
+    assert "5.2b Residual power is concentrated at low frequencies" in text
     for value in ("0.957", "0.990", "0.954", "80 s", "40 s"):
         assert value in text, value
+    # P0.5: the three withdrawn readings must be recorded as withdrawn, not silently dropped --
+    # and must not be re-asserted anywhere.
+    assert "we withdraw the previous claims" in text
+    assert "first and second nonzero Fourier periods available" in text
     # This assertion used to require the manuscript to say the figure was NOT drawn. The figure
     # set now exists, so the claim is inverted rather than deleted: the manuscript must point at
     # the generated figure instead of at an absence.

@@ -61,12 +61,32 @@ def test_published_spread_is_a_standard_error_not_a_deviation():
     assert np.median(sd) > np.median(published)          # SD strictly wider than SEM
 
 
-def test_noise_floor_is_the_scale_ladder_gaps_are_judged_on():
-    r = W.shot_level_noise_floor()
+def test_across_shot_dispersion_is_reported_on_two_named_scales():
+    """Third review P0.1. The single number formerly called a "shot-to-shot noise floor" is a
+    LEAVE-IN dispersion: each shot is inside the five-shot mean it is compared against, so it is
+    optimistic by construction. Both scales must now be reported and named."""
+    r = W.shot_level_dispersion()
     assert r["n_shots"] == 5 and r["n_points"] == 800
-    # a single shot sits ~0.15 g/s from the mean curve the manuscript scores
-    assert 0.10 < r["noise_floor_rmse_g_per_s"] < 0.25
+    assert 0.10 < r["leave_in_dispersion_rmse_g_per_s"] < 0.25
+    assert r["other_four_template_rmse_g_per_s"] > r["leave_in_dispersion_rmse_g_per_s"]
     assert r["between_shot_sd_of_mean_flow_g_per_s"] > 0.05
+    assert r["is_noise_floor"] is False
+
+
+def test_the_leave_in_optimism_is_exactly_n_over_n_minus_one():
+    """The identity that makes the optimism non-arguable: Q_i - mean(Q_-i) = n/(n-1)(Q_i - mean Q).
+    With five shots every leave-one-out distance is exactly 1.25x the leave-in distance."""
+    r = W.shot_level_dispersion()
+    assert r["leave_one_out_inflation_factor"] == 1.25
+    assert r["leave_one_out_identity_holds"] is True
+    assert r["other_four_template_rmse_g_per_s"] == pytest.approx(
+        r["leave_in_dispersion_rmse_g_per_s"] * 1.25, abs=1e-3)
+
+
+def test_the_withdrawn_noise_floor_helper_refuses_rather_than_delegating():
+    """A silent alias would let the old, wrong reading survive in any un-updated caller."""
+    with pytest.raises(AttributeError, match="withdrawn"):
+        W.shot_level_noise_floor()
 
 
 def test_phi_beats_the_constant_null_on_every_individual_shot():
@@ -76,19 +96,26 @@ def test_phi_beats_the_constant_null_on_every_individual_shot():
     assert r["n_shots"] == 5
     assert r["shots_rung4_beats_const"] == 5
     assert r["ordering_survives_per_shot"] is True
-    # and the margin is comfortably outside shot noise: gap ~0.39 g/s vs a ~0.15 g/s floor (~2.6x)
+    # The margin is large -- but the claim that carries it is the DIRECTIONAL CONSISTENCY across
+    # all five shots plus the paired effect size, not a multiple of any dispersion scale
+    # (third review P0.1: neither scale is a resolvability threshold).
     gap = r["across_shots"]["rung1_const"]["mean"] - r["across_shots"]["rung4_phi_of_t"]["mean"]
-    assert gap > 2 * r["shot_noise_floor_rmse_g_per_s"]
+    assert gap > 0.3
 
 
-def test_phi_vs_cubic_is_not_resolvable_at_shot_level():
+def test_the_cubic_beats_phi_on_every_shot_and_no_resolvability_verdict_is_emitted():
     """The manuscript's SECONDARY claim does not survive the unit change: per shot the flexible
-    cubic is clearly better than Phi(t), and the gap is inside the shot-to-shot noise floor, so
-    'Phi(t) nearly reaches the flexible floor' cannot be asserted from five shots."""
+    cubic is clearly better than Phi(t), so "Phi(t) nearly reaches the flexible floor" cannot be
+    asserted. What is withdrawn along with it (third review P0.1) is the *verdict*: the producer
+    used to compare the gap with a leave-in dispersion and emit `phi_vs_cubic_resolvable`, which
+    is not a defensible inferential statement."""
     r = W.per_shot_ladder()
     assert r["phi_minus_cubic_mean_g_per_s"] > 0          # cubic wins per shot
-    assert r["phi_vs_cubic_resolvable"] is False
-    assert abs(r["phi_minus_cubic_mean_g_per_s"]) < r["shot_noise_floor_rmse_g_per_s"]
+    assert "phi_vs_cubic_resolvable" not in r
+    assert "shot_noise_floor_rmse_g_per_s" not in r
+    # both descriptive scales are still available, named
+    assert r["leave_in_dispersion_rmse_g_per_s"] > 0
+    assert r["other_four_template_rmse_g_per_s"] > 0
 
 
 def test_phi_is_not_claimed_to_be_cross_fitted():
@@ -140,7 +167,7 @@ def test_partial_leave_one_shot_out_bounds_the_equilibrium_reuse_channel():
     r = W.leave_one_shot_out_phi()
     assert r["n_shots"] == 5
     assert r["cross_fitted_channels"] == ["equilibrium_calibration_P_c_Q_c"]
-    assert abs(r["optimism_pp_g_per_s"]) < 0.05 * r["shot_noise_floor_rmse_g_per_s"]
+    assert abs(r["optimism_pp_g_per_s"]) < 0.05 * r["other_four_template_rmse_g_per_s"]
     # honesty guards: this must never be sold as a full cross-fit
     assert r["is_full_cross_fit"] is False
     assert r["remaining_target_reuse"] and "sigmoid" in r["remaining_target_reuse"][0]
@@ -186,7 +213,7 @@ def test_the_flexible_comparator_never_sees_the_points_it_is_scored_on():
 
 def test_held_out_comparator_reports_both_protocols_and_the_extrapolation_caveat():
     r = W.held_out_flexible_comparator()
-    assert r["comparator"]["prespecified"] is True
+    assert r["comparator"]["architecture_fixed_across_folds"] is True
     loso = r["leave_one_shot_out_mean"]
     assert {"spline", "const", "phi", "phi_equilibrium_crossfit", "static"} <= set(loso)
     # both nulls are withheld the same way, so they are comparable
@@ -197,13 +224,16 @@ def test_held_out_comparator_reports_both_protocols_and_the_extrapolation_caveat
     assert "extrapolate" in r["leave_segment_out_caveat"]
 
 
-def test_the_mechanistic_advantage_over_the_held_out_spline_is_below_the_noise_floor():
-    """This is the paper's own downgrade and it must not silently reverse: if a future change makes
-    phi beat the withheld spline by more than shot-to-shot variability, that is a NEW claim that
-    needs its own evidence, and this test should fail so it cannot land unnoticed."""
+def test_the_held_out_spline_matches_phi_and_no_floor_verdict_is_emitted():
+    """The paper's own downgrade, restated without the withdrawn threshold. The finding is that a
+    fully held-out empirical template predicts an omitted shot as well as the partly
+    target-informed Phi(t) trajectory -- a difference of ~0.003 g/s on a ~0.19 g/s scale, with the
+    five paired differences split 2-3 and an exact sign-flip p of 0.8125. That is a statement about
+    effect size and directional inconsistency, not about clearing a floor."""
     r = W.held_out_flexible_comparator()
-    assert abs(r["phi_minus_spline_heldout_g_per_s"]) < r["shot_noise_floor_rmse_g_per_s"]
-    assert r["difference_exceeds_shot_noise_floor"] is False
+    assert abs(r["phi_minus_spline_heldout_g_per_s"]) < 0.02
+    assert "difference_exceeds_shot_noise_floor" not in r
+    assert "shot_noise_floor_rmse_g_per_s" not in r
 
 
 def test_residual_diagnostics_share_one_declared_resolution():

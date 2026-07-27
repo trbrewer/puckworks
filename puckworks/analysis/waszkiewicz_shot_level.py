@@ -31,37 +31,99 @@ def _shots(window):
     return ids, t[sel], Q
 
 
-def shot_level_noise_floor(window=WINDOW):
-    """The REFERENCE SCALE the published RMSEs should be read against.
+def shot_level_dispersion(window=WINDOW):
+    """Descriptive across-shot dispersion, reported on TWO scales -- neither of them a floor.
 
-    Measures how far an individual 9-bar shot sits from the across-shot mean curve that the
-    manuscript scores. This is a descriptive noise floor, NOT a model: it is the residual any model
-    would incur predicting a single real shot even if it reproduced the mean trajectory perfectly.
+    This function used to be called ``shot_level_noise_floor`` and returned a single number,
+    0.1492 g/s, described as "the residual any model would incur predicting a single real shot".
+    The third Paper B2 review showed that reading is wrong, and the arithmetic is exact rather than
+    arguable.
 
-    The comparison it licenses is ORDERING-vs-SEPARATION, not accuracy: an RMSE gap much larger than
-    this floor is a real discrimination; a gap comfortably inside it is not resolvable with five
-    shots, however reproducible the point estimate looks. Strength: descriptive/diagnostic."""
+    That number is the mean RMSE between each shot and the mean of ALL FIVE shots -- including the
+    shot being scored, which contributes 20 % of the mean it is compared against. That shrinks the
+    residual deterministically. For n shots,
+
+        Q_i - mean(Q_{-i}) = n/(n-1) * (Q_i - mean(Q))
+
+    so every leave-one-out distance is exactly n/(n-1) = 1.25x the leave-in distance here. The
+    quantity is optimistic by construction: it is not an independent prediction error, not an
+    irreducible-noise estimate, not a lower bound on model error, and not an inferential threshold.
+    A model with genuine shot-specific covariates could beat the other-four template; a misspecified
+    one could do worse. There is no floor in the mathematical sense.
+
+    What is returned instead:
+
+    ``leave_in_dispersion_rmse_g_per_s`` (0.1492)
+        Each shot against the full five-shot mean. Retained ONLY because the published figures and
+        earlier manuscript text used it, and a reader comparing versions needs to find it. Labelled
+        as leave-in. Not to be used as a threshold.
+
+    ``other_four_template_rmse_g_per_s`` (0.1864)
+        Each shot against an empirical template formed from the OTHER four shots. This is the
+        honest answer to "how well does knowing four shots predict a fifth", and it is the correct
+        descriptive denominator if one is wanted. It still combines material repeatability,
+        preparation variation, alignment, smoothing and measurement effects, and rests on five
+        shots from one condition -- so it is a descriptive scale, not a noise floor either.
+
+    ``pointwise_between_shot_sd_mean_g_per_s`` (0.1540)
+        Mean pointwise between-shot standard deviation. Descriptive spread, not a prediction error.
+
+    Inference about model differences is made from the five PAIRED shot-level differences and the
+    exact sign-flip test, never by comparing a point estimate with any of these scales.
+    Strength: descriptive/diagnostic.
+    """
     ids, t, Q = _shots(window)
+    n = len(ids)
     mean_curve = Q.mean(axis=0)
-    per_shot_rmse = np.sqrt(((Q - mean_curve) ** 2).mean(axis=1))
+    leave_in = np.sqrt(((Q - mean_curve) ** 2).mean(axis=1))
+    other_four = np.array([
+        float(np.sqrt(((Q[i] - np.delete(Q, i, axis=0).mean(axis=0)) ** 2).mean()))
+        for i in range(n)])
     per_shot_mean_q = Q.mean(axis=1)
     pointwise_sd = Q.std(axis=0, ddof=1)
     return dict(
-        pressure_bar=PRESSURE_BAR, window_s=tuple(window), n_shots=len(ids),
+        pressure_bar=PRESSURE_BAR, window_s=tuple(window), n_shots=n,
         n_points=int(Q.shape[1]), shot_ids=ids,
         per_shot_mean_flow_g_per_s={k: round(float(v), 4)
                                     for k, v in zip(ids, per_shot_mean_q)},
         between_shot_sd_of_mean_flow_g_per_s=round(float(per_shot_mean_q.std(ddof=1)), 4),
-        per_shot_rmse_vs_mean_curve_g_per_s={k: round(float(v), 4)
-                                             for k, v in zip(ids, per_shot_rmse)},
-        # THE number: the typical single-shot deviation from the scored mean trajectory
-        noise_floor_rmse_g_per_s=round(float(per_shot_rmse.mean()), 4),
-        noise_floor_rmse_range_g_per_s=[round(float(per_shot_rmse.min()), 4),
-                                        round(float(per_shot_rmse.max()), 4)],
+
+        # --- leave-in (optimistic by construction; kept for continuity with earlier versions) ---
+        per_shot_leave_in_rmse_g_per_s={k: round(float(v), 4) for k, v in zip(ids, leave_in)},
+        leave_in_dispersion_rmse_g_per_s=round(float(leave_in.mean()), 4),
+        leave_in_dispersion_rmse_range_g_per_s=[round(float(leave_in.min()), 4),
+                                                round(float(leave_in.max()), 4)],
+
+        # --- honest other-four empirical template ---
+        per_shot_other_four_rmse_g_per_s={k: round(float(v), 4) for k, v in zip(ids, other_four)},
+        other_four_template_rmse_g_per_s=round(float(other_four.mean()), 4),
+        other_four_template_rmse_range_g_per_s=[round(float(other_four.min()), 4),
+                                                round(float(other_four.max()), 4)],
+
+        # --- the exact identity that makes the optimism transparent ---
+        leave_one_out_inflation_factor=round(n / (n - 1), 6),
+        leave_one_out_identity_holds=bool(
+            np.allclose(other_four, leave_in * n / (n - 1), rtol=1e-9, atol=1e-12)),
+
         pointwise_between_shot_sd_mean_g_per_s=round(float(pointwise_sd.mean()), 4),
         pointwise_between_shot_sd_max_g_per_s=round(float(pointwise_sd.max()), 4),
-        note="Descriptive shot-to-shot scatter, not a fitted model and not an error bar on any "
-             "rung. It is the scale on which RMSE DIFFERENCES between rungs should be judged.")
+        is_noise_floor=False,
+        note="Descriptive across-shot dispersion on two scales. NEITHER is a noise floor, a lower "
+             "bound on model error, or a threshold for declaring a difference resolvable. The "
+             "leave-in value includes each shot in the mean it is scored against and is optimistic "
+             "by exactly n/(n-1). Inference uses the five paired differences and the exact "
+             "sign-flip test.")
+
+
+#: The old name, kept so that nothing silently imports a function that no longer exists. It raises
+#: rather than delegating: the returned dict no longer has a `noise_floor_rmse_g_per_s` key, and a
+#: caller that wanted one needs to choose which scale it actually means.
+def shot_level_noise_floor(window=WINDOW):
+    raise AttributeError(
+        "shot_level_noise_floor() was withdrawn (Paper B2 third review P0.1): the quantity it "
+        "returned was a LEAVE-IN dispersion, optimistic by exactly n/(n-1), and was not a noise "
+        "floor or a resolvability threshold. Use shot_level_dispersion() and name the scale you "
+        "mean: leave_in_dispersion_rmse_g_per_s or other_four_template_rmse_g_per_s.")
 
 
 def per_shot_ladder(window=WINDOW):
@@ -112,7 +174,7 @@ def per_shot_ladder(window=WINDOW):
                              min=round(float(v.min()), 4), max=round(float(v.max()), 4))
     beats_const = int((_col("rung4_phi_of_t") < _col("rung1_const")).sum())
     phi_vs_cubic = _col("rung4_phi_of_t") - _col("flexible_cubic")
-    floor = shot_level_noise_floor(window)["noise_floor_rmse_g_per_s"]
+    disp = shot_level_dispersion(window)
 
     return dict(
         pressure_bar=PRESSURE_BAR, window_s=tuple(window), n_shots=len(ids), shot_ids=ids,
@@ -121,10 +183,12 @@ def per_shot_ladder(window=WINDOW):
         shots_rung4_beats_const_fraction="%d/%d" % (beats_const, len(ids)),
         phi_minus_cubic_mean_g_per_s=round(float(phi_vs_cubic.mean()), 4),
         phi_minus_cubic_sd_g_per_s=round(float(phi_vs_cubic.std(ddof=1)), 4),
-        shot_noise_floor_rmse_g_per_s=floor,
-        # the two comparisons the review asks to be separated
+        # Both descriptive scales, named. NEITHER is a threshold: the previous
+        # `phi_vs_cubic_resolvable` flag compared a point estimate with a leave-in dispersion and
+        # is withdrawn (third review P0.1). Inference is the paired sign-flip test.
+        leave_in_dispersion_rmse_g_per_s=disp["leave_in_dispersion_rmse_g_per_s"],
+        other_four_template_rmse_g_per_s=disp["other_four_template_rmse_g_per_s"],
         ordering_survives_per_shot=bool(beats_const == len(ids)),
-        phi_vs_cubic_resolvable=bool(abs(float(phi_vs_cubic.mean())) > floor),
         note="rung1 and the cubic get their free parameters re-optimized per shot (their best "
              "case); rung3 and rung4 are zero-free-parameter predictions evaluated as-is. Phi(t) "
              "is NOT re-fitted per shot -- a true leave-one-shot-out cross-fit needs shot-matched "
@@ -252,14 +316,15 @@ def leave_one_shot_out_phi(window=WINDOW):
 
     held = np.array([per[k]["heldout_rmse"] for k in ids])
     ins = np.array([insample[k] for k in ids])
-    floor = shot_level_noise_floor(window)["noise_floor_rmse_g_per_s"]
+    disp = shot_level_dispersion(window)
     return dict(
         pressure_bar=PRESSURE_BAR, window_s=tuple(window), n_shots=len(ids),
         per_shot=per, in_sample_rmse=insample,
         heldout_mean_rmse_g_per_s=round(float(held.mean()), 4),
         in_sample_mean_rmse_g_per_s=round(float(ins.mean()), 4),
         optimism_pp_g_per_s=round(float(held.mean() - ins.mean()), 4),
-        shot_noise_floor_rmse_g_per_s=floor,
+        leave_in_dispersion_rmse_g_per_s=disp["leave_in_dispersion_rmse_g_per_s"],
+        other_four_template_rmse_g_per_s=disp["other_four_template_rmse_g_per_s"],
         cross_fitted_channels=["equilibrium_calibration_P_c_Q_c"],
         remaining_target_reuse=["dissolved_mass_sigmoid_k_l_m (TDS replicates are not shot-matched "
                                 "to the flow traces, so it cannot be rebuilt per held-out shot)"],
@@ -328,7 +393,8 @@ def paired_shot_uncertainty(window=WINDOW, seed=0):
     return dict(
         pressure_bar=PRESSURE_BAR, window_s=tuple(window), n_shots=n, shot_ids=ids,
         comparisons=out, seed=int(seed),
-        shot_noise_floor_rmse_g_per_s=lad["shot_noise_floor_rmse_g_per_s"],
+        leave_in_dispersion_rmse_g_per_s=lad["leave_in_dispersion_rmse_g_per_s"],
+        other_four_template_rmse_g_per_s=lad["other_four_template_rmse_g_per_s"],
         supersedes="within-curve block resampling of the mean trace, which is retained only as a "
                    "secondary within-curve sensitivity",
         note="Free parameters are re-optimized per shot for the constant and the cubic. Phi(t) and "
@@ -387,7 +453,7 @@ def held_out_flexible_comparator(window=WINDOW, n_segments=5):
 
     The degree-3 polynomial null is fitted to the very trace it is scored on, so it establishes
     only that a smooth curve can interpolate the data -- it is not a predictive comparator. This
-    adds a prespecified penalized cubic B-spline (%d interior knots, second-difference penalty,
+    adds a FIXED-ARCHITECTURE penalized cubic B-spline (%d interior knots, second-difference penalty,
     smoothing weight by GCV) under two protocols that withhold the scored points entirely:
 
       * LEAVE-ONE-SHOT-OUT -- fit on the other four shots, predict the excluded shot. The
@@ -411,9 +477,12 @@ def held_out_flexible_comparator(window=WINDOW, n_segments=5):
     q_phi = wz.q_dynamic(t, PRESSURE_BAR, P_c, Q_c, k_s, l_s, m_s, dose)
     lvl_static = float(wz.q_static(PRESSURE_BAR, P_c, Q_c))
 
-    # Phi(t) is also evaluated under its OWN cross-fit (equilibrium channel withheld per shot), so
-    # the comparison is like-for-like: neither comparator is scored on a calibration that saw the
-    # held-out shot through a channel that could be withheld.
+    # Phi(t) is also evaluated under its OWN cross-fit (equilibrium channel withheld per shot).
+    # That removes ONE reuse channel; it does NOT make the comparison symmetric, and the word
+    # "like-for-like" that used to appear here was withdrawn (third review P0.2). The spline is
+    # FULLY held out; Phi(t)'s dissolved-mass channel is derived partly from the same flow campaign
+    # and cannot be withheld, because the TDS replicates were never shot-matched to these traces.
+    # Any consumer of these numbers must state that asymmetry alongside them.
     phi_cf = leave_one_shot_out_phi(window)["per_shot"]
 
     # --- protocol 1: leave one SHOT out ---------------------------------------------------------
@@ -465,17 +534,51 @@ def held_out_flexible_comparator(window=WINDOW, n_segments=5):
     def _mean(dct, key):
         return round(float(np.mean([dct[k][key] for k in ids])), 4)
 
-    floor = shot_level_noise_floor(window)["noise_floor_rmse_g_per_s"]
+    disp = shot_level_dispersion(window)
     spline_mean = _mean(loso, "spline_heldout_rmse")
     phi_mean = _mean(loso, "phi_rmse")
     phi_cf_mean = _mean(loso, "phi_crossfit_rmse")
+
+    # Third review P0.2: a MEAN difference conceals the structure. Report the five paired
+    # differences, how they split, their spread, and the exact sign-flip p -- the same inference
+    # the paper uses everywhere else. The split here is 2-3 with p = 0.8125: no directional
+    # consistency at all, which the mean of 0.003 g/s does not convey.
+    import itertools as _it
+    _pd = np.array([loso[k]["phi_rmse"] - loso[k]["spline_heldout_rmse"] for k in ids], float)
+    _obs = abs(float(_pd.mean()))
+    _p = sum(1 for s in _it.product((1, -1), repeat=len(_pd))
+             if abs(float((_pd * np.array(s)).mean())) >= _obs - 1e-12) / 2 ** len(_pd)
+    # And the comparator's identity: the spline is within a rounding error of simply using the
+    # unsmoothed mean of the other four shots, so what it captures is same-condition
+    # repeatability, not a generic ability to smooth arbitrary data.
+    _raw_template = float(np.mean([
+        np.sqrt(((Q[i] - np.delete(Q, i, axis=0).mean(axis=0)) ** 2).mean())
+        for i in range(len(ids))]))
+    _spline_raw = float(np.mean([loso[k]["spline_heldout_rmse"] for k in ids])) - _raw_template
     return dict(
         pressure_bar=PRESSURE_BAR, window_s=tuple(window), n_shots=len(ids), shot_ids=ids,
         comparator=dict(kind="penalized cubic B-spline", interior_knots=_SPLINE_KNOTS,
                         degree=_SPLINE_DEGREE, penalty="second difference",
                         smoothing_selection="GCV on the training data only",
-                        prespecified=True),
+                        # Third review P1.1: no dated protocol predating result inspection is
+                        # on record, so the defensible claim is that the architecture was held
+                        # FIXED across folds -- not that it was preregistered.
+                        architecture_fixed_across_folds=True),
         leave_one_shot_out=loso,
+        phi_minus_spline_paired_g_per_s=[round(float(x), 4) for x in _pd],
+        phi_minus_spline_paired_sd_g_per_s=round(float(_pd.std(ddof=1)), 4),
+        phi_better_on_n_shots=int((_pd < 0).sum()),
+        spline_better_on_n_shots=int((_pd > 0).sum()),
+        phi_vs_spline_exact_sign_flip_p=round(float(_p), 4),
+        raw_other_four_template_rmse_g_per_s=round(_raw_template, 4),
+        spline_minus_raw_template_g_per_s=round(_spline_raw, 4),
+        access_is_symmetric=False,
+        access_note=("The spline is FULLY held out. Phi(t) is PARTLY TARGET-INFORMED: its "
+                     "equilibrium calibration is cross-fitted but its dissolved-mass channel is "
+                     "derived partly from the same flow campaign and cannot be withheld, because "
+                     "the TDS replicates were never shot-matched to these flow traces. Any "
+                     "comparison between the two must state this asymmetry, which runs in the "
+                     "direction that FAVOURS Phi(t)."),
         leave_one_shot_out_mean=dict(
             spline=spline_mean, const=_mean(loso, "const_heldout_rmse"),
             phi=phi_mean, phi_equilibrium_crossfit=phi_cf_mean,
@@ -488,11 +591,15 @@ def held_out_flexible_comparator(window=WINDOW, n_segments=5):
         leave_segment_out_caveat=("the first and last segments require the spline to extrapolate "
                                   "beyond its support, where it is unstable; the interior mean is "
                                   "the interpolation question and is the headline"),
-        shot_noise_floor_rmse_g_per_s=floor,
+        leave_in_dispersion_rmse_g_per_s=disp["leave_in_dispersion_rmse_g_per_s"],
+        other_four_template_rmse_g_per_s=disp["other_four_template_rmse_g_per_s"],
         phi_minus_spline_heldout_g_per_s=round(phi_mean - spline_mean, 4),
         phi_crossfit_minus_spline_heldout_g_per_s=round(phi_cf_mean - spline_mean, 4),
         phi_beats_heldout_spline=bool(phi_mean < spline_mean),
-        difference_exceeds_shot_noise_floor=bool(abs(phi_mean - spline_mean) > floor),
+        # WITHDRAWN (third review P0.1): `difference_exceeds_shot_noise_floor` compared the
+        # spline-vs-Phi difference with a leave-in dispersion and read the result as
+        # (un)resolvable. Neither dispersion scale is a significance criterion. What the design
+        # supports is the paired difference and its exact sign-flip p-value, both reported above.
         note="The spline never sees the points it is scored on under either protocol. The "
              "leave-one-shot-out spline is trained on the mean of the other four shots, which is "
              "the same object the manuscript scores, so the protocols are comparable.")
@@ -522,14 +629,14 @@ def _periodogram(centred, dt_s, keep=12):
     x = np.asarray(centred, dtype=float)
     n = x.size
     if n < 8 or dt_s <= 0:
-        return dict(period_s=[], relative_power=[], dominant_period_s=None,
+        return dict(period_s=[], relative_power=[], peak_bin_period_s=None,
                     power_in_slowest_quarter=None)
     power = np.abs(np.fft.rfft(x)) ** 2
     freq = np.fft.rfftfreq(n, d=dt_s)
     power, freq = power[1:], freq[1:]                 # drop the zero-frequency (mean) term
     total = float(power.sum())
     if total == 0:
-        return dict(period_s=[], relative_power=[], dominant_period_s=None,
+        return dict(period_s=[], relative_power=[], peak_bin_period_s=None,
                     power_in_slowest_quarter=None)
     rel = power / total
     order = np.argsort(rel)[::-1][:keep]
@@ -540,7 +647,7 @@ def _periodogram(centred, dt_s, keep=12):
     return dict(
         period_s=[round(float(1.0 / f), 3) for f in freq[order]],
         relative_power=[round(float(v), 4) for v in rel[order]],
-        dominant_period_s=round(float(1.0 / freq[int(np.argmax(rel))]), 3),
+        peak_bin_period_s=round(float(1.0 / freq[int(np.argmax(rel))]), 3),
         power_in_slowest_quarter=round(float(rel[:q].sum()), 4),
     )
 
@@ -610,6 +717,17 @@ def residual_diagnostics(window=WINDOW, resolution_s=1.0):
         declared_resolution_s=float(resolution_s), decimation_step=int(step),
         n_points_at_resolution=int(len(td)), time_s=[round(float(x), 3) for x in td],
         branches=out,
+        # Cross-branch summaries. The manuscript quotes the RANGE of the lag-1 ACF and the MEAN
+        # Durbin-Watson; an earlier version asserted "approximately 0.99 in every branch" and a
+        # mean DW of "approximately 0.01", both of which contradicted the per-branch values
+        # reported twenty lines later in the same section. Binding the summaries to the producer
+        # is what stops a hand-written gloss drifting from the table beneath it.
+        lag1_acf_min=round(float(min(v["lag1_autocorrelation"] for v in out.values())), 4),
+        lag1_acf_max=round(float(max(v["lag1_autocorrelation"] for v in out.values())), 4),
+        durbin_watson_min=round(float(min(v["durbin_watson"] for v in out.values())), 4),
+        durbin_watson_max=round(float(max(v["durbin_watson"] for v in out.values())), 4),
+        mean_durbin_watson=round(
+            float(np.mean([v["durbin_watson"] for v in out.values()])), 4),
         between_shot_sd_mean_g_per_s=round(float(pointwise_sd.mean()), 4),
         note="ACF and Durbin-Watson are computed on the SAME decimated series for every branch. "
              "Durbin-Watson near 2 indicates no lag-1 structure AT THIS RESOLUTION; the value "
@@ -681,3 +799,83 @@ def recorded_pressure_robustness(window=(15.0, 95.0), pressure_bar=9.0):
               "setpoint; window, calibration, dissolution parameters and dose held fixed. A "
               "robustness result, not evidence for any mechanism."),
     )
+
+
+def leave_segment_out_sensitivity(window=WINDOW, segment_counts=(4, 5, 6, 8, 10, 16)):
+    """Why the interval-holdout result is NOT reported as a finding (third review P0.3).
+
+    The manuscript previously claimed, in the abstract and the discussion, that Phi(t) retains an
+    advantage over the penalized spline when predicting an unobserved interval, and read that as
+    evidence that its shape information was real while generic smoothness lacked it. That
+    reading is withdrawn.
+
+    That claim is conditional on one spline implementation and one five-segment partition, and it
+    fails both sensitivity checks:
+
+    * **Comparator.** Two generic comparators trained only on the non-held-out points -- linear
+      interpolation across the gap, and a cubic polynomial fitted to the retained points -- both
+      BEAT Phi(t) at the manuscript's own segment count.
+    * **Gap definition.** At six or more segments the same penalized spline also beats Phi(t). The
+      ranking is an artifact of the gap length, not a property of the branches.
+
+    Phi(t) is additionally not reconstructed without access to the withheld interval's own
+    campaign, so the protocol is asymmetric in model access as well as comparator architecture.
+
+    This producer exists so that the withdrawal is evidenced rather than asserted. It supports an
+    engineering statement about one spline under one large-gap interpolation task; it does not
+    support a claim about mechanism.
+
+    Strength: exploratory. Not a manuscript result.
+    """
+    from puckworks import data as d
+    from puckworks.models.waszkiewicz2025 import poroelastic as wz
+
+    ids, t, Q = _shots(window)
+    B, P = _penalized_spline_basis(t)
+    P_c, Q_c = wz.published_calibration()
+    k_s, l_s, m_s = wz._solids_params()
+    dose = d.waszkiewicz_constants()["dose__g"]
+    q_phi = wz.q_dynamic(t, PRESSURE_BAR, P_c, Q_c, k_s, l_s, m_s, dose)
+
+    out = {}
+    for nseg in segment_counts:
+        edges = np.linspace(0, len(t), nseg + 1).astype(int)
+        interior = [s for s in range(nseg) if 0 < s < nseg - 1]
+        acc = {k: [] for k in ("phi", "spline", "linear_interpolation", "heldout_cubic", "const")}
+        for i in range(len(ids)):
+            y = Q[i]
+            for s in interior:
+                hold = np.zeros(len(t), bool)
+                hold[edges[s]:edges[s + 1]] = True
+                tr = ~hold
+                c, _ = _fit_penalized_spline(B[tr], P, y[tr])
+                acc["spline"].append(float(np.sqrt(((B[hold] @ c - y[hold]) ** 2).mean())))
+                acc["phi"].append(float(np.sqrt(np.nanmean((q_phi[hold] - y[hold]) ** 2))))
+                acc["const"].append(float(np.sqrt(((y[tr].mean() - y[hold]) ** 2).mean())))
+                lin = np.interp(t[hold], t[tr], y[tr])
+                acc["linear_interpolation"].append(
+                    float(np.sqrt(((lin - y[hold]) ** 2).mean())))
+                cf = np.polyfit(t[tr], y[tr], 3)
+                acc["heldout_cubic"].append(
+                    float(np.sqrt(((np.polyval(cf, t[hold]) - y[hold]) ** 2).mean())))
+        means = {k: round(float(np.mean(v)), 4) for k, v in acc.items()}
+        beat_phi = sorted(b for b in means if b != "phi" and means[b] < means["phi"])
+        out[nseg] = dict(
+            approx_gap_s=round(float((t[-1] - t[0]) / nseg), 1),
+            interior_mean_rmse_g_per_s=means,
+            comparators_beating_phi=beat_phi,
+            phi_is_best=bool(not beat_phi))
+
+    any_phi_best = [n for n in out if out[n]["phi_is_best"]]
+    return dict(
+        pressure_bar=PRESSURE_BAR, window_s=tuple(window), n_shots=len(ids),
+        segment_counts=list(segment_counts),
+        by_segment_count=out,
+        phi_best_at_any_segment_count=bool(any_phi_best),
+        segment_counts_where_phi_is_best=any_phi_best,
+        conclusion=("Phi(t) is never the best interior-gap predictor at any tested segment count: "
+                    "linear interpolation beats it everywhere, a held-out cubic beats it "
+                    "everywhere, and the penalized spline beats it from six segments upward. The "
+                    "previously reported advantage was an artifact of one gap definition and one "
+                    "comparator."),
+        status="exploratory -- withdrawn from the manuscript's results (third review P0.3)")

@@ -131,4 +131,132 @@ def test_the_generator_cli_exits_nonzero_on_unresolved_citations():
     r = subprocess.run([sys.executable, str(_ROOT / "tools" / "paper_a_references.py")],
                        capture_output=True, text=True, cwd=_ROOT)
     assert r.returncode == 0, r.stdout + r.stderr
-    assert "0 unmatched" in r.stdout
+    assert "0 unmatched, 0 ambiguous" in r.stdout
+
+
+# --------------------------------------------------------------------------------------------
+# Citation-detector coverage (Paper 1 third review, P0-2).
+#
+# The detector reported "33 resolved, 0 unmatched" while omitting at least six cited works. A
+# zero-unmatched report was evidence only that the regex recognised 33 patterns, not that every
+# citation had been checked. Each case below is one of the ways the old
+# `([A-Z][A-Za-z\-']+)(?:\s+et al\.?)?...((?:19|20)\d{2})` pattern failed silently.
+# --------------------------------------------------------------------------------------------
+
+_DETECTOR_CASES = [
+    # (id, body text, expected (surname, year) pairs)
+    ("unicode_surname", "identifiability are related (Tönsing et al., 2014).",
+     {("tönsing", "2014")}),
+    ("unicode_compound_surname", "volatile release online (Sánchez-López et al., 2014).",
+     {("sánchez-lópez", "2014")}),
+    ("et_al_split_across_a_line_break", "profile likelihood. Raue et\nal. (2009) showed this.",
+     {("raue", "2009")}),
+    ("two_years_after_one_author", "directions (Transtrum et al., 2011, 2015).",
+     {("transtrum", "2011"), ("transtrum", "2015")}),
+    ("three_years_after_one_author", "see Moroney et al. (2015, 2016, 2017).",
+     {("moroney", "2015"), ("moroney", "2016"), ("moroney", "2017")}),
+    ("semicolon_separated_group", "(Gutenkunst et al., 2007; Transtrum et al., 2011).",
+     {("gutenkunst", "2007"), ("transtrum", "2011")}),
+    ("two_author_ampersand", "as shown by Banga & Balsa-Canto (2008).",
+     {("banga", "2008")}),
+    ("two_author_and", "as shown by Ellero and Navarini (2019).",
+     {("ellero", "2019")}),
+    ("narrative_form", "Kuhn et al. (2017) measured caffeine.",
+     {("kuhn", "2017")}),
+    ("parenthetical_form", "measured caffeine (Kuhn et al., 2017).",
+     {("kuhn", "2017")}),
+    ("adjacent_markdown_emphasis", "see *Kuhn et al. (2017)* for the assay.",
+     {("kuhn", "2017")}),
+    ("hyphenated_ascii_surname", "the control chart (Roman-Corrochano et al., 2019).",
+     {("roman-corrochano", "2019")}),
+]
+
+
+@pytest.mark.parametrize("body,expected",
+                         [(b, e) for _i, b, e in _DETECTOR_CASES],
+                         ids=[i for i, _b, _e in _DETECTOR_CASES])
+def test_the_citation_detector_recognises_every_citation_form(body, expected):
+    assert expected <= REF.cited(body), f"missed {sorted(expected - REF.cited(body))}"
+
+
+def test_the_six_previously_missed_works_are_in_the_generated_list():
+    """These six were cited in the body and present in references.bib, yet omitted from the
+    generated bibliography while the checker reported zero unmatched citations."""
+    for path in PAPER1:
+        used, _missing = REF.resolve(path.read_text(encoding="utf-8"))
+        for key in ("raue2009", "transtrum2015", "tonsing2014", "kuhn2017",
+                    "sanchezlopez2014", "sanchezlopez2016"):
+            assert key in used, f"{key} missing from {path.name}"
+
+
+@pytest.mark.parametrize("path", PAPER1, ids=lambda p: p.name)
+def test_the_rendered_list_carries_no_tex_or_bibtex_artefacts(path):
+    """The rendered list exposed raw BibTeX: `K\\"unsch`, `Bia\\las`, `\\L`, the literal
+    placeholder `others`, and double-hyphen page ranges."""
+    block = path.read_text(encoding="utf-8").split(REF.BEGIN)[1].split(REF.END)[0]
+    for line in [x for x in block.splitlines() if x.startswith("- ")]:
+        assert "\\" not in line, f"TeX escape survived: {line[:110]}"
+        assert not re.search(r"(?<!\w)others(?!\w)", line), f"literal `others`: {line[:110]}"
+        assert "--" not in line, f"un-converted en dash: {line[:110]}"
+
+
+def test_accents_and_glyph_commands_render_as_real_characters():
+    assert REF._clean(r"T{\"o}nsing, Christian") == "Tönsing, Christian"
+    assert REF._clean(r"S{\'a}nchez-L{\'o}pez, J. A.") == "Sánchez-López, J. A."
+    assert REF._clean(r"K\"unsch, Hans R.") == "Künsch, Hans R."
+    assert REF._clean(r"Bia{\l}as, {\L}.") == "Białas, Ł."
+    assert REF._clean("1890--1900") == "1890–1900"
+
+
+def test_a_citation_binds_to_the_lead_author_not_a_co_author():
+    """Found by the deletion test below. `references.bib` has two 2016 entries listing Villaverde
+    -- `villaverde2016` (lead) and `chis2016` (third author). The any-author matcher bound
+    "Villaverde et al. (2016)" to whichever came first in the file, so the citation resolved to
+    the right work only by accident of .bib ordering."""
+    recs = {r["key"]: r for r in REF.entries()}
+    assert REF._leads("villaverde", recs["villaverde2016"])
+    assert not REF._leads("villaverde", recs["chis2016"]), "co-author matched as lead"
+    assert REF._leads("chis", recs["chis2016"])
+    # Compound surnames are still cited by their last token.
+    assert REF._leads("guerra", recs["vacaguerra2024"])
+
+
+def test_ambiguous_citations_are_reported_rather_than_silently_bound(tmp_path, monkeypatch):
+    """If two entries genuinely share a lead surname and year, the audit must say so instead of
+    picking one."""
+    stub = tmp_path / "amb.bib"
+    stub.write_text(
+        "@article{a2020,\n  author = {Smith, A.},\n  title = {One.}, year = {2020}}\n\n"
+        "@article{b2020,\n  author = {Smith, B.},\n  title = {Two.}, year = {2020}}\n",
+        encoding="utf-8")
+    monkeypatch.setattr(REF, "BIB", stub)
+    used, missing = REF.resolve("As Smith et al. (2020) showed.\n\n## References\n")
+    assert used == {} and missing == []
+    assert REF.resolve.last_ambiguous == [("smith", "2020", ("a2020", "b2020"))]
+
+
+def test_bibtex_others_is_not_treated_as_a_surname():
+    """`others` is the et-al marker. If it entered the surname set, a citation to a real author
+    named Others would resolve against an unrelated entry."""
+    for r in REF.entries():
+        assert "others" not in r["surnames"], r["key"]
+
+
+@pytest.mark.parametrize("path", PAPER1, ids=lambda p: p.name)
+def test_deleting_any_cited_bib_entry_makes_the_audit_fail(path, tmp_path, monkeypatch):
+    """NON-VACUITY for the whole detector, not just one hand-written fake citation: the audit must
+    fail for EVERY entry the paper actually cites. This is the test the review asked for -- with
+    the old detector it passed vacuously for the six works it could not see."""
+    text = path.read_text(encoding="utf-8")
+    original = REF.BIB.read_text(encoding="utf-8")
+    chunks = re.split(r"(?m)^(?=@)", original)
+    used, _missing = REF.resolve(text)
+
+    for key in sorted(used):
+        kept = [c for c in chunks if not re.match(rf"@\w+\{{{re.escape(key)},", c)]
+        assert len(kept) == len(chunks) - 1, f"could not isolate {key}"
+        stub = tmp_path / f"{key}.bib"
+        stub.write_text("".join(kept), encoding="utf-8")
+        monkeypatch.setattr(REF, "BIB", stub)
+        _u, missing = REF.resolve(text)
+        assert missing, f"removing {key} from the bib left the audit reporting a clean pass"

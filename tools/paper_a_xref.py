@@ -15,6 +15,22 @@ The HTML comment renders as nothing. This linter reads the pair, looks the label
 OWN heading table, and fails when the printed number is not that section's number. Renumbering a
 section therefore breaks the build instead of silently re-pointing every reference to it.
 
+**Third review MC8 — where the anchors may live.** The third review's manuscript-hygiene gate is
+"no HTML anchor comments" in the *article*. The anchors are a repository maintenance device, so the
+policy is now split by file rather than dropped:
+
+* ``PAPER_A_DRAFT.md`` — the canonical working draft, which already opens with an explicit
+  strip-before-submission repository note — keeps the annotated form and the full stale-number
+  check. This is where renumbering actually happens, so this is where the strong check earns its
+  keep.
+* ``PAPER_A_JFE_MANUSCRIPT.md`` — the submission conversion, which is what a reviewer reads — must
+  contain **no** anchors at all. Its references are checked by resolving each printed ``§N`` against
+  its own heading table, and by ``CANONICAL_NUMBERS`` below, which pins the number each named
+  section must carry. Renumbering the conversion therefore still fails loudly; and because
+  ``test_the_two_files_now_share_one_section_architecture`` requires both files to agree, a wrong
+  number in the conversion that the draft's annotated check would have caught cannot be introduced
+  by a renumber without also breaking that equality.
+
 **MC8 — repository scaffolding.** Internal review IDs, status words ("delivered", "owed",
 "deferred"), bug history and prior-draft narrative belong in the change log, not the article. They
 were removed once; this makes the removal stick.
@@ -41,6 +57,8 @@ FILES = (DRAFT, CONVERSION)
 #: the stale-reference class existed because the two files numbered the same sections differently.
 SECTION_ALIASES: dict[str, tuple[str, ...]] = {
     "methods": ("Model, datasets, and observation operators",),
+    "model": ("Espresso extraction model and estimated quantities",),
+    "endpoint": ("Endpoint and pressure-to-flow assumptions",),
     "wholecup": ("Whole-cup endpoints weakly separate",),
     "evidence_vocab": ("Evidence vocabulary",),
     "result1": ("A matched endpoint changes the blind residual",),
@@ -51,6 +69,31 @@ SECTION_ALIASES: dict[str, tuple[str, ...]] = {
     "limitations": ("Limitations",),
     "related": ("Related work",),
 }
+
+#: The number each named section MUST carry, in BOTH files. Pinning this here is what keeps a
+#: renumber loud now that the submission conversion no longer carries inline anchors: changing a
+#: heading number without updating this table fails the lint.
+CANONICAL_NUMBERS: dict[str, str] = {
+    "methods": "2",
+    "model": "2.1",
+    "endpoint": "2.4",
+    "evidence_vocab": "2.6",
+    "wholecup": "3",
+    "result1": "3.1",
+    "result2": "3.2",
+    "result3": "4",
+    "temporal": "5",
+    "discussion": "6",
+    "limitations": "7",
+    "related": "1.2",
+}
+
+#: Which file must contain no HTML anchor comments (third review MC8, manuscript hygiene). The
+#: canonical draft is a repository document and is exempt; the submitted article is not. This is
+#: resolved by identity against ``CONVERSION`` rather than by basename, so the linter behaves the
+#: same when its tests point it at sandboxed copies under other names.
+def _is_article(path) -> bool:
+    return path == CONVERSION
 
 #: A numbered markdown heading: "## 4. Results" / "### 4.2 Result 2 — ...".
 _HEADING = re.compile(r"^#{1,4}\s+(\d+(?:\.\d+)?)\.?\s+(.*?)\s*$", re.M)
@@ -96,6 +139,16 @@ def _headings(text: str) -> dict[str, str]:
     return out
 
 
+def _all_heading_numbers(text: str) -> set[str]:
+    """Every number that appears as a numbered heading in this file."""
+    return {number for number, _title in _HEADING.findall(text)}
+
+
+def _resolves(printed: str, text: str) -> bool:
+    """Does `§printed` name a real section of this file?"""
+    return printed in _all_heading_numbers(text)
+
+
 def _exempt_spans(text: str) -> list[tuple[int, int]]:
     spans = []
     start = text.find(_EXEMPT_BLOCK[0])
@@ -136,7 +189,25 @@ def check() -> list[str]:
                     f"{name}: §{printed} is tagged «{label}», but that section is "
                     f"§{actual} in this file -- the printed number is wrong")
 
+        # --- MC9/MC8: the number each named section carries is pinned, in every file -------
+        for label, expected in CANONICAL_NUMBERS.items():
+            actual = numbers.get(label)
+            if actual is not None and actual != expected:
+                problems.append(
+                    f"{name}: section «{label}» is numbered §{actual} but CANONICAL_NUMBERS "
+                    f"says §{expected} -- renumbering must be a deliberate, reviewed change")
+
+        anchor_free = _is_article(path)
+        if anchor_free:
+            # The article must carry no anchors at all (third review, manuscript hygiene).
+            for m in _TAGGED.finditer(text):
+                line = text.count("\n", 0, m.start()) + 1
+                problems.append(
+                    f"{name}:{line}: HTML anchor comment «{m.group(0)}» -- the submitted article "
+                    f"must use plain cross-references (third review MC8)")
+
         tagged_at = {m.start() for m in _TAGGED.finditer(text)}
+        known = set(numbers.values())
         for m in _ANY_REF.finditer(text):
             if m.start() in tagged_at or _in_span(m.start(), exempt):
                 continue
@@ -144,9 +215,14 @@ def check() -> list[str]:
             if before.endswith("ROADMAP "):        # a reference to another document
                 continue
             line = text.count("\n", 0, m.start()) + 1
-            problems.append(
-                f"{name}:{line}: bare cross-reference §{m.group(1)} -- annotate it as "
-                f"§N<!--sec:label--> so the number can be checked")
+            if not anchor_free:
+                problems.append(
+                    f"{name}:{line}: bare cross-reference §{m.group(1)} -- annotate it as "
+                    f"§N<!--sec:label--> so the number can be checked")
+            elif not _resolves(m.group(1), text):
+                problems.append(
+                    f"{name}:{line}: cross-reference §{m.group(1)} names no section in this file "
+                    f"(known: {sorted(known)})")
 
         # --- MC8: no repository scaffolding in the article ---------------------------------
         for m in _REVIEW_ID.finditer(text):

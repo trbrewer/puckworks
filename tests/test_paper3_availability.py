@@ -186,3 +186,29 @@ def test_the_prose_counts_match_the_generated_matrix():
     assert f"{local} of {m['n_components']} are runnable locally" in text, local
     assert f"**{unreviewed} of {m['n_components']} carry no rights review on record**" in text
     assert public == 1, ("the prose says exactly one component is publicly cleared", public)
+
+
+def test_splice_also_writes_the_committed_artifacts(monkeypatch):
+    """REAL BUG: `--splice` returned before `--write` was handled, so `--write --splice` did only
+    the splice and left availability_matrix.md / implementation_status.md stale. Nothing caught it
+    until the freshness test ran on a clean checkout. Flags must not be order-dependent.
+
+    Checked BEHAVIOURALLY -- an earlier version of this test scraped the source and split on
+    "return", which the word "returned" in a comment truncated, so it failed on correct code.
+    """
+    called = []
+    monkeypatch.setattr(A, "write", lambda: called.append("write"))
+    monkeypatch.setattr(A, "splice", lambda write_it=True: called.append("splice") or "")
+    rc = A.main(["--splice"])
+    assert rc == 0
+    assert called == ["write", "splice"], (
+        f"--splice must regenerate the artifacts before splicing; got {called}")
+
+
+def test_the_generated_captions_carry_their_table_numbers():
+    """Captions live in the renderers so they cannot drift from the table they label."""
+    m, s = A.matrix(), A.implementation_status()
+    rendered = A.render_matrix(m)
+    assert "Table 1f. Availability matrix" in rendered
+    assert "Table 1g. Availability by component" in rendered
+    assert "Table 1h. Implementation status" in A.render_implementation_status(s)

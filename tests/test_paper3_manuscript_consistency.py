@@ -176,18 +176,101 @@ def test_s5_2_dependency_counts_match_the_public_claims():
 
 
 def test_s5_2_evidence_profile_numbers_match_the_producer():
-    """The composition claim's profile is quoted as evidence that one label is insufficient."""
-    from puckworks.public.claims import PUBLIC_CLAIMS
-    c = next(x for x in PUBLIC_CLAIMS if x.claim_id == "PV-05")
-    prof = c.evidence_profile()
-    n_rel = len({r["relation"] for r in prof})
-    n_scope = len({r["scope"] for r in prof})
-    text = _text()
-    assert "%d records" % len(prof) in text, len(prof)
-    assert "%d different relations" % n_rel in text, n_rel
-    assert "%d different observables" % n_scope in text, n_scope
-    assert n_rel > 1, "a single-relation profile would not demonstrate the point S5.2 makes"
+    """The composition claim's evidence is quoted as evidence that one label is insufficient.
 
+    Third review P0-1 made the INVENTORY and the SELECTION two different quantities, and the
+    manuscript must bind both: the inventory shows the spread a single `evidence_strength` cannot
+    express, and the selection shows that the claim does not inherit all of it.
+    """
+    from puckworks.public.claims import PUBLIC_CLAIMS
+    text = _text()
+
+    c = next(x for x in PUBLIC_CLAIMS if x.claim_id == "PV-05")
+    inv, sel = c.evidence_inventory(), c.selected_evidence()
+    n_rel = len({r["relation"] for r in inv})
+    n_scope = len({r["scope"] for r in inv})
+    assert "inventory of **%d records" % len(inv) in text, len(inv)
+    assert "spanning %d relations across %d observables" % (n_rel, n_scope) in text
+    assert "selects **%d**" % len(sel) in text, len(sel)
+    assert len(sel) < len(inv), (
+        "if a claim selected its whole inventory the selection would be doing no work")
+
+    # the machine-capacity claim, whose excluded records are NEGATIVE-outcome findings
+    c2 = next(x for x in PUBLIC_CLAIMS if x.claim_id == "PV-02")
+    inv2, sel2 = c2.evidence_inventory(), c2.selected_evidence()
+    assert "inventory of %d and selects %d" % (len(inv2), len(sel2)) in text
+    excluded = [e for e in inv2 if e not in sel2]
+    assert any(e["outcome"] == "negative" for e in excluded), (
+        "the paper's example depends on negative-outcome records being excluded")
+
+
+def test_a_claim_does_not_inherit_its_components_whole_evidence_vector():
+    """NON-VACUITY of the selection mechanism itself."""
+    from puckworks.public.claims import PUBLIC_CLAIMS
+    scoped = [c for c in PUBLIC_CLAIMS if c.evidence_selections]
+    assert scoped, "no claim declares evidence selections"
+    for c in scoped:
+        assert list(c.evidence_profile()) == list(c.selected_evidence())
+        assert len(c.selected_evidence()) <= len(c.evidence_inventory())
+
+
+def test_unrelated_component_evidence_cannot_change_a_claims_badge():
+    """The review's acceptance criterion: adding a strong, unrelated record to a component must
+    not alter any claim's badge."""
+    import dataclasses
+    from puckworks.public.claims import PUBLIC_CLAIMS
+    from puckworks.public.schema import ScopedEvidenceRef, derive_badge
+
+    c = next(x for x in PUBLIC_CLAIMS if x.claim_id == "PV-03")
+    before = derive_badge(c)[0]
+    intruder = ScopedEvidenceRef(
+        relation="controlled_independent", public_relation="independent",
+        scope="an unrelated observable this claim says nothing about",
+        gate="gate_unrelated", outcome="supported",
+        evidence_id="unrelated::gate_unrelated",
+        fit_evaluation="independent_external", reality_facing=True)
+    deps = tuple(
+        dataclasses.replace(d, evidence=d.evidence + (intruder,)) if d.kind == "component" else d
+        for d in c.dependencies)
+    louder = dataclasses.replace(c, dependencies=deps)
+    assert derive_badge(louder)[0] == before, (
+        "an unselected strong record changed the badge -- evidence is being inherited, not selected")
+
+
+def test_selecting_evidence_from_another_dependency_is_rejected():
+    import dataclasses
+    from puckworks.public.claims import PUBLIC_CLAIMS
+    from puckworks.public.schema import ClaimEvidenceSelection
+
+    c = next(x for x in PUBLIC_CLAIMS if x.claim_id == "PV-03")
+    bogus = ClaimEvidenceSelection(
+        dependency_ref=c.dependencies[0].ref if c.dependencies[0].kind == "component"
+        else "pannusch2024.solver",
+        evidence_ids=("some.other.component::gate_elsewhere",),
+        claim_observable="x", claim_domain="y", role_in_claim="produces_reported_value",
+        rationale="z")
+    broken = dataclasses.replace(c, evidence_selections=(bogus,))
+    errs = broken.validate()
+    assert any("does not belong to dependency" in e or "does not declare" in e for e in errs), errs
+
+
+def test_a_badge_authored_stronger_than_the_evidence_is_rejected():
+    """P0-2 acceptance: supplying or editing a badge by hand must fail verification."""
+    import dataclasses
+    from puckworks.public.claims import PUBLIC_CLAIMS
+
+    c = next(x for x in PUBLIC_CLAIMS if x.claim_id == "PV-03")
+    assert c.validate() == []
+    inflated = dataclasses.replace(c, badge="PREDICTED")
+    errs = inflated.validate()
+    assert any("was authored but the selected evidence derives" in e for e in errs), errs
+
+
+def test_every_public_claim_badge_is_the_derived_one():
+    from puckworks.public.claims import PUBLIC_CLAIMS
+    for c in PUBLIC_CLAIMS:
+        derived, why, _limiting = c.derived_badge()
+        assert c.badge == derived, f"{c.claim_id}: authored {c.badge}, derived {derived} ({why})"
 
 def test_s5_2_states_the_profile_is_not_a_transitive_closure():
     """The bound the abstract had to be softened for; it must stay stated."""
@@ -247,7 +330,99 @@ def test_every_producer_named_in_the_claim_ownership_table_exists():
     assert not missing, f"producers named in the ownership table do not exist: {missing}"
 
 
-def test_the_scorecard_row_admits_it_has_no_producer():
-    """MC17 records the scorecard as hand-maintained; the table must not paper over it."""
+def test_the_scorecard_row_names_its_live_producer():
+    """Third review P0-4. This test previously required the string "hand-maintained" to be
+    present, which was correct when Table 6 really was hand-maintained. The generator landed, the
+    implementation-status table and Figure 7 were updated to say so -- and this test kept the
+    ownership table asserting the opposite, so the manuscript preserved a historical defect as
+    though it were current while simultaneously claiming it had been fixed.
+
+    The ownership row must now name the live producer, and the correction must be recorded rather
+    than made silently."""
     text = _text()
-    assert "hand-maintained" in text
+    assert "`paper3.named_shot_scorecard.scorecard`" in text, (
+        "the P3-SCORECARD ownership row must name its producer")
+    # Checked on the TABLE ROW, not the document: the historical note deliberately quotes the
+    # retired string, and a document-wide ban would forbid the paper from recording its own
+    # correction.
+    row = next(ln for ln in text.splitlines() if ln.startswith("| `P3-SCORECARD`"))
+    assert "hand-maintained" not in row, f"the stale ownership row is back: {row}"
+    assert "none" not in row.lower(), f"the ownership row still claims no producer: {row}"
+    # the correction is disclosed, not quietly applied
+    assert "It is no longer true." in text
+    # and the declared-configuration / generated-claims distinction is drawn
+    assert "declared configuration" in text and "generated claims" in text
+
+
+# ── contract schema version and field coverage (third review P0-5) ────────────────────────────
+def test_the_manuscript_states_the_live_contract_schema_version():
+    """§4.1 said 0.6, Table 7 said 0.7, and `contracts.py` was 0.7. The version is not cosmetic:
+    0.7 added the fines-provenance fields that prevent comparison of fines fractions defined at
+    different thresholds, by different dispersion methods, or on different bases."""
+    from puckworks import contracts
+    text = _text()
+    live = contracts.SCHEMA_VERSION
+    assert f"The current contract schema is version {live}." in text, (
+        f"the manuscript does not state the live schema version {live}")
+    for stale in ("contract schema is version 0.6",):
+        assert stale not in text, f"stale schema version: {stale}"
+
+
+def test_table_2a_lists_the_fines_provenance_fields_that_motivated_the_bump():
+    """The manuscript understated one of its best examples of a semantic contract improvement:
+    Table 2a listed only setting, fines fraction and radii."""
+    from puckworks import contracts
+    import dataclasses
+    text = _text()
+    fields = {f.name for f in dataclasses.fields(contracts.GrindState)}
+    for required in ("fines_threshold_um", "fines_dispersion_method", "fines_basis"):
+        assert required in fields, f"{required} is not a GrindState field any more"
+    row = next(ln for ln in text.splitlines() if ln.startswith("| `GrindState`"))
+    for human in ("fines threshold", "fines dispersion method", "fines basis"):
+        assert human in row, f"Table 2a omits {human}"
+    # and they must be described as declarations, not conversions
+    assert "declarations, not conversion formulas" in row
+
+
+# ── observational basis of the temporal/composition RMSEs (third review P0-6) ─────────────────
+def test_mean_trace_metrics_are_labelled_as_mean_trace():
+    """0.573 / 0.648 / 0.116 / 0.096 are scores against the preprocessed mean of five 9-bar shots
+    over 15-95 s, not errors on any individual shot. Averaging removes variability the models were
+    never required to predict, so a reader must not be able to read them as shot-prediction error.
+    """
+    text = _text()
+    assert "preprocessed mean of five 9-bar shots over 15–95 s" in text
+    assert "not errors on any individual shot" in text
+    # the abstract, where an editor reads them first
+    abstract = text.split("\n")[10]
+    assert "not shot-level prediction errors" in abstract
+
+
+def test_the_per_shot_results_are_reported_with_the_shot_as_the_unit():
+    text = _text()
+    assert "five individual 9-bar shots, mean ± SD" in text
+    for v in ("0.580 ± 0.054", "0.661 ± 0.100", "0.189 ± 0.061", "0.107 ± 0.016"):
+        assert v in text, f"per-shot value {v} missing"
+    assert "shot is the unit of replication" in text
+    assert "do not divide the number of time samples into an apparent sample size" in text
+
+
+def test_the_near_flexible_floor_claim_is_withdrawn():
+    """The 0.083 g/s per-shot temporal-versus-cubic gap is not resolved at n=5."""
+    text = _text()
+    assert "not supported at shot level and has been withdrawn" in text
+    assert "nearly reaches" not in text.replace(
+        'the earlier reading that the temporal branch "nearly reaches" the flexible floor', "")
+
+
+def test_the_blocked_holdout_reason_is_stated():
+    """P0-6 item 8: a fully held-out temporal prediction is blocked by a DATA limitation."""
+    text = _text()
+    assert "never shot-matched to the five flow traces" in text
+
+
+def test_the_manifest_count_is_not_described_as_validation_datasets():
+    """`supported by 107 dataset-manifest records` reads as 107 validation datasets."""
+    text = _text()
+    assert "supported by 107 dataset-manifest records" not in text
+    assert "described by 107 provenance-manifest records" in text

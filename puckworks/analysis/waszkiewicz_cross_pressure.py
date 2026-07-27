@@ -33,8 +33,16 @@ def cross_pressure_heterogeneity(window=WINDOW):
 
     The manuscript's aggregate statement is an EQUAL-PRESSURE mean: every reference pressure counts
     once. That is a choice, not a neutral summary -- the campaign contributes between 3 and 10 shots
-    per pressure, so a shot-weighted mean answers a different question (what happens to a randomly
-    drawn shot) and can reorder the branches. Both are reported, with the disagreement stated.
+    per pressure, so weighting by shot count can reorder the branches. Both are reported.
+
+    IMPORTANT (third review P0.4). The shot-count-weighted value here is a weighted mean of
+    PRESSURE-LEVEL MEAN-CURVE RMSEs. It is NOT the expected RMSE of a randomly drawn shot, because
+    RMSE is nonlinear:
+
+        RMSE(mean curve) != mean[ RMSE(individual shots) ]
+
+    This docstring previously said it answered "what happens to a randomly drawn shot", which is
+    wrong. For the genuine shot-level estimand see `per_shot_cross_pressure()`.
 
     Strength: descriptive. No branch is refitted here; this re-reads the existing cross-pressure
     producer at a finer grain."""
@@ -92,9 +100,11 @@ def cross_pressure_heterogeneity(window=WINDOW):
         equal_pressure_order=equal_order,
         shot_weighted_order=shotw_order,
         averaging_scheme_changes_order=bool(equal_order != shotw_order),
-        note=("The equal-pressure mean is the manuscript's headline scheme and weights a 3-shot "
-              "pressure the same as a 10-shot one. Neither scheme is 'correct'; they answer "
-              "different questions and are reported together."))
+        note=("Both schemes average PRESSURE-LEVEL MEAN-CURVE RMSEs. The equal-pressure mean is "
+              "the manuscript's headline scheme and weights a 3-shot pressure the same as a "
+              "10-shot one; the shot-count-weighted variant weights by shot count but is still an "
+              "average of mean-curve scores, NOT the expected error of a randomly drawn shot "
+              "(RMSE is nonlinear). The shot-level estimand is per_shot_cross_pressure()."))
 
 
 # --------------------------------------------------------------------------------------------
@@ -232,3 +242,140 @@ def provenance_graph():
                       "parameters fitted to the scored trace is necessary but not sufficient for "
                       "'held out', which is why the count and the access level are reported "
                       "separately rather than collapsed into one label."))
+
+
+# --------------------------------------------------------------------------------------------
+# P0.4 (third review) -- the genuine shot-level cross-pressure estimand
+# --------------------------------------------------------------------------------------------
+def per_shot_cross_pressure(window=WINDOW):
+    """Score every INDIVIDUAL included shot, at every pressure, against every branch.
+
+    Third review P0.4. The manuscript reported equal-pressure and shot-count-weighted averages of
+    pressure-level MEAN-CURVE RMSEs and read the second as "the expected error for a randomly
+    selected shot". That is mathematically wrong: RMSE is nonlinear, so
+
+        RMSE(mean curve)  !=  mean[ RMSE(individual shots) ]
+
+    and a weighted average of mean-curve scores is not the expectation over shots. The mean curve
+    has variance averaged out of it, so scores against it are systematically optimistic relative to
+    scores against real shots.
+
+    Four estimands are returned, each named exactly, so the manuscript can no longer describe one
+    as another:
+
+    ``equal_pressure_macro_mean_of_mean_curve``
+        Every pressure counts once; the score at each pressure is against that pressure's mean
+        curve. The manuscript's headline scheme.
+    ``shot_weighted_macro_mean_of_mean_curve``
+        The same mean-curve scores, weighted by shot count. Reported because it appeared in the
+        manuscript, labelled as what it is.
+    ``mean_of_individual_shot_rmse``
+        The expected RMSE of a randomly drawn shot -- the quantity the manuscript meant.
+    ``pooled_shot_time_rmse``
+        Root mean square over all shot x time observations pooled.
+
+    The three branches are all zero-free-parameter at the shot level: `static` is flat in time,
+    and `phi`/`rc3b` depend on time and pressure only, so each shot at a given pressure is scored
+    against the same prediction its pressure-level mean curve was scored against. Nothing is
+    refitted here.
+
+    The source campaign is described as 60 brews; the committed processed deposit contains 57
+    after source-side exclusions. Both counts are returned.
+
+    Strength: descriptive. Within-campaign; not independent validation.
+    """
+    import numpy as np
+    from puckworks import data as d
+    from puckworks.models.waszkiewicz2025 import poroelastic as wz
+    from puckworks.models.cameron2020 import extraction_bdf as cam
+
+    lo, hi = window
+    P_c, Q_c = wz.published_calibration()
+    k_s, l_s, m_s = wz._solids_params()
+    dose = d.waszkiewicz_constants()["dose__g"]
+
+    by_pressure = d.waszkiewicz_traces_per_brew()
+    pressures = sorted(by_pressure)
+
+    per_shot, per_pressure = {}, {}
+    pooled_sq = {b: [] for b in BRANCHES}
+
+    for p in pressures:
+        shots = by_pressure[p]
+        # One prediction per branch per pressure, evaluated on each shot's own time grid.
+        sh = cam.simulate_shot(1.9, p_bar=p, m_in=dose / 1000, m_out=0.040,
+                               t_shot=100.0, n_save=150)
+        rows = {}
+        for sid in sorted(shots):
+            t = np.asarray(shots[sid]["time__s"], float)
+            q = np.asarray(shots[sid]["mass_flow_rate__g_per_s"], float)
+            sel = (t >= lo) & (t <= hi)
+            ts, qs = t[sel], q[sel]
+            if ts.size == 0:
+                continue
+            scores = {}
+            scores["static"] = float(np.sqrt(np.nanmean((wz.q_static(p, P_c, Q_c) - qs) ** 2)))
+            q_phi = wz.q_dynamic(ts, p, P_c, Q_c, k_s, l_s, m_s, dose)
+            scores["phi"] = float(np.sqrt(np.nanmean((q_phi - qs) ** 2)))
+            md = np.interp(ts, sh.t, sh.m_cup * 1000.0)
+            if md[-1] <= 0:
+                scores["rc3b"] = float("nan")
+            else:
+                q_rc = wz.q_dynamic_from_md(p, P_c, Q_c, md, dose)
+                scores["rc3b"] = float(np.sqrt(np.nanmean((q_rc - qs) ** 2)))
+            rows[sid] = {b: round(v, 4) for b, v in scores.items()}
+            for b in BRANCHES:
+                v = scores.get(b)
+                if v is not None and np.isfinite(v):
+                    pooled_sq[b].append(v ** 2 * ts.size)
+            per_shot[f"{p}:{sid}"] = dict(pressure_bar=float(p), shot_id=sid,
+                                          n_points=int(ts.size), rmse=rows[sid])
+        per_pressure[float(p)] = dict(
+            n_shots=len(rows),
+            mean_of_individual_shot_rmse={
+                b: round(float(np.nanmean([rows[s][b] for s in rows])), 4) for b in BRANCHES},
+            individual_shot_rmse=rows)
+
+    n_points_total = sum(v["n_points"] for v in per_shot.values())
+
+    def _shot_mean(branch):
+        vals = [v["rmse"][branch] for v in per_shot.values()
+                if np.isfinite(v["rmse"].get(branch, np.nan))]
+        return round(float(np.mean(vals)), 4) if vals else None
+
+    def _pooled(branch):
+        if not pooled_sq[branch]:
+            return None
+        return round(float(np.sqrt(sum(pooled_sq[branch]) / n_points_total)), 4)
+
+    het = cross_pressure_heterogeneity(window)
+    shot_level = {b: _shot_mean(b) for b in BRANCHES}
+    pooled = {b: _pooled(b) for b in BRANCHES}
+    order_mean_curve = het["shot_weighted_order"]
+    order_shot = sorted((b for b in shot_level if shot_level[b] is not None),
+                        key=lambda b: shot_level[b])
+
+    return dict(
+        window_s=tuple(window),
+        n_pressures=len(pressures),
+        n_shots_included=len(per_shot),
+        n_brews_reported_by_source=60,
+        exclusion_note=("The source campaign is described as 60 brews. The committed processed "
+                        "deposit contains 57 traces after source-side exclusions; the three "
+                        "excluded brews are not identified in the released deposit, so the "
+                        "exclusion provenance is recorded as incomplete rather than reconstructed."),
+        per_shot=per_shot,
+        per_pressure=per_pressure,
+        # --- the four estimands, each named ---
+        equal_pressure_macro_mean_of_mean_curve=het["equal_pressure_mean"],
+        shot_weighted_macro_mean_of_mean_curve=het["shot_weighted_mean"],
+        mean_of_individual_shot_rmse=shot_level,
+        pooled_shot_time_rmse=pooled,
+        order_by_mean_curve_shot_weighted=order_mean_curve,
+        order_by_individual_shot_mean=order_shot,
+        ordering_agrees_across_estimands=bool(order_mean_curve == order_shot),
+        note=("Four DIFFERENT estimands. Only `mean_of_individual_shot_rmse` is the expected error "
+              "of a randomly drawn shot. The two macro means average pressure-level MEAN-CURVE "
+              "scores and are systematically lower, because averaging shots removes variance the "
+              "branches were never required to predict. All three branches are evaluated, so the "
+              "ordering statement is not finalised on two of them."))

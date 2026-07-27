@@ -75,9 +75,42 @@ _CLAIMS = [
      "cross_pressure.conditional_transfer_mean_full_precision.static", 0.512, 0.01),
     ("Table 3 off-9-bar rc3b ~0.522",
      "cross_pressure.conditional_transfer_mean_full_precision.rc3b", 0.522, 0.01),
-    # Shot-level results (§5.2a) — the exact randomization test and the noise floor
-    ("shot noise floor ~0.149 g/s",
-     "shot_level.noise_floor.noise_floor_rmse_g_per_s", 0.1492, 0.005),
+    # Shot-level results (§5.2a) — the exact randomization test and the two dispersion scales.
+    # Third review P0.1: the 0.1492 value is a LEAVE-IN dispersion (each shot is inside the mean
+    # it is scored against) and is optimistic by exactly n/(n-1)=1.25. It is no longer called a
+    # noise floor, and neither scale licenses a resolvability verdict. Both are registered so a
+    # reader can see the difference rather than only the flattering one.
+    # Cross-pressure estimands (third review P0.4). Four DIFFERENT quantities, registered
+    # separately so the manuscript cannot describe one as another. Only the third is the expected
+    # error of a randomly drawn shot; the macro means average pressure-level MEAN-CURVE scores.
+    ("cross-pressure equal-pressure macro mean of mean-curve RMSE, static ~0.524",
+     "cross_pressure_per_shot.equal_pressure_macro_mean_of_mean_curve.static", 0.5239, 0.003),
+    ("cross-pressure equal-pressure macro mean of mean-curve RMSE, Phi(t) ~0.335",
+     "cross_pressure_per_shot.equal_pressure_macro_mean_of_mean_curve.phi", 0.3345, 0.003),
+    ("cross-pressure shot-count-weighted macro mean of mean-curve RMSE, static ~0.509",
+     "cross_pressure_per_shot.shot_weighted_macro_mean_of_mean_curve.static", 0.5094, 0.003),
+    ("cross-pressure shot-count-weighted macro mean of mean-curve RMSE, Phi(t) ~0.343",
+     "cross_pressure_per_shot.shot_weighted_macro_mean_of_mean_curve.phi", 0.3431, 0.003),
+    ("MEAN OF 57 INDIVIDUAL-SHOT RMSEs, static ~0.527",
+     "cross_pressure_per_shot.mean_of_individual_shot_rmse.static", 0.5271, 0.003),
+    ("MEAN OF 57 INDIVIDUAL-SHOT RMSEs, Phi(t) ~0.363",
+     "cross_pressure_per_shot.mean_of_individual_shot_rmse.phi", 0.3632, 0.003),
+    ("MEAN OF 57 INDIVIDUAL-SHOT RMSEs, RC-3b ~0.540",
+     "cross_pressure_per_shot.mean_of_individual_shot_rmse.rc3b", 0.5400, 0.005),
+    ("pooled shot x time RMSE, static ~0.557",
+     "cross_pressure_per_shot.pooled_shot_time_rmse.static", 0.5567, 0.003),
+    ("pooled shot x time RMSE, Phi(t) ~0.393",
+     "cross_pressure_per_shot.pooled_shot_time_rmse.phi", 0.3927, 0.003),
+    ("57 shots included of 60 brews reported by the source",
+     "cross_pressure_per_shot.n_shots_included", 57, 0),
+    ("leave-in shot-to-full-mean dispersion ~0.149 g/s (NOT a noise floor)",
+     "shot_level.dispersion.leave_in_dispersion_rmse_g_per_s", 0.1492, 0.005),
+    ("leave-one-shot-out other-four empirical-template RMSE ~0.186 g/s",
+     "shot_level.dispersion.other_four_template_rmse_g_per_s", 0.1864, 0.005),
+    ("mean pointwise between-shot SD ~0.154 g/s (full resolution)",
+     "shot_level.dispersion.pointwise_between_shot_sd_mean_g_per_s", 0.154, 0.002),
+    ("leave-in optimism factor is exactly n/(n-1) = 1.25",
+     "shot_level.dispersion.leave_one_out_inflation_factor", 1.25, 1e-9),
     ("Phi(t) minus constant, per-shot mean ~-0.390 g/s",
      "shot_level.paired.comparisons.phi_vs_const.mean_difference_g_per_s", -0.3904, 0.005),
     ("Phi(t) minus static, per-shot mean ~-0.472 g/s",
@@ -91,8 +124,34 @@ _CLAIMS = [
      "shot_level.heldout.leave_one_shot_out_mean.phi_equilibrium_crossfit", 0.1897, 0.003),
     ("leave-one-shot-out constant ~0.600", "shot_level.heldout.leave_one_shot_out_mean.const", 0.5995, 0.005),
     ("leave-one-shot-out static ~0.661", "shot_level.heldout.leave_one_shot_out_mean.static", 0.6611, 0.005),
-    ("Phi(t) minus held-out spline ~0.003 (below the noise floor)",
+    # Third review P0.2: the paired STRUCTURE, not just the mean.
+    ("Phi(t) vs spline paired SD ~0.026 g/s",
+     "shot_level.heldout.phi_minus_spline_paired_sd_g_per_s", 0.0256, 0.002),
+    ("Phi(t) better on 2 of 5 shots vs the held-out spline",
+     "shot_level.heldout.phi_better_on_n_shots", 2, 0),
+    ("spline better on 3 of 5 shots",
+     "shot_level.heldout.spline_better_on_n_shots", 3, 0),
+    ("Phi(t) vs spline exact sign-flip p = 0.8125 (no directional consistency)",
+     "shot_level.heldout.phi_vs_spline_exact_sign_flip_p", 0.8125, 0.0001),
+    ("raw other-four template RMSE ~0.186 g/s",
+     "shot_level.heldout.raw_other_four_template_rmse_g_per_s", 0.1864, 0.002),
+    ("the spline differs from the raw other-four template by ~0.0004 g/s",
+     "shot_level.heldout.spline_minus_raw_template_g_per_s", -0.0004, 0.001),
+    ("Phi(t) minus held-out spline ~0.003 g/s",
      "shot_level.heldout.phi_minus_spline_heldout_g_per_s", 0.0033, 0.002),
+    # Third review P0.3: the interval-holdout result is withdrawn from the manuscript. These
+    # values stay REGISTERED because the withdrawal must be evidenced, not asserted: at the
+    # manuscript's own five-segment partition two generic comparators beat Phi(t), and Phi(t) is
+    # not the best interior-gap predictor at ANY tested segment count.
+    ("leave-segment-out: linear interpolation beats Phi(t) at 5 segments (~0.071)",
+     "shot_level.segment_sensitivity.by_segment_count.5.interior_mean_rmse_g_per_s."
+     "linear_interpolation", 0.0705, 0.003),
+    ("leave-segment-out: held-out cubic beats Phi(t) at 5 segments (~0.136)",
+     "shot_level.segment_sensitivity.by_segment_count.5.interior_mean_rmse_g_per_s."
+     "heldout_cubic", 0.1355, 0.003),
+    ("leave-segment-out: the repository spline beats Phi(t) from 6 segments (~0.083)",
+     "shot_level.segment_sensitivity.by_segment_count.6.interior_mean_rmse_g_per_s.spline",
+     0.0831, 0.003),
     ("leave-segment-out interior Phi(t) ~0.158",
      "shot_level.heldout.leave_segment_out_interior_mean.phi", 0.1579, 0.003),
     ("leave-segment-out interior spline ~0.233",
@@ -101,9 +160,21 @@ _CLAIMS = [
      "shot_level.heldout.leave_segment_out_interior_mean.const", 0.4193, 0.003),
     # Residual diagnostics at the DECLARED 1 s resolution (§5.2a). The between-shot sd here
     # (0.1529) is the decimated-series quantity and is NOT the same as the full-resolution
-    # 0.154 in shot_level.noise_floor -- two nearly-equal numbers that must not be swapped.
+    # 0.154 in shot_level.dispersion -- two nearly-equal numbers that must not be swapped.
     ("residual diagnostics between-shot sd ~0.153 (1 s series)",
      "shot_level.residuals_1s.between_shot_sd_mean_g_per_s", 0.1529, 0.002),
+    # Cross-branch summaries quoted in the §5.2 prose (third review MC13: the gloss had drifted
+    # from the per-branch values in the same section).
+    ("residual lag-1 ACF range, lower end ~0.904",
+     "shot_level.residuals_1s.lag1_acf_min", 0.9041, 0.002),
+    ("residual lag-1 ACF range, upper end ~0.969",
+     "shot_level.residuals_1s.lag1_acf_max", 0.9687, 0.002),
+    ("residual Durbin-Watson range, lower end ~0.004",
+     "shot_level.residuals_1s.durbin_watson_min", 0.0038, 0.002),
+    ("residual Durbin-Watson range, upper end ~0.067",
+     "shot_level.residuals_1s.durbin_watson_max", 0.0667, 0.002),
+    ("mean residual Durbin-Watson across branches ~0.031",
+     "shot_level.residuals_1s.mean_durbin_watson", 0.0306, 0.002),
     ("residual lag-1 ACF, constant ~0.958",
      "shot_level.residuals_1s.branches.rung1_const.lag1_autocorrelation", 0.9579, 0.002),
     ("residual lag-1 ACF, Phi(t) ~0.969",
@@ -138,7 +209,7 @@ _CLAIMS = [
      "shot_level.residuals_1s.branches.rung3_static.durbin_watson", 0.0038, 0.002),
     ("residual DW at 1 s, cubic ~0.067",
      "shot_level.residuals_1s.branches.flexible_cubic.durbin_watson", 0.0667, 0.002),
-    ("Phi(t) minus cubic, per-shot mean ~+0.083 g/s (below the noise floor)",
+    ("Phi(t) minus cubic, per-shot mean ~+0.083 g/s",
      "shot_level.paired.comparisons.phi_vs_cubic.mean_difference_g_per_s", 0.0826, 0.003),
     # Recorded-pressure robustness (§5.2). These six values were TRANSCRIBED from a reviewer's
     # independent table until review 4.13's coverage audit found they had no producer here.
@@ -195,7 +266,9 @@ _CLAIMS = [
      "result2_residuals.block_length_sensitivity.3.phi_minus_cubic.ci95.0", 0.001, 0.0005),
     ("24 s block Phi(t) minus cubic upper ~+0.04",
      "result2_residuals.block_length_sensitivity.3.phi_minus_cubic.ci95.1", 0.04, 0.002),
-    # §5.2b residual spectra (review 4.7) -- the structure is drift, not oscillation
+    # §5.2b residual spectra -- low-frequency concentration on the analysis window. The
+    # 'drift, not oscillation' reading was withdrawn (third review P0.5): 80 s and 40 s are
+    # the first two nonzero Fourier periods of an 80-point window, not physical timescales.
     ("residual power in slowest quarter, constant ~0.957",
      "shot_level.residuals_1s.branches.rung1_const.spectrum.power_in_slowest_quarter", 0.9571, 0.002),
     ("residual power in slowest quarter, static ~0.957",
@@ -204,10 +277,10 @@ _CLAIMS = [
      "shot_level.residuals_1s.branches.rung4_phi_of_t.spectrum.power_in_slowest_quarter", 0.9897, 0.002),
     ("residual power in slowest quarter, cubic ~0.954",
      "shot_level.residuals_1s.branches.flexible_cubic.spectrum.power_in_slowest_quarter", 0.954, 0.002),
-    ("dominant residual period, constant 80 s",
-     "shot_level.residuals_1s.branches.rung1_const.spectrum.dominant_period_s", 80.0, 0.1),
-    ("dominant residual period, Phi(t) 40 s",
-     "shot_level.residuals_1s.branches.rung4_phi_of_t.spectrum.dominant_period_s", 40.0, 0.1),
+    ("residual peak-bin period, constant = 80 s (window length, not a measured timescale)",
+     "shot_level.residuals_1s.branches.rung1_const.spectrum.peak_bin_period_s", 80.0, 0.1),
+    ("residual peak-bin period, Phi(t) = 40 s (second Fourier bin, not a measured timescale)",
+     "shot_level.residuals_1s.branches.rung4_phi_of_t.spectrum.peak_bin_period_s", 40.0, 0.1),
 ]
 
 
@@ -356,10 +429,12 @@ def compute(out_path=_BUNDLE, include_slow=True):
     from puckworks.analysis import waszkiewicz_shot_level as wsl
     bundle["shot_level"] = dict(
         ladder=wsl.per_shot_ladder(),
-        noise_floor=wsl.shot_level_noise_floor(),
+        dispersion=wsl.shot_level_dispersion(),
         paired=wsl.paired_shot_uncertainty(),
         loso_phi=wsl.leave_one_shot_out_phi(),
         heldout=wsl.held_out_flexible_comparator(),
+        # Third review P0.3: the evidence that WITHDRAWS the interval-holdout headline.
+        segment_sensitivity=wsl.leave_segment_out_sensitivity(),
         window_sensitivity=wsl.equilibrium_window_sensitivity(),
         residuals_1s=wsl.residual_diagnostics(resolution_s=1.0),
         residuals_5s=wsl.residual_diagnostics(resolution_s=5.0),
@@ -374,6 +449,12 @@ def compute(out_path=_BUNDLE, include_slow=True):
         pressure_domains=__import__(
             "puckworks.analysis.waszkiewicz_cross_pressure", fromlist=["x"]).pressure_domains(),
     )
+    # Third review P0.4: the genuine shot-level cross-pressure estimand, across all 57 included
+    # shots and ALL THREE branches. The manuscript previously reported a shot-count-weighted mean
+    # of pressure-level MEAN-CURVE RMSEs and read it as the expected error of a randomly drawn
+    # shot; RMSE is nonlinear, so it is not.
+    from puckworks.analysis import waszkiewicz_cross_pressure as _wcp
+    bundle["cross_pressure_per_shot"] = _wcp.per_shot_cross_pressure()
     # Figure 1b prints the Foster machine-mode minimum, so it is a manuscript number and belongs
     # in the bundle rather than being read off a gate at render time.
     from puckworks.models.foster2025 import machine_mode as _fm

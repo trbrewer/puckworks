@@ -8,8 +8,15 @@ run A+B now under the **sensitivity-sweep** framing (named-solute per-cell RSD i
 
 ## (A) Does the inventory–rate valley persist across objectives?
 
-10 %-near-optimal rate set as a **fraction of the tested log-rate grid** (`_RATE_DOMAIN` 0.15–6.5, 18
-points), and the rate at the objective minimum, under each objective:
+10 %-near-optimal rate set as a **fraction of the tested log-rate grid** (`_RATE_DOMAIN` 0.15–6.5,
+**29** points), and the rate at the objective minimum, under each objective.
+
+> **Corrected 2026-07-27 (third review MC3).** This note previously said 18 points while the
+> machine-readable record (`PAPER_A_OBJECTIVE_FAMILY_PANELS.json`, `n_rate_grid`) and the formal
+> Methods both said 29. The archived fractions decide it: every one of the eighteen panel ×
+> objective values is an exact 29th (0.759 = 22/29, 0.345 = 10/29, 0.897 = 26/29) and none is a
+> multiple of 1/18. The **29-point grid is correct**; only this supporting note was wrong. Counts
+> are now printed as `k/29` alongside the fraction so the denominator cannot be lost again.
 
 **Status: COMPLETE — all six solute x variety panels** (second review MC2; the two Robusta panels
 that were owed have been run). Archived verbatim in
@@ -18,14 +25,16 @@ recorded earlier were re-run from the same producer and reproduced exactly; the 
 first four rows is that fractions are now printed at the producer's own precision (Arabica 5-CQA
 0.345, previously shown as 0.35).
 
+Grid counts are `points within the 10 % set / 29 tested rate points`.
+
 | Panel | SSE frac / rate* | relative-L2 frac / rate* | Huber frac / rate* | censored? |
 |---|---|---|---|---|
-| Arabica caffeine | 0.76 / 0.66 | 0.66 / 0.58 | 0.72 / 0.86 | SSE, Huber upper; rel no (hi 4.34) |
-| Arabica trigonelline | 0.45 / 3.79 | 0.48 / 3.32 | 0.45 / 6.50 | all upper |
-| Arabica 5-CQA | 0.34 / 6.50 | 0.34 / 6.50 | 0.34 / 6.50 | all upper (min at boundary) |
-| Robusta caffeine | 0.31 / 0.20 | 0.34 / 0.23 | 0.31 / 0.20 | all **lower** (min near lower edge 0.15) |
-| **Robusta trigonelline** | **0.66 / 0.44** | **0.83 / 0.58** | **0.90 / 0.50** | rel + Huber upper; SSE no (hi 2.53) |
-| **Robusta 5-CQA** | **1.00 / 0.15** | **1.00 / 0.44** | **1.00 / 0.34** | **both ends, all three — the whole domain is within 10 %** |
+| Arabica caffeine | 22/29 = 0.759 / 0.66 | 19/29 = 0.655 / 0.58 | 21/29 = 0.724 / 0.86 | SSE, Huber upper; rel no (hi 4.34) |
+| Arabica trigonelline | 13/29 = 0.448 / 3.79 | 14/29 = 0.483 / 3.32 | 13/29 = 0.448 / 6.50 | all upper |
+| Arabica 5-CQA | 10/29 = 0.345 / 6.50 | 10/29 = 0.345 / 6.50 | 10/29 = 0.345 / 6.50 | all upper (min at boundary) |
+| Robusta caffeine | 9/29 = 0.310 / 0.20 | 10/29 = 0.345 / 0.23 | 9/29 = 0.310 / 0.20 | all **lower** (min near lower edge 0.15) |
+| **Robusta trigonelline** | **19/29 = 0.655 / 0.44** | **24/29 = 0.828 / 0.58** | **26/29 = 0.897 / 0.50** | rel + Huber upper; SSE no (hi 2.53) |
+| **Robusta 5-CQA** | **29/29 = 1.000 / 0.15** | **29/29 = 1.000 / 0.44** | **29/29 = 1.000 / 0.34** | **both ends, all three — the whole domain is within 10 %** |
 
 **Reading.** The broad near-optimal set is **invariant to the objective**: across all eighteen
 panel x objective combinations the 10 % set spans **31–100 %** of the log-rate grid and reaches a

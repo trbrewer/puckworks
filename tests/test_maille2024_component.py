@@ -154,7 +154,9 @@ def test_registry_conventions_record_the_known_hazard():
     # threshold exists), and smrke2024 uses TWO cuts in one paper (<120 um sieve, 100 um quantile).
     assert C.FINES_CONVENTIONS["wadsworth2026.grindmap"] is None
     assert C.FINES_CONVENTIONS["smrke2024"] is None
-    assert C.SCHEMA_VERSION == "0.7"
+    # 0.7 introduced these fines-provenance fields; 0.8 added PressureNode/PressureTrace (third
+    # Paper 3 review P0-8). Both additive, so the conventions asserted above are unchanged.
+    assert C.SCHEMA_VERSION == "0.8"
 
 
 # ---- two-regime kinetics --------------------------------------------------------------------

@@ -85,7 +85,9 @@ def test_lee2023_negative_result():
 def test_a8_bedstate_fields():
     """A8: BedState carries per-depth-cell porosity + fines inventory fields."""
     from puckworks.contracts import BedState, SCHEMA_VERSION
-    assert SCHEMA_VERSION == "0.7"   # 0.7 = A11 fines-fraction provenance (additive; A8 fields intact)
+    # 0.8 = PressureNode/PressureTrace (third Paper 3 review P0-8); 0.7 = A11 fines-fraction
+    # provenance. Both additive, so the A8 BedState fields asserted above are intact.
+    assert SCHEMA_VERSION == "0.8"
     b = BedState(dose_kg=0.018, depth_m=0.02, area_m2=2.6e-3, porosity=0.3)
     assert all(hasattr(b, a) for a in
                ("porosity_profile", "fines_mobile", "fines_bound"))

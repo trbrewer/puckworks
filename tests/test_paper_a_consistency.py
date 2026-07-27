@@ -21,15 +21,20 @@ def test_verify_passes_on_current_tree():
 def test_banned_phrases_are_absent_from_the_canonical_draft():
     # Config sanity: every banned phrase must be genuinely retired (absent from the source of truth),
     # otherwise the guard gives false confidence.
-    canonical = PC.CANONICAL.read_text(encoding="utf-8").lower()
+    canonical = PC._flat(PC.CANONICAL.read_text(encoding="utf-8"))
     for phrase, _why in PC.BANNED_IN_CONVERSION:
-        assert phrase.lower() not in canonical, f"banned phrase «{phrase}» is present in the canonical draft"
+        assert PC._flat(phrase) not in canonical, (
+            f"banned phrase «{phrase}» is present in the canonical draft")
 
 
 def test_required_phrases_present_in_canonical_draft():
-    canonical = PC.CANONICAL.read_text(encoding="utf-8").lower()
+    # Whitespace-normalised, like the tool: both manuscripts are hard-wrapped, so a required
+    # phrase straddling a newline is present in the rendered text but absent from a raw substring
+    # search.
+    canonical = PC._flat(PC.CANONICAL.read_text(encoding="utf-8"))
     for phrase, _why in PC.REQUIRED_IN_CONVERSION:
-        assert phrase.lower() in canonical, f"required phrase «{phrase}» missing from the canonical draft"
+        assert PC._flat(phrase) in canonical, (
+            f"required phrase «{phrase}» missing from the canonical draft")
 
 
 def test_drift_is_caught(tmp_path, monkeypatch):

@@ -86,3 +86,25 @@ def test_paperb_bootstrap_analyses_are_deterministic() -> None:
     r2 = h.result2_residual_diagnostics()
     assert r1["rmse_diff_phi_minus_best_const"] == r2["rmse_diff_phi_minus_best_const"]
     assert r1["rmse_diff_phi_minus_cubic"] == r2["rmse_diff_phi_minus_cubic"]
+
+
+# ── embedded figure numbers (Paper 1 third review, cross-cutting figure issue) ────────────────
+def test_paper_a_figures_carry_no_embedded_figure_number():
+    """The caption map renumbers producer figures for presentation -- `fig4_transfer` becomes
+    Figure 3, `fig3_holdouts` becomes Figure S1 -- so an embedded "Fig 4" inside the image would
+    contradict its own caption once uploaded. Numbering is the caption system's job.
+    """
+    import re
+    from pathlib import Path
+
+    src = (Path(__file__).resolve().parents[1] / "puckworks" / "figures_paper_a.py"
+           ).read_text(encoding="utf-8")
+    offenders = re.findall(r'(?:suptitle|set_title)\(\s*"(Fig(?:ure)?\s*\d+[^"]*)"', src)
+    assert not offenders, f"figure titles embed a number: {offenders}"
+
+
+def test_paper_a_caption_map_records_the_no_embedded_number_policy():
+    from pathlib import Path
+    caps = (Path(__file__).resolve().parents[1] / "docs" / "figures" / "PAPER_A_CAPTIONS.md"
+            ).read_text(encoding="utf-8")
+    assert "no embedded figure number" in caps.lower()

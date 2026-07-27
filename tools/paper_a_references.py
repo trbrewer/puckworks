@@ -18,6 +18,7 @@ from __future__ import annotations
 import pathlib
 import re
 import sys
+import unicodedata
 
 REPO = pathlib.Path(__file__).resolve().parents[1]
 BIB = REPO / "docs" / "literature_search" / "references.bib"
@@ -27,13 +28,32 @@ TARGETS = (REPO / "docs" / "PAPER_A_DRAFT.md",
 BEGIN = "<!-- references:begin -->"
 END = "<!-- references:end -->"
 
-_TEX = {r"\`{e}": "e", r"\'{e}": "e", r"\'{i}": "i", r'\"{o}': "o", r"\'{o}": "o",
-        r"{\"o}": "o", r"{\'e}": "e", r"{\'i}": "i", r"{\'a}": "a", r"\&": "&"}
+# TeX accent commands -> the Unicode combining mark they stand for. The previous version was a
+# lookup table of the exact spellings that happened to appear, so `K\"unsch` (unbraced) and
+# `Bia{\l}as`/`{\L}` (glyph commands, not accents) survived into the rendered bibliography as raw
+# TeX -- exactly what a reviewer sees first. Accents are now decomposed generically and recomposed
+# to real characters, so the list prints Künsch, Tönsing and Sánchez-López rather than mojibake.
+_COMBINING = {"`": "̀", "'": "́", "^": "̂", "~": "̃", '"': "̈",
+              "=": "̄", ".": "̇", "u": "̆", "v": "̌", "H": "̋",
+              "c": "̧", "k": "̨", "b": "̱", "d": "̣", "r": "̊"}
+# Standalone glyph commands, which take no argument letter.
+_GLYPH = {r"\l": "ł", r"\L": "Ł", r"\o": "ø", r"\O": "Ø",
+          r"\ss": "ß", r"\aa": "å", r"\AA": "Å", r"\ae": "æ",
+          r"\AE": "Æ", r"\i": "i", r"\j": "j", r"\&": "&"}
+
+# `{\"o}`, `\"{o}`, `\"o` and `{\'{a}}` all mean the same thing.
+_ACCENT = re.compile(r"\{?\\(?P<acc>[`'\"^~=.]|[uvHckbdr](?=[\s{]))\s*\{?(?P<ch>[A-Za-z])\}?\}?")
+# Longest-first so `\AA` is not consumed as `\A`+`A` and `\ss` not as `\s`+`s`.
+_GLYPH_RE = re.compile("|".join(re.escape(k) for k in sorted(_GLYPH, key=len, reverse=True))
+                       + r"(?![A-Za-z])")
 
 
 def _clean(s: str) -> str:
-    for a, b in _TEX.items():
-        s = s.replace(a, b)
+    s = _ACCENT.sub(lambda m: unicodedata.normalize("NFC", m["ch"] + _COMBINING[m["acc"]]), s)
+    s = _GLYPH_RE.sub(lambda m: _GLYPH[m.group(0)], s)
+    # BibTeX `--` is an en dash; it reached the rendered list as a literal double hyphen in every
+    # page range and in compound titles ("reaction--advection--diffusion").
+    s = re.sub(r"(?<=\w)---?(?=\w)", "–", s)
     return " ".join(s.replace("{", "").replace("}", "").split())
 
 
@@ -89,7 +109,10 @@ def entries() -> list[dict]:
             key=key.group(1).strip(), authors=authors, year=f.get("year", ""),
             title=f.get("title", ""), journal=f.get("journal") or f.get("booktitle", ""),
             volume=f.get("volume", ""), pages=f.get("pages", ""), doi=f.get("doi", ""),
-            surnames={_surname(a) for a in authors.split(" and ") if a.strip()},
+            # BibTeX's `others` is the "et al." marker, not a person: it must not become a
+            # candidate surname, or a citation to a genuine "Others" would silently resolve.
+            surnames={_surname(a) for a in authors.split(" and ")
+                      if a.strip() and a.strip().lower() != "others"},
         ))
     return out
 
@@ -99,33 +122,77 @@ def _surname(a: str) -> str:
     return (a.split(",")[0] if "," in a else a.split()[-1] if a.split() else "").lower()
 
 
+# A citation's author token. `\w` is Unicode-aware in Python 3, so this admits Tönsing and
+# Sánchez-López; the old `[A-Z][A-Za-z\-']+` stopped dead at the first non-ASCII letter and the
+# citation vanished. The leading character is checked for case in `cited()` rather than in the
+# class, because there is no portable ASCII spelling of "any uppercase Unicode letter".
+_NAME = r"[^\W\d_][\w\-'’]*"
+_YEAR = r"(?:19|20)\d{2}[a-z]?"
+_CITE = re.compile(
+    rf"(?P<name>{_NAME})"
+    # `\s+` spans newlines, so "Raue et\nal. (2009)" -- broken across a wrapped line -- matches.
+    rf"(?:\s+(?:et\s+al\.?|(?:and|&)\s+{_NAME}))?"
+    rf"[,)]?\s*\(?"
+    # Grouped citations attach several years to one author string ("Transtrum et al., 2011, 2015").
+    # Capturing only the first year silently dropped the second work from the bibliography.
+    rf"(?P<years>{_YEAR}(?:\s*,\s*{_YEAR})*)")
+
+_SKIP = {"table", "figure", "section", "appendix", "paper", "result", "fig", "eq",
+         "equation", "supplementary", "note", "panel", "row", "step", "item"}
+
+
 def cited(text: str) -> set[tuple[str, str]]:
     """(surname, year) pairs appearing as citations in the body."""
     body = text.split(BEGIN)[0].split("## References")[0]
-    skip = {"table", "figure", "section", "appendix", "paper", "result", "fig", "eq"}
     out = set()
-    for m in re.finditer(r"([A-Z][A-Za-z\-']+)(?:\s+et al\.?)?[,)]?\s*\(?((?:19|20)\d{2})", body):
-        if m.group(1).lower() in skip:
+    for m in _CITE.finditer(body):
+        name = m["name"]
+        if not name[0].isupper() or name.lower() in _SKIP:
             continue
-        out.add((m.group(1).lower(), m.group(2)))
+        for year in re.findall(_YEAR, m["years"]):
+            out.add((name.lower(), year[:4]))
     return out
 
 
+def _first_surname(rec: dict) -> str:
+    return _surname(rec["authors"].split(" and ")[0])
+
+
+def _leads(surname: str, rec: dict) -> bool:
+    """Does `surname` name the FIRST author of `rec`?
+
+    Compound surnames ("Vaca Guerra", "Roman Corrochano") are cited by their last token, so the
+    final token counts as a match too.
+    """
+    lead = _first_surname(rec)
+    return bool(lead) and (lead == surname or lead.split()[-1] == surname)
+
+
 def resolve(text: str):
+    """Bind each in-text citation to exactly one bib entry, matching on the FIRST author only.
+
+    An earlier version matched any author in the entry, to accommodate two-author citations such
+    as "Banga & Balsa-Canto, 2008". That was unnecessary -- an author-year citation always leads
+    with the first author, so the lead-author rule resolves those too -- and it aliased: two 2016
+    entries both list Villaverde, so "Villaverde et al. (2016)" bound to whichever appeared first
+    in the .bib. Deleting the correct entry left the audit reporting a clean pass while the
+    citation silently pointed at Chis et al. (2016).
+    """
     recs = entries()
-    used, missing = {}, []
+    used, missing, ambiguous = {}, [], []
     for surname, year in sorted(cited(text)):
-        # Compound surnames ("Vaca Guerra", "Balsa-Canto", "Roman Corrochano") are cited by their
-        # last token, so an exact set membership test misses them. Accept a match on the final
-        # token of any recorded surname as well.
-        hit = next((r for r in recs if r["year"] == year
-                    and (surname in r["surnames"]
-                         or any(s.split()[-1] == surname for s in r["surnames"] if s))), None)
-        if hit:
-            used[hit["key"]] = hit
-        else:
+        hits = [r for r in recs if r["year"] == year and _leads(surname, r)]
+        if len(hits) == 1:
+            used[hits[0]["key"]] = hits[0]
+        elif not hits:
             missing.append((surname, year))
+        else:
+            ambiguous.append((surname, year, tuple(r["key"] for r in hits)))
+    resolve.last_ambiguous = ambiguous
     return used, missing
+
+
+resolve.last_ambiguous = []
 
 
 def render(used: dict) -> str:
@@ -135,7 +202,13 @@ def render(used: dict) -> str:
         return (_surname(au) or first, r["year"])
     lines = [BEGIN, "<!-- generated by tools/paper_a_references.py — do not edit by hand -->", ""]
     for r in sorted(used.values(), key=sort_key):
-        authors = r["authors"].replace(" and ", "; ")
+        # BibTeX's `others` printed literally ("Browning, Alexander P.; others (2024)"). It is the
+        # et-al marker and must render as one.
+        names = [a for a in r["authors"].split(" and ") if a.strip()]
+        elided = bool(names) and names[-1].strip().lower() == "others"
+        if elided:
+            names = names[:-1]
+        authors = "; ".join(names) + (" et al." if elided else "")
         bits = [f"{authors} ({r['year']}). {r['title']}."]
         if r["journal"]:
             bits.append(f" *{r['journal']}*")
@@ -157,9 +230,14 @@ def main(argv=None) -> int:
     for path in TARGETS:
         text = path.read_text(encoding="utf-8")
         used, missing = resolve(text)
-        print(f"{path.name}: {len(used)} references resolved, {len(missing)} unmatched")
+        ambiguous = resolve.last_ambiguous
+        print(f"{path.name}: {len(used)} references resolved, {len(missing)} unmatched, "
+              f"{len(ambiguous)} ambiguous")
         for s, y in missing:
             print(f"    UNMATCHED: {s} {y}")
+            rc = 1
+        for s, y, keys in ambiguous:
+            print(f"    AMBIGUOUS: {s} {y} -> {', '.join(keys)}")
             rc = 1
         if "--write" in argv:
             block = render(used)

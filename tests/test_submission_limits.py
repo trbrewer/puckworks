@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import importlib.util
+
+import pytest
 from pathlib import Path
 
 
@@ -17,6 +19,15 @@ def test_submission_text_is_within_declared_limits() -> None:
     validator = _load_validator()
     ok, failures, counts = validator.validate()
     assert ok, failures
-    assert counts["jfe"]["abstract_words"] == 237
-    assert counts["jfe"]["highlight_count"] == 5
+    # Third review P0-1/MC1: the abstract was rewritten (313 -> 238 words) and the Highlights
+    # reduced from five repository-facing bullets to four accessible ones. Both are now GENERATED
+    # from `docs/submission/paper_a_front_matter.yaml`, so the expected values are read from that
+    # single source rather than duplicated here -- duplicating them is what let the package drift
+    # from the manuscript in the first place.
+    yaml = pytest.importorskip("yaml", reason="pyyaml is a radar/dev extra")
+    fm = yaml.safe_load(
+        (Path(__file__).resolve().parents[1]
+         / "docs/submission/paper_a_front_matter.yaml").read_text(encoding="utf-8"))
+    assert counts["jfe"]["abstract_words"] == len(" ".join(fm["abstract"].split()).split())
+    assert counts["jfe"]["highlight_count"] == len(fm["highlights"])
     assert counts["aps_dfd_2026"]["body_plus_funding_characters"] == 1944

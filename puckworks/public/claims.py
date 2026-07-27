@@ -11,6 +11,24 @@ from .schema import PublicClaim, Producer
 _H = "puckworks.harness"
 
 
+def _sel(dependency_ref, evidence_ids, claim_observable, claim_domain, role_in_claim, rationale):
+    """Declare WHICH evidence records license this claim (third review P0-1).
+
+    Every public claim names the exact `EvidenceLink` ids it relies on, why their observables are
+    commensurate with the sentence, and what role the component plays in it. Records the claim does
+    NOT select stay visible in `evidence_inventory()` for drill-down, but cannot strengthen it or
+    change its badge. The `rationale` is where the DELIBERATE EXCLUSIONS are recorded -- which is
+    the half a reader cannot reconstruct from the selection alone.
+    """
+    from puckworks.public.schema import ClaimEvidenceSelection
+    return ClaimEvidenceSelection(dependency_ref=dependency_ref,
+                                  evidence_ids=tuple(evidence_ids),
+                                  claim_observable=claim_observable,
+                                  claim_domain=claim_domain,
+                                  role_in_claim=role_in_claim,
+                                  rationale=rationale)
+
+
 def _dep(ref, kind, role):
     """Build a Dependency, attaching the scoped evidence vector for registered components.
 
@@ -24,7 +42,11 @@ def _dep(ref, kind, role):
         evidence = tuple(
             ScopedEvidenceRef(relation=s.relation,
                               public_relation=REGISTRY_TO_PUBLIC.get(s.relation, "qualitative"),
-                              scope=s.scope, gate=s.gate, outcome=s.outcome)
+                              scope=s.scope, gate=s.gate, outcome=s.outcome,
+                              # Third review P0-1/P0-2: a claim cannot SELECT anonymous records,
+                              # and a badge cannot be DERIVED without the evaluation design.
+                              evidence_id=s.evidence_id, fit_evaluation=s.fit_evaluation,
+                              reality_facing=s.reality_facing)
             for s in _EG.component_evidence_vector(ref))
     return Dependency(ref=ref, kind=kind, role=role, evidence=evidence)
 
@@ -75,6 +97,22 @@ PUBLIC_CLAIMS = [
                         "early_tds_pct": "early_tds_pct",
                         "peak_tds_pct": "peak_tds_pct",
                         "boulder_diffusion_timescale_s": "tau_boulder_diffusion_s"}),
+        evidence_selections=(
+            _sel("cameron2020.extraction_bdf",
+                 ["cameron2020.extraction_bdf::gate_cameron_conservation"],
+                 claim_observable="boulder-scale diffusion timescale (s), the comparator the "
+                                  "measured first-fraction concentration is read against",
+                 claim_domain="the cited boulder radius and bath conditions of the source model",
+                 role_in_claim="comparator_context",
+                 rationale="The reported 97 % is MEASURED from the Waszkiewicz fractions; "
+                           "cameron2020 supplies only the ~23 s comparator, and the conservation "
+                           "gate is what licenses using its internal accounting for that "
+                           "timescale. DELIBERATELY EXCLUDED: "
+                           "gate_smrke2024_fast_extraction_shape, an independent-external record "
+                           "with a NEGATIVE outcome about EY(t) MORPHOLOGY. That is a different "
+                           "observable from the diffusion timescale and this claim asserts "
+                           "nothing about it; under the previous scheme it nonetheless entered "
+                           "this claim's profile."),),
     ),
 
     # ---- PV-02 — "The machine can fake a puck problem" ----------------------
@@ -128,6 +166,32 @@ PUBLIC_CLAIMS = [
             result_map={"dynamic_rmse_g_per_s": "rung4_phi_of_t",
                         "best_constant_null_rmse_g_per_s": "rung1_const_kappa",
                         "improvement_factor": "improvement_factor"}),
+        evidence_selections=(
+            _sel("waszkiewicz2025.poroelastic",
+                 ["waszkiewicz2025.poroelastic::gate_waszkiewicz_dynamic_9bar"],
+                 claim_observable="mass flow Q(t) at 9 bar over the scored window",
+                 claim_domain="the nominal 9-bar Waszkiewicz condition, 15-95 s",
+                 role_in_claim="produces_reported_value",
+                 rationale="The bed-side temporal branch whose reconstruction error this claim "
+                           "reports, scored on exactly the observable named. EXCLUDED: "
+                           "gate_waszkiewicz_static_refit, which concerns the steady-state "
+                           "pressure-flow curve and the recovered P_c/Q_c -- a different "
+                           "observable."),
+            _sel("foster2025.machine_mode",
+                 ["foster2025.machine_mode::gate_foster_machine_tp_ts"],
+                 claim_observable="whether a mid-shot flow minimum can arise from machine "
+                                  "response alone, evidenced by reproduced ponding and "
+                                  "saturation times",
+                 claim_domain="the Foster apparatus and its reported scalar times",
+                 role_in_claim="produces_reported_value",
+                 rationale="The machine-only branch's CAPACITY to generate the dip is what this "
+                           "claim asserts, and the two reproduced scalar times support it. "
+                           "DELIBERATELY EXCLUDED: gate_foster_ct_trajectory and "
+                           "gate_foster_fig15_flowmin, both NEGATIVE-outcome records concerning "
+                           "wetting-front depth s(t)/headspace H(t) and the normalized flow "
+                           "curve. This claim asserts nothing about those observables, and their "
+                           "presence in the profile misrepresented the claim's support in both "
+                           "directions."),),
     ),
 
     # ---- PV-04 — "We killed our favorite result" ---------------------------
@@ -275,6 +339,29 @@ PUBLIC_CLAIMS = [
                 "swelling_closes_shared_state": "swelling_closes_shared_state",
                 "eval_window_start_s": "eval_window_start_s",
                 "eval_window_end_s": "eval_window_end_s"}),
+        evidence_selections=(
+            _sel("brewer2026.coupled_kappa_t",
+                 ["brewer2026.coupled_kappa_t::gate_kappa_t_composition_diagnostic"],
+                 claim_observable="composite minimum porosity and the 9-bar Q(t) reconstruction "
+                                  "RMSE when the swelling branch is added",
+                 claim_domain="the preprocessed mean 9-bar trace, 15-95 s",
+                 role_in_claim="diagnosed_subject",
+                 rationale="The claim is ABOUT this composition's failure and this record "
+                           "diagnoses it on exactly that observable. EXCLUDED: the degeneracy "
+                           "reconstruction and reduction records, which establish the "
+                           "extraction-only closure's structural identity -- not what is "
+                           "asserted here."),
+            _sel("mo2023_2.swelling",
+                 ["mo2023_2.swelling::gate_mo2_swelling_insensitivity"],
+                 claim_observable="the effect of the imported swelling branch on end-of-shot "
+                                  "yield at fixed flow",
+                 claim_domain="the source's q = 2/3/4 mL/s fixed-flow conditions",
+                 role_in_claim="diagnosed_subject",
+                 rationale="The imported branch is the subject under test. EXCLUDED: "
+                           "gate_mo2_fixed_flow_trends and gate_mo2_swelling_flow_decay, which "
+                           "carry NEGATIVE outcomes on yield trends and flow decay. Those are "
+                           "genuine limitations of the source port, preserved in the inventory, "
+                           "but they are not the observable this claim asserts."),),
     ),
 
     # ---- PV-03 — "The cup hides the clock" (flat-valley identifiability) -----
@@ -350,5 +437,15 @@ PUBLIC_CLAIMS = [
                         "n_model_worse_than_const": "n_model_worse_than_const",
                         "n_points": "n_points", "skill_vs_const": "skill_vs_const",
                         "table7_implied_rate": "table7_implied_rate"}),
+        evidence_selections=(
+            _sel("pannusch2024.solver",
+                 ["pannusch2024.solver::gate_pannusch_solver_mape"],
+                 claim_observable="per-solute fraction concentrations reconstructed by the "
+                                  "extraction model",
+                 claim_domain="the source campaign's 15 experiments x 6 time points",
+                 role_in_claim="produces_reported_value",
+                 rationale="The reconstruction underlying the claim's contrast between extraction "
+                           "clocks. It is a post-fit SAME-DATA record, which is precisely why the "
+                           "derived badge is RECONSTRUCTED and not PREDICTED."),),
     ),
 ]

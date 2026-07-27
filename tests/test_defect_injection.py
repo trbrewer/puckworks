@@ -88,13 +88,77 @@ def test_no_harness_errors(result):
 def test_manuscript_reports_the_benchmark_numbers(result):
     """The paper must print the benchmark's actual totals, not a remembered pair."""
     text = (_ROOT / "docs/PAPER_3_PUCKWORKS_DRAFT.md").read_text(encoding="utf-8")
-    assert "%d defects" % result["n_defects"] in text
-    assert "%d were detected" % result["n_detected"] in text
-    assert "%d were not" % result["n_undetected"] in text
+    assert "**%d injected defects**" % result["n_defects"] in text
+    assert "**%d were caught and %d were\nmissed**" % (
+        result["n_defects_detected"], result["n_defects_missed"]) in text
+    assert "**%d independent structural groups**" % result["n_independent_groups"] in text
+    assert "Two **valid controls**" in text and result["n_controls"] == 2
 
 
 def test_render_names_every_undetected_defect(result):
     block = DI.render(result)
     for r in result["rows"]:
-        if not r["caught"]:
+        if not r["caught"] and not r["is_control"]:
             assert r["id"] in block and r["name"] in block
+
+
+# ── third review P0-7: the reporting must not be able to flatter itself ───────────────────────
+def test_controls_are_not_counted_as_defects(result):
+    """`D04` is a valid SI permeability the range guard must ACCEPT. It was counted in n_defects,
+    n_detected and the detection-rate denominator."""
+    controls = [r for r in result["rows"] if r["is_control"]]
+    assert controls, "the suite must contain valid controls"
+    assert result["n_defects"] == len([r for r in result["rows"] if not r["is_control"]])
+    assert result["n_defects"] + result["n_controls"] == len(result["rows"])
+    assert "D04" in {r["id"] for r in controls}
+
+
+def test_no_headline_coverage_percentage_is_emitted(result):
+    """The central correction is conceptual: neither 67 % nor 64.7 % estimates architecture
+    coverage, because the corpus has no sampling frame."""
+    for banned in ("detection_rate", "coverage", "rate"):
+        assert banned not in result, f"a coverage-style scalar is back: {banned}"
+    text = (_ROOT / "docs/PAPER_3_PUCKWORKS_DRAFT.md").read_text(encoding="utf-8")
+    assert "A detection rate of 67%" not in text
+    assert "no single coverage percentage" in text
+
+
+def test_specificity_is_reported_separately_from_sensitivity(result):
+    for key in ("n_controls", "n_controls_passed", "n_false_positives"):
+        assert key in result
+    for fam in result["by_family"].values():
+        assert {"true_positives", "false_negatives", "controls", "false_positives"} <= set(fam)
+
+
+def test_related_mutations_share_an_independence_group(result):
+    """D01/D02 are two scale factors of one structural failure; counting them as two independent
+    pieces of evidence overstates the sample size."""
+    groups = {r["id"]: r["independence_group"] for r in result["rows"]}
+    assert groups["D01"] == groups["D02"] == "range_guard"
+    assert result["n_independent_groups"] < result["n_defects"], (
+        "if every case were its own group the grouping would be doing no work")
+
+
+def test_every_executable_mutation_is_distinguished_from_a_limitation_analysis(result):
+    kinds = {r["execution_type"] for r in result["rows"]}
+    assert kinds <= {"executable", "limitation_analysis"}
+    assert result["n_limitation_analyses"] > 0, (
+        "cases that return a hard-coded outcome must be labelled, not counted as mutations")
+    assert result["n_executable_mutations"] + result["n_limitation_analyses"] == result["n_defects"]
+
+
+def test_the_absence_of_a_holdout_suite_is_declared(result):
+    """Selection bias must be visible: every case was authored by the guards' own authors."""
+    assert result["has_holdout_suite"] is False
+    assert "no held-out challenge set" in (
+        _ROOT / "docs/PAPER_3_PUCKWORKS_DRAFT.md").read_text(encoding="utf-8").lower()
+
+
+def test_a_vacuous_always_caught_benchmark_would_fail_the_controls():
+    """NON-VACUITY of the controls themselves: a guard that rejected everything must score as a
+    false positive rather than as perfect detection."""
+    import puckworks.paper3.defect_injection as M
+    ctrl = next(d for d in M.CORPUS if d.is_control)
+    # Simulate a guard that refuses every input: the control's injector reports caught=False.
+    out = M.Outcome(False, "always-reject guard", "VALID input rejected")
+    assert not out.caught, "a rejected control must not read as a caught defect"

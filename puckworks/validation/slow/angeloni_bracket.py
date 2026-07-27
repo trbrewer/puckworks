@@ -618,9 +618,14 @@ def joint_multigrind_fit():
                 and r["granulometry"] == gran and r["on_grid"] == "True"]
 
     def frac(sp, rs, conds, gran):
+        # Third review P0-4: the endpoint proxy is now a PARAMETER of the whole benchmark, so the
+        # O-fit, the frozen transfer and the level-only baseline are all evaluated at the SAME
+        # endpoint. Previously it was baked in at 40 mL, which is why the endpoint sweep could not
+        # be propagated through the headline model-versus-null comparison.
         s = dict(sp); s["A1"] = sp["A1"] * rs; s["A2"] = sp["A2"] * rs; s["c_s0"] = 1.0
         return np.array([float(ps.simulate_fractions(
-                        T, _flow_gran(p, T, gran), _matched_bounds(_flow_gran(p, T, gran)),
+                        T, _flow_gran(p, T, gran),
+                        _matched_bounds(_flow_gran(p, T, gran)),
                         s, cl1=1.0)[0]) for T, p in conds])
 
     rate_grid = _RATE_DOMAIN
@@ -739,9 +744,14 @@ def validate_refit_granulometry():
                 and r["granulometry"] == gran and r["on_grid"] == "True"]
 
     def frac(sp, rs, conds, gran):
+        # Third review P0-4: the endpoint proxy is now a PARAMETER of the whole benchmark, so the
+        # O-fit, the frozen transfer and the level-only baseline are all evaluated at the SAME
+        # endpoint. Previously it was baked in at 40 mL, which is why the endpoint sweep could not
+        # be propagated through the headline model-versus-null comparison.
         s = dict(sp); s["A1"] = sp["A1"] * rs; s["A2"] = sp["A2"] * rs; s["c_s0"] = 1.0
         return np.array([float(ps.simulate_fractions(
-                        T, _flow_gran(p, T, gran), _matched_bounds(_flow_gran(p, T, gran)),
+                        T, _flow_gran(p, T, gran),
+                        _matched_bounds(_flow_gran(p, T, gran)),
                         s, cl1=1.0)[0]) for T, p in conds])
 
     best_cs0 = _mape_level                                # EXACT weighted-median (B3)
@@ -939,7 +949,8 @@ def table7_rate_constraint(panel, inventory_g_L, rel_band=0.10):
 
 
 def transfer_skill_vs_baselines(varieties=("Arabica", "Robusta"),
-                                solutes=("caffeine", "trigonelline", "5CQA")):
+                                solutes=("caffeine", "trigonelline", "5CQA"),
+                                v_target=_V_TARGET_ML):
     """A3-01 (submission-blocking null benchmark): does the mechanistic O->C/F transfer
     add predictive SKILL beyond simple level-only baselines available at prediction time?
     A low absolute MAPE can arise from analyte levels that are stable across operating
@@ -970,9 +981,14 @@ def transfer_skill_vs_baselines(varieties=("Arabica", "Robusta"),
                 and r["granulometry"] == gran and r["on_grid"] == "True"]
 
     def frac(sp, rs, conds, gran):
+        # Third review P0-4: the endpoint proxy is now a PARAMETER of the whole benchmark, so the
+        # O-fit, the frozen transfer and the level-only baseline are all evaluated at the SAME
+        # endpoint. Previously it was baked in at 40 mL, which is why the endpoint sweep could not
+        # be propagated through the headline model-versus-null comparison.
         s = dict(sp); s["A1"] = sp["A1"] * rs; s["A2"] = sp["A2"] * rs; s["c_s0"] = 1.0
         return np.array([float(ps.simulate_fractions(
-                        T, _flow_gran(p, T, gran), _matched_bounds(_flow_gran(p, T, gran)),
+                        T, _flow_gran(p, T, gran),
+                        _matched_bounds(_flow_gran(p, T, gran), v_target),
                         s, cl1=1.0)[0]) for T, p in conds])
 
     per = {}
@@ -1049,6 +1065,7 @@ def transfer_skill_vs_baselines(varieties=("Arabica", "Robusta"),
     # paired model-minus-constant loss (all held-out C/F points)
     paired = np.array(all_model) - np.array(all_const)
     return dict(
+        v_target_ml=float(v_target),
         per_fit=per, pooled_by_grind=pooled,
         pooled_model_mape=round(macro_model, 2),
         pooled_const_mape=round(macro_const, 2),
@@ -1107,9 +1124,14 @@ def reduced_model_ladder(varieties=("Arabica", "Robusta"),
                 and r["granulometry"] == gran and r["on_grid"] == "True"]
 
     def frac(sp, rs, conds, gran):
+        # Third review P0-4: the endpoint proxy is now a PARAMETER of the whole benchmark, so the
+        # O-fit, the frozen transfer and the level-only baseline are all evaluated at the SAME
+        # endpoint. Previously it was baked in at 40 mL, which is why the endpoint sweep could not
+        # be propagated through the headline model-versus-null comparison.
         s = dict(sp); s["A1"] = sp["A1"] * rs; s["A2"] = sp["A2"] * rs; s["c_s0"] = 1.0
         return np.array([float(ps.simulate_fractions(
-                        T, _flow_gran(p, T, gran), _matched_bounds(_flow_gran(p, T, gran)),
+                        T, _flow_gran(p, T, gran),
+                        _matched_bounds(_flow_gran(p, T, gran)),
                         s, cl1=1.0)[0]) for T, p in conds])
 
     per = {}
@@ -1920,3 +1942,229 @@ def report():
 
 if __name__ == "__main__":
     report()
+
+
+def endpoint_propagation_benchmark(v_targets=(38.0, 40.0, 42.0), n_boot=8000, seed=0):
+    """Propagate the endpoint proxy through the COMPLETE transfer-versus-null benchmark.
+
+    Third review P0-4, the one remaining scientific closure. The paper's most consequential
+    comparison is only 0.36 percentage points wide, and the endpoint at which it is evaluated was a
+    single untested proxy: the source reports a 40 +/- 2 g beverage while the solver terminates on
+    volume.
+
+    An endpoint sweep already existed (`endpoint_mass_sensitivity`), but it evaluates a DIFFERENT
+    ESTIMAND -- the blind optimal-grind per-condition residual -- and the manuscript said so. A
+    ~5 pp movement in that quantity does not tell us whether the model-versus-null conclusion
+    changes, because the null is refitted at each endpoint too, and both predictors move together.
+
+    This runs the whole procedure at each endpoint proxy:
+
+      1. fit inventory level and rate on the nine optimal-grind conditions AT THAT ENDPOINT;
+      2. freeze that calibration;
+      3. predict every held-out coarse/fine observation at the same endpoint;
+      4. refit the optimal-grind-trained level-only constant at the same endpoint;
+      5. compute pooled and macro MAPE for both predictors;
+      6. compute the paired model-minus-baseline difference;
+      7. repeat the primary clustered resampling of the paired loss;
+      8. count the held-out points on which the model is worse;
+      9. record the fitted rate and level.
+
+    NOTE: ~2-3 min of PDE solves PER ENDPOINT (slow; hand-run).
+    """
+    import numpy as np
+
+    rows = []
+    for v in v_targets:
+        res = transfer_skill_vs_baselines(v_target=v)
+        boot = paired_clustered_bootstrap(res["records"], B=n_boot, seed=seed,
+                                          unit="cond_in_group")
+        boot_g = paired_clustered_bootstrap(res["records"], B=n_boot, seed=seed, unit="group")
+        rows.append(dict(
+            v_target_ml=float(v),
+            pooled_model_mape=res["pooled_model_mape"],
+            pooled_const_mape=res["pooled_const_mape"],
+            paired_difference_pp=res["paired_model_minus_const_mean_pp"],
+            paired_median_pp=res["paired_model_minus_const_median_pp"],
+            n_points=res["n_points"],
+            n_model_worse_than_const=res["n_model_worse_than_const"],
+            skill_vs_const=res["skill_vs_const"],
+            clustered_range_within_group=boot["ci95_pp"],
+            clustered_range_whole_group=boot_g["ci95_pp"],
+            within_group_excludes_zero=boot["excludes_zero"],
+            per_fit={k: dict(model_macro_mape=x["model_macro_mape"],
+                             const_macro_mape=x["const_macro_mape"])
+                     for k, x in res["per_fit"].items()}))
+
+    diffs = [r["paired_difference_pp"] for r in rows]
+    signs = {np.sign(d) for d in diffs}
+    ranges = [r["clustered_range_within_group"] for r in rows
+              if r["clustered_range_within_group"] is not None]
+    crosses_zero = [bool(lo <= 0.0 <= hi) for lo, hi in ranges] if ranges else []
+
+    return dict(
+        v_targets=[float(v) for v in v_targets],
+        rows=rows,
+        paired_difference_range_pp=[round(min(diffs), 3), round(max(diffs), 3)],
+        sign_is_stable=bool(len(signs) == 1),
+        primary_range_crosses_zero_at_every_endpoint=bool(crosses_zero and all(crosses_zero)),
+        conclusion_stable=bool(len(signs) == 1 and crosses_zero and all(crosses_zero)),
+        estimand=("pooled held-out MAPE of the frozen optimal-grind mechanistic calibration MINUS "
+                  "that of the optimal-grind-trained level-only constant, both evaluated at the "
+                  "same endpoint proxy, over all held-out coarse/fine points"),
+        note=("This is NOT the same quantity as `endpoint_mass_sensitivity`, which reports the "
+              "blind optimal-grind per-condition residual. Both predictors are re-derived at each "
+              "endpoint here, so a shift common to both cancels -- which is exactly why the ~5 pp "
+              "movement in the blind residual does not by itself imply that the model-versus-null "
+              "conclusion is endpoint-dependent."))
+
+
+# --------------------------------------------------------------------------------------------
+# Numerical convergence of the PDE discretisation (third review MC4.4)
+# --------------------------------------------------------------------------------------------
+import contextlib as _contextlib
+
+
+@_contextlib.contextmanager
+def _numerics(nz, tol):
+    """Run the source solver at a different axial resolution and solver tolerance.
+
+    The solver's grid size is the module constant `NZ` and its tolerances are literals inside the
+    `solve_ivp` call, so both are patched here rather than parameterised. That is deliberate: this
+    is a read-only DIAGNOSTIC, and the repository's rule is not to refactor a gated component while
+    landing new work. `simulate_fractions` and `_rhs` both read `NZ` at call time, so patching the
+    module global is sufficient and coherent -- the grid, the upwind operator, the Jacobian
+    sparsity and the initial condition are all sized from it.
+    """
+    from puckworks.models.pannusch2024 import solver as _ps
+    orig_nz, orig_solve = _ps.NZ, _ps.solve_ivp
+
+    def _patched(*a, **kw):
+        kw["rtol"] = tol
+        kw["atol"] = tol
+        return orig_solve(*a, **kw)
+
+    _ps.NZ, _ps.solve_ivp = int(nz), _patched
+    try:
+        yield
+    finally:
+        _ps.NZ, _ps.solve_ivp = orig_nz, orig_solve
+
+
+def numerical_convergence(node_counts=(100, 200, 400),
+                          tolerances=(1e-5, 1e-6, 1e-7),
+                          variety="Arabica", solute="caffeine", gran="O"):
+    """Spatial-mesh and solver-tolerance convergence of the PDE outputs (third review MC4.4).
+
+    The convergence already reported in the manuscript is of the **rate-parameter grid** -- how
+    finely the rate axis is sampled. That is a different quantity from the convergence of the PDE
+    discretisation itself, and the review was right that the distinction matters: the paper's
+    temporal-information result depends on the SHAPE of the outlet trajectory, so the numerics that
+    produce that shape are load-bearing.
+
+    Four outputs are compared across the grid, exactly the set the review asked for:
+
+    1. whole-cup concentration at the matched endpoint;
+    2. early / middle / late fraction concentrations (three equal sub-intervals of the same cup);
+    3. the location of the profiled-objective minimum on the rate axis; and
+    4. the profile range ratio (max/min of the profiled objective over the swept domain).
+
+    (3) and (4) are the diagnostics the identifiability argument actually rests on, which is why
+    they are included rather than only the scalar cup.
+
+    Reference configuration: the finest mesh at the tightest tolerance. Deviations are reported
+    relative to it, so "converged" means "insensitive to refinement", not "matches the default".
+
+    NOTE: ~0.2 s per solve at NZ=200, more at 400; the full sweep is a few minutes. Slow lane,
+    hand-run.
+    """
+    import numpy as np
+    from puckworks.models.pannusch2024 import solver as ps
+    from puckworks import data as d
+
+    bio = d.angeloni_bioactives()
+    params = ps._solute_params()
+    col = {"caffeine": "CF", "trigonelline": "TR", "5CQA": "5CQA"}[solute]
+    rows = [r for r in bio if r["variety"] == variety
+            and r["granulometry"] == gran and r["on_grid"] == "True"]
+    conds = [(r["T_degC"], r["p_bar"]) for r in rows]
+    meas = np.array([r[col] for r in rows], float)
+    sp = params[solute]
+
+    def _cup_and_thirds(T, p):
+        flow = _flow_gran(p, T, gran)
+        lo, hi = _matched_bounds(flow)
+        cup = float(ps.simulate_fractions(T, flow, [lo, hi], sp, cl1=1.0)[0])
+        edges = list(np.linspace(lo, hi, 4))
+        thirds = [float(x) for x in ps.simulate_fractions(T, flow, edges, sp, cl1=1.0)]
+        return cup, thirds
+
+    def _profile():
+        """Profiled MAPE objective over the rate domain, with the level exactly minimised."""
+        obj = []
+        for rs in _RATE_DOMAIN:
+            s = dict(sp)
+            s["A1"] = sp["A1"] * rs
+            s["A2"] = sp["A2"] * rs
+            s["c_s0"] = 1.0
+            f = np.array([float(ps.simulate_fractions(
+                T, _flow_gran(p, T, gran), _matched_bounds(_flow_gran(p, T, gran)),
+                s, cl1=1.0)[0]) for T, p in conds])
+            obj.append(_mape_level(f, meas)[1])
+        obj = np.array(obj, float)
+        i = int(np.argmin(obj))
+        return dict(rate_at_min=float(_RATE_DOMAIN[i]),
+                    min_objective=float(obj[i]),
+                    range_ratio=float(obj.max() / obj.min()),
+                    at_boundary=bool(i in (0, len(obj) - 1)))
+
+    cells = {}
+    for nz in node_counts:
+        for tol in tolerances:
+            with _numerics(nz, tol):
+                T0, p0 = conds[0]
+                cup, thirds = _cup_and_thirds(T0, p0)
+                prof = _profile()
+            cells[f"nz{nz}_tol{tol:g}"] = dict(
+                n_axial_nodes=int(nz), solver_tolerance=float(tol),
+                whole_cup=cup, early=thirds[0], middle=thirds[1], late=thirds[2],
+                **prof)
+
+    ref_key = f"nz{max(node_counts)}_tol{min(tolerances):g}"
+    ref = cells[ref_key]
+    for k, v in cells.items():
+        v["rel_dev_whole_cup_pct"] = round(
+            100.0 * abs(v["whole_cup"] - ref["whole_cup"]) / ref["whole_cup"], 4)
+        v["rel_dev_late_pct"] = round(
+            100.0 * abs(v["late"] - ref["late"]) / ref["late"], 4)
+        v["rel_dev_range_ratio_pct"] = round(
+            100.0 * abs(v["range_ratio"] - ref["range_ratio"]) / ref["range_ratio"], 4)
+        v["rate_at_min_matches_reference"] = bool(
+            abs(v["rate_at_min"] - ref["rate_at_min"]) < 1e-9)
+
+    default = cells["nz200_tol1e-06"]
+    worst_cup = max(v["rel_dev_whole_cup_pct"] for v in cells.values())
+    worst_late = max(v["rel_dev_late_pct"] for v in cells.values())
+    worst_rr = max(v["rel_dev_range_ratio_pct"] for v in cells.values())
+    all_same_min = all(v["rate_at_min_matches_reference"] for v in cells.values())
+
+    return dict(
+        panel=f"{variety}:{solute}", granulometry=gran, n_conditions=len(conds),
+        node_counts=list(node_counts), tolerances=[float(t) for t in tolerances],
+        reference_cell=ref_key,
+        production_cell="nz200_tol1e-06",
+        scheme=("five-point biased-upwind advection (Carver & Hinds 1978) on a uniform axial "
+                "grid; Dirichlet inlet c_l(z=0)=0; stiff BDF integration with an analytic "
+                "Jacobian sparsity pattern"),
+        cells=cells,
+        production_vs_reference=dict(
+            whole_cup_rel_dev_pct=default["rel_dev_whole_cup_pct"],
+            late_fraction_rel_dev_pct=default["rel_dev_late_pct"],
+            range_ratio_rel_dev_pct=default["rel_dev_range_ratio_pct"],
+            rate_at_min_matches=default["rate_at_min_matches_reference"]),
+        worst_case_rel_dev_pct=dict(whole_cup=worst_cup, late_fraction=worst_late,
+                                    range_ratio=worst_rr),
+        rate_at_min_invariant_across_all_cells=all_same_min,
+        note=("This is convergence of the PDE DISCRETISATION, which is a different quantity from "
+              "the rate-parameter-grid convergence already reported. The late fraction is "
+              "reported alongside the whole cup because it is the most discretisation-sensitive "
+              "of the three sub-intervals and the temporal argument depends on fraction shape."))

@@ -23,6 +23,12 @@ def _section(text: str, heading_prefix: str) -> str:
 
 
 def _plain_markdown(text: str) -> str:
+    # The submission front matter is now GENERATED into marked blocks (third review P0-1), so the
+    # rendered sections carry HTML marker comments and a generated word-count line. Neither is
+    # submission text, and counting them inflated every limit this validator exists to check.
+    text = re.sub(r"<!--.*?-->", "", text, flags=re.DOTALL)
+    text = re.sub(r"(?m)^\s*\*\d+ words \(venue limit \d+\)\.\*\s*$", "", text)
+    text = re.sub(r"(?m)^\s*\*\d+ terms \(venue limit \d+\)\.\*\s*$", "", text)
     text = re.sub(r"[*_`]", "", text)
     return text.strip()
 
@@ -31,12 +37,14 @@ def jfe_counts(root: Path = ROOT) -> dict[str, Any]:
     package = (root / "docs/submission/PAPER_A_JFE_PACKAGE.md").read_text(
         encoding="utf-8"
     )
+    # Only the bullet lines are Highlights. The generated file carries a provenance header, and
+    # treating those lines as bullets reported both a wrong count and a spurious length failure.
     highlights = [
         line.removeprefix("• ").strip()
         for line in (
             root / "docs/submission/PAPER_A_JFE_HIGHLIGHTS.txt"
         ).read_text(encoding="utf-8").splitlines()
-        if line.strip()
+        if line.strip().startswith("• ")
     ]
     abstract = _plain_markdown(_section(package, "Abstract"))
     keyword_text = _plain_markdown(_section(package, "Keywords"))

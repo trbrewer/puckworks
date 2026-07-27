@@ -28,7 +28,10 @@ _END = "<!-- appendix-b:end -->"
 
 #: Fields whose value is COMPUTED from other fields or from the export process, never authored.
 DERIVED_FIELDS = {
-    "badge": "derived from the authored evidence fields (§5); never authored independently",
+    "badge": "DERIVED by `schema.derive_badge()` from the claim's SELECTED evidence records, "
+             "their evaluation designs and the component's role; `validate()` rejects any "
+             "authored value that disagrees with the derivation, and an ambiguous combination "
+             "fails closed rather than taking the strongest compatible label",
     "source_commit": "DEPRECATED alias of generated_from_commit",
     "generated_from_commit": "stamped at first export; immutable thereafter",
     "last_verified_against_commit": "stamped at every successful verification; mutable",
@@ -40,7 +43,15 @@ REPEATABLE_FIELDS = {"numeric_result", "units", "components", "dataset_manifest_
 _FIELD_NOTES = {
     "dependencies": "IDENTIFIED load-bearing inputs (registry component id, producer dotted path, "
                     "or dataset manifest id) with the role each plays and, for components, their "
-                    "scoped evidence records. This is the authoritative dependency list",
+                    "full scoped evidence INVENTORY. This is the authoritative dependency list. "
+                    "One level deep: the dependencies' own dependencies are not walked, so this "
+                    "is a profile and not a transitive closure",
+    "evidence_selections": "which of those inventory records actually LICENSE this claim, by "
+                           "exact evidence-link id, together with the claim's own observable and "
+                           "domain and the reason they are commensurate. Records not selected "
+                           "remain visible for drill-down but cannot strengthen the claim or "
+                           "change its badge. The rationale field records the DELIBERATE "
+                           "EXCLUSIONS, which a reader cannot reconstruct from the selection",
     "outcome": "supported / negative / indeterminate -- an OUTCOME axis kept separate from the "
                "relation, so a negative result never has to masquerade as a relation",
     "claim_id": "stable identifier; the join key across manuscript, site and evidence graph",
@@ -121,6 +132,8 @@ def render():
            "computed from the others or stamped by the export process and must never be authored "
            "independently, so it cannot be cited as separate corroboration.",
            "",
+           "**Table B1. Contract fields and their obligations.** Every field a stage contract carries, "
+           "its type, the obligation it imposes and what it means.", "",
            "| field | type | obligation | meaning |",
            "|---|---|---|---|"]
     for f in dc.fields(S.PublicClaim):

@@ -247,7 +247,7 @@ def fig1_design(outdir=OUTDIR):
             "different rig and coffee never used for target fitting.\nOptimal / coarse / fine "
             "are the source study's own granulometry labels, not universal particle-size classes.",
             ha="center", va="top", fontsize=7.4, color=NULL)
-    fig.suptitle("Fig 1 — Study design and use of each dataset", y=0.985, fontsize=12.0,
+    fig.suptitle("Study design and use of each dataset", y=0.985, fontsize=12.0,
                  fontweight="bold")
     return _save(fig, outdir, "fig1_design.png")
 
@@ -331,7 +331,7 @@ def fig2_objective_surface(results=None, outdir=OUTDIR):
         axp.legend(fontsize=6.8, loc="upper right")
     cb = fig.colorbar(im, ax=axes[0, :].tolist(), shrink=0.85, pad=0.02,
                       label="normalized SSE increase $(J-J_{\\min})/J_{\\min}$")
-    fig.suptitle("Fig 2 — inventory–rate objective surface and profiled objective "
+    fig.suptitle("Inventory–rate objective surface and profiled objective "
                  "(10 % tolerance set right-censored at the domain edge)", y=0.99,
                  fontsize=10.0, fontweight="bold")
     fig.text(0.5, 0.005, "Inventory axis is the model's fitted level in g L$^{-1}$ "
@@ -379,7 +379,7 @@ def fig3_holdouts(results=None, outdir=OUTDIR):
                                                      else "pressure"), fontsize=9)
         ax.set_xlabel(xlabel); ax.set_ylabel("(pred−obs)/obs [%]")
     lc = r["loco"]
-    fig.suptitle("Fig 3 — leave-one-condition-out holdouts: calibration diagonal + signed "
+    fig.suptitle("Leave-one-condition-out holdouts: calibration diagonal + signed "
                  "residual structure vs (T, p) (pooled %.1f%%, median %.1f%%; descriptive "
                  "condition-level resampling %s, not a CI)"
                  % (lc["pooled_loco_mean_mape"], lc["pooled_loco_median_mape"],
@@ -455,7 +455,7 @@ def fig4_transfer(results=None, outdir=OUTDIR):
                  % (ts["n_model_worse_than_const"], ts["n_points"]),
                  transform=axc.transAxes, ha="right", va="bottom", fontsize=6.2,
                  color=BAD)
-    fig.suptitle("Fig 4 — within-campaign cross-grind prediction vs an optimal-grind "
+    fig.suptitle("Within-campaign cross-grind prediction vs an optimal-grind "
                  "level-only baseline (40 mL matched-volume proxy for the 40 g endpoint)",
                  y=1.02, fontsize=9.6, fontweight="bold")
     return _save(fig, outdir, "fig4_transfer.png")
@@ -526,7 +526,7 @@ def fig5_joint_residual(results=None, outdir=OUTDIR):
                       % (lad["n_fits_mech_beats_pergrind_const"], lad["n_fits"]),
                       fontsize=9)
         axd.legend(fontsize=6.6, ncol=4, loc="upper center")
-    fig.suptitle("Fig 5 — IN-SAMPLE shared-parameter compatibility + NON-NESTED comparator "
+    fig.suptitle("IN-SAMPLE shared-parameter compatibility + NON-NESTED comparator "
                  "ladder (unequal flexibility; each model scored on its own fit data); "
                  "pooled shared %.1f%% vs per-grind %.1f%% (cost ~%.1f pp); * = rate at "
                  "domain boundary"
@@ -602,7 +602,7 @@ def fig6_fraction_vs_endpoint(results=None, outdir=OUTDIR):
                       fontsize=8.0)
         axe.set_xlabel("rate scale (log)"); axe.set_ylabel("MAPE (%)")
         axe.legend(fontsize=5.6, loc="upper center")
-    fig.suptitle("Fig 6 — temporal resolution moves the rate objective more than an "
+    fig.suptitle("Temporal resolution moves the rate objective more than an "
                  "aggregate (three evidence tiers: in-sample · same-model sim · "
                  "independent external shape test)", y=1.04, fontsize=9.4,
                  fontweight="bold")
@@ -677,7 +677,7 @@ def fig7_per_group_diagnostics(results=None, outdir=OUTDIR):
     ax.set_xlim(-0.6, 0.8)
     ax.set_title("(b) cross-condition model–data response correlation (n=9 conditions; "
                  "not a temporal trajectory)", fontsize=8.5)
-    fig.suptitle("Fig 7 — per-group blind and inventory-matched errors, with "
+    fig.suptitle("Per-group blind and inventory-matched errors, with "
                  "cross-condition model–data association (n=9 O conditions/group; "
                  "40 mL proxy endpoint)", y=1.02, fontsize=9.0, fontweight="bold")
     return _save(fig, outdir, "fig7_per_group_diagnostics.png")
@@ -724,7 +724,7 @@ def fig8_residuals_vs_conditions(results=None, outdir=OUTDIR):
     handles += [Line2D([], [], marker=smark[s], ls="", mfc=NULL, mec="white", label=s)
                 for s in solutes]
     axes[1].legend(handles=handles, fontsize=6.8, loc="upper right", ncol=2)
-    fig.suptitle("Fig 8 — blind source-model residuals by operating condition, before the "
+    fig.suptitle("Blind source-model residuals by operating condition, before the "
                  "per-group target level is fitted", y=1.02, fontsize=8.6, fontweight="bold")
     fig.text(0.5, -0.01, "Group offsets motivate the per-group recalibration; a group level "
              "can remove such offsets, so this figure motivates rather than proves "

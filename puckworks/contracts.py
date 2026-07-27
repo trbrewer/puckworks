@@ -6,10 +6,13 @@ on breaking change.
 """
 import math
 from dataclasses import dataclass, field
+from enum import Enum
 from typing import Callable, Optional
 import numpy as np
 
-SCHEMA_VERSION = "0.7"   # 0.7: A11 fines_fraction PROVENANCE fields (threshold + dispersion method)
+SCHEMA_VERSION = "0.8"   # 0.8: PressureNode/PressureTrace -- structured node identity for
+                         #      recorded pressure traces (third Paper 3 review P0-8)
+                         # 0.7: A11 fines_fraction PROVENANCE fields (threshold + dispersion method)
 # history: 0.6 A4 SoluteInventory; 0.5 A8 per-depth-cell porosity/fines;
 #          0.4 A1 pressure-node fields; 0.3 GrindState.fines_radius_m; 0.2 A7
 
@@ -113,6 +116,78 @@ def assert_fines_fraction_comparable(a, b, name_a="a", name_b="b"):
             f"{name_a}/{name_b}: fines_fraction bases differ ({a.fines_basis!r} vs "
             f"{b.fines_basis!r}) -- volume/mass/number fractions are not interchangeable (A11)")
     return True
+
+
+# --------------------------------------------------------------------------------------------
+# Pressure-node identity (third Paper 3 review P0-8)
+# --------------------------------------------------------------------------------------------
+class PressureNode(Enum):
+    """WHICH pressure a recorded trace measures.
+
+    `MachineState` has carried named node fields (`p_p`, `p_h`, `P_basket`, `dP_bed`) since schema
+    0.4, so it is NOT true that "pressure-node identity is not a field any contract carries" -- the
+    manuscript said that, and the defect-injection case built on it inspected field NAMES for the
+    substring "node", found none, and reported a miss for the wrong reason.
+
+    The real gap is narrower and more useful:
+
+    * legacy `P_of_t` and `profile_p` are bare callables/arrays with no node identity at all;
+    * every node field is the same Python type, so a value can still be assigned to the wrong slot,
+      especially through positional construction or a generic adapter; and
+    * an adapter can accept a generic recorded trace without ever declaring which node it is.
+
+    A named dataclass field makes a wrong-slot use VISIBLE and TESTABLE. It does not statically
+    prevent a validly typed but semantically wrong value from being assigned. Closing that needs a
+    trace that carries its own identity, which is what `PressureTrace` is for.
+    """
+    PUMP_OUTLET = "pump_outlet"
+    HEADSPACE = "headspace"
+    BASKET_GAUGE = "basket_gauge"
+    BED_DROP = "bed_drop"
+
+
+@dataclass(frozen=True)
+class PressureTrace:
+    """A recorded pressure trace that knows which node it measures.
+
+    Conversion between nodes is never inferred -- not from a file name, not from prose, not from
+    magnitude. A consumer that needs a particular node calls `require_node`.
+    """
+    node: PressureNode
+    time_s: np.ndarray
+    values: np.ndarray
+    unit: str                       # "Pa" (SI) or "bar_gauge"; no other spelling is accepted
+    reference: str = ""             # dataset/manifest id the trace came from
+
+    def __post_init__(self):
+        if not isinstance(self.node, PressureNode):
+            raise TypeError(f"node must be a PressureNode, got {self.node!r}")
+        if self.unit not in ("Pa", "bar_gauge"):
+            raise ValueError(f"unit must be 'Pa' or 'bar_gauge', got {self.unit!r}")
+        if len(self.time_s) != len(self.values):
+            raise ValueError("time_s and values differ in length")
+
+
+def require_node(trace, expected, consumer="consumer"):
+    """Fail closed unless `trace` is a `PressureTrace` at the `expected` node.
+
+    This is the adapter boundary the defect-injection suite now exercises end to end: a
+    basket-pressure trace handed to a consumer that needs pump outlet must be REJECTED, and a
+    correct trace must pass. A bare array is rejected too -- an untyped legacy trace carries no
+    node identity, and silently assuming one is the defect.
+    """
+    if not isinstance(trace, PressureTrace):
+        raise TypeError(
+            f"{consumer} requires a PressureTrace declaring its node; got "
+            f"{type(trace).__name__}. Legacy recorded traces (MachineState.P_of_t / profile_p) "
+            f"carry no node identity and must be wrapped explicitly at ingestion -- the node is "
+            f"never inferred from a file name or from magnitude.")
+    if trace.node is not expected:
+        raise ValueError(
+            f"{consumer} requires {expected.value} but the trace is {trace.node.value}. These are "
+            f"different physical locations; no adapter between them is authorised. Applying one "
+            f"where the other is meant is the pressure-node substitution defect.")
+    return trace
 
 
 @dataclass
