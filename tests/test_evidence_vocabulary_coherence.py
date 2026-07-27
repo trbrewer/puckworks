@@ -73,13 +73,31 @@ def test_manuscript_does_not_claim_four_independent_axes():
     assert "derived, not authored" in _MANUSCRIPT
 
 
-def test_manuscript_states_the_rollup_is_a_release_check_not_the_evidence_model():
-    """P0-4: the implementation orders relations for a release check while the paper argues they
-    are non-ordinal. The paper must acknowledge and bound that, including the scope-laundering
-    limitation, rather than leaving the two in apparent contradiction."""
-    assert "release heuristic" in _MANUSCRIPT
-    assert "launder" in _MANUSCRIPT
-    assert "scoped evidence profile" in _MANUSCRIPT
+def test_manuscript_does_not_claim_a_CURRENT_relation_ordering():
+    """Third review P0-3. This test previously asserted the OPPOSITE -- that the manuscript
+    describe the release checker's conservative ordering and its scope-laundering limitation.
+    Meanwhile a second test asserted that the ordering had been removed, and the manuscript
+    contained both accounts. The test suite was therefore pinning a contradiction in place.
+
+    The ordering is gone from the implementation, so the paragraph describing it as current
+    behaviour is gone too. A historical note is allowed -- and is what the manuscript now carries --
+    but no sentence may describe a current ordering."""
+    for phrase in ("release heuristic", "conservative ordering", "strongest-gate roll-up",
+                   "open design decision"):
+        assert phrase not in _MANUSCRIPT, (
+            f"<<{phrase}>> describes the removed ordering as current behaviour")
+    # the historical note must remain, so the change is recorded rather than silently reverted
+    assert "Earlier development versions" in _MANUSCRIPT
+    assert "does not form one scientific scale" in _MANUSCRIPT or \
+           "do not form one scientific scale" in _MANUSCRIPT
+
+
+def test_figure_2_does_not_claim_the_absence_of_ordering_everywhere():
+    """P1-16: the caption's "anywhere in the implementation" is broader than the caption can know;
+    it is accurate for the evidence graph, not for public badge derivation, UI sorting, docs and
+    release tooling."""
+    assert "used anywhere in the implementation" not in _MANUSCRIPT
+    assert "does not rank relations" in _MANUSCRIPT
 
 
 def test_the_ordering_that_contradicted_the_paper_is_gone():
@@ -156,3 +174,42 @@ def test_appendix_b_shows_both_a_supported_and_a_negative_example():
     assert "Example — a supported claim" in block
     assert "Example — a negative outcome" in block
     assert "never a relation of its own" in block
+
+
+def test_the_manuscript_does_not_call_an_IMPLEMENTED_capability_an_open_gap():
+    """The P0-3 defect shape, generalised — and it recurred once during this revision.
+
+    §5.1 originally described the removed strongest-gate ordering as current behaviour while §5.2
+    described the replacement. That was fixed. The replacement paragraph then said "claim-specific
+    selection is identified there as the remaining gap" — written before P0-1 was implemented, and
+    left in place after §5.2 began documenting the same capability as working, with counts.
+
+    Same defect, opposite direction. This test binds the prose to the IMPLEMENTATION rather than to
+    a phrase list: if claim selection and badge derivation are live, the manuscript may not call
+    them open.
+    """
+    from puckworks.public import claims as PC
+    from puckworks.public import schema as PS
+
+    selection_is_live = any(c.evidence_selections for c in PC.PUBLIC_CLAIMS)
+    derivation_is_live = hasattr(PS, "derive_badge") and all(
+        c.badge == PS.derive_badge(c)[0] for c in PC.PUBLIC_CLAIMS)
+
+    if selection_is_live:
+        for phrase in ("claim-specific selection is identified there as the remaining gap",
+                       "claim-specific evidence selection and transitive closure remain incomplete",
+                       "claim-specific selection remains future work",
+                       "not yet claim-selected"):
+            assert phrase not in _MANUSCRIPT, (
+                f"claim-scoped evidence selection IS implemented, but the manuscript still says "
+                f"<<{phrase}>>")
+        assert "it **selects** the records whose observable and domain match" in _MANUSCRIPT, (
+            "the abstract must state that claims select their evidence, now that they do")
+
+    if derivation_is_live:
+        assert "derived** from that selection rather than authored" in _MANUSCRIPT, (
+            "badges are derived; the abstract must say so rather than describing them as labels")
+
+    # NON-VACUITY: the two capabilities must actually be live, or this test asserts nothing.
+    assert selection_is_live, "no claim declares evidence selections"
+    assert derivation_is_live, "badge derivation is not live"

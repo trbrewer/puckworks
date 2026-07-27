@@ -56,6 +56,14 @@ class Outcome:
 
 @dc.dataclass
 class Defect:
+    """One case in the suite.
+
+    Third review P0-7 added the last four fields. The previous schema could not distinguish a
+    defect from a control, an executable mutation from a documented structural impossibility, or
+    two scale factors of one structural failure from two independent pieces of evidence -- so the
+    reported "18 defects, 12 detected, 67 %" counted a valid control as a caught defect and treated
+    related cases as independent.
+    """
     id: str
     name: str
     defect_class: str
@@ -63,6 +71,17 @@ class Defect:
     expected_caught: bool
     inject: "callable"          # () -> Outcome
     why_missed: str = ""        # required when expected_caught is False
+
+    #: A control is an input that SHOULD pass. It measures specificity, never sensitivity, and is
+    #: excluded from the defect denominator.
+    is_control: bool = False
+    #: Cases sharing a structural cause. D01/D02 are two scale factors of ONE broad-range-guard
+    #: failure; counting them separately overstates the sample size.
+    independence_group: str = ""
+    #: "executable" -- perturbs a real input/artefact and runs the production guard.
+    #: "limitation_analysis" -- documents a structural gap without traversing the production path.
+    execution_type: str = "executable"
+    severity: str = "unknown"   # scientific consequence if the defect reached publication
 
 
 # --------------------------------------------------------------------------------------------
@@ -356,15 +375,69 @@ def _d_consistent_recomputation_of_a_wrong_number():
 
 
 def _d_wrong_pressure_node_used_consistently():
-    """A calculation uses basket pressure where the source reports pump pressure, consistently
-    throughout. The pressure-node distinction is documented in prose but is not a typed field, so
-    nothing refuses the substitution. NOT expected to be caught."""
+    """Hand a BASKET-pressure trace to a consumer that requires PUMP-OUTLET pressure.
+
+    Third review P0-8. This case previously inspected `MachineState` FIELD NAMES for the substring
+    "node", found none, and concluded that node identity was untyped. That premise was false --
+    `MachineState` has carried `p_p`, `p_h`, `P_basket` and `dP_bed` since schema 0.4 -- so the case
+    reported a miss for the wrong reason and the manuscript repeated the wrong diagnosis.
+
+    It is now an END-TO-END mutation across the real adapter boundary: a trace declaring the wrong
+    node is passed to `contracts.require_node`, which must reject it for a node mismatch. The
+    matching control (`D19`) passes a correct trace and must be accepted, so this cannot be
+    satisfied by a guard that rejects everything.
+    """
+    import numpy as np
     from puckworks import contracts as C
-    fields = {f.name for f in dc.fields(C.MachineState)} if hasattr(C, "MachineState") else set()
-    typed = any("node" in f for f in fields)
-    return Outcome(typed, "(none)",
-                   "MachineState fields %s carry no pressure-NODE identity, so a node substitution "
-                   "is type-valid" % (sorted(fields)[:6] or "unavailable"))
+
+    t = np.linspace(0.0, 30.0, 64)
+    basket = C.PressureTrace(node=C.PressureNode.BASKET_GAUGE, time_s=t,
+                             values=np.full_like(t, 8.5e5), unit="Pa",
+                             reference="waszkiewicz2025:recorded_basket")
+    try:
+        C.require_node(basket, C.PressureNode.PUMP_OUTLET, consumer="pump-outlet flow adapter")
+    except ValueError as exc:
+        return Outcome(True, "contracts.require_node", str(exc)[:200])
+    return Outcome(False, "(none)",
+                   "a basket-pressure trace was accepted where pump outlet was required")
+
+
+def _c_correct_pressure_node_is_accepted():
+    """CONTROL for D18: a trace at the node the consumer asks for must PASS.
+
+    Without this, D18 would be satisfiable by a guard that refuses every trace -- which would score
+    as a catch while making the interface useless.
+    """
+    import numpy as np
+    from puckworks import contracts as C
+
+    t = np.linspace(0.0, 30.0, 64)
+    pump = C.PressureTrace(node=C.PressureNode.PUMP_OUTLET, time_s=t,
+                           values=np.full_like(t, 9.0e5), unit="Pa",
+                           reference="waszkiewicz2025:recorded_pump")
+    try:
+        C.require_node(pump, C.PressureNode.PUMP_OUTLET, consumer="pump-outlet flow adapter")
+    except Exception as exc:                                   # noqa: BLE001
+        return Outcome(False, "contracts.require_node",
+                       "VALID input rejected -- false positive: %s" % exc)
+    return Outcome(True, "contracts.require_node",
+                   "a correctly-noded trace is accepted, so the guard discriminates")
+
+
+def _d_legacy_trace_without_node_identity():
+    """The gap that IS real: a legacy recorded trace carries no node identity at all.
+
+    `MachineState.P_of_t` and `profile_p` are a bare callable and a bare array. Passing one to a
+    node-specific consumer must fail closed rather than have a node assumed for it.
+    """
+    import numpy as np
+    from puckworks import contracts as C
+    try:
+        C.require_node(np.full(64, 9.0e5), C.PressureNode.PUMP_OUTLET,
+                       consumer="pump-outlet flow adapter")
+    except TypeError as exc:
+        return Outcome(True, "contracts.require_node", str(exc)[:200])
+    return Outcome(False, "(none)", "an untyped legacy trace was accepted without a declared node")
 
 
 CORPUS = [
@@ -378,67 +451,99 @@ CORPUS = [
            "guard catches this only above ~1e-12 m^2, i.e. above the espresso range it exists to "
            "protect. Closing it requires either a per-quantity plausible window (an espresso bed "
            "permeability band, not the generic SI band) or units carried as typed objects rather "
-           "than bare floats."),
+           "than bare floats.",
+           independence_group="range_guard", severity="high"),
     Defect("D02", "Permeability supplied in cm^2 instead of m^2", "unit",
            "The same substitution at 1e4; also inside the window across the espresso range.", False,
            _d_unit_permeability_cm2,
-           "Same structural cause as D01, at a smaller scale factor."),
+           "Same structural cause as D01, at a smaller scale factor.",
+           independence_group="range_guard", severity="high"),
     Defect("D03", "Permeability supplied in darcy instead of m^2", "unit",
            "A gross mis-unit (~1e12 x SI) that the range guard does refuse.", True,
-           _d_unit_permeability_darcy),
+           _d_unit_permeability_darcy,
+           independence_group="gross_unit", severity="high"),
     Defect("D04", "CONTROL: valid SI permeability", "unit",
            "Proves the unit guard discriminates rather than refusing everything.", True,
-           _d_unit_permeability_control),
+           _d_unit_permeability_control, is_control=True, independence_group="range_guard",
+           severity="n/a (control)"),
     Defect("D05", "Fines fractions merged across different size cuts", "observable_semantics",
            "186 um and 100 um fines fractions are different quantities (A11).", True,
-           _d_fines_threshold_merge),
+           _d_fines_threshold_merge,
+           independence_group="fines_semantics", severity="high"),
     Defect("D06", "Fines fraction with an undeclared convention merged", "observable_semantics",
            "Absence of a declaration is the hazard, not evidence of agreement.", True,
-           _d_fines_undeclared_convention),
+           _d_fines_undeclared_convention,
+           independence_group="fines_semantics", severity="high"),
     Defect("D07", "Section renumbered, cross-reference left stale", "prose_drift",
            "The stale number still names a real section, so existence checks pass.", True,
-           _d_stale_cross_reference),
+           _d_stale_cross_reference,
+           independence_group="manuscript_sentinel", severity="low", execution_type="executable"),
     Defect("D08", "Review scaffolding reintroduced into the manuscript", "prose_drift",
            "Internal IDs and status words regenerated back into the article.", True,
-           _d_review_scaffolding_returns),
+           _d_review_scaffolding_returns,
+           independence_group="manuscript_sentinel", severity="low"),
     Defect("D09", "Retired overclaim phrase returns in the venue conversion", "evidence",
            "The two-file drift the phrase guard exists to stop.", True,
-           _d_retired_overclaim_returns),
+           _d_retired_overclaim_returns,
+           independence_group="manuscript_sentinel", severity="medium"),
     Defect("D10", "Headline number edited in prose only", "provenance",
            "A retired value on a different observable basis re-enters the text.", True,
-           _d_headline_number_edited_in_prose),
+           _d_headline_number_edited_in_prose,
+           independence_group="number_provenance", severity="high"),
     Defect("D11", "Composition RMSE desynced between manuscript and producer", "numeric_consistency",
            "One of several places that must agree is edited alone.", True,
-           _d_composition_number_desynced),
+           _d_composition_number_desynced,
+           independence_group="number_provenance", severity="high"),
     Defect("D12", "Registry count left stale after a registration", "provenance",
            "The drift class that has already occurred four times.", True,
-           _d_registry_count_drift),
+           _d_registry_count_drift,
+           independence_group="number_provenance", severity="medium"),
     Defect("D13", "Evidence relation mapped to a stronger public term", "evidence",
            "Evidence inflation across the registry/public boundary.", True,
-           _d_evidence_label_upgraded),
+           _d_evidence_label_upgraded,
+           independence_group="evidence_schema", severity="high"),
     Defect("D14", "Evidence claim orphaned from its gate wiring", "provenance",
            "The bijection the release gate requires is broken.", True,
-           _d_evidence_link_orphaned),
+           _d_evidence_link_orphaned,
+           independence_group="evidence_schema", severity="high"),
     Defect("D15", "Evidence strength promoted with no changelog entry", "evidence",
            "The repository requires a ROADMAP entry; nothing enforces it.", False,
            _d_gate_status_promoted,
            "The rule is documented process, not executable. Enforcing it would require binding "
-           "evidence-strength changes to a changelog row in CI."),
+           "evidence-strength changes to a changelog row in CI.",
+           independence_group="process_policy", severity="medium", execution_type="limitation_analysis"),
     Defect("D16", "Physically wrong but dimensionally valid constant", "physical_value",
            "Porosity 0.35 where the source card says 0.17.", False,
            _d_plausible_wrong_constant,
            "Typed contracts check dimension, finiteness and range. Nothing compares a runtime "
-           "value against the source card that supplied it. This is the largest open gap."),
+           "value against the source card that supplied it. This is the largest open gap.",
+           independence_group="physical_correctness", severity="high", execution_type="limitation_analysis"),
     Defect("D17", "Wrong producer, manuscript regenerated consistently", "provenance",
            "Prose and producer agree, and both are wrong.", False,
            _d_consistent_recomputation_of_a_wrong_number,
            "Provenance guards establish agreement, not correctness. Only a gate wired to "
-           "independent data can catch this, and only where such data exists."),
-    Defect("D18", "Pressure node substituted consistently", "observable_semantics",
-           "Basket pressure used where the source reports pump pressure.", False,
-           _d_wrong_pressure_node_used_consistently,
-           "Pressure-node identity is documented in prose but is not a typed field, so the "
-           "substitution is type-valid. Making it a typed field would close this."),
+           "independent data can catch this, and only where such data exists.",
+           independence_group="physical_correctness", severity="high", execution_type="limitation_analysis"),
+    Defect("D18", "Pressure node substituted at an adapter boundary", "observable_semantics",
+           "A basket-pressure trace is handed to a consumer that requires pump-outlet pressure.",
+           True, _d_wrong_pressure_node_used_consistently,
+           "Now CAUGHT. The previous version of this case inspected MachineState field names for "
+           "the substring 'node' and concluded node identity was untyped -- a false premise, since "
+           "p_p/p_h/P_basket/dP_bed have existed since schema 0.4. PressureTrace + require_node "
+           "close the real gap, which was that a RECORDED trace carried no node identity.",
+           independence_group="pressure_node", severity="high"),
+    Defect("D19", "CONTROL: correctly-noded pressure trace", "observable_semantics",
+           "A pump-outlet trace supplied where pump outlet is required must be ACCEPTED.",
+           True, _c_correct_pressure_node_is_accepted,
+           "Valid control for the node guard; excluded from the defect denominator.",
+           is_control=True,
+           independence_group="pressure_node", severity="n/a (control)"),
+    Defect("D20", "Legacy recorded trace with no declared node", "observable_semantics",
+           "A bare array is handed to a node-specific consumer.", True,
+           _d_legacy_trace_without_node_identity,
+           "Now CAUGHT. Fails closed rather than assuming a node -- the node is never inferred "
+           "from a file name or from magnitude.",
+           independence_group="pressure_node", severity="medium"),
 ]
 
 
@@ -446,7 +551,27 @@ CORPUS = [
 # runner
 # --------------------------------------------------------------------------------------------
 def run_benchmark():
-    """Inject every defect and report the outcome. Never mutates the working tree."""
+    """Run every case and report defects and controls SEPARATELY.
+
+    Third review P0-7. The previous summary was "18 defects, 12 detected, 67 %". That number was
+    not a defensible coverage estimate, for five reasons, all of which this reporting fixes:
+
+    1. **A control was counted as a caught defect.** `D04` is a valid SI permeability that the
+       range guard must ACCEPT. It sat in `n_defects`, `n_detected` and the denominator. Controls
+       now measure specificity and are excluded from the defect counts.
+    2. **Cases were not independent.** `D01`/`D02` are two scale factors of one structural
+       range-guard failure. Results are now also grouped by `independence_group`, so the number of
+       distinct mechanisms is visible next to the number of rows.
+    3. **Some "misses" were not end-to-end injections.** Cases that document a structural gap
+       without traversing the production path are labelled `limitation_analysis` and counted apart
+       from executable mutations.
+    4. **The corpus is drawn from known failures**, so it has no sampling frame from which a
+       coverage probability could be estimated. There is no held-out challenge set yet.
+    5. **Phrase guards are not architecture coverage.** Manuscript sentinels are a separate family.
+
+    Accordingly **no headline coverage percentage is emitted**. The scientifically useful output is
+    the map of which error classes are executable and which remain outside the guards.
+    """
     rows = []
     for d in CORPUS:
         try:
@@ -457,50 +582,115 @@ def run_benchmark():
             id=d.id, name=d.name, defect_class=d.defect_class, description=d.description,
             expected_caught=d.expected_caught, caught=out.caught, guard=out.guard,
             detail=out.detail, why_missed=d.why_missed,
+            is_control=d.is_control, independence_group=d.independence_group,
+            execution_type=d.execution_type, severity=d.severity,
             as_expected=(out.caught == d.expected_caught)))
-    detected = [r for r in rows if r["caught"]]
-    undetected = [r for r in rows if not r["caught"]]
-    surprises = [r for r in rows if not r["as_expected"]]
-    by_class = {}
-    for r in rows:
-        b = by_class.setdefault(r["defect_class"], {"n": 0, "caught": 0})
-        b["n"] += 1
-        b["caught"] += int(r["caught"])
-    return dict(
-        n_defects=len(rows), n_detected=len(detected), n_undetected=len(undetected),
-        detection_rate=round(len(detected) / len(rows), 3),
-        n_unexpected=len(surprises),
-        by_class=by_class,
-        defect_classes=DEFECT_CLASSES,
-        rows=rows,
-        note=("Detection rate is reported over THIS corpus only and is not a coverage claim. The "
-              "corpus deliberately includes defects expected to be missed; those rows name the "
-              "structural gap rather than a bug."))
 
+    defects = [r for r in rows if not r["is_control"]]
+    controls = [r for r in rows if r["is_control"]]
+    executable = [r for r in defects if r["execution_type"] == "executable"]
+    limitations = [r for r in defects if r["execution_type"] == "limitation_analysis"]
+
+    by_family = {}
+    for r in rows:
+        b = by_family.setdefault(r["defect_class"], {
+            "defects": 0, "true_positives": 0, "false_negatives": 0,
+            "controls": 0, "false_positives": 0, "open_gaps": []})
+        if r["is_control"]:
+            b["controls"] += 1
+            if not r["caught"]:
+                b["false_positives"] += 1
+        else:
+            b["defects"] += 1
+            if r["caught"]:
+                b["true_positives"] += 1
+            else:
+                b["false_negatives"] += 1
+                b["open_gaps"].append(r["id"])
+
+    groups = {}
+    for r in defects:
+        g = groups.setdefault(r["independence_group"] or r["id"], {"ids": [], "any_caught": False})
+        g["ids"].append(r["id"])
+        g["any_caught"] = g["any_caught"] or r["caught"]
+
+    return dict(
+        # --- defects (sensitivity) ---
+        n_defects=len(defects),
+        n_defects_detected=sum(r["caught"] for r in defects),
+        n_defects_missed=sum(not r["caught"] for r in defects),
+        n_executable_mutations=len(executable),
+        n_limitation_analyses=len(limitations),
+        # --- controls (specificity), reported SEPARATELY ---
+        n_controls=len(controls),
+        n_controls_passed=sum(r["caught"] for r in controls),
+        n_false_positives=sum(not r["caught"] for r in controls),
+        # --- independence ---
+        n_independent_groups=len(groups),
+        independence_groups=groups,
+        # --- families ---
+        by_family=by_family,
+        defect_classes=DEFECT_CLASSES,
+        n_unexpected=sum(not r["as_expected"] for r in rows),
+        rows=rows,
+        has_holdout_suite=False,
+        note=("DEFECTS AND CONTROLS ARE COUNTED SEPARATELY, and no coverage percentage is "
+              "reported. This is a development mutation suite -- a regression and gap-discovery "
+              "instrument -- not a statistical estimate of all possible scientific errors. The "
+              "corpus is drawn from failures already encountered, so it has no sampling frame; "
+              "there is no held-out challenge set; and manuscript phrase sentinels are a separate "
+              "family from generic architecture guards. Rows recorded as missed name a structural "
+              "gap rather than a bug."))
 
 def render(result=None):
     r = result or run_benchmark()
-    L = ["# Guardrail defect-injection benchmark",
+    L = ["# Development mutation suite",
          "",
-         "%d defects injected; %d detected, %d undetected (rate %.2f over this corpus)."
-         % (r["n_defects"], r["n_detected"], r["n_undetected"], r["detection_rate"]),
+         "A regression and gap-discovery instrument for the guardrails, **not** a statistical",
+         "estimate of coverage. Defects and valid controls are counted separately, and no single",
+         "detection percentage is reported: the corpus is drawn from failures already encountered,",
+         "so it has no sampling frame from which a coverage probability could be estimated.",
+         "",
+         "**Injected defects:** %d (%d executable mutations, %d limitation analyses). "
+         "%d caught, %d missed, spanning %d independent structural groups."
+         % (r["n_defects"], r["n_executable_mutations"], r["n_limitation_analyses"],
+            r["n_defects_detected"], r["n_defects_missed"], r["n_independent_groups"]),
+         "",
+         "**Valid controls:** %d, of which %d passed and %d were wrongly rejected "
+         "(false positives)."
+         % (r["n_controls"], r["n_controls_passed"], r["n_false_positives"]),
+         "",
+         "**Held-out challenge set:** %s." % ("present" if r["has_holdout_suite"]
+                                              else "none yet — every case here was authored by the "
+                                                   "same people who wrote the guards"),
          ""]
     if r["n_unexpected"]:
         L += ["**%d outcome(s) differed from expectation — inspect before citing.**"
               % r["n_unexpected"], ""]
-    L += ["| id | defect | class | caught | guard |", "|---|---|---|---|---|"]
+    L += ["| id | case | class | kind | group | severity | outcome | guard |",
+          "|---|---|---|---|---|---|---|---|"]
     for row in r["rows"]:
-        L.append("| %s | %s | %s | %s | %s |"
-                 % (row["id"], row["name"], row["defect_class"],
-                    "yes" if row["caught"] else "**no**", row["guard"]))
-    L += ["", "## Detection by defect class", "", "| class | caught / injected |", "|---|---|"]
-    for k, v in sorted(r["by_class"].items()):
-        L.append("| %s | %d / %d |" % (k, v["caught"], v["n"]))
-    L += ["", "## Undetected defects — the structural gaps", ""]
+        kind = "control" if row["is_control"] else (
+            "mutation" if row["execution_type"] == "executable" else "limitation")
+        if row["is_control"]:
+            outcome = "passed" if row["caught"] else "**FALSE POSITIVE**"
+        else:
+            outcome = "caught" if row["caught"] else "**missed**"
+        L.append("| %s | %s | %s | %s | %s | %s | %s | %s |"
+                 % (row["id"], row["name"], row["defect_class"], kind,
+                    row["independence_group"], row["severity"], outcome, row["guard"]))
+    L += ["", "## By guard family", "",
+          "| family | defect TPs | defect FNs | controls | false positives | open gaps |",
+          "|---|---|---|---|---|---|"]
+    for k, v in sorted(r["by_family"].items()):
+        L.append("| %s | %d | %d | %d | %d | %s |"
+                 % (k, v["true_positives"], v["false_negatives"], v["controls"],
+                    v["false_positives"], ", ".join(v["open_gaps"]) or "—"))
+    L += ["", "## Missed defects — the structural gaps", ""]
     for row in r["rows"]:
-        if not row["caught"]:
-            L.append("- **%s %s** (%s). %s"
-                     % (row["id"], row["name"], row["defect_class"],
+        if not row["caught"] and not row["is_control"]:
+            L.append("- **%s %s** (%s, %s). %s"
+                     % (row["id"], row["name"], row["defect_class"], row["execution_type"],
                         row["why_missed"] or row["detail"]))
     return "\n".join(L)
 

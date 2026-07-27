@@ -4,11 +4,11 @@
 **Authors:** [Author names and affiliations to be inserted]  
 **Corresponding author:** [Name and email to be inserted]
 
-> **Draft status.** This manuscript was developed from `PAPER_3_PUCKWORKS_OUTLINE.md`, the Puckworks source tree, model and dataset cards, evidence tables, public-claim schema, release runbook, and the retained broad synthesis in `PAPER_B_DRAFT.md`. The present corpus is described as **curated**, not systematic. Repository counts are a snapshot; Table 1 and Appendix A are now producer-generated and CI-guarded (`docs/paper3_resource/generated/`), and must be re-emitted from the frozen release before submission. Demonstration figures are specified but not embedded. Statements about software readiness distinguish current functionality from work still required for a citable release.
+> **Draft status.** This manuscript was developed from `PAPER_3_PUCKWORKS_OUTLINE.md`, the Puckworks source tree, model and dataset cards, evidence tables, public-claim schema, release runbook, and the retained broad synthesis in `PAPER_B_DRAFT.md`. The present corpus is described as **curated**, not systematic. Repository counts are a snapshot; Table 1 and Appendix A are now producer-generated and CI-guarded (`docs/paper3_resource/generated/`), and must be re-emitted from the frozen release before submission. All seven demonstration figures are generated, with source CSVs and text alternatives, by the figure producers under `docs/paper3_resource/generated/`; the submission manuscript must embed the frozen renderings rather than reference their paths. Statements about software readiness distinguish current functionality from work still required for a citable release.
 
 ## Abstract
 
-Published espresso models describe different parts of the brewing process with incompatible state variables, units, pressure locations, concentration conventions, inventory bases, experimental windows, and standards of evidence. Combining them by matching similarly named quantities can produce numerically plausible but scientifically invalid results. We present Puckworks, an executable, provenance-aware registry that represents espresso process models as stage-specific components with typed state carriers, explicit assumptions and validity ranges, source and dataset cards, validation gates, evidence labels, and reproducible claim producers. Puckworks is not a monolithic “digital twin.” A simulation is a declared configuration of components and adapters. Claim records link outputs to declared components, datasets, producers, caveats and evidence labels, and the evidence graph records the comparison relations supporting asserted claims, rather than collapsing them into a single score or a strongest/weakest badge. We do not yet emit a transitive dependency closure: a composition output can depend on components, adapters, calibration parameters, datasets, transforms and observation operators carrying different evidence relations, and the present outward claim schema cannot represent all of those distinctions per dependency. In the current development snapshot, the registry contains 27 components across grind, packing, machine, infiltration, flow, extraction, and bed-dynamics stages, supported by 107 dataset-manifest records. We demonstrate the architecture in three cases. First, observable linting exposes incompatible saturation concentrations (170, 212.4, and 224 kg m⁻³), distinct pressure nodes, and an invalid mixed-unit aggregation of named-solute masses and total dissolved solids. After correction, raw total-dissolved-solids-derived extraction-yield cells are ordered across three grinder settings, while a conditional response-surface vertex remains a separate fitted object. Second, a null-first temporal-flow workflow preserves distinctions among machine capacity, static baselines, imported temporal trajectories, flexible in-sample curves, and held-out pressure assessments. Third, adding an imported swelling branch to a shared-porosity composition worsens reconstruction error from approximately 0.116 to 0.648 g s⁻¹, worse than a constant baseline, illustrating that component validity does not guarantee composition validity. A named-shot scorecard then shows how Puckworks reports observed, calibrated, verified, reconstructed, extrapolated, and open stages without presenting an unsupported end-to-end prediction. The contribution is a method for executable reviews of coupled process models, demonstrated in espresso rather than validated across domains: make observable semantics and parameter provenance operational, preserve negative results, separate verification from validation, and translate model disagreement into discriminating experiments.
+Published espresso models describe different parts of the brewing process with incompatible state variables, units, pressure locations, concentration conventions, inventory bases, experimental windows, and standards of evidence. Combining them by matching similarly named quantities can produce numerically plausible but scientifically invalid results. We present Puckworks, an executable, provenance-aware registry that represents espresso process models as stage-specific components with typed state carriers, explicit assumptions and validity ranges, source and dataset cards, validation gates, evidence labels, and reproducible claim producers. Puckworks is not a monolithic “digital twin.” A simulation is a declared configuration of components and adapters. Claim records link outputs to declared components, datasets, producers, caveats and evidence labels, and the evidence graph records the comparison relations supporting asserted claims rather than collapsing them into a single score or a strongest/weakest badge. A public-value claim does not inherit a component's whole evidence inventory: it **selects** the records whose observable and domain match its own assertion, by exact identifier and with the deliberate exclusions recorded, and its public badge is **derived** from that selection rather than authored — an ambiguous combination fails closed and names the limiting dependency. We do not yet emit a transitive dependency closure: a composition output can depend on components, adapters, calibration parameters, datasets, transforms and observation operators carrying different evidence relations, and the present outward claim schema cannot represent all of those distinctions per dependency. In the current development snapshot, the registry contains 27 components across grind, packing, machine, infiltration, flow, extraction, and bed-dynamics stages, described by 107 provenance-manifest records. We demonstrate the architecture in three cases. First, observable linting exposes incompatible saturation concentrations (170, 212.4, and 224 kg m⁻³), distinct pressure nodes, and an invalid mixed-unit aggregation of named-solute masses and total dissolved solids. After correction, raw total-dissolved-solids-derived extraction-yield cells are ordered across three grinder settings, while a conditional response-surface vertex remains a separate fitted object. Second, a null-first temporal-flow workflow preserves distinctions among machine capacity, static baselines, imported temporal trajectories, flexible in-sample curves, and held-out pressure assessments. Third, adding an imported swelling branch to a shared-porosity composition worsens reconstruction error on the preprocessed mean 9-bar trace from approximately 0.116 to 0.648 g s⁻¹, worse than a constant baseline, illustrating that component validity does not guarantee composition validity. These are scores against a preprocessed mean of five shots over 15–95 s, not shot-level prediction errors; scoring the five individual shots preserves the temporal-versus-constant ordering on all five but raises the absolute temporal error from 0.116 to 0.189 g s⁻¹. A named-shot scorecard then shows how Puckworks reports observed, calibrated, verified, reconstructed, extrapolated, and open stages without presenting an unsupported end-to-end prediction. The contribution is a method for executable reviews of coupled process models, demonstrated in espresso rather than validated across domains: make observable semantics and parameter provenance operational, preserve negative results, separate verification from validation, and translate model disagreement into discriminating experiments.
 
 **Keywords:** scientific software; executable review; provenance; evidence registry; typed contracts; espresso; coupled process models; reproducibility; model validation; negative results
 
@@ -91,7 +91,7 @@ exercised at all until each stage has a component.
 | unique DOIs recorded | 11 |
 | unique dataset sources (empirical campaigns) | 40 |
 | dataset manifest records | 107 |
-| model/source cards written | 96 |
+| model/source cards written | 97 |
 | components with evidence beyond reconstruction of their own source | 9 |
 | components rights- or data-blocked | 1 |
 | components that are calibration objects only | 15 |
@@ -175,14 +175,24 @@ and a *cross-reference* points to the owning paper without reusing its numbers.
 | `P3-DEFECTS` | **This paper** | primary result | `paper3.defect_injection.run_benchmark` | §10 table | asserted here |
 | `P3-PROVENANCE` | **This paper** | primary result | `paper3.evidence_graph.reconcile` | Table 3 | asserted here (§6) |
 | `P3-EXPERIMENTS` | **This paper** | primary result | `tools/experimental_data_needs.py` (the EXP-00n register) | Fig. 6 | asserted here (§11) |
-| `P3-SCORECARD` | **This paper** | primary result | **none — hand-maintained** | Fig. 7 | asserted here (§12), but see below |
+| `P3-SCORECARD` | **This paper** | primary result | `paper3.named_shot_scorecard.scorecard` | Fig. 7, Table 6 | asserted here (§12) |
 | `P3-CORPUS-GOV` | **This paper** | primary result | — (governance statement) | §6.6 | asserted here |
 
-One row deliberately reads "none". The named-shot scorecard of §12 is **not** generated by a
-producer; it is maintained by hand, so it is the one asserted result in this paper that the
-provenance machinery described here does not itself cover. Recording that in the ownership table
-rather than omitting the column is the point: a claim-ownership table whose producer column was
-filled in optimistically would be the same defect this paper is about.
+The scorecard row previously read "none — hand-maintained", and that was true when it was
+written: Table 6 was a hand-maintained table and the ownership record said so rather than filling
+the column in optimistically. It is no longer true. The scorecard is now generated by
+`paper3.named_shot_scorecard.scorecard`, which derives stage statuses from evidence records and
+executes the numerical diagnostics from named producers, and it is CI-checked. Leaving the "none"
+row in place after the generator landed was itself an instance of the provenance drift this paper
+is about, which is why the correction is recorded here rather than made silently.
+
+Two distinctions matter for how that row should be read. The **declared configuration** — the stage
+chain and which component fills each stage — is an authored choice. The **generated claims** — each
+stage's status, its evidence records and its numerical diagnostics — are produced. Stages with no
+registered component keep explicitly declared statuses such as *specified*, *recorded* or *open*,
+and the generator reports an unbacked number rather than printing it; that mechanism is what caused
+the former "approximately 6.6 %" ramp claim to be withdrawn when no producer could be found for
+it.
 
 Two rules govern the table. A *physical* conclusion is asserted once, in the paper whose design
 supports it; this paper asserts only *methodological* claims about representation, evidence and
@@ -351,7 +361,7 @@ visible rather than asserted.
 
 ### 4.1 Contract design principles
 
-The current contract schema is version 0.6. It uses Python dataclasses to carry named state between stages. The evolution rule is add fields without changing their meaning; repurposing a field requires a breaking schema version. Optional values use an explicit missing state rather than a numeric sentinel. Comments specify expected units and semantics, and selected high-risk conversions have executable guards.
+The current contract schema is version 0.8. It uses Python dataclasses to carry named state between stages. The evolution rule is add fields without changing their meaning; repurposing a field requires a breaking schema version. Optional values use an explicit missing state rather than a numeric sentinel. Comments specify expected units and semantics, and selected high-risk conversions have executable guards.
 
 This is a typed state interface, not yet a full dimensional type system. A float annotated in a dataclass can still be supplied in the wrong unit. Puckworks therefore combines named fields, documented units, adapters, runtime assertions, and data-manifest metadata as layers with *different* and deliberately partial coverage. Table 2 states, for each layer, the defect class it catches and the residual risk it does not, so that no single layer is read as a guarantee.
 
@@ -359,7 +369,7 @@ This is a typed state interface, not yet a full dimensional type system. A float
 
 | Layer | Catches | Does *not* catch (residual risk) |
 |---|---|---|
-| Named typed fields | wrong quantity supplied to the wrong slot; a missing field | a correct field carrying a value in the wrong unit |
+| Named typed fields | makes a wrong-slot use **visible and testable**; permits field-specific validation; catches a missing field | does **not** statically prevent a validly typed but semantically wrong value being assigned — same-typed callables, arrays and floats can still be swapped, especially through positional construction or a generic adapter; a correct field carrying a value in the wrong unit |
 | Enum / schema validation | an out-of-vocabulary stage, execution role, or evidence relation | a valid-but-wrong enum value chosen by mistake |
 | Runtime range / unit guards (e.g. the permeability window above) | gross unit/scale errors (µm² vs m², table-scaled values) — a **coarse sanity check**, not a proof of correctness | an in-range but physically wrong value, or the wrong closure/material/regime |
 | Observational adapters | comparing a model field to a dataset in the wrong observable or unit | an adapter that is itself mis-specified (adapters are testable objects, but only as well as their tests) |
@@ -375,11 +385,12 @@ The layers are complementary, not redundant: the permeability window is a coarse
 
 | Contract | Selected fields | Required interpretation |
 |---|---|---|
-| `GrindState` | setting, fines fraction, boulder/fines/mean radii | grinder setting is device-specific; radii are SI lengths; missing PSD moments remain missing |
+| `GrindState` | setting, fines fraction, **fines threshold (µm)**, **fines dispersion method**, **fines basis**, boulder/fines/mean radii | grinder setting is device-specific; radii are SI lengths; missing PSD moments remain missing. The three fines-provenance fields are **declarations, not conversion formulas**: two fines fractions defined at different thresholds, by different dispersion methods, or on different bases (volume/mass/number) are different quantities, so a mismatch or a missing convention **blocks** the comparison. The registry does not invent an adapter. These fields are what the 0.6 → 0.7 bump was for |
 | `BedState` | dose, depth, area, porosity, Darcy permeability, inertial permeability, $\kappa$, heterogeneity, depth profiles | porosity type must be documented; permeability is SI; scalar and spatial states are not interchangeable |
 | `FlowLaw` | $k$, inertial permeability $k_I$, closure | distinguishes Darcy from a named Forchheimer closure |
 | `PumpHeadspace` | shut-off pressure, maximum flow, pipe resistance, headspace height, temperature ratio, capillary pressure | generates machine pressure nodes rather than consuming a recorded trace |
-| `MachineState` | pressure function, recorded profiles, pump outlet, headspace, basket pressure, bed drop | pressure nodes must remain distinct; do not apply two corrections to the same segment |
+| `MachineState` | pressure function, recorded profiles, pump outlet (`p_p`), headspace (`p_h`), basket pressure (`P_basket`), bed drop (`dP_bed`) | pressure nodes must remain distinct; do not apply two corrections to the same segment. Named node fields make a wrong-slot use **visible and testable**; they do **not** statically prevent a validly typed but semantically wrong value from being assigned, because all four are the same Python type |
+| `PressureTrace` / `PressureNode` | node, time, values, unit, reference | a **recorded** trace declares which node it measures. Legacy `P_of_t`/`profile_p` carry no node identity, so a node-specific consumer must call `require_node`, which fails closed rather than inferring a node from a file name or from magnitude. Added at schema 0.8 |
 | `SoluteInventory` | per-species amount, unit, basis, source, evidence strength, optional extractable fraction | total roasted content is not automatically extractable inventory |
 | `ShotResultState` | extraction yield, TDS, shot time, beverage mass, traces | aggregate outputs require named observable definitions; per-solute extension remains a roadmap item |
 
@@ -392,7 +403,7 @@ A pressure value without a location is incomplete. Puckworks distinguishes at le
 - basket gauge pressure $P_{\text{basket}}$; and
 - pressure drop across the wetted bed $\Delta P_{\text{bed}}$.
 
-These quantities can differ because of pipe resistance, valves, headspace compression, filters, and outlet losses. Applying a pipe correction to a trace that already represents basket pressure, then subtracting it again when computing bed pressure drop, silently double-counts resistance. The contract stores nodes separately and requires an adapter to declare the source node. One currently used DE1 fixture still has open pressure-node identity; Puckworks reports that gap rather than selecting a convenient interpretation.
+These quantities can differ because of pipe resistance, valves, headspace compression, filters, and outlet losses. Applying a pipe correction to a trace that already represents basket pressure, then subtracting it again when computing bed pressure drop, silently double-counts resistance. The contract stores nodes separately, and since schema 0.8 a **recorded** trace carries its own `PressureNode`; a node-specific consumer calls `require_node`, which rejects both a wrong-node trace and an untyped legacy trace rather than inferring a node. One currently used DE1 fixture still has open pressure-node identity; Puckworks reports that gap rather than selecting a convenient interpretation.
 
 The present schema also illustrates why documentation and executable units must converge. A legacy pressure callback is documented in bar gauge, while explicit node fields are documented in pascals. A stable release should either normalize all runtime fields to SI or require typed unit wrappers at the boundary.
 
@@ -441,7 +452,7 @@ Evidence is recorded as **three separate authored fields plus one derived presen
 
 The component-level `evidence_strength` enum is **one of these fields, not the evidence object**: it names the comparison relation only, and says nothing about outcome, artifact role, or scope.
 
-One consequence must be stated plainly, because the implementation and the argument could otherwise appear to disagree. The release checker applies a **conservative ordering** over evidence relations for exactly one purpose: to refuse a component that *declares* a tier stronger than any of its own gates demonstrates. That ordering is a release heuristic, **not** the evidence model, and it is not a claim that the relations form a single scale. It errs safely — it can only ever reject an over-strong declaration, never grant strength — but it has a known limitation: a strongest-gate roll-up can **launder scope**, letting one strong gate on one observable make a component look strongly evidenced while its other outputs, transients or compositions carry only verification or qualitative support. Independent evidence for one scalar output does not validate a component's other state fields. Replacing the single declared tier with a **scoped evidence profile** — a set of records per component, output and domain, with claim-level evidence selecting only the records matching that claim's observable and domain — is the correct architecture and is recorded as an open design decision rather than asserted as done.
+Earlier development versions compared a component's declared summary relation with an ordered "strongest gate". That design was removed, because the relations answer different questions and do not form one scientific scale. The current component check is **set membership**: a declared summary relation must be demonstrated by at least one scoped gate, or documented as a conservative summary. Claims do not inherit that component summary; they select the evidence records matching their own observable and domain, and §5.2 describes how. (This paragraph is itself a correction: an earlier draft described the removed ordering as current behaviour while §5.2 described the replacement, and a later one called claim-specific selection an open gap after it had been implemented. Both are the same defect this paper is about, which is why the correction is recorded rather than made silently.)
 
 **Table 3. Evidence relations (`evidence_strength` values) and permitted interpretations.**
 
@@ -489,11 +500,27 @@ a deliberately conservative summary on that basis.
 Second, **a public claim identifies its dependencies rather than describing them.** Each of the
 19 dependency edges across the public claims names a registry component (6), a
 producer function (8), or a dataset manifest row (5), and component dependencies
-carry their scoped evidence vector with them. A claim's **evidence profile** is the union of those
-records. The composition claim of §9, for example, resolves to a profile of **7 records
-spanning 5 different relations across 7 different observables** — a spread that a
-single `evidence_strength` field cannot express, and which is precisely the information a reader
-needs in order to see which part of the claim rests on what.
+carry their scoped evidence vector with them.
+
+Third, **a claim SELECTS the records that license it.** This is the distinction the architecture
+turns on, and an earlier version of this section did not draw it. A component's complete evidence
+vector is its **inventory** — useful for navigation, but not a claim of support, because a
+component's records may belong to observables the claim says nothing about. A claim's **evidence
+profile** is the subset it explicitly selects, by exact evidence-link id, together with its own
+observable and domain and the reason the two are commensurate.
+
+The difference is not cosmetic. The composition claim of §9 has an inventory of **7 records
+spanning 5 relations across 7 observables**, of which it selects **2**. The machine-capacity claim
+of §8 has an inventory of 5 and selects 2: the three excluded records are negative-outcome findings
+about wetting-front depth, headspace height and a normalized flow curve — real limitations of that
+port, but observables the claim does not assert. Under the previous scheme all of them entered the
+claim's profile, so unrelated evidence, including negative evidence, was presented as part of its
+support and the reader was left to infer which record was load-bearing.
+
+Selection is enforced rather than advised. CI rejects a selected link that does not exist, one that
+belongs to another dependency, and a load-bearing component with no selection at all; and the
+deliberate exclusions are recorded alongside the selections, because that is the half a reader
+cannot reconstruct.
 
 This is a **profile, not a transitive closure**: the dependencies' own dependencies are not walked.
 That bound is deliberate and is restated in the limitations. Relation and outcome are also separate
@@ -501,7 +528,16 @@ axes, so a negative result is recorded as a negative *outcome* on a named relati
 relation of its own.
 
 The public schema uses four visual badges — `OBSERVED`, `RECONSTRUCTED`, `PREDICTED`, and
-`EXPLORATORY_SIMULATION` — derived from the authored fields rather than authored separately. Every
+`EXPLORATORY_SIMULATION` — **derived** from the selected evidence records, their evaluation designs
+and the component's role in the claim, and never authored on their own. `OBSERVED` denotes a
+directly measured result to which no model prediction is attributed; `RECONSTRUCTED` a same-data,
+same-campaign or source-curve reconstruction; `PREDICTED` requires a declared held-out or
+independent evaluation for every load-bearing model at the claim's own observable and domain; and
+`EXPLORATORY_SIMULATION` an unevaluated composition or model-generated scenario. Authoring a badge
+that disagrees with the derivation is a validation failure, and an ambiguous combination fails
+closed with the limiting dependency named rather than taking the strongest compatible label. An
+earlier version of this paragraph described the badge as derived while the schema in fact required
+it as a constructor argument and checked only that it belonged to the four-item vocabulary. Every
 numeric public claim also carries units, source dataset identifiers, validity range, a primary
 caveat, a reproduction command, and a named producer that regenerates the value. A claim whose
 numeric field has no producer mapping fails validation as hard-coded.
@@ -641,7 +677,24 @@ The composition lesson is that a good fit is not evidence of a shared quantity. 
 
 The companion temporal-inference paper develops the scientific result [13]; here the same workflow demonstrates how the registry controls comparison semantics. A published machine-only curve is first used as a capacity null, not as evidence about a different measured apparatus. A measured 9-bar trace is then scored on one declared interval against a best constant, a static pressure-dependent model, an imported temporal trajectory, and a flexible cubic. Parameter provenance specifies which coefficients were fitted to the scored trace, elsewhere in the same campaign, or in donor studies.
 
-On the 15–95 s interval, the best constant has RMSE 0.573 g s⁻¹, the static branch 0.648 g s⁻¹, the imported empirical temporal branch 0.116 g s⁻¹, and the four-parameter cubic 0.096 g s⁻¹. The registry attaches different interpretations to these numbers. The constant is an in-window null; the static result is a transferred equilibrium reconstruction; the temporal trajectory uses no coefficient fitted directly to the scored flow trace but imports same-campaign information; and the cubic is an in-sample flexibility bound. A moving-block calculation is labeled as an interval on fixed loss sequences, not a full model bootstrap.
+**Observational basis.** The four values below are scores against the **preprocessed mean of five 9-bar shots over 15–95 s** — an averaged, smoothed, differentiated curve — and not errors on any individual shot. The distinction is scientifically load-bearing: averaging removes shot-to-shot variability that the models were never required to predict, so mean-trace RMSEs are systematically lower than shot-level ones and must not be read as expected error on a future shot.
+
+On the 15–95 s interval of that mean trace, the best constant has RMSE 0.573 g s⁻¹, the static branch 0.648 g s⁻¹, the imported empirical temporal branch 0.116 g s⁻¹, and the four-parameter cubic 0.096 g s⁻¹. The registry attaches different interpretations to these numbers. The constant is an in-window null; the static result is a transferred equilibrium reconstruction; the temporal trajectory uses no coefficient fitted directly to the scored flow trace but imports same-campaign information — which is not the same as being parameter-free; and the cubic is a same-trace descriptive comparator. A moving-block calculation is labeled as an interval on fixed loss sequences, not a full model bootstrap.
+
+**Table 5a. The same ladder at two observational bases.** All values g s⁻¹.
+
+| observational basis | constant | static κ(P) | temporal Φ(t) | cubic |
+|---|---:|---:|---:|---:|
+| preprocessed mean 9-bar trace, 15–95 s | 0.573 | 0.648 | 0.116 | 0.096 |
+| five individual 9-bar shots, mean ± SD | 0.580 ± 0.054 | 0.661 ± 0.100 | 0.189 ± 0.061 | 0.107 ± 0.016 |
+
+Two conclusions must be stated separately.
+
+First, **the temporal-versus-constant ordering is not an averaging artefact**: the temporal branch beats the best-in-window constant on all five individual shots, and the paired shot-level differences are directionally consistent in every case. Because the shot is the unit of replication and there are five of them, the exact two-sided sign-flip p-value is 0.0625 — the smallest attainable at this design — so we report effect sizes and directional counts rather than significance, and we do not divide the number of time samples into an apparent sample size.
+
+Second, **the mean-trace RMSE is not shot-level predictive accuracy**. The absolute temporal error rises from 0.116 on the mean trace to 0.189 g s⁻¹ on individual shots. The 0.083 g s⁻¹ per-shot temporal-versus-cubic gap is not resolved at n = 5, so the earlier reading that the temporal branch "nearly reaches" the flexible floor is **not supported at shot level and has been withdrawn**.
+
+A fully held-out temporal prediction remains blocked, and the reason is a data limitation rather than a modelling choice: the TDS replicates used to construct Φ(t) were never shot-matched to the five flow traces, so the dissolved-mass channel cannot be withheld. The physical inference belongs to the companion temporal paper; Paper 3 uses this ladder to demonstrate that the architecture preserves the fit design, the baseline class and the evidence relation.
 
 Cross-pressure LOPO evaluation is similarly explicit about what is held out. The equilibrium point at each pressure is omitted from the two-parameter calibration, but the 9-bar dissolved-mass trajectory and donor assumptions remain. The label is therefore “within-campaign held out,” not “independent validation.” The mean held-out RMSEs are 0.534, 0.347, and 0.516 g s⁻¹ for the static, empirical temporal, and donor-coupled branches, respectively. Per-pressure rankings vary and residuals remain structured.
 
@@ -653,13 +706,13 @@ The methodological lesson is that a comparison table needs more than rows of err
 
 A project-synthesis component (`brewer2026.coupled_kappa_t`: runtime execution role, `project_synthesis` provenance) combines an extraction-linked porosity-opening trajectory [3] with an imported particle-swelling trajectory [11] by assigning both to one shared porosity state. When the swelling factor is neutral, the synthesis reduces exactly to the extraction-only temporal branch. This reduction is a software verification of the composition.
 
-Adding the imported swelling branch does not merely flatten the predicted flow — it removes the temporal signal entirely. Over the same 15–95 s interval, the composite's predicted flow is **constant to numerical precision** (spread below 10⁻⁹ g s⁻¹). The mechanism is explicit in the producer: the swelling branch drives the shared porosity below its initial value across the whole window, so the dissolved-mass proxy sits on its numerical floor for **100 %** of the window, the porosity fraction entering the flow closure goes to zero, and the closure returns its own Φ→0 limit, which is the static equilibrium curve. The composite reconstruction RMSE is therefore 0.648 g s⁻¹ — **numerically identical to the static branch's 0.648 g s⁻¹ by construction, not by coincidence** — worse than the best constant baseline of approximately 0.573 g s⁻¹ and far worse than the extraction-only temporal trajectory at approximately 0.116 g s⁻¹. Reporting only the residual would have concealed the more informative fact: this composition does not degrade the temporal prediction, it annihilates it.
+Adding the imported swelling branch does not merely flatten the predicted flow — it removes the temporal signal entirely. Over the same 15–95 s interval, the composite's predicted flow is **constant to numerical precision** (spread below 10⁻⁹ g s⁻¹). The mechanism is explicit in the producer: the swelling branch drives the shared porosity below its initial value across the whole window, so the dissolved-mass proxy sits on its numerical floor for **100 %** of the window, the porosity fraction entering the flow closure goes to zero, and the closure returns its own Φ→0 limit, which is the static equilibrium curve. The composite reconstruction RMSE **on the preprocessed mean 9-bar trace** is therefore 0.648 g s⁻¹ — **numerically identical to the static branch's 0.648 g s⁻¹ by construction, not by coincidence** — worse than the best constant baseline of approximately 0.573 g s⁻¹ and far worse than the extraction-only temporal trajectory at approximately 0.116 g s⁻¹. All four are mean-trace reconstruction scores, not shot-prediction errors. Reporting only the residual would have concealed the more informative fact: this composition does not degrade the temporal prediction, it annihilates it.
 
 ### 9.2 Interpretation
 
 The failure is preserved rather than tuned away. It shows that component validity does not imply composition validity. Each component may be internally correct with respect to its own paper, but the composition adds a new scientific assertion: that the two porosity effects act on the same state, with compatible reference volumes, geometry, timescales, and boundary conditions, and can be combined by the selected rule. That assertion needs its own evidence.
 
-The result does **not** show that swelling is absent from espresso. It diagnoses one shared-porosity composition using one transferred swelling parameterization on one 9-bar trace. Possible failure sources include parameter transfer, fixed-height geometry, initial state, control mode, double counting of porosity, incompatible normalization, or the composition rule itself. The evidence badge is exploratory simulation and the result is negative validation of that configuration.
+The result does **not** show that swelling is absent from espresso. It diagnoses one shared-porosity composition using one transferred swelling parameterization on one 9-bar trace. Possible failure sources include parameter transfer, fixed-height geometry, initial state, control mode, double counting of porosity, incompatible normalization, or the composition rule itself. The evidence badge is exploratory simulation, and the configuration produced a **negative outcome on an exploratory-synthesis check**. It is not “negative validation”: a negative result is an outcome on a relation, not a relation of its own, and §5 says so — this sentence previously contradicted it.
 
 ### 9.3 Why negative results belong in the registry
 
@@ -675,7 +728,27 @@ paper names, each injected into an isolated copy of the relevant state, with the
 catch it then run and its verdict recorded. Nothing in the working tree is modified; a test asserts
 that the manuscripts are byte-identical before and after a run.
 
-Of **18 defects**, **12 were detected** and **6 were not**. Coverage is uneven by construction:
+We maintain this as a **development mutation suite**: a regression and gap-discovery instrument,
+not a statistical estimate of all possible failures. Results are reported for injected defects and
+valid controls **separately**, and grouped by structural cause.
+
+Of **18 injected defects** — 15 executable mutations that perturb a real input and run the
+production guard, and 3 explicitly classified limitation analyses — **13 were caught and 5 were
+missed**, spanning **9 independent structural groups**. Two **valid controls** were supplied, both
+correctly accepted, giving no false positives. There is **no held-out challenge set**: every case
+was authored by the same people who wrote the guards.
+
+We deliberately report **no single coverage percentage**. An earlier version of this section
+reported "18 defects, 12 detected, 67 %", and that figure was not defensible. One of the 18 entries
+(`D04`) was a valid *control* the range guard must accept, counted as a caught defect and left in
+the denominator. Several rows were not independent — `D01` and `D02` are two scale factors of one
+structural range-guard failure. Some nominal misses returned a hard-coded outcome rather than
+traversing the production path. Specificity was not reported at all. And the corpus is drawn from
+errors the project had already encountered, so there is no sampling frame from which a coverage
+probability could be estimated. Recomputing 67 % as 64.7 % would have preserved the error; the
+correction is conceptual.
+
+Coverage is uneven by construction:
 
 **Table 6a. Defect-injection results by class.** How many injected defects of each class the guardrails detected, including the classes they cannot catch.
 
@@ -707,12 +780,26 @@ and the manuscript is then regenerated from it, every provenance and consistency
 guards establish that prose equals code; only a gate wired to independent data can establish that
 the code is right, and only where such data exists.
 
-**Untyped distinctions are unenforceable.** Substituting basket pressure for pump pressure
-consistently is type-valid, because pressure-node identity is documented in prose but is not a field
-any contract carries. The same applies to a physically wrong but dimensionally valid constant: a bed
-porosity of 0.35 where the source card says 0.17 passes every finiteness, range and fraction check,
-because nothing compares a runtime value against the card that supplied it. This is the largest open
-gap in the present design.
+**Untyped distinctions are unenforceable.** This section previously said that substituting basket
+pressure for pump pressure is type-valid "because pressure-node identity is documented in prose but
+is not a field any contract carries". That premise was **false**: `MachineState` has carried named
+node fields — `p_p`, `p_h`, `P_basket` and `dP_bed` — since schema 0.4, and the defect case built on
+the claim inspected field *names* for the substring "node", found none, and reported a miss for the
+wrong reason.
+
+The real gap was narrower and more useful. Legacy recorded traces (`P_of_t`, `profile_p`) carried no
+structured node identity at all; every node field is the same Python type, so a value could still be
+assigned to the wrong slot through positional construction or a generic adapter; and an adapter
+could accept a recorded trace without ever declaring which node it represented. Schema 0.8 closes
+that with a `PressureTrace` carrying an explicit `PressureNode`, and a `require_node` boundary that
+fails closed on a node mismatch and on an untyped legacy trace alike — the node is never inferred
+from a file name or from magnitude. The defect suite now exercises that real boundary end to end,
+with a matching valid control so the guard cannot pass by rejecting everything.
+
+The genuinely unenforceable case remains the physically wrong but dimensionally valid constant: a
+bed porosity of 0.35 where the source card says 0.17 passes every finiteness, range and fraction
+check, because nothing compares a runtime value against the card that supplied it. That is the
+largest open gap in the present design.
 
 **Process rules are not executable rules.** Promoting a component's evidence strength requires a
 changelog entry by documented convention, and nothing enforces it.
@@ -721,9 +808,12 @@ The honest summary is therefore narrower than the architecture section might sug
 are effective against *representational* error — wrong units at gross scale, incompatible
 observables, drifted prose, desynced numbers, orphaned evidence, inflated labels — and are
 structurally unable to detect *substantive* error, where a defensible-looking value or a consistently
-applied wrong convention is simply incorrect. A detection rate of 67% over this corpus is a
-statement about this corpus, not a coverage guarantee: the defects we thought to write are biased
-toward the failures we have already seen.
+applied wrong convention is simply incorrect. No rate over this corpus should be read as a coverage guarantee: the defects we thought to
+write are biased toward the failures we have already seen, phrase sentinels for this manuscript are
+a different kind of evidence from generic architecture guards, and the guards have not yet been
+challenged by a held-out set authored after they were frozen. The scientifically useful output is
+the map of which error classes are executable and which remain epistemically or semantically
+outside the guards — not a score.
 
 ## 11. From model disagreement to experiment design
 
@@ -876,7 +966,7 @@ verified against the tree at the stated snapshot.
 | Area | Present in current snapshot (verified) | Required before journal submission |
 |---|---|---|
 | Installation | packaged release `v0.3.0` with published wheel and sdist and recorded SHA-256 for each; editable-install quickstart in README | tested clean installation on the supported Python versions from the archived artifact, not from the repository |
-| Public API | component registry at contract schema **0.7**; additive-only field policy with a version bump per change | documented stable API, semantic versioning, deprecation policy |
+| Public API | component registry at contract schema **0.8**; additive-only field policy with a version bump per change | documented stable API, semantic versioning, deprecation policy |
 | Tutorials | **five public Colab notebooks** (quickstart, guided pull, guided-pull laboratory, illustrative linked pull, lattice-Boltzmann), each exercised by a notebook-smoke CI lane | tutorials pinned to the archived release rather than to a moving branch |
 | Add-a-model path | `CONTRIBUTING.md`, card template, issue templates | complete contributor tutorial with a worked example pull request and validation checklist |
 | Roles/schema | schema v2 axes (`execution_role` / `provenance_class` / `evidence_strength`); **12 runtime and 15 calibration** instances | instantiate the schema-supported `observational_adapter` and `diagnostic` roles, which remain **uninstantiated**; remove the deprecated `kind` field, which is still written at every registration site |
@@ -884,24 +974,31 @@ verified against the tree at the stated snapshot.
 | Data provenance | 107-row manifest snapshot with licenses and caveats; a CI drift guard binds the manuscript's counts to it | release-frozen manifest; audit every redistributable artifact and license |
 | Claims | producer-backed public-claim schema; manuscript numbers regenerated by named producers and CI-guarded | claim bundle regenerated **from the frozen tag** with source-data exports |
 | Guardrail evaluation | defect-injection benchmark (§10) reporting which guard catches which class of introduced defect | extend the corpus as new guard classes are added |
-| Release tooling | environment check, external staging, checksums, manifest checks, release record validator | **dependency lock or container digest** (only unpinned floors `numpy>=2.0`, `scipy>=1.13` are declared today) and **Zenodo deposition with a citable DOI** — the release is currently GitHub-only |
+| Release tooling | environment check, external staging, checksums, manifest checks, release record validator, and a **direct-version lock** (`requirements-paper-release.lock`, recorded by `docs/reproducibility/paper_release_environment.json`) | a **complete transitive lock or container digest** — the current file is deliberately a direct-version lock, not a full pip freeze — and **Zenodo deposition with a citable DOI**; the release is currently GitHub-only |
 | Corpus method | curated cards and related-work notes | indexed search protocol, screening record, inclusion/exclusion appendix |
 | External use | not established | at least one documented reproduction or workflow by someone outside the originating team |
 | Governance | `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `CHANGELOG.md`, `CITATION.cff`, issue templates, roadmap and release runbook | governance for the external community corpus (§6.6), where an ethics determination remains open |
 
 **The remaining blockers, stated plainly.** Most rows above are now presentational. Four are not,
 and they are the honest gate on submission: (i) there is **no archival DOI** — the release exists
-on GitHub only; (ii) there is **no pinned environment**, only unbounded minimum versions, so
-"reproducible" currently means "reproducible against whatever resolves today"; (iii) **no external
-party has reproduced anything**, so every reproducibility claim in this paper is self-attested; and
-(iv) the **corpus construction is curated rather than systematic** (§16). Of these, only (iii) and
-(iv) require work that cannot be scheduled purely by us.
+on GitHub only; (ii) the environment is **pinned only at the direct level** — `requirements-paper-release.lock`
+records the direct release stack, but it is deliberately not a complete transitive lock or a
+container digest, so "reproducible" currently means "reproducible against whatever the transitive
+dependencies resolve to"; (iii) **no external party has reproduced anything**, so every
+reproducibility claim in this paper is self-attested; (iv) the **corpus construction is curated
+rather than systematic** (§16); and (v) **claim-level evidence selection is implemented for the
+public-value claims but not yet extended to every generated claim class**, and there is no single
+coverage registry across them (Appendix B). Of these, only (iii) and (iv) require work that cannot
+be scheduled purely by us.
+
+A DOI is therefore **not** the only remaining submission gap, and any statement to that effect
+should be read against this list rather than in place of it.
 
 The paper should be submitted as a resource/methods article only after the release artifact satisfies the same strict checks the manuscript describes. A software-journal route additionally requires evidence that the tool is feature-complete for its stated purpose, documented, tested, openly developed, and usable by contributors outside the originating team.
 
 ## 16. Conclusions
 
-Puckworks addresses a problem that appears whenever heterogeneous process models are made executable together: similarly named quantities, parameters, and validation claims are not necessarily compatible. The registry represents models as provenance-tracked stage components, exchanges state through versioned contracts, records dataset transformations in a manifest, labels evidence at the claim level, and requires manuscript numbers to be regenerated by named producers.
+Puckworks addresses a problem that appears whenever heterogeneous process models are made executable together: similarly named quantities, parameters, and validation claims are not necessarily compatible. The registry represents models as provenance-tracked stage components, exchanges state through versioned contracts, records dataset transformations in a manifest, selects evidence at the claim's own scope for its public-value claims, derives their public badges from that selection rather than accepting an authored label, and requires manuscript numbers to be regenerated by named producers.
 
 The demonstrations show why these controls matter. Observable linting prevents incompatible concentration, pressure, inventory, grinder, and chemistry quantities from being silently merged. Null-first comparison distinguishes machine capacity, static inadequacy, temporal reconstruction, flexible in-sample fit, and conditional held-out assessment. A failed extraction-plus-swelling composition shows that adding mechanisms can worsen a result and that validation does not automatically transfer through composition. The named-shot scorecard then exposes the exact stages that are observed, calibrated, verified, reconstructed, extrapolated, or open.
 
@@ -951,9 +1048,9 @@ All seven figures are **generated**, not specified: `python -m puckworks.figures
 
 **Figure 1.** Puckworks architecture. A directed pipeline from source paper and artifact to model and dataset cards, registered components with typed contracts, a configuration that SELECTS components rather than instantiating every model, gates and harnesses, result bundles and claim producers, and finally figure and source-data export into an archived release. The lower band lists the process stages; a component declares exactly one.
 
-**Figure 2.** Process-stage and evidence map. (a) Registered components by stage, split into runtime and calibration roles. (b) The scoped evidence vectors: for each component, how many gates demonstrate each relation, every one at its own stated observable. The panel exists to show that a component holds SEVERAL relations at once and that they are dimensions rather than points on a scale — no ordering over the relations is used anywhere in the implementation. (c) A component card excerpt, showing that a declared relation is checked for membership in the component's evidence set.
+**Figure 2.** Process-stage and evidence map. (a) Registered components by stage, split into runtime and calibration roles. (b) The scoped evidence vectors: for each component, how many gates demonstrate each relation, every one at its own stated observable. The panel exists to show that a component holds SEVERAL relations at once and that they are dimensions rather than points on a scale — the current evidence-vector and membership implementation does not rank relations. (c) A component card excerpt, showing that a declared relation is checked for membership in the component's evidence set.
 
-**Figure 3.** Observable and unit linting. (a) Three published saturation concentrations retained as separate configuration fields with the sources that use each; there is no adapter because none is defensible. (b) Four distinct pressure nodes; the caption states the residual risk that node identity is documented but is NOT a typed contract field, so a substitution is type-valid. (c) An invalid mixed-unit aggregation of named-solute masses with an aggregate-solids percentage, refused, beside the corrected yield. (d) Raw extraction-yield cells ordered across grinder settings, with the fitted response-surface vertex marked as a separate object: the vertex is not present as a maximum in the selected raw cells.
+**Figure 3.** Observable and unit linting. (a) Three published saturation concentrations retained as separate configuration fields with the sources that use each; there is no adapter because none is defensible. (b) Four distinct pressure nodes; since schema 0.8 a recorded trace carries a typed `PressureNode` and a node-specific consumer fails closed on a mismatch. The residual risk is narrower: same-typed node fields can still be swapped by positional construction, and one DE1 fixture's node provenance is unresolved. (c) An invalid mixed-unit aggregation of named-solute masses with an aggregate-solids percentage, refused, beside the corrected yield. (d) Raw extraction-yield cells ordered across grinder settings, with the fitted response-surface vertex marked as a separate object: the vertex is not present as a maximum in the selected raw cells.
 
 **Figure 4.** Null-first comparison as a registry workflow. Each rung carries its reconstruction error, the number of free parameters fitted to the scored trace, and its parameter provenance. Orange marks rungs with no coefficient fitted to the scored trace — which is necessary but not sufficient for being held out, as the provenance line on each rung records. The figure shows comparison architecture; the physical conclusions belong to the companion temporal paper.
 
@@ -1029,7 +1126,7 @@ Every manuscript-facing quantitative claim is exportable as the record below. Fi
 | `units` | mapping | mandatory, repeatable | one unit per numeric key -- a value without a unit is rejected |
 | `uncertainty_or_sensitivity` | string | mandatory | what the number is sensitive to, or its spread |
 | `evidence_strength` | string | mandatory | PUBLIC lay relation, mapped from the registry relation via `REGISTRY_TO_PUBLIC`; a coarser vocabulary, not the registry value |
-| `badge` | string | derived | derived from the authored evidence fields (§5); never authored independently |
+| `badge` | string | derived | DERIVED by `schema.derive_badge()` from the claim's SELECTED evidence records, their evaluation designs and the component's role; `validate()` rejects any authored value that disagrees with the derivation, and an ambiguous combination fails closed rather than taking the strongest compatible label |
 | `components` | list | mandatory, repeatable | DEPRECATED free-text list retained for already-published artifacts; `dependencies` is authoritative |
 | `dataset_manifest_ids` | list | mandatory, repeatable | rows that MUST exist in data/MANIFEST.csv |
 | `validity_range` | string | mandatory | explicit domain of applicability |
@@ -1041,7 +1138,8 @@ Every manuscript-facing quantitative claim is exportable as the record below. Fi
 | `source_commit` | string (optional) | derived | DEPRECATED alias of generated_from_commit |
 | `generated_from_commit` | string (optional) | derived | stamped at first export; immutable thereafter |
 | `last_verified_against_commit` | string (optional) | derived | stamped at every successful verification; mutable |
-| `dependencies` | tuple | optional | IDENTIFIED load-bearing inputs (registry component id, producer dotted path, or dataset manifest id) with the role each plays and, for components, their scoped evidence records. This is the authoritative dependency list |
+| `dependencies` | tuple | optional | IDENTIFIED load-bearing inputs (registry component id, producer dotted path, or dataset manifest id) with the role each plays and, for components, their full scoped evidence INVENTORY. This is the authoritative dependency list. One level deep: the dependencies' own dependencies are not walked, so this is a profile and not a transitive closure |
+| `evidence_selections` | tuple | optional | which of those inventory records actually LICENSE this claim, by exact evidence-link id, together with the claim's own observable and domain and the reason they are commensurate. Records not selected remain visible for drill-down but cannot strengthen the claim or change its badge. The rationale field records the DELIBERATE EXCLUSIONS, which a reader cannot reconstruct from the selection |
 | `outcome` | string | optional | supported / negative / indeterminate -- an OUTCOME axis kept separate from the relation, so a negative result never has to masquerade as a relation |
 
 **Commit provenance.** `generated_from_commit` is immutable — the commit the payload was produced at — while `last_verified_against_commit` moves on every successful re-verification. A snapshot may therefore verify at a later commit while still declaring the earlier commit it was generated from; those are different facts and are recorded separately. `source_commit` is retained only as a deprecated alias.

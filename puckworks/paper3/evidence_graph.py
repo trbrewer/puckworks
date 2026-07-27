@@ -73,11 +73,10 @@ EVIDENCE_ROLES = ("fit", "eval", "reference", "context")
 SOURCE_INDEPENDENCE = ("independent", "held_out_same_campaign", "same_campaign", "same_data_as_fit",
                        "fit_input", "not_applicable")
 EVIDENCE_STRENGTHS = R.EVIDENCE_STRENGTHS
-# registry EVIDENCE_STRENGTHS is authored in DESCENDING strength order, so the tuple index is a
 # NOTE: there is deliberately NO rank/order over EVIDENCE_STRENGTHS anywhere in this module.
 # The strongest-gate roll-up that once needed one was replaced by _scope_membership_probe, because
-# an ordering contradicted the paper's own argument that these relations answer different questions
-# (Paper 3 review P0-3/P0-4).
+# an ordering contradicted the paper's own argument that these relations answer different
+# questions rather than occupying one scientific scale.
 
 # asserted Paper-3 claims that the paper3 release gate is fail-closed on
 _ASSERTED_PAPER3_USES = ("primary_claim", "method_demonstration")
@@ -208,7 +207,7 @@ def _has_placeholder(link):
 
 #: Components that DELIBERATELY declare a summary weaker than any of their gates demonstrates.
 #: Under-claiming is safe and sometimes right, but it must be VISIBLE rather than silently permitted
-#: by an ordering, so each one is recorded here with its reason (Paper 3 review P0-4 option 1).
+#: by an ordering, so each one is recorded here with its reason.
 CONSERVATIVE_SUMMARIES = {
     "fasano2000_partI.fines_migration":
         "Its gates verify code and reproduce a source curve for the deposition sub-model, but the "
@@ -237,14 +236,50 @@ class ScopedEvidence:
     gate: str
     outcome: str
     use: str
+    #: Stable identifier of the underlying EVIDENCE_LINKS record. Third review P0-1: a claim must
+    #: be able to name the EXACT records it relies on, which is impossible while records are
+    #: anonymous.
+    evidence_id: str = ""
+    #: The fit/evaluation design axis, distinct from the comparison relation: same data, same
+    #: campaign held out, independent external, or not empirical.
+    fit_evaluation: str = ""
+    #: Whether the comparison reference was a measured system at all.
+    reality_facing: bool = False
 
     def as_dict(self):
         return dc.asdict(self)
 
 
+#: Exhaustive support-status -> outcome mapping (third review P1-5). The previous inference marked
+#: a record negative only when `support_status == "context_only"` AND `claim_not_supported` was
+#: non-empty, and marked EVERYTHING else supported -- which silently turned unresolved, blocked and
+#: proposed records into supported ones. Unhandled values now raise rather than defaulting.
+_SUPPORT_TO_OUTCOME = {
+    "admissible": "supported",
+    "context_only": "indeterminate",     # refined to "negative" when a rebuttal is recorded
+    "unsupported": "negative",
+    "blocked_missing": "indeterminate",
+    "proposed_not_run": "indeterminate",
+    "needs_adjudication": "indeterminate",
+}
+
+
+def _outcome_for(link):
+    status = link.get("support_status")
+    if status not in _SUPPORT_TO_OUTCOME:
+        raise ValueError(
+            f"evidence link {link.get('link_id', '?')!r}: unhandled support_status {status!r}. "
+            f"Add it to _SUPPORT_TO_OUTCOME deliberately -- defaulting an unknown status to "
+            f"'supported' is how a blocked or unresolved record becomes a supporting one.")
+    outcome = _SUPPORT_TO_OUTCOME[status]
+    if status == "context_only" and link.get("claim_not_supported"):
+        return "negative"
+    return outcome
+
+
 def component_evidence_vector(component_id, links=None):
     """The SCOPED EVIDENCE VECTOR for a component: every (relation, scope, gate, outcome) record it
-    actually has, in declaration order (Paper 3 review P0-4 option 1).
+    actually has, in declaration order.
 
     This replaces the single declared tier as the honest representation. A component with four
     gates has four records, possibly carrying four different relations on four different
@@ -262,9 +297,11 @@ def component_evidence_vector(component_id, links=None):
             relation=rel,
             scope=(l.get("observable") or "").strip() or "(scope not recorded)",
             gate=l.get("gate", ""),
-            outcome=("negative" if l.get("support_status") == "context_only"
-                     and l.get("claim_not_supported") else "supported"),
-            use=l.get("paper3_use", "")))
+            outcome=_outcome_for(l),
+            use=l.get("paper3_use", ""),
+            evidence_id=l.get("link_id", ""),
+            fit_evaluation=l.get("relationship", ""),
+            reality_facing=bool(l.get("reality_facing"))))
     return tuple(out)
 
 
@@ -279,7 +316,7 @@ def evidence_vectors(links=None):
 
 
 def _scope_membership_probe(component_id, declared, scoped):
-    """Replaces the strongest-gate roll-up (Paper 3 review P0-3/P0-4).
+    """Replaces the strongest-gate roll-up that this module used to apply.
 
     A component may declare a relation only if some gate actually DEMONSTRATES that relation, at
     some recorded scope. This is a SET-MEMBERSHIP test: it needs no ordering over the relations,

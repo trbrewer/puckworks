@@ -73,6 +73,15 @@ class ScopedEvidenceRef:
     scope: str              # the observable it was demonstrated on
     gate: str
     outcome: str            # supported | negative | indeterminate
+    #: Stable id of the underlying EVIDENCE_LINKS record. Third review P0-1: a claim cannot SELECT
+    #: the records that license it while those records are anonymous.
+    evidence_id: str = ""
+    #: The fit/evaluation design, kept separate from the comparison relation (third review P1-6):
+    #: post_fit_same_data | same_campaign_not_held_out | within_campaign_held_out |
+    #: independent_external | code_verification | not_empirical.
+    fit_evaluation: str = ""
+    #: Was the comparison reference a measured system at all?
+    reality_facing: bool = False
 
 
 @dataclass(frozen=True)
@@ -96,6 +105,152 @@ class Dependency:
                 errs.append(f"dependency {self.ref!r}: evidence record carries no scope")
         return errs
 
+
+
+# --- claim-scoped evidence selection (third Paper 3 review P0-1) ------------------------------
+@dataclass(frozen=True)
+class ClaimEvidenceSelection:
+    """The evidence records that license ONE claim's assertion.
+
+    Before this, `_dep()` copied a component's ENTIRE evidence vector into every claim depending on
+    it, and `evidence_profile()` flattened all of it into the claim's profile. Scope labels
+    survived, but nothing prevented unrelated evidence from being presented as part of a claim's
+    support: a component with code verification on one output, source-curve reproduction on
+    another, and a compatibility check on a third contributed all three labels to any claim naming
+    it, leaving the reader to infer which record was load-bearing.
+
+    That is an evidence INVENTORY, not a claim-support relation. The paper's novelty claim is not
+    that evidence records exist but that they CONSTRAIN what may be asserted, which requires an
+    executable link between a claim and the exact records licensing its observable and verb.
+    """
+    dependency_ref: str             # which Dependency these records belong to
+    evidence_ids: tuple             # the exact ScopedEvidenceRef.evidence_id values relied upon
+    claim_observable: str           # what THIS claim is about
+    claim_domain: str               # the conditions it is asserted over
+    role_in_claim: str              # one of LICENSING_ROLES
+    rationale: str = ""             # why these records are commensurate with the claim
+
+    def validate(self):
+        errs = []
+        if not self.evidence_ids:
+            errs.append(f"selection for {self.dependency_ref!r}: no evidence ids selected")
+        for f in ("claim_observable", "claim_domain", "role_in_claim"):
+            if not str(getattr(self, f)).strip():
+                errs.append(f"selection for {self.dependency_ref!r}: {f} is empty")
+        if self.role_in_claim and self.role_in_claim not in LICENSING_ROLES:
+            errs.append(f"selection for {self.dependency_ref!r}: role_in_claim "
+                        f"{self.role_in_claim!r} not in {LICENSING_ROLES}")
+        return errs
+
+
+#: What a component contributes to a claim. The badge describes how the claim's REPORTED VALUE was
+#: produced, so a model that only supplies a comparator the finding is stated against does not turn
+#: a measured result into a model output.
+LICENSING_ROLES = (
+    "produces_reported_value",   # the model output IS the number the claim reports
+    "comparator_context",        # supplies a reference/timescale the measured finding is read against
+    "diagnosed_subject",         # the claim is ABOUT this model's behaviour (e.g. a failed composition)
+)
+
+#: Badge derivation (third review P0-2). The manuscript said badges are "computed deterministically
+#: from three authored evidence fields" and "never authored on its own", while `PublicClaim`
+#: REQUIRED a badge argument, the seeded claims hard-coded values, and `validate()` only checked
+#: membership in the four-item vocabulary. There was no derivation function at all.
+#:
+#: Derivation is conservative and FAILS CLOSED: an ambiguous or mixed combination raises rather
+#: than selecting the strongest compatible badge.
+_HELD_OUT_DESIGNS = ("within_campaign_held_out", "independent_external")
+_RECONSTRUCTION_DESIGNS = ("post_fit_same_data", "same_campaign_not_held_out")
+
+
+def derive_badge(claim) -> tuple:
+    """Return ``(badge, rationale, limiting_dependency)`` from a claim's SELECTED evidence.
+
+    * ``OBSERVED`` -- the claim reports a directly measured value and attributes no model
+      prediction to it: it has no component dependency carrying reality-facing model evidence.
+    * ``RECONSTRUCTED`` -- model output scored on fit data, source-generated curves, or
+      same-campaign information without a qualifying held-out design.
+    * ``PREDICTED`` -- every load-bearing model dependency has selected evidence at the claim's
+      observable under a declared held-out or independent design, and every outcome is supported.
+    * ``EXPLORATORY_SIMULATION`` -- composition or model-generated output without sufficient
+      empirical evaluation for the claim.
+    """
+    selected = claim.selected_evidence()
+    model_deps = [d for d in claim.dependencies if d.kind == "component"]
+    roles = {s.dependency_ref: s.role_in_claim for s in claim.evidence_selections}
+
+    if not model_deps:
+        return ("OBSERVED",
+                "no component dependency: the claim reports measured or dataset-derived values "
+                "and attributes no model prediction to them", None)
+
+    # A component that only supplies a comparator does not make the reported value a model output.
+    producing = [d for d in model_deps
+                 if roles.get(d.ref, "produces_reported_value") != "comparator_context"]
+    if claim.evidence_selections and not producing:
+        return ("OBSERVED",
+                "every component dependency is a comparator/context reference; the reported value "
+                "is measured or dataset-derived and no model prediction is attributed to it", None)
+    model_deps = producing or model_deps
+
+    if not selected:
+        return ("EXPLORATORY_SIMULATION",
+                "component dependencies are present but no evidence records are selected for this "
+                "claim's observable, so nothing licenses a stronger verb", model_deps[0].ref)
+
+    if any(e["outcome"] == "negative" for e in selected):
+        limiting = next(e["dependency"] for e in selected if e["outcome"] == "negative")
+        return ("EXPLORATORY_SIMULATION",
+                "a selected evidence record carries a NEGATIVE outcome; a negative result cannot "
+                "license a supported verb", limiting)
+
+    if any(e["outcome"] == "indeterminate" for e in selected):
+        limiting = next(e["dependency"] for e in selected if e["outcome"] == "indeterminate")
+        return ("EXPLORATORY_SIMULATION",
+                "a selected evidence record is indeterminate (blocked, unresolved or not run)",
+                limiting)
+
+    # Every load-bearing component must itself be covered by a selection.
+    covered = {e["dependency"] for e in selected}
+    uncovered = [d.ref for d in model_deps if d.ref not in covered]
+    if uncovered:
+        return ("EXPLORATORY_SIMULATION",
+                f"load-bearing component {uncovered[0]!r} has no selected evidence for this claim",
+                uncovered[0])
+
+    # An exploratory synthesis or a composition is model-generated output, whatever the outcome of
+    # the diagnostic that examined it. PV-05 is the case: its diagnostic gate PASSED (it correctly
+    # diagnosed a failure), but the claim is still about a composition, not an evaluated prediction.
+    relations = {e["relation"] for e in selected}
+    if "exploratory_synthesis" in relations:
+        return ("EXPLORATORY_SIMULATION",
+                "the claim rests on an exploratory-synthesis record: a composition's behaviour is "
+                "model-generated output, not an empirically evaluated prediction",
+                next(e["dependency"] for e in selected
+                     if e["relation"] == "exploratory_synthesis"))
+
+    designs = {e["fit_evaluation"] for e in selected}
+    # Code verification and non-empirical checks establish that the code does what it says. They
+    # cannot license a reconstruction claim about reality on their own.
+    if designs and designs <= {"code_verification", "not_empirical"}:
+        return ("EXPLORATORY_SIMULATION",
+                f"every selected record is non-empirical ({sorted(designs)}): code verification "
+                f"establishes that the implementation matches its specification, not that the "
+                f"output reconstructs a measurement", selected[0]["dependency"])
+
+    if designs <= set(_HELD_OUT_DESIGNS) and designs:
+        return ("PREDICTED",
+                "every selected record is under a held-out or independent evaluation design "
+                f"({sorted(designs)})", None)
+    weakest = sorted(d for d in designs if d not in _HELD_OUT_DESIGNS)
+    if not weakest:
+        raise ValueError(
+            f"{claim.claim_id}: badge derivation is ambiguous over designs {sorted(designs)} -- "
+            f"resolve deliberately rather than defaulting")
+    return ("RECONSTRUCTED",
+            f"the weakest selected evaluation design is {weakest[0]!r}, which does not qualify as "
+            f"held out or independent",
+            next(e["dependency"] for e in selected if e["fit_evaluation"] == weakest[0]))
 
 
 @dataclass
@@ -155,6 +310,10 @@ class PublicClaim:
     last_verified_against_commit: str | None = None   # mutable: most recent successful verification
     # --- identified dependencies + their scoped evidence (step 0 + P0-4 option b) -----------
     dependencies: tuple = ()        # Dependency records; `components` is derived from these
+    #: Third review P0-1. Which of the dependencies' evidence records actually license THIS claim.
+    #: A claim does not ingest a whole component evidence vector; it selects. Empty means the claim
+    #: has not yet been scoped, which `validate()` reports rather than tolerating silently.
+    evidence_selections: tuple = ()
     outcome: str = "supported"      # supported | negative | indeterminate -- an OUTCOME axis,
                                     # separate from the relation, so "negative validation" no
                                     # longer has to masquerade as an evidence relation
@@ -163,18 +322,44 @@ class PublicClaim:
         """Registry component ids this claim depends on, derived from `dependencies`."""
         return tuple(d.ref for d in self.dependencies if d.kind == "component")
 
-    def evidence_profile(self):
-        """The claim's SCOPED EVIDENCE PROFILE: every (dependency, relation, scope, outcome) record
-        behind it (Paper 3 review P0-4 option b).
-
-        This is what replaces "one label for the whole output". It is one level deep -- the
-        dependencies' own dependencies are not walked -- so it is a profile, not a transitive
-        closure, and the manuscript says so."""
+    def _flatten(self, deps):
         return tuple(
             dict(dependency=d.ref, kind=d.kind, relation=e.relation,
                  public_relation=e.public_relation, scope=e.scope, gate=e.gate,
-                 outcome=e.outcome)
-            for d in self.dependencies for e in d.evidence)
+                 outcome=e.outcome, evidence_id=e.evidence_id,
+                 fit_evaluation=e.fit_evaluation, reality_facing=e.reality_facing)
+            for d in deps for e in d.evidence)
+
+    def evidence_inventory(self):
+        """EVERY evidence record attached to every dependency.
+
+        This is an inventory for navigation and drill-down. It is NOT the claim's support: a
+        component's records may belong to observables this claim says nothing about."""
+        return self._flatten(self.dependencies)
+
+    def selected_evidence(self):
+        """Only the records this claim SELECTS as licensing its assertion (third review P0-1).
+
+        Unselected component evidence stays visible in `evidence_inventory()` but cannot
+        strengthen the claim or alter its badge."""
+        chosen = {(s.dependency_ref, eid)
+                  for s in self.evidence_selections for eid in s.evidence_ids}
+        return tuple(e for e in self.evidence_inventory()
+                     if (e["dependency"], e["evidence_id"]) in chosen)
+
+    def evidence_profile(self):
+        """The claim's evidence profile.
+
+        Once selections exist this returns ONLY the selected records. Before P0-1 it returned every
+        record of every dependency, so a component with code verification on one output and source
+        reproduction on another contributed both labels to any claim naming it. One level deep --
+        the dependencies' own dependencies are not walked -- so it is a profile, not a transitive
+        closure, and the manuscript says so."""
+        return self.selected_evidence() if self.evidence_selections else self.evidence_inventory()
+
+    def derived_badge(self):
+        """``(badge, rationale, limiting_dependency)`` computed from the selected evidence."""
+        return derive_badge(self)
 
     # ---- structural guardrails (PUBLIC_VALUE.md §3; enforced, not by convention) --
     def validate(self) -> list:
@@ -202,6 +387,42 @@ class PublicClaim:
         # (3) a badge is set and valid; a simulation claim needs the SIM badge
         if self.badge not in BADGES:
             errs.append(f"{self.claim_id}: badge '{self.badge}' invalid")
+
+        # (3b) THIRD REVIEW P0-1 -- claim-scoped evidence selection is enforced, not advisory.
+        by_ref = {d.ref: d for d in self.dependencies}
+        model_deps = {d.ref for d in self.dependencies if d.kind == "component"}
+        selected_refs = set()
+        for s in self.evidence_selections:
+            errs += [f"{self.claim_id}: {e}" for e in s.validate()]
+            dep = by_ref.get(s.dependency_ref)
+            if dep is None:
+                errs.append(f"{self.claim_id}: evidence selection names dependency "
+                            f"{s.dependency_ref!r}, which this claim does not declare")
+                continue
+            selected_refs.add(s.dependency_ref)
+            available = {e.evidence_id for e in dep.evidence}
+            for eid in s.evidence_ids:
+                if eid not in available:
+                    errs.append(f"{self.claim_id}: selected evidence {eid!r} does not belong to "
+                                f"dependency {s.dependency_ref!r}")
+        # every load-bearing component must be covered by a selection, or the claim is inheriting
+        # its component's whole inventory again
+        if self.evidence_selections:
+            for ref in sorted(model_deps - selected_refs):
+                errs.append(f"{self.claim_id}: component dependency {ref!r} is load-bearing but "
+                            f"no evidence is selected for it")
+
+        # (3c) THIRD REVIEW P0-2 -- the badge must be DERIVED, not authored.
+        try:
+            derived, why, limiting = derive_badge(self)
+        except ValueError as exc:
+            errs.append(f"{self.claim_id}: badge derivation failed closed -- {exc}")
+        else:
+            if self.badge != derived:
+                errs.append(
+                    f"{self.claim_id}: badge {self.badge!r} was authored but the selected evidence "
+                    f"derives {derived!r} ({why}"
+                    + (f"; limiting dependency {limiting!r}" if limiting else "") + ")")
         # (5) a public number is hard-coded (no producer path) — the integrity rule
         for k in self.numeric_result:
             if k not in self.producer.result_map:

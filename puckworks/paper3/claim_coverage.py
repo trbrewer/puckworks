@@ -68,11 +68,22 @@ CONFIG_CONSTANTS: dict[str, str] = {
     "80": "lower end of the Schmieder-Pannusch temperature range (degC)",
     "98": "upper end of the Schmieder-Pannusch temperature range (degC)",
     "256": "SHA-256 digest width, not a measurement",
-    "0.7": "public contract schema version",
+    "0.8": "public contract schema version (PressureNode/PressureTrace, third review P0-8)",
 }
 
 DATASET_FACTS: dict[str, str] = {}
-CITED_VALUES: dict[str, str] = {}
+CITED_VALUES: dict[str, str] = {
+    # --- values QUOTED inside an explicit withdrawal, not asserted -----------------------------
+    # The manuscript must be able to say what it retracted. Each of these appears only inside a
+    # sentence that withdraws it; asserting any of them again would be a NEW claim needing a
+    # producer, and the semantic audit is what stops that.
+    "6.6": "the WITHDRAWN ramp claim, quoted only inside the note recording that it was withdrawn "
+           "when no producer could be found for it",
+    "67": "the WITHDRAWN defect-injection coverage rate, quoted only inside the note explaining "
+          "why no coverage percentage is reported at all (third review P0-7)",
+    "64.7": "the recomputed rate the review offered, quoted only to explain that substituting it "
+            "would have preserved the conceptual error rather than fixing it",
+}
 DERIVED_QUANTITIES: dict[str, tuple[str, str, str]] = {}
 
 #: Ratchet.
@@ -149,9 +160,27 @@ def _live_counts() -> dict[str, float]:
     from puckworks.models.maille2024 import two_regime as _m
     out["maille_fast_lo"], out["maille_fast_hi"] = _m.LAM_FAST_RANGE
     out["maille_slow_lo"], out["maille_slow_hi"] = _m.LAM_SLOW_RANGE
+    # Third review P0-6: Paper 3 now reports the SHOT-LEVEL ladder alongside the mean-trace one.
+    # Those values are produced by the companion temporal paper's module, so they are bound to it
+    # here rather than quoted -- which is the cross-paper rule this repository already enforces.
+    from puckworks.analysis import waszkiewicz_shot_level as _wsl
+    _lad = _wsl.per_shot_ladder()
+    for _rung, _key in (("rung1_const", "const"), ("rung3_static", "static"),
+                        ("rung4_phi_of_t", "phi"), ("flexible_cubic", "cubic")):
+        out["pershot:%s_mean" % _key] = _lad["across_shots"][_rung]["mean"]
+        out["pershot:%s_sd" % _key] = _lad["across_shots"][_rung]["sd"]
+    out["pershot:phi_minus_cubic_pp"] = _lad["phi_minus_cubic_mean_g_per_s"]
+    _paired = _wsl.paired_shot_uncertainty()
+    out["pershot:exact_sign_flip_p"] = _paired["comparisons"]["phi_vs_const"][
+        "exact_randomization_p"]
+
     from puckworks.paper3 import defect_injection as _di
     bench = _di.run_benchmark()
-    for k in ("n_defects", "n_detected", "n_undetected", "detection_rate"):
+    # Third review P0-7 renamed these: controls are excluded from the defect counts and no
+    # coverage rate is emitted at all, so `n_detected`/`n_undetected`/`detection_rate` are gone.
+    for k in ("n_defects", "n_defects_detected", "n_defects_missed", "n_controls",
+              "n_controls_passed", "n_false_positives", "n_independent_groups",
+              "n_executable_mutations", "n_limitation_analyses"):
         out["defect:" + k] = float(bench[k])
 
     # Section 7.5 quotes the cross-model timescale comparison. Bind every quoted constant to the
