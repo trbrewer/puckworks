@@ -175,9 +175,28 @@ def _phrase_drift() -> list[str]:
     return problems
 
 
+#: Set when the front-matter check could not run for an ENVIRONMENT reason (not a drift).
+front_matter_unavailable = None
+
+
 def _front_matter() -> list[str]:
-    from tools import paper_a_front_matter as FM
-    return [f"front matter: {p}" for p in FM.check(FM.load())]
+    """Front-matter drift, if this environment can parse the YAML source.
+
+    pyyaml is a radar/dev extra. On the minimum-dependency lane it is absent, and this check
+    genuinely cannot run there. That is an environment limitation, NOT evidence of drift, so it is
+    RECORDED rather than reported as a failure -- reporting it as drift would make a lane that
+    cannot look claim to have found something. `report` mode prints the reason, and
+    `tests/test_paper_a_submission_contract.py` covers the check itself on lanes that have pyyaml.
+    """
+    global front_matter_unavailable
+    front_matter_unavailable = None
+    try:
+        from tools import paper_a_front_matter as FM
+        fm = FM.load()
+    except ImportError as exc:
+        front_matter_unavailable = f"pyyaml unavailable ({exc}); front-matter check not run"
+        return []
+    return [f"front matter: {p}" for p in FM.check(fm)]
 
 
 def _citations() -> list[str]:
@@ -275,8 +294,13 @@ def _release_state() -> list[str]:
     if not m.get("timestamp_utc"):
         problems.append("reproducibility manifest has no generation timestamp")
 
-    from tools import paper_a_front_matter as FM
-    problems += [f"unresolved submission metadata: {g}" for g in FM.submission_gaps(FM.load())]
+    # Same environment guard as _front_matter(). The release gate is only ever run where the
+    # release is actually being cut, but it must not crash on a minimal-dependency lane either.
+    try:
+        from tools import paper_a_front_matter as FM
+        problems += [f"unresolved submission metadata: {g}" for g in FM.submission_gaps(FM.load())]
+    except ImportError as exc:
+        problems.append(f"submission metadata not checked: pyyaml unavailable ({exc})")
 
     # The endpoint propagation must be ARCHIVED, not merely described. Checking for the artefact
     # rather than for a phrase is the difference between a gate and a spell-checker.
@@ -333,6 +357,8 @@ def main(argv: list[str] | None = None) -> int:
             print(f"  {name:34s} {'OK' if not found else str(len(found)) + ' problem(s)'}")
             for p in found:
                 print(f"      - {p}")
+        if front_matter_unavailable:
+            print(f"  {'front matter':34s} NOT RUN -- {front_matter_unavailable}")
         rel = _release_state()
         label = "OK" if not rel else f"{len(rel)} blocker(s)"
         print(f"  {'release state (submission only)':34s} {label}")

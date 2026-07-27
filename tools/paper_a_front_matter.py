@@ -20,8 +20,6 @@ from __future__ import annotations
 import pathlib
 import sys
 
-import yaml
-
 REPO = pathlib.Path(__file__).resolve().parents[1]
 SOURCE = REPO / "docs" / "submission" / "paper_a_front_matter.yaml"
 
@@ -42,6 +40,15 @@ REQUIRED_BEFORE_SUBMISSION = (
 
 
 def load() -> dict:
+    """Parse the single source.
+
+    `yaml` is imported HERE rather than at module scope: pyproject declares pyyaml a radar/dev
+    extra ("not a core dep"), and this module is reached transitively from
+    `tools/paper_a_consistency.py`, which in turn is exercised by a Paper 3 defect-injection case.
+    A module-scope import therefore turned an optional Paper 1 dependency into a hard requirement
+    for an unrelated Paper 3 guardrail on the minimum-dependency lane.
+    """
+    import yaml
     return yaml.safe_load(SOURCE.read_text(encoding="utf-8"))
 
 
