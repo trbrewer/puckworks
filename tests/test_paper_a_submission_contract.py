@@ -488,3 +488,33 @@ def test_abstract_numbers_are_consistent_with_the_body():
     assert "−0.725" in abstract or "-0.725" in abstract, (
         "the abstract must quote the clustered interval at the same three significant figures as "
         "the body; 2 dp reintroduces the rounding ambiguity")
+
+
+def test_every_main_figure_is_cited_in_the_text_and_in_order():
+    """Four main figures were defined, rendered and numbered — and cited nowhere.
+
+    `test_every_supplementary_item_is_cited_by_the_main_text` was added earlier in this round and
+    checks only SUPPLEMENTARY items, so S1–S4 were caught while Figures 1–4 were never examined.
+    A guard that covers one half of a problem reads, from its name and its green tick, as though it
+    covers the problem. Journals require every figure to be cited in the text, in order.
+    """
+    import re
+    from pathlib import Path
+
+    caps = (Path(__file__).resolve().parents[1] / "docs" / "figures"
+            / "PAPER_A_CAPTIONS.md").read_text(encoding="utf-8")
+    main = sorted({int(n) for n in re.findall(r"(?m)^\| Figure (\d) \|.*\*\*main\*\*", caps)}
+                  or {int(n) for n in re.findall(r"(?m)^### Figure (\d) \(", caps)})
+    assert main, "no main figures found in the caption map"
+
+    text = C.CONVERSION.read_text(encoding="utf-8")
+    order = [int(n) for n in re.findall(r"(?<!Supplementary )Figure (\d)\b", text)]
+    cited = set(order)
+    missing = sorted(set(main) - cited)
+    assert not missing, (
+        f"main figures defined and rendered but never cited in the text: {missing}. A journal "
+        f"requires every figure to be referenced")
+
+    first = [n for i, n in enumerate(order) if n not in order[:i]]
+    assert first == sorted(first), (
+        f"main figures are first cited out of order: {first}; they must appear 1, 2, 3, …")
