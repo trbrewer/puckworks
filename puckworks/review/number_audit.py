@@ -7,7 +7,10 @@ Papers 1 and 3 had no equivalent: Paper 1 prints ~563 numerals against 27 regist
 Paper 3 ~404. An unregistered number is an unchecked number, and it looks exactly like a checked
 one.
 
-Each numeral in the audited body is forced into one disposition:
+Each numeral in the audited body is forced into one disposition. `producer`, `archive` and `code`
+are all VERIFIED -- the manuscript's value is compared against something that computed it. `config`,
+`dataset` and `cited` are documented EXEMPTIONS: a human explanation, checked by nothing. The
+distinction is the point of the audit, so the two groups are counted separately:
 
 ``producer``    matches a registered claim, so a producer computes it
 ``config``      a declared protocol/configuration constant, registered with its source
@@ -247,8 +250,18 @@ def audit(spec: PaperSpec, path: Path | None = None) -> dict:
         if _in_span(m.start(), structural):
             disposition, why = "structural", "section/table/figure/count/year/DOI reference"
         elif token in spec.config_constants or raw in spec.config_constants:
-            disposition = "config"
             why = spec.config_constants.get(token) or spec.config_constants[raw]
+            # A value that is CHECKED against the record which produced it is not a config
+            # exemption, and must not be counted as one. Before this, binding a number changed its
+            # explanation but not its disposition, so the headline "producer-bound" figure did not
+            # move when the binding work was done -- a progress metric that cannot show progress,
+            # which is the same class of defect this audit exists to catch.
+            if why.startswith("ARCHIVE-BOUND"):
+                disposition = "archive"
+            elif why.startswith("CODE-BOUND"):
+                disposition = "code"
+            else:
+                disposition = "config"
         elif raw in spec.dataset_facts:
             disposition, why = "dataset", spec.dataset_facts[raw]
         elif raw in spec.cited_values:

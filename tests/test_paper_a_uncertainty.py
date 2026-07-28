@@ -446,7 +446,10 @@ def test_unbindable_slow_lane_values_are_declared_not_silent():
     from puckworks.paper_a import claim_coverage as C
     from puckworks.paper_a import slow_lane_bindings as B
 
-    assert B.UNBINDABLE, "the unbindable set is empty; every slow-lane value cannot be bound yet"
+    # An EMPTY set is the goal state, not a failure: every slow-lane value now resolves against a
+    # record. This assertion used to require the set to be non-empty, which was written on the
+    # assumption that some values could never be bound -- five of the eight originally declared
+    # unbindable turned out to be archived all along and merely mislabelled.
     for token, reason in B.UNBINDABLE.items():
         assert token in C.SLOW_LANE_RESULTS, (
             f"{token!r} is declared unbindable but is not a slow-lane result")
@@ -457,5 +460,11 @@ def test_unbindable_slow_lane_values_are_declared_not_silent():
                    ("no committed archive", "prose-only", "prose in", "not per-fold",
                     "nothing to resolve", "no committed record")), (
             f"{token!r}: the reason does not name what is missing -- {reason!r}")
-    assert not (set(B.BINDINGS) & set(B.UNBINDABLE)), (
-        "a value is both bound and declared unbindable")
+    bound = set(B.BINDINGS) | set(B.DERIVED) | set(B.CODE_CONSTANTS)
+    assert not (bound & set(B.UNBINDABLE)), "a value is both bound and declared unbindable"
+    # Nothing may be silently neither bound nor declared: every slow-lane result is one or the
+    # other, or it is counted as still-unbound by `binding_coverage()`.
+    from puckworks.paper_a import claim_coverage as CC
+    cov = CC.binding_coverage()
+    assert (cov["n_archive_bound"] + cov["n_declared_unbindable"] + cov["n_still_unbound"]
+            == cov["n_slow_lane"]), cov
