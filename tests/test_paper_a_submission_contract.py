@@ -413,3 +413,24 @@ def test_no_regex_fragments_or_duplicated_anchors_leaked_into_the_prose():
         # Regex metacharacter runs that cannot occur in ordinary prose or Markdown.
         for frag in (r".]*", r".)*", r"\1", r"(?:", r"(?m)", r"\s+"):
             assert frag not in text, f"{path.name}: regex fragment {frag!r} leaked into the prose"
+
+
+def test_the_manuscript_does_not_deny_data_it_uses():
+    """§5 said an empirical whole-cup comparison "is not available" two sentences after quoting
+    one, and `identifiability.py` reads `schmieder_cup_masses()` at brew ratio 1/3 to compute it.
+
+    Round-six P0-3. This is the hardest defect class to catch: the statement is not inconsistent
+    with any producer value, so no numeral or claim check touches it. It is a false statement ABOUT
+    the corpus, contradicted by a file sitting in the repository.
+    """
+    from puckworks import data as d
+
+    cups = [r for r in d.schmieder_cup_masses() if r.get("brew_ratio") == "1/3"]
+    assert cups, "the brew-ratio-1/3 cup measurements are gone; the §5 wording must be revisited"
+    solutes = {r["component"] for r in cups}
+    assert {"caffeine", "trigonelline", "5-CQA"} <= solutes, solutes
+
+    text = " ".join(C.CONVERSION.read_text(encoding="utf-8").split())
+    assert "empirical whole-cup comparison on this campaign is not available" not in text, (
+        "the manuscript denies whole-cup data that the repository holds and the same paragraph uses")
+    assert "Measured whole cups for this campaign ARE available" in text

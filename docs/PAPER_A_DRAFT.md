@@ -999,9 +999,16 @@ aggregate** — a duration-weighted mean of the six measured windows (fractions
 1,2,3,5,7,10). **This aggregate is not a whole cup:** a data-only audit
 (sampled-aggregate versus exact-cup comparison) shows it differs from the actual brew-ratio-1/3
 cup by **27.8 / 38.3 / 30.7 % MAPE** (caffeine / trigonelline / 5-CQA), so part of
-its flatness is a sampling artefact. An empirical whole-cup comparison on this campaign is
-not available (see Limitations); the exact-integral simulation below tests the same question under
-the model instead.
+its flatness is a sampling artefact. **Measured whole cups for this campaign ARE available** —
+`schmieder2023/cup_masses` carries per-replicate complete-cup concentrations at brew ratio 1/3 for
+caffeine, trigonelline, 5-CQA and TDS across all 15 experiments (3–6 replicates each), and the
+27.8 / 38.3 / 30.7 % figures just quoted are computed against exactly those measurements. An
+earlier version of this paragraph stated that an empirical whole-cup comparison was unavailable,
+two sentences after using one; that was wrong. What has **not** yet been run is the full
+fraction-versus-measured-cup rate-profile contrast — scoring the model against timed fractions and
+against measured complete cups over the same rate sweep. That contrast would replace a same-model
+simulation with a direct empirical one and is the natural strengthening of this section. The
+exact-integral simulation below tests the same question under the model in the meantime.
 
 **Table 6. Rate information by scoring target.** Minimum error and range ratio when scoring the time-resolved fractions against the sampled-fraction aggregate, per solute.
 
