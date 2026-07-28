@@ -12,7 +12,7 @@ Four panels on the null-first temporal ladder over the 15 to 95 second scoring w
 
 ## `fig3_cross_pressure`
 
-Four panels on cross-pressure assessment. Panel a shows per-pressure reconstruction error for the static, temporal and RC-3b branches against nominal pressure, with the band containing the primary 9-bar analysis marked; the best branch changes three times across the range. Panel b compares leave-one-pressure-out held-out errors, drawn with open markers, against shared-calibration errors for the same branches. Panel c shows the fitted equilibrium parameters when each pressure is omitted in turn, showing the calibration drift is small. Panel d shows the nominal setting against the recorded basket pressure at each condition, which is below nominal everywhere. The assessment is within-rig and conditional on a fixed dissolved-mass trajectory.
+Four panels on cross-pressure assessment. Panel a shows per-pressure reconstruction error for the static, temporal and RC-3b branches against nominal pressure, with the band containing the primary 9-bar analysis marked; the best branch changes three times across the range. Panel b compares leave-one-pressure-out equilibrium-calibration (LOPO-EC) errors -- only the equilibrium calibration point is omitted, the temporal inputs are retained -- drawn with open markers, against shared-calibration errors for the same branches. Panel c shows the fitted equilibrium parameters when each pressure is omitted in turn, showing the calibration drift is small. Panel d shows the nominal setting against the recorded basket pressure at each condition, which is below nominal everywhere. The assessment is within-rig and conditional on a fixed dissolved-mass trajectory.
 
 ## `fig4_residual_structure`
 

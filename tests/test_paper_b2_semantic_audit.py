@@ -62,6 +62,18 @@ PROHIBITED = [
      r"(?:spline|smoother|comparator) (?:is |was )?prespecified",
      "P1.1: no dated protocol predating result inspection is on record for the spline; use "
      "'fixed-architecture'"),
+    # Fifth review P0.4. "held-out pressure" describes LOPO-EC, which omits only the equilibrium
+    # CALIBRATION point and retains every temporal input. The main prose says so explicitly and
+    # then says "We avoid the bare term 'held-out' for it throughout" -- while the figure legend,
+    # the alt text, a claim label and a section heading did exactly that. A promise made in prose
+    # and broken on four other surfaces is the drift this audit exists to catch.
+    (r"held[- ]out pressure",
+     "P0.4: LOPO-EC omits the equilibrium-calibration point only, retaining the temporal inputs. "
+     "Say 'equilibrium-calibration point omitted' or 'LOPO-EC'"),
+    # Fifth review P0.6. The module is `puckworks.paper_b2.build`; `paper_b.build` was renamed in
+    # the round-three rename and the manuscript kept the old name in a copy-pasteable command.
+    (r"paper_b\.build",
+     "P0.6: the module is `puckworks.paper_b2.build`; `paper_b.build` does not exist"),
     # Fourth review 6.2. The Foster null contains ponding and a sharp wetting front advancing into
     # an initially dry bed (`docs/cards/foster2025.md`), so the wetted fraction and hydraulic path
     # length DO evolve. "machine-only" and "no evolving bed" claim more than the model supports,
@@ -102,7 +114,10 @@ _WITHDRAWAL = re.compile(
     r"mislabel|mislabelling|mislabeled|mislabelled|wrongly|incorrectly|erroneously|falsely|"
     # `overstat` needs a suffix wildcard: `overstat\b` never matched, because every real spelling
     # continues -- overstates, overstated, overstating. The alternative was silently dead.
-    r"mistakenly|overstat\w*|overclaim\w*)\b", re.I)
+    # `defect` and `bug` are disavowals: a sentence calling a statement a defect is not making it.
+    # Deliberately NOT `error` -- this paper's vocabulary is full of "reconstruction error" and
+    # "RMSE error", so admitting it would blow a hole in every pattern at once.
+    r"mistakenly|overstat\w*|overclaim\w*|defect\w*|\bbugs?)\b", re.I)
 
 
 #: Sentence boundary. Deliberately includes `;` and `:` because the withdrawals in these files are

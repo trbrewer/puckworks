@@ -1,6 +1,6 @@
 {
   "paper": "B",
-  "source_commit": "825b69c459d1a5120d28b1bc570bdd4c522f48e8",
+  "source_commit": "d910094066923a50a8099bebe27d66c94ba0147e",
   "git_dirty": true,
   "timestamp_utc": null,
   "bundle_source_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
@@ -110,7 +110,7 @@
       "ok": true
     },
     {
-      "claim": "LOPO held-out Phi ~0.347",
+      "claim": "LOPO-EC Phi (equilibrium point omitted, temporal inputs retained) ~0.347",
       "path": "loco.heldout_mean.phi",
       "expected": 0.347,
       "actual": 0.347,

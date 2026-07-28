@@ -90,7 +90,9 @@ ALT_TEXT = {
         "Four panels on cross-pressure assessment. Panel a shows per-pressure reconstruction error "
         "for the static, temporal and RC-3b branches against nominal pressure, with the band "
         "containing the primary 9-bar analysis marked; the best branch changes three times across "
-        "the range. Panel b compares leave-one-pressure-out held-out errors, drawn with open "
+        "the range. Panel b compares leave-one-pressure-out equilibrium-calibration (LOPO-EC) "
+        "errors -- only the equilibrium calibration point is omitted, the temporal inputs are "
+        "retained -- drawn with open "
         "markers, against shared-calibration errors for the same branches. Panel c shows the "
         "fitted equilibrium parameters when each pressure is omitted in turn, showing the "
         "calibration drift is small. Panel d shows the nominal setting against the recorded basket "
@@ -394,7 +396,7 @@ def fig3_cross_pressure(outdir=OUTDIR, bundle=None):
     ax.set_xlabel("nominal pressure (bar)"), ax.set_ylabel("RMSE (g s$^{-1}$)")
     ax.legend(fontsize=6.8)
 
-    # -- b: held-out vs shared calibration ----------------------------------------------
+    # -- b: LOPO-EC (equilibrium-calibration point omitted) vs shared calibration ----------
     ax = axes[0, 1]
     keys = [s[0] for s in styles]
     xs = np.arange(len(keys))
@@ -402,7 +404,7 @@ def fig3_cross_pressure(outdir=OUTDIR, bundle=None):
            color=[s[2] for s in styles], label="shared calibration")
     ax.bar(xs + 0.18, [lo["heldout_mean"][k] for k in keys], width=0.34,
            facecolor="white", edgecolor=[s[2] for s in styles], linewidth=1.6, hatch="//",
-           label="leave-one-pressure-out (held out)")
+           label="LOPO-EC (equilibrium point omitted)")
     for x, k in zip(xs, keys):
         ax.text(x - 0.18, lo["shared_calibration_mean"][k] + 0.008,
                 "%.3f" % lo["shared_calibration_mean"][k], ha="center", fontsize=6.6)
