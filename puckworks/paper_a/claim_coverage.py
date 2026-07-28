@@ -247,9 +247,43 @@ def _bundle():
 BASELINE_UNACCOUNTED = 0
 
 
+def binding_coverage() -> dict:
+    """How many slow-lane results are CHECKED against their archive, versus merely described.
+
+    This is the number that says whether the review process is converging. Before the binding
+    sweep it was 0 of 75.
+    """
+    from puckworks.paper_a import slow_lane_bindings as SLB
+
+    bound = sorted(set(SLOW_LANE_RESULTS)
+                   & (set(SLB.BINDINGS) | set(SLB.DERIVED) | set(SLB.CODE_CONSTANTS)))
+    declared = sorted(set(SLOW_LANE_RESULTS) & set(SLB.UNBINDABLE))
+    unbound = sorted(set(SLOW_LANE_RESULTS) - set(bound) - set(declared))
+    return dict(n_slow_lane=len(SLOW_LANE_RESULTS), n_archive_bound=len(bound),
+                n_declared_unbindable=len(declared), n_still_unbound=len(unbound),
+                archive_bound=bound, declared_unbindable=declared, still_unbound=unbound)
+
+
 def _spec(manuscript=None):
     cfg = dict(CONFIG_CONSTANTS)
-    cfg.update({k: "SLOW LANE: " + v for k, v in SLOW_LANE_RESULTS.items()})
+    # Slow-lane values are labelled by whether they are actually CHECKED against the archived run
+    # or merely described by a sentence. Before the 2026-07-28 binding sweep every one of them read
+    # "SLOW LANE: ..." regardless, so a verified number and an unverifiable one were indis-
+    # tinguishable in the audit -- which is how stale numbers survived five review rounds.
+    from puckworks.paper_a import slow_lane_bindings as SLB
+    for k, v in SLOW_LANE_RESULTS.items():
+        if k in SLB.CODE_CONSTANTS:
+            m, a, _k, _ = SLB.CODE_CONSTANTS[k]
+            cfg[k] = f"CODE-BOUND ({m}.{a}): {v}"
+        elif k in SLB.DERIVED:
+            cfg[k] = f"ARCHIVE-BOUND (derived over {SLB.DERIVED[k][0]}): {v}"
+        elif k in SLB.BINDINGS:
+            archive, path = SLB.BINDINGS[k][0], SLB.BINDINGS[k][1]
+            cfg[k] = f"ARCHIVE-BOUND ({archive}:{path}): {v}"
+        elif k in SLB.UNBINDABLE:
+            cfg[k] = f"SLOW LANE (UNBINDABLE -- {SLB.UNBINDABLE[k]}): {v}"
+        else:
+            cfg[k] = "SLOW LANE (UNBOUND): " + v
     return NA.PaperSpec(
         name="Paper 1 claim coverage",
         manuscript=manuscript or MANUSCRIPT,

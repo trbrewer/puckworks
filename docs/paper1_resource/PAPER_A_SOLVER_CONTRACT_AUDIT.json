@@ -1,0 +1,25 @@
+{
+  "audit": "Paper 1 round-6 P0-1 and P0-2: solver contract vs the Pannusch/Schmieder source",
+  "question": "The review reported two solver-contract defects: (P0-1) manuscript and code use Reynolds definitions differing by a factor alpha_l^2 ~ 34.6, and (P0-2) `flow_mL_s` is converted as though it were mass flow, making velocity and collected volume 2.041% high. It asked us to fix the code and rerun every headline analysis.",
+  "what_we_checked": "The original MATLAB implementation is available locally (the article's own Data Repository, MATLAB_Code/). Both questions were settled against it rather than against our reading of the paper.",
+  "P0_2_flow_conversion": {
+    "source_line": "simulation_Fit2.m:3   q = flow ./ 1000 ./ paramPh.rho ./ paramPh.Acs; %[m/s]",
+    "our_line": "solver.py:98          q = flow_mL_s / 1000.0 / RHO / ACS",
+    "verdict": "IDENTICAL. Our port is faithful; the density division is the SOURCE's own.",
+    "volume_accumulator": "The source's accumulator is also identical -- pde_coffee_extraction_fd_Fit2.m:50  ct(indVol,1) = q .* (pi/4*paramPh.dbed^2) .* t_c .* 1e6 -- so the 2.041% is the source's behaviour, not a porting error.",
+    "n_source_call_sites": 7,
+    "implication": "The source treats its `flow` column as MASS flow in g/s: g/s / 1000 = kg/s, /rho = m^3/s, /A = m/s. The column is LABELLED mL/s in the paper, our card and our MANIFEST. The inconsistency is in the LABEL, not the arithmetic.",
+    "why_the_reviews_fix_would_have_been_wrong": "Removing the density division would (a) break fidelity to the source, and (b) invalidate every archived fitted parameter -- A_x,i, B_x,i, K_ref, gamma and c_s0 were all estimated by the source UNDER THIS CONVENTION. The headline numbers would change, and change for the worse.",
+    "bonus_resolution": "This also settles the manuscript's long-standing '40 g source endpoint vs 40 mL modelled proxy' tension in the opposite direction from the one assumed: the solver's accumulator, inherited from the source, is ALREADY a mass-equivalent volume at rho = 980 kg/m^3. A nominal 40 unit endpoint is 40 g, not 40 mL."
+  },
+  "P0_1_reynolds": {
+    "source_line": "SherwoodFunction.m   Re = paramPh.d32 .* q ./ kin_vis;   % q superficial",
+    "our_line": "closures.py:67        Re = d32 * np.asarray(q, float) / kin_vis",
+    "verdict": "IDENTICAL. Our port is faithful; the code uses SUPERFICIAL velocity, as the source does.",
+    "card_says": "docs/cards/pannusch2024.md line 40: Re = d32 v_l rho(T)/(alpha_l eta(T)), with v_l the INTERSTITIAL velocity (Eq. 4: v_l = Q/(A_cs alpha_l)). Substituting gives Re = d32 q rho/(alpha_l^2 eta), i.e. alpha_l^-2 ~ 34.6x the implemented value.",
+    "verdict_on_the_conflict": "The CARD/manuscript equation does not describe the source implementation. The code is right; the documentation is wrong.",
+    "corroboration": "The review's own audit supports this: forcing the manuscript's Reynolds magnitude while holding the archived parameters fixed raised reconstruction MAPE from ~6-10% to 44-60%. That is exactly what is expected if the fitted A/B were estimated under the source's superficial-velocity convention -- which they were."
+  },
+  "action_taken": "NO numerical change. The code is not altered, and no headline analysis is rerun, because nothing about the computation was wrong. The documentation is corrected to describe what the source and the port actually do, and contract tests now pin the source-faithful convention so a future reader cannot 'fix' it into divergence.",
+  "residual_risk": "The source's own labelling remains internally inconsistent (a column called mL/s consumed as g/s). That is the source's issue, not ours, but the manuscript must state the density assumption explicitly rather than inherit the ambiguity silently."
+}
