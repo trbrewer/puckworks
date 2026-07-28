@@ -122,7 +122,15 @@ BINDINGS: dict[str, tuple] = {
     "0.99": (PANELS, "panel_caffeine.local_curvature_coupling", _abs, 0, 5e-3),
     "5.1": (PANELS, "loco.condition_cluster_resampling95.0", None, 0, 5e-2),
     "8.3": (PANELS, "loco.condition_cluster_resampling95.1", None, 0, 5e-2),
-    "2.8": (PANELS, "loco.per_fit.Arabica:caffeine.loco_median", None, 0, 5e-2),
+    # The flow-map perturbation DOES write a record -- the committed figure bundle carries every
+    # perturbation. These two were declared unbindable on the assumption that it did not.
+    "0.71": (PANELS, ("flow_map_sensitivity_transfer", "per_perturbation", "-0.2", "fitted_rate"),
+             None, 0, 5e-3),
+    "0.88": (PANELS, ("flow_map_sensitivity_transfer", "per_perturbation", "0.0", "fitted_rate"),
+             None, 0, 5e-3),
+    "0.6": (PANELS, "geometry_sensitivity.max_geometry_spread_pp", None, 0, 5e-2),
+    "2000": (PANELS, "identifiability_convergence.rows.3.condition_number", None, 0.02, 0),
+    "2100": (PANELS, "identifiability_convergence.rows.1.condition_number", None, 0.02, 0),
     "2.6": (DIFFUSIVITY,
             "numerical_check_arabica_caffeine_optimal_grind.argmin_ratio_predicted", None, 0, 0.4),
 }
@@ -142,9 +150,6 @@ UNBINDABLE: dict[str, str] = {
            "same exposure as 8.5.",
     "32.7": "worst individual LOCO fold (Robusta 5-CQA). The LOCO producer archives pooled and "
             "per-group summaries but not per-fold values, so there is nothing to resolve against.",
-    "0.71": "fitted rate BEFORE the flow-map perturbation. The perturbation study writes no "
-            "committed record; only the manuscript carries the pair.",
-    "0.88": "fitted rate AFTER the flow-map perturbation. No committed record, as for 0.71.",
     "0.73": "conditions-within-group clustered lower bound as reported by the STANDALONE P0-5 "
             "bootstrap (B=8000, seed 0), which is prose-only in PAPER_A_P0-5_RESULTS.md. It is "
             "NOT bindable to the endpoint-propagation archive, whose 40 mL row gives -0.725 for "
@@ -155,6 +160,22 @@ UNBINDABLE: dict[str, str] = {
 #: quantity. Found by the binding sweep on its first pass, without rerunning anything. Recorded
 #: rather than reconciled, because choosing between them is an authorial decision about which run
 #: the paper reports -- not something a binding table should decide silently.
+OPEN_QUESTIONS: dict[str, str] = {
+    "full-cup simulation values quoted in the manuscript are not in the committed bundle": (
+        "The manuscript quotes full-cup simulation figures -- caffeine minimum fraction MAPE 6.0 %, "
+        "trigonelline 10.0 %, trigonelline aggregate minimum 3.6 %, fraction range ratios 4.1 and "
+        "4.4, sampled-aggregate range ratios 1.2 and 1.4. The committed figure bundle's "
+        "`full_cup_sim.per_solute` holds NONE of these: its minimum fraction MAPE is 2.35 % for "
+        "every solute (2.34 % on the seeded mean), its exact-cup range ratios are 1.47/1.48/1.71 "
+        "and its fraction range ratios are 9.8/20.27/13.15.\n\n"
+        "Either the manuscript is quoting a different producer -- `full_cup_discrepancy`, "
+        "`full_cup_discrepancy_large` or `full_cup_offgrid_noise` are all in the bundle and were "
+        "not checked -- or these numbers are stale. This is NOT resolved here: binding them to "
+        "whichever archive happens to contain a matching value is exactly the coincidence-matching "
+        "error this module exists to avoid. It needs someone to say which producer the paper "
+        "means."),
+}
+
 DISCREPANCIES: dict[str, str] = {
     "conditions-within-group clustered lower bound at 40 mL": (
         "PAPER_A_P0-5_RESULTS.md reports -0.73 (standalone clustered bootstrap, B=8000, seed 0); "
@@ -195,6 +216,11 @@ DERIVED: dict[str, tuple] = {
     "0.06": (ENDPOINT,
              lambda d: (max(abs(r["paired_difference_pp"]) for r in d["rows"])
                         - min(abs(r["paired_difference_pp"]) for r in d["rows"])), 0, 5e-3),
+    # "lowest / highest per solute x variety held-out median" -- an extremum over the six groups.
+    "2.8": (PANELS, lambda d: min(v["loco_median"] for v in d["loco"]["per_fit"].values()),
+            0, 5e-2),
+    "8.8": (PANELS, lambda d: max(v["loco_median"] for v in d["loco"]["per_fit"].values()),
+            0, 5e-2),
     "31": (OBJECTIVE, _set_fraction(min), 0, 0.5),
     "100": (OBJECTIVE, _set_fraction(max), 0, 0.5),
     # (archive, callable over the whole document, rel, abs)
@@ -207,9 +233,14 @@ DERIVED: dict[str, tuple] = {
 }
 
 
-def _resolve(doc, path: str):
+def _resolve(doc, path):
+    """Resolve a dotted path, or a tuple of segments.
+
+    A tuple is required whenever a key CONTAINS a dot -- the flow-map perturbation is keyed by the
+    fractional scale ("-0.2", "0.0"), which a dotted string would split into nonsense.
+    """
     cur = doc
-    for seg in path.split("."):
+    for seg in (path if isinstance(path, tuple) else path.split(".")):
         if isinstance(cur, list):
             cur = cur[int(seg)]
         else:
