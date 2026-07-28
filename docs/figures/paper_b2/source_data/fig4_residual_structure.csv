@@ -1,5 +1,5 @@
-branch,lag1_acf,durbin_watson,power_in_slowest_quarter,dominant_period_s
-rung1_const,0.9579,0.0049,0.9571,80.0
-rung3_static,0.9579,0.0038,0.9571,80.0
-rung4_phi_of_t,0.9687,0.0468,0.9897,40.0
-flexible_cubic,0.9041,0.0667,0.954,40.0
+branch,lag1_acf,durbin_watson,power_in_slowest_quarter_of_available_bins,peak_bin_index_k,frequency_resolution_hz,peak_bin_period_s_window_property
+rung1_const,0.9579,0.0049,0.9571,1,0.0125,80.0
+rung3_static,0.9579,0.0038,0.9571,1,0.0125,80.0
+rung4_phi_of_t,0.9687,0.0468,0.9897,2,0.0125,40.0
+flexible_cubic,0.9041,0.0667,0.954,2,0.0125,40.0

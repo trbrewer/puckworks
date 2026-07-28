@@ -14,8 +14,9 @@
 **complete** — the previous status line here still listed "final weighted-uncertainty reruns" as
 owed, which was obsolete. What genuinely remains is author metadata (names, affiliations,
 corresponding author, ORCIDs, CRediT, funding, competing interests, AI declaration), the
-licensed/indexed novelty search, the archival release DOI, the 38/40/42 mL endpoint propagation,
-and a clean typeset source. Run `python tools/paper_a_front_matter.py --check-submission-ready`
+licensed/indexed novelty search, the archival release DOI, and a clean typeset source. The
+38/40/42 mL endpoint propagation and the PDE discretisation convergence study are **complete**
+and archived; they were listed here as outstanding after they had already been run. Run `python tools/paper_a_front_matter.py --check-submission-ready`
 for the current enumerated list rather than reading it from prose.
 
 ## Venue limits

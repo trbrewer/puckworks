@@ -12,22 +12,90 @@ BADGES = ("OBSERVED", "RECONSTRUCTED", "PREDICTED", "EXPLORATORY_SIMULATION")
 # (puckworks.registry.EVIDENCE_STRENGTHS) and these are six spaced lay terms. Paper 3 review P0-2
 # flagged the three drifting vocabularies; the mapping below makes the relationship explicit and
 # testable instead of implied.
-EVIDENCE_STRENGTHS = ("independent", "post-fit reconstruction", "verification",
+#: Public relation terms, weakest to strongest. `independent` and `held out within the same
+#: campaign` are SEPARATE terms: collapsing them was the manuscript's own design argument reversed
+#: at the presentation layer (fourth review P0-4). A same-campaign holdout is a real evaluation, but
+#: it is not independent, and the public surface must not say it is.
+#:
+#: `negative validation` and `reference` are retained because published artifacts carry them.
+EVIDENCE_STRENGTHS = ("independent", "held out within the same campaign",
+                      "same campaign, not held out", "post-fit reconstruction",
+                      "source-curve reproduction", "verification",
                       "qualitative", "reference", "negative validation")
 
-#: registry relation -> public lay term. Many-to-one BY DESIGN: the public surface deliberately
-#: does not expose the registry's finer distinctions.
+#: registry relation -> public lay term. The mapping is still lossy in places, but only where the
+#: distinction it drops is not one the paper argues about; every evaluation-DESIGN distinction the
+#: badge depends on is preserved. `REGISTRY_TO_PUBLIC` and its inverse are used to derive a claim's
+#: relation summary from its SELECTED evidence -- the field is no longer purely authored.
 REGISTRY_TO_PUBLIC = {
     "controlled_independent": "independent",
-    "within_campaign_held_out": "independent",
+    "within_campaign_held_out": "held out within the same campaign",
+    "same_campaign_not_held_out": "same campaign, not held out",
     "post_fit_reconstruction": "post-fit reconstruction",
-    "source_curve_reproduction": "post-fit reconstruction",
+    "post_fit_same_data": "post-fit reconstruction",
+    "source_curve_reproduction": "source-curve reproduction",
     "code_verification": "verification",
     "sign_or_compatibility": "qualitative",
     "qualitative_capacity": "qualitative",
     "exploratory_synthesis": "qualitative",
     "proposed_experiment": "reference",
 }
+
+#: Public relations ordered weakest -> strongest, for deciding what a selection SUPPORTS. A claim
+#: may state a relation no stronger than its strongest selected record.
+_PUBLIC_RELATION_ORDER = ("reference", "qualitative", "verification",
+                          "source-curve reproduction", "post-fit reconstruction",
+                          "same campaign, not held out", "held out within the same campaign",
+                          "independent")
+
+
+#: Selection roles whose evidence CAPS the claim's public relation. A model that only supplies a
+#: comparator the finding is read against does not bound how well the finding itself was measured
+#: -- the same principle the badge derivation already applies (`LICENSING_ROLES`). Ignoring this
+#: would falsely downgrade a measured claim to the evidence tier of its comparator.
+_RELATION_CAPPING_ROLES = ("produces_reported_value", "diagnosed_subject")
+
+
+def relation_summary(claim):
+    """``(public_relations, registry_relations)`` derived from the claim's SELECTED evidence.
+
+    Fourth review P0-4: `evidence_strength` was a mandatory authored string that `validate()`
+    checked only for vocabulary membership. A claim could state `independent` while selecting a
+    single `code_verification` record and validate cleanly. The detail is returned alongside the
+    public terms so the evaluation-design distinction stays visible rather than being flattened
+    into one scalar.
+
+    Every selected record appears in the summary, whatever its role, because the summary is a
+    description of what was selected. The narrower question of what the selection *caps* is
+    `strongest_supported_relation`.
+    """
+    registry = sorted({e.get("relation") for e in claim.selected_evidence()
+                       if e.get("relation")})
+    public = sorted({REGISTRY_TO_PUBLIC[r] for r in registry if r in REGISTRY_TO_PUBLIC},
+                    key=lambda p: _PUBLIC_RELATION_ORDER.index(p)
+                    if p in _PUBLIC_RELATION_ORDER else -1)
+    return tuple(public), tuple(registry)
+
+
+def strongest_supported_relation(claim):
+    """The strongest public relation the claim's LICENSING selections support.
+
+    Returns None when no selection is in a capping role -- meaning the component evidence does not
+    bound this claim's relation at all, because the claim rests on a dataset or producer and the
+    components it names only supply context. That is not a licence to say anything: it means the
+    cap comes from elsewhere and this function must not be read as endorsement.
+    """
+    capping = {s.dependency_ref for s in claim.evidence_selections
+               if s.role_in_claim in _RELATION_CAPPING_ROLES}
+    if not capping:
+        return None
+    relations = {e.get("relation") for e in claim.selected_evidence()
+                 if e.get("dependency") in capping and e.get("relation")}
+    ranked = [REGISTRY_TO_PUBLIC[r] for r in relations
+              if REGISTRY_TO_PUBLIC.get(r) in _PUBLIC_RELATION_ORDER]
+    if not ranked:
+        return None
+    return max(ranked, key=_PUBLIC_RELATION_ORDER.index)
 
 #: OUTCOME is a separate field from RELATION (Paper 3 §5, axis 2). `negative validation` is a
 #: LEGACY COMPOUND: it encodes a *failed outcome*, not a kind of comparison, and the manuscript
@@ -146,6 +214,12 @@ class ClaimEvidenceSelection:
 #: What a component contributes to a claim. The badge describes how the claim's REPORTED VALUE was
 #: produced, so a model that only supplies a comparator the finding is stated against does not turn
 #: a measured result into a model output.
+#: Dependency roles that do NOT license the claim and therefore need no evidence selection. A
+#: dependency in one of these roles is named for navigation -- it is machinery the analysis ran
+#: through, not support the assertion rests on. Declaring one is an explicit act: the default for
+#: an unscoped component dependency is a validation error, not this.
+CONTEXT_ONLY_ROLES = ("context_only", "tooling_only")
+
 LICENSING_ROLES = (
     "produces_reported_value",   # the model output IS the number the claim reports
     "comparator_context",        # supplies a reference/timescale the measured finding is read against
@@ -308,11 +382,17 @@ class PublicClaim:
     source_commit: str | None = None            # DEPRECATED alias of generated_from_commit
     generated_from_commit: str | None = None    # immutable: the commit the payload was produced at
     last_verified_against_commit: str | None = None   # mutable: most recent successful verification
+    #: Content hash over everything the claim ASSERTS, excluding the three provenance stamps above.
+    #: It is what makes "immutable generation commit" auditable: the exporter may carry a previous
+    #: generation commit forward only while this hash is unchanged (fourth review P0-8). Stamped by
+    #: `puckworks.public.export.regenerate`.
+    payload_sha256: str | None = None
     # --- identified dependencies + their scoped evidence (step 0 + P0-4 option b) -----------
     dependencies: tuple = ()        # Dependency records; `components` is derived from these
     #: Third review P0-1. Which of the dependencies' evidence records actually license THIS claim.
     #: A claim does not ingest a whole component evidence vector; it selects. Empty means the claim
-    #: has not yet been scoped, which `validate()` reports rather than tolerating silently.
+    #: has not yet been scoped: `validate()` rejects it unless every component dependency is
+    #: declared context-only, and `evidence_profile()` returns nothing rather than the inventory.
     evidence_selections: tuple = ()
     outcome: str = "supported"      # supported | negative | indeterminate -- an OUTCOME axis,
                                     # separate from the relation, so "negative validation" no
@@ -348,14 +428,30 @@ class PublicClaim:
                      if (e["dependency"], e["evidence_id"]) in chosen)
 
     def evidence_profile(self):
-        """The claim's evidence profile.
+        """The claim's evidence profile: ONLY the records this claim selects.
 
-        Once selections exist this returns ONLY the selected records. Before P0-1 it returned every
-        record of every dependency, so a component with code verification on one output and source
-        reproduction on another contributed both labels to any claim naming it. One level deep --
-        the dependencies' own dependencies are not walked -- so it is a profile, not a transitive
-        closure, and the manuscript says so."""
-        return self.selected_evidence() if self.evidence_selections else self.evidence_inventory()
+        This used to fall back to `evidence_inventory()` when a claim had no selections, which
+        silently restored the whole-inventory inheritance the design exists to prevent: a claim
+        with a component dependency and no selections serialised its component's entire evidence
+        inventory under a field named `evidence_profile` (fourth review P0-3). There is no
+        fallback now. An unscoped component dependency is a validation error, and a claim that has
+        not been scoped has an EMPTY profile rather than an inherited one.
+
+        One level deep -- the dependencies' own dependencies are not walked -- so it is a profile,
+        not a transitive closure, and the manuscript says so.
+        """
+        return self.selected_evidence()
+
+    def relation_detail(self):
+        """``{"public": (...), "registry": (...), "supported_cap": str|None}``.
+
+        The public scalar is lossy by design; this keeps the evaluation-design distinctions the
+        paper argues about visible next to it, so `held out within the same campaign` is never
+        read as `independent` (fourth review P0-4).
+        """
+        public, registry = relation_summary(self)
+        return {"public": public, "registry": registry,
+                "supported_cap": strongest_supported_relation(self)}
 
     def derived_badge(self):
         """``(badge, rationale, limiting_dependency)`` computed from the selected evidence."""
@@ -405,12 +501,31 @@ class PublicClaim:
                 if eid not in available:
                     errs.append(f"{self.claim_id}: selected evidence {eid!r} does not belong to "
                                 f"dependency {s.dependency_ref!r}")
-        # every load-bearing component must be covered by a selection, or the claim is inheriting
-        # its component's whole inventory again
-        if self.evidence_selections:
-            for ref in sorted(model_deps - selected_refs):
-                errs.append(f"{self.claim_id}: component dependency {ref!r} is load-bearing but "
-                            f"no evidence is selected for it")
+        # Every component dependency must be SCOPED: either covered by a selection, or explicitly
+        # declared context-only and non-licensing. The check used to be conditional on
+        # `self.evidence_selections` being non-empty, so a claim with NO selections at all skipped
+        # it entirely -- the one case where inheritance actually happened (fourth review P0-3).
+        for ref in sorted(model_deps - selected_refs):
+            dep = by_ref[ref]
+            if dep.role in CONTEXT_ONLY_ROLES:
+                continue
+            errs.append(f"{self.claim_id}: component dependency {ref!r} is load-bearing but no "
+                        f"evidence is selected for it. Select the records that license this "
+                        f"claim, or declare the dependency context-only by setting its role to "
+                        f"one of {CONTEXT_ONLY_ROLES}")
+
+        # (3d) FOURTH REVIEW P0-4 -- the authored public relation may not exceed what the
+        # LICENSING selections support. Validation previously checked vocabulary membership only,
+        # so a claim could state `independent` while selecting a single code-verification record.
+        cap = strongest_supported_relation(self)
+        if cap is not None and self.evidence_strength in _PUBLIC_RELATION_ORDER:
+            if (_PUBLIC_RELATION_ORDER.index(self.evidence_strength)
+                    > _PUBLIC_RELATION_ORDER.index(cap)):
+                errs.append(
+                    f"{self.claim_id}: evidence_strength {self.evidence_strength!r} is stronger "
+                    f"than the selected licensing evidence supports ({cap!r}; selected relations "
+                    f"{relation_summary(self)[1]}). State the supported relation, or select the "
+                    f"records that license the stronger one")
 
         # (3c) THIRD REVIEW P0-2 -- the badge must be DERIVED, not authored.
         try:

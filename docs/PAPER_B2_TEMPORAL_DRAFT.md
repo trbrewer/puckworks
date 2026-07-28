@@ -8,7 +8,7 @@
 
 ## Abstract
 
-Time-resolved espresso outlet flow integrates machine response, pressure boundary conditions, wetting, evolving bed resistance, extraction, and measurement processing, so similar curve shapes need not imply the same mechanism. We use a null-first comparison to ask whether a measured trace requires time-varying predictions relative to specified time-invariant branches, and whether that requirement identifies a bed process. A published pump–headspace–infiltration model first demonstrates that a mid-shot flow minimum can arise without an evolving bed. We then analyse the differentiated, approximately 3 s-smoothed, aligned, interpolated mean of five nominal 9-bar brews over 15–95 s. The best constant and a static pressure-dependent poroelastic branch have RMSEs of 0.573 and 0.648 g s⁻¹. A dissolution-linked empirical Φ(t) trajectory, whose temporal input is partly derived from the same campaign flow, has RMSE 0.116 g s⁻¹; a four-parameter cubic fitted and scored on the same mean trace has RMSE 0.096 g s⁻¹. At the shot level, Φ(t) improves on the constant and static branches in all five brews, by mean paired differences of 0.390 and 0.472 g s⁻¹. The exact two-sided sign-flip p-value is 0.0625 — the smallest attainable with five nonzero paired differences — so we emphasise effect size and directional consistency rather than significance. A fixed-architecture empirical template trained on the other four brews, and fully held out, predicts the omitted brew with mean RMSE 0.186 g s⁻¹, against 0.189 g s⁻¹ for the partly target-informed Φ(t) trajectory, with the five paired differences split two to three; the named closure therefore shows no new-shot predictive advantage. Across the eleven tested nominal pressure settings the best-reconstructing branch varies, with Φ(t) lowest at 7, 8, 9 and 11 bar only, and scoring all 57 included shots individually rather than averaging pressure-level mean curves raises every branch's error. Residuals remain strongly structured, with power concentrated at low frequencies. We conclude that time-varying predictions are required relative to the tested time-invariant branches, but that the integrated flow curve does not identify the responsible mechanism. Pressure steps, flow reversal, spent-puck rebrewing, and spatial state measurements provide more discriminating tests than further unconstrained fits to the same trajectory.
+Time-resolved espresso outlet flow integrates machine response, pressure boundary conditions, wetting, evolving bed resistance, extraction, and measurement processing, so similar curve shapes need not imply the same mechanism. We use a null-first comparison to ask whether a measured trace requires time-varying predictions relative to specified time-invariant branches, and whether that requirement identifies a bed process. A published pump–headspace–sharp-front-infiltration model first demonstrates that a mid-shot flow minimum can arise without any extraction-driven change in bed structure. Its wetted fraction and hydraulic path length do evolve, through sharp-front infiltration into an initially dry bed; what it holds fixed is the saturated-bed constitutive law, free of swelling, fines migration, particle rearrangement and damage-induced permeability evolution. We then analyse the differentiated, approximately 3 s-smoothed, aligned, interpolated mean of five nominal 9-bar brews over 15–95 s. The best constant and a static pressure-dependent poroelastic branch have RMSEs of 0.573 and 0.648 g s⁻¹. A dissolution-linked empirical Φ(t) trajectory, whose temporal input is partly derived from the same campaign flow, has RMSE 0.116 g s⁻¹; a four-parameter cubic fitted and scored on the same mean trace has RMSE 0.096 g s⁻¹. At the shot level, Φ(t) improves on the constant and static branches in all five brews, by mean paired differences of 0.390 and 0.472 g s⁻¹. The exact two-sided sign-flip p-value is 0.0625 — the smallest attainable with five nonzero paired differences — so we emphasise effect size and directional consistency rather than significance. A fixed-architecture empirical template trained on the other four brews, and fully held out, predicts the omitted brew with mean RMSE 0.186 g s⁻¹, against 0.189 g s⁻¹ for the partly target-informed Φ(t) trajectory, with the five paired differences split two to three; the named closure therefore shows no new-shot predictive advantage. Across the eleven tested nominal pressure settings the best-reconstructing branch varies, with Φ(t) lowest at 7, 8, 9 and 11 bar only, and scoring the 56 distinct shots individually rather than averaging pressure-level mean curves raises every branch's error (Φ(t) 0.335–0.343 to 0.364 g s⁻¹). Residuals remain strongly structured, with power concentrated at low frequencies. We conclude that time-varying predictions are required relative to the tested time-invariant branches, but that the integrated flow curve does not identify the responsible mechanism. Pressure steps, flow reversal, spent-puck rebrewing, and spatial state measurements provide more discriminating tests than further unconstrained fits to the same trajectory.
 
 **Keywords:** espresso; porous media; inverse problems; model discrimination; model comparison; temporal dynamics; permeability; poroelasticity; block resampling; experiment design
 
@@ -18,11 +18,11 @@ A time trace is richer than a final cup measurement, but it is not automatically
 
 Several published model lineages make this ambiguity concrete. Foster et al. coupled a pump characteristic, trapped-air headspace, and sharp-front infiltration and obtained a flow minimum without extraction, swelling, fines transport, or particle rearrangement [1]. Waszkiewicz et al. developed a poroelastic equilibrium pressure–flow relation and a time-dependent extension in which a stress-free porosity scale follows dissolved mass [2]. Mo et al. modeled water uptake by coffee particles, bed-porosity reduction, and Carman–Kozeny throttling [3]. Fasano, Talamucci, and Petracco analyzed fines removal, compact-layer formation, porosity evolution, and pressure-history effects in a family of one-dimensional free-boundary models [4]. Each model is scientifically meaningful within its assumptions, yet their state variables and boundary conditions differ enough that “the model reproduces the curve” is not a symmetric or identifying comparison. Integrated modeling and experiment have also been used to connect espresso process variables with extraction outcomes [5].
 
-The present study adopts a null-first strategy. A candidate mechanism should first be compared with the simplest model class capable of expressing the relevant observable. If a machine-only model can generate the shape, the shape is not uniquely attributable to the bed. If every static bed model leaves a large coherent residual but a temporal model reduces it, the evidence supports temporal flexibility relative to those static nulls. If a flexible, non-mechanistic time function performs as well as a mechanistic trajectory, fit quality alone does not identify the mechanism. Mechanistic discrimination must then come from parameter provenance, held-out conditions, sign constraints, independently measured state variables, or interventions that force candidate models to make different predictions.
+The present study adopts a null-first strategy. A candidate mechanism should first be compared with the simplest model class capable of expressing the relevant observable. If a machine–wetting model — one with no extraction-driven bed evolution — can generate the shape, the shape is not uniquely attributable to an extracting bed. If every static bed model leaves a large coherent residual but a temporal model reduces it, the evidence supports temporal flexibility relative to those static nulls. If a flexible, non-mechanistic time function performs as well as a mechanistic trajectory, fit quality alone does not identify the mechanism. Mechanistic discrimination must then come from parameter provenance, held-out conditions, sign constraints, independently measured state variables, or interventions that force candidate models to make different predictions.
 
 We apply this strategy to two distinct objects that are deliberately not merged. The first is the published model curve from Foster et al.; it is used only to demonstrate machine-side capacity for a dip-and-recovery shape. The second is the measured pressure campaign of Waszkiewicz et al.; it supplies the rising-flow trace and the multi-pressure assessment. This separation is essential: reproducing the Foster model curve does not explain the Waszkiewicz data, and the Waszkiewicz temporal comparison does not retroactively identify the cause of the Foster curve.
 
-The study makes four scoped contributions. It shows that a machine-only null can reconstruct a commonly mechanized flow shape; quantifies a static-to-temporal model ladder on a fixed 9-bar scoring interval; assesses calibration stability and trace reconstruction across eleven pressures using shared and leave-one-pressure-out fits; and translates the remaining non-uniqueness into a set of controlled perturbations. The maximum defensible conclusion is intentionally limited: an integrated flow trace can establish the need for temporal dynamics relative to specified static nulls, but it cannot, without additional observables or interventions, uniquely identify the underlying bed mechanism.
+The study makes four scoped contributions. It shows that a machine–wetting null, whose only bed dynamics are sharp-front infiltration, can reconstruct a commonly mechanized flow shape; quantifies a static-to-temporal model ladder on a fixed 9-bar scoring interval; assesses calibration stability and trace reconstruction across eleven pressures using shared and leave-one-pressure-out fits; and translates the remaining non-uniqueness into a set of controlled perturbations. The maximum defensible conclusion is intentionally limited: an integrated flow trace can establish the need for temporal dynamics relative to specified static nulls, but it cannot, without additional observables or interventions, uniquely identify the underlying bed mechanism.
 
 ## 2. Data and observable definitions
 
@@ -62,9 +62,9 @@ The estimand is reconstruction error on a declared time interval. For the cubic 
 
 ## 3. Model-comparison ladder
 
-### 3.1 Machine-only null
+### 3.1 Machine–wetting null
 
-The Foster system provides a machine-side null. The pump flow depends on pump outlet pressure; pipe resistance separates pump and headspace pressure; trapped gas changes headspace pressure as liquid ponds; and flow into the bed is the lesser of pump supply and the infiltration-limited flux [1]. The competing rates can create a minimum and recovery even when bed permeability and particle state are not changing. Because the present purpose is a shape-capacity test, we use the published source configuration rather than fitting the machine model to the Waszkiewicz campaign.
+The Foster system provides a machine-and-wetting null. The pump flow depends on pump outlet pressure; pipe resistance separates pump and headspace pressure; trapped gas changes headspace pressure as liquid ponds; and flow into the bed is the lesser of pump supply and the infiltration-limited flux [1]. The infiltration term is not a static bed: a sharp wetting front advances into an initially dry bed, so the wetted fraction and the hydraulic path length evolve through the shot. The competing rates can create a minimum and recovery even when the **saturated-bed constitutive law** is fixed — that is, with no extraction-driven swelling, fines migration, particle rearrangement or damage-induced permeability change. It is that narrower exclusion, not an absence of bed dynamics, that this null establishes. Because the present purpose is a shape-capacity test, we use the published source configuration rather than fitting the machine model to the Waszkiewicz campaign.
 
 ### 3.2 Static equilibrium poroelastic relation
 
@@ -203,13 +203,13 @@ These tests constrain an isolated resistance-only branch with machine state and 
 
 ## 5. Results
 
-### 5.1 A machine-only system can generate dip and recovery
+### 5.1 A machine–wetting system can generate dip and recovery without extraction-driven bed change
 
-The Foster reconstruction reproduces the source model’s mid-shot flow minimum using the pump, headspace, and infiltration subsystem alone [1]. No extraction-driven porosity change, particle swelling, fines migration, or channel evolution is required in this configuration. The result is a model-capacity statement: the tested machine subsystem can produce a dip followed by recovery. It does not imply that every observed dip is machine-generated, nor does it transfer the Foster parameterization to the Waszkiewicz apparatus.
+The Foster reconstruction reproduces the source model’s mid-shot flow minimum using the pump, headspace, and sharp-front infiltration subsystem alone [1]. That subsystem is not static in the bed: a sharp wetting front advances through an initially dry bed, so the wetted fraction and the hydraulic path length evolve over the shot. What it excludes is extraction-driven change — no porosity change from dissolution, particle swelling, fines migration, or channel evolution is required in this configuration, and the saturated-bed constitutive law is held fixed. The result is a model-capacity statement: the tested machine–wetting subsystem can produce a dip followed by recovery. It does not imply that every observed dip is machine-generated, nor does it transfer the Foster parameterization to the Waszkiewicz apparatus.
 
 **Figure 1 near here.**
 
-The implication for inference is nevertheless strong. A qualitative dip-and-recovery shape cannot, by itself, identify an evolving puck. A diagnostic claim requires either a machine null calibrated to the same apparatus, a boundary-condition measurement that rules the machine response out, or a perturbation under which the machine and bed models diverge.
+The implication for inference is nevertheless strong. A qualitative dip-and-recovery shape cannot, by itself, identify an *extraction-driven* evolving puck; infiltration alone suffices. A diagnostic claim requires either a machine null calibrated to the same apparatus, a boundary-condition measurement that rules the machine response out, or a perturbation under which the machine and bed models diverge.
 
 ### 5.2 The 9-bar trace requires temporal flexibility relative to tested static nulls
 
@@ -333,7 +333,7 @@ The aggregate cross-pressure statement conceals three things a reader needs: whi
 which pressure, how many shots each pressure contributes, and which pressure a stated number refers
 to. All three are reported here.
 
-**Table 3a. Per-pressure reconstruction error and shot count.** Error for each branch at every nominal pressure, with the number of shots contributing and the best branch, so an aggregate mean cannot hide the rank structure.
+**Table 3a. Pressure-level MEAN-CURVE reconstruction error and shot count.** Error for each branch scored against each nominal pressure's *mean curve*, with the number of shots contributing to that mean and the best branch, so an aggregate cannot hide the rank structure. These are not shot-level scores: for those, and for why they are systematically higher, see Table 3c.
 
 | nominal bar | shots | static κ(P) | empirical Φ(t) | RC-3b | best |
 |---|---|---|---|---|---|
@@ -347,7 +347,11 @@ to. All three are reported here.
 | 8.0 | 4 | 0.575 | 0.118 | 0.448 | phi |
 | 9.0 | 5 | 0.648 | 0.116 | 0.392 | phi |
 | 11.0 | 4 | 0.693 | 0.173 | 0.241 | phi |
-| 13.0 | 7 | 0.809 | 0.354 | 0.169 | rc3b |
+| 13.0 | 7* | 0.809 | 0.354 | 0.169 | rc3b |
+
+\* Seven *records* covering six distinct brews: `12-8-6_alt` duplicates `12-8-6`. The mean
+curve is reproduced as the source published it, which averages both copies; the shot-level
+estimands below count the pair once.
 
 **The best branch is not constant across pressure — it changes three times.** RC-3b is best at 1–2
 bar, the static branch at 3.5–6 bar, Φ(t) at 7–11 bar, and RC-3b again at 13 bar. Φ(t) wins **4
@@ -364,11 +368,43 @@ claim, and the aggregate $\Phi(t)$ advantage is itself conditional on importing 
 dissolved-mass trajectory across all pressures — a within-campaign reconstruction exercise, not
 evidence of a pressure-transfer law.
 
-**The averaging scheme is a choice, and it changes the ordering.** The campaign contributes between
-3 and 10 shots per pressure. Weighting every reference pressure equally — the scheme used
-above — gives the order phi < rc3b < static. Weighting by the number of shots, which answers the different
-question of what happens to a randomly drawn shot, gives phi < static < rc3b: the second and third places
-exchange. Φ(t) is first under both. We report both rather than presenting either as neutral.
+**Four different summaries, none of them neutral.** Table 3a above reports **pressure-level
+mean-curve** reconstruction error. Averaging those mean-curve scores is not the same as scoring
+shots, because RMSE is nonlinear: a pressure-level mean curve has shot-to-shot variability averaged
+out of it, so errors measured against it are systematically optimistic relative to errors on real
+shots. Four estimands are therefore reported separately in Table 3c, each named for what it is.
+
+**Table 3c. Four cross-pressure summaries of the same scores (g s⁻¹).** Each row is a different
+estimand, not a different presentation of one estimand. Only the third answers "what is the error
+on a randomly drawn shot"; the first two average pressure-level *mean-curve* scores and are
+systematically lower.
+
+| Summary | static κ(P) | Φ(t) | RC-3b | what it is |
+|---|---:|---:|---:|---|
+| Equal-pressure macro mean of mean-curve RMSE | 0.524 | **0.335** | 0.510 | every pressure counts once; the scheme used above |
+| Shot-count-weighted macro mean of mean-curve RMSE | 0.509 | **0.343** | 0.530 | the same mean-curve scores, weighted by shot count |
+| Mean of individual-shot RMSEs | 0.523 | **0.364** | 0.547 | the expected error of a randomly drawn shot |
+| Pooled shot × time RMSE | 0.552 | **0.394** | 0.619 | root mean square over all shot × time observations |
+
+All values are g s⁻¹, over 56 distinct shots at eleven pressures. **Only the third row answers "what
+happens to a randomly drawn shot"**; an earlier version of this paragraph attached that reading to
+the shot-count-weighted mean-curve average, which is the second row, and that was wrong. Scoring
+shots individually raises every branch's error relative to both mean-curve summaries — Φ(t) from
+0.335–0.343 to 0.364, static from 0.509–0.524 to 0.523, RC-3b from 0.510–0.530 to 0.547 — which is
+the optimism just described, made quantitative. Φ(t) is lowest under all four. The ordering
+phi < static < rc3b holds for the individual-shot and pooled estimands and for the shot-weighted
+mean-curve average; the equal-pressure average alone puts RC-3b second. These are within-campaign
+descriptive scores, not held-out predictions.
+
+The counts behind them need stating precisely. The deposit contains **57 processed trace records**,
+but only **56 distinct trajectories**: `12-8-6` and `12-8-6_alt` are identical in every numeric
+field at all 1000 time rows, and in the source archive the former is an exact line-for-line prefix
+of the latter, whose extra samples fall past the 100 s truncation and record the scale being
+cleared. They are one physical brew stored twice, so the pair contributes **one** experimental unit
+here and the 13-bar condition has six shots, not seven. The source's own published per-pressure
+means average both copies, so the deposited 13-bar mean curve is a mean over seven records covering
+six brews; we use it as published for the mean-curve rows and note the discrepancy rather than
+silently re-deriving it.
 
 ### 5.3b Pressure domains and boundary nodes
 
@@ -490,7 +526,7 @@ The sequence prevents a mechanism from receiving evidentiary credit merely becau
 
 The analysis has six main limitations.
 
-First, the machine-only capacity test and the rising-flow measurement come from different source systems. This is deliberate for the logical point that machines can generate similar shapes, but it is not a calibrated machine explanation of the Waszkiewicz trace.
+First, the machine–wetting capacity test and the rising-flow measurement come from different source systems. This is deliberate for the logical point that machines can generate similar shapes, but it is not a calibrated machine explanation of the Waszkiewicz trace.
 
 Second, although the primary uncertainty statement is now at the shot level, it rests on **five** brews from one campaign at one pressure. Five paired units cannot reach a conventional significance threshold under an exact randomization test, and a percentile bootstrap over five units is indicative at best; the comparisons reported here are effect sizes and directional counts, read alongside descriptive dispersion scales that are explicitly not floors or thresholds, rather than tests. The cross-pressure and window analyses use one preprocessed across-shot mean 9-bar trajectory from one campaign. Window and block sensitivity address analysis choices, not shot-to-shot, coffee-lot, preparation, operator, grinder, or apparatus replication.
 
@@ -543,7 +579,7 @@ stack, and every figure carries a text alternative in `docs/figures/paper_b2/ALT
 **Figure 1. Machine-side non-uniqueness of a flow minimum.** (a) The Foster machine path with its
 pressure nodes labelled: a "9 bar" statement must name which node it means. (b) The published Fig-15
 normalised flow series against the repository reconstruction, which reaches its minimum of 0.181 at
-1.99 s with no evolving bed mechanism; the reconstruction is drawn only over the interval the model
+1.99 s with no extraction-driven bed mechanism (the wetting front still advances); the reconstruction is drawn only over the interval the model
 covers. (c) The measured 9-bar trace on its own axes, included to establish that it is a separate
 evidence object the Foster parameterisation does not fit.
 
@@ -561,11 +597,15 @@ calibration drift, plotted relative to the all-pressure fit against the stated �
 (d) Nominal setting against recorded basket pressure, which is below nominal at every condition. The
 assessment is within-rig and conditional on the fixed dissolved-mass trajectory.
 
-**Figure 4. Residual structure is slow drift.** (a) Autocorrelation across twenty lags. (b) Share of
-residual power in the slowest spectral quarter, above 0.95 for every branch. (c) Dominant residual
-period: 80 s for the static branches, 40 s for both temporal branches. The best constant and static
-κ(P) curves coincide exactly in (a) and (b) because both leave a constant-offset residual, so every
-centred diagnostic is identical by construction.
+**Figure 4. Every branch leaves coherent low-frequency lack of fit.** (a) Autocorrelation across
+twenty lags. (b) Share of residual power in the slowest spectral quarter, above 0.95 for every
+branch. (c) The spectral peak of each residual, at the first nonzero Fourier period of the window
+(80 s) for the static branches and the second (40 s) for both temporal branches. **These are
+properties of the 80-point window, not measured timescales**, and §5.4 withdraws the earlier
+reading of them as periodicities; the panel is shown because the concentration of power at the
+lowest available frequencies is itself the finding. The best constant and static κ(P) curves
+coincide exactly in (a) and (b) because both leave a constant-offset residual, so every centred
+diagnostic is identical by construction.
 
 **Figure 5. Mechanism-by-perturbation prediction matrix.** Five candidate contributions against five
 perturbations. Every cell is a **declared** qualitative expectation conditional on the cited model

@@ -426,3 +426,184 @@ def test_the_manifest_count_is_not_described_as_validation_datasets():
     text = _text()
     assert "supported by 107 dataset-manifest records" not in text
     assert "described by 107 provenance-manifest records" in text
+
+
+# ── generated-block drift (fourth review P0-1) ───────────────────────────────────────────────
+def test_inline_appendix_a_is_the_exact_live_registry_set():
+    """The manuscript's Appendix A must contain every registered component and nothing else.
+
+    This is the defect the fourth review found INSIDE a paper whose central claim is that
+    duplicated generated material drifts: the inline Appendix A had 25 rows against the registry's
+    27, silently missing `maille2024.two_regime` and `maille2024.phi_closure`. The drift check
+    passed because it compared only the generated FILES, never the manuscript's own copy.
+
+    Order is asserted as well as membership, because the manuscript claims deterministic ordering.
+    """
+    import re
+
+    from puckworks.paper3 import registry_artifacts as RA
+
+    text = _text()
+    block = text.split("<!-- appendixA:begin -->")[1].split("<!-- appendixA:end -->")[0]
+    inline = re.findall(r"^\|\s*\w+\s*\|\s*`([\w.]+)`", block, re.M)
+    export = __import__("json").loads(RA.generate()["registry_export.json"])
+    expected = [c["id"] for c in export["components"]]
+
+    assert set(inline) == set(expected), (
+        f"inline Appendix A does not match the registry. "
+        f"missing: {sorted(set(expected) - set(inline))}; "
+        f"extra: {sorted(set(inline) - set(expected))}")
+    assert inline == expected, "inline Appendix A is not in the producer's deterministic order"
+
+
+def test_the_drift_check_covers_the_manuscript_not_only_the_generated_files():
+    """`verify()` must fail when an inline block is stale, not only when a file is.
+
+    Driven directly: the inline block is perturbed in a copy of the repo tree and `verify()` must
+    report it. A check that only ever looked at `docs/paper3_resource/generated/` is precisely
+    what let the manuscript contradict its own drift-prevention claim.
+    """
+    import shutil
+    import tempfile
+    from pathlib import Path
+
+    from puckworks.paper3 import registry_artifacts as RA
+
+    assert not RA.verify(), f"repository is already stale: {RA.verify()}"
+
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        (root / "docs" / "paper3_resource" / "generated").mkdir(parents=True)
+        for rel in RA.generate():
+            shutil.copyfile(RA.REPO_ROOT / RA.GENERATED_REL / rel,
+                            root / RA.GENERATED_REL / rel)
+        man = root / "docs" / "PAPER_3_PUCKWORKS_DRAFT.md"
+        text = RA.MANUSCRIPT.read_text(encoding="utf-8")
+        # Drop one row from the inline block -- the exact shape of the observed drift.
+        block = text.split("<!-- appendixA:begin -->")[1].split("<!-- appendixA:end -->")[0]
+        rows = block.strip().splitlines()
+        damaged = "\n".join(rows[:-1]) + "\n"
+        man.write_text(text.replace(block, "\n" + damaged), encoding="utf-8")
+
+        stale = RA.verify(root=root)
+        assert any(s.startswith("manuscript:") for s in stale), (
+            f"verify() did not notice a dropped row in the inline Appendix A; reported {stale}")
+
+
+def test_table1_per_stage_counts_match_the_registry():
+    """Table 1's stage rows, not only its runtime/calibration split, must match the registry."""
+    import re
+    from collections import Counter
+
+    from puckworks.paper3 import registry_artifacts as RA
+
+    export = __import__("json").loads(RA.generate()["registry_export.json"])
+    live = Counter(c["stage"] for c in export["components"])
+    #: manuscript display name -> registry stage key
+    display = {"Grind": "grind", "Packing": "packing", "Machine": "machine",
+               "Infiltration": "infiltration", "Flow": "flow", "Extraction": "extraction",
+               "Bed dynamics": "bed_dynamics", "Observables": "observables"}
+
+    text = _text()
+    block = text.split("**Table 1. Registry snapshot used for this draft.**")[1].split("\n\n\n")[0]
+    seen = {}
+    for name, key in display.items():
+        m = re.search(rf"^\|\s*{re.escape(name)}\s*\|\s*(\d+)\s*\|", block, re.M)
+        assert m, f"Table 1 has no row for stage {name!r}"
+        seen[key] = int(m.group(1))
+        assert seen[key] == live.get(key, 0), (
+            f"Table 1 says {seen[key]} components at stage {name!r}; registry has "
+            f"{live.get(key, 0)}")
+    assert sum(seen.values()) == len(export["components"]), (
+        f"Table 1's stage rows sum to {sum(seen.values())}, registry has "
+        f"{len(export['components'])}")
+
+
+def test_table6a_rows_match_the_benchmark_and_exclude_controls():
+    """Every cell of Table 6a must come from `run_benchmark()`, with controls out of the denominator.
+
+    Fourth review P0-1: two rows had drifted -- observable_semantics printed 2/3 against the
+    benchmark's 4/4, and unit printed 2/4 against 1/3. The unit row is the worse of the two: it
+    reintroduced the denominator error the surrounding prose says was corrected, by counting a
+    passing control as an injected defect. Aggregate totals were bound; individual rows were not.
+    """
+    import re
+
+    from puckworks.paper3 import defect_injection as D
+
+    r = D.run_benchmark()
+    block = _text().split("<!-- table6a:begin -->")[1].split("<!-- table6a:end -->")[0]
+
+    for cls, v in r["by_family"].items():
+        m = re.search(rf"^\|\s*{re.escape(cls)}\s*\|\s*(\d+)\s*/\s*(\d+)\s*\|", block, re.M)
+        assert m, f"Table 6a has no row for defect class {cls!r}"
+        detected, injected = int(m.group(1)), int(m.group(2))
+        assert detected == v["true_positives"], (
+            f"Table 6a says {cls} detected {detected}; benchmark says {v['true_positives']}")
+        assert injected == v["defects"], (
+            f"Table 6a says {cls} injected {injected}; benchmark says {v['defects']} "
+            f"(controls: {v['controls']} — controls must NOT be in the denominator)")
+
+    tm = re.search(r"\*\*Total\*\*\s*\|\s*\*\*(\d+)\s*/\s*(\d+)\*\*", block)
+    assert tm, "Table 6a has no total row"
+    assert (int(tm.group(1)), int(tm.group(2))) == (r["n_defects_detected"], r["n_defects"])
+    assert not D.splice_table6a(write_it=False), "Table 6a is stale — run --splice"
+
+
+def test_every_generated_block_marker_pair_is_present_and_well_formed():
+    """Splicing is only safe while both markers exist, in order, exactly once.
+
+    Inserting the Appendix A markers by scanning forward to the next `## ` heading silently
+    consumed the `<!-- appendix-b:begin -->` marker that sat immediately before the following
+    heading; Appendix B's content survived but its splice target did not, and `appendix_b.verify()`
+    began reporting "missing markers" instead of comparing anything. A structural check on the
+    markers themselves catches that class of damage regardless of which producer caused it.
+    """
+    text = _text()
+    for name in ("appendixA", "table6a", "appendix-b", "corpus"):
+        begin, end = f"<!-- {name}:begin -->", f"<!-- {name}:end -->"
+        assert text.count(begin) == 1, f"{name}: expected exactly one {begin}"
+        assert text.count(end) == 1, f"{name}: expected exactly one {end}"
+        assert text.index(begin) < text.index(end), f"{name}: markers are out of order"
+
+    # No marker pair may nest inside another: a nested pair means one splice will destroy another.
+    spans = []
+    for name in ("appendixA", "table6a", "appendix-b", "corpus"):
+        spans.append((text.index(f"<!-- {name}:begin -->"),
+                      text.index(f"<!-- {name}:end -->"), name))
+    spans.sort()
+    for (a0, a1, an), (b0, b1, bn) in zip(spans, spans[1:]):
+        assert a1 < b0, f"generated blocks {an} and {bn} overlap or nest"
+
+
+def test_execution_path_table_matches_the_benchmark():
+    """The per-path defect counts must come from the benchmark, not from prose.
+
+    Fourth review P0-12: the manuscript said "15 executable mutations that perturb a real input and
+    run the production guard", counting manuscript sentinels and document string comparisons as
+    production-path cases. The honest figure is 10. This binds every cell so the claim cannot widen
+    again by editing prose.
+    """
+    import re
+
+    from puckworks.paper3 import defect_injection as D
+
+    r = D.run_benchmark()
+    text = _text()
+    for path, n in r["by_execution_type"].items():
+        m = re.search(rf"^\|\s*`{re.escape(path)}`\s*\|\s*(\d+)\s*\|\s*(\d+)\s*\|", text, re.M)
+        assert m, f"the manuscript has no execution-path row for {path!r}"
+        assert int(m.group(1)) == n, (
+            f"manuscript says {m.group(1)} {path} defects; benchmark says {n}")
+        assert int(m.group(2)) == r["by_execution_type_detected"][path], (
+            f"manuscript says {m.group(2)} {path} detected; benchmark says "
+            f"{r['by_execution_type_detected'][path]}")
+
+    prod = r["by_execution_type"]["production_path_mutation"]
+    assert re.search(rf"production-path detection covers \*\*{prod}\*\*", text), (
+        f"the manuscript's production-path headline does not state {prod}")
+    # The overstated claim must not return.
+    assert "15 executable mutations" not in text
+    assert "independent structural groups" not in text, (
+        "'independent' implies an independence that was never established; use "
+        "'declared structural families'")

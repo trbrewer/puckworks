@@ -10,6 +10,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
+import pytest
 
 _ROOT = Path(__file__).resolve().parents[1]
 if str(_ROOT) not in sys.path:
@@ -186,3 +187,112 @@ def test_manuscript_separates_the_ladder_grid_from_the_objective_family_grid():
     man = (_ROOT / "docs" / "submission" / "PAPER_A_JFE_MANUSCRIPT.md").read_text(encoding="utf-8")
     assert "**18** points for the ladder and comparator analyses" in man
     assert "**29** points for the" in man
+
+
+# ── diffusivity closure provenance (round-4 review P0-2) ──────────────────────────────────────
+def test_the_diffusivity_closure_matches_the_SOURCE_CARD_not_just_itself():
+    """The previous unit test reproduced the implemented expression, which proves internal
+    consistency and nothing about transcription. This binds the implementation to the CARD, which
+    is the repository's declared source of truth for a model's physics.
+
+    The card's Eq. 11 is solute-indexed (`M_i`), and the implementation uses the solute molecular
+    weight. That is faithful. It is ALSO a departure from the standard Wilke-Chang correlation,
+    which pairs the association factor with the SOLVENT molecular weight -- so the manuscript may
+    not call it Wilke-Chang without qualification.
+    """
+    import re
+    from puckworks.models.pannusch2024 import closures as pc
+
+    card = (_ROOT / "docs" / "cards" / "pannusch2024.md").read_text(encoding="utf-8")
+    card_flat = " ".join(card.split())
+    assert "D_i(T) = 7.4·10^{-15}·(2.6 M_i)^{1/2} T / (η(T) V_i^{0.6})" in card_flat, (
+        "the card's diffusivity equation has changed -- re-audit the port against it")
+    # Solute-indexed on the card; solute molecular weights in the code.
+    assert re.search(r"\(2\.6 M_i\)", card_flat), "the card is no longer solute-indexed"
+    for name, mw in (("caffeine", 194.19), ("trigonelline", 137.14), ("5CQA", 354.31)):
+        assert abs(pc.SOLUTES[name]["M"] - mw) < 0.01, name
+        assert pc.SOLUTES[name]["M"] > 100, (
+            f"{name} M looks like a solvent mass; the port would then disagree with the card")
+
+
+def test_the_manuscript_does_not_call_the_closure_wilke_chang_unqualified():
+    man = (_ROOT / "docs" / "submission" / "PAPER_A_JFE_MANUSCRIPT.md").read_text(encoding="utf-8")
+    flat = " ".join(man.split())
+    assert "the last being the **diffusivity closure implemented in the source model**" in flat
+    assert "We do not call it the Wilke–Chang relation without qualification" in flat
+    # the bounded consequence must be stated, not just the discrepancy
+    assert "algebraically identical" in flat and "rate multiplier by \\(r^{2/3}\\)" in flat
+    assert "is not physically interpretable as a" in flat
+
+
+def test_the_closure_audit_is_archived_with_its_unresolved_part():
+    import json
+    rec = json.loads((_ROOT / "docs" / "paper1_resource"
+                      / "PAPER_A_DIFFUSIVITY_CLOSURE_AUDIT.json").read_text(encoding="utf-8"))
+    assert "what_remains_unresolved" in rec, (
+        "the audit must record what it could NOT settle, not only what it could")
+    assert "not held here" in rec["what_remains_unresolved"]
+    # the degeneracy is the load-bearing finding
+    n = rec["numerical_check_arabica_caffeine_optimal_grind"]
+    assert abs(n["minimum_MAPE_pct"]["source_closure"]
+               - n["minimum_MAPE_pct"]["solvent_MW"]) < 0.05, "fit quality should be unchanged"
+    assert n["rate_at_minimum"]["solvent_MW"] != n["rate_at_minimum"]["source_closure"], (
+        "the fitted rate SHOULD move; that is the whole point")
+
+
+# ── cover-letter declarations (Paper 1 fourth review P0-7) ────────────────────────────────────
+def test_cover_letter_asserts_nothing_the_front_matter_does_not_support():
+    """A generator must not make representations to an editor on the authors' behalf.
+
+    The cover letter said "all authors have approved the submission" and "we declare no competing
+    interests" while `authors` and `competing_interests` were both null in the front matter. Those
+    are statements about real people that only the authors can make. This test drives the field
+    both ways: with the field unset the sentence must be absent AND the letter must say why; with
+    it set the sentence must appear.
+    """
+    import copy
+    FM = pytest.importorskip("tools.paper_a_front_matter",
+                             reason="pyyaml is a dev/radar extra")
+    fm = FM.load()
+
+    def asserted(letter: str) -> str:
+        """The letter's own prose, lower-cased and flattened.
+
+        The blocked-declaration note QUOTES each withheld sentence in order to say it is not being
+        made, so searching the whole letter would find the very sentences it withholds. Only
+        non-block-quote lines count as assertions.
+        """
+        body = [ln for ln in letter.splitlines() if not ln.lstrip().startswith(">")]
+        return " ".join(" ".join(body).lower().split())
+
+    for key, sentence, _why in FM.LETTER_ASSERTIONS:
+        blank = copy.deepcopy(fm)
+        blank[key] = None
+        letter = FM.cover_letter(blank)
+        assert sentence not in asserted(letter), (
+            f"cover letter asserts \"{sentence}\" while `{key}` is unset")
+        assert "not ready to send" in letter, (
+            f"cover letter omits the {key} assertion but does not say the letter is unready")
+
+        filled = copy.deepcopy(fm)
+        filled[key] = "A. Author"
+        for other, _s, _w in FM.LETTER_ASSERTIONS:
+            filled[other] = filled[other] or "placeholder"
+        assert sentence in asserted(FM.cover_letter(filled)), (
+            f"cover letter drops \"{sentence}\" even when `{key}` is supplied")
+
+
+def test_shipped_cover_letter_matches_the_current_front_matter_state():
+    """The letter on disk must reflect the fields as they actually stand."""
+    import pathlib
+    FM = pytest.importorskip("tools.paper_a_front_matter",
+                             reason="pyyaml is a dev/radar extra")
+    fm = FM.load()
+    letter = pathlib.Path(FM.COVER_LETTER).read_text(encoding="utf-8")
+    prose = " ".join(" ".join(ln for ln in letter.splitlines()
+                              if not ln.lstrip().startswith(">")).lower().split())
+    for key, sentence, _why in FM.LETTER_ASSERTIONS:
+        present = sentence in prose
+        assert present == bool(fm.get(key)), (
+            f"shipped cover letter {'asserts' if present else 'omits'} \"{sentence}\" but `{key}` "
+            f"is {'set' if fm.get(key) else 'unset'}")

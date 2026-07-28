@@ -83,8 +83,39 @@ WASZ_PER_BREW_MAX_TIME_S = 100.0
 WASZ_PER_BREW_NGRID = 1000
 
 
-def waszkiewicz_traces_per_brew(pressure_bar=None):
+#: Processed traces that are NOT independent experimental units, mapped to the source unit they
+#: duplicate. Declared here, once, so no consumer has to rediscover it.
+#:
+#: The fourth review of Paper B2 found `12-8-6` and `12-8-6_alt` byte-identical across all six
+#: numeric fields at all 1000 time rows, while both were counted among "57 shots". Checking the
+#: source archive settles which of the review's three cases it is: `measurements_time_dependent/
+#: 12-8-6.txt` is an exact line-for-line PREFIX of `12-8-6_alt.txt`, which carries 42 further
+#: samples recorded after the shot ended (mass runs to -175 g as the scale is cleared). Two
+#: distinct brews cannot agree sample-for-sample on 1447 consecutive raw acquisitions; this is one
+#: physical brew stored twice, and the 100 s truncation makes the processed pair exactly equal.
+#:
+#: The alias is kept in the CSV rather than deleted, because the source's own published
+#: per-pressure means were computed over both copies -- see `waszkiewicz_traces()` -- and dropping
+#: it would break the re-aggregation check that proves our reduction matches theirs. Analyses whose
+#: unit is the SHOT must exclude it; analyses reproducing the source's aggregates must not.
+WASZ_TRACE_ALIASES = {"12-8-6_alt": "12-8-6"}
+
+
+def waszkiewicz_distinct_shot_ids(by_pressure) -> dict:
+    """Drop declared aliases from a `waszkiewicz_traces_per_brew()` mapping.
+
+    Returns the same {pressure: {shot_id: ...}} shape with alias records removed, so a caller that
+    treats each record as an experimental unit gets 56 distinct trajectories rather than 57.
+    """
+    return {p: {s: v for s, v in shots.items() if s not in WASZ_TRACE_ALIASES}
+            for p, shots in by_pressure.items()}
+
+
+def waszkiewicz_traces_per_brew(pressure_bar=None, include_aliases=True):
     """PER-SHOT Q(t) traces -- the individual brews behind `waszkiewicz_traces()`.
+
+    Pass `include_aliases=False` to get only distinct physical brews (see `WASZ_TRACE_ALIASES`).
+    The default keeps every deposited record, so the loader stays faithful to what was ingested.
 
     `waszkiewicz_traces()` returns the published per-pressure MEAN with a `*_std` column that is a
     STANDARD ERROR, not a standard deviation (the source aggregates with `sem`). That means the
@@ -121,6 +152,8 @@ def waszkiewicz_traces_per_brew(pressure_bar=None):
     for p in out:
         for s in out[p]:
             out[p][s] = {c: np.asarray(v, float) for c, v in out[p][s].items()}
+    if not include_aliases:
+        out = waszkiewicz_distinct_shot_ids(out)
     if pressure_bar is not None:
         return out[round(float(pressure_bar), 3)]
     return out

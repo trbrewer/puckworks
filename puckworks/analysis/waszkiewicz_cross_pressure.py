@@ -91,7 +91,13 @@ def cross_pressure_heterogeneity(window=WINDOW):
         n_shots_per_pressure={float(k): int(v) for k, v in sorted(n_shots.items())},
         n_shots_range=[int(min(n_shots.values())), int(max(n_shots.values()))],
         branch_wins=win_counts,
-        n_rank_changes=len(set(winners)) - 1,
+        # Adjacent transitions along the pressure axis, NOT the number of distinct winners.
+        # `len(set(winners)) - 1` gave 2 for the actual sequence
+        #   RC-3b, RC-3b, static x4, Phi x4, RC-3b
+        # which has THREE transitions; it undercounts whenever a winner reappears later, and it is
+        # not a transition count at all (fourth review 5.4). A verification manifest had confirmed
+        # the wrong value against the bundle because both carried the same definition.
+        n_rank_changes=sum(a != b for a, b in zip(winners, winners[1:])),
         best_branch_is_constant_across_pressure=bool(len(set(winners)) == 1),
         equal_pressure_mean={b: (round(v, 4) if v is not None else None)
                              for b, v in equal.items()},
@@ -280,7 +286,10 @@ def per_shot_cross_pressure(window=WINDOW):
     refitted here.
 
     The source campaign is described as 60 brews; the committed processed deposit contains 57
-    after source-side exclusions. Both counts are returned.
+    trace RECORDS after source-side exclusions, of which 56 are distinct trajectories -- see
+    `exclusion_note`. Because the shot is the experimental unit here, the declared alias is
+    EXCLUDED: counting it twice would give the 13-bar condition seven units where it has six, and
+    would understate shot-level spread. All three counts are returned.
 
     Strength: descriptive. Within-campaign; not independent validation.
     """
@@ -294,7 +303,8 @@ def per_shot_cross_pressure(window=WINDOW):
     k_s, l_s, m_s = wz._solids_params()
     dose = d.waszkiewicz_constants()["dose__g"]
 
-    by_pressure = d.waszkiewicz_traces_per_brew()
+    # Distinct physical brews only: this function's unit is the shot (fourth review P0.1).
+    by_pressure = d.waszkiewicz_traces_per_brew(include_aliases=False)
     pressures = sorted(by_pressure)
 
     per_shot, per_pressure = {}, {}
@@ -359,11 +369,26 @@ def per_shot_cross_pressure(window=WINDOW):
         window_s=tuple(window),
         n_pressures=len(pressures),
         n_shots_included=len(per_shot),
+        n_trace_records_in_deposit=57,
+        n_distinct_trajectories=56,
+        # The common grid every trace is interpolated onto. Exposed so the manuscript's statement
+        # that the duplicate pair agrees "at all 1000 time rows" is a producer-backed claim rather
+        # than an unchecked numeral.
+        n_time_rows_per_trace=int(d.WASZ_PER_BREW_NGRID),
         n_brews_reported_by_source=60,
+        aliases_excluded=dict(d.WASZ_TRACE_ALIASES),
         exclusion_note=("The source campaign is described as 60 brews. The committed processed "
-                        "deposit contains 57 traces after source-side exclusions; the three "
-                        "excluded brews are not identified in the released deposit, so the "
-                        "exclusion provenance is recorded as incomplete rather than reconstructed."),
+                        "deposit contains 57 trace RECORDS after source-side exclusions; the "
+                        "three excluded brews are not identified in the released deposit, so the "
+                        "exclusion provenance is recorded as incomplete rather than "
+                        "reconstructed. Of those 57 records only 56 are distinct: in the source "
+                        "archive `12-8-6.txt` is an exact line-for-line prefix of "
+                        "`12-8-6_alt.txt`, whose 42 extra samples lie past the 100 s truncation "
+                        "and record the scale being cleared (mass runs to -175 g), so the pair is "
+                        "one physical brew stored twice. It is counted ONCE here, because the "
+                        "shot is the experimental unit. Note separately that the source's own "
+                        "published per-pressure means average both copies, so the deposited "
+                        "13-bar mean curve is a mean over seven records covering six brews."),
         per_shot=per_shot,
         per_pressure=per_pressure,
         # --- the four estimands, each named ---

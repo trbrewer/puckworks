@@ -2099,23 +2099,51 @@ def numerical_convergence(node_counts=(100, 200, 400),
         return cup, thirds
 
     def _profile():
-        """Profiled MAPE objective over the rate domain, with the level exactly minimised."""
+        """Profiled MAPE objective over the rate domain, with the level exactly minimised.
+
+        Solver health is accumulated from the same solves rather than in a second pass. The fourth
+        review objected that "the warnings do not affect the results" was argued only from
+        agreement with another configuration -- which may exercise the same numerical path.
+        Successful termination, finite states, physical concentrations and a monotone accumulated
+        volume are independent of that, and every profiled solve is checked, not a representative
+        one. Collecting them here rather than separately keeps the sweep to one solve per
+        (rate, condition, cell) instead of two.
+        """
+        health = dict(all_success=True, all_finite=True, volume_monotone=True,
+                      mass_monotone=True, min_liquid=np.inf, min_solid=np.inf,
+                      n_solves=0, failure_messages=set())
         obj = []
         for rs in _RATE_DOMAIN:
             s = dict(sp)
             s["A1"] = sp["A1"] * rs
             s["A2"] = sp["A2"] * rs
             s["c_s0"] = 1.0
-            f = np.array([float(ps.simulate_fractions(
-                T, _flow_gran(p, T, gran), _matched_bounds(_flow_gran(p, T, gran)),
-                s, cl1=1.0)[0]) for T, p in conds])
-            obj.append(_mape_level(f, meas)[1])
+            f = []
+            for T, p in conds:
+                flow = _flow_gran(p, T, gran)
+                f.append(float(ps.simulate_fractions(
+                    T, flow, _matched_bounds(flow), s, cl1=1.0)[0]))
+                d_ = ps.LAST_SOLVE
+                health["n_solves"] += 1
+                for flag, key in (("all_success", "success"), ("all_finite", "all_finite"),
+                                  ("volume_monotone", "volume_monotone"),
+                                  ("mass_monotone", "mass_monotone")):
+                    health[flag] = health[flag] and bool(d_[key])
+                for key in ("min_liquid", "min_solid"):
+                    health[key] = min(health[key], d_[key])
+                if not d_["success"]:
+                    health["failure_messages"].add(d_["message"])
+            obj.append(_mape_level(np.array(f, float), meas)[1])
         obj = np.array(obj, float)
         i = int(np.argmin(obj))
+        health["min_liquid"] = float(health["min_liquid"])
+        health["min_solid"] = float(health["min_solid"])
+        health["failure_messages"] = sorted(health["failure_messages"])
         return dict(rate_at_min=float(_RATE_DOMAIN[i]),
                     min_objective=float(obj[i]),
                     range_ratio=float(obj.max() / obj.min()),
-                    at_boundary=bool(i in (0, len(obj) - 1)))
+                    at_boundary=bool(i in (0, len(obj) - 1)),
+                    solver_health=health)
 
     cells = {}
     for nz in node_counts:
@@ -2152,10 +2180,35 @@ def numerical_convergence(node_counts=(100, 200, 400),
         node_counts=list(node_counts), tolerances=[float(t) for t in tolerances],
         reference_cell=ref_key,
         production_cell="nz200_tol1e-06",
-        scheme=("five-point biased-upwind advection (Carver & Hinds 1978) on a uniform axial "
-                "grid; Dirichlet inlet c_l(z=0)=0; stiff BDF integration with an analytic "
-                "Jacobian sparsity pattern"),
+        # "analytic Jacobian sparsity pattern" was wrong and contradicted this record's own
+        # solver-warning field: a sparsity PATTERN is supplied, but the entries are estimated by
+        # finite differences inside scipy's `num_jac` -- which is exactly where the warnings came
+        # from (fourth review P0-4).
+        scheme=("five-point biased-upwind advection on a uniform axial grid; Dirichlet inlet "
+                "c_l(z=0)=0; stiff BDF integration with a supplied Jacobian sparsity pattern and "
+                "a numerically estimated Jacobian"),
+        objective=("profiled MAPE of the whole-cup concentration against the measured "
+                   "concentrations at the nine optimal-grind conditions, with the multiplicative "
+                   "level exactly minimised at each rate. This is the same profile construction "
+                   "as the objective-family panel's relative objective, evaluated on the same "
+                   "rate domain; it is NOT the unweighted sum-of-squares objective that the "
+                   "main-text panels report, so the minimum locations are not expected to "
+                   "coincide numerically."),
+        observable="whole-cup concentration at the matched endpoint, plus three equal sub-interval "
+                   "fraction concentrations of the same cup",
         cells=cells,
+        solver_health=dict(
+            all_cells_successful=all(v["solver_health"]["all_success"] for v in cells.values()),
+            all_cells_finite=all(v["solver_health"]["all_finite"] for v in cells.values()),
+            all_cells_volume_monotone=all(
+                v["solver_health"]["volume_monotone"] for v in cells.values()),
+            all_cells_mass_monotone=all(
+                v["solver_health"]["mass_monotone"] for v in cells.values()),
+            worst_min_liquid=min(v["solver_health"]["min_liquid"] for v in cells.values()),
+            worst_min_solid=min(v["solver_health"]["min_solid"] for v in cells.values()),
+            total_solves=sum(v["solver_health"]["n_solves"] for v in cells.values()),
+            failure_messages=sorted({m for v in cells.values()
+                                     for m in v["solver_health"]["failure_messages"]})),
         production_vs_reference=dict(
             whole_cup_rel_dev_pct=default["rel_dev_whole_cup_pct"],
             late_fraction_rel_dev_pct=default["rel_dev_late_pct"],

@@ -1,0 +1,39 @@
+{
+ "producer": "docs/paper1_resource \u2014 hand-run sensitivity, recorded 2026-07-27",
+ "question": "Round-4 review P0-2: the manuscript called the diffusivity closure 'Wilke-Chang' while placing the SOLUTE molecular weight where the standard correlation has the SOLVENT molecular weight (with water's 2.6 association factor).",
+ "what_the_card_says": "docs/cards/pannusch2024.md Eq. 11 transcribes the source as D_i(T) = 7.4e-15 (2.6 M_i)^(1/2) T / (eta(T) V_i^0.6) with M SOLUTE-INDEXED. The implementation uses SOLUTES[solute]['M'] and therefore reproduces the card exactly: caffeine 194.19, trigonelline 137.14, 5-CQA 354.31 g/mol -- unambiguously solute molecular weights, not water's 18.015.",
+ "what_remains_unresolved": "Whether the SOURCE PAPER itself uses the solute term, or the card inherited a transcription error, cannot be settled from anything in this repository. The original Pannusch article/supplement/code is not held here. Per the house rule -- implement from the card, and if the card is ambiguous STOP rather than guess -- the port is left faithful to the card and the discrepancy is disclosed instead of silently 'corrected'. Resolving it requires reading the source.",
+ "why_it_may_matter_less_than_it_looks": "h_sl is algebraically degenerate with the profiled rate multiplier. With Sh = A Re^B Sc^(1/3), Sc = nu/D and h = Sh D / d32, the diffusivity enters only as h \u221d A D^(2/3). Rescaling D by r is therefore EXACTLY equivalent to rescaling the fitted rate multiplier k by r^(2/3) -- the same one-parameter family the paper profiles.",
+ "predicted_rescaling_if_solvent_MW_were_used": {
+  "caffeine": {
+   "D_ratio": 0.3046,
+   "equivalent_k_ratio": 0.4527
+  },
+  "trigonelline": {
+   "D_ratio": 0.3624,
+   "equivalent_k_ratio": 0.5083
+  },
+  "5CQA": {
+   "D_ratio": 0.2255,
+   "equivalent_k_ratio": 0.3705
+  }
+ },
+ "numerical_check_arabica_caffeine_optimal_grind": {
+  "profile_range_ratio": {
+   "source_closure": 1.4268,
+   "solvent_MW": 1.4486
+  },
+  "minimum_MAPE_pct": {
+   "source_closure": 2.8375,
+   "solvent_MW": 2.8328
+  },
+  "rate_at_minimum": {
+   "source_closure": 0.8838,
+   "solvent_MW": 1.7187
+  },
+  "argmin_ratio_observed": 1.9447,
+  "argmin_ratio_predicted": 2.209,
+  "note": "The observed ratio undershoots the predicted one because the rate axis is an 18-point geometric grid and the shifted optimum snaps to the nearest node."
+ },
+ "conclusion": "The paper's central results are INVARIANT to this question. Fit quality is unchanged (minimum MAPE 2.84 either way) and the profile geometry -- the breadth and boundary-reaching of the near-optimal set, which is what the identifiability argument rests on -- is essentially unchanged (range ratio 1.43 vs 1.45). What DOES change is the absolute fitted rate multiplier, by roughly a factor of two for caffeine. So the closure question affects the PHYSICAL INTERPRETATION and cross-model comparability of the fitted prefactors, and it does not affect the weak-localization conclusion, the transfer-versus-null benchmark, or the fraction-versus-cup contrast. The manuscript must therefore stop calling the closure 'Wilke-Chang' without qualification, and must not report the fitted rate as a physically interpretable diffusivity-anchored quantity."
+}

@@ -48,6 +48,15 @@ samples; truncate at 100 s; `p2` kPa -> bar; flow = Savitzky-Golay(gradient(mass
 polyorder 1); basket pressure = p - (a q^2 + b q + c) from `brewer_quadratic_params.csv`; interpolate
 each shot onto a common 0-100 s, 1000-point grid.
 
+**Duplicate.** The 57 files are **56 distinct brews**: `12-8-6.txt` is an exact line-for-line
+prefix of `12-8-6_alt.txt`, whose 42 extra samples fall past the 100 s truncation and record the
+scale being cleared (mass runs to -175 g). Two distinct brews cannot agree sample-for-sample on
+1447 consecutive raw acquisitions, so this is one physical brew stored twice. Declared in
+`puckworks.data.WASZ_TRACE_ALIASES`. It is **retained** in this CSV rather than deleted, because the
+source's own published per-pressure means average both copies and the verification below depends on
+reproducing them; analyses whose unit is the SHOT pass `include_aliases=False`. Consequence for the
+13-bar condition: seven records, six brews.
+
 **Verification.** Re-aggregating these 57 shots by (pressure, time) with mean/`sem` reproduces the
 published `traces_time_dependent.csv` on **all 11 000 rows to max |delta| = 5e-7** -- i.e. exactly,
 within that file's own 1e-6 write precision. Guarded by

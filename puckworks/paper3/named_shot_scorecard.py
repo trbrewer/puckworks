@@ -94,8 +94,10 @@ CHAIN = (
         stage="machine", label="Machine boundary",
         component=None, dataset="de1_fixtureA", declared_status="observed",
         caveat="The exact pressure-node identity of the recorded trace is OPEN (basket gauge vs "
-               "line), and node identity is documented in prose but is not a typed contract field, "
-               "so a node substitution would be type-valid."),
+               "line). The contract TYPE now exists -- schema 0.8 added `PressureNode`, "
+               "`PressureTrace` and `require_node`, and an untyped trace fails closed -- so the "
+               "remaining gap is not the absence of a field but that this source trace's node has "
+               "not been established and wrapped with that typed identity."),
     StageSelection(
         stage="infiltration", label="Infiltration",
         component="foster2025.infiltration", dataset="de1_fixtureA", declared_status=None,
@@ -165,6 +167,18 @@ def _status_for(sel, vectors):
         dict(relation=s.relation, scope=s.scope, gate=s.gate, outcome=s.outcome) for s in vec)
 
 
+def _is_open(row) -> bool:
+    """Open state as a predicate, not a string comparison.
+
+    `r["status"] == "open"` missed a combined status such as `"verification + open"`, because a
+    derived status is a joined presentation string. Parsing presentation to recover structure is
+    how an unresolved stage escapes the open count (fourth review P0-9); the components of the
+    status are checked instead.
+    """
+    parts = {p.strip() for p in str(row["status"]).split("+")}
+    return "open" in parts or not row["status"]
+
+
 def scorecard():
     """Generate the named-shot scorecard. Statuses are DERIVED from evidence vectors; numbers are
     EXECUTED from producers; unbacked claims are reported as such."""
@@ -187,7 +201,7 @@ def scorecard():
             unbacked_numbers=list(sel.unbacked_numbers)))
         unbacked.extend(sel.unbacked_numbers)
 
-    open_stages = [r["label"] for r in rows if r["status"] == "open"]
+    open_stages = [r["label"] for r in rows if _is_open(r)]
     return dict(
         configuration=dict(NAMED_SHOT),
         n_stages=len(rows),

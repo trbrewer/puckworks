@@ -36,7 +36,24 @@ def test_every_table_is_numbered_and_captioned(name):
     uncaptioned = []
     for i in range(len(lines) - 1):
         if lines[i].strip().startswith("|") and re.match(r"^\s*\|[\s:|-]+\|\s*$", lines[i + 1]):
-            window = "\n".join(lines[max(0, i - 3):i])
+            # Scan back over the blank line to the whole preceding PARAGRAPH, not a fixed number
+            # of lines. A three-line window could not see a caption that wrapped to four, so a
+            # correctly captioned table read as uncaptioned -- the heuristic was measuring caption
+            # length, not caption presence.
+            #: HTML comments are splice markers and generation banners, not prose. Treating them
+            #: as a paragraph hid the caption sitting immediately above a generated block.
+            def _prose(k):
+                s = lines[k].strip()
+                return bool(s) and not s.startswith("<!--")
+
+            j = i
+            # Walk back over any number of blank/marker-only paragraphs to the nearest prose one.
+            while j > 0 and not _prose(j - 1):
+                j -= 1
+            start = j
+            while start > 0 and _prose(start - 1):
+                start -= 1
+            window = "\n".join(lines[start:i])
             if not re.search(r"\*\*Table [0-9A-Za-z]+\.", window):
                 uncaptioned.append(f"L{i+1}: {lines[i][:70]}")
     assert not uncaptioned, f"{name} has uncaptioned tables:\n  " + "\n  ".join(uncaptioned)

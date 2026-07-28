@@ -58,17 +58,22 @@ BRANCHES = (
     ("flexible_cubic", "flexible cubic (in-sample)", GOOD, "--"),
 )
 
+#: Length of the residual-diagnostic window in seconds. The spectrum's frequency resolution is
+#: 1/this, which is why k = 1 and k = 2 correspond to 80 s and 40 s -- a property of the window.
+_WINDOW_LENGTH_S = 80
+
 ALT_TEXT = {
     "fig1_machine_nonuniqueness":
         "Three panels on machine-side non-uniqueness. Panel a is a schematic of the Foster machine "
         "path: pump outlet, pipe resistance, trapped-air headspace, ponding height, wetting front "
         "and porous bed, with the four pressure nodes labelled explicitly. Panel b shows the "
         "reconstructed Foster normalised flow curve, which dips to a mid-shot minimum and recovers "
-        "with no evolving bed mechanism at all. Panel c shows the measured Waszkiewicz 9-bar "
+        "with no extraction-driven bed mechanism -- the bed state that does evolve is the wetted "
+        "fraction, through sharp-front infiltration. Panel c shows the measured Waszkiewicz 9-bar "
         "rising-flow trace on its own axes, included only to establish that it is a separate "
         "evidence object that the Foster parameterisation does not fit. The take-away is that a "
-        "machine-side system can generate a non-monotone flow shape, so a shape alone does not "
-        "identify a bed mechanism.",
+        "machine-and-wetting system can generate a non-monotone flow shape, so a shape alone does "
+        "not identify an extraction-driven bed mechanism.",
     "fig2_null_first_ladder":
         "Four panels on the null-first temporal ladder over the 15 to 95 second scoring window. "
         "Panel a shows the measured 9-bar flow trace with the predictions of the best constant, "
@@ -92,14 +97,16 @@ ALT_TEXT = {
         "pressure at each condition, which is below nominal everywhere. The assessment is "
         "within-rig and conditional on a fixed dissolved-mass trajectory.",
     "fig4_residual_structure":
-        "Three panels showing that the residual structure is slow drift rather than oscillation. "
+        "Three panels showing that every branch leaves coherent low-frequency lack of fit. "
         "Panel a shows the autocorrelation of each branch's residual across twenty lags, decaying "
         "slowly for every branch. Panel b shows the share of residual power in the lowest-frequency "
-        "quarter of the spectrum, above 0.95 for all four branches. Panel c shows the dominant "
-        "residual period: the two static branches peak at the full eighty-second window, a single "
-        "unreversed drift, while both temporal branches peak at forty seconds, meaning what they "
-        "leave behind reverses within the shot. The take-away is that no further level or slope "
-        "term would absorb the remaining structure.",
+        "quarter of the spectrum, above 0.95 for all four branches. Panel c shows where each "
+        "residual spectrum peaks: the two static branches at the first nonzero Fourier period of "
+        "the window, eighty seconds, and both temporal branches at the second, forty seconds. "
+        "Those two values are properties of the eighty-point window rather than measured "
+        "timescales, and the paper withdraws the earlier reading of them as physical "
+        "periodicities. The take-away is that the residual power sits at the lowest frequencies "
+        "the window can express, for every branch.",
     "fig5_perturbation_matrix":
         "A declared prediction matrix with five candidate contributions as rows — machine and "
         "headspace response, dissolution-linked opening, fines migration and deposition, "
@@ -189,7 +196,15 @@ def _diagnostic_grid(b):
 
 # ---------------------------------------------------------------------------
 def fig1_machine_nonuniqueness(outdir=OUTDIR):
-    """Foster machine path can produce a non-monotone flow shape with no evolving bed."""
+    """Foster machine path can produce a non-monotone flow shape with no EXTRACTION-DRIVEN bed
+    change.
+
+    Its sharp wetting front does advance through an initially dry bed, so the wetted fraction and
+    hydraulic path length evolve; the fourth review of Paper B2 was right that calling this
+    "machine-only" or "no evolving bed" overstated the null. What is held fixed is the saturated-bed
+    constitutive law: no swelling, fines migration, particle rearrangement or damage-induced
+    permeability evolution.
+    """
     import numpy as np
 
     from puckworks.models.foster2025 import machine_mode as fm
@@ -240,7 +255,7 @@ def fig1_machine_nonuniqueness(outdir=OUTDIR):
     ax.text(hi_t + 0.15, 0.13, "outside the\nmodelled interval", fontsize=5.8, va="bottom",
             color=NULL, style="italic")
     ax.plot([t_min], [q_min], "o", color=BAD, ms=6, zorder=5)
-    ax.annotate("minimum %.3f at %.2f s\n(no evolving bed)" % (q_min, t_min),
+    ax.annotate("minimum %.3f at %.2f s\n(no extraction-driven\nbed change)" % (q_min, t_min),
                 xy=(t_min, q_min), xytext=(t_min + 1.4, q_min + 0.18),
                 fontsize=7, color=BAD,
                 arrowprops=dict(arrowstyle="->", color=BAD, lw=0.8))
@@ -367,7 +382,14 @@ def fig3_cross_pressure(outdir=OUTDIR, bundle=None):
     ax.text(9, ax.get_ylim()[1] * 0.97, "band containing\nthe primary 9-bar analysis",
             ha="center", va="top", fontsize=6.6, style="italic", color=NULL)
     best = [min(styles, key=lambda s: cp["per_pressure"][p][s[0]])[1] for p in pressures]
-    changes = sum(1 for i in range(1, len(best)) if best[i] != best[i - 1])
+    # Read the producer's field rather than recomputing. The figure and the producer had
+    # DIFFERENT definitions of "rank change" -- the figure counted adjacent transitions (3), the
+    # producer counted distinct winners minus one (2) -- so the bundle and the figure disagreed
+    # depending on which a consumer read (fourth review 6.6). One definition, one source.
+    from puckworks.analysis import waszkiewicz_cross_pressure as _wcp
+    changes = _wcp.cross_pressure_heterogeneity()["n_rank_changes"]
+    assert changes == sum(1 for i in range(1, len(best)) if best[i] != best[i - 1]), (
+        "the producer's n_rank_changes disagrees with the winner sequence this panel plots")
     ax.set_title("a  Per-pressure RMSE — best branch changes %d times" % changes)
     ax.set_xlabel("nominal pressure (bar)"), ax.set_ylabel("RMSE (g s$^{-1}$)")
     ax.legend(fontsize=6.8)
@@ -439,7 +461,16 @@ def fig3_cross_pressure(outdir=OUTDIR, bundle=None):
 
 
 def fig4_residual_structure(outdir=OUTDIR, bundle=None):
-    """Review 4.7: the residuals drift, they do not oscillate — and the branches differ in period."""
+    """Every branch leaves residual power in the lowest resolvable frequency bins of the window.
+
+    This docstring used to say the residuals "drift, they do not oscillate -- and the branches
+    differ in period". The Results withdrew both readings: on an 80-point, 1 s-decimated series,
+    80 s and 40 s are simply the first and second nonzero Fourier periods available, so they are
+    properties of the window, not measured timescales, and the transform cannot separate drift from
+    oscillation over a single window. The figure said one thing while §5.4 said another (fourth
+    review 6.4). Panel (c) now plots the spectral INDEX k, with the period shown only as a
+    parenthetical property of the window.
+    """
     import numpy as np
 
     b = bundle or _bundle()
@@ -477,24 +508,31 @@ def fig4_residual_structure(outdir=OUTDIR, bundle=None):
     ax.set_ylim(0, 1.12), ax.set_ylabel("power in lowest-frequency quarter of bins")
     ax.set_title("b  Low-frequency concentration")
 
-    # -- c: lowest-frequency peak BIN (not a physical period; third review P0.5) ----------
+    # -- c: spectral INDEX k of the peak bin. Plotting seconds invited exactly the physical
+    # reading the Results withdraw, so the axis is the bin index and the period appears only as a
+    # parenthetical window property (fourth review 6.4).
     ax = axes[2]
+    window_s = float(_WINDOW_LENGTH_S)
     periods = [rd[k]["spectrum"]["peak_bin_period_s"] for k in keys]
-    ax.barh(np.arange(len(keys))[::-1], periods, color=[c for _, _, c, _ in BRANCHES],
-            height=0.6)
-    for y, (p, k) in zip(np.arange(len(keys))[::-1], zip(periods, keys)):
-        ax.text(p + 1.2, y, "%g s" % p, va="center", fontsize=7)
+    ks = [rd[k]["spectrum"]["peak_bin_index"] for k in keys]
+    ax.barh(np.arange(len(keys))[::-1], ks, color=[c for _, _, c, _ in BRANCHES], height=0.6)
+    for y, (kk, pp) in zip(np.arange(len(keys))[::-1], zip(ks, periods)):
+        ax.text(kk + 0.08, y, "k = %d  (= %g s of an %g s window)" % (kk, pp, window_s),
+                va="center", fontsize=6.4)
     ax.set_yticks(np.arange(len(keys))[::-1])
     ax.set_yticklabels([lab for _, lab, _, _ in BRANCHES], fontsize=6.8)
-    ax.set_xlim(0, max(periods) * 1.55)
-    ax.set_xlabel("period of peak bin (s) — a window property, not a measured timescale")
-    ax.set_title("c  Peak residual bin")
+    ax.set_xlim(0, max(ks) * 2.9 if ks else 1)
+    ax.set_xticks(range(0, max(ks) + 2 if ks else 2))
+    ax.set_xlabel("spectral index $k$ of the peak bin (resolution $1/%g$ Hz)" % window_s)
+    ax.set_title("c  Peak bin index")
 
-    fig.suptitle("Low-frequency residual structure on the 80 s analysis window",
-                 fontsize=10, fontweight="bold")
-    note = ("On an 80-point, 1 s-decimated series the first two nonzero Fourier periods ARE 80 s "
-            "and 40 s, so these bars locate a bin, not a physical periodicity. This panel shows "
-            "coherent low-frequency lack of fit; it does not distinguish drift from oscillation.")
+    fig.suptitle("Residual power sits in the lowest resolvable frequency bins of the "
+                 "%g s window" % window_s, fontsize=10, fontweight="bold")
+    note = ("The series has %d points at 1 s, so the frequency resolution is 1/%g Hz and k = 1 and "
+            "k = 2 are the first two nonzero bins available. The bars locate a BIN INDEX, not a "
+            "physical periodicity: this panel shows coherent low-frequency lack of fit and does "
+            "not distinguish drift from oscillation."
+            % (int(window_s), window_s))
     if coincide:
         note += ("\nThe best constant and static $\\kappa(P)$ curves coincide exactly in a and b: "
                  "both leave a constant-offset residual, so every centred diagnostic is identical "
@@ -605,11 +643,15 @@ def export_source_data(outdir=OUTDIR, bundle=None):
        [[p, pd_["recorded_basket_pressure_mean_bar"][p], pd_["nominal_minus_recorded_bar"][p]]
         for p in sorted(pd_["recorded_basket_pressure_mean_bar"], key=float)])
 
+    # Column names say what the quantity IS: a bin index and a partition of the available bins.
+    # `peak_bin_period_s` is retained but named as the window property it is (fourth review 6.4).
     _w("fig4_residual_structure.csv",
-       ["branch", "lag1_acf", "durbin_watson", "power_in_slowest_quarter",
-        "peak_bin_period_s"],
+       ["branch", "lag1_acf", "durbin_watson", "power_in_slowest_quarter_of_available_bins",
+        "peak_bin_index_k", "frequency_resolution_hz", "peak_bin_period_s_window_property"],
        [[k, rd[k]["lag1_autocorrelation"], rd[k]["durbin_watson"],
-         rd[k]["spectrum"]["power_in_slowest_quarter"],
+         rd[k]["spectrum"]["power_in_slowest_quarter_of_bins"],
+         rd[k]["spectrum"]["peak_bin_index"],
+         rd[k]["spectrum"]["frequency_resolution_hz"],
          rd[k]["spectrum"]["peak_bin_period_s"]] for k, *_ in BRANCHES])
 
     _w("fig4_acf_by_lag.csv", ["lag_s"] + [k for k, *_ in BRANCHES],

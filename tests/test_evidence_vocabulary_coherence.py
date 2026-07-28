@@ -125,11 +125,35 @@ def test_commit_provenance_separates_generation_from_verification():
     earlier value. The two facts are now separate fields."""
     from puckworks.public import schema as S
     fields = {f.name for f in __import__("dataclasses").fields(S.PublicClaim)}
-    assert {"generated_from_commit", "last_verified_against_commit"} <= fields
-    src = (_ROOT / "puckworks/public/export.py").read_text(encoding="utf-8")
-    # generation commit is set ONCE; the verification commit moves every export
-    assert "if c.generated_from_commit is None:" in src
-    assert "c.last_verified_against_commit = commit" in src
+    assert {"generated_from_commit", "last_verified_against_commit",
+            "payload_sha256"} <= fields
+
+    # This used to assert the literal string `if c.generated_from_commit is None:` in the
+    # exporter's source -- and that line WAS the bug: claims are rebuilt from source in every
+    # fresh process, where the field is always None, so the "immutable" commit was re-stamped on
+    # every export (fourth review P0-8). Asserting the implementation pinned the defect in place.
+    # The property is now driven through the exporter instead of read off its source.
+    import json
+    import tempfile
+    from pathlib import Path
+
+    from puckworks.public import export as E
+
+    with tempfile.TemporaryDirectory() as td:
+        real = E._source_commit
+        try:
+            E._source_commit = lambda: "1111111111"
+            E.export(out_dir=td)
+            E._source_commit = lambda: "2222222222"
+            E.export(out_dir=td)
+        finally:
+            E._source_commit = real
+        data = json.loads((Path(td) / "claims.json").read_text())
+    rows = data["claims"] if isinstance(data, dict) else data
+    assert rows
+    for r in rows:
+        assert r["generated_from_commit"] == "1111111111", "generation commit was re-stamped"
+        assert r["last_verified_against_commit"] == "2222222222", "verification did not advance"
 
 
 def test_source_commit_is_documented_as_a_deprecated_alias():

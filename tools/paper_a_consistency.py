@@ -229,26 +229,56 @@ def _placeholders_and_process_language() -> list[str]:
     return problems
 
 
-def _supplementary_targets() -> list[str]:
-    """Every "Supplementary X" the article promises must exist as a numbered item.
+#: A supplementary reference carries a TYPE as well as a number. Comparing numbers alone is what
+#: let "Supplementary Table S2" be satisfied by a "Supplementary Note S2" -- a false pass caused by
+#: discarding semantic type (round-4 review P0-3). Types are normalised to singular.
+_SUPP_KIND = {"table": "Table", "tables": "Table", "figure": "Figure", "figures": "Figure",
+              "note": "Note", "notes": "Note", "method": "Methods", "methods": "Methods"}
 
-    Third review P0-3: the main text repeatedly said material was "reported in the supplement"
-    while the submission directory contained no supplement at all.
+
+def _typed_supp_refs(text: str, heading_only: bool = False):
+    """Return the set of (kind, number) pairs, e.g. {("Table", "S3"), ("Note", "S2")}."""
+    prefix = r"(?m)^#{2,4}\s+(?:Supplementary\s+)?" if heading_only else r"Supplementary\s+"
+    pat = prefix + r"(Table|Figure|Note|Method)s?\s+(S\d+)"
+    return {(_SUPP_KIND[k.lower()], n) for k, n in re.findall(pat, text)}
+
+
+def _supplementary_targets() -> list[str]:
+    """Every "Supplementary X" the article promises must exist as an item of the SAME TYPE.
+
+    Third review P0-3: the article promised items while no supplement existed at all.
+    Round-four review P0-3: the supplement existed, but this check compared only the NUMBER, so a
+    promise of Table S2 was satisfied by the presence of Note S2. It also tolerated a
+    non-sequential numbering scheme that made such a gap easy to miss.
     """
     text = _read(CONVERSION)
-    promised = set(re.findall(
-        r"Supplementary\s+(?:Table|Figure|Note|Method)s?\s+(S\d+)", text))
+    promised = _typed_supp_refs(text)
     if not promised:
         return []
     if not SUPPLEMENT.exists():
-        return [f"the article cites {len(promised)} supplementary items "
-                f"({', '.join(sorted(promised))}) but no supplement exists at "
-                f"{SUPPLEMENT.name}"]
+        return [f"the article cites {len(promised)} supplementary items but no supplement exists "
+                f"at {SUPPLEMENT.name}"]
     supp = _read(SUPPLEMENT)
-    declared = set(re.findall(
-        r"(?m)^#{2,4}\s+(?:Supplementary\s+)?(?:Table|Figure|Note|Method)s?\s+(S\d+)", supp))
-    return [f"the article cites Supplementary {m} but the supplement does not define it"
-            for m in sorted(promised - declared)]
+    declared = _typed_supp_refs(supp, heading_only=True)
+
+    problems = [f"the article cites Supplementary {k} {n} but the supplement defines no such item "
+                f"(it defines: {', '.join(sorted(f'{a} {b}' for a, b in declared)) or 'nothing'})"
+                for k, n in sorted(promised - declared)]
+
+    # Sequential numbering, per type. A gap is not fatal in itself, but it is exactly the condition
+    # under which a missing item reads as an intentional omission, so it must be deliberate.
+    by_kind: dict[str, list[int]] = {}
+    for kind, num in declared:
+        by_kind.setdefault(kind, []).append(int(num[1:]))
+    for kind, nums in sorted(by_kind.items()):
+        nums.sort()
+        gaps = [i for i in range(1, max(nums) + 1) if i not in nums]
+        if gaps:
+            problems.append(
+                f"supplementary {kind} numbering is non-sequential: defines "
+                f"{[f'S{n}' for n in nums]}, missing {[f'S{g}' for g in gaps]}. Renumber "
+                f"sequentially or record why the gap is intentional")
+    return problems
 
 
 def _grid_record() -> list[str]:

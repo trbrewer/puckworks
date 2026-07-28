@@ -122,8 +122,9 @@ PUBLIC_CLAIMS = [
                         "coffee bed changed (swelling, channeling, fines)?",
         headline="A flow dip can come from the espresso machine even when the puck "
                  "model does nothing — but some traces DO need a time-varying bed.",
-        plain_language_finding="A machine-only model (pump + headspace, no bed "
-            "mechanism) can reproduce a dip-and-recovery, so that shape alone is not "
+        plain_language_finding="A machine-and-wetting model (pump + headspace + a sharp "
+            "wetting front advancing into a dry bed, with no extraction-driven change in bed "
+            "structure) can reproduce a dip-and-recovery, so that shape alone is not "
             "a diagnosis. Separately, on a 9-bar rising-flow trace, every constant "
             "baseline fails and a time-varying porosity trajectory reconstructs it "
             "~4.9x better — time variation IS needed there (though a flexible "
@@ -145,7 +146,8 @@ PUBLIC_CLAIMS = [
             _dep("waszkiewicz2025.poroelastic", "component",
                  "the bed-side temporal branch scored in the ladder"),
             _dep("foster2025.machine_mode", "component",
-                 "the machine-only branch that reproduces a dip without any bed process"),
+                 "the machine-and-wetting branch that reproduces a dip without any "
+                 "extraction-driven bed process"),
             _dep("puckworks.harness.kappa_t_ladder", "producer",
                  "scores every branch on one window and returns the ladder"),
             _dep("waszkiewicz2025/traces_time_dependent", "dataset",
@@ -184,7 +186,8 @@ PUBLIC_CLAIMS = [
                                   "saturation times",
                  claim_domain="the Foster apparatus and its reported scalar times",
                  role_in_claim="produces_reported_value",
-                 rationale="The machine-only branch's CAPACITY to generate the dip is what this "
+                 rationale="The machine-and-wetting branch's CAPACITY to generate the dip is "
+                           "what this "
                            "claim asserts, and the two reproduced scalar times support it. "
                            "DELIBERATELY EXCLUDED: gate_foster_ct_trajectory and "
                            "gate_foster_fig15_flowmin, both NEGATIVE-outcome records concerning "
