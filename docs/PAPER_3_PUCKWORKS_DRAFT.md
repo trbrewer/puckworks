@@ -91,7 +91,7 @@ exercised at all until each stage has a component.
 | unique DOIs recorded | 11 |
 | unique dataset sources (empirical campaigns) | 40 |
 | dataset manifest records | 107 |
-| model/source cards written | 97 |
+| model/source cards written | 100 |
 | components with evidence beyond reconstruction of their own source | 9 |
 | components rights- or data-blocked | 1 |
 | components that are calibration objects only | 15 |
