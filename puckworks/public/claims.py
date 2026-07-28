@@ -120,8 +120,10 @@ PUBLIC_CLAIMS = [
         claim_id="PV-02",
         public_question="When a flow curve dips and recovers, does that prove the "
                         "coffee bed changed (swelling, channeling, fines)?",
-        headline="A flow dip can come from the espresso machine even when the puck "
-                 "model does nothing — but some traces DO need a time-varying bed.",
+        headline="A machine-and-wetting model can produce a flow dip with no "
+                 "extraction-driven bed change — though it does not reproduce the "
+                 "published flow curve quantitatively — while some traces DO need a "
+                 "time-varying bed.",
         plain_language_finding="A machine-and-wetting model (pump + headspace + a sharp "
             "wetting front advancing into a dry bed, with no extraction-driven change in bed "
             "structure) can reproduce a dip-and-recovery, so that shape alone is not "
@@ -139,7 +141,7 @@ PUBLIC_CLAIMS = [
             "4-parameter flexible cubic reaches ~0.096 g/s, so the RMSE gap shows "
             "time-variation is needed, not that a particular mechanism is identified.",
         evidence_strength="post-fit reconstruction",
-        badge="RECONSTRUCTED",
+        badge="EXPLORATORY_SIMULATION",  # derived: a selected record carries a NEGATIVE outcome
         components=["waszkiewicz2025.poroelastic", "foster2025 machine mode",
                     "kappa_t_ladder"],
         dependencies=(
@@ -180,21 +182,32 @@ PUBLIC_CLAIMS = [
                            "pressure-flow curve and the recovered P_c/Q_c -- a different "
                            "observable."),
             _sel("foster2025.machine_mode",
-                 ["foster2025.machine_mode::gate_foster_machine_tp_ts"],
-                 claim_observable="whether a mid-shot flow minimum can arise from machine "
-                                  "response alone, evidenced by reproduced ponding and "
-                                  "saturation times",
-                 claim_domain="the Foster apparatus and its reported scalar times",
+                 ["foster2025.machine_mode::gate_foster_machine_tp_ts",
+                  "foster2025.machine_mode::gate_foster_fig15_flowmin"],
+                 claim_observable="whether a mid-shot flow minimum can arise from machine and "
+                                  "wetting response alone: the reproduced ponding and saturation "
+                                  "times, AND the normalized flow curve in which the dip appears",
+                 claim_domain="the Foster apparatus, its reported scalar times, and its "
+                              "normalized bed-flow curve",
                  role_in_claim="produces_reported_value",
-                 rationale="The machine-and-wetting branch's CAPACITY to generate the dip is "
-                           "what this "
-                           "claim asserts, and the two reproduced scalar times support it. "
-                           "DELIBERATELY EXCLUDED: gate_foster_ct_trajectory and "
-                           "gate_foster_fig15_flowmin, both NEGATIVE-outcome records concerning "
-                           "wetting-front depth s(t)/headspace H(t) and the normalized flow "
-                           "curve. This claim asserts nothing about those observables, and their "
-                           "presence in the profile misrepresented the claim's support in both "
-                           "directions."),),
+                 rationale="Fifth review P0-1. This selection previously named ONLY the "
+                           "supported scalar-times gate and deliberately excluded "
+                           "`gate_foster_fig15_flowmin` -- the NEGATIVE record covering the "
+                           "normalized flow curve -- on the ground that the claim 'asserts "
+                           "nothing about those observables'. But the claim asserts a "
+                           "DIP-AND-RECOVERY SHAPE, and the flow curve is precisely the "
+                           "observable that shape lives on. Selecting a related-but-different "
+                           "observable because the directly relevant record is unfavourable is "
+                           "the exact failure mode this architecture exists to prevent, and it "
+                           "had occurred here.\n\n"
+                           "The flow-minimum record is now SELECTED and carries its negative "
+                           "outcome. The two scalar times are reproduced; the published "
+                           "normalized flow curve is NOT, so what this claim licenses is the "
+                           "structural capacity of a machine-and-wetting model to produce a "
+                           "dip-and-recovery, not a quantitative reproduction of the source's "
+                           "curve. `gate_foster_ct_trajectory` remains excluded on its own "
+                           "merits: it concerns wetting-front depth s(t) and headspace H(t), "
+                           "which this claim does not mention."),),
     ),
 
     # ---- PV-04 — "We killed our favorite result" ---------------------------

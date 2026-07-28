@@ -511,9 +511,16 @@ observable and domain and the reason the two are commensurate.
 
 The difference is not cosmetic. The composition claim of §9 has an inventory of **7 records
 spanning 5 relations across 7 observables**, of which it selects **2**. The machine-capacity claim
-of §8 has an inventory of 5 and selects 2: the three excluded records are negative-outcome findings
-about wetting-front depth, headspace height and a normalized flow curve — real limitations of that
-port, but observables the claim does not assert. Under the previous scheme all of them entered the
+of §8 has an inventory of 5 and selects 3, and getting that selection right took two attempts. It
+originally selected 2, excluding all three negative-outcome records — wetting-front depth, headspace
+height, and **the normalized flow curve** — on the ground that the claim did not assert those
+observables. That was wrong for the third one. The claim asserts a dip-and-recovery *shape*, and the
+normalized flow curve is the observable a shape lives on; excluding the directly relevant record
+because its outcome was unfavourable is precisely the failure this architecture exists to prevent,
+occurring inside the paper that describes it. The flow-curve record is now selected and carries its
+negative outcome, which moves the claim's derived badge from `RECONSTRUCTED` to
+`EXPLORATORY_SIMULATION` — the mechanism working as designed, and the reason the record had been
+easier to leave out. The two genuinely unrelated records remain excluded. Under the previous scheme all of them entered the
 claim's profile, so unrelated evidence, including negative evidence, was presented as part of its
 support and the reader was left to infer which record was load-bearing.
 
