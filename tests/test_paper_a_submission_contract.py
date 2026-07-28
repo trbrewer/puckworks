@@ -452,3 +452,39 @@ def test_the_manuscript_does_not_deny_the_density_model_it_applies():
     assert "declared beverage-density model; that is not available here" not in text
     assert "beverage-density model" in text and "already present" in text, (
         "§2.4 must state that a density model is applied, not that one is unavailable")
+
+
+def test_abstract_numbers_are_consistent_with_the_body():
+    """The abstract must not carry a precision the body has retired.
+
+    The clustered interval was moved to three significant figures throughout the body precisely
+    because −0.725 sits on a 2 dp rounding boundary and both −0.72 and −0.73 are defensible. The
+    ABSTRACT kept −0.73, recreating the ambiguity in the most-read part of the paper. It is
+    generated from `paper_a_front_matter.yaml`, so editing the manuscript would have been
+    overwritten; the fix belongs at source.
+
+    Rounding to fewer significant figures is allowed (8.59 -> 8.6); carrying a DIFFERENT value at
+    the same precision is not.
+    """
+    import re
+
+    text = C.CONVERSION.read_text(encoding="utf-8")
+    m = re.search(r"(?ms)^## Abstract\s*(.*?)(?=^## )", text)
+    assert m, "abstract section not found"
+    abstract, body = m.group(1), text[m.end():]
+
+    #: Values the abstract legitimately rounds. Each must be a strict rounding of a body value.
+    ROUNDED = {"8.6": 8.59, "8.2": 8.23}
+    for token in sorted({t for t in re.findall(r"(?<![\w.])(\d+\.\d+)", abstract)}, key=float):
+        if token in body:
+            continue
+        assert token in ROUNDED, (
+            f"abstract states {token}, which appears nowhere in the body and is not a declared "
+            f"rounding. Either the body changed and the abstract did not, or vice versa")
+        assert abs(float(token) - ROUNDED[token]) <= 0.05, token
+        assert str(ROUNDED[token]) in body, (
+            f"{token} is declared a rounding of {ROUNDED[token]}, which is not in the body")
+
+    assert "−0.725" in abstract or "-0.725" in abstract, (
+        "the abstract must quote the clustered interval at the same three significant figures as "
+        "the body; 2 dp reintroduces the rounding ambiguity")
