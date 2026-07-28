@@ -157,3 +157,50 @@ def test_the_pressure_gap_numbers_are_bound_to_the_producer_that_already_existed
     assert not hasattr(W, "nominal_vs_recorded_pressure"), (
         "the competing whole-trace producer is back; there must be exactly one definition of the "
         "nominal-minus-recorded gap")
+
+
+# ── derived values are RECOMPUTED, not asserted (binding sweep, 2026-07-28) ───────────────────
+def test_b2_derived_bindings_recompute_and_match():
+    """B2's remaining unbound results are ratios and gaps over bundle fields.
+
+    Their `CONFIG_CONSTANTS` entries already NAMED the arithmetic -- "ratio of
+    shot_level.paired.comparisons.phi_vs_const.mean_difference_g_per_s / ..." -- but naming
+    arithmetic is not performing it. Either operand could move and the printed quotient would
+    stand. A derived number can be wrong while every input it derives from is right, which is
+    exactly what a value-matching check on the inputs cannot see.
+    """
+    from puckworks.paper_b2 import derived_bindings as DB
+
+    r = DB.verify()
+    assert r["n_bound"] > 0
+    assert not r["mismatched"], "derived manuscript values disagree with the bundle:\n  " + "\n  ".join(
+        f"{t}: recomputed {v!r} (delta {d:+.6g})" for t, v, d in r["mismatched"])
+    assert not r["unresolvable"], r["unresolvable"]
+
+
+def test_the_b2_derived_verifier_is_not_vacuous():
+    """Driven against a perturbed operand: the ratio must fail when its numerator moves."""
+    import json
+
+    from puckworks.paper_b2 import derived_bindings as DB
+
+    original = DB.BUNDLE.read_text(encoding="utf-8")
+    try:
+        doc = json.loads(original)
+        doc["shot_level"]["paired"]["comparisons"]["phi_vs_const"][
+            "mean_difference_g_per_s"] = -9.9
+        DB.BUNDLE.write_text(json.dumps(doc), encoding="utf-8")
+        assert DB.verify()["mismatched"], "a moved operand did not fail the derived binding"
+    finally:
+        DB.BUNDLE.write_text(original, encoding="utf-8")
+    assert not DB.verify()["mismatched"]
+
+
+def test_source_values_are_declared_as_provenance_not_recomputation():
+    """Reproducing a published calibration IS the claim; binding it to our refit is circular."""
+    from puckworks.paper_b2 import derived_bindings as DB
+
+    assert DB.SOURCE_VALUES
+    assert not (set(DB.DERIVED) & set(DB.SOURCE_VALUES))
+    for token, why in DB.SOURCE_VALUES.items():
+        assert "publish" in why.lower() or "refit" in why.lower(), (token, why)
