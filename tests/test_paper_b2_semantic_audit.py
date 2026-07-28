@@ -71,9 +71,23 @@ PROHIBITED = [
      "6.2: the Foster null is not machine-only -- it contains sharp-front infiltration through "
      "the bed. Use 'machine-wetting', 'pump-headspace-sharp-front-infiltration' or "
      "'boundary-and-infiltration'"),
-    (r"no evolving bed|without an evolving bed|no bed (?:process|mechanism|dynamics)",
-     "6.2: the wetting front IS evolving bed state. Say 'no extraction-driven bed change' and "
-     "name what is held fixed: the saturated-bed constitutive law"),
+    # Round FIVE, P0.1. The round-four version of this pattern enumerated two SPELLINGS --
+    # "no evolving bed" and "without an evolving bed" -- and the round-four tracker then claimed
+    # the terms "cannot return". They did, in three places, as "without bed evolution", "without
+    # bed" and "No bed-state signature". Guarding spellings does not guard a concept. This matches
+    # the CLAIM: any assertion that this branch lacks bed state / bed evolution / a bed signature,
+    # however phrased, unless the sentence qualifies it as extraction-driven.
+    # The suffix is REQUIRED and `interpretation` is excluded. Widening this pattern to catch the
+    # three missed spellings first produced a false positive on "the cubic has no bed-mechanism
+    # INTERPRETATION" -- which is correct, and about a different object. Denying a bed-mechanism
+    # *interpretation* of a descriptive polynomial is right; denying bed *state* of an
+    # infiltration model is not. A guard that fires on true statements gets switched off.
+    (r"(?:without|no|lacks?|absent|free of)\s+(?:an?\s+)?(?:evolving\s+)?bed[- ]?"
+     r"(?:state|evolution|process|dynamics|signature|mechanism)\b"
+     r"(?!\s+interpretation)",
+     "6.2/P0.1: sharp-front infiltration IS evolving bed saturation and hydraulic-path state. Any "
+     "unqualified denial of bed state is wrong however it is spelled. Say 'no EXTRACTION-DRIVEN "
+     "bed change' and name what is held fixed: the saturated-bed constitutive law"),
 ]
 
 #: A line that negates or withdraws the term is allowed to contain it.

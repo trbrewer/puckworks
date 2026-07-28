@@ -128,7 +128,7 @@ MECHANISMS = ("Machine/headspace", "Dissolution opening", "Fines migration",
 #: (mechanism, perturbation) -> a short directional token for the cell. Full prose stays in Table 4;
 #: the figure carries the direction only, which is all the model structures support.
 PREDICTIONS = {
-    ("Machine/headspace", 0): "dip+recovery\nwithout bed",
+    ("Machine/headspace", 0): "dip+recovery\nno extraction-driven\nbed change",
     ("Machine/headspace", 1): "immediate,\nrepeatable",
     ("Machine/headspace", 2): "apparatus-only",
     ("Machine/headspace", 3): "repeats",

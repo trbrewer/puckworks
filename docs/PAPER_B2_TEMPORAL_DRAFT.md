@@ -374,38 +374,6 @@ shots, because RMSE is nonlinear: a pressure-level mean curve has shot-to-shot v
 out of it, so errors measured against it are systematically optimistic relative to errors on real
 shots. Four estimands are therefore reported separately in Table 3c, each named for what it is.
 
-**Table 3c. Four cross-pressure summaries of the same scores (g s⁻¹).** Each row is a different
-estimand, not a different presentation of one estimand. Only the third answers "what is the error
-on a randomly drawn shot"; the first two average pressure-level *mean-curve* scores and are
-systematically lower.
-
-| Summary | static κ(P) | Φ(t) | RC-3b | what it is |
-|---|---:|---:|---:|---|
-| Equal-pressure macro mean of mean-curve RMSE | 0.524 | **0.335** | 0.510 | every pressure counts once; the scheme used above |
-| Shot-count-weighted macro mean of mean-curve RMSE | 0.509 | **0.343** | 0.530 | the same mean-curve scores, weighted by shot count |
-| Mean of individual-shot RMSEs | 0.523 | **0.364** | 0.547 | the expected error of a randomly drawn shot |
-| Pooled shot × time RMSE | 0.552 | **0.394** | 0.619 | root mean square over all shot × time observations |
-
-All values are g s⁻¹, over 56 distinct shots at eleven pressures. **Only the third row answers "what
-happens to a randomly drawn shot"**; an earlier version of this paragraph attached that reading to
-the shot-count-weighted mean-curve average, which is the second row, and that was wrong. Scoring
-shots individually raises every branch's error relative to both mean-curve summaries — Φ(t) from
-0.335–0.343 to 0.364, static from 0.509–0.524 to 0.523, RC-3b from 0.510–0.530 to 0.547 — which is
-the optimism just described, made quantitative. Φ(t) is lowest under all four. The ordering
-phi < static < rc3b holds for the individual-shot and pooled estimands and for the shot-weighted
-mean-curve average; the equal-pressure average alone puts RC-3b second. These are within-campaign
-descriptive scores, not held-out predictions.
-
-The counts behind them need stating precisely. The deposit contains **57 processed trace records**,
-but only **56 distinct trajectories**: `12-8-6` and `12-8-6_alt` are identical in every numeric
-field at all 1000 time rows, and in the source archive the former is an exact line-for-line prefix
-of the latter, whose extra samples fall past the 100 s truncation and record the scale being
-cleared. They are one physical brew stored twice, so the pair contributes **one** experimental unit
-here and the 13-bar condition has six shots, not seven. The source's own published per-pressure
-means average both copies, so the deposited 13-bar mean curve is a mean over seven records covering
-six brews; we use it as published for the mean-curve rows and note the discrepancy rather than
-silently re-deriving it.
-
 ### 5.3b Pressure domains and boundary nodes
 
 Four distinct pressure quantities appear in this paper and are easy to conflate.
@@ -455,11 +423,51 @@ The remaining mechanisms are distinguished more effectively by interventions tha
 
 | Candidate contribution | Fixed-pressure forward trace | Pressure step upward | Flow reversal at matched $\lvert\Delta P\rvert$ | Rebrew of spent puck | Depth-resolved end state |
 |---|---|---|---|---|---|
-| Machine/headspace response | Can generate dip/recovery without bed evolution | Immediate response governed by pump/headspace; repeatable with inert load | Changes with plumbing orientation only if apparatus does | Repeats if boundary and hydraulic load repeat | No bed-state signature |
+| Machine/headspace response | Can generate dip/recovery without EXTRACTION-DRIVEN bed change (its wetting front still advances) | Immediate response governed by pump/headspace; repeatable with inert load | Changes with plumbing orientation only if apparatus does | Repeats if boundary and hydraulic load repeat | No signature of extraction-driven bed change; wetting-front state does evolve |
 | Dissolution-linked opening | Rising contribution as cumulative mass is removed | Static hydraulic jump; no matrix-specific restart beyond continuing extraction | Mass loss is direction-independent; no deposited layer to remobilize | Near-flat relative to first-shot endpoint once extractable inventory is depleted | Comparatively distributed porosity opening, subject to local extraction gradients |
 | Fines migration and deposition | Resistance increases at fixed pressure | Rising pressure can remobilize or restart transport; compact layer can persist | Direction-asymmetric because the former outlet deposit becomes an upstream structure | Partial reopening and re-clogging may occur under a new cycle | Outlet-side accumulation or compact layer |
 | Compaction and elastic recovery | Resistance increase or relaxation depends on stress history | Step can produce transient strain/recovery beyond the static jump | More direction-symmetric than a deposited compact layer | Unloading/reloading may reveal recovery and hysteresis | Strain-dependent profile, not necessarily outlet-localized |
 | Particle swelling | Resistance increases in the fixed-height branch | Pressure step changes hydraulic load but water-uptake state evolves on its own timescale | Local swelling is approximately direction-independent | State may persist or relax slowly; no fresh dissolution required | Profile follows water exposure and mechanical constraint rather than a necessary outlet deposit |
+
+**Table 3c. Four cross-pressure summaries of the same scores (g s⁻¹).** Each row is a different
+estimand, not a different presentation of one estimand. Only the third answers "what is the error
+on a randomly drawn shot"; the first two average pressure-level *mean-curve* scores and are
+systematically lower.
+
+| Summary | static κ(P) | Φ(t) | RC-3b | what it is |
+|---|---:|---:|---:|---|
+| Equal-pressure macro mean of mean-curve RMSE | 0.524 | **0.335** | 0.510 | every pressure counts once; the scheme used above |
+| Shot-count-weighted macro mean of mean-curve RMSE | 0.509 | **0.343** | 0.530 | the same mean-curve scores, weighted by shot count |
+| Mean of individual-shot RMSEs | 0.523 | **0.364** | 0.547 | the expected error of a randomly drawn shot |
+| Pooled shot × time RMSE | 0.552 | **0.394** | 0.619 | root mean square over all shot × time observations |
+
+All values are g s⁻¹, at eleven pressures — but **the four rows do not share a denominator**, and
+the label "56 shots" previously attached to all of them was wrong. Rows 3 and 4 score the **56
+distinct brews**. Rows 1 and 2 average the source's **published per-pressure mean curves**, which at
+13 bar is a mean over **seven records covering six brews**; row 2 additionally *weights* that
+pressure by seven. Rows 1 and 2 are therefore **source-record-count-weighted** summaries built on a
+57-record basis, not physical-shot summaries. They are reported as the source published them rather
+than silently re-derived, because reproducing the deposited mean curve is what makes the comparison
+a verification; the consequence is that the top two rows and the bottom two answer questions with
+different denominators. **Only the third row answers "what
+happens to a randomly drawn shot"**; an earlier version of this paragraph attached that reading to
+the shot-count-weighted mean-curve average, which is the second row, and that was wrong. Scoring
+shots individually raises every branch's error relative to both mean-curve summaries — Φ(t) from
+0.335–0.343 to 0.364, static from 0.509–0.524 to 0.523, RC-3b from 0.510–0.530 to 0.547 — which is
+the optimism just described, made quantitative. Φ(t) is lowest under all four. The ordering
+phi < static < rc3b holds for the individual-shot and pooled estimands and for the shot-weighted
+mean-curve average; the equal-pressure average alone puts RC-3b second. These are within-campaign
+descriptive scores, not held-out predictions.
+
+The counts behind them need stating precisely. The deposit contains **57 processed trace records**,
+but only **56 distinct trajectories**: `12-8-6` and `12-8-6_alt` are identical in every numeric
+field at all 1000 time rows, and in the source archive the former is an exact line-for-line prefix
+of the latter, whose extra samples fall past the 100 s truncation and record the scale being
+cleared. They are one physical brew stored twice, so the pair contributes **one** experimental unit
+here and the 13-bar condition has six shots, not seven. The source's own published per-pressure
+means average both copies, so the deposited 13-bar mean curve is a mean over seven records covering
+six brews; we use it as published for the mean-curve rows and note the discrepancy rather than
+silently re-deriving it.
 
 ### 6.1 Pressure-step experiment
 
@@ -540,7 +548,7 @@ Sixth, several plausible processes remain outside the quantitative ladder, inclu
 
 ## 9. Conclusions
 
-A flow curve can reject specified time-invariant descriptions without identifying a physical mechanism. In the cases examined here, a pump–headspace–infiltration model can generate a dip-and-recovery shape without bed evolution, while the preprocessed nominal 9-bar rising-flow trajectory is reconstructed much better by time-varying branches than by the tested constant and static pressure-dependent branches. The same trajectory is reconstructed at least as well by a same-trace cubic, and a fully held-out empirical template learned from other brews predicts a new brew as well as the partly target-informed dissolution-linked trajectory. Fit quality therefore supports time variation relative to the tested nulls, but not the named closure.
+A flow curve can reject specified time-invariant descriptions without identifying a physical mechanism. In the cases examined here, a pump–headspace–sharp-front-infiltration model can generate a dip-and-recovery shape without any extraction-driven change in bed structure — its wetted fraction and hydraulic path length do evolve — while the preprocessed nominal 9-bar rising-flow trajectory is reconstructed much better by time-varying branches than by the tested constant and static pressure-dependent branches. The same trajectory is reconstructed at least as well by a same-trace cubic, and a fully held-out empirical template learned from other brews predicts a new brew as well as the partly target-informed dissolution-linked trajectory. Fit quality therefore supports time variation relative to the tested nulls, but not the named closure.
 
 The claim is deliberately model-relative: **time-varying predictions are required to reconstruct this preprocessed mean trajectory relative to the tested time-invariant branches.** The tested static branches are time-invariant levels at fixed pressure; they do not exhaust static spatial heterogeneity, changing boundary conditions at unmeasured nodes, preprocessing artefacts, or latent machine states, so no internal material state has been observed.
 
