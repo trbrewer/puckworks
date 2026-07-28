@@ -1,0 +1,150 @@
+# Paper 1 — reviewer brief, round 7
+
+**Manuscript:** `docs/submission/PAPER_A_JFE_MANUSCRIPT.md` (canonical working draft:
+`docs/PAPER_A_DRAFT.md` — the two are held identical in content by CI).
+**Commit:** `5db834b`.
+The commit above is the version to review. It postdates three defects found by re-checking
+immediately before release — a false absence claim in §2.4, an abstract carrying a retired
+rounding, and four main figures that no sentence cited — so an earlier commit is NOT equivalent.
+
+**Supplement:** `docs/submission/PAPER_A_JFE_SUPPLEMENT.md` + `docs/submission/figures/`.
+
+This is a **single-paper review**. Papers B2 and 3 are out of scope; findings about them will not
+be actioned in this round.
+
+---
+
+## 1. What this round is for
+
+Six previous rounds found defects at a roughly constant rate. We measured why rather than guessing:
+of 441 claim-bearing numbers in this manuscript, only 65 (14.9 %) were checked against anything that
+computes them. The rest were accounted for by hand-written explanations. That is where the stale
+numbers lived.
+
+That has changed. **166 of 441 (37.6 %) are now verified**, and the correctness-critical subset —
+the slow-lane results, which are expensive to recompute and therefore the likeliest to go stale — is
+**66 of 77 bound, 0 declared unbindable**, each resolving against a committed archive, the figure
+bundle, or a module constant, with drift failing CI.
+
+So please **do not spend effort re-checking arithmetic that the chain already checks.** You can
+confirm that claim cheaply — see §3. Spend your time on what the chain structurally cannot see.
+
+---
+
+## 2. Explicitly out of scope — do not report these
+
+These are known, deliberate, and deferred to submission. They are not oversights:
+
+| | |
+|---|---|
+| Author list, affiliations, corresponding author, ORCIDs | not yet supplied |
+| CRediT roles, funding, competing interests, generative-AI declaration | not yet supplied |
+| Licensed indexed novelty search | not yet run |
+| Release DOI and archival tag | not yet minted |
+| Working-draft date and internal review-history prose | will be stripped at submission |
+
+On novelty specifically: §1 already states the claim is *"the authors' awareness rather than …
+the result of a systematic search"* and commits to revising it once the search is archived. Please
+take that at face value; no need to flag it.
+
+---
+
+## 3. The claim → producer → evidence chain
+
+The paper's numbers are meant to be traceable to the code and data that produced them. Three
+commands let you test that rather than take it on trust:
+
+```bash
+python -m puckworks.paper_a.slow_lane_bindings   # every slow-lane number vs its archived run
+python tools/paper_a_consistency.py verify       # submission contract: SI refs, figures, front matter
+python -m pytest tests/test_cross_paper_number_audit.py -q   # every numeral has a disposition
+```
+
+`docs/CLAIM_BINDING_AUDIT_2026-07-28.md` explains the accounting and its limits.
+
+**Adversarial use is welcome and more valuable than confirmation.** If you can find a manuscript
+number that these report as verified but which is in fact wrong, that is the single most useful
+result this review could produce — it would mean the mechanism is giving false assurance, which is
+worse than no mechanism.
+
+---
+
+## 4. What we are asking you to look for
+
+Two questions, in priority order.
+
+### (a) Claims not backed by the chain
+
+Statements whose support is weaker than the sentence implies: an evidence tier asserted above what
+the design licenses, a comparator presented as a null, a within-campaign result read as external
+validation, an estimand named as one thing and computed as another.
+
+### (b) Statements about the corpus that the corpus contradicts
+
+**This is the class we most need help with, and it is why a human review still matters.**
+
+Round 6 found §5 asserting *"An empirical whole-cup comparison on this campaign is not available"* —
+two sentences after quoting a MAPE computed against exactly those measured cups, from a file that
+has been in the repository, and in production use, throughout. **No automated check could see it**:
+the sentence is consistent with every producer value because it asserts nothing numeric. Only
+reading the data disproves it. Six rounds passed over it.
+
+Similar shapes worth probing: a described dataset that does not exist or has different coverage;
+"we do not have X" where X is present; a method described in prose that differs from the
+implementation; a limitation claimed that the data does not actually impose.
+
+### Also welcome, lower priority
+
+Scientific framing, the strength of the identifiability argument, the adequacy of the level-only
+null, the endpoint-proxy treatment, and whether §5's evidence hierarchy is persuasive.
+
+---
+
+## 5. Known open items — please do not re-report
+
+These are recorded, not overlooked:
+
+1. **The fraction-versus-measured-cup rate-profile contrast has not been run.** Round 6 proposed it
+   as §5's primary result. The data supports it; the analysis is owed. §5 currently says what is
+   true and identifies the stronger comparison as available.
+2. **11 of 77 slow-lane values remain unbound**, listed by
+   `puckworks.paper_a.claim_coverage.binding_coverage()`.
+3. **~275 declared design settings** (thresholds, windows, condition counts) are single-sourced by
+   hand rather than spliced. These are choices, not results.
+
+Telling us these are still open is not useful. Telling us one of them is *wrong* is.
+
+---
+
+## 6. Settled in earlier rounds — reopen only with new evidence
+
+Two round-6 findings were investigated against the original Pannusch/Schmieder MATLAB and resolved
+**against** the review's reading. Both are archived in
+`docs/paper1_resource/PAPER_A_SOLVER_CONTRACT_AUDIT.json`:
+
+- **Reynolds definition.** `SherwoodFunction.m` computes `Re = d32 .* q ./ kin_vis` from the
+  *superficial* velocity. Our port is identical. The model card's equation, which used the
+  interstitial velocity, was the thing that disagreed, and it has been corrected.
+- **`flow_mL_s` and density.** `simulation_Fit2.m:3` reads
+  `q = flow ./ 1000 ./ paramPh.rho ./ paramPh.Acs` — character-for-character our expression, at all
+  seven call sites including the volume accumulator. The source consumes its `flow` column as mass
+  flow in g/s while labelling it mL/s. **Removing the density division would break fidelity to the
+  source and invalidate every archived fitted parameter**, since `A`, `B`, `K_ref`, `γ` and `c_s0`
+  were all estimated under that convention.
+
+A consequence worth knowing: the collection accumulator is therefore mass-equivalent at
+ρ = 980 kg m⁻³, which resolves the paper's "40 g source endpoint versus 40 mL modelled proxy"
+tension — the modelled endpoint is already mass-based.
+
+---
+
+## 7. Format
+
+Please report findings as **P0 (submission-blocking) / P1 (major) / P2 (editorial)**, each with the
+evidence you relied on and a minimum acceptance criterion. Where you assert a number is wrong, say
+what you compared it against — the previous round's audit tables were unusually useful for exactly
+that reason.
+
+If a finding turns out to be a **stale number**, please say so explicitly. That is the metric we are
+using to judge whether the binding work succeeded; the category should now be empty, and if it is
+not, the bindings are wrong and we need to know.
