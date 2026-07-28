@@ -202,6 +202,12 @@ class ClaimEvidenceSelection:
         errs = []
         if not self.evidence_ids:
             errs.append(f"selection for {self.dependency_ref!r}: no evidence ids selected")
+        # Fifth review P0-7 finding 3: `ScopedEvidenceRef.evidence_id` defaults to "", so a blank
+        # id in both the inventory and the selection matched itself and validated. An identifier
+        # that is empty identifies nothing.
+        for eid in self.evidence_ids:
+            if not str(eid).strip():
+                errs.append(f"selection for {self.dependency_ref!r}: blank evidence id")
         for f in ("claim_observable", "claim_domain", "role_in_claim"):
             if not str(getattr(self, f)).strip():
                 errs.append(f"selection for {self.dependency_ref!r}: {f} is empty")
@@ -483,6 +489,25 @@ class PublicClaim:
         # (3) a badge is set and valid; a simulation claim needs the SIM badge
         if self.badge not in BADGES:
             errs.append(f"{self.claim_id}: badge '{self.badge}' invalid")
+
+        # (3a2) FIFTH REVIEW P0-7 -- selections must be a SET, not an ordered list whose later
+        # entries silently overwrite earlier ones. `derive_badge` built `{s.dependency_ref:
+        # s.role_in_claim}`, so two selections naming one dependency with different roles produced
+        # a different badge depending on tuple order: (produces, comparator) derived OBSERVED and
+        # (comparator, produces) derived RECONSTRUCTED, from the same evidence. The two orderings
+        # even disagreed on whether the claim validated at all.
+        seen_refs: dict[str, str] = {}
+        for s in self.evidence_selections:
+            prior = seen_refs.get(s.dependency_ref)
+            if prior is None:
+                seen_refs[s.dependency_ref] = s.role_in_claim
+            elif prior == s.role_in_claim:
+                errs.append(f"{self.claim_id}: duplicate evidence selection for dependency "
+                            f"{s.dependency_ref!r}; merge them into one selection")
+            else:
+                errs.append(f"{self.claim_id}: dependency {s.dependency_ref!r} is selected twice "
+                            f"with CONFLICTING roles ({prior!r} and {s.role_in_claim!r}). The "
+                            f"derived badge would depend on which appears first")
 
         # (3b) THIRD REVIEW P0-1 -- claim-scoped evidence selection is enforced, not advisory.
         by_ref = {d.ref: d for d in self.dependencies}

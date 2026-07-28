@@ -389,3 +389,62 @@ def test_a_context_only_comparator_does_not_cap_a_measured_claim():
     assert not any("stronger than the selected" in e for e in c.validate())
     # The comparator's evidence is still visible in the detail record, just not load-bearing.
     assert "verification" in S.relation_summary(c)[0]
+
+
+# ── badge derivation must not depend on selection order (Paper 3 fifth review P0-7) ───────────
+def test_badge_derivation_is_invariant_to_selection_order():
+    """Every permutation of a claim's selections must derive the same badge.
+
+    `derive_badge` built `{s.dependency_ref: s.role_in_claim}`, so two selections naming one
+    dependency silently overwrote each other and the badge depended on tuple order: the same
+    evidence derived OBSERVED as (produces, comparator) and RECONSTRUCTED as (comparator,
+    produces). The two orderings even disagreed on whether the claim validated.
+    """
+    import dataclasses
+    import itertools
+
+    from puckworks.public.claims import PUBLIC_CLAIMS
+
+    for claim in PUBLIC_CLAIMS:
+        if len(claim.evidence_selections) < 2:
+            continue
+        badges = {dataclasses.replace(claim, evidence_selections=perm).derived_badge()[0]
+                  for perm in itertools.permutations(claim.evidence_selections)}
+        assert len(badges) == 1, (
+            f"{claim.claim_id}: badge depends on selection order -> {sorted(badges)}")
+
+
+def test_a_dependency_cannot_be_selected_twice_with_conflicting_roles():
+    """The ordering hazard is removed at source: such a claim must not validate at all."""
+    import dataclasses
+
+    from puckworks.public.claims import PUBLIC_CLAIMS
+
+    base = next(c for c in PUBLIC_CLAIMS if len(c.evidence_selections) >= 1)
+    sel = base.evidence_selections[0]
+    produces = dataclasses.replace(sel, role_in_claim="produces_reported_value")
+    comparator = dataclasses.replace(sel, role_in_claim="comparator_context")
+
+    for order in ((produces, comparator), (comparator, produces)):
+        claim = dataclasses.replace(base, claim_id="TEST-dup", evidence_selections=order)
+        errs = claim.validate()
+        assert any("CONFLICTING roles" in e for e in errs), (
+            f"a dependency selected twice with different roles validated; errors were {errs}")
+
+    # An exact duplicate is also rejected -- it is redundant and invites the same overwrite.
+    dup = dataclasses.replace(base, claim_id="TEST-dup2",
+                              evidence_selections=(produces, produces))
+    assert any("duplicate evidence selection" in e for e in dup.validate())
+
+
+def test_blank_evidence_ids_do_not_validate():
+    """`ScopedEvidenceRef.evidence_id` defaults to "", so a blank id matched itself."""
+    import dataclasses
+
+    from puckworks.public.claims import PUBLIC_CLAIMS
+
+    base = next(c for c in PUBLIC_CLAIMS if c.evidence_selections)
+    blank = dataclasses.replace(base.evidence_selections[0], evidence_ids=("",))
+    claim = dataclasses.replace(base, claim_id="TEST-blank", evidence_selections=(blank,))
+    assert any("blank evidence id" in e for e in claim.validate()), (
+        "an empty evidence id validated; an identifier that is empty identifies nothing")
