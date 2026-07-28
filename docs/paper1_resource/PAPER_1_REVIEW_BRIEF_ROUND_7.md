@@ -2,7 +2,11 @@
 
 **Manuscript:** `docs/submission/PAPER_A_JFE_MANUSCRIPT.md` (canonical working draft:
 `docs/PAPER_A_DRAFT.md` — the two are held identical in content by CI).
-**Commit:** `8eedd76`.
+**Commit:** `5db834b`.
+The commit above is the version to review. It postdates three defects found by re-checking
+immediately before release — a false absence claim in §2.4, an abstract carrying a retired
+rounding, and four main figures that no sentence cited — so an earlier commit is NOT equivalent.
+
 **Supplement:** `docs/submission/PAPER_A_JFE_SUPPLEMENT.md` + `docs/submission/figures/`.
 
 This is a **single-paper review**. Papers B2 and 3 are out of scope; findings about them will not
