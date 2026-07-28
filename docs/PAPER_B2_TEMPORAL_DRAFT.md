@@ -80,7 +80,8 @@ where $\widehat p$ is pressure normalized by a characteristic pressure $P_c$ and
 We compare three constant or static baselines at 9 bar:
 
 - the least-squares-optimal constant on the scoring interval;
-- a late-window constant estimated from a real 10 s interval near the end of the source trace; and
+- a late-window constant estimated from the last 10 s of the scoring interval itself (85–95 s of
+  the scored 15–95 s window) — an **in-sample subset fit**, not a held-out one; and
 - the static poroelastic relation evaluated at 9 bar using the campaign equilibrium calibration.
 
 The first is the strongest constant null for in-window RMSE. The second tests sensitivity to a physically interpretable late level. The third asks whether a nonlinear pressure–flow curve alone explains temporal structure at fixed pressure.
@@ -126,7 +127,7 @@ Raw parameter count is insufficient unless the fitting target is stated. Table 1
 | Branch | Coefficients fitted to this $Q(t)$ trace | Parameters fitted elsewhere in the same campaign | Literature/donor-fixed content | Intended role |
 |---|---:|---|---|---|
 | Best constant | 1 level | 0 | none | strongest static in-window null |
-| Late-window constant | 0 on scoring interval | 1 level from late interval | none | interpretable static sensitivity |
+| Late-window constant | **1**, fitted on 85–95 s *inside* the scored window | 1 level from the last 10 s of the scoring interval | **none** | interpretable static sensitivity, but an in-sample subset fit |
 | Static $\kappa(P)$ / poroelastic equilibrium | 0 | 2 equilibrium parameters, $P_c$ and $Q_c$ | constitutive form | pressure-dependent static null |
 | Empirical $\Phi(t)$ | 0 | 2 equilibrium + 3 dissolved-mass sigmoid parameters | constitutive form | mechanistically motivated temporal candidate |
 | RC-3b | 0 | 2 equilibrium parameters | donor extraction calibration | cross-pressure temporal challenger |
@@ -220,7 +221,7 @@ Table 2 reports the primary-window errors.
 | Branch | RMSE (g s⁻¹) | Interpretation |
 |---|---:|---|
 | Best constant | 0.573 | strongest one-level static null |
-| Late-window constant | 0.641 | constant estimated from a real late interval |
+| Late-window constant | 0.641 | constant estimated on 85–95 s, a subset of the scored interval (in-sample) |
 | Static $\kappa(P)$ | 0.648 | nonlinear across pressure, constant within a 9-bar shot |
 | Empirical $\Phi(t)$ | 0.116 | temporal candidate; no coefficient fitted to this flow trace, but its temporal input is partly derived from the same flow (§5.3c) |
 | Flexible cubic | 0.096 | four-parameter same-trace descriptive benchmark (not predictive) |

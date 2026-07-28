@@ -182,3 +182,51 @@ def test_producer_reports_the_transition_count():
         f"winner sequence {winners} has {_transitions(winners)} transitions")
     assert het["n_rank_changes"] == 3
     assert het["best_branch_is_constant_across_pressure"] is False
+
+
+# ── late-window constant access (Paper B2 fifth review P0.2) ──────────────────────────────────
+def test_the_late_window_constant_is_recorded_as_an_in_sample_subset_fit():
+    """Its calibration interval lies INSIDE the scored window, so it is not held out.
+
+    The provenance graph recorded 0 free parameters fitted to the scored trace, `same_shot` access
+    (defined as "outside the scored window") and "the scored window, but not the shot" held out.
+    All three were false: `harness.kappa_t_ladder` defines the late interval as `hi - 10` to `hi`,
+    and the scored window is 15-95 s, so the level is fitted on 85-95 s -- the final eighth of the
+    interval it is then scored on.
+
+    This is checked against the PRODUCER's own window arithmetic rather than a transcribed 85, so
+    changing the scoring window cannot silently make the record wrong again.
+    """
+    from puckworks.analysis import waszkiewicz_cross_pressure as cp
+
+    lo, hi = cp.WINDOW
+    late_lo, late_hi = hi - 10.0, hi
+    assert lo <= late_lo < late_hi <= hi, (
+        f"the late interval [{late_lo}, {late_hi}] is no longer inside the scored window "
+        f"[{lo}, {hi}]; the access classification below must be revisited")
+
+    b = cp.provenance_graph()["branches"]["rung1b_longrun_const"]
+    assert b["free_params_fitted_to_scored_trace"] == 1, (
+        "the late constant fits one level on data inside the scored window")
+    assert b["most_target_proximal_access"] == "direct_target", (
+        f"access recorded as {b['most_target_proximal_access']!r}; a level fitted inside the "
+        f"scored interval has direct access to the trace it is scored on")
+    assert b["is_held_out"] is False
+    assert "same_shot" not in b["access_levels_present"], (
+        "`same_shot` is defined as 'outside the scored window', which this is not")
+
+
+def test_the_manuscript_does_not_claim_the_late_constant_is_free_or_held_out():
+    """Table 1 said '0 on scoring interval'; the access graph said 'outside the scored window'."""
+    import pathlib
+    import re
+
+    text = (pathlib.Path(__file__).resolve().parents[1] / "docs"
+            / "PAPER_B2_TEMPORAL_DRAFT.md").read_text(encoding="utf-8")
+    flat = " ".join(text.split())
+    assert "0 on scoring interval" not in flat
+    m = re.search(r"\| Late-window constant \|([^|]*)\|", flat)
+    assert m, "Table 1's late-window row is gone"
+    assert "1" in m.group(1), f"late-window row still claims no fitted parameter: {m.group(1)!r}"
+    assert "85–95" in flat or "85-95" in flat, (
+        "the manuscript does not state the actual calibration interval")
