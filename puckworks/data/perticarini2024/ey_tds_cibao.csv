@@ -1,0 +1,19 @@
+coffee,granulometry,T_degC,p_bar,tau_s,TDS_pct,TDS_sd_pct,EY_pct
+Cibao Altura,optimal,93.4,9,25,10.3,0.0,20.77
+Cibao Altura,optimal,93.4,6,31,10.5,0.2,21.35
+Cibao Altura,optimal,90.4,9,26,10.3,0.15,20.53
+Cibao Altura,optimal,90.4,6,32,10.0,0.17,20.34
+Cibao Altura,fine,93.4,9,42,10.2,0.27,20.9
+Cibao Altura,fine,93.4,6,42,10.7,0.15,21.86
+Cibao Altura,fine,90.4,9,42,10.4,0.21,21.21
+Cibao Altura,fine,90.4,6,44,10.2,1.04,20.43
+Cibao Altura,coarse,93.4,9,19,9.6,0.25,19.91
+Cibao Altura,coarse,93.4,6,24,10.1,0.17,20.2
+Cibao Altura,coarse,90.4,9,19,9.4,0.3,19.42
+Cibao Altura,coarse,90.4,6,24,9.8,0.29,19.83
+Cibao Altura,extra_fine,93.4,9,74,10.9,0.16,21.77
+Cibao Altura,extra_fine,93.4,6,73,10.9,0.42,21.8
+Cibao Altura,extra_fine,93.4,12,81,11.0,0.14,21.45
+Cibao Altura,extra_coarse,93.4,9,15,8.9,0.14,18.24
+Cibao Altura,extra_coarse,93.4,6,21,9.5,0.07,19.14
+Cibao Altura,extra_coarse,93.4,12,14,8.9,0.0,18.02

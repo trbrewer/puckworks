@@ -422,10 +422,20 @@ def test_the_blocked_holdout_reason_is_stated():
 
 
 def test_the_manifest_count_is_not_described_as_validation_datasets():
-    """`supported by 107 dataset-manifest records` reads as 107 validation datasets."""
+    """"supported by N dataset-manifest records" reads as N validation datasets; "described by"
+    does not.
+
+    The wording is what this test is about, so it must be checked at whatever the LIVE count is.
+    It previously hard-coded 107 on both sides, which pinned a number that moves whenever a
+    dataset is intaken -- the test then failed for the one reason it does not care about.
+    """
+    import csv
+
+    n = sum(1 for _ in csv.reader(
+        (_ROOT / "puckworks" / "data" / "MANIFEST.csv").open(encoding="utf-8"))) - 1
     text = _text()
-    assert "supported by 107 dataset-manifest records" not in text
-    assert "described by 107 provenance-manifest records" in text
+    assert f"supported by {n} dataset-manifest records" not in text
+    assert f"described by {n} provenance-manifest records" in text
 
 
 # ── generated-block drift (fourth review P0-1) ───────────────────────────────────────────────
