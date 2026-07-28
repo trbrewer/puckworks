@@ -1,12 +1,12 @@
 {
   "paper": "B",
-  "source_commit": "99ea79f97894c68d53a779ab892ce7801aa7042b",
+  "source_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
   "git_dirty": true,
   "timestamp_utc": null,
-  "bundle_source_commit": "99ea79f97894c68d53a779ab892ce7801aa7042b",
+  "bundle_source_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
   "bundle_matches_head": true,
   "release_fresh": false,
-  "bundle_sha256": "d9860605788c5b93fde81ae326e60931926178278b1f8df11491464ee6223865",
+  "bundle_sha256": "9c249c57763645b616dac80b548c7c56415a0ca9df2a32ff134f785f3e0a3288",
   "environment": {
     "python": "3.13.13",
     "numpy": "2.5.1",
@@ -26,7 +26,7 @@
     "paper_b_evidence_matrix.csv": "13b739e86c7069934c73d7a0c15add66fcd9aa2aa56a0f51fc1c6f739e577304",
     "paper_b_evidence_dictionary.csv": "38b807ff9bfb99952e09cef892e8a8d95e5383c0e27644f44fb3b5afbdccaf16"
   },
-  "n_claims": 151,
+  "n_claims": 156,
   "n_failures": 0,
   "claims": [
     {
@@ -302,50 +302,90 @@
       "ok": true
     },
     {
-      "claim": "MEAN OF 57 INDIVIDUAL-SHOT RMSEs, static ~0.527",
+      "claim": "MEAN OF 56 INDIVIDUAL-SHOT RMSEs, static ~0.523",
       "path": "cross_pressure_per_shot.mean_of_individual_shot_rmse.static",
-      "expected": 0.5271,
-      "actual": 0.5271,
+      "expected": 0.5228,
+      "actual": 0.5228,
       "tol": 0.003,
       "ok": true
     },
     {
-      "claim": "MEAN OF 57 INDIVIDUAL-SHOT RMSEs, Phi(t) ~0.363",
+      "claim": "MEAN OF 56 INDIVIDUAL-SHOT RMSEs, Phi(t) ~0.364",
       "path": "cross_pressure_per_shot.mean_of_individual_shot_rmse.phi",
-      "expected": 0.3632,
-      "actual": 0.3632,
+      "expected": 0.364,
+      "actual": 0.364,
       "tol": 0.003,
       "ok": true
     },
     {
-      "claim": "MEAN OF 57 INDIVIDUAL-SHOT RMSEs, RC-3b ~0.540",
+      "claim": "MEAN OF 56 INDIVIDUAL-SHOT RMSEs, RC-3b ~0.547",
       "path": "cross_pressure_per_shot.mean_of_individual_shot_rmse.rc3b",
-      "expected": 0.54,
-      "actual": 0.54,
+      "expected": 0.5467,
+      "actual": 0.5467,
       "tol": 0.005,
       "ok": true
     },
     {
-      "claim": "pooled shot x time RMSE, static ~0.557",
+      "claim": "pooled shot x time RMSE, static ~0.552",
       "path": "cross_pressure_per_shot.pooled_shot_time_rmse.static",
-      "expected": 0.5567,
-      "actual": 0.5567,
+      "expected": 0.5522,
+      "actual": 0.5522,
       "tol": 0.003,
       "ok": true
     },
     {
-      "claim": "pooled shot x time RMSE, Phi(t) ~0.393",
+      "claim": "pooled shot x time RMSE, Phi(t) ~0.394",
       "path": "cross_pressure_per_shot.pooled_shot_time_rmse.phi",
-      "expected": 0.3927,
-      "actual": 0.3927,
+      "expected": 0.3939,
+      "actual": 0.3939,
       "tol": 0.003,
       "ok": true
     },
     {
-      "claim": "57 shots included of 60 brews reported by the source",
+      "claim": "best branch changes 3 times across the pressure axis (adjacent transitions)",
+      "path": "cross_pressure_heterogeneity.n_rank_changes",
+      "expected": 3,
+      "actual": 3.0,
+      "tol": 0,
+      "ok": true
+    },
+    {
+      "claim": "pooled shot x time RMSE, RC-3b ~0.619",
+      "path": "cross_pressure_per_shot.pooled_shot_time_rmse.rc3b",
+      "expected": 0.6194,
+      "actual": 0.6194,
+      "tol": 0.005,
+      "ok": true
+    },
+    {
+      "claim": "common per-trace time grid: 1000 rows",
+      "path": "cross_pressure_per_shot.n_time_rows_per_trace",
+      "expected": 1000,
+      "actual": 1000.0,
+      "tol": 0,
+      "ok": true
+    },
+    {
+      "claim": "56 distinct shots scored, of 57 deposited trace records and 60 brews reported by the source",
       "path": "cross_pressure_per_shot.n_shots_included",
+      "expected": 56,
+      "actual": 56.0,
+      "tol": 0,
+      "ok": true
+    },
+    {
+      "claim": "57 processed trace records in the deposit",
+      "path": "cross_pressure_per_shot.n_trace_records_in_deposit",
       "expected": 57,
       "actual": 57.0,
+      "tol": 0,
+      "ok": true
+    },
+    {
+      "claim": "56 distinct processed trajectories",
+      "path": "cross_pressure_per_shot.n_distinct_trajectories",
+      "expected": 56,
+      "actual": 56.0,
       "tol": 0,
       "ok": true
     },

@@ -26,6 +26,9 @@ _ROOT = Path(__file__).resolve().parents[1]
 #: Everything a reader or a downstream consumer could see.
 SURFACES = [
     _ROOT / "docs" / "PAPER_B2_TEMPORAL_DRAFT.md",
+    # Exported source data is a reader-visible artefact too: its column names were still
+    # `dominant_period_s` after the manuscript withdrew the reading (fourth review 6.4).
+    _ROOT / "docs" / "figures" / "paper_b2" / "source_data" / "fig4_residual_structure.csv",
     _ROOT / "puckworks" / "figures_paper_b2.py",
     _ROOT / "puckworks" / "analysis" / "waszkiewicz_shot_level.py",
     _ROOT / "puckworks" / "analysis" / "waszkiewicz_cross_pressure.py",
@@ -46,7 +49,7 @@ PROHIBITED = [
      "P0.2: the spline is fully held out; Phi(t) retains an unwithheld dissolved-mass channel"),
     (r"drift, not oscillation",
      "P0.5: an 80-point window cannot distinguish drift from oscillation"),
-    (r"dominant (?:residual )?period",
+    (r"dominant[_ ](?:residual[_ ])?period",
      "P0.5: 80 s and 40 s are the first two nonzero Fourier periods of the window, not measured "
      "timescales"),
     (r"shape information is real",
@@ -59,6 +62,18 @@ PROHIBITED = [
      r"(?:spline|smoother|comparator) (?:is |was )?prespecified",
      "P1.1: no dated protocol predating result inspection is on record for the spline; use "
      "'fixed-architecture'"),
+    # Fourth review 6.2. The Foster null contains ponding and a sharp wetting front advancing into
+    # an initially dry bed (`docs/cards/foster2025.md`), so the wetted fraction and hydraulic path
+    # length DO evolve. "machine-only" and "no evolving bed" claim more than the model supports,
+    # and in a paper whose subject is mechanism non-identifiability the null taxonomy has to be
+    # exact. What the model actually excludes is EXTRACTION-DRIVEN bed change.
+    (r"machine[- ]only",
+     "6.2: the Foster null is not machine-only -- it contains sharp-front infiltration through "
+     "the bed. Use 'machine-wetting', 'pump-headspace-sharp-front-infiltration' or "
+     "'boundary-and-infiltration'"),
+    (r"no evolving bed|without an evolving bed|no bed (?:process|mechanism|dynamics)",
+     "6.2: the wetting front IS evolving bed state. Say 'no extraction-driven bed change' and "
+     "name what is held fixed: the saturated-bed constitutive law"),
 ]
 
 #: A line that negates or withdraws the term is allowed to contain it.
@@ -71,7 +86,9 @@ _WITHDRAWAL = re.compile(
     # defect. These are narrow enough not to leak -- a sentence asserting a noise floor does not
     # describe itself as mislabelling.
     r"mislabel|mislabelling|mislabeled|mislabelled|wrongly|incorrectly|erroneously|falsely|"
-    r"mistakenly|overstat)\b", re.I)
+    # `overstat` needs a suffix wildcard: `overstat\b` never matched, because every real spelling
+    # continues -- overstates, overstated, overstating. The alternative was silently dead.
+    r"mistakenly|overstat\w*|overclaim\w*)\b", re.I)
 
 
 #: Sentence boundary. Deliberately includes `;` and `:` because the withdrawals in these files are
@@ -127,9 +144,16 @@ def _offending_lines(path: Path, pattern: str, lookback: int = 1):
     The scope is therefore computed on the WHOLE text: the sentence containing the match, plus
     `lookback` sentences before it -- one by default, because a withdrawal sometimes introduces its
     list in the preceding sentence. Line numbers are recovered from the match offset.
+
+    3. A third gap, found the same way: every space in a pattern was a LITERAL space, so a
+       prohibited phrase that happened to wrap across a line break was invisible. The Figure 4
+       caption asserted "Dominant residual\nperiod" -- a claim the manuscript had already
+       withdrawn in its own body -- and this guard passed. Pattern spaces are now compiled to
+       `\s+`, so wrapping cannot hide a term.
     """
     if not path.exists():
         return []
+    pattern = re.sub(r"(?<!\\)(?<!\\s)\s+", r"\\s+", pattern)
     text = path.read_text(encoding="utf-8")
     literals = _string_spans(text) if path.suffix == ".py" else []
     # Sentence spans over the whole file, so a sentence may cross newlines.

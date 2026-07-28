@@ -294,7 +294,10 @@ def fig2_objective_surface(results=None, outdir=OUTDIR):
         ax.plot(p["rate_star"], p["c_s0_star"], "o", color=INK, ms=7,
                 label="SSE optimum", zorder=5)
         ax.set_xscale("log"); _logclean(ax)
-        ax.set_title("(%s) %s" % ("a" if col == 0 else "b", sol), fontsize=10)
+        # The variety is named in the panel title because BOTH panels are Arabica and the caption
+        # previously read as though each covered both varieties (fourth review P0-8). A reader
+        # looking only at the figure must be able to see its scope.
+        ax.set_title("(%s) %s %s" % ("a" if col == 0 else "b", p["variety"], sol), fontsize=10)
         # MC16: two significant figures -- these are local, scale- and discretization-
         # dependent diagnostics, not inferentially precise quantities.
         ax.text(0.03, 0.03, "cond. no. ~%s\ncoupling %.2f"
@@ -331,7 +334,7 @@ def fig2_objective_surface(results=None, outdir=OUTDIR):
         axp.legend(fontsize=6.8, loc="upper right")
     cb = fig.colorbar(im, ax=axes[0, :].tolist(), shrink=0.85, pad=0.02,
                       label="normalized SSE increase $(J-J_{\\min})/J_{\\min}$")
-    fig.suptitle("Inventory–rate objective surface and profiled objective "
+    fig.suptitle("Arabica inventory–rate objective surface and profiled objective "
                  "(10 % tolerance set right-censored at the domain edge)", y=0.99,
                  fontsize=10.0, fontweight="bold")
     fig.text(0.5, 0.005, "Inventory axis is the model's fitted level in g L$^{-1}$ "

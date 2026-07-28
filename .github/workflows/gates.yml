@@ -72,8 +72,18 @@ jobs:
   quality:
     # P1.3 quality ratchet — Stage-1 mypy on the core public/release/control modules and a
     # coverage FLOOR on those modules. Not a required check until the maintainer opts in.
+    #
+    # timeout raised 15 -> 25 on 2026-07-28. The job had been hitting the 15-minute wall on EVERY
+    # run, including on main at 352dacd (15:16) — so it was reporting "cancelled" regardless of
+    # whether the code was good, and a check that always times out carries no signal. The suite is
+    # now ~2100 tests and this job runs all the non-slow ones under coverage instrumentation.
+    #
+    # The budget is the symptom, not the disease: the coverage FLOOR reports on seven modules, but
+    # the run traces all of `puckworks` to get there. Narrowing the traced scope (or measuring the
+    # floor from a targeted subset) would cut this materially and is worth doing separately —
+    # raising the ceiling here only restores the signal.
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:

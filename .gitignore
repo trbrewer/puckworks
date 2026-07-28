@@ -54,6 +54,10 @@ docs/puckworks_handoff_2026-07-13.zip
 docs/figures/**/*.svg
 docs/figures/**/*.pdf
 docs/figures/*.svg
+# The Paper 1 submission bundle follows the same rule: `tools/paper_a_supplement.py --write`
+# copies both PNG and PDF next to the SI, and the PDFs are regenerable typesetting siblings.
+docs/submission/figures/*.pdf
+docs/submission/figures/*.svg
 docs/figures/*.pdf
 dist/
 

@@ -148,10 +148,10 @@ def test_the_supplement_is_current():
         "run python tools/paper_a_supplement.py --write")
 
 
-def test_supplementary_table_s1_reports_all_eighteen_panel_objective_cells():
+def test_supplementary_table_s2_reports_all_eighteen_panel_objective_cells():
     """The manuscript relies on all six solute x variety panels under three objectives; the
     supplement must actually carry them, with denominators."""
-    text = S.table_s1()
+    text = S.table_s2()
     rec = json.loads(S.OBJECTIVE_JSON.read_text(encoding="utf-8"))
     n = rec["n_rate_grid"]
     for panel in rec["panels"]:
@@ -163,9 +163,9 @@ def test_supplementary_table_s1_reports_all_eighteen_panel_objective_cells():
     assert "interior in 13 of 18" in text, "the interior-minimum count must be stated"
 
 
-def test_supplementary_table_s5_reports_both_losses():
+def test_supplementary_table_s4_reports_both_losses():
     """MC6: the external panel must show the absolute-residual result, not only MAPE."""
-    text = S.table_s5()
+    text = S.table_s4()
     assert "min MAPE (%)" in text and "min nRMSE (%)" in text
     assert "range ratio (MAPE)" in text and "range ratio (nRMSE)" in text
 
@@ -182,11 +182,18 @@ def test_every_supplementary_item_is_real_not_a_stub():
     text = S.build()
     assert "NOT YET AVAILABLE" not in text, (
         "a supplementary item is a stub; either run the analysis or explain the exemption here")
-    for item in ("S1", "S2", "S3", "S5", "S6"):
-        assert f"Table {item}" in text or f"Note {item}" in text, item
+    # Sequential within each item type after the fourth review's P0-5 rebuild: Methods S1-S2,
+    # Note S1, Tables S1-S5, Figures S1-S4.
+    for item in ("S1", "S2"):
+        assert f"Supplementary Methods {item}" in text, item
+    assert "Supplementary Note S1" in text
+    for item in ("S1", "S2", "S3", "S4", "S5"):
+        assert f"Supplementary Table {item}" in text, item
+    for item in ("S1", "S2", "S3", "S4"):
+        assert f"Supplementary Figure {item}" in text, item
     # the two that were stubs must now carry real, producer-backed content
     assert "38 mL" in text and "42 mL" in text, "S3 endpoint propagation is not populated"
-    assert "axial nodes" in text and "1e-07" in text, "S6 convergence is not populated"
+    assert "axial nodes" in text and "1e-07" in text, "S5 convergence is not populated"
 
 
 # ── endpoint propagation (third review P0-4) ──────────────────────────────────────────────────
@@ -265,11 +272,12 @@ def test_the_production_configuration_is_converged():
 
 
 def test_the_manuscript_distinguishes_the_two_convergence_claims():
-    man = C.CONVERSION.read_text(encoding="utf-8")
-    assert "is of the\n**rate-parameter** grid, which is a different quantity" in man or \
-           "**rate-parameter** grid, which is a different quantity" in man
+    # Whitespace-normalised: the alternation above existed only to cope with ONE known line break,
+    # which is a fragile way to spell "ignore wrapping" and missed every other one.
+    man = " ".join(C.CONVERSION.read_text(encoding="utf-8").split())
+    assert "**rate-parameter** grid, which is a different quantity" in man
     assert "identical in every configuration" in man
-    assert "Supplementary Table S6" in man
+    assert "Supplementary Table S5" in man
 
 
 def test_the_numerical_scheme_and_boundary_treatment_are_stated():
@@ -295,3 +303,113 @@ def test_solver_warnings_are_recorded_rather_than_suppressed():
     rec = json.loads(S.CONVERGENCE_JSON.read_text(encoding="utf-8"))
     assert "num_jac" in rec["solver_warnings"]
     assert "recorded rather than suppressed" in rec["solver_warnings"]
+
+
+def test_the_jacobian_is_described_as_a_sparsity_pattern_not_an_analytic_jacobian():
+    """A sparsity PATTERN is not an analytic Jacobian, and the record said so all along.
+
+    Fourth review P0-4: the manuscript and the convergence table both said "analytic Jacobian
+    sparsity pattern" while the same record's solver-warning field explained that scipy estimates
+    the entries by finite differences in `num_jac` -- which is where the recorded warnings came
+    from. The document contradicted itself, and nothing checked it.
+    """
+    import json
+
+    for path in (C.CONVERSION, C.CANONICAL):
+        text = path.read_text(encoding="utf-8")
+        assert "analytic Jacobian" not in text, f"{path.name} still claims an analytic Jacobian"
+        assert "numerically estimated Jacobian" in text, (
+            f"{path.name} does not say the Jacobian entries are estimated")
+
+    rec = json.loads(S.CONVERGENCE_JSON.read_text(encoding="utf-8"))
+    assert "analytic Jacobian" not in rec["scheme"]
+    assert "sparsity pattern" in rec["scheme"]
+    assert "numerically estimated" in rec["scheme"]
+
+
+def test_the_convergence_conclusion_is_scoped_to_the_panels_actually_swept():
+    """"Converged" may not be asserted for solutes and trajectories that were never swept."""
+    # Whitespace-normalised: these phrases wrap across lines in the manuscript, and a raw `in`
+    # check on the file would report a present sentence as missing.
+    text = " ".join(C.CONVERSION.read_text(encoding="utf-8").split())
+    assert "not a global convergence proof" in text, (
+        "the convergence conclusion is not scoped to the tested panels")
+    for owed in ("5-CQA", "time-varying-flow trajectory", "positive-control"):
+        assert owed in text, f"the untested case {owed!r} is not disclosed"
+    assert "have not been run" in text, (
+        "the untested sweeps are named but not declared unrun")
+
+
+@pytest.mark.skipif(
+    "solver_health" not in json.loads(S.CONVERGENCE_JSON.read_text(encoding="utf-8")),
+    reason="the archived convergence record predates the solver-health instrumentation; "
+           "re-run puckworks.validation.slow.angeloni_bracket.numerical_convergence to populate it")
+def test_solver_health_is_recorded_for_every_profiled_solve():
+    """The "warnings do not affect the results" claim needs evidence independent of agreement.
+
+    Two configurations that exercise the same numerical path can agree while both are wrong, so
+    successful termination, finite states, physical concentrations and a monotone accumulated
+    volume are collected for every solve rather than inferred from cross-cell agreement.
+    """
+    import json
+
+    rec = json.loads(S.CONVERGENCE_JSON.read_text(encoding="utf-8"))
+    panels = rec.get("panels") or {"_": rec}
+    for name, panel in panels.items():
+        health = panel.get("solver_health")
+        assert health, f"{name}: no solver-health record"
+        assert health["all_cells_successful"], f"{name}: a solve did not terminate successfully"
+        assert health["all_cells_finite"], f"{name}: a solve produced non-finite states"
+        assert health["all_cells_volume_monotone"], f"{name}: accumulated volume decreased"
+        assert health["worst_min_liquid"] >= -1e-6, (
+            f"{name}: liquid concentration went negative by "
+            f"{health['worst_min_liquid']} — an unphysical state, not merely an inaccurate one")
+        assert health["worst_min_solid"] >= -1e-6, f"{name}: solid concentration went negative"
+        assert not health["failure_messages"], health["failure_messages"]
+        assert health["total_solves"] > 0
+
+
+def test_every_supplementary_item_is_cited_by_the_main_text():
+    """The SI-reference check ran in ONE direction only.
+
+    It verified that everything the article cites exists in the supplement. Nothing verified the
+    converse, so the SI could define — and the bundle could ship — items no reader is ever pointed
+    at. Seven of the twelve were in that state: Figures S1-S4, Methods S2, Table S1 and Table S4.
+    The SI's own opening line claimed "Every item here is cited by the main text", which made it a
+    consistent falsehood rather than a detectable inconsistency: both documents agreed, and both
+    were wrong.
+    """
+    import re
+
+    art = C.CONVERSION.read_text(encoding="utf-8")
+    si = S.OUT.read_text(encoding="utf-8")
+    cited = {(k, n) for k, n in
+             re.findall(r"Supplementary\s+(Table|Figure|Note|Method)s?\s+(S\d+)", art)}
+    defined = {(k, n) for k, n in
+               re.findall(r"(?m)^### Supplementary (Table|Figure|Note|Method)s?\s+(S\d+)", si)}
+    assert defined, "no supplementary items parsed — the heading format changed"
+    uncited = sorted(defined - cited)
+    assert not uncited, (
+        f"the supplement defines items the main text never cites: {uncited}. Either cite them or "
+        f"remove them; a journal will not accept an uncited supplementary item, and the SI header "
+        f"asserts that every item is cited")
+    assert not sorted(cited - defined), sorted(cited - defined)
+
+
+def test_no_regex_fragments_or_duplicated_anchors_leaked_into_the_prose():
+    """Substitution accidents leave reader-visible debris that no content check looks for.
+
+    The canonical draft carried `§4<!--sec:result3-->.<!--sec:result3-->.]*` — a duplicated section
+    anchor and a stray `]*` from a regex that had been applied as literal text. It survived into a
+    committed manuscript because every existing guard asks whether the CONTENT is right, and this
+    is well-formedness.
+    """
+    import re
+
+    for path in (C.CONVERSION, C.CANONICAL):
+        text = path.read_text(encoding="utf-8")
+        dup = re.findall(r"(<!--sec:[\w-]+-->)\s*\.?\s*\1", text)
+        assert not dup, f"{path.name}: duplicated section anchor {dup}"
+        # Regex metacharacter runs that cannot occur in ordinary prose or Markdown.
+        for frag in (r".]*", r".)*", r"\1", r"(?:", r"(?m)", r"\s+"):
+            assert frag not in text, f"{path.name}: regex fragment {frag!r} leaked into the prose"

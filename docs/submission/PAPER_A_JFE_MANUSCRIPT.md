@@ -83,7 +83,7 @@ temperatures and pressures. Time resolution is the route we test here; it is not
 
 The identifiability literature drawn on here is mature and is not re-reviewed in full; the extended
 treatment, with the comparison of structural and practical identifiability methods, is
-Supplementary Note S1.
+Supplementary Methods S1.
 
 **Structural and practical identifiability.** Parameter estimation in mechanistic
 models must distinguish structural identifiability from practical identifiability.
@@ -208,7 +208,28 @@ K_i(T) = K_{\mathrm{ref},i}\exp\!\left[\gamma_i\!\left(\tfrac{1}{T_{\mathrm{ref}
 D_i(T) = 7.4\times10^{-15}\,\frac{(2.6M_i)^{1/2}T}{\eta(T)V_i^{0.6}},
 \]
 
-the last being the Wilke–Chang relation.
+the last being the **diffusivity closure implemented in the source model**.
+
+We do not call it the Wilke–Chang relation without qualification, because it is not one. The
+standard Wilke–Chang correlation places the **solvent** molecular weight beside the association
+factor, as \((\phi_B M_B)^{1/2}\), with the molar volume belonging to the solute. The closure
+above pairs water's association factor 2.6 with the **solute** molecular weight \(M_i\)
+(caffeine 194.19, trigonelline 137.14, 5-CQA 354.31 g mol⁻¹), not water's 18.015. Our port
+reproduces the source model's transcribed equation exactly; whether the departure originates in the
+source publication or in its transcription is not resolvable from the materials we hold, and we
+disclose it rather than silently substituting the standard form.
+
+The consequence is bounded and worth stating precisely, because it is a question of interpretation
+rather than of results. Diffusivity enters only through \(h_{slx,i} \propto A_{x,i}D_i^{2/3}\),
+so rescaling \(D_i\) by a factor \(r\) is **algebraically identical** to rescaling the profiled
+rate multiplier by \(r^{2/3}\) — the very one-parameter family this paper profiles. Substituting
+the standard solvent term therefore leaves fit quality and profile geometry essentially unchanged
+(for the Arabica-caffeine panel: minimum MAPE 2.84 % either way, profile range ratio 1.43 versus
+1.45) while shifting the fitted rate multiplier by roughly a factor of two. The weak-localization
+result, the transfer-versus-null benchmark and the fraction-versus-cup contrast are unaffected; the
+**absolute value of the fitted rate multiplier is not physically interpretable as a
+diffusivity-anchored quantity**, and we do not report it as one. Supplementary Note S1 records the
+audit.
 
 \(d_{32}\) is the **Sauter (surface-weighted) mean diameter of the packed bed**: a single
 bed-level length, common to both grain classes and independent of solute, formed from the two
@@ -345,7 +366,9 @@ for the nominal 40 g endpoint (below).
 **40 ± 2 g** beverage while the solver integrates to a *volume* endpoint
 `t_end = V_target / Q`. Because the source reports beverage **mass** and the solver terminates on
 **volume**, we use `V_target = 40 mL` as a **matched-volume proxy for the nominal 40 g endpoint**.
-This is a choice of estimand, not a density correction we can verify: espresso beverage mass, liquid
+The proxy's construction, and the processing of the external time-resolved trajectory, are set
+out in Supplementary Methods S2. This is a choice of estimand, not a density correction we can
+verify: espresso beverage mass, liquid
 volume, dissolved solids, entrained gas and crema, and the source's own collection practice are not
 interchangeable under a single water-density approximation, and the source's ±2 g tolerance bounds
 its own collection repeatability rather than validating a 40 mL operator. We therefore do not claim
@@ -357,10 +380,16 @@ overall blind per-condition **named-solute** MAPE is *moderately* endpoint-sensi
 moves ≈ 5.0 pp (23.8 → 28.8 %) across the ±2 g window — and the finer
 *trigonelline-hurts-when-inventory-matched* detail flips near the +5 % endpoint. What is
 **robust** across every endpoint is the **blind discrepancy** itself (a large per-condition
-residual) and the caffeine inventory-match improvement. **This sweep quantifies the blind
-O-grind discrepancy only; it is not the O-refit→C/F transfer estimand** (refitting O,
-transferring to C/F, and recomputing the level-only baseline at each endpoint is a
-separate estimand, not evaluated here). So the qualitative conclusion (a large, structured residual not removed by
+residual) and the caffeine inventory-match improvement; those per-group blind and
+inventory-matched residuals are Supplementary Figure S3, and their structure against temperature
+and pressure *before* any level is fitted is Supplementary Figure S4. **This sweep quantifies the blind optimal-grind discrepancy only.** The
+O-refit → C/F transfer benchmark is a *different* estimand and is evaluated separately: the
+complete optimal-grind fit, frozen coarse/fine prediction, level-only comparison and paired
+clustered resampling were repeated at each of 38, 40 and 42 mL, and are reported in §4 and
+Supplementary Table S3. The two are reported apart because an endpoint-induced shift common
+to both predictors cancels in the model-minus-null contrast even when it materially moves
+the blind residual — which is exactly what happens here: ≈ 5 pp in the blind residual
+against a 0.06 pp spread in the paired difference. So the qualitative conclusion (a large, structured residual not removed by
 inventory alone) does not hinge on the mass-to-volume substitution, but the exact residual magnitude
 and the trigonelline detail carry a ≈ 5 pp endpoint uncertainty — about a fifth of the residual
 itself — which we state rather than absorb. A mass endpoint would be preferable and would require
@@ -454,7 +483,8 @@ localization contrast over the declared domain, not an identification theorem.
 *Solver.* The PDE is discretized on **200** uniformly spaced axial nodes with a five-point
 biased-upwind first derivative and a Dirichlet inlet condition
 \(c_l(z{=}0)=0\); it is integrated with a stiff BDF method (relative and absolute tolerance
-\(10^{-6}\)) using an analytic Jacobian sparsity pattern.
+\(10^{-6}\)) with a **supplied Jacobian sparsity pattern and a numerically estimated Jacobian**
+(the solver declares the sparsity structure; the entries are estimated by finite differences).
 
 *Numerical convergence of the discretization.* The grid-density check reported below is of the
 **rate-parameter** grid, which is a different quantity from convergence of the PDE discretization
@@ -465,9 +495,30 @@ the early, middle and late fraction concentrations, the location of the profiled
 and the profile range ratio. Across all nine configurations the whole-cup concentration varies by
 at most **0.0004 %**, the late fraction — the most discretization-sensitive of the three
 sub-intervals — by at most **0.0013 %**, and the range ratio by at most **0.0204 %**; the location
-of the profiled minimum is **identical in every configuration**. The production configuration is
-therefore converged, and the weak-localization result is not an artefact of the mesh or the
-integration tolerance. Full results are Supplementary Table S6.
+of the profiled minimum is **identical in every configuration**.
+
+For the representative Arabica-caffeine optimal-grind panel, then, the reported observables and the
+profile summary are insensitive to the tested axial resolutions and BDF tolerances. **This supports
+numerical stability of that panel; it is not a global convergence proof for every solute and
+trajectory used in the paper.** We retain that limitation explicitly rather than generalising from
+one panel. Specifically, the campaign does **not** establish that the 5-CQA panel (the stiffest of
+the three solutes), the highest-rate cells of the other panels, the external time-varying-flow
+trajectory, or the positive-control fraction profiles are converged; those sweeps have not been
+run. The objective and observable used for the convergence profile are stated in Supplementary
+Table S5. Two things distinguish that profile from the formal panels of the main text, and both
+matter when comparing minimum locations: it uses a **relative (profiled-MAPE)** objective rather
+than the unweighted sum of squares, and it is swept on the **18**-point ladder grid rather than the
+29-point panel grid. Its minimum is therefore not expected to coincide numerically with a panel
+minimum; what the sweep tests is whether that minimum *moves* with the discretisation, and it does
+not.
+
+The six solver warnings the sweep emits are disclosed rather than suppressed, and the claim that
+they do not affect the reported values rests on evidence independent of cross-cell agreement — two
+configurations exercising the same numerical path could agree while both were wrong. Across all
+**1458** profiled solves every integration terminated successfully, every stored state was finite,
+the accumulated volume and cumulative mass were monotone, and concentrations stayed physical.
+Re-running the sweep with this instrumentation reproduced every previously archived cell value
+exactly.
 
 *Rate grids and domain.* The profiled rate is swept on a **geometric** grid over
 \(k\in[0.15,\,6.5]\): **18** points for the ladder and comparator analyses, **29** points for the
@@ -556,7 +607,9 @@ We ran three successively stricter tests on granulometry O (≈ the model's cali
 grind), all at the **matched beverage endpoint** — a 40 mL volume proxy for the reported
 40 ± 2 g beverage, with no validated density conversion assumed (§2.4). The refit holdout in the
 last row is a mean of two off-grid O points per solute × variety; it is a small internal check and
-is superseded by the leave-one-condition-out cross-validation of §4.
+is superseded by the leave-one-condition-out cross-validation of §4, whose per-fold detail is
+Supplementary Figure S1. Every panel's fitted rate, inventory level and boundary flags are
+listed in Supplementary Table S1.
 
 **Table 3. Matched-endpoint tests.** Each test, its result, the reading it supports, and the evidence strength that reading carries.
 
@@ -572,7 +625,7 @@ unmatched fixed-time comparison — the named-solute per-condition gap is **26.3
 endpoint against ~31 % under a fixed 25 s window — while the tested flow-map refinement changes the
 matched-endpoint error by only about **0.5 pp**. In other words, most of what a residence-time
 refinement appears to buy at an unmatched endpoint is an endpoint effect, not a flow correction. The refit then reads a per-species rate — the complete set of fitted values, with
-their boundary flags, is Supplementary Table S1 — but **that per-species decomposition is not
+their boundary flags, is Supplementary Table S2 — but **that per-species decomposition is not
 supported by the profile analysis** (§3.2): the fitted rate is a point on a flat valley, not an
 identified mechanism, and it moves with the endpoint and domain choices.
 
@@ -625,14 +678,16 @@ roasted-particle density, or per-unit-bed-volume — span roughly **4.8–16.3 m
 exceeding a ±10 % inventory perturbation. The model's own inventory basis is not independently
 anchored either: the source calibration's fitted value (10.80 mg mL⁻¹ for caffeine) carries no
 declared volume convention. Two numbers that happen to be of similar magnitude therefore do not
-establish that they measure the same thing. The full audit is Supplementary Note S2.
+establish that they measure the same thing. The full audit is Supplementary Note S1.
 
 With that established, the assay supports one thing only, and it is a lesson about experimental
 design rather than a result: an inventory measurement that *were* independently anchored to the
 model's own quantity would enter the objective along a different direction from the beverage
 endpoint, and could rotate or intersect the valley — which is precisely the kind of contrast the
-whole-cup design lacks. The numerical implied-rate intersection is reported in Supplementary
-Table S2 and is not used anywhere in the paper's conclusions. Throughout, we call this an
+whole-cup design lacks. No numerical implied-rate intersection is reported at all. An earlier draft promised one in a
+supplementary table; it has been withdrawn rather than relocated, because an intersection computed
+under an arbitrary volume basis invites precisely the quantitative reading this paragraph rejects.
+The dimensional audit is Supplementary Note S1. Throughout, we call this an
 **orthogonal same-campaign inventory assay**; it is not an independent external measurement.
 
 **A numerical identifiability panel** (numerical identifiability panel) quantifies the valley on
@@ -814,7 +869,8 @@ A **shared-parameter compatibility analysis** complements the holdout: a *single
 `(c_s0, rate_scale)` fitted jointly to O+C+F (joint multi-grind fit) reconstructs the
 pooled data at **6.4 % macro-MAPE against 4.9 %** for the per-grind independent fits — a
 modest **in-sample** cost-of-sharing of ~1.5 pp. This is an in-sample compatibility test
-(it scores the same pooled observations it was fitted to), **not** a held-out prediction.
+(it scores the same pooled observations it was fitted to), **not** a held-out prediction; the
+residuals by variety, solute and grind are Supplementary Figure S2.
 An **in-sample comparator ladder** (in-sample comparator ladder) makes its
 adequacy auditable. These are **non-nested models of unequal flexibility, each scored on
 its own fitting data** (no complexity penalty or held-out evaluation), so the comparison
@@ -960,7 +1016,8 @@ MAPE trough with a fraction range ratio of only **~2×**, a best rate of **~0.4*
 MAPE that stays **high at ~27 %**. That preference is **partly an early-bin percentage-error
 effect**. Because early dissolved-solids fractions are small, MAPE weights them heavily; re-scoring
 the identical sweep under an absolute-residual shape loss makes the preference **shallower still** (range ratio **1.19–1.30** across the six
-alignment × first-bin cases, against 1.64–2.07 under MAPE), raises the minimum residual to
+alignment × first-bin cases, against 1.64–2.07 under MAPE; every case is tabulated in
+Supplementary Table S4), raises the minimum residual to
 **57–75 %**, and moves the preferred rate to **0.25, the lower boundary of the swept rate set**, so
 it is boundary-censored.
 

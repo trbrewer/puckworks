@@ -108,3 +108,47 @@ def test_paper_a_caption_map_records_the_no_embedded_number_policy():
     caps = (Path(__file__).resolve().parents[1] / "docs" / "figures" / "PAPER_A_CAPTIONS.md"
             ).read_text(encoding="utf-8")
     assert "no embedded figure number" in caps.lower()
+
+
+def test_figure2_caption_scope_matches_its_producer():
+    """A main figure's caption must not claim more data than the producer plots.
+
+    Fourth review P0-8: Figure 2's caption said the model was evaluated at nine optimal-grind
+    conditions "for each coffee variety (18 condition means per solute)", while the producer loads
+    only `identifiability_panel("Arabica", ...)` for both panels. The caption doubled the apparent
+    sample scope, and nothing checked it. This test reads the varieties out of the producer source
+    and requires the caption to name exactly those.
+    """
+    import re
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    src = (root / "puckworks" / "figures_paper_a.py").read_text(encoding="utf-8")
+    panels = re.findall(r'\("panel_(\w+)",\s*lambda:\s*ab\.identifiability_panel\(\s*"(\w+)"',
+                        src)
+    assert panels, "could not locate the Figure 2 identifiability panels in the producer"
+    varieties = {v for _solute, v in panels}
+
+    caps = (root / "docs" / "figures" / "PAPER_A_CAPTIONS.md").read_text(encoding="utf-8")
+    cap = re.search(r"(?ms)^### Figure 2 \(.*?\)\s*\n+(.*?)(?=\n### )", caps).group(1)
+
+    for v in varieties:
+        assert v in cap, f"Figure 2 plots {v} panels but the caption never names {v}"
+    for other in {"Arabica", "Robusta"} - varieties:
+        # Naming a variety the figure does not plot is exactly the defect: it is allowed only where
+        # the caption explicitly says that variety is reported elsewhere.
+        for m in re.finditer(other, cap):
+            window = cap[max(0, m.start() - 160):m.end() + 160]
+            assert "Supplementary" in window or "not plotted" in window, (
+                f"Figure 2 caption mentions {other}, which it does not plot, without saying where "
+                f"it is actually reported")
+
+    n_expected = 9 * len(varieties)
+    stated = re.search(r"\((\w+|\d+) condition means per solute\)", cap)
+    assert stated, "Figure 2 caption does not state its condition-mean count"
+    words = {"nine": 9, "eighteen": 18, "twenty-seven": 27}
+    got = words.get(stated.group(1), None)
+    got = got if got is not None else int(stated.group(1))
+    assert got == n_expected, (
+        f"Figure 2 caption claims {got} condition means per solute but the producer plots "
+        f"{len(varieties)} variety/varieties x 9 conditions = {n_expected}")

@@ -146,6 +146,67 @@ def generate():
     return arts
 
 
+# ── manuscript splicing ───────────────────────────────────────────────────────────────────────
+#: The manuscript claims Table 1 and Appendix A are producer-generated and CI-guarded. They were
+#: not: `verify()` compared only the files under `docs/paper3_resource/generated/`, while the
+#: manuscript carried HAND-MAINTAINED copies of the same tables. By the fourth review the inline
+#: Appendix A had drifted to 25 rows against the registry's 27, silently dropping
+#: `maille2024.two_regime` and `maille2024.phi_closure` -- a counterexample to the paper's own
+#: central claim, inside the paper.
+#:
+#: The fix is to remove the duplicate authoring path, not to add another comparison: the inline
+#: blocks are now spliced between markers from the SAME `generate()` output that writes the files.
+MANUSCRIPT = REPO_ROOT / "docs" / "PAPER_3_PUCKWORKS_DRAFT.md"
+
+#: {marker name: (artifact relpath, how to render it inline)}. Inline renderings drop the file's
+#: banner and H1, because the manuscript supplies its own caption.
+#: Table 1 is NOT spliced: the manuscript's version carries a per-stage "typical role" column that
+#: is editorial prose, and the generated version is a stage x role count matrix. Replacing one with
+#: the other would lose the prose. Its counts are bound to the registry by
+#: `tests/test_paper3_manuscript_consistency.py` instead, per stage and per role.
+SPLICED = {
+    "appendixA": "appendixA_component_catalog.md",
+}
+
+
+def _inline_body(content: str) -> str:
+    """The table alone: no generated-file banner, no H1 heading."""
+    lines = [ln for ln in content.splitlines()
+             if not ln.startswith("<!-- GENERATED") and not ln.startswith("# ")]
+    return "\n".join(lines).strip()
+
+
+def manuscript_blocks() -> dict:
+    arts = generate()
+    return {name: (f"<!-- {name}:begin -->\n"
+                   f"<!-- GENERATED from `{rel}` by `python -m puckworks.paper3."
+                   f"registry_artifacts --splice`. DO NOT EDIT BY HAND. -->\n\n"
+                   f"{_inline_body(arts[rel])}\n\n<!-- {name}:end -->")
+            for name, rel in SPLICED.items()}
+
+
+def splice(write_it: bool = True, root=REPO_ROOT) -> list:
+    """Splice every generated block into the manuscript. Returns the list of problems."""
+    path = Path(root) / MANUSCRIPT.relative_to(REPO_ROOT)
+    text = path.read_text(encoding="utf-8")
+    problems = []
+    for name, block in sorted(manuscript_blocks().items()):
+        begin, end = f"<!-- {name}:begin -->", f"<!-- {name}:end -->"
+        if begin not in text or end not in text:
+            problems.append(f"{name}: markers missing from the manuscript")
+            continue
+        current = begin + text.split(begin, 1)[1].split(end, 1)[0] + end
+        if current == block:
+            continue
+        if not write_it:
+            problems.append(f"{name}: inline block is STALE -- run --splice")
+            continue
+        text = text.split(begin)[0] + block + text.split(end, 1)[1]
+    if write_it and not problems:
+        path.write_text(text, encoding="utf-8")
+    return problems
+
+
 def write(root=REPO_ROOT):
     out_dir = Path(root) / GENERATED_REL
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -155,13 +216,19 @@ def write(root=REPO_ROOT):
 
 
 def verify(root=REPO_ROOT):
-    """Return the list of stale/missing generated artifacts (empty = up to date)."""
+    """Return the list of stale/missing generated artifacts (empty = up to date).
+
+    Covers the manuscript's INLINE blocks as well as the files. Checking only the files is what
+    let the inline Appendix A drift two rows behind the registry while this function reported
+    everything current (fourth review P0-1).
+    """
     out_dir = Path(root) / GENERATED_REL
     stale = []
     for rel, content in generate().items():
         p = out_dir / rel
         if (not p.exists()) or p.read_text(encoding="utf-8") != content:
             stale.append(rel)
+    stale += [f"manuscript:{m}" for m in splice(write_it=False, root=root)]
     return stale
 
 
@@ -171,7 +238,12 @@ if __name__ == "__main__":   # pragma: no cover
         s = verify()
         print("stale artifacts:", s or "none")
         sys.exit(1 if s else 0)
+    if "--splice" in sys.argv:
+        problems = splice(write_it=True)
+        print("\n".join(problems) if problems else "manuscript blocks spliced")
+        sys.exit(1 if problems else 0)
     if "--write" in sys.argv:
         print("wrote:", write())
+        print("splice:", splice(write_it=True) or "manuscript blocks spliced")
     else:
         print(json.dumps({k: len(v) for k, v in generate().items()}, indent=2))

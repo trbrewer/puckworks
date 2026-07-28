@@ -116,7 +116,47 @@ def simulate_fractions(T_C, flow_mL_s, t_bounds, sp, cl1, grind=GRIND_17):
                     args=(p,), rtol=1e-6, atol=1e-6,
                     jac_sparsity=_jac_sparsity(nz))
     Vol = sol.y[3 * nz]; mcum = sol.y[3 * nz + 1] * cl1
+    _record_solve(sol, nz)
     return np.diff(mcum) / np.diff(Vol)
+
+
+#: Diagnostics of the most recent `simulate_fractions` call. Written unconditionally and read only
+#: by callers that ask for it, so no signature or behaviour changes for existing users.
+#:
+#: The fourth review of Paper A objected that the convergence study justified "the solver warnings
+#: do not affect the results" purely from agreement between configurations -- but two configurations
+#: exercising the same numerical path can agree while both being wrong. Successful termination,
+#: finite states and non-negative concentrations are independent evidence, and they are only
+#: available here, where the solution object exists.
+LAST_SOLVE: dict = {}
+
+
+def _record_solve(sol, nz: int) -> None:
+    """Record physical-plausibility diagnostics of `sol`, at the requested output times.
+
+    The state is only stored at `t_eval`, so these are checks on the reported solution, not on
+    every internal BDF step; they are named accordingly and must not be read as a claim about the
+    whole trajectory.
+    """
+    y = sol.y
+    LAST_SOLVE.clear()
+    LAST_SOLVE.update(
+        success=bool(sol.success), status=int(sol.status), message=str(sol.message),
+        nfev=int(sol.nfev), njev=int(sol.njev), nlu=int(sol.nlu),
+        all_finite=bool(np.all(np.isfinite(y))),
+        # The liquid phase is c[0:nz] and the two solid phases follow, so a negative value is
+        # unphysical rather than merely inaccurate; the magnitude is reported, not just a flag,
+        # because a small undershoot is normal for an upwind advection scheme.
+        #
+        # Node 0 is EXCLUDED. It carries the Dirichlet inlet condition, which `_rhs` imposes by
+        # zeroing a copy of the liquid vector before computing the flux -- the stored y[0] itself is
+        # never constrained and drifts to large negative values that mean nothing physically.
+        # Including it made every solve look like it violated positivity.
+        min_liquid=float(np.min(y[1:nz])), min_solid=float(np.min(y[nz:3 * nz])),
+        # Accumulated volume is the integral of a strictly positive flow, so it must increase.
+        volume_monotone=bool(np.all(np.diff(y[3 * nz]) >= 0.0)),
+        mass_monotone=bool(np.all(np.diff(y[3 * nz + 1]) >= -1e-12)),
+    )
 
 
 # --- 1.8b: machine-driven (time-varying Q(t)) adapter (A2) -> RC-4b ------

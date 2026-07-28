@@ -155,6 +155,48 @@ def highlights_file(fm: dict) -> str:
     return "\n".join(lines) + "\n"
 
 
+#: Cover-letter assertions, each with the front-matter field that has to be resolved before the
+#: assertion may be made. Fourth review P0-7: the letter stated "all authors have approved the
+#: submission" and "we declare no competing interests" while `authors` and `competing_interests`
+#: were both null. Those are representations to an editor about real people, and a generator must
+#: not make them on the authors' behalf from an empty field.
+LETTER_ASSERTIONS = (
+    ("authors",
+     "all authors have approved the submission",
+     "author approval cannot be asserted until the author list is filled in and each author has "
+     "actually approved"),
+    ("competing_interests",
+     "we declare no competing interests beyond those stated in the manuscript",
+     "the competing-interest declaration must come from the authors, not from an empty field"),
+)
+
+
+def unsupported_letter_assertions(fm: dict) -> list[tuple[str, str, str]]:
+    return [a for a in LETTER_ASSERTIONS if not fm.get(a[0])]
+
+
+def _letter_declarations(fm: dict) -> str:
+    """The letter's declaration paragraph, asserting only what the front matter supports."""
+    blocked = unsupported_letter_assertions(fm)
+    supported = [text for key, text, _ in LETTER_ASSERTIONS if fm.get(key)]
+    para = "This manuscript is original and is not under consideration elsewhere."
+    if supported:
+        joined = supported[0] if len(supported) == 1 else \
+            ", ".join(supported[:-1]) + " and " + supported[-1]
+        para = (f"This manuscript is original, is not under consideration elsewhere, and "
+                f"{joined}.")
+    if not blocked:
+        return para
+    lines = [para, "",
+             "> **This letter is not ready to send.** The following declarations are deliberately "
+             "absent rather than asserted, because the front matter does not yet support them:",
+             ">"]
+    lines += [f"> - *{text}* — {why} (`{key}` is unset in "
+              f"`docs/submission/paper_a_front_matter.yaml`)."
+              for key, text, why in blocked]
+    return "\n".join(lines)
+
+
 def cover_letter(fm: dict) -> str:
     doi = fm["release_doi"] or "[release DOI — not yet minted]"
     return f"""# Cover letter — {fm['venue']['name']}
@@ -183,8 +225,7 @@ All headline values are generated from an archived, machine-readable result bund
 analysis code, environment specification, figure source data and supplementary material are
 deposited at {doi}.
 
-This manuscript is original, is not under consideration elsewhere, and all authors have approved
-the submission. We declare no competing interests beyond those stated in the manuscript.
+{_letter_declarations(fm)}
 
 Yours sincerely,
 
@@ -251,6 +292,10 @@ def main(argv=None) -> int:
         gaps = submission_gaps(fm)
         for g in gaps:
             print(f"    UNRESOLVED: {g}")
+        # Reported separately from the field list because these are the ones that would put an
+        # unsupported representation in front of an editor, not merely leave a blank (P0-7).
+        for key, text, why in unsupported_letter_assertions(fm):
+            print(f"    COVER LETTER BLOCKED: cannot assert \"{text}\" — {why} (`{key}`)")
         print(f"{len(gaps)} unresolved submission-metadata field(s)")
         return 1 if gaps else 0
 

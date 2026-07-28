@@ -1,444 +1,444 @@
 {
- "note": "Paper B2 second review P1.1 (cross-pressure heterogeneity), P1.2 (pressure domains and boundary nodes) and P1.3 (parameter provenance as a dependency graph). Producers: puckworks.analysis.waszkiewicz_cross_pressure.",
- "P1_1_cross_pressure_heterogeneity": {
-  "window_s": [
-   15.0,
-   95.0
-  ],
-  "n_pressures": 11,
-  "pressures": [
-   1.0,
-   2.0,
-   3.5,
-   4.0,
-   5.0,
-   6.0,
-   7.0,
-   8.0,
-   9.0,
-   11.0,
-   13.0
-  ],
-  "per_pressure": {
-   "1.0": {
-    "rmse": {
-     "static": 0.431,
-     "phi": 0.374,
-     "rc3b": 0.159
+  "note": "Paper B2 second review P1.1 (cross-pressure heterogeneity), P1.2 (pressure domains and boundary nodes) and P1.3 (parameter provenance as a dependency graph). Producers: puckworks.analysis.waszkiewicz_cross_pressure.",
+  "P1_1_cross_pressure_heterogeneity": {
+    "window_s": [
+      15.0,
+      95.0
+    ],
+    "n_pressures": 11,
+    "pressures": [
+      1.0,
+      2.0,
+      3.5,
+      4.0,
+      5.0,
+      6.0,
+      7.0,
+      8.0,
+      9.0,
+      11.0,
+      13.0
+    ],
+    "per_pressure": {
+      "1.0": {
+        "rmse": {
+          "static": 0.431,
+          "phi": 0.374,
+          "rc3b": 0.159
+        },
+        "rank": {
+          "static": 3,
+          "phi": 2,
+          "rc3b": 1
+        },
+        "best": "rc3b",
+        "margin_over_second": 0.215,
+        "n_shots": 5
+      },
+      "2.0": {
+        "rmse": {
+          "static": 0.649,
+          "phi": 0.573,
+          "rc3b": 0.303
+        },
+        "rank": {
+          "static": 3,
+          "phi": 2,
+          "rc3b": 1
+        },
+        "best": "rc3b",
+        "margin_over_second": 0.27,
+        "n_shots": 4
+      },
+      "3.5": {
+        "rmse": {
+          "static": 0.306,
+          "phi": 0.418,
+          "rc3b": 0.692
+        },
+        "rank": {
+          "static": 1,
+          "phi": 2,
+          "rc3b": 3
+        },
+        "best": "static",
+        "margin_over_second": 0.112,
+        "n_shots": 3
+      },
+      "4.0": {
+        "rmse": {
+          "static": 0.246,
+          "phi": 0.374,
+          "rc3b": 0.785
+        },
+        "rank": {
+          "static": 1,
+          "phi": 2,
+          "rc3b": 3
+        },
+        "best": "static",
+        "margin_over_second": 0.128,
+        "n_shots": 10
+      },
+      "5.0": {
+        "rmse": {
+          "static": 0.402,
+          "phi": 0.456,
+          "rc3b": 0.879
+        },
+        "rank": {
+          "static": 1,
+          "phi": 2,
+          "rc3b": 3
+        },
+        "best": "static",
+        "margin_over_second": 0.054,
+        "n_shots": 5
+      },
+      "6.0": {
+        "rmse": {
+          "static": 0.453,
+          "phi": 0.502,
+          "rc3b": 0.912
+        },
+        "rank": {
+          "static": 1,
+          "phi": 2,
+          "rc3b": 3
+        },
+        "best": "static",
+        "margin_over_second": 0.049,
+        "n_shots": 6
+      },
+      "7.0": {
+        "rmse": {
+          "static": 0.551,
+          "phi": 0.222,
+          "rc3b": 0.628
+        },
+        "rank": {
+          "static": 2,
+          "phi": 1,
+          "rc3b": 3
+        },
+        "best": "phi",
+        "margin_over_second": 0.329,
+        "n_shots": 4
+      },
+      "8.0": {
+        "rmse": {
+          "static": 0.575,
+          "phi": 0.118,
+          "rc3b": 0.448
+        },
+        "rank": {
+          "static": 3,
+          "phi": 1,
+          "rc3b": 2
+        },
+        "best": "phi",
+        "margin_over_second": 0.33,
+        "n_shots": 4
+      },
+      "9.0": {
+        "rmse": {
+          "static": 0.648,
+          "phi": 0.116,
+          "rc3b": 0.392
+        },
+        "rank": {
+          "static": 3,
+          "phi": 1,
+          "rc3b": 2
+        },
+        "best": "phi",
+        "margin_over_second": 0.276,
+        "n_shots": 5
+      },
+      "11.0": {
+        "rmse": {
+          "static": 0.693,
+          "phi": 0.173,
+          "rc3b": 0.241
+        },
+        "rank": {
+          "static": 3,
+          "phi": 1,
+          "rc3b": 2
+        },
+        "best": "phi",
+        "margin_over_second": 0.068,
+        "n_shots": 4
+      },
+      "13.0": {
+        "rmse": {
+          "static": 0.809,
+          "phi": 0.354,
+          "rc3b": 0.169
+        },
+        "rank": {
+          "static": 3,
+          "phi": 2,
+          "rc3b": 1
+        },
+        "best": "rc3b",
+        "margin_over_second": 0.185,
+        "n_shots": 7
+      }
     },
-    "rank": {
-     "static": 3,
-     "phi": 2,
-     "rc3b": 1
+    "n_shots_per_pressure": {
+      "1.0": 5,
+      "2.0": 4,
+      "3.5": 3,
+      "4.0": 10,
+      "5.0": 5,
+      "6.0": 6,
+      "7.0": 4,
+      "8.0": 4,
+      "9.0": 5,
+      "11.0": 4,
+      "13.0": 7
     },
-    "best": "rc3b",
-    "margin_over_second": 0.215,
-    "n_shots": 5
-   },
-   "2.0": {
-    "rmse": {
-     "static": 0.649,
-     "phi": 0.573,
-     "rc3b": 0.303
+    "n_shots_range": [
+      3,
+      10
+    ],
+    "branch_wins": {
+      "rc3b": 3,
+      "static": 4,
+      "phi": 4
     },
-    "rank": {
-     "static": 3,
-     "phi": 2,
-     "rc3b": 1
+    "n_rank_changes": 3,
+    "best_branch_is_constant_across_pressure": false,
+    "equal_pressure_mean": {
+      "static": 0.5239,
+      "phi": 0.3345,
+      "rc3b": 0.5098
     },
-    "best": "rc3b",
-    "margin_over_second": 0.27,
-    "n_shots": 4
-   },
-   "3.5": {
-    "rmse": {
-     "static": 0.306,
-     "phi": 0.418,
-     "rc3b": 0.692
+    "shot_weighted_mean": {
+      "static": 0.5094,
+      "phi": 0.3431,
+      "rc3b": 0.53
     },
-    "rank": {
-     "static": 1,
-     "phi": 2,
-     "rc3b": 3
-    },
-    "best": "static",
-    "margin_over_second": 0.112,
-    "n_shots": 3
-   },
-   "4.0": {
-    "rmse": {
-     "static": 0.246,
-     "phi": 0.374,
-     "rc3b": 0.785
-    },
-    "rank": {
-     "static": 1,
-     "phi": 2,
-     "rc3b": 3
-    },
-    "best": "static",
-    "margin_over_second": 0.128,
-    "n_shots": 10
-   },
-   "5.0": {
-    "rmse": {
-     "static": 0.402,
-     "phi": 0.456,
-     "rc3b": 0.879
-    },
-    "rank": {
-     "static": 1,
-     "phi": 2,
-     "rc3b": 3
-    },
-    "best": "static",
-    "margin_over_second": 0.054,
-    "n_shots": 5
-   },
-   "6.0": {
-    "rmse": {
-     "static": 0.453,
-     "phi": 0.502,
-     "rc3b": 0.912
-    },
-    "rank": {
-     "static": 1,
-     "phi": 2,
-     "rc3b": 3
-    },
-    "best": "static",
-    "margin_over_second": 0.049,
-    "n_shots": 6
-   },
-   "7.0": {
-    "rmse": {
-     "static": 0.551,
-     "phi": 0.222,
-     "rc3b": 0.628
-    },
-    "rank": {
-     "static": 2,
-     "phi": 1,
-     "rc3b": 3
-    },
-    "best": "phi",
-    "margin_over_second": 0.329,
-    "n_shots": 4
-   },
-   "8.0": {
-    "rmse": {
-     "static": 0.575,
-     "phi": 0.118,
-     "rc3b": 0.448
-    },
-    "rank": {
-     "static": 3,
-     "phi": 1,
-     "rc3b": 2
-    },
-    "best": "phi",
-    "margin_over_second": 0.33,
-    "n_shots": 4
-   },
-   "9.0": {
-    "rmse": {
-     "static": 0.648,
-     "phi": 0.116,
-     "rc3b": 0.392
-    },
-    "rank": {
-     "static": 3,
-     "phi": 1,
-     "rc3b": 2
-    },
-    "best": "phi",
-    "margin_over_second": 0.276,
-    "n_shots": 5
-   },
-   "11.0": {
-    "rmse": {
-     "static": 0.693,
-     "phi": 0.173,
-     "rc3b": 0.241
-    },
-    "rank": {
-     "static": 3,
-     "phi": 1,
-     "rc3b": 2
-    },
-    "best": "phi",
-    "margin_over_second": 0.068,
-    "n_shots": 4
-   },
-   "13.0": {
-    "rmse": {
-     "static": 0.809,
-     "phi": 0.354,
-     "rc3b": 0.169
-    },
-    "rank": {
-     "static": 3,
-     "phi": 2,
-     "rc3b": 1
-    },
-    "best": "rc3b",
-    "margin_over_second": 0.185,
-    "n_shots": 7
-   }
+    "equal_pressure_order": [
+      "phi",
+      "rc3b",
+      "static"
+    ],
+    "shot_weighted_order": [
+      "phi",
+      "static",
+      "rc3b"
+    ],
+    "averaging_scheme_changes_order": true,
+    "note": "Both schemes average PRESSURE-LEVEL MEAN-CURVE RMSEs. The equal-pressure mean is the manuscript's headline scheme and weights a 3-shot pressure the same as a 10-shot one; the shot-count-weighted variant weights by shot count but is still an average of mean-curve scores, NOT the expected error of a randomly drawn shot (RMSE is nonlinear). The shot-level estimand is per_shot_cross_pressure()."
   },
-  "n_shots_per_pressure": {
-   "1.0": 5,
-   "2.0": 4,
-   "3.5": 3,
-   "4.0": 10,
-   "5.0": 5,
-   "6.0": 6,
-   "7.0": 4,
-   "8.0": 4,
-   "9.0": 5,
-   "11.0": 4,
-   "13.0": 7
+  "P1_2_pressure_domains": {
+    "nominal_reference_pressures_bar": [
+      1.0,
+      2.0,
+      3.5,
+      4.0,
+      5.0,
+      6.0,
+      7.0,
+      8.0,
+      9.0,
+      11.0,
+      13.0
+    ],
+    "recorded_basket_pressure_mean_bar": {
+      "1.0": 0.762,
+      "2.0": 1.484,
+      "3.5": 3.108,
+      "4.0": 3.686,
+      "5.0": 4.505,
+      "6.0": 5.578,
+      "7.0": 6.746,
+      "8.0": 7.541,
+      "9.0": 8.713,
+      "11.0": 10.413,
+      "13.0": 12.394
+    },
+    "nominal_minus_recorded_bar": {
+      "1.0": 0.238,
+      "2.0": 0.516,
+      "3.5": 0.392,
+      "4.0": 0.314,
+      "5.0": 0.495,
+      "6.0": 0.422,
+      "7.0": 0.254,
+      "8.0": 0.459,
+      "9.0": 0.287,
+      "11.0": 0.587,
+      "13.0": 0.606
+    },
+    "max_nominal_recorded_gap_bar": 0.606,
+    "fitted_equilibrium_P_c_bar": 12.392,
+    "fitted_equilibrium_Q_c_g_per_s": 1.897,
+    "model_valid_pressure_range_bar": [
+      1.0,
+      13.0
+    ],
+    "primary_analysis_pressure_bar": 9.0,
+    "primary_analysis_recorded_bar": 8.713,
+    "n_pressures_at_or_above_P_c": 1,
+    "boundary_note": "P_c = 12.39 bar sits just inside the tested range [1.0, 13.0]: only 1 of the 11 reference pressures reach or exceed it, so the saturating branch of the equilibrium curve is exercised by essentially one pressure and the rest of the campaign probes the sub-characteristic regime.",
+    "conflation_hazard": "The recorded basket pressure is systematically BELOW nominal at every setting (up to 0.61 bar). A statement about '9 bar' therefore means the nominal setting, not the delivered pressure of 8.71 bar."
   },
-  "n_shots_range": [
-   3,
-   10
-  ],
-  "branch_wins": {
-   "rc3b": 3,
-   "static": 4,
-   "phi": 4
-  },
-  "n_rank_changes": 2,
-  "best_branch_is_constant_across_pressure": false,
-  "equal_pressure_mean": {
-   "static": 0.5239,
-   "phi": 0.3345,
-   "rc3b": 0.5098
-  },
-  "shot_weighted_mean": {
-   "static": 0.5094,
-   "phi": 0.3431,
-   "rc3b": 0.53
-  },
-  "equal_pressure_order": [
-   "phi",
-   "rc3b",
-   "static"
-  ],
-  "shot_weighted_order": [
-   "phi",
-   "static",
-   "rc3b"
-  ],
-  "averaging_scheme_changes_order": true,
-  "note": "The equal-pressure mean is the manuscript's headline scheme and weights a 3-shot pressure the same as a 10-shot one. Neither scheme is 'correct'; they answer different questions and are reported together."
- },
- "P1_2_pressure_domains": {
-  "nominal_reference_pressures_bar": [
-   1.0,
-   2.0,
-   3.5,
-   4.0,
-   5.0,
-   6.0,
-   7.0,
-   8.0,
-   9.0,
-   11.0,
-   13.0
-  ],
-  "recorded_basket_pressure_mean_bar": {
-   "1.0": 0.762,
-   "2.0": 1.484,
-   "3.5": 3.108,
-   "4.0": 3.686,
-   "5.0": 4.505,
-   "6.0": 5.578,
-   "7.0": 6.746,
-   "8.0": 7.541,
-   "9.0": 8.713,
-   "11.0": 10.413,
-   "13.0": 12.394
-  },
-  "nominal_minus_recorded_bar": {
-   "1.0": 0.238,
-   "2.0": 0.516,
-   "3.5": 0.392,
-   "4.0": 0.314,
-   "5.0": 0.495,
-   "6.0": 0.422,
-   "7.0": 0.254,
-   "8.0": 0.459,
-   "9.0": 0.287,
-   "11.0": 0.587,
-   "13.0": 0.606
-  },
-  "max_nominal_recorded_gap_bar": 0.606,
-  "fitted_equilibrium_P_c_bar": 12.392,
-  "fitted_equilibrium_Q_c_g_per_s": 1.897,
-  "model_valid_pressure_range_bar": [
-   1.0,
-   13.0
-  ],
-  "primary_analysis_pressure_bar": 9.0,
-  "primary_analysis_recorded_bar": 8.713,
-  "n_pressures_at_or_above_P_c": 1,
-  "boundary_note": "P_c = 12.39 bar sits just inside the tested range [1.0, 13.0]: only 1 of the 11 reference pressures reach or exceed it, so the saturating branch of the equilibrium curve is exercised by essentially one pressure and the rest of the campaign probes the sub-characteristic regime.",
-  "conflation_hazard": "The recorded basket pressure is systematically BELOW nominal at every setting (up to 0.61 bar). A statement about '9 bar' therefore means the nominal setting, not the delivered pressure of 8.71 bar."
- },
- "P1_3_provenance_graph": {
-  "access_levels": {
-   "direct_target": "fitted to the very trace being scored",
-   "indirect_target": "derived from the scored observable through another measurement",
-   "same_shot": "taken from the same shot, outside the scored window",
-   "same_campaign": "estimated from the same campaign, including the scored shots",
-   "other_shots": "estimated from other shots only",
-   "literature": "taken from the source publication",
-   "prespecified": "declared in advance, not estimated"
-  },
-  "branches": {
-   "rung1_const": {
-    "free_params_fitted_to_scored_trace": 1,
-    "n_inputs": 1,
-    "inputs": [
-     {
-      "name": "in-window mean flow",
-      "access": "direct_target",
-      "why": "the scored trace itself"
-     }
-    ],
-    "access_levels_present": [
-     "direct_target"
-    ],
-    "most_target_proximal_access": "direct_target",
-    "is_held_out": false,
-    "held_out": "nothing",
-    "literature_inputs": []
-   },
-   "rung1b_longrun_const": {
-    "free_params_fitted_to_scored_trace": 0,
-    "n_inputs": 1,
-    "inputs": [
-     {
-      "name": "long-run flow level",
-      "access": "same_shot",
-      "why": "the tail of the same shot"
-     }
-    ],
-    "access_levels_present": [
-     "same_shot"
-    ],
-    "most_target_proximal_access": "same_shot",
-    "is_held_out": false,
-    "held_out": "the scored window, but not the shot",
-    "literature_inputs": []
-   },
-   "rung3_static": {
-    "free_params_fitted_to_scored_trace": 0,
-    "n_inputs": 2,
-    "inputs": [
-     {
-      "name": "equilibrium (P_c, Q_c)",
-      "access": "same_campaign",
-      "why": "fitted across 11 pressures; the 9-bar point contains the scored shots"
-     },
-     {
-      "name": "universal curve form",
-      "access": "literature",
-      "why": "Waszkiewicz Eq. 16"
-     }
-    ],
-    "access_levels_present": [
-     "same_campaign",
-     "literature"
-    ],
-    "most_target_proximal_access": "same_campaign",
-    "is_held_out": false,
-    "held_out": "no coefficient fitted to the scored trace; the calibration still sees it",
-    "literature_inputs": [
-     "poroelastic equilibrium closure"
-    ]
-   },
-   "rung4_phi_of_t": {
-    "free_params_fitted_to_scored_trace": 0,
-    "n_inputs": 4,
-    "inputs": [
-     {
-      "name": "equilibrium (P_c, Q_c)",
-      "access": "same_campaign",
-      "why": "as above -- cross-fittable, and cross-fitted in the LOSO analysis"
-     },
-     {
-      "name": "dissolved-mass sigmoid (k, l, m)",
-      "access": "indirect_target",
-      "why": "fitted from TDS(t) x Q(t) on this rig; Q(t) is the scored observable"
-     },
-     {
-      "name": "dose, bed constants",
-      "access": "same_campaign",
-      "why": "campaign constants"
-     },
-     {
-      "name": "Phi(t) = m_d(t)/m0 closure",
-      "access": "literature",
-      "why": "Waszkiewicz Eq. 18"
-     }
-    ],
-    "access_levels_present": [
-     "indirect_target",
-     "same_campaign",
-     "literature"
-    ],
-    "most_target_proximal_access": "indirect_target",
-    "is_held_out": false,
-    "held_out": "no fitted coefficient, but the sigmoid channel reuses the target",
-    "literature_inputs": [
-     "poroelastic time-dependent closure"
-    ]
-   },
-   "flexible_cubic": {
-    "free_params_fitted_to_scored_trace": 4,
-    "n_inputs": 1,
-    "inputs": [
-     {
-      "name": "polynomial coefficients",
-      "access": "direct_target",
-      "why": "least squares on the scored trace"
-     }
-    ],
-    "access_levels_present": [
-     "direct_target"
-    ],
-    "most_target_proximal_access": "direct_target",
-    "is_held_out": false,
-    "held_out": "nothing",
-    "literature_inputs": []
-   },
-   "penalized_spline_loso": {
-    "free_params_fitted_to_scored_trace": 0,
-    "n_inputs": 2,
-    "inputs": [
-     {
-      "name": "spline coefficients",
-      "access": "other_shots",
-      "why": "fitted on the four other brews"
-     },
-     {
-      "name": "knot count, penalty order",
-      "access": "prespecified",
-      "why": "declared before running"
-     }
-    ],
-    "access_levels_present": [
-     "other_shots",
-     "prespecified"
-    ],
-    "most_target_proximal_access": "other_shots",
-    "is_held_out": true,
-    "held_out": "the entire scored shot",
-    "literature_inputs": []
-   }
-  },
-  "note": "A branch is only as held out as its most target-proximal input. Zero free parameters fitted to the scored trace is necessary but not sufficient for 'held out', which is why the count and the access level are reported separately rather than collapsed into one label."
- }
+  "P1_3_provenance_graph": {
+    "access_levels": {
+      "direct_target": "fitted to the very trace being scored",
+      "indirect_target": "derived from the scored observable through another measurement",
+      "same_shot": "taken from the same shot, outside the scored window",
+      "same_campaign": "estimated from the same campaign, including the scored shots",
+      "other_shots": "estimated from other shots only",
+      "literature": "taken from the source publication",
+      "prespecified": "declared in advance, not estimated"
+    },
+    "branches": {
+      "rung1_const": {
+        "free_params_fitted_to_scored_trace": 1,
+        "n_inputs": 1,
+        "inputs": [
+          {
+            "name": "in-window mean flow",
+            "access": "direct_target",
+            "why": "the scored trace itself"
+          }
+        ],
+        "access_levels_present": [
+          "direct_target"
+        ],
+        "most_target_proximal_access": "direct_target",
+        "is_held_out": false,
+        "held_out": "nothing",
+        "literature_inputs": []
+      },
+      "rung1b_longrun_const": {
+        "free_params_fitted_to_scored_trace": 0,
+        "n_inputs": 1,
+        "inputs": [
+          {
+            "name": "long-run flow level",
+            "access": "same_shot",
+            "why": "the tail of the same shot"
+          }
+        ],
+        "access_levels_present": [
+          "same_shot"
+        ],
+        "most_target_proximal_access": "same_shot",
+        "is_held_out": false,
+        "held_out": "the scored window, but not the shot",
+        "literature_inputs": []
+      },
+      "rung3_static": {
+        "free_params_fitted_to_scored_trace": 0,
+        "n_inputs": 2,
+        "inputs": [
+          {
+            "name": "equilibrium (P_c, Q_c)",
+            "access": "same_campaign",
+            "why": "fitted across 11 pressures; the 9-bar point contains the scored shots"
+          },
+          {
+            "name": "universal curve form",
+            "access": "literature",
+            "why": "Waszkiewicz Eq. 16"
+          }
+        ],
+        "access_levels_present": [
+          "same_campaign",
+          "literature"
+        ],
+        "most_target_proximal_access": "same_campaign",
+        "is_held_out": false,
+        "held_out": "no coefficient fitted to the scored trace; the calibration still sees it",
+        "literature_inputs": [
+          "poroelastic equilibrium closure"
+        ]
+      },
+      "rung4_phi_of_t": {
+        "free_params_fitted_to_scored_trace": 0,
+        "n_inputs": 4,
+        "inputs": [
+          {
+            "name": "equilibrium (P_c, Q_c)",
+            "access": "same_campaign",
+            "why": "as above -- cross-fittable, and cross-fitted in the LOSO analysis"
+          },
+          {
+            "name": "dissolved-mass sigmoid (k, l, m)",
+            "access": "indirect_target",
+            "why": "fitted from TDS(t) x Q(t) on this rig; Q(t) is the scored observable"
+          },
+          {
+            "name": "dose, bed constants",
+            "access": "same_campaign",
+            "why": "campaign constants"
+          },
+          {
+            "name": "Phi(t) = m_d(t)/m0 closure",
+            "access": "literature",
+            "why": "Waszkiewicz Eq. 18"
+          }
+        ],
+        "access_levels_present": [
+          "indirect_target",
+          "same_campaign",
+          "literature"
+        ],
+        "most_target_proximal_access": "indirect_target",
+        "is_held_out": false,
+        "held_out": "no fitted coefficient, but the sigmoid channel reuses the target",
+        "literature_inputs": [
+          "poroelastic time-dependent closure"
+        ]
+      },
+      "flexible_cubic": {
+        "free_params_fitted_to_scored_trace": 4,
+        "n_inputs": 1,
+        "inputs": [
+          {
+            "name": "polynomial coefficients",
+            "access": "direct_target",
+            "why": "least squares on the scored trace"
+          }
+        ],
+        "access_levels_present": [
+          "direct_target"
+        ],
+        "most_target_proximal_access": "direct_target",
+        "is_held_out": false,
+        "held_out": "nothing",
+        "literature_inputs": []
+      },
+      "penalized_spline_loso": {
+        "free_params_fitted_to_scored_trace": 0,
+        "n_inputs": 2,
+        "inputs": [
+          {
+            "name": "spline coefficients",
+            "access": "other_shots",
+            "why": "fitted on the four other brews"
+          },
+          {
+            "name": "knot count, penalty order",
+            "access": "prespecified",
+            "why": "declared before running"
+          }
+        ],
+        "access_levels_present": [
+          "other_shots",
+          "prespecified"
+        ],
+        "most_target_proximal_access": "other_shots",
+        "is_held_out": true,
+        "held_out": "the entire scored shot",
+        "literature_inputs": []
+      }
+    },
+    "note": "A branch is only as held out as its most target-proximal input. Zero free parameters fitted to the scored trace is necessary but not sufficient for 'held out', which is why the count and the access level are reported separately rather than collapsed into one label."
+  }
 }

@@ -1,0 +1,7 @@
+sample,coffee,granulometry,a_f_um,a_b_um,phi_f,tau_s
+EF,Cibao Altura,extra_fine,16.6,187.4,0.27,75
+F,Modoetia,fine,15.5,200.0,0.24,41
+O,Modoetia,optimal,16.6,227.0,0.22,26
+O,Cibao Altura,optimal,16.6,213.0,0.22,28
+C,Modoetia,coarse,15.6,227.0,0.2,21
+EC,Cibao Altura,extra_coarse,16.5,242.0,0.17,16

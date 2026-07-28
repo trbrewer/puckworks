@@ -265,3 +265,122 @@ def test_every_branch_leaves_autocorrelated_residuals_including_the_flexible_one
     # and the temporal branches sit BELOW shot-to-shot variability while the static ones do not
     assert r["rung4_phi_of_t"]["residual_over_between_shot_sd"] < 1.0
     assert r["rung1_const"]["residual_over_between_shot_sd"] > 2.0
+
+
+# ── undeclared duplicate traces (Paper B2 fourth review P0.1) ─────────────────────────────────
+def _canonical_trace_hash(shot: dict) -> str:
+    """SHA-256 over every numeric field of one processed trace, at full stored precision."""
+    import hashlib
+
+    import numpy as np
+
+    h = hashlib.sha256()
+    for col in sorted(shot):
+        h.update(col.encode())
+        h.update(np.asarray(shot[col], float).tobytes())
+    return h.hexdigest()
+
+
+def test_no_undeclared_duplicate_processed_traces():
+    """Two records with identical processed arrays are not two experimental units.
+
+    `12-8-6` and `12-8-6_alt` were byte-identical across all six numeric fields at all 1000 time
+    rows, yet both were counted among "57 shots" -- inflating the 13-bar group and making the shot
+    count ambiguous. Nothing checked it, because every other guard compared each trace against the
+    source rather than against its siblings.
+
+    Duplicates are allowed only when declared in `WASZ_TRACE_ALIASES`, which forces the provenance
+    question to be answered rather than the coincidence to be tolerated.
+    """
+    from puckworks import data as d
+
+    by_hash: dict[str, list[str]] = {}
+    for _p, shots in d.waszkiewicz_traces_per_brew().items():
+        for sid, shot in shots.items():
+            by_hash.setdefault(_canonical_trace_hash(shot), []).append(sid)
+
+    for ids in by_hash.values():
+        if len(ids) == 1:
+            continue
+        aliases = [s for s in ids if s in d.WASZ_TRACE_ALIASES]
+        primaries = [s for s in ids if s not in d.WASZ_TRACE_ALIASES]
+        assert len(primaries) == 1 and aliases, (
+            f"undeclared duplicate processed traces {sorted(ids)}: identical in every numeric "
+            f"field. Trace them to their source files and either declare the alias in "
+            f"WASZ_TRACE_ALIASES or restore the independent record")
+        for a in aliases:
+            assert d.WASZ_TRACE_ALIASES[a] == primaries[0], (
+                f"`{a}` is declared an alias of `{d.WASZ_TRACE_ALIASES[a]}` but its trace is "
+                f"identical to `{primaries[0]}`")
+
+
+def test_declared_aliases_are_actually_duplicates():
+    """An alias declaration must not silently hide a record that is in fact distinct."""
+    from puckworks import data as d
+
+    flat = {sid: shot for shots in d.waszkiewicz_traces_per_brew().values()
+            for sid, shot in shots.items()}
+    for alias, primary in d.WASZ_TRACE_ALIASES.items():
+        assert alias in flat and primary in flat, f"{alias}/{primary} missing from the deposit"
+        assert _canonical_trace_hash(flat[alias]) == _canonical_trace_hash(flat[primary]), (
+            f"`{alias}` is declared an alias of `{primary}` but their processed traces differ -- "
+            f"the declaration would drop a genuinely independent record")
+
+
+def test_distinct_shot_count_is_one_fewer_than_the_record_count():
+    """The deposit has 57 processed records but 56 distinct trajectories."""
+    from puckworks import data as d
+
+    records = sum(len(s) for s in d.waszkiewicz_traces_per_brew().values())
+    distinct = sum(len(s) for s in d.waszkiewicz_traces_per_brew(include_aliases=False).values())
+    assert records == 57
+    assert distinct == 56
+    assert records - distinct == len(d.WASZ_TRACE_ALIASES)
+
+
+def test_the_duplicate_does_not_move_the_static_calibration_beyond_reported_precision():
+    """The alias is retained in the equilibrium fit, so its influence must be bounded, not assumed.
+
+    That fit reproduces the source's published static calibration, and the source computed theirs
+    over both copies of the duplicated brew — so deduplicating it would break the reproduction that
+    makes it a verification. The price is that the 13-bar equilibrium mean is over seven records
+    covering six brews. This measures the price rather than waving at it, and fails if a future
+    change makes it matter.
+    """
+    import numpy as np
+
+    from puckworks import data as d
+    from puckworks.models.waszkiewicz2025 import poroelastic as wz
+
+    rows = [r for r in d.waszkiewicz_equilibrium_windows()
+            if r["window"] == "endpoint_100s" and int(r["n_samples"]) > 0]
+
+    def fit(exclude=()):
+        by = {}
+        for r in rows:
+            if r["shot_id"] in exclude:
+                continue
+            by.setdefault(round(float(r["reference_pressure_round__bar"]), 3), []).append(r)
+        P = [np.mean([float(x["basket_pressure__bar"]) for x in v]) for _, v in sorted(by.items())]
+        Q = [np.mean([float(x["mass_flow_rate__g_per_s"]) for x in v])
+             for _, v in sorted(by.items())]
+        (Pc, Qc), _ = wz.fit_static(np.array(P), np.array(Q))
+        return float(Pc), float(Qc)
+
+    with_alias = fit()
+    without = fit(exclude=set(d.WASZ_TRACE_ALIASES))
+    assert abs(without[0] - with_alias[0]) < 1e-3, (
+        f"dropping the duplicate moves P_c by {without[0] - with_alias[0]:+.5f} bar, which is no "
+        f"longer negligible against the reported 12.39 — the fit must be deduplicated or the "
+        f"reproduction claim restated")
+    assert abs(without[1] - with_alias[1]) < 1e-3, (
+        f"dropping the duplicate moves Q_c by {without[1] - with_alias[1]:+.5f} g/s")
+
+    # And the duplicated brew must never be a held-out unit, or its twin leaks into the fit.
+    from puckworks.analysis import waszkiewicz_shot_level as W
+
+    held_out = set(W.leave_one_shot_out_phi()["per_shot"])
+    assert not (held_out & set(d.WASZ_TRACE_ALIASES)), held_out
+    assert not (held_out & set(d.WASZ_TRACE_ALIASES.values())), (
+        "the duplicated brew is a held-out unit while its twin stays in the calibration — the "
+        "held-out estimate would be contaminated")

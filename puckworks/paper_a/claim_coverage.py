@@ -211,6 +211,23 @@ SLOW_LANE_RESULTS: dict[str, str] = {
     "0.0004": "PDE convergence: worst-case relative deviation of the whole-cup concentration (%)",
     "0.0013": "PDE convergence: worst-case relative deviation of the late fraction (%)",
     "0.0204": "PDE convergence: worst-case relative deviation of the profile range ratio (%)",
+    # Solver-health instrumentation (fourth review P0-4): 9 cells x 18 rate points x 9 conditions.
+    # NOTE the 18: the convergence profile is swept on the LADDER grid, not the 29-point formal
+    # panel grid, which is part of why its minimum is not expected to coincide with the panels'.
+    "1458": "PDE convergence: profiled solves checked for termination status, finiteness, "
+            "positivity and volume/mass monotonicity (9 cells x 18 rates x 9 conditions)",
+    # --- diffusivity-closure audit (fourth review P0-2) -----------------------------------------
+    # Archive: docs/paper1_resource/PAPER_A_DIFFUSIVITY_CLOSURE_AUDIT.json. The molecular weights
+    # are the solute MWs the implementation supplies to the Wilke-Chang association factor; the
+    # rest are the numerical degeneracy check that shows the closure choice is absorbed by the
+    # fitted rate.
+    "194.19": "diffusivity closure: caffeine molecular weight (g/mol)",
+    "137.14": "diffusivity closure: trigonelline molecular weight (g/mol)",
+    "354.31": "diffusivity closure: 5-CQA molecular weight (g/mol)",
+    "2.84": "diffusivity closure: Arabica-caffeine minimum MAPE under either closure (%), "
+            "2.8375 vs 2.8328 to 3 sf",
+    "1.43": "diffusivity closure: Arabica-caffeine profile range ratio, source closure (1.4268)",
+    "1.45": "diffusivity closure: Arabica-caffeine profile range ratio, solvent-MW variant (1.4486)",
 }
 
 DERIVED_QUANTITIES: dict[str, tuple[str, str, str]] = {}

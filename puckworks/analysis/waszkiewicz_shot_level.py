@@ -292,6 +292,17 @@ def leave_one_shot_out_phi(window=WINDOW):
     dose = d.waszkiewicz_constants()["dose__g"]
 
     def _fit_without(drop_id):
+        # NOTE the alias. `12-8-6_alt` duplicates `12-8-6`, so the 13-bar equilibrium mean here is
+        # taken over SEVEN records covering SIX brews. It is deliberately NOT deduplicated: this
+        # fit reproduces the source's published static calibration (P_c 12.394 vs 12.39, Q_c 1.907
+        # vs 1.897), and the source computed theirs over both copies -- deduplicating would break
+        # the reproduction that makes this a verification rather than an independent fit.
+        #
+        # The consequence is measured, not assumed: dropping the alias moves P_c by +2.4e-4 bar and
+        # Q_c by -5.2e-4 g/s, three orders below the reported precision. `12-8-6` is also never a
+        # held-out id in this loop -- the leave-one-out runs over the 9-bar shots only -- so no
+        # held-out estimate is contaminated by its twin remaining in the calibration.
+        # `tests/test_waszkiewicz_per_brew.py` pins that bound.
         by_p = {}
         for r in eq:
             if r["shot_id"] == drop_id:
@@ -641,14 +652,25 @@ def _periodogram(centred, dt_s, keep=12):
     rel = power / total
     order = np.argsort(rel)[::-1][:keep]
     order = order[np.argsort(freq[order])]
-    # "slowest quarter" = the lowest-frequency quarter of the spectrum; a residual dominated by it
-    # is drifting rather than oscillating.
+    # "slowest quarter" = the lowest-frequency quarter of the AVAILABLE BINS. It is a partition of
+    # the window's resolvable frequencies, not a scientific cutoff, and concentration there does
+    # NOT establish drift rather than oscillation -- one window cannot separate the two. The
+    # comment used to assert exactly that (fourth review 6.4).
     q = max(1, len(freq) // 4)
+    peak = int(np.argmax(rel))
+    # The bin INDEX is the primary quantity: k = 1 is the first nonzero bin of the window, whose
+    # period is the window length by construction. The period is retained as a derived convenience
+    # and is labelled everywhere as a window property.
     return dict(
         period_s=[round(float(1.0 / f), 3) for f in freq[order]],
         relative_power=[round(float(v), 4) for v in rel[order]],
-        peak_bin_period_s=round(float(1.0 / freq[int(np.argmax(rel))]), 3),
-        power_in_slowest_quarter=round(float(rel[:q].sum()), 4),
+        # freq[0] is the FIRST NONZERO bin (the zero-frequency term is excluded upstream), so
+        # array index i corresponds to spectral index k = i + 1.
+        peak_bin_index=int(peak) + 1,
+        frequency_resolution_hz=round(float(freq[0]), 6) if len(freq) else None,
+        peak_bin_period_s=round(float(1.0 / freq[peak]), 3),
+        power_in_slowest_quarter_of_bins=round(float(rel[:q].sum()), 4),
+        power_in_slowest_quarter=round(float(rel[:q].sum()), 4),   # legacy alias
     )
 
 

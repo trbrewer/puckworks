@@ -36,9 +36,10 @@
       "kwargs": {}
     },
     "compares_grinder_dials": false,
-    "source_commit": "99ea79f97894c68d53a779ab892ce7801aa7042b",
-    "generated_from_commit": "99ea79f97894c68d53a779ab892ce7801aa7042b",
-    "last_verified_against_commit": "99ea79f97894c68d53a779ab892ce7801aa7042b",
+    "source_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
+    "generated_from_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
+    "last_verified_against_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
+    "payload_sha256": "64faddd5fa2902f5ea4af57c11e32eeaca6212840678d1e24dc1e65398f31412",
     "dependencies": [
       {
         "ref": "waszkiewicz2025/tds_fractions",
@@ -115,7 +116,7 @@
     "claim_id": "PV-02",
     "public_question": "When a flow curve dips and recovers, does that prove the coffee bed changed (swelling, channeling, fines)?",
     "headline": "A flow dip can come from the espresso machine even when the puck model does nothing \u2014 but some traces DO need a time-varying bed.",
-    "plain_language_finding": "A machine-only model (pump + headspace, no bed mechanism) can reproduce a dip-and-recovery, so that shape alone is not a diagnosis. Separately, on a 9-bar rising-flow trace, every constant baseline fails and a time-varying porosity trajectory reconstructs it ~4.9x better \u2014 time variation IS needed there (though a flexible non-mechanistic curve does as well, so this does not identify a specific bed mechanism).",
+    "plain_language_finding": "A machine-and-wetting model (pump + headspace + a sharp wetting front advancing into a dry bed, with no extraction-driven change in bed structure) can reproduce a dip-and-recovery, so that shape alone is not a diagnosis. Separately, on a 9-bar rising-flow trace, every constant baseline fails and a time-varying porosity trajectory reconstructs it ~4.9x better \u2014 time variation IS needed there (though a flexible non-mechanistic curve does as well, so this does not identify a specific bed mechanism).",
     "numeric_result": {
       "dynamic_rmse_g_per_s": 0.116,
       "best_constant_null_rmse_g_per_s": 0.573,
@@ -147,9 +148,10 @@
       "kwargs": {}
     },
     "compares_grinder_dials": false,
-    "source_commit": "99ea79f97894c68d53a779ab892ce7801aa7042b",
-    "generated_from_commit": "99ea79f97894c68d53a779ab892ce7801aa7042b",
-    "last_verified_against_commit": "99ea79f97894c68d53a779ab892ce7801aa7042b",
+    "source_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
+    "generated_from_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
+    "last_verified_against_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
+    "payload_sha256": "96247d3d4b5490a575738d9a057a134142821d66f49b5e0ad3f7ba5e51b19c91",
     "dependencies": [
       {
         "ref": "waszkiewicz2025.poroelastic",
@@ -181,11 +183,11 @@
       {
         "ref": "foster2025.machine_mode",
         "kind": "component",
-        "role": "the machine-only branch that reproduces a dip without any bed process",
+        "role": "the machine-and-wetting branch that reproduces a dip without any extraction-driven bed process",
         "evidence": [
           {
             "relation": "source_curve_reproduction",
-            "public_relation": "post-fit reconstruction",
+            "public_relation": "source-curve reproduction",
             "scope": "Wetting-front depth s(t) and headspace height H(t) (mm) over the shot, vs the paper's fitted ODE curves and vs digitized CT measurements.",
             "gate": "gate_foster_ct_trajectory",
             "outcome": "negative",
@@ -195,7 +197,7 @@
           },
           {
             "relation": "source_curve_reproduction",
-            "public_relation": "post-fit reconstruction",
+            "public_relation": "source-curve reproduction",
             "scope": "Normalized bed flow Q/Qm = min(Q_p, f(H,s))/Q_m vs experiment time.",
             "gate": "gate_foster_fig15_flowmin",
             "outcome": "negative",
@@ -205,7 +207,7 @@
           },
           {
             "relation": "source_curve_reproduction",
-            "public_relation": "post-fit reconstruction",
+            "public_relation": "source-curve reproduction",
             "scope": "Two scalar times (s): ponding time t_p and saturation time t_s, model-computed vs the authors' reported values.",
             "gate": "gate_foster_machine_tp_ts",
             "outcome": "supported",
@@ -247,7 +249,7 @@
         "claim_observable": "whether a mid-shot flow minimum can arise from machine response alone, evidenced by reproduced ponding and saturation times",
         "claim_domain": "the Foster apparatus and its reported scalar times",
         "role_in_claim": "produces_reported_value",
-        "rationale": "The machine-only branch's CAPACITY to generate the dip is what this claim asserts, and the two reproduced scalar times support it. DELIBERATELY EXCLUDED: gate_foster_ct_trajectory and gate_foster_fig15_flowmin, both NEGATIVE-outcome records concerning wetting-front depth s(t)/headspace H(t) and the normalized flow curve. This claim asserts nothing about those observables, and their presence in the profile misrepresented the claim's support in both directions."
+        "rationale": "The machine-and-wetting branch's CAPACITY to generate the dip is what this claim asserts, and the two reproduced scalar times support it. DELIBERATELY EXCLUDED: gate_foster_ct_trajectory and gate_foster_fig15_flowmin, both NEGATIVE-outcome records concerning wetting-front depth s(t)/headspace H(t) and the normalized flow curve. This claim asserts nothing about those observables, and their presence in the profile misrepresented the claim's support in both directions."
       }
     ],
     "outcome": "supported",
@@ -268,7 +270,7 @@
         "dependency": "foster2025.machine_mode",
         "kind": "component",
         "relation": "source_curve_reproduction",
-        "public_relation": "post-fit reconstruction",
+        "public_relation": "source-curve reproduction",
         "scope": "Two scalar times (s): ponding time t_p and saturation time t_s, model-computed vs the authors' reported values.",
         "gate": "gate_foster_machine_tp_ts",
         "outcome": "supported",
@@ -325,9 +327,10 @@
       "kwargs": {}
     },
     "compares_grinder_dials": true,
-    "source_commit": "99ea79f97894c68d53a779ab892ce7801aa7042b",
-    "generated_from_commit": "99ea79f97894c68d53a779ab892ce7801aa7042b",
-    "last_verified_against_commit": "99ea79f97894c68d53a779ab892ce7801aa7042b",
+    "source_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
+    "generated_from_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
+    "last_verified_against_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
+    "payload_sha256": "f9ae59a53f628bfcb723beba27d9e26ceab390cc041e2f5254b9482e21da8177",
     "dependencies": [
       {
         "ref": "puckworks.harness.schmieder_interior_max_target",
@@ -408,9 +411,10 @@
       "kwargs": {}
     },
     "compares_grinder_dials": false,
-    "source_commit": "99ea79f97894c68d53a779ab892ce7801aa7042b",
-    "generated_from_commit": "99ea79f97894c68d53a779ab892ce7801aa7042b",
-    "last_verified_against_commit": "99ea79f97894c68d53a779ab892ce7801aa7042b",
+    "source_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
+    "generated_from_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
+    "last_verified_against_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
+    "payload_sha256": "88aaa35beb0539a18ede56d8e8eb9b6e5d72f789d01d0e81a3d7c40f894d3935",
     "dependencies": [
       {
         "ref": "brewer2026.coupled_kappa_t",
@@ -476,7 +480,7 @@
           },
           {
             "relation": "source_curve_reproduction",
-            "public_relation": "post-fit reconstruction",
+            "public_relation": "source-curve reproduction",
             "scope": "Fixed-dp flow-decay ratio q(60s)/q(0) (dp/mu/L cancelled) per powder E/H/M/F, plus the scalar s_m.",
             "gate": "gate_mo2_swelling_flow_decay",
             "outcome": "negative",
@@ -617,9 +621,10 @@
       "kwargs": {}
     },
     "compares_grinder_dials": false,
-    "source_commit": "99ea79f97894c68d53a779ab892ce7801aa7042b",
-    "generated_from_commit": "99ea79f97894c68d53a779ab892ce7801aa7042b",
-    "last_verified_against_commit": "99ea79f97894c68d53a779ab892ce7801aa7042b",
+    "source_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
+    "generated_from_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
+    "last_verified_against_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
+    "payload_sha256": "65279a72e734d3279ed0427d27d9910bc170f59ec4a94a624d09cc9253187830",
     "dependencies": [
       {
         "ref": "pannusch2024.solver",

@@ -91,18 +91,31 @@ _CLAIMS = [
      "cross_pressure_per_shot.shot_weighted_macro_mean_of_mean_curve.static", 0.5094, 0.003),
     ("cross-pressure shot-count-weighted macro mean of mean-curve RMSE, Phi(t) ~0.343",
      "cross_pressure_per_shot.shot_weighted_macro_mean_of_mean_curve.phi", 0.3431, 0.003),
-    ("MEAN OF 57 INDIVIDUAL-SHOT RMSEs, static ~0.527",
-     "cross_pressure_per_shot.mean_of_individual_shot_rmse.static", 0.5271, 0.003),
-    ("MEAN OF 57 INDIVIDUAL-SHOT RMSEs, Phi(t) ~0.363",
-     "cross_pressure_per_shot.mean_of_individual_shot_rmse.phi", 0.3632, 0.003),
-    ("MEAN OF 57 INDIVIDUAL-SHOT RMSEs, RC-3b ~0.540",
-     "cross_pressure_per_shot.mean_of_individual_shot_rmse.rc3b", 0.5400, 0.005),
-    ("pooled shot x time RMSE, static ~0.557",
-     "cross_pressure_per_shot.pooled_shot_time_rmse.static", 0.5567, 0.003),
-    ("pooled shot x time RMSE, Phi(t) ~0.393",
-     "cross_pressure_per_shot.pooled_shot_time_rmse.phi", 0.3927, 0.003),
-    ("57 shots included of 60 brews reported by the source",
-     "cross_pressure_per_shot.n_shots_included", 57, 0),
+    # 56, not 57: `12-8-6_alt` is an alias of `12-8-6` and is excluded now that the shot is the
+    # experimental unit (fourth review P0.1). Every one of these five values moved.
+    ("MEAN OF 56 INDIVIDUAL-SHOT RMSEs, static ~0.523",
+     "cross_pressure_per_shot.mean_of_individual_shot_rmse.static", 0.5228, 0.003),
+    ("MEAN OF 56 INDIVIDUAL-SHOT RMSEs, Phi(t) ~0.364",
+     "cross_pressure_per_shot.mean_of_individual_shot_rmse.phi", 0.3640, 0.003),
+    ("MEAN OF 56 INDIVIDUAL-SHOT RMSEs, RC-3b ~0.547",
+     "cross_pressure_per_shot.mean_of_individual_shot_rmse.rc3b", 0.5467, 0.005),
+    ("pooled shot x time RMSE, static ~0.552",
+     "cross_pressure_per_shot.pooled_shot_time_rmse.static", 0.5522, 0.003),
+    ("pooled shot x time RMSE, Phi(t) ~0.394",
+     "cross_pressure_per_shot.pooled_shot_time_rmse.phi", 0.3939, 0.003),
+    # 6.6: registered so producer, bundle, manuscript, figure and test all carry ONE value.
+    ("best branch changes 3 times across the pressure axis (adjacent transitions)",
+     "cross_pressure_heterogeneity.n_rank_changes", 3, 0),
+    ("pooled shot x time RMSE, RC-3b ~0.619",
+     "cross_pressure_per_shot.pooled_shot_time_rmse.rc3b", 0.6194, 0.005),
+    ("common per-trace time grid: 1000 rows",
+     "cross_pressure_per_shot.n_time_rows_per_trace", 1000, 0),
+    ("56 distinct shots scored, of 57 deposited trace records and 60 brews reported by the source",
+     "cross_pressure_per_shot.n_shots_included", 56, 0),
+    ("57 processed trace records in the deposit",
+     "cross_pressure_per_shot.n_trace_records_in_deposit", 57, 0),
+    ("56 distinct processed trajectories",
+     "cross_pressure_per_shot.n_distinct_trajectories", 56, 0),
     ("leave-in shot-to-full-mean dispersion ~0.149 g/s (NOT a noise floor)",
      "shot_level.dispersion.leave_in_dispersion_rmse_g_per_s", 0.1492, 0.005),
     ("leave-one-shot-out other-four empirical-template RMSE ~0.186 g/s",
@@ -449,12 +462,15 @@ def compute(out_path=_BUNDLE, include_slow=True):
         pressure_domains=__import__(
             "puckworks.analysis.waszkiewicz_cross_pressure", fromlist=["x"]).pressure_domains(),
     )
-    # Third review P0.4: the genuine shot-level cross-pressure estimand, across all 57 included
-    # shots and ALL THREE branches. The manuscript previously reported a shot-count-weighted mean
+    # Third review P0.4: the genuine shot-level cross-pressure estimand, across the 56 DISTINCT
+    # shots (57 deposited records minus one declared alias) and ALL THREE branches. The manuscript previously reported a shot-count-weighted mean
     # of pressure-level MEAN-CURVE RMSEs and read it as the expected error of a randomly drawn
     # shot; RMSE is nonlinear, so it is not.
     from puckworks.analysis import waszkiewicz_cross_pressure as _wcp
     bundle["cross_pressure_per_shot"] = _wcp.per_shot_cross_pressure()
+    # Bundled so the rank-change count is registrable as a claim: producer, bundle, manuscript,
+    # figure and test then all read ONE value from ONE definition (fourth review 6.6).
+    bundle["cross_pressure_heterogeneity"] = _wcp.cross_pressure_heterogeneity()
     # Figure 1b prints the Foster machine-mode minimum, so it is a manuscript number and belongs
     # in the bundle rather than being read off a gate at render time.
     from puckworks.models.foster2025 import machine_mode as _fm

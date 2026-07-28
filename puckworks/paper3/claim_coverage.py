@@ -46,8 +46,25 @@ GENERATED_BLOCKS = (
     ("<!-- implstatus:begin -->", "<!-- implstatus:end -->"),
     ("<!-- scorecard:begin -->", "<!-- scorecard:end -->"),
     ("<!-- appendix-b:begin -->", "<!-- appendix-b:end -->"),
+    # Spliced from the live registry / the defect benchmark as of the fourth review's P0-1: their
+    # numerals are producer-emitted (component counts, gate counts, and the bibliographic volume
+    # and page numbers inside each component's citation string) and are bound by
+    # `tests/test_paper3_manuscript_consistency.py` row by row.
+    ("<!-- appendixA:begin -->", "<!-- appendixA:end -->"),
+    ("<!-- table6a:begin -->", "<!-- table6a:end -->"),
 )
 
+#: KNOWN LIMITATION, recorded because it decides how much a "0 unaccounted" result is worth.
+#: Dispositions here are keyed by the numeral's VALUE, not by its context, so the first entry that
+#: matches a token supplies the explanation for every occurrence of that token in the manuscript.
+#: A count of 25 components was therefore reported as accounted with the explanation "draft date
+#: (25 July 2026)" -- the right disposition class, attached to the wrong fact.
+#:
+#: The audit still does its primary job: it cannot report zero while a numeral is genuinely
+#: unregistered. What it cannot do is guarantee that each numeral is accounted for the RIGHT
+#: reason. Until dispositions carry context, a bare numeral whose value collides with an unrelated
+#: constant should be rewritten rather than registered -- which is what §10.4 does, stating "two
+#: components short of 27" instead of a bare 25.
 CONFIG_CONSTANTS: dict[str, str] = {
     "0.05": "significance threshold where quoted",
     "95": "interval coverage (%)",

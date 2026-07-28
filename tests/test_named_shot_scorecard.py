@@ -107,3 +107,39 @@ def test_the_dial_is_recorded_as_non_portable(card):
     assert card["configuration"]["dial_is_portable"] is False
     named = card["rows"][0]
     assert "portable" in named["caveat"]
+
+
+def test_open_state_is_a_predicate_not_a_string_comparison():
+    """A combined status containing `open` must still count as open.
+
+    `r["status"] == "open"` compared against a JOINED PRESENTATION STRING, so a stage whose derived
+    status was e.g. "verification + open" escaped the open count entirely (fourth review P0-9).
+    Recovering structure by parsing presentation is the defect; this drives the predicate directly.
+    """
+    from puckworks.paper3 import named_shot_scorecard as S
+
+    assert S._is_open({"status": "open"})
+    assert S._is_open({"status": "verified (code only) + open"})
+    assert S._is_open({"status": "open + compatibility check"})
+    assert not S._is_open({"status": "verified (code only) + compatibility check"})
+    assert not S._is_open({"status": "reconstructed"})
+
+    r = S.scorecard()
+    assert r["n_open_stages"] == sum(1 for row in r["rows"] if S._is_open(row))
+
+
+def test_the_machine_boundary_caveat_reflects_schema_0_8():
+    """The caveat said node identity "is not a typed contract field" after 0.8 added one.
+
+    The remaining gap is real but different: the TYPE exists and fails closed on an untyped trace;
+    what is unresolved is this source trace's node.
+    """
+    from puckworks import contracts as C
+    from puckworks.paper3 import named_shot_scorecard as S
+
+    assert hasattr(C, "PressureNode") and hasattr(C, "require_node")
+    machine = next(r for r in S.scorecard()["rows"] if r["stage"] == "machine")
+    assert "is not a typed contract field" not in machine["caveat"], (
+        "the machine caveat still denies the existence of the contract type schema 0.8 added")
+    assert "PressureNode" in machine["caveat"]
+    assert "has not been established" in machine["caveat"]

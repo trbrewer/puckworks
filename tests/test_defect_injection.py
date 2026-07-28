@@ -87,11 +87,17 @@ def test_no_harness_errors(result):
 
 def test_manuscript_reports_the_benchmark_numbers(result):
     """The paper must print the benchmark's actual totals, not a remembered pair."""
-    text = (_ROOT / "docs/PAPER_3_PUCKWORKS_DRAFT.md").read_text(encoding="utf-8")
+    # Whitespace-normalised: the assertions hard-coded a specific line break, so re-wrapping the
+    # paragraph made a correct sentence read as absent.
+    text = " ".join((_ROOT / "docs/PAPER_3_PUCKWORKS_DRAFT.md")
+                    .read_text(encoding="utf-8").split())
     assert "**%d injected defects**" % result["n_defects"] in text
-    assert "**%d were caught and %d were\nmissed**" % (
+    assert "**%d were caught and %d were missed**" % (
         result["n_defects_detected"], result["n_defects_missed"]) in text
-    assert "**%d independent structural groups**" % result["n_independent_groups"] in text
+    # "declared structural families", not "independent structural groups": the grouping is an
+    # author-assigned de-duplication device and independence was never established (P0-12).
+    assert "**%d declared structural families**" % result["n_independent_groups"] in text
+    assert "independent structural groups" not in text
     assert "Two **valid controls**" in text and result["n_controls"] == 2
 
 
@@ -139,12 +145,29 @@ def test_related_mutations_share_an_independence_group(result):
         "if every case were its own group the grouping would be doing no work")
 
 
-def test_every_executable_mutation_is_distinguished_from_a_limitation_analysis(result):
+def test_every_case_declares_the_execution_path_it_actually_traverses(result):
+    """`executable` lumped four different things together.
+
+    It covered an end-to-end contract violation and a manuscript phrase sentinel alike, which is
+    what let the paper claim "15 executable mutations that perturb a real input and run the
+    production guard" (fourth review P0-12). The honest production-path count is 10.
+    """
     kinds = {r["execution_type"] for r in result["rows"]}
-    assert kinds <= {"executable", "limitation_analysis"}
+    assert kinds <= {"production_path_mutation", "integration_regression_sentinel",
+                     "static_manuscript_check", "limitation_analysis"}
+    assert "executable" not in kinds, (
+        "the undifferentiated `executable` label is back; it cannot support a production-path claim")
     assert result["n_limitation_analyses"] > 0, (
         "cases that return a hard-coded outcome must be labelled, not counted as mutations")
-    assert result["n_executable_mutations"] + result["n_limitation_analyses"] == result["n_defects"]
+    # The path breakdown must partition the defects exactly -- no case unclassified, none double
+    # counted, and controls excluded throughout.
+    assert sum(result["by_execution_type"].values()) == result["n_defects"]
+    assert result["n_executable_mutations"] == result["by_execution_type"][
+        "production_path_mutation"]
+    assert result["n_executable_mutations"] < result["n_defects"], (
+        "if every defect were a production-path mutation the distinction would be doing no work")
+    for k, n in result["by_execution_type_detected"].items():
+        assert 0 <= n <= result["by_execution_type"][k]
 
 
 def test_the_absence_of_a_holdout_suite_is_declared(result):

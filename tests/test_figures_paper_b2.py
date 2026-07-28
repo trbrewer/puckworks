@@ -162,8 +162,19 @@ def test_exported_source_data_matches_the_bundle(tmp_path, bundle):
         rows = {r["branch"]: r for r in csv.DictReader(fh)}
     rd = bundle["shot_level"]["residuals_1s"]["branches"]
     for key, *_ in F.BRANCHES:
-        assert float(rows[key]["power_in_slowest_quarter"]) == pytest.approx(
-            rd[key]["spectrum"]["power_in_slowest_quarter"], abs=1e-9)
+        assert float(rows[key]["power_in_slowest_quarter_of_available_bins"]) == pytest.approx(
+            rd[key]["spectrum"]["power_in_slowest_quarter_of_bins"], abs=1e-9)
+        # The peak is exported as a BIN INDEX with the window's frequency resolution beside it;
+        # the period is a derived window property, not a measured timescale (fourth review 6.4).
+        assert int(rows[key]["peak_bin_index_k"]) == rd[key]["spectrum"]["peak_bin_index"]
+        assert float(rows[key]["frequency_resolution_hz"]) == pytest.approx(
+            rd[key]["spectrum"]["frequency_resolution_hz"], abs=1e-9)
+        assert float(rows[key]["peak_bin_period_s_window_property"]) == pytest.approx(
+            rd[key]["spectrum"]["peak_bin_period_s"], abs=1e-9)
+        # k and the period must be consistent with the stated resolution, or one of them is wrong.
+        assert float(rows[key]["peak_bin_period_s_window_property"]) == pytest.approx(
+            1.0 / (int(rows[key]["peak_bin_index_k"])
+                   * float(rows[key]["frequency_resolution_hz"])), rel=1e-6)
         assert float(rows[key]["lag1_acf"]) == pytest.approx(
             rd[key]["lag1_autocorrelation"], abs=1e-9)
 

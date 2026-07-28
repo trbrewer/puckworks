@@ -138,3 +138,47 @@ def test_every_branch_declares_its_inputs_with_known_access_levels():
         for inp in v["inputs"]:
             assert inp["access"] in g["access_levels"], (b, inp)
             assert inp["why"], (b, inp)
+
+
+# ── rank-transition counting (Paper B2 fourth review 5.4) ─────────────────────────────────────
+def _transitions(winners):
+    """The definition under test, extracted so it can be driven on synthetic sequences."""
+    return sum(a != b for a, b in zip(winners, winners[1:]))
+
+
+def test_rank_changes_counts_transitions_not_distinct_winners():
+    """`len(set(winners)) - 1` is not a transition count, and undercounts re-entrant sequences.
+
+    The review's example: for `A, A, B, B, A` the winner returns to A, so there are TWO adjacent
+    transitions, while `len(set) - 1` gives one. The bug survived a verification manifest because
+    the manifest confirmed the reported number against a bundle that carried the same wrong
+    definition -- value matching cannot catch a definition error.
+    """
+    reentrant = ["A", "A", "B", "B", "A"]
+    assert _transitions(reentrant) == 2
+    assert len(set(reentrant)) - 1 == 1, "the review's counterexample no longer distinguishes them"
+
+    # The real pressure-ordered sequence: three transitions, three distinct winners.
+    real = ["rc3b", "rc3b", "static", "static", "static", "static",
+            "phi", "phi", "phi", "phi", "rc3b"]
+    assert _transitions(real) == 3
+    assert len(set(real)) - 1 == 2
+
+    # Degenerate cases the expression must still handle.
+    assert _transitions([]) == 0
+    assert _transitions(["A"]) == 0
+    assert _transitions(["A", "A", "A"]) == 0
+    assert _transitions(["A", "B", "A", "B"]) == 3
+
+
+def test_producer_reports_the_transition_count():
+    """The shipped producer must use the transition definition, not the distinct-winner one."""
+    from puckworks.analysis import waszkiewicz_cross_pressure as cp
+
+    het = cp.cross_pressure_heterogeneity()
+    winners = [het["per_pressure"][p]["best"] for p in het["pressures"]]
+    assert het["n_rank_changes"] == _transitions(winners), (
+        f"producer reports {het['n_rank_changes']} rank changes but its own pressure-ordered "
+        f"winner sequence {winners} has {_transitions(winners)} transitions")
+    assert het["n_rank_changes"] == 3
+    assert het["best_branch_is_constant_across_pressure"] is False

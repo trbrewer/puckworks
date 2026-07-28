@@ -24,8 +24,12 @@ All headline values are generated from an archived, machine-readable result bund
 analysis code, environment specification, figure source data and supplementary material are
 deposited at [release DOI — not yet minted].
 
-This manuscript is original, is not under consideration elsewhere, and all authors have approved
-the submission. We declare no competing interests beyond those stated in the manuscript.
+This manuscript is original and is not under consideration elsewhere.
+
+> **This letter is not ready to send.** The following declarations are deliberately absent rather than asserted, because the front matter does not yet support them:
+>
+> - *all authors have approved the submission* — author approval cannot be asserted until the author list is filled in and each author has actually approved (`authors` is unset in `docs/submission/paper_a_front_matter.yaml`).
+> - *we declare no competing interests beyond those stated in the manuscript* — the competing-interest declaration must come from the authors, not from an empty field (`competing_interests` is unset in `docs/submission/paper_a_front_matter.yaml`).
 
 Yours sincerely,
 
