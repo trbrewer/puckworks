@@ -434,3 +434,21 @@ def test_the_manuscript_does_not_deny_data_it_uses():
     assert "empirical whole-cup comparison on this campaign is not available" not in text, (
         "the manuscript denies whole-cup data that the repository holds and the same paragraph uses")
     assert "Measured whole cups for this campaign ARE available" in text
+
+
+def test_the_manuscript_does_not_deny_the_density_model_it_applies():
+    """§2.4 said a mass endpoint "requires a declared beverage-density model; that is not
+    available here" -- while the solver applies exactly such a model, rho = 980 kg/m^3, in the
+    conversion at the heart of every prediction.
+
+    Same class as P0-3: a statement about the corpus that the corpus contradicts. Found by
+    auditing every absence claim in the manuscript against what the code actually does, after the
+    solver-contract audit had established the fact and it had not been propagated into the prose.
+    """
+    from puckworks.models.pannusch2024 import solver as ps
+
+    assert ps.RHO > 0, "the solver no longer applies a density; the §2.4 wording must be revisited"
+    text = " ".join(C.CONVERSION.read_text(encoding="utf-8").split())
+    assert "declared beverage-density model; that is not available here" not in text
+    assert "beverage-density model" in text and "already present" in text, (
+        "§2.4 must state that a density model is applied, not that one is unavailable")

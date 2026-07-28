@@ -392,9 +392,13 @@ the blind residual — which is exactly what happens here: ≈ 5 pp in the blind
 against a 0.06 pp spread in the paired difference. So the qualitative conclusion (a large, structured residual not removed by
 inventory alone) does not hinge on the mass-to-volume substitution, but the exact residual magnitude
 and the trigonelline detail carry a ≈ 5 pp endpoint uncertainty — about a fifth of the residual
-itself — which we state rather than absorb. A mass endpoint would be preferable and would require
-the solver to integrate to collected mass under a declared beverage-density model; that is not
-available here. We use "matched beverage endpoint" rather than "matched 40 g"
+itself — which we state rather than absorb. A mass endpoint would be preferable, and the machinery for one is
+in fact already present: the solver converts the source's flow column using an explicit
+beverage-density model (\(\rho = 980\) kg m⁻³) inherited from the source implementation, so the
+collection accumulator is mass-referenced rather than purely volumetric. What is genuinely
+unresolved is not the density model but the source column's own labelling — it is published as
+mL s⁻¹ and consumed by the source's code as a mass flow — so the endpoint's mass interpretation
+inherits that ambiguity. We use "matched beverage endpoint" rather than "matched 40 g"
 wherever the distinction could matter.
 **External-trajectory processing (the second-rig dissolved-solids panel).** The external panel
 carries several load-bearing processing choices that are declared here rather than left in code.
