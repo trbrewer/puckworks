@@ -103,9 +103,9 @@ archive, the figure bundle, or a module constant, and `verify()` fails on drift.
 
 | Paper 1 slow-lane results | before | after |
 |---|---:|---:|
-| **Actually checked** | **0 of 75** | **45 of 75** |
-| Declared unbindable, with the missing artefact named | 0 | 9 |
-| Still unbound | 75 | 21 |
+| **Actually checked** | **0 of 77** | **60 of 77** |
+| Declared unbindable, with the missing artefact named | 0 | 6 |
+| Still unbound | 77 | 11 |
 
 52 bindings cover those 45 tokens, in three kinds:
 
@@ -118,6 +118,23 @@ archive, the figure bundle, or a module constant, and `verify()` fails on drift.
 
 All four failure modes are mutation-tested: a drifted archive value, a vanished archived field, a
 missing archive file, a drifted code constant, and a moved derived extremum are each caught.
+
+### Both flagged questions resolved against the records
+
+**The full-cup simulation numbers were not stale — they were mislabelled.** Every one matches
+`positive_control` (`idn.identifiability_fractions_vs_cup`), not `full_cup_sim`
+(`idn.full_cup_simulation_identifiability`): caffeine minimum fraction MAPE 6.04, trigonelline
+9.99, trigonelline minimum sampled-aggregate 3.62, fraction range ratios 4.05 / 4.41 / 4.37,
+sampled-aggregate range ratios 1.43 / 1.22. The `SLOW_LANE_RESULTS` descriptions said "full-cup
+sim:", which sent a reader — and this module's author — to a producer that holds none of them. All
+seven are now relabelled and bound.
+
+**The −0.72 / −0.73 "discrepancy" was a rounding artefact, not two runs.** Comparing the
+whole-group interval settled it: the archive holds `[−0.725, +0.027]` and `[−0.751, −0.032]`, and
+the P0-5 document displays those same four bounds to 2 dp as `[−0.73, +0.03]` and `[−0.75, −0.03]`.
+One run. `−0.725` sits exactly on a rounding boundary, so `−0.73` (half-away-from-zero) and `−0.72`
+(half-to-even) are both defensible — which is why the manuscript contained both. Every appearance
+now quotes three significant figures, which removes the ambiguity rather than picking a side of it.
 
 ### What it found on the first pass
 

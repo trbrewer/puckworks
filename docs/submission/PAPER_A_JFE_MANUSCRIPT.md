@@ -785,7 +785,7 @@ an external-rig prediction.
 This is the paper's principal quantitative result, so we state it first. Against an
 **optimal-grind-trained MAPE-optimal constant**, the mechanistic model's pooled held-out MAPE is
 **8.23 %** versus **8.59 %** for the constant — a paired difference of **−0.36 percentage points**,
-whose primary clustered percentile range **[−0.73, +0.03] pp crosses zero**, with the mechanistic
+whose primary clustered percentile range **[−0.725, +0.027] pp crosses zero**, with the mechanistic
 model **worse on 50 of 108 held-out points**. Acceptable endpoint accuracy therefore did not supply
 resolvable skill beyond a transferred concentration level.
 
@@ -806,8 +806,8 @@ weakens the paper's thesis.
 Treating the 108 held-out points as the **dependent** observations they are (6 variety × solute
 groups × shared (T,p) conditions × two grinds), a **paired clustered resampling** of the
 model-minus-null loss (B = 8000, seed 0) gives a sensitivity range on the pooled ΔMAPE of
-**[−0.73, +0.03] pp** resampling conditions within group (the primary unit — it **includes zero**)
-and **[−0.75, −0.03] pp** resampling whole groups, which barely excludes it. The whole-group variant
+**[−0.725, +0.027] pp** resampling conditions within group (the primary unit — it **includes zero**)
+and **[−0.751, −0.032] pp** resampling whole groups, which barely excludes it. The whole-group variant
 uses only six groups and is reported as a secondary sensitivity; the conditions-within-group result
 remains primary. The −0.36 pp advantage is **not robustly distinguishable from zero** once the
 dependence is respected.
@@ -829,7 +829,7 @@ the level-only constant at the same endpoint, and repeat the primary clustered r
 | endpoint | model pooled MAPE (%) | level-only null (%) | paired difference (pp) | primary clustered percentile range (pp) | model worse on |
 |---|---:|---:|---:|---:|---:|
 | 38 mL | 8.17 | 8.59 | −0.421 | [−0.79, −0.03] | 51 of 108 |
-| **40 mL** | **8.23** | **8.59** | **−0.361** | **[−0.72, +0.03]** | **50 of 108** |
+| **40 mL** | **8.23** | **8.59** | **−0.361** | **[−0.725, +0.027]** | **50 of 108** |
 | 42 mL | 8.20 | 8.59 | −0.392 | [−0.78, +0.01] | 49 of 108 |
 
 The baseline is identical at all three endpoints, which is a check on the procedure rather than a
@@ -858,8 +858,8 @@ Supplementary Table S3.
 
 | analysis | resampling unit | fit repeated? | held-out fraction | estimand | point estimate | percentile range | inferential status |
 |---|---|---|---|---|---|---|---|
-| paired clustered resampling of model-minus-null loss (**primary**) | (T,p) condition within group | no | n/a — fixed predictors | pooled ΔMAPE, model − level-only null | −0.36 pp | [−0.73, +0.03] pp | clustered percentile **sensitivity range**; not a calibrated CI |
-| the same, resampling whole groups (secondary) | variety × solute group (6) | no | n/a | pooled ΔMAPE | −0.36 pp | [−0.75, −0.03] pp | sensitivity only; 6 clusters |
+| paired clustered resampling of model-minus-null loss (**primary**) | (T,p) condition within group | no | n/a — fixed predictors | pooled ΔMAPE, model − level-only null | −0.36 pp | [−0.725, +0.027] pp | clustered percentile **sensitivity range**; not a calibrated CI |
+| the same, resampling whole groups (secondary) | variety × solute group (6) | no | n/a | pooled ΔMAPE | −0.36 pp | [−0.751, −0.032] pp | sensitivity only; 6 clusters |
 | residual resampling of LOCO fold errors | individual fold error | no | 1 of 9 | descriptive spread of computed LOCO errors | 6.5 % | [5.0, 8.2] % | **descriptive fold-resampling range**; ignores fold dependence |
 | condition-level resampling of LOCO macro errors | (T,p) condition (9) | no | 1 of 9 | descriptive spread of computed LOCO errors | 6.5 % | [5.1, 8.3] % | descriptive fold-resampling range |
 | condition-cluster out-of-bag refit | (T,p) condition (9) | **yes** | ~3–4 of 9 | model held-out MAPE at a larger held-out fraction | 7.4 % | [4.3, 11.5] % | **out-of-bag refit percentile interval**; coverage not demonstrated |

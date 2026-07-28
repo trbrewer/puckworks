@@ -93,9 +93,12 @@ BINDINGS: dict[str, tuple] = {
     # The manuscript quotes these as bracket endpoints; bind each bound separately so a change to
     # either end fails rather than averaging out.
     "0.79": (ENDPOINT, "rows.0.clustered_range_within_group.0", _abs, 0, 5e-3),
+    "0.725": (ENDPOINT, "rows.1.clustered_range_within_group.0", _abs, 0, 5e-4),
+    "0.751": (ENDPOINT, "rows.1.clustered_range_whole_group.0", _abs, 0, 5e-4),
+    "0.027": (ENDPOINT, "rows.1.clustered_range_within_group.1", _abs, 0, 5e-4),
+    "0.032": (ENDPOINT, "rows.1.clustered_range_whole_group.1", _abs, 0, 5e-4),
     # 0.725 quoted to 2 dp as 0.72 (round-half-down); the allowance is exactly half a
     # unit in the last displayed place, not a slack tolerance.
-    "0.72": (ENDPOINT, "rows.1.clustered_range_within_group.0", _abs, 0, 5.01e-3),
     "0.78": (ENDPOINT, "rows.2.clustered_range_within_group.0", _abs, 0, 5e-3),
     "0.75": (ENDPOINT, "rows.1.clustered_range_whole_group.0", _abs, 0, 8e-2),
     "0.01": (ENDPOINT, "rows.2.clustered_range_within_group.1", _abs, 0, 5e-3),
@@ -150,40 +153,18 @@ UNBINDABLE: dict[str, str] = {
            "same exposure as 8.5.",
     "32.7": "worst individual LOCO fold (Robusta 5-CQA). The LOCO producer archives pooled and "
             "per-group summaries but not per-fold values, so there is nothing to resolve against.",
-    "0.73": "conditions-within-group clustered lower bound as reported by the STANDALONE P0-5 "
-            "bootstrap (B=8000, seed 0), which is prose-only in PAPER_A_P0-5_RESULTS.md. It is "
-            "NOT bindable to the endpoint-propagation archive, whose 40 mL row gives -0.725 for "
-            "the same estimand -- see DISCREPANCIES below.",
 }
 
-#: Places where two committed records give DIFFERENT values for what the manuscript presents as one
-#: quantity. Found by the binding sweep on its first pass, without rerunning anything. Recorded
-#: rather than reconciled, because choosing between them is an authorial decision about which run
-#: the paper reports -- not something a binding table should decide silently.
-OPEN_QUESTIONS: dict[str, str] = {
-    "full-cup simulation values quoted in the manuscript are not in the committed bundle": (
-        "The manuscript quotes full-cup simulation figures -- caffeine minimum fraction MAPE 6.0 %, "
-        "trigonelline 10.0 %, trigonelline aggregate minimum 3.6 %, fraction range ratios 4.1 and "
-        "4.4, sampled-aggregate range ratios 1.2 and 1.4. The committed figure bundle's "
-        "`full_cup_sim.per_solute` holds NONE of these: its minimum fraction MAPE is 2.35 % for "
-        "every solute (2.34 % on the seeded mean), its exact-cup range ratios are 1.47/1.48/1.71 "
-        "and its fraction range ratios are 9.8/20.27/13.15.\n\n"
-        "Either the manuscript is quoting a different producer -- `full_cup_discrepancy`, "
-        "`full_cup_discrepancy_large` or `full_cup_offgrid_noise` are all in the bundle and were "
-        "not checked -- or these numbers are stale. This is NOT resolved here: binding them to "
-        "whichever archive happens to contain a matching value is exactly the coincidence-matching "
-        "error this module exists to avoid. It needs someone to say which producer the paper "
-        "means."),
-}
-
-DISCREPANCIES: dict[str, str] = {
-    "conditions-within-group clustered lower bound at 40 mL": (
-        "PAPER_A_P0-5_RESULTS.md reports -0.73 (standalone clustered bootstrap, B=8000, seed 0); "
-        "PAPER_A_ENDPOINT_PROPAGATION.json rows.1 reports -0.725 (the 40 mL row of the endpoint "
-        "sweep). The manuscript quotes BOTH, in different sections, for the same estimand. They "
-        "are two runs of the same procedure, so the difference is resampling noise -- but a reader "
-        "comparing the Results with the supplement sees two numbers for one interval. Decide which "
-        "run the paper reports and quote that one everywhere."),
+#: Values whose two appearances in the manuscript differ only by ROUNDING, recorded so the choice
+#: is made once rather than rediscovered. Not conflicts between runs.
+ROUNDING_AMBIGUITIES: dict[str, str] = {
+    "conditions-within-group clustered interval at 40 mL": (
+        "The archive holds [-0.725, +0.027] and the whole-group interval [-0.751, -0.032]. "
+        "PAPER_A_P0-5_RESULTS.md displays these to 2 dp as [-0.73, +0.03] and [-0.75, -0.03] -- "
+        "the SAME run, not a second one. -0.725 sits exactly on a rounding boundary, so -0.73 "
+        "(half-away-from-zero) and -0.72 (half-to-even) are both defensible, which is why the "
+        "manuscript contains both. Quote THREE significant figures (-0.725) wherever the interval "
+        "appears; that removes the ambiguity instead of picking a side of it."),
 }
 
 
@@ -193,6 +174,20 @@ DISCREPANCIES: dict[str, str] = {
 def _extremum(field: str, how):
     def f(doc):
         return how(v[field] for v in doc["per_case"].values())
+    return f
+
+
+def _pc(solute: str, field: str):
+    """A scalar field of the positive-control producer, per solute."""
+    def f(doc):
+        return doc["positive_control"]["per_solute"][solute][field]
+    return f
+
+
+def _pc_min(solute: str, field: str):
+    """Minimum of a positive-control series over the swept rates."""
+    def f(doc):
+        return min(doc["positive_control"]["per_solute"][solute][field])
     return f
 
 
@@ -221,6 +216,18 @@ DERIVED: dict[str, tuple] = {
             0, 5e-2),
     "8.8": (PANELS, lambda d: max(v["loco_median"] for v in d["loco"]["per_fit"].values()),
             0, 5e-2),
+    # POSITIVE CONTROL, not full_cup_sim. These seven were labelled "full-cup sim:" in
+    # SLOW_LANE_RESULTS, which sent a reader (and this module's author) to the wrong producer --
+    # `full_cup_sim` holds none of them. They come from `positive_control`
+    # (idn.identifiability_fractions_vs_cup) and every one matches. Minima are computed over the
+    # swept rates rather than pinned to an index, so the binding survives a re-sweep.
+    "6.0": (PANELS, _pc_min("caffeine", "fraction_mape"), 0, 5e-2),
+    "10.0": (PANELS, _pc_min("trigonelline", "fraction_mape"), 0, 5e-2),
+    "3.6": (PANELS, _pc_min("trigonelline", "sampled_agg_mape"), 0, 5e-2),
+    "4.1": (PANELS, _pc("caffeine", "frac_range_ratio"), 0, 5e-2),
+    "4.4": (PANELS, _pc("trigonelline", "frac_range_ratio"), 0, 5e-2),
+    "1.4": (PANELS, _pc("caffeine", "sampled_agg_range_ratio"), 0, 5e-2),
+    "1.2": (PANELS, _pc("trigonelline", "sampled_agg_range_ratio"), 0, 5e-2),
     "31": (OBJECTIVE, _set_fraction(min), 0, 0.5),
     "100": (OBJECTIVE, _set_fraction(max), 0, 0.5),
     # (archive, callable over the whole document, rel, abs)
