@@ -172,10 +172,17 @@ PROVENANCE = {
         "held_out": "nothing",
     },
     "rung1b_longrun_const": {
-        "free_params_fitted_to_scored_trace": 0,
-        "inputs": [("long-run flow level", "same_shot", "the tail of the same shot")],
+        # Fifth review P0.2. This was recorded as 0 parameters fitted to the scored trace, with
+        # `same_shot` access ("outside the scored window") and "the scored window, but not the
+        # shot" held out. All three are FALSE. `harness.py` defines the late interval as
+        # `hi - 10` to `hi`, and the scored window is 15-95 s, so the level is fitted on 85-95 s --
+        # the final eighth OF the scored interval. It is an in-sample subset fit with one free
+        # parameter and direct access to the trace it is scored on, and nothing is held out.
+        "free_params_fitted_to_scored_trace": 1,
+        "inputs": [("long-run flow level", "direct_target",
+                    "the mean over 85-95 s, which lies INSIDE the scored 15-95 s window")],
         "literature_inputs": [],
-        "held_out": "the scored window, but not the shot",
+        "held_out": "nothing; 85-95 s is a subset of the scored interval",
     },
     "rung3_static": {
         "free_params_fitted_to_scored_trace": 0,

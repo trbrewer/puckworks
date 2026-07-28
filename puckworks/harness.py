@@ -142,7 +142,10 @@ def kappa_t_ladder(window=_KAPPA_LADDER_WINDOW):
     rmse = lambda pred: float(np.sqrt(np.mean((np.asarray(pred) - qd) ** 2)))
     # rung1: LS-optimal constant IN the window (1 param, best case for a constant)
     lvl_best = float(np.mean(qd)); rmse_best = rmse(lvl_best)
-    # rung1b: constant calibrated on a real 10 s late interval, NOT one sample
+    # rung1b: constant calibrated on the last 10 s of the SCORED window (85-95 s when the
+    # window is 15-95 s), not on one sample. NOTE this is an IN-SAMPLE SUBSET fit -- the
+    # calibration interval lies inside the scoring interval, so it is not held out in any
+    # sense (fifth review P0.2).
     late = (t >= hi - 10.0) & (t <= hi)
     lvl_long = float(np.mean(q[late])); rmse_long = rmse(lvl_long)
     P_c, Q_c = wz.published_calibration()

@@ -153,14 +153,16 @@ SLOW_LANE_RESULTS: dict[str, str] = {
     "57": "external panel: smallest minimum residual (%)",
     "75": "external panel: largest minimum residual (%)",
     "2.6": "improvement of the model over the same-(T,p) lookup (pp), 8.23 vs 10.79",
-    "0.73": "paired bootstrap 95% bound, within-group resampling (pp)",
-    "0.75": "paired bootstrap 95% bound, whole-group resampling (pp)",
+    "0.725": "endpoint propagation: 40 mL within-group clustered lower bound (pp); quoted at 3 sf because 0.725 sits exactly on a 2 dp rounding boundary",
+    "0.751": "endpoint propagation: 40 mL whole-group clustered lower bound (pp)",
+    "0.027": "endpoint propagation: 40 mL within-group clustered UPPER bound (pp)",
+    "0.032": "endpoint propagation: 40 mL whole-group clustered UPPER bound (pp)",
     "0.03": "paired bootstrap 95% bound (pp)",
-    "8.5": "tolerance sweep: worst-case held-out MAPE at the 2% tolerance (%)",
-    "9.7": "tolerance sweep: worst-case held-out MAPE at the 20% tolerance (%)",
+    "8.5": "tolerance sweep, ARABICA-CAFFEINE panel: worst held-out MAPE at the 2 % tolerance (8.48 %)",
+    "9.7": "tolerance sweep, ARABICA-CAFFEINE panel: worst held-out MAPE at the 20 % tolerance (9.69 %)",
     "2.8": "per solute x variety held-out median, lowest (%)",
     "8.8": "per solute x variety held-out median, highest (%)",
-    "32.7": "worst individual LOCO fold, Robusta 5-CQA (%)",
+    "32.7": "worst individual LOCO fold across all six groups (Robusta 5-CQA, 32.7 %)",
     "5.1": "condition-cluster resampling 95% lower bound (%)",
     "8.3": "condition-cluster resampling 95% upper bound (%)",
     "7.0": "pooled mean under a log/relative-error level fit (%)",
@@ -178,13 +180,13 @@ SLOW_LANE_RESULTS: dict[str, str] = {
     "0.99": "curvature coupling across the convergence sweep (-0.993/-0.994)",
     "1.8": "inventory grid upper edge, times the profiled optimum",
     "0.17": "bulk bed porosity, source physical parameter",
-    "6.0": "full-cup sim: caffeine minimum fraction MAPE (%)",
-    "1.4": "full-cup sim: caffeine sampled-aggregate range ratio",
-    "4.1": "full-cup sim: caffeine fraction range ratio; also 5-CQA aggregate minimum (%)",
-    "4.4": "full-cup sim: trigonelline/5-CQA fraction range ratio",
-    "1.2": "full-cup sim: sampled-aggregate range ratio",
-    "3.6": "full-cup sim: trigonelline aggregate minimum (%)",
-    "10.0": "full-cup sim: trigonelline minimum fraction MAPE (%)",
+    "6.0": "positive control: caffeine minimum fraction MAPE (6.04 %)",
+    "1.4": "positive control: caffeine sampled-aggregate range ratio (1.43)",
+    "4.1": "positive control: caffeine fraction range ratio (4.05); also 5-CQA minimum sampled-aggregate MAPE (4.13 %)",
+    "4.4": "positive control: trigonelline (4.41) / 5-CQA (4.37) fraction range ratio",
+    "1.2": "positive control: trigonelline sampled-aggregate range ratio (1.22)",
+    "3.6": "positive control: trigonelline minimum sampled-aggregate MAPE (3.62 %)",
+    "10.0": "positive control: trigonelline minimum fraction MAPE (9.99 %)",
     "1.6": "independent-trace check: lower fraction-scoring range ratio",
     "2.1": "independent-trace check: upper fraction-scoring range ratio",
     # --- endpoint propagation through the full transfer-versus-null benchmark (P0-4) ----------
@@ -247,9 +249,43 @@ def _bundle():
 BASELINE_UNACCOUNTED = 0
 
 
+def binding_coverage() -> dict:
+    """How many slow-lane results are CHECKED against their archive, versus merely described.
+
+    This is the number that says whether the review process is converging. Before the binding
+    sweep it was 0 of 75.
+    """
+    from puckworks.paper_a import slow_lane_bindings as SLB
+
+    bound = sorted(set(SLOW_LANE_RESULTS)
+                   & (set(SLB.BINDINGS) | set(SLB.DERIVED) | set(SLB.CODE_CONSTANTS)))
+    declared = sorted(set(SLOW_LANE_RESULTS) & set(SLB.UNBINDABLE))
+    unbound = sorted(set(SLOW_LANE_RESULTS) - set(bound) - set(declared))
+    return dict(n_slow_lane=len(SLOW_LANE_RESULTS), n_archive_bound=len(bound),
+                n_declared_unbindable=len(declared), n_still_unbound=len(unbound),
+                archive_bound=bound, declared_unbindable=declared, still_unbound=unbound)
+
+
 def _spec(manuscript=None):
     cfg = dict(CONFIG_CONSTANTS)
-    cfg.update({k: "SLOW LANE: " + v for k, v in SLOW_LANE_RESULTS.items()})
+    # Slow-lane values are labelled by whether they are actually CHECKED against the archived run
+    # or merely described by a sentence. Before the 2026-07-28 binding sweep every one of them read
+    # "SLOW LANE: ..." regardless, so a verified number and an unverifiable one were indis-
+    # tinguishable in the audit -- which is how stale numbers survived five review rounds.
+    from puckworks.paper_a import slow_lane_bindings as SLB
+    for k, v in SLOW_LANE_RESULTS.items():
+        if k in SLB.CODE_CONSTANTS:
+            m, a, _k, _ = SLB.CODE_CONSTANTS[k]
+            cfg[k] = f"CODE-BOUND ({m}.{a}): {v}"
+        elif k in SLB.DERIVED:
+            cfg[k] = f"ARCHIVE-BOUND (derived over {SLB.DERIVED[k][0]}): {v}"
+        elif k in SLB.BINDINGS:
+            archive, path = SLB.BINDINGS[k][0], SLB.BINDINGS[k][1]
+            cfg[k] = f"ARCHIVE-BOUND ({archive}:{path}): {v}"
+        elif k in SLB.UNBINDABLE:
+            cfg[k] = f"SLOW LANE (UNBINDABLE -- {SLB.UNBINDABLE[k]}): {v}"
+        else:
+            cfg[k] = "SLOW LANE (UNBOUND): " + v
     return NA.PaperSpec(
         name="Paper 1 claim coverage",
         manuscript=manuscript or MANUSCRIPT,

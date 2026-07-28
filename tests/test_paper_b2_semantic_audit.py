@@ -62,6 +62,18 @@ PROHIBITED = [
      r"(?:spline|smoother|comparator) (?:is |was )?prespecified",
      "P1.1: no dated protocol predating result inspection is on record for the spline; use "
      "'fixed-architecture'"),
+    # Fifth review P0.4. "held-out pressure" describes LOPO-EC, which omits only the equilibrium
+    # CALIBRATION point and retains every temporal input. The main prose says so explicitly and
+    # then says "We avoid the bare term 'held-out' for it throughout" -- while the figure legend,
+    # the alt text, a claim label and a section heading did exactly that. A promise made in prose
+    # and broken on four other surfaces is the drift this audit exists to catch.
+    (r"held[- ]out pressure",
+     "P0.4: LOPO-EC omits the equilibrium-calibration point only, retaining the temporal inputs. "
+     "Say 'equilibrium-calibration point omitted' or 'LOPO-EC'"),
+    # Fifth review P0.6. The module is `puckworks.paper_b2.build`; `paper_b.build` was renamed in
+    # the round-three rename and the manuscript kept the old name in a copy-pasteable command.
+    (r"paper_b\.build",
+     "P0.6: the module is `puckworks.paper_b2.build`; `paper_b.build` does not exist"),
     # Fourth review 6.2. The Foster null contains ponding and a sharp wetting front advancing into
     # an initially dry bed (`docs/cards/foster2025.md`), so the wetted fraction and hydraulic path
     # length DO evolve. "machine-only" and "no evolving bed" claim more than the model supports,
@@ -71,9 +83,23 @@ PROHIBITED = [
      "6.2: the Foster null is not machine-only -- it contains sharp-front infiltration through "
      "the bed. Use 'machine-wetting', 'pump-headspace-sharp-front-infiltration' or "
      "'boundary-and-infiltration'"),
-    (r"no evolving bed|without an evolving bed|no bed (?:process|mechanism|dynamics)",
-     "6.2: the wetting front IS evolving bed state. Say 'no extraction-driven bed change' and "
-     "name what is held fixed: the saturated-bed constitutive law"),
+    # Round FIVE, P0.1. The round-four version of this pattern enumerated two SPELLINGS --
+    # "no evolving bed" and "without an evolving bed" -- and the round-four tracker then claimed
+    # the terms "cannot return". They did, in three places, as "without bed evolution", "without
+    # bed" and "No bed-state signature". Guarding spellings does not guard a concept. This matches
+    # the CLAIM: any assertion that this branch lacks bed state / bed evolution / a bed signature,
+    # however phrased, unless the sentence qualifies it as extraction-driven.
+    # The suffix is REQUIRED and `interpretation` is excluded. Widening this pattern to catch the
+    # three missed spellings first produced a false positive on "the cubic has no bed-mechanism
+    # INTERPRETATION" -- which is correct, and about a different object. Denying a bed-mechanism
+    # *interpretation* of a descriptive polynomial is right; denying bed *state* of an
+    # infiltration model is not. A guard that fires on true statements gets switched off.
+    (r"(?:without|no|lacks?|absent|free of)\s+(?:an?\s+)?(?:evolving\s+)?bed[- ]?"
+     r"(?:state|evolution|process|dynamics|signature|mechanism)\b"
+     r"(?!\s+interpretation)",
+     "6.2/P0.1: sharp-front infiltration IS evolving bed saturation and hydraulic-path state. Any "
+     "unqualified denial of bed state is wrong however it is spelled. Say 'no EXTRACTION-DRIVEN "
+     "bed change' and name what is held fixed: the saturated-bed constitutive law"),
 ]
 
 #: A line that negates or withdraws the term is allowed to contain it.
@@ -88,7 +114,10 @@ _WITHDRAWAL = re.compile(
     r"mislabel|mislabelling|mislabeled|mislabelled|wrongly|incorrectly|erroneously|falsely|"
     # `overstat` needs a suffix wildcard: `overstat\b` never matched, because every real spelling
     # continues -- overstates, overstated, overstating. The alternative was silently dead.
-    r"mistakenly|overstat\w*|overclaim\w*)\b", re.I)
+    # `defect` and `bug` are disavowals: a sentence calling a statement a defect is not making it.
+    # Deliberately NOT `error` -- this paper's vocabulary is full of "reconstruction error" and
+    # "RMSE error", so admitting it would blow a hole in every pattern at once.
+    r"mistakenly|overstat\w*|overclaim\w*|defect\w*|\bbugs?)\b", re.I)
 
 
 #: Sentence boundary. Deliberately includes `;` and `:` because the withdrawals in these files are

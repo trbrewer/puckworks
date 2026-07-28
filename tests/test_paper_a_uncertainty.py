@@ -304,3 +304,167 @@ def test_shipped_cover_letter_matches_the_current_front_matter_state():
         assert present == bool(fm.get(key)), (
             f"shipped cover letter {'asserts' if present else 'omits'} \"{sentence}\" but `{key}` "
             f"is {'set' if fm.get(key) else 'unset'}")
+
+
+# ── solver contract vs the source implementation (Paper 1 round-6 P0-1/P0-2) ──────────────────
+def test_the_flow_conversion_matches_the_source_matlab_including_the_density_division():
+    """The density division is the SOURCE's, and removing it would break fidelity.
+
+    Round six reported `q = flow/1000/RHO/ACS` as a unit error: a value already in mL/s should not
+    be divided by density, making velocity and collected volume 2.041 % high. The original MATLAB
+    settles it -- `simulation_Fit2.m:3` reads
+
+        q = flow ./ 1000 ./ paramPh.rho ./ paramPh.Acs;   %[m/s]
+
+    character-for-character our expression, and the same conversion appears at seven call sites.
+    The source therefore consumes its `flow` column as MASS flow in g/s while labelling it mL/s;
+    the inconsistency is in the label, not the arithmetic.
+
+    Removing the division would invalidate every archived fitted parameter (A, B, K_ref, gamma,
+    c_s0 were all estimated under this convention), so this test exists to stop a well-meaning
+    correction from silently diverging from the source.
+    """
+    from puckworks.models.pannusch2024 import solver as ps
+
+    flow, area = 1.0, ps.ACS
+    assert ps.RHO == 980.0
+    q_source = flow / 1000.0 / ps.RHO / area
+    q_volumetric = flow * 1e-6 / area          # what a true mL/s reading would give
+    assert q_source == pytest.approx(q_volumetric * 1000.0 / ps.RHO, rel=1e-12)
+    assert q_source / q_volumetric == pytest.approx(1000.0 / ps.RHO, rel=1e-12)
+    # The 2.041 % is the source's, and it is expected -- pinned so it cannot drift unnoticed.
+    assert 100.0 * (q_source / q_volumetric - 1.0) == pytest.approx(2.0408, abs=1e-3)
+
+
+def test_the_collection_accumulator_is_mass_equivalent_not_volumetric():
+    """A nominal 40-unit endpoint is 40 g, not 40 mL, and the manuscript must say so.
+
+    The review asked for a test showing 1.00 mL/s for 40.00 s accumulates exactly 40.00 mL. It does
+    not -- it accumulates 40.816 -- because the accumulator inherits the source's mass-flow
+    convention. That is the correct behaviour for a faithful port, and it resolves the paper's
+    '40 g source endpoint vs 40 mL modelled proxy' tension: the modelled endpoint is already
+    mass-equivalent at rho = 980 kg/m^3.
+    """
+    import numpy as np
+
+    from puckworks.models.pannusch2024 import solver as ps
+
+    captured = {}
+    original = ps._record_solve
+
+    def spy(sol, nz):
+        captured["y"], captured["nz"] = sol.y, nz
+        original(sol, nz)
+
+    ps._record_solve = spy
+    try:
+        ps.simulate_fractions(93.0, 1.00, [0.0, 40.0], ps._solute_params()["caffeine"], cl1=1.0)
+    finally:
+        ps._record_solve = original
+
+    volume = float(np.asarray(captured["y"])[3 * captured["nz"]][-1])
+    assert volume == pytest.approx(40.0 * 1000.0 / ps.RHO, rel=1e-4), (
+        f"accumulated {volume:.4f} for 1.00 x 40.00; the source convention gives "
+        f"{40.0 * 1000.0 / ps.RHO:.4f}")
+    assert volume == pytest.approx(40.8163, abs=1e-3)
+
+
+def test_the_reynolds_number_uses_superficial_velocity_as_the_source_does():
+    """`SherwoodFunction.m` computes Re from the SUPERFICIAL velocity; the card's equation does not.
+
+    The card (line 40) gives Re = d32 v_l rho/(alpha_l eta) with v_l = Q/(A alpha_l), which is
+    alpha_l^-2 ~ 34.6x the implemented value. The source is authoritative for what the fitted
+    parameters mean, and it reads `Re = paramPh.d32 .* q ./ kin_vis` with q superficial.
+    """
+
+    from puckworks.models.pannusch2024 import closures as pc
+
+    T, q, d32 = 366.15, 4.0e-4, pc.D32
+    kin_vis = pc.water_viscosity(T) / pc.water_density(T)
+    expected_re = d32 * q / kin_vis
+
+    D = pc.diffusion_coeff(T, "caffeine")
+    A, B = 1.0, 0.5
+    expected_h = (A * expected_re ** B * (kin_vis / D) ** (1 / 3)) / d32 * D
+    assert float(pc.sherwood_h(T, q, A, B, "caffeine", d32)) == pytest.approx(expected_h, rel=1e-12)
+
+    # And the interstitial reading really is the ~34.6x quantity the review computed, so the
+    # discrepancy is documented rather than merely asserted.
+    alpha_l = 0.17
+    assert (expected_re / alpha_l ** 2) / expected_re == pytest.approx(34.6, abs=0.2)
+
+
+# ── slow-lane numbers bound to their archives (claim-binding sweep, 2026-07-28) ────────────────
+def test_every_slow_lane_binding_resolves_and_matches_its_archive():
+    """Paper 1's slow-lane numbers must equal the archived run that produced them.
+
+    `SLOW_LANE_RESULTS` records a prose sentence naming the producer and archive for each of these
+    numbers. That is documentation, not verification -- nothing opened the archive. Five of the six
+    review rounds found stale numbers by hand in exactly this population, because the failure mode
+    is: the analysis is rerun and the prose is not updated, or the prose is edited and the analysis
+    is not.
+
+    This resolves each binding against the committed archive. It does NOT rerun the slow lane; the
+    archives were written by the runs that produced the manuscript's numbers, so comparing against
+    them catches the drift that actually happens, at no compute cost.
+    """
+    from puckworks.paper_a import slow_lane_bindings as B
+
+    r = B.verify()
+    assert r["n_bound"] > 0
+    assert not r["mismatched"], "manuscript numbers disagree with their archives:\n  " + "\n  ".join(
+        f"{t} -> {a}:{p} archived {v!r} (delta {d:+.6g})" for t, a, p, v, d in r["mismatched"])
+    assert not r["unresolvable"], "bindings that no longer resolve:\n  " + "\n  ".join(
+        f"{t} -> {a}:{p} {why}" for t, a, p, why in r["unresolvable"])
+
+
+def test_the_binding_verifier_is_not_vacuous(tmp_path):
+    """A verifier that cannot fail is decoration. Driven against a drifted archive."""
+    import json
+
+    from puckworks.paper_a import slow_lane_bindings as B
+
+    archive = B.ARCHIVE_DIR / B.ENDPOINT
+    original = archive.read_text(encoding="utf-8")
+    try:
+        doc = json.loads(original)
+        doc["rows"][1]["paired_difference_pp"] = -0.5
+        archive.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        assert B.verify()["mismatched"], "a drifted archive did not produce a mismatch"
+
+        doc = json.loads(original)
+        del doc["rows"][1]["paired_difference_pp"]
+        archive.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        assert B.verify()["unresolvable"], "a missing archived field did not fail the binding"
+    finally:
+        archive.write_text(original, encoding="utf-8")
+    assert not B.verify()["mismatched"] and not B.verify()["unresolvable"]
+
+
+def test_unbindable_slow_lane_values_are_declared_not_silent():
+    """A number nobody can bind must say so; otherwise it looks identical to a bound one."""
+    from puckworks.paper_a import claim_coverage as C
+    from puckworks.paper_a import slow_lane_bindings as B
+
+    # An EMPTY set is the goal state, not a failure: every slow-lane value now resolves against a
+    # record. This assertion used to require the set to be non-empty, which was written on the
+    # assumption that some values could never be bound -- five of the eight originally declared
+    # unbindable turned out to be archived all along and merely mislabelled.
+    for token, reason in B.UNBINDABLE.items():
+        assert token in C.SLOW_LANE_RESULTS, (
+            f"{token!r} is declared unbindable but is not a slow-lane result")
+        # The reason must say WHY it cannot be bound -- naming the missing artefact -- rather than
+        # deferring to a sibling entry. An earlier version checked reason LENGTH, which is an
+        # arbitrary proxy that a terse-but-complete reason fails and a padded empty one passes.
+        assert any(k in reason.lower() for k in
+                   ("no committed archive", "prose-only", "prose in", "not per-fold",
+                    "nothing to resolve", "no committed record")), (
+            f"{token!r}: the reason does not name what is missing -- {reason!r}")
+    bound = set(B.BINDINGS) | set(B.DERIVED) | set(B.CODE_CONSTANTS)
+    assert not (bound & set(B.UNBINDABLE)), "a value is both bound and declared unbindable"
+    # Nothing may be silently neither bound nor declared: every slow-lane result is one or the
+    # other, or it is counted as still-unbound by `binding_coverage()`.
+    from puckworks.paper_a import claim_coverage as CC
+    cov = CC.binding_coverage()
+    assert (cov["n_archive_bound"] + cov["n_declared_unbindable"] + cov["n_still_unbound"]
+            == cov["n_slow_lane"]), cov

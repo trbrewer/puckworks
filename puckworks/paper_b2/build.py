@@ -37,7 +37,8 @@ _CLAIMS = [
     ("ladder best-const null ~0.573",       "ladder.rung1_const_kappa", 0.573, 0.02),
     ("ladder flexible cubic ~0.096",        "ladder.flexible_cubic_null", 0.096, 0.02),
     ("cross-pressure Phi transfer ~0.356",  "cross_pressure.conditional_transfer_mean_full_precision.phi", 0.356, 0.02),
-    ("LOPO held-out Phi ~0.347",            "loco.heldout_mean.phi", 0.347, 0.02),
+    ("LOPO-EC Phi (equilibrium point omitted, temporal inputs retained) ~0.347",
+     "loco.heldout_mean.phi", 0.347, 0.02),
     ("LOPO max calibration drift ~2.8%",    "loco.max_calibration_drift", 0.0283, 0.01),
     # MAJ-12/13 RSM deletion + wild-bootstrap diagnostics (review §5.2/§5.4 targets)
     ("RSM most-influential Cook's D ~0.44 (exp 10)",

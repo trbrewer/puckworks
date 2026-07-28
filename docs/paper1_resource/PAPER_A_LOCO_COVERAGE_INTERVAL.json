@@ -1,0 +1,25 @@
+{
+  "n_boot_effective": 599,
+  "n_skipped_empty_oob": 1,
+  "oob_pooled_mape_point": 7.38,
+  "coverage_interval95": [
+    4.34,
+    11.48
+  ],
+  "n_panels": 6,
+  "n_conditions": 9,
+  "n_boot_cap": 600,
+  "seed": 0,
+  "method": "condition-cluster OOB bootstrap; refit (rate + weighted-median level) per replicate on in-bag conditions, scored on out-of-bag; F cached (data-independent), so the refit-in-loop is arithmetic (no PDE per replicate)",
+  "estimand_note": "OOB held-out sets (~3-4 of 9 conditions) are LARGER than LOCO's single held-out condition, so this targets held-out error at a larger held-out fraction and its central value may exceed the LOCO point estimate (~6.5%); it repeats the fit and complements (does not replace) LOCO",
+  "interval_repeats_the_fit": true,
+  "coverage_demonstrated": false,
+  "coverage_note": "no coverage study was run; a percentile interval over only 9 condition clusters is an exploratory uncertainty summary",
+  "wall_seconds": 142.1,
+  "producer": "puckworks.validation.slow.angeloni_bracket.loco_coverage_interval",
+  "settings": {
+    "n_boot": 600,
+    "seed": 0
+  },
+  "note": "Archived 2026-07-28 so the manuscript's 7.4 % out-of-bag point and its 95 % percentile interval can be checked against a recorded run instead of a prose sentence. Settings match what PAPER_A_P0-5_RESULTS.md reports (600 draws, seed 0). This is NOT a coverage-calibrated interval and is not described as one: repeating the fit removes one known source of optimism but does not establish nominal frequentist coverage, and with nine clusters it is an exploratory summary."
+}

@@ -51,6 +51,11 @@ CONFIG_CONSTANTS: dict[str, str] = {
     "9": "scored pressure condition (bar), Waszkiewicz 9-bar campaign",
     "15": "primary scoring window start (s), declared in §2",
     "95": "primary scoring window end (s), declared in §2",
+    # Not a free constant: harness.kappa_t_ladder defines the late interval as `hi - 10` to `hi`,
+    # so with the scored window ending at 95 s the calibration interval starts at 85 s. Stating it
+    # in the manuscript is what makes the in-sample subset fit visible (fifth review P0.2).
+    "85": "late-window constant calibration start (s) = scoring window end (95) minus the 10 s "
+          "late interval; INSIDE the scored window",
     "1": "diagnostic decimation resolution (s), declared in §4",
     "5": "decimation used for the coarser residual check (s)",
     "11": "number of equilibrium pressure conditions in the campaign",

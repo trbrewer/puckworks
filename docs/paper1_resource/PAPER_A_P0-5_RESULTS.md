@@ -71,14 +71,14 @@ specified:
 
 | Resampling unit | 95 % CI on pooled ΔMAPE (pp) | excludes zero? | frac. resamples model-worse |
 |---|---|---|---|
-| conditions within group (primary) | **[−0.73, +0.03]** | **no (straddles 0)** | 0.035 |
-| whole groups | [−0.75, −0.03] | yes (barely) | 0.011 |
+| conditions within group (primary) | **[−0.725, +0.027]** | **no (straddles 0)** | 0.035 |
+| whole groups | [−0.751, −0.032] | yes (barely) | 0.011 |
 
 **Reading.** Once the 108 held-out points are treated as the **dependent** observations they are (6
 variety × solute groups × shared (T,p) conditions × two grinds), the mechanistic model's ~0.4 pp
 advantage over a level-only constant is **not robustly distinguishable from zero**: the primary,
-more-conservative conditions-in-group interval **includes zero** ([−0.73, +0.03]), and the coarser
-group interval only *barely* excludes it ([−0.75, −0.03]). The two units disagreeing on the boundary
+more-conservative conditions-in-group interval **includes zero** ([−0.725, +0.027]), and the coarser
+group interval only *barely* excludes it ([−0.751, −0.032]). The two units disagreeing on the boundary
 case is itself a sign the effect is marginal. Read with the small absolute difference, **the mechanism
 adds no resolvable predictive skill beyond a learned level** — which sharpens (does not weaken) the
 paper's thesis that endpoint accuracy ≠ mechanistic skill. Descriptive/sensitivity; no evidence-tier

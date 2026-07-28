@@ -106,3 +106,50 @@ def test_percent_and_significant_figure_matching_do_not_over_match():
     assert matches_a_claim(3600.0, big, token="3600") == "d"
     assert matches_a_claim(3600.0, big, token="3600.0") is None         # decimals are not sig-fig
     assert matches_a_claim(3700.0, big, token="3700") is None
+
+
+# ── verified vs exempt (claim-binding sweep, 2026-07-28) ──────────────────────────────────────
+VERIFIED = ("producer", "archive", "code")
+EXEMPT = ("config", "dataset", "cited", "derived")
+
+
+@pytest.mark.parametrize("name,mod", PAPERS, ids=[n for n, _ in PAPERS])
+def test_bound_values_count_as_verified_not_as_exemptions(name, mod):
+    """Binding a number must move the headline figure, or the metric cannot show progress.
+
+    Before this, a value bound to its archive kept the `config` disposition and only its
+    explanation changed -- so Paper 1's "producer-bound" figure stayed at 14.9 % after 60 of its 77
+    slow-lane values had been wired to the records that produced them. A progress metric that
+    cannot register progress is the same class of defect this audit exists to catch, in the audit
+    itself.
+    """
+    r = mod.audit()
+    dispositions = {f["disposition"] for f in r["findings"]}
+    assert dispositions <= set(VERIFIED) | set(EXEMPT) | {"structural", "UNACCOUNTED"}, (
+        f"unknown disposition in {name}: {dispositions}")
+
+    # Every ARCHIVE-BOUND / CODE-BOUND explanation must carry the matching disposition.
+    for f in r["findings"]:
+        why = str(f.get("why", ""))
+        if why.startswith("ARCHIVE-BOUND"):
+            assert f["disposition"] == "archive", (
+                f"{name} {f['token']!r} is archive-bound but dispositioned {f['disposition']!r}")
+        elif why.startswith("CODE-BOUND"):
+            assert f["disposition"] == "code", (
+                f"{name} {f['token']!r} is code-bound but dispositioned {f['disposition']!r}")
+
+
+def test_paper_1_verified_share_does_not_regress():
+    """Ratchet on the share of Paper 1 claims that are actually checked.
+
+    This is the number that says whether the review process is converging. It was 14.9 % before the
+    binding sweep. Lowering this constant is the work; raising it must be deliberate.
+    """
+    r = P1.audit()
+    f = r["findings"]
+    verified = sum(1 for x in f if x["disposition"] in VERIFIED)
+    claims = sum(1 for x in f if x["disposition"] != "structural")
+    share = 100.0 * verified / claims
+    assert share >= 35.0, (
+        f"Paper 1 verified share fell to {share:.1f} % ({verified}/{claims}); it was 35.3 % after "
+        f"the binding sweep. A binding was removed or a claim was added without one")

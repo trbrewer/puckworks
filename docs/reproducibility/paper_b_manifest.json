@@ -1,10 +1,10 @@
 {
   "paper": "B",
-  "source_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
+  "source_commit": "d910094066923a50a8099bebe27d66c94ba0147e",
   "git_dirty": true,
   "timestamp_utc": null,
   "bundle_source_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
-  "bundle_matches_head": true,
+  "bundle_matches_head": false,
   "release_fresh": false,
   "bundle_sha256": "9c249c57763645b616dac80b548c7c56415a0ca9df2a32ff134f785f3e0a3288",
   "environment": {
@@ -110,7 +110,7 @@
       "ok": true
     },
     {
-      "claim": "LOPO held-out Phi ~0.347",
+      "claim": "LOPO-EC Phi (equilibrium point omitted, temporal inputs retained) ~0.347",
       "path": "loco.heldout_mean.phi",
       "expected": 0.347,
       "actual": 0.347,
