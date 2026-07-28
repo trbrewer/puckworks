@@ -251,8 +251,12 @@ def test_cover_letter_asserts_nothing_the_front_matter_does_not_support():
     it set the sentence must appear.
     """
     import copy
-    FM = pytest.importorskip("tools.paper_a_front_matter",
-                             reason="pyyaml is a dev/radar extra")
+    # Skip on the DEPENDENCY, not the module. `tools.paper_a_front_matter` imports cleanly
+    # without pyyaml -- the yaml import is deliberately lazy, inside `load()` -- so
+    # `importorskip` on the module always succeeded and the test then died in `load()` on the
+    # min-deps lane. Guard on what is actually missing.
+    pytest.importorskip("yaml", reason="pyyaml is a dev/radar extra; not in min-deps")
+    from tools import paper_a_front_matter as FM
     fm = FM.load()
 
     def asserted(letter: str) -> str:
@@ -285,8 +289,12 @@ def test_cover_letter_asserts_nothing_the_front_matter_does_not_support():
 def test_shipped_cover_letter_matches_the_current_front_matter_state():
     """The letter on disk must reflect the fields as they actually stand."""
     import pathlib
-    FM = pytest.importorskip("tools.paper_a_front_matter",
-                             reason="pyyaml is a dev/radar extra")
+    # Skip on the DEPENDENCY, not the module. `tools.paper_a_front_matter` imports cleanly
+    # without pyyaml -- the yaml import is deliberately lazy, inside `load()` -- so
+    # `importorskip` on the module always succeeded and the test then died in `load()` on the
+    # min-deps lane. Guard on what is actually missing.
+    pytest.importorskip("yaml", reason="pyyaml is a dev/radar extra; not in min-deps")
+    from tools import paper_a_front_matter as FM
     fm = FM.load()
     letter = pathlib.Path(FM.COVER_LETTER).read_text(encoding="utf-8")
     prose = " ".join(" ".join(ln for ln in letter.splitlines()
