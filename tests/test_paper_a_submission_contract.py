@@ -434,3 +434,87 @@ def test_the_manuscript_does_not_deny_data_it_uses():
     assert "empirical whole-cup comparison on this campaign is not available" not in text, (
         "the manuscript denies whole-cup data that the repository holds and the same paragraph uses")
     assert "Measured whole cups for this campaign ARE available" in text
+
+
+def test_the_manuscript_does_not_deny_the_density_model_it_applies():
+    """§2.4 said a mass endpoint "requires a declared beverage-density model; that is not
+    available here" -- while the solver applies exactly such a model, rho = 980 kg/m^3, in the
+    conversion at the heart of every prediction.
+
+    Same class as P0-3: a statement about the corpus that the corpus contradicts. Found by
+    auditing every absence claim in the manuscript against what the code actually does, after the
+    solver-contract audit had established the fact and it had not been propagated into the prose.
+    """
+    from puckworks.models.pannusch2024 import solver as ps
+
+    assert ps.RHO > 0, "the solver no longer applies a density; the §2.4 wording must be revisited"
+    text = " ".join(C.CONVERSION.read_text(encoding="utf-8").split())
+    assert "declared beverage-density model; that is not available here" not in text
+    assert "beverage-density model" in text and "already present" in text, (
+        "§2.4 must state that a density model is applied, not that one is unavailable")
+
+
+def test_abstract_numbers_are_consistent_with_the_body():
+    """The abstract must not carry a precision the body has retired.
+
+    The clustered interval was moved to three significant figures throughout the body precisely
+    because −0.725 sits on a 2 dp rounding boundary and both −0.72 and −0.73 are defensible. The
+    ABSTRACT kept −0.73, recreating the ambiguity in the most-read part of the paper. It is
+    generated from `paper_a_front_matter.yaml`, so editing the manuscript would have been
+    overwritten; the fix belongs at source.
+
+    Rounding to fewer significant figures is allowed (8.59 -> 8.6); carrying a DIFFERENT value at
+    the same precision is not.
+    """
+    import re
+
+    text = C.CONVERSION.read_text(encoding="utf-8")
+    m = re.search(r"(?ms)^## Abstract\s*(.*?)(?=^## )", text)
+    assert m, "abstract section not found"
+    abstract, body = m.group(1), text[m.end():]
+
+    #: Values the abstract legitimately rounds. Each must be a strict rounding of a body value.
+    ROUNDED = {"8.6": 8.59, "8.2": 8.23}
+    for token in sorted({t for t in re.findall(r"(?<![\w.])(\d+\.\d+)", abstract)}, key=float):
+        if token in body:
+            continue
+        assert token in ROUNDED, (
+            f"abstract states {token}, which appears nowhere in the body and is not a declared "
+            f"rounding. Either the body changed and the abstract did not, or vice versa")
+        assert abs(float(token) - ROUNDED[token]) <= 0.05, token
+        assert str(ROUNDED[token]) in body, (
+            f"{token} is declared a rounding of {ROUNDED[token]}, which is not in the body")
+
+    assert "−0.725" in abstract or "-0.725" in abstract, (
+        "the abstract must quote the clustered interval at the same three significant figures as "
+        "the body; 2 dp reintroduces the rounding ambiguity")
+
+
+def test_every_main_figure_is_cited_in_the_text_and_in_order():
+    """Four main figures were defined, rendered and numbered — and cited nowhere.
+
+    `test_every_supplementary_item_is_cited_by_the_main_text` was added earlier in this round and
+    checks only SUPPLEMENTARY items, so S1–S4 were caught while Figures 1–4 were never examined.
+    A guard that covers one half of a problem reads, from its name and its green tick, as though it
+    covers the problem. Journals require every figure to be cited in the text, in order.
+    """
+    import re
+    from pathlib import Path
+
+    caps = (Path(__file__).resolve().parents[1] / "docs" / "figures"
+            / "PAPER_A_CAPTIONS.md").read_text(encoding="utf-8")
+    main = sorted({int(n) for n in re.findall(r"(?m)^\| Figure (\d) \|.*\*\*main\*\*", caps)}
+                  or {int(n) for n in re.findall(r"(?m)^### Figure (\d) \(", caps)})
+    assert main, "no main figures found in the caption map"
+
+    text = C.CONVERSION.read_text(encoding="utf-8")
+    order = [int(n) for n in re.findall(r"(?<!Supplementary )Figure (\d)\b", text)]
+    cited = set(order)
+    missing = sorted(set(main) - cited)
+    assert not missing, (
+        f"main figures defined and rendered but never cited in the text: {missing}. A journal "
+        f"requires every figure to be referenced")
+
+    first = [n for i, n in enumerate(order) if n not in order[:i]]
+    assert first == sorted(first), (
+        f"main figures are first cited out of order: {first}; they must appear 1, 2, 3, …")

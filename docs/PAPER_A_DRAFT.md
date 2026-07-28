@@ -311,6 +311,8 @@ level available in closed form at every candidate rate.
 
 ### 2.2 Datasets and their analytical roles
 
+**Figure 1** shows the study design and the role each dataset plays in it.
+
 - **Calibration (time-resolved).** The Schmieder 2023 extraction-kinetics DoE
   (*Foods* **12**, 2871, 2023; CC BY). The source study collected **ten** consecutive
   fractions across **15 experimental settings** (three repetitions, six at the centre
@@ -437,9 +439,13 @@ the blind residual — which is exactly what happens here: ≈ 5 pp in the blind
 against a 0.06 pp spread in the paired difference. So the qualitative conclusion (a large, structured blind residual not removed by
 inventory alone) does not hinge on the mass-to-volume substitution, but the exact residual magnitude
 and the trigonelline detail carry a ≈ 5 pp endpoint uncertainty — about a fifth of the residual
-itself — which we state rather than absorb. A mass endpoint would be preferable and would require
-the solver to integrate to collected mass under a declared beverage-density model; that is not
-available here. We use "matched beverage endpoint" rather than "matched 40 g"
+itself — which we state rather than absorb. A mass endpoint would be preferable, and the machinery for one is
+in fact already present: the solver converts the source's flow column using an explicit
+beverage-density model (\(\rho = 980\) kg m⁻³) inherited from the source implementation, so the
+collection accumulator is mass-referenced rather than purely volumetric. What is genuinely
+unresolved is not the density model but the source column's own labelling — it is published as
+mL s⁻¹ and consumed by the source's code as a mass flow — so the endpoint's mass interpretation
+inherits that ambiguity. We use "matched beverage endpoint" rather than "matched 40 g"
 wherever the distinction could matter.
 **External-trajectory processing (the second-rig dissolved-solids panel).** The external panel
 carries several load-bearing processing choices that are declared here rather than left in code.
@@ -679,6 +685,9 @@ are not separately quantified here.
 
 ### 3.2 The inventory–rate profile is broad and right-censored
 
+**Figure 2** shows the profiled objective surface and its one-dimensional section for the two
+Arabica panels; the remaining panels are Supplementary Tables S1 and S2.
+
 Two distinct statements are at work here, and the paper is careful to keep them apart.
 
 The first is **exact**. As shown in §2.1<!--sec:model-->, the governing system and the observation operators are
@@ -794,6 +803,9 @@ Strength: this is a *diagnosis of the fit*, established on the transfer target a
 corroborated on the model's own data in §5<!--sec:temporal--> — not a claim about the model's physics.
 
 ## 4. Cross-grind endpoint prediction adds little over a level-only baseline
+
+**Figure 3** compares the frozen-calibration predictions with the level-only baseline across
+the held-out coarse and fine conditions.
 
 *Practical non-identifiability (§3.2<!--sec:result2-->) and predictive transfer are separate questions:
 a compensating manifold can leave predictions stable even when the parameters are
@@ -988,6 +1000,9 @@ per the benchmark above) — with cross-validation, descriptive uncertainty, and
 loss/geometry/flow-map robustness, not a two-point mean.
 
 ## 5. Time-resolved measurements provide stronger rate information
+
+**Figure 4** contrasts the rate information carried by fraction-resolved profiles with that
+carried by the integrated endpoint, across the three evidence tiers described below.
 
 The claim in §3.2<!--sec:result2--> (the rate constrains the extraction *curve* more than an aggregated
 endpoint) is testable on the **same model** and the **same data Pannusch et al. (2024) was
