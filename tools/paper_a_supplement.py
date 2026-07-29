@@ -42,6 +42,8 @@ CAPTIONS = REPO / "docs" / "figures" / "PAPER_A_CAPTIONS.md"
 OBJECTIVE_JSON = RESOURCE / "PAPER_A_OBJECTIVE_FAMILY_PANELS.json"
 EXTERNAL_JSON = RESOURCE / "PAPER_A_EXTERNAL_PANEL_LOSSES.json"
 ENDPOINT_JSON = RESOURCE / "PAPER_A_ENDPOINT_PROPAGATION.json"
+CORPUS_JSON = RESOURCE / "PAPER_A_TRANSFER_CORPUS_CONTRACTS.json"
+LOSS_JSON = RESOURCE / "PAPER_A_COMPARATOR_LOSS_ROBUSTNESS.json"
 CONVERGENCE_JSON = RESOURCE / "PAPER_A_NUMERICAL_CONVERGENCE.json"
 PANEL_JSON = REPO / "docs" / "figures" / "paper_a" / "results.json"
 TABLE7_AUDIT = RESOURCE / "PAPER_A_TABLE7_UNITS_AUDIT.md"
@@ -328,31 +330,50 @@ not.
 """
 
 
+def _wrapped(name: str, body: str) -> str:
+    """Emit a delegated transfer block inside its markers.
+
+    The markers are the contract `tests/test_paper_a_model_contract.py` binds against: they let a
+    test assert that the primary interval and the corpus stamp appear in the *intended semantic
+    block* rather than anywhere in a 500-line file, which is the round-8 P1-3 defect.
+    """
+    return f"<!-- {name}:begin -->\n{body}\n<!-- {name}:end -->"
+
+
+def _transfer_text():
+    """Import the transfer-block generator regardless of how this module was loaded.
+
+    The tests import `tools/paper_a_supplement.py` by path, so `tools/` is not guaranteed to be
+    on `sys.path`; a bare `import paper_a_transfer_text` works from the CLI and fails under
+    pytest, which is exactly the kind of lane-dependent breakage this file exists to prevent.
+    """
+    import importlib
+    import sys as _sys
+
+    here = str(pathlib.Path(__file__).resolve().parent)
+    if here not in _sys.path:
+        _sys.path.insert(0, here)
+    return importlib.import_module("paper_a_transfer_text")
+
+
 # ── Supplementary Table S3: endpoint propagation ───────────────────────────────────────────────
 def table_s3() -> str:
     """Round-7 P1-6: main table, SI table and reading are rendered from ONE canonical record at
     ONE precision. The reading is COMPOSED from the archived numbers rather than stored as prose
-    beside them, so it cannot drift from the table it reads."""
+    beside them, so it cannot drift from the table it reads.
+
+    Round-8: the per-endpoint sweep and its reading now come from
+    `tools.paper_a_transfer_text`, the single owner of every transfer-derived publication block,
+    so the SI table, the main-text table and the caption cannot render the same result three
+    different ways. Only the per-group breakdown, which is SI-only, is composed here.
+    """
+    TT = _transfer_text()
+
     rec = _load(ENDPOINT_JSON)
+    sweep = _wrapped("paper-a:transfer-endpoint-table-supp",
+                     TT.block_supplement_endpoint_table(rec, _load(CORPUS_JSON),
+                                                        _load(LOSS_JSON)))
 
-    def _pair(v):
-        # `+ 0.0` normalises IEEE negative zero, so a bound that rounds to zero renders as
-        # "+0.000" rather than the nonsensical "-0.000". At the complete corpus two of the
-        # three endpoints have an upper bound that lands exactly there.
-        return [x + 0.0 for x in v]
-
-    rows = []
-    for r in rec["rows"]:
-        lo, hi = _pair(r["clustered_range_within_variety"])
-        slo, shi = _pair(r["clustered_range_within_group"])
-        glo, ghi = _pair(r["clustered_range_whole_group"])
-        rows.append(
-            f"| {r['m_target_g']:.0f} g | {r['pooled_model_mape']:.2f} | "
-            f"{r['pooled_const_mape']:.2f} | {r['paired_difference_pp']:+.3f} | "
-            f"[{lo:+.3f}, {hi:+.3f}] | {'excludes 0' if not (lo <= 0 <= hi) else 'includes 0'} | "
-            f"[{slo:+.3f}, {shi:+.3f}] | [{glo:+.3f}, {ghi:+.3f}] | "
-            f"{r['n_model_worse_than_const']} of {r['n_points']} | "
-            f"{r['skill_vs_const']:.3f} |")
     per_group = []
     for r in rec["rows"]:
         for g, v in sorted(r["per_fit"].items()):
@@ -360,48 +381,6 @@ def table_s3() -> str:
                 f"| {r['m_target_g']:.0f} g | {g} | {v['model_macro_mape']:.2f} | "
                 f"{v['const_macro_mape']:.2f} | "
                 f"{v['model_macro_mape'] - v['const_macro_mape']:+.2f} |")
-
-    # ── the reading, composed from the record ──────────────────────────────────────────────
-    by_ep = {int(r["m_target_g"]): r for r in rec["rows"]}
-    diffs = [r["paired_difference_pp"] for r in rec["rows"]]
-    worse = sorted(r["n_model_worse_than_const"] for r in rec["rows"])
-    npts = {r["n_points"] for r in rec["rows"]}
-    excl = [e for e, r in sorted(by_ep.items())
-            if not (r["clustered_range_within_variety"][0] <= 0
-                    <= r["clustered_range_within_variety"][1])]
-    incl = [e for e in sorted(by_ep) if e not in excl]
-
-    def rng(e):
-        lo, hi = _pair(by_ep[e]["clustered_range_within_variety"])
-        return f"[{lo:+.3f}, {hi:+.3f}]"
-
-    def _list(xs, unit="g"):
-        xs = [f"{x} {unit}" for x in xs]
-        return xs[0] if len(xs) == 1 else ", ".join(xs[:-1]) + " and " + xs[-1]
-
-    reading = (
-        f"The effect size is stable: {min(diffs):+.3f} to {max(diffs):+.3f} pp across 38, 40 and "
-        f"42 g, a spread of {max(diffs) - min(diffs):.3f} pp. That is an order of magnitude "
-        "smaller than the ≈ 5 pp movement in the blind optimal-grind residual over the same "
-        "endpoints, which is what one expects when both predictors are re-derived at each "
-        "endpoint so that a shift common to both cancels. The sign never changes and the model "
-        f"remains worse on roughly half the held-out points ({worse[0]}–{worse[-1]} of "
-        f"{sorted(npts)[0]}) at every endpoint. The inferential reading, however, is not "
-        "endpoint-invariant: the primary clustered percentile range — resampling "
-        "(variety, temperature, pressure) conditions, so that all three named solutes and both "
-        "held-out grinds move together — "
-        + (f"clears zero at {_list(excl)} ({', '.join(rng(e) for e in excl)}) "
-           f"and reaches it at {_list(incl)} ({', '.join(rng(e) for e in incl)})."
-           if excl and incl else
-           f"reaches zero at every endpoint ({', '.join(rng(e) for e in sorted(by_ep))}).")
-        + f" The nearest bound to zero across the three endpoints spans "
-        f"{min(r['nearest_bound_to_zero_pp'] for r in rec['rows']):.4f}–"
-        f"{max(r['nearest_bound_to_zero_pp'] for r in rec['rows']):.4f} pp, so the rows differ in "
-        "which side of zero they land on only at the third decimal place. Nothing is inferred from "
-        "that. The largest advantage any of these upper bounds admits is a small fraction of a "
-        "percentage point against pooled errors near 8.4 %, and the benchmark is reported as "
-        "unresolved throughout the declared tolerance rather than resolved at the one endpoint "
-        "whose bound happens to clear zero.")
 
     const_mapes = {round(r["pooled_const_mape"], 2) for r in rec["rows"]}
     note_on_comparator = (
@@ -412,7 +391,6 @@ def table_s3() -> str:
         "mechanistic predictor moves with the endpoint. If the comparator had moved too, the "
         "pipeline would not be doing what this analysis claims.")
 
-    corpus = rec["corpus"]
     return f"""### Supplementary Table S3
 
 **Endpoint propagation: the complete transfer-versus-comparator benchmark at 38, 40 and 42 g.**
@@ -420,27 +398,16 @@ def table_s3() -> str:
 For each endpoint the whole procedure is repeated — fit inventory and rate on the nine
 optimal-grind conditions at that endpoint, freeze the calibration, predict all held-out coarse and
 fine observations at the same endpoint, refit the optimal-grind-trained level-only comparator at the
-same endpoint, and repeat the primary clustered resampling of the paired loss. Processing is
-described in Supplementary Methods S2.
+same endpoint, and repeat the clustered resampling of the paired loss under every declared scheme.
+Processing is described in Supplementary Methods S2.
 
-Corpus: {corpus['estimand']}, {corpus['n_held_out_records']} held-out records ×
-{corpus['n_solutes']} named solutes = {corpus['n_observations']} observations. Held-out record
-identifiers: {', '.join(corpus['held_out_sample_ids'])}.
-{("Coarse/fine records present in the corpus but not scored here: "
-  + ', '.join(corpus['excluded_sample_ids']) + " (" + corpus['excluded_reason'] + ")."
-  if corpus['excluded_sample_ids'] else "No coarse/fine record is excluded.")}
-
-| endpoint | model pooled MAPE (%) | level-only comparator (%) | paired difference (pp) | primary range, conditions within variety (pp) | primary range excludes zero | secondary range, conditions within group (pp) | secondary range, whole groups (pp) | model worse on | skill vs comparator |
-|---|---:|---:|---:|---:|---|---:|---:|---:|---:|
-{chr(10).join(rows)}
+{sweep}
 
 **Per group.** Macro MAPE for each variety × solute group at each endpoint.
 
 | endpoint | group | model macro MAPE (%) | comparator macro MAPE (%) | difference (pp) |
 |---|---|---:|---:|---:|
 {chr(10).join(per_group)}
-
-**Reading.** {reading}
 
 {note_on_comparator}
 
@@ -579,6 +546,40 @@ def missing_figures() -> list[str]:
             if not (BUNDLE / f"{stem}.{ext}").exists()]
 
 
+# ── Supplementary Tables S6 and S7: the resampling design and the corpus it partitions ────────
+def table_s6() -> str:
+    """Round-8 P0-2/P1-1: the exact resampling design, so a reader can reconstruct every cluster.
+
+    Round 8 found the general Methods naming a superseded primary unit. Prose and table are now
+    rendered from the same archived design object, so they cannot disagree with each other or
+    with the producer.
+    """
+    TT = _transfer_text()
+    body = _wrapped("paper-a:transfer-scheme-table",
+                    TT.block_supplement_scheme_table(_load(ENDPOINT_JSON), _load(CORPUS_JSON),
+                                                     _load(LOSS_JSON)))
+    return f"""### Supplementary Table S6
+
+{body}
+"""
+
+
+def table_s7() -> str:
+    """Round-8 P1-4: the held-out corpus published as a table, not only as a hash.
+
+    A reviewer should not have to reverse-engineer corpus membership from the source CSV, and a
+    count alone cannot distinguish the complete corpus from a different set of the same size.
+    """
+    TT = _transfer_text()
+    body = _wrapped("paper-a:transfer-corpus-manifest",
+                    TT.block_supplement_corpus_manifest(_load(ENDPOINT_JSON), _load(CORPUS_JSON),
+                                                        _load(LOSS_JSON)))
+    return f"""### Supplementary Table S7
+
+{body}
+"""
+
+
 def build() -> str:
     parts = [
         "# Supplementary material",
@@ -589,7 +590,7 @@ def build() -> str:
         "Whole-Cup Measurements and the Value of Time-Resolved Data**",
         "",
         "Every item here is cited by the main text. Items are numbered sequentially within each "
-        "type: Supplementary Methods S1–S2, Supplementary Note S1, Supplementary Tables S1–S5 and "
+        "type: Supplementary Methods S1–S2, Supplementary Note S1, Supplementary Tables S1–S7 and "
         "Supplementary Figures S1–S4.",
         "",
         "---",
@@ -602,6 +603,8 @@ def build() -> str:
         table_s3(), "", "---", "",
         table_s4(), "", "---", "",
         table_s5(), "", "---", "",
+        table_s6(), "", "---", "",
+        table_s7(), "", "---", "",
         figures(),
     ]
     return "\n".join(parts).rstrip() + "\n"

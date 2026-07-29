@@ -149,13 +149,108 @@ def test_no_off_grid_cf_condition_has_an_o_counterpart():
 def test_corpus_completeness_claims_are_qualified(path):
     """No unqualified "all of it" about a corpus that is partly excluded.
 
-    The manuscript may hold out the complete C/F corpus or a named subset of it, but it may not
-    describe a subset as the whole.
+    Retained as an editorial lint. It is NOT the corpus contract -- round 8 showed that a phrase
+    prohibition cannot bind an estimand, because the stale 108-point caption contained no
+    prohibited phrase and sailed through. The binding contract is below.
     """
     text = path.read_text()
     for stanza in re.findall(r"[^.\n|]*coarse/fine[^.\n|]*", text, flags=re.I):
         assert "all of it" not in stanza.lower(), (
             f"{path.name}: unqualified corpus-completeness claim: {stanza.strip()!r}")
+
+
+# ── corpus contract, bound to the emitted manifest (round-8 P1-4) ───────────────────────────
+#
+# The round-8 review found that the "declared corpus against the sample-ID manifest" binding the
+# brief advertised did not exist: the manuscript-facing check only scanned sentences containing
+# "coarse/fine" and forbade one phrase. The 108-point failure could therefore recur verbatim with
+# different wording -- and the stale Figure 3 caption is exactly that, a live demonstration.
+
+def test_source_derived_manifest_is_the_committed_corpus():
+    """Rebuild the manifest from bioactives.csv and require every artefact to carry it.
+
+    Deriving both sides from the same JSON would only prove internal consistency and could
+    certify a wrong corpus, so the expected side comes from the SOURCE.
+    """
+    from puckworks.paper_a import transfer_contract as TC
+
+    expected = TC.build_transfer_corpus_manifest(_bio(), include_off_grid=True)
+    assert expected["n_held_out_records"] == 44
+    assert expected["n_observations"] == 132
+    assert expected["off_grid_sample_ids"] == list(TC.OFF_GRID_SAMPLE_IDS)
+    assert expected["excluded_sample_ids"] == []
+
+    got = _endpoint_artifact()["corpus"]
+    assert got["manifest_sha256"] == expected["manifest_sha256"], (
+        "the endpoint artefact's corpus is not the one the source data produces")
+    assert got["included_sample_ids_sha256"] == expected["included_sample_ids_sha256"]
+    assert sorted(got["held_out_sample_ids"]) == sorted(expected["held_out_sample_ids"])
+
+
+def test_a_count_preserving_membership_change_is_detected():
+    """44 records with ONE swapped id must not hash the same. Counts alone cannot see this."""
+    from puckworks.paper_a import transfer_contract as TC
+
+    good = TC.build_transfer_corpus_manifest(_bio(), include_off_grid=True)
+    mutated = [dict(r) for r in good["records"]]
+    mutated[0] = dict(mutated[0], sample_id="ZZZ")           # same count, different membership
+    assert len(mutated) == good["n_held_out_records"]
+    assert TC.sha256_of(mutated) != good["manifest_sha256"]
+
+
+def test_a_metadata_change_under_unchanged_ids_is_detected():
+    """Same 44 ids, one record's grind altered — the ID hash misses it, the full hash must not."""
+    from puckworks.paper_a import transfer_contract as TC
+
+    good = TC.build_transfer_corpus_manifest(_bio(), include_off_grid=True)
+    mutated = [dict(r) for r in good["records"]]
+    mutated[0] = dict(mutated[0], grind="F" if mutated[0]["grind"] == "C" else "C")
+    ids = sorted(r["sample_id"] for r in mutated)
+    assert TC.sha256_of(ids) == good["included_sample_ids_sha256"]      # ids unchanged
+    assert TC.sha256_of(mutated) != good["manifest_sha256"]             # full manifest is not
+
+
+@pytest.mark.parametrize("path,block", (
+    (CAPTIONS, "paper-a:transfer-caption"),
+    (MANUSCRIPT, "paper-a:transfer-results"),
+    (SUPPLEMENT, "paper-a:transfer-corpus-manifest"),
+), ids=lambda v: getattr(v, "name", v))
+def test_generated_blocks_carry_the_current_manifest_stamp(path, block):
+    """Every generated block names the corpus it was rendered from, by hash.
+
+    This is what stops a *different* 44-record corpus masquerading as the same one behind a
+    matching visible count.
+    """
+    sys.path.insert(0, str(REPO))
+    from tools.paper_a_transfer_text import extract_block  # noqa: PLC0415
+
+    expected = _endpoint_artifact()["corpus"]["manifest_sha256"]
+    body = extract_block(path.read_text(), block)
+    assert expected in body, f"{path.name} block {block!r} carries no current manifest stamp"
+
+
+def test_the_transfer_caption_reports_the_complete_corpus_not_the_matched_subset():
+    """The round-8 P0-1 blocker, as a durable contract."""
+    import json
+
+    sys.path.insert(0, str(REPO))
+    from tools.paper_a_transfer_text import extract_block  # noqa: PLC0415
+
+    art = json.loads((REPO / "docs" / "paper1_resource"
+                      / "PAPER_A_TRANSFER_CORPUS_CONTRACTS.json").read_text())
+    cc = art["complete_corpus"]
+    body = extract_block(CAPTIONS.read_text(), "paper-a:transfer-caption")
+
+    assert str(cc["corpus"]["n_observations"]) in body
+    assert f"{cc['n_model_worse_than_const']} of {cc['n_points']}" in body
+    # The superseded round-7 tuple must not read as the plotted headline.
+    for stale in ("8.2% pooled MAPE", "50 of 108"):
+        assert stale not in body, f"the caption still quotes the superseded {stale!r}"
+    # 108 may survive ONLY as an explicitly-labelled secondary sensitivity.
+    if "108" in body:
+        assert "secondary" in body.lower() and "matched-grid" in body.lower(), (
+            "the caption mentions 108 observations without labelling it a matched-grid secondary "
+            "sensitivity, so it can be misread as the plotted headline corpus")
 
 
 # ── resampling contract: the primary cluster keeps a condition's solutes together (P1-1) ───
@@ -186,7 +281,14 @@ def test_primary_resampling_cluster_keeps_solutes_of_one_condition_together():
 
 
 def test_resampling_output_is_not_called_a_confidence_interval():
-    """P1-1 item 5 / round-6 carry-over: no calibrated-CI vocabulary on a percentile range."""
+    """P1-1 item 5 / round-6 carry-over: no calibrated-CI vocabulary on a percentile range.
+
+    Round 8 replaced the free-text `interval_kind` with the contract's structured identifier. The
+    name itself now carries the disclaimer — a consumer reading `interval_kind` cannot mistake
+    `fixed_predictor_clustered_percentile_sensitivity_range` for a confidence interval — so the
+    assertion binds that identifier rather than a phrase inside a sentence.
+    """
+    from puckworks.paper_a import transfer_contract as TC
     from puckworks.validation.slow import angeloni_bracket as ab
 
     recs = [dict(group="Arabica:caffeine", variety="Arabica", solute="caffeine", sample="X",
@@ -195,7 +297,11 @@ def test_resampling_output_is_not_called_a_confidence_interval():
     out = ab.paired_clustered_bootstrap(recs, B=50, seed=0)
     assert "ci95_pp" not in out
     assert "percentile_range_pp" in out
-    assert "not a calibrated" in out["interval_kind"]
+    assert out["interval_kind"] == TC.INTERVAL_KIND
+    assert "sensitivity_range" in out["interval_kind"]
+    assert "confidence" not in out["interval_kind"]
+    # The fixed-predictor contract is what denies the range calibrated coverage; say so in data.
+    assert out["predictors_refit_inside_resampling"] is False
 
 
 # ── method-description contract: the SI optimizer matches the producer (P1-3) ──────────────
@@ -215,15 +321,131 @@ def test_supplement_describes_objective_specific_level_optimizers():
         assert needed.lower() in text.lower(), f"SI S1 does not name {needed}"
 
 
-# ── presentation contract: one interval, one precision (P1-6) ──────────────────────────────
-def test_primary_range_is_rendered_at_one_precision_everywhere():
-    """The 40 g primary clustered range must not appear at two different precisions."""
-    rendered = set()
-    for path in PROSE:
-        rendered |= set(re.findall(r"\[[−-]0\.7\d+,\s*[+−-]?0\.0\d+\]", path.read_text()))
-    decimals = {len(v.split(".")[1].split(",")[0]) for v in rendered} if rendered else set()
-    assert len(decimals) <= 1, (
-        f"the primary range is rendered at mixed precision: {sorted(rendered)}")
+# ── presentation contract: the PRIMARY interval, bound to the artefact (round-8 P1-3) ──────
+#
+# What this replaced, and why it was worthless: the old test searched every prose file for
+#
+#     \[[−-]0\.7\d+,\s*[+−-]?0\.0\d+\]
+#
+# and asserted the matches shared one precision. That pattern CANNOT match the primary range,
+# whose lower bound starts 0.8 -- it matched the *secondary* 0.7xx ranges instead, and on an empty
+# match set it passed vacuously. A test named for the primary interval could therefore stay green
+# through arbitrary drift in the primary interval. These load the value from the artefact, render
+# it with the production formatter, and require it to be present.
+
+def _endpoint_artifact():
+    import json
+    return json.loads((REPO / "docs" / "paper1_resource"
+                       / "PAPER_A_ENDPOINT_PROPAGATION.json").read_text())
+
+
+def _primary_row(ep, m_target_g=40.0):
+    from puckworks.paper_a import transfer_contract as TC
+    for row in ep["rows"]:
+        if float(row[TC.ENDPOINT_ROW_KEY]) == m_target_g:
+            return row
+    raise AssertionError(f"no endpoint row at {m_target_g} g")
+
+
+#: Where the primary interval is REQUIRED to appear, named by file and generated block. Scanning
+#: whole files is what let an unrelated interval satisfy the old assertion.
+REQUIRED_PRIMARY_INTERVAL_BLOCKS = (
+    (MANUSCRIPT, "paper-a:transfer-results"),
+    (MANUSCRIPT, "paper-a:transfer-endpoint-table"),
+    (MANUSCRIPT, "paper-a:transfer-table5"),
+    (SUPPLEMENT, "paper-a:transfer-scheme-table"),
+)
+
+
+def test_primary_interval_is_rendered_by_the_production_formatter():
+    """The archived display text must be exactly what `format_pp_range` produces."""
+    from puckworks.paper_a import transfer_contract as TC
+
+    interval = _primary_row(_endpoint_artifact())["resampling"][TC.PRIMARY_SCHEME]["interval"]
+    lo = interval["full_precision_pp"]["lower"]
+    hi = interval["full_precision_pp"]["upper"]
+    assert interval["display"]["text"] == TC.format_pp_range(lo, hi)
+
+
+@pytest.mark.parametrize("path,block", REQUIRED_PRIMARY_INTERVAL_BLOCKS,
+                         ids=lambda v: getattr(v, "name", v))
+def test_primary_interval_occurs_in_every_required_block(path, block):
+    """Non-vacuous by construction: each required block must CONTAIN the artefact's interval."""
+    sys.path.insert(0, str(REPO))
+    from puckworks.paper_a import transfer_contract as TC
+    from tools.paper_a_transfer_text import extract_block  # noqa: PLC0415
+
+    expected = _primary_row(_endpoint_artifact())["resampling"][TC.PRIMARY_SCHEME]["interval"]
+    body = extract_block(path.read_text(), block)
+    assert expected["display"]["text"] in body, (
+        f"{path.name} block {block!r} does not carry the primary 40 g interval "
+        f"{expected['display']['text']!r}")
+
+
+def test_a_secondary_interval_cannot_satisfy_the_primary_contract():
+    """The exact defect round 8 found: a secondary range present, the primary one absent.
+
+    Rendered against a mutated block, the required-occurrence assertion must FAIL. If it passes,
+    the contract is selecting on shape rather than on the primary value.
+    """
+    from puckworks.paper_a import transfer_contract as TC
+    from tools.paper_a_transfer_text import extract_block  # noqa: PLC0415
+
+    ep = _endpoint_artifact()
+    row = _primary_row(ep)
+    primary = row["resampling"][TC.PRIMARY_SCHEME]["interval"]["display"]["text"]
+    secondary = row["resampling"]["cond_in_group"]["interval"]["display"]["text"]
+    assert primary != secondary
+
+    body = extract_block(MANUSCRIPT.read_text(), "paper-a:transfer-results")
+    mutated = body.replace(primary, secondary)
+    assert primary not in mutated, "mutation did not remove the primary interval"
+
+
+def test_primary_interval_is_never_rendered_at_an_unapproved_precision():
+    """A correctly-valued interval at the wrong precision must not appear in the required blocks."""
+    from puckworks.paper_a import transfer_contract as TC
+    from tools.paper_a_transfer_text import extract_block  # noqa: PLC0415
+
+    interval = _primary_row(_endpoint_artifact())["resampling"][TC.PRIMARY_SCHEME]["interval"]
+    lo = interval["full_precision_pp"]["lower"]
+    hi = interval["full_precision_pp"]["upper"]
+    wrong = {TC.format_pp_range(lo, hi, d) for d in (1, 2, 4)} - {interval["display"]["text"]}
+    for path, block in REQUIRED_PRIMARY_INTERVAL_BLOCKS:
+        body = extract_block(path.read_text(), block)
+        for bad in wrong:
+            assert bad not in body, (
+                f"{path.name} block {block!r} renders the primary interval as {bad!r}, "
+                f"not at the declared {interval['display']['digits']}-decimal precision")
+
+
+def test_interval_flags_are_derived_from_unrounded_bounds():
+    """Round-8 P1-2: display rounding must not decide an analytical classification."""
+    from puckworks.paper_a import transfer_contract as TC
+
+    # An interval that EXCLUDES zero at full precision but DISPLAYS as touching it.
+    knife = TC.interval_record(-0.8251, -0.0004)
+    assert knife["excludes_zero_full_precision"] is True
+    assert knife["contains_zero_full_precision"] is False
+    assert knife["display"]["touches_zero"] is True
+    assert knife["display"]["text"] == "[−0.825, +0.000]"
+    assert knife["signed_nearest_bound_to_zero_pp"] == -0.0004
+
+    # The mirror case: contains zero at full precision, displays identically.
+    straddle = TC.interval_record(-0.8251, +0.0004)
+    assert straddle["contains_zero_full_precision"] is True
+    assert straddle["display"]["text"] == knife["display"]["text"], (
+        "these two must be indistinguishable in DISPLAY and distinguishable in CLASSIFICATION")
+    assert straddle["excludes_zero_full_precision"] != knife["excludes_zero_full_precision"]
+
+
+def test_negative_zero_is_normalised_only_for_display():
+    from puckworks.paper_a import transfer_contract as TC
+
+    rec = TC.interval_record(-0.5, -0.0001)
+    assert rec["full_precision_pp"]["upper"] == -0.0001      # signed value preserved
+    assert rec["display"]["upper"] == 0.0                     # display normalised
+    assert "−0.000" not in rec["display"]["text"]
 
 
 # ── governance contract: the audit cannot outlive its own inputs (P1-5) ────────────────────

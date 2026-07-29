@@ -164,16 +164,91 @@ def _two_sig(x):
     return "%g" % round(x, -(d - 1))
 
 # ---------------------------------------------------------------------------
+#: Figure 1's dependency graph, declared as DATA so it can be asserted before it is drawn.
+#:
+#: Round-8 P1-5. The caption promises that arrows show actual data/parameter dependency, but the
+#: previous layout drew branch C serially -- recalibration -> LOCO -> cross-grind holdout -- which
+#: says the C/F transfer consumes the LOCO output. It does not. They are PARALLEL children of the
+#: same recalibration, differing in calibration scope: LOCO refits on 8 of 9 optimal-grind
+#: conditions per fold and predicts the omitted one, whereas the transfer benchmark fits all 9
+#: once and freezes that single calibration before touching any C/F response. Keeping the geometry
+#: in a dict lets `tests/test_paper_a_figure_semantics.py` reject the forbidden edge directly,
+#: rather than hoping a reader notices an arrowhead.
+FIG1_NODES = {
+    "source":        dict(label="Schmieder fractions\n→ Pannusch calibration",
+                          cat="source", box=(0.15, 4.00, 2.75, 1.5), fs=8.4),
+    "branch_a":      dict(label="A · source-campaign\nfraction-vs-cup localization\n(in-sample)",
+                          cat="insample", box=(3.55, 7.75, 3.3, 1.3), fs=8.4),
+    "branch_b":      dict(label="B · same-model\nexact-cup simulation\n(synthetic control)",
+                          cat="sim", box=(3.55, 6.25, 3.3, 1.3), fs=8.4),
+    "angeloni_recal": dict(label="C · Angeloni optimal-grind\n→ target recalibration",
+                           cat="target", box=(3.55, 4.00, 3.5, 1.45), fs=8.4),
+    "loco":          dict(label="held-out optimal-grind LOCO\nfit 8 of 9 O conditions per fold →\n"
+                                "predict the omitted O condition",
+                          cat="within", box=(7.55, 5.05, 5.55, 1.2), fs=8.0),
+    "cf_transfer":   dict(label="cross-grind coarse/fine holdout\nfit all 9 O conditions ONCE, freeze →\n"
+                                "44 held-out records / 132 observations",
+                          cat="within", box=(7.55, 3.30, 5.55, 1.2), fs=8.0),
+    "table7":        dict(label="Table 7 solid inventory —\northogonal measurement,\nsame campaign",
+                          cat="orth", box=(3.55, 2.05, 3.5, 1.15), fs=8.0),
+    "external":      dict(label="D · Waszkiewicz external TDS trajectory —\nPannusch kinetics frozen, "
+                                "a Waszkiewicz-specific\nlevel profiled at each rate",
+                          cat="external", box=(3.55, 0.45, 5.6, 1.3), fs=8.0),
+}
+
+#: Directed data/parameter dependencies. Solid arrows in the rendered figure.
+FIG1_EDGES = (
+    ("source", "branch_a"),
+    ("source", "branch_b"),
+    ("source", "angeloni_recal"),
+    ("source", "external"),
+    ("angeloni_recal", "loco"),
+    ("angeloni_recal", "cf_transfer"),
+)
+
+#: Lateral, non-dependency relationships. Drawn double-headed and labelled, never as a dependency.
+FIG1_LATERAL = (("angeloni_recal", "table7", "compared, not fitted"),)
+
+#: Edges that must never exist. The C/F benchmark does not consume the LOCO output, and the
+#: external branch must not inherit Angeloni target calibration.
+FIG1_FORBIDDEN_EDGES = (
+    ("loco", "cf_transfer"),
+    ("cf_transfer", "loco"),
+    ("angeloni_recal", "external"),
+    ("loco", "external"),
+    ("cf_transfer", "external"),
+)
+
+
+def _fig1_ancestors(node, edges=FIG1_EDGES):
+    """Transitive ancestors of ``node`` — used by the semantic tests, not by the drawing."""
+    parents = {}
+    for a, b in edges:
+        parents.setdefault(b, set()).add(a)
+    seen, stack = set(), list(parents.get(node, ()))
+    while stack:
+        cur = stack.pop()
+        if cur in seen:
+            continue
+        seen.add(cur)
+        stack.extend(parents.get(cur, ()))
+    return seen
+
+
 def fig1_design(outdir=OUTDIR):
     """Fig 1 — study design and use of each dataset, drawn as the ACTUAL dependency graph.
 
-    Paper 1 second review MC6: the previous layout ran an arrow from the Angeloni
-    optimal-grind recalibration DOWN into the Waszkiewicz box, implying the external shape
-    test inherits that recalibration. It does not: the external test freezes the Pannusch
-    kinetics and profiles a Waszkiewicz-specific level at each candidate rate. All four
-    branches therefore fan out from the Pannusch calibration. Table 7 is likewise not a
-    validation step after the cross-grind holdout -- it is an orthogonal measurement from
-    the same campaign, so it connects LATERALLY to the recalibration/profile analysis.
+    Paper 1 second review MC6: an earlier layout ran an arrow from the Angeloni optimal-grind
+    recalibration DOWN into the Waszkiewicz box, implying the external shape test inherits that
+    recalibration. It does not: the external test freezes the Pannusch kinetics and profiles a
+    Waszkiewicz-specific level at each candidate rate. All four branches therefore fan out from
+    the Pannusch calibration. Table 7 is likewise not a validation step after the cross-grind
+    holdout -- it is an orthogonal measurement from the same campaign, so it connects LATERALLY.
+
+    Round-8 P1-5: branch C's two analyses are now drawn as PARALLEL children of the
+    recalibration, each labelled with its calibration scope (8/9 per fold; 9/9 once, frozen),
+    because the cross-grind holdout does not descend from the LOCO result. Nodes and edges live
+    in `FIG1_NODES`/`FIG1_EDGES` so the geometry is asserted rather than eyeballed.
 
     Evidence categories stay campaign-accurate: 'external' means a genuinely different
     rig/coffee not used for target fitting.
@@ -187,65 +262,70 @@ def fig1_design(outdir=OUTDIR):
            "within": (GOOD, "within-campaign holdout"),
            "orth": (_SOL_COLOR["5CQA"], "orthogonal measurement (same study)"),
            "external": (BAD, "independent external")}
-    fig, ax = plt.subplots(figsize=(11.4, 6.8))
-    ax.set_xlim(0, 13.2); ax.set_ylim(-0.85, 9.2); ax.axis("off")
+    fig, ax = plt.subplots(figsize=(11.8, 7.4))
+    ax.set_xlim(0, 13.5); ax.set_ylim(-0.95, 9.5); ax.axis("off")
 
-    def box(x, y, w, h, text, cat, fs=8.4):
-        col = CAT[cat][0]
-        ax.add_patch(plt.Rectangle((x, y), w, h, facecolor="#f6f2ea", edgecolor=col,
-                                   lw=2.4))
-        ax.text(x + w / 2, y + h / 2, text, ha="center", va="center", fontsize=fs)
+    def draw(node):
+        spec = FIG1_NODES[node]
+        x, y, w, h = spec["box"]
+        col = CAT[spec["cat"]][0]
+        ax.add_patch(plt.Rectangle((x, y), w, h, facecolor="#f6f2ea", edgecolor=col, lw=2.4))
+        ax.text(x + w / 2, y + h / 2, spec["label"], ha="center", va="center",
+                fontsize=spec["fs"])
 
     def arrow(x0, y0, x1, y1, col=NULL, style="-|>"):
         ax.annotate("", (x1, y1), (x0, y0),
                     arrowprops=dict(arrowstyle=style, color=col, lw=1.6))
 
-    # --- root: the single calibration every branch descends from ------------------------
-    box(0.15, 4.05, 2.75, 1.5, "Schmieder fractions\n→ Pannusch calibration", "source")
+    def cy(node):
+        x, y, w, h = FIG1_NODES[node]["box"]
+        return y + h / 2
 
-    # --- fan spine: one arrow out of the root, then one stub per branch -----------------
+    for node in FIG1_NODES:
+        draw(node)
+
+    # --- fan spine: source -> the four top-level branches --------------------------------
     SPINE, BX = 3.15, 3.55
-    rows = [("A", 8.0), ("B", 6.5), ("C", 4.8), ("D", 1.25)]
-    arrow(2.9, 4.8, SPINE, 4.8)
-    ax.plot([SPINE, SPINE], [rows[-1][1], rows[0][1]], color=NULL, lw=1.6, zorder=1)
-    for _, y in rows:
-        arrow(SPINE, y, BX, y)
+    fan = ["branch_a", "branch_b", "angeloni_recal", "external"]
+    arrow(2.9, cy("source"), SPINE, cy("source"))
+    ax.plot([SPINE, SPINE], [cy(fan[-1]), cy(fan[0])], color=NULL, lw=1.6, zorder=1)
+    for node in fan:
+        arrow(SPINE, cy(node), BX, cy(node))
 
-    # --- branch A: source-campaign fraction-versus-cup localization ---------------------
-    box(BX, 7.35, 3.3, 1.3, "A · source-campaign\nfraction-vs-cup localization\n(in-sample)",
-        "insample")
-    # --- branch B: same-model exact-cup simulation --------------------------------------
-    box(BX, 5.85, 3.3, 1.3, "B · same-model\nexact-cup simulation\n(synthetic control)", "sim")
-    # --- branch C: Angeloni recalibration -> within-campaign holdouts -------------------
-    box(BX, 4.15, 3.5, 1.3, "C · Angeloni optimal-grind\n→ target recalibration", "target")
-    box(7.45, 4.15, 2.6, 1.3, "held-out optimal-grind\nconditions\n(leave-one-condition-out)",
-        "within", fs=8.0)
-    box(10.35, 4.15, 2.7, 1.3, "coarse / fine grinds\ncross-grind holdout\n(within campaign)",
-        "within", fs=8.0)
-    arrow(7.05, 4.8, 7.45, 4.8); arrow(10.05, 4.8, 10.35, 4.8)
-    # Table 7 hangs LATERALLY off the recalibration/profile analysis, not off the holdout
-    box(BX, 2.35, 3.5, 1.15, "Table 7 solid inventory —\northogonal measurement,\nsame campaign",
-        "orth", fs=8.0)
-    arrow(BX + 1.75, 4.15, BX + 1.75, 3.5, col=_SOL_COLOR["5CQA"], style="<|-|>")
-    ax.text(BX + 1.9, 3.82, "compared, not fitted", fontsize=7.0, color=NULL,
+    # --- branch C sub-spine: recalibration -> LOCO and -> C/F transfer, in PARALLEL -------
+    SUB = 7.30
+    arrow(7.05, cy("angeloni_recal"), SUB, cy("angeloni_recal"))
+    ax.plot([SUB, SUB], [cy("cf_transfer"), cy("loco")], color=NULL, lw=1.6, zorder=1)
+    for node in ("loco", "cf_transfer"):
+        arrow(SUB, cy(node), 7.55, cy(node))
+    ax.text(SUB + 0.12, cy("angeloni_recal") - 0.02,
+            "parallel analyses:\ndifferent calibration scopes", fontsize=6.9, color=NULL,
             ha="left", va="center", style="italic")
-    # --- branch D: external shape test (branches from the CALIBRATION, not from C) ------
-    box(BX, 0.6, 5.6, 1.3, "D · Waszkiewicz external TDS trajectory —\nPannusch kinetics frozen, "
-        "a Waszkiewicz-specific\nlevel profiled at each rate", "external", fs=8.0)
+
+    # Table 7 hangs LATERALLY off the recalibration/profile analysis, not off the holdout
+    for a, b, note in FIG1_LATERAL:
+        arrow(BX + 1.75, FIG1_NODES[a]["box"][1], BX + 1.75,
+              FIG1_NODES[b]["box"][1] + FIG1_NODES[b]["box"][3],
+              col=_SOL_COLOR["5CQA"], style="<|-|>")
+        ax.text(BX + 1.9, 3.62, note, fontsize=7.0, color=NULL,
+                ha="left", va="center", style="italic")
 
     # --- campaign annotations -----------------------------------------------------------
-    ax.text(0.15, 2.55, "Angeloni campaign\n(one study; different\nrig / coffee / basket)",
+    ax.text(0.15, 2.45, "Angeloni campaign\n(one study; different\nrig / coffee / basket)",
             fontsize=7.8, style="italic", color=NULL, va="top")
-    ax.text(0.15, 1.05, "Waszkiewicz\n(independent second\nrig / coffee)", fontsize=7.8,
+    ax.text(0.15, 0.95, "Waszkiewicz\n(independent second\nrig / coffee)", fontsize=7.8,
             style="italic", color=NULL, va="top")
 
     hs = [plt.Line2D([0], [0], marker="s", ls="", mfc="#f6f2ea", mec=c[0], mew=2.4,
                      ms=10, label=c[1]) for c in CAT.values()]
     ax.legend(handles=hs, loc="upper right", bbox_to_anchor=(1.0, 0.99), fontsize=7.6,
               ncol=2, framealpha=0.95, columnspacing=1.0, handletextpad=0.5)
-    ax.text(6.6, 0.06, "Arrows show the actual data/parameter dependency. ‘External’ means a "
-            "different rig and coffee never used for target fitting.\nOptimal / coarse / fine "
-            "are the source study's own granulometry labels, not universal particle-size classes.",
+    ax.text(6.75, -0.10, "Single-headed arrows show the actual data/parameter dependency; the "
+            "double-headed link is a comparison, not a dependency.\nThe LOCO and coarse/fine "
+            "analyses are parallel — the cross-grind holdout does not use the LOCO output. "
+            "‘External’ means a different rig\nand coffee never used for target fitting. Optimal "
+            "/ coarse / fine are the source study's own granulometry labels, not universal "
+            "particle-size classes.",
             ha="center", va="top", fontsize=7.4, color=NULL)
     fig.suptitle("Study design and use of each dataset", y=0.985, fontsize=12.0,
                  fontweight="bold")
@@ -620,15 +700,29 @@ def fig6_fraction_vs_endpoint(results=None, outdir=OUTDIR):
     return _save(fig, outdir, "fig6_fraction_vs_endpoint.png")
 
 
-def fig7_per_group_diagnostics(results=None, outdir=OUTDIR):
-    """Fig 7 — per-group refit diagnostics (review A2-16 / MAJ-17). The per-condition
-    residual is decomposed by variety x solute (n=9 conditions each): blind vs
+#: Panel titles for Supplementary Figure S3, kept short enough not to collide at journal width.
+#: Round-8 P2-2: the long forms ("...(n=9 cond./group)", "...(n=9 conditions; not a temporal
+#: trajectory)") overran the central margin and clipped each other. The detail they carried is
+#: not lost — it moved to the caption, which is where a reader can actually read it.
+FIG_S3_PANEL_TITLES = ("(a) Blind vs inventory-matched MAPE",
+                       "(b) Cross-condition response correlation")
+FIG_S3_SUPTITLE = "Per-group residual diagnostics at the matched 40 g endpoint"
+
+
+def fig7_per_group_diagnostics(results=None, outdir=OUTDIR, return_fig=False):
+    """Fig 7 (Supplementary S3) — per-group refit diagnostics (review A2-16 / MAJ-17). The
+    per-condition residual is decomposed by variety x solute (n=9 conditions each): blind vs
     inventory-matched MAPE, and the model-vs-data shape correlation. It makes the
     per_condition note visible: inventory-matching HELPS caffeine but HURTS trigonelline
     (so the residual is not pure inventory), and the shape correlations cluster near
     zero -- the (T,p) transfer residual is not removed by the tested flow maps + inventory
     match. HONEST SCOPE: this shows per-GROUP metrics; the per-condition residual-vs-(T,p)
-    SCATTER is Fig 8."""
+    SCATTER is Fig 8.
+
+    ``return_fig=True`` returns ``(path, fig)`` without closing the figure, so
+    `tests/test_paper_a_figure_layout.py` can measure rendered artist bounding boxes. An
+    image-dimension check cannot detect overlapping titles; only the laid-out text extents can.
+    """
     import numpy as np
     r = _load(results); plt = _plt()
     pv = r["per_condition"]["per_variety"]
@@ -646,7 +740,10 @@ def fig7_per_group_diagnostics(results=None, outdir=OUTDIR):
             matched.append(x.get("mape_inv_matched"))    # None for 5CQA/tds (no inventory)
             shape.append(x.get("shape_corr"))
     idx = np.arange(len(labels)); w = 0.38
-    fig, axes = plt.subplots(1, 2, figsize=(11.4, 4.4))
+    # constrained_layout from creation (not tight_layout afterwards, which would fight the
+    # suptitle and can shove the panel titles back into collision).
+    fig, axes = plt.subplots(1, 2, figsize=(11.4, 4.6), layout="constrained")
+    fig.get_layout_engine().set(w_pad=0.06, wspace=0.10)
 
     # (a) blind vs inventory-matched MAPE
     ax = axes[0]
@@ -671,8 +768,7 @@ def fig7_per_group_diagnostics(results=None, outdir=OUTDIR):
                         ha="center", fontsize=6.3, color=BAD if worse else GOOD)
     ax.set_xticks(idx); ax.set_xticklabels(labels, rotation=35, ha="right", fontsize=7.4)
     ax.set_ylabel("per-condition MAPE (%)")
-    ax.set_title("(a) blind vs inventory-matched residual (n=%d cond./group)" % n_cond,
-                 fontsize=9)
+    ax.set_title(FIG_S3_PANEL_TITLES[0], fontsize=9)
     ax.legend(fontsize=7, loc="upper left")
 
     # (b) model-vs-data shape correlation per group
@@ -686,12 +782,10 @@ def fig7_per_group_diagnostics(results=None, outdir=OUTDIR):
     ax.invert_yaxis()
     ax.set_xlabel("model–data shape correlation")
     ax.set_xlim(-0.6, 0.8)
-    ax.set_title("(b) cross-condition model–data response correlation (n=9 conditions; "
-                 "not a temporal trajectory)", fontsize=8.5)
-    fig.suptitle("Per-group blind and inventory-matched errors, with "
-                 "cross-condition model–data association (n=9 O conditions/group; "
-                 "matched 40 g endpoint)", y=1.02, fontsize=9.0, fontweight="bold")
-    return _save(fig, outdir, "fig7_per_group_diagnostics.png")
+    ax.set_title(FIG_S3_PANEL_TITLES[1], fontsize=9)
+    fig.suptitle(FIG_S3_SUPTITLE, fontsize=10.0, fontweight="bold")
+    path = _save(fig, outdir, "fig7_per_group_diagnostics.png")
+    return (path, fig) if return_fig else path
 
 
 def fig8_residuals_vs_conditions(results=None, outdir=OUTDIR):

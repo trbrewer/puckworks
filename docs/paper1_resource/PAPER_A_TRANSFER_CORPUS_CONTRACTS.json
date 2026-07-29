@@ -1,9 +1,23 @@
 {
+ "schema_version": 2,
+ "source_sha256": "780ba72d13f87f695cd41c16a18b003871f87ed80149e9c3bf0b76d2d2f2866a",
  "question": "Round-7 P0-3: the headline benchmark filtered every grind to on_grid==True, excluding eight coarse/fine off-grid validation records (24 named-solute observations) while Table 1 claimed the C/F corpus was held out in its entirety. Both defensible contracts are evaluated here; the COMPLETE corpus was adopted as the headline, and the matched on-grid subset is retained as the secondary corpus and as the support on which the same-(T,p) lookup comparator is defined.",
  "adopted": "complete_corpus",
+ "endpoint": {
+  "quantity": "collected_mass",
+  "symbol": "m_target",
+  "unit": "g",
+  "targets": [
+   38.0,
+   40.0,
+   42.0
+  ]
+ },
  "matched_on_grid": {
   "corpus": {
+   "schema_version": 2,
    "estimand": "matched 3x3 on-grid C/F transfer benchmark",
+   "support_set": "matched_grid_cf_corpus_108",
    "include_off_grid": false,
    "train_grind": "O",
    "train_sample_ids": [
@@ -80,10 +94,598 @@
    "excluded_reason": "off-grid C/F validation records; no same-(T,p) O counterpart exists for any of them, so the lookup comparator is undefined there",
    "n_cf_records_available": 44,
    "n_solutes": 3,
+   "solutes": [
+    "caffeine",
+    "trigonelline",
+    "5CQA"
+   ],
    "n_observations": 108,
+   "off_grid_sample_ids": [],
+   "n_off_grid_records": 0,
+   "lookup_undefined_sample_ids": [],
    "n_lookup_observations": 108,
-   "lookup_undefined_sample_ids": []
+   "records": [
+    {
+     "sample_id": "A12",
+     "variety": "Arabica",
+     "grind": "C",
+     "temperature_degC": 93.4,
+     "pressure_bar": 9.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|93.4|9",
+     "sample_cluster_id": "A12"
+    },
+    {
+     "sample_id": "A13",
+     "variety": "Arabica",
+     "grind": "C",
+     "temperature_degC": 93.4,
+     "pressure_bar": 6.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|93.4|6",
+     "sample_cluster_id": "A13"
+    },
+    {
+     "sample_id": "A14",
+     "variety": "Arabica",
+     "grind": "C",
+     "temperature_degC": 93.4,
+     "pressure_bar": 12.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|93.4|12",
+     "sample_cluster_id": "A14"
+    },
+    {
+     "sample_id": "A15",
+     "variety": "Arabica",
+     "grind": "C",
+     "temperature_degC": 98.0,
+     "pressure_bar": 9.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|98|9",
+     "sample_cluster_id": "A15"
+    },
+    {
+     "sample_id": "A16",
+     "variety": "Arabica",
+     "grind": "C",
+     "temperature_degC": 98.0,
+     "pressure_bar": 12.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|98|12",
+     "sample_cluster_id": "A16"
+    },
+    {
+     "sample_id": "A17",
+     "variety": "Arabica",
+     "grind": "C",
+     "temperature_degC": 98.0,
+     "pressure_bar": 6.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|98|6",
+     "sample_cluster_id": "A17"
+    },
+    {
+     "sample_id": "A18",
+     "variety": "Arabica",
+     "grind": "C",
+     "temperature_degC": 88.0,
+     "pressure_bar": 9.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|88|9",
+     "sample_cluster_id": "A18"
+    },
+    {
+     "sample_id": "A19",
+     "variety": "Arabica",
+     "grind": "C",
+     "temperature_degC": 88.0,
+     "pressure_bar": 12.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|88|12",
+     "sample_cluster_id": "A19"
+    },
+    {
+     "sample_id": "A20",
+     "variety": "Arabica",
+     "grind": "C",
+     "temperature_degC": 88.0,
+     "pressure_bar": 6.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|88|6",
+     "sample_cluster_id": "A20"
+    },
+    {
+     "sample_id": "A23",
+     "variety": "Arabica",
+     "grind": "F",
+     "temperature_degC": 93.4,
+     "pressure_bar": 9.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|93.4|9",
+     "sample_cluster_id": "A23"
+    },
+    {
+     "sample_id": "A24",
+     "variety": "Arabica",
+     "grind": "F",
+     "temperature_degC": 93.4,
+     "pressure_bar": 6.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|93.4|6",
+     "sample_cluster_id": "A24"
+    },
+    {
+     "sample_id": "A25",
+     "variety": "Arabica",
+     "grind": "F",
+     "temperature_degC": 93.4,
+     "pressure_bar": 12.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|93.4|12",
+     "sample_cluster_id": "A25"
+    },
+    {
+     "sample_id": "A26",
+     "variety": "Arabica",
+     "grind": "F",
+     "temperature_degC": 98.0,
+     "pressure_bar": 12.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|98|12",
+     "sample_cluster_id": "A26"
+    },
+    {
+     "sample_id": "A27",
+     "variety": "Arabica",
+     "grind": "F",
+     "temperature_degC": 98.0,
+     "pressure_bar": 6.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|98|6",
+     "sample_cluster_id": "A27"
+    },
+    {
+     "sample_id": "A28",
+     "variety": "Arabica",
+     "grind": "F",
+     "temperature_degC": 98.0,
+     "pressure_bar": 9.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|98|9",
+     "sample_cluster_id": "A28"
+    },
+    {
+     "sample_id": "A29",
+     "variety": "Arabica",
+     "grind": "F",
+     "temperature_degC": 88.0,
+     "pressure_bar": 9.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|88|9",
+     "sample_cluster_id": "A29"
+    },
+    {
+     "sample_id": "A30",
+     "variety": "Arabica",
+     "grind": "F",
+     "temperature_degC": 88.0,
+     "pressure_bar": 12.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|88|12",
+     "sample_cluster_id": "A30"
+    },
+    {
+     "sample_id": "A31",
+     "variety": "Arabica",
+     "grind": "F",
+     "temperature_degC": 88.0,
+     "pressure_bar": 6.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|88|6",
+     "sample_cluster_id": "A31"
+    },
+    {
+     "sample_id": "R12",
+     "variety": "Robusta",
+     "grind": "C",
+     "temperature_degC": 93.4,
+     "pressure_bar": 9.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|93.4|9",
+     "sample_cluster_id": "R12"
+    },
+    {
+     "sample_id": "R13",
+     "variety": "Robusta",
+     "grind": "C",
+     "temperature_degC": 93.4,
+     "pressure_bar": 12.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|93.4|12",
+     "sample_cluster_id": "R13"
+    },
+    {
+     "sample_id": "R14",
+     "variety": "Robusta",
+     "grind": "C",
+     "temperature_degC": 93.4,
+     "pressure_bar": 6.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|93.4|6",
+     "sample_cluster_id": "R14"
+    },
+    {
+     "sample_id": "R15",
+     "variety": "Robusta",
+     "grind": "C",
+     "temperature_degC": 88.0,
+     "pressure_bar": 9.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|88|9",
+     "sample_cluster_id": "R15"
+    },
+    {
+     "sample_id": "R16",
+     "variety": "Robusta",
+     "grind": "C",
+     "temperature_degC": 88.0,
+     "pressure_bar": 12.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|88|12",
+     "sample_cluster_id": "R16"
+    },
+    {
+     "sample_id": "R17",
+     "variety": "Robusta",
+     "grind": "C",
+     "temperature_degC": 88.0,
+     "pressure_bar": 6.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|88|6",
+     "sample_cluster_id": "R17"
+    },
+    {
+     "sample_id": "R18",
+     "variety": "Robusta",
+     "grind": "C",
+     "temperature_degC": 98.0,
+     "pressure_bar": 9.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|98|9",
+     "sample_cluster_id": "R18"
+    },
+    {
+     "sample_id": "R19",
+     "variety": "Robusta",
+     "grind": "C",
+     "temperature_degC": 98.0,
+     "pressure_bar": 12.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|98|12",
+     "sample_cluster_id": "R19"
+    },
+    {
+     "sample_id": "R20",
+     "variety": "Robusta",
+     "grind": "C",
+     "temperature_degC": 98.0,
+     "pressure_bar": 6.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|98|6",
+     "sample_cluster_id": "R20"
+    },
+    {
+     "sample_id": "R23",
+     "variety": "Robusta",
+     "grind": "F",
+     "temperature_degC": 93.4,
+     "pressure_bar": 9.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|93.4|9",
+     "sample_cluster_id": "R23"
+    },
+    {
+     "sample_id": "R24",
+     "variety": "Robusta",
+     "grind": "F",
+     "temperature_degC": 93.4,
+     "pressure_bar": 12.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|93.4|12",
+     "sample_cluster_id": "R24"
+    },
+    {
+     "sample_id": "R25",
+     "variety": "Robusta",
+     "grind": "F",
+     "temperature_degC": 93.4,
+     "pressure_bar": 6.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|93.4|6",
+     "sample_cluster_id": "R25"
+    },
+    {
+     "sample_id": "R26",
+     "variety": "Robusta",
+     "grind": "F",
+     "temperature_degC": 88.0,
+     "pressure_bar": 9.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|88|9",
+     "sample_cluster_id": "R26"
+    },
+    {
+     "sample_id": "R27",
+     "variety": "Robusta",
+     "grind": "F",
+     "temperature_degC": 88.0,
+     "pressure_bar": 12.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|88|12",
+     "sample_cluster_id": "R27"
+    },
+    {
+     "sample_id": "R28",
+     "variety": "Robusta",
+     "grind": "F",
+     "temperature_degC": 88.0,
+     "pressure_bar": 6.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|88|6",
+     "sample_cluster_id": "R28"
+    },
+    {
+     "sample_id": "R29",
+     "variety": "Robusta",
+     "grind": "F",
+     "temperature_degC": 98.0,
+     "pressure_bar": 6.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|98|6",
+     "sample_cluster_id": "R29"
+    },
+    {
+     "sample_id": "R30",
+     "variety": "Robusta",
+     "grind": "F",
+     "temperature_degC": 98.0,
+     "pressure_bar": 9.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|98|9",
+     "sample_cluster_id": "R30"
+    },
+    {
+     "sample_id": "R31",
+     "variety": "Robusta",
+     "grind": "F",
+     "temperature_degC": 98.0,
+     "pressure_bar": 12.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|98|12",
+     "sample_cluster_id": "R31"
+    }
+   ],
+   "included_sample_ids_sha256": "72d72ae72aa3597e460b39a6a4324541033e85b9882afc4531f35813217e0d34",
+   "manifest_sha256": "28cfdda546d45a02393af8f8b1c18341d304676cd3b48113c1c239bf586cbb86"
   },
+  "support_set": "matched_grid_cf_corpus_108",
   "pooled_model_mape": 8.23,
   "pooled_const_mape": 8.59,
   "pooled_lookup_mape": 10.79,
@@ -114,31 +716,247 @@
   },
   "per_fit": {
    "Arabica:caffeine": {
+    "C": {
+     "model_mape": 8.48,
+     "const_mape": 9.61,
+     "lookup_mape": 8.86,
+     "n_points": 9,
+     "n_lookup_points": 9,
+     "paired_model_minus_const": [
+      -0.82,
+      -2.31,
+      -0.05,
+      -0.19,
+      0.59,
+      -1.8,
+      -1.62,
+      -0.92,
+      -3.06
+     ]
+    },
+    "F": {
+     "model_mape": 5.37,
+     "const_mape": 5.53,
+     "lookup_mape": 6.05,
+     "n_points": 9,
+     "n_lookup_points": 9,
+     "paired_model_minus_const": [
+      -0.32,
+      -0.11,
+      -0.2,
+      -0.78,
+      -0.61,
+      -0.89,
+      0.38,
+      0.51,
+      0.55
+     ]
+    },
     "model_macro_mape": 6.93,
     "const_macro_mape": 7.57,
     "skill_vs_const": 0.085
    },
    "Arabica:trigonelline": {
+    "C": {
+     "model_mape": 6.83,
+     "const_mape": 7.76,
+     "lookup_mape": 6.73,
+     "n_points": 9,
+     "n_lookup_points": 9,
+     "paired_model_minus_const": [
+      -0.39,
+      -2.8,
+      -0.91,
+      -0.82,
+      0.61,
+      -3.47,
+      0.12,
+      1.59,
+      -2.24
+     ]
+    },
+    "F": {
+     "model_mape": 3.19,
+     "const_mape": 2.15,
+     "lookup_mape": 3.67,
+     "n_points": 9,
+     "n_lookup_points": 9,
+     "paired_model_minus_const": [
+      1.85,
+      -1.3,
+      1.9,
+      1.53,
+      -0.89,
+      1.48,
+      2.94,
+      3.52,
+      -1.65
+     ]
+    },
     "model_macro_mape": 5.01,
     "const_macro_mape": 4.96,
     "skill_vs_const": -0.011
    },
    "Arabica:5CQA": {
+    "C": {
+     "model_mape": 18.21,
+     "const_mape": 22.09,
+     "lookup_mape": 21.74,
+     "n_points": 9,
+     "n_lookup_points": 9,
+     "paired_model_minus_const": [
+      -5.49,
+      -10.52,
+      -1.98,
+      -5.55,
+      -2.36,
+      8.96,
+      -5.35,
+      -2.32,
+      -10.29
+     ]
+    },
+    "F": {
+     "model_mape": 5.02,
+     "const_mape": 3.56,
+     "lookup_mape": 7.09,
+     "n_points": 9,
+     "n_lookup_points": 9,
+     "paired_model_minus_const": [
+      1.39,
+      -0.93,
+      2.73,
+      2.7,
+      0.92,
+      1.4,
+      1.4,
+      2.64,
+      0.86
+     ]
+    },
     "model_macro_mape": 11.62,
     "const_macro_mape": 12.82,
     "skill_vs_const": 0.094
    },
    "Robusta:caffeine": {
+    "C": {
+     "model_mape": 9.51,
+     "const_mape": 9.5,
+     "lookup_mape": 12.45,
+     "n_points": 9,
+     "n_lookup_points": 9,
+     "paired_model_minus_const": [
+      0.06,
+      -0.05,
+      0.06,
+      0.08,
+      -0.05,
+      0.14,
+      -0.0,
+      -0.09,
+      -0.04
+     ]
+    },
+    "F": {
+     "model_mape": 7.47,
+     "const_mape": 7.32,
+     "lookup_mape": 6.02,
+     "n_points": 9,
+     "n_lookup_points": 9,
+     "paired_model_minus_const": [
+      0.3,
+      0.49,
+      -0.1,
+      0.33,
+      0.59,
+      0.09,
+      -0.12,
+      0.33,
+      -0.55
+     ]
+    },
     "model_macro_mape": 8.49,
     "const_macro_mape": 8.41,
     "skill_vs_const": -0.01
    },
    "Robusta:trigonelline": {
+    "C": {
+     "model_mape": 8.5,
+     "const_mape": 8.25,
+     "lookup_mape": 10.63,
+     "n_points": 9,
+     "n_lookup_points": 9,
+     "paired_model_minus_const": [
+      0.55,
+      0.69,
+      0.21,
+      1.11,
+      -1.14,
+      0.88,
+      0.01,
+      0.17,
+      -0.29
+     ]
+    },
+    "F": {
+     "model_mape": 7.14,
+     "const_mape": 7.67,
+     "lookup_mape": 6.18,
+     "n_points": 9,
+     "n_lookup_points": 9,
+     "paired_model_minus_const": [
+      -0.65,
+      -0.77,
+      -0.61,
+      -1.16,
+      -1.33,
+      -1.08,
+      0.19,
+      0.27,
+      0.32
+     ]
+    },
     "model_macro_mape": 7.82,
     "const_macro_mape": 7.96,
     "skill_vs_const": 0.018
    },
    "Robusta:5CQA": {
+    "C": {
+     "model_mape": 10.27,
+     "const_mape": 10.29,
+     "lookup_mape": 25.89,
+     "n_points": 9,
+     "n_lookup_points": 9,
+     "paired_model_minus_const": [
+      0.39,
+      1.05,
+      -0.62,
+      0.69,
+      -1.16,
+      -0.27,
+      0.05,
+      0.7,
+      -0.97
+     ]
+    },
+    "F": {
+     "model_mape": 8.75,
+     "const_mape": 9.33,
+     "lookup_mape": 14.21,
+     "n_points": 9,
+     "n_lookup_points": 9,
+     "paired_model_minus_const": [
+      -1.24,
+      -1.61,
+      1.05,
+      -1.54,
+      -1.96,
+      -1.1,
+      0.81,
+      -1.19,
+      1.52
+     ]
+    },
     "model_macro_mape": 9.51,
     "const_macro_mape": 9.81,
     "skill_vs_const": 0.031
@@ -147,46 +965,124 @@
   "resampling": {
    "cond_in_variety": {
     "unit": "cond_in_variety",
+    "role": "primary_conservative_sensitivity",
     "n_clusters": 18,
+    "n_strata": 2,
     "observed_mean_delta_pp": -0.361,
-    "percentile_range_pp": [
-     -0.826,
-     0.037
-    ],
-    "excludes_zero": false,
-    "nearest_bound_to_zero_pp": 0.0375,
-    "interval_kind": "clustered percentile sensitivity range (not a calibrated 95% CI)"
+    "interval": {
+     "kind": "fixed_predictor_clustered_percentile_sensitivity_range",
+     "full_precision_pp": {
+      "lower": -0.8183887700831676,
+      "upper": 0.03931091434646663
+     },
+     "contains_zero_full_precision": true,
+     "excludes_zero_full_precision": false,
+     "signed_nearest_bound_to_zero_pp": 0.0,
+     "width_pp": 0.8576996844296342,
+     "display": {
+      "digits": 3,
+      "lower": -0.818,
+      "upper": 0.039,
+      "text": "[−0.818, +0.039]",
+      "touches_zero": true
+     }
+    },
+    "B": 1000000,
+    "seed": 0,
+    "interval_kind": "fixed_predictor_clustered_percentile_sensitivity_range"
+   },
+   "sample_in_variety_grind": {
+    "unit": "sample_in_variety_grind",
+    "role": "design_aligned_secondary_sensitivity",
+    "n_clusters": 36,
+    "n_strata": 4,
+    "observed_mean_delta_pp": -0.361,
+    "interval": {
+     "kind": "fixed_predictor_clustered_percentile_sensitivity_range",
+     "full_precision_pp": {
+      "lower": -0.7454665400929305,
+      "upper": 0.008863920737757058
+     },
+     "contains_zero_full_precision": true,
+     "excludes_zero_full_precision": false,
+     "signed_nearest_bound_to_zero_pp": 0.0,
+     "width_pp": 0.7543304608306876,
+     "display": {
+      "digits": 3,
+      "lower": -0.745,
+      "upper": 0.009,
+      "text": "[−0.745, +0.009]",
+      "touches_zero": true
+     }
+    },
+    "B": 1000000,
+    "seed": 0,
+    "interval_kind": "fixed_predictor_clustered_percentile_sensitivity_range"
    },
    "cond_in_group": {
     "unit": "cond_in_group",
+    "role": "secondary_sensitivity",
     "n_clusters": 54,
+    "n_strata": 6,
     "observed_mean_delta_pp": -0.361,
-    "percentile_range_pp": [
-     -0.725,
-     0.027
-    ],
-    "excludes_zero": false,
-    "nearest_bound_to_zero_pp": 0.0267,
-    "interval_kind": "clustered percentile sensitivity range (not a calibrated 95% CI)"
+    "interval": {
+     "kind": "fixed_predictor_clustered_percentile_sensitivity_range",
+     "full_precision_pp": {
+      "lower": -0.7338314941217581,
+      "upper": 0.02801105611073583
+     },
+     "contains_zero_full_precision": true,
+     "excludes_zero_full_precision": false,
+     "signed_nearest_bound_to_zero_pp": 0.0,
+     "width_pp": 0.7618425502324939,
+     "display": {
+      "digits": 3,
+      "lower": -0.734,
+      "upper": 0.028,
+      "text": "[−0.734, +0.028]",
+      "touches_zero": true
+     }
+    },
+    "B": 1000000,
+    "seed": 0,
+    "interval_kind": "fixed_predictor_clustered_percentile_sensitivity_range"
    },
    "group": {
     "unit": "group",
+    "role": "secondary_coarse_sensitivity",
     "n_clusters": 6,
+    "n_strata": 1,
     "observed_mean_delta_pp": -0.361,
-    "percentile_range_pp": [
-     -0.751,
-     -0.032
-    ],
-    "excludes_zero": true,
-    "nearest_bound_to_zero_pp": 0.0315,
-    "interval_kind": "clustered percentile sensitivity range (not a calibrated 95% CI)"
+    "interval": {
+     "kind": "fixed_predictor_clustered_percentile_sensitivity_range",
+     "full_precision_pp": {
+      "lower": -0.7510592110872452,
+      "upper": -0.03250474710656831
+     },
+     "contains_zero_full_precision": false,
+     "excludes_zero_full_precision": true,
+     "signed_nearest_bound_to_zero_pp": -0.03250474710656831,
+     "width_pp": 0.7185544639806769,
+     "display": {
+      "digits": 3,
+      "lower": -0.751,
+      "upper": -0.033,
+      "text": "[−0.751, −0.033]",
+      "touches_zero": false
+     }
+    },
+    "B": 1000000,
+    "seed": 0,
+    "interval_kind": "fixed_predictor_clustered_percentile_sensitivity_range"
    }
   },
   "off_grid_only": null
  },
  "complete_corpus": {
   "corpus": {
+   "schema_version": 2,
    "estimand": "complete held-out C/F corpus (on-grid + off-grid)",
+   "support_set": "complete_cf_corpus_132",
    "include_off_grid": true,
    "train_grind": "O",
    "train_sample_ids": [
@@ -262,8 +1158,23 @@
    "excluded_reason": null,
    "n_cf_records_available": 44,
    "n_solutes": 3,
+   "solutes": [
+    "caffeine",
+    "trigonelline",
+    "5CQA"
+   ],
    "n_observations": 132,
-   "n_lookup_observations": 108,
+   "off_grid_sample_ids": [
+    "A21",
+    "A22",
+    "A32",
+    "A33",
+    "R21",
+    "R22",
+    "R32",
+    "R33"
+   ],
+   "n_off_grid_records": 8,
    "lookup_undefined_sample_ids": [
     "A21",
     "A22",
@@ -273,8 +1184,718 @@
     "R22",
     "R32",
     "R33"
-   ]
+   ],
+   "n_lookup_observations": 108,
+   "records": [
+    {
+     "sample_id": "A12",
+     "variety": "Arabica",
+     "grind": "C",
+     "temperature_degC": 93.4,
+     "pressure_bar": 9.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|93.4|9",
+     "sample_cluster_id": "A12"
+    },
+    {
+     "sample_id": "A13",
+     "variety": "Arabica",
+     "grind": "C",
+     "temperature_degC": 93.4,
+     "pressure_bar": 6.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|93.4|6",
+     "sample_cluster_id": "A13"
+    },
+    {
+     "sample_id": "A14",
+     "variety": "Arabica",
+     "grind": "C",
+     "temperature_degC": 93.4,
+     "pressure_bar": 12.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|93.4|12",
+     "sample_cluster_id": "A14"
+    },
+    {
+     "sample_id": "A15",
+     "variety": "Arabica",
+     "grind": "C",
+     "temperature_degC": 98.0,
+     "pressure_bar": 9.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|98|9",
+     "sample_cluster_id": "A15"
+    },
+    {
+     "sample_id": "A16",
+     "variety": "Arabica",
+     "grind": "C",
+     "temperature_degC": 98.0,
+     "pressure_bar": 12.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|98|12",
+     "sample_cluster_id": "A16"
+    },
+    {
+     "sample_id": "A17",
+     "variety": "Arabica",
+     "grind": "C",
+     "temperature_degC": 98.0,
+     "pressure_bar": 6.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|98|6",
+     "sample_cluster_id": "A17"
+    },
+    {
+     "sample_id": "A18",
+     "variety": "Arabica",
+     "grind": "C",
+     "temperature_degC": 88.0,
+     "pressure_bar": 9.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|88|9",
+     "sample_cluster_id": "A18"
+    },
+    {
+     "sample_id": "A19",
+     "variety": "Arabica",
+     "grind": "C",
+     "temperature_degC": 88.0,
+     "pressure_bar": 12.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|88|12",
+     "sample_cluster_id": "A19"
+    },
+    {
+     "sample_id": "A20",
+     "variety": "Arabica",
+     "grind": "C",
+     "temperature_degC": 88.0,
+     "pressure_bar": 6.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|88|6",
+     "sample_cluster_id": "A20"
+    },
+    {
+     "sample_id": "A21",
+     "variety": "Arabica",
+     "grind": "C",
+     "temperature_degC": 89.0,
+     "pressure_bar": 10.0,
+     "on_grid": false,
+     "lookup_defined": false,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|89|10",
+     "sample_cluster_id": "A21"
+    },
+    {
+     "sample_id": "A22",
+     "variety": "Arabica",
+     "grind": "C",
+     "temperature_degC": 97.0,
+     "pressure_bar": 7.0,
+     "on_grid": false,
+     "lookup_defined": false,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|97|7",
+     "sample_cluster_id": "A22"
+    },
+    {
+     "sample_id": "A23",
+     "variety": "Arabica",
+     "grind": "F",
+     "temperature_degC": 93.4,
+     "pressure_bar": 9.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|93.4|9",
+     "sample_cluster_id": "A23"
+    },
+    {
+     "sample_id": "A24",
+     "variety": "Arabica",
+     "grind": "F",
+     "temperature_degC": 93.4,
+     "pressure_bar": 6.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|93.4|6",
+     "sample_cluster_id": "A24"
+    },
+    {
+     "sample_id": "A25",
+     "variety": "Arabica",
+     "grind": "F",
+     "temperature_degC": 93.4,
+     "pressure_bar": 12.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|93.4|12",
+     "sample_cluster_id": "A25"
+    },
+    {
+     "sample_id": "A26",
+     "variety": "Arabica",
+     "grind": "F",
+     "temperature_degC": 98.0,
+     "pressure_bar": 12.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|98|12",
+     "sample_cluster_id": "A26"
+    },
+    {
+     "sample_id": "A27",
+     "variety": "Arabica",
+     "grind": "F",
+     "temperature_degC": 98.0,
+     "pressure_bar": 6.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|98|6",
+     "sample_cluster_id": "A27"
+    },
+    {
+     "sample_id": "A28",
+     "variety": "Arabica",
+     "grind": "F",
+     "temperature_degC": 98.0,
+     "pressure_bar": 9.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|98|9",
+     "sample_cluster_id": "A28"
+    },
+    {
+     "sample_id": "A29",
+     "variety": "Arabica",
+     "grind": "F",
+     "temperature_degC": 88.0,
+     "pressure_bar": 9.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|88|9",
+     "sample_cluster_id": "A29"
+    },
+    {
+     "sample_id": "A30",
+     "variety": "Arabica",
+     "grind": "F",
+     "temperature_degC": 88.0,
+     "pressure_bar": 12.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|88|12",
+     "sample_cluster_id": "A30"
+    },
+    {
+     "sample_id": "A31",
+     "variety": "Arabica",
+     "grind": "F",
+     "temperature_degC": 88.0,
+     "pressure_bar": 6.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|88|6",
+     "sample_cluster_id": "A31"
+    },
+    {
+     "sample_id": "A32",
+     "variety": "Arabica",
+     "grind": "F",
+     "temperature_degC": 90.0,
+     "pressure_bar": 8.0,
+     "on_grid": false,
+     "lookup_defined": false,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|90|8",
+     "sample_cluster_id": "A32"
+    },
+    {
+     "sample_id": "A33",
+     "variety": "Arabica",
+     "grind": "F",
+     "temperature_degC": 95.0,
+     "pressure_bar": 11.0,
+     "on_grid": false,
+     "lookup_defined": false,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Arabica|95|11",
+     "sample_cluster_id": "A33"
+    },
+    {
+     "sample_id": "R12",
+     "variety": "Robusta",
+     "grind": "C",
+     "temperature_degC": 93.4,
+     "pressure_bar": 9.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|93.4|9",
+     "sample_cluster_id": "R12"
+    },
+    {
+     "sample_id": "R13",
+     "variety": "Robusta",
+     "grind": "C",
+     "temperature_degC": 93.4,
+     "pressure_bar": 12.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|93.4|12",
+     "sample_cluster_id": "R13"
+    },
+    {
+     "sample_id": "R14",
+     "variety": "Robusta",
+     "grind": "C",
+     "temperature_degC": 93.4,
+     "pressure_bar": 6.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|93.4|6",
+     "sample_cluster_id": "R14"
+    },
+    {
+     "sample_id": "R15",
+     "variety": "Robusta",
+     "grind": "C",
+     "temperature_degC": 88.0,
+     "pressure_bar": 9.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|88|9",
+     "sample_cluster_id": "R15"
+    },
+    {
+     "sample_id": "R16",
+     "variety": "Robusta",
+     "grind": "C",
+     "temperature_degC": 88.0,
+     "pressure_bar": 12.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|88|12",
+     "sample_cluster_id": "R16"
+    },
+    {
+     "sample_id": "R17",
+     "variety": "Robusta",
+     "grind": "C",
+     "temperature_degC": 88.0,
+     "pressure_bar": 6.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|88|6",
+     "sample_cluster_id": "R17"
+    },
+    {
+     "sample_id": "R18",
+     "variety": "Robusta",
+     "grind": "C",
+     "temperature_degC": 98.0,
+     "pressure_bar": 9.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|98|9",
+     "sample_cluster_id": "R18"
+    },
+    {
+     "sample_id": "R19",
+     "variety": "Robusta",
+     "grind": "C",
+     "temperature_degC": 98.0,
+     "pressure_bar": 12.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|98|12",
+     "sample_cluster_id": "R19"
+    },
+    {
+     "sample_id": "R20",
+     "variety": "Robusta",
+     "grind": "C",
+     "temperature_degC": 98.0,
+     "pressure_bar": 6.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|98|6",
+     "sample_cluster_id": "R20"
+    },
+    {
+     "sample_id": "R21",
+     "variety": "Robusta",
+     "grind": "C",
+     "temperature_degC": 97.0,
+     "pressure_bar": 7.0,
+     "on_grid": false,
+     "lookup_defined": false,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|97|7",
+     "sample_cluster_id": "R21"
+    },
+    {
+     "sample_id": "R22",
+     "variety": "Robusta",
+     "grind": "C",
+     "temperature_degC": 89.0,
+     "pressure_bar": 10.0,
+     "on_grid": false,
+     "lookup_defined": false,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|89|10",
+     "sample_cluster_id": "R22"
+    },
+    {
+     "sample_id": "R23",
+     "variety": "Robusta",
+     "grind": "F",
+     "temperature_degC": 93.4,
+     "pressure_bar": 9.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|93.4|9",
+     "sample_cluster_id": "R23"
+    },
+    {
+     "sample_id": "R24",
+     "variety": "Robusta",
+     "grind": "F",
+     "temperature_degC": 93.4,
+     "pressure_bar": 12.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|93.4|12",
+     "sample_cluster_id": "R24"
+    },
+    {
+     "sample_id": "R25",
+     "variety": "Robusta",
+     "grind": "F",
+     "temperature_degC": 93.4,
+     "pressure_bar": 6.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|93.4|6",
+     "sample_cluster_id": "R25"
+    },
+    {
+     "sample_id": "R26",
+     "variety": "Robusta",
+     "grind": "F",
+     "temperature_degC": 88.0,
+     "pressure_bar": 9.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|88|9",
+     "sample_cluster_id": "R26"
+    },
+    {
+     "sample_id": "R27",
+     "variety": "Robusta",
+     "grind": "F",
+     "temperature_degC": 88.0,
+     "pressure_bar": 12.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|88|12",
+     "sample_cluster_id": "R27"
+    },
+    {
+     "sample_id": "R28",
+     "variety": "Robusta",
+     "grind": "F",
+     "temperature_degC": 88.0,
+     "pressure_bar": 6.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|88|6",
+     "sample_cluster_id": "R28"
+    },
+    {
+     "sample_id": "R29",
+     "variety": "Robusta",
+     "grind": "F",
+     "temperature_degC": 98.0,
+     "pressure_bar": 6.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|98|6",
+     "sample_cluster_id": "R29"
+    },
+    {
+     "sample_id": "R30",
+     "variety": "Robusta",
+     "grind": "F",
+     "temperature_degC": 98.0,
+     "pressure_bar": 9.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|98|9",
+     "sample_cluster_id": "R30"
+    },
+    {
+     "sample_id": "R31",
+     "variety": "Robusta",
+     "grind": "F",
+     "temperature_degC": 98.0,
+     "pressure_bar": 12.0,
+     "on_grid": true,
+     "lookup_defined": true,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|98|12",
+     "sample_cluster_id": "R31"
+    },
+    {
+     "sample_id": "R32",
+     "variety": "Robusta",
+     "grind": "F",
+     "temperature_degC": 95.0,
+     "pressure_bar": 11.0,
+     "on_grid": false,
+     "lookup_defined": false,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|95|11",
+     "sample_cluster_id": "R32"
+    },
+    {
+     "sample_id": "R33",
+     "variety": "Robusta",
+     "grind": "F",
+     "temperature_degC": 90.0,
+     "pressure_bar": 8.0,
+     "on_grid": false,
+     "lookup_defined": false,
+     "solutes": [
+      "caffeine",
+      "trigonelline",
+      "5CQA"
+     ],
+     "primary_cluster_id": "Robusta|90|8",
+     "sample_cluster_id": "R33"
+    }
+   ],
+   "included_sample_ids_sha256": "b0c2ca68d6a043a15643fda0b4a576b5bcb20c0489f9596729a69aa38047ad1f",
+   "manifest_sha256": "fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8"
   },
+  "support_set": "complete_cf_corpus_132",
   "pooled_model_mape": 8.44,
   "pooled_const_mape": 8.83,
   "pooled_lookup_mape": 10.79,
@@ -305,31 +1926,271 @@
   },
   "per_fit": {
    "Arabica:caffeine": {
+    "C": {
+     "model_mape": 9.23,
+     "const_mape": 10.39,
+     "lookup_mape": 8.86,
+     "n_points": 11,
+     "n_lookup_points": 9,
+     "paired_model_minus_const": [
+      -0.82,
+      -2.31,
+      -0.05,
+      -0.19,
+      0.59,
+      -1.8,
+      -1.62,
+      -0.92,
+      -3.06,
+      -1.09,
+      -1.42
+     ]
+    },
+    "F": {
+     "model_mape": 6.98,
+     "const_mape": 7.05,
+     "lookup_mape": 6.05,
+     "n_points": 11,
+     "n_lookup_points": 9,
+     "paired_model_minus_const": [
+      -0.32,
+      -0.11,
+      -0.2,
+      -0.78,
+      -0.61,
+      -0.89,
+      0.38,
+      0.51,
+      0.55,
+      0.13,
+      0.56
+     ]
+    },
     "model_macro_mape": 8.11,
     "const_macro_mape": 8.72,
     "skill_vs_const": 0.071
    },
    "Arabica:trigonelline": {
+    "C": {
+     "model_mape": 7.25,
+     "const_mape": 8.18,
+     "lookup_mape": 6.73,
+     "n_points": 11,
+     "n_lookup_points": 9,
+     "paired_model_minus_const": [
+      -0.39,
+      -2.8,
+      -0.91,
+      -0.82,
+      0.61,
+      -3.47,
+      0.12,
+      1.59,
+      -2.24,
+      0.6,
+      -2.51
+     ]
+    },
+    "F": {
+     "model_mape": 5.7,
+     "const_mape": 4.73,
+     "lookup_mape": 3.67,
+     "n_points": 11,
+     "n_lookup_points": 9,
+     "paired_model_minus_const": [
+      1.85,
+      -1.3,
+      1.9,
+      1.53,
+      -0.89,
+      1.48,
+      2.94,
+      3.52,
+      -1.65,
+      -2.22,
+      3.52
+     ]
+    },
     "model_macro_mape": 6.47,
     "const_macro_mape": 6.46,
     "skill_vs_const": -0.003
    },
    "Arabica:5CQA": {
+    "C": {
+     "model_mape": 17.99,
+     "const_mape": 22.36,
+     "lookup_mape": 21.74,
+     "n_points": 11,
+     "n_lookup_points": 9,
+     "paired_model_minus_const": [
+      -5.49,
+      -10.52,
+      -1.98,
+      -5.55,
+      -2.36,
+      8.96,
+      -5.35,
+      -2.32,
+      -10.29,
+      -3.71,
+      -9.47
+     ]
+    },
+    "F": {
+     "model_mape": 6.97,
+     "const_mape": 5.57,
+     "lookup_mape": 7.09,
+     "n_points": 11,
+     "n_lookup_points": 9,
+     "paired_model_minus_const": [
+      1.39,
+      -0.93,
+      2.73,
+      2.7,
+      0.92,
+      1.4,
+      1.4,
+      2.64,
+      0.86,
+      -0.65,
+      2.97
+     ]
+    },
     "model_macro_mape": 12.48,
     "const_macro_mape": 13.96,
     "skill_vs_const": 0.106
    },
    "Robusta:caffeine": {
+    "C": {
+     "model_mape": 8.64,
+     "const_mape": 8.62,
+     "lookup_mape": 12.45,
+     "n_points": 11,
+     "n_lookup_points": 9,
+     "paired_model_minus_const": [
+      0.06,
+      -0.05,
+      0.06,
+      0.08,
+      -0.05,
+      0.14,
+      -0.0,
+      -0.09,
+      -0.04,
+      0.01,
+      0.04
+     ]
+    },
+    "F": {
+     "model_mape": 6.53,
+     "const_mape": 6.34,
+     "lookup_mape": 6.02,
+     "n_points": 11,
+     "n_lookup_points": 9,
+     "paired_model_minus_const": [
+      0.3,
+      0.49,
+      -0.1,
+      0.33,
+      0.59,
+      0.09,
+      -0.12,
+      0.33,
+      -0.55,
+      0.47,
+      0.26
+     ]
+    },
     "model_macro_mape": 7.59,
     "const_macro_mape": 7.48,
     "skill_vs_const": -0.014
    },
    "Robusta:trigonelline": {
+    "C": {
+     "model_mape": 8.03,
+     "const_mape": 7.73,
+     "lookup_mape": 10.63,
+     "n_points": 11,
+     "n_lookup_points": 9,
+     "paired_model_minus_const": [
+      0.55,
+      0.69,
+      0.21,
+      1.11,
+      -1.14,
+      0.88,
+      0.01,
+      0.17,
+      -0.29,
+      -0.06,
+      1.11
+     ]
+    },
+    "F": {
+     "model_mape": 6.72,
+     "const_mape": 7.13,
+     "lookup_mape": 6.18,
+     "n_points": 11,
+     "n_lookup_points": 9,
+     "paired_model_minus_const": [
+      -0.65,
+      -0.77,
+      -0.61,
+      -1.16,
+      -1.33,
+      -1.08,
+      0.19,
+      0.27,
+      0.32,
+      0.66,
+      -0.36
+     ]
+    },
     "model_macro_mape": 7.38,
     "const_macro_mape": 7.43,
     "skill_vs_const": 0.007
    },
    "Robusta:5CQA": {
+    "C": {
+     "model_mape": 9.87,
+     "const_mape": 9.84,
+     "lookup_mape": 25.89,
+     "n_points": 11,
+     "n_lookup_points": 9,
+     "paired_model_minus_const": [
+      0.39,
+      1.05,
+      -0.62,
+      0.69,
+      -1.16,
+      -0.27,
+      0.05,
+      0.7,
+      -0.97,
+      -0.5,
+      0.94
+     ]
+    },
+    "F": {
+     "model_mape": 7.35,
+     "const_mape": 8.05,
+     "lookup_mape": 14.21,
+     "n_points": 11,
+     "n_lookup_points": 9,
+     "paired_model_minus_const": [
+      -1.24,
+      -1.61,
+      1.05,
+      -1.54,
+      -1.96,
+      -1.1,
+      0.81,
+      -1.19,
+      1.52,
+      -0.85,
+      -1.52
+     ]
+    },
     "model_macro_mape": 8.61,
     "const_macro_mape": 8.95,
     "skill_vs_const": 0.037
@@ -338,39 +2199,115 @@
   "resampling": {
    "cond_in_variety": {
     "unit": "cond_in_variety",
+    "role": "primary_conservative_sensitivity",
     "n_clusters": 26,
+    "n_strata": 2,
     "observed_mean_delta_pp": -0.394,
-    "percentile_range_pp": [
-     -0.825,
-     0.0
-    ],
-    "excludes_zero": false,
-    "nearest_bound_to_zero_pp": 0.0,
-    "interval_kind": "clustered percentile sensitivity range (not a calibrated 95% CI)"
+    "interval": {
+     "kind": "fixed_predictor_clustered_percentile_sensitivity_range",
+     "full_precision_pp": {
+      "lower": -0.8290522506458629,
+      "upper": 0.003790518393922992
+     },
+     "contains_zero_full_precision": true,
+     "excludes_zero_full_precision": false,
+     "signed_nearest_bound_to_zero_pp": 0.0,
+     "width_pp": 0.8328427690397858,
+     "display": {
+      "digits": 3,
+      "lower": -0.829,
+      "upper": 0.004,
+      "text": "[−0.829, +0.004]",
+      "touches_zero": true
+     }
+    },
+    "B": 1000000,
+    "seed": 0,
+    "interval_kind": "fixed_predictor_clustered_percentile_sensitivity_range"
+   },
+   "sample_in_variety_grind": {
+    "unit": "sample_in_variety_grind",
+    "role": "design_aligned_secondary_sensitivity",
+    "n_clusters": 44,
+    "n_strata": 4,
+    "observed_mean_delta_pp": -0.394,
+    "interval": {
+     "kind": "fixed_predictor_clustered_percentile_sensitivity_range",
+     "full_precision_pp": {
+      "lower": -0.742422754409205,
+      "upper": -0.053051452935327315
+     },
+     "contains_zero_full_precision": false,
+     "excludes_zero_full_precision": true,
+     "signed_nearest_bound_to_zero_pp": -0.053051452935327315,
+     "width_pp": 0.6893713014738777,
+     "display": {
+      "digits": 3,
+      "lower": -0.742,
+      "upper": -0.053,
+      "text": "[−0.742, −0.053]",
+      "touches_zero": false
+     }
+    },
+    "B": 1000000,
+    "seed": 0,
+    "interval_kind": "fixed_predictor_clustered_percentile_sensitivity_range"
    },
    "cond_in_group": {
     "unit": "cond_in_group",
+    "role": "secondary_sensitivity",
     "n_clusters": 78,
+    "n_strata": 6,
     "observed_mean_delta_pp": -0.394,
-    "percentile_range_pp": [
-     -0.742,
-     -0.044
-    ],
-    "excludes_zero": true,
-    "nearest_bound_to_zero_pp": 0.0437,
-    "interval_kind": "clustered percentile sensitivity range (not a calibrated 95% CI)"
+    "interval": {
+     "kind": "fixed_predictor_clustered_percentile_sensitivity_range",
+     "full_precision_pp": {
+      "lower": -0.7402068662322748,
+      "upper": -0.038666577202542365
+     },
+     "contains_zero_full_precision": false,
+     "excludes_zero_full_precision": true,
+     "signed_nearest_bound_to_zero_pp": -0.038666577202542365,
+     "width_pp": 0.7015402890297324,
+     "display": {
+      "digits": 3,
+      "lower": -0.74,
+      "upper": -0.039,
+      "text": "[−0.740, −0.039]",
+      "touches_zero": false
+     }
+    },
+    "B": 1000000,
+    "seed": 0,
+    "interval_kind": "fixed_predictor_clustered_percentile_sensitivity_range"
    },
    "group": {
     "unit": "group",
+    "role": "secondary_coarse_sensitivity",
     "n_clusters": 6,
+    "n_strata": 1,
     "observed_mean_delta_pp": -0.394,
-    "percentile_range_pp": [
-     -0.883,
-     -0.024
-    ],
-    "excludes_zero": true,
-    "nearest_bound_to_zero_pp": 0.0245,
-    "interval_kind": "clustered percentile sensitivity range (not a calibrated 95% CI)"
+    "interval": {
+     "kind": "fixed_predictor_clustered_percentile_sensitivity_range",
+     "full_precision_pp": {
+      "lower": -0.8634184737008594,
+      "upper": -0.024492733140033973
+     },
+     "contains_zero_full_precision": false,
+     "excludes_zero_full_precision": true,
+     "signed_nearest_bound_to_zero_pp": -0.024492733140033973,
+     "width_pp": 0.8389257405608255,
+     "display": {
+      "digits": 3,
+      "lower": -0.863,
+      "upper": -0.024,
+      "text": "[−0.863, −0.024]",
+      "touches_zero": false
+     }
+    },
+    "B": 1000000,
+    "seed": 0,
+    "interval_kind": "fixed_predictor_clustered_percentile_sensitivity_range"
    }
   },
   "off_grid_only": {
@@ -393,7 +2330,9 @@
  },
  "_provenance": {
   "producer": "puckworks.validation.slow.angeloni_bracket",
-  "source_commit": "d2073870fbab0fc72263469dcdae850221d1b0ce",
-  "command": "python scratchpad/run_corpus_contracts.py"
+  "command": "python tools/paper_a_transfer_artifacts.py --write",
+  "rng": "PCG64",
+  "canonical_B": 1000000,
+  "seed": 0
  }
 }

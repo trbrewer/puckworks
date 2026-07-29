@@ -93,10 +93,12 @@ _CLAIMS = [
     ("crude-tau flow map ~26.8%", "flow_map_refinement.overall_mape_crude_tau", 26.8, 0.05),
     ("refined Darcy flow map ~26.3%", "flow_map_refinement.overall_mape_refined_darcy", 26.3, 0.05),
     ("flow-map refinement closes ~0.5 pp", "flow_map_refinement.closed_pp", 0.5, 0.05),
-    # Endpoint-mass sensitivity (38 / 40 / 42 mL)
-    ("endpoint 38 mL blind MAPE ~23.8%",
+    # Endpoint-mass sensitivity at collected-mass targets (38 / 40 / 42 g). Round-8 P0-3:
+    # these labels said "mL" long after the round-7 correction established that the solver
+    # stops at a collected MASS. The numerals were right; the unit in the claim name was not.
+    ("endpoint 38 g blind MAPE ~23.8%",
      "endpoint_mass_sensitivity.rows.0.overall_mape_blind", 23.8, 0.05),
-    ("endpoint 42 mL blind MAPE ~28.8%",
+    ("endpoint 42 g blind MAPE ~28.8%",
      "endpoint_mass_sensitivity.rows.2.overall_mape_blind", 28.8, 0.05),
     ("endpoint MAPE spread ~5.0 pp",
      "endpoint_mass_sensitivity.overall_mape_spread_pp", 5.0, 0.05),

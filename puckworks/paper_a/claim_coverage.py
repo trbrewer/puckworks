@@ -83,9 +83,11 @@ CONFIG_CONSTANTS: dict[str, str] = {
     "0.15": "lower edge of the swept rate domain",
     "0.55": "lower edge of the inventory grid",
     "200": "axial nodes in the PDE discretisation",
+    "2.5": "resampling percentile probability, lower (per cent); the upper is 97.5",
+    "0.001": "display resolution implied by the Monte Carlo standard error (pp)",
     "1/3": "brew-ratio denominator",
-    "38": "endpoint-mass sensitivity target (mL)",
-    "42": "endpoint-mass sensitivity target (mL)",
+    "38": "endpoint-mass sensitivity target (g)",
+    "42": "endpoint-mass sensitivity target (g)",
     "25": "unmatched fixed observation window (s) used only as a contrast",
     "16": "rate-sweep span factor",
     "0.8": "swept rate at which the fraction minimum occurs",
@@ -203,12 +205,30 @@ SLOW_LANE_RESULTS: dict[str, str] = {
     "0.394": "endpoint propagation: paired model-minus-comparator difference at 40 g (pp)",
     "0.425": "endpoint propagation: paired model-minus-comparator difference at 42 g (pp)",
     "0.884": "endpoint propagation: 38 g primary (variety,T,p) clustered range, lower bound (pp)",
-    "0.046": "endpoint propagation: 38 g primary clustered range, upper bound (pp)",
-    "0.825": "endpoint propagation: 40 g primary clustered range, lower bound (pp)",
-    "0.890": "endpoint propagation: 42 g primary clustered range, lower bound (pp)",
-    "0.742": "endpoint propagation: 40 g conditions-within-group clustered range, lower bound (pp), secondary",
-    "0.044": "endpoint propagation: 40 g conditions-within-group clustered range, upper bound (pp), secondary",
-    "0.883": "endpoint propagation: 40 g whole-group clustered range, lower bound (pp), secondary",
+    "0.042": "endpoint propagation: 38 g primary clustered range, upper bound (pp)",
+        "0.829": "endpoint propagation: 40 g primary clustered range, lower bound (pp)",
+    # --- round-8: the resampling DESIGN and its Monte Carlo resolution ------------------------
+    # Cluster counts and percentile levels are declared design settings, not results; the widths
+    # and the Monte Carlo standard error are archived quantities the Methods and Table 5 quote.
+    "78": "resampling design: conditions-within-group clusters over the complete corpus",
+    "0.689": "endpoint propagation: 40 g sample-record clustered range width (pp)",
+    "0.702": "endpoint propagation: 40 g conditions-within-group clustered range width (pp)",
+    "0.833": "endpoint propagation: 40 g primary clustered range width (pp)",
+    "0.0038": "endpoint propagation: 40 g primary clustered range, signed upper bound at full "
+              "precision (pp) -- reliably positive, so the range contains zero",
+    "0.0005": "Monte Carlo standard error of a primary clustered bound at the canonical draw "
+              "count (pp), from the 20-seed stability audit",
+    "0.006": "endpoint propagation: 42 g primary clustered range, upper bound (pp)",
+    "0.004": "endpoint propagation: 40 g primary clustered range, upper bound (pp); also the "
+             "alternative-loss primary upper bound. Round-8 P1-2: reliably POSITIVE at the "
+             "canonical B, so the primary range contains zero at 40 g",
+    "0.891": "endpoint propagation: 42 g primary clustered range, lower bound (pp)",
+    "0.740": "endpoint propagation: 40 g conditions-within-group clustered range, lower bound (pp), secondary",
+    "0.742": "endpoint propagation: 40 g sample-record clustered range, lower bound (pp), secondary",
+    "0.053": "endpoint propagation: 40 g sample-record clustered range, upper bound (pp), secondary; "
+             "also the spread of the paired difference across 38/40/42 g (pp)",
+    "0.039": "endpoint propagation: 40 g conditions-within-group clustered range, upper bound (pp), secondary",
+    "0.863": "endpoint propagation: 40 g whole-group clustered range, lower bound (pp), secondary",
     "0.024": "endpoint propagation: 40 g whole-group clustered range, upper bound (pp), secondary",
     "61": "endpoint propagation: held-out points where the model is worse, at 38 g",
     "62": "endpoint propagation: held-out points where the model is worse, at 40 g",
@@ -216,8 +236,7 @@ SLOW_LANE_RESULTS: dict[str, str] = {
           "also the dissolved-solids trace span (s)",
     "49%": "unmatched fixed-25-s-window cross-grind comparison, upper end (%) -- the endpoint "
            "artefact the matched-mass contract removes",
-    "0.053": "endpoint propagation: spread of the paired difference across 38/40/42 g (pp)",
-    # near-optimal-set transfer: producer validate_refit_granulometry, archived in the figure
+        # near-optimal-set transfer: producer validate_refit_granulometry, archived in the figure
     # bundle as transfer.manifold_worst_heldout_mape / point_worst_heldout_mape.
     "21.8%": "near-optimal-set transfer: worst aggregate held-out C/F error across the declared "
              "10 % set (21.83 %)",
@@ -237,9 +256,8 @@ SLOW_LANE_RESULTS: dict[str, str] = {
     "0.393": "comparator loss robustness: paired difference under the log/relative level fit (pp)",
     "8.50%": "comparator loss robustness: model pooled MAPE under the alternative loss",
     "8.89%": "comparator loss robustness: comparator pooled MAPE under the alternative loss",
-    "0.827": "comparator loss robustness: alternative-loss primary clustered range, lower bound (pp)",
-    "0.002": "comparator loss robustness: alternative-loss primary clustered range, upper bound (pp)",
-    # --- PDE discretisation / solver-tolerance convergence (MC4.4) ------------------------------
+    "0.826": "comparator loss robustness: alternative-loss primary clustered range, lower bound (pp)",
+        # --- PDE discretisation / solver-tolerance convergence (MC4.4) ------------------------------
     # Producer: validation.slow.angeloni_bracket.numerical_convergence; archive:
     # docs/paper1_resource/PAPER_A_NUMERICAL_CONVERGENCE.json.
     "400": "PDE convergence: finest axial resolution swept (nodes)",
