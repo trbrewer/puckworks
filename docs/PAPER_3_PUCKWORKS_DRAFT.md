@@ -1251,8 +1251,8 @@ numeric_result:
   inverse_curvature_coupling: -0.994   # unit: ratio (geometric, not statistical)
   profile_fraction_of_log_grid: 0.76   # unit: fraction of tested log-rate grid
   sse_mape_threshold_jaccard: 0.86   # unit: Jaccard overlap (0-1)
-  held_out_model_mape: 8.23   # unit: % MAPE
-  held_out_const_mape: 8.59   # unit: % MAPE
+  held_out_model_mape: 8.44   # unit: % MAPE
+  held_out_const_mape: 8.83   # unit: % MAPE
 producer:
   module: puckworks.public.flat_valley
   function: pv03_values

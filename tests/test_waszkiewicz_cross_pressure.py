@@ -98,7 +98,11 @@ def test_table3_matches_its_producers():
 # --- P1.2 ------------------------------------------------------------------------------------
 def test_pressure_domains_separate_the_four_quantities():
     d = X.pressure_domains()
-    assert d["model_valid_pressure_range_bar"] == [1.0, 13.0]
+    # Renamed: nothing establishes model VALIDITY over this span, only that it was
+    # evaluated there (fifth review P2).
+    assert d["evaluated_pressure_range_bar"] == [1.0, 13.0]
+    assert "model_valid_pressure_range_bar" not in d, (
+        "the old name asserts a validity the campaign does not establish")
     # recorded basket pressure is BELOW nominal at every setting -- the conflation hazard
     gaps = d["nominal_minus_recorded_bar"]
     assert all(v > 0 for v in gaps.values()), gaps

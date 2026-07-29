@@ -10,10 +10,14 @@ from puckworks.validation.slow import angeloni_bracket as ab
 
 
 def test_matched_bounds_is_mass_consistent():
-    """t_end = 40 mL / flow, integrated from 0 (review B1/MAJ-08/MAJ-09)."""
-    assert ab._V_TARGET_ML == 40.0
+    """t_end = 40 g / flow, integrated from 0 (review B1/MAJ-08/MAJ-09; round-7 P0-2).
+
+    The source flow column is published in mL/s but consumed by the source model as g/s, so
+    dividing a target by it returns the time at which that many GRAMS have been collected.
+    """
+    assert ab._M_TARGET_G == 40.0
     lo, hi = ab._matched_bounds(2.0)
-    assert lo == 0.0 and abs(hi - 20.0) < 1e-9        # 40 mL / 2 mL/s = 20 s
+    assert lo == 0.0 and abs(hi - 20.0) < 1e-9        # 40 g / 2 g/s = 20 s
     lo, hi = ab._matched_bounds(1.6)
     assert abs(hi - 25.0) < 1e-9                        # 40 / 1.6 = 25 s
 

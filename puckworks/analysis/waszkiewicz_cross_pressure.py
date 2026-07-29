@@ -143,7 +143,10 @@ def pressure_domains():
         max_nominal_recorded_gap_bar=round(float(max(abs(v) for v in deficit.values())), 3),
         fitted_equilibrium_P_c_bar=round(float(P_c), 3),
         fitted_equilibrium_Q_c_g_per_s=round(float(Q_c), 3),
-        model_valid_pressure_range_bar=[float(min(nominal)), float(max(nominal))],
+        # Renamed from `model_valid_pressure_range_bar` (fifth review P2). Nothing here
+        # establishes model VALIDITY over this span; it is the range the campaign
+        # evaluated. The old name asserted a property the data does not support.
+        evaluated_pressure_range_bar=[float(min(nominal)), float(max(nominal))],
         primary_analysis_pressure_bar=9.0,
         primary_analysis_recorded_bar=round(recorded[9.0], 3),
         n_pressures_at_or_above_P_c=int(sum(1 for p in nominal if p >= float(P_c))),

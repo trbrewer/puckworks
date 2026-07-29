@@ -214,10 +214,11 @@ We submit for your consideration our manuscript, "{_one_line(fm['title'])}", as 
 
 The manuscript's central result is deliberately a negative one, and we believe it is the more
 useful for that: a mechanistic espresso extraction model recalibrated to whole-cup observations
-predicted held-out coarse- and fine-grind cups with 8.2 % pooled mean absolute percentage error,
-against 8.6 % for a trained level-only baseline — a paired difference of −0.36 percentage points
-whose primary clustered percentile range crosses zero, with the mechanistic model worse on 50 of
-108 held-out points. Acceptable endpoint accuracy therefore did not establish resolvable
+predicted the complete held-out coarse- and fine-grind corpus (44 records, 132 named-solute
+observations) with 8.4 % pooled mean absolute percentage error, against 8.8 % for a trained
+level-only comparator — a paired difference of −0.394 percentage points whose primary clustered
+percentile range reaches zero at its upper bound, with the mechanistic model worse on 62 of
+132 held-out points. Acceptable endpoint accuracy therefore did not establish resolvable
 mechanistic skill. Time-resolved observations of the same system retained substantially stronger
 information about the extraction rate.
 

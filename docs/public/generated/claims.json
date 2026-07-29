@@ -38,7 +38,7 @@
     "compares_grinder_dials": false,
     "source_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
     "generated_from_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
-    "last_verified_against_commit": "8631ee7fc3338e16d85c5bdaa838d58524e9e28c",
+    "last_verified_against_commit": "d2073870fbab0fc72263469dcdae850221d1b0ce",
     "payload_sha256": "64faddd5fa2902f5ea4af57c11e32eeaca6212840678d1e24dc1e65398f31412",
     "dependencies": [
       {
@@ -150,7 +150,7 @@
     "compares_grinder_dials": false,
     "source_commit": "8631ee7fc3338e16d85c5bdaa838d58524e9e28c",
     "generated_from_commit": "8631ee7fc3338e16d85c5bdaa838d58524e9e28c",
-    "last_verified_against_commit": "8631ee7fc3338e16d85c5bdaa838d58524e9e28c",
+    "last_verified_against_commit": "d2073870fbab0fc72263469dcdae850221d1b0ce",
     "payload_sha256": "6de2185dade07414a2c68e4644bc4a855c19130c309f2a45d4b8b8631f3c7797",
     "dependencies": [
       {
@@ -342,7 +342,7 @@
     "compares_grinder_dials": true,
     "source_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
     "generated_from_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
-    "last_verified_against_commit": "8631ee7fc3338e16d85c5bdaa838d58524e9e28c",
+    "last_verified_against_commit": "d2073870fbab0fc72263469dcdae850221d1b0ce",
     "payload_sha256": "f9ae59a53f628bfcb723beba27d9e26ceab390cc041e2f5254b9482e21da8177",
     "dependencies": [
       {
@@ -426,7 +426,7 @@
     "compares_grinder_dials": false,
     "source_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
     "generated_from_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
-    "last_verified_against_commit": "8631ee7fc3338e16d85c5bdaa838d58524e9e28c",
+    "last_verified_against_commit": "d2073870fbab0fc72263469dcdae850221d1b0ce",
     "payload_sha256": "88aaa35beb0539a18ede56d8e8eb9b6e5d72f789d01d0e81a3d7c40f894d3935",
     "dependencies": [
       {
@@ -590,11 +590,11 @@
       "inverse_curvature_coupling": -0.994,
       "profile_fraction_of_log_grid": 0.76,
       "sse_mape_threshold_jaccard": 0.86,
-      "held_out_model_mape": 8.23,
-      "held_out_const_mape": 8.59,
-      "n_model_worse_than_const": 50,
-      "n_points": 108,
-      "skill_vs_const": 0.042,
+      "held_out_model_mape": 8.44,
+      "held_out_const_mape": 8.83,
+      "n_model_worse_than_const": 62,
+      "n_points": 132,
+      "skill_vs_const": 0.045,
       "table7_implied_rate": 0.95
     },
     "units": {
@@ -634,10 +634,10 @@
       "kwargs": {}
     },
     "compares_grinder_dials": false,
-    "source_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
-    "generated_from_commit": "352dacd51015d95a3b5a5b3e1a8fb331419d78b0",
-    "last_verified_against_commit": "8631ee7fc3338e16d85c5bdaa838d58524e9e28c",
-    "payload_sha256": "65279a72e734d3279ed0427d27d9910bc170f59ec4a94a624d09cc9253187830",
+    "source_commit": "d2073870fbab0fc72263469dcdae850221d1b0ce",
+    "generated_from_commit": "d2073870fbab0fc72263469dcdae850221d1b0ce",
+    "last_verified_against_commit": "d2073870fbab0fc72263469dcdae850221d1b0ce",
+    "payload_sha256": "a5d9b4a5b3497a96ec983511b46c92a9723032a9a1f5b9752aabe52ee3a21cd5",
     "dependencies": [
       {
         "ref": "pannusch2024.solver",

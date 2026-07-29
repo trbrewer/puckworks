@@ -396,8 +396,8 @@ PUBLIC_CLAIMS = [
         numeric_result={
             "condition_number": 1927.0, "inverse_curvature_coupling": -0.994,
             "profile_fraction_of_log_grid": 0.76, "sse_mape_threshold_jaccard": 0.86,
-            "held_out_model_mape": 8.23, "held_out_const_mape": 8.59,
-            "n_model_worse_than_const": 50, "n_points": 108, "skill_vs_const": 0.042,
+            "held_out_model_mape": 8.44, "held_out_const_mape": 8.83,
+            "n_model_worse_than_const": 62, "n_points": 132, "skill_vs_const": 0.045,
             "table7_implied_rate": 0.95},
         units={
             "condition_number": "ratio",

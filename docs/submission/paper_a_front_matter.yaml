@@ -48,22 +48,22 @@ abstract: >-
   Whole-cup espresso measurements can be predicted accurately even when extractable content and
   extraction rate are weakly separated. We examined a multi-solute extraction model calibrated to
   fraction-resolved data, then recalibrated to optimal-grind whole-cup observations. Predictions
-  used a 40 mL proxy for the reported 40 g beverage endpoint. At each mass-transfer-rate
+  were evaluated at a matched 40 g beverage endpoint. At each mass-transfer-rate
   multiplier, a multiplicative inventory level was re-estimated and the objective profiled. In the
   illustrative caffeine panel the minimum was interior, but its 10 %-near-optimal set reached the
-  upper tested boundary. Across six solute-by-variety panels and three objective families,
-  near-optimal sets were broad and reached a boundary in 16 of 18 cases. After optimal-grind
-  calibration, coarse- and fine-grind predictions had 8.2 % pooled MAPE, versus 8.6 % for a
-  concentration-only baseline. The paired difference was −0.36 percentage points; the primary
-  clustered percentile range (−0.725 to +0.027) crossed zero, and the model was worse on 50 of 108
-  held-out points. Acceptable endpoint prediction therefore gave no resolvable skill beyond a
+  upper tested boundary. Across six panels and three objective families, near-optimal sets were
+  broad and reached a boundary in 16 of 18 cases. After optimal-grind
+  calibration, predictions on the complete held-out coarse- and fine-grind corpus (132
+  observations) had 8.4 % pooled MAPE, versus 8.8 % for a concentration-only comparator. The paired
+  difference was −0.394 percentage points; the primary clustered percentile range (−0.825 to
+  +0.000) reached zero, and the model was worse on 62 of 132 points. Acceptable endpoint prediction therefore gave no resolvable skill beyond a
   transferred concentration level. Fraction-resolved observations produced sharper rate profiles
   than aggregated or simulated whole-cup ones. An external dissolved-solids trajectory retained
-  only a shallow, high-error, loss-dependent preference; a single cup was uninformative by
+  only a shallow, high-error, loss-dependent preference; one cup was uninformative by
   construction. Matched endpoints are therefore necessary but insufficient: parameter
   localization, prediction error, benchmark skill, and cross-context evidence should be reported
-  separately. Propagating the endpoint proxy through the whole benchmark left the difference
-  between −0.36 and −0.42 points, but whether its range excluded zero was endpoint-dependent.
+  separately. Propagating the declared ±2 g collection tolerance left the difference between
+  −0.394 and −0.447 points, its range bounded on or beside zero throughout.
 # Third review, front-matter section: `profile objective` is repository vocabulary and a poor
 # indexing term; `model transfer` and `porous media` were package-only. Six terms, within the
 # venue's limit of seven.
@@ -93,7 +93,7 @@ editor_significance: >-
   inventory, and that a mechanistic model can achieve acceptable held-out error while adding no
   resolvable skill over a trained level-only baseline. It also demonstrates a reporting workflow
   that separates parameter localization from held-out prediction and from incremental skill over a
-  null. The result bears directly on experimental design for extraction, leaching, dissolution and
+  level-only comparator. The result bears directly on experimental design for extraction, leaching, dissolution and
   other food processes in which integrated product measurements can conceal internal transport-rate
   uncertainty.
 

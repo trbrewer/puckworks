@@ -20,7 +20,7 @@ from __future__ import annotations
 import json
 import os
 
-from .figures import _plt, _save, INK, ACCENT, NULL, GOOD, WARN, BAD, GRID
+from .figures import _plt, _save, INK, ACCENT, NULL, GOOD, WARN, BAD
 
 OUTDIR = "docs/figures/paper_a"
 RESULTS = os.path.join(OUTDIR, "results.json")
@@ -58,7 +58,7 @@ def compute_all(out_path=RESULTS, resume=True):
         ("panel_trigonelline", lambda: ab.identifiability_panel("Arabica", "trigonelline")),
         ("identifiability_convergence", ab.identifiability_panel_convergence),  # A2-06/07 + MAJ-04
         ("transfer", ab.validate_refit_granulometry),
-        ("transfer_skill", ab.transfer_skill_vs_baselines),   # A3-01 null-benchmark skill
+        ("transfer_skill", ab.transfer_skill_vs_baselines),   # A3-01 level-only comparator skill
         ("reduced_model_ladder", ab.reduced_model_ladder),    # A3-19 nested ladder
         ("joint", ab.joint_multigrind_fit),
         ("loco", ab.loco_cv_refit),
@@ -392,18 +392,28 @@ def fig3_holdouts(results=None, outdir=OUTDIR):
 
 
 def fig4_transfer(results=None, outdir=OUTDIR):
-    """Fig 4 — matched-volume O->C/F transfer with a NULL BENCHMARK (review A3-01/A3-05):
-    panels (a,b) observed vs predicted for held-out C and F; panel (c) the mechanistic
-    model's held-out MAPE against an O-trained level-only constant per fit x grind, with
-    the pooled skill. Neutral title; the central message is that the model barely beats
-    the constant."""
+    """Fig 4 — matched-mass O->C/F transfer against a LEVEL-ONLY COMPARATOR (review
+    A3-01/A3-05): panels (a,b) observed vs predicted for held-out C and F; panel (c) the
+    mechanistic model's held-out MAPE against an O-trained level-only constant per fit x
+    grind, with the pooled skill. Neutral title; the central message is that the model
+    barely beats the constant.
+
+    Round-7 P0-2/P2-4. The endpoint label is read from the producer's typed
+    `m_target_g` field rather than hand-authored into the title — the previous version
+    carried "40 mL matched-volume proxy" in the image itself, which survived every
+    numeral check because the token "40" was correct. The layout is also repaired: a short
+    title, legends outside the data area, and the envelope explanation in the caption
+    rather than competing with the points."""
     import numpy as np
     r = _load(results); plt = _plt()
     pts = r["transfer"]["points"]
     envs = r["transfer"].get("condition_envelopes", {})
     ts = r.get("transfer_skill")
-    fig, axes = plt.subplots(1, 3, figsize=(13.2, 4.3),
+    # typed endpoint metadata -> label. No hand-authored unit anywhere in this figure.
+    endpoint = ("matched %g g cup" % ts["m_target_g"]) if ts and "m_target_g" in ts else None
+    fig, axes = plt.subplots(1, 3, figsize=(13.6, 4.6),
                              gridspec_kw=dict(width_ratios=[1, 1, 1.25]))
+    handles = None
     for ax, g in zip(axes[:2], ("C", "F")):
         mx = 0
         for variety in ("Arabica", "Robusta"):
@@ -424,19 +434,16 @@ def fig4_transfer(results=None, outdir=OUTDIR):
                            label=f"{sol} ({variety[:3]})")
                 mx = max([mx] + obs + pred)
         ax.plot([0, mx * 1.1], [0, mx * 1.1], color=NULL, ls=":", lw=1.2)
-        ax.set_title("(%s) grind %s — point + profile-set envelope"
-                     % ("a" if g == "C" else "b", g), fontsize=8.5)
+        ax.set_title("(%s) grind %s" % ("a" if g == "C" else "b", g), fontsize=9)
         ax.set_xlabel("observed (g L$^{-1}$)"); ax.set_ylabel("predicted (g L$^{-1}$)")
-        ax.legend(fontsize=6, loc="upper left", ncol=2)
-    # A-32/MC35: state the range semantics explicitly so the vertical bars are not read
-    # as statistical uncertainty.
-    axes[0].text(0.035, 0.98,
-                 "vertical bar = min–max prediction across the discrete\n"
-                 "10 %-MAPE objective-tolerance set (deterministic;\n"
-                 "NOT a confidence / prediction interval)",
-                 transform=axes[0].transAxes, va="top", ha="left", fontsize=6.0,
-                 color=INK, bbox=dict(boxstyle="round", fc="white", ec=GRID, alpha=0.85))
-    # (c) model vs O-trained-constant baseline: paired MAPE per fit x grind
+        if handles is None:
+            handles = ax.get_legend_handles_labels()
+    # P2-4: one shared legend BELOW the data area, so nothing overlaps the points, and the
+    # envelope semantics move to the caption rather than an in-axes annotation box.
+    if handles:
+        fig.legend(*handles, loc="lower center", ncol=6, fontsize=7, frameon=False,
+                   bbox_to_anchor=(0.36, -0.06))
+    # (c) model vs the O-trained level-only comparator: paired MAPE per fit x grind
     axc = axes[2]
     if ts is not None:
         labels, model_v, const_v = [], [], []
@@ -446,21 +453,22 @@ def fig4_transfer(results=None, outdir=OUTDIR):
                 labels.append(f"{var[:3]}:{sol[:4]}:{g}")
                 model_v.append(x[g]["model_mape"]); const_v.append(x[g]["const_mape"])
         idx = np.arange(len(labels)); w = 0.4
-        axc.barh(idx - w / 2, const_v, w, color=NULL, label="O-trained constant")
+        axc.barh(idx - w / 2, const_v, w, color=NULL, label="O-trained level-only comparator")
         axc.barh(idx + w / 2, model_v, w, color=ACCENT, label="mechanistic model")
         axc.set_yticks(idx); axc.set_yticklabels(labels, fontsize=5.6)
         axc.invert_yaxis()
-        axc.set_xlabel("held-out MAPE (%)")
-        axc.set_title("(c) model vs null baseline — pooled skill %.0f%%"
+        # The count belongs with the axis it qualifies, not floating over the bars: the previous
+        # version put it in the data area where it collided with the legend (round-7 P2-4).
+        axc.set_xlabel("held-out MAPE (%%) — model worse than comparator on %d of %d points"
+                       % (ts["n_model_worse_than_const"], ts["n_points"]), fontsize=7.5)
+        axc.set_title("(c) model vs level-only comparator — pooled skill %.0f%%"
                       % (100 * ts["skill_vs_const"]), fontsize=9)
-        axc.legend(fontsize=6.5, loc="lower right")
-        axc.text(0.97, 0.30, "model worse than\nconstant on %d/%d points"
-                 % (ts["n_model_worse_than_const"], ts["n_points"]),
-                 transform=axc.transAxes, ha="right", va="bottom", fontsize=6.2,
-                 color=BAD)
-    fig.suptitle("Within-campaign cross-grind prediction vs an optimal-grind "
-                 "level-only baseline (40 mL matched-volume proxy for the 40 g endpoint)",
-                 y=1.02, fontsize=9.6, fontweight="bold")
+        axc.set_xlim(0, max(model_v + const_v) * 1.34)   # room for the legend, no overlap
+        axc.legend(fontsize=6.5, loc="lower right", framealpha=0.95)
+    title = "Within-campaign cross-grind prediction vs a level-only comparator"
+    if endpoint:
+        title += f" ({endpoint})"
+    fig.suptitle(title, y=1.02, fontsize=9.6, fontweight="bold")
     return _save(fig, outdir, "fig4_transfer.png")
 
 
@@ -682,7 +690,7 @@ def fig7_per_group_diagnostics(results=None, outdir=OUTDIR):
                  "not a temporal trajectory)", fontsize=8.5)
     fig.suptitle("Per-group blind and inventory-matched errors, with "
                  "cross-condition model–data association (n=9 O conditions/group; "
-                 "40 mL proxy endpoint)", y=1.02, fontsize=9.0, fontweight="bold")
+                 "matched 40 g endpoint)", y=1.02, fontsize=9.0, fontweight="bold")
     return _save(fig, outdir, "fig7_per_group_diagnostics.png")
 
 

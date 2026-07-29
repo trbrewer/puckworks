@@ -106,3 +106,24 @@ def test_paper_3_generated_blocks_are_current():
     from puckworks.paper3 import availability, corpus
     assert corpus.splice(write_it=False) == ""
     assert availability.splice(write_it=False) == ""
+
+
+@pytest.mark.parametrize("name", list(PAPERS), ids=list(PAPERS))
+def test_no_control_characters_corrupt_the_latex(name):
+    """A tab inside a maths block is a mangled LaTeX command, and it renders as garbage.
+
+    Paper B2 carried `Q_{<TAB>ext{cub}}` -- `\\text` in which the backslash-t had been interpreted
+    as a literal tab, presumably by a substitution that did not escape it. It rendered visibly
+    wrong in the equation defining the cubic comparator, and survived five reviews because no check
+    looks at character classes: every content check asks whether the prose is CORRECT, and this is
+    a question of whether it is well-FORMED.
+    """
+    text = PAPERS[name].read_text(encoding="utf-8")
+    for label, ch in (("tab", "\t"), ("backspace", "\b"),
+                      ("form feed", "\f"), ("carriage return", "\r"),
+                      ("vertical tab", "\v")):
+        if ch in text:
+            i = text.index(ch)
+            raise AssertionError(
+                f"{name}: {label} character at offset {i} -- {text[max(0,i-40):i+20]!r}. "
+                f"In a maths block this is a LaTeX command whose backslash was eaten")

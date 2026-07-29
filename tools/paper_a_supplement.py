@@ -78,9 +78,10 @@ continuously observed data under a given observation map. It is a property of th
 observation map alone, decided analytically, and it is not what this paper measures.
 
 *Practical* identifiability asks whether the parameters are localized by the data actually
-available: a finite design, finite noise, a chosen objective and a bounded parameter domain. A
-model can be structurally identifiable and practically non-identifiable, which is the situation
-studied here. Because a practical statement is conditional on all four of those, every such claim
+available: a finite design, finite noise, a chosen objective and a bounded parameter domain. This
+paper evaluates practical localization only. Structural identifiability of the full model under the
+relevant observation maps is not assessed, and nothing here should be read as a claim about it in
+either direction. Because a practical statement is conditional on all four of those, every such claim
 in this paper is scoped to the tested model, observation map, parameter domain and objective, and
 the formal term is used only as shorthand for that scoped statement.
 
@@ -96,15 +97,22 @@ equivalent; the profile is reported directly rather than inferring localization 
 spectra.
 
 **The objective family.** The rate multiplier is profiled on a {rec['n_rate_grid']}-point geometric
-grid spanning {lo}–{hi}. At each grid point the solid-inventory level is the exact least-squares
-minimizer given the rate, so the profile is a one-dimensional section through the exact joint
-minimum rather than an alternating search. Three objectives are evaluated at every grid point:
+grid spanning {lo}–{hi}. At each candidate rate the solid-inventory level is optimized **for the
+objective being profiled**, not once under a common least-squares fit: ordinary least squares for
+the sum-of-squares objective, weighted least squares with weights \\(1/y_i^2\\) for relative-L2, and
+iteratively reweighted least squares (IRLS) for Huber. Each curve is therefore an objective-specific
+profile — a one-dimensional section through that objective's own joint minimum, rather than one
+least-squares section rescored under three different outer losses. Each level solve is exact for its
+objective (closed-form for the first two, converged IRLS for the third), so no alternating search is
+involved. Three objectives are evaluated at every grid point:
 
-1. *Unweighted concentration-scale sum of squares*, the primary objective.
+1. *Unweighted concentration-scale sum of squares*, the primary objective; level by ordinary least
+   squares, \\(c^\\ast = \\sum_i f_i y_i / \\sum_i f_i^2\\).
 2. *Relative L2*, which divides each residual by its observation, so every observation contributes
-   equally in proportional terms and small concentrations are not down-weighted.
+   equally in proportional terms and small concentrations are not down-weighted; level by weighted
+   least squares, \\(c^\\ast = \\sum_i w_i f_i y_i / \\sum_i w_i f_i^2\\) with \\(w_i = 1/y_i^2\\).
 3. *Huber*, with {rec['huber_delta_rule']}. This limits the influence of large residuals without
-   discarding them.
+   discarding them; level by IRLS, reweighting \\(w_i = \\min(1, \\delta/|r_i|)\\) to convergence.
 
 A near-optimal set at threshold t is the set of profiled grid points whose objective lies within a
 factor (1 + t) of the profiled minimum. Thresholds of 2, 5, 10 and 20 % are reported so that the
@@ -118,14 +126,24 @@ def methods_s2() -> str:
     rates = ", ".join(str(r) for r in ext["rates"])
     return f"""### Supplementary Methods S2
 
-**Endpoint-proxy and external-trajectory processing.**
+**Endpoint and external-trajectory processing.**
 
-*Endpoint proxy.* The source campaign reports beverage mass, not volume, and the model integrates
-to a volume. A fixed beverage volume is therefore used as the endpoint proxy at which model and
-measurement are compared. Because that proxy is a modelling choice rather than a measured quantity,
-every reported analysis is repeated at 38, 40 and 42 mL. This is a sensitivity analysis of the
-proxy choice; it is not propagation of a measured mass uncertainty, and the spread across the three
-endpoints should not be read as an uncertainty interval on any measurement.
+*Collection endpoint.* The source campaign reports a beverage **mass** of 40 ± 2 g, and the model
+stops at a matched collected mass: the integration terminates at `t_end = M_target / Q`, where `Q`
+is the source's flow column. That column is published in mL s⁻¹ but is consumed by the source model
+as a mass flow in g s⁻¹, so the stopping rule returns the time at which `M_target` **grams** have
+been collected. Density enters the solver when the flow is converted to a superficial velocity and
+when the outlet concentration is volume-averaged; it does not convert the stopping rule into a
+volume target. Every reported analysis is repeated at 38, 40 and 42 g, which is the campaign's own
+declared collection tolerance rather than an invented bracket. The spread across the three endpoints
+is a sensitivity analysis over that tolerance; it is not a propagated measurement uncertainty, and
+should not be read as an uncertainty interval on any measurement.
+
+One ambiguity is inherited rather than resolved. The source's flow column carries a volumetric label
+and a mass consumption, and the two cannot both be right. The source's arithmetic is preserved
+because every frozen parameter used here was estimated under it; if instead the published label is
+correct, the realised cup is about 2 % smaller than stated, which lies inside the ±2 g window swept
+above.
 
 Two distinct estimands are reported at the three endpoints, and they are kept apart deliberately.
 The first is the blind discrepancy of the source model at the optimal grind, which measures how far
@@ -133,7 +151,7 @@ an uncalibrated prediction sits from the measurement. The second is the complete
 of Supplementary Table S3: fit inventory and rate on the nine optimal-grind conditions at the
 endpoint, freeze the calibration, predict every held-out coarse and fine observation at the same
 endpoint, refit the level-only comparator at the same endpoint, and repeat the paired clustered
-resampling. An endpoint-induced shift common to both predictors cancels in the model-minus-null
+resampling. An endpoint-induced shift common to both predictors cancels in the model-minus-comparator
 contrast even when it materially moves the blind residual, so a single reported sensitivity would
 be misleading for one estimand or the other.
 
@@ -234,8 +252,9 @@ def table_s1() -> str:
 **Fitted parameters and boundary flags for every solute × variety panel.**
 
 The rate multiplier is profiled over {lo}–{hi} on a {n}-point geometric grid under the primary
-unweighted sum-of-squares objective; the solid-inventory level at each rate is the exact
-least-squares minimizer. "Minimum on boundary" flags a panel whose profiled optimum sits at an edge
+unweighted sum-of-squares objective; the solid-inventory level at each rate is the ordinary
+least-squares minimizer for that objective (the other two objectives use their own level solvers —
+see Supplementary Methods S1). "Minimum on boundary" flags a panel whose profiled optimum sits at an edge
 of the tested domain, in which case the point estimate is a property of the domain. The 10 %
 near-optimal range is likewise censored where it reaches an edge.
 
@@ -311,48 +330,119 @@ not.
 
 # ── Supplementary Table S3: endpoint propagation ───────────────────────────────────────────────
 def table_s3() -> str:
+    """Round-7 P1-6: main table, SI table and reading are rendered from ONE canonical record at
+    ONE precision. The reading is COMPOSED from the archived numbers rather than stored as prose
+    beside them, so it cannot drift from the table it reads."""
     rec = _load(ENDPOINT_JSON)
+
+    def _pair(v):
+        # `+ 0.0` normalises IEEE negative zero, so a bound that rounds to zero renders as
+        # "+0.000" rather than the nonsensical "-0.000". At the complete corpus two of the
+        # three endpoints have an upper bound that lands exactly there.
+        return [x + 0.0 for x in v]
+
     rows = []
     for r in rec["rows"]:
-        lo, hi = r["clustered_range_within_group"]
-        glo, ghi = r["clustered_range_whole_group"]
+        lo, hi = _pair(r["clustered_range_within_variety"])
+        slo, shi = _pair(r["clustered_range_within_group"])
+        glo, ghi = _pair(r["clustered_range_whole_group"])
         rows.append(
-            f"| {r['v_target_ml']:.0f} mL | {r['pooled_model_mape']:.2f} | "
+            f"| {r['m_target_g']:.0f} g | {r['pooled_model_mape']:.2f} | "
             f"{r['pooled_const_mape']:.2f} | {r['paired_difference_pp']:+.3f} | "
-            f"[{lo:+.2f}, {hi:+.2f}] | {'excludes 0' if not (lo <= 0 <= hi) else 'includes 0'} | "
-            f"[{glo:+.2f}, {ghi:+.2f}] | {r['n_model_worse_than_const']} of {r['n_points']} | "
+            f"[{lo:+.3f}, {hi:+.3f}] | {'excludes 0' if not (lo <= 0 <= hi) else 'includes 0'} | "
+            f"[{slo:+.3f}, {shi:+.3f}] | [{glo:+.3f}, {ghi:+.3f}] | "
+            f"{r['n_model_worse_than_const']} of {r['n_points']} | "
             f"{r['skill_vs_const']:.3f} |")
     per_group = []
     for r in rec["rows"]:
         for g, v in sorted(r["per_fit"].items()):
             per_group.append(
-                f"| {r['v_target_ml']:.0f} mL | {g} | {v['model_macro_mape']:.2f} | "
+                f"| {r['m_target_g']:.0f} g | {g} | {v['model_macro_mape']:.2f} | "
                 f"{v['const_macro_mape']:.2f} | "
                 f"{v['model_macro_mape'] - v['const_macro_mape']:+.2f} |")
 
+    # ── the reading, composed from the record ──────────────────────────────────────────────
+    by_ep = {int(r["m_target_g"]): r for r in rec["rows"]}
+    diffs = [r["paired_difference_pp"] for r in rec["rows"]]
+    worse = sorted(r["n_model_worse_than_const"] for r in rec["rows"])
+    npts = {r["n_points"] for r in rec["rows"]}
+    excl = [e for e, r in sorted(by_ep.items())
+            if not (r["clustered_range_within_variety"][0] <= 0
+                    <= r["clustered_range_within_variety"][1])]
+    incl = [e for e in sorted(by_ep) if e not in excl]
+
+    def rng(e):
+        lo, hi = _pair(by_ep[e]["clustered_range_within_variety"])
+        return f"[{lo:+.3f}, {hi:+.3f}]"
+
+    def _list(xs, unit="g"):
+        xs = [f"{x} {unit}" for x in xs]
+        return xs[0] if len(xs) == 1 else ", ".join(xs[:-1]) + " and " + xs[-1]
+
+    reading = (
+        f"The effect size is stable: {min(diffs):+.3f} to {max(diffs):+.3f} pp across 38, 40 and "
+        f"42 g, a spread of {max(diffs) - min(diffs):.3f} pp. That is an order of magnitude "
+        "smaller than the ≈ 5 pp movement in the blind optimal-grind residual over the same "
+        "endpoints, which is what one expects when both predictors are re-derived at each "
+        "endpoint so that a shift common to both cancels. The sign never changes and the model "
+        f"remains worse on roughly half the held-out points ({worse[0]}–{worse[-1]} of "
+        f"{sorted(npts)[0]}) at every endpoint. The inferential reading, however, is not "
+        "endpoint-invariant: the primary clustered percentile range — resampling "
+        "(variety, temperature, pressure) conditions, so that all three named solutes and both "
+        "held-out grinds move together — "
+        + (f"clears zero at {_list(excl)} ({', '.join(rng(e) for e in excl)}) "
+           f"and reaches it at {_list(incl)} ({', '.join(rng(e) for e in incl)})."
+           if excl and incl else
+           f"reaches zero at every endpoint ({', '.join(rng(e) for e in sorted(by_ep))}).")
+        + f" The nearest bound to zero across the three endpoints spans "
+        f"{min(r['nearest_bound_to_zero_pp'] for r in rec['rows']):.4f}–"
+        f"{max(r['nearest_bound_to_zero_pp'] for r in rec['rows']):.4f} pp, so the rows differ in "
+        "which side of zero they land on only at the third decimal place. Nothing is inferred from "
+        "that. The largest advantage any of these upper bounds admits is a small fraction of a "
+        "percentage point against pooled errors near 8.4 %, and the benchmark is reported as "
+        "unresolved throughout the declared tolerance rather than resolved at the one endpoint "
+        "whose bound happens to clear zero.")
+
+    const_mapes = {round(r["pooled_const_mape"], 2) for r in rec["rows"]}
+    note_on_comparator = (
+        f"The level-only comparator's pooled MAPE is {sorted(const_mapes)[0]:.2f} % at "
+        + ("ALL THREE endpoints" if len(const_mapes) == 1 else "each endpoint") +
+        ", and that is a correctness check rather than a coincidence: the comparator is fitted to "
+        "MEASURED concentrations, which do not depend on where the solver terminates. Only the "
+        "mechanistic predictor moves with the endpoint. If the comparator had moved too, the "
+        "pipeline would not be doing what this analysis claims.")
+
+    corpus = rec["corpus"]
     return f"""### Supplementary Table S3
 
-**Endpoint propagation: the complete transfer-versus-null benchmark at 38, 40 and 42 mL.**
+**Endpoint propagation: the complete transfer-versus-comparator benchmark at 38, 40 and 42 g.**
 
-For each endpoint proxy the whole procedure is repeated — fit inventory and rate on the nine
+For each endpoint the whole procedure is repeated — fit inventory and rate on the nine
 optimal-grind conditions at that endpoint, freeze the calibration, predict all held-out coarse and
-fine observations at the same endpoint, refit the optimal-grind-trained level-only constant at the
+fine observations at the same endpoint, refit the optimal-grind-trained level-only comparator at the
 same endpoint, and repeat the primary clustered resampling of the paired loss. Processing is
 described in Supplementary Methods S2.
 
-| endpoint | model pooled MAPE (%) | level-only null (%) | paired difference (pp) | primary range, conditions within group (pp) | primary range excludes zero | secondary range, whole groups (pp) | model worse on | skill vs null |
-|---|---:|---:|---:|---:|---|---:|---:|---:|
+Corpus: {corpus['estimand']}, {corpus['n_held_out_records']} held-out records ×
+{corpus['n_solutes']} named solutes = {corpus['n_observations']} observations. Held-out record
+identifiers: {', '.join(corpus['held_out_sample_ids'])}.
+{("Coarse/fine records present in the corpus but not scored here: "
+  + ', '.join(corpus['excluded_sample_ids']) + " (" + corpus['excluded_reason'] + ")."
+  if corpus['excluded_sample_ids'] else "No coarse/fine record is excluded.")}
+
+| endpoint | model pooled MAPE (%) | level-only comparator (%) | paired difference (pp) | primary range, conditions within variety (pp) | primary range excludes zero | secondary range, conditions within group (pp) | secondary range, whole groups (pp) | model worse on | skill vs comparator |
+|---|---:|---:|---:|---:|---|---:|---:|---:|---:|
 {chr(10).join(rows)}
 
 **Per group.** Macro MAPE for each variety × solute group at each endpoint.
 
-| endpoint | group | model macro MAPE (%) | null macro MAPE (%) | difference (pp) |
+| endpoint | group | model macro MAPE (%) | comparator macro MAPE (%) | difference (pp) |
 |---|---|---:|---:|---:|
 {chr(10).join(per_group)}
 
-**Reading.** {rec['reading']}
+**Reading.** {reading}
 
-{rec['note_on_the_null']}
+{note_on_comparator}
 
 **Not the same quantity as the blind-residual sweep.** {rec['note']}
 """
@@ -412,7 +502,8 @@ trajectory, so the numerics producing that shape are load-bearing.
 Numerical scheme: {rec['scheme']}.
 
 Panel: {rec['panel']}, granulometry {rec['granulometry']}, {rec['n_conditions']} conditions.
-Deviations are measured against the finest cell tested.
+Deviations are measured against the finest cell tested. **Scope of this table:**
+{rec['reading_scope']}. Nothing outside that scope is certified by it.
 
 | axial nodes | rel/abs tolerance | whole cup | early | middle | late | rate at minimum | range ratio | dev. cup (%) | dev. late (%) | dev. range ratio (%) |
 |---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|

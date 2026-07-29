@@ -34,7 +34,7 @@ data (Pannusch et al. (2024), calibrated on the Schmieder kinetics) retains a un
 interpretation when refitted to an independent endpoint dataset (Angeloni et al. (2023); a
 different machine, coffee, and basket). Profiling the model's two adjustable knobs —
 a per-species solid **inventory** and a Sherwood mass-transfer **rate** scale —
-against cup concentrations at a **matched beverage endpoint** (a 40 mL matched-volume
+against cup concentrations at a **matched beverage endpoint** (a collected 40 g cup, the
 proxy for the 40 g cup) at a single grind reveals a strong **practical
 non-identifiability**: the rate is not separately estimable over the tested domain
 because the inventory compensates. On the SSE surface a local log-parameter Hessian is
@@ -45,14 +45,15 @@ more robustly, the profiled objective stays within 10 % of its minimum from ≈0
 the **upper tested rate boundary** (so its upper extent is **right-censored** by the
 domain, not closed), and a MAPE tolerance set overlaps the SSE set.
 Crucially, we report **parameter identifiability, predictive transfer, and incremental
-skill over a null model as separate properties**. Although the individual parameters are
+skill over a level-only comparator as separate properties**. Although the individual parameters are
 not identifiable, a calibration frozen on one grind produces held-out coarse/fine-grind
-absolute errors of **~3–18 %** at the point optimum. But absolute error alone does **not**
+absolute errors of **~6–18 %** at the point optimum. But absolute error alone does **not**
 establish mechanistic transfer skill: against an **O-trained level-only constant**
 baseline (a single concentration fit to the O grind, carrying no temperature/pressure/
-flow/kinetic response), the mechanistic model's pooled held-out MAPE is **8.2 %** versus
-**8.6 %** for the constant — an incremental skill of only **≈4 % relative (0.36 pp absolute)**, and the
-model is worse than the constant on **50 of 108 held-out points**. The kinetic/transport
+flow/kinetic response), the mechanistic model's pooled held-out MAPE over the complete
+coarse/fine corpus (44 records, 132 named-solute observations) is **8.4 %** versus
+**8.8 %** for the constant — an incremental skill of only **≈4.5 % relative (0.394 pp absolute)**, and the
+model is worse than the constant on **62 of 132 held-out points**. The kinetic/transport
 structure therefore adds little beyond the transferred level; the scientifically robust
 statement is that the fitted level-plus-rate pair does not catastrophically deteriorate
 across grinds, not that the mechanism transfers. Propagating the **discrete 10 %-near-
@@ -76,7 +77,7 @@ is matched by one profiled level at every rate), not an empirical no-information
 and the external trajectory minimum remains shallow and high-error (~27 % MAPE). The
 lesson is that a low endpoint error need not identify a mechanism, and need not even
 signal mechanistic transfer skill beyond a level-only baseline: identifiability,
-predictive transfer, endpoint accuracy, and incremental skill over a null model are
+predictive transfer, endpoint accuracy, and incremental skill over a level-only comparator are
 **distinct properties** that must be reported separately. A validation score is
 interpretable only when the model output is mapped to the **same observation window and
 endpoint** as the data.
@@ -232,8 +233,14 @@ liquid-phase concentration \(c_{l,i}(z,t)\) and solid-phase concentrations \(c_{
 = -\frac{6h_{sl2,i}}{\varphi_{v2} d_{s2}}\bigl(K_i c_{s2,i}-c_{l,i}\bigr),
 \]
 
-with interstitial velocity \(v_l = Q/(A_{cs}\alpha_l)\) set by the imposed volumetric flow
-\(Q\). Axial dispersion is not retained; transport is advective with the interphase transfer
+with **superficial (Darcy) velocity** \(u_s = Q/A_{cs}\) and **interstitial velocity**
+\(v_l = u_s/\alpha_l = Q/(A_{cs}\alpha_l)\), both set by the imposed volumetric flow \(Q\).
+The advective term above transports at \(v_l\), the velocity the liquid actually experiences in
+the pore space; the Reynolds number below is formed on \(u_s\), which is the source model's own
+convention. Getting that pairing wrong rescales \(Re\) by \(\alpha_l^{-2}\approx 35\), so we
+state it explicitly and pin it with a contract test rather than leaving it to be inferred.
+
+Axial dispersion is not retained; transport is advective with the interphase transfer
 terms above. The two grain classes **share** \(K_i\), the Sherwood *structure*, and the solute's
 diffusivity, and **differ** in representative size (\(d_{s1}\), \(d_{s2}\)), volume fraction
 (\(\alpha_{s1}\), \(\alpha_{s2}\)) and Sherwood coefficients (\(A_1,B_1\) vs \(A_2,B_2\));
@@ -244,7 +251,7 @@ The constitutive closures are a Sherwood correlation and a van 't Hoff partition
 \[
 Sh_{x,i} = A_{x,i}\,Re^{B_{x,i}}\,Sc_i^{1/3},\quad
 Sh_{x,i} = \frac{h_{slx,i} d_{32}}{D_i(T)},\quad
-Re = \frac{d_{32} v_l \rho(T)}{\alpha_l \eta(T)},\quad
+Re = \frac{d_{32} u_s \rho(T)}{\eta(T)} = \frac{d_{32}\alpha_l v_l \rho(T)}{\eta(T)},\quad
 Sc_i = \frac{\eta(T)}{\rho(T) D_i(T)},
 \]
 \[
@@ -271,7 +278,7 @@ rate multiplier by \(r^{2/3}\) — the very one-parameter family this paper prof
 the standard solvent term therefore leaves fit quality and profile geometry essentially unchanged
 (for the Arabica-caffeine panel: minimum MAPE 2.84 % either way, profile range ratio 1.43 versus
 1.45) while shifting the fitted rate multiplier by roughly a factor of two. The weak-localization
-result, the transfer-versus-null benchmark and the fraction-versus-cup contrast are unaffected; the
+result, the transfer-versus-comparator benchmark and the fraction-versus-cup contrast are unaffected; the
 **absolute value of the fitted rate multiplier is not physically interpretable as a
 diffusivity-anchored quantity**, and we do not report it as one. Supplementary Note S1 records the
 audit.
@@ -324,8 +331,10 @@ level available in closed form at every candidate rate.
   duplicate extractions in the source, which also reports analyte RSD ≈ 0.3–19.7 %; the
   repository retains reported central values, not the replicate-level uncertainty), on a
   different machine, coffee, and basket, across a 3×3×3 temperature × pressure ×
-  granulometry grid
-  plus off-grid points. It reports measured beverage concentrations (g/L) for
+  granulometry grid plus **12 off-grid validation conditions**, four per granulometry. Eight of
+  those twelve are coarse or fine, and all eight are part of the held-out transfer corpus in §4<!--sec:result3-->;
+  none of them coincides with an optimal-grind condition, which is why the same-(T,p) lookup
+  comparator is defined only on the on-grid subset. It reports measured beverage concentrations (g/L) for
   caffeine (CF), trigonelline (TR), 5-CQA, and total solids, and — separately — the
   roast-and-ground **solid inventory per species** (their Table 7), which we use
   only as a same-campaign orthogonal-measurement constraint in §3.2<!--sec:result2-->. Angeloni's own coupled FeFlow solver is
@@ -341,7 +350,7 @@ and what is held out:
 | Schmieder 2023 (via the calibration model) | source apparatus, one coffee | 6 retained collection windows of 10, per solute | 15 settings, 3 repetitions (6 at centre) | source-campaign fraction-vs-cup localization; the positive control | the model's published per-solute parameters | nothing — this is the model's own fit data | in-sample verification / objective localization | in-sample; the 6 retained windows are a sampled aggregate, not a cup |
 | Same model, synthetic | — | exact whole-cup integral and fine-grid fractions | simulated | information-content control at exact integration | level + rate re-estimated per experiment | truth is known by construction | same-model simulation (inverse crime, declared) | demonstrates loss **under the assumed model** only |
 | Angeloni 2023, optimal grind | different machine, coffee, basket | beverage concentration, 3 named solutes + total solids | 9 on-grid (T, p) + 2 off-grid; duplicate extractions, source RSD 0.3–19.7 % | target-specific recalibration; profile analysis; leave-one-condition-out CV | inventory level + rate multiplier, per solute × variety | the 2 off-grid points; each condition in turn under CV | target recalibration; within-campaign holdout | one grind; replicate-level uncertainty not published per named solute |
-| Angeloni 2023, coarse & fine grinds | same campaign | as above | 2 grinds × 9 conditions × 3 solutes × 2 varieties = 108 points | cross-grind prediction after target-specific calibration | nothing — parameters frozen from the optimal grind | all of it | within-campaign holdout | grind enters only through an **inferred** hydraulic map |
+| Angeloni 2023, coarse & fine grinds | same campaign | as above | 2 grinds × (9 on-grid + 2 off-grid) conditions × 2 varieties = 44 records × 3 solutes = 132 points | cross-grind prediction after target-specific calibration | nothing — parameters frozen from the optimal grind | all 44 records; the included identifiers are emitted by the analysis artifact | within-campaign holdout | grind enters only through an **inferred** hydraulic map; the same-(T,p) lookup comparator is defined only on the 36 on-grid records |
 | Angeloni 2023, Table 7 | same campaign | roast-and-ground solid inventory per species | one assay per species × variety | orthogonal comparison against the fitted inventory | nothing | not applicable | orthogonal measurement, same campaign | mass-to-volume basis undefended (see the profile analysis); qualitative only |
 | Waszkiewicz 2026 | independent second rig and coffee | optical total dissolved solids, 5 s fractions, measured flow | one coffee, one grind, one averaged trajectory | external shape stress test | a Waszkiewicz-specific level, re-fitted at every candidate rate | the kinetics, which are frozen from the calibration model | independent external, aggregate proxy | aggregate optical proxy, not named solutes; one grind |
 
@@ -359,12 +368,13 @@ particle-size classes.
 | \(A_{x,i}, B_{x,i}\) | Sherwood prefactor / exponent | dimensionless | fitted by the source model, frozen here | per solute, per grain class |
 | \(K_{\mathrm{ref},i}, \gamma_i\) | van 't Hoff partition and slope | dimensionless, K | fitted by the source model, frozen here | per solute |
 | \(\alpha_l\) | bulk bed porosity | dimensionless | 0.17, source physical parameters | global |
+| \(u_s\), \(v_l\) | superficial, interstitial velocity | m s⁻¹ | \(u_s=Q/A_{cs}\), \(v_l=u_s/\alpha_l\); \(Re\) is formed on \(u_s\) | derived per condition |
 | \(\varphi_{v2}\) | coarse intragranular pore fraction | dimensionless | 0.40, source physical parameters | global |
 | \(d_{s1}\) | fine representative size | m | 24 µm, measured PSD peak | global |
 | \(d_{s2}, \psi\) | coarse size, fines volume fraction | m, dimensionless | 330 µm, 0.23 (centre grind) | per grind, from the source's fitted table |
 | \(L\), \(D_{\mathrm{bed}}\) | bed height, diameter | m | 0.015, 0.058 | global |
-| \(V_{\mathrm{target}}\) | collection endpoint | mL | 40, a matched-volume proxy | global |
-| \(Q(p,T)\) | flow map | mL s⁻¹ | inferred, not measured (see the flow-map subsection) | per grind |
+| \(M_{\mathrm{target}}\) | collection endpoint | g | 40, the declared beverage mass; swept over 38/40/42 g | global |
+| \(Q(p,T)\) | flow map | g s⁻¹ | inferred, not measured; published in mL s⁻¹ but consumed as mass flow by the source model (see the flow-map subsection) | per grind |
 
 ### 2.3 Whole-cup, fraction, and sampled-window observation operators
 
@@ -403,26 +413,33 @@ trajectory. The sampled-window aggregate is **not** a whole cup — it omits the
 did not retain — and is named separately throughout so the two are never conflated.
 
 The collection endpoint enters through \(t_{\mathrm{end}}\). The source campaign reports a
-beverage **mass**; the solver terminates on **volume**, \(t_{\mathrm{end}}=V_{\mathrm{target}}/Q\)
-with \(V_{\mathrm{target}}=40\) mL, so the cup operator is evaluated at a matched-**volume** proxy
-for the nominal 40 g endpoint (below).
+beverage **mass**, and so does the solver: \(t_{\mathrm{end}}=M_{\mathrm{target}}/Q\) with
+\(M_{\mathrm{target}}=40\) g and \(Q\) the source's flow column, which the source model consumes
+as a **mass** flow. The cup operator is therefore evaluated at a matched-**mass** endpoint, not at a
+volumetric stand-in for one (below).
 
 ### 2.4 Endpoint and pressure-to-flow assumptions
 
-**Endpoint contract: a matched-volume proxy, and an estimand choice.** The Angeloni cup is a
-**40 ± 2 g** beverage while the solver integrates to a *volume* endpoint
-`t_end = V_target / Q`. Because the source reports beverage **mass** and the solver terminates on
-**volume**, we use `V_target = 40 mL` as a **matched-volume proxy for the nominal 40 g endpoint**.
-The proxy's construction, and the processing of the external time-resolved trajectory, are set
-out in Supplementary Methods S2. This is a choice of estimand, not a density correction we can
-verify: espresso beverage mass, liquid
-volume, dissolved solids, entrained gas and crema, and the source's own collection practice are not
-interchangeable under a single water-density approximation, and the source's ±2 g tolerance bounds
-its own collection repeatability rather than validating a 40 mL operator. We therefore do not claim
-that the proxy reproduces "the same endpoint as the observations"; we state the substitution and
-test it. The resulting estimand is sensitivity-tested at **38 / 40 / 42 mL** rather than asserted to
-be insensitive
-(endpoint sensitivity sweep). The result is a **quantified caveat, not a dismissal**: the
+**Endpoint contract: a matched beverage mass, and its residual ambiguity.** The Angeloni cup is a
+**40 ± 2 g** beverage, and the solver integrates to a **mass** endpoint,
+`t_end = M_target / Q` with `M_target = 40 g`. The stopping rule is exact in that unit: the source's
+flow column, though published in mL s⁻¹, is consumed by the source model as a mass flow in g s⁻¹
+(the source divides it by a beverage density before forming a velocity), so dividing a target by it
+returns the time at which that many **grams** have been collected. Density does enter the solver —
+when deriving the superficial velocity from that flow, and when volume-averaging the outlet
+concentration — but it does not convert the stopping rule into a volume target. The endpoint's
+construction, and the processing of the external time-resolved trajectory, are set out in
+Supplementary Methods S2.
+
+What is genuinely unresolved is therefore **not** the endpoint's quantity on our side, but the
+source column's own labelling: it is published as mL s⁻¹ and consumed by the source's released code
+as a mass flow. We preserve the source's arithmetic rather than "correcting" it, because every
+frozen parameter we inherit — \(A_{x,i}\), \(B_{x,i}\), \(K_{\mathrm{ref},i}\), \(\gamma_i\) —
+was estimated under that convention, and changing it would invalidate them. If the published label
+is the correct one and the source's own code is not, the endpoint is a ~2 % smaller cup than stated;
+that is well inside the ±2 g tolerance swept below. The estimand is sensitivity-tested at
+**38 / 40 / 42 g** — the source's own declared collection tolerance, not an invented bracket —
+rather than asserted to be insensitive (endpoint sensitivity sweep). The result is a **quantified caveat, not a dismissal**: the
 overall blind per-condition **named-solute** MAPE is *moderately* endpoint-sensitive — it
 moves ≈ 5.0 pp (23.8 → 28.8 %) across the ±2 g window — and the finer
 *trigonelline-hurts-when-inventory-matched* detail flips near the +5 % endpoint. What is
@@ -432,21 +449,14 @@ inventory-matched residuals are Supplementary Figure S3, and their structure aga
 and pressure *before* any level is fitted is Supplementary Figure S4. **This sweep quantifies the blind optimal-grind discrepancy only.** The
 O-refit → C/F transfer benchmark is a *different* estimand and is evaluated separately: the
 complete optimal-grind fit, frozen coarse/fine prediction, level-only comparison and paired
-clustered resampling were repeated at each of 38, 40 and 42 mL, and are reported in §4<!--sec:result3--> and
+clustered resampling were repeated at each of 38, 40 and 42 g, and are reported in §4<!--sec:result3--> and
 Supplementary Table S3. The two are reported apart because an endpoint-induced shift common
-to both predictors cancels in the model-minus-null contrast even when it materially moves
+to both predictors cancels in the model-minus-comparator contrast even when it materially moves
 the blind residual — which is exactly what happens here: ≈ 5 pp in the blind residual
-against a 0.06 pp spread in the paired difference. So the qualitative conclusion (a large, structured blind residual not removed by
-inventory alone) does not hinge on the mass-to-volume substitution, but the exact residual magnitude
+against a 0.053 pp spread in the paired difference. So the qualitative conclusion (a large, structured blind residual not removed by
+inventory alone) does not hinge on where in the ±2 g window the cup is stopped, but the exact residual magnitude
 and the trigonelline detail carry a ≈ 5 pp endpoint uncertainty — about a fifth of the residual
-itself — which we state rather than absorb. A mass endpoint would be preferable, and the machinery for one is
-in fact already present: the solver converts the source's flow column using an explicit
-beverage-density model (\(\rho = 980\) kg m⁻³) inherited from the source implementation, so the
-collection accumulator is mass-referenced rather than purely volumetric. What is genuinely
-unresolved is not the density model but the source column's own labelling — it is published as
-mL s⁻¹ and consumed by the source's code as a mass flow — so the endpoint's mass interpretation
-inherits that ambiguity. We use "matched beverage endpoint" rather than "matched 40 g"
-wherever the distinction could matter.
+itself — which we state rather than absorb.
 **External-trajectory processing (the second-rig dissolved-solids panel).** The external panel
 carries several load-bearing processing choices that are declared here rather than left in code.
 The public release provides **twelve** five-second dissolved-solids bins spanning 0–60 s; the source
@@ -595,7 +605,7 @@ conditions and the groups are then averaged with equal weight, so a group with m
 not dominate. The near-optimal threshold family is **2 / 5 / 10 / 20 %**; the 10 % level is
 **declared**, not inferred, and is reported as a tolerance set rather than a confidence region.
 
-*Resampling.* Two schemes are used, both seeded. The model-versus-null comparison resamples the
+*Resampling.* Two schemes are used, both seeded. The model-versus-comparator comparison resamples the
 **paired** per-point losses of two fixed predictors with \(B=8000\) draws at seed 0, under two
 cluster definitions — conditions within a solute × variety group (**primary**) and whole groups; it
 is a **paired clustered resampling sensitivity analysis**, not a confidence procedure, because no
@@ -650,7 +660,7 @@ total-solids assay, and (§5<!--sec:temporal-->) Waszkiewicz's is an optical-ref
 are not an equivalent analyte, so we never pool the proxy with named molecules.
 
 We ran three successively stricter tests on granulometry O (≈ the model's calibrated
-grind), all at the **matched beverage endpoint** — a 40 mL volume proxy for the reported
+grind), all at the **matched beverage endpoint** — a collected 40 g cup, as reported by
 40 ± 2 g beverage, with no validated density conversion assumed (§2.4<!--sec:endpoint-->). The refit holdout in the
 last row is a mean of two off-grid O points per solute × variety; it is a small internal check and
 is superseded by the leave-one-condition-out cross-validation of §4<!--sec:result3-->, whose
@@ -812,7 +822,7 @@ a compensating manifold can leave predictions stable even when the parameters ar
 individually non-identifiable. **The results here show exactly this.*** We freeze the O
 calibration
 (level+rate pair) and predict the held-out coarse (C) and fine (F) grinds at **matched
-40 mL matched-volume proxies for the nominal 40 g cups**, each with its own **study-derived, inferred (not measured) pressure–flow map** (fitted
+matched 40 g cups**, each with its own **study-derived, inferred (not measured) pressure–flow map** (fitted
 hydraulic conductivity, nominal grind-specific shot time, and viscosity correction —
 *not* a per-shot measured flow trace; transfer conclusions are conditional on this map):
 
@@ -820,11 +830,11 @@ hydraulic conductivity, nominal grind-specific shot time, and viscosity correcti
 
 | species | O-fit | held-out C | held-out F |
 |---|---|---|---|
-| caffeine | 3–5 % | 8–10 % | 5–7 % |
-| trigonelline | 2–4 % | 7–8 % | 3–7 % |
-| 5-CQA | 5–12 % | 10–18 % | 5–9 % |
+| caffeine | 3–5 % | 9 % | 7 % |
+| trigonelline | 2–4 % | 7–8 % | 6–7 % |
+| 5-CQA | 5–12 % | 10–18 % | 7 % |
 
-The frozen O calibration produces held-out **absolute** errors of C ~7–18 %, F ~3–9 %.
+The frozen O calibration produces held-out **absolute** errors of C ~7–18 %, F ~6–7 %.
 The same comparison scored at an unmatched fixed 25 s window instead gives **25–49 %** — an
 apparent cross-grind failure that is **mostly an endpoint artefact**: once model output is
 integrated to the same beverage endpoint as the observations, the absolute error is much
@@ -834,35 +844,60 @@ target-specific calibration** — C and F are held-out granulometries from the *
 campaign (same varieties, platform, assay), a within-campaign design extrapolation, not
 an external-rig prediction.
 
-**Null benchmark: absolute error alone does not establish transfer skill.**
+**Level-only comparator: absolute error alone does not establish transfer skill.**
 This is the paper's principal quantitative result, so we state it first. Against an
 **optimal-grind-trained MAPE-optimal constant**, the mechanistic model's pooled held-out MAPE is
-**8.23 %** versus **8.59 %** for the constant — a paired difference of **−0.36 percentage points**,
-whose primary clustered percentile range **[−0.725, +0.027] pp crosses zero**, with the mechanistic
-model **worse on 50 of 108 held-out points**. Acceptable endpoint accuracy therefore did not supply
-resolvable skill beyond a transferred concentration level.
+**8.44 %** versus **8.83 %** for the constant — a paired difference of **−0.394 percentage points**,
+whose primary clustered percentile range is **[−0.825, +0.000] pp**, reaching zero at its upper
+bound, with the mechanistic model **worse on 62 of 132 held-out points**. Acceptable endpoint
+accuracy therefore did not supply resolvable skill beyond a transferred concentration level.
+
+**The held-out corpus is the complete one, and its membership is emitted rather than described.**
+The coarse and fine grinds contribute 44 condition-level records — 36 on the 3×3 temperature ×
+pressure design and the campaign's 8 off-grid validation conditions — giving 132 named-solute
+observations. All 44 are scored, including the off-grid conditions: they are the campaign's own
+designated validation points and lie away from the training design, which makes them the records a
+claim about transfer can least afford to omit. The analysis artifact emits the included and
+excluded sample identifiers alongside the result, so corpus membership is a checkable property of
+the record rather than a description in prose — a count alone cannot distinguish a complete corpus
+from a subset. Restricting the evaluation to the on-grid subset gives a difference of
+**−0.361 pp** (model 8.23 % versus 8.59 %, worse on 50 of 108), and on the eight off-grid records
+alone it is **−0.545 pp** (model 9.39 % versus 9.93 %, worse on 12 of 24): both predictors degrade
+away from the design grid, and the conclusion is the same in every slice.
 
 The comparison's contract matters, so we make it fully explicit. The constant is (i) trained only on
 the nine optimal-grind observations; (ii) frozen thereafter for the coarse and fine grinds; (iii)
 carrying no temperature, pressure, flow or kinetic response whatsoever; (iv) optimised under the
-same primary loss used for the comparison; and (v) evaluated at the same 40 mL endpoint proxy as
+same primary loss used for the comparison; and (v) evaluated at the same 40 g endpoint as
 the mechanistic model. It is a deliberately minimal comparator. The point is not that beating one
 constant would prove mechanism — it would not — but that the process model barely beats even this.
 Because the model profiles a free inventory level, and inventory is an exact multiplicative level
-(§3.2<!--sec:result2-->), a constant carrying only that level is the natural null. For reference, the model does beat
-a same-(T,p) optimal-grind lookup (10.8 %) by ~2.6 pp.
+(§3.2<!--sec:result2-->), a constant carrying only that level is the natural comparator. It is a deliberately weak benchmark, not a statistical null: no null hypothesis, null distribution, calibrated test or nested-model relation is defined, and none is implied by the comparison.
+
+A second comparator — the observed optimal-grind concentration at the *same* (T, p) condition — is
+reported as a **secondary** one, because it cannot be defined on the whole corpus: none of the eight
+off-grid coarse/fine conditions has a matching optimal-grind record, so the lookup exists only on
+the 36 on-grid records. Scored on that subset against the model's error over the same 108
+observations, the model beats it by ~2.6 pp (8.23 % versus 10.79 %). We report it on its own
+support rather than pooling two comparators evaluated on different corpora.
 
 The honest reading is that the fitted level-plus-rate pair *does not catastrophically deteriorate*
 across grinds — **not** that the kinetic/transport mechanism transfers. This sharpens rather than
 weakens the paper's thesis.
 
-Treating the 108 held-out points as the **dependent** observations they are (6 variety × solute
-groups × shared (T,p) conditions × two grinds), a **paired clustered resampling** of the
-model-minus-null loss (B = 8000, seed 0) gives a sensitivity range on the pooled ΔMAPE of
-**[−0.725, +0.027] pp** resampling conditions within group (the primary unit — it **includes zero**)
-and **[−0.751, −0.032] pp** resampling whole groups, which barely excludes it. The whole-group variant
-uses only six groups and is reported as a secondary sensitivity; the conditions-within-group result
-remains primary. The −0.36 pp advantage is **not robustly distinguishable from zero** once the
+Treating the 132 held-out points as the **dependent** observations they are, a **paired clustered
+resampling** of the model-minus-comparator loss (B = 8000, seed 0) gives a sensitivity range on the
+pooled ΔMAPE of **[−0.825, +0.000] pp**. The resampling unit is the **(variety, temperature,
+pressure) condition**: every such condition is observed for all three named solutes at both held-out
+grinds, so all six of those observations move together in a resample. That is the design's actual
+dependence structure. A narrower unit that resamples conditions separately within each variety ×
+solute group — which permits caffeine, trigonelline and 5-CQA to draw *different* conditions from the
+same variety, breaking the cross-solute dependence the paragraph above asserts — gives
+**[−0.742, −0.044] pp**, and resampling whole variety × solute groups gives **[−0.883, −0.024] pp**.
+Both are retained as secondary sensitivities, and both are narrower than the primary unit, which is
+the expected direction: dropping a real dependence manufactures precision. Cluster sizes are taken
+from the data rather than assumed balanced, which matters here because the off-grid records exist at
+one grind only. The −0.394 pp advantage is **not robustly distinguishable from zero** once the
 dependence is respected.
 
 These percentile ranges resample the two fixed predictors' precomputed losses. They are **not**
@@ -871,48 +906,49 @@ this paper — we therefore call them *clustered percentile sensitivity ranges* 
 "95 % CI" language for them. Table 5 separates every resampling quantity used in the paper by
 estimand, because several of them are numerically similar and answer different questions.
 
-**Endpoint propagation.** Because this difference is only −0.36 percentage points wide, and because
-the endpoint is a volume proxy for a reported 40 ± 2 g beverage, the complete procedure was repeated
-at 38, 40 and 42 mL: fit inventory and rate on the nine optimal-grind conditions at that endpoint,
+**Endpoint propagation.** Because this difference is only −0.394 percentage points wide, and because
+the source declares a 40 ± 2 g beverage, the complete procedure was repeated
+at 38, 40 and 42 g: fit inventory and rate on the nine optimal-grind conditions at that endpoint,
 freeze that calibration, predict every held-out coarse/fine observation at the same endpoint, refit
 the level-only constant at the same endpoint, and repeat the primary clustered resampling.
 
-**Table 4a. The transfer-versus-null benchmark propagated through the endpoint proxy.**
+**Table 4a. The transfer-versus-comparator benchmark propagated through the declared ±2 g collection tolerance.**
 
-| endpoint | model pooled MAPE (%) | level-only null (%) | paired difference (pp) | primary clustered percentile range (pp) | model worse on |
+| endpoint | model pooled MAPE (%) | level-only comparator (%) | paired difference (pp) | primary clustered percentile range (pp) | model worse on |
 |---|---:|---:|---:|---:|---:|
-| 38 mL | 8.17 | 8.59 | −0.421 | [−0.79, −0.03] | 51 of 108 |
-| **40 mL** | **8.23** | **8.59** | **−0.361** | **[−0.725, +0.027]** | **50 of 108** |
-| 42 mL | 8.20 | 8.59 | −0.392 | [−0.78, +0.01] | 49 of 108 |
+| 38 g | 8.39 | 8.83 | −0.447 | [−0.884, −0.046] | 61 of 132 |
+| **40 g** | **8.44** | **8.83** | **−0.394** | **[−0.825, +0.000]** | **62 of 132** |
+| 42 g | 8.41 | 8.83 | −0.425 | [−0.890, +0.000] | 60 of 132 |
 
-The baseline is identical at all three endpoints, which is a check on the procedure rather than a
+The comparator is identical at all three endpoints, which is a check on the procedure rather than a
 coincidence: the level-only constant is fitted to measured concentrations, which do not depend on
 where the solver terminates. Only the mechanistic predictor moves.
 
 Two things follow, and they point in different directions.
 
-The **effect size is stable**. The paired difference spans −0.36 to −0.42 pp, a spread of
-0.06 pp — an order of magnitude smaller than the ≈5 pp movement the same endpoint range produces in
+The **effect size is stable**. The paired difference spans −0.394 to −0.447 pp, a spread of
+0.053 pp — an order of magnitude smaller than the ≈5 pp movement the same endpoint range produces in
 the blind optimal-grind residual. That contrast is the expected one: those are different estimands,
 and here both predictors are re-derived at each endpoint, so a shift common to both cancels. The
 sign never changes, and the model remains worse on roughly half the held-out points at every
 endpoint.
 
-The **inferential reading is not endpoint-invariant**. At 40 mL and 42 mL the primary clustered
-percentile range includes zero. At 38 mL it does not: [−0.79, −0.03] excludes zero, though its upper
-bound corresponds to an advantage of at most a third of a percentage point. We therefore report the
-benchmark as endpoint-dependent at the boundary of the declared tolerance rather than claiming
-robustness the sweep does not show. The paper's conclusion — that acceptable endpoint accuracy did
-not supply *resolvable* mechanistic skill — holds at the 40 mL proxy used throughout and at 42 mL,
-and at 38 mL survives only as a difference too small to matter practically. Per-endpoint values are
-Supplementary Table S3.
+The **inferential reading sits on the boundary**, and we decline to resolve it by rounding. At 40 g
+and 42 g the primary clustered percentile range reaches zero at its upper bound
+([−0.825, +0.000] and [−0.890, +0.000]); at 38 g it clears zero by 0.046 pp. No reading of those
+three rows supports a claim of resolvable skill: the largest advantage the sweep's upper bounds
+allow is under a twentieth of a percentage point, against pooled errors near 8.4 %. We therefore
+report the benchmark as unresolved throughout the declared tolerance, rather than reporting the one
+endpoint whose bound clears zero as though the sign of an inequality carried the conclusion.
+Per-endpoint values are Supplementary Table S3.
 
-**Table 5. Resampling quantities used in this paper, by estimand.** These are numerically similar, easily conflated, and do not estimate the same target; the out-of-bag refit interval is *not* an uncertainty interval for the −0.36 pp model-minus-null difference.
+**Table 5. Resampling quantities used in this paper, by estimand.** These are numerically similar, easily conflated, and do not estimate the same target; the out-of-bag refit interval is *not* an uncertainty interval for the −0.394 pp model-minus-comparator difference.
 
 | analysis | resampling unit | fit repeated? | held-out fraction | estimand | point estimate | percentile range | inferential status |
 |---|---|---|---|---|---|---|---|
-| paired clustered resampling of model-minus-null loss (**primary**) | (T,p) condition within group | no | n/a — fixed predictors | pooled ΔMAPE, model − level-only null | −0.36 pp | [−0.725, +0.027] pp | clustered percentile **sensitivity range**; not a calibrated CI |
-| the same, resampling whole groups (secondary) | variety × solute group (6) | no | n/a | pooled ΔMAPE | −0.36 pp | [−0.751, −0.032] pp | sensitivity only; 6 clusters |
+| paired clustered resampling of model-minus-comparator loss (**primary**) | (variety, T, p) condition — all 3 solutes × both held-out grinds move together | no | n/a — fixed predictors | pooled ΔMAPE, model − level-only comparator | −0.394 pp | [−0.825, +0.000] pp | clustered percentile **sensitivity range**; not a calibrated CI |
+| the same, resampling conditions within variety × solute group (secondary) | (T,p) condition within group | no | n/a | pooled ΔMAPE | −0.394 pp | [−0.742, −0.044] pp | sensitivity only; does not preserve cross-solute condition dependence |
+| the same, resampling whole groups (secondary) | variety × solute group (6) | no | n/a | pooled ΔMAPE | −0.394 pp | [−0.883, −0.024] pp | sensitivity only; 6 clusters |
 | residual resampling of LOCO fold errors | individual fold error | no | 1 of 9 | descriptive spread of computed LOCO errors | 6.5 % | [5.0, 8.2] % | **descriptive fold-resampling range**; ignores fold dependence |
 | condition-level resampling of LOCO macro errors | (T,p) condition (9) | no | 1 of 9 | descriptive spread of computed LOCO errors | 6.5 % | [5.1, 8.3] % | descriptive fold-resampling range |
 | condition-cluster out-of-bag refit | (T,p) condition (9) | **yes** | ~3–4 of 9 | model held-out MAPE at a larger held-out fraction | 7.4 % | [4.3, 11.5] % | **out-of-bag refit percentile interval**; coverage not demonstrated |
@@ -939,16 +975,16 @@ comparison, not proof that mechanism "explains nothing").
 The `(inventory, rate)` split is **degenerate within a grind** — the fitted rate flips
 with incidental choices (§3.2<!--sec:result2-->). Propagating the **discrete 10 %-near-optimal MAPE grid set**
 (O-MAPE within 10 % of the minimum on the 18-point rate grid — a *declared set*, not a
-continuous manifold), the worst **aggregate** held-out C/F error rises to **21.7 %** (vs
-18.2 % at the point optimum; near-optimal-set transfer analysis). We now also
+continuous manifold), the worst **aggregate** held-out C/F error rises to **21.8 %** (vs
+18.0 % at the point optimum; near-optimal-set transfer analysis). We now also
 propagate the set to **condition-wise prediction envelopes**: at each
 held-out (T, p) the predicted concentration ranges across the near-optimal set span a
 **median of only ~3 % of the observation** (worst ~16 %), and the worst-case held-out MAPE
-grows only modestly across declared tolerances (2/5/10/20 %: ~8.5→9.7 % for caffeine).
+grows only modestly across declared tolerances (2/5/10/20 %: ~9.2→10.5 % for caffeine).
 So the *aggregate and pointwise* prediction is stable across the set even though the
 parameters on it are not — the distinction between parameter identifiability and
 prediction stability, *tested* rather than asserted. This stability is,
-however, distinct from mechanistic skill (the ladder and null benchmark above). Strength: **within-campaign cross-grind holdout with a null-model skill
+however, distinct from mechanistic skill (the ladder and level-only comparator above). Strength: **within-campaign cross-grind holdout with a level-only-comparator skill
 comparison**, conditioned on the tested flow maps, frozen centre-grind geometry, and
 matched endpoint.
 
@@ -978,9 +1014,28 @@ its **estimand differs from LOCO's**: each out-of-bag set holds out ~3–4 of th
 rather than one, so it targets held-out error at a larger held-out fraction — which is why its
 centre (7.4 %) sits above the LOCO point estimate (6.5 %) and why it complements rather than
 replaces it. Third, the held-out error stays modest under either estimand and the conclusion is
-unchanged. The verdict is
+unchanged. The **absolute** held-out error is also
 robust to the loss function: under a log/relative-error level fit the pooled mean is
-**7.0 %**. It is also robust to the choice of a
+**7.0 %**.
+
+That last check is about absolute error, and absolute error is not the paper's headline. A
+predictor can hold its absolute error under two losses while its small advantage over a comparator
+changes sign, so the loss-robustness claim is made about the estimand that actually carries the
+conclusion. Refitting **both** the mechanistic model and the level-only comparator under the same
+log/relative-error level fit, and scoring both under the same rule, the paired
+model-minus-comparator difference moves from **−0.394 pp** to **−0.393 pp** (pooled 8.50 % versus
+8.89 %; the model worse on 62 of 132 points under either loss). The primary clustered percentile
+range is [−0.825, +0.000] under the primary loss and [−0.827, −0.002] under the alternative — in
+both cases an upper bound within 0.002 pp of zero. The fitting loss therefore moves neither the
+sign, the magnitude, nor the practical reading. It is that comparison, not the mechanistic model's
+own error, that establishes the verdict is not an artefact of the fitting loss.
+
+We note explicitly that the two ranges land on opposite sides of zero *only* in the sense that one
+upper bound rounds to +0.000 and the other to −0.002. Nothing follows from that. Reporting the
+alternative-loss arm as "excluding zero" and the primary arm as "including" it would be a claim
+about the third decimal place of a resampling percentile, and we do not make it.
+
+The conclusion is likewise robust to the choice of a
 single **global** frozen geometry: re-running the O→C/F transfer under each of the three
 Pannusch fitted geometries (1.4/1.7/2.0, applied globally to all grinds) moves the
 held-out MAPE by **at most ~1 pp** — which supports limited sensitivity to
@@ -995,7 +1050,7 @@ refitted and transferred under the perturbed map, moves the held-out MAPE by **�
 flow-map magnitude, though it remains conditional on the inferred-map *form* (a per-shot
 measured flow trace is not available for this campaign). Together these support the §4<!--sec:result3--> conclusion —
 the calibration's held-out **absolute** error is modest and does not catastrophically
-deteriorate across grind (while its incremental skill over a level-only null is small,
+deteriorate across grind (while its incremental skill over a level-only comparator is small,
 per the benchmark above) — with cross-validation, descriptive uncertainty, and
 loss/geometry/flow-map robustness, not a two-point mean.
 
@@ -1043,12 +1098,15 @@ calibration data — *not* an independent identification of the physical rate (t
 model was fitted here, and its source warns the fitted parameters lack generality).
 Scoped conclusion: *time-resolved data can supply the rate information missing from
 an aggregated endpoint in this model and design* (other independent constraints or
-multi-condition designs could also help). This speaks to the open need for multi-class
-inventory ↔ kinetics).
+multi-condition designs could also help). It also speaks to a broader open need, which this
+paper does not address: designs that separate multi-class inventory from kinetics rather than
+letting the two compensate.
 
 **Is that flatness a sampling artefact?** The sampled-window aggregate omits four of the ten
-windows, so it might be flat for a trivial reason. Because no empirical complete-shot
-reconstruction is available for this campaign, we test the question under the model instead: for
+windows, so it might be flat for a trivial reason. Measured complete cups for this campaign are
+available and are used above; what has not yet been run is the fraction-versus-measured-cup
+rate-profile contrast over a common rate sweep. The same-model exact-cup calculation is therefore
+retained as an interim control rather than as a substitute for that contrast: for
 each experiment, synthetic truth is generated at the calibrated rate, both as a fine-grid fraction
 curve over the whole shot and as the **exact single whole-cup integral**, seeded relative noise is
 added, and the rate is swept. Fraction-curve scoring recovers the true rate sharply — mean range
@@ -1131,7 +1189,7 @@ sensitivity directions.
 
 **Four distinct properties.** The single-grind endpoint does not pin the rate (§3.2<!--sec:result2-->); the
 frozen level+rate pair's held-out **absolute** error across grind is modest (§4<!--sec:result3-->); but its
-**incremental skill over a level-only null is small** (§4<!--sec:result3-->); and a shared fit is
+**incremental skill over a level-only comparator is small** (§4<!--sec:result3-->); and a shared fit is
 *in-sample* compatible (§4<!--sec:result3-->). These are four separate properties — **parameter
 identifiability, endpoint accuracy, predictive skill over a benchmark, and cross-grind
 transferability** — and they do not coincide here. Aggregate prediction is stable across
@@ -1143,7 +1201,7 @@ rate via the early-time slope where an aggregated endpoint does so weakly (§5<!
 
 **Lesson for cross-dataset extraction-model validation.** A single-grind endpoint MAPE —
 even a low held-out one — need not identify a mechanism *and need not signal mechanistic
-skill beyond a null model*: **endpoint accuracy, parameter identification, cross-grind
+skill beyond a level-only comparator*: **endpoint accuracy, parameter identification, cross-grind
 transferability, and incremental skill are distinct properties and must be reported
 separately.** A second, procedural lesson: **a validation score is interpretable only when
 the model output is mapped to the same observation window and endpoint as the data** — an
@@ -1158,7 +1216,7 @@ dataset, identify the kinetic rate.**
 campaign, whereas Angeloni et al. (2023) is an independent target campaign. After
 target-specific O-grind recalibration and matched-endpoint mapping, absolute C/F errors
 were modest, but performance was **nearly matched by an O-trained level-only constant**
-(pooled 8.23 % vs 8.59 %; worse on 50 of 108 held-out points). The result therefore supports
+(pooled 8.44 % vs 8.83 %; worse on 62 of 132 held-out points). The result therefore supports
 endpoint prediction stability under the tested within-campaign design, not transfer of an
 identified kinetic mechanism. Two readings are excluded by it: that the model's endpoint agreement
 identifies the inventory–rate split, and that the model simply fails to transfer across grind. The
@@ -1182,7 +1240,7 @@ grind-specific map used in the cross-grind prediction is a measured per-shot flo
 inferred from published shot times and a viscosity correction. The conclusions are conditional on
 the *form* of those maps, although a systematic ±20 % perturbation of the flow scale moves the
 held-out error by ≤0.6 pp. The collection endpoint is a further approximation: the source reports a
-40 ± 2 g beverage mass while the solver terminates on volume, so 40 mL is used as a matched-volume
+40 ± 2 g beverage mass and the solver terminates at a matched collected mass, so 40 g is the
 proxy. That choice is not negligible — sweeping it moves the blind named-solute residual by about
 5 pp — and it is reported as a sensitivity rather than absorbed.
 
@@ -1266,7 +1324,7 @@ producer identifiers, which are unchanged — see the mapping table in
 |---|---|---|
 | Figure 1 | `fig1_design` | main — study design and dataset roles |
 | Figure 2 | `fig2_objective_surface` | main — weak separation |
-| Figure 3 | `fig4_transfer` | main — no resolvable gain over the null |
+| Figure 3 | `fig4_transfer` | main — no resolvable gain over the level-only comparator |
 | Figure 4 | `fig6_fraction_vs_endpoint` | main — temporal resolution |
 | Figure S1 | `fig3_holdouts` | supplement |
 | Figure S2 | `fig5_joint_residual` | supplement |
@@ -1286,7 +1344,7 @@ All figure titles state design and quantities, not verdicts.
   variety; (b, c) the **signed residual faceted against temperature and pressure**, which
   exposes the within-group condition structure the near-diagonal cloud and the pooled
   6.5 % hide (§4<!--sec:result3-->).
-- **Fig 4** — O→C/F transfer at the matched-volume endpoint proxy: observed vs predicted
+- **Fig 4** — O→C/F transfer at the matched 40 g endpoint: observed vs predicted
   per condition (grinds C, F) **plus a third panel comparing the model against an
   O-trained level-only constant baseline** and reporting the pooled skill (§4<!--sec:result3-->).
 - **Fig 5** — joint shared-(c_s0, rate) residual by variety × solute × grind, with
@@ -1297,7 +1355,7 @@ All figure titles state design and quantities, not verdicts.
   test — a shallow ~27 % minimum with an alignment-sensitivity band and the
   algebraically-flat single cup (one scalar + one profiled level).
 - **Fig 7** *(diagnostic)* — per-group blind and inventory-matched errors, with the
-  cross-condition model–data response correlation (n=9 O conditions/group; 40 mL proxy
+  cross-condition model–data response correlation (n=9 O conditions/group; 40 g endpoint
   endpoint). Panel (b) is a cross-condition association, **not** a temporal trajectory
   the n=9 correlation is descriptive.
 - **Fig 8** *(diagnostic)* — blind source-model residuals by operating condition,

@@ -1,5 +1,5 @@
 PV-03 — The Cup Hides the Clock (static text equivalent)
-Generated from docs/figures/paper_a/results.json (SHA-256 52a351fda3152043bafc78dceb3629b81fb3dcc2f91013e2b0175967fb4f22c7), source commit 5bcc71bbc27e1fc2119c60e6a87d7b2d3b0bd959.
+Generated from docs/figures/paper_a/results.json (SHA-256 b8463b11d5b0376adfe556e2687e545f9b918a8792aa627f7b929210c9ee20f9), source commit 5bcc71bbc27e1fc2119c60e6a87d7b2d3b0bd959.
 Badge: RECONSTRUCTED. Evidence strength: negative validation.
 
 Finding: whole-cup endpoints leave the extraction model's inventory and rate practically non-identifiable, yet the endpoint still predicts reasonably — and barely beats a level-only null. Endpoint accuracy is not mechanistic validation.
@@ -9,8 +9,8 @@ Key numbers (each a field of the committed Paper A result bundle):
 - local inverse-curvature coupling: -0.994 (geometric objective-surface diagnostic, NOT a statistical parameter correlation)
 - near-optimal (SSE within 10% of min) rate set covers 0.76 of the tested log-rate grid; the upper extent is RIGHT-CENSORED
 - SSE vs MAPE near-optimal set overlap (Jaccard): 0.86
-- held-out mechanistic MAPE: 8.23% vs level-only constant 8.59% (a tested-domain threshold set, NOT a confidence interval)
-- mechanistic model worse than the constant on 50 of 108 held-out points (skill vs const 0.042)
+- held-out mechanistic MAPE: 8.44% vs level-only constant 8.83% (a tested-domain threshold set, NOT a confidence interval)
+- mechanistic model worse than the constant on 62 of 132 held-out points (skill vs const 0.045)
 - trigonelline condition number: 3619.2 (a tighter but still ill-conditioned valley)
 - with an independently measured inventory (~12.54 g/L) the valley collapses to an implied rate ~0.95
 

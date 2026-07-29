@@ -1,0 +1,77 @@
+{
+ "source_commit": "c5e0771f8d0f",
+ "generated_by": "python tools/claim_binding_audit.py --write",
+ "input_fingerprints": {
+  "docs/PAPER_A_DRAFT.md": "0efb9ee71950ee48",
+  "docs/submission/PAPER_A_JFE_MANUSCRIPT.md": "7435a401a4c960f9",
+  "docs/PAPER_B2_TEMPORAL_DRAFT.md": "c2fa8e8908702c40",
+  "docs/PAPER_3_PUCKWORKS_DRAFT.md": "0d4cc70ef5172ddd",
+  "puckworks/paper_a/claim_coverage.py": "3fd50a0443e0ca59",
+  "puckworks/paper_a/slow_lane_bindings.py": "51590c4b53ee19f3",
+  "puckworks/paper_b2/claim_coverage.py": "2d2228a4d4b01466",
+  "puckworks/paper3/claim_coverage.py": "2151faa64ec95110"
+ },
+ "papers": {
+  "Paper 1": {
+   "numerals": 662,
+   "structural": 185,
+   "claims": 477,
+   "verified": 193,
+   "unbound": 284,
+   "unaccounted": 0,
+   "by_kind": {
+    "archive": 133,
+    "code": 4,
+    "config": 255,
+    "dataset": 29,
+    "producer": 56,
+    "structural": 185
+   }
+  },
+  "Paper B2": {
+   "numerals": 496,
+   "structural": 74,
+   "claims": 422,
+   "verified": 195,
+   "unbound": 227,
+   "unaccounted": 0,
+   "by_kind": {
+    "config": 208,
+    "dataset": 19,
+    "derived": 4,
+    "producer": 191,
+    "structural": 74
+   }
+  },
+  "Paper 3": {
+   "numerals": 376,
+   "structural": 173,
+   "claims": 203,
+   "verified": 136,
+   "unbound": 67,
+   "unaccounted": 0,
+   "by_kind": {
+    "cited": 4,
+    "config": 63,
+    "producer": 136,
+    "structural": 173
+   }
+  }
+ },
+ "totals": {
+  "numerals": 1534,
+  "structural": 432,
+  "claims": 1102,
+  "verified": 524,
+  "unbound": 578
+ },
+ "slow_lane": {
+  "total": 95,
+  "bound": 89,
+  "matching": 89,
+  "mismatched": 0,
+  "unresolvable": 0,
+  "declared_unbindable": 0,
+  "unbound": 6
+ }
+}
