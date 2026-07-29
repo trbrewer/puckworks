@@ -71,8 +71,14 @@ OBJECTIVE_JSON = _REPO / "docs" / "paper1_resource" / "PAPER_A_OBJECTIVE_FAMILY_
 ENDPOINT_JSON = _REPO / "docs" / "paper1_resource" / "PAPER_A_ENDPOINT_PROPAGATION.json"
 P05_NOTES = _REPO / "docs" / "paper1_resource" / "PAPER_A_P0-5_RESULTS.md"
 
+CAPTIONS = _REPO / "docs" / "figures" / "PAPER_A_CAPTIONS.md"
+
 #: Every file a reviewer or editor could receive.
-SUBMISSION_FILES = (CONVERSION, PACKAGE, HIGHLIGHTS, COVER_LETTER)
+#:
+#: Round-9 P2-1: this tuple described itself that way while omitting the supplement and the
+#: separately supplied caption file — both of which go to the journal, and both of which were
+#: carrying reader-facing process language nobody was scanning.
+SUBMISSION_FILES = (CONVERSION, PACKAGE, HIGHLIGHTS, COVER_LETTER, SUPPLEMENT, CAPTIONS)
 
 # ── phrase drift (the original check, updated) ────────────────────────────────────────────────
 # Retired overclaim wording: MUST NOT appear in the conversion. Each is also asserted ABSENT from
@@ -154,7 +160,32 @@ _PROCESS_WORDS = [
     (re.compile(r"\bstill owed\b|\bremains owed\b|\bis owed\b", re.I), "backlog language"),
     (re.compile(r"\bdeferred\b", re.I), "project-management state"),
     (re.compile(r"\b(?:MC\d+|P0-\d+|P1-\d+|MAJ-\d+)\b"), "internal review ticket ID"),
+    # Round-9 P2-1. A journal reader should not be made to read our changelog. Each of these was
+    # found in reader-facing analysis, Results or supplement prose at the round-9 target commit.
+    (re.compile(r"\bearlier draft\b|\bprevious draft\b|\ban earlier version\b", re.I),
+     "draft-history narration"),
+    (re.compile(r"\bround-\d+\b", re.I), "review-round identifier"),
+    (re.compile(r"\balready in (?:the )?repo\b|\bin the repository\b", re.I),
+     "repository-location narration"),
+    (re.compile(r"`docs/[^`]+`"), "internal repository path"),
+    (re.compile(r"\bcannot disagree\b|\bgenerated from the archived\b", re.I),
+     "generator self-description"),
 ]
+
+#: Sections where naming a file IS the content rather than process leakage: the availability
+#: statements point at the deposit, and the metadata placeholder blocks name the YAML they are
+#: tracked in (those blocks are the out-of-scope unsupplied-metadata material and are stripped at
+#: submission).
+_PATH_ALLOWED_SECTIONS = ("data availability", "code availability", "data and code availability",
+                          "reproducibility", "declarations", "figure captions",
+                          "credit authorship contribution statement", "funding",
+                          "competing interests", "declaration of competing interest",
+                          "generative-ai", "generative ai", "acknowledgements")
+
+#: The path rule applies to the SCIENTIFIC documents. The package is an assembly instruction sheet
+#: whose file table is inherently path-bearing, and the cover letter's metadata notes are stripped
+#: with the rest of the unsupplied front matter.
+_PATH_SCANNED_FILES = ("PAPER_A_JFE_MANUSCRIPT.md", "PAPER_A_JFE_SUPPLEMENT.md")
 
 
 def _read(p: Path) -> str:
@@ -233,17 +264,57 @@ def _cross_references() -> list[str]:
     return X.check()
 
 
+def _visible_lines(text: str):
+    """Yield (line_number, text) for reader-facing lines only.
+
+    HTML comments are stripped: the generated blocks carry schema/manifest stamps that are
+    source-level assurance devices, not prose a reviewer reads. Fenced code blocks are kept, since
+    a code block in a manuscript IS read.
+    """
+    out, in_comment = [], False
+    for n, raw in enumerate(text.splitlines(), 1):
+        line = raw
+        while True:
+            if in_comment:
+                end = line.find("-->")
+                if end < 0:
+                    line = ""
+                    break
+                line = line[end + 3:]
+                in_comment = False
+            start = line.find("<!--")
+            if start < 0:
+                break
+            end = line.find("-->", start)
+            if end < 0:
+                line = line[:start]
+                in_comment = True
+                break
+            line = line[:start] + line[end + 3:]
+        out.append((n, line))
+    return out
+
+
 def _placeholders_and_process_language() -> list[str]:
     problems = []
     for path in SUBMISSION_FILES:
-        text = _read(path)
-        for m in _PLACEHOLDER.finditer(text):
-            line = text.count("\n", 0, m.start()) + 1
-            problems.append(f"{path.name}:{line}: unresolved placeholder <<{m.group(0)}>>")
-        for rx, why in _PROCESS_WORDS:
-            for m in rx.finditer(text):
-                line = text.count("\n", 0, m.start()) + 1
-                problems.append(f"{path.name}:{line}: <<{m.group(0)}>> -- {why}")
+        if not path.exists():
+            continue
+        section = ""
+        for line_no, line in _visible_lines(_read(path)):
+            stripped = line.strip()
+            if stripped.startswith("#"):
+                section = stripped.lstrip("#").strip().lower()
+            for m in _PLACEHOLDER.finditer(line):
+                problems.append(f"{path.name}:{line_no}: unresolved placeholder "
+                                f"<<{m.group(0)}>>")
+            for rx, why in _PROCESS_WORDS:
+                if why == "internal repository path" and (
+                        path.name not in _PATH_SCANNED_FILES
+                        or any(a in section for a in _PATH_ALLOWED_SECTIONS)):
+                    continue
+                for m in rx.finditer(line):
+                    problems.append(f"{path.name}:{line_no}: <<{m.group(0)}>> -- {why}")
     return problems
 
 
@@ -403,6 +474,50 @@ def _endpoint_science() -> list[str]:
     return problems
 
 
+def _sign_stability_claims_match_the_audit() -> list[str]:
+    """Round-9 P0-2. The paper must not contradict its own archived audit.
+
+    At the round-9 target the abstract said the bound near zero was "unresolved at the precision
+    this resampling attains" while the Results said its sign was numerically settled at ~8 Monte
+    Carlo standard errors and the artefact recorded ``upper_bound_sign_is_stable = true``. Both
+    statements were about the same 40 g bound. A reader could not tell whether the endpoint
+    sensitivity was a scientific result or a numerical artefact, because the paper said both.
+
+    This binds the direction of the claim to the archived flag, in both directions.
+    """
+    from puckworks.paper_a import transfer_semantics as TS
+
+    if not ENDPOINT_JSON.exists():
+        return []
+    ep = json.loads(_read(ENDPOINT_JSON))
+    try:
+        audit = TS.find_exact_audit(ep, TS.AUDITED_TARGET)
+    except KeyError as exc:
+        return ["the endpoint artefact has no audit for the declared target: %s" % exc]
+
+    stable = bool(audit.get("upper_bound_sign_is_stable"))
+    problems = []
+    # Phrases that assert the sign/side is NOT numerically resolved.
+    unresolved_claims = ("not a resolved quantity", "unresolved at the precision",
+                         "sign is not resolved", "not numerically resolved")
+    for path in (CONVERSION, CANONICAL, SUPPLEMENT, PACKAGE, COVER_LETTER):
+        if not path.exists():
+            continue
+        flat = _flat(_read(path))
+        for phrase in unresolved_claims:
+            if phrase in flat and stable:
+                problems.append(
+                    "%s says %r, but the archived audit for %s records "
+                    "upper_bound_sign_is_stable=true. Numerical sign stability, endpoint "
+                    "sensitivity of the zero relation, and absence of calibrated coverage are "
+                    "three different statements and must not be collapsed."
+                    % (path.name, phrase, TS.AUDITED_TARGET.prose))
+        if not stable and "numerically stable" in flat:
+            problems.append("%s claims the bound is numerically stable, but the archived audit "
+                            "says it is not" % path.name)
+    return problems
+
+
 def _no_active_volume_endpoint() -> list[str]:
     """No active submission-facing path may describe the collected endpoint as a volume.
 
@@ -434,6 +549,7 @@ CHECKS = (
     ("figure labels", _figure_labels),
     ("endpoint science contract", _endpoint_science),
     ("no active volume endpoint", _no_active_volume_endpoint),
+    ("sign-stability claims match the audit", _sign_stability_claims_match_the_audit),
 )
 
 

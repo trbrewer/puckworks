@@ -48,7 +48,9 @@ _REPO = Path(__file__).resolve().parents[1]
 if str(_REPO) not in sys.path:
     sys.path.insert(0, str(_REPO))
 
+from puckworks.paper_a import source_resampling_oracle as ORACLE  # noqa: E402
 from puckworks.paper_a import transfer_contract as TC  # noqa: E402
+from puckworks.paper_a import transfer_semantics as TS  # noqa: E402
 
 RESOURCE = _REPO / "docs" / "paper1_resource"
 ENDPOINT_JSON = RESOURCE / "PAPER_A_ENDPOINT_PROPAGATION.json"
@@ -145,7 +147,8 @@ def check() -> list[str]:
             problems.append("%s: source_sha256 %r != the committed bioactives.csv (%s)"
                             % (label, art.get("source_sha256"), src[:12]))
     problems += ["endpoint: %s" % p for p in TC.validate_endpoint_contract(ep)]
-    problems += ["comparator-loss: %s" % p for p in TC.validate_endpoint_contract(loss)]
+    problems += ["comparator-loss: %s" % p for p in
+             TC.validate_endpoint_contract(loss, require_rows=False)]
 
     # -- corpus membership, bound to the SOURCE not to each other ------------------------------
     problems += _check_corpus_block("endpoint", ep.get("corpus"), complete)
@@ -175,21 +178,31 @@ def check() -> list[str]:
         if design.get("primary_scheme") != TC.PRIMARY_SCHEME:
             problems.append("endpoint: primary_scheme is %r, the contract declares %r"
                             % (design.get("primary_scheme"), TC.PRIMARY_SCHEME))
-        # Membership must match a design rebuilt from the source corpus, not merely be internally
-        # consistent — otherwise a wrong partition that hashes itself still passes.
-        for name in TC.SCHEME_ORDER:
-            s = (design.get("schemes") or {}).get(name) or {}
-            expect_clusters = {
-                "cond_in_variety": 26, "sample_in_variety_grind": 44,
-                "cond_in_group": 78, "group": 6}[name]
-            if s.get("n_clusters") != expect_clusters:
-                problems.append("endpoint: scheme %r has %r clusters, the corpus gives %d"
-                                % (name, s.get("n_clusters"), expect_clusters))
-        prim = (design.get("schemes") or {}).get(TC.PRIMARY_SCHEME) or {}
-        if prim.get("cluster_size_distribution") != {"3": 8, "6": 18}:
-            problems.append("endpoint: the primary cluster census is %r, the corpus gives "
-                            "18 six-observation and 8 three-observation clusters"
-                            % (prim.get("cluster_size_distribution"),))
+        # Round-9 P1-3. This block used to carry exactly the comment above and then compare only
+        # hard-coded cluster COUNTS plus the primary size distribution, while
+        # `validate_resampling_design` compared the membership against its own hash. It did not
+        # rebuild anything from the source, and two scientifically wrong partitions passed:
+        # swapping one solute between two sample records, and moving an observation into the wrong
+        # condition cluster. Both preserve every count, every size distribution and every hash.
+        #
+        # The comparison is now exact and against an INDEPENDENT oracle that parses the CSV itself
+        # and deliberately shares no code with the production grouping functions, so a shared
+        # grouping bug can no longer certify itself.
+        problems += ["endpoint: %s" % p for p in ORACLE.compare_design(design)]
+
+    # -- Monte Carlo audits: addressed by exact target, never reused (round-9 P1-1) -------------
+    audits = ep.get("stability_audits")
+    if not isinstance(audits, list) or not audits:
+        problems.append("endpoint: no `stability_audits` list; the round-8 schema stored one "
+                        "top-level scalar, which let a single target's Monte Carlo error be "
+                        "printed as though it described every endpoint, scheme and fitting loss")
+    else:
+        for i, a in enumerate(audits):
+            if not isinstance(a, dict) or not isinstance(a.get("target"), dict):
+                problems.append("endpoint: stability_audits[%d] declares no exact target" % i)
+        if not TS.has_exact_audit(ep, TS.AUDITED_TARGET):
+            problems.append("endpoint: no archived Monte Carlo audit for the declared target %r"
+                            % (TS.AUDITED_TARGET.as_dict(),))
 
     # -- intervals: display must reconcile with full precision ---------------------------------
     for label, art in (("endpoint", ep), ("comparator-loss", loss)):

@@ -216,8 +216,10 @@ SLOW_LANE_RESULTS: dict[str, str] = {
     "0.833": "endpoint propagation: 40 g primary clustered range width (pp)",
     "0.0038": "endpoint propagation: 40 g primary clustered range, signed upper bound at full "
               "precision (pp) -- reliably positive, so the range contains zero",
-    "0.0005": "Monte Carlo standard error of a primary clustered bound at the canonical draw "
-              "count (pp), from the 20-seed stability audit",
+    "0.000466": "upper-bound Monte Carlo standard error at the canonical draw count (pp), from "
+                "the 20-seed audit of the 40 g cond_in_variety primary-loss target",
+    "0.000520": "lower-bound Monte Carlo standard error at the canonical draw count (pp), "
+                "same audited target",
     "0.006": "endpoint propagation: 42 g primary clustered range, upper bound (pp)",
     "0.004": "endpoint propagation: 40 g primary clustered range, upper bound (pp); also the "
              "alternative-loss primary upper bound. Round-8 P1-2: reliably POSITIVE at the "

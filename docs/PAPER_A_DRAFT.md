@@ -606,13 +606,13 @@ not dominate. The near-optimal threshold family is **2 / 5 / 10 / 20 %**; the 10
 **declared**, not inferred, and is reported as a tolerance set rather than a confidence region.
 
 <!-- paper-a:transfer-methods:begin -->
-<!-- paper-a:transfer-corpus schema=2 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
+<!-- paper-a:transfer-corpus schema=3 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
 
 *Resampling.* For each held-out coarse/fine solute observation we form the **paired** difference between the frozen mechanistic loss and the frozen O-trained level-only comparator loss. Both predictors are fixed before any C/F response is scored and neither is refitted inside the resampling, so the resulting percentile intervals are **fixed-predictor clustered sensitivity ranges**, not calibrated confidence intervals. Whole clusters are drawn with replacement within their declared strata, every observation in a drawn cluster is retained, and model and comparator losses always move together because the paired difference is formed per observation before any draw. The canonical run uses \(B=1{,}000{,}000\) draws at seed 0 with the PCG64 generator and the linear quantile convention at the 2.5/97.5 percentiles.
 
 **Four cluster schemes** are reported, not two. The pre-declared **primary** scheme resamples `cond_in_variety` — (variety, temperature, pressure) conditions drawn within variety. The complete corpus contains **26 such clusters**, and they are **not** uniformly sized: **18 contain both a coarse and a fine sample record** for all three named solutes (six observations each), while **8 off-grid clusters contain one grind only** (three observations each). This construction deliberately keeps same-condition cross-solute outcomes together and, where both grinds exist, additionally couples the distinct C and F sample records. It is a **conservative dependence assumption**, not the design's uniquely identified experimental unit: C and F at a shared nominal condition are separate espresso samples, and the source does not identify them as replicates of one unit. It is retained as primary for that pre-declared reason and not because of where its range falls relative to zero. Three secondary schemes are reported alongside it: `sample_in_variety_grind` (44 clusters), `cond_in_group` (78 clusters), `group` (6 clusters). Every scheme covers the same 132 observations and yields the same point estimate; only the range differs. Exact cluster keys, strata, counts and size distributions are in Supplementary Table S6, and per-scheme membership is archived in `PAPER_A_ENDPOINT_PROPAGATION.json`.
 
-Because the paper's headline range has a bound within hundredths of a percentage point of zero, the Monte Carlo resolution of that bound is audited directly: 20 independent seeds at \(B=200{,}000\) each. The implied Monte Carlo standard error of the canonical bounds is ±0.0005 pp, so the third displayed decimal is resolved only to about ±0.001 pp. That audit measures numerical approximation of this resampling distribution; it confers no coverage interpretation. The held-out-error interval is a separate procedure: it resamples the nine temperature–pressure **conditions** with replacement, refits level and rate on the in-bag conditions and scores the out-of-bag conditions, with **600** draws at seed 0 of which **599** are effective (one draw left no condition out of bag). Its estimand is held-out error at an out-of-bag fraction of roughly three to four conditions in nine, which is **not** the single-condition leave-one-out estimand.
+Because the paper's headline range has a bound within hundredths of a percentage point of zero, the Monte Carlo resolution of that bound is audited directly, for **one exactly specified target** — 40 g, cond_in_variety, primary fitting loss — over 20 independent seeds at \(B=200{,}000\) each. At the canonical draw count the implied lower- and upper-bound Monte Carlo standard errors are 0.000520 and 0.000466 pp. Three decimals are retained in the reported ranges to distinguish a small non-zero bound from exact contact with zero, but the final displayed digit should not be read as seed-invariant. Monte Carlo quantile error depends on the resampling distribution and its local tail density, so this estimate is **not** transferred to the other endpoints, to the secondary schemes, or to the alternative fitting loss, none of which was separately audited. It measures numerical approximation of one resampling distribution; it confers no coverage interpretation. The held-out-error interval is a separate procedure: it resamples the nine temperature–pressure **conditions** with replacement, refits level and rate on the in-bag conditions and scores the out-of-bag conditions, with **600** draws at seed 0 of which **599** are effective (one draw left no condition out of bag). Its estimand is held-out error at an out-of-bag fraction of roughly three to four conditions in nine, which is **not** the single-condition leave-one-out estimand.
 <!-- paper-a:transfer-methods:end -->
 
 *Reporting hierarchy.* Several related diagnostics appear below and they are not
@@ -744,9 +744,9 @@ With that established, the assay supports one thing only, and it is a lesson abo
 design rather than a result: an inventory measurement that *were* independently anchored to the
 model's own quantity would enter the objective along a different direction from the beverage
 endpoint, and could rotate or intersect the valley — which is precisely the kind of contrast the
-whole-cup design lacks. No numerical implied-rate intersection is reported at all. An earlier draft promised one in a
-supplementary table; it has been withdrawn rather than relocated, because an intersection computed
-under an arbitrary volume basis invites precisely the quantitative reading this paragraph rejects.
+whole-cup design lacks. No numerical implied-rate intersection is reported, and none should be: an intersection
+computed under an arbitrary volume basis would invite precisely the quantitative reading this
+paragraph rejects.
 The dimensional audit is Supplementary Note S1. Throughout, we call this an
 **orthogonal same-campaign inventory assay**; it is not an independent external measurement.
 
@@ -793,8 +793,8 @@ discrepancy or outliers even for a reasonably estimable parameter — but the su
 *together with* the broad boundary-reaching near-optimal sets, is further evidence that rate
 localization is weak under plausible objective choices. A relative or robust weighting therefore does
 not close the valley; the weak localization is a property of the design, not of the unweighted
-objective. (Full six-panel table: `docs/paper1_resource/PAPER_A_OBJECTIVE_FAMILY_PANELS.json` and
-`docs/paper1_resource/PAPER_A_P0-5_RESULTS.md`. A *calibrated* per-observation weighting of the
+objective. (Full six-panel objective-family results are Supplementary Tables S1 and S2. A *calibrated*
+per-observation weighting of the
 named-solute profile remains impossible while only global RSD ranges are published for those rows.)
 
 **Grid-density and domain convergence** (grid-convergence check): the broad, boundary-reaching profile **persists across the tested grid densities
@@ -844,7 +844,7 @@ campaign (same varieties, platform, assay), a within-campaign design extrapolati
 an external-rig prediction.
 
 <!-- paper-a:transfer-headline:begin -->
-<!-- paper-a:transfer-corpus schema=2 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
+<!-- paper-a:transfer-corpus schema=3 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
 
 **Level-only comparator: absolute error alone does not establish transfer skill.** This is the paper's principal quantitative result, so we state it first. Against an **optimal-grind-trained MAPE-optimal constant**, the mechanistic model's pooled held-out MAPE is **8.44%** versus **8.83%** for the constant — a paired difference of **−0.394 percentage points**, whose primary clustered percentile range is **[−0.829, +0.004] pp** and contains zero, with the mechanistic model **worse on 62 of 132 held-out observations**. Acceptable endpoint accuracy therefore did not supply resolvable skill beyond a transferred concentration level.
 <!-- paper-a:transfer-headline:end -->
@@ -883,7 +883,7 @@ across grinds — **not** that the kinetic/transport mechanism transfers. This s
 weakens the paper's thesis.
 
 <!-- paper-a:transfer-results:begin -->
-<!-- paper-a:transfer-corpus schema=2 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
+<!-- paper-a:transfer-corpus schema=3 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
 
 Treating the 132 held-out observations as the **dependent** observations they are, a **paired clustered resampling** of the model-minus-comparator loss gives a sensitivity range on the pooled ΔMAPE of **[−0.829, +0.004] pp** under the pre-declared primary unit, the **(variety, temperature, pressure) condition**.
 
@@ -891,7 +891,7 @@ That unit is a deliberately **conservative** choice rather than the design's dem
 
 Two coarser constructions complete the bracket. Resampling conditions separately within each variety × solute group — which lets caffeine, trigonelline and 5-CQA draw *different* conditions from the same variety, breaking cross-solute dependence — gives **[−0.740, −0.039] pp**; resampling whole variety × solute groups (6 clusters) gives **[−0.863, −0.024] pp**. These do **not** all narrow the primary range: their widths are 0.689 pp (`sample_in_variety_grind`), 0.702 pp (`cond_in_group`), 0.839 pp (`group`) against **0.833 pp** for the primary, so the whole-group scheme is in fact **wider**. A single story in which dropping dependence manufactures precision does not fit them, and we do not tell one; the schemes bracket plausible grouping assumptions and none of them is selected or discarded for where its range falls.
 
-The **practical size of the effect is the reportable result**: the mechanistic model's pooled advantage is −0.394 pp against pooled errors near 8.44%, and it is the *worse* predictor on 62 of 132 held-out observations. The primary range's upper bound is +0.0038 pp — a magnitude three orders below the errors both predictors carry. Its **sign** is numerically settled: across 20 independent seeds the bound's Monte Carlo standard error at the canonical draw count is ±0.0005 pp, so the bound sits roughly 8 standard errors from zero and the range genuinely contains zero rather than grazing it. Numerical resolution is not inferential resolution. We therefore make **no claim of statistical distinguishability, non-distinguishability or equivalence** from these ranges: they are fixed-predictor sensitivity ranges without calibrated coverage, and neither a bound's sign nor its rounded contact with zero is treated as inferential evidence.
+The **practical size of the effect is the reportable result**: the pooled difference is −0.394 pp — negative favours the mechanistic model — against pooled errors near 8.44%, and it is the *worse* predictor on 62 of 132 held-out observations. The primary range's upper bound is +0.0038 pp — a magnitude three orders below the errors both predictors carry. For this target — 40 g, cond_in_variety, primary fitting loss — its **sign** is numerically settled: across 20 independent seeds the upper-bound Monte Carlo standard error at the canonical draw count is 0.000466 pp, so the bound sits roughly 8 standard errors above zero and the range genuinely contains zero rather than grazing it. No equivalent audit exists for the other endpoints, the secondary schemes or the alternative fitting loss, and this estimate is not extended to them. Numerical resolution is not inferential resolution. We therefore make **no claim of statistical distinguishability, non-distinguishability or equivalence** from these ranges: they are fixed-predictor sensitivity ranges without calibrated coverage, and neither a bound's sign nor its rounded contact with zero is treated as inferential evidence.
 <!-- paper-a:transfer-results:end -->
 
 These percentile ranges resample the two fixed predictors' precomputed losses. They are **not**
@@ -907,15 +907,17 @@ freeze that calibration, predict every held-out coarse/fine observation at the s
 the level-only constant at the same endpoint, and repeat the primary clustered resampling.
 
 <!-- paper-a:transfer-endpoint-table:begin -->
-<!-- paper-a:transfer-corpus schema=2 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
+<!-- paper-a:transfer-corpus schema=3 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
 
-**Table 4a. The transfer-versus-comparator benchmark propagated through the declared ±2 g collection tolerance.** Ranges are the primary `cond_in_variety` clustered percentile sensitivity ranges; the Monte Carlo standard error on each bound is ±0.0005 pp.
+**Table 4a. The transfer-versus-comparator benchmark propagated through the declared ±2 g collection tolerance.** Ranges are the primary `cond_in_variety` clustered percentile sensitivity ranges at the canonical draw count, not calibrated confidence intervals. Negative values favour the mechanistic model.
 
-| endpoint | model pooled MAPE (%) | level-only comparator (%) | paired difference (pp) | primary clustered percentile range (pp) | model worse on |
-|---|---:|---:|---:|---:|---:|
-| 38 g | 8.39 | 8.83 | −0.447 | [−0.884, −0.042] | 61 of 132 |
-| **40 g** | **8.44** | **8.83** | **−0.394** | **[−0.829, +0.004]** | **62 of 132** |
-| 42 g | 8.41 | 8.83 | −0.425 | [−0.891, +0.006] | 60 of 132 |
+| endpoint | model pooled MAPE (%) | level-only comparator (%) | paired difference (pp) | primary clustered percentile range (pp) | zero relation | model worse on |
+|---|---:|---:|---:|---:|---|---:|
+| 38 g | 8.39 | 8.83 | −0.447 | [−0.884, −0.042] | excludes zero on the negative side | 61 of 132 |
+| **40 g** | **8.44** | **8.83** | **−0.394** | **[−0.829, +0.004] †** | **contains zero** | **62 of 132** |
+| 42 g | 8.41 | 8.83 | −0.425 | [−0.891, +0.006] | contains zero | 60 of 132 |
+
+† The retained multi-seed Monte Carlo audit applies to this row only — 40 g, cond_in_variety, primary fitting loss. At the canonical draw count its lower- and upper-bound standard errors are approximately 0.000520 and 0.000466 pp. The other endpoints' canonical ranges were computed identically but their Monte Carlo precision was not separately audited, and this estimate is not transferred to them.
 <!-- paper-a:transfer-endpoint-table:end -->
 
 The comparator is identical at all three endpoints, which is a check on the procedure rather than a
@@ -929,13 +931,13 @@ Two things follow, and they agree.
 
 The **effect size is stable**. The paired difference spans −0.447 to −0.394 pp, a spread of 0.053 pp — an order of magnitude smaller than the ≈5 pp movement the same endpoint range produces in the blind optimal-grind residual. That contrast is the expected one: those are different estimands, and here both predictors are re-derived at each endpoint, so a shift common to both cancels. The sign never changes, and the model remains worse on roughly half the held-out observations at every endpoint.
 
-The **position of the boundary is not a finding**. At the canonical draw count the primary clustered range contains zero at 40 g and 42 g and excludes it at 38 g. The three upper bounds are −0.042, +0.004 and +0.006 pp: they differ from one another, and from zero, by less than a twentieth of a percentage point, against pooled errors near 8.4 % in both arms. Whether such a bound falls just inside or just outside zero follows from the clustering assumption and the endpoint, not from any measurement of skill, and we do not read it as one. The same holds across fitting losses: refitting both predictors under a log/relative-error level fit moves the paired difference only from −0.394 to −0.393 pp, and leaves the primary range on the same side of zero.
+The **position of the boundary is not a finding**. At the canonical draw count the primary clustered range contains zero at 40 g and 42 g and excludes it at 38 g. The three upper bounds are −0.042, +0.004 and +0.006 pp: they differ from one another, and from zero, by less than a twentieth of a percentage point, against pooled errors near 8.4 % in both arms. Whether such a bound falls just inside or just outside zero follows from the clustering assumption and the endpoint, not from any measurement of skill, and we do not read it as one. The same holds across fitting losses: refitting both predictors under a log/relative-error level fit moves the paired difference only from −0.394 to −0.393 pp, and the loss-specific ranges both contain zero.
 
-No row supports a claim of resolvable skill. Across the sweep the primary ranges span −0.891 to +0.006 pp: at their most favourable end they permit an advantage well under one percentage point, and at their least favourable end they permit none at all — against pooled errors near 8.4 % in both arms. We report the benchmark as **unresolved throughout the declared tolerance**, and we do not convert a percentile bound's position into an inequality that carries the conclusion. Per-endpoint values, under every declared cluster scheme, are Supplementary Table S3.
+No row supports a claim of resolvable skill. Because the estimand is model loss minus comparator loss, negative values favour the mechanistic model: the most favourable bound across the sweep is −0.891 pp and the least favourable is +0.006 pp, so at the favourable end these ranges permit an advantage well under one percentage point and at the unfavourable end they permit none at all — against pooled errors near 8.4 % in both arms. We report the benchmark as **unresolved throughout the declared tolerance**, and we do not convert a percentile bound's position into an inequality that carries the conclusion. Per-endpoint values, under every declared cluster scheme, are Supplementary Table S3.
 <!-- paper-a:transfer-endpoint-reading:end -->
 
 <!-- paper-a:transfer-table5:begin -->
-<!-- paper-a:transfer-corpus schema=2 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
+<!-- paper-a:transfer-corpus schema=3 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
 
 **Table 5. Resampling quantities used in this paper, by estimand.** These are numerically similar, easily conflated, and do not estimate the same target; the out-of-bag refit interval is *not* an uncertainty interval for the −0.394 pp model-minus-comparator difference.
 
@@ -1021,9 +1023,9 @@ changes sign, so the loss-robustness claim is made about the estimand that actua
 conclusion.
 
 <!-- paper-a:transfer-loss-robustness:begin -->
-<!-- paper-a:transfer-corpus schema=2 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
+<!-- paper-a:transfer-corpus schema=3 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
 
-Refitting **both** the mechanistic model and the level-only comparator under the same log/relative-error level fit, and scoring both under the same rule, the paired model-minus-comparator difference moves from **−0.394 pp** to **−0.393 pp** (pooled 8.50% versus 8.89%; the model worse on 62 of 132 observations under either loss). The primary clustered percentile range is [−0.829, +0.004] under the primary loss and [−0.826, +0.004] under the alternative, and at the canonical draw count both lie on the same side of zero. The fitting loss therefore moves neither the sign, the magnitude, nor the practical reading. It is that comparison, not the mechanistic model's own error, that establishes the verdict is not an artefact of the fitting loss.
+Refitting **both** the mechanistic model and the level-only comparator under the same log/relative-error level fit, and scoring both under the same rule, the paired model-minus-comparator difference moves from **−0.394 pp** to **−0.393 pp** (pooled 8.50% versus 8.89%; the model worse on 62 of 132 observations under either loss). The primary clustered percentile range is [−0.829, +0.004] under the primary loss and [−0.826, +0.004] under the alternative, and at the canonical draw count both contain zero. The fitting loss therefore does not materially change the point estimate, the zero relation, or the practical reading. It is that comparison, not the mechanistic model's own error, that establishes the verdict is not an artefact of the fitting loss.
 <!-- paper-a:transfer-loss-robustness:end -->
 
 The conclusion is likewise robust to the choice of a
@@ -1116,8 +1118,8 @@ sufficient) are reported in the supplement.
 above are part of the model's own calibration lineage, so they provide *in-sample
 verification* of objective localization, not independent identification. To add a
 genuinely external observation class we evaluate the public five-second TDS fractions
-of Waszkiewicz et al. (2026, *Phys. Fluids* **38**, 063113; already in the repo as
-Waszkiewicz et al. (2026), same Zenodo release), collected on a **second café-grade rig** with
+of Waszkiewicz et al. (2026, *Phys. Fluids* **38**, 063113), collected on a **second café-grade
+rig** with
 a simultaneously measured flow trace. We freeze the Pannusch TDS *kinetics* and, at
 each rate, **profile a target-specific concentration level** against the Waszkiewicz
 observations (the coffee and inventory differ). This is therefore **external-data

@@ -1,5 +1,5 @@
 {
- "schema_version": 2,
+ "schema_version": 3,
  "source_sha256": "780ba72d13f87f695cd41c16a18b003871f87ed80149e9c3bf0b76d2d2f2866a",
  "question": "Round-7 P0-3: the headline benchmark filtered every grind to on_grid==True, excluding eight coarse/fine off-grid validation records (24 named-solute observations) while Table 1 claimed the C/F corpus was held out in its entirety. Both defensible contracts are evaluated here; the COMPLETE corpus was adopted as the headline, and the matched on-grid subset is retained as the secondary corpus and as the support on which the same-(T,p) lookup comparator is defined.",
  "adopted": "complete_corpus",
@@ -15,7 +15,7 @@
  },
  "matched_on_grid": {
   "corpus": {
-   "schema_version": 2,
+   "schema_version": 3,
    "estimand": "matched 3x3 on-grid C/F transfer benchmark",
    "support_set": "matched_grid_cf_corpus_108",
    "include_off_grid": false,
@@ -1080,7 +1080,7 @@
  },
  "complete_corpus": {
   "corpus": {
-   "schema_version": 2,
+   "schema_version": 3,
    "estimand": "complete held-out C/F corpus (on-grid + off-grid)",
    "support_set": "complete_cf_corpus_132",
    "include_off_grid": true,

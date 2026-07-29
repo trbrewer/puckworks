@@ -35,7 +35,12 @@ from decimal import Decimal, ROUND_HALF_UP
 
 #: Bump when a field's *meaning* changes, not when a value is regenerated. Consumers use this to
 #: tell a corrected collected-mass artefact from an untyped legacy one.
-SCHEMA_VERSION = 2
+#:
+#: v3 (round-9 P1-1): the single top-level `stability_audit` scalar became a
+#: `stability_audits` LIST keyed by exact target, because a Monte Carlo precision estimate
+#: for one endpoint/scheme/loss is not a property of any other. Cluster ids for the
+#: variety x solute schemes were also normalised to the pipe delimiter.
+SCHEMA_VERSION = 3
 
 # ─────────────────────────────────────────────────────────────────────────────────────────────
 # Endpoint contract (round-8 P0-3)
@@ -72,11 +77,17 @@ def _trim(value: float) -> str:
     return ("%f" % float(value)).rstrip("0").rstrip(".")
 
 
-def validate_endpoint_contract(artifact: dict) -> list[str]:
-    """Return a list of problems with an artefact's endpoint declaration; empty means valid.
+def validate_endpoint_contract(artifact: dict, require_rows: bool = True) -> list[str]:
+    """Return a list of problems with an artefact's endpoint contract; empty means valid.
 
-    Checks the top-level declaration AND the row-level representation. Checking only the target
-    array lets a row keep a wrong key or unit; checking only rows lets the declaration lie.
+    Checks the top-level declaration AND, when ``require_rows``, the row-level representation.
+    Checking only the target array lets a row keep a wrong key or unit; checking only rows lets the
+    declaration lie.
+
+    ``require_rows=False`` is for artefacts whose ``rows`` are indexed by something other than the
+    endpoint — the comparator-loss artefact keys its two rows by fitting loss and evaluates them all
+    at one endpoint, so it must satisfy the endpoint *declaration* without carrying one row per
+    target.
     """
     problems: list[str] = []
 
@@ -104,17 +115,68 @@ def validate_endpoint_contract(artifact: dict) -> list[str]:
             problems.append("endpoint.targets is %r, expected %r (exact set and order)"
                             % (targets, list(ENDPOINT_TARGETS)))
 
+    if require_rows:
+        problems += validate_endpoint_rows(artifact)
+    return problems
+
+
+def validate_endpoint_rows(artifact: dict) -> list[str]:
+    """Require exactly the three complete endpoint result rows. **Fails closed.**
+
+    Round-9 P1-2. This check used to be guarded by
+
+        if isinstance(rows, list) and rows and ENDPOINT_ROW_KEY in (rows[0] or {}):
+
+    so every way of making the rows *absent* skipped validation entirely and the contract returned
+    a clean bill of health. All four of these were demonstrated false greens: deleting `rows`,
+    setting it to `[]`, removing `m_target_g` from every row, and removing it from the first row
+    only. The endpoint rows are the actual realisation of the 38/40/42 g science — a contract named
+    for the endpoint that tolerates their disappearance has not checked the thing it is named for.
+
+    Malformed input is reported as a problem, never raised: a validator that crashes on a bad
+    artefact cannot be used to reject one.
+    """
+    expected = sorted(float(t) for t in ENDPOINT_TARGETS)
     rows = artifact.get("rows")
-    if isinstance(rows, list) and rows and ENDPOINT_ROW_KEY in (rows[0] or {}):
-        seen = [float(r.get(ENDPOINT_ROW_KEY)) for r in rows
-                if r.get(ENDPOINT_ROW_KEY) is not None]
-        if sorted(seen) != sorted(float(t) for t in ENDPOINT_TARGETS):
-            problems.append("endpoint rows cover %r, expected exactly one row per target %r"
-                            % (sorted(seen), sorted(float(t) for t in ENDPOINT_TARGETS)))
-        for r in rows:
-            for key in RETIRED_ENDPOINT_KEYS + ("v_target_ml",):
-                if key in r:
-                    problems.append("an endpoint row carries the retired key %r" % key)
+
+    if rows is None:
+        return ["artefact has no `rows`: the endpoint result rows are missing entirely"]
+    if not isinstance(rows, list):
+        return ["artefact `rows` is %s, expected a list of %d endpoint rows"
+                % (type(rows).__name__, len(expected))]
+    if not rows:
+        return ["artefact `rows` is empty; expected one row per endpoint target %r" % (expected,)]
+
+    problems: list[str] = []
+    if len(rows) != len(expected):
+        problems.append("artefact carries %d endpoint rows, expected exactly %d (one per target "
+                        "%r)" % (len(rows), len(expected), expected))
+
+    seen: list[float] = []
+    for i, r in enumerate(rows):
+        if not isinstance(r, dict):
+            problems.append("endpoint row %d is %s, expected a mapping" % (i, type(r).__name__))
+            continue
+        for key in set(RETIRED_ENDPOINT_KEYS) | {"v_target_ml"}:
+            if key in r:
+                problems.append("endpoint row %d carries the retired key %r" % (i, key))
+        if ENDPOINT_ROW_KEY not in r:
+            problems.append("endpoint row %d has no %r" % (i, ENDPOINT_ROW_KEY))
+            continue
+        raw = r[ENDPOINT_ROW_KEY]
+        try:
+            value = float(raw)
+        except (TypeError, ValueError):
+            problems.append("endpoint row %d has non-numeric %s=%r" % (i, ENDPOINT_ROW_KEY, raw))
+            continue
+        if value != value or value in (float("inf"), float("-inf")):
+            problems.append("endpoint row %d has non-finite %s=%r" % (i, ENDPOINT_ROW_KEY, raw))
+            continue
+        seen.append(value)
+
+    if sorted(seen) != expected:
+        problems.append("endpoint rows cover %r, expected exactly one row per target %r"
+                        % (sorted(seen), expected))
     return problems
 
 
@@ -485,11 +547,25 @@ def cluster_key_of(record: dict, scheme: str) -> str:
     if scheme == "sample_in_variety_grind":
         return str(record["sample"])
     if scheme == "cond_in_group":
-        return "%s|%s|%s" % (_group_of(record), _cond_key(record["T"]), _cond_key(record["p"]))
+        return "%s|%s|%s" % (_variety_solute_id(record),
+                             _cond_key(record["T"]), _cond_key(record["p"]))
     if scheme == "group":
-        return _group_of(record)
+        return _variety_solute_id(record)
     raise ValueError("unknown resampling scheme %r; expected one of %r"
                      % (scheme, list(SCHEME_ORDER)))
+
+
+def _variety_solute_id(record: dict) -> str:
+    """``variety|solute``, pipe-joined like every other cluster id in the design.
+
+    The producer supplies the pair pre-joined with a colon as ``group``; using that field directly
+    put a colon inside an otherwise pipe-delimited id, so the same cluster had two spellings
+    depending on which code path built it. The source oracle declares the pipe form, so the
+    delimiter is normalised here rather than left to the caller.
+    """
+    if record.get("variety") is not None and record.get("solute") is not None:
+        return "%s|%s" % (record["variety"], record["solute"])
+    return str(record["group"]).replace(":", "|")
 
 
 def stratum_key_of(record: dict, scheme: str) -> str:
@@ -500,10 +576,10 @@ def stratum_key_of(record: dict, scheme: str) -> str:
     strata = SCHEMES[scheme]["strata"]
     if not strata:
         return ""
-    # `cond_in_group` strata are (variety, solute) — i.e. exactly the group label, which the
-    # producer already supplies joined.
+    # `cond_in_group` strata are (variety, solute) — i.e. the group label, which the producer
+    # supplies pre-joined. Normalised to the pipe delimiter for the same reason as the cluster id.
     if strata == ["variety", "solute"]:
-        return _group_of(record)
+        return _variety_solute_id(record)
     parts = []
     for s in strata:
         if s == "variety":

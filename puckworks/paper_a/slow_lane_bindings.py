@@ -135,7 +135,12 @@ BINDINGS: dict[str, tuple] = {
     "0.0038": (ENDPOINT, "rows.1.resampling.cond_in_variety.interval.full_precision_pp.upper",
                _abs, 0, 5e-5),
     "0.006": (ENDPOINT, "rows.2.resampling.cond_in_variety.interval.display.upper", _abs, 0, 5e-4),
-    "0.0005": (ENDPOINT, "stability_audit.upper_monte_carlo_se_at_canonical_B_pp", None, 0, 5e-5),
+    # Round-9 P1-1: the audit moved from one top-level scalar to a target-keyed list, and the
+    # prose now quotes BOTH bound standard errors rather than one symmetric value.
+    "0.000466": (ENDPOINT, "stability_audits.0.upper_monte_carlo_se_at_canonical_B_pp",
+                 None, 0, 5e-7),
+    "0.000520": (ENDPOINT, "stability_audits.0.lower_monte_carlo_se_at_canonical_B_pp",
+                 None, 0, 5e-7),
     "78": (ENDPOINT, "resampling_design.schemes.cond_in_group.n_clusters", None, 0, 0.5),
     # comparator loss robustness (round-7 P1-2): both predictors refit under the alternative loss
     "0.393": (LOSS, "rows.1.paired_difference_pp", _abs, 0, 5e-4),
