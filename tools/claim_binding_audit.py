@@ -109,6 +109,18 @@ def coverage() -> dict:
             unbound=slow_total - sl["n_bound"]))
 
 
+def _without_commit(text: str) -> str:
+    """Drop the recorded commit before comparing.
+
+    The commit is provenance, not an input: it changes on every commit, and CI checks out a
+    synthetic merge commit that no committed document could ever name. Enforcing it would make
+    this check fail permanently in CI while passing locally — the staleness signal that matters is
+    the INPUT FINGERPRINTS, which change only when a manuscript or a coverage module does.
+    """
+    return "\n".join(ln for ln in text.splitlines()
+                      if not ln.startswith("**Source commit:**"))
+
+
 def _pct(a: int, b: int) -> str:
     return f"{100.0 * a / b:.1f} %" if b else "n/a"
 
@@ -275,7 +287,7 @@ def main(argv=None) -> int:
     if not OUT.exists():
         print(f"FAIL: {OUT.relative_to(REPO)} does not exist; run --write", file=sys.stderr)
         return 1
-    if OUT.read_text(encoding="utf-8") != text:
+    if _without_commit(OUT.read_text(encoding="utf-8")) != _without_commit(text):
         print(f"FAIL: {OUT.relative_to(REPO)} is stale — its inputs have changed since it was "
               f"generated. Run: python tools/claim_binding_audit.py --write", file=sys.stderr)
         return 1
