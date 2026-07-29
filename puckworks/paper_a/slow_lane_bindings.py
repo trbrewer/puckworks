@@ -36,6 +36,8 @@ ARCHIVE_DIR = REPO / "docs" / "paper1_resource"
 OBJECTIVE = "PAPER_A_OBJECTIVE_FAMILY_PANELS.json"
 EXTERNAL = "PAPER_A_EXTERNAL_PANEL_LOSSES.json"
 ENDPOINT = "PAPER_A_ENDPOINT_PROPAGATION.json"
+LOSS = "PAPER_A_COMPARATOR_LOSS_ROBUSTNESS.json"
+CORPUS = "PAPER_A_TRANSFER_CORPUS_CONTRACTS.json"
 CONVERGENCE = "PAPER_A_NUMERICAL_CONVERGENCE.json"
 DIFFUSIVITY = "PAPER_A_DIFFUSIVITY_CLOSURE_AUDIT.json"
 #: The committed figure bundle is an archive too: it carries the curvature diagnostics the
@@ -57,18 +59,22 @@ def _pct(v):
 #: The manuscript token is the string as it appears in the prose, so the binding is checkable
 #: against the audit's own tokenisation rather than against a re-parsed number.
 BINDINGS: dict[str, tuple] = {
-    # ── endpoint propagation (rows are ordered 38, 40, 42 mL) ─────────────────────────────────
-    "0.421": (ENDPOINT, "rows.0.paired_difference_pp", _abs, 0, 5e-4),
-    "0.361": (ENDPOINT, "rows.1.paired_difference_pp", _abs, 0, 5e-4),
-    "0.392": (ENDPOINT, "rows.2.paired_difference_pp", _abs, 0, 5e-4),
-    "8.17": (ENDPOINT, "rows.0.pooled_model_mape", None, 0, 5e-3),
-    "8.23": (ENDPOINT, "rows.1.pooled_model_mape", None, 0, 5e-3),
-    "8.20": (ENDPOINT, "rows.2.pooled_model_mape", None, 0, 5e-3),
-    "8.59": (ENDPOINT, "rows.1.pooled_const_mape", None, 0, 5e-3),
-    "51": (ENDPOINT, "rows.0.n_model_worse_than_const", None, 0, 0),
-    "50": (ENDPOINT, "rows.1.n_model_worse_than_const", None, 0, 0),
-    "49": (ENDPOINT, "rows.2.n_model_worse_than_const", None, 0, 0),
-    "108": (ENDPOINT, "rows.1.n_points", None, 0, 0),
+    # ── endpoint propagation (rows are ordered 38, 40, 42 g; complete 44-record C/F corpus) ───
+    "0.447": (ENDPOINT, "rows.0.paired_difference_pp", _abs, 0, 5e-4),
+    "0.394": (ENDPOINT, "rows.1.paired_difference_pp", _abs, 0, 5e-4),
+    "0.425": (ENDPOINT, "rows.2.paired_difference_pp", _abs, 0, 5e-4),
+    "8.39": (ENDPOINT, "rows.0.pooled_model_mape", None, 0, 5e-3),
+    "8.44": (ENDPOINT, "rows.1.pooled_model_mape", None, 0, 5e-3),
+    "8.41": (ENDPOINT, "rows.2.pooled_model_mape", None, 0, 5e-3),
+    "8.83": (ENDPOINT, "rows.1.pooled_const_mape", None, 0, 5e-3),
+    "61": (ENDPOINT, "rows.0.n_model_worse_than_const", None, 0, 0),
+    "62": (ENDPOINT, "rows.1.n_model_worse_than_const", None, 0, 0),
+    "60": (ENDPOINT, "rows.2.n_model_worse_than_const", None, 0, 0),
+    "132": (ENDPOINT, "rows.1.n_points", None, 0, 0),
+    # corpus contract (round-7 P0-3): the declared record counts are bound to the emitted
+    # sample-ID manifest, so "all 44 records" cannot drift away from what was scored.
+    "44": (ENDPOINT, "corpus.n_held_out_records", None, 0, 0),
+    "36": (ENDPOINT, "corpus.n_lookup_observations", lambda v: float(v) / 3.0, 0, 0),
 
     # ── PDE discretisation convergence ────────────────────────────────────────────────────────
     "0.0004": (CONVERGENCE, "worst_case_rel_dev_pct.whole_cup", None, 0, 5e-5),
@@ -99,17 +105,30 @@ BINDINGS: dict[str, tuple] = {
     "7.4": (LOCO_CI, "oob_pooled_mape_point", None, 0, 5e-2),
     "4.3": (LOCO_CI, "coverage_interval95.0", None, 0, 5e-2),
     "11.5": (LOCO_CI, "coverage_interval95.1", None, 0, 5e-2),
-    "0.79": (ENDPOINT, "rows.0.clustered_range_within_group.0", _abs, 0, 5e-3),
-    "0.725": (ENDPOINT, "rows.1.clustered_range_within_group.0", _abs, 0, 5e-4),
-    "0.751": (ENDPOINT, "rows.1.clustered_range_whole_group.0", _abs, 0, 5e-4),
-    "0.027": (ENDPOINT, "rows.1.clustered_range_within_group.1", _abs, 0, 5e-4),
-    "0.032": (ENDPOINT, "rows.1.clustered_range_whole_group.1", _abs, 0, 5e-4),
-    # 0.725 quoted to 2 dp as 0.72 (round-half-down); the allowance is exactly half a
-    # unit in the last displayed place, not a slack tolerance.
-    "0.78": (ENDPOINT, "rows.2.clustered_range_within_group.0", _abs, 0, 5e-3),
-    "0.75": (ENDPOINT, "rows.1.clustered_range_whole_group.0", _abs, 0, 8e-2),
-    "0.01": (ENDPOINT, "rows.2.clustered_range_within_group.1", _abs, 0, 5e-3),
-    "0.42": (ENDPOINT, "rows.0.paired_difference_pp", _abs, 0, 5e-3),
+    # PRIMARY unit (variety, T, p) -- all three named solutes and both held-out grinds move
+    # together. Each bound is bound separately so a change to either end fails.
+    "0.884": (ENDPOINT, "rows.0.clustered_range_within_variety.0", _abs, 0, 5e-4),
+    "0.046": (ENDPOINT, "rows.0.clustered_range_within_variety.1", _abs, 0, 5e-4),
+    "0.825": (ENDPOINT, "rows.1.clustered_range_within_variety.0", _abs, 0, 5e-4),
+    "0.890": (ENDPOINT, "rows.2.clustered_range_within_variety.0", _abs, 0, 5e-4),
+    # secondary units, retained as sensitivities
+    "0.742": (ENDPOINT, "rows.1.clustered_range_within_group.0", _abs, 0, 5e-4),
+    "0.044": (ENDPOINT, "rows.1.clustered_range_within_group.1", _abs, 0, 5e-4),
+    "0.883": (ENDPOINT, "rows.1.clustered_range_whole_group.0", _abs, 0, 5e-4),
+    "0.024": (ENDPOINT, "rows.1.clustered_range_whole_group.1", _abs, 0, 5e-4),
+    # comparator loss robustness (round-7 P1-2): both predictors refit under the alternative loss
+    "0.393": (LOSS, "rows.1.paired_difference_pp", _abs, 0, 5e-4),
+    # the matched on-grid subset, reported as the secondary corpus (round-7 P0-3)
+    "0.361": (CORPUS, "matched_on_grid.paired_difference_pp", _abs, 0, 5e-4),
+    "8.23": (CORPUS, "matched_on_grid.pooled_model_mape", None, 0, 5e-3),
+    "8.59": (CORPUS, "matched_on_grid.pooled_const_mape", None, 0, 5e-3),
+    "9.39": (CORPUS, "complete_corpus.off_grid_only.model_mape", None, 0, 5e-3),
+    "9.93": (CORPUS, "complete_corpus.off_grid_only.const_mape", None, 0, 5e-3),
+    "0.545": (CORPUS, "complete_corpus.off_grid_only.paired_difference_pp", _abs, 0, 5e-4),
+    "8.50": (LOSS, "rows.1.pooled_model_mape", None, 0, 5e-3),
+    "8.89": (LOSS, "rows.1.pooled_const_mape", None, 0, 5e-3),
+    "0.827": (LOSS, "rows.1.clustered_range_within_variety.0", _abs, 0, 5e-4),
+    "0.002": (LOSS, "rows.1.clustered_range_within_variety.1", _abs, 0, 5e-4),
 
     # ── objective family: relative-L2 minimum ─────────────────────────────────────────────────
     "0.58": (OBJECTIVE, "panels.Arabica:caffeine.objective_family.relative_l2.rate_at_min",
@@ -156,13 +175,20 @@ UNBINDABLE: dict[str, str] = {}
 #: Values whose two appearances in the manuscript differ only by ROUNDING, recorded so the choice
 #: is made once rather than rediscovered. Not conflicts between runs.
 ROUNDING_AMBIGUITIES: dict[str, str] = {
-    "conditions-within-group clustered interval at 40 mL": (
-        "The archive holds [-0.725, +0.027] and the whole-group interval [-0.751, -0.032]. "
-        "PAPER_A_P0-5_RESULTS.md displays these to 2 dp as [-0.73, +0.03] and [-0.75, -0.03] -- "
-        "the SAME run, not a second one. -0.725 sits exactly on a rounding boundary, so -0.73 "
-        "(half-away-from-zero) and -0.72 (half-to-even) are both defensible, which is why the "
-        "manuscript contains both. Quote THREE significant figures (-0.725) wherever the interval "
-        "appears; that removes the ambiguity instead of picking a side of it."),
+    "rendering policy for the clustered percentile ranges": (
+        "THREE decimal places, everywhere the interval appears -- main text, Supplementary "
+        "Table S3, every reading, every caption -- all rendered from PAPER_A_ENDPOINT_PROPAGATION "
+        "by `tools/paper_a_supplement.py`. Round-7 P1-6: the earlier policy was stated as three "
+        "SIGNIFICANT FIGURES and the SI still displayed two decimals, so an audit asserting "
+        "uniform precision was contradicted by the committed package. Two decimals is not enough "
+        "here: the primary range's upper bound at the 40 g endpoint is -0.0004 pp, which two "
+        "decimals renders as -0.00 and three as +0.000, and the difference between those two "
+        "renderings is the difference between claiming a resolved effect and not."),
+    "negative zero": (
+        "`paired_clustered_bootstrap` rounds its bounds BEFORE deciding `excludes_zero`, and "
+        "normalises IEEE -0.0 to +0.0, so the archived flag and the archived interval can never "
+        "disagree. `nearest_bound_to_zero_pp` carries the distance as a quantity, because at this "
+        "effect size a boolean that flips on the fourth decimal is not a finding."),
 }
 
 
@@ -204,9 +230,9 @@ def _set_fraction(how):
 DERIVED: dict[str, tuple] = {
     # "smallest / largest 10 %-set fraction across panels x objectives" -- an extremum over 18
     # cells, so it must be computed, not pinned to whichever cell happens to hold it today.
-    # "spread of the paired difference across 38/40/42 mL" is a RANGE over the three rows; pinning
+    # "spread of the paired difference across 38/40/42 g" is a RANGE over the three rows; pinning
     # it to a row would stop checking the claim the moment the extremes swapped endpoints.
-    "0.06": (ENDPOINT,
+    "0.053": (ENDPOINT,
              lambda d: (max(abs(r["paired_difference_pp"]) for r in d["rows"])
                         - min(abs(r["paired_difference_pp"]) for r in d["rows"])), 0, 5e-3),
     # "lowest / highest per solute x variety held-out median" -- an extremum over the six groups.
@@ -235,10 +261,12 @@ DERIVED: dict[str, tuple] = {
     # bundle carries `transfer.threshold_sensitivity` for all six panels. The values are the
     # ARABICA-CAFFEINE panel (8.48, 9.69), not a cross-panel aggregate -- the description omitted
     # which panel, which is why they read as unarchived.
-    "8.5": (PANELS, lambda d: d["transfer"]["threshold_sensitivity"]["Arabica:caffeine"]
+    "9.2": (PANELS, lambda d: d["transfer"]["threshold_sensitivity"]["Arabica:caffeine"]
             ["2pct"]["worst_heldout_mape"], 0, 5e-2),
-    "9.7": (PANELS, lambda d: d["transfer"]["threshold_sensitivity"]["Arabica:caffeine"]
+    "10.5": (PANELS, lambda d: d["transfer"]["threshold_sensitivity"]["Arabica:caffeine"]
             ["20pct"]["worst_heldout_mape"], 0, 5e-2),
+    "21.8": (PANELS, lambda d: d["transfer"]["manifold_worst_heldout_mape"], 0, 5e-2),
+    "18.0": (PANELS, lambda d: d["transfer"]["point_worst_heldout_mape"], 0, 5e-2),
     "31": (OBJECTIVE, _set_fraction(min), 0, 0.5),
     "100": (OBJECTIVE, _set_fraction(max), 0, 0.5),
     # (archive, callable over the whole document, rel, abs)

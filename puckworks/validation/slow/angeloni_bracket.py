@@ -22,17 +22,37 @@ import numpy as np
 # approximate, UNCALIBRATED cross-grinder map (Mythos granulometry -> EK43 gs)
 _GRIND_MAP = {"F": 1.3, "O": 1.9, "C": 2.4}
 
-# --- matched-beverage endpoint (review B1) --------------------------------------
-# angeloni collect 40 +/- 2 g beverage at a 1:2 ratio (20 g dose); density ~1, so
-# ~40 mL. A fixed 25 s window is NOT a matched cup: with grind-specific flow it
-# represents ~50/77/29 mL for O/C/F. Terminate every simulation when the collected
-# volume reaches V_TARGET so the compared cups share the same endpoint.
-_V_TARGET_ML = 40.0
+# --- matched-beverage endpoint (review B1; round-7 P0-2) -------------------------
+# angeloni collect 40 +/- 2 g beverage at a 1:2 ratio (20 g dose). A fixed 25 s
+# window is NOT a matched cup: with grind-specific flow it represents wildly
+# different cups for O/C/F. Terminate every simulation at the same COLLECTED MASS
+# so the compared cups share one endpoint.
+#
+# UNITS — this is the round-7 P0-2 contract, and it is easy to get wrong. The
+# angeloni flow column is PUBLISHED as mL/s but the source MATLAB consumes it as
+# MASS flow in g/s (simulation_Fit2.m:3 divides by rho; see
+# docs/paper1_resource/PAPER_A_SOLVER_CONTRACT_AUDIT.json). We preserve that
+# source convention rather than "fixing" it, because every archived fitted
+# parameter was estimated under it. The consequence for the stopping rule is
+# exact: t_end = target / flow with flow in g/s stops the shot at `target` GRAMS.
+# The endpoint is therefore 38/40/42 g, NOT 38/40/42 mL. Density enters the solver
+# when deriving superficial velocity and when volume-averaging concentration; it
+# does NOT turn this stopping rule into a volume target.
+_M_TARGET_G = 40.0
+
+#: The source flow column's published unit vs the unit the source code consumes it
+#: in. Surfaced as a constant so the semantic contract test can assert on it.
+_SOURCE_FLOW_UNITS = dict(published="mL/s", consumed_as="g/s",
+                          endpoint_unit="g", endpoint_quantity="collected mass")
 
 
-def _matched_bounds(flow_mL_s, v_target=_V_TARGET_ML):
-    """[0, t_end] with t_end = V_target / Q -> a matched-mass cup (constant flow)."""
-    return [0.0, float(v_target) / float(flow_mL_s)]
+def _matched_bounds(flow_source, m_target=_M_TARGET_G):
+    """[0, t_end] with t_end = m_target / flow -> a matched-MASS cup (constant flow).
+
+    `flow_source` is the angeloni flow column AS THE SOURCE CONSUMES IT: the number is
+    published in mL/s but the source model treats it as g/s, so the endpoint this
+    returns is a collected mass in grams. See `_SOURCE_FLOW_UNITS`."""
+    return [0.0, float(m_target) / float(flow_source)]
 
 
 def _mape_level(f, m):
@@ -123,30 +143,55 @@ def _profile_objectives(rates, F, m, thresholds=(0.02, 0.05, 0.10, 0.20)):
     return out
 
 
-def paired_clustered_bootstrap(records, B=4000, seed=0, unit="cond_in_group"):
-    """P0-5 / review MC4-B: dependence-aware bootstrap of the paired model-minus-null loss.
-    `records` is the per-point list emitted by transfer_skill_vs_baselines, each with keys
-    group ("variety:solute"), grind, T, p, delta (= e_model - e_const in pp; delta>0 => the
-    mechanistic model is WORSE than the O-trained constant). The 108 held-out points are NOT
-    independent -- they share (T,p) conditions and variety x solute groups -- so we resample
-    CLUSTERS, never points. Pure; deterministic given `seed`; no PDE solves.
+def paired_clustered_bootstrap(records, B=4000, seed=0, unit="cond_in_variety"):
+    """P0-5 / review MC4-B: dependence-aware resampling of the paired model-minus-comparator
+    loss. `records` is the per-point list emitted by transfer_skill_vs_baselines, each with
+    keys group ("variety:solute"), variety, solute, grind, T, p, delta (= e_model - e_const in
+    pp; delta>0 => the mechanistic model is WORSE than the O-trained level-only comparator).
+    The held-out points are NOT independent -- every (variety, T, p) condition is observed for
+    all three named solutes at BOTH held-out grinds -- so we resample CLUSTERS, never points.
+    Pure; deterministic given `seed`; no PDE solves.
 
-      unit='cond_in_group' : resample the (T,p) CONDITIONS within each group (each condition
-                             carries its C and F points together), group sizes fixed;
-      unit='group'         : resample the 6 variety x solute GROUPS (coarser; 6 clusters).
+      unit='cond_in_variety' : PRIMARY (round-7 P1-1). Resample the (variety, T, p) CONDITIONS
+                               within each variety. Each cluster carries all three named
+                               solutes AND both held-out grinds together, which is the actual
+                               dependence structure of the design. Cluster sizes are taken from
+                               the data, so an unbalanced corpus (off-grid records, which exist
+                               at one grind only) needs no balanced-grid assumption;
+      unit='cond_in_group'   : SECONDARY. Resample (T,p) conditions within each variety x
+                               solute group. Keeps C and F together for a solute but lets
+                               different solutes of one variety draw DIFFERENT conditions, so
+                               it does not preserve cross-solute condition dependence;
+      unit='group'           : SECONDARY. Resample the 6 variety x solute GROUPS (coarsest).
 
-    Returns the observed pooled mean delta, a 95% percentile CI, the bootstrap fraction with
-    model-worse (mean delta > 0), and whether the CI excludes zero. A CI straddling zero =>
-    the small +/-0.4 pp skill difference is NOT distinguishable from zero under the dependence
-    structure (which SHARPENS the null-benchmark point: the mechanism adds no resolvable skill
-    over a level-only constant)."""
+    Returns the observed pooled mean delta, a percentile range, the resampling fraction with
+    model-worse (mean delta > 0), and whether the range excludes zero. The range is a
+    CLUSTERED PERCENTILE SENSITIVITY RANGE, not a calibrated confidence interval: no
+    measurement likelihood is specified and the resampling does not repeat the nonlinear fit.
+    A range straddling zero => the small +/-0.4 pp skill difference is NOT distinguishable
+    from zero under the dependence structure (which SHARPENS the comparator point: the
+    mechanism adds no resolvable skill over a level-only constant)."""
     import numpy as np
     from collections import defaultdict
     rng = np.random.default_rng(seed)
     deltas_all = np.array([float(r["delta"]) for r in records], float)
     obs_mean = float(deltas_all.mean())
 
-    if unit == "group":
+    if unit == "cond_in_variety":
+        # (variety, T, p) -> every solute x grind observation at that condition
+        byvar = defaultdict(lambda: defaultdict(list))
+        for r in records:
+            byvar[r["variety"]][(r["T"], r["p"])].append(float(r["delta"]))
+        varieties = [[np.array(v, float) for v in conds.values()]
+                     for conds in byvar.values()]
+
+        def _draw():
+            parts = []
+            for condlist in varieties:
+                idx = rng.integers(0, len(condlist), len(condlist))
+                parts.extend(condlist[i] for i in idx)
+            return np.concatenate(parts)
+    elif unit == "group":
         clusters = defaultdict(list)
         for r in records:
             clusters[r["group"]].append(float(r["delta"]))
@@ -169,16 +214,32 @@ def paired_clustered_bootstrap(records, B=4000, seed=0, unit="cond_in_group"):
                 parts.extend(condlist[i] for i in idx)
             return np.concatenate(parts)
     else:
-        raise ValueError("unit must be 'cond_in_group' or 'group'")
+        raise ValueError("unit must be 'cond_in_variety', 'cond_in_group' or 'group'")
 
     boot = np.array([_draw().mean() for _ in range(int(B))])
     lo = float(np.percentile(boot, 2.5)); hi = float(np.percentile(boot, 97.5))
+    # Round-7 P1-6. `excludes_zero` is decided on the SAME rounded bounds the paper quotes, not
+    # on the full-precision ones. Otherwise a bound of -0.0004 is archived as "-0.0" and flagged
+    # as excluding zero, and the flag and the printed interval contradict each other in the one
+    # regime where the answer actually matters -- which is where this benchmark lives. Also
+    # report the distance from zero, so a knife-edge is visible as a quantity rather than as a
+    # boolean that flips on the seventh decimal.
+    rlo, rhi = round(lo, 3) + 0.0, round(hi, 3) + 0.0        # `+ 0.0` normalises -0.0
     return dict(
         unit=unit, B=int(B), seed=int(seed), n_points=len(records),
+        n_clusters=len({(r["variety"], r["T"], r["p"]) for r in records}
+                       if unit == "cond_in_variety" else
+                       {(r["group"], r["T"], r["p"]) for r in records}
+                       if unit == "cond_in_group" else {r["group"] for r in records}),
         observed_mean_delta_pp=round(obs_mean, 3),
-        ci95_pp=[round(lo, 3), round(hi, 3)],
+        # NOT a calibrated confidence interval: a percentile range over cluster resamples of
+        # already-computed per-point losses, with no measurement likelihood and no repeat of
+        # the nonlinear fit. Named accordingly (round-7 P1-1, round-6 carry-over).
+        percentile_range_pp=[rlo, rhi],
+        interval_kind="clustered percentile sensitivity range (not a calibrated 95% CI)",
         frac_boot_model_worse=round(float(np.mean(boot > 0)), 3),
-        excludes_zero=bool(lo > 0 or hi < 0))
+        excludes_zero=bool(rlo > 0 or rhi < 0),
+        nearest_bound_to_zero_pp=round(min(abs(lo), abs(hi)), 4))
 
 # pannusch2024 fitted per-grind grain geometry (card Table 2: psi, d_s2 for grind
 # 1.4/1.7/2.0). The port freezes the centre grind (1.7) for all experiments; B5
@@ -241,9 +302,9 @@ def gate_pannusch_angeloni_species_bracket(T_C=93.4, flow_mL_s=1.6):
     RANGES. Unlike cameron (single lumped solute -> TDS only), pannusch produces
     caffeine (CF), trigonelline (TR), 5CQA, and TDS. Blind forward run (cl1
     cancels in the normalized solver, verified) at a representative espresso
-    condition (T on-grid, grind 1.7), integrated to the MATCHED 40 g/mL beverage
-    endpoint (t_end = 40 mL / flow, review MAJ-08 -- no longer a fixed 25 s). At
-    the 1.6 mL/s default this endpoint is ~25 s, so the envelope screen is
+    condition (T on-grid, grind 1.7), integrated to the MATCHED 40 g beverage
+    endpoint (t_end = 40 g / flow, review MAJ-08 -- no longer a fixed 25 s). At
+    the 1.6 g/s default this endpoint is ~25 s, so the envelope screen is
     essentially unchanged but now shares the paper's matched-mass contract.
     angeloni bioactives are g/L = mg/mL (pannusch's units); TS g/100 mL =
     pannusch TDS(mg/mL)/10.
@@ -307,7 +368,7 @@ def _flow_darcy(p_bar, T_C):
 
 
 def gate_pannusch_angeloni_per_condition(t_shot_s=25.0, flow_map="darcy",
-                                         v_target=_V_TARGET_ML):
+                                         m_target=_M_TARGET_G):
     """PER-CONDITION pannusch vs angeloni (the demanding test the wide-envelope
     bracket is NOT). For granulometry O (~ pannusch grind 1.7), across the 9
     on-grid (T,p) points per variety, predict pannusch cup concentration
@@ -343,7 +404,7 @@ def gate_pannusch_angeloni_per_condition(t_shot_s=25.0, flow_map="darcy",
             conditions = []                               # per-shot residual records (MAJ-17)
             for r in shots:
                 T = r["T_degC"]; flow = _flow(r["p_bar"], T)
-                bounds = _matched_bounds(flow, v_target)  # matched cup at v_target (B1)
+                bounds = _matched_bounds(flow, m_target)  # matched cup at m_target (B1)
                 m = tsmap[(variety, T, r["p_bar"])] if sol == "tds" else r[col]
                 pb = float(ps.simulate_fractions(T, flow, bounds,
                                                  params[sol], cl1=1.0)[0]) * conv
@@ -391,7 +452,7 @@ def gate_pannusch_angeloni_per_condition(t_shot_s=25.0, flow_map="darcy",
                           "p->flow " + ("Darcy q~p/mu(T)" if flow_map == "darcy"
                                         else "crude linear tau") + ")"),
                 note="per-condition MAPE exceeds the pooled-envelope bracket and "
-                     "angeloni's own ~9-13% model, at the 40 mL endpoint proxy. At this "
+                     "angeloni's own ~9-13% model, at the matched 40 g endpoint. At this "
                      "endpoint, inventory-matching LOWERS the caffeine blind MAPE and "
                      "RAISES the trigonelline blind MAPE (Arabica); that sign is "
                      "endpoint-sensitive (see endpoint_mass_sensitivity, A4-33/§6.45). "
@@ -400,23 +461,23 @@ def gate_pannusch_angeloni_per_condition(t_shot_s=25.0, flow_map="darcy",
                      "geometry, viscosity, assay) are not separately bounded here.")
 
 
-def endpoint_mass_sensitivity(v_targets=(38.0, 40.0, 42.0)):
+def endpoint_mass_sensitivity(m_targets=(38.0, 40.0, 42.0)):
     """ENDPOINT-MASS sensitivity (review A2-09): Angeloni collect 40 +/- 2 g at ~unit
-    density, so the matched cup could be anywhere in ~38-42 mL. Re-run the per-condition
+    collection, so the matched cup could be anywhere in ~38-42 g. Re-run the per-condition
     blind transfer at each endpoint volume and report whether the overall blind MAPE and
     the qualitative pattern (inventory-matching HELPS caffeine, HURTS trigonelline) are
-    stable -- i.e. the transfer conclusion does not hinge on the exact 40 g/40 mL
+    stable -- i.e. the transfer conclusion does not hinge on the exact 40 g
     approximation or a +/-5% density/tolerance error. NOTE: ~1 min of PDE solves per
     endpoint (slow; hand-run)."""
     rows = []
-    for v in v_targets:
-        pc = gate_pannusch_angeloni_per_condition(v_target=v)
+    for v in m_targets:
+        pc = gate_pannusch_angeloni_per_condition(m_target=v)
         pv = pc["per_variety"]
         # the caffeine-helps / trigonelline-hurts signature (Arabica, blind vs matched)
         ar = pv["Arabica"]
         caf = ar["caffeine"]; tri = ar["trigonelline"]
         rows.append(dict(
-            v_target_ml=v, overall_mape_blind=pc["overall_mape_blind"],
+            m_target_g=v, overall_mape_blind=pc["overall_mape_blind"],
             overall_mape_blind_raw=pc["overall_mape_blind_raw"],   # A4-06 full precision
             caffeine_matched_helps=bool(caf["mape_inv_matched_raw"] is not None
                                         and caf["mape_inv_matched_raw"] < caf["mape_blind_raw"]),
@@ -429,14 +490,14 @@ def endpoint_mass_sensitivity(v_targets=(38.0, 40.0, 42.0)):
     pattern_invariant = caffeine_invariant and trig_invariant
     spread = round(max(mapes) - min(mapes), 1)
     return dict(
-        rows=rows, v_targets=list(v_targets),
+        rows=rows, m_targets=list(m_targets),
         overall_mape_spread_pp=spread,
         overall_mape_range=[round(min(mapes), 1), round(max(mapes), 1)],
         caffeine_helps_invariant=caffeine_invariant,
         trigonelline_hurts_invariant=trig_invariant,
         pattern_invariant_across_endpoints=pattern_invariant,
         verdict=("Endpoint-mass sensitivity (review A2-09; A4-04/§6.8 scope note): across "
-                 "the %s mL endpoint proxies (approximating the reported 40 +/- 2 g "
+                 "the %s g endpoints (spanning the reported 40 +/- 2 g "
                  "beverage at ~unit density), the overall BLIND per-condition MAPE moves "
                  "%.1f pp (%.1f -> %.1f%%), and the caffeine-lower / trigonelline-higher "
                  "inventory-match sign is not invariant (trigonelline flips near the +5%% "
@@ -446,7 +507,7 @@ def endpoint_mass_sensitivity(v_targets=(38.0, 40.0, 42.0)):
                  "estimand (that full endpoint x density transfer rerun is deferred, "
                  "A4-04). The ~5 pp endpoint uncertainty on the blind MAPE magnitude and "
                  "the trigonelline sign should be stated, not dismissed."
-                 % ("/".join("%g" % v for v in v_targets), spread, min(mapes), max(mapes))),
+                 % ("/".join("%g" % v for v in m_targets), spread, min(mapes), max(mapes))),
         strength="endpoint-mass robustness of the per-condition transfer (declared 40 g "
                  "approximation); does not re-open the independent-identification scope")
 
@@ -620,7 +681,7 @@ def joint_multigrind_fit():
     def frac(sp, rs, conds, gran):
         # Third review P0-4: the endpoint proxy is now a PARAMETER of the whole benchmark, so the
         # O-fit, the frozen transfer and the level-only baseline are all evaluated at the SAME
-        # endpoint. Previously it was baked in at 40 mL, which is why the endpoint sweep could not
+        # endpoint. Previously it was baked in at 40 g, which is why the endpoint sweep could not
         # be propagated through the headline model-versus-null comparison.
         s = dict(sp); s["A1"] = sp["A1"] * rs; s["A2"] = sp["A2"] * rs; s["c_s0"] = 1.0
         return np.array([float(ps.simulate_fractions(
@@ -711,7 +772,7 @@ def joint_multigrind_fit():
                         + " %d/%d rates at the widened domain boundary." % (n_bound, n_tot))
 
 
-def validate_refit_granulometry():
+def validate_refit_granulometry(include_off_grid=True):
     """Validate the angeloni refit ACROSS granulometries C/F (held-out grinds).
     Uses the card's own per-granulometry flow (k_r(p) + tau). Two tests, on the
     clean g/L species (CF/TR/5CQA; TDS dropped -- unit-aggregate artifact):
@@ -740,14 +801,18 @@ def validate_refit_granulometry():
     SPEC = {"caffeine": "CF", "trigonelline": "TR", "5CQA": "5CQA"}
 
     def sh(variety, gran):
+        # Round-7 P0-3: the held-out C/F corpus is the COMPLETE one. O remains the declared
+        # on-grid 3x3 training design.
+        on_grid_only = (gran == "O") or (not include_off_grid)
         return [r for r in bio if r["variety"] == variety
-                and r["granulometry"] == gran and r["on_grid"] == "True"]
+                and r["granulometry"] == gran
+                and (r["on_grid"] == "True" or not on_grid_only)]
 
     def frac(sp, rs, conds, gran):
-        # Third review P0-4: the endpoint proxy is now a PARAMETER of the whole benchmark, so the
-        # O-fit, the frozen transfer and the level-only baseline are all evaluated at the SAME
-        # endpoint. Previously it was baked in at 40 mL, which is why the endpoint sweep could not
-        # be propagated through the headline model-versus-null comparison.
+        # Third review P0-4: the endpoint is a PARAMETER of the whole benchmark, so the
+        # O-fit, the frozen transfer and the level-only comparator are all evaluated at the SAME
+        # endpoint. Previously it was baked in at 40 g, which is why the endpoint sweep could not
+        # be propagated through the headline model-versus-comparator comparison.
         s = dict(sp); s["A1"] = sp["A1"] * rs; s["A2"] = sp["A2"] * rs; s["c_s0"] = 1.0
         return np.array([float(ps.simulate_fractions(
                         T, _flow_gran(p, T, gran),
@@ -950,7 +1015,8 @@ def table7_rate_constraint(panel, inventory_g_L, rel_band=0.10):
 
 def transfer_skill_vs_baselines(varieties=("Arabica", "Robusta"),
                                 solutes=("caffeine", "trigonelline", "5CQA"),
-                                v_target=_V_TARGET_ML):
+                                m_target=_M_TARGET_G, include_off_grid=True,
+                                alt_loss=False):
     """A3-01 (submission-blocking null benchmark): does the mechanistic O->C/F transfer
     add predictive SKILL beyond simple level-only baselines available at prediction time?
     A low absolute MAPE can arise from analyte levels that are stable across operating
@@ -969,26 +1035,52 @@ def transfer_skill_vs_baselines(varieties=("Arabica", "Robusta"),
     and predict held-out C/F (mirroring validate_refit_granulometry's flow map/fit), then
     report FULL-PRECISION per-grind and pooled MAPE for the model and each baseline, the
     skill score 1 - MAPE_model/MAPE_baseline, and PAIRED per-condition loss differences
-    (model - constant). NOTE: ~2-3 min of PDE solves (slow; hand-run)."""
+    (model - constant). NOTE: ~2-3 min of PDE solves (slow; hand-run).
+
+    CORPUS (round-7 P0-3). The TRAINING grind is always the declared 3x3 on-grid O design
+    (nine conditions). The HELD-OUT C/F corpus is selected by `include_off_grid`:
+
+      include_off_grid=False -> the 36 on-grid C/F records (108 named-solute observations).
+                                This is the MATCHED-GRID estimand: every held-out condition
+                                has a same-(T,p) O counterpart, so both comparators are
+                                defined on every point.
+      include_off_grid=True  -> all 44 C/F records (132 observations), adding the eight
+                                off-grid validation records A21/A22/A32/A33/R21/R22/R32/R33.
+                                NONE of those eight conditions has a same-(T,p) O record, so
+                                the lookup comparator is UNDEFINED there and is reported over
+                                its own matched subset with an explicit point count.
+
+    Either way the returned `corpus` block emits the included and excluded sample IDs, so
+    corpus membership is bound to the artifact rather than inferred from prose.
+
+    `alt_loss=True` (round-7 P1-2) refits AND rescores both the mechanistic model and the
+    level-only comparator under the log/relative-error level fit, so the paired
+    model-minus-comparator difference — the paper's actual estimand — is what gets tested
+    under the alternative loss, rather than the model's absolute error alone."""
     import numpy as np
     from puckworks.models.pannusch2024 import solver as ps
     from puckworks import data as d
     bio = d.angeloni_bioactives(); params = ps._solute_params()
     SPEC = {"caffeine": "CF", "trigonelline": "TR", "5CQA": "5CQA"}
+    level_fit = _log_level_mape if alt_loss else _mape_level
 
     def sh(variety, gran):
+        # O is the declared training grid and is ALWAYS the on-grid 3x3. Only the held-out
+        # C/F corpus is widened by include_off_grid.
+        on_grid_only = (gran == "O") or (not include_off_grid)
         return [r for r in bio if r["variety"] == variety
-                and r["granulometry"] == gran and r["on_grid"] == "True"]
+                and r["granulometry"] == gran
+                and (r["on_grid"] == "True" or not on_grid_only)]
 
     def frac(sp, rs, conds, gran):
         # Third review P0-4: the endpoint proxy is now a PARAMETER of the whole benchmark, so the
         # O-fit, the frozen transfer and the level-only baseline are all evaluated at the SAME
-        # endpoint. Previously it was baked in at 40 mL, which is why the endpoint sweep could not
+        # endpoint. Previously it was baked in at 40 g, which is why the endpoint sweep could not
         # be propagated through the headline model-versus-null comparison.
         s = dict(sp); s["A1"] = sp["A1"] * rs; s["A2"] = sp["A2"] * rs; s["c_s0"] = 1.0
         return np.array([float(ps.simulate_fractions(
                         T, _flow_gran(p, T, gran),
-                        _matched_bounds(_flow_gran(p, T, gran), v_target),
+                        _matched_bounds(_flow_gran(p, T, gran), m_target),
                         s, cl1=1.0)[0]) for T, p in conds])
 
     per = {}
@@ -1004,12 +1096,14 @@ def transfer_skill_vs_baselines(varieties=("Arabica", "Robusta"),
             # mechanistic model: fit rate on O by MAPE (weighted-median level per rate)
             best = None
             for rs in _RATE_DOMAIN:
-                f = frac(params[sol], rs, condsO, "O"); c, mp = _mape_level(f, mO)
+                f = frac(params[sol], rs, condsO, "O"); c, mp = level_fit(f, mO)
                 if best is None or mp < best[2]:
                     best = (float(rs), c, mp)
             rsO, cs0O, _ = best
-            # O-trained MAPE-optimal constant: fit a level to a UNIT prediction on O
-            c_const = float(_mape_level(np.ones(len(mO)), mO)[0])
+            # O-trained MAPE-optimal constant: fit a level to a UNIT prediction on O.
+            # Under alt_loss both predictors are refit by the SAME alternative level fit,
+            # so the paired difference is what the loss change actually tests (P1-2).
+            c_const = float(level_fit(np.ones(len(mO)), mO)[0])
             o_by_tp = {(r["T_degC"], r["p_bar"]): float(r[col]) for r in rowsO}
             entry = {}
             for g in ("C", "F"):
@@ -1017,19 +1111,30 @@ def transfer_skill_vs_baselines(varieties=("Arabica", "Robusta"),
                 m = np.array([r[col] for r in rows], float)
                 e_model = np.abs(cs0O * frac(params[sol], rsO, conds, g) - m) / m * 100.0
                 e_const = np.abs(c_const - m) / m * 100.0
-                lookup = np.array([o_by_tp[(T, p)] for (T, p) in conds], float)
+                # The same-(T,p) O lookup is UNDEFINED wherever the held-out condition has
+                # no O counterpart -- which is every off-grid record. Score it only where it
+                # exists and carry the point count, rather than silently dropping points
+                # from a comparator that is then compared on a different corpus (P0-3).
+                has_lu = np.array([(T, p) in o_by_tp for (T, p) in conds], bool)
+                lookup = np.array([o_by_tp.get((T, p), np.nan) for (T, p) in conds], float)
                 e_lookup = np.abs(lookup - m) / m * 100.0
                 grind_err[g]["model"].extend(e_model)
                 grind_err[g]["const"].extend(e_const)
-                grind_err[g]["lookup"].extend(e_lookup)
-                for (T, p), em, ec in zip(conds, e_model, e_const):
-                    records.append(dict(group="%s:%s" % (variety, sol), grind=g,
+                grind_err[g]["lookup"].extend(e_lookup[has_lu])
+                for r_, (T, p), em, ec, lu in zip(rows, conds, e_model, e_const, has_lu):
+                    records.append(dict(group="%s:%s" % (variety, sol),
+                                        variety=variety, solute=sol,
+                                        sample=r_["sample"], grind=g,
+                                        on_grid=(r_["on_grid"] == "True"),
+                                        lookup_defined=bool(lu),
                                         T=float(T), p=float(p), e_model=float(em),
                                         e_const=float(ec), delta=float(em - ec)))
                 entry[g] = dict(
                     model_mape=round(float(e_model.mean()), 2),
                     const_mape=round(float(e_const.mean()), 2),
-                    lookup_mape=round(float(e_lookup.mean()), 2),
+                    lookup_mape=(round(float(e_lookup[has_lu].mean()), 2)
+                                 if has_lu.any() else None),
+                    n_points=int(len(m)), n_lookup_points=int(has_lu.sum()),
                     paired_model_minus_const=[round(float(a - b), 2)
                                               for a, b in zip(e_model, e_const)])
                 for a, b in zip(e_model, e_const):
@@ -1053,6 +1158,8 @@ def transfer_skill_vs_baselines(varieties=("Arabica", "Robusta"),
         ml = _mean(grind_err[g]["lookup"])
         pooled[g] = dict(model_mape=round(mm, 2), const_mape=round(mc, 2),
                          lookup_mape=round(ml, 2),
+                         n_points=len(grind_err[g]["model"]),
+                         n_lookup_points=len(grind_err[g]["lookup"]),
                          skill_vs_const=round(1.0 - mm / mc, 3),
                          skill_vs_lookup=round(1.0 - mm / ml, 3))
     all_model = grind_err["C"]["model"] + grind_err["F"]["model"]
@@ -1064,8 +1171,41 @@ def transfer_skill_vs_baselines(varieties=("Arabica", "Robusta"),
     skill_lookup = 1.0 - macro_model / macro_lookup
     # paired model-minus-constant loss (all held-out C/F points)
     paired = np.array(all_model) - np.array(all_const)
+
+    # ── corpus manifest (round-7 P0-3) ───────────────────────────────────────────────────
+    # Emit the record IDs the benchmark actually scored, and the C/F records available in the
+    # corpus but NOT scored, so "held out all of it" is a checkable assertion rather than a
+    # sentence. Counted per RECORD (each record carries all three named solutes).
+    cf_all = sorted(r["sample"] for r in bio
+                    if r["variety"] in varieties and r["granulometry"] in ("C", "F"))
+    included = sorted({r["sample"] for r in records})
+    excluded = [s for s in cf_all if s not in set(included)]
+    train = sorted(r["sample"] for r in bio if r["variety"] in varieties
+                   and r["granulometry"] == "O" and r["on_grid"] == "True")
+    corpus = dict(
+        estimand=("complete held-out C/F corpus (on-grid + off-grid)" if include_off_grid
+                  else "matched 3x3 on-grid C/F transfer benchmark"),
+        include_off_grid=bool(include_off_grid),
+        train_grind="O", train_sample_ids=train, n_train_records=len(train),
+        held_out_sample_ids=included, n_held_out_records=len(included),
+        excluded_sample_ids=excluded, n_excluded_records=len(excluded),
+        excluded_reason=(None if include_off_grid else
+                         "off-grid C/F validation records; no same-(T,p) O counterpart exists "
+                         "for any of them, so the lookup comparator is undefined there"),
+        n_cf_records_available=len(cf_all),
+        n_solutes=len(solutes), n_observations=len(records),
+        n_lookup_observations=len(all_lookup),
+        lookup_undefined_sample_ids=sorted({r["sample"] for r in records
+                                            if not r["lookup_defined"]}))
+    assert corpus["n_observations"] == len(included) * len(solutes), \
+        "corpus manifest disagrees with the scored observation count"
+
     return dict(
-        v_target_ml=float(v_target),
+        m_target_g=float(m_target),
+        alt_loss=bool(alt_loss),
+        loss=("log/relative-error level fit (both predictors)" if alt_loss
+              else "MAPE-optimal level fit (both predictors)"),
+        corpus=corpus,
         per_fit=per, pooled_by_grind=pooled,
         pooled_model_mape=round(macro_model, 2),
         pooled_const_mape=round(macro_const, 2),
@@ -1126,7 +1266,7 @@ def reduced_model_ladder(varieties=("Arabica", "Robusta"),
     def frac(sp, rs, conds, gran):
         # Third review P0-4: the endpoint proxy is now a PARAMETER of the whole benchmark, so the
         # O-fit, the frozen transfer and the level-only baseline are all evaluated at the SAME
-        # endpoint. Previously it was baked in at 40 mL, which is why the endpoint sweep could not
+        # endpoint. Previously it was baked in at 40 g, which is why the endpoint sweep could not
         # be propagated through the headline model-versus-null comparison.
         s = dict(sp); s["A1"] = sp["A1"] * rs; s["A2"] = sp["A2"] * rs; s["c_s0"] = 1.0
         return np.array([float(ps.simulate_fractions(
@@ -1944,25 +2084,29 @@ if __name__ == "__main__":
     report()
 
 
-def endpoint_propagation_benchmark(v_targets=(38.0, 40.0, 42.0), n_boot=8000, seed=0):
-    """Propagate the endpoint proxy through the COMPLETE transfer-versus-null benchmark.
+def endpoint_propagation_benchmark(m_targets=(38.0, 40.0, 42.0), n_boot=8000, seed=0,
+                                   include_off_grid=True):
+    """Propagate the endpoint through the COMPLETE transfer-versus-comparator benchmark.
 
     Third review P0-4, the one remaining scientific closure. The paper's most consequential
-    comparison is only 0.36 percentage points wide, and the endpoint at which it is evaluated was a
-    single untested proxy: the source reports a 40 +/- 2 g beverage while the solver terminates on
-    volume.
+    comparison is only 0.36 percentage points wide, and the endpoint at which it is evaluated was
+    a single untested value: the source declares a 40 +/- 2 g beverage, and the solver stops at a
+    matched collected MASS (round-7 P0-2 -- `_matched_bounds` divides the target by the source
+    flow, which the source consumes in g/s). The sweep therefore spans the source's own declared
+    +/-2 g collection tolerance: 38, 40 and 42 GRAMS.
 
     An endpoint sweep already existed (`endpoint_mass_sensitivity`), but it evaluates a DIFFERENT
     ESTIMAND -- the blind optimal-grind per-condition residual -- and the manuscript said so. A
-    ~5 pp movement in that quantity does not tell us whether the model-versus-null conclusion
-    changes, because the null is refitted at each endpoint too, and both predictors move together.
+    ~5 pp movement in that quantity does not tell us whether the model-versus-comparator
+    conclusion changes, because the comparator is refitted at each endpoint too, and both
+    predictors move together.
 
-    This runs the whole procedure at each endpoint proxy:
+    This runs the whole procedure at each endpoint:
 
       1. fit inventory level and rate on the nine optimal-grind conditions AT THAT ENDPOINT;
       2. freeze that calibration;
       3. predict every held-out coarse/fine observation at the same endpoint;
-      4. refit the optimal-grind-trained level-only constant at the same endpoint;
+      4. refit the optimal-grind-trained level-only comparator at the same endpoint;
       5. compute pooled and macro MAPE for both predictors;
       6. compute the paired model-minus-baseline difference;
       7. repeat the primary clustered resampling of the paired loss;
@@ -1974,13 +2118,17 @@ def endpoint_propagation_benchmark(v_targets=(38.0, 40.0, 42.0), n_boot=8000, se
     import numpy as np
 
     rows = []
-    for v in v_targets:
-        res = transfer_skill_vs_baselines(v_target=v)
+    for v in m_targets:
+        res = transfer_skill_vs_baselines(m_target=v, include_off_grid=include_off_grid)
+        # PRIMARY cluster (round-7 P1-1): (variety, T, p), carrying all three named solutes and
+        # both held-out grinds together. The two narrower units are retained as secondaries.
         boot = paired_clustered_bootstrap(res["records"], B=n_boot, seed=seed,
-                                          unit="cond_in_group")
+                                          unit="cond_in_variety")
+        boot_s = paired_clustered_bootstrap(res["records"], B=n_boot, seed=seed,
+                                            unit="cond_in_group")
         boot_g = paired_clustered_bootstrap(res["records"], B=n_boot, seed=seed, unit="group")
         rows.append(dict(
-            v_target_ml=float(v),
+            m_target_g=float(v),
             pooled_model_mape=res["pooled_model_mape"],
             pooled_const_mape=res["pooled_const_mape"],
             paired_difference_pp=res["paired_model_minus_const_mean_pp"],
@@ -1988,21 +2136,26 @@ def endpoint_propagation_benchmark(v_targets=(38.0, 40.0, 42.0), n_boot=8000, se
             n_points=res["n_points"],
             n_model_worse_than_const=res["n_model_worse_than_const"],
             skill_vs_const=res["skill_vs_const"],
-            clustered_range_within_group=boot["ci95_pp"],
-            clustered_range_whole_group=boot_g["ci95_pp"],
-            within_group_excludes_zero=boot["excludes_zero"],
+            clustered_range_within_variety=boot["percentile_range_pp"],
+            clustered_range_within_group=boot_s["percentile_range_pp"],
+            clustered_range_whole_group=boot_g["percentile_range_pp"],
+            within_variety_excludes_zero=boot["excludes_zero"],
+            nearest_bound_to_zero_pp=boot["nearest_bound_to_zero_pp"],
+            within_group_excludes_zero=boot_s["excludes_zero"],
             per_fit={k: dict(model_macro_mape=x["model_macro_mape"],
                              const_macro_mape=x["const_macro_mape"])
                      for k, x in res["per_fit"].items()}))
 
     diffs = [r["paired_difference_pp"] for r in rows]
     signs = {np.sign(d) for d in diffs}
-    ranges = [r["clustered_range_within_group"] for r in rows
-              if r["clustered_range_within_group"] is not None]
+    ranges = [r["clustered_range_within_variety"] for r in rows
+              if r["clustered_range_within_variety"] is not None]
     crosses_zero = [bool(lo <= 0.0 <= hi) for lo, hi in ranges] if ranges else []
 
     return dict(
-        v_targets=[float(v) for v in v_targets],
+        m_targets=[float(v) for v in m_targets],
+        corpus=res["corpus"],
+        primary_cluster="cond_in_variety",
         rows=rows,
         paired_difference_range_pp=[round(min(diffs), 3), round(max(diffs), 3)],
         sign_is_stable=bool(len(signs) == 1),
@@ -2010,12 +2163,78 @@ def endpoint_propagation_benchmark(v_targets=(38.0, 40.0, 42.0), n_boot=8000, se
         conclusion_stable=bool(len(signs) == 1 and crosses_zero and all(crosses_zero)),
         estimand=("pooled held-out MAPE of the frozen optimal-grind mechanistic calibration MINUS "
                   "that of the optimal-grind-trained level-only constant, both evaluated at the "
-                  "same endpoint proxy, over all held-out coarse/fine points"),
+                  "same matched-mass endpoint, over the declared held-out coarse/fine corpus"),
         note=("This is NOT the same quantity as `endpoint_mass_sensitivity`, which reports the "
               "blind optimal-grind per-condition residual. Both predictors are re-derived at each "
               "endpoint here, so a shift common to both cancels -- which is exactly why the ~5 pp "
-              "movement in the blind residual does not by itself imply that the model-versus-null "
+              "movement in the blind residual does not by itself imply that the model-versus-comparator "
               "conclusion is endpoint-dependent."))
+
+
+def comparator_loss_robustness(n_boot=8000, seed=0, include_off_grid=True):
+    """Round-7 P1-2: is the MODEL-MINUS-COMPARATOR verdict robust to the loss function?
+
+    The manuscript previously supported a loss-robustness claim with `_log_level_mape`, which
+    refits only the MECHANISTIC predictor's level under a log/relative-error loss and reports
+    its absolute held-out MAPE. That tests a different quantity from the paper's headline: a
+    model can hold its absolute error under two losses while its small ADVANTAGE over a
+    comparator changes sign. Because the headline difference is a few tenths of a percentage
+    point, the substitution is not innocuous.
+
+    Here both predictors are refit under the SAME declared loss and scored under the SAME rule,
+    and the PAIRED per-condition difference is reported with the primary (variety, T, p)
+    clustered percentile range from P1-1 -- so the alternative loss tests the actual estimand.
+
+      primary loss     : MAPE-optimal level fit (exact weighted median) for both predictors;
+      alternative loss : log/relative-error level fit (geometric median of m_i/f_i) for both.
+
+    Scoring is MAPE in both arms, so the two rows differ only in the FITTING loss -- which is
+    the comparison the robustness claim needs. NOTE: ~5-6 min of PDE solves (slow; hand-run)."""
+    import numpy as np
+    rows = []
+    for alt in (False, True):
+        res = transfer_skill_vs_baselines(alt_loss=alt, include_off_grid=include_off_grid)
+        boot = paired_clustered_bootstrap(res["records"], B=n_boot, seed=seed,
+                                          unit="cond_in_variety")
+        rows.append(dict(
+            fitting_loss=res["loss"], alt_loss=bool(alt),
+            pooled_model_mape=res["pooled_model_mape"],
+            pooled_const_mape=res["pooled_const_mape"],
+            paired_difference_pp=res["paired_model_minus_const_mean_pp"],
+            n_points=res["n_points"],
+            n_model_worse_than_const=res["n_model_worse_than_const"],
+            clustered_range_within_variety=boot["percentile_range_pp"],
+            excludes_zero=boot["excludes_zero"],
+            nearest_bound_to_zero_pp=boot["nearest_bound_to_zero_pp"],
+            per_group_difference_pp={
+                k: round(x["model_macro_mape"] - x["const_macro_mape"], 3)
+                for k, x in res["per_fit"].items()}))
+    diffs = [r["paired_difference_pp"] for r in rows]
+    signs = {int(np.sign(d)) for d in diffs}
+    zero_flags = {bool(lo <= 0.0 <= hi)
+                  for lo, hi in (r["clustered_range_within_variety"] for r in rows)}
+    nearest = [r["nearest_bound_to_zero_pp"] for r in rows]
+    return dict(
+        corpus=res["corpus"], primary_cluster="cond_in_variety", rows=rows,
+        # The knife-edge, reported as a quantity: if the primary range's nearest bound sits this
+        # close to zero under both losses, "excludes zero" is a statement about rounding, not
+        # about the data, and the paper must not lean on it either way.
+        nearest_bound_to_zero_pp=[min(nearest), max(nearest)],
+        scoring_rule="MAPE (both arms); only the FITTING loss differs",
+        paired_difference_range_pp=[round(min(diffs), 3), round(max(diffs), 3)],
+        sign_is_stable=bool(len(signs) == 1),
+        zero_crossing_is_stable=bool(len(zero_flags) == 1),
+        verdict=("COMPARATOR loss robustness (round-7 P1-2): refitting BOTH the mechanistic "
+                 "model and the level-only comparator under a log/relative-error level fit "
+                 "moves the paired model-minus-comparator difference from %+.3f pp to %+.3f pp. "
+                 "The sign %s and whether the primary clustered percentile range crosses zero "
+                 "%s. This is the estimand the robustness claim must be about; the mechanistic "
+                 "model's own absolute error under an alternative loss does not establish it."
+                 % (diffs[0], diffs[1],
+                    "is stable" if len(signs) == 1 else "CHANGES",
+                    "is unchanged" if len(zero_flags) == 1 else "CHANGES")),
+        strength="loss-family sensitivity of the paired comparator estimand (fitting loss "
+                 "varied, scoring rule held); a sensitivity sweep, not a calibrated inference")
 
 
 # --------------------------------------------------------------------------------------------

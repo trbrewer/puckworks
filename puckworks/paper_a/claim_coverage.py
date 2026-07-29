@@ -53,7 +53,7 @@ CONFIG_CONSTANTS: dict[str, str] = {
     "10": "percent-above-minimum threshold defining the near-optimal set",
     "95": "interval coverage (%)",
     "9": "(T,p) condition clusters in the Angeloni design",
-    "108": "held-out points in the O->C/F transfer",
+    "108": "named-solute observations on the matched on-grid C/F subset, where the same-(T,p) lookup comparator is defined (36 records x 3 solutes)",
     "54": "held-out errors in the leave-one-condition-out evaluation",
     "3": "solutes (caffeine, trigonelline, 5-CQA); also polynomial degree where stated",
     "2": "varieties (Arabica, Robusta)",
@@ -152,19 +152,21 @@ SLOW_LANE_RESULTS: dict[str, str] = {
     "2.07": "external panel: largest MAPE range ratio",
     "57": "external panel: smallest minimum residual (%)",
     "75": "external panel: largest minimum residual (%)",
-    "2.6": "improvement of the model over the same-(T,p) lookup (pp), 8.23 vs 10.79",
-    "0.725": "endpoint propagation: 40 mL within-group clustered lower bound (pp); quoted at 3 sf because 0.725 sits exactly on a 2 dp rounding boundary",
-    "0.751": "endpoint propagation: 40 mL whole-group clustered lower bound (pp)",
-    "0.027": "endpoint propagation: 40 mL within-group clustered UPPER bound (pp)",
-    "0.032": "endpoint propagation: 40 mL whole-group clustered UPPER bound (pp)",
+    "2.6": "improvement of the model over the same-(T,p) lookup on the matched on-grid subset where that comparator is defined (pp), 8.23 vs 10.79",
     "0.03": "paired bootstrap 95% bound (pp)",
-    "8.5": "tolerance sweep, ARABICA-CAFFEINE panel: worst held-out MAPE at the 2 % tolerance (8.48 %)",
-    "9.7": "tolerance sweep, ARABICA-CAFFEINE panel: worst held-out MAPE at the 20 % tolerance (9.69 %)",
+    "9.2": "tolerance sweep, ARABICA-CAFFEINE panel: worst held-out MAPE at the 2 % tolerance (9.23 %)",
+    "10.5": "tolerance sweep, ARABICA-CAFFEINE panel: worst held-out MAPE at the 20 % tolerance (10.47 %)",
     "2.8": "per solute x variety held-out median, lowest (%)",
     "8.8": "per solute x variety held-out median, highest (%)",
     "32.7": "worst individual LOCO fold across all six groups (Robusta 5-CQA, 32.7 %)",
     "5.1": "condition-cluster resampling 95% lower bound (%)",
     "8.3": "condition-cluster resampling 95% upper bound (%)",
+    "8.2": "residual-resampling descriptive range, upper bound (%)",
+    # ── the matched on-grid C/F subset, reported as the secondary corpus and as the support on
+    # which the same-(T,p) lookup comparator is defined (round-7 P0-3).
+    "0.361": "matched on-grid subset: paired model-minus-comparator difference (pp)",
+    "8.23%": "matched on-grid subset: model pooled held-out MAPE",
+    "8.59%": "matched on-grid subset: level-only comparator pooled MAPE",
     "7.0": "pooled mean under a log/relative-error level fit (%)",
     "0.71": "fitted rate before the flow-map perturbation",
     "0.88": "fitted rate after the flow-map perturbation",
@@ -189,23 +191,55 @@ SLOW_LANE_RESULTS: dict[str, str] = {
     "10.0": "positive control: trigonelline minimum fraction MAPE (9.99 %)",
     "1.6": "independent-trace check: lower fraction-scoring range ratio",
     "2.1": "independent-trace check: upper fraction-scoring range ratio",
-    # --- endpoint propagation through the full transfer-versus-null benchmark (P0-4) ----------
+    # --- endpoint propagation through the full transfer-versus-comparator benchmark (P0-4) ----
     # Producer: validation.slow.angeloni_bracket.endpoint_propagation_benchmark; archive:
     # docs/paper1_resource/PAPER_A_ENDPOINT_PROPAGATION.json. ~2-3 min of PDE solves per endpoint.
-    "8.17": "endpoint propagation: model pooled held-out MAPE at 38 mL (%)",
-    "8.20": "endpoint propagation: model pooled held-out MAPE at 42 mL (%)",
-    "0.421": "endpoint propagation: paired model-minus-null difference at 38 mL (pp)",
-    "0.361": "endpoint propagation: paired model-minus-null difference at 40 mL (pp)",
-    "0.392": "endpoint propagation: paired model-minus-null difference at 42 mL (pp)",
-    "0.79": "endpoint propagation: 38 mL clustered percentile range, lower bound (pp)",
-    "0.72": "endpoint propagation: 40 mL clustered percentile range, lower bound (pp)",
-    "0.78": "endpoint propagation: 42 mL clustered percentile range, lower bound (pp)",
-    "0.01": "endpoint propagation: 42 mL clustered percentile range, upper bound (pp)",
-    "51": "endpoint propagation: held-out points where the model is worse, at 38 mL",
-    "49": "endpoint propagation: held-out points where the model is worse, at 42 mL; "
-          "also the unmatched fixed-window comparison upper end (%)",
-    "0.06": "endpoint propagation: spread of the paired difference across 38/40/42 mL (pp)",
-    "0.42": "endpoint propagation: the paired difference rounded to 2 dp at 38 mL (-0.421), quoted as the range endpoint in prose",
+    # Round-7 P0-3: the corpus is the COMPLETE 44-record C/F set (132 named-solute observations),
+    # so every value below moved; round-7 P1-1 also made (variety, T, p) the primary cluster.
+    "8.39": "endpoint propagation: model pooled held-out MAPE at 38 g (%)",
+    "8.44": "endpoint propagation: model pooled held-out MAPE at 40 g (%)",
+    "8.41": "endpoint propagation: model pooled held-out MAPE at 42 g (%)",
+    "8.83": "endpoint propagation: level-only comparator pooled MAPE, identical at all three endpoints (%)",
+    "0.447": "endpoint propagation: paired model-minus-comparator difference at 38 g (pp)",
+    "0.394": "endpoint propagation: paired model-minus-comparator difference at 40 g (pp)",
+    "0.425": "endpoint propagation: paired model-minus-comparator difference at 42 g (pp)",
+    "0.884": "endpoint propagation: 38 g primary (variety,T,p) clustered range, lower bound (pp)",
+    "0.046": "endpoint propagation: 38 g primary clustered range, upper bound (pp)",
+    "0.825": "endpoint propagation: 40 g primary clustered range, lower bound (pp)",
+    "0.890": "endpoint propagation: 42 g primary clustered range, lower bound (pp)",
+    "0.742": "endpoint propagation: 40 g conditions-within-group clustered range, lower bound (pp), secondary",
+    "0.044": "endpoint propagation: 40 g conditions-within-group clustered range, upper bound (pp), secondary",
+    "0.883": "endpoint propagation: 40 g whole-group clustered range, lower bound (pp), secondary",
+    "0.024": "endpoint propagation: 40 g whole-group clustered range, upper bound (pp), secondary",
+    "61": "endpoint propagation: held-out points where the model is worse, at 38 g",
+    "62": "endpoint propagation: held-out points where the model is worse, at 40 g",
+    "60": "endpoint propagation: held-out points where the model is worse, at 42 g; "
+          "also the dissolved-solids trace span (s)",
+    "49%": "unmatched fixed-25-s-window cross-grind comparison, upper end (%) -- the endpoint "
+           "artefact the matched-mass contract removes",
+    "0.053": "endpoint propagation: spread of the paired difference across 38/40/42 g (pp)",
+    # near-optimal-set transfer: producer validate_refit_granulometry, archived in the figure
+    # bundle as transfer.manifold_worst_heldout_mape / point_worst_heldout_mape.
+    "21.8%": "near-optimal-set transfer: worst aggregate held-out C/F error across the declared "
+             "10 % set (21.83 %)",
+    # --- corpus contract (round-7 P0-3) --------------------------------------------------------
+    # Archive: docs/paper1_resource/PAPER_A_TRANSFER_CORPUS_CONTRACTS.json, which also emits the
+    # included and excluded sample IDs so the counts below are checkable rather than asserted.
+    "44": "transfer corpus: held-out coarse/fine condition-level records (complete corpus)",
+    "132": "transfer corpus: held-out named-solute observations (44 records x 3 solutes)",
+    "4.5%": "transfer corpus: relative skill of the model over the level-only comparator (0.045)",
+    "9.39%": "transfer corpus: model pooled MAPE on the eight off-grid C/F records alone",
+    "9.93%": "transfer corpus: comparator pooled MAPE on the eight off-grid C/F records alone",
+    "0.545": "transfer corpus: paired difference on the eight off-grid C/F records alone (pp)",
+    # --- comparator loss robustness (round-7 P1-2) ---------------------------------------------
+    # Producer: validation.slow.angeloni_bracket.comparator_loss_robustness; archive:
+    # docs/paper1_resource/PAPER_A_COMPARATOR_LOSS_ROBUSTNESS.json. BOTH predictors are refit and
+    # rescored under the alternative loss, so the paired estimand is what gets tested.
+    "0.393": "comparator loss robustness: paired difference under the log/relative level fit (pp)",
+    "8.50%": "comparator loss robustness: model pooled MAPE under the alternative loss",
+    "8.89%": "comparator loss robustness: comparator pooled MAPE under the alternative loss",
+    "0.827": "comparator loss robustness: alternative-loss primary clustered range, lower bound (pp)",
+    "0.002": "comparator loss robustness: alternative-loss primary clustered range, upper bound (pp)",
     # --- PDE discretisation / solver-tolerance convergence (MC4.4) ------------------------------
     # Producer: validation.slow.angeloni_bracket.numerical_convergence; archive:
     # docs/paper1_resource/PAPER_A_NUMERICAL_CONVERGENCE.json.

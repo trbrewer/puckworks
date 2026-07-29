@@ -32,7 +32,7 @@ SNAPSHOT = _PKG_DIR / "data" / "pv03_flat_valley.json"
 SITE_DIR = _REPO / "docs" / "public" / "site" / "flat-valley"
 GENERATOR = "puckworks.public.flat_valley.build_payload"
 BADGE = "RECONSTRUCTED"                 # a post-fit refit to measured data; not a raw observation
-EVIDENCE_STRENGTH = "negative validation"   # the mechanistic model barely beats a level-only null
+EVIDENCE_STRENGTH = "negative validation"   # the model barely beats a level-only comparator
 
 # Headline numeric fields: public key -> dotted path in the Paper A bundle. This table IS the
 # no-hand-typed-numbers contract; the exporter digs each path, verify re-digs and compares.

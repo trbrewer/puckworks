@@ -44,7 +44,7 @@ error, so the SI cannot bundle a different image from the one its caption descri
 `nz200_tol1e-06`; producer `puckworks.validation.slow.angeloni_bracket.numerical_convergence`.
 
 **Curvature panels.** `docs/figures/paper_a/results.json` schema version
-2, source commit `5bcc71bbc27e1fc2119c60e6a87d7b2d3b0bd959`.
+3, source commit `5bcc71bbc27e1fc2119c60e6a87d7b2d3b0bd959`.
 
 ## Analyses cited in the audit trail but not in the SI
 

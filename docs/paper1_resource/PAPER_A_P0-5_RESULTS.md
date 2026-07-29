@@ -63,26 +63,35 @@ named-solute interval remains owed on the Angeloni replicate drop.
 
 ## (B) Is the model-vs-null skill distinguishable from zero?
 
-Pooled held-out MAPE: **model 8.23 %** vs **O-trained level-only constant 8.59 %**; paired mean
-ΔMAPE (model − const) = **−0.36 pp**; model worse on **50 / 108** held-out points. Dependence-aware
-**paired clustered resampling sensitivity analysis** of the paired loss (B = 8000, seed 0). We call it
-a sensitivity analysis rather than a confidence procedure because no full sampling model is
-specified:
+> **Superseded in part by round 7 (P0-3, P1-1).** The corpus and the primary resampling unit both
+> changed: the benchmark now scores the complete 44-record coarse/fine corpus (132 named-solute
+> observations, not 108), and the primary cluster is the **(variety, T, p) condition**, carrying all
+> three solutes and both held-out grinds together. The numbers below are retained as the record of
+> what was run at the time; the current values are in
+> `PAPER_A_ENDPOINT_PROPAGATION.json` and Supplementary Table S3.
 
-| Resampling unit | 95 % CI on pooled ΔMAPE (pp) | excludes zero? | frac. resamples model-worse |
+Pooled held-out MAPE: **model 8.44 %** vs **O-trained level-only comparator 8.83 %**; paired mean
+ΔMAPE (model − comparator) = **−0.394 pp**; model worse on **62 / 132** held-out points.
+Dependence-aware **paired clustered resampling sensitivity analysis** of the paired loss
+(B = 8000, seed 0). We call it a sensitivity analysis rather than a confidence procedure because no
+full sampling model is specified, and we report it as a *clustered percentile sensitivity range*
+rather than a 95 % CI:
+
+| Resampling unit | percentile range on pooled ΔMAPE (pp) | reaches zero? | frac. resamples model-worse |
 |---|---|---|---|
-| conditions within group (primary) | **[−0.725, +0.027]** | **no (straddles 0)** | 0.035 |
-| whole groups | [−0.751, −0.032] | yes (barely) | 0.011 |
+| (variety, T, p) condition (**primary**) | **[−0.825, +0.000]** | **yes — upper bound on zero** | see archive |
+| (T,p) condition within variety × solute group (secondary) | [−0.742, −0.044] | no, by 0.044 pp | see archive |
+| whole variety × solute groups (secondary) | [−0.883, −0.024] | no, by 0.024 pp | see archive |
 
-**Reading.** Once the 108 held-out points are treated as the **dependent** observations they are (6
-variety × solute groups × shared (T,p) conditions × two grinds), the mechanistic model's ~0.4 pp
-advantage over a level-only constant is **not robustly distinguishable from zero**: the primary,
-more-conservative conditions-in-group interval **includes zero** ([−0.725, +0.027]), and the coarser
-group interval only *barely* excludes it ([−0.751, −0.032]). The two units disagreeing on the boundary
-case is itself a sign the effect is marginal. Read with the small absolute difference, **the mechanism
-adds no resolvable predictive skill beyond a learned level** — which sharpens (does not weaken) the
-paper's thesis that endpoint accuracy ≠ mechanistic skill. Descriptive/sensitivity; no evidence-tier
-change.
+**Reading.** Once the 132 held-out points are treated as the **dependent** observations they are —
+every (variety, T, p) condition observed for all three named solutes at both held-out grinds — the
+mechanistic model's ~0.4 pp advantage over a level-only comparator is **not robustly distinguishable
+from zero**: the primary range's upper bound sits on zero. The two secondary units clear zero by
+0.02–0.04 pp, which is a difference too small to carry an inferential claim; that the three units
+disagree at the third decimal place is itself the sign the effect is marginal. Read with the small
+absolute difference, **the mechanism adds no resolvable predictive skill beyond a learned level** —
+which sharpens (does not weaken) the paper's thesis that endpoint accuracy ≠ mechanistic skill.
+Descriptive/sensitivity; no evidence-tier change.
 
 **Note on scope.** This clustered bootstrap resamples the *precomputed* paired losses of two fixed
 predictors, so it does not require repeating the fit — appropriate for the null *comparison*. The

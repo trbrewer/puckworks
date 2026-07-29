@@ -79,8 +79,18 @@ BANNED_IN_CONVERSION: list[tuple[str, str]] = [
      "the cross-grind test is not a blind mechanism transfer"),
     ("essentially nothing",
      "'explains essentially nothing' overstates a descriptive in-sample comparison"),
-    ("matched 40 g cups",
-     "the endpoint is a 40 mL volume proxy for a reported 40 +/- 2 g beverage"),
+    # Round-7 P0-2 INVERTS the previous rule here. "matched 40 g cups" used to be banned on the
+    # grounds that the endpoint was a volume proxy; the solver-contract audit settled that the
+    # stopping rule is a mass one, so the volume vocabulary is what must not appear.
+    ("matched-volume proxy",
+     "round-7 P0-2: the endpoint is a matched COLLECTED MASS -- t_end = M_target / Q with the "
+     "source flow consumed in g/s. There is no volume proxy"),
+    ("40 mL",
+     "round-7 P0-2: the endpoint is 40 g, not 40 mL; the token '40' is identical either way, "
+     "which is exactly why this needs a phrase check rather than a numeral check"),
+    ("mass-to-volume substitution",
+     "round-7 P0-2: retired narrative -- nothing is substituted; the source's own flow column "
+     "carries the residual labelling ambiguity, and that is stated directly"),
     # --- third review ---
     ("conditional one-dimensional intersection band",
      "third review MC7: the Table 7 assay and the model inventory are not demonstrably "

@@ -17,9 +17,10 @@ continuously observed data under a given observation map. It is a property of th
 observation map alone, decided analytically, and it is not what this paper measures.
 
 *Practical* identifiability asks whether the parameters are localized by the data actually
-available: a finite design, finite noise, a chosen objective and a bounded parameter domain. A
-model can be structurally identifiable and practically non-identifiable, which is the situation
-studied here. Because a practical statement is conditional on all four of those, every such claim
+available: a finite design, finite noise, a chosen objective and a bounded parameter domain. This
+paper evaluates practical localization only. Structural identifiability of the full model under the
+relevant observation maps is not assessed, and nothing here should be read as a claim about it in
+either direction. Because a practical statement is conditional on all four of those, every such claim
 in this paper is scoped to the tested model, observation map, parameter domain and objective, and
 the formal term is used only as shorthand for that scoped statement.
 
@@ -35,15 +36,22 @@ equivalent; the profile is reported directly rather than inferring localization 
 spectra.
 
 **The objective family.** The rate multiplier is profiled on a 29-point geometric
-grid spanning 0.15–6.5. At each grid point the solid-inventory level is the exact least-squares
-minimizer given the rate, so the profile is a one-dimensional section through the exact joint
-minimum rather than an alternating search. Three objectives are evaluated at every grid point:
+grid spanning 0.15–6.5. At each candidate rate the solid-inventory level is optimized **for the
+objective being profiled**, not once under a common least-squares fit: ordinary least squares for
+the sum-of-squares objective, weighted least squares with weights \(1/y_i^2\) for relative-L2, and
+iteratively reweighted least squares (IRLS) for Huber. Each curve is therefore an objective-specific
+profile — a one-dimensional section through that objective's own joint minimum, rather than one
+least-squares section rescored under three different outer losses. Each level solve is exact for its
+objective (closed-form for the first two, converged IRLS for the third), so no alternating search is
+involved. Three objectives are evaluated at every grid point:
 
-1. *Unweighted concentration-scale sum of squares*, the primary objective.
+1. *Unweighted concentration-scale sum of squares*, the primary objective; level by ordinary least
+   squares, \(c^\ast = \sum_i f_i y_i / \sum_i f_i^2\).
 2. *Relative L2*, which divides each residual by its observation, so every observation contributes
-   equally in proportional terms and small concentrations are not down-weighted.
+   equally in proportional terms and small concentrations are not down-weighted; level by weighted
+   least squares, \(c^\ast = \sum_i w_i f_i y_i / \sum_i w_i f_i^2\) with \(w_i = 1/y_i^2\).
 3. *Huber*, with 1.345 * 1.4826 * MAD of the residuals at the SSE optimum (95%-efficiency tuning), per panel. This limits the influence of large residuals without
-   discarding them.
+   discarding them; level by IRLS, reweighting \(w_i = \min(1, \delta/|r_i|)\) to convergence.
 
 A near-optimal set at threshold t is the set of profiled grid points whose objective lies within a
 factor (1 + t) of the profiled minimum. Thresholds of 2, 5, 10 and 20 % are reported so that the
@@ -53,14 +61,24 @@ headline 10 % figure can be seen as one point in a monotone family rather than a
 
 ### Supplementary Methods S2
 
-**Endpoint-proxy and external-trajectory processing.**
+**Endpoint and external-trajectory processing.**
 
-*Endpoint proxy.* The source campaign reports beverage mass, not volume, and the model integrates
-to a volume. A fixed beverage volume is therefore used as the endpoint proxy at which model and
-measurement are compared. Because that proxy is a modelling choice rather than a measured quantity,
-every reported analysis is repeated at 38, 40 and 42 mL. This is a sensitivity analysis of the
-proxy choice; it is not propagation of a measured mass uncertainty, and the spread across the three
-endpoints should not be read as an uncertainty interval on any measurement.
+*Collection endpoint.* The source campaign reports a beverage **mass** of 40 ± 2 g, and the model
+stops at a matched collected mass: the integration terminates at `t_end = M_target / Q`, where `Q`
+is the source's flow column. That column is published in mL s⁻¹ but is consumed by the source model
+as a mass flow in g s⁻¹, so the stopping rule returns the time at which `M_target` **grams** have
+been collected. Density enters the solver when the flow is converted to a superficial velocity and
+when the outlet concentration is volume-averaged; it does not convert the stopping rule into a
+volume target. Every reported analysis is repeated at 38, 40 and 42 g, which is the campaign's own
+declared collection tolerance rather than an invented bracket. The spread across the three endpoints
+is a sensitivity analysis over that tolerance; it is not a propagated measurement uncertainty, and
+should not be read as an uncertainty interval on any measurement.
+
+One ambiguity is inherited rather than resolved. The source's flow column carries a volumetric label
+and a mass consumption, and the two cannot both be right. The source's arithmetic is preserved
+because every frozen parameter used here was estimated under it; if instead the published label is
+correct, the realised cup is about 2 % smaller than stated, which lies inside the ±2 g window swept
+above.
 
 Two distinct estimands are reported at the three endpoints, and they are kept apart deliberately.
 The first is the blind discrepancy of the source model at the optimal grind, which measures how far
@@ -68,11 +86,11 @@ an uncalibrated prediction sits from the measurement. The second is the complete
 of Supplementary Table S3: fit inventory and rate on the nine optimal-grind conditions at the
 endpoint, freeze the calibration, predict every held-out coarse and fine observation at the same
 endpoint, refit the level-only comparator at the same endpoint, and repeat the paired clustered
-resampling. An endpoint-induced shift common to both predictors cancels in the model-minus-null
+resampling. An endpoint-induced shift common to both predictors cancels in the model-minus-comparator
 contrast even when it materially moves the blind residual, so a single reported sensitivity would
 be misleading for one estimand or the other.
 
-Estimand of the transfer benchmark: pooled held-out MAPE of the frozen optimal-grind mechanistic calibration MINUS that of the optimal-grind-trained level-only constant, both evaluated at the same endpoint proxy, over all held-out coarse/fine points
+Estimand of the transfer benchmark: pooled held-out MAPE of the frozen optimal-grind mechanistic calibration MINUS that of the optimal-grind-trained level-only constant, both evaluated at the same matched-mass endpoint, over the declared held-out coarse/fine corpus
 
 *External trajectory.* The external dissolved-solids series is a time-resolved trajectory measured
 on different equipment from the primary campaign, at 93.0 °C and 9.0 bar.
@@ -168,8 +186,9 @@ defensible is presenting Table 7 as a numerical tie-breaker that fixes the rate 
 **Fitted parameters and boundary flags for every solute × variety panel.**
 
 The rate multiplier is profiled over 0.15–6.5 on a 29-point geometric grid under the primary
-unweighted sum-of-squares objective; the solid-inventory level at each rate is the exact
-least-squares minimizer. "Minimum on boundary" flags a panel whose profiled optimum sits at an edge
+unweighted sum-of-squares objective; the solid-inventory level at each rate is the ordinary
+least-squares minimizer for that objective (the other two objectives use their own level solvers —
+see Supplementary Methods S1). "Minimum on boundary" flags a panel whose profiled optimum sits at an edge
 of the tested domain, in which case the point estimate is a property of the domain. The 10 %
 near-optimal range is likewise censored where it reaches an edge.
 
@@ -292,48 +311,53 @@ not.
 
 ### Supplementary Table S3
 
-**Endpoint propagation: the complete transfer-versus-null benchmark at 38, 40 and 42 mL.**
+**Endpoint propagation: the complete transfer-versus-comparator benchmark at 38, 40 and 42 g.**
 
-For each endpoint proxy the whole procedure is repeated — fit inventory and rate on the nine
+For each endpoint the whole procedure is repeated — fit inventory and rate on the nine
 optimal-grind conditions at that endpoint, freeze the calibration, predict all held-out coarse and
-fine observations at the same endpoint, refit the optimal-grind-trained level-only constant at the
+fine observations at the same endpoint, refit the optimal-grind-trained level-only comparator at the
 same endpoint, and repeat the primary clustered resampling of the paired loss. Processing is
 described in Supplementary Methods S2.
 
-| endpoint | model pooled MAPE (%) | level-only null (%) | paired difference (pp) | primary range, conditions within group (pp) | primary range excludes zero | secondary range, whole groups (pp) | model worse on | skill vs null |
-|---|---:|---:|---:|---:|---|---:|---:|---:|
-| 38 mL | 8.17 | 8.59 | -0.421 | [-0.79, -0.03] | excludes 0 | [-0.82, -0.07] | 51 of 108 | 0.049 |
-| 40 mL | 8.23 | 8.59 | -0.361 | [-0.72, +0.03] | includes 0 | [-0.75, -0.03] | 50 of 108 | 0.042 |
-| 42 mL | 8.20 | 8.59 | -0.392 | [-0.78, +0.01] | includes 0 | [-0.77, -0.04] | 49 of 108 | 0.046 |
+Corpus: complete held-out C/F corpus (on-grid + off-grid), 44 held-out records ×
+3 named solutes = 132 observations. Held-out record
+identifiers: A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22, A23, A24, A25, A26, A27, A28, A29, A30, A31, A32, A33, R12, R13, R14, R15, R16, R17, R18, R19, R20, R21, R22, R23, R24, R25, R26, R27, R28, R29, R30, R31, R32, R33.
+No coarse/fine record is excluded.
+
+| endpoint | model pooled MAPE (%) | level-only comparator (%) | paired difference (pp) | primary range, conditions within variety (pp) | primary range excludes zero | secondary range, conditions within group (pp) | secondary range, whole groups (pp) | model worse on | skill vs comparator |
+|---|---:|---:|---:|---:|---|---:|---:|---:|---:|
+| 38 g | 8.39 | 8.83 | -0.447 | [-0.884, -0.046] | excludes 0 | [-0.802, -0.091] | [-0.940, -0.060] | 61 of 132 | 0.051 |
+| 40 g | 8.44 | 8.83 | -0.394 | [-0.825, +0.000] | includes 0 | [-0.742, -0.044] | [-0.883, -0.024] | 62 of 132 | 0.045 |
+| 42 g | 8.41 | 8.83 | -0.425 | [-0.890, +0.000] | includes 0 | [-0.797, -0.058] | [-0.905, -0.035] | 60 of 132 | 0.048 |
 
 **Per group.** Macro MAPE for each variety × solute group at each endpoint.
 
-| endpoint | group | model macro MAPE (%) | null macro MAPE (%) | difference (pp) |
+| endpoint | group | model macro MAPE (%) | comparator macro MAPE (%) | difference (pp) |
 |---|---|---:|---:|---:|
-| 38 mL | Arabica:5CQA | 11.57 | 12.82 | -1.25 |
-| 38 mL | Arabica:caffeine | 6.76 | 7.57 | -0.81 |
-| 38 mL | Arabica:trigonelline | 4.92 | 4.96 | -0.04 |
-| 38 mL | Robusta:5CQA | 9.46 | 9.81 | -0.35 |
-| 38 mL | Robusta:caffeine | 8.49 | 8.41 | +0.08 |
-| 38 mL | Robusta:trigonelline | 7.79 | 7.96 | -0.17 |
-| 40 mL | Arabica:5CQA | 11.62 | 12.82 | -1.20 |
-| 40 mL | Arabica:caffeine | 6.93 | 7.57 | -0.64 |
-| 40 mL | Arabica:trigonelline | 5.01 | 4.96 | +0.05 |
-| 40 mL | Robusta:5CQA | 9.51 | 9.81 | -0.30 |
-| 40 mL | Robusta:caffeine | 8.49 | 8.41 | +0.08 |
-| 40 mL | Robusta:trigonelline | 7.82 | 7.96 | -0.14 |
-| 42 mL | Arabica:5CQA | 11.73 | 12.82 | -1.09 |
-| 42 mL | Arabica:caffeine | 6.62 | 7.57 | -0.95 |
-| 42 mL | Arabica:trigonelline | 4.96 | 4.96 | +0.00 |
-| 42 mL | Robusta:5CQA | 9.55 | 9.81 | -0.26 |
-| 42 mL | Robusta:caffeine | 8.49 | 8.41 | +0.08 |
-| 42 mL | Robusta:trigonelline | 7.84 | 7.96 | -0.12 |
+| 38 g | Arabica:5CQA | 12.42 | 13.96 | -1.54 |
+| 38 g | Arabica:caffeine | 7.97 | 8.72 | -0.75 |
+| 38 g | Arabica:trigonelline | 6.39 | 6.46 | -0.07 |
+| 38 g | Robusta:5CQA | 8.57 | 8.95 | -0.38 |
+| 38 g | Robusta:caffeine | 7.58 | 7.48 | +0.10 |
+| 38 g | Robusta:trigonelline | 7.37 | 7.43 | -0.06 |
+| 40 g | Arabica:5CQA | 12.48 | 13.96 | -1.48 |
+| 40 g | Arabica:caffeine | 8.11 | 8.72 | -0.61 |
+| 40 g | Arabica:trigonelline | 6.47 | 6.46 | +0.01 |
+| 40 g | Robusta:5CQA | 8.61 | 8.95 | -0.34 |
+| 40 g | Robusta:caffeine | 7.59 | 7.48 | +0.11 |
+| 40 g | Robusta:trigonelline | 7.38 | 7.43 | -0.05 |
+| 42 g | Arabica:5CQA | 12.55 | 13.96 | -1.41 |
+| 42 g | Arabica:caffeine | 7.87 | 8.72 | -0.85 |
+| 42 g | Arabica:trigonelline | 6.42 | 6.46 | -0.04 |
+| 42 g | Robusta:5CQA | 8.65 | 8.95 | -0.30 |
+| 42 g | Robusta:caffeine | 7.58 | 7.48 | +0.10 |
+| 42 g | Robusta:trigonelline | 7.38 | 7.43 | -0.05 |
 
-**Reading.** The effect size is stable: −0.36 to −0.42 pp across 38, 40 and 42 mL, a spread of 0.06 pp. That is an order of magnitude smaller than the ≈ 5 pp movement in the blind optimal-grind residual over the same endpoints, which is what one expects when both predictors are re-derived at each endpoint so that a shift common to both cancels. The sign never changes and the model remains worse on roughly half the held-out points (49–51 of 108) at every endpoint. The inferential reading, however, is not endpoint-invariant: at 38 mL the primary conditions-within-group clustered percentile range is [−0.79, −0.03], which excludes zero, while at 40 mL ([−0.72, +0.03]) and 42 mL ([−0.78, +0.01]) it includes zero. The conclusion that the advantage is small and unresolved therefore holds at the 40 mL proxy used throughout and at 42 mL, but at 38 mL the range narrowly excludes zero — with an upper bound of −0.03 pp, an advantage of at most a third of a percentage point. This dependence on the proxy is reported as part of the conclusion rather than relegated to a footnote.
+**Reading.** The effect size is stable: -0.447 to -0.394 pp across 38, 40 and 42 g, a spread of 0.053 pp. That is an order of magnitude smaller than the ≈ 5 pp movement in the blind optimal-grind residual over the same endpoints, which is what one expects when both predictors are re-derived at each endpoint so that a shift common to both cancels. The sign never changes and the model remains worse on roughly half the held-out points (60–62 of 132) at every endpoint. The inferential reading, however, is not endpoint-invariant: the primary clustered percentile range — resampling (variety, temperature, pressure) conditions, so that all three named solutes and both held-out grinds move together — clears zero at 38 g ([-0.884, -0.046]) and reaches it at 40 g and 42 g ([-0.825, +0.000], [-0.890, +0.000]). The nearest bound to zero across the three endpoints spans 0.0000–0.0458 pp, so the rows differ in which side of zero they land on only at the third decimal place. Nothing is inferred from that. The largest advantage any of these upper bounds admits is a small fraction of a percentage point against pooled errors near 8.4 %, and the benchmark is reported as unresolved throughout the declared tolerance rather than resolved at the one endpoint whose bound happens to clear zero.
 
-The level-only constant's pooled MAPE is 8.59 % at ALL THREE endpoints, and that is a correctness check rather than a coincidence: the constant is fitted to MEASURED concentrations, which do not depend on where the solver terminates. Only the mechanistic predictor moves with the endpoint. If the baseline had moved too, the pipeline would not be doing what this analysis claims.
+The level-only comparator's pooled MAPE is 8.83 % at ALL THREE endpoints, and that is a correctness check rather than a coincidence: the comparator is fitted to MEASURED concentrations, which do not depend on where the solver terminates. Only the mechanistic predictor moves with the endpoint. If the comparator had moved too, the pipeline would not be doing what this analysis claims.
 
-**Not the same quantity as the blind-residual sweep.** This is NOT the same quantity as `endpoint_mass_sensitivity`, which reports the blind optimal-grind per-condition residual. Both predictors are re-derived at each endpoint here, so a shift common to both cancels -- which is exactly why the ~5 pp movement in the blind residual does not by itself imply that the model-versus-null conclusion is endpoint-dependent.
+**Not the same quantity as the blind-residual sweep.** This is NOT the same quantity as the blind-residual sweep, which reports the blind optimal-grind per-condition residual. Both predictors are re-derived at each endpoint here, so a shift common to both cancels -- which is exactly why the ~5 pp movement in the blind residual does not by itself imply that the model-versus-comparator conclusion is endpoint-dependent.
 
 
 ---
@@ -374,7 +398,8 @@ trajectory, so the numerics producing that shape are load-bearing.
 Numerical scheme: five-point biased-upwind advection on a uniform axial grid; Dirichlet inlet c_l(z=0)=0; stiff BDF integration with a supplied Jacobian sparsity pattern and a numerically estimated Jacobian.
 
 Panel: Arabica:caffeine, granulometry O, 9 conditions.
-Deviations are measured against the finest cell tested.
+Deviations are measured against the finest cell tested. **Scope of this table:**
+one panel (Arabica:caffeine, optimal grind, 9 conditions), the listed whole-cup/fraction/profile outputs, and the tested node x tolerance domain. Nothing outside that scope is certified by it.
 
 | axial nodes | rel/abs tolerance | whole cup | early | middle | late | rate at minimum | range ratio | dev. cup (%) | dev. late (%) | dev. range ratio (%) |
 |---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -391,7 +416,7 @@ Deviations are measured against the finest cell tested.
 Concentrations are in mg mL⁻¹ on the model's internal basis; deviations are relative to the finest
 cell.
 
-**Reading.** The spatial discretisation and integration tolerance are converged at the production configuration by a wide margin. Across three axial resolutions (100, 200 and 400 nodes) × three solver tolerances (1e-5, 1e-6, 1e-7), the whole-cup concentration varies by at most 0.0004 %, the late fraction — the most discretisation-sensitive of the three sub-intervals — by at most 0.0013 %, and the profile range ratio by at most 0.0204 %. The location of the profiled-objective minimum is the same (0.884) in all nine cells. The identifiability conclusion is therefore not an artefact of the numerics: the broad, boundary-reaching near-optimal set is a property of the design and the data, not of the mesh or the integration tolerance. Even 100 axial nodes reproduces the 400-node answer, so the production grid of 200 is already beyond what these outputs require. This is convergence of the discretisation only; it is not evidence about the accuracy of the continuum model itself.
+**Reading.** The spatial discretisation and integration tolerance are converged at the production configuration by a wide margin. Across three axial resolutions (100, 200 and 400 nodes) × three solver tolerances (1e-5, 1e-6, 1e-7), the whole-cup concentration varies by at most 0.0004 %, the late fraction — the most discretisation-sensitive of the three sub-intervals — by at most 0.0013 %, and the profile range ratio by at most 0.0204 %. The location of the profiled-objective minimum is the same (0.884) in all nine cells. Within this panel the result is therefore not an artefact of the numerics: the Arabica-caffeine optimal-grind profile, including the breadth and the boundary-reaching extent of its near-optimal set, is reproduced across every tested cell. This is a REPRESENTATIVE-PANEL check, and its scope is exactly that (round-7 P1-4). It does not certify the other five variety x solute panels, the other two objective families, the endpoint-propagation benchmark, the coarse/fine transfer result or the clustered resampling, and the near-optimal set's boundary flag was not itself carried as a convergence output. The paper's identifiability conclusion rests on those analyses, of which this table checks the numerics of one. Even 100 axial nodes reproduces the 400-node answer, so the production grid of 200 is already beyond what these outputs require. This is convergence of the discretisation only; it is not evidence about the accuracy of the continuum model itself.
 
 Worst-case relative deviation across all nine cells: whole cup 0.0004 %, late
 fraction 0.0013 %, profile range ratio 0.0204 %. The profiled
@@ -410,7 +435,7 @@ Re-running the sweep with this instrumentation reproduced every previously archi
 
 ![Supplementary Figure S1](figures/fig3_holdouts.png)
 
-**Figure S1. Leave-one-condition-out evaluation within the Angeloni optimal-grind design.** Each fold holds out one of nine temperature–pressure conditions within a coffee-variety × solute group, refits the target inventory and rate multiplier on the remaining eight conditions, and predicts the held-out concentration at the matched 40 mL endpoint. Panel (a) compares observed and predicted concentrations; panels (b) and (c) show signed held-out residuals against temperature and pressure. Across two varieties and three named solutes, the analysis contains 54 held-out predictions. Reported resampling intervals are descriptive condition-level summaries of already-computed folds and do not repeat the nonlinear fit or remove fold dependence. Evidence tier: within-campaign cross-condition holdout, not independent-machine validation.
+**Figure S1. Leave-one-condition-out evaluation within the Angeloni optimal-grind design.** Each fold holds out one of nine temperature–pressure conditions within a coffee-variety × solute group, refits the target inventory and rate multiplier on the remaining eight conditions, and predicts the held-out concentration at the matched 40 g endpoint. Panel (a) compares observed and predicted concentrations; panels (b) and (c) show signed held-out residuals against temperature and pressure. Across two varieties and three named solutes, the analysis contains 54 held-out predictions. Reported resampling intervals are descriptive condition-level summaries of already-computed folds and do not repeat the nonlinear fit or remove fold dependence. Evidence tier: within-campaign cross-condition holdout, not independent-machine validation.
 
 ---
 
@@ -426,7 +451,7 @@ Re-running the sweep with this instrumentation reproduced every previously archi
 
 ![Supplementary Figure S3](figures/fig7_per_group_diagnostics.png)
 
-**Figure S3. Per-group blind and inventory-matched residual diagnostics at the optimal grind.** Each variety × observable group contains nine Angeloni temperature–pressure conditions evaluated at the 40 mL proxy endpoint. Panel (a) compares blind source-model MAPE with MAPE after matching the orthogonal same-campaign inventory assay where available; panel (b) reports the model–data correlation across conditions. Inventory matching can improve one analyte and worsen another, so the residual cannot be interpreted as a pure inventory offset. Correlations are descriptive associations across operating conditions, not temporal correlations or held-out skill measures. Evidence tier: within-campaign diagnostic.
+**Figure S3. Per-group blind and inventory-matched residual diagnostics at the optimal grind.** Each variety × observable group contains nine Angeloni temperature–pressure conditions evaluated at the matched 40 g endpoint. Panel (a) compares blind source-model MAPE with MAPE after matching the orthogonal same-campaign inventory assay where available; panel (b) reports the model–data correlation across conditions. Inventory matching can improve one analyte and worsen another, so the residual cannot be interpreted as a pure inventory offset. Correlations are descriptive associations across operating conditions, not temporal correlations or held-out skill measures. Evidence tier: within-campaign diagnostic.
 
 ---
 
@@ -434,4 +459,4 @@ Re-running the sweep with this instrumentation reproduced every previously archi
 
 ![Supplementary Figure S4](figures/fig8_residuals_vs_conditions.png)
 
-**Figure S4. Blind source-model residuals versus temperature and pressure before target-level fitting.** Signed residuals, `(prediction − measurement)/measurement`, are plotted for each coffee-variety × solute group across the nine optimal-grind conditions at the matched 40 mL endpoint. Colour denotes variety and marker denotes solute. Group-level offsets motivate a target-specific level recalibration, but the plot does not show whether within-group temperature–pressure structure remains after that level is fitted. No uncertainty interval is implied by point density. Evidence tier: pre-fit source-to-target discrepancy diagnostic.
+**Figure S4. Blind source-model residuals versus temperature and pressure before target-level fitting.** Signed residuals, `(prediction − measurement)/measurement`, are plotted for each coffee-variety × solute group across the nine optimal-grind conditions at the matched 40 g endpoint. Colour denotes variety and marker denotes solute. Group-level offsets motivate a target-specific level recalibration, but the plot does not show whether within-group temperature–pressure structure remains after that level is fitted. No uncertainty interval is implied by point density. Evidence tier: pre-fit source-to-target discrepancy diagnostic.

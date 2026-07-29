@@ -192,22 +192,30 @@ def test_every_supplementary_item_is_real_not_a_stub():
     for item in ("S1", "S2", "S3", "S4"):
         assert f"Supplementary Figure {item}" in text, item
     # the two that were stubs must now carry real, producer-backed content
-    assert "38 mL" in text and "42 mL" in text, "S3 endpoint propagation is not populated"
+    assert "38 g" in text and "42 g" in text, "S3 endpoint propagation is not populated"
     assert "axial nodes" in text and "1e-07" in text, "S5 convergence is not populated"
 
 
 # ── endpoint propagation (third review P0-4) ──────────────────────────────────────────────────
-def test_the_endpoint_propagation_is_archived_and_covers_all_three_proxies():
-    """The review's one remaining scientific closure: the headline benchmark could not stay
-    conditioned on a single untested endpoint proxy."""
+def test_the_endpoint_propagation_is_archived_and_covers_the_declared_tolerance():
+    """The headline benchmark could not stay conditioned on a single untested endpoint.
+
+    Round-7 P0-2: the sweep is over MASS -- 38/40/42 g, the source's own declared +/-2 g collection
+    tolerance. Round-7 P0-3: it runs on the complete 44-record coarse/fine corpus, so 132
+    named-solute observations, and the archive emits the record IDs it scored.
+    """
     rec = json.loads(C.ENDPOINT_JSON.read_text(encoding="utf-8"))
-    assert sorted(rec["v_targets"]) == [38.0, 40.0, 42.0]
+    assert sorted(rec["m_targets"]) == [38.0, 40.0, 42.0]
     assert len(rec["rows"]) == 3
+    assert rec["primary_cluster"] == "cond_in_variety"
     for r in rec["rows"]:
         for k in ("pooled_model_mape", "pooled_const_mape", "paired_difference_pp",
-                  "clustered_range_within_group", "n_model_worse_than_const", "n_points"):
+                  "clustered_range_within_variety", "n_model_worse_than_const", "n_points"):
             assert k in r, k
-        assert r["n_points"] == 108
+        assert r["n_points"] == 132
+    corpus = rec["corpus"]
+    assert corpus["n_held_out_records"] == 44 and not corpus["excluded_sample_ids"]
+    assert len(corpus["held_out_sample_ids"]) * corpus["n_solutes"] == corpus["n_observations"]
 
 
 def test_the_level_only_null_does_not_move_with_the_endpoint():
@@ -220,16 +228,22 @@ def test_the_level_only_null_does_not_move_with_the_endpoint():
 
 
 def test_the_manuscript_reports_the_endpoint_dependence_it_found():
-    """The sweep found the effect SIZE stable but the inferential reading endpoint-dependent: at
-    38 mL the primary range excludes zero. The review's decision rule says that dependence becomes
-    part of the conclusion rather than being buried."""
+    """The sweep found the effect SIZE stable while the primary range sits on zero.
+
+    At 40 g and 42 g the range's upper bound rounds to +0.000 and at 38 g it clears zero by
+    0.046 pp. That the three rows disagree at the third decimal is the finding, and the decision
+    rule says it becomes part of the conclusion rather than being buried -- or, worse, reported as
+    though the sign of an inequality settled it.
+    """
     rec = json.loads(C.ENDPOINT_JSON.read_text(encoding="utf-8"))
     man = C.CONVERSION.read_text(encoding="utf-8")
-    lo38, hi38 = next(r["clustered_range_within_group"] for r in rec["rows"]
-                      if r["v_target_ml"] == 38.0)
-    assert not (lo38 <= 0 <= hi38), "38 mL no longer excludes zero — update this test and the prose"
+    lo38, hi38 = next(r["clustered_range_within_variety"] for r in rec["rows"]
+                      if r["m_target_g"] == 38.0)
+    assert not (lo38 <= 0 <= hi38), "38 g no longer clears zero — update this test and the prose"
     assert not rec["conclusion_stable"]
-    assert "not endpoint-invariant" in man
+    assert "sits on the boundary" in man
+    # the knife-edge must be reported as a distance, not only as a boolean
+    assert all("nearest_bound_to_zero_pp" in r for r in rec["rows"])
     # every per-endpoint headline value is printed
     for r in rec["rows"]:
         assert f"{r['pooled_model_mape']:.2f}" in man
@@ -450,8 +464,14 @@ def test_the_manuscript_does_not_deny_the_density_model_it_applies():
     assert ps.RHO > 0, "the solver no longer applies a density; the §2.4 wording must be revisited"
     text = " ".join(C.CONVERSION.read_text(encoding="utf-8").split())
     assert "declared beverage-density model; that is not available here" not in text
-    assert "beverage-density model" in text and "already present" in text, (
-        "§2.4 must state that a density model is applied, not that one is unavailable")
+    # Round-7 P0-2 supersedes the earlier fix. The endpoint is not a volume needing a density to
+    # become a mass: the stopping rule is already a mass one. §2.4 must now say what density
+    # ACTUALLY does -- set the velocity and the concentration averaging -- and must not claim it
+    # converts the stopping rule.
+    assert "matched-volume proxy" not in text and "mass-to-volume substitution" not in text
+    assert "does not convert the stopping rule into a volume target" in text, (
+        "§2.4 must state density's actual role, not that the endpoint is a volume standing in "
+        "for a mass")
 
 
 def test_abstract_numbers_are_consistent_with_the_body():
@@ -474,7 +494,7 @@ def test_abstract_numbers_are_consistent_with_the_body():
     abstract, body = m.group(1), text[m.end():]
 
     #: Values the abstract legitimately rounds. Each must be a strict rounding of a body value.
-    ROUNDED = {"8.6": 8.59, "8.2": 8.23}
+    ROUNDED = {"8.8": 8.83, "8.4": 8.44}
     for token in sorted({t for t in re.findall(r"(?<![\w.])(\d+\.\d+)", abstract)}, key=float):
         if token in body:
             continue
@@ -485,9 +505,10 @@ def test_abstract_numbers_are_consistent_with_the_body():
         assert str(ROUNDED[token]) in body, (
             f"{token} is declared a rounding of {ROUNDED[token]}, which is not in the body")
 
-    assert "−0.725" in abstract or "-0.725" in abstract, (
-        "the abstract must quote the clustered interval at the same three significant figures as "
-        "the body; 2 dp reintroduces the rounding ambiguity")
+    assert "−0.825" in abstract or "-0.825" in abstract, (
+        "the abstract must quote the clustered interval at the same three decimal places as the "
+        "body; fewer decimals reintroduce the rounding ambiguity, and at this effect size the "
+        "third decimal is the difference between a resolved claim and an unresolved one")
 
 
 def test_every_main_figure_is_cited_in_the_text_and_in_order():

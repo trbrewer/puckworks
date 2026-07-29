@@ -36,8 +36,20 @@ Grind reduction (Eqs. 5–6): fines volume fraction from Sauter diameter d32,k a
 peak sizes, ψ_k = (d32,k^{-6} − d_s2,k^{-6}) / (d_s1^{-6} − d_s2,k^{-6}); then
 α_s1,k = (1−α_l)ψ_k, α_s2,k = (1−α_l)(1−ψ_k).
 
-Mass-transfer constitutive (Eqs. 7–10): Sh_x,i(v_l,T) = A_x,i Re^{B_x,i} Sc_i^{1/3}, with
-Sh_x,i = h_slx,i d32 / D_i(T), Re = d32 v_l ρ(T)/(α_l η(T)), Sc_i = η(T)/(ρ(T) D_i(T)).
+Mass-transfer constitutive (Eqs. 7–10): Sh_x,i(u_s,T) = A_x,i Re^{B_x,i} Sc_i^{1/3}, with
+Sh_x,i = h_slx,i d32 / D_i(T), Re = d32 u_s ρ(T)/η(T), Sc_i = η(T)/(ρ(T) D_i(T)),
+where u_s = Q/A_cs is the SUPERFICIAL (Darcy) velocity and v_l = u_s/α_l the interstitial one
+(Eq. 4). The advection term of Eq. 1 transports at v_l; the Reynolds number is formed on u_s.
+Equivalently Re = d32 α_l v_l ρ(T)/η(T).
+
+  UNIT-CONTRACT NOTE (round-7 P0-1). Earlier revisions of this card and of the manuscript wrote
+  Re = d32 v_l ρ/(α_l η), which with v_l = Q/(A_cs α_l) is Re = d32 Q ρ/(A_cs α_l² η) — larger
+  than the implemented value by α_l^{-2} ≈ 34.6 at α_l = 0.17. The SOURCE MATLAB
+  (SherwoodFunction.m: `Re = paramPh.d32 .* q ./ kin_vis`, q superficial) and our port
+  (`closures.sherwood_h`) both use the superficial form; the documentation was the discrepant
+  item, and the fitted A_x,i/B_x,i were estimated under the superficial convention, so the
+  implementation is the authority here. See docs/paper1_resource/PAPER_A_SOLVER_CONTRACT_AUDIT.json
+  and the contract test in tests/test_paper_a_model_contract.py.
 Diffusion coefficient (Eq. 11, Wilke–Chang): D_i(T) = 7.4·10^{-15}·(2.6 M_i)^{1/2} T /
 (η(T) V_i^{0.6}); ρ(T), η(T) from pure-water correlations (Stephan et al. 2019).
 

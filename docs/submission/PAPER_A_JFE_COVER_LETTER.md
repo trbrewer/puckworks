@@ -9,14 +9,15 @@ Dear Editors,
 We submit for your consideration our manuscript, "Separating Extractable Content from Extraction Rate in Espresso Models: Limits of Whole-Cup Measurements and the Value of Time-Resolved Data", as a
 research paper / original research article.
 
-Whole-cup measurements are common in food-process model calibration because they are economical and directly relevant to product quality. This study shows that an apparently accurate integrated endpoint can leave the extraction rate weakly localized through compensation with extractable inventory, and that a mechanistic model can achieve acceptable held-out error while adding no resolvable skill over a trained level-only baseline. It also demonstrates a reporting workflow that separates parameter localization from held-out prediction and from incremental skill over a null. The result bears directly on experimental design for extraction, leaching, dissolution and other food processes in which integrated product measurements can conceal internal transport-rate uncertainty.
+Whole-cup measurements are common in food-process model calibration because they are economical and directly relevant to product quality. This study shows that an apparently accurate integrated endpoint can leave the extraction rate weakly localized through compensation with extractable inventory, and that a mechanistic model can achieve acceptable held-out error while adding no resolvable skill over a trained level-only baseline. It also demonstrates a reporting workflow that separates parameter localization from held-out prediction and from incremental skill over a level-only comparator. The result bears directly on experimental design for extraction, leaching, dissolution and other food processes in which integrated product measurements can conceal internal transport-rate uncertainty.
 
 The manuscript's central result is deliberately a negative one, and we believe it is the more
 useful for that: a mechanistic espresso extraction model recalibrated to whole-cup observations
-predicted held-out coarse- and fine-grind cups with 8.2 % pooled mean absolute percentage error,
-against 8.6 % for a trained level-only baseline — a paired difference of −0.36 percentage points
-whose primary clustered percentile range crosses zero, with the mechanistic model worse on 50 of
-108 held-out points. Acceptable endpoint accuracy therefore did not establish resolvable
+predicted the complete held-out coarse- and fine-grind corpus (44 records, 132 named-solute
+observations) with 8.4 % pooled mean absolute percentage error, against 8.8 % for a trained
+level-only comparator — a paired difference of −0.394 percentage points whose primary clustered
+percentile range reaches zero at its upper bound, with the mechanistic model worse on 62 of
+132 held-out points. Acceptable endpoint accuracy therefore did not establish resolvable
 mechanistic skill. Time-resolved observations of the same system retained substantially stronger
 information about the extraction rate.
 

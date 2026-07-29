@@ -1,0 +1,399 @@
+{
+ "question": "Round-7 P0-3: the headline benchmark filtered every grind to on_grid==True, excluding eight coarse/fine off-grid validation records (24 named-solute observations) while Table 1 claimed the C/F corpus was held out in its entirety. Both defensible contracts are evaluated here; the COMPLETE corpus was adopted as the headline, and the matched on-grid subset is retained as the secondary corpus and as the support on which the same-(T,p) lookup comparator is defined.",
+ "adopted": "complete_corpus",
+ "matched_on_grid": {
+  "corpus": {
+   "estimand": "matched 3x3 on-grid C/F transfer benchmark",
+   "include_off_grid": false,
+   "train_grind": "O",
+   "train_sample_ids": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8",
+    "A9",
+    "R1",
+    "R2",
+    "R3",
+    "R4",
+    "R5",
+    "R6",
+    "R7",
+    "R8",
+    "R9"
+   ],
+   "n_train_records": 18,
+   "held_out_sample_ids": [
+    "A12",
+    "A13",
+    "A14",
+    "A15",
+    "A16",
+    "A17",
+    "A18",
+    "A19",
+    "A20",
+    "A23",
+    "A24",
+    "A25",
+    "A26",
+    "A27",
+    "A28",
+    "A29",
+    "A30",
+    "A31",
+    "R12",
+    "R13",
+    "R14",
+    "R15",
+    "R16",
+    "R17",
+    "R18",
+    "R19",
+    "R20",
+    "R23",
+    "R24",
+    "R25",
+    "R26",
+    "R27",
+    "R28",
+    "R29",
+    "R30",
+    "R31"
+   ],
+   "n_held_out_records": 36,
+   "excluded_sample_ids": [
+    "A21",
+    "A22",
+    "A32",
+    "A33",
+    "R21",
+    "R22",
+    "R32",
+    "R33"
+   ],
+   "n_excluded_records": 8,
+   "excluded_reason": "off-grid C/F validation records; no same-(T,p) O counterpart exists for any of them, so the lookup comparator is undefined there",
+   "n_cf_records_available": 44,
+   "n_solutes": 3,
+   "n_observations": 108,
+   "n_lookup_observations": 108,
+   "lookup_undefined_sample_ids": []
+  },
+  "pooled_model_mape": 8.23,
+  "pooled_const_mape": 8.59,
+  "pooled_lookup_mape": 10.79,
+  "skill_vs_const": 0.042,
+  "paired_difference_pp": -0.361,
+  "paired_median_pp": -0.053,
+  "n_points": 108,
+  "n_model_worse_than_const": 50,
+  "pooled_by_grind": {
+   "C": {
+    "model_mape": 10.3,
+    "const_mape": 11.25,
+    "lookup_mape": 14.39,
+    "n_points": 54,
+    "n_lookup_points": 54,
+    "skill_vs_const": 0.084,
+    "skill_vs_lookup": 0.284
+   },
+   "F": {
+    "model_mape": 6.15,
+    "const_mape": 5.93,
+    "lookup_mape": 7.2,
+    "n_points": 54,
+    "n_lookup_points": 54,
+    "skill_vs_const": -0.038,
+    "skill_vs_lookup": 0.146
+   }
+  },
+  "per_fit": {
+   "Arabica:caffeine": {
+    "model_macro_mape": 6.93,
+    "const_macro_mape": 7.57,
+    "skill_vs_const": 0.085
+   },
+   "Arabica:trigonelline": {
+    "model_macro_mape": 5.01,
+    "const_macro_mape": 4.96,
+    "skill_vs_const": -0.011
+   },
+   "Arabica:5CQA": {
+    "model_macro_mape": 11.62,
+    "const_macro_mape": 12.82,
+    "skill_vs_const": 0.094
+   },
+   "Robusta:caffeine": {
+    "model_macro_mape": 8.49,
+    "const_macro_mape": 8.41,
+    "skill_vs_const": -0.01
+   },
+   "Robusta:trigonelline": {
+    "model_macro_mape": 7.82,
+    "const_macro_mape": 7.96,
+    "skill_vs_const": 0.018
+   },
+   "Robusta:5CQA": {
+    "model_macro_mape": 9.51,
+    "const_macro_mape": 9.81,
+    "skill_vs_const": 0.031
+   }
+  },
+  "resampling": {
+   "cond_in_variety": {
+    "unit": "cond_in_variety",
+    "n_clusters": 18,
+    "observed_mean_delta_pp": -0.361,
+    "percentile_range_pp": [
+     -0.826,
+     0.037
+    ],
+    "excludes_zero": false,
+    "nearest_bound_to_zero_pp": 0.0375,
+    "interval_kind": "clustered percentile sensitivity range (not a calibrated 95% CI)"
+   },
+   "cond_in_group": {
+    "unit": "cond_in_group",
+    "n_clusters": 54,
+    "observed_mean_delta_pp": -0.361,
+    "percentile_range_pp": [
+     -0.725,
+     0.027
+    ],
+    "excludes_zero": false,
+    "nearest_bound_to_zero_pp": 0.0267,
+    "interval_kind": "clustered percentile sensitivity range (not a calibrated 95% CI)"
+   },
+   "group": {
+    "unit": "group",
+    "n_clusters": 6,
+    "observed_mean_delta_pp": -0.361,
+    "percentile_range_pp": [
+     -0.751,
+     -0.032
+    ],
+    "excludes_zero": true,
+    "nearest_bound_to_zero_pp": 0.0315,
+    "interval_kind": "clustered percentile sensitivity range (not a calibrated 95% CI)"
+   }
+  },
+  "off_grid_only": null
+ },
+ "complete_corpus": {
+  "corpus": {
+   "estimand": "complete held-out C/F corpus (on-grid + off-grid)",
+   "include_off_grid": true,
+   "train_grind": "O",
+   "train_sample_ids": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8",
+    "A9",
+    "R1",
+    "R2",
+    "R3",
+    "R4",
+    "R5",
+    "R6",
+    "R7",
+    "R8",
+    "R9"
+   ],
+   "n_train_records": 18,
+   "held_out_sample_ids": [
+    "A12",
+    "A13",
+    "A14",
+    "A15",
+    "A16",
+    "A17",
+    "A18",
+    "A19",
+    "A20",
+    "A21",
+    "A22",
+    "A23",
+    "A24",
+    "A25",
+    "A26",
+    "A27",
+    "A28",
+    "A29",
+    "A30",
+    "A31",
+    "A32",
+    "A33",
+    "R12",
+    "R13",
+    "R14",
+    "R15",
+    "R16",
+    "R17",
+    "R18",
+    "R19",
+    "R20",
+    "R21",
+    "R22",
+    "R23",
+    "R24",
+    "R25",
+    "R26",
+    "R27",
+    "R28",
+    "R29",
+    "R30",
+    "R31",
+    "R32",
+    "R33"
+   ],
+   "n_held_out_records": 44,
+   "excluded_sample_ids": [],
+   "n_excluded_records": 0,
+   "excluded_reason": null,
+   "n_cf_records_available": 44,
+   "n_solutes": 3,
+   "n_observations": 132,
+   "n_lookup_observations": 108,
+   "lookup_undefined_sample_ids": [
+    "A21",
+    "A22",
+    "A32",
+    "A33",
+    "R21",
+    "R22",
+    "R32",
+    "R33"
+   ]
+  },
+  "pooled_model_mape": 8.44,
+  "pooled_const_mape": 8.83,
+  "pooled_lookup_mape": 10.79,
+  "skill_vs_const": 0.045,
+  "paired_difference_pp": -0.394,
+  "paired_median_pp": -0.053,
+  "n_points": 132,
+  "n_model_worse_than_const": 62,
+  "pooled_by_grind": {
+   "C": {
+    "model_mape": 10.17,
+    "const_mape": 11.19,
+    "lookup_mape": 14.39,
+    "n_points": 66,
+    "n_lookup_points": 54,
+    "skill_vs_const": 0.091,
+    "skill_vs_lookup": 0.293
+   },
+   "F": {
+    "model_mape": 6.71,
+    "const_mape": 6.48,
+    "lookup_mape": 7.2,
+    "n_points": 66,
+    "n_lookup_points": 54,
+    "skill_vs_const": -0.036,
+    "skill_vs_lookup": 0.069
+   }
+  },
+  "per_fit": {
+   "Arabica:caffeine": {
+    "model_macro_mape": 8.11,
+    "const_macro_mape": 8.72,
+    "skill_vs_const": 0.071
+   },
+   "Arabica:trigonelline": {
+    "model_macro_mape": 6.47,
+    "const_macro_mape": 6.46,
+    "skill_vs_const": -0.003
+   },
+   "Arabica:5CQA": {
+    "model_macro_mape": 12.48,
+    "const_macro_mape": 13.96,
+    "skill_vs_const": 0.106
+   },
+   "Robusta:caffeine": {
+    "model_macro_mape": 7.59,
+    "const_macro_mape": 7.48,
+    "skill_vs_const": -0.014
+   },
+   "Robusta:trigonelline": {
+    "model_macro_mape": 7.38,
+    "const_macro_mape": 7.43,
+    "skill_vs_const": 0.007
+   },
+   "Robusta:5CQA": {
+    "model_macro_mape": 8.61,
+    "const_macro_mape": 8.95,
+    "skill_vs_const": 0.037
+   }
+  },
+  "resampling": {
+   "cond_in_variety": {
+    "unit": "cond_in_variety",
+    "n_clusters": 26,
+    "observed_mean_delta_pp": -0.394,
+    "percentile_range_pp": [
+     -0.825,
+     0.0
+    ],
+    "excludes_zero": false,
+    "nearest_bound_to_zero_pp": 0.0,
+    "interval_kind": "clustered percentile sensitivity range (not a calibrated 95% CI)"
+   },
+   "cond_in_group": {
+    "unit": "cond_in_group",
+    "n_clusters": 78,
+    "observed_mean_delta_pp": -0.394,
+    "percentile_range_pp": [
+     -0.742,
+     -0.044
+    ],
+    "excludes_zero": true,
+    "nearest_bound_to_zero_pp": 0.0437,
+    "interval_kind": "clustered percentile sensitivity range (not a calibrated 95% CI)"
+   },
+   "group": {
+    "unit": "group",
+    "n_clusters": 6,
+    "observed_mean_delta_pp": -0.394,
+    "percentile_range_pp": [
+     -0.883,
+     -0.024
+    ],
+    "excludes_zero": true,
+    "nearest_bound_to_zero_pp": 0.0245,
+    "interval_kind": "clustered percentile sensitivity range (not a calibrated 95% CI)"
+   }
+  },
+  "off_grid_only": {
+   "n_points": 24,
+   "sample_ids": [
+    "A21",
+    "A22",
+    "A32",
+    "A33",
+    "R21",
+    "R22",
+    "R32",
+    "R33"
+   ],
+   "model_mape": 9.386,
+   "const_mape": 9.931,
+   "paired_difference_pp": -0.545,
+   "n_model_worse": 12
+  }
+ },
+ "_provenance": {
+  "producer": "puckworks.validation.slow.angeloni_bracket",
+  "source_commit": "d2073870fbab0fc72263469dcdae850221d1b0ce",
+  "command": "python scratchpad/run_corpus_contracts.py"
+ }
+}

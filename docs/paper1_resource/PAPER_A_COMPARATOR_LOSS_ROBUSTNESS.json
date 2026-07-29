@@ -1,0 +1,160 @@
+{
+ "corpus": {
+  "estimand": "complete held-out C/F corpus (on-grid + off-grid)",
+  "include_off_grid": true,
+  "train_grind": "O",
+  "train_sample_ids": [
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9",
+   "R1",
+   "R2",
+   "R3",
+   "R4",
+   "R5",
+   "R6",
+   "R7",
+   "R8",
+   "R9"
+  ],
+  "n_train_records": 18,
+  "held_out_sample_ids": [
+   "A12",
+   "A13",
+   "A14",
+   "A15",
+   "A16",
+   "A17",
+   "A18",
+   "A19",
+   "A20",
+   "A21",
+   "A22",
+   "A23",
+   "A24",
+   "A25",
+   "A26",
+   "A27",
+   "A28",
+   "A29",
+   "A30",
+   "A31",
+   "A32",
+   "A33",
+   "R12",
+   "R13",
+   "R14",
+   "R15",
+   "R16",
+   "R17",
+   "R18",
+   "R19",
+   "R20",
+   "R21",
+   "R22",
+   "R23",
+   "R24",
+   "R25",
+   "R26",
+   "R27",
+   "R28",
+   "R29",
+   "R30",
+   "R31",
+   "R32",
+   "R33"
+  ],
+  "n_held_out_records": 44,
+  "excluded_sample_ids": [],
+  "n_excluded_records": 0,
+  "excluded_reason": null,
+  "n_cf_records_available": 44,
+  "n_solutes": 3,
+  "n_observations": 132,
+  "n_lookup_observations": 108,
+  "lookup_undefined_sample_ids": [
+   "A21",
+   "A22",
+   "A32",
+   "A33",
+   "R21",
+   "R22",
+   "R32",
+   "R33"
+  ]
+ },
+ "primary_cluster": "cond_in_variety",
+ "rows": [
+  {
+   "fitting_loss": "MAPE-optimal level fit (both predictors)",
+   "alt_loss": false,
+   "pooled_model_mape": 8.44,
+   "pooled_const_mape": 8.83,
+   "paired_difference_pp": -0.394,
+   "n_points": 132,
+   "n_model_worse_than_const": 62,
+   "clustered_range_within_variety": [
+    -0.825,
+    0.0
+   ],
+   "excludes_zero": false,
+   "nearest_bound_to_zero_pp": 0.0,
+   "per_group_difference_pp": {
+    "Arabica:caffeine": -0.61,
+    "Arabica:trigonelline": 0.01,
+    "Arabica:5CQA": -1.48,
+    "Robusta:caffeine": 0.11,
+    "Robusta:trigonelline": -0.05,
+    "Robusta:5CQA": -0.34
+   }
+  },
+  {
+   "fitting_loss": "log/relative-error level fit (both predictors)",
+   "alt_loss": true,
+   "pooled_model_mape": 8.5,
+   "pooled_const_mape": 8.89,
+   "paired_difference_pp": -0.393,
+   "n_points": 132,
+   "n_model_worse_than_const": 62,
+   "clustered_range_within_variety": [
+    -0.827,
+    -0.002
+   ],
+   "excludes_zero": true,
+   "nearest_bound_to_zero_pp": 0.0021,
+   "per_group_difference_pp": {
+    "Arabica:caffeine": -0.61,
+    "Arabica:trigonelline": 0.01,
+    "Arabica:5CQA": -1.48,
+    "Robusta:caffeine": 0.11,
+    "Robusta:trigonelline": -0.05,
+    "Robusta:5CQA": -0.33
+   }
+  }
+ ],
+ "nearest_bound_to_zero_pp": [
+  0.0,
+  0.0021
+ ],
+ "scoring_rule": "MAPE (both arms); only the FITTING loss differs",
+ "paired_difference_range_pp": [
+  -0.394,
+  -0.393
+ ],
+ "sign_is_stable": true,
+ "zero_crossing_is_stable": false,
+ "verdict": "COMPARATOR loss robustness (round-7 P1-2): refitting BOTH the mechanistic model and the level-only comparator under a log/relative-error level fit moves the paired model-minus-comparator difference from -0.394 pp to -0.393 pp. The sign is stable and whether the primary clustered percentile range crosses zero CHANGES. This is the estimand the robustness claim must be about; the mechanistic model's own absolute error under an alternative loss does not establish it.",
+ "strength": "loss-family sensitivity of the paired comparator estimand (fitting loss varied, scoring rule held); a sensitivity sweep, not a calibrated inference",
+ "_provenance": {
+  "producer": "puckworks.validation.slow.angeloni_bracket",
+  "source_commit": "d2073870fbab0fc72263469dcdae850221d1b0ce",
+  "command": "python scratchpad/run_option_a.py",
+  "corpus_contract": "complete 44-record C/F corpus (round-7 P0-3)"
+ }
+}

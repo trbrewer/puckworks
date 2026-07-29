@@ -84,7 +84,7 @@ def test_zero_delta_ci_brackets_zero():
     for unit in ("cond_in_group", "group"):
         r = AB.paired_clustered_bootstrap(recs, B=500, seed=1, unit=unit)
         assert r["observed_mean_delta_pp"] == 0.0
-        assert r["ci95_pp"][0] <= 0.0 <= r["ci95_pp"][1]
+        assert r["percentile_range_pp"][0] <= 0.0 <= r["percentile_range_pp"][1]
         assert r["excludes_zero"] is False
 
 
@@ -94,7 +94,7 @@ def test_constant_positive_delta_excludes_zero():
                  conds=[(88, 6), (88, 6), (93, 9), (93, 9), (98, 12), (98, 12)] * 2)
     r = AB.paired_clustered_bootstrap(recs, B=500, seed=1, unit="cond_in_group")
     assert r["observed_mean_delta_pp"] == 2.0
-    assert r["ci95_pp"] == [2.0, 2.0]               # every resample is 2.0
+    assert r["percentile_range_pp"] == [2.0, 2.0]               # every resample is 2.0
     assert r["excludes_zero"] is True
     assert r["frac_boot_model_worse"] == 1.0
 
