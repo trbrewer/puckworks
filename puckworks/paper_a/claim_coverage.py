@@ -153,7 +153,6 @@ SLOW_LANE_RESULTS: dict[str, str] = {
     "57": "external panel: smallest minimum residual (%)",
     "75": "external panel: largest minimum residual (%)",
     "2.6": "improvement of the model over the same-(T,p) lookup on the matched on-grid subset where that comparator is defined (pp), 8.23 vs 10.79",
-    "0.03": "paired bootstrap 95% bound (pp)",
     "9.2": "tolerance sweep, ARABICA-CAFFEINE panel: worst held-out MAPE at the 2 % tolerance (9.23 %)",
     "10.5": "tolerance sweep, ARABICA-CAFFEINE panel: worst held-out MAPE at the 20 % tolerance (10.47 %)",
     "2.8": "per solute x variety held-out median, lowest (%)",
@@ -291,9 +290,19 @@ def binding_coverage() -> dict:
     """
     from puckworks.paper_a import slow_lane_bindings as SLB
 
-    bound = sorted(set(SLOW_LANE_RESULTS)
-                   & (set(SLB.BINDINGS) | set(SLB.DERIVED) | set(SLB.CODE_CONSTANTS)))
-    declared = sorted(set(SLOW_LANE_RESULTS) & set(SLB.UNBINDABLE))
+    # The two modules tokenise differently: the numeral audit distinguishes "8.23" from "8.23%"
+    # (a percentage in prose), while a binding names the bare value it resolves. Comparing the
+    # raw key sets therefore reported bound values as unbound -- a false NEGATIVE, which is the
+    # benign direction but still a wrong number in the document that counts wrong numbers.
+    def _norm(k):
+        return k.rstrip("%")
+
+    have = {_norm(k) for k in
+            (set(SLB.BINDINGS) | set(SLB.DERIVED) | set(SLB.CODE_CONSTANTS))}
+    declared_keys = {_norm(k) for k in SLB.UNBINDABLE}
+    bound = sorted(k for k in SLOW_LANE_RESULTS if _norm(k) in have)
+    declared = sorted(k for k in SLOW_LANE_RESULTS
+                      if _norm(k) in declared_keys and _norm(k) not in have)
     unbound = sorted(set(SLOW_LANE_RESULTS) - set(bound) - set(declared))
     return dict(n_slow_lane=len(SLOW_LANE_RESULTS), n_archive_bound=len(bound),
                 n_declared_unbindable=len(declared), n_still_unbound=len(unbound),

@@ -125,6 +125,7 @@ BINDINGS: dict[str, tuple] = {
     "9.39": (CORPUS, "complete_corpus.off_grid_only.model_mape", None, 0, 5e-3),
     "9.93": (CORPUS, "complete_corpus.off_grid_only.const_mape", None, 0, 5e-3),
     "0.545": (CORPUS, "complete_corpus.off_grid_only.paired_difference_pp", _abs, 0, 5e-4),
+    "4.5": (CORPUS, "complete_corpus.skill_vs_const", _pct, 0, 5e-2),
     "8.50": (LOSS, "rows.1.pooled_model_mape", None, 0, 5e-3),
     "8.89": (LOSS, "rows.1.pooled_const_mape", None, 0, 5e-3),
     "0.827": (LOSS, "rows.1.clustered_range_within_variety.0", _abs, 0, 5e-4),
