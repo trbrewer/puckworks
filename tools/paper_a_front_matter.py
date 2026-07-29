@@ -217,8 +217,8 @@ useful for that: a mechanistic espresso extraction model recalibrated to whole-c
 predicted the complete held-out coarse- and fine-grind corpus (44 records, 132 named-solute
 observations) with 8.4 % pooled mean absolute percentage error, against 8.8 % for a trained
 level-only comparator — a paired difference of −0.394 percentage points whose primary clustered
-percentile range reaches zero at its upper bound, with the mechanistic model worse on 62 of
-132 held-out points. Acceptable endpoint accuracy therefore did not establish resolvable
+percentile sensitivity range contains zero, with the mechanistic model worse on 62 of
+132 held-out observations. Acceptable endpoint accuracy therefore did not establish resolvable
 mechanistic skill. Time-resolved observations of the same system retained substantially stronger
 information about the extraction rate.
 

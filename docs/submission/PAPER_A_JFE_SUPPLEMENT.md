@@ -320,17 +320,19 @@ same endpoint, and repeat the clustered resampling of the paired loss under ever
 Processing is described in Supplementary Methods S2.
 
 <!-- paper-a:transfer-endpoint-table-supp:begin -->
-<!-- paper-a:transfer-corpus schema=2 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
+<!-- paper-a:transfer-corpus schema=3 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
 
 Corpus: complete held-out C/F corpus (on-grid + off-grid), 44 held-out records × 3 named solutes = 132 observations. No coarse/fine record is excluded. Held-out record identifiers: A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22, A23, A24, A25, A26, A27, A28, A29, A30, A31, A32, A33, R12, R13, R14, R15, R16, R17, R18, R19, R20, R21, R22, R23, R24, R25, R26, R27, R28, R29, R30, R31, R32, R33.
 
-| endpoint | model pooled MAPE (%) | comparator (%) | paired difference (pp) | cond_in_variety (pp) | sample_in_variety_grind (pp) | cond_in_group (pp) | group (pp) | primary contains zero | model worse on | skill |
+| endpoint | model pooled MAPE (%) | comparator (%) | paired difference (pp) | cond_in_variety (pp) | sample_in_variety_grind (pp) | cond_in_group (pp) | group (pp) | primary zero relation | model worse on | skill |
 |---|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|
-| 38 g | 8.39 | 8.83 | −0.447 | [−0.884, −0.042] | [−0.802, −0.097] | [−0.798, −0.085] | [−0.940, −0.060] | no | 61 of 132 | 0.051 |
-| 40 g | 8.44 | 8.83 | −0.394 | [−0.829, +0.004] | [−0.742, −0.053] | [−0.740, −0.039] | [−0.863, −0.024] | yes | 62 of 132 | 0.045 |
-| 42 g | 8.41 | 8.83 | −0.425 | [−0.891, +0.006] | [−0.804, −0.053] | [−0.792, −0.051] | [−0.883, −0.035] | yes | 60 of 132 | 0.048 |
+| 38 g | 8.39 | 8.83 | −0.447 | [−0.884, −0.042] | [−0.802, −0.097] | [−0.798, −0.085] | [−0.940, −0.060] | excludes zero on the negative side | 61 of 132 | 0.051 |
+| 40 g | 8.44 | 8.83 | −0.394 | [−0.829, +0.004] | [−0.742, −0.053] | [−0.740, −0.039] | [−0.863, −0.024] | contains zero | 62 of 132 | 0.045 |
+| 42 g | 8.41 | 8.83 | −0.425 | [−0.891, +0.006] | [−0.804, −0.053] | [−0.792, −0.051] | [−0.883, −0.035] | contains zero | 60 of 132 | 0.048 |
 
-**Reading.** The effect size is stable: −0.447 to −0.394 pp across 38, 40 and 42 g, a spread of 0.053 pp — an order of magnitude smaller than the ≈ 5 pp movement in the blind optimal-grind residual over the same endpoints, which is what one expects when both predictors are re-derived at each endpoint so that a shift common to both cancels. The sign never changes and the model remains worse on roughly half the held-out observations at every endpoint. At the canonical draw count the primary clustered range contains zero at 40 g, 42 g and excludes it at 38 g. The bounds near zero carry a Monte Carlo standard error of ±0.0005 pp, so which side of zero such a bound lands on is not a resolved quantity and nothing is inferred from it. The largest advantage any upper bound admits is a small fraction of a percentage point against pooled errors near 8.4 %, and the benchmark is reported as unresolved throughout the declared tolerance.
+**Reading.** The effect size is stable: −0.447 to −0.394 pp across 38, 40 and 42 g, a spread of 0.053 pp — an order of magnitude smaller than the ≈ 5 pp movement in the blind optimal-grind residual over the same endpoints, which is what one expects when both predictors are re-derived at each endpoint so that a shift common to both cancels. The sign never changes and the model remains worse on roughly half the held-out observations at every endpoint. At the canonical draw count the primary clustered range contains zero at 40 g and 42 g; excludes zero on the negative side at 38 g. Because the estimand is model loss minus comparator loss, negative values favour the mechanistic model: across the sweep the most favourable bound is −0.891 pp and the least favourable is +0.006 pp, so at their unfavourable end these ranges concede the model no advantage at all. Against pooled errors near 8.4 % in both arms the benchmark is therefore reported as unresolved throughout the declared tolerance.
+
+**Scope of the Monte Carlo audit.** All displayed ranges use the canonical draw count. A multi-seed estimate of Monte Carlo variability exists for **one** target only — 40 g, cond_in_variety, primary fitting loss — where the lower- and upper-bound standard errors are approximately 0.000520 and 0.000466 pp and the upper bound's sign is stable across 20 independent seeds. The 38 g and 42 g bounds, the three secondary schemes and the alternative fitting loss were **not** separately audited, and none of them inherits that value; only the multi-seed precision audit is absent, not the canonical range itself. The audit measures numerical approximation and confers no coverage interpretation.
 <!-- paper-a:transfer-endpoint-table-supp:end -->
 
 **Per group.** Macro MAPE for each variety × solute group at each endpoint.
@@ -417,7 +419,7 @@ one panel (Arabica:caffeine, optimal grind, 9 conditions), the listed whole-cup/
 Concentrations are in mg mL⁻¹ on the model's internal basis; deviations are relative to the finest
 cell.
 
-**Reading.** The spatial discretisation and integration tolerance are converged at the production configuration by a wide margin. Across three axial resolutions (100, 200 and 400 nodes) × three solver tolerances (1e-5, 1e-6, 1e-7), the whole-cup concentration varies by at most 0.0004 %, the late fraction — the most discretisation-sensitive of the three sub-intervals — by at most 0.0013 %, and the profile range ratio by at most 0.0204 %. The location of the profiled-objective minimum is the same (0.884) in all nine cells. Within this panel the result is therefore not an artefact of the numerics: the Arabica-caffeine optimal-grind profile, including the breadth and the boundary-reaching extent of its near-optimal set, is reproduced across every tested cell. This is a REPRESENTATIVE-PANEL check, and its scope is exactly that (round-7 P1-4). It does not certify the other five variety x solute panels, the other two objective families, the endpoint-propagation benchmark, the coarse/fine transfer result or the clustered resampling, and the near-optimal set's boundary flag was not itself carried as a convergence output. The paper's identifiability conclusion rests on those analyses, of which this table checks the numerics of one. Even 100 axial nodes reproduces the 400-node answer, so the production grid of 200 is already beyond what these outputs require. This is convergence of the discretisation only; it is not evidence about the accuracy of the continuum model itself.
+**Reading.** The spatial discretisation and integration tolerance are converged at the production configuration by a wide margin. Across three axial resolutions (100, 200 and 400 nodes) × three solver tolerances (1e-5, 1e-6, 1e-7), the whole-cup concentration varies by at most 0.0004 %, the late fraction — the most discretisation-sensitive of the three sub-intervals — by at most 0.0013 %, and the profile range ratio by at most 0.0204 %. The location of the profiled-objective minimum is the same (0.884) in all nine cells. Within this panel the result is therefore not an artefact of the numerics: the Arabica-caffeine optimal-grind profile, including the breadth and the boundary-reaching extent of its near-optimal set, is reproduced across every tested cell. This is a REPRESENTATIVE-PANEL check, and its scope is exactly that. It does not certify the other five variety x solute panels, the other two objective families, the endpoint-propagation benchmark, the coarse/fine transfer result or the clustered resampling, and the near-optimal set's boundary flag was not itself carried as a convergence output. The paper's identifiability conclusion rests on those analyses, of which this table checks the numerics of one. Even 100 axial nodes reproduces the 400-node answer, so the production grid of 200 is already beyond what these outputs require. This is convergence of the discretisation only; it is not evidence about the accuracy of the continuum model itself.
 
 Worst-case relative deviation across all nine cells: whole cup 0.0004 %, late
 fraction 0.0013 %, profile range ratio 0.0204 %. The profiled
@@ -435,9 +437,9 @@ Re-running the sweep with this instrumentation reproduced every previously archi
 ### Supplementary Table S6
 
 <!-- paper-a:transfer-scheme-table:begin -->
-<!-- paper-a:transfer-corpus schema=2 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
+<!-- paper-a:transfer-corpus schema=3 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
 
-**Table S6. Resampling design.** Generated from the archived design object, so the Methods paragraph and this table cannot disagree. Predictors are fixed in every scheme: no model, level parameter or comparator is refitted inside a draw.
+**Table S6. Resampling design.** Cluster keys, strata and membership for every declared scheme, at the canonical draw count. Predictors are fixed in every scheme: no model, level parameter or comparator is refitted inside a draw.
 
 | scheme | role | strata | cluster key | clusters | cluster sizes (obs × n) | range at 40 g (pp) | width (pp) |
 |---|---|---|---|---:|---|---|---:|
@@ -446,7 +448,7 @@ Re-running the sweep with this instrumentation reproduced every previously archi
 | `cond_in_group` | secondary sensitivity | variety, solute | `variety`, `solute`, `temperature_degC`, `pressure_bar` | 78 | 1×24, 2×54 | [−0.740, −0.039] | 0.702 |
 | `group` | secondary coarse sensitivity | — | `variety`, `solute` | 6 | 22×6 | [−0.863, −0.024] | 0.839 |
 
-Monte Carlo audit of the primary scheme: 20 independent seeds at B = 200,000 each. Upper bound mean +0.0039 pp (SD 0.0010, range +0.0022 to +0.0056); lower bound mean −0.8293 pp (SD 0.0012). The bound's sign is stable across seeds. Implied Monte Carlo standard error at the canonical B = 1,000,000: ±0.0005 pp. This is numerical approximation error only and confers no coverage interpretation.
+Monte Carlo audit of one target only — 40 g, cond_in_variety, primary fitting loss: 20 independent seeds at B = 200,000 each. Upper bound mean +0.0039 pp (SD 0.0010, range +0.0022 to +0.0056); lower bound mean −0.8293 pp (SD 0.0012). The bound's sign is stable across seeds. Implied Monte Carlo standard errors at the canonical B = 1,000,000 are 0.000520 pp on the lower bound and 0.000466 pp on the upper — reported separately rather than as one symmetric figure, since they are two different estimators. This is numerical approximation error only and confers no coverage interpretation.
 <!-- paper-a:transfer-scheme-table:end -->
 
 
@@ -455,7 +457,7 @@ Monte Carlo audit of the primary scheme: 20 independent seeds at B = 200,000 eac
 ### Supplementary Table S7
 
 <!-- paper-a:transfer-corpus-manifest:begin -->
-<!-- paper-a:transfer-corpus schema=2 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
+<!-- paper-a:transfer-corpus schema=3 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
 
 **Table S7. Held-out coarse/fine corpus membership.** All 44 sample records scored by the headline benchmark. Each contributes the same 3 named-solute observations (caffeine, trigonelline, 5CQA), giving 132 observations. No record is excluded. The lookup comparator is undefined on the 8 off-grid records, so it is reported only on its own 108-observation support.
 

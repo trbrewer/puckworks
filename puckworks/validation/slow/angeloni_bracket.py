@@ -2184,6 +2184,7 @@ def endpoint_propagation_benchmark(m_targets=None, n_boot=CANONICAL_BOOT_B,
     import numpy as np
     from puckworks import data as _d
     from puckworks.paper_a import transfer_contract as TC
+    from puckworks.paper_a import transfer_semantics as TS
 
     # The endpoint targets are the contract's, not a local literal (round-8 P0-3).
     m_targets = TC.ENDPOINT_TARGETS if m_targets is None else m_targets
@@ -2198,9 +2199,17 @@ def endpoint_propagation_benchmark(m_targets=None, n_boot=CANONICAL_BOOT_B,
             # The cluster design depends only on corpus membership, not on the endpoint, so it is
             # built once and archived with its exact per-scheme membership (round-8 P1-1).
             design = TC.resampling_design(res["records"])
-        if float(v) == 40.0:
-            # Audit the knife-edge where the paper quotes it (round-8 P1-2).
-            audit = bootstrap_stability_audit(res["records"], unit=TC.PRIMARY_SCHEME)
+        if float(v) == float(TS.AUDITED_TARGET.endpoint_g):
+            # Audit the knife-edge where the paper quotes it (round-8 P1-2), and record the EXACT
+            # target it describes (round-9 P1-1). Monte Carlo quantile error depends on the
+            # resampling distribution and its local tail density, so this value is a property of
+            # one endpoint/scheme/loss and must not be reused for another.
+            audit = dict(target=TS.AUDITED_TARGET.as_dict(),
+                         scope=("multi-seed Monte Carlo precision audit of the %s clustered "
+                                "percentile bounds; applies to no other endpoint, scheme or "
+                                "fitting loss" % TS.AUDITED_TARGET.prose),
+                         **bootstrap_stability_audit(res["records"],
+                                                     unit=TS.AUDITED_TARGET.scheme))
         # PRIMARY cluster (round-7 P1-1, retained as a pre-declared CONSERVATIVE sensitivity in
         # round 8): (variety, T, p). The other three units are secondaries.
         boot = paired_clustered_bootstrap(res["records"], B=n_boot, seed=seed,
@@ -2273,7 +2282,9 @@ def endpoint_propagation_benchmark(m_targets=None, n_boot=CANONICAL_BOOT_B,
         resampling_design=design,
         primary_cluster=TC.PRIMARY_SCHEME,
         rows=rows,
-        stability_audit=audit,
+        # A LIST keyed by exact target, not a single top-level scalar. A renderer must ask for the
+        # target it is describing and get nothing if that target was not audited.
+        stability_audits=[audit] if audit else [],
         endpoint_sensitivity=dict(
             point_difference_sign_stable=sign_stable,
             point_difference_magnitude_range_pp=[round(min(diffs), 3), round(max(diffs), 3)],

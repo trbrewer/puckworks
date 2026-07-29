@@ -33,6 +33,7 @@ if str(_REPO) not in sys.path:
     sys.path.insert(0, str(_REPO))
 
 from puckworks.paper_a import transfer_contract as TC  # noqa: E402
+from puckworks.paper_a import transfer_semantics as TS  # noqa: E402
 
 RESOURCE = _REPO / "docs" / "paper1_resource"
 ENDPOINT_JSON = RESOURCE / "PAPER_A_ENDPOINT_PROPAGATION.json"
@@ -159,7 +160,7 @@ def block_transfer_methods(ep, corpus_art, loss) -> str:
     six, three = sizes.get("6", 0), sizes.get("3", 0)
     row40 = endpoint_row(ep, HEADLINE_ENDPOINT_G)
     meta = row40["resampling"][TC.PRIMARY_SCHEME]
-    audit = ep["stability_audit"]
+    audit = TS.find_exact_audit(ep, TS.AUDITED_TARGET)
 
     return "\n".join([
         stamp(manifest),
@@ -198,12 +199,18 @@ def block_transfer_methods(ep, corpus_art, loss) -> str:
         "`PAPER_A_ENDPOINT_PROPAGATION.json`.",
         "",
         "Because the paper's headline range has a bound within hundredths of a percentage point "
-        f"of zero, the Monte Carlo resolution of that bound is audited directly: "
-        f"{audit['n_runs']} independent seeds at \\(B={_tex_int(audit['B_per_seed'])}\\) each. The "
-        f"implied Monte Carlo standard error of the canonical bounds is "
-        f"±{audit['upper_monte_carlo_se_at_canonical_B_pp']:.4f} pp, so the third displayed "
-        "decimal is resolved only to about ±0.001 pp. That audit measures numerical "
-        "approximation of this resampling distribution; it confers no coverage interpretation. "
+        f"of zero, the Monte Carlo resolution of that bound is audited directly, for **one exactly "
+        f"specified target** — {TS.AUDITED_TARGET.prose} — over {audit['n_runs']} independent "
+        f"seeds at \\(B={_tex_int(audit['B_per_seed'])}\\) each. At the canonical draw count the "
+        f"implied lower- and upper-bound Monte Carlo standard errors are "
+        f"{audit['lower_monte_carlo_se_at_canonical_B_pp']:.6f} and "
+        f"{audit['upper_monte_carlo_se_at_canonical_B_pp']:.6f} pp. Three decimals are retained in "
+        "the reported ranges to distinguish a small non-zero bound from exact contact with zero, "
+        "but the final displayed digit should not be read as seed-invariant. Monte Carlo quantile "
+        "error depends on the resampling distribution and its local tail density, so this estimate "
+        "is **not** transferred to the other endpoints, to the secondary schemes, or to the "
+        "alternative fitting loss, none of which was separately audited. It measures numerical "
+        "approximation of one resampling distribution; it confers no coverage interpretation. "
         "The held-out-error interval is a separate procedure: it resamples the nine "
         "temperature–pressure **conditions** with replacement, refits level and rate on the "
         "in-bag conditions and scores the out-of-bag conditions, with **600** draws at seed 0 of "
@@ -219,7 +226,7 @@ def block_transfer_results(ep, corpus_art, loss) -> str:
     design = ep["resampling_design"]
     row = endpoint_row(ep, HEADLINE_ENDPOINT_G)
     prim_i = scheme_interval(row, TC.PRIMARY_SCHEME)
-    audit = ep["stability_audit"]
+    audit = TS.find_exact_audit(ep, TS.AUDITED_TARGET)
     prim = design["schemes"][TC.PRIMARY_SCHEME]
     sizes = prim["cluster_size_distribution"]
 
@@ -263,19 +270,21 @@ def block_transfer_results(ep, corpus_art, loss) -> str:
         f"fit them, and we do not tell one; the schemes bracket plausible grouping assumptions "
         f"and none of them is selected or discarded for where its range falls.",
         "",
-        f"The **practical size of the effect is the reportable result**: the mechanistic model's "
-        f"pooled advantage is {TC.format_pp(row['paired_difference_pp'], 3, explicit_plus=False)} "
-        f"pp against pooled errors near "
+        f"The **practical size of the effect is the reportable result**: the pooled difference is "
+        f"{TC.format_pp(row['paired_difference_pp'], 3, explicit_plus=False)} pp — negative "
+        f"favours the mechanistic model — against pooled errors near "
         f"{TC.format_pct(row['pooled_model_mape'])}, and it is the *worse* predictor on "
         f"{row['n_model_worse_than_const']} of {row['n_points']} held-out observations. The "
         f"primary range's upper bound is "
         f"{TC.format_pp(prim_i['full_precision_pp']['upper'], 4)} pp — a magnitude three orders "
-        f"below the errors both predictors carry. Its **sign** is numerically settled: across "
-        f"{audit['n_runs']} independent seeds the bound's Monte Carlo standard error at the "
-        f"canonical draw count is ±{audit['upper_monte_carlo_se_at_canonical_B_pp']:.4f} pp, so "
-        f"the bound sits roughly "
+        f"below the errors both predictors carry. For this target — {TS.AUDITED_TARGET.prose} — its "
+        f"**sign** is numerically settled: across {audit['n_runs']} independent seeds the "
+        f"upper-bound Monte Carlo standard error at the canonical draw count is "
+        f"{audit['upper_monte_carlo_se_at_canonical_B_pp']:.6f} pp, so the bound sits roughly "
         f"{abs(prim_i['full_precision_pp']['upper']) / audit['upper_monte_carlo_se_at_canonical_B_pp']:.0f} "
-        f"standard errors from zero and the range genuinely contains zero rather than grazing it. "
+        f"standard errors above zero and the range genuinely contains zero rather than grazing it. "
+        f"No equivalent audit exists for the other endpoints, the secondary schemes or the "
+        f"alternative fitting loss, and this estimate is not extended to them. "
         f"Numerical resolution is not inferential resolution. We therefore make **no claim of "
         f"statistical distinguishability, non-distinguishability or equivalence** from these "
         f"ranges: they are fixed-predictor sensitivity ranges without calibrated coverage, and "
@@ -288,25 +297,39 @@ def block_transfer_results(ep, corpus_art, loss) -> str:
 def block_endpoint_table(ep, corpus_art, loss) -> str:
     """Table 4a — the benchmark propagated through the declared collection tolerance."""
     manifest = ep["corpus"]
+    audit = TS.find_exact_audit(ep, TS.AUDITED_TARGET)
     out = [stamp(manifest), "",
            "**Table 4a. The transfer-versus-comparator benchmark propagated through the declared "
            "±2 g collection tolerance.** Ranges are the primary "
-           f"`{TC.PRIMARY_SCHEME}` clustered percentile sensitivity ranges; the Monte Carlo "
-           "standard error on each bound is ±"
-           f"{ep['stability_audit']['upper_monte_carlo_se_at_canonical_B_pp']:.4f} pp.", "",
+           f"`{TC.PRIMARY_SCHEME}` clustered percentile sensitivity ranges at the canonical draw "
+           "count, not calibrated confidence intervals. Negative values favour the mechanistic "
+           "model.", "",
            "| endpoint | model pooled MAPE (%) | level-only comparator (%) | paired difference (pp) "
-           "| primary clustered percentile range (pp) | model worse on |",
-           "|---|---:|---:|---:|---:|---:|"]
+           "| primary clustered percentile range (pp) | zero relation | model worse on |",
+           "|---|---:|---:|---:|---:|---|---:|"]
     for row in ep["rows"]:
         m = float(row[TC.ENDPOINT_ROW_KEY])
-        text = scheme_interval(row, TC.PRIMARY_SCHEME)["display"]["text"]
+        interval = scheme_interval(row, TC.PRIMARY_SCHEME)
+        sem = TS.from_interval_record(interval)
+        text = interval["display"]["text"]
+        if m == float(TS.AUDITED_TARGET.endpoint_g):
+            text += " †"
         cells = [f"{_g(m)} g", f"{row['pooled_model_mape']:.2f}",
                  f"{row['pooled_const_mape']:.2f}",
                  TC.format_pp(row["paired_difference_pp"], 3, explicit_plus=False),
-                 text, f"{row['n_model_worse_than_const']} of {row['n_points']}"]
+                 text, sem.relation.prose,
+                 f"{row['n_model_worse_than_const']} of {row['n_points']}"]
         if m == HEADLINE_ENDPOINT_G:
             cells = [f"**{c}**" for c in cells]
         out.append("| " + " | ".join(cells) + " |")
+    out += ["",
+            "† The retained multi-seed Monte Carlo audit applies to this row only — "
+            f"{TS.AUDITED_TARGET.prose}. At the canonical draw count its lower- and upper-bound "
+            f"standard errors are approximately "
+            f"{audit['lower_monte_carlo_se_at_canonical_B_pp']:.6f} and "
+            f"{audit['upper_monte_carlo_se_at_canonical_B_pp']:.6f} pp. The other endpoints' "
+            "canonical ranges were computed identically but their Monte Carlo precision was not "
+            "separately audited, and this estimate is not transferred to them."]
     return "\n".join(out)
 
 
@@ -325,9 +348,11 @@ def block_endpoint_reading(ep, corpus_art, loss) -> str:
 
     prim = [scheme_interval(r, TC.PRIMARY_SCHEME) for r in ep["rows"]]
     uppers = [i["full_precision_pp"]["upper"] for i in prim]
-    worst_lower = min(i["full_precision_pp"]["lower"] for i in prim)
-    worst_upper = max(i["full_precision_pp"]["upper"] for i in prim)
-    audit = ep["stability_audit"]
+    prim_sem = [TS.from_interval_record(i) for i in prim]
+    loss_sem = [TS.from_interval_record(base["interval"]),
+                TS.from_interval_record(alt["interval"])]
+    best, worst = TS.favourable_extremes(prim_sem)
+    audit = TS.find_exact_audit(ep, TS.AUDITED_TARGET)
 
     return "\n".join([
         f"<!-- paper-a:endpoint-interpretation code={sens['interpretation_code']} -->",
@@ -355,13 +380,14 @@ def block_endpoint_reading(ep, corpus_art, loss) -> str:
         "holds across fitting losses: refitting both predictors under a log/relative-error level "
         f"fit moves the paired difference only from "
         f"{TC.format_pp(base['paired_difference_pp'], 3, explicit_plus=False)} to "
-        f"{TC.format_pp(alt['paired_difference_pp'], 3, explicit_plus=False)} pp, and leaves the "
-        "primary range on the same side of zero.",
+        f"{TC.format_pp(alt['paired_difference_pp'], 3, explicit_plus=False)} pp, and the "
+        f"loss-specific ranges {TS.describe_shared_relation(loss_sem)}.",
         "",
-        f"No row supports a claim of resolvable skill. Across the sweep the primary ranges span "
-        f"{TC.format_pp(worst_lower, 3, explicit_plus=False)} to "
-        f"{TC.format_pp(worst_upper, 3)} pp: at their most favourable end they permit an advantage "
-        f"well under one percentage point, and at their least favourable end they permit none at "
+        f"No row supports a claim of resolvable skill. Because the estimand is model loss minus "
+        f"comparator loss, negative values favour the mechanistic model: the most favourable bound "
+        f"across the sweep is {TC.format_pp(best, 3, explicit_plus=False)} pp and the least "
+        f"favourable is {TC.format_pp(worst)} pp, so at the favourable end these ranges permit an "
+        f"advantage well under one percentage point and at the unfavourable end they permit none at "
         f"all — against pooled errors near 8.4 % in both arms. We report the benchmark as "
         "**unresolved throughout the declared tolerance**, and we do not convert a percentile "
         "bound's position into an inequality that carries the conclusion. Per-endpoint values, "
@@ -456,8 +482,7 @@ def block_transfer_headline(ep, corpus_art, loss) -> str:
     """The Results paragraph that states the paper's principal quantitative comparison."""
     row = endpoint_row(ep, HEADLINE_ENDPOINT_G)
     i = scheme_interval(row, TC.PRIMARY_SCHEME)
-    verb = ("contains zero" if i["contains_zero_full_precision"]
-            else "sits just short of zero")
+    verb = TS.from_interval_record(i).relation.prose
     return "\n".join([
         stamp(ep["corpus"]),
         "",
@@ -480,8 +505,10 @@ def block_loss_robustness(ep, corpus_art, loss) -> str:
     reading, which was an artefact of the superseded low draw count."""
     base = [r for r in loss["rows"] if not r["alt_loss"]][0]
     alt = [r for r in loss["rows"] if r["alt_loss"]][0]
-    same_side = (base["interval"]["contains_zero_full_precision"]
-                 == alt["interval"]["contains_zero_full_precision"])
+    # Round-9 P0-1. This read `same_side = (base.contains_zero == alt.contains_zero)` and rendered
+    # True == True as "both lie on the same side of zero". Both intervals CONTAIN zero — they do not
+    # lie on a side of it. The relation is now named from the typed trinary classification.
+    sem = [TS.from_interval_record(base["interval"]), TS.from_interval_record(alt["interval"])]
     return "\n".join([
         stamp(ep["corpus"]),
         "",
@@ -494,10 +521,9 @@ def block_loss_robustness(ep, corpus_art, loss) -> str:
         f"{TC.format_pct(alt['pooled_const_mape'])}; the model worse on "
         f"{alt['n_model_worse_than_const']} of {alt['n_points']} observations under either loss). "
         f"The primary clustered percentile range is {base['interval']['display']['text']} under "
-        f"the primary loss and {alt['interval']['display']['text']} under the alternative"
-        + (", and at the canonical draw count both lie on the same side of zero."
-           if same_side else ", and the two lie on opposite sides of zero.")
-        + " The fitting loss therefore moves neither the sign, the magnitude, nor the practical "
+        f"the primary loss and {alt['interval']['display']['text']} under the alternative, and at "
+        f"the canonical draw count {TS.describe_shared_relation(sem)}. The fitting loss therefore "
+        "does not materially change the point estimate, the zero relation, or the practical "
         "reading. It is that comparison, not the mechanistic model's own error, that establishes "
         "the verdict is not an artefact of the fitting loss.",
     ])
@@ -506,7 +532,7 @@ def block_loss_robustness(ep, corpus_art, loss) -> str:
 def block_supplement_endpoint_table(ep, corpus_art, loss) -> str:
     """Supplementary Table S3 — the full per-endpoint sweep across all four schemes."""
     manifest = ep["corpus"]
-    audit = ep["stability_audit"]
+    audit = TS.find_exact_audit(ep, TS.AUDITED_TARGET)
     out = [
         stamp(manifest), "",
         "Corpus: %s, %d held-out records × %d named solutes = %d observations. No coarse/fine "
@@ -516,42 +542,64 @@ def block_supplement_endpoint_table(ep, corpus_art, loss) -> str:
         "",
         "| endpoint | model pooled MAPE (%) | comparator (%) | paired difference (pp) | "
         + " | ".join("%s (pp)" % n for n in TC.SCHEME_ORDER)
-        + " | primary contains zero | model worse on | skill |",
+        + " | primary zero relation | model worse on | skill |",
         "|---|---:|---:|---:|" + "---:|" * len(TC.SCHEME_ORDER) + "---|---:|---:|",
     ]
     for row in ep["rows"]:
         ranges = " | ".join(scheme_interval(row, n)["display"]["text"] for n in TC.SCHEME_ORDER)
-        prim = scheme_interval(row, TC.PRIMARY_SCHEME)
+        prim = TS.from_interval_record(scheme_interval(row, TC.PRIMARY_SCHEME))
         out.append("| %s g | %.2f | %.2f | %s | %s | %s | %d of %d | %.3f |"
                    % (_g(row[TC.ENDPOINT_ROW_KEY]), row["pooled_model_mape"],
                       row["pooled_const_mape"],
                       TC.format_pp(row["paired_difference_pp"], 3, explicit_plus=False),
-                      ranges,
-                      "yes" if prim["contains_zero_full_precision"] else "no",
+                      ranges, prim.relation.prose,
                       row["n_model_worse_than_const"], row["n_points"], row["skill_vs_const"]))
+
     diffs = [r["paired_difference_pp"] for r in ep["rows"]]
-    contains = [_g(r[TC.ENDPOINT_ROW_KEY]) + " g" for r in ep["rows"]
-                if scheme_interval(r, TC.PRIMARY_SCHEME)["contains_zero_full_precision"]]
-    excludes = [_g(r[TC.ENDPOINT_ROW_KEY]) + " g" for r in ep["rows"]
-                if not scheme_interval(r, TC.PRIMARY_SCHEME)["contains_zero_full_precision"]]
+    prim_sem = [TS.from_interval_record(scheme_interval(r, TC.PRIMARY_SCHEME))
+                for r in ep["rows"]]
+    by_relation: dict[str, list[str]] = {}
+    for r, s in zip(ep["rows"], prim_sem):
+        by_relation.setdefault(s.relation.prose, []).append(_g(r[TC.ENDPOINT_ROW_KEY]) + " g")
+    def _eps(items):
+        return items[0] if len(items) == 1 else "%s and %s" % (", ".join(items[:-1]), items[-1])
+
+    relation_text = "; ".join("%s at %s" % (rel, _eps(eps))
+                              for rel, eps in sorted(by_relation.items()))
+    # Round-9 P0-1: favourability comes from the declared estimand direction, not from assuming
+    # the upper bound bounds the advantage. Negative model-minus-comparator favours the model, so
+    # the smallest LOWER bound is the most favourable value and the largest UPPER bound the least.
+    best, worst = TS.favourable_extremes(prim_sem)
     out += ["", "**Reading.** The effect size is stable: %s to %s pp across 38, 40 and 42 g, a "
                 "spread of %.3f pp — an order of magnitude smaller than the ≈ 5 pp movement in the "
                 "blind optimal-grind residual over the same endpoints, which is what one expects "
                 "when both predictors are re-derived at each endpoint so that a shift common to "
                 "both cancels. The sign never changes and the model remains worse on roughly half "
                 "the held-out observations at every endpoint. At the canonical draw count the "
-                "primary clustered range contains zero at %s and excludes it at %s. The bounds "
-                "near zero carry a Monte Carlo standard error of ±%.4f pp, so which side of zero "
-                "such a bound lands on is not a resolved quantity and nothing is inferred from "
-                "it. The largest advantage any upper bound admits is a small fraction of a "
-                "percentage point against pooled errors near 8.4 %%, and the benchmark is "
-                "reported as unresolved throughout the declared tolerance."
+                "primary clustered range %s. Because the estimand is model loss minus comparator "
+                "loss, negative values favour the mechanistic model: across the sweep the most "
+                "favourable bound is %s pp and the least favourable is %s pp, so at their "
+                "unfavourable end these ranges concede the model no advantage at all. Against "
+                "pooled errors near 8.4 %% in both arms the benchmark is therefore reported as "
+                "unresolved throughout the declared tolerance."
                 % (TC.format_pp(min(diffs), 3, explicit_plus=False),
                    TC.format_pp(max(diffs), 3, explicit_plus=False),
-                   abs(max(diffs) - min(diffs)),
-                   ", ".join(contains) or "no endpoint",
-                   ", ".join(excludes) or "no endpoint",
-                   audit["upper_monte_carlo_se_at_canonical_B_pp"])]
+                   abs(max(diffs) - min(diffs)), relation_text,
+                   TC.format_pp(best, 3, explicit_plus=False), TC.format_pp(worst)),
+            "",
+            "**Scope of the Monte Carlo audit.** All displayed ranges use the canonical draw "
+            "count. A multi-seed estimate of Monte Carlo variability exists for **one** target "
+            "only — %s — where the lower- and upper-bound standard errors are approximately "
+            "%.6f and %.6f pp and the upper bound's sign is %s across %d independent seeds. The "
+            "38 g and 42 g bounds, the three secondary schemes and the alternative fitting loss "
+            "were **not** separately audited, and none of them inherits that value; only the "
+            "multi-seed precision audit is absent, not the canonical range itself. The audit "
+            "measures numerical approximation and confers no coverage interpretation."
+            % (TS.AUDITED_TARGET.prose,
+               audit["lower_monte_carlo_se_at_canonical_B_pp"],
+               audit["upper_monte_carlo_se_at_canonical_B_pp"],
+               "stable" if audit["upper_bound_sign_is_stable"] else "NOT stable",
+               audit["n_runs"])]
     return "\n".join(out)
 
 
@@ -561,9 +609,9 @@ def block_supplement_scheme_table(ep, corpus_art, loss) -> str:
     row = endpoint_row(ep, HEADLINE_ENDPOINT_G)
     out = [
         stamp(ep["corpus"]), "",
-        "**Table S6. Resampling design.** Generated from the archived design object, so the "
-        "Methods paragraph and this table cannot disagree. Predictors are fixed in every scheme: "
-        "no model, level parameter or comparator is refitted inside a draw.", "",
+        "**Table S6. Resampling design.** Cluster keys, strata and membership for every declared "
+        "scheme, at the canonical draw count. Predictors are fixed in every scheme: no model, "
+        "level parameter or comparator is refitted inside a draw.", "",
         "| scheme | role | strata | cluster key | clusters | cluster sizes (obs × n) | "
         f"range at {_g(HEADLINE_ENDPOINT_G)} g (pp) | width (pp) |",
         "|---|---|---|---|---:|---|---|---:|",
@@ -577,18 +625,22 @@ def block_supplement_scheme_table(ep, corpus_art, loss) -> str:
                       ", ".join(s["strata"]) or "—",
                       ", ".join("`%s`" % k for k in s["cluster_key"]),
                       s["n_clusters"], sizes, i["display"]["text"], i["width_pp"]))
-    audit = ep["stability_audit"]
+    audit = TS.find_exact_audit(ep, TS.AUDITED_TARGET)
     pp4 = lambda v: TC.format_pp(v, 4)                                            # noqa: E731
-    out += ["", f"Monte Carlo audit of the primary scheme: {audit['n_runs']} independent seeds at "
+    out += ["", f"Monte Carlo audit of one target only — {TS.AUDITED_TARGET.prose}: "
+                f"{audit['n_runs']} independent seeds at "
                 f"B = {audit['B_per_seed']:,} each. Upper bound mean "
                 f"{pp4(audit['upper_mean_pp'])} pp (SD {audit['upper_sd_pp']:.4f}, range "
                 f"{pp4(audit['upper_min_pp'])} to {pp4(audit['upper_max_pp'])}); lower bound mean "
                 f"{pp4(audit['lower_mean_pp'])} pp (SD {audit['lower_sd_pp']:.4f}). The bound's "
                 f"sign is {'stable' if audit['upper_bound_sign_is_stable'] else 'NOT stable'} "
-                f"across seeds. Implied Monte Carlo standard error at the canonical "
-                f"B = {audit['canonical_B']:,}: ±"
-                f"{audit['upper_monte_carlo_se_at_canonical_B_pp']:.4f} pp. This is numerical "
-                f"approximation error only and confers no coverage interpretation."]
+                f"across seeds. Implied Monte Carlo standard errors at the canonical "
+                f"B = {audit['canonical_B']:,} are "
+                f"{audit['lower_monte_carlo_se_at_canonical_B_pp']:.6f} pp on the lower bound and "
+                f"{audit['upper_monte_carlo_se_at_canonical_B_pp']:.6f} pp on the upper — reported "
+                f"separately rather than as one symmetric figure, since they are two different "
+                f"estimators. This is numerical approximation error only and confers no coverage "
+                f"interpretation."]
     return "\n".join(out)
 
 

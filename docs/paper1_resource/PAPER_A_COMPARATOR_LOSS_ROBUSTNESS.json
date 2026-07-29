@@ -1,5 +1,5 @@
 {
- "schema_version": 2,
+ "schema_version": 3,
  "endpoint": {
   "quantity": "collected_mass",
   "symbol": "m_target",
@@ -11,7 +11,7 @@
   ]
  },
  "corpus": {
-  "schema_version": 2,
+  "schema_version": 3,
   "estimand": "complete held-out C/F corpus (on-grid + off-grid)",
   "support_set": "complete_cf_corpus_132",
   "include_off_grid": true,

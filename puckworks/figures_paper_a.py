@@ -235,6 +235,24 @@ def _fig1_ancestors(node, edges=FIG1_EDGES):
     return seen
 
 
+#: Evidence-category encodings for Figure 1: (border colour, border line style, legend label).
+#:
+#: Round-9 P2-2. `insample` and `within` were both plain `GOOD` blue, so the legend listed two
+#: distinct evidence tiers with one indistinguishable encoding. Colour alone is also a poor channel
+#: for a printed figure. Each category therefore carries a colour AND a line style, and
+#: `tests/test_paper_a_figure_semantics.py` asserts the (colour, style) tuples are unique — a
+#: duplicate is a test failure, not something a reader has to notice.
+FIG1_CATEGORIES = {
+    "source":   (NULL,                 "solid",   "source calibration"),
+    "insample": (GOOD,                 "dotted",  "in-sample localization"),
+    "sim":      (WARN,                 "solid",   "same-model simulation"),
+    "target":   (ACCENT,               "solid",   "target recalibration"),
+    "within":   (GOOD,                 "solid",   "within-campaign holdout"),
+    "orth":     (_SOL_COLOR["5CQA"],   "dashed",  "orthogonal measurement (same study)"),
+    "external": (BAD,                  "solid",   "independent external"),
+}
+
+
 def fig1_design(outdir=OUTDIR):
     """Fig 1 — study design and use of each dataset, drawn as the ACTUAL dependency graph.
 
@@ -254,22 +272,16 @@ def fig1_design(outdir=OUTDIR):
     rig/coffee not used for target fitting.
     """
     plt = _plt()
-    # evidence-category palette (data use, not verb)
-    CAT = {"source": (NULL, "source calibration"),
-           "insample": (GOOD, "in-sample localization"),
-           "sim": (WARN, "same-model simulation"),
-           "target": (ACCENT, "target recalibration"),
-           "within": (GOOD, "within-campaign holdout"),
-           "orth": (_SOL_COLOR["5CQA"], "orthogonal measurement (same study)"),
-           "external": (BAD, "independent external")}
+    CAT = FIG1_CATEGORIES
     fig, ax = plt.subplots(figsize=(11.8, 7.4))
     ax.set_xlim(0, 13.5); ax.set_ylim(-0.95, 9.5); ax.axis("off")
 
     def draw(node):
         spec = FIG1_NODES[node]
         x, y, w, h = spec["box"]
-        col = CAT[spec["cat"]][0]
-        ax.add_patch(plt.Rectangle((x, y), w, h, facecolor="#f6f2ea", edgecolor=col, lw=2.4))
+        col, style, _label = CAT[spec["cat"]]
+        ax.add_patch(plt.Rectangle((x, y), w, h, facecolor="#f6f2ea", edgecolor=col, lw=2.4,
+                                   linestyle=style))
         ax.text(x + w / 2, y + h / 2, spec["label"], ha="center", va="center",
                 fontsize=spec["fs"])
 
@@ -316,8 +328,15 @@ def fig1_design(outdir=OUTDIR):
     ax.text(0.15, 0.95, "Waszkiewicz\n(independent second\nrig / coffee)", fontsize=7.8,
             style="italic", color=NULL, va="top")
 
-    hs = [plt.Line2D([0], [0], marker="s", ls="", mfc="#f6f2ea", mec=c[0], mew=2.4,
-                     ms=10, label=c[1]) for c in CAT.values()]
+    # Round-9 P2-2: the legend must be decodable FROM THE LEGEND. Two categories previously shared
+    # one blue border, so two separately named entries had identical encodings. Each category now
+    # carries a (colour, line style) pair, and the handle shows both — which also survives
+    # grayscale printing, where colour alone would not.
+    # Patch handles, not line markers: the legend swatch must show the border STYLE as well as the
+    # colour, otherwise the second encoding channel exists in the figure and not in its key.
+    from matplotlib.patches import Rectangle as _LegendPatch
+    hs = [_LegendPatch((0, 0), 1, 1, facecolor="#f6f2ea", edgecolor=c[0], linewidth=2.4,
+                       linestyle=c[1], label=c[2]) for c in CAT.values()]
     ax.legend(handles=hs, loc="upper right", bbox_to_anchor=(1.0, 0.99), fontsize=7.6,
               ncol=2, framealpha=0.95, columnspacing=1.0, handletextpad=0.5)
     ax.text(6.75, -0.10, "Single-headed arrows show the actual data/parameter dependency; the "
@@ -774,9 +793,12 @@ def fig7_per_group_diagnostics(results=None, outdir=OUTDIR, return_fig=False):
     # (b) model-vs-data shape correlation per group
     ax = axes[1]
     sh = np.array([np.nan if v is None else v for v in shape], float)
-    cols = [GOOD if (not np.isnan(v) and v > 0.4) else
-            (BAD if (not np.isnan(v) and v < 0) else NULL) for v in sh]
-    ax.barh(idx, sh, color=cols)
+    # Round-9 P2-2: this used an undocumented three-colour rule (blue when r > 0.4, orange when
+    # r < 0, grey otherwise). Neither the panel nor the caption stated those thresholds, so a
+    # reader could not decode why a bar was blue, grey or orange — and the encoding implied
+    # significance classes that were never computed. The signed bar length already carries the
+    # information, so one neutral colour plus the zero line says exactly what is known.
+    ax.barh(idx, sh, color=NULL)
     ax.axvline(0.0, color=INK, lw=0.8)
     ax.set_yticks(idx); ax.set_yticklabels(labels, fontsize=7.4)
     ax.invert_yaxis()
