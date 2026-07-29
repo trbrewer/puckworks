@@ -11,8 +11,9 @@ adsorption/desorption equilibrium with constant K; at steady state a fixed fract
 K·Emax of the grounds' mass dissolves, independent of brew ratio, while TDS scales
 inversely with brew ratio. A companion measurement model corrects the standard
 oven-drying extraction measurement for brew retained in spent grounds and for
-volatilization during baking. The paper is silent on transient kinetics by design
-(no rate constants reported); it predicts endpoints only.
+volatilization during baking. The authors report no rate constants and present the model as an
+endpoint predictor — but Eq. (6) as printed is a rate law, and Fig. 2 supplies the transients that
+close it (audit D1).
 
 ## Governing equations
 Equation numbers are the paper's.
@@ -50,9 +51,17 @@ stated with their conditions.
 | E (cupping, caf / decaf) | 23.9 ± 0.6 / 22.2 ± 0.4 | % | measured |
 | R_ret (1-L average) | 2.48 ± 0.19 | g/g | measured (via Eq. 24) |
 | R_vol | 0.0234 ± 0.006 (direct) / 0.0228 (regressed intercept) | g/g | measured / fitted |
-| k_D, k_A individually | not provided | 1/s | – |
+| k_D, k_A individually | not reported by the authors; recoverable (audit D1) | 1/s | – |
+| tau = 1/(k_D + k_A) | derivable from Fig. 2 transients, NOT YET FITTED | s | fit target |
 
-Only the ratio K is identifiable; the kinetic constants are not.
+The paper reports only the ratio K. The individual constants are **recoverable** from Eq. (6) plus
+the Fig. 2 transients — integrating Eq. (6) with the Eq. (4) conservation law at fixed `M_L` gives
+`TDS(t) = K·E_max·M_g/M_L·(1 − e^{−t/τ})` with `τ = 1/(k_D + k_A)`, so a fitted τ separates them as
+`k_D = K/τ` and `k_A = (1 − K)/τ` — but the authors do not perform that fit, and neither have we.
+See `liang2021_AUDIT.md` D1 for the derivation and for the three caveats that must travel with any
+fitted τ (no particle-size dependence in the lumped law; the 1-L brews cooled through the run, so τ
+is temperature-averaged rather than isothermal; `M_L` grows during extraction, a ≤ 4 % effect at
+R_brew ≥ 5).
 
 ## Calibration and validation offered by the source
 99 TDS values from 1-L brews across R_brew 2–25, 80–99 °C, grind settings 2–6:

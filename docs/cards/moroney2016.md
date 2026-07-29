@@ -82,7 +82,7 @@ Couplings: offline calibration chain — fit (a2, a3, ε, η) or (α*, β*) to m
 - **foster2025.infiltration** (infiltration, runtime): complementary in exactly the way the registry backlog anticipates — Moroney explicitly does not model infiltration and must guess ψ*_s0, η, and the initial c*_h profile; Foster's front passage can supply those initial conditions. This paper defines the receiving side of the infiltration↔extraction coupling contract.
 - **wadsworth2026.permeability** (packing, calibration): competing permeability closure — Kozeny–Carman κ = 3.1 here vs. percolation k(R, φ_p); same tamped-regime tension already noted for Cameron's flux table.
 - Backlog "extraction: multi-class solute chemistry": authors flag the multi-constituent extension as future work; nothing usable here yet.
-- The well-mixed (French-press) asymptotics are in a separate paper (their ref [15], J. Math. Industry 2016) — out of scope for this card.
+- The well-mixed (French-press) asymptotics are in a separate paper (their ref [15], J. Math. Industry 2016) — carded separately as `moroney2017.md`, the flow-free sibling of this card. Complementary, not competing: same physics family, transport stripped away, different IC convention.
 
 ## Implementation estimate
 Small: composite solutions (3.64)–(3.66) are explicit piecewise expressions; a fitting wrapper over (ε, a2, a3, η) is a few dozen lines. No dependencies beyond numpy/scipy.optimize. Gate design: (1) reproduce Fig. 6 exit-concentration curve from Table 1 parameters (composite vs. digitized curve); (2) cross-check the asymptotic solution against cameron2020's BDF solver configured to the equivalent two-population limit at matched parameters — a mutual-validation gate the registry currently lacks.

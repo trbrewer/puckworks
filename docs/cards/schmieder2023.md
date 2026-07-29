@@ -68,7 +68,10 @@ GL 1.7, 89 °C) values below; full sets in the paper's tables.
 | c₀ TDS | 0.248 | g g⁻¹ | fitted (Table A1) |
 | λ TDS | 17.47 | g | fitted (Table A1) |
 | β₀…β₉ (Eq. 4) | per Table 3 | mixed | fitted (Table 3) |
-| brew pressure vs grind @ F 2.0 | 9.3 / 7.4 / 3.8 (GL 1.4 / 1.7 / 2.0) | bar | measured |
+| brew pressure vs grind, high flow | 9.3 / 7.4 / 3.8 (GL 1.4 / 1.7 / 2.0) | bar | measured — **basis ambiguous** (audit D1): §3.3.3 prints no flow rate and no averaging rule, and the triple is NOT reproducible as a Table 2 mean at any flow. It matches mean+1SD at F≈2.7–2.9, and §3.3.3 speaks of the *maximal* brew pressure, so read it as per-shot maxima. **Do not use as a Darcy ΔP(Q) point.** |
+| brew pressure vs grind, mean @ F≈1.0 | 2.85 / 2.70 / 2.75 | bar | measured (Table 2, Exp 8,9 / 1 / 10,11) |
+| brew pressure vs grind, mean @ F≈2.0 | 3.9 / 3.4 / 3.3 | bar | measured (Table 2, Exp 3 / 7 / 4) |
+| brew pressure vs grind, mean @ F≈2.8 | 8.00 / 5.30 / 3.55 | bar | measured (Table 2, Exp 12,13 / 2 / 14,15) |
 | Sauter d₃₂ | 28.3 / 26.9 / 29.2 (GL 1.4 / 1.7 / 2.0) | µm | measured |
 | De Brouckère vol. mean | 273 / 277 / 295 (GL 1.4 / 1.7 / 2.0) | µm | measured |
 | dose | 20.00 | g | nominal (fixed) |
@@ -107,7 +110,7 @@ data summary of one bean on one machine, not a validated model.
 
 ## Interface mapping
 Not a runtime component. As a calibration/validation source:
-Inputs (as labels) ← MachineState (constant flow ~1–3 mL s⁻¹, measured P 2.6–9.3 bar),
+Inputs (as labels) ← MachineState (constant flow ~1–3 mL s⁻¹, measured P 2.6–8.4 bar in Table 2; the 9.3 is text-only and of ambiguous basis, audit D1/D2),
 GrindState (dial + measured d₃₂), temperature; grind→BedState only qualitatively
 via measured pressure. Outputs (as data) → ShotResultState.traces (concentration
 vs cumulative mass, Eq. 2) and per-BR component masses / TDS (Eq. 3). Coupling:
