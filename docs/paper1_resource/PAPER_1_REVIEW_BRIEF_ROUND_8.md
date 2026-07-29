@@ -2,9 +2,10 @@
 
 **Manuscript:** `docs/submission/PAPER_A_JFE_MANUSCRIPT.md` (canonical working draft:
 `docs/PAPER_A_DRAFT.md` — the two are held in content agreement by CI).
-**Commit:** the merge of PR #198 into `main`. Earlier commits are **not** equivalent: the headline
-corpus, the primary resampling unit, the endpoint's *unit*, and the displayed Reynolds number all
-changed in that PR.
+**Commit:** `21b138a` on `main`. Earlier commits are **not** equivalent: the headline corpus, the
+primary resampling unit, the endpoint's *unit*, and the displayed Reynolds number all changed in
+PR #198, and PR #199 landed a card batch that corrected two standing cards. Reviewing anything
+before `21b138a` will produce findings we have already actioned.
 
 **Supplement:** `docs/submission/PAPER_A_JFE_SUPPLEMENT.md` + `docs/submission/figures/`.
 
