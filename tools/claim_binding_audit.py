@@ -90,7 +90,28 @@ def coverage() -> dict:
     from puckworks.paper_a import claim_coverage as ca
     from puckworks.paper_a import slow_lane_bindings as sb
     sl = sb.verify()
-    slow_total = len(getattr(ca, "SLOW_LANE_RESULTS", {}))
+    cov = ca.binding_coverage()
+
+    # Round-8 P2-1. These are TWO populations and this table used to conflate them:
+    #
+    #   * `sb.verify()` counts BINDING RULES (62 fixed + 23 derived + 4 code constants = 89) and
+    #     reports whether each still resolves and matches;
+    #   * `ca.SLOW_LANE_RESULTS` is the 95 registered slow-lane numerals the manuscript quotes.
+    #
+    # Five binding rules bind values that are NOT registered slow-lane results, so subtracting the
+    # rule count from the registered total ("95 - 89 = 6 unbound") credited those five against
+    # results they do not cover and UNDERSTATED the gap. The registered population is the one that
+    # answers "how many quoted numbers are checked", so coverage is taken from binding_coverage()
+    # and rule health is reported separately rather than mixed into the same arithmetic.
+    slow_lane = dict(
+        total=cov["n_slow_lane"], bound=cov["n_archive_bound"],
+        declared_unbindable=cov["n_declared_unbindable"], unbound=cov["n_still_unbound"],
+        unbound_values=list(cov["still_unbound"]),
+        binding_rules=sl["n_bound"], matching=sl["n_ok"],
+        mismatched=sl["n_mismatched"], unresolvable=sl["n_unresolvable"],
+        rules_outside_registered_set=sl["n_bound"] - cov["n_archive_bound"])
+    _reconcile_slow_lane(slow_lane)
+
     return dict(
         source_commit=_commit(),
         generated_by="python tools/claim_binding_audit.py --write",
@@ -102,11 +123,32 @@ def coverage() -> dict:
             claims=sum(r["claims"] for r in rows.values()),
             verified=sum(r["verified"] for r in rows.values()),
             unbound=sum(r["unbound"] for r in rows.values())),
-        slow_lane=dict(
-            total=slow_total, bound=sl["n_bound"], matching=sl["n_ok"],
-            mismatched=sl["n_mismatched"], unresolvable=sl["n_unresolvable"],
-            declared_unbindable=sl["n_declared_unbindable"],
-            unbound=slow_total - sl["n_bound"]))
+        slow_lane=slow_lane)
+
+
+def _reconcile_slow_lane(sl: dict) -> None:
+    """Fail loudly if the coverage categories do not add up to the registered total.
+
+    Round-8 P2-1 existed because nothing asserted this. The categories below are disjoint and
+    exhaustive over the REGISTERED slow-lane results; the binding-rule counts deliberately are
+    not part of the sum, because rules and registered results are different populations.
+    """
+    for key in ("total", "bound", "declared_unbindable", "unbound", "binding_rules",
+                "matching", "mismatched", "unresolvable"):
+        if not isinstance(sl.get(key), int) or sl[key] < 0:
+            raise AssertionError(f"slow-lane coverage category {key!r} is missing or not a "
+                                 f"non-negative integer: {sl.get(key)!r}")
+    got = sl["bound"] + sl["declared_unbindable"] + sl["unbound"]
+    if got != sl["total"]:
+        raise AssertionError(
+            "slow-lane coverage does not reconcile: bound(%d) + declared_unbindable(%d) + "
+            "unbound(%d) = %d, but %d slow-lane results are registered"
+            % (sl["bound"], sl["declared_unbindable"], sl["unbound"], got, sl["total"]))
+    if sl["matching"] + sl["mismatched"] + sl["unresolvable"] != sl["binding_rules"]:
+        raise AssertionError(
+            "binding-rule health does not reconcile: matching(%d) + mismatched(%d) + "
+            "unresolvable(%d) != %d rules"
+            % (sl["matching"], sl["mismatched"], sl["unresolvable"], sl["binding_rules"]))
 
 
 def _without_commit(text: str) -> str:
@@ -176,15 +218,28 @@ Slow-lane results are the genuine computed outputs whose recomputation costs min
 they are the likeliest population to go stale — and five of the seven review rounds found stale
 numbers there by hand.
 
-| Paper 1 slow-lane results | count |
+Two populations are reported below and they must not be added together — conflating them is what
+made this table overstate coverage before round 8. **Registered slow-lane results** are the
+numerals the manuscript quotes; **binding rules** are the resolvers in
+`slow_lane_bindings.py`, five of which bind values that are not registered slow-lane results.
+
+| Paper 1 slow-lane results (registered population) | count |
 |---|---:|
 | Registered slow-lane numbers | {sl['total']} |
 | **Bound to an archive, figure bundle or module constant** | **{sl['bound']}** |
+| Declared unbindable, with the missing artefact named | {sl['declared_unbindable']} |
+| **Still unbound** | **{sl['unbound']}** |
+
+These three categories are disjoint and reconcile to the registered total; the generator asserts
+that, so a repeat of the round-8 arithmetic defect fails the audit instead of being published.
+
+| Binding-rule health (resolver population) | count |
+|---|---:|
+| Binding rules defined | {sl['binding_rules']} |
 | Resolving and matching at this commit | {sl['matching']} |
 | Mismatched (drifted) | {sl['mismatched']} |
 | Unresolvable (archive or field missing) | {sl['unresolvable']} |
-| Declared unbindable, with the missing artefact named | {sl['declared_unbindable']} |
-| **Still unbound** | **{sl['unbound']}** |
+| Rules binding values outside the registered slow-lane set | {sl['rules_outside_registered_set']} |
 
 `puckworks/paper_a/slow_lane_bindings.py` resolves each bound number against a committed archive,
 the figure bundle, or a module constant, and `verify()` fails on drift. Bindings come in three

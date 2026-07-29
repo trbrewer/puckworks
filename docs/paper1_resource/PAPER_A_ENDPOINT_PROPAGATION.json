@@ -1,11 +1,24 @@
 {
+ "schema_version": 2,
+ "endpoint": {
+  "quantity": "collected_mass",
+  "symbol": "m_target",
+  "unit": "g",
+  "targets": [
+   38.0,
+   40.0,
+   42.0
+  ]
+ },
  "m_targets": [
   38.0,
   40.0,
   42.0
  ],
  "corpus": {
+  "schema_version": 2,
   "estimand": "complete held-out C/F corpus (on-grid + off-grid)",
+  "support_set": "complete_cf_corpus_132",
   "include_off_grid": true,
   "train_grind": "O",
   "train_sample_ids": [
@@ -81,8 +94,23 @@
   "excluded_reason": null,
   "n_cf_records_available": 44,
   "n_solutes": 3,
+  "solutes": [
+   "caffeine",
+   "trigonelline",
+   "5CQA"
+  ],
   "n_observations": 132,
-  "n_lookup_observations": 108,
+  "off_grid_sample_ids": [
+   "A21",
+   "A22",
+   "A32",
+   "A33",
+   "R21",
+   "R22",
+   "R32",
+   "R33"
+  ],
+  "n_off_grid_records": 8,
   "lookup_undefined_sample_ids": [
    "A21",
    "A22",
@@ -92,12 +120,3631 @@
    "R22",
    "R32",
    "R33"
-  ]
+  ],
+  "n_lookup_observations": 108,
+  "records": [
+   {
+    "sample_id": "A12",
+    "variety": "Arabica",
+    "grind": "C",
+    "temperature_degC": 93.4,
+    "pressure_bar": 9.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Arabica|93.4|9",
+    "sample_cluster_id": "A12"
+   },
+   {
+    "sample_id": "A13",
+    "variety": "Arabica",
+    "grind": "C",
+    "temperature_degC": 93.4,
+    "pressure_bar": 6.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Arabica|93.4|6",
+    "sample_cluster_id": "A13"
+   },
+   {
+    "sample_id": "A14",
+    "variety": "Arabica",
+    "grind": "C",
+    "temperature_degC": 93.4,
+    "pressure_bar": 12.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Arabica|93.4|12",
+    "sample_cluster_id": "A14"
+   },
+   {
+    "sample_id": "A15",
+    "variety": "Arabica",
+    "grind": "C",
+    "temperature_degC": 98.0,
+    "pressure_bar": 9.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Arabica|98|9",
+    "sample_cluster_id": "A15"
+   },
+   {
+    "sample_id": "A16",
+    "variety": "Arabica",
+    "grind": "C",
+    "temperature_degC": 98.0,
+    "pressure_bar": 12.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Arabica|98|12",
+    "sample_cluster_id": "A16"
+   },
+   {
+    "sample_id": "A17",
+    "variety": "Arabica",
+    "grind": "C",
+    "temperature_degC": 98.0,
+    "pressure_bar": 6.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Arabica|98|6",
+    "sample_cluster_id": "A17"
+   },
+   {
+    "sample_id": "A18",
+    "variety": "Arabica",
+    "grind": "C",
+    "temperature_degC": 88.0,
+    "pressure_bar": 9.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Arabica|88|9",
+    "sample_cluster_id": "A18"
+   },
+   {
+    "sample_id": "A19",
+    "variety": "Arabica",
+    "grind": "C",
+    "temperature_degC": 88.0,
+    "pressure_bar": 12.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Arabica|88|12",
+    "sample_cluster_id": "A19"
+   },
+   {
+    "sample_id": "A20",
+    "variety": "Arabica",
+    "grind": "C",
+    "temperature_degC": 88.0,
+    "pressure_bar": 6.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Arabica|88|6",
+    "sample_cluster_id": "A20"
+   },
+   {
+    "sample_id": "A21",
+    "variety": "Arabica",
+    "grind": "C",
+    "temperature_degC": 89.0,
+    "pressure_bar": 10.0,
+    "on_grid": false,
+    "lookup_defined": false,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Arabica|89|10",
+    "sample_cluster_id": "A21"
+   },
+   {
+    "sample_id": "A22",
+    "variety": "Arabica",
+    "grind": "C",
+    "temperature_degC": 97.0,
+    "pressure_bar": 7.0,
+    "on_grid": false,
+    "lookup_defined": false,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Arabica|97|7",
+    "sample_cluster_id": "A22"
+   },
+   {
+    "sample_id": "A23",
+    "variety": "Arabica",
+    "grind": "F",
+    "temperature_degC": 93.4,
+    "pressure_bar": 9.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Arabica|93.4|9",
+    "sample_cluster_id": "A23"
+   },
+   {
+    "sample_id": "A24",
+    "variety": "Arabica",
+    "grind": "F",
+    "temperature_degC": 93.4,
+    "pressure_bar": 6.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Arabica|93.4|6",
+    "sample_cluster_id": "A24"
+   },
+   {
+    "sample_id": "A25",
+    "variety": "Arabica",
+    "grind": "F",
+    "temperature_degC": 93.4,
+    "pressure_bar": 12.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Arabica|93.4|12",
+    "sample_cluster_id": "A25"
+   },
+   {
+    "sample_id": "A26",
+    "variety": "Arabica",
+    "grind": "F",
+    "temperature_degC": 98.0,
+    "pressure_bar": 12.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Arabica|98|12",
+    "sample_cluster_id": "A26"
+   },
+   {
+    "sample_id": "A27",
+    "variety": "Arabica",
+    "grind": "F",
+    "temperature_degC": 98.0,
+    "pressure_bar": 6.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Arabica|98|6",
+    "sample_cluster_id": "A27"
+   },
+   {
+    "sample_id": "A28",
+    "variety": "Arabica",
+    "grind": "F",
+    "temperature_degC": 98.0,
+    "pressure_bar": 9.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Arabica|98|9",
+    "sample_cluster_id": "A28"
+   },
+   {
+    "sample_id": "A29",
+    "variety": "Arabica",
+    "grind": "F",
+    "temperature_degC": 88.0,
+    "pressure_bar": 9.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Arabica|88|9",
+    "sample_cluster_id": "A29"
+   },
+   {
+    "sample_id": "A30",
+    "variety": "Arabica",
+    "grind": "F",
+    "temperature_degC": 88.0,
+    "pressure_bar": 12.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Arabica|88|12",
+    "sample_cluster_id": "A30"
+   },
+   {
+    "sample_id": "A31",
+    "variety": "Arabica",
+    "grind": "F",
+    "temperature_degC": 88.0,
+    "pressure_bar": 6.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Arabica|88|6",
+    "sample_cluster_id": "A31"
+   },
+   {
+    "sample_id": "A32",
+    "variety": "Arabica",
+    "grind": "F",
+    "temperature_degC": 90.0,
+    "pressure_bar": 8.0,
+    "on_grid": false,
+    "lookup_defined": false,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Arabica|90|8",
+    "sample_cluster_id": "A32"
+   },
+   {
+    "sample_id": "A33",
+    "variety": "Arabica",
+    "grind": "F",
+    "temperature_degC": 95.0,
+    "pressure_bar": 11.0,
+    "on_grid": false,
+    "lookup_defined": false,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Arabica|95|11",
+    "sample_cluster_id": "A33"
+   },
+   {
+    "sample_id": "R12",
+    "variety": "Robusta",
+    "grind": "C",
+    "temperature_degC": 93.4,
+    "pressure_bar": 9.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Robusta|93.4|9",
+    "sample_cluster_id": "R12"
+   },
+   {
+    "sample_id": "R13",
+    "variety": "Robusta",
+    "grind": "C",
+    "temperature_degC": 93.4,
+    "pressure_bar": 12.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Robusta|93.4|12",
+    "sample_cluster_id": "R13"
+   },
+   {
+    "sample_id": "R14",
+    "variety": "Robusta",
+    "grind": "C",
+    "temperature_degC": 93.4,
+    "pressure_bar": 6.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Robusta|93.4|6",
+    "sample_cluster_id": "R14"
+   },
+   {
+    "sample_id": "R15",
+    "variety": "Robusta",
+    "grind": "C",
+    "temperature_degC": 88.0,
+    "pressure_bar": 9.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Robusta|88|9",
+    "sample_cluster_id": "R15"
+   },
+   {
+    "sample_id": "R16",
+    "variety": "Robusta",
+    "grind": "C",
+    "temperature_degC": 88.0,
+    "pressure_bar": 12.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Robusta|88|12",
+    "sample_cluster_id": "R16"
+   },
+   {
+    "sample_id": "R17",
+    "variety": "Robusta",
+    "grind": "C",
+    "temperature_degC": 88.0,
+    "pressure_bar": 6.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Robusta|88|6",
+    "sample_cluster_id": "R17"
+   },
+   {
+    "sample_id": "R18",
+    "variety": "Robusta",
+    "grind": "C",
+    "temperature_degC": 98.0,
+    "pressure_bar": 9.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Robusta|98|9",
+    "sample_cluster_id": "R18"
+   },
+   {
+    "sample_id": "R19",
+    "variety": "Robusta",
+    "grind": "C",
+    "temperature_degC": 98.0,
+    "pressure_bar": 12.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Robusta|98|12",
+    "sample_cluster_id": "R19"
+   },
+   {
+    "sample_id": "R20",
+    "variety": "Robusta",
+    "grind": "C",
+    "temperature_degC": 98.0,
+    "pressure_bar": 6.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Robusta|98|6",
+    "sample_cluster_id": "R20"
+   },
+   {
+    "sample_id": "R21",
+    "variety": "Robusta",
+    "grind": "C",
+    "temperature_degC": 97.0,
+    "pressure_bar": 7.0,
+    "on_grid": false,
+    "lookup_defined": false,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Robusta|97|7",
+    "sample_cluster_id": "R21"
+   },
+   {
+    "sample_id": "R22",
+    "variety": "Robusta",
+    "grind": "C",
+    "temperature_degC": 89.0,
+    "pressure_bar": 10.0,
+    "on_grid": false,
+    "lookup_defined": false,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Robusta|89|10",
+    "sample_cluster_id": "R22"
+   },
+   {
+    "sample_id": "R23",
+    "variety": "Robusta",
+    "grind": "F",
+    "temperature_degC": 93.4,
+    "pressure_bar": 9.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Robusta|93.4|9",
+    "sample_cluster_id": "R23"
+   },
+   {
+    "sample_id": "R24",
+    "variety": "Robusta",
+    "grind": "F",
+    "temperature_degC": 93.4,
+    "pressure_bar": 12.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Robusta|93.4|12",
+    "sample_cluster_id": "R24"
+   },
+   {
+    "sample_id": "R25",
+    "variety": "Robusta",
+    "grind": "F",
+    "temperature_degC": 93.4,
+    "pressure_bar": 6.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Robusta|93.4|6",
+    "sample_cluster_id": "R25"
+   },
+   {
+    "sample_id": "R26",
+    "variety": "Robusta",
+    "grind": "F",
+    "temperature_degC": 88.0,
+    "pressure_bar": 9.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Robusta|88|9",
+    "sample_cluster_id": "R26"
+   },
+   {
+    "sample_id": "R27",
+    "variety": "Robusta",
+    "grind": "F",
+    "temperature_degC": 88.0,
+    "pressure_bar": 12.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Robusta|88|12",
+    "sample_cluster_id": "R27"
+   },
+   {
+    "sample_id": "R28",
+    "variety": "Robusta",
+    "grind": "F",
+    "temperature_degC": 88.0,
+    "pressure_bar": 6.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Robusta|88|6",
+    "sample_cluster_id": "R28"
+   },
+   {
+    "sample_id": "R29",
+    "variety": "Robusta",
+    "grind": "F",
+    "temperature_degC": 98.0,
+    "pressure_bar": 6.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Robusta|98|6",
+    "sample_cluster_id": "R29"
+   },
+   {
+    "sample_id": "R30",
+    "variety": "Robusta",
+    "grind": "F",
+    "temperature_degC": 98.0,
+    "pressure_bar": 9.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Robusta|98|9",
+    "sample_cluster_id": "R30"
+   },
+   {
+    "sample_id": "R31",
+    "variety": "Robusta",
+    "grind": "F",
+    "temperature_degC": 98.0,
+    "pressure_bar": 12.0,
+    "on_grid": true,
+    "lookup_defined": true,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Robusta|98|12",
+    "sample_cluster_id": "R31"
+   },
+   {
+    "sample_id": "R32",
+    "variety": "Robusta",
+    "grind": "F",
+    "temperature_degC": 95.0,
+    "pressure_bar": 11.0,
+    "on_grid": false,
+    "lookup_defined": false,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Robusta|95|11",
+    "sample_cluster_id": "R32"
+   },
+   {
+    "sample_id": "R33",
+    "variety": "Robusta",
+    "grind": "F",
+    "temperature_degC": 90.0,
+    "pressure_bar": 8.0,
+    "on_grid": false,
+    "lookup_defined": false,
+    "solutes": [
+     "caffeine",
+     "trigonelline",
+     "5CQA"
+    ],
+    "primary_cluster_id": "Robusta|90|8",
+    "sample_cluster_id": "R33"
+   }
+  ],
+  "included_sample_ids_sha256": "b0c2ca68d6a043a15643fda0b4a576b5bcb20c0489f9596729a69aa38047ad1f",
+  "manifest_sha256": "fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8"
+ },
+ "resampling_design": {
+  "schema_version": 2,
+  "estimand": "observation-weighted mean paired model-minus-comparator MAPE loss difference over the complete held-out C/F observation corpus",
+  "predictors_refit_inside_resampling": false,
+  "interval_kind": "fixed_predictor_clustered_percentile_sensitivity_range",
+  "primary_scheme": "cond_in_variety",
+  "scheme_order": [
+   "cond_in_variety",
+   "sample_in_variety_grind",
+   "cond_in_group",
+   "group"
+  ],
+  "schemes": {
+   "cond_in_variety": {
+    "name": "cond_in_variety",
+    "role": "primary_conservative_sensitivity",
+    "label": "(variety, temperature, pressure) condition, resampled within variety",
+    "rationale": "keeps all three co-measured solutes at a condition together and, where both grinds exist, additionally moves the distinct C and F sample records together. This is a deliberately conservative dependence assumption, not a uniquely identified experimental sampling unit.",
+    "strata": [
+     "variety"
+    ],
+    "cluster_key": [
+     "variety",
+     "temperature_degC",
+     "pressure_bar"
+    ],
+    "n_clusters": 26,
+    "cluster_size_distribution": {
+     "3": 8,
+     "6": 18
+    },
+    "n_strata": 2,
+    "membership_sha256": "af9c759cd4dba09261d190f1ffc2a534b1a1e232f05639a6764cf664fde3b87b",
+    "membership": [
+     {
+      "cluster_id": "Arabica|88|12",
+      "stratum": "Arabica",
+      "sample_ids": [
+       "A19",
+       "A30"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A19|5CQA",
+       "A19|caffeine",
+       "A19|trigonelline",
+       "A30|5CQA",
+       "A30|caffeine",
+       "A30|trigonelline"
+      ],
+      "n_observations": 6
+     },
+     {
+      "cluster_id": "Arabica|88|6",
+      "stratum": "Arabica",
+      "sample_ids": [
+       "A20",
+       "A31"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A20|5CQA",
+       "A20|caffeine",
+       "A20|trigonelline",
+       "A31|5CQA",
+       "A31|caffeine",
+       "A31|trigonelline"
+      ],
+      "n_observations": 6
+     },
+     {
+      "cluster_id": "Arabica|88|9",
+      "stratum": "Arabica",
+      "sample_ids": [
+       "A18",
+       "A29"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A18|5CQA",
+       "A18|caffeine",
+       "A18|trigonelline",
+       "A29|5CQA",
+       "A29|caffeine",
+       "A29|trigonelline"
+      ],
+      "n_observations": 6
+     },
+     {
+      "cluster_id": "Arabica|89|10",
+      "stratum": "Arabica",
+      "sample_ids": [
+       "A21"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "A21|5CQA",
+       "A21|caffeine",
+       "A21|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "Arabica|90|8",
+      "stratum": "Arabica",
+      "sample_ids": [
+       "A32"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "A32|5CQA",
+       "A32|caffeine",
+       "A32|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "Arabica|93.4|12",
+      "stratum": "Arabica",
+      "sample_ids": [
+       "A14",
+       "A25"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A14|5CQA",
+       "A14|caffeine",
+       "A14|trigonelline",
+       "A25|5CQA",
+       "A25|caffeine",
+       "A25|trigonelline"
+      ],
+      "n_observations": 6
+     },
+     {
+      "cluster_id": "Arabica|93.4|6",
+      "stratum": "Arabica",
+      "sample_ids": [
+       "A13",
+       "A24"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A13|5CQA",
+       "A13|caffeine",
+       "A13|trigonelline",
+       "A24|5CQA",
+       "A24|caffeine",
+       "A24|trigonelline"
+      ],
+      "n_observations": 6
+     },
+     {
+      "cluster_id": "Arabica|93.4|9",
+      "stratum": "Arabica",
+      "sample_ids": [
+       "A12",
+       "A23"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A12|5CQA",
+       "A12|caffeine",
+       "A12|trigonelline",
+       "A23|5CQA",
+       "A23|caffeine",
+       "A23|trigonelline"
+      ],
+      "n_observations": 6
+     },
+     {
+      "cluster_id": "Arabica|95|11",
+      "stratum": "Arabica",
+      "sample_ids": [
+       "A33"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "A33|5CQA",
+       "A33|caffeine",
+       "A33|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "Arabica|97|7",
+      "stratum": "Arabica",
+      "sample_ids": [
+       "A22"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "A22|5CQA",
+       "A22|caffeine",
+       "A22|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "Arabica|98|12",
+      "stratum": "Arabica",
+      "sample_ids": [
+       "A16",
+       "A26"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A16|5CQA",
+       "A16|caffeine",
+       "A16|trigonelline",
+       "A26|5CQA",
+       "A26|caffeine",
+       "A26|trigonelline"
+      ],
+      "n_observations": 6
+     },
+     {
+      "cluster_id": "Arabica|98|6",
+      "stratum": "Arabica",
+      "sample_ids": [
+       "A17",
+       "A27"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A17|5CQA",
+       "A17|caffeine",
+       "A17|trigonelline",
+       "A27|5CQA",
+       "A27|caffeine",
+       "A27|trigonelline"
+      ],
+      "n_observations": 6
+     },
+     {
+      "cluster_id": "Arabica|98|9",
+      "stratum": "Arabica",
+      "sample_ids": [
+       "A15",
+       "A28"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A15|5CQA",
+       "A15|caffeine",
+       "A15|trigonelline",
+       "A28|5CQA",
+       "A28|caffeine",
+       "A28|trigonelline"
+      ],
+      "n_observations": 6
+     },
+     {
+      "cluster_id": "Robusta|88|12",
+      "stratum": "Robusta",
+      "sample_ids": [
+       "R16",
+       "R27"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R16|5CQA",
+       "R16|caffeine",
+       "R16|trigonelline",
+       "R27|5CQA",
+       "R27|caffeine",
+       "R27|trigonelline"
+      ],
+      "n_observations": 6
+     },
+     {
+      "cluster_id": "Robusta|88|6",
+      "stratum": "Robusta",
+      "sample_ids": [
+       "R17",
+       "R28"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R17|5CQA",
+       "R17|caffeine",
+       "R17|trigonelline",
+       "R28|5CQA",
+       "R28|caffeine",
+       "R28|trigonelline"
+      ],
+      "n_observations": 6
+     },
+     {
+      "cluster_id": "Robusta|88|9",
+      "stratum": "Robusta",
+      "sample_ids": [
+       "R15",
+       "R26"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R15|5CQA",
+       "R15|caffeine",
+       "R15|trigonelline",
+       "R26|5CQA",
+       "R26|caffeine",
+       "R26|trigonelline"
+      ],
+      "n_observations": 6
+     },
+     {
+      "cluster_id": "Robusta|89|10",
+      "stratum": "Robusta",
+      "sample_ids": [
+       "R22"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "R22|5CQA",
+       "R22|caffeine",
+       "R22|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "Robusta|90|8",
+      "stratum": "Robusta",
+      "sample_ids": [
+       "R33"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "R33|5CQA",
+       "R33|caffeine",
+       "R33|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "Robusta|93.4|12",
+      "stratum": "Robusta",
+      "sample_ids": [
+       "R13",
+       "R24"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R13|5CQA",
+       "R13|caffeine",
+       "R13|trigonelline",
+       "R24|5CQA",
+       "R24|caffeine",
+       "R24|trigonelline"
+      ],
+      "n_observations": 6
+     },
+     {
+      "cluster_id": "Robusta|93.4|6",
+      "stratum": "Robusta",
+      "sample_ids": [
+       "R14",
+       "R25"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R14|5CQA",
+       "R14|caffeine",
+       "R14|trigonelline",
+       "R25|5CQA",
+       "R25|caffeine",
+       "R25|trigonelline"
+      ],
+      "n_observations": 6
+     },
+     {
+      "cluster_id": "Robusta|93.4|9",
+      "stratum": "Robusta",
+      "sample_ids": [
+       "R12",
+       "R23"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R12|5CQA",
+       "R12|caffeine",
+       "R12|trigonelline",
+       "R23|5CQA",
+       "R23|caffeine",
+       "R23|trigonelline"
+      ],
+      "n_observations": 6
+     },
+     {
+      "cluster_id": "Robusta|95|11",
+      "stratum": "Robusta",
+      "sample_ids": [
+       "R32"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "R32|5CQA",
+       "R32|caffeine",
+       "R32|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "Robusta|97|7",
+      "stratum": "Robusta",
+      "sample_ids": [
+       "R21"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "R21|5CQA",
+       "R21|caffeine",
+       "R21|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "Robusta|98|12",
+      "stratum": "Robusta",
+      "sample_ids": [
+       "R19",
+       "R31"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R19|5CQA",
+       "R19|caffeine",
+       "R19|trigonelline",
+       "R31|5CQA",
+       "R31|caffeine",
+       "R31|trigonelline"
+      ],
+      "n_observations": 6
+     },
+     {
+      "cluster_id": "Robusta|98|6",
+      "stratum": "Robusta",
+      "sample_ids": [
+       "R20",
+       "R29"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R20|5CQA",
+       "R20|caffeine",
+       "R20|trigonelline",
+       "R29|5CQA",
+       "R29|caffeine",
+       "R29|trigonelline"
+      ],
+      "n_observations": 6
+     },
+     {
+      "cluster_id": "Robusta|98|9",
+      "stratum": "Robusta",
+      "sample_ids": [
+       "R18",
+       "R30"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R18|5CQA",
+       "R18|caffeine",
+       "R18|trigonelline",
+       "R30|5CQA",
+       "R30|caffeine",
+       "R30|trigonelline"
+      ],
+      "n_observations": 6
+     }
+    ]
+   },
+   "sample_in_variety_grind": {
+    "name": "sample_in_variety_grind",
+    "role": "design_aligned_secondary_sensitivity",
+    "label": "sample record, resampled within variety x grind",
+    "rationale": "one cluster per coffee sample record, carrying the three solute outcomes measured from that sample. This is the dependency the source establishes most directly.",
+    "strata": [
+     "variety",
+     "grind"
+    ],
+    "cluster_key": [
+     "sample_id"
+    ],
+    "n_clusters": 44,
+    "cluster_size_distribution": {
+     "3": 44
+    },
+    "n_strata": 4,
+    "membership_sha256": "9cfc1167a6632073fe783b948b1075717e6840eea1c1e9b1b8cba527c7cbe94f",
+    "membership": [
+     {
+      "cluster_id": "A12",
+      "stratum": "Arabica|C",
+      "sample_ids": [
+       "A12"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "A12|5CQA",
+       "A12|caffeine",
+       "A12|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "A13",
+      "stratum": "Arabica|C",
+      "sample_ids": [
+       "A13"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "A13|5CQA",
+       "A13|caffeine",
+       "A13|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "A14",
+      "stratum": "Arabica|C",
+      "sample_ids": [
+       "A14"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "A14|5CQA",
+       "A14|caffeine",
+       "A14|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "A15",
+      "stratum": "Arabica|C",
+      "sample_ids": [
+       "A15"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "A15|5CQA",
+       "A15|caffeine",
+       "A15|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "A16",
+      "stratum": "Arabica|C",
+      "sample_ids": [
+       "A16"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "A16|5CQA",
+       "A16|caffeine",
+       "A16|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "A17",
+      "stratum": "Arabica|C",
+      "sample_ids": [
+       "A17"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "A17|5CQA",
+       "A17|caffeine",
+       "A17|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "A18",
+      "stratum": "Arabica|C",
+      "sample_ids": [
+       "A18"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "A18|5CQA",
+       "A18|caffeine",
+       "A18|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "A19",
+      "stratum": "Arabica|C",
+      "sample_ids": [
+       "A19"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "A19|5CQA",
+       "A19|caffeine",
+       "A19|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "A20",
+      "stratum": "Arabica|C",
+      "sample_ids": [
+       "A20"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "A20|5CQA",
+       "A20|caffeine",
+       "A20|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "A21",
+      "stratum": "Arabica|C",
+      "sample_ids": [
+       "A21"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "A21|5CQA",
+       "A21|caffeine",
+       "A21|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "A22",
+      "stratum": "Arabica|C",
+      "sample_ids": [
+       "A22"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "A22|5CQA",
+       "A22|caffeine",
+       "A22|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "A23",
+      "stratum": "Arabica|F",
+      "sample_ids": [
+       "A23"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "A23|5CQA",
+       "A23|caffeine",
+       "A23|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "A24",
+      "stratum": "Arabica|F",
+      "sample_ids": [
+       "A24"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "A24|5CQA",
+       "A24|caffeine",
+       "A24|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "A25",
+      "stratum": "Arabica|F",
+      "sample_ids": [
+       "A25"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "A25|5CQA",
+       "A25|caffeine",
+       "A25|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "A26",
+      "stratum": "Arabica|F",
+      "sample_ids": [
+       "A26"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "A26|5CQA",
+       "A26|caffeine",
+       "A26|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "A27",
+      "stratum": "Arabica|F",
+      "sample_ids": [
+       "A27"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "A27|5CQA",
+       "A27|caffeine",
+       "A27|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "A28",
+      "stratum": "Arabica|F",
+      "sample_ids": [
+       "A28"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "A28|5CQA",
+       "A28|caffeine",
+       "A28|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "A29",
+      "stratum": "Arabica|F",
+      "sample_ids": [
+       "A29"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "A29|5CQA",
+       "A29|caffeine",
+       "A29|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "A30",
+      "stratum": "Arabica|F",
+      "sample_ids": [
+       "A30"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "A30|5CQA",
+       "A30|caffeine",
+       "A30|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "A31",
+      "stratum": "Arabica|F",
+      "sample_ids": [
+       "A31"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "A31|5CQA",
+       "A31|caffeine",
+       "A31|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "A32",
+      "stratum": "Arabica|F",
+      "sample_ids": [
+       "A32"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "A32|5CQA",
+       "A32|caffeine",
+       "A32|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "A33",
+      "stratum": "Arabica|F",
+      "sample_ids": [
+       "A33"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "A33|5CQA",
+       "A33|caffeine",
+       "A33|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "R12",
+      "stratum": "Robusta|C",
+      "sample_ids": [
+       "R12"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "R12|5CQA",
+       "R12|caffeine",
+       "R12|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "R13",
+      "stratum": "Robusta|C",
+      "sample_ids": [
+       "R13"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "R13|5CQA",
+       "R13|caffeine",
+       "R13|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "R14",
+      "stratum": "Robusta|C",
+      "sample_ids": [
+       "R14"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "R14|5CQA",
+       "R14|caffeine",
+       "R14|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "R15",
+      "stratum": "Robusta|C",
+      "sample_ids": [
+       "R15"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "R15|5CQA",
+       "R15|caffeine",
+       "R15|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "R16",
+      "stratum": "Robusta|C",
+      "sample_ids": [
+       "R16"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "R16|5CQA",
+       "R16|caffeine",
+       "R16|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "R17",
+      "stratum": "Robusta|C",
+      "sample_ids": [
+       "R17"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "R17|5CQA",
+       "R17|caffeine",
+       "R17|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "R18",
+      "stratum": "Robusta|C",
+      "sample_ids": [
+       "R18"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "R18|5CQA",
+       "R18|caffeine",
+       "R18|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "R19",
+      "stratum": "Robusta|C",
+      "sample_ids": [
+       "R19"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "R19|5CQA",
+       "R19|caffeine",
+       "R19|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "R20",
+      "stratum": "Robusta|C",
+      "sample_ids": [
+       "R20"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "R20|5CQA",
+       "R20|caffeine",
+       "R20|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "R21",
+      "stratum": "Robusta|C",
+      "sample_ids": [
+       "R21"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "R21|5CQA",
+       "R21|caffeine",
+       "R21|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "R22",
+      "stratum": "Robusta|C",
+      "sample_ids": [
+       "R22"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "R22|5CQA",
+       "R22|caffeine",
+       "R22|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "R23",
+      "stratum": "Robusta|F",
+      "sample_ids": [
+       "R23"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "R23|5CQA",
+       "R23|caffeine",
+       "R23|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "R24",
+      "stratum": "Robusta|F",
+      "sample_ids": [
+       "R24"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "R24|5CQA",
+       "R24|caffeine",
+       "R24|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "R25",
+      "stratum": "Robusta|F",
+      "sample_ids": [
+       "R25"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "R25|5CQA",
+       "R25|caffeine",
+       "R25|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "R26",
+      "stratum": "Robusta|F",
+      "sample_ids": [
+       "R26"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "R26|5CQA",
+       "R26|caffeine",
+       "R26|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "R27",
+      "stratum": "Robusta|F",
+      "sample_ids": [
+       "R27"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "R27|5CQA",
+       "R27|caffeine",
+       "R27|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "R28",
+      "stratum": "Robusta|F",
+      "sample_ids": [
+       "R28"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "R28|5CQA",
+       "R28|caffeine",
+       "R28|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "R29",
+      "stratum": "Robusta|F",
+      "sample_ids": [
+       "R29"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "R29|5CQA",
+       "R29|caffeine",
+       "R29|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "R30",
+      "stratum": "Robusta|F",
+      "sample_ids": [
+       "R30"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "R30|5CQA",
+       "R30|caffeine",
+       "R30|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "R31",
+      "stratum": "Robusta|F",
+      "sample_ids": [
+       "R31"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "R31|5CQA",
+       "R31|caffeine",
+       "R31|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "R32",
+      "stratum": "Robusta|F",
+      "sample_ids": [
+       "R32"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "R32|5CQA",
+       "R32|caffeine",
+       "R32|trigonelline"
+      ],
+      "n_observations": 3
+     },
+     {
+      "cluster_id": "R33",
+      "stratum": "Robusta|F",
+      "sample_ids": [
+       "R33"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "R33|5CQA",
+       "R33|caffeine",
+       "R33|trigonelline"
+      ],
+      "n_observations": 3
+     }
+    ]
+   },
+   "cond_in_group": {
+    "name": "cond_in_group",
+    "role": "secondary_sensitivity",
+    "label": "(temperature, pressure) condition within variety x solute group",
+    "rationale": "keeps C and F together for one solute but lets different solutes of a variety draw different conditions, so it does not preserve cross-solute condition dependence.",
+    "strata": [
+     "variety",
+     "solute"
+    ],
+    "cluster_key": [
+     "variety",
+     "solute",
+     "temperature_degC",
+     "pressure_bar"
+    ],
+    "n_clusters": 78,
+    "cluster_size_distribution": {
+     "1": 24,
+     "2": 54
+    },
+    "n_strata": 6,
+    "membership_sha256": "161bfcff5e00067cb3e118075df1e866056493d156e97fab134fefa9d486dfc4",
+    "membership": [
+     {
+      "cluster_id": "Arabica|5CQA|88|12",
+      "stratum": "Arabica|5CQA",
+      "sample_ids": [
+       "A19",
+       "A30"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A19|5CQA",
+       "A30|5CQA"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Arabica|5CQA|88|6",
+      "stratum": "Arabica|5CQA",
+      "sample_ids": [
+       "A20",
+       "A31"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A20|5CQA",
+       "A31|5CQA"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Arabica|5CQA|88|9",
+      "stratum": "Arabica|5CQA",
+      "sample_ids": [
+       "A18",
+       "A29"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A18|5CQA",
+       "A29|5CQA"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Arabica|5CQA|89|10",
+      "stratum": "Arabica|5CQA",
+      "sample_ids": [
+       "A21"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "A21|5CQA"
+      ],
+      "n_observations": 1
+     },
+     {
+      "cluster_id": "Arabica|5CQA|90|8",
+      "stratum": "Arabica|5CQA",
+      "sample_ids": [
+       "A32"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "A32|5CQA"
+      ],
+      "n_observations": 1
+     },
+     {
+      "cluster_id": "Arabica|5CQA|93.4|12",
+      "stratum": "Arabica|5CQA",
+      "sample_ids": [
+       "A14",
+       "A25"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A14|5CQA",
+       "A25|5CQA"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Arabica|5CQA|93.4|6",
+      "stratum": "Arabica|5CQA",
+      "sample_ids": [
+       "A13",
+       "A24"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A13|5CQA",
+       "A24|5CQA"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Arabica|5CQA|93.4|9",
+      "stratum": "Arabica|5CQA",
+      "sample_ids": [
+       "A12",
+       "A23"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A12|5CQA",
+       "A23|5CQA"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Arabica|5CQA|95|11",
+      "stratum": "Arabica|5CQA",
+      "sample_ids": [
+       "A33"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "A33|5CQA"
+      ],
+      "n_observations": 1
+     },
+     {
+      "cluster_id": "Arabica|5CQA|97|7",
+      "stratum": "Arabica|5CQA",
+      "sample_ids": [
+       "A22"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "A22|5CQA"
+      ],
+      "n_observations": 1
+     },
+     {
+      "cluster_id": "Arabica|5CQA|98|12",
+      "stratum": "Arabica|5CQA",
+      "sample_ids": [
+       "A16",
+       "A26"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A16|5CQA",
+       "A26|5CQA"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Arabica|5CQA|98|6",
+      "stratum": "Arabica|5CQA",
+      "sample_ids": [
+       "A17",
+       "A27"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A17|5CQA",
+       "A27|5CQA"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Arabica|5CQA|98|9",
+      "stratum": "Arabica|5CQA",
+      "sample_ids": [
+       "A15",
+       "A28"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A15|5CQA",
+       "A28|5CQA"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Arabica|caffeine|88|12",
+      "stratum": "Arabica|caffeine",
+      "sample_ids": [
+       "A19",
+       "A30"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A19|caffeine",
+       "A30|caffeine"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Arabica|caffeine|88|6",
+      "stratum": "Arabica|caffeine",
+      "sample_ids": [
+       "A20",
+       "A31"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A20|caffeine",
+       "A31|caffeine"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Arabica|caffeine|88|9",
+      "stratum": "Arabica|caffeine",
+      "sample_ids": [
+       "A18",
+       "A29"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A18|caffeine",
+       "A29|caffeine"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Arabica|caffeine|89|10",
+      "stratum": "Arabica|caffeine",
+      "sample_ids": [
+       "A21"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "A21|caffeine"
+      ],
+      "n_observations": 1
+     },
+     {
+      "cluster_id": "Arabica|caffeine|90|8",
+      "stratum": "Arabica|caffeine",
+      "sample_ids": [
+       "A32"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "A32|caffeine"
+      ],
+      "n_observations": 1
+     },
+     {
+      "cluster_id": "Arabica|caffeine|93.4|12",
+      "stratum": "Arabica|caffeine",
+      "sample_ids": [
+       "A14",
+       "A25"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A14|caffeine",
+       "A25|caffeine"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Arabica|caffeine|93.4|6",
+      "stratum": "Arabica|caffeine",
+      "sample_ids": [
+       "A13",
+       "A24"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A13|caffeine",
+       "A24|caffeine"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Arabica|caffeine|93.4|9",
+      "stratum": "Arabica|caffeine",
+      "sample_ids": [
+       "A12",
+       "A23"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A12|caffeine",
+       "A23|caffeine"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Arabica|caffeine|95|11",
+      "stratum": "Arabica|caffeine",
+      "sample_ids": [
+       "A33"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "A33|caffeine"
+      ],
+      "n_observations": 1
+     },
+     {
+      "cluster_id": "Arabica|caffeine|97|7",
+      "stratum": "Arabica|caffeine",
+      "sample_ids": [
+       "A22"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "A22|caffeine"
+      ],
+      "n_observations": 1
+     },
+     {
+      "cluster_id": "Arabica|caffeine|98|12",
+      "stratum": "Arabica|caffeine",
+      "sample_ids": [
+       "A16",
+       "A26"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A16|caffeine",
+       "A26|caffeine"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Arabica|caffeine|98|6",
+      "stratum": "Arabica|caffeine",
+      "sample_ids": [
+       "A17",
+       "A27"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A17|caffeine",
+       "A27|caffeine"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Arabica|caffeine|98|9",
+      "stratum": "Arabica|caffeine",
+      "sample_ids": [
+       "A15",
+       "A28"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A15|caffeine",
+       "A28|caffeine"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Arabica|trigonelline|88|12",
+      "stratum": "Arabica|trigonelline",
+      "sample_ids": [
+       "A19",
+       "A30"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A19|trigonelline",
+       "A30|trigonelline"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Arabica|trigonelline|88|6",
+      "stratum": "Arabica|trigonelline",
+      "sample_ids": [
+       "A20",
+       "A31"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A20|trigonelline",
+       "A31|trigonelline"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Arabica|trigonelline|88|9",
+      "stratum": "Arabica|trigonelline",
+      "sample_ids": [
+       "A18",
+       "A29"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A18|trigonelline",
+       "A29|trigonelline"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Arabica|trigonelline|89|10",
+      "stratum": "Arabica|trigonelline",
+      "sample_ids": [
+       "A21"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "A21|trigonelline"
+      ],
+      "n_observations": 1
+     },
+     {
+      "cluster_id": "Arabica|trigonelline|90|8",
+      "stratum": "Arabica|trigonelline",
+      "sample_ids": [
+       "A32"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "A32|trigonelline"
+      ],
+      "n_observations": 1
+     },
+     {
+      "cluster_id": "Arabica|trigonelline|93.4|12",
+      "stratum": "Arabica|trigonelline",
+      "sample_ids": [
+       "A14",
+       "A25"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A14|trigonelline",
+       "A25|trigonelline"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Arabica|trigonelline|93.4|6",
+      "stratum": "Arabica|trigonelline",
+      "sample_ids": [
+       "A13",
+       "A24"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A13|trigonelline",
+       "A24|trigonelline"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Arabica|trigonelline|93.4|9",
+      "stratum": "Arabica|trigonelline",
+      "sample_ids": [
+       "A12",
+       "A23"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A12|trigonelline",
+       "A23|trigonelline"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Arabica|trigonelline|95|11",
+      "stratum": "Arabica|trigonelline",
+      "sample_ids": [
+       "A33"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "A33|trigonelline"
+      ],
+      "n_observations": 1
+     },
+     {
+      "cluster_id": "Arabica|trigonelline|97|7",
+      "stratum": "Arabica|trigonelline",
+      "sample_ids": [
+       "A22"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "A22|trigonelline"
+      ],
+      "n_observations": 1
+     },
+     {
+      "cluster_id": "Arabica|trigonelline|98|12",
+      "stratum": "Arabica|trigonelline",
+      "sample_ids": [
+       "A16",
+       "A26"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A16|trigonelline",
+       "A26|trigonelline"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Arabica|trigonelline|98|6",
+      "stratum": "Arabica|trigonelline",
+      "sample_ids": [
+       "A17",
+       "A27"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A17|trigonelline",
+       "A27|trigonelline"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Arabica|trigonelline|98|9",
+      "stratum": "Arabica|trigonelline",
+      "sample_ids": [
+       "A15",
+       "A28"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A15|trigonelline",
+       "A28|trigonelline"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|5CQA|88|12",
+      "stratum": "Robusta|5CQA",
+      "sample_ids": [
+       "R16",
+       "R27"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R16|5CQA",
+       "R27|5CQA"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|5CQA|88|6",
+      "stratum": "Robusta|5CQA",
+      "sample_ids": [
+       "R17",
+       "R28"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R17|5CQA",
+       "R28|5CQA"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|5CQA|88|9",
+      "stratum": "Robusta|5CQA",
+      "sample_ids": [
+       "R15",
+       "R26"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R15|5CQA",
+       "R26|5CQA"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|5CQA|89|10",
+      "stratum": "Robusta|5CQA",
+      "sample_ids": [
+       "R22"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "R22|5CQA"
+      ],
+      "n_observations": 1
+     },
+     {
+      "cluster_id": "Robusta|5CQA|90|8",
+      "stratum": "Robusta|5CQA",
+      "sample_ids": [
+       "R33"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "R33|5CQA"
+      ],
+      "n_observations": 1
+     },
+     {
+      "cluster_id": "Robusta|5CQA|93.4|12",
+      "stratum": "Robusta|5CQA",
+      "sample_ids": [
+       "R13",
+       "R24"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R13|5CQA",
+       "R24|5CQA"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|5CQA|93.4|6",
+      "stratum": "Robusta|5CQA",
+      "sample_ids": [
+       "R14",
+       "R25"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R14|5CQA",
+       "R25|5CQA"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|5CQA|93.4|9",
+      "stratum": "Robusta|5CQA",
+      "sample_ids": [
+       "R12",
+       "R23"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R12|5CQA",
+       "R23|5CQA"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|5CQA|95|11",
+      "stratum": "Robusta|5CQA",
+      "sample_ids": [
+       "R32"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "R32|5CQA"
+      ],
+      "n_observations": 1
+     },
+     {
+      "cluster_id": "Robusta|5CQA|97|7",
+      "stratum": "Robusta|5CQA",
+      "sample_ids": [
+       "R21"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "R21|5CQA"
+      ],
+      "n_observations": 1
+     },
+     {
+      "cluster_id": "Robusta|5CQA|98|12",
+      "stratum": "Robusta|5CQA",
+      "sample_ids": [
+       "R19",
+       "R31"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R19|5CQA",
+       "R31|5CQA"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|5CQA|98|6",
+      "stratum": "Robusta|5CQA",
+      "sample_ids": [
+       "R20",
+       "R29"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R20|5CQA",
+       "R29|5CQA"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|5CQA|98|9",
+      "stratum": "Robusta|5CQA",
+      "sample_ids": [
+       "R18",
+       "R30"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R18|5CQA",
+       "R30|5CQA"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|caffeine|88|12",
+      "stratum": "Robusta|caffeine",
+      "sample_ids": [
+       "R16",
+       "R27"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R16|caffeine",
+       "R27|caffeine"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|caffeine|88|6",
+      "stratum": "Robusta|caffeine",
+      "sample_ids": [
+       "R17",
+       "R28"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R17|caffeine",
+       "R28|caffeine"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|caffeine|88|9",
+      "stratum": "Robusta|caffeine",
+      "sample_ids": [
+       "R15",
+       "R26"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R15|caffeine",
+       "R26|caffeine"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|caffeine|89|10",
+      "stratum": "Robusta|caffeine",
+      "sample_ids": [
+       "R22"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "R22|caffeine"
+      ],
+      "n_observations": 1
+     },
+     {
+      "cluster_id": "Robusta|caffeine|90|8",
+      "stratum": "Robusta|caffeine",
+      "sample_ids": [
+       "R33"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "R33|caffeine"
+      ],
+      "n_observations": 1
+     },
+     {
+      "cluster_id": "Robusta|caffeine|93.4|12",
+      "stratum": "Robusta|caffeine",
+      "sample_ids": [
+       "R13",
+       "R24"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R13|caffeine",
+       "R24|caffeine"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|caffeine|93.4|6",
+      "stratum": "Robusta|caffeine",
+      "sample_ids": [
+       "R14",
+       "R25"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R14|caffeine",
+       "R25|caffeine"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|caffeine|93.4|9",
+      "stratum": "Robusta|caffeine",
+      "sample_ids": [
+       "R12",
+       "R23"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R12|caffeine",
+       "R23|caffeine"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|caffeine|95|11",
+      "stratum": "Robusta|caffeine",
+      "sample_ids": [
+       "R32"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "R32|caffeine"
+      ],
+      "n_observations": 1
+     },
+     {
+      "cluster_id": "Robusta|caffeine|97|7",
+      "stratum": "Robusta|caffeine",
+      "sample_ids": [
+       "R21"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "R21|caffeine"
+      ],
+      "n_observations": 1
+     },
+     {
+      "cluster_id": "Robusta|caffeine|98|12",
+      "stratum": "Robusta|caffeine",
+      "sample_ids": [
+       "R19",
+       "R31"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R19|caffeine",
+       "R31|caffeine"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|caffeine|98|6",
+      "stratum": "Robusta|caffeine",
+      "sample_ids": [
+       "R20",
+       "R29"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R20|caffeine",
+       "R29|caffeine"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|caffeine|98|9",
+      "stratum": "Robusta|caffeine",
+      "sample_ids": [
+       "R18",
+       "R30"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R18|caffeine",
+       "R30|caffeine"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|trigonelline|88|12",
+      "stratum": "Robusta|trigonelline",
+      "sample_ids": [
+       "R16",
+       "R27"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R16|trigonelline",
+       "R27|trigonelline"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|trigonelline|88|6",
+      "stratum": "Robusta|trigonelline",
+      "sample_ids": [
+       "R17",
+       "R28"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R17|trigonelline",
+       "R28|trigonelline"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|trigonelline|88|9",
+      "stratum": "Robusta|trigonelline",
+      "sample_ids": [
+       "R15",
+       "R26"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R15|trigonelline",
+       "R26|trigonelline"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|trigonelline|89|10",
+      "stratum": "Robusta|trigonelline",
+      "sample_ids": [
+       "R22"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "R22|trigonelline"
+      ],
+      "n_observations": 1
+     },
+     {
+      "cluster_id": "Robusta|trigonelline|90|8",
+      "stratum": "Robusta|trigonelline",
+      "sample_ids": [
+       "R33"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "R33|trigonelline"
+      ],
+      "n_observations": 1
+     },
+     {
+      "cluster_id": "Robusta|trigonelline|93.4|12",
+      "stratum": "Robusta|trigonelline",
+      "sample_ids": [
+       "R13",
+       "R24"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R13|trigonelline",
+       "R24|trigonelline"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|trigonelline|93.4|6",
+      "stratum": "Robusta|trigonelline",
+      "sample_ids": [
+       "R14",
+       "R25"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R14|trigonelline",
+       "R25|trigonelline"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|trigonelline|93.4|9",
+      "stratum": "Robusta|trigonelline",
+      "sample_ids": [
+       "R12",
+       "R23"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R12|trigonelline",
+       "R23|trigonelline"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|trigonelline|95|11",
+      "stratum": "Robusta|trigonelline",
+      "sample_ids": [
+       "R32"
+      ],
+      "grinds": [
+       "F"
+      ],
+      "observation_ids": [
+       "R32|trigonelline"
+      ],
+      "n_observations": 1
+     },
+     {
+      "cluster_id": "Robusta|trigonelline|97|7",
+      "stratum": "Robusta|trigonelline",
+      "sample_ids": [
+       "R21"
+      ],
+      "grinds": [
+       "C"
+      ],
+      "observation_ids": [
+       "R21|trigonelline"
+      ],
+      "n_observations": 1
+     },
+     {
+      "cluster_id": "Robusta|trigonelline|98|12",
+      "stratum": "Robusta|trigonelline",
+      "sample_ids": [
+       "R19",
+       "R31"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R19|trigonelline",
+       "R31|trigonelline"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|trigonelline|98|6",
+      "stratum": "Robusta|trigonelline",
+      "sample_ids": [
+       "R20",
+       "R29"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R20|trigonelline",
+       "R29|trigonelline"
+      ],
+      "n_observations": 2
+     },
+     {
+      "cluster_id": "Robusta|trigonelline|98|9",
+      "stratum": "Robusta|trigonelline",
+      "sample_ids": [
+       "R18",
+       "R30"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R18|trigonelline",
+       "R30|trigonelline"
+      ],
+      "n_observations": 2
+     }
+    ]
+   },
+   "group": {
+    "name": "group",
+    "role": "secondary_coarse_sensitivity",
+    "label": "whole variety x solute group",
+    "rationale": "the coarsest construction: six clusters only, so its percentile distribution is highly discrete. Reported as a stress test, not as a high-resolution analysis.",
+    "strata": [],
+    "cluster_key": [
+     "variety",
+     "solute"
+    ],
+    "n_clusters": 6,
+    "cluster_size_distribution": {
+     "22": 6
+    },
+    "n_strata": 1,
+    "membership_sha256": "b5676154cd9fe71aada3fccc4b199b471a8ec09fc2a4fe199b2e8881e03e89e5",
+    "membership": [
+     {
+      "cluster_id": "Arabica|5CQA",
+      "stratum": "",
+      "sample_ids": [
+       "A12",
+       "A13",
+       "A14",
+       "A15",
+       "A16",
+       "A17",
+       "A18",
+       "A19",
+       "A20",
+       "A21",
+       "A22",
+       "A23",
+       "A24",
+       "A25",
+       "A26",
+       "A27",
+       "A28",
+       "A29",
+       "A30",
+       "A31",
+       "A32",
+       "A33"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A12|5CQA",
+       "A13|5CQA",
+       "A14|5CQA",
+       "A15|5CQA",
+       "A16|5CQA",
+       "A17|5CQA",
+       "A18|5CQA",
+       "A19|5CQA",
+       "A20|5CQA",
+       "A21|5CQA",
+       "A22|5CQA",
+       "A23|5CQA",
+       "A24|5CQA",
+       "A25|5CQA",
+       "A26|5CQA",
+       "A27|5CQA",
+       "A28|5CQA",
+       "A29|5CQA",
+       "A30|5CQA",
+       "A31|5CQA",
+       "A32|5CQA",
+       "A33|5CQA"
+      ],
+      "n_observations": 22
+     },
+     {
+      "cluster_id": "Arabica|caffeine",
+      "stratum": "",
+      "sample_ids": [
+       "A12",
+       "A13",
+       "A14",
+       "A15",
+       "A16",
+       "A17",
+       "A18",
+       "A19",
+       "A20",
+       "A21",
+       "A22",
+       "A23",
+       "A24",
+       "A25",
+       "A26",
+       "A27",
+       "A28",
+       "A29",
+       "A30",
+       "A31",
+       "A32",
+       "A33"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A12|caffeine",
+       "A13|caffeine",
+       "A14|caffeine",
+       "A15|caffeine",
+       "A16|caffeine",
+       "A17|caffeine",
+       "A18|caffeine",
+       "A19|caffeine",
+       "A20|caffeine",
+       "A21|caffeine",
+       "A22|caffeine",
+       "A23|caffeine",
+       "A24|caffeine",
+       "A25|caffeine",
+       "A26|caffeine",
+       "A27|caffeine",
+       "A28|caffeine",
+       "A29|caffeine",
+       "A30|caffeine",
+       "A31|caffeine",
+       "A32|caffeine",
+       "A33|caffeine"
+      ],
+      "n_observations": 22
+     },
+     {
+      "cluster_id": "Arabica|trigonelline",
+      "stratum": "",
+      "sample_ids": [
+       "A12",
+       "A13",
+       "A14",
+       "A15",
+       "A16",
+       "A17",
+       "A18",
+       "A19",
+       "A20",
+       "A21",
+       "A22",
+       "A23",
+       "A24",
+       "A25",
+       "A26",
+       "A27",
+       "A28",
+       "A29",
+       "A30",
+       "A31",
+       "A32",
+       "A33"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "A12|trigonelline",
+       "A13|trigonelline",
+       "A14|trigonelline",
+       "A15|trigonelline",
+       "A16|trigonelline",
+       "A17|trigonelline",
+       "A18|trigonelline",
+       "A19|trigonelline",
+       "A20|trigonelline",
+       "A21|trigonelline",
+       "A22|trigonelline",
+       "A23|trigonelline",
+       "A24|trigonelline",
+       "A25|trigonelline",
+       "A26|trigonelline",
+       "A27|trigonelline",
+       "A28|trigonelline",
+       "A29|trigonelline",
+       "A30|trigonelline",
+       "A31|trigonelline",
+       "A32|trigonelline",
+       "A33|trigonelline"
+      ],
+      "n_observations": 22
+     },
+     {
+      "cluster_id": "Robusta|5CQA",
+      "stratum": "",
+      "sample_ids": [
+       "R12",
+       "R13",
+       "R14",
+       "R15",
+       "R16",
+       "R17",
+       "R18",
+       "R19",
+       "R20",
+       "R21",
+       "R22",
+       "R23",
+       "R24",
+       "R25",
+       "R26",
+       "R27",
+       "R28",
+       "R29",
+       "R30",
+       "R31",
+       "R32",
+       "R33"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R12|5CQA",
+       "R13|5CQA",
+       "R14|5CQA",
+       "R15|5CQA",
+       "R16|5CQA",
+       "R17|5CQA",
+       "R18|5CQA",
+       "R19|5CQA",
+       "R20|5CQA",
+       "R21|5CQA",
+       "R22|5CQA",
+       "R23|5CQA",
+       "R24|5CQA",
+       "R25|5CQA",
+       "R26|5CQA",
+       "R27|5CQA",
+       "R28|5CQA",
+       "R29|5CQA",
+       "R30|5CQA",
+       "R31|5CQA",
+       "R32|5CQA",
+       "R33|5CQA"
+      ],
+      "n_observations": 22
+     },
+     {
+      "cluster_id": "Robusta|caffeine",
+      "stratum": "",
+      "sample_ids": [
+       "R12",
+       "R13",
+       "R14",
+       "R15",
+       "R16",
+       "R17",
+       "R18",
+       "R19",
+       "R20",
+       "R21",
+       "R22",
+       "R23",
+       "R24",
+       "R25",
+       "R26",
+       "R27",
+       "R28",
+       "R29",
+       "R30",
+       "R31",
+       "R32",
+       "R33"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R12|caffeine",
+       "R13|caffeine",
+       "R14|caffeine",
+       "R15|caffeine",
+       "R16|caffeine",
+       "R17|caffeine",
+       "R18|caffeine",
+       "R19|caffeine",
+       "R20|caffeine",
+       "R21|caffeine",
+       "R22|caffeine",
+       "R23|caffeine",
+       "R24|caffeine",
+       "R25|caffeine",
+       "R26|caffeine",
+       "R27|caffeine",
+       "R28|caffeine",
+       "R29|caffeine",
+       "R30|caffeine",
+       "R31|caffeine",
+       "R32|caffeine",
+       "R33|caffeine"
+      ],
+      "n_observations": 22
+     },
+     {
+      "cluster_id": "Robusta|trigonelline",
+      "stratum": "",
+      "sample_ids": [
+       "R12",
+       "R13",
+       "R14",
+       "R15",
+       "R16",
+       "R17",
+       "R18",
+       "R19",
+       "R20",
+       "R21",
+       "R22",
+       "R23",
+       "R24",
+       "R25",
+       "R26",
+       "R27",
+       "R28",
+       "R29",
+       "R30",
+       "R31",
+       "R32",
+       "R33"
+      ],
+      "grinds": [
+       "C",
+       "F"
+      ],
+      "observation_ids": [
+       "R12|trigonelline",
+       "R13|trigonelline",
+       "R14|trigonelline",
+       "R15|trigonelline",
+       "R16|trigonelline",
+       "R17|trigonelline",
+       "R18|trigonelline",
+       "R19|trigonelline",
+       "R20|trigonelline",
+       "R21|trigonelline",
+       "R22|trigonelline",
+       "R23|trigonelline",
+       "R24|trigonelline",
+       "R25|trigonelline",
+       "R26|trigonelline",
+       "R27|trigonelline",
+       "R28|trigonelline",
+       "R29|trigonelline",
+       "R30|trigonelline",
+       "R31|trigonelline",
+       "R32|trigonelline",
+       "R33|trigonelline"
+      ],
+      "n_observations": 22
+     }
+    ]
+   }
+  }
  },
  "primary_cluster": "cond_in_variety",
  "rows": [
   {
    "m_target_g": 38.0,
+   "support_set": "complete_cf_corpus_132",
    "pooled_model_mape": 8.39,
    "pooled_const_mape": 8.83,
    "paired_difference_pp": -0.447,
@@ -105,20 +3752,156 @@
    "n_points": 132,
    "n_model_worse_than_const": 61,
    "skill_vs_const": 0.051,
+   "resampling": {
+    "cond_in_variety": {
+     "interval": {
+      "kind": "fixed_predictor_clustered_percentile_sensitivity_range",
+      "full_precision_pp": {
+       "lower": -0.8843868833200912,
+       "upper": -0.04243254356196476
+      },
+      "contains_zero_full_precision": false,
+      "excludes_zero_full_precision": true,
+      "signed_nearest_bound_to_zero_pp": -0.04243254356196476,
+      "width_pp": 0.8419543397581264,
+      "display": {
+       "digits": 3,
+       "lower": -0.884,
+       "upper": -0.042,
+       "text": "[−0.884, −0.042]",
+       "touches_zero": false
+      }
+     },
+     "n_clusters": 26,
+     "n_strata": 2,
+     "B": 1000000,
+     "seed": 0,
+     "rng": "PCG64",
+     "quantile_probabilities": [
+      2.5,
+      97.5
+     ],
+     "quantile_method": "linear",
+     "frac_boot_model_worse": 0.014,
+     "observed_mean_delta_pp": -0.447
+    },
+    "sample_in_variety_grind": {
+     "interval": {
+      "kind": "fixed_predictor_clustered_percentile_sensitivity_range",
+      "full_precision_pp": {
+       "lower": -0.8022115512733896,
+       "upper": -0.09715318275036863
+      },
+      "contains_zero_full_precision": false,
+      "excludes_zero_full_precision": true,
+      "signed_nearest_bound_to_zero_pp": -0.09715318275036863,
+      "width_pp": 0.705058368523021,
+      "display": {
+       "digits": 3,
+       "lower": -0.802,
+       "upper": -0.097,
+       "text": "[−0.802, −0.097]",
+       "touches_zero": false
+      }
+     },
+     "n_clusters": 44,
+     "n_strata": 4,
+     "B": 1000000,
+     "seed": 0,
+     "rng": "PCG64",
+     "quantile_probabilities": [
+      2.5,
+      97.5
+     ],
+     "quantile_method": "linear",
+     "frac_boot_model_worse": 0.006,
+     "observed_mean_delta_pp": -0.447
+    },
+    "cond_in_group": {
+     "interval": {
+      "kind": "fixed_predictor_clustered_percentile_sensitivity_range",
+      "full_precision_pp": {
+       "lower": -0.7982585883445367,
+       "upper": -0.08539488372237752
+      },
+      "contains_zero_full_precision": false,
+      "excludes_zero_full_precision": true,
+      "signed_nearest_bound_to_zero_pp": -0.08539488372237752,
+      "width_pp": 0.7128637046221591,
+      "display": {
+       "digits": 3,
+       "lower": -0.798,
+       "upper": -0.085,
+       "text": "[−0.798, −0.085]",
+       "touches_zero": false
+      }
+     },
+     "n_clusters": 78,
+     "n_strata": 6,
+     "B": 1000000,
+     "seed": 0,
+     "rng": "PCG64",
+     "quantile_probabilities": [
+      2.5,
+      97.5
+     ],
+     "quantile_method": "linear",
+     "frac_boot_model_worse": 0.008,
+     "observed_mean_delta_pp": -0.447
+    },
+    "group": {
+     "interval": {
+      "kind": "fixed_predictor_clustered_percentile_sensitivity_range",
+      "full_precision_pp": {
+       "lower": -0.9404961741169693,
+       "upper": -0.059853071625618766
+      },
+      "contains_zero_full_precision": false,
+      "excludes_zero_full_precision": true,
+      "signed_nearest_bound_to_zero_pp": -0.059853071625618766,
+      "width_pp": 0.8806431024913505,
+      "display": {
+       "digits": 3,
+       "lower": -0.94,
+       "upper": -0.06,
+       "text": "[−0.940, −0.060]",
+       "touches_zero": false
+      }
+     },
+     "n_clusters": 6,
+     "n_strata": 1,
+     "B": 1000000,
+     "seed": 0,
+     "rng": "PCG64",
+     "quantile_probabilities": [
+      2.5,
+      97.5
+     ],
+     "quantile_method": "linear",
+     "frac_boot_model_worse": 0.005,
+     "observed_mean_delta_pp": -0.447
+    }
+   },
    "clustered_range_within_variety": [
     -0.884,
-    -0.046
+    -0.042
    ],
    "clustered_range_within_group": [
-    -0.802,
-    -0.091
+    -0.798,
+    -0.085
    ],
    "clustered_range_whole_group": [
     -0.94,
     -0.06
    ],
+   "clustered_range_sample_record": [
+    -0.802,
+    -0.097
+   ],
    "within_variety_excludes_zero": true,
-   "nearest_bound_to_zero_pp": 0.0458,
+   "within_variety_display_touches_zero": false,
+   "signed_nearest_bound_to_zero_pp": -0.04243254356196476,
+   "nearest_bound_to_zero_pp": 0.0424,
    "within_group_excludes_zero": true,
    "per_fit": {
     "Arabica:caffeine": {
@@ -149,6 +3932,7 @@
   },
   {
    "m_target_g": 40.0,
+   "support_set": "complete_cf_corpus_132",
    "pooled_model_mape": 8.44,
    "pooled_const_mape": 8.83,
    "paired_difference_pp": -0.394,
@@ -156,19 +3940,155 @@
    "n_points": 132,
    "n_model_worse_than_const": 62,
    "skill_vs_const": 0.045,
+   "resampling": {
+    "cond_in_variety": {
+     "interval": {
+      "kind": "fixed_predictor_clustered_percentile_sensitivity_range",
+      "full_precision_pp": {
+       "lower": -0.8290522506458629,
+       "upper": 0.003790518393922992
+      },
+      "contains_zero_full_precision": true,
+      "excludes_zero_full_precision": false,
+      "signed_nearest_bound_to_zero_pp": 0.0,
+      "width_pp": 0.8328427690397858,
+      "display": {
+       "digits": 3,
+       "lower": -0.829,
+       "upper": 0.004,
+       "text": "[−0.829, +0.004]",
+       "touches_zero": true
+      }
+     },
+     "n_clusters": 26,
+     "n_strata": 2,
+     "B": 1000000,
+     "seed": 0,
+     "rng": "PCG64",
+     "quantile_probabilities": [
+      2.5,
+      97.5
+     ],
+     "quantile_method": "linear",
+     "frac_boot_model_worse": 0.026,
+     "observed_mean_delta_pp": -0.394
+    },
+    "sample_in_variety_grind": {
+     "interval": {
+      "kind": "fixed_predictor_clustered_percentile_sensitivity_range",
+      "full_precision_pp": {
+       "lower": -0.742422754409205,
+       "upper": -0.053051452935327315
+      },
+      "contains_zero_full_precision": false,
+      "excludes_zero_full_precision": true,
+      "signed_nearest_bound_to_zero_pp": -0.053051452935327315,
+      "width_pp": 0.6893713014738777,
+      "display": {
+       "digits": 3,
+       "lower": -0.742,
+       "upper": -0.053,
+       "text": "[−0.742, −0.053]",
+       "touches_zero": false
+      }
+     },
+     "n_clusters": 44,
+     "n_strata": 4,
+     "B": 1000000,
+     "seed": 0,
+     "rng": "PCG64",
+     "quantile_probabilities": [
+      2.5,
+      97.5
+     ],
+     "quantile_method": "linear",
+     "frac_boot_model_worse": 0.011,
+     "observed_mean_delta_pp": -0.394
+    },
+    "cond_in_group": {
+     "interval": {
+      "kind": "fixed_predictor_clustered_percentile_sensitivity_range",
+      "full_precision_pp": {
+       "lower": -0.7402068662322748,
+       "upper": -0.038666577202542365
+      },
+      "contains_zero_full_precision": false,
+      "excludes_zero_full_precision": true,
+      "signed_nearest_bound_to_zero_pp": -0.038666577202542365,
+      "width_pp": 0.7015402890297324,
+      "display": {
+       "digits": 3,
+       "lower": -0.74,
+       "upper": -0.039,
+       "text": "[−0.740, −0.039]",
+       "touches_zero": false
+      }
+     },
+     "n_clusters": 78,
+     "n_strata": 6,
+     "B": 1000000,
+     "seed": 0,
+     "rng": "PCG64",
+     "quantile_probabilities": [
+      2.5,
+      97.5
+     ],
+     "quantile_method": "linear",
+     "frac_boot_model_worse": 0.015,
+     "observed_mean_delta_pp": -0.394
+    },
+    "group": {
+     "interval": {
+      "kind": "fixed_predictor_clustered_percentile_sensitivity_range",
+      "full_precision_pp": {
+       "lower": -0.8634184737008594,
+       "upper": -0.024492733140033973
+      },
+      "contains_zero_full_precision": false,
+      "excludes_zero_full_precision": true,
+      "signed_nearest_bound_to_zero_pp": -0.024492733140033973,
+      "width_pp": 0.8389257405608255,
+      "display": {
+       "digits": 3,
+       "lower": -0.863,
+       "upper": -0.024,
+       "text": "[−0.863, −0.024]",
+       "touches_zero": false
+      }
+     },
+     "n_clusters": 6,
+     "n_strata": 1,
+     "B": 1000000,
+     "seed": 0,
+     "rng": "PCG64",
+     "quantile_probabilities": [
+      2.5,
+      97.5
+     ],
+     "quantile_method": "linear",
+     "frac_boot_model_worse": 0.015,
+     "observed_mean_delta_pp": -0.394
+    }
+   },
    "clustered_range_within_variety": [
-    -0.825,
-    0.0
+    -0.829,
+    0.004
    ],
    "clustered_range_within_group": [
-    -0.742,
-    -0.044
+    -0.74,
+    -0.039
    ],
    "clustered_range_whole_group": [
-    -0.883,
+    -0.863,
     -0.024
    ],
+   "clustered_range_sample_record": [
+    -0.742,
+    -0.053
+   ],
    "within_variety_excludes_zero": false,
+   "within_variety_display_touches_zero": true,
+   "signed_nearest_bound_to_zero_pp": 0.0,
    "nearest_bound_to_zero_pp": 0.0,
    "within_group_excludes_zero": true,
    "per_fit": {
@@ -200,6 +4120,7 @@
   },
   {
    "m_target_g": 42.0,
+   "support_set": "complete_cf_corpus_132",
    "pooled_model_mape": 8.41,
    "pooled_const_mape": 8.83,
    "paired_difference_pp": -0.425,
@@ -207,20 +4128,156 @@
    "n_points": 132,
    "n_model_worse_than_const": 60,
    "skill_vs_const": 0.048,
+   "resampling": {
+    "cond_in_variety": {
+     "interval": {
+      "kind": "fixed_predictor_clustered_percentile_sensitivity_range",
+      "full_precision_pp": {
+       "lower": -0.8912505494092522,
+       "upper": 0.005844468562594105
+      },
+      "contains_zero_full_precision": true,
+      "excludes_zero_full_precision": false,
+      "signed_nearest_bound_to_zero_pp": 0.0,
+      "width_pp": 0.8970950179718463,
+      "display": {
+       "digits": 3,
+       "lower": -0.891,
+       "upper": 0.006,
+       "text": "[−0.891, +0.006]",
+       "touches_zero": true
+      }
+     },
+     "n_clusters": 26,
+     "n_strata": 2,
+     "B": 1000000,
+     "seed": 0,
+     "rng": "PCG64",
+     "quantile_probabilities": [
+      2.5,
+      97.5
+     ],
+     "quantile_method": "linear",
+     "frac_boot_model_worse": 0.027,
+     "observed_mean_delta_pp": -0.425
+    },
+    "sample_in_variety_grind": {
+     "interval": {
+      "kind": "fixed_predictor_clustered_percentile_sensitivity_range",
+      "full_precision_pp": {
+       "lower": -0.8043135599130509,
+       "upper": -0.05273889857185414
+      },
+      "contains_zero_full_precision": false,
+      "excludes_zero_full_precision": true,
+      "signed_nearest_bound_to_zero_pp": -0.05273889857185414,
+      "width_pp": 0.7515746613411968,
+      "display": {
+       "digits": 3,
+       "lower": -0.804,
+       "upper": -0.053,
+       "text": "[−0.804, −0.053]",
+       "touches_zero": false
+      }
+     },
+     "n_clusters": 44,
+     "n_strata": 4,
+     "B": 1000000,
+     "seed": 0,
+     "rng": "PCG64",
+     "quantile_probabilities": [
+      2.5,
+      97.5
+     ],
+     "quantile_method": "linear",
+     "frac_boot_model_worse": 0.012,
+     "observed_mean_delta_pp": -0.425
+    },
+    "cond_in_group": {
+     "interval": {
+      "kind": "fixed_predictor_clustered_percentile_sensitivity_range",
+      "full_precision_pp": {
+       "lower": -0.7924645723288762,
+       "upper": -0.05112874080969039
+      },
+      "contains_zero_full_precision": false,
+      "excludes_zero_full_precision": true,
+      "signed_nearest_bound_to_zero_pp": -0.05112874080969039,
+      "width_pp": 0.7413358315191858,
+      "display": {
+       "digits": 3,
+       "lower": -0.792,
+       "upper": -0.051,
+       "text": "[−0.792, −0.051]",
+       "touches_zero": false
+      }
+     },
+     "n_clusters": 78,
+     "n_strata": 6,
+     "B": 1000000,
+     "seed": 0,
+     "rng": "PCG64",
+     "quantile_probabilities": [
+      2.5,
+      97.5
+     ],
+     "quantile_method": "linear",
+     "frac_boot_model_worse": 0.013,
+     "observed_mean_delta_pp": -0.425
+    },
+    "group": {
+     "interval": {
+      "kind": "fixed_predictor_clustered_percentile_sensitivity_range",
+      "full_precision_pp": {
+       "lower": -0.8830402312042396,
+       "upper": -0.034715639085389556
+      },
+      "contains_zero_full_precision": false,
+      "excludes_zero_full_precision": true,
+      "signed_nearest_bound_to_zero_pp": -0.034715639085389556,
+      "width_pp": 0.84832459211885,
+      "display": {
+       "digits": 3,
+       "lower": -0.883,
+       "upper": -0.035,
+       "text": "[−0.883, −0.035]",
+       "touches_zero": false
+      }
+     },
+     "n_clusters": 6,
+     "n_strata": 1,
+     "B": 1000000,
+     "seed": 0,
+     "rng": "PCG64",
+     "quantile_probabilities": [
+      2.5,
+      97.5
+     ],
+     "quantile_method": "linear",
+     "frac_boot_model_worse": 0.012,
+     "observed_mean_delta_pp": -0.425
+    }
+   },
    "clustered_range_within_variety": [
-    -0.89,
-    0.0
+    -0.891,
+    0.006
    ],
    "clustered_range_within_group": [
-    -0.797,
-    -0.058
+    -0.792,
+    -0.051
    ],
    "clustered_range_whole_group": [
-    -0.905,
+    -0.883,
     -0.035
    ],
+   "clustered_range_sample_record": [
+    -0.804,
+    -0.053
+   ],
    "within_variety_excludes_zero": false,
-   "nearest_bound_to_zero_pp": 0.0003,
+   "within_variety_display_touches_zero": true,
+   "signed_nearest_bound_to_zero_pp": 0.0,
+   "nearest_bound_to_zero_pp": 0.0,
    "within_group_excludes_zero": true,
    "per_fit": {
     "Arabica:caffeine": {
@@ -250,19 +4307,89 @@
    }
   }
  ],
+ "stability_audit": {
+  "unit": "cond_in_variety",
+  "B_per_seed": 200000,
+  "seeds": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19
+  ],
+  "n_runs": 20,
+  "canonical_B": 1000000,
+  "lower_mean_pp": -0.8292679073178351,
+  "lower_sd_pp": 0.0011631118387623537,
+  "lower_min_pp": -0.8316366723666686,
+  "lower_max_pp": -0.8273091982785581,
+  "upper_mean_pp": 0.0038824635712710774,
+  "upper_sd_pp": 0.0010410916803284332,
+  "upper_min_pp": 0.002229956215213587,
+  "upper_max_pp": 0.005564596238249726,
+  "lower_monte_carlo_se_at_canonical_B_pp": 0.0005201594273814796,
+  "upper_monte_carlo_se_at_canonical_B_pp": 0.00046559035360477143,
+  "upper_bound_sign_is_stable": true,
+  "display_interval_is_stable": false,
+  "n_distinct_display_intervals": 14,
+  "distinct_display_intervals": [
+   "[−0.827, +0.004]",
+   "[−0.828, +0.003]",
+   "[−0.828, +0.004]",
+   "[−0.828, +0.005]",
+   "[−0.829, +0.003]",
+   "[−0.829, +0.004]",
+   "[−0.829, +0.005]",
+   "[−0.830, +0.002]",
+   "[−0.830, +0.003]",
+   "[−0.830, +0.005]",
+   "[−0.830, +0.006]",
+   "[−0.831, +0.003]",
+   "[−0.831, +0.004]",
+   "[−0.832, +0.003]"
+  ],
+  "interpretation": "Monte Carlo stability of the resampling percentiles only. This is numerical approximation error, not sampling uncertainty, and confers no coverage interpretation on the range. The third displayed decimal is resolved only to within the reported Monte Carlo standard error."
+ },
+ "endpoint_sensitivity": {
+  "point_difference_sign_stable": true,
+  "point_difference_magnitude_range_pp": [
+   -0.447,
+   -0.394
+  ],
+  "range_contains_zero_classification_stable": false,
+  "range_display_touches_zero_stable": false,
+  "interpretation_code": "small_sign_stable_effect_boundary_not_stable"
+ },
  "paired_difference_range_pp": [
   -0.447,
   -0.394
  ],
  "sign_is_stable": true,
  "primary_range_crosses_zero_at_every_endpoint": false,
- "conclusion_stable": false,
  "estimand": "pooled held-out MAPE of the frozen optimal-grind mechanistic calibration MINUS that of the optimal-grind-trained level-only constant, both evaluated at the same matched-mass endpoint, over the declared held-out coarse/fine corpus",
- "note": "This is NOT the same quantity as the blind-residual sweep, which reports the blind optimal-grind per-condition residual. Both predictors are re-derived at each endpoint here, so a shift common to both cancels -- which is exactly why the ~5 pp movement in the blind residual does not by itself imply that the model-versus-comparator conclusion is endpoint-dependent.",
+ "reading": "Across the 38/40/42 g collected-mass sweep the paired model-minus-comparator difference stays stable in sign at about -0.447 to -0.394 pp. Whether the primary clustered sensitivity range's boundary sits on the negative side of zero CHANGES across the sweep. These are fixed-predictor sensitivity ranges without calibrated coverage, so neither outcome is evidence of statistical superiority or non-superiority.",
+ "note": "This is NOT the same quantity as `endpoint_mass_sensitivity`, which reports the blind optimal-grind per-condition residual. Both predictors are re-derived at each endpoint here, so a shift common to both cancels -- which is exactly why the ~5 pp movement in the blind residual does not by itself imply that the model-versus-comparator conclusion is endpoint-dependent.",
+ "source_sha256": "780ba72d13f87f695cd41c16a18b003871f87ed80149e9c3bf0b76d2d2f2866a",
  "_provenance": {
   "producer": "puckworks.validation.slow.angeloni_bracket",
-  "source_commit": "d2073870fbab0fc72263469dcdae850221d1b0ce",
-  "command": "python scratchpad/run_option_a.py",
-  "corpus_contract": "complete 44-record C/F corpus (round-7 P0-3)"
+  "command": "python tools/paper_a_transfer_artifacts.py --write",
+  "rng": "PCG64",
+  "canonical_B": 1000000,
+  "seed": 0
  }
 }

@@ -55,15 +55,16 @@ abstract: >-
   broad and reached a boundary in 16 of 18 cases. After optimal-grind
   calibration, predictions on the complete held-out coarse- and fine-grind corpus (132
   observations) had 8.4 % pooled MAPE, versus 8.8 % for a concentration-only comparator. The paired
-  difference was −0.394 percentage points; the primary clustered percentile range (−0.825 to
-  +0.000) reached zero, and the model was worse on 62 of 132 points. Acceptable endpoint prediction therefore gave no resolvable skill beyond a
+  difference was −0.394 percentage points; the primary clustered percentile range (−0.829 to
+  +0.004) contained zero, and the model was worse on 62 of 132 observations. Acceptable endpoint prediction therefore gave no resolvable skill beyond a
   transferred concentration level. Fraction-resolved observations produced sharper rate profiles
   than aggregated or simulated whole-cup ones. An external dissolved-solids trajectory retained
   only a shallow, high-error, loss-dependent preference; one cup was uninformative by
   construction. Matched endpoints are therefore necessary but insufficient: parameter
   localization, prediction error, benchmark skill, and cross-context evidence should be reported
   separately. Propagating the declared ±2 g collection tolerance left the difference between
-  −0.394 and −0.447 points, its range bounded on or beside zero throughout.
+  −0.394 and −0.447 points, its bound near zero unresolved at the precision this resampling
+  attains.
 # Third review, front-matter section: `profile objective` is repository vocabulary and a poor
 # indexing term; `model transfer` and `porous media` were package-only. Six terms, within the
 # venue's limit of seven.

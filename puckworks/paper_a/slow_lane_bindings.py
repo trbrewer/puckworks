@@ -105,17 +105,38 @@ BINDINGS: dict[str, tuple] = {
     "7.4": (LOCO_CI, "oob_pooled_mape_point", None, 0, 5e-2),
     "4.3": (LOCO_CI, "coverage_interval95.0", None, 0, 5e-2),
     "11.5": (LOCO_CI, "coverage_interval95.1", None, 0, 5e-2),
-    # PRIMARY unit (variety, T, p) -- all three named solutes and both held-out grinds move
-    # together. Each bound is bound separately so a change to either end fails.
-    "0.884": (ENDPOINT, "rows.0.clustered_range_within_variety.0", _abs, 0, 5e-4),
-    "0.046": (ENDPOINT, "rows.0.clustered_range_within_variety.1", _abs, 0, 5e-4),
-    "0.825": (ENDPOINT, "rows.1.clustered_range_within_variety.0", _abs, 0, 5e-4),
-    "0.890": (ENDPOINT, "rows.2.clustered_range_within_variety.0", _abs, 0, 5e-4),
-    # secondary units, retained as sensitivities
-    "0.742": (ENDPOINT, "rows.1.clustered_range_within_group.0", _abs, 0, 5e-4),
-    "0.044": (ENDPOINT, "rows.1.clustered_range_within_group.1", _abs, 0, 5e-4),
-    "0.883": (ENDPOINT, "rows.1.clustered_range_whole_group.0", _abs, 0, 5e-4),
-    "0.024": (ENDPOINT, "rows.1.clustered_range_whole_group.1", _abs, 0, 5e-4),
+    # PRIMARY unit (variety, T, p). Bound through the schema-v2 `resampling.<scheme>.interval`
+    # path rather than the flat alias, so a binding names the scheme it checks. Each bound is
+    # bound separately, so a change to either end fails.
+    #
+    # Round-8 P1-2 moved these: the canonical draw count rose from B = 8000 to B = 1,000,000 after
+    # a multi-seed audit showed the 40 g upper bound's fourth decimal was Monte Carlo noise. The
+    # bound is now reliably +0.004, so the primary range CONTAINS zero at 40 g and 42 g.
+    "0.884": (ENDPOINT, "rows.0.resampling.cond_in_variety.interval.display.lower", _abs, 0, 5e-4),
+    "0.042": (ENDPOINT, "rows.0.resampling.cond_in_variety.interval.display.upper", _abs, 0, 5e-4),
+    "0.829": (ENDPOINT, "rows.1.resampling.cond_in_variety.interval.display.lower", _abs, 0, 5e-4),
+    "0.891": (ENDPOINT, "rows.2.resampling.cond_in_variety.interval.display.lower", _abs, 0, 5e-4),
+    # secondary units, retained as sensitivities. `sample_in_variety_grind` is new in round 8: one
+    # cluster per coffee sample record, the dependency the source establishes most directly.
+    "0.740": (ENDPOINT, "rows.1.resampling.cond_in_group.interval.display.lower", _abs, 0, 5e-4),
+    "0.039": (ENDPOINT, "rows.1.resampling.cond_in_group.interval.display.upper", _abs, 0, 5e-4),
+    "0.863": (ENDPOINT, "rows.1.resampling.group.interval.display.lower", _abs, 0, 5e-4),
+    "0.024": (ENDPOINT, "rows.1.resampling.group.interval.display.upper", _abs, 0, 5e-4),
+    "0.742": (ENDPOINT, "rows.1.resampling.sample_in_variety_grind.interval.display.lower",
+              _abs, 0, 5e-4),
+    "0.053": (ENDPOINT, "rows.1.resampling.sample_in_variety_grind.interval.display.upper",
+              _abs, 0, 5e-4),
+    # round-8: the widths the Results paragraph compares, the signed knife-edge bound, and the
+    # Monte Carlo standard error that says how far the third decimal is actually resolved.
+    "0.833": (ENDPOINT, "rows.1.resampling.cond_in_variety.interval.width_pp", None, 0, 5e-4),
+    "0.689": (ENDPOINT, "rows.1.resampling.sample_in_variety_grind.interval.width_pp",
+              None, 0, 5e-4),
+    "0.702": (ENDPOINT, "rows.1.resampling.cond_in_group.interval.width_pp", None, 0, 5e-4),
+    "0.0038": (ENDPOINT, "rows.1.resampling.cond_in_variety.interval.full_precision_pp.upper",
+               _abs, 0, 5e-5),
+    "0.006": (ENDPOINT, "rows.2.resampling.cond_in_variety.interval.display.upper", _abs, 0, 5e-4),
+    "0.0005": (ENDPOINT, "stability_audit.upper_monte_carlo_se_at_canonical_B_pp", None, 0, 5e-5),
+    "78": (ENDPOINT, "resampling_design.schemes.cond_in_group.n_clusters", None, 0, 0.5),
     # comparator loss robustness (round-7 P1-2): both predictors refit under the alternative loss
     "0.393": (LOSS, "rows.1.paired_difference_pp", _abs, 0, 5e-4),
     # the matched on-grid subset, reported as the secondary corpus (round-7 P0-3)
@@ -128,8 +149,8 @@ BINDINGS: dict[str, tuple] = {
     "4.5": (CORPUS, "complete_corpus.skill_vs_const", _pct, 0, 5e-2),
     "8.50": (LOSS, "rows.1.pooled_model_mape", None, 0, 5e-3),
     "8.89": (LOSS, "rows.1.pooled_const_mape", None, 0, 5e-3),
-    "0.827": (LOSS, "rows.1.clustered_range_within_variety.0", _abs, 0, 5e-4),
-    "0.002": (LOSS, "rows.1.clustered_range_within_variety.1", _abs, 0, 5e-4),
+    "0.826": (LOSS, "rows.1.interval.display.lower", _abs, 0, 5e-4),
+    "0.004": (LOSS, "rows.1.interval.display.upper", _abs, 0, 5e-4),
 
     # ── objective family: relative-L2 minimum ─────────────────────────────────────────────────
     "0.58": (OBJECTIVE, "panels.Arabica:caffeine.objective_family.relative_l2.rate_at_min",

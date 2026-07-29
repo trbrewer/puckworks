@@ -27,12 +27,20 @@ new here                placeholders, supplementary targets, grid records, figur
 Two modes, because they answer different questions:
 
 ``verify`` (the CI lane)
-    Everything that must be true of the *working tree at every commit*. Drift, wording, structure.
+    Everything that must be true of the *working tree at every commit*. Drift, wording, structure —
+    and, since round-8 P0-3, every SCIENCE contract, including the collected-mass endpoint schema.
 
 ``submission`` (the release gate)
-    ``verify`` plus the things that can only be true at release time: a clean, fresh reproducibility
-    manifest, a minted DOI, resolved author metadata, and the completed endpoint propagation. This
-    is expected to fail during development; that is its purpose.
+    A strict superset of ``verify``, adding only what can be true exclusively at release time: a
+    clean, fresh reproducibility manifest, a minted DOI and resolved author metadata. This is
+    expected to fail during development; that is its purpose.
+
+The split matters. The endpoint contract used to live in ``submission`` alone, where it looked for
+a key the artefact had not carried since the round-7 unit correction. Because the command anyone
+actually runs is ``verify``, a broken release gate and a green development lane coexisted for a
+whole review round. **No scientific check may live only in the release mode**: if a contract can
+be checked against the working tree, it belongs in ``verify``, and ``submission`` adds metadata
+and freshness on top rather than holding science hostage to an unminted DOI.
 
 CLI::
 
@@ -342,22 +350,76 @@ def _release_state() -> list[str]:
     except ImportError as exc:
         problems.append(f"submission metadata not checked: pyyaml unavailable ({exc})")
 
-    # The endpoint propagation must be ARCHIVED, not merely described. Checking for the artefact
-    # rather than for a phrase is the difference between a gate and a spell-checker.
+    return problems
+
+
+def _endpoint_science() -> list[str]:
+    """The collected-mass endpoint contract. Runs in ROUTINE `verify`, not only at release.
+
+    Round-8 P0-3. This check used to live in `_release_state()` and looked for a ``v_targets``
+    key against an artefact that has stored ``m_targets`` since the round-7 unit correction. It
+    could therefore never validate the corrected artefact — a false negative at release time —
+    while ordinary development ran `verify`, which did not include it at all. A central
+    scientific contract must not be exercised only by the one mode nobody runs until the end.
+
+    It also used to demand the literal phrase "not endpoint-invariant" in the manuscript. A
+    release gate should bind the declared interpretation semantically; an editorial rewording is
+    not a scientific regression. The interpretation now travels as a structured code in the
+    artefact and is matched against the generated block's stamp.
+    """
+    from puckworks.paper_a import transfer_contract as TC
+
+    problems: list[str] = []
     if not ENDPOINT_JSON.exists():
-        problems.append("the 38/40/42 mL endpoint propagation has not been run and archived")
+        problems.append("the %s endpoint propagation has not been run and archived"
+                        % TC.endpoint_label())
+        return problems
+
+    ep = json.loads(_read(ENDPOINT_JSON))
+    problems += TC.validate_endpoint_contract(ep)
+
+    if int(ep.get("schema_version", 0)) < TC.SCHEMA_VERSION:
+        problems.append("the endpoint artefact is schema_version %r; this contract requires >= %d "
+                        "(regenerate with `python tools/paper_a_transfer_artifacts.py --write`)"
+                        % (ep.get("schema_version"), TC.SCHEMA_VERSION))
+
+    if "reading" not in ep:
+        problems.append("the endpoint propagation carries no recorded reading")
+
+    # Structured interpretation, not a magic phrase: the artefact declares what the sweep found
+    # and the manuscript's generated block carries the same code.
+    sens = ep.get("endpoint_sensitivity")
+    if not isinstance(sens, dict) or not sens.get("interpretation_code"):
+        problems.append("the endpoint artefact declares no structured `endpoint_sensitivity."
+                        "interpretation_code`; a bare conclusion_stable boolean hides which "
+                        "conclusion is being tested")
     else:
-        ep = json.loads(_read(ENDPOINT_JSON))
-        if sorted(ep.get("v_targets", [])) != [38.0, 40.0, 42.0]:
-            problems.append("the endpoint propagation does not cover 38/40/42 mL")
-        if "reading" not in ep:
-            problems.append("the endpoint propagation carries no recorded reading")
-        # If the sweep showed the conclusion is NOT endpoint-invariant, the manuscript must say so
-        # rather than reporting robustness the sweep does not support.
-        if not ep.get("conclusion_stable") and \
-                "not endpoint-invariant" not in _flat(_read(CONVERSION)):
-            problems.append("the endpoint sweep did not find a stable conclusion, but the "
-                            "manuscript does not report the dependence")
+        code = sens["interpretation_code"]
+        if code not in _flat(_read(CONVERSION)):
+            problems.append(
+                "the endpoint sweep's interpretation code %r does not appear in the manuscript's "
+                "generated endpoint block; the archived interpretation and the published one "
+                "have diverged" % code)
+    return problems
+
+
+def _no_active_volume_endpoint() -> list[str]:
+    """No active submission-facing path may describe the collected endpoint as a volume.
+
+    Round-8 P0-3. Historical reviews and changelogs legitimately record that mL was once wrong,
+    so this scans only the active submission surfaces, not the whole repository.
+    """
+    import re
+
+    problems = []
+    pattern = re.compile(r"(38\s*/\s*40\s*/\s*42\s*mL|\b3[08]\s*mL\b|\b4[02]\s*mL\b|v_targets)")
+    for path in (PACKAGE, CONVERSION, SUPPLEMENT, HIGHLIGHTS, COVER_LETTER):
+        if not path.exists():
+            continue
+        for n, line in enumerate(_read(path).splitlines(), 1):
+            if pattern.search(line):
+                problems.append("%s:%d describes the collected endpoint as a volume: %r"
+                                % (path.name, n, line.strip()[:120]))
     return problems
 
 
@@ -370,6 +432,8 @@ CHECKS = (
     ("supplementary targets", _supplementary_targets),
     ("grid record", _grid_record),
     ("figure labels", _figure_labels),
+    ("endpoint science contract", _endpoint_science),
+    ("no active volume endpoint", _no_active_volume_endpoint),
 )
 
 

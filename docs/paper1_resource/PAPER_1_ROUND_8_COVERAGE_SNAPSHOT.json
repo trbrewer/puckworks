@@ -1,0 +1,19 @@
+{
+ "review_round": 8,
+ "review_target_commit": "21b138a1fa8866db0b65c59b541b766498e63ed4",
+ "note": "Commit-pinned snapshot of the slow-lane coverage reported in PAPER_1_REVIEW_BRIEF_ROUND_8.md. A historical brief must describe the state it was written against, so this file is NOT regenerated when later work changes live coverage. Round-8 P2-1: the brief's '11 of 95 unbound' was correct; the generated audit's '6' was the arithmetic error, produced by subtracting a count of binding RULES from a count of registered slow-lane RESULTS.",
+ "registered_slow_lane_results": 95,
+ "bound": 84,
+ "declared_unbindable": 0,
+ "unbound": 11,
+ "binding_rules_defined": 89,
+ "binding_rules_matching": 89,
+ "rules_outside_registered_set": 5,
+ "reconciliation": "bound + declared_unbindable + unbound == registered_slow_lane_results",
+ "state_at_generation_time": {
+  "registered_slow_lane_results": 96,
+  "bound": 85,
+  "unbound": 11,
+  "binding_rules_defined": 91
+ }
+}

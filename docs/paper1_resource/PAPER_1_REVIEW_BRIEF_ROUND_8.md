@@ -56,8 +56,19 @@ as the thing it vouches for**, which is the disposition we would like you to car
 
 - **193 of 477** claim-bearing numerals (40.5 %) resolve against a producer, a committed archive or
   a module constant.
-- **89 slow-lane bindings** resolve and match; **11 of 95** slow-lane values remain unbound.
+- **84 of 95** registered slow-lane values are bound; **11 of 95 remain unbound**.
+- Separately, **89 binding rules** are defined and all 89 resolve and match at this commit. These
+  are a *different population*: five of the 89 bind values that are not registered slow-lane
+  results, which is why 84 — not 89 — of the 95 are covered. Do not add the two figures together.
 - **0 unaccounted** numerals on the draft and on the conversion.
+
+> **Correction (round-8 P2-1).** An earlier revision of this brief printed "89 bindings resolve and
+> match; 11 of 95 unbound" adjacently, which reads as 89 + 11 = 100. The round-8 reviewer flagged
+> the arithmetic and proposed reconciling it to *6 of 95* unbound, on the authority of
+> `docs/CLAIM_BINDING_AUDIT.md`. That would have been the wrong direction: the audit document was
+> itself computing `95 − 89 = 6` across the two populations described above, crediting five rules
+> against results they do not cover. **11 of 95 is the correct unbound count**; the audit generator
+> has been fixed to report 84 bound / 11 unbound and now asserts that its categories reconcile.
 
 Those numbers describe *coverage*, not *correctness*, and round 7 is the proof that the two are
 different quantities. Please treat them as a map of where the cheap checks already look, not as an
@@ -156,8 +167,9 @@ Recorded, not overlooked:
 1. **The fraction-versus-measured-cup rate-profile contrast has not been run.** Round 6 proposed it
    as §5's primary result. The data supports it; the analysis is owed. §5 now says what is true and
    names the stronger comparison as available.
-2. **11 of 95 slow-lane values remain unbound**, enumerated by
-   `puckworks.paper_a.claim_coverage.binding_coverage()`.
+2. **11 of 95 registered slow-lane values remain unbound**, enumerated by
+   `puckworks.paper_a.claim_coverage.binding_coverage()` (`still_unbound`). Not to be confused
+   with the 89 binding *rules*, all of which resolve and match.
 3. **~255 declared design settings** (thresholds, windows, condition counts) are single-sourced by
    hand rather than spliced. These are choices, not results.
 

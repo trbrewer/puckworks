@@ -1,31 +1,31 @@
 {
- "source_commit": "688f24e7f032",
+ "source_commit": "bafafef3bc3c",
  "generated_by": "python tools/claim_binding_audit.py --write",
  "input_fingerprints": {
-  "docs/PAPER_A_DRAFT.md": "0efb9ee71950ee48",
-  "docs/submission/PAPER_A_JFE_MANUSCRIPT.md": "7435a401a4c960f9",
+  "docs/PAPER_A_DRAFT.md": "bc75145cf0b31d40",
+  "docs/submission/PAPER_A_JFE_MANUSCRIPT.md": "68dd1a9ae4cc9e0b",
   "docs/PAPER_B2_TEMPORAL_DRAFT.md": "c2fa8e8908702c40",
   "docs/PAPER_3_PUCKWORKS_DRAFT.md": "43c3915b7e148a6b",
-  "puckworks/paper_a/claim_coverage.py": "3fd50a0443e0ca59",
-  "puckworks/paper_a/slow_lane_bindings.py": "51590c4b53ee19f3",
+  "puckworks/paper_a/claim_coverage.py": "826636512f591830",
+  "puckworks/paper_a/slow_lane_bindings.py": "ed1a6d9295d57747",
   "puckworks/paper_b2/claim_coverage.py": "2d2228a4d4b01466",
   "puckworks/paper3/claim_coverage.py": "2151faa64ec95110"
  },
  "papers": {
   "Paper 1": {
-   "numerals": 662,
-   "structural": 185,
-   "claims": 477,
-   "verified": 193,
-   "unbound": 284,
+   "numerals": 697,
+   "structural": 188,
+   "claims": 509,
+   "verified": 220,
+   "unbound": 289,
    "unaccounted": 0,
    "by_kind": {
-    "archive": 133,
+    "archive": 161,
     "code": 4,
-    "config": 255,
+    "config": 260,
     "dataset": 29,
-    "producer": 56,
-    "structural": 185
+    "producer": 55,
+    "structural": 188
    }
   },
   "Paper B2": {
@@ -59,19 +59,34 @@
   }
  },
  "totals": {
-  "numerals": 1534,
-  "structural": 432,
-  "claims": 1102,
-  "verified": 524,
-  "unbound": 578
+  "numerals": 1569,
+  "structural": 435,
+  "claims": 1134,
+  "verified": 551,
+  "unbound": 583
  },
  "slow_lane": {
-  "total": 95,
-  "bound": 89,
-  "matching": 89,
+  "total": 103,
+  "bound": 92,
+  "declared_unbindable": 0,
+  "unbound": 11,
+  "unbound_values": [
+   "1.6",
+   "1.8",
+   "2.0",
+   "2.1",
+   "2.2",
+   "3.3",
+   "3.4",
+   "49%",
+   "7.0",
+   "8.2",
+   "89"
+  ],
+  "binding_rules": 98,
+  "matching": 98,
   "mismatched": 0,
   "unresolvable": 0,
-  "declared_unbindable": 0,
-  "unbound": 6
+  "rules_outside_registered_set": 6
  }
 }

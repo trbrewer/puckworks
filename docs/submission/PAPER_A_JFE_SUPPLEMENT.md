@@ -4,7 +4,7 @@
 
 **Separating Extractable Content from Extraction Rate in Espresso Models: Limits of Whole-Cup Measurements and the Value of Time-Resolved Data**
 
-Every item here is cited by the main text. Items are numbered sequentially within each type: Supplementary Methods S1–S2, Supplementary Note S1, Supplementary Tables S1–S5 and Supplementary Figures S1–S4.
+Every item here is cited by the main text. Items are numbered sequentially within each type: Supplementary Methods S1–S2, Supplementary Note S1, Supplementary Tables S1–S7 and Supplementary Figures S1–S4.
 
 ---
 
@@ -316,19 +316,22 @@ not.
 For each endpoint the whole procedure is repeated — fit inventory and rate on the nine
 optimal-grind conditions at that endpoint, freeze the calibration, predict all held-out coarse and
 fine observations at the same endpoint, refit the optimal-grind-trained level-only comparator at the
-same endpoint, and repeat the primary clustered resampling of the paired loss. Processing is
-described in Supplementary Methods S2.
+same endpoint, and repeat the clustered resampling of the paired loss under every declared scheme.
+Processing is described in Supplementary Methods S2.
 
-Corpus: complete held-out C/F corpus (on-grid + off-grid), 44 held-out records ×
-3 named solutes = 132 observations. Held-out record
-identifiers: A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22, A23, A24, A25, A26, A27, A28, A29, A30, A31, A32, A33, R12, R13, R14, R15, R16, R17, R18, R19, R20, R21, R22, R23, R24, R25, R26, R27, R28, R29, R30, R31, R32, R33.
-No coarse/fine record is excluded.
+<!-- paper-a:transfer-endpoint-table-supp:begin -->
+<!-- paper-a:transfer-corpus schema=2 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
 
-| endpoint | model pooled MAPE (%) | level-only comparator (%) | paired difference (pp) | primary range, conditions within variety (pp) | primary range excludes zero | secondary range, conditions within group (pp) | secondary range, whole groups (pp) | model worse on | skill vs comparator |
-|---|---:|---:|---:|---:|---|---:|---:|---:|---:|
-| 38 g | 8.39 | 8.83 | -0.447 | [-0.884, -0.046] | excludes 0 | [-0.802, -0.091] | [-0.940, -0.060] | 61 of 132 | 0.051 |
-| 40 g | 8.44 | 8.83 | -0.394 | [-0.825, +0.000] | includes 0 | [-0.742, -0.044] | [-0.883, -0.024] | 62 of 132 | 0.045 |
-| 42 g | 8.41 | 8.83 | -0.425 | [-0.890, +0.000] | includes 0 | [-0.797, -0.058] | [-0.905, -0.035] | 60 of 132 | 0.048 |
+Corpus: complete held-out C/F corpus (on-grid + off-grid), 44 held-out records × 3 named solutes = 132 observations. No coarse/fine record is excluded. Held-out record identifiers: A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22, A23, A24, A25, A26, A27, A28, A29, A30, A31, A32, A33, R12, R13, R14, R15, R16, R17, R18, R19, R20, R21, R22, R23, R24, R25, R26, R27, R28, R29, R30, R31, R32, R33.
+
+| endpoint | model pooled MAPE (%) | comparator (%) | paired difference (pp) | cond_in_variety (pp) | sample_in_variety_grind (pp) | cond_in_group (pp) | group (pp) | primary contains zero | model worse on | skill |
+|---|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|
+| 38 g | 8.39 | 8.83 | −0.447 | [−0.884, −0.042] | [−0.802, −0.097] | [−0.798, −0.085] | [−0.940, −0.060] | no | 61 of 132 | 0.051 |
+| 40 g | 8.44 | 8.83 | −0.394 | [−0.829, +0.004] | [−0.742, −0.053] | [−0.740, −0.039] | [−0.863, −0.024] | yes | 62 of 132 | 0.045 |
+| 42 g | 8.41 | 8.83 | −0.425 | [−0.891, +0.006] | [−0.804, −0.053] | [−0.792, −0.051] | [−0.883, −0.035] | yes | 60 of 132 | 0.048 |
+
+**Reading.** The effect size is stable: −0.447 to −0.394 pp across 38, 40 and 42 g, a spread of 0.053 pp — an order of magnitude smaller than the ≈ 5 pp movement in the blind optimal-grind residual over the same endpoints, which is what one expects when both predictors are re-derived at each endpoint so that a shift common to both cancels. The sign never changes and the model remains worse on roughly half the held-out observations at every endpoint. At the canonical draw count the primary clustered range contains zero at 40 g, 42 g and excludes it at 38 g. The bounds near zero carry a Monte Carlo standard error of ±0.0005 pp, so which side of zero such a bound lands on is not a resolved quantity and nothing is inferred from it. The largest advantage any upper bound admits is a small fraction of a percentage point against pooled errors near 8.4 %, and the benchmark is reported as unresolved throughout the declared tolerance.
+<!-- paper-a:transfer-endpoint-table-supp:end -->
 
 **Per group.** Macro MAPE for each variety × solute group at each endpoint.
 
@@ -353,11 +356,9 @@ No coarse/fine record is excluded.
 | 42 g | Robusta:caffeine | 7.58 | 7.48 | +0.10 |
 | 42 g | Robusta:trigonelline | 7.38 | 7.43 | -0.05 |
 
-**Reading.** The effect size is stable: -0.447 to -0.394 pp across 38, 40 and 42 g, a spread of 0.053 pp. That is an order of magnitude smaller than the ≈ 5 pp movement in the blind optimal-grind residual over the same endpoints, which is what one expects when both predictors are re-derived at each endpoint so that a shift common to both cancels. The sign never changes and the model remains worse on roughly half the held-out points (60–62 of 132) at every endpoint. The inferential reading, however, is not endpoint-invariant: the primary clustered percentile range — resampling (variety, temperature, pressure) conditions, so that all three named solutes and both held-out grinds move together — clears zero at 38 g ([-0.884, -0.046]) and reaches it at 40 g and 42 g ([-0.825, +0.000], [-0.890, +0.000]). The nearest bound to zero across the three endpoints spans 0.0000–0.0458 pp, so the rows differ in which side of zero they land on only at the third decimal place. Nothing is inferred from that. The largest advantage any of these upper bounds admits is a small fraction of a percentage point against pooled errors near 8.4 %, and the benchmark is reported as unresolved throughout the declared tolerance rather than resolved at the one endpoint whose bound happens to clear zero.
-
 The level-only comparator's pooled MAPE is 8.83 % at ALL THREE endpoints, and that is a correctness check rather than a coincidence: the comparator is fitted to MEASURED concentrations, which do not depend on where the solver terminates. Only the mechanistic predictor moves with the endpoint. If the comparator had moved too, the pipeline would not be doing what this analysis claims.
 
-**Not the same quantity as the blind-residual sweep.** This is NOT the same quantity as the blind-residual sweep, which reports the blind optimal-grind per-condition residual. Both predictors are re-derived at each endpoint here, so a shift common to both cancels -- which is exactly why the ~5 pp movement in the blind residual does not by itself imply that the model-versus-comparator conclusion is endpoint-dependent.
+**Not the same quantity as the blind-residual sweep.** This is NOT the same quantity as `endpoint_mass_sensitivity`, which reports the blind optimal-grind per-condition residual. Both predictors are re-derived at each endpoint here, so a shift common to both cancels -- which is exactly why the ~5 pp movement in the blind residual does not by itself imply that the model-versus-comparator conclusion is endpoint-dependent.
 
 
 ---
@@ -431,6 +432,84 @@ Re-running the sweep with this instrumentation reproduced every previously archi
 
 ---
 
+### Supplementary Table S6
+
+<!-- paper-a:transfer-scheme-table:begin -->
+<!-- paper-a:transfer-corpus schema=2 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
+
+**Table S6. Resampling design.** Generated from the archived design object, so the Methods paragraph and this table cannot disagree. Predictors are fixed in every scheme: no model, level parameter or comparator is refitted inside a draw.
+
+| scheme | role | strata | cluster key | clusters | cluster sizes (obs × n) | range at 40 g (pp) | width (pp) |
+|---|---|---|---|---:|---|---|---:|
+| `cond_in_variety` | primary conservative sensitivity | variety | `variety`, `temperature_degC`, `pressure_bar` | 26 | 3×8, 6×18 | [−0.829, +0.004] | 0.833 |
+| `sample_in_variety_grind` | design aligned secondary sensitivity | variety, grind | `sample_id` | 44 | 3×44 | [−0.742, −0.053] | 0.689 |
+| `cond_in_group` | secondary sensitivity | variety, solute | `variety`, `solute`, `temperature_degC`, `pressure_bar` | 78 | 1×24, 2×54 | [−0.740, −0.039] | 0.702 |
+| `group` | secondary coarse sensitivity | — | `variety`, `solute` | 6 | 22×6 | [−0.863, −0.024] | 0.839 |
+
+Monte Carlo audit of the primary scheme: 20 independent seeds at B = 200,000 each. Upper bound mean +0.0039 pp (SD 0.0010, range +0.0022 to +0.0056); lower bound mean −0.8293 pp (SD 0.0012). The bound's sign is stable across seeds. Implied Monte Carlo standard error at the canonical B = 1,000,000: ±0.0005 pp. This is numerical approximation error only and confers no coverage interpretation.
+<!-- paper-a:transfer-scheme-table:end -->
+
+
+---
+
+### Supplementary Table S7
+
+<!-- paper-a:transfer-corpus-manifest:begin -->
+<!-- paper-a:transfer-corpus schema=2 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
+
+**Table S7. Held-out coarse/fine corpus membership.** All 44 sample records scored by the headline benchmark. Each contributes the same 3 named-solute observations (caffeine, trigonelline, 5CQA), giving 132 observations. No record is excluded. The lookup comparator is undefined on the 8 off-grid records, so it is reported only on its own 108-observation support.
+
+| sample | variety | grind | T (°C) | p (bar) | on grid? | lookup defined? | primary cluster |
+|---|---|---|---:|---:|---|---|---|
+| A12 | Arabica | C | 93.4 | 9 | yes | yes | `Arabica\|93.4\|9` |
+| A13 | Arabica | C | 93.4 | 6 | yes | yes | `Arabica\|93.4\|6` |
+| A14 | Arabica | C | 93.4 | 12 | yes | yes | `Arabica\|93.4\|12` |
+| A15 | Arabica | C | 98 | 9 | yes | yes | `Arabica\|98\|9` |
+| A16 | Arabica | C | 98 | 12 | yes | yes | `Arabica\|98\|12` |
+| A17 | Arabica | C | 98 | 6 | yes | yes | `Arabica\|98\|6` |
+| A18 | Arabica | C | 88 | 9 | yes | yes | `Arabica\|88\|9` |
+| A19 | Arabica | C | 88 | 12 | yes | yes | `Arabica\|88\|12` |
+| A20 | Arabica | C | 88 | 6 | yes | yes | `Arabica\|88\|6` |
+| A21 | Arabica | C | 89 | 10 | **no** | **no** | `Arabica\|89\|10` |
+| A22 | Arabica | C | 97 | 7 | **no** | **no** | `Arabica\|97\|7` |
+| A23 | Arabica | F | 93.4 | 9 | yes | yes | `Arabica\|93.4\|9` |
+| A24 | Arabica | F | 93.4 | 6 | yes | yes | `Arabica\|93.4\|6` |
+| A25 | Arabica | F | 93.4 | 12 | yes | yes | `Arabica\|93.4\|12` |
+| A26 | Arabica | F | 98 | 12 | yes | yes | `Arabica\|98\|12` |
+| A27 | Arabica | F | 98 | 6 | yes | yes | `Arabica\|98\|6` |
+| A28 | Arabica | F | 98 | 9 | yes | yes | `Arabica\|98\|9` |
+| A29 | Arabica | F | 88 | 9 | yes | yes | `Arabica\|88\|9` |
+| A30 | Arabica | F | 88 | 12 | yes | yes | `Arabica\|88\|12` |
+| A31 | Arabica | F | 88 | 6 | yes | yes | `Arabica\|88\|6` |
+| A32 | Arabica | F | 90 | 8 | **no** | **no** | `Arabica\|90\|8` |
+| A33 | Arabica | F | 95 | 11 | **no** | **no** | `Arabica\|95\|11` |
+| R12 | Robusta | C | 93.4 | 9 | yes | yes | `Robusta\|93.4\|9` |
+| R13 | Robusta | C | 93.4 | 12 | yes | yes | `Robusta\|93.4\|12` |
+| R14 | Robusta | C | 93.4 | 6 | yes | yes | `Robusta\|93.4\|6` |
+| R15 | Robusta | C | 88 | 9 | yes | yes | `Robusta\|88\|9` |
+| R16 | Robusta | C | 88 | 12 | yes | yes | `Robusta\|88\|12` |
+| R17 | Robusta | C | 88 | 6 | yes | yes | `Robusta\|88\|6` |
+| R18 | Robusta | C | 98 | 9 | yes | yes | `Robusta\|98\|9` |
+| R19 | Robusta | C | 98 | 12 | yes | yes | `Robusta\|98\|12` |
+| R20 | Robusta | C | 98 | 6 | yes | yes | `Robusta\|98\|6` |
+| R21 | Robusta | C | 97 | 7 | **no** | **no** | `Robusta\|97\|7` |
+| R22 | Robusta | C | 89 | 10 | **no** | **no** | `Robusta\|89\|10` |
+| R23 | Robusta | F | 93.4 | 9 | yes | yes | `Robusta\|93.4\|9` |
+| R24 | Robusta | F | 93.4 | 12 | yes | yes | `Robusta\|93.4\|12` |
+| R25 | Robusta | F | 93.4 | 6 | yes | yes | `Robusta\|93.4\|6` |
+| R26 | Robusta | F | 88 | 9 | yes | yes | `Robusta\|88\|9` |
+| R27 | Robusta | F | 88 | 12 | yes | yes | `Robusta\|88\|12` |
+| R28 | Robusta | F | 88 | 6 | yes | yes | `Robusta\|88\|6` |
+| R29 | Robusta | F | 98 | 6 | yes | yes | `Robusta\|98\|6` |
+| R30 | Robusta | F | 98 | 9 | yes | yes | `Robusta\|98\|9` |
+| R31 | Robusta | F | 98 | 12 | yes | yes | `Robusta\|98\|12` |
+| R32 | Robusta | F | 95 | 11 | **no** | **no** | `Robusta\|95\|11` |
+| R33 | Robusta | F | 90 | 8 | **no** | **no** | `Robusta\|90\|8` |
+<!-- paper-a:transfer-corpus-manifest:end -->
+
+
+---
+
 ### Supplementary Figure S1
 
 ![Supplementary Figure S1](figures/fig3_holdouts.png)
@@ -451,7 +530,7 @@ Re-running the sweep with this instrumentation reproduced every previously archi
 
 ![Supplementary Figure S3](figures/fig7_per_group_diagnostics.png)
 
-**Figure S3. Per-group blind and inventory-matched residual diagnostics at the optimal grind.** Each variety × observable group contains nine Angeloni temperature–pressure conditions evaluated at the matched 40 g endpoint. Panel (a) compares blind source-model MAPE with MAPE after matching the orthogonal same-campaign inventory assay where available; panel (b) reports the model–data correlation across conditions. Inventory matching can improve one analyte and worsen another, so the residual cannot be interpreted as a pure inventory offset. Correlations are descriptive associations across operating conditions, not temporal correlations or held-out skill measures. Evidence tier: within-campaign diagnostic.
+**Figure S3. Per-group residual diagnostics at the matched 40 g endpoint.** Each of the eight variety × observable groups contains nine Angeloni temperature–pressure conditions, all evaluated at the matched 40 g collected-mass endpoint. **Panel (a)** compares *blind* source-model MAPE — the model applied with no target-specific inventory adjustment — with MAPE after *matching* the orthogonal same-campaign roasted-and-ground inventory assay. Matching is possible only for caffeine and trigonelline, the two solutes the assay reports; the remaining groups are marked “NA” at the baseline rather than drawn as zero-height bars, which would read as zero error. Arrows mark whether matching improved or worsened each group. **Panel (b)** reports the model–data association of the corresponding response summaries **across the nine operating conditions**; this compares conditions and is **not** a temporal trajectory. Inventory matching improves one analyte and worsens another, so the residual cannot be interpreted as a pure inventory offset. Correlations are descriptive associations, not held-out skill measures, and with only nine conditions per group and eight groups they should be read as indicative rather than estimated with useful precision. Evidence tier: within-campaign diagnostic.
 
 ---
 

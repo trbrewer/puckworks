@@ -228,22 +228,29 @@ def test_the_level_only_null_does_not_move_with_the_endpoint():
 
 
 def test_the_manuscript_reports_the_endpoint_dependence_it_found():
-    """The sweep found the effect SIZE stable while the primary range sits on zero.
+    """The sweep found the effect SIZE stable while the primary range's boundary moved.
 
-    At 40 g and 42 g the range's upper bound rounds to +0.000 and at 38 g it clears zero by
-    0.046 pp. That the three rows disagree at the third decimal is the finding, and the decision
-    rule says it becomes part of the conclusion rather than being buried -- or, worse, reported as
-    though the sign of an inequality settled it.
+    Round 8 replaced the single ambiguous `conclusion_stable` boolean — which hid WHICH
+    conclusion was being tested — with explicit stability dimensions, and the manuscript must
+    report the dimension the sweep actually found unstable rather than burying it or, worse,
+    reporting the sign of an inequality as though it settled the question.
     """
+    from puckworks.paper_a import transfer_contract as TC
+
     rec = json.loads(C.ENDPOINT_JSON.read_text(encoding="utf-8"))
     man = C.CONVERSION.read_text(encoding="utf-8")
-    lo38, hi38 = next(r["clustered_range_within_variety"] for r in rec["rows"]
-                      if r["m_target_g"] == 38.0)
-    assert not (lo38 <= 0 <= hi38), "38 g no longer clears zero — update this test and the prose"
-    assert not rec["conclusion_stable"]
-    assert "sits on the boundary" in man
-    # the knife-edge must be reported as a distance, not only as a boolean
-    assert all("nearest_bound_to_zero_pp" in r for r in rec["rows"])
+    sens = rec["endpoint_sensitivity"]
+    assert sens["point_difference_sign_stable"], "the point difference changed sign"
+    assert not sens["range_contains_zero_classification_stable"], (
+        "every endpoint now classifies the same way — update this test and the prose")
+    # The interpretation travels as a structured code that the release gate binds, not as a
+    # magic phrase a copy-edit can silently break.
+    assert sens["interpretation_code"] in man
+    # The boundary must be reported as a signed distance, not only as a boolean.
+    for r in rec["rows"]:
+        i = r["resampling"][TC.PRIMARY_SCHEME]["interval"]
+        assert "signed_nearest_bound_to_zero_pp" in i
+        assert "full_precision_pp" in i
     # every per-endpoint headline value is printed
     for r in rec["rows"]:
         assert f"{r['pooled_model_mape']:.2f}" in man
@@ -505,10 +512,20 @@ def test_abstract_numbers_are_consistent_with_the_body():
         assert str(ROUNDED[token]) in body, (
             f"{token} is declared a rounding of {ROUNDED[token]}, which is not in the body")
 
-    assert "−0.825" in abstract or "-0.825" in abstract, (
-        "the abstract must quote the clustered interval at the same three decimal places as the "
-        "body; fewer decimals reintroduce the rounding ambiguity, and at this effect size the "
-        "third decimal is the difference between a resolved claim and an unresolved one")
+    # The abstract must quote the CURRENT primary interval at the body's precision. Round 8
+    # found this test hard-coding "−0.825", which meant it certified a value rather than a
+    # correspondence: it would have passed unchanged while the artefact moved underneath it.
+    from puckworks.paper_a import transfer_contract as TC
+
+    rec = json.loads(C.ENDPOINT_JSON.read_text(encoding="utf-8"))
+    row = next(r for r in rec["rows"] if r[TC.ENDPOINT_ROW_KEY] == 40.0)
+    fp = row["resampling"][TC.PRIMARY_SCHEME]["interval"]["full_precision_pp"]
+    for bound in (TC.format_pp(fp["lower"]), TC.format_pp(fp["upper"])):
+        assert bound in abstract, (
+            f"the abstract must quote the clustered interval bound {bound!r} at the same three "
+            "decimal places as the body; fewer decimals reintroduce the rounding ambiguity, and "
+            "at this effect size the third decimal is the difference between a resolved claim "
+            "and an unresolved one")
 
 
 def test_every_main_figure_is_cited_in_the_text_and_in_order():
