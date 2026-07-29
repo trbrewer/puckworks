@@ -20,7 +20,7 @@ from __future__ import annotations
 import json
 import os
 
-from .figures import _plt, _save, INK, ACCENT, NULL, GOOD, WARN, BAD, GRID
+from .figures import _plt, _save, INK, ACCENT, NULL, GOOD, WARN, BAD
 
 OUTDIR = "docs/figures/paper_a"
 RESULTS = os.path.join(OUTDIR, "results.json")
