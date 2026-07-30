@@ -238,6 +238,64 @@ RULES: tuple[ClaimRule, ...] = (
         CALIBRATED,
         "'within noise' is a verdict against a noise model this analysis does not define, let alone "
         "calibrate"),
+    # A self-check after the round-11 remediation merged tried twenty FRESH paraphrases against the
+    # rules above — none of them from the review, none from the test suite. Seventeen passed.
+    #
+    # That is the honest shape of a keyword taxonomy: it catches what someone thought of. The classes
+    # below close the most natural of those, but the result to carry forward is the measurement, not
+    # the patch — the taxonomy is a backstop, and the load-bearing defence is the positive assertion
+    # contract on each surface plus generated text for the central claims. The reviewer brief now
+    # says so with the number attached.
+    ClaimRule(
+        "worth_little",
+        _rx(r"\b(?:buys?|bought|gains?|gained|wins?|won)\s+(?:us\s+|you\s+|the\s+\w+\s+)?"
+            r"(?:very\s+)?little\b"
+            r"|\bnot\s+worth\s+(?:having|the\s+\w+|it)\b"
+            r"|\blittle\s+to\s+choose\s+between\b"
+            r"|\b(?:contributes?|adds?|offers?)\s+(?:almost|next\s+to|virtually)\s+nothing\b"
+            r"|\btoo\s+small\s+to\s+matter\b"
+            r"|\bvanishingly\s+small\b"),
+        MARGIN,
+        "a practical-worth verdict: whether an increment is 'worth having' is a decision against a "
+        "margin, and none is predeclared"),
+    ClaimRule(
+        "barely_improves",
+        _rx(r"\b(?:barely|hardly|scarcely|only\s+just)\s+"
+            r"(?:improve\w*|better|beat\w*|outperform\w*|exceed\w*|above)\b"),
+        SUPERIORITY,
+        "a superiority verdict softened by an adverb is still a superiority verdict"),
+    ClaimRule(
+        "trivial_difference",
+        _rx(r"\bdifference\s+is\s+(?:trivial|immaterial|inconsequential|unimportant)\b"
+            r"|\b(?:trivial|immaterial|inconsequential)\s+difference\b"),
+        MARGIN,
+        "a practical-negligibility verdict about the difference itself"),
+    ClaimRule(
+        "just_as_good",
+        _rx(r"\b(?:does|do|did|performs?|performed)\s+just\s+as\s+(?:well|good)\b"
+            r"|\bevery\s+bit\s+as\s+(?:good|accurate|effective)\b"
+            r"|\bon\s+a\s+par\s+with\b|\bon\s+a\s+par\b"
+            r"|\b(?:are|is|were|was)\s+interchangeable\b"
+            r"|\bfor\s+(?:all\s+)?practical\s+purposes\s+(?:the\s+two|they|both)\b"),
+        EQUIVALENCE,
+        "an equivalence verdict in plain words"),
+    ClaimRule(
+        "similar_performance",
+        _rx(r"\b(?:similar|comparable|equivalent|matching)\s+"
+            r"(?:accuracy|performance|error|skill|precision)\b"
+            r"|\b(?:deliver|delivers|delivered|achieve|achieves|achieved|give|gives|gave)\s+"
+            r"(?:similar|comparable)\s+\w+\b"),
+        EQUIVALENCE,
+        "an equivalence verdict; 'similar' is a judgement of closeness against an undeclared "
+        "threshold"),
+    ClaimRule(
+        "minor_gain",
+        _rx(r"\b(?:minor|slim|thin|modest)\s+(?:incremental\s+)?"
+            r"(?:skill|gain|gains|benefit|advantage|edge|improvement|margin)\b"
+            r"|\b(?:skill|gain|gains|benefit|advantage|edge)\s+(?:were|was|is|are)\s+"
+            r"(?:minor|slim|thin)\b"),
+        MARGIN,
+        "the same practical-magnitude verdict with a different adjective"),
     ClaimRule(
         "no_practical_advantage",
         # "no practical MARGIN was declared" is a true statement about the protocol and must survive;

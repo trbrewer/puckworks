@@ -689,13 +689,35 @@ def _inline_visible(token) -> str:
     return "".join(out)
 
 
+#: Characters that are invisible on the page and split a word for a regular expression.
+#:
+#: Found by a self-check AFTER the round-11 remediation merged: a soft hyphen inside "version"
+#: renders as "version" and did not match `\ban earlier version\b`. Zero-width space, zero-width
+#: non-joiner/joiner, word joiner, soft hyphen and the BOM are all removed before matching, because
+#: a reader cannot see any of them and a rule should not be defeated by one.
+_INVISIBLE = dict.fromkeys(
+    [0x200B, 0x200C, 0x200D, 0x2060, 0x00AD, 0xFEFF], None)
+
+
 def _normalise_visible(text: str) -> str:
-    """One space between words, ordinary punctuation, no residual markers.
+    """One space between words, ordinary punctuation, no residual or invisible markers.
 
     ``&nbsp;`` arrives from the parser as U+00A0, which is not matched by ``\\s`` in a rule written
-    with a plain space — the same bypass class as the line wrap, two levels down.
+    with a plain space \u2014 the same bypass class as the line wrap, two levels down.
+
+    Emphasis markers are stripped here as well as by the parser. Inside a raw ``html_block`` the
+    CommonMark parser does not interpret Markdown at all, so ``<div>An earlier **version** was
+    wrong.</div>`` reaches this function with its asterisks still in place.
     """
-    text = text.replace(" ", " ").replace("‑", "-").replace("–", "-")
+    text = text.translate(_INVISIBLE)
+    text = text.replace("\u00a0", " ").replace("\u2011", "-").replace("\u2013", "-")
+    # Asterisks, tildes and backticks never occur inside a repository path, so they go unconditionally.
+    # Underscores DO \u2014 `paper_a_transfer_text.py`, `fig4_transfer` \u2014 so only a run at a word boundary
+    # is treated as an emphasis delimiter. Stripping them all turned `tools/paper_a_transfer_text.py`
+    # into `tools/paperatransfertext.py` and the internal-path rule stopped recognising its own
+    # target: a fix for one bypass opening another, caught by the existing leakage tests.
+    text = re.sub(r"[*~`]{1,3}", "", text)
+    text = re.sub(r"(?<!\w)_{1,3}|_{1,3}(?!\w)", "", text)
     return " ".join(text.split())
 
 
@@ -720,6 +742,14 @@ def _visible_paragraphs(text: str):
                 blocks.append((line_no, visible))
         elif token.type == "html_block":
             visible = _normalise_visible(_HTML_TAG.sub("", token.content))
+            if visible:
+                blocks.append((line_no, visible))
+        elif token.type in ("fence", "code_block"):
+            # A self-check after the round-11 merge found these produced NO visible text at all:
+            # only `inline` and `html_block` were handled, so a repository path or a review sentence
+            # inside a fenced block was invisible to every rule. A reader sees a code block, and the
+            # submission files do contain them.
+            visible = _normalise_visible(token.content)
             if visible:
                 blocks.append((line_no, visible))
     return blocks
@@ -774,6 +804,26 @@ def _normalise_target(target: str) -> str:
     return out
 
 
+
+#: The deliverables the package manifest says are uploaded EXACTLY as they stand, with no conversion
+#: step to strip editorial notes. Anything invisible in these still reaches the editor.
+#:
+#: The manuscript, package and cover letter are converted to .docx or .tex first ("remove editorial
+#: notes" is a listed conversion edit), so their generator stamps never ship.
+_UPLOADED_VERBATIM = ("PAPER_A_JFE_HIGHLIGHTS.txt", "PAPER_A_JFE_FIGURE_CAPTIONS.md")
+
+#: The internal-path pattern, named so the comment channel can use it without re-deriving the rule.
+_INTERNAL_PATH_RX = re.compile(r"`?\b(?:docs|tools|tests|puckworks)/[\w./-]+`?|`?\.github/[\w./-]+`?")
+
+_HTML_COMMENT = re.compile(r"<!--(.*?)-->", re.S)
+
+
+def _html_comments(text: str):
+    """Yield ``(source_line, comment_body)`` for every HTML comment in the file."""
+    for m in _HTML_COMMENT.finditer(text):
+        yield text[:m.start()].count("\n") + 1, m.group(1)
+
+
 def _placeholders_and_process_language() -> list[str]:
     problems = _parser_problem()
     if problems:
@@ -806,6 +856,27 @@ def _placeholders_and_process_language() -> list[str]:
         # meaningless against it, while a repository path in it is exactly the leak.
         if path.name not in _RULE_SCOPE["internal_path"]:
             continue
+
+        # HTML comments are excluded from PROSE because the generated blocks carry schema and
+        # manifest stamps that are assurance devices, not sentences a reader reads. But a comment
+        # still SHIPS when the file is uploaded as-is: invisible on the page, plainly present in the
+        # source an editor receives. So the path rule — and only the path rule — looks inside them,
+        # for the files the package manifest says are uploaded WITHOUT conversion.
+        #
+        # The manuscript, package and cover letter are converted to .docx/.tex first, with "remove
+        # editorial notes" an explicit conversion step, so their stamps do not reach anyone. Scoping
+        # this channel to the whole set would have flagged eleven legitimate generator stamps and
+        # forced churn for no reader's benefit; scoping it to none would have missed the caption
+        # file, which is uploaded exactly as it stands.
+        for line_no, comment in (_html_comments(text)
+                                 if path.name in _UPLOADED_VERBATIM else ()):
+            for m in _INTERNAL_PATH_RX.finditer(comment):
+                if any(rx.match(_normalise_target(m.group(0).strip("`"))) for rx in _ALLOWED_TARGETS):
+                    continue
+                problems.append(
+                    f"{path.name}:{line_no}: <<{m.group(0)}>> [internal_path] -- internal "
+                    f"repository path inside an HTML comment; no reader sees it, but it ships in "
+                    f"the submitted source")
         exempt_lines = {ln for ln, para in _visible_paragraphs(text)
                         if _UNSUPPLIED_METADATA.search(para)}
         for line_no, raw_target in _link_targets(text):
@@ -926,9 +997,13 @@ def _upload_captions_are_generated_and_clean() -> list[str]:
     if UPLOAD_CAPTIONS.name not in package:
         problems.append("the package manifest does not list the upload-ready caption file %s"
                         % UPLOAD_CAPTIONS.name)
-    if "<!--" in _read(UPLOAD_CAPTIONS).replace(
-            "<!-- GENERATED by tools/paper_a_figure_captions.py from the internal figure map. "
-            "Do not edit by hand. -->", ""):
+    # The stamp is read from the GENERATOR rather than duplicated here, so changing it in one place
+    # cannot leave this check asserting a string that no longer exists — which would silently permit
+    # every comment in the file.
+    from tools import paper_a_figure_captions as FCAP
+
+    stamp = next((ln for ln in FCAP.render().splitlines() if ln.startswith("<!--")), "")
+    if "<!--" in _read(UPLOAD_CAPTIONS).replace(stamp, ""):
         problems.append("the upload-ready caption file carries an HTML comment other than its own "
                         "generation stamp; source stamps must not reach an editor")
     return problems

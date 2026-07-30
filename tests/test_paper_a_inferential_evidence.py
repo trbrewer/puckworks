@@ -290,3 +290,45 @@ def test_the_artefact_boundary_refuses_an_unevidenced_decision():
                     permitted_claim_class="calibrated_decision")
     with pytest.raises(ValueError, match="no verifiable evidence record"):
         TT.validated_analysis(mutated)
+
+
+# ── 7. self-check finding, AFTER the round-11 remediation merged ─────────────────────────────
+def test_a_verified_status_cannot_be_constructed_directly():
+    """P1-2 was that a decision permission could be TYPED rather than earned. Probing our own fix
+    found the same defect one type along: `VerifiedInferentialStatus` is what `claim_policy` trusts,
+    it was an ordinary dataclass, and hand-building one with a fabricated decision map granted all
+    four decisions with no verification having run. That only one call site built it correctly was a
+    CONVENTION — the exact kind of guarantee the original finding rejected."""
+    verified = H.synthetic_equivalence_status()
+    with pytest.raises(TypeError, match="cannot be constructed directly"):
+        IE.VerifiedInferentialStatus(declared=verified.declared, evidence=verified.evidence,
+                                     procedure=verified.procedure, estimand=verified.estimand)
+    with pytest.raises(TypeError, match="cannot be constructed directly"):
+        IE.VerifiedInferentialStatus(declared=STATUS, evidence=verified.evidence,
+                                     procedure=verified.procedure,
+                                     estimand=TS.POOLED_MAPE_ESTIMAND, _token="guess")
+
+
+def test_decision_flags_are_recomputed_not_stored():
+    """There is no cached verdict to tamper with: the flags re-apply the registered rule to the
+    evidence's interval on every read."""
+    verified = H.synthetic_equivalence_status()
+    assert verified.decision_flags[IE.EQUIVALENCE] is True
+    assert not any(f.name == "_decisions" for f in dataclasses.fields(verified)), \
+        "a stored decision map is a forgeable field"
+    # Same object, evidence swapped for one outside the margin -> the flag follows the evidence.
+    outside = dataclasses.replace(verified.evidence, observed_interval_pp=(-0.9, 0.2))
+    moved = dataclasses.replace(verified, evidence=outside)
+    assert moved.decision_flags[IE.EQUIVALENCE] is False
+    assert CP.granted(moved) == {"calibrated coverage", "a predeclared practical margin"}
+
+
+def test_a_subclass_of_the_declared_status_cannot_smuggle_flags():
+    class Sneaky(TS.InferentialStatus):
+        @property
+        def decision_flags(self):
+            return {"equivalence": True, "superiority": True}
+
+    sneaky = Sneaky(**{f.name: getattr(STATUS, f.name) for f in dataclasses.fields(STATUS)})
+    assert CP.granted(sneaky) == set()
+    assert CP.scan("The arms are equivalent.", sneaky)

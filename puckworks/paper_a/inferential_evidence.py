@@ -48,7 +48,7 @@ from __future__ import annotations
 
 import hashlib
 import json
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from puckworks.paper_a import transfer_semantics as TS
 
@@ -369,18 +369,47 @@ def _require_number(value, what: str) -> float:
 # ─────────────────────────────────────────────────────────────────────────────────────────────
 
 
+#: A module-private construction token. Only :func:`verify_inferential_evidence` holds it.
+#:
+#: Round-11 P1-2 was that a decision permission could be TYPED rather than earned. A self-check
+#: after the remediation merged found the same defect one type along: ``VerifiedInferentialStatus``
+#: is the thing `claim_policy` trusts, it was an ordinary dataclass, and
+#:
+#:     VerifiedInferentialStatus(declared=…, evidence=…, procedure=…,
+#:                               _decisions={"superiority": True, "equivalence": True, …})
+#:
+#: granted all four decisions without any verification running. That only one call site constructed
+#: it properly was a CONVENTION — precisely the kind of guarantee the original finding rejected.
+_VERIFIED = object()
+
+
 @dataclass(frozen=True)
 class VerifiedInferentialStatus:
     """A status whose decision flags are DERIVED, and the evidence they were derived from.
 
-    ``claim_policy.granted()`` unlocks decision language from this type and from nothing else. The
-    flags are properties, not fields: there is no attribute to set.
+    ``claim_policy.granted()`` unlocks decision language from this type and from nothing else, so
+    the type has to be unforgeable rather than merely conventionally constructed. Two things make it
+    so:
+
+    * it cannot be instantiated without the module-private token, which only
+      :func:`verify_inferential_evidence` has; and
+    * ``decision_flags`` **re-applies the registered rule** to the evidence's observed interval on
+      every read, rather than returning a stored dict. There is no cached verdict to tamper with,
+      and a mismatch between the stored derivation and a fresh one is itself an error.
     """
 
     declared: TS.InferentialStatus
     evidence: EvidenceRecord
     procedure: ProcedureSpec
-    _decisions: dict = field(default_factory=dict)
+    estimand: TS.EstimandSpec
+    _token: object = None
+
+    def __post_init__(self):
+        if self._token is not _VERIFIED:
+            raise TypeError(
+                "VerifiedInferentialStatus cannot be constructed directly; it is the object "
+                "`claim_policy` trusts, so it may only be produced by verify_inferential_evidence() "
+                "from evidence that survived verification")
 
     # The InferentialStatus surface the claim policy consumes ────────────────────────────────
     @property
@@ -397,7 +426,16 @@ class VerifiedInferentialStatus:
 
     @property
     def decision_flags(self) -> dict:
-        return {name: bool(self._decisions.get(name, False)) for name in DECISIONS}
+        """Recomputed from the evidence every time. Nothing here is stored."""
+        sem = TS.interval_semantics(*self.evidence.observed_interval_pp)
+        out = {name: False for name in DECISIONS}
+        for decision, rule_id in self.evidence.decision_rule_ids.items():
+            registered = self.procedure.decision_rules.get(decision)
+            if registered is None or registered != rule_id:
+                continue
+            out[decision] = bool(DECISION_RULES[registered](
+                sem, self.estimand, self.evidence.practical_margin_pp))
+        return out
 
     @property
     def permitted_claim_class(self) -> TS.ClaimClass:
@@ -542,5 +580,14 @@ def verify_inferential_evidence(declared: TS.InferentialStatus, evidence: Eviden
 
     if problems:
         return None, problems
-    return VerifiedInferentialStatus(declared=declared, evidence=evidence, procedure=spec,
-                                     _decisions=derived), []
+    verified = VerifiedInferentialStatus(declared=declared, evidence=evidence, procedure=spec,
+                                         estimand=estimand, _token=_VERIFIED)
+    # The status re-derives its flags on every read. Confirm once, here, that a fresh derivation
+    # agrees with the one this function just computed — if the two ever disagreed it would mean the
+    # rule is not a pure function of (interval, estimand, margin), and every downstream permission
+    # would depend on when it was asked.
+    if verified.decision_flags != {name: bool(derived.get(name, False)) for name in DECISIONS}:
+        return None, ["the derived decisions are not reproducible from the verified status; a "
+                      "decision rule must be a pure function of the observed interval, the estimand "
+                      "and the margin"]
+    return verified, []
