@@ -380,3 +380,32 @@ Genuinely outside Round 11 remediation, carried forward:
 | `4a17e0c` bind inferential claims to verified evidence | P1-2 |
 | `d22f73d` harden the source and numeric contracts | P1-4, P1-5 |
 | `7767a7b` structurally validate submission markdown and captions | P1-6, P2-1 |
+
+---
+
+## 11. Post-merge self-check (30 July 2026)
+
+After the remediation merged as `fae72c4`, the new gates were probed adversarially rather than
+re-run. **Three found defects in the gates themselves.** None affected the paper's text — the phrase
+sweep, `verify` and the numerical invariants were all clean throughout — but each was a live hole in
+a check, which is the class of thing round 11 was about.
+
+| # | Found | Why it matters | Fixed |
+|---|---|---|---|
+| 1 | **`VerifiedInferentialStatus` was forgeable.** An ordinary dataclass holding a decision map: hand-building one granted all four decisions with no verification having run | The same "typed rather than earned" error P1-2 identified, one type along. Only one call site constructing it correctly was a *convention* — the guarantee P1-2 rejected | Module-private construction token; `decision_flags` re-derives from the evidence on every read, so there is no stored verdict to tamper with |
+| 2 | **Four scanner bypasses.** Fenced code blocks produced no visible text; raw HTML blocks kept their Markdown markers uninterpreted; soft hyphens and zero-width characters split a phrase invisibly; HTML comments were unscanned even in files uploaded verbatim | Each is a way to put review history or a repository path into a deliverable unseen | Fence and code-block tokens extracted; emphasis stripped after HTML-block tag removal; six invisible characters removed before matching; comment path-channel added for the two files the package uploads without conversion |
+| 3 | **The magnitude taxonomy was thin.** Twenty *fresh* paraphrases — none from the review, none from the suite — were tried; **17 passed** | A keyword list catches what somebody thought of. This is exactly how the round-10 verdict returned | Six rule classes added, bringing it to **19 of 20**. The twentieth is left failing with a test pinning the fact, because the honest statement is the measurement, not a claim of completeness |
+
+Closing (2) introduced a fifth defect — stripping emphasis markers globally removed the underscores
+from `tools/paper_a_transfer_text.py`, so the internal-path rule stopped recognising its own target.
+The existing leakage tests caught it before commit. It is recorded because "a fix opening another
+hole" is the failure mode of the last four rounds, and it happened again inside one session.
+
+One consequential editorial change: the upload-ready caption file's generation stamp named
+`tools/paper_a_figure_captions.py`. That file is uploaded **exactly as it stands** — unlike the
+manuscript, which is converted to `.docx` with "remove editorial notes" a listed step — so the
+comment shipped. Same class as the two paths found on line 2 of the Highlights file, and fixed the
+same way.
+
+Re-verified after all of it: full chain PASS, 1100 Paper 1 tests pass, protected values unchanged,
+0 unaccounted numerals in both manuscripts.

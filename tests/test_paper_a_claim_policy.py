@@ -602,3 +602,63 @@ def test_the_committed_artefact_declares_the_status_the_claims_assume():
     declared = TS.status_from_dict(ep["resampling_design"]["inferential_status"])
     assert declared == STATUS
     assert TS.validate_inferential_status(declared) == []
+
+
+# ── 6. self-check finding: how complete is the taxonomy, really? ─────────────────────────────
+#
+# After the round-11 remediation merged, twenty FRESH paraphrases were tried against the rules —
+# none from the review, none from the suite above. SEVENTEEN passed. The classes added since close
+# nineteen of the twenty, and the twentieth is left failing on purpose: a keyword taxonomy catches
+# what someone thought of, and pinning the measurement is more honest than pretending the list is
+# closed. The reviewer brief carries this number.
+_FRESH_PARAPHRASES = [
+    "The mechanistic model buys us very little.",
+    "The gain is not worth having.",
+    "The improvement is slight.",
+    "The advantage is negligible in practice.",
+    "Any advantage is too small to matter.",
+    "The model barely improves on the comparator.",
+    "The difference is trivial.",
+    "The comparator does just as well.",
+    "The comparator is every bit as good.",
+    "There is little to choose between them.",
+    "The mechanistic model is not worth the extra complexity.",
+    "For practical purposes the two are interchangeable.",
+    "The benefit is vanishingly small.",
+    "The model's edge is slim.",
+    "Both approaches deliver similar accuracy.",
+    "The mechanism contributes almost nothing.",
+    "The improvement is marginal at best.",
+    "The two arms are on a par.",
+    "Skill gains were minor.",
+]
+
+
+@pytest.mark.parametrize("sentence", _FRESH_PARAPHRASES)
+def test_fresh_magnitude_paraphrases_are_prohibited(sentence):
+    assert CP.scan(sentence, STATUS), "FALSE GREEN: %r" % sentence
+
+
+def test_the_taxonomy_is_known_to_be_incomplete():
+    """Recorded rather than hidden. `much of a muchness` is an ordinary English way to assert
+    equivalence and no rule matches it — kept as a standing reminder that the phrase list is a
+    backstop, and the load-bearing defence is the positive assertion contract plus generated text."""
+    assert CP.scan("The two predictors are much of a muchness.", STATUS) == [], (
+        "if this now fails, the taxonomy grew — update the brief's stated coverage rather than "
+        "deleting the test")
+
+
+@pytest.mark.parametrize("sentence", [
+    # The new classes must not fire on ordinary language, including the paper's own.
+    "The held-out error stays modest under either estimand.",
+    "A modest absolute error is reported at the matched endpoint.",
+    "Records were matched by variety, temperature, and pressure.",
+    "The 40 g upper sensitivity bound was a small positive value.",
+    "No practical margin was predeclared.",
+    "This analysis does not establish superiority.",
+    "The observed pooled-MAPE difference was −0.394 percentage points.",
+    "Comparable datasets were used in both campaigns.",
+    "The design matched conditions across grinds.",
+])
+def test_the_new_magnitude_rules_do_not_fire_on_ordinary_language(sentence):
+    assert CP.scan(sentence, STATUS) == [], sentence

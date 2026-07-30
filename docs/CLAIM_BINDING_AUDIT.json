@@ -1,5 +1,5 @@
 {
- "source_commit": "4a17e0c46883",
+ "source_commit": "78558fb94f7e",
  "generated_by": "python tools/claim_binding_audit.py --write",
  "input_fingerprints": {
   "docs/PAPER_A_DRAFT.md": "72e90848e6b0cf87",

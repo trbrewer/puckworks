@@ -227,9 +227,14 @@ unproven.
   a sentence where a disclaimer legitimately governs across one of those, so we now produce a **false
   positive**? Or the reverse — a verdict that stays inside a disclaimer's clause and should not be
   covered by it?
-- **Is there still a decision class with no rule?** We now have absence, equivalence,
-  distinguishability, superiority, non-inferiority, practical negligibility and calibrated coverage.
-  What is the eighth?
+- **The taxonomy is known to be incomplete, and we can tell you by how much.** After the remediation
+  merged we tried twenty *fresh* paraphrases against it — none from the review, none from our own
+  suite. **Seventeen passed.** We then added six rule classes, which brings it to 19 of 20; the
+  twentieth ("the two predictors are much of a muchness") is left failing on purpose, with a test
+  pinning that fact, because a keyword list catches what somebody thought of and pretending
+  otherwise is how this defect recurred in the first place. Assume the same is true of the list as
+  it now stands. The load-bearing defence is meant to be the positive assertion contract and
+  generated text; **tell us if the phrase list is doing more work than it should.**
 - The safe constructions are a fixed list of verb phrases. Is there an ordinary way to disclaim
   something that is not on it, and would therefore be flagged?
 - **Double negation, quotation, and reported speech.** We deliberately do not exempt quotation marks.
@@ -246,6 +251,11 @@ This is the largest new mechanism and the one with the least service history.
 - The chain is: registered procedure → evidence record → recompute every digest → **derive** the
   decision → `VerifiedInferentialStatus`. Does that actually remove the trusted boolean, or does it
   move the trust to whoever writes the procedure registration?
+- **We already found one instance of it moving rather than going.** As first merged,
+  `VerifiedInferentialStatus` was an ordinary dataclass holding a decision map, so hand-building one
+  granted all four decisions with no verification having run — the same "typed rather than earned"
+  error the finding was about, one type along. It now requires a module-private construction token
+  and re-derives its flags from the evidence on every read. Look for the next instance.
 - The registry is **empty**, and the positive path is exercised only by a test-only synthetic
   procedure. Is proving the unlock path against a fixture sufficient, or is an empty registry with an
   untested-in-anger unlock mechanism a liability of its own?
@@ -283,8 +293,18 @@ there is a fifth.
   Is a hard dependency on a Markdown parser the right call for a repository whose core is
   numpy/scipy, and is the not-run path genuinely blocking everywhere it needs to be?
 - Two channels: visible text, and destinations. Can you still get review history, a producer
-  identifier or an internal path into an upload deliverable? We are least confident about raw HTML
-  blocks, nested constructs, and anything the CommonMark parser treats as a code block.
+  identifier or an internal path into an upload deliverable? **Four holes were found by probing this
+  after it merged**, all now closed and all worth knowing about because they say what kind of thing
+  slips through: a **fenced code block** produced no visible text at all; inside a **raw HTML block**
+  the parser does not interpret Markdown, so `<div>An earlier **version** was wrong.</div>` kept its
+  asterisks and no rule matched; a **soft hyphen or zero-width space** inside a word defeated every
+  phrase rule while being invisible on the page; and **HTML comments** were unscanned even in the two
+  files the package manifest uploads verbatim. Closing the second of those introduced a fifth —
+  stripping emphasis markers globally ate the underscores out of `paper_a_transfer_text.py` — which
+  the existing leakage tests caught. Assume there is a sixth.
+- The comment channel is scoped to the two files uploaded **without conversion**; the manuscript,
+  package and cover letter are converted to `.docx`/`.tex` with "remove editorial notes" a listed
+  step, so their generator stamps never ship. Is that scoping right, or is it convenient?
 - The path exemptions are now two files (the package, the canonical draft) plus a structural
   unsupplied-metadata exemption. Read the exemption reasons and say whether either is convenient
   rather than principled.
