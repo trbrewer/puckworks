@@ -14,7 +14,7 @@
 
 | Finding | Resolution | Principal changes | Tests | Mutation evidence | Manual check | Status |
 |---|---|---|---|---|---|---|
-| **P0-1** central claim | Path A: evidence-limited conclusion on every surface, enforced by a typed inferential-status contract | `puckworks/paper_a/claim_policy.py` (new), `transfer_semantics.InferentialStatus`, `paper_a_front_matter.yaml`, `tools/paper_a_transfer_text.py`, `tools/paper_a_front_matter.py`, `puckworks/figures_paper_a.py` | `tests/test_paper_a_claim_policy.py` (74) | 12 retired verdicts prohibited; 7 disclaimers still permitted; status-driven unlock proven | abstract → significance → Methods → headline → Table 4a → endpoint synthesis → supplement → Discussion → Conclusions → cover letter read as one argument | **PASS** |
+| **P0-1** central claim | Path A: evidence-limited conclusion on every surface, enforced by a typed inferential-status contract | `puckworks/paper_a/claim_policy.py` (new), `transfer_semantics.InferentialStatus`, `paper_a_front_matter.yaml`, `tools/paper_a_transfer_text.py`, `tools/paper_a_front_matter.py`, `puckworks/figures_paper_a.py` | `tests/test_paper_a_claim_policy.py` (75) | 12 retired verdicts prohibited; 7 disclaimers still permitted; status-driven unlock proven | abstract → significance → Methods → headline → Table 4a → endpoint synthesis → supplement → Discussion → Conclusions → cover letter read as one argument | **PASS** |
 | **P1-1** one source of truth | Draft abstract generated from the same front matter as the venue abstract; structural block parity; claim coverage audits both manuscripts by default | `tools/paper_a_front_matter.py`, `tools/paper_a_consistency.py`, `puckworks/paper_a/claim_coverage.py`, `docs/PAPER_A_DRAFT.md` | parity + drift tests in `test_paper_a_claim_policy.py` | 4 drift mutations fail (negation flip, sign flip, missing marker, duplicate marker); a non-source abstract fails | both abstracts diffed; both audits reported | **PASS** |
 | **P1-2** estimand + design bound | Typed `EstimandSpec` with derived direction, no renderer default; whole declared design exact-validated; oracle widened to grinds, strata, counts, distribution, hash | `transfer_semantics.py`, `transfer_contract.py`, `source_resampling_oracle.py`, `tools/paper_a_transfer_artifacts.py` | `test_paper_a_transfer_semantics.py` (143) | 28 declared-design mutations fail; 5 renderer blocks change when the estimand reverses | Methods, Table 5, Table S6 and the S3 reading read for sign | **PASS** |
 | **P1-3** interval records | Strict finite-number validation, exact zero-contact fields, canonical rebuild and deep compare, no `bool()` coercion | `transfer_contract.interval_record` / `validate_interval_record`, `transfer_semantics.require_finite_number` | `test_paper_a_transfer_contract.py` (98) | all 9 reproduced false greens fail, plus 16 further invalid-primitive and contradictory-field cases | rendered `[−0.829, +0.004]` and the `+0.0038` bound inspected | **PASS** |
@@ -154,21 +154,42 @@ Two scoping decisions worth stating plainly, because both could otherwise look l
 
 ---
 
-## 8. Commits
+## 8. One defect this remediation introduced, and where it was caught
+
+The first version of the abstract-parity check called `paper_a_front_matter.load()` and returned
+early on `ImportError`. pyyaml is a radar/dev extra, so on the minimum-dependency CI lane the check
+did not run — and a canonical abstract mutated to say *"an incremental skill of ≈4.5 % relative"*,
+which is the retired round-10 wording itself, passed there. The mutation test asserting that failure
+is what surfaced it, on the one lane that lacks the dependency.
+
+This is the same shape as the defects round 10 reported: a check that cannot run looking exactly like
+a check that ran and found nothing. The comparison is now two steps — the three rendered abstracts
+against each other (no parser needed), then against the source where the environment allows — and the
+partial coverage is recorded in `abstract_source_unavailable` rather than passing silently. The test
+now stubs `__import__` for `yaml`, so the minimum-dependency behaviour is exercised on every lane.
+
+Recorded here rather than quietly fixed, because "our own new assurance layer returned a false green"
+has now been a finding in three consecutive rounds and the pattern is worth naming.
+
+---
+
+## 9. Commits
 
 | # | commit | purpose |
 |---|---|---|
 | 1 | `5a04f08` | Freeze the accepted numbers: invariants tool, artefact, 7 one-digit mutation tests |
-| 2 | (this branch) | Schema 4: typed estimand and inferential status, full design binding, strict interval records, migration |
-| 3 | (this branch) | P0-1 Path A claim policy and prose; P1-1 one abstract source and block parity; P2-1 hygiene and the paragraph scanner |
+| 2 | `61cc30c` | All five findings: schema 4 with the typed estimand and inferential status, full design binding, strict interval records, the migration, the Path A claim policy and prose, one abstract source with block parity, and the paragraph-aware scanner with the caption split |
+| 3 | `73652bc` | The abstract-parity check no longer goes silent without pyyaml (see §8) |
 
-Steps 2 and 3 in the plan's numbering are combined into one commit: both are schema-4 changes
-requiring the same single artefact migration, and splitting them would have left the tree red in
-between, which the repository's own rule forbids.
+The plan asked for six separable commits. Commit 2 is not separable in the way the plan assumed: the
+generated files — manuscript, draft, supplement, package, cover letter, captions — each carry both a
+schema-4 stamp and corrected claim prose, so any split leaves an intermediate tree where
+`--check` fails. Given the repository's rule that gates stay green between commits, one complete
+commit with a message covering all five findings was the honest option.
 
 ---
 
-## 9. The five questions the review said a re-review should ask
+## 10. The five questions the review said a re-review should ask
 
 1. **Does every central surface use the analysis-limited conclusion?** Yes, and a status-derived
    policy blocks the alternative on the manuscript, draft, supplement, package, cover letter,
