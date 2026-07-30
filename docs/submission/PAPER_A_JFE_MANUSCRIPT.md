@@ -292,7 +292,15 @@ level available in closed form at every candidate rate.
   caffeine (CF), trigonelline (TR), 5-CQA, and total solids, and — separately — the
   roast-and-ground **solid inventory per species** (their Table 7), which we use
   only as a same-campaign orthogonal-measurement constraint in §3.2. Angeloni's own coupled FeFlow solver is
-  out of scope (the card marks it skip); we consume only its chemical campaign.
+  out of scope (the card marks it skip); we consume only its chemical campaign. The source table is
+  transcribed into a controlled CSV under a declared schema, and an automated contract validates
+  that schema before any analysis reads it: required columns, controlled variety and granulometry
+  vocabularies, the on-grid flag's two permitted tokens, finite decimal temperature and pressure
+  coordinates carrying their declared units, the presence and numeric finiteness of every scored
+  analyte cell, corpus membership, and the optimal-grind lookup support that each held-out record
+  declares. That contract establishes structural and computational admissibility only; it does not
+  independently verify transcription, unit correctness, or measurement accuracy against the source
+  publication.
 
 **Dataset roles.** Every dataset used in this paper, what it is used for, what is fitted to it,
 and what is held out:

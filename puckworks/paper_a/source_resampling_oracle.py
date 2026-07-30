@@ -22,25 +22,37 @@ outcomes move together.
 So this module reconstructs the expected partition from `bioactives.csv` and nothing else. It is
 **deliberately a second implementation**:
 
-  * it parses the CSV with `csv.DictReader`, not the production loader;
+  * it declares its own analyte map, and decides for itself which rows are retained and which
+    observations each one contributes;
   * it does not call ``cluster_key_of``, ``stratum_key_of``, ``cluster_membership``,
-    ``scheme_design`` or ``resampling_design``;
+    ``scheme_design``, ``resampling_design`` or ``build_transfer_corpus_manifest``;
+  * it writes out each scheme's cluster and stratum definition from the scheme's scientific
+    meaning, rather than routing them through a shared key-builder; and
   * it never reads artefact membership while building the expectation.
 
-That duplication is the point. If the production grouping code and this oracle share a bug they
-can no longer certify each other, because they do not share any code.
+That duplication is the point. If the production grouping code and this oracle share a bug they can
+no longer certify each other.
+
+Round-11 P1-4 drew the line more precisely. The two implementations shared no code and still shared
+four PREMISES — that a controlled string may be tested before it is validated, that an unrecognised
+boolean token is False, that a design coordinate need not be finite, and that six significant digits
+identify a condition. Independence above a common assumption is not independence. The declarative
+schema in :mod:`puckworks.paper_a.source_schema` is therefore shared on purpose: it is one authority
+for what a source row IS. Everything this module exists to check independently — membership,
+analytes, clusters, strata, the census — is still written twice.
 """
 
 from __future__ import annotations
 
-import csv
 import hashlib
 import json
 import math
 import pathlib
 
+from puckworks.paper_a import source_schema as SS
+
 _REPO = pathlib.Path(__file__).resolve().parents[2]
-SOURCE_CSV = _REPO / "puckworks" / "data" / "angeloni2023" / "bioactives.csv"
+SOURCE_CSV = SS.SOURCE_CSV
 
 #: The named solutes the benchmark scores, mapped to the SOURCE COLUMN each one is measured in, in
 #: the order the corpus manifest declares them.
@@ -80,52 +92,59 @@ EXPECTED_CENSUS = {
 SCHEME_ORDER = ("cond_in_variety", "sample_in_variety_grind", "cond_in_group", "group")
 
 
-def _num(text: str) -> str:
-    """Canonical condition coordinate, so `9` and `9.0` cannot become two clusters."""
-    return "%g" % float(text)
-
-
 def read_source_records(path: pathlib.Path = SOURCE_CSV) -> list[dict]:
     """Parse the held-out coarse/fine sample records straight out of the CSV.
 
     The file's first line is a provenance comment, so comment lines are skipped rather than
     assumed absent.
-    """
-    lines = [ln for ln in path.read_text(encoding="utf-8").splitlines()
-             if not ln.lstrip().startswith("#")]
-    reader = csv.DictReader(lines)
-    missing = [c for c in REQUIRED_COLUMNS if c not in (reader.fieldnames or [])]
-    if missing:
-        raise ValueError("source CSV lacks required columns %r" % (missing,))
 
-    out = []
-    for row in reader:
+    Round-11 P1-4 changed the ADMISSION step, not the expectation this module computes. It used to
+    read::
+
         if row["variety"] not in VARIETIES or row["granulometry"] not in HELD_OUT_GRINDS:
             continue
-        sample_id = row["sample"].strip()
+        ... row["variety"].strip() ...
+
+    — testing the RAW cell for membership and stripping only afterwards, so ``" Arabica "`` failed
+    the membership test and the record vanished from the corpus instead of failing the source
+    contract. Production had the same hole by a different route (it never stripped at all), which
+    made it a common mode: two independent implementations agreeing on an unvalidated premise is
+    exactly what round-9 and round-10 built this module to break.
+
+    So the DECLARATIVE schema is now shared with production — what the columns are, which tokens are
+    legal, what a coordinate means, and the lossless canonical form of a condition coordinate. What
+    is emphatically NOT shared is everything this module exists to check independently: the analyte
+    map below, which rows are retained, which observations a record contributes, how clusters and
+    strata are defined, and the expected census. Sharing a *validator* is not sharing a *membership
+    implementation*.
+    """
+    parsed = SS.parse_rows(path=path)
+
+    out = []
+    for row in parsed:
+        if row.variety not in VARIETIES or row.granulometry not in HELD_OUT_GRINDS:
+            continue
+        key = row.condition_key
         out.append({
-            "sample_id": sample_id,
-            "variety": row["variety"].strip(),
-            "grind": row["granulometry"].strip(),
-            "temperature": _num(row["T_degC"]),
-            "pressure": _num(row["p_bar"]),
-            "on_grid": row["on_grid"].strip() == "True",
+            "sample_id": row.sample_id,
+            "variety": row.variety,
+            "grind": row.granulometry,
+            "temperature": SS.canonical_coordinate(key.temperature_degC),
+            "pressure": SS.canonical_coordinate(key.pressure_bar),
+            "on_grid": row.on_grid,
+            "condition_key": key,
             # The scored cells, validated. Only the retained held-out rows are checked: a source row
             # outside this corpus answers to a different contract, and failing on it here would make
             # the oracle reject data the benchmark never scores.
             "observations": tuple(
                 {"solute": solute, "source_column": column,
-                 "value": _scored_value(row.get(column), sample_id, solute, column)}
+                 "value": _scored_value(row.raw.get(column), row.sample_id, solute, column)}
                 for solute, column in ANALYTE_COLUMNS),
         })
 
     ids = [r["sample_id"] for r in out]
     if len(set(ids)) != len(ids):
         raise ValueError("held-out source records contain duplicate sample ids")
-    for r in out:
-        if not r["sample_id"] or "|" in r["sample_id"]:
-            raise ValueError("sample id %r is empty or contains the observation delimiter"
-                             % r["sample_id"])
     return out
 
 

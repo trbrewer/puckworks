@@ -101,11 +101,27 @@ def require_finite_number(value, what: str) -> float:
 
     ``bool`` is excluded explicitly: it is a subclass of ``int``, so an ``isinstance(value, int)``
     test alone admits ``True`` as the number 1.
+
+    Round-11 P1-5. ``float(value)`` was called bare, and Python integers are unbounded while IEEE
+    doubles are not: ``10**400`` is valid JSON, is an ``int``, passes the isinstance test, and then
+    raises ``OverflowError`` on conversion. Every numeric field of an interval record reproduced it.
+    ``validate_interval_record`` promises in its own docstring that malformed input returns named
+    problems and never raises — and a validator used as a release gate that CRASHES on a bad
+    artefact cannot be used to reject one: the run terminates early, other problems in the same
+    record go unreported, and a caller one layer up is entitled to read the traceback as
+    infrastructure trouble rather than as a defect in the data.
+
+    Caught at the conversion boundary, specifically, rather than by wrapping the caller in
+    ``except Exception`` — that would hide real coding defects behind the same green result.
     """
     if isinstance(value, bool) or not isinstance(value, (int, float)):
         return _reject("%s must be a finite JSON number, got %s %r"
                        % (what, type(value).__name__, value))
-    out = float(value)
+    try:
+        out = float(value)
+    except (TypeError, ValueError, OverflowError):
+        return _reject("%s must be a finite JSON number; converting %s to a float overflowed or "
+                       "failed" % (what, type(value).__name__))
     if out != out or out in (float("inf"), float("-inf")):
         return _reject("%s must be finite, got %r" % (what, out))
     return out
@@ -113,6 +129,24 @@ def require_finite_number(value, what: str) -> float:
 
 def _reject(message: str):
     raise ValueError(message)
+
+
+def _finite_or_none(value):
+    """``float(value)`` when that is meaningful, else ``None``. Never raises.
+
+    Round-11 P1-5's totality requirement reaches the status fields too:
+    ``validate_inferential_status`` compared ``float(confidence_level)`` and ``float(margin)``
+    directly, so an oversized integer would have crashed the coherence check rather than being
+    reported as an unusable coverage target. A value this function cannot convert is not a valid
+    number, and the caller's existing "is %r" diagnostic already names it.
+    """
+    if value is None or isinstance(value, bool) or not isinstance(value, (int, float)):
+        return None
+    try:
+        out = float(value)
+    except (TypeError, ValueError, OverflowError):
+        return None
+    return None if (out != out or out in (float("inf"), float("-inf"))) else out
 
 
 def interval_semantics(lower, upper) -> IntervalSemantics:
@@ -593,11 +627,10 @@ def validate_inferential_status(status: InferentialStatus) -> list[str]:
         if not status.confidence_procedure:
             problems.append("coverage_calibrated is true but no confidence_procedure is named; a "
                             "coverage claim requires an identified procedure, not a flag")
-        level = status.confidence_level
-        if level is None or isinstance(level, bool) or not isinstance(level, (int, float)) \
-                or not 0.0 < float(level) < 1.0:
+        level = _finite_or_none(status.confidence_level)
+        if level is None or not 0.0 < level < 1.0:
             problems.append("coverage_calibrated is true but confidence_level is %r; a coverage "
-                            "target in (0, 1) is required" % (level,))
+                            "target in (0, 1) is required" % (status.confidence_level,))
         if status.analysis_kind is AnalysisKind.FIXED_PREDICTOR_CLUSTERED_SENSITIVITY:
             problems.append("analysis_kind is a fixed-predictor sensitivity analysis, which has no "
                             "calibrated coverage; coverage_calibrated must be false")
@@ -616,11 +649,11 @@ def validate_inferential_status(status: InferentialStatus) -> list[str]:
                                 "either direction" % name)
 
     margin = status.practical_margin_pp
+    usable_margin = _finite_or_none(margin)
     needs_margin = (status.supports_equivalence_decision
                     or status.supports_absence_of_skill_decision
                     or status.supports_noninferiority_decision)
-    if needs_margin and (margin is None or isinstance(margin, bool)
-                         or not isinstance(margin, (int, float)) or not float(margin) > 0.0):
+    if needs_margin and (usable_margin is None or not usable_margin > 0.0):
         problems.append("an equivalence, non-inferiority or absence-of-skill decision requires a "
                         "predeclared practical margin in percentage points; practical_margin_pp is "
                         "%r" % (margin,))
