@@ -148,6 +148,24 @@ BANNED_IN_CONVERSION: list[tuple[str, str]] = [
      "third review MC6: overstates a 1.19-1.30 boundary-censored result under the shape loss"),
     ("the repo's internal labels",
      "third review MC8: repository-facing vocabulary in the article"),
+    # --- round 11 P0-1 ---
+    # `claim_policy` catches these as a CLASS, derived from the declared inferential status. They are
+    # pinned here as literal strings too, and deliberately: round 11 found the round-10 verdict back
+    # in the manuscript by paraphrase, so the exact wording that shipped gets a second, dumber
+    # authority that cannot be argued with. This list also asserts absence from the canonical draft,
+    # which is how the two files are held together on authored (ungenerated) narrative.
+    ("adding little to a baseline",
+     "round-11 P0-1: a practical-negligibility verdict. The analysis has no calibrated coverage and "
+     "no predeclared margin, so it cannot decide that the increment is too small to matter"),
+    ("adds little",
+     "round-11 P0-1: same verdict, shorter. Report the observed difference and its sign"),
+    ("incremental skill over a level-only comparator is small",
+     "round-11 P0-1: 'small' is a decision against a margin that was never declared"),
+    ("incremental skill over a level-only baseline is small",
+     "round-11 P0-1: the strength-ladder rendering of the same verdict"),
+    ("nearly matched by an O-trained level-only constant",
+     "round-11 P0-1: an equivalence-adjacent verdict; give 8.44 % against 8.83 % and the "
+     "−0.394 pp difference instead"),
 ]
 
 # Adopted corrected wording: MUST appear in the conversion (and in the canonical draft).
@@ -173,6 +191,18 @@ REQUIRED_IN_CONVERSION: list[tuple[str, str]] = [
      "MC4.1: d32 must be defined"),
     ("as a percentage of the mean observation",
      "MC4.6: the normalised-RMSE denominator must be stated"),
+    # --- round 11 P0-1: the replacements, asserted PRESENT in both files ---
+    # The authored (ungenerated) paragraphs the P0 correction rewrote have no generated-block parity
+    # to hold them together, so the corrected wording is required in both the canonical draft and the
+    # venue conversion. Removing the caveat from one file alone now fails.
+    ("does not determine whether that observed advantage is reproducible or practically useful",
+     "round-11 P0-1: the Introduction must state the decision boundary where it states the contrast"),
+    ("does not establish equivalence or absence of incremental value",
+     "round-11 P0-1: non-establishment has to be SYMMETRICAL — the standing position must rule out "
+     "an absence/equivalence reading as explicitly as a superiority one"),
+    ("−0.394 pp of pooled MAPE",
+     "round-11 P0-1: the observed contrast replaces the magnitude adjective, and must stay "
+     "prominent in §6"),
 ]
 
 #: Placeholders that must not survive into a submission-facing file.

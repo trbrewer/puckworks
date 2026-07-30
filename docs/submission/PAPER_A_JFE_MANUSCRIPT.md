@@ -162,7 +162,7 @@ The study is organised around three questions, each answered by one results sect
 2. **Does a mechanistic model's cross-grind endpoint prediction improve on a level-only baseline?** (§4)
 3. **Do time-resolved observations provide stronger information about the rate than cup-integrated ones?** (§5)
 
-The contribution is a worked, matched-observable protocol for answering these separately, and the demonstration that the answers dissociate: a model can predict the cup acceptably while leaving its own parameters weakly separated, and while adding little to a baseline that carries no mechanism at all.
+The contribution is a worked, matched-observable protocol for answering these separately, and the demonstration that the answers dissociate: a model can predict the cup acceptably while leaving its own parameters weakly separated, and while its observed pooled-MAPE advantage over a baseline that carries no mechanism at all is less than half a percentage point. Because the reported ranges are uncalibrated fixed-predictor sensitivities and no practical margin was predeclared, this analysis does not determine whether that observed advantage is reproducible or practically useful, and it does not establish that the advantage is absent.
 
 ## 2. Model, datasets, and observation operators
 
@@ -977,7 +977,7 @@ robust to the loss function: under a log/relative-error level fit the pooled mea
 **7.0 %**.
 
 That last check is about absolute error, and absolute error is not the paper's headline. A
-predictor can hold its absolute error under two losses while its small advantage over a comparator
+predictor can hold its absolute error under two losses while its observed advantage over a comparator
 changes sign, so the loss-robustness claim is made about the estimand that actually carries the
 conclusion.
 
@@ -1002,8 +1002,10 @@ refitted and transferred under the perturbed map, moves the held-out MAPE by **�
 flow-map magnitude, though it remains conditional on the inferred-map *form* (a per-shot
 measured flow trace is not available for this campaign). Together these support the §4 conclusion —
 the calibration's held-out **absolute** error is modest and does not catastrophically
-deteriorate across grind (while its incremental skill over a level-only comparator is small,
-per the benchmark above) — with cross-validation, descriptive uncertainty, and
+deteriorate across grind (while its observed pooled-MAPE difference from a level-only
+comparator is −0.394 pp at 40 g, favouring the model, which the uncalibrated ranges
+establish neither as reproducible and practically useful nor as absent, per the benchmark
+above) — with cross-validation, descriptive uncertainty, and
 loss/geometry/flow-map robustness, not a two-point mean.
 
 ## 5. Time-resolved measurements provide stronger rate information
@@ -1144,7 +1146,9 @@ or temperatures could in principle carry rate information.
 
 **Four distinct properties.** The single-grind endpoint does not pin the rate (§3.2); the
 frozen level+rate pair's held-out **absolute** error across grind is modest (§4); but its
-**incremental skill over a level-only comparator is small** (§4); and a shared fit is
+**observed incremental skill over a level-only comparator is −0.394 pp of pooled MAPE,
+which this analysis establishes neither as reproducible and practically useful nor as
+absent** (§4); and a shared fit is
 *in-sample* compatible (§4). These are four separate properties — **parameter
 identifiability, endpoint accuracy, predictive skill over a benchmark, and cross-grind
 transferability** — and they do not coincide here. Aggregate prediction is stable across
@@ -1163,15 +1167,21 @@ the model output is mapped to the same observation window and endpoint as the da
 unmatched fixed-time window manufactures a spurious cross-grind transfer failure that
 disappears once the windows are matched. On the strength ladder, the
 Pannusch et al. (2024)→Angeloni et al. (2023) refit is **post-fit reconstruction (a new calibration on the
-angeloni coffee) whose frozen held-out error is modest at the matched endpoint but whose
-incremental skill over a level-only baseline is small, and which does not, on this
-dataset, identify the extraction rate.**
+angeloni coffee) whose frozen held-out error is modest at the matched endpoint, whose
+observed incremental skill over a level-only baseline is −0.394 pp of pooled MAPE with
+uncalibrated ranges that establish neither its reproducibility nor its absence, and which
+does not, on this dataset, identify the extraction rate.**
 
 **Standing position.** Pannusch et al. (2024) remains calibrated to the Schmieder fraction
 campaign, whereas Angeloni et al. (2023) is an independent target campaign. After
 target-specific O-grind recalibration and matched-endpoint mapping, absolute C/F errors
-were modest, but performance was nearly matched by an O-trained level-only constant
-(pooled 8.44 % vs 8.83 %; worse on 62 of 132 held-out points). The result therefore supports
+were modest, and the model's observed pooled MAPE was 8.44 % against 8.83 % for an
+O-trained level-only constant — a model-minus-comparator difference of −0.394 pp,
+favouring the model, with the model worse on 62 of 132 held-out points. That observed
+advantage is less than half a percentage point; because the reported ranges are
+uncalibrated fixed-predictor sensitivities and no practical margin was predeclared, the
+present analysis does not determine whether it is reproducible or practically useful, and
+does not establish equivalence or absence of incremental value. The result therefore supports
 endpoint prediction stability under the tested within-campaign design, not transfer of an
 identified kinetic mechanism. Two readings are excluded by it: that the model's endpoint agreement
 identifies the inventory–rate split, and that the model simply fails to transfer across grind. The

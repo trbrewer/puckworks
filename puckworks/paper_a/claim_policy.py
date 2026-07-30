@@ -176,26 +176,142 @@ RULES: tuple[ClaimRule, ...] = (
         _rx(r"\b(?:performs?|performed|performing)\s+comparably\b|\bcomparable\s+performance\b"),
         EQUIVALENCE,
         "an equivalence verdict in plain words"),
+    # ── round-11 P0-1/P1-1 ──────────────────────────────────────────────────────────────────
+    # The retired verdict came back by PARAPHRASE. Round 10 removed "no resolvable skill" and the
+    # taxonomy above was built around absence, equivalence, distinguishability and superiority — so
+    # "adds little", "incremental skill is small" and "nearly matched" walked straight through it,
+    # on five reader-facing surfaces, with the scanner reporting zero problems. These are
+    # practical-MAGNITUDE verdicts: they say the increment is too small to matter. That is a decision
+    # against a margin, and no margin is predeclared.
+    ClaimRule(
+        "adds_little",
+        # Only where "little" is the VALUE contributed: "adds little numerical cost" is a statement
+        # about the method's expense, not about the model's worth.
+        _rx(r"\b(?:add|adds|adding|added|offer|offers|offering|offered|provide|provides|providing|"
+            r"provided|contribute|contributes|contributing|contributed|bring|brings|bringing)\s+"
+            r"(?:only\s+)?(?:very\s+)?little\b"
+            r"(?=\s*(?:[,.;:)]|$)|\s+(?:to|over|beyond|above|relative|of|more|extra|additional|"
+            r"incremental|new|skill|benefit|value|gain|advantage|information|evidence)\b)"),
+        MARGIN,
+        "a practical-magnitude verdict: how little is 'little' is a decision against a margin, and "
+        "no margin is predeclared — state the observed difference instead"),
+    ClaimRule(
+        "small_incremental_value",
+        # Both orders. Attached to a VALUE noun, so "a small positive upper bound" and "a small
+        # sample" are untouched — the adjective has to be qualifying the increment itself.
+        _rx(r"\b(?:only\s+)?(?:very\s+)?(?:small|minimal|marginal|negligible|slight|meagre|meager|"
+            r"trivial|tiny)\s+(?:incremental\s+)?(?:skill|gain|benefit|advantage|improvement)\b"
+            r"|\b(?:small|minimal|marginal|negligible|slight)\s+incremental\s+value\b"
+            r"|\b(?:incremental\s+|mechanistic\s+|predictive\s+)?"
+            r"(?:skill|gain|benefit|advantage|improvement)\b[^.;:]{0,60}?"
+            r"\b(?:is|are|was|were|remains?|remained)\s+"
+            r"(?:only\s+)?(?:very\s+)?(?:small|minimal|marginal|negligible|slight|trivial|tiny)\b"),
+        MARGIN,
+        "'small' is a practical-magnitude decision unless a predeclared margin says what small "
+        "means; give the observed number and its sign"),
+    ClaimRule(
+        "nearly_matched",
+        # Not matched RECORDS, matched CONDITIONS or a matched-endpoint design — those are the
+        # paper's own methodology, and the estimand is built on them.
+        _rx(r"\b(?:nearly|essentially|effectively|virtually|almost|closely|near-?ly)\s+"
+            r"match(?:ed|es|ing)?\b"
+            r"(?!\s+(?:records?|samples?|pairs?|conditions?|endpoints?|windows?|observations?|"
+            r"designs?|cups?|data|grinds?|varieties|filters?))"),
+        EQUIVALENCE,
+        "an equivalence-adjacent verdict: 'nearly matched' asserts the two arms are close enough "
+        "to be treated as the same, which requires a margin and calibrated coverage"),
+    ClaimRule(
+        "essentially_same",
+        _rx(r"\b(?:essentially|effectively|virtually|practically|basically|for\s+all\s+practical\s+"
+            r"purposes)\s+(?:the\s+)?(?:same|identical|equal)\b"
+            r"|\b(?:is|are|was|were)\s+essentially\s+identical\b"),
+        EQUIVALENCE,
+        "an equivalence verdict in plain words"),
+    ClaimRule(
+        "within_noise",
+        _rx(r"\bwithin\s+(?:the\s+)?noise\b|\bindistinguishable\s+from\s+noise\b"
+            r"|\bwithin\s+(?:the\s+)?margin\s+of\s+error\b|\bin\s+the\s+noise\b"),
+        CALIBRATED,
+        "'within noise' is a verdict against a noise model this analysis does not define, let alone "
+        "calibrate"),
+    ClaimRule(
+        "no_practical_advantage",
+        # "no practical MARGIN was declared" is a true statement about the protocol and must survive;
+        # the noun set is deliberately restricted to the increment itself.
+        _rx(r"\bno\s+(?:material|practical|meaningful|real|appreciable|discernible|worthwhile|"
+            r"useful)\s+(?:advantage|benefit|gain|improvement|value)\b"),
+        MARGIN,
+        "a practical-negligibility verdict, which requires the margin the analysis never declared"),
 )
 
-#: Phrases that mark an EXPLICIT disclaimer. A paper must be able to name the decision it is not
-#: making — "we make no claim of statistical distinguishability, non-distinguishability or
-#: equivalence" is the sentence the round-10 review praised, and a scanner that banned it would push
-#: authors toward silence about the limits instead of clarity about them.
+#: A paper must be able to name the decision it is not making — "we make no claim of statistical
+#: distinguishability, non-distinguishability or equivalence" is the sentence the round-10 review
+#: praised, and a scanner that banned it would push authors toward silence about the limits instead
+#: of clarity about them.
 #:
-#: Matched in the ~120 characters preceding a hit, on the normalised single-line text.
-_DISCLAIMERS = (
-    "no claim of", "no claims of", "make no claim", "makes no claim", "making no claim",
-    "we do not claim", "do not claim", "does not claim", "cannot claim", "not a claim",
-    "does not establish", "do not establish", "cannot establish", "is not established",
-    "does not determine", "do not determine", "determine neither", "we claim neither",
-    "neither", "rather than", "must not", "should not", "may not", "not be read as",
-    "no such", "without", "is not", "are not", "not a", "reserve",
-)
+#: Round-11 P1-1 replaced how that allowance works. It used to be a substring search over the 140
+#: characters PRECEDING a hit, against a list that included `neither`, `without`, `is not`, `are
+#: not`, `not a` and `reserve`. Those are fragments of ordinary scientific English, not disclaimers,
+#: and proximity is not grammar. Every one of these passed:
+#:
+#:     The ranges are not confidence intervals. The model outperforms the comparator.
+#:     We do not claim equivalence; the model is equivalent to the comparator.
+#:     Without calibrated coverage, the model outperforms the comparator.
+#:
+#: The second is self-contradictory and the scanner returned it clean. The shape being rewarded is
+#: exactly the one a careful paper produces: a limitations sentence, then an overstrong conclusion.
+#:
+#: A disclaimer is now recognised only when the non-establishment construction NAMES what is not
+#: established and governs the matched term inside the same clause. Each pattern below is a verb
+#: phrase; its span runs from the construction to the end of the clause, because that is how far
+#: "does not establish …" reaches in English.
+_SAFE_CONSTRUCTIONS: tuple[re.Pattern, ...] = tuple(_rx(p) for p in (
+    r"\b(?:make|makes|making|made)\s+no\s+claims?\b",
+    r"\bno\s+claims?\s+(?:of|to|about|is\s+made|are\s+made)\b",
+    r"\b(?:do|does|did|would|can|could|cannot|can\s?not)\s+not\s+claim\b",
+    r"\bcannot\s+claim\b",
+    r"\b(?:do|does|did|would)\s+not\s+(?:establish|determine|demonstrate|show|resolve|decide|"
+    r"support|licence|license|warrant|justify)\b",
+    r"\bcannot\s+(?:establish|determine|demonstrate|show|resolve|decide|support|adjudicate|tell|"
+    r"distinguish)\b",
+    r"\b(?:is|are|was|were)\s+not\s+(?:established|determined|demonstrated|shown|resolved|"
+    r"decided|supported)\b",
+    r"\b(?:establish|establishes|established|determine|determines|determined|claim|claims|"
+    r"claimed|support|supports|supported|decide|decides|decided)\s+neither\b",
+    r"\bneither\s+establishes\b",
+    r"\bnot\s+(?:by\s+itself|by\s+themselves|,?\s*by\s+itself,?)\s+(?:establish|evidence)\w*\b",
+    r"\bwithout\s+(?:establishing|claiming|deciding|determining)\b",
+    r"\bnot\s+be\s+read\s+as\b",
+    r"\bmust\s+not\s+be\s+(?:read|taken|interpreted)\b",
+    r"\bno\s+(?:superiority|non-?inferiority|equivalence|absence|practical-?usefulness|"
+    r"usefulness)[^.;:]{0,80}?\bdecision\s+(?:is|was)\s+(?:made|claimed|supported)\b",
+    r"\bsupports?\s+no\s+(?:superiority|non-?inferiority|equivalence|absence|practical)\b",
+))
 
-#: How far back to look for a disclaimer. Long enough for "we therefore make **no claim of
-#: statistical distinguishability, non-distinguishability or equivalence** from these ranges".
-_DISCLAIMER_WINDOW = 140
+#: Where one adjudicable clause ends and the next begins.
+#:
+#: Round-11 P1-1 again: a disclaimer in a previous sentence, a previous clause, or on the far side of
+#: a contrastive conjunction must not reach forward. `but`, `however` and `yet` REVERSE the sentence
+#: they join — "the range is not calibrated, **but** the model outperforms the comparator" is an
+#: assertion of superiority, and treating the first half as cover for the second inverts the meaning.
+#:
+#: The comma case is the subtle one. ", and the model outperforms …" opens a new finite clause with
+#: its own subject, so an earlier "does not establish" no longer governs it; ", and does not
+#: establish equivalence" continues the same subject and does. The determiner/pronoun list is what
+#: distinguishes them, and it is deliberately explicit rather than a part-of-speech guess.
+_CLAUSE_BOUNDARY = re.compile(
+    r"(?<=[.?!])\s+"
+    r"|\s*[;:]\s*"
+    r"|\s*[—–]+\s*"
+    r"|\s+(?:but|however|yet|nevertheless|nonetheless|whereas|although|though|while|despite|"
+    r"notwithstanding)\s+"
+    r"|\s*,\s+(?:and|or|but|yet|while)\s+(?=(?:the|this|that|these|those|it|they|we|its|their|"
+    r"his|her|our|a|an)\b)",
+    re.I)
+
+#: Unicode punctuation a source file may carry, normalised so one rule matches both renderings.
+_PUNCTUATION = {"‘": "'", "’": "'", "“": '"', "”": '"',
+                "‐": "-", "‑": "-", "‒": "-", "­": ""}
 
 
 def _flatten(text: str) -> str:
@@ -205,7 +321,36 @@ def _flatten(text: str) -> str:
     round-10 P2-1 finding was a prohibited phrase that survived because the scanner read physical
     lines, and emphasis markers inside a phrase are the same class of bypass.
     """
+    for bad, good in _PUNCTUATION.items():
+        text = text.replace(bad, good)
     return re.sub(r"[*_`]+", "", " ".join(text.split()))
+
+
+def iter_decision_clauses(text: str):
+    """Split normalised text into the units a decision claim is adjudicated in.
+
+    Deliberately deterministic and small rather than a general parser: its behaviour has to be
+    explicable in a review, and every boundary it recognises is covered by a test.
+    """
+    for clause in _CLAUSE_BOUNDARY.split(_flatten(text)):
+        clause = (clause or "").strip()
+        if clause:
+            yield clause
+
+
+def find_non_establishment_spans(clause: str) -> list[tuple[int, int]]:
+    """The ``(start, end)`` character spans in which a decision term is disclaimed, not asserted.
+
+    A construction governs from where it starts to the end of its clause. Clause boundaries are what
+    stop it governing the next assertion, which is the whole point of the round-11 correction.
+    """
+    return sorted((m.start(), len(clause)) for p in _SAFE_CONSTRUCTIONS
+                  for m in p.finditer(clause))
+
+
+def _governed(match: re.Match, spans) -> bool:
+    """True when the match lies wholly inside a disclaimer's reach."""
+    return any(start <= match.start() and match.end() <= end for start, end in spans)
 
 
 def granted(status: TS.InferentialStatus) -> set[str]:
@@ -225,18 +370,24 @@ def prohibited_rules(status: TS.InferentialStatus) -> tuple[ClaimRule, ...]:
 
 
 def scan(text: str, status: TS.InferentialStatus, where: str = "") -> list[str]:
-    """Return one problem per prohibited decision claim in ``text``. Empty means compliant."""
-    flat = _flatten(text)
+    """Return one problem per prohibited decision claim in ``text``. Empty means compliant.
+
+    Adjudication is CLAUSE by clause. A rule fires unless a non-establishment construction in the
+    same clause reaches the matched term; a limitations sentence next door does not license a verdict
+    (round-11 P1-1).
+    """
     label = ("%s: " % where) if where else ""
+    rules = prohibited_rules(status)
     problems = []
-    for rule in prohibited_rules(status):
-        for match in rule.pattern.finditer(flat):
-            before = flat[max(0, match.start() - _DISCLAIMER_WINDOW):match.start()].lower()
-            if any(d in before for d in _DISCLAIMERS):
-                continue
-            problems.append(
-                "%s[%s] <<%s>> presupposes %s, which this analysis does not support — %s"
-                % (label, rule.id, match.group(0), rule.presupposes, rule.why))
+    for clause in iter_decision_clauses(text):
+        spans = find_non_establishment_spans(clause)
+        for rule in rules:
+            for match in rule.pattern.finditer(clause):
+                if _governed(match, spans):
+                    continue
+                problems.append(
+                    "%s[%s] <<%s>> presupposes %s, which this analysis does not support — %s"
+                    % (label, rule.id, match.group(0), rule.presupposes, rule.why))
     return problems
 
 
