@@ -11,6 +11,8 @@ certify a wrong artefact. Everything here that checks corpus membership rebuilds
 """
 from __future__ import annotations
 
+import copy
+import dataclasses
 import pathlib
 import subprocess
 import sys
@@ -22,6 +24,7 @@ if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
 from puckworks.paper_a import transfer_contract as TC  # noqa: E402
+from puckworks.paper_a import transfer_semantics as TS  # noqa: E402
 
 
 def _bio():
@@ -446,3 +449,83 @@ def test_round8_brief_states_the_snapshot_counts():
     live = [ln for ln in brief.splitlines() if not ln.lstrip().startswith(">")]
     assert not any("6 of 95" in ln for ln in live), (
         "the brief asserts 6 of 95 outside the correction note")
+
+
+# ── round-11 P1-5: the validator's totality contract ────────────────────────────────────────
+#
+# `validate_interval_record` promises in its own docstring that malformed input returns named
+# problems and NEVER RAISES. It called `float()` bare, and Python integers are unbounded while IEEE
+# doubles are not: `10**400` is valid JSON, is an `int`, passes every isinstance test, and then
+# raises `OverflowError`. All six numeric fields reproduced it, in both signs.
+#
+# A release gate that crashes cannot be used to reject an artefact. The run stops early, other
+# problems in the same record go unreported, and a caller one layer up is entitled to read the
+# traceback as infrastructure trouble rather than as a defect in the data.
+
+_NUMERIC_INTERVAL_PATHS = [
+    ("full_precision_pp", "lower"),
+    ("full_precision_pp", "upper"),
+    ("signed_nearest_bound_to_zero_pp",),
+    ("width_pp",),
+    ("display", "lower"),
+    ("display", "upper"),
+    ("display", "digits"),
+]
+
+_MALFORMED_NUMBERS = [
+    10 ** 400, -(10 ** 400), 10 ** 309, True, False, None, "1.0", "",
+    float("nan"), float("inf"), float("-inf"), [1.0], {"v": 1.0},
+]
+
+
+def _clean_interval():
+    return copy.deepcopy(TC.interval_record(-0.8290522506458629, 0.003790518393922992, 3))
+
+
+def _put(record, path, value):
+    target = record
+    for key in path[:-1]:
+        target = target[key]
+    target[path[-1]] = value
+    return record
+
+
+@pytest.mark.parametrize("path", _NUMERIC_INTERVAL_PATHS,
+                         ids=[".".join(p) for p in _NUMERIC_INTERVAL_PATHS])
+@pytest.mark.parametrize("bad", _MALFORMED_NUMBERS, ids=lambda v: repr(v)[:14])
+def test_no_malformed_number_makes_the_interval_validator_raise(path, bad):
+    """Totality over the whole matrix, not just the reported `10**400`."""
+    record = _put(_clean_interval(), path, bad)
+    problems = TC.validate_interval_record(record)          # must not raise
+    assert problems, "FALSE GREEN: %s = %r validated clean" % (".".join(path), bad)
+    assert any(path[-1] in p for p in problems), (path, bad, problems)
+
+
+def test_the_overflow_diagnostic_names_the_field_rather_than_crashing():
+    problems = TC.validate_interval_record(
+        _put(_clean_interval(), ("full_precision_pp", "lower"), 10 ** 400))
+    assert any("full_precision_pp.lower" in p and "overflow" in p.lower() for p in problems), \
+        problems
+
+
+def test_a_valid_record_still_validates_after_the_totality_fix():
+    assert TC.validate_interval_record(_clean_interval()) == []
+
+
+@pytest.mark.parametrize("bad", _MALFORMED_NUMBERS, ids=lambda v: repr(v)[:14])
+def test_status_confidence_level_and_margin_share_the_totality_contract(bad):
+    """The same float-conversion path guards the status fields, so it gets the same matrix."""
+    for field in ("confidence_level", "practical_margin_pp"):
+        obj = dict(TS.TRANSFER_INFERENTIAL_STATUS.as_dict(), **{field: bad})
+        if bad is None:
+            continue                                        # null is legal for both
+        with pytest.raises(ValueError):
+            TS.status_from_dict(obj)
+
+    # And a hand-built status skips the parser entirely, so the coherence check must be total too.
+    for field in ("confidence_level", "practical_margin_pp"):
+        status = dataclasses.replace(
+            TS.TRANSFER_INFERENTIAL_STATUS, coverage_calibrated=True,
+            confidence_procedure="p", supports_equivalence_decision=True,
+            analysis_kind=TS.AnalysisKind.CALIBRATED_CLUSTERED_CONFIDENCE, **{field: bad})
+        assert TS.validate_inferential_status(status)       # must not raise

@@ -48,7 +48,7 @@ article_type: Research paper / original research article
 # beyond a transferred level". That is a decision — absence of incremental skill — and the declared
 # analysis makes no decision at all: it has no calibrated coverage and no predeclared practical
 # margin, as the same abstract's final sentences say. The point estimate favours the model. What is
-# unestablished is whether that small advantage is reproducible or useful, so the abstract now
+# unestablished is whether that observed advantage is reproducible or useful, so the abstract now
 # reports the observed difference with its sign and states the limit of the evidence.
 # `puckworks.paper_a.claim_policy` enforces this against the artefact's declared inferential
 # status: while that status supports no decision, the retired wording cannot be reintroduced here or
@@ -95,9 +95,18 @@ keywords:
 # Round-10 P0-1: "barely outperformed" is a superiority verdict softened by an adverb, and the
 # analysis makes no superiority decision either. The bullet now reports the size of the observed
 # gap, which is what the study measured.
+#
+# Round-11 P1-3: the Highlights file is uploaded SEPARATELY and read without the paragraphs that
+# supply the limits, and "a process model's gain ... was under 0.4 points" reads, alone, as an
+# established property of the model. It is now an explicitly OBSERVED quantity, and a fifth bullet
+# carries the evidence boundary so the file cannot state the result without stating what it does not
+# decide. `claim_policy.SURFACE_ASSERTIONS["highlights"]` makes dropping either one fail.
+# JFE allows 3-5 bullets of at most 85 characters and no unexpanded acronyms, so the bullet says
+# "pooled error" rather than "pooled MAPE"; these are 68/73/75/63/70 characters.
 highlights:
   - Whole-cup espresso data weakly separate content from extraction rate
-  - A process model's gain over a concentration-only baseline was under 0.4 points
+  - Observed pooled error was 0.394 points lower than a level-only comparator
+  - Uncalibrated ranges support no superiority, equivalence or absence decision
   - Time-resolved samples constrained extraction rate more strongly
   - Accurate prediction did not guarantee well-determined model parameters
 
@@ -105,8 +114,9 @@ editor_significance: >-
   Whole-cup measurements are common in food-process model calibration because they are economical
   and directly relevant to product quality. This study shows that an apparently accurate integrated
   endpoint can leave the extraction rate weakly localized through compensation with extractable
-  inventory, and that a mechanistic model can achieve acceptable held-out error while showing only a
-  small observed gain over a trained level-only baseline. The dependence-aware ranges reported here
+  inventory, and that a mechanistic model can achieve acceptable held-out error while its observed
+  gain over a trained level-only baseline is 0.394 percentage points of pooled error. The
+  dependence-aware ranges reported here
   are uncalibrated sensitivity ranges with no predeclared practical margin, so they do not establish
   whether that gain is reproducible or practically useful: acceptable endpoint accuracy alone does
   not establish that the extraction mechanism transferred. The study also demonstrates a

@@ -17,6 +17,7 @@ from __future__ import annotations
 import dataclasses
 import json
 import pathlib
+import re
 import shutil
 import sys
 
@@ -68,6 +69,131 @@ def test_every_retired_verdict_is_prohibited_under_the_declared_status(sentence,
     assert any("[%s]" % rule in p for p in problems), (rule, problems)
 
 
+# ── 1b. round-11 P0-1/P1-1: the retired verdict returning by PARAPHRASE ─────────────────────
+#
+# Round 10 retired "no resolvable skill" and Round 11 found the same decision back on five
+# reader-facing surfaces in different words — "adding little", "incremental skill … is small",
+# "nearly matched" — with the claim scanner reporting ZERO problems on both manuscripts. Two
+# separate defects produced that false green, and both are tested here:
+#
+#   * the taxonomy had no practical-magnitude or equivalence-adjacent classes at all; and
+#   * ANY of `neither`, `without`, `is not`, `are not`, `not a` in the preceding 140 characters
+#     suppressed a hit, so a limitations sentence licensed the verdict that followed it.
+#
+# The exact retired sentences are pinned verbatim: a paraphrase test that does not include the
+# wording actually shipped is a test of the fix, not of the defect.
+_RETIRED_ROUND_11 = [
+    ("while adding little to a baseline that carries no mechanism at all", "adds_little"),
+    ("its incremental skill over a level-only comparator is small", "small_incremental_value"),
+    ("incremental skill over a level-only baseline is small", "small_incremental_value"),
+    ("performance was nearly matched by an O-trained level-only constant", "nearly_matched"),
+    ("**incremental skill over a level-only comparator is small**", "small_incremental_value"),
+]
+
+
+@pytest.mark.parametrize("sentence,rule", _RETIRED_ROUND_11 + [
+    ("The model adds little to a baseline that carries no mechanism at all.", "adds_little"),
+    ("The mechanistic model offers only marginal benefit.", "small_incremental_value"),
+    ("The kinetic structure provides little beyond the transferred level.", "adds_little"),
+    ("Its incremental skill is minimal.", "small_incremental_value"),
+    ("The models are essentially the same.", "essentially_same"),
+    ("Performance was effectively matched by the comparator.", "nearly_matched"),
+    ("The difference is within noise.", "within_noise"),
+    ("There is no practical advantage to the mechanistic model.", "no_practical_advantage"),
+    ("The comparator is no worse than the mechanistic model.", "at_least_as_good"),
+])
+def test_practical_negligibility_paraphrases_are_prohibited(sentence, rule):
+    problems = CP.scan(sentence, STATUS)
+    assert problems, "FALSE GREEN: %r" % sentence
+    assert any("[%s]" % rule in p for p in problems), (rule, problems)
+
+
+@pytest.mark.parametrize("sentence,rule", _RETIRED_ROUND_11)
+def test_the_retired_round_11_sentences_fail_on_every_scanned_surface(scanned, sentence, rule):
+    """Not merely in a unit test: injected into an actual upload file, the gate must bite.
+
+    Round 11's finding was precisely that these sentences were IN the shipped manuscript while
+    `tools/paper_a_consistency.py verify` printed a clean result.
+    """
+    scanned.write_text(scanned.read_text() + "\n\n" + sentence + "\n", encoding="utf-8")
+    problems = C._claim_policy()
+    assert any("[%s]" % rule in p for p in problems), (sentence, problems[:5])
+
+
+@pytest.mark.parametrize("text", [
+    # A nearby disclaimer is not a grammatical negation. Every one of these returned CLEAN at the
+    # round-11 commit; the second is internally contradictory and passed anyway.
+    "The ranges are not confidence intervals. The model outperforms the comparator.",
+    "This is not an inferential result, but the model outperforms the comparator.",
+    "Without calibrated coverage, the model outperforms the comparator.",
+    "The result is not precise. The model has no incremental skill.",
+    "We do not claim equivalence; the model is equivalent to the comparator.",
+    "The uncertainty is not small. The model performs comparably.",
+    "We make no claim of superiority — the model outperforms the comparator.",
+    "No equivalence decision is made. However, the models are essentially the same.",
+    "This analysis does not establish superiority, and the model outperforms the comparator.",
+])
+def test_a_disclaimer_in_another_clause_cannot_license_a_verdict(text):
+    assert CP.scan(text, STATUS), "FALSE GREEN: %r" % text
+
+
+@pytest.mark.parametrize("text", [
+    # …while the constructions that genuinely scope the decision term stay legal.
+    "This analysis does not establish superiority.",
+    "We make no claim of equivalence.",
+    "The ranges cannot determine whether the observed difference is absent.",
+    "Neither superiority nor equivalence is established by this analysis.",
+    "The analysis does not establish that the model outperforms the comparator.",
+    "We make no claim that the two arms are equivalent.",
+])
+def test_a_proposition_scoped_disclaimer_is_still_permitted(text):
+    assert CP.scan(text, STATUS) == [], text
+
+
+@pytest.mark.parametrize("text", [
+    # False positives the new magnitude/equivalence rules must NOT produce. Each is ordinary,
+    # correct language the paper needs: an interval bound, a sample, the matched-endpoint design
+    # the whole estimand rests on, and the true statement that no margin exists.
+    "The 40 g upper sensitivity bound was a small positive value.",
+    "A small sample was used at each condition.",
+    "Records were matched by variety, temperature, and pressure.",
+    "Held-out cups were matched by collected mass to the source endpoint.",
+    "No practical margin was predeclared.",
+    "The endpoint-matched design adds little numerical cost.",
+    "Each cluster carries its three co-measured solutes, matched conditions included.",
+])
+def test_the_magnitude_rules_do_not_fire_on_ordinary_language(text):
+    assert CP.scan(text, STATUS) == [], text
+
+
+def test_clause_splitting_is_explicit_about_its_boundaries():
+    """The clause iterator is the load-bearing part of the disclaimer fix, so it is tested directly
+    rather than only through `scan`."""
+    assert list(CP.iter_decision_clauses("One thing. Another thing.")) == \
+        ["One thing.", "Another thing."]
+    assert list(CP.iter_decision_clauses("We claim nothing; the model wins.")) == \
+        ["We claim nothing", "the model wins."]
+    assert list(CP.iter_decision_clauses("Not calibrated, but the model wins.")) == \
+        ["Not calibrated", "the model wins."]
+    # A coordinated continuation of the SAME subject is one clause; a new subject is not.
+    assert len(list(CP.iter_decision_clauses(
+        "It does not establish A, and does not establish B."))) == 1
+    assert len(list(CP.iter_decision_clauses(
+        "It does not establish A, and the model wins."))) == 2
+    # Decimals must not be read as sentence ends.
+    assert list(CP.iter_decision_clauses("Pooled MAPE was 8.44 % here.")) == \
+        ["Pooled MAPE was 8.44 % here."]
+
+
+def test_the_generic_preceding_window_suppressors_are_gone():
+    """The specific tokens the round-11 review named must no longer suppress anything on their own."""
+    assert not hasattr(CP, "_DISCLAIMERS")
+    assert not hasattr(CP, "_DISCLAIMER_WINDOW")
+    for fragment in ("neither", "without", "is not", "are not", "not a", "reserve",
+                     "rather than"):
+        assert CP.find_non_establishment_spans(fragment) == [], fragment
+
+
 @pytest.mark.parametrize("sentence", [
     # The paper MUST be able to say what it is not claiming. Round 10 praised this sentence.
     "We therefore make **no claim of statistical distinguishability, non-distinguishability or "
@@ -99,22 +225,40 @@ def test_a_phrase_split_across_lines_or_wrapped_in_emphasis_is_still_caught():
         assert CP.scan(text, STATUS), text
 
 
-def test_the_prohibition_is_derived_from_the_status_not_hard_coded():
-    """A future calibrated analysis unlocks the language by DECLARING the decision, not by editing
-    a word list. That is the difference between a policy and a ban."""
+def test_a_coherent_but_unevidenced_status_unlocks_nothing():
+    """Round-11 P1-2, reproduced verbatim.
+
+    The reviewer hand-wrote this object. It passed `validate_inferential_status` — it is internally
+    coherent, and still is — and it unlocked "the model is equivalent to the comparator", because
+    the permission was a boolean somebody could type rather than a result somebody had to earn.
+    """
     verdict = "Under the predeclared margin the two arms are equivalent."
     assert CP.scan(verdict, STATUS)
 
-    earned = dataclasses.replace(
+    fabricated = dataclasses.replace(
         STATUS, coverage_calibrated=True, confidence_level=0.95,
-        confidence_procedure="cluster bootstrap TOST",
+        confidence_procedure="invented future procedure",
         analysis_kind=TS.AnalysisKind.CALIBRATED_CLUSTERED_CONFIDENCE,
         supports_equivalence_decision=True, practical_margin_pp=0.5,
         permitted_claim_class=TS.ClaimClass.CALIBRATED_DECISION)
-    assert TS.validate_inferential_status(earned) == []
+    assert TS.validate_inferential_status(fabricated) == [], \
+        "internal coherence is not the thing being tested; it must still hold"
+    assert CP.granted(fabricated) == set(), "a DECLARED status grants nothing"
+    assert CP.scan(verdict, fabricated), "FALSE GREEN: a fabricated status unlocked equivalence"
+
+
+def test_the_prohibition_is_derived_from_evidence_not_hard_coded():
+    """A future calibrated analysis unlocks the language by PRODUCING EVIDENCE that survives
+    verification, not by editing a word list and not by declaring a flag. That is the difference
+    between a policy and a ban, and between evidence and assertion."""
+    from tests.helpers_inferential_evidence import synthetic_equivalence_status
+
+    verdict = "Under the predeclared margin the two arms are equivalent."
+    earned = synthetic_equivalence_status()
     assert CP.scan(verdict, earned) == []
     # …but an absence-of-skill verdict is still not licensed by an equivalence decision alone.
     assert CP.scan("The model adds no resolvable skill.", earned)
+    assert CP.scan("The model outperforms the comparator.", earned)
 
 
 def test_the_limits_sentence_is_generated_from_the_status():
@@ -146,6 +290,76 @@ def test_dropping_a_required_proposition_is_caught(surface):
     """An empty surface must fail every requirement — the check cannot be vacuous."""
     missing = CP.missing_assertions("", surface)
     assert len(missing) == len(CP.SURFACE_ASSERTIONS[surface])
+
+
+# ── 2b. round-11 P1-3: the two STANDALONE upload surfaces ───────────────────────────────────
+def test_the_standalone_upload_surfaces_are_governed():
+    """Both are uploaded as separate files and read without the manuscript's limitations."""
+    for surface in ("highlights", "figure3_caption"):
+        assert surface in CP.SURFACE_ASSERTIONS, surface
+    # Figure 3's own file header says the captions stand alone, so it carries all four.
+    assert set(CP.SURFACE_ASSERTIONS["figure3_caption"]) == {a.id for a in CP.ASSERTIONS}
+
+
+def _standalone_source(surface: str) -> str:
+    from tools import paper_a_consistency as CC
+
+    return CC._read(CC.HIGHLIGHTS) if surface == "highlights" else CC._upload_caption(3)
+
+
+@pytest.mark.parametrize("surface,proposition", [
+    (s, p) for s in ("highlights", "figure3_caption") for p in CP.SURFACE_ASSERTIONS[s]])
+def test_deleting_a_required_proposition_from_a_standalone_surface_fails(surface, proposition):
+    """Non-vacuity on the REAL generated text, not only on an empty string.
+
+    A proposition may be carried by any of several phrasings — that is what makes it a proposition
+    and not a phrase — so the mutation removes EVERY accepted carrier. Deleting one rendering while
+    a synonym survives is not a loss of the claim, and a test asserting otherwise would be testing
+    the word list rather than the contract.
+    """
+    source = _standalone_source(surface)
+    assert CP.missing_assertions(source, surface) == [], surface
+
+    # Case-insensitively, because `present_in` is: the Highlights bullet opens a sentence with
+    # "Uncalibrated ranges" and the carrier is declared in lower case.
+    assertion = CP.ASSERTION_BY_ID[proposition]
+    stripped = source
+    for phrasing in assertion.any_of:
+        stripped = re.sub(re.escape(phrasing), "", stripped, flags=re.I)
+    assert stripped != source, "no carrier of %r is present in %s" % (proposition, surface)
+
+    missing = CP.missing_assertions(stripped, surface)
+    assert any(proposition in m for m in missing), \
+        "FALSE GREEN: %s survived losing every carrier of %r" % (surface, proposition)
+
+
+def test_an_unqualified_gain_fails_the_highlight_assertion():
+    """"A process model's gain … was under 0.4 points" — the round-11 wording. Read alone it is an
+    established property of the model, and it carries neither the range limit nor the non-decision."""
+    retired = ("• A process model's gain over a concentration-only baseline was under 0.4 points\n")
+    missing = CP.missing_assertions(retired, "highlights")
+    assert {m.split("the ")[1].split(" claim")[0] for m in missing} == \
+        {"observed_advantage", "ranges_uncalibrated", "no_decision_claimed"}
+
+
+def test_the_figure3_extractor_cannot_pick_up_figure_s3():
+    """A regex over "Figure 3" would match "Figure S3", a different figure in the same file."""
+    from tools import paper_a_consistency as CC
+
+    three, s_three = CC._upload_caption(3), CC._upload_caption("S3")
+    assert three.startswith("**Figure 3.") and s_three.startswith("**Figure S3.")
+    assert three != s_three
+    assert "MISSING" in CC._upload_caption(99), "an absent caption must be a NAMED problem"
+
+
+def test_the_highlights_respect_the_venue_limit():
+    """Compact rewriting is the answer to a character limit; deleting the caveat is not."""
+    bullets = [ln[2:] for ln in C.HIGHLIGHTS.read_text(encoding="utf-8").splitlines()
+               if ln.startswith("• ")]
+    assert 3 <= len(bullets) <= 5
+    for b in bullets:
+        assert len(b) <= 85, (len(b), b)
+        assert CP.scan(b, STATUS) == [], b
 
 
 def test_a_surface_with_no_declared_requirement_fails_loudly():
@@ -364,13 +578,21 @@ def test_the_package_manifest_lists_the_upload_file_and_not_the_internal_map():
     assert "PAPER_A_FIGURE_MAP_INTERNAL.md" not in package
 
 
-def test_an_internal_path_in_a_data_availability_section_is_allowed(scanned):
-    """A narrow, section-scoped allowance: naming the deposit IS the content there."""
+def test_an_internal_path_in_a_data_availability_section_is_no_longer_allowed(scanned):
+    """Round-11 P1-6 RETIRED the section-scoped allowance this test used to assert.
+
+    Fourteen whole sections — data availability, reproducibility, figure captions, the declarations —
+    were path-legal, on the reasoning that naming the deposit IS the content there. That is far wider
+    than the thing it existed for: at the round-11 commit every path in an upload deliverable was
+    inside an unsupplied-metadata placeholder, and a genuine leak in an availability statement would
+    have been legal. The allowance is now keyed to the PLACEHOLDER, not its neighbourhood, and the
+    deposit is named by its public DOI rather than by a repository path.
+    """
     scanned.write_text(scanned.read_text()
                        + "\n\n## Data and code availability\n\nSee `docs/reproducibility/` "
                          "in the archived release.\n", encoding="utf-8")
     problems = [p for p in C._placeholders_and_process_language() if "docs/reproducibility" in p]
-    assert problems == []
+    assert problems, "FALSE GREEN: a repository path in an availability statement"
 
 
 # ── 5. the inferential status the artefact actually declares ────────────────────────────────

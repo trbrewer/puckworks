@@ -33,6 +33,7 @@ import hashlib
 import json
 from decimal import Decimal, ROUND_HALF_UP
 
+from puckworks.paper_a import source_schema as SS
 from puckworks.paper_a import transfer_semantics as TS
 
 #: Bump when a field's *meaning* changes, not when a value is regenerated. Consumers use this to
@@ -467,13 +468,22 @@ def validate_interval_record(interval) -> list[str]:
 
 
 def _same_value(value, expected) -> bool:
-    """Exact comparison that does not let a bool masquerade as a number, or vice versa."""
+    """Exact comparison that does not let a bool masquerade as a number, or vice versa.
+
+    Round-11 P1-5: ``float(value)`` here raised ``OverflowError`` on ``10**400``, which is valid
+    JSON and an ``int``. An unconvertible number is not equal to the expected float — it is a
+    mismatch, and reporting it as one is what lets the caller name the field instead of crashing.
+    """
     if _exact_bool(value) != _exact_bool(expected):
         return False
     if isinstance(expected, float):
         if isinstance(value, bool) or not isinstance(value, (int, float)):
             return False
-        return float(value) == float(expected)
+        try:
+            got = float(value)
+        except (TypeError, ValueError, OverflowError):
+            return False
+        return got == float(expected)
     return value == expected
 
 
@@ -522,9 +532,22 @@ SUPPORT_COMPLETE = "complete_cf_corpus_132"
 SUPPORT_MATCHED_GRID = "matched_grid_cf_corpus_108"
 
 
-def _cond_key(value: float) -> str:
-    """Canonical string for a condition coordinate — stable across float repr differences."""
-    return f"{float(value):g}"
+def _cond_key(value) -> str:
+    """Canonical string for a condition coordinate.
+
+    Round-11 P1-4. This was ``f"{float(value):g}"``. Default ``g`` formatting keeps six significant
+    digits, so ``93.40004`` and ``93.40005`` both render ``93.4`` and two distinct measured
+    conditions merge into one cluster — and a clustered percentile range depends entirely on which
+    outcomes move together, so that is a scientific defect rather than a display one. Identity now
+    goes through an exact decimal (see :mod:`puckworks.paper_a.source_schema`); ``float`` is used
+    only where arithmetic actually needs it.
+
+    Numerically equal tokens still share a key, which is what the ``%g`` version was for: ``9`` and
+    ``9.0`` are one condition, not two.
+    """
+    if isinstance(value, SS.Decimal):
+        return SS.canonical_coordinate(value)
+    return SS.canonical_coordinate(SS.Decimal(str(value)))
 
 
 def sample_cluster_id(record: dict) -> str:
@@ -532,7 +555,7 @@ def sample_cluster_id(record: dict) -> str:
     return str(record["sample"])
 
 
-def condition_cluster_id(variety: str, T: float, p: float) -> str:
+def condition_cluster_id(variety: str, T, p) -> str:
     """Canonical id for a (variety, T, p) condition. Always includes variety: without it the
     Arabica and Robusta conditions at the same (T,p) collide into one cluster."""
     return "%s|%s|%s" % (variety, _cond_key(T), _cond_key(p))
@@ -587,44 +610,79 @@ def build_transfer_corpus_manifest(source_rows, include_off_grid: bool = True,
                          "SOLUTE_SOURCE_COLUMNS rather than assuming the measurement exists"
                          % (missing_map,))
 
+    # Round-11 P1-4. EVERY row is validated against the declared schema before anything filters on
+    # it. The predecessor tested `r["variety"] not in varieties` against the raw cell and skipped
+    # non-matches, so `" Arabica "` was not a corrupt controlled value — it was simply "not one of
+    # ours", and the record left the corpus silently. `on_grid` was `r["on_grid"] == "True"`, so
+    # every unrecognised token became False rather than an error. And `float(r["T_degC"])` admitted
+    # NaN and infinities into the manifest and into cluster identifiers.
+    parsed = SS.parse_rows(source_rows)
+
+    def _usable_optimal(row: SS.SourceRow) -> bool:
+        """An O row is lookup support only if its scored analytes can actually be read."""
+        if row.variety not in varieties:
+            return False
+        try:
+            for solute in solutes:
+                _scored_solute_value(row.raw, row.sample_id, solute, columns[solute])
+        except ValueError:
+            return False
+        return True
+
     records = []
-    for r in source_rows:
-        if r["variety"] not in varieties or r["granulometry"] not in ("C", "F"):
+    for row in parsed:
+        if row.variety not in varieties or not row.is_held_out:
             continue
-        on_grid = (r["on_grid"] == "True")
-        if not include_off_grid and not on_grid:
+        if not include_off_grid and not row.on_grid:
             continue
-        sample_id = str(r["sample"])
+        # Scored FIRST, so a source missing a measured column is reported as the missing column it
+        # is, rather than as the support mismatch it would go on to cause.
         scored = [s for s in solutes
-                  if _scored_solute_value(r, sample_id, s, columns[s]) is not None]
+                  if _scored_solute_value(row.raw, row.sample_id, s, columns[s]) is not None]
         records.append({
-            "sample_id": sample_id,
-            "variety": str(r["variety"]),
-            "grind": str(r["granulometry"]),
-            "temperature_degC": float(r["T_degC"]),
-            "pressure_bar": float(r["p_bar"]),
-            "on_grid": bool(on_grid),
-            # The lookup comparator needs a same-(T,p) OPTIMAL-grind record. Every off-grid
-            # condition lacks one; no on-grid condition does.
-            "lookup_defined": bool(on_grid),
+            "sample_id": row.sample_id,
+            "variety": row.variety,
+            "grind": row.granulometry,
+            # float only here, at the arithmetic/serialisation boundary. Identity above is exact.
+            "temperature_degC": float(row.temperature_degC),
+            "pressure_bar": float(row.pressure_bar),
+            "on_grid": bool(row.on_grid),
+            # Filled in below, once the support that actually exists has been derived.
+            "lookup_defined": None,
             # The solutes this record ACTUALLY contributes, in canonical order — validated above,
             # not assumed. `_scored_solute_value` raises rather than returning None for a present but
             # unusable cell, so this list is either the canonical set or the build fails.
             "solutes": scored,
-            "primary_cluster_id": condition_cluster_id(r["variety"], r["T_degC"], r["p_bar"]),
-            "sample_cluster_id": str(r["sample"]),
+            "primary_cluster_id": row.condition_key.cluster_id,
+            "sample_cluster_id": row.sample_id,
         })
+
+    # The support the source ACTUALLY provides, and a hard reconciliation against what it declares.
+    # `lookup_defined` used to be `bool(on_grid)` — a copy of a flag, not a fact about the data — so
+    # a row could advertise a same-condition comparator that was not there, and nothing would notice.
+    support = SS.optimal_grind_support(parsed, is_usable=_usable_optimal)
+    mismatches = SS.reconcile_lookup_support(parsed, support)
+    if mismatches:
+        raise ValueError("the source's optimal-grind lookup support does not match its on_grid "
+                         "declaration:\n  - %s" % "\n  - ".join(mismatches))
+    by_id = {r.sample_id: r for r in parsed}
+    for record in records:
+        record["lookup_defined"] = by_id[record["sample_id"]].condition_key in support
 
     records.sort(key=lambda x: (x["variety"], x["grind"], x["sample_id"],
                                 x["temperature_degC"], x["pressure_bar"]))
 
-    all_cf = sorted(str(r["sample"]) for r in source_rows
-                    if r["variety"] in varieties and r["granulometry"] in ("C", "F"))
+    all_cf = sorted(r.sample_id for r in parsed
+                    if r.variety in varieties and r.is_held_out)
     included = [r["sample_id"] for r in records]
     excluded = [s for s in all_cf if s not in set(included)]
-    train = sorted(str(r["sample"]) for r in source_rows
-                   if r["variety"] in varieties and r["granulometry"] == "O"
-                   and r["on_grid"] == "True")
+    # The training set is the declared 3x3 optimal-grind calibration grid, and it is a DIFFERENT
+    # concept from lookup support: support asks "does an O record exist at this condition?", which
+    # is also true at four off-grid O conditions. What round-11 P1-4 adds here is the usability
+    # requirement — an O row whose analytes cannot be read is not a training record either.
+    train = sorted(r.sample_id for r in parsed
+                   if r.variety in varieties and r.is_optimal_grind and r.on_grid
+                   and _usable_optimal(r))
 
     off_grid = sorted(r["sample_id"] for r in records if not r["on_grid"])
     lookup_undefined = sorted(r["sample_id"] for r in records if not r["lookup_defined"])

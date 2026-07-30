@@ -31,7 +31,8 @@ puckworks-pull = "puckworks.product._pull_cli:main"
 [project.optional-dependencies]
 lb = ["taichi"]
 radar = ["pyyaml"]   # research-radar query-config parsing (tools/research_radar.py); not a core dep
-dev = ["pytest", "ruff", "pytest-cov", "mypy", "pyyaml"]   # coverage + type-check baselines (P1.3); pyyaml for radar tests
+dev = ["pytest", "ruff", "pytest-cov", "mypy", "pyyaml", "markdown-it-py"]   # coverage + type-check baselines (P1.3); pyyaml for radar tests; markdown-it-py for the submission scanner
+submission = ["markdown-it-py"]   # structural CommonMark parsing for tools/paper_a_consistency.py (round-11 P1-6); NOT a core dep
 figures = ["matplotlib"]
 harvest = ["requests"]
 release = ["build", "twine", "pip-tools"]   # pip-tools: fully-resolved hashed lock (P0.5)

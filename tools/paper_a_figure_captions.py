@@ -40,8 +40,26 @@ _REPO = Path(__file__).resolve().parents[1]
 INTERNAL_MAP = _REPO / "docs" / "figures" / "PAPER_A_FIGURE_MAP_INTERNAL.md"
 UPLOAD = _REPO / "docs" / "submission" / "PAPER_A_JFE_FIGURE_CAPTIONS.md"
 
-#: `### Figure 3 (`fig4_transfer`)` → the caption paragraph that follows it.
-_HEADING = re.compile(r"(?m)^### Figure (S?\d+) \(`([^`]+)`\)\s*\n+(.*?)(?=\n### |\Z)", re.S)
+#: The caption section heading. `### Figure 3 (`fig4_transfer`)`.
+_HEADING = re.compile(r"(?m)^### Figure (S?\d+) \(`([^`]+)`\)\s*$")
+
+#: Anything that ENDS a caption section. Round-11 P2-1: extraction used to run from a `###` heading
+#: until the next `###` heading or end of file, and Figure 4 is the last `###` in the main-figure
+#: part of the map — so its caption swallowed the horizontal rule and the `## Supplementary figures`
+#: heading that follow it, and the renderer then emitted a second supplementary heading of its own.
+#: The upload file shipped with `... equivalent validation. --- ## Supplementary figures` inside a
+#: caption. Every freshness and parity check stayed green, because the file exactly equalled the
+#: generator's malformed output: equality to a generator establishes reproducibility, not validity.
+_SECTION_END = re.compile(r"(?m)^(?:#{1,3}\s|(?:-{3,}|\*{3,}|_{3,})\s*$)")
+
+#: What a caption body may not contain once extracted. These are the delimiters that leaked.
+_STRUCTURE_IN_BODY = re.compile(r"(?:^|\s)(?:-{3,}|\*{3,}|_{3,})(?:\s|$)|(?:^|\s)#{1,6}\s")
+
+#: The package's figure set. Derived expectations, asserted rather than assumed: a caption silently
+#: appearing or disappearing is a package defect, not a formatting one.
+EXPECTED_MAIN = ("1", "2", "3", "4")
+EXPECTED_SUPPLEMENTARY = ("S1", "S2", "S3", "S4")
+
 
 #: Presentation order: main figures by number, then supplementary by number.
 def _sort_key(number: str) -> tuple[int, int]:
@@ -49,10 +67,28 @@ def _sort_key(number: str) -> tuple[int, int]:
 
 
 def captions() -> list[tuple[str, str]]:
-    """``[(number, caption_text)]`` in presentation order, from the internal map."""
+    """``[(number, caption_text)]`` in presentation order, from the internal map.
+
+    Each section runs from its `### Figure N` heading to the FIRST of: any heading of level 1-3, a
+    horizontal rule, or end of document. A `## Supplementary figures` heading therefore terminates
+    Figure 4, which is the round-11 P2-1 correction.
+    """
     text = INTERNAL_MAP.read_text(encoding="utf-8")
+    headings = list(_HEADING.finditer(text))
+    if not headings:
+        raise SystemExit("no `### Figure N (`stem`)` sections found in %s"
+                         % INTERNAL_MAP.relative_to(_REPO))
+
     found = []
-    for number, _stem, body in _HEADING.findall(text):
+    for i, match in enumerate(headings):
+        number = match.group(1)
+        start = match.end()
+        limit = headings[i + 1].start() if i + 1 < len(headings) else len(text)
+        body = text[start:limit]
+        end = _SECTION_END.search(body)
+        if end:
+            body = body[:end.start()]
+
         # Strip the generated block's markers and source stamps: they are assurance devices, and an
         # HTML comment surviving into an uploaded caption file is exactly the leakage class P2-1 is
         # about.
@@ -61,10 +97,65 @@ def captions() -> list[tuple[str, str]]:
         if not paragraph:
             raise SystemExit("Figure %s has no caption text in the internal map" % number)
         found.append((number, paragraph))
-    if not found:
-        raise SystemExit("no `### Figure N (`stem`)` sections found in %s"
-                         % INTERNAL_MAP.relative_to(_REPO))
+
+    problems = caption_set_problems(found)
+    if problems:
+        raise SystemExit("the internal figure map does not yield a valid caption set:\n  - %s"
+                         % "\n  - ".join(problems))
     return sorted(found, key=lambda item: _sort_key(item[0]))
+
+
+def caption_set_problems(found) -> list[str]:
+    """Structural invariants of the extracted caption set. Empty means valid.
+
+    Separate from freshness on purpose. `current == render()` proves the upload file was generated
+    from the map; it says nothing about whether what the map yields is a well-formed caption set,
+    which is how a caption containing `--- ## Supplementary figures` passed every check for a whole
+    round.
+    """
+    problems = []
+    numbers = [n for n, _c in found]
+    duplicates = sorted({n for n in numbers if numbers.count(n) > 1})
+    if duplicates:
+        problems.append("figure number(s) %r appear more than once in the map" % duplicates)
+
+    main = tuple(sorted((n for n in numbers if not n.startswith("S")), key=_sort_key))
+    supp = tuple(sorted((n for n in numbers if n.startswith("S")), key=_sort_key))
+    if main != EXPECTED_MAIN:
+        problems.append("main figures are %r; the package declares %r" % (main, EXPECTED_MAIN))
+    if supp != EXPECTED_SUPPLEMENTARY:
+        problems.append("supplementary figures are %r; the package declares %r"
+                        % (supp, EXPECTED_SUPPLEMENTARY))
+
+    for number, caption in found:
+        label = "**Figure %s." % number
+        if not caption.startswith(label):
+            problems.append("Figure %s's caption does not begin with %r" % (number, label))
+        elif caption.count("**Figure ") != 1:
+            problems.append("Figure %s's caption carries %d figure labels; a renderer and the "
+                            "authored text can each add one"
+                            % (number, caption.count("**Figure ")))
+        if _STRUCTURE_IN_BODY.search(caption):
+            problems.append("Figure %s's caption contains a horizontal rule or heading marker; the "
+                            "extractor has absorbed a section delimiter" % number)
+    return problems
+
+
+def render_problems(rendered: str) -> list[str]:
+    """Invariants of the RENDERED upload file, checked independently of freshness."""
+    problems = []
+    for heading, expected in (("## Main figures", 1), ("## Supplementary figures", 1)):
+        got = rendered.count(heading)
+        if got != expected:
+            problems.append("the rendered caption file contains %d %r headings, expected %d"
+                            % (got, heading, expected))
+    if rendered.count("<!--") != 1:
+        problems.append("the rendered caption file contains %d HTML comments; only the generation "
+                        "stamp may be one" % rendered.count("<!--"))
+    for line in rendered.splitlines():
+        if line.startswith("**Figure ") and _STRUCTURE_IN_BODY.search(line):
+            problems.append("a rendered caption carries a structural delimiter: %r" % line[-60:])
+    return problems
 
 
 def render() -> str:
@@ -98,6 +189,14 @@ def main(argv=None) -> int:
     args = ap.parse_args(argv)
 
     fresh = render()
+    # VALIDITY, then freshness. Both must hold: the round-11 P2-1 file was byte-identical to its
+    # generator's output and structurally malformed, so equality alone certified the defect.
+    invalid = render_problems(fresh)
+    if invalid:
+        print("Paper A caption rendering is INVALID:\n  - %s" % "\n  - ".join(invalid),
+              file=sys.stderr)
+        return 1
+
     if args.write:
         UPLOAD.write_text(fresh, encoding="utf-8")
         print("wrote %s" % UPLOAD.relative_to(_REPO))
@@ -107,7 +206,8 @@ def main(argv=None) -> int:
         print("Paper A upload-ready captions are STALE: run "
               "`python tools/paper_a_figure_captions.py --write`", file=sys.stderr)
         return 1
-    print("Paper A upload-ready captions OK (check).")
+    print("Paper A upload-ready captions OK (check): %d captions, structure valid and fresh."
+          % len(captions()))
     return 0
 
 
