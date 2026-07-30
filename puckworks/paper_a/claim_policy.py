@@ -199,9 +199,13 @@ RULES: tuple[ClaimRule, ...] = (
         "small_incremental_value",
         # Both orders. Attached to a VALUE noun, so "a small positive upper bound" and "a small
         # sample" are untouched — the adjective has to be qualifying the increment itself.
+        # Up to two intervening modifiers, because "only a small OBSERVED gain" is the same verdict
+        # with one word wedged in, and that is exactly the edit a wording pass makes.
         _rx(r"\b(?:only\s+)?(?:very\s+)?(?:small|minimal|marginal|negligible|slight|meagre|meager|"
-            r"trivial|tiny)\s+(?:incremental\s+)?(?:skill|gain|benefit|advantage|improvement)\b"
-            r"|\b(?:small|minimal|marginal|negligible|slight)\s+incremental\s+value\b"
+            r"trivial|tiny)\s+(?:\w+\s+){0,2}?(?:incremental\s+)?"
+            r"(?:skill|gain|benefit|advantage|improvement)\b"
+            r"|\b(?:small|minimal|marginal|negligible|slight)\s+(?:\w+\s+){0,2}?"
+            r"incremental\s+value\b"
             r"|\b(?:incremental\s+|mechanistic\s+|predictive\s+)?"
             r"(?:skill|gain|benefit|advantage|improvement)\b[^.;:]{0,60}?"
             r"\b(?:is|are|was|were|remains?|remained)\s+"
@@ -416,7 +420,11 @@ ASSERTIONS: tuple[Assertion, ...] = (
     Assertion(
         "observed_advantage",
         "the observed pooled difference, with its sign, at the primary endpoint",
-        ("−0.394 percentage points", "−0.394 pp", "−0.394 points")),
+        # The last two are the venue-length renderings the Highlights file needs: 85 characters do
+        # not fit "−0.394 percentage points" plus its sign convention, but "0.394 points LOWER than"
+        # carries the same magnitude AND the same direction, which is what the proposition is for.
+        ("−0.394 percentage points", "−0.394 pp", "−0.394 points",
+         "0.394 points lower than", "0.394 percentage points lower than")),
     Assertion(
         "ranges_uncalibrated",
         "the reported ranges are uncalibrated sensitivity ranges, not confidence intervals",
@@ -424,14 +432,14 @@ ASSERTIONS: tuple[Assertion, ...] = (
          "no range here is a calibrated confidence interval",
          "clustered percentile sensitivity range", "fixed-predictor sensitivity",
          "fixed-predictor clustered sensitivity", "without calibrated coverage",
-         "uncalibrated sensitivity")),
+         "uncalibrated sensitivity", "uncalibrated ranges")),
     Assertion(
         "no_decision_claimed",
         "no superiority, equivalence or absence-of-skill decision is made",
         ("do not establish whether", "does not establish whether", "we claim neither",
          "claim neither superiority", "no claim of statistical distinguishability",
          "determine neither", "does not determine whether", "do not determine whether",
-         "cannot establish whether")),
+         "cannot establish whether", "support no superiority")),
     Assertion(
         "accuracy_is_insufficient",
         "acceptable endpoint accuracy alone does not establish mechanistic transfer",
@@ -449,6 +457,19 @@ ASSERTION_BY_ID = {a.id: a for a in ASSERTIONS}
 #: they are where the retired verdict lived. The headline block and endpoint synthesis carry the
 #: limits and the lesson but need not restate the point estimate the surrounding table gives. The
 #: figure caption map is a pointer document, so it carries the lesson only.
+#:
+#: Round-11 P1-3 added the two STANDALONE surfaces. Both are uploaded as separate files and read
+#: without the paragraphs that supply the limits, and both were governed only by the prohibitive
+#: half of the policy — so each could become materially stronger by OMISSION while every
+#: prohibited-phrase check stayed green. The Highlights file said "a process model's gain over a
+#: concentration-only baseline was under 0.4 points", which alone reads as an established property;
+#: Figure 3's caption said its ranges are "not calibrated confidence intervals" and stopped, stating
+#: what the ranges are not without stating what they cannot decide.
+#:
+#: Figure 3 carries all four, because its own file header claims the captions stand alone. The
+#: Highlights file carries three: its 85-character bullets cannot also fit the transfer boundary,
+#: and the venue limit is a real constraint rather than an excuse — what it may NOT do is drop the
+#: evidence boundary to make room, which is why `no_decision_claimed` is required there.
 SURFACE_ASSERTIONS: dict[str, tuple[str, ...]] = {
     "abstract": ("observed_advantage", "ranges_uncalibrated", "no_decision_claimed",
                  "accuracy_is_insufficient"),
@@ -460,6 +481,9 @@ SURFACE_ASSERTIONS: dict[str, tuple[str, ...]] = {
     "endpoint_synthesis": ("ranges_uncalibrated", "no_decision_claimed"),
     "supplement_reading": ("ranges_uncalibrated", "no_decision_claimed"),
     "conclusion": ("accuracy_is_insufficient",),
+    "highlights": ("observed_advantage", "ranges_uncalibrated", "no_decision_claimed"),
+    "figure3_caption": ("observed_advantage", "ranges_uncalibrated", "no_decision_claimed",
+                        "accuracy_is_insufficient"),
 }
 
 

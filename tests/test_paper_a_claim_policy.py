@@ -17,6 +17,7 @@ from __future__ import annotations
 import dataclasses
 import json
 import pathlib
+import re
 import shutil
 import sys
 
@@ -271,6 +272,76 @@ def test_dropping_a_required_proposition_is_caught(surface):
     """An empty surface must fail every requirement — the check cannot be vacuous."""
     missing = CP.missing_assertions("", surface)
     assert len(missing) == len(CP.SURFACE_ASSERTIONS[surface])
+
+
+# ── 2b. round-11 P1-3: the two STANDALONE upload surfaces ───────────────────────────────────
+def test_the_standalone_upload_surfaces_are_governed():
+    """Both are uploaded as separate files and read without the manuscript's limitations."""
+    for surface in ("highlights", "figure3_caption"):
+        assert surface in CP.SURFACE_ASSERTIONS, surface
+    # Figure 3's own file header says the captions stand alone, so it carries all four.
+    assert set(CP.SURFACE_ASSERTIONS["figure3_caption"]) == {a.id for a in CP.ASSERTIONS}
+
+
+def _standalone_source(surface: str) -> str:
+    from tools import paper_a_consistency as CC
+
+    return CC._read(CC.HIGHLIGHTS) if surface == "highlights" else CC._upload_caption(3)
+
+
+@pytest.mark.parametrize("surface,proposition", [
+    (s, p) for s in ("highlights", "figure3_caption") for p in CP.SURFACE_ASSERTIONS[s]])
+def test_deleting_a_required_proposition_from_a_standalone_surface_fails(surface, proposition):
+    """Non-vacuity on the REAL generated text, not only on an empty string.
+
+    A proposition may be carried by any of several phrasings — that is what makes it a proposition
+    and not a phrase — so the mutation removes EVERY accepted carrier. Deleting one rendering while
+    a synonym survives is not a loss of the claim, and a test asserting otherwise would be testing
+    the word list rather than the contract.
+    """
+    source = _standalone_source(surface)
+    assert CP.missing_assertions(source, surface) == [], surface
+
+    # Case-insensitively, because `present_in` is: the Highlights bullet opens a sentence with
+    # "Uncalibrated ranges" and the carrier is declared in lower case.
+    assertion = CP.ASSERTION_BY_ID[proposition]
+    stripped = source
+    for phrasing in assertion.any_of:
+        stripped = re.sub(re.escape(phrasing), "", stripped, flags=re.I)
+    assert stripped != source, "no carrier of %r is present in %s" % (proposition, surface)
+
+    missing = CP.missing_assertions(stripped, surface)
+    assert any(proposition in m for m in missing), \
+        "FALSE GREEN: %s survived losing every carrier of %r" % (surface, proposition)
+
+
+def test_an_unqualified_gain_fails_the_highlight_assertion():
+    """"A process model's gain … was under 0.4 points" — the round-11 wording. Read alone it is an
+    established property of the model, and it carries neither the range limit nor the non-decision."""
+    retired = ("• A process model's gain over a concentration-only baseline was under 0.4 points\n")
+    missing = CP.missing_assertions(retired, "highlights")
+    assert {m.split("the ")[1].split(" claim")[0] for m in missing} == \
+        {"observed_advantage", "ranges_uncalibrated", "no_decision_claimed"}
+
+
+def test_the_figure3_extractor_cannot_pick_up_figure_s3():
+    """A regex over "Figure 3" would match "Figure S3", a different figure in the same file."""
+    from tools import paper_a_consistency as CC
+
+    three, s_three = CC._upload_caption(3), CC._upload_caption("S3")
+    assert three.startswith("**Figure 3.") and s_three.startswith("**Figure S3.")
+    assert three != s_three
+    assert "MISSING" in CC._upload_caption(99), "an absent caption must be a NAMED problem"
+
+
+def test_the_highlights_respect_the_venue_limit():
+    """Compact rewriting is the answer to a character limit; deleting the caveat is not."""
+    bullets = [ln[2:] for ln in C.HIGHLIGHTS.read_text(encoding="utf-8").splitlines()
+               if ln.startswith("• ")]
+    assert 3 <= len(bullets) <= 5
+    for b in bullets:
+        assert len(b) <= 85, (len(b), b)
+        assert CP.scan(b, STATUS) == [], b
 
 
 def test_a_surface_with_no_declared_requirement_fails_loudly():

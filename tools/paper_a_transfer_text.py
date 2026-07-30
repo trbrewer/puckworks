@@ -502,10 +502,22 @@ def block_table5(ep, corpus_art, loss) -> str:
 
 
 def block_transfer_caption(ep, corpus_art, loss) -> str:
-    """Figure 3's standalone caption — the round-8 P0-1 blocker."""
+    """Figure 3's standalone caption — the round-8 P0-1 blocker.
+
+    Round-11 P1-3. This caption is uploaded as a separate file and its own header says captions are
+    written to stand alone, so it is read by people who never see §4. It said its ranges were "not
+    calibrated confidence intervals" and stopped there — which states what the ranges ARE NOT
+    without stating what they therefore cannot DECIDE. Standing alone, "pooled MAPE is 8.44 % versus
+    8.83 %" then reads as a demonstrated advantage.
+
+    The decision boundary and the transfer boundary are now generated from the same renderers the
+    manuscript uses, not paraphrased here: a caption that quietly weakens the caveat is the round-8
+    defect (a standalone caption still quoting a superseded benchmark) in its editorial form.
+    """
     cc = corpus_art["complete_corpus"]
     mg = corpus_art["matched_on_grid"]
     manifest = cc["corpus"]
+    estimand, status = validated_analysis(ep)
     return "\n".join([
         stamp(manifest),
         "",
@@ -521,7 +533,11 @@ def block_transfer_caption(ep, corpus_art, loss) -> str:
         f"**{manifest['n_observations']} observations**, including the "
         f"{manifest['n_off_grid_records']} off-grid records. Pooled MAPE is "
         f"**{TC.format_pct(cc['pooled_model_mape'])}** for the mechanistic model versus "
-        f"**{TC.format_pct(cc['pooled_const_mape'])}** for the constant, and the model has the "
+        f"**{TC.format_pct(cc['pooled_const_mape'])}** for the constant — an observed paired "
+        f"difference of "
+        f"**{TC.format_pp(cc['paired_difference_pp'], 3, explicit_plus=False)} "
+        f"{estimand.units_label}** ({estimand.short_contrast_label}), which favours the "
+        f"{estimand.label_of[estimand.negative_favours]} — and the model has the "
         f"larger absolute percentage error on **{cc['n_model_worse_than_const']} of "
         f"{cc['n_points']}** observations. A matched-grid subset of "
         f"{mg['corpus']['n_observations']} observations is retained only as a **secondary "
@@ -529,8 +545,10 @@ def block_transfer_caption(ep, corpus_art, loss) -> str:
         "it is not the plotted headline corpus. Error bars/envelopes, where shown, propagate the "
         "declared discrete set of O-fit rates within 10 % of the minimum, not a continuous "
         "confidence region. Any clustered intervals shown are fixed-predictor dependence "
-        "sensitivities, not calibrated confidence intervals. Evidence tier: within-campaign "
-        "cross-grind holdout against a trained level-only comparator.",
+        f"sensitivities. {CP.limits_sentence(status, estimand)} "
+        "Acceptable endpoint accuracy alone does not establish transfer of the kinetic mechanism. "
+        "Evidence tier: within-campaign cross-grind holdout against a trained level-only "
+        "comparator.",
     ])
 
 

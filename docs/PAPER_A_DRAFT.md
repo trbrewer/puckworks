@@ -1299,7 +1299,7 @@ the internal figure map, which is the authoritative caption source; the upload-r
 |---|---|---|
 | Figure 1 | `fig1_design` | main — study design and dataset roles |
 | Figure 2 | `fig2_objective_surface` | main — weak separation |
-| Figure 3 | `fig4_transfer` | main — a small observed gain over the level-only comparator that the analysis does not establish as useful |
+| Figure 3 | `fig4_transfer` | main — an observed −0.394 pp gain over the level-only comparator that the analysis does not establish as useful |
 | Figure 4 | `fig6_fraction_vs_endpoint` | main — temporal resolution |
 | Figure S1 | `fig3_holdouts` | supplement |
 | Figure S2 | `fig5_joint_residual` | supplement |

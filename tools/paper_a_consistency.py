@@ -469,8 +469,14 @@ def _claim_policy() -> list[str]:
                                           "editor_significance")
 
     # The propositions each surface must carry.
+    #
+    # Round-11 P1-3 added the two STANDALONE upload files. Both are read without the paragraphs that
+    # supply the limits, so both must carry the evidence boundary themselves — and neither was
+    # governed by the positive half of the policy at all.
     for surface, source in (("cover_letter", _read(COVER_LETTER)),
-                            ("conclusion", _section(_read(CONVERSION), "## 8. Conclusions"))):
+                            ("conclusion", _section(_read(CONVERSION), "## 8. Conclusions")),
+                            ("highlights", _read(HIGHLIGHTS)),
+                            ("figure3_caption", _upload_caption(3))):
         problems += CP.missing_assertions(source, surface)
     for surface, name, path in (("results_headline", "paper-a:transfer-headline", CONVERSION),
                                 ("endpoint_synthesis", "paper-a:transfer-endpoint-reading",
@@ -492,6 +498,24 @@ def _claim_policy() -> list[str]:
                         "(%r); a reader cannot tell which arm a negative difference favours"
                         % estimand.direction_clause)
     return problems
+
+
+def _upload_caption(number) -> str:
+    """One caption from the GENERATED upload file, addressed by its exact label.
+
+    Round-11 P1-3 asks for Figure 3's caption to be a governed claim surface, which needs an
+    extractor that cannot silently audit the wrong paragraph. Matching is on the exact
+    ``**Figure 3.`` label at the start of a block, so ``Figure S3`` — a different figure with a
+    similar name, in the same file — can never be mistaken for it, and a missing caption returns a
+    NAMED problem rather than an empty string that would satisfy nothing and be reported as nothing.
+    """
+    label = "**Figure %s." % number
+    for block in _read(UPLOAD_CAPTIONS).split("\n\n"):
+        block = block.strip()
+        if block.startswith(label):
+            return block
+    return ("MISSING: the upload-ready caption file carries no `%s` caption, so its claim coverage "
+            "cannot be checked" % label)
 
 
 def _section(text: str, heading: str) -> str:
