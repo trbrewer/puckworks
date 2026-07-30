@@ -254,20 +254,46 @@ _PROCESS_WORDS = [
     (re.compile(r"`?\.github/[\w./-]+`?"), "internal repository path", "internal_path"),
 ]
 
-#: Sections where naming a file IS the content rather than process leakage: the availability
-#: statements point at the deposit, and the metadata placeholder blocks name the YAML they are
-#: tracked in (those blocks are the out-of-scope unsupplied-metadata material and are stripped at
-#: submission).
-_PATH_ALLOWED_SECTIONS = ("data availability", "code availability", "data and code availability",
-                          "reproducibility", "declarations", "figure captions",
-                          "credit authorship contribution statement", "funding",
-                          "competing interests", "declaration of competing interest",
-                          "generative-ai", "generative ai", "acknowledgements")
+#: The ONE narrow path exemption, and it is not a section.
+#:
+#: Round-11 P1-6. This used to be fourteen whole SECTIONS — including "data availability",
+#: "reproducibility" and "figure captions" — inside which any repository path was legal. That is far
+#: wider than the thing it exists for: at the reviewed commit every path in an upload deliverable was
+#: in an unsupplied-metadata placeholder, and those blocks are stripped before submission (they are
+#: the out-of-scope material the round-11 brief names). Exempting the surrounding section as well
+#: meant a genuine leak in the availability statement would have been legal.
+#:
+#: So the exemption is keyed to the PLACEHOLDER, structurally: a block that announces itself as
+#: not-yet-supplied may name the field and file the missing metadata is tracked in. Nothing else may.
+_UNSUPPLIED_METADATA = re.compile(
+    r"\bnot\s+yet\s+(?:supplied|minted|filled\s+in)\b"
+    r"|\bthis\s+letter\s+is\s+not\s+ready\s+to\s+send\b"
+    r"|\bis\s+unset\s+in\b", re.I)
 
-#: The path rule applies to the SCIENTIFIC documents. The package is an assembly instruction sheet
-#: whose file table is inherently path-bearing, and the cover letter's metadata notes are stripped
-#: with the rest of the unsupplied front matter.
-_PATH_SCANNED_FILES = ("PAPER_A_JFE_MANUSCRIPT.md", "PAPER_A_JFE_SUPPLEMENT.md")
+#: Submitted figure filenames and public deposit links, which a caption or an availability statement
+#: legitimately names. Narrow by construction: an exact filename shape, and an absolute public URL.
+_ALLOWED_TARGETS = (
+    re.compile(r"^(?:\./)?figures/[A-Za-z0-9_-]+\.(?:png|pdf|svg|eps|tif|tiff)$"),
+    re.compile(r"^https://(?:doi\.org|zenodo\.org|dx\.doi\.org)/[\w./-]+$"),
+)
+
+#: Files whose SUBMISSION ROLE requires repository paths, and why. Everything else that is actually
+#: uploaded is scanned. Round-11 P1-6: the path rule used to apply to the manuscript and supplement
+#: only, while the cover letter, the Highlights file and the standalone captions all go to the
+#: journal too — an internal path in any of them is still a leak.
+_PATH_EXEMPT_FILES = {
+    "PAPER_A_JFE_PACKAGE.md":
+        "an assembly instruction sheet whose file table is the content; never uploaded as science",
+    "PAPER_A_DRAFT.md":
+        "the repository-facing working draft, which carries a strip-before-submission banner and a "
+        "producer-to-figure mapping table; it is not an upload deliverable",
+}
+
+#: Every true upload deliverable, plus the canonical draft, minus the documented exemptions above.
+_PATH_SCANNED_FILES = tuple(
+    p.name for p in (CONVERSION, PACKAGE, HIGHLIGHTS, COVER_LETTER, SUPPLEMENT, UPLOAD_CAPTIONS,
+                     CANONICAL)
+    if p.name not in _PATH_EXEMPT_FILES)
 
 #: Which files each rule CLASS applies to. Stated as data because the alternative — one flat rule
 #: list over one flat file list — forces a choice between false positives and silence:
@@ -593,89 +619,207 @@ def _strip_html_comments(text: str) -> str:
     return "".join(out)
 
 
-#: `![alt](figures/fig3_holdouts.png)` and `[text](target)` — a reader sees the alt text or the link
-#: text, never the target. Scanning targets as prose made the SI's own figure filenames look like
-#: leaked producer identifiers, which they are not: they are the names of the files the editor
-#: receives.
-_MD_LINK = re.compile(r"!?\[([^\]]*)\]\([^)]*\)")
+# ── structural Markdown scanning (round-11 P1-6) ─────────────────────────────────────────────
+#
+# The predecessor called itself "what a reader sees" and was two regexes: replace `[text](target)`
+# with `text`, then collapse whitespace. It therefore did not see through the most ordinary markup
+# in the language, and every one of these passed at the reviewed commit:
+#
+#     An earlier **version** was wrong.          -> not caught
+#     An earlier <em>version</em> was wrong.     -> not caught
+#     An earlier ver**sion** was wrong.          -> not caught
+#     An earlier&nbsp;version was wrong.         -> not caught
+#     See [the internal analysis](docs/internal/review.md).  -> not caught
+#
+# The first four are the same defect as round-10 P2-1 (a phrase invisible to the scanner and plainly
+# visible on the page), one level down. The last is different in kind: discarding link TARGETS is
+# right for prose semantics — the SI's own figure filenames are not leaked identifiers — and wrong
+# for leakage, because the target stays in the submitted source and surfaces in conversion,
+# accessibility metadata and editor inspection.
+#
+# So: parse properly, and scan two channels. Text a reader sees, and destinations a reader does not.
+try:
+    from markdown_it import MarkdownIt
+
+    _MD = MarkdownIt("commonmark").enable("table").enable("strikethrough")
+except ImportError:                                             # pragma: no cover - env-dependent
+    _MD = None
+
+#: Set when the structural parser is absent. A check that CANNOT run must not look like a check that
+#: ran and found nothing — round-10 found exactly that shape in the abstract comparison, so this is
+#: reported AND returned as a blocking problem rather than recorded and skipped.
+structural_parser_unavailable = None
+
+_HTML_TAG = re.compile(r"<[^>]*>")
+_HTML_TARGET = re.compile(r"""\b(?:href|src)\s*=\s*["']([^"']+)["']""", re.I)
 
 
-def _visible_text(line: str) -> str:
-    """What a reader sees: link text instead of link targets, and one space between words.
+def _parser_problem() -> list[str]:
+    global structural_parser_unavailable
+    if _MD is not None:
+        structural_parser_unavailable = None
+        return []
+    structural_parser_unavailable = (
+        "markdown-it-py is not installed, so submission files were NOT structurally scanned; "
+        "install the `submission` extra (`pip install -e \".[submission]\"`)")
+    return ["SCAN NOT RUN: " + structural_parser_unavailable]
 
-    Internal whitespace is collapsed as well as line joins. A phrase separated by two spaces or a
-    tab is one phrase on the page, and a rule written with single spaces would otherwise miss it —
-    the same bypass class as the line wrap, one level down.
+
+def _inline_visible(token) -> str:
+    """Concatenate an inline token's children into the text a reader sees.
+
+    Adjacent text nodes are joined with NO separator, which is the whole point: CommonMark splits
+    ``ver**sion**`` into the text ``ver``, a strong-open, and the text ``sion``, and a reader sees
+    one word. Emphasis and inline-code delimiters disappear because they are markers, not content;
+    inline HTML has its tags removed but its text kept; image alt text is kept because a reader of
+    the rendered document gets it.
     """
-    return " ".join(_MD_LINK.sub(r"\1", line).split())
+    out = []
+    for child in token.children or []:
+        if child.type in ("text", "code_inline"):
+            out.append(child.content)
+        elif child.type in ("html_inline", "html_block"):
+            out.append(_HTML_TAG.sub("", child.content))
+        elif child.type == "image":
+            out.append(child.attrGet("alt") or "")
+            if child.children:
+                out.append(_inline_visible(child))
+        elif child.type in ("softbreak", "hardbreak"):
+            out.append(" ")
+    return "".join(out)
+
+
+def _normalise_visible(text: str) -> str:
+    """One space between words, ordinary punctuation, no residual markers.
+
+    ``&nbsp;`` arrives from the parser as U+00A0, which is not matched by ``\\s`` in a rule written
+    with a plain space — the same bypass class as the line wrap, two levels down.
+    """
+    text = text.replace(" ", " ").replace("‑", "-").replace("–", "-")
+    return " ".join(text.split())
 
 
 def _visible_paragraphs(text: str):
     """Yield ``(first_source_line, visible_text)`` for each reader-facing block.
 
-    Round-10 P2-1. The predecessor scanned each physical line independently, and the manuscript
-    contained this, split across three source lines::
-
-        ... two sentences after using one. An
-        earlier version of this paragraph stated that an empirical whole-cup comparison was
-        unavailable, two sentences after using one; that was wrong.
-
-    The prohibited pattern `an earlier version` was in the rule table, the phrase was plainly visible
-    in the rendered paragraph, and the scanner reported ZERO problems — because no single line
-    contained it. A reader reads paragraphs, so the scanner reads paragraphs: continuation lines are
-    joined with one space, and the first source line is retained for diagnostics.
-
-    Headings and horizontal rules terminate a block, so a phrase cannot appear to straddle the
-    boundary between a heading and unrelated body text.
+    Round-10 P2-1 established the unit: a reader reads BLOCKS, not physical lines, so a phrase
+    wrapped across three source lines is one phrase. Round-11 P1-6 keeps the unit and replaces the
+    renderer — headings, paragraphs, block quotes, list items, table cells and footnote bodies all
+    arrive through the CommonMark token stream with their source line ranges attached, so emphasis,
+    inline HTML, entities and split words cannot hide a phrase inside one.
     """
-    lines = _strip_html_comments(text).splitlines()
-    blocks, current, start = [], [], None
-
-    def flush():
-        if current:
-            blocks.append((start, _visible_text(" ".join(current))))
-
-    for n, raw in enumerate(lines, 1):
-        line = raw.strip()
-        is_boundary = (not line) or line.startswith("#") or set(line) <= set("-=*_ ")
-        if is_boundary:
-            flush()
-            current, start = [], None
-            if line.startswith("#"):
-                blocks.append((n, line))
-            continue
-        if start is None:
-            start = n
-        current.append(line)
-    flush()
+    if _MD is None:                                             # pragma: no cover - env-dependent
+        return []
+    blocks, line_no = [], 1
+    for token in _MD.parse(_strip_html_comments(text)):
+        if token.map:
+            line_no = token.map[0] + 1
+        if token.type == "inline":
+            visible = _normalise_visible(_inline_visible(token))
+            if visible:
+                blocks.append((line_no, visible))
+        elif token.type == "html_block":
+            visible = _normalise_visible(_HTML_TAG.sub("", token.content))
+            if visible:
+                blocks.append((line_no, visible))
     return blocks
 
 
+def _link_targets(text: str):
+    """Yield ``(source_line, target)`` for every destination the submitted source carries.
+
+    Inline and reference links, images, autolinks, and raw ``href``/``src`` attributes in inline or
+    block HTML. Reference DEFINITIONS are collected from the parser environment, because a
+    definition that is never used produces no token at all and its destination still ships in the
+    file.
+    """
+    if _MD is None:                                             # pragma: no cover - env-dependent
+        return []
+    stripped = _strip_html_comments(text)
+    env: dict = {}
+    out, line_no = [], 1
+    for token in _MD.parse(stripped, env):
+        if token.map:
+            line_no = token.map[0] + 1
+        children = (token.children or []) if token.type == "inline" else [token]
+        for child in children:
+            if child.type in ("link_open", "image"):
+                for attr in ("href", "src"):
+                    target = child.attrGet(attr)
+                    if target:
+                        out.append((line_no, target))
+            elif child.type in ("html_inline", "html_block"):
+                out += [(line_no, m.group(1)) for m in _HTML_TARGET.finditer(child.content)]
+
+    for label, ref in (env.get("references") or {}).items():
+        target = (ref or {}).get("href")
+        if not target:
+            continue
+        found = re.search(r"(?m)^\s*\[%s\]\s*:" % re.escape(label), stripped, re.I)
+        out.append((stripped[:found.start()].count("\n") + 1 if found else 1, target))
+    return out
+
+
+def _normalise_target(target: str) -> str:
+    """Percent-decode and tidy a destination before a path rule looks at it.
+
+    ``docs%2Finternal%2Freview.md`` is the same repository path as ``docs/internal/review.md``, and
+    a rule that only sees the second is a rule with a documented bypass.
+    """
+    from urllib.parse import unquote
+
+    out = unquote(target).strip().replace("\\", "/")
+    while out.startswith("./"):
+        out = out[2:]
+    return out
+
+
 def _placeholders_and_process_language() -> list[str]:
-    problems = []
+    problems = _parser_problem()
+    if problems:
+        return problems
     for path in prose_scanned_files():
         if not path.exists():
             continue
-        section = ""
+        text = _read(path)
         # Placeholders stay LINE-scoped: they do not wrap, and a line number is the more useful
         # diagnostic for a `[TODO]`.
-        for line_no, line in enumerate(_strip_html_comments(_read(path)).splitlines(), 1):
+        for line_no, line in enumerate(_strip_html_comments(text).splitlines(), 1):
             for m in _PLACEHOLDER.finditer(line):
                 problems.append(f"{path.name}:{line_no}: unresolved placeholder "
                                 f"<<{m.group(0)}>>")
-        for line_no, para in _visible_paragraphs(_read(path)):
-            if para.startswith("#"):
-                section = para.lstrip("#").strip().lower()
-                continue
+
+        # Channel A — what a reader sees, structurally reconstructed.
+        for line_no, para in _visible_paragraphs(text):
+            exempt = bool(_UNSUPPLIED_METADATA.search(para))
             for rx, why, rule in _PROCESS_WORDS:
                 if path.name not in _RULE_SCOPE[rule]:
                     continue
-                if rule == "internal_path" and any(a in section
-                                                   for a in _PATH_ALLOWED_SECTIONS):
+                if rule == "internal_path" and exempt:
                     continue
                 for m in rx.finditer(para):
                     problems.append(f"{path.name}:{line_no}: <<{m.group(0)}>> "
                                     f"[{rule}] -- {why}")
+
+        # Channel B — destinations, which are not prose but ARE submitted. Only the path rules
+        # apply: a link target is not a sentence, so review-history and process vocabulary would be
+        # meaningless against it, while a repository path in it is exactly the leak.
+        if path.name not in _RULE_SCOPE["internal_path"]:
+            continue
+        exempt_lines = {ln for ln, para in _visible_paragraphs(text)
+                        if _UNSUPPLIED_METADATA.search(para)}
+        for line_no, raw_target in _link_targets(text):
+            target = _normalise_target(raw_target)
+            if any(rx.match(target) for rx in _ALLOWED_TARGETS) or line_no in exempt_lines:
+                continue
+            for rx, why, rule in _PROCESS_WORDS:
+                if rule != "internal_path":
+                    continue
+                for m in rx.finditer(target):
+                    problems.append(
+                        f"{path.name}:{line_no}: <<{m.group(0)}>> [internal_path] -- {why}; it is "
+                        f"a LINK TARGET rather than visible prose, and ships in the submitted "
+                        f"source even though no reader sees it")
     return problems
 
 

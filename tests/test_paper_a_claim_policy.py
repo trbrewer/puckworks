@@ -578,13 +578,21 @@ def test_the_package_manifest_lists_the_upload_file_and_not_the_internal_map():
     assert "PAPER_A_FIGURE_MAP_INTERNAL.md" not in package
 
 
-def test_an_internal_path_in_a_data_availability_section_is_allowed(scanned):
-    """A narrow, section-scoped allowance: naming the deposit IS the content there."""
+def test_an_internal_path_in_a_data_availability_section_is_no_longer_allowed(scanned):
+    """Round-11 P1-6 RETIRED the section-scoped allowance this test used to assert.
+
+    Fourteen whole sections — data availability, reproducibility, figure captions, the declarations —
+    were path-legal, on the reasoning that naming the deposit IS the content there. That is far wider
+    than the thing it existed for: at the round-11 commit every path in an upload deliverable was
+    inside an unsupplied-metadata placeholder, and a genuine leak in an availability statement would
+    have been legal. The allowance is now keyed to the PLACEHOLDER, not its neighbourhood, and the
+    deposit is named by its public DOI rather than by a repository path.
+    """
     scanned.write_text(scanned.read_text()
                        + "\n\n## Data and code availability\n\nSee `docs/reproducibility/` "
                          "in the archived release.\n", encoding="utf-8")
     problems = [p for p in C._placeholders_and_process_language() if "docs/reproducibility" in p]
-    assert problems == []
+    assert problems, "FALSE GREEN: a repository path in an availability statement"
 
 
 # ── 5. the inferential status the artefact actually declares ────────────────────────────────
