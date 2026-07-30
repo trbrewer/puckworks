@@ -149,8 +149,17 @@ def check() -> list[str]:
         ep, corpus, loss = (_load(p) for p in ARTIFACTS)
     except ValueError as exc:
         return ["an artefact could not be read as strict JSON: %s" % exc]
-    complete = reference_manifest(True)
-    matched = reference_manifest(False)
+
+    # Round-10 (second review) P1-2/P2-3. The corpus manifest and the oracle now REJECT a source
+    # whose scored analyte cells are absent, blank, non-numeric or non-finite. Those are data-contract
+    # failures, not bugs, so they are reported here as named problems with a non-zero exit rather than
+    # escaping as a traceback — a checker that dies is indistinguishable from a checker that crashed.
+    # `Exception` is deliberately NOT caught: an implementation error must still surface.
+    try:
+        complete = reference_manifest(True)
+        matched = reference_manifest(False)
+    except (OSError, ValueError, TypeError, KeyError) as exc:
+        return ["source-observation contract: %s" % exc]
     src = source_sha256()
 
     # -- schema and endpoint contract ---------------------------------------------------------
@@ -205,7 +214,10 @@ def check() -> list[str]:
         # The comparison is now exact and against an INDEPENDENT oracle that parses the CSV itself
         # and deliberately shares no code with the production grouping functions, so a shared
         # grouping bug can no longer certify itself.
-        problems += ["endpoint: %s" % p for p in ORACLE.compare_design(design)]
+        try:
+            problems += ["endpoint: %s" % p for p in ORACLE.compare_design(design)]
+        except (OSError, ValueError, TypeError, KeyError) as exc:
+            problems.append("endpoint: the source-derived expectation could not be built: %s" % exc)
 
     # -- Monte Carlo audits: addressed by exact target, never reused (round-9 P1-1) -------------
     audits = ep.get("stability_audits")

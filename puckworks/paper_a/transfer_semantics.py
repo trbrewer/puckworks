@@ -148,6 +148,34 @@ def from_interval_record(interval: dict) -> IntervalSemantics:
     return interval_semantics(fp["lower"], fp["upper"])
 
 
+def group_by_relation(labelled) -> dict:
+    """Group ``[(label, IntervalSemantics), …]`` by relation, preserving label order.
+
+    Round-10 (second review) P1-1. The endpoint reading used to build its own two lists straight from
+    the archived ``contains_zero_full_precision`` boolean:
+
+        contains = [m for m, r in rows if interval(r)["contains_zero_full_precision"]]
+        excludes = [m for m, r in rows if not interval(r)["contains_zero_full_precision"]]
+
+    Two things were wrong with that, and the second is the one that matters. It is a SECOND authority
+    for a fact this module exists to own — the artefact's cached flag rather than the full-precision
+    bounds — so a renderer invoked on an unvalidated or mutated record can publish geometry the bounds
+    contradict. And ``not contains`` collapses BELOW and ABOVE into one bucket, which is precisely the
+    conflation round-9 P0-1 was about; it happens to read correctly only because no Paper A range is
+    currently wholly positive.
+
+    Returns every relation key, including empty ones, so a caller cannot mistake "no intervals above
+    zero" for "I forgot to handle above zero".
+    """
+    out = {relation: [] for relation in ZeroRelation}
+    for label, sem in labelled:
+        if not isinstance(sem, IntervalSemantics):
+            raise TypeError("group_by_relation needs typed IntervalSemantics, got %s for label %r"
+                            % (type(sem).__name__, label))
+        out[sem.relation].append(label)
+    return out
+
+
 def describe_shared_relation(intervals) -> str:
     """Prose for a set of intervals, naming the actual relation rather than a boolean match.
 
@@ -636,12 +664,26 @@ def find_exact_audit(artifact: dict, key: AuditKey) -> dict:
     Fails on zero matches and on multiple matches; never partial-matches and never falls back to
     a top-level scalar. A renderer that cannot find its audit must say "not separately audited",
     not borrow another target's number.
+
+    This is a STRICT ACCESSOR, not a validator: it raises rather than returning problems. But it
+    raises the exception the defect deserves. Round-10 (second review) P2-3 found that a malformed
+    list element — an integer where a mapping belongs — produced ``AttributeError: 'int' object has
+    no attribute 'get'`` from the comprehension below, which tells a caller nothing about the audit
+    contract and reads like a bug in this module rather than a defect in the artefact.
     """
     audits = artifact.get("stability_audits")
     if not isinstance(audits, list):
         raise KeyError("artefact carries no `stability_audits` list; a single top-level "
                        "`stability_audit` is the round-8 schema and its value must not be "
                        "reused across endpoints, schemes or losses")
+    for i, audit in enumerate(audits):
+        if not isinstance(audit, dict):
+            raise KeyError("stability_audits[%d] is %s, expected a mapping carrying an exact "
+                           "`target`" % (i, type(audit).__name__))
+        if "target" in audit and not isinstance(audit["target"], dict):
+            raise KeyError("stability_audits[%d].target is %s, expected a mapping of "
+                           "endpoint/scheme/fitting_loss/bound"
+                           % (i, type(audit["target"]).__name__))
     want = key.as_dict()
     matches = [a for a in audits if a.get("target") == want]
     if not matches:

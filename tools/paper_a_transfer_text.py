@@ -363,22 +363,47 @@ def block_endpoint_table(ep, corpus_art, loss) -> str:
     return "\n".join(out)
 
 
+def relation_sweep_prose(labelled) -> str:
+    """Name which endpoints sit BELOW zero, which CONTAIN it, and which sit ABOVE it.
+
+    Round-10 (second review) P1-1. This replaces a two-list construction built from the archived
+    containment boolean. The grouping now comes from the typed relation, so all three geometries are
+    named explicitly rather than one being inferred as "not the other" — a distinction that costs
+    nothing today, because no Paper A range is wholly positive, and that is exactly why leaving it
+    implicit was a latent defect rather than a visible one.
+    """
+    groups = TS.group_by_relation(labelled)
+    parts = [("%s at %s" % (relation.prose, _and_list(labels)))
+             for relation, labels in groups.items() if labels]
+    if not parts:
+        raise ValueError("no endpoint intervals to describe")
+    if len(parts) == 1:
+        return parts[0]
+    return "%s, and %s" % (", ".join(parts[:-1]), parts[-1])
+
+
 def block_endpoint_reading(ep, corpus_art, loss) -> str:
     """The endpoint interpretation. Carries the artefact's structured interpretation code, which
-    is what the release gate binds instead of a magic phrase (round-8 P0-3)."""
+    is what the release gate binds instead of a magic phrase (round-8 P0-3).
+
+    Round-10 (second review) P0-1. This block used to open "Two things follow, and they agree" and
+    close by combining a small point difference, a roughly even win/loss split and a zero-containing
+    range into one "unresolved throughout" verdict. Two of those readings were asymmetric: a
+    zero-containing range was treated as conceding no advantage, while the wholly negative ranges at
+    38 g and under every secondary scheme were set aside as non-inferential. By the paper's own rule
+    both are non-inferential, so the three observations are now kept SEPARATE and the permitted
+    inference is stated once, from the declared inferential status.
+    """
     sens = ep["endpoint_sensitivity"]
     lo, hi = sens["point_difference_magnitude_range_pp"]
-    rows = {float(r[TC.ENDPOINT_ROW_KEY]): r for r in ep["rows"]}
-    contains = [m for m, r in sorted(rows.items())
-                if scheme_interval(r, TC.PRIMARY_SCHEME)["contains_zero_full_precision"]]
-    excludes = [m for m, r in sorted(rows.items())
-                if not scheme_interval(r, TC.PRIMARY_SCHEME)["contains_zero_full_precision"]]
     alt = [r for r in loss["rows"] if r["alt_loss"]][0]
     base = [r for r in loss["rows"] if not r["alt_loss"]][0]
 
-    prim = [scheme_interval(r, TC.PRIMARY_SCHEME) for r in ep["rows"]]
+    rows = sorted(({float(r[TC.ENDPOINT_ROW_KEY]): r for r in ep["rows"]}).items())
+    prim = [scheme_interval(r, TC.PRIMARY_SCHEME) for _m, r in rows]
     uppers = [i["full_precision_pp"]["upper"] for i in prim]
     prim_sem = [TS.from_interval_record(i) for i in prim]
+    labelled = list(zip((m for m, _r in rows), prim_sem))
     loss_sem = [TS.from_interval_record(base["interval"]),
                 TS.from_interval_record(alt["interval"])]
     estimand, status = validated_analysis(ep)
@@ -388,42 +413,40 @@ def block_endpoint_reading(ep, corpus_art, loss) -> str:
     return "\n".join([
         f"<!-- paper-a:endpoint-interpretation code={sens['interpretation_code']} -->",
         "",
-        "Two things follow, and they agree.",
+        "Three observations should be kept separate: the size of the observed effect, the position "
+        "of the sensitivity boundary, and what the procedure permits us to infer from either.",
         "",
-        f"The **effect size is stable**. The paired difference spans "
+        f"**The observed effect size is stable.** The paired difference spans "
         f"{TC.format_pp(lo, 3, explicit_plus=False)} to {TC.format_pp(hi, 3, explicit_plus=False)} pp, a "
         f"spread of {abs(hi - lo):.3f} pp — an order of magnitude smaller than the ≈5 pp movement "
         "the same endpoint range produces in the blind optimal-grind residual. That contrast is "
         "the expected one: those are different estimands, and here both predictors are re-derived "
         "at each endpoint, so a shift common to both cancels. The sign never changes, and the "
-        "model remains worse on roughly half the held-out observations at every endpoint.",
+        "model remains worse on roughly half the held-out observations at every endpoint. Those two "
+        "facts are not in tension: a predictor can lower a pooled mean through fewer but larger "
+        "improvements while losing narrowly on more individual observations.",
         "",
-        "The **position of the boundary is not a finding**. At the canonical draw count the "
-        "primary clustered "
-        + (f"range contains zero at {_and_list(contains)}"
-           if contains else "range excludes zero at every endpoint")
-        + (f" and excludes it at {_and_list(excludes)}" if excludes and contains else "")
-        + f". The three upper bounds are {_and_list_pp(uppers)} pp: they differ from one another, "
-        f"and from zero, by less than a twentieth of a percentage point, against pooled errors "
-        f"near 8.4 % in both arms. Whether such a bound falls just inside or just outside zero "
-        "follows from the clustering assumption and the endpoint, not from any measurement of "
-        "skill, and we do not read it as one. The same "
-        "holds across fitting losses: refitting both predictors under a log/relative-error level "
-        f"fit moves the paired difference only from "
-        f"{TC.format_pp(base['paired_difference_pp'], 3, explicit_plus=False)} to "
+        f"**The position of the boundary moves with the endpoint.** At the canonical draw count the "
+        f"primary clustered range {relation_sweep_prose(labelled)}. The three upper bounds are "
+        f"{_and_list_pp(uppers)} pp: they differ from one another, and from zero, by less than a "
+        f"twentieth of a percentage point, against pooled errors near 8.4 % in both arms. Whether "
+        "such a bound falls just inside or just outside zero follows from the clustering assumption "
+        "and the endpoint, not from any measurement of skill. The same holds across fitting losses: "
+        "refitting both predictors under a log/relative-error level fit moves the paired difference "
+        f"only from {TC.format_pp(base['paired_difference_pp'], 3, explicit_plus=False)} to "
         f"{TC.format_pp(alt['paired_difference_pp'], 3, explicit_plus=False)} pp, and the "
         f"loss-specific ranges {TS.describe_shared_relation(loss_sem)}.",
         "",
-        f"Because the estimand is {estimand.contrast_label} in {estimand.units_label}, "
-        f"{estimand.direction_clause}: the most favourable bound across the sweep is "
-        f"{TC.format_pp(best, 3, explicit_plus=False)} pp and the least favourable is "
-        f"{TC.format_pp(worst)} pp, so at the favourable end these ranges permit an advantage well "
-        f"under one percentage point and at the unfavourable end they permit none at all — against "
-        f"pooled errors near 8.4 % in both arms. {CP.limits_sentence(status, estimand)} No row "
-        f"here establishes resolvable incremental skill, and none establishes its absence; we do "
-        f"not convert a percentile bound's position into an inequality that carries the "
-        f"conclusion. Per-endpoint values, under every declared cluster scheme, are Supplementary "
-        f"Table S3.",
+        f"**What follows is narrower than either observation suggests.** Because the estimand is "
+        f"{estimand.contrast_label} in {estimand.units_label}, {estimand.direction_clause}: across "
+        f"the sweep the most favourable bound is {TC.format_pp(best, 3, explicit_plus=False)} pp and "
+        f"the least favourable is {TC.format_pp(worst)} pp — so the favourable extreme of these "
+        f"ranges lies well under one percentage point, and the least favourable extreme lies on the "
+        f"other side of zero. {CP.limits_sentence(status, estimand)} That applies symmetrically: the "
+        f"wholly negative ranges do not establish an advantage, and the zero-containing ranges do "
+        f"not establish its absence. We therefore do not convert a percentile bound's position into "
+        f"an inequality that carries the conclusion. Per-endpoint values, under every declared "
+        f"cluster scheme, are Supplementary Table S3.",
     ])
 
 
@@ -681,9 +704,17 @@ def block_supplement_scheme_table(ep, corpus_art, loss) -> str:
     row = endpoint_row(ep, HEADLINE_ENDPOINT_G)
     out = [
         stamp(ep["corpus"]), "",
-        "**Table S6. Resampling design.** Cluster keys, strata and membership for every declared "
-        "scheme, at the canonical draw count. Predictors are fixed in every scheme: no model, "
-        "level parameter or comparator is refitted inside a draw.", "",
+        # Round-10 (second review) P2-1: this said "Cluster keys, strata and membership for every
+        # declared scheme". The table has eight columns and none of them is a member identifier;
+        # Table S7 lists the 44 sample records with their PRIMARY cluster only. Exact per-scheme
+        # membership exists, but in the archived artefact, and the caption now says where.
+        "**Table S6. Resampling design.** Cluster keys, strata, cluster census, ranges and widths "
+        "for every declared scheme, at the canonical draw count. Exact cluster-by-cluster "
+        "membership under every scheme — the sample records, grinds and named-solute observations "
+        "in each cluster — is archived in the machine-readable endpoint-propagation record rather "
+        "than reproduced here; Table S7 lists the held-out records with their primary cluster. "
+        "Predictors are fixed in every scheme: no model, level parameter or comparator is refitted "
+        "inside a draw.", "",
         "| scheme | role | strata | cluster key | clusters | cluster sizes (obs × n) | "
         f"range at {_g(HEADLINE_ENDPOINT_G)} g (pp) | width (pp) |",
         "|---|---|---|---|---:|---|---|---:|",
@@ -704,9 +735,16 @@ def block_supplement_scheme_table(ep, corpus_art, loss) -> str:
                 f"B = {audit['B_per_seed']:,} each. Upper bound mean "
                 f"{pp4(audit['upper_mean_pp'])} pp (SD {audit['upper_sd_pp']:.4f}, range "
                 f"{pp4(audit['upper_min_pp'])} to {pp4(audit['upper_max_pp'])}); lower bound mean "
-                f"{pp4(audit['lower_mean_pp'])} pp (SD {audit['lower_sd_pp']:.4f}). The bound's "
-                f"sign is {'stable' if audit['upper_bound_sign_is_stable'] else 'NOT stable'} "
-                f"across seeds. Implied Monte Carlo standard errors at the canonical "
+                f"{pp4(audit['lower_mean_pp'])} pp (SD {audit['lower_sd_pp']:.4f}). "
+                # Round-10 (second review) P2-2: this read "The bound's sign is stable", immediately
+                # after naming BOTH bounds, so the referent could be read as either. The archived
+                # flag is `upper_bound_sign_is_stable` — upper-specific — and the noun is now tied to
+                # it. A future lower-bound audit must add its own flag and its own sentence rather
+                # than inheriting this one.
+                f"The **upper** bound's sign is "
+                f"{'stable' if audit['upper_bound_sign_is_stable'] else 'NOT stable'} "
+                f"across seeds; no sign-stability flag is archived for the lower bound, which lies "
+                f"far from zero. Implied Monte Carlo standard errors at the canonical "
                 f"B = {audit['canonical_B']:,} are "
                 f"{audit['lower_monte_carlo_se_at_canonical_B_pp']:.6f} pp on the lower bound and "
                 f"{audit['upper_monte_carlo_se_at_canonical_B_pp']:.6f} pp on the upper — reported "

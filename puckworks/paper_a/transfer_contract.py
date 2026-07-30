@@ -120,14 +120,47 @@ def validate_endpoint_contract(artifact: dict, require_rows: bool = True) -> lis
         if ep.get("symbol") != ENDPOINT_SYMBOL:
             problems.append("endpoint.symbol is %r, expected %r"
                             % (ep.get("symbol"), ENDPOINT_SYMBOL))
-        targets = ep.get("targets")
-        if [float(t) for t in (targets or [])] != [float(t) for t in ENDPOINT_TARGETS]:
-            problems.append("endpoint.targets is %r, expected %r (exact set and order)"
-                            % (targets, list(ENDPOINT_TARGETS)))
+        problems += _validate_endpoint_targets(ep.get("targets"))
 
     if require_rows:
         problems += validate_endpoint_rows(artifact)
     return problems
+
+
+def _validate_endpoint_targets(targets) -> list[str]:
+    """Validate the declared endpoint targets. **Never raises.**
+
+    Round-10 (second review) P2-3. This was one expression:
+
+        if [float(t) for t in (targets or [])] != [float(t) for t in ENDPOINT_TARGETS]:
+
+    so ``endpoint.targets = ["not-a-number", 40.0, 42.0]`` left `validate_endpoint_contract` — a
+    function whose whole contract is to RETURN problems — raising `ValueError` from a list
+    comprehension. The caller then gets a traceback where it expected a diagnostic, and a malformed
+    artefact is indistinguishable from a broken checker.
+
+    Each element is reported by index with its own defect, and the set/order comparison runs only
+    once every element is a finite number, so a single bad cell does not also produce a misleading
+    "wrong targets" complaint.
+    """
+    expected = [float(t) for t in ENDPOINT_TARGETS]
+    if not isinstance(targets, list):
+        return ["endpoint.targets is %s, expected a list of %d finite collected masses"
+                % (type(targets).__name__, len(expected))]
+
+    problems: list[str] = []
+    values: list[float] = []
+    for i, raw in enumerate(targets):
+        try:
+            values.append(TS.require_finite_number(raw, "endpoint.targets[%d]" % i))
+        except ValueError as exc:
+            problems.append(str(exc))
+    if problems:
+        return problems
+    if values != expected:
+        return ["endpoint.targets is %r, expected %r (exact set and order)"
+                % (targets, expected)]
+    return []
 
 
 def validate_endpoint_rows(artifact: dict) -> list[str]:
@@ -462,7 +495,17 @@ def sha256_of(obj) -> str:
 # Corpus manifest (round-8 P1-4)
 # ─────────────────────────────────────────────────────────────────────────────────────────────
 
-SOLUTES = ("caffeine", "trigonelline", "5CQA")
+#: Each scored solute and the SOURCE COLUMN it is measured in. The production admission rule reads
+#: these columns rather than assuming every retained row carries all three measurements (round-10,
+#: second review, P1-2). `source_resampling_oracle` declares its own copy of this map deliberately:
+#: sharing one would rebuild the common-mode assumption the oracle exists to break.
+SOLUTE_SOURCE_COLUMNS = (
+    ("caffeine", "CF"),
+    ("trigonelline", "TR"),
+    ("5CQA", "5CQA"),
+)
+
+SOLUTES = tuple(solute for solute, _column in SOLUTE_SOURCE_COLUMNS)
 VARIETIES = ("Arabica", "Robusta")
 
 #: The eight coarse/fine validation records that lie off the declared 3x3 calibration grid. No
@@ -495,6 +538,32 @@ def condition_cluster_id(variety: str, T: float, p: float) -> str:
     return "%s|%s|%s" % (variety, _cond_key(T), _cond_key(p))
 
 
+def _scored_solute_value(row, sample_id: str, solute: str, column: str) -> float:
+    """The measured value for one solute on one source row, or raise saying why it is unusable.
+
+    Production counterpart to the oracle's `_scored_value`, written separately on purpose: two
+    implementations of "is this observation real?" is the point, since a shared helper would let one
+    wrong assumption certify itself twice (round-10, second review, P1-2).
+    """
+    if column not in row:
+        raise ValueError("source row %s has no %r column, so the %s observation the benchmark "
+                         "claims to score does not exist in the source"
+                         % (sample_id, column, solute))
+    raw = row[column]
+    if raw is None or not str(raw).strip():
+        raise ValueError("source row %s: %r is blank, so its %s observation is not scoreable"
+                         % (sample_id, column, solute))
+    try:
+        value = float(str(raw).strip())
+    except (TypeError, ValueError) as exc:
+        raise ValueError("source row %s: %r is non-numeric (%r), so its %s observation is not "
+                         "scoreable" % (sample_id, column, raw, solute)) from exc
+    if value != value or value in (float("inf"), float("-inf")):
+        raise ValueError("source row %s: %r is non-finite (%r), so its %s observation is not "
+                         "scoreable" % (sample_id, column, raw, solute))
+    return value
+
+
 def build_transfer_corpus_manifest(source_rows, include_off_grid: bool = True,
                                    varieties=VARIETIES, solutes=SOLUTES) -> dict:
     """Build the canonical corpus manifest directly from the source data rows.
@@ -503,7 +572,21 @@ def build_transfer_corpus_manifest(source_rows, include_off_grid: bool = True,
     of the producer, so the two sides of the corpus assertion are not both derived from the same
     JSON file — deriving both from one artefact would only prove internal consistency and could
     certify a wrong corpus.
+
+    Round-10 (second review) P1-2 changed the ADMISSION RULE, not the output. A retained record used
+    to be stamped with ``"solutes": list(solutes)`` regardless of whether the source measured them,
+    so the observation count 132 was an arithmetic consequence of ``44 x 3`` rather than a property
+    of the data. Each solute's source column is now read and required to be present, numeric and
+    finite before the record is admitted. For valid source data the manifest is byte-identical; for a
+    source missing a scored column it now raises instead of certifying phantom observations.
     """
+    columns = {solute: column for solute, column in SOLUTE_SOURCE_COLUMNS if solute in solutes}
+    missing_map = [s for s in solutes if s not in columns]
+    if missing_map:
+        raise ValueError("no source column is declared for solute(s) %r; extend "
+                         "SOLUTE_SOURCE_COLUMNS rather than assuming the measurement exists"
+                         % (missing_map,))
+
     records = []
     for r in source_rows:
         if r["variety"] not in varieties or r["granulometry"] not in ("C", "F"):
@@ -511,8 +594,11 @@ def build_transfer_corpus_manifest(source_rows, include_off_grid: bool = True,
         on_grid = (r["on_grid"] == "True")
         if not include_off_grid and not on_grid:
             continue
+        sample_id = str(r["sample"])
+        scored = [s for s in solutes
+                  if _scored_solute_value(r, sample_id, s, columns[s]) is not None]
         records.append({
-            "sample_id": str(r["sample"]),
+            "sample_id": sample_id,
             "variety": str(r["variety"]),
             "grind": str(r["granulometry"]),
             "temperature_degC": float(r["T_degC"]),
@@ -521,7 +607,10 @@ def build_transfer_corpus_manifest(source_rows, include_off_grid: bool = True,
             # The lookup comparator needs a same-(T,p) OPTIMAL-grind record. Every off-grid
             # condition lacks one; no on-grid condition does.
             "lookup_defined": bool(on_grid),
-            "solutes": list(solutes),
+            # The solutes this record ACTUALLY contributes, in canonical order — validated above,
+            # not assumed. `_scored_solute_value` raises rather than returning None for a present but
+            # unusable cell, so this list is either the canonical set or the build fails.
+            "solutes": scored,
             "primary_cluster_id": condition_cluster_id(r["variety"], r["T_degC"], r["p_bar"]),
             "sample_cluster_id": str(r["sample"]),
         })
@@ -576,20 +665,50 @@ def build_transfer_corpus_manifest(source_rows, include_off_grid: bool = True,
 
 
 def validate_corpus_manifest(manifest: dict, include_off_grid: bool = True) -> list[str]:
-    """Structural checks on a corpus manifest, independent of the source data."""
+    """Structural checks on a corpus manifest, independent of the source data. **Never raises.**
+
+    Round-10 (second review) P1-2. The per-record solute check compared only the LENGTH of the list:
+
+        if len(r.get("solutes") or []) != n_solutes:
+
+    so renaming a solute, duplicating one, or substituting an entirely different analyte passed as
+    long as three of something were present — and the top-level ``solutes`` list was not checked at
+    all. The labels are what the observation ids are built from, so a wrong label is a wrong
+    partition wearing the right count.
+    """
     problems: list[str] = []
-    records = manifest.get("records") or []
+    canonical = list(SOLUTES)
+    records = manifest.get("records")
+    if not isinstance(records, list):
+        return ["corpus manifest `records` is %s, expected a list" % type(records).__name__]
+
+    malformed = [i for i, r in enumerate(records) if not isinstance(r, dict)]
+    for i in malformed:
+        problems.append("corpus manifest record %d is %s, expected a mapping"
+                        % (i, type(records[i]).__name__))
+    if malformed:
+        return problems
+
     if len(records) != manifest.get("n_held_out_records"):
         problems.append("n_held_out_records disagrees with the record list length")
-    n_solutes = int(manifest.get("n_solutes") or 0)
+    if manifest.get("solutes") != canonical:
+        problems.append("corpus manifest declares solutes %r, expected exactly %r in canonical "
+                        "order — the labels build every observation id"
+                        % (manifest.get("solutes"), canonical))
+    n_solutes = manifest.get("n_solutes")
+    if n_solutes != len(canonical):
+        problems.append("corpus manifest declares n_solutes=%r, expected %d"
+                        % (n_solutes, len(canonical)))
+        n_solutes = len(canonical)
     if len(records) * n_solutes != manifest.get("n_observations"):
         problems.append("n_observations is not n_held_out_records x n_solutes")
-    ids = [r["sample_id"] for r in records]
+    ids = [r.get("sample_id") for r in records]
     if len(set(ids)) != len(ids):
         problems.append("corpus manifest contains duplicate sample ids")
     for r in records:
-        if len(r.get("solutes") or []) != n_solutes:
-            problems.append("sample %s does not carry the canonical solute set" % r.get("sample_id"))
+        if r.get("solutes") != canonical:
+            problems.append("sample %s carries solutes %r, expected exactly %r in canonical order"
+                            % (r.get("sample_id"), r.get("solutes"), canonical))
     if manifest.get("manifest_sha256") != sha256_of(records):
         problems.append("manifest_sha256 does not match the record list it is supposed to fix")
     if manifest.get("included_sample_ids_sha256") != sha256_of(sorted(ids)):
