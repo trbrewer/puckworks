@@ -43,28 +43,39 @@ article_type: Research paper / original research article
 # "clustered percentile range" replaces "95 % resampling interval": the procedure is a
 # fixed-predictor paired clustered resampling sensitivity range, not a calibrated confidence
 # interval, and the manuscript says so in Methods.
+#
+# Round-10 P0-1: the abstract's transfer sentences said the model showed "no resolvable skill
+# beyond a transferred level". That is a decision — absence of incremental skill — and the declared
+# analysis makes no decision at all: it has no calibrated coverage and no predeclared practical
+# margin, as the same abstract's final sentences say. The point estimate favours the model. What is
+# unestablished is whether that small advantage is reproducible or useful, so the abstract now
+# reports the observed difference with its sign and states the limit of the evidence.
+# `puckworks.paper_a.claim_policy` enforces this against the artefact's declared inferential
+# status: while that status supports no decision, the retired wording cannot be reintroduced here or
+# anywhere else a reader can see it.
 # ---------------------------------------------------------------------------------------------
 abstract: >-
   Whole-cup espresso measurements can be predicted accurately even when extractable content and
   extraction rate are weakly separated. We examined a multi-solute extraction model calibrated to
-  fraction-resolved data, then recalibrated to optimal-grind whole-cup observations and evaluated
-  at a matched 40 g beverage endpoint. At each mass-transfer-rate multiplier an inventory level
+  fraction-resolved data, recalibrated to optimal-grind whole-cup observations and evaluated
+  at a matched 40 g endpoint. At each mass-transfer-rate multiplier an inventory level
   was re-estimated and the objective profiled. In the
   illustrative caffeine panel the minimum was interior but its 10 %-near-optimal set reached the
   upper tested boundary; across six panels and three objective families, near-optimal sets
   reached a boundary in 16 of 18 cases. After optimal-grind
   calibration, predictions on the complete held-out coarse- and fine-grind corpus (132
   observations) had 8.4 % pooled MAPE against 8.8 % for a concentration-only comparator. The paired
-  difference was −0.394 percentage points; the primary clustered percentile range (−0.829 to
-  +0.004) contained zero and the model was worse on 62 of 132 observations — no resolvable skill
-  beyond a transferred level. Fraction-resolved observations produced sharper rate profiles
+  difference was −0.394 percentage points, favouring the model, and the model was worse on 62 of
+  132 observations. The primary clustered percentile range (−0.829 to +0.004) contained zero; these
+  are uncalibrated sensitivity ranges with no predeclared margin, so they do not establish whether
+  the advantage is reproducible or useful.
+  Fraction-resolved observations produced sharper rate profiles
   than aggregated or simulated whole-cup ones. An external dissolved-solids trajectory retained
   only a shallow, high-error, loss-dependent preference. Matched endpoints are therefore necessary but insufficient: parameter
-  localization, prediction error, benchmark skill, and cross-context evidence should be reported
+  localization, prediction error, incremental gain and cross-context evidence should be reported
   separately. Across the declared ±2 g tolerance the difference stayed between −0.447 and
-  −0.394 points; the primary range excluded zero at 38 g only, and at 40 g its upper-bound sign
-  was numerically stable under a multi-seed audit. No range here is a calibrated confidence
-  interval.
+  −0.394 points, excluding zero at 38 g only; at 40 g the bound's sign was numerically stable
+  across seeds.
 # Third review, front-matter section: `profile objective` is repository vocabulary and a poor
 # indexing term; `model transfer` and `porous media` were package-only. Six terms, within the
 # venue's limit of seven.
@@ -81,9 +92,12 @@ keywords:
 # bundles" -- repository vocabulary, and the last is not a scientific finding at all.
 # Each bullet is <= 85 characters including spaces; the test asserts this rather than trusting the
 # counts, which is how the package's hand-maintained counts survived being wrong.
+# Round-10 P0-1: "barely outperformed" is a superiority verdict softened by an adverb, and the
+# analysis makes no superiority decision either. The bullet now reports the size of the observed
+# gap, which is what the study measured.
 highlights:
   - Whole-cup espresso data weakly separate content from extraction rate
-  - A process model barely outperformed a concentration-only baseline
+  - A process model's gain over a concentration-only baseline was under 0.4 points
   - Time-resolved samples constrained extraction rate more strongly
   - Accurate prediction did not guarantee well-determined model parameters
 
@@ -91,9 +105,13 @@ editor_significance: >-
   Whole-cup measurements are common in food-process model calibration because they are economical
   and directly relevant to product quality. This study shows that an apparently accurate integrated
   endpoint can leave the extraction rate weakly localized through compensation with extractable
-  inventory, and that a mechanistic model can achieve acceptable held-out error while adding no
-  resolvable skill over a trained level-only baseline. It also demonstrates a reporting workflow
-  that separates parameter localization from held-out prediction and from incremental skill over a
+  inventory, and that a mechanistic model can achieve acceptable held-out error while showing only a
+  small observed gain over a trained level-only baseline. The dependence-aware ranges reported here
+  are uncalibrated sensitivity ranges with no predeclared practical margin, so they do not establish
+  whether that gain is reproducible or practically useful: acceptable endpoint accuracy alone does
+  not establish that the extraction mechanism transferred. The study also demonstrates a
+  reporting workflow that separates parameter localization from held-out prediction and from
+  incremental gain over a
   level-only comparator. The result bears directly on experimental design for extraction, leaching, dissolution and
   other food processes in which integrated product measurements can conceal internal transport-rate
   uncertainty.

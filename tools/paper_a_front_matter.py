@@ -212,14 +212,17 @@ We submit for your consideration our manuscript, "{_one_line(fm['title'])}", as 
 
 {_one_line(fm['editor_significance'])}
 
-The manuscript's central result is deliberately a negative one, and we believe it is the more
+The manuscript's central result is deliberately a cautionary one, and we believe it is the more
 useful for that: a mechanistic espresso extraction model recalibrated to whole-cup observations
 predicted the complete held-out coarse- and fine-grind corpus (44 records, 132 named-solute
 observations) with 8.4 % pooled mean absolute percentage error, against 8.8 % for a trained
-level-only comparator — a paired difference of −0.394 percentage points whose primary clustered
-percentile sensitivity range contains zero, with the mechanistic model worse on 62 of
-132 held-out observations. Acceptable endpoint accuracy therefore did not establish resolvable
-mechanistic skill. Time-resolved observations of the same system retained substantially stronger
+level-only comparator — a paired difference of −0.394 percentage points, favouring the mechanistic
+model, whose primary clustered percentile sensitivity range contains zero, with the mechanistic
+model the worse predictor on 62 of 132 held-out observations. Those dependence-aware ranges are
+fixed-predictor sensitivity ranges with no calibrated coverage and no predeclared practical margin,
+so we claim neither superiority nor equivalence nor absence of incremental skill; what we report is
+that acceptable held-out endpoint accuracy does not by itself establish that the kinetic mechanism
+transferred. Time-resolved observations of the same system retained substantially stronger
 information about the extraction rate.
 
 All headline values are generated from an archived, machine-readable result bundle, and the
@@ -235,11 +238,28 @@ on behalf of {_placeholder(fm['authors'], 'the authors')}
 """
 
 
+def draft_blocks(fm: dict) -> dict[str, str]:
+    """The canonical working draft's generated blocks.
+
+    Round-10 P1-1 added the ABSTRACT. The draft used to carry its own, hand-maintained one whose
+    central transfer claim had drifted from the venue manuscript's — different vocabulary ("not
+    identifiable" versus "weakly separated"), a different headline framing ("an incremental skill of
+    only ≈4.5 % relative"), a conclusion the venue abstract does not draw ("adds little beyond the
+    transferred level"), and narration of an earlier version of the analysis. CI called the two files
+    content-aligned on the strength of a curated phrase list that none of those differences touched.
+
+    Both files now render the abstract from this one source. The draft still carries no Declarations
+    section: declarations are a submission artefact, so only the conversion and package render them.
+    """
+    return {
+        "title": f"**Title.** {_one_line(fm['title'])}",
+        "abstract": _one_line(fm["abstract"]),
+    }
+
+
 TARGETS = (
     (MANUSCRIPT, manuscript_blocks),
-    # The canonical working draft carries no Declarations section -- declarations are a
-    # submission artefact, so only the conversion and package render them.
-    (DRAFT, lambda fm: {"title": f"**Title.** {_one_line(fm['title'])}"}),
+    (DRAFT, draft_blocks),
     (PACKAGE, package_blocks),
 )
 

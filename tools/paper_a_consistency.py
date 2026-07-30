@@ -71,14 +71,38 @@ OBJECTIVE_JSON = _REPO / "docs" / "paper1_resource" / "PAPER_A_OBJECTIVE_FAMILY_
 ENDPOINT_JSON = _REPO / "docs" / "paper1_resource" / "PAPER_A_ENDPOINT_PROPAGATION.json"
 P05_NOTES = _REPO / "docs" / "paper1_resource" / "PAPER_A_P0-5_RESULTS.md"
 
-CAPTIONS = _REPO / "docs" / "figures" / "PAPER_A_CAPTIONS.md"
+#: Repository-facing figure bookkeeping: producer stems, numbering rationale, review history, test
+#: paths. NOT a submission file, and deliberately not scanned — it is allowed to contain exactly the
+#: things the scanner keeps out of the paper. The upload-ready captions are generated from it.
+FIGURE_MAP_INTERNAL = _REPO / "docs" / "figures" / "PAPER_A_FIGURE_MAP_INTERNAL.md"
+UPLOAD_CAPTIONS = _REPO / "docs" / "submission" / "PAPER_A_JFE_FIGURE_CAPTIONS.md"
 
 #: Every file a reviewer or editor could receive.
 #:
 #: Round-9 P2-1: this tuple described itself that way while omitting the supplement and the
 #: separately supplied caption file — both of which go to the journal, and both of which were
 #: carrying reader-facing process language nobody was scanning.
-SUBMISSION_FILES = (CONVERSION, PACKAGE, HIGHLIGHTS, COVER_LETTER, SUPPLEMENT, CAPTIONS)
+#:
+#: Round-10 P2-1: the caption entry pointed at a file titled "submission-ready figure captions" whose
+#: first three paragraphs were review and test narration. The scanner was looking at the right file
+#: for the wrong reason — that file is the internal map. It is replaced here by the generated
+#: upload-ready caption file, which is what the package manifest lists.
+SUBMISSION_FILES = (CONVERSION, PACKAGE, HIGHLIGHTS, COVER_LETTER, SUPPLEMENT, UPLOAD_CAPTIONS)
+
+
+def prose_scanned_files() -> tuple:
+    """Every submission file, plus the canonical draft.
+
+    The draft is not submitted, but it is the file the claim-coverage audit defaults to and the file
+    a reviewer is pointed at, and the round-9 remediation plan asked for its inclusion explicitly.
+
+    A function rather than a constant so that a test which redirects ``SUBMISSION_FILES`` and
+    ``CANONICAL`` at temporary copies redirects the scanner too. A module-level tuple computed at
+    import time silently kept reading the real tree, which would have made the non-vacuity tests
+    assert against files the test had not modified.
+    """
+    return tuple(SUBMISSION_FILES) + (CANONICAL,)
+
 
 # ── phrase drift (the original check, updated) ────────────────────────────────────────────────
 # Retired overclaim wording: MUST NOT appear in the conversion. Each is also asserted ABSENT from
@@ -155,21 +179,49 @@ REQUIRED_IN_CONVERSION: list[tuple[str, str]] = [
 _PLACEHOLDER = re.compile(r"\[insert[^\]]*\]|\[TODO[^\]]*\]|\bTBD\b|\bXXX\b", re.I)
 
 #: Repository/process vocabulary that must not appear in submission-facing files.
+#:
+#: Each entry is ``(pattern, why, rule_id)``. The rule id names the class in the diagnostic and is
+#: what the internal-path allowance is keyed on — a rule that could only be identified by matching
+#: its human-readable reason string was a bug waiting to happen.
 _PROCESS_WORDS = [
-    (re.compile(r"\bPI actions?\b", re.I), "repository process language"),
-    (re.compile(r"\bstill owed\b|\bremains owed\b|\bis owed\b", re.I), "backlog language"),
-    (re.compile(r"\bdeferred\b", re.I), "project-management state"),
-    (re.compile(r"\b(?:MC\d+|P0-\d+|P1-\d+|MAJ-\d+)\b"), "internal review ticket ID"),
+    (re.compile(r"\bPI actions?\b", re.I), "repository process language", "process_vocabulary"),
+    (re.compile(r"\bstill owed\b|\bremains owed\b|\bis owed\b", re.I), "backlog language",
+     "process_vocabulary"),
+    (re.compile(r"\bdeferred\b", re.I), "project-management state", "process_vocabulary"),
+    (re.compile(r"\b(?:MC\d+|P0-\d+|P1-\d+|P2-\d+|MAJ-\d+)\b"), "internal review ticket ID",
+     "review_history"),
     # Round-9 P2-1. A journal reader should not be made to read our changelog. Each of these was
     # found in reader-facing analysis, Results or supplement prose at the round-9 target commit.
     (re.compile(r"\bearlier draft\b|\bprevious draft\b|\ban earlier version\b", re.I),
-     "draft-history narration"),
-    (re.compile(r"\bround-\d+\b", re.I), "review-round identifier"),
+     "draft-history narration", "review_history"),
+    (re.compile(r"\bround-\d+\b", re.I), "review-round identifier", "review_history"),
+    # Round-10 P2-1: the "submission-ready" caption file opened with "The second review asked for
+    # four to five main figures" and "The rendered images previously carried their producer number",
+    # and the manuscript still said an earlier version of a paragraph "was wrong".
+    (re.compile(r"\b(?:the\s+)?(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|"
+                r"tenth|next|previous|last)\s+review\b", re.I),
+     "review-history narration", "review_history"),
+    (re.compile(r"\breview(?:er)?s?\s+(?:asked|requested|required|noted|found|objected)\b", re.I),
+     "review-history narration", "review_history"),
+    (re.compile(r"\bthat was wrong\b|\bwe corrected\b|\bwas corrected in\b|\bthis corrects\b",
+                re.I),
+     "correction narration; state the current fact, not the history of the draft",
+     "review_history"),
+    (re.compile(r"\bpreviously carried\b|\bused to (?:say|read|carry|state)\b", re.I),
+     "draft-history narration", "review_history"),
     (re.compile(r"\balready in (?:the )?repo\b|\bin the repository\b", re.I),
-     "repository-location narration"),
-    (re.compile(r"`docs/[^`]+`"), "internal repository path"),
+     "repository-location narration", "internal_narration"),
     (re.compile(r"\bcannot disagree\b|\bgenerated from the archived\b", re.I),
-     "generator self-description"),
+     "generator self-description", "internal_narration"),
+    # Producer/module/test identifiers. `fig4_transfer` is presentation Figure 3: the identifier is
+    # internal bookkeeping and naming it in a caption tells a reader nothing they can use.
+    (re.compile(r"\bfig\d+_[a-z_]+\b"), "figure producer identifier", "internal_narration"),
+    (re.compile(r"\bproducer identifiers?\b|\bfile stems?\b", re.I),
+     "figure-production bookkeeping", "internal_narration"),
+    # Internal paths, all five prefixes the prior remediation plan asked for, back-ticked or bare.
+    (re.compile(r"`?\b(?:docs|tools|tests|puckworks)/[\w./-]+`?"), "internal repository path",
+     "internal_path"),
+    (re.compile(r"`?\.github/[\w./-]+`?"), "internal repository path", "internal_path"),
 ]
 
 #: Sections where naming a file IS the content rather than process leakage: the availability
@@ -186,6 +238,27 @@ _PATH_ALLOWED_SECTIONS = ("data availability", "code availability", "data and co
 #: whose file table is inherently path-bearing, and the cover letter's metadata notes are stripped
 #: with the rest of the unsupplied front matter.
 _PATH_SCANNED_FILES = ("PAPER_A_JFE_MANUSCRIPT.md", "PAPER_A_JFE_SUPPLEMENT.md")
+
+#: Which files each rule CLASS applies to. Stated as data because the alternative — one flat rule
+#: list over one flat file list — forces a choice between false positives and silence:
+#:
+#: * ``internal_path`` and ``internal_narration`` are about a READER seeing our repository. They
+#:   apply to the two documents an editor receives as science. The package is an assembly
+#:   instruction sheet whose whole purpose is to name repository files; the canonical draft carries a
+#:   strip-before-submission banner and a producer→figure mapping table for the same reason. Scanning
+#:   either for repository vocabulary would demand deleting the content they exist to hold.
+#: * ``review_history`` applies more widely, including the canonical draft: round-10 P1-1 found the
+#:   draft's ACTIVE abstract narrating the correction of an earlier version, and that is a scientific
+#:   claim surface regardless of which file it lives in. The package is exempt for the reason above —
+#:   its preamble explains why its front matter is generated, which is repository documentation.
+#: * ``process_vocabulary`` applies to everything reader-facing.
+_RULE_SCOPE = {
+    "process_vocabulary": tuple(p.name for p in SUBMISSION_FILES),
+    "review_history": tuple(p.name for p in SUBMISSION_FILES if p != PACKAGE)
+                      + (CANONICAL.name,),
+    "internal_narration": _PATH_SCANNED_FILES,
+    "internal_path": _PATH_SCANNED_FILES,
+}
 
 
 def _read(p: Path) -> str:
@@ -222,6 +295,155 @@ def _phrase_drift() -> list[str]:
         if p not in conversion:
             problems.append(f"MISSING: corrected phrase <<{phrase}>> absent from the conversion -- {why}")
     return problems
+
+
+def _generated_block_parity() -> list[str]:
+    """The generated scientific blocks must be IDENTICAL in the canonical draft and the conversion.
+
+    Round-10 P1-1. `_phrase_drift()` below tests a curated list of required and banned phrases and
+    is described, in this module's own docstring and in the review brief, as holding the two
+    manuscripts "in content agreement". It does not: at the round-10 target commit the two abstracts
+    made materially different central claims and every phrase on the list matched anyway.
+
+    A curated phrase list can only find the drift someone already thought of. This check is
+    structural instead — for every block the generator writes into BOTH files, the rendered text must
+    match after whitespace normalisation. Whitespace is normalised because the two files are wrapped
+    differently; nothing else is, so a changed sign, a dropped negation or a lost caveat fails.
+    """
+    from tools import paper_a_front_matter as FMB
+    from tools import paper_a_transfer_text as TT
+
+    problems: list[str] = []
+    shared = {name: paths for name, (_fn, paths) in TT.BLOCKS.items()
+              if TT.MANUSCRIPT in paths and TT.DRAFT in paths}
+    if not shared:
+        return ["no generated block targets both manuscripts; the parity contract has nothing to "
+                "compare, which means the two files are no longer bound to one source"]
+
+    canonical, conversion = _read(CANONICAL), _read(CONVERSION)
+    for name in sorted(shared):
+        try:
+            a = _flat(TT.extract_block(canonical, name))
+            b = _flat(TT.extract_block(conversion, name))
+        except KeyError as exc:
+            problems.append("generated block %r: %s" % (name, exc))
+            continue
+        if a != b:
+            problems.append(
+                "generated block %r differs between the canonical draft and the conversion; the "
+                "two manuscripts are not rendering the same scientific text (regenerate with "
+                "`python tools/paper_a_transfer_text.py --write`)" % name)
+
+    # The abstract is front matter, not a transfer block, and is the specific pair the round-10
+    # review found disagreeing. Compare all three renderings against the single source.
+    try:
+        fm = FMB.load()
+    except ImportError:
+        return problems                     # environment limitation; see _front_matter()
+    want = FMB._one_line(fm["abstract"])
+    for label, text, transform in (("canonical", canonical, lambda s: s),
+                                   ("conversion", conversion, lambda s: s),
+                                   ("package", _read(PACKAGE),
+                                    lambda s: s.split("\n\n", 1)[-1])):
+        try:
+            got = transform(FMB.block(text, "abstract"))
+        except (KeyError, IndexError):
+            problems.append("the %s manuscript has no generated `abstract` block; its abstract is "
+                            "not bound to docs/submission/paper_a_front_matter.yaml" % label)
+            continue
+        if _flat(got) != _flat(want):
+            problems.append("the %s abstract is not the one source's abstract; two active "
+                            "manuscripts must not carry different central claims" % label)
+    return problems
+
+
+def _claim_policy() -> list[str]:
+    """No reader-facing surface may make a decision the declared analysis cannot make.
+
+    Round-10 P0-1, the submission blocker. The paper said its ranges have no calibrated coverage and
+    support no distinguishability, non-distinguishability or equivalence claim — and then concluded,
+    on six surfaces, that the model supplied "no resolvable skill". That is a decision about absence,
+    and the analysis makes no decision in either direction.
+
+    The rule is derived from the artefact's own declared `inferential_status`, so this is not a
+    banned-word list that a future calibrated analysis would have to fight: declare the decision in
+    the status object, and the corresponding phrase class unlocks. Explicit disclaimers are
+    recognised, because a paper must be able to say what it is NOT claiming.
+
+    The positive half is checked too. Prohibiting the verdict is not enough if a surface then says
+    nothing about the limits of its evidence, so each named surface must carry the propositions
+    `claim_policy.SURFACE_ASSERTIONS` requires of it.
+    """
+    from puckworks.paper_a import claim_policy as CP
+    from tools import paper_a_transfer_text as TT
+
+    if not ENDPOINT_JSON.exists():
+        return ["the endpoint artefact is missing, so the analysis's inferential status is unknown "
+                "and no claim can be checked against it"]
+    ep = json.loads(_read(ENDPOINT_JSON))
+    try:
+        estimand, status = TT.validated_analysis(ep)
+    except (KeyError, ValueError) as exc:
+        return ["the endpoint artefact does not declare a usable inferential status: %s" % exc]
+
+    problems: list[str] = []
+    # Every reader-facing file, plus the canonical draft and the front-matter source that generates
+    # four of them. Scanning only the rendered files would let a template regenerate the retired
+    # verdict later.
+    for path in prose_scanned_files():
+        if not path.exists():
+            continue
+        for line_no, para in _visible_paragraphs(_read(path)):
+            problems += ["%s:%d: %s" % (path.name, line_no, p)
+                         for p in CP.scan(para, status)]
+
+    try:
+        from tools import paper_a_front_matter as FMB
+        fm = FMB.load()
+    except ImportError:
+        fm = None
+    if fm is not None:
+        for field in ("abstract", "editor_significance", "title", "running_title"):
+            problems += CP.scan(str(fm[field]), status, "paper_a_front_matter.yaml:%s" % field)
+        for i, highlight in enumerate(fm["highlights"], 1):
+            problems += CP.scan(str(highlight), status,
+                                "paper_a_front_matter.yaml:highlights[%d]" % i)
+        problems += CP.missing_assertions(FMB._one_line(fm["abstract"]), "abstract")
+        problems += CP.missing_assertions(FMB._one_line(fm["editor_significance"]),
+                                          "editor_significance")
+
+    # The propositions each surface must carry.
+    for surface, source in (("cover_letter", _read(COVER_LETTER)),
+                            ("conclusion", _section(_read(CONVERSION), "## 8. Conclusions"))):
+        problems += CP.missing_assertions(source, surface)
+    for surface, name, path in (("results_headline", "paper-a:transfer-headline", CONVERSION),
+                                ("endpoint_synthesis", "paper-a:transfer-endpoint-reading",
+                                 CONVERSION),
+                                ("supplement_reading", "paper-a:transfer-endpoint-table-supp",
+                                 SUPPLEMENT)):
+        try:
+            block = TT.extract_block(_read(path), name)
+        except KeyError as exc:
+            problems.append("%s: %s" % (surface, exc))
+            continue
+        problems += CP.missing_assertions(block, surface)
+
+    # The estimand's direction must be stated wherever the sign is load-bearing, and stated the way
+    # the artefact declares it — not in a hand-written paraphrase that a reversed estimand would
+    # leave untouched.
+    if _flat(estimand.direction_clause) not in _flat(_read(CONVERSION)):
+        problems.append("the conversion does not state the artefact's declared sign convention "
+                        "(%r); a reader cannot tell which arm a negative difference favours"
+                        % estimand.direction_clause)
+    return problems
+
+
+def _section(text: str, heading: str) -> str:
+    """The body of one `##` section, by exact heading. Empty string if it is absent."""
+    if heading not in text:
+        return ""
+    after = text.split(heading, 1)[1]
+    return after.split("\n## ", 1)[0]
 
 
 #: Set when the front-matter check could not run for an ENVIRONMENT reason (not a drift).
@@ -264,57 +486,113 @@ def _cross_references() -> list[str]:
     return X.check()
 
 
-def _visible_lines(text: str):
-    """Yield (line_number, text) for reader-facing lines only.
+def _strip_html_comments(text: str) -> str:
+    """Blank out HTML comments while preserving every line break and every character position.
 
-    HTML comments are stripped: the generated blocks carry schema/manifest stamps that are
-    source-level assurance devices, not prose a reviewer reads. Fenced code blocks are kept, since
-    a code block in a manuscript IS read.
+    Comment characters become spaces rather than disappearing, so a diagnostic can still name the
+    source line a problem is on. HTML comments are excluded from reader-facing checks because the
+    generated blocks carry schema/manifest stamps that are assurance devices, not prose — but the
+    journal conversion must strip them too, which is a separate check on the built package.
     """
-    out, in_comment = [], False
-    for n, raw in enumerate(text.splitlines(), 1):
-        line = raw
-        while True:
-            if in_comment:
-                end = line.find("-->")
-                if end < 0:
-                    line = ""
-                    break
-                line = line[end + 3:]
-                in_comment = False
-            start = line.find("<!--")
-            if start < 0:
-                break
-            end = line.find("-->", start)
-            if end < 0:
-                line = line[:start]
-                in_comment = True
-                break
-            line = line[:start] + line[end + 3:]
-        out.append((n, line))
-    return out
+    out, in_comment, i = [], False, 0
+    while i < len(text):
+        if not in_comment and text.startswith("<!--", i):
+            in_comment, i = True, i + 4
+            out.append("    ")
+            continue
+        if in_comment and text.startswith("-->", i):
+            in_comment, i = False, i + 3
+            out.append("   ")
+            continue
+        ch = text[i]
+        out.append(ch if (ch == "\n" or not in_comment) else " ")
+        i += 1
+    return "".join(out)
+
+
+#: `![alt](figures/fig3_holdouts.png)` and `[text](target)` — a reader sees the alt text or the link
+#: text, never the target. Scanning targets as prose made the SI's own figure filenames look like
+#: leaked producer identifiers, which they are not: they are the names of the files the editor
+#: receives.
+_MD_LINK = re.compile(r"!?\[([^\]]*)\]\([^)]*\)")
+
+
+def _visible_text(line: str) -> str:
+    """What a reader sees: link text instead of link targets, and one space between words.
+
+    Internal whitespace is collapsed as well as line joins. A phrase separated by two spaces or a
+    tab is one phrase on the page, and a rule written with single spaces would otherwise miss it —
+    the same bypass class as the line wrap, one level down.
+    """
+    return " ".join(_MD_LINK.sub(r"\1", line).split())
+
+
+def _visible_paragraphs(text: str):
+    """Yield ``(first_source_line, visible_text)`` for each reader-facing block.
+
+    Round-10 P2-1. The predecessor scanned each physical line independently, and the manuscript
+    contained this, split across three source lines::
+
+        ... two sentences after using one. An
+        earlier version of this paragraph stated that an empirical whole-cup comparison was
+        unavailable, two sentences after using one; that was wrong.
+
+    The prohibited pattern `an earlier version` was in the rule table, the phrase was plainly visible
+    in the rendered paragraph, and the scanner reported ZERO problems — because no single line
+    contained it. A reader reads paragraphs, so the scanner reads paragraphs: continuation lines are
+    joined with one space, and the first source line is retained for diagnostics.
+
+    Headings and horizontal rules terminate a block, so a phrase cannot appear to straddle the
+    boundary between a heading and unrelated body text.
+    """
+    lines = _strip_html_comments(text).splitlines()
+    blocks, current, start = [], [], None
+
+    def flush():
+        if current:
+            blocks.append((start, _visible_text(" ".join(current))))
+
+    for n, raw in enumerate(lines, 1):
+        line = raw.strip()
+        is_boundary = (not line) or line.startswith("#") or set(line) <= set("-=*_ ")
+        if is_boundary:
+            flush()
+            current, start = [], None
+            if line.startswith("#"):
+                blocks.append((n, line))
+            continue
+        if start is None:
+            start = n
+        current.append(line)
+    flush()
+    return blocks
 
 
 def _placeholders_and_process_language() -> list[str]:
     problems = []
-    for path in SUBMISSION_FILES:
+    for path in prose_scanned_files():
         if not path.exists():
             continue
         section = ""
-        for line_no, line in _visible_lines(_read(path)):
-            stripped = line.strip()
-            if stripped.startswith("#"):
-                section = stripped.lstrip("#").strip().lower()
+        # Placeholders stay LINE-scoped: they do not wrap, and a line number is the more useful
+        # diagnostic for a `[TODO]`.
+        for line_no, line in enumerate(_strip_html_comments(_read(path)).splitlines(), 1):
             for m in _PLACEHOLDER.finditer(line):
                 problems.append(f"{path.name}:{line_no}: unresolved placeholder "
                                 f"<<{m.group(0)}>>")
-            for rx, why in _PROCESS_WORDS:
-                if why == "internal repository path" and (
-                        path.name not in _PATH_SCANNED_FILES
-                        or any(a in section for a in _PATH_ALLOWED_SECTIONS)):
+        for line_no, para in _visible_paragraphs(_read(path)):
+            if para.startswith("#"):
+                section = para.lstrip("#").strip().lower()
+                continue
+            for rx, why, rule in _PROCESS_WORDS:
+                if path.name not in _RULE_SCOPE[rule]:
                     continue
-                for m in rx.finditer(line):
-                    problems.append(f"{path.name}:{line_no}: <<{m.group(0)}>> -- {why}")
+                if rule == "internal_path" and any(a in section
+                                                   for a in _PATH_ALLOWED_SECTIONS):
+                    continue
+                for m in rx.finditer(para):
+                    problems.append(f"{path.name}:{line_no}: <<{m.group(0)}>> "
+                                    f"[{rule}] -- {why}")
     return problems
 
 
@@ -390,12 +668,43 @@ def _grid_record() -> list[str]:
 
 def _figure_labels() -> list[str]:
     """Figures must not carry embedded "Fig N" titles that can contradict presentation numbering."""
-    captions = _REPO / "docs" / "figures" / "PAPER_A_CAPTIONS.md"
-    if not captions.exists():
+    if not FIGURE_MAP_INTERNAL.exists():
         return []
-    return ([] if "no embedded figure number" in _read(captions).lower() else
-            ["the caption map does not record that figures carry no embedded 'Fig N' title "
+    return ([] if "no embedded figure number" in _read(FIGURE_MAP_INTERNAL).lower() else
+            ["the internal figure map does not record that figures carry no embedded 'Fig N' title "
              "(third review, cross-cutting figure issue)"])
+
+
+def _upload_captions_are_generated_and_clean() -> list[str]:
+    """The uploaded caption file must be current, and must be the upload file, not the map.
+
+    Round-10 P2-1. Three separate failures are possible here and all three have precedent in this
+    repository: the caption file drifts from the source (round-8 P0-1, a caption quoting a superseded
+    benchmark); the internal bookkeeping file is uploaded by mistake (its title said
+    "submission-ready"); or the package manifest keeps listing the old path after a split.
+    """
+    from tools import paper_a_figure_captions as FC
+
+    problems = []
+    if not UPLOAD_CAPTIONS.exists():
+        return ["the upload-ready caption file is missing; generate it with "
+                "`python tools/paper_a_figure_captions.py --write`"]
+    if _read(UPLOAD_CAPTIONS) != FC.render():
+        problems.append("the upload-ready caption file is stale against the internal figure map; "
+                        "run `python tools/paper_a_figure_captions.py --write`")
+    package = _read(PACKAGE)
+    if FIGURE_MAP_INTERNAL.name in package:
+        problems.append("the package manifest lists %s, which is internal bookkeeping and must not "
+                        "be uploaded" % FIGURE_MAP_INTERNAL.name)
+    if UPLOAD_CAPTIONS.name not in package:
+        problems.append("the package manifest does not list the upload-ready caption file %s"
+                        % UPLOAD_CAPTIONS.name)
+    if "<!--" in _read(UPLOAD_CAPTIONS).replace(
+            "<!-- GENERATED by tools/paper_a_figure_captions.py from the internal figure map. "
+            "Do not edit by hand. -->", ""):
+        problems.append("the upload-ready caption file carries an HTML comment other than its own "
+                        "generation stamp; source stamps must not reach an editor")
+    return problems
 
 
 def _release_state() -> list[str]:
@@ -540,6 +849,9 @@ def _no_active_volume_endpoint() -> list[str]:
 
 CHECKS = (
     ("phrase drift", _phrase_drift),
+    ("generated block parity", _generated_block_parity),
+    ("claim policy", _claim_policy),
+    ("upload-ready captions", _upload_captions_are_generated_and_clean),
     ("front matter", _front_matter),
     ("citations", _citations),
     ("cross-references", _cross_references),

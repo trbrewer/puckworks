@@ -59,7 +59,7 @@ model. The strongest each result supports:
 | Hessian sensitivity table (FD step, grids, scaling, evaluation point) | deferred | condition number reported at one discretization | backlog A4-17; review §6.15 |
 | Discrepancy controls + off-grid same-model sim shown in figures | PARTIAL | controls are in the result bundle + tests, not all plotted | backlog A4-27/28; review §6.38/§6.40 |
 | Fig 3/4 tidy source-data export + Fig 4 baseline/envelope redesign | deferred | Fig 4 already carries a level-only baseline panel; envelopes/export owed | backlog A4-10/11 |
-| Vector (SVG/PDF) figures | **DONE-as-code** (full production re-render owed) | export path + colour-safe palette + captions added; exact-env render pending | ROADMAP §7.1 (VENUE-2); `docs/figures/PAPER_A_CAPTIONS.md` |
+| Vector (SVG/PDF) figures | **DONE-as-code** (full production re-render owed) | export path + colour-safe palette + captions added; exact-env render pending | ROADMAP §7.1 (VENUE-2); `docs/figures/PAPER_A_FIGURE_MAP_INTERNAL.md` |
 | Journal manuscript conversion (remove internal IDs/function names, Methods equations, references, declarations) | VENUE, in progress | JFE conversion **draft** exists; editorial cleanup + author metadata owed | `docs/submission/PAPER_A_JFE_MANUSCRIPT.md`; `VENUE_CONVERSION_STATUS.md` |
 | Systematic Scopus/WoS novelty search | PI-owned | no licensed DB access; open-web seed only | `docs/literature_search/SEARCH_PROTOCOL.md`, `NOVELTY_WORDING_PROVISIONAL.md` |
 | Clean tagged release + exact-env production bundle recompute + archival transitive lock | DEFERRED to RC / TB | release packager + env gate + direct-dep lock built; ~30 min PDE recompute + tag/DOI owed | `tools/prepare_paper_release.py`; `RELEASE_RUNBOOK.md`; backlog A4-15 |

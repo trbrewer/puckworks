@@ -371,23 +371,47 @@ def render(report):
     return NA.render(report)
 
 
+#: Both ACTIVE manuscripts. Round-10 P1-1: the default invocation audited only the canonical draft,
+#: and the venue conversion — the file an editor actually receives — was audited only when someone
+#: remembered `--conversion`. A green default audit could therefore certify one abstract while a
+#: different one was submitted. Auditing one of two active manuscripts is not a coverage ratchet; it
+#: is a coverage ratchet on half the corpus, reported as if it were the whole.
+ACTIVE_MANUSCRIPTS = (("canonical", MANUSCRIPT), ("venue", CONVERSION))
+
+
 def main(argv=None) -> int:
     argv = sys.argv[1:] if argv is None else list(argv)
-    which = CONVERSION if "--conversion" in argv else MANUSCRIPT
-    report = NA.audit(_spec(which), which)
-    if "--json" in argv:
-        print(json.dumps(report, indent=2))
+    if "--canonical-only" in argv:
+        targets = ACTIVE_MANUSCRIPTS[:1]
+    elif "--conversion" in argv or "--conversion-only" in argv:
+        targets = ACTIVE_MANUSCRIPTS[1:]
     else:
-        print(render(report))
-    n = len(report["unaccounted"])
-    if n > BASELINE_UNACCOUNTED:
-        print(f"\nFAIL: {n} unaccounted exceeds the baseline of {BASELINE_UNACCOUNTED}.",
-              file=sys.stderr)
-        return 1
-    if n < BASELINE_UNACCOUNTED:
-        print(f"\nNOTE: {n} unaccounted, below the baseline of {BASELINE_UNACCOUNTED} — "
-              f"lower BASELINE_UNACCOUNTED to {n} so the ratchet holds.", file=sys.stderr)
-    return 0
+        targets = ACTIVE_MANUSCRIPTS
+
+    reports = {}
+    failed = 0
+    for label, path in targets:
+        report = NA.audit(_spec(path), path)
+        reports[label] = report
+        if "--json" not in argv:
+            print("=== %s manuscript: %s ===" % (label, path.relative_to(REPO_ROOT)))
+            print(render(report))
+        n = len(report["unaccounted"])
+        if n > BASELINE_UNACCOUNTED:
+            print(f"\nFAIL: {label} manuscript has {n} unaccounted numerals, above the baseline of "
+                  f"{BASELINE_UNACCOUNTED}.", file=sys.stderr)
+            failed += 1
+        elif n < BASELINE_UNACCOUNTED:
+            print(f"\nNOTE: {label} manuscript has {n} unaccounted, below the baseline of "
+                  f"{BASELINE_UNACCOUNTED} — lower BASELINE_UNACCOUNTED to {n} so the ratchet "
+                  f"holds.", file=sys.stderr)
+    if "--json" in argv:
+        print(json.dumps(reports if len(reports) > 1 else next(iter(reports.values())), indent=2))
+    if len(targets) < len(ACTIVE_MANUSCRIPTS):
+        print("\nNOTE: only %d of %d active manuscripts were audited; this is a diagnostic mode "
+              "and must not be the CI default."
+              % (len(targets), len(ACTIVE_MANUSCRIPTS)), file=sys.stderr)
+    return 1 if failed else 0
 
 
 if __name__ == "__main__":

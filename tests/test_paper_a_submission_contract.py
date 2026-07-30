@@ -540,7 +540,7 @@ def test_every_main_figure_is_cited_in_the_text_and_in_order():
     from pathlib import Path
 
     caps = (Path(__file__).resolve().parents[1] / "docs" / "figures"
-            / "PAPER_A_CAPTIONS.md").read_text(encoding="utf-8")
+            / "PAPER_A_FIGURE_MAP_INTERNAL.md").read_text(encoding="utf-8")
     main = sorted({int(n) for n in re.findall(r"(?m)^\| Figure (\d) \|.*\*\*main\*\*", caps)}
                   or {int(n) for n in re.findall(r"(?m)^### Figure (\d) \(", caps)})
     assert main, "no main figures found in the caption map"

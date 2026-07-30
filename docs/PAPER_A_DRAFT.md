@@ -29,58 +29,28 @@ owed at submission.]_*
 
 ## Abstract
 
-We examine whether a multi-solute extraction model calibrated on fraction-resolved
-data (Pannusch et al. (2024), calibrated on the Schmieder kinetics) retains a unique kinetic
-interpretation when refitted to an independent endpoint dataset (Angeloni et al. (2023); a
-different machine, coffee, and basket). Profiling the model's two adjustable knobs —
-a per-species solid **inventory** and a Sherwood mass-transfer **rate** scale —
-against cup concentrations at a **matched beverage endpoint** (a collected 40 g cup, the
-proxy for the 40 g cup) at a single grind reveals a strong **practical
-non-identifiability**: the rate is not separately estimable over the tested domain
-because the inventory compensates. On the SSE surface a local log-parameter Hessian is
-highly ill-conditioned (condition number of order 10³, basis- and discretisation-
-dependent) with an inverse-curvature coupling near −1 (a geometric diagnostic of the
-SSE valley, **not** a statistical parameter correlation — no likelihood is specified);
-more robustly, the profiled objective stays within 10 % of its minimum from ≈0.4 up to
-the **upper tested rate boundary** (so its upper extent is **right-censored** by the
-domain, not closed), and a MAPE tolerance set overlaps the SSE set.
-Crucially, we report **parameter identifiability, predictive transfer, and incremental
-skill over a level-only comparator as separate properties**. Although the individual parameters are
-not identifiable, a calibration frozen on one grind produces held-out coarse/fine-grind
-absolute errors of **~6–18 %** at the point optimum. But absolute error alone does **not**
-establish mechanistic transfer skill: against an **O-trained level-only constant**
-baseline (a single concentration fit to the O grind, carrying no temperature/pressure/
-flow/kinetic response), the mechanistic model's pooled held-out MAPE over the complete
-coarse/fine corpus (44 records, 132 named-solute observations) is **8.4 %** versus
-**8.8 %** for the constant — an incremental skill of only **≈4.5 % relative (0.394 pp absolute)**, and the
-model is worse than the constant on **62 of 132 held-out points**. The kinetic/transport
-structure therefore adds little beyond the transferred level; the scientifically robust
-statement is that the fitted level-plus-rate pair does not catastrophically deteriorate
-across grinds, not that the mechanism transfers. Propagating the **discrete 10 %-near-
-optimal MAPE grid set** (rates within 10 % of the O-fit minimum on an 18-point rate grid,
-a declared set — not a continuous manifold) to C/F, the worst **aggregate** held-out MAPE
-rises to **~22 %**. Condition-wise ranges across this finite 18-point tolerance set **are
-reported** (Fig. 4); a continuous, grid-converged profile-prediction propagation remains
-future work. A single shared
-(inventory, rate) fitted jointly to all grinds reconstructs the pooled data at 6.4 %
-macro-MAPE vs 4.9 % for separate per-grind fits — an **in-sample** parameter-sharing
-penalty (not a held-out prediction), whose adequacy must be judged against reduced-model
-baselines since a per-grind constant is nearly competitive.
-This corrects an earlier version of this analysis, which — using an **unmatched fixed-time
-integration window** — reported a large cross-grind transfer failure; that failure
-was mostly a measurement-window artefact. Finally, across an **in-sample
-verification** on the model's own calibration campaign and an **independent
-second-rig TDS trajectory** (Waszkiewicz et al. 2026), retaining temporal resolution
-moves the rate objective more than an integrated aggregate does — though on the single
-external shot the flat integrated-cup profile is **algebraic** (one scalar concentration
-is matched by one profiled level at every rate), not an empirical no-information result,
-and the external trajectory minimum remains shallow and high-error (~27 % MAPE). The
-lesson is that a low endpoint error need not identify a mechanism, and need not even
-signal mechanistic transfer skill beyond a level-only baseline: identifiability,
-predictive transfer, endpoint accuracy, and incremental skill over a level-only comparator are
-**distinct properties** that must be reported separately. A validation score is
-interpretable only when the model output is mapped to the **same observation window and
-endpoint** as the data.
+<!-- Round-10 P1-1. This section used to hold a SECOND, independently maintained abstract. Its
+     active scientific claims had drifted from the venue manuscript's: it called the parameters "not
+     identifiable" where the venue abstract says "weakly separated", reported "an incremental skill
+     of only ≈4.5 % relative", concluded that the kinetic structure "adds little beyond the
+     transferred level", and narrated the correction of an earlier version of the analysis. Meanwhile
+     the claim-coverage audit defaults to THIS file, so a green default audit could describe an
+     abstract no editor would ever see.
+
+     A repository may legitimately keep a longer working draft and a venue conversion. It may not
+     hold two different central claims and call them content-aligned. The abstract is therefore
+     generated from `docs/submission/paper_a_front_matter.yaml`, the same single source the venue
+     manuscript, the package and the cover letter render from, and
+     `tests/test_paper_a_front_matter.py` fails if either rendering drifts. The longer draft's extra
+     exposition is not lost: the Hessian conditioning and the right-censored profile are in the
+     weak-separation results section, the near-optimal-set propagation and the shared-parameter
+     penalty in the cross-grind results section, and the external trajectory in the
+     temporal-resolution section. -->
+
+<!-- frontmatter:abstract:begin -->
+<!-- generated by tools/paper_a_front_matter.py — do not edit by hand -->
+Whole-cup espresso measurements can be predicted accurately even when extractable content and extraction rate are weakly separated. We examined a multi-solute extraction model calibrated to fraction-resolved data, recalibrated to optimal-grind whole-cup observations and evaluated at a matched 40 g endpoint. At each mass-transfer-rate multiplier an inventory level was re-estimated and the objective profiled. In the illustrative caffeine panel the minimum was interior but its 10 %-near-optimal set reached the upper tested boundary; across six panels and three objective families, near-optimal sets reached a boundary in 16 of 18 cases. After optimal-grind calibration, predictions on the complete held-out coarse- and fine-grind corpus (132 observations) had 8.4 % pooled MAPE against 8.8 % for a concentration-only comparator. The paired difference was −0.394 percentage points, favouring the model, and the model was worse on 62 of 132 observations. The primary clustered percentile range (−0.829 to +0.004) contained zero; these are uncalibrated sensitivity ranges with no predeclared margin, so they do not establish whether the advantage is reproducible or useful. Fraction-resolved observations produced sharper rate profiles than aggregated or simulated whole-cup ones. An external dissolved-solids trajectory retained only a shallow, high-error, loss-dependent preference. Matched endpoints are therefore necessary but insufficient: parameter localization, prediction error, incremental gain and cross-context evidence should be reported separately. Across the declared ±2 g tolerance the difference stayed between −0.447 and −0.394 points, excluding zero at 38 g only; at 40 g the bound's sign was numerically stable across seeds.
+<!-- frontmatter:abstract:end -->
 
 ---
 
@@ -606,7 +576,7 @@ not dominate. The near-optimal threshold family is **2 / 5 / 10 / 20 %**; the 10
 **declared**, not inferred, and is reported as a tolerance set rather than a confidence region.
 
 <!-- paper-a:transfer-methods:begin -->
-<!-- paper-a:transfer-corpus schema=3 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
+<!-- paper-a:transfer-corpus schema=4 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
 
 *Resampling.* For each held-out coarse/fine solute observation we form the **paired** difference between the frozen mechanistic loss and the frozen O-trained level-only comparator loss. Both predictors are fixed before any C/F response is scored and neither is refitted inside the resampling, so the resulting percentile intervals are **fixed-predictor clustered sensitivity ranges**, not calibrated confidence intervals. Whole clusters are drawn with replacement within their declared strata, every observation in a drawn cluster is retained, and model and comparator losses always move together because the paired difference is formed per observation before any draw. The canonical run uses \(B=1{,}000{,}000\) draws at seed 0 with the PCG64 generator and the linear quantile convention at the 2.5/97.5 percentiles.
 
@@ -811,7 +781,7 @@ anything, *less* bounded than the finite-domain numbers imply.
 Strength: this is a *diagnosis of the fit*, established on the transfer target and
 corroborated on the model's own data in §5<!--sec:temporal--> — not a claim about the model's physics.
 
-## 4. Cross-grind endpoint prediction adds little over a level-only baseline
+## 4. Cross-grind endpoint prediction does not establish transfer beyond a level-only baseline
 
 **Figure 3** compares the frozen-calibration predictions with the level-only baseline across
 the held-out coarse and fine conditions.
@@ -844,9 +814,9 @@ campaign (same varieties, platform, assay), a within-campaign design extrapolati
 an external-rig prediction.
 
 <!-- paper-a:transfer-headline:begin -->
-<!-- paper-a:transfer-corpus schema=3 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
+<!-- paper-a:transfer-corpus schema=4 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
 
-**Level-only comparator: absolute error alone does not establish transfer skill.** This is the paper's principal quantitative result, so we state it first. Against an **optimal-grind-trained MAPE-optimal constant**, the mechanistic model's pooled held-out MAPE is **8.44%** versus **8.83%** for the constant — a paired difference of **−0.394 percentage points**, whose primary clustered percentile range is **[−0.829, +0.004] pp** and contains zero, with the mechanistic model **worse on 62 of 132 held-out observations**. Acceptable endpoint accuracy therefore did not supply resolvable skill beyond a transferred concentration level.
+**Level-only comparator: absolute error alone does not establish transfer skill.** This is the paper's principal quantitative result, so we state it first. Against an **optimal-grind-trained MAPE-optimal constant**, the mechanistic model's pooled held-out MAPE is **8.44%** versus **8.83%** for the constant — a paired difference of **−0.394 percentage points**, which favours the mechanistic model. Its primary clustered percentile **sensitivity range** — not a calibrated confidence interval — is **[−0.829, +0.004] pp** and contains zero, and the mechanistic model is **worse on 62 of 132 held-out observations**. The observed advantage is therefore small, and this analysis does not establish whether it is reproducible or practically useful: acceptable endpoint accuracy does not by itself establish transfer of the kinetic mechanism beyond a transferred concentration level.
 <!-- paper-a:transfer-headline:end -->
 
 **The held-out corpus is the complete one, and its membership is emitted rather than described.**
@@ -866,8 +836,9 @@ The comparison's contract matters, so we make it fully explicit. The constant is
 the nine optimal-grind observations; (ii) frozen thereafter for the coarse and fine grinds; (iii)
 carrying no temperature, pressure, flow or kinetic response whatsoever; (iv) optimised under the
 same primary loss used for the comparison; and (v) evaluated at the same 40 g endpoint as
-the mechanistic model. It is a deliberately minimal comparator. The point is not that beating one
-constant would prove mechanism — it would not — but that the process model barely beats even this.
+the mechanistic model. It is a deliberately minimal comparator. The point is not that improving on one
+constant would prove mechanism — it would not — but that the process model's observed improvement
+over even this comparator is a fraction of a percentage point.
 Because the model profiles a free inventory level, and inventory is an exact multiplicative level
 (§3.2<!--sec:result2-->), a constant carrying only that level is the natural comparator. It is a deliberately weak benchmark, not a statistical null: no null hypothesis, null distribution, calibrated test or nested-model relation is defined, and none is implied by the comparison.
 
@@ -875,7 +846,8 @@ A second comparator — the observed optimal-grind concentration at the *same* (
 reported as a **secondary** one, because it cannot be defined on the whole corpus: none of the eight
 off-grid coarse/fine conditions has a matching optimal-grind record, so the lookup exists only on
 the 36 on-grid records. Scored on that subset against the model's error over the same 108
-observations, the model beats it by ~2.6 pp (8.23 % versus 10.79 %). We report it on its own
+observations, the model's pooled error is ~2.6 pp lower (8.23 % versus 10.79 %). We report it on its
+own
 support rather than pooling two comparators evaluated on different corpora.
 
 The honest reading is that the fitted level-plus-rate pair *does not catastrophically deteriorate*
@@ -883,7 +855,7 @@ across grinds — **not** that the kinetic/transport mechanism transfers. This s
 weakens the paper's thesis.
 
 <!-- paper-a:transfer-results:begin -->
-<!-- paper-a:transfer-corpus schema=3 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
+<!-- paper-a:transfer-corpus schema=4 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
 
 Treating the 132 held-out observations as the **dependent** observations they are, a **paired clustered resampling** of the model-minus-comparator loss gives a sensitivity range on the pooled ΔMAPE of **[−0.829, +0.004] pp** under the pre-declared primary unit, the **(variety, temperature, pressure) condition**.
 
@@ -907,9 +879,9 @@ freeze that calibration, predict every held-out coarse/fine observation at the s
 the level-only constant at the same endpoint, and repeat the primary clustered resampling.
 
 <!-- paper-a:transfer-endpoint-table:begin -->
-<!-- paper-a:transfer-corpus schema=3 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
+<!-- paper-a:transfer-corpus schema=4 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
 
-**Table 4a. The transfer-versus-comparator benchmark propagated through the declared ±2 g collection tolerance.** Ranges are the primary `cond_in_variety` clustered percentile sensitivity ranges at the canonical draw count, not calibrated confidence intervals. Negative values favour the mechanistic model.
+**Table 4a. The transfer-versus-comparator benchmark propagated through the declared ±2 g collection tolerance.** Ranges are the primary `cond_in_variety` clustered percentile sensitivity ranges at the canonical draw count, not calibrated confidence intervals. The paired difference is pooled MAPE for the mechanistic model minus pooled MAPE for the O-trained level-only comparator, in percentage points; negative values favour the mechanistic model.
 
 | endpoint | model pooled MAPE (%) | level-only comparator (%) | paired difference (pp) | primary clustered percentile range (pp) | zero relation | model worse on |
 |---|---:|---:|---:|---:|---|---:|
@@ -933,20 +905,20 @@ The **effect size is stable**. The paired difference spans −0.447 to −0.394 
 
 The **position of the boundary is not a finding**. At the canonical draw count the primary clustered range contains zero at 40 g and 42 g and excludes it at 38 g. The three upper bounds are −0.042, +0.004 and +0.006 pp: they differ from one another, and from zero, by less than a twentieth of a percentage point, against pooled errors near 8.4 % in both arms. Whether such a bound falls just inside or just outside zero follows from the clustering assumption and the endpoint, not from any measurement of skill, and we do not read it as one. The same holds across fitting losses: refitting both predictors under a log/relative-error level fit moves the paired difference only from −0.394 to −0.393 pp, and the loss-specific ranges both contain zero.
 
-No row supports a claim of resolvable skill. Because the estimand is model loss minus comparator loss, negative values favour the mechanistic model: the most favourable bound across the sweep is −0.891 pp and the least favourable is +0.006 pp, so at the favourable end these ranges permit an advantage well under one percentage point and at the unfavourable end they permit none at all — against pooled errors near 8.4 % in both arms. We report the benchmark as **unresolved throughout the declared tolerance**, and we do not convert a percentile bound's position into an inequality that carries the conclusion. Per-endpoint values, under every declared cluster scheme, are Supplementary Table S3.
+Because the estimand is pooled MAPE for the mechanistic model minus pooled MAPE for the O-trained level-only comparator in percentage points, negative values favour the mechanistic model: the most favourable bound across the sweep is −0.891 pp and the least favourable is +0.006 pp, so at the favourable end these ranges permit an advantage well under one percentage point and at the unfavourable end they permit none at all — against pooled errors near 8.4 % in both arms. These are fixed-predictor clustered sensitivity ranges, without calibrated coverage and without a predeclared practical margin, so their positions determine neither superiority, non-inferiority, equivalence, nor absence of skill: this analysis does not establish whether the observed pooled MAPE difference is reproducible or practically useful, and it does not establish that the difference is absent. No row here establishes resolvable incremental skill, and none establishes its absence; we do not convert a percentile bound's position into an inequality that carries the conclusion. Per-endpoint values, under every declared cluster scheme, are Supplementary Table S3.
 <!-- paper-a:transfer-endpoint-reading:end -->
 
 <!-- paper-a:transfer-table5:begin -->
-<!-- paper-a:transfer-corpus schema=3 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
+<!-- paper-a:transfer-corpus schema=4 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
 
-**Table 5. Resampling quantities used in this paper, by estimand.** These are numerically similar, easily conflated, and do not estimate the same target; the out-of-bag refit interval is *not* an uncertainty interval for the −0.394 pp model-minus-comparator difference.
+**Table 5. Resampling quantities used in this paper, by estimand.** These are numerically similar, easily conflated, and do not estimate the same target; the out-of-bag refit interval is *not* an uncertainty interval for the −0.394 pp model-minus-comparator difference. The paired estimand is pooled MAPE for the mechanistic model minus pooled MAPE for the O-trained level-only comparator, in percentage points; negative values favour the mechanistic model.
 
 | analysis | resampling unit | fit repeated? | held-out fraction | estimand | point estimate | percentile range | inferential status |
 |---|---|---|---|---|---|---|---|
-| paired clustered resampling of model-minus-comparator loss (**primary**) | (variety, temperature, pressure) condition, resampled within variety (26 clusters) | no | n/a — fixed predictors | pooled ΔMAPE, model − level-only comparator | −0.394 pp | [−0.829, +0.004] pp | clustered percentile **sensitivity range**; not a calibrated CI; pre-declared **conservative** unit, not the demonstrated one |
-| the same, resampling `sample_in_variety_grind` (secondary) | sample record, resampled within variety x grind (44 clusters) | no | n/a — fixed predictors | pooled ΔMAPE, model − level-only comparator | −0.394 pp | [−0.742, −0.053] pp | sensitivity only; the clearest source-established dependence (three solutes per coffee sample) |
-| the same, resampling `cond_in_group` (secondary) | (temperature, pressure) condition within variety x solute group (78 clusters) | no | n/a — fixed predictors | pooled ΔMAPE, model − level-only comparator | −0.394 pp | [−0.740, −0.039] pp | sensitivity only; does not preserve cross-solute condition dependence |
-| the same, resampling `group` (secondary) | whole variety x solute group (6 clusters) | no | n/a — fixed predictors | pooled ΔMAPE, model − level-only comparator | −0.394 pp | [−0.863, −0.024] pp | sensitivity only; 6 clusters, so a coarse and highly discrete stress test |
+| paired clustered resampling of model-minus-comparator loss (**primary**) | (variety, temperature, pressure) condition, resampled within variety (26 clusters) | no | n/a — fixed predictors | pooled MAPE, mechanistic model − O-trained level-only comparator | −0.394 pp | [−0.829, +0.004] pp | clustered percentile **sensitivity range**; not a calibrated CI; pre-declared **conservative** unit, not the demonstrated one |
+| the same, resampling `sample_in_variety_grind` (secondary) | sample record, resampled within variety x grind (44 clusters) | no | n/a — fixed predictors | pooled MAPE, mechanistic model − O-trained level-only comparator | −0.394 pp | [−0.742, −0.053] pp | sensitivity only; the clearest source-established dependence (three solutes per coffee sample) |
+| the same, resampling `cond_in_group` (secondary) | (temperature, pressure) condition within variety x solute group (78 clusters) | no | n/a — fixed predictors | pooled MAPE, mechanistic model − O-trained level-only comparator | −0.394 pp | [−0.740, −0.039] pp | sensitivity only; does not preserve cross-solute condition dependence |
+| the same, resampling `group` (secondary) | whole variety x solute group (6 clusters) | no | n/a — fixed predictors | pooled MAPE, mechanistic model − O-trained level-only comparator | −0.394 pp | [−0.863, −0.024] pp | sensitivity only; 6 clusters, so a coarse and highly discrete stress test |
 | residual resampling of LOCO fold errors | individual fold error | no | 1 of 9 | descriptive spread of computed LOCO errors | 6.5 % | [5.0, 8.2] % | **descriptive fold-resampling range**; ignores fold dependence |
 | condition-level resampling of LOCO macro errors | (T,p) condition (9) | no | 1 of 9 | descriptive spread of computed LOCO errors | 6.5 % | [5.1, 8.3] % | descriptive fold-resampling range |
 | condition-cluster out-of-bag refit | (T,p) condition (9) | **yes** | ~3–4 of 9 | model held-out MAPE at a larger held-out fraction | 7.4 % | [4.3, 11.5] % | **out-of-bag refit percentile interval**; coverage not demonstrated |
@@ -1023,7 +995,7 @@ changes sign, so the loss-robustness claim is made about the estimand that actua
 conclusion.
 
 <!-- paper-a:transfer-loss-robustness:begin -->
-<!-- paper-a:transfer-corpus schema=3 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
+<!-- paper-a:transfer-corpus schema=4 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
 
 Refitting **both** the mechanistic model and the level-only comparator under the same log/relative-error level fit, and scoring both under the same rule, the paired model-minus-comparator difference moves from **−0.394 pp** to **−0.393 pp** (pooled 8.50% versus 8.89%; the model worse on 62 of 132 observations under either loss). The primary clustered percentile range is [−0.829, +0.004] under the primary loss and [−0.826, +0.004] under the alternative, and at the canonical draw count both contain zero. The fitting loss therefore does not materially change the point estimate, the zero relation, or the practical reading. It is that comparison, not the mechanistic model's own error, that establishes the verdict is not an artefact of the fitting loss.
 <!-- paper-a:transfer-loss-robustness:end -->
@@ -1065,10 +1037,8 @@ cup by **27.8 / 38.3 / 30.7 % MAPE** (caffeine / trigonelline / 5-CQA), so part 
 its flatness is a sampling artefact. **Measured whole cups for this campaign ARE available** —
 `schmieder2023/cup_masses` carries per-replicate complete-cup concentrations at brew ratio 1/3 for
 caffeine, trigonelline, 5-CQA and TDS across all 15 experiments (3–6 replicates each), and the
-27.8 / 38.3 / 30.7 % figures just quoted are computed against exactly those measurements. An
-earlier version of this paragraph stated that an empirical whole-cup comparison was unavailable,
-two sentences after using one; that was wrong. What has **not** yet been run is the full
-fraction-versus-measured-cup rate-profile contrast — scoring the model against timed fractions and
+27.8 / 38.3 / 30.7 % figures just quoted are computed against exactly those measurements. What has
+**not** yet been run is the full fraction-versus-measured-cup rate-profile contrast — scoring the model against timed fractions and
 against measured complete cups over the same rate sweep. That contrast would replace a same-model
 simulation with a direct empirical one and is the natural strengthening of this section. The
 exact-integral simulation below tests the same question under the model in the meantime.
@@ -1311,13 +1281,13 @@ none hand-typed), split into **four main figures and four supplementary** per th
 to reduce the main set. The main set carries the study design and the three findings; everything
 that supports rather than states a finding is supplementary. Presentation numbers differ from the
 producer identifiers, which are unchanged — see the mapping table in
-`docs/figures/PAPER_A_CAPTIONS.md`, which is the authoritative caption source.
+the internal figure map, which is the authoritative caption source; the upload-ready caption file is generated from it.
 
 | presentation | producer | placement |
 |---|---|---|
 | Figure 1 | `fig1_design` | main — study design and dataset roles |
 | Figure 2 | `fig2_objective_surface` | main — weak separation |
-| Figure 3 | `fig4_transfer` | main — no resolvable gain over the level-only comparator |
+| Figure 3 | `fig4_transfer` | main — a small observed gain over the level-only comparator that the analysis does not establish as useful |
 | Figure 4 | `fig6_fraction_vs_endpoint` | main — temporal resolution |
 | Figure S1 | `fig3_holdouts` | supplement |
 | Figure S2 | `fig5_joint_residual` | supplement |

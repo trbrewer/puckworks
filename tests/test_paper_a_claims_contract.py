@@ -223,7 +223,7 @@ def test_the_four_panel_span_is_retired(which):
 
 
 # --- figure placement (review section 6 / P1.3) ------------------------------------------------
-_CAPTIONS = _ROOT / "docs/figures/PAPER_A_CAPTIONS.md"
+_CAPTIONS = _ROOT / "docs/figures/PAPER_A_FIGURE_MAP_INTERNAL.md"
 _MAIN_STEMS = ["fig1_design", "fig2_objective_surface", "fig4_transfer",
                "fig6_fraction_vs_endpoint"]
 _SUPP_STEMS = ["fig3_holdouts", "fig5_joint_residual", "fig7_per_group_diagnostics",

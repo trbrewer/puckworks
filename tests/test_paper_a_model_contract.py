@@ -26,7 +26,7 @@ REPO = pathlib.Path(__file__).resolve().parents[1]
 MANUSCRIPT = REPO / "docs" / "submission" / "PAPER_A_JFE_MANUSCRIPT.md"
 DRAFT = REPO / "docs" / "PAPER_A_DRAFT.md"
 SUPPLEMENT = REPO / "docs" / "submission" / "PAPER_A_JFE_SUPPLEMENT.md"
-CAPTIONS = REPO / "docs" / "figures" / "PAPER_A_CAPTIONS.md"
+CAPTIONS = REPO / "docs" / "figures" / "PAPER_A_FIGURE_MAP_INTERNAL.md"
 CARD = REPO / "docs" / "cards" / "pannusch2024.md"
 
 PROSE = (MANUSCRIPT, DRAFT, SUPPLEMENT, CAPTIONS)
@@ -427,7 +427,11 @@ def test_interval_flags_are_derived_from_unrounded_bounds():
     knife = TC.interval_record(-0.8251, -0.0004)
     assert knife["excludes_zero_full_precision"] is True
     assert knife["contains_zero_full_precision"] is False
-    assert knife["display"]["touches_zero"] is True
+    assert knife["display"]["contains_zero_rounded"] is True
+    # Round-10 P1-3: the DISPLAYED range covers zero, and neither bound touches it. One field name
+    # used to carry both statements.
+    assert knife["touches_zero_at_lower"] is False
+    assert knife["touches_zero_at_upper"] is False
     assert knife["display"]["text"] == "[−0.825, +0.000]"
     assert knife["signed_nearest_bound_to_zero_pp"] == -0.0004
 

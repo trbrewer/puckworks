@@ -105,7 +105,7 @@ def test_paper_a_figures_carry_no_embedded_figure_number():
 
 def test_paper_a_caption_map_records_the_no_embedded_number_policy():
     from pathlib import Path
-    caps = (Path(__file__).resolve().parents[1] / "docs" / "figures" / "PAPER_A_CAPTIONS.md"
+    caps = (Path(__file__).resolve().parents[1] / "docs" / "figures" / "PAPER_A_FIGURE_MAP_INTERNAL.md"
             ).read_text(encoding="utf-8")
     assert "no embedded figure number" in caps.lower()
 
@@ -129,7 +129,7 @@ def test_figure2_caption_scope_matches_its_producer():
     assert panels, "could not locate the Figure 2 identifiability panels in the producer"
     varieties = {v for _solute, v in panels}
 
-    caps = (root / "docs" / "figures" / "PAPER_A_CAPTIONS.md").read_text(encoding="utf-8")
+    caps = (root / "docs" / "figures" / "PAPER_A_FIGURE_MAP_INTERNAL.md").read_text(encoding="utf-8")
     cap = re.search(r"(?ms)^### Figure 2 \(.*?\)\s*\n+(.*?)(?=\n### )", caps).group(1)
 
     for v in varieties:

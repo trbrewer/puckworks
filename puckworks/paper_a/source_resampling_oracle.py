@@ -178,14 +178,20 @@ def canonical_hash(scheme_obj: dict) -> str:
 
 
 def _normalise_artifact_scheme(scheme_obj: dict) -> list[dict]:
-    """Put an artefact scheme into the oracle's canonical shape for comparison."""
+    """Put an artefact scheme into the oracle's canonical shape for comparison.
+
+    ``n_observations`` is carried through as declared (``None`` when absent) rather than recomputed,
+    so a cluster whose declared count contradicts its own id list is visible to the comparison
+    instead of being quietly corrected here.
+    """
     out = []
     for c in scheme_obj.get("membership") or []:
         out.append({"stratum_id": str(c.get("stratum", "")),
                     "cluster_id": str(c.get("cluster_id", "")),
                     "sample_ids": sorted(c.get("sample_ids") or []),
                     "grinds": sorted(c.get("grinds") or []),
-                    "observation_ids": sorted(c.get("observation_ids") or [])})
+                    "observation_ids": sorted(c.get("observation_ids") or []),
+                    "n_observations": c.get("n_observations")})
     return sorted(out, key=lambda c: (c["stratum_id"], c["cluster_id"]))
 
 
@@ -194,6 +200,19 @@ def compare_design(artifact_design: dict, records=None) -> list[str]:
 
     Returns a list of problems naming the scheme and the exact mismatch. Empty means the artefact's
     partition *is* the partition the source data implies, cluster by cluster.
+
+    Round-10 P1-2 widened what "the partition" means here. The round-9 version compared observation
+    ids, stratum ids and sample ids, and stopped: the archived ``grinds`` list, the per-cluster
+    observation count, the declared stratum COUNT and the cluster-size distribution were all
+    unchecked, so an artefact could archive a cluster claiming both grinds when the source says one
+    — with a refreshed self-hash — and this function returned an empty list. Those fields are
+    published: they generate the Methods census, Table 5 and Supplementary Table S6.
+
+    The division of labour is deliberate. This module owns everything the SOURCE DATA determines
+    (which observations, samples, grinds, strata and conditions move together, and how many of
+    each). ``transfer_contract.validate_resampling_design`` owns the authorial declarations a CSV
+    cannot adjudicate — a scheme's role, label and rationale. Neither is sufficient alone, and this
+    one deliberately shares no code with the production grouping functions.
     """
     problems: list[str] = []
     expected = expected_design(records)
@@ -206,20 +225,41 @@ def compare_design(artifact_design: dict, records=None) -> list[str]:
             problems.append("scheme %r is missing from the artefact's resampling design" % name)
             continue
 
-        # Structural census, derived from the source rather than hard-coded as the oracle.
+        # Structural census, derived from the source rather than hard-coded as the oracle. The
+        # documented stratum count is included: it is published in Table S6, and leaving it out of
+        # the diagnostic is what let a wrong `n_strata` pass in round 9.
         census = EXPECTED_CENSUS[name]
-        if exp["n_clusters"] != census["n_clusters"] or \
-                exp["cluster_size_distribution"] != census["sizes"]:
+        if exp["n_clusters"] != census["n_clusters"] \
+                or exp["cluster_size_distribution"] != census["sizes"] \
+                or exp["n_strata"] != census["n_strata"]:
             problems.append("scheme %r: the SOURCE no longer produces the documented census "
-                            "(%d clusters %r vs documented %d %r) — adjudicate the data change "
-                            "before touching the artefact"
-                            % (name, exp["n_clusters"], exp["cluster_size_distribution"],
-                               census["n_clusters"], census["sizes"]))
+                            "(%d clusters, %d strata, sizes %r vs documented %d, %d, %r) — "
+                            "adjudicate the data change before touching the artefact"
+                            % (name, exp["n_clusters"], exp["n_strata"],
+                               exp["cluster_size_distribution"], census["n_clusters"],
+                               census["n_strata"], census["sizes"]))
 
         got = _normalise_artifact_scheme(got_obj)
         if len(got) != exp["n_clusters"]:
             problems.append("scheme %r: artefact has %d clusters, the source implies %d"
                             % (name, len(got), exp["n_clusters"]))
+
+        # The artefact's OWN declared census, against the source. `validate_resampling_design`
+        # checks these against the artefact's own membership; only the source can say whether that
+        # membership is the right one to be self-consistent with.
+        for field, want in (("n_clusters", exp["n_clusters"]), ("n_strata", exp["n_strata"])):
+            if got_obj.get(field) != want:
+                problems.append("scheme %r: artefact declares %s=%r, the source implies %r"
+                                % (name, field, got_obj.get(field), want))
+        got_sizes = {int(k): int(v)
+                     for k, v in (got_obj.get("cluster_size_distribution") or {}).items()}
+        if got_sizes != exp["cluster_size_distribution"]:
+            problems.append("scheme %r: artefact declares cluster sizes %r, the source implies %r"
+                            % (name, got_sizes, exp["cluster_size_distribution"]))
+        got_obs_total = sum(len(c["observation_ids"]) for c in got)
+        if got_obs_total != exp["n_observations"]:
+            problems.append("scheme %r: artefact clusters carry %d observations, the source implies "
+                            "%d" % (name, got_obs_total, exp["n_observations"]))
 
         exp_by_id = {c["cluster_id"]: c for c in exp["clusters"]}
         got_by_id = {c["cluster_id"]: c for c in got}
@@ -242,6 +282,22 @@ def compare_design(artifact_design: dict, records=None) -> list[str]:
             if e["sample_ids"] != g["sample_ids"]:
                 problems.append("scheme %r cluster %r: sample ids are %r, the source implies %r"
                                 % (name, cid, g["sample_ids"], e["sample_ids"]))
+            if e["grinds"] != g["grinds"]:
+                problems.append("scheme %r cluster %r: grinds are %r, the source implies %r — the "
+                                "grind composition of a cluster is what the Methods census and "
+                                "Table S6 report" % (name, cid, g["grinds"], e["grinds"]))
+            if g["n_observations"] is not None and g["n_observations"] != len(e["observation_ids"]):
+                problems.append("scheme %r cluster %r: declares n_observations=%r, the source "
+                                "implies %d" % (name, cid, g["n_observations"],
+                                                len(e["observation_ids"])))
+
+        # A content-level comparison already happened above; the hash comparison catches ordering
+        # and normalisation drift that a per-cluster loop cannot see (two clusters swapped in the
+        # serialised list, say). It is a SECOND signal over reconstructed content, never the first.
+        if canonical_hash(exp) != canonical_hash({"clusters": got}):
+            problems.append("scheme %r: the artefact's normalised partition does not hash to the "
+                            "source-derived one, though the per-cluster comparison found no "
+                            "difference — inspect cluster ordering and id normalisation" % name)
     return problems
 
 
