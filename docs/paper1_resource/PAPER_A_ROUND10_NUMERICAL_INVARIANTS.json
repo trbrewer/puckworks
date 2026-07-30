@@ -1,0 +1,241 @@
+{
+ "_what": "Paper A's accepted numerical results, frozen at the round-10 remediation. Regenerate with `python tools/paper_a_numerical_invariants.py --write` ONLY as part of deliberate numerical work, never to make a failing check pass.",
+ "source_sha256": "780ba72d13f87f695cd41c16a18b003871f87ed80149e9c3bf0b76d2d2f2866a",
+ "endpoint_targets": [
+  38.0,
+  40.0,
+  42.0
+ ],
+ "estimand": {
+  "id": "pre_schema4_free_text",
+  "operation": "left_minus_right",
+  "negative_values_favour": "mechanistic_model"
+ },
+ "endpoints": {
+  "38": {
+   "pooled_model_mape": 8.39,
+   "pooled_const_mape": 8.83,
+   "paired_difference_pp": -0.447,
+   "paired_median_pp": -0.072,
+   "n_points": 132,
+   "n_model_worse_than_const": 61,
+   "relative_mape_reduction_pct": 4.983012457531138,
+   "schemes": {
+    "cond_in_variety": {
+     "observed_mean_delta_pp": -0.447,
+     "interval": {
+      "lower": -0.8843868833200912,
+      "upper": -0.04243254356196476
+     }
+    },
+    "sample_in_variety_grind": {
+     "observed_mean_delta_pp": -0.447,
+     "interval": {
+      "lower": -0.8022115512733896,
+      "upper": -0.09715318275036863
+     }
+    },
+    "cond_in_group": {
+     "observed_mean_delta_pp": -0.447,
+     "interval": {
+      "lower": -0.7982585883445367,
+      "upper": -0.08539488372237752
+     }
+    },
+    "group": {
+     "observed_mean_delta_pp": -0.447,
+     "interval": {
+      "lower": -0.9404961741169693,
+      "upper": -0.059853071625618766
+     }
+    }
+   }
+  },
+  "40": {
+   "pooled_model_mape": 8.44,
+   "pooled_const_mape": 8.83,
+   "paired_difference_pp": -0.394,
+   "paired_median_pp": -0.053,
+   "n_points": 132,
+   "n_model_worse_than_const": 62,
+   "relative_mape_reduction_pct": 4.416761041902611,
+   "schemes": {
+    "cond_in_variety": {
+     "observed_mean_delta_pp": -0.394,
+     "interval": {
+      "lower": -0.8290522506458629,
+      "upper": 0.003790518393922992
+     }
+    },
+    "sample_in_variety_grind": {
+     "observed_mean_delta_pp": -0.394,
+     "interval": {
+      "lower": -0.742422754409205,
+      "upper": -0.053051452935327315
+     }
+    },
+    "cond_in_group": {
+     "observed_mean_delta_pp": -0.394,
+     "interval": {
+      "lower": -0.7402068662322748,
+      "upper": -0.038666577202542365
+     }
+    },
+    "group": {
+     "observed_mean_delta_pp": -0.394,
+     "interval": {
+      "lower": -0.8634184737008594,
+      "upper": -0.024492733140033973
+     }
+    }
+   }
+  },
+  "42": {
+   "pooled_model_mape": 8.41,
+   "pooled_const_mape": 8.83,
+   "paired_difference_pp": -0.425,
+   "paired_median_pp": -0.094,
+   "n_points": 132,
+   "n_model_worse_than_const": 60,
+   "relative_mape_reduction_pct": 4.756511891279727,
+   "schemes": {
+    "cond_in_variety": {
+     "observed_mean_delta_pp": -0.425,
+     "interval": {
+      "lower": -0.8912505494092522,
+      "upper": 0.005844468562594105
+     }
+    },
+    "sample_in_variety_grind": {
+     "observed_mean_delta_pp": -0.425,
+     "interval": {
+      "lower": -0.8043135599130509,
+      "upper": -0.05273889857185414
+     }
+    },
+    "cond_in_group": {
+     "observed_mean_delta_pp": -0.425,
+     "interval": {
+      "lower": -0.7924645723288762,
+      "upper": -0.05112874080969039
+     }
+    },
+    "group": {
+     "observed_mean_delta_pp": -0.425,
+     "interval": {
+      "lower": -0.8830402312042396,
+      "upper": -0.034715639085389556
+     }
+    }
+   }
+  }
+ },
+ "endpoint_sensitivity": {
+  "point_difference_magnitude_range_pp": [
+   -0.447,
+   -0.394
+  ],
+  "interpretation_code": "small_sign_stable_effect_boundary_not_stable"
+ },
+ "stability_audit": {
+  "target": {
+   "endpoint_g": 40.0,
+   "scheme": "cond_in_variety",
+   "fitting_loss": "primary",
+   "bound": "both"
+  },
+  "n_runs": 20,
+  "B_per_seed": 200000,
+  "canonical_B": 1000000,
+  "lower_monte_carlo_se_at_canonical_B_pp": 0.0005201594273814796,
+  "upper_monte_carlo_se_at_canonical_B_pp": 0.00046559035360477143,
+  "upper_bound_sign_is_stable": true
+ },
+ "corpus": {
+  "n_held_out_records": 44,
+  "n_observations": 132,
+  "n_lookup_observations": 108,
+  "manifest_sha256": "fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8",
+  "included_sample_ids_sha256": "b0c2ca68d6a043a15643fda0b4a576b5bcb20c0489f9596729a69aa38047ad1f"
+ },
+ "design_census": {
+  "cond_in_variety": {
+   "n_clusters": 26,
+   "n_strata": 2,
+   "cluster_size_distribution": {
+    "3": 8,
+    "6": 18
+   },
+   "membership_sha256": "af9c759cd4dba09261d190f1ffc2a534b1a1e232f05639a6764cf664fde3b87b"
+  },
+  "sample_in_variety_grind": {
+   "n_clusters": 44,
+   "n_strata": 4,
+   "cluster_size_distribution": {
+    "3": 44
+   },
+   "membership_sha256": "9cfc1167a6632073fe783b948b1075717e6840eea1c1e9b1b8cba527c7cbe94f"
+  },
+  "cond_in_group": {
+   "n_clusters": 78,
+   "n_strata": 6,
+   "cluster_size_distribution": {
+    "1": 24,
+    "2": 54
+   },
+   "membership_sha256": "161bfcff5e00067cb3e118075df1e866056493d156e97fab134fefa9d486dfc4"
+  },
+  "group": {
+   "n_clusters": 6,
+   "n_strata": 1,
+   "cluster_size_distribution": {
+    "22": 6
+   },
+   "membership_sha256": "b5676154cd9fe71aada3fccc4b199b471a8ec09fc2a4fe199b2e8881e03e89e5"
+  }
+ },
+ "comparator_loss": {
+  "primary": {
+   "pooled_model_mape": 8.44,
+   "pooled_const_mape": 8.83,
+   "paired_difference_pp": -0.394,
+   "n_model_worse_than_const": 62,
+   "n_points": 132,
+   "interval": {
+    "lower": -0.8290522506458629,
+    "upper": 0.003790518393922992
+   }
+  },
+  "alternative": {
+   "pooled_model_mape": 8.5,
+   "pooled_const_mape": 8.89,
+   "paired_difference_pp": -0.393,
+   "n_model_worse_than_const": 62,
+   "n_points": 132,
+   "interval": {
+    "lower": -0.8258994486953636,
+    "upper": 0.004300121822672744
+   }
+  }
+ },
+ "corpus_contract": {
+  "complete_corpus": {
+   "pooled_model_mape": 8.44,
+   "pooled_const_mape": 8.83,
+   "pooled_lookup_mape": 10.79,
+   "paired_difference_pp": -0.394,
+   "n_points": 132,
+   "n_model_worse_than_const": 62,
+   "n_observations": 132
+  },
+  "matched_on_grid": {
+   "pooled_model_mape": 8.23,
+   "pooled_const_mape": 8.59,
+   "pooled_lookup_mape": 10.79,
+   "paired_difference_pp": -0.361,
+   "n_points": 108,
+   "n_model_worse_than_const": 50,
+   "n_observations": 108
+  }
+ }
+}
