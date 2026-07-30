@@ -1,5 +1,5 @@
 {
- "schema_version": 3,
+ "schema_version": 4,
  "source_sha256": "780ba72d13f87f695cd41c16a18b003871f87ed80149e9c3bf0b76d2d2f2866a",
  "question": "Round-7 P0-3: the headline benchmark filtered every grind to on_grid==True, excluding eight coarse/fine off-grid validation records (24 named-solute observations) while Table 1 claimed the C/F corpus was held out in its entirety. Both defensible contracts are evaluated here; the COMPLETE corpus was adopted as the headline, and the matched on-grid subset is retained as the secondary corpus and as the support on which the same-(T,p) lookup comparator is defined.",
  "adopted": "complete_corpus",
@@ -977,6 +977,8 @@
      },
      "contains_zero_full_precision": true,
      "excludes_zero_full_precision": false,
+     "touches_zero_at_lower": false,
+     "touches_zero_at_upper": false,
      "signed_nearest_bound_to_zero_pp": 0.0,
      "width_pp": 0.8576996844296342,
      "display": {
@@ -984,7 +986,7 @@
       "lower": -0.818,
       "upper": 0.039,
       "text": "[−0.818, +0.039]",
-      "touches_zero": true
+      "contains_zero_rounded": true
      }
     },
     "B": 1000000,
@@ -1005,6 +1007,8 @@
      },
      "contains_zero_full_precision": true,
      "excludes_zero_full_precision": false,
+     "touches_zero_at_lower": false,
+     "touches_zero_at_upper": false,
      "signed_nearest_bound_to_zero_pp": 0.0,
      "width_pp": 0.7543304608306876,
      "display": {
@@ -1012,7 +1016,7 @@
       "lower": -0.745,
       "upper": 0.009,
       "text": "[−0.745, +0.009]",
-      "touches_zero": true
+      "contains_zero_rounded": true
      }
     },
     "B": 1000000,
@@ -1033,6 +1037,8 @@
      },
      "contains_zero_full_precision": true,
      "excludes_zero_full_precision": false,
+     "touches_zero_at_lower": false,
+     "touches_zero_at_upper": false,
      "signed_nearest_bound_to_zero_pp": 0.0,
      "width_pp": 0.7618425502324939,
      "display": {
@@ -1040,7 +1046,7 @@
       "lower": -0.734,
       "upper": 0.028,
       "text": "[−0.734, +0.028]",
-      "touches_zero": true
+      "contains_zero_rounded": true
      }
     },
     "B": 1000000,
@@ -1061,6 +1067,8 @@
      },
      "contains_zero_full_precision": false,
      "excludes_zero_full_precision": true,
+     "touches_zero_at_lower": false,
+     "touches_zero_at_upper": false,
      "signed_nearest_bound_to_zero_pp": -0.03250474710656831,
      "width_pp": 0.7185544639806769,
      "display": {
@@ -1068,7 +1076,7 @@
       "lower": -0.751,
       "upper": -0.033,
       "text": "[−0.751, −0.033]",
-      "touches_zero": false
+      "contains_zero_rounded": false
      }
     },
     "B": 1000000,
@@ -2211,6 +2219,8 @@
      },
      "contains_zero_full_precision": true,
      "excludes_zero_full_precision": false,
+     "touches_zero_at_lower": false,
+     "touches_zero_at_upper": false,
      "signed_nearest_bound_to_zero_pp": 0.0,
      "width_pp": 0.8328427690397858,
      "display": {
@@ -2218,7 +2228,7 @@
       "lower": -0.829,
       "upper": 0.004,
       "text": "[−0.829, +0.004]",
-      "touches_zero": true
+      "contains_zero_rounded": true
      }
     },
     "B": 1000000,
@@ -2239,6 +2249,8 @@
      },
      "contains_zero_full_precision": false,
      "excludes_zero_full_precision": true,
+     "touches_zero_at_lower": false,
+     "touches_zero_at_upper": false,
      "signed_nearest_bound_to_zero_pp": -0.053051452935327315,
      "width_pp": 0.6893713014738777,
      "display": {
@@ -2246,7 +2258,7 @@
       "lower": -0.742,
       "upper": -0.053,
       "text": "[−0.742, −0.053]",
-      "touches_zero": false
+      "contains_zero_rounded": false
      }
     },
     "B": 1000000,
@@ -2267,6 +2279,8 @@
      },
      "contains_zero_full_precision": false,
      "excludes_zero_full_precision": true,
+     "touches_zero_at_lower": false,
+     "touches_zero_at_upper": false,
      "signed_nearest_bound_to_zero_pp": -0.038666577202542365,
      "width_pp": 0.7015402890297324,
      "display": {
@@ -2274,7 +2288,7 @@
       "lower": -0.74,
       "upper": -0.039,
       "text": "[−0.740, −0.039]",
-      "touches_zero": false
+      "contains_zero_rounded": false
      }
     },
     "B": 1000000,
@@ -2295,6 +2309,8 @@
      },
      "contains_zero_full_precision": false,
      "excludes_zero_full_precision": true,
+     "touches_zero_at_lower": false,
+     "touches_zero_at_upper": false,
      "signed_nearest_bound_to_zero_pp": -0.024492733140033973,
      "width_pp": 0.8389257405608255,
      "display": {
@@ -2302,7 +2318,7 @@
       "lower": -0.863,
       "upper": -0.024,
       "text": "[−0.863, −0.024]",
-      "touches_zero": false
+      "contains_zero_rounded": false
      }
     },
     "B": 1000000,

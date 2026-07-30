@@ -63,7 +63,7 @@ SECTION_ALIASES: dict[str, tuple[str, ...]] = {
     "evidence_vocab": ("Evidence vocabulary",),
     "result1": ("A matched endpoint changes the blind residual",),
     "result2": ("inventory–rate profile is broad and right-censored",),
-    "result3": ("Cross-grind endpoint prediction adds little",),
+    "result3": ("Cross-grind endpoint prediction does not establish transfer",),
     "temporal": ("Time-resolved measurements provide stronger rate information",),
     "discussion": ("Discussion",),
     "limitations": ("Limitations",),

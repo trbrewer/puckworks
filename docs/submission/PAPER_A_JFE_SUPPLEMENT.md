@@ -320,17 +320,17 @@ same endpoint, and repeat the clustered resampling of the paired loss under ever
 Processing is described in Supplementary Methods S2.
 
 <!-- paper-a:transfer-endpoint-table-supp:begin -->
-<!-- paper-a:transfer-corpus schema=3 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
+<!-- paper-a:transfer-corpus schema=4 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
 
 Corpus: complete held-out C/F corpus (on-grid + off-grid), 44 held-out records × 3 named solutes = 132 observations. No coarse/fine record is excluded. Held-out record identifiers: A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22, A23, A24, A25, A26, A27, A28, A29, A30, A31, A32, A33, R12, R13, R14, R15, R16, R17, R18, R19, R20, R21, R22, R23, R24, R25, R26, R27, R28, R29, R30, R31, R32, R33.
 
-| endpoint | model pooled MAPE (%) | comparator (%) | paired difference (pp) | cond_in_variety (pp) | sample_in_variety_grind (pp) | cond_in_group (pp) | group (pp) | primary zero relation | model worse on | skill |
+| endpoint | model pooled MAPE (%) | comparator (%) | paired difference (pp) | cond_in_variety (pp) | sample_in_variety_grind (pp) | cond_in_group (pp) | group (pp) | primary zero relation | model worse on | relative pooled-MAPE reduction (%) |
 |---|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|
-| 38 g | 8.39 | 8.83 | −0.447 | [−0.884, −0.042] | [−0.802, −0.097] | [−0.798, −0.085] | [−0.940, −0.060] | excludes zero on the negative side | 61 of 132 | 0.051 |
-| 40 g | 8.44 | 8.83 | −0.394 | [−0.829, +0.004] | [−0.742, −0.053] | [−0.740, −0.039] | [−0.863, −0.024] | contains zero | 62 of 132 | 0.045 |
-| 42 g | 8.41 | 8.83 | −0.425 | [−0.891, +0.006] | [−0.804, −0.053] | [−0.792, −0.051] | [−0.883, −0.035] | contains zero | 60 of 132 | 0.048 |
+| 38 g | 8.39 | 8.83 | −0.447 | [−0.884, −0.042] | [−0.802, −0.097] | [−0.798, −0.085] | [−0.940, −0.060] | excludes zero on the negative side | 61 of 132 | 4.98 |
+| 40 g | 8.44 | 8.83 | −0.394 | [−0.829, +0.004] | [−0.742, −0.053] | [−0.740, −0.039] | [−0.863, −0.024] | contains zero | 62 of 132 | 4.42 |
+| 42 g | 8.41 | 8.83 | −0.425 | [−0.891, +0.006] | [−0.804, −0.053] | [−0.792, −0.051] | [−0.883, −0.035] | contains zero | 60 of 132 | 4.76 |
 
-**Reading.** The effect size is stable: −0.447 to −0.394 pp across 38, 40 and 42 g, a spread of 0.053 pp — an order of magnitude smaller than the ≈ 5 pp movement in the blind optimal-grind residual over the same endpoints, which is what one expects when both predictors are re-derived at each endpoint so that a shift common to both cancels. The sign never changes and the model remains worse on roughly half the held-out observations at every endpoint. At the canonical draw count the primary clustered range contains zero at 40 g and 42 g; excludes zero on the negative side at 38 g. Because the estimand is model loss minus comparator loss, negative values favour the mechanistic model: across the sweep the most favourable bound is −0.891 pp and the least favourable is +0.006 pp, so at their unfavourable end these ranges concede the model no advantage at all. Against pooled errors near 8.4 % in both arms the benchmark is therefore reported as unresolved throughout the declared tolerance.
+**Reading.** The effect size is stable: −0.447 to −0.394 pp across 38, 40 and 42 g, a spread of 0.053 pp — an order of magnitude smaller than the ≈ 5 pp movement in the blind optimal-grind residual over the same endpoints, which is what one expects when both predictors are re-derived at each endpoint so that a shift common to both cancels. The sign never changes and the model remains worse on roughly half the held-out observations at every endpoint. At the canonical draw count the primary clustered range contains zero at 40 g and 42 g; excludes zero on the negative side at 38 g. Because the estimand is pooled MAPE for the mechanistic model minus pooled MAPE for the O-trained level-only comparator in percentage points, negative values favour the mechanistic model: across the sweep the most favourable bound is −0.891 pp and the least favourable is +0.006 pp, so at their unfavourable end these ranges concede the model no advantage at all. These are fixed-predictor clustered sensitivity ranges, without calibrated coverage and without a predeclared practical margin, so their positions determine neither superiority, non-inferiority, equivalence, nor absence of skill: this analysis does not establish whether the observed pooled MAPE difference is reproducible or practically useful, and it does not establish that the difference is absent. The final column is a descriptive relative error reduction, 100 x (comparator − model) / comparator computed from the full-precision pooled values, not an inferential measure; positive values favour the mechanistic model.
 
 **Scope of the Monte Carlo audit.** All displayed ranges use the canonical draw count. A multi-seed estimate of Monte Carlo variability exists for **one** target only — 40 g, cond_in_variety, primary fitting loss — where the lower- and upper-bound standard errors are approximately 0.000520 and 0.000466 pp and the upper bound's sign is stable across 20 independent seeds. The 38 g and 42 g bounds, the three secondary schemes and the alternative fitting loss were **not** separately audited, and none of them inherits that value; only the multi-seed precision audit is absent, not the canonical range itself. The audit measures numerical approximation and confers no coverage interpretation.
 <!-- paper-a:transfer-endpoint-table-supp:end -->
@@ -437,7 +437,7 @@ Re-running the sweep with this instrumentation reproduced every previously archi
 ### Supplementary Table S6
 
 <!-- paper-a:transfer-scheme-table:begin -->
-<!-- paper-a:transfer-corpus schema=3 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
+<!-- paper-a:transfer-corpus schema=4 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
 
 **Table S6. Resampling design.** Cluster keys, strata and membership for every declared scheme, at the canonical draw count. Predictors are fixed in every scheme: no model, level parameter or comparator is refitted inside a draw.
 
@@ -457,7 +457,7 @@ Monte Carlo audit of one target only — 40 g, cond_in_variety, primary fitting 
 ### Supplementary Table S7
 
 <!-- paper-a:transfer-corpus-manifest:begin -->
-<!-- paper-a:transfer-corpus schema=3 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
+<!-- paper-a:transfer-corpus schema=4 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
 
 **Table S7. Held-out coarse/fine corpus membership.** All 44 sample records scored by the headline benchmark. Each contributes the same 3 named-solute observations (caffeine, trigonelline, 5CQA), giving 132 observations. No record is excluded. The lookup comparator is undefined on the 8 off-grid records, so it is reported only on its own 108-observation support.
 

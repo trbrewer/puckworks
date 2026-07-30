@@ -93,17 +93,40 @@ def test_display_quantisation_normalises_negative_zero():
 
 
 # ── interval classification (round-8 P1-2) ──────────────────────────────────────────────────
-@pytest.mark.parametrize("lo,hi,contains,touches", [
-    (-0.8251, -0.0004, False, True),     # excludes zero; displays as touching it
+@pytest.mark.parametrize("lo,hi,contains,rounded", [
+    (-0.8251, -0.0004, False, True),     # excludes zero; the ROUNDED range covers it
     (-0.8251, +0.0004, True, True),      # contains zero; displays identically
     (+0.0004, +0.8251, False, True),     # excludes zero on the other side
     (-0.8251, 0.0, True, True),          # closed-interval convention: a 0.0 bound touches
 ])
-def test_zero_classification_uses_full_precision(lo, hi, contains, touches):
+def test_zero_classification_uses_full_precision(lo, hi, contains, rounded):
     rec = TC.interval_record(lo, hi)
     assert rec["contains_zero_full_precision"] is contains
     assert rec["excludes_zero_full_precision"] is (not contains)
-    assert rec["display"]["touches_zero"] is touches
+    assert rec["display"]["contains_zero_rounded"] is rounded
+
+
+@pytest.mark.parametrize("lo,hi,at_lower,at_upper", [
+    (-0.8251, +0.0038, False, False),    # the 40 g bound: near zero, not ON it
+    (-0.8251, 0.0, False, True),
+    (0.0, +0.8251, True, False),
+    (0.0, 0.0, True, True),
+    (-0.0, 0.0, True, True),             # negative zero is zero
+    (-0.8251, -0.0004, False, False),    # displays as 0.000 but does not touch zero
+])
+def test_exact_zero_contact_is_a_separate_field_from_display_rounding(lo, hi, at_lower, at_upper):
+    """Round-10 P1-3: one `touches_zero` name was carrying two different concepts.
+
+    Exact contact is an analytical fact about the full-precision bound. `display.contains_zero_
+    rounded` is a typography fact about the rounded range. The last case has both a False contact
+    flag and a True rounded flag, which is precisely the pair the round-8 conclusion conflated.
+    """
+    rec = TC.interval_record(lo, hi)
+    assert rec["touches_zero_at_lower"] is at_lower
+    assert rec["touches_zero_at_upper"] is at_upper
+    assert "touches_zero" not in rec["display"], (
+        "the ambiguous display field name is back; it means 'the rounded range covers zero', not "
+        "'a bound is exactly zero'")
 
 
 def test_width_uses_full_precision_bounds():
@@ -115,11 +138,120 @@ def test_interval_validation_catches_a_hand_edited_display():
     rec = TC.interval_record(-0.825, 0.0)
     assert TC.validate_interval_record(rec) == []
     rec["display"]["text"] = "[−0.82, +0.00]"
-    assert any("production formatter" in p for p in TC.validate_interval_record(rec))
+    assert any("the production renderer gives" in p for p in TC.validate_interval_record(rec))
     rec = TC.interval_record(-0.825, 0.0)
     rec["excludes_zero_full_precision"] = True                # contradicts its own bounds
-    assert any("disagrees with its full-precision bounds" in p
+    assert any("its full-precision bounds imply" in p
                for p in TC.validate_interval_record(rec))
+
+
+# ── the nine reproduced round-10 interval false greens, plus the invalid primitives ──────────
+#
+# Every mutation below returned an EMPTY problem list from the round-9 validator. The last three
+# passed for a specific reason worth naming: the check was `bool(interval.get(field)) != rebuilt`,
+# and `bool(None)` is False while `bool("false")` is True — so a deleted field and the string
+# "false" each coerced to whatever value the record needed to look consistent.
+
+def _knife_edge():
+    """The real 40 g primary record: contains zero, upper bound small and POSITIVE."""
+    return TC.interval_record(-0.8290522506458629, 0.003790518393922992)
+
+
+def _excluding():
+    """The real 38 g primary record: wholly negative."""
+    return TC.interval_record(-0.8843868833200912, -0.04243254356196476)
+
+
+@pytest.mark.parametrize("name,record,mutate,expect", [
+    ("wrong_kind", _knife_edge,
+     lambda r: r.__setitem__("kind", "calibrated_95_percent_confidence_interval"), "interval.kind"),
+    ("wrong_width_pp", _knife_edge, lambda r: r.__setitem__("width_pp", 999.0), "width_pp"),
+    ("wrong_signed_nearest_bound", _knife_edge,
+     lambda r: r.__setitem__("signed_nearest_bound_to_zero_pp", -999.0), "signed_nearest_bound"),
+    ("wrong_display_lower", _knife_edge,
+     lambda r: r["display"].__setitem__("lower", 999.0), "display.lower"),
+    ("wrong_display_upper", _knife_edge,
+     lambda r: r["display"].__setitem__("upper", 999.0), "display.upper"),
+    ("wrong_display_rounded_contact", _knife_edge,
+     lambda r: r["display"].__setitem__("contains_zero_rounded", False), "contains_zero_rounded"),
+    ("missing_excludes_on_containing_interval", _knife_edge,
+     lambda r: r.pop("excludes_zero_full_precision"), "required field is missing"),
+    ("missing_contains_on_excluding_interval", _excluding,
+     lambda r: r.pop("contains_zero_full_precision"), "required field is missing"),
+    ("string_false_in_a_boolean_field", _knife_edge,
+     lambda r: r.__setitem__("contains_zero_full_precision", "false"), "JSON boolean"),
+    ("integer_one_in_a_boolean_field", _knife_edge,
+     lambda r: r.__setitem__("contains_zero_full_precision", 1), "JSON boolean"),
+    ("wrong_exact_contact_flag", _knife_edge,
+     lambda r: r.__setitem__("touches_zero_at_upper", True), "touches_zero_at_upper"),
+    ("wrong_display_text", _knife_edge,
+     lambda r: r["display"].__setitem__("text", "[−0.829, 0.004]"), "display.text"),
+    ("display_precision_changed_without_the_fields", _knife_edge,
+     lambda r: r["display"].__setitem__("digits", 2), "display."),
+    ("unexpected_extra_field", _knife_edge,
+     lambda r: r.__setitem__("p_value", 0.31), "unexpected field"),
+    ("unexpected_display_field", _knife_edge,
+     lambda r: r["display"].__setitem__("stars", "*"), "unexpected field"),
+    ("missing_display_field", _knife_edge,
+     lambda r: r["display"].pop("text"), "required field is missing"),
+    ("string_bound", _knife_edge,
+     lambda r: r["full_precision_pp"].__setitem__("upper", "0.0038"), "finite JSON number"),
+    ("boolean_bound", _knife_edge,
+     lambda r: r["full_precision_pp"].__setitem__("lower", True), "finite JSON number"),
+    ("nan_bound", _knife_edge,
+     lambda r: r["full_precision_pp"].__setitem__("upper", float("nan")), "finite"),
+    ("infinite_bound", _knife_edge,
+     lambda r: r["full_precision_pp"].__setitem__("upper", float("inf")), "finite"),
+    ("missing_bound", _knife_edge,
+     lambda r: r["full_precision_pp"].pop("upper"), "finite JSON number"),
+    ("reversed_bounds", _knife_edge,
+     lambda r: r["full_precision_pp"].__setitem__("lower", 99.0), "reversed"),
+    ("extra_bound_field", _knife_edge,
+     lambda r: r["full_precision_pp"].__setitem__("centre", 0.0), "unexpected field"),
+    ("bogus_display_digits", _knife_edge,
+     lambda r: r["display"].__setitem__("digits", 12), "display.digits"),
+    ("boolean_display_digits", _knife_edge,
+     lambda r: r["display"].__setitem__("digits", True), "display.digits"),
+])
+def test_interval_record_mutations_all_fail(name, record, mutate, expect):
+    rec = record()
+    assert TC.validate_interval_record(rec) == [], "the unmutated record must pass"
+    mutate(rec)
+    problems = TC.validate_interval_record(rec)
+    assert problems, "FALSE GREEN: %s" % name
+    assert any(expect in p for p in problems), (name, expect, problems)
+
+
+@pytest.mark.parametrize("bad", [None, "an interval", 3.0, [], {"display": {}}])
+def test_a_malformed_interval_returns_named_problems_and_never_raises(bad):
+    """A validator that crashes on a bad artefact cannot be used to reject one."""
+    problems = TC.validate_interval_record(bad)
+    assert problems and all(isinstance(p, str) for p in problems)
+
+
+@pytest.mark.parametrize("lower,upper", [
+    (-0.9, -0.1), (0.1, 0.9), (-0.5, 0.5), (0.0, 0.5), (-0.5, 0.0), (0.0, 0.0),
+    (-0.0004, -0.0001), (-1e-12, 1e-12), (-0.5, -0.5),
+])
+def test_construct_then_validate_holds_for_every_geometry(lower, upper):
+    for digits in (0, 2, 3, 4):
+        rec = TC.interval_record(lower, upper, digits)
+        assert TC.validate_interval_record(rec) == [], (lower, upper, digits)
+
+
+@pytest.mark.parametrize("lower,upper", [
+    (True, 1.0), ("-0.5", 0.1), (None, 0.1), (float("nan"), 0.1), (0.1, float("inf")),
+    (+0.1, -0.1),
+])
+def test_the_constructor_refuses_invalid_bounds(lower, upper):
+    with pytest.raises(ValueError):
+        TC.interval_record(lower, upper)
+
+
+@pytest.mark.parametrize("digits", [True, 3.0, -1, 12, "3", None])
+def test_the_constructor_refuses_invalid_display_precision(digits):
+    with pytest.raises(ValueError, match="display digits"):
+        TC.interval_record(-0.5, 0.1, digits)
 
 
 # ── corpus manifest (round-8 P1-4) ──────────────────────────────────────────────────────────
@@ -231,7 +363,7 @@ def test_a_scheme_that_drops_an_observation_is_rejected():
 def test_declaring_refitting_inside_resampling_is_rejected():
     d = TC.resampling_design(_records())
     d["predictors_refit_inside_resampling"] = True
-    assert any("fixed-predictor contract is violated" in p
+    assert any("fixed-predictor contract" in p
                for p in TC.validate_resampling_design(d, 132))
 
 

@@ -260,7 +260,7 @@ def paired_clustered_bootstrap(records, B=4000, seed=0, unit="cond_in_variety"):
         interval_kind=TC.INTERVAL_KIND,
         frac_boot_model_worse=round(float(np.mean(boot > 0)), 3),
         excludes_zero=interval["excludes_zero_full_precision"],
-        display_touches_zero=interval["display"]["touches_zero"],
+        display_contains_zero_rounded=interval["display"]["contains_zero_rounded"],
         signed_nearest_bound_to_zero_pp=interval["signed_nearest_bound_to_zero_pp"],
         nearest_bound_to_zero_pp=round(abs(interval["signed_nearest_bound_to_zero_pp"]), 4))
 
@@ -2247,7 +2247,7 @@ def endpoint_propagation_benchmark(m_targets=None, n_boot=CANONICAL_BOOT_B,
             clustered_range_whole_group=boot_g["percentile_range_pp"],
             clustered_range_sample_record=boot_rec["percentile_range_pp"],
             within_variety_excludes_zero=boot["excludes_zero"],
-            within_variety_display_touches_zero=boot["display_touches_zero"],
+            within_variety_display_contains_zero_rounded=boot["display_contains_zero_rounded"],
             signed_nearest_bound_to_zero_pp=boot["signed_nearest_bound_to_zero_pp"],
             nearest_bound_to_zero_pp=boot["nearest_bound_to_zero_pp"],
             within_group_excludes_zero=boot_s["excludes_zero"],
@@ -2259,7 +2259,7 @@ def endpoint_propagation_benchmark(m_targets=None, n_boot=CANONICAL_BOOT_B,
     signs = {np.sign(d) for d in diffs}
     prim = [r["resampling"]["cond_in_variety"]["interval"] for r in rows]
     contains_zero = [bool(i["contains_zero_full_precision"]) for i in prim]
-    display_touches = [bool(i["display"]["touches_zero"]) for i in prim]
+    display_touches = [bool(i["display"]["contains_zero_rounded"]) for i in prim]
 
     # Round-8 P1-2: `conclusion_stable` was one boolean that hid WHICH conclusion was being
     # tested. Report the dimensions separately, and name the interpretation with a code the
@@ -2289,7 +2289,7 @@ def endpoint_propagation_benchmark(m_targets=None, n_boot=CANONICAL_BOOT_B,
             point_difference_sign_stable=sign_stable,
             point_difference_magnitude_range_pp=[round(min(diffs), 3), round(max(diffs), 3)],
             range_contains_zero_classification_stable=zero_class_stable,
-            range_display_touches_zero_stable=display_stable,
+            range_display_contains_zero_rounded_stable=display_stable,
             interpretation_code=code),
         paired_difference_range_pp=[round(min(diffs), 3), round(max(diffs), 3)],
         sign_is_stable=sign_stable,
@@ -2355,7 +2355,7 @@ def comparator_loss_robustness(n_boot=CANONICAL_BOOT_B, seed=CANONICAL_BOOT_SEED
             interval=boot["interval"],
             clustered_range_within_variety=boot["percentile_range_pp"],
             excludes_zero=boot["excludes_zero"],
-            display_touches_zero=boot["display_touches_zero"],
+            display_contains_zero_rounded=boot["display_contains_zero_rounded"],
             signed_nearest_bound_to_zero_pp=boot["signed_nearest_bound_to_zero_pp"],
             nearest_bound_to_zero_pp=boot["nearest_bound_to_zero_pp"],
             per_group_difference_pp={

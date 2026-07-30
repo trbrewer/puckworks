@@ -24,7 +24,7 @@ REPO = pathlib.Path(__file__).resolve().parents[1]
 if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
-CAPTIONS = REPO / "docs" / "figures" / "PAPER_A_CAPTIONS.md"
+CAPTIONS = REPO / "docs" / "figures" / "PAPER_A_FIGURE_MAP_INTERNAL.md"
 
 
 # ── Figure 1: dependency semantics ─────────────────────────────────────────────────────────

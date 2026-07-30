@@ -32,6 +32,7 @@ _REPO = Path(__file__).resolve().parents[1]
 if str(_REPO) not in sys.path:
     sys.path.insert(0, str(_REPO))
 
+from puckworks.paper_a import claim_policy as CP  # noqa: E402
 from puckworks.paper_a import transfer_contract as TC  # noqa: E402
 from puckworks.paper_a import transfer_semantics as TS  # noqa: E402
 
@@ -43,7 +44,9 @@ LOSS_JSON = RESOURCE / "PAPER_A_COMPARATOR_LOSS_ROBUSTNESS.json"
 MANUSCRIPT = _REPO / "docs" / "submission" / "PAPER_A_JFE_MANUSCRIPT.md"
 DRAFT = _REPO / "docs" / "PAPER_A_DRAFT.md"
 SUPPLEMENT = _REPO / "docs" / "submission" / "PAPER_A_JFE_SUPPLEMENT.md"
-CAPTIONS = _REPO / "docs" / "figures" / "PAPER_A_CAPTIONS.md"
+#: The transfer caption is authored into the INTERNAL figure map, from which
+#: `tools/paper_a_figure_captions.py` generates the upload-ready caption file (round-10 P2-1).
+CAPTIONS = _REPO / "docs" / "figures" / "PAPER_A_FIGURE_MAP_INTERNAL.md"
 
 HEADLINE_ENDPOINT_G = 40.0
 
@@ -118,6 +121,31 @@ def stamp(manifest: dict) -> str:
 
 def _load(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def validated_analysis(ep: dict):
+    """Return the artefact's ``(estimand, inferential_status)`` as validated typed objects.
+
+    Round-10 P1-2. Every favourability sentence in this file used to come from
+    ``TS.favourable_extremes(sem)`` with the direction defaulted at module scope, and from prose that
+    hard-coded "negative values favour the mechanistic model" beside it. The artefact's own estimand
+    was a free-text sentence nobody compared against either. A reversed artefact could therefore
+    leave every rendered sentence unchanged.
+
+    The renderer now takes its direction FROM the artefact, through this function, and a missing,
+    unknown or self-inconsistent declaration raises here rather than rendering a default.
+    """
+    design = ep.get("resampling_design")
+    if not isinstance(design, dict):
+        raise KeyError("the endpoint artefact carries no resampling_design, so the estimand's "
+                       "direction is undeclared; refusing to assume one")
+    estimand = TS.estimand_from_dict(design.get("estimand"))
+    status = TS.status_from_dict(design.get("inferential_status"))
+    problems = TS.validate_inferential_status(status)
+    if problems:
+        raise ValueError("the artefact's inferential status is not internally consistent, so what "
+                         "the analysis may claim is undefined: %s" % "; ".join(problems))
+    return estimand, status
 
 
 def endpoint_row(ep: dict, m_target_g: float) -> dict:
@@ -229,6 +257,7 @@ def block_transfer_results(ep, corpus_art, loss) -> str:
     audit = TS.find_exact_audit(ep, TS.AUDITED_TARGET)
     prim = design["schemes"][TC.PRIMARY_SCHEME]
     sizes = prim["cluster_size_distribution"]
+    estimand, _status = validated_analysis(ep)
 
     def rng_text(scheme):
         return scheme_interval(row, scheme)["display"]["text"]
@@ -272,7 +301,7 @@ def block_transfer_results(ep, corpus_art, loss) -> str:
         "",
         f"The **practical size of the effect is the reportable result**: the pooled difference is "
         f"{TC.format_pp(row['paired_difference_pp'], 3, explicit_plus=False)} pp — negative "
-        f"favours the mechanistic model — against pooled errors near "
+        f"favours the {estimand.label_of[estimand.negative_favours]} — against pooled errors near "
         f"{TC.format_pct(row['pooled_model_mape'])}, and it is the *worse* predictor on "
         f"{row['n_model_worse_than_const']} of {row['n_points']} held-out observations. The "
         f"primary range's upper bound is "
@@ -298,12 +327,13 @@ def block_endpoint_table(ep, corpus_art, loss) -> str:
     """Table 4a — the benchmark propagated through the declared collection tolerance."""
     manifest = ep["corpus"]
     audit = TS.find_exact_audit(ep, TS.AUDITED_TARGET)
+    estimand, _status = validated_analysis(ep)
     out = [stamp(manifest), "",
            "**Table 4a. The transfer-versus-comparator benchmark propagated through the declared "
            "±2 g collection tolerance.** Ranges are the primary "
            f"`{TC.PRIMARY_SCHEME}` clustered percentile sensitivity ranges at the canonical draw "
-           "count, not calibrated confidence intervals. Negative values favour the mechanistic "
-           "model.", "",
+           "count, not calibrated confidence intervals. The paired difference is "
+           f"{estimand.prose}.", "",
            "| endpoint | model pooled MAPE (%) | level-only comparator (%) | paired difference (pp) "
            "| primary clustered percentile range (pp) | zero relation | model worse on |",
            "|---|---:|---:|---:|---:|---|---:|"]
@@ -351,7 +381,8 @@ def block_endpoint_reading(ep, corpus_art, loss) -> str:
     prim_sem = [TS.from_interval_record(i) for i in prim]
     loss_sem = [TS.from_interval_record(base["interval"]),
                 TS.from_interval_record(alt["interval"])]
-    best, worst = TS.favourable_extremes(prim_sem)
+    estimand, status = validated_analysis(ep)
+    best, worst = TS.favourable_extremes(prim_sem, estimand)
     audit = TS.find_exact_audit(ep, TS.AUDITED_TARGET)
 
     return "\n".join([
@@ -383,15 +414,16 @@ def block_endpoint_reading(ep, corpus_art, loss) -> str:
         f"{TC.format_pp(alt['paired_difference_pp'], 3, explicit_plus=False)} pp, and the "
         f"loss-specific ranges {TS.describe_shared_relation(loss_sem)}.",
         "",
-        f"No row supports a claim of resolvable skill. Because the estimand is model loss minus "
-        f"comparator loss, negative values favour the mechanistic model: the most favourable bound "
-        f"across the sweep is {TC.format_pp(best, 3, explicit_plus=False)} pp and the least "
-        f"favourable is {TC.format_pp(worst)} pp, so at the favourable end these ranges permit an "
-        f"advantage well under one percentage point and at the unfavourable end they permit none at "
-        f"all — against pooled errors near 8.4 % in both arms. We report the benchmark as "
-        "**unresolved throughout the declared tolerance**, and we do not convert a percentile "
-        "bound's position into an inequality that carries the conclusion. Per-endpoint values, "
-        "under every declared cluster scheme, are Supplementary Table S3.",
+        f"Because the estimand is {estimand.contrast_label} in {estimand.units_label}, "
+        f"{estimand.direction_clause}: the most favourable bound across the sweep is "
+        f"{TC.format_pp(best, 3, explicit_plus=False)} pp and the least favourable is "
+        f"{TC.format_pp(worst)} pp, so at the favourable end these ranges permit an advantage well "
+        f"under one percentage point and at the unfavourable end they permit none at all — against "
+        f"pooled errors near 8.4 % in both arms. {CP.limits_sentence(status, estimand)} No row "
+        f"here establishes resolvable incremental skill, and none establishes its absence; we do "
+        f"not convert a percentile bound's position into an inequality that carries the "
+        f"conclusion. Per-endpoint values, under every declared cluster scheme, are Supplementary "
+        f"Table S3.",
     ])
 
 
@@ -399,6 +431,7 @@ def block_table5(ep, corpus_art, loss) -> str:
     """Table 5 — every resampling quantity in the paper, by estimand."""
     row = endpoint_row(ep, HEADLINE_ENDPOINT_G)
     design = ep["resampling_design"]
+    estimand, _status = validated_analysis(ep)
     pe = row["resampling"][TC.PRIMARY_SCHEME]["observed_mean_delta_pp"]
     out = [
         stamp(ep["corpus"]), "",
@@ -406,7 +439,7 @@ def block_table5(ep, corpus_art, loss) -> str:
         "similar, easily conflated, and do not estimate the same target; the out-of-bag refit "
         f"interval is *not* an uncertainty interval for the "
         f"{TC.format_pp(pe, 3, explicit_plus=False)} pp model-minus-comparator "
-        "difference.", "",
+        f"difference. The paired estimand is {estimand.prose}.", "",
         "| analysis | resampling unit | fit repeated? | held-out fraction | estimand | point "
         "estimate | percentile range | inferential status |",
         "|---|---|---|---|---|---|---|---|",
@@ -424,9 +457,9 @@ def block_table5(ep, corpus_art, loss) -> str:
         i = scheme_interval(row, name)
         label = ("paired clustered resampling of model-minus-comparator loss (**primary**)"
                  if name == TC.PRIMARY_SCHEME else f"the same, resampling `{name}` (secondary)")
-        out.append("| %s | %s (%d clusters) | no | n/a — fixed predictors | pooled ΔMAPE, model − "
-                   "level-only comparator | %s pp | %s pp | %s |"
-                   % (label, s["label"], s["n_clusters"],
+        out.append("| %s | %s (%d clusters) | no | n/a — fixed predictors | %s | %s pp | %s pp "
+                   "| %s |"
+                   % (label, s["label"], s["n_clusters"], estimand.short_contrast_label,
                       TC.format_pp(pe, 3, explicit_plus=False), i["display"]["text"],
                       notes[name]))
     out += [
@@ -479,10 +512,20 @@ def block_transfer_caption(ep, corpus_art, loss) -> str:
 
 
 def block_transfer_headline(ep, corpus_art, loss) -> str:
-    """The Results paragraph that states the paper's principal quantitative comparison."""
+    """The Results paragraph that states the paper's principal quantitative comparison.
+
+    Round-10 P0-1. This paragraph used to close "Acceptable endpoint accuracy therefore did not
+    supply resolvable skill beyond a transferred concentration level" — a property-level negative
+    verdict, from an analysis the Methods two pages earlier describe as having no calibrated
+    coverage and supporting no distinguishability, non-distinguishability or equivalence claim. The
+    point estimate favours the model; what is unestablished is whether that advantage is
+    reproducible or useful, and the sentence now says exactly that.
+    """
     row = endpoint_row(ep, HEADLINE_ENDPOINT_G)
     i = scheme_interval(row, TC.PRIMARY_SCHEME)
     verb = TS.from_interval_record(i).relation.prose
+    estimand, _status = validated_analysis(ep)
+    favoured = estimand.label_of[estimand.negative_favours]
     return "\n".join([
         stamp(ep["corpus"]),
         "",
@@ -492,11 +535,13 @@ def block_transfer_headline(ep, corpus_art, loss) -> str:
         f"MAPE is **{TC.format_pct(row['pooled_model_mape'])}** versus "
         f"**{TC.format_pct(row['pooled_const_mape'])}** for the constant — a paired difference of "
         f"**{TC.format_pp(row['paired_difference_pp'], 3, explicit_plus=False)} percentage "
-        f"points**, whose primary clustered percentile range is **{i['display']['text']} pp** and "
-        f"{verb}, with the mechanistic model **worse on "
-        f"{row['n_model_worse_than_const']} of {row['n_points']} held-out observations**. "
-        "Acceptable endpoint accuracy therefore did not supply resolvable skill beyond a "
-        "transferred concentration level.",
+        f"points**, which favours the {favoured}. Its primary clustered percentile **sensitivity "
+        f"range** — not a calibrated confidence interval — is **{i['display']['text']} pp** and "
+        f"{verb}, and the mechanistic model is **worse on "
+        f"{row['n_model_worse_than_const']} of {row['n_points']} held-out observations**. The "
+        "observed advantage is therefore small, and this analysis does not establish whether it is "
+        "reproducible or practically useful: acceptable endpoint accuracy does not by itself "
+        "establish transfer of the kinetic mechanism beyond a transferred concentration level.",
     ])
 
 
@@ -529,10 +574,31 @@ def block_loss_robustness(ep, corpus_art, loss) -> str:
     ])
 
 
+def relative_mape_reduction_pct(row: dict) -> float:
+    """``100 x (comparator − model) / comparator``, from FULL-PRECISION pooled MAPE values.
+
+    Round-10 P0-1 asked for Supplementary Table S3's final column — headed ``skill``, with no
+    definition anywhere — to be defined or removed. "Skill" is the disputed word: it is the noun the
+    retired "no resolvable skill" verdict was about, and an undefined column of 0.045 invites the
+    reader to treat a descriptive error reduction as an inferential quantity.
+
+    So the column is renamed for what it is and computed here rather than read from the artefact's
+    ``skill_vs_const`` field, which is rounded to three decimals as a FRACTION. Computing a
+    percentage from the rounded fraction would quantise the column to 0.1 pp steps; computing it
+    from the rounded 8.44/8.83 table cells would differ again. Positive values favour the model.
+    """
+    model = float(row["pooled_model_mape"])
+    comparator = float(row["pooled_const_mape"])
+    if comparator == 0.0:
+        raise ZeroDivisionError("a relative reduction against a zero comparator error is undefined")
+    return 100.0 * (comparator - model) / comparator
+
+
 def block_supplement_endpoint_table(ep, corpus_art, loss) -> str:
     """Supplementary Table S3 — the full per-endpoint sweep across all four schemes."""
     manifest = ep["corpus"]
     audit = TS.find_exact_audit(ep, TS.AUDITED_TARGET)
+    estimand, status = validated_analysis(ep)
     out = [
         stamp(manifest), "",
         "Corpus: %s, %d held-out records × %d named solutes = %d observations. No coarse/fine "
@@ -542,18 +608,19 @@ def block_supplement_endpoint_table(ep, corpus_art, loss) -> str:
         "",
         "| endpoint | model pooled MAPE (%) | comparator (%) | paired difference (pp) | "
         + " | ".join("%s (pp)" % n for n in TC.SCHEME_ORDER)
-        + " | primary zero relation | model worse on | skill |",
+        + " | primary zero relation | model worse on | relative pooled-MAPE reduction (%) |",
         "|---|---:|---:|---:|" + "---:|" * len(TC.SCHEME_ORDER) + "---|---:|---:|",
     ]
     for row in ep["rows"]:
         ranges = " | ".join(scheme_interval(row, n)["display"]["text"] for n in TC.SCHEME_ORDER)
         prim = TS.from_interval_record(scheme_interval(row, TC.PRIMARY_SCHEME))
-        out.append("| %s g | %.2f | %.2f | %s | %s | %s | %d of %d | %.3f |"
+        out.append("| %s g | %.2f | %.2f | %s | %s | %s | %d of %d | %.2f |"
                    % (_g(row[TC.ENDPOINT_ROW_KEY]), row["pooled_model_mape"],
                       row["pooled_const_mape"],
                       TC.format_pp(row["paired_difference_pp"], 3, explicit_plus=False),
                       ranges, prim.relation.prose,
-                      row["n_model_worse_than_const"], row["n_points"], row["skill_vs_const"]))
+                      row["n_model_worse_than_const"], row["n_points"],
+                      relative_mape_reduction_pct(row)))
 
     diffs = [r["paired_difference_pp"] for r in ep["rows"]]
     prim_sem = [TS.from_interval_record(scheme_interval(r, TC.PRIMARY_SCHEME))
@@ -569,23 +636,28 @@ def block_supplement_endpoint_table(ep, corpus_art, loss) -> str:
     # Round-9 P0-1: favourability comes from the declared estimand direction, not from assuming
     # the upper bound bounds the advantage. Negative model-minus-comparator favours the model, so
     # the smallest LOWER bound is the most favourable value and the largest UPPER bound the least.
-    best, worst = TS.favourable_extremes(prim_sem)
+    # Round-10 P1-2: that direction is now DERIVED from the artefact's typed estimand, not from a
+    # module-level default this call used to fall back on.
+    best, worst = TS.favourable_extremes(prim_sem, estimand)
     out += ["", "**Reading.** The effect size is stable: %s to %s pp across 38, 40 and 42 g, a "
                 "spread of %.3f pp — an order of magnitude smaller than the ≈ 5 pp movement in the "
                 "blind optimal-grind residual over the same endpoints, which is what one expects "
                 "when both predictors are re-derived at each endpoint so that a shift common to "
                 "both cancels. The sign never changes and the model remains worse on roughly half "
                 "the held-out observations at every endpoint. At the canonical draw count the "
-                "primary clustered range %s. Because the estimand is model loss minus comparator "
-                "loss, negative values favour the mechanistic model: across the sweep the most "
-                "favourable bound is %s pp and the least favourable is %s pp, so at their "
-                "unfavourable end these ranges concede the model no advantage at all. Against "
-                "pooled errors near 8.4 %% in both arms the benchmark is therefore reported as "
-                "unresolved throughout the declared tolerance."
+                "primary clustered range %s. Because the estimand is %s in %s, %s: across the "
+                "sweep the most favourable bound is %s pp and the least favourable is %s pp, so at "
+                "their "
+                "unfavourable end these ranges concede the model no advantage at all. %s The final "
+                "column is a descriptive relative error reduction, "
+                "100 x (comparator − model) / comparator computed from the full-precision pooled "
+                "values, not an inferential measure; positive values favour the mechanistic model."
                 % (TC.format_pp(min(diffs), 3, explicit_plus=False),
                    TC.format_pp(max(diffs), 3, explicit_plus=False),
-                   abs(max(diffs) - min(diffs)), relation_text,
-                   TC.format_pp(best, 3, explicit_plus=False), TC.format_pp(worst)),
+                   abs(max(diffs) - min(diffs)), relation_text, estimand.contrast_label,
+                   estimand.units_label, estimand.direction_clause,
+                   TC.format_pp(best, 3, explicit_plus=False), TC.format_pp(worst),
+                   CP.limits_sentence(status, estimand)),
             "",
             "**Scope of the Monte Carlo audit.** All displayed ranges use the canonical draw "
             "count. A multi-seed estimate of Monte Carlo variability exists for **one** target "

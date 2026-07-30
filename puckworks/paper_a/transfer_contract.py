@@ -33,6 +33,8 @@ import hashlib
 import json
 from decimal import Decimal, ROUND_HALF_UP
 
+from puckworks.paper_a import transfer_semantics as TS
+
 #: Bump when a field's *meaning* changes, not when a value is regenerated. Consumers use this to
 #: tell a corrected collected-mass artefact from an untyped legacy one.
 #:
@@ -40,7 +42,15 @@ from decimal import Decimal, ROUND_HALF_UP
 #: `stability_audits` LIST keyed by exact target, because a Monte Carlo precision estimate
 #: for one endpoint/scheme/loss is not a property of any other. Cluster ids for the
 #: variety x solute schemes were also normalised to the pipe delimiter.
-SCHEMA_VERSION = 3
+#:
+#: v4 (round-10 P0-1, P1-2, P1-3): the resampling design's free-text `estimand` sentence became a
+#: TYPED estimand object whose direction is derived and re-derived on validation; a typed
+#: `inferential_status` object records which decisions the analysis can make at all; interval
+#: records carry exact zero-contact flags and a display field named for what it means
+#: (`display.contains_zero_rounded`, formerly the ambiguous `display.touches_zero`). A v3 artefact
+#: is REJECTED rather than read under the v4 validator: its estimand is a sentence, so a v4 reader
+#: could not tell a correct direction from a reversed one.
+SCHEMA_VERSION = 4
 
 # ─────────────────────────────────────────────────────────────────────────────────────────────
 # Endpoint contract (round-8 P0-3)
@@ -239,7 +249,20 @@ def format_pct(value: float, digits: int = PCT_DIGITS) -> str:
 INTERVAL_KIND = "fixed_predictor_clustered_percentile_sensitivity_range"
 
 
-def interval_record(lower: float, upper: float, digits: int = PP_DIGITS) -> dict:
+#: Exactly the keys an interval record carries. Anything else is a named failure: an unvalidated
+#: extra field is a place for a second, contradictory story about the same interval to live.
+_INTERVAL_FIELDS = ("kind", "full_precision_pp", "contains_zero_full_precision",
+                    "excludes_zero_full_precision", "touches_zero_at_lower",
+                    "touches_zero_at_upper", "signed_nearest_bound_to_zero_pp", "width_pp",
+                    "display")
+_INTERVAL_DISPLAY_FIELDS = ("digits", "lower", "upper", "text", "contains_zero_rounded")
+
+#: Display precisions the formatter is exercised at. A record asking for 12 digits is not a display
+#: choice, it is a bug.
+_MAX_DISPLAY_DIGITS = 6
+
+
+def interval_record(lower, upper, digits: int = PP_DIGITS) -> dict:
     """Build the interval object: signed full precision, derived flags, and separate display.
 
     The Round-8 defect was that ``excludes_zero`` was decided on ``round(lo, 3)``/``round(hi, 3)``.
@@ -247,10 +270,27 @@ def interval_record(lower: float, upper: float, digits: int = PP_DIGITS) -> dict
     from that display, so presentation precision controlled an analytical classification. Here the
     flags come from the unrounded bounds and the display fields are clearly marked as display.
 
-    ``contains_zero`` uses the closed-interval convention: a bound of exactly 0.0 touches zero.
+    ``contains_zero`` uses the closed-interval convention: a bound of exactly 0.0 touches zero, and
+    the two ``touches_zero_at_*`` flags say WHERE — exact contact at full precision, which is a
+    different fact from the display range rounding onto zero.
+
+    Round-10 P1-3 renamed ``display.touches_zero`` to ``display.contains_zero_rounded``. One name
+    was carrying two concepts: exact contact with zero (an analytical fact) and the DISPLAYED range
+    covering zero after rounding (a typography fact). ``+0.0038 pp`` displays as ``+0.004`` and does
+    not touch zero at all; the round-8 conclusion said it reached zero at its upper bound because
+    the two ideas shared a field name.
+
+    Bounds are validated as finite numbers before anything is derived from them.
     """
-    lo = float(lower)
-    hi = float(upper)
+    lo = TS.require_finite_number(lower, "interval lower bound")
+    hi = TS.require_finite_number(upper, "interval upper bound")
+    if not lo <= hi:
+        raise ValueError("interval lower bound %r exceeds upper bound %r" % (lo, hi))
+    if isinstance(digits, bool) or not isinstance(digits, int) \
+            or not 0 <= digits <= _MAX_DISPLAY_DIGITS:
+        raise ValueError("interval display digits must be an int in [0, %d], got %r"
+                         % (_MAX_DISPLAY_DIGITS, digits))
+
     contains = bool(lo <= 0.0 <= hi)
     if hi < 0.0:
         signed_nearest = hi
@@ -266,6 +306,10 @@ def interval_record(lower: float, upper: float, digits: int = PP_DIGITS) -> dict
         "full_precision_pp": {"lower": lo, "upper": hi},
         "contains_zero_full_precision": contains,
         "excludes_zero_full_precision": not contains,
+        # Exact contact, at full precision. `-0.0` is normalised by the comparison itself:
+        # `-0.0 == 0.0` is True in IEEE 754, which is the behaviour we want here.
+        "touches_zero_at_lower": bool(lo == 0.0),
+        "touches_zero_at_upper": bool(hi == 0.0),
         "signed_nearest_bound_to_zero_pp": signed_nearest,
         "width_pp": hi - lo,
         "display": {
@@ -273,7 +317,8 @@ def interval_record(lower: float, upper: float, digits: int = PP_DIGITS) -> dict
             "lower": float(d_lo),
             "upper": float(d_hi),
             "text": format_pp_range(lo, hi, digits),
-            "touches_zero": bool(d_lo <= 0 <= d_hi),
+            # DISPLAY containment: does the ROUNDED range cover zero? Not exact contact.
+            "contains_zero_rounded": bool(d_lo <= 0 <= d_hi),
         },
     }
 
@@ -283,24 +328,120 @@ def interval_display_text(interval: dict) -> str:
     return interval["display"]["text"]
 
 
-def validate_interval_record(interval: dict) -> list[str]:
-    """Confirm an interval's display fields reconcile with its full-precision bounds."""
+def validate_interval_record(interval) -> list[str]:
+    """Rebuild the record from its bounds and exact-compare EVERY stored field.
+
+    Round-10 P1-3. The predecessor checked four things — that bounds were convertible, that they
+    were ordered, the two containment booleans under ``bool(...)`` coercion, and the display text —
+    and returned an empty problem list for all nine of these reproduced mutations:
+
+        kind changed to "calibrated 95% confidence interval" · width 999 · signed nearest bound
+        −999 · display.lower 999 · display.upper 999 · display contact flipped ·
+        `excludes_zero_full_precision` deleted from a zero-containing interval ·
+        `contains_zero_full_precision` deleted from a zero-excluding interval ·
+        `contains_zero_full_precision` replaced by the STRING "false"
+
+    The last two passed because ``bool(None)`` is falsey and ``bool("false")`` is TRUE, so a missing
+    field and a string both coerced to the value the record needed. A validator whose docstring says
+    it reconciles an interval's fields with full precision, and which in fact reconciles two of
+    them, is worse than no validator: the artefact checker delegates every interval to it and
+    reports a green chain.
+
+    So: validate the primitives, rebuild the canonical record from them, and deep-compare. Malformed
+    input returns NAMED PROBLEMS and never raises — a validator that crashes on a bad artefact
+    cannot be used to reject one.
+    """
     problems: list[str] = []
+    if not isinstance(interval, dict):
+        return ["interval record is %s, expected a mapping" % type(interval).__name__]
+
+    for field in _INTERVAL_FIELDS:
+        if field not in interval:
+            problems.append("interval.%s: required field is missing" % field)
+    for extra in sorted(set(interval) - set(_INTERVAL_FIELDS)):
+        problems.append("interval carries the unexpected field %r; every stored field must be "
+                        "validated or removed" % extra)
+
+    fp = interval.get("full_precision_pp")
+    if not isinstance(fp, dict):
+        problems.append("interval.full_precision_pp is %s, expected a mapping of lower/upper"
+                        % type(fp).__name__)
+        return problems
+    for extra in sorted(set(fp) - {"lower", "upper"}):
+        problems.append("interval.full_precision_pp carries the unexpected field %r" % extra)
     try:
-        lo = float(interval["full_precision_pp"]["lower"])
-        hi = float(interval["full_precision_pp"]["upper"])
-    except (KeyError, TypeError, ValueError):
-        return ["interval record has no usable full_precision_pp bounds"]
+        lo = TS.require_finite_number(fp.get("lower"), "interval.full_precision_pp.lower")
+        hi = TS.require_finite_number(fp.get("upper"), "interval.full_precision_pp.upper")
+    except ValueError as exc:
+        problems.append(str(exc))
+        return problems
     if hi < lo:
-        problems.append("interval bounds are reversed (upper < lower)")
-    rebuilt = interval_record(lo, hi, int(interval.get("display", {}).get("digits", PP_DIGITS)))
-    for field in ("contains_zero_full_precision", "excludes_zero_full_precision"):
-        if bool(interval.get(field)) != rebuilt[field]:
-            problems.append("interval.%s disagrees with its full-precision bounds" % field)
-    if interval.get("display", {}).get("text") != rebuilt["display"]["text"]:
-        problems.append("interval display text %r does not match the production formatter (%r)"
-                        % (interval.get("display", {}).get("text"), rebuilt["display"]["text"]))
+        problems.append("interval bounds are reversed: lower=%r exceeds upper=%r" % (lo, hi))
+        return problems
+
+    display = interval.get("display")
+    if not isinstance(display, dict):
+        problems.append("interval.display is %s, expected a mapping" % type(display).__name__)
+        return problems
+    for field in _INTERVAL_DISPLAY_FIELDS:
+        if field not in display:
+            problems.append("interval.display.%s: required field is missing" % field)
+    for extra in sorted(set(display) - set(_INTERVAL_DISPLAY_FIELDS)):
+        problems.append("interval.display carries the unexpected field %r" % extra)
+    digits = display.get("digits")
+    if isinstance(digits, bool) or not isinstance(digits, int) \
+            or not 0 <= digits <= _MAX_DISPLAY_DIGITS:
+        problems.append("interval.display.digits is %r, expected an int in [0, %d]"
+                        % (digits, _MAX_DISPLAY_DIGITS))
+        return problems
+
+    try:
+        rebuilt = interval_record(lo, hi, digits)
+    except ValueError as exc:                                   # pragma: no cover - guarded above
+        problems.append("interval record cannot be rebuilt from its own bounds: %s" % exc)
+        return problems
+
+    for field in ("kind", "signed_nearest_bound_to_zero_pp", "width_pp"):
+        if field in interval and not _same_value(interval[field], rebuilt[field]):
+            problems.append("interval.%s is %r, its bounds imply %r"
+                            % (field, interval[field], rebuilt[field]))
+    for field in ("contains_zero_full_precision", "excludes_zero_full_precision",
+                  "touches_zero_at_lower", "touches_zero_at_upper"):
+        if field not in interval:
+            continue
+        value = interval[field]
+        if not _exact_bool(value):
+            problems.append("interval.%s is %r (%s), expected a JSON boolean — truthiness "
+                            "coercion is how a missing field and the string \"false\" both passed "
+                            "this check" % (field, value, type(value).__name__))
+        elif value != rebuilt[field]:
+            problems.append("interval.%s is %r, its full-precision bounds imply %r"
+                            % (field, value, rebuilt[field]))
+    for field in ("lower", "upper", "text"):
+        if field in display and not _same_value(display[field], rebuilt["display"][field]):
+            problems.append("interval.display.%s is %r, the production renderer gives %r at %d "
+                            "digits" % (field, display[field], rebuilt["display"][field], digits))
+    if "contains_zero_rounded" in display:
+        value = display["contains_zero_rounded"]
+        if not _exact_bool(value):
+            problems.append("interval.display.contains_zero_rounded is %r (%s), expected a JSON "
+                            "boolean" % (value, type(value).__name__))
+        elif value != rebuilt["display"]["contains_zero_rounded"]:
+            problems.append("interval.display.contains_zero_rounded is %r, rounding the bounds to "
+                            "%d digits gives %r"
+                            % (value, digits, rebuilt["display"]["contains_zero_rounded"]))
     return problems
+
+
+def _same_value(value, expected) -> bool:
+    """Exact comparison that does not let a bool masquerade as a number, or vice versa."""
+    if _exact_bool(value) != _exact_bool(expected):
+        return False
+    if isinstance(expected, float):
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            return False
+        return float(value) == float(expected)
+    return value == expected
 
 
 # ─────────────────────────────────────────────────────────────────────────────────────────────
@@ -470,8 +611,20 @@ def validate_corpus_manifest(manifest: dict, include_off_grid: bool = True) -> l
 #: It is deliberately NOT reselected after seeing which range touches zero (round-8 P1-1).
 PRIMARY_SCHEME = "cond_in_variety"
 
-RESAMPLING_ESTIMAND = ("observation-weighted mean paired model-minus-comparator MAPE loss "
-                       "difference over the complete held-out C/F observation corpus")
+#: The estimand, as the typed object every renderer must consume. Round-10 P1-2 retired the
+#: free-text sentence that used to live here: it stated the sign convention in prose while
+#: `transfer_semantics` stated it again as a boolean, and nothing required the two to agree. The
+#: support set is named separately (it belongs to the corpus manifest, not to the contrast).
+RESAMPLING_ESTIMAND_SPEC = TS.POOLED_MAPE_ESTIMAND
+
+#: The observation weighting and support, which the estimand object does not carry.
+RESAMPLING_ESTIMAND_SUPPORT = ("observation-weighted mean over the complete held-out C/F "
+                               "observation corpus")
+
+
+def resampling_estimand_prose() -> str:
+    """The one sentence that defines the contrast and its sign, for Methods, notes and captions."""
+    return "%s, %s" % (RESAMPLING_ESTIMAND_SPEC.prose, RESAMPLING_ESTIMAND_SUPPORT)
 
 #: Every scheme's design, as inspectable data rather than prose. The Methods paragraph and the
 #: supplementary table are both GENERATED from this, so a later priority change cannot leave the
@@ -659,7 +812,9 @@ def resampling_design(records, primary: str = PRIMARY_SCHEME) -> dict:
     """The complete resampling design: every scheme, its role and its exact membership."""
     return {
         "schema_version": SCHEMA_VERSION,
-        "estimand": RESAMPLING_ESTIMAND,
+        "estimand": RESAMPLING_ESTIMAND_SPEC.as_dict(),
+        "estimand_support": RESAMPLING_ESTIMAND_SUPPORT,
+        "inferential_status": TS.TRANSFER_INFERENTIAL_STATUS.as_dict(),
         "predictors_refit_inside_resampling": False,
         "interval_kind": INTERVAL_KIND,
         "primary_scheme": primary,
@@ -668,21 +823,189 @@ def resampling_design(records, primary: str = PRIMARY_SCHEME) -> dict:
     }
 
 
+#: Every top-level design field, so an unexpected one is reported instead of ignored. A field
+#: nobody validates is a field that can carry a false statement into Methods or a table note.
+_DESIGN_FIELDS = ("schema_version", "estimand", "estimand_support", "inferential_status",
+                  "predictors_refit_inside_resampling", "interval_kind", "primary_scheme",
+                  "scheme_order", "schemes")
+
+#: Per-scheme fields. The first six are AUTHORIAL declarations pinned against `SCHEMES`; the rest
+#: are derived from membership and recomputed here.
+_SCHEME_DECLARED_FIELDS = ("name", "role", "label", "rationale", "strata", "cluster_key")
+_SCHEME_DERIVED_FIELDS = ("n_clusters", "n_strata", "cluster_size_distribution",
+                          "membership_sha256", "membership")
+_CLUSTER_FIELDS = ("cluster_id", "stratum", "sample_ids", "grinds", "observation_ids",
+                   "n_observations")
+
+
+def _exact_bool(value) -> bool:
+    """True only for the JSON boolean ``false``/``true`` — never for 0, "", None or "false".
+
+    ``bool("false")`` is ``True``. Round-10 P1-3 reproduced a false green built on exactly that
+    coercion, so booleans are type-checked everywhere in this module rather than truthiness-tested.
+    """
+    return isinstance(value, bool)
+
+
 def validate_resampling_design(design: dict, n_observations: int) -> list[str]:
-    """Every scheme must partition exactly the same observation set."""
+    """Exact-validate the WHOLE declared design, not only its observation coverage.
+
+    Round-10 P1-2. The predecessor checked six things — primary name is known, predictors are not
+    refitted, coverage is complete and non-duplicated, all schemes cover the same observations,
+    ``n_clusters`` matches the membership length, and the self-hash matches — and reported nothing
+    for any of these twelve reproduced mutations:
+
+        reversed estimand text · interval kind changed to "calibrated 95% confidence interval" ·
+        nested schema version 999 · reversed scheme order · wrong role · wrong label · wrong
+        declared strata · wrong declared cluster key · wrong `n_strata` · wrong cluster-size
+        distribution · wrong rationale · wrong archived grinds with a refreshed self-hash
+
+    None of those changes a number. All of them change what the paper's Methods, Table 5 and
+    Supplementary Table S6 SAY, because those are generated from this object. So every declared
+    field is now pinned against the contract, every derived field is recomputed from the membership,
+    and every field is enumerated so an unexpected one is a named problem rather than a silent pass.
+
+    The membership itself is checked against the SOURCE data by
+    :mod:`puckworks.paper_a.source_resampling_oracle`, which shares no code with this module. A
+    self-hash proves only that nobody edited the artefact without rehashing it.
+    """
     problems: list[str] = []
-    if design.get("primary_scheme") not in SCHEMES:
-        problems.append("primary_scheme %r is not a declared scheme" % design.get("primary_scheme"))
-    if design.get("predictors_refit_inside_resampling"):
-        problems.append("the fixed-predictor contract is violated: predictors are marked as "
-                        "refitted inside resampling")
+    if not isinstance(design, dict):
+        return ["resampling design is %s, expected a mapping" % type(design).__name__]
+
+    for extra in sorted(set(design) - set(_DESIGN_FIELDS)):
+        problems.append("resampling design carries the unexpected field %r; extend "
+                        "_DESIGN_FIELDS and validate it, or remove it" % extra)
+
+    # ── schema ─────────────────────────────────────────────────────────────────────────────────
+    if design.get("schema_version") != SCHEMA_VERSION:
+        problems.append("resampling_design.schema_version is %r, expected %d; regenerate the "
+                        "Paper A transfer artefacts rather than reading a legacy design under this "
+                        "validator" % (design.get("schema_version"), SCHEMA_VERSION))
+
+    # ── the estimand, re-derived rather than trusted ────────────────────────────────────────────
+    try:
+        estimand = TS.estimand_from_dict(design.get("estimand"))
+    except ValueError as exc:
+        estimand = None
+        problems.append("resampling_design.estimand: %s" % exc)
+    if estimand is not None:
+        expected = RESAMPLING_ESTIMAND_SPEC.as_dict()
+        got = design["estimand"]
+        for field in sorted(set(expected) | set(got)):
+            if field not in got:
+                problems.append("resampling_design.estimand is missing %r" % field)
+            elif field not in expected:
+                problems.append("resampling_design.estimand carries the unexpected field %r"
+                                % field)
+            elif got[field] != expected[field]:
+                problems.append("resampling_design.estimand.%s is %r, the contract declares %r"
+                                % (field, got[field], expected[field]))
+        # The serialised derived fields must be what the PRIMITIVES imply, not what was written
+        # down: a hand-edited `negative_values_favour` would otherwise reverse every favourability
+        # sentence while the primitives still said the opposite.
+        rederived = estimand.as_dict()
+        for field in ("negative_values_favour", "positive_values_favour", "contrast_label",
+                      "short_contrast_label", "direction_clause", "zero_means",
+                      "prose"):
+            if got.get(field) != rederived[field]:
+                problems.append("resampling_design.estimand.%s is %r, but its own primitives imply "
+                                "%r" % (field, got.get(field), rederived[field]))
+    if design.get("estimand_support") != RESAMPLING_ESTIMAND_SUPPORT:
+        problems.append("resampling_design.estimand_support is %r, expected %r"
+                        % (design.get("estimand_support"), RESAMPLING_ESTIMAND_SUPPORT))
+
+    # ── inferential status ─────────────────────────────────────────────────────────────────────
+    try:
+        status = TS.status_from_dict(design.get("inferential_status"))
+    except ValueError as exc:
+        status = None
+        problems.append("resampling_design.inferential_status: %s" % exc)
+    if status is not None:
+        problems += ["resampling_design.inferential_status: %s" % p
+                     for p in TS.validate_inferential_status(status)]
+        expected = TS.TRANSFER_INFERENTIAL_STATUS.as_dict()
+        got = design["inferential_status"]
+        for field in sorted(set(expected) | set(got)):
+            if got.get(field) != expected.get(field):
+                problems.append("resampling_design.inferential_status.%s is %r, the contract "
+                                "declares %r" % (field, got.get(field), expected.get(field)))
+
+    # ── interval kind, refit flag, primary, order ──────────────────────────────────────────────
+    if design.get("interval_kind") != INTERVAL_KIND:
+        problems.append("resampling_design.interval_kind is %r, expected %r — the reported ranges "
+                        "are fixed-predictor clustered percentile sensitivity ranges and must not "
+                        "be labelled as calibrated confidence intervals"
+                        % (design.get("interval_kind"), INTERVAL_KIND))
+    refit = design.get("predictors_refit_inside_resampling")
+    if not _exact_bool(refit) or refit is not False:
+        problems.append("resampling_design.predictors_refit_inside_resampling is %r, expected the "
+                        "boolean false: the fixed-predictor contract is what makes these ranges "
+                        "sensitivity ranges rather than nothing at all" % (refit,))
+    if design.get("primary_scheme") != PRIMARY_SCHEME:
+        problems.append("resampling_design.primary_scheme is %r, the contract declares %r"
+                        % (design.get("primary_scheme"), PRIMARY_SCHEME))
+    if design.get("scheme_order") != list(SCHEME_ORDER):
+        problems.append("resampling_design.scheme_order is %r, expected %r (exact set and order — "
+                        "the order is how every generated table lists the schemes, primary first)"
+                        % (design.get("scheme_order"), list(SCHEME_ORDER)))
+
+    # ── schemes: declared fields pinned, derived fields recomputed ─────────────────────────────
+    schemes = design.get("schemes")
+    if not isinstance(schemes, dict):
+        problems.append("resampling_design.schemes is %s, expected a mapping of %d schemes"
+                        % (type(schemes).__name__, len(SCHEME_ORDER)))
+        return problems
+    for extra in sorted(set(schemes) - set(SCHEME_ORDER)):
+        problems.append("resampling design declares the undeclared scheme %r" % extra)
+
     reference = None
     for name in SCHEME_ORDER:
-        s = (design.get("schemes") or {}).get(name)
-        if not s:
+        s = schemes.get(name)
+        if not isinstance(s, dict):
             problems.append("resampling design omits scheme %r" % name)
             continue
-        obs = sorted(o for c in s["membership"] for o in c["observation_ids"])
+        spec = SCHEMES[name]
+
+        for extra in sorted(set(s) - set(_SCHEME_DECLARED_FIELDS) - set(_SCHEME_DERIVED_FIELDS)):
+            problems.append("scheme %r carries the unexpected field %r" % (name, extra))
+        for field in _SCHEME_DECLARED_FIELDS:
+            want = list(spec[field]) if isinstance(spec[field], list) else spec[field]
+            if s.get(field) != want:
+                problems.append("scheme %r declares %s=%r, the contract declares %r"
+                                % (name, field, s.get(field), want))
+
+        membership = s.get("membership")
+        if not isinstance(membership, list) or not membership:
+            problems.append("scheme %r has no membership list" % name)
+            continue
+        malformed = False
+        for i, c in enumerate(membership):
+            if not isinstance(c, dict):
+                problems.append("scheme %r cluster %d is %s, expected a mapping"
+                                % (name, i, type(c).__name__))
+                malformed = True
+                continue
+            for field in _CLUSTER_FIELDS:
+                if field not in c:
+                    problems.append("scheme %r cluster %d has no %r" % (name, i, field))
+                    malformed = True
+            for extra in sorted(set(c) - set(_CLUSTER_FIELDS)):
+                problems.append("scheme %r cluster %d carries the unexpected field %r"
+                                % (name, i, extra))
+        if malformed:
+            continue
+
+        for c in membership:
+            if c["n_observations"] != len(c["observation_ids"]):
+                problems.append("scheme %r cluster %r declares n_observations=%r but carries %d "
+                                "observation ids" % (name, c["cluster_id"], c["n_observations"],
+                                                     len(c["observation_ids"])))
+            if not c["sample_ids"] or not c["grinds"]:
+                problems.append("scheme %r cluster %r archives no sample ids or grinds"
+                                % (name, c["cluster_id"]))
+
+        obs = sorted(o for c in membership for o in c["observation_ids"])
         if len(obs) != n_observations:
             problems.append("scheme %r covers %d observations, expected %d"
                             % (name, len(obs), n_observations))
@@ -693,8 +1016,18 @@ def validate_resampling_design(design: dict, n_observations: int) -> list[str]:
         elif obs != reference:
             problems.append("scheme %r does not cover the same observation set as %r"
                             % (name, SCHEME_ORDER[0]))
-        if s["n_clusters"] != len(s["membership"]):
-            problems.append("scheme %r n_clusters disagrees with its membership" % name)
-        if s["membership_sha256"] != sha256_of(s["membership"]):
+
+        if s.get("n_clusters") != len(membership):
+            problems.append("scheme %r declares n_clusters=%r, its membership has %d"
+                            % (name, s.get("n_clusters"), len(membership)))
+        strata = {c["stratum"] for c in membership}
+        if s.get("n_strata") != len(strata):
+            problems.append("scheme %r declares n_strata=%r, its membership realises %d (%r)"
+                            % (name, s.get("n_strata"), len(strata), sorted(strata)))
+        dist = cluster_size_distribution(membership)
+        if s.get("cluster_size_distribution") != dist:
+            problems.append("scheme %r declares cluster_size_distribution=%r, its membership "
+                            "realises %r" % (name, s.get("cluster_size_distribution"), dist))
+        if s.get("membership_sha256") != sha256_of(membership):
             problems.append("scheme %r membership hash does not fix its membership" % name)
     return problems

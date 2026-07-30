@@ -65,12 +65,24 @@ def source_sha256() -> str:
     return hashlib.sha256(SOURCE_CSV.read_bytes()).hexdigest()
 
 
+def _reject_constant(name: str):
+    """Refuse JSON's non-standard NaN/Infinity constants at the parse boundary.
+
+    Round-10 P1-3. Python's `json` accepts `NaN`, `Infinity` and `-Infinity` by default and hands
+    back floats that then flow into comparisons where NaN silently loses every ordering test. An
+    artefact containing them is malformed, and the right place to say so is where it is read.
+    """
+    raise ValueError("artefact contains the non-standard JSON constant %r; bounds and losses must "
+                     "be finite numbers" % name)
+
+
 def _load(path: Path) -> dict:
-    return json.loads(path.read_text(encoding="utf-8"))
+    return json.loads(path.read_text(encoding="utf-8"), parse_constant=_reject_constant)
 
 
 def _dump(obj: dict) -> str:
-    return json.dumps(obj, indent=1, ensure_ascii=False, sort_keys=False) + "\n"
+    """Serialise strictly: `allow_nan=False` raises rather than emitting `NaN`/`Infinity`."""
+    return json.dumps(obj, indent=1, ensure_ascii=False, sort_keys=False, allow_nan=False) + "\n"
 
 
 def reference_manifest(include_off_grid: bool = True) -> dict:
@@ -133,7 +145,10 @@ def check() -> list[str]:
     if problems:
         return problems
 
-    ep, corpus, loss = (_load(p) for p in ARTIFACTS)
+    try:
+        ep, corpus, loss = (_load(p) for p in ARTIFACTS)
+    except ValueError as exc:
+        return ["an artefact could not be read as strict JSON: %s" % exc]
     complete = reference_manifest(True)
     matched = reference_manifest(False)
     src = source_sha256()
@@ -173,11 +188,13 @@ def check() -> list[str]:
     if not isinstance(design, dict):
         problems.append("endpoint: no archived resampling_design")
     else:
+        # Round-10 P1-2: this validator now pins the WHOLE declared design — typed estimand
+        # (re-derived from its primitives), typed inferential status, interval kind, refit flag,
+        # primary scheme, scheme order, and every scheme's role, label, rationale, strata, cluster
+        # key and recomputed census. Twelve mutations that changed only what the design SAYS used to
+        # pass here, and the Methods paragraph, Table 5 and Table S6 are generated from it.
         problems += ["endpoint: %s" % p for p in
                      TC.validate_resampling_design(design, complete["n_observations"])]
-        if design.get("primary_scheme") != TC.PRIMARY_SCHEME:
-            problems.append("endpoint: primary_scheme is %r, the contract declares %r"
-                            % (design.get("primary_scheme"), TC.PRIMARY_SCHEME))
         # Round-9 P1-3. This block used to carry exactly the comment above and then compare only
         # hard-coded cluster COUNTS plus the primary size distribution, while
         # `validate_resampling_design` compared the membership against its own hash. It did not
@@ -204,8 +221,10 @@ def check() -> list[str]:
             problems.append("endpoint: no archived Monte Carlo audit for the declared target %r"
                             % (TS.AUDITED_TARGET.as_dict(),))
 
-    # -- intervals: display must reconcile with full precision ---------------------------------
-    for label, art in (("endpoint", ep), ("comparator-loss", loss)):
+    # -- intervals: every stored field must reconcile with full precision -----------------------
+    # The corpus contract is walked too. It archives a per-scheme interval for both corpus arms, and
+    # leaving it out meant "reconciles every interval record" described two artefacts out of three.
+    for label, art in (("endpoint", ep), ("comparator-loss", loss), ("corpus-contract", corpus)):
         _check_intervals(label, art, problems)
 
     # -- the point estimate must not depend on the cluster scheme ------------------------------

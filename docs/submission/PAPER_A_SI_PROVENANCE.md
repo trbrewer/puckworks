@@ -26,7 +26,7 @@ cannot drift from what was actually rendered.
 
 Rendered images are copied into `docs/submission/figures/` (PNG for the Markdown SI, PDF for
 typesetting) by `tools/paper_a_supplement.py --write`. The number → producer assignment is pinned
-in `FIGURES` and cross-checked against `docs/figures/PAPER_A_CAPTIONS.md`; a mismatch is a hard
+in `FIGURES` and cross-checked against `docs/figures/PAPER_A_FIGURE_MAP_INTERNAL.md`; a mismatch is a hard
 error, so the SI cannot bundle a different image from the one its caption describes.
 
 | supplementary item | rendered source | producer stem |

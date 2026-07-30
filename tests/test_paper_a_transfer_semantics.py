@@ -19,6 +19,7 @@ These are parameterised over the geometries that actually occur, so a renderer c
 from __future__ import annotations
 
 import copy
+import dataclasses
 import json
 import pathlib
 import sys
@@ -95,10 +96,85 @@ def test_reversed_bounds_are_rejected():
         TS.interval_semantics(+0.1, -0.1)
 
 
+# ── 1b. what is NOT an interval bound (round-10 P1-3) ───────────────────────────────────────
+@pytest.mark.parametrize("lower,upper", [
+    (True, 1.0),                     # bool is an int subclass: `float(True)` is 1.0
+    (False, 1.0),
+    (-0.5, True),
+    ("-0.5", 0.1),                   # a JSON string that was never parsed
+    (-0.5, "0.1"),
+    (None, 0.1),
+    (-0.5, None),
+    ([0.0], 0.1),
+    ({"lower": -0.5}, 0.1),
+    (float("nan"), 0.1),
+    (-0.5, float("nan")),
+    (float("-inf"), 0.1),
+    (-0.5, float("inf")),
+])
+def test_non_numeric_and_non_finite_bounds_are_rejected_before_classification(lower, upper):
+    """`interval_semantics(True, 1.0)` used to return a cheerful ABOVE-zero interval.
+
+    Every input here is an upstream defect — a boolean where a bound belongs, an unparsed JSON
+    string, an overflowed division. Classifying it turns that defect into a plausible sentence about
+    where a bound sits relative to zero.
+    """
+    with pytest.raises(ValueError, match="finite"):
+        TS.interval_semantics(lower, upper)
+
+
+@pytest.mark.parametrize("value", [True, False, "0.1", None, [], float("nan"), float("inf")])
+def test_require_finite_number_names_the_field_it_rejected(value):
+    with pytest.raises(ValueError, match="my bound"):
+        TS.require_finite_number(value, "my bound")
+
+
+@pytest.mark.parametrize("lower,upper", [(-0.5, 0.1), (-1, 2), (0.0, 0.0), (-0.0, 0.0)])
+def test_ordinary_finite_bounds_including_negative_zero_are_accepted(lower, upper):
+    sem = TS.interval_semantics(lower, upper)
+    assert sem.relation is TS.ZeroRelation.CONTAINS
+
+
 # ── 2. estimand direction and favourability ─────────────────────────────────────────────────
+#
+# Round-10 P1-2 replaced the stored `EstimandDirection.negative_favours_model` boolean with a
+# derivation from primitives. Everything below therefore asserts the DERIVATION, not a recorded
+# answer: the point is that no one can write the answer down and have it disagree with the metric
+# and the subtraction order.
+
+ESTIMAND = TS.POOLED_MAPE_ESTIMAND
+
+
 def test_negative_favours_the_model_for_a_loss_difference():
-    assert TS.PAIRED_LOSS_DIFFERENCE.negative_favours_model is True
-    assert "minus" in TS.PAIRED_LOSS_DIFFERENCE.label
+    assert ESTIMAND.metric_preference is TS.MetricPreference.LOWER_IS_BETTER
+    assert ESTIMAND.operation is TS.ContrastOperation.LEFT_MINUS_RIGHT
+    assert ESTIMAND.negative_favours == TS.MODEL_OPERAND
+    assert ESTIMAND.negative_favours_model is True
+    assert "minus" in ESTIMAND.contrast_label
+
+
+@pytest.mark.parametrize("preference,operation,expect_model", [
+    (TS.MetricPreference.LOWER_IS_BETTER, TS.ContrastOperation.LEFT_MINUS_RIGHT, True),
+    (TS.MetricPreference.LOWER_IS_BETTER, TS.ContrastOperation.RIGHT_MINUS_LEFT, False),
+    (TS.MetricPreference.HIGHER_IS_BETTER, TS.ContrastOperation.LEFT_MINUS_RIGHT, False),
+    (TS.MetricPreference.HIGHER_IS_BETTER, TS.ContrastOperation.RIGHT_MINUS_LEFT, True),
+])
+def test_direction_is_derived_from_metric_preference_and_operand_order(preference, operation,
+                                                                      expect_model):
+    """All four combinations, because only a derivation gets all four right for free."""
+    spec = dataclasses.replace(ESTIMAND, metric_preference=preference, operation=operation)
+    assert spec.negative_favours_model is expect_model
+    assert (spec.negative_favours == TS.MODEL_OPERAND) is expect_model
+    assert spec.positive_favours != spec.negative_favours
+
+
+def test_reversing_the_operation_reverses_the_prose_and_the_table_label():
+    """The P1-2 requirement: a reversed contrast cannot leave the rendered sentence unchanged."""
+    reversed_spec = dataclasses.replace(ESTIMAND, operation=TS.ContrastOperation.RIGHT_MINUS_LEFT)
+    assert reversed_spec.prose != ESTIMAND.prose
+    assert reversed_spec.short_contrast_label != ESTIMAND.short_contrast_label
+    assert "favour the mechanistic model" in ESTIMAND.prose
+    assert "favour the O-trained level-only comparator" in reversed_spec.prose
 
 
 def test_most_favourable_bound_is_the_lowest_lower_not_any_upper():
@@ -106,7 +182,7 @@ def test_most_favourable_bound_is_the_lowest_lower_not_any_upper():
     sem = [TS.interval_semantics(-0.884, -0.042),
            TS.interval_semantics(-0.829, +0.0038),
            TS.interval_semantics(-0.891, +0.0058)]
-    best, worst = TS.favourable_extremes(sem)
+    best, worst = TS.favourable_extremes(sem, ESTIMAND)
     assert best == pytest.approx(-0.891)      # most favourable: smallest lower bound
     assert worst == pytest.approx(+0.0058)    # least favourable: largest upper bound
     assert best < worst
@@ -114,14 +190,122 @@ def test_most_favourable_bound_is_the_lowest_lower_not_any_upper():
 
 def test_favourability_flips_with_the_declared_direction():
     sem = [TS.interval_semantics(-0.5, +0.2)]
-    positive_good = TS.EstimandDirection(label="skill score", negative_favours_model=False)
-    assert TS.favourable_extremes(sem) == (-0.5, +0.2)
+    positive_good = dataclasses.replace(ESTIMAND,
+                                        metric_preference=TS.MetricPreference.HIGHER_IS_BETTER)
+    assert TS.favourable_extremes(sem, ESTIMAND) == (-0.5, +0.2)
     assert TS.favourable_extremes(sem, positive_good) == (+0.2, -0.5)
+
+
+@pytest.mark.parametrize("call", [
+    lambda: TS.favourable_extremes([TS.interval_semantics(-0.5, +0.2)]),
+    lambda: TS.permits_no_advantage(TS.interval_semantics(-0.5, +0.2)),
+])
+def test_favourability_helpers_have_no_default_direction(call):
+    """A publication renderer must not be able to omit the estimand and get an assumed one."""
+    with pytest.raises(TypeError):
+        call()
+
+
+@pytest.mark.parametrize("bad", [None, {}, "model minus comparator", 1.0,
+                                 TS.POOLED_MAPE_ESTIMAND.as_dict()])
+def test_favourability_helpers_reject_anything_but_a_validated_spec(bad):
+    """Including the SERIALISED estimand: a renderer must rebuild it through the validator."""
+    with pytest.raises(TypeError):
+        TS.favourable_extremes([TS.interval_semantics(-0.5, +0.2)], bad)
+
+
+def test_the_defaulted_direction_constant_is_gone():
+    """The round-9 API is removed, not deprecated: a default here is the P1-2 defect."""
+    for retired in ("PAIRED_LOSS_DIFFERENCE", "EstimandDirection"):
+        assert not hasattr(TS, retired), (
+            "%r still exists; a module-level default direction is exactly what let a reversed "
+            "artefact estimand leave every favourability sentence unchanged" % retired)
 
 
 @pytest.mark.parametrize("upper,concedes", [(-0.042, False), (0.0, True), (+0.0038, True)])
 def test_permits_no_advantage_tracks_the_unfavourable_end(upper, concedes):
-    assert TS.permits_no_advantage(TS.interval_semantics(-0.8, upper)) is concedes
+    assert TS.permits_no_advantage(TS.interval_semantics(-0.8, upper), ESTIMAND) is concedes
+
+
+def test_estimand_serialisation_round_trips_and_rederives_its_own_direction():
+    payload = ESTIMAND.as_dict()
+    assert TS.estimand_from_dict(payload) == ESTIMAND
+    assert payload["negative_values_favour"] == TS.MODEL_OPERAND
+
+
+@pytest.mark.parametrize("mutate,expect", [
+    (lambda d: d.__setitem__("operation", "left_minus_middle"), "not one of"),
+    (lambda d: d.__setitem__("metric_preference", "whatever"), "not one of"),
+    (lambda d: d.pop("left_operand"), "missing required field"),
+    (lambda d: d.__setitem__("right_operand", d["left_operand"]), "operand with itself"),
+])
+def test_a_malformed_estimand_is_rejected_not_defaulted(mutate, expect):
+    payload = ESTIMAND.as_dict()
+    mutate(payload)
+    with pytest.raises(ValueError, match=expect):
+        TS.estimand_from_dict(payload)
+
+
+# ── 2b. what the analysis may DECIDE (round-10 P0-1) ────────────────────────────────────────
+def test_the_declared_status_supports_no_decision_at_all():
+    st = TS.TRANSFER_INFERENTIAL_STATUS
+    assert st.coverage_calibrated is False
+    assert st.practical_margin_pp is None
+    assert not any(st.decision_flags.values())
+    assert st.permitted_claim_class is TS.ClaimClass.DESCRIPTIVE_EVIDENCE_LIMITED
+    assert TS.validate_inferential_status(st) == []
+
+
+@pytest.mark.parametrize("field", ["supports_superiority_decision",
+                                   "supports_noninferiority_decision",
+                                   "supports_equivalence_decision",
+                                   "supports_absence_of_skill_decision"])
+def test_an_uncalibrated_status_cannot_grant_itself_a_decision(field):
+    """Absence of skill is a DECISION. An uncalibrated range cannot make it either way."""
+    st = dataclasses.replace(TS.TRANSFER_INFERENTIAL_STATUS, **{field: True})
+    problems = TS.validate_inferential_status(st)
+    assert problems, "FALSE GREEN: %s granted without calibrated coverage" % field
+    assert any("decides nothing" in p for p in problems)
+
+
+def test_claiming_calibrated_coverage_needs_a_procedure_and_a_level():
+    st = dataclasses.replace(TS.TRANSFER_INFERENTIAL_STATUS, coverage_calibrated=True)
+    problems = TS.validate_inferential_status(st)
+    assert any("no confidence_procedure is named" in p for p in problems)
+    assert any("confidence_level" in p for p in problems)
+    assert any("fixed-predictor sensitivity analysis" in p for p in problems)
+
+
+def test_an_equivalence_decision_needs_a_predeclared_margin():
+    st = dataclasses.replace(
+        TS.TRANSFER_INFERENTIAL_STATUS, coverage_calibrated=True, confidence_level=0.95,
+        confidence_procedure="cluster bootstrap TOST",
+        analysis_kind=TS.AnalysisKind.CALIBRATED_CLUSTERED_CONFIDENCE,
+        supports_equivalence_decision=True,
+        permitted_claim_class=TS.ClaimClass.CALIBRATED_DECISION)
+    assert any("predeclared practical margin" in p for p in TS.validate_inferential_status(st))
+    with_margin = dataclasses.replace(st, practical_margin_pp=0.5)
+    assert TS.validate_inferential_status(with_margin) == []
+
+
+def test_an_unused_margin_is_rejected():
+    """A margin nobody decides with is an invitation to a post hoc negligibility claim."""
+    st = dataclasses.replace(TS.TRANSFER_INFERENTIAL_STATUS, practical_margin_pp=0.5)
+    assert any("no decision uses it" in p for p in TS.validate_inferential_status(st))
+
+
+@pytest.mark.parametrize("mutate,expect", [
+    (lambda d: d.__setitem__("analysis_kind", "vibes"), "not one of"),
+    (lambda d: d.__setitem__("permitted_claim_class", "strong"), "not one of"),
+    (lambda d: d.__setitem__("coverage_calibrated", "false"), "must be a JSON boolean"),
+    (lambda d: d.__setitem__("practical_margin_pp", "0.5"), "must be null or a number"),
+    (lambda d: d.pop("supports_equivalence_decision"), "missing required field"),
+])
+def test_a_malformed_status_is_rejected(mutate, expect):
+    payload = TS.TRANSFER_INFERENTIAL_STATUS.as_dict()
+    mutate(payload)
+    with pytest.raises(ValueError, match=expect):
+        TS.status_from_dict(payload)
 
 
 # ── 3. Monte Carlo audit scope (P1-1) ───────────────────────────────────────────────────────
@@ -300,3 +484,209 @@ def test_a_wrong_stratum_is_caught():
     design["schemes"]["sample_in_variety_grind"]["membership"][0]["stratum"] = "Robusta|F"
     _refresh_hash(design, "sample_in_variety_grind")
     assert any("stratum" in p for p in ORACLE.compare_design(design))
+
+
+def test_wrong_archived_grinds_are_caught_even_with_a_refreshed_hash():
+    """Round-10 P1-2's twelfth reproduced false green.
+
+    A cluster's grind composition is what the Methods census and Table S6 report ("18 contain both a
+    coarse and a fine sample record"). The round-9 oracle compared observation ids, strata and sample
+    ids and stopped, so this passed with the self-hash refreshed.
+    """
+    design = copy.deepcopy(_endpoint()["resampling_design"])
+    cluster = next(c for c in design["schemes"]["cond_in_variety"]["membership"]
+                   if c["grinds"] == ["C"])
+    cluster["grinds"] = ["C", "F"]
+    _refresh_hash(design, "cond_in_variety")
+    problems = ORACLE.compare_design(design)
+    assert problems, "FALSE GREEN: wrong archived grinds"
+    assert any("grinds are" in p for p in problems)
+
+
+def test_a_declared_census_that_contradicts_the_source_is_caught():
+    """`n_strata` and the size distribution are published; the oracle must own them too."""
+    for field, wrong in (("n_strata", 99), ("n_clusters", 99),
+                         ("cluster_size_distribution", {"3": 26})):
+        design = copy.deepcopy(_endpoint()["resampling_design"])
+        design["schemes"]["cond_in_variety"][field] = wrong
+        problems = ORACLE.compare_design(design)
+        assert problems, "FALSE GREEN: artefact declares %s=%r" % (field, wrong)
+
+
+# ── 6. the DECLARED design, pinned against the contract (round-10 P1-2) ─────────────────────
+#
+# The twelve mutations below all keep the observation membership exactly as the source implies, so
+# the source oracle is silent by design — nothing about the DATA changed. They change what the
+# artefact SAYS, which is what the Methods paragraph, Table 5 and Supplementary Table S6 are
+# generated from. Every one of them returned an empty problem list before this remediation.
+
+def _committed_design():
+    return copy.deepcopy(_endpoint()["resampling_design"])
+
+
+@pytest.mark.parametrize("name,mutate,expect", [
+    ("estimand_reversed",
+     lambda d: d["estimand"].__setitem__("operation", "right_minus_left"),
+     "estimand.operation"),
+    ("estimand_derived_direction_flipped",
+     lambda d: d["estimand"].__setitem__("negative_values_favour",
+                                         "o_trained_level_only_comparator"),
+     "its own primitives imply"),
+    ("estimand_prose_rewritten",
+     lambda d: d["estimand"].__setitem__("prose", "negative values favour the comparator"),
+     "its own primitives imply"),
+    ("estimand_unknown_operation",
+     lambda d: d["estimand"].__setitem__("operation", "left_over_right"),
+     "not one of"),
+    ("interval_kind_calibrated_CI",
+     lambda d: d.__setitem__("interval_kind", "calibrated 95% confidence interval"),
+     "interval_kind"),
+    ("nested_schema_version_999",
+     lambda d: d.__setitem__("schema_version", 999),
+     "schema_version"),
+    ("scheme_order_reversed",
+     lambda d: d.__setitem__("scheme_order", list(reversed(d["scheme_order"]))),
+     "scheme_order"),
+    ("scheme_role_wrong",
+     lambda d: d["schemes"]["group"].__setitem__("role", "primary_conservative_sensitivity"),
+     "declares role"),
+    ("scheme_label_wrong",
+     lambda d: d["schemes"]["group"].__setitem__("label", "whole variety group"),
+     "declares label"),
+    ("scheme_strata_wrong",
+     lambda d: d["schemes"]["cond_in_variety"].__setitem__("strata", ["variety", "solute"]),
+     "declares strata"),
+    ("scheme_cluster_key_wrong",
+     lambda d: d["schemes"]["cond_in_variety"].__setitem__("cluster_key", ["sample_id"]),
+     "declares cluster_key"),
+    ("scheme_rationale_wrong",
+     lambda d: d["schemes"]["group"].__setitem__("rationale", "the most informative construction"),
+     "declares rationale"),
+    ("scheme_n_strata_wrong",
+     lambda d: d["schemes"]["cond_in_variety"].__setitem__("n_strata", 7),
+     "n_strata"),
+    ("scheme_n_clusters_wrong",
+     lambda d: d["schemes"]["cond_in_variety"].__setitem__("n_clusters", 27),
+     "n_clusters"),
+    ("scheme_size_distribution_wrong",
+     lambda d: d["schemes"]["cond_in_variety"].__setitem__("cluster_size_distribution",
+                                                           {"3": 9, "6": 17}),
+     "cluster_size_distribution"),
+    ("predictors_refit_true",
+     lambda d: d.__setitem__("predictors_refit_inside_resampling", True),
+     "predictors_refit_inside_resampling"),
+    ("predictors_refit_truthy_string",
+     lambda d: d.__setitem__("predictors_refit_inside_resampling", "false"),
+     "predictors_refit_inside_resampling"),
+    ("primary_scheme_changed",
+     lambda d: d.__setitem__("primary_scheme", "group"),
+     "primary_scheme"),
+    ("status_grants_absence_of_skill",
+     lambda d: d["inferential_status"].__setitem__("supports_absence_of_skill_decision", True),
+     "inferential_status"),
+    ("status_claims_calibrated_coverage",
+     lambda d: d["inferential_status"].__setitem__("coverage_calibrated", True),
+     "inferential_status"),
+    ("status_invents_a_margin",
+     lambda d: d["inferential_status"].__setitem__("practical_margin_pp", 0.5),
+     "inferential_status"),
+    ("status_deleted",
+     lambda d: d.pop("inferential_status"),
+     "inferential_status"),
+    ("estimand_support_rewritten",
+     lambda d: d.__setitem__("estimand_support", "mean over the matched on-grid subset"),
+     "estimand_support"),
+    ("unknown_extra_scheme",
+     lambda d: d["schemes"].__setitem__("cond_in_solute", dict(d["schemes"]["group"])),
+     "undeclared scheme"),
+    ("required_scheme_removed",
+     lambda d: d["schemes"].pop("cond_in_group"),
+     "omits scheme"),
+    ("unexpected_top_level_field",
+     lambda d: d.__setitem__("coverage", "95%"),
+     "unexpected field"),
+    ("unexpected_scheme_field",
+     lambda d: d["schemes"]["group"].__setitem__("p_value", 0.04),
+     "unexpected field"),
+    ("cluster_n_observations_wrong",
+     lambda d: d["schemes"]["group"]["membership"][0].__setitem__("n_observations", 99),
+     "n_observations"),
+])
+def test_declared_design_mutations_all_fail(name, mutate, expect):
+    design = _committed_design()
+    mutate(design)
+    problems = TC.validate_resampling_design(design, 132)
+    assert problems, "FALSE GREEN: %s" % name
+    assert any(expect in p for p in problems), (name, expect, problems)
+
+
+def test_the_committed_declared_design_passes():
+    assert TC.validate_resampling_design(_committed_design(), 132) == []
+
+
+# ── 7. the renderer takes its direction FROM the artefact (round-10 P1-2) ────────────────────
+def _artefacts():
+    from tools import paper_a_transfer_text as TT
+
+    return (json.loads(TT.ENDPOINT_JSON.read_text(encoding="utf-8")),
+            json.loads(TT.CORPUS_JSON.read_text(encoding="utf-8")),
+            json.loads(TT.LOSS_JSON.read_text(encoding="utf-8")))
+
+
+def _reverse_the_estimand(ep):
+    """Reverse the contrast in the artefact, re-deriving what the primitives now imply."""
+    design = ep["resampling_design"]
+    spec = dataclasses.replace(TS.estimand_from_dict(design["estimand"]),
+                              operation=TS.ContrastOperation.RIGHT_MINUS_LEFT)
+    design["estimand"] = spec.as_dict()
+    return ep
+
+
+@pytest.mark.parametrize("block", ["block_endpoint_reading", "block_transfer_results",
+                                   "block_endpoint_table", "block_table5",
+                                   "block_supplement_endpoint_table"])
+def test_reversing_the_artefact_estimand_changes_every_favourability_block(block):
+    """The exact P1-2 failure mode: correct numbers rendered with inverted scientific meaning.
+
+    Before this remediation the renderer imported its sign convention from a module-level default and
+    hard-coded the sentence beside it, so this mutation changed nothing at all in the output.
+    """
+    from tools import paper_a_transfer_text as TT
+
+    ep, corpus, loss = _artefacts()
+    render = getattr(TT, block)
+    before = render(copy.deepcopy(ep), corpus, loss)
+    after = render(_reverse_the_estimand(copy.deepcopy(ep)), corpus, loss)
+    assert after != before, (
+        "%s renders identically after the estimand is reversed, so its favourability statements do "
+        "not come from the artefact" % block)
+
+
+def test_rewriting_only_the_estimand_prose_fails_validation_instead():
+    """The other half of the requirement: hand-edited prose must not silently win, either."""
+    design = _committed_design()
+    design["estimand"]["prose"] = ("pooled MAPE for the comparator minus pooled MAPE for the "
+                                   "model; positive values favour the mechanistic model")
+    problems = TC.validate_resampling_design(design, 132)
+    assert any("its own primitives imply" in p for p in problems)
+
+
+def test_the_renderer_refuses_an_artefact_with_no_declared_estimand():
+    from tools import paper_a_transfer_text as TT
+
+    ep, _corpus, _loss = _artefacts()
+    ep["resampling_design"].pop("estimand")
+    with pytest.raises(ValueError, match="estimand"):
+        TT.validated_analysis(ep)
+    ep.pop("resampling_design")
+    with pytest.raises(KeyError, match="refusing to assume"):
+        TT.validated_analysis(ep)
+
+
+def test_the_renderer_refuses_an_incoherent_inferential_status():
+    from tools import paper_a_transfer_text as TT
+
+    ep, _corpus, _loss = _artefacts()
+    ep["resampling_design"]["inferential_status"]["supports_absence_of_skill_decision"] = True
+    with pytest.raises(ValueError, match="not internally consistent"):
+        TT.validated_analysis(ep)

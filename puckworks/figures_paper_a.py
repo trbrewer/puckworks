@@ -560,8 +560,15 @@ def fig4_transfer(results=None, outdir=OUTDIR):
         # version put it in the data area where it collided with the legend (round-7 P2-4).
         axc.set_xlabel("held-out MAPE (%%) — model worse than comparator on %d of %d points"
                        % (ts["n_model_worse_than_const"], ts["n_points"]), fontsize=7.5)
-        axc.set_title("(c) model vs level-only comparator — pooled skill %.0f%%"
-                      % (100 * ts["skill_vs_const"]), fontsize=9)
+        # Round-10 P0-1: this read "pooled skill %.0f%%", an undefined quantity rendered to zero
+        # decimals — 0.045 became "4%" by round-half-even. "Skill" is the disputed word (the retired
+        # "no resolvable skill" verdict was about it), and the number is a DESCRIPTIVE relative error
+        # reduction, so it is named for what it is and computed from the two pooled MAPEs at full
+        # precision rather than from the rounded stored fraction.
+        reduction = 100.0 * (ts["pooled_const_mape"] - ts["pooled_model_mape"]) \
+            / ts["pooled_const_mape"]
+        axc.set_title("(c) model vs level-only comparator — relative pooled-MAPE reduction %.1f%%"
+                      % reduction, fontsize=9)
         axc.set_xlim(0, max(model_v + const_v) * 1.34)   # room for the legend, no overlap
         axc.legend(fontsize=6.5, loc="lower right", framealpha=0.95)
     title = "Within-campaign cross-grind prediction vs a level-only comparator"

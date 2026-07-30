@@ -1,5 +1,5 @@
 {
- "schema_version": 3,
+ "schema_version": 4,
  "endpoint": {
   "quantity": "collected_mass",
   "symbol": "m_target",
@@ -832,8 +832,41 @@
   "manifest_sha256": "fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8"
  },
  "resampling_design": {
-  "schema_version": 3,
-  "estimand": "observation-weighted mean paired model-minus-comparator MAPE loss difference over the complete held-out C/F observation corpus",
+  "schema_version": 4,
+  "estimand": {
+   "id": "pooled_mape_model_minus_level_only_pp",
+   "metric_id": "pooled_mape",
+   "metric_label": "pooled MAPE",
+   "metric_preference": "lower_is_better",
+   "left_operand": "mechanistic_model",
+   "left_label": "mechanistic model",
+   "right_operand": "o_trained_level_only_comparator",
+   "right_label": "O-trained level-only comparator",
+   "operation": "left_minus_right",
+   "units": "percentage_points",
+   "units_label": "percentage points",
+   "negative_values_favour": "mechanistic_model",
+   "positive_values_favour": "o_trained_level_only_comparator",
+   "contrast_label": "pooled MAPE for the mechanistic model minus pooled MAPE for the O-trained level-only comparator",
+   "short_contrast_label": "pooled MAPE, mechanistic model − O-trained level-only comparator",
+   "direction_clause": "negative values favour the mechanistic model",
+   "zero_means": "equal pooled MAPE under the stated scoring rule",
+   "prose": "pooled MAPE for the mechanistic model minus pooled MAPE for the O-trained level-only comparator, in percentage points; negative values favour the mechanistic model"
+  },
+  "estimand_support": "observation-weighted mean over the complete held-out C/F observation corpus",
+  "inferential_status": {
+   "analysis_kind": "fixed_predictor_clustered_sensitivity",
+   "coverage_calibrated": false,
+   "confidence_level": null,
+   "confidence_procedure": null,
+   "predictors_refitted_within_draw": false,
+   "supports_superiority_decision": false,
+   "supports_noninferiority_decision": false,
+   "supports_equivalence_decision": false,
+   "supports_absence_of_skill_decision": false,
+   "practical_margin_pp": null,
+   "permitted_claim_class": "descriptive_evidence_limited"
+  },
   "predictors_refit_inside_resampling": false,
   "interval_kind": "fixed_predictor_clustered_percentile_sensitivity_range",
   "primary_scheme": "cond_in_variety",
@@ -3762,6 +3795,8 @@
       },
       "contains_zero_full_precision": false,
       "excludes_zero_full_precision": true,
+      "touches_zero_at_lower": false,
+      "touches_zero_at_upper": false,
       "signed_nearest_bound_to_zero_pp": -0.04243254356196476,
       "width_pp": 0.8419543397581264,
       "display": {
@@ -3769,7 +3804,7 @@
        "lower": -0.884,
        "upper": -0.042,
        "text": "[−0.884, −0.042]",
-       "touches_zero": false
+       "contains_zero_rounded": false
       }
      },
      "n_clusters": 26,
@@ -3794,6 +3829,8 @@
       },
       "contains_zero_full_precision": false,
       "excludes_zero_full_precision": true,
+      "touches_zero_at_lower": false,
+      "touches_zero_at_upper": false,
       "signed_nearest_bound_to_zero_pp": -0.09715318275036863,
       "width_pp": 0.705058368523021,
       "display": {
@@ -3801,7 +3838,7 @@
        "lower": -0.802,
        "upper": -0.097,
        "text": "[−0.802, −0.097]",
-       "touches_zero": false
+       "contains_zero_rounded": false
       }
      },
      "n_clusters": 44,
@@ -3826,6 +3863,8 @@
       },
       "contains_zero_full_precision": false,
       "excludes_zero_full_precision": true,
+      "touches_zero_at_lower": false,
+      "touches_zero_at_upper": false,
       "signed_nearest_bound_to_zero_pp": -0.08539488372237752,
       "width_pp": 0.7128637046221591,
       "display": {
@@ -3833,7 +3872,7 @@
        "lower": -0.798,
        "upper": -0.085,
        "text": "[−0.798, −0.085]",
-       "touches_zero": false
+       "contains_zero_rounded": false
       }
      },
      "n_clusters": 78,
@@ -3858,6 +3897,8 @@
       },
       "contains_zero_full_precision": false,
       "excludes_zero_full_precision": true,
+      "touches_zero_at_lower": false,
+      "touches_zero_at_upper": false,
       "signed_nearest_bound_to_zero_pp": -0.059853071625618766,
       "width_pp": 0.8806431024913505,
       "display": {
@@ -3865,7 +3906,7 @@
        "lower": -0.94,
        "upper": -0.06,
        "text": "[−0.940, −0.060]",
-       "touches_zero": false
+       "contains_zero_rounded": false
       }
      },
      "n_clusters": 6,
@@ -3899,7 +3940,7 @@
     -0.097
    ],
    "within_variety_excludes_zero": true,
-   "within_variety_display_touches_zero": false,
+   "within_variety_display_contains_zero_rounded": false,
    "signed_nearest_bound_to_zero_pp": -0.04243254356196476,
    "nearest_bound_to_zero_pp": 0.0424,
    "within_group_excludes_zero": true,
@@ -3950,6 +3991,8 @@
       },
       "contains_zero_full_precision": true,
       "excludes_zero_full_precision": false,
+      "touches_zero_at_lower": false,
+      "touches_zero_at_upper": false,
       "signed_nearest_bound_to_zero_pp": 0.0,
       "width_pp": 0.8328427690397858,
       "display": {
@@ -3957,7 +4000,7 @@
        "lower": -0.829,
        "upper": 0.004,
        "text": "[−0.829, +0.004]",
-       "touches_zero": true
+       "contains_zero_rounded": true
       }
      },
      "n_clusters": 26,
@@ -3982,6 +4025,8 @@
       },
       "contains_zero_full_precision": false,
       "excludes_zero_full_precision": true,
+      "touches_zero_at_lower": false,
+      "touches_zero_at_upper": false,
       "signed_nearest_bound_to_zero_pp": -0.053051452935327315,
       "width_pp": 0.6893713014738777,
       "display": {
@@ -3989,7 +4034,7 @@
        "lower": -0.742,
        "upper": -0.053,
        "text": "[−0.742, −0.053]",
-       "touches_zero": false
+       "contains_zero_rounded": false
       }
      },
      "n_clusters": 44,
@@ -4014,6 +4059,8 @@
       },
       "contains_zero_full_precision": false,
       "excludes_zero_full_precision": true,
+      "touches_zero_at_lower": false,
+      "touches_zero_at_upper": false,
       "signed_nearest_bound_to_zero_pp": -0.038666577202542365,
       "width_pp": 0.7015402890297324,
       "display": {
@@ -4021,7 +4068,7 @@
        "lower": -0.74,
        "upper": -0.039,
        "text": "[−0.740, −0.039]",
-       "touches_zero": false
+       "contains_zero_rounded": false
       }
      },
      "n_clusters": 78,
@@ -4046,6 +4093,8 @@
       },
       "contains_zero_full_precision": false,
       "excludes_zero_full_precision": true,
+      "touches_zero_at_lower": false,
+      "touches_zero_at_upper": false,
       "signed_nearest_bound_to_zero_pp": -0.024492733140033973,
       "width_pp": 0.8389257405608255,
       "display": {
@@ -4053,7 +4102,7 @@
        "lower": -0.863,
        "upper": -0.024,
        "text": "[−0.863, −0.024]",
-       "touches_zero": false
+       "contains_zero_rounded": false
       }
      },
      "n_clusters": 6,
@@ -4087,7 +4136,7 @@
     -0.053
    ],
    "within_variety_excludes_zero": false,
-   "within_variety_display_touches_zero": true,
+   "within_variety_display_contains_zero_rounded": true,
    "signed_nearest_bound_to_zero_pp": 0.0,
    "nearest_bound_to_zero_pp": 0.0,
    "within_group_excludes_zero": true,
@@ -4138,6 +4187,8 @@
       },
       "contains_zero_full_precision": true,
       "excludes_zero_full_precision": false,
+      "touches_zero_at_lower": false,
+      "touches_zero_at_upper": false,
       "signed_nearest_bound_to_zero_pp": 0.0,
       "width_pp": 0.8970950179718463,
       "display": {
@@ -4145,7 +4196,7 @@
        "lower": -0.891,
        "upper": 0.006,
        "text": "[−0.891, +0.006]",
-       "touches_zero": true
+       "contains_zero_rounded": true
       }
      },
      "n_clusters": 26,
@@ -4170,6 +4221,8 @@
       },
       "contains_zero_full_precision": false,
       "excludes_zero_full_precision": true,
+      "touches_zero_at_lower": false,
+      "touches_zero_at_upper": false,
       "signed_nearest_bound_to_zero_pp": -0.05273889857185414,
       "width_pp": 0.7515746613411968,
       "display": {
@@ -4177,7 +4230,7 @@
        "lower": -0.804,
        "upper": -0.053,
        "text": "[−0.804, −0.053]",
-       "touches_zero": false
+       "contains_zero_rounded": false
       }
      },
      "n_clusters": 44,
@@ -4202,6 +4255,8 @@
       },
       "contains_zero_full_precision": false,
       "excludes_zero_full_precision": true,
+      "touches_zero_at_lower": false,
+      "touches_zero_at_upper": false,
       "signed_nearest_bound_to_zero_pp": -0.05112874080969039,
       "width_pp": 0.7413358315191858,
       "display": {
@@ -4209,7 +4264,7 @@
        "lower": -0.792,
        "upper": -0.051,
        "text": "[−0.792, −0.051]",
-       "touches_zero": false
+       "contains_zero_rounded": false
       }
      },
      "n_clusters": 78,
@@ -4234,6 +4289,8 @@
       },
       "contains_zero_full_precision": false,
       "excludes_zero_full_precision": true,
+      "touches_zero_at_lower": false,
+      "touches_zero_at_upper": false,
       "signed_nearest_bound_to_zero_pp": -0.034715639085389556,
       "width_pp": 0.84832459211885,
       "display": {
@@ -4241,7 +4298,7 @@
        "lower": -0.883,
        "upper": -0.035,
        "text": "[−0.883, −0.035]",
-       "touches_zero": false
+       "contains_zero_rounded": false
       }
      },
      "n_clusters": 6,
@@ -4275,7 +4332,7 @@
     -0.053
    ],
    "within_variety_excludes_zero": false,
-   "within_variety_display_touches_zero": true,
+   "within_variety_display_contains_zero_rounded": true,
    "signed_nearest_bound_to_zero_pp": 0.0,
    "nearest_bound_to_zero_pp": 0.0,
    "within_group_excludes_zero": true,
@@ -4381,7 +4438,7 @@
    -0.394
   ],
   "range_contains_zero_classification_stable": false,
-  "range_display_touches_zero_stable": false,
+  "range_display_contains_zero_rounded_stable": false,
   "interpretation_code": "small_sign_stable_effect_boundary_not_stable"
  },
  "paired_difference_range_pp": [

@@ -1,5 +1,5 @@
 {
- "schema_version": 3,
+ "schema_version": 4,
  "endpoint": {
   "quantity": "collected_mass",
   "symbol": "m_target",
@@ -845,6 +845,8 @@
     },
     "contains_zero_full_precision": true,
     "excludes_zero_full_precision": false,
+    "touches_zero_at_lower": false,
+    "touches_zero_at_upper": false,
     "signed_nearest_bound_to_zero_pp": 0.0,
     "width_pp": 0.8328427690397858,
     "display": {
@@ -852,7 +854,7 @@
      "lower": -0.829,
      "upper": 0.004,
      "text": "[−0.829, +0.004]",
-     "touches_zero": true
+     "contains_zero_rounded": true
     }
    },
    "clustered_range_within_variety": [
@@ -860,7 +862,7 @@
     0.004
    ],
    "excludes_zero": false,
-   "display_touches_zero": true,
+   "display_contains_zero_rounded": true,
    "signed_nearest_bound_to_zero_pp": 0.0,
    "nearest_bound_to_zero_pp": 0.0,
    "per_group_difference_pp": {
@@ -889,6 +891,8 @@
     },
     "contains_zero_full_precision": true,
     "excludes_zero_full_precision": false,
+    "touches_zero_at_lower": false,
+    "touches_zero_at_upper": false,
     "signed_nearest_bound_to_zero_pp": 0.0,
     "width_pp": 0.8301995705180363,
     "display": {
@@ -896,7 +900,7 @@
      "lower": -0.826,
      "upper": 0.004,
      "text": "[−0.826, +0.004]",
-     "touches_zero": true
+     "contains_zero_rounded": true
     }
    },
    "clustered_range_within_variety": [
@@ -904,7 +908,7 @@
     0.004
    ],
    "excludes_zero": false,
-   "display_touches_zero": true,
+   "display_contains_zero_rounded": true,
    "signed_nearest_bound_to_zero_pp": 0.0,
    "nearest_bound_to_zero_pp": 0.0,
    "per_group_difference_pp": {
