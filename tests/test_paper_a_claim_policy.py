@@ -184,12 +184,44 @@ def test_central_claim_drift_between_the_manuscripts_fails(two_manuscripts, targ
 
 
 def test_an_abstract_that_is_not_the_one_source_fails(two_manuscripts):
+    """The round-10 defect exactly: the canonical abstract reporting "incremental skill"."""
     path = two_manuscripts["CANONICAL"]
     path.write_text(path.read_text().replace(
         "The paired difference was −0.394 percentage points",
         "The model showed an incremental skill of ≈4.5 % relative"), encoding="utf-8")
     problems = C._generated_block_parity()
-    assert any("abstract is not the one source's abstract" in p for p in problems), problems
+    assert problems, "FALSE GREEN: a canonical abstract that is not the source's abstract"
+    assert any("abstract" in p for p in problems), problems
+
+
+def test_abstract_drift_is_caught_without_a_yaml_parser(two_manuscripts, monkeypatch):
+    """pyyaml is an optional extra, and the minimum-dependency lane does not have it.
+
+    The first version of this check returned early there, so the mutation above passed on that lane —
+    a check that CANNOT run looking exactly like a check that ran and found nothing. The comparison is
+    now in two steps: renderings against each other (no parser needed), then against the source.
+    """
+    import builtins
+
+    real_import = builtins.__import__
+
+    def no_yaml(name, *args, **kwargs):
+        if name == "yaml":
+            raise ImportError("No module named 'yaml'")
+        return real_import(name, *args, **kwargs)
+
+    monkeypatch.setattr(builtins, "__import__", no_yaml)
+
+    assert C._generated_block_parity() == [], "the unmutated tree must still pass without pyyaml"
+    assert C.abstract_source_unavailable, (
+        "the partial coverage must be RECORDED, not silently treated as a pass")
+
+    path = two_manuscripts["CANONICAL"]
+    path.write_text(path.read_text().replace(
+        "The paired difference was −0.394 percentage points",
+        "The model showed an incremental skill of ≈4.5 % relative"), encoding="utf-8")
+    problems = C._generated_block_parity()
+    assert any("differs from the" in p and "abstract" in p for p in problems), problems
 
 
 def test_claim_coverage_audits_both_active_manuscripts_by_default():

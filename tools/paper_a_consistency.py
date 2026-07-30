@@ -334,26 +334,52 @@ def _generated_block_parity() -> list[str]:
                 "two manuscripts are not rendering the same scientific text (regenerate with "
                 "`python tools/paper_a_transfer_text.py --write`)" % name)
 
-    # The abstract is front matter, not a transfer block, and is the specific pair the round-10
-    # review found disagreeing. Compare all three renderings against the single source.
-    try:
-        fm = FMB.load()
-    except ImportError:
-        return problems                     # environment limitation; see _front_matter()
-    want = FMB._one_line(fm["abstract"])
+    # The abstract is front matter, not a transfer block, and it is the specific pair the round-10
+    # review found disagreeing.
+    #
+    # It is compared in TWO steps, because the second needs pyyaml and the first does not. That split
+    # is deliberate: the minimum-dependency lane has no pyyaml, and the first version of this check
+    # returned early there — so a canonical abstract mutated to say "an incremental skill of ≈4.5 %
+    # relative", the exact round-10 defect, passed on that lane. A check that cannot run must not
+    # look like a check that ran and found nothing.
+    rendered = {}
     for label, text, transform in (("canonical", canonical, lambda s: s),
                                    ("conversion", conversion, lambda s: s),
                                    ("package", _read(PACKAGE),
                                     lambda s: s.split("\n\n", 1)[-1])):
         try:
-            got = transform(FMB.block(text, "abstract"))
+            rendered[label] = transform(FMB.block(text, "abstract"))
         except (KeyError, IndexError):
-            problems.append("the %s manuscript has no generated `abstract` block; its abstract is "
-                            "not bound to docs/submission/paper_a_front_matter.yaml" % label)
-            continue
-        if _flat(got) != _flat(want):
-            problems.append("the %s abstract is not the one source's abstract; two active "
-                            "manuscripts must not carry different central claims" % label)
+            problems.append("the %s abstract is not a generated block; it is not bound to the one "
+                            "front-matter source" % label)
+
+    # Step 1, always: the renderings must agree with EACH OTHER. This needs no YAML parser, and it is
+    # what catches two active manuscripts carrying different central claims.
+    if len(rendered) > 1:
+        reference_label = "conversion" if "conversion" in rendered else sorted(rendered)[0]
+        reference = _flat(rendered[reference_label])
+        for label, got in sorted(rendered.items()):
+            if label != reference_label and _flat(got) != reference:
+                problems.append("the %s abstract differs from the %s abstract; two active "
+                                "manuscripts must not carry different central claims"
+                                % (label, reference_label))
+
+    # Step 2, where the environment allows: they must agree with the SOURCE, not merely with one
+    # another — three identical copies of a hand-edited abstract would satisfy step 1.
+    global abstract_source_unavailable
+    abstract_source_unavailable = None
+    try:
+        fm = FMB.load()
+    except ImportError as exc:
+        abstract_source_unavailable = (
+            "pyyaml unavailable (%s); the abstract was compared across renderings but NOT against "
+            "docs/submission/paper_a_front_matter.yaml" % exc)
+        return problems
+    want = _flat(FMB._one_line(fm["abstract"]))
+    for label, got in sorted(rendered.items()):
+        if _flat(got) != want:
+            problems.append("the %s abstract is not the one source's abstract; regenerate with "
+                            "`python tools/paper_a_front_matter.py --write`" % label)
     return problems
 
 
@@ -448,6 +474,9 @@ def _section(text: str, heading: str) -> str:
 
 #: Set when the front-matter check could not run for an ENVIRONMENT reason (not a drift).
 front_matter_unavailable = None
+
+#: Set when the abstract could be compared across renderings but not against its YAML source.
+abstract_source_unavailable = None
 
 
 def _front_matter() -> list[str]:
@@ -891,6 +920,8 @@ def main(argv: list[str] | None = None) -> int:
                 print(f"      - {p}")
         if front_matter_unavailable:
             print(f"  {'front matter':34s} NOT RUN -- {front_matter_unavailable}")
+        if abstract_source_unavailable:
+            print(f"  {'abstract vs its source':34s} PARTIAL -- {abstract_source_unavailable}")
         rel = _release_state()
         label = "OK" if not rel else f"{len(rel)} blocker(s)"
         print(f"  {'release state (submission only)':34s} {label}")
