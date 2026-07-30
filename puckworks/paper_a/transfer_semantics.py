@@ -546,12 +546,23 @@ def status_from_dict(obj) -> InferentialStatus:
         if value is not None and (isinstance(value, bool) or not isinstance(value, (int, float))):
             raise ValueError("inferential_status.%s must be null or a number, got %r"
                              % (key, value))
+        if value is not None:
+            require_finite_number(value, "inferential_status.%s" % key)
+    # Round-11 P1-2. This used to be `str(obj["confidence_procedure"])`, so a JSON array became the
+    # procedure identifier `"['fake', 'procedure']"` and validated clean. A procedure identifier is
+    # either absent or a non-empty string naming a REGISTERED procedure; nothing here gets coerced
+    # into looking like one.
+    procedure = obj["confidence_procedure"]
+    if procedure is not None and (isinstance(procedure, bool) or not isinstance(procedure, str)
+                                  or not procedure.strip()):
+        raise ValueError("inferential_status.confidence_procedure must be null or a non-empty "
+                         "string naming a registered procedure, got %s %r"
+                         % (type(procedure).__name__, procedure))
     return InferentialStatus(
         analysis_kind=AnalysisKind(obj["analysis_kind"]),
         coverage_calibrated=obj["coverage_calibrated"],
         confidence_level=obj["confidence_level"],
-        confidence_procedure=(None if obj["confidence_procedure"] is None
-                              else str(obj["confidence_procedure"])),
+        confidence_procedure=procedure,
         predictors_refitted_within_draw=obj["predictors_refitted_within_draw"],
         supports_superiority_decision=obj["supports_superiority_decision"],
         supports_noninferiority_decision=obj["supports_noninferiority_decision"],
@@ -562,11 +573,18 @@ def status_from_dict(obj) -> InferentialStatus:
 
 
 def validate_inferential_status(status: InferentialStatus) -> list[str]:
-    """Internal consistency of a declared status. Empty means coherent.
+    """Internal consistency of a DECLARED status. Empty means coherent — **not** means true.
 
-    These rules are what stop the object from becoming a rubber stamp. In particular a status cannot
-    grant itself a decision it has no procedure for: claiming calibrated coverage without naming a
-    procedure, or claiming an equivalence/absence decision without a predeclared margin, fails.
+    Round-11 P1-2 is a finding about exactly this distinction. These rules stop a status
+    contradicting itself, and they are worth keeping: claiming calibrated coverage without naming a
+    procedure, or an equivalence decision without a margin, still fails here. But coherence is not
+    evidence. The reviewer wrote a fully coherent status naming an invented procedure, it validated
+    clean, and it unlocked "the model is equivalent to the comparator".
+
+    So this function is no longer the authority for what may be CLAIMED. Decision language is
+    granted only by :func:`puckworks.paper_a.inferential_evidence.verify_inferential_evidence`,
+    which looks the procedure up in a registry, re-hashes every artefact the record names, and
+    RECOMPUTES each decision from the observed interval. A declared status is one input to that.
     """
     problems: list[str] = []
     calibrated = bool(status.coverage_calibrated)
@@ -617,9 +635,17 @@ def validate_inferential_status(status: InferentialStatus) -> list[str]:
     if status.permitted_claim_class is ClaimClass.DESCRIPTIVE_EVIDENCE_LIMITED and decides_something:
         problems.append("permitted_claim_class is descriptive/evidence-limited but the status "
                         "grants a decision")
-    if status.predictors_refitted_within_draw:
-        problems.append("predictors_refitted_within_draw is true; the fixed-predictor contract the "
-                        "whole analysis rests on is then violated")
+    # Round-11 P1-2. This used to reject `True` UNCONDITIONALLY — including for the enum value that
+    # exists to describe a future calibrated procedure, where refitting the predictors inside each
+    # draw is exactly what makes the coverage honest — while a fabricated calibrated status with
+    # `False` passed. The refit policy is a property of the PROCEDURE, so the rule is scoped to the
+    # analysis kind it is actually about, and the registered procedure carries the requirement for
+    # the calibrated case (see `inferential_evidence.ProcedureSpec`).
+    if status.predictors_refitted_within_draw and \
+            status.analysis_kind is AnalysisKind.FIXED_PREDICTOR_CLUSTERED_SENSITIVITY:
+        problems.append("predictors_refitted_within_draw is true under a fixed-predictor "
+                        "sensitivity analysis; the fixed-predictor contract the whole analysis "
+                        "rests on is then violated")
     return problems
 
 

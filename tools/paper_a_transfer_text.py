@@ -145,6 +145,18 @@ def validated_analysis(ep: dict):
     if problems:
         raise ValueError("the artefact's inferential status is not internally consistent, so what "
                          "the analysis may claim is undefined: %s" % "; ".join(problems))
+    # Round-11 P1-2. Coherence is not evidence. An artefact that GRANTS a decision must carry the
+    # evidence record that produced it, and the schema has no place for one yet — so a decision flag
+    # here is, necessarily, an assertion nobody can check. Fail closed rather than render prose from
+    # it. (`claim_policy.granted()` would refuse to unlock the language anyway; this raises at the
+    # artefact boundary so the contradiction is reported where it can be fixed.)
+    if any(status.decision_flags.values()):
+        raise ValueError(
+            "the artefact's inferential status grants %s, but carries no verifiable evidence "
+            "record; a decision must be DERIVED by "
+            "`inferential_evidence.verify_inferential_evidence` from a registered procedure and "
+            "the archived result, not declared in the artefact"
+            % ", ".join(n for n, ok in status.decision_flags.items() if ok))
     return estimand, status
 
 

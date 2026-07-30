@@ -357,8 +357,33 @@ def _governed(match: re.Match, spans) -> bool:
     return any(start <= match.start() and match.end() <= end for start, end in spans)
 
 
-def granted(status: TS.InferentialStatus) -> set[str]:
-    """The decision properties a declared status actually grants."""
+def granted(status) -> set[str]:
+    """The decision properties this status actually grants.
+
+    Round-11 P1-2. A DECLARED :class:`~puckworks.paper_a.transfer_semantics.InferentialStatus`
+    grants nothing, whatever its flags say. The reviewer hand-wrote an internally coherent status
+    naming an "invented future procedure", it passed validation, and it unlocked "the model is
+    equivalent to the comparator" — because the permission was a boolean somebody could type rather
+    than a result somebody had to earn.
+
+    Decision language now comes only from a
+    :class:`~puckworks.paper_a.inferential_evidence.VerifiedInferentialStatus`, whose flags are
+    computed by re-applying the registered decision rule to the observed interval. That type has no
+    settable flag to fabricate.
+
+    This is fail-closed on purpose: for Paper A it changes nothing, because the analysis makes no
+    decision and asks for no unlock. It changes what a FUTURE author has to do.
+    """
+    from puckworks.paper_a.inferential_evidence import VerifiedInferentialStatus
+
+    if not isinstance(status, VerifiedInferentialStatus):
+        if isinstance(status, TS.InferentialStatus):
+            return set()
+        raise TypeError(
+            "claim_policy needs an InferentialStatus or a VerifiedInferentialStatus, got %s; a "
+            "mapping or a duck-typed stand-in is exactly the shape the round-11 fabrication took"
+            % type(status).__name__)
+
     out = {name for name, ok in status.decision_flags.items() if ok}
     if status.coverage_calibrated:
         out.add(CALIBRATED)

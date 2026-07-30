@@ -225,22 +225,40 @@ def test_a_phrase_split_across_lines_or_wrapped_in_emphasis_is_still_caught():
         assert CP.scan(text, STATUS), text
 
 
-def test_the_prohibition_is_derived_from_the_status_not_hard_coded():
-    """A future calibrated analysis unlocks the language by DECLARING the decision, not by editing
-    a word list. That is the difference between a policy and a ban."""
+def test_a_coherent_but_unevidenced_status_unlocks_nothing():
+    """Round-11 P1-2, reproduced verbatim.
+
+    The reviewer hand-wrote this object. It passed `validate_inferential_status` — it is internally
+    coherent, and still is — and it unlocked "the model is equivalent to the comparator", because
+    the permission was a boolean somebody could type rather than a result somebody had to earn.
+    """
     verdict = "Under the predeclared margin the two arms are equivalent."
     assert CP.scan(verdict, STATUS)
 
-    earned = dataclasses.replace(
+    fabricated = dataclasses.replace(
         STATUS, coverage_calibrated=True, confidence_level=0.95,
-        confidence_procedure="cluster bootstrap TOST",
+        confidence_procedure="invented future procedure",
         analysis_kind=TS.AnalysisKind.CALIBRATED_CLUSTERED_CONFIDENCE,
         supports_equivalence_decision=True, practical_margin_pp=0.5,
         permitted_claim_class=TS.ClaimClass.CALIBRATED_DECISION)
-    assert TS.validate_inferential_status(earned) == []
+    assert TS.validate_inferential_status(fabricated) == [], \
+        "internal coherence is not the thing being tested; it must still hold"
+    assert CP.granted(fabricated) == set(), "a DECLARED status grants nothing"
+    assert CP.scan(verdict, fabricated), "FALSE GREEN: a fabricated status unlocked equivalence"
+
+
+def test_the_prohibition_is_derived_from_evidence_not_hard_coded():
+    """A future calibrated analysis unlocks the language by PRODUCING EVIDENCE that survives
+    verification, not by editing a word list and not by declaring a flag. That is the difference
+    between a policy and a ban, and between evidence and assertion."""
+    from tests.helpers_inferential_evidence import synthetic_equivalence_status
+
+    verdict = "Under the predeclared margin the two arms are equivalent."
+    earned = synthetic_equivalence_status()
     assert CP.scan(verdict, earned) == []
     # …but an absence-of-skill verdict is still not licensed by an equivalence decision alone.
     assert CP.scan("The model adds no resolvable skill.", earned)
+    assert CP.scan("The model outperforms the comparator.", earned)
 
 
 def test_the_limits_sentence_is_generated_from_the_status():
