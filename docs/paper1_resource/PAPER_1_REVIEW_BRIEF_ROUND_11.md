@@ -3,14 +3,19 @@
 **Manuscript:** `docs/submission/PAPER_A_JFE_MANUSCRIPT.md` (canonical working draft:
 `docs/PAPER_A_DRAFT.md` — see §2 for what "held in agreement" now actually means, because last round
 it did not mean what this brief said it did).
-**Commit:** `6cf5e9638709831b76aefb583d711bf7161eeb7b` on `main` — the round-10 remediation merge
-(PR #205). Earlier commits are **not** equivalent: the transfer artefact schema moved v3 → v4, the estimand became a typed object,
+**Commit:** `baf6ef1e794ea2719e9036353d4d0b027a35accb` on `main` — the round-10 remediation merges
+(PR #205, then PR #207 for a second independent round-10 review). Earlier commits are **not**
+equivalent: the transfer artefact schema moved v3 → v4, the estimand became a typed object,
 the interval validator was rewritten, and the caption deliverable was split in two.
 
 **Supplement:** `docs/submission/PAPER_A_JFE_SUPPLEMENT.md` + `docs/submission/figures/`.
 **Upload-ready captions:** `docs/submission/PAPER_A_JFE_FIGURE_CAPTIONS.md` (generated).
-**Prior round:** `PAPER_1_ROUND_10_DETAILED_REVIEW.md`, its remediation plan, and our
-`PAPER_1_ROUND_10_REMEDIATION_ACCEPTANCE.md` beside them.
+**Prior round:** **two** independent round-10 reviews and their remediation plans, with our
+acceptance evidence beside each — `PAPER_1_ROUND_10_DETAILED_REVIEW.md` +
+`PAPER_1_ROUND_10_REMEDIATION_ACCEPTANCE.md`, and `PAPER_1_ROUND_10_SECOND_DETAILED_REVIEW.md` +
+`PAPER_1_ROUND_10_SECOND_REMEDIATION_ACCEPTANCE.md`. Read §2a: the two reviews agreed exactly on the
+blocker and were almost disjoint elsewhere, which is itself a finding about how much one review
+covers.
 
 This is a **single-paper review**. Papers B2 and 3 are out of scope.
 
@@ -127,6 +132,49 @@ A `--write` producer rerun would move Monte Carlo bounds in their last displayed
 unrelated to this remediation, against a review that found the numerical work clean. We judged that a
 worse trade. Argue with that if you disagree.
 
+### 2a. A second, independent round-10 review — and what it says about review coverage
+
+After the first remediation merged, a second reviewer examined the **same** commit independently. The
+two reviews agreed exactly on the P0 blocker and were **almost disjoint everywhere else**. Of the
+second review's five non-blocking findings, the first remediation had closed two by side effect and
+had not touched four. Both reviews were competent; neither was close to exhaustive.
+
+Please read that as a statement about this brief, not about them. If one careful pass over one commit
+finds roughly half of what two passes find, then the sections below are a starting point rather than a
+boundary, and a finding outside all of them is more valuable than a confirmation inside one.
+
+The second review's own findings, all now actioned:
+
+**Its P1-2 is the most valuable result of either round-10 review**, because it is a *common-mode*
+defect between two components built specifically to be independent. `source_resampling_oracle` shares
+no grouping code with production — verified on the AST, still verified — but it and
+`build_transfer_corpus_manifest` both treated "every retained sample record contributes three
+named-solute observations" as an axiom, and neither read the `CF`, `TR` or `5CQA` columns those
+observations are measured in. The reviewer deleted all three scored columns from a copy of
+`bioactives.csv` and the oracle still certified 44 records and 132 observations without raising. The
+algorithms were independent; the premise was not. Both sides now validate the cells through separately
+written helpers, observation ids are built from validated cells, and 19 mutations fail with the sample,
+solute and source column named.
+
+**Its P1-1**: `block_endpoint_reading` derived its endpoint groupings from the archived
+`contains_zero_full_precision` boolean rather than from the typed relation — a second authority for a
+fact the bounds determine, and `not contains` collapses BELOW and ABOVE into one bucket, which reads
+correctly today only because no Paper A range is wholly positive. Now typed, AST-guarded across four
+renderer modules, and tested against a deliberately contradictory cache.
+
+**Its P2-1/P2-2**: Table S6 claimed to contain "membership for every declared scheme" while showing
+eight columns of census and no member identifier; and "The bound's sign is stable", printed
+immediately after both bounds were named, did not say which bound the archived flag describes.
+
+**Its P2-3**: `validate_endpoint_contract` raised `ValueError` from a list comprehension on a
+non-numeric target — in a function whose entire contract is to *return* problems — and
+`find_exact_audit` raised `AttributeError` on a malformed list element.
+
+It also found P0-1 residue the first correction left: the endpoint synthesis opened "Two things
+follow, and they agree" and read a zero-containing range as conceding no advantage while setting the
+wholly negative 38 g and secondary ranges aside as non-inferential. By the paper's own rule both are
+non-inferential, so that asymmetry was doing work the analysis cannot support.
+
 ### One false green we shipped and CI caught
 
 Worth telling you, because it is the third round running that our own new assurance layer has
@@ -138,8 +186,14 @@ failure is what surfaced it, on the one lane lacking the dependency.
 
 The comparison is now two steps: the three rendered abstracts against each other (no parser needed),
 then against the source where the environment allows, with the partial coverage RECORDED rather than
-silently passing. Assume there are more of these. The pattern — a check that cannot run looking
-identical to a check that ran and found nothing — has produced a finding in rounds 8, 9 and 10.
+silently passing.
+
+Assume there are more of these. Two patterns have now produced a finding in rounds 8, 9 and 10: a
+check that cannot run looking identical to a check that ran and found nothing, and a check whose
+*description* is broader than its implementation. The second review's P1-2 and P2-1 are both the
+latter — an oracle whose docstring claimed exact cluster-by-cluster comparison while omitting fields,
+and a table caption claiming contents the table does not have. When you read an assurance claim in
+this repository, test the claim rather than the code's intent.
 
 ### What did not change
 
@@ -235,7 +289,21 @@ It is new, and it is now the thing standing between us and a repeat.
   and absence of skill are the four; "no worse than", "at least as good as", "comparable" are the
   kind of thing we may have missed.)
 
-### (c) The estimand and design contract
+### (c) The source-to-observation contract
+
+Newly bound, and the place a third reviewer is most likely to find the next common-mode assumption.
+
+- the oracle and the production manifest now each read `CF`/`TR`/`5CQA` through their own helper, and
+  a test asserts the two analyte maps agree. Is "agreement is the check, independence is the
+  mechanism" the right arrangement, or should one side own the map?
+- validation proves each cell is present, numeric and finite. It does **not** prove the measurement is
+  correct, and it does not check units, ranges or plausibility. Is that boundary stated clearly enough
+  where the paper describes the corpus?
+- is there a *third* premise both implementations still share? Inclusion is by variety and
+  granulometry; `on_grid` comes from a source column; the condition coordinates are canonicalised with
+  `%g`. Any of those could be an axiom neither side verifies.
+
+### (d) The estimand and design contract
 
 - direction is now derived from `(metric_preference, operation)`. Is the derivation right in all four
   combinations, and is the *metric preference* itself stated anywhere a reader can check?
@@ -246,7 +314,7 @@ It is new, and it is now the thing standing between us and a repeat.
   content. Is that redundant, or does it earn its place?
 - can you still get a scientifically wrong design through the full chain?
 
-### (d) Interval records
+### (e) Interval records
 
 - every stored field is now rebuilt and exact-compared, and unexpected fields fail. Is there a field
   we should have **removed** instead of validated?
@@ -255,7 +323,7 @@ It is new, and it is now the thing standing between us and a repeat.
 - we reject bool, str, `None`, NaN and ±inf before classification. Is there an input class still
   getting through?
 
-### (e) The scanner, and the caption split
+### (f) The scanner, and the caption split
 
 - the internal figure map is excluded from scanning by design. Is that exclusion safe, or have we
   just moved the upload risk somewhere a check no longer looks?
