@@ -52,6 +52,15 @@ ESTIMAND = TS.POOLED_MAPE_ESTIMAND
     ("There is no meaningful difference between the arms.", "no_meaningful_difference"),
     ("The increment is practically negligible.", "practically_negligible"),
     ("The model is non-inferior to the comparator.", "non_inferior"),
+    # Close variants an independent second review asked for: each is a different grammatical route
+    # back to the retired verdict, and the first is the one a brevity edit would reach for.
+    ("The kinetic structure adds no incremental skill.", "no_incremental_skill"),
+    ("The comparison showed no mechanistic advantage.", "no_incremental_skill"),
+    ("There is no difference between the two arms.", "no_difference"),
+    ("The rate multiplier has no effect on pooled error.", "no_effect"),
+    ("The model is at least as good as the comparator.", "at_least_as_good"),
+    ("The mechanistic model is no worse than the level-only baseline.", "at_least_as_good"),
+    ("The two predictors perform comparably.", "comparable_performance"),
 ])
 def test_every_retired_verdict_is_prohibited_under_the_declared_status(sentence, rule):
     problems = CP.scan(sentence, STATUS)
@@ -71,6 +80,10 @@ def test_every_retired_verdict_is_prohibited_under_the_declared_status(sentence,
     "Acceptable endpoint accuracy does not by itself establish mechanistic transfer.",
     "This is not a statistical null: no null hypothesis, null distribution or calibrated test is "
     "defined.",
+    # The corrected endpoint synthesis says both of these, and both must stay sayable.
+    "That applies symmetrically: the wholly negative ranges do not establish an advantage, and the "
+    "zero-containing ranges do not establish its absence.",
+    "It does not establish that the difference is absent.",
 ])
 def test_explicit_disclaimers_are_permitted(sentence):
     """A scanner that banned these would push authors toward silence about the limits."""

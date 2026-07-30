@@ -439,7 +439,7 @@ Re-running the sweep with this instrumentation reproduced every previously archi
 <!-- paper-a:transfer-scheme-table:begin -->
 <!-- paper-a:transfer-corpus schema=4 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
 
-**Table S6. Resampling design.** Cluster keys, strata and membership for every declared scheme, at the canonical draw count. Predictors are fixed in every scheme: no model, level parameter or comparator is refitted inside a draw.
+**Table S6. Resampling design.** Cluster keys, strata, cluster census, ranges and widths for every declared scheme, at the canonical draw count. Exact cluster-by-cluster membership under every scheme — the sample records, grinds and named-solute observations in each cluster — is archived in the machine-readable endpoint-propagation record rather than reproduced here; Table S7 lists the held-out records with their primary cluster. Predictors are fixed in every scheme: no model, level parameter or comparator is refitted inside a draw.
 
 | scheme | role | strata | cluster key | clusters | cluster sizes (obs × n) | range at 40 g (pp) | width (pp) |
 |---|---|---|---|---:|---|---|---:|
@@ -448,7 +448,7 @@ Re-running the sweep with this instrumentation reproduced every previously archi
 | `cond_in_group` | secondary sensitivity | variety, solute | `variety`, `solute`, `temperature_degC`, `pressure_bar` | 78 | 1×24, 2×54 | [−0.740, −0.039] | 0.702 |
 | `group` | secondary coarse sensitivity | — | `variety`, `solute` | 6 | 22×6 | [−0.863, −0.024] | 0.839 |
 
-Monte Carlo audit of one target only — 40 g, cond_in_variety, primary fitting loss: 20 independent seeds at B = 200,000 each. Upper bound mean +0.0039 pp (SD 0.0010, range +0.0022 to +0.0056); lower bound mean −0.8293 pp (SD 0.0012). The bound's sign is stable across seeds. Implied Monte Carlo standard errors at the canonical B = 1,000,000 are 0.000520 pp on the lower bound and 0.000466 pp on the upper — reported separately rather than as one symmetric figure, since they are two different estimators. This is numerical approximation error only and confers no coverage interpretation.
+Monte Carlo audit of one target only — 40 g, cond_in_variety, primary fitting loss: 20 independent seeds at B = 200,000 each. Upper bound mean +0.0039 pp (SD 0.0010, range +0.0022 to +0.0056); lower bound mean −0.8293 pp (SD 0.0012). The **upper** bound's sign is stable across seeds; no sign-stability flag is archived for the lower bound, which lies far from zero. Implied Monte Carlo standard errors at the canonical B = 1,000,000 are 0.000520 pp on the lower bound and 0.000466 pp on the upper — reported separately rather than as one symmetric figure, since they are two different estimators. This is numerical approximation error only and confers no coverage interpretation.
 <!-- paper-a:transfer-scheme-table:end -->
 
 

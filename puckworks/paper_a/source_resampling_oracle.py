@@ -36,17 +36,37 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+import math
 import pathlib
 
 _REPO = pathlib.Path(__file__).resolve().parents[2]
 SOURCE_CSV = _REPO / "puckworks" / "data" / "angeloni2023" / "bioactives.csv"
 
+#: The named solutes the benchmark scores, mapped to the SOURCE COLUMN each one is measured in, in
+#: the order the corpus manifest declares them.
+#:
+#: Round-10 (second review) P1-2. The oracle used to declare only the solute names and emit three
+#: observation ids for every retained record unconditionally, which made "three observations per
+#: sample" an axiom rather than a property of the data. The reviewer deleted `CF`, `TR` and `5CQA`
+#: from a copy of the CSV entirely and this module still certified 44 records and 132 named-solute
+#: observations without raising. The production corpus manifest shared the same assumption, so it was
+#: a common-mode failure: two independent grouping implementations resting on one unverified premise.
+#:
+#: Declared here independently, and deliberately NOT imported from the production contract — sharing
+#: the map would rebuild the common mode this exists to break.
+ANALYTE_COLUMNS = (
+    ("caffeine", "CF"),
+    ("trigonelline", "TR"),
+    ("5CQA", "5CQA"),
+)
+
 #: The named solutes the benchmark scores, in the order the corpus manifest declares them.
-SOLUTES = ("caffeine", "trigonelline", "5CQA")
+SOLUTES = tuple(solute for solute, _column in ANALYTE_COLUMNS)
 VARIETIES = ("Arabica", "Robusta")
 HELD_OUT_GRINDS = ("C", "F")
 
-REQUIRED_COLUMNS = ("sample", "variety", "T_degC", "p_bar", "granulometry", "on_grid")
+REQUIRED_COLUMNS = ("sample", "variety", "T_degC", "p_bar", "granulometry", "on_grid",
+                    *(column for _solute, column in ANALYTE_COLUMNS))
 
 #: Scheme order and the census each partition must produce, stated independently of the artefact.
 #: These are documented expectations, not the oracle's authority — the authority is the exact
@@ -82,13 +102,21 @@ def read_source_records(path: pathlib.Path = SOURCE_CSV) -> list[dict]:
     for row in reader:
         if row["variety"] not in VARIETIES or row["granulometry"] not in HELD_OUT_GRINDS:
             continue
+        sample_id = row["sample"].strip()
         out.append({
-            "sample_id": row["sample"].strip(),
+            "sample_id": sample_id,
             "variety": row["variety"].strip(),
             "grind": row["granulometry"].strip(),
             "temperature": _num(row["T_degC"]),
             "pressure": _num(row["p_bar"]),
             "on_grid": row["on_grid"].strip() == "True",
+            # The scored cells, validated. Only the retained held-out rows are checked: a source row
+            # outside this corpus answers to a different contract, and failing on it here would make
+            # the oracle reject data the benchmark never scores.
+            "observations": tuple(
+                {"solute": solute, "source_column": column,
+                 "value": _scored_value(row.get(column), sample_id, solute, column)}
+                for solute, column in ANALYTE_COLUMNS),
         })
 
     ids = [r["sample_id"] for r in out]
@@ -101,9 +129,45 @@ def read_source_records(path: pathlib.Path = SOURCE_CSV) -> list[dict]:
     return out
 
 
+def _scored_value(text, sample_id: str, solute: str, column: str) -> float:
+    """Require one scored analyte cell to be present, numeric and finite.
+
+    Round-10 (second review) P1-2. Without this, an artefact could claim 132 named-solute
+    observations from a source that measures none of them. The message names the sample, the solute
+    and the SOURCE COLUMN, because "132 != 132" would not tell anyone which cell to go and look at.
+    """
+    if text is None:
+        raise ValueError("source observation %s|%s: column %r is absent from the row"
+                         % (sample_id, solute, column))
+    if not str(text).strip():
+        raise ValueError("source observation %s|%s: column %r is blank"
+                         % (sample_id, solute, column))
+    try:
+        value = float(str(text).strip())
+    except (TypeError, ValueError) as exc:
+        raise ValueError("source observation %s|%s: column %r is non-numeric (%r)"
+                         % (sample_id, solute, column, text)) from exc
+    if not math.isfinite(value):
+        raise ValueError("source observation %s|%s: column %r is non-finite (%r)"
+                         % (sample_id, solute, column, text))
+    return value
+
+
 def observation_ids(record: dict) -> list[str]:
-    """The three canonical observation ids a sample record contributes."""
-    return ["%s|%s" % (record["sample_id"], s) for s in SOLUTES]
+    """The observation ids a sample record contributes, from its VALIDATED scored cells.
+
+    Built from ``record["observations"]`` rather than from the canonical solute tuple, so the count
+    132 is a result of source validation rather than an axiom (round-10, second review, P1-2).
+    """
+    observations = record.get("observations")
+    if not observations:
+        raise ValueError("source record %r carries no validated scored observations"
+                         % record.get("sample_id"))
+    ids = ["%s|%s" % (record["sample_id"], o["solute"]) for o in observations]
+    if len(set(ids)) != len(ids):
+        raise ValueError("source record %r yields duplicate observation ids %r"
+                         % (record.get("sample_id"), ids))
+    return ids
 
 
 def _cluster_defs(scheme: str, record: dict):
@@ -115,17 +179,22 @@ def _cluster_defs(scheme: str, record: dict):
     sid, var, grind = record["sample_id"], record["variety"], record["grind"]
     T, p = record["temperature"], record["pressure"]
 
+    # Per-solute schemes iterate the record's VALIDATED observations, not the canonical solute
+    # tuple, so every scheme's partition rests on the same source validation (round-10, second
+    # review, P1-2).
+    solutes = [o["solute"] for o in record["observations"]]
+
     if scheme == "cond_in_variety":
         yield var, "%s|%s|%s" % (var, T, p), observation_ids(record)
     elif scheme == "sample_in_variety_grind":
         yield "%s|%s" % (var, grind), sid, observation_ids(record)
     elif scheme == "cond_in_group":
-        for solute in SOLUTES:
+        for solute in solutes:
             yield ("%s|%s" % (var, solute),
                    "%s|%s|%s|%s" % (var, solute, T, p),
                    ["%s|%s" % (sid, solute)])
     elif scheme == "group":
-        for solute in SOLUTES:
+        for solute in solutes:
             yield "", "%s|%s" % (var, solute), ["%s|%s" % (sid, solute)]
     else:
         raise ValueError("unknown scheme %r" % scheme)

@@ -145,6 +145,37 @@ RULES: tuple[ClaimRule, ...] = (
         _rx(r"\bnon-?inferior\b"),
         NONINFERIORITY,
         "a non-inferiority verdict requires a predeclared margin"),
+    # An independent second review of the same commit asked for the close variants that turn
+    # non-establishment back into positive absence. Each of these is a different grammatical route to
+    # the retired verdict, and "no incremental skill" is the one most likely to be reached for by
+    # someone editing the corrected wording toward brevity.
+    ClaimRule(
+        "no_incremental_skill",
+        _rx(r"\bno\s+(?:incremental|mechanistic|resolvable|measurable|detectable|real)\s+"
+            r"(?:skill|advantage|gain|benefit|transfer)\b"),
+        ABSENCE,
+        "asserts absence as a property; what the analysis lacks is the ability to decide either way"),
+    ClaimRule(
+        "no_difference",
+        _rx(r"\bno\s+difference\b(?!\s+(?:between\s+)?(?:in|is)\s+established)"),
+        EQUIVALENCE,
+        "the point estimate is not zero and is negative at every endpoint; "
+        "\"no difference\" is both an equivalence verdict and factually wrong here"),
+    ClaimRule(
+        "no_effect",
+        _rx(r"\bno\s+(?:effect|signal)\b"),
+        ABSENCE,
+        "an absence verdict"),
+    ClaimRule(
+        "at_least_as_good",
+        _rx(r"\b(?:at\s+least\s+as\s+good\s+as|no\s+worse\s+than)\b"),
+        NONINFERIORITY,
+        "a non-inferiority verdict in plain words"),
+    ClaimRule(
+        "comparable_performance",
+        _rx(r"\b(?:performs?|performed|performing)\s+comparably\b|\bcomparable\s+performance\b"),
+        EQUIVALENCE,
+        "an equivalence verdict in plain words"),
 )
 
 #: Phrases that mark an EXPLICIT disclaimer. A paper must be able to name the decision it is not
