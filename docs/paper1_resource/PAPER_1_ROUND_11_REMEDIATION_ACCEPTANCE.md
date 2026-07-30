@@ -5,7 +5,8 @@
 **Controlling review:** `PAPER_1_ROUND_11_DETAILED_REVIEW.md`
 **Controlling plan:** `PAPER_1_ROUND_11_REMEDIATION_IMPLEMENTATION_PLAN.md`
 **Branch:** `paper1/round11-remediation`
-**Final commit:** `7767a7b1bc9e` · **tree:** `17ad8b73d184db4a99c32ac02936d769cfa7702b`
+**Final code commit:** `7767a7b1bc9e` · **tree:** `17ad8b73d184db4a99c32ac02936d769cfa7702b`
+**Full-suite run commit:** `df1406f` (this report's own commit re-runs nothing but itself)
 
 This report records what was changed, what was run, and what was **not** run. It does not claim
 that all checks pass; it names each check and its status.
@@ -321,7 +322,10 @@ Run against `7767a7b1bc9e` on 2026-07-30 (UTC), macOS / Python 3.13, `.[dev]` en
 | `python -m puckworks.paper_a.slow_lane_bindings` | 0 | **PASS** | 99/99 resolve and match |
 | `tools/claim_binding_audit.py` | 0 | **PASS** | current at the final commit |
 | focused suite (7 modules) | 0 | **PASS** | 764 passed |
-| `python -m pytest -q` (full) | — | see §9 | — |
+| `python -m pytest -q` (full) | 0 | **PASS** | **3025 passed, 1 skipped** in 14 m 37 s |
+
+The full-suite run was started at commit `df1406f` (17:46:38Z) and finished at 18:01:16Z with exit
+code 0. The single skip is a pre-existing environment-gated case, not a check disabled by this work.
 
 **Explicitly NOT RUN:**
 
@@ -355,16 +359,12 @@ here, and the structural scanner's not-run path is tested rather than assumed.
 
 Genuinely outside Round 11 remediation, carried forward:
 
-1. **Full-suite confirmation.** The focused suite (764 tests) and all 1,047 Paper 1 tests pass. The
-   complete `pytest -q` run over the whole repository (~2,900 tests, ~15 min) was launched at the
-   final commit; **its result must be recorded here before merge.** This report does not assert it
-   passed.
-2. The unrun fraction-versus-measured-cup contrast, the 11 unbound slow-lane values, the
+1. The unrun fraction-versus-measured-cup contrast, the 11 unbound slow-lane values, the
    hand-sourced design settings, and the producer-internal `skill_vs_const` name — all explicitly
    out of scope for Round 11.
-3. Unsupplied authorship/front-matter metadata, the novelty search, and the release DOI/tag —
+2. Unsupplied authorship/front-matter metadata, the novelty search, and the release DOI/tag —
    author and external actions, blocked by `--check-submission-ready` until resolved.
-4. `docs/ANALYSIS_transfer.md`, `docs/PUBLIC_VALUE.md` and the public site carry the retired
+3. `docs/ANALYSIS_transfer.md`, `docs/PUBLIC_VALUE.md` and the public site carry the retired
    "adds little skill" phrasing. These are repository and product copy, outside the Paper 1
    submission surfaces the review scoped, and are **not** governed by the claim policy. They should
    be brought into line separately.
