@@ -2,10 +2,14 @@
 
 **Manuscript:** `docs/submission/PAPER_A_JFE_MANUSCRIPT.md` (canonical working draft:
 `docs/PAPER_A_DRAFT.md`).
-**Commit:** `fae72c4fc96a2d293a0b9210d2ba768cf5d4dc96` on `main` — the round-11 remediation merge
-(PR #209). Earlier commits are **not** equivalent: the claim scanner's disclaimer logic was
-rewritten, decision permissions moved from a declared flag to a derived one, the source contract
-gained a schema module, and the submission scanner now parses Markdown structurally and needs
+**Commit:** `4adbe4a` on `main` — the round-11 remediation (PR #209) **plus the post-merge
+self-check** (PR #211), which closed three defects in the new gates themselves. Review this commit,
+not the remediation merge: §2 and §5 describe the gates as they stand after #211, and at `fae72c4`
+three of the things this brief says are fixed are not.
+
+Earlier commits are **not** equivalent at all: the claim scanner's disclaimer logic was rewritten,
+decision permissions moved from a declared flag to a derived one, the source contract gained a
+schema module, and the submission scanner now parses Markdown structurally and needs
 `markdown-it-py`.
 
 **Supplement:** `docs/submission/PAPER_A_JFE_SUPPLEMENT.md` + `docs/submission/figures/`.
