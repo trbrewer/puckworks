@@ -37,6 +37,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
+from re import error
 
 from puckworks.paper_a import transfer_semantics as TS
 
@@ -66,6 +67,20 @@ class ClaimRule:
 def _rx(pattern: str) -> re.Pattern:
     return re.compile(pattern, re.I)
 
+
+#: A bounded modifier run between a magnitude adjective and its head noun.
+#:
+#: Round-12 P1-2: `small held-out skill` was live in the manuscript and slipped because the previous
+#: pattern allowed only `\w+` between the two, and `held-out` is hyphenated. Up to two tokens,
+#: hyphens included, so `small held-out advantage` and `tiny cross-grind gain` match while the run
+#: cannot overrun into an unrelated phrase.
+_MOD = r"(?:[\w-]+\s+){0,2}"
+
+#: The magnitude adjectives. Bound to a value noun by the rules that use them — never matched alone,
+#: because `a small positive upper bound` and `a small sample` are ordinary factual language.
+_MOD_ADJ = (r"(?:small|smaller|tiny|minuscule|miniscule|negligible|marginal|minimal|slight|"
+            r"trivial|modest|meagre|meager|slim|thin|minor|inconsequential|immaterial|"
+            r"insignificant)")
 
 #: The rules. Patterns are deliberately ASSERTION-shaped: they match a verdict, not a mention.
 #: "non-distinguishability" (the noun, used in the paper's own disclaimer) must not fire the
@@ -304,6 +319,58 @@ RULES: tuple[ClaimRule, ...] = (
             r"useful)\s+(?:advantage|benefit|gain|improvement|value)\b"),
         MARGIN,
         "a practical-negligibility verdict, which requires the margin the analysis never declared"),
+    # ── round-12 P1-2 ───────────────────────────────────────────────────────────────────────
+    #
+    # Structural classes, not sentences. The round-12 misses were ordinary editorial substitutions —
+    # `has no advantage`, `no better than`, `just as accurate`, `minuscule`, `negligible` — and one
+    # was ALREADY LIVE in the manuscript: "the small held-out skill above", which slipped because the
+    # pre-nominal pattern allowed only `\w+` modifiers and `held-out` is hyphenated.
+    #
+    # `_MOD` is the bounded modifier run these need: up to two tokens, hyphens included.
+    ClaimRule(
+        "has_no_value",
+        # Subject + have/show/provide + no + value noun, and the existential form. Bounded so
+        # "provides no calibrated coverage" (a true statement about the procedure) is untouched.
+        _rx(r"\b(?:has|have|had|shows?|showed|shown|provides?|provided|offers?|offered|yields?|"
+            r"yielded|delivers?|delivered|confers?|conferred)\s+no\s+" + _MOD +
+            r"(?:advantage|benefit|gain|edge|improvement|skill|value)\b"
+            r"|\bthere\s+(?:is|was|are|were)\s+no\s+" + _MOD +
+            r"(?:advantage|benefit|gain|edge|improvement|skill)\b"),
+        ABSENCE,
+        "asserts absence as a property of the model; what the analysis lacks is the ability to "
+        "decide either way"),
+    ClaimRule(
+        "no_better_than",
+        _rx(r"\bno\s+(?:better|stronger|more\s+accurate)\s+than\b"
+            r"|\bjust\s+as\s+(?:good|accurate|precise|effective|reliable)\b"
+            r"|\bas\s+(?:good|accurate|precise|effective)\s+as\s+(?:each\s+other|one\s+another)\b"),
+        EQUIVALENCE,
+        "an equivalence verdict in plain words"),
+    ClaimRule(
+        "magnitude_of_the_contrast",
+        # Copular magnitude judgement on the CONTRAST itself, not only on skill/gain/benefit. Both
+        # orders, with a bounded modifier run so `small held-out skill` and `tiny observed advantage`
+        # match while `small held-out sample` and `tiny numerical tolerance` do not.
+        _rx(r"\b(?:the\s+|a\s+|an\s+|its\s+|their\s+)?" + _MOD_ADJ + r"\s+" + _MOD +
+            r"(?:difference|effect|increment|contrast|gain|advantage|benefit|edge|improvement|"
+            r"skill)\b"
+            r"|\b(?:difference|effect|increment|contrast|gain|advantage|benefit|edge|improvement|"
+            r"skill)\b[^.;:]{0,40}?\b(?:is|are|was|were|remains?|remained|appears?|appeared|"
+            r"seems?|seemed)\s+(?:therefore\s+|still\s+|nonetheless\s+|nevertheless\s+|only\s+|"
+            r"very\s+|quite\s+|rather\s+)*" + _MOD_ADJ + r"\b"),
+        MARGIN,
+        "a practical-magnitude verdict on the observed contrast; without a predeclared margin "
+        "nothing here decides how much of a difference matters — give the signed number"),
+    ClaimRule(
+        "evaluative_quantity",
+        # "only −0.394 percentage points", "well under one percentage point". The number is a fact;
+        # `only` and `well under` assign it to an undeclared relevance bin.
+        _rx(r"\bonly\s+[−\-+]?\d[\d.,]*\s*(?:pp\b|percentage\s+points?|%)"
+            r"|\b(?:well|comfortably|far)\s+(?:under|below|within|less\s+than)\s+"
+            r"(?:one|two|half|a|\d[\d.,]*)\b"),
+        MARGIN,
+        "an evaluative adverb around an exact value: 'only' and 'well under' compare the number to "
+        "a relevance threshold the analysis never declared"),
 )
 
 #: A paper must be able to name the decision it is not making — "we make no claim of statistical
@@ -323,31 +390,86 @@ RULES: tuple[ClaimRule, ...] = (
 #: The second is self-contradictory and the scanner returned it clean. The shape being rewarded is
 #: exactly the one a careful paper produces: a limitations sentence, then an overstrong conclusion.
 #:
-#: A disclaimer is now recognised only when the non-establishment construction NAMES what is not
-#: established and governs the matched term inside the same clause. Each pattern below is a verb
-#: phrase; its span runs from the construction to the end of the clause, because that is how far
-#: "does not establish …" reaches in English.
+#: A disclaimer is recognised only when the non-establishment construction NAMES what is not
+#: established and grammatically GOVERNS the matched term.
+#:
+#: Round-12 P1-1 is about that second word. The round-11 version gave every construction a span from
+#: where it started to the end of its heuristic clause, and "later in the same clause string" is not
+#: grammatical scope. Six explicit verdicts inherited a disclaimer they do not belong to:
+#:
+#:     Although this analysis does not establish superiority, the model outperforms the comparator.
+#:     This analysis does not establish superiority because the model outperforms the comparator.
+#:     This analysis cannot determine equivalence, meaning the models are essentially the same.
+#:     We do not claim equivalence in formal terms, the models are essentially the same in practice.
+#:
+#: In the first, the disclaimer is in a fronted subordinate clause and the verdict is the main
+#: clause. In the second the verdict is asserted as the REASON. In the third it is a restatement. In
+#: the fourth it is a comma splice. And the same design rejected ordinary correct prose — "Whether
+#: the model outperforms the comparator remains unresolved" was flagged — because the epistemic frame
+#: was not on the list.
+#:
+#: Each pattern below therefore captures its COMPLEMENT: the group named ``prop`` is the proposition
+#: being disclaimed, and only a match inside that group is suppressed. The complement ends where the
+#: construction stops governing — a sentence terminator, `;`, `:`, a dash, a contrastive or causal
+#: conjunction, an appositive continuation, or a comma opening a new finite clause.
+#:
+#: This is a controlled-text backstop, NOT a parser. It recognises the constructions listed here and
+#: nothing else, and the central claims are protected by generated text and proposition coverage
+#: rather than by this list being complete.
+
+#: What ends a governed complement. Kept separate from `_CLAUSE_BOUNDARY` because a complement is a
+#: narrower thing than a clause: `because` and `meaning` end government without ending the clause.
+_COMPLEMENT_END = _rx(
+    r"[.?!;:]"
+    r"|\s[—–]+\s"
+    r"|\s(?:but|however|yet|nevertheless|nonetheless|whereas|although|though|despite|"
+    r"notwithstanding|because|since|meaning|implying|showing|indicating|so|therefore|thus|hence)\s"
+    r"|,\s+(?:and|or|but|yet|so|which|meaning|implying)\s"
+    r"|,\s+(?=(?:the|this|that|these|those|it|they|we|its|their|his|her|our|a|an)\s+\w+\s+"
+    r"(?:is|are|was|were|has|have|had|does|do|did|outperform\w*|perform\w*|match\w*|add\w*|"
+    r"offer\w*|show\w*|provide\w*)\b)")
+
+#: ``prop`` is the complement. Everything before it is the frame.
 _SAFE_CONSTRUCTIONS: tuple[re.Pattern, ...] = tuple(_rx(p) for p in (
-    r"\b(?:make|makes|making|made)\s+no\s+claims?\b",
-    r"\bno\s+claims?\s+(?:of|to|about|is\s+made|are\s+made)\b",
-    r"\b(?:do|does|did|would|can|could|cannot|can\s?not)\s+not\s+claim\b",
-    r"\bcannot\s+claim\b",
+    # ── explicit non-establishment, with the proposition as its object ──────────────────────
+    r"\b(?:make|makes|making|made)\s+no\s+claims?\s*(?:of|to|about|that)?(?P<prop>.*)",
+    r"\bno\s+claims?\s+(?:of|to|about|is\s+made|are\s+made)(?P<prop>.*)",
+    r"\b(?:do|does|did|would|can|could|cannot|can\s?not)\s+not\s+claim\b(?P<prop>.*)",
+    r"\bcannot\s+claim\b(?P<prop>.*)",
     r"\b(?:do|does|did|would)\s+not\s+(?:establish|determine|demonstrate|show|resolve|decide|"
-    r"support|licence|license|warrant|justify)\b",
+    r"support|licence|license|warrant|justify|adjudicate)\b(?P<prop>.*)",
     r"\bcannot\s+(?:establish|determine|demonstrate|show|resolve|decide|support|adjudicate|tell|"
-    r"distinguish)\b",
+    r"distinguish|say|conclude)\b(?P<prop>.*)",
+    r"\b(?:do|does|did)\s+not\s+permit\s+(?:us\s+)?to\s+conclude\b(?P<prop>.*)",
     r"\b(?:is|are|was|were)\s+not\s+(?:established|determined|demonstrated|shown|resolved|"
-    r"decided|supported)\b",
+    r"decided|supported)\b(?P<prop>.*)",
     r"\b(?:establish|establishes|established|determine|determines|determined|claim|claims|"
-    r"claimed|support|supports|supported|decide|decides|decided)\s+neither\b",
-    r"\bneither\s+establishes\b",
-    r"\bnot\s+(?:by\s+itself|by\s+themselves|,?\s*by\s+itself,?)\s+(?:establish|evidence)\w*\b",
-    r"\bwithout\s+(?:establishing|claiming|deciding|determining)\b",
-    r"\bnot\s+be\s+read\s+as\b",
-    r"\bmust\s+not\s+be\s+(?:read|taken|interpreted)\b",
+    r"claimed|support|supports|supported|decide|decides|decided)\s+neither\b(?P<prop>.*)",
+    r"\bneither\s+establishes\b(?P<prop>.*)",
+    r"\bnot\s+(?:by\s+itself|by\s+themselves|,?\s*by\s+itself,?)\s+(?:establish|evidence)\w*"
+    r"(?P<prop>.*)",
+    r"\bwithout\s+(?:establishing|claiming|deciding|determining)\b(?P<prop>.*)",
+    r"\bnot\s+be\s+read\s+as\b(?P<prop>.*)",
+    r"\bmust\s+not\s+be\s+(?:read|taken|interpreted)\b(?P<prop>.*)",
     r"\bno\s+(?:superiority|non-?inferiority|equivalence|absence|practical-?usefulness|"
-    r"usefulness)[^.;:]{0,80}?\bdecision\s+(?:is|was)\s+(?:made|claimed|supported)\b",
-    r"\bsupports?\s+no\s+(?:superiority|non-?inferiority|equivalence|absence|practical)\b",
+    r"usefulness)[^.;:]{0,80}?\bdecision\s+(?:is|was)\s+(?:made|claimed|supported)(?P<prop>.*)",
+    r"\bsupports?\s+no\s+(?:superiority|non-?inferiority|equivalence|absence|practical)"
+    r"(?P<prop>.*)",
+    # ── round-12 P1-1: embedded questions and ordinary epistemic frames ─────────────────────
+    #
+    # These were REJECTED, which is the other half of the same defect: a gate that punishes correct
+    # prose teaches authors to write to the scanner instead of to meaning. The complement of an
+    # embedded question is the question itself, so it runs forward from `whether`/`if`…
+    r"\b(?:whether|if)\b(?P<prop>.*?)"
+    r"(?=\s+(?:remains?|is|are|was|were)\s+(?:unresolved|unclear|undetermined|unknown|"
+    r"unestablished|not\s+established|an\s+open\s+question)\b)",
+    r"\b(?:insufficient|inadequate|too\s+\w+)\s+to\s+(?:determine|establish|decide|resolve|say|"
+    r"conclude)\s+(?:whether|if|that)?(?P<prop>.*)",
+    r"\bleaves?\s+(?:it\s+)?(?:unresolved|unclear|undetermined|open)\s+(?:whether|if)?"
+    r"(?P<prop>.*)",
+    r"\b(?:remains?|is|are)\s+(?:unclear|unresolved|undetermined|an\s+open\s+question)\s+"
+    r"(?:whether|if)(?P<prop>.*)",
+    r"\bit\s+is\s+an\s+open\s+question\s+(?:whether|if)(?P<prop>.*)",
 ))
 
 #: Where one adjudicable clause ends and the next begins.
@@ -361,12 +483,17 @@ _SAFE_CONSTRUCTIONS: tuple[re.Pattern, ...] = tuple(_rx(p) for p in (
 #: its own subject, so an earlier "does not establish" no longer governs it; ", and does not
 #: establish equivalence" continues the same subject and does. The determiner/pronoun list is what
 #: distinguishes them, and it is deliberately explicit rather than a part-of-speech guess.
+#: Round-12: `however`, `nevertheless` and `nonetheless` are CONJUNCTIVE ADVERBS, not conjunctions.
+#: Splitting on them wherever they appeared cut "the observed advantage is **nonetheless** small"
+#: into "…is" and "small", and neither half matched the magnitude rule — a boundary word creating
+#: the bypass it was added to close. They are boundaries only where they actually join clauses:
+#: after a sentence end (already covered), or set off by a comma.
 _CLAUSE_BOUNDARY = re.compile(
     r"(?<=[.?!])\s+"
     r"|\s*[;:]\s*"
     r"|\s*[—–]+\s*"
-    r"|\s+(?:but|however|yet|nevertheless|nonetheless|whereas|although|though|while|despite|"
-    r"notwithstanding)\s+"
+    r"|\s+(?:but|yet|whereas|although|though|while|despite|notwithstanding)\s+"
+    r"|\s*,\s*(?:however|nevertheless|nonetheless|conversely|instead)\s*,?\s*"
     r"|\s*,\s+(?:and|or|but|yet|while)\s+(?=(?:the|this|that|these|those|it|they|we|its|their|"
     r"his|her|our|a|an)\b)",
     re.I)
@@ -400,23 +527,51 @@ def iter_decision_clauses(text: str):
             yield clause
 
 
-def find_non_establishment_spans(clause: str) -> list[tuple[int, int]]:
-    """The ``(start, end)`` character spans in which a decision term is disclaimed, not asserted.
+@dataclass(frozen=True)
+class NonEstablishmentSpan:
+    """The complement of one epistemic frame — the proposition it actually disclaims."""
 
-    A construction governs from where it starts to the end of its clause. Clause boundaries are what
-    stop it governing the next assertion, which is the whole point of the round-11 correction.
+    start: int
+    end: int
+    construction: str
+
+
+def find_non_establishment_spans(clause: str) -> list[NonEstablishmentSpan]:
+    """The spans in which a decision term is disclaimed rather than asserted.
+
+    Round-12 P1-1. A construction governs its COMPLEMENT, not the rest of the string. The complement
+    starts where the frame's object starts and ends at the first token that takes government away —
+    a sentence terminator, `;`, `:`, a dash, a contrastive or causal conjunction, an appositive
+    continuation, or a comma opening a new finite clause.
+
+    That single change is what makes "Although this analysis does not establish superiority, the
+    model outperforms the comparator" fail: the complement ends at the comma closing the fronted
+    subordinate clause, so it never reaches the main-clause verdict.
     """
-    return sorted((m.start(), len(clause)) for p in _SAFE_CONSTRUCTIONS
-                  for m in p.finditer(clause))
+    spans = []
+    for pattern in _SAFE_CONSTRUCTIONS:
+        for match in pattern.finditer(clause):
+            try:
+                start = match.start("prop")
+            except (IndexError, error):                     # pragma: no cover - defensive
+                continue
+            if start < 0:
+                continue
+            complement = clause[start:match.end("prop")]
+            stop = _COMPLEMENT_END.search(complement)
+            end = start + (stop.start() if stop else len(complement))
+            if end > start:
+                spans.append(NonEstablishmentSpan(start, end, pattern.pattern[:40]))
+    return sorted(spans, key=lambda s: (s.start, s.end))
 
 
 def _governed(match: re.Match, spans) -> bool:
-    """True when the match lies wholly inside a disclaimer's reach."""
-    return any(start <= match.start() and match.end() <= end for start, end in spans)
+    """True when the match lies wholly inside the complement of a non-establishment frame."""
+    return any(s.start <= match.start() and match.end() <= s.end for s in spans)
 
 
-def granted(status) -> set[str]:
-    """The decision properties this status actually grants.
+def granted(status_or_reference) -> set[str]:
+    """The decision properties this analysis actually grants.
 
     Round-11 P1-2. A DECLARED :class:`~puckworks.paper_a.transfer_semantics.InferentialStatus`
     grants nothing, whatever its flags say. The reviewer hand-wrote an internally coherent status
@@ -424,23 +579,31 @@ def granted(status) -> set[str]:
     equivalent to the comparator" — because the permission was a boolean somebody could type rather
     than a result somebody had to earn.
 
-    Decision language now comes only from a
-    :class:`~puckworks.paper_a.inferential_evidence.VerifiedInferentialStatus`, whose flags are
-    computed by re-applying the registered decision rule to the observed interval. That type has no
-    settable flag to fabricate.
+    Round-12 P1-4. The round-11 fix moved the trusted thing rather than removing it: permission
+    became possession of a ``VerifiedInferentialStatus``, which was called unforgeable because
+    construction needed a module-private sentinel — and ``_VERIFIED`` is one import away. A Python
+    object in the same process cannot be provenance.
 
-    This is fail-closed on purpose: for Paper A it changes nothing, because the analysis makes no
-    decision and asks for no unlock. It changes what a FUTURE author has to do.
+    So this takes an evidence **identifier** and re-verifies it from canonical production storage at
+    the point of use. Passing a pre-verified object grants nothing, whoever built it and however.
+
+    For Paper A none of this changes anything: the analysis makes no decision, asks for no unlock,
+    and production storage is empty. It changes what a FUTURE author has to do.
     """
-    from puckworks.paper_a.inferential_evidence import VerifiedInferentialStatus
+    from puckworks.paper_a import inferential_evidence as IE
 
-    if not isinstance(status, VerifiedInferentialStatus):
-        if isinstance(status, TS.InferentialStatus):
-            return set()
+    if isinstance(status_or_reference, TS.InferentialStatus):
+        return set()
+
+    if not isinstance(status_or_reference, IE.InferentialEvidenceReference):
+        # Including a VerifiedInferentialStatus: an object is not evidence about itself.
         raise TypeError(
-            "claim_policy needs an InferentialStatus or a VerifiedInferentialStatus, got %s; a "
-            "mapping or a duck-typed stand-in is exactly the shape the round-11 fabrication took"
-            % type(status).__name__)
+            "claim_policy.granted() takes a descriptive InferentialStatus (which grants nothing) or "
+            "an InferentialEvidenceReference re-verified from production storage, got %s; a "
+            "pre-verified object, a mapping or a duck-typed stand-in is exactly the shape every "
+            "fabrication in rounds 11 and 12 took" % type(status_or_reference).__name__)
+
+    status = IE.verify_registered_production_evidence(status_or_reference.evidence_id)
 
     out = {name for name, ok in status.decision_flags.items() if ok}
     if status.coverage_calibrated:
@@ -483,6 +646,58 @@ def scan(text: str, status: TS.InferentialStatus, where: str = "") -> list[str]:
 # ─────────────────────────────────────────────────────────────────────────────────────────────
 
 
+#: Sentence-level contexts in which naming a phrase does not ASSERT it.
+#:
+#: Round-12 P1-3. `present_in` flattened, lowercased, and asked whether an accepted phrase occurred
+#: anywhere. That is a substring test wearing the name of proposition coverage, and the reviewer
+#: showed three ways to satisfy it while saying the opposite:
+#:
+#:     "Observed pooled error was NOT 0.394 points lower …"            -> missing: []
+#:     "This caption MUST INCLUDE the strings '−0.394 pp' …"           -> missing: []
+#:     "IF the difference WERE −0.394 pp, the model would be favoured" -> missing: []
+#:
+#: The positive and prohibitive halves need OPPOSITE treatment here, which is why this list exists
+#: only on this side. A dangerous verdict inside a quotation still ships to a reader, so the
+#: prohibitive scanner deliberately does not exempt quotation. A required proposition inside a
+#: quotation, a negation, an instruction or a conditional has not been asserted at all.
+_NOT_AN_ASSERTION = (
+    # local negation of the carrying verb/phrase
+    _rx(r"\bwas\s+not\b|\bwere\s+not\b|\bis\s+not\b|\bare\s+not\b|\bdid\s+not\s+(?:find|report|"
+        r"observe|show)\b|\bnot\s+this\s+paper'?s\b|\bnone\s+of\s+that\s+is\b"),
+    # instruction / metalinguistic mention: the sentence is ABOUT the wording
+    _rx(r"\bmust\s+(?:include|contain|carry|state|say)\b|\bshould\s+(?:include|contain|carry)\b"
+        r"|\bthe\s+(?:phrase|string|sentence|wording|text)\b|\binsert\b|\bplaceholder\b"
+        r"|\bbefore\s+it\s+may\s+be\s+uploaded\b"),
+    # conditional antecedent / counterfactual
+    _rx(r"\bif\s+the\b|\bwere\s+the\b|\bwould\s+(?:be|have|favour|favor)\b|\bhad\s+the\b"
+        r"|\bsuppose\b|\bhypothetical\w*\b"),
+    # reported speech: someone else asserted it
+    _rx(r"\b(?:the\s+)?(?:reviewer|referee|editor|author|they|he|she)\s+(?:called|said|claimed|"
+        r"described|reported|argued)\b|\baccording\s+to\b"),
+)
+
+#: Sentence boundaries for the positive checker. Deliberately simple: the unit is the sentence the
+#: phrase occurs in, because that is where negation and framing live.
+_SENTENCE_SPLIT = re.compile(r"(?<=[.?!])\s+")
+
+
+def _asserting_sentences(text: str):
+    """Yield the sentences of ``text`` that could carry an assertion.
+
+    Quotations, code spans and HTML comments are removed first: a phrase inside any of them is
+    being MENTIONED, not used.
+    """
+    flat = _flatten(re.sub(r"<!--.*?-->", " ", text, flags=re.S))
+    # Strip quoted spans — straight and curly, single and double — leaving a marker so the
+    # surrounding sentence is still checkable but the quoted phrase no longer counts.
+    flat = re.sub(r"[\"'“”‘’]([^\"'“”‘’]{2,200})"
+                  r"[\"'“”‘’]", " ‹quoted› ", flat)
+    for sentence in _SENTENCE_SPLIT.split(flat):
+        sentence = sentence.strip()
+        if sentence and not any(rx.search(sentence) for rx in _NOT_AN_ASSERTION):
+            yield sentence
+
+
 @dataclass(frozen=True)
 class Assertion:
     """One proposition of the accepted central claim, with the phrasings that carry it."""
@@ -492,8 +707,14 @@ class Assertion:
     any_of: tuple[str, ...]
 
     def present_in(self, text: str) -> bool:
-        flat = _flatten(text).lower()
-        return any(_flatten(p).lower() in flat for p in self.any_of)
+        """True when some sentence AFFIRMATIVELY carries this proposition.
+
+        A phrase that occurs only inside a negation, an instruction about wording, a conditional
+        antecedent, reported speech, a quotation, or an HTML comment does not count (round-12 P1-3).
+        """
+        wanted = [_flatten(p).lower() for p in self.any_of]
+        return any(w in sentence.lower() for sentence in _asserting_sentences(text)
+                   for w in wanted)
 
 
 #: The four propositions the accepted P0-1 (Path A) conclusion is made of. A surface may phrase each
@@ -526,8 +747,11 @@ ASSERTIONS: tuple[Assertion, ...] = (
     Assertion(
         "accuracy_is_insufficient",
         "acceptable endpoint accuracy alone does not establish mechanistic transfer",
+        # Past tense too: a Highlights bullet states a finding ("did not establish"), and it is the
+        # same proposition as the Methods' present-tense form (round-12 P1-6).
         ("does not by itself establish", "does not, by itself, establish",
          "do not by themselves establish", "alone does not establish",
+         "alone did not establish", "did not by itself establish",
          "does not establish useful mechanistic transfer", "necessary but insufficient",
          "not, by itself, evidence")),
 )
@@ -564,7 +788,10 @@ SURFACE_ASSERTIONS: dict[str, tuple[str, ...]] = {
     "endpoint_synthesis": ("ranges_uncalibrated", "no_decision_claimed"),
     "supplement_reading": ("ranges_uncalibrated", "no_decision_claimed"),
     "conclusion": ("accuracy_is_insufficient",),
-    "highlights": ("observed_advantage", "ranges_uncalibrated", "no_decision_claimed"),
+    # Round-12 P1-6: all four. The transfer boundary was omitted on a false premise about the
+    # venue limit -- the replacement bullet is 62 characters.
+    "highlights": ("observed_advantage", "ranges_uncalibrated", "no_decision_claimed",
+                   "accuracy_is_insufficient"),
     "figure3_caption": ("observed_advantage", "ranges_uncalibrated", "no_decision_claimed",
                         "accuracy_is_insufficient"),
 }
@@ -602,6 +829,30 @@ def limits_sentence(status: TS.InferentialStatus, estimand: TS.EstimandSpec) -> 
             "whether the observed %s difference is reproducible or practically useful, and it does "
             "not establish that the difference is absent."
             % (status.analysis_kind.prose, _nor_list(undecided), estimand.metric_label))
+
+
+
+def limits_sentence_short(status: TS.InferentialStatus, estimand: TS.EstimandSpec) -> str:
+    """The same proposition as :func:`limits_sentence`, in a caption's worth of words.
+
+    Round-12 P2-2. Figure 3's standalone caption had grown to 287 words — accurate and
+    self-contained, and no longer functioning as a caption. Most of the excess was the full limits
+    sentence enumerating all four decision classes by name, which the surrounding Results text
+    already does.
+
+    This is a RENDERER, not a paraphrase: it is generated from the same status and estimand, so a
+    future analysis that earns a decision cannot keep emitting either form. It carries the same two
+    facts — the ranges are uncalibrated fixed-predictor sensitivities with no predeclared margin,
+    and they determine neither a comparator decision nor its absence.
+    """
+    if status.coverage_calibrated:                                  # pragma: no cover - future path
+        raise NotImplementedError(
+            "a calibrated analysis needs its own decision sentence; this helper describes only the "
+            "uncalibrated case and must not be reused to describe a decision it does not know about")
+    return ("These are %s ranges, not calibrated confidence intervals; with no predeclared "
+            "practical margin they determine neither a comparator decision about the observed %s "
+            "difference nor its absence."
+            % (status.analysis_kind.prose, estimand.metric_label))
 
 
 def _nor_list(items) -> str:

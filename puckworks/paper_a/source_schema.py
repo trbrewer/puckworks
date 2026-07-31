@@ -99,9 +99,17 @@ def parse_coordinate(raw, field: str, sample_id: str) -> Decimal:
 
     Both cell types are accepted, because the two consumers read the file differently and that
     difference is deliberate. The oracle parses the CSV itself and hands over the raw token, which
-    is the exact source text. Production goes through ``puckworks.data``, whose typed loader has
-    already turned numeric cells into floats — so the token is gone before this sees it, and the
-    float is converted through ``repr`` (the shortest round-tripping form) to recover it exactly.
+    is the exact source text. Production goes through ``puckworks.data``, whose typed loader coerces
+    numeric cells to float — but now retains the untyped text on the row, and :func:`parse_row`
+    passes that text here in preference to the float.
+
+    Round-12 P1-7. This docstring used to say the float could be converted "through ``repr`` … to
+    recover it exactly", and that is impossible: ``93.4000400000000001`` and
+    ``93.4000400000000002`` are distinct decimal tokens that become the same double and both
+    ``repr`` as ``93.40004``. A coordinate is an identity, and a lossy round trip cannot produce
+    one. The float branch below remains only for callers with no token to offer, and it is a
+    fallback rather than the path production takes.
+
     A non-finite float still fails here, which is what the reproduced ``T_degC="NaN"`` needs:
     ``float("NaN")`` parses, so the typed loader admits it silently and only this check stops it.
     """
@@ -243,6 +251,16 @@ def _boolean(raw, field: str, sample_id: str) -> bool:
     return BOOLEAN_TOKENS[raw]
 
 
+
+def _raw_token(row, column):
+    """The untyped source text for ``column`` if the loader preserved it, else ``None``.
+
+    Read off the row's attribute rather than its keys, so the identity columns can be recovered
+    without changing what a row looks like to every other consumer in the repository.
+    """
+    return getattr(row, "raw_tokens", {}).get(column)
+
+
 def parse_row(row: dict) -> SourceRow:
     """Validate and type one CSV row. Raises :class:`SourceSchemaError` naming the sample."""
     sample_raw = row.get("sample")
@@ -252,13 +270,36 @@ def parse_row(row: dict) -> SourceRow:
     if "|" in sample_raw:
         raise SourceSchemaError("source row %r: the sample id contains the observation delimiter "
                                 "'|'" % sample_raw)
+    # Round-12 P1-7: prefer the UNTYPED source text for identity columns. `puckworks.data` keeps it
+    # on the row after coercing the cell to float, and a coordinate parsed from the float has
+    # already lost the distinction between two decimal tokens that share a double.
+    #
+    # The token is preferred only while it AGREES with the typed value. It is a lossless refinement
+    # of that value, not an independent one, so a disagreement means somebody rewrote one of the two
+    # — and silently preferring the stale half would be a fresh way for a declared value and the
+    # thing it describes to drift apart, which is the defect this whole module exists to prevent.
+    # (NaN disagrees with itself, so a non-finite typed cell always falls through and is rejected.)
+    def _identity_cell(column):
+        token = _raw_token(row, column)
+        typed = row.get(column)
+        if token is None:
+            return typed
+        if isinstance(typed, str):
+            return token if token == typed else typed
+        try:
+            if float(token) == float(typed):
+                return token
+        except (TypeError, ValueError):
+            pass
+        return typed
+
     return SourceRow(
         sample_id=sample_raw,
         variety=_controlled(row.get("variety"), "variety", VARIETIES, sample_raw),
         granulometry=_controlled(row.get("granulometry"), "granulometry", GRINDS, sample_raw),
         on_grid=_boolean(row.get("on_grid"), "on_grid", sample_raw),
-        temperature_degC=parse_coordinate(row.get("T_degC"), "T_degC", sample_raw),
-        pressure_bar=parse_coordinate(row.get("p_bar"), "p_bar", sample_raw),
+        temperature_degC=parse_coordinate(_identity_cell("T_degC"), "T_degC", sample_raw),
+        pressure_bar=parse_coordinate(_identity_cell("p_bar"), "p_bar", sample_raw),
         raw=dict(row))
 
 

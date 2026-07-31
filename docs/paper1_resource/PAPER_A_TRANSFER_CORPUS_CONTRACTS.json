@@ -15,7 +15,7 @@
  },
  "matched_on_grid": {
   "corpus": {
-   "schema_version": 3,
+   "schema_version": 4,
    "estimand": "matched 3x3 on-grid C/F transfer benchmark",
    "support_set": "matched_grid_cf_corpus_108",
    "include_off_grid": false,
@@ -1088,7 +1088,7 @@
  },
  "complete_corpus": {
   "corpus": {
-   "schema_version": 3,
+   "schema_version": 4,
    "estimand": "complete held-out C/F corpus (on-grid + off-grid)",
    "support_set": "complete_cf_corpus_132",
    "include_off_grid": true,

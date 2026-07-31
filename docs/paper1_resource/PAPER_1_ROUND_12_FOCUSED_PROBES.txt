@@ -1,0 +1,100 @@
+ROUND 12 FOCUSED ADVERSARIAL PROBES
+========================================================================
+
+[1] CLAIM POLICY — live sentences and ordinary paraphrases
+'The observed advantage is therefore small.' -> []
+'consistent with the small held-out skill above' -> []
+'The observed advantage is small.' -> ["[small_incremental_value] <<advantage is small>> presupposes a predeclared practical margin, which this analysis does not support — 'small' is a practical-magnitude decision unless a predeclared margin says what small means; give the observed number and its sign"]
+'The observed advantage is very small.' -> ["[small_incremental_value] <<advantage is very small>> presupposes a predeclared practical margin, which this analysis does not support — 'small' is a practical-magnitude decision unless a predeclared margin says what small means; give the observed number and its sign"]
+'The observed advantage remains small.' -> ["[small_incremental_value] <<advantage remains small>> presupposes a predeclared practical margin, which this analysis does not support — 'small' is a practical-magnitude decision unless a predeclared margin says what small means; give the observed number and its sign"]
+'The model has a tiny held-out advantage.' -> []
+'The model has a tiny observed advantage.' -> ["[small_incremental_value] <<tiny observed advantage>> presupposes a predeclared practical margin, which this analysis does not support — 'small' is a practical-magnitude decision unless a predeclared margin says what small means; give the observed number and its sign"]
+'The model has no advantage.' -> []
+'There is no advantage.' -> []
+'The model shows no advantage.' -> []
+'The model is no better than the comparator.' -> []
+'The comparator is just as accurate.' -> []
+'The observed gain is minuscule.' -> []
+'The difference is negligible.' -> []
+
+[2] CLAUSE GOVERNOR — false negatives and false positive
+'Although this analysis does not establish superiority, the model outperforms the comparator.' -> []
+'While this analysis does not establish superiority, the model outperforms the comparator.' -> []
+'Whereas this analysis does not establish equivalence, the models are essentially the same.' -> []
+'This analysis does not establish superiority because the model outperforms the comparator.' -> []
+'This analysis cannot determine equivalence, meaning the models are essentially the same.' -> []
+'We do not claim equivalence in formal terms, the models are essentially the same in practice.' -> []
+'This analysis does not establish superiority; the model outperforms the comparator.' -> ['[outperforms] <<outperforms>> presupposes superiority, which this analysis does not support — a superiority verdict; the observed advantage is small and its reproducibility is not established']
+'This analysis does not establish superiority, but the model outperforms the comparator.' -> ['[outperforms] <<outperforms>> presupposes superiority, which this analysis does not support — a superiority verdict; the observed advantage is small and its reproducibility is not established']
+'Whether the model outperforms the comparator remains unresolved.' -> ['[outperforms] <<outperforms>> presupposes superiority, which this analysis does not support — a superiority verdict; the observed advantage is small and its reproducibility is not established']
+
+[3] ACTIVE SURFACES — claim scanner result
+PAPER_A_JFE_MANUSCRIPT.md: 0 problems
+PAPER_A_DRAFT.md: 0 problems
+PAPER_A_JFE_SUPPLEMENT.md: 0 problems
+PAPER_A_JFE_COVER_LETTER.md: 0 problems
+PAPER_A_JFE_HIGHLIGHTS.txt: 0 problems
+PAPER_A_JFE_FIGURE_CAPTIONS.md: 0 problems
+
+[4] VERIFIED STATUS — module-private token is importable
+forged type: VerifiedInferentialStatus
+decision_flags: {'superiority': False, 'non-inferiority': False, 'equivalence': True, 'absence of skill': False}
+granted: ['a predeclared practical margin', 'calibrated coverage', 'equivalence']
+equivalence prose problems: []
+
+[5] EVIDENCE BINDING — hashes pass while result semantics and chronology disagree
+under-specified procedure problems: []
+verification problems: []
+verified: True
+actual result interval: [-2.0, 2.0]
+evidence interval: (-0.3, 0.2)
+protocol created_after_result: True
+granted: ['a predeclared practical margin', 'calibrated coverage', 'equivalence']
+
+[6] SOURCE IDENTITY — distinct source tokens collapse in typed float loader
+93.4000400000000001 vs 93.4000400000000002
+  raw distinct: True
+  float equal: True ; repr: 93.40004 93.40004
+  parsed/canonical distinct: False ; canonical: 93.40004 93.40004
+10.0000000000000001 vs 10.0000000000000002
+  raw distinct: True
+  float equal: True ; repr: 10.0 10.0
+  parsed/canonical distinct: False ; canonical: 10 10
+
+[7] SUBMISSION SCANNER — raw HTML destination holes
+'<a href=docs/internal/review.md>the analysis</a>' -> targets=[]; visible=[(1, 'the analysis')]
+'<img src=docs/internal/figure.png alt="figure">' -> targets=[]; visible=[]
+'<a href=docs%2Finternal%2Freview.md>the analysis</a>' -> targets=[]; visible=[(1, 'the analysis')]
+'<img srcset="docs/internal/figure.png 1x" alt="figure">' -> targets=[]; visible=[]
+'<video poster="docs/internal/review.png"></video>' -> targets=[]; visible=[]
+'<a href="docs/internal/review.md">the analysis</a>' -> targets=[(1, 'docs/internal/review.md')]; visible=[(1, 'the analysis')]
+
+[8] SUBMISSION SCANNER — full-file comments and metadata exemption
+PAPER_A_JFE_HIGHLIGHTS.txt: '<!-- The second review retained a producer identifier. -->\n• Whole-cup espresso data weakly separate content from extraction rate' -> []
+PAPER_A_JFE_HIGHLIGHTS.txt: '<!-- generated from a private producer identifier -->\n• Whole-cup espresso data weakly separate content from extraction rate' -> []
+PAPER_A_JFE_MANUSCRIPT.md: 'Funding is not yet supplied. See `docs/internal/review.md` for the scientific analysis.' -> []
+PAPER_A_JFE_MANUSCRIPT.md: 'Funding is not yet supplied. See [the scientific analysis](docs/internal/review.md).' -> []
+PAPER_A_JFE_MANUSCRIPT.md: '<a href=docs/internal/review.md>the analysis</a>' -> []
+
+[9] CAPTION LENGTHS
+Figure 1: chars=1842, words=247, sentence_marks=8
+Figure 2: chars=1516, words=210, sentence_marks=8
+Figure 3: chars=2092, words=287, sentence_marks=12
+Figure 4: chars=1134, words=155, sentence_marks=6
+
+[10] POSITIVE ASSERTION CONTRACT — negation, quotation, and metalinguistic mention pass
+highlights
+  missing: []
+  scan: []
+figure3_caption
+  missing: []
+  scan: []
+abstract
+  missing: []
+  scan: []
+
+[11] CLAIM POLICY — ordinary non-establishment phrasings falsely rejected
+'The data are insufficient to determine whether the model outperforms the comparator.' -> [outperforms]
+'It remains unclear whether the model outperforms the comparator.' -> [outperforms]
+'The analysis leaves unresolved whether the model outperforms the comparator.' -> [outperforms]
+'The data do not permit us to conclude that the model outperforms the comparator.' -> [outperforms]

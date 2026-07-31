@@ -27,14 +27,43 @@ from puckworks.paper_a import transfer_semantics as TS  # noqa: E402
 PROCEDURE_ID = "test_only_clustered_bootstrap_tost_v1"
 PROCEDURE_VERSION = "1.0.0"
 
-#: Digests of the artefacts the record names. In production these are computed from the real files;
-#: here they stand for them, and the tests mutate them to prove the binding is load-bearing.
-ARTEFACT_DIGESTS = {
-    "analysis_result": IE.digest({"test": "analysis result"}),
-    "source_manifest": IE.digest({"test": "source manifest"}),
-    "estimand_contract": IE.digest(TS.POOLED_MAPE_ESTIMAND.as_dict()),
-    "practical_margin_protocol": IE.digest({"test": "margin protocol", "margin_pp": 0.5}),
+#: The CANONICAL analysis result — the artefact whose bytes are hashed and whose contents the
+#: decision is derived from. Round-12 P1-5: the verifier used to compare this digest opaquely and
+#: then take the decisive interval from a separate field in the evidence record, so a result saying
+#: [-2.0, 2.0] could sit behind a decision derived from (-0.30, 0.20).
+ANALYSIS_RESULT = {
+    "schema_version": 1,
+    "procedure_id": PROCEDURE_ID,
+    "procedure_version": PROCEDURE_VERSION,
+    "estimand_id": TS.POOLED_MAPE_ESTIMAND.id,
+    "confidence_level": 0.95,
+    "predictors_refitted_within_draw": True,
+    "observed_interval_pp": [-0.30, 0.20],
 }
+
+#: The margin protocol, carrying the ordering proof round-12 P1-5 requires. A different hash proves
+#: identity, not chronology, so the protocol has to say — checkably — that it predates the result.
+MARGIN_PROTOCOL = {
+    "test": "margin protocol",
+    "margin_pp": 0.5,
+    "units": "percentage_points",
+    "estimand_id": TS.POOLED_MAPE_ESTIMAND.id,
+    "predates_result": True,
+    "protocol_commit": "0" * 40,
+    "result_commit": "1" * 40,
+}
+
+SOURCE_MANIFEST = {"test": "source manifest"}
+
+#: Digests of the artefacts the record names, computed from those exact objects.
+ARTEFACT_DIGESTS = {
+    "analysis_result": IE.digest(ANALYSIS_RESULT),
+    "source_manifest": IE.digest(SOURCE_MANIFEST),
+    "estimand_contract": IE.digest(TS.POOLED_MAPE_ESTIMAND.as_dict()),
+    "practical_margin_protocol": IE.digest(MARGIN_PROTOCOL),
+}
+
+ARTEFACTS = {"analysis_result": ANALYSIS_RESULT, "practical_margin_protocol": MARGIN_PROTOCOL}
 
 
 def procedure() -> IE.ProcedureSpec:
@@ -107,13 +136,15 @@ def evidence(**overrides) -> IE.EvidenceRecord:
     return IE.EvidenceRecord(**base)
 
 
-def verify(declared=None, record=None, digests=None):
-    return IE.verify_inferential_evidence(
+def verify(declared=None, record=None, digests=None, artefacts=None):
+    """Always through the explicit TEST SEAM: production permission does not take a registry."""
+    return IE.verify_inferential_evidence_for_test(
         declared if declared is not None else declared_status(),
         record if record is not None else evidence(),
         TS.POOLED_MAPE_ESTIMAND,
         dict(ARTEFACT_DIGESTS) if digests is None else digests,
-        registry())
+        registry(),
+        artefacts=dict(ARTEFACTS) if artefacts is None else artefacts)
 
 
 def synthetic_equivalence_status() -> IE.VerifiedInferentialStatus:
@@ -126,3 +157,64 @@ def synthetic_equivalence_status() -> IE.VerifiedInferentialStatus:
 
 def replace_declared(**kw) -> TS.InferentialStatus:
     return dataclasses.replace(declared_status(), **kw)
+
+
+# ── round-12 P1-5: the reviewer's two detachment probes ─────────────────────────────────────
+#
+# Both returned "verified: True" at commit 4adbe4a. They are the shape of the finding: the chain
+# could truthfully say "this decision references this result hash" while deriving the decision from
+# a different interval, and "the margin references this protocol hash" while the protocol was
+# written afterwards. Identity is not semantics, and identity is not chronology.
+
+#: A hashed result whose interval does NOT support equivalence under the ±0.5 pp margin.
+DETACHED_RESULT = dict(ANALYSIS_RESULT, observed_interval_pp=[-2.0, 2.0])
+
+#: A protocol that says, in its own payload, that it postdates the result.
+POST_RESULT_PROTOCOL = dict(MARGIN_PROTOCOL, created_after_result=True, predates_result=False)
+
+
+def verify_detached_result():
+    """Evidence claiming (-0.30, 0.20) while the hashed result contains [-2.0, 2.0]."""
+    digests = dict(ARTEFACT_DIGESTS, analysis_result=IE.digest(DETACHED_RESULT))
+    record = evidence(analysis_result_sha256=digests["analysis_result"])
+    return verify(record=record, digests=digests,
+                  artefacts=dict(ARTEFACTS, analysis_result=DETACHED_RESULT))
+
+
+def verify_post_result_protocol():
+    digests = dict(ARTEFACT_DIGESTS,
+                   practical_margin_protocol=IE.digest(POST_RESULT_PROTOCOL))
+    record = evidence(practical_margin_protocol_sha256=digests["practical_margin_protocol"])
+    return verify(record=record, digests=digests,
+                  artefacts=dict(ARTEFACTS, practical_margin_protocol=POST_RESULT_PROTOCOL))
+
+
+# ── round-12 P1-4: the production path, for tests that need the unlock to actually work ──────
+import contextlib  # noqa: E402
+
+
+@contextlib.contextmanager
+def registered_production_evidence(evidence_id="test_only_equivalence_v1", **overrides):
+    """Temporarily place verifiable evidence in CANONICAL PRODUCTION STORAGE.
+
+    `claim_policy.granted()` no longer accepts an object — it takes an identifier and re-verifies it
+    from production storage — so proving the unlock path still works means putting something there.
+    A context manager, and never a module-level mutation, because production storage being empty is
+    Paper A's actual state and no test may leave it otherwise.
+    """
+    entry = {
+        "declared": overrides.get("declared", declared_status()),
+        "evidence": overrides.get("record", evidence()),
+        "estimand": TS.POOLED_MAPE_ESTIMAND,
+        "artefact_digests": overrides.get("digests", dict(ARTEFACT_DIGESTS)),
+        "artefacts": overrides.get("artefacts", dict(ARTEFACTS)),
+    }
+    saved_registry = dict(IE.PROCEDURE_REGISTRY)
+    IE.PROCEDURE_REGISTRY.update(registry())
+    IE.PRODUCTION_EVIDENCE[evidence_id] = entry
+    try:
+        yield IE.InferentialEvidenceReference(evidence_id)
+    finally:
+        IE.PRODUCTION_EVIDENCE.pop(evidence_id, None)
+        IE.PROCEDURE_REGISTRY.clear()
+        IE.PROCEDURE_REGISTRY.update(saved_registry)

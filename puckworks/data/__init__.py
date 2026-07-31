@@ -28,28 +28,64 @@ def _params(path):
     return out
 
 
+class TypedRow(dict):
+    """A typed row that still remembers the exact text it came from.
+
+    Paper 1 round-12 P1-7. `float(v)` is irreversible: `93.4000400000000001` and
+    `93.4000400000000002` are distinct decimal tokens that become the SAME binary double, both
+    `repr` as `93.40004`, and therefore produce the same condition identity. Downstream,
+    `source_schema` promised "lossless" coordinate identity and converted the float back through
+    `repr()` to "recover the source token exactly" — which cannot work, because the information was
+    destroyed one layer up.
+
+    A condition coordinate is an IDENTITY, not an input to arithmetic: it decides which observations
+    share a cluster, and a clustered percentile range depends entirely on which outcomes move
+    together. So the token survives.
+
+    Kept as an ATTRIBUTE rather than an extra key: `raw_tokens` does not appear in `keys()`,
+    `items()` or iteration, so every existing consumer — including code that maps `float` over a
+    row — is unaffected.
+    """
+
+    __slots__ = ("raw_tokens",)
+
+    def __init__(self, typed, raw_tokens):
+        super().__init__(typed)
+        self.raw_tokens = raw_tokens
+
+
+def raw_token(row, column):
+    """The original CSV text for ``column``, or ``None`` if this row did not preserve it."""
+    return getattr(row, "raw_tokens", {}).get(column)
+
+
+def _conv(v):
+    try:
+        return float(v)
+    except (ValueError, TypeError):
+        return v
+
+
+def _typed(rows):
+    return [TypedRow({k: _conv(v) for k, v in r.items()},
+                     {k: v for k, v in r.items() if isinstance(v, str)}) for r in rows]
+
+
 def _typed_rows(path):
-    """DictReader rows with each cell coerced to float where it parses."""
-    def conv(v):
-        try:
-            return float(v)
-        except (ValueError, TypeError):
-            return v
-    return [{k: conv(v) for k, v in r.items()} for r in _rows(path)]
+    """DictReader rows with each cell coerced to float where it parses.
+
+    The untyped source text is retained on each row's ``raw_tokens`` (round-12 P1-7).
+    """
+    return _typed(_rows(path))
 
 
 def _typed_rows_hashskip(path):
     """Like _typed_rows but skips leading `#` comment/provenance lines (the
     romancorrochano2017 drop carries provenance headers on every file)."""
-    def conv(v):
-        try:
-            return float(v)
-        except (ValueError, TypeError):
-            return v
     with open(path, newline="", encoding="utf-8-sig") as fh:
         body = (ln for ln in fh if not ln.lstrip().startswith("#"))
         rows = list(csv.DictReader(body))
-    return [{k: conv(v) for k, v in r.items()} for r in rows]
+    return _typed(rows)
 
 
 # --- waszkiewicz2025 (ROADMAP 0.2) ---------------------------------------

@@ -33,15 +33,27 @@ The chain here is:
         → DERIVE the decision from the observed result and the registered rule
         → VerifiedInferentialStatus, whose decision flags are computed properties
 
-``claim_policy.granted()`` grants nothing to a bare declared status. A future calibrated analysis
-unlocks language by producing evidence that survives :func:`verify_inferential_evidence`, not by
-editing a flag — and it unlocks only the decision its registered rule actually produced, so
-equivalence evidence cannot license superiority prose.
+Round-12 P1-4 and P1-5 rebuilt two parts of that.
 
-What this is NOT: protection against an adversary who can rewrite the code and the evidence
-together. The digests bind an artefact to a claim WITHIN this workflow, which is the failure mode
-that has actually occurred here five rounds running — a value or a flag drifting away from the thing
-it describes while every checker stayed green.
+**The permission boundary.** Round 11 made ``VerifiedInferentialStatus`` the object
+``claim_policy`` trusts and called it unforgeable because construction required a module-private
+sentinel. ``_VERIFIED`` is an ordinary module attribute, and one import later the public dataclass
+constructor takes it — so the trusted thing had moved from a stored flag to possession of a Python
+object, not disappeared. ``granted()`` now takes an evidence IDENTIFIER and re-verifies it from
+canonical production storage at the point of use. Passing a pre-verified object grants nothing.
+
+**The evidence itself.** The verifier compared ``analysis_result_sha256`` as an opaque digest and
+then took the decisive interval from a separate field in the evidence record, so a hashed result
+containing ``[-2.0, 2.0]`` could sit behind a decision derived from ``(-0.30, 0.20)``. And a margin
+protocol was proven only to be a *different* artefact, never to have existed first. The interval is
+now parsed out of the hashed result, and predeclaration requires a checkable ordering proof.
+
+The word "unforgeable" is retired. In-process Python is not a security boundary against code that
+can import the module, and claiming otherwise would be the same "describes more than it does" error
+this file exists to fix. What the chain provides is that a permission cannot be obtained without a
+matching, self-consistent record in production storage — which is the failure mode that has actually
+occurred here, six rounds running: a value or a flag drifting away from the thing it describes while
+every checker stayed green.
 """
 
 from __future__ import annotations
@@ -168,11 +180,26 @@ class ProcedureSpec:
         return digest(self.as_dict())
 
     def problems(self) -> list[str]:
-        """Registration-time coherence. A procedure that does not specify its semantics fails."""
+        """Registration-time coherence. A procedure that does not specify its semantics fails.
+
+        Round-12 P1-5: a synthetic procedure with `cluster_unit=""` and `implementation_id=""`
+        registered without complaint. A field that is declared but empty is not a declaration; it is
+        the absence of one wearing a schema.
+        """
         out = []
-        if not self.procedure_id or not self.procedure_version:
-            out.append("a registered procedure needs a stable id AND a version; an id alone can "
-                       "silently change meaning between releases")
+        for field in ("procedure_id", "procedure_version", "cluster_unit", "required_estimand_id",
+                      "implementation_id"):
+            value = getattr(self, field)
+            if not isinstance(value, str) or not value.strip():
+                out.append("procedure %r declares %s=%r; an empty or whitespace-only semantic "
+                           "field is the absence of a declaration, not a declaration"
+                           % (self.procedure_id, field, value))
+        if not self.decision_rules:
+            out.append("procedure %r declares no decision rule, so it can produce no decision"
+                       % self.procedure_id)
+        for decision, rule_id in sorted(self.decision_rules.items()):
+            if not isinstance(rule_id, str) or not rule_id.strip():
+                out.append("procedure %r maps %r to an empty rule id" % (self.procedure_id, decision))
         for decision, rule_id in sorted(self.decision_rules.items()):
             if decision not in DECISIONS:
                 out.append("procedure %r declares an unknown decision %r"
@@ -443,14 +470,121 @@ class VerifiedInferentialStatus:
                 else TS.ClaimClass.DESCRIPTIVE_EVIDENCE_LIMITED)
 
 
+#: Fields the canonical analysis result must carry. The decision is derived from THESE, parsed out
+#: of the bytes that were hashed — never from a value the evidence record wrote down beside them.
+_REQUIRED_RESULT_FIELDS = (
+    "schema_version", "procedure_id", "procedure_version", "estimand_id", "confidence_level",
+    "predictors_refitted_within_draw", "observed_interval_pp",
+)
+
+
+def _result_problems(result, evidence: EvidenceRecord, spec: ProcedureSpec,
+                     estimand: TS.EstimandSpec) -> tuple:
+    """Parse the hashed result and check it means what the evidence says it means.
+
+    Round-12 P1-5. The verifier compared ``analysis_result_sha256`` as an OPAQUE digest and then
+    took the decisive interval from ``evidence.observed_interval_pp``, a separate caller-written
+    field. The reviewer hashed a result whose interval was ``[-2.0, 2.0]`` — which does not support
+    equivalence — while the evidence claimed ``(-0.30, 0.20)``, which does. Both digests matched and
+    verification returned no problems.
+
+    So the chain could truthfully say "this decision references this result hash" while deriving the
+    decision from a different interval. Identity is not semantics.
+    """
+    if not isinstance(result, dict):
+        return None, ["the analysis result artefact is %s, expected a mapping conforming to the "
+                      "canonical result schema" % type(result).__name__]
+    missing = [k for k in _REQUIRED_RESULT_FIELDS if k not in result]
+    if missing:
+        return None, ["the analysis result is missing required field(s) %r; a decision cannot be "
+                      "derived from it" % (missing,)]
+
+    problems = []
+    if result["procedure_id"] != spec.procedure_id or \
+            result["procedure_version"] != spec.procedure_version:
+        problems.append("the result was produced by procedure %r/%r, but the evidence names %r/%r"
+                        % (result["procedure_id"], result["procedure_version"],
+                           spec.procedure_id, spec.procedure_version))
+    if result["estimand_id"] != estimand.id:
+        problems.append("the result is for estimand %r, not %r" % (result["estimand_id"],
+                                                                   estimand.id))
+    if bool(result["predictors_refitted_within_draw"]) != bool(spec.predictors_refitted_within_draw):
+        problems.append("the result records predictors_refitted_within_draw=%r; procedure %r "
+                        "requires %r" % (result["predictors_refitted_within_draw"],
+                                         spec.procedure_id, spec.predictors_refitted_within_draw))
+    interval = result["observed_interval_pp"]
+    if not isinstance(interval, (list, tuple)) or len(interval) != 2:
+        return None, problems + ["the result's observed_interval_pp is %r, expected [lower, upper]"
+                                 % (interval,)]
+    try:
+        lower = _require_number(interval[0], "result.observed_interval_pp[0]")
+        upper = _require_number(interval[1], "result.observed_interval_pp[1]")
+        level = _require_number(result["confidence_level"], "result.confidence_level")
+    except ValueError as exc:
+        return None, problems + [str(exc)]
+
+    # The transitional duplicate in the evidence record must EQUAL the parsed result, exactly.
+    if (float(evidence.observed_interval_pp[0]), float(evidence.observed_interval_pp[1])) != \
+            (lower, upper):
+        problems.append(
+            "the evidence record's observed_interval_pp is %r but the hashed analysis result "
+            "contains %r; the decision must be derived from the result, and a record that "
+            "disagrees with the artefact it cites is not evidence about it"
+            % ((evidence.observed_interval_pp[0], evidence.observed_interval_pp[1]),
+               (lower, upper)))
+    if float(evidence.confidence_level) != level:
+        problems.append("the evidence record's confidence_level is %r but the result records %r"
+                        % (evidence.confidence_level, level))
+    return (lower, upper), problems
+
+
+def _chronology_problems(protocol, evidence: EvidenceRecord) -> list[str]:
+    """Was the practical margin declared BEFORE the result existed?
+
+    Round-12 P1-5 again: a different hash proves identity, not ordering. The reviewer supplied a
+    protocol object explicitly marked ``created_after_result: True`` and it verified.
+
+    The repository-native proof is commit ancestry — the protocol blob committed strictly before the
+    commit that produced the result. That requires Git history the verifier may not have, so the
+    contract is: an explicit, checkable ordering declaration must be present and must say the
+    protocol predates the result. Absent or contradicted, verification FAILS. What is not acceptable
+    is silence being read as "fine", which is what the previous version did.
+    """
+    if not isinstance(protocol, dict):
+        return ["the practical-margin protocol artefact is %s, expected a mapping carrying its "
+                "chronology proof" % type(protocol).__name__]
+    problems = []
+    if protocol.get("created_after_result"):
+        problems.append("the practical-margin protocol declares created_after_result=True; a "
+                        "margin chosen after seeing the result is not a predeclaration, whatever "
+                        "its hash")
+    ancestry = protocol.get("predates_result")
+    if ancestry is not True:
+        problems.append(
+            "the practical-margin protocol carries no `predates_result: true` proof (protocol "
+            "commit a strict ancestor of the result commit); a different hash proves identity, not "
+            "chronology, and an unprovable predeclaration must fail closed")
+    for field in ("protocol_commit", "result_commit"):
+        value = protocol.get(field)
+        if not isinstance(value, str) or not value.strip():
+            problems.append("the practical-margin protocol does not name %s, so its ordering claim "
+                            "cannot be audited" % field)
+    if protocol.get("estimand_id") and evidence.decision_rule_ids and \
+            protocol.get("units") not in (None, "percentage_points"):
+        problems.append("the practical-margin protocol declares units %r; the margin must be in the "
+                        "estimand's units" % (protocol.get("units"),))
+    return problems
+
+
 def verify_inferential_evidence(declared: TS.InferentialStatus, evidence: EvidenceRecord,
                                 estimand: TS.EstimandSpec, artefact_digests: dict,
-                                registry: dict = None):
+                                registry: dict = None, artefacts: dict = None):
     """Return ``(verified_status_or_None, problems)``.
 
     ``artefact_digests`` maps ``analysis_result``/``source_manifest``/``estimand_contract``/
-    ``practical_margin_protocol`` to the digest the CALLER computed from the actual artefact. The
-    evidence record does not get to assert what those artefacts hash to.
+    ``practical_margin_protocol`` to the digest the CALLER computed from the actual artefact, and
+    ``artefacts`` supplies the parsed CONTENT of the result and the margin protocol. Both are
+    required: a digest proves which bytes, and the content is what the decision is derived from.
 
     Nothing is trusted:
 
@@ -458,10 +592,16 @@ def verify_inferential_evidence(declared: TS.InferentialStatus, evidence: Eviden
     * every referenced artefact digest is compared against the caller's;
     * the declared semantics (kind, coverage, level, refit policy, estimand) must equal the
       procedure's requirements;
-    * a margin must exist, be positive, and be bound to a protocol that is NOT the result — a number
-      typed in beside the answer is not a predeclaration; and
-    * every decision is RECOMPUTED from the observed interval and the registered rule, then compared
+    * the observed interval is PARSED OUT OF THE HASHED RESULT, and the evidence record's copy must
+      equal it exactly (round-12 P1-5);
+    * the practical margin must be bound to a protocol carrying a checkable proof that it predates
+      the result (round-12 P1-5); and
+    * every decision is RECOMPUTED from the parsed interval and the registered rule, then compared
       with what the record and the declared status say.
+
+    **This function is not the production permission boundary.** ``claim_policy.granted()`` does not
+    accept its output, because a caller chooses the registry and the artefacts passed here. See
+    :func:`verify_registered_production_evidence`.
     """
     registry = PROCEDURE_REGISTRY if registry is None else registry
     problems: list[str] = []
@@ -540,6 +680,13 @@ def verify_inferential_evidence(declared: TS.InferentialStatus, evidence: Eviden
                 problems.append("evidence.practical_margin_protocol_sha256 is %s but the protocol "
                                 "hashes to %s" % (evidence.practical_margin_protocol_sha256[:12],
                                                   want[:12]))
+        # …and the protocol's CONTENT has to prove it predates the result.
+        protocol = (artefacts or {}).get("practical_margin_protocol")
+        if protocol is None:
+            problems.append("no practical_margin_protocol content was supplied, so predeclaration "
+                            "cannot be proven; a margin whose chronology is unprovable fails closed")
+        else:
+            problems += _chronology_problems(protocol, evidence)
     elif margin is not None:
         problems.append("a practical margin (%r) is recorded but no decision uses it; an unused "
                         "margin invites a post hoc negligibility claim" % (margin,))
@@ -547,11 +694,20 @@ def verify_inferential_evidence(declared: TS.InferentialStatus, evidence: Eviden
         problems.append("the declared practical_margin_pp %r is not the evidence's %r"
                         % (declared.practical_margin_pp, margin))
 
-    # ── DERIVE each decision, rather than reading it ─────────────────────────────────────────
+    # ── DERIVE each decision from the PARSED RESULT, rather than reading it ──────────────────
+    result = (artefacts or {}).get("analysis_result")
+    if result is None:
+        return None, problems + [
+            "no analysis_result content was supplied; the decisive interval must be parsed out of "
+            "the bytes that were hashed, not taken from a field beside them"]
+    bounds, result_problems = _result_problems(result, evidence, spec, estimand)
+    problems += result_problems
+    if bounds is None:
+        return None, problems
     try:
-        sem = TS.interval_semantics(*evidence.observed_interval_pp)
+        sem = TS.interval_semantics(*bounds)
     except (TypeError, ValueError) as exc:
-        return None, problems + ["evidence.observed_interval_pp is not a usable interval: %s" % exc]
+        return None, problems + ["the result's observed interval is not usable: %s" % exc]
 
     derived = {}
     for decision, rule_id in sorted(evidence.decision_rule_ids.items()):
@@ -591,3 +747,76 @@ def verify_inferential_evidence(declared: TS.InferentialStatus, evidence: Eviden
                       "decision rule must be a pure function of the observed interval, the estimand "
                       "and the margin"]
     return verified, []
+
+
+# ─────────────────────────────────────────────────────────────────────────────────────────────
+# 5. The production permission boundary (round-12 P1-4)
+# ─────────────────────────────────────────────────────────────────────────────────────────────
+#
+# Round-11 made `VerifiedInferentialStatus` the thing `claim_policy` trusts and called it
+# unforgeable because construction needs `_VERIFIED`. Round-12 pointed out that `_VERIFIED` is an
+# ordinary module attribute: `from puckworks.paper_a.inferential_evidence import _VERIFIED` and the
+# public dataclass constructor takes it. The trusted boolean had moved again — from a stored flag,
+# to possession of an importable sentinel plus caller-chosen evidence and registry objects.
+#
+# The correction is to stop treating a Python object as provenance at all. In-process Python cannot
+# be a security boundary against code that can import the module, and pretending otherwise is the
+# same "describes more than it does" error as everything else this file exists to fix. So:
+#
+#   * production permission takes an evidence IDENTIFIER, not an object;
+#   * it is re-verified from CANONICAL PRODUCTION STORAGE at the point of use; and
+#   * the registry is not a parameter any production caller can supply.
+#
+# The wording "unforgeable" is retired. What this provides is that a permission cannot be obtained
+# without a matching record in production storage — which is the failure mode that has actually
+# occurred here, not an adversary rewriting the package.
+
+
+@dataclass(frozen=True)
+class InferentialEvidenceReference:
+    """A pointer to evidence in canonical production storage. Carries no decision of its own."""
+
+    evidence_id: str
+
+
+#: Canonical production evidence, keyed by id. EMPTY, and that is the honest state: Paper A runs a
+#: fixed-predictor clustered percentile sensitivity analysis, which is not an inferential procedure
+#: and produces no decision. A future analysis registers here, and nowhere else.
+PRODUCTION_EVIDENCE: dict = {}
+
+
+class EvidenceNotRegistered(LookupError):
+    """No canonical production evidence exists for this reference."""
+
+
+def verify_registered_production_evidence(evidence_id: str):
+    """Re-verify production evidence from canonical storage. Returns a verified status.
+
+    Loads the evidence record, the result, the protocol, the estimand and the procedure from
+    production locations — never from anything the caller is holding. Raises when the reference is
+    unknown, which is what an empty production registry means for every reference.
+    """
+    entry = PRODUCTION_EVIDENCE.get(evidence_id)
+    if entry is None:
+        raise EvidenceNotRegistered(
+            "no canonical production evidence is registered under %r; a decision permission is "
+            "re-earned from production storage at the point of use, so an unregistered reference "
+            "grants nothing" % (evidence_id,))
+    status, problems = verify_inferential_evidence(
+        entry["declared"], entry["evidence"], entry["estimand"], entry["artefact_digests"],
+        PROCEDURE_REGISTRY, artefacts=entry["artefacts"])
+    if problems:
+        raise EvidenceNotRegistered(
+            "canonical production evidence %r does not verify: %s" % (evidence_id,
+                                                                      "; ".join(problems)))
+    return status
+
+
+def verify_inferential_evidence_for_test(*args, **kwargs):
+    """The explicit TEST SEAM.
+
+    Synthetic procedures and caller-supplied registries are available only through this name, so a
+    production caller cannot reach them by accident and a reader can see at the call site which one
+    is in play. `claim_policy.granted()` does not accept what this returns.
+    """
+    return verify_inferential_evidence(*args, **kwargs)

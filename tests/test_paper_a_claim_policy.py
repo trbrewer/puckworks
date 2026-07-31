@@ -251,14 +251,15 @@ def test_the_prohibition_is_derived_from_evidence_not_hard_coded():
     """A future calibrated analysis unlocks the language by PRODUCING EVIDENCE that survives
     verification, not by editing a word list and not by declaring a flag. That is the difference
     between a policy and a ban, and between evidence and assertion."""
-    from tests.helpers_inferential_evidence import synthetic_equivalence_status
+    from tests import helpers_inferential_evidence as H
 
     verdict = "Under the predeclared margin the two arms are equivalent."
-    earned = synthetic_equivalence_status()
-    assert CP.scan(verdict, earned) == []
-    # …but an absence-of-skill verdict is still not licensed by an equivalence decision alone.
-    assert CP.scan("The model adds no resolvable skill.", earned)
-    assert CP.scan("The model outperforms the comparator.", earned)
+    # Round-12 P1-4: through a reference re-verified from production storage, not an object.
+    with H.registered_production_evidence() as earned:
+        assert CP.scan(verdict, earned) == []
+        # …but an absence-of-skill verdict is still not licensed by an equivalence decision alone.
+        assert CP.scan("The model adds no resolvable skill.", earned)
+        assert CP.scan("The model outperforms the comparator.", earned)
 
 
 def test_the_limits_sentence_is_generated_from_the_status():
@@ -339,7 +340,8 @@ def test_an_unqualified_gain_fails_the_highlight_assertion():
     retired = ("• A process model's gain over a concentration-only baseline was under 0.4 points\n")
     missing = CP.missing_assertions(retired, "highlights")
     assert {m.split("the ")[1].split(" claim")[0] for m in missing} == \
-        {"observed_advantage", "ranges_uncalibrated", "no_decision_claimed"}
+        {"observed_advantage", "ranges_uncalibrated", "no_decision_claimed",
+         "accuracy_is_insufficient"}
 
 
 def test_the_figure3_extractor_cannot_pick_up_figure_s3():

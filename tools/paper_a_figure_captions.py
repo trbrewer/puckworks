@@ -60,14 +60,30 @@ _STRUCTURE_IN_BODY = re.compile(r"(?:^|\s)(?:-{3,}|\*{3,}|_{3,})(?:\s|$)|(?:^|\s
 EXPECTED_MAIN = ("1", "2", "3", "4")
 EXPECTED_SUPPLEMENTARY = ("S1", "S2", "S3", "S4")
 
+#: The authoritative presentation-number -> producer-stem mapping.
+#:
+#: Round-12 P2-1: `_HEADING` captured the stem and `captions()` threw it away, so the caption set
+#: could be fresh and structurally valid while the repository's bookkeeping pointed a presentation
+#: figure at the wrong producer. The mapping the internal map claims to be is now checked.
+EXPECTED_STEMS = {
+    "1": "fig1_design",
+    "2": "fig2_objective_surface",
+    "3": "fig4_transfer",
+    "4": "fig6_fraction_vs_endpoint",
+    "S1": "fig3_holdouts",
+    "S2": "fig5_joint_residual",
+    "S3": "fig7_per_group_diagnostics",
+    "S4": "fig8_residuals_vs_conditions",
+}
+
 
 #: Presentation order: main figures by number, then supplementary by number.
 def _sort_key(number: str) -> tuple[int, int]:
     return (1, int(number[1:])) if number.startswith("S") else (0, int(number))
 
 
-def captions() -> list[tuple[str, str]]:
-    """``[(number, caption_text)]`` in presentation order, from the internal map.
+def captions() -> list[tuple[str, str, str]]:
+    """``[(number, producer_stem, caption_text)]`` in presentation order, from the internal map.
 
     Each section runs from its `### Figure N` heading to the FIRST of: any heading of level 1-3, a
     horizontal rule, or end of document. A `## Supplementary figures` heading therefore terminates
@@ -81,7 +97,7 @@ def captions() -> list[tuple[str, str]]:
 
     found = []
     for i, match in enumerate(headings):
-        number = match.group(1)
+        number, stem = match.group(1), match.group(2)
         start = match.end()
         limit = headings[i + 1].start() if i + 1 < len(headings) else len(text)
         body = text[start:limit]
@@ -96,7 +112,7 @@ def captions() -> list[tuple[str, str]]:
         paragraph = " ".join(clean.split())
         if not paragraph:
             raise SystemExit("Figure %s has no caption text in the internal map" % number)
-        found.append((number, paragraph))
+        found.append((number, stem, paragraph))
 
     problems = caption_set_problems(found)
     if problems:
@@ -114,7 +130,24 @@ def caption_set_problems(found) -> list[str]:
     round.
     """
     problems = []
-    numbers = [n for n, _c in found]
+    numbers = [n for n, _s, _c in found]
+
+    # Round-12 P2-1: the producer mapping the internal map exists to record.
+    stems = [s for _n, s, _c in found]
+    duplicate_stems = sorted({s for s in stems if stems.count(s) > 1})
+    if duplicate_stems:
+        problems.append("producer stem(s) %r are used by more than one presentation figure"
+                        % duplicate_stems)
+    for number, stem, _caption in found:
+        expected = EXPECTED_STEMS.get(number)
+        if expected is None:
+            problems.append("Figure %s is not in the declared package mapping" % number)
+        elif stem != expected:
+            problems.append("Figure %s is mapped to producer %r; the package declares %r"
+                            % (number, stem, expected))
+    for number in sorted(set(EXPECTED_STEMS) - set(numbers), key=_sort_key):
+        problems.append("Figure %s (%r) is declared in the package mapping but absent from the "
+                        "internal map" % (number, EXPECTED_STEMS[number]))
     duplicates = sorted({n for n in numbers if numbers.count(n) > 1})
     if duplicates:
         problems.append("figure number(s) %r appear more than once in the map" % duplicates)
@@ -127,7 +160,7 @@ def caption_set_problems(found) -> list[str]:
         problems.append("supplementary figures are %r; the package declares %r"
                         % (supp, EXPECTED_SUPPLEMENTARY))
 
-    for number, caption in found:
+    for number, _stem, caption in found:
         label = "**Figure %s." % number
         if not caption.startswith(label):
             problems.append("Figure %s's caption does not begin with %r" % (number, label))
@@ -159,8 +192,9 @@ def render_problems(rendered: str) -> list[str]:
 
 
 def render() -> str:
-    main = [(n, c) for n, c in captions() if not n.startswith("S")]
-    supp = [(n, c) for n, c in captions() if n.startswith("S")]
+    entries = captions()
+    main = [(n, c) for n, _s, c in entries if not n.startswith("S")]
+    supp = [(n, c) for n, _s, c in entries if n.startswith("S")]
     out = [
         "# Figure captions",
         "",

@@ -181,11 +181,25 @@ def test_a_path_in_an_availability_statement_is_no_longer_exempt(only):
 
 def test_the_unsupplied_metadata_placeholder_is_still_allowed(only):
     """The narrow, structural exemption: a block that announces itself as not-yet-supplied may name
-    the field and file the missing metadata is tracked in. It is stripped before submission."""
-    only("CONVERSION", "### Funding\n\n*Not yet supplied.* Tracked as `funding` in "
-                       "`docs/submission/paper_a_front_matter.yaml`.")
+    the field and file the missing metadata is tracked in. It is stripped before submission.
+
+    Round-12 P1-8C narrowed this from the whole PARAGRAPH to the placeholder sentence plus ONE exact
+    tracking-reference grammar, so the approved wording has to be the approved wording.
+    """
+    only("CONVERSION",
+         "### Funding\n\n*Not yet supplied.* State the funder and grant number. Tracked as "
+         "`funding` in `docs/submission/paper_a_front_matter.yaml`; "
+         "`tools/paper_a_front_matter.py --check-submission-ready` blocks submission until it is "
+         "resolved.")
     assert not any("paper_a_front_matter.yaml" in p
                    for p in C._placeholders_and_process_language())
+
+
+def test_the_metadata_exemption_stops_at_the_placeholder(only):
+    """Round-12 P1-8C: anything else sharing the paragraph is scanned normally."""
+    only("CONVERSION", "### Funding\n\n*Not yet supplied.* See `docs/internal/review.md` for the "
+                       "scientific analysis.")
+    assert any("docs/internal/review.md" in p for p in C._placeholders_and_process_language())
 
 
 def test_the_highlights_header_no_longer_names_repository_paths():
@@ -208,7 +222,7 @@ def test_a_missing_parser_blocks_rather_than_passing(monkeypatch):
 
 # ── 5. P2-1: caption structure ──────────────────────────────────────────────────────────────
 def test_figure_4_ends_at_its_own_caption():
-    captions = dict(FC.captions())
+    captions = {n: c for n, _s, c in FC.captions()}
     assert captions["4"].endswith("they should not be pooled as equivalent validation.")
     assert "Supplementary figures" not in captions["4"]
     assert "---" not in captions["4"]
@@ -224,11 +238,12 @@ def test_the_rendered_caption_file_has_exactly_one_of_each_heading():
 def test_the_caption_set_invariants_hold():
     found = FC.captions()
     assert FC.caption_set_problems(found) == []
-    numbers = [n for n, _c in found]
+    numbers = [n for n, _s, _c in found]
     assert numbers == list(FC.EXPECTED_MAIN) + list(FC.EXPECTED_SUPPLEMENTARY)
-    for number, caption in found:
+    for number, stem, caption in found:
         assert caption.startswith("**Figure %s." % number)
         assert caption.count("**Figure ") == 1
+        assert stem == FC.EXPECTED_STEMS[number]
 
 
 @pytest.mark.parametrize("mutation,expect", [
@@ -240,9 +255,11 @@ def test_the_caption_set_invariants_hold():
 ], ids=["rule-and-heading", "heading", "no-label", "duplicate-label", "unexpected-figure"])
 def test_a_malformed_caption_set_is_rejected(mutation, expect):
     """The defect fixture: before the structural fix this exact shape was the SHIPPED file."""
-    found = dict(FC.captions())
-    found.update(dict(mutation))
-    problems = FC.caption_set_problems(sorted(found.items(), key=lambda kv: FC._sort_key(kv[0])))
+    found = {n: (s, c) for n, s, c in FC.captions()}
+    for number, caption in mutation:
+        found[number] = (found.get(number, ("fig_unknown", ""))[0], caption)
+    entries = [(n, s, c) for n, (s, c) in sorted(found.items(), key=lambda kv: FC._sort_key(kv[0]))]
+    problems = FC.caption_set_problems(entries)
     assert any(expect in p for p in problems), (mutation, problems)
 
 
@@ -258,7 +275,8 @@ def test_extraction_stops_at_a_section_delimiter(tmp_path, monkeypatch):
     monkeypatch.setattr(FC, "INTERNAL_MAP", fixture)
     monkeypatch.setattr(FC, "EXPECTED_MAIN", ("1", "2"))
     monkeypatch.setattr(FC, "EXPECTED_SUPPLEMENTARY", ("S1",))
-    captions = dict(FC.captions())
+    monkeypatch.setattr(FC, "EXPECTED_STEMS", {"1": "a", "2": "b", "S1": "c"})
+    captions = {n: c for n, _s, c in FC.captions()}
     assert captions["2"] == "**Figure 2. Two.** Body two."
     assert "Supplementary" not in captions["2"]
 

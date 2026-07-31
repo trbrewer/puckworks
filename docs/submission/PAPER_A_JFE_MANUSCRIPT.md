@@ -162,7 +162,7 @@ The study is organised around three questions, each answered by one results sect
 2. **Does a mechanistic model's cross-grind endpoint prediction improve on a level-only baseline?** (§4)
 3. **Do time-resolved observations provide stronger information about the rate than cup-integrated ones?** (§5)
 
-The contribution is a worked, matched-observable protocol for answering these separately, and the demonstration that the answers dissociate: a model can predict the cup acceptably while leaving its own parameters weakly separated, and while its observed pooled-MAPE advantage over a baseline that carries no mechanism at all is less than half a percentage point. Because the reported ranges are uncalibrated fixed-predictor sensitivities and no practical margin was predeclared, this analysis does not determine whether that observed advantage is reproducible or practically useful, and it does not establish that the advantage is absent.
+The contribution is a worked, matched-observable protocol for answering these separately, and the demonstration that the answers dissociate: a model can predict the cup acceptably while leaving its own parameters weakly separated, and while its observed pooled-MAPE advantage over a baseline that carries no mechanism at all is −0.394 percentage points at the 40 g endpoint. Because the reported ranges are uncalibrated fixed-predictor sensitivities and no practical margin was predeclared, this analysis does not determine whether that observed advantage is reproducible or practically useful, and it does not establish that the advantage is absent.
 
 ## 2. Model, datasets, and observation operators
 
@@ -639,7 +639,7 @@ listed in Supplementary Table S1.
 |---|---|---|---|
 | pooled-envelope bracket | model brackets the 3 named solutes + the aggregate proxy | *optimistic* — the 66-shot ranges are wide | external (wide envelope) |
 | per-condition, blind | **named-solute macro-MAPE 26.3 %** (proxy-inclusive 22.7 %, reported separately) | > angeloni's own ~9–13 % model | cross-dataset blind comparison, per-condition |
-| + Darcy `q~p/μ(T)` flow refinement | **26.3 %** (crude-τ 26.8) | closes only **~0.5 pp** — at matched mass the flow-map choice barely matters | cross-dataset blind comparison, per-condition |
+| + Darcy `q~p/μ(T)` flow refinement | **26.3 %** (crude-τ 26.8) | closes **~0.5 pp** — at matched mass the flow-map choice moves the residual by ~0.5 pp | cross-dataset blind comparison, per-condition |
 | + refit the inventory level + the rate multiplier (fit 9 on-grid, hold out 2 off-grid O) | **named-solute holdout ≈8.4 %** (aggregate-solids proxy TDS ≈11.5 %, reported separately) | a NEW angeloni calibration | reconstruction (single grind); weak 2-pt holdout |
 
 Matching the collection endpoint materially reduces the blind residual relative to an
@@ -811,7 +811,7 @@ an external-rig prediction.
 <!-- paper-a:transfer-headline:begin -->
 <!-- paper-a:transfer-corpus schema=4 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
 
-**Level-only comparator: absolute error alone does not establish transfer skill.** This is the paper's principal quantitative result, so we state it first. Against an **optimal-grind-trained MAPE-optimal constant**, the mechanistic model's pooled held-out MAPE is **8.44%** versus **8.83%** for the constant — a paired difference of **−0.394 percentage points**, which favours the mechanistic model. Its primary clustered percentile **sensitivity range** — not a calibrated confidence interval — is **[−0.829, +0.004] pp** and contains zero, and the mechanistic model is **worse on 62 of 132 held-out observations**. The observed advantage is therefore small, and this analysis does not establish whether it is reproducible or practically useful: acceptable endpoint accuracy does not by itself establish transfer of the kinetic mechanism beyond a transferred concentration level.
+**Level-only comparator: absolute error alone does not establish transfer skill.** This is the paper's principal quantitative result, so we state it first. Against an **optimal-grind-trained MAPE-optimal constant**, the mechanistic model's pooled held-out MAPE is **8.44%** versus **8.83%** for the constant — a paired difference of **−0.394 percentage points**, which favours the mechanistic model. Its primary clustered percentile **sensitivity range** — not a calibrated confidence interval — is **[−0.829, +0.004] pp** and contains zero, and the mechanistic model is **worse on 62 of 132 held-out observations**. The Because the reported ranges are uncalibrated and no practical margin was predeclared, this analysis does not establish that the observed advantage is reproducible or practically useful, and it does not establish that the advantage is absent: acceptable endpoint accuracy does not by itself establish transfer of the kinetic mechanism beyond a transferred concentration level.
 <!-- paper-a:transfer-headline:end -->
 
 **The held-out corpus is the complete one, and its membership is emitted rather than described.**
@@ -867,8 +867,8 @@ this paper — we therefore call them *clustered percentile sensitivity ranges* 
 "95 % CI" language for them. Table 5 separates every resampling quantity used in the paper by
 estimand, because several of them are numerically similar and answer different questions.
 
-**Endpoint propagation.** Because this difference is only −0.394 percentage points wide, and because
-the source declares a 40 ± 2 g beverage, the complete procedure was repeated
+**Endpoint propagation.** The model-minus-comparator difference at 40 g is −0.394 percentage
+points, favouring the mechanistic model. Because the source declares a 40 ± 2 g beverage, the complete procedure was repeated
 at 38, 40 and 42 g: fit inventory and rate on the nine optimal-grind conditions at that endpoint,
 freeze that calibration, predict every held-out coarse/fine observation at the same endpoint, refit
 the level-only constant at the same endpoint, and repeat the primary clustered resampling.
@@ -900,7 +900,7 @@ Three observations should be kept separate: the size of the observed effect, the
 
 **The position of the boundary moves with the endpoint.** At the canonical draw count the primary clustered range excludes zero on the negative side at 38 g, and contains zero at 40 g and 42 g. The three upper bounds are −0.042, +0.004 and +0.006 pp: they differ from one another, and from zero, by less than a twentieth of a percentage point, against pooled errors near 8.4 % in both arms. Whether such a bound falls just inside or just outside zero follows from the clustering assumption and the endpoint, not from any measurement of skill. The same holds across fitting losses: refitting both predictors under a log/relative-error level fit moves the paired difference only from −0.394 to −0.393 pp, and the loss-specific ranges both contain zero.
 
-**What follows is narrower than either observation suggests.** Because the estimand is pooled MAPE for the mechanistic model minus pooled MAPE for the O-trained level-only comparator in percentage points, negative values favour the mechanistic model: across the sweep the most favourable bound is −0.891 pp and the least favourable is +0.006 pp — so the favourable extreme of these ranges lies well under one percentage point, and the least favourable extreme lies on the other side of zero. These are fixed-predictor clustered sensitivity ranges, without calibrated coverage and without a predeclared practical margin, so their positions determine neither superiority, non-inferiority, equivalence, nor absence of skill: this analysis does not establish whether the observed pooled MAPE difference is reproducible or practically useful, and it does not establish that the difference is absent. That applies symmetrically: the wholly negative ranges do not establish an advantage, and the zero-containing ranges do not establish its absence. We therefore do not convert a percentile bound's position into an inequality that carries the conclusion. Per-endpoint values, under every declared cluster scheme, are Supplementary Table S3.
+**What follows is narrower than either observation suggests.** Because the estimand is pooled MAPE for the mechanistic model minus pooled MAPE for the O-trained level-only comparator in percentage points, negative values favour the mechanistic model: across the sweep the most favourable bound is −0.891 pp and the least favourable is +0.006 pp, so the least favourable extreme lies on the other side of zero. These are fixed-predictor clustered sensitivity ranges, without calibrated coverage and without a predeclared practical margin, so their positions determine neither superiority, non-inferiority, equivalence, nor absence of skill: this analysis does not establish whether the observed pooled MAPE difference is reproducible or practically useful, and it does not establish that the difference is absent. That applies symmetrically: the wholly negative ranges do not establish an advantage, and the zero-containing ranges do not establish its absence. We therefore do not convert a percentile bound's position into an inequality that carries the conclusion. Per-endpoint values, under every declared cluster scheme, are Supplementary Table S3.
 <!-- paper-a:transfer-endpoint-reading:end -->
 
 <!-- paper-a:transfer-table5:begin -->
@@ -926,8 +926,8 @@ pooled data at **6.4 % macro-MAPE against 4.9 %** for the per-grind independent 
 modest **in-sample** cost-of-sharing of ~1.5 pp. This is an in-sample compatibility test
 (it scores the same pooled observations it was fitted to), **not** a held-out prediction; the
 residuals by variety, solute and grind are Supplementary Figure S2.
-An **in-sample comparator ladder** (in-sample comparator ladder) makes its
-adequacy auditable. These are **non-nested models of unequal flexibility, each scored on
+An **in-sample comparator ladder** (one-constant, per-grind constant, shared
+mechanistic, and per-grind mechanistic) makes its adequacy auditable. These are **non-nested models of unequal flexibility, each scored on
 its own fitting data** (no complexity penalty or held-out evaluation), so the comparison
 is descriptive: mean in-sample macro-MAPE runs one-constant **7.1 %** (1 param) →
 per-grind-constant **5.1 %** (3 params) → shared-mechanistic **6.4 %** (2 params) →
@@ -935,8 +935,9 @@ per-grind-mechanistic **4.9 %** (6 params). The salient comparison is that the
 2-parameter **shared mechanistic model has lower in-sample MAPE than the 3-parameter
 per-grind constant in none of six variety–solute comparisons** — i.e. the mechanistic
 response did not improve in-sample MAPE over grind-specific levels in this dataset,
-consistent with the small held-out skill above (this is a descriptive in-sample
-comparison, not proof that mechanism "explains nothing").
+This descriptive in-sample comparison is not a held-out test, and it does not
+adjudicate the magnitude, reproducibility or practical usefulness of the held-out
+difference — nor is it proof that mechanism "explains nothing".
 
 The `(inventory, rate)` split is **degenerate within a grind** — the fitted rate flips
 with incidental choices (§3.2). Propagating the **discrete 10 %-near-optimal MAPE grid set**
@@ -945,8 +946,8 @@ continuous manifold), the worst **aggregate** held-out C/F error rises to **21.8
 18.0 % at the point optimum; near-optimal-set transfer analysis). We now also
 propagate the set to **condition-wise prediction envelopes**: at each
 held-out (T, p) the predicted concentration ranges across the near-optimal set span a
-**median of only ~3 % of the observation** (worst ~16 %), and the worst-case held-out MAPE
-grows only modestly across declared tolerances (2/5/10/20 %: ~9.2→10.5 % for caffeine).
+**median of ~3 % of the observation** (worst ~16 %), and the worst-case held-out MAPE
+grows from ~9.2 % to ~10.5 % for caffeine across the declared 2/5/10/20 % tolerances.
 So the *aggregate and pointwise* prediction is stable across the set even though the
 parameters on it are not — the distinction between parameter identifiability and
 prediction stability, *tested* rather than asserted. This stability is,
@@ -1185,11 +1186,10 @@ campaign, whereas Angeloni et al. (2023) is an independent target campaign. Afte
 target-specific O-grind recalibration and matched-endpoint mapping, absolute C/F errors
 were modest, and the model's observed pooled MAPE was 8.44 % against 8.83 % for an
 O-trained level-only constant — a model-minus-comparator difference of −0.394 pp,
-favouring the model, with the model worse on 62 of 132 held-out points. That observed
-advantage is less than half a percentage point; because the reported ranges are
+favouring the model, with the model worse on 62 of 132 held-out points. Because the reported ranges are
 uncalibrated fixed-predictor sensitivities and no practical margin was predeclared, the
-present analysis does not determine whether it is reproducible or practically useful, and
-does not establish equivalence or absence of incremental value. The result therefore supports
+present analysis does not determine whether that observed advantage is reproducible or
+practically useful, and does not establish equivalence or absence of incremental value. The result therefore supports
 endpoint prediction stability under the tested within-campaign design, not transfer of an
 identified kinetic mechanism. Two readings are excluded by it: that the model's endpoint agreement
 identifies the inventory–rate split, and that the model simply fails to transfer across grind. The
