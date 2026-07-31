@@ -16,7 +16,7 @@
   42.0
  ],
  "corpus": {
-  "schema_version": 3,
+  "schema_version": 4,
   "estimand": "complete held-out C/F corpus (on-grid + off-grid)",
   "support_set": "complete_cf_corpus_132",
   "include_off_grid": true,
