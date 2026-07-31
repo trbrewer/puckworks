@@ -85,7 +85,7 @@ espresso; extraction modelling; mass transfer; practical identifiability; time-r
 - Observed pooled error was 0.394 points lower than a level-only comparator **[73 characters]**
 - Uncalibrated ranges support no superiority, equivalence or absence decision **[75 characters]**
 - Time-resolved samples constrained extraction rate more strongly **[63 characters]**
-- Accurate prediction did not guarantee well-determined model parameters **[70 characters]**
+- Endpoint accuracy alone did not establish mechanistic transfer **[62 characters]**
 <!-- frontmatter:highlights:end -->
 
 ## Editor-facing significance paragraph
@@ -134,7 +134,7 @@ Whole-cup measurements are common in food-process model calibration because they
 ## Conversion edits before upload
 
 1. Resolve the licensed Scopus/Web of Science search and replace provisional novelty wording with the archived search result.
-2. Complete replicate/measurement-uncertainty sensitivity reruns; update figures, bundle values, abstract, and discussion only if conclusions change.
+2. *(Resolved — no action.)* The replicate/measurement-uncertainty work is complete **as scoped**: the named solutes carry no per-cell RSD in the source, so a solute-specific weighted refit is blocked pending a replicate drop from the Angeloni authors, and the analysis is reported as a descriptive sensitivity study across plausible weighting schemes with the calibrated named-solute interval explicitly owed. The scope, the blocker and the adopted fallback are in `PAPER_A_P0-5_UNCERTAINTY_SCOPE.md`. This line previously read "Complete replicate/measurement-uncertainty sensitivity reruns", which contradicted the status paragraph above and left a packager unable to tell stale process language from an unperformed analysis that could change the figures.
 3. Remove all roadmap/review-ticket language and repository-development commentary from the manuscript body.
 4. Collapse the present long Results/Discussion prose by moving audit details to supplementary methods and tables.
 5. Use SI units or provide SI equivalents for coffee-specific units.

@@ -651,7 +651,36 @@ except ImportError:                                             # pragma: no cov
 structural_parser_unavailable = None
 
 _HTML_TAG = re.compile(r"<[^>]*>")
-_HTML_TARGET = re.compile(r"""\b(?:href|src)\s*=\s*["']([^"']+)["']""", re.I)
+
+#: URL-bearing HTML attributes, quoted OR unquoted.
+#:
+#: Round-12 P1-8A: the previous pattern required quotes and covered only `href` and `src`, so five
+#: destinations yielded nothing at all — `<a href=docs/internal/review.md>`,
+#: `<img src=docs/internal/figure.png>`, the percent-encoded form, `srcset` and `poster`. The same
+#: path inside a QUOTED `href` was found, which is what made it an extraction gap rather than a
+#: path-rule gap.
+_HTML_TARGET = re.compile(
+    r"""\b(?:href|src|srcset|poster|data|cite|action|formaction|longdesc|background|"""
+    r"""content|xlink:href)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>"'`]+))""", re.I)
+
+#: `srcset` is a comma-separated candidate list, each `url [descriptor]`.
+_SRCSET_SPLIT = re.compile(r"\s*,\s*")
+
+
+def _html_targets(html: str):
+    """Every URL an HTML fragment carries, however the attribute is written."""
+    for match in _HTML_TARGET.finditer(html):
+        value = next((g for g in match.groups() if g), "")
+        if not value:
+            continue
+        attribute = html[match.start():match.start() + 20].lower()
+        if "srcset" in attribute:
+            for candidate in _SRCSET_SPLIT.split(value):
+                url = candidate.strip().split()[0] if candidate.strip() else ""
+                if url:
+                    yield url
+        else:
+            yield value
 
 
 def _parser_problem() -> list[str]:
@@ -779,7 +808,7 @@ def _link_targets(text: str):
                     if target:
                         out.append((line_no, target))
             elif child.type in ("html_inline", "html_block"):
-                out += [(line_no, m.group(1)) for m in _HTML_TARGET.finditer(child.content)]
+                out += [(line_no, url) for url in _html_targets(child.content)]
 
     for label, ref in (env.get("references") or {}).items():
         target = (ref or {}).get("href")
@@ -824,6 +853,74 @@ def _html_comments(text: str):
         yield text[:m.start()].count("\n") + 1, m.group(1)
 
 
+
+#: The unsupplied-metadata placeholder, and how far its allowance reaches.
+#:
+#: Round-12 P1-8C. The exemption is described as keyed narrowly to the placeholder and was applied to
+#: the whole parsed PARAGRAPH (and, for destinations, to every target on the same source line). So
+#: this passed:
+#:
+#:     Funding is not yet supplied. See `docs/internal/review.md` for the scientific analysis.
+#:
+#: The allowance now covers two things and nothing else: the SENTENCE that announces the field is
+#: missing, and one exact approved tracking reference naming where it is tracked. Sentence bounds
+#: are `.` followed by whitespace or end — not any `.`, because a repository path contains dots and
+#: a naive split cut the allowance off mid-reference.
+_PLACEHOLDER_MARKER = re.compile(
+    r"not\s+yet\s+(?:supplied|minted|filled\s+in)"
+    r"|this\s+letter\s+is\s+not\s+ready\s+to\s+send"
+    r"|is\s+unset\s+in", re.I)
+
+#: The ONE approved tracking reference. An exact grammar, not a rule-class exemption: the field name
+#: and the two generator paths, in the sentence that says where the missing metadata is tracked.
+_TRACKING_REFERENCE = re.compile(
+    r"Tracked\s+as\s+`?\w+`?\s+in\s+`?docs/submission/paper_a_front_matter\.yaml`?[^\n]{0,160}?"
+    r"blocks\s+submission\s+until\s+it\s+is\s+resolved\.?", re.I)
+
+_SENTENCE_END = re.compile(r"\.(?=\s|$)")
+
+
+def _placeholder_spans(text: str):
+    """``(start, end)`` for each unsupplied-metadata placeholder sentence, plus its tracking note."""
+    bounds = [0] + [m.end() for m in _SENTENCE_END.finditer(text)] + [len(text)]
+    spans = []
+    for marker in _PLACEHOLDER_MARKER.finditer(text):
+        left = max(b for b in bounds if b <= marker.start())
+        right = min(b for b in bounds if b >= marker.end())
+        spans.append((left, right))
+    spans += [(m.start(), m.end()) for m in _TRACKING_REFERENCE.finditer(text)]
+    return spans
+
+
+def _within(match, spans) -> bool:
+    return any(start <= match.start() and match.end() <= end for start, end in spans)
+
+
+def _placeholder_targets(text: str):
+    """Link destinations that occur INSIDE a placeholder or its approved tracking reference."""
+    out = []
+    for line in text.splitlines():
+        spans = _placeholder_spans(line)
+        if not spans:
+            continue
+        for m in re.finditer(r"!?\[[^\]]*\]\(([^)]*)\)|`([^`]+)`", line):
+            if _within(m, spans):
+                out.append((0, next(g for g in m.groups() if g)))
+    return out
+
+
+def _is_generator_stamp(comment: str) -> bool:
+    """Exactly the file's own generation stamp, matched as a whole.
+
+    Round-12 P1-8B asks for "an exact, machine-validated generator-stamp grammar — not an entire
+    rule class". A stamp says the file is generated and must not be hand-edited, and nothing else.
+    """
+    flat = " ".join(comment.split()).strip()
+    return bool(re.fullmatch(
+        r"GENERATED(?:\s+from\s+the\s+internal\s+figure\s+map)?\.?\s*"
+        r"(?:Do\s+not\s+edit\s+by\s+hand\.?)?", flat, re.I))
+
+
 def _placeholders_and_process_language() -> list[str]:
     problems = _parser_problem()
     if problems:
@@ -841,13 +938,13 @@ def _placeholders_and_process_language() -> list[str]:
 
         # Channel A — what a reader sees, structurally reconstructed.
         for line_no, para in _visible_paragraphs(text):
-            exempt = bool(_UNSUPPLIED_METADATA.search(para))
+            exempt_spans = _placeholder_spans(para)
             for rx, why, rule in _PROCESS_WORDS:
                 if path.name not in _RULE_SCOPE[rule]:
                     continue
-                if rule == "internal_path" and exempt:
-                    continue
                 for m in rx.finditer(para):
+                    if rule == "internal_path" and _within(m, exempt_spans):
+                        continue
                     problems.append(f"{path.name}:{line_no}: <<{m.group(0)}>> "
                                     f"[{rule}] -- {why}")
 
@@ -868,20 +965,33 @@ def _placeholders_and_process_language() -> list[str]:
         # this channel to the whole set would have flagged eleven legitimate generator stamps and
         # forced churn for no reader's benefit; scoping it to none would have missed the caption
         # file, which is uploaded exactly as it stands.
+        # Round-12 P1-8B: EVERY leakage class, not only the path rule. These files are uploaded
+        # as-is, so `<!-- The second review retained a producer identifier. -->` reaches the editor
+        # in the source; exempting review-history and producer-narration from the comment channel
+        # exempted most of what the scanner exists to catch. Only the file's own generator stamp is
+        # allowed, matched exactly rather than by rule class.
         for line_no, comment in (_html_comments(text)
                                  if path.name in _UPLOADED_VERBATIM else ()):
-            for m in _INTERNAL_PATH_RX.finditer(comment):
-                if any(rx.match(_normalise_target(m.group(0).strip("`"))) for rx in _ALLOWED_TARGETS):
-                    continue
-                problems.append(
-                    f"{path.name}:{line_no}: <<{m.group(0)}>> [internal_path] -- internal "
-                    f"repository path inside an HTML comment; no reader sees it, but it ships in "
-                    f"the submitted source")
-        exempt_lines = {ln for ln, para in _visible_paragraphs(text)
-                        if _UNSUPPLIED_METADATA.search(para)}
+            if _is_generator_stamp(comment):
+                continue
+            visible = _normalise_visible(comment)
+            for rx, why, rule in _PROCESS_WORDS:
+                for m in rx.finditer(visible):
+                    if rule == "internal_path" and any(
+                            r.match(_normalise_target(m.group(0).strip("`")))
+                            for r in _ALLOWED_TARGETS):
+                        continue
+                    problems.append(
+                        f"{path.name}:{line_no}: <<{m.group(0)}>> [{rule}] -- {why}; it is inside "
+                        f"an HTML comment, so no reader sees it, but this file is uploaded verbatim "
+                        f"and the comment ships in the submitted source")
+        # Round-12 P1-8C: a destination is exempt only when it sits inside the placeholder SENTENCE
+        # itself, not merely on a line that also contains one. "Funding is not yet supplied. See
+        # [the scientific analysis](docs/internal/review.md)." was passing on that basis.
+        exempt_targets = {_normalise_target(t) for _ln, t in _placeholder_targets(text)}
         for line_no, raw_target in _link_targets(text):
             target = _normalise_target(raw_target)
-            if any(rx.match(target) for rx in _ALLOWED_TARGETS) or line_no in exempt_lines:
+            if any(rx.match(target) for rx in _ALLOWED_TARGETS) or target in exempt_targets:
                 continue
             for rx, why, rule in _PROCESS_WORDS:
                 if rule != "internal_path":

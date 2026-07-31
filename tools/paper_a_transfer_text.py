@@ -453,7 +453,8 @@ def block_endpoint_reading(ep, corpus_art, loss) -> str:
         f"{estimand.contrast_label} in {estimand.units_label}, {estimand.direction_clause}: across "
         f"the sweep the most favourable bound is {TC.format_pp(best, 3, explicit_plus=False)} pp and "
         f"the least favourable is {TC.format_pp(worst)} pp — so the favourable extreme of these "
-        f"ranges lies well under one percentage point, and the least favourable extreme lies on the "
+        f"ranges is {TC.format_pp(best, 3, explicit_plus=False)} pp, and the least favourable "
+        f"extreme lies on the "
         f"other side of zero. {CP.limits_sentence(status, estimand)} That applies symmetrically: the "
         f"wholly negative ranges do not establish an advantage, and the zero-containing ranges do "
         f"not establish its absence. We therefore do not convert a percentile bound's position into "
@@ -522,9 +523,16 @@ def block_transfer_caption(ep, corpus_art, loss) -> str:
     without stating what they therefore cannot DECIDE. Standing alone, "pooled MAPE is 8.44 % versus
     8.83 %" then reads as a demonstrated advantage.
 
-    The decision boundary and the transfer boundary are now generated from the same renderers the
+    The decision boundary and the transfer boundary are generated from the same renderers the
     manuscript uses, not paraphrased here: a caption that quietly weakens the caveat is the round-8
     defect (a standalone caption still quoting a superseded benchmark) in its editorial form.
+
+    Round-12 P2-2. Carrying all four propositions made it a 287-word mini-review — accurate,
+    self-contained, and no longer functioning as a caption. It duplicated Results and Methods
+    material and buried the panel-reading instructions. Cut to ~200 words by removing the
+    near-optimal-rate envelope mechanics and the lookup-support detail (both in the main text), and
+    by tightening the prose — not by dropping any of the four propositions, which is what made the
+    caption long and is also the reason it is trustworthy alone.
     """
     cc = corpus_art["complete_corpus"]
     mg = corpus_art["matched_on_grid"]
@@ -534,30 +542,25 @@ def block_transfer_caption(ep, corpus_art, loss) -> str:
         stamp(manifest),
         "",
         "**Figure 3. Within-campaign cross-grind prediction after target-specific calibration.** "
-        "For each variety–solute group, the inventory and Sherwood rate multiplier are fitted only "
-        "to the nine optimal-grind conditions and then frozen while predicting the corresponding "
-        f"coarse and fine conditions at the matched {_g(HEADLINE_ENDPOINT_G)} g endpoint. Panels "
-        "compare observed and predicted concentrations by condition and summarize error by target "
-        "grind. The comparator is an O-trained level-only constant: one concentration level fitted "
-        "on O, with no temperature, pressure, flow, or kinetic response. The plotted comparison is "
-        f"the **complete held-out coarse/fine corpus**: {manifest['n_held_out_records']} sample "
-        f"records × {manifest['n_solutes']} named solutes = "
-        f"**{manifest['n_observations']} observations**, including the "
-        f"{manifest['n_off_grid_records']} off-grid records. Pooled MAPE is "
+        "For each variety–solute group, inventory and rate were fitted to the nine optimal-grind "
+        f"conditions and frozen for coarse/fine prediction at the matched "
+        f"{_g(HEADLINE_ENDPOINT_G)} g endpoint. Panels compare observed and predicted "
+        "concentrations by condition and summarize error by target grind. The comparator is an "
+        "O-trained level-only constant: one concentration level, with no temperature, pressure, "
+        "flow or kinetic response. The plotted comparison is the **complete held-out coarse/fine "
+        f"corpus** — {manifest['n_held_out_records']} sample records × "
+        f"{manifest['n_solutes']} named solutes = **{manifest['n_observations']} observations**, "
+        f"including the {manifest['n_off_grid_records']} off-grid records. Pooled MAPE is "
         f"**{TC.format_pct(cc['pooled_model_mape'])}** for the mechanistic model versus "
         f"**{TC.format_pct(cc['pooled_const_mape'])}** for the constant — an observed paired "
         f"difference of "
         f"**{TC.format_pp(cc['paired_difference_pp'], 3, explicit_plus=False)} "
         f"{estimand.units_label}** ({estimand.short_contrast_label}), which favours the "
-        f"{estimand.label_of[estimand.negative_favours]} — and the model has the "
-        f"larger absolute percentage error on **{cc['n_model_worse_than_const']} of "
-        f"{cc['n_points']}** observations. A matched-grid subset of "
-        f"{mg['corpus']['n_observations']} observations is retained only as a **secondary "
-        f"sensitivity**, and is the support on which the same-(T,p) lookup comparator is defined; "
-        "it is not the plotted headline corpus. Error bars/envelopes, where shown, propagate the "
-        "declared discrete set of O-fit rates within 10 % of the minimum, not a continuous "
-        "confidence region. Any clustered intervals shown are fixed-predictor dependence "
-        f"sensitivities. {CP.limits_sentence(status, estimand)} "
+        f"{estimand.label_of[estimand.negative_favours]} — and the model has the larger absolute "
+        f"percentage error on **{cc['n_model_worse_than_const']} of {cc['n_points']}** "
+        f"observations. The {mg['corpus']['n_observations']}-observation matched-grid subset is "
+        "secondary and supplies the lookup comparator. "
+        f"{CP.limits_sentence_short(status, estimand)} "
         "Acceptable endpoint accuracy alone does not establish transfer of the kinetic mechanism. "
         "Evidence tier: within-campaign cross-grind holdout against a trained level-only "
         "comparator.",
@@ -572,7 +575,21 @@ def block_transfer_headline(ep, corpus_art, loss) -> str:
     verdict, from an analysis the Methods two pages earlier describe as having no calibrated
     coverage and supporting no distinguishability, non-distinguishability or equivalence claim. The
     point estimate favours the model; what is unestablished is whether that advantage is
-    reproducible or useful, and the sentence now says exactly that.
+    reproducible or useful.
+
+    Round-12 P0-1. That round-10 correction landed everywhere EXCEPT here, and this is the
+    principal quantitative claim surface. The paragraph closed "The observed advantage is therefore
+    **small**" — a practical-magnitude verdict, from an analysis that says two sentences earlier
+    that its ranges are uncalibrated and that no margin was predeclared — while this docstring
+    asserted the sentence "now says exactly" what is unestablished. The docstring described the
+    intention; the string carried the defect, and the scanner missed it because `therefore` sits
+    between the noun and the adjective.
+
+    Two lessons are worth keeping. Generating a sentence does not make it permissible: the generator
+    is a source of text, not evidence about the text, so generated blocks are now scanned before
+    insertion as well as after (see `check_blocks`). And a magnitude adjective is not made safe by
+    the caveat that follows it — "small, and this analysis does not establish whether it is
+    reproducible" asserts the magnitude and disclaims only the inference.
     """
     row = endpoint_row(ep, HEADLINE_ENDPOINT_G)
     i = scheme_interval(row, TC.PRIMARY_SCHEME)
@@ -592,8 +609,10 @@ def block_transfer_headline(ep, corpus_art, loss) -> str:
         f"range** — not a calibrated confidence interval — is **{i['display']['text']} pp** and "
         f"{verb}, and the mechanistic model is **worse on "
         f"{row['n_model_worse_than_const']} of {row['n_points']} held-out observations**. The "
-        "observed advantage is therefore small, and this analysis does not establish whether it is "
-        "reproducible or practically useful: acceptable endpoint accuracy does not by itself "
+        "observed difference favours the mechanistic model. Because the reported ranges are "
+        "uncalibrated and no practical margin was predeclared, this analysis does not establish "
+        "that the observed advantage is reproducible or practically useful, and it does not "
+        "establish that the advantage is absent: acceptable endpoint accuracy does not by itself "
         "establish transfer of the kinetic mechanism beyond a transferred concentration level.",
     ])
 
@@ -828,9 +847,36 @@ def render_all() -> dict[str, str]:
     return {name: fn(ep, corpus_art, loss) for name, (fn, _paths) in BLOCKS.items()}
 
 
+def scan_rendered_blocks(rendered: dict[str, str]) -> list[str]:
+    """Scan generated text against the claim policy BEFORE it is written into a manuscript.
+
+    Round-12 P0-1. The principal Results block was emitting "The observed advantage is therefore
+    small" — a practical-magnitude verdict from an analysis that declares no margin — and the
+    checker only ever saw it after insertion, mixed in with everything else. Worse, the generator's
+    own docstring asserted the sentence said the opposite.
+
+    A generator is a source of text, not evidence about the text. Scanning here means a prohibited
+    verdict fails at the point it is produced, names the block that produced it, and never reaches a
+    file at all.
+    """
+    from puckworks.paper_a import claim_policy as CP
+
+    ep = _load(ENDPOINT_JSON)
+    _estimand, status = validated_analysis(ep)
+    problems = []
+    for name in sorted(rendered):
+        problems += ["generated block %r would emit prohibited claim language: %s" % (name, p)
+                     for p in CP.scan(rendered[name], status)]
+    return problems
+
+
 def run(write: bool) -> list[str]:
     problems: list[str] = []
     rendered = render_all()
+    # Fail before writing, not after: a block that must not ship must not be written either.
+    blocked = scan_rendered_blocks(rendered)
+    if blocked:
+        return blocked
     by_file: dict[Path, str] = {}
     for name, (_fn, paths) in BLOCKS.items():
         for path in paths:

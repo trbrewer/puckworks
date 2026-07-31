@@ -5,4 +5,4 @@ GENERATED — do not edit by hand; regenerate from the submission front matter.
 • Observed pooled error was 0.394 points lower than a level-only comparator
 • Uncalibrated ranges support no superiority, equivalence or absence decision
 • Time-resolved samples constrained extraction rate more strongly
-• Accurate prediction did not guarantee well-determined model parameters
+• Endpoint accuracy alone did not establish mechanistic transfer

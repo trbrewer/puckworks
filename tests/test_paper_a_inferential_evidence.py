@@ -107,30 +107,60 @@ def test_the_paper_is_unaffected():
 
 # ── 3. the positive path ────────────────────────────────────────────────────────────────────
 def test_a_genuinely_verified_procedure_unlocks_exactly_its_own_decision():
-    verified = H.synthetic_equivalence_status()
-    assert CP.granted(verified) == {"equivalence", "calibrated coverage",
-                                    "a predeclared practical margin"}
-    assert CP.scan("The two arms are equivalent under the predeclared margin.", verified) == []
-    # One decision class does not unlock the others.
-    assert CP.scan("The model outperforms the comparator.", verified)
-    assert CP.scan("The model adds no resolvable skill.", verified)
-    assert CP.scan("The model is non-inferior to the comparator.", verified)
+    """Round-12 P1-4: through a REFERENCE re-verified from production storage, not an object."""
+    with H.registered_production_evidence() as ref:
+        assert CP.granted(ref) == {"equivalence", "calibrated coverage",
+                                   "a predeclared practical margin"}
+        assert CP.scan("The two arms are equivalent under the predeclared margin.", ref) == []
+        # One decision class does not unlock the others.
+        assert CP.scan("The model outperforms the comparator.", ref)
+        assert CP.scan("The model adds no resolvable skill.", ref)
+        assert CP.scan("The model is non-inferior to the comparator.", ref)
+    # …and the moment it leaves production storage, the same reference grants nothing.
+    with pytest.raises(IE.EvidenceNotRegistered):
+        CP.granted(IE.InferentialEvidenceReference("test_only_equivalence_v1"))
 
 
 def test_the_decision_is_recomputed_not_copied():
-    """Move the interval outside the margin and the SAME record stops deciding equivalence."""
+    """Move the interval and the SAME record stops deciding equivalence.
+
+    Round-12 P1-5 strengthened what "the interval" means: moving it in the evidence RECORD alone no
+    longer even reaches the decision rule, because the record must first agree with the hashed
+    result it cites. Both halves are checked — detachment, then a genuinely moved result.
+    """
     status, problems = H.verify(record=H.evidence(observed_interval_pp=(-0.90, 0.20)))
+    assert status is None
+    assert any("hashed analysis result contains" in p for p in problems), problems
+
+    # Move the RESULT too, honestly, but keep the record claiming the decision: the rule is
+    # re-applied to the parsed bounds and contradicts the recorded verdict.
+    moved_result = dict(H.ANALYSIS_RESULT, observed_interval_pp=[-0.90, 0.20])
+    digests = dict(H.ARTEFACT_DIGESTS, analysis_result=IE.digest(moved_result))
+    status, problems = H.verify(
+        record=H.evidence(observed_interval_pp=(-0.90, 0.20),
+                          analysis_result_sha256=digests["analysis_result"]),
+        digests=digests, artefacts=dict(H.ARTEFACTS, analysis_result=moved_result))
     assert status is None
     assert any("applying the registered rule" in p for p in problems), problems
 
     # …and a record that honestly reports the negative result verifies, granting nothing.
-    honest = H.evidence(observed_interval_pp=(-0.90, 0.20), derived_decisions={IE.EQUIVALENCE: False})
-    status, problems = H.verify(declared=H.replace_declared(
+    honest_result = dict(H.ANALYSIS_RESULT, observed_interval_pp=[-0.90, 0.20])
+    digests = dict(H.ARTEFACT_DIGESTS, analysis_result=IE.digest(honest_result))
+    honest = H.evidence(observed_interval_pp=(-0.90, 0.20),
+                        analysis_result_sha256=digests["analysis_result"],
+                        derived_decisions={IE.EQUIVALENCE: False})
+    declared = H.replace_declared(
         supports_equivalence_decision=False,
-        permitted_claim_class=TS.ClaimClass.DESCRIPTIVE_EVIDENCE_LIMITED), record=honest)
+        permitted_claim_class=TS.ClaimClass.DESCRIPTIVE_EVIDENCE_LIMITED)
+    artefacts = dict(H.ARTEFACTS, analysis_result=honest_result)
+    status, problems = H.verify(declared=declared, record=honest, digests=digests,
+                                artefacts=artefacts)
     assert problems == [], problems
     assert status.decision_flags[IE.EQUIVALENCE] is False
-    assert CP.scan("The two arms are equivalent.", status)
+    with H.registered_production_evidence("honest", declared=declared, record=honest,
+                                          digests=digests, artefacts=artefacts) as ref:
+        assert CP.granted(ref) == {"calibrated coverage", "a predeclared practical margin"}
+        assert CP.scan("The two arms are equivalent.", ref)
 
 
 # ── 4. one-field mutations of a genuine record ──────────────────────────────────────────────
@@ -239,7 +269,7 @@ def test_non_finite_numbers_cannot_be_serialised_into_a_digest():
     ({"decision_rules": {IE.EQUIVALENCE: "no_such_rule"}}, "unregistered rule"),
     ({"decisions_requiring_margin": frozenset({IE.SUPERIORITY})}, "cannot decide"),
     ({"requires_calibrated_coverage": False}, "without calibrated coverage"),
-    ({"procedure_version": ""}, "id AND a version"),
+    ({"procedure_version": ""}, "absence of a declaration"),
     ({"analysis_kind": TS.AnalysisKind.FIXED_PREDICTOR_CLUSTERED_SENSITIVITY}, "has none"),
 ])
 def test_an_incoherent_procedure_cannot_be_registered(overrides, expect):
@@ -320,7 +350,6 @@ def test_decision_flags_are_recomputed_not_stored():
     outside = dataclasses.replace(verified.evidence, observed_interval_pp=(-0.9, 0.2))
     moved = dataclasses.replace(verified, evidence=outside)
     assert moved.decision_flags[IE.EQUIVALENCE] is False
-    assert CP.granted(moved) == {"calibrated coverage", "a predeclared practical margin"}
 
 
 def test_a_subclass_of_the_declared_status_cannot_smuggle_flags():

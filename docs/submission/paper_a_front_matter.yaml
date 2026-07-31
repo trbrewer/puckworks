@@ -102,13 +102,21 @@ keywords:
 # carries the evidence boundary so the file cannot state the result without stating what it does not
 # decide. `claim_policy.SURFACE_ASSERTIONS["highlights"]` makes dropping either one fail.
 # JFE allows 3-5 bullets of at most 85 characters and no unexpanded acronyms, so the bullet says
-# "pooled error" rather than "pooled MAPE"; these are 68/73/75/63/70 characters.
+# "pooled error" rather than "pooled MAPE"; these are 68/73/75/63/62 characters.
+#
+# Round-12 P1-6: the fourth central proposition -- that endpoint accuracy alone does not establish
+# mechanistic TRANSFER -- was omitted here on the stated ground that 85 characters could not hold
+# it. That premise was simply false: the replacement below is 62 characters, shorter than the
+# bullet it replaces. And the bullet it replaces ("Accurate prediction did not guarantee
+# well-determined model parameters") was largely redundant with bullets 1 and 4, which already
+# carry weak parameter separation and the stronger time-resolved constraint. The paper's central
+# distinction was the one thing the standalone file did not say.
 highlights:
   - Whole-cup espresso data weakly separate content from extraction rate
   - Observed pooled error was 0.394 points lower than a level-only comparator
   - Uncalibrated ranges support no superiority, equivalence or absence decision
   - Time-resolved samples constrained extraction rate more strongly
-  - Accurate prediction did not guarantee well-determined model parameters
+  - Endpoint accuracy alone did not establish mechanistic transfer
 
 editor_significance: >-
   Whole-cup measurements are common in food-process model calibration because they are economical
