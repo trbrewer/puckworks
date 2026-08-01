@@ -726,13 +726,13 @@ def test_the_symmetric_form_also_satisfies_no_decision_claimed():
 def test_removing_symmetry_from_any_surface_fails(surface):
     """Non-vacuity on the REAL text of every governed surface."""
     from tools import paper_a_consistency as CC
-    from tools import paper_a_front_matter as FMB
     from tools import paper_a_transfer_text as TTX
 
-    fm = FMB.load()
+    # `abstract` and `editor_significance` live in the YAML front matter, and pyyaml is a dev/radar
+    # extra absent from the minimum-dependency lane. Skip THOSE TWO there with a stated reason —
+    # never the whole test, because the other seven surfaces need no parser and a check that cannot
+    # run must not look like a check that ran and found nothing.
     sources = {
-        "abstract": FMB._one_line(fm["abstract"]),
-        "editor_significance": FMB._one_line(fm["editor_significance"]),
         "cover_letter": CC._read(CC.COVER_LETTER),
         "highlights": CC._read(CC.HIGHLIGHTS),
         "figure3_caption": CC._upload_caption(3),
@@ -744,6 +744,17 @@ def test_removing_symmetry_from_any_surface_fails(surface):
         "supplement_reading": TTX.extract_block(CC._read(CC.SUPPLEMENT),
                                                 "paper-a:transfer-endpoint-table-supp"),
     }
+    if surface in ("abstract", "editor_significance"):
+        FMB = pytest.importorskip(
+            "tools.paper_a_front_matter",
+            reason="pyyaml is absent (minimum-dependency lane); the front-matter surfaces cannot be "
+                   "read here, the other seven are still checked")
+        try:
+            fm = FMB.load()
+        except ImportError:
+            pytest.skip("pyyaml absent; %s is read from the YAML front matter" % surface)
+        sources[surface] = FMB._one_line(fm[surface])
+
     text = sources[surface]
     assert CP.missing_assertions(text, surface) == [], surface
 
