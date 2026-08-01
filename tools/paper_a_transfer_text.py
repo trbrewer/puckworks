@@ -641,6 +641,21 @@ def block_transfer_headline(ep, corpus_art, loss) -> str:
         f"than the mechanistic arm, which additionally gets a target-grind hydraulic map, so the "
         f"remaining margin is an upper bound on the value of the mechanistic structure. The panel "
         f"is a locked sensitivity analysis, not a prospectively registered plan.",
+        "",
+        # Domain-referee Minor finding 5: what does 0.25-0.4 pp of pooled MAPE mean to an engineer?
+        # No decision threshold is available, so the honest answer is stated as such rather than
+        # manufactured from the source's global RSD range.
+        f"**What a difference of this size means.** Against a pooled residual of roughly "
+        f"{TC.format_pct(row['pooled_model_mape'])} and a source campaign whose reported analyte "
+        f"relative standard deviations span 0.3–19.7 %, a shift of 0.25–0.4 percentage points in "
+        f"pooled MAPE is small relative to both the residual and the measurement scatter. No "
+        f"engineering decision threshold is available for this campaign, and the source does not "
+        f"publish per-condition replicate uncertainty for the named solutes, so we do not convert "
+        f"that observation into a margin. Stated plainly: at the present residual and uncertainty "
+        f"scale, a change of this size is unlikely on its own to alter a recipe-control, "
+        f"equipment-optimisation or process-design decision — which is a statement about "
+        f"engineering relevance, not a claim that the difference is absent or that the two "
+        f"predictors are equivalent.",
     ])
 
 
