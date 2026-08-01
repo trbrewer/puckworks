@@ -1,0 +1,177 @@
+{
+ "M0_minus_M2": {
+  "all_same_sign": true,
+  "max": -0.1572,
+  "median": -0.1572,
+  "min": -0.1573,
+  "range": 0.0001,
+  "verdict": {
+   "range_pp": 0.0001,
+   "relative_to_effect": 0.0006,
+   "robust": true,
+   "sign_preserved": true
+  }
+ },
+ "M1_minus_M2": {
+  "all_same_sign": true,
+  "max": 0.4471,
+  "median": 0.4471,
+  "min": 0.4471,
+  "range": 0.0,
+  "verdict": {
+   "range_pp": 0.0,
+   "relative_to_effect": 0.0,
+   "robust": true,
+   "sign_preserved": true
+  }
+ },
+ "acceptance": "Tied to the conclusion, not to a concentration tolerance: each contrast must keep its sign and vary by less than 25 % of its own magnitude across the envelope.",
+ "configurations": [
+  {
+   "M0_minus_M2": -0.1572,
+   "M0_pooled": 8.281,
+   "M1_minus_M2": 0.4471,
+   "M1_pooled": 8.8853,
+   "M2_pooled": 8.4383,
+   "fitted_rates": [
+    0.8838,
+    1.7187,
+    1.1032,
+    6.5,
+    6.5,
+    6.5
+   ],
+   "integrator": "expm",
+   "label": "expm nz=100",
+   "nz": 100,
+   "seconds": 16.2,
+   "tolerance": null
+  },
+  {
+   "M0_minus_M2": -0.1572,
+   "M0_pooled": 8.281,
+   "M1_minus_M2": 0.4471,
+   "M1_pooled": 8.8853,
+   "M2_pooled": 8.4383,
+   "fitted_rates": [
+    0.8838,
+    1.7187,
+    1.1032,
+    6.5,
+    6.5,
+    6.5
+   ],
+   "integrator": "expm",
+   "label": "expm nz=200",
+   "nz": 200,
+   "seconds": 61.7,
+   "tolerance": null
+  },
+  {
+   "M0_minus_M2": -0.1572,
+   "M0_pooled": 8.281,
+   "M1_minus_M2": 0.4471,
+   "M1_pooled": 8.8853,
+   "M2_pooled": 8.4383,
+   "fitted_rates": [
+    0.8838,
+    1.7187,
+    1.1032,
+    6.5,
+    6.5,
+    6.5
+   ],
+   "integrator": "expm",
+   "label": "expm nz=400",
+   "nz": 400,
+   "seconds": 311.9,
+   "tolerance": null
+  },
+  {
+   "M0_minus_M2": -0.1573,
+   "M0_pooled": 8.281,
+   "M1_minus_M2": 0.4471,
+   "M1_pooled": 8.8854,
+   "M2_pooled": 8.4383,
+   "fitted_rates": [
+    0.8838,
+    1.7187,
+    1.1032,
+    6.5,
+    6.5,
+    6.5
+   ],
+   "integrator": "bdf",
+   "label": "bdf nz=200 tol=1e-05",
+   "nz": 200,
+   "seconds": 144.5,
+   "tolerance": 1e-05
+  },
+  {
+   "M0_minus_M2": -0.1572,
+   "M0_pooled": 8.281,
+   "M1_minus_M2": 0.4471,
+   "M1_pooled": 8.8853,
+   "M2_pooled": 8.4383,
+   "fitted_rates": [
+    0.8838,
+    1.7187,
+    1.1032,
+    6.5,
+    6.5,
+    6.5
+   ],
+   "integrator": "bdf",
+   "label": "bdf nz=200 tol=1e-06",
+   "nz": 200,
+   "seconds": 206.4,
+   "tolerance": 1e-06
+  },
+  {
+   "M0_minus_M2": -0.1572,
+   "M0_pooled": 8.281,
+   "M1_minus_M2": 0.4471,
+   "M1_pooled": 8.8853,
+   "M2_pooled": 8.4383,
+   "fitted_rates": [
+    0.8838,
+    1.7187,
+    1.1032,
+    6.5,
+    6.5,
+    6.5
+   ],
+   "integrator": "bdf",
+   "label": "bdf nz=200 tol=1e-07",
+   "nz": 200,
+   "seconds": 280.5,
+   "tolerance": 1e-07
+  }
+ ],
+ "method": "Spatial error is isolated with the exact-in-time matrix-exponential path at 100/200/400 nodes; temporal error is measured as BDF minus that same exact-in-time reference at the production mesh. Both arms are refitted inside every configuration, so a mesh change is allowed to move the fitted rate as well as the scores.",
+ "production_configuration": {
+  "nz": 200,
+  "tolerance": 1e-06
+ },
+ "question": "Do the load-bearing contrasts survive discretisation and tolerance change? (pivot gate G4)",
+ "reading": "The hydraulic contrast is robust to the envelope and keeps its sign everywhere. The rate-freezing contrast keeps its sign but is the more numerically sensitive of the two, consistent with it being the smaller effect.",
+ "schema_version": 1,
+ "time_integration_error_vs_exact": [
+  {
+   "M0_minus_M2_error_pp": -0.0001,
+   "M1_minus_M2_error_pp": 0.0,
+   "tolerance": 1e-05
+  },
+  {
+   "M0_minus_M2_error_pp": 0.0,
+   "M1_minus_M2_error_pp": 0.0,
+   "tolerance": 1e-06
+  },
+  {
+   "M0_minus_M2_error_pp": 0.0,
+   "M1_minus_M2_error_pp": 0.0,
+   "tolerance": 1e-07
+  }
+ ],
+ "verdict": "PASSED"
+}

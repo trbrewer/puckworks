@@ -84,11 +84,19 @@ SOLUTES = ("caffeine", "trigonelline", "5CQA")
 # ─────────────────────────────────────────────────────────────────────────────────────────────
 
 
-def _params(solute, rate):
-    """Exactly the parameter block `simulate_fractions` builds, for one condition and rate."""
+def _params(solute, rate, T_degC=None, p_bar=None, gran="O"):
+    """Exactly the parameter block `simulate_fractions` builds, for one condition and rate.
+
+    The condition defaults to the centre of the optimal-grind grid, which is what G3 uses. It is
+    parameterised so gate G4 can evaluate the same exact-in-time path at every scored condition and
+    granulometry without a second implementation of the operator.
+    """
     from puckworks.models.pannusch2024 import solver as ps
     from puckworks.models.pannusch2024 import closures as pc
     from puckworks.validation.slow import angeloni_bracket as AB
+
+    T_degC = T_C if T_degC is None else float(T_degC)
+    p_bar = P_BAR if p_bar is None else float(p_bar)
 
     sp = dict(ps._solute_params()[solute])
     sp["A1"] = sp["A1"] * rate
@@ -96,11 +104,11 @@ def _params(solute, rate):
     sp["c_s0"] = 1.0
     cl1 = 1.0
 
-    flow = AB._flow_gran(P_BAR, T_C, "O")
+    flow = AB._flow_gran(p_bar, T_degC, gran)
     t_end = AB._matched_bounds(flow)[1]
 
     nz = ps.NZ
-    T = T_C + 273.15
+    T = T_degC + 273.15
     q = flow / 1000.0 / ps.RHO / ps.ACS
     grind = ps.GRIND_17
     psi, d_s2, d_s1 = grind["psi"], grind["d_s2"], ps.D1_FINE
@@ -182,14 +190,14 @@ def verify_operator(A, idx, p, nz, seed=1) -> dict:
     return {"max_relative_operator_error": worst, "matches_rhs": bool(worst < 1e-10)}
 
 
-def expm_prediction(solute, rate) -> float:
+def expm_prediction(solute, rate, T_degC=None, p_bar=None, gran="O") -> float:
     """Cup concentration by matrix exponential — no time stepping, no adaptive control."""
     from scipy.linalg import expm
+    from puckworks.models.pannusch2024 import solver as ps
 
-    p, c0, t_end, cl1, nz = _params(solute, rate)
+    p, c0, t_end, cl1, nz = _params(solute, rate, T_degC, p_bar, gran)
     A, idx = build_operator(p, nz)
-    tau = t_end / __import__("puckworks.models.pannusch2024.solver",
-                             fromlist=["solver"]).TC
+    tau = t_end / ps.TC
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
         z = expm(A * tau) @ c0[idx]
