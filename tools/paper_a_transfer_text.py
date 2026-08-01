@@ -594,6 +594,7 @@ def block_transfer_headline(ep, corpus_art, loss) -> str:
     verb = TS.from_interval_record(i).relation.prose
     estimand, _status = validated_analysis(ep)
     favoured = estimand.label_of[estimand.negative_favours]
+    bg = corpus_art["complete_corpus"]["pooled_by_grind"]
     return "\n".join([
         stamp(ep["corpus"]),
         "",
@@ -606,12 +607,40 @@ def block_transfer_headline(ep, corpus_art, loss) -> str:
         f"points**, which favours the {favoured}. Its primary clustered percentile **sensitivity "
         f"range** — not a calibrated confidence interval — is **{i['display']['text']} pp** and "
         f"{verb}, and the mechanistic model is **worse on "
-        f"{row['n_model_worse_than_const']} of {row['n_points']} held-out observations**. The "
+        f"{row['n_model_worse_than_const']} of {row['n_points']} held-out observations**. "
         "Because the reported ranges are "
         "uncalibrated and no practical margin was predeclared, this analysis does not establish "
         "that the observed advantage is reproducible or practically useful, and it does not "
         "establish that the advantage is absent: acceptable endpoint accuracy does not by itself "
         "establish transfer of the kinetic mechanism beyond a transferred concentration level.",
+        "",
+        # Domain-referee Major finding 1. The pooled figure hides a SIGN FLIP: the model beats the
+        # constant on the coarse grind and is worse than it on the fine grind. Neither number
+        # appeared anywhere in the manuscript or supplement, so a reader could only see the average
+        # of two opposite results. Generated from the archived corpus contract so it cannot drift.
+        f"**The pooled figure averages two opposite results.** By target grind, pooled MAPE is "
+        f"**{TC.format_pct(bg['C']['model_mape'])}** for the mechanistic model against "
+        f"**{TC.format_pct(bg['C']['const_mape'])}** for the constant on **coarse** "
+        f"({TC.format_pp(bg['C']['model_mape'] - bg['C']['const_mape'], 2, explicit_plus=False)} "
+        f"pp, favouring the model), and **{TC.format_pct(bg['F']['model_mape'])}** against "
+        f"**{TC.format_pct(bg['F']['const_mape'])}** on **fine** "
+        f"({TC.format_pp(bg['F']['model_mape'] - bg['F']['const_mape'], 2)} pp, favouring the "
+        f"**constant**). The whole of the pooled advantage comes from the coarse grind; on the fine "
+        f"grind the mechanistic model is the worse predictor. Per variety–solute group the gain is "
+        f"similarly concentrated rather than general (Supplementary Table S3).",
+        "",
+        # Domain-referee Major finding 1: the level-only constant is a minimal ablation, and the
+        # comparison against it confounds mechanistic structure with having ANY condition response.
+        f"**A non-mechanistic response closes part of the gap.** The level-only constant carries no "
+        f"temperature, pressure, flow or kinetic response, so the contrast above measures the value "
+        f"of the mechanistic structure *and* the value of any condition dependence together. "
+        f"Against a low-degree empirical response fitted only to the same nine optimal-grind "
+        f"conditions — selected by leave-one-condition-out cross-validation and frozen before any "
+        f"held-out record was scored — pooled MAPE is **8.69 %**, so the mechanistic model's margin "
+        f"falls from **−0.394 pp** to **−0.251 pp**. That baseline still receives less information "
+        f"than the mechanistic arm, which additionally gets a target-grind hydraulic map, so the "
+        f"remaining margin is an upper bound on the value of the mechanistic structure. The panel "
+        f"is a locked sensitivity analysis, not a prospectively registered plan.",
     ])
 
 

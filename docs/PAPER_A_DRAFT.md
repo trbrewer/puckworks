@@ -456,7 +456,7 @@ violators) before differencing, so every bin mass is non-negative by constructio
 telescope to the total collected mass. The observed "cup" for this panel is the **mass-weighted**
 mean of the bin concentrations using those same bin masses, not an unweighted mean.
 
-Angeloni report pressure; the model consumes flow. We map `p → flow` from the
+Angeloni reports pressure; the model consumes flow. We map `p → flow` from the
 study's *own* hydraulics, not by fitting to its concentrations. The refined map is
 Darcy-consistent, `q = q_ref · (p/p_ref) · (μ(T_ref)/μ(T))`, anchored to a single
 physical espresso point (40 g / ~24 s at 9 bar, 93.4 °C) with `μ(T)` from the
@@ -826,7 +826,11 @@ an external-rig prediction.
 <!-- paper-a:transfer-headline:begin -->
 <!-- paper-a:transfer-corpus schema=4 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
 
-**Level-only comparator: absolute error alone does not establish transfer skill.** This is the paper's principal quantitative result, so we state it first. Against an **optimal-grind-trained MAPE-optimal constant**, the mechanistic model's pooled held-out MAPE is **8.44%** versus **8.83%** for the constant — a paired difference of **−0.394 percentage points**, which favours the mechanistic model. Its primary clustered percentile **sensitivity range** — not a calibrated confidence interval — is **[−0.829, +0.004] pp** and contains zero, and the mechanistic model is **worse on 62 of 132 held-out observations**. The Because the reported ranges are uncalibrated and no practical margin was predeclared, this analysis does not establish that the observed advantage is reproducible or practically useful, and it does not establish that the advantage is absent: acceptable endpoint accuracy does not by itself establish transfer of the kinetic mechanism beyond a transferred concentration level.
+**Level-only comparator: absolute error alone does not establish transfer skill.** This is the paper's principal quantitative result, so we state it first. Against an **optimal-grind-trained MAPE-optimal constant**, the mechanistic model's pooled held-out MAPE is **8.44%** versus **8.83%** for the constant — a paired difference of **−0.394 percentage points**, which favours the mechanistic model. Its primary clustered percentile **sensitivity range** — not a calibrated confidence interval — is **[−0.829, +0.004] pp** and contains zero, and the mechanistic model is **worse on 62 of 132 held-out observations**. Because the reported ranges are uncalibrated and no practical margin was predeclared, this analysis does not establish that the observed advantage is reproducible or practically useful, and it does not establish that the advantage is absent: acceptable endpoint accuracy does not by itself establish transfer of the kinetic mechanism beyond a transferred concentration level.
+
+**The pooled figure averages two opposite results.** By target grind, pooled MAPE is **10.17%** for the mechanistic model against **11.19%** for the constant on **coarse** (−1.02 pp, favouring the model), and **6.71%** against **6.48%** on **fine** (+0.23 pp, favouring the **constant**). The whole of the pooled advantage comes from the coarse grind; on the fine grind the mechanistic model is the worse predictor. Per variety–solute group the gain is similarly concentrated rather than general (Supplementary Table S3).
+
+**A non-mechanistic response closes part of the gap.** The level-only constant carries no temperature, pressure, flow or kinetic response, so the contrast above measures the value of the mechanistic structure *and* the value of any condition dependence together. Against a low-degree empirical response fitted only to the same nine optimal-grind conditions — selected by leave-one-condition-out cross-validation and frozen before any held-out record was scored — pooled MAPE is **8.69 %**, so the mechanistic model's margin falls from **−0.394 pp** to **−0.251 pp**. That baseline still receives less information than the mechanistic arm, which additionally gets a target-grind hydraulic map, so the remaining margin is an upper bound on the value of the mechanistic structure. The panel is a locked sensitivity analysis, not a prospectively registered plan.
 <!-- paper-a:transfer-headline:end -->
 
 **The held-out corpus is the complete one, and its membership is emitted rather than described.**
@@ -949,7 +953,7 @@ per-grind-constant **5.1 %** (3 params) → shared-mechanistic **6.4 %** (2 para
 per-grind-mechanistic **4.9 %** (6 params). The salient comparison is that the
 2-parameter **shared mechanistic model has lower in-sample MAPE than the 3-parameter
 per-grind constant in none of six variety–solute comparisons** — i.e. the mechanistic
-response did not improve in-sample MAPE over grind-specific levels in this dataset,
+response did not improve in-sample MAPE over grind-specific levels in this dataset.
 This descriptive in-sample comparison is not a held-out test, and it does not
 adjudicate the magnitude, reproducibility or practical usefulness of the held-out
 difference — nor is it proof that mechanism "explains nothing".

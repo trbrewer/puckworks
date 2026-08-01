@@ -163,6 +163,20 @@ SLOW_LANE_RESULTS: dict[str, str] = {
     "5.1": "condition-cluster resampling 95% lower bound (%)",
     "8.3": "condition-cluster resampling 95% upper bound (%)",
     "8.2": "residual-resampling descriptive range, upper bound (%)",
+    # ── domain-referee Major finding 1: the GRIND ASYMMETRY the pooled figure averages away.
+    # Every one of these was already in the archived corpus contract and appeared on no reader-
+    # facing surface, so a reader saw only the mean of two opposite results.
+    "10.17%": "pooled_by_grind C: mechanistic model MAPE; PAPER_A_TRANSFER_CORPUS_CONTRACTS.json",
+    "11.19%": "pooled_by_grind C: level-only constant MAPE; same archive",
+    "6.71%": "pooled_by_grind F: mechanistic model MAPE; same archive",
+    "6.48%": "pooled_by_grind F: level-only constant MAPE; same archive",
+    "1.02": "pooled_by_grind C: model minus constant (pp), favouring the model",
+    "0.23": "pooled_by_grind F: model minus constant (pp), favouring the CONSTANT",
+    # ── domain-referee Major finding 1: the equal-information empirical benchmark panel.
+    "8.69%": ("equal-information empirical response baseline, macro pooled MAPE; "
+              "PAPER_A_EQUAL_INFORMATION_BENCHMARKS.json (puckworks.paper_a.empirical_benchmarks)"),
+    "0.251": ("model minus the empirical response baseline (pp); the margin against the level-only "
+              "constant is -0.394 pp; same archive"),
     # ── the matched on-grid C/F subset, reported as the secondary corpus and as the support on
     # which the same-(T,p) lookup comparator is defined (round-7 P0-3).
     "0.361": "matched on-grid subset: paired model-minus-comparator difference (pp)",
