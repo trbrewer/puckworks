@@ -3,7 +3,7 @@
 **Prepared:** 1 August 2026
 **Supersedes as the operative plan:** `paper1_recommended_scientific_pivot_and_revision_plan_20260801.md`
 (whose Stage 1 was falsified — see §3.4)
-**Evidence base:** merge `abb982c` plus pivot checks 1–2 and gate G3
+**Evidence base:** merge `abb982c` plus pivot checks 1–2 and gates G3 and G4
 **Status:** proposal for review. No manuscript file has been modified.
 
 ---
@@ -182,7 +182,40 @@ The full response curve, which is what motivates the H1 refinement above:
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
 | change in prediction | — | +56.1 % | +62.5 % | +16.4 % | +12.4 % | +13.0 % | +5.3 % | **+0.05 %** |
 
-### 3.7 What was removed from the evidence base
+### 3.7 The contrasts are numerically robust — G4 **PASSED**
+
+`tools/paper_a_numerical_envelope.py` → `PAPER_A_NUMERICAL_ENVELOPE.json`
+
+Both arms refitted from scratch inside every configuration, so a mesh change was free to move the
+fitted rate as well as the scores. The `expm` path is exact in time, so the two error sources are
+**separated** rather than pooled:
+
+| configuration | M1 − M2 | M0 − M2 | runtime |
+|---|---:|---:|---:|
+| exact-in-time, 100 nodes | +0.4471 | −0.1572 | 16 s |
+| exact-in-time, 200 nodes | +0.4471 | −0.1572 | 62 s |
+| exact-in-time, 400 nodes | +0.4471 | −0.1572 | 312 s |
+| BDF, 200 nodes, tol 10⁻⁵ | +0.4471 | −0.1573 | 144 s |
+| BDF, 200 nodes, tol 10⁻⁶ *(production)* | +0.4471 | −0.1572 | 206 s |
+| BDF, 200 nodes, tol 10⁻⁷ | +0.4471 | −0.1572 | 280 s |
+| **range** | **0.0000** | **0.0001** | |
+
+Time-integration error against the exact reference is **0.00000 pp** at production tolerance.
+
+Two incidental findings worth carrying into the draft:
+
+* **Spatial convergence is already achieved at 100 nodes** — the raw prediction differs by 4 × 10⁻¹¹
+  relative between 100 and 400. The five-point biased-upwind operator is exact to degree 4 and the
+  outlet trajectory is smooth, so the mesh was never the risk.
+* The envelope cost **17 minutes**, against the multi-hour estimate carried since the domain-referee
+  round. That estimate was made before the linear structure was noticed.
+
+**Control.** A stability result this clean must be shown to be capable of failing. Tests assert that
+the node-count patch really changes the computed prediction, and that tightening the BDF tolerance
+moves the answer *toward* the exact solution. Without those, an envelope whose patch had silently
+failed would report perfect stability.
+
+### 3.8 What was removed from the evidence base
 
 - **Schmieder's "measured complete cups" are not measurements.** 427 of 432 reproduce as the
   integral of the authors' own exponential fit to the fractions (median difference 0.000032 %
@@ -239,10 +272,10 @@ The previous plan's rule stands and was vindicated: *do not write while results 
 | **G1** | Is the boundary-pinned rate an artefact? | **PASSED** — saturating degeneracy, 6/6 |
 | **G2** | Is M0 − M2 stable to calibration choice? | **PASSED with a caveat** — 8/9, exception +0.010 |
 | **G3** | Is the saturation numerical or physical? | **PASSED** — physical; two integrators agree to 0.000122 %, §3.6 |
-| **G4** | Do the load-bearing contrasts survive discretisation and tolerance change? | **OPEN — blocking** |
+| **G4** | Do the load-bearing contrasts survive discretisation and tolerance change? | **PASSED** — both unmoved to <0.0001 pp, §3.7 |
 | **G5** | Indexed novelty search | **OPEN — cannot be done in this environment** |
 
-### G3 is closed; G4 is now the critical path
+### G3 and G4 are both closed; R0 is now the critical path
 
 G3 verified the paper's central mechanism and passed (§3.6). The semi-discrete system turned out to
 be **exactly linear**, so the matrix-exponential reference is not an approximation to the production
@@ -258,11 +291,10 @@ Two consequences beyond the gate:
 * the response curve it produced forced the H1 refinement in §2: the saturation is a **shoulder**,
   and the campaign's groups sit on both sides of it.
 
-**G4** re-runs the load-bearing contrasts (M1 − M2, M0 − M2) across 100/200/400 nodes ×
-10⁻⁵/10⁻⁶/10⁻⁷ tolerances, now **against the `expm` reference** rather than against another BDF
-configuration. Acceptance is tied to the conclusion, not to a concentration tolerance: numerical
-variation must be **much smaller than +0.524 pp**. Note that G3 already removes the original worry —
-the warnings do not move the saturation — so G4 is about the *contrasts*, not the mechanism.
+**G4 passed (§3.7).** Both contrasts are unmoved across the envelope: M1 − M2 is identical to
+four decimal places at every configuration, and M0 − M2 varies by 0.0001 pp. The `expm` reference
+made it possible to separate the two error sources instead of pooling them, and to measure BDF's
+time-integration error against truth rather than against another approximation.
 
 **G5** cannot be closed here (no Scopus/WoS/Compendex; MDPI and Royal Society Cloudflare-blocked).
 No "first" or "to our knowledge" phrasing may enter the draft until it is closed by someone with
@@ -328,13 +360,13 @@ plan is built around that.
 | round | reviewer | scope | acceptance criterion |
 |---|---|---|---|
 | **R0** | internal | Premise audit: every assumption in §3 gets a falsifiable test | every premise has a test that can return the opposite verdict |
-| **R1** | numerical / scientific-computing | G3 + G4 only. Is the saturation physical? | independent solver path agrees; contrasts stable across the envelope |
+| **R1** | numerical / scientific-computing | Audit the completed G3 and G4: is the linear-operator argument sound, are the controls adequate? | no defect found in the exact-in-time reference or in the falsification controls |
 | **R2** | inverse-problems / parameter-estimation specialist | H2 derivation, RSI scope, profile logic | no local result overextended to a global claim; no Fisher/uncertainty language |
 | **R3** | espresso experimentalist / food-process engineer | H1 and H3 physical plausibility, §7 design guidance | the design recommendations are actionable and not artefacts of one machine |
 | **R4** | skeptical statistical reviewer | Every claim vs its tier in §4 | no claim stated above its tier; all refit-aware caveats present |
 | **R5** | editorial only | Prose, figures, tables, length | closed checklist; **no scientific re-litigation** |
 
-R1 is deliberately first among the external rounds: if G3 fails, R2–R5 are wasted.
+R1 remains first among the external rounds. G3 and G4 have passed, so its job is now to attack that work rather than wait on it — the linear-operator argument is the single point on which H1's verification rests.
 
 ### 8.3 Standing questions for every scientific reviewer
 
@@ -367,11 +399,11 @@ objects", which is unfalsifiable and cost us three rounds.
 ## 10. Sequence
 
 1. ~~**G3** — independent numerical path.~~ **DONE: saturation is physical.**
-2. **G4** — envelope on M1 − M2 and M0 − M2, against the `expm` reference. *Now the critical path.*
-3. **R0** — premise audit; falsifiable test per assumption.
+2. ~~**G4** — envelope on the contrasts.~~ **DONE: both robust.**
+3. **R0** — premise audit; falsifiable test per assumption. *Now the critical path.*
 4. Rebuild the claim registry around H1–H4.
 5. Draft §§3–6, then 7–8, then 1–2, then abstract.
 6. **R1 → R5.**
 7. G5 by whoever has database access; novelty language added only then.
 
-Step 1 has returned. Nothing in steps 4–7 should begin before step 2 returns.
+Steps 1 and 2 have returned; **no numerical objection to the redraft remains open**. The drafting sequence can begin once R0 closes.
