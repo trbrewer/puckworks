@@ -988,8 +988,11 @@ comparison**, conditioned on the tested flow maps, frozen centre-grind geometry,
 matched endpoint.
 
 **What actually changes with grind.** Because "cross-grind" can be read as a test of grind
-*physics*, the dependency is tabulated rather than described. The target grind enters this
-calculation through hydraulics and the endpoint, not through a calibrated particle-geometry map:
+*physics*, the dependency is tabulated rather than described.
+
+**Table 5a. What varies with the target grind, and what is frozen.** The target grind enters this
+calculation through hydraulics and the collected-mass endpoint, not through a calibrated
+particle-geometry map; the particle descriptors are held at their centre-grind values throughout.
 
 | Quantity | Varies with target grind? | How it is obtained |
 |---|---|---|
