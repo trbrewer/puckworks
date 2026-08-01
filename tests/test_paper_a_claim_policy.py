@@ -340,8 +340,8 @@ def test_an_unqualified_gain_fails_the_highlight_assertion():
     retired = ("• A process model's gain over a concentration-only baseline was under 0.4 points\n")
     missing = CP.missing_assertions(retired, "highlights")
     assert {m.split("the ")[1].split(" claim")[0] for m in missing} == \
-        {"observed_advantage", "ranges_uncalibrated", "no_decision_claimed",
-         "accuracy_is_insufficient"}
+        set(CP.SURFACE_ASSERTIONS["highlights"]), (
+            "the retired one-line highlight must fail EVERY proposition the surface requires")
 
 
 def test_the_figure3_extractor_cannot_pick_up_figure_s3():
@@ -664,3 +664,104 @@ def test_the_taxonomy_is_known_to_be_incomplete():
 ])
 def test_the_new_magnitude_rules_do_not_fire_on_ordinary_language(sentence):
     assert CP.scan(sentence, STATUS) == [], sentence
+
+
+# ── 7. the falsifiable acceptance criterion (post-round-12 stopping rule) ────────────────────
+#
+# Rounds 10, 11 and 12 each found the same defect class live in reader-facing text, and each was
+# closed by rewriting sentences until no reviewer objected. That acceptance test has no end state:
+# "does this wording overclaim?" is a judgement, and the next reader has different judgement. Round
+# 11 replaced "small" with "less than half a percentage point"; round 12 objected to that phrase.
+#
+# This is the replacement. The scientific requirement was always SYMMETRIC — an uncalibrated range
+# establishes neither that the advantage is reproducible or useful, nor that it is absent. One-sided
+# caution is exactly how "no resolvable skill" survived four rounds: it reads as modesty while
+# leaving an absence verdict standing.
+#
+# A surface either says both or it does not. Finite, checkable, and it found three surfaces
+# one-sided the first time it ran — including the ABSTRACT and the editor significance paragraph.
+
+def test_every_load_bearing_surface_states_both_directions():
+    """The criterion itself: not 'no reviewer objects', but 'both directions are present'."""
+    assert all("symmetric_non_establishment" in props
+               for props in CP.SURFACE_ASSERTIONS.values()), \
+        "a claim surface that does not require symmetry can drift back to one-sided caution"
+    assert C._claim_policy() == []
+
+
+@pytest.mark.parametrize("one_sided", [
+    # Each of these disclaims the ADVANTAGE and says nothing about absence. Each is the shape the
+    # abstract, the editor significance paragraph and §8 Conclusions actually had.
+    "These are uncalibrated sensitivity ranges with no predeclared margin, so they do not establish "
+    "whether the advantage is reproducible or useful.",
+    "The ranges do not establish whether that gain is reproducible or practically useful.",
+    "Within-campaign holdouts do not by themselves establish useful transfer of the extraction rate.",
+    "This analysis does not establish superiority.",
+])
+def test_one_sided_caution_does_not_satisfy_the_criterion(one_sided):
+    assert not CP.ASSERTION_BY_ID["symmetric_non_establishment"].present_in(one_sided), \
+        "FALSE GREEN: one-sided non-establishment accepted as symmetric"
+
+
+@pytest.mark.parametrize("symmetric", [
+    "…they establish neither that the advantage is reproducible or useful nor that it is absent.",
+    "…they determine neither a comparator decision about the observed difference nor its absence.",
+    "Uncalibrated ranges support no superiority, equivalence or absence decision.",
+    "…this analysis does not establish whether the difference is reproducible or practically "
+    "useful, and it does not establish that the difference is absent.",
+])
+def test_symmetric_statements_satisfy_the_criterion(symmetric):
+    assert CP.ASSERTION_BY_ID["symmetric_non_establishment"].present_in(symmetric)
+
+
+def test_the_symmetric_form_also_satisfies_no_decision_claimed():
+    """It entails it — a surface that upgrades to symmetry must not fail for losing the weaker
+    phrasing it replaced."""
+    text = ("…they establish neither that the advantage is reproducible or useful nor that it is "
+            "absent.")
+    assert CP.ASSERTION_BY_ID["no_decision_claimed"].present_in(text)
+
+
+@pytest.mark.parametrize("surface", sorted(CP.SURFACE_ASSERTIONS))
+def test_removing_symmetry_from_any_surface_fails(surface):
+    """Non-vacuity on the REAL text of every governed surface."""
+    from tools import paper_a_consistency as CC
+    from tools import paper_a_transfer_text as TTX
+
+    # `abstract` and `editor_significance` live in the YAML front matter, and pyyaml is a dev/radar
+    # extra absent from the minimum-dependency lane. Skip THOSE TWO there with a stated reason —
+    # never the whole test, because the other seven surfaces need no parser and a check that cannot
+    # run must not look like a check that ran and found nothing.
+    sources = {
+        "cover_letter": CC._read(CC.COVER_LETTER),
+        "highlights": CC._read(CC.HIGHLIGHTS),
+        "figure3_caption": CC._upload_caption(3),
+        "conclusion": CC._section(CC._read(CC.CONVERSION), "## 8. Conclusions"),
+        "results_headline": TTX.extract_block(CC._read(CC.CONVERSION),
+                                              "paper-a:transfer-headline"),
+        "endpoint_synthesis": TTX.extract_block(CC._read(CC.CONVERSION),
+                                                "paper-a:transfer-endpoint-reading"),
+        "supplement_reading": TTX.extract_block(CC._read(CC.SUPPLEMENT),
+                                                "paper-a:transfer-endpoint-table-supp"),
+    }
+    if surface in ("abstract", "editor_significance"):
+        FMB = pytest.importorskip(
+            "tools.paper_a_front_matter",
+            reason="pyyaml is absent (minimum-dependency lane); the front-matter surfaces cannot be "
+                   "read here, the other seven are still checked")
+        try:
+            fm = FMB.load()
+        except ImportError:
+            pytest.skip("pyyaml absent; %s is read from the YAML front matter" % surface)
+        sources[surface] = FMB._one_line(fm[surface])
+
+    text = sources[surface]
+    assert CP.missing_assertions(text, surface) == [], surface
+
+    stripped = text
+    for carrier in CP.ASSERTION_BY_ID["symmetric_non_establishment"].any_of:
+        stripped = re.sub(re.escape(carrier), "", stripped, flags=re.I)
+    assert stripped != text, "%s carries no symmetry phrasing at all" % surface
+    assert any("symmetric_non_establishment" in m
+               for m in CP.missing_assertions(stripped, surface)), \
+        "FALSE GREEN: %s survived losing every symmetric carrier" % surface
