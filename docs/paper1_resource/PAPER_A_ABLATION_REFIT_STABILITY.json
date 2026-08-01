@@ -1,0 +1,201 @@
+{
+ "M0_minus_M2": {
+  "max": 0.01,
+  "median": -0.205,
+  "min": -0.535,
+  "n_negative": 8,
+  "n_positive": 1,
+  "sign_stable": false
+ },
+ "M1_minus_M2": {
+  "max": 0.76,
+  "median": 0.524,
+  "min": 0.288,
+  "n_negative": 0,
+  "n_positive": 9,
+  "sign_stable": true
+ },
+ "design": {
+  "M1": "M2's fitted parameters with the optimal-grind hydraulic map applied to targets",
+  "folds": "leave one of the nine optimal-grind conditions out, in turn",
+  "rate_domain": "the PUBLISHED domain, for comparability with the existing archives",
+  "refitted_each_fold": [
+   "M2 rate and level",
+   "M0 level only (rate frozen)"
+  ],
+  "scored_on": "the unchanged complete 132-observation coarse/fine corpus"
+ },
+ "estimand": "macro pooled MAPE, arm minus M2, in percentage points; NEGATIVE means the arm beats the canonical fitted-rate model",
+ "folds": [
+  {
+   "M0_coarse": 9.495,
+   "M0_fine": 6.919,
+   "M0_minus_M2": -0.045,
+   "M0_pooled": 8.207,
+   "M1_coarse": 10.927,
+   "M1_fine": 6.629,
+   "M1_minus_M2": 0.526,
+   "M1_pooled": 8.778,
+   "M2_coarse": 9.857,
+   "M2_fine": 6.648,
+   "M2_pooled": 8.252,
+   "dropped_condition": {
+    "T_degC": 93.4,
+    "p_bar": 9.0
+   },
+   "n_groups_M0_better": 4
+  },
+  {
+   "M0_coarse": 9.487,
+   "M0_fine": 6.918,
+   "M0_minus_M2": 0.01,
+   "M0_pooled": 8.202,
+   "M1_coarse": 10.876,
+   "M1_fine": 6.767,
+   "M1_minus_M2": 0.63,
+   "M1_pooled": 8.822,
+   "M2_coarse": 9.642,
+   "M2_fine": 6.743,
+   "M2_pooled": 8.192,
+   "dropped_condition": {
+    "T_degC": 93.4,
+    "p_bar": 6.0
+   },
+   "n_groups_M0_better": 4
+  },
+  {
+   "M0_coarse": 9.62,
+   "M0_fine": 6.939,
+   "M0_minus_M2": -0.089,
+   "M0_pooled": 8.279,
+   "M1_coarse": 11.21,
+   "M1_fine": 6.575,
+   "M1_minus_M2": 0.524,
+   "M1_pooled": 8.892,
+   "M2_coarse": 9.923,
+   "M2_fine": 6.813,
+   "M2_pooled": 8.368,
+   "dropped_condition": {
+    "T_degC": 93.4,
+    "p_bar": 12.0
+   },
+   "n_groups_M0_better": 3
+  },
+  {
+   "M0_coarse": 9.444,
+   "M0_fine": 6.886,
+   "M0_minus_M2": -0.088,
+   "M0_pooled": 8.165,
+   "M1_coarse": 10.538,
+   "M1_fine": 6.702,
+   "M1_minus_M2": 0.367,
+   "M1_pooled": 8.62,
+   "M2_coarse": 9.774,
+   "M2_fine": 6.731,
+   "M2_pooled": 8.253,
+   "dropped_condition": {
+    "T_degC": 88.0,
+    "p_bar": 9.0
+   },
+   "n_groups_M0_better": 3
+  },
+  {
+   "M0_coarse": 9.486,
+   "M0_fine": 6.857,
+   "M0_minus_M2": -0.205,
+   "M0_pooled": 8.172,
+   "M1_coarse": 10.948,
+   "M1_fine": 6.708,
+   "M1_minus_M2": 0.451,
+   "M1_pooled": 8.828,
+   "M2_coarse": 10.131,
+   "M2_fine": 6.622,
+   "M2_pooled": 8.377,
+   "dropped_condition": {
+    "T_degC": 88.0,
+    "p_bar": 6.0
+   },
+   "n_groups_M0_better": 5
+  },
+  {
+   "M0_coarse": 9.773,
+   "M0_fine": 6.984,
+   "M0_minus_M2": -0.535,
+   "M0_pooled": 8.378,
+   "M1_coarse": 12.446,
+   "M1_fine": 6.9,
+   "M1_minus_M2": 0.76,
+   "M1_pooled": 9.673,
+   "M2_coarse": 10.256,
+   "M2_fine": 7.571,
+   "M2_pooled": 8.913,
+   "dropped_condition": {
+    "T_degC": 88.0,
+    "p_bar": 12.0
+   },
+   "n_groups_M0_better": 5
+  },
+  {
+   "M0_coarse": 9.504,
+   "M0_fine": 6.927,
+   "M0_minus_M2": -0.525,
+   "M0_pooled": 8.215,
+   "M1_coarse": 11.307,
+   "M1_fine": 7.1,
+   "M1_minus_M2": 0.464,
+   "M1_pooled": 9.204,
+   "M2_coarse": 10.014,
+   "M2_fine": 7.466,
+   "M2_pooled": 8.74,
+   "dropped_condition": {
+    "T_degC": 98.0,
+    "p_bar": 12.0
+   },
+   "n_groups_M0_better": 4
+  },
+  {
+   "M0_coarse": 9.773,
+   "M0_fine": 6.984,
+   "M0_minus_M2": -0.424,
+   "M0_pooled": 8.378,
+   "M1_coarse": 11.859,
+   "M1_fine": 6.985,
+   "M1_minus_M2": 0.62,
+   "M1_pooled": 9.422,
+   "M2_coarse": 10.258,
+   "M2_fine": 7.346,
+   "M2_pooled": 8.802,
+   "dropped_condition": {
+    "T_degC": 98.0,
+    "p_bar": 9.0
+   },
+   "n_groups_M0_better": 4
+  },
+  {
+   "M0_coarse": 9.73,
+   "M0_fine": 6.952,
+   "M0_minus_M2": -0.306,
+   "M0_pooled": 8.341,
+   "M1_coarse": 11.355,
+   "M1_fine": 6.515,
+   "M1_minus_M2": 0.288,
+   "M1_pooled": 8.935,
+   "M2_coarse": 10.742,
+   "M2_fine": 6.552,
+   "M2_pooled": 8.647,
+   "dropped_condition": {
+    "T_degC": 98.0,
+    "p_bar": 6.0
+   },
+   "n_groups_M0_better": 4
+  }
+ ],
+ "n_folds": 9,
+ "question": "Is the M0-vs-M2 ablation result (freezing the rate transfers better) stable to which optimal-grind conditions were used for calibration? (pivot check 2)",
+ "reading": {
+  "M0_minus_M2": "SIGN CHANGES across folds \u2014 the claim must weaken accordingly",
+  "M1_minus_M2": "sign stable across all nine folds"
+ },
+ "schema_version": 1,
+ "status": "EXPLORATORY and DESCRIPTIVE: nine dependent folds. This is not a calibrated confidence interval and must not be relabelled as one."
+}
