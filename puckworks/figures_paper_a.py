@@ -596,7 +596,7 @@ def fig5_joint_residual(results=None, outdir=OUTDIR):
             labels.append(f"{variety[:3]}:{sol}{bnd}")
     Mj = np.array(Mj, float); Mi = np.array(Mi, float); D = Mj - Mi
     fig = plt.figure(figsize=(11.4, 6.6))
-    gs = fig.add_gridspec(2, 3, height_ratios=[1.35, 1.0], hspace=0.42, wspace=0.16)
+    gs = fig.add_gridspec(2, 3, height_ratios=[1.35, 1.0], hspace=0.42, wspace=0.24)
     axes = [fig.add_subplot(gs[0, c]) for c in range(3)]
     vmax = max(20.0, Mj.max(), Mi.max())
 
@@ -604,18 +604,19 @@ def fig5_joint_residual(results=None, outdir=OUTDIR):
         im = ax.imshow(M, cmap=cmap, aspect="auto", vmin=vmin, vmax=vmax)
         ax.set_xticks(range(3)); ax.set_xticklabels(["O", "C", "F"])
         ax.set_yticks(range(len(labels)))
-        ax.set_yticklabels(labels if ax is axes[0] else [""] * len(labels), fontsize=7.2)
+        ax.set_yticklabels(labels if ax is axes[0] else [""] * len(labels), fontsize=9.0)
+        ax.tick_params(axis="x", labelsize=9.0)
         thr = vmin + center_white * (vmax - vmin)
         for i in range(M.shape[0]):
             for k in range(M.shape[1]):
-                ax.text(k, i, "%.1f" % M[i, k], ha="center", va="center", fontsize=6.8,
+                ax.text(k, i, "%.1f" % M[i, k], ha="center", va="center", fontsize=8.6,
                         color=INK if M[i, k] < thr else "white")
-        ax.set_title(title, fontsize=9)
+        ax.set_title(title, fontsize=10)
         return im
-    im0 = _heat(axes[0], Mj, "(a) joint shared-fit MAPE (%)", "YlOrBr", 0, vmax)
-    _heat(axes[1], Mi, "(b) independent per-grind MAPE (%)", "YlOrBr", 0, vmax)
+    im0 = _heat(axes[0], Mj, "(a) joint shared fit", "YlOrBr", 0, vmax)
+    _heat(axes[1], Mi, "(b) independent per grind", "YlOrBr", 0, vmax)
     dmax = float(np.abs(D).max())
-    imd = _heat(axes[2], D, "(c) cost of sharing = (a)−(b) (pp)", "RdBu_r",
+    imd = _heat(axes[2], D, "(c) cost of sharing = (a)−(b)", "RdBu_r",
                 -dmax, dmax, center_white=1.0)
     fig.colorbar(im0, ax=[axes[0], axes[1]], shrink=0.7, label="MAPE (%)")
     fig.colorbar(imd, ax=axes[2], shrink=0.7, label="Δ MAPE (pp)")
@@ -643,14 +644,19 @@ def fig5_joint_residual(results=None, outdir=OUTDIR):
                       % (lad["n_fits_mech_beats_pergrind_const"], lad["n_fits"]),
                       fontsize=9)
         axd.legend(fontsize=6.6, ncol=4, loc="upper center")
-    fig.suptitle("IN-SAMPLE shared-parameter compatibility + NON-NESTED comparator "
-                 "ladder (unequal flexibility; each model scored on its own fit data); "
-                 "pooled shared %.1f%% vs per-grind %.1f%% (cost ~%.1f pp); * = rate at "
-                 "domain boundary"
+    # Domain-referee editorial 4: a four-line all-caps header is unreadable at journal width. A
+    # short bold title carries the identification; the qualification that makes the panel readable
+    # correctly -- non-nested, unequal flexibility, each model on its own fit data -- moves to a
+    # subtitle line rather than being deleted. The referee was explicit that the warning must stay.
+    fig.text(0.5, 1.045,
+             "In-sample shared-parameter compatibility and comparator ladder",
+             ha="center", fontsize=11.5, fontweight="bold")
+    fig.suptitle("non-nested, unequal flexibility, each model scored on its own fit data  \u00b7  "
+                 "pooled shared %.1f%% vs per-grind %.1f%% (cost ~%.1f pp)  \u00b7  "
+                 "* = rate at domain boundary"
                  % (r["joint"]["mean_joint_pooled_mape"],
                     r["joint"]["mean_independent_per_grind_mape"],
-                    r["joint"]["cost_of_sharing_pp"]), y=1.0, fontsize=9.3,
-                 fontweight="bold")
+                    r["joint"]["cost_of_sharing_pp"]), y=1.0, fontsize=8.8)
     return _save(fig, outdir, "fig5_joint_residual.png")
 
 

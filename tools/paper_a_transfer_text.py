@@ -24,7 +24,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import re
 import sys
 from pathlib import Path
 
@@ -565,6 +564,53 @@ def block_transfer_caption(ep, corpus_art, loss) -> str:
     ])
 
 
+REFIT_JSON = _REPO / "docs" / "paper1_resource" / "PAPER_A_REFIT_AWARE_COMPARISON.json"
+
+
+def _refit_aware():
+    """The leave-one-optimal-condition-out refit archive, or None if it has not been produced."""
+    if not REFIT_JSON.exists():                                  # pragma: no cover - opt-in artefact
+        return None
+    return json.loads(REFIT_JSON.read_text(encoding="utf-8"))
+
+
+
+def _refit_aware_paragraph() -> list:
+    """Domain-referee Major finding 2, generated from the archived leave-one-condition-out refit.
+
+    The published percentile ranges condition on ONE fitted mechanistic predictor and ONE fitted
+    constant. They describe the sampling sensitivity of a fixed comparison, not the stability of the
+    procedure that produced the two predictors from nine conditions. Refitting both arms while
+    dropping one calibration condition at a time answers the question the ranges cannot.
+    """
+    d = _refit_aware()
+    if d is None:                                                # pragma: no cover - opt-in artefact
+        return []
+    c, e = d["model_minus_const"], d["model_minus_emp"]
+    n = d["n_folds"]
+    return [
+        "",
+        f"**The comparison is less stable than the fixed-predictor ranges suggest.** Those ranges "
+        f"hold both predictors fixed and resample only the held-out observations, so they do not "
+        f"carry the instability of fitting a rate and a level from nine conditions. Refitting "
+        f"**both** arms while omitting one optimal-grind condition at a time "
+        f"({n} dependent folds; exploratory and descriptive, not a calibrated interval) gives a "
+        f"model-minus-constant difference with median "
+        f"**{TC.format_pp(c['median'], 3, explicit_plus=False)} pp** and range "
+        f"**[{TC.format_pp(c['min'], 3, explicit_plus=False)}, "
+        f"{TC.format_pp(c['max'], 3)}] pp**, favouring the mechanistic model in "
+        f"**{c['n_favouring_model']} of {n}** folds and the constant in "
+        f"**{c['n_favouring_comparator']}**. Against the equal-information empirical response the "
+        f"median is **{TC.format_pp(e['median'], 3, explicit_plus=False)} pp**, favouring the "
+        f"model in "
+        f"**{e['n_favouring_model']} of {n}** folds. The fixed-predictor headline of −0.394 pp "
+        f"therefore sits well outside the middle of the refit-aware distribution, and the sign of "
+        f"the difference is not stable to which conditions were used for calibration. We report "
+        f"this as a limit on what the present design can resolve, not as evidence that the "
+        f"advantage is absent.",
+    ]
+
+
 def block_transfer_headline(ep, corpus_art, loss) -> str:
     """The Results paragraph that states the paper's principal quantitative comparison.
 
@@ -594,6 +640,7 @@ def block_transfer_headline(ep, corpus_art, loss) -> str:
     verb = TS.from_interval_record(i).relation.prose
     estimand, _status = validated_analysis(ep)
     favoured = estimand.label_of[estimand.negative_favours]
+    bg = corpus_art["complete_corpus"]["pooled_by_grind"]
     return "\n".join([
         stamp(ep["corpus"]),
         "",
@@ -606,13 +653,56 @@ def block_transfer_headline(ep, corpus_art, loss) -> str:
         f"points**, which favours the {favoured}. Its primary clustered percentile **sensitivity "
         f"range** — not a calibrated confidence interval — is **{i['display']['text']} pp** and "
         f"{verb}, and the mechanistic model is **worse on "
-        f"{row['n_model_worse_than_const']} of {row['n_points']} held-out observations**. The "
+        f"{row['n_model_worse_than_const']} of {row['n_points']} held-out observations**. "
         "Because the reported ranges are "
         "uncalibrated and no practical margin was predeclared, this analysis does not establish "
         "that the observed advantage is reproducible or practically useful, and it does not "
         "establish that the advantage is absent: acceptable endpoint accuracy does not by itself "
         "establish transfer of the kinetic mechanism beyond a transferred concentration level.",
-    ])
+        "",
+        # Domain-referee Major finding 1. The pooled figure hides a SIGN FLIP: the model beats the
+        # constant on the coarse grind and is worse than it on the fine grind. Neither number
+        # appeared anywhere in the manuscript or supplement, so a reader could only see the average
+        # of two opposite results. Generated from the archived corpus contract so it cannot drift.
+        f"**The pooled figure averages two opposite results.** By target grind, pooled MAPE is "
+        f"**{TC.format_pct(bg['C']['model_mape'])}** for the mechanistic model against "
+        f"**{TC.format_pct(bg['C']['const_mape'])}** for the constant on **coarse** "
+        f"({TC.format_pp(bg['C']['model_mape'] - bg['C']['const_mape'], 2, explicit_plus=False)} "
+        f"pp, favouring the model), and **{TC.format_pct(bg['F']['model_mape'])}** against "
+        f"**{TC.format_pct(bg['F']['const_mape'])}** on **fine** "
+        f"({TC.format_pp(bg['F']['model_mape'] - bg['F']['const_mape'], 2)} pp, favouring the "
+        f"**constant**). The whole of the pooled advantage comes from the coarse grind; on the fine "
+        f"grind the mechanistic model is the worse predictor. Per variety–solute group the gain is "
+        f"similarly concentrated rather than general (Supplementary Table S3).",
+        "",
+        # Domain-referee Major finding 1: the level-only constant is a minimal ablation, and the
+        # comparison against it confounds mechanistic structure with having ANY condition response.
+        "**A non-mechanistic response closes part of the gap.** The level-only constant carries no "
+        "temperature, pressure, flow or kinetic response, so the contrast above measures the value "
+        "of the mechanistic structure *and* the value of any condition dependence together. "
+        "Against a low-degree empirical response fitted only to the same nine optimal-grind "
+        "conditions — selected by leave-one-condition-out cross-validation and frozen before any "
+        "held-out record was scored — pooled MAPE is **8.69 %**, so the mechanistic model's margin "
+        "falls from **−0.394 pp** to **−0.251 pp**. That baseline still receives less information "
+        "than the mechanistic arm, which additionally gets a target-grind hydraulic map, so the "
+        "remaining margin is an upper bound on the value of the mechanistic structure. The panel "
+        "is a locked sensitivity analysis, not a prospectively registered plan.",
+        "",
+        # Domain-referee Minor finding 5: what does 0.25-0.4 pp of pooled MAPE mean to an engineer?
+        # No decision threshold is available, so the honest answer is stated as such rather than
+        # manufactured from the source's global RSD range.
+        f"**What a difference of this size means.** Against a pooled residual of roughly "
+        f"{TC.format_pct(row['pooled_model_mape'])} and a source campaign whose reported analyte "
+        f"relative standard deviations span 0.3–19.7 %, a shift of 0.25–0.4 percentage points in "
+        f"pooled MAPE is small relative to both the residual and the measurement scatter. No "
+        f"engineering decision threshold is available for this campaign, and the source does not "
+        f"publish per-condition replicate uncertainty for the named solutes, so we do not convert "
+        f"that observation into a margin. Stated plainly: at the present residual and uncertainty "
+        f"scale, a change of this size is unlikely on its own to alter a recipe-control, "
+        f"equipment-optimisation or process-design decision — which is a statement about "
+        f"engineering relevance, not a claim that the difference is absent or that the two "
+        f"predictors are equivalent.",
+    ] + _refit_aware_paragraph())
 
 
 def block_loss_robustness(ep, corpus_art, loss) -> str:

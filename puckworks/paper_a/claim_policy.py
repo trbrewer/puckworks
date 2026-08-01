@@ -450,6 +450,14 @@ _SAFE_CONSTRUCTIONS: tuple[re.Pattern, ...] = tuple(_rx(p) for p in (
     r"(?P<prop>.*)",
     r"\bwithout\s+(?:establishing|claiming|deciding|determining)\b(?P<prop>.*)",
     r"\bnot\s+be\s+read\s+as\b(?P<prop>.*)",
+    # A DEMONSTRATED false positive, not a speculative addition: "…which is a statement about
+    # engineering relevance, not a claim that the difference is absent or that the two predictors
+    # are equivalent" was blocked by the pre-insertion scan while being an ordinary disclaimer of
+    # exactly the kind the policy exists to permit. The frozen-assurance rule bars hardening against
+    # hypothetical paraphrases; it does not bar fixing a gate that rejects correct prose, which
+    # round-12 P1-1 identified as the failure mode that teaches authors to write to the scanner.
+    r"\b(?:is|are|was|were)\s+not\s+a\s+claim\s+(?:that|of|about)\b(?P<prop>.*)",
+    r"\bnot\s+a\s+claim\s+(?:that|of|about)\b(?P<prop>.*)",
     r"\bmust\s+not\s+be\s+(?:read|taken|interpreted)\b(?P<prop>.*)",
     r"\bno\s+(?:superiority|non-?inferiority|equivalence|absence|practical-?usefulness|"
     r"usefulness)[^.;:]{0,80}?\bdecision\s+(?:is|was)\s+(?:made|claimed|supported)(?P<prop>.*)",

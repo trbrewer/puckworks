@@ -163,6 +163,33 @@ SLOW_LANE_RESULTS: dict[str, str] = {
     "5.1": "condition-cluster resampling 95% lower bound (%)",
     "8.3": "condition-cluster resampling 95% upper bound (%)",
     "8.2": "residual-resampling descriptive range, upper bound (%)",
+    # Nominal per-granulometry shot times, cited from the source campaign (O/C/F = 20/13/35 s).
+    # 20 and 13 already appear elsewhere; 35 enters with the grind-dependency table.
+    "35": "angeloni2023 nominal shot time for the FINE granulometry (s); source campaign value",
+    # ── domain-referee Major finding 1: the GRIND ASYMMETRY the pooled figure averages away.
+    # Every one of these was already in the archived corpus contract and appeared on no reader-
+    # facing surface, so a reader saw only the mean of two opposite results.
+    "10.17%": "pooled_by_grind C: mechanistic model MAPE; PAPER_A_TRANSFER_CORPUS_CONTRACTS.json",
+    "11.19%": "pooled_by_grind C: level-only constant MAPE; same archive",
+    "6.71%": "pooled_by_grind F: mechanistic model MAPE; same archive",
+    "6.48%": "pooled_by_grind F: level-only constant MAPE; same archive",
+    "1.02": "pooled_by_grind C: model minus constant (pp), favouring the model",
+    "0.23": "pooled_by_grind F: model minus constant (pp), favouring the CONSTANT",
+    # ── domain-referee Major finding 2: the leave-one-optimal-condition-out REFIT-AWARE
+    # comparison. The published percentile ranges hold both predictors fixed; these carry the
+    # instability of fitting a rate and a level from nine conditions. Nine dependent folds,
+    # exploratory and descriptive. 0.058 is registered as the median below.
+    "0.058": ("refit-aware model-minus-constant difference, median over 9 leave-one-condition-out "
+              "folds (pp); PAPER_A_REFIT_AWARE_COMPARISON.json"),
+    "0.328": "refit-aware model-minus-constant difference, most model-favouring fold (pp); same archive",
+    "0.416": "refit-aware model-minus-constant difference, most constant-favouring fold (pp); same archive",
+    "0.187": ("refit-aware model-minus-empirical-response difference, median over the same 9 folds "
+              "(pp); same archive"),
+    # ── domain-referee Major finding 1: the equal-information empirical benchmark panel.
+    "8.69%": ("equal-information empirical response baseline, macro pooled MAPE; "
+              "PAPER_A_EQUAL_INFORMATION_BENCHMARKS.json (puckworks.paper_a.empirical_benchmarks)"),
+    "0.251": ("model minus the empirical response baseline (pp); the margin against the level-only "
+              "constant is -0.394 pp; same archive"),
     # ── the matched on-grid C/F subset, reported as the secondary corpus and as the support on
     # which the same-(T,p) lookup comparator is defined (round-7 P0-3).
     "0.361": "matched on-grid subset: paired model-minus-comparator difference (pp)",

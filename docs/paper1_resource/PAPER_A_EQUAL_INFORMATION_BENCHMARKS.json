@@ -1,0 +1,123 @@
+{
+ "contract": {
+  "freezing": "the selected family is refitted on all nine and frozen before any C/F record is scored",
+  "leakage": "no coarse/fine concentration influences family selection or coefficient fitting",
+  "scoring": "same endpoint, loss, macro-averaging and complete 132-observation corpus as the mechanistic arm",
+  "selection": "leave-one-optimal-condition-out cross-validation, ties to the simpler family",
+  "status": "locked transparent sensitivity analysis, NOT a prospectively registered confirmatory plan: the candidate family was chosen after seeing the data",
+  "training_support": "the nine on-grid optimal-grind records of each variety-solute group"
+ },
+ "empirical": {
+  "macro_cf_mape": 8.691,
+  "macro_coarse_mape": 11.012,
+  "macro_fine_mape": 6.37
+ },
+ "groups": [
+  {
+   "cf_mape": 8.744,
+   "coarse_mape": 10.243,
+   "cv_scores": {
+    "constant": 3.7062,
+    "pressure": 2.7715,
+    "temperature": 4.5116,
+    "temperature*pressure": 8.4282,
+    "temperature+pressure": 4.179
+   },
+   "family": "pressure",
+   "fine_mape": 7.245,
+   "group": "Arabica:caffeine",
+   "n_train": 9,
+   "train_mape": 2.684
+  },
+  {
+   "cf_mape": 6.454,
+   "coarse_mape": 8.181,
+   "cv_scores": {
+    "constant": 3.2889,
+    "pressure": 4.3154,
+    "temperature": 3.5161,
+    "temperature*pressure": 3.7348,
+    "temperature+pressure": 3.76
+   },
+   "family": "constant",
+   "fine_mape": 4.726,
+   "group": "Arabica:trigonelline",
+   "n_train": 9,
+   "train_mape": 2.343
+  },
+  {
+   "cf_mape": 13.216,
+   "coarse_mape": 20.317,
+   "cv_scores": {
+    "constant": 7.6653,
+    "pressure": 7.1967,
+    "temperature": 9.669,
+    "temperature*pressure": 13.1966,
+    "temperature+pressure": 7.1974
+   },
+   "family": "pressure",
+   "fine_mape": 6.116,
+   "group": "Arabica:5CQA",
+   "n_train": 9,
+   "train_mape": 4.719
+  },
+  {
+   "cf_mape": 7.483,
+   "coarse_mape": 8.622,
+   "cv_scores": {
+    "constant": 5.0558,
+    "pressure": 7.7042,
+    "temperature": 9.1402,
+    "temperature*pressure": 8.8692,
+    "temperature+pressure": 7.5516
+   },
+   "family": "constant",
+   "fine_mape": 6.343,
+   "group": "Robusta:caffeine",
+   "n_train": 9,
+   "train_mape": 4.916
+  },
+  {
+   "cf_mape": 7.302,
+   "coarse_mape": 8.862,
+   "cv_scores": {
+    "constant": 4.5845,
+    "pressure": 5.8229,
+    "temperature": 4.0451,
+    "temperature*pressure": 5.9164,
+    "temperature+pressure": 4.8819
+   },
+   "family": "temperature",
+   "fine_mape": 5.743,
+   "group": "Robusta:trigonelline",
+   "n_train": 9,
+   "train_mape": 3.41
+  },
+  {
+   "cf_mape": 8.946,
+   "coarse_mape": 9.844,
+   "cv_scores": {
+    "constant": 12.3986,
+    "pressure": 13.7803,
+    "temperature": 17.9972,
+    "temperature*pressure": 15.1366,
+    "temperature+pressure": 16.1612
+   },
+   "family": "constant",
+   "fine_mape": 8.047,
+   "group": "Robusta:5CQA",
+   "n_train": 9,
+   "train_mape": 11.826
+  }
+ ],
+ "hydraulic_note": "These baselines use temperature and pressure only. The mechanistic arm additionally receives a target-grind hydraulic (conductivity/shot-time) map, so this panel narrows the information gap but does not close it; a fully equal-information baseline would also receive the derived flow/shot-time variable.",
+ "level_only_constant": {
+  "macro_cf_mape": 8.832,
+  "macro_coarse_mape": 11.187,
+  "macro_fine_mape": 6.478
+ },
+ "published_mechanistic_pooled_mape": 8.44,
+ "question": "Does the mechanistic predictor add skill beyond a NON-MECHANISTIC response model given the same optimal-grind training support? (domain-referee Major 1)",
+ "schema_version": 1,
+ "source_sha256": "780ba72d13f87f695cd41c16a18b003871f87ed80149e9c3bf0b76d2d2f2866a"
+}

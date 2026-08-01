@@ -1,31 +1,31 @@
 {
- "source_commit": "69d1c004c9ee",
+ "source_commit": "1890309f4bfb",
  "generated_by": "python tools/claim_binding_audit.py --write",
  "input_fingerprints": {
-  "docs/PAPER_A_DRAFT.md": "6889eee1c181457a",
-  "docs/submission/PAPER_A_JFE_MANUSCRIPT.md": "8dd5ee8a4be4aed0",
+  "docs/PAPER_A_DRAFT.md": "184273fdb1597292",
+  "docs/submission/PAPER_A_JFE_MANUSCRIPT.md": "c677e5f0d4905c26",
   "docs/PAPER_B2_TEMPORAL_DRAFT.md": "c2fa8e8908702c40",
   "docs/PAPER_3_PUCKWORKS_DRAFT.md": "43c3915b7e148a6b",
-  "puckworks/paper_a/claim_coverage.py": "701f9c13f82ebdd2",
+  "puckworks/paper_a/claim_coverage.py": "b8fcd563ceb61794",
   "puckworks/paper_a/slow_lane_bindings.py": "ea0060498cbf422f",
   "puckworks/paper_b2/claim_coverage.py": "2d2228a4d4b01466",
   "puckworks/paper3/claim_coverage.py": "2151faa64ec95110"
  },
  "papers": {
   "Paper 1": {
-   "numerals": 698,
-   "structural": 185,
-   "claims": 513,
-   "verified": 226,
-   "unbound": 287,
+   "numerals": 729,
+   "structural": 193,
+   "claims": 536,
+   "verified": 230,
+   "unbound": 306,
    "unaccounted": 0,
    "by_kind": {
-    "archive": 171,
+    "archive": 174,
     "code": 4,
-    "config": 258,
-    "dataset": 29,
-    "producer": 51,
-    "structural": 185
+    "config": 278,
+    "dataset": 28,
+    "producer": 52,
+    "structural": 193
    }
   },
   "Paper B2": {
@@ -59,28 +59,41 @@
   }
  },
  "totals": {
-  "numerals": 1570,
-  "structural": 432,
-  "claims": 1138,
-  "verified": 557,
-  "unbound": 581
+  "numerals": 1601,
+  "structural": 440,
+  "claims": 1161,
+  "verified": 561,
+  "unbound": 600
  },
  "slow_lane": {
-  "total": 104,
+  "total": 117,
   "bound": 93,
   "declared_unbindable": 0,
-  "unbound": 11,
+  "unbound": 24,
   "unbound_values": [
+   "0.058",
+   "0.187",
+   "0.23",
+   "0.251",
+   "0.328",
+   "0.416",
+   "1.02",
    "1.6",
    "1.8",
+   "10.17%",
+   "11.19%",
    "2.0",
    "2.1",
    "2.2",
    "3.3",
    "3.4",
+   "35",
    "49%",
+   "6.48%",
+   "6.71%",
    "7.0",
    "8.2",
+   "8.69%",
    "89"
   ],
   "binding_rules": 99,

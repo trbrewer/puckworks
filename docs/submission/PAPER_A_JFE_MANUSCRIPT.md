@@ -288,8 +288,14 @@ level available in closed form at every candidate rate.
   granulometry grid plus **12 off-grid validation conditions**, four per granulometry. Eight of
   those twelve are coarse or fine, and all eight are part of the held-out transfer corpus in §4;
   none of them coincides with an optimal-grind condition, which is why the same-(T,p) lookup
-  comparator is defined only on the on-grid subset. It reports measured beverage concentrations (g/L) for
-  caffeine (CF), trigonelline (TR), 5-CQA, and total solids, and — separately — the
+  comparator is defined only on the on-grid subset. The controlled table reports **eleven** analyte and aggregate
+  columns; this analysis uses the **three named solutes for which the source extraction model
+  supplies the required species-specific parameterisation** — caffeine (CF), trigonelline (TR) and
+  5-CQA. The inclusion rule is therefore common model–data support, decided before any held-out
+  score was computed and not chosen from coarse/fine performance; total solids is kept separate
+  because it is an aggregate optical/solids observable rather than a fourth named solute. It
+  reports measured beverage concentrations (g/L) for those species and total solids, and —
+  separately — the
   roast-and-ground **solid inventory per species** (their Table 7), which we use
   only as a same-campaign orthogonal-measurement constraint in §3.2. Angeloni's own coupled FeFlow solver is
   out of scope (the card marks it skip); we consume only its chemical campaign. The source table is
@@ -333,7 +339,7 @@ particle-size classes.
 | \(u_s\), \(v_l\) | superficial, interstitial velocity | m s⁻¹ | \(u_s=Q/A_{cs}\), \(v_l=u_s/\alpha_l\); \(Re\) is formed on \(u_s\) | derived per condition |
 | \(\varphi_{v2}\) | coarse intragranular pore fraction | dimensionless | 0.40, source physical parameters | global |
 | \(d_{s1}\) | fine representative size | m | 24 µm, measured PSD peak | global |
-| \(d_{s2}, \psi\) | coarse size, fines volume fraction | m, dimensionless | 330 µm, 0.23 (centre grind) | per grind, from the source's fitted table |
+| \(d_{s2}, \psi\) | coarse size, fines volume fraction | m, dimensionless | 330 µm, 0.23 (centre grind) | **frozen globally** in the canonical cross-grind transfer — the source reports a fitted geometry per grind, but the canonical calculation applies the centre-grind values to O, C and F alike; the three source geometries are applied globally as a sensitivity (§4), and no calibrated target-grind geometry map is used |
 | \(L\), \(D_{\mathrm{bed}}\) | bed height, diameter | m | 0.015, 0.058 | global |
 | \(M_{\mathrm{target}}\) | collection endpoint | g | 40, the declared beverage mass; swept over 38/40/42 g | global |
 | \(Q(p,T)\) | flow map | g s⁻¹ | inferred, not measured; published in mL s⁻¹ but consumed as mass flow by the source model (see the flow-map subsection) | per grind |
@@ -384,12 +390,15 @@ volumetric stand-in for one (below).
 
 **Endpoint contract: a matched beverage mass, and its residual ambiguity.** The Angeloni cup is a
 **40 ± 2 g** beverage, and the solver integrates to a **mass** endpoint,
-`t_end = M_target / Q` with `M_target = 40 g`. The stopping rule is exact in that unit: the source's
-flow column, though published in mL s⁻¹, is consumed by the source model as a mass flow in g s⁻¹
-(the source divides it by a beverage density before forming a velocity), so dividing a target by it
-returns the time at which that many **grams** have been collected. Density does enter the solver —
-when deriving the superficial velocity from that flow, and when volume-averaging the outlet
-concentration — but it does not convert the stopping rule into a volume target. The endpoint's
+`t_end = M_target / \dot m` with `M_target = 40 g`. The stopping rule is exact in that unit: the
+source's flow column, though published in mL s⁻¹, is consumed by the source model as a **mass**
+flow \(\dot m\) in g s⁻¹ (the source divides it by a beverage density before forming a velocity),
+so dividing a target by it returns the time at which that many **grams** have been collected.
+Density does enter the solver — the volumetric flow \(Q_v = \dot m/\rho\) is what forms the
+superficial velocity and volume-averages the outlet concentration — but it does not convert the
+stopping rule into a volume target. **Notation:** \(\dot m\) denotes the collected mass flow used
+by the stopping rule and \(Q_v\) the volumetric flow entering the velocity and the volume-weighted
+integration; the source publishes a single column for the former under a volumetric label. The endpoint's
 construction, and the processing of the external time-resolved trajectory, are set out in
 Supplementary Methods S2.
 
@@ -438,7 +447,7 @@ violators) before differencing, so every bin mass is non-negative by constructio
 telescope to the total collected mass. The observed "cup" for this panel is the **mass-weighted**
 mean of the bin concentrations using those same bin masses, not an unweighted mean.
 
-Angeloni report pressure; the model consumes flow. We map `p → flow` from the
+Angeloni reports pressure; the model consumes flow. We map `p → flow` from the
 study's *own* hydraulics, not by fitting to its concentrations. The refined map is
 Darcy-consistent, `q = q_ref · (p/p_ref) · (μ(T_ref)/μ(T))`, anchored to a single
 physical espresso point (40 g / ~24 s at 9 bar, 93.4 °C) with `μ(T)` from the
@@ -811,7 +820,15 @@ an external-rig prediction.
 <!-- paper-a:transfer-headline:begin -->
 <!-- paper-a:transfer-corpus schema=4 n_records=44 n_observations=132 manifest_sha256=fe46b65becbd5c421e929de3c4847eba0630e82bf08cc0c6856718cdd55907f8 -->
 
-**Level-only comparator: absolute error alone does not establish transfer skill.** This is the paper's principal quantitative result, so we state it first. Against an **optimal-grind-trained MAPE-optimal constant**, the mechanistic model's pooled held-out MAPE is **8.44%** versus **8.83%** for the constant — a paired difference of **−0.394 percentage points**, which favours the mechanistic model. Its primary clustered percentile **sensitivity range** — not a calibrated confidence interval — is **[−0.829, +0.004] pp** and contains zero, and the mechanistic model is **worse on 62 of 132 held-out observations**. The Because the reported ranges are uncalibrated and no practical margin was predeclared, this analysis does not establish that the observed advantage is reproducible or practically useful, and it does not establish that the advantage is absent: acceptable endpoint accuracy does not by itself establish transfer of the kinetic mechanism beyond a transferred concentration level.
+**Level-only comparator: absolute error alone does not establish transfer skill.** This is the paper's principal quantitative result, so we state it first. Against an **optimal-grind-trained MAPE-optimal constant**, the mechanistic model's pooled held-out MAPE is **8.44%** versus **8.83%** for the constant — a paired difference of **−0.394 percentage points**, which favours the mechanistic model. Its primary clustered percentile **sensitivity range** — not a calibrated confidence interval — is **[−0.829, +0.004] pp** and contains zero, and the mechanistic model is **worse on 62 of 132 held-out observations**. Because the reported ranges are uncalibrated and no practical margin was predeclared, this analysis does not establish that the observed advantage is reproducible or practically useful, and it does not establish that the advantage is absent: acceptable endpoint accuracy does not by itself establish transfer of the kinetic mechanism beyond a transferred concentration level.
+
+**The pooled figure averages two opposite results.** By target grind, pooled MAPE is **10.17%** for the mechanistic model against **11.19%** for the constant on **coarse** (−1.02 pp, favouring the model), and **6.71%** against **6.48%** on **fine** (+0.23 pp, favouring the **constant**). The whole of the pooled advantage comes from the coarse grind; on the fine grind the mechanistic model is the worse predictor. Per variety–solute group the gain is similarly concentrated rather than general (Supplementary Table S3).
+
+**A non-mechanistic response closes part of the gap.** The level-only constant carries no temperature, pressure, flow or kinetic response, so the contrast above measures the value of the mechanistic structure *and* the value of any condition dependence together. Against a low-degree empirical response fitted only to the same nine optimal-grind conditions — selected by leave-one-condition-out cross-validation and frozen before any held-out record was scored — pooled MAPE is **8.69 %**, so the mechanistic model's margin falls from **−0.394 pp** to **−0.251 pp**. That baseline still receives less information than the mechanistic arm, which additionally gets a target-grind hydraulic map, so the remaining margin is an upper bound on the value of the mechanistic structure. The panel is a locked sensitivity analysis, not a prospectively registered plan.
+
+**What a difference of this size means.** Against a pooled residual of roughly 8.44% and a source campaign whose reported analyte relative standard deviations span 0.3–19.7 %, a shift of 0.25–0.4 percentage points in pooled MAPE is small relative to both the residual and the measurement scatter. No engineering decision threshold is available for this campaign, and the source does not publish per-condition replicate uncertainty for the named solutes, so we do not convert that observation into a margin. Stated plainly: at the present residual and uncertainty scale, a change of this size is unlikely on its own to alter a recipe-control, equipment-optimisation or process-design decision — which is a statement about engineering relevance, not a claim that the difference is absent or that the two predictors are equivalent.
+
+**The comparison is less stable than the fixed-predictor ranges suggest.** Those ranges hold both predictors fixed and resample only the held-out observations, so they do not carry the instability of fitting a rate and a level from nine conditions. Refitting **both** arms while omitting one optimal-grind condition at a time (9 dependent folds; exploratory and descriptive, not a calibrated interval) gives a model-minus-constant difference with median **−0.058 pp** and range **[−0.328, +0.416] pp**, favouring the mechanistic model in **6 of 9** folds and the constant in **3**. Against the equal-information empirical response the median is **−0.187 pp**, favouring the model in **8 of 9** folds. The fixed-predictor headline of −0.394 pp therefore sits well outside the middle of the refit-aware distribution, and the sign of the difference is not stable to which conditions were used for calibration. We report this as a limit on what the present design can resolve, not as evidence that the advantage is absent.
 <!-- paper-a:transfer-headline:end -->
 
 **The held-out corpus is the complete one, and its membership is emitted rather than described.**
@@ -934,7 +951,7 @@ per-grind-constant **5.1 %** (3 params) → shared-mechanistic **6.4 %** (2 para
 per-grind-mechanistic **4.9 %** (6 params). The salient comparison is that the
 2-parameter **shared mechanistic model has lower in-sample MAPE than the 3-parameter
 per-grind constant in none of six variety–solute comparisons** — i.e. the mechanistic
-response did not improve in-sample MAPE over grind-specific levels in this dataset,
+response did not improve in-sample MAPE over grind-specific levels in this dataset.
 This descriptive in-sample comparison is not a held-out test, and it does not
 adjudicate the magnitude, reproducibility or practical usefulness of the held-out
 difference — nor is it proof that mechanism "explains nothing".
@@ -954,6 +971,28 @@ prediction stability, *tested* rather than asserted. This stability is,
 however, distinct from mechanistic skill (the ladder and level-only comparator above). This is a **within-campaign cross-grind holdout with a level-only-comparator skill
 comparison**, conditioned on the tested flow maps, frozen centre-grind geometry, and
 matched endpoint.
+
+**What actually changes with grind.** Because "cross-grind" can be read as a test of grind
+*physics*, the dependency is tabulated rather than described.
+
+**Table 5a. What varies with the target grind, and what is frozen.** The target grind enters this
+calculation through hydraulics and the collected-mass endpoint, not through a calibrated
+particle-geometry map; the particle descriptors are held at their centre-grind values throughout.
+
+| Quantity | Varies with target grind? | How it is obtained |
+|---|---|---|
+| hydraulic conductivity / nominal shot time | **yes** | per-granulometry, from the source campaign's own fitted values and nominal 20/13/35 s times — exogenous process information, not fitted to held-out concentrations |
+| collected-mass endpoint \(t_{end}=M_{target}/\dot m\) | **yes** (through flow) | the matched 40 g stopping rule applied at the target grind's flow |
+| held-out observations scored | **yes** | the C and F records of the target grind |
+| coarse size \(d_{s2}\), fines fraction \(\psi\), \(d_{32}\) | **no** | frozen at the centre-grind values for O, C and F alike; three source geometries applied *globally* as a sensitivity |
+| bed porosity, permeability evolution, swelling/compaction | **no** | not represented; the bed is fully wetted, saturated and structurally fixed |
+| inventory level, rate multiplier | **no** (frozen after O fit) | fitted on the nine optimal-grind conditions, then frozen |
+| species parameterisation \(K_i, h_{sl,i}\) | **no** | inherited from the source fit |
+
+So what transfers across grind here is **target-grind hydraulics and the matched endpoint**, not a
+validated representation of how changing grind changes extraction physics. The result is a
+conditional outcome-transfer test, and the geometry sensitivity below varies geometry globally
+rather than testing a grind-specific geometry map.
 
 **Cross-validation, uncertainty, and robustness** (leave-one-condition-out cross-validation,
 grain-geometry sensitivity analysis). Replacing the weak two-off-grid-point holdout with
@@ -1160,7 +1199,17 @@ which this analysis establishes neither as reproducible and practically useful n
 absent** (§4); and a shared fit is
 *in-sample* compatible (§4). These are four separate properties — **parameter
 identifiability, endpoint accuracy, predictive skill over a benchmark, and cross-grind
-transferability** — and they do not coincide here. Aggregate prediction is stable across
+transferability** — and they do not coincide here.
+
+They are not, however, four *independently established* properties. Transferability is assessed
+**through** the same held-out endpoint errors that describe endpoint accuracy, so those two are
+operationally coupled rather than dissociated; and benchmark skill is benchmark-dependent, since a
+non-mechanistic response fitted to the same nine conditions already recovers part of the margin
+(§4). What this case demonstrates directly is the **first** dissociation — weak parameter
+localization coexisting with stable aggregate prediction — together with the separate result that
+mismatched observation windows can manufacture an apparent transfer failure. The remaining
+separations are proposed as a reporting discipline, not established as an empirical four-way
+dissociation by one within-campaign case. Aggregate prediction is stable across
 the near-optimal set even though the parameters on it are not individually estimable, but
 that stability is *not* the same as adding mechanistic information beyond a transferred
 level. What would separately *identify* the rate is different information — holding the
@@ -1197,6 +1246,17 @@ first over-claims identification; the second mistakes an endpoint artefact for a
 failure.
 
 ## 7. Limitations
+
+**What the canonical model does not represent.** The reduced physics is adequate for the
+inverse-problem question posed here, but it is not a complete espresso model, and the omissions
+matter most precisely where cross-grind transfer is concerned. The calculation starts from a fully
+wetted, locally equilibrated bed; it omits the initial unsaturated infiltration and the displacement
+of air and residual CO₂; it omits axial dispersion, radial non-uniformity and channelling; it holds
+porosity and permeability fixed; and it does not model swelling, compaction, erosion, fines
+migration or dissolution-driven hydraulic evolution. These are well-established features of real
+espresso flow. They do not affect the exact multiplicative inventory result or the observed
+compensation geometry *within* this model, but they are why the fitted rate multiplier — and its
+transfer — must not be read as a validated physical extraction-rate parameter.
 
 **Data uncertainty and replication.** The Angeloni source publishes global relative-standard-
 deviation ranges but not condition-specific replicate uncertainty for the named solutes, so no
@@ -1238,7 +1298,7 @@ is the reporting principle, not the numbers.
 
 ## 8. Conclusions
 
-For the tested multi-solute espresso model and datasets, a matched whole-cup endpoint permits broad compensation between extractable inventory and mass-transfer rate. Within-campaign holdouts and acceptable cross-grind error do not by themselves establish useful transfer of the extraction rate: the mechanistic model reached 8.44 % pooled held-out MAPE against 8.83 % for an optimal-grind level-only comparator, a difference of −0.394 percentage points whose primary clustered percentile sensitivity range contains zero; uncalibrated and without a predeclared margin, that range establishes neither that the advantage is reproducible or practically useful nor that it is absent. Fraction-resolved observations from the source campaign localized the rate more strongly, and a second-rig time-resolved dissolved-solids trajectory retained shape information — weakly, and dependent on the loss — that a single integrated cup could not carry. These results are specific to the tested model, observation maps, parameter domain, and campaigns, but they establish a practical reporting principle for food-process inverse problems: parameter localization, prediction, benchmark skill, and cross-context transfer should be evaluated and labeled separately. Future experiments should prioritize fraction timing, independently anchored inventory measurement, run-level uncertainty, and designs chosen to maximise variation in the rate-sensitivity direction relative to the inventory-level direction.
+For the tested multi-solute espresso model and datasets, a matched whole-cup endpoint permits broad compensation between extractable inventory and mass-transfer rate. Within-campaign holdouts and acceptable cross-grind error do not by themselves establish useful transfer of the extraction rate: the mechanistic model reached 8.44 % pooled held-out MAPE against 8.83 % for an optimal-grind level-only comparator, a difference of −0.394 percentage points whose primary clustered percentile sensitivity range contains zero; uncalibrated and without a predeclared margin, that range establishes neither that the advantage is reproducible or practically useful nor that it is absent. That pooled figure also averages two opposite results: the model improves on the constant for the coarse grind (10.17 % against 11.19 %) and is worse than it for the fine grind (6.71 % against 6.48 %), and against a non-mechanistic response fitted to the same nine optimal-grind conditions the margin narrows to −0.251 pp. The observed gain is therefore heterogeneous and benchmark-sensitive. Fraction-resolved observations from the source campaign localized the rate more strongly, and a second-rig time-resolved dissolved-solids trajectory retained shape information — weakly, and dependent on the loss — that a single integrated cup could not carry. These results are specific to the tested model, observation maps, parameter domain, and campaigns. What the case **demonstrates** is that weak localization of the inventory–rate split can coexist with stable endpoint prediction, and that mismatched observation windows can manufacture an apparent transfer failure. What it **observes but does not adjudicate** is a small, heterogeneous and benchmark-sensitive incremental advantage over a non-mechanistic predictor. What it **does not establish** is transfer of a physical grind mechanism: the target grind enters through hydraulics and the matched endpoint, with particle geometry frozen. On that basis the case **motivates**, rather than validates, a reporting discipline for food-process inverse problems in which parameter localization, absolute prediction, equal-information benchmark performance and cross-context evidence are evaluated and labeled separately. Future experiments should prioritize fraction timing, independently anchored inventory measurement, run-level uncertainty, and designs chosen to maximise variation in the rate-sensitivity direction relative to the inventory-level direction.
 
 ## Data and code availability
 
