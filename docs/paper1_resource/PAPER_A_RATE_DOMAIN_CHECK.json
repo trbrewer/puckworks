@@ -1,0 +1,228 @@
+{
+ "groups": [
+  {
+   "M0": {
+    "coarse": 9.479,
+    "fine": 7.131,
+    "pooled": 8.305
+   },
+   "M0_minus_M2_widened_pp": 0.366,
+   "M2_widened": {
+    "coarse": 9.231,
+    "fine": 6.647,
+    "pooled": 7.939
+   },
+   "group": "Arabica:caffeine",
+   "improvement_from_widening_pp": 0.1673,
+   "near_optimal_10pct": {
+    "hi": 500.0,
+    "lo": 0.4244,
+    "log_width": 7.0718,
+    "right_censored": true
+   },
+   "objective_at_min": 2.83358,
+   "objective_at_published_cap": 3.00087,
+   "published_domain": [
+    0.15,
+    6.5
+   ],
+   "rate_at_min_widened": 0.792,
+   "top_decade_objective_relative_spread": 0.000114,
+   "top_decade_prediction_relative_spread": 0.000502,
+   "verdict": "SATURATING_DEGENERACY",
+   "widened_domain": [
+    0.15,
+    500.0
+   ]
+  },
+  {
+   "M0": {
+    "coarse": 6.511,
+    "fine": 6.238,
+    "pooled": 6.375
+   },
+   "M0_minus_M2_widened_pp": -0.063,
+   "M2_widened": {
+    "coarse": 7.278,
+    "fine": 5.598,
+    "pooled": 6.438
+   },
+   "group": "Arabica:trigonelline",
+   "improvement_from_widening_pp": 0.02983,
+   "near_optimal_10pct": {
+    "hi": 500.0,
+    "lo": 0.9751,
+    "log_width": 6.2398,
+    "right_censored": true
+   },
+   "objective_at_min": 2.24634,
+   "objective_at_published_cap": 2.27618,
+   "published_domain": [
+    0.15,
+    6.5
+   ],
+   "rate_at_min_widened": 1.8199,
+   "top_decade_objective_relative_spread": 0.0,
+   "top_decade_prediction_relative_spread": 0.0,
+   "verdict": "SATURATING_DEGENERACY",
+   "widened_domain": [
+    0.15,
+    500.0
+   ]
+  },
+  {
+   "M0": {
+    "coarse": 17.722,
+    "fine": 7.129,
+    "pooled": 12.425
+   },
+   "M0_minus_M2_widened_pp": -0.046,
+   "M2_widened": {
+    "coarse": 17.73,
+    "fine": 7.213,
+    "pooled": 12.472
+   },
+   "group": "Arabica:5CQA",
+   "improvement_from_widening_pp": 0.40366,
+   "near_optimal_10pct": {
+    "hi": 17.9344,
+    "lo": 0.3447,
+    "log_width": 3.9519,
+    "right_censored": false
+   },
+   "objective_at_min": 4.61739,
+   "objective_at_published_cap": 5.02104,
+   "published_domain": [
+    0.15,
+    6.5
+   ],
+   "rate_at_min_widened": 0.9751,
+   "top_decade_objective_relative_spread": 7e-05,
+   "top_decade_prediction_relative_spread": 2.5e-05,
+   "verdict": "SATURATING_DEGENERACY",
+   "widened_domain": [
+    0.15,
+    500.0
+   ]
+  },
+  {
+   "M0": {
+    "coarse": 8.103,
+    "fine": 6.572,
+    "pooled": 7.337
+   },
+   "M0_minus_M2_widened_pp": -0.248,
+   "M2_widened": {
+    "coarse": 8.627,
+    "fine": 6.543,
+    "pooled": 7.585
+   },
+   "group": "Robusta:caffeine",
+   "improvement_from_widening_pp": 0.00018,
+   "near_optimal_10pct": {
+    "hi": 500.0,
+    "lo": 0.6433,
+    "log_width": 6.6558,
+    "right_censored": true
+   },
+   "objective_at_min": 4.89337,
+   "objective_at_published_cap": 4.89355,
+   "published_domain": [
+    0.15,
+    6.5
+   ],
+   "rate_at_min_widened": 6.3392,
+   "top_decade_objective_relative_spread": 9.8e-05,
+   "top_decade_prediction_relative_spread": 0.000502,
+   "verdict": "SATURATING_DEGENERACY",
+   "widened_domain": [
+    0.15,
+    500.0
+   ]
+  },
+  {
+   "M0": {
+    "coarse": 6.269,
+    "fine": 7.13,
+    "pooled": 6.7
+   },
+   "M0_minus_M2_widened_pp": -0.709,
+   "M2_widened": {
+    "coarse": 8.099,
+    "fine": 6.718,
+    "pooled": 7.409
+   },
+   "group": "Robusta:trigonelline",
+   "improvement_from_widening_pp": 0.00741,
+   "near_optimal_10pct": {
+    "hi": 500.0,
+    "lo": 1.4782,
+    "log_width": 5.8238,
+    "right_censored": true
+   },
+   "objective_at_min": 3.86297,
+   "objective_at_published_cap": 3.87038,
+   "published_domain": [
+    0.15,
+    6.5
+   ],
+   "rate_at_min_widened": 62.4695,
+   "top_decade_objective_relative_spread": 0.0,
+   "top_decade_prediction_relative_spread": 0.0,
+   "verdict": "SATURATING_DEGENERACY",
+   "widened_domain": [
+    0.15,
+    500.0
+   ]
+  },
+  {
+   "M0": {
+    "coarse": 9.758,
+    "fine": 7.33,
+    "pooled": 8.544
+   },
+   "M0_minus_M2_widened_pp": -0.398,
+   "M2_widened": {
+    "coarse": 10.101,
+    "fine": 7.782,
+    "pooled": 8.941
+   },
+   "group": "Robusta:5CQA",
+   "improvement_from_widening_pp": 0.08098,
+   "near_optimal_10pct": {
+    "hi": 500.0,
+    "lo": 0.5225,
+    "log_width": 6.8638,
+    "right_censored": true
+   },
+   "objective_at_min": 11.7653,
+   "objective_at_published_cap": 11.84628,
+   "published_domain": [
+    0.15,
+    6.5
+   ],
+   "rate_at_min_widened": 143.5452,
+   "top_decade_objective_relative_spread": 2.5e-05,
+   "top_decade_prediction_relative_spread": 2.5e-05,
+   "verdict": "SATURATING_DEGENERACY",
+   "widened_domain": [
+    0.15,
+    500.0
+   ]
+  }
+ ],
+ "n_rates": 40,
+ "question": "Is the boundary-pinned rate multiplier a real degeneracy or an artefact of the declared rate domain, and does the M0-vs-M2 transfer conclusion survive widening it?",
+ "saturation_tolerance": 0.01,
+ "schema_version": 1,
+ "transfer_after_widening": {
+  "macro_M0_minus_M2_pp": -0.183,
+  "macro_M0_pooled": 8.281,
+  "macro_M2_pooled": 8.464,
+  "n_groups": 6,
+  "n_groups_M0_better": 5
+ },
+ "verdict_counts": {
+  "SATURATING_DEGENERACY": 6
+ }
+}
