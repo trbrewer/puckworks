@@ -351,7 +351,7 @@ particle-size classes.
 | \(u_s\), \(v_l\) | superficial, interstitial velocity | m s⁻¹ | \(u_s=Q/A_{cs}\), \(v_l=u_s/\alpha_l\); \(Re\) is formed on \(u_s\) | derived per condition |
 | \(\varphi_{v2}\) | coarse intragranular pore fraction | dimensionless | 0.40, source physical parameters | global |
 | \(d_{s1}\) | fine representative size | m | 24 µm, measured PSD peak | global |
-| \(d_{s2}, \psi\) | coarse size, fines volume fraction | m, dimensionless | 330 µm, 0.23 (centre grind) | per grind, from the source's fitted table |
+| \(d_{s2}, \psi\) | coarse size, fines volume fraction | m, dimensionless | 330 µm, 0.23 (centre grind) | **frozen globally** in the canonical cross-grind transfer — the source reports a fitted geometry per grind, but the canonical calculation applies the centre-grind values to O, C and F alike; the three source geometries are applied globally as a sensitivity (§4<!--sec:result3-->), and no calibrated target-grind geometry map is used |
 | \(L\), \(D_{\mathrm{bed}}\) | bed height, diameter | m | 0.015, 0.058 | global |
 | \(M_{\mathrm{target}}\) | collection endpoint | g | 40, the declared beverage mass; swept over 38/40/42 g | global |
 | \(Q(p,T)\) | flow map | g s⁻¹ | inferred, not measured; published in mL s⁻¹ but consumed as mass flow by the source model (see the flow-map subsection) | per grind |
@@ -974,6 +974,25 @@ however, distinct from mechanistic skill (the ladder and level-only comparator a
 comparison**, conditioned on the tested flow maps, frozen centre-grind geometry, and
 matched endpoint.
 
+**What actually changes with grind.** Because "cross-grind" can be read as a test of grind
+*physics*, the dependency is tabulated rather than described. The target grind enters this
+calculation through hydraulics and the endpoint, not through a calibrated particle-geometry map:
+
+| Quantity | Varies with target grind? | How it is obtained |
+|---|---|---|
+| hydraulic conductivity / nominal shot time | **yes** | per-granulometry, from the source campaign's own fitted values and nominal 20/13/35 s times — exogenous process information, not fitted to held-out concentrations |
+| collected-mass endpoint \(t_{end}=M_{target}/\dot m\) | **yes** (through flow) | the matched 40 g stopping rule applied at the target grind's flow |
+| held-out observations scored | **yes** | the C and F records of the target grind |
+| coarse size \(d_{s2}\), fines fraction \(\psi\), \(d_{32}\) | **no** | frozen at the centre-grind values for O, C and F alike; three source geometries applied *globally* as a sensitivity |
+| bed porosity, permeability evolution, swelling/compaction | **no** | not represented; the bed is fully wetted, saturated and structurally fixed |
+| inventory level, rate multiplier | **no** (frozen after O fit) | fitted on the nine optimal-grind conditions, then frozen |
+| species parameterisation \(K_i, h_{sl,i}\) | **no** | inherited from the source fit |
+
+So what transfers across grind here is **target-grind hydraulics and the matched endpoint**, not a
+validated representation of how changing grind changes extraction physics. The result is a
+conditional outcome-transfer test, and the geometry sensitivity below varies geometry globally
+rather than testing a grind-specific geometry map.
+
 **Cross-validation, uncertainty, and robustness** (leave-one-condition-out cross-validation,
 grain-geometry sensitivity analysis). Replacing the weak two-off-grid-point holdout with
 **leave-one-(T,p)-condition-out CV** over the nine on-grid O conditions gives a pooled
@@ -1174,7 +1193,17 @@ which this analysis establishes neither as reproducible and practically useful n
 absent** (§4<!--sec:result3-->); and a shared fit is
 *in-sample* compatible (§4<!--sec:result3-->). These are four separate properties — **parameter
 identifiability, endpoint accuracy, predictive skill over a benchmark, and cross-grind
-transferability** — and they do not coincide here. Aggregate prediction is stable across
+transferability** — and they do not coincide here.
+
+They are not, however, four *independently established* properties. Transferability is assessed
+**through** the same held-out endpoint errors that describe endpoint accuracy, so those two are
+operationally coupled rather than dissociated; and benchmark skill is benchmark-dependent, since a
+non-mechanistic response fitted to the same nine conditions already recovers part of the margin
+(§4<!--sec:result3-->). What this case demonstrates directly is the **first** dissociation — weak parameter
+localization coexisting with stable aggregate prediction — together with the separate result that
+mismatched observation windows can manufacture an apparent transfer failure. The remaining
+separations are proposed as a reporting discipline, not established as an empirical four-way
+dissociation by one within-campaign case. Aggregate prediction is stable across
 the near-optimal set even though the parameters on it are not individually estimable, but
 that stability is *not* the same as adding mechanistic information beyond a transferred
 level. What would separately *identify* the rate is different information — holding the

@@ -163,6 +163,9 @@ SLOW_LANE_RESULTS: dict[str, str] = {
     "5.1": "condition-cluster resampling 95% lower bound (%)",
     "8.3": "condition-cluster resampling 95% upper bound (%)",
     "8.2": "residual-resampling descriptive range, upper bound (%)",
+    # Nominal per-granulometry shot times, cited from the source campaign (O/C/F = 20/13/35 s).
+    # 20 and 13 already appear elsewhere; 35 enters with the grind-dependency table.
+    "35": "angeloni2023 nominal shot time for the FINE granulometry (s); source campaign value",
     # ── domain-referee Major finding 1: the GRIND ASYMMETRY the pooled figure averages away.
     # Every one of these was already in the archived corpus contract and appeared on no reader-
     # facing surface, so a reader saw only the mean of two opposite results.

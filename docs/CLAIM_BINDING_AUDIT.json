@@ -1,31 +1,31 @@
 {
- "source_commit": "4ab18ad3e6fa",
+ "source_commit": "cac83c25794a",
  "generated_by": "python tools/claim_binding_audit.py --write",
  "input_fingerprints": {
-  "docs/PAPER_A_DRAFT.md": "2c20b857ea37ab71",
-  "docs/submission/PAPER_A_JFE_MANUSCRIPT.md": "8f56dcb7872f697f",
+  "docs/PAPER_A_DRAFT.md": "2503a7a69d48efac",
+  "docs/submission/PAPER_A_JFE_MANUSCRIPT.md": "49d6f00b828c1781",
   "docs/PAPER_B2_TEMPORAL_DRAFT.md": "c2fa8e8908702c40",
   "docs/PAPER_3_PUCKWORKS_DRAFT.md": "43c3915b7e148a6b",
-  "puckworks/paper_a/claim_coverage.py": "ea40aacb2783523b",
+  "puckworks/paper_a/claim_coverage.py": "677ca69687aa4673",
   "puckworks/paper_a/slow_lane_bindings.py": "ea0060498cbf422f",
   "puckworks/paper_b2/claim_coverage.py": "2d2228a4d4b01466",
   "puckworks/paper3/claim_coverage.py": "2151faa64ec95110"
  },
  "papers": {
   "Paper 1": {
-   "numerals": 707,
-   "structural": 185,
-   "claims": 522,
+   "numerals": 713,
+   "structural": 189,
+   "claims": 524,
    "verified": 227,
-   "unbound": 295,
+   "unbound": 297,
    "unaccounted": 0,
    "by_kind": {
     "archive": 172,
     "code": 4,
-    "config": 267,
+    "config": 269,
     "dataset": 28,
     "producer": 51,
-    "structural": 185
+    "structural": 189
    }
   },
   "Paper B2": {
@@ -59,17 +59,17 @@
   }
  },
  "totals": {
-  "numerals": 1579,
-  "structural": 432,
-  "claims": 1147,
+  "numerals": 1585,
+  "structural": 436,
+  "claims": 1149,
   "verified": 558,
-  "unbound": 589
+  "unbound": 591
  },
  "slow_lane": {
-  "total": 112,
+  "total": 113,
   "bound": 93,
   "declared_unbindable": 0,
-  "unbound": 19,
+  "unbound": 20,
   "unbound_values": [
    "0.23",
    "0.251",
@@ -83,6 +83,7 @@
    "2.2",
    "3.3",
    "3.4",
+   "35",
    "49%",
    "6.48%",
    "6.71%",
