@@ -743,7 +743,35 @@ ASSERTIONS: tuple[Assertion, ...] = (
         ("do not establish whether", "does not establish whether", "we claim neither",
          "claim neither superiority", "no claim of statistical distinguishability",
          "determine neither", "does not determine whether", "do not determine whether",
-         "cannot establish whether", "support no superiority")),
+         "cannot establish whether", "support no superiority",
+         # The SYMMETRIC form entails the one-sided form: "establishes neither that the advantage
+         # is reproducible nor that it is absent" says no decision is claimed, more strongly than
+         # "does not establish whether" does. A surface that upgrades to symmetry must not then
+         # fail for having lost the weaker phrasing.
+         "establish neither", "establishes neither", "determine neither")),
+    Assertion(
+        "symmetric_non_establishment",
+        "non-establishment is stated in BOTH directions, not only against the advantage",
+        # Post-round-12 stopping rule. Rounds 10, 11 and 12 each found the same defect class live in
+        # reader-facing text, and each was closed by rewriting sentences until no reviewer objected
+        # — an acceptance test with no end state, because "does this wording overclaim?" is a matter
+        # of judgement and the next reader has different judgement.
+        #
+        # This is the falsifiable replacement. The scientific requirement was always symmetric: an
+        # uncalibrated range cannot establish that the advantage is reproducible or useful, AND it
+        # cannot establish that the advantage is absent. One-sided caution is precisely how "no
+        # resolvable skill" survived four rounds — it reads as modesty while leaving an absence
+        # verdict standing.
+        #
+        # A surface either says both or it does not. That is checkable, it is finite, and it found
+        # the ABSTRACT one-sided the first time it ran.
+        ("neither that the advantage is reproducible", "nor that it is absent",
+         "determine neither", "establishes neither", "establish neither",
+         "nor its absence", "nor as absent", "nor absence",
+         "support no superiority", "supports no superiority",
+         "does not establish that the advantage is absent",
+         "does not establish that the difference is absent",
+         "do not establish its absence")),
     Assertion(
         "accuracy_is_insufficient",
         "acceptable endpoint accuracy alone does not establish mechanistic transfer",
@@ -779,21 +807,22 @@ ASSERTION_BY_ID = {a.id: a for a in ASSERTIONS}
 #: evidence boundary to make room, which is why `no_decision_claimed` is required there.
 SURFACE_ASSERTIONS: dict[str, tuple[str, ...]] = {
     "abstract": ("observed_advantage", "ranges_uncalibrated", "no_decision_claimed",
-                 "accuracy_is_insufficient"),
-    "editor_significance": ("no_decision_claimed", "accuracy_is_insufficient"),
+                 "symmetric_non_establishment", "accuracy_is_insufficient"),
+    "editor_significance": ("no_decision_claimed", "symmetric_non_establishment",
+                            "accuracy_is_insufficient"),
     "cover_letter": ("observed_advantage", "ranges_uncalibrated", "no_decision_claimed",
-                     "accuracy_is_insufficient"),
+                     "symmetric_non_establishment", "accuracy_is_insufficient"),
     "results_headline": ("observed_advantage", "ranges_uncalibrated",
-                         "accuracy_is_insufficient"),
-    "endpoint_synthesis": ("ranges_uncalibrated", "no_decision_claimed"),
-    "supplement_reading": ("ranges_uncalibrated", "no_decision_claimed"),
-    "conclusion": ("accuracy_is_insufficient",),
-    # Round-12 P1-6: all four. The transfer boundary was omitted on a false premise about the
-    # venue limit -- the replacement bullet is 62 characters.
+                         "symmetric_non_establishment", "accuracy_is_insufficient"),
+    "endpoint_synthesis": ("ranges_uncalibrated", "no_decision_claimed",
+                           "symmetric_non_establishment"),
+    "supplement_reading": ("ranges_uncalibrated", "no_decision_claimed",
+                           "symmetric_non_establishment"),
+    "conclusion": ("symmetric_non_establishment", "accuracy_is_insufficient"),
     "highlights": ("observed_advantage", "ranges_uncalibrated", "no_decision_claimed",
-                   "accuracy_is_insufficient"),
+                   "symmetric_non_establishment", "accuracy_is_insufficient"),
     "figure3_caption": ("observed_advantage", "ranges_uncalibrated", "no_decision_claimed",
-                        "accuracy_is_insufficient"),
+                        "symmetric_non_establishment", "accuracy_is_insufficient"),
 }
 
 

@@ -53,6 +53,12 @@ article_type: Research paper / original research article
 # `puckworks.paper_a.claim_policy` enforces this against the artefact's declared inferential
 # status: while that status supports no decision, the retired wording cannot be reintroduced here or
 # anywhere else a reader can see it.
+#
+# Post-round-12: the falsifiable acceptance criterion (`symmetric_non_establishment`) found this
+# sentence one-sided. It disclaimed the ADVANTAGE -- "do not establish whether the advantage is
+# reproducible or useful" -- and said nothing about absence, on the paper's single most-read
+# surface. One-sided caution is what let "no resolvable skill" survive four rounds: it reads as
+# modesty while leaving an absence reading standing. Both directions are now stated.
 # ---------------------------------------------------------------------------------------------
 abstract: >-
   Whole-cup espresso measurements can be predicted accurately even when extractable content and
@@ -63,14 +69,14 @@ abstract: >-
   illustrative caffeine panel the minimum was interior but its 10 %-near-optimal set reached the
   upper tested boundary; across six panels and three objective families, near-optimal sets
   reached a boundary in 16 of 18 cases. After optimal-grind
-  calibration, predictions on the complete held-out coarse- and fine-grind corpus (132
+  calibration, predictions on the complete held-out coarse/fine corpus (132
   observations) had 8.4 % pooled MAPE against 8.8 % for a concentration-only comparator. The paired
-  difference was −0.394 percentage points, favouring the model, and the model was worse on 62 of
-  132 observations. The primary clustered percentile range (−0.829 to +0.004) contained zero; these
-  are uncalibrated sensitivity ranges with no predeclared margin, so they do not establish whether
-  the advantage is reproducible or useful.
-  Fraction-resolved observations produced sharper rate profiles
-  than aggregated or simulated whole-cup ones. An external dissolved-solids trajectory retained
+  difference was −0.394 percentage points, favouring the model, which was worse on 62 of 132
+  observations. The primary clustered percentile range (−0.829 to +0.004) contained zero; these
+  are uncalibrated sensitivity ranges with no predeclared margin, so they establish neither that
+  the advantage is reproducible or useful nor that it is absent.
+  Fraction-resolved observations produced sharper rate profiles than aggregated or simulated
+  whole-cup ones. An external dissolved-solids trajectory retained
   only a shallow, high-error, loss-dependent preference. Matched endpoints are therefore necessary but insufficient: parameter
   localization, prediction error, incremental gain and cross-context evidence should be reported
   separately. Across the declared ±2 g tolerance the difference stayed between −0.447 and
@@ -125,8 +131,8 @@ editor_significance: >-
   inventory, and that a mechanistic model can achieve acceptable held-out error while its observed
   gain over a trained level-only baseline is 0.394 percentage points of pooled error. The
   dependence-aware ranges reported here
-  are uncalibrated sensitivity ranges with no predeclared practical margin, so they do not establish
-  whether that gain is reproducible or practically useful: acceptable endpoint accuracy alone does
+  are uncalibrated sensitivity ranges with no predeclared practical margin, so they establish neither
+  that the gain is reproducible or practically useful nor that it is absent: acceptable endpoint accuracy alone does
   not establish that the extraction mechanism transferred. The study also demonstrates a
   reporting workflow that separates parameter localization from held-out prediction and from
   incremental gain over a

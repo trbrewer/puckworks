@@ -62,6 +62,31 @@ python -c "from puckworks.registry import run_all_gates; run_all_gates()"
 - Python ≥3.10, numpy/scipy core; taichi is optional (`[lb]` extra) — code
   must import without it.
 
+## Paper 1 assurance layer: FROZEN (2026-07-31)
+
+The claim/evidence machinery is closed. Rounds 10-12 each found defects in the previous round's
+gates, and the layer is now ~4,800 lines guarding, in part, a registry with **zero** entries. Do not
+harden it further on speculation.
+
+- **Do not** extend `inferential_evidence.py`, the procedure registry, evidence records or the
+  chronology proof while `PROCEDURE_REGISTRY` and `PRODUCTION_EVIDENCE` are empty. Paper A performs
+  no inferential procedure and requests no unlock; build the machinery against a real case, when
+  there is one.
+- **Do not** add prohibited-phrase rules in response to a hypothetical paraphrase. The taxonomy is
+  defence-in-depth and is documented as incomplete by construction. The load-bearing defences are
+  generated central text, pre-insertion scanning, and proposition coverage.
+- **Do** keep the existing gates green, and do fix a gate that lets a defect reach a reader-facing
+  surface.
+
+**What reopens it:** an analysis that actually earns a decision (a calibrated procedure with a
+predeclared margin), or a defect demonstrated in *shipped* reader-facing text — not in a gate.
+
+**The P0 acceptance criterion is now falsifiable** and replaces "no reviewer objects to the
+wording": every load-bearing claim surface must carry `symmetric_non_establishment` — the analysis
+establishes neither that the advantage is reproducible/useful **nor** that it is absent. All nine
+surfaces are checked by `claim_policy.SURFACE_ASSERTIONS`. Wording disputes that do not violate that
+criterion are editorial preference, not findings.
+
 ## What NOT to do
 - No implementation without a card. No parameters invented where a card says
   "not provided". No upgrading authors' validation claims.

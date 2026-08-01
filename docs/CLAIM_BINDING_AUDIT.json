@@ -1,9 +1,9 @@
 {
- "source_commit": "e1635d9321c3",
+ "source_commit": "69d1c004c9ee",
  "generated_by": "python tools/claim_binding_audit.py --write",
  "input_fingerprints": {
-  "docs/PAPER_A_DRAFT.md": "112915dc9fc400a1",
-  "docs/submission/PAPER_A_JFE_MANUSCRIPT.md": "7b3ebdef5582e6d4",
+  "docs/PAPER_A_DRAFT.md": "6889eee1c181457a",
+  "docs/submission/PAPER_A_JFE_MANUSCRIPT.md": "8dd5ee8a4be4aed0",
   "docs/PAPER_B2_TEMPORAL_DRAFT.md": "c2fa8e8908702c40",
   "docs/PAPER_3_PUCKWORKS_DRAFT.md": "43c3915b7e148a6b",
   "puckworks/paper_a/claim_coverage.py": "701f9c13f82ebdd2",
