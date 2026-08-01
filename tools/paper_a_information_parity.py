@@ -251,10 +251,18 @@ def ablation_panel() -> dict:
             "M0_to_M1": round(arms["M0"]["pooled"] - arms["M1"]["pooled"], 3),
         },
         "interpretation": {
-            "M0_to_M2": "combined value of rate recalibration and target-grind hydraulics",
+            "M0_to_M2": ("value of RATE RECALIBRATION ALONE. M0 and M2 both receive the "
+                         "target-grind hydraulic map; the arms differ only in whether the rate is "
+                         "fitted or frozen at the inherited value (and in the level that follows). "
+                         "An earlier version of this field also credited hydraulics here, which "
+                         "was wrong and is corrected."),
             "M1_to_M2": "value supplied by the TARGET-GRIND hydraulic map alone",
-            "M0_to_M1": "value of fitting the rate under a common hydraulic assumption",
+            "M0_to_M1": ("joint effect of freezing the rate AND removing the target-grind map; "
+                         "the two changes are confounded in this contrast and it should not be "
+                         "read as either one alone"),
         },
+        "hydraulic_map_by_arm": {"M0": "target grind", "M1": "optimal grind (common)",
+                                 "M2": "target grind"},
         "per_group": [{k: (round(v, 3) if isinstance(v, float) else v) for k, v in g.items()}
                       for g in per_group],
     }

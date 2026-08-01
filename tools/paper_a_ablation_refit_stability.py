@@ -169,6 +169,22 @@ def run() -> dict:
     m0 = spread("M0_minus_M2")
     m1 = spread("M1_minus_M2")
 
+    # Disaggregation by target grind. The pooled figure is a mean of the two, and for BOTH
+    # contrasts the two halves point in opposite directions -- so a pooled number reported alone
+    # would repeat exactly the defect this whole revision was opened to fix.
+    def by_grind(arm):
+        out = {}
+        for grind in ("coarse", "fine"):
+            v = [f["%s_%s" % (arm, grind)] - f["M2_%s" % grind] for f in folds]
+            out[grind] = {"median": round(float(np.median(v)), 3),
+                          "min": round(min(v), 3), "max": round(max(v), 3),
+                          "n_negative": sum(1 for x in v if x < 0),
+                          "n_positive": sum(1 for x in v if x > 0),
+                          "sign_stable": bool(all(x < 0 for x in v) or all(x > 0 for x in v))}
+        return out
+
+    disaggregated = {"M0_minus_M2": by_grind("M0"), "M1_minus_M2": by_grind("M1")}
+
     return {
         "schema_version": 1,
         "question": ("Is the M0-vs-M2 ablation result (freezing the rate transfers better) stable "
@@ -188,6 +204,11 @@ def run() -> dict:
         "folds": folds,
         "M0_minus_M2": m0,
         "M1_minus_M2": m1,
+        "disaggregated_by_target_grind": disaggregated,
+        "pooling_warning": (
+            "Both pooled contrasts average two opposite results and MUST NOT be reported alone. "
+            "M1-M2 is large and positive on coarse but slightly NEGATIVE on fine; M0-M2 is "
+            "negative on coarse but mostly POSITIVE on fine."),
         "reading": {
             "M0_minus_M2": ("sign stable across all nine folds" if m0["sign_stable"]
                             else "SIGN CHANGES across folds — the claim must weaken accordingly"),
