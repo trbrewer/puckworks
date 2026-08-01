@@ -25,6 +25,44 @@
   ],
   "scored_on": "the unchanged complete 132-observation coarse/fine corpus"
  },
+ "disaggregated_by_target_grind": {
+  "M0_minus_M2": {
+   "coarse": {
+    "max": -0.155,
+    "median": -0.483,
+    "min": -1.012,
+    "n_negative": 9,
+    "n_positive": 0,
+    "sign_stable": true
+   },
+   "fine": {
+    "max": 0.4,
+    "median": 0.155,
+    "min": -0.587,
+    "n_negative": 3,
+    "n_positive": 6,
+    "sign_stable": false
+   }
+  },
+  "M1_minus_M2": {
+   "coarse": {
+    "max": 2.19,
+    "median": 1.234,
+    "min": 0.613,
+    "n_negative": 0,
+    "n_positive": 9,
+    "sign_stable": true
+   },
+   "fine": {
+    "max": 0.086,
+    "median": -0.037,
+    "min": -0.671,
+    "n_negative": 7,
+    "n_positive": 2,
+    "sign_stable": false
+   }
+  }
+ },
  "estimand": "macro pooled MAPE, arm minus M2, in percentage points; NEGATIVE means the arm beats the canonical fitted-rate model",
  "folds": [
   {
@@ -191,6 +229,7 @@
   }
  ],
  "n_folds": 9,
+ "pooling_warning": "Both pooled contrasts average two opposite results and MUST NOT be reported alone. M1-M2 is large and positive on coarse but slightly NEGATIVE on fine; M0-M2 is negative on coarse but mostly POSITIVE on fine.",
  "question": "Is the M0-vs-M2 ablation result (freezing the rate transfers better) stable to which optimal-grind conditions were used for calibration? (pivot check 2)",
  "reading": {
   "M0_minus_M2": "SIGN CHANGES across folds \u2014 the claim must weaken accordingly",

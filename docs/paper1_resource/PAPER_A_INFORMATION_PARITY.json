@@ -22,9 +22,14 @@
    "M0_to_M2": -0.157,
    "M1_to_M2": 0.447
   },
+  "hydraulic_map_by_arm": {
+   "M0": "target grind",
+   "M1": "optimal grind (common)",
+   "M2": "target grind"
+  },
   "interpretation": {
-   "M0_to_M1": "value of fitting the rate under a common hydraulic assumption",
-   "M0_to_M2": "combined value of rate recalibration and target-grind hydraulics",
+   "M0_to_M1": "joint effect of freezing the rate AND removing the target-grind map; the two changes are confounded in this contrast and it should not be read as either one alone",
+   "M0_to_M2": "value of RATE RECALIBRATION ALONE. M0 and M2 both receive the target-grind hydraulic map; the arms differ only in whether the rate is fitted or frozen at the inherited value (and in the level that follows). An earlier version of this field also credited hydraulics here, which was wrong and is corrected.",
    "M1_to_M2": "value supplied by the TARGET-GRIND hydraulic map alone"
   },
   "per_group": [

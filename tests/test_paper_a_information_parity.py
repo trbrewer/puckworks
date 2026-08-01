@@ -193,3 +193,27 @@ def test_no_equivalence_or_significance_language_in_the_archive(archive):
     blob = json.dumps(archive).lower()
     for banned in ("statistically significant", "non-inferior", "equivalent to", "p-value"):
         assert banned not in blob, banned
+
+
+# ── corrections required by the plan review (2026-08-01) ─────────────────────────────────────
+def test_M0_and_M2_receive_the_SAME_hydraulic_map(archive):
+    """M0 - M2 isolates the RATE, not hydraulics.
+
+    The archive previously described this contrast as the "combined value of rate recalibration and
+    target-grind hydraulics", which was wrong: both arms use the target-grind map, so the contrast
+    cannot contain a hydraulic effect at all.
+    """
+    by_arm = archive["ablation"]["hydraulic_map_by_arm"]
+    assert by_arm["M0"] == by_arm["M2"] == "target grind"
+    assert by_arm["M1"] != by_arm["M2"]
+
+
+def test_the_M0_to_M2_label_no_longer_credits_hydraulics(archive):
+    label = archive["ablation"]["interpretation"]["M0_to_M2"]
+    assert "RATE RECALIBRATION ALONE" in label
+    assert "both receive the target-grind hydraulic map" in label
+
+
+def test_the_M0_to_M1_contrast_is_declared_confounded(archive):
+    """It changes the rate AND the map at once, so it isolates neither."""
+    assert "confounded" in archive["ablation"]["interpretation"]["M0_to_M1"]

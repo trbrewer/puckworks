@@ -1,5 +1,15 @@
 # Paper 1 — pivot and redraft plan
 
+> [!WARNING]
+> **SUPERSEDED AND NOT OPERATIVE.** This document was reviewed in
+> `PAPER_1_PIVOT_AND_REDRAFT_PLAN_REVIEW_20260801.md`, which found substantive defects that were
+> verified and accepted: numerical verification presented as physical verification, a fold/group
+> unit-of-analysis conflation, and — most seriously — **two headline claims built on pooled means
+> that hide opposite coarse- and fine-grind results**, in violation of this document's own drafting
+> rule. Use **`PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2.md`**. This file is retained only for the audit
+> trail.
+
+
 **Prepared:** 1 August 2026
 **Supersedes as the operative plan:** `paper1_recommended_scientific_pivot_and_revision_plan_20260801.md`
 (whose Stage 1 was falsified — see §3.4)

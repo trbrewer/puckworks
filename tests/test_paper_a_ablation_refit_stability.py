@@ -86,3 +86,48 @@ def test_the_reading_field_tracks_the_actual_stability(archive):
         stable = archive[key]["sign_stable"]
         reading = archive["reading"][key]
         assert ("sign stable" in reading) == stable, key
+
+
+# ── corrections required by the plan review (2026-08-01) ─────────────────────────────────────
+def test_both_pooled_contrasts_average_two_OPPOSITE_grind_results(archive):
+    """The review's most serious finding, pinned so it cannot be pooled away again.
+
+    The plan that introduced the rule "no pooled number without its disaggregation" then built two
+    headline claims on pooled means that hide reversals. Both contrasts flip sign between coarse and
+    fine targets, so neither pooled figure may be reported alone.
+    """
+    d = archive["disaggregated_by_target_grind"]
+    assert d["M1_minus_M2"]["coarse"]["median"] > 0.5
+    assert d["M1_minus_M2"]["fine"]["median"] < 0.0, "the target map slightly HURTS fine targets"
+    assert d["M0_minus_M2"]["coarse"]["median"] < -0.2
+    assert d["M0_minus_M2"]["fine"]["median"] > 0.0, "freezing the rate HURTS fine targets"
+
+
+def test_the_coarse_hydraulic_effect_is_the_sign_stable_one(archive):
+    """9/9 on coarse is what the paper may lean on — not the pooled 9/9."""
+    coarse = archive["disaggregated_by_target_grind"]["M1_minus_M2"]["coarse"]
+    assert coarse["sign_stable"] is True
+    assert coarse["n_positive"] == 9
+
+
+def test_the_fine_grind_effects_are_NOT_sign_stable(archive):
+    for arm in ("M0_minus_M2", "M1_minus_M2"):
+        fine = archive["disaggregated_by_target_grind"][arm]["fine"]
+        assert fine["sign_stable"] is False, arm
+
+
+def test_the_archive_warns_against_reporting_the_pooled_figure_alone(archive):
+    assert "MUST NOT be reported alone" in archive["pooling_warning"]
+
+
+def test_the_positive_fold_is_identified_by_its_omitted_condition(archive):
+    """Unit-of-analysis discipline: the 8/9 exception is a FOLD, not a variety-solute group.
+
+    The plan claimed the exception was "Arabica caffeine", which is a group-level result from a
+    different analysis. The fold is identified by the calibration condition it omits.
+    """
+    positive = [f for f in archive["folds"] if f["M0_minus_M2"] > 0]
+    assert len(positive) == 1
+    cond = positive[0]["dropped_condition"]
+    assert cond["T_degC"] == pytest.approx(93.4)
+    assert cond["p_bar"] == pytest.approx(6.0)
