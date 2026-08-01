@@ -14,7 +14,6 @@ import json
 import pathlib
 import sys
 
-import numpy as np
 import pytest
 
 REPO = pathlib.Path(__file__).resolve().parents[1]
