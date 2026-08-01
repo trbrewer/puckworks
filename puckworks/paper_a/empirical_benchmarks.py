@@ -69,8 +69,14 @@ HYDRAULIC_NOTE = (
 # referee's warning is explicit: too many interaction or polynomial terms will overfit.
 
 
-def _design(name: str, T: np.ndarray, p: np.ndarray) -> np.ndarray:
-    """Design matrix for one candidate family, columns in a fixed order."""
+def _design(name: str, T: np.ndarray, p: np.ndarray, tau: np.ndarray | None = None) -> np.ndarray:
+    """Design matrix for one candidate family, columns in a fixed order.
+
+    `tau` is the derived residence time (s) at the observation's own granulometry, required only by
+    the hydraulic families. It is passed explicitly rather than derived here so that a caller cannot
+    accidentally supply a residence time computed at the wrong grind — which would silently hand the
+    baseline a covariate the mechanistic arm does not use either.
+    """
     one = np.ones_like(T)
     if name == "constant":
         return np.column_stack([one])
@@ -82,11 +88,40 @@ def _design(name: str, T: np.ndarray, p: np.ndarray) -> np.ndarray:
         return np.column_stack([one, T, p])
     if name == "temperature*pressure":
         return np.column_stack([one, T, p, T * p])
+
+    if name in _HYDRAULIC_FAMILY_TERMS:
+        if tau is None:
+            raise ValueError("family %r needs the derived residence time" % name)
+        lt = np.log(np.asarray(tau, float))
+        if name == "log_residence":
+            return np.column_stack([one, lt])
+        if name == "temperature+log_residence":
+            return np.column_stack([one, T, lt])
+        if name == "pressure+log_residence":
+            return np.column_stack([one, p, lt])
+        if name == "temperature+pressure+log_residence":
+            return np.column_stack([one, T, p, lt])
+
     raise ValueError("unknown candidate family %r" % name)
 
 
+#: Families consuming the derived hydraulic covariate. Named separately so `_design` can refuse to
+#: build them without it rather than silently producing a temperature/pressure-only matrix.
+_HYDRAULIC_FAMILY_TERMS = ("log_residence", "temperature+log_residence",
+                           "pressure+log_residence", "temperature+pressure+log_residence")
+
+#: The family set that reproduces the domain referee's independent Appendix A calculation. Frozen:
+#: the published 8.691 % and all six per-group selections are pinned to exactly this list, so it
+#: must not gain members. New comparators go in a new set.
 FAMILIES = ("constant", "temperature", "pressure", "temperature+pressure",
             "temperature*pressure")
+
+#: Information-parity family set (pivot plan §7.2). Adds the derived log residence time, which is
+#: the scalar hydraulic quantity the mechanistic solver actually consumes through its matched
+#: endpoint. With nine calibration conditions the set stays small and predeclared; the interaction
+#: family is deliberately NOT carried over, because pressure and derived flow are strongly
+#: dependent and a product term on nine points would fit their collinearity rather than a response.
+HYDRAULIC_FAMILIES = FAMILIES[:-1] + _HYDRAULIC_FAMILY_TERMS
 
 
 def fit_mape(X: np.ndarray, y: np.ndarray) -> np.ndarray:
@@ -171,44 +206,77 @@ def _cells(rows, column):
     return T, p, y
 
 
-def select_and_score(rows, variety: str, solute: str, column: str) -> GroupResult:
-    """Fit, select by leave-one-optimal-condition-out CV, freeze, then score on C/F."""
+def residence_times(rows) -> np.ndarray:
+    """Derived residence time (s) at each row's OWN granulometry.
+
+    This is the exogenous hydraulic covariate the mechanistic arm consumes: its matched endpoint is
+    `t_end = 40 g / flow(p, T, grind)`, so the residence time IS the mechanistic arm's target-grind
+    information channel, expressed as a scalar. Handing it to the empirical baseline is what makes
+    the comparison information-fair (pivot plan §7.1).
+
+    It is derived from the source campaign's own fitted conductivities and nominal shot times — not
+    fitted here, and never a function of any held-out concentration.
+    """
+    from puckworks.validation.slow import angeloni_bracket as AB
+
+    return np.array([40.0 / AB._flow_gran(float(r.pressure_bar), float(r.temperature_degC),
+                                          r.granulometry) for r in rows], float)
+
+
+def select_and_score(rows, variety: str, solute: str, column: str,
+                     families=None) -> GroupResult:
+    """Fit, select by leave-one-optimal-condition-out CV, freeze, then score on C/F.
+
+    `families` defaults to :data:`FAMILIES`, the set that reproduces the referee's calculation.
+    Pass :data:`HYDRAULIC_FAMILIES` for the information-parity panel.
+    """
+    families = FAMILIES if families is None else tuple(families)
     train = [r for r in rows if r.variety == variety and r.is_optimal_grind and r.on_grid]
     heldout = [r for r in rows if r.variety == variety and r.granulometry in HELD_OUT_GRINDS]
     Tt, pt, yt = _cells(train, column)
+    needs_tau = any(f in _HYDRAULIC_FAMILY_TERMS for f in families)
+    taut = residence_times(train) if needs_tau else None
+
+    def design(name, mask=None, T=Tt, p=pt, tau=taut):
+        if mask is None:
+            return _design(name, T, p, tau)
+        return _design(name, T[mask], p[mask], None if tau is None else tau[mask])
 
     # ── selection: leave one optimal-grind CONDITION out ────────────────────────────────────
     cv = {}
-    for family in FAMILIES:
+    for family in families:
         errors = []
         for i in range(len(yt)):
             keep = np.ones(len(yt), bool)
             keep[i] = False
-            if keep.sum() <= _design(family, Tt, pt).shape[1]:
+            if keep.sum() <= design(family).shape[1]:
                 errors = None                   # not enough points to identify this family
                 break
-            beta = fit_mape(_design(family, Tt[keep], pt[keep]), yt[keep])
-            pred = _design(family, Tt[~keep], pt[~keep]) @ beta
+            beta = fit_mape(design(family, keep), yt[keep])
+            pred = design(family, ~keep) @ beta
             errors.append(abs(float(pred[0]) - yt[i]) / yt[i] * 100.0)
         if errors is not None:
             cv[family] = float(np.mean(errors))
 
     # Ties resolved toward the SIMPLER family, in declared order — with nine points, model
     # selection is unstable and a tie must not be broken by whichever came last.
-    family = min(FAMILIES, key=lambda f: (cv.get(f, np.inf), FAMILIES.index(f)))
+    family = min(families, key=lambda f: (cv.get(f, np.inf), families.index(f)))
 
     # ── refit on all nine, freeze, and only now look at C/F ─────────────────────────────────
-    beta = fit_mape(_design(family, Tt, pt), yt)
-    train_mape = mape(_design(family, Tt, pt) @ beta, yt)
+    beta = fit_mape(design(family), yt)
+    train_mape = mape(design(family) @ beta, yt)
 
     scores = {}
     for grind in HELD_OUT_GRINDS:
         rows_g = [r for r in heldout if r.granulometry == grind]
         Tg, pg, yg = _cells(rows_g, column)
-        scores[grind] = mape(_design(family, Tg, pg) @ beta, yg)
+        taug = residence_times(rows_g) if needs_tau else None
+        scores[grind] = mape(_design(family, Tg, pg, taug) @ beta, yg)
     Ta, pa, ya = _cells(heldout, column)
+    taua = residence_times(heldout) if needs_tau else None
     return GroupResult(group="%s:%s" % (variety, solute), family=family, n_train=len(yt),
-                       train_mape=train_mape, cf_mape=mape(_design(family, Ta, pa) @ beta, ya),
+                       train_mape=train_mape,
+                       cf_mape=mape(_design(family, Ta, pa, taua) @ beta, ya),
                        coarse_mape=scores["C"], fine_mape=scores["F"], cv_scores=cv)
 
 
@@ -232,12 +300,12 @@ def constant_baseline(rows, variety: str, column: str) -> dict:
     return out
 
 
-def panel(path=None) -> dict:
+def panel(path=None, families=None) -> dict:
     """The complete benchmark panel: per group, and macro-averaged as the paper reports."""
     rows = _rows(path)
     groups, constants = [], []
     for variety, (solute, column) in itertools.product(VARIETIES, SOLUTE_COLUMNS):
-        groups.append(select_and_score(rows, variety, solute, column))
+        groups.append(select_and_score(rows, variety, solute, column, families=families))
         constants.append(constant_baseline(rows, variety, column))
 
     def macro(values):

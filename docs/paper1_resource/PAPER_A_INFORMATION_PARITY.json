@@ -1,0 +1,235 @@
+{
+ "ablation": {
+  "arms": {
+   "M0": {
+    "coarse": 9.64,
+    "fine": 6.922,
+    "pooled": 8.281
+   },
+   "M1": {
+    "coarse": 11.158,
+    "fine": 6.612,
+    "pooled": 8.885
+   },
+   "M2": {
+    "coarse": 10.167,
+    "fine": 6.709,
+    "pooled": 8.438
+   }
+  },
+  "contrasts_pp": {
+   "M0_to_M1": -0.604,
+   "M0_to_M2": -0.157,
+   "M1_to_M2": 0.447
+  },
+  "interpretation": {
+   "M0_to_M1": "value of fitting the rate under a common hydraulic assumption",
+   "M0_to_M2": "combined value of rate recalibration and target-grind hydraulics",
+   "M1_to_M2": "value supplied by the TARGET-GRIND hydraulic map alone"
+  },
+  "per_group": [
+   {
+    "M0_C": 9.479,
+    "M0_F": 7.131,
+    "M1_C": 10.14,
+    "M1_F": 7.316,
+    "M2_C": 9.232,
+    "M2_F": 6.981,
+    "fitted_rate": 0.884,
+    "group": "Arabica:caffeine",
+    "m0_rate": 1.0
+   },
+   {
+    "M0_C": 6.511,
+    "M0_F": 6.238,
+    "M1_C": 8.754,
+    "M1_F": 5.42,
+    "M2_C": 7.25,
+    "M2_F": 5.697,
+    "fitted_rate": 1.719,
+    "group": "Arabica:trigonelline",
+    "m0_rate": 1.0
+   },
+   {
+    "M0_C": 17.722,
+    "M0_F": 7.129,
+    "M1_C": 20.843,
+    "M1_F": 6.339,
+    "M2_C": 17.986,
+    "M2_F": 6.973,
+    "fitted_rate": 1.103,
+    "group": "Arabica:5CQA",
+    "m0_rate": 1.0
+   },
+   {
+    "M0_C": 8.103,
+    "M0_F": 6.572,
+    "M1_C": 8.541,
+    "M1_F": 6.391,
+    "M2_C": 8.636,
+    "M2_F": 6.533,
+    "fitted_rate": 6.5,
+    "group": "Robusta:caffeine",
+    "m0_rate": 1.0
+   },
+   {
+    "M0_C": 6.269,
+    "M0_F": 7.13,
+    "M1_C": 8.189,
+    "M1_F": 6.726,
+    "M2_C": 8.026,
+    "M2_F": 6.72,
+    "fitted_rate": 6.5,
+    "group": "Robusta:trigonelline",
+    "m0_rate": 1.0
+   },
+   {
+    "M0_C": 9.758,
+    "M0_F": 7.33,
+    "M1_C": 10.483,
+    "M1_F": 7.481,
+    "M2_C": 9.872,
+    "M2_F": 7.354,
+    "fitted_rate": 6.5,
+    "group": "Robusta:5CQA",
+    "m0_rate": 1.0
+   }
+  ]
+ },
+ "hydraulic_extrapolation": {
+  "Arabica": {
+   "calibration_residence_s": [
+    11.993,
+    27.802
+   ],
+   "held_out": {
+    "C": {
+     "fraction_outside_calibration_range": 0.364,
+     "largest_gap_in_calibration_spans": 0.28,
+     "residence_s_max": 20.183,
+     "residence_s_min": 7.568
+    },
+    "F": {
+     "fraction_outside_calibration_range": 0.727,
+     "largest_gap_in_calibration_spans": 1.551,
+     "residence_s_max": 52.315,
+     "residence_s_min": 20.707
+    }
+   }
+  },
+  "Robusta": {
+   "calibration_residence_s": [
+    11.993,
+    27.802
+   ],
+   "held_out": {
+    "C": {
+     "fraction_outside_calibration_range": 0.364,
+     "largest_gap_in_calibration_spans": 0.28,
+     "residence_s_max": 20.183,
+     "residence_s_min": 7.568
+    },
+    "F": {
+     "fraction_outside_calibration_range": 0.727,
+     "largest_gap_in_calibration_spans": 1.551,
+     "residence_s_max": 52.315,
+     "residence_s_min": 20.707
+    }
+   }
+  }
+ },
+ "information_parity": {
+  "frozen_minus_model_pp": 1.232,
+  "frozen_selection": {
+   "candidate_families": [
+    "constant",
+    "temperature",
+    "pressure",
+    "temperature+pressure",
+    "log_residence",
+    "temperature+log_residence",
+    "pressure+log_residence",
+    "temperature+pressure+log_residence"
+   ],
+   "groups": [
+    {
+     "coarse_mape": 10.243,
+     "family": "pressure",
+     "fine_mape": 7.245,
+     "group": "Arabica:caffeine"
+    },
+    {
+     "coarse_mape": 8.181,
+     "family": "constant",
+     "fine_mape": 4.726,
+     "group": "Arabica:trigonelline"
+    },
+    {
+     "coarse_mape": 10.274,
+     "family": "pressure+log_residence",
+     "fine_mape": 27.908,
+     "group": "Arabica:5CQA"
+    },
+    {
+     "coarse_mape": 8.622,
+     "family": "constant",
+     "fine_mape": 6.343,
+     "group": "Robusta:caffeine"
+    },
+    {
+     "coarse_mape": 8.862,
+     "family": "temperature",
+     "fine_mape": 5.743,
+     "group": "Robusta:trigonelline"
+    },
+    {
+     "coarse_mape": 9.844,
+     "family": "constant",
+     "fine_mape": 8.047,
+     "group": "Robusta:5CQA"
+    }
+   ],
+   "macro_cf_mape": 9.67,
+   "macro_coarse_mape": 9.338,
+   "macro_fine_mape": 10.002,
+   "selection": "leave-one-optimal-condition-out CV on the nine calibration conditions only, refit on all nine, frozen before any coarse/fine record is scored"
+  },
+  "oracle_minus_model_pp": -0.03,
+  "oracle_upper_bound": {
+   "best_form": "flow",
+   "best_macro_cf_mape": 8.408,
+   "forms": {
+    "flow": {
+     "macro_cf_mape": 8.408,
+     "macro_coarse_mape": 10.096,
+     "macro_fine_mape": 6.72
+    },
+    "log_flow": {
+     "macro_cf_mape": 8.632,
+     "macro_coarse_mape": 10.231,
+     "macro_fine_mape": 7.034
+    },
+    "log_residence": {
+     "macro_cf_mape": 8.632,
+     "macro_coarse_mape": 10.231,
+     "macro_fine_mape": 7.034
+    },
+    "residence": {
+     "macro_cf_mape": 9.059,
+     "macro_coarse_mape": 10.315,
+     "macro_fine_mape": 7.803
+    },
+    "sqrt_residence": {
+     "macro_cf_mape": 8.818,
+     "macro_coarse_mape": 10.28,
+     "macro_fine_mape": 7.356
+    }
+   },
+   "status": "NOT A HELD-OUT SCORE. The form is chosen by its coarse/fine performance, which is selection on the test set. Reported only to bound what a two-parameter, mechanism-free hydraulic response can reach."
+  }
+ },
+ "mechanistic_reference_pooled_mape": 8.438,
+ "question": "Does the mechanistic model retain incremental held-out skill once the empirical arm receives the same exogenous hydraulic information, and where does the cross-grind skill come from? (pivot plan \u00a77)",
+ "schema_version": 1,
+ "status": "EXPLORATORY. Single campaign, nine calibration conditions, no per-condition replicate uncertainty. No equivalence or significance claim is made, and no practical margin is manufactured."
+}
