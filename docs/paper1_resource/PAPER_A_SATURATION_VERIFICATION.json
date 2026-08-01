@@ -1,0 +1,228 @@
+{
+ "bdf_vs_expm": {
+  "rows": [
+   {
+    "bdf": 0.362545542,
+    "expm": 0.36254569,
+    "rate": 0.5,
+    "relative_difference_percent": 4.0993e-05,
+    "solute": "caffeine"
+   },
+   {
+    "bdf": 0.422111,
+    "expm": 0.422111266,
+    "rate": 1.0,
+    "relative_difference_percent": 6.2817e-05,
+    "solute": "caffeine"
+   },
+   {
+    "bdf": 0.536369918,
+    "expm": 0.536370001,
+    "rate": 6.5,
+    "relative_difference_percent": 1.5406e-05,
+    "solute": "caffeine"
+   },
+   {
+    "bdf": 0.564595997,
+    "expm": 0.564596086,
+    "rate": 50.0,
+    "relative_difference_percent": 1.5723e-05,
+    "solute": "caffeine"
+   },
+   {
+    "bdf": 0.564892842,
+    "expm": 0.564892839,
+    "rate": 500.0,
+    "relative_difference_percent": 4.92e-07,
+    "solute": "caffeine"
+   },
+   {
+    "bdf": 0.51630688,
+    "expm": 0.516307003,
+    "rate": 0.5,
+    "relative_difference_percent": 2.3952e-05,
+    "solute": "trigonelline"
+   },
+   {
+    "bdf": 0.582238858,
+    "expm": 0.582239005,
+    "rate": 1.0,
+    "relative_difference_percent": 2.5318e-05,
+    "solute": "trigonelline"
+   },
+   {
+    "bdf": 0.651903959,
+    "expm": 0.651904752,
+    "rate": 6.5,
+    "relative_difference_percent": 0.000121602,
+    "solute": "trigonelline"
+   },
+   {
+    "bdf": 0.653419301,
+    "expm": 0.653419299,
+    "rate": 50.0,
+    "relative_difference_percent": 2.97e-07,
+    "solute": "trigonelline"
+   },
+   {
+    "bdf": 0.653419299,
+    "expm": 0.653419299,
+    "rate": 500.0,
+    "relative_difference_percent": 5e-09,
+    "solute": "trigonelline"
+   },
+   {
+    "bdf": 0.398016784,
+    "expm": 0.39801642,
+    "rate": 0.5,
+    "relative_difference_percent": 9.1471e-05,
+    "solute": "5CQA"
+   },
+   {
+    "bdf": 0.462799304,
+    "expm": 0.462799388,
+    "rate": 1.0,
+    "relative_difference_percent": 1.8005e-05,
+    "solute": "5CQA"
+   },
+   {
+    "bdf": 0.570511647,
+    "expm": 0.570512319,
+    "rate": 6.5,
+    "relative_difference_percent": 0.000117682,
+    "solute": "5CQA"
+   },
+   {
+    "bdf": 0.58589699,
+    "expm": 0.585896929,
+    "rate": 50.0,
+    "relative_difference_percent": 1.0404e-05,
+    "solute": "5CQA"
+   },
+   {
+    "bdf": 0.585909553,
+    "expm": 0.585909553,
+    "rate": 500.0,
+    "relative_difference_percent": 1.3e-08,
+    "solute": "5CQA"
+   }
+  ],
+  "worst_relative_difference_percent": 0.00012160218066274725
+ },
+ "condition": {
+  "T_degC": 93.4,
+  "granulometry": "O",
+  "nz": 200,
+  "p_bar": 9.0
+ },
+ "linearity_check": {
+  "is_linear": true,
+  "max_relative_superposition_error": 4.151511495192528e-16
+ },
+ "method": "The semi-discrete system is linear in the state, so it is re-solved by dense matrix exponential: no time stepping, no adaptive error control, no numerical Jacobian, none of the machinery that emits the overflow warnings.",
+ "operator_check_rate_1": {
+  "matches_rhs": true,
+  "max_relative_operator_error": 2.171680097119096e-16
+ },
+ "operator_check_rate_500": {
+  "matches_rhs": true,
+  "max_relative_operator_error": 2.67336783630414e-16
+ },
+ "question": "Is the rate saturation physical, or a floor of the BDF solver? (pivot gate G3 \u2014 H1 depends on the answer)",
+ "reading": "The saturation reproduces on an integrator that shares no time-stepping machinery with BDF, and the prediction converges to a finite rate-independent limit with geometrically shrinking increments. A solver floor would not produce a convergent sequence.",
+ "saturation_on_independent_path": {
+  "all_converged": true,
+  "least_orders_of_magnitude_fallen": 7.247685047679249,
+  "noise_floor_relative": 1e-09,
+  "per_solute": [
+   {
+    "converged": true,
+    "decade_spread_percent_50_to_500": 0.05256026007934615,
+    "final_increment_relative": 3.6373678599316293e-11,
+    "increments_shrink_above_floor": true,
+    "limit_estimate": 0.5648928394069931,
+    "n_increments_above_noise_floor": 3,
+    "orders_of_magnitude_fallen": 8.879230841879412,
+    "predictions": {
+     "10.0": 0.549036998234569,
+     "100.0": 0.564885235564322,
+     "1000.0": 0.5648928393855778,
+     "10000.0": 0.5648928393864459,
+     "100000.0": 0.5648928394069931,
+     "50.0": 0.5645960862141136,
+     "500.0": 0.5648928393854256
+    },
+    "reached_noise_floor": true,
+    "relative_increments": [
+     0.027543432832106855,
+     0.0005118658443465957,
+     1.3460643458542405e-05,
+     2.694521262402546e-13,
+     1.5367222283534286e-12,
+     3.6373678599316293e-11
+    ],
+    "solute": "caffeine"
+   },
+   {
+    "converged": true,
+    "decade_spread_percent_50_to_500": 2.061650789346497e-09,
+    "final_increment_relative": 2.1657714772257117e-11,
+    "increments_shrink_above_floor": true,
+    "limit_estimate": 0.6534192990580315,
+    "n_increments_above_noise_floor": 1,
+    "orders_of_magnitude_fallen": 7.247685047679249,
+    "predictions": {
+     "10.0": 0.6531689824395056,
+     "100.0": 0.6534192990434154,
+     "1000.0": 0.6534192990435754,
+     "10000.0": 0.65341929904388,
+     "100000.0": 0.6534192990580315,
+     "50.0": 0.6534192990301155,
+     "500.0": 0.6534192990435868
+    },
+    "reached_noise_floor": true,
+    "relative_increments": [
+     0.0003830872319975529,
+     2.0354337165538585e-11,
+     2.621707270455865e-13,
+     1.7330793362702413e-14,
+     4.660624136656149e-13,
+     2.1657714772257117e-11
+    ],
+    "solute": "trigonelline"
+   },
+   {
+    "converged": true,
+    "decade_spread_percent_50_to_500": 0.002154742674266999,
+    "final_increment_relative": 3.458802790393589e-11,
+    "increments_shrink_above_floor": true,
+    "limit_estimate": 0.5859095533367839,
+    "n_increments_above_noise_floor": 3,
+    "orders_of_magnitude_fallen": 8.523288229776615,
+    "predictions": {
+     "10.0": 0.579135404541038,
+     "100.0": 0.5859095321873556,
+     "1000.0": 0.5859095533588267,
+     "10000.0": 0.5859095533570493,
+     "100000.0": 0.5859095533367839,
+     "50.0": 0.5858969287877394,
+     "500.0": 0.5859095533588912
+    },
+    "reached_noise_floor": true,
+    "relative_increments": [
+     0.01154021846579252,
+     2.151082798446867e-05,
+     3.613447741916689e-08,
+     1.100920054355973e-13,
+     3.033498993147121e-12,
+     3.458802790393589e-11
+    ],
+    "solute": "5CQA"
+   }
+  ],
+  "worst_decade_spread_percent": 0.05256026007934615,
+  "worst_final_increment_relative": 3.6373678599316293e-11
+ },
+ "schema_version": 1,
+ "verdict": "PHYSICAL"
+}

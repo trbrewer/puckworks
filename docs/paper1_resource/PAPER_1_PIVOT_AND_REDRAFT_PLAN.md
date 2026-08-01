@@ -3,7 +3,7 @@
 **Prepared:** 1 August 2026
 **Supersedes as the operative plan:** `paper1_recommended_scientific_pivot_and_revision_plan_20260801.md`
 (whose Stage 1 was falsified — see §3.4)
-**Evidence base:** merge `abb982c` plus pivot checks 1–2
+**Evidence base:** merge `abb982c` plus pivot checks 1–2 and gate G3
 **Status:** proposal for review. No manuscript file has been modified.
 
 ---
@@ -14,10 +14,11 @@ The paper currently leads with its **weakest** result and buries its **strongest
 headline — a −0.394 pp mechanistic advantage over a level-only constant — survives refitting in only
 6 of 9 folds with a median of −0.058 pp. Meanwhile the contrast that is sign-stable in **all nine**
 folds, at **+0.524 pp**, is one the paper does not currently report at all: the value of the
-target-grind hydraulic map. And the kinetic parameter the paper spends its length discussing turns
-out not to be identified at all — a tenfold change in it moves the prediction by less than one part
-in two thousand. The redraft should invert this hierarchy and lead with a physical claim about what
-an espresso cup can and cannot see.
+target-grind hydraulic map. And the kinetic parameter the paper spends its length discussing sits,
+for half the corpus, past a saturation shoulder beyond which a tenfold change moves the prediction
+by less than one part in two thousand — verified on an independent integrator, not inferred from the
+solver that produced it. The redraft should invert this hierarchy and lead with a physical claim
+about when an espresso cup can and cannot see extraction kinetics.
 
 ---
 
@@ -25,13 +26,23 @@ an espresso cup can and cannot see.
 
 ### H1 — primary, physical
 
-> **At a matched collection endpoint, espresso whole-cup composition is controlled by extractable
-> inventory and local equilibrium, not by extraction kinetics.** The kinetic rate multiplier is
-> consequently not identifiable from such measurements — not merely imprecise, but unbounded above —
-> and fitting it does not improve cross-condition transfer.
+> **The whole-cup response to extraction rate saturates.** Once the rate is fast enough that the
+> grains approach local equilibrium with the surrounding liquid before it is displaced, the cup
+> composition is set by extractable inventory and the equilibrium constant, and stops responding to
+> the kinetics. Whether a given campaign can identify the rate therefore depends on **where its data
+> sit relative to that shoulder** — and in this campaign the near-optimal set is unbounded above in
+> five of six groups.
 
-This is a claim about espresso, not about statistics. It says the measurement is in the wrong regime
-to see the physics it is routinely used to calibrate.
+This is a claim about espresso, not about statistics. It says the measurement can fall into a regime
+where it cannot see the physics it is routinely used to calibrate.
+
+**Refinement forced by G3 (§3.6).** An earlier wording of H1 asserted flatly that the cup "cannot
+see" the kinetics. The verification shows that is too strong: the model is strongly rate-responsive
+below a multiplier of ~2 (+12 to +62 % per step) and flat above ~50 (+0.05 % per decade). The three
+Arabica groups fit interior optima on the responsive shoulder; all three Robusta groups run past it.
+That heterogeneity is not noise — **it explains why freezing the rate wins in 8 of 9 folds rather
+than 9, and why the single exception is Arabica caffeine**, the group with the most interior fit.
+The paper should make the shoulder the claim and the campaign's position on it an observation.
 
 ### H2 — mechanism, exact
 
@@ -141,7 +152,37 @@ the target domain is extrapolative.
 RSI is ~10⁻² everywhere, never order unity. Two well-chosen conditions beat all nine; the endpoint
 is the strongest lever available.
 
-### 3.6 What was removed from the evidence base
+### 3.6 The saturation is physical, not a solver floor — G3 **PASSED**
+
+`tools/paper_a_saturation_verification.py` → `PAPER_A_SATURATION_VERIFICATION.json`
+
+Every term of the production right-hand side is linear in the state, so the semi-discrete system is
+`dz/dt = A z` and can be solved **exactly** by matrix exponential — no time stepping, no adaptive
+error control, no numerical Jacobian, none of the machinery that emits the overflow warnings.
+
+| check | result |
+|---|---|
+| `_rhs` is exactly linear | superposition error **4.2 × 10⁻¹⁶** |
+| operator reproduces `_rhs` state by state (rate 1 and rate 500) | **2 × 10⁻¹⁶** |
+| **BDF vs matrix exponential, worst over 3 solutes × 5 rates** | **0.000122 %** |
+| saturation reproduced on the independent path (decade spread) | 0.053 %, 0.000 %, 0.002 % |
+| convergence to a finite rate-independent limit | increments fall **7.2–8.9 orders** to the arithmetic noise floor |
+
+Two integrators sharing no time-stepping machinery agree to about one part per million, *including
+deep in the saturated regime*, and the prediction converges to a limit. A solver floor does not
+produce a convergent sequence.
+
+**Falsification control.** The same code path shows a **large** response where one is expected: over
+the unsaturated decade 0.01 → 0.1 the prediction moves **+56 %**. Flatness at high rate is therefore
+a measurement, not a property of the code.
+
+The full response curve, which is what motivates the H1 refinement above:
+
+| rate multiplier | 0.01 | 0.1 | 0.5 | 1.0 | 2.0 | 6.5 | 50 | 500 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| change in prediction | — | +56.1 % | +62.5 % | +16.4 % | +12.4 % | +13.0 % | +5.3 % | **+0.05 %** |
+
+### 3.7 What was removed from the evidence base
 
 - **Schmieder's "measured complete cups" are not measurements.** 427 of 432 reproduce as the
   integral of the authors' own exponential fit to the fractions (median difference 0.000032 %
@@ -197,30 +238,31 @@ The previous plan's rule stands and was vindicated: *do not write while results 
 |---|---|---|
 | **G1** | Is the boundary-pinned rate an artefact? | **PASSED** — saturating degeneracy, 6/6 |
 | **G2** | Is M0 − M2 stable to calibration choice? | **PASSED with a caveat** — 8/9, exception +0.010 |
-| **G3** | Is the saturation numerical or physical? | **OPEN — blocking** |
+| **G3** | Is the saturation numerical or physical? | **PASSED** — physical; two integrators agree to 0.000122 %, §3.6 |
 | **G4** | Do the load-bearing contrasts survive discretisation and tolerance change? | **OPEN — blocking** |
 | **G5** | Indexed novelty search | **OPEN — cannot be done in this environment** |
 
-### G3 is now the critical path
+### G3 is closed; G4 is now the critical path
 
-Two groups report a prediction spread of **exactly 0.000 %** across the top decade. That is
-physically plausible under equilibrium saturation — and indistinguishable from a solver floor
-without an independent numerical path. The numerical-Jacobian overflow warnings live in precisely
-this regime.
+G3 verified the paper's central mechanism and passed (§3.6). The semi-discrete system turned out to
+be **exactly linear**, so the matrix-exponential reference is not an approximation to the production
+model but the same model integrated without any time stepping. BDF and `expm` agree to 0.000122 %,
+including deep in the saturated regime, and the prediction converges to a finite limit. **H1's
+mechanism is verified.**
 
-**G3 is no longer optional housekeeping. It verifies the paper's central mechanism.** If the
-saturation is a solver artefact, H1 collapses.
+Two consequences beyond the gate:
 
-Recommended approach (from the previous plan's §9, now urgent): exploit the linear structure. For
-fixed conditions the semi-discrete system is `ẏ = Ay + b` with sparse banded `A`, so an analytical
-Jacobian for BDF and/or a `expm_multiply` reference gives an independent path. Required checks:
-matrix RHS against function RHS state-by-state, analytical against finite-difference
-Jacobian-vector products, global solute balance, and unit-inventory linearity.
+* the linear structure is now a **capability**, not just a check — the `expm` path is fast, exact,
+  and free of the overflow warnings, so G4 can use it as its reference rather than comparing BDF
+  against itself;
+* the response curve it produced forced the H1 refinement in §2: the saturation is a **shoulder**,
+  and the campaign's groups sit on both sides of it.
 
-**G4** then re-runs the load-bearing contrasts (M1 − M2, M0 − M2, the saturation spread) across
-100/200/400 nodes × 10⁻⁵/10⁻⁶/10⁻⁷ tolerances. Acceptance is tied to the conclusion, not to a
-concentration tolerance: numerical variation must be **much smaller than +0.524 pp**, and must not
-change the saturation verdict.
+**G4** re-runs the load-bearing contrasts (M1 − M2, M0 − M2) across 100/200/400 nodes ×
+10⁻⁵/10⁻⁶/10⁻⁷ tolerances, now **against the `expm` reference** rather than against another BDF
+configuration. Acceptance is tied to the conclusion, not to a concentration tolerance: numerical
+variation must be **much smaller than +0.524 pp**. Note that G3 already removes the original worry —
+the warnings do not move the saturation — so G4 is about the *contrasts*, not the mechanism.
 
 **G5** cannot be closed here (no Scopus/WoS/Compendex; MDPI and Royal Society Cloudflare-blocked).
 No "first" or "to our knowledge" phrasing may enter the draft until it is closed by someone with
@@ -314,7 +356,7 @@ objects", which is unfalsifiable and cost us three rounds.
 
 | risk | severity | mitigation |
 |---|---|---|
-| **Saturation is numerical, not physical** | **fatal to H1** | G3, blocking, before drafting |
+| ~~Saturation is numerical, not physical~~ | ~~fatal to H1~~ | **RETIRED** — G3 passed, §3.6 |
 | M0 − M2 weakens further under a fuller analysis | moderate | claim is already tiered at C ("does not improve", not "harms") |
 | One campaign, one machine, two roasts | inherent | scope every claim to the operator and campaign; H2 is model-general, H1 is not |
 | Novelty overstated | reputational | G5 unclosed ⇒ no "first"/"to our knowledge" language at all |
@@ -324,12 +366,12 @@ objects", which is unfalsifiable and cost us three rounds.
 
 ## 10. Sequence
 
-1. **G3** — independent numerical path; verify or refute saturation. *Blocking.*
-2. **G4** — envelope on M1 − M2, M0 − M2, saturation spread.
+1. ~~**G3** — independent numerical path.~~ **DONE: saturation is physical.**
+2. **G4** — envelope on M1 − M2 and M0 − M2, against the `expm` reference. *Now the critical path.*
 3. **R0** — premise audit; falsifiable test per assumption.
 4. Rebuild the claim registry around H1–H4.
 5. Draft §§3–6, then 7–8, then 1–2, then abstract.
 6. **R1 → R5.**
 7. G5 by whoever has database access; novelty language added only then.
 
-Nothing in steps 4–7 should begin before step 1 returns.
+Step 1 has returned. Nothing in steps 4–7 should begin before step 2 returns.
