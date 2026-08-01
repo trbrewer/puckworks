@@ -1,0 +1,135 @@
+{
+ "agreement": {
+  "fraction_identical": 0.98843,
+  "identity_tolerance_percent": 0.01,
+  "max_relative_difference_percent": 5.76902,
+  "mean_relative_difference_percent": 0.028376,
+  "median_relative_difference_percent": 3.2e-05,
+  "n_identical": 427,
+  "reported_cup_rsd_percent": 2.5
+ },
+ "consequence": "The published complete cups are a deterministic two-parameter summary of the fraction data, so they cannot carry rate information the fractions lack. A measured-cup versus measured-fraction profile contrast is therefore NOT an independent observation-design experiment. The three brew ratios remain usable as model-based design inputs (three collected-mass endpoints of one shot), labelled as design analysis, not validation.",
+ "duplicated_source_cells": [
+  {
+   "appears_as": [
+    "exp14.0/rep1.0",
+    "exp14.0/rep2.0"
+   ],
+   "brew_ratio": "1/1",
+   "component": "5-CQA",
+   "mass_mg": 81.61172
+  },
+  {
+   "appears_as": [
+    "exp14.0/rep2.0",
+    "exp14.0/rep3.0",
+    "exp15.0/rep1.0"
+   ],
+   "brew_ratio": "1/3",
+   "component": "5-CQA",
+   "mass_mg": 128.81903
+  },
+  {
+   "appears_as": [
+    "exp2.0/rep2.0",
+    "exp2.0/rep3.0"
+   ],
+   "brew_ratio": "1/1",
+   "component": "caffeine",
+   "mass_mg": 132.05275
+  },
+  {
+   "appears_as": [
+    "exp3.0/rep3.0",
+    "exp4.0/rep1.0"
+   ],
+   "brew_ratio": "1/3",
+   "component": "caffeine",
+   "mass_mg": 204.59025
+  }
+ ],
+ "exceptions": {
+  "n": 5,
+  "n_in_runs_with_duplicated_source_cells": 5,
+  "rows": [
+   {
+    "brew_ratio": "1/3",
+    "component": "5-CQA",
+    "exp": "15.0",
+    "integral_of_fit_mg": 136.250625,
+    "published_mass_mg": 128.81903,
+    "relative_difference_percent": 5.76902,
+    "rep": "1.0"
+   },
+   {
+    "brew_ratio": "1/1",
+    "component": "5-CQA",
+    "exp": "14.0",
+    "integral_of_fit_mg": 84.108634,
+    "published_mass_mg": 81.61172,
+    "relative_difference_percent": 3.059504,
+    "rep": "2.0"
+   },
+   {
+    "brew_ratio": "1/1",
+    "component": "caffeine",
+    "exp": "2.0",
+    "integral_of_fit_mg": 128.41037,
+    "published_mass_mg": 132.05275,
+    "relative_difference_percent": 2.758277,
+    "rep": "3.0"
+   },
+   {
+    "brew_ratio": "1/3",
+    "component": "5-CQA",
+    "exp": "14.0",
+    "integral_of_fit_mg": 128.259221,
+    "published_mass_mg": 128.81903,
+    "relative_difference_percent": 0.43457,
+    "rep": "3.0"
+   },
+   {
+    "brew_ratio": "1/3",
+    "component": "caffeine",
+    "exp": "4.0",
+    "integral_of_fit_mg": 204.134333,
+    "published_mass_mg": 204.59025,
+    "relative_difference_percent": 0.222844,
+    "rep": "1.0"
+   }
+  ]
+ },
+ "fraction_coverage": {
+  "analysed_fraction_indices": [
+   1.0,
+   2.0,
+   3.0,
+   5.0,
+   7.0,
+   10.0
+  ],
+  "contiguous": false,
+  "largest_cup_endpoint_g": 60.0,
+  "median_analysed_mass_g": 35.178,
+  "median_max_accumulated_g": 54.232,
+  "n_analysed_per_run": [
+   5,
+   6
+  ]
+ },
+ "inputs": {
+  "cup_masses.csv": "39b7c16f9d9da614f151f46cb0db1440d43f150fbf49d3d2119f3f2fa1622f43",
+  "kinetics_fit_params_reps.csv": "c351d50fd859b786067cc881529cc859861e635dcac8a1c92f71190f531656ad",
+  "raw_fractions.csv": "f3511dd46648fb34962c9d774cc901fa65acd7f0caaf130f143e4f04dbb0915f"
+ },
+ "method": "For every experiment x replicate x component x brew ratio, compare the published cup mass with c0*lambda*(1-exp(-M/lambda)) using that replicate's own published (c0, lambda). An independent assay must scatter at roughly the campaign's reported 2.5 % cup RSD; a reconstruction agrees to rounding.",
+ "n_compared": 432,
+ "question": "Are the Schmieder Table S3 complete-cup masses an independent assay, or the integral of the authors' exponential fit to the Table S1 fractions?",
+ "schema_version": 1,
+ "skipped": {
+  "blank_parameter": 27,
+  "excluded_component": 153,
+  "no_fit_row": 0
+ },
+ "verdict": "RECONSTRUCTED"
+}
