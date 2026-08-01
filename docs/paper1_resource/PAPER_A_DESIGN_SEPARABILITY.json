@@ -1,163 +1,330 @@
 {
  "admission_test": {
   "designs_compared_are_empirical_only": true,
-  "median_spearman": -0.7116,
-  "n_groups": 6,
-  "n_groups_consistent_with_expectation": 6,
-  "per_group": [
-   {
-    "group": "Arabica:caffeine",
-    "not_merely_count": {
-     "n_designs": 9,
-     "note": "RSI is normalised by total weight, so a strong correlation here would be a finding about the designs compared, not an identity",
-     "pearson_with_count": 0.1594
+  "primary_resolved_designs_only": {
+   "median_spearman": -0.6146,
+   "n_groups": 6,
+   "n_groups_consistent_with_expectation": 5,
+   "per_group": [
+    {
+     "group": "Arabica:caffeine",
+     "n_designs_used": 9,
+     "not_merely_count": {
+      "n_designs": 9,
+      "note": "RSI is normalised by total weight, so a strong correlation here would be a finding about the designs compared, not an identity",
+      "pearson_with_count": 0.1594
+     },
+     "profile_agreement": {
+      "consistent_with_expectation": true,
+      "designs": [
+       "corners_2",
+       "diagonal_3",
+       "full_grid_9",
+       "isobaric_p12",
+       "isobaric_p6",
+       "isobaric_p9",
+       "isothermal_T88",
+       "isothermal_T93.4",
+       "isothermal_T98"
+      ],
+      "expected_sign": "negative (higher separability -> narrower profile)",
+      "n_designs": 9,
+      "spearman": -0.7342
+     }
     },
-    "profile_agreement": {
-     "consistent_with_expectation": true,
-     "designs": [
-      "corners_2",
-      "diagonal_3",
-      "full_grid_9",
-      "isobaric_p12",
-      "isobaric_p6",
-      "isobaric_p9",
-      "isothermal_T88",
-      "isothermal_T93.4",
-      "isothermal_T98"
-     ],
-     "expected_sign": "negative (higher separability -> narrower profile)",
-     "n_designs": 9,
-     "spearman": -0.7342
-    }
-   },
-   {
-    "group": "Arabica:trigonelline",
-    "not_merely_count": {
-     "n_designs": 9,
-     "note": "RSI is normalised by total weight, so a strong correlation here would be a finding about the designs compared, not an identity",
-     "pearson_with_count": 0.1714
+    {
+     "group": "Arabica:trigonelline",
+     "n_designs_used": 8,
+     "not_merely_count": {
+      "n_designs": 8,
+      "note": "RSI is normalised by total weight, so a strong correlation here would be a finding about the designs compared, not an identity",
+      "pearson_with_count": 0.1398
+     },
+     "profile_agreement": {
+      "consistent_with_expectation": false,
+      "designs": [
+       "corners_2",
+       "diagonal_3",
+       "full_grid_9",
+       "isobaric_p6",
+       "isobaric_p9",
+       "isothermal_T88",
+       "isothermal_T93.4",
+       "isothermal_T98"
+      ],
+      "expected_sign": "negative (higher separability -> narrower profile)",
+      "n_designs": 8,
+      "spearman": 0.1205
+     }
     },
-    "profile_agreement": {
-     "consistent_with_expectation": true,
-     "designs": [
-      "corners_2",
-      "diagonal_3",
-      "full_grid_9",
-      "isobaric_p12",
-      "isobaric_p6",
-      "isobaric_p9",
-      "isothermal_T88",
-      "isothermal_T93.4",
-      "isothermal_T98"
-     ],
-     "expected_sign": "negative (higher separability -> narrower profile)",
-     "n_designs": 9,
-     "spearman": -0.2185
-    }
-   },
-   {
-    "group": "Arabica:5CQA",
-    "not_merely_count": {
-     "n_designs": 9,
-     "note": "RSI is normalised by total weight, so a strong correlation here would be a finding about the designs compared, not an identity",
-     "pearson_with_count": 0.1399
+    {
+     "group": "Arabica:5CQA",
+     "n_designs_used": 8,
+     "not_merely_count": {
+      "n_designs": 8,
+      "note": "RSI is normalised by total weight, so a strong correlation here would be a finding about the designs compared, not an identity",
+      "pearson_with_count": 0.1032
+     },
+     "profile_agreement": {
+      "consistent_with_expectation": true,
+      "designs": [
+       "corners_2",
+       "diagonal_3",
+       "full_grid_9",
+       "isobaric_p12",
+       "isobaric_p9",
+       "isothermal_T88",
+       "isothermal_T93.4",
+       "isothermal_T98"
+      ],
+      "expected_sign": "negative (higher separability -> narrower profile)",
+      "n_designs": 8,
+      "spearman": -0.5663
+     }
     },
-    "profile_agreement": {
-     "consistent_with_expectation": true,
-     "designs": [
-      "corners_2",
-      "diagonal_3",
-      "full_grid_9",
-      "isobaric_p12",
-      "isobaric_p6",
-      "isobaric_p9",
-      "isothermal_T88",
-      "isothermal_T93.4",
-      "isothermal_T98"
-     ],
-     "expected_sign": "negative (higher separability -> narrower profile)",
-     "n_designs": 9,
-     "spearman": -0.6975
-    }
-   },
-   {
-    "group": "Robusta:caffeine",
-    "not_merely_count": {
-     "n_designs": 9,
-     "note": "RSI is normalised by total weight, so a strong correlation here would be a finding about the designs compared, not an identity",
-     "pearson_with_count": 0.1594
+    {
+     "group": "Robusta:caffeine",
+     "n_designs_used": 9,
+     "not_merely_count": {
+      "n_designs": 9,
+      "note": "RSI is normalised by total weight, so a strong correlation here would be a finding about the designs compared, not an identity",
+      "pearson_with_count": 0.1594
+     },
+     "profile_agreement": {
+      "consistent_with_expectation": true,
+      "designs": [
+       "corners_2",
+       "diagonal_3",
+       "full_grid_9",
+       "isobaric_p12",
+       "isobaric_p6",
+       "isobaric_p9",
+       "isothermal_T88",
+       "isothermal_T93.4",
+       "isothermal_T98"
+      ],
+      "expected_sign": "negative (higher separability -> narrower profile)",
+      "n_designs": 9,
+      "spearman": -0.7983
+     }
     },
-    "profile_agreement": {
-     "consistent_with_expectation": true,
-     "designs": [
-      "corners_2",
-      "diagonal_3",
-      "full_grid_9",
-      "isobaric_p12",
-      "isobaric_p6",
-      "isobaric_p9",
-      "isothermal_T88",
-      "isothermal_T93.4",
-      "isothermal_T98"
-     ],
-     "expected_sign": "negative (higher separability -> narrower profile)",
-     "n_designs": 9,
-     "spearman": -0.7983
-    }
-   },
-   {
-    "group": "Robusta:trigonelline",
-    "not_merely_count": {
-     "n_designs": 9,
-     "note": "RSI is normalised by total weight, so a strong correlation here would be a finding about the designs compared, not an identity",
-     "pearson_with_count": 0.1714
+    {
+     "group": "Robusta:trigonelline",
+     "n_designs_used": 8,
+     "not_merely_count": {
+      "n_designs": 8,
+      "note": "RSI is normalised by total weight, so a strong correlation here would be a finding about the designs compared, not an identity",
+      "pearson_with_count": 0.1398
+     },
+     "profile_agreement": {
+      "consistent_with_expectation": true,
+      "designs": [
+       "corners_2",
+       "diagonal_3",
+       "full_grid_9",
+       "isobaric_p6",
+       "isobaric_p9",
+       "isothermal_T88",
+       "isothermal_T93.4",
+       "isothermal_T98"
+      ],
+      "expected_sign": "negative (higher separability -> narrower profile)",
+      "n_designs": 8,
+      "spearman": -0.122
+     }
     },
-    "profile_agreement": {
-     "consistent_with_expectation": true,
-     "designs": [
-      "corners_2",
-      "diagonal_3",
-      "full_grid_9",
-      "isobaric_p12",
-      "isobaric_p6",
-      "isobaric_p9",
-      "isothermal_T88",
-      "isothermal_T93.4",
-      "isothermal_T98"
-     ],
-     "expected_sign": "negative (higher separability -> narrower profile)",
-     "n_designs": 9,
-     "spearman": -0.2712
+    {
+     "group": "Robusta:5CQA",
+     "n_designs_used": 8,
+     "not_merely_count": {
+      "n_designs": 8,
+      "note": "RSI is normalised by total weight, so a strong correlation here would be a finding about the designs compared, not an identity",
+      "pearson_with_count": 0.1032
+     },
+     "profile_agreement": {
+      "consistent_with_expectation": true,
+      "designs": [
+       "corners_2",
+       "diagonal_3",
+       "full_grid_9",
+       "isobaric_p12",
+       "isobaric_p9",
+       "isothermal_T88",
+       "isothermal_T93.4",
+       "isothermal_T98"
+      ],
+      "expected_sign": "negative (higher separability -> narrower profile)",
+      "n_designs": 8,
+      "spearman": -0.6629
+     }
     }
-   },
-   {
-    "group": "Robusta:5CQA",
-    "not_merely_count": {
-     "n_designs": 9,
-     "note": "RSI is normalised by total weight, so a strong correlation here would be a finding about the designs compared, not an identity",
-     "pearson_with_count": 0.1399
+   ]
+  },
+  "reading": "RSI screens designs but does not fully predict nonlinear profile width: over resolved designs the expected negative association holds in 5 of 6 groups. Per plan \u00a75.6 this admits RSI as a SCREENING tool, not as a complete design criterion.",
+  "secondary_all_designs": {
+   "median_spearman": -0.7116,
+   "n_groups": 6,
+   "n_groups_consistent_with_expectation": 6,
+   "per_group": [
+    {
+     "group": "Arabica:caffeine",
+     "n_designs_used": 9,
+     "not_merely_count": {
+      "n_designs": 9,
+      "note": "RSI is normalised by total weight, so a strong correlation here would be a finding about the designs compared, not an identity",
+      "pearson_with_count": 0.1594
+     },
+     "profile_agreement": {
+      "consistent_with_expectation": true,
+      "designs": [
+       "corners_2",
+       "diagonal_3",
+       "full_grid_9",
+       "isobaric_p12",
+       "isobaric_p6",
+       "isobaric_p9",
+       "isothermal_T88",
+       "isothermal_T93.4",
+       "isothermal_T98"
+      ],
+      "expected_sign": "negative (higher separability -> narrower profile)",
+      "n_designs": 9,
+      "spearman": -0.7342
+     }
     },
-    "profile_agreement": {
-     "consistent_with_expectation": true,
-     "designs": [
-      "corners_2",
-      "diagonal_3",
-      "full_grid_9",
-      "isobaric_p12",
-      "isobaric_p6",
-      "isobaric_p9",
-      "isothermal_T88",
-      "isothermal_T93.4",
-      "isothermal_T98"
-     ],
-     "expected_sign": "negative (higher separability -> narrower profile)",
-     "n_designs": 9,
-     "spearman": -0.7257
+    {
+     "group": "Arabica:trigonelline",
+     "n_designs_used": 9,
+     "not_merely_count": {
+      "n_designs": 9,
+      "note": "RSI is normalised by total weight, so a strong correlation here would be a finding about the designs compared, not an identity",
+      "pearson_with_count": 0.1714
+     },
+     "profile_agreement": {
+      "consistent_with_expectation": true,
+      "designs": [
+       "corners_2",
+       "diagonal_3",
+       "full_grid_9",
+       "isobaric_p12",
+       "isobaric_p6",
+       "isobaric_p9",
+       "isothermal_T88",
+       "isothermal_T93.4",
+       "isothermal_T98"
+      ],
+      "expected_sign": "negative (higher separability -> narrower profile)",
+      "n_designs": 9,
+      "spearman": -0.2185
+     }
+    },
+    {
+     "group": "Arabica:5CQA",
+     "n_designs_used": 9,
+     "not_merely_count": {
+      "n_designs": 9,
+      "note": "RSI is normalised by total weight, so a strong correlation here would be a finding about the designs compared, not an identity",
+      "pearson_with_count": 0.1399
+     },
+     "profile_agreement": {
+      "consistent_with_expectation": true,
+      "designs": [
+       "corners_2",
+       "diagonal_3",
+       "full_grid_9",
+       "isobaric_p12",
+       "isobaric_p6",
+       "isobaric_p9",
+       "isothermal_T88",
+       "isothermal_T93.4",
+       "isothermal_T98"
+      ],
+      "expected_sign": "negative (higher separability -> narrower profile)",
+      "n_designs": 9,
+      "spearman": -0.6975
+     }
+    },
+    {
+     "group": "Robusta:caffeine",
+     "n_designs_used": 9,
+     "not_merely_count": {
+      "n_designs": 9,
+      "note": "RSI is normalised by total weight, so a strong correlation here would be a finding about the designs compared, not an identity",
+      "pearson_with_count": 0.1594
+     },
+     "profile_agreement": {
+      "consistent_with_expectation": true,
+      "designs": [
+       "corners_2",
+       "diagonal_3",
+       "full_grid_9",
+       "isobaric_p12",
+       "isobaric_p6",
+       "isobaric_p9",
+       "isothermal_T88",
+       "isothermal_T93.4",
+       "isothermal_T98"
+      ],
+      "expected_sign": "negative (higher separability -> narrower profile)",
+      "n_designs": 9,
+      "spearman": -0.7983
+     }
+    },
+    {
+     "group": "Robusta:trigonelline",
+     "n_designs_used": 9,
+     "not_merely_count": {
+      "n_designs": 9,
+      "note": "RSI is normalised by total weight, so a strong correlation here would be a finding about the designs compared, not an identity",
+      "pearson_with_count": 0.1714
+     },
+     "profile_agreement": {
+      "consistent_with_expectation": true,
+      "designs": [
+       "corners_2",
+       "diagonal_3",
+       "full_grid_9",
+       "isobaric_p12",
+       "isobaric_p6",
+       "isobaric_p9",
+       "isothermal_T88",
+       "isothermal_T93.4",
+       "isothermal_T98"
+      ],
+      "expected_sign": "negative (higher separability -> narrower profile)",
+      "n_designs": 9,
+      "spearman": -0.2712
+     }
+    },
+    {
+     "group": "Robusta:5CQA",
+     "n_designs_used": 9,
+     "not_merely_count": {
+      "n_designs": 9,
+      "note": "RSI is normalised by total weight, so a strong correlation here would be a finding about the designs compared, not an identity",
+      "pearson_with_count": 0.1399
+     },
+     "profile_agreement": {
+      "consistent_with_expectation": true,
+      "designs": [
+       "corners_2",
+       "diagonal_3",
+       "full_grid_9",
+       "isobaric_p12",
+       "isobaric_p6",
+       "isobaric_p9",
+       "isothermal_T88",
+       "isothermal_T93.4",
+       "isothermal_T98"
+      ],
+      "expected_sign": "negative (higher separability -> narrower profile)",
+      "n_designs": 9,
+      "spearman": -0.7257
+     }
     }
-   }
-  ]
+   ]
+  }
  },
- "all_step_convergence_checks_passed": false,
  "groups": [
   {
    "designs": [
@@ -181,6 +348,7 @@
      },
      "rate": 1.0,
      "rsi": 0.008477981716909978,
+     "rsi_resolved": true,
      "rsi_total": 0.02543394515072994,
      "sensitivities": [
       0.18734755099428513,
@@ -218,6 +386,7 @@
      },
      "rate": 1.0,
      "rsi": 0.008966809097198138,
+     "rsi_resolved": true,
      "rsi_total": 0.015530968938117992,
      "sensitivities": [
       0.18739023917736727,
@@ -249,6 +418,7 @@
      },
      "rate": 1.0,
      "rsi": 0.008434510411829136,
+     "rsi_resolved": true,
      "rsi_total": 0.014609000570256757,
      "sensitivities": [
       0.18734755099428513,
@@ -280,6 +450,7 @@
      },
      "rate": 1.0,
      "rsi": 0.007991090390813008,
+     "rsi_resolved": true,
      "rsi_total": 0.013840974564763566,
      "sensitivities": [
       0.19582392276836086,
@@ -311,6 +482,7 @@
      },
      "rate": 1.0,
      "rsi": 0.0003000526595293401,
+     "rsi_resolved": true,
      "rsi_total": 0.0005197064512509829,
      "sensitivities": [
       0.17628034591072594,
@@ -342,6 +514,7 @@
      },
      "rate": 1.0,
      "rsi": 0.0002958101837483373,
+     "rsi_resolved": true,
      "rsi_total": 0.0005123582676484057,
      "sensitivities": [
       0.18734755099428513,
@@ -373,6 +546,7 @@
      },
      "rate": 1.0,
      "rsi": 0.0007253816200177913,
+     "rsi_resolved": true,
      "rsi_total": 0.001256397820747436,
      "sensitivities": [
       0.19692262394777893,
@@ -404,6 +578,7 @@
      },
      "rate": 1.0,
      "rsi": 0.010093472270544454,
+     "rsi_resolved": true,
      "rsi_total": 0.014274325376440725,
      "sensitivities": [
       0.17563697822727195,
@@ -428,6 +603,7 @@
      "n_observations": 1,
      "rate": 1.0,
      "rsi": 0.0,
+     "rsi_resolved": false,
      "rsi_total": 0.0,
      "sensitivities": [
       0.18734755099428513
@@ -457,6 +633,7 @@
      },
      "rate": 1.0,
      "rsi": 0.008276466791041116,
+     "rsi_resolved": true,
      "rsi_total": 0.014335260989239757,
      "sensitivities": [
       0.17563697822727195,
@@ -486,6 +663,7 @@
      "no_profile_reason": "Angeloni measured one cup per condition at the matched 40 g endpoint; no observation exists at these endpoints, so no nonlinear profile can be computed and none is reported",
      "rate": 1.0,
      "rsi": 0.013704356604750324,
+     "rsi_resolved": true,
      "rsi_total": 0.041113069814250974,
      "sensitivities": [
       0.18379595530582346,
@@ -521,6 +699,7 @@
      "no_profile_reason": "Angeloni measured one cup per condition at the matched 40 g endpoint; no observation exists at these endpoints, so no nonlinear profile can be computed and none is reported",
      "rate": 1.0,
      "rsi": 0.0037105661939387273,
+     "rsi_resolved": true,
      "rsi_total": 0.011131698581816181,
      "sensitivities": [
       0.16254163900152468,
@@ -558,6 +737,7 @@
      "no_profile_reason": "Angeloni measured one cup per condition at the matched 40 g endpoint; no observation exists at these endpoints, so no nonlinear profile can be computed and none is reported",
      "rate": 1.0,
      "rsi": 0.01394417930472079,
+     "rsi_resolved": true,
      "rsi_total": 0.0724560810768806,
      "sensitivities": [
       0.18379595530582346,
@@ -618,6 +798,7 @@
      },
      "rate": 1.0,
      "rsi": 0.011323351310281048,
+     "rsi_resolved": true,
      "rsi_total": 0.033970053930843146,
      "sensitivities": [
       0.1298240218148755,
@@ -655,6 +836,7 @@
      },
      "rate": 1.0,
      "rsi": 0.010682695781165796,
+     "rsi_resolved": true,
      "rsi_total": 0.018502971854780857,
      "sensitivities": [
       0.13059175617925745,
@@ -686,6 +868,7 @@
      },
      "rate": 1.0,
      "rsi": 0.011344429737655318,
+     "rsi_resolved": true,
      "rsi_total": 0.01964912868851428,
      "sensitivities": [
       0.1298240218148755,
@@ -717,6 +900,7 @@
      },
      "rate": 1.0,
      "rsi": 0.011864846814527897,
+     "rsi_resolved": true,
      "rsi_total": 0.020550517506784067,
      "sensitivities": [
       0.143501812973066,
@@ -748,6 +932,7 @@
      },
      "rate": 1.0,
      "rsi": 0.0012090955118694378,
+     "rsi_resolved": true,
      "rsi_total": 0.0020942148577613646,
      "sensitivities": [
       0.11574178593495438,
@@ -779,6 +964,7 @@
      },
      "rate": 1.0,
      "rsi": 0.0005530245696494903,
+     "rsi_resolved": true,
      "rsi_total": 0.0009578666524668304,
      "sensitivities": [
       0.1298240218148755,
@@ -810,6 +996,7 @@
      },
      "rate": 1.0,
      "rsi": 2.4678344890161226e-05,
+     "rsi_resolved": false,
      "rsi_total": 4.274414719646703e-05,
      "sensitivities": [
       0.1435289965622956,
@@ -841,6 +1028,7 @@
      },
      "rate": 1.0,
      "rsi": 0.01305323890842501,
+     "rsi_resolved": true,
      "rsi_total": 0.018460067497190827,
      "sensitivities": [
       0.11739533515621597,
@@ -865,6 +1053,7 @@
      "n_observations": 1,
      "rate": 1.0,
      "rsi": 0.0,
+     "rsi_resolved": false,
      "rsi_total": 0.0,
      "sensitivities": [
       0.1298240218148755
@@ -894,6 +1083,7 @@
      },
      "rate": 1.0,
      "rsi": 0.010661990678354672,
+     "rsi_resolved": true,
      "rsi_total": 0.018467109564736052,
      "sensitivities": [
       0.11739533515621597,
@@ -923,6 +1113,7 @@
      "no_profile_reason": "Angeloni measured one cup per condition at the matched 40 g endpoint; no observation exists at these endpoints, so no nonlinear profile can be computed and none is reported",
      "rate": 1.0,
      "rsi": 0.015588412776789545,
+     "rsi_resolved": true,
      "rsi_total": 0.046765238330368636,
      "sensitivities": [
       0.1762128059206721,
@@ -958,6 +1149,7 @@
      "no_profile_reason": "Angeloni measured one cup per condition at the matched 40 g endpoint; no observation exists at these endpoints, so no nonlinear profile can be computed and none is reported",
      "rate": 1.0,
      "rsi": 0.008702569257759583,
+     "rsi_resolved": true,
      "rsi_total": 0.026107707773278747,
      "sensitivities": [
       0.07313306233788786,
@@ -995,6 +1187,7 @@
      "no_profile_reason": "Angeloni measured one cup per condition at the matched 40 g endpoint; no observation exists at these endpoints, so no nonlinear profile can be computed and none is reported",
      "rate": 1.0,
      "rsi": 0.04334585703494295,
+     "rsi_resolved": true,
      "rsi_total": 0.22523168004641414,
      "sensitivities": [
       0.1762128059206721,
@@ -1055,6 +1248,7 @@
      },
      "rate": 1.0,
      "rsi": 0.012700481211801461,
+     "rsi_resolved": true,
      "rsi_total": 0.03810144363540439,
      "sensitivities": [
       0.177451103812893,
@@ -1092,6 +1286,7 @@
      },
      "rate": 1.0,
      "rsi": 0.012097400234925209,
+     "rsi_resolved": true,
      "rsi_total": 0.020953311846386134,
      "sensitivities": [
       0.1766458346310118,
@@ -1123,6 +1318,7 @@
      },
      "rate": 1.0,
      "rsi": 0.012734845918218137,
+     "rsi_resolved": true,
      "rsi_total": 0.022057400156914944,
      "sensitivities": [
       0.177451103812893,
@@ -1154,6 +1350,7 @@
      },
      "rate": 1.0,
      "rsi": 0.01322076928157469,
+     "rsi_resolved": true,
      "rsi_total": 0.022899044110833246,
      "sensitivities": [
       0.19409835769952713,
@@ -1185,6 +1382,7 @@
      },
      "rate": 1.0,
      "rsi": 0.00017142723656319287,
+     "rsi_resolved": false,
      "rsi_total": 0.00029692068352857917,
      "sensitivities": [
       0.1619665427907105,
@@ -1216,6 +1414,7 @@
      },
      "rate": 1.0,
      "rsi": 0.0005413131066520141,
+     "rsi_resolved": true,
      "rsi_total": 0.0009375818035242388,
      "sensitivities": [
       0.177451103812893,
@@ -1247,6 +1446,7 @@
      },
      "rate": 1.0,
      "rsi": 0.0009601483083881284,
+     "rsi_resolved": true,
      "rsi_total": 0.0016630256529295492,
      "sensitivities": [
       0.19316014799756545,
@@ -1278,6 +1478,7 @@
      },
      "rate": 1.0,
      "rsi": 0.01598361548462955,
+     "rsi_resolved": true,
      "rsi_total": 0.022604245794119723,
      "sensitivities": [
       0.16213112673026803,
@@ -1302,6 +1503,7 @@
      "n_observations": 1,
      "rate": 1.0,
      "rsi": 0.0,
+     "rsi_resolved": false,
      "rsi_total": 0.0,
      "sensitivities": [
       0.177451103812893
@@ -1331,6 +1533,7 @@
      },
      "rate": 1.0,
      "rsi": 0.013054316508854531,
+     "rsi_resolved": true,
      "rsi_total": 0.022610739451421218,
      "sensitivities": [
       0.16213112673026803,
@@ -1360,6 +1563,7 @@
      "no_profile_reason": "Angeloni measured one cup per condition at the matched 40 g endpoint; no observation exists at these endpoints, so no nonlinear profile can be computed and none is reported",
      "rate": 1.0,
      "rsi": 0.01877673732621963,
+     "rsi_resolved": true,
      "rsi_total": 0.05633021197865889,
      "sensitivities": [
       0.1879584611193665,
@@ -1395,6 +1599,7 @@
      "no_profile_reason": "Angeloni measured one cup per condition at the matched 40 g endpoint; no observation exists at these endpoints, so no nonlinear profile can be computed and none is reported",
      "rate": 1.0,
      "rsi": 0.008709728109235357,
+     "rsi_resolved": true,
      "rsi_total": 0.02612918432770607,
      "sensitivities": [
       0.13766080719661705,
@@ -1432,6 +1637,7 @@
      "no_profile_reason": "Angeloni measured one cup per condition at the matched 40 g endpoint; no observation exists at these endpoints, so no nonlinear profile can be computed and none is reported",
      "rate": 1.0,
      "rsi": 0.025202104392818434,
+     "rsi_resolved": true,
      "rsi_total": 0.13095397579804893,
      "sensitivities": [
       0.1879584611193665,
@@ -1492,6 +1698,7 @@
      },
      "rate": 1.0,
      "rsi": 0.008477981716909978,
+     "rsi_resolved": true,
      "rsi_total": 0.02543394515072994,
      "sensitivities": [
       0.18734755099428513,
@@ -1529,6 +1736,7 @@
      },
      "rate": 1.0,
      "rsi": 0.008966809097198138,
+     "rsi_resolved": true,
      "rsi_total": 0.015530968938117992,
      "sensitivities": [
       0.18739023917736727,
@@ -1560,6 +1768,7 @@
      },
      "rate": 1.0,
      "rsi": 0.008434510411829136,
+     "rsi_resolved": true,
      "rsi_total": 0.014609000570256757,
      "sensitivities": [
       0.18734755099428513,
@@ -1591,6 +1800,7 @@
      },
      "rate": 1.0,
      "rsi": 0.007991090390813008,
+     "rsi_resolved": true,
      "rsi_total": 0.013840974564763566,
      "sensitivities": [
       0.18674247687016643,
@@ -1622,6 +1832,7 @@
      },
      "rate": 1.0,
      "rsi": 0.0003000526595293401,
+     "rsi_resolved": true,
      "rsi_total": 0.0005197064512509829,
      "sensitivities": [
       0.17628034591072594,
@@ -1653,6 +1864,7 @@
      },
      "rate": 1.0,
      "rsi": 0.0002958101837483373,
+     "rsi_resolved": true,
      "rsi_total": 0.0005123582676484057,
      "sensitivities": [
       0.18734755099428513,
@@ -1684,6 +1896,7 @@
      },
      "rate": 1.0,
      "rsi": 0.0007253816200177913,
+     "rsi_resolved": true,
      "rsi_total": 0.001256397820747436,
      "sensitivities": [
       0.19692262394777893,
@@ -1715,6 +1928,7 @@
      },
      "rate": 1.0,
      "rsi": 0.010093472270544454,
+     "rsi_resolved": true,
      "rsi_total": 0.014274325376440725,
      "sensitivities": [
       0.17563697822727195,
@@ -1739,6 +1953,7 @@
      "n_observations": 1,
      "rate": 1.0,
      "rsi": 0.0,
+     "rsi_resolved": false,
      "rsi_total": 0.0,
      "sensitivities": [
       0.18734755099428513
@@ -1768,6 +1983,7 @@
      },
      "rate": 1.0,
      "rsi": 0.008276466791041116,
+     "rsi_resolved": true,
      "rsi_total": 0.014335260989239757,
      "sensitivities": [
       0.17563697822727195,
@@ -1797,6 +2013,7 @@
      "no_profile_reason": "Angeloni measured one cup per condition at the matched 40 g endpoint; no observation exists at these endpoints, so no nonlinear profile can be computed and none is reported",
      "rate": 1.0,
      "rsi": 0.013704356604750324,
+     "rsi_resolved": true,
      "rsi_total": 0.041113069814250974,
      "sensitivities": [
       0.18379595530582346,
@@ -1832,6 +2049,7 @@
      "no_profile_reason": "Angeloni measured one cup per condition at the matched 40 g endpoint; no observation exists at these endpoints, so no nonlinear profile can be computed and none is reported",
      "rate": 1.0,
      "rsi": 0.0037105661939387273,
+     "rsi_resolved": true,
      "rsi_total": 0.011131698581816181,
      "sensitivities": [
       0.16254163900152468,
@@ -1869,6 +2087,7 @@
      "no_profile_reason": "Angeloni measured one cup per condition at the matched 40 g endpoint; no observation exists at these endpoints, so no nonlinear profile can be computed and none is reported",
      "rate": 1.0,
      "rsi": 0.01394417930472079,
+     "rsi_resolved": true,
      "rsi_total": 0.0724560810768806,
      "sensitivities": [
       0.18379595530582346,
@@ -1929,6 +2148,7 @@
      },
      "rate": 1.0,
      "rsi": 0.011323351310281048,
+     "rsi_resolved": true,
      "rsi_total": 0.033970053930843146,
      "sensitivities": [
       0.1298240218148755,
@@ -1966,6 +2186,7 @@
      },
      "rate": 1.0,
      "rsi": 0.010682695781165796,
+     "rsi_resolved": true,
      "rsi_total": 0.018502971854780857,
      "sensitivities": [
       0.13059175617925745,
@@ -1997,6 +2218,7 @@
      },
      "rate": 1.0,
      "rsi": 0.011344429737655318,
+     "rsi_resolved": true,
      "rsi_total": 0.01964912868851428,
      "sensitivities": [
       0.1298240218148755,
@@ -2028,6 +2250,7 @@
      },
      "rate": 1.0,
      "rsi": 0.011864846814527897,
+     "rsi_resolved": true,
      "rsi_total": 0.020550517506784067,
      "sensitivities": [
       0.12924134838996695,
@@ -2059,6 +2282,7 @@
      },
      "rate": 1.0,
      "rsi": 0.0012090955118694378,
+     "rsi_resolved": true,
      "rsi_total": 0.0020942148577613646,
      "sensitivities": [
       0.11574178593495438,
@@ -2090,6 +2314,7 @@
      },
      "rate": 1.0,
      "rsi": 0.0005530245696494903,
+     "rsi_resolved": true,
      "rsi_total": 0.0009578666524668304,
      "sensitivities": [
       0.1298240218148755,
@@ -2121,6 +2346,7 @@
      },
      "rate": 1.0,
      "rsi": 2.4678344890161226e-05,
+     "rsi_resolved": false,
      "rsi_total": 4.274414719646703e-05,
      "sensitivities": [
       0.1435289965622956,
@@ -2152,6 +2378,7 @@
      },
      "rate": 1.0,
      "rsi": 0.01305323890842501,
+     "rsi_resolved": true,
      "rsi_total": 0.018460067497190827,
      "sensitivities": [
       0.11739533515621597,
@@ -2176,6 +2403,7 @@
      "n_observations": 1,
      "rate": 1.0,
      "rsi": 0.0,
+     "rsi_resolved": false,
      "rsi_total": 0.0,
      "sensitivities": [
       0.1298240218148755
@@ -2205,6 +2433,7 @@
      },
      "rate": 1.0,
      "rsi": 0.010661990678354672,
+     "rsi_resolved": true,
      "rsi_total": 0.018467109564736052,
      "sensitivities": [
       0.11739533515621597,
@@ -2234,6 +2463,7 @@
      "no_profile_reason": "Angeloni measured one cup per condition at the matched 40 g endpoint; no observation exists at these endpoints, so no nonlinear profile can be computed and none is reported",
      "rate": 1.0,
      "rsi": 0.015588412776789545,
+     "rsi_resolved": true,
      "rsi_total": 0.046765238330368636,
      "sensitivities": [
       0.1762128059206721,
@@ -2269,6 +2499,7 @@
      "no_profile_reason": "Angeloni measured one cup per condition at the matched 40 g endpoint; no observation exists at these endpoints, so no nonlinear profile can be computed and none is reported",
      "rate": 1.0,
      "rsi": 0.008702569257759583,
+     "rsi_resolved": true,
      "rsi_total": 0.026107707773278747,
      "sensitivities": [
       0.07313306233788786,
@@ -2306,6 +2537,7 @@
      "no_profile_reason": "Angeloni measured one cup per condition at the matched 40 g endpoint; no observation exists at these endpoints, so no nonlinear profile can be computed and none is reported",
      "rate": 1.0,
      "rsi": 0.04334585703494295,
+     "rsi_resolved": true,
      "rsi_total": 0.22523168004641414,
      "sensitivities": [
       0.1762128059206721,
@@ -2366,6 +2598,7 @@
      },
      "rate": 1.0,
      "rsi": 0.012700481211801461,
+     "rsi_resolved": true,
      "rsi_total": 0.03810144363540439,
      "sensitivities": [
       0.177451103812893,
@@ -2403,6 +2636,7 @@
      },
      "rate": 1.0,
      "rsi": 0.012097400234925209,
+     "rsi_resolved": true,
      "rsi_total": 0.020953311846386134,
      "sensitivities": [
       0.1766458346310118,
@@ -2434,6 +2668,7 @@
      },
      "rate": 1.0,
      "rsi": 0.012734845918218137,
+     "rsi_resolved": true,
      "rsi_total": 0.022057400156914944,
      "sensitivities": [
       0.177451103812893,
@@ -2465,6 +2700,7 @@
      },
      "rate": 1.0,
      "rsi": 0.01322076928157469,
+     "rsi_resolved": true,
      "rsi_total": 0.022899044110833246,
      "sensitivities": [
       0.1779607441892643,
@@ -2496,6 +2732,7 @@
      },
      "rate": 1.0,
      "rsi": 0.00017142723656319287,
+     "rsi_resolved": false,
      "rsi_total": 0.00029692068352857917,
      "sensitivities": [
       0.1619665427907105,
@@ -2527,6 +2764,7 @@
      },
      "rate": 1.0,
      "rsi": 0.0005413131066520141,
+     "rsi_resolved": true,
      "rsi_total": 0.0009375818035242388,
      "sensitivities": [
       0.177451103812893,
@@ -2558,6 +2796,7 @@
      },
      "rate": 1.0,
      "rsi": 0.0009601483083881284,
+     "rsi_resolved": true,
      "rsi_total": 0.0016630256529295492,
      "sensitivities": [
       0.19316014799756545,
@@ -2589,6 +2828,7 @@
      },
      "rate": 1.0,
      "rsi": 0.01598361548462955,
+     "rsi_resolved": true,
      "rsi_total": 0.022604245794119723,
      "sensitivities": [
       0.16213112673026803,
@@ -2613,6 +2853,7 @@
      "n_observations": 1,
      "rate": 1.0,
      "rsi": 0.0,
+     "rsi_resolved": false,
      "rsi_total": 0.0,
      "sensitivities": [
       0.177451103812893
@@ -2642,6 +2883,7 @@
      },
      "rate": 1.0,
      "rsi": 0.013054316508854531,
+     "rsi_resolved": true,
      "rsi_total": 0.022610739451421218,
      "sensitivities": [
       0.16213112673026803,
@@ -2671,6 +2913,7 @@
      "no_profile_reason": "Angeloni measured one cup per condition at the matched 40 g endpoint; no observation exists at these endpoints, so no nonlinear profile can be computed and none is reported",
      "rate": 1.0,
      "rsi": 0.01877673732621963,
+     "rsi_resolved": true,
      "rsi_total": 0.05633021197865889,
      "sensitivities": [
       0.1879584611193665,
@@ -2706,6 +2949,7 @@
      "no_profile_reason": "Angeloni measured one cup per condition at the matched 40 g endpoint; no observation exists at these endpoints, so no nonlinear profile can be computed and none is reported",
      "rate": 1.0,
      "rsi": 0.008709728109235357,
+     "rsi_resolved": true,
      "rsi_total": 0.02612918432770607,
      "sensitivities": [
       0.13766080719661705,
@@ -2743,6 +2987,7 @@
      "no_profile_reason": "Angeloni measured one cup per condition at the matched 40 g endpoint; no observation exists at these endpoints, so no nonlinear profile can be computed and none is reported",
      "rate": 1.0,
      "rsi": 0.025202104392818434,
+     "rsi_resolved": true,
      "rsi_total": 0.13095397579804893,
      "sensitivities": [
       0.1879584611193665,
@@ -2785,6 +3030,75 @@
  "log_step": 0.08,
  "question": "Does the local rate-separability index predict which espresso observation designs localise the extraction rate? (pivot plan \u00a75)",
  "reference_rate": 1.0,
- "schema_version": 1,
- "status": "EXPLORATORY, model-based and LOCAL. RSI is a design screen evaluated at one rate under the declared model; it is not a Fisher information matrix, not a global identifiability result, and not an uncertainty interval."
+ "resolution_factor": 5.0,
+ "schema_version": 2,
+ "status": "EXPLORATORY, model-based and LOCAL. RSI is a design screen evaluated at one rate under the declared model; it is not a Fisher information matrix, not a global identifiability result, and not an uncertainty interval.",
+ "step_convergence": {
+  "n_converged": 54,
+  "n_designs": 78,
+  "n_unresolved": 10,
+  "note": "The convergence criterion is relative to the sensitivity SPREAD, so it fails precisely where the spread is ~0 \u2014 which is itself the finding for those designs. Absolute step changes are <=3e-4 throughout. Unresolved designs are reported and excluded from the primary ranking rather than dropped silently.",
+  "unresolved": [
+   {
+    "design": "single_condition",
+    "group": "Arabica:caffeine",
+    "max_step_change": 2.0996566449382748e-05,
+    "rsi": 0.0
+   },
+   {
+    "design": "isobaric_p12",
+    "group": "Arabica:trigonelline",
+    "max_step_change": 6.263732366498798e-05,
+    "rsi": 2.4678344890161226e-05
+   },
+   {
+    "design": "single_condition",
+    "group": "Arabica:trigonelline",
+    "max_step_change": 1.4183760822433777e-05,
+    "rsi": 0.0
+   },
+   {
+    "design": "isobaric_p6",
+    "group": "Arabica:5CQA",
+    "max_step_change": 9.817448254831329e-05,
+    "rsi": 0.00017142723656319287
+   },
+   {
+    "design": "single_condition",
+    "group": "Arabica:5CQA",
+    "max_step_change": 7.568749019526422e-06,
+    "rsi": 0.0
+   },
+   {
+    "design": "single_condition",
+    "group": "Robusta:caffeine",
+    "max_step_change": 2.0996566449382748e-05,
+    "rsi": 0.0
+   },
+   {
+    "design": "isobaric_p12",
+    "group": "Robusta:trigonelline",
+    "max_step_change": 6.263732366498798e-05,
+    "rsi": 2.4678344890161226e-05
+   },
+   {
+    "design": "single_condition",
+    "group": "Robusta:trigonelline",
+    "max_step_change": 1.4183760822433777e-05,
+    "rsi": 0.0
+   },
+   {
+    "design": "isobaric_p6",
+    "group": "Robusta:5CQA",
+    "max_step_change": 9.817448254831329e-05,
+    "rsi": 0.00017142723656319287
+   },
+   {
+    "design": "single_condition",
+    "group": "Robusta:5CQA",
+    "max_step_change": 7.568749019526422e-06,
+    "rsi": 0.0
+   }
+  ]
+ }
 }
