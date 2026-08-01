@@ -1,0 +1,185 @@
+{
+ "design": {
+  "folds": "leave one of the nine optimal-grind conditions out, in turn",
+  "refitted_each_fold": [
+   "mechanistic rate and level",
+   "level-only constant",
+   "equal-information empirical response (family re-selected)"
+  ],
+  "scored_on": "the unchanged complete 132-observation coarse/fine corpus"
+ },
+ "estimand": "macro pooled MAPE, mechanistic model minus comparator, in percentage points",
+ "folds": [
+  {
+   "const_coarse": 9.934,
+   "const_fine": 6.686,
+   "const_pooled": 8.31,
+   "dropped_condition": {
+    "T_degC": 93.4,
+    "p_bar": 9.0
+   },
+   "emp_coarse": 10.132,
+   "emp_fine": 6.552,
+   "emp_pooled": 8.342,
+   "model_coarse": 9.857,
+   "model_fine": 6.648,
+   "model_minus_const": -0.058,
+   "model_minus_emp": -0.09,
+   "model_pooled": 8.252
+  },
+  {
+   "const_coarse": 9.885,
+   "const_fine": 6.793,
+   "const_pooled": 8.339,
+   "dropped_condition": {
+    "T_degC": 93.4,
+    "p_bar": 6.0
+   },
+   "emp_coarse": 11.899,
+   "emp_fine": 6.577,
+   "emp_pooled": 9.238,
+   "model_coarse": 9.642,
+   "model_fine": 6.743,
+   "model_minus_const": -0.147,
+   "model_minus_emp": -1.046,
+   "model_pooled": 8.192
+  },
+  {
+   "const_coarse": 9.913,
+   "const_fine": 6.752,
+   "const_pooled": 8.332,
+   "dropped_condition": {
+    "T_degC": 93.4,
+    "p_bar": 12.0
+   },
+   "emp_coarse": 10.654,
+   "emp_fine": 6.456,
+   "emp_pooled": 8.555,
+   "model_coarse": 9.923,
+   "model_fine": 6.813,
+   "model_minus_const": 0.036,
+   "model_minus_emp": -0.187,
+   "model_pooled": 8.368
+  },
+  {
+   "const_coarse": 9.675,
+   "const_fine": 6.847,
+   "const_pooled": 8.261,
+   "dropped_condition": {
+    "T_degC": 88.0,
+    "p_bar": 9.0
+   },
+   "emp_coarse": 9.881,
+   "emp_fine": 6.712,
+   "emp_pooled": 8.297,
+   "model_coarse": 9.774,
+   "model_fine": 6.731,
+   "model_minus_const": -0.008,
+   "model_minus_emp": -0.044,
+   "model_pooled": 8.253
+  },
+  {
+   "const_coarse": 10.717,
+   "const_fine": 6.693,
+   "const_pooled": 8.705,
+   "dropped_condition": {
+    "T_degC": 88.0,
+    "p_bar": 6.0
+   },
+   "emp_coarse": 11.027,
+   "emp_fine": 6.602,
+   "emp_pooled": 8.815,
+   "model_coarse": 10.131,
+   "model_fine": 6.622,
+   "model_minus_const": -0.328,
+   "model_minus_emp": -0.438,
+   "model_pooled": 8.377
+  },
+  {
+   "const_coarse": 11.377,
+   "const_fine": 6.4,
+   "const_pooled": 8.889,
+   "dropped_condition": {
+    "T_degC": 88.0,
+    "p_bar": 12.0
+   },
+   "emp_coarse": 15.234,
+   "emp_fine": 7.09,
+   "emp_pooled": 11.162,
+   "model_coarse": 10.256,
+   "model_fine": 7.571,
+   "model_minus_const": 0.024,
+   "model_minus_emp": -2.249,
+   "model_pooled": 8.913
+  },
+  {
+   "const_coarse": 9.837,
+   "const_fine": 6.81,
+   "const_pooled": 8.324,
+   "dropped_condition": {
+    "T_degC": 98.0,
+    "p_bar": 12.0
+   },
+   "emp_coarse": 9.92,
+   "emp_fine": 6.783,
+   "emp_pooled": 8.351,
+   "model_coarse": 10.014,
+   "model_fine": 7.466,
+   "model_minus_const": 0.416,
+   "model_minus_emp": 0.389,
+   "model_pooled": 8.74
+  },
+  {
+   "const_coarse": 11.377,
+   "const_fine": 6.4,
+   "const_pooled": 8.889,
+   "dropped_condition": {
+    "T_degC": 98.0,
+    "p_bar": 9.0
+   },
+   "emp_coarse": 11.593,
+   "emp_fine": 6.186,
+   "emp_pooled": 8.889,
+   "model_coarse": 10.258,
+   "model_fine": 7.346,
+   "model_minus_const": -0.087,
+   "model_minus_emp": -0.087,
+   "model_pooled": 8.802
+  },
+  {
+   "const_coarse": 11.166,
+   "const_fine": 6.454,
+   "const_pooled": 8.81,
+   "dropped_condition": {
+    "T_degC": 98.0,
+    "p_bar": 6.0
+   },
+   "emp_coarse": 14.215,
+   "emp_fine": 7.26,
+   "emp_pooled": 10.738,
+   "model_coarse": 10.742,
+   "model_fine": 6.552,
+   "model_minus_const": -0.163,
+   "model_minus_emp": -2.091,
+   "model_pooled": 8.647
+  }
+ ],
+ "model_minus_const": {
+  "max": 0.416,
+  "median": -0.058,
+  "min": -0.328,
+  "n_favouring_comparator": 3,
+  "n_favouring_model": 6
+ },
+ "model_minus_emp": {
+  "max": 0.389,
+  "median": -0.187,
+  "min": -2.249,
+  "n_favouring_comparator": 1,
+  "n_favouring_model": 8
+ },
+ "n_folds": 9,
+ "question": "Does the headline model-minus-comparator difference depend on any single optimal-grind calibration condition? (domain-referee Major finding 2)",
+ "schema_version": 1,
+ "status": "EXPLORATORY and DESCRIPTIVE: nine dependent folds. This is not a calibrated confidence interval and must not be relabelled as one."
+}

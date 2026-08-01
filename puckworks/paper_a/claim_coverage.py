@@ -175,6 +175,16 @@ SLOW_LANE_RESULTS: dict[str, str] = {
     "6.48%": "pooled_by_grind F: level-only constant MAPE; same archive",
     "1.02": "pooled_by_grind C: model minus constant (pp), favouring the model",
     "0.23": "pooled_by_grind F: model minus constant (pp), favouring the CONSTANT",
+    # ── domain-referee Major finding 2: the leave-one-optimal-condition-out REFIT-AWARE
+    # comparison. The published percentile ranges hold both predictors fixed; these carry the
+    # instability of fitting a rate and a level from nine conditions. Nine dependent folds,
+    # exploratory and descriptive. 0.058 is registered as the median below.
+    "0.058": ("refit-aware model-minus-constant difference, median over 9 leave-one-condition-out "
+              "folds (pp); PAPER_A_REFIT_AWARE_COMPARISON.json"),
+    "0.328": "refit-aware model-minus-constant difference, most model-favouring fold (pp); same archive",
+    "0.416": "refit-aware model-minus-constant difference, most constant-favouring fold (pp); same archive",
+    "0.187": ("refit-aware model-minus-empirical-response difference, median over the same 9 folds "
+              "(pp); same archive"),
     # ── domain-referee Major finding 1: the equal-information empirical benchmark panel.
     "8.69%": ("equal-information empirical response baseline, macro pooled MAPE; "
               "PAPER_A_EQUAL_INFORMATION_BENCHMARKS.json (puckworks.paper_a.empirical_benchmarks)"),

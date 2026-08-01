@@ -163,3 +163,33 @@ def test_the_residual_hydraulic_asymmetry_is_stated(result):
     note = result["hydraulic_note"]
     assert "hydraulic" in note and "does not close it" in note, \
         "the panel narrows the information gap but does not close it, and must say so"
+
+
+# ── 5. the refit-aware tool must reproduce the published headline before it is trusted ────────
+def test_the_refit_pipeline_reproduces_the_published_arms():
+    """The no-fold-dropped case of the refit tool must recover 8.44 / 8.83 / 8.691.
+
+    This validation caught a real bug. The first draft of `paper_a_refit_aware_comparison` never
+    applied the rate multiplier when building the unit-inventory prediction, so `f` was identical
+    for every candidate rate, the level absorbed everything, and the mechanistic arm silently became
+    a RATE-FREE model scoring 8.281 % — close enough to 8.44 % to look plausible in a table of fold
+    results, and wrong. Nothing else in the chain would have noticed, because the tool writes its
+    own archive.
+
+    Marked slow: it runs the PDE over the full corpus (~1 min).
+    """
+    from tools import paper_a_refit_aware_comparison as R
+
+    per_group = R._fit_fold(R._rows(), drop=(-1.0, -1.0), empirical=True)
+    for arm, coarse, fine, pooled in (("model", 10.17, 6.71, 8.44),
+                                      ("const", 11.19, 6.48, 8.83),
+                                      ("emp", 11.012, 6.370, 8.691)):
+        C = R._macro(per_group, "%s_C" % arm)
+        F = R._macro(per_group, "%s_F" % arm)
+        assert C == pytest.approx(coarse, abs=0.01), (arm, "coarse")
+        assert F == pytest.approx(fine, abs=0.01), (arm, "fine")
+        assert (C + F) / 2 == pytest.approx(pooled, abs=0.01), (arm, "pooled")
+
+
+test_the_refit_pipeline_reproduces_the_published_arms = pytest.mark.slow(
+    test_the_refit_pipeline_reproduces_the_published_arms)
