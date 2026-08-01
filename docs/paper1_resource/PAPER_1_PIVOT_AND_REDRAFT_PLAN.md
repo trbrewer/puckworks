@@ -1,0 +1,335 @@
+# Paper 1 — pivot and redraft plan
+
+**Prepared:** 1 August 2026
+**Supersedes as the operative plan:** `paper1_recommended_scientific_pivot_and_revision_plan_20260801.md`
+(whose Stage 1 was falsified — see §3.4)
+**Evidence base:** merge `abb982c` plus pivot checks 1–2
+**Status:** proposal for review. No manuscript file has been modified.
+
+---
+
+## 1. The decision in one paragraph
+
+The paper currently leads with its **weakest** result and buries its **strongest**. The published
+headline — a −0.394 pp mechanistic advantage over a level-only constant — survives refitting in only
+6 of 9 folds with a median of −0.058 pp. Meanwhile the contrast that is sign-stable in **all nine**
+folds, at **+0.524 pp**, is one the paper does not currently report at all: the value of the
+target-grind hydraulic map. And the kinetic parameter the paper spends its length discussing turns
+out not to be identified at all — a tenfold change in it moves the prediction by less than one part
+in two thousand. The redraft should invert this hierarchy and lead with a physical claim about what
+an espresso cup can and cannot see.
+
+---
+
+## 2. The hypothesis
+
+### H1 — primary, physical
+
+> **At a matched collection endpoint, espresso whole-cup composition is controlled by extractable
+> inventory and local equilibrium, not by extraction kinetics.** The kinetic rate multiplier is
+> consequently not identifiable from such measurements — not merely imprecise, but unbounded above —
+> and fitting it does not improve cross-condition transfer.
+
+This is a claim about espresso, not about statistics. It says the measurement is in the wrong regime
+to see the physics it is routinely used to calibrate.
+
+### H2 — mechanism, exact
+
+> For a model whose prediction factorises as `ŷ_i = I · f_i(k)`, all local information about `k`
+> after profiling the level `I` is the **weighted variance of the observations' log-rate
+> sensitivities**: `det(G) = (Σw)² · Var_w(s)`. A design can therefore be screened for
+> rate-separability **before any data are collected**.
+
+### H3 — attribution
+
+> What transfers across grind in this campaign is **exogenous hydraulic information** — the
+> target-grind flow and collected-mass endpoint — not fitted kinetics and not particle geometry.
+
+### H4 — consequence for practice
+
+> When a design cannot separate a parameter, the parameter should be **frozen at an inherited
+> value rather than fitted**. Fitting it converts an unidentified direction into calibration-set
+> noise that transfers badly.
+
+---
+
+## 3. The evidence
+
+All figures are from archived producers in the repository; every one is reproducible and gated.
+
+### 3.1 The rate is unidentified — and the evidence is near-deterministic, not statistical
+
+`tools/paper_a_rate_domain_check.py` → `PAPER_A_RATE_DOMAIN_CHECK.json`
+
+Widening the rate domain 77× (to 500 over 40 log-spaced points):
+
+| group | rate\* at cap 6.5 | rate\* at cap 500 | fit gained | prediction moves over top decade |
+|---|---:|---:|---:|---:|
+| Arabica caffeine | interior | 0.79 | 0.167 pp | 0.050 % |
+| Arabica trigonelline | interior | 1.82 | 0.030 pp | 0.000 % |
+| Arabica 5-CQA | interior | 0.98 | 0.404 pp | 0.003 % |
+| Robusta caffeine | **6.50 pinned** | 6.34 | 0.0002 pp | 0.050 % |
+| Robusta trigonelline | **6.50 pinned** | **62.47** | 0.007 pp | 0.000 % |
+| Robusta 5-CQA | **6.50 pinned** | **143.55** | 0.081 pp | 0.003 % |
+
+- **6 of 6 groups saturate.** A tenfold change in the rate multiplier moves the predicted cup
+  concentration by **< 0.05 %**.
+- **5 of 6** near-optimal sets are still right-censored at the widened cap. The rate is unbounded
+  above even after 77× more room.
+- Robusta trigonelline's optimum relocates **twentyfold** (6.5 → 62.5) for 0.007 pp of fit.
+
+This is the strongest kind of evidence in the paper because it is not a comparison of two numbers
+with overlapping uncertainty — it is a response that has gone flat.
+
+### 3.2 The hydraulic map is the load-bearing channel — the only sign-stable result
+
+`tools/paper_a_information_parity.py`, `tools/paper_a_ablation_refit_stability.py`
+
+| contrast | median | range | folds | sign stable |
+|---|---:|---|---:|---|
+| **M1 − M2** (common map vs target map) | **+0.524 pp** | [+0.288, +0.760] | **9/9 positive** | **yes** |
+| M0 − M2 (freeze rate vs fit it) | −0.205 pp | [−0.535, **+0.010**] | 8/9 negative | no |
+| model − equal-information empirical | −0.187 pp | [−2.249, +0.389] | 8/9 | no |
+| model − level-only constant *(current headline)* | −0.058 pp | [−0.328, +0.416] | 6/9 | no |
+
+Two things follow, and they should govern the redraft:
+
+1. **M1 − M2 is the only contrast in the entire analysis whose sign survives refitting**, and its
+   median exceeds the paper's current headline advantage (0.524 > 0.394).
+2. The current headline is the **least** stable quantity we have.
+
+### 3.3 Fitting the unidentified parameter costs accuracy
+
+| arm | coarse | fine | pooled |
+|---|---:|---:|---:|
+| **M0** inherited rate, level only | 9.640 | 6.922 | **8.281** |
+| M1 fitted rate and level, **common** map | 11.158 | 6.612 | 8.885 |
+| M2 fitted rate and level, target map *(canonical)* | 10.167 | 6.709 | 8.438 |
+
+Refit-aware: **M0 − M2 = −0.205 pp median, negative in 8 of 9 folds**, and the single exception is
+**+0.010 pp** — a dead heat, not a reversal. Widening the rate domain moves this to −0.183 pp, so
+it is not a capping artefact.
+
+**Independent confirmation.** M0's 8.281 % is exactly the value produced last round by a *bug* that
+accidentally omitted the rate multiplier. That bug made the arm rate-free, which is what M0 is by
+construction. Two unrelated code paths, same number.
+
+### 3.4 A two-parameter empirical response matches the whole model
+
+A mechanism-free response in **flow alone** scores **8.408 %** against the mechanistic model's
+8.438 %. This is archived as a **quarantined oracle upper bound** — the form was chosen by its
+held-out score, which is selection on the test set — and may never be quoted as a held-out result.
+
+The frozen-selection version scores 9.670 %, worse, because 73 % of fine-grind residence times fall
+outside the calibration range, 1.6 calibration-spans beyond it. **The gap between 9.670 and 8.408 is
+itself the finding:** nine calibration conditions cannot identify which hydraulic form to trust when
+the target domain is extrapolative.
+
+### 3.5 The design has almost no rate-sensitivity diversity
+
+`PAPER_A_DESIGN_SEPARABILITY.json`
+
+| design | median RSI |
+|---|---:|
+| single condition | 0.0000 |
+| vary temperature only | 0.0005 |
+| vary pressure only | 0.0113 (**21×** temperature) |
+| full 3×3 grid, 9 conditions | 0.0113 |
+| **two extreme corners, 2 conditions** | **0.0131** |
+| **vary collected-mass endpoint (20/40/60 g)** | **0.0252 (2.2× the grid)** |
+
+RSI is ~10⁻² everywhere, never order unity. Two well-chosen conditions beat all nine; the endpoint
+is the strongest lever available.
+
+### 3.6 What was removed from the evidence base
+
+- **Schmieder's "measured complete cups" are not measurements.** 427 of 432 reproduce as the
+  integral of the authors' own exponential fit to the fractions (median difference 0.000032 %
+  against a reported cup RSD of 2.5 %). The measured-cup-versus-fraction contrast is circular and
+  **cannot be run on any corpus we hold**. This kills the previous plan's Stage 1.
+- **Half the corpus never had an identified rate.** All three Robusta groups were boundary-pinned.
+
+---
+
+## 4. Evidential hierarchy for the redraft
+
+The redraft must state claims at the strength the evidence supports, and no higher.
+
+| tier | claim | basis |
+|---|---|---|
+| **A — near-deterministic** | The rate is unidentified; the cup response to it is flat | 6/6 groups, <0.05 % over a decade |
+| **A** | Exact separability identity | algebra, tested |
+| **B — sign-stable under refit** | The target-grind hydraulic map is load-bearing (+0.524 pp) | 9/9 folds |
+| **C — strong but not sign-stable** | Fitting the rate does not improve transfer and usually costs ~0.2 pp | 8/9 folds, exception +0.010 |
+| **C** | A mechanism-free flow response matches the model | oracle bound, quarantined |
+| **D — screen only** | RSI predicts profile width | 5/6 groups, median ρ = −0.61 |
+| **E — do not lead with** | model − constant = −0.394 pp | 6/9 folds, median −0.058 |
+
+---
+
+## 5. What we are **not** claiming
+
+Carried from the frozen assurance layer and the domain referee, plus new ones.
+
+1. **Not** that espresso extraction kinetics are non-identifiable in general — only that *this
+   observation operator* (whole cup at a matched endpoint) cannot see them.
+2. **Not** that whole-cup experiments are useless. §3.5 says varied endpoints or pressures create
+   real sensitivity diversity; a better-designed cup experiment could identify the rate.
+3. **Not** that the fitted multiplier is an intrinsic kinetic constant. It scales inherited Sherwood
+   prefactors and absorbs model discrepancy.
+4. **Not** validation of a physical grind mechanism. Particle geometry is frozen.
+5. **Not** a calibrated interval or equivalence conclusion from nine dependent folds.
+6. **Not** that fitting a parameter is harmful in general — the claim is conditional on the design
+   failing to separate it.
+7. **Symmetry still binds, but its direction has reversed.** The P0 criterion required that no
+   surface establish either that the advantage is real *or* that it is absent. The new thesis is
+   more negative about mechanism, so the live risk is now **over-claiming that fitting is harmful**.
+   `claim_policy.SURFACE_ASSERTIONS` must be **rebuilt around the new propositions**, not patched —
+   the current registry encodes the old symmetry.
+
+---
+
+## 6. Gates before drafting
+
+The previous plan's rule stands and was vindicated: *do not write while results are moving.*
+
+| gate | question | status |
+|---|---|---|
+| **G1** | Is the boundary-pinned rate an artefact? | **PASSED** — saturating degeneracy, 6/6 |
+| **G2** | Is M0 − M2 stable to calibration choice? | **PASSED with a caveat** — 8/9, exception +0.010 |
+| **G3** | Is the saturation numerical or physical? | **OPEN — blocking** |
+| **G4** | Do the load-bearing contrasts survive discretisation and tolerance change? | **OPEN — blocking** |
+| **G5** | Indexed novelty search | **OPEN — cannot be done in this environment** |
+
+### G3 is now the critical path
+
+Two groups report a prediction spread of **exactly 0.000 %** across the top decade. That is
+physically plausible under equilibrium saturation — and indistinguishable from a solver floor
+without an independent numerical path. The numerical-Jacobian overflow warnings live in precisely
+this regime.
+
+**G3 is no longer optional housekeeping. It verifies the paper's central mechanism.** If the
+saturation is a solver artefact, H1 collapses.
+
+Recommended approach (from the previous plan's §9, now urgent): exploit the linear structure. For
+fixed conditions the semi-discrete system is `ẏ = Ay + b` with sparse banded `A`, so an analytical
+Jacobian for BDF and/or a `expm_multiply` reference gives an independent path. Required checks:
+matrix RHS against function RHS state-by-state, analytical against finite-difference
+Jacobian-vector products, global solute balance, and unit-inventory linearity.
+
+**G4** then re-runs the load-bearing contrasts (M1 − M2, M0 − M2, the saturation spread) across
+100/200/400 nodes × 10⁻⁵/10⁻⁶/10⁻⁷ tolerances. Acceptance is tied to the conclusion, not to a
+concentration tolerance: numerical variation must be **much smaller than +0.524 pp**, and must not
+change the saturation verdict.
+
+**G5** cannot be closed here (no Scopus/WoS/Compendex; MDPI and Royal Society Cloudflare-blocked).
+No "first" or "to our knowledge" phrasing may enter the draft until it is closed by someone with
+database access. This is an environment limit, not a task.
+
+---
+
+## 7. Draft plan
+
+### 7.1 Working title
+
+**What a Whole Espresso Cup Cannot See: Equilibrium-Limited Composition, Unidentifiable Kinetics,
+and Hydraulic Transfer**
+
+Alternatives: *"Whole-Cup Espresso Composition Is Inventory-Limited, Not Rate-Limited"*;
+*"Fitting What the Measurement Cannot See"*.
+
+### 7.2 Structure
+
+| § | content | leads with |
+|---|---|---|
+| 1 | Introduction — cup accuracy is routinely read as kinetic validation | the question, not the benchmark |
+| 2 | Model, observation operators, and the exact factorisation | H2 identity |
+| 3 | The design cannot separate the rate | RSI, profiles, **saturation** |
+| 4 | Neither can the fit: the rate is unbounded above | rate-domain check |
+| 5 | Consequence — freezing beats fitting | M0/M1/M2, refit-aware |
+| 6 | What actually transfers: hydraulics | **M1 − M2, the 9/9 result** |
+| 7 | Designing an espresso experiment that *can* see the rate | endpoints, pressure, corners |
+| 8 | Discussion, limits, and what a decisive experiment would measure | |
+
+The cross-grind case becomes §6's demonstration. **−0.394 pp does not appear in the abstract.**
+
+### 7.3 Rules for the draft
+
+1. **No pooled number without its disaggregation on the same page.** The coarse/fine asymmetry sat
+   in the archive for five rounds because a pooled mean was reported alone.
+2. **Every quantitative claim carries its refit-aware stability** where one exists.
+3. **Generated blocks for all headline numbers** — the existing artefact → generator → manuscript
+   chain, with pre-insertion claim scanning.
+4. **Write §§3–6 first**, abstract and conclusions last.
+
+---
+
+## 8. Review plan
+
+Thirteen rounds produced a clear lesson: **reviews of the assurance layer found defects in the
+assurance layer; the one review that asked scientific questions changed the result.** The review
+plan is built around that.
+
+### 8.1 What went wrong before, and the countermeasure
+
+| observed failure | countermeasure |
+|---|---|
+| Load-bearing **premises** were never tested: Angeloni transcription unverified for 12 rounds; Schmieder cups assumed independent; rate domain assumed to bracket the optimum. Each was eventually found, and each was wrong or unchecked. | **Premise audit round (R0) comes first.** Every load-bearing assumption gets an executable, *falsifiable* test before drafting. A test that cannot return the other answer is not a test. |
+| **Pooled numbers hid structure** for multiple rounds. | Disaggregation rule (§7.3.1), enforced by a gate. |
+| **My own new tools shipped bugs through a green chain** — omitted rate multiplier, uncaptioned table, malformed sentence. Gates check claims and numbers, not correctness of new code or English. | Every new producer must **recover a published value by an independent path** before its novel output is trusted. This is what caught the rate-multiplier bug and what confirmed M0. |
+| **Rounds 10–12 hardened gates against hypothetical defects** while the registry was empty. | The freeze holds. Review effort is spent on premises and physics, not on the taxonomy. |
+| **Wording disputes consumed rounds** with no acceptance criterion. | Editorial review is a **separate, single, terminal round** with a closed checklist. Scientific reviewers are asked not to comment on wording. |
+| **Selection-on-test-set nearly reported as a result** (the 8.408 % oracle). | Any number chosen with knowledge of held-out data is archived with a `status` string and tested to stay separated from held-out scores. |
+
+### 8.2 Rounds
+
+| round | reviewer | scope | acceptance criterion |
+|---|---|---|---|
+| **R0** | internal | Premise audit: every assumption in §3 gets a falsifiable test | every premise has a test that can return the opposite verdict |
+| **R1** | numerical / scientific-computing | G3 + G4 only. Is the saturation physical? | independent solver path agrees; contrasts stable across the envelope |
+| **R2** | inverse-problems / parameter-estimation specialist | H2 derivation, RSI scope, profile logic | no local result overextended to a global claim; no Fisher/uncertainty language |
+| **R3** | espresso experimentalist / food-process engineer | H1 and H3 physical plausibility, §7 design guidance | the design recommendations are actionable and not artefacts of one machine |
+| **R4** | skeptical statistical reviewer | Every claim vs its tier in §4 | no claim stated above its tier; all refit-aware caveats present |
+| **R5** | editorial only | Prose, figures, tables, length | closed checklist; **no scientific re-litigation** |
+
+R1 is deliberately first among the external rounds: if G3 fails, R2–R5 are wasted.
+
+### 8.3 Standing questions for every scientific reviewer
+
+1. Which claim in §4 is stated above its tier?
+2. Which premise in §3 would you not have checked, and would it change the conclusion?
+3. Is any refitted quantity described as held out?
+4. Is any local, model-based result described as global or calibrated?
+5. What experiment would falsify H1, and does the paper say so?
+
+### 8.4 Termination rule
+
+A round closes when no finding contradicts §4's tier assignment. **Wording preferences that do not
+violate a tier assignment are editorial and are deferred to R5.** This replaces "no reviewer
+objects", which is unfalsifiable and cost us three rounds.
+
+---
+
+## 9. Risks
+
+| risk | severity | mitigation |
+|---|---|---|
+| **Saturation is numerical, not physical** | **fatal to H1** | G3, blocking, before drafting |
+| M0 − M2 weakens further under a fuller analysis | moderate | claim is already tiered at C ("does not improve", not "harms") |
+| One campaign, one machine, two roasts | inherent | scope every claim to the operator and campaign; H2 is model-general, H1 is not |
+| Novelty overstated | reputational | G5 unclosed ⇒ no "first"/"to our knowledge" language at all |
+| Claim registry encodes the old symmetry | moderate | rebuild `SURFACE_ASSERTIONS` around the new propositions (§5.7) |
+
+---
+
+## 10. Sequence
+
+1. **G3** — independent numerical path; verify or refute saturation. *Blocking.*
+2. **G4** — envelope on M1 − M2, M0 − M2, saturation spread.
+3. **R0** — premise audit; falsifiable test per assumption.
+4. Rebuild the claim registry around H1–H4.
+5. Draft §§3–6, then 7–8, then 1–2, then abstract.
+6. **R1 → R5.**
+7. G5 by whoever has database access; novelty language added only then.
+
+Nothing in steps 4–7 should begin before step 1 returns.
