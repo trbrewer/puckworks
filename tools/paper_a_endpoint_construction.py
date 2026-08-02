@@ -99,7 +99,11 @@ def null_bases(A1):
         "residual_A1_P": float(np.linalg.norm(A1 @ P, 2)),
         "residual_P_A1": float(np.linalg.norm(P @ A1, 2)),
         "cond_N": float(np.linalg.cond(N)), "cond_L": float(np.linalg.cond(L)),
-        "singular_gap": float(s[rank - 1] / s[rank]) if rank < len(s) else float("inf"),
+        # Ratio of the smallest RETAINED singular value to the largest DISCARDED one. This is a
+        # rank-separation diagnostic for the SVD cut; it is NOT the fast spectral decay gap, and the
+        # earlier name "singular_gap" invited exactly that confusion.
+        "svd_rank_separation_ratio": float(s[rank - 1] / s[rank]) if rank < len(s) else float("inf"),
+        "cond_Lt_N_before_normalisation": float(np.linalg.cond(gram)),
     }
     return N, L, P, diagnostics
 
@@ -139,8 +143,12 @@ def cell(solute, T_degC, p_bar) -> dict:
     identities_ok = all(diag[k] < IDENTITY_TOL for k in
                         ("residual_A1_N", "residual_Lt_A1", "residual_Lt_N_minus_I",
                          "residual_P_squared_minus_P", "residual_A1_P", "residual_P_A1"))
-    well_conditioned = diag["cond_N"] < 1e3 and diag["cond_L"] < 1e3
-    ok = identities_ok and well_conditioned and decreasing and converged and method_limited
+    # cond(N)=1 is automatic for an orthonormal SVD basis and is NOT evidence of operator
+    # conditioning; the informative quantities are cond(L) and the pre-normalisation Gram.
+    well_conditioned = diag["cond_L"] < 1e3 and diag["cond_Lt_N_before_normalisation"] < 1e6
+    finite_positive = bool(np.isfinite(f_inf) and f_inf > 0)
+    ok = (identities_ok and well_conditioned and finite_positive
+          and decreasing and converged and method_limited)
 
     return {
         "solute": solute, "T_degC": T_degC, "p_bar": p_bar, "horizon_tc": horizon,
@@ -148,6 +156,7 @@ def cell(solute, T_degC, p_bar) -> dict:
         **diag,
         "identities_within_tolerance": identities_ok,
         "well_conditioned_bases": well_conditioned,
+        "f_inf_finite_and_positive": finite_positive,
         "f_inf": f_inf,
         "verification": seq,
         "errors_decrease_to_minimum": decreasing,
@@ -203,7 +212,10 @@ def run() -> dict:
         "cells": cells,
         "verdict": ("PR03A_LIMIT_CONVERGENCE_ASSURED" if not failed
                     else "PR03A_LIMIT_CONVERGENCE_NOT_ASSURED"),
-        "environment": {"python": platform.python_version(), "numpy": np.__version__},
+        "environment": {"python": platform.python_version(), "numpy": np.__version__,
+                        "scipy": __import__("scipy").__version__},
+        "provenance": {"producer": "tools/paper_a_endpoint_construction.py",
+                       "command": "python tools/paper_a_endpoint_construction.py --write"},
     }
 
 
@@ -228,7 +240,9 @@ def main(argv=None) -> int:
     if args.write:
         OUT.write_text(json.dumps(result, indent=1) + "\n", encoding="utf-8")
         print("wrote %s" % OUT.relative_to(_REPO))
-    return 0 if result["verdict"].endswith("ASSURED") else 1
+    # Exact equality, not endswith: "PR03A_LIMIT_CONVERGENCE_NOT_ASSURED" also ends in "ASSURED",
+    # so the suffix test exited 0 on failure. Every NOT_ASSURED run before this fix reported success.
+    return 0 if result["verdict"] == "PR03A_LIMIT_CONVERGENCE_ASSURED" else 1
 
 
 if __name__ == "__main__":

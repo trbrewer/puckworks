@@ -1,15 +1,15 @@
 {
  "schema_version": 1,
- "premises_closed": [
-  "PR-03",
-  "PR-06"
+ "supersession": "HISTORICAL DIAGNOSTIC. PR-06 now closes from the endpoint producer, not from this archive. PR-03 is split: PR-03a closes via PAPER_A_ENDPOINT_CONSTRUCTION.json and PR-03b is not pursued under the current protocol. This artefact records a full-state bound attempt whose fixed-time proof was NOT repaired; it must not be described as valid-but-loose.",
+ "premises_addressed": [
+  "PR-03b (attempt, not pursued)"
  ],
  "question": "Is there an explicit remainder bound with constants for the large-multiplier limit, and does it hold at every declared condition?",
  "scope_note": "MODEL-ONLY. No campaign chemical outcome is read: no y, J, J_min, J_inf, threshold, profile component, tail classification or shoulder appears here or is computed. Permitted before the P0-G0 freeze on that basis.",
  "contract": {
   "state_norm": "spectral (2-norm) on [c_l, c_s1, c_s2, m_cum]",
   "output": "cup functional m_cum(T)/Vol(T); output norm is absolute value",
-  "horizon": "t in [0, T] with T the matched-endpoint shot time, in units of TC",
+  "horizon": "pointwise at t = T, or uniform on [delta, T] for delta > 0. NOT uniform on [0, T]: at t=0 the error equals Q z0, which does not vanish with kappa, and Q z0 != 0 here. The earlier uniform claim was incompatible with the off-manifold initial state and is withdrawn.",
   "semigroup_bound": "||exp(t A1) Q|| <= M exp(-gamma t), M = cond2(V_fast)",
   "remainder": "||z(t) - z_red(t)|| <= (M/(kappa*gamma)) * [ ||P A0 Q||*||Q A0 P||*T*exp(||P A0 P||*T) + ||Q z0||*(1 + ||P A0 P||*T) ]",
   "propagation_to_J": "the state bound C/kappa maps to the cup output by |f(kappa) - f_inf| <= C/(kappa * Vol(T)), and the exact weighted-median profile is 1-Lipschitz in f on the relative scale, so |J(kappa) - J_inf| <= 100 * max_i (1/y_i) * C/(kappa*Vol(T)). The y-dependent factor is evaluated ONLY inside P0-G8 after activation; it is not computed here."
@@ -1921,17 +1921,9 @@
    ]
   }
  ],
- "verdict": "PR03_BOUND_ESTABLISHED_BUT_NOT_FIT_FOR_PROPAGATION",
+ "verdict": "PR03B_ATTEMPT_SUPERSEDED_NOT_OPERATIVE",
  "environment": {
   "python": "3.13.13",
   "numpy": "2.5.1"
- },
- "fitness_for_purpose": {
-  "verdict": "NOT_FIT_FOR_PROPAGATION",
-  "bound_looseness_median": 48821880831735.836,
-  "bound_looseness_min": 61937405387.66712,
-  "bound_looseness_max": 1.9328532539387257e+19,
-  "reading": "The bound is ESTABLISHED \u2014 index-one structure verified, Lyapunov constants derived, 27 of 27 operator-distinct cells pass, every finite-kappa check holds. It is NOT USABLE for its stated purpose. Protocol V2 requires this bound to propagate into the J_inf interval; at a median looseness of 4.9e+13 the resulting [L_inf, U_inf] would swamp every tolerance and return boundary_indeterminate for all six groups, making P0-G8 vacuous rather than informative. The looseness comes from bounding the slow-fast-slow coupling by a product of separate block operator norms (||P A0 Q|| ~ 8.5e3 times ||Q A0 P|| ~ 4.5e3) instead of tracking the composite operator. A usable bound needs the composite treated directly, or the output functional carried through the derivation rather than bounding the full state first.",
-  "consequence": "PR-03 does not close for P0-G8 purposes; P0-G8 remains blocked."
  }
 }

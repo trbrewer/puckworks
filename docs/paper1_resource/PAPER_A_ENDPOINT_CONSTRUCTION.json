@@ -45,9 +45,11 @@
    "residual_P_A1": 8.393281167589853e-14,
    "cond_N": 1.0000000000000016,
    "cond_L": 2.126571225346236,
-   "singular_gap": 34831716858588.28,
+   "svd_rank_separation_ratio": 34831716858588.28,
+   "cond_Lt_N_before_normalisation": 2.1265712253462357,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.5648928393853675,
    "verification": [
     {
@@ -109,9 +111,11 @@
    "residual_P_A1": 1.1390807958973168e-13,
    "cond_N": 1.0000000000000018,
    "cond_L": 2.1265712253462357,
-   "singular_gap": 38464052534034.836,
+   "svd_rank_separation_ratio": 38464052534034.836,
+   "cond_Lt_N_before_normalisation": 2.1265712253462348,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.6534192990434472,
    "verification": [
     {
@@ -174,9 +178,11 @@
    "residual_P_A1": 1.632889572361241e-13,
    "cond_N": 1.000000000000003,
    "cond_L": 2.126571225346237,
-   "singular_gap": 39090038095491.695,
+   "svd_rank_separation_ratio": 39090038095491.695,
+   "cond_Lt_N_before_normalisation": 2.126571225346236,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.5859095533589531,
    "verification": [
     {
@@ -238,9 +244,11 @@
    "residual_P_A1": 7.41809228425741e-14,
    "cond_N": 1.0000000000000024,
    "cond_L": 2.126571225346236,
-   "singular_gap": 65942724060625.945,
+   "svd_rank_separation_ratio": 65942724060625.945,
+   "cond_Lt_N_before_normalisation": 2.1265712253462343,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.5648928393853735,
    "verification": [
     {
@@ -302,9 +310,11 @@
    "residual_P_A1": 2.3667421799258867e-13,
    "cond_N": 1.0000000000000024,
    "cond_L": 2.126571225346236,
-   "singular_gap": 30006689793335.168,
+   "svd_rank_separation_ratio": 30006689793335.168,
+   "cond_Lt_N_before_normalisation": 2.1265712253462357,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.653419299043384,
    "verification": [
     {
@@ -367,9 +377,11 @@
    "residual_P_A1": 1.7699753164726189e-13,
    "cond_N": 1.0000000000000024,
    "cond_L": 2.1265712253462374,
-   "singular_gap": 25819975039664.66,
+   "svd_rank_separation_ratio": 25819975039664.66,
+   "cond_Lt_N_before_normalisation": 2.126571225346236,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.5859095533589221,
    "verification": [
     {
@@ -431,9 +443,11 @@
    "residual_P_A1": 8.428321891315417e-14,
    "cond_N": 1.000000000000003,
    "cond_L": 2.126571225346237,
-   "singular_gap": 24635412462393.63,
+   "svd_rank_separation_ratio": 24635412462393.63,
+   "cond_Lt_N_before_normalisation": 2.1265712253462357,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.5648928393853693,
    "verification": [
     {
@@ -495,9 +509,11 @@
    "residual_P_A1": 7.064149416306826e-14,
    "cond_N": 1.000000000000002,
    "cond_L": 2.126571225346234,
-   "singular_gap": 49053213030906.26,
+   "svd_rank_separation_ratio": 49053213030906.26,
+   "cond_Lt_N_before_normalisation": 2.126571225346235,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.653419299043399,
    "verification": [
     {
@@ -560,9 +576,11 @@
    "residual_P_A1": 9.789659669466504e-14,
    "cond_N": 1.0000000000000022,
    "cond_L": 2.126571225346234,
-   "singular_gap": 27544793994906.45,
+   "svd_rank_separation_ratio": 27544793994906.45,
+   "cond_Lt_N_before_normalisation": 2.1265712253462365,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.5859095533589409,
    "verification": [
     {
@@ -624,9 +642,11 @@
    "residual_P_A1": 5.2998129377391137e-14,
    "cond_N": 1.000000000000002,
    "cond_L": 2.1265712253462374,
-   "singular_gap": 53801450798575.19,
+   "svd_rank_separation_ratio": 53801450798575.19,
+   "cond_Lt_N_before_normalisation": 2.126571225346237,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.566895295969892,
    "verification": [
     {
@@ -688,9 +708,11 @@
    "residual_P_A1": 1.4870912751141597e-13,
    "cond_N": 1.0000000000000018,
    "cond_L": 2.1265712253462348,
-   "singular_gap": 31817696430464.566,
+   "svd_rank_separation_ratio": 31817696430464.566,
+   "cond_Lt_N_before_normalisation": 2.1265712253462343,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.6573186291202583,
    "verification": [
     {
@@ -753,9 +775,11 @@
    "residual_P_A1": 1.0128417460677034e-13,
    "cond_N": 1.0000000000000027,
    "cond_L": 2.1265712253462383,
-   "singular_gap": 25744828139029.59,
+   "svd_rank_separation_ratio": 25744828139029.59,
+   "cond_Lt_N_before_normalisation": 2.1265712253462365,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.5882829692737865,
    "verification": [
     {
@@ -817,9 +841,11 @@
    "residual_P_A1": 7.010807530071387e-14,
    "cond_N": 1.0000000000000024,
    "cond_L": 2.126571225346235,
-   "singular_gap": 89400673833681.75,
+   "svd_rank_separation_ratio": 89400673833681.75,
+   "cond_Lt_N_before_normalisation": 2.126571225346235,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.5668952959699027,
    "verification": [
     {
@@ -881,9 +907,11 @@
    "residual_P_A1": 3.38899006314268e-13,
    "cond_N": 1.0000000000000024,
    "cond_L": 2.1265712253462334,
-   "singular_gap": 19480009082729.816,
+   "svd_rank_separation_ratio": 19480009082729.816,
+   "cond_Lt_N_before_normalisation": 2.126571225346237,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.6573186291202349,
    "verification": [
     {
@@ -946,9 +974,11 @@
    "residual_P_A1": 1.609569289163135e-13,
    "cond_N": 1.0000000000000022,
    "cond_L": 2.1265712253462357,
-   "singular_gap": 25529294158562.31,
+   "svd_rank_separation_ratio": 25529294158562.31,
+   "cond_Lt_N_before_normalisation": 2.126571225346234,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.588282969273732,
    "verification": [
     {
@@ -1010,9 +1040,11 @@
    "residual_P_A1": 5.335934741107296e-14,
    "cond_N": 1.0000000000000033,
    "cond_L": 2.1265712253462343,
-   "singular_gap": 30163569317970.707,
+   "svd_rank_separation_ratio": 30163569317970.707,
+   "cond_Lt_N_before_normalisation": 2.1265712253462348,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.5668952959699235,
    "verification": [
     {
@@ -1074,9 +1106,11 @@
    "residual_P_A1": 1.3345625200972095e-13,
    "cond_N": 1.0000000000000027,
    "cond_L": 2.126571225346234,
-   "singular_gap": 29156587747010.605,
+   "svd_rank_separation_ratio": 29156587747010.605,
+   "cond_Lt_N_before_normalisation": 2.1265712253462357,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.6573186291202553,
    "verification": [
     {
@@ -1139,9 +1173,11 @@
    "residual_P_A1": 4.533683194946906e-14,
    "cond_N": 1.0000000000000027,
    "cond_L": 2.1265712253462343,
-   "singular_gap": 41317011140549.05,
+   "svd_rank_separation_ratio": 41317011140549.05,
+   "cond_Lt_N_before_normalisation": 2.126571225346237,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.5882829692737648,
    "verification": [
     {
@@ -1203,9 +1239,11 @@
    "residual_P_A1": 7.089466999201538e-14,
    "cond_N": 1.0000000000000027,
    "cond_L": 2.1265712253462374,
-   "singular_gap": 38543253089130.84,
+   "svd_rank_separation_ratio": 38543253089130.84,
+   "cond_Lt_N_before_normalisation": 2.126571225346238,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.5632558200559413,
    "verification": [
     {
@@ -1267,9 +1305,11 @@
    "residual_P_A1": 5.265730028137582e-14,
    "cond_N": 1.0000000000000018,
    "cond_L": 2.126571225346236,
-   "singular_gap": 103036005870237.64,
+   "svd_rank_separation_ratio": 103036005870237.64,
+   "cond_Lt_N_before_normalisation": 2.1265712253462334,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.6502387050104786,
    "verification": [
     {
@@ -1332,9 +1372,11 @@
    "residual_P_A1": 5.038255500153817e-14,
    "cond_N": 1.0000000000000024,
    "cond_L": 2.126571225346239,
-   "singular_gap": 70990184492302.34,
+   "svd_rank_separation_ratio": 70990184492302.34,
+   "cond_Lt_N_before_normalisation": 2.1265712253462374,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.5839698519038827,
    "verification": [
     {
@@ -1396,9 +1438,11 @@
    "residual_P_A1": 8.44198861716895e-14,
    "cond_N": 1.000000000000003,
    "cond_L": 2.1265712253462343,
-   "singular_gap": 45266667309300.375,
+   "svd_rank_separation_ratio": 45266667309300.375,
+   "cond_Lt_N_before_normalisation": 2.126571225346236,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.5632558200559199,
    "verification": [
     {
@@ -1460,9 +1504,11 @@
    "residual_P_A1": 8.533076595894652e-14,
    "cond_N": 1.000000000000002,
    "cond_L": 2.126571225346238,
-   "singular_gap": 58789994766092.77,
+   "svd_rank_separation_ratio": 58789994766092.77,
+   "cond_Lt_N_before_normalisation": 2.1265712253462365,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.6502387050104843,
    "verification": [
     {
@@ -1525,9 +1571,11 @@
    "residual_P_A1": 5.339981475378086e-14,
    "cond_N": 1.000000000000002,
    "cond_L": 2.1265712253462343,
-   "singular_gap": 55993038862735.4,
+   "svd_rank_separation_ratio": 55993038862735.4,
+   "cond_Lt_N_before_normalisation": 2.126571225346235,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.5839698519039073,
    "verification": [
     {
@@ -1589,9 +1637,11 @@
    "residual_P_A1": 2.6606105183925107e-13,
    "cond_N": 1.0000000000000027,
    "cond_L": 2.1265712253462383,
-   "singular_gap": 19161910679530.395,
+   "svd_rank_separation_ratio": 19161910679530.395,
+   "cond_Lt_N_before_normalisation": 2.126571225346238,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.563255820055932,
    "verification": [
     {
@@ -1653,9 +1703,11 @@
    "residual_P_A1": 6.907387153675419e-14,
    "cond_N": 1.0000000000000029,
    "cond_L": 2.1265712253462357,
-   "singular_gap": 94709872619003.14,
+   "svd_rank_separation_ratio": 94709872619003.14,
+   "cond_Lt_N_before_normalisation": 2.1265712253462365,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.6502387050104929,
    "verification": [
     {
@@ -1718,9 +1770,11 @@
    "residual_P_A1": 1.5946430130955703e-13,
    "cond_N": 1.0000000000000018,
    "cond_L": 2.1265712253462383,
-   "singular_gap": 38001111702965.53,
+   "svd_rank_separation_ratio": 38001111702965.53,
+   "cond_Lt_N_before_normalisation": 2.1265712253462365,
    "identities_within_tolerance": true,
    "well_conditioned_bases": true,
+   "f_inf_finite_and_positive": true,
    "f_inf": 0.5839698519038679,
    "verification": [
     {
@@ -1767,6 +1821,11 @@
  "verdict": "PR03A_LIMIT_CONVERGENCE_ASSURED",
  "environment": {
   "python": "3.13.13",
-  "numpy": "2.5.1"
+  "numpy": "2.5.1",
+  "scipy": "1.18.0"
+ },
+ "provenance": {
+  "producer": "tools/paper_a_endpoint_construction.py",
+  "command": "python tools/paper_a_endpoint_construction.py --write"
  }
 }

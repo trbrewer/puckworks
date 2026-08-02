@@ -439,22 +439,24 @@ def test_premise_blocking_is_gate_scoped(manifest):
             % [r["premise_id"] for r in pre_freeze_open])
 
 
-def test_a_bound_that_cannot_serve_its_purpose_is_not_reported_as_closed():
-    """PR-03's bound holds everywhere and is still ~5e13 too loose to propagate into J_inf.
+def test_the_superseded_full_state_bound_is_not_operative():
+    """It must not be cited as "valid but loose": its fixed-time proof was never repaired.
 
-    Reporting "established" without "not fit for purpose" would be the assurance-overclaim pattern
-    this programme has repeatedly had to correct.
+    The contract asserted a uniform bound on [0, T] together with an off-manifold initial state,
+    and those are incompatible — at t = 0 the error equals Q z0, which does not vanish with kappa.
+    The archive is retained as a historical attempt with a non-operative verdict.
     """
     data = json.loads((REPO / "docs" / "paper1_resource"
                        / "PAPER_A_SINGULAR_LIMIT_BOUND.json").read_text(encoding="utf-8"))
-    fitness = data["fitness_for_purpose"]
-    assert fitness["verdict"] == "NOT_FIT_FOR_PROPAGATION"
-    assert data["verdict"].endswith("NOT_FIT_FOR_PROPAGATION")
+    assert data["verdict"] == "PR03B_ATTEMPT_SUPERSEDED_NOT_OPERATIVE"
+    assert "must not be described as valid-but-loose" in data["supersession"]
+    assert "NOT uniform on [0, T]" in data["contract"]["horizon"]
 
     audit = json.loads((REPO / "docs" / "paper1_resource"
                         / "PAPER_A_PRE_FREEZE_PREMISE_AUDIT_R0A.json").read_text(encoding="utf-8"))
     pr03b = next(p for p in audit["premises"] if p["premise_id"] == "PR-03b")
-    assert pr03b["disposition"] == "NOT-ATTEMPTED"
+    assert pr03b["disposition"] == "NOT-PURSUED-CURRENT-PROTOCOL"
+    assert pr03b["blocks_before"] == []
 
 
 def test_pr06_covers_every_declared_cell():

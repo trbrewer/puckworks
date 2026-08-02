@@ -12,7 +12,10 @@ This module derives and verifies an explicit bound with constants.
 
 * state norm: spectral (2-)norm on the reduced state `z = [c_l, c_s1, c_s2, m_cum]`
 * output: the cup functional `m_cum(T)/Vol(T)`; output norm is absolute value
-* horizon: `t ∈ [0, T]` with `T` the matched-endpoint shot time at that condition, in units of `TC`
+* horizon: **pointwise at the fixed endpoint `t = T`**, or uniform on `[δ, T]` for `δ > 0`.
+  **NOT uniform on `[0, T]`.** At `t = 0` the error is `z_κ(0) − P z₀ = Q z₀`, which does not tend to
+  zero with κ, and `Q z₀ ≠ 0` here. The earlier contract asserted both a `[0, T]` horizon and an
+  off-manifold initial state; those are incompatible and the uniform claim is withdrawn.
 
 **Decomposition.** `A₁` must be *index one* — its zero eigenvalue semisimple — or the slow manifold
 is not `ker(A₁)` and the construction is invalid. Verified as `rank(A₁) = rank(A₁²)`. Spectral
@@ -247,7 +250,12 @@ def run() -> dict:
 
     return {
         "schema_version": 1,
-        "premises_closed": ["PR-03", "PR-06"],
+        "supersession": ("HISTORICAL DIAGNOSTIC. PR-06 now closes from the endpoint producer, not from "
+                         "this archive. PR-03 is split: PR-03a closes via PAPER_A_ENDPOINT_CONSTRUCTION.json "
+                         "and PR-03b is not pursued under the current protocol. This artefact records a "
+                         "full-state bound attempt whose fixed-time proof was NOT repaired; it must not be "
+                         "described as valid-but-loose."),
+        "premises_addressed": ["PR-03b (attempt, not pursued)"],
         "question": ("Is there an explicit remainder bound with constants for the large-multiplier "
                      "limit, and does it hold at every declared condition?"),
         "scope_note": ("MODEL-ONLY. No campaign chemical outcome is read: no y, J, J_min, J_inf, "
@@ -256,7 +264,10 @@ def run() -> dict:
         "contract": {
             "state_norm": "spectral (2-norm) on [c_l, c_s1, c_s2, m_cum]",
             "output": "cup functional m_cum(T)/Vol(T); output norm is absolute value",
-            "horizon": "t in [0, T] with T the matched-endpoint shot time, in units of TC",
+            "horizon": ("pointwise at t = T, or uniform on [delta, T] for delta > 0. NOT uniform on [0, T]: "
+                        "at t=0 the error equals Q z0, which does not vanish with kappa, and Q z0 != 0 "
+                        "here. The earlier uniform claim was incompatible with the off-manifold "
+                        "initial state and is withdrawn."),
             "semigroup_bound": "||exp(t A1) Q|| <= M exp(-gamma t), M = cond2(V_fast)",
             "remainder": ("||z(t) - z_red(t)|| <= (M/(kappa*gamma)) * "
                           "[ ||P A0 Q||*||Q A0 P||*T*exp(||P A0 P||*T) + ||Q z0||*(1 + ||P A0 P||*T) ]"),
@@ -281,7 +292,7 @@ def run() -> dict:
             "cells_failing": len(failed),
         },
         "cells": cells,
-        "verdict": "PR03_BOUND_ESTABLISHED" if not failed else "PR03_BOUND_FAILED",
+        "verdict": "PR03B_ATTEMPT_SUPERSEDED_NOT_OPERATIVE",
         "environment": {"python": platform.python_version(), "numpy": np.__version__},
     }
 

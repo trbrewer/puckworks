@@ -56,23 +56,23 @@
    "premise_id": "PR-03b",
    "premise": "a sharp output-functional bound localises a finite tail onset kappa_tail",
    "type": "algebraic",
-   "disposition": "NOT-ATTEMPTED",
-   "resolution_stage": "within_gate",
+   "disposition": "NOT-PURSUED-CURRENT-PROTOCOL",
+   "resolution_stage": "scoped",
    "blocks_before": [],
-   "evidence": "One derivation cycle is authorised and has NOT been run. The existing full-state bound (PAPER_A_SINGULAR_LIMIT_BOUND.json) is valid but ~4.9e13 too loose to localise an onset. Per the adjudication this does NOT block P0-G0 once PR-03a is assured; the correct outcome without it is tail_onset_unresolved.",
+   "evidence": "Not required for P0-G0 or the central P0-G8 classification. Under the WIDE-referenced endpoint architecture the threshold is referenced to J_ref on the resolved finite domain, so no sharp finite-tail bound is needed. tail_onset_status is unresolved_by_design. A future sharp derivation may only enter as a separately versioned pre-result amendment or as a supplemental study that cannot upgrade the frozen same-campaign primary claim; it must not be selected after seeing the endpoint classifications.",
    "evidence_path": "docs/paper1_resource/PAPER_A_SINGULAR_LIMIT_BOUND.json",
    "affected": [
     "P0-G8 tail onset only"
    ],
-   "failure_consequence": "no numerical kappa_tail; endpoint result unaffected"
+   "failure_consequence": "no numerical finite tail onset is reported; endpoint result unaffected"
   },
   {
    "premise_id": "PR-04",
    "premise": "the MAPE level minimiser is the weighted median of y_i/f_i with weights f_i/y_i",
    "type": "algebraic",
-   "disposition": "implemented-not-proved",
-   "evidence": "production uses it; formal proposition owed under P0-G6",
-   "evidence_path": "puckworks/validation/slow/angeloni_bracket.py::_mape_level",
+   "disposition": "assured",
+   "evidence": "Proposition stated and property-tested against a direct convex reference: the minimiser set is the weighted-median interval and the objective is EXACTLY constant on it, so tie width is inventory-level information and cannot enter a J error budget. Also established that the minimiser is generically UNIQUE here, because w_i = 1/r_i couples weight to ratio; a tie needs n_a/r_a = n_b/r_b and is constructed explicitly. Continuity as f -> f_inf verified, which is what makes the endpoint comparison meaningful. 31 tests.",
+   "evidence_path": "tests/test_paper_a_weighted_median_profile.py",
    "affected": [
     "P0-G6",
     "P0-G8"
@@ -261,13 +261,13 @@
  ],
  "summary": {
   "total": 16,
-  "assured": 9,
+  "assured": 10,
   "partially_assured": 1,
   "open_blocking": 1,
-  "not_attempted": 1,
+  "not_pursued": 1,
   "open_scoped": 2,
   "open_blocked_external": 1
  },
  "verdict": "R0a_COMPLETE_BLOCKING_ITEMS_REMAIN",
- "reading": "PR-03 is SPLIT per the adjudication. PR-03a is ASSURED: a stable null-basis endpoint converges at all 54 declared cells, so the P0-G8 endpoint classification has a trustworthy f_inf and no finite-kappa remainder belongs in its budget. PR-03b is NOT ATTEMPTED -- one cycle is authorised and unused -- so the tail onset is unresolved, which does not block P0-G0. PR-06 is assured. PR-09 and PR-15 are gate-scoped to P0-G9 and P0-G10. P0-G0 remains open because the Protocol V2 endpoint/tail split, PR-04, PR-07 staging and the PR-09 rule are not yet implemented."
+ "reading": "PR-03 is SPLIT per the adjudication. PR-03a is ASSURED: a stable null-basis endpoint converges at all 54 declared cells, so the P0-G8 endpoint classification has a trustworthy f_inf and no finite-kappa remainder belongs in its budget. PR-03b is NOT PURSUED under the current protocol: the WIDE-referenced architecture removes the need for a sharp finite-tail bound, and tail_onset_status is unresolved_by_design. PR-06 is assured. PR-09 and PR-15 are gate-scoped to P0-G9 and P0-G10. P0-G0 remains open because the Protocol V2 endpoint/tail split, PR-04, PR-07 staging and the PR-09 rule are not yet implemented."
 }

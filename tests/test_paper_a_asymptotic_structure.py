@@ -120,8 +120,8 @@ def test_the_remainder_bound_is_recorded_as_still_owed():
     ids = {p["premise_id"]: p for p in audit["premises"]}
     assert ids["PR-03a"]["disposition"] == "assured", (
         "the stable null-basis endpoint converges at every declared cell")
-    assert ids["PR-03b"]["disposition"] == "NOT-ATTEMPTED", (
-        "one derivation cycle is authorised and unused; the honest state is not-attempted, and the "
-        "correct P0-G8 outcome without it is tail_onset_unresolved")
+    assert ids["PR-03b"]["disposition"] == "NOT-PURSUED-CURRENT-PROTOCOL", (
+        "the WIDE-referenced architecture removes the need for a sharp finite-tail bound; "
+        "tail_onset_status is unresolved_by_design")
     assert ids["PR-03b"]["blocks_before"] == [], (
         "a missing tail onset must not block P0-G0 once PR-03a is assured")
