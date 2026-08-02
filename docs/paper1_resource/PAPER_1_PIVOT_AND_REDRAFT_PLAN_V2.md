@@ -1,5 +1,14 @@
 # Paper 1 — pivot and redraft plan, revision 2
 
+> [!WARNING]
+> **SUPERSEDED AND NOT OPERATIVE.** Reviewed in `PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_REVIEW_20260801.md`,
+> which found that this revision fixed v1's scientific overclaims and then failed on internal
+> consistency: stale gate ids colliding with its own new scheme, a sequence contradicting its own
+> drafting rule, a gate depending on the manuscript it forbade writing, and an implication from
+> response saturation to profile localisation that the mathematics does not support. Use
+> **`PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_1.md`**. Retained only for the audit trail.
+
+
 **Prepared:** 1 August 2026
 **Supersedes:** `PAPER_1_PIVOT_AND_REDRAFT_PLAN.md` (v1), which is retained for the audit trail but
 is **not operative**
