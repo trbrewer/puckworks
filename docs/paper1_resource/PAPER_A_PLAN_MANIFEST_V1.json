@@ -6,8 +6,7 @@
   "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN.md",
   "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2.md",
   "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_1.md",
-  "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2.md",
-  "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2_1.md"
+  "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2.md"
  ],
  "gates": {
   "NUM-TIME-01": {
@@ -255,6 +254,7 @@
   "docs/paper1_resource/PAPER_A_REFIT_AWARE_COMPARISON.json",
   "docs/paper1_resource/PAPER_A_ROUND10_NUMERICAL_INVARIANTS.json",
   "docs/paper1_resource/PAPER_A_SATURATION_VERIFICATION.json",
+  "docs/paper1_resource/PAPER_A_SINGULAR_LIMIT_BOUND.json",
   "docs/paper1_resource/PAPER_A_SOLVER_CONTRACT_AUDIT.json",
   "docs/paper1_resource/PAPER_A_TABLE7_UNITS_AUDIT.md",
   "docs/paper1_resource/PAPER_A_TRANSFER_CORPUS_CONTRACTS.json",
@@ -287,6 +287,7 @@
   "tools/paper_a_references.py",
   "tools/paper_a_refit_aware_comparison.py",
   "tools/paper_a_saturation_verification.py",
+  "tools/paper_a_singular_limit_bound.py",
   "tools/paper_a_supplement.py",
   "tools/paper_a_transfer_artifacts.py",
   "tools/paper_a_transfer_text.py",
@@ -310,6 +311,7 @@
   "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2.md",
   "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2_REVIEW_20260802.md",
   "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_REVIEW_20260801.md",
+  "docs/paper1_resource/PAPER_1_PR224_PRE_FREEZE_CLOSURE_AUTHORIZATION_20260802.md",
   "docs/paper1_resource/PAPER_1_REVIEW_ACTION_PLAN.md",
   "docs/paper1_resource/PAPER_1_REVIEW_BRIEF_ROUND_10.md",
   "docs/paper1_resource/PAPER_1_REVIEW_BRIEF_ROUND_11.md",
@@ -443,6 +445,10 @@
   {
    "path": "puckworks/paper_a/__init__.py",
    "reason": "package marker; no claims"
+  },
+  {
+   "path": "docs/paper1_resource/PAPER_1_P0_G0_PROTOCOL_FREEZE_DECISION_20260802 (1).md",
+   "reason": "byte-identical duplicate download of the adjudication; kept only so discovery stays exhaustive"
   }
  ],
  "review_rounds": [

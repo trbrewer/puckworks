@@ -1,0 +1,1937 @@
+{
+ "schema_version": 1,
+ "premises_closed": [
+  "PR-03",
+  "PR-06"
+ ],
+ "question": "Is there an explicit remainder bound with constants for the large-multiplier limit, and does it hold at every declared condition?",
+ "scope_note": "MODEL-ONLY. No campaign chemical outcome is read: no y, J, J_min, J_inf, threshold, profile component, tail classification or shoulder appears here or is computed. Permitted before the P0-G0 freeze on that basis.",
+ "contract": {
+  "state_norm": "spectral (2-norm) on [c_l, c_s1, c_s2, m_cum]",
+  "output": "cup functional m_cum(T)/Vol(T); output norm is absolute value",
+  "horizon": "t in [0, T] with T the matched-endpoint shot time, in units of TC",
+  "semigroup_bound": "||exp(t A1) Q|| <= M exp(-gamma t), M = cond2(V_fast)",
+  "remainder": "||z(t) - z_red(t)|| <= (M/(kappa*gamma)) * [ ||P A0 Q||*||Q A0 P||*T*exp(||P A0 P||*T) + ||Q z0||*(1 + ||P A0 P||*T) ]",
+  "propagation_to_J": "the state bound C/kappa maps to the cup output by |f(kappa) - f_inf| <= C/(kappa * Vol(T)), and the exact weighted-median profile is 1-Lipschitz in f on the relative scale, so |J(kappa) - J_inf| <= 100 * max_i (1/y_i) * C/(kappa*Vol(T)). The y-dependent factor is evaluated ONLY inside P0-G8 after activation; it is not computed here."
+ },
+ "verification_sequence": [
+  100.0,
+  1000.0,
+  10000.0
+ ],
+ "coverage": {
+  "conditions": 9,
+  "solutes": 3,
+  "varieties": 2,
+  "declared_cells": 54,
+  "operator_distinct_cells": 27,
+  "deduplication_proof": "the pencil depends on (T, p, solute) only; variety enters solely through the measured concentrations y, which this module never reads. Each computed cell therefore covers both varieties, and the declared 54-cell coverage is complete.",
+  "cells_passing": 27,
+  "cells_failing": 0
+ },
+ "cells": [
+  {
+   "solute": "caffeine",
+   "T_degC": 93.4,
+   "p_bar": 9.0,
+   "horizon_tc": 0.6666666666666666,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 6.278284529531322e-12,
+   "projector_commutation_residual": 2.0181417918049353e-06,
+   "gamma": 1.923137759998006,
+   "M_analytic": 7.569836068155988,
+   "M_sampled_envelope": 2.126571225346235,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 8466.559245450082,
+   "norm_Q_A0_P": 4534.666561670885,
+   "norm_P_A0_P": 4740.7938121323905,
+   "initial_layer_norm": 2.983217020665366,
+   "remainder_constant_C_state": 2145847907.5164802,
+   "remainder_constant_C_output": 52573273.73415377,
+   "f_inf": 0.5648928351122696,
+   "slow_semigroup_norm_G": 21.299124562412693,
+   "spectral_abscissa": 1.9231377599980062,
+   "cond_eigenvector_matrix": 45605819905.40014,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.126571225346235,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 7.599547666048423e-06,
+     "output_bound": 525732.7373415377,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 69179477574.73647,
+     "state_error": 0.0013888720747420593,
+     "state_bound": 21458479.075164802,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 4.276464182773054e-09,
+     "output_bound": 52573.27373415377,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 12293631254047.559,
+     "state_error": 1.9897772101486373e-05,
+     "state_bound": 2145847.9075164804,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 4.303975398300963e-09,
+     "output_bound": 5257.327373415377,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 1221504977814.4082,
+     "state_error": 1.9897757665193093e-05,
+     "state_bound": 214584.79075164802,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    1777.063,
+    0.994
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  },
+  {
+   "solute": "trigonelline",
+   "T_degC": 93.4,
+   "p_bar": 9.0,
+   "horizon_tc": 0.6666666666666666,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 6.900056214299384e-12,
+   "projector_commutation_residual": 6.508899565467758e-11,
+   "gamma": 3.68476580044542,
+   "M_analytic": 5.095790191113089,
+   "M_sampled_envelope": 2.126571225346235,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 8798.583043506835,
+   "norm_Q_A0_P": 5673.932886570022,
+   "norm_P_A0_P": 6872.750369407436,
+   "initial_layer_norm": 2.983217020665366,
+   "remainder_constant_C_state": 980401112.2439432,
+   "remainder_constant_C_output": 24019827.24997661,
+   "f_inf": 0.6534192990434493,
+   "slow_semigroup_norm_G": 21.30082542348213,
+   "spectral_abscissa": 3.6847658004454202,
+   "cond_eigenvector_matrix": 1795631.2654893526,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.126571225346235,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 1.0811351813799774e-12,
+     "output_bound": 240198.27249976608,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 2.2217228394433834e+17,
+     "state_error": 1.3400112075770447e-10,
+     "state_bound": 9804011.122439433,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 1.0463518940184713e-11,
+     "output_bound": 24019.82724997661,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 2295578321909415.5,
+     "state_error": 4.431049456655571e-10,
+     "state_bound": 980401.1122439433,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 1.0731948663078583e-10,
+     "output_bound": 2401.982724997661,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 22381608414334.555,
+     "state_error": 4.380525739490166e-09,
+     "state_bound": 98040.11122439432,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    0.103,
+    0.097
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  },
+  {
+   "solute": "5CQA",
+   "T_degC": 93.4,
+   "p_bar": 9.0,
+   "horizon_tc": 0.6666666666666666,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 3.4586263323777e-11,
+   "projector_commutation_residual": 1.9570395173686233e-08,
+   "gamma": 2.3264075801793975,
+   "M_analytic": 6.467340077764877,
+   "M_sampled_envelope": 2.1265712253462348,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 8501.779076597604,
+   "norm_Q_A0_P": 4889.795952929837,
+   "norm_P_A0_P": 5303.091522236934,
+   "initial_layer_norm": 2.983217020665365,
+   "remainder_constant_C_state": 1641021582.5692375,
+   "remainder_constant_C_output": 40205028.77294632,
+   "f_inf": 0.5859095534650233,
+   "slow_semigroup_norm_G": 21.29928656478565,
+   "spectral_abscissa": 2.3264075801793975,
+   "cond_eigenvector_matrix": 754660639.668705,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.1265712253462348,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 2.1278255157852755e-08,
+     "output_bound": 402050.2877294632,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 18894889865115.95,
+     "state_error": 4.506050820854437e-06,
+     "state_bound": 16410215.825692374,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 1.1196621407805196e-10,
+     "output_bound": 40205.02877294632,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 359081791806582.7,
+     "state_error": 1.1333881371933655e-07,
+     "state_bound": 1641021.5825692376,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 1.655631187702511e-10,
+     "output_bound": 4020.502877294632,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 24283807330748.645,
+     "state_error": 1.1349330844004214e-07,
+     "state_bound": 164102.15825692375,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    190.042,
+    0.676
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  },
+  {
+   "solute": "caffeine",
+   "T_degC": 93.4,
+   "p_bar": 6.0,
+   "horizon_tc": 0.4209199747952112,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 2.0572027468058997e-10,
+   "projector_commutation_residual": 3.5742852723814227e-09,
+   "gamma": 3.2335665012876342,
+   "M_analytic": 6.504692548501209,
+   "M_sampled_envelope": 2.1265712253462348,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 13409.610274932424,
+   "norm_Q_A0_P": 7182.151529851107,
+   "norm_P_A0_P": 7508.622526407618,
+   "initial_layer_norm": 2.983217020665365,
+   "remainder_constant_C_state": 1736908805.5024471,
+   "remainder_constant_C_output": 42554265.73480996,
+   "f_inf": 0.5648928393567364,
+   "slow_semigroup_norm_G": 21.29912444466816,
+   "spectral_abscissa": 3.233566501287634,
+   "cond_eigenvector_matrix": 144830252.9208898,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.1265712253462348,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 6.535562046994237e-06,
+     "output_bound": 425542.6573480996,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 65111868617.91182,
+     "state_error": 0.0012122842040515282,
+     "state_bound": 17369088.05502447,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 2.961908496246224e-11,
+     "output_bound": 42554.26573480996,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 1436717771286355.8,
+     "state_error": 3.3586162854667804e-08,
+     "state_bound": 1736908.805502447,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 3.872102638524666e-11,
+     "output_bound": 4255.426573480996,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 109899632596061.11,
+     "state_error": 3.361005090411881e-08,
+     "state_bound": 173690.8805502447,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    220653.746,
+    0.765
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  },
+  {
+   "solute": "trigonelline",
+   "T_degC": 93.4,
+   "p_bar": 6.0,
+   "horizon_tc": 0.4209199747952112,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 1.3010365158686183e-11,
+   "projector_commutation_residual": 1.9267888663921529e-10,
+   "gamma": 5.250322465560496,
+   "M_analytic": 4.478902452181429,
+   "M_sampled_envelope": 2.126571225346235,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 13935.480329387594,
+   "norm_Q_A0_P": 8986.558374240618,
+   "norm_P_A0_P": 10885.284267713963,
+   "initial_layer_norm": 2.983217020665366,
+   "remainder_constant_C_state": 957848807.3808415,
+   "remainder_constant_C_output": 23467295.780830618,
+   "f_inf": 0.6534192990432428,
+   "slow_semigroup_norm_G": 21.30082542348758,
+   "spectral_abscissa": 5.250322465560496,
+   "cond_eigenvector_matrix": 122838.11693420484,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.126571225346235,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 5.497824417943775e-13,
+     "output_bound": 234672.95780830618,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 4.2684694884467686e+17,
+     "state_error": 2.1438691138946952e-10,
+     "state_bound": 9578488.073808415,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 4.798272890127464e-12,
+     "output_bound": 23467.295780830616,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 4890779728079871.0,
+     "state_error": 2.9020840700236547e-10,
+     "state_bound": 957848.8073808415,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 4.699196587409915e-11,
+     "output_bound": 2346.729578083062,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 49938953062113.18,
+     "state_error": 1.9312712830997353e-09,
+     "state_bound": 95784.88073808415,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    0.115,
+    0.102
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  },
+  {
+   "solute": "5CQA",
+   "T_degC": 93.4,
+   "p_bar": 6.0,
+   "horizon_tc": 0.4209199747952112,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 2.252397730103625e-12,
+   "projector_commutation_residual": 5.1547968908929375e-11,
+   "gamma": 3.3919336824189594,
+   "M_analytic": 5.6011811149451365,
+   "M_sampled_envelope": 2.126571225346235,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 13465.392610771249,
+   "norm_Q_A0_P": 7744.616943467802,
+   "norm_P_A0_P": 8399.207830727284,
+   "initial_layer_norm": 2.983217020665366,
+   "remainder_constant_C_state": 1543888205.5641465,
+   "remainder_constant_C_output": 37825261.03632159,
+   "f_inf": 0.5859095533577285,
+   "slow_semigroup_norm_G": 21.299286573602213,
+   "spectral_abscissa": 3.3919336824189594,
+   "cond_eigenvector_matrix": 2308293.850065927,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.126571225346235,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 9.154386493293032e-08,
+     "output_bound": 378252.6103632159,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 4131927471495.1455,
+     "state_error": 1.8405477666527935e-05,
+     "state_bound": 15438882.055641465,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 5.972666805575955e-12,
+     "output_bound": 37825.261036321586,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 6333060635662570.0,
+     "state_error": 3.850467687783077e-10,
+     "state_bound": 1543888.2055641466,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 4.836742117930726e-11,
+     "output_bound": 3782.526103632159,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 78204006155499.03,
+     "state_error": 2.0022112983409386e-09,
+     "state_bound": 154388.82055641466,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    15327.134,
+    0.123
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  },
+  {
+   "solute": "caffeine",
+   "T_degC": 93.4,
+   "p_bar": 12.0,
+   "horizon_tc": 0.8697916666666662,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 2.010914510586026e-11,
+   "projector_commutation_residual": 1.4559436005762374e-07,
+   "gamma": 1.4239280603599376,
+   "M_analytic": 8.297373552210523,
+   "M_sampled_envelope": 2.1265712253462357,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 6489.338809814939,
+   "norm_Q_A0_P": 3475.6725737395973,
+   "norm_P_A0_P": 3633.662319039342,
+   "initial_layer_norm": 2.983217020665366,
+   "remainder_constant_C_state": 2434831788.506134,
+   "remainder_constant_C_output": 59653378.818400286,
+   "f_inf": 0.5648928385666403,
+   "slow_semigroup_norm_G": 21.29912444495808,
+   "spectral_abscissa": 1.4239280603599376,
+   "cond_eigenvector_matrix": 29110016636.921185,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.1265712253462357,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 8.615846412984851e-06,
+     "output_bound": 596533.7881840029,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 69236817787.8581,
+     "state_error": 0.001555578114835298,
+     "state_bound": 24348317.88506134,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 8.150781161120335e-10,
+     "output_bound": 59653.378818400284,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 73187314981477.0,
+     "state_error": 1.441365474367489e-06,
+     "state_bound": 2434831.788506134,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 7.822618108832557e-10,
+     "output_bound": 5965.337881840029,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 7625756235120.996,
+     "state_error": 1.4413632028826477e-06,
+     "state_bound": 243483.1788506134,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    10570.578,
+    1.042
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  },
+  {
+   "solute": "trigonelline",
+   "T_degC": 93.4,
+   "p_bar": 12.0,
+   "horizon_tc": 0.8697916666666662,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 6.352146906826117e-12,
+   "projector_commutation_residual": 1.905112976148416e-10,
+   "gamma": 3.0024092102018876,
+   "M_analytic": 5.523638408070873,
+   "M_sampled_envelope": 2.126571225346235,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 6743.824129154097,
+   "norm_Q_A0_P": 4348.882691501233,
+   "norm_P_A0_P": 5267.7368100865115,
+   "initial_layer_norm": 2.983217020665366,
+   "remainder_constant_C_state": 999657007.3442265,
+   "remainder_constant_C_output": 24491596.679933548,
+   "f_inf": 0.653419299043704,
+   "slow_semigroup_norm_G": 21.30082542347291,
+   "spectral_abscissa": 3.0024092102018876,
+   "cond_eigenvector_matrix": 3135925.5005839127,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.126571225346235,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 3.7114755713218983e-13,
+     "output_bound": 244915.96679933547,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 6.598883977353108e+17,
+     "state_error": 4.711286221334776e-10,
+     "state_bound": 9996570.073442265,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 6.725509038574273e-12,
+     "output_bound": 24491.596679933547,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 3641597467115362.0,
+     "state_error": 5.492306045741613e-10,
+     "state_bound": 999657.0073442265,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 6.563372068058015e-11,
+     "output_bound": 2449.159667993355,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 37315569536468.734,
+     "state_error": 2.72963799823325e-09,
+     "state_bound": 99965.70073442264,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    0.055,
+    0.102
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  },
+  {
+   "solute": "5CQA",
+   "T_degC": 93.4,
+   "p_bar": 12.0,
+   "horizon_tc": 0.8697916666666662,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 6.959148210842459e-11,
+   "projector_commutation_residual": 4.916560033075865e-08,
+   "gamma": 1.8705549600408922,
+   "M_analytic": 7.064096625602912,
+   "M_sampled_envelope": 2.126571225346235,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 6516.333665022274,
+   "norm_Q_A0_P": 3747.8675567709993,
+   "norm_P_A0_P": 4064.6449996642114,
+   "initial_layer_norm": 2.983217020665366,
+   "remainder_constant_C_state": 1708653776.25734,
+   "remainder_constant_C_output": 41862017.51830483,
+   "f_inf": 0.5859095532661093,
+   "slow_semigroup_norm_G": 21.299286587555166,
+   "spectral_abscissa": 1.8705549600408926,
+   "cond_eigenvector_matrix": 4642066156.310056,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.126571225346235,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 9.080541318873259e-09,
+     "output_bound": 418620.1751830483,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 46100795148960.56,
+     "state_error": 2.0426145460117794e-06,
+     "state_bound": 17086537.7625734,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 8.908973558874322e-11,
+     "output_bound": 41862.017518304834,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 469885977791522.75,
+     "state_error": 2.4151984449772765e-07,
+     "state_bound": 1708653.7762573399,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 5.511446854455926e-11,
+     "output_bound": 4186.201751830483,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 75954678732790.44,
+     "state_error": 2.41531005709314e-07,
+     "state_bound": 170865.377625734,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    101.926,
+    1.616
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  },
+  {
+   "solute": "caffeine",
+   "T_degC": 88.0,
+   "p_bar": 9.0,
+   "horizon_tc": 0.7103047600341762,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 1.650615165059589e-12,
+   "projector_commutation_residual": 7.985452644417969e-06,
+   "gamma": 1.6452583613511833,
+   "M_analytic": 7.85637176597925,
+   "M_sampled_envelope": 2.126571225346235,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 7948.04863869423,
+   "norm_Q_A0_P": 4290.504047216578,
+   "norm_P_A0_P": 4501.462597706389,
+   "initial_layer_norm": 2.983217020665366,
+   "remainder_constant_C_state": 2463561511.42652,
+   "remainder_constant_C_output": 60357257.029949725,
+   "f_inf": 0.5668953061083666,
+   "slow_semigroup_norm_G": 21.299130654344864,
+   "spectral_abscissa": 1.6452583613511833,
+   "cond_eigenvector_matrix": 340130407913.26184,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.126571225346235,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 9.391463022256907e-06,
+     "output_bound": 603572.5702994972,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 64268215598.473366,
+     "state_error": 0.001656789344106923,
+     "state_bound": 24635615.1142652,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 1.0138207384713382e-08,
+     "output_bound": 60357.257029949724,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 5953444700781.892,
+     "state_error": 2.412178230382148e-05,
+     "state_bound": 2463561.51142652,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 1.013922168446868e-08,
+     "output_bound": 6035.725702994972,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 595284913460.422,
+     "state_error": 2.4121786466191242e-05,
+     "state_bound": 246356.151142652,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    926.344,
+    1.0
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  },
+  {
+   "solute": "trigonelline",
+   "T_degC": 88.0,
+   "p_bar": 9.0,
+   "horizon_tc": 0.7103047600341762,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 5.94829721632678e-11,
+   "projector_commutation_residual": 5.265152309933718e-10,
+   "gamma": 3.3030007739632703,
+   "M_analytic": 5.26072777123087,
+   "M_sampled_envelope": 2.126571225346235,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 8279.542021074772,
+   "norm_Q_A0_P": 5355.693206621899,
+   "norm_P_A0_P": 6526.758062033147,
+   "initial_layer_norm": 2.983217020665366,
+   "remainder_constant_C_state": 1068569708.8196743,
+   "remainder_constant_C_output": 26179957.866082016,
+   "f_inf": 0.6573186291194135,
+   "slow_semigroup_norm_G": 21.300947976059707,
+   "spectral_abscissa": 3.3030007739632703,
+   "cond_eigenvector_matrix": 5799622.272446139,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.126571225346235,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 1.354472090042691e-14,
+     "output_bound": 261799.57866082017,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 1.9328532539387257e+19,
+     "state_error": 3.326204298304205e-09,
+     "state_bound": 10685697.088196743,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 8.422817998621213e-12,
+     "output_bound": 26179.957866082015,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 3108218397971746.0,
+     "state_error": 3.336775925220913e-09,
+     "state_bound": 1068569.7088196743,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 9.664669065045928e-11,
+     "output_bound": 2617.995786608202,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 27088312791554.035,
+     "state_error": 5.109043392183072e-09,
+     "state_bound": 106856.97088196743,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    0.002,
+    0.087
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  },
+  {
+   "solute": "5CQA",
+   "T_degC": 88.0,
+   "p_bar": 9.0,
+   "horizon_tc": 0.7103047600341762,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 9.385295433649464e-10,
+   "projector_commutation_residual": 2.1179181110472084e-08,
+   "gamma": 2.06821185772625,
+   "M_analytic": 6.701004752492581,
+   "M_sampled_envelope": 2.126571225346235,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 7985.231153625644,
+   "norm_Q_A0_P": 4623.358742332987,
+   "norm_P_A0_P": 5034.592354522512,
+   "initial_layer_norm": 2.983217020665366,
+   "remainder_constant_C_state": 1809674364.716504,
+   "remainder_constant_C_output": 44337021.93555434,
+   "f_inf": 0.5882829694561155,
+   "slow_semigroup_norm_G": 21.29931663291124,
+   "spectral_abscissa": 2.06821185772625,
+   "cond_eigenvector_matrix": 440842862.1026966,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.126571225346235,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 2.2536750132751138e-08,
+     "output_bound": 443370.2193555434,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 19673210056636.49,
+     "state_error": 4.6771172164674075e-06,
+     "state_bound": 18096743.64716504,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 1.9268953099782493e-10,
+     "output_bound": 44337.02193555434,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 230095645082320.6,
+     "state_error": 2.8675391151483223e-08,
+     "state_bound": 1809674.364716504,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 2.848834501634201e-10,
+     "output_bound": 4433.702193555434,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 15563214328568.725,
+     "state_error": 2.991904150285535e-08,
+     "state_bound": 180967.4364716504,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    116.959,
+    0.676
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  },
+  {
+   "solute": "caffeine",
+   "T_degC": 88.0,
+   "p_bar": 6.0,
+   "horizon_tc": 0.44847219253575593,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 2.457525806849058e-10,
+   "projector_commutation_residual": 5.151753315178201e-07,
+   "gamma": 2.7663396943722263,
+   "M_analytic": 6.731976472288364,
+   "M_sampled_envelope": 2.126571225346235,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 12588.376463965315,
+   "norm_Q_A0_P": 6795.439033530181,
+   "norm_P_A0_P": 7129.5620171849305,
+   "initial_layer_norm": 2.983217020665366,
+   "remainder_constant_C_state": 1988482464.2121027,
+   "remainder_constant_C_output": 48717820.373196505,
+   "f_inf": 0.5668953001697541,
+   "slow_semigroup_norm_G": 21.299131088273747,
+   "spectral_abscissa": 2.7663396943722267,
+   "cond_eigenvector_matrix": 23634215105.270176,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.126571225346235,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 7.86565405319628e-06,
+     "output_bound": 487178.20373196504,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 61937405387.66712,
+     "state_error": 0.0014121123339179917,
+     "state_bound": 19884824.64212103,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 4.199636638446691e-09,
+     "output_bound": 48717.820373196504,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 11600484653171.242,
+     "state_error": 1.8106603834132581e-06,
+     "state_bound": 1988482.4642121026,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 4.199634195956037e-09,
+     "output_bound": 4871.782037319651,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 1160049139996.728,
+     "state_error": 1.8106606894473434e-06,
+     "state_bound": 198848.24642121026,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    1872.937,
+    1.0
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  },
+  {
+   "solute": "trigonelline",
+   "T_degC": 88.0,
+   "p_bar": 6.0,
+   "horizon_tc": 0.44847219253575593,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 3.705452225850633e-11,
+   "projector_commutation_residual": 7.830801349580462e-10,
+   "gamma": 4.706355873474173,
+   "M_analytic": 4.6044462870024505,
+   "M_sampled_envelope": 2.126571225346235,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 13113.40637478157,
+   "norm_Q_A0_P": 8482.520078759486,
+   "norm_P_A0_P": 10337.290463528636,
+   "initial_layer_norm": 2.983217020665366,
+   "remainder_constant_C_state": 1039603044.1772629,
+   "remainder_constant_C_output": 25470274.582342938,
+   "f_inf": 0.6573186291198222,
+   "slow_semigroup_norm_G": 21.300947976292438,
+   "spectral_abscissa": 4.706355873474173,
+   "cond_eigenvector_matrix": 2528156.6799206696,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.126571225346235,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 2.916555885690286e-13,
+     "output_bound": 254702.74582342937,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 8.732997268219556e+17,
+     "state_error": 2.3815919581852334e-09,
+     "state_bound": 10396030.441772629,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 1.6981971384666394e-12,
+     "output_bound": 25470.274582342936,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 1.4998420386776132e+16,
+     "state_error": 2.384131074641623e-09,
+     "state_bound": 1039603.0441772629,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 1.9346968471722903e-11,
+     "output_bound": 2547.0274582342936,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 131649951358372.86,
+     "state_error": 2.5252899721364542e-09,
+     "state_bound": 103960.3044177263,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    0.172,
+    0.088
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  },
+  {
+   "solute": "5CQA",
+   "T_degC": 88.0,
+   "p_bar": 6.0,
+   "horizon_tc": 0.44847219253575593,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 5.447407652213832e-10,
+   "projector_commutation_residual": 7.923213414039836e-08,
+   "gamma": 3.015480830774713,
+   "M_analytic": 5.783163187510883,
+   "M_sampled_envelope": 2.126571225346235,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 12647.267307037002,
+   "norm_Q_A0_P": 7322.625074034653,
+   "norm_P_A0_P": 7973.9501671723265,
+   "initial_layer_norm": 2.983217020665366,
+   "remainder_constant_C_state": 1696577072.310739,
+   "remainder_constant_C_output": 41566138.2716131,
+   "f_inf": 0.588282969720584,
+   "slow_semigroup_norm_G": 21.299316634446384,
+   "spectral_abscissa": 3.015480830774713,
+   "cond_eigenvector_matrix": 4298026509.757178,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.126571225346235,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 9.183284654934454e-08,
+     "output_bound": 415661.382716131,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 4526282243606.417,
+     "state_error": 1.8050626229859186e-05,
+     "state_bound": 16965770.72310739,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 4.4014425437666205e-10,
+     "output_bound": 41566.1382716131,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 94437534645271.23,
+     "state_error": 5.222331980662565e-07,
+     "state_bound": 1696577.072310739,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 3.8213554542920747e-10,
+     "output_bound": 4156.61382716131,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 10877328416263.08,
+     "state_error": 5.221074359640253e-07,
+     "state_bound": 169657.7072310739,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    208.643,
+    1.152
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  },
+  {
+   "solute": "caffeine",
+   "T_degC": 88.0,
+   "p_bar": 12.0,
+   "horizon_tc": 0.9267257416070888,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 1.8557793637820087e-10,
+   "projector_commutation_residual": 2.8228945420788338e-06,
+   "gamma": 1.2181808271874335,
+   "M_analytic": 8.621526236614553,
+   "M_sampled_envelope": 2.126571225346235,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 6091.917528974628,
+   "norm_Q_A0_P": 3288.5300426404187,
+   "norm_P_A0_P": 3450.2228273011037,
+   "initial_layer_norm": 2.983217020665366,
+   "remainder_constant_C_state": 2798603729.5262227,
+   "remainder_constant_C_output": 68565791.37339246,
+   "f_inf": 0.5668952976381264,
+   "slow_semigroup_norm_G": 21.299131045596074,
+   "spectral_abscissa": 1.2181808271874337,
+   "cond_eigenvector_matrix": 266413891658.3742,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.126571225346235,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 1.0731972331368134e-05,
+     "output_bound": 685657.9137339246,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 63889273337.934105,
+     "state_error": 0.0018715157789645598,
+     "state_bound": 27986037.29526223,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 1.6729184704189493e-09,
+     "output_bound": 68565.79137339247,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 40985733964800.76,
+     "state_error": 1.9593865352505063e-05,
+     "state_bound": 2798603.7295262227,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 1.7210483038709867e-09,
+     "output_bound": 6856.579137339247,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 3983955082444.467,
+     "state_error": 1.959390288704751e-05,
+     "state_bound": 279860.37295262225,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    6415.12,
+    0.972
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  },
+  {
+   "solute": "trigonelline",
+   "T_degC": 88.0,
+   "p_bar": 12.0,
+   "horizon_tc": 0.9267257416070888,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 2.3368073131034933e-11,
+   "projector_commutation_residual": 6.512906592978073e-07,
+   "gamma": 2.6913406393026404,
+   "M_analytic": 5.712149143011958,
+   "M_sampled_envelope": 2.126571225346235,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 6345.996290743306,
+   "norm_Q_A0_P": 4104.962456273303,
+   "norm_P_A0_P": 5002.545107751212,
+   "initial_layer_norm": 2.983217020665366,
+   "remainder_constant_C_state": 1091415426.1344182,
+   "remainder_constant_C_output": 26739677.94029325,
+   "f_inf": 0.6573186313109293,
+   "slow_semigroup_norm_G": 21.300948029548753,
+   "spectral_abscissa": 2.6913406393026404,
+   "cond_eigenvector_matrix": 35960797961.026146,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.126571225346235,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 2.1910530056956645e-09,
+     "output_bound": 267396.7794029325,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 122040306057330.36,
+     "state_error": 1.1496648604784468e-07,
+     "state_bound": 10914154.261344183,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 2.1934356553288126e-09,
+     "output_bound": 26739.677940293248,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 12190773809722.158,
+     "state_error": 1.1504378354414556e-07,
+     "state_bound": 1091415.4261344182,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 2.2201547267286514e-09,
+     "output_bound": 2673.967794029325,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 1204406054153.4224,
+     "state_error": 1.1590790317044107e-07,
+     "state_bound": 109141.54261344182,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    0.999,
+    0.988
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  },
+  {
+   "solute": "5CQA",
+   "T_degC": 88.0,
+   "p_bar": 12.0,
+   "horizon_tc": 0.9267257416070888,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 1.2728896338420165e-11,
+   "projector_commutation_residual": 2.805696656718766e-08,
+   "gamma": 1.6629519185915382,
+   "M_analytic": 7.330010428708995,
+   "M_sampled_envelope": 2.126571225346235,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 6120.416692081936,
+   "norm_Q_A0_P": 3543.6522096591916,
+   "norm_P_A0_P": 3858.8492298737533,
+   "initial_layer_norm": 2.983217020665366,
+   "remainder_constant_C_state": 1887008889.809113,
+   "remainder_constant_C_output": 46231717.80032327,
+   "f_inf": 0.5882829687822746,
+   "slow_semigroup_norm_G": 21.299316621531954,
+   "spectral_abscissa": 1.6629519185915382,
+   "cond_eigenvector_matrix": 1546405846.9071379,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.126571225346235,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 9.469466766276469e-09,
+     "output_bound": 462317.1780032327,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 48821880831735.836,
+     "state_error": 2.145352977354141e-06,
+     "state_bound": 18870088.89809113,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 4.910092332721661e-10,
+     "output_bound": 46231.71780032327,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 94156514109169.64,
+     "state_error": 1.0149897744085837e-07,
+     "state_bound": 1887008.889809113,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 4.874017855982515e-10,
+     "output_bound": 4623.171780032327,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 9485340260618.264,
+     "state_error": 1.0147101708234266e-07,
+     "state_bound": 188700.88898091132,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    19.286,
+    1.007
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  },
+  {
+   "solute": "caffeine",
+   "T_degC": 98.0,
+   "p_bar": 12.0,
+   "horizon_tc": 0.8260771111282058,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 1.8276400838257546e-11,
+   "projector_commutation_residual": 1.217085238066865e-06,
+   "gamma": 1.6163999769386308,
+   "M_analytic": 8.047435239307225,
+   "M_sampled_envelope": 2.1265712253462357,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 6831.812244010123,
+   "norm_Q_A0_P": 3635.0159484136266,
+   "norm_P_A0_P": 3789.221091077896,
+   "initial_layer_norm": 2.983217020665366,
+   "remainder_constant_C_state": 2175370430.8061547,
+   "remainder_constant_C_output": 53296575.55475079,
+   "f_inf": 0.5632558112882665,
+   "slow_semigroup_norm_G": 21.299120379762126,
+   "spectral_abscissa": 1.6163999769386308,
+   "cond_eigenvector_matrix": 147468230799.9349,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.1265712253462357,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 7.347449815009455e-06,
+     "output_bound": 532965.7555475079,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 72537515596.05884,
+     "state_error": 0.0013658135501357683,
+     "state_bound": 21753704.308061548,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 8.766537828996945e-09,
+     "output_bound": 53296.575554750794,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 6079546634529.143,
+     "state_error": 3.434524791215526e-06,
+     "state_bound": 2175370.430806155,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 8.756607994264698e-09,
+     "output_bound": 5329.657555475079,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 608644073020.7218,
+     "state_error": 3.434481413188282e-06,
+     "state_bound": 217537.04308061546,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    838.124,
+    1.001
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  },
+  {
+   "solute": "trigonelline",
+   "T_degC": 98.0,
+   "p_bar": 12.0,
+   "horizon_tc": 0.8260771111282058,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 5.7891778008158446e-12,
+   "projector_commutation_residual": 9.956905820466101e-11,
+   "gamma": 3.281392409583142,
+   "M_analytic": 5.3790411706098,
+   "M_sampled_envelope": 2.1265712253462348,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 7085.886417489194,
+   "norm_Q_A0_P": 4557.027019244222,
+   "norm_P_A0_P": 5492.470587372198,
+   "initial_layer_norm": 2.983217020665366,
+   "remainder_constant_C_state": 931402859.4029614,
+   "remainder_constant_C_output": 22819370.055372555,
+   "f_inf": 0.6502387050103217,
+   "slow_semigroup_norm_G": 21.300727562820835,
+   "spectral_abscissa": 3.281392409583142,
+   "cond_eigenvector_matrix": 666762.8706874957,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.1265712253462348,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 1.992850329202156e-13,
+     "output_bound": 228193.70055372556,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 1.1450619106206719e+18,
+     "state_error": 8.964128891824582e-11,
+     "state_bound": 9314028.594029613,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 5.438982597638642e-13,
+     "output_bound": 22819.370055372554,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 4.19552179947766e+16,
+     "state_error": 9.171921394610454e-11,
+     "state_bound": 931402.8594029613,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 2.1329604749098507e-12,
+     "output_bound": 2281.9370055372556,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 1069844956050440.4,
+     "state_error": 1.2450984534719386e-10,
+     "state_bound": 93140.28594029613,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    0.366,
+    0.255
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  },
+  {
+   "solute": "5CQA",
+   "T_degC": 98.0,
+   "p_bar": 12.0,
+   "horizon_tc": 0.8260771111282058,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 1.9332690638771298e-09,
+   "projector_commutation_residual": 2.0059347652266808e-06,
+   "gamma": 2.0582012118644992,
+   "M_analytic": 6.85958241090691,
+   "M_sampled_envelope": 2.126571225346235,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 6857.359677472064,
+   "norm_Q_A0_P": 3921.875149063919,
+   "norm_P_A0_P": 4239.18494735858,
+   "initial_layer_norm": 2.9832170206653688,
+   "remainder_constant_C_state": 1577051167.4638066,
+   "remainder_constant_C_output": 38637753.60286326,
+   "f_inf": 0.5839698552447842,
+   "slow_semigroup_norm_G": 21.29926379460695,
+   "spectral_abscissa": 2.0582012118644992,
+   "cond_eigenvector_matrix": 93685937792.69835,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.126571225346235,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 1.2200083276958651e-08,
+     "output_bound": 386377.5360286326,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 31670073659116.23,
+     "state_error": 3.7764966376289806e-06,
+     "state_bound": 15770511.674638066,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 3.3415409328441115e-09,
+     "output_bound": 38637.75360286326,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 11562855095710.951,
+     "state_error": 3.120828799776617e-06,
+     "state_bound": 1577051.1674638067,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 3.346851684682406e-09,
+     "output_bound": 3863.775360286326,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 1154450726923.375,
+     "state_error": 3.1208353852781997e-06,
+     "state_bound": 157705.11674638066,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    3.651,
+    0.998
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  },
+  {
+   "solute": "caffeine",
+   "T_degC": 98.0,
+   "p_bar": 9.0,
+   "horizon_tc": 0.6331608995473678,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 2.4329809494645833e-12,
+   "projector_commutation_residual": 9.427339666010049e-08,
+   "gamma": 2.1830876976501266,
+   "M_analytic": 7.349549012240844,
+   "M_sampled_envelope": 2.126571225346235,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 8913.38006176394,
+   "norm_Q_A0_P": 4742.55987099903,
+   "norm_P_A0_P": 4943.749398330157,
+   "initial_layer_norm": 2.983217020665366,
+   "remainder_constant_C_state": 1919201445.3964674,
+   "remainder_constant_C_output": 47020435.412213445,
+   "f_inf": 0.5632558201538943,
+   "slow_semigroup_norm_G": 21.299120399508634,
+   "spectral_abscissa": 2.1830876976501266,
+   "cond_eigenvector_matrix": 2187416931.461893,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.126571225346235,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 6.552367324941244e-06,
+     "output_bound": 470204.35412213445,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 71760988174.8122,
+     "state_error": 0.0012288280939126072,
+     "state_bound": 19192014.453964673,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 9.724177019165836e-11,
+     "output_bound": 47020.43541221345,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 483541541042894.06,
+     "state_error": 1.346365419761414e-06,
+     "state_bound": 1919201.4453964673,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 8.286060726447886e-11,
+     "output_bound": 4702.043541221345,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 56746428688521.6,
+     "state_error": 1.3463552012087504e-06,
+     "state_bound": 191920.14453964675,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    67382.23,
+    1.174
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  },
+  {
+   "solute": "trigonelline",
+   "T_degC": 98.0,
+   "p_bar": 9.0,
+   "horizon_tc": 0.6331608995473678,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 9.736996155648952e-12,
+   "projector_commutation_residual": 6.729036323889499e-11,
+   "gamma": 4.0271534231871495,
+   "M_analytic": 4.970113531055784,
+   "M_sampled_envelope": 2.126571225346235,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 9244.86743532175,
+   "norm_Q_A0_P": 5945.496189168863,
+   "norm_P_A0_P": 7165.957719475236,
+   "initial_layer_norm": 2.983217020665366,
+   "remainder_constant_C_state": 914882860.0367482,
+   "remainder_constant_C_output": 22414630.07090033,
+   "f_inf": 0.6502387050095859,
+   "slow_semigroup_norm_G": 21.30072756279012,
+   "spectral_abscissa": 4.0271534231871495,
+   "cond_eigenvector_matrix": 111593.14635955189,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.126571225346235,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 1.517674874662589e-12,
+     "output_bound": 224146.3007090033,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 1.476905920043222e+17,
+     "state_error": 3.904776578916368e-10,
+     "state_bound": 9148828.60036748,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 7.559841641580078e-12,
+     "output_bound": 22414.63007090033,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 2964960264196150.5,
+     "state_error": 4.973228217539868e-10,
+     "state_bound": 914882.8600367482,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 6.566047705547362e-11,
+     "output_bound": 2241.463007090033,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 34137172125574.42,
+     "state_error": 2.715966412735694e-09,
+     "state_bound": 91488.28600367482,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    0.201,
+    0.115
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  },
+  {
+   "solute": "5CQA",
+   "T_degC": 98.0,
+   "p_bar": 9.0,
+   "horizon_tc": 0.6331608995473678,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 1.8908131514745664e-11,
+   "projector_commutation_residual": 2.3883933114430924e-10,
+   "gamma": 2.559783060697299,
+   "M_analytic": 6.288384644305188,
+   "M_sampled_envelope": 2.1265712253462348,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 8946.711441406253,
+   "norm_Q_A0_P": 5116.821491350883,
+   "norm_P_A0_P": 5530.8116063301995,
+   "initial_layer_norm": 2.983217020665365,
+   "remainder_constant_C_state": 1516625514.7263203,
+   "remainder_constant_C_output": 37157325.11079484,
+   "f_inf": 0.5839698519033151,
+   "slow_semigroup_norm_G": 21.299263659758157,
+   "spectral_abscissa": 2.5597830606972996,
+   "cond_eigenvector_matrix": 1086460.902740187,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.1265712253462348,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 2.0927572896844993e-08,
+     "output_bound": 371573.2511079484,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 17755200420970.28,
+     "state_error": 4.529519107393417e-06,
+     "state_bound": 15166255.147263203,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 1.1797229859666913e-12,
+     "output_bound": 37157.325110794845,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 3.1496652648797296e+16,
+     "state_error": 3.8817717288719623e-10,
+     "state_bound": 1516625.5147263203,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 4.497624495058972e-12,
+     "output_bound": 3715.732511079484,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 826154454459579.0,
+     "state_error": 4.2333290750817074e-10,
+     "state_bound": 151662.55147263204,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    17739.396,
+    0.262
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  },
+  {
+   "solute": "caffeine",
+   "T_degC": 98.0,
+   "p_bar": 6.0,
+   "horizon_tc": 0.3997651048181869,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 1.931096185455317e-12,
+   "projector_commutation_residual": 3.4808155389479887e-10,
+   "gamma": 3.6706466875789037,
+   "M_analytic": 6.331307664637871,
+   "M_sampled_envelope": 2.126571225346235,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 14117.29955878389,
+   "norm_Q_A0_P": 7511.419675966542,
+   "norm_P_A0_P": 7830.070154804397,
+   "initial_layer_norm": 2.983217020665366,
+   "remainder_constant_C_state": 1557367381.940858,
+   "remainder_constant_C_output": 38155500.857551016,
+   "f_inf": 0.5632558200566142,
+   "slow_semigroup_norm_G": 21.299120399051937,
+   "spectral_abscissa": 3.670646687578904,
+   "cond_eigenvector_matrix": 13992560.789454482,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.126571225346235,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 5.76952737385561e-06,
+     "output_bound": 381555.0085755102,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 66132801501.99338,
+     "state_error": 0.001097833001871108,
+     "state_bound": 15573673.819408579,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 4.494515870590021e-12,
+     "output_bound": 38155.500857551015,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 8489346117837185.0,
+     "state_error": 2.348251596662539e-09,
+     "state_bound": 1557367.381940858,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 4.017264298994405e-11,
+     "output_bound": 3815.5500857551015,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 94978816472448.77,
+     "state_error": 2.881926396390828e-09,
+     "state_bound": 155736.7381940858,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    1283681.611,
+    0.112
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  },
+  {
+   "solute": "trigonelline",
+   "T_degC": 98.0,
+   "p_bar": 6.0,
+   "horizon_tc": 0.3997651048181869,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 1.319729226242591e-11,
+   "projector_commutation_residual": 7.269842506078736e-11,
+   "gamma": 5.738181267168308,
+   "M_analytic": 4.385003488221028,
+   "M_sampled_envelope": 2.1265712253462348,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 14642.319979892256,
+   "norm_Q_A0_P": 9416.669114009961,
+   "norm_P_A0_P": 11349.675549691472,
+   "initial_layer_norm": 2.983217020665365,
+   "remainder_constant_C_state": 897226780.6323375,
+   "remainder_constant_C_output": 21982056.125492267,
+   "f_inf": 0.6502387050110279,
+   "slow_semigroup_norm_G": 21.30072756282669,
+   "spectral_abscissa": 5.738181267168308,
+   "cond_eigenvector_matrix": 91848.67965538899,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.1265712253462348,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 7.713829575095588e-13,
+     "output_bound": 219820.56125492268,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 2.8496942940588458e+17,
+     "state_error": 2.137681785004431e-10,
+     "state_bound": 8972267.806323374,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 2.6595392554895625e-12,
+     "output_bound": 21982.05612549227,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 8265362536055463.0,
+     "state_error": 2.36058909095793e-10,
+     "state_bound": 897226.7806323374,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 2.0981216763971133e-11,
+     "output_bound": 2198.2056125492268,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 104770168350006.14,
+     "state_error": 8.776572668305276e-10,
+     "state_bound": 89722.67806323375,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    0.29,
+    0.127
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  },
+  {
+   "solute": "5CQA",
+   "T_degC": 98.0,
+   "p_bar": 6.0,
+   "horizon_tc": 0.3997651048181869,
+   "index_one": true,
+   "rank_A1": 400,
+   "rank_A1_squared": 400,
+   "n_slow": 201,
+   "n_fast": 400,
+   "projector_idempotence_residual": 2.6344274973433022e-11,
+   "projector_commutation_residual": 4.157462829410228e-10,
+   "gamma": 3.732198285992139,
+   "M_analytic": 5.463397263855993,
+   "M_sampled_envelope": 2.1265712253462348,
+   "envelope_within_analytic": true,
+   "norm_P_A0_Q": 14170.090875767939,
+   "norm_Q_A0_P": 8104.187332097737,
+   "norm_P_A0_P": 8759.878262745877,
+   "initial_layer_norm": 2.983217020665365,
+   "remainder_constant_C_state": 1431362648.2011406,
+   "remainder_constant_C_output": 35068384.88092795,
+   "f_inf": 0.5839698519073196,
+   "slow_semigroup_norm_G": 21.299263659657555,
+   "spectral_abscissa": 3.7321982859921397,
+   "cond_eigenvector_matrix": 10364684.301442204,
+   "lyapunov_positive_definite": true,
+   "oblique_projector_norm": 2.1265712253462348,
+   "verification": [
+    {
+     "kappa": 100.0,
+     "output_error": 9.480713980547506e-08,
+     "output_bound": 350683.8488092795,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 3698918135583.5786,
+     "state_error": 1.9312381456376073e-05,
+     "state_bound": 14313626.482011406,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 1000.0,
+     "output_error": 2.5197621766892553e-12,
+     "output_bound": 35068.38488092795,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 1.3917339185956314e+16,
+     "state_error": 1.0740921131210561e-09,
+     "state_bound": 1431362.6482011406,
+     "state_bound_holds": true
+    },
+    {
+     "kappa": 10000.0,
+     "output_error": 7.587597217195707e-12,
+     "output_bound": 3506.838488092795,
+     "output_bound_holds": true,
+     "bound_looseness_factor": 462180369846896.56,
+     "state_error": 1.118952178573358e-09,
+     "state_bound": 143136.26482011407,
+     "state_bound_holds": true
+    }
+   ],
+   "error_ratio_per_decade": [
+    37625.432,
+    0.332
+   ],
+   "status": "pass",
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ]
+  }
+ ],
+ "verdict": "PR03_BOUND_ESTABLISHED_BUT_NOT_FIT_FOR_PROPAGATION",
+ "environment": {
+  "python": "3.13.13",
+  "numpy": "2.5.1"
+ },
+ "fitness_for_purpose": {
+  "verdict": "NOT_FIT_FOR_PROPAGATION",
+  "bound_looseness_median": 48821880831735.836,
+  "bound_looseness_min": 61937405387.66712,
+  "bound_looseness_max": 1.9328532539387257e+19,
+  "reading": "The bound is ESTABLISHED \u2014 index-one structure verified, Lyapunov constants derived, 27 of 27 operator-distinct cells pass, every finite-kappa check holds. It is NOT USABLE for its stated purpose. Protocol V2 requires this bound to propagate into the J_inf interval; at a median looseness of 4.9e+13 the resulting [L_inf, U_inf] would swamp every tolerance and return boundary_indeterminate for all six groups, making P0-G8 vacuous rather than informative. The looseness comes from bounding the slow-fast-slow coupling by a product of separate block operator norms (||P A0 Q|| ~ 8.5e3 times ||Q A0 P|| ~ 4.5e3) instead of tracking the composite operator. A usable bound needs the composite treated directly, or the output functional carried through the derivation rather than bounding the full state first.",
+  "consequence": "PR-03 does not close for P0-G8 purposes; P0-G8 remains blocked."
+ }
+}

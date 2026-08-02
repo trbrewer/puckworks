@@ -206,6 +206,9 @@ def test_a_passed_gate_is_bound_to_hashed_evidence(manifest):
         assert full.exists(), "%s closure record %s missing" % (name, record_path)
         record = json.loads(full.read_text(encoding="utf-8"))
         assert record["criteria"], "%s closure record states no criteria" % name
+        assert "evidence_content_commit" in record, (
+            "%s must use the content-commit/closure-commit pattern; a record cannot name its own "
+            "containing commit" % name)
         assert record.get("evidence_unit_scope"), "%s closure record states no evidence scope" % name
         for item in record["deliverables"]:
             path = REPO / item["path"]
@@ -409,3 +412,55 @@ def test_open_blocking_premises_keep_the_freeze_shut(manifest):
     if blocking:
         assert manifest["gates"]["P0-G0"]["status"] == "open", (
             "premises %s are open but P0-G0 is not" % [r["premise_id"] for r in blocking])
+
+
+def test_the_operative_plan_is_not_also_superseded(manifest):
+    """It was both `operative_plan` and a member of `superseded_plans`."""
+    assert manifest["operative_plan"] not in manifest["superseded_plans"]
+
+
+def test_premise_blocking_is_gate_scoped(manifest):
+    """Global blocking was too broad and conflicted with the declared gate graph.
+
+    PR-09 belongs to P0-G9 and PR-15 to P0-G10; neither should hold P0-G0 shut. The control must
+    still fail closed, but at the correct stage.
+    """
+    audit = json.loads((REPO / "docs" / "paper1_resource"
+                        / "PAPER_A_PRE_FREEZE_PREMISE_AUDIT_R0A.json").read_text(encoding="utf-8"))
+    for row in audit["premises"]:
+        assert "resolution_stage" in row and "blocks_before" in row, row["premise_id"]
+        assert row["resolution_stage"] in ("pre_freeze", "within_gate", "pre_drafting", "scoped")
+
+    pre_freeze_open = [r for r in audit["premises"]
+                       if r["disposition"] == "OPEN" and r["resolution_stage"] == "pre_freeze"]
+    if pre_freeze_open:
+        assert manifest["gates"]["P0-G0"]["status"] == "open", (
+            "pre-freeze premises %s are open but P0-G0 is not"
+            % [r["premise_id"] for r in pre_freeze_open])
+
+
+def test_a_bound_that_cannot_serve_its_purpose_is_not_reported_as_closed():
+    """PR-03's bound holds everywhere and is still ~5e13 too loose to propagate into J_inf.
+
+    Reporting "established" without "not fit for purpose" would be the assurance-overclaim pattern
+    this programme has repeatedly had to correct.
+    """
+    data = json.loads((REPO / "docs" / "paper1_resource"
+                       / "PAPER_A_SINGULAR_LIMIT_BOUND.json").read_text(encoding="utf-8"))
+    fitness = data["fitness_for_purpose"]
+    assert fitness["verdict"] == "NOT_FIT_FOR_PROPAGATION"
+    assert data["verdict"].endswith("NOT_FIT_FOR_PROPAGATION")
+
+    audit = json.loads((REPO / "docs" / "paper1_resource"
+                        / "PAPER_A_PRE_FREEZE_PREMISE_AUDIT_R0A.json").read_text(encoding="utf-8"))
+    pr03 = next(p for p in audit["premises"] if p["premise_id"] == "PR-03")
+    assert pr03["disposition"] == "OPEN"
+
+
+def test_pr06_covers_every_declared_cell():
+    data = json.loads((REPO / "docs" / "paper1_resource"
+                       / "PAPER_A_SINGULAR_LIMIT_BOUND.json").read_text(encoding="utf-8"))
+    cov = data["coverage"]
+    assert cov["declared_cells"] == 9 * 2 * 3
+    assert cov["cells_failing"] == 0
+    assert "deduplication_proof" in cov, "deduplication must be proved, not assumed"

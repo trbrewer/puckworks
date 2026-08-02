@@ -118,5 +118,7 @@ def test_the_remainder_bound_is_recorded_as_still_owed():
     audit = json.loads((REPO / "docs" / "paper1_resource"
                         / "PAPER_A_PRE_FREEZE_PREMISE_AUDIT_R0A.json").read_text(encoding="utf-8"))
     pr03 = next(p for p in audit["premises"] if p["premise_id"] == "PR-03")
-    assert pr03["disposition"] == "partially-assured"
-    assert "still owed" in pr03["evidence"]
+    assert pr03["disposition"] == "OPEN", (
+        "the bound was derived and verified, but at ~5e13 looseness it cannot propagate into "
+        "J_inf; recording it as closed would be an assurance overclaim")
+    assert "unusable for J_inf propagation" in pr03["evidence"]

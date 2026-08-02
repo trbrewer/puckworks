@@ -14,7 +14,11 @@
     "NUM-TIME-01",
     "P0-G8"
    ],
-   "failure_consequence": "the exact-in-time reference and the analytical limit are both invalid"
+   "failure_consequence": "the exact-in-time reference and the analytical limit are both invalid",
+   "resolution_stage": "pre_freeze",
+   "blocks_before": [
+    "P0-G8"
+   ]
   },
   {
    "premise_id": "PR-02",
@@ -26,19 +30,27 @@
    "affected": [
     "P0-G8"
    ],
-   "failure_consequence": "the analytical limit construction has no basis and P0-G8 cannot run as specified"
+   "failure_consequence": "the analytical limit construction has no basis and P0-G8 cannot run as specified",
+   "resolution_stage": "pre_freeze",
+   "blocks_before": [
+    "P0-G8"
+   ]
   },
   {
    "premise_id": "PR-03",
    "premise": "A1 restricted to the fast subspace has a spectral gap bounding the asymptotic remainder",
    "type": "algebraic",
-   "disposition": "partially-assured",
-   "evidence": "the gap EXISTS and is measured: all 400 nonzero eigenvalues of A1 have Re <= -1.923 (range 1.923 .. 24.37), so the fast subspace decays uniformly and the remainder is O(1/(kappa*gap)). A formal bound WITH CONSTANTS is still owed before P0-G8 may run.",
-   "evidence_path": "tests/test_paper_a_asymptotic_structure.py",
+   "disposition": "OPEN",
+   "evidence": "bound DERIVED and verified: index-one confirmed, Lyapunov M (with the oblique projector factor) and gamma per cell, 27/27 operator-distinct cells covering all 54 declared cells pass every finite-kappa check. But median looseness 4.9e13 makes it unusable for J_inf propagation \u2014 see PAPER_A_SINGULAR_LIMIT_BOUND.json fitness_for_purpose. A tighter composite-operator derivation is required.",
+   "evidence_path": "docs/paper1_resource/PAPER_A_SINGULAR_LIMIT_BOUND.json",
    "affected": [
     "P0-G8"
    ],
-   "failure_consequence": "no remainder bound, so J_inf carries no verified interval and classification fails"
+   "failure_consequence": "no remainder bound, so J_inf carries no verified interval and classification fails",
+   "resolution_stage": "pre_freeze",
+   "blocks_before": [
+    "P0-G8"
+   ]
   },
   {
    "premise_id": "PR-04",
@@ -51,7 +63,11 @@
     "P0-G6",
     "P0-G8"
    ],
-   "failure_consequence": "J(kappa) is optimiser-dependent and the exact profile claim is unsupported"
+   "failure_consequence": "J(kappa) is optimiser-dependent and the exact profile claim is unsupported",
+   "resolution_stage": "pre_freeze",
+   "blocks_before": [
+    "P0-G8"
+   ]
   },
   {
    "premise_id": "PR-05",
@@ -63,19 +79,27 @@
    "affected": [
     "P0-G8"
    ],
-   "failure_consequence": "the plateau is a solver artefact and H1 collapses"
+   "failure_consequence": "the plateau is a solver artefact and H1 collapses",
+   "resolution_stage": "pre_freeze",
+   "blocks_before": [
+    "P0-G8"
+   ]
   },
   {
    "premise_id": "PR-06",
    "premise": "the plateau holds at EVERY calibration condition, not only the tested centre condition",
    "type": "numerical",
-   "disposition": "OPEN",
-   "evidence": "NUM-TIME-01's evidence unit is one condition and three solutes",
-   "evidence_path": null,
+   "disposition": "assured",
+   "evidence": "all 54 declared cells covered by 27 operator-distinct computations; the pencil depends on (T, p, solute) only and variety enters solely through y, which this model-only module never reads. Deduplication proved, not assumed. No cell dropped.",
+   "evidence_path": "docs/paper1_resource/PAPER_A_SINGULAR_LIMIT_BOUND.json",
    "affected": [
     "P0-G8"
    ],
-   "failure_consequence": "H1's generic wording is unsupported; the claim narrows to one condition"
+   "failure_consequence": "H1's generic wording is unsupported; the claim narrows to one condition",
+   "resolution_stage": "pre_freeze",
+   "blocks_before": [
+    "P0-G8"
+   ]
   },
   {
    "premise_id": "PR-07",
@@ -87,7 +111,11 @@
    "affected": [
     "P0-G8"
    ],
-   "failure_consequence": "the \u00a72.6 error budget understates its spatial term"
+   "failure_consequence": "the \u00a72.6 error budget understates its spatial term",
+   "resolution_stage": "pre_freeze",
+   "blocks_before": [
+    "P0-G8"
+   ]
   },
   {
    "premise_id": "PR-08",
@@ -99,7 +127,11 @@
    "affected": [
     "all"
    ],
-   "failure_consequence": "every downstream number is unverified"
+   "failure_consequence": "every downstream number is unverified",
+   "resolution_stage": "pre_freeze",
+   "blocks_before": [
+    "P0-G8"
+   ]
   },
   {
    "premise_id": "PR-09",
@@ -111,7 +143,11 @@
    "affected": [
     "P0-G9"
    ],
-   "failure_consequence": "H3 cannot be cross-fitted and remains retrospective"
+   "failure_consequence": "H3 cannot be cross-fitted and remains retrospective",
+   "resolution_stage": "within_gate",
+   "blocks_before": [
+    "P0-G9"
+   ]
   },
   {
    "premise_id": "PR-10",
@@ -124,7 +160,11 @@
     "P0-G4",
     "P0-G5"
    ],
-   "failure_consequence": "fold sign counts would be over-interpreted as significance"
+   "failure_consequence": "fold sign counts would be over-interpreted as significance",
+   "resolution_stage": "pre_freeze",
+   "blocks_before": [
+    "P0-G8"
+   ]
   },
   {
    "premise_id": "PR-11",
@@ -137,7 +177,11 @@
     "P0-G8",
     "P0-G5"
    ],
-   "failure_consequence": "profile width would be misread as calibrated uncertainty"
+   "failure_consequence": "profile width would be misread as calibrated uncertainty",
+   "resolution_stage": "pre_freeze",
+   "blocks_before": [
+    "P0-G8"
+   ]
   },
   {
    "premise_id": "PR-12",
@@ -149,7 +193,9 @@
    "affected": [
     "H1"
    ],
-   "failure_consequence": "none \u2014 the claim is not made; recorded so it cannot drift into the text"
+   "failure_consequence": "none \u2014 the claim is not made; recorded so it cannot drift into the text",
+   "resolution_stage": "scoped",
+   "blocks_before": []
   },
   {
    "premise_id": "PR-13",
@@ -162,7 +208,9 @@
     "H1",
     "H3"
    ],
-   "failure_consequence": "none if scoped; fatal if the paper generalises beyond the declared model"
+   "failure_consequence": "none if scoped; fatal if the paper generalises beyond the declared model",
+   "resolution_stage": "scoped",
+   "blocks_before": []
   },
   {
    "premise_id": "PR-14",
@@ -174,7 +222,11 @@
    "affected": [
     "H4"
    ],
-   "failure_consequence": "H4 would assert a physical constant it cannot support"
+   "failure_consequence": "H4 would assert a physical constant it cannot support",
+   "resolution_stage": "pre_freeze",
+   "blocks_before": [
+    "P0-G8"
+   ]
   },
   {
    "premise_id": "PR-15",
@@ -186,17 +238,21 @@
    "affected": [
     "P0-G10"
    ],
-   "failure_consequence": "novelty language cannot be written; P0-G10 blocks drafting"
+   "failure_consequence": "novelty language cannot be written; P0-G10 blocks drafting",
+   "resolution_stage": "pre_drafting",
+   "blocks_before": [
+    "P0-G10"
+   ]
   }
  ],
  "summary": {
   "total": 15,
-  "assured": 7,
-  "partially_assured": 2,
+  "assured": 8,
+  "partially_assured": 1,
   "open_blocking": 2,
   "open_scoped": 2,
   "open_blocked_external": 1
  },
  "verdict": "R0a_COMPLETE_BLOCKING_ITEMS_REMAIN",
- "reading": "PR-02 is CLOSED by structural verification: A(kappa) is exactly affine and A1's rank/nullity match the assumed fast/slow split. PR-03 is upgraded to partially-assured: the spectral gap exists and is measured (Re <= -1.923 on all 400 fast modes), but a remainder bound with explicit constants is still owed. PR-06 (coverage at every calibration condition), PR-09 (cross-fitted map raw support) and PR-15 (indexed novelty search) remain OPEN and block P0-G8, P0-G9 and P0-G10 respectively. PR-04 is implemented but unproved. P0-G0 is therefore NOT freeze-ready, which is what a pre-freeze audit is for."
+ "reading": "PR-06 CLOSED: all 54 declared cells covered, deduplication proved. PR-03 remains OPEN: the bound is derived and verified but is ~5e13 too loose to propagate into J_inf, so it cannot serve its stated purpose and P0-G8 stays blocked. Premise blocking is now gate-scoped (resolution_stage / blocks_before) rather than global: PR-09 blocks only P0-G9 and PR-15 only P0-G10, per the authorization."
 }
