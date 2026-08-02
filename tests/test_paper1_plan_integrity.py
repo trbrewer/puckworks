@@ -453,8 +453,8 @@ def test_a_bound_that_cannot_serve_its_purpose_is_not_reported_as_closed():
 
     audit = json.loads((REPO / "docs" / "paper1_resource"
                         / "PAPER_A_PRE_FREEZE_PREMISE_AUDIT_R0A.json").read_text(encoding="utf-8"))
-    pr03 = next(p for p in audit["premises"] if p["premise_id"] == "PR-03")
-    assert pr03["disposition"] == "OPEN"
+    pr03b = next(p for p in audit["premises"] if p["premise_id"] == "PR-03b")
+    assert pr03b["disposition"] == "NOT-ATTEMPTED"
 
 
 def test_pr06_covers_every_declared_cell():

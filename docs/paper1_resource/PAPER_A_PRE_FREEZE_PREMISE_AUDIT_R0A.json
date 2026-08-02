@@ -37,20 +37,34 @@
    ]
   },
   {
-   "premise_id": "PR-03",
-   "premise": "A1 restricted to the fast subspace has a spectral gap bounding the asymptotic remainder",
+   "premise_id": "PR-03a",
+   "premise": "f(kappa) converges to a trustworthy analytical endpoint f_inf",
    "type": "algebraic",
-   "disposition": "OPEN",
-   "evidence": "bound DERIVED and verified: index-one confirmed, Lyapunov M (with the oblique projector factor) and gamma per cell, 27/27 operator-distinct cells covering all 54 declared cells pass every finite-kappa check. But median looseness 4.9e13 makes it unusable for J_inf propagation \u2014 see PAPER_A_SINGULAR_LIMIT_BOUND.json fitness_for_purpose. A tighter composite-operator derivation is required.",
-   "evidence_path": "docs/paper1_resource/PAPER_A_SINGULAR_LIMIT_BOUND.json",
-   "affected": [
-    "P0-G8"
-   ],
-   "failure_consequence": "no remainder bound, so J_inf carries no verified interval and classification fails",
+   "disposition": "assured",
    "resolution_stage": "pre_freeze",
    "blocks_before": [
     "P0-G8"
-   ]
+   ],
+   "evidence": "stable rank-revealing null-basis construction (cond(N)=1.0, cond(L)<=2.13, versus ~5e10 for the full eigenvector matrix); all projector identities to <=1e-13; 27/27 operator-distinct cells covering all 54 declared cells converge, worst attained error 1.04e-11. The endpoint agrees with the independent high-kappa limit to ~1e-12, whereas the earlier eigen-projector route was off by 4.3e-9 -- the discrepancy previously read as a convergence floor.",
+   "evidence_path": "docs/paper1_resource/PAPER_A_ENDPOINT_CONSTRUCTION.json",
+   "affected": [
+    "P0-G8"
+   ],
+   "failure_consequence": "the endpoint classification has no trustworthy f_inf"
+  },
+  {
+   "premise_id": "PR-03b",
+   "premise": "a sharp output-functional bound localises a finite tail onset kappa_tail",
+   "type": "algebraic",
+   "disposition": "NOT-ATTEMPTED",
+   "resolution_stage": "within_gate",
+   "blocks_before": [],
+   "evidence": "One derivation cycle is authorised and has NOT been run. The existing full-state bound (PAPER_A_SINGULAR_LIMIT_BOUND.json) is valid but ~4.9e13 too loose to localise an onset. Per the adjudication this does NOT block P0-G0 once PR-03a is assured; the correct outcome without it is tail_onset_unresolved.",
+   "evidence_path": "docs/paper1_resource/PAPER_A_SINGULAR_LIMIT_BOUND.json",
+   "affected": [
+    "P0-G8 tail onset only"
+   ],
+   "failure_consequence": "no numerical kappa_tail; endpoint result unaffected"
   },
   {
    "premise_id": "PR-04",
@@ -246,13 +260,14 @@
   }
  ],
  "summary": {
-  "total": 15,
-  "assured": 8,
+  "total": 16,
+  "assured": 9,
   "partially_assured": 1,
-  "open_blocking": 2,
+  "open_blocking": 1,
+  "not_attempted": 1,
   "open_scoped": 2,
   "open_blocked_external": 1
  },
  "verdict": "R0a_COMPLETE_BLOCKING_ITEMS_REMAIN",
- "reading": "PR-06 CLOSED: all 54 declared cells covered, deduplication proved. PR-03 remains OPEN: the bound is derived and verified but is ~5e13 too loose to propagate into J_inf, so it cannot serve its stated purpose and P0-G8 stays blocked. Premise blocking is now gate-scoped (resolution_stage / blocks_before) rather than global: PR-09 blocks only P0-G9 and PR-15 only P0-G10, per the authorization."
+ "reading": "PR-03 is SPLIT per the adjudication. PR-03a is ASSURED: a stable null-basis endpoint converges at all 54 declared cells, so the P0-G8 endpoint classification has a trustworthy f_inf and no finite-kappa remainder belongs in its budget. PR-03b is NOT ATTEMPTED -- one cycle is authorised and unused -- so the tail onset is unresolved, which does not block P0-G0. PR-06 is assured. PR-09 and PR-15 are gate-scoped to P0-G9 and P0-G10. P0-G0 remains open because the Protocol V2 endpoint/tail split, PR-04, PR-07 staging and the PR-09 rule are not yet implemented."
 }
