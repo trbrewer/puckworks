@@ -120,6 +120,8 @@ def test_no_active_surface_asserts_a_withdrawn_claim(manifest):
     ("probe.py", '"""The cup cannot localize the multiplier."""\n', True),
     ("probe.py", '# hydraulic attribution is established\n', True),
     ("probe.md", 'The acceptable set is unbounded above.\n', True),
+    ("probe.md", 'J_min is the infimum over [0.15, inf].\n', True),
+    ("probe.json", '{"domain": "[0.15, \\u221e]"}', True),
     ("probe.json", '{"note": "freezing the rate transfers better"}', True),
     ("probe.md", 'We withdrew "cannot localize" from the title.\n', False),
 ])
@@ -457,6 +459,105 @@ def test_the_superseded_full_state_bound_is_not_operative():
     pr03b = next(p for p in audit["premises"] if p["premise_id"] == "PR-03b")
     assert pr03b["disposition"] == "NOT-PURSUED-CURRENT-PROTOCOL"
     assert pr03b["blocks_before"] == []
+
+
+# ── 11. the WIDE-referenced estimand is singular across the bundle ───────────────────────────
+PROTOCOL = REPO / "docs" / "paper1_resource" / "PAPER_A_PIVOT_ANALYSIS_PROTOCOL_V2.md"
+
+
+@pytest.fixture(scope="module")
+def protocol():
+    return PROTOCOL.read_text(encoding="utf-8")
+
+
+def test_the_protocol_defines_the_reference_on_the_finite_domain(protocol):
+    """The displaced definition and its replacement cannot both be operative.
+
+    The protocol used to declare the classification domain compactified while specifying a search
+    that stopped at 500, so no procedure computed the declared quantity. `J_ref` is defined on
+    `D_WIDE` and the endpoint is a separate quantity compared against the threshold it generates.
+    """
+    assert "J_ref   = min over κ ∈ D_WIDE of J(κ)" in protocol
+    assert "D_WIDE  = [0.15, 500]" in protocol
+
+    normative, _, deviations = protocol.partition("## 10. Deviation record")
+    assert deviations, "the protocol's own deviation policy requires the change to be recorded"
+    assert "J_min" not in normative, (
+        "the withdrawn reference quantity is still live in the normative sections; it may appear "
+        "only in the deviation record, which has to be able to name what it withdrew")
+    assert "J_min" in deviations, "the withdrawal is not recorded, only performed"
+    assert "compactified domain including" not in normative
+
+
+def test_the_frozen_numbers_agree_between_the_protocol_and_the_implementation(protocol):
+    """One architecture, not two. A number that disagrees here is a silent second protocol."""
+    from puckworks.paper_a import wide_reference as WR
+
+    assert WR.D_WIDE == (0.15, 500.0)
+    assert WR.GRID_SIZES == (40, 80, 160, 320)
+    assert WR.RELATIVE_Q == (0.05, 0.10, 0.20)
+    assert WR.ABSOLUTE_A == (0.10, 0.25)
+    assert WR.NEAR_ZERO_PP == 0.05
+
+    assert "40, 80, 160, 320 log-spaced points on [0.15, 500]" in protocol
+    assert "q ∈ {0.05, 0.10, 0.20}" in protocol
+    assert "a ∈ {0.10, 0.25} percentage points" in protocol
+    assert "If `U_ref < 0.05` pp" in protocol
+
+    for name in ("MIN_XATOL_LOGKAPPA", "BASIN_TIE_RTOL", "REF_VALUE_RTOL", "REF_LOCATION_DLOG",
+                 "E_REF_SEARCH_FLOOR", "ROOT_XTOL_LOGKAPPA", "TANGENCY_RTOL", "ROOT_MATCH_DLOG"):
+        assert name in protocol, "tolerance %s is not declared in the protocol" % name
+        assert hasattr(WR, name), "tolerance %s is not assigned a value" % name
+
+
+def test_the_result_vocabulary_is_declared_in_the_protocol(protocol):
+    from puckworks.paper_a import wide_reference as WR
+
+    for value in (WR.ENDPOINT_CLASSIFICATIONS + WR.EVENTUAL_UPPER_STATUSES
+                  + WR.TAIL_ONSET_STATUSES + WR.INTERMEDIATE_DOMAIN_STATUSES
+                  + WR.PROGRAMME_RESULTS + (WR.RELATIVE_NOT_APPLICABLE,)):
+        assert value in protocol, "%s is emitted by the implementation but undeclared" % value
+
+
+def test_the_endpoint_estimand_tag_is_declared_in_every_normative_surface(manifest, plan, protocol):
+    from puckworks.paper_a import wide_reference as WR
+
+    assert WR.ESTIMAND_TAG in manifest["required_estimand_tags"]
+    assert WR.ESTIMAND_TAG in protocol
+    assert WR.ESTIMAND_TAG in plan
+    assert WR.FINITE_DOMAIN_ESTIMAND_TAG in manifest["required_estimand_tags"], (
+        "finite-domain results keep their own tag; the endpoint tag does not absorb them")
+
+
+def test_the_claim_resolution_delta_does_not_rewrite_the_immutable_ledger():
+    """Displacement is recorded beside the initial ledger, never inside it.
+
+    The initial ledger exists so that drift is detectable. Editing it to read as though the current
+    estimand had always been the pre-analysis state would delete the evidence it was created to
+    preserve, which is why the delta is a separate append-only file.
+    """
+    delta = json.loads((REPO / "docs" / "paper1_resource"
+                        / "PAPER_A_CLAIM_RESOLUTION_DELTA_PRE_FREEZE.json").read_text("utf-8"))
+    assert delta["append_only"] is True
+    ledger_path = REPO / delta["ledger"]
+    ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    claims = {c["claim_id"]: c for c in ledger["claims"]}
+
+    for entry in delta["entries"]:
+        claim = claims[entry["claim_id"]]
+        assert claim[entry["field"]] == entry["recorded_wording"], (
+            "the ledger no longer carries the wording this delta says it displaces; the immutable "
+            "baseline has been edited")
+        assert entry["replacement_wording"] != entry["recorded_wording"]
+        assert entry["date"] and entry["why_displaced"]
+
+
+def test_no_p0_g8_result_archive_exists(manifest):
+    """The architecture is frozen in this pass. Running the gate is a separate authorisation."""
+    for path in manifest["gates"]["P0-G8"]["deliverables"]:
+        assert not (REPO / path).exists(), (
+            "%s exists, so a scientific gate has produced a result" % path)
+    assert manifest["gates"]["P0-G8"]["status"] == "open"
 
 
 def test_pr06_covers_every_declared_cell():

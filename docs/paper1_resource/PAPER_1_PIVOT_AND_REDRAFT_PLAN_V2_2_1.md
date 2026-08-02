@@ -233,10 +233,16 @@ Every reported number carries exactly one; none migrates without a like-for-like
 | tag | meaning |
 |---|---|
 | **FULL-PUB** | full calibration support, published `κ` domain |
-| **FULL-WIDE** | full calibration support, widened `κ` domain |
+| **FULL-WIDE** | full calibration support, widened `κ` domain — **finite-domain results only** |
+| **FULL-WIDE-ENDPOINT** | full optimal-grind calibration support; threshold referenced to the continuously minimised profile on `D_WIDE = [0.15, 500]`; analytical `κ = ∞` endpoint evaluated separately |
 | **LOCO-PUB** | leave-one-condition-out refit, published domain |
 | **LOCO-WIDE** | leave-one-condition-out refit, widened domain |
 | **NUM-FULL** | full-support numerical envelope |
+
+P0-G8 reports `J_ref = min over κ ∈ D_WIDE of J(κ)` and, separately, `J_inf` at the analytical
+endpoint. The endpoint is not a member of the minimisation; it is compared against the threshold
+that `J_ref` generates. Nothing is claimed about `(500, ∞)`: no finite topology is assigned to it and
+no finite tail onset is estimated. Protocol V2 §2.2–§2.10 is the contract.
 
 ---
 
@@ -244,7 +250,9 @@ Every reported number carries exactly one; none migrates without a like-for-like
 
 1. That real espresso reaches the large-mass-transfer-coefficient regime.
 2. That `κ` is a physical kinetic constant, or `κ = 1` externally validated.
-3. That the acceptable set is unbounded — only right-censored at `κ = 500`.
+3. That the finite scan establishes an acceptable set with no upper limit — it is right-censored at
+   the domain edge `κ = 500`. Any eventual-upper statement comes only from the separately evaluated
+   analytical endpoint, and only once the fixed-positive-time limit result exists.
 4. That hydraulics are the unique or causal mechanism of cross-grind prediction.
 5. That particle geometry is excluded — it was frozen, never varied.
 6. That freezing is universally preferable to fitting.
@@ -382,8 +390,9 @@ H4 wording after P0-G5.
 
 | outcome | consequence |
 |---|---|
-| `J_inf` supports an accepted tail for most groups, threshold-robust | H1 may lead |
-| `J_inf` excludes the tail, or classification is threshold-dependent | lead with the response limit and threshold dependence; remove the broad weak-localisation headline |
+| P0-G8 returns `H1_STRONG` (6/6 group-level successes) | H1 may lead; state the operational scope explicitly |
+| P0-G8 returns `H1_QUALIFIED` (5/6 successes, exactly one exception) | H1 may lead; the exception is named in the same headline sentence |
+| P0-G8 returns `H1_DOES_NOT_LEAD` | lead with the response limit and threshold dependence; remove the broad weak-localisation headline |
 | RSI meets its criterion | retain the design contribution |
 | RSI fails or is regime-specific | retain algebra and exact profiling; remove the global design recommendation |
 | cross-fitted map retains the coarse benefit | H3 as cross-fitted protocol emulation |
