@@ -42,8 +42,10 @@ earlier contract permitted:
 The eventual-upper vocabulary is emitted, but it is *conditional*: reading
 `wide_referenced_upper_set_unbounded` as a statement about arbitrarily large multipliers requires
 the fixed-positive-time limit result, which is a separate deferred derivation. Every archive
-therefore declares :data:`EVENTUAL_UPPER_PRECONDITION` and the status of that precondition, so the
-enumerated value cannot be read as self-supporting.
+therefore declares :data:`EVENTUAL_UPPER_PRECONDITION` and the status of that precondition —
+`unresolved`, `assured` or `failed` — so the enumerated value cannot be read as self-supporting. A
+`failed` precondition does not merely block the prose: it collapses every `eventual_upper_status` to
+`upper_status_indeterminate`, because an inference cannot outlive a refuted premise.
 """
 
 from __future__ import annotations
@@ -195,7 +197,24 @@ PROTOCOL_INTERMEDIATE_DOMAIN_STATUS = "not_characterized_by_design"
 #: multipliers once the fixed-positive-time limit result exists. Until then the enumerated value
 #: records the classification and nothing more, and the archive says so in this field.
 EVENTUAL_UPPER_PRECONDITION = "fixed_positive_time_limit"
-EVENTUAL_UPPER_PRECONDITION_STATUSES = ("established", "deferred")
+
+#: Assurance vocabulary for that precondition, with frozen semantics:
+#:
+#: * `unresolved` — the conditional machine value may be retained, but it cannot become
+#:   reader-facing eventual-upper prose;
+#: * `assured` — the fixed-positive-time proposition has passed, so the endpoint-to-eventual-upper
+#:   mapping may support scoped reader-facing language;
+#: * `failed` — the endpoint classification remains reportable, but every `eventual_upper_status`
+#:   is forced to `upper_status_indeterminate`: no eventual inference survives a failed premise.
+#:
+#: The `failed` state is the one the earlier two-token vocabulary could not express at all. A
+#: proposition that is attempted and refuted is not the same as one not yet attempted, and without a
+#: token for it the only way to record refutation would have been to leave the field saying "not yet
+#: established" — which reads as pending and would have let the mapping survive its own premise.
+EVENTUAL_UPPER_PRECONDITION_STATUSES = ("unresolved", "assured", "failed")
+
+#: The pre-freeze value. The derivation is deferred, so nothing about it has been decided.
+EVENTUAL_UPPER_PRECONDITION_CURRENT = "unresolved"
 
 #: Group-level outcomes under the programme rule.
 GROUP_OUTCOMES = ("success", "exception", "failure")
@@ -634,13 +653,20 @@ def classify_endpoint(endpoint: tuple[float, float],
     return "endpoint_indeterminate"
 
 
-def eventual_upper_status(classification: str) -> str:
-    """Map a classification to the eventual-upper vocabulary.
+def eventual_upper_status(classification: str,
+                          precondition_status: str = "unresolved") -> str:
+    """Map a classification to the eventual-upper vocabulary, gated by the precondition.
 
     The conclusion is conditional on the separately required fixed-positive-time limit; see
-    :data:`EVENTUAL_UPPER_PRECONDITION`. Without it the enumerated value records the endpoint
-    comparison and carries no statement about arbitrarily large multipliers.
+    :data:`EVENTUAL_UPPER_PRECONDITION`. While the precondition is `unresolved` the enumerated value
+    records the endpoint comparison and carries no statement about arbitrarily large multipliers.
+    If the precondition has `failed`, the mapping collapses: the endpoint classification is still
+    reportable, but no eventual inference survives a refuted premise.
     """
+    if precondition_status not in EVENTUAL_UPPER_PRECONDITION_STATUSES:
+        raise ValueError("unknown precondition status %r" % (precondition_status,))
+    if precondition_status == "failed":
+        return "upper_status_indeterminate"
     if classification == "endpoint_included":
         return "wide_referenced_upper_set_unbounded"
     if classification == "endpoint_excluded":
@@ -789,7 +815,8 @@ _ENUMS = {
 }
 
 
-def validate_group_record(record: dict) -> None:
+def validate_group_record(record: dict,
+                          precondition_status: str = "unresolved") -> None:
     """Structural contract for one group in the P0-G8 archive."""
     for f in GROUP_RECORD_FIELDS:
         if f not in record:
@@ -831,9 +858,10 @@ def validate_group_record(record: dict) -> None:
                                  % (name, kind))
             if cr["eventual_upper_status"] != "upper_status_indeterminate":
                 raise ValueError("a not-applicable relative convention decides no upper status")
-        elif cr["eventual_upper_status"] != eventual_upper_status(cls):
-            raise ValueError("convention %s: eventual_upper_status=%r contradicts %r"
-                             % (name, cr["eventual_upper_status"], cls))
+        elif cr["eventual_upper_status"] != eventual_upper_status(cls, precondition_status):
+            raise ValueError("convention %s: eventual_upper_status=%r contradicts %r under a "
+                             "%s precondition"
+                             % (name, cr["eventual_upper_status"], cls, precondition_status))
         validate_components(cr["components"])
 
 
@@ -871,4 +899,4 @@ def validate_archive(archive: dict) -> None:
         raise ValueError("the absolute family is frozen at %r" % (ABSOLUTE_A,))
 
     for record in archive["groups"]:
-        validate_group_record(record)
+        validate_group_record(record, archive["eventual_upper_precondition_status"])

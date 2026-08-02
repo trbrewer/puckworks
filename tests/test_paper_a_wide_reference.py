@@ -15,7 +15,6 @@ import math
 import pathlib
 import sys
 
-import numpy as np
 import pytest
 
 _ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -378,9 +377,9 @@ def test_the_reference_envelope_is_asymmetric_by_construction():
 # ═════════════════════════════════════════════════════════════════════════════════════════════
 
 
-def _convention_record(cls):
+def _convention_record(cls, precondition="unresolved"):
     upper = ("upper_status_indeterminate" if cls == WR.RELATIVE_NOT_APPLICABLE
-             else WR.eventual_upper_status(cls))
+             else WR.eventual_upper_status(cls, precondition))
     return {"endpoint_classification": cls, "eventual_upper_status": upper,
             "threshold_interval": [1.0, 1.2],
             "components": [{"lo": 0.15, "hi": 12.0, "lower_censored": True,
@@ -409,7 +408,7 @@ def _archive(**overrides):
         "grid_sizes": list(WR.GRID_SIZES),
         "threshold_families": {"relative": list(WR.RELATIVE_Q), "absolute": list(WR.ABSOLUTE_A)},
         "eventual_upper_precondition": WR.EVENTUAL_UPPER_PRECONDITION,
-        "eventual_upper_precondition_status": "deferred",
+        "eventual_upper_precondition_status": WR.EVENTUAL_UPPER_PRECONDITION_CURRENT,
         "groups": [_group_record("g%d" % i) for i in range(6)],
         "programme_result": "H1_STRONG",
     }
@@ -492,6 +491,63 @@ def test_the_archive_declares_the_precondition_of_the_eventual_upper_vocabulary(
         WR.validate_archive(_archive(eventual_upper_precondition="none"))
     with pytest.raises(ValueError, match="eventual_upper_precondition_status"):
         WR.validate_archive(_archive(eventual_upper_precondition_status="proved"))
+
+
+def test_the_precondition_vocabulary_is_the_three_state_assurance_vocabulary():
+    assert WR.EVENTUAL_UPPER_PRECONDITION_STATUSES == ("unresolved", "assured", "failed")
+    assert WR.EVENTUAL_UPPER_PRECONDITION_CURRENT == "unresolved"
+
+
+def test_unresolved_retains_the_conditional_machine_value():
+    """The mapping still runs; what it may not do is become prose. That is a text rule, not a code
+    one, so the archive keeps the field and the protocol carries the prohibition."""
+    assert WR.eventual_upper_status("endpoint_included", "unresolved") == \
+        "wide_referenced_upper_set_unbounded"
+    WR.validate_archive(_archive(eventual_upper_precondition_status="unresolved"))
+
+
+def test_assured_leaves_the_mapping_unchanged():
+    for cls in ("endpoint_included", "endpoint_excluded", "endpoint_indeterminate"):
+        assert WR.eventual_upper_status(cls, "assured") == WR.eventual_upper_status(cls,
+                                                                                   "unresolved")
+    a = _archive(eventual_upper_precondition_status="assured")
+    WR.validate_archive(a)
+
+
+def test_failed_collapses_every_eventual_upper_status_and_fails_closed():
+    """An inference cannot outlive a refuted premise.
+
+    The endpoint classification is still reportable — it is a numerical comparison and the refuted
+    proposition is about time, not about the interval. What does not survive is the eventual reading.
+    """
+    for cls in WR.ENDPOINT_CLASSIFICATIONS:
+        assert WR.eventual_upper_status(cls, "failed") == "upper_status_indeterminate"
+
+    collapsed = _archive(
+        eventual_upper_precondition_status="failed",
+        groups=[{**_group_record("g%d" % i),
+                 "conventions": {c.name: _convention_record("endpoint_included", "failed")
+                                 for c in WR.CONVENTIONS}} for i in range(6)])
+    WR.validate_archive(collapsed)
+    for group in collapsed["groups"]:
+        for cr in group["conventions"].values():
+            assert cr["endpoint_classification"] == "endpoint_included"
+            assert cr["eventual_upper_status"] == "upper_status_indeterminate"
+
+    surviving = _archive(eventual_upper_precondition_status="failed")   # built for "unresolved"
+    with pytest.raises(ValueError, match="under a failed precondition"):
+        WR.validate_archive(surviving)
+
+
+def test_a_failed_precondition_does_not_change_the_programme_rule():
+    """The rule reads endpoint classifications, not eventual status, so it is untouched."""
+    outcomes = [_outcome("g%d" % i, INCL, INCL, INCL) for i in range(6)]
+    assert WR.programme_result(outcomes) == "H1_STRONG"
+
+
+def test_an_unknown_precondition_status_is_rejected_at_the_mapping():
+    with pytest.raises(ValueError, match="unknown precondition status"):
+        WR.eventual_upper_status("endpoint_included", "deferred")
 
 
 def test_no_p0_g8_result_archive_exists_in_the_tree():

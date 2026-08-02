@@ -225,9 +225,18 @@ endpoint_indeterminate  ->  upper_status_indeterminate
 
 That mapping is **conditional**. The fixed-positive-time limit is a separate derivation and is not
 closed by this protocol, so every archive records
-`eventual_upper_precondition = fixed_positive_time_limit` together with its status. Until that
-status is `established`, the enumerated value records the endpoint comparison and nothing more, and
-no reader-facing text may convert it into a statement about arbitrarily large multipliers.
+`eventual_upper_precondition = fixed_positive_time_limit` together with its status. The assurance
+vocabulary and its frozen semantics:
+
+| status | meaning |
+|---|---|
+| `unresolved` | the conditional machine value may be retained, but it cannot become reader-facing eventual-upper prose. **This is the current pre-freeze value.** |
+| `assured` | the fixed-positive-time proposition has passed, so the endpoint-to-eventual-upper mapping may support scoped reader-facing language |
+| `failed` | the endpoint classification remains reportable, but every `eventual_upper_status` is forced to `upper_status_indeterminate`; no eventual-unbounded or eventual-exclusion inference survives |
+
+`failed` is the state the earlier two-token vocabulary could not express. A proposition attempted and
+refuted is not the same as one not yet attempted, and with no token for refutation the field would
+have had to keep reading as pending — which would have let the mapping survive its own premise.
 
 ### 2.6 Quantity-specific error budgets
 
@@ -465,8 +474,8 @@ tail_onset_status          = unresolved_by_design
 intermediate_domain_status = not_characterized_by_design
 ```
 
-The archive also records `eventual_upper_precondition = fixed_positive_time_limit` and its status
-(§2.5). **An invented component such as `[κ_c, ∞]` is never serialised**; finite connected components
+The archive also records `eventual_upper_precondition = fixed_positive_time_limit` and its status —
+one of `unresolved`, `assured`, `failed`, currently `unresolved` (§2.5). **An invented component such as `[κ_c, ∞]` is never serialised**; finite connected components
 are reported only within `D_WIDE`. The structural contract is
 `puckworks.paper_a.wide_reference.validate_archive`.
 
@@ -591,7 +600,8 @@ retention is mandatory; the archive row count must equal 432 including failures.
 | P0-G8 returns `H1_QUALIFIED` | H1 may lead, and the single exception is named in the same headline sentence |
 | any group returns `limit_construction_failed` or an unresolved `J_ref` | that group is a failure, so the programme result is `H1_DOES_NOT_LEAD` until it is resolved or explicitly scoped |
 | any group returns `finite_wide_topology_status = unresolved` | the programme label is unchanged, but no claim of complete finite-domain topology is made and the unresolved status is reported prominently |
-| `eventual_upper_precondition_status` is not `established` | no reader-facing text converts an eventual-upper enumerated value into a statement about arbitrarily large multipliers |
+| `eventual_upper_precondition_status` is `unresolved` | the conditional machine value is retained, but no reader-facing text converts an eventual-upper enumerated value into a statement about arbitrarily large multipliers |
+| `eventual_upper_precondition_status` is `failed` | every `eventual_upper_status` is `upper_status_indeterminate`; the endpoint classifications remain reportable and the programme rule is unchanged, since it reads classifications and not eventual status |
 | RSI fails `τ_b ≥ 0.40` in ≥ 5/6 groups | design-ranking claims removed; algebra and exact profiling retained |
 | the cross-fitted map is `not_constructible`, or the coarse benefit collapses | H3 demoted to retrospective case study; removed from title and contributions |
 | no policy dominates | H4 reports "no winner"; no recommendation is made |
