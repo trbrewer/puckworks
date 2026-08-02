@@ -2,9 +2,10 @@
 """Is the high-rate plateau a BDF artefact, or structural to the declared model? (NUM-TIME-01)
 
 `paper_a_rate_domain_check.py` found that a tenfold change in the kinetic rate multiplier moves the
-predicted cup concentration by less than 0.05 %, and by *exactly* 0.000 % in two groups. That is the
-paper's central mechanism — the cup cannot see the kinetics — but it is also exactly what a solver
-returning a converged floor would look like. Two configurations of the same numerical path can agree
+predicted cup concentration by less than 0.05 %, and by *exactly* 0.000 % in two groups. The tested centre-condition response becomes weakly
+sensitive to further increases in the multiplier; this check determines whether that finite-response
+behaviour is an artefact of BDF time integration within the declared semi-discrete model. It is also
+exactly what a solver returning a converged floor would look like. Two configurations of the same numerical path can agree
 while both being wrong, so agreement is not evidence here.
 
 This settles it with an **independent integrator**.
@@ -64,9 +65,9 @@ OUT = _REPO / "docs" / "paper1_resource" / "PAPER_A_SATURATION_VERIFICATION.json
 T_C, P_BAR = 93.4, 9.0
 
 #: Rate multipliers spanning the saturated regime and far beyond it.
-SATURATION_RATES = (10.0, 50.0, 100.0, 500.0, 1e3, 1e4, 1e5)
+LARGE_KAPPA_RATES = (10.0, 50.0, 100.0, 500.0, 1e3, 1e4, 1e5)
 
-#: Rates used for the BDF-vs-expm agreement check, from identified to deeply saturated.
+#: Rates used for the BDF-vs-expm agreement check, from identified to deep in the large-coefficient regime.
 AGREEMENT_RATES = (0.5, 1.0, 6.5, 50.0, 500.0)
 
 #: Relative increment below which a change is arithmetic noise in the 601x601 matrix exponential
@@ -234,7 +235,7 @@ def run() -> dict:
     A, idx = build_operator(p, nz)
     operator = verify_operator(A, idx, p, nz)
 
-    # also at a deeply saturated rate, where stiffness is extreme
+    # also at a deep in the large-coefficient regime rate, where stiffness is extreme
     p_sat, _c, _t2, _cl2, _nz2 = _params("caffeine", 500.0)
     A_sat, idx_sat = build_operator(p_sat, nz)
     operator_saturated = verify_operator(A_sat, idx_sat, p_sat, nz)
@@ -254,8 +255,8 @@ def run() -> dict:
     # ── 4: saturation sweep on the INDEPENDENT path, and convergence to a limit ─────────────
     sweep = []
     for solute in SOLUTES:
-        preds = {r: expm_prediction(solute, r) for r in SATURATION_RATES}
-        vals = np.array([preds[r] for r in SATURATION_RATES], float)
+        preds = {r: expm_prediction(solute, r) for r in LARGE_KAPPA_RATES}
+        vals = np.array([preds[r] for r in LARGE_KAPPA_RATES], float)
         # spread across a decade in the saturated regime (50 -> 500)
         lo, hi = preds[50.0], preds[500.0]
         decade_spread = abs(hi - lo) / abs(lo) * 100.0
@@ -273,7 +274,7 @@ def run() -> dict:
 
         sweep.append({
             "solute": solute,
-            "predictions": {str(r): preds[r] for r in SATURATION_RATES},
+            "predictions": {str(r): preds[r] for r in LARGE_KAPPA_RATES},
             "decade_spread_percent_50_to_500": decade_spread,
             "limit_estimate": limit,
             "relative_increments": [float(x) for x in relative],
@@ -318,7 +319,7 @@ def run() -> dict:
             "rows": [{k: (round(v, 9) if isinstance(v, float) else v) for k, v in a.items()}
                      for a in agreement],
         },
-        "saturation_on_independent_path": {
+        "large_kappa_limit_on_independent_path": {
             "noise_floor_relative": NOISE_FLOOR_RELATIVE,
             "worst_decade_spread_percent": worst_decade,
             "worst_final_increment_relative": worst_final_increment,
@@ -343,7 +344,7 @@ def main(argv=None) -> int:
     ap.add_argument("--write", action="store_true")
     args = ap.parse_args(argv)
 
-    print("verifying the saturation on an independent numerical path...", flush=True)
+    print("verifying the large-coefficient limit on an independent numerical path...", flush=True)
     result = run()
 
     print("\nlinearity of _rhs            : %s (rel err %.2e)"
@@ -357,8 +358,8 @@ def main(argv=None) -> int:
              result["operator_check_rate_500"]["max_relative_operator_error"]))
     print("\nBDF vs matrix exponential, worst relative difference: %.6f %%"
           % result["bdf_vs_expm"]["worst_relative_difference_percent"])
-    s = result["saturation_on_independent_path"]
-    print("\nsaturation on the expm path:")
+    s = result["large_kappa_limit_on_independent_path"]
+    print("\nlarge-coefficient limit on the expm path:")
     for row in s["per_solute"]:
         print("   %-14s decade spread %.6f %%   limit %.9f   increments fell %.1f orders to "
               "%.1e   converged %s"

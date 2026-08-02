@@ -1,0 +1,445 @@
+{
+ "schema_version": 2,
+ "operative_plan": "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2_1.md",
+ "operative_status": "candidate",
+ "superseded_plans": [
+  "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN.md",
+  "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2.md",
+  "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_1.md",
+  "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2.md"
+ ],
+ "gates": {
+  "NUM-TIME-01": {
+   "title": "Is the high-rate plateau a BDF artefact or structural to the declared model?",
+   "status": "passed",
+   "scope": "numerical-model-structural; physical generalisation untested",
+   "dependencies": [],
+   "deliverables": [
+    "docs/paper1_resource/PAPER_A_SATURATION_VERIFICATION.json"
+   ],
+   "blocks_drafting": false,
+   "closure_record": "docs/paper1_resource/gates/NUM-TIME-01_CLOSURE.json",
+   "closed_at_commit": null
+  },
+  "NUM-ENV-01": {
+   "title": "Do the FULL-SUPPORT contrasts survive mesh and tolerance change?",
+   "status": "passed",
+   "scope": "full-support estimands only; says nothing about fold medians",
+   "dependencies": [
+    "NUM-TIME-01"
+   ],
+   "deliverables": [
+    "docs/paper1_resource/PAPER_A_NUMERICAL_ENVELOPE.json"
+   ],
+   "blocks_drafting": false,
+   "closure_record": "docs/paper1_resource/gates/NUM-ENV-01_CLOSURE.json",
+   "closed_at_commit": null
+  },
+  "P0-G0": {
+   "title": "Protocol and analysis freeze",
+   "status": "open",
+   "dependencies": [
+    "P0-G1a",
+    "P0-G3a"
+   ],
+   "deliverables": [
+    "docs/paper1_resource/PAPER_A_PIVOT_ANALYSIS_PROTOCOL_V1.md"
+   ],
+   "blocks_drafting": true,
+   "closure_record": null,
+   "closed_at_commit": null
+  },
+  "P0-G1a": {
+   "title": "Initial claim and estimand ledger, before any new scientific run",
+   "status": "open",
+   "dependencies": [],
+   "deliverables": [
+    "docs/paper1_resource/PAPER_A_CLAIM_EVIDENCE_LEDGER_V2_INITIAL.json",
+    "docs/paper1_resource/PAPER_A_ACTIVE_CLAIM_RECONCILIATION.md"
+   ],
+   "blocks_drafting": true,
+   "closure_record": null,
+   "closed_at_commit": null
+  },
+  "P0-G1b": {
+   "title": "Final claim reconciliation, after all analyses are frozen",
+   "status": "open",
+   "dependencies": [
+    "P0-G4",
+    "P0-G5",
+    "P0-G6",
+    "P0-G7",
+    "P0-G8",
+    "P0-G9"
+   ],
+   "deliverables": [
+    "docs/paper1_resource/PAPER_A_CLAIM_EVIDENCE_LEDGER_V2_FINAL.json",
+    "docs/paper1_resource/PAPER_A_CLAIM_EVIDENCE_LEDGER_V2_DIFF.json"
+   ],
+   "blocks_drafting": true,
+   "closure_record": null,
+   "closed_at_commit": null
+  },
+  "P0-G2": {
+   "title": "Disaggregation \u2014 every pooled headline shown with its components and weighting rule",
+   "status": "open",
+   "dependencies": [
+    "P0-G1a"
+   ],
+   "deliverables": [
+    "docs/paper1_resource/PAPER_A_DISAGGREGATION_AUDIT.json"
+   ],
+   "blocks_drafting": true,
+   "closure_record": null,
+   "closed_at_commit": null
+  },
+  "P0-G3a": {
+   "title": "Initial model and evidence scope matrix, before scientific runs",
+   "status": "open",
+   "dependencies": [],
+   "deliverables": [
+    "docs/paper1_resource/PAPER_A_MODEL_SCOPE_MATRIX_V1_INITIAL.md"
+   ],
+   "blocks_drafting": true,
+   "closure_record": null,
+   "closed_at_commit": null
+  },
+  "P0-G3b": {
+   "title": "Final cross-file scope reconciliation, before drafting",
+   "status": "open",
+   "dependencies": [
+    "P0-G1b"
+   ],
+   "deliverables": [
+    "docs/paper1_resource/PAPER_A_MODEL_SCOPE_MATRIX_V1_FINAL.md",
+    "docs/paper1_resource/PAPER_A_MODEL_SCOPE_MATRIX_V1_DIFF.json"
+   ],
+   "blocks_drafting": true,
+   "closure_record": null,
+   "closed_at_commit": null
+  },
+  "P0-G4": {
+   "title": "LOCO-WIDE \u2014 leave-one-condition-out refits on the frozen wide multiplier domain",
+   "status": "open",
+   "dependencies": [
+    "P0-G0",
+    "P0-G9"
+   ],
+   "deliverables": [
+    "docs/paper1_resource/PAPER_A_LOCO_WIDE_RESULTS.json"
+   ],
+   "blocks_drafting": true,
+   "closure_record": null,
+   "closed_at_commit": null
+  },
+  "P0-G5": {
+   "title": "Point-estimation policies and propagation layers, compared separately",
+   "status": "open",
+   "dependencies": [
+    "P0-G4"
+   ],
+   "deliverables": [
+    "docs/paper1_resource/PAPER_A_KAPPA_POLICY_RESULTS.json",
+    "docs/paper1_resource/PAPER_A_PROFILE_PROPAGATION_RESULTS.json"
+   ],
+   "blocks_drafting": true,
+   "closure_record": null,
+   "closed_at_commit": null
+  },
+  "P0-G6": {
+   "title": "H2 \u2014 exact weighted-L2 identity, exact MAPE profiling, and RSI admission or demotion",
+   "status": "open",
+   "dependencies": [
+    "P0-G0",
+    "P0-G8"
+   ],
+   "deliverables": [
+    "docs/paper1_resource/PAPER_A_RSI_MAPE_VALIDATION.json"
+   ],
+   "blocks_drafting": true,
+   "closure_record": null,
+   "closed_at_commit": null
+  },
+  "P0-G7": {
+   "title": "Observation-operator recovery study under resource-equated budgets",
+   "status": "open",
+   "dependencies": [
+    "P0-G6"
+   ],
+   "deliverables": [
+    "docs/paper1_resource/PAPER_A_OBSERVATION_OPERATOR_RECOVERY.json"
+   ],
+   "blocks_drafting": true,
+   "closure_record": null,
+   "closed_at_commit": null
+  },
+  "P0-G8": {
+   "title": "Asymptotic profiled objective J_inf and three-way upper-tail classification",
+   "status": "open",
+   "dependencies": [
+    "P0-G0"
+   ],
+   "deliverables": [
+    "docs/paper1_resource/PAPER_A_ASYMPTOTIC_PROFILE_LIMITS.json"
+   ],
+   "blocks_drafting": true,
+   "closure_record": null,
+   "closed_at_commit": null
+  },
+  "P0-G9": {
+   "title": "Target-map provenance, timing audit, and mandatory cross-fitted variants",
+   "status": "open",
+   "dependencies": [
+    "P0-G0"
+   ],
+   "deliverables": [
+    "docs/paper1_resource/PAPER_A_TARGET_MAP_PROVENANCE.md",
+    "docs/paper1_resource/PAPER_A_TARGET_MAP_ADAPTATION_RESULTS.json"
+   ],
+   "blocks_drafting": true,
+   "closure_record": null,
+   "closed_at_commit": null
+  },
+  "P0-G10": {
+   "title": "Indexed novelty search and bounded contribution statement",
+   "status": "open",
+   "dependencies": [],
+   "deliverables": [
+    "docs/paper1_resource/PAPER_A_NOVELTY_SEARCH_PROTOCOL.md",
+    "docs/paper1_resource/PAPER_A_NOVELTY_SEARCH_HANDOFF.md",
+    "docs/paper1_resource/PAPER_A_NOVELTY_POSITIONING.md"
+   ],
+   "blocks_drafting": true,
+   "closure_record": null,
+   "closed_at_commit": null
+  }
+ },
+ "active_claim_surfaces": [
+  "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2_1.md",
+  "docs/paper1_resource/PAPER_A_ABLATION_REFIT_STABILITY.json",
+  "docs/paper1_resource/PAPER_A_ACTIVE_CLAIM_RECONCILIATION.md",
+  "docs/paper1_resource/PAPER_A_CLAIM_EVIDENCE_LEDGER_V2_INITIAL.json",
+  "docs/paper1_resource/PAPER_A_COMPARATOR_LOSS_ROBUSTNESS.json",
+  "docs/paper1_resource/PAPER_A_DESIGN_SEPARABILITY.json",
+  "docs/paper1_resource/PAPER_A_DIFFUSIVITY_CLOSURE_AUDIT.json",
+  "docs/paper1_resource/PAPER_A_ENDPOINT_PROPAGATION.json",
+  "docs/paper1_resource/PAPER_A_EQUAL_INFORMATION_BENCHMARKS.json",
+  "docs/paper1_resource/PAPER_A_EXTERNAL_PANEL_LOSSES.json",
+  "docs/paper1_resource/PAPER_A_INFORMATION_PARITY.json",
+  "docs/paper1_resource/PAPER_A_LOCO_COVERAGE_INTERVAL.json",
+  "docs/paper1_resource/PAPER_A_MODEL_SCOPE_MATRIX_V1_INITIAL.md",
+  "docs/paper1_resource/PAPER_A_NUMERICAL_CONVERGENCE.json",
+  "docs/paper1_resource/PAPER_A_NUMERICAL_ENVELOPE.json",
+  "docs/paper1_resource/PAPER_A_OBJECTIVE_FAMILY_PANELS.json",
+  "docs/paper1_resource/PAPER_A_P0-5_RESULTS.md",
+  "docs/paper1_resource/PAPER_A_P0-5_UNCERTAINTY_SCOPE.md",
+  "docs/paper1_resource/PAPER_A_PIVOT_ANALYSIS_PROTOCOL_V1.md",
+  "docs/paper1_resource/PAPER_A_PLAN_MANIFEST_V1.json",
+  "docs/paper1_resource/PAPER_A_RATE_DOMAIN_CHECK.json",
+  "docs/paper1_resource/PAPER_A_REFIT_AWARE_COMPARISON.json",
+  "docs/paper1_resource/PAPER_A_ROUND10_NUMERICAL_INVARIANTS.json",
+  "docs/paper1_resource/PAPER_A_SATURATION_VERIFICATION.json",
+  "docs/paper1_resource/PAPER_A_SOLVER_CONTRACT_AUDIT.json",
+  "docs/paper1_resource/PAPER_A_TABLE7_UNITS_AUDIT.md",
+  "docs/paper1_resource/PAPER_A_TRANSFER_CORPUS_CONTRACTS.json",
+  "docs/paper1_resource/gates/NUM-ENV-01_CLOSURE.json",
+  "docs/paper1_resource/gates/NUM-TIME-01_CLOSURE.json",
+  "puckworks/paper_a/build.py",
+  "puckworks/paper_a/claim_coverage.py",
+  "puckworks/paper_a/claim_policy.py",
+  "puckworks/paper_a/empirical_benchmarks.py",
+  "puckworks/paper_a/inferential_evidence.py",
+  "puckworks/paper_a/separability.py",
+  "puckworks/paper_a/slow_lane_bindings.py",
+  "puckworks/paper_a/source_resampling_oracle.py",
+  "puckworks/paper_a/source_schema.py",
+  "puckworks/paper_a/transfer_contract.py",
+  "puckworks/paper_a/transfer_semantics.py",
+  "tools/paper_a_ablation_refit_stability.py",
+  "tools/paper_a_consistency.py",
+  "tools/paper_a_design_separability.py",
+  "tools/paper_a_figure_captions.py",
+  "tools/paper_a_front_matter.py",
+  "tools/paper_a_information_parity.py",
+  "tools/paper_a_migrate_schema4.py",
+  "tools/paper_a_numerical_envelope.py",
+  "tools/paper_a_numerical_invariants.py",
+  "tools/paper_a_rate_domain_check.py",
+  "tools/paper_a_references.py",
+  "tools/paper_a_refit_aware_comparison.py",
+  "tools/paper_a_saturation_verification.py",
+  "tools/paper_a_supplement.py",
+  "tools/paper_a_transfer_artifacts.py",
+  "tools/paper_a_transfer_text.py",
+  "tools/paper_a_xref.py"
+ ],
+ "historical_exclusions": [
+  "docs/ROADMAP.md",
+  "docs/SPRINTS.md",
+  "docs/paper1_resource/PAPER_1_DETAILED_REVIEW-20260724.md",
+  "docs/paper1_resource/PAPER_1_DETAILED_REVIEW_ROUND_3_20260726.md",
+  "docs/paper1_resource/PAPER_1_DETAILED_REVIEW_ROUND_4_20260727.md",
+  "docs/paper1_resource/PAPER_1_DETAILED_REVIEW_ROUND_6_20260728.md",
+  "docs/paper1_resource/PAPER_1_DOMAIN_REFEREE_BRIEF.md",
+  "docs/paper1_resource/PAPER_1_DOMAIN_REFEREE_RESPONSE.md",
+  "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN.md",
+  "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_REVIEW_20260801.md",
+  "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2.md",
+  "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_1.md",
+  "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_1_REVIEW_20260801.md",
+  "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2.md",
+  "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2_REVIEW_20260802.md",
+  "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_REVIEW_20260801.md",
+  "docs/paper1_resource/PAPER_1_REVIEW_ACTION_PLAN.md",
+  "docs/paper1_resource/PAPER_1_REVIEW_BRIEF_ROUND_10.md",
+  "docs/paper1_resource/PAPER_1_REVIEW_BRIEF_ROUND_11.md",
+  "docs/paper1_resource/PAPER_1_REVIEW_BRIEF_ROUND_12.md",
+  "docs/paper1_resource/PAPER_1_REVIEW_BRIEF_ROUND_7.md",
+  "docs/paper1_resource/PAPER_1_REVIEW_BRIEF_ROUND_8.md",
+  "docs/paper1_resource/PAPER_1_REVIEW_BRIEF_ROUND_9.md",
+  "docs/paper1_resource/PAPER_1_ROUND_10_DETAILED_REVIEW.md",
+  "docs/paper1_resource/PAPER_1_ROUND_10_REMEDIATION_ACCEPTANCE.md",
+  "docs/paper1_resource/PAPER_1_ROUND_10_REMEDIATION_IMPLEMENTATION_PLAN.md",
+  "docs/paper1_resource/PAPER_1_ROUND_10_SECOND_DETAILED_REVIEW.md",
+  "docs/paper1_resource/PAPER_1_ROUND_10_SECOND_REMEDIATION_ACCEPTANCE.md",
+  "docs/paper1_resource/PAPER_1_ROUND_10_SECOND_REMEDIATION_IMPLEMENTATION_PLAN.md",
+  "docs/paper1_resource/PAPER_1_ROUND_11_DETAILED_REVIEW.md",
+  "docs/paper1_resource/PAPER_1_ROUND_11_REMEDIATION_ACCEPTANCE.md",
+  "docs/paper1_resource/PAPER_1_ROUND_11_REMEDIATION_IMPLEMENTATION_PLAN.md",
+  "docs/paper1_resource/PAPER_1_ROUND_12_DETAILED_REVIEW.md",
+  "docs/paper1_resource/PAPER_1_ROUND_12_REMEDIATION_ACCEPTANCE.md",
+  "docs/paper1_resource/PAPER_1_ROUND_12_REMEDIATION_IMPLEMENTATION_PLAN.md",
+  "docs/paper1_resource/PAPER_1_ROUND_3_ACTION_TRACKER.md",
+  "docs/paper1_resource/PAPER_1_ROUND_4_ACTION_TRACKER.md",
+  "docs/paper1_resource/PAPER_1_ROUND_7_ACTION_TRACKER.md",
+  "docs/paper1_resource/PAPER_1_ROUND_7_DETAILED_REVIEW.md",
+  "docs/paper1_resource/PAPER_1_ROUND_8_DETAILED_REVIEW.md",
+  "docs/paper1_resource/PAPER_1_ROUND_8_REMEDIATION_IMPLEMENTATION_PLAN.md",
+  "docs/paper1_resource/PAPER_1_ROUND_9_DETAILED_REVIEW.md",
+  "docs/paper1_resource/PAPER_1_ROUND_9_REMEDIATION_IMPLEMENTATION_PLAN.md",
+  "docs/paper1_resource/PAPER_1_SCIENTIFIC_PIVOT_RESPONSE.md",
+  "docs/paper1_resource/PAPER_1_SECOND_DETAILED_REVIEW_2026-07-25.md",
+  "docs/paper1_resource/PAPER_1_SUBMISSION_PATH.md",
+  "docs/paper1_resource/PAPER_A_CLAIM_LEDGER.md"
+ ],
+ "banned_assertions": [
+  {
+   "pattern": "\\bverdict\\s*:\\s*\"?PHYSICAL\\b",
+   "why": "NUM-TIME-01 is numerical-model-structural; physical validity is untested"
+  },
+  {
+   "pattern": "\\ball local rate information\\b",
+   "why": "true only in the declared weighted-L2 surrogate geometry, not for the production MAPE objective"
+  },
+  {
+   "pattern": "\\bRATE RECALIBRATION ALONE\\b",
+   "why": "M0-M2 is an estimation-policy contrast; the inventory level is re-profiled under each policy"
+  },
+  {
+   "pattern": "\\bhydraulic attribution\\b",
+   "why": "M1-M2 is an input substitution; particle geometry was frozen and never varied"
+  },
+  {
+   "pattern": "\\bcannot localize\\b",
+   "why": "categorical; classification depends on J_inf and an operational tolerance"
+  },
+  {
+   "pattern": "\\bfreeze rather than fit\\b",
+   "why": "the universal policy rule was withdrawn"
+  },
+  {
+   "pattern": "\\bfreezing the rate transfers better\\b",
+   "why": "pooled sign is not stable and the coarse/fine directions oppose"
+  },
+  {
+   "pattern": "\\bunbounded above\\b",
+   "why": "the acceptable set is right-censored at kappa=500, not proven unbounded"
+  },
+  {
+   "pattern": "\\btwo (?:well-chosen )?conditions beat all nine\\b",
+   "why": "false on total sensitivity spread; the grid carries 1.8x more"
+  },
+  {
+   "pattern": "\\bcannot see the kinetics\\b",
+   "why": "categorical, and pre-empts P0-G8; the response becomes weakly sensitive, which is not the same claim"
+  },
+  {
+   "pattern": "\\bSATURATING_DEGENERACY\\b",
+   "why": "verdict framing predating the H1 tail classification; P0-G8 supersedes it"
+  },
+  {
+   "pattern": "\\bscreens designs\\b|\\badmitted as a SCREENING tool\\b",
+   "why": "RSI admission is decided by P0-G6, which is open; an archive must not pre-adjudicate it"
+  },
+  {
+   "pattern": "\\bthe saturation is physical\\b|\\bH1's mechanism is verified\\b",
+   "why": "numerical-model-structural evidence described as physical validation"
+  }
+ ],
+ "required_estimand_tags": [
+  "FULL-PUB",
+  "FULL-WIDE",
+  "LOCO-PUB",
+  "LOCO-WIDE",
+  "NUM-FULL"
+ ],
+ "evidence_types": [
+  "algebraic",
+  "numerical-model-structural",
+  "empirical-descriptive",
+  "operational-convention",
+  "inferential",
+  "prospective-model-based",
+  "physical-external",
+  "exploratory-oracle"
+ ],
+ "robustness_statuses": [
+  "established-under-assumptions",
+  "verified-within-numerical-scope",
+  "refit-stable",
+  "heterogeneous",
+  "sensitivity-only",
+  "cross-fitted",
+  "externally-replicated",
+  "unresolved",
+  "withdrawn"
+ ],
+ "_note": "JSON, not YAML, so the integrity control needs only the standard library. The previous YAML manifest forced pytest.importorskip('yaml'), which let the supposedly fail-closed control SKIP on any lane without PyYAML (GOV-01).",
+ "activation": {
+  "_note": "A commit cannot contain its own SHA. Activation is therefore two-stage: freeze commit F carries the normative bundle and its hashes; activation commit A changes only control metadata and records F. Tests then verify current normative content is byte-identical to the hashes recorded at F.",
+  "frozen_content_commit": null,
+  "normative_bundle": [
+   "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2_1.md",
+   "docs/paper1_resource/PAPER_A_PLAN_MANIFEST_V1.json",
+   "docs/paper1_resource/PAPER_A_PIVOT_ANALYSIS_PROTOCOL_V1.md",
+   "docs/paper1_resource/PAPER_A_CLAIM_EVIDENCE_LEDGER_V2_INITIAL.json",
+   "docs/paper1_resource/PAPER_A_MODEL_SCOPE_MATRIX_V1_INITIAL.md",
+   "docs/paper1_resource/PAPER_A_ACTIVE_CLAIM_RECONCILIATION.md"
+  ],
+  "frozen_hashes": {}
+ },
+ "claim_surface_globs": [
+  "docs/paper1_resource/PAPER_1_*.md",
+  "docs/paper1_resource/PAPER_A_*.json",
+  "docs/paper1_resource/PAPER_A_*.md",
+  "docs/paper1_resource/gates/*.json",
+  "puckworks/paper_a/*.py",
+  "tools/paper_a_*.py"
+ ],
+ "nonclaim_exclusions": [
+  {
+   "path": "puckworks/paper_a/__init__.py",
+   "reason": "package marker; no claims"
+  }
+ ],
+ "review_rounds": [
+  "R0a",
+  "R0b",
+  "R1",
+  "R2",
+  "R3",
+  "R4",
+  "R5"
+ ],
+ "classification_rule": "A candidate surface is HISTORICAL if its name marks it as a dated record of a past round (review, brief, tracker, remediation plan, acceptance, superseded plan, or a response to one). Everything else is ACTIVE and is scanned. Classification is explicit and enumerated below; the rule is recorded so the enumeration can be audited, not so it can be applied silently."
+}

@@ -29,7 +29,7 @@
    "rate_at_min_widened": 0.792,
    "top_decade_objective_relative_spread": 0.000114,
    "top_decade_prediction_relative_spread": 0.000502,
-   "verdict": "SATURATING_DEGENERACY",
+   "verdict": "PRELIMINARY_FINITE_DOMAIN_PLATEAU",
    "widened_domain": [
     0.15,
     500.0
@@ -64,7 +64,7 @@
    "rate_at_min_widened": 1.8199,
    "top_decade_objective_relative_spread": 0.0,
    "top_decade_prediction_relative_spread": 0.0,
-   "verdict": "SATURATING_DEGENERACY",
+   "verdict": "PRELIMINARY_FINITE_DOMAIN_PLATEAU",
    "widened_domain": [
     0.15,
     500.0
@@ -99,7 +99,7 @@
    "rate_at_min_widened": 0.9751,
    "top_decade_objective_relative_spread": 7e-05,
    "top_decade_prediction_relative_spread": 2.5e-05,
-   "verdict": "SATURATING_DEGENERACY",
+   "verdict": "PRELIMINARY_FINITE_DOMAIN_PLATEAU",
    "widened_domain": [
     0.15,
     500.0
@@ -134,7 +134,7 @@
    "rate_at_min_widened": 6.3392,
    "top_decade_objective_relative_spread": 9.8e-05,
    "top_decade_prediction_relative_spread": 0.000502,
-   "verdict": "SATURATING_DEGENERACY",
+   "verdict": "PRELIMINARY_FINITE_DOMAIN_PLATEAU",
    "widened_domain": [
     0.15,
     500.0
@@ -169,7 +169,7 @@
    "rate_at_min_widened": 62.4695,
    "top_decade_objective_relative_spread": 0.0,
    "top_decade_prediction_relative_spread": 0.0,
-   "verdict": "SATURATING_DEGENERACY",
+   "verdict": "PRELIMINARY_FINITE_DOMAIN_PLATEAU",
    "widened_domain": [
     0.15,
     500.0
@@ -204,7 +204,7 @@
    "rate_at_min_widened": 143.5452,
    "top_decade_objective_relative_spread": 2.5e-05,
    "top_decade_prediction_relative_spread": 2.5e-05,
-   "verdict": "SATURATING_DEGENERACY",
+   "verdict": "PRELIMINARY_FINITE_DOMAIN_PLATEAU",
    "widened_domain": [
     0.15,
     500.0
@@ -215,6 +215,8 @@
  "question": "Is the boundary-pinned rate multiplier a real degeneracy or an artefact of the declared rate domain, and does the M0-vs-M2 transfer conclusion survive widening it?",
  "saturation_tolerance": 0.01,
  "schema_version": 1,
+ "status": "PRELIMINARY finite-domain scan. These verdicts describe a response plateau over a FINITE swept domain; they are not a classification of the profiled objective. P0-G8 supersedes them once J_inf and the tolerance intervals exist.",
+ "superseded_by": "P0-G8",
  "transfer_after_widening": {
   "macro_M0_minus_M2_pp": -0.183,
   "macro_M0_pooled": 8.281,
@@ -223,6 +225,6 @@
   "n_groups_M0_better": 5
  },
  "verdict_counts": {
-  "SATURATING_DEGENERACY": 6
+  "PRELIMINARY_FINITE_DOMAIN_PLATEAU": 6
  }
 }

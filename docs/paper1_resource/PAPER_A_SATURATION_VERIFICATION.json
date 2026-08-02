@@ -117,23 +117,7 @@
  },
  "current_interpretation": "a finite response limit within the declared semi-discrete model and spatial operator; the two integrators share the governing equations, parameterisation, discretisation and omitted physics, so the path is independent in TIME only",
  "evidence_type": "numerical-model-structural",
- "linearity_check": {
-  "is_linear": true,
-  "max_relative_superposition_error": 4.151511495192528e-16
- },
- "method": "The semi-discrete system is linear in the state, so it is re-solved by dense matrix exponential: no time stepping, no adaptive error control, no numerical Jacobian, none of the machinery that emits the overflow warnings.",
- "operator_check_rate_1": {
-  "matches_rhs": true,
-  "max_relative_operator_error": 2.171680097119096e-16
- },
- "operator_check_rate_500": {
-  "matches_rhs": true,
-  "max_relative_operator_error": 2.67336783630414e-16
- },
- "physical_validity": "untested",
- "question": "Is the high-rate plateau an artefact of BDF time integration, or a structural property of the declared semi-discrete model? (NUM-TIME-01)",
- "reading": "The plateau reproduces on an integrator that shares no time-stepping machinery with BDF, and the prediction converges to a finite limit. A solver floor would not produce a convergent sequence. This establishes the plateau is STRUCTURAL to the declared semi-discrete model; it does NOT establish that real espresso occupies that regime.",
- "saturation_on_independent_path": {
+ "large_kappa_limit_on_independent_path": {
   "all_converged": true,
   "least_orders_of_magnitude_fallen": 7.247685047679249,
   "noise_floor_relative": 1e-09,
@@ -226,6 +210,22 @@
   "worst_decade_spread_percent": 0.05256026007934615,
   "worst_final_increment_relative": 3.6373678599316293e-11
  },
+ "linearity_check": {
+  "is_linear": true,
+  "max_relative_superposition_error": 4.151511495192528e-16
+ },
+ "method": "The semi-discrete system is linear in the state, so it is re-solved by dense matrix exponential: no time stepping, no adaptive error control, no numerical Jacobian, none of the machinery that emits the overflow warnings.",
+ "operator_check_rate_1": {
+  "matches_rhs": true,
+  "max_relative_operator_error": 2.171680097119096e-16
+ },
+ "operator_check_rate_500": {
+  "matches_rhs": true,
+  "max_relative_operator_error": 2.67336783630414e-16
+ },
+ "physical_validity": "untested",
+ "question": "Is the high-rate plateau an artefact of BDF time integration, or a structural property of the declared semi-discrete model? (NUM-TIME-01)",
+ "reading": "The plateau reproduces on an integrator that shares no time-stepping machinery with BDF, and the prediction converges to a finite limit. A solver floor would not produce a convergent sequence. This establishes the plateau is STRUCTURAL to the declared semi-discrete model; it does NOT establish that real espresso occupies that regime.",
  "schema_version": 1,
  "temporal_artifact_status": "not_BDF_artifact",
  "verdict": "MODEL-STRUCTURAL"

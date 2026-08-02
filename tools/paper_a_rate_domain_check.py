@@ -111,7 +111,7 @@ def analyse_group(AB, ps, params, rows, variety, solute, column, rates) -> dict:
     j_at_published_cap = float(objective[min(published_cap_i, len(objective) - 1)])
 
     if spread_top < SATURATION_TOLERANCE:
-        verdict = "SATURATING_DEGENERACY"
+        verdict = "PRELIMINARY_FINITE_DOMAIN_PLATEAU"
     elif rate_star > PUBLISHED_HI * 1.001:
         verdict = "INTERIOR_OPTIMUM_BEYOND_PUBLISHED_CAP"
     else:
@@ -193,6 +193,10 @@ def run() -> dict:
         "saturation_tolerance": SATURATION_TOLERANCE,
         "n_rates": WIDE_N,
         "verdict_counts": verdicts,
+        "status": ("PRELIMINARY finite-domain scan. These verdicts describe a response plateau over "
+                   "a FINITE swept domain; they are not a classification of the profiled objective. "
+                   "P0-G8 supersedes them once J_inf and the tolerance intervals exist."),
+        "superseded_by": "P0-G8",
         "groups": groups,
         "transfer_after_widening": {
             "macro_M0_pooled": round(pooled_m0, 3),

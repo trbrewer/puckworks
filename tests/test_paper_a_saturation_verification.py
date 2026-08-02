@@ -73,12 +73,12 @@ def test_the_two_integrators_agree_in_the_SATURATED_regime_specifically(archive)
 # ── 3. the saturation itself, on the independent path ────────────────────────────────────────
 def test_the_saturation_reproduces_without_bdf(archive):
     """A tenfold rate change still moves the prediction by <0.1 %, computed by matrix exponential."""
-    assert archive["saturation_on_independent_path"]["worst_decade_spread_percent"] < 0.1
+    assert archive["large_kappa_limit_on_independent_path"]["worst_decade_spread_percent"] < 0.1
 
 
 def test_the_prediction_converges_to_a_rate_independent_limit(archive):
     """The physical signature. A solver floor has no reason to produce a convergent sequence."""
-    s = archive["saturation_on_independent_path"]
+    s = archive["large_kappa_limit_on_independent_path"]
     assert s["all_converged"] is True
     for row in s["per_solute"]:
         assert row["converged"] is True, row["solute"]
@@ -88,7 +88,7 @@ def test_the_prediction_converges_to_a_rate_independent_limit(archive):
 
 def test_the_increments_fall_by_many_orders_of_magnitude(archive):
     """Convergence must be decisive, not marginal: >6 decades of collapse in the increment."""
-    s = archive["saturation_on_independent_path"]
+    s = archive["large_kappa_limit_on_independent_path"]
     assert s["least_orders_of_magnitude_fallen"] > 6.0
 
 
@@ -98,9 +98,9 @@ def test_the_noise_floor_is_stated_and_sits_between_machine_error_and_physics(ar
     The floor has to be well above double-precision `expm` error (~1e-11) and far below any change
     that would matter physically, or it is doing the deciding rather than the data.
     """
-    floor = archive["saturation_on_independent_path"]["noise_floor_relative"]
+    floor = archive["large_kappa_limit_on_independent_path"]["noise_floor_relative"]
     assert 1e-10 < floor < 1e-6
-    assert archive["saturation_on_independent_path"]["worst_final_increment_relative"] <= floor
+    assert archive["large_kappa_limit_on_independent_path"]["worst_final_increment_relative"] <= floor
 
 
 # ── 4. the verdict ───────────────────────────────────────────────────────────────────────────
@@ -124,7 +124,7 @@ def test_the_verdict_is_derived_not_asserted(archive):
     assert archive["operator_check_rate_1"]["matches_rhs"]
     assert archive["operator_check_rate_500"]["matches_rhs"]
     assert archive["bdf_vs_expm"]["worst_relative_difference_percent"] < 0.01
-    assert archive["saturation_on_independent_path"]["all_converged"]
+    assert archive["large_kappa_limit_on_independent_path"]["all_converged"]
 
 
 def test_a_nonflat_response_would_still_be_detected():

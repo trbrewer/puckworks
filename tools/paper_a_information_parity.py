@@ -304,14 +304,18 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     g = ap.add_mutually_exclusive_group()
     g.add_argument("--write", action="store_true")
-    g.add_argument("--check", action="store_true")
+    g.add_argument("--exists", "--check", dest="exists", action="store_true",
+                   help="assert the archive is PRESENT. This is not a reproduction "
+                        "check: the analysis is a multi-minute PDE sweep and nothing is "
+                        "recomputed. It was previously named --check and cited as "
+                        "reproduction evidence, which it never was.")
     args = ap.parse_args(argv)
 
-    if args.check:
+    if args.exists:
         if not OUT.exists():
             print("no information-parity archive; run --write", file=sys.stderr)
             return 1
-        print("Paper A information-parity archive present.")
+        print("Paper A information-parity archive PRESENT (existence only; not recomputed).")
         return 0
 
     print("information parity + M0/M1/M2 ablation (~5 min)...", flush=True)

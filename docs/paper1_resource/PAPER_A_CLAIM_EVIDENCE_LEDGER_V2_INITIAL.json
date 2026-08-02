@@ -3,7 +3,14 @@
  "purpose": "Initial claim ledger (gate P0-G1a). Recorded BEFORE any new scientific run, so that claim drift during the analyses is detectable rather than reconciled after the fact. A final ledger regenerated at the end (P0-G1b) cannot protect the programme from drift while it is running, which is why this exists now.",
  "supersedes": "docs/paper1_resource/PAPER_A_CLAIM_LEDGER.md",
  "operative_plan": "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2.md",
- "status_vocabulary": ["supported", "provisional", "open", "withdrawn", "superseded", "historical-only"],
+ "status_vocabulary": [
+  "supported",
+  "provisional",
+  "open",
+  "withdrawn",
+  "superseded",
+  "historical-only"
+ ],
  "claims": [
   {
    "claim_id": "C-ALG-01",
@@ -45,7 +52,10 @@
    "aggregation_rule": "none; per-solute",
    "data_map_protocol": "declared model, optimal-grind centre condition",
    "source_artefact": "docs/paper1_resource/PAPER_A_SATURATION_VERIFICATION.json",
-   "alternative_explanations": ["shared spatial-discretisation error in both paths", "shared model-form error"],
+   "alternative_explanations": [
+    "shared spatial-discretisation error in both paths",
+    "shared model-form error"
+   ],
    "external_validity_boundary": "Both integrators solve the SAME equations on the SAME spatial operator with the same omitted physics. Independent in TIME only. Does not establish that real espresso occupies the large-mass-transfer-coefficient regime.",
    "falsifying_result": "An independent SPATIAL discretisation, or a model including wetting/evolving permeability/poroelasticity, that does not show the plateau.",
    "status": "supported"
@@ -75,7 +85,11 @@
    "aggregation_rule": "macro mean over six groups within grind; median over nine DEPENDENT folds",
    "data_map_protocol": "campaign-conditioned target map built from target-grind shot times and conductivity polynomials",
    "source_artefact": "docs/paper1_resource/PAPER_A_ABLATION_REFIT_STABILITY.json",
-   "alternative_explanations": ["map error compensating model-form error", "hydraulic extrapolation leverage", "particle geometry, which was frozen and never varied"],
+   "alternative_explanations": [
+    "map error compensating model-form error",
+    "hydraulic extrapolation leverage",
+    "particle geometry, which was frozen and never varied"
+   ],
    "external_validity_boundary": "One campaign, one machine, two coffees. Input ablation within the declared model; not a causal mechanism. Retrospective map protocol.",
    "falsifying_result": "A scored-condition-excluded (cross-fitted) map under which the coarse benefit disappears.",
    "status": "provisional"
@@ -90,7 +104,10 @@
    "aggregation_rule": "as C-EMP-01",
    "data_map_protocol": "as C-EMP-01",
    "source_artefact": "docs/paper1_resource/PAPER_A_ABLATION_REFIT_STABILITY.json",
-   "alternative_explanations": ["73% of fine residence times lie outside calibration support, 1.55 spans beyond", "error cancellation under the common map"],
+   "alternative_explanations": [
+    "73% of fine residence times lie outside calibration support, 1.55 spans beyond",
+    "error cancellation under the common map"
+   ],
    "external_validity_boundary": "As C-EMP-01. The pooled M1-M2 figure is coarse-driven and MUST NOT be reported without this component.",
    "falsifying_result": "A condition-level analysis showing the fine effect is not associated with extrapolation or map error, and is stable in sign.",
    "status": "provisional"
@@ -105,7 +122,10 @@
    "aggregation_rule": "within each fold the pooled contrast is the equal-weight mean of coarse and fine; the reported pooled MEDIAN is the median of those fold averages and is NOT the mean of the component medians",
    "data_map_protocol": "both arms receive the target-grind map",
    "source_artefact": "docs/paper1_resource/PAPER_A_ABLATION_REFIT_STABILITY.json",
-   "alternative_explanations": ["kappa=1 is an inherited normalisation that may happen to suit coarse targets", "level re-profiling absorbs different amounts under each policy"],
+   "alternative_explanations": [
+    "kappa=1 is an inherited normalisation that may happen to suit coarse targets",
+    "level re-profiling absorbs different amounts under each policy"
+   ],
    "external_validity_boundary": "Published multiplier domain only (LOCO-PUB). Does not establish a generally preferable estimation policy.",
    "falsifying_result": "LOCO-WIDE refits, or a frozen anchor/penalty grid, under which freezing loses its coarse advantage.",
    "status": "provisional"
@@ -120,7 +140,10 @@
    "aggregation_rule": "none; per-group",
    "data_map_protocol": "optimal-grind calibration support",
    "source_artefact": "docs/paper1_resource/PAPER_A_RATE_DOMAIN_CHECK.json",
-   "alternative_explanations": ["the 10% convention is arbitrary and load-bearing", "a finite grid minimum may not be the global minimum"],
+   "alternative_explanations": [
+    "the 10% convention is arbitrary and load-bearing",
+    "a finite grid minimum may not be the global minimum"
+   ],
    "external_validity_boundary": "Right-censoring at kappa=500 is a FINITE-DOMAIN observation. It does not establish an unbounded acceptable set; that requires J_inf.",
    "falsifying_result": "J_inf above the tolerance boundary, which would exclude the upper tail and bound the profile after all.",
    "status": "provisional"
@@ -135,7 +158,10 @@
    "aggregation_rule": "median over six groups",
    "data_map_protocol": "declared model, nominal kappa=1",
    "source_artefact": "docs/paper1_resource/PAPER_A_DESIGN_SEPARABILITY.json",
-   "alternative_explanations": ["the ranking is evaluated at kappa=1 while group optima span 0.79 to 143.5", "per-observation spread is not total information at equal budget"],
+   "alternative_explanations": [
+    "the ranking is evaluated at kappa=1 while group optima span 0.79 to 143.5",
+    "per-observation spread is not total information at equal budget"
+   ],
    "external_validity_boundary": "Nominal-kappa, model-based, and per-observation. On TOTAL spread the nine-point grid carries 1.8x more than the two corners. Endpoint designs are unobserved in this campaign.",
    "falsifying_result": "Rankings that reverse across the profile domain, or that fail to predict parameter recovery under noise and mismatch.",
    "status": "open"
@@ -172,16 +198,54 @@
   }
  ],
  "open_questions": [
-  {"id": "Q-01", "question": "What is J_inf for each group, and does the upper tail fall inside, outside, or on the tolerance boundary within the verified numerical error?", "gate": "P0-G8"},
-  {"id": "Q-02", "question": "Does the weighted-L2 sensitivity spread predict actual MAPE profile behaviour well enough to retain RSI as an ordinal design screen?", "gate": "P0-G6"},
-  {"id": "Q-03", "question": "Does the coarse target-map benefit survive a scored-condition-excluded cross-fitted map?", "gate": "P0-G9"},
-  {"id": "Q-04", "question": "Is the fine-grind reversal associated with hydraulic extrapolation, map error, or compensating model error?", "gate": "P0-G9"},
-  {"id": "Q-05", "question": "Do the policy contrasts depend on the published multiplier cap?", "gate": "P0-G4"},
-  {"id": "Q-06", "question": "Is any point-estimation policy preferable under calibration-only selection, or is there no clear winner?", "gate": "P0-G5"},
-  {"id": "Q-07", "question": "Under resource-equated budgets and declared mismatch, do time-resolved observations recover kappa where whole-cup endpoints do not?", "gate": "P0-G7"},
-  {"id": "Q-08", "question": "What bounded contribution remains after an indexed search against espresso inverse modelling, variable projection, and profile-based identifiability?", "gate": "P0-G10"}
+  {
+   "id": "Q-01",
+   "question": "What is J_inf for each group, and does the upper tail fall inside, outside, or on the tolerance boundary within the verified numerical error?",
+   "gate": "P0-G8"
+  },
+  {
+   "id": "Q-02",
+   "question": "Does the weighted-L2 sensitivity spread predict actual MAPE profile behaviour well enough to retain RSI as an ordinal design screen?",
+   "gate": "P0-G6"
+  },
+  {
+   "id": "Q-03",
+   "question": "Does the coarse target-map benefit survive a scored-condition-excluded cross-fitted map?",
+   "gate": "P0-G9"
+  },
+  {
+   "id": "Q-04",
+   "question": "Is the fine-grind reversal associated with hydraulic extrapolation, map error, or compensating model error?",
+   "gate": "P0-G9"
+  },
+  {
+   "id": "Q-05",
+   "question": "Do the policy contrasts depend on the published multiplier cap?",
+   "gate": "P0-G4"
+  },
+  {
+   "id": "Q-06",
+   "question": "Is any point-estimation policy preferable under calibration-only selection, or is there no clear winner?",
+   "gate": "P0-G5"
+  },
+  {
+   "id": "Q-07",
+   "question": "Under resource-equated budgets and declared mismatch, do time-resolved observations recover kappa where whole-cup endpoints do not?",
+   "gate": "P0-G7"
+  },
+  {
+   "id": "Q-08",
+   "question": "What bounded contribution remains after an indexed search against espresso inverse modelling, variable projection, and profile-based identifiability?",
+   "gate": "P0-G10"
+  }
  ],
  "environment_limits": [
   "Indexed literature databases (Scopus, Web of Science, Engineering Village) require subscriptions unavailable in this environment; MDPI and Royal Society hosts are Cloudflare-blocked. P0-G10 cannot be closed here, and no 'first' or 'to our knowledge' phrasing may rest on work done in this environment."
- ]
+ ],
+ "baseline": {
+  "role": "INITIAL",
+  "immutability": "This file is the pre-analysis baseline for gate P0-G1a. It MUST NOT be regenerated. P0-G1b writes _FINAL.json and _DIFF.json alongside it; the diff references this file's hash. An earlier design had both gates write the same path, which would have let the final reconciliation erase the baseline that exists precisely to detect drift.",
+  "final_artefact": "docs/paper1_resource/PAPER_A_CLAIM_EVIDENCE_LEDGER_V2_FINAL.json",
+  "diff_artefact": "docs/paper1_resource/PAPER_A_CLAIM_EVIDENCE_LEDGER_V2_DIFF.json"
+ }
 }

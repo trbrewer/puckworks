@@ -36,9 +36,16 @@ def archive():
     return json.loads(ARCHIVE.read_text(encoding="utf-8"))
 
 
-def test_every_group_saturates(archive):
-    """The finding. Not one group has an interior optimum that the published domain missed."""
-    assert archive["verdict_counts"] == {"SATURATING_DEGENERACY": 6}
+def test_every_group_shows_a_finite_domain_plateau(archive):
+    """Not one group has an interior optimum that the published domain missed.
+
+    Reworded from a SATURATION verdict: a plateau over a finite swept domain is not a statement
+    about the profiled objective, and conflating the two is what P0-G8 exists to settle.
+    """
+    assert archive["verdict_counts"] == {"PRELIMINARY_FINITE_DOMAIN_PLATEAU": 6}
+    assert archive["superseded_by"] == "P0-G8", (
+        "this is a finite-domain scan, not a classification of the profiled objective; P0-G8 "
+        "supersedes its verdict once J_inf and the tolerance intervals exist")
 
 
 def test_a_tenfold_rate_change_barely_moves_the_prediction(archive):

@@ -228,6 +228,7 @@ def run(rate=1.0, step=None) -> dict:
         "schema_version": 2,
         "question": ("Does the local rate-separability index predict which espresso observation "
                      "designs localise the extraction rate? (pivot plan §5)"),
+        "admission_status": "pre_P0_G6_exploratory",
         "status": ("EXPLORATORY, model-based and LOCAL. RSI is a design screen evaluated at one "
                    "rate under the declared model; it is not a Fisher information matrix, not a "
                    "global identifiability result, and not an uncertainty interval."),
@@ -249,10 +250,10 @@ def run(rate=1.0, step=None) -> dict:
             "designs_compared_are_empirical_only": True,
             "primary_resolved_designs_only": primary,
             "secondary_all_designs": secondary,
-            "reading": ("RSI screens designs but does not fully predict nonlinear profile width: "
+            "reading": ("PRE-P0-G6 EXPLORATORY. No admission decision is recorded here. Over resolved "
                         "over resolved designs the expected negative association holds in %d of %d "
-                        "groups. Per plan §5.6 this admits RSI as a SCREENING tool, not as a "
-                        "complete design criterion."
+                        "groups. Admission is decided by P0-G6 against exact MAPE profiles under "
+                        "a frozen criterion; this archive does not decide it."
                         % (primary["n_groups_consistent_with_expectation"], primary["n_groups"])),
         },
     }
@@ -262,11 +263,12 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     g = ap.add_mutually_exclusive_group()
     g.add_argument("--write", action="store_true")
-    g.add_argument("--check", action="store_true")
+    g.add_argument("--exists", "--check", dest="exists", action="store_true",
+                   help="assert the archive is PRESENT; nothing is recomputed")
     ap.add_argument("--rate", type=float, default=1.0)
     args = ap.parse_args(argv)
 
-    if args.check:
+    if args.exists:
         if not OUT.exists():
             print("no design-separability archive; run --write", file=sys.stderr)
             return 1

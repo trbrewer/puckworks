@@ -1,4 +1,5 @@
 {
+ "admission_status": "pre_P0_G6_exploratory",
  "admission_test": {
   "designs_compared_are_empirical_only": true,
   "primary_resolved_designs_only": {
@@ -160,7 +161,7 @@
     }
    ]
   },
-  "reading": "RSI screens designs but does not fully predict nonlinear profile width: over resolved designs the expected negative association holds in 5 of 6 groups. Per plan \u00a75.6 this admits RSI as a SCREENING tool, not as a complete design criterion.",
+  "reading": "PRE-P0-G6 EXPLORATORY. No admission decision is recorded here. Over resolved over resolved designs the expected negative association holds in 5 of 6 groups. Admission is decided by P0-G6 against exact MAPE profiles under a frozen criterion; this archive does not decide it.",
   "secondary_all_designs": {
    "median_spearman": -0.7116,
    "n_groups": 6,

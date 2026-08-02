@@ -65,7 +65,9 @@ without classifying it fails, rather than passing silently.
 
 - every listed defect confirmed present before change;
 - producers edited and archives regenerated, so no artefact was hand-edited away from its producer;
-- `--check` modes reproduce the regenerated archives;
+- **`--check` was renamed `--exists` on the pivot producers.** It only ever asserted that the
+  archive file was present; it never recomputed anything, and citing it as reproduction evidence
+  was an overstatement. Full reproduction of these analyses is hand-run and multi-minute;
 - a repository scan of active surfaces finds no remaining unqualified assertion that the plateau is
   physically verified, that M0−M2 is a pure rate intervention, that the weighted-variance identity is
   all local information, or that the map result establishes causal attribution.
