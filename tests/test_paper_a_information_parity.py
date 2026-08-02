@@ -208,9 +208,12 @@ def test_M0_and_M2_receive_the_SAME_hydraulic_map(archive):
     assert by_arm["M1"] != by_arm["M2"]
 
 
-def test_the_M0_to_M2_label_no_longer_credits_hydraulics(archive):
+def test_the_M0_to_M2_label_is_an_estimation_policy_contrast(archive):
     label = archive["ablation"]["interpretation"]["M0_to_M2"]
-    assert "RATE RECALIBRATION ALONE" in label
+    assert "ESTIMATION-POLICY" in label
+    assert "RE-PROFILED" in label, (
+        "the level is re-profiled under each policy, so this is a comparison of two estimation "
+        "procedures rather than of two otherwise identical physical systems")
     assert "both receive the target-grind hydraulic map" in label
 
 

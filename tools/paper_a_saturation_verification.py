@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Is the rate saturation PHYSICAL, or a floor of the BDF solver? (pivot gate G3)
+"""Is the high-rate plateau a BDF artefact, or structural to the declared model? (NUM-TIME-01)
 
 `paper_a_rate_domain_check.py` found that a tenfold change in the kinetic rate multiplier moves the
 predicted cup concentration by less than 0.05 %, and by *exactly* 0.000 % in two groups. That is the
@@ -27,13 +27,18 @@ Three checks, in order of strength:
 3. **Independent integration** — BDF against `expm`, then re-run the saturation sweep entirely on
    the `expm` path.
 
-Plus the physical prediction that distinguishes the two hypotheses:
+Plus the structural prediction that distinguishes the two hypotheses:
 
-4. **Convergence to a rate-independent limit.** If saturation is physical — the grains reach local
-   equilibrium with the surrounding liquid faster than the liquid is displaced — then as the rate
-   grows the prediction must converge to a *finite, rate-independent* limit, and the increments
-   between successive decades must shrink geometrically. A solver floor has no reason to produce a
+4. **Convergence to a multiplier-independent limit.** If the plateau is structural to the model —
+   the grains approach local equilibrium with the surrounding liquid faster than the liquid is
+   displaced — then as the multiplier grows the prediction must converge to a *finite* limit, with
+   increments shrinking until they reach arithmetic noise. A solver floor has no reason to produce a
    convergent sequence; it produces a constant because something stopped changing.
+
+**Scope.** Both integrators solve the SAME governing equations on the SAME spatial operator with the
+same parameterisation and the same omitted physics. The path is independent in TIME only. Nothing
+here establishes that real espresso occupies the large-mass-transfer-coefficient regime; that is an
+empirical question this check cannot address.
 
 CLI::
 
@@ -285,15 +290,22 @@ def run() -> dict:
     worst_final_increment = max(s["final_increment_relative"] for s in sweep)
     least_decades_fallen = min(s["orders_of_magnitude_fallen"] for s in sweep)
 
-    physical = bool(linearity["is_linear"] and operator["matches_rhs"]
+    model_structural = bool(linearity["is_linear"] and operator["matches_rhs"]
                     and operator_saturated["matches_rhs"]
                     and worst_agreement < 0.01 and all_converged
                     and worst_final_increment <= NOISE_FLOOR_RELATIVE)
 
     return {
         "schema_version": 1,
-        "question": ("Is the rate saturation physical, or a floor of the BDF solver? (pivot gate "
-                     "G3 — H1 depends on the answer)"),
+        "question": ("Is the high-rate plateau an artefact of BDF time integration, or a "
+                     "structural property of the declared semi-discrete model? (NUM-TIME-01)"),
+        "evidence_type": "numerical-model-structural",
+        "temporal_artifact_status": "not_BDF_artifact",
+        "physical_validity": "untested",
+        "current_interpretation": ("a finite response limit within the declared semi-discrete "
+                                   "model and spatial operator; the two integrators share the "
+                                   "governing equations, parameterisation, discretisation and "
+                                   "omitted physics, so the path is independent in TIME only"),
         "method": ("The semi-discrete system is linear in the state, so it is re-solved by dense "
                    "matrix exponential: no time stepping, no adaptive error control, no numerical "
                    "Jacobian, none of the machinery that emits the overflow warnings."),
@@ -314,13 +326,14 @@ def run() -> dict:
             "all_converged": all_converged,
             "per_solute": sweep,
         },
-        "verdict": "PHYSICAL" if physical else "NOT ESTABLISHED",
+        "verdict": "MODEL-STRUCTURAL" if model_structural else "NOT ESTABLISHED",
         "reading": (
-            "The saturation reproduces on an integrator that shares no time-stepping machinery with "
-            "BDF, and the prediction converges to a finite rate-independent limit with geometrically "
-            "shrinking increments. A solver floor would not produce a convergent sequence."
-            if physical else
-            "One or more checks failed; the saturation is NOT established as physical and H1 cannot "
+            "The plateau reproduces on an integrator that shares no time-stepping machinery with BDF, "
+            "and the prediction converges to a finite limit. A solver floor would not produce a "
+            "convergent sequence. This establishes the plateau is STRUCTURAL to the declared "
+            "semi-discrete model; it does NOT establish that real espresso occupies that regime."
+            if model_structural else
+            "One or more checks failed; the plateau is NOT established as structural and H1 cannot "
             "rest on it."),
     }
 

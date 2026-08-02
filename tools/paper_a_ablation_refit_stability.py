@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Is "freezing the rate transfers better" stable to which conditions were calibrated on?
+"""Is the M0-vs-M2 estimation-policy contrast stable to the calibration conditions used?
 
 Pivot check 2. The M0/M1/M2 ablation is computed from ONE calibration fit on all nine optimal-grind
 conditions. The refit-aware analysis of the earlier headline showed that a fixed-predictor
@@ -187,8 +187,10 @@ def run() -> dict:
 
     return {
         "schema_version": 1,
-        "question": ("Is the M0-vs-M2 ablation result (freezing the rate transfers better) stable "
-                     "to which optimal-grind conditions were used for calibration? (pivot check 2)"),
+        "question": ("Is the M0-vs-M2 estimation-policy contrast stable to which optimal-grind "
+                     "conditions were used for calibration? M0 freezes the mass-transfer-rate "
+                     "multiplier at its inherited value and M2 fits it; BOTH re-profile the "
+                     "inventory level and BOTH receive the target-grind flow map."),
         "estimand": ("macro pooled MAPE, arm minus M2, in percentage points; NEGATIVE means the arm "
                      "beats the canonical fitted-rate model"),
         "design": {

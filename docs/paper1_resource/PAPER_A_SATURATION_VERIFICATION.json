@@ -115,6 +115,8 @@
   "nz": 200,
   "p_bar": 9.0
  },
+ "current_interpretation": "a finite response limit within the declared semi-discrete model and spatial operator; the two integrators share the governing equations, parameterisation, discretisation and omitted physics, so the path is independent in TIME only",
+ "evidence_type": "numerical-model-structural",
  "linearity_check": {
   "is_linear": true,
   "max_relative_superposition_error": 4.151511495192528e-16
@@ -128,8 +130,9 @@
   "matches_rhs": true,
   "max_relative_operator_error": 2.67336783630414e-16
  },
- "question": "Is the rate saturation physical, or a floor of the BDF solver? (pivot gate G3 \u2014 H1 depends on the answer)",
- "reading": "The saturation reproduces on an integrator that shares no time-stepping machinery with BDF, and the prediction converges to a finite rate-independent limit with geometrically shrinking increments. A solver floor would not produce a convergent sequence.",
+ "physical_validity": "untested",
+ "question": "Is the high-rate plateau an artefact of BDF time integration, or a structural property of the declared semi-discrete model? (NUM-TIME-01)",
+ "reading": "The plateau reproduces on an integrator that shares no time-stepping machinery with BDF, and the prediction converges to a finite limit. A solver floor would not produce a convergent sequence. This establishes the plateau is STRUCTURAL to the declared semi-discrete model; it does NOT establish that real espresso occupies that regime.",
  "saturation_on_independent_path": {
   "all_converged": true,
   "least_orders_of_magnitude_fallen": 7.247685047679249,
@@ -224,5 +227,6 @@
   "worst_final_increment_relative": 3.6373678599316293e-11
  },
  "schema_version": 1,
- "verdict": "PHYSICAL"
+ "temporal_artifact_status": "not_BDF_artifact",
+ "verdict": "MODEL-STRUCTURAL"
 }

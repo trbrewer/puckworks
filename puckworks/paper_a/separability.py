@@ -22,8 +22,11 @@ and its determinant collapses to a variance:
 
     det(G) = (sum w) * sum w (s_i - sbar_w)^2 = (sum w)^2 * Var_w(s).
 
-So, in this parameterisation, **all local rate information after profiling the level is carried by
-the spread of the observations' log-rate sensitivities**. If every observation responds to the rate
+So, in this parameterisation and **under the corresponding local weighted-L2 surrogate geometry**,
+the scale-profiled Schur complement is `W*Var_w(s)` and the Gram determinant is `W^2*Var_w(s)`.
+The spread of the log-rate sensitivities is therefore what carries local scale-rate
+non-collinearity **in that surrogate geometry** -- NOT the curvature of the production MAPE
+objective, which is piecewise linear in the level and has an exact weighted-median minimiser. If every observation responds to the rate
 in the same proportional way, the two columns of S are collinear and the rate is locally
 inseparable from the level however many observations are collected. This is the formal version of
 the collinearity paragraph the manuscript currently states qualitatively.
