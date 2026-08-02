@@ -230,7 +230,7 @@
  ],
  "n_folds": 9,
  "pooling_warning": "Both pooled contrasts average two opposite results and MUST NOT be reported alone. M1-M2 is large and positive on coarse but slightly NEGATIVE on fine; M0-M2 is negative on coarse but mostly POSITIVE on fine.",
- "question": "Is the M0-vs-M2 ablation result (freezing the rate transfers better) stable to which optimal-grind conditions were used for calibration? (pivot check 2)",
+ "question": "Is the M0-vs-M2 estimation-policy contrast stable to which optimal-grind conditions were used for calibration? M0 freezes the mass-transfer-rate multiplier at its inherited value and M2 fits it; BOTH re-profile the inventory level and BOTH receive the target-grind flow map.",
  "reading": {
   "M0_minus_M2": "SIGN CHANGES across folds \u2014 the claim must weaken accordingly",
   "M1_minus_M2": "sign stable across all nine folds"

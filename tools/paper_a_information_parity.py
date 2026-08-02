@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Information parity and mechanistic attribution (pivot plan §7).
+"""Information parity and the M0/M1/M2 input ablation (pivot plan §7).
 
 Two questions, kept apart because they have different evidential standing.
 
@@ -23,7 +23,10 @@ This is reported **two ways, which disagree, and the disagreement is the result*
 The gap between the two measures something real: whether nine calibration conditions can identify
 which hydraulic form to trust when the target grinds are extrapolative.
 
-**2. Where does the apparent cross-grind skill come from?** The M0/M1/M2 ablation:
+**2. What changes cross-grind prediction?** The M0/M1/M2 input ablation. This identifies the
+effect of substituting one declared INPUT for another within the model; it does not establish a
+causal mechanism, because particle geometry and other grind-dependent physics are held fixed
+and were never varied:
 
 * **M0** — inherited source rate, fit the level only. Tests whether target-specific rate
   recalibration contributes held-out value at all.
@@ -251,7 +254,9 @@ def ablation_panel() -> dict:
             "M0_to_M1": round(arms["M0"]["pooled"] - arms["M1"]["pooled"], 3),
         },
         "interpretation": {
-            "M0_to_M2": ("value of RATE RECALIBRATION ALONE. M0 and M2 both receive the "
+            "M0_to_M2": ("ESTIMATION-POLICY contrast: whether the mass-transfer-rate "
+                         "multiplier is fitted or frozen at its inherited value, with the "
+                         "inventory level RE-PROFILED under each policy. M0 and M2 both receive the "
                          "target-grind hydraulic map; the arms differ only in whether the rate is "
                          "fitted or frozen at the inherited value (and in the level that follows). "
                          "An earlier version of this field also credited hydraulics here, which "

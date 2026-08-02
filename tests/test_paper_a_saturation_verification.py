@@ -1,7 +1,6 @@
-"""Gate G3: the rate saturation is physical, not a solver floor.
+"""NUM-TIME-01: the high-rate plateau is structural to the declared model, not a BDF artefact.
 
-H1 — that a whole cup at a matched endpoint cannot see the kinetics — rests entirely on the
-predicted concentration going flat in the rate. A BDF solver that had quietly converged to a floor
+H1 rests on the predicted concentration going flat in the mass-transfer-rate multiplier. A BDF solver that had quietly converged to a floor
 would produce the same flat numbers, and two configurations of the same numerical path can agree
 while both are wrong. So the finding is re-derived on an integrator that shares no time-stepping
 machinery with BDF: the semi-discrete system is linear, so `expm(At)z0` is exact.
@@ -105,8 +104,17 @@ def test_the_noise_floor_is_stated_and_sits_between_machine_error_and_physics(ar
 
 
 # ── 4. the verdict ───────────────────────────────────────────────────────────────────────────
-def test_the_verdict_is_physical(archive):
-    assert archive["verdict"] == "PHYSICAL"
+def test_the_verdict_is_model_structural_and_scoped(archive):
+    """Rescoped after review: the check is numerical-model-structural, not physical validation.
+
+    Both integrators solve the SAME equations on the SAME spatial operator with the same omitted
+    physics, so the path is independent in TIME only. The archive must say so in machine-readable
+    fields, not only in prose that a search will miss.
+    """
+    assert archive["verdict"] == "MODEL-STRUCTURAL"
+    assert archive["evidence_type"] == "numerical-model-structural"
+    assert archive["temporal_artifact_status"] == "not_BDF_artifact"
+    assert archive["physical_validity"] == "untested"
 
 
 def test_the_verdict_is_derived_not_asserted(archive):

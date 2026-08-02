@@ -1,5 +1,14 @@
 # Paper 1 — pivot and redraft plan, revision 2.1
 
+> [!WARNING]
+> **SUPERSEDED AND NOT OPERATIVE.** Reviewed in `PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_1_REVIEW_20260801.md`,
+> which found that this revision corrected the science but was not yet executable: it delegated
+> normative content to a superseded file, sequenced its "from the start" controls last, asserted an
+> implication from a response limit to profile localisation without the asymptotic objective, and was
+> policed by an integrity test that did not implement the checks it advertised. Use
+> **`PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2.md`**. Retained only for the audit trail.
+
+
 **Prepared:** 1 August 2026
 **Supersedes:** `PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2.md` (v2) and `…_PLAN.md` (v1), both retained for
 the audit trail and **not operative**
