@@ -113,10 +113,19 @@ def test_the_objective_is_exactly_constant_across_the_minimiser_interval(seed):
 #: A tie is not generic here. Because `w_i = f_i/y_i` and `r_i = y_i/f_i`, weight and ratio are
 #: inversely locked: `w_i = 1/r_i`. Small ratios therefore carry large weight, which pulls the
 #: weighted median down and makes exact balance a measure-zero event. With n = 2 a tie would require
-#: `w_1 = w_2`, hence `r_1 = r_2`, which is the degenerate case. An exact tie needs two groups with
-#: `n_a/r_a = n_b/r_b`; the smallest clean instance is r = [1,1,2,2,2,2] (2/1 = 4/2).
-TIE_FIXTURE_F = np.ones(6)
-TIE_FIXTURE_M = np.array([1.0, 1.0, 2.0, 2.0, 2.0, 2.0])
+#: `w_1 = w_2`, hence `r_1 = r_2`, which is the degenerate case.
+#:
+#: An exact tie needs the weight at the lower group to equal the weight above it. The SMALLEST
+#: non-degenerate instance is THREE observations, r = [1, 2, 2]: w = [1, ½, ½], so the weight at
+#: r = 1 equals the total weight at r = 2 and every I in [1, 2] minimises. An earlier comment here
+#: called the six-point r = [1,1,2,2,2,2] the smallest clean instance, which was false; both are
+#: retained below, the three-point one as the primary fixture.
+TIE_FIXTURE_F = np.ones(3)
+TIE_FIXTURE_M = np.array([1.0, 2.0, 2.0])
+
+#: The six-point instance, kept as a second witness rather than as "the smallest".
+TIE_FIXTURE6_F = np.ones(6)
+TIE_FIXTURE6_M = np.array([1.0, 1.0, 2.0, 2.0, 2.0, 2.0])
 
 
 def test_the_weighted_median_is_generically_unique_for_this_objective():
@@ -132,11 +141,18 @@ def test_the_weighted_median_is_generically_unique_for_this_objective():
     assert ties == 0, "an exact tie on random draws would contradict w_i = 1/r_i coupling"
 
 
-def test_a_constructed_tie_gives_an_exactly_flat_interval():
-    lo, hi = minimiser_interval(TIE_FIXTURE_F, TIE_FIXTURE_M)
+@pytest.mark.parametrize("f,m", [(TIE_FIXTURE_F, TIE_FIXTURE_M),
+                                 (TIE_FIXTURE6_F, TIE_FIXTURE6_M)])
+def test_a_constructed_tie_gives_an_exactly_flat_interval(f, m):
+    lo, hi = minimiser_interval(f, m)
     assert lo == pytest.approx(1.0) and hi == pytest.approx(2.0)
-    assert (objective(lo, TIE_FIXTURE_F, TIE_FIXTURE_M)
-            == pytest.approx(objective(hi, TIE_FIXTURE_F, TIE_FIXTURE_M), rel=1e-12))
+    assert objective(lo, f, m) == pytest.approx(objective(hi, f, m), rel=1e-12)
+
+
+def test_three_observations_suffice_for_a_tie():
+    """The corrected minimality claim: n = 3 is enough, not n = 6."""
+    lo, hi = minimiser_interval(np.ones(3), np.array([1.0, 2.0, 2.0]))
+    assert hi > lo + 1e-12
 
 
 def test_the_production_choice_is_inside_the_interval_and_deterministic():
@@ -209,20 +225,67 @@ def test_extreme_positive_weights_do_not_break_the_minimiser():
 
 
 # ── continuity, which the endpoint comparison depends on ─────────────────────────────────────
-def test_the_profiled_value_is_continuous_as_f_approaches_a_positive_limit():
-    """Without this, comparing `J_inf` to a threshold would not be meaningful."""
+def test_a_uniform_scaling_of_f_leaves_the_objective_exactly_invariant():
+    """Recorded because an earlier "continuity" test used exactly this perturbation and was VACUOUS.
+
+    A common positive scaling `f -> (1+eps)f` is absorbed exactly by `I -> I/(1+eps)`, so the
+    profiled objective is invariant to the last digit. A test built on it can never fail and proves
+    nothing about continuity — it proves scale invariance, which is what this test now says.
+    """
     rng = np.random.default_rng(5)
-    f_inf = rng.uniform(0.3, 2.0, 8)
+    f = rng.uniform(0.3, 2.0, 8)
     m = rng.uniform(0.3, 3.0, 8)
+    base_level, base_value = AB._mape_level(f, m)
+    for eps in (1e-3, 0.1, 0.5, 3.0):
+        level, value = AB._mape_level(f * (1.0 + eps), m)
+        assert value == pytest.approx(base_value, rel=1e-14)
+        assert level == pytest.approx(base_level / (1.0 + eps), rel=1e-12)
+
+
+@pytest.mark.parametrize("direction_seed", range(4))
+@pytest.mark.parametrize("sign", (+1.0, -1.0))
+def test_the_profiled_value_is_continuous_under_NONUNIFORM_perturbation(direction_seed, sign):
+    """The real continuity test: perturb along a fixed NONCONSTANT direction, both signs.
+
+    Continuity of the profiled minimum is what lets `J_inf` be compared with a threshold at all. It
+    needs a perturbation the level cannot absorb, which a uniform scaling is not.
+    """
+    rng = np.random.default_rng(100 + direction_seed)
+    f_inf = rng.uniform(0.5, 2.0, 9)
+    m = rng.uniform(0.5, 3.0, 9)
+    d = rng.uniform(-1.0, 1.0, 9)
+    d = d - d.mean()                                  # nonconstant: not a common scaling
+    d = d / np.abs(d).max()
+
     target = AB._mape_level(f_inf, m)[1]
-    previous = None
-    for eps in (1e-2, 1e-3, 1e-4, 1e-5, 1e-6):
-        value = AB._mape_level(f_inf * (1.0 + eps), m)[1]
-        gap = abs(value - target)
-        if previous is not None:
-            assert gap <= previous + 1e-12
-        previous = gap
-    assert previous == pytest.approx(0.0, abs=1e-4)
+    ratios = []
+    for eps in (1e-1, 1e-2, 1e-3, 1e-4, 1e-5):
+        f_eps = f_inf * (1.0 + sign * eps * d)
+        assert np.all(f_eps > 0), "perturbation must retain positivity"
+        gap = abs(AB._mape_level(f_eps, m)[1] - target)
+        ratios.append(gap / eps)
+    # The mathematical content is the RATE: the profiled value is Lipschitz in the perturbation, so
+    # gap/eps SETTLES to a finite constant. Two earlier attempts measured the wrong thing — an
+    # absolute 1e-5 floor (failed on a gap of 1.007e-5, i.e. it measured the tolerance) and a cap of
+    # r < 2 (arbitrary: the Lipschitz constant is data-dependent and runs from ~1 to ~15 across
+    # draws). Convergence is evidenced by settling, not by a magnitude someone picked.
+    assert all(np.isfinite(r) for r in ratios), ratios
+    assert ratios[-1] == pytest.approx(ratios[-2], rel=0.01), (
+        "the ratio must settle, or the convergence is not first order: %s" % ratios)
+
+
+def test_continuity_holds_approaching_an_exact_tie():
+    """A median switch is where a smooth surrogate would fail, so continuity must be shown there."""
+    f, m = TIE_FIXTURE_F, TIE_FIXTURE_M
+    target = AB._mape_level(f, m)[1]
+    ratios = []
+    for eps in (1e-1, 1e-2, 1e-3, 1e-4, 1e-5):
+        f_eps = f * np.array([1.0 + eps, 1.0, 1.0 - eps])   # nonuniform, straddles the tie
+        gap = abs(AB._mape_level(f_eps, m)[1] - target)
+        ratios.append(gap / eps)
+    assert all(np.isfinite(r) for r in ratios), ratios
+    assert ratios[-1] == pytest.approx(ratios[-2], rel=0.01), (
+        "a median switch must not break first-order convergence: %s" % ratios)
 
 
 # ── the dimensional error the protocol has to stop making ────────────────────────────────────
