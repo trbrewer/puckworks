@@ -1,0 +1,18 @@
+{
+ "schema_version": 1,
+ "freeze_schema": "PAPER_A_NORMATIVE_FREEZE_RECORD_V1",
+ "_note": "Separate from the manifest to remove a SECOND self-reference, distinct from the commit-SHA one. The manifest carries activation status AND would have carried the hashes of a bundle that includes the manifest \u2014 adding its own hash changes it, changing the hash. There is no byte-level fixed point. This record hashes every normative CONTENT file and excludes both itself and the mutable status manifest.",
+ "status": "DRAFT \u2014 not a freeze. Populated at freeze commit F once the protocol is complete.",
+ "excluded_by_design": {
+  "docs/paper1_resource/PAPER_A_NORMATIVE_FREEZE_RECORD_V1.json": "itself",
+  "docs/paper1_resource/PAPER_A_PLAN_MANIFEST_V1.json": "mutable status/activation metadata"
+ },
+ "content_files": {
+  "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2_1.md": "a8b874e18df9ca187689ad927be1aa5bd03debda937be42382006034e1499904",
+  "docs/paper1_resource/PAPER_A_PIVOT_ANALYSIS_PROTOCOL_V2.md": "e58662c93caa2c45aa2afd11e9c555b426a22c02fb0d13e939a2c03cb665f53e",
+  "docs/paper1_resource/PAPER_A_CLAIM_EVIDENCE_LEDGER_V2_INITIAL.json": "66dd6b2ede6052c6bc08e74724a6130844b3d7bb248aca859600f3321b033830",
+  "docs/paper1_resource/PAPER_A_MODEL_SCOPE_MATRIX_V1_INITIAL.md": "a7219498ca4ed2dbec77c83afc5651488eebecfa8a929288e426878f14a37eec",
+  "docs/paper1_resource/PAPER_A_ACTIVE_CLAIM_RECONCILIATION.md": "d156685b355f03856d519757ecdef5c45d48ceab66af2380022b5ab8df3df05e",
+  "docs/paper1_resource/PAPER_A_PRE_FREEZE_PREMISE_AUDIT_R0A.json": "3873ebadcf42ac8908541f60b9a5716c3679fec5d3729bee7180352d57939347"
+ }
+}

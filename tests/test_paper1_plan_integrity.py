@@ -92,7 +92,7 @@ def test_classifications_do_not_overlap(manifest):
 
 def test_the_current_protocol_is_an_active_surface(manifest):
     """It carries operative decision rules and was previously classified as neither."""
-    assert ("docs/paper1_resource/PAPER_A_PIVOT_ANALYSIS_PROTOCOL_V1.md"
+    assert ("docs/paper1_resource/PAPER_A_PIVOT_ANALYSIS_PROTOCOL_V2.md"
             in manifest["active_claim_surfaces"])
 
 
@@ -254,27 +254,14 @@ def test_activation_is_two_stage_and_validated(manifest):
     """A commit cannot contain its own SHA, so a single self-pinning field is not implementable."""
     assert manifest["operative_status"] in ("candidate", "candidate-frozen", "operative")
     activation = manifest["activation"]
-    assert "frozen_content_commit" in activation and "normative_bundle" in activation
-    if manifest["operative_status"] == "operative":
-        sha = activation["frozen_content_commit"]
-        assert isinstance(sha, str) and re.fullmatch(r"[0-9a-f]{40}", sha), sha
-        assert activation["frozen_hashes"], "operative status requires recorded content hashes"
-
-
-def test_frozen_hashes_match_current_content_when_operative(manifest):
-    import hashlib
-
-    if manifest["operative_status"] != "operative":
-        return                                   # nothing to verify until activation
-    for rel, expected in manifest["activation"]["frozen_hashes"].items():
-        actual = hashlib.sha256((REPO / rel).read_bytes()).hexdigest()
-        assert actual == expected, "%s drifted from its frozen hash" % rel
+    assert "frozen_content_commit" in activation and "freeze_record" in activation
+    assert (REPO / activation["freeze_record"]).exists()
 
 
 # ── 7. plan/manifest agreement ───────────────────────────────────────────────────────────────
 def test_gate_references_agree_in_both_directions(manifest, plan):
     defined = set(manifest["gates"])
-    referenced = set(re.findall(r"\b(?:P0-G\d+[ab]?|NUM-[A-Z]+-\d+)\b", _asserted(plan)))
+    referenced = set(re.findall(r"\b(?:P0-G\d+[ab]?|P0-R0[ab]|NUM-[A-Z]+-\d+)\b", _asserted(plan)))
     assert not referenced - defined, sorted(referenced - defined)
     assert not {n for n in defined if n not in plan}, sorted(n for n in defined if n not in plan)
 
@@ -291,3 +278,134 @@ def test_the_plan_states_no_unbounded_assurance_claim(plan):
 
 def _asserted(text: str) -> str:
     return SCAN._PROSE_QUOTED.sub(" ", SCAN._FENCE.sub(" ", text))
+
+
+# ── 8. normative-bundle cross-reference audit (B6) ───────────────────────────────────────────
+STALE_CONTEXT = re.compile(
+    r"supersed|historical|stale_reference_rules|superseded_plans|historical_exclusions|retained",
+    re.I)
+
+
+def test_no_active_surface_carries_a_stale_operative_reference(manifest):
+    """A controlled bundle cannot be frozen while its members disagree on what is operative.
+
+    A superseded name may still APPEAR — the manifest has to enumerate what it supersedes, and a
+    protocol has to say what it replaces. It may not appear as a live reference. The discriminator
+    is the surrounding context, not a count: the name must sit on a line that declares supersession.
+    """
+    failures = []
+    exempt = set(manifest.get("stale_reference_exempt_paths", ()))
+    for rel in manifest["active_claim_surfaces"]:
+        if rel in exempt:
+            continue          # the manifest's own classification lists must name what they classify
+        if rel.endswith(".json"):
+            lines = json.dumps(json.loads((REPO / rel).read_text(encoding="utf-8")),
+                               indent=1).splitlines()
+        else:
+            lines = (REPO / rel).read_text(encoding="utf-8").splitlines()
+        for rule in manifest["stale_reference_rules"]:
+            stale = rule["pattern"]
+            if rel.endswith(stale):
+                continue                                  # a file may name itself
+            for i, line in enumerate(lines, 1):
+                if not re.search(re.escape(stale) + r"(?!\w)", line):
+                    continue
+                window = " ".join(lines[max(0, i - 3):i + 2])
+                if not STALE_CONTEXT.search(window):
+                    failures.append("%s:%d references %s outside a supersession context"
+                                    % (rel, i, stale))
+    assert not failures, "\n  ".join([""] + failures)
+
+
+def test_the_stale_reference_rules_name_their_replacements(manifest):
+    for rule in manifest["stale_reference_rules"]:
+        assert rule["replacement"] and rule["replacement"] != rule["pattern"]
+
+
+# ── 9. activation integrity (B7, B8) ─────────────────────────────────────────────────────────
+def test_the_freeze_record_excludes_itself_and_the_mutable_manifest(manifest):
+    """The second self-reference: a manifest cannot hash a bundle that contains the manifest."""
+    record_path = manifest["activation"]["freeze_record"]
+    record = json.loads((REPO / record_path).read_text(encoding="utf-8"))
+    excluded = record["excluded_by_design"]
+    assert record_path in excluded
+    assert manifest_path_of(manifest) in excluded
+    assert record_path not in record["content_files"]
+    assert manifest_path_of(manifest) not in record["content_files"]
+
+
+def manifest_path_of(_manifest) -> str:
+    return "docs/paper1_resource/PAPER_A_PLAN_MANIFEST_V1.json"
+
+
+def test_every_freeze_record_hash_is_a_full_sha256(manifest):
+    record = json.loads((REPO / manifest["activation"]["freeze_record"]).read_text(encoding="utf-8"))
+    for rel, digest in record["content_files"].items():
+        assert re.fullmatch(r"[0-9a-f]{64}", digest), (rel, digest)
+        assert (REPO / rel).exists(), rel
+
+
+def test_frozen_states_verify_content_hashes(manifest):
+    """Hash verification must apply in candidate-frozen too, not only operative.
+
+    Verifying only at `operative` would let a candidate-frozen bundle drift silently right up to the
+    moment it is activated.
+    """
+    import hashlib
+
+    if manifest["operative_status"] not in ("candidate-frozen", "operative"):
+        return                                            # nothing frozen yet; nothing to verify
+    record = json.loads((REPO / manifest["activation"]["freeze_record"]).read_text(encoding="utf-8"))
+    for rel, expected in record["content_files"].items():
+        actual = hashlib.sha256((REPO / rel).read_bytes()).hexdigest()
+        assert actual == expected, "%s drifted from its frozen hash" % rel
+
+
+def test_operative_status_requires_a_real_commit(manifest):
+    """A 40-hex string is not a pin; the commit must exist in this repository."""
+    import subprocess
+
+    if manifest["operative_status"] != "operative":
+        return
+    sha = manifest["activation"]["frozen_content_commit"]
+    assert isinstance(sha, str) and re.fullmatch(r"[0-9a-f]{40}", sha), sha
+    ok = subprocess.run(["git", "cat-file", "-e", "%s^{commit}" % sha],
+                        cwd=REPO, capture_output=True)
+    assert ok.returncode == 0, "frozen_content_commit %s does not exist" % sha
+
+
+def test_p0_g0_is_not_passed_in_this_implementation_cycle(manifest):
+    """The adjudication forbids closing P0-G0 in the implementation PR.
+
+    Freeze commit F and activation commit A are separate, authority-controlled steps.
+    """
+    assert manifest["gates"]["P0-G0"]["status"] == "open"
+    assert manifest["operative_status"] != "operative"
+
+
+# ── 10. the pre-freeze premise audit is inspectable and binding ──────────────────────────────
+def test_p0_g0_depends_on_the_premise_audit(manifest):
+    assert "P0-R0a" in manifest["gates"]["P0-G0"]["dependencies"]
+
+
+def test_the_premise_audit_records_evidence_matched_to_type(manifest):
+    audit = json.loads((REPO / "docs" / "paper1_resource"
+                        / "PAPER_A_PRE_FREEZE_PREMISE_AUDIT_R0A.json").read_text(encoding="utf-8"))
+    required = ("premise_id", "premise", "type", "disposition", "evidence", "affected",
+                "failure_consequence")
+    for row in audit["premises"]:
+        for field in required:
+            assert field in row, (row.get("premise_id"), field)
+    # a physical premise that cannot be tested must be scoped, never forced into a repo test
+    physical = [r for r in audit["premises"] if r["type"] == "physical"]
+    assert physical and any(r["disposition"].startswith("OPEN-AND-SCOPED") for r in physical)
+
+
+def test_open_blocking_premises_keep_the_freeze_shut(manifest):
+    """R0a exists to surface blockers BEFORE the freeze. If it found some, P0-G0 stays open."""
+    audit = json.loads((REPO / "docs" / "paper1_resource"
+                        / "PAPER_A_PRE_FREEZE_PREMISE_AUDIT_R0A.json").read_text(encoding="utf-8"))
+    blocking = [r for r in audit["premises"] if r["disposition"] in ("OPEN", "OPEN-BLOCKED")]
+    if blocking:
+        assert manifest["gates"]["P0-G0"]["status"] == "open", (
+            "premises %s are open but P0-G0 is not" % [r["premise_id"] for r in blocking])

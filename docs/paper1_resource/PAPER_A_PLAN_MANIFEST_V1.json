@@ -6,7 +6,8 @@
   "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN.md",
   "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2.md",
   "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_1.md",
-  "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2.md"
+  "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2.md",
+  "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2_1.md"
  ],
  "gates": {
   "NUM-TIME-01": {
@@ -40,10 +41,12 @@
    "status": "open",
    "dependencies": [
     "P0-G1a",
-    "P0-G3a"
+    "P0-G3a",
+    "P0-R0a"
    ],
    "deliverables": [
-    "docs/paper1_resource/PAPER_A_PIVOT_ANALYSIS_PROTOCOL_V1.md"
+    "docs/paper1_resource/PAPER_A_PIVOT_ANALYSIS_PROTOCOL_V2.md",
+    "docs/paper1_resource/PAPER_A_NORMATIVE_FREEZE_RECORD_V1.json"
    ],
    "blocks_drafting": true,
    "closure_record": null,
@@ -51,15 +54,15 @@
   },
   "P0-G1a": {
    "title": "Initial claim and estimand ledger, before any new scientific run",
-   "status": "open",
+   "status": "passed",
    "dependencies": [],
    "deliverables": [
     "docs/paper1_resource/PAPER_A_CLAIM_EVIDENCE_LEDGER_V2_INITIAL.json",
     "docs/paper1_resource/PAPER_A_ACTIVE_CLAIM_RECONCILIATION.md"
    ],
    "blocks_drafting": true,
-   "closure_record": null,
-   "closed_at_commit": null
+   "closure_record": "docs/paper1_resource/gates/P0-G1a_CLOSURE.json",
+   "closed_at_commit": "9c52c94edb27b461b6e7a4d471d29f3cef9d053e"
   },
   "P0-G1b": {
    "title": "Final claim reconciliation, after all analyses are frozen",
@@ -95,14 +98,14 @@
   },
   "P0-G3a": {
    "title": "Initial model and evidence scope matrix, before scientific runs",
-   "status": "open",
+   "status": "passed",
    "dependencies": [],
    "deliverables": [
     "docs/paper1_resource/PAPER_A_MODEL_SCOPE_MATRIX_V1_INITIAL.md"
    ],
    "blocks_drafting": true,
-   "closure_record": null,
-   "closed_at_commit": null
+   "closure_record": "docs/paper1_resource/gates/P0-G3a_CLOSURE.json",
+   "closed_at_commit": "9c52c94edb27b461b6e7a4d471d29f3cef9d053e"
   },
   "P0-G3b": {
    "title": "Final cross-file scope reconciliation, before drafting",
@@ -212,6 +215,17 @@
    "blocks_drafting": true,
    "closure_record": null,
    "closed_at_commit": null
+  },
+  "P0-R0a": {
+   "title": "Pre-freeze premise audit",
+   "status": "passed",
+   "dependencies": [],
+   "deliverables": [
+    "docs/paper1_resource/PAPER_A_PRE_FREEZE_PREMISE_AUDIT_R0A.json"
+   ],
+   "blocks_drafting": true,
+   "closure_record": "docs/paper1_resource/gates/P0-R0A_CLOSURE.json",
+   "closed_at_commit": "9c52c94edb27b461b6e7a4d471d29f3cef9d053e"
   }
  },
  "active_claim_surfaces": [
@@ -228,13 +242,15 @@
   "docs/paper1_resource/PAPER_A_INFORMATION_PARITY.json",
   "docs/paper1_resource/PAPER_A_LOCO_COVERAGE_INTERVAL.json",
   "docs/paper1_resource/PAPER_A_MODEL_SCOPE_MATRIX_V1_INITIAL.md",
+  "docs/paper1_resource/PAPER_A_NORMATIVE_FREEZE_RECORD_V1.json",
   "docs/paper1_resource/PAPER_A_NUMERICAL_CONVERGENCE.json",
   "docs/paper1_resource/PAPER_A_NUMERICAL_ENVELOPE.json",
   "docs/paper1_resource/PAPER_A_OBJECTIVE_FAMILY_PANELS.json",
   "docs/paper1_resource/PAPER_A_P0-5_RESULTS.md",
   "docs/paper1_resource/PAPER_A_P0-5_UNCERTAINTY_SCOPE.md",
-  "docs/paper1_resource/PAPER_A_PIVOT_ANALYSIS_PROTOCOL_V1.md",
+  "docs/paper1_resource/PAPER_A_PIVOT_ANALYSIS_PROTOCOL_V2.md",
   "docs/paper1_resource/PAPER_A_PLAN_MANIFEST_V1.json",
+  "docs/paper1_resource/PAPER_A_PRE_FREEZE_PREMISE_AUDIT_R0A.json",
   "docs/paper1_resource/PAPER_A_RATE_DOMAIN_CHECK.json",
   "docs/paper1_resource/PAPER_A_REFIT_AWARE_COMPARISON.json",
   "docs/paper1_resource/PAPER_A_ROUND10_NUMERICAL_INVARIANTS.json",
@@ -244,6 +260,9 @@
   "docs/paper1_resource/PAPER_A_TRANSFER_CORPUS_CONTRACTS.json",
   "docs/paper1_resource/gates/NUM-ENV-01_CLOSURE.json",
   "docs/paper1_resource/gates/NUM-TIME-01_CLOSURE.json",
+  "docs/paper1_resource/gates/P0-G1a_CLOSURE.json",
+  "docs/paper1_resource/gates/P0-G3a_CLOSURE.json",
+  "docs/paper1_resource/gates/P0-R0A_CLOSURE.json",
   "puckworks/paper_a/build.py",
   "puckworks/paper_a/claim_coverage.py",
   "puckworks/paper_a/claim_policy.py",
@@ -282,6 +301,7 @@
   "docs/paper1_resource/PAPER_1_DETAILED_REVIEW_ROUND_6_20260728.md",
   "docs/paper1_resource/PAPER_1_DOMAIN_REFEREE_BRIEF.md",
   "docs/paper1_resource/PAPER_1_DOMAIN_REFEREE_RESPONSE.md",
+  "docs/paper1_resource/PAPER_1_P0_G0_PROTOCOL_FREEZE_DECISION_20260802.md",
   "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN.md",
   "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_REVIEW_20260801.md",
   "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2.md",
@@ -320,7 +340,8 @@
   "docs/paper1_resource/PAPER_1_SCIENTIFIC_PIVOT_RESPONSE.md",
   "docs/paper1_resource/PAPER_1_SECOND_DETAILED_REVIEW_2026-07-25.md",
   "docs/paper1_resource/PAPER_1_SUBMISSION_PATH.md",
-  "docs/paper1_resource/PAPER_A_CLAIM_LEDGER.md"
+  "docs/paper1_resource/PAPER_A_CLAIM_LEDGER.md",
+  "docs/paper1_resource/PAPER_A_PIVOT_ANALYSIS_PROTOCOL_V1.md"
  ],
  "banned_assertions": [
   {
@@ -406,17 +427,9 @@
  ],
  "_note": "JSON, not YAML, so the integrity control needs only the standard library. The previous YAML manifest forced pytest.importorskip('yaml'), which let the supposedly fail-closed control SKIP on any lane without PyYAML (GOV-01).",
  "activation": {
-  "_note": "A commit cannot contain its own SHA. Activation is therefore two-stage: freeze commit F carries the normative bundle and its hashes; activation commit A changes only control metadata and records F. Tests then verify current normative content is byte-identical to the hashes recorded at F.",
+  "_note": "Two self-references had to be removed: a commit cannot contain its own SHA, and a manifest cannot contain the hash of a bundle that includes itself. Content hashes now live in a separate freeze record that excludes itself and this manifest.",
   "frozen_content_commit": null,
-  "normative_bundle": [
-   "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2_1.md",
-   "docs/paper1_resource/PAPER_A_PLAN_MANIFEST_V1.json",
-   "docs/paper1_resource/PAPER_A_PIVOT_ANALYSIS_PROTOCOL_V1.md",
-   "docs/paper1_resource/PAPER_A_CLAIM_EVIDENCE_LEDGER_V2_INITIAL.json",
-   "docs/paper1_resource/PAPER_A_MODEL_SCOPE_MATRIX_V1_INITIAL.md",
-   "docs/paper1_resource/PAPER_A_ACTIVE_CLAIM_RECONCILIATION.md"
-  ],
-  "frozen_hashes": {}
+  "freeze_record": "docs/paper1_resource/PAPER_A_NORMATIVE_FREEZE_RECORD_V1.json"
  },
  "claim_surface_globs": [
   "docs/paper1_resource/PAPER_1_*.md",
@@ -441,5 +454,30 @@
   "R4",
   "R5"
  ],
- "classification_rule": "A candidate surface is HISTORICAL if its name marks it as a dated record of a past round (review, brief, tracker, remediation plan, acceptance, superseded plan, or a response to one). Everything else is ACTIVE and is scanned. Classification is explicit and enumerated below; the rule is recorded so the enumeration can be audited, not so it can be applied silently."
+ "classification_rule": "A candidate surface is HISTORICAL if its name marks it as a dated record of a past round (review, brief, tracker, remediation plan, acceptance, superseded plan, or a response to one). Everything else is ACTIVE and is scanned. Classification is explicit and enumerated below; the rule is recorded so the enumeration can be audited, not so it can be applied silently.",
+ "stale_reference_rules": [
+  {
+   "pattern": "PAPER_A_PLAN_MANIFEST_V1.yaml",
+   "replacement": "PAPER_A_PLAN_MANIFEST_V1.json"
+  },
+  {
+   "pattern": "PAPER_A_CLAIM_EVIDENCE_LEDGER_V2.json",
+   "replacement": "PAPER_A_CLAIM_EVIDENCE_LEDGER_V2_INITIAL.json"
+  },
+  {
+   "pattern": "PAPER_A_MODEL_SCOPE_MATRIX.md",
+   "replacement": "PAPER_A_MODEL_SCOPE_MATRIX_V1_INITIAL.md"
+  },
+  {
+   "pattern": "PAPER_A_PIVOT_ANALYSIS_PROTOCOL_V1.md",
+   "replacement": "PAPER_A_PIVOT_ANALYSIS_PROTOCOL_V2.md"
+  },
+  {
+   "pattern": "PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2.md",
+   "replacement": "PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2_1.md"
+  }
+ ],
+ "stale_reference_exempt_paths": [
+  "docs/paper1_resource/PAPER_A_PLAN_MANIFEST_V1.json"
+ ]
 }

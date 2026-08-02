@@ -180,7 +180,7 @@ hyperparameter selection; declared target **hydraulic** covariates are permitted
 > campaign and external-validation boundary.
 
 "Competitive", the causal "because", and "source-calibrated" are removed. The three calibration
-layers are named explicitly in `PAPER_A_MODEL_SCOPE_MATRIX.md` §5.
+layers are named explicitly in `PAPER_A_MODEL_SCOPE_MATRIX_V1_INITIAL.md` §5.
 
 ### Narrative spine
 
@@ -223,8 +223,8 @@ exploratory-oracle
 **Robustness:** established-under-assumptions · verified-within-numerical-scope · refit-stable ·
 heterogeneous · sensitivity-only · cross-fitted · externally-replicated · unresolved · withdrawn
 
-Full assignment: `PAPER_A_MODEL_SCOPE_MATRIX.md`. Per-claim records:
-`PAPER_A_CLAIM_EVIDENCE_LEDGER_V2.json`.
+Full assignment: `PAPER_A_MODEL_SCOPE_MATRIX_V1_INITIAL.md`. Per-claim records:
+`PAPER_A_CLAIM_EVIDENCE_LEDGER_V2_INITIAL.json`.
 
 ### Estimand tags
 
@@ -259,7 +259,7 @@ Every reported number carries exactly one; none migrates without a like-for-like
 
 ## 6. Gates
 
-Definitions and dependencies are authoritative in `PAPER_A_PLAN_MANIFEST_V1.yaml`; this table is the
+Definitions and dependencies are authoritative in `PAPER_A_PLAN_MANIFEST_V1.json`; this table is the
 human-readable view. All `blocks_drafting` gates block the results narrative, title, abstract,
 discussion and contribution list.
 
@@ -267,7 +267,8 @@ discussion and contribution list.
 |---|---|---|
 | **NUM-TIME-01** | plateau: BDF artefact or structural to the declared model? | **passed**, numerical-model-structural only; physical generalisation untested |
 | **NUM-ENV-01** | do FULL-SUPPORT contrasts survive mesh/tolerance change? | **passed**, full-support only; not fold medians |
-| **P0-G0** | are the next analyses protected from target-driven tuning? | protocol committed before P0-G4…G9; deviations append-only |
+| **P0-R0a** | pre-freeze premise audit — does every load-bearing premise have assurance matched to its type? | every premise recorded with evidence or an explicit open/scoped disposition. **Its purpose is to surface blockers before the freeze; finding them is a pass, and keeps P0-G0 shut** |
+| **P0-G0** | are the next analyses protected from target-driven tuning? | complete protocol committed before P0-G4…G9; **P0-R0a, P0-G1a and P0-G3a closed**; bundle cross-references clean; freeze record complete; deviations append-only |
 | **P0-G1a** | initial claim ledger | every candidate and active headline recorded before any new run |
 | **P0-G1b** | final reconciliation | ledger regenerated from final artefacts; every bound number matches its hash |
 | **P0-G2** | disaggregation | every pooled headline shown with components and weighting rule; homogeneity **not** required |
@@ -322,7 +323,7 @@ record. A non-null string is not a pin.
 For every headline: exact wording; evidence type; robustness; data and observation unit; calibration
 and target information supplied; estimand tag; resampling unit; model and numerical configuration;
 supporting artefact and hash; **alternative explanation**; external-validity boundary; **falsifying
-result**. Held in `PAPER_A_CLAIM_EVIDENCE_LEDGER_V2.json`.
+result**. Held in `PAPER_A_CLAIM_EVIDENCE_LEDGER_V2_INITIAL.json`.
 
 ### 8.2 Termination rule
 
@@ -428,11 +429,11 @@ H3 is a secondary case study.
 
 **Step 0A — plan integrity.** This document; the manifest; the fail-closed control. *(done)*
 
-**Step 0B — initial assurance artefacts.** `PAPER_A_CLAIM_EVIDENCE_LEDGER_V2.json`;
-`PAPER_A_MODEL_SCOPE_MATRIX.md`; `PAPER_A_ACTIVE_CLAIM_RECONCILIATION.md`; preliminary P0-G10 memo.
+**Step 0B — initial assurance artefacts.** `PAPER_A_CLAIM_EVIDENCE_LEDGER_V2_INITIAL.json`;
+`PAPER_A_MODEL_SCOPE_MATRIX_V1_INITIAL.md`; `PAPER_A_ACTIVE_CLAIM_RECONCILIATION.md`; preliminary P0-G10 memo.
 *(ledger, matrix and reconciliation done; novelty memo blocked — see §12)*
 
-**Step 0C — protocol freeze.** `PAPER_A_PIVOT_ANALYSIS_PROTOCOL_V1.md`. *(drafted; freezes on
+**Step 0C — protocol freeze.** `PAPER_A_PIVOT_ANALYSIS_PROTOCOL_V2.md`. *(drafted; freezes on
 approval)*
 
 Then, in parallel:

@@ -41,7 +41,7 @@ history was rewritten.
 
 **Superseded, not rewritten:**
 
-- `PAPER_A_CLAIM_LEDGER.md` → superseded by `PAPER_A_CLAIM_EVIDENCE_LEDGER_V2.json`, and classified
+- `PAPER_A_CLAIM_LEDGER.md` → superseded by `PAPER_A_CLAIM_EVIDENCE_LEDGER_V2_INITIAL.json`, and classified
   `historical` in the manifest;
 - plan revisions v1, v2, v2.1 → superseded banners, classified `historical`;
 - `docs/ROADMAP.md` and `docs/SPRINTS.md` → **deliberately unchanged**. They are a dated audit trail
@@ -52,7 +52,7 @@ history was rewritten.
 
 ## 3. How this is now enforced
 
-`PAPER_A_PLAN_MANIFEST_V1.yaml` lists `active_claim_surfaces` and `historical_exclusions`
+`PAPER_A_PLAN_MANIFEST_V1.json` lists `active_claim_surfaces` and `historical_exclusions`
 explicitly, and `banned_assertions` with a reason attached to each. `tests/test_paper1_plan_integrity.py`
 scans every active surface and fails on a match outside a quoted or code span.
 

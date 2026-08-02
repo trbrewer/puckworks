@@ -1,0 +1,202 @@
+{
+ "schema_version": 1,
+ "round": "R0a",
+ "purpose": "Pre-freeze premise audit. Run BEFORE the protocol freeze because a premise discovered missing afterwards forces an unplanned deviation or a second freeze. Every load-bearing premise is recorded with evidence matched to its TYPE; a physical premise that cannot be tested with available data is marked OPEN-AND-SCOPED, never forced into a repository test that would merely restate the model.",
+ "premises": [
+  {
+   "premise_id": "PR-01",
+   "premise": "the semi-discrete system is LINEAR in the state, so expm and the A0+kA1 pencil are valid",
+   "type": "algebraic",
+   "disposition": "assured",
+   "evidence": "superposition error 4.2e-16, tested live",
+   "evidence_path": "tests/test_paper_a_saturation_verification.py::test_the_rhs_is_linear_when_recomputed_live",
+   "affected": [
+    "NUM-TIME-01",
+    "P0-G8"
+   ],
+   "failure_consequence": "the exact-in-time reference and the analytical limit are both invalid"
+  },
+  {
+   "premise_id": "PR-02",
+   "premise": "A(kappa) = A0 + kappa*A1 with A1 carrying the interphase transfer terms",
+   "type": "algebraic",
+   "disposition": "assured",
+   "evidence": "verified structurally: |(A(3)-A(1))/2 - (A(2)-A(1))| / scale = 2.8e-14, and 2.1e-14 at kappa=100. A1 has rank 400 and nullity 201 on the 601-state operator (2x200 grain-transfer rows fast; 200 liquid + 1 accumulation slow), matching the structure the limit argument assumes.",
+   "evidence_path": "tests/test_paper_a_asymptotic_structure.py",
+   "affected": [
+    "P0-G8"
+   ],
+   "failure_consequence": "the analytical limit construction has no basis and P0-G8 cannot run as specified"
+  },
+  {
+   "premise_id": "PR-03",
+   "premise": "A1 restricted to the fast subspace has a spectral gap bounding the asymptotic remainder",
+   "type": "algebraic",
+   "disposition": "partially-assured",
+   "evidence": "the gap EXISTS and is measured: all 400 nonzero eigenvalues of A1 have Re <= -1.923 (range 1.923 .. 24.37), so the fast subspace decays uniformly and the remainder is O(1/(kappa*gap)). A formal bound WITH CONSTANTS is still owed before P0-G8 may run.",
+   "evidence_path": "tests/test_paper_a_asymptotic_structure.py",
+   "affected": [
+    "P0-G8"
+   ],
+   "failure_consequence": "no remainder bound, so J_inf carries no verified interval and classification fails"
+  },
+  {
+   "premise_id": "PR-04",
+   "premise": "the MAPE level minimiser is the weighted median of y_i/f_i with weights f_i/y_i",
+   "type": "algebraic",
+   "disposition": "implemented-not-proved",
+   "evidence": "production uses it; formal proposition owed under P0-G6",
+   "evidence_path": "puckworks/validation/slow/angeloni_bracket.py::_mape_level",
+   "affected": [
+    "P0-G6",
+    "P0-G8"
+   ],
+   "failure_consequence": "J(kappa) is optimiser-dependent and the exact profile claim is unsupported"
+  },
+  {
+   "premise_id": "PR-05",
+   "premise": "the high-kappa plateau is not an artefact of BDF time integration",
+   "type": "numerical",
+   "disposition": "assured",
+   "evidence": "BDF vs expm agree to 0.000122 % including deep in the regime",
+   "evidence_path": "docs/paper1_resource/PAPER_A_SATURATION_VERIFICATION.json",
+   "affected": [
+    "P0-G8"
+   ],
+   "failure_consequence": "the plateau is a solver artefact and H1 collapses"
+  },
+  {
+   "premise_id": "PR-06",
+   "premise": "the plateau holds at EVERY calibration condition, not only the tested centre condition",
+   "type": "numerical",
+   "disposition": "OPEN",
+   "evidence": "NUM-TIME-01's evidence unit is one condition and three solutes",
+   "evidence_path": null,
+   "affected": [
+    "P0-G8"
+   ],
+   "failure_consequence": "H1's generic wording is unsupported; the claim narrows to one condition"
+  },
+  {
+   "premise_id": "PR-07",
+   "premise": "spatial discretisation error is negligible for the P0-G8 quantities",
+   "type": "numerical",
+   "disposition": "partially-assured",
+   "evidence": "4e-11 relative between 100 and 400 nodes for the cup concentration; NOT yet shown for J_inf or the shoulder derivative",
+   "evidence_path": "docs/paper1_resource/PAPER_A_NUMERICAL_ENVELOPE.json",
+   "affected": [
+    "P0-G8"
+   ],
+   "failure_consequence": "the \u00a72.6 error budget understates its spatial term"
+  },
+  {
+   "premise_id": "PR-08",
+   "premise": "the corpus transcription is faithful to the source article",
+   "type": "data-provenance",
+   "disposition": "assured",
+   "evidence": "726 analyte cells and 66 condition rows verified against the PDF, 0 mismatches",
+   "evidence_path": "tools/audit_angeloni_bioactives.py",
+   "affected": [
+    "all"
+   ],
+   "failure_consequence": "every downstream number is unverified"
+  },
+  {
+   "premise_id": "PR-09",
+   "premise": "the target-grind flow map can be rebuilt without the scored condition",
+   "type": "data-provenance",
+   "disposition": "OPEN",
+   "evidence": "raw support after excluding upstream polynomial fitting is unquantified",
+   "evidence_path": null,
+   "affected": [
+    "P0-G9"
+   ],
+   "failure_consequence": "H3 cannot be cross-fitted and remains retrospective"
+  },
+  {
+   "premise_id": "PR-10",
+   "premise": "nine leave-one-condition-out folds are dependent, not replicates",
+   "type": "inferential",
+   "disposition": "assured",
+   "evidence": "stated in every archive; no binomial or standard-error language used",
+   "evidence_path": "docs/paper1_resource/PAPER_A_ABLATION_REFIT_STABILITY.json",
+   "affected": [
+    "P0-G4",
+    "P0-G5"
+   ],
+   "failure_consequence": "fold sign counts would be over-interpreted as significance"
+  },
+  {
+   "premise_id": "PR-11",
+   "premise": "the operational near-optimal set is a convention, not a confidence set",
+   "type": "inferential",
+   "disposition": "assured",
+   "evidence": "no likelihood is declared anywhere; Fisher language is absent",
+   "evidence_path": "docs/paper1_resource/PAPER_A_PIVOT_ANALYSIS_PROTOCOL_V2.md \u00a79",
+   "affected": [
+    "P0-G8",
+    "P0-G5"
+   ],
+   "failure_consequence": "profile width would be misread as calibrated uncertainty"
+  },
+  {
+   "premise_id": "PR-12",
+   "premise": "real espresso occupies the large-mass-transfer-coefficient regime",
+   "type": "physical",
+   "disposition": "OPEN-AND-SCOPED",
+   "evidence": "cannot be tested with available data; explicitly NOT claimed anywhere",
+   "evidence_path": "docs/paper1_resource/PAPER_A_MODEL_SCOPE_MATRIX_V1_INITIAL.md",
+   "affected": [
+    "H1"
+   ],
+   "failure_consequence": "none \u2014 the claim is not made; recorded so it cannot drift into the text"
+  },
+  {
+   "premise_id": "PR-13",
+   "premise": "the omitted physics (wetting, evolving permeability, fines, poroelasticity, channelling, time-varying flow) do not reverse the plateau",
+   "type": "physical",
+   "disposition": "OPEN-AND-SCOPED",
+   "evidence": "untestable with the declared model; bounds every H1/H3 statement",
+   "evidence_path": "docs/paper1_resource/PAPER_A_MODEL_SCOPE_MATRIX_V1_INITIAL.md \u00a74",
+   "affected": [
+    "H1",
+    "H3"
+   ],
+   "failure_consequence": "none if scoped; fatal if the paper generalises beyond the declared model"
+  },
+  {
+   "premise_id": "PR-14",
+   "premise": "kappa is not a transferable physical kinetic constant",
+   "type": "physical",
+   "disposition": "assured-by-refusal",
+   "evidence": "never claimed; kappa multiplies inherited Sherwood prefactors",
+   "evidence_path": "docs/paper1_resource/PAPER_A_MODEL_SCOPE_MATRIX_V1_INITIAL.md",
+   "affected": [
+    "H4"
+   ],
+   "failure_consequence": "H4 would assert a physical constant it cannot support"
+  },
+  {
+   "premise_id": "PR-15",
+   "premise": "the contribution is novel against indexed literature",
+   "type": "novelty",
+   "disposition": "OPEN-BLOCKED",
+   "evidence": "requires Scopus/WoS/Compendex; unavailable in this environment",
+   "evidence_path": null,
+   "affected": [
+    "P0-G10"
+   ],
+   "failure_consequence": "novelty language cannot be written; P0-G10 blocks drafting"
+  }
+ ],
+ "summary": {
+  "total": 15,
+  "assured": 7,
+  "partially_assured": 2,
+  "open_blocking": 2,
+  "open_scoped": 2,
+  "open_blocked_external": 1
+ },
+ "verdict": "R0a_COMPLETE_BLOCKING_ITEMS_REMAIN",
+ "reading": "PR-02 is CLOSED by structural verification: A(kappa) is exactly affine and A1's rank/nullity match the assumed fast/slow split. PR-03 is upgraded to partially-assured: the spectral gap exists and is measured (Re <= -1.923 on all 400 fast modes), but a remainder bound with explicit constants is still owed. PR-06 (coverage at every calibration condition), PR-09 (cross-fitted map raw support) and PR-15 (indexed novelty search) remain OPEN and block P0-G8, P0-G9 and P0-G10 respectively. PR-04 is implemented but unproved. P0-G0 is therefore NOT freeze-ready, which is what a pre-freeze audit is for."
+}

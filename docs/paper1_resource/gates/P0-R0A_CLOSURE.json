@@ -1,0 +1,36 @@
+{
+ "gate": "P0-R0a",
+ "criteria_version": 1,
+ "closed_at_commit": "9c52c94edb27b461b6e7a4d471d29f3cef9d053e",
+ "deliverables": [
+  {
+   "path": "docs/paper1_resource/PAPER_A_PRE_FREEZE_PREMISE_AUDIT_R0A.json",
+   "sha256": "3873ebadcf42ac8908541f60b9a5716c3679fec5d3729bee7180352d57939347"
+  }
+ ],
+ "producer": {
+  "path": "docs/paper1_resource/PAPER_1_P0_G0_PROTOCOL_FREEZE_DECISION_20260802.md",
+  "sha256": "406d31190faf036dc1a2ab6f60e983d5c1e28868f256d2ecfc745ad33c6cd90a"
+ },
+ "criteria": [
+  {
+   "criterion": "every load-bearing premise has evidence matched to its TYPE, or an explicit open/scoped disposition",
+   "result": "pass"
+  },
+  {
+   "criterion": "physical premises not forced into repository tests that would restate the model",
+   "result": "pass",
+   "note": "PR-12 and PR-13 are OPEN-AND-SCOPED by design"
+  },
+  {
+   "criterion": "blocking premises identified BEFORE the freeze",
+   "result": "pass",
+   "note": "PR-06, PR-09 OPEN; PR-03, PR-04 partially assured; PR-15 externally blocked"
+  }
+ ],
+ "evidence_unit_scope": "15 premises. The audit's purpose is to surface blockers pre-freeze; it did, so P0-G0 cannot pass.",
+ "caveats": [
+  "closure records the artefact state at this commit; any later edit fails the hash test"
+ ],
+ "adjudication": "passed within the stated scope"
+}
