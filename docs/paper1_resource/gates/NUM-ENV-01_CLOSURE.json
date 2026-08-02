@@ -1,0 +1,38 @@
+{
+ "gate": "NUM-ENV-01",
+ "criteria_version": 1,
+ "closed_at_commit": "4860aa2fe8e77736baf0610cd563e0af992af734",
+ "deliverables": [
+  {
+   "path": "docs/paper1_resource/PAPER_A_NUMERICAL_ENVELOPE.json",
+   "sha256": "4be5ed29370d671a97bb97afc0ac4fb9a8374e1e3ccbbb925b427d79f564f835"
+  }
+ ],
+ "producer": {
+  "path": "tools/paper_a_numerical_envelope.py",
+  "sha256": "1d680d53f2aa1875cc32c1360dfb0940c4ec56e4be84924e99b997bb6be52286"
+ },
+ "criteria": [
+  {
+   "criterion": "node-count patch demonstrably changes the prediction",
+   "result": "pass",
+   "evidence": "tests/test_paper_a_numerical_envelope.py"
+  },
+  {
+   "criterion": "tightening tolerance moves BDF toward the exact solution",
+   "result": "pass",
+   "evidence": "tests/test_paper_a_numerical_envelope.py"
+  },
+  {
+   "criterion": "contrast range far below the effect",
+   "result": "pass",
+   "evidence": "/M1_minus_M2/range"
+  }
+ ],
+ "evidence_unit_scope": "FULL-SUPPORT estimands only; says nothing about LOCO fold medians.",
+ "caveats": [
+  "both arms refitted inside every configuration",
+  "no fold-level envelope was run"
+ ],
+ "adjudication": "passed within the stated scope"
+}

@@ -1,27 +1,52 @@
-# Paper 1 — pivot and redraft plan, revision 2.2
+# Paper 1 — pivot and redraft plan, revision 2.2.1
 
-> [!WARNING]
-> **SUPERSEDED AND NOT OPERATIVE.** Reviewed in `PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2_REVIEW_20260802.md`,
-> which found the science close to correct but the assurance layer still claiming more than it
-> enforced: the "fail-closed" control could skip on a missing optional parser, covered 14 of 100
-> candidate surfaces, and stripped the quoted spans that JSON and Python rules were written to
-> inspect. Use **`PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2_1.md`**. Retained only for the audit trail.
-
-
-**Prepared:** 1 August 2026
-**Status:** proposal for review. Operative only when `PAPER_A_PLAN_MANIFEST_V1.yaml` sets
-`operative_status: operative` and pins `operative_commit`.
-**Supersedes:** v1, v2, v2.1 — all retained with banners, all classified `historical`.
-**Actions:** `PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_1_REVIEW_20260801.md`
+**Prepared:** 2 August 2026
+**Status:** proposal for review. **Gate and artefact status is recorded in `PAPER_A_PLAN_MANIFEST_V1.json` and nowhere else — the manifest is the only status source**, so prose here never asserts that a gate has passed. Activation is two-stage (§7.4).
+**Supersedes:** v1, v2, v2.1, v2.2 — all retained with banners, all classified `historical`.
+**Actions:** `PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2_REVIEW_20260802.md`
 **No manuscript file has been modified and the redraft has not started.**
 
-This document is **self-contained**. Every gate, round, estimand, vocabulary and decision rule the
-programme needs is defined here or in the four artefacts it names. v2.1 delegated normative content
-to a superseded file and to a review document; that is fixed.
+This document is the **human-readable member of a controlled normative bundle**.
+`PAPER_A_PLAN_MANIFEST_V1.json` enumerates the authoritative plan, protocol, initial claim ledger,
+scope matrix, reconciliation, gate definitions and subsequently generated gate artefacts, each with
+an immutable content hash. Operative authority attaches only to the frozen content commit and the
+recorded hashes — not to a filename. Every gate, round, estimand, vocabulary and decision rule is
+defined here or in a bundle member; nothing normative is delegated to a superseded plan or to a
+review document.
 
 ---
 
-## 0. Disposition of the third review
+## 0a. Disposition of the fourth review
+
+Every checkable claim was verified against the repository before acceptance. All hold.
+
+| id | finding | verified | disposition |
+|---|---|---|---|
+| GOV-01 | `importorskip` let the fail-closed control skip | yes | **Accepted.** Manifest is JSON; no optional parser; a test parses this module and fails on any skip call |
+| GOV-02 | no discovery; the protocol was classified as neither active nor historical | yes — **81 of 100** candidates were unclassified | **Accepted.** Discovery globs; every candidate must be classified |
+| GOV-03 | blanket quote stripping defeats JSON/Python rules | yes — `{"verdict": "PHYSICAL"}` became `{ :  }`; two rules could never fire | **Accepted.** Format-aware scanner: JSON parsed, Python via `ast`+`tokenize`, prose keeps mention-vs-assert |
+| GOV-04 | gate closure bound only to file existence | yes | **Accepted.** Closure records with criteria, evidence scope, and deliverable + producer hashes |
+| GOV-05 | initial and final ledgers shared a path | yes | **Accepted.** `_INITIAL` / `_FINAL` / `_DIFF` split; the baseline declares itself immutable |
+| GOV-06 | `operative_commit` was not an implementable pin | yes — a commit cannot contain its own SHA | **Accepted.** Two-stage freeze/activation (§7.4) |
+| REC-01…05 | active producers and archives still asserted withdrawn claims | yes — 20 findings once the scanner could read | **Accepted.** Fixed at source and regenerated; `--check` renamed `--exists` |
+| DOC-01 | assurance overclaim, and a stale artefact count | yes | **Accepted.** Both replaced |
+| SEQ-01 | R0 sequenced after drafting | yes | **Accepted.** Split R0a (pre-freeze) / R0b (pre-drafting) |
+| NOV-01 | P0-G10 was a deadlock with no owner or package | yes | **Accepted.** Protocol and handoff artefacts are now gate deliverables |
+| TAX-01, LED-01/02 | taxonomy and ledger semantics | yes | **Accepted in principle — NOT yet implemented.** See §12 |
+| PRO-01…08, SCI-01…04 | the protocol is not yet genuinely frozen | yes | **Accepted — NOT yet implemented.** See §12 |
+
+### What I take from this round
+
+The control I described as fail-closed could skip, covered 14 % of the surfaces it claimed, and had
+deleted the content two of its rules were written to inspect. I found that out because the review
+ran the probes I had not. Before believing this round's clean scan, I ran seven adversarial probes —
+and one of them failed, exposing a second-order version of the same bug: once JSON was parsed
+structurally, a `"key": "value"` rule stopped matching because key and value had become separate
+strings. That is now a test.
+
+---
+
+## 0b. Disposition of the third review
 
 Every checkable claim was verified against the repository before acceptance. All hold.
 
@@ -44,11 +69,19 @@ Every checkable claim was verified against the repository before acceptance. All
 
 ### What I take from this round
 
-I built a control that checked literals and described it as a control that enforces the plan. That is
-the same species of error as the science ones this pivot exists to fix: a claim about assurance that
-outran the evidence for it. The replacement is driven by a manifest, is fail-closed, and scans every
-active surface — so the next failure mode has to be one nobody has thought of, rather than one the
-document already named.
+I built a control that checked literals and described it as a control that enforces the plan — a
+claim about assurance that outran its evidence, which is the same species of error as the scientific
+overclaims this pivot exists to fix.
+
+**And I did it again in v2.2.** The replacement was described as fail-closed while obtaining its
+manifest through `pytest.importorskip`, so it skipped on any lane without PyYAML; it was described
+as scanning every active surface while iterating over 14 hand-listed paths out of 100 candidates;
+and it stripped every quoted span before matching, which in JSON and Python deletes precisely the
+content the rules were written to read. Two of the rules could never fire.
+
+The replacement control is designed and adversarially tested against the enumerated failure classes.
+It reduces recurrence of those failures; **it does not establish that unanticipated control defects
+are impossible.**
 
 ---
 
@@ -92,8 +125,8 @@ Three separate results, not one:
 2. **Exact production-MAPE profile.** For `y_i, f_i > 0`,
    `J(I,κ) = mean_i w_i(κ)·|I − r_i(κ)|` with `w_i = f_i/y_i`, `r_i = y_i/f_i`; any weighted median
    of `r` with weights `w` minimises the level exactly, and the minimiser may be an **interval**.
-3. **Diagnostic test.** Whether RSI screens designs for *actual* MAPE profile behaviour, under the
-   frozen criterion in the protocol.
+3. **Diagnostic test.** Whether the sensitivity spread provides useful ordinal ranking against
+   *actual* MAPE profile behaviour, under the frozen criterion in the protocol.
 
 (1) is not the curvature of (2). (2) removes optimiser uncertainty from the profile, gives an exact
 construction of `J_inf` once `f_inf` is known, and exposes the median-switch kinks where the
@@ -123,8 +156,11 @@ Three evidential levels, never conflated:
 
 ### H4 — estimation policy, on two axes
 
-> Weak localisation of `κ` under the declared objective prevents its fitted value from being read as
-> a uniquely learned kinetic quantity. **Point-estimation rules** — free, fixed, regularised,
+> **If P0-G8 establishes weak or one-sided practical localisation** under the declared operational
+> near-optimal set, the fitted `κ` cannot be read as uniquely learned from matched whole-cup
+> endpoints. **Independently of that outcome — including if the profile turns out to be finite —
+> interpreting `κ` as a transferable physical kinetic constant remains unsupported without external
+> validation and model-discrepancy analysis.** **Point-estimation rules** — free, fixed, regularised,
 > independently constrained — are compared under calibration-only selection. **Profile propagation**
 > is reported **separately** as an operational sensitivity analysis, never ranked against a point
 > estimator. Any preference is scoped to this campaign and is grind-specific.
@@ -263,6 +299,22 @@ marked **open or scoped**, never forced into a repository test that merely resta
 
 ---
 
+### 7.4 Activation ceremony
+
+A commit cannot contain its own SHA, so a single self-pinning field is not implementable. Activation
+is two-stage:
+
+1. **Freeze commit F** — carries the final normative bundle; manifest `operative_status:
+   candidate-frozen`; `activation.frozen_hashes` records the SHA-256 of every bundle member.
+2. **Activation commit A** — changes control metadata only; sets `operative_status: operative` and
+   `activation.frozen_content_commit: F`.
+
+At A and every descendant the control verifies each bundle member's current hash against the value
+recorded at F. Any normative change after activation requires a versioned amendment and a deviation
+record. A non-null string is not a pin.
+
+---
+
 ## 8. Review programme
 
 ### 8.1 Claim–premise–test matrix
@@ -283,7 +335,8 @@ is not an acceptance criterion.
 
 | round | reviewer | scope | acceptance |
 |---|---|---|---|
-| **R0** | internal | premise audit — every load-bearing assumption gets evidence matched to its type | each premise has assurance appropriate to its type, or is marked open/scoped |
+| **R0a** | internal, **before the protocol freeze** | premise audit — every load-bearing assumption gets evidence matched to its type | each premise has assurance appropriate to its type, or is marked open/scoped. Running this before the freeze is the point: a missing premise found afterwards forces an unplanned deviation or a second freeze |
+| **R0b** | internal, after outputs are frozen | convergence premise audit | results introduced no new unassured premise |
 | **R1** | numerical / scientific computing | NUM-TIME-01, NUM-ENV-01, P0-G8 asymptotics, the exact-MAPE proposition | no unresolved critical/major finding in the linear-operator argument, the error band, or the controls |
 | **R2** | inverse problems / parameter estimation | H1, H2, estimand discipline, profile topology | no local result overextended to a global claim; no Fisher or coverage language absent a declared likelihood |
 | **R3** | espresso experimentalist / food-process engineer | H3, H4, design recommendations, omitted physics | recommendations are explicitly prospective and model-based; claims scoped to this machine and campaign; no cross-machine generalisation |
@@ -406,7 +459,34 @@ blocking gate closes, **P0-G10 included**.
 
 ---
 
-## 12. Environment limit
+## 12. What this revision does NOT do
+
+Recorded plainly, because a patch that silently drops half its action register is exactly the
+failure mode these four reviews have been correcting.
+
+**Implemented in this revision (Phase A of the review's §9):** GOV-01 … GOV-06, REC-01 … REC-05,
+DOC-01, SEQ-01's split, and the adversarial probe suite.
+
+**Accepted but NOT implemented — these block P0-G0, and therefore block every scientific gate:**
+
+| id | outstanding work |
+|---|---|
+| PRO-01, PRO-02, SCI-01 | P0-G8's `κ` domain, threshold formulas, verified error intervals, global-topology algorithm, response-shoulder threshold family, and the derivation extending the limit beyond one centre condition |
+| PRO-03, SCI-02 | P0-G6's exact RSI formula, weight convention, design list, `κ` locations, profile-width definition, censoring rule, named concordance statistic, minimum effect, and both controls |
+| PRO-04 | P0-G9's map families, scored-condition exclusion unit *including upstream fitted polynomials*, adaptation counts, placements, and the impossibility criterion |
+| PRO-05, PRO-06 | P0-G5's regularisation coordinate, objective scaling, tuning branch, dominance definition, and envelope construction |
+| PRO-07 | P0-G7's generator, true parameter grid, noise covariance, mismatch magnitudes, resource-cost vector, replicates and success criterion |
+| PRO-08 | P0-G4's enumerated factorial and expected run count |
+| TAX-01, LED-01, LED-02 | splitting `robustness` into evidence basis / validation provenance / result behaviour / assurance / claim status; separating falsifier from scope-limiter; binding every claim to path + JSON pointer + hashes |
+| SCI-03, SCI-04 | map-uncertainty propagation; branch-specific H4 text generated from the gate outcome |
+
+Each requires scientific specification rather than control repair, and several are load-bearing
+choices that could change a result — which is exactly why they must be frozen *before* P0-G0 passes
+rather than selected afterwards.
+
+---
+
+## 13. Environment limit
 
 P0-G10 requires indexed databases (Scopus, Web of Science, Engineering Village). They need
 subscriptions unavailable here, and MDPI and Royal Society hosts are Cloudflare-blocked from this

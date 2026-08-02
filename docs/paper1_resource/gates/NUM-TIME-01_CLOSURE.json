@@ -1,0 +1,43 @@
+{
+ "gate": "NUM-TIME-01",
+ "criteria_version": 1,
+ "closed_at_commit": "4860aa2fe8e77736baf0610cd563e0af992af734",
+ "deliverables": [
+  {
+   "path": "docs/paper1_resource/PAPER_A_SATURATION_VERIFICATION.json",
+   "sha256": "9887f7edbfa3b16edcf93413f64102539fa6e70bbf72f869155512108b408d4d"
+  }
+ ],
+ "producer": {
+  "path": "tools/paper_a_saturation_verification.py",
+  "sha256": "517a43a7ac1a8e5eb978aae62f0097128fd96153783e93aa4eb08004d548bccd"
+ },
+ "criteria": [
+  {
+   "criterion": "_rhs is exactly linear in the state",
+   "result": "pass",
+   "evidence": "/linearity_check/max_relative_superposition_error"
+  },
+  {
+   "criterion": "operator reproduces _rhs at kappa=1 and kappa=500",
+   "result": "pass",
+   "evidence": "/operator_check_rate_500/max_relative_operator_error"
+  },
+  {
+   "criterion": "BDF and matrix exponential agree",
+   "result": "pass",
+   "evidence": "/bdf_vs_expm/worst_relative_difference_percent"
+  },
+  {
+   "criterion": "prediction converges to a finite limit",
+   "result": "pass",
+   "evidence": "/large_kappa_limit_on_independent_path/all_converged"
+  }
+ ],
+ "evidence_unit_scope": "ONE centre condition (93.4 C, 9 bar, optimal grind) and THREE solutes. Narrowed here because the archive's evidence unit is that condition; generic wording for all conditions requires the P0-G8 structural derivation.",
+ "caveats": [
+  "independent in TIME only; spatial operator, equations, parameterisation and omitted physics are shared",
+  "physical validity untested"
+ ],
+ "adjudication": "passed within the stated scope"
+}

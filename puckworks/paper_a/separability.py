@@ -204,11 +204,12 @@ def design_separability(response, rate: float, weights=None,
 
 
 def agreement_with_profiles(rsi_by_design: dict, width_by_design: dict) -> dict:
-    """Does a higher RSI actually go with a narrower nonlinear rate profile?
+    """Is a higher RSI associated with a narrower nonlinear rate profile?
 
-    Plan §5.6 makes this the admission test for the whole diagnostic. Reported as a rank
-    correlation over designs, because the claim is ordinal — RSI screens designs, it does not
-    predict a width — and with the count of designs so a reader can see how thin the evidence is.
+    This is exploratory evidence only. Admission of RSI as a design diagnostic is decided by
+    gate P0-G6 against exact MAPE profiles under a frozen criterion, not here. Reported as a rank
+    correlation over designs, because any claim here would be ordinal rather than quantitative —
+    a candidate screen does not predict a width — and with the count of designs so a reader can see how thin the evidence is.
 
     A negative Spearman coefficient (more separability, narrower profile) is the expected sign.
     """

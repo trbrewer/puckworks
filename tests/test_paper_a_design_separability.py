@@ -78,11 +78,17 @@ def test_the_primary_admission_test_is_the_stricter_one(archive):
     secondary = a["secondary_all_designs"]
     assert primary["n_groups_consistent_with_expectation"] <= \
         secondary["n_groups_consistent_with_expectation"]
-    assert "SCREENING tool" in a["reading"]
+    assert a["primary_resolved_designs_only"]["median_spearman"] is not None
 
 
-def test_rsi_is_admitted_only_as_a_screen(archive):
-    """The honest reading: 5 of 6 groups, not 6 of 6, once noise-limited designs are excluded."""
+def test_the_archive_does_not_adjudicate_rsi_admission(archive):
+    """Admission is P0-G6's decision, against exact MAPE profiles under a frozen criterion.
+
+    This archive predates that gate. It may report the association it measured; it may not conclude
+    that RSI is admitted, which an earlier version did.
+    """
+    assert archive["admission_status"] == "pre_P0_G6_exploratory"
+    assert "does not decide it" in archive["admission_test"]["reading"]
     primary = archive["admission_test"]["primary_resolved_designs_only"]
     assert primary["median_spearman"] < 0
     assert primary["n_groups_consistent_with_expectation"] < primary["n_groups"], (

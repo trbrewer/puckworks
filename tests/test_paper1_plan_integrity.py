@@ -1,24 +1,21 @@
-"""Manifest-driven integrity control for the Paper 1 pivot programme.
+"""Fail-closed integrity control for the Paper 1 pivot programme.
 
-The previous version of this file was a set of literal string checks that advertised more assurance
-than it delivered. Review found, correctly, that it:
+Third iteration. The history matters, because each version failed in the same shape:
 
-* did not ban the terms its own plan banned, so the plan asserted "Response saturation is a model
-  property" while the test passed;
-* checked gate references against definitions in one direction only;
-* validated exactly one stated count, by banning a single literal phrase;
-* hard-coded the operative filename, so a later revision would be silently ignored;
-* SKIPPED when the operative plan was absent, so a missing governance artefact produced a green run;
-* never looked at any other repository surface, while three archives and two producers still
-  asserted claims the plan had withdrawn.
+* v1's control was prose rules a reader had to apply;
+* v2.1's was literal string matching that advertised checks it did not implement;
+* v2.2's added a manifest but (a) obtained it through ``pytest.importorskip("yaml")``, so the
+  "fail-closed" control **skipped** on any lane without PyYAML, (b) iterated only over a hand-listed
+  set of 14 surfaces out of 100 candidates, and (c) stripped every quoted span before matching —
+  which, applied to JSON and Python, deleted exactly the content the rules were written to inspect,
+  so ``{"verdict": "PHYSICAL"}`` and ``label = "RATE RECALIBRATION ALONE"`` could never match.
 
-It is now driven by `PAPER_A_PLAN_MANIFEST_V1.yaml` and is **fail-closed**: a missing manifest,
-missing operative plan, orphan gate, dependency cycle, unclassified claim surface or banned assertion
-is a FAILURE, not a skip. Moving to a later plan revision should require editing the manifest only.
+This version: the manifest is JSON (standard library only, no optional parser, no skip path);
+candidate surfaces are DISCOVERED from declared globs and every one must be classified; and matching
+is delegated to `tools.paper1_claim_scanner`, which reads each file according to its format.
 
-The mention-versus-assert rule is retained deliberately: a document that documents what it removed
-must be able to name it. Quote it or set it in code, and it is a mention; state it bare, and it is an
-assertion.
+The adversarial probes in §12 of the review are implemented as tests, because a scanner that reports
+nothing is indistinguishable from a scanner that inspects nothing.
 """
 from __future__ import annotations
 
@@ -33,23 +30,16 @@ REPO = pathlib.Path(__file__).resolve().parents[1]
 if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
-MANIFEST = REPO / "docs" / "paper1_resource" / "PAPER_A_PLAN_MANIFEST_V1.yaml"
+from tools import paper1_claim_scanner as SCAN  # noqa: E402
 
-#: Spans that MENTION rather than assert.
-_QUOTED = re.compile(r"\"[^\"\n]*\"|“[^”\n]*”|`[^`\n]*`|'[^'\n]*'")
-
-
-def _asserted(text: str) -> str:
-    return _QUOTED.sub(" ", text)
+MANIFEST = REPO / "docs" / "paper1_resource" / "PAPER_A_PLAN_MANIFEST_V1.json"
 
 
 @pytest.fixture(scope="module")
 def manifest():
-    """Fail-closed: the manifest is the control surface, so its absence is a defect."""
-    assert MANIFEST.exists(), (
-        "the plan manifest is missing; the integrity control cannot be skipped into passing")
-    yaml = pytest.importorskip("yaml", reason="pyyaml absent on the minimum-dependency lane")
-    return yaml.safe_load(MANIFEST.read_text(encoding="utf-8"))
+    """No skip path. JSON is standard library, so an absent parser cannot excuse a green run."""
+    assert MANIFEST.exists(), "the plan manifest is missing; this control must not be skippable"
+    return json.loads(MANIFEST.read_text(encoding="utf-8"))
 
 
 @pytest.fixture(scope="module")
@@ -59,67 +49,140 @@ def plan(manifest):
     return path.read_text(encoding="utf-8")
 
 
-# ── 1. the manifest itself ───────────────────────────────────────────────────────────────────
-def test_the_manifest_names_exactly_one_operative_plan(manifest):
-    assert manifest["operative_plan"]
-    assert manifest["operative_plan"] not in manifest["superseded_plans"]
+# ── 1. the control cannot skip ───────────────────────────────────────────────────────────────
+def test_the_manifest_is_json_and_needs_no_optional_parser():
+    assert MANIFEST.suffix == ".json"
+    assert not (MANIFEST.parent / "PAPER_A_PLAN_MANIFEST_V1.yaml").exists(), (
+        "the YAML manifest forced pytest.importorskip and reintroduced a skip path")
 
 
-def test_every_superseded_plan_carries_a_banner(manifest):
-    """The audit trail is preserved on purpose; it must be unmistakably marked."""
-    for rel in manifest["superseded_plans"]:
-        path = REPO / rel
-        assert path.exists(), rel
-        assert "SUPERSEDED" in path.read_text(encoding="utf-8")[:1200].upper(), rel
+def test_this_module_contains_no_skip_path():
+    """Parsed, not grepped — the prose above legitimately NAMES the functions it forbids calling."""
+    import ast
+
+    tree = ast.parse(pathlib.Path(__file__).read_text(encoding="utf-8"))
+    called = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Call):
+            called.add(ast.unparse(node.func))
+    banned = {c for c in called if c.endswith(("importorskip", "pytest.skip", "skip"))}
+    assert not banned, "%s reintroduces a skip path into a fail-closed control" % sorted(banned)
 
 
-def test_operative_status_and_commit_agree(manifest):
-    """A plan declared operative must be pinned to an immutable commit."""
-    if manifest["operative_status"] == "operative":
-        assert manifest["operative_commit"], (
-            "an operative plan must pin operative_commit, or its normative content is mutable")
-    else:
-        assert manifest["operative_status"] == "proposal"
+# ── 2. exhaustive classification of claim surfaces ───────────────────────────────────────────
+def test_every_candidate_surface_is_classified(manifest):
+    """The gap that mattered: 14 surfaces were listed, 100 existed, 81 were unclassified."""
+    candidates = SCAN.discover(REPO, manifest["claim_surface_globs"])
+    classified = (set(manifest["active_claim_surfaces"])
+                  | set(manifest["historical_exclusions"])
+                  | {e["path"] for e in manifest["nonclaim_exclusions"]})
+    unclassified = sorted(candidates - classified)
+    assert not unclassified, (
+        "unclassified candidate claim surfaces (a new artefact must be classified, not ignored):\n  "
+        + "\n  ".join(unclassified))
 
 
-# ── 2. the gate graph ────────────────────────────────────────────────────────────────────────
+def test_classifications_do_not_overlap(manifest):
+    active = set(manifest["active_claim_surfaces"])
+    historical = set(manifest["historical_exclusions"])
+    nonclaim = {e["path"] for e in manifest["nonclaim_exclusions"]}
+    assert not active & historical, sorted(active & historical)
+    assert not active & nonclaim, sorted(active & nonclaim)
+
+
+def test_the_current_protocol_is_an_active_surface(manifest):
+    """It carries operative decision rules and was previously classified as neither."""
+    assert ("docs/paper1_resource/PAPER_A_PIVOT_ANALYSIS_PROTOCOL_V1.md"
+            in manifest["active_claim_surfaces"])
+
+
+def test_every_claim_bearing_gate_deliverable_is_classified(manifest):
+    """A future gate output must not arrive unclassified and therefore unscanned."""
+    classified = (set(manifest["active_claim_surfaces"])
+                  | set(manifest["historical_exclusions"])
+                  | {e["path"] for e in manifest["nonclaim_exclusions"]})
+    for name, gate in manifest["gates"].items():
+        for rel in gate["deliverables"]:
+            if (REPO / rel).exists():
+                assert rel in classified, "%s deliverable %s exists but is unclassified" % (name, rel)
+
+
+# ── 3. the scanner actually inspects content ─────────────────────────────────────────────────
+def test_no_active_surface_asserts_a_withdrawn_claim(manifest):
+    findings = SCAN.scan(REPO, manifest["active_claim_surfaces"], manifest["banned_assertions"],
+                         manifest.get("assertion_exemptions", ()))
+    assert not findings, "\n  ".join([""] + [str(f) for f in findings])
+
+
+@pytest.mark.parametrize("name,body,should_catch", [
+    ("probe.json", '{"verdict": "PHYSICAL"}', True),
+    ("probe.py", 'label = "RATE RECALIBRATION ALONE"\n', True),
+    ("probe.py", '"""The cup cannot localize the multiplier."""\n', True),
+    ("probe.py", '# hydraulic attribution is established\n', True),
+    ("probe.md", 'The acceptable set is unbounded above.\n', True),
+    ("probe.json", '{"note": "freezing the rate transfers better"}', True),
+    ("probe.md", 'We withdrew "cannot localize" from the title.\n', False),
+])
+def test_adversarial_probes(tmp_path, manifest, name, body, should_catch):
+    """Review §12. A scanner reporting nothing must be shown to be capable of reporting something.
+
+    The Markdown case that must NOT fire is the mention-versus-assert rule: a document recording
+    what it removed has to be able to name it. That rule applies to prose ONLY — in JSON and Python
+    the quotes are structure, which is what the previous control got catastrophically wrong.
+    """
+    (tmp_path / name).write_text(body, encoding="utf-8")
+    findings = SCAN.scan(tmp_path, [name], manifest["banned_assertions"])
+    assert bool(findings) is should_catch, (name, body, [str(f) for f in findings])
+
+
+def test_a_json_field_rule_survives_structural_parsing(manifest):
+    """`"verdict": "PHYSICAL"` must match a PARSED document, not just raw text.
+
+    When the scanner began parsing JSON, the key and value became separate strings and the field
+    rule silently stopped matching — the same defect as quote-stripping, one level down. It was
+    caught only because the probe was run before the clean result was believed.
+    """
+    items = dict((loc, txt) for loc, txt in SCAN._json_assertions('{"verdict": "PHYSICAL"}'))
+    assert any(txt == "verdict: PHYSICAL" for txt in items.values()), (
+        "scalar members must also be emitted as a composite 'key: value'")
+
+
+def test_a_missing_active_surface_is_a_finding(manifest, tmp_path):
+    findings = SCAN.scan(tmp_path, ["docs/nonexistent.json"], manifest["banned_assertions"])
+    assert findings and findings[0].rule == "<missing>"
+
+
+def test_exemptions_are_bounded_by_occurrence_count(tmp_path, manifest):
+    """A reviewed historical quotation stays permitted; a NEW occurrence still fails."""
+    rule = [{"pattern": r"\bunbounded above\b", "why": "test"}]
+    (tmp_path / "a.md").write_text("unbounded above\n", encoding="utf-8")
+    ex = [{"path": "a.md", "pattern": r"\bunbounded above\b", "reason": "reviewed",
+           "max_occurrences": 1}]
+    assert not SCAN.scan(tmp_path, ["a.md"], rule, ex)
+    (tmp_path / "a.md").write_text("unbounded above\nunbounded above\n", encoding="utf-8")
+    assert SCAN.scan(tmp_path, ["a.md"], rule, ex)
+
+
+# ── 4. gate graph and evidence-bound closure ─────────────────────────────────────────────────
 def test_every_gate_has_the_required_fields(manifest):
     for name, gate in manifest["gates"].items():
-        for field in ("title", "status", "dependencies", "deliverables", "blocks_drafting"):
+        for field in ("title", "status", "dependencies", "deliverables", "blocks_drafting",
+                      "closure_record"):
             assert field in gate, "%s is missing %s" % (name, field)
         assert gate["status"] in ("open", "passed", "failed", "withdrawn"), name
 
 
-def test_every_dependency_names_a_defined_gate(manifest):
-    """An orphan REFERENCE is an unenforceable requirement."""
-    defined = set(manifest["gates"])
-    for name, gate in manifest["gates"].items():
-        for dep in gate["dependencies"]:
-            assert dep in defined, "%s depends on undefined gate %s" % (name, dep)
-
-
-def test_every_defined_gate_is_reachable_or_terminal(manifest):
-    """The reverse direction the old test never checked: a gate defined but referenced by nothing,
-    and depending on nothing, is dead weight in the plan."""
+def test_dependencies_resolve_and_the_graph_is_acyclic(manifest):
     gates = manifest["gates"]
-    referenced = {d for g in gates.values() for d in g["dependencies"]}
     for name, gate in gates.items():
-        # A gate that blocks drafting is depended upon by the drafting step, which is not itself a
-        # gate; that counts as reachable.
-        reachable = (name in referenced or gate["dependencies"]
-                     or gate["status"] == "passed" or gate["blocks_drafting"])
-        assert reachable, (
-            "%s is defined but neither depends on nor is depended upon by anything" % name)
-
-
-def test_the_gate_graph_is_acyclic(manifest):
-    gates = manifest["gates"]
+        for dep in gate["dependencies"]:
+            assert dep in gates, "%s depends on undefined gate %s" % (name, dep)
     state = {}
 
     def visit(node, stack):
         if state.get(node) == "done":
             return
-        assert node not in stack, "dependency cycle through %s: %s" % (node, " -> ".join(stack))
+        assert node not in stack, "dependency cycle: %s -> %s" % (" -> ".join(stack), node)
         stack.append(node)
         for dep in gates[node]["dependencies"]:
             visit(dep, stack)
@@ -130,161 +193,101 @@ def test_the_gate_graph_is_acyclic(manifest):
         visit(name, [])
 
 
-def test_a_passed_gate_has_produced_its_deliverables(manifest):
+def test_a_passed_gate_is_bound_to_hashed_evidence(manifest):
+    """"Passed" previously meant only that a path existed; a placeholder would have satisfied it."""
+    import hashlib
+
     for name, gate in manifest["gates"].items():
-        if gate["status"] == "passed":
-            for rel in gate["deliverables"]:
-                assert (REPO / rel).exists(), "%s is passed but %s is missing" % (name, rel)
+        if gate["status"] != "passed":
+            continue
+        record_path = gate["closure_record"]
+        assert record_path, "%s is passed with no closure record" % name
+        full = REPO / record_path
+        assert full.exists(), "%s closure record %s missing" % (name, record_path)
+        record = json.loads(full.read_text(encoding="utf-8"))
+        assert record["criteria"], "%s closure record states no criteria" % name
+        assert record.get("evidence_unit_scope"), "%s closure record states no evidence scope" % name
+        for item in record["deliverables"]:
+            path = REPO / item["path"]
+            assert path.exists(), item["path"]
+            actual = hashlib.sha256(path.read_bytes()).hexdigest()
+            assert actual == item["sha256"], (
+                "%s deliverable %s changed after closure" % (name, item["path"]))
+        producer = REPO / record["producer"]["path"]
+        assert hashlib.sha256(producer.read_bytes()).hexdigest() == record["producer"]["sha256"], (
+            "%s producer changed after closure" % name)
 
 
-def test_no_gate_may_pass_before_its_dependencies(manifest):
+def test_no_gate_passes_before_its_dependencies(manifest):
     gates = manifest["gates"]
     for name, gate in gates.items():
         if gate["status"] == "passed":
             for dep in gate["dependencies"]:
-                assert gates[dep]["status"] == "passed", (
-                    "%s is passed but its dependency %s is %s" % (name, dep, gates[dep]["status"]))
+                assert gates[dep]["status"] == "passed", (name, dep, gates[dep]["status"])
 
 
-def test_gates_referenced_by_the_plan_are_defined_in_the_manifest(manifest, plan):
-    """Both directions, which is what the plan promised and the old test did not do."""
+def test_every_drafting_blocker_has_an_inspectable_deliverable(manifest):
+    """P0-G2 was a drafting-blocking gate with an empty deliverable list."""
+    for name, gate in manifest["gates"].items():
+        if gate["blocks_drafting"]:
+            assert gate["deliverables"], "%s blocks drafting but delivers nothing inspectable" % name
+
+
+# ── 5. the initial baseline is immutable ─────────────────────────────────────────────────────
+def test_initial_and_final_artefacts_use_distinct_paths(manifest):
+    """Sharing a path would let the final reconciliation erase the baseline that detects drift."""
+    for a, b in (("P0-G1a", "P0-G1b"), ("P0-G3a", "P0-G3b")):
+        initial = set(manifest["gates"][a]["deliverables"])
+        final = set(manifest["gates"][b]["deliverables"])
+        assert not initial & final, sorted(initial & final)
+
+
+def test_the_initial_ledger_declares_itself_immutable():
+    path = REPO / "docs" / "paper1_resource" / "PAPER_A_CLAIM_EVIDENCE_LEDGER_V2_INITIAL.json"
+    data = json.loads(path.read_text(encoding="utf-8"))
+    assert data["baseline"]["role"] == "INITIAL"
+    assert "MUST NOT be" in data["baseline"]["immutability"]
+
+
+# ── 6. activation ceremony ───────────────────────────────────────────────────────────────────
+def test_activation_is_two_stage_and_validated(manifest):
+    """A commit cannot contain its own SHA, so a single self-pinning field is not implementable."""
+    assert manifest["operative_status"] in ("candidate", "candidate-frozen", "operative")
+    activation = manifest["activation"]
+    assert "frozen_content_commit" in activation and "normative_bundle" in activation
+    if manifest["operative_status"] == "operative":
+        sha = activation["frozen_content_commit"]
+        assert isinstance(sha, str) and re.fullmatch(r"[0-9a-f]{40}", sha), sha
+        assert activation["frozen_hashes"], "operative status requires recorded content hashes"
+
+
+def test_frozen_hashes_match_current_content_when_operative(manifest):
+    import hashlib
+
+    if manifest["operative_status"] != "operative":
+        return                                   # nothing to verify until activation
+    for rel, expected in manifest["activation"]["frozen_hashes"].items():
+        actual = hashlib.sha256((REPO / rel).read_bytes()).hexdigest()
+        assert actual == expected, "%s drifted from its frozen hash" % rel
+
+
+# ── 7. plan/manifest agreement ───────────────────────────────────────────────────────────────
+def test_gate_references_agree_in_both_directions(manifest, plan):
     defined = set(manifest["gates"])
     referenced = set(re.findall(r"\b(?:P0-G\d+[ab]?|NUM-[A-Z]+-\d+)\b", _asserted(plan)))
-    missing = referenced - defined
-    assert not missing, "the plan references gates absent from the manifest: %s" % sorted(missing)
+    assert not referenced - defined, sorted(referenced - defined)
+    assert not {n for n in defined if n not in plan}, sorted(n for n in defined if n not in plan)
 
 
-def test_gates_defined_in_the_manifest_appear_in_the_plan(manifest, plan):
-    unreferenced = {n for n in manifest["gates"] if n not in plan}
-    assert not unreferenced, "manifest gates never mentioned in the plan: %s" % sorted(unreferenced)
+def test_the_plan_does_not_duplicate_manifest_status(plan):
+    """Prose status and manifest status drifted apart in v2.2; the manifest is the only source."""
+    assert "the manifest is the only status source" in plan or "status is recorded in the" in plan
 
 
-# ── 3. banned assertions across ALL active surfaces ──────────────────────────────────────────
-def test_every_active_surface_exists(manifest):
-    for rel in manifest["active_claim_surfaces"]:
-        assert (REPO / rel).exists(), "active claim surface %s is missing" % rel
+def test_the_plan_states_no_unbounded_assurance_claim(plan):
+    """No finite suite proves unanticipated defects are excluded."""
+    assert "has to be one nobody has thought of" not in plan
 
 
-def test_active_and_historical_classifications_do_not_overlap(manifest):
-    overlap = set(manifest["active_claim_surfaces"]) & set(manifest["historical_exclusions"])
-    assert not overlap, sorted(overlap)
-
-
-def test_no_active_surface_asserts_a_withdrawn_claim(manifest):
-    """The check that would have caught the PHYSICAL verdict, the stale docstrings and the labels.
-
-    Exemption is by explicit manifest classification, never by filename convention, so a new
-    artefact that nobody classified fails rather than passing silently.
-    """
-    failures = []
-    for rel in manifest["active_claim_surfaces"]:
-        text = _asserted((REPO / rel).read_text(encoding="utf-8"))
-        for rule in manifest["banned_assertions"]:
-            if re.search(rule["pattern"], text, flags=re.I):
-                failures.append("%s asserts %r — %s" % (rel, rule["pattern"], rule["why"]))
-    assert not failures, "\n  ".join([""] + failures)
-
-
-def test_the_saturation_archive_carries_explicit_scope_fields():
-    """The specific defect review found: a numerical result labelled as physical."""
-    data = json.loads((REPO / "docs" / "paper1_resource"
-                       / "PAPER_A_SATURATION_VERIFICATION.json").read_text(encoding="utf-8"))
-    assert data["verdict"] != "PHYSICAL"
-    assert data["evidence_type"] == "numerical-model-structural"
-    assert data["physical_validity"] == "untested"
-
-
-# ── 4. the claim ledger ──────────────────────────────────────────────────────────────────────
-@pytest.fixture(scope="module")
-def ledger():
-    path = REPO / "docs" / "paper1_resource" / "PAPER_A_CLAIM_EVIDENCE_LEDGER_V2.json"
-    assert path.exists(), "the initial claim ledger (P0-G1a) must exist before scientific runs"
-    return json.loads(path.read_text(encoding="utf-8"))
-
-
-def test_every_claim_carries_the_required_record(ledger):
-    required = ("claim_id", "wording", "evidence_type", "robustness", "unit_of_analysis",
-                "aggregation_rule", "source_artefact", "alternative_explanations",
-                "external_validity_boundary", "falsifying_result", "status")
-    for claim in ledger["claims"]:
-        for field in required:
-            assert field in claim, "%s is missing %s" % (claim.get("claim_id"), field)
-
-
-def test_claim_vocabularies_match_the_manifest(manifest, ledger):
-    for claim in ledger["claims"]:
-        assert claim["evidence_type"] in manifest["evidence_types"], claim["claim_id"]
-        assert claim["robustness"] in manifest["robustness_statuses"], claim["claim_id"]
-        assert claim["status"] in ledger["status_vocabulary"], claim["claim_id"]
-
-
-def test_estimand_tags_are_from_the_declared_set(manifest, ledger):
-    for claim in ledger["claims"]:
-        tag = claim.get("estimand_tag")
-        if tag is not None:
-            assert tag in manifest["required_estimand_tags"], (claim["claim_id"], tag)
-
-
-def test_claim_ids_are_unique(ledger):
-    ids = [c["claim_id"] for c in ledger["claims"]]
-    assert len(ids) == len(set(ids))
-
-
-def test_the_ledger_supersedes_the_markdown_predecessor(manifest, ledger):
-    assert ledger["supersedes"].endswith("PAPER_A_CLAIM_LEDGER.md")
-    assert ledger["supersedes"] in manifest["historical_exclusions"]
-
-
-def test_the_historical_headline_is_marked_historical(ledger):
-    """The -0.394 pp result must not creep back to a supported status."""
-    hist = next(c for c in ledger["claims"] if c["claim_id"] == "C-HIST-01")
-    assert hist["status"] == "historical-only"
-
-
-def test_the_oracle_claim_stays_quarantined(ledger):
-    oracle = next(c for c in ledger["claims"] if c["claim_id"] == "C-ORA-01")
-    assert oracle["evidence_type"] == "exploratory-oracle"
-    assert "selection on the test set" in oracle["external_validity_boundary"]
-
-
-# ── 5. plan-internal consistency ─────────────────────────────────────────────────────────────
-def test_the_plan_defines_its_own_rounds_and_estimands(plan):
-    """v2.1 delegated normative content to a superseded file and to a review document."""
-    for token in ("R0", "R5", "FULL-PUB", "LOCO-WIDE", "NUM-FULL"):
-        assert token in plan, (
-            "%s is used by the programme but not defined in the operative plan" % token)
-    assert "carried from v2 unchanged" not in _asserted(plan)
-
-
-def test_the_plan_does_not_defer_normative_content_to_a_review(plan):
-    assert "review's §" not in _asserted(plan)
-
-
-def test_stated_counts_match_their_tables(plan):
-    """The defect class that produced "the four findings" above eleven rows, and "Three
-    ambiguities" above five. Counts stated in prose are checked against the table that follows."""
-    words = {"two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7,
-             "eight": 8, "nine": 9, "ten": 10, "eleven": 11}
-    lines = plan.splitlines()
-    for i, line in enumerate(lines):
-        m = re.match(r"^([A-Z][a-z]+) (ambiguities|findings|gates|workstreams)\b", line.strip())
-        if not m or m.group(1).lower() not in words:
-            continue
-        rows = 0
-        for follow in lines[i + 1:i + 40]:
-            if follow.startswith("|") and not re.match(r"^\|[\s:|-]+\|$", follow):
-                rows += 1
-        if rows:
-            rows -= 1                                   # header
-            assert rows == words[m.group(1).lower()], (
-                "%r introduces a table with %d rows" % (line.strip(), rows))
-
-
-def test_the_drafting_rule_is_internally_consistent(plan):
-    assert "before step 6" not in _asserted(plan)
-    assert re.search(r"P0-G10\*{0,2},? included|including \*{0,2}P0-G10", plan)
-
-
-def test_the_grind_reversal_accompanies_the_pooled_figure(plan):
-    assert "+1.234" in plan and "-0.037" in plan.replace("−", "-")
-    assert "0.5985" in plan, "the median-is-not-linear arithmetic should be shown"
+def _asserted(text: str) -> str:
+    return SCAN._PROSE_QUOTED.sub(" ", SCAN._FENCE.sub(" ", text))

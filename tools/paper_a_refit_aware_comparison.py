@@ -230,10 +230,11 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     g = ap.add_mutually_exclusive_group()
     g.add_argument("--write", action="store_true")
-    g.add_argument("--check", action="store_true")
+    g.add_argument("--exists", "--check", dest="exists", action="store_true",
+                   help="assert the archive is PRESENT; nothing is recomputed")
     args = ap.parse_args(argv)
 
-    if args.check:
+    if args.exists:
         if not OUT.exists():
             print("no refit-aware archive; run --write", file=sys.stderr)
             return 1
