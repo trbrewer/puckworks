@@ -1,7 +1,6 @@
 {
  "gate": "NUM-ENV-01",
  "criteria_version": 1,
- "closed_at_commit": "4860aa2fe8e77736baf0610cd563e0af992af734",
  "deliverables": [
   {
    "path": "docs/paper1_resource/PAPER_A_NUMERICAL_ENVELOPE.json",
@@ -34,5 +33,7 @@
   "both arms refitted inside every configuration",
   "no fold-level envelope was run"
  ],
- "adjudication": "passed within the stated scope"
+ "adjudication": "passed within the stated scope",
+ "evidence_content_commit": null,
+ "provenance_note": "Two-step pattern. A closure record cannot name its own containing commit. Content commit C finalises the deliverables; closure commit D then records evidence_content_commit=C and the hashes read from C. Until D exists this field is null and the hashes describe the working tree. A previous version claimed the pre-PR base commit, which could not contain the artefacts it bound."
 }

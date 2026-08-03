@@ -92,7 +92,7 @@ def test_classifications_do_not_overlap(manifest):
 
 def test_the_current_protocol_is_an_active_surface(manifest):
     """It carries operative decision rules and was previously classified as neither."""
-    assert ("docs/paper1_resource/PAPER_A_PIVOT_ANALYSIS_PROTOCOL_V1.md"
+    assert ("docs/paper1_resource/PAPER_A_PIVOT_ANALYSIS_PROTOCOL_V2.md"
             in manifest["active_claim_surfaces"])
 
 
@@ -120,6 +120,8 @@ def test_no_active_surface_asserts_a_withdrawn_claim(manifest):
     ("probe.py", '"""The cup cannot localize the multiplier."""\n', True),
     ("probe.py", '# hydraulic attribution is established\n', True),
     ("probe.md", 'The acceptable set is unbounded above.\n', True),
+    ("probe.md", 'J_min is the infimum over [0.15, inf].\n', True),
+    ("probe.json", '{"domain": "[0.15, \\u221e]"}', True),
     ("probe.json", '{"note": "freezing the rate transfers better"}', True),
     ("probe.md", 'We withdrew "cannot localize" from the title.\n', False),
 ])
@@ -206,6 +208,9 @@ def test_a_passed_gate_is_bound_to_hashed_evidence(manifest):
         assert full.exists(), "%s closure record %s missing" % (name, record_path)
         record = json.loads(full.read_text(encoding="utf-8"))
         assert record["criteria"], "%s closure record states no criteria" % name
+        assert "evidence_content_commit" in record, (
+            "%s must use the content-commit/closure-commit pattern; a record cannot name its own "
+            "containing commit" % name)
         assert record.get("evidence_unit_scope"), "%s closure record states no evidence scope" % name
         for item in record["deliverables"]:
             path = REPO / item["path"]
@@ -254,27 +259,14 @@ def test_activation_is_two_stage_and_validated(manifest):
     """A commit cannot contain its own SHA, so a single self-pinning field is not implementable."""
     assert manifest["operative_status"] in ("candidate", "candidate-frozen", "operative")
     activation = manifest["activation"]
-    assert "frozen_content_commit" in activation and "normative_bundle" in activation
-    if manifest["operative_status"] == "operative":
-        sha = activation["frozen_content_commit"]
-        assert isinstance(sha, str) and re.fullmatch(r"[0-9a-f]{40}", sha), sha
-        assert activation["frozen_hashes"], "operative status requires recorded content hashes"
-
-
-def test_frozen_hashes_match_current_content_when_operative(manifest):
-    import hashlib
-
-    if manifest["operative_status"] != "operative":
-        return                                   # nothing to verify until activation
-    for rel, expected in manifest["activation"]["frozen_hashes"].items():
-        actual = hashlib.sha256((REPO / rel).read_bytes()).hexdigest()
-        assert actual == expected, "%s drifted from its frozen hash" % rel
+    assert "frozen_content_commit" in activation and "freeze_record" in activation
+    assert (REPO / activation["freeze_record"]).exists()
 
 
 # ── 7. plan/manifest agreement ───────────────────────────────────────────────────────────────
 def test_gate_references_agree_in_both_directions(manifest, plan):
     defined = set(manifest["gates"])
-    referenced = set(re.findall(r"\b(?:P0-G\d+[ab]?|NUM-[A-Z]+-\d+)\b", _asserted(plan)))
+    referenced = set(re.findall(r"\b(?:P0-G\d+[ab]?|P0-R0[ab]|NUM-[A-Z]+-\d+)\b", _asserted(plan)))
     assert not referenced - defined, sorted(referenced - defined)
     assert not {n for n in defined if n not in plan}, sorted(n for n in defined if n not in plan)
 
@@ -291,3 +283,292 @@ def test_the_plan_states_no_unbounded_assurance_claim(plan):
 
 def _asserted(text: str) -> str:
     return SCAN._PROSE_QUOTED.sub(" ", SCAN._FENCE.sub(" ", text))
+
+
+# ── 8. normative-bundle cross-reference audit (B6) ───────────────────────────────────────────
+STALE_CONTEXT = re.compile(
+    r"supersed|historical|stale_reference_rules|superseded_plans|historical_exclusions|retained",
+    re.I)
+
+
+def test_no_active_surface_carries_a_stale_operative_reference(manifest):
+    """A controlled bundle cannot be frozen while its members disagree on what is operative.
+
+    A superseded name may still APPEAR — the manifest has to enumerate what it supersedes, and a
+    protocol has to say what it replaces. It may not appear as a live reference. The discriminator
+    is the surrounding context, not a count: the name must sit on a line that declares supersession.
+    """
+    failures = []
+    exempt = set(manifest.get("stale_reference_exempt_paths", ()))
+    for rel in manifest["active_claim_surfaces"]:
+        if rel in exempt:
+            continue          # the manifest's own classification lists must name what they classify
+        if rel.endswith(".json"):
+            lines = json.dumps(json.loads((REPO / rel).read_text(encoding="utf-8")),
+                               indent=1).splitlines()
+        else:
+            lines = (REPO / rel).read_text(encoding="utf-8").splitlines()
+        for rule in manifest["stale_reference_rules"]:
+            stale = rule["pattern"]
+            if rel.endswith(stale):
+                continue                                  # a file may name itself
+            for i, line in enumerate(lines, 1):
+                if not re.search(re.escape(stale) + r"(?!\w)", line):
+                    continue
+                window = " ".join(lines[max(0, i - 3):i + 2])
+                if not STALE_CONTEXT.search(window):
+                    failures.append("%s:%d references %s outside a supersession context"
+                                    % (rel, i, stale))
+    assert not failures, "\n  ".join([""] + failures)
+
+
+def test_the_stale_reference_rules_name_their_replacements(manifest):
+    for rule in manifest["stale_reference_rules"]:
+        assert rule["replacement"] and rule["replacement"] != rule["pattern"]
+
+
+# ── 9. activation integrity (B7, B8) ─────────────────────────────────────────────────────────
+def test_the_freeze_record_excludes_itself_and_the_mutable_manifest(manifest):
+    """The second self-reference: a manifest cannot hash a bundle that contains the manifest."""
+    record_path = manifest["activation"]["freeze_record"]
+    record = json.loads((REPO / record_path).read_text(encoding="utf-8"))
+    excluded = record["excluded_by_design"]
+    assert record_path in excluded
+    assert manifest_path_of(manifest) in excluded
+    assert record_path not in record["content_files"]
+    assert manifest_path_of(manifest) not in record["content_files"]
+
+
+def manifest_path_of(_manifest) -> str:
+    return "docs/paper1_resource/PAPER_A_PLAN_MANIFEST_V1.json"
+
+
+def test_every_freeze_record_hash_is_a_full_sha256(manifest):
+    record = json.loads((REPO / manifest["activation"]["freeze_record"]).read_text(encoding="utf-8"))
+    for rel, digest in record["content_files"].items():
+        assert re.fullmatch(r"[0-9a-f]{64}", digest), (rel, digest)
+        assert (REPO / rel).exists(), rel
+
+
+def test_frozen_states_verify_content_hashes(manifest):
+    """Hash verification must apply in candidate-frozen too, not only operative.
+
+    Verifying only at `operative` would let a candidate-frozen bundle drift silently right up to the
+    moment it is activated.
+    """
+    import hashlib
+
+    if manifest["operative_status"] not in ("candidate-frozen", "operative"):
+        return                                            # nothing frozen yet; nothing to verify
+    record = json.loads((REPO / manifest["activation"]["freeze_record"]).read_text(encoding="utf-8"))
+    for rel, expected in record["content_files"].items():
+        actual = hashlib.sha256((REPO / rel).read_bytes()).hexdigest()
+        assert actual == expected, "%s drifted from its frozen hash" % rel
+
+
+def test_operative_status_requires_a_real_commit(manifest):
+    """A 40-hex string is not a pin; the commit must exist in this repository."""
+    import subprocess
+
+    if manifest["operative_status"] != "operative":
+        return
+    sha = manifest["activation"]["frozen_content_commit"]
+    assert isinstance(sha, str) and re.fullmatch(r"[0-9a-f]{40}", sha), sha
+    ok = subprocess.run(["git", "cat-file", "-e", "%s^{commit}" % sha],
+                        cwd=REPO, capture_output=True)
+    assert ok.returncode == 0, "frozen_content_commit %s does not exist" % sha
+
+
+def test_p0_g0_is_not_passed_in_this_implementation_cycle(manifest):
+    """The adjudication forbids closing P0-G0 in the implementation PR.
+
+    Freeze commit F and activation commit A are separate, authority-controlled steps.
+    """
+    assert manifest["gates"]["P0-G0"]["status"] == "open"
+    assert manifest["operative_status"] != "operative"
+
+
+# ── 10. the pre-freeze premise audit is inspectable and binding ──────────────────────────────
+def test_p0_g0_depends_on_the_premise_audit(manifest):
+    assert "P0-R0a" in manifest["gates"]["P0-G0"]["dependencies"]
+
+
+def test_the_premise_audit_records_evidence_matched_to_type(manifest):
+    audit = json.loads((REPO / "docs" / "paper1_resource"
+                        / "PAPER_A_PRE_FREEZE_PREMISE_AUDIT_R0A.json").read_text(encoding="utf-8"))
+    required = ("premise_id", "premise", "type", "disposition", "evidence", "affected",
+                "failure_consequence")
+    for row in audit["premises"]:
+        for field in required:
+            assert field in row, (row.get("premise_id"), field)
+    # a physical premise that cannot be tested must be scoped, never forced into a repo test
+    physical = [r for r in audit["premises"] if r["type"] == "physical"]
+    assert physical and any(r["disposition"].startswith("OPEN-AND-SCOPED") for r in physical)
+
+
+def test_open_blocking_premises_keep_the_freeze_shut(manifest):
+    """R0a exists to surface blockers BEFORE the freeze. If it found some, P0-G0 stays open."""
+    audit = json.loads((REPO / "docs" / "paper1_resource"
+                        / "PAPER_A_PRE_FREEZE_PREMISE_AUDIT_R0A.json").read_text(encoding="utf-8"))
+    blocking = [r for r in audit["premises"] if r["disposition"] in ("OPEN", "OPEN-BLOCKED")]
+    if blocking:
+        assert manifest["gates"]["P0-G0"]["status"] == "open", (
+            "premises %s are open but P0-G0 is not" % [r["premise_id"] for r in blocking])
+
+
+def test_the_operative_plan_is_not_also_superseded(manifest):
+    """It was both `operative_plan` and a member of `superseded_plans`."""
+    assert manifest["operative_plan"] not in manifest["superseded_plans"]
+
+
+def test_premise_blocking_is_gate_scoped(manifest):
+    """Global blocking was too broad and conflicted with the declared gate graph.
+
+    PR-09 belongs to P0-G9 and PR-15 to P0-G10; neither should hold P0-G0 shut. The control must
+    still fail closed, but at the correct stage.
+    """
+    audit = json.loads((REPO / "docs" / "paper1_resource"
+                        / "PAPER_A_PRE_FREEZE_PREMISE_AUDIT_R0A.json").read_text(encoding="utf-8"))
+    for row in audit["premises"]:
+        assert "resolution_stage" in row and "blocks_before" in row, row["premise_id"]
+        assert row["resolution_stage"] in ("pre_freeze", "within_gate", "pre_drafting", "scoped")
+
+    pre_freeze_open = [r for r in audit["premises"]
+                       if r["disposition"] == "OPEN" and r["resolution_stage"] == "pre_freeze"]
+    if pre_freeze_open:
+        assert manifest["gates"]["P0-G0"]["status"] == "open", (
+            "pre-freeze premises %s are open but P0-G0 is not"
+            % [r["premise_id"] for r in pre_freeze_open])
+
+
+def test_the_superseded_full_state_bound_is_not_operative():
+    """It must not be cited as "valid but loose": its fixed-time proof was never repaired.
+
+    The contract asserted a uniform bound on [0, T] together with an off-manifold initial state,
+    and those are incompatible — at t = 0 the error equals Q z0, which does not vanish with kappa.
+    The archive is retained as a historical attempt with a non-operative verdict.
+    """
+    data = json.loads((REPO / "docs" / "paper1_resource"
+                       / "PAPER_A_SINGULAR_LIMIT_BOUND.json").read_text(encoding="utf-8"))
+    assert data["verdict"] == "PR03B_ATTEMPT_SUPERSEDED_NOT_OPERATIVE"
+    assert "must not be described as valid-but-loose" in data["supersession"]
+    assert "NOT uniform on [0, T]" in data["contract"]["horizon"]
+
+    audit = json.loads((REPO / "docs" / "paper1_resource"
+                        / "PAPER_A_PRE_FREEZE_PREMISE_AUDIT_R0A.json").read_text(encoding="utf-8"))
+    pr03b = next(p for p in audit["premises"] if p["premise_id"] == "PR-03b")
+    assert pr03b["disposition"] == "NOT-PURSUED-CURRENT-PROTOCOL"
+    assert pr03b["blocks_before"] == []
+
+
+# ── 11. the WIDE-referenced estimand is singular across the bundle ───────────────────────────
+PROTOCOL = REPO / "docs" / "paper1_resource" / "PAPER_A_PIVOT_ANALYSIS_PROTOCOL_V2.md"
+
+
+@pytest.fixture(scope="module")
+def protocol():
+    return PROTOCOL.read_text(encoding="utf-8")
+
+
+def test_the_protocol_defines_the_reference_on_the_finite_domain(protocol):
+    """The displaced definition and its replacement cannot both be operative.
+
+    The protocol used to declare the classification domain compactified while specifying a search
+    that stopped at 500, so no procedure computed the declared quantity. `J_ref` is defined on
+    `D_WIDE` and the endpoint is a separate quantity compared against the threshold it generates.
+    """
+    assert "J_ref   = min over κ ∈ D_WIDE of J(κ)" in protocol
+    assert "D_WIDE  = [0.15, 500]" in protocol
+
+    normative, _, deviations = protocol.partition("## 10. Deviation record")
+    assert deviations, "the protocol's own deviation policy requires the change to be recorded"
+    assert "J_min" not in normative, (
+        "the withdrawn reference quantity is still live in the normative sections; it may appear "
+        "only in the deviation record, which has to be able to name what it withdrew")
+    assert "J_min" in deviations, "the withdrawal is not recorded, only performed"
+    assert "compactified domain including" not in normative
+
+
+def test_the_frozen_numbers_agree_between_the_protocol_and_the_implementation(protocol):
+    """One architecture, not two. A number that disagrees here is a silent second protocol."""
+    from puckworks.paper_a import wide_reference as WR
+
+    assert WR.D_WIDE == (0.15, 500.0)
+    assert WR.GRID_SIZES == (40, 80, 160, 320)
+    assert WR.RELATIVE_Q == (0.05, 0.10, 0.20)
+    assert WR.ABSOLUTE_A == (0.10, 0.25)
+    assert WR.NEAR_ZERO_PP == 0.05
+
+    assert "40, 80, 160, 320 log-spaced points on [0.15, 500]" in protocol
+    assert "q ∈ {0.05, 0.10, 0.20}" in protocol
+    assert "a ∈ {0.10, 0.25} percentage points" in protocol
+    assert "If `U_ref < 0.05` pp" in protocol
+
+    for name in ("MIN_XATOL_LOGKAPPA", "BASIN_TIE_RTOL", "REF_VALUE_RTOL", "REF_LOCATION_DLOG",
+                 "E_REF_SEARCH_FLOOR", "ROOT_XTOL_LOGKAPPA", "TANGENCY_RTOL", "ROOT_MATCH_DLOG"):
+        assert name in protocol, "tolerance %s is not declared in the protocol" % name
+        assert hasattr(WR, name), "tolerance %s is not assigned a value" % name
+
+
+def test_the_result_vocabulary_is_declared_in_the_protocol(protocol):
+    from puckworks.paper_a import wide_reference as WR
+
+    for value in (WR.ENDPOINT_CLASSIFICATIONS + WR.EVENTUAL_UPPER_STATUSES
+                  + WR.TAIL_ONSET_STATUSES + WR.INTERMEDIATE_DOMAIN_STATUSES
+                  + WR.PROGRAMME_RESULTS + (WR.RELATIVE_NOT_APPLICABLE,)):
+        assert value in protocol, "%s is emitted by the implementation but undeclared" % value
+
+
+def test_the_endpoint_estimand_tag_is_declared_in_every_normative_surface(manifest, plan, protocol):
+    from puckworks.paper_a import wide_reference as WR
+
+    assert WR.ESTIMAND_TAG in manifest["required_estimand_tags"]
+    assert WR.ESTIMAND_TAG in protocol
+    assert WR.ESTIMAND_TAG in plan
+    assert WR.FINITE_DOMAIN_ESTIMAND_TAG in manifest["required_estimand_tags"], (
+        "finite-domain results keep their own tag; the endpoint tag does not absorb them")
+
+
+def test_the_claim_resolution_delta_does_not_rewrite_the_immutable_ledger():
+    """Displacement is recorded beside the initial ledger, never inside it.
+
+    The initial ledger exists so that drift is detectable. Editing it to read as though the current
+    estimand had always been the pre-analysis state would delete the evidence it was created to
+    preserve, which is why the delta is a separate append-only file.
+    """
+    delta = json.loads((REPO / "docs" / "paper1_resource"
+                        / "PAPER_A_CLAIM_RESOLUTION_DELTA_PRE_FREEZE.json").read_text("utf-8"))
+    assert delta["append_only"] is True
+    ledger_path = REPO / delta["ledger"]
+    ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    claims = {c["claim_id"]: c for c in ledger["claims"]}
+
+    for entry in delta["entries"]:
+        assert entry["date"] and entry["why_displaced"]
+        assert entry["replacement_wording"] != entry["recorded_wording"]
+        if entry["claim_id"] is None:
+            # a premise-scoped transition (e.g. an assurance BASIS change) touches no ledger claim
+            assert entry.get("premise_id"), (
+                "an entry that displaces no claim must say which premise it displaces")
+            continue
+        claim = claims[entry["claim_id"]]
+        assert claim[entry["field"]] == entry["recorded_wording"], (
+            "the ledger no longer carries the wording this delta says it displaces; the immutable "
+            "baseline has been edited")
+
+
+def test_no_p0_g8_result_archive_exists(manifest):
+    """The architecture is frozen in this pass. Running the gate is a separate authorisation."""
+    for path in manifest["gates"]["P0-G8"]["deliverables"]:
+        assert not (REPO / path).exists(), (
+            "%s exists, so a scientific gate has produced a result" % path)
+    assert manifest["gates"]["P0-G8"]["status"] == "open"
+
+
+def test_pr06_covers_every_declared_cell():
+    data = json.loads((REPO / "docs" / "paper1_resource"
+                       / "PAPER_A_SINGULAR_LIMIT_BOUND.json").read_text(encoding="utf-8"))
+    cov = data["coverage"]
+    assert cov["declared_cells"] == 9 * 2 * 3
+    assert cov["cells_failing"] == 0
+    assert "deduplication_proof" in cov, "deduplication must be proved, not assumed"

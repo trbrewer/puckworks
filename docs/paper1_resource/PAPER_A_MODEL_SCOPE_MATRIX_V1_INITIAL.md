@@ -1,7 +1,7 @@
 # Paper A — model and evidence scope matrix
 
 **Gate:** P0-G3a (initial). Regenerated as P0-G3b after all analyses are frozen.
-**Operative plan:** `PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2.md`
+**Operative plan:** `PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2_1.md`
 **Purpose:** state, for every proposition the programme may want to make, what kind of thing it is
 and where it stops. Standalone by design — an earlier revision required this table *in the
 manuscript*, which the same plan forbade writing.

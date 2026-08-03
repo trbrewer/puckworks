@@ -1,7 +1,7 @@
 # Paper A — pivot analysis protocol, version 1
 
 **Gate:** P0-G0. Frozen **before** P0-G4 … P0-G9 run.
-**Operative plan:** `PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2.md`
+**Operative plan:** `PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2_1.md`
 **Deviation policy:** append-only. Every later change is dated, justified, and accompanied by an
 impact statement. Deviations are never absorbed silently.
 

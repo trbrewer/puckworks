@@ -1,8 +1,8 @@
 {
- "schema_version": 2,
+ "schema_version": 3,
  "purpose": "Initial claim ledger (gate P0-G1a). Recorded BEFORE any new scientific run, so that claim drift during the analyses is detectable rather than reconciled after the fact. A final ledger regenerated at the end (P0-G1b) cannot protect the programme from drift while it is running, which is why this exists now.",
  "supersedes": "docs/paper1_resource/PAPER_A_CLAIM_LEDGER.md",
- "operative_plan": "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2.md",
+ "operative_plan": "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2_1.md",
  "status_vocabulary": [
   "supported",
   "provisional",
@@ -16,185 +16,358 @@
    "claim_id": "C-ALG-01",
    "wording": "For yhat_i = I*f_i(kappa) with s_i = dlog f_i/dlog kappa, fixed positive weights w and W = sum(w), the two-column weighted log-sensitivity Gram determinant is exactly W^2*Var_w(s), and profiling the scale direction under the corresponding weighted-L2 geometry leaves the Schur complement W*Var_w(s).",
    "evidence_type": "algebraic",
-   "robustness": "established-under-assumptions",
    "estimand_tag": null,
    "unit_of_analysis": "n/a",
    "aggregation_rule": "n/a",
    "data_map_protocol": "n/a",
-   "source_artefact": "puckworks/paper_a/separability.py; tests/test_paper_a_separability.py",
    "alternative_explanations": [],
    "external_validity_boundary": "Holds under the declared multiplicative factorisation, log coordinates and FIXED weights. It is NOT the curvature of the production MAPE objective, which is piecewise linear in the level.",
-   "falsifying_result": "A counterexample where det(G) != W^2*Var_w(s) under the declared coordinates.",
-   "status": "supported"
+   "validation_provenance": [
+    "algebra"
+   ],
+   "result_behaviour": [
+    "exact"
+   ],
+   "assurance": "proved-and-tested",
+   "claim_status": "supported",
+   "evidence": {
+    "path": "puckworks/paper_a/separability.py",
+    "sha256": "3edccb18a548e6d3e214b9e993012e45bdf31916f5db90bb32f6635e6444c609",
+    "locator": null,
+    "producer": null,
+    "producer_sha256": null
+   },
+   "reproduction_failure": "a counterexample where det(G) != W^2*Var_w(s) under the declared coordinates",
+   "scope_limiter": "holds only under FIXED weights and the declared log coordinates; it is not MAPE curvature",
+   "confirmatory_test": null
   },
   {
    "claim_id": "C-ALG-02",
    "wording": "For strictly positive observations and predictions, the production MAPE level has an exact weighted-median minimiser: J(I,kappa) = mean_i w_i(kappa)*|I - r_i(kappa)| with w_i = f_i/y_i and r_i = y_i/f_i.",
    "evidence_type": "algebraic",
-   "robustness": "established-under-assumptions",
    "estimand_tag": null,
    "unit_of_analysis": "n/a",
    "aggregation_rule": "n/a",
    "data_map_protocol": "n/a",
-   "source_artefact": "puckworks/validation/slow/angeloni_bracket.py::_mape_level (implementation exists; formal proposition is OWED under P0-G6)",
    "alternative_explanations": [],
    "external_validity_boundary": "Requires y_i > 0 and f_i > 0. The minimiser may be an interval when the weighted median is non-unique; that case must be declared, not silently resolved.",
-   "falsifying_result": "Exhaustive numerical minimisation finding a lower objective than the weighted-median level on any campaign profile point.",
-   "status": "provisional"
+   "validation_provenance": [
+    "algebra"
+   ],
+   "result_behaviour": [
+    "exact"
+   ],
+   "assurance": "implemented-not-yet-proved",
+   "claim_status": "provisional",
+   "evidence": {
+    "path": "puckworks/validation/slow/angeloni_bracket.py",
+    "sha256": "8823d97db93cdc3874cc290f31d0e1c67e83f81ab8992f0b55eff1afd05d74c1",
+    "locator": null,
+    "producer": null,
+    "producer_sha256": null
+   },
+   "reproduction_failure": "exhaustive scalar minimisation finding a lower objective than the weighted-median level",
+   "scope_limiter": "requires y_i>0 and f_i>0; the minimiser may be an interval",
+   "confirmatory_test": "formal proposition and adversarial median-switch tests under P0-G6"
   },
   {
    "claim_id": "C-NUM-01",
    "wording": "The high-rate plateau in the matched whole-cup response is a structural property of the declared semi-discrete model, not an artefact of BDF time integration.",
    "evidence_type": "numerical-model-structural",
-   "robustness": "verified-within-numerical-scope",
    "estimand_tag": "NUM-FULL",
    "unit_of_analysis": "single condition, three solutes",
    "aggregation_rule": "none; per-solute",
    "data_map_protocol": "declared model, optimal-grind centre condition",
-   "source_artefact": "docs/paper1_resource/PAPER_A_SATURATION_VERIFICATION.json",
    "alternative_explanations": [
     "shared spatial-discretisation error in both paths",
     "shared model-form error"
    ],
    "external_validity_boundary": "Both integrators solve the SAME equations on the SAME spatial operator with the same omitted physics. Independent in TIME only. Does not establish that real espresso occupies the large-mass-transfer-coefficient regime.",
-   "falsifying_result": "An independent SPATIAL discretisation, or a model including wetting/evolving permeability/poroelasticity, that does not show the plateau.",
-   "status": "supported"
+   "validation_provenance": [
+    "same-campaign",
+    "single-condition"
+   ],
+   "result_behaviour": [
+    "reproduced-on-independent-time-path"
+   ],
+   "assurance": "numerically-reproduced",
+   "claim_status": "supported",
+   "evidence": {
+    "path": "docs/paper1_resource/PAPER_A_SATURATION_VERIFICATION.json",
+    "sha256": "9887f7edbfa3b16edcf93413f64102539fa6e70bbf72f869155512108b408d4d",
+    "locator": "/bdf_vs_expm/worst_relative_difference_percent",
+    "producer": null,
+    "producer_sha256": null
+   },
+   "reproduction_failure": "the two integrators disagreeing beyond the stated tolerance on rerun",
+   "scope_limiter": "evidence unit is ONE centre condition and THREE solutes; both paths share equations, spatial operator, parameterisation and omitted physics, so independence is in TIME only",
+   "confirmatory_test": "P0-G8's analytical limit applied at every condition and group"
   },
   {
    "claim_id": "C-NUM-02",
    "wording": "The full-support M1-M2 and M0-M2 contrasts are unmoved by mesh (100/200/400 nodes) and tolerance (1e-5/1e-6/1e-7) change: ranges 0.0000 pp and 0.0001 pp respectively.",
    "evidence_type": "numerical-model-structural",
-   "robustness": "verified-within-numerical-scope",
    "estimand_tag": "NUM-FULL",
    "unit_of_analysis": "full calibration support",
    "aggregation_rule": "macro mean over six variety-solute groups, then equal-weight coarse/fine",
    "data_map_protocol": "campaign-conditioned target map",
-   "source_artefact": "docs/paper1_resource/PAPER_A_NUMERICAL_ENVELOPE.json",
    "alternative_explanations": [],
    "external_validity_boundary": "FULL-SUPPORT estimands only. Says nothing about the stability of LOCO fold medians.",
-   "falsifying_result": "A configuration inside the declared envelope moving either contrast by a material fraction of its magnitude.",
-   "status": "supported"
+   "validation_provenance": [
+    "same-campaign",
+    "full-support"
+   ],
+   "result_behaviour": [
+    "numerically-invariant"
+   ],
+   "assurance": "numerically-reproduced",
+   "claim_status": "supported",
+   "evidence": {
+    "path": "docs/paper1_resource/PAPER_A_NUMERICAL_ENVELOPE.json",
+    "sha256": "4be5ed29370d671a97bb97afc0ac4fb9a8374e1e3ccbbb925b427d79f564f835",
+    "locator": "/M1_minus_M2/range",
+    "producer": null,
+    "producer_sha256": null
+   },
+   "reproduction_failure": "a configuration inside the declared envelope moving either contrast materially",
+   "scope_limiter": "FULL-SUPPORT estimands only; says nothing about LOCO fold medians",
+   "confirmatory_test": "P0-G4 fold-level envelope"
   },
   {
    "claim_id": "C-EMP-01",
    "wording": "Substituting the target-grind flow map for the O-grind map (M1-M2) gives a COARSE-target contrast of +1.234 pp median, positive in 9 of 9 leave-one-condition-out folds.",
    "evidence_type": "empirical-descriptive",
-   "robustness": "refit-stable",
    "estimand_tag": "LOCO-PUB",
    "unit_of_analysis": "leave-one-optimal-condition-out fold",
    "aggregation_rule": "macro mean over six groups within grind; median over nine DEPENDENT folds",
    "data_map_protocol": "campaign-conditioned target map built from target-grind shot times and conductivity polynomials",
-   "source_artefact": "docs/paper1_resource/PAPER_A_ABLATION_REFIT_STABILITY.json",
    "alternative_explanations": [
     "map error compensating model-form error",
     "hydraulic extrapolation leverage",
     "particle geometry, which was frozen and never varied"
    ],
    "external_validity_boundary": "One campaign, one machine, two coffees. Input ablation within the declared model; not a causal mechanism. Retrospective map protocol.",
-   "falsifying_result": "A scored-condition-excluded (cross-fitted) map under which the coarse benefit disappears.",
-   "status": "provisional"
+   "validation_provenance": [
+    "same-campaign",
+    "post-selection",
+    "leave-one-condition-out",
+    "retrospective-map"
+   ],
+   "result_behaviour": [
+    "refit-stable",
+    "grind-specific"
+   ],
+   "assurance": "numerically-reproduced",
+   "claim_status": "provisional",
+   "evidence": {
+    "path": "docs/paper1_resource/PAPER_A_ABLATION_REFIT_STABILITY.json",
+    "sha256": "3c08a0c2bfb51f2d31f275e847534b06108e550a756435bc88e36b2878ccedaa",
+    "locator": "/disaggregated_by_target_grind/M1_minus_M2/coarse/median",
+    "producer": null,
+    "producer_sha256": null
+   },
+   "reproduction_failure": "recomputation from the same archive yielding a different coarse median",
+   "scope_limiter": "conditioned on a campaign-conditioned target map; one machine, two coffees; dependent folds",
+   "confirmatory_test": "P0-G9 cross-fitted map"
   },
   {
    "claim_id": "C-EMP-02",
    "wording": "The same substitution gives a FINE-target contrast of -0.037 pp median, range -0.671 to +0.086, negative in 7 of 9 folds: near-zero, heterogeneous, and usually opposite in direction to the coarse result.",
    "evidence_type": "empirical-descriptive",
-   "robustness": "heterogeneous",
    "estimand_tag": "LOCO-PUB",
    "unit_of_analysis": "leave-one-optimal-condition-out fold",
    "aggregation_rule": "as C-EMP-01",
    "data_map_protocol": "as C-EMP-01",
-   "source_artefact": "docs/paper1_resource/PAPER_A_ABLATION_REFIT_STABILITY.json",
    "alternative_explanations": [
     "73% of fine residence times lie outside calibration support, 1.55 spans beyond",
     "error cancellation under the common map"
    ],
    "external_validity_boundary": "As C-EMP-01. The pooled M1-M2 figure is coarse-driven and MUST NOT be reported without this component.",
-   "falsifying_result": "A condition-level analysis showing the fine effect is not associated with extrapolation or map error, and is stable in sign.",
-   "status": "provisional"
+   "validation_provenance": [
+    "same-campaign",
+    "post-selection",
+    "leave-one-condition-out",
+    "retrospective-map"
+   ],
+   "result_behaviour": [
+    "heterogeneous",
+    "near-zero-median",
+    "sign-unstable"
+   ],
+   "assurance": "numerically-reproduced",
+   "claim_status": "provisional",
+   "evidence": {
+    "path": "docs/paper1_resource/PAPER_A_ABLATION_REFIT_STABILITY.json",
+    "sha256": "3c08a0c2bfb51f2d31f275e847534b06108e550a756435bc88e36b2878ccedaa",
+    "locator": "/disaggregated_by_target_grind/M1_minus_M2/fine/median",
+    "producer": null,
+    "producer_sha256": null
+   },
+   "reproduction_failure": "recomputation yielding a different fine median",
+   "scope_limiter": "as C-EMP-01; the pooled figure must never be reported without this component",
+   "confirmatory_test": "P0-G9 condition-level extrapolation and map-error analysis"
   },
   {
    "claim_id": "C-EMP-03",
    "wording": "The M0-M2 estimation-policy contrast (multiplier frozen vs fitted, level re-profiled under each) is -0.483 pp median on coarse targets (9/9 negative) and +0.155 pp on fine targets (6/9 positive); pooled median -0.205 pp, negative in 8 of 9 folds.",
    "evidence_type": "empirical-descriptive",
-   "robustness": "heterogeneous",
    "estimand_tag": "LOCO-PUB",
    "unit_of_analysis": "leave-one-optimal-condition-out fold",
    "aggregation_rule": "within each fold the pooled contrast is the equal-weight mean of coarse and fine; the reported pooled MEDIAN is the median of those fold averages and is NOT the mean of the component medians",
    "data_map_protocol": "both arms receive the target-grind map",
-   "source_artefact": "docs/paper1_resource/PAPER_A_ABLATION_REFIT_STABILITY.json",
    "alternative_explanations": [
     "kappa=1 is an inherited normalisation that may happen to suit coarse targets",
     "level re-profiling absorbs different amounts under each policy"
    ],
    "external_validity_boundary": "Published multiplier domain only (LOCO-PUB). Does not establish a generally preferable estimation policy.",
-   "falsifying_result": "LOCO-WIDE refits, or a frozen anchor/penalty grid, under which freezing loses its coarse advantage.",
-   "status": "provisional"
+   "validation_provenance": [
+    "same-campaign",
+    "post-selection",
+    "leave-one-condition-out"
+   ],
+   "result_behaviour": [
+    "heterogeneous",
+    "grind-specific"
+   ],
+   "assurance": "numerically-reproduced",
+   "claim_status": "provisional",
+   "evidence": {
+    "path": "docs/paper1_resource/PAPER_A_ABLATION_REFIT_STABILITY.json",
+    "sha256": "3c08a0c2bfb51f2d31f275e847534b06108e550a756435bc88e36b2878ccedaa",
+    "locator": "/M0_minus_M2/median",
+    "producer": null,
+    "producer_sha256": null
+   },
+   "reproduction_failure": "recomputation yielding a different pooled median",
+   "scope_limiter": "published multiplier domain only (LOCO-PUB); both arms receive the target map",
+   "confirmatory_test": "P0-G4 LOCO-WIDE and P0-G5 frozen policy grid"
   },
   {
    "claim_id": "C-OPS-01",
    "wording": "Under the 10%-relative operational near-optimal rule and a finite scan to kappa=500, five of six campaign profiles are right-censored and one is finite.",
    "evidence_type": "operational-convention",
-   "robustness": "sensitivity-only",
    "estimand_tag": "FULL-WIDE",
    "unit_of_analysis": "variety-solute group",
    "aggregation_rule": "none; per-group",
    "data_map_protocol": "optimal-grind calibration support",
-   "source_artefact": "docs/paper1_resource/PAPER_A_RATE_DOMAIN_CHECK.json",
    "alternative_explanations": [
     "the 10% convention is arbitrary and load-bearing",
     "a finite grid minimum may not be the global minimum"
    ],
    "external_validity_boundary": "Right-censoring at kappa=500 is a FINITE-DOMAIN observation. It does not establish an unbounded acceptable set; that requires J_inf.",
-   "falsifying_result": "J_inf above the tolerance boundary, which would exclude the upper tail and bound the profile after all.",
-   "status": "provisional"
+   "validation_provenance": [
+    "same-campaign",
+    "finite-domain-scan"
+   ],
+   "result_behaviour": [
+    "threshold-dependent",
+    "censored"
+   ],
+   "assurance": "numerically-reproduced",
+   "claim_status": "provisional",
+   "evidence": {
+    "path": "docs/paper1_resource/PAPER_A_RATE_DOMAIN_CHECK.json",
+    "sha256": "2c1b67f1c69de0a6b17ba6729cb278ba4b7f53189c9b68f12efebff93f4ccd4f",
+    "locator": "/groups/0/near_optimal_10pct/right_censored",
+    "producer": null,
+    "producer_sha256": null
+   },
+   "reproduction_failure": "recomputation finding a bounded near-optimal set on the same finite grid",
+   "scope_limiter": "a FINITE-DOMAIN observation under one arbitrary tolerance; it does not establish an unbounded acceptable set, which requires J_inf at the kappa=infinity endpoint",
+   "confirmatory_test": "P0-G8 interval classification at the compactified endpoint"
   },
   {
    "claim_id": "C-PRO-01",
    "wording": "Per observation, varying pressure gives about 21x the log-sensitivity spread of varying temperature; varying the collected-mass endpoint gives about 2.2x the spread of the full 3x3 process grid.",
    "evidence_type": "prospective-model-based",
-   "robustness": "unresolved",
    "estimand_tag": null,
    "unit_of_analysis": "design",
    "aggregation_rule": "median over six groups",
    "data_map_protocol": "declared model, nominal kappa=1",
-   "source_artefact": "docs/paper1_resource/PAPER_A_DESIGN_SEPARABILITY.json",
    "alternative_explanations": [
     "the ranking is evaluated at kappa=1 while group optima span 0.79 to 143.5",
     "per-observation spread is not total information at equal budget"
    ],
    "external_validity_boundary": "Nominal-kappa, model-based, and per-observation. On TOTAL spread the nine-point grid carries 1.8x more than the two corners. Endpoint designs are unobserved in this campaign.",
-   "falsifying_result": "Rankings that reverse across the profile domain, or that fail to predict parameter recovery under noise and mismatch.",
-   "status": "open"
+   "validation_provenance": [
+    "model-based",
+    "nominal-kappa"
+   ],
+   "result_behaviour": [
+    "unresolved"
+   ],
+   "assurance": "exploratory-only",
+   "claim_status": "open",
+   "evidence": {
+    "path": "docs/paper1_resource/PAPER_A_DESIGN_SEPARABILITY.json",
+    "sha256": "2c1f4e2b952d35043ae9db6aadae69e1767b0ae95738241fc706e8dd793b7f32",
+    "locator": "/groups/0/designs/0/rsi",
+    "producer": null,
+    "producer_sha256": null
+   },
+   "reproduction_failure": "recomputation yielding different RSI values from the same archive inputs",
+   "scope_limiter": "evaluated at nominal kappa=1 while group optima span 0.79-143.5; per-observation, so it is not total information at equal budget",
+   "confirmatory_test": "P0-G6 against exact MAPE profiles under the frozen tau_b criterion"
   },
   {
    "claim_id": "C-ORA-01",
    "wording": "A two-parameter mechanism-free response in flow alone scores 8.408% against the mechanistic arm's 8.438%.",
    "evidence_type": "exploratory-oracle",
-   "robustness": "withdrawn",
    "estimand_tag": "FULL-PUB",
    "unit_of_analysis": "full calibration support",
    "aggregation_rule": "macro mean over six groups",
    "data_map_protocol": "form selected by HELD-OUT score",
-   "source_artefact": "docs/paper1_resource/PAPER_A_INFORMATION_PARITY.json",
    "alternative_explanations": [],
    "external_validity_boundary": "NOT a held-out result. The form was chosen by its coarse/fine score, which is selection on the test set. Reported only as an upper bound on what the family contains, and never as the empirical arm's performance.",
-   "falsifying_result": "n/a - quarantined by construction.",
-   "status": "historical-only"
+   "validation_provenance": [
+    "same-campaign",
+    "selected-on-held-out-score"
+   ],
+   "result_behaviour": [
+    "oracle"
+   ],
+   "assurance": "quarantined",
+   "claim_status": "historical-only",
+   "evidence": {
+    "path": "docs/paper1_resource/PAPER_A_INFORMATION_PARITY.json",
+    "sha256": "ff6ce85877d1d1de410e9c8df8518dec1411cf86a97f422799239a4911935dd1",
+    "locator": "/information_parity/oracle_upper_bound/best_macro_cf_mape",
+    "producer": null,
+    "producer_sha256": null
+   },
+   "reproduction_failure": null,
+   "scope_limiter": "NOT a held-out result; the form was chosen by its coarse/fine score",
+   "confirmatory_test": null
   },
   {
    "claim_id": "C-HIST-01",
    "wording": "The mechanistic model outperforms an O-trained level-only constant by 0.394 pp pooled MAPE.",
    "evidence_type": "empirical-descriptive",
-   "robustness": "unresolved",
    "estimand_tag": "FULL-PUB",
    "unit_of_analysis": "full calibration support",
    "aggregation_rule": "macro mean; hides a coarse -1.02 pp / fine +0.23 pp reversal",
    "data_map_protocol": "campaign-conditioned target map",
-   "source_artefact": "docs/paper1_resource/PAPER_A_REFIT_AWARE_COMPARISON.json",
    "alternative_explanations": [],
    "external_validity_boundary": "Refit-aware median is -0.058 pp with the sign favouring the model in only 6 of 9 folds. Secondary historical benchmark; must not appear in title, abstract, or the contribution list.",
-   "falsifying_result": "n/a - already demoted.",
-   "status": "historical-only"
+   "validation_provenance": [
+    "same-campaign",
+    "superseded"
+   ],
+   "result_behaviour": [
+    "sign-unstable"
+   ],
+   "assurance": "historical-only",
+   "claim_status": "historical-only",
+   "evidence": {
+    "path": "docs/paper1_resource/PAPER_A_REFIT_AWARE_COMPARISON.json",
+    "sha256": "b24edcef252eb8be79966a7d5ea5789862201c62153aee06a4710c460f590e94",
+    "locator": "/model_minus_const/median",
+    "producer": null,
+    "producer_sha256": null
+   },
+   "reproduction_failure": null,
+   "scope_limiter": "refit-aware median -0.058 pp, favouring the model in only 6 of 9 folds",
+   "confirmatory_test": null
   }
  ],
  "open_questions": [
@@ -247,5 +420,54 @@
   "immutability": "This file is the pre-analysis baseline for gate P0-G1a. It MUST NOT be regenerated. P0-G1b writes _FINAL.json and _DIFF.json alongside it; the diff references this file's hash. An earlier design had both gates write the same path, which would have let the final reconciliation erase the baseline that exists precisely to detect drift.",
   "final_artefact": "docs/paper1_resource/PAPER_A_CLAIM_EVIDENCE_LEDGER_V2_FINAL.json",
   "diff_artefact": "docs/paper1_resource/PAPER_A_CLAIM_EVIDENCE_LEDGER_V2_DIFF.json"
+ },
+ "_schema_note": "TAX-01/LED-01/LED-02 applied. `robustness` conflated assurance, result behaviour, validation provenance and claim state in one mutually exclusive field \u2014 a result can be cross-fitted AND heterogeneous AND refit-stable, and forcing one value lost information. `falsifying_result` conflated 'this calculation is wrong' with 'this does not generalise'; those are now reproduction_failure and scope_limiter, with confirmatory_test for the broader claim. Evidence is a structured path+locator+hash binding, not a free-text string.",
+ "field_vocabularies": {
+  "validation_provenance": [
+   "algebra",
+   "same-campaign",
+   "single-condition",
+   "full-support",
+   "leave-one-condition-out",
+   "post-selection",
+   "retrospective-map",
+   "cross-fitted",
+   "model-based",
+   "nominal-kappa",
+   "finite-domain-scan",
+   "selected-on-held-out-score",
+   "superseded",
+   "externally-replicated"
+  ],
+  "result_behaviour": [
+   "exact",
+   "reproduced-on-independent-time-path",
+   "numerically-invariant",
+   "refit-stable",
+   "grind-specific",
+   "heterogeneous",
+   "near-zero-median",
+   "sign-unstable",
+   "threshold-dependent",
+   "censored",
+   "oracle",
+   "unresolved"
+  ],
+  "assurance": [
+   "proved-and-tested",
+   "implemented-not-yet-proved",
+   "numerically-reproduced",
+   "exploratory-only",
+   "quarantined",
+   "historical-only"
+  ],
+  "claim_status": [
+   "supported",
+   "provisional",
+   "open",
+   "withdrawn",
+   "superseded",
+   "historical-only"
+  ]
  }
 }

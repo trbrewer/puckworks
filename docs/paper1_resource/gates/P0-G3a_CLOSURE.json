@@ -1,0 +1,35 @@
+{
+ "gate": "P0-G3a",
+ "criteria_version": 1,
+ "deliverables": [
+  {
+   "path": "docs/paper1_resource/PAPER_A_MODEL_SCOPE_MATRIX_V1_INITIAL.md",
+   "sha256": "08fa91de4dac6e070e4960ec2ca30b383641f0c2b27f2dc5211943d2748ab3bd"
+  }
+ ],
+ "producer": {
+  "path": "docs/paper1_resource/PAPER_1_P0_G0_PROTOCOL_FREEZE_DECISION_20260802.md",
+  "sha256": "406d31190faf036dc1a2ab6f60e983d5c1e28868f256d2ecfc745ad33c6cd90a"
+ },
+ "criteria": [
+  {
+   "criterion": "every claim tagged by evidence type and robustness dimension",
+   "result": "pass"
+  },
+  {
+   "criterion": "no model-structural numerical check described as physical validation",
+   "result": "pass"
+  },
+  {
+   "criterion": "omitted physics enumerated and the three calibration layers named",
+   "result": "pass"
+  }
+ ],
+ "evidence_unit_scope": "Initial scope matrix. Regenerated as _FINAL under P0-G3b after analyses freeze.",
+ "caveats": [
+  "closure records the artefact state at this commit; any later edit fails the hash test"
+ ],
+ "adjudication": "passed within the stated scope",
+ "evidence_content_commit": null,
+ "provenance_note": "Two-step pattern. A closure record cannot name its own containing commit. Content commit C finalises the deliverables; closure commit D then records evidence_content_commit=C and the hashes read from C. Until D exists this field is null and the hashes describe the working tree. A previous version claimed the pre-PR base commit, which could not contain the artefacts it bound."
+}

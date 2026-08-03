@@ -1,0 +1,289 @@
+{
+ "schema_version": 1,
+ "round": "R0a",
+ "purpose": "Pre-freeze premise audit. Run BEFORE the protocol freeze because a premise discovered missing afterwards forces an unplanned deviation or a second freeze. Every load-bearing premise is recorded with evidence matched to its TYPE; a physical premise that cannot be tested with available data is marked OPEN-AND-SCOPED, never forced into a repository test that would merely restate the model.",
+ "premises": [
+  {
+   "premise_id": "PR-01",
+   "premise": "the semi-discrete system is LINEAR in the state, so expm and the A0+kA1 pencil are valid",
+   "type": "algebraic",
+   "disposition": "assured",
+   "evidence": "superposition error 4.2e-16, tested live",
+   "evidence_path": "tests/test_paper_a_saturation_verification.py::test_the_rhs_is_linear_when_recomputed_live",
+   "affected": [
+    "NUM-TIME-01",
+    "P0-G8"
+   ],
+   "failure_consequence": "the exact-in-time reference and the analytical limit are both invalid",
+   "resolution_stage": "pre_freeze",
+   "blocks_before": [
+    "P0-G8"
+   ]
+  },
+  {
+   "premise_id": "PR-02",
+   "premise": "A(kappa) = A0 + kappa*A1 with A1 carrying the interphase transfer terms",
+   "type": "algebraic",
+   "disposition": "assured",
+   "evidence": "verified structurally: |(A(3)-A(1))/2 - (A(2)-A(1))| / scale = 2.8e-14, and 2.1e-14 at kappa=100. A1 has rank 400 and nullity 201 on the 601-state operator (2x200 grain-transfer rows fast; 200 liquid + 1 accumulation slow), matching the structure the limit argument assumes.",
+   "evidence_path": "tests/test_paper_a_asymptotic_structure.py",
+   "affected": [
+    "P0-G8"
+   ],
+   "failure_consequence": "the analytical limit construction has no basis and P0-G8 cannot run as specified",
+   "resolution_stage": "pre_freeze",
+   "blocks_before": [
+    "P0-G8"
+   ]
+  },
+  {
+   "premise_id": "PR-03a",
+   "premise": "for each fixed T > 0 the stable null-basis endpoint IS the large-kappa limit of exp((A0 + kappa A1)T) z0, and the assumptions of that proposition hold at every declared cell",
+   "type": "algebraic",
+   "disposition": "assured",
+   "resolution_stage": "pre_freeze",
+   "blocks_before": [
+    "P0-G8"
+   ],
+   "evidence": "FORMAL. The fixed-positive-time singular limit is proved in PAPER_A_FIXED_TIME_SINGULAR_LIMIT_PROPOSITION.md (semisimple zero of A1; strictly stable nonzero spectrum; Lyapunov bound ||exp((kappa F + A_ff)t)|| <= M exp(-gamma kappa t) with M, gamma, kappa_0 DERIVED from the operator, not fitted; Gronwall on the slow block). The quantitative statement is HOMOGENEOUS in the initial state: ||r_kappa(T)|| <= (C_T/kappa)||z0|| + M_T exp(-gamma kappa T)||Q z0||, with C_T and M_T independent of z0. Its assumptions are verified at all 27 operator-distinct cells covering all 54 declared cells: semisimplicity VERIFIED AT THE DECLARED STRUCTURAL CUT (expected_fast_rank = 2*nz = 400, expected_slow_nullity = nz+1 = 201), with separations 1.9e13 and 5.3e13 and agreement across the structural rank, the SVD null-basis rank and the ordered-Schur fast-mode count; every fast eigenvalue strictly stable (worst max Re = -1.218); projector identities <= 1e-13; cond(L) <= 2.13; dual-basis cross-check < 1e-9; endpoint finite, real and strictly positive everywhere; the output COVECTOR annihilates the fast subspace (e_out Q = 0). Uniform convergence at t = 0 is explicitly REJECTED for off-manifold initial data. The high-kappa sequence is retained as a DIAGNOSTIC only and proves nothing; it is method_limited, which does not block.",
+   "evidence_path": "docs/paper1_resource/PAPER_A_ENDPOINT_CONSTRUCTION.json",
+   "affected": [
+    "P0-G8"
+   ],
+   "failure_consequence": "the endpoint classification has no trustworthy f_inf, and the eventual-upper reading loses its premise",
+   "proof_artefact": "docs/paper1_resource/PAPER_A_FIXED_TIME_SINGULAR_LIMIT_PROPOSITION.md",
+   "proof_artefact_sha256": "17d93b00522591ae698d8a036a202fe6cbcabddf70561dfcda8a1157c7f510cf",
+   "generated_statuses": {
+    "algebraic_limit_status": "assured",
+    "endpoint_construction_status": "verified",
+    "finite_kappa_validation_status": "method_limited",
+    "coverage_status": "complete",
+    "overall_PR03a_status": "assured"
+   },
+   "closure_rule": "overall_PR03a_status = assured iff algebraic_limit_status = assured and endpoint_construction_status = verified and coverage_status = complete and finite_kappa_validation_status != inconsistent",
+   "assurance_basis_note": "The prior disposition was also 'assured', but on numerical convergence of a finite high-kappa sequence. That is a diagnostic, not a proof. The basis is now a proved theorem with verified assumptions. Two defects in the first formal attempt were corrected after exact-head review: the quantitative bound was not homogeneous in z0, and the semisimplicity verifier inferred the rank from the globally largest SVD gap, which reports a scale-separated DEFECTIVE zero as semisimple. Both are recorded in PAPER_A_CLAIM_RESOLUTION_DELTA_PRE_FREEZE.json entries D-02 and D-03.",
+   "structural_rank": {
+    "expected_fast_rank": 400,
+    "expected_slow_nullity": 201,
+    "derivation": "A1 acts on the 2*nz grain rows; nullity = nz+1"
+   }
+  },
+  {
+   "premise_id": "PR-03b",
+   "premise": "a sharp output-functional bound localises a finite tail onset kappa_tail",
+   "type": "algebraic",
+   "disposition": "NOT-PURSUED-CURRENT-PROTOCOL",
+   "resolution_stage": "scoped",
+   "blocks_before": [],
+   "evidence": "Not required for P0-G0 or the central P0-G8 classification. Under the WIDE-referenced endpoint architecture the threshold is referenced to J_ref on the resolved finite domain, so no sharp finite-tail bound is needed. tail_onset_status is unresolved_by_design. A future sharp derivation may only enter as a separately versioned pre-result amendment or as a supplemental study that cannot upgrade the frozen same-campaign primary claim; it must not be selected after seeing the endpoint classifications.",
+   "evidence_path": "docs/paper1_resource/PAPER_A_SINGULAR_LIMIT_BOUND.json",
+   "affected": [
+    "P0-G8 tail onset only"
+   ],
+   "failure_consequence": "no numerical finite tail onset is reported; endpoint result unaffected"
+  },
+  {
+   "premise_id": "PR-04",
+   "premise": "the MAPE level minimiser is the weighted median of y_i/f_i with weights f_i/y_i",
+   "type": "algebraic",
+   "disposition": "assured",
+   "evidence": "Proposition stated and property-tested against a direct convex reference: the minimiser set is the weighted-median interval and the objective is EXACTLY constant on it, so tie width is inventory-level information and cannot enter a J error budget. Also established that the minimiser is generically UNIQUE here, because w_i = 1/r_i couples weight to ratio; a tie needs n_a/r_a = n_b/r_b and is constructed explicitly. Continuity as f -> f_inf verified, which is what makes the endpoint comparison meaningful. 31 tests.",
+   "evidence_path": "tests/test_paper_a_weighted_median_profile.py",
+   "affected": [
+    "P0-G6",
+    "P0-G8"
+   ],
+   "failure_consequence": "J(kappa) is optimiser-dependent and the exact profile claim is unsupported",
+   "resolution_stage": "pre_freeze",
+   "blocks_before": [
+    "P0-G8"
+   ]
+  },
+  {
+   "premise_id": "PR-05",
+   "premise": "the high-kappa plateau is not an artefact of BDF time integration",
+   "type": "numerical",
+   "disposition": "assured",
+   "evidence": "BDF vs expm agree to 0.000122 % including deep in the regime",
+   "evidence_path": "docs/paper1_resource/PAPER_A_SATURATION_VERIFICATION.json",
+   "affected": [
+    "P0-G8"
+   ],
+   "failure_consequence": "the plateau is a solver artefact and H1 collapses",
+   "resolution_stage": "pre_freeze",
+   "blocks_before": [
+    "P0-G8"
+   ]
+  },
+  {
+   "premise_id": "PR-06",
+   "premise": "the plateau holds at EVERY calibration condition, not only the tested centre condition",
+   "type": "numerical",
+   "disposition": "assured",
+   "evidence": "all 54 declared cells covered by 27 operator-distinct computations; the pencil depends on (T, p, solute) only and variety enters solely through y, which this model-only module never reads. Deduplication proved, not assumed. No cell dropped.",
+   "evidence_path": "docs/paper1_resource/PAPER_A_SINGULAR_LIMIT_BOUND.json",
+   "affected": [
+    "P0-G8"
+   ],
+   "failure_consequence": "H1's generic wording is unsupported; the claim narrows to one condition",
+   "resolution_stage": "pre_freeze",
+   "blocks_before": [
+    "P0-G8"
+   ]
+  },
+  {
+   "premise_id": "PR-07",
+   "premise": "spatial discretisation error is negligible for the P0-G8 quantities",
+   "type": "numerical",
+   "disposition": "partially-assured",
+   "evidence": "4e-11 relative between 100 and 400 nodes for the cup concentration; NOT yet shown for J_inf or the shoulder derivative",
+   "evidence_path": "docs/paper1_resource/PAPER_A_NUMERICAL_ENVELOPE.json",
+   "affected": [
+    "P0-G8"
+   ],
+   "failure_consequence": "the \u00a72.6 error budget understates its spatial term",
+   "resolution_stage": "pre_freeze",
+   "blocks_before": [
+    "P0-G8"
+   ]
+  },
+  {
+   "premise_id": "PR-08",
+   "premise": "the corpus transcription is faithful to the source article",
+   "type": "data-provenance",
+   "disposition": "assured",
+   "evidence": "726 analyte cells and 66 condition rows verified against the PDF, 0 mismatches",
+   "evidence_path": "tools/audit_angeloni_bioactives.py",
+   "affected": [
+    "all"
+   ],
+   "failure_consequence": "every downstream number is unverified",
+   "resolution_stage": "pre_freeze",
+   "blocks_before": [
+    "P0-G8"
+   ]
+  },
+  {
+   "premise_id": "PR-09",
+   "premise": "the target-grind flow map can be rebuilt without the scored condition",
+   "type": "data-provenance",
+   "disposition": "OPEN",
+   "evidence": "raw support after excluding upstream polynomial fitting is unquantified",
+   "evidence_path": null,
+   "affected": [
+    "P0-G9"
+   ],
+   "failure_consequence": "H3 cannot be cross-fitted and remains retrospective",
+   "resolution_stage": "within_gate",
+   "blocks_before": [
+    "P0-G9"
+   ]
+  },
+  {
+   "premise_id": "PR-10",
+   "premise": "nine leave-one-condition-out folds are dependent, not replicates",
+   "type": "inferential",
+   "disposition": "assured",
+   "evidence": "stated in every archive; no binomial or standard-error language used",
+   "evidence_path": "docs/paper1_resource/PAPER_A_ABLATION_REFIT_STABILITY.json",
+   "affected": [
+    "P0-G4",
+    "P0-G5"
+   ],
+   "failure_consequence": "fold sign counts would be over-interpreted as significance",
+   "resolution_stage": "pre_freeze",
+   "blocks_before": [
+    "P0-G8"
+   ]
+  },
+  {
+   "premise_id": "PR-11",
+   "premise": "the operational near-optimal set is a convention, not a confidence set",
+   "type": "inferential",
+   "disposition": "assured",
+   "evidence": "no likelihood is declared anywhere; Fisher language is absent",
+   "evidence_path": "docs/paper1_resource/PAPER_A_PIVOT_ANALYSIS_PROTOCOL_V2.md \u00a79",
+   "affected": [
+    "P0-G8",
+    "P0-G5"
+   ],
+   "failure_consequence": "profile width would be misread as calibrated uncertainty",
+   "resolution_stage": "pre_freeze",
+   "blocks_before": [
+    "P0-G8"
+   ]
+  },
+  {
+   "premise_id": "PR-12",
+   "premise": "real espresso occupies the large-mass-transfer-coefficient regime",
+   "type": "physical",
+   "disposition": "OPEN-AND-SCOPED",
+   "evidence": "cannot be tested with available data; explicitly NOT claimed anywhere",
+   "evidence_path": "docs/paper1_resource/PAPER_A_MODEL_SCOPE_MATRIX_V1_INITIAL.md",
+   "affected": [
+    "H1"
+   ],
+   "failure_consequence": "none \u2014 the claim is not made; recorded so it cannot drift into the text",
+   "resolution_stage": "scoped",
+   "blocks_before": []
+  },
+  {
+   "premise_id": "PR-13",
+   "premise": "the omitted physics (wetting, evolving permeability, fines, poroelasticity, channelling, time-varying flow) do not reverse the plateau",
+   "type": "physical",
+   "disposition": "OPEN-AND-SCOPED",
+   "evidence": "untestable with the declared model; bounds every H1/H3 statement",
+   "evidence_path": "docs/paper1_resource/PAPER_A_MODEL_SCOPE_MATRIX_V1_INITIAL.md \u00a74",
+   "affected": [
+    "H1",
+    "H3"
+   ],
+   "failure_consequence": "none if scoped; fatal if the paper generalises beyond the declared model",
+   "resolution_stage": "scoped",
+   "blocks_before": []
+  },
+  {
+   "premise_id": "PR-14",
+   "premise": "kappa is not a transferable physical kinetic constant",
+   "type": "physical",
+   "disposition": "assured-by-refusal",
+   "evidence": "never claimed; kappa multiplies inherited Sherwood prefactors",
+   "evidence_path": "docs/paper1_resource/PAPER_A_MODEL_SCOPE_MATRIX_V1_INITIAL.md",
+   "affected": [
+    "H4"
+   ],
+   "failure_consequence": "H4 would assert a physical constant it cannot support",
+   "resolution_stage": "pre_freeze",
+   "blocks_before": [
+    "P0-G8"
+   ]
+  },
+  {
+   "premise_id": "PR-15",
+   "premise": "the contribution is novel against indexed literature",
+   "type": "novelty",
+   "disposition": "OPEN-BLOCKED",
+   "evidence": "requires Scopus/WoS/Compendex; unavailable in this environment",
+   "evidence_path": null,
+   "affected": [
+    "P0-G10"
+   ],
+   "failure_consequence": "novelty language cannot be written; P0-G10 blocks drafting",
+   "resolution_stage": "pre_drafting",
+   "blocks_before": [
+    "P0-G10"
+   ]
+  }
+ ],
+ "summary": {
+  "total": 16,
+  "assured": 10,
+  "partially_assured": 1,
+  "open_blocking": 1,
+  "not_pursued": 1,
+  "open_scoped": 2,
+  "open_blocked_external": 1
+ },
+ "verdict": "R0a_COMPLETE_BLOCKING_ITEMS_REMAIN",
+ "reading": "PR-03 is SPLIT per the adjudication. PR-03a is ASSURED ON A PROOF: the fixed-positive-time singular limit is proved, its assumptions are verified at all 27 operator-distinct cells covering all 54 declared cells, and the high-kappa sequence is demoted to a diagnostic. The P0-G8 endpoint classification has a trustworthy f_inf and no finite-kappa remainder belongs in its budget. Convergence is NOT uniform at t = 0 for off-manifold data and no such claim is made. PR-03b is NOT PURSUED under the current protocol: the WIDE-referenced architecture removes the need for a sharp finite-tail bound, and tail_onset_status is unresolved_by_design. PR-06 is assured. PR-09 and PR-15 are gate-scoped to P0-G9 and P0-G10. P0-G0 remains open because the Protocol V2 endpoint/tail split, PR-04, PR-07 staging and the PR-09 rule are not yet implemented."
+}

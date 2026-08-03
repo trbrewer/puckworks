@@ -180,7 +180,7 @@ hyperparameter selection; declared target **hydraulic** covariates are permitted
 > campaign and external-validation boundary.
 
 "Competitive", the causal "because", and "source-calibrated" are removed. The three calibration
-layers are named explicitly in `PAPER_A_MODEL_SCOPE_MATRIX.md` §5.
+layers are named explicitly in `PAPER_A_MODEL_SCOPE_MATRIX_V1_INITIAL.md` §5.
 
 ### Narrative spine
 
@@ -223,8 +223,8 @@ exploratory-oracle
 **Robustness:** established-under-assumptions · verified-within-numerical-scope · refit-stable ·
 heterogeneous · sensitivity-only · cross-fitted · externally-replicated · unresolved · withdrawn
 
-Full assignment: `PAPER_A_MODEL_SCOPE_MATRIX.md`. Per-claim records:
-`PAPER_A_CLAIM_EVIDENCE_LEDGER_V2.json`.
+Full assignment: `PAPER_A_MODEL_SCOPE_MATRIX_V1_INITIAL.md`. Per-claim records:
+`PAPER_A_CLAIM_EVIDENCE_LEDGER_V2_INITIAL.json`.
 
 ### Estimand tags
 
@@ -233,10 +233,16 @@ Every reported number carries exactly one; none migrates without a like-for-like
 | tag | meaning |
 |---|---|
 | **FULL-PUB** | full calibration support, published `κ` domain |
-| **FULL-WIDE** | full calibration support, widened `κ` domain |
+| **FULL-WIDE** | full calibration support, widened `κ` domain — **finite-domain results only** |
+| **FULL-WIDE-ENDPOINT** | full optimal-grind calibration support; threshold referenced to the continuously minimised profile on `D_WIDE = [0.15, 500]`; analytical `κ = ∞` endpoint evaluated separately |
 | **LOCO-PUB** | leave-one-condition-out refit, published domain |
 | **LOCO-WIDE** | leave-one-condition-out refit, widened domain |
 | **NUM-FULL** | full-support numerical envelope |
+
+P0-G8 reports `J_ref = min over κ ∈ D_WIDE of J(κ)` and, separately, `J_inf` at the analytical
+endpoint. The endpoint is not a member of the minimisation; it is compared against the threshold
+that `J_ref` generates. Nothing is claimed about `(500, ∞)`: no finite topology is assigned to it and
+no finite tail onset is estimated. Protocol V2 §2.2–§2.10 is the contract.
 
 ---
 
@@ -244,7 +250,9 @@ Every reported number carries exactly one; none migrates without a like-for-like
 
 1. That real espresso reaches the large-mass-transfer-coefficient regime.
 2. That `κ` is a physical kinetic constant, or `κ = 1` externally validated.
-3. That the acceptable set is unbounded — only right-censored at `κ = 500`.
+3. That the finite scan establishes an acceptable set with no upper limit — it is right-censored at
+   the domain edge `κ = 500`. Any eventual-upper statement comes only from the separately evaluated
+   analytical endpoint, and only once the fixed-positive-time limit result exists.
 4. That hydraulics are the unique or causal mechanism of cross-grind prediction.
 5. That particle geometry is excluded — it was frozen, never varied.
 6. That freezing is universally preferable to fitting.
@@ -259,7 +267,7 @@ Every reported number carries exactly one; none migrates without a like-for-like
 
 ## 6. Gates
 
-Definitions and dependencies are authoritative in `PAPER_A_PLAN_MANIFEST_V1.yaml`; this table is the
+Definitions and dependencies are authoritative in `PAPER_A_PLAN_MANIFEST_V1.json`; this table is the
 human-readable view. All `blocks_drafting` gates block the results narrative, title, abstract,
 discussion and contribution list.
 
@@ -267,7 +275,8 @@ discussion and contribution list.
 |---|---|---|
 | **NUM-TIME-01** | plateau: BDF artefact or structural to the declared model? | **passed**, numerical-model-structural only; physical generalisation untested |
 | **NUM-ENV-01** | do FULL-SUPPORT contrasts survive mesh/tolerance change? | **passed**, full-support only; not fold medians |
-| **P0-G0** | are the next analyses protected from target-driven tuning? | protocol committed before P0-G4…G9; deviations append-only |
+| **P0-R0a** | pre-freeze premise audit — does every load-bearing premise have assurance matched to its type? | every premise recorded with evidence or an explicit open/scoped disposition. **Its purpose is to surface blockers before the freeze; finding them is a pass, and keeps P0-G0 shut** |
+| **P0-G0** | are the next analyses protected from target-driven tuning? | complete protocol committed before P0-G4…G9; **P0-R0a, P0-G1a and P0-G3a closed**; bundle cross-references clean; freeze record complete; deviations append-only |
 | **P0-G1a** | initial claim ledger | every candidate and active headline recorded before any new run |
 | **P0-G1b** | final reconciliation | ledger regenerated from final artefacts; every bound number matches its hash |
 | **P0-G2** | disaggregation | every pooled headline shown with components and weighting rule; homogeneity **not** required |
@@ -322,7 +331,7 @@ record. A non-null string is not a pin.
 For every headline: exact wording; evidence type; robustness; data and observation unit; calibration
 and target information supplied; estimand tag; resampling unit; model and numerical configuration;
 supporting artefact and hash; **alternative explanation**; external-validity boundary; **falsifying
-result**. Held in `PAPER_A_CLAIM_EVIDENCE_LEDGER_V2.json`.
+result**. Held in `PAPER_A_CLAIM_EVIDENCE_LEDGER_V2_INITIAL.json`.
 
 ### 8.2 Termination rule
 
@@ -381,8 +390,9 @@ H4 wording after P0-G5.
 
 | outcome | consequence |
 |---|---|
-| `J_inf` supports an accepted tail for most groups, threshold-robust | H1 may lead |
-| `J_inf` excludes the tail, or classification is threshold-dependent | lead with the response limit and threshold dependence; remove the broad weak-localisation headline |
+| P0-G8 returns `H1_STRONG` (6/6 group-level successes) | H1 may lead; state the operational scope explicitly |
+| P0-G8 returns `H1_QUALIFIED` (5/6 successes, exactly one exception) | H1 may lead; the exception is named in the same headline sentence |
+| P0-G8 returns `H1_DOES_NOT_LEAD` | lead with the response limit and threshold dependence; remove the broad weak-localisation headline |
 | RSI meets its criterion | retain the design contribution |
 | RSI fails or is regime-specific | retain algebra and exact profiling; remove the global design recommendation |
 | cross-fitted map retains the coarse benefit | H3 as cross-fitted protocol emulation |
@@ -428,11 +438,11 @@ H3 is a secondary case study.
 
 **Step 0A — plan integrity.** This document; the manifest; the fail-closed control. *(done)*
 
-**Step 0B — initial assurance artefacts.** `PAPER_A_CLAIM_EVIDENCE_LEDGER_V2.json`;
-`PAPER_A_MODEL_SCOPE_MATRIX.md`; `PAPER_A_ACTIVE_CLAIM_RECONCILIATION.md`; preliminary P0-G10 memo.
+**Step 0B — initial assurance artefacts.** `PAPER_A_CLAIM_EVIDENCE_LEDGER_V2_INITIAL.json`;
+`PAPER_A_MODEL_SCOPE_MATRIX_V1_INITIAL.md`; `PAPER_A_ACTIVE_CLAIM_RECONCILIATION.md`; preliminary P0-G10 memo.
 *(ledger, matrix and reconciliation done; novelty memo blocked — see §12)*
 
-**Step 0C — protocol freeze.** `PAPER_A_PIVOT_ANALYSIS_PROTOCOL_V1.md`. *(drafted; freezes on
+**Step 0C — protocol freeze.** `PAPER_A_PIVOT_ANALYSIS_PROTOCOL_V2.md`. *(drafted; freezes on
 approval)*
 
 Then, in parallel:
