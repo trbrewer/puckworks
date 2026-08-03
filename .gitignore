@@ -67,3 +67,4 @@ dist/
 htmlcov/
 .viability_f_cache.pkl
 .viability_operator_cache.pkl
+.temporal_prediction_cache.pkl

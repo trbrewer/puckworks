@@ -23,7 +23,15 @@ the hypothesis that fraction-resolved observations recover rate information that
 discard is **not supported on this campaign** — six fractions predict held-out extraction 5–10
 percentage points *worse* than a three-point cup curve, for all three solutes, under every objective
 and level policy tried, while the localisation comparison depends on which tolerance convention is
-used and separates nothing. The one genuinely interesting finding is a
+used and separates nothing.
+
+> **Source-lineage correction (2026-08-03).** The cumulative targets are NOT independent
+> measurements. They are the analytic integral of each replicate's own fitted single exponential —
+> verified: 427 of 432 published rows reproduce to within 0.01 %, median 0.00003 %, and the source
+> curve's residual against them is exactly zero. Held-out error against a smoothed functional of the
+> fraction campaign is therefore not comparable with held-out error against raw fractions, and the
+> claim below that held-out prediction "settles" the operator question is **withdrawn**. What the
+> gap does show is model discrepancy against raw temporal shape. The one genuinely interesting finding is a
 by-product: fraction data expose a structured late-time misfit in the declared model that cumulative
 averaging hides almost entirely. That is a result about the solver, not about observation design, and
 it points at solver development rather than at a Paper 1 headline.
@@ -48,11 +56,11 @@ GL 1.7 primary, 16 shots / 5 experiments, shot-balanced MAPE with exact per-shot
 | solute | arm | `κ*` | `J_min` (pp) | width, 10 % rel | width, 0.25 pp abs | held-out MAPE (pp) | materially better? |
 |---|---|---|---|---|---|---|---|
 | caffeine | FRACTION_6 | 1.035 | 4.498 | 0.180 | **0.139** | 6.21 | — |
-| caffeine | CUP_CURVE_3 | 1.732 | **0.550** | **0.149** | 0.388 | **1.30** | **no** |
+| caffeine | DERIVED_CUMULATIVE_CURVE_3 | 1.732 | **0.550** | **0.149** | 0.388 | **1.30** | **no** |
 | trigonelline | FRACTION_6 | 1.035 | 6.865 | 0.088 | **0.051** | 11.53 | — |
-| trigonelline | CUP_CURVE_3 | 1.177 | **0.533** | **0.057** | 0.162 | **1.58** | **no** |
+| trigonelline | DERIVED_CUMULATIVE_CURVE_3 | 1.177 | **0.533** | **0.057** | 0.162 | **1.58** | **no** |
 | 5CQA | FRACTION_6 | 1.035 | 4.603 | 0.126 | **0.087** | 7.97 | — |
-| 5CQA | CUP_CURVE_3 | 1.523 | **0.464** | **0.086** | 0.229 | **1.24** | **no** |
+| 5CQA | DERIVED_CUMULATIVE_CURVE_3 | 1.523 | **0.464** | **0.086** | 0.229 | **1.24** | **no** |
 
 **The localisation ordering reverses between the two tolerance conventions** — the relative band
 scales with each arm's own `J_min`, which is ~9× larger for fractions. Neither margin reaches the
@@ -68,7 +76,7 @@ all-grinds sensitivity.
 | figure | what it settles |
 |---|---|
 | `figures/endpoint_summary_six_panel.png` | Part A: only Arabica:5CQA is clearly excluded; two Robusta profiles are flat to the domain edge |
-| `figures/operator_localisation_vs_heldout.png` | **the decisive one** — the held-out axis separates the arms by 5–10 pp for every solute |
+| `figures/operator_localisation_vs_heldout.png` | the held-out axis separates the arms by 5–10 pp; NOT decisive for operator information, since the two axes score different target types |
 | `figures/operator_accepted_width.png` | 10 %-relative widths; note the ordering reverses under the 0.25 pp absolute convention, so this axis settles nothing |
 | `figures/operator_loeo_kappa.png` | both operators pin `κ` stably; the difference is not fold noise |
 | `figures/operator_heldout_shape.png` | the fraction-fitted rate predicts the held-out cup curve worse |
@@ -76,8 +84,14 @@ all-grinds sensitivity.
 ## 5. Selected branch
 
 ```
-STOP_PAPER_1_AND_REPURPOSE
+PIVOT_TO_TEMPORAL_MODEL_DISCREPANCY_SCREEN
 ```
+
+> **Superseded disposition.** This document originally selected `STOP_PAPER_1_AND_REPURPOSE`. On
+> review (2026-08-03) that was replaced by a pivot to a temporal-model-discrepancy screen. Every
+> numerical value and plot below is retained unchanged; only the interpretation is corrected. The
+> pivot screen has since completed and returned `STOP_PAPER_1` — see
+> `temporal_discrepancy/PAPER_1_TEMPORAL_DISCREPANCY_DECISION_V1.md`.
 
 Applying the declared branch rules in order:
 
