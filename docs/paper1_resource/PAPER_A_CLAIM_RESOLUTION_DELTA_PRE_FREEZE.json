@@ -52,12 +52,47 @@
    },
    "evidence": {
     "proof": "docs/paper1_resource/PAPER_A_FIXED_TIME_SINGULAR_LIMIT_PROPOSITION.md",
-    "proof_sha256": "9f8bbeeb8319aa09cc409db8d8d457c269f42c665408090ba2d0f81b7d4b2c25",
+    "proof_sha256": "17d93b00522591ae698d8a036a202fe6cbcabddf70561dfcda8a1157c7f510cf",
     "archive": "docs/paper1_resource/PAPER_A_ENDPOINT_CONSTRUCTION.json",
-    "producer_sha256": "f8525c42c5ab4b13c3d684b35aeae02aa0f464268d06d08f7fc3778ec15d5251",
+    "producer_sha256": "102a5fd2b7949254d4b5ad6141aac7333d51b46bfe973b5b962254808745f5a7",
     "verification_command": "python tools/paper_a_endpoint_construction.py --check"
    },
-   "result_change": "none. P0-G8 has not run and PAPER_A_ASYMPTOTIC_PROFILE_LIMITS.json does not exist. No campaign objective was computed in this cycle."
+   "result_change": "none. P0-G8 has not run and PAPER_A_ASYMPTOTIC_PROFILE_LIMITS.json does not exist. No campaign objective was computed in this cycle.",
+   "superseded_by": "D-03 corrects two defects in the artefact this entry bound"
+  },
+  {
+   "delta_id": "D-03",
+   "date": "2026-08-03",
+   "claim_id": null,
+   "premise_id": "PR-03a",
+   "displaced_by": "PAPER_1_PR224_HEAD_596223F_PR03A_EXACT_HEAD_REVIEW_20260803.md",
+   "field": "the PR-03a proof artefact and the semisimplicity verifier",
+   "recorded_wording": "(A) ||r_kappa(T)|| <= C_T/kappa + M_T exp(-gamma kappa T)||Q z0|| with C_T claimed to be derived from operator, basis and T alone; (B) semisimplicity decided by the rank at the globally largest singular-value gap, with the claim that a defective zero produces no such gap",
+   "why_displaced": "(A) The displayed bound was NOT homogeneous in z0. The proof defined K and sup u through u(0) = ||L^T z0|| and v(0) = ||M^T z0||, both linear in z0, so the claimed operator-only C_T was not operator-only. Scaling exposes it: replacing z0 by alpha z0 multiplies the residual by |alpha| while a bare C_T/kappa does not move. (B) The largest-gap rule is unsound. For block_diag(Jordan2(0), [-1e9]) the singular values are [1e9, 1, 0] and [1e18, 0, 0], so the largest gap falls between the fast block and the Jordan singular value rather than at the nonzero/zero cut; the rule returned rank 1 for both and called a DEFECTIVE zero semisimple. The crossover is set by the gap floor itself, so the justification given for that floor was self-refuting. The earlier Jordan-2 and Jordan-3 fixtures used comparable block scales and could not expose it.",
+   "replacement_wording": "(A) ||r_kappa(T)|| <= (C_T/kappa)||z0|| + M_T exp(-gamma kappa T)||Q z0||, with K_T = (2M/gamma)[||M^T|| + c T exp(aT)||L^T||], U_T = (||L^T|| + b K_T/kappa_1) exp(aT), C_T = ||N|| b K_T exp(aT) + ||W|| M c U_T/gamma and M_T = ||W|| M / sigma_min(W), all independent of z0. (B) The structural rank is DECLARED from the model (expected_fast_rank = 2*nz = 400, expected_slow_nullity = nz+1 = 201) and VERIFIED at that cut, with agreement required across the structural rank, the SVD null-basis rank and the ordered-Schur fast-mode count, plus a nonsingular conditioned slow pairing. Any disagreement is not_assured.",
+   "also_corrected": "Terminology: the output is a linear functional, hence a COVECTOR. It lies in ker(A1^T), equivalently e_out Q = 0; it cannot 'lie in ker(A1)'. Wording only - the construction and the numerical check were already correct.",
+   "new_failure_modes_distinguished": "A defective kernel (a retained slot is exactly zero) and a numerically undecidable rank (a retained value below eps*max(s), which occurs when the internal scale ratio exceeds what double precision resolves after squaring) are now reported separately. Both fail closed.",
+   "generated_statuses": {
+    "algebraic_limit_status": "assured",
+    "endpoint_construction_status": "verified",
+    "finite_kappa_validation_status": "method_limited",
+    "coverage_status": "complete",
+    "overall_PR03a_status": "assured"
+   },
+   "evidence": {
+    "proof": "docs/paper1_resource/PAPER_A_FIXED_TIME_SINGULAR_LIMIT_PROPOSITION.md",
+    "proof_sha256": "17d93b00522591ae698d8a036a202fe6cbcabddf70561dfcda8a1157c7f510cf",
+    "archive": "docs/paper1_resource/PAPER_A_ENDPOINT_CONSTRUCTION.json",
+    "producer_sha256": "102a5fd2b7949254d4b5ad6141aac7333d51b46bfe973b5b962254808745f5a7",
+    "verification_command": "python tools/paper_a_endpoint_construction.py --check"
+   },
+   "precondition_status_change": {
+    "field": "eventual_upper_precondition_status",
+    "from": "assured",
+    "to": "assured",
+    "why_unchanged": "the corrected theorem and repaired verifier pass at all 27 cells with the 54-cell mapping complete, so the closure condition that permitted 'assured' in D-02 still holds after correction"
+   },
+   "result_change": "none. P0-G8 has not run and PAPER_A_ASYMPTOTIC_PROFILE_LIMITS.json does not exist. No campaign objective was computed or inspected in this cycle."
   }
  ]
 }

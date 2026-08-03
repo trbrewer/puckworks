@@ -10,13 +10,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 2.6850857608789136,
+     "last_retained_singular_value_A1_squared": 5.227649940428522,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 34829206028306.883,
-     "rank_gap_ratio_A1_squared": 7831134149992.095,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -37,10 +38,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 34829206028306.883,
+     "separation_at_expected_cut_A1_squared": 7831134149992.095,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 3.2562101717606977e-12,
-     "threshold_rank_tolerance_A1_squared": 7.936759674932963e-11
+     "threshold_rank_tolerance_A1_squared": 7.936759674932963e-11,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 34829206028306.883,
+      "gap_ratio_A1_squared": 7831134149992.095,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -82,6 +96,24 @@
      "lambda_max_X": 0.34679852809824446,
      "lambda_min_X": 0.020513700107139127,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -89,9 +121,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -148,13 +181,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 5.004460022276079,
+     "last_retained_singular_value_A1_squared": 19.104310402697223,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 43238931632305.32,
-     "rank_gap_ratio_A1_squared": 35304074293653.8,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -175,10 +209,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 43238931632305.32,
+     "separation_at_expected_cut_A1_squared": 35304074293653.8,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 2.8875786520782732e-12,
-     "threshold_rank_tolerance_A1_squared": 6.111142625210196e-11
+     "threshold_rank_tolerance_A1_squared": 6.111142625210196e-11,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 43238931632305.32,
+      "gap_ratio_A1_squared": 35304074293653.8,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -220,6 +267,24 @@
      "lambda_max_X": 0.16372741133368002,
      "lambda_min_X": 0.023616486061633152,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -227,9 +292,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -286,13 +352,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 3.2199955009185435,
+     "last_retained_singular_value_A1_squared": 7.642505659374587,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 49402393463548.984,
-     "rank_gap_ratio_A1_squared": 14730871342179.998,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -313,10 +380,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 49402393463548.984,
+     "separation_at_expected_cut_A1_squared": 14730871342179.998,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 2.8738482588607807e-12,
-     "threshold_rank_tolerance_A1_squared": 6.183828976545084e-11
+     "threshold_rank_tolerance_A1_squared": 6.183828976545084e-11,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 49402393463548.984,
+      "gap_ratio_A1_squared": 14730871342179.998,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -358,6 +438,24 @@
      "lambda_max_X": 0.27464140011746085,
      "lambda_min_X": 0.02323710954949773,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -365,9 +463,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -424,13 +523,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 4.45225490133332,
+     "last_retained_singular_value_A1_squared": 14.753088933427211,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 106884938312709.17,
-     "rank_gap_ratio_A1_squared": 12954469603981.844,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -451,10 +551,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 106884938312709.17,
+     "separation_at_expected_cut_A1_squared": 12954469603981.844,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 4.042489356654667e-12,
-     "threshold_rank_tolerance_A1_squared": 1.2234264619669577e-10
+     "threshold_rank_tolerance_A1_squared": 1.2234264619669577e-10,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 106884938312709.17,
+      "gap_ratio_A1_squared": 12954469603981.844,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -496,6 +609,24 @@
      "lambda_max_X": 0.19381657286364037,
      "lambda_min_X": 0.016521671315096315,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -503,9 +634,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -562,13 +694,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 6.83855168113761,
+     "last_retained_singular_value_A1_squared": 38.23654940607987,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 30006704251460.96,
-     "rank_gap_ratio_A1_squared": 59970789409051.56,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -589,10 +722,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 30006704251460.96,
+     "separation_at_expected_cut_A1_squared": 59970789409051.56,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 3.189318933568192e-12,
-     "threshold_rank_tolerance_A1_squared": 7.427204663024962e-11
+     "threshold_rank_tolerance_A1_squared": 7.427204663024962e-11,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 30006704251460.96,
+      "gap_ratio_A1_squared": 59970789409051.56,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -634,6 +780,24 @@
      "lambda_max_X": 0.10750415789841394,
      "lambda_min_X": 0.021464516513345078,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -641,9 +805,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -700,13 +865,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 4.585486438978397,
+     "last_retained_singular_value_A1_squared": 16.169749598647204,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 25820905529854.02,
-     "rank_gap_ratio_A1_squared": 25538078266561.16,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -727,10 +893,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 25820905529854.02,
+     "separation_at_expected_cut_A1_squared": 25538078266561.16,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 3.1449470662602013e-12,
-     "threshold_rank_tolerance_A1_squared": 7.401380787560774e-11
+     "threshold_rank_tolerance_A1_squared": 7.401380787560774e-11,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 25820905529854.02,
+      "gap_ratio_A1_squared": 25538078266561.16,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -772,6 +951,24 @@
      "lambda_max_X": 0.1760642833635397,
      "lambda_min_X": 0.021246482704670208,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -779,9 +976,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -838,13 +1036,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 1.9968446839946252,
+     "last_retained_singular_value_A1_squared": 2.86680702014355,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 24635107372601.047,
-     "rank_gap_ratio_A1_squared": 5332512780669.219,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -865,10 +1064,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 24635107372601.047,
+     "separation_at_expected_cut_A1_squared": 5332512780669.219,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 2.8967439541129887e-12,
-     "threshold_rank_tolerance_A1_squared": 6.28066971569246e-11
+     "threshold_rank_tolerance_A1_squared": 6.28066971569246e-11,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 24635107372601.047,
+      "gap_ratio_A1_squared": 5332512780669.219,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -910,6 +1122,24 @@
      "lambda_max_X": 0.48312877189990944,
      "lambda_min_X": 0.023060890585942323,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -917,9 +1147,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -976,13 +1207,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 4.132512932379016,
+     "last_retained_singular_value_A1_squared": 12.718426459169761,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 64680395057735.75,
-     "rank_gap_ratio_A1_squared": 24586686425644.895,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -1003,10 +1235,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 64680395057735.75,
+     "separation_at_expected_cut_A1_squared": 24586686425644.895,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 2.7612234697277077e-12,
-     "threshold_rank_tolerance_A1_squared": 5.596001646080582e-11
+     "threshold_rank_tolerance_A1_squared": 5.596001646080582e-11,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 64680395057735.75,
+      "gap_ratio_A1_squared": 24586686425644.895,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -1048,6 +1293,24 @@
      "lambda_max_X": 0.20849108415639078,
      "lambda_min_X": 0.024661672542641302,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -1055,9 +1318,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -1114,13 +1378,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 2.6081894725387076,
+     "last_retained_singular_value_A1_squared": 4.945097082474891,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 27446113180376.168,
-     "rank_gap_ratio_A1_squared": 10216208987237.39,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -1141,10 +1406,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 27446113180376.168,
+     "separation_at_expected_cut_A1_squared": 10216208987237.39,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 2.7562054118157126e-12,
-     "threshold_rank_tolerance_A1_squared": 5.6890845835232214e-11
+     "threshold_rank_tolerance_A1_squared": 5.6890845835232214e-11,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 27446113180376.168,
+      "gap_ratio_A1_squared": 10216208987237.39,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -1186,6 +1464,24 @@
      "lambda_max_X": 0.35376877987976274,
      "lambda_min_X": 0.024223783057465975,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -1193,9 +1489,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -1252,13 +1549,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 2.302316424716245,
+     "last_retained_singular_value_A1_squared": 3.826757529679705,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 83857989705439.22,
-     "rank_gap_ratio_A1_squared": 6642726716771.303,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -1279,10 +1577,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 83857989705439.22,
+     "separation_at_expected_cut_A1_squared": 6642726716771.303,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 2.999716570618869e-12,
-     "threshold_rank_tolerance_A1_squared": 6.737141630333083e-11
+     "threshold_rank_tolerance_A1_squared": 6.737141630333083e-11,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 83857989705439.22,
+      "gap_ratio_A1_squared": 6642726716771.303,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -1324,6 +1635,24 @@
      "lambda_max_X": 0.411415413936681,
      "lambda_min_X": 0.022262716823903933,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -1331,9 +1660,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -1390,13 +1720,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 4.5168520709995486,
+     "last_retained_singular_value_A1_squared": 15.37401977073687,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 31818237148484.18,
-     "rank_gap_ratio_A1_squared": 30180518450278.637,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -1417,10 +1748,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 31818237148484.18,
+     "separation_at_expected_cut_A1_squared": 30180518450278.637,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 2.761873574936576e-12,
-     "threshold_rank_tolerance_A1_squared": 5.585127256021394e-11
+     "threshold_rank_tolerance_A1_squared": 5.585127256021394e-11,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 31818237148484.18,
+      "gap_ratio_A1_squared": 30180518450278.637,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -1462,6 +1806,24 @@
      "lambda_max_X": 0.18583750318232334,
      "lambda_min_X": 0.02471436692362504,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -1469,9 +1831,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -1528,13 +1891,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 2.8735196048830476,
+     "last_retained_singular_value_A1_squared": 6.0431339526086365,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 27949690341559.082,
-     "rank_gap_ratio_A1_squared": 12405284062706.602,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -1555,10 +1919,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 27949690341559.082,
+     "separation_at_expected_cut_A1_squared": 12405284062706.602,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 2.7431003650094003e-12,
-     "threshold_rank_tolerance_A1_squared": 5.633296053315912e-11
+     "threshold_rank_tolerance_A1_squared": 5.633296053315912e-11,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 27949690341559.082,
+      "gap_ratio_A1_squared": 12405284062706.602,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -1600,6 +1977,24 @@
      "lambda_max_X": 0.314109746516924,
      "lambda_min_X": 0.024347363996450544,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -1607,9 +2002,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -1666,13 +2062,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 3.8272970889572653,
+     "last_retained_singular_value_A1_squared": 10.805625292550463,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 114336270240535.88,
-     "rank_gap_ratio_A1_squared": 11442187590126.082,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -1693,10 +2090,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 114336270240535.88,
+     "separation_at_expected_cut_A1_squared": 11442187590126.082,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 3.703405877374371e-12,
-     "threshold_rank_tolerance_A1_squared": 1.0269637581915466e-10
+     "threshold_rank_tolerance_A1_squared": 1.0269637581915466e-10,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 114336270240535.88,
+      "gap_ratio_A1_squared": 11442187590126.082,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -1738,6 +2148,24 @@
      "lambda_max_X": 0.23057475647191336,
      "lambda_min_X": 0.018031283822492347,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -1745,9 +2173,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -1804,13 +2233,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 6.2187805814022905,
+     "last_retained_singular_value_A1_squared": 30.90466592729602,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 19481125759696.145,
-     "rank_gap_ratio_A1_squared": 53124069794379.125,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -1831,10 +2261,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 19481125759696.145,
+     "separation_at_expected_cut_A1_squared": 53124069794379.125,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 3.0238304264680443e-12,
-     "threshold_rank_tolerance_A1_squared": 6.671654907861502e-11
+     "threshold_rank_tolerance_A1_squared": 6.671654907861502e-11,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 19481125759696.145,
+      "gap_ratio_A1_squared": 53124069794379.125,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -1876,6 +2319,24 @@
      "lambda_max_X": 0.12209223160124286,
      "lambda_min_X": 0.022653487654033265,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -1883,9 +2344,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -1942,13 +2404,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 4.109997045278008,
+     "last_retained_singular_value_A1_squared": 12.804945177476771,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 25526601234624.297,
-     "rank_gap_ratio_A1_squared": 21647203333694.625,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -1969,10 +2432,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 25526601234624.297,
+     "separation_at_expected_cut_A1_squared": 21647203333694.625,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 2.9806816862885645e-12,
-     "threshold_rank_tolerance_A1_squared": 6.647727702835738e-11
+     "threshold_rank_tolerance_A1_squared": 6.647727702835738e-11,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 25526601234624.297,
+      "gap_ratio_A1_squared": 21647203333694.625,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -2014,6 +2490,24 @@
      "lambda_max_X": 0.20178462883549542,
      "lambda_min_X": 0.022419372430555223,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -2021,9 +2515,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -2080,13 +2575,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 1.710844661245019,
+     "last_retained_singular_value_A1_squared": 2.0983590170088955,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 39496043915957.19,
-     "rank_gap_ratio_A1_squared": 4464898588279.356,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -2107,10 +2603,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 39496043915957.19,
+     "separation_at_expected_cut_A1_squared": 4464898588279.356,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 2.674767963256982e-12,
-     "threshold_rank_tolerance_A1_squared": 5.3563231810200324e-11
+     "threshold_rank_tolerance_A1_squared": 5.3563231810200324e-11,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 39496043915957.19,
+      "gap_ratio_A1_squared": 4464898588279.356,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -2152,6 +2661,24 @@
      "lambda_max_X": 0.5721333949915609,
      "lambda_min_X": 0.02496839853749444,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -2159,9 +2686,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -2218,13 +2746,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 3.7211758882029717,
+     "last_retained_singular_value_A1_squared": 10.226743351323325,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 29167881901348.84,
-     "rank_gap_ratio_A1_squared": 21702034507600.11,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -2245,10 +2774,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 29167881901348.84,
+     "separation_at_expected_cut_A1_squared": 21702034507600.11,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 2.6504649397785017e-12,
-     "threshold_rank_tolerance_A1_squared": 5.150123371647821e-11
+     "threshold_rank_tolerance_A1_squared": 5.150123371647821e-11,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 29167881901348.84,
+      "gap_ratio_A1_squared": 21702034507600.11,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -2290,6 +2832,24 @@
      "lambda_max_X": 0.2364094428312922,
      "lambda_min_X": 0.025720687180115023,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -2297,9 +2857,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -2356,13 +2917,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 2.3244643372656824,
+     "last_retained_singular_value_A1_squared": 3.9091798162174434,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 96332636524300.98,
-     "rank_gap_ratio_A1_squared": 8719835351073.224,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -2383,10 +2945,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 96332636524300.98,
+     "separation_at_expected_cut_A1_squared": 8719835351073.224,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 2.6385485767925887e-12,
-     "threshold_rank_tolerance_A1_squared": 5.213091242099987e-11
+     "threshold_rank_tolerance_A1_squared": 5.213091242099987e-11,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 96332636524300.98,
+      "gap_ratio_A1_squared": 8719835351073.224,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -2428,6 +3003,24 @@
      "lambda_max_X": 0.40395395869041384,
      "lambda_min_X": 0.02530699373823047,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -2435,9 +3028,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -2494,13 +3088,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 2.2635120785786453,
+     "last_retained_singular_value_A1_squared": 3.6938675788830584,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 38523824375583.1,
-     "rank_gap_ratio_A1_squared": 6203552496600.916,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -2521,10 +3116,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 38523824375583.1,
+     "separation_at_expected_cut_A1_squared": 6203552496600.916,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 3.093994487865057e-12,
-     "threshold_rank_tolerance_A1_squared": 7.163543425680369e-11
+     "threshold_rank_tolerance_A1_squared": 7.163543425680369e-11,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 38523824375583.1,
+      "gap_ratio_A1_squared": 6203552496600.916,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -2566,6 +3174,24 @@
      "lambda_max_X": 0.4208710082313467,
      "lambda_min_X": 0.021595546584686095,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -2573,9 +3199,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -2632,13 +3259,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 4.4968298495374714,
+     "last_retained_singular_value_A1_squared": 15.17988091719596,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 166048142590511.25,
-     "rank_gap_ratio_A1_squared": 28856470074488.71,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -2659,10 +3287,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 166048142590511.25,
+     "separation_at_expected_cut_A1_squared": 28856470074488.71,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 2.858968530315099e-12,
-     "threshold_rank_tolerance_A1_squared": 6.00449539993654e-11
+     "threshold_rank_tolerance_A1_squared": 6.00449539993654e-11,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 166048142590511.25,
+      "gap_ratio_A1_squared": 28856470074488.71,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -2704,6 +3345,24 @@
      "lambda_max_X": 0.18818838390345194,
      "lambda_min_X": 0.023798460346932768,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -2711,9 +3370,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -2770,13 +3430,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 2.8629568670213392,
+     "last_retained_singular_value_A1_squared": 5.98555569502939,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 102096101848681.47,
-     "rank_gap_ratio_A1_squared": 10941573483145.99,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -2797,10 +3458,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 102096101848681.47,
+     "separation_at_expected_cut_A1_squared": 10941573483145.99,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 2.8594723349536467e-12,
-     "threshold_rank_tolerance_A1_squared": 6.123823817766395e-11
+     "threshold_rank_tolerance_A1_squared": 6.123823817766395e-11,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 102096101848681.47,
+      "gap_ratio_A1_squared": 10941573483145.99,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -2842,6 +3516,24 @@
      "lambda_max_X": 0.31744132024963,
      "lambda_min_X": 0.02334736123970196,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -2849,9 +3541,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -2908,13 +3601,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 3.0413357201633677,
+     "last_retained_singular_value_A1_squared": 6.735038937382988,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 48623362020189.586,
-     "rank_gap_ratio_A1_squared": 8903309473584.309,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -2935,10 +3629,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 48623362020189.586,
+     "separation_at_expected_cut_A1_squared": 8903309473584.309,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 3.4852180396043928e-12,
-     "threshold_rank_tolerance_A1_squared": 9.090609734882382e-11
+     "threshold_rank_tolerance_A1_squared": 9.090609734882382e-11,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 48623362020189.586,
+      "gap_ratio_A1_squared": 8903309473584.309,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -2980,6 +3687,24 @@
      "lambda_max_X": 0.3016782904054436,
      "lambda_min_X": 0.019169594585629668,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -2987,9 +3712,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -3046,13 +3772,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 5.4332678943506725,
+     "last_retained_singular_value_A1_squared": 22.780921245486386,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 66873766792484.6,
-     "rank_gap_ratio_A1_squared": 38140903839143.7,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -3073,10 +3800,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 66873766792484.6,
+     "separation_at_expected_cut_A1_squared": 38140903839143.7,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 2.9995215311091398e-12,
-     "threshold_rank_tolerance_A1_squared": 6.599121548695268e-11
+     "threshold_rank_tolerance_A1_squared": 6.599121548695268e-11,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 66873766792484.6,
+      "gap_ratio_A1_squared": 38140903839143.7,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -3118,6 +3858,24 @@
      "lambda_max_X": 0.1476841216166851,
      "lambda_min_X": 0.022719086665132004,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -3125,9 +3883,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -3184,13 +3943,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 3.5299395789425887,
+     "last_retained_singular_value_A1_squared": 9.247698257927937,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 126241994412751.78,
-     "rank_gap_ratio_A1_squared": 16151928500488.707,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -3211,10 +3971,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 126241994412751.78,
+     "separation_at_expected_cut_A1_squared": 16151928500488.707,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 2.989440410872975e-12,
-     "threshold_rank_tolerance_A1_squared": 6.691755995106337e-11
+     "threshold_rank_tolerance_A1_squared": 6.691755995106337e-11,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 126241994412751.78,
+      "gap_ratio_A1_squared": 16151928500488.707,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -3256,6 +4029,24 @@
      "lambda_max_X": 0.24613304468627062,
      "lambda_min_X": 0.02233717379202975,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -3263,9 +4054,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -3322,13 +4114,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 5.030357252879441,
+     "last_retained_singular_value_A1_squared": 18.994974796878985,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 19161911836827.62,
-     "rank_gap_ratio_A1_squared": 15798232173299.537,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -3349,10 +4142,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 19161911836827.62,
+     "separation_at_expected_cut_A1_squared": 15798232173299.537,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 4.348417271261476e-12,
-     "threshold_rank_tolerance_A1_squared": 1.4154043480893778e-10
+     "threshold_rank_tolerance_A1_squared": 1.4154043480893778e-10,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 19161911836827.62,
+      "gap_ratio_A1_squared": 15798232173299.537,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -3394,6 +4200,24 @@
      "lambda_max_X": 0.16824091671670394,
      "lambda_min_X": 0.015361578911396903,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -3401,9 +4225,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -3460,13 +4285,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 7.370373806848685,
+     "last_retained_singular_value_A1_squared": 45.36916910953508,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 130703054940724.1,
-     "rank_gap_ratio_A1_squared": 63720135648775.625,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -3487,10 +4313,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 130703054940724.1,
+     "separation_at_expected_cut_A1_squared": 63720135648775.625,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 3.3390463693910413e-12,
-     "threshold_rank_tolerance_A1_squared": 8.14558281851392e-11
+     "threshold_rank_tolerance_A1_squared": 8.14558281851392e-11,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 130703054940724.1,
+      "gap_ratio_A1_squared": 63720135648775.625,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -3532,6 +4371,24 @@
      "lambda_max_X": 0.09695914639819311,
      "lambda_min_X": 0.020491797189446603,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -3539,9 +4396,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -3598,13 +4456,14 @@
    ],
    "assumptions": {
     "A2_semisimple_zero": {
+     "expected_rank": 400,
+     "failure_reason": null,
+     "last_retained_singular_value_A1": 5.005215438194316,
+     "last_retained_singular_value_A1_squared": 19.53247023398442,
      "minimum_gap_ratio_required": 1000000.0,
      "nullity": 201,
-     "rank_A1": 400,
-     "rank_A1_squared": 400,
-     "rank_cut_ambiguous": false,
-     "rank_gap_ratio_A1": 37992387510552.7,
-     "rank_gap_ratio_A1_squared": 27646130477319.863,
+     "rank_decidable_A1": true,
+     "rank_decidable_A1_squared": true,
      "rank_tolerance_family": [
       0.1,
       1.0,
@@ -3625,10 +4484,23 @@
       }
      },
      "semisimple": true,
-     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "separates_cleanly_A1": true,
+     "separates_cleanly_A1_squared": true,
+     "separation_at_expected_cut_A1": 37992387510552.7,
+     "separation_at_expected_cut_A1_squared": 27646130477319.863,
+     "test": "rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; the cut is never discovered from the largest gap",
+     "threshold_family_note": "recorded for transparency only; a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values and reports the tolerance, not the operator",
      "threshold_rank_tolerance": 3.2922344149061227e-12,
-     "threshold_rank_tolerance_A1_squared": 8.111410699570878e-11
+     "threshold_rank_tolerance_A1_squared": 8.111410699570878e-11,
+     "withdrawn_largest_gap_rule": {
+      "agrees_with_expected": true,
+      "gap_ratio_A1": 37992387510552.7,
+      "gap_ratio_A1_squared": 27646130477319.863,
+      "rank_A1": 400,
+      "rank_A1_squared": 400,
+      "role": "DIAGNOSTIC ONLY - decides nothing",
+      "why_withdrawn": "it selects the globally largest gap, which for a scale-separated defective operator such as block_diag(Jordan2(0), [-1e9]) lands before the Jordan singular value rather than at the nonzero/zero cut, reporting a defective zero as semisimple"
+     }
     },
     "A3_stable_fast_spectrum": {
      "all_fast_modes_strictly_stable": true,
@@ -3670,6 +4542,24 @@
      "lambda_max_X": 0.15756611123184275,
      "lambda_min_X": 0.020294835588073462,
      "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    },
+    "rank_source_agreement": {
+     "agreement_ok": true,
+     "all_sources_agree": true,
+     "semisimplicity_verified_at_expected_cut": true,
+     "slow_pairing_nonsingular_and_conditioned": true,
+     "sources": {
+      "expected_structural_rank": 400,
+      "null_basis_rank": 400,
+      "schur_fast_mode_count": 400
+     }
+    },
+    "structural_rank": {
+     "derivation": "A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; the nz liquid cells and the accumulated-mass row are annihilated. rank = 2*nz, nullity = nz+1.",
+     "expected_fast_rank": 400,
+     "expected_slow_nullity": 201,
+     "nz": 200,
+     "state_dimension": 601
     }
    },
    "endpoint": {
@@ -3677,9 +4567,10 @@
     "finite": true,
     "imag_part_magnitude": 0.0,
     "imag_tolerance": 1e-12,
-    "output_fast_component_norm": 0.0,
+    "output_covector_annihilates_fast_subspace": true,
+    "output_covector_fast_component_norm": 0.0,
+    "output_covector_note": "e_out Q = 0, equivalently the output covector lies in ker(A1^T). A linear output row is a covector, not a state vector, so it does not 'lie in ker(A1)'.",
     "output_functional": "accumulated-mass coordinate divided by dVol*T",
-    "output_is_slow_coordinate": true,
     "real_within_tolerance": true,
     "strictly_positive": true
    },
@@ -3761,7 +4652,7 @@
   "proved_here": false,
   "qualification": "Convergence is NOT uniform at t = 0 for off-manifold initial data: z_kappa(0) - P z0 = Q z0, independent of kappa. No uniform O(1/kappa) state bound on [0, T] is claimed. Permitted formulations are fixed positive T, or uniformity on [delta, T] for every delta > 0.",
   "role_of_this_producer": "verifies the proposition's ASSUMPTIONS at every declared cell and constructs the endpoint; it does not prove the proposition",
-  "sha256": "9f8bbeeb8319aa09cc409db8d8d457c269f42c665408090ba2d0f81b7d4b2c25",
+  "sha256": "17d93b00522591ae698d8a036a202fe6cbcabddf70561dfcda8a1157c7f510cf",
   "statement": "For fixed T > 0, exp((A0 + kappa A1) T) -> N exp((L^T A0 N) T) L^T, under a semisimple zero eigenvalue of A1 and a strictly stable nonzero spectrum."
  },
  "provenance": {
@@ -3774,7 +4665,7 @@
   },
   "manual_verdict_editing": "PROHIBITED; the archive is generated",
   "producer": "tools/paper_a_endpoint_construction.py",
-  "producer_sha256": "f8525c42c5ab4b13c3d684b35aeae02aa0f464268d06d08f7fc3778ec15d5251",
+  "producer_sha256": "102a5fd2b7949254d4b5ad6141aac7333d51b46bfe973b5b962254808745f5a7",
   "verification_command": "python tools/paper_a_endpoint_construction.py --check"
  },
  "question": "Does f(kappa) converge to a trustworthy analytical endpoint f_inf, computed by a stable construction whose assumptions are verified at every declared cell? This decides the P0-G8 ENDPOINT classification; it does not localise the finite tail onset, which is PR-03b.",

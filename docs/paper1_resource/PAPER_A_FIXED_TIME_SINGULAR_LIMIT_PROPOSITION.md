@@ -168,11 +168,19 @@ Equivalently, for every initial state `z0`, `z_κ(T) → N exp(A_s T) Lᵀ z0`, 
 linear output functional of the state converges.
 
 Moreover there exist constants `C_T` and `M_T`, derived from `‖A_ss‖, ‖A_sf‖, ‖A_fs‖, M, γ, T` and
-the basis, and a threshold `κ₁ ≥ κ₀`, such that for `κ ≥ κ₁`
+the basis — and **independent of `z0`** — together with a threshold `κ₁ ≥ κ₀`, such that for
+`κ ≥ κ₁`
 
 ```
-‖ r_κ(T) ‖  ≤  C_T / κ  +  M_T e^{−γ κ T} ‖Q z0‖,       r_κ(T) := z_κ(T) − N exp(A_s T) Lᵀ z0.
+‖ r_κ(T) ‖  ≤  (C_T / κ) ‖z0‖  +  M_T e^{−γ κ T} ‖Q z0‖,   r_κ(T) := z_κ(T) − N exp(A_s T) Lᵀ z0.
 ```
+
+**Both terms are homogeneous of degree one in `z0`, as they must be.** `r_κ(T)` is a linear function
+of `z0`, so replacing `z0` by `α z0` multiplies the residual by `|α|`. An earlier edition of this
+artefact displayed the first term as `C_T/κ` with `C_T` claimed to be operator-derived, while the
+proof defined `C_T` through `K` and `sup u`, both of which depend linearly on `z0` through
+`u(0) = ‖Lᵀ z0‖` and `v(0) = ‖Mᵀ z0‖`. That statement failed the scaling test and is withdrawn; the
+`‖z0‖` factor below is carried explicitly through every step.
 
 ### Proof
 
@@ -212,30 +220,55 @@ is at most `1/2`, so it can be absorbed:
 ∫₀ᵀ v  ≤  (2M/(γκ)) [ v(0) + c T e^{aT} u(0) ]  =:  K / κ.
 ```
 
-In particular `sup_{[0,T]} u ≤ (u(0) + bK/κ) e^{aT}`, uniformly bounded in `κ ≥ κ₁`.
+**Factor out the initial state now, not at the end.** Since `u(0) = ‖Lᵀ z0‖ ≤ ‖Lᵀ‖ ‖z0‖` and
+`v(0) = ‖Mᵀ z0‖ ≤ ‖Mᵀ‖ ‖z0‖`,
+
+```
+K ≤ K_T ‖z0‖,        K_T := (2M/γ) [ ‖Mᵀ‖ + c T e^{aT} ‖Lᵀ‖ ],
+```
+
+and `K_T` depends only on the operator, the basis and `T`. In particular, for `κ ≥ κ₁`,
+
+```
+sup_{[0,T]} u ≤ (u(0) + bK/κ) e^{aT} ≤ U_T ‖z0‖,   U_T := ( ‖Lᵀ‖ + b K_T/κ₁ ) e^{aT},
+```
+
+uniformly bounded in `κ ≥ κ₁`.
 
 **Step 3 — the slow component converges to the reduced flow.** Let `y' = A_ss y`, `y(0) = x_s(0)`.
 Then `(x_s − y)' = A_ss (x_s − y) + A_sf x_f` with zero initial difference, so by Grönwall
 
 ```
-‖x_s(T) − y(T)‖ ≤ e^{aT} b ∫₀ᵀ v ≤ e^{aT} b K / κ.
+‖x_s(T) − y(T)‖ ≤ e^{aT} b ∫₀ᵀ v ≤ e^{aT} b K_T ‖z0‖ / κ.
 ```
 
 **Step 4 — the fast component at `T` vanishes.** From Step 1 at `t = T`,
 
 ```
-v(T) ≤ M e^{−γκT} ‖Mᵀ z0‖ + (M c/(γκ)) sup_{[0,T]} u.
+v(T) ≤ M e^{−γκT} ‖Mᵀ z0‖ + (M c/(γκ)) sup_{[0,T]} u
+     ≤ M e^{−γκT} ‖Mᵀ z0‖ + (M c U_T/(γκ)) ‖z0‖.
 ```
 
 **Step 5 — assemble.** `z_κ(T) = N x_s(T) + W x_f(T)` and `y(T) = exp(A_s T) Lᵀ z0`, so
 
 ```
 ‖r_κ(T)‖ ≤ ‖N‖ ‖x_s(T) − y(T)‖ + ‖W‖ v(T)
-         ≤ C_T/κ + M_T e^{−γκT} ‖Q z0‖
+         ≤ (C_T/κ) ‖z0‖ + M_T e^{−γκT} ‖Q z0‖
 ```
 
-with `C_T = ‖N‖ b K e^{aT} + ‖W‖ M c (sup u)/γ` and `M_T = ‖W‖ M ‖Mᵀ‖ / σ_min(W)` absorbing the
-basis constants, using `Q z0 = W Mᵀ z0`. Since `z0` was arbitrary the matrix statement follows. ∎
+with
+
+```
+C_T = ‖N‖ b K_T e^{aT} + ‖W‖ M c U_T / γ
+M_T = ‖W‖ M / σ_min(W)
+```
+
+both independent of `z0`, using `Q z0 = W Mᵀ z0`, hence `‖Mᵀ z0‖ ≤ ‖Q z0‖ / σ_min(W)`. Since `z0`
+was arbitrary the matrix statement follows. ∎
+
+**Scaling check.** Replacing `z0` by `α z0` multiplies `r_κ(T)`, `‖z0‖` and `‖Q z0‖` all by `|α|`,
+so both sides scale identically. The withdrawn form failed exactly this check: its right-hand side
+did not move when the left-hand side did.
 
 ### Required qualification — convergence is **not** uniform at `t = 0`
 
@@ -267,19 +300,59 @@ because this protocol does not estimate a finite tail onset — that is PR-03b, 
 
 ### Remark — why the declared output carries no initial layer
 
-The declared output functional reads the accumulated-mass coordinate, which lies in `ker(A1)`: the
-interphase-transfer terms act on the grain rows only, so the accumulation row is annihilated by
-`A1`. The output is therefore a slow coordinate and its convergence carries no initial-layer term.
-This is a remark, not part of the proof — the Theorem already gives convergence of the whole state
-at `T`, hence of every linear functional of it. The producer records the check.
+The declared output is a linear functional of the state, so it is a **covector**, not a state
+vector; it cannot "lie in `ker(A1)`". The precise statement is that the output covector `e_out`
+lies in `ker(A1ᵀ)`, equivalently
+
+```
+e_out Q = 0
+```
+
+— it annihilates the fast subspace. Concretely, the interphase-transfer terms act on the grain rows
+only, so the accumulation row is annihilated by `A1` on the left. The output therefore carries no
+initial-layer term. This is a remark, not part of the proof: the Theorem already gives convergence
+of the whole state at `T`, hence of every linear functional of it. The producer records
+`e_out Q` numerically at every cell.
 
 ## 6. Assumption verification (generated, per cell)
 
 `tools/paper_a_endpoint_construction.py` verifies, at **every** operator-distinct cell:
 
+**The rank is declared, then verified. It is never discovered.** The structural rank follows from the
+model: the reduced state `[c_l, c_s1, c_s2, m_cum]` has dimension `3·nz + 1`, and the
+multiplier-carrying interphase-transfer terms act on the `2·nz` grain rows only, so
+
+```
+expected_fast_rank    = 2·nz  = 400
+expected_slow_nullity = nz+1  = 201
+```
+
+the kernel being the `nz` liquid cells plus the accumulated-mass coordinate.
+
+An earlier edition inferred the rank from the **globally largest** singular-value gap and asserted
+that a defective zero produces no such gap. That is false. For
+
+```
+A1 = block_diag( [[0,1],[0,0]], [−10⁹] )
+```
+
+the singular values are `[10⁹, 1, 0]` and `[10¹⁸, 0, 0]`, so the largest gap falls between the fast
+block and the Jordan singular value rather than at the nonzero/zero cut; the rule returned rank 1 for
+both and reported a **defective** zero as semisimple. The crossover is governed by the gap floor
+itself, so the claim that the floor sat above anything a defective operator produces was
+self-refuting. Verification at the declared cut rejects the counterexample, because at the true rank
+`A1²` has an exactly zero singular value where a retained one is required — which is precisely what
+"the kernel grows under squaring" means.
+
+Two failure modes are reported separately rather than collapsed: a **defective** kernel (a retained
+slot is exactly zero) and a **numerically undecidable** rank (a retained value falls below
+`eps·max(s)`, which occurs when the operator's internal scale ratio exceeds what double precision
+resolves after squaring). Both fail closed.
+
 | assumption | test | recorded |
 |---|---|---|
-| (A2) semisimple zero | `rank(A1) = rank(A1²)` under a frozen rank tolerance | rank, rank of the square, nullity, tolerance, and the rank under a declared tolerance family |
+| (A2) semisimple zero | `A1` and `A1²` both separate cleanly at the **declared** cut `expected_fast_rank` | separation at the declared cut for both, decidability, last retained singular values, failure reason, the declared tolerance family, and what the withdrawn largest-gap rule would have said |
+| rank-source agreement | the structural rank, the SVD null-basis rank and the ordered-Schur fast-mode count must all be the same integer, with the slow pairing nonsingular and conditioned | every source, whether they agree, and a combined verdict |
 | (A3) stable fast spectrum | every nonzero eigenvalue strictly in the open left half-plane, by ordered real Schur | `max_real_fast_eigenvalue`, `fast_mode_count`, `spectral_method`, `spectral_tolerance` |
 | (A4), (A5) bases and normalisation | projector identities | `‖A1 N‖`, `‖Lᵀ A1‖`, `‖Lᵀ N − I‖`, `‖P² − P‖`, `‖A1 P‖`, `‖P A1‖`, `cond(LᵀN)` before normalisation, `cond(L)` |
 | Lemma 3 constants | Lyapunov solve on the fast block | `λ_max(X)`, `λ_min(X)`, `M`, `γ`, `κ₀` |

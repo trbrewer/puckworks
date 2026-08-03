@@ -98,10 +98,16 @@ IDENTITY_TOL = 1e-10
 #: then reports the tolerance rather than the operator.
 RANK_TOL_FAMILY = (0.1, 1.0, 10.0)
 
-#: A numerical rank is accepted only when the singular spectrum has a gap of at least this ratio at
-#: the cut. Measured separations here are ~1e13, so this is not a tuned value; it is a floor far
-#: below anything observed and far above anything a defective operator produces, where the Jordan
-#: structure leaves singular values decaying smoothly through the cut.
+#: Minimum retained/discarded separation required AT THE DECLARED CUT. It verifies a structurally
+#: derived rank; it never discovers one.
+#:
+#: The previous edition chose the rank from the globally LARGEST singular-value gap and asserted that
+#: a defective zero produces no such gap. That assertion is false, and the review supplied the
+#: counterexample: for `block_diag(Jordan2(0), [-1e9])` the singular values are `[1e9, 1, 0]` and
+#: `[1e18, 0, 0]`, so the largest gap sits between the fast block and the Jordan singular value
+#: rather than at the true nonzero/zero cut, and the rule returned rank 1 for both — reporting a
+#: DEFECTIVE zero as semisimple. The crossover is governed by this very constant, so the claim that
+#: it sat "far above anything a defective operator produces" was self-refuting.
 RANK_GAP_MIN = 1e6
 
 #: An eigenvalue of A₁ counts as fast when |λ| exceeds this multiple of the spectral radius.
@@ -171,44 +177,118 @@ def null_bases(A1):
 # ─────────────────────────────────────────────────────────────────────────────────────────────
 
 
-def _separated_rank(s):
-    """Numerical rank from the largest relative gap in the singular spectrum.
+def structural_rank(nz=None):
+    """The model-derived rank of A₁, declared rather than discovered.
 
-    A bare threshold cannot decide the rank of an exactly singular operator: the discarded singular
-    values sit at the noise floor, so a threshold placed anywhere near that floor is straddled and
-    the answer reports the threshold. What is unambiguous is the GAP. Here the retained and
-    discarded blocks are separated by ~1e13; a defective zero produces no such gap, because the
-    Jordan structure leaves singular values decaying smoothly through the cut.
+    The reduced state is `[c_l, c_s1, c_s2, m_cum]` of dimension `3·nz + 1`. The interphase-transfer
+    terms that carry the multiplier act on the `2·nz` grain rows only; advection and the accumulation
+    row are annihilated by `A₁`. Hence
 
-    Returns `(rank, gap_ratio, ambiguous)`.
+        rank(A₁) = 2·nz          nullity(A₁) = nz + 1
+
+    the kernel being the `nz` liquid cells plus the accumulated-mass coordinate. This is the same
+    split independently asserted by `tests/test_paper_a_asymptotic_structure.py`.
+    """
+    if nz is None:
+        from puckworks.models.pannusch2024 import solver as ps
+        nz = ps.NZ
+    return {
+        "nz": int(nz),
+        "state_dimension": int(3 * nz + 1),
+        "expected_fast_rank": int(2 * nz),
+        "expected_slow_nullity": int(nz + 1),
+        "derivation": ("A1 carries the interphase-transfer terms, which act on the 2*nz grain rows; "
+                       "the nz liquid cells and the accumulated-mass row are annihilated. rank = "
+                       "2*nz, nullity = nz+1."),
+    }
+
+
+def _largest_gap_rank(s):
+    """DIAGNOSTIC ONLY — the rank the superseded largest-gap rule would have reported.
+
+    Retained solely so the archive records what the withdrawn rule said. It must never decide a
+    verdict: for `block_diag(Jordan2(0), [-1e9])` it returns rank 1 for both `A₁` and `A₁²` and
+    thereby calls a defective zero semisimple.
     """
     s = np.asarray(s, float)
     if s.size == 0:
-        return 0, float("inf"), False
+        return 0, float("inf")
     floor = s.max() * np.finfo(float).eps
-    denom = np.maximum(s[1:], floor)
-    ratios = s[:-1] / denom
+    ratios = s[:-1] / np.maximum(s[1:], floor)
     i = int(np.argmax(ratios))
-    gap = float(ratios[i])
-    if gap < RANK_GAP_MIN:
-        # no separated cut: either genuinely full rank, or a smoothly decaying (defective) spectrum
-        if s.min() > s.max() * RANK_GAP_MIN ** -1:
-            return int(s.size), gap, False          # full rank, unambiguously
-        return int(s.size), gap, True               # ambiguous — fail closed
-    return i + 1, gap, False
+    return i + 1, float(ratios[i])
 
 
-def semisimplicity(A1):
-    """(A2): zero is a semisimple eigenvalue of A₁, i.e. rank(A₁) = rank(A₁²).
+def _separation_at(s, r):
+    """Retained/discarded separation at the DECLARED cut `r`.
+
+    Returns `(ratio, separated, decidable)`. Two independent things can go wrong and they are
+    reported separately rather than collapsed into one `False`:
+
+    * **not decidable** — the last RETAINED value sits at or below `eps·max(s)`, so it is not
+      numerically distinguishable from zero and the rank at this cut cannot be determined at all.
+      This is what happens to `A₁²` for an operator with a very large internal scale ratio: squaring
+      doubles the dynamic range, and beyond ~1e16 a legitimately retained singular value falls under
+      the noise level of its own computation.
+    * **not separated** — the retained and discarded blocks are decidable but too close, so the cut
+      is not clean.
+
+    The scaled-Jordan counterexample `block_diag(Jordan2(0), [-1e9])` fails as *not decidable* on
+    `A₁²`, where the true cut needs a retained value that is exactly zero.
+
+    Either failure is fail-closed. Neither is ever reported as semisimple.
+    """
+    s = np.asarray(s, float)
+    if not 0 < r <= s.size:
+        return 0.0, False, False
+    floor = s.max() * np.finfo(float).eps if s.size else 0.0
+    last_retained = float(s[r - 1])
+    decidable = last_retained > floor
+    if not decidable:
+        return 0.0, False, False
+    if r == s.size:
+        return float("inf"), True, True
+    ratio = last_retained / max(float(s[r]), floor)
+    return float(ratio), bool(ratio >= RANK_GAP_MIN), True
+
+
+def _semisimplicity_failure_reason(ok1, ok2, dec1, dec2, last1, last2):
+    """Why the declared cut failed — a defective kernel and an undecidable rank are not the same.
+
+    If the last value the cut needs to RETAIN in `A₁²` is itself zero, the kernel has grown under
+    squaring: that is the definition of a defective zero. If it is merely small relative to
+    `eps·max(s)`, double precision cannot decide the rank there. Both fail closed; conflating them
+    would hide which one occurred.
+    """
+    if ok1 and ok2:
+        return None
+    for label, last, dec in (("A1", last1, dec1), ("A1^2", last2, dec2)):
+        if last is not None and last == 0.0:
+            return ("kernel grows under squaring: %s has an exactly zero singular value where the "
+                    "declared cut requires a retained one, so zero is DEFECTIVE" % label)
+    if not (dec1 and dec2):
+        return ("rank at the declared cut is not numerically decidable: a retained singular value "
+                "falls below eps*max(s), which happens when the operator's internal scale ratio "
+                "exceeds what double precision resolves after squaring")
+    return "retained and discarded blocks are not cleanly separated at the declared cut"
+
+
+def semisimplicity(A1, expected_rank):
+    """(A2): zero is a semisimple eigenvalue of A₁ — VERIFIED at a declared structural cut.
 
     A defective zero would mean `ker(A₁)` and `ran(A₁)` intersect, no normalised `L` exists, and the
     whole construction is meaningless.
 
-    The rank is taken from the separation gap, not from a threshold. The threshold family is still
-    recorded, because it shows exactly why a threshold cannot be trusted here: at a 10x TIGHTER
-    tolerance one numerically-zero singular value of A1 crosses back above the cut in some cells,
-    which reports the noise floor rather than the operator. That is a defect this test previously
-    had and it fired on a cell whose separation is ~1e13.
+    The rank is **not discovered**. `expected_rank` comes from the model structure and this function
+    verifies that both `A₁` and `A₁²` separate cleanly at exactly that cut. Discovering the rank from
+    the largest gap is unsound: a fast block whose scale exceeds the gap floor creates a larger gap
+    before the Jordan singular value than at the true nonzero/zero cut, so
+    `block_diag(Jordan2(0), [-1e9])` was reported semisimple. Verifying at the declared cut rejects
+    it, because at the true rank `A₁²` has a zero where a retained value is required.
+
+    The threshold family is still recorded, because it shows why a bare threshold cannot be trusted
+    either: at a 10x TIGHTER tolerance a numerically-zero singular value of `A₁` crosses back above
+    the cut in some real cells, reporting the noise floor rather than the operator.
     """
     n = A1.shape[0]
     s1 = np.linalg.svd(A1, compute_uv=False)
@@ -221,23 +301,46 @@ def semisimplicity(A1):
         family["x%g" % f] = {"rank_A1": int((s1 > f * base1).sum()),
                              "rank_A1_squared": int((s2 > f * base2).sum())}
 
-    r1, gap1, amb1 = _separated_rank(s1)
-    r2, gap2, amb2 = _separated_rank(s2)
+    sep1, ok1, dec1 = _separation_at(s1, expected_rank)
+    sep2, ok2, dec2 = _separation_at(s2, expected_rank)
+    last1 = float(s1[expected_rank - 1]) if 0 < expected_rank <= s1.size else None
+    last2 = float(s2[expected_rank - 1]) if 0 < expected_rank <= s2.size else None
+    gap_rank1, gap_ratio1 = _largest_gap_rank(s1)
+    gap_rank2, gap_ratio2 = _largest_gap_rank(s2)
+
     return {
-        "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
-        "rank_A1": r1, "rank_A1_squared": r2, "nullity": n - r1,
-        "rank_gap_ratio_A1": gap1, "rank_gap_ratio_A1_squared": gap2,
+        "test": ("rank(A1) == rank(A1^2) == expected structural rank, VERIFIED at the declared cut; "
+                 "the cut is never discovered from the largest gap"),
+        "expected_rank": int(expected_rank),
+        "nullity": int(n - expected_rank),
+        "separation_at_expected_cut_A1": sep1,
+        "separation_at_expected_cut_A1_squared": sep2,
+        "separates_cleanly_A1": bool(ok1),
+        "separates_cleanly_A1_squared": bool(ok2),
+        "rank_decidable_A1": bool(dec1),
+        "rank_decidable_A1_squared": bool(dec2),
+        "last_retained_singular_value_A1": last1,
+        "last_retained_singular_value_A1_squared": last2,
+        "failure_reason": _semisimplicity_failure_reason(ok1, ok2, dec1, dec2, last1, last2),
         "minimum_gap_ratio_required": RANK_GAP_MIN,
-        "rank_cut_ambiguous": bool(amb1 or amb2),
         "threshold_rank_tolerance": float(base1),
         "threshold_rank_tolerance_A1_squared": float(base2),
         "rank_tolerance_family": list(RANK_TOL_FAMILY),
         "rank_under_tolerance_family": family,
-        "threshold_family_note": ("recorded for transparency only; the rank verdict is taken from "
-                                  "the separation gap, because a threshold near the noise floor of "
-                                  "an exactly singular operator is straddled by numerically-zero "
-                                  "singular values"),
-        "semisimple": bool(r1 == r2 and not amb1 and not amb2),
+        "threshold_family_note": ("recorded for transparency only; a threshold near the noise floor "
+                                  "of an exactly singular operator is straddled by numerically-zero "
+                                  "singular values and reports the tolerance, not the operator"),
+        "withdrawn_largest_gap_rule": {
+            "role": "DIAGNOSTIC ONLY - decides nothing",
+            "rank_A1": gap_rank1, "gap_ratio_A1": gap_ratio1,
+            "rank_A1_squared": gap_rank2, "gap_ratio_A1_squared": gap_ratio2,
+            "agrees_with_expected": bool(gap_rank1 == expected_rank == gap_rank2),
+            "why_withdrawn": ("it selects the globally largest gap, which for a scale-separated "
+                              "defective operator such as block_diag(Jordan2(0), [-1e9]) lands "
+                              "before the Jordan singular value rather than at the nonzero/zero "
+                              "cut, reporting a defective zero as semisimple"),
+        },
+        "semisimple": bool(ok1 and ok2),
     }
 
 
@@ -314,6 +417,28 @@ def endpoint_verdict(f_complex):
     }
 
 
+def rank_agreement(expected_rank, null_basis_rank, schur_fast_count, semisimple_ok,
+                   slow_pairing_conditioned):
+    """Every independent rank source must agree with the declared structural rank.
+
+    Four routines compute the same integer by different means — the model structure, the SVD null
+    basis, the ordered Schur fast count, and the semisimplicity separation. A single one of them
+    deciding alone is how the largest-gap rule got to call a defective zero semisimple. Any
+    disagreement fails closed.
+    """
+    sources = {"expected_structural_rank": int(expected_rank),
+               "null_basis_rank": int(null_basis_rank),
+               "schur_fast_mode_count": int(schur_fast_count)}
+    agree = len(set(sources.values())) == 1
+    return {
+        "sources": sources,
+        "all_sources_agree": bool(agree),
+        "semisimplicity_verified_at_expected_cut": bool(semisimple_ok),
+        "slow_pairing_nonsingular_and_conditioned": bool(slow_pairing_conditioned),
+        "agreement_ok": bool(agree and semisimple_ok and slow_pairing_conditioned),
+    }
+
+
 def coverage_verdict(n_cells, n_conditions, n_solutes, n_varieties):
     """`complete` only when every operator-distinct cell exists and covers every declared cell."""
     expected_cells = n_conditions * n_solutes
@@ -352,7 +477,8 @@ def cell(solute, T_degC, p_bar) -> dict:
         N, L, P, diag = null_bases(A1)
         volume = dVol * horizon
 
-        semis = semisimplicity(A1)
+        structure = structural_rank()
+        semis = semisimplicity(A1, structure["expected_fast_rank"])
         spec, W, fast_block = fast_spectrum(A1)
 
         # dual basis of [N W]; Lemma 2. L recovered this way must agree with the SVD L, since
@@ -371,8 +497,10 @@ def cell(solute, T_degC, p_bar) -> dict:
         f_inf_complex = complex((N @ expm(A_s * horizon) @ (L.conj().T @ z0))[-1] / volume)
         f_inf = float(z_inf[-1] / volume)
 
-        # the declared output reads the accumulated-mass coordinate; the proposition remark asserts
-        # it is a slow coordinate. Verified, not assumed.
+        # the declared output reads the accumulated-mass coordinate. The proposition remark asserts
+        # that the output COVECTOR annihilates the fast subspace, equivalently e_out Q = 0 (it lies
+        # in ker(A1^T), not in ker(A1) — a linear output row is a covector, not a state vector).
+        # Verified, not assumed.
         e_out = np.zeros(A1.shape[0]); e_out[-1] = 1.0
         output_is_slow = float(np.linalg.norm(e_out @ (np.eye(A1.shape[0]) - P), 2))
         endpoint = endpoint_verdict(f_inf_complex)
@@ -386,6 +514,9 @@ def cell(solute, T_degC, p_bar) -> dict:
     errors = [s["abs_error"] for s in seq]
     disposition, best = _finite_kappa_disposition(errors)
 
+    agreement = rank_agreement(structure["expected_fast_rank"], diag["rank"],
+                               spec["fast_mode_count"], semis["semisimple"],
+                               diag["cond_Lt_N_before_normalisation"] < 1e6)
     identities_ok = all(diag[k] < IDENTITY_TOL for k in
                         ("residual_A1_N", "residual_Lt_A1", "residual_Lt_N_minus_I",
                          "residual_P_squared_minus_P", "residual_A1_P", "residual_P_A1"))
@@ -394,7 +525,7 @@ def cell(solute, T_degC, p_bar) -> dict:
     real_within_tol = endpoint["real_within_tolerance"]
     positive = endpoint["strictly_positive"]
 
-    algebraic_ok = bool(semis["semisimple"] and spec["all_fast_modes_strictly_stable"]
+    algebraic_ok = bool(agreement["agreement_ok"] and spec["all_fast_modes_strictly_stable"]
                         and lemma3.get("applicable", False))
     construction_ok = bool(identities_ok and well_conditioned and finite and real_within_tol
                            and positive)
@@ -403,7 +534,9 @@ def cell(solute, T_degC, p_bar) -> dict:
         "solute": solute, "T_degC": T_degC, "p_bar": p_bar, "horizon_tc": horizon,
         "applies_to_varieties": list(VARIETIES),
         "assumptions": {
+            "structural_rank": structure,
             "A2_semisimple_zero": semis,
+            "rank_source_agreement": agreement,
             "A3_stable_fast_spectrum": spec,
             "A4_A5_bases_and_normalisation": {
                 **diag,
@@ -417,8 +550,11 @@ def cell(solute, T_degC, p_bar) -> dict:
         "endpoint": {
             **endpoint,
             "output_functional": "accumulated-mass coordinate divided by dVol*T",
-            "output_fast_component_norm": output_is_slow,
-            "output_is_slow_coordinate": bool(output_is_slow < 1e-9),
+            "output_covector_fast_component_norm": output_is_slow,
+            "output_covector_annihilates_fast_subspace": bool(output_is_slow < 1e-9),
+            "output_covector_note": ("e_out Q = 0, equivalently the output covector lies in "
+                                     "ker(A1^T). A linear output row is a covector, not a state "
+                                     "vector, so it does not 'lie in ker(A1)'."),
         },
         "finite_kappa_diagnostic": {
             "role": "DIAGNOSTIC ONLY - it does not prove the proposition",

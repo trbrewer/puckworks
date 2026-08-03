@@ -49,22 +49,97 @@ JORDAN3 = np.array([[0.0, 1.0, 0.0], [0.0, 0.0, 1.0], [0.0, 0.0, 0.0]])
 
 def test_a_semisimple_zero_with_a_stable_fast_block_passes():
     A1 = block_diag(np.zeros((2, 2)), np.diag([-1.0, -2.0, -3.0]))
-    r = EC.semisimplicity(A1)
+    r = EC.semisimplicity(A1, 3)
     assert r["semisimple"] is True
-    assert r["rank_A1"] == r["rank_A1_squared"] == 3
+    assert r["failure_reason"] is None
     assert r["nullity"] == 2
 
 
-@pytest.mark.parametrize("jordan,name", [(JORDAN2, "Jordan-2"), (JORDAN3, "Jordan-3")])
-def test_a_defective_zero_is_rejected(jordan, name):
-    """rank drops on squaring exactly when the zero eigenvalue is defective."""
+@pytest.mark.parametrize("jordan,rank,name", [(JORDAN2, 3, "Jordan-2"), (JORDAN3, 4, "Jordan-3")])
+def test_a_defective_zero_is_rejected(jordan, rank, name):
+    """The kernel grows under squaring exactly when the zero eigenvalue is defective."""
     A1 = block_diag(jordan, np.diag([-1.0, -2.0]))
-    r = EC.semisimplicity(A1)
+    r = EC.semisimplicity(A1, rank)
     assert r["semisimple"] is False, name
-    assert r["rank_A1"] > r["rank_A1_squared"], (name, r["rank_A1"], r["rank_A1_squared"])
+    assert "DEFECTIVE" in r["failure_reason"], (name, r["failure_reason"])
 
 
-def test_the_rank_is_taken_from_the_separation_gap_not_from_a_threshold():
+@pytest.mark.parametrize("scale", [1e6, 1e9, 1e12])
+def test_a_scale_separated_defective_zero_is_rejected(scale):
+    """The review's counterexample: the withdrawn largest-gap rule called this semisimple.
+
+    For `block_diag(Jordan2(0), [-1e9])` the singular values are `[1e9, 1, 0]` and `[1e18, 0, 0]`,
+    so the globally largest gap sits between the fast block and the Jordan singular value rather
+    than at the true nonzero/zero cut. Verifying at the DECLARED cut rejects it.
+    """
+    A1 = block_diag(JORDAN2, [[-scale]])
+    r = EC.semisimplicity(A1, 2)                       # true rank(A1) = 2
+    assert r["semisimple"] is False, scale
+    assert "DEFECTIVE" in r["failure_reason"], (scale, r["failure_reason"])
+
+    # and the withdrawn rule is shown to have been wrong here, not merely replaced
+    w = r["withdrawn_largest_gap_rule"]
+    if scale >= 1e9:
+        assert w["rank_A1"] == w["rank_A1_squared"] == 1, (
+            "the withdrawn rule reported equal ranks and would have called this semisimple")
+
+
+def test_a_scale_separated_defective_jordan3_is_rejected():
+    A1 = block_diag(JORDAN3, np.diag([-1e9, -2e9]))
+    r = EC.semisimplicity(A1, 4)
+    assert r["semisimple"] is False
+    assert "DEFECTIVE" in r["failure_reason"]
+
+
+@pytest.mark.parametrize("declared", [2, 4])
+def test_a_wrong_declared_rank_fails_closed(declared):
+    """Declaring the wrong structural rank must never produce a pass."""
+    A1 = block_diag(np.zeros((2, 2)), np.diag([-1.0, -2.0, -3.0]))     # true rank 3
+    assert EC.semisimplicity(A1, declared)["semisimple"] is False
+
+
+def test_an_undecidable_rank_is_reported_as_such_not_as_defective():
+    """A huge internal scale ratio makes rank(A1^2) undecidable in double precision.
+
+    That is a different failure from a defective kernel and is reported differently. Both fail
+    closed; conflating them would hide which one occurred.
+    """
+    A1 = block_diag(np.zeros((2, 2)), np.diag([-1.0, -1e9]))           # genuinely semisimple
+    r = EC.semisimplicity(A1, 2)
+    assert r["semisimple"] is False
+    assert "not numerically decidable" in r["failure_reason"]
+    assert "DEFECTIVE" not in r["failure_reason"]
+
+
+@pytest.mark.parametrize("bad_source", ["null_basis", "schur"])
+def test_disagreement_between_rank_sources_fails_closed(bad_source):
+    """Four routines compute the same integer by different means; any disagreement is not_assured."""
+    ok = EC.rank_agreement(400, 400, 400, True, True)
+    assert ok["agreement_ok"] is True and ok["all_sources_agree"] is True
+    bad = (EC.rank_agreement(400, 399, 400, True, True) if bad_source == "null_basis"
+           else EC.rank_agreement(400, 400, 401, True, True))
+    assert bad["all_sources_agree"] is False and bad["agreement_ok"] is False
+
+
+def test_agreement_fails_closed_on_semisimplicity_or_slow_pairing():
+    assert EC.rank_agreement(400, 400, 400, False, True)["agreement_ok"] is False
+    assert EC.rank_agreement(400, 400, 400, True, False)["agreement_ok"] is False
+
+
+def test_the_structural_rank_is_declared_from_the_model_not_discovered():
+    st = EC.structural_rank(nz=200)
+    assert st["expected_fast_rank"] == 400 and st["expected_slow_nullity"] == 201
+    assert st["state_dimension"] == 601
+    assert "2*nz" in st["derivation"]
+
+
+def test_the_largest_gap_rule_is_retained_only_as_a_diagnostic():
+    """It decides nothing. Kept so the archive records what the withdrawn rule said."""
+    rank, gap = EC._largest_gap_rank(np.array([1e9, 1.0, 0.0]))
+    assert (rank, gap > 1e8) == (1, True), "this is exactly the wrong answer, hence diagnostic only"
+
+
+def test_the_rank_is_verified_at_a_declared_cut_not_taken_from_a_threshold():
     """Regression: the threshold form reported the noise floor, not the operator.
 
     On one real cell (trigonelline, 88 C, 6 bar) the singular spectrum separates by ~1.9e13 — there
@@ -73,9 +148,8 @@ def test_the_rank_is_taken_from_the_separation_gap_not_from_a_threshold():
     The verdict was measuring the tolerance. It is now taken from the gap.
     """
     s = np.array([6.4, 6.4, 6.2, 3.2e-13, 4.9e-14, 4.8e-14])
-    rank, gap, ambiguous = EC._separated_rank(s)
-    assert rank == 3 and not ambiguous
-    assert gap > 1e12
+    ratio, separated, decidable = EC._separation_at(s, 3)
+    assert separated and decidable and ratio > 1e12
 
     # the straddle is exhibited on the real cell that triggered it, not on a toy
     cell = _cell_of(json.loads(ARCHIVE.read_text(encoding="utf-8")), "trigonelline", 88.0, 6.0)
@@ -83,7 +157,7 @@ def test_the_rank_is_taken_from_the_separation_gap_not_from_a_threshold():
     family = semis["rank_under_tolerance_family"]
     assert family["x0.1"]["rank_A1"] != family["x1"]["rank_A1"], (
         "this cell is the regression: a 10x tighter threshold moves the reported rank")
-    assert semis["rank_gap_ratio_A1"] > 1e12, "while the separation is unambiguous"
+    assert semis["separation_at_expected_cut_A1"] > 1e12, "while the separation is unambiguous"
     assert semis["semisimple"] is True, "so the assumption holds and the threshold form was wrong"
 
 
@@ -94,19 +168,17 @@ def _cell_of(archive, solute, T_degC, p_bar):
     raise AssertionError("cell not found: %s %s %s" % (solute, T_degC, p_bar))
 
 
-def test_an_ambiguous_spectrum_fails_closed():
-    """A smoothly decaying spectrum has no separated cut, so no rank may be asserted."""
-    # decays smoothly THROUGH the noise region: no separated cut exists, so no rank may be asserted
-    rank, gap, ambiguous = EC._separated_rank(np.geomspace(1.0, 1e-14, 20))
-    assert ambiguous is True and gap < EC.RANK_GAP_MIN
-    # but a smooth, well-conditioned spectrum is simply full rank, not ambiguous
-    _, _, amb2 = EC._separated_rank(np.geomspace(1.0, 1e-4, 12))
-    assert amb2 is False
+def test_a_smoothly_decaying_spectrum_has_no_clean_cut():
+    """No declared cut in a smooth spectrum separates by the required ratio."""
+    s = np.geomspace(1.0, 1e-4, 12)
+    for r in range(1, len(s)):
+        _, separated, _ = EC._separation_at(s, r)
+        assert separated is False, r
 
 
-def test_a_full_rank_operator_is_not_reported_as_ambiguous():
-    rank, gap, ambiguous = EC._separated_rank(np.array([3.0, 2.0, 1.0]))
-    assert rank == 3 and ambiguous is False
+def test_a_full_rank_cut_separates_trivially():
+    ratio, separated, decidable = EC._separation_at(np.array([3.0, 2.0, 1.0]), 3)
+    assert separated and decidable and ratio == float("inf")
 
 
 # ═════════════════════════════════════════════════════════════════════════════════════════════
@@ -200,10 +272,50 @@ def test_the_endpoint_is_the_fixed_positive_time_limit():
     errs = [np.linalg.norm(expm((A0 + k * A1) * T) @ z0 - target) for k in kappas]
     for a, b in zip(errs, errs[1:]):
         assert b < a, errs                         # monotone convergence at fixed T
-    # and at the C_T/kappa rate the proposition derives: a decade of kappa buys a decade of error
+    # first-order O(1/kappa) behaviour FOR THIS FIXTURE: a decade of kappa buys a decade of error.
+    # This demonstrates the rate; it does not verify an unscaled universal C_T/kappa bound, and the
+    # earlier wording that claimed it did was wrong.
     for a, b in zip(errs, errs[1:]):
         assert b / a == pytest.approx(0.1, rel=0.05), errs
     assert errs[-1] < 1e-6
+
+
+def test_the_residual_is_homogeneous_of_degree_one_in_the_initial_state():
+    """The withdrawn bound failed exactly this: scaling z0 moved the left side, not the right.
+
+    r_kappa(T) is linear in z0, so replacing z0 by alpha*z0 must multiply the residual by |alpha|
+    exactly. A bound whose first term is a bare C_T/kappa cannot be right, because it does not move.
+    """
+    A0, A1 = _fixture()
+    N, L, P, _ = EC.null_bases(A1)
+    A_s = (L.conj().T @ A0 @ N).real
+    T, kappa = 0.7, 1e4
+    z0 = np.array([1.0, -0.5, 0.8, 0.3])
+
+    def residual(z):
+        return np.linalg.norm(expm((A0 + kappa * A1) * T) @ z
+                              - N @ expm(A_s * T) @ (L.conj().T @ z))
+
+    base = residual(z0)
+    assert base > 0
+    for alpha in (0.5, 2.0, -3.0, 1e3):
+        assert residual(alpha * z0) == pytest.approx(abs(alpha) * base, rel=1e-9), alpha
+
+    # ...and so are both terms of the corrected bound, since ||z0|| and ||Q z0|| scale identically
+    Qz0 = z0 - P @ z0
+    for alpha in (0.5, 2.0, 1e3):
+        assert np.linalg.norm(alpha * z0) == pytest.approx(abs(alpha) * np.linalg.norm(z0))
+        assert np.linalg.norm(alpha * z0 - P @ (alpha * z0)) == pytest.approx(
+            abs(alpha) * np.linalg.norm(Qz0))
+
+
+def test_the_proposition_states_a_bound_homogeneous_in_z0():
+    """The displayed 'Moreover' clause must carry ||z0||, not a bare C_T/kappa."""
+    text = PROOF.read_text(encoding="utf-8")
+    assert "(C_T / κ) ‖z0‖" in text
+    assert "independent of `z0`" in text
+    assert "K_T := (2M/γ) [ ‖Mᵀ‖ + c T e^{aT} ‖Lᵀ‖ ]" in text
+    assert "‖ r_κ(T) ‖  ≤  C_T / κ  +" not in text, "the withdrawn non-homogeneous form is back"
 
 
 def test_convergence_is_not_uniform_at_zero_for_off_manifold_data():
@@ -418,7 +530,14 @@ def test_every_cell_verifies_every_assumption(archive):
     for c in archive["cells"]:
         a = c["assumptions"]
         assert a["A2_semisimple_zero"]["semisimple"] is True, c["solute"]
-        assert a["A2_semisimple_zero"]["rank_cut_ambiguous"] is False, c["solute"]
+        assert a["A2_semisimple_zero"]["failure_reason"] is None, c["solute"]
+        assert a["A2_semisimple_zero"]["separates_cleanly_A1"] is True, c["solute"]
+        assert a["A2_semisimple_zero"]["separates_cleanly_A1_squared"] is True, c["solute"]
+        assert a["A2_semisimple_zero"]["expected_rank"] == a["structural_rank"]["expected_fast_rank"]
+        assert a["rank_source_agreement"]["agreement_ok"] is True, c["solute"]
+        assert a["rank_source_agreement"]["all_sources_agree"] is True, c["solute"]
+        assert a["structural_rank"]["expected_fast_rank"] == 400
+        assert a["structural_rank"]["expected_slow_nullity"] == 201
         assert a["A3_stable_fast_spectrum"]["all_fast_modes_strictly_stable"] is True, c["solute"]
         assert a["A3_stable_fast_spectrum"]["max_real_fast_eigenvalue"] < 0.0
         assert a["A4_A5_bases_and_normalisation"]["identities_within_tolerance"] is True
@@ -436,10 +555,22 @@ def test_the_dual_basis_cross_check_holds_at_every_cell(archive):
         assert agreement < 1e-9, (c["solute"], agreement)
 
 
-def test_the_declared_output_is_a_slow_coordinate_at_every_cell(archive):
-    """Why the output carries no initial layer — verified, not assumed, per the proposition remark."""
+def test_the_output_covector_annihilates_the_fast_subspace_at_every_cell(archive):
+    """Why the output carries no initial layer — verified, not assumed, per the proposition remark.
+
+    A linear output row is a COVECTOR: it lies in ker(A1^T), equivalently e_out Q = 0. Saying it
+    "lies in ker(A1)" was a category error in the wording, not in the construction.
+    """
     for c in archive["cells"]:
-        assert c["endpoint"]["output_is_slow_coordinate"] is True, c["solute"]
+        assert c["endpoint"]["output_covector_annihilates_fast_subspace"] is True, c["solute"]
+        assert c["endpoint"]["output_covector_fast_component_norm"] < 1e-9
+
+
+def test_the_proposition_uses_covector_language():
+    text = PROOF.read_text(encoding="utf-8")
+    assert "e_out Q = 0" in text
+    assert "ker(A1ᵀ)" in text
+    assert "lies in `ker(A1)`" not in text, "a covector cannot lie in ker(A1)"
 
 
 def test_the_archive_binds_the_proof_artefact_by_hash(archive):
