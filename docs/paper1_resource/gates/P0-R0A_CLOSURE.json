@@ -4,7 +4,7 @@
  "deliverables": [
   {
    "path": "docs/paper1_resource/PAPER_A_PRE_FREEZE_PREMISE_AUDIT_R0A.json",
-   "sha256": "081b031a424d495b54fb5326726e58bbf78681ea8b7609ce47a892d7f8eff11e"
+   "sha256": "efc7187c4d64b462cd03b53194bca70f9e597426576c21a56c7dedef17a47a4c"
   }
  ],
  "producer": {
@@ -33,5 +33,18 @@
  ],
  "adjudication": "passed within the stated scope",
  "evidence_content_commit": null,
- "provenance_note": "Two-step pattern. A closure record cannot name its own containing commit. Content commit C finalises the deliverables; closure commit D then records evidence_content_commit=C and the hashes read from C. Until D exists this field is null and the hashes describe the working tree. A previous version claimed the pre-PR base commit, which could not contain the artefacts it bound."
+ "provenance_note": "Two-step pattern. A closure record cannot name its own containing commit. Content commit C finalises the deliverables; closure commit D then records evidence_content_commit=C and the hashes read from C. Until D exists this field is null and the hashes describe the working tree. A previous version claimed the pre-PR base commit, which could not contain the artefacts it bound.",
+ "rebindings": [
+  {
+   "date": "2026-08-03",
+   "deliverable": "docs/paper1_resource/PAPER_A_PRE_FREEZE_PREMISE_AUDIT_R0A.json",
+   "from_sha256": "081b031a424d495b54fb5326726e58bbf78681ea8b7609ce47a892d7f8eff11e",
+   "to_sha256": "efc7187c4d64b462cd03b53194bca70f9e597426576c21a56c7dedef17a47a4c",
+   "why": "PR-03a's assurance BASIS changed from numerical convergence of a finite high-kappa sequence to a proved fixed-positive-time singular limit with assumptions verified at every declared cell. The disposition name is unchanged; the evidence is not. Recorded in PAPER_A_CLAIM_RESOLUTION_DELTA_PRE_FREEZE.json entry D-02.",
+   "premises_touched": [
+    "PR-03a"
+   ],
+   "summary_counts_unchanged": true
+  }
+ ]
 }

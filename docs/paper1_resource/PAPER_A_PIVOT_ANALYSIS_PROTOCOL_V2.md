@@ -230,8 +230,8 @@ vocabulary and its frozen semantics:
 
 | status | meaning |
 |---|---|
-| `unresolved` | the conditional machine value may be retained, but it cannot become reader-facing eventual-upper prose. **This is the current pre-freeze value.** |
-| `assured` | the fixed-positive-time proposition has passed, so the endpoint-to-eventual-upper mapping may support scoped reader-facing language |
+| `unresolved` | the conditional machine value may be retained, but it cannot become reader-facing eventual-upper prose |
+| `assured` | the fixed-positive-time proposition has passed, so the endpoint-to-eventual-upper mapping may support scoped reader-facing language. **This is the current value**, set 2026-08-03 when PR-03a closed on a proof — see `PAPER_A_FIXED_TIME_SINGULAR_LIMIT_PROPOSITION.md` and `PAPER_A_ENDPOINT_CONSTRUCTION.json` |
 | `failed` | the endpoint classification remains reportable, but every `eventual_upper_status` is forced to `upper_status_indeterminate`; no eventual-unbounded or eventual-exclusion inference survives |
 
 `failed` is the state the earlier two-token vocabulary could not express. A proposition attempted and
@@ -479,7 +479,9 @@ generated from — and validated against — the frozen group-outcome rule of §
 as an independent free-text disposition.
 
 The archive also records `eventual_upper_precondition = fixed_positive_time_limit` and its status —
-one of `unresolved`, `assured`, `failed`, currently `unresolved` (§2.5). **An invented component such as `[κ_c, ∞]` is never serialised**; finite connected components
+one of `unresolved`, `assured`, `failed`, currently `assured` (§2.5).
+
+**An invented component such as `[κ_c, ∞]` is never serialised**; finite connected components
 are reported only within `D_WIDE`. The structural contract is
 `puckworks.paper_a.wide_reference.validate_archive`.
 
@@ -605,6 +607,7 @@ retention is mandatory; the archive row count must equal 432 including failures.
 | any group returns `limit_construction_failed` or an unresolved `J_ref` | that group is a failure, so the programme result is `H1_DOES_NOT_LEAD` until it is resolved or explicitly scoped |
 | any group returns `finite_wide_topology_status = unresolved` | the programme label is unchanged, but no claim of complete finite-domain topology is made and the unresolved status is reported prominently |
 | `eventual_upper_precondition_status` is `unresolved` | the conditional machine value is retained, but no reader-facing text converts an eventual-upper enumerated value into a statement about arbitrarily large multipliers |
+| `eventual_upper_precondition_status` is `assured` (current) | scoped reader-facing eventual-upper language is permitted. The scope is the declared model, the declared cells and a **fixed positive time**; it is not uniform at `t = 0`, and it carries no statement about real espresso, which is PR-12 and remains `OPEN-AND-SCOPED` |
 | `eventual_upper_precondition_status` is `failed` | every `eventual_upper_status` is `upper_status_indeterminate`; the endpoint classifications remain reportable and the programme rule is unchanged, since it reads classifications and not eventual status |
 | RSI fails `τ_b ≥ 0.40` in ≥ 5/6 groups | design-ranking claims removed; algebra and exact profiling retained |
 | the cross-fitted map is `not_constructible`, or the coarse benefit collapses | H3 demoted to retrospective case study; removed from title and contributions |

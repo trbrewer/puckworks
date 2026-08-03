@@ -240,6 +240,7 @@
   "docs/paper1_resource/PAPER_A_ENDPOINT_PROPAGATION.json",
   "docs/paper1_resource/PAPER_A_EQUAL_INFORMATION_BENCHMARKS.json",
   "docs/paper1_resource/PAPER_A_EXTERNAL_PANEL_LOSSES.json",
+  "docs/paper1_resource/PAPER_A_FIXED_TIME_SINGULAR_LIMIT_PROPOSITION.md",
   "docs/paper1_resource/PAPER_A_INFORMATION_PARITY.json",
   "docs/paper1_resource/PAPER_A_LOCO_COVERAGE_INTERVAL.json",
   "docs/paper1_resource/PAPER_A_MODEL_SCOPE_MATRIX_V1_INITIAL.md",
@@ -315,6 +316,7 @@
   "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2.md",
   "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_2_REVIEW_20260802.md",
   "docs/paper1_resource/PAPER_1_PIVOT_AND_REDRAFT_PLAN_V2_REVIEW_20260801.md",
+  "docs/paper1_resource/PAPER_1_PR224_BB88809_EXACT_HEAD_ACCEPTANCE_AND_PR03A_AUTHORIZATION_20260802.md",
   "docs/paper1_resource/PAPER_1_PR224_HEAD_504AF0B_FINAL_PRE_FREEZE_COMPLETION_DIRECTIVE_20260802.md",
   "docs/paper1_resource/PAPER_1_PR224_HEAD_8D3E73B_WIDE_REFERENCE_COMPLETION_DIRECTIVE_20260802.md",
   "docs/paper1_resource/PAPER_1_PR224_PR03_DECISION_AND_NEXT_CYCLE_20260802.md",
@@ -407,7 +409,7 @@
    "why": "numerical-model-structural evidence described as physical validation"
   },
   {
-   "pattern": "\\[0\\.15,\\s*(∞|inf|infinity)\\]",
+   "pattern": "\\[0\\.15,\\s*(\u221e|inf|infinity)\\]",
    "why": "the compactified classification domain is withdrawn (Protocol V2 deviation D-01): it declared an infimum over a domain the specified search never visited. The reference is J_ref on the finite D_WIDE = [0.15, 500], with the analytical endpoint evaluated separately"
   }
  ],
@@ -419,7 +421,7 @@
   "LOCO-WIDE",
   "NUM-FULL"
  ],
- "_estimand_tag_note": "FULL-WIDE is retained for finite-domain results only. FULL-WIDE-ENDPOINT marks a result whose threshold is referenced to J_ref on D_WIDE = [0.15, 500] with the analytical kappa = infinity endpoint evaluated separately. Protocol V2 §1.3 and §2.2-§2.10 are the contract; the machine-readable vocabulary is puckworks/paper_a/wide_reference.py.",
+ "_estimand_tag_note": "FULL-WIDE is retained for finite-domain results only. FULL-WIDE-ENDPOINT marks a result whose threshold is referenced to J_ref on D_WIDE = [0.15, 500] with the analytical kappa = infinity endpoint evaluated separately. Protocol V2 \u00a71.3 and \u00a72.2-\u00a72.10 are the contract; the machine-readable vocabulary is puckworks/paper_a/wide_reference.py.",
  "evidence_types": [
   "algebraic",
   "numerical-model-structural",

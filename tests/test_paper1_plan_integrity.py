@@ -544,12 +544,17 @@ def test_the_claim_resolution_delta_does_not_rewrite_the_immutable_ledger():
     claims = {c["claim_id"]: c for c in ledger["claims"]}
 
     for entry in delta["entries"]:
+        assert entry["date"] and entry["why_displaced"]
+        assert entry["replacement_wording"] != entry["recorded_wording"]
+        if entry["claim_id"] is None:
+            # a premise-scoped transition (e.g. an assurance BASIS change) touches no ledger claim
+            assert entry.get("premise_id"), (
+                "an entry that displaces no claim must say which premise it displaces")
+            continue
         claim = claims[entry["claim_id"]]
         assert claim[entry["field"]] == entry["recorded_wording"], (
             "the ledger no longer carries the wording this delta says it displaces; the immutable "
             "baseline has been edited")
-        assert entry["replacement_wording"] != entry["recorded_wording"]
-        assert entry["date"] and entry["why_displaced"]
 
 
 def test_no_p0_g8_result_archive_exists(manifest):

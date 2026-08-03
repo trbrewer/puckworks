@@ -495,7 +495,23 @@ def test_the_archive_declares_the_precondition_of_the_eventual_upper_vocabulary(
 
 def test_the_precondition_vocabulary_is_the_three_state_assurance_vocabulary():
     assert WR.EVENTUAL_UPPER_PRECONDITION_STATUSES == ("unresolved", "assured", "failed")
-    assert WR.EVENTUAL_UPPER_PRECONDITION_CURRENT == "unresolved"
+
+
+def test_the_current_precondition_state_agrees_with_its_evidence():
+    """`assured` since 2026-08-03, when PR-03a closed on a proof.
+
+    The state is pinned to the generated evidence rather than asserted on its own, so the module
+    constant and the PR-03a archive cannot drift apart. The VOCABULARY is architecture and is
+    frozen; this value is state.
+    """
+    import json
+
+    assert WR.EVENTUAL_UPPER_PRECONDITION_CURRENT in WR.EVENTUAL_UPPER_PRECONDITION_STATUSES
+    assert WR.EVENTUAL_UPPER_PRECONDITION_CURRENT == "assured"
+    archive = json.loads((_ROOT / "docs" / "paper1_resource"
+                          / "PAPER_A_ENDPOINT_CONSTRUCTION.json").read_text(encoding="utf-8"))
+    assert archive["overall_PR03a_status"] == "assured", (
+        "the precondition may only read 'assured' while PR-03a is assured")
 
 
 def test_unresolved_retains_the_conditional_machine_value():

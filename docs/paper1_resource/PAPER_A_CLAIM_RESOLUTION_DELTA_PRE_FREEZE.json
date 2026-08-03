@@ -19,6 +19,45 @@
    "estimand_tag_note": "C-OPS-01 keeps FULL-WIDE. It reports a finite scan to kappa=500 and makes no endpoint statement, and FULL-WIDE is retained for exactly that. Only a result whose threshold is referenced to J_ref and which compares the separately constructed endpoint against it carries FULL-WIDE-ENDPOINT.",
    "scope_limiter_note": "The recorded scope limiter -- a finite-domain observation under one arbitrary tolerance, which does not establish an acceptable set with no upper limit -- is unchanged and remains correct. The WIDE reference does not weaken it: the fixed-positive-time limit that would license an eventual-upper reading is a separate derivation and is not closed.",
    "result_change": "none. P0-G8 has not run and docs/paper1_resource/PAPER_A_ASYMPTOTIC_PROFILE_LIMITS.json does not exist. This delta changes which quantity the gate will compute, not any reported number."
+  },
+  {
+   "delta_id": "D-02",
+   "date": "2026-08-03",
+   "claim_id": null,
+   "premise_id": "PR-03a",
+   "displaced_by": "docs/paper1_resource/PAPER_A_FIXED_TIME_SINGULAR_LIMIT_PROPOSITION.md",
+   "field": "assurance basis of PR-03a, and eventual_upper_precondition_status",
+   "recorded_wording": "PR-03a assured on numerical convergence: 27/27 operator-distinct cells converge, worst attained error 1.04e-11, endpoint agrees with the independent high-kappa limit to ~1e-12",
+   "why_displaced": "The disposition was already 'assured', but the basis was a finite high-kappa sequence. That is a diagnostic and cannot distinguish a genuine limit from a well-behaved integrator, so it could not license the eventual-upper reading. The basis is now a proved fixed-positive-time singular limit whose assumptions are verified at every declared cell, with the sequence demoted to a diagnostic that proves nothing. The NAME of the disposition is unchanged; the basis is not, which is exactly the kind of silent strengthening this ledger exists to make visible.",
+   "replacement_wording": "PR-03a assured on a proof: for each fixed T > 0, exp((A0 + kappa A1)T) -> N exp((L^T A0 N)T) L^T under a semisimple zero of A1 and a strictly stable nonzero spectrum, with M, gamma and kappa_0 derived from the operator; assumptions verified at all 27 operator-distinct cells covering all 54 declared cells",
+   "claim_status_change": null,
+   "estimand_tag_change": null,
+   "precondition_status_change": {
+    "field": "eventual_upper_precondition_status",
+    "from": "unresolved",
+    "to": "assured",
+    "surfaces_updated": [
+     "docs/paper1_resource/PAPER_A_PIVOT_ANALYSIS_PROTOCOL_V2.md (2.5, 2.10, 8)",
+     "puckworks/paper_a/wide_reference.py (EVENTUAL_UPPER_PRECONDITION_CURRENT)"
+    ],
+    "what_it_does_NOT_change": "no endpoint classification, no H1 group or programme rule, no threshold family, no WIDE reference formula, no tolerance, no grid size, and no error-budget allocation. The mapping from endpoint_classification to eventual_upper_status is unchanged; what changes is whether the enumerated value may become scoped reader-facing prose.",
+    "scope_of_what_is_now_permitted": "the declared model, the declared cells, and a FIXED POSITIVE time. Convergence is NOT uniform at t = 0 for off-manifold initial data and no such claim is licensed. Nothing here speaks to real espresso: PR-12 remains OPEN-AND-SCOPED."
+   },
+   "generated_statuses": {
+    "algebraic_limit_status": "assured",
+    "endpoint_construction_status": "verified",
+    "finite_kappa_validation_status": "method_limited",
+    "coverage_status": "complete",
+    "overall_PR03a_status": "assured"
+   },
+   "evidence": {
+    "proof": "docs/paper1_resource/PAPER_A_FIXED_TIME_SINGULAR_LIMIT_PROPOSITION.md",
+    "proof_sha256": "9f8bbeeb8319aa09cc409db8d8d457c269f42c665408090ba2d0f81b7d4b2c25",
+    "archive": "docs/paper1_resource/PAPER_A_ENDPOINT_CONSTRUCTION.json",
+    "producer_sha256": "f8525c42c5ab4b13c3d684b35aeae02aa0f464268d06d08f7fc3778ec15d5251",
+    "verification_command": "python tools/paper_a_endpoint_construction.py --check"
+   },
+   "result_change": "none. P0-G8 has not run and PAPER_A_ASYMPTOTIC_PROFILE_LIMITS.json does not exist. No campaign objective was computed in this cycle."
   }
  ]
 }

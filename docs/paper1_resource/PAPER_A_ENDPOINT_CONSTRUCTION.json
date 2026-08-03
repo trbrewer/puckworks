@@ -1,1831 +1,3803 @@
 {
- "schema_version": 1,
- "premise": "PR-03a",
- "question": "Does f(kappa) converge to a trustworthy analytical endpoint f_inf, computed by a stable construction? This decides the P0-G8 ENDPOINT classification; it does not localise the finite tail onset, which is PR-03b.",
- "scope_note": "MODEL-ONLY. No y, J, J_min, J_inf, threshold, profile component, tail classification or shoulder is read or computed.",
+ "algebraic_limit_status": "assured",
+ "cells": [
+  {
+   "T_degC": 93.4,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 34829206028306.883,
+     "rank_gap_ratio_A1_squared": 7831134149992.095,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 3.2562101717606977e-12,
+     "threshold_rank_tolerance_A1_squared": 7.936759674932963e-11
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -1.9231377599980062,
+     "min_abs_fast_eigenvalue": 1.9231377599980062,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 24.368186116725347,
+     "spectral_tolerance": 2.436818611672535e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.126571225346236,
+     "cond_Lt_N_before_normalisation": 2.1265712253462357,
+     "cond_N": 1.0000000000000016,
+     "dual_basis_agreement_norm": 6.162724597079317e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 8.29700106825461e-14,
+     "residual_A1_P": 8.461611828649195e-14,
+     "residual_Lt_A1": 8.352066167973955e-14,
+     "residual_Lt_N_minus_I": 2.5414912957427977e-15,
+     "residual_P_A1": 8.393281167589853e-14,
+     "residual_P_squared_minus_P": 2.0276227208787326e-15,
+     "svd_rank_separation_ratio": 34831716858588.28,
+     "svd_rank_tolerance": 3.256210171760713e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 4.111654572609468,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 0.7208796455133096,
+     "kappa_0_threshold": 1360.6486095416074,
+     "lambda_max_X": 0.34679852809824446,
+     "lambda_min_X": 0.020513700107139127,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.5648928393853675,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.5648928393853675,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 1000.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 3.181597096890698e-09,
+    "min_abs_error": 3.366307232965937e-12,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 7.603820763923963e-06,
+      "f": 0.5648852355646036,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 3.366307232965937e-12,
+      "f": 0.5648928393887338,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 3.0877522760874854e-11,
+      "f": 0.564892839416245,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 3.160720574157949e-10,
+      "f": 0.5648928397014396,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 3.181597096890698e-09,
+      "f": 0.5648928425669646,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.6666666666666666,
+   "p_bar": 9.0,
+   "solute": "caffeine",
+   "status": "pass",
+   "warnings": []
+  },
+  {
+   "T_degC": 93.4,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 43238931632305.32,
+     "rank_gap_ratio_A1_squared": 35304074293653.8,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 2.8875786520782732e-12,
+     "threshold_rank_tolerance_A1_squared": 6.111142625210196e-11
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -3.6847658004454202,
+     "min_abs_fast_eigenvalue": 3.6847658004454202,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 21.15792632300173,
+     "spectral_tolerance": 2.115792632300173e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.1265712253462357,
+     "cond_Lt_N_before_normalisation": 2.1265712253462348,
+     "cond_N": 1.0000000000000018,
+     "dual_basis_agreement_norm": 6.092162531688272e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 1.1320328915789559e-13,
+     "residual_A1_P": 1.1825465001197186e-13,
+     "residual_Lt_A1": 1.1403598962818054e-13,
+     "residual_Lt_N_minus_I": 2.183370588699611e-15,
+     "residual_P_A1": 1.1390807958973168e-13,
+     "residual_P_squared_minus_P": 1.994059668813475e-15,
+     "svd_rank_separation_ratio": 38464052534034.836,
+     "svd_rank_tolerance": 2.8875786520782732e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 2.6330133333263865,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 1.5269281909703842,
+     "kappa_0_threshold": 775.3707761482021,
+     "lambda_max_X": 0.16372741133368002,
+     "lambda_min_X": 0.023616486061633152,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.6534192990434472,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.6534192990434472,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 100.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 1.0762211011261513e-08,
+    "min_abs_error": 1.0790257576331896e-12,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 1.0790257576331896e-12,
+      "f": 0.6534192990423682,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 1.0461409516437925e-11,
+      "f": 0.6534192990329858,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 1.0731737720703904e-10,
+      "f": 0.6534192989361298,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 1.0736389555177084e-09,
+      "f": 0.6534192979698082,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 1.0762211011261513e-08,
+      "f": 0.6534192882812362,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.6666666666666666,
+   "p_bar": 9.0,
+   "solute": "trigonelline",
+   "status": "pass",
+   "warnings": []
+  },
+  {
+   "T_degC": 93.4,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 49402393463548.984,
+     "rank_gap_ratio_A1_squared": 14730871342179.998,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 2.8738482588607807e-12,
+     "threshold_rank_tolerance_A1_squared": 6.183828976545084e-11
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -2.3264075801793975,
+     "min_abs_fast_eigenvalue": 2.3264075801793975,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 21.516782251892447,
+     "spectral_tolerance": 2.1516782251892447e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.126571225346237,
+     "cond_Lt_N_before_normalisation": 2.126571225346236,
+     "cond_N": 1.000000000000003,
+     "dual_basis_agreement_norm": 6.239308128514469e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 6.721369563569475e-14,
+     "residual_A1_P": 6.823755109251564e-14,
+     "residual_Lt_A1": 1.630130358117084e-13,
+     "residual_Lt_N_minus_I": 2.634507256569229e-15,
+     "residual_P_A1": 1.632889572361241e-13,
+     "residual_P_squared_minus_P": 2.0468639708565728e-15,
+     "svd_rank_separation_ratio": 39090038095491.695,
+     "svd_rank_tolerance": 2.873848258860781e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 3.4378897845102157,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 0.9102779110981738,
+     "kappa_0_threshold": 1137.4927356865787,
+     "lambda_max_X": 0.27464140011746085,
+     "lambda_min_X": 0.02323710954949773,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.5859095533589531,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.5859095533589531,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 1000.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 5.930299362688629e-09,
+    "min_abs_error": 5.896061416876819e-12,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 2.117218500519158e-08,
+      "f": 0.5859095321867681,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 5.896061416876819e-12,
+      "f": 0.585909553353057,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 5.949296610907595e-11,
+      "f": 0.5859095532994602,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 6.055218548794983e-10,
+      "f": 0.5859095527534313,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 5.930299362688629e-09,
+      "f": 0.5859095474286538,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.6666666666666666,
+   "p_bar": 9.0,
+   "solute": "5CQA",
+   "status": "pass",
+   "warnings": []
+  },
+  {
+   "T_degC": 93.4,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 106884938312709.17,
+     "rank_gap_ratio_A1_squared": 12954469603981.844,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 4.042489356654667e-12,
+     "threshold_rank_tolerance_A1_squared": 1.2234264619669577e-10
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -3.233566501287634,
+     "min_abs_fast_eigenvalue": 3.233566501287634,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 30.253489692396524,
+     "spectral_tolerance": 3.0253489692396527e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.126571225346236,
+     "cond_Lt_N_before_normalisation": 2.1265712253462343,
+     "cond_N": 1.0000000000000024,
+     "dual_basis_agreement_norm": 6.422841978031957e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 6.888697324717185e-14,
+     "residual_A1_P": 7.014185205492926e-14,
+     "residual_Lt_A1": 7.329995506881945e-14,
+     "residual_Lt_N_minus_I": 1.0431258725702945e-14,
+     "residual_P_A1": 7.41809228425741e-14,
+     "residual_P_squared_minus_P": 1.0419594962084633e-14,
+     "svd_rank_separation_ratio": 65942724060625.945,
+     "svd_rank_tolerance": 4.042489356654667e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 3.425062225098821,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 1.289879375670766,
+     "kappa_0_threshold": 1257.9401857390758,
+     "lambda_max_X": 0.19381657286364037,
+     "lambda_min_X": 0.016521671315096315,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.5648928393853735,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.5648928393853735,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 1000.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 1.2024357065598679e-09,
+    "min_abs_error": 9.81992265280951e-13,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 6.535590684086934e-06,
+      "f": 0.5648863037946894,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 9.81992265280951e-13,
+      "f": 0.5648928393863555,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 1.0083933688065372e-11,
+      "f": 0.5648928393954574,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 1.0991807464222347e-10,
+      "f": 0.5648928394952916,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 1.2024357065598679e-09,
+      "f": 0.5648928405878092,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.4209199747952112,
+   "p_bar": 6.0,
+   "solute": "caffeine",
+   "status": "pass",
+   "warnings": []
+  },
+  {
+   "T_degC": 93.4,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 30006704251460.96,
+     "rank_gap_ratio_A1_squared": 59970789409051.56,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 3.189318933568192e-12,
+     "threshold_rank_tolerance_A1_squared": 7.427204663024962e-11
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -5.250322465560496,
+     "min_abs_fast_eigenvalue": 5.250322465560496,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 23.289990923869325,
+     "spectral_tolerance": 2.3289990923869326e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.126571225346236,
+     "cond_Lt_N_before_normalisation": 2.1265712253462357,
+     "cond_N": 1.0000000000000024,
+     "dual_basis_agreement_norm": 6.03078516900664e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 2.2699683564519312e-13,
+     "residual_A1_P": 2.366410370694784e-13,
+     "residual_Lt_A1": 2.3683012521421194e-13,
+     "residual_Lt_N_minus_I": 2.5364184497176282e-15,
+     "residual_P_A1": 2.3667421799258867e-13,
+     "residual_P_squared_minus_P": 2.7003101558650135e-15,
+     "svd_rank_separation_ratio": 30006689793335.168,
+     "svd_rank_tolerance": 3.189318933568196e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 2.2379587407927737,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 2.325491449700369,
+     "kappa_0_threshold": 895.3459633374586,
+     "lambda_max_X": 0.10750415789841394,
+     "lambda_min_X": 0.021464516513345078,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.653419299043384,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.653419299043384,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 100.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 4.752409132890989e-09,
+    "min_abs_error": 4.085620730620576e-13,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 4.085620730620576e-13,
+      "f": 0.6534192990437926,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 4.657052521395144e-12,
+      "f": 0.6534192990480411,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 4.685074550536683e-11,
+      "f": 0.6534192990902348,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 4.6351489313423144e-10,
+      "f": 0.6534192995068989,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 4.752409132890989e-09,
+      "f": 0.6534193037957932,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.4209199747952112,
+   "p_bar": 6.0,
+   "solute": "trigonelline",
+   "status": "pass",
+   "warnings": []
+  },
+  {
+   "T_degC": 93.4,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 25820905529854.02,
+     "rank_gap_ratio_A1_squared": 25538078266561.16,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 3.1449470662602013e-12,
+     "threshold_rank_tolerance_A1_squared": 7.401380787560774e-11
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -3.3919336824189594,
+     "min_abs_fast_eigenvalue": 3.3919336824189594,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 23.531343195160233,
+     "spectral_tolerance": 2.3531343195160233e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.1265712253462374,
+     "cond_Lt_N_before_normalisation": 2.126571225346236,
+     "cond_N": 1.0000000000000024,
+     "dual_basis_agreement_norm": 5.810512416866596e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 1.7654276118644257e-13,
+     "residual_A1_P": 1.7826207277488635e-13,
+     "residual_Lt_A1": 1.771720593952904e-13,
+     "residual_Lt_N_minus_I": 2.51856984119485e-15,
+     "residual_P_A1": 1.7699753164726189e-13,
+     "residual_P_squared_minus_P": 2.0498684788959393e-15,
+     "svd_rank_separation_ratio": 25819975039664.66,
+     "svd_rank_tolerance": 3.1449470662602085e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 2.878671509849628,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 1.4199359189949783,
+     "kappa_0_threshold": 1231.6259266099642,
+     "lambda_max_X": 0.1760642833635397,
+     "lambda_min_X": 0.021246482704670208,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.5859095533589221,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.5859095533589221,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 1000.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 4.690417165775784e-09,
+    "min_abs_error": 4.779066031801449e-12,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 9.15450585337041e-08,
+      "f": 0.5859094618138636,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 4.779066031801449e-12,
+      "f": 0.5859095533637012,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 4.717382040553275e-11,
+      "f": 0.585909553406096,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 4.679007181707107e-10,
+      "f": 0.5859095538268229,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 4.690417165775784e-09,
+      "f": 0.5859095580493393,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.4209199747952112,
+   "p_bar": 6.0,
+   "solute": "5CQA",
+   "status": "pass",
+   "warnings": []
+  },
+  {
+   "T_degC": 93.4,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 24635107372601.047,
+     "rank_gap_ratio_A1_squared": 5332512780669.219,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 2.8967439541129887e-12,
+     "threshold_rank_tolerance_A1_squared": 6.28066971569246e-11
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -1.4239280603599376,
+     "min_abs_fast_eigenvalue": 1.4239280603599376,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 21.677497013496428,
+     "spectral_tolerance": 2.1677497013496428e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.126571225346237,
+     "cond_Lt_N_before_normalisation": 2.1265712253462357,
+     "cond_N": 1.000000000000003,
+     "dual_basis_agreement_norm": 6.312223428260752e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 8.40623727507351e-14,
+     "residual_A1_P": 8.553968429853373e-14,
+     "residual_Lt_A1": 8.466638137992787e-14,
+     "residual_Lt_N_minus_I": 3.2154478773585377e-15,
+     "residual_P_A1": 8.428321891315417e-14,
+     "residual_P_squared_minus_P": 2.375058604168712e-15,
+     "svd_rank_separation_ratio": 24635412462393.63,
+     "svd_rank_tolerance": 2.8967439541129887e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 4.577131748072012,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 0.5174603843544074,
+     "kappa_0_threshold": 1422.5205725391772,
+     "lambda_max_X": 0.48312877189990944,
+     "lambda_min_X": 0.023060890585942323,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.5648928393853693,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.5648928393853693,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 1000.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 4.023812061326737e-09,
+    "min_abs_error": 3.650857394177365e-12,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 8.616665141958357e-06,
+      "f": 0.5648842227202273,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 3.650857394177365e-12,
+      "f": 0.5648928393817184,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 3.646716262295513e-11,
+      "f": 0.5648928393489021,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 3.9332004320158376e-10,
+      "f": 0.5648928389920492,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 4.023812061326737e-09,
+      "f": 0.5648928353615572,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.8697916666666662,
+   "p_bar": 12.0,
+   "solute": "caffeine",
+   "status": "pass",
+   "warnings": []
+  },
+  {
+   "T_degC": 93.4,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 64680395057735.75,
+     "rank_gap_ratio_A1_squared": 24586686425644.895,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 2.7612234697277077e-12,
+     "threshold_rank_tolerance_A1_squared": 5.596001646080582e-11
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -3.0024092102018876,
+     "min_abs_fast_eigenvalue": 3.0024092102018876,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 20.256317647222758,
+     "spectral_tolerance": 2.0256317647222758e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.126571225346234,
+     "cond_Lt_N_before_normalisation": 2.126571225346235,
+     "cond_N": 1.000000000000002,
+     "dual_basis_agreement_norm": 5.989842012517097e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 6.583469571769455e-14,
+     "residual_A1_P": 6.870741946156331e-14,
+     "residual_Lt_A1": 7.021948193480112e-14,
+     "residual_Lt_N_minus_I": 2.9575016230977875e-15,
+     "residual_P_A1": 7.064149416306826e-14,
+     "residual_P_squared_minus_P": 2.3269185369310445e-15,
+     "svd_rank_separation_ratio": 49053213030906.26,
+     "svd_rank_tolerance": 2.7612234697277065e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 2.9075854063243325,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 1.1990920427679923,
+     "kappa_0_threshold": 719.5675677152163,
+     "lambda_max_X": 0.20849108415639078,
+     "lambda_min_X": 0.024661672542641302,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.653419299043399,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.653419299043399,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 100.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 6.470890712151345e-09,
+    "min_abs_error": 6.761258219967203e-13,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 6.761258219967203e-13,
+      "f": 0.6534192990440751,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 7.030487303438804e-12,
+      "f": 0.6534192990504295,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 6.593869894544468e-11,
+      "f": 0.6534192991093377,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 6.60050014644753e-10,
+      "f": 0.653419299703449,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 6.470890712151345e-09,
+      "f": 0.6534193055142897,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.8697916666666662,
+   "p_bar": 12.0,
+   "solute": "trigonelline",
+   "status": "pass",
+   "warnings": []
+  },
+  {
+   "T_degC": 93.4,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 27446113180376.168,
+     "rank_gap_ratio_A1_squared": 10216208987237.39,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 2.7562054118157126e-12,
+     "threshold_rank_tolerance_A1_squared": 5.6890845835232214e-11
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -1.8705549600408926,
+     "min_abs_fast_eigenvalue": 1.8705549600408926,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 20.640670914181204,
+     "spectral_tolerance": 2.0640670914181204e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.126571225346234,
+     "cond_Lt_N_before_normalisation": 2.1265712253462365,
+     "cond_N": 1.0000000000000022,
+     "dual_basis_agreement_norm": 6.280422267832588e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 9.592660587007512e-14,
+     "residual_A1_P": 9.717765107495835e-14,
+     "residual_Lt_A1": 9.767390191605887e-14,
+     "residual_Lt_N_minus_I": 3.4019981480304494e-15,
+     "residual_P_A1": 9.789659669466504e-14,
+     "residual_P_squared_minus_P": 2.2064163781752672e-15,
+     "svd_rank_separation_ratio": 27544793994906.45,
+     "svd_rank_tolerance": 2.7562054118157134e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 3.821543149978983,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 0.7066762648896514,
+     "kappa_0_threshold": 1089.1808352405906,
+     "lambda_max_X": 0.35376877987976274,
+     "lambda_min_X": 0.024223783057465975,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.5859095533589409,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.5859095533589409,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 1000.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 3.741482457186862e-09,
+    "min_abs_error": 3.741895682196628e-12,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 9.173372950144199e-09,
+      "f": 0.585909544185568,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 3.741895682196628e-12,
+      "f": 0.585909553355199,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 3.771716272638059e-11,
+      "f": 0.5859095533212237,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 3.8584624384441213e-10,
+      "f": 0.5859095529730947,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 3.741482457186862e-09,
+      "f": 0.5859095496174584,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.8697916666666662,
+   "p_bar": 12.0,
+   "solute": "5CQA",
+   "status": "pass",
+   "warnings": []
+  },
+  {
+   "T_degC": 88.0,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 83857989705439.22,
+     "rank_gap_ratio_A1_squared": 6642726716771.303,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 2.999716570618869e-12,
+     "threshold_rank_tolerance_A1_squared": 6.737141630333083e-11
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -1.6452583613511833,
+     "min_abs_fast_eigenvalue": 1.6452583613511833,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 22.454978848178772,
+     "spectral_tolerance": 2.2454978848178772e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.1265712253462374,
+     "cond_Lt_N_before_normalisation": 2.126571225346237,
+     "cond_N": 1.000000000000002,
+     "dual_basis_agreement_norm": 7.869992438286528e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 5.0782271898122344e-14,
+     "residual_A1_P": 5.1397664775348776e-14,
+     "residual_Lt_A1": 5.2349973841166306e-14,
+     "residual_Lt_N_minus_I": 2.3236552349147508e-14,
+     "residual_P_A1": 5.2998129377391137e-14,
+     "residual_P_squared_minus_P": 2.343274469550685e-14,
+     "svd_rank_separation_ratio": 53801450798575.19,
+     "svd_rank_tolerance": 2.99971657061887e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 4.298839178554563,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 0.6076583218111422,
+     "kappa_0_threshold": 1501.899883034713,
+     "lambda_max_X": 0.411415413936681,
+     "lambda_min_X": 0.022262716823903933,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.566895295969892,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.566895295969892,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 1000.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 3.678768401016441e-11,
+    "min_abs_error": 2.672306820272752e-13,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 9.381324547641512e-06,
+      "f": 0.5668859146453443,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 2.672306820272752e-13,
+      "f": 0.5668952959701592,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 7.470690732702678e-13,
+      "f": 0.5668952959691449,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 3.67157415581687e-11,
+      "f": 0.5668952959331762,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 3.678768401016441e-11,
+      "f": 0.5668952959331043,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.7103047600341762,
+   "p_bar": 9.0,
+   "solute": "caffeine",
+   "status": "pass",
+   "warnings": []
+  },
+  {
+   "T_degC": 88.0,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 31818237148484.18,
+     "rank_gap_ratio_A1_squared": 30180518450278.637,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 2.761873574936576e-12,
+     "threshold_rank_tolerance_A1_squared": 5.585127256021394e-11
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -3.3030007739632703,
+     "min_abs_fast_eigenvalue": 3.3030007739632703,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 20.213451019718704,
+     "spectral_tolerance": 2.0213451019718705e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.1265712253462348,
+     "cond_Lt_N_before_normalisation": 2.1265712253462343,
+     "cond_N": 1.0000000000000018,
+     "dual_basis_agreement_norm": 5.85546940902582e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 1.438884601470926e-13,
+     "residual_A1_P": 1.506412870434227e-13,
+     "residual_Lt_A1": 1.493037519609755e-13,
+     "residual_Lt_N_minus_I": 2.2639560183474024e-15,
+     "residual_P_A1": 1.4870912751141597e-13,
+     "residual_P_squared_minus_P": 2.1140601021870994e-15,
+     "svd_rank_separation_ratio": 31817696430464.566,
+     "svd_rank_tolerance": 2.7618735749365764e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 2.7421545975219805,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 1.345261293974271,
+     "kappa_0_threshold": 808.7337432927376,
+     "lambda_max_X": 0.18583750318232334,
+     "lambda_min_X": 0.02471436692362504,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.6573186291202583,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.6573186291202583,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 100.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 9.414887869318989e-09,
+    "min_abs_error": 8.583134203377085e-13,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 8.583134203377085e-13,
+      "f": 0.6573186291194,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 9.267586698058494e-12,
+      "f": 0.6573186291109907,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 9.749145934989656e-11,
+      "f": 0.6573186290227668,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 9.517198140684968e-10,
+      "f": 0.6573186281685385,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 9.414887869318989e-09,
+      "f": 0.6573186197053704,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.7103047600341762,
+   "p_bar": 9.0,
+   "solute": "trigonelline",
+   "status": "pass",
+   "warnings": []
+  },
+  {
+   "T_degC": 88.0,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 27949690341559.082,
+     "rank_gap_ratio_A1_squared": 12405284062706.602,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 2.7431003650094003e-12,
+     "threshold_rank_tolerance_A1_squared": 5.633296053315912e-11
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -2.06821185772625,
+     "min_abs_fast_eigenvalue": 2.06821185772625,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 20.53595973425409,
+     "spectral_tolerance": 2.053595973425409e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.1265712253462383,
+     "cond_Lt_N_before_normalisation": 2.1265712253462365,
+     "cond_N": 1.0000000000000027,
+     "dual_basis_agreement_norm": 7.059035560245276e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 1.6698848000160617e-13,
+     "residual_A1_P": 1.6946946767909936e-13,
+     "residual_Lt_A1": 1.0168365127872674e-13,
+     "residual_Lt_N_minus_I": 3.044856221446059e-15,
+     "residual_P_A1": 1.0128417460677034e-13,
+     "residual_P_squared_minus_P": 2.2898212626566027e-15,
+     "svd_rank_separation_ratio": 25744828139029.59,
+     "svd_rank_tolerance": 2.7431003650094003e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 3.591821385526109,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 0.7959001679259582,
+     "kappa_0_threshold": 1205.9716790514908,
+     "lambda_max_X": 0.314109746516924,
+     "lambda_min_X": 0.024347363996450544,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.5882829692737865,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.5882829692737865,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 1000.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 1.024300488872143e-08,
+    "min_abs_error": 1.0360601265801961e-11,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 2.2354421203019115e-08,
+      "f": 0.5882829469193653,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 1.0360601265801961e-11,
+      "f": 0.5882829692634259,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 1.0255452043139712e-10,
+      "f": 0.588282969171232,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 1.0275078565769036e-09,
+      "f": 0.5882829682462787,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 1.024300488872143e-08,
+      "f": 0.5882829590307816,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.7103047600341762,
+   "p_bar": 9.0,
+   "solute": "5CQA",
+   "status": "pass",
+   "warnings": []
+  },
+  {
+   "T_degC": 88.0,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 114336270240535.88,
+     "rank_gap_ratio_A1_squared": 11442187590126.082,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 3.703405877374371e-12,
+     "threshold_rank_tolerance_A1_squared": 1.0269637581915466e-10
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -2.7663396943722267,
+     "min_abs_fast_eigenvalue": 2.7663396943722267,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 27.722388444389335,
+     "spectral_tolerance": 2.7722388444389333e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.126571225346235,
+     "cond_Lt_N_before_normalisation": 2.126571225346235,
+     "cond_N": 1.0000000000000024,
+     "dual_basis_agreement_norm": 6.742641949923556e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 7.3067665609728e-14,
+     "residual_A1_P": 7.405629473171522e-14,
+     "residual_Lt_A1": 6.975019841024514e-14,
+     "residual_Lt_N_minus_I": 2.3091230965775063e-14,
+     "residual_P_A1": 7.010807530071387e-14,
+     "residual_P_squared_minus_P": 2.326422437102502e-14,
+     "svd_rank_separation_ratio": 89400673833681.75,
+     "svd_rank_tolerance": 3.703405877374373e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 3.5759591960057726,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 1.084247052128852,
+     "kappa_0_threshold": 1390.4839661596866,
+     "lambda_max_X": 0.23057475647191336,
+     "lambda_min_X": 0.018031283822492347,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.5668952959699027,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.5668952959699027,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 1000.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 1.74625092164149e-10,
+    "min_abs_error": 2.1471713296250527e-13,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 7.8614542018407e-06,
+      "f": 0.5668874345157009,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 2.1471713296250527e-13,
+      "f": 0.5668952959701175,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 2.1715962361668062e-13,
+      "f": 0.5668952959701199,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 1.4261369862822448e-11,
+      "f": 0.5668952959841641,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 1.74625092164149e-10,
+      "f": 0.5668952961445278,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.44847219253575593,
+   "p_bar": 6.0,
+   "solute": "caffeine",
+   "status": "pass",
+   "warnings": []
+  },
+  {
+   "T_degC": 88.0,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 19481125759696.145,
+     "rank_gap_ratio_A1_squared": 53124069794379.125,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 401,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 3.0238304264680443e-12,
+     "threshold_rank_tolerance_A1_squared": 6.671654907861502e-11
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -4.706355873474173,
+     "min_abs_fast_eigenvalue": 4.706355873474173,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 22.063769858728293,
+     "spectral_tolerance": 2.2063769858728292e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.1265712253462334,
+     "cond_Lt_N_before_normalisation": 2.126571225346237,
+     "cond_N": 1.0000000000000024,
+     "dual_basis_agreement_norm": 5.6485503446503706e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 3.247143199490437e-13,
+     "residual_A1_P": 3.3905527962531214e-13,
+     "residual_Lt_A1": 3.3879810668957813e-13,
+     "residual_Lt_N_minus_I": 3.2832420431100933e-15,
+     "residual_P_A1": 3.38899006314268e-13,
+     "residual_P_squared_minus_P": 2.316154304621286e-15,
+     "svd_rank_separation_ratio": 19480009082729.816,
+     "svd_rank_tolerance": 3.0238304264680456e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 2.321541646344376,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 2.047632324524201,
+     "kappa_0_threshold": 929.5524176701531,
+     "lambda_max_X": 0.12209223160124286,
+     "lambda_min_X": 0.022653487654033265,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.6573186291202349,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.6573186291202349,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 100.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 2.2861165183130083e-09,
+    "min_abs_error": 1.2101430968414206e-13,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 1.2101430968414206e-13,
+      "f": 0.6573186291201139,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 2.11086703671981e-12,
+      "f": 0.657318629118124,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 1.9759638369976074e-11,
+      "f": 0.6573186291004752,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 1.9997081768252656e-10,
+      "f": 0.657318628920264,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 2.2861165183130083e-09,
+      "f": 0.6573186268341183,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.44847219253575593,
+   "p_bar": 6.0,
+   "solute": "trigonelline",
+   "status": "pass",
+   "warnings": []
+  },
+  {
+   "T_degC": 88.0,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 25526601234624.297,
+     "rank_gap_ratio_A1_squared": 21647203333694.625,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 2.9806816862885645e-12,
+     "threshold_rank_tolerance_A1_squared": 6.647727702835738e-11
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -3.015480830774713,
+     "min_abs_fast_eigenvalue": 3.015480830774713,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 22.301165456135543,
+     "spectral_tolerance": 2.2301165456135544e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.1265712253462357,
+     "cond_Lt_N_before_normalisation": 2.126571225346234,
+     "cond_N": 1.0000000000000022,
+     "dual_basis_agreement_norm": 7.109409334892556e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 1.5931677728062588e-13,
+     "residual_A1_P": 1.6161454735683627e-13,
+     "residual_Lt_A1": 1.6074262285046912e-13,
+     "residual_Lt_N_minus_I": 2.7599392275003717e-15,
+     "residual_P_A1": 1.609569289163135e-13,
+     "residual_P_squared_minus_P": 2.911251671390788e-15,
+     "svd_rank_separation_ratio": 25529294158562.31,
+     "svd_rank_tolerance": 2.9806816862885657e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 3.0000763984337997,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 1.238944717656428,
+     "kappa_0_threshold": 1304.7138103909704,
+     "lambda_max_X": 0.20178462883549542,
+     "lambda_min_X": 0.022419372430555223,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.588282969273732,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.588282969273732,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 1000.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 6.430968646498059e-09,
+    "min_abs_error": 6.707745470180271e-12,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 9.13859945494977e-08,
+      "f": 0.5882828778877375,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 6.707745470180271e-12,
+      "f": 0.5882829692804398,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 6.471645441763485e-11,
+      "f": 0.5882829693384485,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 6.507262506616485e-10,
+      "f": 0.5882829699244583,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 6.430968646498059e-09,
+      "f": 0.5882829757047007,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.44847219253575593,
+   "p_bar": 6.0,
+   "solute": "5CQA",
+   "status": "pass",
+   "warnings": []
+  },
+  {
+   "T_degC": 88.0,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 39496043915957.19,
+     "rank_gap_ratio_A1_squared": 4464898588279.356,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 2.674767963256982e-12,
+     "threshold_rank_tolerance_A1_squared": 5.3563231810200324e-11
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -1.2181808271874337,
+     "min_abs_fast_eigenvalue": 1.2181808271874337,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 20.022356959018037,
+     "spectral_tolerance": 2.0022356959018038e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.1265712253462343,
+     "cond_Lt_N_before_normalisation": 2.1265712253462348,
+     "cond_N": 1.0000000000000033,
+     "dual_basis_agreement_norm": 6.257284203697161e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 5.330715941177007e-14,
+     "residual_A1_P": 5.4013868790795886e-14,
+     "residual_Lt_A1": 5.30283018872435e-14,
+     "residual_Lt_N_minus_I": 5.087802874177141e-15,
+     "residual_P_A1": 5.335934741107296e-14,
+     "residual_P_squared_minus_P": 5.1914916757702595e-15,
+     "svd_rank_separation_ratio": 30163569317970.707,
+     "svd_rank_tolerance": 2.674767963256982e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 4.786888427401045,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 0.43696103424217625,
+     "kappa_0_threshold": 1568.6434553404245,
+     "lambda_max_X": 0.5721333949915609,
+     "lambda_min_X": 0.02496839853749444,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.5668952959699235,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.5668952959699235,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 1000.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 4.930652663936996e-09,
+    "min_abs_error": 4.71556127479289e-12,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 1.073030412845899e-05,
+      "f": 0.566884565665795,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 4.71556127479289e-12,
+      "f": 0.5668952959652079,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 5.2845394726830364e-11,
+      "f": 0.5668952959170781,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 4.822225951883752e-10,
+      "f": 0.5668952954877009,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 4.930652663936996e-09,
+      "f": 0.5668952910392708,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.9267257416070888,
+   "p_bar": 12.0,
+   "solute": "caffeine",
+   "status": "pass",
+   "warnings": []
+  },
+  {
+   "T_degC": 88.0,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 29167881901348.84,
+     "rank_gap_ratio_A1_squared": 21702034507600.11,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 2.6504649397785017e-12,
+     "threshold_rank_tolerance_A1_squared": 5.150123371647821e-11
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -2.6913406393026404,
+     "min_abs_fast_eigenvalue": 2.6913406393026404,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 19.418122882066868,
+     "spectral_tolerance": 1.941812288206687e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.126571225346234,
+     "cond_Lt_N_before_normalisation": 2.1265712253462357,
+     "cond_N": 1.0000000000000027,
+     "dual_basis_agreement_norm": 6.121163646350534e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 1.2861660420867905e-13,
+     "residual_A1_P": 1.341429806860486e-13,
+     "residual_Lt_A1": 1.330780106507211e-13,
+     "residual_Lt_N_minus_I": 3.507244599371366e-15,
+     "residual_P_A1": 1.3345625200972095e-13,
+     "residual_P_squared_minus_P": 2.737396389621794e-15,
+     "svd_rank_separation_ratio": 29156587747010.605,
+     "svd_rank_tolerance": 2.650464939778501e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 3.0317342215605776,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 1.0574873702418324,
+     "kappa_0_threshold": 751.6260907889848,
+     "lambda_max_X": 0.2364094428312922,
+     "lambda_min_X": 0.025720687180115023,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.6573186291202553,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.6573186291202553,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 100.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 3.3125359122365694e-09,
+    "min_abs_error": 3.7903014060702844e-13,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 3.7903014060702844e-13,
+      "f": 0.6573186291198763,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 2.761679773755077e-12,
+      "f": 0.6573186291174936,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 2.9480751173593944e-11,
+      "f": 0.6573186290907745,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 3.0978697385108944e-10,
+      "f": 0.6573186288104683,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 3.3125359122365694e-09,
+      "f": 0.6573186258077194,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.9267257416070888,
+   "p_bar": 12.0,
+   "solute": "trigonelline",
+   "status": "pass",
+   "warnings": []
+  },
+  {
+   "T_degC": 88.0,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 96332636524300.98,
+     "rank_gap_ratio_A1_squared": 8719835351073.224,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 2.6385485767925887e-12,
+     "threshold_rank_tolerance_A1_squared": 5.213091242099987e-11
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -1.6629519185915382,
+     "min_abs_fast_eigenvalue": 1.6629519185915382,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 19.75736371627169,
+     "spectral_tolerance": 1.975736371627169e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.1265712253462343,
+     "cond_Lt_N_before_normalisation": 2.126571225346237,
+     "cond_N": 1.0000000000000027,
+     "dual_basis_agreement_norm": 7.196461716856401e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 1.2057158923979783e-13,
+     "residual_A1_P": 1.2207446993972999e-13,
+     "residual_Lt_A1": 4.4895806974536883e-14,
+     "residual_Lt_N_minus_I": 2.0111703788610257e-14,
+     "residual_P_A1": 4.533683194946906e-14,
+     "residual_P_squared_minus_P": 2.0430729234584494e-14,
+     "svd_rank_separation_ratio": 41317011140549.05,
+     "svd_rank_tolerance": 2.6385485767925875e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 3.995265595466499,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 0.6188824112789483,
+     "kappa_0_threshold": 1154.412045157838,
+     "lambda_max_X": 0.40395395869041384,
+     "lambda_min_X": 0.02530699373823047,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.5882829692737648,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.5882829692737648,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 1000.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 2.282819488996779e-10,
+    "min_abs_error": 4.809486142676178e-13,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 9.960956948162902e-09,
+      "f": 0.5882829593128078,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 4.809486142676178e-13,
+      "f": 0.5882829692732838,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 4.088396288182139e-12,
+      "f": 0.5882829692696764,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 8.901157588780961e-11,
+      "f": 0.5882829691847532,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 2.282819488996779e-10,
+      "f": 0.5882829690454828,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.9267257416070888,
+   "p_bar": 12.0,
+   "solute": "5CQA",
+   "status": "pass",
+   "warnings": []
+  },
+  {
+   "T_degC": 98.0,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 38523824375583.1,
+     "rank_gap_ratio_A1_squared": 6203552496600.916,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 3.093994487865057e-12,
+     "threshold_rank_tolerance_A1_squared": 7.163543425680369e-11
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -1.6163999769386308,
+     "min_abs_fast_eigenvalue": 1.6163999769386308,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 23.14736835292755,
+     "spectral_tolerance": 2.314736835292755e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.1265712253462374,
+     "cond_Lt_N_before_normalisation": 2.126571225346238,
+     "cond_N": 1.0000000000000027,
+     "dual_basis_agreement_norm": 6.491568488627222e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 6.907468163934614e-14,
+     "residual_A1_P": 6.999888910557564e-14,
+     "residual_Lt_A1": 6.695936034182391e-14,
+     "residual_Lt_N_minus_I": 1.4926546069530998e-14,
+     "residual_P_A1": 7.089466999201538e-14,
+     "residual_P_squared_minus_P": 1.5053026390100516e-14,
+     "svd_rank_separation_ratio": 38543253089130.84,
+     "svd_rank_tolerance": 3.0939944878650585e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 4.414610631995534,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 0.5940062278240335,
+     "kappa_0_threshold": 1313.302704208763,
+     "lambda_max_X": 0.4208710082313467,
+     "lambda_min_X": 0.021595546584686095,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.5632558200559413,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.5632558200559413,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 1000.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 9.673392087350408e-10,
+    "min_abs_error": 1.1369793995186228e-12,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 7.356217489817851e-06,
+      "f": 0.5632484638384515,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 1.1369793995186228e-12,
+      "f": 0.5632558200548043,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 1.1066814131766023e-11,
+      "f": 0.5632558200448745,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 1.5571077760512253e-10,
+      "f": 0.5632558199002305,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 9.673392087350408e-10,
+      "f": 0.5632558190886021,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.8260771111282058,
+   "p_bar": 12.0,
+   "solute": "caffeine",
+   "status": "pass",
+   "warnings": []
+  },
+  {
+   "T_degC": 98.0,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 166048142590511.25,
+     "rank_gap_ratio_A1_squared": 28856470074488.71,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 2.858968530315099e-12,
+     "threshold_rank_tolerance_A1_squared": 6.00449539993654e-11
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -3.281392409583142,
+     "min_abs_fast_eigenvalue": 3.281392409583142,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 20.994621023314735,
+     "spectral_tolerance": 2.0994621023314737e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.126571225346236,
+     "cond_Lt_N_before_normalisation": 2.1265712253462334,
+     "cond_N": 1.0000000000000018,
+     "dual_basis_agreement_norm": 6.532291202529777e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 4.93965019603855e-14,
+     "residual_A1_P": 5.2123085486850496e-14,
+     "residual_Lt_A1": 5.240711322706206e-14,
+     "residual_Lt_N_minus_I": 2.3597810768671258e-14,
+     "residual_P_A1": 5.265730028137582e-14,
+     "residual_P_squared_minus_P": 2.459881598229746e-14,
+     "svd_rank_separation_ratio": 103036005870237.64,
+     "svd_rank_tolerance": 2.858968530315097e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 2.812043119516442,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 1.3284560652173933,
+     "kappa_0_threshold": 694.673568701011,
+     "lambda_max_X": 0.18818838390345194,
+     "lambda_min_X": 0.023798460346932768,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.6502387050104786,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.6502387050104786,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 100.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 2.9472491114290733e-10,
+    "min_abs_error": 4.2299497238218464e-14,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 4.2299497238218464e-14,
+      "f": 0.650238705010521,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 3.8691272408186705e-13,
+      "f": 0.6502387050108656,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 1.9759749392278536e-12,
+      "f": 0.6502387050124546,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 2.772104767956307e-11,
+      "f": 0.6502387049827576,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 2.9472491114290733e-10,
+      "f": 0.6502387053052036,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.8260771111282058,
+   "p_bar": 12.0,
+   "solute": "trigonelline",
+   "status": "pass",
+   "warnings": []
+  },
+  {
+   "T_degC": 98.0,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 102096101848681.47,
+     "rank_gap_ratio_A1_squared": 10941573483145.99,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 2.8594723349536467e-12,
+     "threshold_rank_tolerance_A1_squared": 6.123823817766395e-11
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -2.0582012118644992,
+     "min_abs_fast_eigenvalue": 2.0582012118644992,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 21.415183556769627,
+     "spectral_tolerance": 2.1415183556769626e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.126571225346239,
+     "cond_Lt_N_before_normalisation": 2.1265712253462374,
+     "cond_N": 1.0000000000000024,
+     "dual_basis_agreement_norm": 6.428653703765609e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 8.526290812826769e-14,
+     "residual_A1_P": 8.637717658246065e-14,
+     "residual_Lt_A1": 4.992848467457512e-14,
+     "residual_Lt_N_minus_I": 1.6498375305470496e-14,
+     "residual_P_A1": 5.038255500153817e-14,
+     "residual_P_squared_minus_P": 1.6717041202559478e-14,
+     "svd_rank_separation_ratio": 70990184492302.34,
+     "svd_rank_tolerance": 2.859472334953647e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 3.687336962794009,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 0.7875471277759448,
+     "kappa_0_threshold": 1038.5683725688937,
+     "lambda_max_X": 0.31744132024963,
+     "lambda_min_X": 0.02334736123970196,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.5839698519038827,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.5839698519038827,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 1000.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 7.43752948118015e-10,
+    "min_abs_error": 6.394884621840902e-13,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 8.859181832576724e-09,
+      "f": 0.5839698430447009,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 6.394884621840902e-13,
+      "f": 0.5839698519032432,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 5.9502403004785265e-12,
+      "f": 0.5839698518979325,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 1.0892109436611008e-10,
+      "f": 0.5839698517949616,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 7.43752948118015e-10,
+      "f": 0.5839698511601298,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.8260771111282058,
+   "p_bar": 12.0,
+   "solute": "5CQA",
+   "status": "pass",
+   "warnings": []
+  },
+  {
+   "T_degC": 98.0,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 48623362020189.586,
+     "rank_gap_ratio_A1_squared": 8903309473584.309,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 3.4852180396043928e-12,
+     "threshold_rank_tolerance_A1_squared": 9.090609734882382e-11
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -2.1830876976501266,
+     "min_abs_fast_eigenvalue": 2.1830876976501266,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 26.075501069547126,
+     "spectral_tolerance": 2.607550106954713e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.1265712253462343,
+     "cond_Lt_N_before_normalisation": 2.126571225346236,
+     "cond_N": 1.000000000000003,
+     "dual_basis_agreement_norm": 6.173418773938948e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 6.96436528135587e-14,
+     "residual_A1_P": 7.07536720809468e-14,
+     "residual_Lt_A1": 8.421207423372895e-14,
+     "residual_Lt_N_minus_I": 7.234915693631817e-15,
+     "residual_P_A1": 8.44198861716895e-14,
+     "residual_P_squared_minus_P": 7.287797219819615e-15,
+     "svd_rank_separation_ratio": 45266667309300.375,
+     "svd_rank_tolerance": 3.485218039604394e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 3.967030733455946,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 0.8286973506247665,
+     "kappa_0_threshold": 1255.1232913307479,
+     "lambda_max_X": 0.3016782904054436,
+     "lambda_min_X": 0.019169594585629668,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.5632558200559199,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.5632558200559199,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 1000.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 1.485259137901096e-09,
+    "min_abs_error": 7.326361739501408e-13,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 6.552269350534878e-06,
+      "f": 0.5632492677865694,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 7.326361739501408e-13,
+      "f": 0.5632558200566525,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 1.5113799101129644e-11,
+      "f": 0.5632558200710337,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 1.5125856123177073e-10,
+      "f": 0.5632558202071785,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 1.485259137901096e-09,
+      "f": 0.563255821541179,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.6331608995473678,
+   "p_bar": 9.0,
+   "solute": "caffeine",
+   "status": "pass",
+   "warnings": []
+  },
+  {
+   "T_degC": 98.0,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 66873766792484.6,
+     "rank_gap_ratio_A1_squared": 38140903839143.7,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 2.9995215311091398e-12,
+     "threshold_rank_tolerance_A1_squared": 6.599121548695268e-11
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -4.0271534231871495,
+     "min_abs_fast_eigenvalue": 4.0271534231871495,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 21.997378503967326,
+     "spectral_tolerance": 2.1997378503967327e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.126571225346238,
+     "cond_Lt_N_before_normalisation": 2.1265712253462365,
+     "cond_N": 1.000000000000002,
+     "dual_basis_agreement_norm": 6.41931839862784e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 8.15647387855048e-14,
+     "residual_A1_P": 8.525878642799723e-14,
+     "residual_Lt_A1": 8.550447076078834e-14,
+     "residual_Lt_N_minus_I": 2.9500279162707397e-15,
+     "residual_P_A1": 8.533076595894652e-14,
+     "residual_P_squared_minus_P": 2.4370334681885587e-15,
+     "svd_rank_separation_ratio": 58789994766092.77,
+     "svd_rank_tolerance": 2.999521531109138e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 2.5495965807103356,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 1.6928021595231226,
+     "kappa_0_threshold": 749.5900830633427,
+     "lambda_max_X": 0.1476841216166851,
+     "lambda_min_X": 0.022719086665132004,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.6502387050104843,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.6502387050104843,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 100.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 6.588306677990374e-09,
+    "min_abs_error": 6.192824031359123e-13,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 6.192824031359123e-13,
+      "f": 0.6502387050111036,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 6.661449170053402e-12,
+      "f": 0.6502387050171458,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 6.476208458394694e-11,
+      "f": 0.6502387050752464,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 6.562044241320564e-10,
+      "f": 0.6502387056666887,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 6.588306677990374e-09,
+      "f": 0.650238711598791,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.6331608995473678,
+   "p_bar": 9.0,
+   "solute": "trigonelline",
+   "status": "pass",
+   "warnings": []
+  },
+  {
+   "T_degC": 98.0,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 126241994412751.78,
+     "rank_gap_ratio_A1_squared": 16151928500488.707,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 2.989440410872975e-12,
+     "threshold_rank_tolerance_A1_squared": 6.691755995106337e-11
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -2.5597830606972996,
+     "min_abs_fast_eigenvalue": 2.5597830606972996,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 22.38316476042251,
+     "spectral_tolerance": 2.238316476042251e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.1265712253462343,
+     "cond_Lt_N_before_normalisation": 2.126571225346235,
+     "cond_N": 1.000000000000002,
+     "dual_basis_agreement_norm": 7.20298932110384e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 1.951955833408961e-13,
+     "residual_A1_P": 1.9753596107634765e-13,
+     "residual_Lt_A1": 5.2446335113272566e-14,
+     "residual_Lt_N_minus_I": 1.9151591840984798e-14,
+     "residual_P_A1": 5.339981475378086e-14,
+     "residual_P_squared_minus_P": 1.9397784523028452e-14,
+     "svd_rank_separation_ratio": 55993038862735.4,
+     "svd_rank_tolerance": 2.989440410872975e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 3.3194860691878674,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 1.015710833621135,
+     "kappa_0_threshold": 1084.4483847380316,
+     "lambda_max_X": 0.24613304468627062,
+     "lambda_min_X": 0.02233717379202975,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.5839698519039073,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.5839698519039073,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 1000.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 5.54444379297081e-10,
+    "min_abs_error": 5.875300246316328e-13,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 2.0928165089806328e-08,
+      "f": 0.5839698309757422,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 5.875300246316328e-13,
+      "f": 0.5839698519044948,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 3.905431533723913e-12,
+      "f": 0.5839698519078127,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 5.216527210194499e-11,
+      "f": 0.5839698519560725,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 5.54444379297081e-10,
+      "f": 0.5839698524583516,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.6331608995473678,
+   "p_bar": 9.0,
+   "solute": "5CQA",
+   "status": "pass",
+   "warnings": []
+  },
+  {
+   "T_degC": 98.0,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 19161911836827.62,
+     "rank_gap_ratio_A1_squared": 15798232173299.537,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 4.348417271261476e-12,
+     "threshold_rank_tolerance_A1_squared": 1.4154043480893778e-10
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -3.670646687578904,
+     "min_abs_fast_eigenvalue": 3.670646687578904,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 32.536404143088234,
+     "spectral_tolerance": 3.2536404143088237e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.1265712253462383,
+     "cond_Lt_N_before_normalisation": 2.126571225346238,
+     "cond_N": 1.0000000000000027,
+     "dual_basis_agreement_norm": 5.549649415665336e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 2.643446064947048e-13,
+     "residual_A1_P": 2.6592145888736024e-13,
+     "residual_Lt_A1": 2.6562852346438595e-13,
+     "residual_Lt_N_minus_I": 2.7436999804239406e-15,
+     "residual_P_A1": 2.6606105183925107e-13,
+     "residual_P_squared_minus_P": 2.339221062333358e-15,
+     "svd_rank_separation_ratio": 19161910679530.395,
+     "svd_rank_tolerance": 4.3484172712614754e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 3.3093895025071736,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 1.48596432353592,
+     "kappa_0_threshold": 1159.160138158133,
+     "lambda_max_X": 0.16824091671670394,
+     "lambda_min_X": 0.015361578911396903,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.563255820055932,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.563255820055932,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 1000.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 3.7068862424050053e-09,
+    "min_abs_error": 3.8122838219578625e-12,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 5.769526691623561e-06,
+      "f": 0.5632500505292404,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 3.8122838219578625e-12,
+      "f": 0.5632558200521197,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 3.949041094131189e-11,
+      "f": 0.5632558200164416,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 3.705582507507188e-10,
+      "f": 0.5632558196853737,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 3.7068862424050053e-09,
+      "f": 0.5632558163490458,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.3997651048181869,
+   "p_bar": 6.0,
+   "solute": "caffeine",
+   "status": "pass",
+   "warnings": []
+  },
+  {
+   "T_degC": 98.0,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 130703054940724.1,
+     "rank_gap_ratio_A1_squared": 63720135648775.625,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 3.3390463693910413e-12,
+     "threshold_rank_tolerance_A1_squared": 8.14558281851392e-11
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -5.738181267168308,
+     "min_abs_fast_eigenvalue": 5.738181267168308,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 24.39800316968305,
+     "spectral_tolerance": 2.439800316968305e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.1265712253462357,
+     "cond_Lt_N_before_normalisation": 2.1265712253462365,
+     "cond_N": 1.0000000000000029,
+     "dual_basis_agreement_norm": 6.14632842709736e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 8.472618191668087e-14,
+     "residual_A1_P": 8.847414550856155e-14,
+     "residual_Lt_A1": 6.868995934690027e-14,
+     "residual_Lt_N_minus_I": 2.3873354640058545e-15,
+     "residual_P_A1": 6.907387153675419e-14,
+     "residual_P_squared_minus_P": 2.2332699206501028e-15,
+     "svd_rank_separation_ratio": 94709872619003.14,
+     "svd_rank_tolerance": 3.3390463693910413e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 2.175225907866296,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 2.5784055376611574,
+     "kappa_0_threshold": 869.3940718308261,
+     "lambda_max_X": 0.09695914639819311,
+     "lambda_min_X": 0.020491797189446603,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.6502387050104929,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.6502387050104929,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 100.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 2.229138873488523e-09,
+    "min_abs_error": 2.3636648194269583e-13,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 2.3636648194269583e-13,
+      "f": 0.6502387050102565,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 2.1245227799226996e-12,
+      "f": 0.6502387050083683,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 2.044620028840427e-11,
+      "f": 0.6502387049900467,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 2.1539836581041527e-10,
+      "f": 0.6502387047950945,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 2.229138873488523e-09,
+      "f": 0.650238702781354,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.3997651048181869,
+   "p_bar": 6.0,
+   "solute": "trigonelline",
+   "status": "pass",
+   "warnings": []
+  },
+  {
+   "T_degC": 98.0,
+   "algebraic_limit_ok": true,
+   "applies_to_varieties": [
+    "Arabica",
+    "Robusta"
+   ],
+   "assumptions": {
+    "A2_semisimple_zero": {
+     "minimum_gap_ratio_required": 1000000.0,
+     "nullity": 201,
+     "rank_A1": 400,
+     "rank_A1_squared": 400,
+     "rank_cut_ambiguous": false,
+     "rank_gap_ratio_A1": 37992387510552.7,
+     "rank_gap_ratio_A1_squared": 27646130477319.863,
+     "rank_tolerance_family": [
+      0.1,
+      1.0,
+      10.0
+     ],
+     "rank_under_tolerance_family": {
+      "x0.1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x1": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      },
+      "x10": {
+       "rank_A1": 400,
+       "rank_A1_squared": 400
+      }
+     },
+     "semisimple": true,
+     "test": "rank(A1) == rank(A1^2), ranks taken at a separated singular-value gap",
+     "threshold_family_note": "recorded for transparency only; the rank verdict is taken from the separation gap, because a threshold near the noise floor of an exactly singular operator is straddled by numerically-zero singular values",
+     "threshold_rank_tolerance": 3.2922344149061227e-12,
+     "threshold_rank_tolerance_A1_squared": 8.111410699570878e-11
+    },
+    "A3_stable_fast_spectrum": {
+     "all_fast_modes_strictly_stable": true,
+     "fast_mode_count": 400,
+     "max_real_fast_eigenvalue": -3.7321982859921397,
+     "min_abs_fast_eigenvalue": 3.7321982859921397,
+     "slow_mode_count": 201,
+     "spectral_method": "ordered real Schur (scipy.linalg.schur, nonzero modes sorted first)",
+     "spectral_radius": 24.63374289115644,
+     "spectral_tolerance": 2.463374289115644e-07,
+     "spectral_tolerance_rule": "|lambda| > 1e-08 * spectral_radius"
+    },
+    "A4_A5_bases_and_normalisation": {
+     "cond_L": 2.1265712253462383,
+     "cond_Lt_N_before_normalisation": 2.1265712253462365,
+     "cond_N": 1.0000000000000018,
+     "dual_basis_agreement_norm": 6.112257440590472e-14,
+     "identities_within_tolerance": true,
+     "identity_tolerance": 1e-10,
+     "nullity": 201,
+     "rank": 400,
+     "residual_A1_N": 1.321508616535734e-13,
+     "residual_A1_P": 1.3366058114896725e-13,
+     "residual_Lt_A1": 1.5923064325644688e-13,
+     "residual_Lt_N_minus_I": 4.791490994852971e-15,
+     "residual_P_A1": 1.5946430130955703e-13,
+     "residual_P_squared_minus_P": 4.696750034655385e-15,
+     "svd_rank_separation_ratio": 38001111702965.53,
+     "svd_rank_tolerance": 3.2922344149061223e-12,
+     "well_conditioned_bases": true
+    },
+    "lemma3_derived_constants": {
+     "M_decay_constant": 2.7863690638234635,
+     "applicable": true,
+     "bound": "||exp((kappa F + A_ff) t)|| <= M exp(-gamma kappa t) for kappa >= kappa_0",
+     "derived_not_fitted": true,
+     "gamma_decay_rate": 1.5866355908990484,
+     "kappa_0_threshold": 1175.4865450885304,
+     "lambda_max_X": 0.15756611123184275,
+     "lambda_min_X": 0.020294835588073462,
+     "lyapunov_equation": "F^T X + X F = -I on the fast block"
+    }
+   },
+   "endpoint": {
+    "f_inf": 0.5839698519038679,
+    "finite": true,
+    "imag_part_magnitude": 0.0,
+    "imag_tolerance": 1e-12,
+    "output_fast_component_norm": 0.0,
+    "output_functional": "accumulated-mass coordinate divided by dVol*T",
+    "output_is_slow_coordinate": true,
+    "real_within_tolerance": true,
+    "strictly_positive": true
+   },
+   "endpoint_construction_ok": true,
+   "f_inf": 0.5839698519038679,
+   "finite_kappa_diagnostic": {
+    "best_kappa": 1000.0,
+    "convergence_tolerance": 1e-09,
+    "disposition": "method_limited",
+    "final_abs_error": 1.356834311572186e-09,
+    "min_abs_error": 9.32032229172819e-13,
+    "role": "DIAGNOSTIC ONLY - it does not prove the proposition",
+    "sequence": [
+     {
+      "abs_error": 9.48036880110692e-08,
+      "f": 0.5839697571001798,
+      "kappa": 100.0
+     },
+     {
+      "abs_error": 9.32032229172819e-13,
+      "f": 0.5839698519047999,
+      "kappa": 1000.0
+     },
+     {
+      "abs_error": 1.1039391623057782e-11,
+      "f": 0.5839698519149072,
+      "kappa": 10000.0
+     },
+     {
+      "abs_error": 1.135512794903093e-10,
+      "f": 0.5839698520174191,
+      "kappa": 100000.0
+     },
+     {
+      "abs_error": 1.356834311572186e-09,
+      "f": 0.5839698532607022,
+      "kappa": 1000000.0
+     }
+    ],
+    "tail_absolute_cap": 1e-06
+   },
+   "horizon_tc": 0.3997651048181869,
+   "p_bar": 6.0,
+   "solute": "5CQA",
+   "status": "pass",
+   "warnings": []
+  }
+ ],
+ "closure_rule": "overall_PR03a_status = assured iff algebraic_limit_status = assured and endpoint_construction_status = verified and coverage_status = complete and finite_kappa_validation_status != inconsistent",
  "construction": {
+  "endpoint": "z_inf(T) = N exp(A_s T) L^T z0",
   "method": "rank-revealing SVD null bases; N spans ker(A1), L spans ker(A1^T), L^T N = I",
   "reduced_operator": "A_s = L^T A0 N",
-  "endpoint": "z_inf(T) = N exp(A_s T) L^T z0",
   "why_not_eigensystem": "cond(full eigenvector matrix) ~5e10; the eigen-projector endpoint differs from the independent high-kappa limit by 4.3e-9, whereas this construction agrees to ~1e-12. The discrepancy previously read as a convergence floor was the construction's own conditioning error."
  },
+ "coverage": {
+  "cells_failing": 0,
+  "cells_passing": 27,
+  "conditions": 9,
+  "declared_cells": 54,
+  "deduplication_proof": "the pencil depends on (T, p, solute) only; variety enters solely through y, never read here. Each cell covers both varieties; declared coverage is complete.",
+  "operator_distinct_cells": 27
+ },
+ "coverage_status": "complete",
+ "endpoint_construction_status": "verified",
  "endpoint_remainder_note": "At kappa = infinity the asymptotic remainder is ZERO. A finite-kappa C/kappa term is therefore NOT an uncertainty contribution to J_inf and must not enter the endpoint budget; it controls only the finite tail onset (PR-03b).",
+ "environment": {
+  "numpy": "2.5.1",
+  "platform": "macOS-26.6-arm64-arm-64bit-Mach-O",
+  "python": "3.13.13",
+  "scipy": "1.18.0"
+ },
+ "finite_kappa_diagnostic_note": "The high-kappa sequence is a DIAGNOSTIC and is not an independent proof. Its U-shaped error is read as degradation of the measurement rather than of the limit; that reading is a diagnostic interpretation, NOT a proved error law, and no universal O(kappa*eps) claim is made. method_limited does not block assurance; inconsistent does.",
+ "finite_kappa_validation_status": "method_limited",
+ "overall_PR03a_status": "assured",
+ "premise": "PR-03a",
+ "proposition": {
+  "artefact": "docs/paper1_resource/PAPER_A_FIXED_TIME_SINGULAR_LIMIT_PROPOSITION.md",
+  "proved_here": false,
+  "qualification": "Convergence is NOT uniform at t = 0 for off-manifold initial data: z_kappa(0) - P z0 = Q z0, independent of kappa. No uniform O(1/kappa) state bound on [0, T] is claimed. Permitted formulations are fixed positive T, or uniformity on [delta, T] for every delta > 0.",
+  "role_of_this_producer": "verifies the proposition's ASSUMPTIONS at every declared cell and constructs the endpoint; it does not prove the proposition",
+  "sha256": "9f8bbeeb8319aa09cc409db8d8d457c269f42c665408090ba2d0f81b7d4b2c25",
+  "statement": "For fixed T > 0, exp((A0 + kappa A1) T) -> N exp((L^T A0 N) T) L^T, under a semisimple zero eigenvalue of A1 and a strictly stable nonzero spectrum."
+ },
+ "provenance": {
+  "command": "python tools/paper_a_endpoint_construction.py --write",
+  "inputs": {
+   "puckworks/models/pannusch2024/closures.py": "9d144765200b66422e72218f8ceff5d5ca531da88150fa71d023bbc490b20cf1",
+   "puckworks/models/pannusch2024/solver.py": "82c3e573611b0195e781b8f312745deea03f49e100e387cae1b115e79950e37b",
+   "tools/paper_a_saturation_verification.py": "517a43a7ac1a8e5eb978aae62f0097128fd96153783e93aa4eb08004d548bccd",
+   "tools/paper_a_singular_limit_bound.py": "ea1bb29a23b6dd00a920e1cb7f799c4cce1ed1ac050c8fad7745cbfedadd3d5d"
+  },
+  "manual_verdict_editing": "PROHIBITED; the archive is generated",
+  "producer": "tools/paper_a_endpoint_construction.py",
+  "producer_sha256": "f8525c42c5ab4b13c3d684b35aeae02aa0f464268d06d08f7fc3778ec15d5251",
+  "verification_command": "python tools/paper_a_endpoint_construction.py --check"
+ },
+ "question": "Does f(kappa) converge to a trustworthy analytical endpoint f_inf, computed by a stable construction whose assumptions are verified at every declared cell? This decides the P0-G8 ENDPOINT classification; it does not localise the finite tail onset, which is PR-03b.",
+ "schema_version": 2,
+ "scope_note": "MODEL-ONLY. No y, J, J_ref, J_inf, threshold, profile component, tail classification or shoulder is read or computed.",
+ "tolerances": {
+  "check_relative_tolerance": 1e-09,
+  "convergence_tolerance": 1e-09,
+  "identity_tolerance": 1e-10,
+  "imag_tolerance": 1e-12,
+  "rank_tolerance_family": [
+   0.1,
+   1.0,
+   10.0
+  ],
+  "spectral_tolerance_relative": 1e-08,
+  "tail_absolute_cap": 1e-06
+ },
  "verification_sequence": [
   100.0,
   1000.0,
   10000.0,
   100000.0,
   1000000.0
- ],
- "coverage": {
-  "conditions": 9,
-  "declared_cells": 54,
-  "operator_distinct_cells": 27,
-  "deduplication_proof": "the pencil depends on (T, p, solute) only; variety enters solely through y, never read here. Each cell covers both varieties; declared coverage is complete.",
-  "cells_passing": 27,
-  "cells_failing": 0
- },
- "cells": [
-  {
-   "solute": "caffeine",
-   "T_degC": 93.4,
-   "p_bar": 9.0,
-   "horizon_tc": 0.6666666666666666,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 8.29700106825461e-14,
-   "residual_Lt_A1": 8.352066167973955e-14,
-   "residual_Lt_N_minus_I": 2.5414912957427977e-15,
-   "residual_P_squared_minus_P": 2.0276227208787326e-15,
-   "residual_A1_P": 8.461611828649195e-14,
-   "residual_P_A1": 8.393281167589853e-14,
-   "cond_N": 1.0000000000000016,
-   "cond_L": 2.126571225346236,
-   "svd_rank_separation_ratio": 34831716858588.28,
-   "cond_Lt_N_before_normalisation": 2.1265712253462357,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.5648928393853675,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.5648852355646036,
-     "abs_error": 7.603820763923963e-06
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.5648928393887338,
-     "abs_error": 3.366307232965937e-12
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.564892839416245,
-     "abs_error": 3.0877522760874854e-11
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.5648928397014396,
-     "abs_error": 3.160720574157949e-10
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.5648928425669646,
-     "abs_error": 3.181597096890698e-09
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 1000.0,
-   "min_abs_error": 3.366307232965937e-12,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    9.173,
-    10.236,
-    10.066
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 3.181597096890698e-09,
-   "status": "pass"
-  },
-  {
-   "solute": "trigonelline",
-   "T_degC": 93.4,
-   "p_bar": 9.0,
-   "horizon_tc": 0.6666666666666666,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 1.1320328915789559e-13,
-   "residual_Lt_A1": 1.1403598962818054e-13,
-   "residual_Lt_N_minus_I": 2.183370588699611e-15,
-   "residual_P_squared_minus_P": 1.994059668813475e-15,
-   "residual_A1_P": 1.1825465001197186e-13,
-   "residual_P_A1": 1.1390807958973168e-13,
-   "cond_N": 1.0000000000000018,
-   "cond_L": 2.1265712253462357,
-   "svd_rank_separation_ratio": 38464052534034.836,
-   "cond_Lt_N_before_normalisation": 2.1265712253462348,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.6534192990434472,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.6534192990423682,
-     "abs_error": 1.0790257576331896e-12
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.6534192990329858,
-     "abs_error": 1.0461409516437925e-11
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.6534192989361298,
-     "abs_error": 1.0731737720703904e-10
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.6534192979698082,
-     "abs_error": 1.0736389555177084e-09
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.6534192882812362,
-     "abs_error": 1.0762211011261513e-08
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 100.0,
-   "min_abs_error": 1.0790257576331896e-12,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    9.695,
-    10.258,
-    10.004,
-    10.024
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 1.0762211011261513e-08,
-   "status": "pass"
-  },
-  {
-   "solute": "5CQA",
-   "T_degC": 93.4,
-   "p_bar": 9.0,
-   "horizon_tc": 0.6666666666666666,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 6.721369563569475e-14,
-   "residual_Lt_A1": 1.630130358117084e-13,
-   "residual_Lt_N_minus_I": 2.634507256569229e-15,
-   "residual_P_squared_minus_P": 2.0468639708565728e-15,
-   "residual_A1_P": 6.823755109251564e-14,
-   "residual_P_A1": 1.632889572361241e-13,
-   "cond_N": 1.000000000000003,
-   "cond_L": 2.126571225346237,
-   "svd_rank_separation_ratio": 39090038095491.695,
-   "cond_Lt_N_before_normalisation": 2.126571225346236,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.5859095533589531,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.5859095321867681,
-     "abs_error": 2.117218500519158e-08
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.585909553353057,
-     "abs_error": 5.896061416876819e-12
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.5859095532994602,
-     "abs_error": 5.949296610907595e-11
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.5859095527534313,
-     "abs_error": 6.055218548794983e-10
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.5859095474286538,
-     "abs_error": 5.930299362688629e-09
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 1000.0,
-   "min_abs_error": 5.896061416876819e-12,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    10.09,
-    10.178,
-    9.794
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 5.930299362688629e-09,
-   "status": "pass"
-  },
-  {
-   "solute": "caffeine",
-   "T_degC": 93.4,
-   "p_bar": 6.0,
-   "horizon_tc": 0.4209199747952112,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 6.888697324717185e-14,
-   "residual_Lt_A1": 7.329995506881945e-14,
-   "residual_Lt_N_minus_I": 1.0431258725702945e-14,
-   "residual_P_squared_minus_P": 1.0419594962084633e-14,
-   "residual_A1_P": 7.014185205492926e-14,
-   "residual_P_A1": 7.41809228425741e-14,
-   "cond_N": 1.0000000000000024,
-   "cond_L": 2.126571225346236,
-   "svd_rank_separation_ratio": 65942724060625.945,
-   "cond_Lt_N_before_normalisation": 2.1265712253462343,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.5648928393853735,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.5648863037946894,
-     "abs_error": 6.535590684086934e-06
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.5648928393863555,
-     "abs_error": 9.81992265280951e-13
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.5648928393954574,
-     "abs_error": 1.0083933688065372e-11
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.5648928394952916,
-     "abs_error": 1.0991807464222347e-10
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.5648928405878092,
-     "abs_error": 1.2024357065598679e-09
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 1000.0,
-   "min_abs_error": 9.81992265280951e-13,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    10.269,
-    10.9,
-    10.939
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 1.2024357065598679e-09,
-   "status": "pass"
-  },
-  {
-   "solute": "trigonelline",
-   "T_degC": 93.4,
-   "p_bar": 6.0,
-   "horizon_tc": 0.4209199747952112,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 2.2699683564519312e-13,
-   "residual_Lt_A1": 2.3683012521421194e-13,
-   "residual_Lt_N_minus_I": 2.5364184497176282e-15,
-   "residual_P_squared_minus_P": 2.7003101558650135e-15,
-   "residual_A1_P": 2.366410370694784e-13,
-   "residual_P_A1": 2.3667421799258867e-13,
-   "cond_N": 1.0000000000000024,
-   "cond_L": 2.126571225346236,
-   "svd_rank_separation_ratio": 30006689793335.168,
-   "cond_Lt_N_before_normalisation": 2.1265712253462357,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.653419299043384,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.6534192990437926,
-     "abs_error": 4.085620730620576e-13
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.6534192990480411,
-     "abs_error": 4.657052521395144e-12
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.6534192990902348,
-     "abs_error": 4.685074550536683e-11
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.6534192995068989,
-     "abs_error": 4.6351489313423144e-10
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.6534193037957932,
-     "abs_error": 4.752409132890989e-09
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 100.0,
-   "min_abs_error": 4.085620730620576e-13,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    11.399,
-    10.06,
-    9.893,
-    10.253
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 4.752409132890989e-09,
-   "status": "pass"
-  },
-  {
-   "solute": "5CQA",
-   "T_degC": 93.4,
-   "p_bar": 6.0,
-   "horizon_tc": 0.4209199747952112,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 1.7654276118644257e-13,
-   "residual_Lt_A1": 1.771720593952904e-13,
-   "residual_Lt_N_minus_I": 2.51856984119485e-15,
-   "residual_P_squared_minus_P": 2.0498684788959393e-15,
-   "residual_A1_P": 1.7826207277488635e-13,
-   "residual_P_A1": 1.7699753164726189e-13,
-   "cond_N": 1.0000000000000024,
-   "cond_L": 2.1265712253462374,
-   "svd_rank_separation_ratio": 25819975039664.66,
-   "cond_Lt_N_before_normalisation": 2.126571225346236,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.5859095533589221,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.5859094618138636,
-     "abs_error": 9.15450585337041e-08
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.5859095533637012,
-     "abs_error": 4.779066031801449e-12
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.585909553406096,
-     "abs_error": 4.717382040553275e-11
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.5859095538268229,
-     "abs_error": 4.679007181707107e-10
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.5859095580493393,
-     "abs_error": 4.690417165775784e-09
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 1000.0,
-   "min_abs_error": 4.779066031801449e-12,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    9.871,
-    9.919,
-    10.024
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 4.690417165775784e-09,
-   "status": "pass"
-  },
-  {
-   "solute": "caffeine",
-   "T_degC": 93.4,
-   "p_bar": 12.0,
-   "horizon_tc": 0.8697916666666662,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 8.40623727507351e-14,
-   "residual_Lt_A1": 8.466638137992787e-14,
-   "residual_Lt_N_minus_I": 3.2154478773585377e-15,
-   "residual_P_squared_minus_P": 2.375058604168712e-15,
-   "residual_A1_P": 8.553968429853373e-14,
-   "residual_P_A1": 8.428321891315417e-14,
-   "cond_N": 1.000000000000003,
-   "cond_L": 2.126571225346237,
-   "svd_rank_separation_ratio": 24635412462393.63,
-   "cond_Lt_N_before_normalisation": 2.1265712253462357,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.5648928393853693,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.5648842227202273,
-     "abs_error": 8.616665141958357e-06
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.5648928393817184,
-     "abs_error": 3.650857394177365e-12
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.5648928393489021,
-     "abs_error": 3.646716262295513e-11
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.5648928389920492,
-     "abs_error": 3.9332004320158376e-10
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.5648928353615572,
-     "abs_error": 4.023812061326737e-09
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 1000.0,
-   "min_abs_error": 3.650857394177365e-12,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    9.989,
-    10.786,
-    10.23
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 4.023812061326737e-09,
-   "status": "pass"
-  },
-  {
-   "solute": "trigonelline",
-   "T_degC": 93.4,
-   "p_bar": 12.0,
-   "horizon_tc": 0.8697916666666662,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 6.583469571769455e-14,
-   "residual_Lt_A1": 7.021948193480112e-14,
-   "residual_Lt_N_minus_I": 2.9575016230977875e-15,
-   "residual_P_squared_minus_P": 2.3269185369310445e-15,
-   "residual_A1_P": 6.870741946156331e-14,
-   "residual_P_A1": 7.064149416306826e-14,
-   "cond_N": 1.000000000000002,
-   "cond_L": 2.126571225346234,
-   "svd_rank_separation_ratio": 49053213030906.26,
-   "cond_Lt_N_before_normalisation": 2.126571225346235,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.653419299043399,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.6534192990440751,
-     "abs_error": 6.761258219967203e-13
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.6534192990504295,
-     "abs_error": 7.030487303438804e-12
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.6534192991093377,
-     "abs_error": 6.593869894544468e-11
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.653419299703449,
-     "abs_error": 6.60050014644753e-10
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.6534193055142897,
-     "abs_error": 6.470890712151345e-09
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 100.0,
-   "min_abs_error": 6.761258219967203e-13,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    10.398,
-    9.379,
-    10.01,
-    9.804
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 6.470890712151345e-09,
-   "status": "pass"
-  },
-  {
-   "solute": "5CQA",
-   "T_degC": 93.4,
-   "p_bar": 12.0,
-   "horizon_tc": 0.8697916666666662,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 9.592660587007512e-14,
-   "residual_Lt_A1": 9.767390191605887e-14,
-   "residual_Lt_N_minus_I": 3.4019981480304494e-15,
-   "residual_P_squared_minus_P": 2.2064163781752672e-15,
-   "residual_A1_P": 9.717765107495835e-14,
-   "residual_P_A1": 9.789659669466504e-14,
-   "cond_N": 1.0000000000000022,
-   "cond_L": 2.126571225346234,
-   "svd_rank_separation_ratio": 27544793994906.45,
-   "cond_Lt_N_before_normalisation": 2.1265712253462365,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.5859095533589409,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.585909544185568,
-     "abs_error": 9.173372950144199e-09
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.585909553355199,
-     "abs_error": 3.741895682196628e-12
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.5859095533212237,
-     "abs_error": 3.771716272638059e-11
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.5859095529730947,
-     "abs_error": 3.8584624384441213e-10
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.5859095496174584,
-     "abs_error": 3.741482457186862e-09
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 1000.0,
-   "min_abs_error": 3.741895682196628e-12,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    10.08,
-    10.23,
-    9.697
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 3.741482457186862e-09,
-   "status": "pass"
-  },
-  {
-   "solute": "caffeine",
-   "T_degC": 88.0,
-   "p_bar": 9.0,
-   "horizon_tc": 0.7103047600341762,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 5.0782271898122344e-14,
-   "residual_Lt_A1": 5.2349973841166306e-14,
-   "residual_Lt_N_minus_I": 2.3236552349147508e-14,
-   "residual_P_squared_minus_P": 2.343274469550685e-14,
-   "residual_A1_P": 5.1397664775348776e-14,
-   "residual_P_A1": 5.2998129377391137e-14,
-   "cond_N": 1.000000000000002,
-   "cond_L": 2.1265712253462374,
-   "svd_rank_separation_ratio": 53801450798575.19,
-   "cond_Lt_N_before_normalisation": 2.126571225346237,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.566895295969892,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.5668859146453443,
-     "abs_error": 9.381324547641512e-06
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.5668952959701592,
-     "abs_error": 2.672306820272752e-13
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.5668952959691449,
-     "abs_error": 7.470690732702678e-13
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.5668952959331762,
-     "abs_error": 3.67157415581687e-11
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.5668952959331043,
-     "abs_error": 3.678768401016441e-11
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 1000.0,
-   "min_abs_error": 2.672306820272752e-13,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    2.796,
-    49.146,
-    1.002
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 3.678768401016441e-11,
-   "status": "pass"
-  },
-  {
-   "solute": "trigonelline",
-   "T_degC": 88.0,
-   "p_bar": 9.0,
-   "horizon_tc": 0.7103047600341762,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 1.438884601470926e-13,
-   "residual_Lt_A1": 1.493037519609755e-13,
-   "residual_Lt_N_minus_I": 2.2639560183474024e-15,
-   "residual_P_squared_minus_P": 2.1140601021870994e-15,
-   "residual_A1_P": 1.506412870434227e-13,
-   "residual_P_A1": 1.4870912751141597e-13,
-   "cond_N": 1.0000000000000018,
-   "cond_L": 2.1265712253462348,
-   "svd_rank_separation_ratio": 31817696430464.566,
-   "cond_Lt_N_before_normalisation": 2.1265712253462343,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.6573186291202583,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.6573186291194,
-     "abs_error": 8.583134203377085e-13
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.6573186291109907,
-     "abs_error": 9.267586698058494e-12
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.6573186290227668,
-     "abs_error": 9.749145934989656e-11
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.6573186281685385,
-     "abs_error": 9.517198140684968e-10
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.6573186197053704,
-     "abs_error": 9.414887869318989e-09
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 100.0,
-   "min_abs_error": 8.583134203377085e-13,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    10.797,
-    10.52,
-    9.762,
-    9.892
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 9.414887869318989e-09,
-   "status": "pass"
-  },
-  {
-   "solute": "5CQA",
-   "T_degC": 88.0,
-   "p_bar": 9.0,
-   "horizon_tc": 0.7103047600341762,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 1.6698848000160617e-13,
-   "residual_Lt_A1": 1.0168365127872674e-13,
-   "residual_Lt_N_minus_I": 3.044856221446059e-15,
-   "residual_P_squared_minus_P": 2.2898212626566027e-15,
-   "residual_A1_P": 1.6946946767909936e-13,
-   "residual_P_A1": 1.0128417460677034e-13,
-   "cond_N": 1.0000000000000027,
-   "cond_L": 2.1265712253462383,
-   "svd_rank_separation_ratio": 25744828139029.59,
-   "cond_Lt_N_before_normalisation": 2.1265712253462365,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.5882829692737865,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.5882829469193653,
-     "abs_error": 2.2354421203019115e-08
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.5882829692634259,
-     "abs_error": 1.0360601265801961e-11
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.588282969171232,
-     "abs_error": 1.0255452043139712e-10
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.5882829682462787,
-     "abs_error": 1.0275078565769036e-09
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.5882829590307816,
-     "abs_error": 1.024300488872143e-08
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 1000.0,
-   "min_abs_error": 1.0360601265801961e-11,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    9.899,
-    10.019,
-    9.969
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 1.024300488872143e-08,
-   "status": "pass"
-  },
-  {
-   "solute": "caffeine",
-   "T_degC": 88.0,
-   "p_bar": 6.0,
-   "horizon_tc": 0.44847219253575593,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 7.3067665609728e-14,
-   "residual_Lt_A1": 6.975019841024514e-14,
-   "residual_Lt_N_minus_I": 2.3091230965775063e-14,
-   "residual_P_squared_minus_P": 2.326422437102502e-14,
-   "residual_A1_P": 7.405629473171522e-14,
-   "residual_P_A1": 7.010807530071387e-14,
-   "cond_N": 1.0000000000000024,
-   "cond_L": 2.126571225346235,
-   "svd_rank_separation_ratio": 89400673833681.75,
-   "cond_Lt_N_before_normalisation": 2.126571225346235,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.5668952959699027,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.5668874345157009,
-     "abs_error": 7.8614542018407e-06
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.5668952959701175,
-     "abs_error": 2.1471713296250527e-13
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.5668952959701199,
-     "abs_error": 2.1715962361668062e-13
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.5668952959841641,
-     "abs_error": 1.4261369862822448e-11
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.5668952961445278,
-     "abs_error": 1.74625092164149e-10
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 1000.0,
-   "min_abs_error": 2.1471713296250527e-13,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    1.011,
-    65.672,
-    12.245
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 1.74625092164149e-10,
-   "status": "pass"
-  },
-  {
-   "solute": "trigonelline",
-   "T_degC": 88.0,
-   "p_bar": 6.0,
-   "horizon_tc": 0.44847219253575593,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 3.247143199490437e-13,
-   "residual_Lt_A1": 3.3879810668957813e-13,
-   "residual_Lt_N_minus_I": 3.2832420431100933e-15,
-   "residual_P_squared_minus_P": 2.316154304621286e-15,
-   "residual_A1_P": 3.3905527962531214e-13,
-   "residual_P_A1": 3.38899006314268e-13,
-   "cond_N": 1.0000000000000024,
-   "cond_L": 2.1265712253462334,
-   "svd_rank_separation_ratio": 19480009082729.816,
-   "cond_Lt_N_before_normalisation": 2.126571225346237,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.6573186291202349,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.6573186291201139,
-     "abs_error": 1.2101430968414206e-13
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.657318629118124,
-     "abs_error": 2.11086703671981e-12
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.6573186291004752,
-     "abs_error": 1.9759638369976074e-11
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.657318628920264,
-     "abs_error": 1.9997081768252656e-10
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.6573186268341183,
-     "abs_error": 2.2861165183130083e-09
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 100.0,
-   "min_abs_error": 1.2101430968414206e-13,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    17.443,
-    9.361,
-    10.12,
-    11.432
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 2.2861165183130083e-09,
-   "status": "pass"
-  },
-  {
-   "solute": "5CQA",
-   "T_degC": 88.0,
-   "p_bar": 6.0,
-   "horizon_tc": 0.44847219253575593,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 1.5931677728062588e-13,
-   "residual_Lt_A1": 1.6074262285046912e-13,
-   "residual_Lt_N_minus_I": 2.7599392275003717e-15,
-   "residual_P_squared_minus_P": 2.911251671390788e-15,
-   "residual_A1_P": 1.6161454735683627e-13,
-   "residual_P_A1": 1.609569289163135e-13,
-   "cond_N": 1.0000000000000022,
-   "cond_L": 2.1265712253462357,
-   "svd_rank_separation_ratio": 25529294158562.31,
-   "cond_Lt_N_before_normalisation": 2.126571225346234,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.588282969273732,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.5882828778877375,
-     "abs_error": 9.13859945494977e-08
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.5882829692804398,
-     "abs_error": 6.707745470180271e-12
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.5882829693384485,
-     "abs_error": 6.471645441763485e-11
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.5882829699244583,
-     "abs_error": 6.507262506616485e-10
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.5882829757047007,
-     "abs_error": 6.430968646498059e-09
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 1000.0,
-   "min_abs_error": 6.707745470180271e-12,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    9.648,
-    10.055,
-    9.883
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 6.430968646498059e-09,
-   "status": "pass"
-  },
-  {
-   "solute": "caffeine",
-   "T_degC": 88.0,
-   "p_bar": 12.0,
-   "horizon_tc": 0.9267257416070888,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 5.330715941177007e-14,
-   "residual_Lt_A1": 5.30283018872435e-14,
-   "residual_Lt_N_minus_I": 5.087802874177141e-15,
-   "residual_P_squared_minus_P": 5.1914916757702595e-15,
-   "residual_A1_P": 5.4013868790795886e-14,
-   "residual_P_A1": 5.335934741107296e-14,
-   "cond_N": 1.0000000000000033,
-   "cond_L": 2.1265712253462343,
-   "svd_rank_separation_ratio": 30163569317970.707,
-   "cond_Lt_N_before_normalisation": 2.1265712253462348,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.5668952959699235,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.566884565665795,
-     "abs_error": 1.073030412845899e-05
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.5668952959652079,
-     "abs_error": 4.71556127479289e-12
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.5668952959170781,
-     "abs_error": 5.2845394726830364e-11
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.5668952954877009,
-     "abs_error": 4.822225951883752e-10
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.5668952910392708,
-     "abs_error": 4.930652663936996e-09
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 1000.0,
-   "min_abs_error": 4.71556127479289e-12,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    11.207,
-    9.125,
-    10.225
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 4.930652663936996e-09,
-   "status": "pass"
-  },
-  {
-   "solute": "trigonelline",
-   "T_degC": 88.0,
-   "p_bar": 12.0,
-   "horizon_tc": 0.9267257416070888,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 1.2861660420867905e-13,
-   "residual_Lt_A1": 1.330780106507211e-13,
-   "residual_Lt_N_minus_I": 3.507244599371366e-15,
-   "residual_P_squared_minus_P": 2.737396389621794e-15,
-   "residual_A1_P": 1.341429806860486e-13,
-   "residual_P_A1": 1.3345625200972095e-13,
-   "cond_N": 1.0000000000000027,
-   "cond_L": 2.126571225346234,
-   "svd_rank_separation_ratio": 29156587747010.605,
-   "cond_Lt_N_before_normalisation": 2.1265712253462357,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.6573186291202553,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.6573186291198763,
-     "abs_error": 3.7903014060702844e-13
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.6573186291174936,
-     "abs_error": 2.761679773755077e-12
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.6573186290907745,
-     "abs_error": 2.9480751173593944e-11
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.6573186288104683,
-     "abs_error": 3.0978697385108944e-10
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.6573186258077194,
-     "abs_error": 3.3125359122365694e-09
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 100.0,
-   "min_abs_error": 3.7903014060702844e-13,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    7.286,
-    10.675,
-    10.508,
-    10.693
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 3.3125359122365694e-09,
-   "status": "pass"
-  },
-  {
-   "solute": "5CQA",
-   "T_degC": 88.0,
-   "p_bar": 12.0,
-   "horizon_tc": 0.9267257416070888,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 1.2057158923979783e-13,
-   "residual_Lt_A1": 4.4895806974536883e-14,
-   "residual_Lt_N_minus_I": 2.0111703788610257e-14,
-   "residual_P_squared_minus_P": 2.0430729234584494e-14,
-   "residual_A1_P": 1.2207446993972999e-13,
-   "residual_P_A1": 4.533683194946906e-14,
-   "cond_N": 1.0000000000000027,
-   "cond_L": 2.1265712253462343,
-   "svd_rank_separation_ratio": 41317011140549.05,
-   "cond_Lt_N_before_normalisation": 2.126571225346237,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.5882829692737648,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.5882829593128078,
-     "abs_error": 9.960956948162902e-09
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.5882829692732838,
-     "abs_error": 4.809486142676178e-13
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.5882829692696764,
-     "abs_error": 4.088396288182139e-12
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.5882829691847532,
-     "abs_error": 8.901157588780961e-11
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.5882829690454828,
-     "abs_error": 2.282819488996779e-10
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 1000.0,
-   "min_abs_error": 4.809486142676178e-13,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    8.501,
-    21.772,
-    2.565
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 2.282819488996779e-10,
-   "status": "pass"
-  },
-  {
-   "solute": "caffeine",
-   "T_degC": 98.0,
-   "p_bar": 12.0,
-   "horizon_tc": 0.8260771111282058,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 6.907468163934614e-14,
-   "residual_Lt_A1": 6.695936034182391e-14,
-   "residual_Lt_N_minus_I": 1.4926546069530998e-14,
-   "residual_P_squared_minus_P": 1.5053026390100516e-14,
-   "residual_A1_P": 6.999888910557564e-14,
-   "residual_P_A1": 7.089466999201538e-14,
-   "cond_N": 1.0000000000000027,
-   "cond_L": 2.1265712253462374,
-   "svd_rank_separation_ratio": 38543253089130.84,
-   "cond_Lt_N_before_normalisation": 2.126571225346238,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.5632558200559413,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.5632484638384515,
-     "abs_error": 7.356217489817851e-06
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.5632558200548043,
-     "abs_error": 1.1369793995186228e-12
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.5632558200448745,
-     "abs_error": 1.1066814131766023e-11
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.5632558199002305,
-     "abs_error": 1.5571077760512253e-10
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.5632558190886021,
-     "abs_error": 9.673392087350408e-10
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 1000.0,
-   "min_abs_error": 1.1369793995186228e-12,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    9.734,
-    14.07,
-    6.212
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 9.673392087350408e-10,
-   "status": "pass"
-  },
-  {
-   "solute": "trigonelline",
-   "T_degC": 98.0,
-   "p_bar": 12.0,
-   "horizon_tc": 0.8260771111282058,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 4.93965019603855e-14,
-   "residual_Lt_A1": 5.240711322706206e-14,
-   "residual_Lt_N_minus_I": 2.3597810768671258e-14,
-   "residual_P_squared_minus_P": 2.459881598229746e-14,
-   "residual_A1_P": 5.2123085486850496e-14,
-   "residual_P_A1": 5.265730028137582e-14,
-   "cond_N": 1.0000000000000018,
-   "cond_L": 2.126571225346236,
-   "svd_rank_separation_ratio": 103036005870237.64,
-   "cond_Lt_N_before_normalisation": 2.1265712253462334,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.6502387050104786,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.650238705010521,
-     "abs_error": 4.2299497238218464e-14
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.6502387050108656,
-     "abs_error": 3.8691272408186705e-13
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.6502387050124546,
-     "abs_error": 1.9759749392278536e-12
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.6502387049827576,
-     "abs_error": 2.772104767956307e-11
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.6502387053052036,
-     "abs_error": 2.9472491114290733e-10
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 100.0,
-   "min_abs_error": 4.2299497238218464e-14,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    9.147,
-    5.107,
-    14.029,
-    10.632
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 2.9472491114290733e-10,
-   "status": "pass"
-  },
-  {
-   "solute": "5CQA",
-   "T_degC": 98.0,
-   "p_bar": 12.0,
-   "horizon_tc": 0.8260771111282058,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 8.526290812826769e-14,
-   "residual_Lt_A1": 4.992848467457512e-14,
-   "residual_Lt_N_minus_I": 1.6498375305470496e-14,
-   "residual_P_squared_minus_P": 1.6717041202559478e-14,
-   "residual_A1_P": 8.637717658246065e-14,
-   "residual_P_A1": 5.038255500153817e-14,
-   "cond_N": 1.0000000000000024,
-   "cond_L": 2.126571225346239,
-   "svd_rank_separation_ratio": 70990184492302.34,
-   "cond_Lt_N_before_normalisation": 2.1265712253462374,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.5839698519038827,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.5839698430447009,
-     "abs_error": 8.859181832576724e-09
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.5839698519032432,
-     "abs_error": 6.394884621840902e-13
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.5839698518979325,
-     "abs_error": 5.9502403004785265e-12
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.5839698517949616,
-     "abs_error": 1.0892109436611008e-10
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.5839698511601298,
-     "abs_error": 7.43752948118015e-10
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 1000.0,
-   "min_abs_error": 6.394884621840902e-13,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    9.305,
-    18.305,
-    6.828
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 7.43752948118015e-10,
-   "status": "pass"
-  },
-  {
-   "solute": "caffeine",
-   "T_degC": 98.0,
-   "p_bar": 9.0,
-   "horizon_tc": 0.6331608995473678,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 6.96436528135587e-14,
-   "residual_Lt_A1": 8.421207423372895e-14,
-   "residual_Lt_N_minus_I": 7.234915693631817e-15,
-   "residual_P_squared_minus_P": 7.287797219819615e-15,
-   "residual_A1_P": 7.07536720809468e-14,
-   "residual_P_A1": 8.44198861716895e-14,
-   "cond_N": 1.000000000000003,
-   "cond_L": 2.1265712253462343,
-   "svd_rank_separation_ratio": 45266667309300.375,
-   "cond_Lt_N_before_normalisation": 2.126571225346236,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.5632558200559199,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.5632492677865694,
-     "abs_error": 6.552269350534878e-06
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.5632558200566525,
-     "abs_error": 7.326361739501408e-13
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.5632558200710337,
-     "abs_error": 1.5113799101129644e-11
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.5632558202071785,
-     "abs_error": 1.5125856123177073e-10
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.563255821541179,
-     "abs_error": 1.485259137901096e-09
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 1000.0,
-   "min_abs_error": 7.326361739501408e-13,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    20.629,
-    10.008,
-    9.819
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 1.485259137901096e-09,
-   "status": "pass"
-  },
-  {
-   "solute": "trigonelline",
-   "T_degC": 98.0,
-   "p_bar": 9.0,
-   "horizon_tc": 0.6331608995473678,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 8.15647387855048e-14,
-   "residual_Lt_A1": 8.550447076078834e-14,
-   "residual_Lt_N_minus_I": 2.9500279162707397e-15,
-   "residual_P_squared_minus_P": 2.4370334681885587e-15,
-   "residual_A1_P": 8.525878642799723e-14,
-   "residual_P_A1": 8.533076595894652e-14,
-   "cond_N": 1.000000000000002,
-   "cond_L": 2.126571225346238,
-   "svd_rank_separation_ratio": 58789994766092.77,
-   "cond_Lt_N_before_normalisation": 2.1265712253462365,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.6502387050104843,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.6502387050111036,
-     "abs_error": 6.192824031359123e-13
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.6502387050171458,
-     "abs_error": 6.661449170053402e-12
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.6502387050752464,
-     "abs_error": 6.476208458394694e-11
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.6502387056666887,
-     "abs_error": 6.562044241320564e-10
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.650238711598791,
-     "abs_error": 6.588306677990374e-09
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 100.0,
-   "min_abs_error": 6.192824031359123e-13,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    10.757,
-    9.722,
-    10.133,
-    10.04
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 6.588306677990374e-09,
-   "status": "pass"
-  },
-  {
-   "solute": "5CQA",
-   "T_degC": 98.0,
-   "p_bar": 9.0,
-   "horizon_tc": 0.6331608995473678,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 1.951955833408961e-13,
-   "residual_Lt_A1": 5.2446335113272566e-14,
-   "residual_Lt_N_minus_I": 1.9151591840984798e-14,
-   "residual_P_squared_minus_P": 1.9397784523028452e-14,
-   "residual_A1_P": 1.9753596107634765e-13,
-   "residual_P_A1": 5.339981475378086e-14,
-   "cond_N": 1.000000000000002,
-   "cond_L": 2.1265712253462343,
-   "svd_rank_separation_ratio": 55993038862735.4,
-   "cond_Lt_N_before_normalisation": 2.126571225346235,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.5839698519039073,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.5839698309757422,
-     "abs_error": 2.0928165089806328e-08
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.5839698519044948,
-     "abs_error": 5.875300246316328e-13
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.5839698519078127,
-     "abs_error": 3.905431533723913e-12
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.5839698519560725,
-     "abs_error": 5.216527210194499e-11
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.5839698524583516,
-     "abs_error": 5.54444379297081e-10
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 1000.0,
-   "min_abs_error": 5.875300246316328e-13,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    6.647,
-    13.357,
-    10.629
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 5.54444379297081e-10,
-   "status": "pass"
-  },
-  {
-   "solute": "caffeine",
-   "T_degC": 98.0,
-   "p_bar": 6.0,
-   "horizon_tc": 0.3997651048181869,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 2.643446064947048e-13,
-   "residual_Lt_A1": 2.6562852346438595e-13,
-   "residual_Lt_N_minus_I": 2.7436999804239406e-15,
-   "residual_P_squared_minus_P": 2.339221062333358e-15,
-   "residual_A1_P": 2.6592145888736024e-13,
-   "residual_P_A1": 2.6606105183925107e-13,
-   "cond_N": 1.0000000000000027,
-   "cond_L": 2.1265712253462383,
-   "svd_rank_separation_ratio": 19161910679530.395,
-   "cond_Lt_N_before_normalisation": 2.126571225346238,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.563255820055932,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.5632500505292404,
-     "abs_error": 5.769526691623561e-06
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.5632558200521197,
-     "abs_error": 3.8122838219578625e-12
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.5632558200164416,
-     "abs_error": 3.949041094131189e-11
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.5632558196853737,
-     "abs_error": 3.705582507507188e-10
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.5632558163490458,
-     "abs_error": 3.7068862424050053e-09
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 1000.0,
-   "min_abs_error": 3.8122838219578625e-12,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    10.359,
-    9.383,
-    10.004
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 3.7068862424050053e-09,
-   "status": "pass"
-  },
-  {
-   "solute": "trigonelline",
-   "T_degC": 98.0,
-   "p_bar": 6.0,
-   "horizon_tc": 0.3997651048181869,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 8.472618191668087e-14,
-   "residual_Lt_A1": 6.868995934690027e-14,
-   "residual_Lt_N_minus_I": 2.3873354640058545e-15,
-   "residual_P_squared_minus_P": 2.2332699206501028e-15,
-   "residual_A1_P": 8.847414550856155e-14,
-   "residual_P_A1": 6.907387153675419e-14,
-   "cond_N": 1.0000000000000029,
-   "cond_L": 2.1265712253462357,
-   "svd_rank_separation_ratio": 94709872619003.14,
-   "cond_Lt_N_before_normalisation": 2.1265712253462365,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.6502387050104929,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.6502387050102565,
-     "abs_error": 2.3636648194269583e-13
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.6502387050083683,
-     "abs_error": 2.1245227799226996e-12
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.6502387049900467,
-     "abs_error": 2.044620028840427e-11
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.6502387047950945,
-     "abs_error": 2.1539836581041527e-10
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.650238702781354,
-     "abs_error": 2.229138873488523e-09
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 100.0,
-   "min_abs_error": 2.3636648194269583e-13,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    8.988,
-    9.624,
-    10.535,
-    10.349
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 2.229138873488523e-09,
-   "status": "pass"
-  },
-  {
-   "solute": "5CQA",
-   "T_degC": 98.0,
-   "p_bar": 6.0,
-   "horizon_tc": 0.3997651048181869,
-   "applies_to_varieties": [
-    "Arabica",
-    "Robusta"
-   ],
-   "rank": 400,
-   "nullity": 201,
-   "residual_A1_N": 1.321508616535734e-13,
-   "residual_Lt_A1": 1.5923064325644688e-13,
-   "residual_Lt_N_minus_I": 4.791490994852971e-15,
-   "residual_P_squared_minus_P": 4.696750034655385e-15,
-   "residual_A1_P": 1.3366058114896725e-13,
-   "residual_P_A1": 1.5946430130955703e-13,
-   "cond_N": 1.0000000000000018,
-   "cond_L": 2.1265712253462383,
-   "svd_rank_separation_ratio": 38001111702965.53,
-   "cond_Lt_N_before_normalisation": 2.1265712253462365,
-   "identities_within_tolerance": true,
-   "well_conditioned_bases": true,
-   "f_inf_finite_and_positive": true,
-   "f_inf": 0.5839698519038679,
-   "verification": [
-    {
-     "kappa": 100.0,
-     "f": 0.5839697571001798,
-     "abs_error": 9.48036880110692e-08
-    },
-    {
-     "kappa": 1000.0,
-     "f": 0.5839698519047999,
-     "abs_error": 9.32032229172819e-13
-    },
-    {
-     "kappa": 10000.0,
-     "f": 0.5839698519149072,
-     "abs_error": 1.1039391623057782e-11
-    },
-    {
-     "kappa": 100000.0,
-     "f": 0.5839698520174191,
-     "abs_error": 1.135512794903093e-10
-    },
-    {
-     "kappa": 1000000.0,
-     "f": 0.5839698532607022,
-     "abs_error": 1.356834311572186e-09
-    }
-   ],
-   "errors_decrease_to_minimum": true,
-   "best_kappa": 1000.0,
-   "min_abs_error": 9.32032229172819e-13,
-   "converged_within_tolerance": true,
-   "post_minimum_rise_ratios": [
-    11.844,
-    10.286,
-    11.949
-   ],
-   "post_minimum_tail_bounded": true,
-   "tail_abs_cap": 1e-06,
-   "final_abs_error": 1.356834311572186e-09,
-   "status": "pass"
-  }
- ],
- "verdict": "PR03A_LIMIT_CONVERGENCE_ASSURED",
- "environment": {
-  "python": "3.13.13",
-  "numpy": "2.5.1",
-  "scipy": "1.18.0"
- },
- "provenance": {
-  "producer": "tools/paper_a_endpoint_construction.py",
-  "command": "python tools/paper_a_endpoint_construction.py --write"
- }
+ ]
 }

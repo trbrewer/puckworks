@@ -218,8 +218,11 @@ EVENTUAL_UPPER_PRECONDITION = "fixed_positive_time_limit"
 #: established" — which reads as pending and would have let the mapping survive its own premise.
 EVENTUAL_UPPER_PRECONDITION_STATUSES = ("unresolved", "assured", "failed")
 
-#: The pre-freeze value. The derivation is deferred, so nothing about it has been decided.
-EVENTUAL_UPPER_PRECONDITION_CURRENT = "unresolved"
+#: The current value. Set to `assured` on 2026-08-03 when PR-03a closed on a proof of the
+#: fixed-positive-time singular limit, with its assumptions verified at every declared cell — see
+#: `PAPER_A_FIXED_TIME_SINGULAR_LIMIT_PROPOSITION.md`. This is a STATE declaration, not architecture:
+#: no vocabulary, formula, threshold, tolerance or rule in this module changes with it.
+EVENTUAL_UPPER_PRECONDITION_CURRENT = "assured"
 
 #: Group-level outcomes under the programme rule.
 GROUP_OUTCOMES = ("success", "exception", "failure")

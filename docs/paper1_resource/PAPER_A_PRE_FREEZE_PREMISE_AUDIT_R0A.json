@@ -38,19 +38,30 @@
   },
   {
    "premise_id": "PR-03a",
-   "premise": "f(kappa) converges to a trustworthy analytical endpoint f_inf",
+   "premise": "for each fixed T > 0 the stable null-basis endpoint IS the large-kappa limit of exp((A0 + kappa A1)T) z0, and the assumptions of that proposition hold at every declared cell",
    "type": "algebraic",
    "disposition": "assured",
    "resolution_stage": "pre_freeze",
    "blocks_before": [
     "P0-G8"
    ],
-   "evidence": "stable rank-revealing null-basis construction (cond(N)=1.0, cond(L)<=2.13, versus ~5e10 for the full eigenvector matrix); all projector identities to <=1e-13; 27/27 operator-distinct cells covering all 54 declared cells converge, worst attained error 1.04e-11. The endpoint agrees with the independent high-kappa limit to ~1e-12, whereas the earlier eigen-projector route was off by 4.3e-9 -- the discrepancy previously read as a convergence floor.",
+   "evidence": "FORMAL. The fixed-positive-time singular limit is proved in PAPER_A_FIXED_TIME_SINGULAR_LIMIT_PROPOSITION.md (semisimple zero of A1; strictly stable nonzero spectrum; Lyapunov bound ||exp((kappa F + A_ff)t)|| <= M exp(-gamma kappa t) with M, gamma, kappa_0 DERIVED from the operator, not fitted; Gronwall on the slow block). Its assumptions are verified at all 27 operator-distinct cells covering all 54 declared cells: semisimplicity by rank(A1)=rank(A1^2) taken at a separated singular-value gap (~1e13, far above the 1e6 floor); every fast eigenvalue strictly stable by ordered real Schur (worst max Re = -1.218); projector identities <= 1e-13; cond(L) <= 2.13; dual-basis cross-check < 1e-9; endpoint finite, real and strictly positive everywhere. Uniform convergence at t = 0 is explicitly REJECTED for off-manifold initial data, where z_kappa(0) - P z0 = Q z0 does not vanish. The high-kappa sequence is retained as a DIAGNOSTIC only and proves nothing; it is method_limited, which does not block.",
    "evidence_path": "docs/paper1_resource/PAPER_A_ENDPOINT_CONSTRUCTION.json",
    "affected": [
     "P0-G8"
    ],
-   "failure_consequence": "the endpoint classification has no trustworthy f_inf"
+   "failure_consequence": "the endpoint classification has no trustworthy f_inf, and the eventual-upper reading loses its premise",
+   "proof_artefact": "docs/paper1_resource/PAPER_A_FIXED_TIME_SINGULAR_LIMIT_PROPOSITION.md",
+   "proof_artefact_sha256": "9f8bbeeb8319aa09cc409db8d8d457c269f42c665408090ba2d0f81b7d4b2c25",
+   "generated_statuses": {
+    "algebraic_limit_status": "assured",
+    "endpoint_construction_status": "verified",
+    "finite_kappa_validation_status": "method_limited",
+    "coverage_status": "complete",
+    "overall_PR03a_status": "assured"
+   },
+   "closure_rule": "overall_PR03a_status = assured iff algebraic_limit_status = assured and endpoint_construction_status = verified and coverage_status = complete and finite_kappa_validation_status != inconsistent",
+   "assurance_basis_note": "The prior disposition was also 'assured', but on numerical convergence of a finite high-kappa sequence. That is a diagnostic, not a proof: it could not distinguish a genuine limit from a well-behaved integrator. The disposition is unchanged in NAME and materially different in BASIS, which is why the transition is recorded in PAPER_A_CLAIM_RESOLUTION_DELTA_PRE_FREEZE.json rather than left implicit."
   },
   {
    "premise_id": "PR-03b",
@@ -269,5 +280,5 @@
   "open_blocked_external": 1
  },
  "verdict": "R0a_COMPLETE_BLOCKING_ITEMS_REMAIN",
- "reading": "PR-03 is SPLIT per the adjudication. PR-03a is ASSURED: a stable null-basis endpoint converges at all 54 declared cells, so the P0-G8 endpoint classification has a trustworthy f_inf and no finite-kappa remainder belongs in its budget. PR-03b is NOT PURSUED under the current protocol: the WIDE-referenced architecture removes the need for a sharp finite-tail bound, and tail_onset_status is unresolved_by_design. PR-06 is assured. PR-09 and PR-15 are gate-scoped to P0-G9 and P0-G10. P0-G0 remains open because the Protocol V2 endpoint/tail split, PR-04, PR-07 staging and the PR-09 rule are not yet implemented."
+ "reading": "PR-03 is SPLIT per the adjudication. PR-03a is ASSURED ON A PROOF: the fixed-positive-time singular limit is proved, its assumptions are verified at all 27 operator-distinct cells covering all 54 declared cells, and the high-kappa sequence is demoted to a diagnostic. The P0-G8 endpoint classification has a trustworthy f_inf and no finite-kappa remainder belongs in its budget. Convergence is NOT uniform at t = 0 for off-manifold data and no such claim is made. PR-03b is NOT PURSUED under the current protocol: the WIDE-referenced architecture removes the need for a sharp finite-tail bound, and tail_onset_status is unresolved_by_design. PR-06 is assured. PR-09 and PR-15 are gate-scoped to P0-G9 and P0-G10. P0-G0 remains open because the Protocol V2 endpoint/tail split, PR-04, PR-07 staging and the PR-09 rule are not yet implemented."
 }
