@@ -296,6 +296,9 @@
   "tools/paper_a_supplement.py",
   "tools/paper_a_transfer_artifacts.py",
   "tools/paper_a_transfer_text.py",
+  "tools/paper_a_viability_endpoint.py",
+  "tools/paper_a_viability_figures.py",
+  "tools/paper_a_viability_operator.py",
   "tools/paper_a_xref.py"
  ],
  "historical_exclusions": [
@@ -351,6 +354,7 @@
   "docs/paper1_resource/PAPER_1_ROUND_9_DETAILED_REVIEW.md",
   "docs/paper1_resource/PAPER_1_ROUND_9_REMEDIATION_IMPLEMENTATION_PLAN.md",
   "docs/paper1_resource/PAPER_1_SCIENTIFIC_PIVOT_RESPONSE.md",
+  "docs/paper1_resource/PAPER_1_SCIENTIFIC_VIABILITY_SCREEN_AUTHORIZATION_20260803.md",
   "docs/paper1_resource/PAPER_1_SECOND_DETAILED_REVIEW_2026-07-25.md",
   "docs/paper1_resource/PAPER_1_SUBMISSION_PATH.md",
   "docs/paper1_resource/PAPER_A_CLAIM_LEDGER.md",

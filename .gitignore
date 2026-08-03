@@ -65,3 +65,5 @@ dist/
 .coverage
 .coverage.*
 htmlcov/
+.viability_f_cache.pkl
+.viability_operator_cache.pkl
