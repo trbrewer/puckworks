@@ -474,6 +474,10 @@ tail_onset_status          = unresolved_by_design
 intermediate_domain_status = not_characterized_by_design
 ```
 
+The archive contains exactly six uniquely identified variety–solute groups. `programme_result` is
+generated from — and validated against — the frozen group-outcome rule of §2.9; it is never accepted
+as an independent free-text disposition.
+
 The archive also records `eventual_upper_precondition = fixed_positive_time_limit` and its status —
 one of `unresolved`, `assured`, `failed`, currently `unresolved` (§2.5). **An invented component such as `[κ_c, ∞]` is never serialised**; finite connected components
 are reported only within `D_WIDE`. The structural contract is

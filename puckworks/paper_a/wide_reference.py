@@ -24,7 +24,7 @@ architecture can be exercised, and was exercised before the freeze, entirely on 
 functions. It imports nothing from :mod:`puckworks.data`, computes no `y`, and holds no group
 definitions.
 
-Three things are enforced structurally rather than by convention, because each is a defect the
+Four things are enforced structurally rather than by convention, because each is a defect the
 earlier contract permitted:
 
 * **The 40-point grid minimum is never the reported reference.** :func:`reference_minimum` returns a
@@ -38,6 +38,11 @@ earlier contract permitted:
 * **No component adjoining the endpoint is representable.** A connected component is reported only
   within `[0.15, 500]`; :func:`validate_components` rejects a non-finite or out-of-domain bound, so
   an invented `[kappa_c, infinity]` cannot be serialised even by a caller that wants to.
+* **The programme result is derived, never declared.** :func:`validate_archive` requires exactly six
+  uniquely identified groups and recomputes the label from their records through the frozen rule. A
+  correct rule that nothing calls is not a control: for one review cycle this validator checked only
+  that `programme_result` was one of three strings, so an archive could carry six excluded groups
+  and declare `H1_STRONG`.
 
 The eventual-upper vocabulary is emitted, but it is *conditional*: reading
 `wide_referenced_upper_set_unbounded` as a statement about arbitrarily large multipliers requires
@@ -220,6 +225,11 @@ EVENTUAL_UPPER_PRECONDITION_CURRENT = "unresolved"
 GROUP_OUTCOMES = ("success", "exception", "failure")
 
 PROGRAMME_RESULTS = ("H1_STRONG", "H1_QUALIFIED", "H1_DOES_NOT_LEAD")
+
+#: The six variety-solute groups: {Arabica, Robusta} x {caffeine, trigonelline, 5-CQA}. The archive
+#: carries exactly this many, uniquely identified. The count is fixed by the evidence unit, not by
+#: how many happened to be produced.
+N_GROUPS = 6
 
 
 # ─────────────────────────────────────────────────────────────────────────────────────────────
@@ -758,6 +768,46 @@ def group_outcome(name: str,
     return GroupOutcome(name, "exception", "a required convention is indeterminate")
 
 
+def group_outcome_from_record(record: dict) -> GroupOutcome:
+    """Recover the group-level outcome from an archive record.
+
+    This is the join that was missing: :func:`group_outcome` and :func:`programme_result` were
+    correct and independently tested, but nothing connected them to the archive, so
+    `programme_result` was accepted as free text. An archive could carry six excluded groups and
+    declare `H1_STRONG`.
+
+    Two consistency conditions are checked here rather than assumed, because both are ways an
+    archive could smuggle a better outcome past the rule:
+
+    * `limit_construction_failed` is a property of the group's endpoint, not of one threshold, so it
+      holds under every convention or under none. A record showing it under some conventions only is
+      incoherent — it would let the derivation read the group as constructed.
+    * an unresolved reference minimum moves the threshold, so it admits `endpoint_indeterminate` and
+      nothing else. A record pairing it with `endpoint_included` is claiming a comparison against a
+      threshold it does not have.
+    """
+    classifications = {name: value["endpoint_classification"]
+                       for name, value in record["conventions"].items()}
+
+    failed_limit = [v == "limit_construction_failed" for v in classifications.values()]
+    if any(failed_limit) and not all(failed_limit):
+        raise ValueError("limit_construction_failed must apply to every convention when endpoint "
+                         "construction fails; group %r has it under only some"
+                         % (record.get("group"),))
+    endpoint_constructed = not all(failed_limit)
+
+    if record["reference_minimum_status"] == "unresolved" and endpoint_constructed:
+        invalid = {v for v in classifications.values() if v != "endpoint_indeterminate"}
+        if invalid:
+            raise ValueError("an unresolved reference minimum permits only endpoint_indeterminate "
+                             "classifications; group %r carries %r"
+                             % (record.get("group"), sorted(invalid)))
+
+    return group_outcome(record["group"], classifications,
+                         reference_status=record["reference_minimum_status"],
+                         endpoint_constructed=endpoint_constructed)
+
+
 def programme_result(outcomes: Sequence[GroupOutcome]) -> str:
     """`H1_STRONG` / `H1_QUALIFIED` / `H1_DOES_NOT_LEAD` from the group outcomes."""
     for o in outcomes:
@@ -870,6 +920,10 @@ def validate_archive(archive: dict) -> None:
 
     Producing this archive is a scientific gate and is not authorised in this pass; the contract
     exists so that the producer, when it is authorised, has a frozen shape to write into.
+
+    The archive contains exactly six uniquely identified variety-solute groups, and
+    `programme_result` is recomputed from those records through the frozen group-outcome rule and
+    compared against the declared value. It is never accepted as an independent disposition.
     """
     for f in ("protocol_version", "estimand_tag", "reference_domain", "grid_sizes",
               "threshold_families", "eventual_upper_precondition",
@@ -900,3 +954,19 @@ def validate_archive(archive: dict) -> None:
 
     for record in archive["groups"]:
         validate_group_record(record, archive["eventual_upper_precondition_status"])
+
+    # ── the programme result is derived, never accepted as a free-text disposition ───────────
+    if len(archive["groups"]) != N_GROUPS:
+        raise ValueError("the P0-G8 archive requires exactly %d groups, got %d"
+                         % (N_GROUPS, len(archive["groups"])))
+
+    names = [record["group"] for record in archive["groups"]]
+    if any(not isinstance(n, str) or not n.strip() for n in names):
+        raise ValueError("every group requires a nonempty string identifier")
+    if len(set(names)) != len(names):
+        raise ValueError("group identifiers must be unique; got %r" % (sorted(names),))
+
+    expected = programme_result([group_outcome_from_record(r) for r in archive["groups"]])
+    if archive["programme_result"] != expected:
+        raise ValueError("programme_result=%r contradicts group-derived result %r"
+                         % (archive["programme_result"], expected))

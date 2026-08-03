@@ -550,6 +550,107 @@ def test_an_unknown_precondition_status_is_rejected_at_the_mapping():
         WR.eventual_upper_status("endpoint_included", "deferred")
 
 
+# ── 6b. the programme result is derived from the records, not declared ───────────────────────
+
+
+def _conventions(primary, a010, a025, other_rel="endpoint_included", precondition="unresolved"):
+    return {"rel_q005": _convention_record(other_rel, precondition),
+            "rel_q010": _convention_record(primary, precondition),
+            "rel_q020": _convention_record(other_rel, precondition),
+            "abs_a010": _convention_record(a010, precondition),
+            "abs_a025": _convention_record(a025, precondition)}
+
+
+def _group(name, primary=INCL, a010=INCL, a025=INCL, **overrides):
+    return _group_record(name, conventions=_conventions(primary, a010, a025), **overrides)
+
+
+def _successes(n, start=0):
+    return [_group("g%d" % i) for i in range(start, start + n)]
+
+
+def test_a_declared_programme_result_must_match_the_group_derived_one():
+    """The defect this closes: the validator checked only that the label was one of three strings.
+
+    `group_outcome` and `programme_result` were correct and independently tested, but nothing
+    connected them to the archive, so an archive could carry six excluded groups and declare
+    `H1_STRONG`. A rule nothing calls is not a control.
+    """
+    excluded = [_group("g%d" % i, primary=EXCL) for i in range(6)]
+    with pytest.raises(ValueError, match="contradicts group-derived result"):
+        WR.validate_archive(_archive(groups=excluded, programme_result="H1_STRONG"))
+
+    qualified = _successes(5) + [_group("g5", primary=IND)]
+    with pytest.raises(ValueError, match="contradicts group-derived result"):
+        WR.validate_archive(_archive(groups=qualified, programme_result="H1_STRONG"))
+
+
+def test_the_archive_requires_exactly_six_groups():
+    for n in (0, 5, 7):
+        with pytest.raises(ValueError, match="exactly 6 groups"):
+            WR.validate_archive(_archive(groups=_successes(n), programme_result="H1_STRONG"))
+
+
+def test_group_identifiers_must_be_unique_and_nonempty():
+    dupes = _successes(5) + [_group("g0")]
+    with pytest.raises(ValueError, match="unique"):
+        WR.validate_archive(_archive(groups=dupes, programme_result="H1_STRONG"))
+
+    for blank in ("", "   "):
+        blanks = _successes(5) + [_group(blank)]
+        with pytest.raises(ValueError, match="nonempty string identifier"):
+            WR.validate_archive(_archive(groups=blanks, programme_result="H1_STRONG"))
+
+
+def test_a_failed_limit_construction_holds_under_every_convention_or_none():
+    """It is a property of the group's endpoint, not of one threshold.
+
+    Showing it under some conventions only would let the derivation read the group as constructed.
+    """
+    mixed = _successes(5) + [_group("g5", a010="limit_construction_failed")]
+    with pytest.raises(ValueError, match="must apply to every convention"):
+        WR.validate_archive(_archive(groups=mixed, programme_result="H1_DOES_NOT_LEAD"))
+
+
+def test_an_unresolved_reference_minimum_cannot_carry_an_inclusion():
+    """It moves the threshold, so a comparison against that threshold does not exist."""
+    bad = _successes(5) + [_group("g5", reference_minimum_status="unresolved")]
+    with pytest.raises(ValueError, match="only endpoint_indeterminate"):
+        WR.validate_archive(_archive(groups=bad, programme_result="H1_DOES_NOT_LEAD"))
+
+
+def test_the_three_programme_labels_are_accepted_when_the_records_derive_them():
+    WR.validate_archive(_archive(groups=_successes(6), programme_result="H1_STRONG"))
+
+    qualified = _successes(5) + [_group("g5", primary=IND)]
+    WR.validate_archive(_archive(groups=qualified, programme_result="H1_QUALIFIED"))
+
+    failing = _successes(5) + [_group("g5", primary=EXCL)]
+    WR.validate_archive(_archive(groups=failing, programme_result="H1_DOES_NOT_LEAD"))
+
+
+def test_a_group_whose_endpoint_construction_failed_derives_a_failure():
+    collapsed = {c.name: _convention_record("limit_construction_failed") for c in WR.CONVENTIONS}
+    groups = _successes(5) + [_group_record("g5", conventions=collapsed)]
+    WR.validate_archive(_archive(groups=groups, programme_result="H1_DOES_NOT_LEAD"))
+    with pytest.raises(ValueError, match="contradicts group-derived result"):
+        WR.validate_archive(_archive(groups=groups, programme_result="H1_QUALIFIED"))
+
+
+def test_a_failed_precondition_collapses_eventual_status_without_moving_the_label():
+    """The premise is about time; the classification is an interval comparison. Only one collapses."""
+    groups = [_group_record("g%d" % i,
+                            conventions=_conventions(INCL, INCL, INCL, precondition="failed"))
+              for i in range(6)]
+    archive = _archive(groups=groups, programme_result="H1_STRONG",
+                       eventual_upper_precondition_status="failed")
+    WR.validate_archive(archive)
+    for group in archive["groups"]:
+        for cr in group["conventions"].values():
+            assert cr["eventual_upper_status"] == "upper_status_indeterminate"
+            assert cr["endpoint_classification"] == "endpoint_included"
+
+
 def test_no_p0_g8_result_archive_exists_in_the_tree():
     """This pass builds the contract. Producing the archive is the scientific gate, not authorised."""
     assert not (_ROOT / "docs" / "paper1_resource"
