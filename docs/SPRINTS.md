@@ -342,9 +342,11 @@ RP-A boundary in ROADMAP §9. **The portfolio is generated, not triaged** — ev
 | IF-3 candidate generation | **DONE** | IF-2 | M | every candidate has a question + cheap test + stop condition; all `SEED`; none scored |
 | IF-4 ChatGPT Project | twelve-file pack generated; **project creation is a human step (TB)** | IF-3 | S | new Project with project-only memory; pack uploaded; role chats produce distinct outputs |
 | IF-4a project-readiness correction | **DONE** | IF-3 | M | stable fingerprint IDs in a tracked append-only registry; twelve-file pack + source manifest; calibration-artifact and composition-audit semantics corrected; foster2025 first-drip card gap repaired |
-| **IF-5 human triage — THE NEXT STEP (TB/CHAT)** | **not started** | IF-3 | S | 10–15 candidates selected from the portfolio, with a one-line reason each |
-| IF-6 first three cheap screens | not started | IF-5 | M | per screen: `result.json`, `decision.md`, one figure, one adversarial check, decision applied without revision |
-| IF-7 deep screens | not started | IF-6 survivors | M–L | run only on survivors |
+| IF-5 human triage | **DONE** | IF-3 | S | `docs/insights/IF5_HUMAN_TRIAGE_DECISION.md`: 10 active + 2 reserves, a lane and a reason each; twelve cards materialised with human blocks; portfolio left `SEED` and unscored |
+| **IF-6 first three cheap screens — Wave 1 (I-040, I-010, I-024)** | **DONE** | IF-5 | M | per screen: `result.json`, `decision.md`, one figure, one adversarial check, decision applied without revision — `docs/insights/screens/{I-040,I-010,I-024}/` |
+| IF-6b Wave 2 (I-045, I-076) | not started | IF-6 | M | same bundle shape; I-045 reuses the I-040 audit template, I-076 needs a fixed matched-scenario protocol |
+| IF-6c candidate-readiness lane (I-013, I-014, I-015) + I-090 | blocked on card repair | — | S–M | `wadsworth2026` Interface mapping; a resolvable `sourcing2026.*` card; `de1_fixtureA` `source_card`. Repaired by a human in a card-repair commit, never inside a screen |
+| IF-7 deep screens | not started | IF-6 survivors | M–L | run only on survivors (triage rule 1) |
 
 **Do not extend the Foundry layer before IF-5 has happened.** Machinery built ahead of the
 decisive screen is the Paper 1 failure mode the whole design exists to avoid (blueprint §1.3;
