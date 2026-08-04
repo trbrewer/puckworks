@@ -87,6 +87,35 @@ establishes neither that the advantage is reproducible/useful **nor** that it is
 surfaces are checked by `claim_policy.SURFACE_ASSERTIONS`. Wording disputes that do not violate that
 criterion are editorial preference, not findings.
 
+## Insight Foundry: generated, NOT triaged (2026-08-04)
+
+`puckworks/insights/` + `docs/insights/` — a corpus-first discovery overlay implementing Phases
+0–3 of `docs/PUCKWORKS_INSIGHT_FOUNDRY_CONCEPT_DESIGN_AND_IMPLEMENTATION.md`. Design and every
+departure from that blueprint: `docs/insights/INSIGHT_FOUNDRY_DESIGN.md`.
+
+- It is **never an authority**. Every record points at the registry, a card, a MANIFEST row or a
+  generated claim, and every evidence label is copied byte-identical. It may not change, promote
+  or restate any label, badge or validation rung.
+- **Comparability is not agreement.** A `model_disagreement` row says two components answer the
+  same question — not that they differ. Establishing that needs matched-scenario execution, which
+  is **RP-A** (ROADMAP §9). Three blueprint lenses are unimplemented for that reason and are
+  declared in `tension_atlas.DEFERRED_LENSES`. Do not rebuild response-sweep machinery here.
+- **Do not** extend the layer before the human triage step (SPRINTS **IF-5**): read the portfolio,
+  pick 10–15, run three cheap screens. Machinery ahead of the decisive screen is the Paper 1
+  failure mode.
+- **Do not** hand-edit anything under `docs/insights/generated/` — regenerate with
+  `python -m puckworks.insights write`; `verify` and the tests fail on drift.
+- **`docs/insights/ID_REGISTRY.json` is append-only.** `T-0042`/`I-007` are stable identities
+  derived from a content fingerprint, not sort positions, so they survive rewording and
+  reordering. Never delete an entry, never reuse a number, and never renumber to close a gap —
+  gaps are correct. Reused numbers are how a decision record silently starts citing a different
+  record.
+- Candidates are `SEED` and unscored by construction. A generator may not score its own output.
+- **Co-location is not a relationship.** Sharing a stage does not make a runtime component a
+  consumer of a calibration artifact, and sharing a source prefix does not make two components a
+  base/superset pair. Generated text says "possible downstream" and "relationship unclassified";
+  establishing the real relation is the first step of a screen, not an assumption behind a row.
+
 ## What NOT to do
 - No implementation without a card. No parameters invented where a card says
   "not provided". No upgrading authors' validation claims.

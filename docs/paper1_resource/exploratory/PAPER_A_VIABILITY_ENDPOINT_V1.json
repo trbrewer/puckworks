@@ -1,0 +1,1065 @@
+{
+ "status": "EXPLORATORY_SAME_CAMPAIGN_VIABILITY_SCREEN",
+ "not_a_gate": "NOT_A_FROZEN_P0_GATE_RESULT",
+ "gate_binding": null,
+ "date": "2026-08-03",
+ "question": "For each of the six variety-solute groups, does the analytical kappa=infinity endpoint remain inside the operational tolerance referenced to the best finite fit on D_WIDE = [0.15, 500]?",
+ "estimand": {
+  "tag": "FULL-WIDE-ENDPOINT",
+  "reference_domain": [
+   0.15,
+   500.0
+  ],
+  "grid_sizes": [
+   40,
+   80,
+   160,
+   320
+  ],
+  "threshold_families": {
+   "relative": [
+    0.05,
+    0.1,
+    0.2
+   ],
+   "absolute": [
+    0.1,
+    0.25
+   ]
+  },
+  "calibration_support": "nine on-grid (T,p) optimal-grind conditions per variety",
+  "objective": "MAPE in percentage points, level profiled EXACTLY by weighted median",
+  "path": "exact-in-time linear operator expm(A(kappa)*tau)*z0; NOT the BDF integrator",
+  "endpoint": "accepted PR-03a analytical null-basis construction"
+ },
+ "constants_unchanged_from_accepted_architecture": true,
+ "formal_p0_g8_archive_written": false,
+ "groups": [
+  {
+   "group": "Arabica:caffeine",
+   "variety": "Arabica",
+   "solute": "caffeine",
+   "column": "CF",
+   "estimand_tag": "FULL-WIDE-ENDPOINT",
+   "n_conditions": 9,
+   "J_inf": 2.99446063063312,
+   "J_inf_interval": [
+    2.99445941891312,
+    2.99446184235312
+   ],
+   "J_inf_level_interval": [
+    9.32920304979265,
+    9.32920304979265
+   ],
+   "reference_minimum_status": "resolved",
+   "reference_minimum_unresolved_reasons": [],
+   "reference_minimum_per_refinement": [
+    {
+     "grid": 40,
+     "best_value": 2.831936875061566,
+     "n_basins": 2,
+     "n_retained": 1
+    },
+    {
+     "grid": 80,
+     "best_value": 2.831936875133224,
+     "n_basins": 3,
+     "n_retained": 1
+    },
+    {
+     "grid": 160,
+     "best_value": 2.8319368753658742,
+     "n_basins": 4,
+     "n_retained": 1
+    },
+    {
+     "grid": 320,
+     "best_value": 2.831936875239623,
+     "n_basins": 8,
+     "n_retained": 1
+    }
+   ],
+   "coarse_40pt_grid_minimum": 2.833582153492747,
+   "search_envelope_pp": 2.326503434346705e-10,
+   "error_budget_pp": {
+    "E_ref_spatial": 1.20936e-06,
+    "E_ref_floating": 9.999999999999999e-10,
+    "E_ref_profile_arithmetic": 0.0,
+    "E_ref_search": 2.326503434346705e-10,
+    "E_endpoint_construction": 1.36e-09,
+    "E_endpoint_spatial": 1.20936e-06,
+    "E_endpoint_floating": 9.999999999999999e-10,
+    "note": "NUMERICAL only. Contains no campaign measurement uncertainty in y. A margin that clears these bounds is numerically resolved and says nothing about whether it is empirically resolvable."
+   },
+   "J_ref": 2.831936875239623,
+   "J_ref_interval": [
+    2.8319356646469727,
+    2.8319380855996226
+   ],
+   "kappa_ref": [
+    0.7643461480186302
+   ],
+   "J_ref_level_interval": [
+    13.230350827482027,
+    13.230350827482027
+   ],
+   "gap_J_inf_minus_J_ref": 0.16252375539349728,
+   "ratio_J_inf_over_J_ref": 1.0573896109106407,
+   "finite_wide_topology_status": "resolved",
+   "finite_wide_topology_reasons": [],
+   "conventions": {
+    "rel_q005": {
+     "kind": "relative",
+     "level": 0.05,
+     "threshold_point": 2.9735337190016042,
+     "threshold_interval": [
+      2.9735324478793212,
+      2.973534989879604
+     ],
+     "margin_J_inf_minus_T": 0.020926911631515832,
+     "endpoint_classification": "endpoint_excluded",
+     "eventual_upper_status": "wide_referenced_eventually_excluded",
+     "topology_status": "resolved",
+     "n_components": 1,
+     "components": [
+      {
+       "lo": 0.5052777378315376,
+       "hi": 1.8421875985617178,
+       "lower_censored": false,
+       "upper_truncated_at_domain_edge": false
+      }
+     ],
+     "accepted_log10_width_decades": 0.5618036903853102,
+     "reaches_domain_edge": false
+    },
+    "rel_q010": {
+     "kind": "relative",
+     "level": 0.1,
+     "threshold_point": 3.1151305627635852,
+     "threshold_interval": [
+      3.1151292311116703,
+      3.115131894159585
+     ],
+     "margin_J_inf_minus_T": -0.12066993213046517,
+     "endpoint_classification": "endpoint_included",
+     "eventual_upper_status": "wide_referenced_upper_set_unbounded",
+     "topology_status": "resolved",
+     "n_components": 1,
+     "components": [
+      {
+       "lo": 0.38161426507100166,
+       "hi": 499.99999999999983,
+       "lower_censored": false,
+       "upper_truncated_at_domain_edge": true
+      }
+     ],
+     "accepted_log10_width_decades": 3.117345403697497,
+     "reaches_domain_edge": true
+    },
+    "rel_q020": {
+     "kind": "relative",
+     "level": 0.2,
+     "threshold_point": 3.3983242502875473,
+     "threshold_interval": [
+      3.398322797576367,
+      3.398325702719547
+     ],
+     "margin_J_inf_minus_T": -0.4038636196544272,
+     "endpoint_classification": "endpoint_included",
+     "eventual_upper_status": "wide_referenced_upper_set_unbounded",
+     "topology_status": "resolved",
+     "n_components": 1,
+     "components": [
+      {
+       "lo": 0.2738816966322186,
+       "hi": 499.99999999999983,
+       "lower_censored": false,
+       "upper_truncated_at_domain_edge": true
+      }
+     ],
+     "accepted_log10_width_decades": 3.2614069947809883,
+     "reaches_domain_edge": true
+    },
+    "abs_a010": {
+     "kind": "absolute",
+     "level": 0.1,
+     "threshold_point": 2.931936875239623,
+     "threshold_interval": [
+      2.9319356646469728,
+      2.9319380855996227
+     ],
+     "margin_J_inf_minus_T": 0.0625237553934972,
+     "endpoint_classification": "endpoint_excluded",
+     "eventual_upper_status": "wide_referenced_eventually_excluded",
+     "topology_status": "resolved",
+     "n_components": 1,
+     "components": [
+      {
+       "lo": 0.54984063405347,
+       "hi": 1.313726277898154,
+       "lower_censored": false,
+       "upper_truncated_at_domain_edge": false
+      }
+     ],
+     "accepted_log10_width_decades": 0.37826805529150825,
+     "reaches_domain_edge": false
+    },
+    "abs_a025": {
+     "kind": "absolute",
+     "level": 0.25,
+     "threshold_point": 3.081936875239623,
+     "threshold_interval": [
+      3.0819356646469727,
+      3.0819380855996226
+     ],
+     "margin_J_inf_minus_T": -0.08747624460650272,
+     "endpoint_classification": "endpoint_included",
+     "eventual_upper_status": "wide_referenced_upper_set_unbounded",
+     "topology_status": "resolved",
+     "n_components": 1,
+     "components": [
+      {
+       "lo": 0.40764459694930283,
+       "hi": 499.99999999999983,
+       "lower_censored": false,
+       "upper_truncated_at_domain_edge": true
+      }
+     ],
+     "accepted_log10_width_decades": 3.0886883139145414,
+     "reaches_domain_edge": true
+    }
+   }
+  },
+  {
+   "group": "Arabica:trigonelline",
+   "variety": "Arabica",
+   "solute": "trigonelline",
+   "column": "TR",
+   "estimand_tag": "FULL-WIDE-ENDPOINT",
+   "n_conditions": 9,
+   "J_inf": 2.2770861253278802,
+   "J_inf_interval": [
+    2.2770849136078803,
+    2.27708733704788
+   ],
+   "J_inf_level_interval": [
+    5.279022754374542,
+    5.279022754374542
+   ],
+   "reference_minimum_status": "resolved",
+   "reference_minimum_unresolved_reasons": [],
+   "reference_minimum_per_refinement": [
+    {
+     "grid": 40,
+     "best_value": 2.243100303198946,
+     "n_basins": 2,
+     "n_retained": 1
+    },
+    {
+     "grid": 80,
+     "best_value": 2.2431003033227825,
+     "n_basins": 6,
+     "n_retained": 1
+    },
+    {
+     "grid": 160,
+     "best_value": 2.2431003031469983,
+     "n_basins": 13,
+     "n_retained": 1
+    },
+    {
+     "grid": 320,
+     "best_value": 2.243100303130631,
+     "n_basins": 26,
+     "n_retained": 1
+    }
+   ],
+   "coarse_40pt_grid_minimum": 2.2463538018193008,
+   "search_envelope_pp": 1.7578427602416014e-10,
+   "error_budget_pp": {
+    "E_ref_spatial": 1.20936e-06,
+    "E_ref_floating": 9.999999999999999e-10,
+    "E_ref_profile_arithmetic": 0.0,
+    "E_ref_search": 1.7578427602416014e-10,
+    "E_endpoint_construction": 1.36e-09,
+    "E_endpoint_spatial": 1.20936e-06,
+    "E_endpoint_floating": 9.999999999999999e-10,
+    "note": "NUMERICAL only. Contains no campaign measurement uncertainty in y. A margin that clears these bounds is numerically resolved and says nothing about whether it is empirically resolvable."
+   },
+   "J_ref": 2.243100303130631,
+   "J_ref_interval": [
+    2.243099092594847,
+    2.2431015134906307
+   ],
+   "kappa_ref": [
+    1.6995980845576566
+   ],
+   "J_ref_level_interval": [
+    5.6778066368179205,
+    5.6778066368179205
+   ],
+   "gap_J_inf_minus_J_ref": 0.03398582219724933,
+   "ratio_J_inf_over_J_ref": 1.0151512717241473,
+   "finite_wide_topology_status": "resolved",
+   "finite_wide_topology_reasons": [],
+   "conventions": {
+    "rel_q005": {
+     "kind": "relative",
+     "level": 0.05,
+     "threshold_point": 2.3552553182871625,
+     "threshold_interval": [
+      2.355254047224589,
+      2.3552565891651622
+     ],
+     "margin_J_inf_minus_T": -0.07816919295928226,
+     "endpoint_classification": "endpoint_included",
+     "eventual_upper_status": "wide_referenced_upper_set_unbounded",
+     "topology_status": "resolved",
+     "n_components": 1,
+     "components": [
+      {
+       "lo": 1.0268114116834308,
+       "hi": 499.99999999999983,
+       "lower_censored": false,
+       "upper_truncated_at_domain_edge": true
+      }
+     ],
+     "accepted_log10_width_decades": 2.6874793176872136,
+     "reaches_domain_edge": true
+    },
+    "rel_q010": {
+     "kind": "relative",
+     "level": 0.1,
+     "threshold_point": 2.467410333443694,
+     "threshold_interval": [
+      2.4674090018543318,
+      2.4674116648396938
+     ],
+     "margin_J_inf_minus_T": -0.19032420811581385,
+     "endpoint_classification": "endpoint_included",
+     "eventual_upper_status": "wide_referenced_upper_set_unbounded",
+     "topology_status": "resolved",
+     "n_components": 1,
+     "components": [
+      {
+       "lo": 0.8023928435015181,
+       "hi": 499.99999999999983,
+       "lower_censored": false,
+       "upper_truncated_at_domain_edge": true
+      }
+     ],
+     "accepted_log10_width_decades": 2.7945829577554373,
+     "reaches_domain_edge": true
+    },
+    "rel_q020": {
+     "kind": "relative",
+     "level": 0.2,
+     "threshold_point": 2.691720363756757,
+     "threshold_interval": [
+      2.6917189111138162,
+      2.691721816188757
+     ],
+     "margin_J_inf_minus_T": -0.4146342384288766,
+     "endpoint_classification": "endpoint_included",
+     "eventual_upper_status": "wide_referenced_upper_set_unbounded",
+     "topology_status": "resolved",
+     "n_components": 1,
+     "components": [
+      {
+       "lo": 0.6732631159205519,
+       "hi": 499.99999999999983,
+       "lower_censored": false,
+       "upper_truncated_at_domain_edge": true
+      }
+     ],
+     "accepted_log10_width_decades": 2.8707851816264975,
+     "reaches_domain_edge": true
+    },
+    "abs_a010": {
+     "kind": "absolute",
+     "level": 0.1,
+     "threshold_point": 2.343100303130631,
+     "threshold_interval": [
+      2.343099092594847,
+      2.343101513490631
+     ],
+     "margin_J_inf_minus_T": -0.06601417780275076,
+     "endpoint_classification": "endpoint_included",
+     "eventual_upper_status": "wide_referenced_upper_set_unbounded",
+     "topology_status": "resolved",
+     "n_components": 1,
+     "components": [
+      {
+       "lo": 1.0798997123150096,
+       "hi": 499.99999999999983,
+       "lower_censored": false,
+       "upper_truncated_at_domain_edge": true
+      }
+     ],
+     "accepted_log10_width_decades": 2.6655865788588162,
+     "reaches_domain_edge": true
+    },
+    "abs_a025": {
+     "kind": "absolute",
+     "level": 0.25,
+     "threshold_point": 2.493100303130631,
+     "threshold_interval": [
+      2.493099092594847,
+      2.4931015134906307
+     ],
+     "margin_J_inf_minus_T": -0.21601417780275067,
+     "endpoint_classification": "endpoint_included",
+     "eventual_upper_status": "wide_referenced_upper_set_unbounded",
+     "topology_status": "resolved",
+     "n_components": 1,
+     "components": [
+      {
+       "lo": 0.7799881105616392,
+       "hi": 499.99999999999983,
+       "lower_censored": false,
+       "upper_truncated_at_domain_edge": true
+      }
+     ],
+     "accepted_log10_width_decades": 2.806882021590188,
+     "reaches_domain_edge": true
+    }
+   }
+  },
+  {
+   "group": "Arabica:5CQA",
+   "variety": "Arabica",
+   "solute": "5CQA",
+   "column": "5CQA",
+   "estimand_tag": "FULL-WIDE-ENDPOINT",
+   "n_conditions": 9,
+   "J_inf": 5.094355748429022,
+   "J_inf_interval": [
+    5.094354536709022,
+    5.094356960149022
+   ],
+   "J_inf_level_interval": [
+    9.777902029332544,
+    9.777902029332544
+   ],
+   "reference_minimum_status": "resolved",
+   "reference_minimum_unresolved_reasons": [],
+   "reference_minimum_per_refinement": [
+    {
+     "grid": 40,
+     "best_value": 4.605557758696884,
+     "n_basins": 1,
+     "n_retained": 1
+    },
+    {
+     "grid": 80,
+     "best_value": 4.605557758504034,
+     "n_basins": 1,
+     "n_retained": 1
+    },
+    {
+     "grid": 160,
+     "best_value": 4.605557758302262,
+     "n_basins": 1,
+     "n_retained": 1
+    },
+    {
+     "grid": 320,
+     "best_value": 4.605557758369642,
+     "n_basins": 12,
+     "n_retained": 1
+    }
+   ],
+   "coarse_40pt_grid_minimum": 4.61739315238774,
+   "search_envelope_pp": 2.0177193249537595e-10,
+   "error_budget_pp": {
+    "E_ref_spatial": 1.20936e-06,
+    "E_ref_floating": 9.999999999999999e-10,
+    "E_ref_profile_arithmetic": 0.0,
+    "E_ref_search": 2.0177193249537595e-10,
+    "E_endpoint_construction": 1.36e-09,
+    "E_endpoint_spatial": 1.20936e-06,
+    "E_endpoint_floating": 9.999999999999999e-10,
+    "note": "NUMERICAL only. Contains no campaign measurement uncertainty in y. A margin that clears these bounds is numerically resolved and says nothing about whether it is empirically resolvable."
+   },
+   "J_ref": 4.605557758369642,
+   "J_ref_interval": [
+    4.60555654780787,
+    4.605558968729642
+   ],
+   "kappa_ref": [
+    1.02509235403945
+   ],
+   "J_ref_level_interval": [
+    12.097287593539459,
+    12.097287593539459
+   ],
+   "gap_J_inf_minus_J_ref": 0.4887979900593802,
+   "ratio_J_inf_over_J_ref": 1.106132202808898,
+   "finite_wide_topology_status": "resolved",
+   "finite_wide_topology_reasons": [],
+   "conventions": {
+    "rel_q005": {
+     "kind": "relative",
+     "level": 0.05,
+     "threshold_point": 4.835835646288124,
+     "threshold_interval": [
+      4.835834375198264,
+      4.835836917166124
+     ],
+     "margin_J_inf_minus_T": 0.25852010214089827,
+     "endpoint_classification": "endpoint_excluded",
+     "eventual_upper_status": "wide_referenced_eventually_excluded",
+     "topology_status": "resolved",
+     "n_components": 1,
+     "components": [
+      {
+       "lo": 0.45866841883657355,
+       "hi": 2.2006788044709107,
+       "lower_censored": false,
+       "upper_truncated_at_domain_edge": false
+      }
+     ],
+     "accepted_log10_width_decades": 0.6810578223831542,
+     "reaches_domain_edge": false
+    },
+    "rel_q010": {
+     "kind": "relative",
+     "level": 0.1,
+     "threshold_point": 5.066113534206607,
+     "threshold_interval": [
+      5.066112202588657,
+      5.066114865602606
+     ],
+     "margin_J_inf_minus_T": 0.028242214222415463,
+     "endpoint_classification": "endpoint_excluded",
+     "eventual_upper_status": "wide_referenced_eventually_excluded",
+     "topology_status": "resolved",
+     "n_components": 1,
+     "components": [
+      {
+       "lo": 0.307746119956286,
+       "hi": 14.166440322979996,
+       "lower_censored": false,
+       "upper_truncated_at_domain_edge": false
+      }
+     ],
+     "accepted_log10_width_decades": 1.663068150384434,
+     "reaches_domain_edge": false
+    },
+    "rel_q020": {
+     "kind": "relative",
+     "level": 0.2,
+     "threshold_point": 5.52666931004357,
+     "threshold_interval": [
+      5.526667857369444,
+      5.52667076247557
+     ],
+     "margin_J_inf_minus_T": -0.43231356161454837,
+     "endpoint_classification": "endpoint_included",
+     "eventual_upper_status": "wide_referenced_upper_set_unbounded",
+     "topology_status": "resolved",
+     "n_components": 1,
+     "components": [
+      {
+       "lo": 0.15,
+       "hi": 499.99999999999983,
+       "lower_censored": true,
+       "upper_truncated_at_domain_edge": true
+      }
+     ],
+     "accepted_log10_width_decades": 3.5228787452803374,
+     "reaches_domain_edge": true
+    },
+    "abs_a010": {
+     "kind": "absolute",
+     "level": 0.1,
+     "threshold_point": 4.7055577583696415,
+     "threshold_interval": [
+      4.70555654780787,
+      4.705558968729641
+     ],
+     "margin_J_inf_minus_T": 0.38879799005938054,
+     "endpoint_classification": "endpoint_excluded",
+     "eventual_upper_status": "wide_referenced_eventually_excluded",
+     "topology_status": "resolved",
+     "n_components": 1,
+     "components": [
+      {
+       "lo": 0.6962035083038562,
+       "hi": 1.3440370221514217,
+       "lower_censored": false,
+       "upper_truncated_at_domain_edge": false
+      }
+     ],
+     "accepted_log10_width_decades": 0.2856750242871358,
+     "reaches_domain_edge": false
+    },
+    "abs_a025": {
+     "kind": "absolute",
+     "level": 0.25,
+     "threshold_point": 4.855557758369642,
+     "threshold_interval": [
+      4.85555654780787,
+      4.855558968729642
+     ],
+     "margin_J_inf_minus_T": 0.23879799005938018,
+     "endpoint_classification": "endpoint_excluded",
+     "eventual_upper_status": "wide_referenced_eventually_excluded",
+     "topology_status": "resolved",
+     "n_components": 1,
+     "components": [
+      {
+       "lo": 0.4322456356469234,
+       "hi": 2.4216791617047253,
+       "lower_censored": false,
+       "upper_truncated_at_domain_edge": false
+      }
+     ],
+     "accepted_log10_width_decades": 0.7483859878035113,
+     "reaches_domain_edge": false
+    }
+   }
+  },
+  {
+   "group": "Robusta:caffeine",
+   "variety": "Robusta",
+   "solute": "caffeine",
+   "column": "CF",
+   "estimand_tag": "FULL-WIDE-ENDPOINT",
+   "n_conditions": 9,
+   "J_inf": 4.8997711399282124,
+   "J_inf_interval": [
+    4.8997699282082126,
+    4.899772351648212
+   ],
+   "J_inf_level_interval": [
+    13.279933795015607,
+    13.279933795015607
+   ],
+   "reference_minimum_status": "resolved",
+   "reference_minimum_unresolved_reasons": [],
+   "reference_minimum_per_refinement": [
+    {
+     "grid": 40,
+     "best_value": 4.893376643657902,
+     "n_basins": 3,
+     "n_retained": 1
+    },
+    {
+     "grid": 80,
+     "best_value": 4.893376643656965,
+     "n_basins": 4,
+     "n_retained": 1
+    },
+    {
+     "grid": 160,
+     "best_value": 4.893376643657137,
+     "n_basins": 4,
+     "n_retained": 1
+    },
+    {
+     "grid": 320,
+     "best_value": 4.893376643657104,
+     "n_basins": 7,
+     "n_retained": 1
+    }
+   ],
+   "coarse_40pt_grid_minimum": 4.893376722528534,
+   "search_envelope_pp": 1e-12,
+   "error_budget_pp": {
+    "E_ref_spatial": 1.20936e-06,
+    "E_ref_floating": 9.999999999999999e-10,
+    "E_ref_profile_arithmetic": 0.0,
+    "E_ref_search": 1e-12,
+    "E_endpoint_construction": 1.36e-09,
+    "E_endpoint_spatial": 1.20936e-06,
+    "E_endpoint_floating": 9.999999999999999e-10,
+    "note": "NUMERICAL only. Contains no campaign measurement uncertainty in y. A margin that clears these bounds is numerically resolved and says nothing about whether it is empirically resolvable."
+   },
+   "J_ref": 4.893376643657104,
+   "J_ref_interval": [
+    4.893375433296104,
+    4.893377854017103
+   ],
+   "kappa_ref": [
+    6.3121539777958295
+   ],
+   "J_ref_level_interval": [
+    13.962160961585273,
+    13.962160961585273
+   ],
+   "gap_J_inf_minus_J_ref": 0.006394496271108885,
+   "ratio_J_inf_over_J_ref": 1.00130676560109,
+   "finite_wide_topology_status": "resolved",
+   "finite_wide_topology_reasons": [],
+   "conventions": {
+    "rel_q005": {
+     "kind": "relative",
+     "level": 0.05,
+     "threshold_point": 5.1380454758399585,
+     "threshold_interval": [
+      5.138044204960909,
+      5.138046746717959
+     ],
+     "margin_J_inf_minus_T": -0.23827433591174607,
+     "endpoint_classification": "endpoint_included",
+     "eventual_upper_status": "wide_referenced_upper_set_unbounded",
+     "topology_status": "resolved",
+     "n_components": 1,
+     "components": [
+      {
+       "lo": 0.7771200354450104,
+       "hi": 499.99999999999983,
+       "lower_censored": false,
+       "upper_truncated_at_domain_edge": true
+      }
+     ],
+     "accepted_log10_width_decades": 2.8084818983985698,
+     "reaches_domain_edge": true
+    },
+    "rel_q010": {
+     "kind": "relative",
+     "level": 0.1,
+     "threshold_point": 5.382714308022814,
+     "threshold_interval": [
+      5.382712976625714,
+      5.382715639418814
+     ],
+     "margin_J_inf_minus_T": -0.4829431680946019,
+     "endpoint_classification": "endpoint_included",
+     "eventual_upper_status": "wide_referenced_upper_set_unbounded",
+     "topology_status": "resolved",
+     "n_components": 1,
+     "components": [
+      {
+       "lo": 0.6278607854325047,
+       "hi": 499.99999999999983,
+       "lower_censored": false,
+       "upper_truncated_at_domain_edge": true
+      }
+     ],
+     "accepted_log10_width_decades": 2.9011066453453687,
+     "reaches_domain_edge": true
+    },
+    "rel_q020": {
+     "kind": "relative",
+     "level": 0.2,
+     "threshold_point": 5.872051972388524,
+     "threshold_interval": [
+      5.872050519955324,
+      5.872053424820524
+     ],
+     "margin_J_inf_minus_T": -0.9722808324603118,
+     "endpoint_classification": "endpoint_included",
+     "eventual_upper_status": "wide_referenced_upper_set_unbounded",
+     "topology_status": "resolved",
+     "n_components": 1,
+     "components": [
+      {
+       "lo": 0.4445731345642521,
+       "hi": 499.99999999999983,
+       "lower_censored": false,
+       "upper_truncated_at_domain_edge": true
+      }
+     ],
+     "accepted_log10_width_decades": 3.0510267894796246,
+     "reaches_domain_edge": true
+    },
+    "abs_a010": {
+     "kind": "absolute",
+     "level": 0.1,
+     "threshold_point": 4.993376643657103,
+     "threshold_interval": [
+      4.993375433296103,
+      4.993377854017103
+     ],
+     "margin_J_inf_minus_T": -0.09360550372889076,
+     "endpoint_classification": "endpoint_included",
+     "eventual_upper_status": "wide_referenced_upper_set_unbounded",
+     "topology_status": "resolved",
+     "n_components": 1,
+     "components": [
+      {
+       "lo": 1.182016570838005,
+       "hi": 499.99999999999983,
+       "lower_censored": false,
+       "upper_truncated_at_domain_edge": true
+      }
+     ],
+     "accepted_log10_width_decades": 2.6263464393194957,
+     "reaches_domain_edge": true
+    },
+    "abs_a025": {
+     "kind": "absolute",
+     "level": 0.25,
+     "threshold_point": 5.143376643657104,
+     "threshold_interval": [
+      5.143375433296104,
+      5.143377854017103
+     ],
+     "margin_J_inf_minus_T": -0.24360550372889112,
+     "endpoint_classification": "endpoint_included",
+     "eventual_upper_status": "wide_referenced_upper_set_unbounded",
+     "topology_status": "resolved",
+     "n_components": 1,
+     "components": [
+      {
+       "lo": 0.7731165942470769,
+       "hi": 499.99999999999983,
+       "lower_censored": false,
+       "upper_truncated_at_domain_edge": true
+      }
+     ],
+     "accepted_log10_width_decades": 2.810725009227924,
+     "reaches_domain_edge": true
+    }
+   }
+  },
+  {
+   "group": "Robusta:trigonelline",
+   "variety": "Robusta",
+   "solute": "trigonelline",
+   "column": "TR",
+   "estimand_tag": "FULL-WIDE-ENDPOINT",
+   "n_conditions": 9,
+   "J_inf": 3.8629698268563994,
+   "J_inf_interval": [
+    3.8629686151363996,
+    3.8629710385763993
+   ],
+   "J_inf_level_interval": [
+    4.244595067522875,
+    4.244595067522875
+   ],
+   "reference_minimum_status": "unresolved",
+   "reference_minimum_unresolved_reasons": [
+    "the retained minimiser set changed size across the final refinement (8 -> 23)"
+   ],
+   "reference_minimum_per_refinement": [
+    {
+     "grid": 40,
+     "best_value": 3.8629698268854455,
+     "n_basins": 2,
+     "n_retained": 3
+    },
+    {
+     "grid": 80,
+     "best_value": 3.8629698268804544,
+     "n_basins": 2,
+     "n_retained": 3
+    },
+    {
+     "grid": 160,
+     "best_value": 3.8629698268821433,
+     "n_basins": 7,
+     "n_retained": 8
+    },
+    {
+     "grid": 320,
+     "best_value": 3.8629698268818555,
+     "n_basins": 22,
+     "n_retained": 23
+    }
+   ],
+   "coarse_40pt_grid_minimum": 3.862969826890456,
+   "search_envelope_pp": 1.6888712650597881e-12,
+   "error_budget_pp": {
+    "E_ref_spatial": 1.20936e-06,
+    "E_ref_floating": 9.999999999999999e-10,
+    "E_ref_profile_arithmetic": 0.0,
+    "E_ref_search": 1.6888712650597881e-12,
+    "E_endpoint_construction": 1.36e-09,
+    "E_endpoint_spatial": 1.20936e-06,
+    "E_endpoint_floating": 9.999999999999999e-10,
+    "note": "NUMERICAL only. Contains no campaign measurement uncertainty in y. A margin that clears these bounds is numerically resolved and says nothing about whether it is empirically resolvable."
+   },
+   "J_ref": null,
+   "J_ref_interval": null,
+   "kappa_ref": [],
+   "J_ref_level_interval": null,
+   "gap_J_inf_minus_J_ref": null,
+   "ratio_J_inf_over_J_ref": null,
+   "finite_wide_topology_status": "not_evaluated_reference_unresolved",
+   "conventions": {
+    "rel_q005": {
+     "endpoint_classification": "endpoint_indeterminate",
+     "eventual_upper_status": "upper_status_indeterminate",
+     "threshold_interval": null,
+     "margin_J_inf_minus_T": null
+    },
+    "rel_q010": {
+     "endpoint_classification": "endpoint_indeterminate",
+     "eventual_upper_status": "upper_status_indeterminate",
+     "threshold_interval": null,
+     "margin_J_inf_minus_T": null
+    },
+    "rel_q020": {
+     "endpoint_classification": "endpoint_indeterminate",
+     "eventual_upper_status": "upper_status_indeterminate",
+     "threshold_interval": null,
+     "margin_J_inf_minus_T": null
+    },
+    "abs_a010": {
+     "endpoint_classification": "endpoint_indeterminate",
+     "eventual_upper_status": "upper_status_indeterminate",
+     "threshold_interval": null,
+     "margin_J_inf_minus_T": null
+    },
+    "abs_a025": {
+     "endpoint_classification": "endpoint_indeterminate",
+     "eventual_upper_status": "upper_status_indeterminate",
+     "threshold_interval": null,
+     "margin_J_inf_minus_T": null
+    }
+   }
+  },
+  {
+   "group": "Robusta:5CQA",
+   "variety": "Robusta",
+   "solute": "5CQA",
+   "column": "5CQA",
+   "estimand_tag": "FULL-WIDE-ENDPOINT",
+   "n_conditions": 9,
+   "J_inf": 11.765304767422457,
+   "J_inf_interval": [
+    11.765303555702456,
+    11.765305979142457
+   ],
+   "J_inf_level_interval": [
+    5.5139832809897715,
+    5.5139832809897715
+   ],
+   "reference_minimum_status": "unresolved",
+   "reference_minimum_unresolved_reasons": [
+    "the retained minimiser set changed size across the final refinement (6 -> 14)"
+   ],
+   "reference_minimum_per_refinement": [
+    {
+     "grid": 40,
+     "best_value": 11.76530476742404,
+     "n_basins": 2,
+     "n_retained": 3
+    },
+    {
+     "grid": 80,
+     "best_value": 11.76530476742674,
+     "n_basins": 3,
+     "n_retained": 4
+    },
+    {
+     "grid": 160,
+     "best_value": 11.765304767426105,
+     "n_basins": 5,
+     "n_retained": 6
+    },
+    {
+     "grid": 320,
+     "best_value": 11.765304767424078,
+     "n_basins": 13,
+     "n_retained": 14
+    }
+   ],
+   "coarse_40pt_grid_minimum": 11.765304767432024,
+   "search_envelope_pp": 2.0268231537556858e-12,
+   "error_budget_pp": {
+    "E_ref_spatial": 1.20936e-06,
+    "E_ref_floating": 9.999999999999999e-10,
+    "E_ref_profile_arithmetic": 0.0,
+    "E_ref_search": 2.0268231537556858e-12,
+    "E_endpoint_construction": 1.36e-09,
+    "E_endpoint_spatial": 1.20936e-06,
+    "E_endpoint_floating": 9.999999999999999e-10,
+    "note": "NUMERICAL only. Contains no campaign measurement uncertainty in y. A margin that clears these bounds is numerically resolved and says nothing about whether it is empirically resolvable."
+   },
+   "J_ref": null,
+   "J_ref_interval": null,
+   "kappa_ref": [],
+   "J_ref_level_interval": null,
+   "gap_J_inf_minus_J_ref": null,
+   "ratio_J_inf_over_J_ref": null,
+   "finite_wide_topology_status": "not_evaluated_reference_unresolved",
+   "conventions": {
+    "rel_q005": {
+     "endpoint_classification": "endpoint_indeterminate",
+     "eventual_upper_status": "upper_status_indeterminate",
+     "threshold_interval": null,
+     "margin_J_inf_minus_T": null
+    },
+    "rel_q010": {
+     "endpoint_classification": "endpoint_indeterminate",
+     "eventual_upper_status": "upper_status_indeterminate",
+     "threshold_interval": null,
+     "margin_J_inf_minus_T": null
+    },
+    "rel_q020": {
+     "endpoint_classification": "endpoint_indeterminate",
+     "eventual_upper_status": "upper_status_indeterminate",
+     "threshold_interval": null,
+     "margin_J_inf_minus_T": null
+    },
+    "abs_a010": {
+     "endpoint_classification": "endpoint_indeterminate",
+     "eventual_upper_status": "upper_status_indeterminate",
+     "threshold_interval": null,
+     "margin_J_inf_minus_T": null
+    },
+    "abs_a025": {
+     "endpoint_classification": "endpoint_indeterminate",
+     "eventual_upper_status": "upper_status_indeterminate",
+     "threshold_interval": null,
+     "margin_J_inf_minus_T": null
+    }
+   }
+  }
+ ],
+ "headline_classification_count_at_10pct_relative": {
+  "endpoint_included": 3,
+  "endpoint_excluded": 1,
+  "endpoint_indeterminate": 2
+ },
+ "programme_reading": {
+  "rule": "accepted Protocol V2 2.9 group-outcome rule",
+  "group_outcomes": [
+   {
+    "group": "Arabica:caffeine",
+    "outcome": "failure",
+    "reason": "excluded under abs_a010"
+   },
+   {
+    "group": "Arabica:trigonelline",
+    "outcome": "success",
+    "reason": "included under rel_q010 and at least one absolute convention, excluded under neither"
+   },
+   {
+    "group": "Arabica:5CQA",
+    "outcome": "failure",
+    "reason": "excluded under the rel_q010 convention"
+   },
+   {
+    "group": "Robusta:caffeine",
+    "outcome": "success",
+    "reason": "included under rel_q010 and at least one absolute convention, excluded under neither"
+   },
+   {
+    "group": "Robusta:trigonelline",
+    "outcome": "failure",
+    "reason": "the reference minimum is unresolved"
+   },
+   {
+    "group": "Robusta:5CQA",
+    "outcome": "failure",
+    "reason": "the reference minimum is unresolved"
+   }
+  ],
+  "programme_result": "H1_DOES_NOT_LEAD"
+ },
+ "environment": {
+  "python": "3.13.13",
+  "numpy": "2.5.1",
+  "scipy": "1.18.0"
+ },
+ "hashes": {
+  "data_bioactives_csv_sha256": "780ba72d13f87f695cd41c16a18b003871f87ed80149e9c3bf0b76d2d2f2866a",
+  "producer_sha256": "f163c30359ea53c1956d824dc18df699cdd0c523e48d86a5a45bd140a647651a"
+ }
+}

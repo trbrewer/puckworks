@@ -5,6 +5,11 @@ results/
 .ipynb_checkpoints/
 .DS_Store
 
+# Insight Foundry: the ChatGPT source pack is a byte-for-byte RE-EXPORT of files already
+# tracked under docs/insights/generated/, renamed for upload order. Tracking it would
+# duplicate ~1 MB for no added information. Rebuild with `python -m puckworks.insights write`.
+docs/insights/generated/chatgpt_project/
+
 # viz layer (ROADMAP §8): renders are REGENERABLE outputs — only the recipe (code),
 # a small exemplar (thumb.png), provenance (data.json) and GALLERY.md are tracked.
 # Heavy stills stacks / videos / 3D volumes are gitignored.
@@ -65,3 +70,6 @@ dist/
 .coverage
 .coverage.*
 htmlcov/
+.viability_f_cache.pkl
+.viability_operator_cache.pkl
+.temporal_prediction_cache.pkl

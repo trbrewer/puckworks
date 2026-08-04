@@ -1,0 +1,3698 @@
+{
+ "status": "EXPLORATORY_SAME_CAMPAIGN_VIABILITY_SCREEN",
+ "not_a_gate": "NOT_A_FROZEN_P0_GATE_RESULT",
+ "gate_binding": null,
+ "date": "2026-08-03",
+ "question": "Do temporal fraction observations localise the common mass-transfer-rate multiplier more strongly than cumulative cup observations, on the same shots and the same model?",
+ "same_campaign_caveat": "The model parameters were originally fitted in this source lineage. This is a same-campaign observation-operator study, NOT independent physical validation.",
+ "arms": [
+  "FRACTION_6",
+  "CUP_CURVE_3",
+  "CUP_FINAL_1"
+ ],
+ "arm_definitions": {
+  "FRACTION_6": "six measured interval concentrations, fractions 1,2,3,5,7,10",
+  "CUP_CURVE_3": "three cumulative cup concentrations, brew ratios 1/1, 1/2, 1/3",
+  "CUP_FINAL_1": "final cumulative cup concentration only, brew ratio 1/3"
+ },
+ "negative_control": {
+  "arm": "CUP_FINAL_1",
+  "claim": "the rate profile is exactly flat for every kappa",
+  "proof": "one observation y and one free level I give the exact MAPE minimiser I* = y/f(kappa); then |I* f(kappa) - y| = 0 identically, so the per-shot MAPE is 0 at every kappa and the profile is constant",
+  "status": "analytic; verified numerically in the results",
+  "consequence": "carries no rate information and is not counted as evidence for any arm"
+ },
+ "grind_policy": {
+  "declared_grind_level": 1.7,
+  "primary": "shots at GL 1.7 only; declared grain parameters match the actual grind",
+  "sensitivity": "all admitted shots under the port's documented centre-grind approximation (solver.py: psi/d_s2 vary <15% across grinds, effect on MAPE second order)",
+  "why": "the per-experiment grind assignment is opaque in the source, so no declared parameter set exists for GL 1.4 or GL 2.0. Using GL 1.7 parameters for those shots is an approximation, not a measurement, and is reported as a sensitivity rather than as the primary result."
+ },
+ "shot_set": {
+  "n_shots": 16,
+  "all_grinds": false,
+  "experiments": [
+   1.0,
+   2.0,
+   5.0,
+   6.0,
+   7.0
+  ],
+  "grind_levels": [
+   1.7
+  ]
+ },
+ "kappa_domain": [
+  0.15,
+  500.0
+ ],
+ "kappa_grid_points": 64,
+ "objectives": {
+  "primary": "shot-balanced MAPE with exact per-shot level profiling",
+  "sensitivity": "shot-balanced log-RMSE",
+  "weighting": "shots weighted equally, so six fraction rows do not give a shot six times the influence of a three-point cup curve"
+ },
+ "solutes": [
+  {
+   "solute": "caffeine",
+   "arms": {
+    "FRACTION_6": {
+     "primary_mape_per_shot_level": {
+      "J": [
+       30.39350327668854,
+       27.898165016219327,
+       25.389598607774506,
+       22.963431332041857,
+       20.614981419897532,
+       18.341310347849983,
+       16.15448198205467,
+       14.080884951495545,
+       12.09620954630012,
+       10.24854734406868,
+       8.496581863000007,
+       6.889353313809908,
+       5.617454252196547,
+       4.765465359090506,
+       4.506495200370994,
+       4.497605644593385,
+       4.947898350519109,
+       5.709955524544043,
+       7.013829333231756,
+       8.414575060758274,
+       10.168068954619935,
+       12.124498987106804,
+       14.124179904442896,
+       16.193630443759112,
+       18.29759086455971,
+       20.42099438399098,
+       22.536719292550497,
+       24.622650302856094,
+       26.638955923681664,
+       28.579989059593178,
+       30.44778557228839,
+       32.2177892336845,
+       33.88418425474386,
+       35.42433478500328,
+       36.77356471953294,
+       37.99618810119725,
+       39.117364477364845,
+       40.142945308881195,
+       41.096865708210466,
+       41.97808293973793,
+       42.78601135050731,
+       43.52666903851572,
+       44.20516938655521,
+       44.82534516439373,
+       45.39039049628357,
+       46.38398827075059
+      ],
+      "kappa_minimiser": 1.0348369152272756,
+      "J_min": 4.497605644593385,
+      "profile_is_flat": false,
+      "accepted_rel10": {
+       "components": [
+        [
+         0.7782081368380241,
+         1.1768592900975274
+        ]
+       ],
+       "log10_width": 0.17962877258424498,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_abs25": {
+       "components": [
+        [
+         0.807032251789321,
+         1.1115209913718394
+        ]
+       ],
+       "log10_width": 0.13902677790745943,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_log10_width_rel10": 0.17962877258424498,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 46,
+       "valid_fraction": 0.71875,
+       "valid_kappa_range": [
+        0.15,
+        56.02113844907157
+       ],
+       "first_violating_kappa": 49.253060272055784,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": 1.6775613072763513
+      }
+     },
+     "sensitivity_log_rmse": {
+      "kappa_minimiser": 1.0348369152272756,
+      "J_min": 0.05519450722675072,
+      "profile_is_flat": false,
+      "accepted_rel10": {
+       "components": [
+        [
+         0.8212364970233763,
+         1.175041147160018
+        ]
+       ],
+       "log10_width": 0.15558483299129405,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_abs25": null,
+      "accepted_log10_width_rel10": 0.15558483299129405,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 46,
+       "valid_fraction": 0.71875,
+       "valid_kappa_range": [
+        0.15,
+        56.02113844907157
+       ],
+       "first_violating_kappa": 49.253060272055784,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": 1.6775613072763513
+      }
+     },
+     "sensitivity_common_level_per_solute": {
+      "kappa_minimiser": 0.9098152299024187,
+      "J_min": 5.196491450472775,
+      "profile_is_flat": false,
+      "accepted_rel10": {
+       "components": [
+        [
+         0.8020278398477334,
+         1.1400785555388777
+        ]
+       ],
+       "log10_width": 0.152745333130533,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_abs25": {
+       "components": [
+        [
+         0.8562620489317551,
+         1.0832569378227521
+        ]
+       ],
+       "log10_width": 0.10212478345716286,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_log10_width_rel10": 0.152745333130533,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 46,
+       "valid_fraction": 0.71875,
+       "valid_kappa_range": [
+        0.15,
+        56.02113844907157
+       ],
+       "first_violating_kappa": 49.253060272055784,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": 1.7334800175188965
+      }
+     },
+     "leave_one_experiment_out": {
+      "applicable": true,
+      "folds": [
+       {
+        "held_out_exp": 1.0,
+        "kappa": 0.9098152299024187,
+        "heldout_mape": 7.4489728133658994,
+        "n_shots": 3
+       },
+       {
+        "held_out_exp": 2.0,
+        "kappa": 1.0348369152272756,
+        "heldout_mape": 5.954315372572487,
+        "n_shots": 2
+       },
+       {
+        "held_out_exp": 5.0,
+        "kappa": 1.0348369152272756,
+        "heldout_mape": 5.653257619080348,
+        "n_shots": 2
+       },
+       {
+        "held_out_exp": 6.0,
+        "kappa": 0.9098152299024187,
+        "heldout_mape": 6.432065111140548,
+        "n_shots": 3
+       },
+       {
+        "held_out_exp": 7.0,
+        "kappa": 1.0348369152272756,
+        "heldout_mape": 5.74156667340193,
+        "n_shots": 6
+       }
+      ],
+      "fold_kappa": [
+       0.9098152299024187,
+       1.0348369152272756,
+       1.0348369152272756,
+       0.9098152299024187,
+       1.0348369152272756
+      ],
+      "median_log10_kappa": 0.014871912693856763,
+      "range_log10_kappa": [
+       -0.041046797548688216,
+       0.014871912693856763
+      ],
+      "spread_log10_kappa": 0.05591871024254498,
+      "heldout_mape": 6.206728737327287,
+      "right_boundary_hits": 0,
+      "failed_fits": 0,
+      "n_folds": 5
+     },
+     "kappa_minimiser": 1.0348369152272756,
+     "J_min": 4.497605644593385,
+     "accepted_log10_width_rel10": 0.17962877258424498,
+     "accepted_rel10_status": "finite",
+     "accepted_abs25_status": "finite",
+     "accepted_log10_width_abs25": 0.13902677790745943,
+     "profile_is_flat": false,
+     "residual_shape_at_best_kappa": {
+      "kappa": 1.0348369152272756,
+      "mean_signed_relative_residual_pct": {
+       "fraction_1": -2.4562224834423603,
+       "fraction_2": -0.017162229436357854,
+       "fraction_3": -0.13731693430880124,
+       "fraction_5": -2.290700623485384,
+       "fraction_7": -4.565118654396837,
+       "fraction_10": 0.1981556567734022
+      },
+      "worst_abs_mean_residual_pct": 4.565118654396837
+     }
+    },
+    "CUP_CURVE_3": {
+     "primary_mape_per_shot_level": {
+      "J": [
+       2.1394309423016895,
+       2.010929319100488,
+       1.914765976494965,
+       1.8667033738885639,
+       1.8111229045769743,
+       1.7426271450326165,
+       1.6553386809687876,
+       1.5590405336647883,
+       1.4573133596446939,
+       1.3538377536742348,
+       1.2507671599256567,
+       1.1540773720695965,
+       1.0715854946324144,
+       0.9956818896243667,
+       0.9177071824383716,
+       0.8363757354001733,
+       0.7475090426831072,
+       0.6589561000603067,
+       0.5840293528483127,
+       0.5494959943977841,
+       0.5768969585930844,
+       0.6484175063239576,
+       0.7503328333078396,
+       0.8920903437085685,
+       1.0686827673318513,
+       1.2698151287947517,
+       1.473567755519101,
+       1.689606567773339,
+       1.9158591465473627,
+       2.136137398096781,
+       2.3477259715442864,
+       2.5491915829545473,
+       2.7379904374655584,
+       2.91199754979852,
+       3.069929093869386,
+       3.21102702762374,
+       3.335049052820115,
+       3.442264400099802,
+       3.53334894779075,
+       3.6093469149954975,
+       3.6715474288256633,
+       3.721432937807939,
+       3.7605631595512703,
+       3.790503435191769,
+       3.812786930503079,
+       3.8288758551641533,
+       3.8400837507746717,
+       3.847595152626204,
+       3.852410260915341,
+       3.8553431459737166,
+       3.8570320217658876,
+       3.857950401988468,
+       3.8584121516135412,
+       3.8586297691212765,
+       3.858723613640646,
+       3.8587606355992423,
+       3.8587738809339633,
+       3.858778278095392,
+       3.8587793648886235,
+       3.8587791847877817,
+       3.8587799611802005,
+       3.858779974719489,
+       3.858780062433145,
+       3.8587800475461536
+      ],
+      "kappa_minimiser": 1.7319954774571973,
+      "J_min": 0.5494959943977841,
+      "profile_is_flat": false,
+      "accepted_rel10": {
+       "components": [
+        [
+         1.4702499161775586,
+         2.070162831792369
+        ]
+       ],
+       "log10_width": 0.14861334357665296,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_abs25": {
+       "components": [
+        [
+         1.0916369250208195,
+         2.6649934535217414
+        ]
+       ],
+       "log10_width": 0.38761792911521514,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_log10_width_rel10": 0.14861334357665296,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 64,
+       "valid_fraction": 1.0,
+       "valid_kappa_range": [
+        0.15,
+        500.0
+       ],
+       "first_violating_kappa": null,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": null
+      }
+     },
+     "sensitivity_log_rmse": {
+      "kappa_minimiser": 1.7319954774571973,
+      "J_min": 0.0069177171144934844,
+      "profile_is_flat": false,
+      "accepted_rel10": {
+       "components": [
+        [
+         1.4927472694342505,
+         2.0887230283621787
+        ]
+       ],
+       "log10_width": 0.14589456946823903,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_abs25": null,
+      "accepted_log10_width_rel10": 0.14589456946823903,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 64,
+       "valid_fraction": 1.0,
+       "valid_kappa_range": [
+        0.15,
+        500.0
+       ],
+       "first_violating_kappa": null,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": null
+      }
+     },
+     "sensitivity_common_level_per_solute": {
+      "kappa_minimiser": 1.9699965423436943,
+      "J_min": 2.14689558879427,
+      "profile_is_flat": false,
+      "accepted_rel10": {
+       "components": [
+        [
+         0.7059129086889607,
+         3.1010669992541997
+        ]
+       ],
+       "log10_width": 0.6427600256671728,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_abs25": {
+       "components": [
+        [
+         0.6217697934695638,
+         3.247187780646037
+        ]
+       ],
+       "log10_width": 0.7178777845097768,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_log10_width_rel10": 0.6427600256671728,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 64,
+       "valid_fraction": 1.0,
+       "valid_kappa_range": [
+        0.15,
+        500.0
+       ],
+       "first_violating_kappa": null,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": null
+      }
+     },
+     "leave_one_experiment_out": {
+      "applicable": true,
+      "folds": [
+       {
+        "held_out_exp": 1.0,
+        "kappa": 1.7319954774571973,
+        "heldout_mape": 1.022346502632567,
+        "n_shots": 3
+       },
+       {
+        "held_out_exp": 2.0,
+        "kappa": 1.7319954774571973,
+        "heldout_mape": 0.7952113384630219,
+        "n_shots": 2
+       },
+       {
+        "held_out_exp": 5.0,
+        "kappa": 1.7319954774571973,
+        "heldout_mape": 1.8321805705288097,
+        "n_shots": 2
+       },
+       {
+        "held_out_exp": 6.0,
+        "kappa": 1.7319954774571973,
+        "heldout_mape": 1.0401035771019398,
+        "n_shots": 3
+       },
+       {
+        "held_out_exp": 7.0,
+        "kappa": 1.9699965423436943,
+        "heldout_mape": 1.5619668332976069,
+        "n_shots": 6
+       }
+      ],
+      "fold_kappa": [
+       1.7319954774571973,
+       1.7319954774571973,
+       1.7319954774571973,
+       1.7319954774571973,
+       1.9699965423436943
+      ],
+      "median_log10_kappa": 0.23854675366403702,
+      "range_log10_kappa": [
+       0.23854675366403702,
+       0.2944654639065819
+      ],
+      "spread_log10_kappa": 0.05591871024254488,
+      "heldout_mape": 1.3008709410608015,
+      "right_boundary_hits": 0,
+      "failed_fits": 0,
+      "n_folds": 5
+     },
+     "kappa_minimiser": 1.7319954774571973,
+     "J_min": 0.5494959943977841,
+     "accepted_log10_width_rel10": 0.14861334357665296,
+     "accepted_rel10_status": "finite",
+     "accepted_abs25_status": "finite",
+     "accepted_log10_width_abs25": 0.38761792911521514,
+     "profile_is_flat": false,
+     "residual_shape_at_best_kappa": {
+      "kappa": 1.7319954774571973,
+      "mean_signed_relative_residual_pct": {
+       "brew_ratio_1/1": 0.2146680258214656,
+       "brew_ratio_1/2": -0.17017241820150858,
+       "brew_ratio_1/3": 0.28131723650998647
+      },
+      "worst_abs_mean_residual_pct": 0.28131723650998647
+     }
+    },
+    "CUP_FINAL_1": {
+     "primary_mape_per_shot_level": {
+      "J": [
+       6.394240352358661e-15,
+       3.177176161180552e-15,
+       1.6152634741939773e-15,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       7.7814625647255385e-16,
+       1.6253350861122672e-15,
+       3.1660056984728875e-15,
+       3.2221795862046662e-15,
+       1.6388585080292667e-15,
+       4.817559668269955e-15,
+       4.02341086545816e-15,
+       2.4091797066720375e-15,
+       4.839726867549834e-15,
+       4.770601211645572e-15,
+       1.591352772635803e-15,
+       8.034129928661295e-16,
+       3.984881581817143e-15,
+       2.4632576711909943e-15,
+       3.987366535290301e-15,
+       8.148954180210996e-16,
+       3.1396695968754427e-15,
+       4.856232887477982e-15,
+       4.8001724341175664e-15,
+       2.400218918210448e-15,
+       1.570366602340205e-15,
+       5.575811540404507e-15,
+       3.2225975687013815e-15,
+       3.147063906361837e-15,
+       4.812746259018429e-15,
+       3.2238959715139216e-15,
+       5.560354542383344e-15,
+       3.2847055218839826e-15,
+       5.5997751139068215e-15,
+       4.014225672815935e-15,
+       4.787257940868029e-15,
+       2.40156472475926e-15,
+       2.4074278143066928e-15,
+       5.543059907776165e-15,
+       2.3945864375607703e-15,
+       5.68565861031307e-15,
+       5.652184981933889e-15,
+       3.990784399538182e-15,
+       3.226005555266659e-15,
+       2.4424151470185223e-15,
+       2.436381942279479e-15,
+       5.616331531939794e-15,
+       3.979184731184732e-15,
+       6.400518861661644e-15,
+       2.426217641386031e-15,
+       4.0208384279798546e-15,
+       3.198359658825477e-15,
+       5.562629793537328e-15,
+       3.2587117443675408e-15,
+       4.80881248740297e-15,
+       3.9453642276845385e-15,
+       4.042469391261572e-15,
+       6.388817838099839e-15,
+       1.5581103475367593e-15,
+       6.415423472276812e-15
+      ],
+      "kappa_minimiser": 0.22072289808565684,
+      "J_min": 0.0,
+      "profile_is_flat": true,
+      "accepted_rel10": {
+       "components": [
+        [
+         0.22072289808565684,
+         0.4201853834614373
+        ]
+       ],
+       "log10_width": 0.2795935512127253,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_abs25": {
+       "components": [
+        [
+         0.15,
+         499.99999999999994
+        ]
+       ],
+       "log10_width": 3.5228787452803374,
+       "status": "doubly_censored",
+       "left_censored": true,
+       "right_censored": true,
+       "n_components": 1
+      },
+      "accepted_log10_width_rel10": null,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 64,
+       "valid_fraction": 1.0,
+       "valid_kappa_range": [
+        0.15,
+        500.0
+       ],
+       "first_violating_kappa": null,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": null
+      }
+     },
+     "sensitivity_log_rmse": {
+      "kappa_minimiser": 25.872575845640746,
+      "J_min": 4.163336342344337e-17,
+      "profile_is_flat": true,
+      "accepted_rel10": {
+       "components": [
+        [
+         25.623931548598364,
+         26.123632886657813
+        ]
+       ],
+       "log10_width": 0.008387806536381603,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_abs25": null,
+      "accepted_log10_width_rel10": null,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 64,
+       "valid_fraction": 1.0,
+       "valid_kappa_range": [
+        0.15,
+        500.0
+       ],
+       "first_violating_kappa": null,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": null
+      }
+     },
+     "sensitivity_common_level_per_solute": {
+      "kappa_minimiser": 4.851727892325516,
+      "J_min": 1.7914373542777773,
+      "profile_is_flat": false,
+      "accepted_rel10": {
+       "components": [
+        [
+         0.823978852016829,
+         499.99999999999994
+        ]
+       ],
+       "log10_width": 2.7830539389620292,
+       "status": "right_censored",
+       "left_censored": false,
+       "right_censored": true,
+       "n_components": 1
+      },
+      "accepted_abs25": {
+       "components": [
+        [
+         0.533336371439551,
+         499.99999999999994
+        ]
+       ],
+       "log10_width": 2.971968802470367,
+       "status": "right_censored",
+       "left_censored": false,
+       "right_censored": true,
+       "n_components": 1
+      },
+      "accepted_log10_width_rel10": 2.7830539389620292,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 64,
+       "valid_fraction": 1.0,
+       "valid_kappa_range": [
+        0.15,
+        500.0
+       ],
+       "first_violating_kappa": null,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": null
+      }
+     },
+     "leave_one_experiment_out": {
+      "applicable": false,
+      "why": "no observation remains after the level anchor, so no held-out score exists"
+     },
+     "kappa_minimiser": 0.22072289808565684,
+     "J_min": 0.0,
+     "accepted_log10_width_rel10": null,
+     "accepted_rel10_status": "finite",
+     "accepted_abs25_status": "doubly_censored",
+     "accepted_log10_width_abs25": 3.5228787452803374,
+     "profile_is_flat": true,
+     "residual_shape_at_best_kappa": null
+    }
+   },
+   "material_improvement": {
+    "width_fraction": 0.17962877258424498,
+    "width_cup": 0.14861334357665296,
+    "width_reduction_decades": -0.03101542900759202,
+    "at_least_half_decade_narrower": false,
+    "censored_to_finite": false,
+    "heldout_mape_fraction": 6.206728737327287,
+    "heldout_mape_cup": 1.3008709410608015,
+    "heldout_penalty_pp": 4.905857796266486,
+    "not_worse_by_more_than_half_pp": false,
+    "materially_more_localising": false
+   }
+  },
+  {
+   "solute": "trigonelline",
+   "arms": {
+    "FRACTION_6": {
+     "primary_mape_per_shot_level": {
+      "J": [
+       38.45253481349337,
+       36.908378278970424,
+       35.1553530327875,
+       33.268051611428504,
+       31.258857264770093,
+       29.13739841401189,
+       26.891510655650407,
+       24.43744481373328,
+       21.847991862476512,
+       19.20894069773245,
+       16.44739784054106,
+       13.57038028683207,
+       10.891867171859186,
+       8.61224737564663,
+       7.181232455133339,
+       6.86464510307254,
+       8.990034921784892,
+       12.094451600977617,
+       15.663215690702009,
+       19.535070140365434,
+       23.32690238642762,
+       27.085322696220246,
+       30.70394012531385,
+       33.99948765801783,
+       36.901117984395334,
+       39.48941067672689,
+       41.756290070319515,
+       43.79048532131483,
+       45.613505854857834,
+       47.24721681278811,
+       48.718824569973044,
+       50.04671410303624,
+       51.25531182336921,
+       52.37012363817807,
+       53.3896529057647,
+       54.32139252994999
+      ],
+      "kappa_minimiser": 1.0348369152272756,
+      "J_min": 6.86464510307254,
+      "profile_is_flat": false,
+      "accepted_rel10": {
+       "components": [
+        [
+         0.880034679402299,
+         1.0787795333183225
+        ]
+       ],
+       "log10_width": 0.0884329117246701,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_abs25": {
+       "components": [
+        [
+         0.9347909571440344,
+         1.0506289846106316
+        ]
+       ],
+       "log10_width": 0.05073487536938515,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_log10_width_rel10": 0.0884329117246701,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 36,
+       "valid_fraction": 0.5625,
+       "valid_kappa_range": [
+        0.15,
+        13.590834299248993
+       ],
+       "first_violating_kappa": 15.458410212706957,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": 1.1742929150934458
+      }
+     },
+     "sensitivity_log_rmse": {
+      "kappa_minimiser": 1.0348369152272756,
+      "J_min": 0.08923294756327575,
+      "profile_is_flat": false,
+      "accepted_rel10": {
+       "components": [
+        [
+         0.8564694097152764,
+         1.0719859066864925
+        ]
+       ],
+       "log10_width": 0.09747721975848422,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_abs25": null,
+      "accepted_log10_width_rel10": 0.09747721975848422,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 36,
+       "valid_fraction": 0.5625,
+       "valid_kappa_range": [
+        0.15,
+        13.590834299248993
+       ],
+       "first_violating_kappa": 15.458410212706957,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": 1.1742929150934458
+      }
+     },
+     "sensitivity_common_level_per_solute": {
+      "kappa_minimiser": 1.0348369152272756,
+      "J_min": 7.820264989978672,
+      "profile_is_flat": false,
+      "accepted_rel10": {
+       "components": [
+        [
+         0.8913988106706826,
+         1.0910124959983278
+        ]
+       ],
+       "log10_width": 0.08775767454053673,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_abs25": {
+       "components": [
+        [
+         0.9701048645798374,
+         1.0524733748757
+        ]
+       ],
+       "log10_width": 0.03539243565236308,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_log10_width_rel10": 0.08775767454053673,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 36,
+       "valid_fraction": 0.5625,
+       "valid_kappa_range": [
+        0.15,
+        13.590834299248993
+       ],
+       "first_violating_kappa": 15.458410212706957,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": 1.1742929150934458
+      }
+     },
+     "leave_one_experiment_out": {
+      "applicable": true,
+      "folds": [
+       {
+        "held_out_exp": 1.0,
+        "kappa": 0.9098152299024187,
+        "heldout_mape": 20.535820820665673,
+        "n_shots": 3
+       },
+       {
+        "held_out_exp": 2.0,
+        "kappa": 1.0348369152272756,
+        "heldout_mape": 9.978688799669175,
+        "n_shots": 2
+       },
+       {
+        "held_out_exp": 5.0,
+        "kappa": 1.0348369152272756,
+        "heldout_mape": 5.519357961423563,
+        "n_shots": 2
+       },
+       {
+        "held_out_exp": 6.0,
+        "kappa": 0.9098152299024187,
+        "heldout_mape": 9.258872844069566,
+        "n_shots": 3
+       },
+       {
+        "held_out_exp": 7.0,
+        "kappa": 1.0348369152272756,
+        "heldout_mape": 10.675128074466523,
+        "n_shots": 6
+       }
+      ],
+      "fold_kappa": [
+       0.9098152299024187,
+       1.0348369152272756,
+       1.0348369152272756,
+       0.9098152299024187,
+       1.0348369152272756
+      ],
+      "median_log10_kappa": 0.014871912693856763,
+      "range_log10_kappa": [
+       -0.041046797548688216,
+       0.014871912693856763
+      ],
+      "spread_log10_kappa": 0.05591871024254498,
+      "heldout_mape": 11.526933935199395,
+      "right_boundary_hits": 0,
+      "failed_fits": 0,
+      "n_folds": 5
+     },
+     "kappa_minimiser": 1.0348369152272756,
+     "J_min": 6.86464510307254,
+     "accepted_log10_width_rel10": 0.0884329117246701,
+     "accepted_rel10_status": "finite",
+     "accepted_abs25_status": "finite",
+     "accepted_log10_width_abs25": 0.05073487536938515,
+     "profile_is_flat": false,
+     "residual_shape_at_best_kappa": {
+      "kappa": 1.0348369152272756,
+      "mean_signed_relative_residual_pct": {
+       "fraction_1": -2.5236650974577093,
+       "fraction_2": 0.09449265755181349,
+       "fraction_3": -1.8480803011777294,
+       "fraction_5": -0.7871018830145814,
+       "fraction_7": -6.327858787041267,
+       "fraction_10": -9.349521353093788
+      },
+      "worst_abs_mean_residual_pct": 9.349521353093788
+     }
+    },
+    "CUP_CURVE_3": {
+     "primary_mape_per_shot_level": {
+      "J": [
+       3.0953647523371326,
+       3.2228259620248263,
+       3.327007315854437,
+       3.420588992686815,
+       3.4622528732736058,
+       3.4350108957505565,
+       3.3440622967512694,
+       3.19523572380473,
+       2.994687290370119,
+       2.748261692175057,
+       2.461297516708131,
+       2.1384253851684396,
+       1.7836834882669654,
+       1.4132240604392325,
+       1.0373860246809494,
+       0.7118156978102549,
+       0.5331935046898852,
+       0.6064220770833431,
+       0.8649041933329533,
+       1.3281586722229726,
+       1.820001405847126,
+       2.3112161982006714,
+       2.797607660289908,
+       3.2753573177772273,
+       3.7411596374122706,
+       4.192333367699927,
+       4.626891242713212,
+       5.043459061499224,
+       5.441260320726519,
+       5.819962801387968,
+       6.179594444604117,
+       6.520427361490386,
+       6.8428582773825735,
+       7.147412697686806,
+       7.4346683627870185,
+       7.7052626453318265,
+       7.959876049033341,
+       8.199224309076529,
+       8.424025598206818,
+       8.635014196116717,
+       8.832935131935928,
+       9.018487275710878,
+       9.192350571806518,
+       9.355185653838522,
+       9.50760634043969,
+       9.650202746056022,
+       9.78353353824567,
+       9.908118134028662,
+       10.024455050060888,
+       10.13300758883814,
+       10.234214149281392,
+       10.328485891673502,
+       10.416209960851116,
+       10.497748597730029,
+       10.573442202132421,
+       10.643610356242801,
+       10.70855332111574,
+       10.768553127309605,
+       10.823875175452944,
+       10.874769874960473,
+       10.921474064613955,
+       10.96421242365704,
+       11.003199137506737,
+       11.038639679002213
+      ],
+      "kappa_minimiser": 1.1770383764975672,
+      "J_min": 0.5331935046898852,
+      "profile_is_flat": false,
+      "accepted_rel10": {
+       "components": [
+        [
+         1.132657726784624,
+         1.292725388433161
+        ]
+       ],
+       "log10_width": 0.05740758619080699,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_abs25": {
+       "components": [
+        [
+         1.006033249506478,
+         1.4620127747288387
+        ]
+       ],
+       "log10_width": 0.16233883296679127,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_log10_width_rel10": 0.05740758619080699,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 64,
+       "valid_fraction": 1.0,
+       "valid_kappa_range": [
+        0.15,
+        500.0
+       ],
+       "first_violating_kappa": null,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": null
+      }
+     },
+     "sensitivity_log_rmse": {
+      "kappa_minimiser": 1.1770383764975672,
+      "J_min": 0.006815352106854712,
+      "profile_is_flat": false,
+      "accepted_rel10": {
+       "components": [
+        [
+         1.1278851345044631,
+         1.3049130863853196
+        ]
+       ],
+       "log10_width": 0.06331671378906195,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_abs25": null,
+      "accepted_log10_width_rel10": 0.06331671378906195,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 64,
+       "valid_fraction": 1.0,
+       "valid_kappa_range": [
+        0.15,
+        500.0
+       ],
+       "first_violating_kappa": null,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": null
+      }
+     },
+     "sensitivity_common_level_per_solute": {
+      "kappa_minimiser": 1.1770383764975672,
+      "J_min": 2.035083740651001,
+      "profile_is_flat": false,
+      "accepted_rel10": {
+       "components": [
+        [
+         0.9099223030933191,
+         1.4934881689163373
+        ]
+       ],
+       "log10_width": 0.21519747642175094,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_abs25": {
+       "components": [
+        [
+         0.887845151822655,
+         1.534784344218728
+        ]
+       ],
+       "log10_width": 0.23771013294696056,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_log10_width_rel10": 0.21519747642175094,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 64,
+       "valid_fraction": 1.0,
+       "valid_kappa_range": [
+        0.15,
+        500.0
+       ],
+       "first_violating_kappa": null,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": null
+      }
+     },
+     "leave_one_experiment_out": {
+      "applicable": true,
+      "folds": [
+       {
+        "held_out_exp": 1.0,
+        "kappa": 1.1770383764975672,
+        "heldout_mape": 0.773787950527613,
+        "n_shots": 3
+       },
+       {
+        "held_out_exp": 2.0,
+        "kappa": 1.1770383764975672,
+        "heldout_mape": 1.752719483723995,
+        "n_shots": 2
+       },
+       {
+        "held_out_exp": 5.0,
+        "kappa": 1.1770383764975672,
+        "heldout_mape": 1.8581439403815159,
+        "n_shots": 2
+       },
+       {
+        "held_out_exp": 6.0,
+        "kappa": 1.1770383764975672,
+        "heldout_mape": 1.1349379787827896,
+        "n_shots": 3
+       },
+       {
+        "held_out_exp": 7.0,
+        "kappa": 1.3387803617768668,
+        "heldout_mape": 2.0466887095945046,
+        "n_shots": 6
+       }
+      ],
+      "fold_kappa": [
+       1.1770383764975672,
+       1.1770383764975672,
+       1.1770383764975672,
+       1.1770383764975672,
+       1.3387803617768668
+      ],
+      "median_log10_kappa": 0.07079062293640179,
+      "range_log10_kappa": [
+       0.07079062293640179,
+       0.12670933317894686
+      ],
+      "spread_log10_kappa": 0.05591871024254508,
+      "heldout_mape": 1.5767523058568287,
+      "right_boundary_hits": 0,
+      "failed_fits": 0,
+      "n_folds": 5
+     },
+     "kappa_minimiser": 1.1770383764975672,
+     "J_min": 0.5331935046898852,
+     "accepted_log10_width_rel10": 0.05740758619080699,
+     "accepted_rel10_status": "finite",
+     "accepted_abs25_status": "finite",
+     "accepted_log10_width_abs25": 0.16233883296679127,
+     "profile_is_flat": false,
+     "residual_shape_at_best_kappa": {
+      "kappa": 1.1770383764975672,
+      "mean_signed_relative_residual_pct": {
+       "brew_ratio_1/1": 0.17437413459323864,
+       "brew_ratio_1/2": -0.05584529392547706,
+       "brew_ratio_1/3": 0.49686762788471867
+      },
+      "worst_abs_mean_residual_pct": 0.49686762788471867
+     }
+    },
+    "CUP_FINAL_1": {
+     "primary_mape_per_shot_level": {
+      "J": [
+       1.5619081253612298e-15,
+       7.953394433081952e-16,
+       1.5281912340104504e-15,
+       7.769439908096121e-16,
+       1.6048731286833833e-15,
+       3.9073722022241616e-15,
+       2.3504794512194322e-15,
+       3.1186370847076776e-15,
+       5.436230259251604e-15,
+       4.7456248175996595e-15,
+       3.144404819112431e-15,
+       5.422473289396899e-15,
+       3.963623926374483e-15,
+       2.378067659944079e-15,
+       5.466285682931564e-15,
+       7.1008244807963165e-15,
+       4.7355758978297295e-15,
+       7.821650344493894e-15,
+       7.02692113988715e-15,
+       3.868808121127752e-15,
+       4.667711094390902e-15,
+       3.0941853083086072e-15,
+       3.107101989160513e-15,
+       2.3197503615131214e-15,
+       3.080834244419972e-15,
+       1.5741440389770725e-15,
+       3.0629774609719543e-15,
+       2.3338027710929704e-15,
+       1.5281912340104504e-15,
+       3.062540481016523e-15,
+       3.8558667571189315e-15,
+       3.0867871720350512e-15,
+       3.829666469868482e-15,
+       1.5446228666675156e-15,
+       3.0995771150416245e-15,
+       2.2907338712300256e-15,
+       1.5562178573321707e-15,
+       2.306960418506548e-15,
+       4.641820758631924e-15,
+       5.387427081167974e-15,
+       3.8681026707347744e-15,
+       1.5278422900002627e-15,
+       3.0792717103195073e-15,
+       3.877367785686482e-15,
+       3.869926112900183e-15,
+       3.84406782345852e-15,
+       3.064365674703009e-15,
+       2.314612980490007e-15,
+       4.615183491426045e-15,
+       3.1134255816257167e-15,
+       2.333161848141783e-15,
+       3.0747763946323665e-15,
+       3.072814100677966e-15,
+       3.084961978348566e-15,
+       1.5690066579539583e-15,
+       1.5475056293864068e-15,
+       3.097197891964409e-15,
+       3.834231183752507e-15,
+       7.798267535285034e-16,
+       2.314612980490007e-15,
+       2.324798564206207e-15,
+       3.867948075103287e-15,
+       4.660931211012123e-15,
+       2.293111951922456e-15
+      ],
+      "kappa_minimiser": 0.22072289808565684,
+      "J_min": 7.769439908096121e-16,
+      "profile_is_flat": true,
+      "accepted_rel10": {
+       "components": [
+        [
+         0.16892125626652574,
+         0.17239896347095438
+        ],
+        [
+         0.21780319504534273,
+         0.2234060370649305
+        ],
+        [
+         261.8224208911156,
+         264.30303814005174
+        ]
+       ],
+       "log10_width": 0.02397632740774802,
+       "status": "disconnected",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 3
+      },
+      "accepted_abs25": {
+       "components": [
+        [
+         0.15,
+         499.99999999999994
+        ]
+       ],
+       "log10_width": 3.5228787452803374,
+       "status": "doubly_censored",
+       "left_censored": true,
+       "right_censored": true,
+       "n_components": 1
+      },
+      "accepted_log10_width_rel10": null,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 64,
+       "valid_fraction": 1.0,
+       "valid_kappa_range": [
+        0.15,
+        500.0
+       ],
+       "first_violating_kappa": null,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": null
+      }
+     },
+     "sensitivity_log_rmse": {
+      "kappa_minimiser": 0.17061215528425472,
+      "J_min": 2.0816681711721685e-17,
+      "profile_is_flat": true,
+      "accepted_rel10": {
+       "components": [
+        [
+         0.16842947629257346,
+         0.17226770682743156
+        ],
+        [
+         0.7960448564924106,
+         0.8050640388642186
+        ]
+       ],
+       "log10_width": 0.014678661438668125,
+       "status": "disconnected",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 2
+      },
+      "accepted_abs25": null,
+      "accepted_log10_width_rel10": null,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 64,
+       "valid_fraction": 1.0,
+       "valid_kappa_range": [
+        0.15,
+        500.0
+       ],
+       "first_violating_kappa": null,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": null
+      }
+     },
+     "sensitivity_common_level_per_solute": {
+      "kappa_minimiser": 0.54359863994638,
+      "J_min": 1.5837509746714753,
+      "profile_is_flat": false,
+      "accepted_rel10": {
+       "components": [
+        [
+         0.38013201254607976,
+         0.8100858242136835
+        ]
+       ],
+       "log10_width": 0.3285965875256822,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_abs25": {
+       "components": [
+        [
+         0.35021186162831835,
+         1.056085769526015
+        ]
+       ],
+       "log10_width": 0.4793683391673728,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_log10_width_rel10": 0.3285965875256822,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 64,
+       "valid_fraction": 1.0,
+       "valid_kappa_range": [
+        0.15,
+        500.0
+       ],
+       "first_violating_kappa": null,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": null
+      }
+     },
+     "leave_one_experiment_out": {
+      "applicable": false,
+      "why": "no observation remains after the level anchor, so no held-out score exists"
+     },
+     "kappa_minimiser": 0.22072289808565684,
+     "J_min": 7.769439908096121e-16,
+     "accepted_log10_width_rel10": null,
+     "accepted_rel10_status": "disconnected",
+     "accepted_abs25_status": "doubly_censored",
+     "accepted_log10_width_abs25": 3.5228787452803374,
+     "profile_is_flat": true,
+     "residual_shape_at_best_kappa": null
+    }
+   },
+   "material_improvement": {
+    "width_fraction": 0.0884329117246701,
+    "width_cup": 0.05740758619080699,
+    "width_reduction_decades": -0.031025325533863113,
+    "at_least_half_decade_narrower": false,
+    "censored_to_finite": false,
+    "heldout_mape_fraction": 11.526933935199395,
+    "heldout_mape_cup": 1.5767523058568287,
+    "heldout_penalty_pp": 9.950181629342566,
+    "not_worse_by_more_than_half_pp": false,
+    "materially_more_localising": false
+   }
+  },
+  {
+   "solute": "5CQA",
+   "arms": {
+    "FRACTION_6": {
+     "primary_mape_per_shot_level": {
+      "J": [
+       32.1562770229345,
+       29.88420141885411,
+       27.516365413358358,
+       25.174839120254738,
+       22.853927759680758,
+       20.58914265646328,
+       18.402041196344,
+       16.325339444608673,
+       14.315112417034882,
+       12.365781083732221,
+       10.439820908932099,
+       8.553208310559604,
+       6.963522369833742,
+       5.671903913150534,
+       4.83109959827741,
+       4.60294885200871,
+       5.0767645466882465,
+       6.60276338213426,
+       8.708909044123242,
+       10.930427838817886,
+       13.364548630650283,
+       15.94222486894117,
+       18.561906903449152,
+       21.184795295075848,
+       23.789275618067688,
+       26.305692555849795,
+       28.71496387570474,
+       30.928710520782396,
+       32.99413985135967,
+       34.89067322200844,
+       36.59557742846518,
+       38.131578582043296,
+       39.52857141334192,
+       40.80871934833615,
+       41.987518522069095,
+       43.06842961440479,
+       44.055160169650534,
+       44.95357562711139,
+       45.76857644301627,
+       46.504527190964225,
+       47.1656515032567,
+       47.75746752710704,
+       48.28827076155528
+      ],
+      "kappa_minimiser": 1.0348369152272756,
+      "J_min": 4.60294885200871,
+      "profile_is_flat": false,
+      "accepted_rel10": {
+       "components": [
+        [
+         0.878039745236249,
+         1.1727216045634792
+        ]
+       ],
+       "log10_width": 0.1256807509823948,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_abs25": {
+       "components": [
+        [
+         0.9067761553051884,
+         1.1075832404662287
+        ]
+       ],
+       "log10_width": 0.08687628419748884,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_log10_width_rel10": 0.1256807509823948,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 43,
+       "valid_fraction": 0.671875,
+       "valid_kappa_range": [
+        0.15,
+        33.471647504108475
+       ],
+       "first_violating_kappa": 38.07113281060527,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": 1.565723886791261
+      }
+     },
+     "sensitivity_log_rmse": {
+      "kappa_minimiser": 1.0348369152272756,
+      "J_min": 0.057770026150223364,
+      "profile_is_flat": false,
+      "accepted_rel10": {
+       "components": [
+        [
+         0.8946261316029491,
+         1.1401312662376564
+        ]
+       ],
+       "log10_width": 0.10531327609620791,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_abs25": null,
+      "accepted_log10_width_rel10": 0.10531327609620791,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 43,
+       "valid_fraction": 0.671875,
+       "valid_kappa_range": [
+        0.15,
+        33.471647504108475
+       ],
+       "first_violating_kappa": 38.07113281060527,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": 1.565723886791261
+      }
+     },
+     "sensitivity_common_level_per_solute": {
+      "kappa_minimiser": 1.0348369152272756,
+      "J_min": 5.552375943604027,
+      "profile_is_flat": false,
+      "accepted_rel10": {
+       "components": [
+        [
+         0.8923189672275933,
+         1.1869612926524629
+        ]
+       ],
+       "log10_width": 0.12391643215079591,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_abs25": {
+       "components": [
+        [
+         0.9572656944687732,
+         1.1095328088346441
+        ]
+       ],
+       "log10_width": 0.06410765344550245,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_log10_width_rel10": 0.12391643215079591,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 43,
+       "valid_fraction": 0.671875,
+       "valid_kappa_range": [
+        0.15,
+        33.471647504108475
+       ],
+       "first_violating_kappa": 38.07113281060527,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": 1.565723886791261
+      }
+     },
+     "leave_one_experiment_out": {
+      "applicable": true,
+      "folds": [
+       {
+        "held_out_exp": 1.0,
+        "kappa": 1.0348369152272756,
+        "heldout_mape": 12.420220409636343,
+        "n_shots": 3
+       },
+       {
+        "held_out_exp": 2.0,
+        "kappa": 1.0348369152272756,
+        "heldout_mape": 5.912709721248282,
+        "n_shots": 2
+       },
+       {
+        "held_out_exp": 5.0,
+        "kappa": 1.0348369152272756,
+        "heldout_mape": 5.2146804266230244,
+        "n_shots": 2
+       },
+       {
+        "held_out_exp": 6.0,
+        "kappa": 0.9098152299024187,
+        "heldout_mape": 7.158154019066232,
+        "n_shots": 3
+       },
+       {
+        "held_out_exp": 7.0,
+        "kappa": 1.1770383764975672,
+        "heldout_mape": 7.756050845344539,
+        "n_shots": 6
+       }
+      ],
+      "fold_kappa": [
+       1.0348369152272756,
+       1.0348369152272756,
+       1.0348369152272756,
+       0.9098152299024187,
+       1.1770383764975672
+      ],
+      "median_log10_kappa": 0.014871912693856763,
+      "range_log10_kappa": [
+       -0.041046797548688216,
+       0.07079062293640179
+      ],
+      "spread_log10_kappa": 0.11183742048509,
+      "heldout_mape": 7.970388040869849,
+      "right_boundary_hits": 0,
+      "failed_fits": 0,
+      "n_folds": 5
+     },
+     "kappa_minimiser": 1.0348369152272756,
+     "J_min": 4.60294885200871,
+     "accepted_log10_width_rel10": 0.1256807509823948,
+     "accepted_rel10_status": "finite",
+     "accepted_abs25_status": "finite",
+     "accepted_log10_width_abs25": 0.08687628419748884,
+     "profile_is_flat": false,
+     "residual_shape_at_best_kappa": {
+      "kappa": 1.0348369152272756,
+      "mean_signed_relative_residual_pct": {
+       "fraction_1": -3.102291648877112,
+       "fraction_2": -0.8932669979114956,
+       "fraction_3": -1.758572618631025,
+       "fraction_5": 0.15724076563606298,
+       "fraction_7": -4.587760598518589,
+       "fraction_10": -1.9827734121933567
+      },
+      "worst_abs_mean_residual_pct": 4.587760598518589
+     }
+    },
+    "CUP_CURVE_3": {
+     "primary_mape_per_shot_level": {
+      "J": [
+       2.2535801200354038,
+       2.2494257586678854,
+       2.2594723160713914,
+       2.2596484881642844,
+       2.233786795957159,
+       2.1920503008116636,
+       2.1422840449213627,
+       2.075695734669388,
+       1.9974105629867536,
+       1.891962308974573,
+       1.76353923937232,
+       1.6165428970785205,
+       1.4539583268689897,
+       1.2802342457938547,
+       1.0944884573240807,
+       0.9083469849948179,
+       0.726243554166185,
+       0.5691304933907495,
+       0.46393303776909156,
+       0.4946975986273474,
+       0.6700541714115796,
+       0.9219577944823855,
+       1.1976942213313535,
+       1.495622773319962,
+       1.814643539277394,
+       2.1399588024366367,
+       2.465375825249068,
+       2.7908512719708813,
+       3.1080188535001874,
+       3.4139344331306143,
+       3.7061066107921836,
+       3.9825605835252764,
+       4.241849082180608,
+       4.483067621755463,
+       4.7057556399694995,
+       4.90986827435469,
+       5.0956334678137125,
+       5.26352801997028,
+       5.414136493279255,
+       5.54812080743721,
+       5.666254826436322,
+       5.7693486255024045,
+       5.858284911011416,
+       5.93402037335081,
+       5.9975781444438265,
+       6.050062734843528,
+       6.092621834867052,
+       6.126444846876392,
+       6.152720429153196,
+       6.172633037763973,
+       6.187305408529852,
+       6.197784466989451,
+       6.205014283191768,
+       6.2098131201004065,
+       6.212864411667077,
+       6.214714453441744,
+       6.21577923229358,
+       6.216357617267945,
+       6.216652692880856,
+       6.216793078060182,
+       6.216855206280897,
+       6.216880634134332,
+       6.216890251239447,
+       6.216893622108138
+      ],
+      "kappa_minimiser": 1.5227480198332366,
+      "J_min": 0.46393303776909156,
+      "profile_is_flat": false,
+      "accepted_rel10": {
+       "components": [
+        [
+         1.4386900518714394,
+         1.751985618639115
+        ]
+       ],
+       "log10_width": 0.08556329630063078,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_abs25": {
+       "components": [
+        [
+         1.1889733105176141,
+         2.014679159302604
+        ]
+       ],
+       "log10_width": 0.2290337880305225,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_log10_width_rel10": 0.08556329630063078,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 64,
+       "valid_fraction": 1.0,
+       "valid_kappa_range": [
+        0.15,
+        500.0
+       ],
+       "first_violating_kappa": null,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": null
+      }
+     },
+     "sensitivity_log_rmse": {
+      "kappa_minimiser": 1.5227480198332366,
+      "J_min": 0.005886525407427817,
+      "profile_is_flat": false,
+      "accepted_rel10": {
+       "components": [
+        [
+         1.4422875402151327,
+         1.7624706487584234
+        ]
+       ],
+       "log10_width": 0.08707004151514541,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_abs25": null,
+      "accepted_log10_width_rel10": 0.08707004151514541,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 64,
+       "valid_fraction": 1.0,
+       "valid_kappa_range": [
+        0.15,
+        500.0
+       ],
+       "first_violating_kappa": null,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": null
+      }
+     },
+     "sensitivity_common_level_per_solute": {
+      "kappa_minimiser": 1.5227480198332366,
+      "J_min": 2.5374633644124467,
+      "profile_is_flat": false,
+      "accepted_rel10": {
+       "components": [
+        [
+         0.8078315000266466,
+         2.5689126025773112
+        ]
+       ],
+       "log10_width": 0.5024285455646571,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_abs25": {
+       "components": [
+        [
+         0.8123029605186775,
+         2.562045290772556
+        ]
+       ],
+       "log10_width": 0.49886876668747426,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_log10_width_rel10": 0.5024285455646571,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 64,
+       "valid_fraction": 1.0,
+       "valid_kappa_range": [
+        0.15,
+        500.0
+       ],
+       "first_violating_kappa": null,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": null
+      }
+     },
+     "leave_one_experiment_out": {
+      "applicable": true,
+      "folds": [
+       {
+        "held_out_exp": 1.0,
+        "kappa": 1.5227480198332366,
+        "heldout_mape": 0.9092453735502609,
+        "n_shots": 3
+       },
+       {
+        "held_out_exp": 2.0,
+        "kappa": 1.5227480198332366,
+        "heldout_mape": 0.8357031104061156,
+        "n_shots": 2
+       },
+       {
+        "held_out_exp": 5.0,
+        "kappa": 1.5227480198332366,
+        "heldout_mape": 1.811103008495372,
+        "n_shots": 2
+       },
+       {
+        "held_out_exp": 6.0,
+        "kappa": 1.5227480198332366,
+        "heldout_mape": 0.6641190881970968,
+        "n_shots": 3
+       },
+       {
+        "held_out_exp": 7.0,
+        "kappa": 1.7319954774571973,
+        "heldout_mape": 1.635677923561367,
+        "n_shots": 6
+       }
+      ],
+      "fold_kappa": [
+       1.5227480198332366,
+       1.5227480198332366,
+       1.5227480198332366,
+       1.5227480198332366,
+       1.7319954774571973
+      ],
+      "median_log10_kappa": 0.1826280434214919,
+      "range_log10_kappa": [
+       0.1826280434214919,
+       0.23854675366403702
+      ],
+      "spread_log10_kappa": 0.05591871024254513,
+      "heldout_mape": 1.2392358227758282,
+      "right_boundary_hits": 0,
+      "failed_fits": 0,
+      "n_folds": 5
+     },
+     "kappa_minimiser": 1.5227480198332366,
+     "J_min": 0.46393303776909156,
+     "accepted_log10_width_rel10": 0.08556329630063078,
+     "accepted_rel10_status": "finite",
+     "accepted_abs25_status": "finite",
+     "accepted_log10_width_abs25": 0.2290337880305225,
+     "profile_is_flat": false,
+     "residual_shape_at_best_kappa": {
+      "kappa": 1.5227480198332366,
+      "mean_signed_relative_residual_pct": {
+       "brew_ratio_1/1": 0.24348906513298604,
+       "brew_ratio_1/2": -0.06187211938362695,
+       "brew_ratio_1/3": 0.335372644658802
+      },
+      "worst_abs_mean_residual_pct": 0.335372644658802
+     }
+    },
+    "CUP_FINAL_1": {
+     "primary_mape_per_shot_level": {
+      "J": [
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       1.1870201415297643e-15,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0
+      ],
+      "kappa_minimiser": 0.15,
+      "J_min": 0.0,
+      "profile_is_flat": true,
+      "accepted_rel10": {
+       "components": [
+        [
+         0.15,
+         0.28555173960590224
+        ],
+        [
+         0.3694215538992856,
+         499.99999999999994
+        ]
+       ],
+       "log10_width": 3.411041324795247,
+       "status": "doubly_censored",
+       "left_censored": true,
+       "right_censored": true,
+       "n_components": 2
+      },
+      "accepted_abs25": {
+       "components": [
+        [
+         0.15,
+         499.99999999999994
+        ]
+       ],
+       "log10_width": 3.5228787452803374,
+       "status": "doubly_censored",
+       "left_censored": true,
+       "right_censored": true,
+       "n_components": 1
+      },
+      "accepted_log10_width_rel10": null,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 64,
+       "valid_fraction": 1.0,
+       "valid_kappa_range": [
+        0.15,
+        500.0
+       ],
+       "first_violating_kappa": null,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": null
+      }
+     },
+     "sensitivity_log_rmse": {
+      "kappa_minimiser": 7.139249607447359,
+      "J_min": 6.938893903907228e-18,
+      "profile_is_flat": true,
+      "accepted_rel10": {
+       "components": [
+        [
+         7.1308978366999565,
+         7.169956541625384
+        ],
+        [
+         338.7005531012956,
+         340.522530530975
+        ]
+       ],
+       "log10_width": 0.004702255179486525,
+       "status": "disconnected",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 2
+      },
+      "accepted_abs25": null,
+      "accepted_log10_width_rel10": null,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 64,
+       "valid_fraction": 1.0,
+       "valid_kappa_range": [
+        0.15,
+        500.0
+       ],
+       "first_violating_kappa": null,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": null
+      }
+     },
+     "sensitivity_common_level_per_solute": {
+      "kappa_minimiser": 0.6182969038056098,
+      "J_min": 2.373022128330696,
+      "profile_is_flat": false,
+      "accepted_rel10": {
+       "components": [
+        [
+         0.3972652073548351,
+         7.610871765871215
+        ]
+       ],
+       "log10_width": 1.2823538736209583,
+       "status": "finite",
+       "left_censored": false,
+       "right_censored": false,
+       "n_components": 1
+      },
+      "accepted_abs25": {
+       "components": [
+        [
+         0.39090989953614064,
+         499.99999999999994
+        ]
+       ],
+       "log10_width": 3.106893335542349,
+       "status": "right_censored",
+       "left_censored": false,
+       "right_censored": true,
+       "n_components": 1
+      },
+      "accepted_log10_width_rel10": 1.2823538736209583,
+      "grid_resolution_decades": 0.055918710242545036,
+      "positivity": {
+       "rule": "every prediction and observation strictly positive (protocol 1.1)",
+       "n_grid": 64,
+       "n_valid": 64,
+       "valid_fraction": 1.0,
+       "valid_kappa_range": [
+        0.15,
+        500.0
+       ],
+       "first_violating_kappa": null,
+       "why": "at high kappa the bed is exhausted before the late fractions, so late interval-average predictions reach zero and then go slightly negative. Those kappa are EXCLUDED and recorded, never clipped.",
+       "accepted_set_inside_valid_range": true,
+       "minimiser_decades_below_first_violation": null
+      }
+     },
+     "leave_one_experiment_out": {
+      "applicable": false,
+      "why": "no observation remains after the level anchor, so no held-out score exists"
+     },
+     "kappa_minimiser": 0.15,
+     "J_min": 0.0,
+     "accepted_log10_width_rel10": null,
+     "accepted_rel10_status": "doubly_censored",
+     "accepted_abs25_status": "doubly_censored",
+     "accepted_log10_width_abs25": 3.5228787452803374,
+     "profile_is_flat": true,
+     "residual_shape_at_best_kappa": null
+    }
+   },
+   "material_improvement": {
+    "width_fraction": 0.1256807509823948,
+    "width_cup": 0.08556329630063078,
+    "width_reduction_decades": -0.04011745468176403,
+    "at_least_half_decade_narrower": false,
+    "censored_to_finite": false,
+    "heldout_mape_fraction": 7.970388040869849,
+    "heldout_mape_cup": 1.2392358227758282,
+    "heldout_penalty_pp": 6.731152218094021,
+    "not_worse_by_more_than_half_pp": false,
+    "materially_more_localising": false
+   }
+  }
+ ],
+ "n_solutes_materially_improved": 0,
+ "environment": {
+  "python": "3.13.13",
+  "numpy": "2.5.1",
+  "scipy": "1.18.0"
+ },
+ "hashes": {
+  "producer_sha256": "e905e1ccfd1332d033f086009c473dcaeab9c9adba78ea4fc7dc3901f7ad6966",
+  "raw_fractions_sha256": "f3511dd46648fb34962c9d774cc901fa65acd7f0caaf130f143e4f04dbb0915f",
+  "cup_masses_sha256": "39b7c16f9d9da614f151f46cb0db1440d43f150fbf49d3d2119f3f2fa1622f43"
+ },
+ "_profiles": {
+  "caffeine|FRACTION_6": {
+   "kappa": [
+    0.15,
+    0.17061215528425472,
+    0.19405671687159096,
+    0.22072289808565684,
+    0.25105339575320545,
+    0.28555173960590224,
+    0.32479065159554177,
+    0.3694215538992856,
+    0.4201853834614373,
+    0.4779248926086456,
+    0.54359863994638,
+    0.6182969038056098,
+    0.7032597824257107,
+    0.7998977813625769,
+    0.9098152299024187,
+    1.0348369152272756,
+    1.1770383764975672,
+    1.3387803617768668,
+    1.5227480198332366,
+    1.7319954774571973,
+    1.9699965423436943,
+    2.240702373278582,
+    2.548607075037356,
+    2.8988223069654913,
+    3.29716214384972,
+    3.750239597892363,
+    4.26557640419182,
+    4.851727892325516,
+    5.518425017082606,
+    6.276735906260089,
+    7.139249607447359,
+    8.120285084259086,
+    9.236128931653525,
+    10.505305756751126,
+    11.948885713862651,
+    13.590834299248993,
+    15.458410212706957,
+    17.582617891053783,
+    19.998722226214568,
+    22.746834012970634,
+    25.872575845640746,
+    29.42783951853413,
+    33.471647504108475,
+    38.07113281060527,
+    43.30265348620313,
+    56.02113844907157
+   ],
+   "J": [
+    30.39350327668854,
+    27.898165016219327,
+    25.389598607774506,
+    22.963431332041857,
+    20.614981419897532,
+    18.341310347849983,
+    16.15448198205467,
+    14.080884951495545,
+    12.09620954630012,
+    10.24854734406868,
+    8.496581863000007,
+    6.889353313809908,
+    5.617454252196547,
+    4.765465359090506,
+    4.506495200370994,
+    4.497605644593385,
+    4.947898350519109,
+    5.709955524544043,
+    7.013829333231756,
+    8.414575060758274,
+    10.168068954619935,
+    12.124498987106804,
+    14.124179904442896,
+    16.193630443759112,
+    18.29759086455971,
+    20.42099438399098,
+    22.536719292550497,
+    24.622650302856094,
+    26.638955923681664,
+    28.579989059593178,
+    30.44778557228839,
+    32.2177892336845,
+    33.88418425474386,
+    35.42433478500328,
+    36.77356471953294,
+    37.99618810119725,
+    39.117364477364845,
+    40.142945308881195,
+    41.096865708210466,
+    41.97808293973793,
+    42.78601135050731,
+    43.52666903851572,
+    44.20516938655521,
+    44.82534516439373,
+    45.39039049628357,
+    46.38398827075059
+   ]
+  },
+  "caffeine|CUP_CURVE_3": {
+   "kappa": [
+    0.15,
+    0.17061215528425472,
+    0.19405671687159096,
+    0.22072289808565684,
+    0.25105339575320545,
+    0.28555173960590224,
+    0.32479065159554177,
+    0.3694215538992856,
+    0.4201853834614373,
+    0.4779248926086456,
+    0.54359863994638,
+    0.6182969038056098,
+    0.7032597824257107,
+    0.7998977813625769,
+    0.9098152299024187,
+    1.0348369152272756,
+    1.1770383764975672,
+    1.3387803617768668,
+    1.5227480198332366,
+    1.7319954774571973,
+    1.9699965423436943,
+    2.240702373278582,
+    2.548607075037356,
+    2.8988223069654913,
+    3.29716214384972,
+    3.750239597892363,
+    4.26557640419182,
+    4.851727892325516,
+    5.518425017082606,
+    6.276735906260089,
+    7.139249607447359,
+    8.120285084259086,
+    9.236128931653525,
+    10.505305756751126,
+    11.948885713862651,
+    13.590834299248993,
+    15.458410212706957,
+    17.582617891053783,
+    19.998722226214568,
+    22.746834012970634,
+    25.872575845640746,
+    29.42783951853413,
+    33.471647504108475,
+    38.07113281060527,
+    43.30265348620313,
+    49.253060272055784,
+    56.02113844907157,
+    63.719247815158184,
+    72.47518801890456,
+    82.43432021691265,
+    93.76198027733251,
+    106.64622359223651,
+    121.30094706665346,
+    137.96944011375356,
+    156.928423607796,
+    178.4926438472439,
+    203.02009779442113,
+    230.91797633817566,
+    262.64942424623115,
+    298.74122903212077,
+    339.79256638291514,
+    386.48494733438224,
+    439.59353233093736,
+    500.0
+   ],
+   "J": [
+    2.1394309423016895,
+    2.010929319100488,
+    1.914765976494965,
+    1.8667033738885639,
+    1.8111229045769743,
+    1.7426271450326165,
+    1.6553386809687876,
+    1.5590405336647883,
+    1.4573133596446939,
+    1.3538377536742348,
+    1.2507671599256567,
+    1.1540773720695965,
+    1.0715854946324144,
+    0.9956818896243667,
+    0.9177071824383716,
+    0.8363757354001733,
+    0.7475090426831072,
+    0.6589561000603067,
+    0.5840293528483127,
+    0.5494959943977841,
+    0.5768969585930844,
+    0.6484175063239576,
+    0.7503328333078396,
+    0.8920903437085685,
+    1.0686827673318513,
+    1.2698151287947517,
+    1.473567755519101,
+    1.689606567773339,
+    1.9158591465473627,
+    2.136137398096781,
+    2.3477259715442864,
+    2.5491915829545473,
+    2.7379904374655584,
+    2.91199754979852,
+    3.069929093869386,
+    3.21102702762374,
+    3.335049052820115,
+    3.442264400099802,
+    3.53334894779075,
+    3.6093469149954975,
+    3.6715474288256633,
+    3.721432937807939,
+    3.7605631595512703,
+    3.790503435191769,
+    3.812786930503079,
+    3.8288758551641533,
+    3.8400837507746717,
+    3.847595152626204,
+    3.852410260915341,
+    3.8553431459737166,
+    3.8570320217658876,
+    3.857950401988468,
+    3.8584121516135412,
+    3.8586297691212765,
+    3.858723613640646,
+    3.8587606355992423,
+    3.8587738809339633,
+    3.858778278095392,
+    3.8587793648886235,
+    3.8587791847877817,
+    3.8587799611802005,
+    3.858779974719489,
+    3.858780062433145,
+    3.8587800475461536
+   ]
+  },
+  "caffeine|CUP_FINAL_1": {
+   "kappa": [
+    0.15,
+    0.17061215528425472,
+    0.19405671687159096,
+    0.22072289808565684,
+    0.25105339575320545,
+    0.28555173960590224,
+    0.32479065159554177,
+    0.3694215538992856,
+    0.4201853834614373,
+    0.4779248926086456,
+    0.54359863994638,
+    0.6182969038056098,
+    0.7032597824257107,
+    0.7998977813625769,
+    0.9098152299024187,
+    1.0348369152272756,
+    1.1770383764975672,
+    1.3387803617768668,
+    1.5227480198332366,
+    1.7319954774571973,
+    1.9699965423436943,
+    2.240702373278582,
+    2.548607075037356,
+    2.8988223069654913,
+    3.29716214384972,
+    3.750239597892363,
+    4.26557640419182,
+    4.851727892325516,
+    5.518425017082606,
+    6.276735906260089,
+    7.139249607447359,
+    8.120285084259086,
+    9.236128931653525,
+    10.505305756751126,
+    11.948885713862651,
+    13.590834299248993,
+    15.458410212706957,
+    17.582617891053783,
+    19.998722226214568,
+    22.746834012970634,
+    25.872575845640746,
+    29.42783951853413,
+    33.471647504108475,
+    38.07113281060527,
+    43.30265348620313,
+    49.253060272055784,
+    56.02113844907157,
+    63.719247815158184,
+    72.47518801890456,
+    82.43432021691265,
+    93.76198027733251,
+    106.64622359223651,
+    121.30094706665346,
+    137.96944011375356,
+    156.928423607796,
+    178.4926438472439,
+    203.02009779442113,
+    230.91797633817566,
+    262.64942424623115,
+    298.74122903212077,
+    339.79256638291514,
+    386.48494733438224,
+    439.59353233093736,
+    500.0
+   ],
+   "J": [
+    6.394240352358661e-15,
+    3.177176161180552e-15,
+    1.6152634741939773e-15,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    7.7814625647255385e-16,
+    1.6253350861122672e-15,
+    3.1660056984728875e-15,
+    3.2221795862046662e-15,
+    1.6388585080292667e-15,
+    4.817559668269955e-15,
+    4.02341086545816e-15,
+    2.4091797066720375e-15,
+    4.839726867549834e-15,
+    4.770601211645572e-15,
+    1.591352772635803e-15,
+    8.034129928661295e-16,
+    3.984881581817143e-15,
+    2.4632576711909943e-15,
+    3.987366535290301e-15,
+    8.148954180210996e-16,
+    3.1396695968754427e-15,
+    4.856232887477982e-15,
+    4.8001724341175664e-15,
+    2.400218918210448e-15,
+    1.570366602340205e-15,
+    5.575811540404507e-15,
+    3.2225975687013815e-15,
+    3.147063906361837e-15,
+    4.812746259018429e-15,
+    3.2238959715139216e-15,
+    5.560354542383344e-15,
+    3.2847055218839826e-15,
+    5.5997751139068215e-15,
+    4.014225672815935e-15,
+    4.787257940868029e-15,
+    2.40156472475926e-15,
+    2.4074278143066928e-15,
+    5.543059907776165e-15,
+    2.3945864375607703e-15,
+    5.68565861031307e-15,
+    5.652184981933889e-15,
+    3.990784399538182e-15,
+    3.226005555266659e-15,
+    2.4424151470185223e-15,
+    2.436381942279479e-15,
+    5.616331531939794e-15,
+    3.979184731184732e-15,
+    6.400518861661644e-15,
+    2.426217641386031e-15,
+    4.0208384279798546e-15,
+    3.198359658825477e-15,
+    5.562629793537328e-15,
+    3.2587117443675408e-15,
+    4.80881248740297e-15,
+    3.9453642276845385e-15,
+    4.042469391261572e-15,
+    6.388817838099839e-15,
+    1.5581103475367593e-15,
+    6.415423472276812e-15
+   ]
+  },
+  "trigonelline|FRACTION_6": {
+   "kappa": [
+    0.15,
+    0.17061215528425472,
+    0.19405671687159096,
+    0.22072289808565684,
+    0.25105339575320545,
+    0.28555173960590224,
+    0.32479065159554177,
+    0.3694215538992856,
+    0.4201853834614373,
+    0.4779248926086456,
+    0.54359863994638,
+    0.6182969038056098,
+    0.7032597824257107,
+    0.7998977813625769,
+    0.9098152299024187,
+    1.0348369152272756,
+    1.1770383764975672,
+    1.3387803617768668,
+    1.5227480198332366,
+    1.7319954774571973,
+    1.9699965423436943,
+    2.240702373278582,
+    2.548607075037356,
+    2.8988223069654913,
+    3.29716214384972,
+    3.750239597892363,
+    4.26557640419182,
+    4.851727892325516,
+    5.518425017082606,
+    6.276735906260089,
+    7.139249607447359,
+    8.120285084259086,
+    9.236128931653525,
+    10.505305756751126,
+    11.948885713862651,
+    13.590834299248993
+   ],
+   "J": [
+    38.45253481349337,
+    36.908378278970424,
+    35.1553530327875,
+    33.268051611428504,
+    31.258857264770093,
+    29.13739841401189,
+    26.891510655650407,
+    24.43744481373328,
+    21.847991862476512,
+    19.20894069773245,
+    16.44739784054106,
+    13.57038028683207,
+    10.891867171859186,
+    8.61224737564663,
+    7.181232455133339,
+    6.86464510307254,
+    8.990034921784892,
+    12.094451600977617,
+    15.663215690702009,
+    19.535070140365434,
+    23.32690238642762,
+    27.085322696220246,
+    30.70394012531385,
+    33.99948765801783,
+    36.901117984395334,
+    39.48941067672689,
+    41.756290070319515,
+    43.79048532131483,
+    45.613505854857834,
+    47.24721681278811,
+    48.718824569973044,
+    50.04671410303624,
+    51.25531182336921,
+    52.37012363817807,
+    53.3896529057647,
+    54.32139252994999
+   ]
+  },
+  "trigonelline|CUP_CURVE_3": {
+   "kappa": [
+    0.15,
+    0.17061215528425472,
+    0.19405671687159096,
+    0.22072289808565684,
+    0.25105339575320545,
+    0.28555173960590224,
+    0.32479065159554177,
+    0.3694215538992856,
+    0.4201853834614373,
+    0.4779248926086456,
+    0.54359863994638,
+    0.6182969038056098,
+    0.7032597824257107,
+    0.7998977813625769,
+    0.9098152299024187,
+    1.0348369152272756,
+    1.1770383764975672,
+    1.3387803617768668,
+    1.5227480198332366,
+    1.7319954774571973,
+    1.9699965423436943,
+    2.240702373278582,
+    2.548607075037356,
+    2.8988223069654913,
+    3.29716214384972,
+    3.750239597892363,
+    4.26557640419182,
+    4.851727892325516,
+    5.518425017082606,
+    6.276735906260089,
+    7.139249607447359,
+    8.120285084259086,
+    9.236128931653525,
+    10.505305756751126,
+    11.948885713862651,
+    13.590834299248993,
+    15.458410212706957,
+    17.582617891053783,
+    19.998722226214568,
+    22.746834012970634,
+    25.872575845640746,
+    29.42783951853413,
+    33.471647504108475,
+    38.07113281060527,
+    43.30265348620313,
+    49.253060272055784,
+    56.02113844907157,
+    63.719247815158184,
+    72.47518801890456,
+    82.43432021691265,
+    93.76198027733251,
+    106.64622359223651,
+    121.30094706665346,
+    137.96944011375356,
+    156.928423607796,
+    178.4926438472439,
+    203.02009779442113,
+    230.91797633817566,
+    262.64942424623115,
+    298.74122903212077,
+    339.79256638291514,
+    386.48494733438224,
+    439.59353233093736,
+    500.0
+   ],
+   "J": [
+    3.0953647523371326,
+    3.2228259620248263,
+    3.327007315854437,
+    3.420588992686815,
+    3.4622528732736058,
+    3.4350108957505565,
+    3.3440622967512694,
+    3.19523572380473,
+    2.994687290370119,
+    2.748261692175057,
+    2.461297516708131,
+    2.1384253851684396,
+    1.7836834882669654,
+    1.4132240604392325,
+    1.0373860246809494,
+    0.7118156978102549,
+    0.5331935046898852,
+    0.6064220770833431,
+    0.8649041933329533,
+    1.3281586722229726,
+    1.820001405847126,
+    2.3112161982006714,
+    2.797607660289908,
+    3.2753573177772273,
+    3.7411596374122706,
+    4.192333367699927,
+    4.626891242713212,
+    5.043459061499224,
+    5.441260320726519,
+    5.819962801387968,
+    6.179594444604117,
+    6.520427361490386,
+    6.8428582773825735,
+    7.147412697686806,
+    7.4346683627870185,
+    7.7052626453318265,
+    7.959876049033341,
+    8.199224309076529,
+    8.424025598206818,
+    8.635014196116717,
+    8.832935131935928,
+    9.018487275710878,
+    9.192350571806518,
+    9.355185653838522,
+    9.50760634043969,
+    9.650202746056022,
+    9.78353353824567,
+    9.908118134028662,
+    10.024455050060888,
+    10.13300758883814,
+    10.234214149281392,
+    10.328485891673502,
+    10.416209960851116,
+    10.497748597730029,
+    10.573442202132421,
+    10.643610356242801,
+    10.70855332111574,
+    10.768553127309605,
+    10.823875175452944,
+    10.874769874960473,
+    10.921474064613955,
+    10.96421242365704,
+    11.003199137506737,
+    11.038639679002213
+   ]
+  },
+  "trigonelline|CUP_FINAL_1": {
+   "kappa": [
+    0.15,
+    0.17061215528425472,
+    0.19405671687159096,
+    0.22072289808565684,
+    0.25105339575320545,
+    0.28555173960590224,
+    0.32479065159554177,
+    0.3694215538992856,
+    0.4201853834614373,
+    0.4779248926086456,
+    0.54359863994638,
+    0.6182969038056098,
+    0.7032597824257107,
+    0.7998977813625769,
+    0.9098152299024187,
+    1.0348369152272756,
+    1.1770383764975672,
+    1.3387803617768668,
+    1.5227480198332366,
+    1.7319954774571973,
+    1.9699965423436943,
+    2.240702373278582,
+    2.548607075037356,
+    2.8988223069654913,
+    3.29716214384972,
+    3.750239597892363,
+    4.26557640419182,
+    4.851727892325516,
+    5.518425017082606,
+    6.276735906260089,
+    7.139249607447359,
+    8.120285084259086,
+    9.236128931653525,
+    10.505305756751126,
+    11.948885713862651,
+    13.590834299248993,
+    15.458410212706957,
+    17.582617891053783,
+    19.998722226214568,
+    22.746834012970634,
+    25.872575845640746,
+    29.42783951853413,
+    33.471647504108475,
+    38.07113281060527,
+    43.30265348620313,
+    49.253060272055784,
+    56.02113844907157,
+    63.719247815158184,
+    72.47518801890456,
+    82.43432021691265,
+    93.76198027733251,
+    106.64622359223651,
+    121.30094706665346,
+    137.96944011375356,
+    156.928423607796,
+    178.4926438472439,
+    203.02009779442113,
+    230.91797633817566,
+    262.64942424623115,
+    298.74122903212077,
+    339.79256638291514,
+    386.48494733438224,
+    439.59353233093736,
+    500.0
+   ],
+   "J": [
+    1.5619081253612298e-15,
+    7.953394433081952e-16,
+    1.5281912340104504e-15,
+    7.769439908096121e-16,
+    1.6048731286833833e-15,
+    3.9073722022241616e-15,
+    2.3504794512194322e-15,
+    3.1186370847076776e-15,
+    5.436230259251604e-15,
+    4.7456248175996595e-15,
+    3.144404819112431e-15,
+    5.422473289396899e-15,
+    3.963623926374483e-15,
+    2.378067659944079e-15,
+    5.466285682931564e-15,
+    7.1008244807963165e-15,
+    4.7355758978297295e-15,
+    7.821650344493894e-15,
+    7.02692113988715e-15,
+    3.868808121127752e-15,
+    4.667711094390902e-15,
+    3.0941853083086072e-15,
+    3.107101989160513e-15,
+    2.3197503615131214e-15,
+    3.080834244419972e-15,
+    1.5741440389770725e-15,
+    3.0629774609719543e-15,
+    2.3338027710929704e-15,
+    1.5281912340104504e-15,
+    3.062540481016523e-15,
+    3.8558667571189315e-15,
+    3.0867871720350512e-15,
+    3.829666469868482e-15,
+    1.5446228666675156e-15,
+    3.0995771150416245e-15,
+    2.2907338712300256e-15,
+    1.5562178573321707e-15,
+    2.306960418506548e-15,
+    4.641820758631924e-15,
+    5.387427081167974e-15,
+    3.8681026707347744e-15,
+    1.5278422900002627e-15,
+    3.0792717103195073e-15,
+    3.877367785686482e-15,
+    3.869926112900183e-15,
+    3.84406782345852e-15,
+    3.064365674703009e-15,
+    2.314612980490007e-15,
+    4.615183491426045e-15,
+    3.1134255816257167e-15,
+    2.333161848141783e-15,
+    3.0747763946323665e-15,
+    3.072814100677966e-15,
+    3.084961978348566e-15,
+    1.5690066579539583e-15,
+    1.5475056293864068e-15,
+    3.097197891964409e-15,
+    3.834231183752507e-15,
+    7.798267535285034e-16,
+    2.314612980490007e-15,
+    2.324798564206207e-15,
+    3.867948075103287e-15,
+    4.660931211012123e-15,
+    2.293111951922456e-15
+   ]
+  },
+  "5CQA|FRACTION_6": {
+   "kappa": [
+    0.15,
+    0.17061215528425472,
+    0.19405671687159096,
+    0.22072289808565684,
+    0.25105339575320545,
+    0.28555173960590224,
+    0.32479065159554177,
+    0.3694215538992856,
+    0.4201853834614373,
+    0.4779248926086456,
+    0.54359863994638,
+    0.6182969038056098,
+    0.7032597824257107,
+    0.7998977813625769,
+    0.9098152299024187,
+    1.0348369152272756,
+    1.1770383764975672,
+    1.3387803617768668,
+    1.5227480198332366,
+    1.7319954774571973,
+    1.9699965423436943,
+    2.240702373278582,
+    2.548607075037356,
+    2.8988223069654913,
+    3.29716214384972,
+    3.750239597892363,
+    4.26557640419182,
+    4.851727892325516,
+    5.518425017082606,
+    6.276735906260089,
+    7.139249607447359,
+    8.120285084259086,
+    9.236128931653525,
+    10.505305756751126,
+    11.948885713862651,
+    13.590834299248993,
+    15.458410212706957,
+    17.582617891053783,
+    19.998722226214568,
+    22.746834012970634,
+    25.872575845640746,
+    29.42783951853413,
+    33.471647504108475
+   ],
+   "J": [
+    32.1562770229345,
+    29.88420141885411,
+    27.516365413358358,
+    25.174839120254738,
+    22.853927759680758,
+    20.58914265646328,
+    18.402041196344,
+    16.325339444608673,
+    14.315112417034882,
+    12.365781083732221,
+    10.439820908932099,
+    8.553208310559604,
+    6.963522369833742,
+    5.671903913150534,
+    4.83109959827741,
+    4.60294885200871,
+    5.0767645466882465,
+    6.60276338213426,
+    8.708909044123242,
+    10.930427838817886,
+    13.364548630650283,
+    15.94222486894117,
+    18.561906903449152,
+    21.184795295075848,
+    23.789275618067688,
+    26.305692555849795,
+    28.71496387570474,
+    30.928710520782396,
+    32.99413985135967,
+    34.89067322200844,
+    36.59557742846518,
+    38.131578582043296,
+    39.52857141334192,
+    40.80871934833615,
+    41.987518522069095,
+    43.06842961440479,
+    44.055160169650534,
+    44.95357562711139,
+    45.76857644301627,
+    46.504527190964225,
+    47.1656515032567,
+    47.75746752710704,
+    48.28827076155528
+   ]
+  },
+  "5CQA|CUP_CURVE_3": {
+   "kappa": [
+    0.15,
+    0.17061215528425472,
+    0.19405671687159096,
+    0.22072289808565684,
+    0.25105339575320545,
+    0.28555173960590224,
+    0.32479065159554177,
+    0.3694215538992856,
+    0.4201853834614373,
+    0.4779248926086456,
+    0.54359863994638,
+    0.6182969038056098,
+    0.7032597824257107,
+    0.7998977813625769,
+    0.9098152299024187,
+    1.0348369152272756,
+    1.1770383764975672,
+    1.3387803617768668,
+    1.5227480198332366,
+    1.7319954774571973,
+    1.9699965423436943,
+    2.240702373278582,
+    2.548607075037356,
+    2.8988223069654913,
+    3.29716214384972,
+    3.750239597892363,
+    4.26557640419182,
+    4.851727892325516,
+    5.518425017082606,
+    6.276735906260089,
+    7.139249607447359,
+    8.120285084259086,
+    9.236128931653525,
+    10.505305756751126,
+    11.948885713862651,
+    13.590834299248993,
+    15.458410212706957,
+    17.582617891053783,
+    19.998722226214568,
+    22.746834012970634,
+    25.872575845640746,
+    29.42783951853413,
+    33.471647504108475,
+    38.07113281060527,
+    43.30265348620313,
+    49.253060272055784,
+    56.02113844907157,
+    63.719247815158184,
+    72.47518801890456,
+    82.43432021691265,
+    93.76198027733251,
+    106.64622359223651,
+    121.30094706665346,
+    137.96944011375356,
+    156.928423607796,
+    178.4926438472439,
+    203.02009779442113,
+    230.91797633817566,
+    262.64942424623115,
+    298.74122903212077,
+    339.79256638291514,
+    386.48494733438224,
+    439.59353233093736,
+    500.0
+   ],
+   "J": [
+    2.2535801200354038,
+    2.2494257586678854,
+    2.2594723160713914,
+    2.2596484881642844,
+    2.233786795957159,
+    2.1920503008116636,
+    2.1422840449213627,
+    2.075695734669388,
+    1.9974105629867536,
+    1.891962308974573,
+    1.76353923937232,
+    1.6165428970785205,
+    1.4539583268689897,
+    1.2802342457938547,
+    1.0944884573240807,
+    0.9083469849948179,
+    0.726243554166185,
+    0.5691304933907495,
+    0.46393303776909156,
+    0.4946975986273474,
+    0.6700541714115796,
+    0.9219577944823855,
+    1.1976942213313535,
+    1.495622773319962,
+    1.814643539277394,
+    2.1399588024366367,
+    2.465375825249068,
+    2.7908512719708813,
+    3.1080188535001874,
+    3.4139344331306143,
+    3.7061066107921836,
+    3.9825605835252764,
+    4.241849082180608,
+    4.483067621755463,
+    4.7057556399694995,
+    4.90986827435469,
+    5.0956334678137125,
+    5.26352801997028,
+    5.414136493279255,
+    5.54812080743721,
+    5.666254826436322,
+    5.7693486255024045,
+    5.858284911011416,
+    5.93402037335081,
+    5.9975781444438265,
+    6.050062734843528,
+    6.092621834867052,
+    6.126444846876392,
+    6.152720429153196,
+    6.172633037763973,
+    6.187305408529852,
+    6.197784466989451,
+    6.205014283191768,
+    6.2098131201004065,
+    6.212864411667077,
+    6.214714453441744,
+    6.21577923229358,
+    6.216357617267945,
+    6.216652692880856,
+    6.216793078060182,
+    6.216855206280897,
+    6.216880634134332,
+    6.216890251239447,
+    6.216893622108138
+   ]
+  },
+  "5CQA|CUP_FINAL_1": {
+   "kappa": [
+    0.15,
+    0.17061215528425472,
+    0.19405671687159096,
+    0.22072289808565684,
+    0.25105339575320545,
+    0.28555173960590224,
+    0.32479065159554177,
+    0.3694215538992856,
+    0.4201853834614373,
+    0.4779248926086456,
+    0.54359863994638,
+    0.6182969038056098,
+    0.7032597824257107,
+    0.7998977813625769,
+    0.9098152299024187,
+    1.0348369152272756,
+    1.1770383764975672,
+    1.3387803617768668,
+    1.5227480198332366,
+    1.7319954774571973,
+    1.9699965423436943,
+    2.240702373278582,
+    2.548607075037356,
+    2.8988223069654913,
+    3.29716214384972,
+    3.750239597892363,
+    4.26557640419182,
+    4.851727892325516,
+    5.518425017082606,
+    6.276735906260089,
+    7.139249607447359,
+    8.120285084259086,
+    9.236128931653525,
+    10.505305756751126,
+    11.948885713862651,
+    13.590834299248993,
+    15.458410212706957,
+    17.582617891053783,
+    19.998722226214568,
+    22.746834012970634,
+    25.872575845640746,
+    29.42783951853413,
+    33.471647504108475,
+    38.07113281060527,
+    43.30265348620313,
+    49.253060272055784,
+    56.02113844907157,
+    63.719247815158184,
+    72.47518801890456,
+    82.43432021691265,
+    93.76198027733251,
+    106.64622359223651,
+    121.30094706665346,
+    137.96944011375356,
+    156.928423607796,
+    178.4926438472439,
+    203.02009779442113,
+    230.91797633817566,
+    262.64942424623115,
+    298.74122903212077,
+    339.79256638291514,
+    386.48494733438224,
+    439.59353233093736,
+    500.0
+   ],
+   "J": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1.1870201415297643e-15,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ]
+  }
+ },
+ "_loeo": {
+  "caffeine|FRACTION_6": {
+   "applicable": true,
+   "folds": [
+    {
+     "held_out_exp": 1.0,
+     "kappa": 0.9098152299024187,
+     "heldout_mape": 7.4489728133658994,
+     "n_shots": 3
+    },
+    {
+     "held_out_exp": 2.0,
+     "kappa": 1.0348369152272756,
+     "heldout_mape": 5.954315372572487,
+     "n_shots": 2
+    },
+    {
+     "held_out_exp": 5.0,
+     "kappa": 1.0348369152272756,
+     "heldout_mape": 5.653257619080348,
+     "n_shots": 2
+    },
+    {
+     "held_out_exp": 6.0,
+     "kappa": 0.9098152299024187,
+     "heldout_mape": 6.432065111140548,
+     "n_shots": 3
+    },
+    {
+     "held_out_exp": 7.0,
+     "kappa": 1.0348369152272756,
+     "heldout_mape": 5.74156667340193,
+     "n_shots": 6
+    }
+   ],
+   "fold_kappa": [
+    0.9098152299024187,
+    1.0348369152272756,
+    1.0348369152272756,
+    0.9098152299024187,
+    1.0348369152272756
+   ],
+   "median_log10_kappa": 0.014871912693856763,
+   "range_log10_kappa": [
+    -0.041046797548688216,
+    0.014871912693856763
+   ],
+   "spread_log10_kappa": 0.05591871024254498,
+   "heldout_mape": 6.206728737327287,
+   "right_boundary_hits": 0,
+   "failed_fits": 0,
+   "n_folds": 5
+  },
+  "caffeine|CUP_CURVE_3": {
+   "applicable": true,
+   "folds": [
+    {
+     "held_out_exp": 1.0,
+     "kappa": 1.7319954774571973,
+     "heldout_mape": 1.022346502632567,
+     "n_shots": 3
+    },
+    {
+     "held_out_exp": 2.0,
+     "kappa": 1.7319954774571973,
+     "heldout_mape": 0.7952113384630219,
+     "n_shots": 2
+    },
+    {
+     "held_out_exp": 5.0,
+     "kappa": 1.7319954774571973,
+     "heldout_mape": 1.8321805705288097,
+     "n_shots": 2
+    },
+    {
+     "held_out_exp": 6.0,
+     "kappa": 1.7319954774571973,
+     "heldout_mape": 1.0401035771019398,
+     "n_shots": 3
+    },
+    {
+     "held_out_exp": 7.0,
+     "kappa": 1.9699965423436943,
+     "heldout_mape": 1.5619668332976069,
+     "n_shots": 6
+    }
+   ],
+   "fold_kappa": [
+    1.7319954774571973,
+    1.7319954774571973,
+    1.7319954774571973,
+    1.7319954774571973,
+    1.9699965423436943
+   ],
+   "median_log10_kappa": 0.23854675366403702,
+   "range_log10_kappa": [
+    0.23854675366403702,
+    0.2944654639065819
+   ],
+   "spread_log10_kappa": 0.05591871024254488,
+   "heldout_mape": 1.3008709410608015,
+   "right_boundary_hits": 0,
+   "failed_fits": 0,
+   "n_folds": 5
+  },
+  "caffeine|CUP_FINAL_1": {
+   "applicable": false,
+   "why": "no observation remains after the level anchor, so no held-out score exists"
+  },
+  "trigonelline|FRACTION_6": {
+   "applicable": true,
+   "folds": [
+    {
+     "held_out_exp": 1.0,
+     "kappa": 0.9098152299024187,
+     "heldout_mape": 20.535820820665673,
+     "n_shots": 3
+    },
+    {
+     "held_out_exp": 2.0,
+     "kappa": 1.0348369152272756,
+     "heldout_mape": 9.978688799669175,
+     "n_shots": 2
+    },
+    {
+     "held_out_exp": 5.0,
+     "kappa": 1.0348369152272756,
+     "heldout_mape": 5.519357961423563,
+     "n_shots": 2
+    },
+    {
+     "held_out_exp": 6.0,
+     "kappa": 0.9098152299024187,
+     "heldout_mape": 9.258872844069566,
+     "n_shots": 3
+    },
+    {
+     "held_out_exp": 7.0,
+     "kappa": 1.0348369152272756,
+     "heldout_mape": 10.675128074466523,
+     "n_shots": 6
+    }
+   ],
+   "fold_kappa": [
+    0.9098152299024187,
+    1.0348369152272756,
+    1.0348369152272756,
+    0.9098152299024187,
+    1.0348369152272756
+   ],
+   "median_log10_kappa": 0.014871912693856763,
+   "range_log10_kappa": [
+    -0.041046797548688216,
+    0.014871912693856763
+   ],
+   "spread_log10_kappa": 0.05591871024254498,
+   "heldout_mape": 11.526933935199395,
+   "right_boundary_hits": 0,
+   "failed_fits": 0,
+   "n_folds": 5
+  },
+  "trigonelline|CUP_CURVE_3": {
+   "applicable": true,
+   "folds": [
+    {
+     "held_out_exp": 1.0,
+     "kappa": 1.1770383764975672,
+     "heldout_mape": 0.773787950527613,
+     "n_shots": 3
+    },
+    {
+     "held_out_exp": 2.0,
+     "kappa": 1.1770383764975672,
+     "heldout_mape": 1.752719483723995,
+     "n_shots": 2
+    },
+    {
+     "held_out_exp": 5.0,
+     "kappa": 1.1770383764975672,
+     "heldout_mape": 1.8581439403815159,
+     "n_shots": 2
+    },
+    {
+     "held_out_exp": 6.0,
+     "kappa": 1.1770383764975672,
+     "heldout_mape": 1.1349379787827896,
+     "n_shots": 3
+    },
+    {
+     "held_out_exp": 7.0,
+     "kappa": 1.3387803617768668,
+     "heldout_mape": 2.0466887095945046,
+     "n_shots": 6
+    }
+   ],
+   "fold_kappa": [
+    1.1770383764975672,
+    1.1770383764975672,
+    1.1770383764975672,
+    1.1770383764975672,
+    1.3387803617768668
+   ],
+   "median_log10_kappa": 0.07079062293640179,
+   "range_log10_kappa": [
+    0.07079062293640179,
+    0.12670933317894686
+   ],
+   "spread_log10_kappa": 0.05591871024254508,
+   "heldout_mape": 1.5767523058568287,
+   "right_boundary_hits": 0,
+   "failed_fits": 0,
+   "n_folds": 5
+  },
+  "trigonelline|CUP_FINAL_1": {
+   "applicable": false,
+   "why": "no observation remains after the level anchor, so no held-out score exists"
+  },
+  "5CQA|FRACTION_6": {
+   "applicable": true,
+   "folds": [
+    {
+     "held_out_exp": 1.0,
+     "kappa": 1.0348369152272756,
+     "heldout_mape": 12.420220409636343,
+     "n_shots": 3
+    },
+    {
+     "held_out_exp": 2.0,
+     "kappa": 1.0348369152272756,
+     "heldout_mape": 5.912709721248282,
+     "n_shots": 2
+    },
+    {
+     "held_out_exp": 5.0,
+     "kappa": 1.0348369152272756,
+     "heldout_mape": 5.2146804266230244,
+     "n_shots": 2
+    },
+    {
+     "held_out_exp": 6.0,
+     "kappa": 0.9098152299024187,
+     "heldout_mape": 7.158154019066232,
+     "n_shots": 3
+    },
+    {
+     "held_out_exp": 7.0,
+     "kappa": 1.1770383764975672,
+     "heldout_mape": 7.756050845344539,
+     "n_shots": 6
+    }
+   ],
+   "fold_kappa": [
+    1.0348369152272756,
+    1.0348369152272756,
+    1.0348369152272756,
+    0.9098152299024187,
+    1.1770383764975672
+   ],
+   "median_log10_kappa": 0.014871912693856763,
+   "range_log10_kappa": [
+    -0.041046797548688216,
+    0.07079062293640179
+   ],
+   "spread_log10_kappa": 0.11183742048509,
+   "heldout_mape": 7.970388040869849,
+   "right_boundary_hits": 0,
+   "failed_fits": 0,
+   "n_folds": 5
+  },
+  "5CQA|CUP_CURVE_3": {
+   "applicable": true,
+   "folds": [
+    {
+     "held_out_exp": 1.0,
+     "kappa": 1.5227480198332366,
+     "heldout_mape": 0.9092453735502609,
+     "n_shots": 3
+    },
+    {
+     "held_out_exp": 2.0,
+     "kappa": 1.5227480198332366,
+     "heldout_mape": 0.8357031104061156,
+     "n_shots": 2
+    },
+    {
+     "held_out_exp": 5.0,
+     "kappa": 1.5227480198332366,
+     "heldout_mape": 1.811103008495372,
+     "n_shots": 2
+    },
+    {
+     "held_out_exp": 6.0,
+     "kappa": 1.5227480198332366,
+     "heldout_mape": 0.6641190881970968,
+     "n_shots": 3
+    },
+    {
+     "held_out_exp": 7.0,
+     "kappa": 1.7319954774571973,
+     "heldout_mape": 1.635677923561367,
+     "n_shots": 6
+    }
+   ],
+   "fold_kappa": [
+    1.5227480198332366,
+    1.5227480198332366,
+    1.5227480198332366,
+    1.5227480198332366,
+    1.7319954774571973
+   ],
+   "median_log10_kappa": 0.1826280434214919,
+   "range_log10_kappa": [
+    0.1826280434214919,
+    0.23854675366403702
+   ],
+   "spread_log10_kappa": 0.05591871024254513,
+   "heldout_mape": 1.2392358227758282,
+   "right_boundary_hits": 0,
+   "failed_fits": 0,
+   "n_folds": 5
+  },
+  "5CQA|CUP_FINAL_1": {
+   "applicable": false,
+   "why": "no observation remains after the level anchor, so no held-out score exists"
+  }
+ }
+}
