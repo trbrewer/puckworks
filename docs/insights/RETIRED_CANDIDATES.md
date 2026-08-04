@@ -1,7 +1,7 @@
 # Retired candidates
 
-**Nothing has been retired yet** — the portfolio has been generated, not triaged (SPRINTS IF-5 is
-the next step).
+IF-5 human triage is complete and the Wave-1 cheap screens have run
+([`IF5_HUMAN_TRIAGE_DECISION.md`](IF5_HUMAN_TRIAGE_DECISION.md)). Retirements below.
 
 This file exists because a retirement is a result. Retired candidates are preserved so the same
 idea is not rediscovered, re-argued, and re-funded in six months; a high retirement rate is
@@ -15,7 +15,7 @@ which.
 
 | candidate | retired at (commit) | reason | result bundle | reopen condition |
 |---|---|---|---|---|
-| _(none yet)_ | | | | |
+| **I-040** — which strength is load-bearing where the manifest says 'independent + post_fit + same_campaign'? | snapshot `c1b7d79`, screened on `insights/if5-wave1-cheap-screens` | Every active use preserves the split. 27 consumers of `waszkiewicz2025/traces_time_dependent` enumerated two independent ways (static AST + dynamic tracing) and attributed by hand; **0** state a strength stronger than the half their assertion rests on. The one half-A gate reaches the dataset only via `steady_state_curve()` (`[-1]` per trace) and cannot touch the trajectory; PV-02's evidence selection explicitly EXCLUDES that gate from the post-fit claim as "a different observable". | [`screens/I-040/`](screens/I-040/) | A **new or edited** consumer of this dataset that states a strength stronger than its load-bearing half — most plausibly a new gate scoring against the 9-bar trajectory while citing the "independent within-rig" half. Re-running `python -m puckworks.analysis.screen_i040_evidence_halves` detects it: the coverage check fails on any consumer the table does not cover, and the promotion check fails on any over-claim. **Not** reopened by a dispute about whether the manifest's own half-A label is correct — that is a question about the cell, was deliberately not adjudicated here, and belongs with I-045. |
 
 ## Rules
 
