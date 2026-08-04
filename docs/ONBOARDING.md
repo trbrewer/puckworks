@@ -57,9 +57,12 @@ with CLAUDE.md, flag it rather than comply.
 8. `docs/insights/README.md` — the **Insight Foundry**, a corpus-first discovery overlay
    (ROADMAP §9, SPRINTS "Insight Foundry (IF)"). It maps what the repo knows, surfaces the
    tensions between its parts, and turns them into falsifiable candidate questions. Read it
-   before proposing a new analysis thread — the question may already be a candidate, or may
-   already be a published public claim. **The portfolio is generated, not triaged:** every
-   candidate is `SEED`, nothing is scored, and no component has been executed.
+   before proposing a new analysis thread — the question may already be a candidate, may already
+   be a published public claim, or may **already have been screened and retired**
+   (`docs/insights/RETIRED_CANDIDATES.md` — check it first; each row carries a reopen condition).
+   **The portfolio is generated, not scored:** every candidate is still `SEED` and no generator
+   ranked anything. Human selection lives in `docs/insights/IF5_HUMAN_TRIAGE_DECISION.md`, and
+   the Wave-1 screens that ran from it are in `docs/insights/screens/`.
 
 **For any VISUALIZATION work:** `puckworks/viz/` (the evidence-bound viz layer,
 ROADMAP §8) and `docs/figures/viz/GALLERY.md` (the honesty index — every visual,
@@ -157,8 +160,11 @@ ANALYSIS section, not just this file.
   evidence label verbatim and changes none of them. Its "model disagreement" rows record that two
   components are COMPARABLE — **not** that they disagree; establishing that needs matched-scenario
   execution, which is RP-A's scope, and three blueprint lenses are unimplemented for exactly that
-  reason. Do not read an atlas row as a result, do not extend the layer before the human triage
-  step (SPRINTS IF-5), and do not rebuild response-sweep machinery inside it.
+  reason. Do not read an atlas row as a result and do not rebuild response-sweep machinery inside
+  it. **IF-5 triage and the Wave-1 cheap screens are DONE (2026-08-04) and all three Wave-1
+  candidates RETIRED** — read `IF5_HUMAN_TRIAGE_DECISION.md` and `RETIRED_CANDIDATES.md` before
+  proposing anything in that space, and **do not extend the layer**: Wave 2 (I-045, I-076) and the
+  card-repair readiness lane are the next work, not new machinery.
 
 - **visualizer.coffee is a data-only intake** (card `visualizer_coffee.md`): a
   LARGE but UNCONTROLLED, self-selected public shot corpus. Its machine-logged

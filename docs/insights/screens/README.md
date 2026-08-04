@@ -1,8 +1,29 @@
 # Cheap screens
 
-**No screen has been run yet.** This directory defines the bundle shape so the first one
-(SPRINTS IF-6) has somewhere to land. Screens run only on candidates a human has shortlisted
-(IF-5).
+Screens run only on candidates a human has shortlisted
+([`../IF5_HUMAN_TRIAGE_DECISION.md`](../IF5_HUMAN_TRIAGE_DECISION.md), IF-5).
+
+## Wave 1 — reported 2026-08-04
+
+| screen | question | decision |
+|---|---|---|
+| [`I-040`](I-040/) | which half of a mixed-strength manifest cell each consumer leans on | **RETIRE** — 27 consumers attributed, 0 promotions |
+| [`I-010`](I-010/) | does anything consume `pannusch2024.closures`, and does a swap move a held-out result | **RETIRE** — path is real; held-out output insensitive to every admissible swap |
+| [`I-024`](I-024/) | can one shared transport state explain every Angeloni species at once | **RETIRE** — per-species fits buy nothing held out; the difference is inventory |
+
+Each carries a claim ceiling, an adversarial check, and a reopen condition in
+[`../RETIRED_CANDIDATES.md`](../RETIRED_CANDIDATES.md). Wave 2 is **I-045** and **I-076**.
+
+Two habits from Wave 1 worth repeating, both of which changed a result:
+
+- **Enumerate the consumers two independent ways and require the hand-written table to cover the
+  union.** In I-040 a static pass over-approximated to 12 gates, dynamic tracing confirmed 7, and
+  one real consumer was in neither the obvious reading nor the static-only list. A single
+  enumeration would have produced a confident, wrong table.
+- **Predeclare the materiality threshold from retained uncertainty, and prefer an arm that is
+  scale-free in whatever uncertainty you had to assume.** I-024 could not recover
+  solute-specific replicate RSD; because its decisive arm was a *ratio*, the verdict held across
+  a band spanning a factor of 65 instead of becoming an artifact of the assumption.
 
 ## Budget — per candidate, per blueprint §12 Stage C
 

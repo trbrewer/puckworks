@@ -100,9 +100,20 @@ departure from that blueprint: `docs/insights/INSIGHT_FOUNDRY_DESIGN.md`.
   same question — not that they differ. Establishing that needs matched-scenario execution, which
   is **RP-A** (ROADMAP §9). Three blueprint lenses are unimplemented for that reason and are
   declared in `tension_atlas.DEFERRED_LENSES`. Do not rebuild response-sweep machinery here.
-- **Do not** extend the layer before the human triage step (SPRINTS **IF-5**): read the portfolio,
-  pick 10–15, run three cheap screens. Machinery ahead of the decisive screen is the Paper 1
-  failure mode.
+- **IF-5 triage and the Wave-1 cheap screens are DONE (2026-08-04); all three RETIRED.**
+  `docs/insights/IF5_HUMAN_TRIAGE_DECISION.md` is the selection record;
+  `docs/insights/screens/{I-040,I-010,I-024}/` are the bundles; retirements with reopen
+  conditions are in `docs/insights/RETIRED_CANDIDATES.md`. **Do not** extend the layer now
+  either — Wave 2 (I-045, I-076) and the card-repair readiness lane (I-013/I-014/I-015) are
+  screens and card repairs, not new machinery. No new lens, no new generator, no scoring of the
+  91 candidates, no further card materialisation. Machinery ahead of the decisive screen is the
+  Paper 1 failure mode.
+- A screen may add its own analysis script (`puckworks/analysis/screen_i*.py`) and its own bundle
+  under `docs/insights/screens/I-XXX/`. That is screen output, not layer infrastructure. Every
+  bundle carries `CHEAP_SCIENTIFIC_SCREEN` / `NOT_A_PUBLICATION_RESULT` /
+  `NOT_A_MODEL_VALIDATION_UPGRADE`, a claim ceiling, an adversarial check, and — if it retires —
+  a reopen condition. A screen figure is NOT registered in `puckworks/viz/registry.py`: it is
+  provenance or comparison bookkeeping, not a mechanism render with a fidelity ceiling.
 - **Do not** hand-edit anything under `docs/insights/generated/` — regenerate with
   `python -m puckworks.insights write`; `verify` and the tests fail on drift.
 - **`docs/insights/ID_REGISTRY.json` is append-only.** `T-0042`/`I-007` are stable identities
