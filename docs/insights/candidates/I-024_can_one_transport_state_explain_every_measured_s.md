@@ -163,3 +163,15 @@ overlaid. `docs/insights/screens/I-024/figures/primary.png`.
 
 `domain_paper` if it survives (species-resolved transport structure is a physical result);
 `technical_note` on multi-species identifiability if it retires on the inventory/assay explanation.
+
+### Screen outcome (appended after the Wave-1 screen ran)
+
+**RETIRE** — `docs/insights/screens/I-024/`, recorded in `RETIRED_CANDIDATES.md` with its reopen
+condition. Per-species transport freedom buys nothing held out anywhere in the declared
+0.3–19.7 % bioactive RSD band: an exact 24-breakpoint sweep with rate-grid expansion puts the
+best achievable `Z_independent / Z_shared` at 1.0008 against a 0.70 threshold.
+
+Note the correction to this card's own framing: the free term is an **amplitude**, a
+condition-independent multiplicative scale that may be inventory, assay calibration scale **or**
+multiplicative model error. The screen cannot separate them, so "inventory rather than transport"
+is not a supported reading.

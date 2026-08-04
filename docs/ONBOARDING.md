@@ -161,8 +161,9 @@ ANALYSIS section, not just this file.
   components are COMPARABLE — **not** that they disagree; establishing that needs matched-scenario
   execution, which is RP-A's scope, and three blueprint lenses are unimplemented for exactly that
   reason. Do not read an atlas row as a result and do not rebuild response-sweep machinery inside
-  it. **IF-5 triage and the Wave-1 cheap screens are DONE (2026-08-04) and all three Wave-1
-  candidates RETIRED** — read `IF5_HUMAN_TRIAGE_DECISION.md` and `RETIRED_CANDIDATES.md` before
+  it. **IF-5 triage and the Wave-1 cheap screens are DONE (2026-08-04): I-040 and I-024 RETIRED,
+  I-010 returned NEEDS_NEW_DATA** — read `IF5_HUMAN_TRIAGE_DECISION.md` and
+  `RETIRED_CANDIDATES.md` (which lists retirements only) before
   proposing anything in that space, and **do not extend the layer**: Wave 2 (I-045, I-076) and the
   card-repair readiness lane are the next work, not new machinery.
 

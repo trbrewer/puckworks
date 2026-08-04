@@ -18,8 +18,11 @@ METHOD — four layers, deliberately separated so a reviewer can reject one with
   1. STATIC ENUMERATION. An AST pass finds every call site of the loader
      `puckworks.data.waszkiewicz_traces`, then a simple-name call-graph closure finds every
      `gate_*` that could reach one. It OVER-approximates on purpose: a shared function name
-     links unrelated functions, so it can flag a non-consumer, but it cannot miss a real one.
-     Safe direction for a completeness check.
+     links unrelated functions, so it over-approximates DIRECT AND STATICALLY RECOVERABLE
+     references: it readily flags a non-consumer, and it is designed not to drop one that is
+     reachable by name. It is not a proof of coverage for dynamically dispatched or otherwise
+     statically invisible calls — which is exactly why layer 2 executes the gates rather than
+     trusting this pass.
 
   2. DYNAMIC TRACE. Every gate the static layer flags is executed with the loader wrapped, and
      the actual call count recorded. This is the only model execution in the screen, and it is

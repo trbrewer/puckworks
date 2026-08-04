@@ -6,6 +6,12 @@ NOT_A_PUBLICATION_RESULT
 NOT_A_MODEL_VALIDATION_UPGRADE
 ```
 
+> **Corrected 2026-08-04 — disposition changed from RETIRE to NEEDS_NEW_DATA.** The first
+> version used the median total-solids replicate RSD (4.70 %) as the decision authority for all
+> four scored outputs, three of which have no retained replicate uncertainty at all. Each output
+> is now judged against its own. The path, the frozen configuration, the admissible
+> substitutions and the no-refit predictions are unchanged.
+
 ## What was run
 
 **Question** (generated, verbatim from the candidate):
@@ -110,56 +116,95 @@ Two exclusions, both recorded rather than worked around:
   generality"; moving one solute's pair onto another is a misuse, not a source swap, and was
   not performed.
 
-## Step 6 — uncertainty, and the predeclared materiality criterion
+## Step 6 — retained uncertainty, PER OUTPUT
 
-**Both components were computed from the baseline alone, before any substitution was run.**
+This is what the correction changed, and it is the whole of the change.
 
-- **Observational:** `obs = 4.70 %` — the median measured per-condition RSD of
-  `angeloni2023/total_solids` (n=66). TS is used because it *is* one of the four scored
-  observables, is measured on the same shots, and its median sits well inside the source's
-  stated global 0.3–19.7 % band for the named bioactives. The campaign does **not** retain
-  solute-specific RSD for caffeine/trigonelline/CGA. The lipid median (12.55 %) is carried as
-  an upper sensitivity and is not a scored observable.
-- **Numerical:** `num = 0.0001 %` — the *maximum* relative change in the held-out prediction
-  between `NZ=200 / 1e-6` and `NZ=400 / 1e-8` across all 72 points. Negligible; the budget is
-  entirely observational.
+| output | retained uncertainty | authority used |
+|---|---|---|
+| `tds` | **measured per-condition RSD** (`angeloni2023/total_solids`, RSD_pct column) — median **5.30 %** over these 18 conditions | a real threshold; a real answer follows |
+| `caffeine` | **none per cell** | declared range 0.3–19.7 %, evaluated at both ends |
+| `trigonelline` | **none per cell** | declared range 0.3–19.7 %, evaluated at both ends |
+| `5CQA` | **none per cell** | declared range 0.3–19.7 %, evaluated at both ends |
 
-> **PREDECLARED MATERIALITY CRITERION.** A substitution is MATERIAL iff the **median** absolute
-> relative change in the held-out predicted concentration, across all 72 held-out
-> (condition × species) points, exceeds
-> **U = √(obs² + num²) = 4.700 %**.
->
-> The median — not the mean, not the max — so a single domain-edge condition cannot decide the
-> screen. The fraction of points above U and the per-species breakdown are reported and are
-> informative, but they are **not** the criterion.
+Sources, verbatim: `angeloni2023/bioactives` uncertainty cell reads `%RSD 0.3-19.7 (in card, not
+per-cell)`; `angeloni2023/total_solids_lipids_rsd` records `caffeine/trigonelline/CGA
+solute-specific RSD NOT recovered (Tables 4-5 give only global ranges 0.3-19.7%); raw replicates
+still owed`.
 
-This is derived from retained uncertainty, not from a round percentage, and it was fixed in the
-module before any swap was computed.
+**The 4.70 % figure is retained but demoted.** It is the campaign-wide median total-solids RSD
+over all 66 shots — the number the superseded version used as the authority for everything. It
+now appears only as `uncertainty.proxy_U_pct`, labelled a proxy sensitivity, and `_classify()`
+never reads it. Note it is not even the right total-solids figure for this screen: the 18
+held-out conditions have their own median, **5.30 %**, which is what governs `tds` here.
 
-## Result
+**Numerical uncertainty** is 0.0001 % (max, `NZ=200/1e-6` vs `NZ=400/1e-8` across all 72 points)
+— negligible against every threshold above, and it changes no classification.
 
-| substitution | median abs. rel. change | material vs U = 4.70 % | counts toward decision |
-|---|---|---|---|
-| `vant_hoff_K` → Arrhenius T-law | **2.968 %** | no | yes |
-| `diffusion_coeff` → Stokes-Einstein T-law | **0.831 %** | no | yes |
-| `water_density` → TR2001 | **0.012 %** | no | yes |
-| `water_viscosity` → TR2001 @ `X_w=100 %` | 8.885 % | *yes* | **no** (out of its own range) |
-| `sherwood_h` | — not run — | — | no (unsubstitutable) |
+### The effect statistic (unchanged) and how it is applied (changed)
 
-**Validity-range check** (the candidate's second SURVIVE arm, independent of any swap): under
-the frozen configuration the consumer drives the artifact at **T 88–98 °C** (declared 80–98)
-and **Q 1.045–2.344 mL/s** (declared 1–3). Strictly **inside** its declared range. That arm does
-not fire.
+The statistic is still the **median absolute relative change** in the held-out prediction across
+the 18 conditions. It is now computed and classified **separately per output**; analytes with
+different uncertainty authority are never pooled into one decisive median. Pooled figures are
+still written to `result.json` (`pooled_*`) purely so the correction is auditable against the
+first version — nothing reads them.
 
-**Recalibration branch: not triggered.** No admissible swap was material, and the brief
-conditions the branch on a material no-refit effect.
+### Fixed classification
+
+Per (substitution, output):
+
+- `MATERIAL_THROUGHOUT` — median effect exceeds the threshold everywhere in the applicable range
+- `IMMATERIAL_THROUGHOUT` — median effect is below it everywhere
+- `CHANGES_WITHIN_RANGE` — material at one end of the declared range, immaterial at the other
+
+Candidate level, in this precedence:
+
+- **SURVIVE** — ≥1 admissible swap `MATERIAL_THROUGHOUT` for ≥1 output, **or** the artifact is
+  consumed outside its declared range
+- **RETIRE** — every admissible swap `IMMATERIAL_THROUGHOUT` for every output, **and** inside the
+  declared range
+- **NEEDS_NEW_DATA** — materiality changes within the retained range, with solute-specific
+  replicate RSD named as the missing evidence
+
+## Result — **NEEDS_NEW_DATA**
+
+Median (max) absolute relative change, per output:
+
+| substitution | caffeine | trigonelline | 5CQA | tds |
+|---|---|---|---|---|
+| K(T) → Arrhenius T-law | 3.171 (5.539) `CHANGES` | 3.061 (5.416) `CHANGES` | 3.138 (5.581) `CHANGES` | 1.709 (3.006) **`IMMATERIAL`** |
+| D(T) → Stokes-Einstein T-law | 0.946 (1.674) `CHANGES` | 0.663 (1.247) `CHANGES` | 0.899 (1.665) `CHANGES` | 0.770 (1.411) **`IMMATERIAL`** |
+| ρ(T) → telisromero2001 | 0.018 (0.055) `IMMATERIAL` | 0.006 (0.020) `IMMATERIAL` | 0.009 (0.030) `IMMATERIAL` | 0.009 (0.030) **`IMMATERIAL`** |
+| *μ(T) @ X_w=100 % — excluded* | *13.661 `CHANGES`* | *6.136 `CHANGES`* | *9.691 `CHANGES`* | *7.948 `MATERIAL`* |
+| *`sherwood_h` — unsubstitutable* | — | — | — | — |
+
+For every admissible swap, **0 of 18** total-solids conditions have an effect exceeding their own
+measured RSD.
+
+**Validity range:** T 88–98 °C (declared 80–98), Q 1.045–2.344 mL/s (declared 1–3) — strictly
+inside. That SURVIVE arm does not fire.
+
+**Recalibration branch:** not triggered (no admissible swap is material throughout).
+
+**What would resolve it:** a solute-specific RSD **above ~3.2 %** retires the candidate; **below
+~0.7 %** it survives; between them it splits by substitution.
 
 ## Figure
 
-`figures/primary.png` — held-out concentration per species and condition under each closure,
-with the measured points and their replicate band. Arabica shown; all 18 conditions × 4 species
-are in `result.json`. The baseline is drawn as a wide pale line so the swap curves sitting on
-top of it are visible — that coincidence *is* the result.
+`figures/primary.png` — two panels.
+
+**Top** (the candidate's required minimum figure): held-out concentration per output and
+condition under each closure, over the common validity range. Each output's measured points
+carry the uncertainty it *actually has* — a measured per-condition bar for total solids, and for
+the three bioactives the full declared 0.3–19.7 % range drawn as a band, because no per-cell
+value exists. The baseline is a wide pale line so coincident swap curves stay visible.
+
+**Bottom** (the decisive panel): each swap's median and maximum held-out effect per output,
+against that output's own authority. The declared bioactive band is drawn over the three solutes
+it governs and stops at the total-solids group, which has its own measured threshold.
+
+There is no recalibrated curve to distinguish: the branch was not triggered, so every curve is
+no-refit.
 
 Not registered in the viz layer, for the same reason as I-040: it is a screen artifact, not a
 mechanism render bound to a VizSpec fidelity ceiling, and the IF-5 decision forbids extending a
@@ -183,4 +228,6 @@ this screen's evidence path by construction. All 32 deferred; see
 - It did **not** refit anything. The no-refit branch is the whole of the decision.
 - It did **not** run a response sweep. That is RP-A's scope (ROADMAP §9).
 - It did **not** change any evidence label, badge, validation rung or model verdict.
+- It did **not** invent a bioactive replicate RSD, and specifically did not adopt the
+  total-solids value, a midpoint, or the best cell as a stand-in for one.
 - It did **not** run any candidate outside Wave 1, and did no novelty research.

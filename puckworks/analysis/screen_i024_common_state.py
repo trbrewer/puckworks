@@ -9,36 +9,43 @@ Question (generated, verbatim from the candidate):
     Under one shared hydraulic and transport state, do the per-species residuals show
     structure that a single kinetic story cannot absorb?
 
-EVIDENCE UNIT: the angeloni2023 campaign ONLY. The generated candidate lists maille2024,
-ellero2019 and khamitova2020 entities because the lens grouped them; none of them is scored
-here, and neither is any pannusch/schmieder post-fit evidence. One campaign, one model, one
-observation operator.
+CORRECTED 2026-08-04. The first version made two unsupported claims and this module removes
+both:
 
-THE TWO MODELS. Both use ONE hydraulic state per condition (one flow map, one bed, one
-porosity, one grind) and differ only in how much transport freedom the species get:
+  1. "C3 is scale-free in the assumed RSD." IT IS NOT. Changing the bioactive RSD changes the
+     weight of the three bioactives RELATIVE to total solids, whose per-condition RSD is
+     measured and fixed. That reweighting REFITS the shared model — observably: the shared rate
+     for Arabica moved 6.5 -> 0.440 and Robusta 0.440 -> 6.5 between the two endpoints. A
+     uniform rescale of already-computed z values (what the old test did) is not that
+     perturbation, and asserting scale-freeness from it was vacuous.
+  2. "The verdict is invariant across the band." That was inferred from TWO endpoints. Two
+     points cannot establish a property of an interval when the model is refitted inside it.
 
-    SHARED       one rate multiplier per variety, shared across all four species
-                 + one inventory LEVEL per (species, variety)
-    INDEPENDENT  one rate multiplier per (species, variety)
-                 + one inventory LEVEL per (species, variety)
+Both are replaced by an EXACT finite-grid argument, which the structure of the problem happens
+to support (see `sweep`):
 
-The level is free in BOTH. That is the design decision that answers the candidate's strongest
-alternative — "the apparent species difference is a measurement-lineage difference between the
-assays, not chemistry". An inventory error or an assay calibration error is a pure multiplicative
-LEVEL per species. Giving both models a free per-species level makes the comparison blind to it
-by construction, so anything that survives is condition-dependent structure, not level.
+  * write x = (100/RSD)^2. Each species' training SSE at a fixed rate is EXACTLY linear in x
+    (bioactives: x * a_s; total solids: constant b), because the fitted LEVEL is x-independent
+    -- the x factor cancels in the weighted-least-squares ratio.
+  * the shared rate is therefore argmin over the grid of a family of STRAIGHT LINES in x. Its
+    selection changes only at the finitely many breakpoints where the lower envelope switches.
+  * the independent per-species rates do NOT depend on x at all (a common factor cannot move an
+    argmin), so they are constant across the whole band.
+  * on any interval where the selection is fixed, Z^2 = (x*D + E)/N, so C1 is monotone in x and
+    C3 (a ratio of two such) is a Moebius function of x and therefore also monotone -- their
+    extrema are at the interval endpoints. C2's between-species spread is the square root of a
+    QUADRATIC in u = sqrt(x), so its extremum can be interior and the vertex is evaluated too.
 
-WHY A LEVEL CAN BE FITTED WITHOUT RE-SOLVING. The solver's output is EXACTLY linear in c_s0
-(verified to ~1e-6, the solver's own tolerance): scaling c_s0 by lambda scales the liquid state
-by lambda and leaves the normalised solid state untouched. So one unit-level solve per
-(rate, condition, species) suffices and the optimal level is a weighted-least-squares closed
-form. This is the same structure the archived identifiability work uses.
+Evaluating both band endpoints, both sides of every breakpoint, and each interval's C2 vertex
+therefore bounds every criterion EXACTLY over the continuous band -- not merely at sampled
+points.
 
-WHAT THE FLAT VALLEY MEANS HERE. ANALYSIS_transfer established that inventory and rate are
-practically non-identifiable at a whole-cup endpoint (gap G6). Consequently the INDEPENDENT
-model's per-species rates are individually poorly determined — but that is not what this screen
-reads. It reads HELD-OUT PREDICTION, where a non-identifiable pair can still predict well, and
-the question is whether per-species freedom buys held-out accuracy that the shared state cannot.
+RATE-DOMAIN ROBUSTNESS. A decisive optimum sitting on the rate-grid boundary is a censored
+answer, not an answer. The grid is expanded in that direction and everything refitted until the
+decisive optima are interior or C3 converges within a predeclared tolerance (see
+`grid_robustness`).
+
+EVIDENCE UNIT: the angeloni2023 campaign ONLY.
 
 Run:  python -m puckworks.analysis.screen_i024_common_state
 """
@@ -53,15 +60,12 @@ REPO_ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 CANDIDATE_ID = "I-024"
 SPECIES = ("caffeine", "trigonelline", "5CQA", "tds")
+BIOACTIVES = ("caffeine", "trigonelline", "5CQA")
 VARIETIES = ("Arabica", "Robusta")
 
-#: Mapping from the model's solute name to the angeloni column, and the unit conversion the
-#: frozen observation operator applies (the same convention as
-#: gate_pannusch_angeloni_per_condition).
 SPECIES_COLUMN = {"caffeine": ("CF", 1.0, "g/L"), "trigonelline": ("TR", 1.0, "g/L"),
                   "5CQA": ("5CQA", 1.0, "g/L"), "tds": ("TS", 0.1, "g/100 mL")}
 
-#: Entities the generated candidate names that are NOT scored here, and why.
 EXCLUDED_EVIDENCE = {
     "maille2024.phi_closure / maille2024.two_regime":
         "batch fits on a different campaign; scoring them would mix campaigns and the "
@@ -74,64 +78,33 @@ EXCLUDED_EVIDENCE = {
         "used here as the MODEL, never as evidence. Its own fit target (schmieder kinetics) is "
         "post-fit and is not scored",
     "angeloni2023/lipids":
-        "not a species the model produces; its RSD is used only as an upper uncertainty "
-        "sensitivity, never as a scored observable",
+        "not a species the model produces; never scored",
 }
 
 # ------------------------------------------------------------------------------------------
-# PREDECLARED held-out split
+# PREDECLARED — unchanged by the correction
 # ------------------------------------------------------------------------------------------
-#: Fixed before any fit was run. The interior pressure is held out, so this is INTERPOLATION,
-#: not extrapolation — a fair test of the shared state rather than a hard one. 9 bar is also the
-#: reference espresso condition, so a shared state that fails there fails where it matters.
 TRAIN_P_BAR = (6.0, 12.0)
 HELD_OUT_P_BAR = (9.0,)
 SPLIT_RATIONALE = ("Held out the INTERIOR pressure (9 bar), training on 6 and 12 bar, at every "
                    "temperature and in both varieties. Interpolation rather than extrapolation, "
                    "and 9 bar is the reference espresso condition. Predeclared before any fit.")
 
-#: Same rate domain as the archived identifiability work (log-spaced and wide enough that a
-#: boundary optimum is exposed rather than imposed), at a coarser resolution to keep the screen
-#: inside its one-day budget.
-RATE_GRID = np.geomspace(0.15, 6.5, 15)
+#: The rate grid the screen STARTS from. It is expanded by `grid_robustness` whenever a decisive
+#: optimum lands on a boundary — a censored optimum is not an answer.
+BASE_RATE_GRID = tuple(float(v) for v in np.geomspace(0.15, 6.5, 15))
 
-# ------------------------------------------------------------------------------------------
-# PREDECLARED uncertainty and materiality
-# ------------------------------------------------------------------------------------------
-#: The campaign retains PER-CONDITION replicate RSD for total solids and lipids only. For
-#: caffeine / trigonelline / CGA the source gives a GLOBAL range and no per-cell value
-#: (MANIFEST angeloni2023/bioactives: "%RSD 0.3-19.7 (in card, not per-cell)";
-#: angeloni2023/total_solids_lipids_rsd: "caffeine/trigonelline/CGA solute-specific RSD NOT
-#: recovered ... raw replicates still owed").
-#:
-#: Rather than invent a value, the screen evaluates the criterion at BOTH ENDS of the source's
-#: own stated band and asks whether the decision is invariant. That converts the missing
-#: information from a blocker into a bounded sensitivity — and if the decision is NOT invariant,
-#: that is precisely the NEEDS_NEW_DATA finding, with the needed measurement named.
+#: Predeclared expansion policy.
+GRID_EXPANSION_FACTOR = 4.0        # multiply the offending bound by this each round
+GRID_EXPANSION_POINTS = 5          # new log-spaced points added per round
+GRID_MAX_ROUNDS = 4
+GRID_C3_TOLERANCE = 0.01           # |ratio| change between rounds that counts as converged
+
 BIOACTIVE_RSD_BAND_PCT = (0.3, 19.7)
 BIOACTIVE_RSD_BAND_SOURCE = ("angeloni2023/bioactives MANIFEST uncertainty cell, verbatim: "
                              "'%RSD 0.3-19.7 (in card, not per-cell)'")
-
-#: `tds` always uses the campaign's MEASURED per-condition TS RSD, because it exists.
 TDS_RSD_SOURCE = "angeloni2023/total_solids per-condition RSD_pct column (measured)"
 
-#: PREDECLARED MATERIALITY CRITERION — fixed before any fit was computed. All three arms are
-#: expressed in units of retained measurement uncertainty (standardised residuals, z).
-#:
-#:   C1  exceeds noise            Z_shared > 1.0
-#:       the shared state's RMS standardised HELD-OUT residual exceeds one uncertainty unit
-#:   C2  species-specific         SD across species of the per-species mean standardised
-#:       (not shared)             held-out residual > 1.0
-#:       — this is the arm that separates "a species problem" from "a shared model-form problem"
-#:   C3  materially reduced       Z_independent <= 0.7 * Z_shared
-#:       by per-species fits      per-species transport freedom removes >= 30 % of the RMS
-#:                                held-out residual
-#:
-#: SURVIVE iff C1 and C2 and C3.
-#:
-#: C3 is a RATIO and is therefore scale-free in the assumed uncertainty: if C3 fails, the
-#: decision is RETIRE at every point in the RSD band. C1 and C2 are uncertainty-scaled and are
-#: what the band sensitivity actually probes.
 C1_Z_THRESHOLD = 1.0
 C2_SPREAD_THRESHOLD = 1.0
 C3_REDUCTION_FACTOR = 0.7
@@ -141,9 +114,8 @@ CRITERION_STATEMENT = (
     "C2: SD across species of the per-species mean standardised held-out residual > %.1f "
     "(species-specific rather than a shared model-form problem). "
     "C3: RMS standardised held-out residual under independent per-species fits "
-    "<= %.2f x the shared-state value. C3 is a ratio and is scale-free in the assumed RSD, so "
-    "a C3 failure retires the candidate at every point in the source's stated 0.3-19.7 %% band. "
-    "Predeclared before any fit was computed."
+    "<= %.2f x the shared-state value. Thresholds predeclared before any fit was computed and "
+    "unchanged by the 2026-08-04 correction."
     % (C1_Z_THRESHOLD, C2_SPREAD_THRESHOLD, C3_REDUCTION_FACTOR))
 
 
@@ -151,7 +123,6 @@ CRITERION_STATEMENT = (
 # Data
 # ------------------------------------------------------------------------------------------
 def conditions():
-    """The angeloni granulometry-O on-grid design, split into training and held-out."""
     from puckworks import data as d
     bio = d.angeloni_bioactives()
     ts = {(r["variety"], r["T_degC"], r["p_bar"]): r for r in d.angeloni_total_solids()}
@@ -160,7 +131,7 @@ def conditions():
                      if x["granulometry"] == "O" and x["on_grid"] == "True"),
                     key=lambda x: (x["variety"], x["T_degC"], x["p_bar"])):
         key = (r["variety"], r["T_degC"], r["p_bar"])
-        meas = {s: float(r[SPECIES_COLUMN[s][0]]) for s in SPECIES if s != "tds"}
+        meas = {s: float(r[SPECIES_COLUMN[s][0]]) for s in BIOACTIVES}
         meas["tds"] = float(ts[key]["TS_g_100mL"])
         out.append(dict(variety=r["variety"], T_degC=r["T_degC"], p_bar=r["p_bar"],
                         held_out=r["p_bar"] in HELD_OUT_P_BAR, measured=meas,
@@ -168,201 +139,472 @@ def conditions():
     return out
 
 
-def unit_level_predictions(conds, rate_grid=RATE_GRID):
-    """F[rate][(variety, T, p, species)] — the prediction at c_s0 = 1, one solve each.
+class UnitPredictions:
+    """Cache of unit-level (c_s0 = 1) predictions, keyed by rate value.
 
-    The level is NOT swept: the solver is exactly linear in c_s0, so prediction = level x F.
-    This is what keeps the screen inside a cheap budget — 15 rates x 18 conditions x 4 species.
+    The solver is EXACTLY linear in c_s0 (verified to ~1e-6), so a level never needs a re-solve
+    and a grid expansion only costs the rates it actually adds.
     """
-    from puckworks.models.pannusch2024 import solver as ps
-    from puckworks.validation.slow import angeloni_bracket as AB
-    params = ps._solute_params()
-    F = {}
-    for ri, rate in enumerate(rate_grid):
+
+    def __init__(self, conds):
+        self.conds = conds
+        self._rows = {}
+        self.n_solves = 0
+
+    def row(self, rate):
+        key = round(float(rate), 10)
+        if key in self._rows:
+            return self._rows[key]
+        from puckworks.models.pannusch2024 import solver as ps
+        from puckworks.validation.slow import angeloni_bracket as AB
+        params = ps._solute_params()
         row = {}
-        for c in conds:
+        for c in self.conds:
             flow = AB._flow_darcy(c["p_bar"], c["T_degC"])
             bounds = AB._matched_bounds(flow)
             for s in SPECIES:
                 sp = dict(params[s])
-                sp["A1"] = sp["A1"] * float(rate)
-                sp["A2"] = sp["A2"] * float(rate)
+                sp["A1"] = sp["A1"] * key
+                sp["A2"] = sp["A2"] * key
                 sp["c_s0"] = 1.0
-                conv = SPECIES_COLUMN[s][1]
                 row[(c["variety"], c["T_degC"], c["p_bar"], s)] = float(
-                    ps.simulate_fractions(c["T_degC"], flow, bounds, sp, cl1=1.0)[0]) * conv
-        F[ri] = row
-    return F
-
-
-def sigma_of(c, species, bioactive_rsd_pct):
-    """Absolute measurement sigma for one (condition, species), from retained uncertainty."""
-    rsd = c["tds_rsd_pct"] if species == "tds" else bioactive_rsd_pct
-    return abs(c["measured"][species]) * rsd / 100.0
+                    ps.simulate_fractions(c["T_degC"], flow, bounds, sp, cl1=1.0)[0]
+                ) * SPECIES_COLUMN[s][1]
+                self.n_solves += 1
+        self._rows[key] = row
+        return row
 
 
 # ------------------------------------------------------------------------------------------
-# Fitting
+# The x-decomposition — this is what makes the exact argument possible
 # ------------------------------------------------------------------------------------------
-def _best_level(F_row, conds, variety, species, bioactive_rsd_pct):
-    """Weighted-least-squares level: closed form, because prediction = level x F."""
+def rsd_to_x(rsd_pct):
+    """x = (100 / RSD)^2 — the inverse-variance weight factor carried by every bioactive."""
+    return (100.0 / float(rsd_pct)) ** 2
+
+
+def x_to_rsd(x):
+    return 100.0 / float(np.sqrt(x))
+
+
+def _level(row, conds, variety, species, train_only=True):
+    """Weighted-least-squares level. INDEPENDENT of the bioactive RSD, by cancellation.
+
+    For a bioactive every weight carries the same factor x, so it cancels in num/den. For total
+    solids the weights are the measured per-condition RSDs and carry no x at all.
+    """
     num = den = 0.0
     for c in conds:
-        if c["variety"] != variety:
+        if c["variety"] != variety or (train_only and c["held_out"]):
             continue
-        f = F_row[(variety, c["T_degC"], c["p_bar"], species)]
+        f = row[(variety, c["T_degC"], c["p_bar"], species)]
         m = c["measured"][species]
-        w = 1.0 / sigma_of(c, species, bioactive_rsd_pct) ** 2
+        w = 1.0 / (m * (c["tds_rsd_pct"] if species == "tds" else 1.0) / 100.0) ** 2 \
+            if species == "tds" else 1.0 / m ** 2
         num += w * f * m
         den += w * f * f
     return num / den if den > 0 else float("nan")
 
 
-def _sse(F_row, conds, variety, species, level, bioactive_rsd_pct):
-    tot = 0.0
-    for c in conds:
-        if c["variety"] != variety:
-            continue
-        f = F_row[(variety, c["T_degC"], c["p_bar"], species)]
-        z = (level * f - c["measured"][species]) / sigma_of(c, species, bioactive_rsd_pct)
-        tot += z * z
-    return tot
+def coefficients(pred, conds, rates):
+    """Per (variety, rate): the fitted levels, and the training-SSE decomposition in x.
 
-
-def fit(F, conds, bioactive_rsd_pct, rate_grid=RATE_GRID):
-    """Fit both models on the TRAINING conditions only."""
-    train = [c for c in conds if not c["held_out"]]
-    shared, indep = {}, {}
+    Returns for each variety and rate index:
+        levels[s]      the WLS level (x-independent)
+        a[s]           bioactive training coefficient: SSE_s = x * a[s]
+        b              total-solids training SSE (x-independent)
+        A = sum_bio a  the shared model's x-slope
+    """
+    out = {}
     for v in VARIETIES:
-        # SHARED: one rate for the variety, minimising the summed training SSE over all species
-        best = None
-        for ri in range(len(rate_grid)):
-            lv = {s: _best_level(F[ri], train, v, s, bioactive_rsd_pct) for s in SPECIES}
-            tot = sum(_sse(F[ri], train, v, s, lv[s], bioactive_rsd_pct) for s in SPECIES)
-            if best is None or tot < best[0]:
-                best = (tot, ri, lv)
-        shared[v] = dict(rate_index=best[1], rate=float(rate_grid[best[1]]),
-                         levels={s: float(best[2][s]) for s in SPECIES},
-                         train_sse=float(best[0]))
-        # INDEPENDENT: one rate per species
-        indep[v] = {}
+        per_rate = []
+        for rate in rates:
+            row = pred.row(rate)
+            levels, a, b = {}, {}, 0.0
+            for s in SPECIES:
+                L = _level(row, conds, v, s)
+                levels[s] = L
+                acc = 0.0
+                for c in conds:
+                    if c["variety"] != v or c["held_out"]:
+                        continue
+                    f = row[(v, c["T_degC"], c["p_bar"], s)]
+                    m = c["measured"][s]
+                    r2 = (L * f - m) ** 2 / m ** 2
+                    if s == "tds":
+                        acc += r2 / (c["tds_rsd_pct"] / 100.0) ** 2
+                    else:
+                        acc += r2
+                if s == "tds":
+                    b = acc
+                else:
+                    a[s] = acc
+            per_rate.append(dict(rate=float(rate), levels=levels, a=a, b=b,
+                                 A=float(sum(a.values()))))
+        out[v] = per_rate
+    return out
+
+
+def lower_envelope_breakpoints(coefs, x_lo, x_hi):
+    """Exact breakpoints of argmin_ri [ x*A(ri) + B(ri) ] on [x_lo, x_hi], per variety.
+
+    The objective is a family of straight lines in x, so the selection is piecewise constant and
+    changes only where the lower envelope switches. Returns the sorted interior breakpoints.
+    """
+    out = {}
+    for v, per_rate in coefs.items():
+        A = np.array([p["A"] for p in per_rate], float)
+        B = np.array([p["b"] for p in per_rate], float)
+
+        def argmin_at(x):
+            return int(np.argmin(x * A + B))
+
+        # scan candidate crossings between every pair, keep those where the envelope changes
+        xs = set()
+        for i in range(len(A)):
+            for j in range(i + 1, len(A)):
+                if A[i] == A[j]:
+                    continue
+                xc = (B[j] - B[i]) / (A[i] - A[j])
+                if x_lo < xc < x_hi:
+                    xs.add(float(xc))
+        bps = []
+        for xc in sorted(xs):
+            lo = argmin_at(xc * (1 - 1e-9))
+            hi = argmin_at(xc * (1 + 1e-9))
+            if lo != hi:
+                bps.append(dict(x=xc, rsd_pct=x_to_rsd(xc), rate_index_below=lo,
+                                rate_index_above=hi,
+                                rate_below=per_rate[lo]["rate"],
+                                rate_above=per_rate[hi]["rate"]))
+        out[v] = bps
+    return out
+
+
+def independent_selection(coefs):
+    """argmin per (variety, species). Provably x-INDEPENDENT — a common factor cannot move it."""
+    out = {}
+    for v, per_rate in coefs.items():
+        sel = {}
         for s in SPECIES:
-            bs = None
-            for ri in range(len(rate_grid)):
-                lvl = _best_level(F[ri], train, v, s, bioactive_rsd_pct)
-                sse = _sse(F[ri], train, v, s, lvl, bioactive_rsd_pct)
-                if bs is None or sse < bs[0]:
-                    bs = (sse, ri, lvl)
-            indep[v][s] = dict(rate_index=bs[1], rate=float(rate_grid[bs[1]]),
-                               level=float(bs[2]), train_sse=float(bs[0]),
-                               rate_at_grid_edge=bool(bs[1] in (0, len(rate_grid) - 1)))
-    return shared, indep
+            vals = [(p["a"][s] if s != "tds" else p["b"]) for p in per_rate]
+            i = int(np.argmin(vals))
+            sel[s] = dict(rate_index=i, rate=per_rate[i]["rate"],
+                          at_grid_edge=bool(i in (0, len(per_rate) - 1)))
+        out[v] = sel
+    return out
 
 
-def held_out_residuals(F, conds, shared, indep, bioactive_rsd_pct):
-    """Standardised held-out residuals under both models."""
+# ------------------------------------------------------------------------------------------
+# Held-out residual decomposition, and the criteria as functions of x
+# ------------------------------------------------------------------------------------------
+def residual_parts(pred, conds, coefs, shared_idx, indep_sel, rates):
+    """Per held-out point: d (relative residual, bioactive) or e (standardised, tds).
+
+    For a bioactive, z = d * sqrt(x). For total solids, z = e, fixed. Returned for both models.
+    """
     held = [c for c in conds if c["held_out"]]
-    rows = []
+    parts = []
     for c in held:
         v = c["variety"]
         for s in SPECIES:
-            sig = sigma_of(c, s, bioactive_rsd_pct)
             m = c["measured"][s]
-            fs = F[shared[v]["rate_index"]][(v, c["T_degC"], c["p_bar"], s)]
-            fi = F[indep[v][s]["rate_index"]][(v, c["T_degC"], c["p_bar"], s)]
-            ps_ = shared[v]["levels"][s] * fs
-            pi_ = indep[v][s]["level"] * fi
-            rows.append(dict(variety=v, T_degC=c["T_degC"], p_bar=c["p_bar"], species=s,
-                             measured=m, sigma=sig,
-                             pred_shared=ps_, pred_independent=pi_,
-                             z_shared=(ps_ - m) / sig, z_independent=(pi_ - m) / sig))
-    return rows
+            ri_s = shared_idx[v]
+            ri_i = indep_sel[v][s]["rate_index"]
+            fs = pred.row(rates[ri_s])[(v, c["T_degC"], c["p_bar"], s)]
+            fi = pred.row(rates[ri_i])[(v, c["T_degC"], c["p_bar"], s)]
+            Ls = coefs[v][ri_s]["levels"][s]
+            Li = coefs[v][ri_i]["levels"][s]
+            rel_s = (Ls * fs - m) / m
+            rel_i = (Li * fi - m) / m
+            if s == "tds":
+                k = 100.0 / c["tds_rsd_pct"]
+                parts.append(dict(variety=v, T_degC=c["T_degC"], p_bar=c["p_bar"], species=s,
+                                  scales_with_x=False,
+                                  z_shared_fixed=rel_s * k, z_independent_fixed=rel_i * k,
+                                  d_shared=0.0, d_independent=0.0,
+                                  measured=m, pred_shared=Ls * fs, pred_independent=Li * fi))
+            else:
+                parts.append(dict(variety=v, T_degC=c["T_degC"], p_bar=c["p_bar"], species=s,
+                                  scales_with_x=True,
+                                  z_shared_fixed=0.0, z_independent_fixed=0.0,
+                                  d_shared=rel_s, d_independent=rel_i,
+                                  measured=m, pred_shared=Ls * fs, pred_independent=Li * fi))
+    return parts
 
 
-def _rms(vals):
-    v = np.asarray(list(vals), float)
-    return float(np.sqrt(np.mean(v ** 2))) if v.size else float("nan")
-
-
-def evaluate(rows):
-    z_sh = [r["z_shared"] for r in rows]
-    z_in = [r["z_independent"] for r in rows]
-    per_species_mean = {s: float(np.mean([r["z_shared"] for r in rows if r["species"] == s]))
-                        for s in SPECIES}
-    Z_shared, Z_indep = _rms(z_sh), _rms(z_in)
-    spread = float(np.std(list(per_species_mean.values()), ddof=1))
-    c1 = bool(Z_shared > C1_Z_THRESHOLD)
+def criteria_at(parts, x):
+    """C1, C2, C3 at one x, from the residual decomposition. Exact, no refit needed."""
+    u = float(np.sqrt(x))
+    zs, zi, by_sp = [], [], {s: [] for s in SPECIES}
+    for p in parts:
+        a = p["d_shared"] * u if p["scales_with_x"] else p["z_shared_fixed"]
+        b = p["d_independent"] * u if p["scales_with_x"] else p["z_independent_fixed"]
+        zs.append(a)
+        zi.append(b)
+        by_sp[p["species"]].append(a)
+    Zs = float(np.sqrt(np.mean(np.square(zs))))
+    Zi = float(np.sqrt(np.mean(np.square(zi))))
+    means = [float(np.mean(by_sp[s])) for s in SPECIES]
+    spread = float(np.std(means, ddof=1))
+    ratio = Zi / Zs if Zs > 0 else float("inf")
+    c1 = bool(Zs > C1_Z_THRESHOLD)
     c2 = bool(spread > C2_SPREAD_THRESHOLD)
-    c3 = bool(Z_indep <= C3_REDUCTION_FACTOR * Z_shared)
-    return dict(Z_shared=round(Z_shared, 4), Z_independent=round(Z_indep, 4),
-                reduction_ratio=round(Z_indep / Z_shared, 4) if Z_shared else None,
-                per_species_mean_z_shared={k: round(v, 4)
-                                           for k, v in per_species_mean.items()},
-                between_species_spread=round(spread, 4),
-                per_species_rms_z_shared={
-                    s: round(_rms(r["z_shared"] for r in rows if r["species"] == s), 4)
-                    for s in SPECIES},
-                per_species_rms_z_independent={
-                    s: round(_rms(r["z_independent"] for r in rows if r["species"] == s), 4)
-                    for s in SPECIES},
+    c3 = bool(ratio <= C3_REDUCTION_FACTOR)
+    return dict(x=x, rsd_pct=x_to_rsd(x), Z_shared=Zs, Z_independent=Zi, reduction_ratio=ratio,
+                per_species_mean_z_shared=dict(zip(SPECIES, means)),
+                between_species_spread=spread,
                 C1_exceeds_noise=c1, C2_species_specific=c2, C3_reduced_by_species_fits=c3,
                 survive=bool(c1 and c2 and c3))
 
 
-# ------------------------------------------------------------------------------------------
-# Step 6 — is the structure just inventory / assay level?
-# ------------------------------------------------------------------------------------------
-def level_absorption(F, conds, shared, bioactive_rsd_pct):
-    """How much of the raw residual a per-species LEVEL absorbs.
+def c2_vertex_x(parts, x_lo, x_hi):
+    """The interior extremum of the between-species spread, if any.
 
-    Compares the held-out standardised residual with the level FIXED at pannusch's own Table 2
-    inventory against the residual with the level FITTED. A large drop means the apparent
-    species structure is a LEVEL effect — i.e. inventory or assay scaling — which is the
-    candidate's strongest alternative explanation, quantified rather than asserted.
-
-    Also reports the fitted level beside the angeloni Table 7 measured inventory where one
-    exists, as an independent check on what the fitted level is standing in for.
+    Per-species mean z is  u * mbar_s  for a bioactive and a constant for total solids, so the
+    spread SQUARED is a quadratic in u = sqrt(x) and its vertex may be interior. C1 and C3 are
+    monotone on a fixed selection, so this is the only interior extremum that can exist.
     """
+    mb, const = {}, {}
+    for s in SPECIES:
+        vals = [p for p in parts if p["species"] == s]
+        if vals[0]["scales_with_x"]:
+            mb[s] = float(np.mean([p["d_shared"] for p in vals]))
+        else:
+            const[s] = float(np.mean([p["z_shared_fixed"] for p in vals]))
+    n = len(SPECIES)
+    M = sum(mb.values())
+    C = sum(const.values())
+    alpha, beta = [], []
+    for s in SPECIES:
+        if s in mb:
+            alpha.append(mb[s] - M / n)
+            beta.append(-C / n)
+        else:
+            alpha.append(-M / n)
+            beta.append(const[s] - C / n)
+    sa = float(np.dot(alpha, alpha))
+    sab = float(np.dot(alpha, beta))
+    if sa <= 0:
+        return None
+    u_star = -sab / sa
+    if u_star <= 0:
+        return None
+    x_star = u_star ** 2
+    return float(x_star) if x_lo < x_star < x_hi else None
+
+
+# ------------------------------------------------------------------------------------------
+# The exact sweep
+# ------------------------------------------------------------------------------------------
+def sweep(pred, conds, rates):
+    """Exact evaluation of C1/C2/C3 over the whole declared RSD band.
+
+    Evaluates both band endpoints, BOTH SIDES of every shared-rate breakpoint, and each fixed-
+    selection interval's C2 vertex. Because C1 and C3 are monotone on a fixed selection and C2's
+    only interior extremum is that vertex, these points bound every criterion exactly.
+    """
+    x_hi = rsd_to_x(BIOACTIVE_RSD_BAND_PCT[0])      # 0.3 % -> large x (most demanding)
+    x_lo = rsd_to_x(BIOACTIVE_RSD_BAND_PCT[1])      # 19.7 % -> small x
+    coefs = coefficients(pred, conds, rates)
+    bps = lower_envelope_breakpoints(coefs, x_lo, x_hi)
+    indep = independent_selection(coefs)
+
+    xs = sorted({x_lo, x_hi} | {b["x"] for v in bps for b in bps[v]})
+    # build the fixed-selection intervals
+    intervals = []
+    for lo, hi in zip(xs[:-1], xs[1:]):
+        mid = float(np.sqrt(lo * hi))
+        sel = {}
+        for v in VARIETIES:
+            A = np.array([p["A"] for p in coefs[v]], float)
+            B = np.array([p["b"] for p in coefs[v]], float)
+            sel[v] = int(np.argmin(mid * A + B))
+        parts = residual_parts(pred, conds, coefs, sel, indep, rates)
+        pts = [lo, hi]
+        vx = c2_vertex_x(parts, lo, hi)
+        if vx is not None:
+            pts.append(vx)
+        evals = [criteria_at(parts, x) for x in sorted(pts)]
+        intervals.append(dict(
+            x_lo=lo, x_hi=hi, rsd_hi_pct=x_to_rsd(lo), rsd_lo_pct=x_to_rsd(hi),
+            shared_rate_index={v: sel[v] for v in VARIETIES},
+            shared_rate={v: coefs[v][sel[v]]["rate"] for v in VARIETIES},
+            shared_rate_at_grid_edge={v: bool(sel[v] in (0, len(rates) - 1))
+                                      for v in VARIETIES},
+            c2_vertex_x=vx, evaluations=evals,
+            ratio_min=min(e["reduction_ratio"] for e in evals),
+            ratio_max=max(e["reduction_ratio"] for e in evals),
+            any_survive=any(e["survive"] for e in evals),
+            all_survive=all(e["survive"] for e in evals)))
+    return dict(coefficients_summary={v: [dict(rate=p["rate"], A=p["A"], b=p["b"])
+                                          for p in coefs[v]] for v in VARIETIES},
+                breakpoints=bps, independent_selection=indep, intervals=intervals,
+                x_range=[x_lo, x_hi], rsd_range_pct=list(BIOACTIVE_RSD_BAND_PCT),
+                n_evaluated_points=sum(len(i["evaluations"]) for i in intervals),
+                coefs=coefs, indep=indep)
+
+
+def _decisive_edge_flags(sw, rates):
+    """Which decisive optima sit on a rate-grid boundary (shared per interval + independent)."""
+    edges = []
+    for iv in sw["intervals"]:
+        for v in VARIETIES:
+            if iv["shared_rate_at_grid_edge"][v]:
+                edges.append(dict(kind="shared", variety=v, rate=iv["shared_rate"][v],
+                                  rate_index=iv["shared_rate_index"][v]))
+    for v, sel in sw["indep"].items():
+        for s, d in sel.items():
+            if d["at_grid_edge"]:
+                edges.append(dict(kind="independent", variety=v, species=s, rate=d["rate"],
+                                  rate_index=d["rate_index"]))
+    upper = [e for e in edges if e["rate_index"] == len(rates) - 1]
+    lower = [e for e in edges if e["rate_index"] == 0]
+    return dict(edges=edges, n_edges=len(edges), hits_upper=bool(upper), hits_lower=bool(lower))
+
+
+def grid_robustness(pred, conds):
+    """Expand the rate grid until decisive optima are interior or C3 converges.
+
+    A decisive optimum on a grid boundary is a censored answer. Predeclared policy: multiply the
+    offending bound by GRID_EXPANSION_FACTOR, add GRID_EXPANSION_POINTS log-spaced points,
+    refit everything, and stop when no decisive optimum is on a boundary, or when the worst-case
+    C3 ratio moves by less than GRID_C3_TOLERANCE between rounds, or after GRID_MAX_ROUNDS.
+    """
+    rates = list(BASE_RATE_GRID)
+    rounds = []
+    prev_metric = None
+    sw = None
+    for k in range(GRID_MAX_ROUNDS + 1):
+        sw = sweep(pred, conds, rates)
+        flags = _decisive_edge_flags(sw, rates)
+        metric = min(iv["ratio_min"] for iv in sw["intervals"])
+        converged = (prev_metric is not None
+                     and abs(metric - prev_metric) < GRID_C3_TOLERANCE)
+        rounds.append(dict(round=k, n_rates=len(rates),
+                           rate_min=min(rates), rate_max=max(rates),
+                           n_decisive_optima_at_edge=flags["n_edges"],
+                           edges=flags["edges"],
+                           worst_case_C3_ratio=metric,
+                           c3_change_vs_previous=(None if prev_metric is None
+                                                  else abs(metric - prev_metric)),
+                           converged_by_tolerance=bool(converged),
+                           stopped=bool(flags["n_edges"] == 0 or converged
+                                        or k == GRID_MAX_ROUNDS)))
+        if flags["n_edges"] == 0:
+            rounds[-1]["stop_reason"] = "all decisive optima interior"
+            break
+        if converged:
+            rounds[-1]["stop_reason"] = ("C3 converged within %.3f across an expansion"
+                                         % GRID_C3_TOLERANCE)
+            break
+        if k == GRID_MAX_ROUNDS:
+            rounds[-1]["stop_reason"] = "max rounds reached"
+            break
+        prev_metric = metric
+        if flags["hits_upper"]:
+            hi = max(rates)
+            rates += list(np.geomspace(hi * (GRID_EXPANSION_FACTOR ** (1 / GRID_EXPANSION_POINTS)),
+                                       hi * GRID_EXPANSION_FACTOR, GRID_EXPANSION_POINTS))
+        if flags["hits_lower"]:
+            lo = min(rates)
+            rates = list(np.geomspace(lo / GRID_EXPANSION_FACTOR,
+                                      lo / (GRID_EXPANSION_FACTOR ** (1 / GRID_EXPANSION_POINTS)),
+                                      GRID_EXPANSION_POINTS)) + rates
+        rates = sorted(set(float(r) for r in rates))
+    return dict(rounds=rounds, final_rates=[float(r) for r in rates],
+                base_rates=list(BASE_RATE_GRID),
+                policy=dict(expansion_factor=GRID_EXPANSION_FACTOR,
+                            points_per_round=GRID_EXPANSION_POINTS,
+                            max_rounds=GRID_MAX_ROUNDS,
+                            c3_tolerance=GRID_C3_TOLERANCE)), sw, rates
+
+
+# ------------------------------------------------------------------------------------------
+# Amplitude term (the "level") — corrected metric and corrected language
+# ------------------------------------------------------------------------------------------
+def amplitude_diagnostic(pred, conds, coefs, shared_idx, rates, x):
+    """How much the free AMPLITUDE term reduces the RMS standardised residual.
+
+    The metric is  1 - RMS_fitted / RMS_fixed  — a REDUCTION IN RMS STANDARDISED-RESIDUAL
+    MAGNITUDE. It is NOT "a fraction of the raw residual"; the first version mislabelled it.
+
+    The amplitude is a per-(species, variety) multiplicative scale on the prediction. It may
+    represent a solid inventory difference, an assay calibration scale, or any multiplicative
+    model error; this screen cannot distinguish those, and does not try.
+    """
+    from puckworks.models.pannusch2024 import solver as ps
+    table2 = {s: v["c_s0"] for s, v in ps._solute_params().items()}
+    u = float(np.sqrt(x))
+    held = [c for c in conds if c["held_out"]]
+    fixed, fitted = [], []
+    for c in held:
+        v = c["variety"]
+        ri = shared_idx[v]
+        row = pred.row(rates[ri])
+        for s in SPECIES:
+            f = row[(v, c["T_degC"], c["p_bar"], s)]
+            m = c["measured"][s]
+            L = coefs[v][ri]["levels"][s]
+            k = (100.0 / c["tds_rsd_pct"]) if s == "tds" else u
+            fixed.append((table2[s] * f - m) / m * k)
+            fitted.append((L * f - m) / m * k)
+    rf = float(np.sqrt(np.mean(np.square(fixed))))
+    rt = float(np.sqrt(np.mean(np.square(fitted))))
+    return dict(rsd_pct=x_to_rsd(x),
+                RMS_z_amplitude_fixed_at_pannusch_table2=rf,
+                RMS_z_amplitude_fitted=rt,
+                rms_reduction_fraction=(1.0 - rt / rf) if rf > 0 else None,
+                metric_definition="1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised "
+                                  "held-out residual and 'fixed' holds the amplitude at "
+                                  "pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-"
+                                  "RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+                interpretation="The amplitude is a condition-independent multiplicative scale. "
+                               "It may represent solid inventory, assay calibration scale, or "
+                               "multiplicative model error; this screen cannot separate them.")
+
+
+def amplitude_vs_table7(coefs, shared_idx, rates):
+    """Compare the fitted amplitude against angeloni Table 7, with the matching qualified."""
     from puckworks.models.pannusch2024 import solver as ps
     from puckworks import data as d
     table2 = {s: v["c_s0"] for s, v in ps._solute_params().items()}
     inv = {(r["variety"], r["species"]): r["C0_s_mg_L"] / 1000.0
            for r in d.angeloni_inventories()}
-    inv_col = {"caffeine": "CF", "trigonelline": "TR", "5CQA": "CQA"}   # CQA = TOTAL CQA
-    held = [c for c in conds if c["held_out"]]
-    fixed, fitted = [], []
-    for c in held:
-        v = c["variety"]
-        for s in SPECIES:
-            f = F[shared[v]["rate_index"]][(v, c["T_degC"], c["p_bar"], s)]
-            sig = sigma_of(c, s, bioactive_rsd_pct)
-            m = c["measured"][s]
-            fixed.append((table2[s] * f - m) / sig)
-            fitted.append((shared[v]["levels"][s] * f - m) / sig)
-    cmp_rows = []
+    inv_col = {"caffeine": "CF", "trigonelline": "TR"}      # species-matched ONLY
+    rows, closer, matched = [], 0, 0
     for v in VARIETIES:
+        ri = shared_idx[v]
         for s in SPECIES:
-            meas_inv = inv.get((v, inv_col.get(s, "")))
-            cmp_rows.append(dict(
-                variety=v, species=s,
-                level_fitted=round(shared[v]["levels"][s], 4),
-                level_pannusch_table2=round(table2[s], 4),
-                level_ratio_fitted_over_table2=round(
-                    shared[v]["levels"][s] / table2[s], 4),
-                angeloni_table7_inventory_g_L=(round(meas_inv, 4) if meas_inv else None),
-                inventory_note=("angeloni Table 7 measures TOTAL CQA, not 5CQA — not "
-                                "species-matched" if s == "5CQA" else
-                                "no Table 7 inventory for the aggregate-solids proxy"
-                                if s == "tds" else "species-matched")))
-    return dict(Z_level_fixed_at_pannusch_table2=round(_rms(fixed), 4),
-                Z_level_fitted=round(_rms(fitted), 4),
-                absorbed_fraction=round(1.0 - _rms(fitted) / _rms(fixed), 4)
-                if _rms(fixed) else None,
-                levels=cmp_rows,
-                reading="A large absorbed fraction means the bulk of the apparent species "
-                        "difference is a per-species LEVEL — inventory or assay scaling — not "
-                        "condition-dependent transport structure. Both scored models carry a "
-                        "free per-species level, so the decision is already blind to it.")
+            L = coefs[v][ri]["levels"][s]
+            rec = dict(variety=v, species=s, amplitude_fitted=round(L, 4),
+                       amplitude_pannusch_table2=round(table2[s], 4))
+            if s in inv_col:
+                t7 = inv[(v, inv_col[s])]
+                matched += 1
+                is_closer = abs(L - t7) < abs(table2[s] - t7)
+                closer += int(is_closer)
+                rec.update(species_matched=True, angeloni_table7_g_L=round(t7, 4),
+                           fitted_closer_to_table7_than_pannusch=bool(is_closer),
+                           note="species-matched")
+            elif s == "5CQA":
+                rec.update(species_matched=False,
+                           angeloni_table7_g_L=round(inv[(v, "CQA")], 4),
+                           fitted_closer_to_table7_than_pannusch=None,
+                           note="angeloni Table 7 reports TOTAL CQA, which is NOT a "
+                                "species-matched 5CQA inventory — no comparison is made")
+            else:
+                rec.update(species_matched=False, angeloni_table7_g_L=None,
+                           fitted_closer_to_table7_than_pannusch=None,
+                           note="no Table 7 inventory exists for the aggregate total-solids "
+                                "proxy")
+            rows.append(rec)
+    return dict(rows=rows, n_species_matched_cells=matched,
+                n_species_matched_cells_fitted_closer=closer,
+                claim="Of the %d SPECIES-MATCHED cells (caffeine and trigonelline, both "
+                      "varieties), %d have a fitted amplitude closer to angeloni Table 7 than "
+                      "pannusch Table 2. 5CQA and total solids are NOT species-matched and are "
+                      "excluded from that count." % (matched, closer))
 
 
 # ------------------------------------------------------------------------------------------
@@ -370,45 +612,65 @@ def level_absorption(F, conds, shared, bioactive_rsd_pct):
 # ------------------------------------------------------------------------------------------
 def screen():
     conds = conditions()
-    F = unit_level_predictions(conds)
+    pred = UnitPredictions(conds)
+    robustness, sw, rates = grid_robustness(pred, conds)
 
-    band = {}
-    for tag, rsd in (("low", BIOACTIVE_RSD_BAND_PCT[0]), ("high", BIOACTIVE_RSD_BAND_PCT[1])):
-        sh, ind = fit(F, conds, rsd)
-        rows = held_out_residuals(F, conds, sh, ind, rsd)
-        band[tag] = dict(bioactive_rsd_pct=rsd, shared=sh, independent=ind,
-                         evaluation=evaluate(rows),
-                         level_absorption=level_absorption(F, conds, sh, rsd),
-                         residuals=rows)
+    any_survive = any(iv["any_survive"] for iv in sw["intervals"])
+    all_survive = all(iv["all_survive"] for iv in sw["intervals"])
+    c3_ever = any(e["C3_reduced_by_species_fits"]
+                  for iv in sw["intervals"] for e in iv["evaluations"])
+    worst_ratio = min(iv["ratio_min"] for iv in sw["intervals"])
 
-    verdicts = {t: band[t]["evaluation"]["survive"] for t in band}
-    invariant = len(set(verdicts.values())) == 1
-    c3 = {t: band[t]["evaluation"]["C3_reduced_by_species_fits"] for t in band}
-
-    if not invariant:
-        decision = "NEEDS_NEW_DATA"
-        why = ("The decision flips across the source's own stated bioactive RSD band "
-               "(%.1f-%.1f %%), so it is not determined by the retained uncertainty. "
-               "Solute-specific replicate RSD for caffeine / trigonelline / CGA is required."
-               % BIOACTIVE_RSD_BAND_PCT)
-    elif all(verdicts.values()):
+    if all_survive:
         decision = "SURVIVE"
         why = ("Reproducible species-specific held-out residual structure remains beyond "
-               "uncertainty and is materially reduced by per-species fits, at both ends of the "
-               "retained uncertainty band.")
+               "uncertainty and is materially reduced by per-species fits at every evaluated "
+               "point of the declared RSD band.")
+    elif any_survive:
+        decision = "NEEDS_NEW_DATA"
+        why = ("The verdict CHANGES inside the declared 0.3-19.7 %% bioactive RSD band, so it is "
+               "not determined by the retained uncertainty. Solute-specific replicate RSD for "
+               "caffeine, trigonelline and CGA is the missing evidence.")
     else:
         decision = "RETIRE"
-        failed = [k for k, v in band["low"]["evaluation"].items()
-                  if k.startswith("C") and v is False]
-        why = ("The shared-state hypothesis is not refuted at either end of the retained "
-               "uncertainty band. Failing arms at the low (most demanding) end: %s. "
-               "C3 is a scale-free ratio, so a C3 failure retires the candidate at every "
-               "point in the band." % (", ".join(failed) or "none"))
+        why = ("The shared-state hypothesis is not refuted anywhere in the declared RSD band. "
+               "C3 never holds: the smallest held-out RMS ratio achieved anywhere on the band, "
+               "over the exact breakpoint sweep and after rate-grid expansion, is %.4f against "
+               "a %.2f threshold — per-species rate freedom does not improve held-out "
+               "prediction at any admissible uncertainty setting." % (worst_ratio,
+                                                                      C3_REDUCTION_FACTOR))
 
+    # amplitude diagnostics at BOTH retained endpoints (and every interval boundary)
+    coefs, indep = sw["coefs"], sw["indep"]
+    amp = []
+    for iv in sw["intervals"]:
+        for x in (iv["x_lo"], iv["x_hi"]):
+            amp.append(amplitude_diagnostic(pred, conds, coefs, iv["shared_rate_index"],
+                                            rates, x))
+    seen, amp_unique = set(), []
+    for a in amp:
+        k = round(a["rsd_pct"], 6)
+        if k not in seen:
+            seen.add(k)
+            amp_unique.append(a)
+
+    last = sw["intervals"][-1]
+    t7 = amplitude_vs_table7(coefs, last["shared_rate_index"], rates)
+
+    slim_intervals = [{k: v for k, v in iv.items()} for iv in sw["intervals"]]
     return dict(
         screen=CANDIDATE_ID,
         disposition=["CHEAP_SCIENTIFIC_SCREEN", "NOT_A_PUBLICATION_RESULT",
                      "NOT_A_MODEL_VALIDATION_UPGRADE"],
+        correction_note=(
+            "CORRECTED 2026-08-04. The superseded version claimed C3 was scale-free in the "
+            "assumed RSD and inferred whole-band invariance from two endpoints. Neither was "
+            "supported: changing the bioactive RSD reweights the bioactives against the "
+            "MEASURED total-solids weights and refits the shared model (its selected rate "
+            "demonstrably moves). Both claims are replaced by an exact finite-grid breakpoint "
+            "argument plus rate-grid expansion. The evidence unit, the split, the free "
+            "amplitude in both models, the held-out comparison and the C1/C2/C3 thresholds are "
+            "unchanged."),
         evidence_unit=dict(
             campaign="angeloni2023 only (bioactives + total_solids), granulometry O, on-grid",
             manifest_validation_strength_verbatim=(
@@ -421,22 +683,38 @@ def screen():
             excluded_evidence=EXCLUDED_EVIDENCE),
         predeclared=dict(train_p_bar=list(TRAIN_P_BAR), held_out_p_bar=list(HELD_OUT_P_BAR),
                          split_rationale=SPLIT_RATIONALE,
-                         rate_grid=[round(float(r), 4) for r in RATE_GRID],
+                         base_rate_grid=[round(r, 6) for r in BASE_RATE_GRID],
                          criterion=CRITERION_STATEMENT,
                          C1_z_threshold=C1_Z_THRESHOLD,
                          C2_spread_threshold=C2_SPREAD_THRESHOLD,
                          C3_reduction_factor=C3_REDUCTION_FACTOR),
-        uncertainty=dict(bioactive_rsd_band_pct=list(BIOACTIVE_RSD_BAND_PCT),
-                         bioactive_rsd_band_source=BIOACTIVE_RSD_BAND_SOURCE,
-                         tds_rsd_source=TDS_RSD_SOURCE,
-                         solute_specific_rsd_recovered=False,
-                         note="Solute-specific replicate RSD for caffeine / trigonelline / CGA "
-                              "is NOT recovered by the campaign. Rather than invent one, the "
-                              "criterion is evaluated at both ends of the source's own stated "
-                              "band and the decision is taken only if it is invariant."),
-        band=band,
-        decision_invariant_across_band=invariant,
-        C3_by_band=c3,
+        uncertainty=dict(
+            bioactive_rsd_band_pct=list(BIOACTIVE_RSD_BAND_PCT),
+            bioactive_rsd_band_source=BIOACTIVE_RSD_BAND_SOURCE,
+            tds_rsd_source=TDS_RSD_SOURCE,
+            solute_specific_rsd_recovered=False,
+            scale_free_claim_withdrawn=(
+                "C3 is NOT scale-free under this perturbation. Changing the bioactive RSD "
+                "changes their weight relative to the MEASURED per-condition total-solids "
+                "weights, which refits the shared model. The selected shared rate is observed to "
+                "move across the band."),
+            method="exact finite-grid breakpoint sweep in x = (100/RSD)^2, plus each interval's "
+                   "C2 vertex; C1 and C3 are monotone on a fixed selection so their extrema are "
+                   "at interval endpoints"),
+        rate_grid_robustness=robustness,
+        sweep=dict(x_range=sw["x_range"], rsd_range_pct=sw["rsd_range_pct"],
+                   breakpoints=sw["breakpoints"],
+                   n_breakpoints=sum(len(v) for v in sw["breakpoints"].values()),
+                   independent_selection=sw["independent_selection"],
+                   independent_selection_is_x_independent=True,
+                   n_evaluated_points=sw["n_evaluated_points"],
+                   intervals=slim_intervals),
+        worst_case_C3_ratio=worst_ratio,
+        C3_ever_satisfied=c3_ever,
+        any_point_survives=any_survive, all_points_survive=all_survive,
+        amplitude_diagnostic=amp_unique,
+        amplitude_vs_table7=t7,
+        n_pde_solves=pred.n_solves,
         decision=decision, decision_reasoning=why)
 
 
@@ -444,11 +722,11 @@ def screen():
 # Primary figure
 # ------------------------------------------------------------------------------------------
 _INK, _MUTED, _GRID = "#1a1a1a", "#5a5a5a", "#d9d9d9"
-_C_SHARED, _C_INDEP = "#0072b2", "#e69f00"
+_C_SHARED, _C_INDEP, _C_C3 = "#0072b2", "#e69f00", "#cc79a7"
 
 
 def figure(path=None, result=None):
-    """Held-out standardised residuals by species and condition, both fits overlaid."""
+    """Three panels: the exact band sweep, the grid-expansion evidence, and the residuals."""
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -457,90 +735,159 @@ def figure(path=None, result=None):
                          "font.family": "DejaVu Sans"})
     r = result or screen()
 
-    fig, axes = plt.subplots(1, 2, figsize=(11.6, 4.5), sharey=True)
-    for ax, tag in zip(axes, ("low", "high")):
-        b = r["band"][tag]
-        rows = b["residuals"]
-        ev = b["evaluation"]
-        keys = sorted({(x["variety"], x["T_degC"]) for x in rows})
-        xs = np.arange(len(keys) * len(SPECIES), dtype=float)
+    conds = conditions()
+    pred = UnitPredictions(conds)
+    rates = [float(v) for v in r["rate_grid_robustness"]["final_rates"]]
+    sw = sweep(pred, conds, rates)
+
+    fig = plt.figure(figsize=(13.6, 8.6))
+    gs = fig.add_gridspec(2, 3, height_ratios=[1.0, 1.05], hspace=0.42, wspace=0.30)
+
+    # ---- panel A: C3 across the band ------------------------------------------------------
+    axA = fig.add_subplot(gs[0, 0:2])
+    for iv in sw["intervals"]:
+        xs = [e["rsd_pct"] for e in iv["evaluations"]]
+        ys = [e["reduction_ratio"] for e in iv["evaluations"]]
+        o = np.argsort(xs)
+        axA.plot(np.array(xs)[o], np.array(ys)[o], "-", color=_C_C3, lw=1.8, zorder=3)
+        axA.plot(xs, ys, "o", color=_C_C3, ms=4.2, zorder=4)
+    n_bp = 0
+    for _v, bl in sw["breakpoints"].items():
+        for b in bl:
+            axA.axvline(b["rsd_pct"], color=_MUTED, lw=0.8, ls=":", alpha=0.75, zorder=1)
+            n_bp += 1
+    axA.axhline(C3_REDUCTION_FACTOR, color="#d55e00", lw=1.6, ls="--", zorder=2)
+    axA.text(BIOACTIVE_RSD_BAND_PCT[1], C3_REDUCTION_FACTOR * 0.93,
+             "C3 threshold %.2f — per-species fits must get BELOW this line"
+             % C3_REDUCTION_FACTOR, fontsize=7.4, color="#d55e00", ha="right", va="top")
+    axA.set_xscale("log")
+    axA.set_xlim(*BIOACTIVE_RSD_BAND_PCT)
+    axA.set_ylim(0.0, max(1.25, min(2.0, max(iv["ratio_max"] for iv in sw["intervals"]) * 1.15)))
+    axA.set_xlabel("assumed bioactive replicate RSD  [%]  (the campaign retains only this RANGE)",
+                   fontsize=8)
+    axA.set_ylabel("C3 statistic\nZ_independent / Z_shared", fontsize=8.4)
+    axA.grid(True, color=_GRID, lw=0.5)
+    axA.set_axisbelow(True)
+    axA.text(0.015, 0.96, "dotted lines: the %d shared-rate breakpoints — where the selected "
+             "rate switches.\nC1 and C3 are monotone between them, so the plotted points bound "
+             "each interval exactly." % n_bp,
+             transform=axA.transAxes, fontsize=7.0, color=_MUTED, va="top", linespacing=1.5)
+    axA.set_title("A — exact sweep of C3 across the declared RSD band",
+                  fontsize=8.8, color=_INK, pad=7)
+
+    # ---- panel B: grid expansion ----------------------------------------------------------
+    axB = fig.add_subplot(gs[0, 2])
+    rounds = r["rate_grid_robustness"]["rounds"]
+    xs = [q["round"] for q in rounds]
+    axB.plot(xs, [q["worst_case_C3_ratio"] for q in rounds], "o-", color=_C_C3, lw=1.8, ms=6)
+    axB.axhline(C3_REDUCTION_FACTOR, color="#d55e00", lw=1.4, ls="--")
+    for q in rounds:
+        axB.annotate("%d rates\nmax %.1f\n%d edge optima"
+                     % (q["n_rates"], q["rate_max"], q["n_decisive_optima_at_edge"]),
+                     (q["round"], q["worst_case_C3_ratio"]), textcoords="offset points",
+                     xytext=(6, -22), fontsize=6.4, color=_MUTED)
+    axB.set_xticks(xs)
+    axB.set_xlim(-0.45, max(xs) + 0.75)
+    axB.set_xlabel("rate-grid expansion round", fontsize=8)
+    axB.set_ylabel("worst-case (smallest) C3 ratio\nanywhere on the band", fontsize=8)
+    axB.grid(True, color=_GRID, lw=0.5)
+    axB.set_axisbelow(True)
+    axB.set_ylim(0.0, max(1.25, max(q["worst_case_C3_ratio"] for q in rounds) * 1.15))
+    axB.set_title("B — rate-grid robustness\nstopped: %s" % rounds[-1].get("stop_reason", ""),
+                  fontsize=8.6, color=_INK, pad=7)
+
+    # ---- panel C: held-out standardised residuals at both retained endpoints --------------
+    for j, which in enumerate(("hi", "lo")):
+        axC = fig.add_subplot(gs[1, j])
+        x = rsd_to_x(BIOACTIVE_RSD_BAND_PCT[0] if which == "hi" else BIOACTIVE_RSD_BAND_PCT[1])
+        iv = min(sw["intervals"], key=lambda q: abs(np.log(q["x_lo"]) - np.log(x))
+                 if which == "lo" else abs(np.log(q["x_hi"]) - np.log(x)))
+        parts = residual_parts(pred, conds, sw["coefs"], iv["shared_rate_index"],
+                               sw["indep"], rates)
+        u = float(np.sqrt(x))
+        keys = sorted({(p["variety"], p["T_degC"]) for p in parts})
         i = 0
         ticks, labels = [], []
         for v, T in keys:
             for s in SPECIES:
-                rec = [x for x in rows if x["variety"] == v and x["T_degC"] == T
-                       and x["species"] == s][0]
-                ax.plot([i, i], [0, rec["z_shared"]], color=_C_SHARED, lw=1.0, alpha=0.45,
-                        zorder=1)
-                ax.plot(i - 0.16, rec["z_shared"], "o", ms=5.0, color=_C_SHARED, zorder=3)
-                ax.plot(i + 0.16, rec["z_independent"], "s", ms=4.6, color=_C_INDEP, zorder=3)
+                p = [q for q in parts if q["variety"] == v and q["T_degC"] == T
+                     and q["species"] == s][0]
+                zs = p["d_shared"] * u if p["scales_with_x"] else p["z_shared_fixed"]
+                zi = p["d_independent"] * u if p["scales_with_x"] else p["z_independent_fixed"]
+                axC.plot([i, i], [0, zs], color=_C_SHARED, lw=1.0, alpha=0.4, zorder=1)
+                axC.plot(i - 0.16, zs, "o", ms=4.6, color=_C_SHARED, zorder=3)
+                axC.plot(i + 0.16, zi, "s", ms=4.2, color=_C_INDEP, zorder=3)
                 ticks.append(i)
-                labels.append("%s\n%s %.0f°C" % (s, v[:3], T))
+                labels.append("%s %s %.0f°C" % (s, v[:3], T))
                 i += 1
-        ax.axhspan(-1, 1, color="#6b6b6b", alpha=0.11, zorder=0)
-        ax.axhline(0, color=_INK, lw=0.9, zorder=2)
-        ax.set_xticks(ticks)
-        ax.set_xticklabels(labels, fontsize=5.6, rotation=90)
-        ax.grid(True, axis="y", color=_GRID, lw=0.5)
-        ax.set_axisbelow(True)
-        ax.set_title("assumed bioactive RSD = %.1f %%   (%s end of the source's stated band)"
-                     % (b["bioactive_rsd_pct"], tag), fontsize=8.8, color=_INK, pad=7)
-        ax.set_yscale("symlog", linthresh=2.0)
-        ax.text(0.985, 0.025,
-                "Z_shared %.2f    Z_independent %.2f    ratio %.2f\n"
-                "between-species spread %.2f    →  %s"
-                % (ev["Z_shared"], ev["Z_independent"], ev["reduction_ratio"],
-                   ev["between_species_spread"],
-                   "SURVIVE" if ev["survive"] else "not survived"),
-                transform=ax.transAxes, ha="right", va="bottom", fontsize=7.4, color=_INK,
-                linespacing=1.5,
-                bbox=dict(boxstyle="round,pad=0.35", fc="white", ec=_GRID, lw=0.8, alpha=0.95))
-    axes[0].set_ylabel("standardised held-out residual  z = (pred − meas) / σ\n"
-                       "symlog, linear within ±2", fontsize=8)
+        axC.axhspan(-1, 1, color="#6b6b6b", alpha=0.11, zorder=0)
+        axC.axhline(0, color=_INK, lw=0.9, zorder=2)
+        axC.set_xticks(ticks)
+        axC.set_xticklabels(labels, fontsize=5.4, rotation=90)
+        axC.set_yscale("symlog", linthresh=2.0)
+        axC.grid(True, axis="y", color=_GRID, lw=0.5)
+        axC.set_axisbelow(True)
+        ev = criteria_at(parts, x)
+        axC.set_title("C%d — held-out residuals at RSD = %.1f %%\nZ_sh %.2f  Z_in %.2f  "
+                      "ratio %.3f  spread %.2f  →  %s"
+                      % (j + 1, x_to_rsd(x), ev["Z_shared"], ev["Z_independent"],
+                         ev["reduction_ratio"], ev["between_species_spread"],
+                         "SURVIVE" if ev["survive"] else "not survived"),
+                      fontsize=8.2, color=_INK, pad=6)
+        if j == 0:
+            axC.set_ylabel("standardised held-out residual z\nsymlog, linear within ±2",
+                           fontsize=8)
 
-    handles = [
-        plt.Line2D([], [], ls="none", marker="o", color=_C_SHARED, ms=5.0,
-                   label="shared state — one rate per variety, all species"),
-        plt.Line2D([], [], ls="none", marker="s", color=_C_INDEP, ms=4.6,
-                   label="independent per-species fits — one rate per species"),
-        plt.Rectangle((0, 0), 1, 1, fc="#6b6b6b", alpha=0.11,
-                      label="±1 measurement σ (retained replicate uncertainty)")]
+    # ---- panel D: amplitude diagnostic -----------------------------------------------------
+    axD = fig.add_subplot(gs[1, 2])
+    amp = r["amplitude_diagnostic"]
+    xs = [a["rsd_pct"] for a in amp]
+    ys = [100.0 * (a["rms_reduction_fraction"] or 0.0) for a in amp]
+    o = np.argsort(xs)
+    axD.plot(np.array(xs)[o], np.array(ys)[o], "o-", color="#0072b2", lw=1.8, ms=5)
+    axD.set_xscale("log")
+    axD.set_xlabel("assumed bioactive RSD  [%]", fontsize=8)
+    axD.set_ylabel("reduction in RMS standardised residual\nfrom fitting the amplitude  [%]",
+                   fontsize=7.8)
+    axD.grid(True, color=_GRID, lw=0.5)
+    axD.set_axisbelow(True)
+    axD.set_title("D — the free AMPLITUDE term\n1 − RMS(z_fitted)/RMS(z_fixed), at every "
+                  "evaluated setting", fontsize=8.6, color=_INK, pad=7)
+
+    handles = [plt.Line2D([], [], ls="none", marker="o", color=_C_SHARED, ms=5,
+                          label="shared state — one rate per variety, all species"),
+               plt.Line2D([], [], ls="none", marker="s", color=_C_INDEP, ms=4.6,
+                          label="independent per-species fits — one rate per species"),
+               plt.Rectangle((0, 0), 1, 1, fc="#6b6b6b", alpha=0.11,
+                             label="±1 measurement σ")]
 
     fig.suptitle("I-024 — can one shared transport state explain every measured species at "
                  "once?   Held-out = 9 bar (interior pressure), predeclared",
-                 fontsize=11, y=1.015, x=0.005, ha="left", weight="bold")
-    fig.text(0.005, 0.965,
+                 fontsize=11.5, y=1.005, x=0.005, ha="left", weight="bold")
+    fig.text(0.005, 0.968,
              "CHEAP_SCIENTIFIC_SCREEN · NOT_A_PUBLICATION_RESULT · "
-             "NOT_A_MODEL_VALIDATION_UPGRADE     angeloni2023 campaign ONLY — no maille, "
-             "ellero, khamitova or pannusch/schmieder post-fit evidence is scored.     "
-             "A per-species inventory LEVEL is free in BOTH models, so the comparison is blind "
-             "to inventory and assay scaling by construction.",
-             fontsize=7, color=_MUTED, style="italic", ha="left")
-
+             "NOT_A_MODEL_VALIDATION_UPGRADE     angeloni2023 ONLY.     A per-species amplitude "
+             "is free in BOTH models.     C3 is NOT scale-free in the assumed RSD — the shared "
+             "model is refitted as the weighting changes, which is why panel A is a sweep and "
+             "not two points.",
+             fontsize=7.0, color=_MUTED, style="italic", ha="left")
     fig.tight_layout()
     fig.legend(handles=handles, loc="upper left", bbox_to_anchor=(0.0, -0.005), ncol=3,
                fontsize=7.4, frameon=False)
-
-    lo, hi = r["band"]["low"]["evaluation"], r["band"]["high"]["evaluation"]
-    la = r["band"]["low"]["level_absorption"]
-    fig.text(0.005, -0.075, va="top", ha="left", fontsize=7.1, color=_MUTED, linespacing=1.6,
-             s="Predeclared criterion (all arms in units of measurement σ): C1 Z_shared > 1 · "
-               "C2 between-species spread > 1 · C3 Z_independent ≤ 0.70 × Z_shared. "
-               "SURVIVE iff C1 ∧ C2 ∧ C3.\n"
-               "    low  RSD 0.3 %%:  C1 %s   C2 %s   C3 %s      "
-               "high RSD 19.7 %%:  C1 %s   C2 %s   C3 %s\n"
-               "C3 is a RATIO and therefore scale-free in the assumed RSD — it reads the same "
-               "(%.2f vs the 0.70 threshold) at both ends, so the missing solute-specific RSD "
-               "cannot change it.\n"
-               "Inventory / assay check: fixing the level at pannusch's Table 2 inventory gives "
-               "Z = %.1f; fitting a per-species level gives Z = %.1f — a per-species LEVEL "
-               "absorbs %.1f %% of the raw residual.\n"
+    t7 = r["amplitude_vs_table7"]
+    fig.text(0.005, -0.065, va="top", ha="left", fontsize=7.1, color=_MUTED, linespacing=1.6,
+             s="Predeclared criterion (units of measurement σ): C1 Z_shared > 1 · C2 "
+               "between-species spread > 1 · C3 Z_independent ≤ 0.70 × Z_shared. SURVIVE iff "
+               "C1 ∧ C2 ∧ C3.\n"
+               "Exact band coverage: %d shared-rate breakpoint(s), %d evaluated points across "
+               "%d fixed-selection interval(s). The independent per-species rates are provably "
+               "x-independent and do not move across the band.\n"
+               "Amplitude: a condition-independent multiplicative scale — it may be solid "
+               "inventory, assay calibration scale, or multiplicative model error, and this "
+               "screen cannot separate them. %s\n"
                "DECISION  %s — %s"
-               % (lo["C1_exceeds_noise"], lo["C2_species_specific"],
-                  lo["C3_reduced_by_species_fits"], hi["C1_exceeds_noise"],
-                  hi["C2_species_specific"], hi["C3_reduced_by_species_fits"],
-                  lo["reduction_ratio"], la["Z_level_fixed_at_pannusch_table2"],
-                  la["Z_level_fitted"], 100.0 * (la["absorbed_fraction"] or 0.0),
+               % (r["sweep"]["n_breakpoints"], r["sweep"]["n_evaluated_points"],
+                  len(r["sweep"]["intervals"]), t7["claim"],
                   r["decision"], r["decision_reasoning"]))
 
     path = path or (REPO_ROOT / "docs/insights/screens/I-024/figures/primary.png")
@@ -554,21 +901,30 @@ def main(argv=None):
     r = screen()
     out = REPO_ROOT / "docs/insights/screens/I-024/result.json"
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(r, indent=2) + "\n", encoding="utf-8")
-    print("conditions: %d train / %d held out"
-          % (r["evidence_unit"]["n_train"], r["evidence_unit"]["n_held_out"]))
-    for tag in ("low", "high"):
-        e = r["band"][tag]["evaluation"]
-        print("  RSD %5.1f %%  Z_shared=%7.2f  Z_indep=%7.2f  ratio=%.3f  spread=%7.2f  "
-              "C1=%-5s C2=%-5s C3=%-5s -> survive=%s"
-              % (r["band"][tag]["bioactive_rsd_pct"], e["Z_shared"], e["Z_independent"],
-                 e["reduction_ratio"], e["between_species_spread"], e["C1_exceeds_noise"],
-                 e["C2_species_specific"], e["C3_reduced_by_species_fits"], e["survive"]))
-    la = r["band"]["low"]["level_absorption"]
-    print("  level absorbs %.1f %% of the raw residual (Z %.1f -> %.1f)"
-          % (100.0 * (la["absorbed_fraction"] or 0.0),
-             la["Z_level_fixed_at_pannusch_table2"], la["Z_level_fitted"]))
-    print("  decision invariant across the RSD band: %s" % r["decision_invariant_across_band"])
+    out.write_text(json.dumps(r, indent=2, default=float) + "\n", encoding="utf-8")
+    print("conditions: %d train / %d held out   (%d PDE solves)"
+          % (r["evidence_unit"]["n_train"], r["evidence_unit"]["n_held_out"],
+             r["n_pde_solves"]))
+    print("rate-grid robustness:")
+    for q in r["rate_grid_robustness"]["rounds"]:
+        print("  round %d  n_rates=%-3d max=%8.2f  edge optima=%-2d  worst C3=%.4f  %s"
+              % (q["round"], q["n_rates"], q["rate_max"],
+                 q["n_decisive_optima_at_edge"], q["worst_case_C3_ratio"],
+                 q.get("stop_reason", "")))
+    print("band sweep: %d breakpoint(s), %d interval(s), %d evaluated points"
+          % (r["sweep"]["n_breakpoints"], len(r["sweep"]["intervals"]),
+             r["sweep"]["n_evaluated_points"]))
+    for iv in r["sweep"]["intervals"]:
+        print("  RSD %7.3f-%7.3f %%  shared rates %s  ratio %.4f-%.4f  survive_any=%s"
+              % (iv["rsd_lo_pct"], iv["rsd_hi_pct"],
+                 {k: round(v, 3) for k, v in iv["shared_rate"].items()},
+                 iv["ratio_min"], iv["ratio_max"], iv["any_survive"]))
+    print("worst-case C3 ratio anywhere on the band: %.4f  (threshold %.2f)"
+          % (r["worst_case_C3_ratio"], C3_REDUCTION_FACTOR))
+    print("amplitude RMS reduction: %s"
+          % ", ".join("%.1f %% @ RSD %.2f %%" % (100 * a["rms_reduction_fraction"],
+                                                 a["rsd_pct"]) for a in
+                      r["amplitude_diagnostic"]))
     print("DECISION: %s" % r["decision"])
     fig_path = figure(result=r)
     print("wrote %s" % out.relative_to(REPO_ROOT))

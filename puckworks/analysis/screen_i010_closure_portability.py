@@ -133,52 +133,92 @@ DECLARED_T_C = (80.0, 98.0)
 DECLARED_Q_ML_S = (1.0, 3.0)
 
 # ------------------------------------------------------------------------------------------
-# STEP 6 + the PREDECLARED materiality criterion
+# STEP 6 — retained uncertainty, PER OUTPUT
 # ------------------------------------------------------------------------------------------
-#: Retained observational uncertainty. The campaign's ONLY per-condition replicate information
-#: is the TS and lipid RSD columns; the named bioactives carry a global 0.3-19.7 % range with
-#: no per-cell value (MANIFEST angeloni2023/bioactives, and
-#: angeloni2023/total_solids_lipids_rsd: "caffeine/trigonelline/CGA solute-specific RSD NOT
-#: recovered"). TS is used because it IS one of the four scored observables, is measured on the
-#: same 66 shots, and its median sits well inside the source's stated global band for the
-#: others. Lipids are NOT a scored observable and are carried only as an upper sensitivity.
-OBS_RSD_SOURCE = "median measured per-condition RSD of angeloni2023/total_solids (n=66)"
-OBS_RSD_PCT = 4.70
-OBS_RSD_UPPER_SENSITIVITY_PCT = 12.55        # angeloni2023/lipids median, not scored
+# CORRECTION (2026-08-04). The first version of this screen used the median total-solids
+# replicate RSD as though it were the uncertainty of all four scored outputs, and decided the
+# candidate against that single number. It is not the bioactives' uncertainty and it never was:
+# the campaign does not retain one for them. Each output is now evaluated against ITS OWN
+# retained uncertainty, and where that uncertainty is a range, the screen reports what happens
+# across the range instead of collapsing it.
+
+#: TOTAL SOLIDS — retained, measured, per condition. `angeloni2023/total_solids` carries an
+#: RSD_pct column for every shot, so this output has a real uncertainty and a real answer.
+TDS_RSD_SOURCE = "measured per-condition RSD_pct of angeloni2023/total_solids"
+
+#: THE NAMED BIOACTIVES — NOT retained per cell. The MANIFEST uncertainty cell for
+#: `angeloni2023/bioactives` reads, verbatim, "%RSD 0.3-19.7 (in card, not per-cell)", and
+#: `angeloni2023/total_solids_lipids_rsd` records "caffeine/trigonelline/CGA solute-specific RSD
+#: NOT recovered (Tables 4-5 give only global ranges 0.3-19.7%); raw replicates still owed".
+#:
+#: That is a RANGE spanning a factor of 65, and the screen must not replace it with a number.
+#: No midpoint, no median, no best cell, and specifically not the total-solids value.
+BIOACTIVE_RSD_BAND_PCT = (0.3, 19.7)
+BIOACTIVE_RSD_BAND_SOURCE = ("angeloni2023/bioactives MANIFEST uncertainty cell, verbatim: "
+                             "'%RSD 0.3-19.7 (in card, not per-cell)'")
+
+#: Which authority governs which output. `tds` has a measured value; the other three have a band.
+UNCERTAINTY_AUTHORITY = {
+    "tds": dict(kind="measured_per_condition", source=TDS_RSD_SOURCE),
+    "caffeine": dict(kind="declared_range", range_pct=list(BIOACTIVE_RSD_BAND_PCT),
+                     source=BIOACTIVE_RSD_BAND_SOURCE),
+    "trigonelline": dict(kind="declared_range", range_pct=list(BIOACTIVE_RSD_BAND_PCT),
+                         source=BIOACTIVE_RSD_BAND_SOURCE),
+    "5CQA": dict(kind="declared_range", range_pct=list(BIOACTIVE_RSD_BAND_PCT),
+                 source=BIOACTIVE_RSD_BAND_SOURCE),
+}
 
 #: Retained numerical uncertainty: the MAXIMUM relative change in the predicted held-out
 #: concentration between the frozen configuration (NZ=200, rtol=atol=1e-6) and a refined one
-#: (NZ=400, rtol=atol=1e-8), over all 72 held-out points. Computed from the baseline alone,
-#: before any substitution was run. It is negligible: the budget is entirely observational.
+#: (NZ=400, rtol=atol=1e-8), over all 72 held-out points. Negligible against every observational
+#: figure below, so it never changes a classification; carried for completeness.
 NUM_REL_PCT = 0.0001
 
-#: PREDECLARED MATERIALITY CRITERION — fixed before any swap result was computed, and derived
-#: from retained uncertainty rather than from a round percentage.
+#: CAMPAIGN-LEVEL PROXY SENSITIVITY — REPORTED, NEVER DECISIVE.
+#: The median measured per-condition total-solids RSD over the WHOLE campaign (all 66 shots).
+#: This is the number the superseded first version used as the decision authority for all four
+#: outputs. It is retained here so the correction is auditable, and it is excluded from every
+#: classification by construction (`_classify` never reads it).
 #:
-#:     U = sqrt(OBS_RSD_PCT^2 + NUM_REL_PCT^2)  ~= 4.70 %
-#:
-#: A substitution is MATERIAL iff the MEDIAN absolute relative change in the held-out predicted
-#: concentration, over all held-out conditions x scored species, EXCEEDS U.
-#:
-#: The median (not the mean, not the max) because a single domain-edge condition must not
-#: decide the screen. The fraction of points exceeding U and the per-species breakdown are
-#: reported, and are informative, but they are NOT the criterion.
-MATERIALITY_U_PCT = float(np.hypot(OBS_RSD_PCT, NUM_REL_PCT))
-MATERIALITY_STATEMENT = (
-    "A substitution is MATERIAL iff the median absolute relative change in the held-out "
-    "predicted concentration across all held-out (condition x species) points exceeds "
-    "U = sqrt(obs^2 + num^2) = %.3f %%, where obs = %.2f %% (%s) and num = %.4f %% (max "
-    "relative change between NZ=200/1e-6 and NZ=400/1e-8 on the same points). Predeclared "
-    "before any substitution was computed." % (MATERIALITY_U_PCT, OBS_RSD_PCT, OBS_RSD_SOURCE,
-                                               NUM_REL_PCT))
+#: NOTE it is not even the right total-solids figure for THIS screen: the 18 held-out
+#: granulometry-O on-grid conditions have their own median (computed at run time and reported as
+#: `tds_median_rsd_this_screen_pct`), which is higher. Both are above every admissible
+#: total-solids effect, so no classification turns on the difference — but the screen quotes the
+#: one that governs its own conditions, not the campaign-wide one.
+PROXY_U_PCT = 4.70
+PROXY_U_ROLE = ("campaign-level proxy sensitivity ONLY, over all 66 shots. Not the decision "
+                "authority for any output. It is a total-solids figure, which is the retained "
+                "uncertainty of ONE of the four scored outputs and of none of the other three; "
+                "and it is not even the total-solids median over this screen's own 18 held-out "
+                "conditions.")
 
-UNCERTAINTY = dict(observational_rsd_pct=OBS_RSD_PCT, observational_source=OBS_RSD_SOURCE,
-                   observational_upper_sensitivity_pct=OBS_RSD_UPPER_SENSITIVITY_PCT,
-                   numerical_max_rel_pct=NUM_REL_PCT,
-                   numerical_source="NZ 200/rtol 1e-6 vs NZ 400/rtol 1e-8 over the 72 "
-                                    "held-out points (angeloni_bracket._numerics)",
-                   combined_U_pct=MATERIALITY_U_PCT,
-                   criterion=MATERIALITY_STATEMENT)
+#: PREDECLARED MATERIALITY STATISTIC — unchanged from the first version, and applied SEPARATELY
+#: per output rather than pooled across analytes with different uncertainty authority.
+MATERIALITY_STATEMENT = (
+    "For each admissible substitution and EACH scored output separately: the effect statistic is "
+    "the MEDIAN absolute relative change in the held-out predicted concentration across the 18 "
+    "held-out conditions. The substitution is MATERIAL for that output at a given RSD if the "
+    "median effect exceeds that RSD. Outputs are NOT pooled: total solids is judged against its "
+    "own measured per-condition RSD, and each named bioactive against the declared 0.3-19.7 %% "
+    "range, evaluated at BOTH ends. Numerical uncertainty (%.4f %% max) is negligible against "
+    "every threshold and changes no classification." % NUM_REL_PCT)
+
+#: Fixed three-way classification, per output and per substitution.
+STATUS_MATERIAL = "MATERIAL_THROUGHOUT"
+STATUS_IMMATERIAL = "IMMATERIAL_THROUGHOUT"
+STATUS_CHANGES = "CHANGES_WITHIN_RANGE"
+
+UNCERTAINTY = dict(
+    per_output_authority=UNCERTAINTY_AUTHORITY,
+    tds_source=TDS_RSD_SOURCE,
+    bioactive_band_pct=list(BIOACTIVE_RSD_BAND_PCT),
+    bioactive_band_source=BIOACTIVE_RSD_BAND_SOURCE,
+    solute_specific_rsd_recovered=False,
+    numerical_max_rel_pct=NUM_REL_PCT,
+    numerical_source="NZ 200/rtol 1e-6 vs NZ 400/rtol 1e-8 over the 72 held-out points "
+                     "(angeloni_bracket._numerics)",
+    proxy_U_pct=PROXY_U_PCT, proxy_U_role=PROXY_U_ROLE,
+    criterion=MATERIALITY_STATEMENT)
 
 
 # ------------------------------------------------------------------------------------------
@@ -392,34 +432,101 @@ def _rel_change(base, alt):
     return {k: abs(alt[k] - base[k]) / abs(base[k]) * 100.0 for k in keys}
 
 
+def _tds_rsd_by_condition(shots):
+    """Measured per-condition total-solids RSD, keyed the same way as the prediction dicts."""
+    from puckworks import data as d
+    ts = {(r["variety"], r["T_degC"], r["p_bar"]): float(r["RSD_pct"])
+          for r in d.angeloni_total_solids()}
+    return {(r["variety"], r["T_degC"], r["p_bar"]): ts[(r["variety"], r["T_degC"],
+                                                        r["p_bar"])] for r in shots}
+
+
+def _classify(species, effects, tds_rsd):
+    """Three-way status for one (substitution, output), against THAT output's own authority.
+
+    `effects` is the list of per-condition absolute relative changes (%) for this output.
+    Returns the fixed classification plus the supporting numbers. This function never reads
+    PROXY_U_PCT — the campaign proxy is reported elsewhere and decides nothing.
+    """
+    med = statistics.median(effects)
+    mx = max(effects)
+    auth = UNCERTAINTY_AUTHORITY[species]
+
+    if auth["kind"] == "measured_per_condition":
+        # Total solids: a real, measured uncertainty per condition. One determination.
+        per_cond = [rsd for rsd in tds_rsd]
+        med_rsd = statistics.median(per_cond)
+        n_above = sum(1 for e, rsd in zip(effects, tds_rsd) if e > rsd)
+        status = STATUS_MATERIAL if med > med_rsd else STATUS_IMMATERIAL
+        return dict(species=species, authority="measured per-condition RSD",
+                    median_effect_pct=round(med, 4), max_effect_pct=round(mx, 4),
+                    threshold_pct=round(med_rsd, 4),
+                    threshold_note="median of the measured per-condition RSD",
+                    n_conditions_effect_exceeds_own_rsd=n_above,
+                    frac_conditions_exceeding=round(n_above / len(effects), 4),
+                    material_at_low_rsd=None, material_at_high_rsd=None,
+                    status=status)
+
+    lo, hi = auth["range_pct"]
+    mat_lo = med > lo                      # most demanding end of the declared range
+    mat_hi = med > hi                      # least demanding end
+    if mat_lo and mat_hi:
+        status = STATUS_MATERIAL
+    elif not mat_lo and not mat_hi:
+        status = STATUS_IMMATERIAL
+    else:
+        status = STATUS_CHANGES
+    return dict(species=species, authority="declared range %.1f-%.1f %% (not per-cell)"
+                                           % (lo, hi),
+                median_effect_pct=round(med, 4), max_effect_pct=round(mx, 4),
+                threshold_pct=None,
+                threshold_note="no single threshold exists — the range is evaluated at both ends",
+                frac_conditions_exceeding_low_end=round(
+                    sum(1 for e in effects if e > lo) / len(effects), 4),
+                frac_conditions_exceeding_high_end=round(
+                    sum(1 for e in effects if e > hi) / len(effects), 4),
+                material_at_low_rsd=bool(mat_lo), material_at_high_rsd=bool(mat_hi),
+                status=status)
+
+
 def no_refit(shots=None):
     shots = shots or _held_out_shots()
     base = _predict(shots)
+    tds_rsd_map = _tds_rsd_by_condition(shots)
     out = []
     for sub in substitutions():
         if sub["patch"] is None:
-            out.append(dict(sub, ran=False, median_rel_change_pct=None, material=None))
+            rec = dict(sub)
+            rec.pop("patch", None)
+            rec.update(ran=False, per_output=None, statuses=None,
+                       counts_toward_decision=False)
+            out.append(rec)
             continue
         alt = _predict(shots, sub["patch"])
         rel = _rel_change(base, alt)
-        vals = sorted(rel.values())
-        by_species = {}
+        per_output = {}
         for sol in FROZEN["species"]:
-            v = [rel[k] for k in rel if k[3] == sol]
-            by_species[sol] = dict(median=round(statistics.median(v), 4),
-                                   max=round(max(v), 4))
-        med = statistics.median(vals)
+            keys = sorted(k for k in rel if k[3] == sol)
+            effects = [rel[k] for k in keys]
+            tds_rsd = [tds_rsd_map[k[:3]] for k in keys]
+            per_output[sol] = _classify(sol, effects, tds_rsd)
+        vals = sorted(rel.values())
         rec = dict(sub)
         rec.pop("patch", None)
-        rec.update(ran=True, n_points=len(vals),
-                   median_rel_change_pct=round(med, 4),
-                   p90_rel_change_pct=round(vals[int(0.9 * len(vals))], 4),
-                   max_rel_change_pct=round(max(vals), 4),
-                   frac_points_above_U=round(
-                       sum(1 for v in vals if v > MATERIALITY_U_PCT) / len(vals), 4),
-                   by_species=by_species,
-                   material=bool(med > MATERIALITY_U_PCT),
-                   counts_toward_decision=bool(sub["admissible"]))
+        rec.update(
+            ran=True, n_points=len(vals), per_output=per_output,
+            statuses={s: per_output[s]["status"] for s in FROZEN["species"]},
+            counts_toward_decision=bool(sub["admissible"]),
+            # POOLED figures — reported for continuity with the first version and for the
+            # proxy sensitivity only. They are NOT read by the decision.
+            pooled_median_rel_change_pct=round(statistics.median(vals), 4),
+            pooled_p90_rel_change_pct=round(vals[int(0.9 * len(vals))], 4),
+            pooled_max_rel_change_pct=round(max(vals), 4),
+            pooled_frac_points_above_proxy_U=round(
+                sum(1 for v in vals if v > PROXY_U_PCT) / len(vals), 4),
+            pooled_material_against_proxy_U=bool(statistics.median(vals) > PROXY_U_PCT),
+            pooled_note="POOLED ACROSS ANALYTES WITH DIFFERENT UNCERTAINTY AUTHORITY. Retained "
+                        "for auditability against the superseded first version; decides nothing.")
         out.append(rec)
     return base, out
 
@@ -467,36 +574,74 @@ def recalibration_branch(shots, sub_patch):
 # ------------------------------------------------------------------------------------------
 # Decision
 # ------------------------------------------------------------------------------------------
+#: FIXED CLASSIFICATION — applied to the admissible substitutions only, in this precedence.
+CLASSIFICATION_RULE = (
+    "SURVIVE: at least one admissible closure swap is MATERIAL_THROUGHOUT the applicable "
+    "retained uncertainty for at least one output, OR the artifact is consumed outside its "
+    "declared range. "
+    "RETIRE: every admissible swap is IMMATERIAL_THROUGHOUT for every output, AND the artifact "
+    "is consumed inside its declared range. "
+    "NEEDS_NEW_DATA: materiality CHANGES within the retained uncertainty range for at least one "
+    "admissible swap and output, and no swap is material throughout — the missing evidence is "
+    "solute-specific replicate RSD for caffeine, trigonelline and CGA.")
+
+
 def screen():
     shots = _held_out_shots()
     vr = validity_range_check(shots)
     base, subs = no_refit(shots)
 
     admissible = [s for s in subs if s.get("counts_toward_decision") and s.get("ran")]
-    material = [s for s in admissible if s["material"]]
+    material_cells = [(s["closure"], sp) for s in admissible
+                      for sp, v in s["per_output"].items() if v["status"] == STATUS_MATERIAL]
+    changing_cells = [(s["closure"], sp) for s in admissible
+                      for sp, v in s["per_output"].items() if v["status"] == STATUS_CHANGES]
 
+    # STEP 7 — the recalibration branch runs only on a MATERIAL no-refit effect.
     recal = None
-    if material:
+    if material_cells:
         patches = {s["closure"]: s for s in substitutions()}
-        recal = {s["closure"]: recalibration_branch(shots, patches[s["closure"]]["patch"])
-                 for s in material}
+        for name in sorted({c for c, _ in material_cells}):
+            recal = recal or {}
+            recal[name] = recalibration_branch(shots, patches[name]["patch"])
 
-    if material or vr["consumed_outside_declared_range"]:
+    if vr["consumed_outside_declared_range"]:
         decision = "SURVIVE"
-        why = ("A confirmed closure swap changes the held-out output by more than the retained "
-               "uncertainty over the common validity range." if material else
-               "The artifact is already consumed outside its declared validity range.")
+        why = "The artifact is already consumed outside its declared validity range."
+    elif material_cells:
+        decision = "SURVIVE"
+        why = ("At least one admissible closure swap is material throughout the applicable "
+               "retained uncertainty: %s."
+               % ", ".join("%s on %s" % (c, sp) for c, sp in material_cells))
+    elif changing_cells:
+        decision = "NEEDS_NEW_DATA"
+        why = ("Materiality CHANGES within the retained uncertainty range for %d "
+               "(substitution, output) cells: %s. Every one of them is a named bioactive, whose "
+               "replicate RSD the campaign does NOT retain per cell — the source gives only the "
+               "declared 0.3-19.7 %% range, and the measured effects fall inside it. The missing "
+               "evidence is solute-specific replicate RSD for caffeine, trigonelline and CGA. "
+               "For total solids, the one output whose uncertainty IS retained, every admissible "
+               "swap is immaterial."
+               % (len(changing_cells),
+                  ", ".join("%s on %s" % (c, sp) for c, sp in changing_cells)))
     else:
         decision = "RETIRE"
-        why = ("A consuming path exists and the held-out output is insensitive to every "
-               "admissible one-closure swap: no substitution moved the median held-out "
-               "prediction by more than the predeclared uncertainty U, and the artifact is "
-               "driven strictly inside its declared range.")
+        why = ("Every admissible swap is immaterial throughout the applicable retained "
+               "uncertainty for every output, and the artifact is driven strictly inside its "
+               "declared range.")
 
     return dict(
         screen=CANDIDATE_ID, artifact=ARTIFACT, consumer=CONSUMER,
         disposition=["CHEAP_SCIENTIFIC_SCREEN", "NOT_A_PUBLICATION_RESULT",
                      "NOT_A_MODEL_VALIDATION_UPGRADE"],
+        correction_note=(
+            "CORRECTED 2026-08-04. The superseded first version used the median total-solids "
+            "replicate RSD (4.70 %) as the decision authority for all four outputs, including "
+            "three whose replicate uncertainty the campaign does not retain, and reported "
+            "RETIRE. Each output is now judged against its own retained uncertainty; the "
+            "corrected disposition is recorded below. The producer->consumer path, the frozen "
+            "configuration, the admissible substitutions and the no-refit predictions are "
+            "unchanged."),
         path=PATH, frozen=FROZEN,
         held_out_unit=dict(
             dataset="angeloni2023 (bioactives + total_solids), granulometry O, on-grid",
@@ -507,9 +652,20 @@ def screen():
             n_points=len(shots) * len(FROZEN["species"]),
             non_circular_because="never used to fit pannusch2024.closures; the fit target "
                                  "(schmieder kinetics) is excluded as circular"),
-        validity_range=vr, uncertainty=UNCERTAINTY,
+        validity_range=vr,
+        uncertainty=dict(UNCERTAINTY,
+                         tds_median_rsd_this_screen_pct=round(statistics.median(
+                             list(_tds_rsd_by_condition(shots).values())), 4),
+                         tds_median_rsd_this_screen_note=(
+                             "median measured total-solids RSD over the 18 held-out "
+                             "granulometry-O on-grid conditions this screen actually uses. THIS "
+                             "is the total-solids threshold; PROXY_U_PCT (4.70 %) is the "
+                             "campaign-wide median over all 66 shots and decides nothing.")),
+        classification_rule=CLASSIFICATION_RULE,
         substitutions=subs,
-        n_admissible=len(admissible), n_material=len(material),
+        n_admissible=len(admissible),
+        material_cells=[list(c) for c in material_cells],
+        changing_cells=[list(c) for c in changing_cells],
         recalibration=recal,
         decision=decision, decision_reasoning=why)
 
@@ -521,8 +677,18 @@ _INK, _MUTED, _GRID = "#1a1a1a", "#5a5a5a", "#d9d9d9"
 _C_BASE, _C_K, _C_D, _C_RHO, _C_MU = "#1a1a1a", "#0072b2", "#e69f00", "#cc79a7", "#6b6b6b"
 
 
-def figure(path=None):
-    """Held-out species concentration under each closure, over the common validity range."""
+def figure(path=None, result=None):
+    """Two-panel primary figure.
+
+    TOP — the candidate's required minimum figure: held-out concentration per species and
+    condition under each closure, over the common validity range. The measured points carry the
+    uncertainty each output ACTUALLY has: a measured per-condition bar for total solids, and for
+    the three named bioactives the full declared 0.3-19.7 % range, drawn as a band because the
+    campaign does not retain a per-cell value.
+
+    BOTTOM — the decisive comparison: each admissible swap's median held-out effect per output,
+    against that output's own uncertainty authority. This is the panel the decision reads.
+    """
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -534,82 +700,155 @@ def figure(path=None):
     meas = _measured(shots)
     base = _predict(shots)
     subs = {s["closure"]: s for s in substitutions()}
-    alts = {name: _predict(shots, subs[name]["patch"])
-            for name in ("vant_hoff_K", "diffusion_coeff", "water_density", "water_viscosity")}
-    r = screen()
+    swap_names = ("vant_hoff_K", "diffusion_coeff", "water_density", "water_viscosity")
+    alts = {name: _predict(shots, subs[name]["patch"]) for name in swap_names}
+    r = result or screen()
+    tds_rsd = _tds_rsd_by_condition(shots)
+    tds_med_rsd = statistics.median(list(tds_rsd.values()))
 
     variety = "Arabica"
-    rows = [s for s in shots if s["variety"] == variety]
-    order = sorted({(s["T_degC"], s["p_bar"]) for s in rows})
+    order = sorted({(s["T_degC"], s["p_bar"]) for s in shots if s["variety"] == variety})
     xs = np.arange(len(order))
-    labels = ["%.0f°C\n%.0f bar" % (t, p) for t, p in order]
+    labels = ["%.0f\u00b0C\n%.0f bar" % (t, p) for t, p in order]
 
-    style = [("baseline (VDI μ, Rackett ρ, Wilke-Chang D, van't Hoff K)", base, _C_BASE, "-",
-              2.0, 1.0),
-             ("swap K(T) → Arrhenius T-law", alts["vant_hoff_K"], _C_K, "-", 1.6, 1.0),
-             ("swap D(T) → Stokes-Einstein T-law", alts["diffusion_coeff"], _C_D, "-", 1.6,
-              1.0),
-             ("swap ρ(T) → telisromero2001", alts["water_density"], _C_RHO, "-", 1.6, 1.0),
-             ("swap μ(T) → TR2001 @ X_w=100 % (OUT OF ITS OWN RANGE — bound only)",
-              alts["water_viscosity"], _C_MU, ":", 1.5, 1.0)]
+    style = [("baseline (VDI \u03bc, Rackett \u03c1, Wilke-Chang D, van\u2019t Hoff K)",
+              base, _C_BASE, "-", 5.0, 0.28),
+             ("swap K(T) \u2192 Arrhenius T-law", alts["vant_hoff_K"], _C_K, "-", 1.6, 1.0),
+             ("swap D(T) \u2192 Stokes-Einstein T-law", alts["diffusion_coeff"], _C_D, "-",
+              1.6, 1.0),
+             ("swap \u03c1(T) \u2192 telisromero2001", alts["water_density"], _C_RHO, "-",
+              1.6, 1.0),
+             ("swap \u03bc(T) \u2192 TR2001 @ X_w=100 % (OUT OF ITS OWN RANGE \u2014 bound "
+              "only)", alts["water_viscosity"], _C_MU, ":", 1.5, 1.0)]
 
-    fig, axes = plt.subplots(1, 4, figsize=(13.4, 4.6))
-    for ax, sol in zip(axes, FROZEN["species"]):
+    fig = plt.figure(figsize=(13.4, 8.2))
+    gs = fig.add_gridspec(2, 4, height_ratios=[1.15, 1.0], hspace=0.52, wspace=0.30)
+
+    lo_b, hi_b = BIOACTIVE_RSD_BAND_PCT
+    for j, sol in enumerate(FROZEN["species"]):
+        ax = fig.add_subplot(gs[0, j])
         for i, (lab, pred, col, ls, lw, a) in enumerate(style):
             y = [pred[(variety, t, p, sol)] for t, p in order]
-            # the baseline is drawn as a WIDE pale line so the swap curves sit on top of it:
-            # where they coincide, that coincidence is the result and must be visible.
             if i == 0:
-                ax.plot(xs, y, "-", color=col, lw=5.0, alpha=0.28, solid_capstyle="round",
-                        label=lab if sol == "caffeine" else None, zorder=2)
+                ax.plot(xs, y, "-", color=col, lw=lw, alpha=a, solid_capstyle="round",
+                        label=lab if j == 0 else None, zorder=2)
             else:
                 ax.plot(xs, y, ls, color=col, lw=lw, alpha=a, marker="o", ms=3.4,
-                        label=lab if sol == "caffeine" else None, zorder=3)
+                        label=lab if j == 0 else None, zorder=3)
         ym = [meas[(variety, t, p, sol)] for t, p in order]
-        ax.errorbar(xs, ym, yerr=[v * OBS_RSD_PCT / 100.0 for v in ym], fmt="s", ms=4.2,
-                    color="#d55e00", ecolor="#d55e00", elinewidth=1.0, capsize=2.5,
-                    label="measured (angeloni, ±%.1f %% replicate RSD)" % OBS_RSD_PCT
-                    if sol == "caffeine" else None, zorder=4)
+        if sol == "tds":
+            err = [v * tds_rsd[(variety, t, p)] / 100.0 for v, (t, p) in zip(ym, order)]
+            ax.errorbar(xs, ym, yerr=err, fmt="s", ms=4.2, color="#d55e00", ecolor="#d55e00",
+                        elinewidth=1.2, capsize=2.5, zorder=4,
+                        label="measured \u00b1 MEASURED per-condition RSD" if j == 0 else None)
+        else:
+            hi = [v * hi_b / 100.0 for v in ym]
+            lo = [v * lo_b / 100.0 for v in ym]
+            ax.errorbar(xs, ym, yerr=hi, fmt="none", ecolor="#d55e00", elinewidth=6.0,
+                        alpha=0.22, capsize=0, zorder=3,
+                        label="measured \u00b1 the DECLARED 0.3\u201319.7 % range "
+                              "(no per-cell RSD retained)" if j == 0 else None)
+            ax.errorbar(xs, ym, yerr=lo, fmt="s", ms=4.2, color="#d55e00", ecolor="#d55e00",
+                        elinewidth=1.2, capsize=2.5, zorder=4)
         ax.set_title(sol, fontsize=9.5, color=_INK)
-        ax.set_ylabel(SPECIES_UNITS[sol], fontsize=7.6, color=_MUTED)
+        ax.set_ylabel(SPECIES_UNITS[sol], fontsize=7.4, color=_MUTED)
         ax.grid(True, color=_GRID, lw=0.5, alpha=0.8)
         ax.set_axisbelow(True)
         ax.set_xticks(xs)
-        ax.set_xticklabels(labels, fontsize=6.6)
+        ax.set_xticklabels(labels, fontsize=6.2, rotation=90)
         ax.tick_params(labelsize=7)
+        if j == 0:
+            handles, labs = ax.get_legend_handles_labels()
 
-    fig.suptitle("I-010 — held-out (angeloni) prediction under a one-at-a-time closure swap; "
-                 "every curve is inside the artifact's declared range (T 80–98 °C, Q 1–3 mL/s)",
-                 fontsize=11, y=1.005, x=0.005, ha="left", weight="bold")
-    fig.text(0.005, 0.955,
-             "CHEAP_SCIENTIFIC_SCREEN · NOT_A_PUBLICATION_RESULT · "
-             "NOT_A_MODEL_VALIDATION_UPGRADE     Arabica shown; Robusta identical in shape — "
-             "all 18 conditions × 4 species in result.json.     NO REFIT: nothing is fitted to "
-             "these points.",
+    # ---- decisive panel -------------------------------------------------------------------
+    axd = fig.add_subplot(gs[1, :])
+    # the declared bioactive band governs the three named solutes ONLY; it is drawn over their
+    # x-range and stops where the total-solids group begins, because tds has its own authority.
+    axd.axhspan(lo_b, hi_b, xmin=0.0, xmax=(2.5 + 0.5) / 4.2, color="#d55e00", alpha=0.13,
+                zorder=0)
+    axd.plot([-0.5, 2.5], [hi_b] * 2, color="#d55e00", lw=1.0, ls="--", zorder=1)
+    axd.plot([-0.5, 2.5], [lo_b] * 2, color="#d55e00", lw=1.0, ls="--", zorder=1)
+    axd.text(2.45, hi_b * 1.10, "declared bioactive RSD range 0.3\u201319.7 % "
+             "(no per-cell value retained) \u2014 governs these three only",
+             fontsize=7.2, color="#d55e00", ha="right")
+    axd.text(2.45, lo_b * 0.78, "0.3 %  \u2014 most demanding end", fontsize=7.0,
+             color="#d55e00", ha="right", va="top")
+    axd.axvline(2.5, color=_GRID, lw=1.2, zorder=1)
+
+    swap_style = {"vant_hoff_K": (_C_K, "o", "K(T)"), "diffusion_coeff": (_C_D, "o", "D(T)"),
+                  "water_density": (_C_RHO, "o", "\u03c1(T)"),
+                  "water_viscosity": (_C_MU, "D", "\u03bc(T) bound \u2014 excluded")}
+    recs = {s["closure"]: s for s in r["substitutions"] if s.get("ran")}
+    off = {"vant_hoff_K": -0.21, "diffusion_coeff": -0.07, "water_density": 0.07,
+           "water_viscosity": 0.21}
+    for name, (col, mk, lab) in swap_style.items():
+        po = recs[name]["per_output"]
+        xv = [j + off[name] for j, sol in enumerate(FROZEN["species"])]
+        yv = [po[sol]["median_effect_pct"] for sol in FROZEN["species"]]
+        hiv = [po[sol]["max_effect_pct"] for sol in FROZEN["species"]]
+        axd.vlines(xv, yv, hiv, color=col, lw=1.1, alpha=0.55, zorder=2)
+        axd.plot(xv, hiv, "_", ms=8, color=col, alpha=0.75, zorder=2)
+        axd.plot(xv, yv, mk, ms=6.5, color=col, zorder=3, label="%s  median (bar = max)" % lab,
+                 mfc=col if name != "water_viscosity" else "none",
+                 mec=col, mew=1.4, ls="none")
+    axd.plot([2.55, 3.68], [tds_med_rsd] * 2, color="#0072b2", lw=2.4, zorder=4)
+    axd.text(3.68, tds_med_rsd * 1.18, "total-solids MEASURED RSD\nmedian %.2f %% over these 18 "
+             "conditions\n\u2014 a real threshold" % tds_med_rsd, fontsize=7.2, color="#0072b2",
+             ha="right", linespacing=1.4)
+    axd.set_yscale("log")
+    axd.set_xticks(range(len(FROZEN["species"])))
+    axd.set_xticklabels(["%s\n%s" % (s, "measured RSD" if s == "tds" else "declared range only")
+                         for s in FROZEN["species"]], fontsize=8)
+    axd.set_xlim(-0.5, 3.7)
+    axd.set_ylabel("held-out effect of the swap\n|\u0394| in predicted concentration  [%]",
+                   fontsize=8.4)
+    axd.grid(True, axis="y", color=_GRID, lw=0.5)
+    axd.set_axisbelow(True)
+    axd.legend(loc="lower left", fontsize=7.2, frameon=False, ncol=4)
+    axd.set_title("Decisive panel \u2014 each swap\u2019s median held-out effect against THAT "
+                  "OUTPUT\u2019S OWN retained uncertainty (this is what the decision reads)",
+                  fontsize=9, color=_INK, pad=8)
+
+    fig.suptitle("I-010 \u2014 held-out (angeloni) prediction under a one-at-a-time closure "
+                 "swap, inside the artifact\u2019s declared range (T 80\u201398 \u00b0C, "
+                 "Q 1\u20133 mL/s)", fontsize=11.5, y=0.995, x=0.005, ha="left", weight="bold")
+    fig.text(0.005, 0.962,
+             "CHEAP_SCIENTIFIC_SCREEN \u00b7 NOT_A_PUBLICATION_RESULT \u00b7 "
+             "NOT_A_MODEL_VALIDATION_UPGRADE     Arabica shown above; all 18 conditions "
+             "\u00d7 4 species in result.json.     NO REFIT \u2014 nothing is fitted to these "
+             "points, so there is no recalibrated curve to distinguish.",
              fontsize=7.2, color=_MUTED, style="italic", ha="left")
 
-    fig.tight_layout()
-    handles, labs = axes[0].get_legend_handles_labels()
     fig.legend(handles, labs, loc="upper left", ncol=3, fontsize=7.4, frameon=False,
-               bbox_to_anchor=(0.0, -0.035))
+               bbox_to_anchor=(0.0, 0.955))
 
-    med = {s["closure"]: s["median_rel_change_pct"] for s in r["substitutions"] if s["ran"]}
-    fig.text(0.005, -0.20, va="top", s=
-             "Median |Δ| in the held-out prediction over all 72 points, vs the predeclared "
-             "uncertainty U = %.2f %% (√(obs² + num²); obs = %.2f %% measured replicate RSD, "
-             "num = %.4f %%):\n"
-             "    K(T) %.3f %%     D(T) %.3f %%     ρ(T) %.3f %%   — all three admissible "
-             "swaps are far below U.        μ(T) %.2f %% — EXCLUDED from the decision: TR2001 "
-             "is being driven outside its own 76–90 %% X_w range.\n"
-             "    Sh = A Re^B Sc^(1/3): UNSUBSTITUTABLE — the corpus holds no second Sherwood "
-             "correlation, and moving one solute's fitted (A, B) onto another is a misuse, not "
-             "a source swap.\n"
-             "DECISION  RETIRE — the path is real, but the held-out output is insensitive to "
-             "every admissible one-closure swap, and the artifact is driven strictly inside "
-             "its declared range."
-             % (MATERIALITY_U_PCT, OBS_RSD_PCT, NUM_REL_PCT, med["vant_hoff_K"],
-                med["diffusion_coeff"], med["water_density"], med["water_viscosity"]),
-             fontsize=7.2, color=_MUTED, ha="left", linespacing=1.6)
+    po = {n: recs[n]["per_output"] for n in swap_names}
+    fig.text(0.005, 0.045, va="top", ha="left", fontsize=7.2, color=_MUTED, linespacing=1.6,
+             s="Per-output classification (each output against its OWN authority; analytes are "
+               "NOT pooled):\n"
+               "    total solids \u2014 measured RSD available: K(T) %.2f %%, D(T) %.2f %%, "
+               "\u03c1(T) %.3f %% median effect, all below the measured %.2f %% \u2192 "
+               "IMMATERIAL, a real answer.\n"
+               "    caffeine / trigonelline / 5CQA \u2014 no per-cell RSD: K(T) and D(T) median "
+               "effects (%.2f\u2013%.2f %%) sit INSIDE the declared 0.3\u201319.7 %% range, so "
+               "they are material at one end and immaterial at the other. \u03c1(T) is below "
+               "0.3 %% \u2192 immaterial throughout.\n"
+               "    The campaign-wide 4.70 %% figure the superseded first version used as the "
+               "authority for ALL FOUR outputs is a total-solids number over all 66 shots; it "
+               "is retained as a labelled proxy and decides nothing.\n"
+               "DECISION  %s \u2014 materiality changes inside the retained range for %d "
+               "(swap, output) cells, every one a named bioactive. Missing evidence: "
+               "solute-specific replicate RSD for caffeine, trigonelline and CGA. For total "
+               "solids, the one output whose uncertainty IS retained, every admissible swap is "
+               "immaterial."
+               % (po["vant_hoff_K"]["tds"]["median_effect_pct"],
+                  po["diffusion_coeff"]["tds"]["median_effect_pct"],
+                  po["water_density"]["tds"]["median_effect_pct"], tds_med_rsd,
+                  min(po["diffusion_coeff"][s]["median_effect_pct"]
+                      for s in ("caffeine", "trigonelline", "5CQA")),
+                  max(po["vant_hoff_K"][s]["median_effect_pct"]
+                      for s in ("caffeine", "trigonelline", "5CQA")),
+                  r["decision"], len(r["changing_cells"])))
 
     path = path or (REPO_ROOT / "docs/insights/screens/I-010/figures/primary.png")
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -623,19 +862,24 @@ def main(argv=None):
     out = REPO_ROOT / "docs/insights/screens/I-010/result.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(r, indent=2) + "\n", encoding="utf-8")
-    print("path established: %s (%s)" % (r["path"]["established"], r["path"]["import_site"]))
+    print("path established: %s" % r["path"]["established"])
     print("held-out points : %d" % r["held_out_unit"]["n_points"])
-    print("U (predeclared) : %.3f %%" % MATERIALITY_U_PCT)
+    print("uncertainty authority: tds = measured per-condition RSD; bioactives = declared "
+          "%.1f-%.1f %% range (no per-cell value)" % BIOACTIVE_RSD_BAND_PCT)
     for s in r["substitutions"]:
         if not s["ran"]:
-            print("  %-16s NOT RUN — %s" % (s["closure"], "unsubstitutable"))
+            print("  %-16s NOT RUN \u2014 unsubstitutable" % s["closure"])
             continue
-        print("  %-16s median |d| = %7.4f %%   material=%-5s  counts=%s"
-              % (s["closure"], s["median_rel_change_pct"], s["material"],
-                 s["counts_toward_decision"]))
+        print("  %-16s admissible=%-5s" % (s["closure"], s["admissible"]))
+        for sol in FROZEN["species"]:
+            v = s["per_output"][sol]
+            print("      %-13s median=%7.4f %%  max=%7.4f %%  -> %s"
+                  % (sol, v["median_effect_pct"], v["max_effect_pct"], v["status"]))
     print("outside declared range: %s" % r["validity_range"]["consumed_outside_declared_range"])
+    print("material cells : %s" % (r["material_cells"] or "none"))
+    print("changing cells : %d" % len(r["changing_cells"]))
     print("DECISION: %s" % r["decision"])
-    fig_path = figure()
+    fig_path = figure(result=r)
     print("wrote %s" % out.relative_to(REPO_ROOT))
     print("wrote %s" % fig_path.relative_to(REPO_ROOT))
     return 0

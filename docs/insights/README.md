@@ -73,9 +73,12 @@ and no generator ranked anything.
 [`candidates/`](candidates/). Selection lives there and only there; the generated portfolio was not
 rewritten and does not imply the decision existed at snapshot time.
 
-Wave-1 cheap screens (IF-6) ran on **I-040, I-010, I-024** and **all three RETIRE** — see
-[`screens/`](screens/) for the bundles and [`RETIRED_CANDIDATES.md`](RETIRED_CANDIDATES.md) for
-the reopen conditions. Wave 2 is I-045 and I-076.
+Wave-1 cheap screens (IF-6) ran on **I-040, I-010, I-024**: **I-040 and I-024 RETIRE**, and
+**I-010 returned NEEDS_NEW_DATA** (solute-specific bioactive replicate RSD is the named missing
+evidence). See [`screens/`](screens/) for the bundles;
+[`RETIRED_CANDIDATES.md`](RETIRED_CANDIDATES.md) lists the two retirements and their reopen
+conditions — a `NEEDS_NEW_DATA` screen is not a retirement and is not recorded there. Wave 2 is
+I-045 and I-076.
 
 **Do not extend this layer before the Wave-1 screens have reported** — no new lens, no new
 generator, no scoring of the 91 candidates, no further card materialisation. Building machinery

@@ -163,3 +163,18 @@ distinguished from recalibrated. `docs/insights/screens/I-010/figures/primary.pn
 
 `methods_paper` or `technical_note` — a methods note on calibration-artifact portability and on
 recording producer→consumer edges in a component registry. Conditional on SURVIVE.
+
+### Screen outcome (appended after the Wave-1 screen ran)
+
+**NEEDS_NEW_DATA** — `docs/insights/screens/I-010/`. The consuming path is real and the
+validity-range arm did not fire, but materiality changes inside the campaign's declared
+0.3–19.7 % bioactive replicate-RSD range for K(T) and D(T) on all three named solutes. For
+**total solids**, the one scored output whose replicate uncertainty the campaign retains, every
+admissible swap is immaterial. Missing evidence, named: solute-specific replicate RSD for
+caffeine, trigonelline and CGA.
+
+Not a retirement, so **not** recorded in `RETIRED_CANDIDATES.md`.
+
+*(A first version of this screen returned RETIRE by judging all four outputs against the median
+total-solids RSD. That was an invented uncertainty for three of them and is corrected;
+see the bundle's correction note.)*

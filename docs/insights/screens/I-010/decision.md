@@ -6,6 +6,14 @@ NOT_A_PUBLICATION_RESULT
 NOT_A_MODEL_VALIDATION_UPGRADE
 ```
 
+> **Corrected 2026-08-04.** The first version of this screen used the median total-solids
+> replicate RSD (4.70 %) as the decision authority for **all four** scored outputs — including
+> the three named bioactives, whose replicate uncertainty the campaign does **not** retain — and
+> returned RETIRE. That was an invented uncertainty for three of the four outputs. Each output is
+> now judged against its own retained uncertainty, and the disposition changes to
+> **NEEDS_NEW_DATA**. The producer→consumer path, the frozen configuration, the admissible
+> substitutions and the no-refit predictions are unchanged and are reproduced by a fresh run.
+
 ## Question
 
 Does substituting one declared closure at a time materially change held-out predictions from
@@ -14,174 +22,187 @@ Does substituting one declared closure at a time materially change held-out pred
 ## Evidence unit
 
 `angeloni2023` — bioactives + total_solids, granulometry O, on-grid, both varieties.
-**18 conditions × 4 species = 72 held-out points.** MANIFEST-labelled *independent* ("different
-machine/coffee/basket than pannusch fit or cameron calibration"), never used to fit the
-closures. The closures' own fit target (Schmieder kinetics) is excluded as circular.
+**18 conditions × 4 outputs = 72 held-out points.** MANIFEST-labelled *independent*, never used
+to fit the closures. The closures' own fit target (Schmieder kinetics) is excluded as circular.
 
 ## Method
 
 Path established from source; everything frozen; one closure swapped at a time from a declared
-in-repo alternative; no-refit comparison first; uncertainty propagated; materiality predeclared.
-Full method and the frozen configuration in [`README.md`](README.md).
+in-repo alternative; no-refit comparison only; **each output evaluated against its own retained
+uncertainty**. Full method and the frozen configuration in [`README.md`](README.md).
 
 ## Result
 
-**The path is real.** `solver.py:30` imports `closures as pc` and calls `sherwood_h` and
-`vant_hoff_K` directly; the other three closures reach the consumer only through `sherwood_h`.
-The artifact enters each solve as exactly **three scalars — `h1`, `h2`, `K`**.
+### The path is real, and it is narrow
 
-**No admissible swap is material.**
+`solver.py:30` imports `closures as pc` and calls `sherwood_h` and `vant_hoff_K` directly; the
+other three closures reach the consumer only through `sherwood_h`. The artifact enters each solve
+as exactly **three scalars — `h1`, `h2`, `K`**. Unchanged from the first version and not in
+dispute.
 
-| substitution | median abs. rel. change over 72 points | vs U = 4.700 % |
+### Uncertainty authority, per output
+
+| output | retained uncertainty | authority |
 |---|---|---|
-| `vant_hoff_K` → romancorrochano Arrhenius T-law | **2.968 %** | 63 % of U — below |
-| `diffusion_coeff` → Stokes-Einstein T-law | **0.831 %** | 18 % of U — below |
-| `water_density` → telisromero2001 at `X_w = 1` | **0.012 %** | 0.3 % of U — below |
-| `water_viscosity` → TR2001 at `X_w = 100 %` | 8.885 % | above U, but **excluded** |
-| `sherwood_h` | not run | **unsubstitutable** |
+| `tds` (total solids) | **measured per-condition RSD**, median **5.30 %** over these 18 conditions | a real threshold |
+| `caffeine` | **none per cell** — declared range 0.3–19.7 % only | evaluated at both ends |
+| `trigonelline` | **none per cell** — declared range 0.3–19.7 % only | evaluated at both ends |
+| `5CQA` | **none per cell** — declared range 0.3–19.7 % only | evaluated at both ends |
 
-**The artifact is not consumed outside its declared range.** T 88–98 °C against a declared
-80–98; Q 1.045–2.344 mL/s against a declared 1–3. The candidate's second SURVIVE arm does not
-fire either.
+Source, verbatim: `angeloni2023/bioactives` uncertainty cell reads `%RSD 0.3-19.7 (in card, not
+per-cell)`; `angeloni2023/total_solids_lipids_rsd` records `caffeine/trigonelline/CGA
+solute-specific RSD NOT recovered … raw replicates still owed`.
 
-**Recalibration branch not triggered** — the brief conditions it on a material no-refit effect,
-and there is none among the admissible swaps.
+### The decisive table
+
+Median (and max) absolute relative change in the held-out prediction, per output, per
+substitution. **Outputs are not pooled** — they do not share an uncertainty authority.
+
+| substitution | caffeine | trigonelline | 5CQA | **tds** |
+|---|---|---|---|---|
+| **K(T) → Arrhenius T-law** | 3.171 % (5.539) | 3.061 % (5.416) | 3.138 % (5.581) | 1.709 % (3.006) |
+| | `CHANGES` | `CHANGES` | `CHANGES` | **`IMMATERIAL`** |
+| **D(T) → Stokes-Einstein T-law** | 0.946 % (1.674) | 0.663 % (1.247) | 0.899 % (1.665) | 0.770 % (1.411) |
+| | `CHANGES` | `CHANGES` | `CHANGES` | **`IMMATERIAL`** |
+| **ρ(T) → telisromero2001** | 0.018 % (0.055) | 0.006 % (0.020) | 0.009 % (0.030) | 0.009 % (0.030) |
+| | `IMMATERIAL` | `IMMATERIAL` | `IMMATERIAL` | **`IMMATERIAL`** |
+| *μ(T) → TR2001 @ X_w=100 % — **excluded**, out of its own range* | *13.661 %* | *6.136 %* | *9.691 %* | *7.948 %* |
+| | *`CHANGES`* | *`CHANGES`* | *`CHANGES`* | *`MATERIAL`* |
+| *`sherwood_h` — **unsubstitutable**, no alternative in the corpus* | — | — | — | — |
+
+`CHANGES` = `CHANGES_WITHIN_RANGE`: material at 0.3 %, immaterial at 19.7 %.
+
+**Fraction of conditions exceeding the threshold** is in `result.json` per cell
+(`frac_conditions_exceeding_low_end` / `_high_end` for the bioactives,
+`n_conditions_effect_exceeds_own_rsd` for tds — **0 of 18** for every admissible swap).
+
+### Validity range
+
+The artifact is driven at **T 88–98 °C** (declared 80–98) and **Q 1.045–2.344 mL/s** (declared
+1–3): strictly **inside** its declared range. The second SURVIVE arm does not fire.
+
+### Recalibration branch
+
+Not triggered — no admissible swap is material throughout, which is the condition the brief sets.
 
 ## Primary figure
 
-[`figures/primary.png`](figures/primary.png) — held-out concentration per species and condition
-under each closure, over the common validity range, with the measured points and their replicate
-band. No-refit only; nothing is fitted to these points, so there is no recalibrated curve to
-distinguish.
+[`figures/primary.png`](figures/primary.png) — two panels. Top: held-out concentration per output
+and condition under each closure, with each output's measured points carrying the uncertainty it
+actually has (a measured bar for total solids; the full declared 0.3–19.7 % range drawn as a band
+for the three bioactives, because no per-cell value exists). Bottom: the decisive panel — each
+swap's median and maximum held-out effect against that output's own authority.
 
 ## Adversarial check
 
-The strongest attempt to make the RETIRE go away is to ask **whether the screen was rigged to
-find nothing** — by choosing swaps too weak to move anything. Three independent answers:
+The corrected question is no longer "is the consumer insensitive" but "**can this campaign tell**".
+Four attempts to break the NEEDS_NEW_DATA:
 
-1. **The swaps are not weak; the consumer is insensitive.** The K(T) substitution changes the
-   partition constant's temperature law from one that *decreases* with T (pannusch, γ<0 for
-   caffeine/trigonelline/5CQA) to one that *increases* with it (romancorrochano). Those two
-   closures are already on record as disagreeing on the **sign** of dK/dT
-   (`gate_g4_temperature_sensitivity`). Over 88→98 °C that is roughly an 8 % swing in K. It
-   moves the held-out cup by 2.97 % — real, visible in the figure, and still below the
-   campaign's own replicate noise.
-2. **A deliberately excessive swap was run, and it is reported.** Driving the viscosity closure
-   to TR2001's `X_w = 100 %` extrapolation — a −44 % change in μ — moves the held-out
-   prediction by 8.9 %, i.e. **above U**. So the consumer is *not* insensitive to everything;
-   it is insensitive to every change an admissible alternative source actually produces. That
-   distinction is what the decision turns on, and it is the honest reading.
-3. **The uncertainty floor is not inflated.** The numerical component is 0.0001 %, so U is
-   essentially the campaign's own measured replicate spread. Had U been set from the lipid RSD
-   (12.55 %) instead, the conclusion would be unchanged and weaker; had it been set from the
-   *low* end of the source's global bioactive band (0.3 %), the K(T) swap would have been
-   "material" — but 0.3 % is the best cell in a 0.3–19.7 % range and using it as a campaign
-   floor would be indefensible. The choice was predeclared and its sensitivity is stated here
-   rather than after the fact.
+1. **"Total solids settles it — that output has a real uncertainty and every swap is
+   immaterial."** True, and it is reported as a definite sub-result: 0 of 18 conditions exceed
+   their own measured RSD for any admissible swap. But total solids is an *aggregate* proxy, and
+   the closures are per-solute (`vant_hoff_K` takes a solute-specific `K_ref`, `gamma`;
+   `diffusion_coeff` a solute-specific molar volume). Generalising an aggregate result to the
+   named solutes is exactly the inference the swap effects contradict: K(T) moves tds by 1.71 %
+   but the bioactives by ~3.1 %, nearly twice as much.
+2. **"Pick a defensible single bioactive RSD."** Explicitly forbidden and rightly so — every
+   available choice (midpoint 10 %, the total-solids 5.30 %, the best cell 0.3 %) is a number
+   selected after seeing that the effects land at ~1–3 %, and each one decides the screen on its
+   own. The band is the retained evidence; collapsing it *is* the defect being corrected.
+3. **"The effects are small in absolute terms, so it hardly matters."** A 3 % shift in a
+   predicted cup concentration is *not* obviously below a bioactive HPLC assay's replicate
+   spread — the source's own range reaches 19.7 %, and its low end reaches 0.3 %. Whether 3 %
+   is signal or noise is precisely the unknown.
+4. **"The excluded μ(T) bound is material even for total solids, so the answer is really
+   SURVIVE."** No — it is inadmissible by construction, because TR2001 at `X_w = 100 %` is being
+   driven far outside *its own* declared 76–90 % range, so the 7.9 % it produces measures
+   TR2001's extrapolation error. It is reported because it bounds what a genuine μ error would
+   do, not because it counts.
 
 ## Strongest alternative explanation
 
-The generated alternative — *"nothing consumes this artifact at all, or the named same-stage
-component is insensitive to it, so portability is moot"* — splits in two, and the screen
-resolves both halves in opposite directions.
+*"Nothing consumes this artifact at all, or the consumer is insensitive to it."*
 
-- *"Nothing consumes it"* — **refuted.** The path is a direct import, established in step 1.
-- *"The consumer is insensitive"* — **confirmed, and this is the finding.** The reason is
-  structural rather than accidental: the whole artifact is funnelled into three scalars, and the
-  scored observable is a cup-integrated endpoint over a near-exhausted bed, which absorbs
-  changes in transfer rate. The `h ~ D^(2/3)` exponent damps the diffusion swap further.
+- **"Nothing consumes it" — refuted.** Direct import, established in step 1.
+- **"The consumer is insensitive" — no longer supportable as stated.** It is supportable for
+  **total solids only**, and only against that output's measured replicate RSD. For the three
+  named bioactives the screen cannot distinguish insensitivity from an effect the campaign
+  simply cannot resolve.
 
-A third alternative worth naming, because it would invalidate the result if true: *the two
-closures being swapped might not be the same quantity, so the null is a category error rather
-than an insensitivity.* Addressed by construction — the swaps are **anchored** at pannusch's own
-`Tref`, so each substitution changes only the declared temperature law and preserves the
-convention and the reference value. What is being compared is like for like.
+The alternative that now matters most is a third one: *the three-scalar interface makes any
+closure difference structurally small*. The evidence is consistent with it — ρ(T) is immaterial
+everywhere by three orders of magnitude — but it is not established for K(T) and D(T), whose
+effects sit inside the unresolvable band.
 
 ## Decision
 
-**RETIRE.**
+**NEEDS_NEW_DATA.**
 
-The candidate's rule, applied without revision: *"RETIRE if a consuming path exists and the
-consuming result is insensitive to the swap across the used range."* A path exists. The result
-is insensitive to every admissible one-closure swap, by a factor of 1.6× to 400× under the
-predeclared criterion. The artifact is driven strictly inside its declared range, so the second
-SURVIVE arm does not fire either.
+By the fixed classification:
 
-`NEEDS_NEW_DATA` was available — *"the consumer path exists but no non-circular scoring unit is
-available"* — and was **not** triggered: angeloni is manifest-labelled independent and was never
-used to fit the closures.
+- **SURVIVE** requires an admissible swap material *throughout* the applicable range, or
+  consumption outside the declared range. Neither holds — no admissible cell is
+  `MATERIAL_THROUGHOUT`, and the artifact stays inside its range.
+- **RETIRE** requires *every* admissible swap immaterial *throughout* for *every* output. It does
+  not hold: 6 (substitution, output) cells are `CHANGES_WITHIN_RANGE` — K(T) and D(T) on each of
+  the three bioactives.
+- **NEEDS_NEW_DATA** is what remains, and it is the honest answer.
+
+**The missing evidence, named:** solute-specific replicate RSD for caffeine, trigonelline and
+CGA in the `angeloni2023` campaign. `angeloni2023/MANIFEST_UNCERTAINTY.md` already records these
+as owed ("raw replicates still owed"), so this is a request for data the campaign has and has not
+released, not a new experiment.
+
+**What would resolve it:** any solute-specific RSD **above ~3.2 %** retires the candidate (every
+admissible effect falls below it); any value **below ~0.7 %** makes K(T) and D(T) material on all
+three bioactives and the candidate survives; a value between them splits by substitution.
 
 ## Why
 
-1. **The interface is three numbers wide.** Five declared closures, and every one of them
-   reaches the consumer only as `h1`, `h2`, `K`. Portability of a calibration artifact is
-   bounded by how much of it the consumer can actually see, and here that is very little.
-2. **The scored observable integrates the difference away.** The observation operator is a
-   cup-integrated endpoint at a matched 40 g. Rate-scale changes shift *when* solute leaves the
-   grain, not how much is available to leave; by the endpoint the bed is near-exhausted and the
-   difference has largely closed.
-3. **The measured campaign is noisier than the closure disagreement.** A median 4.70 % replicate
-   RSD sits above the 2.97 % that the sign-disagreeing K(T) closures produce. Even a real,
-   documented, sign-level disagreement between two partition closures is not resolvable against
-   this campaign at this observable.
-
-### Two limitations recorded, neither changing the decision
-
-- **The one closure that would matter is the one that could not be tested.** μ(T) is the most
-  influential closure on the path (it enters Re, Sc and Wilke-Chang D), and the corpus holds no
-  second **pure-water** viscosity correlation declared over 88–98 °C. The bound run here says a
-  μ error of TR2001-extrapolation size would move the held-out cup by ~8.9 %, above U. So the
-  RETIRE is properly read as: *portable with respect to every alternative the corpus can supply*
-  — not *portable with respect to all sources*.
-- **`sherwood_h` is unsubstitutable.** The card states its fitted parameters "lack physical
-  meaning and generality", which is precisely a portability concern, and the corpus offers
-  nothing to swap it against. Recorded as a gap, not silently omitted.
-
-Both are **data/corpus gaps**, not analysis gaps, which is why they do not convert this into
-`NEEDS_NEW_DATA`: the candidate's rule routes there only when no non-circular scoring unit
-exists, and one does.
+1. **Three of the four scored outputs have no retained replicate uncertainty at all.** The
+   campaign published a global range, not per-cell values, and the range spans a factor of 65.
+2. **The measured effects land inside that range.** K(T) at ~3.1 % and D(T) at ~0.9 % are above
+   0.3 % and below 19.7 %. There is no reading of the retained evidence that settles them.
+3. **The one output that *is* resolved gives a clean negative** — 0 of 18 conditions exceed their
+   own measured RSD under any admissible swap — but it is an aggregate proxy and the closures are
+   per-solute, so it does not transfer.
 
 ## Claim ceiling
 
 **The strongest thing this result licenses anyone to say:**
 
-> Under one frozen configuration of `pannusch2024.solver` (centre grind, Darcy p→flow map,
-> pannusch Table 2 inventory, matched-40 g endpoint), scored on 72 held-out `angeloni2023`
-> points, substituting any one of `pannusch2024.closures`'s temperature-dependent closures for
-> the alternative source the repository declares moves the predicted cup concentration by less
-> than the campaign's own median replicate RSD.
+> Under one frozen configuration of `pannusch2024.solver`, scored on 72 held-out `angeloni2023`
+> points: substituting any single declared temperature-dependent closure for the alternative this
+> repository declares changes the predicted **total-solids** concentration by less than its
+> measured per-condition replicate RSD at every one of the 18 conditions; and for caffeine,
+> trigonelline and 5CQA the corresponding effects (≈0.7–3.2 % median) fall inside the campaign's
+> declared 0.3–19.7 % replicate range, so the campaign's retained uncertainty does not determine
+> whether they are material.
 
 It licenses **nothing** beyond that. In particular it does **not** say:
 
-- that `pannusch2024.solver` *predicts* angeloni. It does not — the blind gap against the
-  measured points is large and clearly visible in the figure, and `ANALYSIS_transfer` is the
-  standing authority on that. This screen measures **sensitivity to a closure swap**, not
-  accuracy;
-- that the closures are portable in general. They are portable *with respect to the alternatives
-  this corpus contains*, over this configuration, at this observable;
-- anything about μ(T) portability, which was not testable;
-- anything about `sherwood_h`, which was not substitutable;
+- that the closures are portable, or that the consumer is insensitive, as a general statement.
+  That claim holds for total solids only;
+- that `pannusch2024.solver` predicts angeloni — it does not, and the blind gap is visible in
+  the figure. `ANALYSIS_transfer` is the standing authority;
+- anything about μ(T) portability (untestable — no in-range alternative) or `sherwood_h`
+  (unsubstitutable);
 - that any evidence label has changed. `pannusch2024.closures` remains `code_verification`;
-  `pannusch2024.solver` remains `post_fit_reconstruction`. A screen cannot promote a rung and
-  this one did not.
+  `pannusch2024.solver` remains `post_fit_reconstruction`.
 
-The ceiling may not exceed the weakest evidence consumed. The weakest input here is the p→flow
-map — an assumption with a single physical anchor and granulometry O only — so the ceiling is a
-**configuration-conditional sensitivity statement**, not a property of the closures.
+The ceiling may not exceed the weakest evidence consumed. The weakest inputs are the p→flow map
+(single anchor, granulometry O) and — decisively — the *absent* bioactive replicate uncertainty.
 
 ## Next action
 
-Record the retirement in [`../../RETIRED_CANDIDATES.md`](../../RETIRED_CANDIDATES.md) with its
-reopen condition.
+**No retirement is recorded.** I-010 is not entered in `RETIRED_CANDIDATES.md`; the screen has
+run and returned `NEEDS_NEW_DATA`, and the bundle is the record.
 
-Two things route onward and are **not** part of this screen's output:
+The named data request — solute-specific replicate RSD for caffeine / trigonelline / CGA — is
+the unblocking step. It is the *same* missing measurement I-024 identifies, which makes it a
+single request serving two candidates.
 
-- The missing pure-water μ(T) alternative is a **corpus gap**. It belongs with the G10 liquor-
-  rheology thread, which already tracks inter-source viscosity spread, not with this candidate.
-- The three-scalar interface finding is exactly the kind of edge the **candidate-readiness**
-  lane (I-013/I-014/I-015) needs recorded on a card. Worth carrying there.
-
-No deep screen. No novelty research. Triage rule 1.
+No deep screen, no novelty research: triage rule 1 gates those on `SURVIVE`, and this is not one.
 
 ## Reproduction
 

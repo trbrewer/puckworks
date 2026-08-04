@@ -100,14 +100,16 @@ departure from that blueprint: `docs/insights/INSIGHT_FOUNDRY_DESIGN.md`.
   same question — not that they differ. Establishing that needs matched-scenario execution, which
   is **RP-A** (ROADMAP §9). Three blueprint lenses are unimplemented for that reason and are
   declared in `tension_atlas.DEFERRED_LENSES`. Do not rebuild response-sweep machinery here.
-- **IF-5 triage and the Wave-1 cheap screens are DONE (2026-08-04); all three RETIRED.**
+- **IF-5 triage and the Wave-1 cheap screens are DONE (2026-08-04).** Two candidates RETIRED
+  (**I-040**, **I-024**) and one returned **NEEDS_NEW_DATA** (**I-010**).
   `docs/insights/IF5_HUMAN_TRIAGE_DECISION.md` is the selection record;
-  `docs/insights/screens/{I-040,I-010,I-024}/` are the bundles; retirements with reopen
-  conditions are in `docs/insights/RETIRED_CANDIDATES.md`. **Do not** extend the layer now
-  either — Wave 2 (I-045, I-076) and the card-repair readiness lane (I-013/I-014/I-015) are
-  screens and card repairs, not new machinery. No new lens, no new generator, no scoring of the
-  91 candidates, no further card materialisation. Machinery ahead of the decisive screen is the
-  Paper 1 failure mode.
+  `docs/insights/screens/{I-040,I-010,I-024}/` are the bundles; the two retirements, with reopen
+  conditions, are in `docs/insights/RETIRED_CANDIDATES.md`. **A candidate appears there only if
+  its screen returned RETIRE** — a `NEEDS_NEW_DATA` screen is recorded by its bundle alone.
+- **Do not** extend the layer now either — Wave 2 (I-045, I-076) and the card-repair readiness
+  lane (I-013/I-014/I-015) are screens and card repairs, not new machinery. No new lens, no new
+  generator, no scoring of the 91 candidates, no further card materialisation. Machinery ahead of
+  the decisive screen is the Paper 1 failure mode.
 - A screen may add its own analysis script (`puckworks/analysis/screen_i*.py`) and its own bundle
   under `docs/insights/screens/I-XXX/`. That is screen output, not layer infrastructure. Every
   bundle carries `CHEAP_SCIENTIFIC_SCREEN` / `NOT_A_PUBLICATION_RESULT` /

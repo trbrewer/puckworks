@@ -334,8 +334,9 @@ bounded-null results exist; paper assessment only after novelty + evidence are r
 RP-A boundary in ROADMAP §9. **The portfolio is generated, not scored** — every candidate is still
 `SEED` and no generator ranked anything. Human selection is IF-5
 (`docs/insights/IF5_HUMAN_TRIAGE_DECISION.md`); the Wave-1 screens that ran from it are in
-`docs/insights/screens/`, and **all three retired** — check
-`docs/insights/RETIRED_CANDIDATES.md` before reopening any of that ground.*
+`docs/insights/screens/`: **I-040 and I-024 RETIRED, I-010 returned NEEDS_NEW_DATA** — check
+`docs/insights/RETIRED_CANDIDATES.md` (retirements only) and the screen bundles before reopening
+any of that ground.*
 
 | slice | status | depends on | effort | next gate / acceptance evidence |
 |---|---|---|---|---|
@@ -346,7 +347,7 @@ RP-A boundary in ROADMAP §9. **The portfolio is generated, not scored** — eve
 | IF-4 ChatGPT Project | twelve-file pack generated; **project creation is a human step (TB)** | IF-3 | S | new Project with project-only memory; pack uploaded; role chats produce distinct outputs |
 | IF-4a project-readiness correction | **DONE** | IF-3 | M | stable fingerprint IDs in a tracked append-only registry; twelve-file pack + source manifest; calibration-artifact and composition-audit semantics corrected; foster2025 first-drip card gap repaired |
 | IF-5 human triage | **DONE** | IF-3 | S | `docs/insights/IF5_HUMAN_TRIAGE_DECISION.md`: 10 active + 2 reserves, a lane and a reason each; twelve cards materialised with human blocks; portfolio left `SEED` and unscored |
-| **IF-6 first three cheap screens — Wave 1 (I-040, I-010, I-024)** | **DONE — all three RETIRE** | IF-5 | M | per screen: `result.json`, `decision.md`, one figure, one adversarial check, a claim ceiling, decision applied without revision — `docs/insights/screens/{I-040,I-010,I-024}/`; retirements + reopen conditions in `RETIRED_CANDIDATES.md`; `tests/test_screen_i0{40,10,24}.py` (44 passed) |
+| **IF-6 first three cheap screens — Wave 1 (I-040, I-010, I-024)** | **DONE — I-040 RETIRE, I-024 RETIRE, I-010 NEEDS_NEW_DATA** | IF-5 | M | per screen: `result.json`, `decision.md`, one figure, one adversarial check, a claim ceiling, decision applied without revision — `docs/insights/screens/{I-040,I-010,I-024}/`; the two retirements + reopen conditions in `RETIRED_CANDIDATES.md`; I-010's missing evidence (solute-specific bioactive replicate RSD) named in its decision record; `tests/test_screen_i0{40,10,24}.py` |
 | IF-6b Wave 2 (I-045, I-076) | not started | IF-6 | M | same bundle shape; I-045 reuses the I-040 audit template, I-076 needs a fixed matched-scenario protocol |
 | IF-6c candidate-readiness lane (I-013, I-014, I-015) + I-090 | blocked on card repair | — | S–M | `wadsworth2026` Interface mapping; a resolvable `sourcing2026.*` card; `de1_fixtureA` `source_card`. Repaired by a human in a card-repair commit, never inside a screen |
 | IF-7 deep screens | not started | IF-6 survivors | M–L | run only on survivors (triage rule 1) |
