@@ -23,8 +23,8 @@ time materially change held-out predictions from `pannusch2024.solver`?*
 python -m puckworks.analysis.screen_i010_closure_portability
 ```
 
-Writes `result.json` and `figures/primary.png`. ~60 s (five 18-condition × 4-species sweeps at
-~0.16 s per PDE solve).
+Writes `result.json` and `figures/primary.png`. ~2 min — ten 18-condition × 4-species sweeps
+(baseline + four swaps, once for the result and once for the figure) at ~0.16 s per PDE solve.
 
 Focused test: `pytest tests/test_screen_i010.py -v`
 
