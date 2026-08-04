@@ -1,0 +1,1056 @@
+{
+  "screen": "I-024",
+  "disposition": [
+    "CHEAP_SCIENTIFIC_SCREEN",
+    "NOT_A_PUBLICATION_RESULT",
+    "NOT_A_MODEL_VALIDATION_UPGRADE"
+  ],
+  "evidence_unit": {
+    "campaign": "angeloni2023 only (bioactives + total_solids), granulometry O, on-grid",
+    "manifest_validation_strength_verbatim": "independent (different machine/coffee/basket than pannusch fit or cameron calibration)",
+    "n_conditions": 18,
+    "n_train": 12,
+    "n_held_out": 6,
+    "species": [
+      "caffeine",
+      "trigonelline",
+      "5CQA",
+      "tds"
+    ],
+    "varieties": [
+      "Arabica",
+      "Robusta"
+    ],
+    "excluded_evidence": {
+      "maille2024.phi_closure / maille2024.two_regime": "batch fits on a different campaign; scoring them would mix campaigns and the candidate's own INCONCLUSIVE clause is about exactly that confound",
+      "ellero2019/fig4_caffeine_content": "digitised SIMULATION output, not measurement \u2014 it cannot carry a residual",
+      "khamitova2020/tamping": "a different rig and design (tamping force); reference strength only",
+      "pannusch2024.solver / pannusch2024.closures as EVIDENCE": "used here as the MODEL, never as evidence. Its own fit target (schmieder kinetics) is post-fit and is not scored",
+      "angeloni2023/lipids": "not a species the model produces; its RSD is used only as an upper uncertainty sensitivity, never as a scored observable"
+    }
+  },
+  "predeclared": {
+    "train_p_bar": [
+      6.0,
+      12.0
+    ],
+    "held_out_p_bar": [
+      9.0
+    ],
+    "split_rationale": "Held out the INTERIOR pressure (9 bar), training on 6 and 12 bar, at every temperature and in both varieties. Interpolation rather than extrapolation, and 9 bar is the reference espresso condition. Predeclared before any fit.",
+    "rate_grid": [
+      0.15,
+      0.1963,
+      0.257,
+      0.3364,
+      0.4403,
+      0.5763,
+      0.7544,
+      0.9874,
+      1.2925,
+      1.6917,
+      2.2144,
+      2.8984,
+      3.7939,
+      4.9659,
+      6.5
+    ],
+    "criterion": "SURVIVE iff C1 and C2 and C3, all in units of retained measurement uncertainty. C1: RMS standardised held-out residual under the shared state > 1.0. C2: SD across species of the per-species mean standardised held-out residual > 1.0 (species-specific rather than a shared model-form problem). C3: RMS standardised held-out residual under independent per-species fits <= 0.70 x the shared-state value. C3 is a ratio and is scale-free in the assumed RSD, so a C3 failure retires the candidate at every point in the source's stated 0.3-19.7 % band. Predeclared before any fit was computed.",
+    "C1_z_threshold": 1.0,
+    "C2_spread_threshold": 1.0,
+    "C3_reduction_factor": 0.7
+  },
+  "uncertainty": {
+    "bioactive_rsd_band_pct": [
+      0.3,
+      19.7
+    ],
+    "bioactive_rsd_band_source": "angeloni2023/bioactives MANIFEST uncertainty cell, verbatim: '%RSD 0.3-19.7 (in card, not per-cell)'",
+    "tds_rsd_source": "angeloni2023/total_solids per-condition RSD_pct column (measured)",
+    "solute_specific_rsd_recovered": false,
+    "note": "Solute-specific replicate RSD for caffeine / trigonelline / CGA is NOT recovered by the campaign. Rather than invent one, the criterion is evaluated at both ends of the source's own stated band and the decision is taken only if it is invariant."
+  },
+  "band": {
+    "low": {
+      "bioactive_rsd_pct": 0.3,
+      "shared": {
+        "Arabica": {
+          "rate_index": 14,
+          "rate": 6.5,
+          "levels": {
+            "caffeine": 9.6829014289674,
+            "trigonelline": 5.285653357966405,
+            "5CQA": 9.650021573530022,
+            "tds": 171.60194049096185
+          },
+          "train_sse": 4091.5554986671104
+        },
+        "Robusta": {
+          "rate_index": 4,
+          "rate": 0.4403061134769072,
+          "levels": {
+            "caffeine": 21.264494954571624,
+            "trigonelline": 5.408155418256801,
+            "5CQA": 8.708988831569297,
+            "tds": 237.42961405477783
+          },
+          "train_sse": 20914.28986400406
+        }
+      },
+      "independent": {
+        "Arabica": {
+          "caffeine": {
+            "rate_index": 5,
+            "rate": 0.5763291412675603,
+            "level": 13.756774954608181,
+            "train_sse": 1207.7648848596123,
+            "rate_at_grid_edge": false
+          },
+          "trigonelline": {
+            "rate_index": 11,
+            "rate": 2.8984496754568694,
+            "level": 5.3754249181733496,
+            "train_sse": 658.2568280586759,
+            "rate_at_grid_edge": false
+          },
+          "5CQA": {
+            "rate_index": 14,
+            "rate": 6.5,
+            "level": 9.650021573530022,
+            "train_sse": 1981.700593165349,
+            "rate_at_grid_edge": true
+          },
+          "tds": {
+            "rate_index": 4,
+            "rate": 0.4403061134769072,
+            "level": 238.16754835916288,
+            "train_sse": 1.769134886080681,
+            "rate_at_grid_edge": false
+          }
+        },
+        "Robusta": {
+          "caffeine": {
+            "rate_index": 2,
+            "rate": 0.2569940019174301,
+            "level": 24.511103415803788,
+            "train_sse": 1696.3162595195113,
+            "rate_at_grid_edge": false
+          },
+          "trigonelline": {
+            "rate_index": 6,
+            "rate": 0.7543735344742699,
+            "level": 4.907527737552523,
+            "train_sse": 2007.0815858821854,
+            "rate_at_grid_edge": false
+          },
+          "5CQA": {
+            "rate_index": 6,
+            "rate": 0.7543735344742699,
+            "level": 7.741928632997387,
+            "train_sse": 16920.93171641184,
+            "rate_at_grid_edge": false
+          },
+          "tds": {
+            "rate_index": 14,
+            "rate": 6.5,
+            "level": 176.37162716899988,
+            "train_sse": 7.379263383125044,
+            "rate_at_grid_edge": true
+          }
+        }
+      },
+      "evaluation": {
+        "Z_shared": 22.1482,
+        "Z_independent": 22.3431,
+        "reduction_ratio": 1.0088,
+        "per_species_mean_z_shared": {
+          "caffeine": -6.9036,
+          "trigonelline": -1.0413,
+          "5CQA": -8.579,
+          "tds": -1.1526
+        },
+        "between_species_spread": 3.8969,
+        "per_species_rms_z_shared": {
+          "caffeine": 20.2997,
+          "trigonelline": 9.4605,
+          "5CQA": 38.1783,
+          "tds": 1.7368
+        },
+        "per_species_rms_z_independent": {
+          "caffeine": 20.3155,
+          "trigonelline": 9.6682,
+          "5CQA": 38.5167,
+          "tds": 2.6693
+        },
+        "C1_exceeds_noise": true,
+        "C2_species_specific": true,
+        "C3_reduced_by_species_fits": false,
+        "survive": false
+      },
+      "level_absorption": {
+        "Z_level_fixed_at_pannusch_table2": 92.8781,
+        "Z_level_fitted": 22.1482,
+        "absorbed_fraction": 0.7615,
+        "levels": [
+          {
+            "variety": "Arabica",
+            "species": "caffeine",
+            "level_fitted": 9.6829,
+            "level_pannusch_table2": 10.8,
+            "level_ratio_fitted_over_table2": 0.8966,
+            "angeloni_table7_inventory_g_L": 12.54,
+            "inventory_note": "species-matched"
+          },
+          {
+            "variety": "Arabica",
+            "species": "trigonelline",
+            "level_fitted": 5.2857,
+            "level_pannusch_table2": 4.19,
+            "level_ratio_fitted_over_table2": 1.2615,
+            "angeloni_table7_inventory_g_L": 7.97,
+            "inventory_note": "species-matched"
+          },
+          {
+            "variety": "Arabica",
+            "species": "5CQA",
+            "level_fitted": 9.65,
+            "level_pannusch_table2": 6.23,
+            "level_ratio_fitted_over_table2": 1.549,
+            "angeloni_table7_inventory_g_L": 22.13,
+            "inventory_note": "angeloni Table 7 measures TOTAL CQA, not 5CQA \u2014 not species-matched"
+          },
+          {
+            "variety": "Arabica",
+            "species": "tds",
+            "level_fitted": 171.6019,
+            "level_pannusch_table2": 182.0,
+            "level_ratio_fitted_over_table2": 0.9429,
+            "angeloni_table7_inventory_g_L": null,
+            "inventory_note": "no Table 7 inventory for the aggregate-solids proxy"
+          },
+          {
+            "variety": "Robusta",
+            "species": "caffeine",
+            "level_fitted": 21.2645,
+            "level_pannusch_table2": 10.8,
+            "level_ratio_fitted_over_table2": 1.9689,
+            "angeloni_table7_inventory_g_L": 18.58,
+            "inventory_note": "species-matched"
+          },
+          {
+            "variety": "Robusta",
+            "species": "trigonelline",
+            "level_fitted": 5.4082,
+            "level_pannusch_table2": 4.19,
+            "level_ratio_fitted_over_table2": 1.2907,
+            "angeloni_table7_inventory_g_L": 5.96,
+            "inventory_note": "species-matched"
+          },
+          {
+            "variety": "Robusta",
+            "species": "5CQA",
+            "level_fitted": 8.709,
+            "level_pannusch_table2": 6.23,
+            "level_ratio_fitted_over_table2": 1.3979,
+            "angeloni_table7_inventory_g_L": 16.08,
+            "inventory_note": "angeloni Table 7 measures TOTAL CQA, not 5CQA \u2014 not species-matched"
+          },
+          {
+            "variety": "Robusta",
+            "species": "tds",
+            "level_fitted": 237.4296,
+            "level_pannusch_table2": 182.0,
+            "level_ratio_fitted_over_table2": 1.3046,
+            "angeloni_table7_inventory_g_L": null,
+            "inventory_note": "no Table 7 inventory for the aggregate-solids proxy"
+          }
+        ],
+        "reading": "A large absorbed fraction means the bulk of the apparent species difference is a per-species LEVEL \u2014 inventory or assay scaling \u2014 not condition-dependent transport structure. Both scored models carry a free per-species level, so the decision is already blind to it."
+      },
+      "residuals": [
+        {
+          "variety": "Arabica",
+          "T_degC": 88.0,
+          "p_bar": 9.0,
+          "species": "caffeine",
+          "measured": 5.44,
+          "sigma": 0.01632,
+          "pred_shared": 5.188627047395025,
+          "pred_independent": 5.158349405348216,
+          "z_shared": -15.402754448834267,
+          "z_independent": -17.25800212327112
+        },
+        {
+          "variety": "Arabica",
+          "T_degC": 88.0,
+          "p_bar": 9.0,
+          "species": "trigonelline",
+          "measured": 3.54,
+          "sigma": 0.010620000000000001,
+          "pred_shared": 3.467320773638524,
+          "pred_independent": 3.464471134938406,
+          "z_shared": -6.843618301457266,
+          "z_independent": -7.11194586267365
+        },
+        {
+          "variety": "Arabica",
+          "T_degC": 88.0,
+          "p_bar": 9.0,
+          "species": "5CQA",
+          "measured": 5.95,
+          "sigma": 0.017849999999999998,
+          "pred_shared": 5.534427324492758,
+          "pred_independent": 5.534427324492758,
+          "z_shared": -23.28138238135811,
+          "z_independent": -23.28138238135811
+        },
+        {
+          "variety": "Arabica",
+          "T_degC": 88.0,
+          "p_bar": 9.0,
+          "species": "tds",
+          "measured": 10.87,
+          "sigma": 0.6739399999999999,
+          "pred_shared": 10.706664544095585,
+          "pred_independent": 10.966613735888473,
+          "z_shared": -0.24235904665758778,
+          "z_independent": 0.14335658350665245
+        },
+        {
+          "variety": "Arabica",
+          "T_degC": 93.4,
+          "p_bar": 9.0,
+          "species": "caffeine",
+          "measured": 5.27,
+          "sigma": 0.015809999999999998,
+          "pred_shared": 5.189762302519179,
+          "pred_independent": 5.191675624894164,
+          "z_shared": -5.075123180317584,
+          "z_independent": -4.95410342225399
+        },
+        {
+          "variety": "Arabica",
+          "T_degC": 93.4,
+          "p_bar": 9.0,
+          "species": "trigonelline",
+          "measured": 3.41,
+          "sigma": 0.01023,
+          "pred_shared": 3.4471708142905513,
+          "pred_independent": 3.4467257629177217,
+          "z_shared": 3.633510683338332,
+          "z_independent": 3.590006150314913
+        },
+        {
+          "variety": "Arabica",
+          "T_degC": 93.4,
+          "p_bar": 9.0,
+          "species": "5CQA",
+          "measured": 5.89,
+          "sigma": 0.017669999999999998,
+          "pred_shared": 5.5166857511422664,
+          "pred_independent": 5.5166857511422664,
+          "z_shared": -21.127008990250893,
+          "z_independent": -21.127008990250893
+        },
+        {
+          "variety": "Arabica",
+          "T_degC": 93.4,
+          "p_bar": 9.0,
+          "species": "tds",
+          "measured": 10.73,
+          "sigma": 0.5365000000000001,
+          "pred_shared": 10.72991481892618,
+          "pred_independent": 11.08403349983046,
+          "z_shared": -0.00015877180581763488,
+          "z_independent": 0.6598946874752265
+        },
+        {
+          "variety": "Arabica",
+          "T_degC": 98.0,
+          "p_bar": 9.0,
+          "species": "caffeine",
+          "measured": 5.2,
+          "sigma": 0.015600000000000001,
+          "pred_shared": 5.188886137020723,
+          "pred_independent": 5.219461949365707,
+          "z_shared": -0.7124271140562372,
+          "z_independent": 1.2475608567760683
+        },
+        {
+          "variety": "Arabica",
+          "T_degC": 98.0,
+          "p_bar": 9.0,
+          "species": "trigonelline",
+          "measured": 3.39,
+          "sigma": 0.010169999999999998,
+          "pred_shared": 3.430672596400558,
+          "pred_independent": 3.431926123416986,
+          "z_shared": 3.9992720157874238,
+          "z_independent": 4.122529342869823
+        },
+        {
+          "variety": "Arabica",
+          "T_degC": 98.0,
+          "p_bar": 9.0,
+          "species": "5CQA",
+          "measured": 5.24,
+          "sigma": 0.01572,
+          "pred_shared": 5.501555710756435,
+          "pred_independent": 5.501555710756435,
+          "z_shared": 16.638403992139605,
+          "z_independent": 16.638403992139605
+        },
+        {
+          "variety": "Arabica",
+          "T_degC": 98.0,
+          "p_bar": 9.0,
+          "species": "tds",
+          "measured": 10.93,
+          "sigma": 0.38254999999999995,
+          "pred_shared": 10.747447090812429,
+          "pred_independent": 11.18183136877824,
+          "z_shared": -0.4772001285781489,
+          "z_independent": 0.6582966116278682
+        },
+        {
+          "variety": "Robusta",
+          "T_degC": 88.0,
+          "p_bar": 9.0,
+          "species": "caffeine",
+          "measured": 8.35,
+          "sigma": 0.02505,
+          "pred_shared": 7.492133788974691,
+          "pred_independent": 7.4896404226478275,
+          "z_shared": -34.24615612875484,
+          "z_independent": -34.345691710665555
+        },
+        {
+          "variety": "Robusta",
+          "T_degC": 88.0,
+          "p_bar": 9.0,
+          "species": "trigonelline",
+          "measured": 2.9,
+          "sigma": 0.0087,
+          "pred_shared": 2.778760397446028,
+          "pred_independent": 2.777020178500566,
+          "z_shared": -13.935586500456518,
+          "z_independent": -14.135611666601582
+        },
+        {
+          "variety": "Robusta",
+          "T_degC": 88.0,
+          "p_bar": 9.0,
+          "species": "5CQA",
+          "measured": 4.4,
+          "sigma": 0.0132,
+          "pred_shared": 3.441168862128344,
+          "pred_independent": 3.4374595815307525,
+          "z_shared": -72.63872256603457,
+          "z_independent": -72.91972867191272
+        },
+        {
+          "variety": "Robusta",
+          "T_degC": 88.0,
+          "p_bar": 9.0,
+          "species": "tds",
+          "measured": 11.63,
+          "sigma": 2.1631800000000005,
+          "pred_shared": 10.932634965336373,
+          "pred_independent": 11.004256955324083,
+          "z_shared": -0.32237956835012704,
+          "z_independent": -0.28926998431749457
+        },
+        {
+          "variety": "Robusta",
+          "T_degC": 93.4,
+          "p_bar": 9.0,
+          "species": "caffeine",
+          "measured": 7.88,
+          "sigma": 0.023639999999999998,
+          "pred_shared": 7.533712434446366,
+          "pred_independent": 7.513562396475105,
+          "z_shared": -14.648374177395665,
+          "z_independent": -15.50074464995327
+        },
+        {
+          "variety": "Robusta",
+          "T_degC": 93.4,
+          "p_bar": 9.0,
+          "species": "trigonelline",
+          "measured": 2.83,
+          "sigma": 0.00849,
+          "pred_shared": 2.7657080333328232,
+          "pred_independent": 2.767555204453673,
+          "z_shared": -7.572669807676896,
+          "z_independent": -7.355099593206974
+        },
+        {
+          "variety": "Robusta",
+          "T_degC": 93.4,
+          "p_bar": 9.0,
+          "species": "5CQA",
+          "measured": 3.41,
+          "sigma": 0.01023,
+          "pred_shared": 3.4307964821628456,
+          "pred_independent": 3.4352860664823637,
+          "z_shared": 2.0328917070230172,
+          "z_independent": 2.4717562543854874
+        },
+        {
+          "variety": "Robusta",
+          "T_degC": 93.4,
+          "p_bar": 9.0,
+          "species": "tds",
+          "measured": 12.55,
+          "sigma": 0.43925000000000003,
+          "pred_shared": 11.049690917867347,
+          "pred_independent": 11.028153472999035,
+          "z_shared": -3.415615440256469,
+          "z_independent": -3.4646477564051574
+        },
+        {
+          "variety": "Robusta",
+          "T_degC": 98.0,
+          "p_bar": 9.0,
+          "species": "caffeine",
+          "measured": 6.97,
+          "sigma": 0.020909999999999998,
+          "pred_shared": 7.569350319524601,
+          "pred_independent": 7.535912510337554,
+          "z_shared": 28.663334267077996,
+          "z_independent": 27.06420422465588
+        },
+        {
+          "variety": "Robusta",
+          "T_degC": 98.0,
+          "p_bar": 9.0,
+          "species": "trigonelline",
+          "measured": 2.64,
+          "sigma": 0.00792,
+          "pred_shared": 2.754614538804222,
+          "pred_independent": 2.75918715380295,
+          "z_shared": 14.471532677300717,
+          "z_independent": 15.04888305592804
+        },
+        {
+          "variety": "Robusta",
+          "T_degC": 98.0,
+          "p_bar": 9.0,
+          "species": "5CQA",
+          "measured": 3.0,
+          "sigma": 0.009,
+          "pred_shared": 3.422114154398745,
+          "pred_independent": 3.432807359288431,
+          "z_shared": 46.90157271097167,
+          "z_independent": 48.089706587603445
+        },
+        {
+          "variety": "Robusta",
+          "T_degC": 98.0,
+          "p_bar": 9.0,
+          "species": "tds",
+          "measured": 11.23,
+          "sigma": 0.033690000000000005,
+          "pred_shared": 11.147185771551758,
+          "pred_independent": 11.046173055479866,
+          "z_shared": -2.458124916837117,
+          "z_independent": -5.456424592464672
+        }
+      ]
+    },
+    "high": {
+      "bioactive_rsd_pct": 19.7,
+      "shared": {
+        "Arabica": {
+          "rate_index": 4,
+          "rate": 0.4403061134769072,
+          "levels": {
+            "caffeine": 14.637658270081687,
+            "trigonelline": 6.724352298250469,
+            "5CQA": 13.928523923709921,
+            "tds": 238.16754835916288
+          },
+          "train_sse": 3.182725445180526
+        },
+        "Robusta": {
+          "rate_index": 14,
+          "rate": 6.5,
+          "levels": {
+            "caffeine": 14.055815036387832,
+            "trigonelline": 4.243538399724741,
+            "5CQA": 6.0077358729179435,
+            "tds": 176.37162716899988
+          },
+          "train_sse": 12.433721168993573
+        }
+      },
+      "independent": {
+        "Arabica": {
+          "caffeine": {
+            "rate_index": 5,
+            "rate": 0.5763291412675603,
+            "level": 13.756774954608183,
+            "train_sse": 0.2800866799901189,
+            "rate_at_grid_edge": false
+          },
+          "trigonelline": {
+            "rate_index": 11,
+            "rate": 2.8984496754568694,
+            "level": 5.3754249181733496,
+            "train_sse": 0.15265303029008948,
+            "rate_at_grid_edge": false
+          },
+          "5CQA": {
+            "rate_index": 14,
+            "rate": 6.5,
+            "level": 9.650021573530024,
+            "train_sse": 0.4595662175909752,
+            "rate_at_grid_edge": true
+          },
+          "tds": {
+            "rate_index": 4,
+            "rate": 0.4403061134769072,
+            "level": 238.16754835916288,
+            "train_sse": 1.769134886080681,
+            "rate_at_grid_edge": false
+          }
+        },
+        "Robusta": {
+          "caffeine": {
+            "rate_index": 2,
+            "rate": 0.2569940019174301,
+            "level": 24.511103415803795,
+            "train_sse": 0.39338417211666404,
+            "rate_at_grid_edge": false
+          },
+          "trigonelline": {
+            "rate_index": 6,
+            "rate": 0.7543735344742699,
+            "level": 4.907527737552525,
+            "train_sse": 0.46545219595814546,
+            "rate_at_grid_edge": false
+          },
+          "5CQA": {
+            "rate_index": 6,
+            "rate": 0.7543735344742699,
+            "level": 7.741928632997386,
+            "train_sse": 3.92404817046836,
+            "rate_at_grid_edge": false
+          },
+          "tds": {
+            "rate_index": 14,
+            "rate": 6.5,
+            "level": 176.37162716899988,
+            "train_sse": 7.379263383125044,
+            "rate_at_grid_edge": true
+          }
+        }
+      },
+      "evaluation": {
+        "Z_shared": 1.3763,
+        "Z_independent": 1.3772,
+        "reduction_ratio": 1.0006,
+        "per_species_mean_z_shared": {
+          "caffeine": -0.1076,
+          "trigonelline": -0.0204,
+          "5CQA": -0.1413,
+          "tds": -1.2915
+        },
+        "between_species_spread": 0.603,
+        "per_species_rms_z_shared": {
+          "caffeine": 0.3003,
+          "trigonelline": 0.1424,
+          "5CQA": 0.5842,
+          "tds": 2.6693
+        },
+        "per_species_rms_z_independent": {
+          "caffeine": 0.3094,
+          "trigonelline": 0.1472,
+          "5CQA": 0.5865,
+          "tds": 2.6693
+        },
+        "C1_exceeds_noise": true,
+        "C2_species_specific": false,
+        "C3_reduced_by_species_fits": false,
+        "survive": false
+      },
+      "level_absorption": {
+        "Z_level_fixed_at_pannusch_table2": 2.5115,
+        "Z_level_fitted": 1.3763,
+        "absorbed_fraction": 0.452,
+        "levels": [
+          {
+            "variety": "Arabica",
+            "species": "caffeine",
+            "level_fitted": 14.6377,
+            "level_pannusch_table2": 10.8,
+            "level_ratio_fitted_over_table2": 1.3553,
+            "angeloni_table7_inventory_g_L": 12.54,
+            "inventory_note": "species-matched"
+          },
+          {
+            "variety": "Arabica",
+            "species": "trigonelline",
+            "level_fitted": 6.7244,
+            "level_pannusch_table2": 4.19,
+            "level_ratio_fitted_over_table2": 1.6049,
+            "angeloni_table7_inventory_g_L": 7.97,
+            "inventory_note": "species-matched"
+          },
+          {
+            "variety": "Arabica",
+            "species": "5CQA",
+            "level_fitted": 13.9285,
+            "level_pannusch_table2": 6.23,
+            "level_ratio_fitted_over_table2": 2.2357,
+            "angeloni_table7_inventory_g_L": 22.13,
+            "inventory_note": "angeloni Table 7 measures TOTAL CQA, not 5CQA \u2014 not species-matched"
+          },
+          {
+            "variety": "Arabica",
+            "species": "tds",
+            "level_fitted": 238.1675,
+            "level_pannusch_table2": 182.0,
+            "level_ratio_fitted_over_table2": 1.3086,
+            "angeloni_table7_inventory_g_L": null,
+            "inventory_note": "no Table 7 inventory for the aggregate-solids proxy"
+          },
+          {
+            "variety": "Robusta",
+            "species": "caffeine",
+            "level_fitted": 14.0558,
+            "level_pannusch_table2": 10.8,
+            "level_ratio_fitted_over_table2": 1.3015,
+            "angeloni_table7_inventory_g_L": 18.58,
+            "inventory_note": "species-matched"
+          },
+          {
+            "variety": "Robusta",
+            "species": "trigonelline",
+            "level_fitted": 4.2435,
+            "level_pannusch_table2": 4.19,
+            "level_ratio_fitted_over_table2": 1.0128,
+            "angeloni_table7_inventory_g_L": 5.96,
+            "inventory_note": "species-matched"
+          },
+          {
+            "variety": "Robusta",
+            "species": "5CQA",
+            "level_fitted": 6.0077,
+            "level_pannusch_table2": 6.23,
+            "level_ratio_fitted_over_table2": 0.9643,
+            "angeloni_table7_inventory_g_L": 16.08,
+            "inventory_note": "angeloni Table 7 measures TOTAL CQA, not 5CQA \u2014 not species-matched"
+          },
+          {
+            "variety": "Robusta",
+            "species": "tds",
+            "level_fitted": 176.3716,
+            "level_pannusch_table2": 182.0,
+            "level_ratio_fitted_over_table2": 0.9691,
+            "angeloni_table7_inventory_g_L": null,
+            "inventory_note": "no Table 7 inventory for the aggregate-solids proxy"
+          }
+        ],
+        "reading": "A large absorbed fraction means the bulk of the apparent species difference is a per-species LEVEL \u2014 inventory or assay scaling \u2014 not condition-dependent transport structure. Both scored models carry a free per-species level, so the decision is already blind to it."
+      },
+      "residuals": [
+        {
+          "variety": "Arabica",
+          "T_degC": 88.0,
+          "p_bar": 9.0,
+          "species": "caffeine",
+          "measured": 5.44,
+          "sigma": 1.07168,
+          "pred_shared": 5.157295969221531,
+          "pred_independent": 5.158349405348217,
+          "z_shared": -0.26379519145497665,
+          "z_independent": -0.26281221507519387
+        },
+        {
+          "variety": "Arabica",
+          "T_degC": 88.0,
+          "p_bar": 9.0,
+          "species": "trigonelline",
+          "measured": 3.54,
+          "sigma": 0.69738,
+          "pred_shared": 3.4550345579521826,
+          "pred_independent": 3.464471134938406,
+          "z_shared": -0.121835214729154,
+          "z_independent": -0.1083037441016292
+        },
+        {
+          "variety": "Arabica",
+          "T_degC": 88.0,
+          "p_bar": 9.0,
+          "species": "5CQA",
+          "measured": 5.95,
+          "sigma": 1.17215,
+          "pred_shared": 5.503555435498655,
+          "pred_independent": 5.534427324492759,
+          "z_shared": -0.38087664932077364,
+          "z_independent": -0.3545388179902242
+        },
+        {
+          "variety": "Arabica",
+          "T_degC": 88.0,
+          "p_bar": 9.0,
+          "species": "tds",
+          "measured": 10.87,
+          "sigma": 0.6739399999999999,
+          "pred_shared": 10.966613735888473,
+          "pred_independent": 10.966613735888473,
+          "z_shared": 0.14335658350665245,
+          "z_independent": 0.14335658350665245
+        },
+        {
+          "variety": "Arabica",
+          "T_degC": 93.4,
+          "p_bar": 9.0,
+          "species": "caffeine",
+          "measured": 5.27,
+          "sigma": 1.03819,
+          "pred_shared": 5.18591710530059,
+          "pred_independent": 5.191675624894165,
+          "z_shared": -0.08098989077086971,
+          "z_independent": -0.07544319932366396
+        },
+        {
+          "variety": "Arabica",
+          "T_degC": 93.4,
+          "p_bar": 9.0,
+          "species": "trigonelline",
+          "measured": 3.41,
+          "sigma": 0.6717700000000001,
+          "pred_shared": 3.438805605964978,
+          "pred_independent": 3.4467257629177217,
+          "z_shared": 0.04288016131261881,
+          "z_independent": 0.05467014442103928
+        },
+        {
+          "variety": "Arabica",
+          "T_degC": 93.4,
+          "p_bar": 9.0,
+          "species": "5CQA",
+          "measured": 5.89,
+          "sigma": 1.1603299999999999,
+          "pred_shared": 5.486966604660848,
+          "pred_independent": 5.516685751142267,
+          "z_shared": -0.3473437688753643,
+          "z_independent": -0.3217311013743783
+        },
+        {
+          "variety": "Arabica",
+          "T_degC": 93.4,
+          "p_bar": 9.0,
+          "species": "tds",
+          "measured": 10.73,
+          "sigma": 0.5365000000000001,
+          "pred_shared": 11.08403349983046,
+          "pred_independent": 11.08403349983046,
+          "z_shared": 0.6598946874752265,
+          "z_independent": 0.6598946874752265
+        },
+        {
+          "variety": "Arabica",
+          "T_degC": 98.0,
+          "p_bar": 9.0,
+          "species": "caffeine",
+          "measured": 5.2,
+          "sigma": 1.0244,
+          "pred_shared": 5.2104488510278255,
+          "pred_independent": 5.219461949365708,
+          "z_shared": 0.01019997171790837,
+          "z_independent": 0.018998388681869927
+        },
+        {
+          "variety": "Arabica",
+          "T_degC": 98.0,
+          "p_bar": 9.0,
+          "species": "trigonelline",
+          "measured": 3.39,
+          "sigma": 0.66783,
+          "pred_shared": 3.4250122587587923,
+          "pred_independent": 3.431926123416986,
+          "z_shared": 0.052426903192118075,
+          "z_independent": 0.06277963466299222
+        },
+        {
+          "variety": "Arabica",
+          "T_degC": 98.0,
+          "p_bar": 9.0,
+          "species": "5CQA",
+          "measured": 5.24,
+          "sigma": 1.0322799999999999,
+          "pred_shared": 5.473080720511199,
+          "pred_independent": 5.501555710756436,
+          "z_shared": 0.2257921499120379,
+          "z_independent": 0.2533767105401979
+        },
+        {
+          "variety": "Arabica",
+          "T_degC": 98.0,
+          "p_bar": 9.0,
+          "species": "tds",
+          "measured": 10.93,
+          "sigma": 0.38254999999999995,
+          "pred_shared": 11.18183136877824,
+          "pred_independent": 11.18183136877824,
+          "z_shared": 0.6582966116278682,
+          "z_independent": 0.6582966116278682
+        },
+        {
+          "variety": "Robusta",
+          "T_degC": 88.0,
+          "p_bar": 9.0,
+          "species": "caffeine",
+          "measured": 8.35,
+          "sigma": 1.6449499999999997,
+          "pred_shared": 7.531872817873042,
+          "pred_independent": 7.48964042264783,
+          "z_shared": -0.4973568692829312,
+          "z_independent": -0.5230308382334841
+        },
+        {
+          "variety": "Robusta",
+          "T_degC": 88.0,
+          "p_bar": 9.0,
+          "species": "trigonelline",
+          "measured": 2.9,
+          "sigma": 0.5712999999999999,
+          "pred_shared": 2.783706734177382,
+          "pred_independent": 2.777020178500567,
+          "z_shared": -0.2035590159681742,
+          "z_independent": -0.2152631218264185
+        },
+        {
+          "variety": "Robusta",
+          "T_degC": 88.0,
+          "p_bar": 9.0,
+          "species": "5CQA",
+          "measured": 4.4,
+          "sigma": 0.8668,
+          "pred_shared": 3.44552365194865,
+          "pred_independent": 3.4374595815307525,
+          "z_shared": -1.1011494555276309,
+          "z_independent": -1.1104527208920718
+        },
+        {
+          "variety": "Robusta",
+          "T_degC": 88.0,
+          "p_bar": 9.0,
+          "species": "tds",
+          "measured": 11.63,
+          "sigma": 2.1631800000000005,
+          "pred_shared": 11.004256955324083,
+          "pred_independent": 11.004256955324083,
+          "z_shared": -0.28926998431749457,
+          "z_independent": -0.28926998431749457
+        },
+        {
+          "variety": "Robusta",
+          "T_degC": 93.4,
+          "p_bar": 9.0,
+          "species": "caffeine",
+          "measured": 7.88,
+          "sigma": 1.55236,
+          "pred_shared": 7.533520767732004,
+          "pred_independent": 7.513562396475106,
+          "z_shared": -0.22319515593547598,
+          "z_independent": -0.23605194898405882
+        },
+        {
+          "variety": "Robusta",
+          "T_degC": 93.4,
+          "p_bar": 9.0,
+          "species": "trigonelline",
+          "measured": 2.83,
+          "sigma": 0.55751,
+          "pred_shared": 2.76752952382038,
+          "pred_independent": 2.767555204453674,
+          "z_shared": -0.11205265587993038,
+          "z_independent": -0.11200659278995152
+        },
+        {
+          "variety": "Robusta",
+          "T_degC": 93.4,
+          "p_bar": 9.0,
+          "species": "5CQA",
+          "measured": 3.41,
+          "sigma": 0.6717700000000001,
+          "pred_shared": 3.434478424137748,
+          "pred_independent": 3.4352860664823632,
+          "z_shared": 0.03643869797363355,
+          "z_independent": 0.03764095818861082
+        },
+        {
+          "variety": "Robusta",
+          "T_degC": 93.4,
+          "p_bar": 9.0,
+          "species": "tds",
+          "measured": 12.55,
+          "sigma": 0.43925000000000003,
+          "pred_shared": 11.028153472999035,
+          "pred_independent": 11.028153472999035,
+          "z_shared": -3.4646477564051574,
+          "z_independent": -3.4646477564051574
+        },
+        {
+          "variety": "Robusta",
+          "T_degC": 98.0,
+          "p_bar": 9.0,
+          "species": "caffeine",
+          "measured": 6.97,
+          "sigma": 1.37309,
+          "pred_shared": 7.532248915459428,
+          "pred_independent": 7.535912510337556,
+          "z_shared": 0.40947710307367224,
+          "z_independent": 0.41214524199983704
+        },
+        {
+          "variety": "Robusta",
+          "T_degC": 98.0,
+          "p_bar": 9.0,
+          "species": "trigonelline",
+          "measured": 2.64,
+          "sigma": 0.52008,
+          "pred_shared": 2.7542840806553093,
+          "pred_independent": 2.7591871538029515,
+          "z_shared": 0.21974327152612896,
+          "z_independent": 0.2291708079582976
+        },
+        {
+          "variety": "Robusta",
+          "T_degC": 98.0,
+          "p_bar": 9.0,
+          "species": "5CQA",
+          "measured": 3.0,
+          "sigma": 0.591,
+          "pred_shared": 3.4250590372802114,
+          "pred_independent": 3.4328073592884305,
+          "z_shared": 0.7192200292389365,
+          "z_independent": 0.7323305571716252
+        },
+        {
+          "variety": "Robusta",
+          "T_degC": 98.0,
+          "p_bar": 9.0,
+          "species": "tds",
+          "measured": 11.23,
+          "sigma": 0.033690000000000005,
+          "pred_shared": 11.046173055479866,
+          "pred_independent": 11.046173055479866,
+          "z_shared": -5.456424592464672,
+          "z_independent": -5.456424592464672
+        }
+      ]
+    }
+  },
+  "decision_invariant_across_band": true,
+  "C3_by_band": {
+    "low": false,
+    "high": false
+  },
+  "decision": "RETIRE",
+  "decision_reasoning": "The shared-state hypothesis is not refuted at either end of the retained uncertainty band. Failing arms at the low (most demanding) end: C3_reduced_by_species_fits. C3 is a scale-free ratio, so a C3 failure retires the candidate at every point in the band."
+}
