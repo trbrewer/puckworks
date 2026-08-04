@@ -54,6 +54,13 @@ with CLAUDE.md, flag it rather than comply.
    forbids previously-presented abstracts; SDCC ISBN-proceedings disclosure). Status
    tracked in `docs/SPRINTS.md` "Submission track".
 
+8. `docs/insights/README.md` — the **Insight Foundry**, a corpus-first discovery overlay
+   (ROADMAP §9, SPRINTS "Insight Foundry (IF)"). It maps what the repo knows, surfaces the
+   tensions between its parts, and turns them into falsifiable candidate questions. Read it
+   before proposing a new analysis thread — the question may already be a candidate, or may
+   already be a published public claim. **The portfolio is generated, not triaged:** every
+   candidate is `SEED`, nothing is scored, and no component has been executed.
+
 **For any VISUALIZATION work:** `puckworks/viz/` (the evidence-bound viz layer,
 ROADMAP §8) and `docs/figures/viz/GALLERY.md` (the honesty index — every visual,
 its badge, evidence, and fidelity ceiling) are the entry point. Do not add a
@@ -144,6 +151,14 @@ ANALYSIS section, not just this file.
   negligible; the earlier fitted-vs-measured κ gap is coffee/grind, not screen.
   The only open piece is fines CLOGGING mid-shot (unmeasured). Do not reopen G9
   as "screen matters."
+
+- **The Insight Foundry is a DISCOVERY overlay, never an authority** (`puckworks/insights/`,
+  `docs/insights/`). It reads the registry, cards, MANIFEST and generated claims; it copies every
+  evidence label verbatim and changes none of them. Its "model disagreement" rows record that two
+  components are COMPARABLE — **not** that they disagree; establishing that needs matched-scenario
+  execution, which is RP-A's scope, and three blueprint lenses are unimplemented for exactly that
+  reason. Do not read an atlas row as a result, do not extend the layer before the human triage
+  step (SPRINTS IF-5), and do not rebuild response-sweep machinery inside it.
 
 - **visualizer.coffee is a data-only intake** (card `visualizer_coffee.md`): a
   LARGE but UNCONTROLLED, self-selected public shot corpus. Its machine-logged

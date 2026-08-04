@@ -1,0 +1,537 @@
+{
+  "commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+  "counts": {
+    "candidates": 89,
+    "entities": 270,
+    "relations": 587,
+    "tensions": 170,
+    "warnings": 34
+  },
+  "generator_version": 1,
+  "inputs": [
+    {
+      "path": "puckworks/registry.py",
+      "sha256": "1226e2515d7c3357a90d77d1da95f6bf40c78d137f72f595abff12da930f6d5e"
+    },
+    {
+      "path": "puckworks/data/MANIFEST.csv",
+      "sha256": "05525a91064c2cae28776bd71465be7e121804151a62c1f7c61cd63981f00d32"
+    },
+    {
+      "path": "docs/public/generated/claims.json",
+      "sha256": "f7030b454963a91c9e2fd8ebb9c0ef64429f05f7b9fe08a57982a8923a4f64a9"
+    },
+    {
+      "path": "docs/ANALYSIS_P2.md",
+      "sha256": "cc4c5ea192f58f2f54349dcff9384bd2a37f67f131834cf9332f3314d13601bd"
+    },
+    {
+      "path": "docs/ANALYSIS_transfer.md",
+      "sha256": "6defebc78111fb51bf317c9330091180916454da2c38dd9dd54f1f6d7ebd16da"
+    },
+    {
+      "path": "docs/ANALYSIS_cv_residual.md",
+      "sha256": "b4de8e2f76a8ffa4d99b23aa51bb468bc0ba254c5858744a589b7160e3306993"
+    },
+    {
+      "path": "docs/P3_hypotheses.md",
+      "sha256": "08e98851acb9c4724980e1e3c80bdfec272c0575762f81f135725feff5dcb38c"
+    },
+    {
+      "path": "docs/analysis/COMPONENT_RESPONSE_ATLAS_SPEC.md",
+      "sha256": "a3064d18f026bef7b54e70f825febfd7b8bb01fe5bdbaff1477435030c8b678f"
+    },
+    {
+      "path": "docs/cards/TEMPLATE.md",
+      "sha256": "26d04300e1bb5da56f2053a8346b74602483cebe9e9166a9f1314d0bc28f207f"
+    },
+    {
+      "path": "docs/cards/abedi2025.md",
+      "sha256": "61c94e2c269fb39665e187362bf29745aa1fbecaf67f4c5179dfa2f5c2a88f61"
+    },
+    {
+      "path": "docs/cards/andueza2007.md",
+      "sha256": "38123571a4c2388ac5717c6c088a967c0f7baf2013ce0c59af5e9758dee8ea02"
+    },
+    {
+      "path": "docs/cards/angeloni2023.md",
+      "sha256": "a5234e6d18d1db295f64163e3646199c604b5682ae587909a3961f3d84bd50b2"
+    },
+    {
+      "path": "docs/cards/apiletti2020.md",
+      "sha256": "614717c64486d48676456c820f1e27a3d7098e6d73b05b4f7aa752f967ad16bf"
+    },
+    {
+      "path": "docs/cards/bailey2026.md",
+      "sha256": "10b6a344efb81bd565eb3bb633c750dd5da4be2452e95947f293a83ff2c9747f"
+    },
+    {
+      "path": "docs/cards/bakeer2025.md",
+      "sha256": "4dbe2234dbe5370e574e732d3c00bc9935852172da230f843985d45e6e97c5a5"
+    },
+    {
+      "path": "docs/cards/barbro2025.md",
+      "sha256": "17ee83ed2c789a04c0d8da346ad13bf60ae8c3028b2b334f5c1666421b215c77"
+    },
+    {
+      "path": "docs/cards/baristahustle2024.md",
+      "sha256": "f2319909696fe84ba1e4cbd5a6a5c20819ab0fed8f3409dd336e64dfe0f4145d"
+    },
+    {
+      "path": "docs/cards/barletta2025.md",
+      "sha256": "a70ccd2d2dd7af87d6fa0195d3b54d47ed181138876d9f6c5ec9ddccacd4c8a9"
+    },
+    {
+      "path": "docs/cards/bellantoni2025.md",
+      "sha256": "10ad54fbb86712d08e5e0c9f2f578c023f79ff252d268a7143928b1f0ca58dd4"
+    },
+    {
+      "path": "docs/cards/boulle2026.md",
+      "sha256": "23781a7961f4e2e638d7a956980ec569a749cec4a9ba1ed01397cc65635b19ff"
+    },
+    {
+      "path": "docs/cards/brewer2026_coupled_kappa_t.md",
+      "sha256": "50b18a92f27b1b35e6455e1177e4fb47ad32a1db0fc24e342539d065b9fabad2"
+    },
+    {
+      "path": "docs/cards/bruno2026.md",
+      "sha256": "b842c3a5855efe0c8ebfa3b722bee2596f6d40b8513e76ec8893aa76747070f9"
+    },
+    {
+      "path": "docs/cards/cameron2020.md",
+      "sha256": "3d0eb1f7e6b18a5aebf2c17eab75b990f5d167aef1a5fb6129ab402f21f3f22b"
+    },
+    {
+      "path": "docs/cards/cameron2020_si.md",
+      "sha256": "546ff2e5e95dd0d0e8ece883928142f635cb90ba9cc7b3481acf15a097ade223"
+    },
+    {
+      "path": "docs/cards/champion2025.md",
+      "sha256": "491ea6b0ff0487482f52621483c4ba1ab08d2e03329225fcd5c41def11f19486"
+    },
+    {
+      "path": "docs/cards/cooper2021.md",
+      "sha256": "e346d0803481c15a036fa757888c64485764a3728cf19c791166e65ee565976f"
+    },
+    {
+      "path": "docs/cards/cordoba2019.md",
+      "sha256": "55be70dd5da3a1ec9b08b5695502cc01a0032dd2d0ed35f5293641460b067e68"
+    },
+    {
+      "path": "docs/cards/cunha2017.md",
+      "sha256": "036f05c956a82432c2dd4852e877bd0f758a60763cbd3d91c00621bc86927882"
+    },
+    {
+      "path": "docs/cards/dandachi2025.md",
+      "sha256": "8e835f91985f84e2f2e35afa970bd0af727e470fc8dd33ceb498306e7b0018ce"
+    },
+    {
+      "path": "docs/cards/egidi2018.md",
+      "sha256": "a13d853361e8af57beddc467e1756a76b6f6c212a216f28c99f5c9e8ecd9b63b"
+    },
+    {
+      "path": "docs/cards/egidi2024.md",
+      "sha256": "df43ed5a10b4d16a10d73431552f2cff948216e8a0efef9fa48b61549fe0b670"
+    },
+    {
+      "path": "docs/cards/ellero2019.md",
+      "sha256": "ea026677672a8f0c5701b5d37a11f073be3927336acf995c5135f1b266b3a20d"
+    },
+    {
+      "path": "docs/cards/ellero2019_jfe.md",
+      "sha256": "4143f861377bc6a83251f79dd34d11245126e4c7eeba44282680069b2a620472"
+    },
+    {
+      "path": "docs/cards/fasano2000_partI.md",
+      "sha256": "21871394fe8839dcdb388e3419eab3ca37599a9f8223515af8f3cceea0ed5586"
+    },
+    {
+      "path": "docs/cards/fasano2000_partII.md",
+      "sha256": "6386d756541f84c223b4376d16e238c94d68eb2de7e09e55445130a3ddf6bde6"
+    },
+    {
+      "path": "docs/cards/fasano2000_partIII.md",
+      "sha256": "7a510d0d74376be390c03c4305bb8262860c662d88beefb13594c8bbaf660baf"
+    },
+    {
+      "path": "docs/cards/folmer2017.md",
+      "sha256": "6b6959cbbca7f4311e7e74b925f899bc39b8e8fab2aefe97279589f0ff930da4"
+    },
+    {
+      "path": "docs/cards/foster2025.md",
+      "sha256": "abf28f64e623dd21a90205c983fc39b900b69825a7f50e2d290345c391e38042"
+    },
+    {
+      "path": "docs/cards/foster2025_2.md",
+      "sha256": "b907b002ddb81560dd6e3d514b8cfa31bb1b2820a397195d27aa865036976b4b"
+    },
+    {
+      "path": "docs/cards/g10_liquor_rheology.md",
+      "sha256": "e4a931691f6fcbb018a1887cb08c1b57ec64d792f36eb6d846da2e9432796eab"
+    },
+    {
+      "path": "docs/cards/g1_glassbead_analog.md",
+      "sha256": "1f06133bf033ff8356c81fdd399227e55b19ab278f264a5b40ece1bfe72bb06c"
+    },
+    {
+      "path": "docs/cards/g1_retention_search_target.md",
+      "sha256": "5f36d30f4f1fdb42a5f9ce068aa3da77ff6ef04b10127f6d4afe5720c63a7038"
+    },
+    {
+      "path": "docs/cards/g3_pump_characteristic.md",
+      "sha256": "196bfc717cd28d1fb8e9912a5a1b6896319df026f5ed8258358c50febf25e7ac"
+    },
+    {
+      "path": "docs/cards/gagne2019.md",
+      "sha256": "de300877c96f36a5a3c036001396421745569dccdb032f30ef98405feb86d488"
+    },
+    {
+      "path": "docs/cards/gagne2021.md",
+      "sha256": "03828c9254351a4bb6a04aa52a3aca0e9d2c01934ef635481a1a87b8f617fcad"
+    },
+    {
+      "path": "docs/cards/gloess2013.md",
+      "sha256": "78f4dbbb6b4345932224dcbcec593c408efaac7062f7a37b67ba7f9fec21cf99"
+    },
+    {
+      "path": "docs/cards/grudeva2025.md",
+      "sha256": "642556c26f586428442c383aa72c70131dcf74dd96d338e5060ee08e7f8a6d8d"
+    },
+    {
+      "path": "docs/cards/grudeva2026_2.md",
+      "sha256": "408dc516b7eef7c70e953e672e6bdac05fb6e1a23de914cc0c2b0848a5c922af"
+    },
+    {
+      "path": "docs/cards/hargarten2020.md",
+      "sha256": "86cf3918e6c3ef36e845db7f42a2318dc39096d99f9502e4149b48f1f87ecbef"
+    },
+    {
+      "path": "docs/cards/hendon2020.md",
+      "sha256": "3affe6396fd0f0262e43bf54a8d6feef596ce70aba6895c1ae1e23db3907f62f"
+    },
+    {
+      "path": "docs/cards/huang2016.md",
+      "sha256": "0b4f35f1c9c7f23efe304be7220141fd1dec969cbedf271cd6d933d16832d71f"
+    },
+    {
+      "path": "docs/cards/icms2016.md",
+      "sha256": "98ff1b55ae7757369a6e5b76e92d644f4445b3dde7d0b42b0cff7306bbbddf40"
+    },
+    {
+      "path": "docs/cards/illy2002.md",
+      "sha256": "b428f946286a15a4f31f054ccaffe18925b16b5986a05c81b05c75d07c997301"
+    },
+    {
+      "path": "docs/cards/khamitova2020.md",
+      "sha256": "e24bbb0a7bbadb8b4e3a00148d969add121db5267df14db8b7b274613c978b7b"
+    },
+    {
+      "path": "docs/cards/khomyakov2020.md",
+      "sha256": "03079ed041d8aa7ccabcd8a11e4aaf32a4eb9a8dad77f836c7bbe061ac0258c9"
+    },
+    {
+      "path": "docs/cards/khomyakov2020_2.md",
+      "sha256": "07941d99443ccba1674a11e0e6d303443646cd9ac849039dc700557682880a09"
+    },
+    {
+      "path": "docs/cards/kim2026.md",
+      "sha256": "990e90eacc36ebf11f469fe99d757825f2516bf0f7a1181aa71409b97fe60259"
+    },
+    {
+      "path": "docs/cards/kupershtokh2009.md",
+      "sha256": "9b74ce1c0cf9e87fa5e09b61ec32925c4d4d16948847b69676a7d9d9caf59d96"
+    },
+    {
+      "path": "docs/cards/kusumaatmaja2010.md",
+      "sha256": "5fe60ae0adfd9223138bb03c390d7601dd12d0021e074da064c14feae9062ad9"
+    },
+    {
+      "path": "docs/cards/lateral_coupling_feasibility.md",
+      "sha256": "5babe8ab2311a7f908faca861e63289084ed37b0aeeea58de5c480bb774bbd01"
+    },
+    {
+      "path": "docs/cards/lee2023.md",
+      "sha256": "c6d8a574a31e05750f0f2ea8f7067032d984fc23304baa9d7050f6d455f930b7"
+    },
+    {
+      "path": "docs/cards/legasmuhammed2021.md",
+      "sha256": "ececba08d181fde2388d85340dabe25a9e64213cfc7f4fffdf46e2c1de2e1613"
+    },
+    {
+      "path": "docs/cards/li2026.md",
+      "sha256": "6326284fd18e4d3413119ee3b87b09f9e3926e69f37fc59aee1841b83ad207ed"
+    },
+    {
+      "path": "docs/cards/liang2021.md",
+      "sha256": "ce01610925432352981a8b2bb1873b83f946de9ba29208b48d59c3bc139bc19d"
+    },
+    {
+      "path": "docs/cards/liang2021_AUDIT.md",
+      "sha256": "29f84061cc4abcedc7c1e69d1e9b830f85dd1e26cad8a58b424ebe9811c127bb"
+    },
+    {
+      "path": "docs/cards/liu2025.md",
+      "sha256": "2cbd06ac608b0e5443ff8e9bf95cd78cc3e71c3d3c61e0c70ed2e1830cde6375"
+    },
+    {
+      "path": "docs/cards/localscope2024_brewguide.md",
+      "sha256": "597057e2dcc4398ca5671e5da42511bf106551aa9780a0107ba7e3859832371a"
+    },
+    {
+      "path": "docs/cards/maille2024.md",
+      "sha256": "7c3a0041201bdcc306c4e5e839048f782f96ce7d91caa9b2d2134d9e2db6bc93"
+    },
+    {
+      "path": "docs/cards/matias2023.md",
+      "sha256": "49a459d2fe153d347409a965683b58a6d5b01855b2027558b9f3025871eddcf3"
+    },
+    {
+      "path": "docs/cards/mckeonaloe2021.md",
+      "sha256": "bed80b4fd61f90bced2e7c527f4249a8873cb24ec12915ae1027c685b772dc5f"
+    },
+    {
+      "path": "docs/cards/mckeonaloe2022.md",
+      "sha256": "ed498b6160db0111ff2dfedad2295dd6151b581ad5afe41523c1bd2336255cde"
+    },
+    {
+      "path": "docs/cards/mckeonaloe2023.md",
+      "sha256": "ff3eea5b546aef41c81de423c718e8023c2a7ea896833af8b8241c4a9b2e3215"
+    },
+    {
+      "path": "docs/cards/mckeonaloe2023_2.md",
+      "sha256": "02d2db4dff1ac03e69250147977ea2545e092e20906a398fbd386c3325d1a129"
+    },
+    {
+      "path": "docs/cards/melrose2019bed.md",
+      "sha256": "23e9b7a43ad56705aa55c4d5d1b7e63b23415eabb5f06b6aa371246e15dd734f"
+    },
+    {
+      "path": "docs/cards/mo2021.md",
+      "sha256": "ebdcafa85ea5ca24b02294b54c7e58630af84a66e47cd7d592516ce2ea83064f"
+    },
+    {
+      "path": "docs/cards/mo2023.md",
+      "sha256": "d4fc280261843b159f07746735fb05cffcba4401138755c0951febdee10f5364"
+    },
+    {
+      "path": "docs/cards/mo2023_2.md",
+      "sha256": "f1581ac8f1cef634e32000a2d561f3e41518eeaadbf8b9e2b579389260f1270a"
+    },
+    {
+      "path": "docs/cards/moroney2015.md",
+      "sha256": "09eb6043b8cfffeb41f09a66258c774868a4ef5eb38f5918608a3e4df8470e24"
+    },
+    {
+      "path": "docs/cards/moroney2016.md",
+      "sha256": "68f07dbf0414e15b2d8d5f361541dfb498119f0b5a5ea675ba5f35affec1375a"
+    },
+    {
+      "path": "docs/cards/moroney2017.md",
+      "sha256": "d4ad68ae4fd4c0a725fa10dff49a87f81d5c471a1648221ee9a9522c4c847586"
+    },
+    {
+      "path": "docs/cards/moroney2019.md",
+      "sha256": "0d51d006f9f6659403a58e986c0a958a0a531e24d866b2ffbc4780129a832217"
+    },
+    {
+      "path": "docs/cards/moroney2019_AUDIT.md",
+      "sha256": "1096fd6e2e168faa63292874ea16acfc9b41060c2bafe5cf6382803d1e408fd9"
+    },
+    {
+      "path": "docs/cards/mystkowska2024.md",
+      "sha256": "702325217b8e0df437a055c6f66cde6f973312885b67186a6eef040acff3f45f"
+    },
+    {
+      "path": "docs/cards/nhan2012.md",
+      "sha256": "e59f0c48ae6f073db1345ca3d61e4af690ad89168aadec9edf790f1b8489abf0"
+    },
+    {
+      "path": "docs/cards/pannusch2024.md",
+      "sha256": "8b81dcf37520037cc9cc386af909c89d88027cc417593308036e1a15ed258ee6"
+    },
+    {
+      "path": "docs/cards/perticarini2024.md",
+      "sha256": "237b6951825261c208bce2527973c44fa6b8cf8df623b616569c36195f51a954"
+    },
+    {
+      "path": "docs/cards/perticarini2024_3d.md",
+      "sha256": "02c0d2e74f2fb33eff3bf0ba56a27f35af9ed705ffa42e80c2ed7205785a0063"
+    },
+    {
+      "path": "docs/cards/pocketscience2024.md",
+      "sha256": "4a3f2c59a959372bd9ee29fbb5eb2cf1404a04d8711f31f5d2e59829f4d355fc"
+    },
+    {
+      "path": "docs/cards/puellesbulnes2025.md",
+      "sha256": "d374507fb3ccadcbbf6cd94ce4537cb1c8837a9bc04b23d415945ac5a71196ba"
+    },
+    {
+      "path": "docs/cards/ribes2020.md",
+      "sha256": "4d4ff396bfd43d5d8a1c3c696ad699b883cd3e30595bfd517ce9e5e19e84963a"
+    },
+    {
+      "path": "docs/cards/ribes2021.md",
+      "sha256": "207096728aea866d83004cd01a67e108073d6c487f17914cab8c9425d149e405"
+    },
+    {
+      "path": "docs/cards/romancorrochano2013.md",
+      "sha256": "9c83fabc88cbe52261feaeeae745752e76fbef90c708f68742196239320fcad6"
+    },
+    {
+      "path": "docs/cards/romancorrochano2015.md",
+      "sha256": "72c2cba76fda89d0863cade000fb38f6c646d33ab85cea30bd593be5be631369"
+    },
+    {
+      "path": "docs/cards/romancorrochano2017_extraction.md",
+      "sha256": "0ff2a8ba7de4b581eec6af0be3d06a985c62de2d6cd4484e9c7e62bf05591bc3"
+    },
+    {
+      "path": "docs/cards/romancorrochano2017_permeability.md",
+      "sha256": "1dfccfd8ab8c29cb357af551b3e00a339349d3fafe7991c28fa88d679c3af576"
+    },
+    {
+      "path": "docs/cards/schmieder2023.md",
+      "sha256": "30a9d9b34b2e75892255aba231cfb8b217bd90bdfed125bad0fe4add56022da6"
+    },
+    {
+      "path": "docs/cards/schmieder2023_AUDIT.md",
+      "sha256": "31979694a298b540d5ad9a4a77359db2ac872793dd9f461488e6d47bb6ae6826"
+    },
+    {
+      "path": "docs/cards/schulman2011.md",
+      "sha256": "7914b19d27fcf17233e05dec28d3ee5b13a7ed1d42bf93e8736adfdacbd0e0b9"
+    },
+    {
+      "path": "docs/cards/schulman2011_baskets.md",
+      "sha256": "f103ce2912acfce3a318b8ecfea724fc996559bfb2eb8c9950721481079bb544"
+    },
+    {
+      "path": "docs/cards/siregar2026.md",
+      "sha256": "1afc203b67db514e23be0d74e0eede25d51b05dc80f11c4040a5db9b6e62124d"
+    },
+    {
+      "path": "docs/cards/smrke2024.md",
+      "sha256": "72f7cc038d8980c0bf55e66892f669a975dc89dd22f2b40584800e829ca764b2"
+    },
+    {
+      "path": "docs/cards/sobolik2002.md",
+      "sha256": "92abf4779318f4ef6fa12851753b5ddf3012f4e8451385529b352629fe6834b4"
+    },
+    {
+      "path": "docs/cards/taip2025.md",
+      "sha256": "ec4aa6bcbd66a368422aec1dd4b3cb487edb5907632023002c5062e87e759ed9"
+    },
+    {
+      "path": "docs/cards/telisromero2000.md",
+      "sha256": "956b7ab610c5d1422732c64bcc2af7a6a66fcf6e67ec1c56bacfa8cdd77fc3ea"
+    },
+    {
+      "path": "docs/cards/telisromero2001.md",
+      "sha256": "3635c6221ab516405f69564d55c7c72d8664007a72d30be5767c2cdad4315b36"
+    },
+    {
+      "path": "docs/cards/toda2022.md",
+      "sha256": "f27cde92571dc01bf4128d2533b7378da4ca9d7f20427db00694ad553047d805"
+    },
+    {
+      "path": "docs/cards/vacaguerra2023a.md",
+      "sha256": "d2c5e0877578336210d96e15749ed8eea0fd7d910be636e07010b056639e7a30"
+    },
+    {
+      "path": "docs/cards/vacaguerra2025_leseprobe.md",
+      "sha256": "361501a64f8732071c463b608583a8fe9311dd783924d302bd421cde612b49e3"
+    },
+    {
+      "path": "docs/cards/visualizer_coffee.md",
+      "sha256": "72f93026678e579b4a6eb7bad2ccfe0f2e074e9af65256da629a44f59d0e755d"
+    },
+    {
+      "path": "docs/cards/wadsworth2026.md",
+      "sha256": "606abfce68ba40105b4650ee6af2e8c716c60adb2653b87065b5fd2207c25fe8"
+    },
+    {
+      "path": "docs/cards/wadsworth2026_grindmap.md",
+      "sha256": "8cffbac5fe9f42072fb880be8b9e972870c847386eacd0ed2091d6f3dd1c34d4"
+    },
+    {
+      "path": "docs/cards/wadsworth2026_inertial.md",
+      "sha256": "799b7dc68df3dc5602e7831db08482405c4c40cfccf24dfb81e69676f7a4c888"
+    },
+    {
+      "path": "docs/cards/wale2023.md",
+      "sha256": "c19335070f2acb17d7e28f30ca81455ab730b68a06e191cd9ebca604df0817ff"
+    },
+    {
+      "path": "docs/cards/wang2027.md",
+      "sha256": "e37ada663468e36562aff64b945b162c68a5f024f37eebfa7239370ddc4f50a6"
+    },
+    {
+      "path": "docs/cards/waszkiewicz2025.md",
+      "sha256": "fa5708aeedc3d069fdf22d50aabf02d44db430399fb21be1ec37c5ebd1279698"
+    },
+    {
+      "path": "docs/cards/yu2021.md",
+      "sha256": "ee28deb4f17ebde6b882fede26c3ff7484028cada0da320ffc020c269e3e83b3"
+    },
+    {
+      "path": "docs/cards/zhai2022.md",
+      "sha256": "25286dcd1c1e2d19cb1c6a9992cf6849cdd17eef2f7241a8b1e1fc7d2572c801"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "docs/insights/generated/INSIGHT_SNAPSHOT.md",
+      "sha256": "3085ab750ac487685cd915b6a9a89aa6c7e3a877e736e8fdc1be13eb22dc5f21"
+    },
+    {
+      "path": "docs/insights/generated/candidate_portfolio.json",
+      "sha256": "9ad51a051425c009bc3fa6437802af19eefc705ec6b5e36e8365fd994b570beb"
+    },
+    {
+      "path": "docs/insights/generated/candidate_portfolio.md",
+      "sha256": "4b37ca6f8140047aee15fb1f071fa886c2a532914115c8ba883ab00f7372360c"
+    },
+    {
+      "path": "docs/insights/generated/closure_portability_index.csv",
+      "sha256": "bb0bbe2d7893c6ce06a4dbe33a187e683ee2e89a05bf080f53e17573a81aac93"
+    },
+    {
+      "path": "docs/insights/generated/corpus_map.json",
+      "sha256": "da4fe95021661b9a331a797c00cab081e5837cb4bd8f204ec84b36ea182d9e80"
+    },
+    {
+      "path": "docs/insights/generated/evidence_lineage_index.csv",
+      "sha256": "3e632c2adf815f99ebcf3810df4176a948c55d3d3e16a8118c5bb3590f81a631"
+    },
+    {
+      "path": "docs/insights/generated/observable_index.csv",
+      "sha256": "510531d5f35a72b3dfc7b373f255eb065d39f634cf2613d441df2742f57dbed4"
+    },
+    {
+      "path": "docs/insights/generated/public_claim_inventory.md",
+      "sha256": "a9a746083946d17cc466b3e081269565735992634fc11cda6dae8fb1bcf55428"
+    },
+    {
+      "path": "docs/insights/generated/tension_atlas.csv",
+      "sha256": "13349449fc877bff6ffabc18e76f8a0226178e6d3d7b969b79d5d43b1eb53fe9"
+    },
+    {
+      "path": "docs/insights/generated/tension_atlas.md",
+      "sha256": "47f61aa69daec94cff00d7378a0a119202fc0d929996511878dd55945aed2258"
+    }
+  ],
+  "pack": [
+    "01_INSIGHT_SNAPSHOT.md",
+    "02_corpus_map.json",
+    "03_tension_atlas.csv",
+    "04_candidate_portfolio.md",
+    "05_candidate_portfolio.json",
+    "06_evidence_lineage_index.csv",
+    "07_model_observable_matrix.csv",
+    "08_closure_portability_index.csv",
+    "09_public_claim_inventory.md",
+    "10_PROJECT_INSTRUCTIONS.md"
+  ],
+  "repository": "trbrewer/puckworks",
+  "schema_version": 1
+}
