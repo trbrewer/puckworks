@@ -105,7 +105,16 @@ departure from that blueprint: `docs/insights/INSIGHT_FOUNDRY_DESIGN.md`.
   failure mode.
 - **Do not** hand-edit anything under `docs/insights/generated/` — regenerate with
   `python -m puckworks.insights write`; `verify` and the tests fail on drift.
+- **`docs/insights/ID_REGISTRY.json` is append-only.** `T-0042`/`I-007` are stable identities
+  derived from a content fingerprint, not sort positions, so they survive rewording and
+  reordering. Never delete an entry, never reuse a number, and never renumber to close a gap —
+  gaps are correct. Reused numbers are how a decision record silently starts citing a different
+  record.
 - Candidates are `SEED` and unscored by construction. A generator may not score its own output.
+- **Co-location is not a relationship.** Sharing a stage does not make a runtime component a
+  consumer of a calibration artifact, and sharing a source prefix does not make two components a
+  base/superset pair. Generated text says "possible downstream" and "relationship unclassified";
+  establishing the real relation is the first step of a screen, not an assumption behind a row.
 
 ## What NOT to do
 - No implementation without a card. No parameters invented where a card says

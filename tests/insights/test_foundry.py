@@ -5,6 +5,7 @@ overlay never becomes an authority, never promotes an evidence label, never emit
 never lets a generated artifact drift from the tree. They do NOT check that any candidate is a
 good idea — that is human triage, and asserting it here would be the layer scoring its own output.
 """
+import copy
 import json
 import re
 import subprocess
@@ -14,8 +15,8 @@ from pathlib import Path
 import pytest
 
 from puckworks import registry as R
-from puckworks.insights import (corpus_map as CM, export as EX,
-                                extract as X, schema as S, tension_atlas as TA)
+from puckworks.insights import (corpus_map as CM, export as EX, extract as X,
+                                ids as IDS, schema as S, tension_atlas as TA)
 
 _ROOT = Path(__file__).resolve().parents[2]
 
@@ -195,10 +196,15 @@ def test_every_tension_is_source_bound_and_unreviewed(state):
         assert t.lens in S.LENSES
 
 
-def test_tension_ids_are_unique_and_ordered(state):
+def test_tension_ids_are_unique_and_registry_backed(state):
+    # IDs are NOT sort positions any more — they come from the fingerprint registry, so they are
+    # unique and well-formed but deliberately not in ascending order down the sorted atlas
     ids = [t.tension_id for t in state["tensions"]]
     assert len(set(ids)) == len(ids)
-    assert ids == sorted(ids)
+    assert all(re.fullmatch(r"T-\d{4}", i) for i in ids)
+    reg = IDS.load()
+    for t in state["tensions"]:
+        assert reg["tensions"].get(IDS.tension_fingerprint(t)) == t.tension_id
 
 
 def test_deferred_lenses_are_declared_not_silently_absent(state):
@@ -243,10 +249,14 @@ def test_generated_candidates_carry_no_scores(state):
         assert c.history == ()
 
 
-def test_candidate_ids_are_unique_and_dense(state):
+def test_candidate_ids_are_unique_and_registry_backed(state):
+    # not dense: a retired candidate keeps its number for good, so gaps are correct and expected
     ids = [c.id for c in state["candidates"]]
     assert len(set(ids)) == len(ids)
-    assert ids == ["I-%03d" % i for i in range(1, len(ids) + 1)]
+    reg = IDS.load()
+    for c in state["candidates"]:
+        fp = IDS.candidate_fingerprint(c.lens, c.difference_type, c.grouping_key)
+        assert reg["candidates"].get(fp) == c.id
 
 
 def test_every_candidate_binds_to_tensions_and_entities(state):
@@ -321,15 +331,63 @@ def test_markdown_and_json_agree_on_the_candidate_count():
     assert md.count("\n### I-") == n
 
 
-def test_the_source_pack_stays_within_the_project_file_limit():
-    # a ChatGPT Pro Project takes 40 files, 10 per upload (blueprint §14.1); the pack is the
-    # reason the Project gets a generated snapshot instead of 100+ model cards
-    assert len(EX.PACK) <= 10
-    assert len({name for name, _ in EX.PACK}) == len(EX.PACK)
+#: The Project pack contract: exactly these twelve names, in this order.
+EXPECTED_PACK = [
+    "01_INSIGHT_SNAPSHOT.md", "02_corpus_map.json", "03_tension_atlas.csv",
+    "04_candidate_portfolio.md", "05_candidate_portfolio.json",
+    "06_evidence_lineage_index.csv", "07_model_observable_matrix.csv",
+    "08_closure_portability_index.csv", "09_public_claim_inventory.md",
+    "10_PROJECT_INSTRUCTIONS.md", "11_CHAT_PROMPTS.md", "12_SOURCE_MANIFEST.json",
+]
+
+
+def test_the_pack_is_exactly_the_twelve_contract_files():
+    names = [n for n, _ in EX.PACK] + [EX.PACK_MANIFEST_NAME]
+    assert names == EXPECTED_PACK
+    # a ChatGPT Pro Project takes 40 files (blueprint §14.1); twelve leaves ample headroom
+    assert len(names) <= 40
     tracked = {rel for rel, _ in EX.ARTIFACTS} | {
-        "docs/insights/chatgpt_project/PROJECT_INSTRUCTIONS.md"}
+        "docs/insights/chatgpt_project/PROJECT_INSTRUCTIONS.md",
+        "docs/insights/chatgpt_project/CHAT_PROMPTS.md"}
     for _, src in EX.PACK:
-        assert src in tracked, "%s is not a tracked artifact" % src
+        assert src in tracked, "%s is not a tracked file" % src
+
+
+def test_every_pack_file_referenced_by_the_project_instructions_exists():
+    """A Project instruction naming a file the pack does not contain sends a chat looking for
+    something that was never uploaded."""
+    referenced = set()
+    for rel in ("docs/insights/chatgpt_project/PROJECT_INSTRUCTIONS.md",
+                "docs/insights/chatgpt_project/CHAT_PROMPTS.md"):
+        text = (_ROOT / rel).read_text(encoding="utf-8")
+        referenced |= set(re.findall(r"\b\d{2}_[A-Za-z0-9_]+", text))
+    assert referenced, "expected the instructions to name pack files"
+    packed_stems = {n.rsplit(".", 1)[0] for n in EXPECTED_PACK}
+    for ref in sorted(referenced):
+        assert ref in packed_stems or ref in EXPECTED_PACK, \
+            "Project instructions reference %r, which is not in the pack" % ref
+
+
+def test_source_manifest_binds_every_packed_file_to_a_path_and_hash(state):
+    man = json.loads(EX.pack_source_manifest(state))
+    assert man["corpus_source_commit"] == state["corpus"]["commit"]
+    assert man["file_count"] == len(EXPECTED_PACK)
+    entries = {f["packed_as"]: f for f in man["files"]}
+    assert sorted(entries) == sorted(EXPECTED_PACK)
+    for name, _src in EX.PACK:
+        e = entries[name]
+        assert e["present"], "%s has no source file" % name
+        assert re.fullmatch(r"[0-9a-f]{64}", e["sha256"]), name
+        assert (_ROOT / e["source_path"]).exists()
+        # the hash must be the source file's actual content hash
+        assert e["sha256"] == S.sha256_path(_ROOT / e["source_path"])
+
+
+def test_pack_manifest_records_the_renamed_portability_index():
+    """The packed name is `08_closure_portability_index.csv` by contract, but its source is the
+    renamed calibration-artifact index — the manifest is what makes that mapping followable."""
+    entry = dict(EX.PACK)["08_closure_portability_index.csv"]
+    assert entry.endswith("calibration_artifact_portability_index.csv")
 
 
 def test_verify_reports_drift_when_a_generated_file_is_hand_edited(tmp_path):
@@ -405,3 +463,278 @@ def test_cli_card_materialises_one_shortlisted_candidate(tmp_path, monkeypatch, 
     assert card.question in text
     assert "## Stop condition" in text and "## Decision rule" in text
     assert "SEED" in text
+
+
+# ---- stable identity ---------------------------------------------------------------------------
+
+
+def _synthetic_tension(entity_id="model:aaa_synthetic_probe", dtype="synthetic_probe"):
+    """A tension row that sorts FIRST in the atlas.
+
+    The sort key is `(lens, entity_ids, difference_summary)`, so sorting first needs the
+    alphabetically first implemented lens AND an entity id below every real one — this is the
+    adversarial case for positional IDs, and it has to actually be adversarial to prove anything.
+    """
+    return S.Tension(
+        tension_id="", lens="calibration_artifact_portability", entity_ids=(entity_id,),
+        difference_type=dtype, canonical_discriminator="synthetic",
+        difference_summary="AAA synthetic probe row that sorts before every real row",
+        provenance=(S.Provenance(source_path="puckworks/registry.py", source_locator="probe"),))
+
+
+def test_inserting_an_early_sorting_tension_does_not_renumber_existing_ids(state):
+    """The defect this registry exists to prevent: a new row that sorts first must NOT shift the
+    number of every row after it. `T-0042` is quoted in decision records and screen bundles."""
+    before = {IDS.tension_fingerprint(t): t.tension_id for t in state["tensions"]}
+    high_before = IDS.load()["high_water"]["T"]
+
+    alloc = IDS.Allocator()
+    probe = _synthetic_tension()
+    rows = sorted([probe] + list(state["tensions"]),
+                  key=lambda t: (t.lens, tuple(t.entity_ids), t.difference_summary))
+    assert rows[0] is probe, "the probe must sort first for this test to be meaningful"
+
+    assigned = {}
+    for t in rows:
+        assigned[IDS.tension_fingerprint(t)] = alloc.tension_id(t)
+
+    for fp, old_id in before.items():
+        assert assigned[fp] == old_id, "row %s was renumbered to %s" % (old_id, assigned[fp])
+    probe_id = assigned[IDS.tension_fingerprint(probe)]
+    assert probe_id == "T-%04d" % (high_before + 1), probe_id
+    # the in-memory allocation must not have touched the tracked registry
+    assert IDS.load()["high_water"]["T"] == high_before
+
+
+def test_inserting_an_early_sorting_candidate_does_not_renumber_existing_ids(state):
+    before = {IDS.candidate_fingerprint(c.lens, c.difference_type, c.grouping_key): c.id
+              for c in state["candidates"]}
+    high_before = IDS.load()["high_water"]["I"]
+    alloc = IDS.Allocator()
+    # "aaa" sorts before every real grouping key in every real lens
+    new_id = alloc.candidate_id("calibration_artifact_portability", "calibration_artifact_producer",
+                                ("aaa_synthetic",))
+    assert new_id == "I-%03d" % (high_before + 1)
+    for fp, old_id in before.items():
+        assert alloc.registry["candidates"][fp] == old_id
+
+
+def test_an_id_is_never_reused_after_its_record_disappears():
+    reg = {"registry_version": 1, "high_water": {"T": 7, "I": 3},
+           "tensions": {"deadfp": "T-0007"}, "candidates": {}}
+    alloc = IDS.Allocator(reg)
+    fresh = alloc.tension_id(_synthetic_tension())
+    assert fresh == "T-0008", "a retired number must not be handed to a different record"
+    # the retired entry survives, so if its record ever returns it gets its ORIGINAL id back
+    assert alloc.registry["tensions"]["deadfp"] == "T-0007"
+
+
+def test_identity_is_wording_invariant(state):
+    """Rewriting a row's prose must not mint a new ID — otherwise every editorial improvement
+    silently breaks persistent references."""
+    t = state["tensions"][0]
+    fp = IDS.tension_fingerprint(t)
+    reworded = copy.copy(t)
+    reworded.difference_summary = "completely different prose describing the same two entities"
+    reworded.evidence_basis = "rewritten"
+    reworded.why_it_matters = "rewritten"
+    reworded.candidate_discriminator = "rewritten prose discriminator"
+    assert IDS.tension_fingerprint(reworded) == fp
+
+
+def test_identity_changes_when_the_entities_change(state):
+    """The converse guard: a row about a different entity set is a different row, and must not
+    inherit the old row's ID."""
+    t = state["tensions"][0]
+    moved = copy.copy(t)
+    moved.entity_ids = tuple(list(t.entity_ids) + ["model:cameron2020.extraction_bdf"])
+    assert IDS.tension_fingerprint(moved) != IDS.tension_fingerprint(t)
+
+
+def test_registry_is_tracked_and_covers_the_current_corpus(state):
+    assert (_ROOT / IDS.REGISTRY_REL).exists(), "the registry must be a tracked file"
+    assert IDS.unrecorded(state) == []
+    reg = IDS.load()
+    assert reg["high_water"]["T"] >= len(state["tensions"])
+    assert reg["high_water"]["I"] >= len(state["candidates"])
+
+
+#: The seed watermark: the highest ID assigned before the correction pass (head e8054b3).
+#: Anything at or below it was seeded; anything above was minted by this pass.
+SEED_HIGH_WATER = {"T": 170, "I": 89}
+
+
+def test_no_id_is_ever_shared_by_two_records():
+    """The injectivity invariant that makes a stale reference safe: an ID resolves to the record
+    it always meant, or to nothing — never to a DIFFERENT record."""
+    reg = IDS.load()
+    for bucket in ("tensions", "candidates"):
+        ids = list(reg[bucket].values())
+        dupes = {i for i in ids if ids.count(i) > 1}
+        assert not dupes, "%s ids bound to more than one fingerprint: %s" % (bucket,
+                                                                            sorted(dupes))
+
+
+def test_the_seeded_ids_from_the_previous_head_survived(state):
+    """The correction pass renamed two families, which changes sort order. Every ID assigned
+    before it must still point at the record it always meant — that is what the registry was
+    seeded to guarantee, and renaming a family must not have quietly reshuffled the numbering."""
+    live_t = {t.tension_id for t in state["tensions"]}
+    seeded_t = {i for i in live_t if int(i.split("-")[1]) <= SEED_HIGH_WATER["T"]}
+    # the foster2025 card repair legitimately retired a handful of rows; the rest must survive
+    assert len(seeded_t) >= SEED_HIGH_WATER["T"] - 10, len(seeded_t)
+
+    live_i = {c.id for c in state["candidates"]}
+    seeded_i = {i for i in live_i if int(i.split("-")[1]) <= SEED_HIGH_WATER["I"]}
+    assert len(seeded_i) >= SEED_HIGH_WATER["I"] - 10, len(seeded_i)
+
+    # and every newly minted ID is strictly above the seed watermark, never slotted into a gap
+    for i in live_t - seeded_t:
+        assert int(i.split("-")[1]) > SEED_HIGH_WATER["T"], i
+    for i in live_i - seeded_i:
+        assert int(i.split("-")[1]) > SEED_HIGH_WATER["I"], i
+
+
+# ---- semantics guards --------------------------------------------------------------------------
+
+
+def test_no_row_calls_a_same_stage_neighbour_an_established_consumer(state):
+    """Sharing a stage is co-location. No output-to-input path was traced, so no generated text
+    may assert one."""
+    banned = ("runtime consumers on the same stage", "consumers on the same stage",
+              "established consumer", "consuming components:")
+    for t in state["tensions"]:
+        blob = " ".join([t.difference_summary, t.evidence_basis, t.why_it_matters,
+                         t.candidate_discriminator]).lower()
+        for phrase in banned:
+            assert phrase not in blob, "%s asserts a consuming relationship: %r" % (t.tension_id,
+                                                                                   phrase)
+
+
+def test_calibration_rows_declare_downstream_as_possible_not_established(state):
+    rows = [t for t in state["tensions"]
+            if t.difference_type == "calibration_artifact_producer"]
+    assert rows, "expected calibration-artifact rows"
+    for t in rows:
+        assert "POSSIBLE DOWNSTREAM" in t.difference_summary, t.tension_id
+        assert "NOT established" in t.difference_summary, t.tension_id
+        # a screen is not cheap until a path is shown to exist
+        assert t.cheap_test_possible in ("UNKNOWN", "NO"), (t.tension_id, t.cheap_test_possible)
+
+
+def test_the_calibration_screen_checks_the_path_before_swapping(state):
+    cands = [c for c in state["candidates"]
+             if c.difference_type == "calibration_artifact_producer"]
+    assert cands
+    for c in cands:
+        assert "Step 1" in c.cheap_test and "establish the path" in c.cheap_test, c.id
+        assert c.cheap_test.index("Step 1") < c.cheap_test.index("Step 2"), c.id
+        assert "consuming path" in c.inconclusive_if.lower(), c.id
+
+
+def test_the_word_closure_is_not_applied_to_every_calibration_component(state):
+    """`execution_role == \'calibration\'` covers lookup tables, geometry generators and
+    verification twins as well as closures, so the FOUNDRY\'s own framing must not call them all
+    closures.
+
+    Two sources of the word are exempt and must stay exactly as written: a component NAME
+    (`maille2024.phi_closure`, `pannusch2024.closures`) and a verbatim registry `valid_range`
+    (`sourcing2026.g10_liquor_rheology` declares "closures reproduce..."). Rewriting either would
+    be the label-tampering this whole layer forbids — the test targets the sentences the Foundry
+    itself writes.
+    """
+    rows = [t for t in state["tensions"]
+            if t.difference_type == "calibration_artifact_producer"]
+    assert rows
+    for t in rows:
+        assert "closure" not in t.why_it_matters.lower(), t.tension_id
+        assert "closure" not in t.evidence_basis.lower(), t.tension_id
+        assert "is a calibration component on stage" in t.difference_summary, t.tension_id
+        for phrase in ("is a closure", "the closure is", "closure fitted", "closure producer"):
+            assert phrase not in t.difference_summary.lower(), (t.tension_id, phrase)
+
+
+def test_no_row_asserts_a_same_source_pair_is_base_plus_mechanism(state):
+    """Sharing a source prefix does not make two components a base/superset pair."""
+    rows = [t for t in state["tensions"]
+            if t.difference_type == "same_source_pair_requires_composition_audit"]
+    assert rows, "expected same-source pair rows"
+    for t in rows:
+        assert "RELATIONSHIP is unclassified" in t.difference_summary, t.tension_id
+        blob = t.difference_summary.lower()
+        for phrase in ("where one adds a mechanism", "base plus mechanism",
+                       "one a superset", "the addition helps"):
+            assert phrase not in blob, "%s presumes a base/superset pair: %r" % (t.tension_id,
+                                                                                phrase)
+
+
+def test_the_composition_screen_classifies_before_comparing(state):
+    cands = [c for c in state["candidates"]
+             if c.difference_type == "same_source_pair_requires_composition_audit"]
+    assert cands
+    for c in cands:
+        assert "Step 1" in c.cheap_test and "classify" in c.cheap_test.lower(), c.id
+        assert "ONLY for confirmed base/superset" in c.cheap_test, c.id
+        assert c.cheap_test.index("Step 1") < c.cheap_test.index("Step 2"), c.id
+
+
+def test_the_pv05_generalisation_candidate_is_preserved(state):
+    """The published composition failure is separately evidence-backed and must not be folded
+    into the unclassified same-source family."""
+    published = [t for t in state["tensions"]
+                 if t.difference_type == "published_composition_failure"]
+    assert len(published) == 1, "expected exactly the one published PV-05 case"
+    assert "PV-05" in published[0].difference_summary
+    cands = [c for c in state["candidates"]
+             if c.difference_type == "published_composition_failure"]
+    assert len(cands) == 1 and "generalise" in cands[0].title.lower()
+
+
+def test_the_portability_index_uses_calibration_not_closure_column_names(state):
+    header = EX.render_calibration_artifact_index(state).splitlines()[0]
+    assert "calibration_component" in header
+    assert "possible_downstream_same_stage" in header
+    assert "consuming_path_established" in header
+    assert "closure_component" not in header
+    assert "runtime_consumers_same_stage" not in header
+
+
+# ---- the foster2025 first-drip repair ------------------------------------------------------------
+
+
+def test_foster_card_now_exposes_first_drip_time(corpus):
+    """The card gap that made the blueprint's flagship candidate invisible to the matrix."""
+    preds = {r["source"] for r in CM.relations_of(corpus, "PREDICTS")
+             if r["target"] == "observable:first_drip_time"}
+    assert preds == {"model:foster2025.infiltration", "model:foster2025.machine_mode"}, preds
+    header, rows = CM.model_observable_matrix(corpus)
+    col = header.index("first_drip_time")
+    by_model = {r[0]: r[col] for r in rows}
+    assert by_model["foster2025.infiltration"] == "predicts"
+    assert by_model["foster2025.machine_mode"] == "predicts"
+
+
+def test_the_first_drip_blind_spot_rows_are_gone(state):
+    """The card fix must actually retire the rows that reported the gap."""
+    for t in state["tensions"]:
+        if t.difference_type == "measured_but_unmodelled":
+            assert t.shared_observable != "first_drip_time", t.tension_id
+        if t.difference_type == "card_without_interface_mapping":
+            assert "foster2025" not in t.difference_summary, t.tension_id
+
+
+def test_first_drip_is_now_a_discriminator_with_data(state):
+    rows = [t for t in state["tensions"]
+            if t.difference_type == "discriminator_with_data"
+            and t.shared_observable == "first_drip_time"]
+    assert len(rows) == 1, "the flagship discriminator should be exactly one row"
+    assert rows[0].data_available == "YES"
+
+
+def test_foster_interface_mapping_claims_only_supported_outputs():
+    """The added section must stay inside what the card and implementation support — no `flow`,
+    `tds` or `extraction_yield` smuggled into a narrowly scoped repair."""
+    parts = X.split_interface_mapping(X.card_sections("foster2025")["Interface mapping"])
+    assert parts["has_outputs_marker"]
+    produced = set(X.observables_in_text(parts["outputs"]))
+    assert produced == {"first_drip_time", "wetting_front"}, produced

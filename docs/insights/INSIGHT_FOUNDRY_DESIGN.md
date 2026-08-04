@@ -27,6 +27,40 @@ Counts are generated, never hand-maintained here (blueprint §4.3). For the live
 python -m puckworks.insights build
 ```
 
+## 1a. Stable identity — `T-0042` means one thing forever
+
+`T-` and `I-` numbers get quoted in decision records, screen bundles, retirement rows and chat
+threads. The first implementation derived them from **sort position**, so adding one early-sorting
+row would silently renumber everything after it and every persistent reference would start
+pointing at the wrong record. That is fixed.
+
+Identity is now a **fingerprint** over the few fields that say what a record *is*
+(`puckworks/insights/ids.py`), recorded in the tracked, append-only
+[`ID_REGISTRY.json`](ID_REGISTRY.json):
+
+| | fingerprint |
+|---|---|
+| tension | schema version · lens · difference type · sorted entity ids · canonical discriminator |
+| candidate | schema version · lens · difference type · canonical grouping key |
+
+Three consequences, each test-bound:
+
+- **Wording is free.** Rewriting a row's summary, evidence basis or prose discriminator does not
+  mint a new ID. Row prose *should* improve as the corpus is understood better, and improving it
+  must not cost a renumber. This is why `Tension.canonical_discriminator` (a slug) exists
+  separately from `candidate_discriminator` (prose).
+- **Numbers are never reused.** A record that leaves the corpus keeps its registry entry. If it
+  returns it gets its original number back; its number is never handed to a different record. A
+  stale reference therefore resolves to what it always meant, or to nothing — never to something
+  else. IDs are consequently **not dense**, and gaps are correct.
+- **Identity tracks substance.** A row whose entity set changes is a different row: it gets a new
+  ID and the old one retires. That is deliberate — silently re-pointing an existing ID at a
+  materially different record is the failure the registry exists to prevent.
+
+The registry was **seeded from the assignments at head `e8054b3`**, mapping each pre-existing ID
+onto its post-rename fingerprint, so the two family renames below cost no renumbering: all 170
+tension IDs and all 89 candidate IDs survived with zero minted.
+
 ## 2. The source-of-truth rule
 
 The Foundry is **never** an authority. Every entity carries the path of the authority it was read
@@ -58,6 +92,31 @@ and `COMPLEMENTS` for a card's `Overlaps and conflicts` section. But cards routi
 neighbour without ruling on it, and picking one of those two would be the extractor inventing a
 scientific verdict. The colourless edge records the fact; the typed edges are emitted only when
 the card's own sentence says so.
+
+**Two families were renamed because their wording outran the metadata.** Both renames assert less
+than the originals did, and both are guarded by tests:
+
+- `closure_portability` / `closure_producer` → **`calibration_artifact_portability` /
+  `calibration_artifact_producer`**. `execution_role == "calibration"` means a component supplies
+  parameters offline. That covers closures, but also lookup tables, geometry generators, reference
+  datasets and verification twins — calling them all closures asserts a functional form the
+  registry never stated. Relatedly, a same-stage runtime component is a **possible downstream**
+  component, not an established consumer: nothing traced an output to an input. So
+  `cheap_test_possible` is `UNKNOWN` rather than `YES` wherever a same-stage neighbour exists, and
+  **step 1 of the screen is to establish the path**; the swap experiment is step 2 and only runs
+  if step 1 succeeds. The index column is `possible_downstream_same_stage`, beside a
+  `consuming_path_established` column that reads `no` on every row by construction.
+  The word *closure* survives only where an authority wrote it — a component name
+  (`maille2024.phi_closure`, `pannusch2024.closures`) or a verbatim `valid_range` — because
+  rewriting those would be the label-tampering this layer forbids.
+- `same_source_variant_pair` → **`same_source_pair_requires_composition_audit`**. Sharing a source
+  prefix does not make two components a base/superset pair: `maille2024.phi_closure` and
+  `maille2024.two_regime` are two calibration roles on different stages, and `mo2023_2.swelling`
+  and `mo2023_2.coupled_bed` are a reduced and a depth-resolved model the repository keeps side by
+  side on purpose. A base-versus-base-plus-mechanism comparison is meaningless for those. The row
+  now asks the **classification** question first — base/superset, alternative reductions, or
+  independent — and only a confirmed base/superset pair proceeds to the held-out comparison. The
+  separately evidence-backed PV-05 generalisation candidate is untouched and stays its own row.
 
 **Candidate cards are materialised on demand, not in bulk.** The blueprint's `candidates/`
 directory implies a file per candidate. Writing all of them as tracked files would be the
@@ -137,13 +196,26 @@ list is in the snapshot; the recurring classes are:
 - **Manifest `source_card` cells that resolve to no single card** — including a family of rows
   naming `romancorrochano2017`, which has two cards (`_extraction`, `_permeability`). The
   extractor refuses to guess between them; that lineage cannot currently be followed mechanically.
-- **Cards missing template sections.** This one bit the Foundry itself: `first_drip_time` shows
-  **zero** predicting models, not because nothing models first drip, but because `foster2025.md`
-  — the sharp-front infiltration card whose headline result is a predicted first-drip time — has
-  no `Interface mapping` section for the extractor to read. The blueprint's own flagship candidate
-  (I-001, first-drip discriminator) is therefore invisible to the matrix. The atlas raises this as
-  a `card_without_interface_mapping` row rather than letting the gap read as an absence of
-  physics.
+- **Cards missing template sections.** This one bit the Foundry itself, and has since been
+  **repaired**. `first_drip_time` originally showed **zero** predicting models — not because
+  nothing models first drip, but because `foster2025.md`, the sharp-front infiltration card whose
+  headline result *is* a predicted first-drip time, had no `Interface mapping` section for the
+  extractor to read. The blueprint's flagship candidate was therefore invisible to the matrix.
+  A narrowly scoped `Interface mapping` was added to that card (only inputs and outputs the
+  source, card and implementation already support, and only ones common to both components the
+  card serves). The result, and the reason this is worth recording rather than quietly fixing:
+
+  | | before | after |
+  |---|---|---|
+  | `first_drip_time` predicting models | 0 | 2 (`foster2025.infiltration`, `foster2025.machine_mode`) |
+  | `first_drip_time` | `measured_but_unmodelled` | **`discriminator_with_data`** — a screen runnable on data already in the manifest |
+  | `wetting_front` | invisible | `predicted_but_unmeasured` — the first Lens L row the corpus has produced |
+
+  Four rows retired (`T-0048`, `T-0049` — the two blind-spot rows; `T-0055` — the
+  measured-but-unmodelled row; `T-0170` — the scale-mismatch row, whose entity set changed) and
+  four minted (`T-0171`–`T-0174`). **No surviving ID was renumbered**, which is the stable-ID
+  registry doing the job it was added for. Other cards' template deviations are still reported and
+  were deliberately left alone — this was a targeted repair, not a card cleanup.
 
 ## 8. Next step
 

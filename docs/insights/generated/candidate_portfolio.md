@@ -2,7 +2,7 @@
 
 # Insight portfolio
 
-Commit `21869fe19f` · **89 candidates, all `SEED`**. Every candidate is a QUESTION with provenance. None is scored, ranked, or adjudicated: scoring is a human triage aid applied after a person reads the portfolio, and none of these has been read yet.
+Commit `e8054b3cd4` · **91 candidates, all `SEED`**. Every candidate is a QUESTION with provenance. None is scored, ranked, or adjudicated: scoring is a human triage aid applied after a person reads the portfolio, and none of these has been read yet.
 
 Next step is blueprint §12 Stage B — human triage down to 10–15, then three cheap screens. Do not start manuscript work on any of these.
 
@@ -10,15 +10,16 @@ Next step is blueprint §12 Stage B — human triage down to 10–15, then three
 
 | lens | candidates |
 |---|---|
-| closure_portability | 15 |
+| calibration_artifact_portability | 15 |
 | composition_failure | 8 |
 | cross_species_inconsistency | 1 |
 | evidence_asymmetry | 3 |
 | hidden_discriminator | 11 |
 | lineage_circularity | 21 |
+| missing_experiment | 1 |
 | model_disagreement | 18 |
 | negative_result | 3 |
-| public_story | 8 |
+| public_story | 9 |
 | scale_mismatch | 1 |
 
 ## By audience track
@@ -27,252 +28,252 @@ Tracks overlap by design — public value and academic value are separate axes (
 
 | track | candidates |
 |---|---|
-| data_note | 27 |
+| data_note | 26 |
 | domain_paper | 17 |
-| experiment_design | 8 |
+| experiment_design | 10 |
 | methods_paper | 29 |
-| practitioner | 8 |
-| public_story | 16 |
+| practitioner | 9 |
+| public_story | 19 |
 | technical_note | 78 |
 
 ## Candidates
 
-### I-001 — Does brewer2026.lb_reference survive being used outside the range it was fitted in?
+### I-001 — Does anything consume brewer2026.lb_reference, and does it survive outside its declared range?
 
-- **Question.** Does a result that consumes brewer2026.lb_reference change materially when the closure is swapped for another source's, or driven outside its declared validity?
-- **Lens.** closure_portability · tracks: technical_note, methods_paper
-- **Cheap screen.** Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.
-- **Minimum figure.** Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.
+- **Question.** Which registered component, if any, actually consumes brewer2026.lb_reference's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?
+- **Lens.** calibration_artifact_portability · tracks: technical_note, methods_paper
+- **Cheap screen.** Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.
+- **Minimum figure.** Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.
 - **Decision rule.**
-    - SURVIVE if The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.
-    - RETIRE if The consuming result is insensitive to the swap across the used range.
-    - INCONCLUSIVE if No second source exists for the closure and no range is declared.
-- **Stop condition.** The swap changes the consuming result by less than its uncertainty.
-- **Strongest alternative.** The consuming model is insensitive to this closure entirely, so portability is moot for it.
+    - SURVIVE if A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.
+    - RETIRE if A consuming path exists and the consuming result is insensitive to the swap across the used range.
+    - INCONCLUSIVE if No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.
+- **Stop condition.** Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.
+- **Strongest alternative.** Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.
 - **Entities.** `model:brewer2026.lb_reference`, `model:wadsworth2026.inertial`
 - **Tension rows.** T-0001
 - **Status.** SEED
 
-### I-002 — Does brewer2026.lb_taichi survive being used outside the range it was fitted in?
+### I-002 — Does anything consume brewer2026.lb_taichi, and does it survive outside its declared range?
 
-- **Question.** Does a result that consumes brewer2026.lb_taichi change materially when the closure is swapped for another source's, or driven outside its declared validity?
-- **Lens.** closure_portability · tracks: technical_note, methods_paper
-- **Cheap screen.** Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.
-- **Minimum figure.** Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.
+- **Question.** Which registered component, if any, actually consumes brewer2026.lb_taichi's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?
+- **Lens.** calibration_artifact_portability · tracks: technical_note, methods_paper
+- **Cheap screen.** Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.
+- **Minimum figure.** Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.
 - **Decision rule.**
-    - SURVIVE if The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.
-    - RETIRE if The consuming result is insensitive to the swap across the used range.
-    - INCONCLUSIVE if No second source exists for the closure and no range is declared.
-- **Stop condition.** The swap changes the consuming result by less than its uncertainty.
-- **Strongest alternative.** The consuming model is insensitive to this closure entirely, so portability is moot for it.
+    - SURVIVE if A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.
+    - RETIRE if A consuming path exists and the consuming result is insensitive to the swap across the used range.
+    - INCONCLUSIVE if No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.
+- **Stop condition.** Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.
+- **Strongest alternative.** Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.
 - **Entities.** `model:brewer2026.lb_taichi`, `model:wadsworth2026.inertial`
 - **Tension rows.** T-0002
 - **Status.** SEED
 
-### I-003 — Does brewer2026.pack_generator survive being used outside the range it was fitted in?
+### I-003 — Does anything consume brewer2026.pack_generator, and does it survive outside its declared range?
 
-- **Question.** Does a result that consumes brewer2026.pack_generator change materially when the closure is swapped for another source's, or driven outside its declared validity?
-- **Lens.** closure_portability · tracks: technical_note, methods_paper
-- **Cheap screen.** Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.
-- **Minimum figure.** Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.
+- **Question.** Which registered component, if any, actually consumes brewer2026.pack_generator's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?
+- **Lens.** calibration_artifact_portability · tracks: technical_note, methods_paper
+- **Cheap screen.** Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.
+- **Minimum figure.** Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.
 - **Decision rule.**
-    - SURVIVE if The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.
-    - RETIRE if The consuming result is insensitive to the swap across the used range.
-    - INCONCLUSIVE if No second source exists for the closure and no range is declared.
-- **Stop condition.** The swap changes the consuming result by less than its uncertainty.
-- **Strongest alternative.** The consuming model is insensitive to this closure entirely, so portability is moot for it.
+    - SURVIVE if A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.
+    - RETIRE if A consuming path exists and the consuming result is insensitive to the swap across the used range.
+    - INCONCLUSIVE if No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.
+- **Stop condition.** Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.
+- **Strongest alternative.** Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.
 - **Entities.** `model:brewer2026.pack_generator`
 - **Tension rows.** T-0003
 - **Status.** SEED
 
-### I-004 — Does fasano2000_partI.fines_migration survive being used outside the range it was fitted in?
+### I-004 — Does anything consume fasano2000_partI.fines_migration, and does it survive outside its declared range?
 
-- **Question.** Does a result that consumes fasano2000_partI.fines_migration change materially when the closure is swapped for another source's, or driven outside its declared validity?
-- **Lens.** closure_portability · tracks: technical_note, methods_paper
-- **Cheap screen.** Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.
-- **Minimum figure.** Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.
+- **Question.** Which registered component, if any, actually consumes fasano2000_partI.fines_migration's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?
+- **Lens.** calibration_artifact_portability · tracks: technical_note, methods_paper
+- **Cheap screen.** Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.
+- **Minimum figure.** Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.
 - **Decision rule.**
-    - SURVIVE if The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.
-    - RETIRE if The consuming result is insensitive to the swap across the used range.
-    - INCONCLUSIVE if No second source exists for the closure and no range is declared.
-- **Stop condition.** The swap changes the consuming result by less than its uncertainty.
-- **Strongest alternative.** The consuming model is insensitive to this closure entirely, so portability is moot for it.
+    - SURVIVE if A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.
+    - RETIRE if A consuming path exists and the consuming result is insensitive to the swap across the used range.
+    - INCONCLUSIVE if No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.
+- **Stop condition.** Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.
+- **Strongest alternative.** Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.
 - **Entities.** `model:fasano2000_partI.fines_migration`, `model:brewer2026.coupled_kappa_t`, `model:brewer2026.streamtube`, `model:mo2023_2.swelling`, `model:waszkiewicz2025.poroelastic`
 - **Tension rows.** T-0004
 - **Status.** SEED
 
-### I-005 — Does lee2023.feedback survive being used outside the range it was fitted in?
+### I-005 — Does anything consume lee2023.feedback, and does it survive outside its declared range?
 
-- **Question.** Does a result that consumes lee2023.feedback change materially when the closure is swapped for another source's, or driven outside its declared validity?
-- **Lens.** closure_portability · tracks: technical_note, methods_paper
-- **Cheap screen.** Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.
-- **Minimum figure.** Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.
+- **Question.** Which registered component, if any, actually consumes lee2023.feedback's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?
+- **Lens.** calibration_artifact_portability · tracks: technical_note, methods_paper
+- **Cheap screen.** Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.
+- **Minimum figure.** Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.
 - **Decision rule.**
-    - SURVIVE if The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.
-    - RETIRE if The consuming result is insensitive to the swap across the used range.
-    - INCONCLUSIVE if No second source exists for the closure and no range is declared.
-- **Stop condition.** The swap changes the consuming result by less than its uncertainty.
-- **Strongest alternative.** The consuming model is insensitive to this closure entirely, so portability is moot for it.
+    - SURVIVE if A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.
+    - RETIRE if A consuming path exists and the consuming result is insensitive to the swap across the used range.
+    - INCONCLUSIVE if No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.
+- **Stop condition.** Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.
+- **Strongest alternative.** Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.
 - **Entities.** `model:lee2023.feedback`, `model:wadsworth2026.inertial`
 - **Tension rows.** T-0005
 - **Status.** SEED
 
-### I-006 — Does liang2021.desorption survive being used outside the range it was fitted in?
+### I-006 — Does anything consume liang2021.desorption, and does it survive outside its declared range?
 
-- **Question.** Does a result that consumes liang2021.desorption change materially when the closure is swapped for another source's, or driven outside its declared validity?
-- **Lens.** closure_portability · tracks: technical_note, methods_paper
-- **Cheap screen.** Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.
-- **Minimum figure.** Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.
+- **Question.** Which registered component, if any, actually consumes liang2021.desorption's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?
+- **Lens.** calibration_artifact_portability · tracks: technical_note, methods_paper
+- **Cheap screen.** Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.
+- **Minimum figure.** Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.
 - **Decision rule.**
-    - SURVIVE if The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.
-    - RETIRE if The consuming result is insensitive to the swap across the used range.
-    - INCONCLUSIVE if No second source exists for the closure and no range is declared.
-- **Stop condition.** The swap changes the consuming result by less than its uncertainty.
-- **Strongest alternative.** The consuming model is insensitive to this closure entirely, so portability is moot for it.
+    - SURVIVE if A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.
+    - RETIRE if A consuming path exists and the consuming result is insensitive to the swap across the used range.
+    - INCONCLUSIVE if No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.
+- **Stop condition.** Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.
+- **Strongest alternative.** Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.
 - **Entities.** `model:liang2021.desorption`, `model:cameron2020.extraction_bdf`, `model:grudeva2025.reduced`, `model:mo2023_2.coupled_bed`, `model:pannusch2024.solver`, `model:romancorrochano2017.extraction`
 - **Tension rows.** T-0006
 - **Status.** SEED
 
-### I-007 — Does maille2024.phi_closure survive being used outside the range it was fitted in?
+### I-007 — Does anything consume maille2024.phi_closure, and does it survive outside its declared range?
 
-- **Question.** Does a result that consumes maille2024.phi_closure change materially when the closure is swapped for another source's, or driven outside its declared validity?
-- **Lens.** closure_portability · tracks: technical_note, methods_paper
-- **Cheap screen.** Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.
-- **Minimum figure.** Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.
+- **Question.** Which registered component, if any, actually consumes maille2024.phi_closure's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?
+- **Lens.** calibration_artifact_portability · tracks: technical_note, methods_paper
+- **Cheap screen.** Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.
+- **Minimum figure.** Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.
 - **Decision rule.**
-    - SURVIVE if The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.
-    - RETIRE if The consuming result is insensitive to the swap across the used range.
-    - INCONCLUSIVE if No second source exists for the closure and no range is declared.
-- **Stop condition.** The swap changes the consuming result by less than its uncertainty.
-- **Strongest alternative.** The consuming model is insensitive to this closure entirely, so portability is moot for it.
+    - SURVIVE if A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.
+    - RETIRE if A consuming path exists and the consuming result is insensitive to the swap across the used range.
+    - INCONCLUSIVE if No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.
+- **Stop condition.** Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.
+- **Strongest alternative.** Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.
 - **Entities.** `model:maille2024.phi_closure`
 - **Tension rows.** T-0007
 - **Status.** SEED
 
-### I-008 — Does maille2024.two_regime survive being used outside the range it was fitted in?
+### I-008 — Does anything consume maille2024.two_regime, and does it survive outside its declared range?
 
-- **Question.** Does a result that consumes maille2024.two_regime change materially when the closure is swapped for another source's, or driven outside its declared validity?
-- **Lens.** closure_portability · tracks: technical_note, methods_paper
-- **Cheap screen.** Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.
-- **Minimum figure.** Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.
+- **Question.** Which registered component, if any, actually consumes maille2024.two_regime's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?
+- **Lens.** calibration_artifact_portability · tracks: technical_note, methods_paper
+- **Cheap screen.** Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.
+- **Minimum figure.** Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.
 - **Decision rule.**
-    - SURVIVE if The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.
-    - RETIRE if The consuming result is insensitive to the swap across the used range.
-    - INCONCLUSIVE if No second source exists for the closure and no range is declared.
-- **Stop condition.** The swap changes the consuming result by less than its uncertainty.
-- **Strongest alternative.** The consuming model is insensitive to this closure entirely, so portability is moot for it.
+    - SURVIVE if A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.
+    - RETIRE if A consuming path exists and the consuming result is insensitive to the swap across the used range.
+    - INCONCLUSIVE if No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.
+- **Stop condition.** Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.
+- **Strongest alternative.** Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.
 - **Entities.** `model:maille2024.two_regime`, `model:cameron2020.extraction_bdf`, `model:grudeva2025.reduced`, `model:mo2023_2.coupled_bed`, `model:pannusch2024.solver`, `model:romancorrochano2017.extraction`
 - **Tension rows.** T-0008
 - **Status.** SEED
 
-### I-009 — Does moroney2016.surrogate survive being used outside the range it was fitted in?
+### I-009 — Does anything consume moroney2016.surrogate, and does it survive outside its declared range?
 
-- **Question.** Does a result that consumes moroney2016.surrogate change materially when the closure is swapped for another source's, or driven outside its declared validity?
-- **Lens.** closure_portability · tracks: technical_note, methods_paper
-- **Cheap screen.** Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.
-- **Minimum figure.** Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.
+- **Question.** Which registered component, if any, actually consumes moroney2016.surrogate's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?
+- **Lens.** calibration_artifact_portability · tracks: technical_note, methods_paper
+- **Cheap screen.** Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.
+- **Minimum figure.** Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.
 - **Decision rule.**
-    - SURVIVE if The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.
-    - RETIRE if The consuming result is insensitive to the swap across the used range.
-    - INCONCLUSIVE if No second source exists for the closure and no range is declared.
-- **Stop condition.** The swap changes the consuming result by less than its uncertainty.
-- **Strongest alternative.** The consuming model is insensitive to this closure entirely, so portability is moot for it.
+    - SURVIVE if A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.
+    - RETIRE if A consuming path exists and the consuming result is insensitive to the swap across the used range.
+    - INCONCLUSIVE if No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.
+- **Stop condition.** Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.
+- **Strongest alternative.** Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.
 - **Entities.** `model:moroney2016.surrogate`, `model:cameron2020.extraction_bdf`, `model:grudeva2025.reduced`, `model:mo2023_2.coupled_bed`, `model:pannusch2024.solver`, `model:romancorrochano2017.extraction`
 - **Tension rows.** T-0009
 - **Status.** SEED
 
-### I-010 — Does pannusch2024.closures survive being used outside the range it was fitted in?
+### I-010 — Does anything consume pannusch2024.closures, and does it survive outside its declared range?
 
-- **Question.** Does a result that consumes pannusch2024.closures change materially when the closure is swapped for another source's, or driven outside its declared validity?
-- **Lens.** closure_portability · tracks: technical_note, methods_paper
-- **Cheap screen.** Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.
-- **Minimum figure.** Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.
+- **Question.** Which registered component, if any, actually consumes pannusch2024.closures's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?
+- **Lens.** calibration_artifact_portability · tracks: technical_note, methods_paper
+- **Cheap screen.** Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.
+- **Minimum figure.** Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.
 - **Decision rule.**
-    - SURVIVE if The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.
-    - RETIRE if The consuming result is insensitive to the swap across the used range.
-    - INCONCLUSIVE if No second source exists for the closure and no range is declared.
-- **Stop condition.** The swap changes the consuming result by less than its uncertainty.
-- **Strongest alternative.** The consuming model is insensitive to this closure entirely, so portability is moot for it.
+    - SURVIVE if A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.
+    - RETIRE if A consuming path exists and the consuming result is insensitive to the swap across the used range.
+    - INCONCLUSIVE if No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.
+- **Stop condition.** Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.
+- **Strongest alternative.** Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.
 - **Entities.** `model:pannusch2024.closures`, `model:cameron2020.extraction_bdf`, `model:grudeva2025.reduced`, `model:mo2023_2.coupled_bed`, `model:pannusch2024.solver`, `model:romancorrochano2017.extraction`
 - **Tension rows.** T-0010
 - **Status.** SEED
 
-### I-011 — Does sourcing2026.g10_liquor_rheology survive being used outside the range it was fitted in?
+### I-011 — Does anything consume sourcing2026.g10_liquor_rheology, and does it survive outside its declared range?
 
-- **Question.** Does a result that consumes sourcing2026.g10_liquor_rheology change materially when the closure is swapped for another source's, or driven outside its declared validity?
-- **Lens.** closure_portability · tracks: technical_note, methods_paper
-- **Cheap screen.** Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.
-- **Minimum figure.** Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.
+- **Question.** Which registered component, if any, actually consumes sourcing2026.g10_liquor_rheology's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?
+- **Lens.** calibration_artifact_portability · tracks: technical_note, methods_paper
+- **Cheap screen.** Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.
+- **Minimum figure.** Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.
 - **Decision rule.**
-    - SURVIVE if The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.
-    - RETIRE if The consuming result is insensitive to the swap across the used range.
-    - INCONCLUSIVE if No second source exists for the closure and no range is declared.
-- **Stop condition.** The swap changes the consuming result by less than its uncertainty.
-- **Strongest alternative.** The consuming model is insensitive to this closure entirely, so portability is moot for it.
+    - SURVIVE if A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.
+    - RETIRE if A consuming path exists and the consuming result is insensitive to the swap across the used range.
+    - INCONCLUSIVE if No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.
+- **Stop condition.** Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.
+- **Strongest alternative.** Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.
 - **Entities.** `model:sourcing2026.g10_liquor_rheology`, `model:wadsworth2026.inertial`
 - **Tension rows.** T-0011
 - **Status.** SEED
 
-### I-012 — Does sourcing2026.g1_glassbead_analog survive being used outside the range it was fitted in?
+### I-012 — Does anything consume sourcing2026.g1_glassbead_analog, and does it survive outside its declared range?
 
-- **Question.** Does a result that consumes sourcing2026.g1_glassbead_analog change materially when the closure is swapped for another source's, or driven outside its declared validity?
-- **Lens.** closure_portability · tracks: technical_note, methods_paper
-- **Cheap screen.** Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.
-- **Minimum figure.** Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.
+- **Question.** Which registered component, if any, actually consumes sourcing2026.g1_glassbead_analog's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?
+- **Lens.** calibration_artifact_portability · tracks: technical_note, methods_paper
+- **Cheap screen.** Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.
+- **Minimum figure.** Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.
 - **Decision rule.**
-    - SURVIVE if The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.
-    - RETIRE if The consuming result is insensitive to the swap across the used range.
-    - INCONCLUSIVE if No second source exists for the closure and no range is declared.
-- **Stop condition.** The swap changes the consuming result by less than its uncertainty.
-- **Strongest alternative.** The consuming model is insensitive to this closure entirely, so portability is moot for it.
+    - SURVIVE if A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.
+    - RETIRE if A consuming path exists and the consuming result is insensitive to the swap across the used range.
+    - INCONCLUSIVE if No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.
+- **Stop condition.** Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.
+- **Strongest alternative.** Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.
 - **Entities.** `model:sourcing2026.g1_glassbead_analog`, `model:foster2025.infiltration`
 - **Tension rows.** T-0012
 - **Status.** SEED
 
-### I-013 — Does sourcing2026.g3_pump_characteristic survive being used outside the range it was fitted in?
+### I-013 — Does anything consume sourcing2026.g3_pump_characteristic, and does it survive outside its declared range?
 
-- **Question.** Does a result that consumes sourcing2026.g3_pump_characteristic change materially when the closure is swapped for another source's, or driven outside its declared validity?
-- **Lens.** closure_portability · tracks: technical_note, methods_paper
-- **Cheap screen.** Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.
-- **Minimum figure.** Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.
+- **Question.** Which registered component, if any, actually consumes sourcing2026.g3_pump_characteristic's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?
+- **Lens.** calibration_artifact_portability · tracks: technical_note, methods_paper
+- **Cheap screen.** Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.
+- **Minimum figure.** Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.
 - **Decision rule.**
-    - SURVIVE if The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.
-    - RETIRE if The consuming result is insensitive to the swap across the used range.
-    - INCONCLUSIVE if No second source exists for the closure and no range is declared.
-- **Stop condition.** The swap changes the consuming result by less than its uncertainty.
-- **Strongest alternative.** The consuming model is insensitive to this closure entirely, so portability is moot for it.
+    - SURVIVE if A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.
+    - RETIRE if A consuming path exists and the consuming result is insensitive to the swap across the used range.
+    - INCONCLUSIVE if No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.
+- **Stop condition.** Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.
+- **Strongest alternative.** Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.
 - **Entities.** `model:sourcing2026.g3_pump_characteristic`, `model:foster2025.machine_mode`
 - **Tension rows.** T-0013
 - **Status.** SEED
 
-### I-014 — Does wadsworth2026.grindmap survive being used outside the range it was fitted in?
+### I-014 — Does anything consume wadsworth2026.grindmap, and does it survive outside its declared range?
 
-- **Question.** Does a result that consumes wadsworth2026.grindmap change materially when the closure is swapped for another source's, or driven outside its declared validity?
-- **Lens.** closure_portability · tracks: technical_note, methods_paper
-- **Cheap screen.** Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.
-- **Minimum figure.** Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.
+- **Question.** Which registered component, if any, actually consumes wadsworth2026.grindmap's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?
+- **Lens.** calibration_artifact_portability · tracks: technical_note, methods_paper
+- **Cheap screen.** Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.
+- **Minimum figure.** Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.
 - **Decision rule.**
-    - SURVIVE if The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.
-    - RETIRE if The consuming result is insensitive to the swap across the used range.
-    - INCONCLUSIVE if No second source exists for the closure and no range is declared.
-- **Stop condition.** The swap changes the consuming result by less than its uncertainty.
-- **Strongest alternative.** The consuming model is insensitive to this closure entirely, so portability is moot for it.
+    - SURVIVE if A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.
+    - RETIRE if A consuming path exists and the consuming result is insensitive to the swap across the used range.
+    - INCONCLUSIVE if No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.
+- **Stop condition.** Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.
+- **Strongest alternative.** Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.
 - **Entities.** `model:wadsworth2026.grindmap`
 - **Tension rows.** T-0014
 - **Status.** SEED
 
-### I-015 — Does wadsworth2026.permeability survive being used outside the range it was fitted in?
+### I-015 — Does anything consume wadsworth2026.permeability, and does it survive outside its declared range?
 
-- **Question.** Does a result that consumes wadsworth2026.permeability change materially when the closure is swapped for another source's, or driven outside its declared validity?
-- **Lens.** closure_portability · tracks: technical_note, methods_paper
-- **Cheap screen.** Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.
-- **Minimum figure.** Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.
+- **Question.** Which registered component, if any, actually consumes wadsworth2026.permeability's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?
+- **Lens.** calibration_artifact_portability · tracks: technical_note, methods_paper
+- **Cheap screen.** Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.
+- **Minimum figure.** Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.
 - **Decision rule.**
-    - SURVIVE if The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.
-    - RETIRE if The consuming result is insensitive to the swap across the used range.
-    - INCONCLUSIVE if No second source exists for the closure and no range is declared.
-- **Stop condition.** The swap changes the consuming result by less than its uncertainty.
-- **Strongest alternative.** The consuming model is insensitive to this closure entirely, so portability is moot for it.
+    - SURVIVE if A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.
+    - RETIRE if A consuming path exists and the consuming result is insensitive to the swap across the used range.
+    - INCONCLUSIVE if No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.
+- **Stop condition.** Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.
+- **Strongest alternative.** Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.
 - **Entities.** `model:wadsworth2026.permeability`
 - **Tension rows.** T-0015
 - **Status.** SEED
@@ -293,114 +294,114 @@ Tracks overlap by design — public value and academic value are separate axes (
 - **Tension rows.** T-0016
 - **Status.** SEED
 
-### I-017 — Does the extra mechanism in the brewer2026 components earn its place?
+### I-017 — How are the 10 brewer2026 same-source component pairs actually related?
 
-- **Question.** For the 10 brewer2026 component pairs where one adds a mechanism the other lacks, does the addition improve held-out prediction or only fit?
+- **Question.** For the 10 brewer2026 pairs registered from one source, is each a base/superset pair, two alternative reductions, or two independent components — and for any confirmed base/superset pair, does the added mechanism improve held-out prediction or only fit?
 - **Lens.** composition_failure · tracks: methods_paper, technical_note
-- **Cheap screen.** Held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.
-- **Minimum figure.** Held-out error for base and base-plus-mechanism, both branches, with replicate variation drawn.
+- **Cheap screen.** Step 1 — classify each pair from its cards and registry entries: base/superset (one contains the other's mechanism set), alternative reductions (two simplifications of one source model), or independent (different stages or roles). Step 2, ONLY for confirmed base/superset pairs — held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.
+- **Minimum figure.** The classification table for all 10 pairs, plus held-out error for base and base-plus-mechanism (both branches, replicate variation drawn) for whichever pairs reach step 2.
 - **Decision rule.**
-    - SURVIVE if The added mechanism worsens held-out error, or improves it only after recalibration (compensating error).
-    - RETIRE if The addition improves held-out error in both branches.
-    - INCONCLUSIVE if No held-out unit exists for the pair.
-- **Stop condition.** The held-out difference is smaller than replicate variation.
-- **Strongest alternative.** The two components are not a base/superset pair at all — they are alternative reductions of one source.
+    - SURVIVE if At least one pair is confirmed base/superset AND the added mechanism worsens held-out error, or improves it only after recalibration (compensating error).
+    - RETIRE if No pair is base/superset, or every confirmed base/superset addition improves held-out error in both branches.
+    - INCONCLUSIVE if The cards do not state the mechanism sets precisely enough to classify a pair, or no held-out unit exists for a confirmed base/superset pair.
+- **Stop condition.** Every pair is classified, and every base/superset pair's held-out difference is smaller than replicate variation.
+- **Strongest alternative.** Every pair turns out to be alternative reductions or independent components, so no composition question arises here at all.
 - **Entities.** `model:brewer2026.coupled_kappa_t`, `model:brewer2026.lb_reference`, `model:brewer2026.lb_taichi`, `model:brewer2026.pack_generator`, `model:brewer2026.streamtube`
 - **Tension rows.** T-0017, T-0018, T-0019, T-0020, T-0021, T-0022, T-0023, T-0024, T-0025, T-0026
 - **Status.** SEED
 
-### I-018 — Does the extra mechanism in the foster2025 components earn its place?
+### I-018 — How are the 1 foster2025 same-source component pairs actually related?
 
-- **Question.** For the 1 foster2025 component pairs where one adds a mechanism the other lacks, does the addition improve held-out prediction or only fit?
+- **Question.** For the 1 foster2025 pairs registered from one source, is each a base/superset pair, two alternative reductions, or two independent components — and for any confirmed base/superset pair, does the added mechanism improve held-out prediction or only fit?
 - **Lens.** composition_failure · tracks: methods_paper, technical_note
-- **Cheap screen.** Held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.
-- **Minimum figure.** Held-out error for base and base-plus-mechanism, both branches, with replicate variation drawn.
+- **Cheap screen.** Step 1 — classify each pair from its cards and registry entries: base/superset (one contains the other's mechanism set), alternative reductions (two simplifications of one source model), or independent (different stages or roles). Step 2, ONLY for confirmed base/superset pairs — held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.
+- **Minimum figure.** The classification table for all 1 pairs, plus held-out error for base and base-plus-mechanism (both branches, replicate variation drawn) for whichever pairs reach step 2.
 - **Decision rule.**
-    - SURVIVE if The added mechanism worsens held-out error, or improves it only after recalibration (compensating error).
-    - RETIRE if The addition improves held-out error in both branches.
-    - INCONCLUSIVE if No held-out unit exists for the pair.
-- **Stop condition.** The held-out difference is smaller than replicate variation.
-- **Strongest alternative.** The two components are not a base/superset pair at all — they are alternative reductions of one source.
+    - SURVIVE if At least one pair is confirmed base/superset AND the added mechanism worsens held-out error, or improves it only after recalibration (compensating error).
+    - RETIRE if No pair is base/superset, or every confirmed base/superset addition improves held-out error in both branches.
+    - INCONCLUSIVE if The cards do not state the mechanism sets precisely enough to classify a pair, or no held-out unit exists for a confirmed base/superset pair.
+- **Stop condition.** Every pair is classified, and every base/superset pair's held-out difference is smaller than replicate variation.
+- **Strongest alternative.** Every pair turns out to be alternative reductions or independent components, so no composition question arises here at all.
 - **Entities.** `model:foster2025.infiltration`, `model:foster2025.machine_mode`
 - **Tension rows.** T-0027
 - **Status.** SEED
 
-### I-019 — Does the extra mechanism in the maille2024 components earn its place?
+### I-019 — How are the 1 maille2024 same-source component pairs actually related?
 
-- **Question.** For the 1 maille2024 component pairs where one adds a mechanism the other lacks, does the addition improve held-out prediction or only fit?
+- **Question.** For the 1 maille2024 pairs registered from one source, is each a base/superset pair, two alternative reductions, or two independent components — and for any confirmed base/superset pair, does the added mechanism improve held-out prediction or only fit?
 - **Lens.** composition_failure · tracks: methods_paper, technical_note
-- **Cheap screen.** Held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.
-- **Minimum figure.** Held-out error for base and base-plus-mechanism, both branches, with replicate variation drawn.
+- **Cheap screen.** Step 1 — classify each pair from its cards and registry entries: base/superset (one contains the other's mechanism set), alternative reductions (two simplifications of one source model), or independent (different stages or roles). Step 2, ONLY for confirmed base/superset pairs — held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.
+- **Minimum figure.** The classification table for all 1 pairs, plus held-out error for base and base-plus-mechanism (both branches, replicate variation drawn) for whichever pairs reach step 2.
 - **Decision rule.**
-    - SURVIVE if The added mechanism worsens held-out error, or improves it only after recalibration (compensating error).
-    - RETIRE if The addition improves held-out error in both branches.
-    - INCONCLUSIVE if No held-out unit exists for the pair.
-- **Stop condition.** The held-out difference is smaller than replicate variation.
-- **Strongest alternative.** The two components are not a base/superset pair at all — they are alternative reductions of one source.
+    - SURVIVE if At least one pair is confirmed base/superset AND the added mechanism worsens held-out error, or improves it only after recalibration (compensating error).
+    - RETIRE if No pair is base/superset, or every confirmed base/superset addition improves held-out error in both branches.
+    - INCONCLUSIVE if The cards do not state the mechanism sets precisely enough to classify a pair, or no held-out unit exists for a confirmed base/superset pair.
+- **Stop condition.** Every pair is classified, and every base/superset pair's held-out difference is smaller than replicate variation.
+- **Strongest alternative.** Every pair turns out to be alternative reductions or independent components, so no composition question arises here at all.
 - **Entities.** `model:maille2024.phi_closure`, `model:maille2024.two_regime`
 - **Tension rows.** T-0028
 - **Status.** SEED
 
-### I-020 — Does the extra mechanism in the mo2023_2 components earn its place?
+### I-020 — How are the 1 mo2023_2 same-source component pairs actually related?
 
-- **Question.** For the 1 mo2023_2 component pairs where one adds a mechanism the other lacks, does the addition improve held-out prediction or only fit?
+- **Question.** For the 1 mo2023_2 pairs registered from one source, is each a base/superset pair, two alternative reductions, or two independent components — and for any confirmed base/superset pair, does the added mechanism improve held-out prediction or only fit?
 - **Lens.** composition_failure · tracks: methods_paper, technical_note
-- **Cheap screen.** Held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.
-- **Minimum figure.** Held-out error for base and base-plus-mechanism, both branches, with replicate variation drawn.
+- **Cheap screen.** Step 1 — classify each pair from its cards and registry entries: base/superset (one contains the other's mechanism set), alternative reductions (two simplifications of one source model), or independent (different stages or roles). Step 2, ONLY for confirmed base/superset pairs — held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.
+- **Minimum figure.** The classification table for all 1 pairs, plus held-out error for base and base-plus-mechanism (both branches, replicate variation drawn) for whichever pairs reach step 2.
 - **Decision rule.**
-    - SURVIVE if The added mechanism worsens held-out error, or improves it only after recalibration (compensating error).
-    - RETIRE if The addition improves held-out error in both branches.
-    - INCONCLUSIVE if No held-out unit exists for the pair.
-- **Stop condition.** The held-out difference is smaller than replicate variation.
-- **Strongest alternative.** The two components are not a base/superset pair at all — they are alternative reductions of one source.
+    - SURVIVE if At least one pair is confirmed base/superset AND the added mechanism worsens held-out error, or improves it only after recalibration (compensating error).
+    - RETIRE if No pair is base/superset, or every confirmed base/superset addition improves held-out error in both branches.
+    - INCONCLUSIVE if The cards do not state the mechanism sets precisely enough to classify a pair, or no held-out unit exists for a confirmed base/superset pair.
+- **Stop condition.** Every pair is classified, and every base/superset pair's held-out difference is smaller than replicate variation.
+- **Strongest alternative.** Every pair turns out to be alternative reductions or independent components, so no composition question arises here at all.
 - **Entities.** `model:mo2023_2.coupled_bed`, `model:mo2023_2.swelling`
 - **Tension rows.** T-0029
 - **Status.** SEED
 
-### I-021 — Does the extra mechanism in the pannusch2024 components earn its place?
+### I-021 — How are the 1 pannusch2024 same-source component pairs actually related?
 
-- **Question.** For the 1 pannusch2024 component pairs where one adds a mechanism the other lacks, does the addition improve held-out prediction or only fit?
+- **Question.** For the 1 pannusch2024 pairs registered from one source, is each a base/superset pair, two alternative reductions, or two independent components — and for any confirmed base/superset pair, does the added mechanism improve held-out prediction or only fit?
 - **Lens.** composition_failure · tracks: methods_paper, technical_note
-- **Cheap screen.** Held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.
-- **Minimum figure.** Held-out error for base and base-plus-mechanism, both branches, with replicate variation drawn.
+- **Cheap screen.** Step 1 — classify each pair from its cards and registry entries: base/superset (one contains the other's mechanism set), alternative reductions (two simplifications of one source model), or independent (different stages or roles). Step 2, ONLY for confirmed base/superset pairs — held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.
+- **Minimum figure.** The classification table for all 1 pairs, plus held-out error for base and base-plus-mechanism (both branches, replicate variation drawn) for whichever pairs reach step 2.
 - **Decision rule.**
-    - SURVIVE if The added mechanism worsens held-out error, or improves it only after recalibration (compensating error).
-    - RETIRE if The addition improves held-out error in both branches.
-    - INCONCLUSIVE if No held-out unit exists for the pair.
-- **Stop condition.** The held-out difference is smaller than replicate variation.
-- **Strongest alternative.** The two components are not a base/superset pair at all — they are alternative reductions of one source.
+    - SURVIVE if At least one pair is confirmed base/superset AND the added mechanism worsens held-out error, or improves it only after recalibration (compensating error).
+    - RETIRE if No pair is base/superset, or every confirmed base/superset addition improves held-out error in both branches.
+    - INCONCLUSIVE if The cards do not state the mechanism sets precisely enough to classify a pair, or no held-out unit exists for a confirmed base/superset pair.
+- **Stop condition.** Every pair is classified, and every base/superset pair's held-out difference is smaller than replicate variation.
+- **Strongest alternative.** Every pair turns out to be alternative reductions or independent components, so no composition question arises here at all.
 - **Entities.** `model:pannusch2024.closures`, `model:pannusch2024.solver`
 - **Tension rows.** T-0030
 - **Status.** SEED
 
-### I-022 — Does the extra mechanism in the sourcing2026 components earn its place?
+### I-022 — How are the 3 sourcing2026 same-source component pairs actually related?
 
-- **Question.** For the 3 sourcing2026 component pairs where one adds a mechanism the other lacks, does the addition improve held-out prediction or only fit?
+- **Question.** For the 3 sourcing2026 pairs registered from one source, is each a base/superset pair, two alternative reductions, or two independent components — and for any confirmed base/superset pair, does the added mechanism improve held-out prediction or only fit?
 - **Lens.** composition_failure · tracks: methods_paper, technical_note
-- **Cheap screen.** Held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.
-- **Minimum figure.** Held-out error for base and base-plus-mechanism, both branches, with replicate variation drawn.
+- **Cheap screen.** Step 1 — classify each pair from its cards and registry entries: base/superset (one contains the other's mechanism set), alternative reductions (two simplifications of one source model), or independent (different stages or roles). Step 2, ONLY for confirmed base/superset pairs — held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.
+- **Minimum figure.** The classification table for all 3 pairs, plus held-out error for base and base-plus-mechanism (both branches, replicate variation drawn) for whichever pairs reach step 2.
 - **Decision rule.**
-    - SURVIVE if The added mechanism worsens held-out error, or improves it only after recalibration (compensating error).
-    - RETIRE if The addition improves held-out error in both branches.
-    - INCONCLUSIVE if No held-out unit exists for the pair.
-- **Stop condition.** The held-out difference is smaller than replicate variation.
-- **Strongest alternative.** The two components are not a base/superset pair at all — they are alternative reductions of one source.
+    - SURVIVE if At least one pair is confirmed base/superset AND the added mechanism worsens held-out error, or improves it only after recalibration (compensating error).
+    - RETIRE if No pair is base/superset, or every confirmed base/superset addition improves held-out error in both branches.
+    - INCONCLUSIVE if The cards do not state the mechanism sets precisely enough to classify a pair, or no held-out unit exists for a confirmed base/superset pair.
+- **Stop condition.** Every pair is classified, and every base/superset pair's held-out difference is smaller than replicate variation.
+- **Strongest alternative.** Every pair turns out to be alternative reductions or independent components, so no composition question arises here at all.
 - **Entities.** `model:sourcing2026.g10_liquor_rheology`, `model:sourcing2026.g1_glassbead_analog`, `model:sourcing2026.g3_pump_characteristic`
 - **Tension rows.** T-0031, T-0032, T-0033
 - **Status.** SEED
 
-### I-023 — Does the extra mechanism in the wadsworth2026 components earn its place?
+### I-023 — How are the 3 wadsworth2026 same-source component pairs actually related?
 
-- **Question.** For the 3 wadsworth2026 component pairs where one adds a mechanism the other lacks, does the addition improve held-out prediction or only fit?
+- **Question.** For the 3 wadsworth2026 pairs registered from one source, is each a base/superset pair, two alternative reductions, or two independent components — and for any confirmed base/superset pair, does the added mechanism improve held-out prediction or only fit?
 - **Lens.** composition_failure · tracks: methods_paper, technical_note
-- **Cheap screen.** Held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.
-- **Minimum figure.** Held-out error for base and base-plus-mechanism, both branches, with replicate variation drawn.
+- **Cheap screen.** Step 1 — classify each pair from its cards and registry entries: base/superset (one contains the other's mechanism set), alternative reductions (two simplifications of one source model), or independent (different stages or roles). Step 2, ONLY for confirmed base/superset pairs — held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.
+- **Minimum figure.** The classification table for all 3 pairs, plus held-out error for base and base-plus-mechanism (both branches, replicate variation drawn) for whichever pairs reach step 2.
 - **Decision rule.**
-    - SURVIVE if The added mechanism worsens held-out error, or improves it only after recalibration (compensating error).
-    - RETIRE if The addition improves held-out error in both branches.
-    - INCONCLUSIVE if No held-out unit exists for the pair.
-- **Stop condition.** The held-out difference is smaller than replicate variation.
-- **Strongest alternative.** The two components are not a base/superset pair at all — they are alternative reductions of one source.
+    - SURVIVE if At least one pair is confirmed base/superset AND the added mechanism worsens held-out error, or improves it only after recalibration (compensating error).
+    - RETIRE if No pair is base/superset, or every confirmed base/superset addition improves held-out error in both branches.
+    - INCONCLUSIVE if The cards do not state the mechanism sets precisely enough to classify a pair, or no held-out unit exists for a confirmed base/superset pair.
+- **Stop condition.** Every pair is classified, and every base/superset pair's held-out difference is smaller than replicate variation.
+- **Strongest alternative.** Every pair turns out to be alternative reductions or independent components, so no composition question arises here at all.
 - **Entities.** `model:wadsworth2026.grindmap`, `model:wadsworth2026.inertial`, `model:wadsworth2026.permeability`
 - **Tension rows.** T-0034, T-0035, T-0036
 - **Status.** SEED
@@ -469,9 +470,9 @@ Tracks overlap by design — public value and academic value are separate axes (
 - **Tension rows.** T-0043
 - **Status.** SEED
 
-### I-028 — The model/observable matrix has 3 blind spots from card template deviations
+### I-028 — The model/observable matrix has 1 blind spots from card template deviations
 
-- **Question.** Which observables do the 3 registered components without an Interface mapping section actually produce, and what does the matrix currently hide?
+- **Question.** Which observables do the 1 registered components without an Interface mapping section actually produce, and what does the matrix currently hide?
 - **Lens.** hidden_discriminator · tracks: data_note
 - **Cheap screen.** Read each affected card and write its Interface mapping section from the card's own content; re-run the corpus map and diff the matrix.
 - **Minimum figure.** The model/observable matrix before and after, with the recovered cells marked.
@@ -481,8 +482,8 @@ Tracks overlap by design — public value and academic value are separate axes (
     - INCONCLUSIVE if The card's content does not state what the component outputs.
 - **Stop condition.** Every affected card carries the section and the matrix is stable.
 - **Strongest alternative.** The deviating cards are deliberately non-template (audits, search targets) and have no interface to declare.
-- **Entities.** `model:foster2025.infiltration`, `model:foster2025.machine_mode`, `model:wadsworth2026.permeability`
-- **Tension rows.** T-0048, T-0049, T-0054
+- **Entities.** `model:wadsworth2026.permeability`
+- **Tension rows.** T-0054
 - **Status.** SEED
 
 ### I-029 — Can permeability discriminate between the models that predict it?
@@ -613,20 +614,20 @@ Tracks overlap by design — public value and academic value are separate axes (
 - **Tension rows.** T-0053
 - **Status.** SEED
 
-### I-037 — first_drip_time is measured but no card claims to produce it
+### I-090 — Can first_drip_time discriminate between the models that predict it?
 
-- **Question.** Is first_drip_time genuinely unmodelled by the registry, or hidden by a card that never declared its outputs?
-- **Lens.** hidden_discriminator · tracks: data_note, technical_note
-- **Cheap screen.** Check each registered component on the relevant stages against its card for an undeclared first_drip_time output; if none, record it as a modelling gap.
-- **Minimum figure.** Components on the relevant stages versus whether they declare first_drip_time, with the measuring datasets listed.
+- **Question.** Does first_drip_time, measured by data already in the manifest, separate the models that predict it by more than their within-model uncertainty?
+- **Lens.** hidden_discriminator · tracks: technical_note, experiment_design, public_story
+- **Cheap screen.** Signature atlas: predicted first_drip_time per model over a matched domain, against the manifest measurements, with replicate variation drawn.
+- **Minimum figure.** Predicted first_drip_time per model versus its controlling input, with the measured points and their spread overlaid.
 - **Decision rule.**
-    - SURVIVE if A component produces first_drip_time without declaring it — a matrix repair that opens a discrimination.
-    - RETIRE if No registered component produces it: a genuine modelling gap, recorded as such.
-    - INCONCLUSIVE if Whether the component produces it depends on an unimplemented coupling.
-- **Stop condition.** Every candidate component is checked against its card.
-- **Strongest alternative.** The measurement and the model output share a name but not a definition.
-- **Entities.** `observable:first_drip_time`, `dataset:de1_fixtureA`
-- **Tension rows.** T-0055
+    - SURVIVE if Between-model separation exceeds within-model uncertainty somewhere the data lands.
+    - RETIRE if Model predictions overlap once uncertainty is drawn, or the measurements fall outside every model's validity range.
+    - INCONCLUSIVE if The measurements are single-replicate and no spread can be drawn.
+- **Stop condition.** Predictions overlap after declared uncertainty.
+- **Strongest alternative.** The observable is defined differently by each model, so the separation is a convention artifact.
+- **Entities.** `model:foster2025.infiltration`, `model:foster2025.machine_mode`, `dataset:de1_fixtureA`
+- **Tension rows.** T-0171
 - **Status.** SEED
 
 ### I-038 — temperature is measured but no card claims to produce it
@@ -979,6 +980,22 @@ Tracks overlap by design — public value and academic value are separate axes (
 - **Strongest alternative.** The ambiguity is cosmetic and no downstream claim depends on which of the two cards is meant.
 - **Entities.** `dataset:de1_fixtureA`, `dataset:romancorrochano2017/Db_table3_4`, `dataset:romancorrochano2017/deff_table4_9`, `dataset:romancorrochano2017/fig5_11_mpe`, `dataset:romancorrochano2017/fig5_13_mpe`, `dataset:romancorrochano2017/fig7_4_espresso`, `dataset:romancorrochano2017/hindrance_table4_8`, `dataset:romancorrochano2017/mpe_table5_3`, `dataset:romancorrochano2017/partition_K_table4_10`, `dataset:romancorrochano2017/tamped_kappa` … (11 total)
 - **Tension rows.** T-0062, T-0091, T-0093, T-0095, T-0097, T-0098, T-0100, T-0102, T-0104, T-0106, T-0108
+- **Status.** SEED
+
+### I-091 — wetting_front is predicted by several models and measured by none
+
+- **Question.** What is the minimum measurement of wetting_front that would separate the models predicting it?
+- **Lens.** missing_experiment · tracks: experiment_design, public_story
+- **Cheap screen.** Predicted-signature spread across the models over a feasible domain, to size the measurement precision a discriminating experiment would need.
+- **Minimum figure.** Predicted wetting_front per model with the measurement precision required to separate them marked.
+- **Decision rule.**
+    - SURVIVE if A feasible measurement precision separates at least two models.
+    - RETIRE if The required precision is beyond any feasible apparatus.
+    - INCONCLUSIVE if Model predictions cannot be put on a common domain.
+- **Stop condition.** The required precision is established, feasible or not.
+- **Strongest alternative.** The observable is already constrained indirectly by a measurement the manifest records under another name.
+- **Entities.** `model:foster2025.infiltration`, `model:foster2025.machine_mode`
+- **Tension rows.** T-0172
 - **Status.** SEED
 
 ### I-060 — Do the bed_dynamics-stage flow, permeability components agree where they overlap?
@@ -1445,7 +1462,23 @@ Tracks overlap by design — public value and academic value are separate axes (
 - **Tension rows.** T-0169
 - **Status.** SEED
 
-### I-089 — Do the continuum permeability closures preserve the pore-scale trend?
+### I-092 — Is first_drip_time a public story the repository has not told?
+
+- **Question.** Does first_drip_time carry one defensible surprise, with data already in the manifest and no existing public claim covering it?
+- **Lens.** public_story · tracks: public_story, practitioner
+- **Cheap screen.** Draft the contrast against the existing claim inventory and check it can be stated within the badge its weakest supporting evidence allows.
+- **Minimum figure.** The contrast in one panel, with the badge and scope sentence on the figure itself.
+- **Decision rule.**
+    - SURVIVE if The contrast is defensible at a badge the evidence supports and no existing claim already makes it.
+    - RETIRE if It needs a badge the evidence does not support, or duplicates a claim.
+    - INCONCLUSIVE if The supporting datasets are single-replicate, so the contrast cannot be separated from run-to-run variation.
+- **Stop condition.** The contrast cannot be stated without exceeding its evidence badge.
+- **Strongest alternative.** The contrast is an artifact of pooling datasets from different rigs and coffees.
+- **Entities.** `model:foster2025.infiltration`, `model:foster2025.machine_mode`, `dataset:de1_fixtureA`
+- **Tension rows.** T-0173
+- **Status.** SEED
+
+### I-093 — Do the continuum permeability closures preserve the pore-scale trend?
 
 - **Question.** Across the geometries the pack generator can produce, does the continuum closure reproduce the pore-scale solver's permeability trend?
 - **Lens.** scale_mismatch · tracks: methods_paper, technical_note
@@ -1457,7 +1490,7 @@ Tracks overlap by design — public value and academic value are separate axes (
     - INCONCLUSIVE if The solver cannot be run at an RVE size large enough to stabilise.
 - **Stop condition.** The trends agree within solver uncertainty.
 - **Strongest alternative.** The synthetic geometries are not representative of a real puck, so neither curve is the reference.
-- **Entities.** `model:lee2023.feedback`, `model:wadsworth2026.inertial`, `model:brewer2026.coupled_kappa_t`, `model:cameron2020.extraction_bdf`, `model:fasano2000_partI.fines_migration`, `model:grudeva2025.reduced`, `model:moroney2016.surrogate`, `model:waszkiewicz2025.poroelastic`
-- **Tension rows.** T-0170
+- **Entities.** `model:lee2023.feedback`, `model:wadsworth2026.inertial`, `model:brewer2026.coupled_kappa_t`, `model:cameron2020.extraction_bdf`, `model:fasano2000_partI.fines_migration`, `model:foster2025.infiltration`, `model:foster2025.machine_mode`, `model:grudeva2025.reduced`, `model:moroney2016.surrogate`, `model:waszkiewicz2025.poroelastic`
+- **Tension rows.** T-0174
 - **Status.** SEED
 

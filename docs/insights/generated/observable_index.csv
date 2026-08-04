@@ -6,8 +6,8 @@ brewer2026.pack_generator,packing,qualitative_capacity,-,-,-,-,-,-,-,-,-,-,-,-,-
 brewer2026.streamtube,bed_dynamics,within_campaign_held_out,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-
 cameron2020.extraction_bdf,extraction,code_verification,predicts,predicts,-,-,predicts,-,-,-,-,-,-,-,-,-,-
 fasano2000_partI.fines_migration,bed_dynamics,qualitative_capacity,-,predicts,-,-,predicts,-,-,-,-,-,-,-,-,-,-
-foster2025.infiltration,infiltration,sign_or_compatibility,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-
-foster2025.machine_mode,machine,source_curve_reproduction,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-
+foster2025.infiltration,infiltration,sign_or_compatibility,-,-,predicts,predicts,-,-,-,-,-,-,-,-,-,-,-
+foster2025.machine_mode,machine,source_curve_reproduction,-,-,predicts,predicts,-,-,-,-,-,-,-,-,-,-,-
 grudeva2025.reduced,extraction,post_fit_reconstruction,-,-,-,-,-,-,predicts,predicts,-,-,-,-,-,-,-
 lee2023.feedback,flow,qualitative_capacity,-,-,-,-,predicts,-,predicts,-,-,-,-,-,-,-,-
 liang2021.desorption,extraction,post_fit_reconstruction,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-

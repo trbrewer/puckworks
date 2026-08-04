@@ -2,7 +2,7 @@
 
 # Puckworks insight snapshot
 
-**Commit** `21869fe19feec2dce6af8f4a41f63299473e31c2` · **schema** v1 · **generator** v1
+**Commit** `e8054b3cd409104b7b0e2296db76f0eda33f58f2` · **schema** v1 · **generator** v1
 
 Every count below is generated from the tree at that commit (blueprint §4.3). Nothing here is an authority: follow `card_path` / `source_path` to the card, the manifest row, or the registry entry that owns each statement.
 
@@ -25,10 +25,10 @@ Every count below is generated from the tree at that commit (blueprint §4.3). N
 | COMPLEMENTS | 20 |
 | DERIVED_FROM | 99 |
 | MEASURES | 126 |
-| PREDICTS | 45 |
-| SHARES_OBSERVABLE_WITH | 117 |
+| PREDICTS | 49 |
+| SHARES_OBSERVABLE_WITH | 119 |
 | SUPPORTS_CLAIM | 10 |
-| USES | 56 |
+| USES | 64 |
 
 ### Registered models by stage
 
@@ -56,38 +56,40 @@ Every count below is generated from the tree at that commit (blueprint §4.3). N
 
 ## Tension atlas
 
-170 rows across 10 lenses.
+170 rows across 11 lenses.
 
 | lens | rows |
 |---|---|
-| closure_portability | 15 |
+| calibration_artifact_portability | 15 |
 | composition_failure | 21 |
 | cross_species_inconsistency | 4 |
 | evidence_asymmetry | 3 |
-| hidden_discriminator | 13 |
+| hidden_discriminator | 11 |
 | lineage_circularity | 64 |
+| missing_experiment | 1 |
 | model_disagreement | 38 |
 | negative_result | 3 |
-| public_story | 8 |
+| public_story | 9 |
 | scale_mismatch | 1 |
 
 Not implemented, by decision: **hidden_discriminator_ranking** (separation/uncertainty ranking is an execution quantity), **observational_equivalence** (needs matched-scenario execution of the components (ROADMAP §9 RP-A)), **regime_transition** (needs a dimensionless-group sweep per component (RP-A/RP-C)).
 
 ## Candidate portfolio
 
-**89 candidates, every one `SEED`.** None scored, ranked, or adjudicated.
+**91 candidates, every one `SEED`.** None scored, ranked, or adjudicated.
 
 | lens | candidates |
 |---|---|
-| closure_portability | 15 |
+| calibration_artifact_portability | 15 |
 | composition_failure | 8 |
 | cross_species_inconsistency | 1 |
 | evidence_asymmetry | 3 |
 | hidden_discriminator | 11 |
 | lineage_circularity | 21 |
+| missing_experiment | 1 |
 | model_disagreement | 18 |
 | negative_result | 3 |
-| public_story | 8 |
+| public_story | 9 |
 | scale_mismatch | 1 |
 
 ## Existing public claims
@@ -108,7 +110,7 @@ The repository has already published these; a candidate restating one is a dupli
 
 ## Build warnings
 
-34 warnings. These are corpus findings, not build failures — an unresolved card or an untraceable manifest cell is exactly the kind of thing the Foundry exists to surface.
+32 warnings. These are corpus findings, not build failures — an unresolved card or an untraceable manifest cell is exactly the kind of thing the Foundry exists to surface.
 
 - MANIFEST_SOURCE_CARD_UNRESOLVED: row 27 (dataset de1_fixtureA) names source_card '(registry [RS])', which is not a card stem under docs/cards/
 - MANIFEST_SOURCE_CARD_UNRESOLVED: row 33 (dataset romancorrochano2017/tamped_kappa) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
@@ -121,11 +123,9 @@ The repository has already published these; a candidate restating one is a dupli
 - MANIFEST_SOURCE_CARD_UNRESOLVED: row 40 (dataset romancorrochano2017/fig5_13_mpe) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
 - MANIFEST_SOURCE_CARD_UNRESOLVED: row 41 (dataset romancorrochano2017/fig7_4_espresso) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
 - MANIFEST_SOURCE_CARD_UNRESOLVED: row 48 (dataset romancorrochano2017/y0_extractable) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
-- NO_INTERFACE_MAPPING: docs/cards/foster2025.md (component foster2025.infiltration) — no observable edges inferred
-- NO_INTERFACE_MAPPING: docs/cards/foster2025.md (component foster2025.machine_mode) — no observable edges inferred
 - NO_INTERFACE_MAPPING: docs/cards/wadsworth2026.md (component wadsworth2026.permeability) — no observable edges inferred
 - TEMPLATE_DEVIATION: docs/cards/cameron2020.md is missing Scope and mechanism, Governing equations, Parameters, Calibration and validation offered by the source, Assumptions and validity range, Extractable data, Overlaps and conflicts, Implementation estimate
-- TEMPLATE_DEVIATION: docs/cards/foster2025.md is missing Scope and mechanism, Governing equations, Parameters, Calibration and validation offered by the source, Assumptions and validity range, Interface mapping, Extractable data, Overlaps and conflicts, Implementation estimate
+- TEMPLATE_DEVIATION: docs/cards/foster2025.md is missing Scope and mechanism, Governing equations, Parameters, Calibration and validation offered by the source, Assumptions and validity range, Extractable data, Overlaps and conflicts, Implementation estimate
 - TEMPLATE_DEVIATION: docs/cards/g10_liquor_rheology.md is missing Governing equations, Parameters
 - TEMPLATE_DEVIATION: docs/cards/g1_glassbead_analog.md is missing Scope and mechanism, Governing equations
 - TEMPLATE_DEVIATION: docs/cards/g1_retention_search_target.md is missing Scope and mechanism, Governing equations, Parameters, Calibration and validation offered by the source, Assumptions and validity range, Interface mapping, Extractable data, Overlaps and conflicts, Implementation estimate

@@ -5,42 +5,46 @@
         "technical_note",
         "methods_paper"
       ],
-      "cheap_test": "Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.",
+      "cheap_test": "Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.",
+      "difference_type": "calibration_artifact_producer",
       "entity_ids": [
         "model:brewer2026.lb_reference",
         "model:wadsworth2026.inertial"
       ],
       "existing_evidence": [
-        "registry valid_range + evidence_strength, verbatim"
+        "registry execution_role + valid_range + evidence_strength, verbatim. Same-stage co-location only; no output-to-input path was checked."
+      ],
+      "grouping_key": [
+        "T-0001"
       ],
       "history": [],
       "id": "I-001",
-      "inconclusive_if": "No second source exists for the closure and no range is declared.",
+      "inconclusive_if": "No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.",
       "insight_types": [
-        "closure_portability"
+        "calibration_artifact_portability"
       ],
-      "lens": "closure_portability",
+      "lens": "calibration_artifact_portability",
       "lineage_risks": [],
-      "minimum_figure": "Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.",
+      "minimum_figure": "Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.",
       "novelty_search_terms": [
         "closure transferability porous media",
         "correlation extrapolation validity range",
         "permeability correlation portability"
       ],
-      "question": "Does a result that consumes brewer2026.lb_reference change materially when the closure is swapped for another source's, or driven outside its declared validity?",
-      "retire_if": "The consuming result is insensitive to the swap across the used range.",
+      "question": "Which registered component, if any, actually consumes brewer2026.lb_reference's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?",
+      "retire_if": "A consuming path exists and the consuming result is insensitive to the swap across the used range.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
-      "stop_condition": "The swap changes the consuming result by less than its uncertainty.",
-      "strongest_alternative": "The consuming model is insensitive to this closure entirely, so portability is moot for it.",
-      "survive_if": "The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.",
+      "stop_condition": "Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.",
+      "strongest_alternative": "Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.",
+      "survive_if": "A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.",
       "tension_ids": [
         "T-0001"
       ],
-      "title": "Does brewer2026.lb_reference survive being used outside the range it was fitted in?",
-      "why_it_may_matter": "Closures travel between sources far more readily than the conditions they were fitted under.",
+      "title": "Does anything consume brewer2026.lb_reference, and does it survive outside its declared range?",
+      "why_it_may_matter": "Calibration artifacts travel between sources far more readily than the conditions they were fitted under — but only along paths that actually exist, and the registry does not record those paths.",
       "why_it_may_surprise": ""
     },
     {
@@ -48,42 +52,46 @@
         "technical_note",
         "methods_paper"
       ],
-      "cheap_test": "Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.",
+      "cheap_test": "Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.",
+      "difference_type": "calibration_artifact_producer",
       "entity_ids": [
         "model:brewer2026.lb_taichi",
         "model:wadsworth2026.inertial"
       ],
       "existing_evidence": [
-        "registry valid_range + evidence_strength, verbatim"
+        "registry execution_role + valid_range + evidence_strength, verbatim. Same-stage co-location only; no output-to-input path was checked."
+      ],
+      "grouping_key": [
+        "T-0002"
       ],
       "history": [],
       "id": "I-002",
-      "inconclusive_if": "No second source exists for the closure and no range is declared.",
+      "inconclusive_if": "No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.",
       "insight_types": [
-        "closure_portability"
+        "calibration_artifact_portability"
       ],
-      "lens": "closure_portability",
+      "lens": "calibration_artifact_portability",
       "lineage_risks": [],
-      "minimum_figure": "Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.",
+      "minimum_figure": "Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.",
       "novelty_search_terms": [
         "closure transferability porous media",
         "correlation extrapolation validity range",
         "permeability correlation portability"
       ],
-      "question": "Does a result that consumes brewer2026.lb_taichi change materially when the closure is swapped for another source's, or driven outside its declared validity?",
-      "retire_if": "The consuming result is insensitive to the swap across the used range.",
+      "question": "Which registered component, if any, actually consumes brewer2026.lb_taichi's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?",
+      "retire_if": "A consuming path exists and the consuming result is insensitive to the swap across the used range.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
-      "stop_condition": "The swap changes the consuming result by less than its uncertainty.",
-      "strongest_alternative": "The consuming model is insensitive to this closure entirely, so portability is moot for it.",
-      "survive_if": "The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.",
+      "stop_condition": "Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.",
+      "strongest_alternative": "Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.",
+      "survive_if": "A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.",
       "tension_ids": [
         "T-0002"
       ],
-      "title": "Does brewer2026.lb_taichi survive being used outside the range it was fitted in?",
-      "why_it_may_matter": "Closures travel between sources far more readily than the conditions they were fitted under.",
+      "title": "Does anything consume brewer2026.lb_taichi, and does it survive outside its declared range?",
+      "why_it_may_matter": "Calibration artifacts travel between sources far more readily than the conditions they were fitted under — but only along paths that actually exist, and the registry does not record those paths.",
       "why_it_may_surprise": ""
     },
     {
@@ -91,41 +99,45 @@
         "technical_note",
         "methods_paper"
       ],
-      "cheap_test": "Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.",
+      "cheap_test": "Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.",
+      "difference_type": "calibration_artifact_producer",
       "entity_ids": [
         "model:brewer2026.pack_generator"
       ],
       "existing_evidence": [
-        "registry valid_range + evidence_strength, verbatim"
+        "registry execution_role + valid_range + evidence_strength, verbatim. Same-stage co-location only; no output-to-input path was checked."
+      ],
+      "grouping_key": [
+        "T-0003"
       ],
       "history": [],
       "id": "I-003",
-      "inconclusive_if": "No second source exists for the closure and no range is declared.",
+      "inconclusive_if": "No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.",
       "insight_types": [
-        "closure_portability"
+        "calibration_artifact_portability"
       ],
-      "lens": "closure_portability",
+      "lens": "calibration_artifact_portability",
       "lineage_risks": [],
-      "minimum_figure": "Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.",
+      "minimum_figure": "Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.",
       "novelty_search_terms": [
         "closure transferability porous media",
         "correlation extrapolation validity range",
         "permeability correlation portability"
       ],
-      "question": "Does a result that consumes brewer2026.pack_generator change materially when the closure is swapped for another source's, or driven outside its declared validity?",
-      "retire_if": "The consuming result is insensitive to the swap across the used range.",
+      "question": "Which registered component, if any, actually consumes brewer2026.pack_generator's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?",
+      "retire_if": "A consuming path exists and the consuming result is insensitive to the swap across the used range.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
-      "stop_condition": "The swap changes the consuming result by less than its uncertainty.",
-      "strongest_alternative": "The consuming model is insensitive to this closure entirely, so portability is moot for it.",
-      "survive_if": "The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.",
+      "stop_condition": "Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.",
+      "strongest_alternative": "Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.",
+      "survive_if": "A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.",
       "tension_ids": [
         "T-0003"
       ],
-      "title": "Does brewer2026.pack_generator survive being used outside the range it was fitted in?",
-      "why_it_may_matter": "Closures travel between sources far more readily than the conditions they were fitted under.",
+      "title": "Does anything consume brewer2026.pack_generator, and does it survive outside its declared range?",
+      "why_it_may_matter": "Calibration artifacts travel between sources far more readily than the conditions they were fitted under — but only along paths that actually exist, and the registry does not record those paths.",
       "why_it_may_surprise": ""
     },
     {
@@ -133,7 +145,8 @@
         "technical_note",
         "methods_paper"
       ],
-      "cheap_test": "Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.",
+      "cheap_test": "Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.",
+      "difference_type": "calibration_artifact_producer",
       "entity_ids": [
         "model:fasano2000_partI.fines_migration",
         "model:brewer2026.coupled_kappa_t",
@@ -142,36 +155,39 @@
         "model:waszkiewicz2025.poroelastic"
       ],
       "existing_evidence": [
-        "registry valid_range + evidence_strength, verbatim"
+        "registry execution_role + valid_range + evidence_strength, verbatim. Same-stage co-location only; no output-to-input path was checked."
+      ],
+      "grouping_key": [
+        "T-0004"
       ],
       "history": [],
       "id": "I-004",
-      "inconclusive_if": "No second source exists for the closure and no range is declared.",
+      "inconclusive_if": "No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.",
       "insight_types": [
-        "closure_portability"
+        "calibration_artifact_portability"
       ],
-      "lens": "closure_portability",
+      "lens": "calibration_artifact_portability",
       "lineage_risks": [],
-      "minimum_figure": "Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.",
+      "minimum_figure": "Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.",
       "novelty_search_terms": [
         "closure transferability porous media",
         "correlation extrapolation validity range",
         "permeability correlation portability"
       ],
-      "question": "Does a result that consumes fasano2000_partI.fines_migration change materially when the closure is swapped for another source's, or driven outside its declared validity?",
-      "retire_if": "The consuming result is insensitive to the swap across the used range.",
+      "question": "Which registered component, if any, actually consumes fasano2000_partI.fines_migration's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?",
+      "retire_if": "A consuming path exists and the consuming result is insensitive to the swap across the used range.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
-      "stop_condition": "The swap changes the consuming result by less than its uncertainty.",
-      "strongest_alternative": "The consuming model is insensitive to this closure entirely, so portability is moot for it.",
-      "survive_if": "The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.",
+      "stop_condition": "Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.",
+      "strongest_alternative": "Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.",
+      "survive_if": "A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.",
       "tension_ids": [
         "T-0004"
       ],
-      "title": "Does fasano2000_partI.fines_migration survive being used outside the range it was fitted in?",
-      "why_it_may_matter": "Closures travel between sources far more readily than the conditions they were fitted under.",
+      "title": "Does anything consume fasano2000_partI.fines_migration, and does it survive outside its declared range?",
+      "why_it_may_matter": "Calibration artifacts travel between sources far more readily than the conditions they were fitted under — but only along paths that actually exist, and the registry does not record those paths.",
       "why_it_may_surprise": ""
     },
     {
@@ -179,42 +195,46 @@
         "technical_note",
         "methods_paper"
       ],
-      "cheap_test": "Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.",
+      "cheap_test": "Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.",
+      "difference_type": "calibration_artifact_producer",
       "entity_ids": [
         "model:lee2023.feedback",
         "model:wadsworth2026.inertial"
       ],
       "existing_evidence": [
-        "registry valid_range + evidence_strength, verbatim"
+        "registry execution_role + valid_range + evidence_strength, verbatim. Same-stage co-location only; no output-to-input path was checked."
+      ],
+      "grouping_key": [
+        "T-0005"
       ],
       "history": [],
       "id": "I-005",
-      "inconclusive_if": "No second source exists for the closure and no range is declared.",
+      "inconclusive_if": "No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.",
       "insight_types": [
-        "closure_portability"
+        "calibration_artifact_portability"
       ],
-      "lens": "closure_portability",
+      "lens": "calibration_artifact_portability",
       "lineage_risks": [],
-      "minimum_figure": "Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.",
+      "minimum_figure": "Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.",
       "novelty_search_terms": [
         "closure transferability porous media",
         "correlation extrapolation validity range",
         "permeability correlation portability"
       ],
-      "question": "Does a result that consumes lee2023.feedback change materially when the closure is swapped for another source's, or driven outside its declared validity?",
-      "retire_if": "The consuming result is insensitive to the swap across the used range.",
+      "question": "Which registered component, if any, actually consumes lee2023.feedback's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?",
+      "retire_if": "A consuming path exists and the consuming result is insensitive to the swap across the used range.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
-      "stop_condition": "The swap changes the consuming result by less than its uncertainty.",
-      "strongest_alternative": "The consuming model is insensitive to this closure entirely, so portability is moot for it.",
-      "survive_if": "The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.",
+      "stop_condition": "Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.",
+      "strongest_alternative": "Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.",
+      "survive_if": "A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.",
       "tension_ids": [
         "T-0005"
       ],
-      "title": "Does lee2023.feedback survive being used outside the range it was fitted in?",
-      "why_it_may_matter": "Closures travel between sources far more readily than the conditions they were fitted under.",
+      "title": "Does anything consume lee2023.feedback, and does it survive outside its declared range?",
+      "why_it_may_matter": "Calibration artifacts travel between sources far more readily than the conditions they were fitted under — but only along paths that actually exist, and the registry does not record those paths.",
       "why_it_may_surprise": ""
     },
     {
@@ -222,7 +242,8 @@
         "technical_note",
         "methods_paper"
       ],
-      "cheap_test": "Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.",
+      "cheap_test": "Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.",
+      "difference_type": "calibration_artifact_producer",
       "entity_ids": [
         "model:liang2021.desorption",
         "model:cameron2020.extraction_bdf",
@@ -232,36 +253,39 @@
         "model:romancorrochano2017.extraction"
       ],
       "existing_evidence": [
-        "registry valid_range + evidence_strength, verbatim"
+        "registry execution_role + valid_range + evidence_strength, verbatim. Same-stage co-location only; no output-to-input path was checked."
+      ],
+      "grouping_key": [
+        "T-0006"
       ],
       "history": [],
       "id": "I-006",
-      "inconclusive_if": "No second source exists for the closure and no range is declared.",
+      "inconclusive_if": "No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.",
       "insight_types": [
-        "closure_portability"
+        "calibration_artifact_portability"
       ],
-      "lens": "closure_portability",
+      "lens": "calibration_artifact_portability",
       "lineage_risks": [],
-      "minimum_figure": "Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.",
+      "minimum_figure": "Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.",
       "novelty_search_terms": [
         "closure transferability porous media",
         "correlation extrapolation validity range",
         "permeability correlation portability"
       ],
-      "question": "Does a result that consumes liang2021.desorption change materially when the closure is swapped for another source's, or driven outside its declared validity?",
-      "retire_if": "The consuming result is insensitive to the swap across the used range.",
+      "question": "Which registered component, if any, actually consumes liang2021.desorption's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?",
+      "retire_if": "A consuming path exists and the consuming result is insensitive to the swap across the used range.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
-      "stop_condition": "The swap changes the consuming result by less than its uncertainty.",
-      "strongest_alternative": "The consuming model is insensitive to this closure entirely, so portability is moot for it.",
-      "survive_if": "The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.",
+      "stop_condition": "Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.",
+      "strongest_alternative": "Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.",
+      "survive_if": "A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.",
       "tension_ids": [
         "T-0006"
       ],
-      "title": "Does liang2021.desorption survive being used outside the range it was fitted in?",
-      "why_it_may_matter": "Closures travel between sources far more readily than the conditions they were fitted under.",
+      "title": "Does anything consume liang2021.desorption, and does it survive outside its declared range?",
+      "why_it_may_matter": "Calibration artifacts travel between sources far more readily than the conditions they were fitted under — but only along paths that actually exist, and the registry does not record those paths.",
       "why_it_may_surprise": ""
     },
     {
@@ -269,41 +293,45 @@
         "technical_note",
         "methods_paper"
       ],
-      "cheap_test": "Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.",
+      "cheap_test": "Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.",
+      "difference_type": "calibration_artifact_producer",
       "entity_ids": [
         "model:maille2024.phi_closure"
       ],
       "existing_evidence": [
-        "registry valid_range + evidence_strength, verbatim"
+        "registry execution_role + valid_range + evidence_strength, verbatim. Same-stage co-location only; no output-to-input path was checked."
+      ],
+      "grouping_key": [
+        "T-0007"
       ],
       "history": [],
       "id": "I-007",
-      "inconclusive_if": "No second source exists for the closure and no range is declared.",
+      "inconclusive_if": "No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.",
       "insight_types": [
-        "closure_portability"
+        "calibration_artifact_portability"
       ],
-      "lens": "closure_portability",
+      "lens": "calibration_artifact_portability",
       "lineage_risks": [],
-      "minimum_figure": "Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.",
+      "minimum_figure": "Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.",
       "novelty_search_terms": [
         "closure transferability porous media",
         "correlation extrapolation validity range",
         "permeability correlation portability"
       ],
-      "question": "Does a result that consumes maille2024.phi_closure change materially when the closure is swapped for another source's, or driven outside its declared validity?",
-      "retire_if": "The consuming result is insensitive to the swap across the used range.",
+      "question": "Which registered component, if any, actually consumes maille2024.phi_closure's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?",
+      "retire_if": "A consuming path exists and the consuming result is insensitive to the swap across the used range.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
-      "stop_condition": "The swap changes the consuming result by less than its uncertainty.",
-      "strongest_alternative": "The consuming model is insensitive to this closure entirely, so portability is moot for it.",
-      "survive_if": "The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.",
+      "stop_condition": "Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.",
+      "strongest_alternative": "Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.",
+      "survive_if": "A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.",
       "tension_ids": [
         "T-0007"
       ],
-      "title": "Does maille2024.phi_closure survive being used outside the range it was fitted in?",
-      "why_it_may_matter": "Closures travel between sources far more readily than the conditions they were fitted under.",
+      "title": "Does anything consume maille2024.phi_closure, and does it survive outside its declared range?",
+      "why_it_may_matter": "Calibration artifacts travel between sources far more readily than the conditions they were fitted under — but only along paths that actually exist, and the registry does not record those paths.",
       "why_it_may_surprise": ""
     },
     {
@@ -311,7 +339,8 @@
         "technical_note",
         "methods_paper"
       ],
-      "cheap_test": "Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.",
+      "cheap_test": "Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.",
+      "difference_type": "calibration_artifact_producer",
       "entity_ids": [
         "model:maille2024.two_regime",
         "model:cameron2020.extraction_bdf",
@@ -321,36 +350,39 @@
         "model:romancorrochano2017.extraction"
       ],
       "existing_evidence": [
-        "registry valid_range + evidence_strength, verbatim"
+        "registry execution_role + valid_range + evidence_strength, verbatim. Same-stage co-location only; no output-to-input path was checked."
+      ],
+      "grouping_key": [
+        "T-0008"
       ],
       "history": [],
       "id": "I-008",
-      "inconclusive_if": "No second source exists for the closure and no range is declared.",
+      "inconclusive_if": "No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.",
       "insight_types": [
-        "closure_portability"
+        "calibration_artifact_portability"
       ],
-      "lens": "closure_portability",
+      "lens": "calibration_artifact_portability",
       "lineage_risks": [],
-      "minimum_figure": "Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.",
+      "minimum_figure": "Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.",
       "novelty_search_terms": [
         "closure transferability porous media",
         "correlation extrapolation validity range",
         "permeability correlation portability"
       ],
-      "question": "Does a result that consumes maille2024.two_regime change materially when the closure is swapped for another source's, or driven outside its declared validity?",
-      "retire_if": "The consuming result is insensitive to the swap across the used range.",
+      "question": "Which registered component, if any, actually consumes maille2024.two_regime's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?",
+      "retire_if": "A consuming path exists and the consuming result is insensitive to the swap across the used range.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
-      "stop_condition": "The swap changes the consuming result by less than its uncertainty.",
-      "strongest_alternative": "The consuming model is insensitive to this closure entirely, so portability is moot for it.",
-      "survive_if": "The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.",
+      "stop_condition": "Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.",
+      "strongest_alternative": "Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.",
+      "survive_if": "A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.",
       "tension_ids": [
         "T-0008"
       ],
-      "title": "Does maille2024.two_regime survive being used outside the range it was fitted in?",
-      "why_it_may_matter": "Closures travel between sources far more readily than the conditions they were fitted under.",
+      "title": "Does anything consume maille2024.two_regime, and does it survive outside its declared range?",
+      "why_it_may_matter": "Calibration artifacts travel between sources far more readily than the conditions they were fitted under — but only along paths that actually exist, and the registry does not record those paths.",
       "why_it_may_surprise": ""
     },
     {
@@ -358,7 +390,8 @@
         "technical_note",
         "methods_paper"
       ],
-      "cheap_test": "Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.",
+      "cheap_test": "Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.",
+      "difference_type": "calibration_artifact_producer",
       "entity_ids": [
         "model:moroney2016.surrogate",
         "model:cameron2020.extraction_bdf",
@@ -368,36 +401,39 @@
         "model:romancorrochano2017.extraction"
       ],
       "existing_evidence": [
-        "registry valid_range + evidence_strength, verbatim"
+        "registry execution_role + valid_range + evidence_strength, verbatim. Same-stage co-location only; no output-to-input path was checked."
+      ],
+      "grouping_key": [
+        "T-0009"
       ],
       "history": [],
       "id": "I-009",
-      "inconclusive_if": "No second source exists for the closure and no range is declared.",
+      "inconclusive_if": "No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.",
       "insight_types": [
-        "closure_portability"
+        "calibration_artifact_portability"
       ],
-      "lens": "closure_portability",
+      "lens": "calibration_artifact_portability",
       "lineage_risks": [],
-      "minimum_figure": "Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.",
+      "minimum_figure": "Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.",
       "novelty_search_terms": [
         "closure transferability porous media",
         "correlation extrapolation validity range",
         "permeability correlation portability"
       ],
-      "question": "Does a result that consumes moroney2016.surrogate change materially when the closure is swapped for another source's, or driven outside its declared validity?",
-      "retire_if": "The consuming result is insensitive to the swap across the used range.",
+      "question": "Which registered component, if any, actually consumes moroney2016.surrogate's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?",
+      "retire_if": "A consuming path exists and the consuming result is insensitive to the swap across the used range.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
-      "stop_condition": "The swap changes the consuming result by less than its uncertainty.",
-      "strongest_alternative": "The consuming model is insensitive to this closure entirely, so portability is moot for it.",
-      "survive_if": "The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.",
+      "stop_condition": "Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.",
+      "strongest_alternative": "Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.",
+      "survive_if": "A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.",
       "tension_ids": [
         "T-0009"
       ],
-      "title": "Does moroney2016.surrogate survive being used outside the range it was fitted in?",
-      "why_it_may_matter": "Closures travel between sources far more readily than the conditions they were fitted under.",
+      "title": "Does anything consume moroney2016.surrogate, and does it survive outside its declared range?",
+      "why_it_may_matter": "Calibration artifacts travel between sources far more readily than the conditions they were fitted under — but only along paths that actually exist, and the registry does not record those paths.",
       "why_it_may_surprise": ""
     },
     {
@@ -405,7 +441,8 @@
         "technical_note",
         "methods_paper"
       ],
-      "cheap_test": "Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.",
+      "cheap_test": "Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.",
+      "difference_type": "calibration_artifact_producer",
       "entity_ids": [
         "model:pannusch2024.closures",
         "model:cameron2020.extraction_bdf",
@@ -415,36 +452,39 @@
         "model:romancorrochano2017.extraction"
       ],
       "existing_evidence": [
-        "registry valid_range + evidence_strength, verbatim"
+        "registry execution_role + valid_range + evidence_strength, verbatim. Same-stage co-location only; no output-to-input path was checked."
+      ],
+      "grouping_key": [
+        "T-0010"
       ],
       "history": [],
       "id": "I-010",
-      "inconclusive_if": "No second source exists for the closure and no range is declared.",
+      "inconclusive_if": "No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.",
       "insight_types": [
-        "closure_portability"
+        "calibration_artifact_portability"
       ],
-      "lens": "closure_portability",
+      "lens": "calibration_artifact_portability",
       "lineage_risks": [],
-      "minimum_figure": "Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.",
+      "minimum_figure": "Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.",
       "novelty_search_terms": [
         "closure transferability porous media",
         "correlation extrapolation validity range",
         "permeability correlation portability"
       ],
-      "question": "Does a result that consumes pannusch2024.closures change materially when the closure is swapped for another source's, or driven outside its declared validity?",
-      "retire_if": "The consuming result is insensitive to the swap across the used range.",
+      "question": "Which registered component, if any, actually consumes pannusch2024.closures's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?",
+      "retire_if": "A consuming path exists and the consuming result is insensitive to the swap across the used range.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
-      "stop_condition": "The swap changes the consuming result by less than its uncertainty.",
-      "strongest_alternative": "The consuming model is insensitive to this closure entirely, so portability is moot for it.",
-      "survive_if": "The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.",
+      "stop_condition": "Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.",
+      "strongest_alternative": "Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.",
+      "survive_if": "A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.",
       "tension_ids": [
         "T-0010"
       ],
-      "title": "Does pannusch2024.closures survive being used outside the range it was fitted in?",
-      "why_it_may_matter": "Closures travel between sources far more readily than the conditions they were fitted under.",
+      "title": "Does anything consume pannusch2024.closures, and does it survive outside its declared range?",
+      "why_it_may_matter": "Calibration artifacts travel between sources far more readily than the conditions they were fitted under — but only along paths that actually exist, and the registry does not record those paths.",
       "why_it_may_surprise": ""
     },
     {
@@ -452,42 +492,46 @@
         "technical_note",
         "methods_paper"
       ],
-      "cheap_test": "Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.",
+      "cheap_test": "Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.",
+      "difference_type": "calibration_artifact_producer",
       "entity_ids": [
         "model:sourcing2026.g10_liquor_rheology",
         "model:wadsworth2026.inertial"
       ],
       "existing_evidence": [
-        "registry valid_range + evidence_strength, verbatim"
+        "registry execution_role + valid_range + evidence_strength, verbatim. Same-stage co-location only; no output-to-input path was checked."
+      ],
+      "grouping_key": [
+        "T-0011"
       ],
       "history": [],
       "id": "I-011",
-      "inconclusive_if": "No second source exists for the closure and no range is declared.",
+      "inconclusive_if": "No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.",
       "insight_types": [
-        "closure_portability"
+        "calibration_artifact_portability"
       ],
-      "lens": "closure_portability",
+      "lens": "calibration_artifact_portability",
       "lineage_risks": [],
-      "minimum_figure": "Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.",
+      "minimum_figure": "Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.",
       "novelty_search_terms": [
         "closure transferability porous media",
         "correlation extrapolation validity range",
         "permeability correlation portability"
       ],
-      "question": "Does a result that consumes sourcing2026.g10_liquor_rheology change materially when the closure is swapped for another source's, or driven outside its declared validity?",
-      "retire_if": "The consuming result is insensitive to the swap across the used range.",
+      "question": "Which registered component, if any, actually consumes sourcing2026.g10_liquor_rheology's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?",
+      "retire_if": "A consuming path exists and the consuming result is insensitive to the swap across the used range.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
-      "stop_condition": "The swap changes the consuming result by less than its uncertainty.",
-      "strongest_alternative": "The consuming model is insensitive to this closure entirely, so portability is moot for it.",
-      "survive_if": "The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.",
+      "stop_condition": "Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.",
+      "strongest_alternative": "Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.",
+      "survive_if": "A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.",
       "tension_ids": [
         "T-0011"
       ],
-      "title": "Does sourcing2026.g10_liquor_rheology survive being used outside the range it was fitted in?",
-      "why_it_may_matter": "Closures travel between sources far more readily than the conditions they were fitted under.",
+      "title": "Does anything consume sourcing2026.g10_liquor_rheology, and does it survive outside its declared range?",
+      "why_it_may_matter": "Calibration artifacts travel between sources far more readily than the conditions they were fitted under — but only along paths that actually exist, and the registry does not record those paths.",
       "why_it_may_surprise": ""
     },
     {
@@ -495,42 +539,46 @@
         "technical_note",
         "methods_paper"
       ],
-      "cheap_test": "Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.",
+      "cheap_test": "Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.",
+      "difference_type": "calibration_artifact_producer",
       "entity_ids": [
         "model:sourcing2026.g1_glassbead_analog",
         "model:foster2025.infiltration"
       ],
       "existing_evidence": [
-        "registry valid_range + evidence_strength, verbatim"
+        "registry execution_role + valid_range + evidence_strength, verbatim. Same-stage co-location only; no output-to-input path was checked."
+      ],
+      "grouping_key": [
+        "T-0012"
       ],
       "history": [],
       "id": "I-012",
-      "inconclusive_if": "No second source exists for the closure and no range is declared.",
+      "inconclusive_if": "No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.",
       "insight_types": [
-        "closure_portability"
+        "calibration_artifact_portability"
       ],
-      "lens": "closure_portability",
+      "lens": "calibration_artifact_portability",
       "lineage_risks": [],
-      "minimum_figure": "Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.",
+      "minimum_figure": "Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.",
       "novelty_search_terms": [
         "closure transferability porous media",
         "correlation extrapolation validity range",
         "permeability correlation portability"
       ],
-      "question": "Does a result that consumes sourcing2026.g1_glassbead_analog change materially when the closure is swapped for another source's, or driven outside its declared validity?",
-      "retire_if": "The consuming result is insensitive to the swap across the used range.",
+      "question": "Which registered component, if any, actually consumes sourcing2026.g1_glassbead_analog's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?",
+      "retire_if": "A consuming path exists and the consuming result is insensitive to the swap across the used range.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
-      "stop_condition": "The swap changes the consuming result by less than its uncertainty.",
-      "strongest_alternative": "The consuming model is insensitive to this closure entirely, so portability is moot for it.",
-      "survive_if": "The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.",
+      "stop_condition": "Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.",
+      "strongest_alternative": "Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.",
+      "survive_if": "A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.",
       "tension_ids": [
         "T-0012"
       ],
-      "title": "Does sourcing2026.g1_glassbead_analog survive being used outside the range it was fitted in?",
-      "why_it_may_matter": "Closures travel between sources far more readily than the conditions they were fitted under.",
+      "title": "Does anything consume sourcing2026.g1_glassbead_analog, and does it survive outside its declared range?",
+      "why_it_may_matter": "Calibration artifacts travel between sources far more readily than the conditions they were fitted under — but only along paths that actually exist, and the registry does not record those paths.",
       "why_it_may_surprise": ""
     },
     {
@@ -538,42 +586,46 @@
         "technical_note",
         "methods_paper"
       ],
-      "cheap_test": "Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.",
+      "cheap_test": "Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.",
+      "difference_type": "calibration_artifact_producer",
       "entity_ids": [
         "model:sourcing2026.g3_pump_characteristic",
         "model:foster2025.machine_mode"
       ],
       "existing_evidence": [
-        "registry valid_range + evidence_strength, verbatim"
+        "registry execution_role + valid_range + evidence_strength, verbatim. Same-stage co-location only; no output-to-input path was checked."
+      ],
+      "grouping_key": [
+        "T-0013"
       ],
       "history": [],
       "id": "I-013",
-      "inconclusive_if": "No second source exists for the closure and no range is declared.",
+      "inconclusive_if": "No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.",
       "insight_types": [
-        "closure_portability"
+        "calibration_artifact_portability"
       ],
-      "lens": "closure_portability",
+      "lens": "calibration_artifact_portability",
       "lineage_risks": [],
-      "minimum_figure": "Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.",
+      "minimum_figure": "Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.",
       "novelty_search_terms": [
         "closure transferability porous media",
         "correlation extrapolation validity range",
         "permeability correlation portability"
       ],
-      "question": "Does a result that consumes sourcing2026.g3_pump_characteristic change materially when the closure is swapped for another source's, or driven outside its declared validity?",
-      "retire_if": "The consuming result is insensitive to the swap across the used range.",
+      "question": "Which registered component, if any, actually consumes sourcing2026.g3_pump_characteristic's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?",
+      "retire_if": "A consuming path exists and the consuming result is insensitive to the swap across the used range.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
-      "stop_condition": "The swap changes the consuming result by less than its uncertainty.",
-      "strongest_alternative": "The consuming model is insensitive to this closure entirely, so portability is moot for it.",
-      "survive_if": "The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.",
+      "stop_condition": "Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.",
+      "strongest_alternative": "Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.",
+      "survive_if": "A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.",
       "tension_ids": [
         "T-0013"
       ],
-      "title": "Does sourcing2026.g3_pump_characteristic survive being used outside the range it was fitted in?",
-      "why_it_may_matter": "Closures travel between sources far more readily than the conditions they were fitted under.",
+      "title": "Does anything consume sourcing2026.g3_pump_characteristic, and does it survive outside its declared range?",
+      "why_it_may_matter": "Calibration artifacts travel between sources far more readily than the conditions they were fitted under — but only along paths that actually exist, and the registry does not record those paths.",
       "why_it_may_surprise": ""
     },
     {
@@ -581,41 +633,45 @@
         "technical_note",
         "methods_paper"
       ],
-      "cheap_test": "Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.",
+      "cheap_test": "Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.",
+      "difference_type": "calibration_artifact_producer",
       "entity_ids": [
         "model:wadsworth2026.grindmap"
       ],
       "existing_evidence": [
-        "registry valid_range + evidence_strength, verbatim"
+        "registry execution_role + valid_range + evidence_strength, verbatim. Same-stage co-location only; no output-to-input path was checked."
+      ],
+      "grouping_key": [
+        "T-0014"
       ],
       "history": [],
       "id": "I-014",
-      "inconclusive_if": "No second source exists for the closure and no range is declared.",
+      "inconclusive_if": "No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.",
       "insight_types": [
-        "closure_portability"
+        "calibration_artifact_portability"
       ],
-      "lens": "closure_portability",
+      "lens": "calibration_artifact_portability",
       "lineage_risks": [],
-      "minimum_figure": "Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.",
+      "minimum_figure": "Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.",
       "novelty_search_terms": [
         "closure transferability porous media",
         "correlation extrapolation validity range",
         "permeability correlation portability"
       ],
-      "question": "Does a result that consumes wadsworth2026.grindmap change materially when the closure is swapped for another source's, or driven outside its declared validity?",
-      "retire_if": "The consuming result is insensitive to the swap across the used range.",
+      "question": "Which registered component, if any, actually consumes wadsworth2026.grindmap's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?",
+      "retire_if": "A consuming path exists and the consuming result is insensitive to the swap across the used range.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
-      "stop_condition": "The swap changes the consuming result by less than its uncertainty.",
-      "strongest_alternative": "The consuming model is insensitive to this closure entirely, so portability is moot for it.",
-      "survive_if": "The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.",
+      "stop_condition": "Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.",
+      "strongest_alternative": "Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.",
+      "survive_if": "A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.",
       "tension_ids": [
         "T-0014"
       ],
-      "title": "Does wadsworth2026.grindmap survive being used outside the range it was fitted in?",
-      "why_it_may_matter": "Closures travel between sources far more readily than the conditions they were fitted under.",
+      "title": "Does anything consume wadsworth2026.grindmap, and does it survive outside its declared range?",
+      "why_it_may_matter": "Calibration artifacts travel between sources far more readily than the conditions they were fitted under — but only along paths that actually exist, and the registry does not record those paths.",
       "why_it_may_surprise": ""
     },
     {
@@ -623,41 +679,45 @@
         "technical_note",
         "methods_paper"
       ],
-      "cheap_test": "Source-swap sensitivity: hold the consuming configuration fixed, swap the closure, and record the change in the consuming observable. Then sweep to the edge of the declared range.",
+      "cheap_test": "Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.",
+      "difference_type": "calibration_artifact_producer",
       "entity_ids": [
         "model:wadsworth2026.permeability"
       ],
       "existing_evidence": [
-        "registry valid_range + evidence_strength, verbatim"
+        "registry execution_role + valid_range + evidence_strength, verbatim. Same-stage co-location only; no output-to-input path was checked."
+      ],
+      "grouping_key": [
+        "T-0015"
       ],
       "history": [],
       "id": "I-015",
-      "inconclusive_if": "No second source exists for the closure and no range is declared.",
+      "inconclusive_if": "No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.",
       "insight_types": [
-        "closure_portability"
+        "calibration_artifact_portability"
       ],
-      "lens": "closure_portability",
+      "lens": "calibration_artifact_portability",
       "lineage_risks": [],
-      "minimum_figure": "Consuming observable versus the closure's driving variable, one curve per closure source, with the declared range shaded.",
+      "minimum_figure": "Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.",
       "novelty_search_terms": [
         "closure transferability porous media",
         "correlation extrapolation validity range",
         "permeability correlation portability"
       ],
-      "question": "Does a result that consumes wadsworth2026.permeability change materially when the closure is swapped for another source's, or driven outside its declared validity?",
-      "retire_if": "The consuming result is insensitive to the swap across the used range.",
+      "question": "Which registered component, if any, actually consumes wadsworth2026.permeability's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?",
+      "retire_if": "A consuming path exists and the consuming result is insensitive to the swap across the used range.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
-      "stop_condition": "The swap changes the consuming result by less than its uncertainty.",
-      "strongest_alternative": "The consuming model is insensitive to this closure entirely, so portability is moot for it.",
-      "survive_if": "The consuming result moves by more than its own stated uncertainty under the swap, or the closure is already consumed outside its declared range.",
+      "stop_condition": "Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.",
+      "strongest_alternative": "Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.",
+      "survive_if": "A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.",
       "tension_ids": [
         "T-0015"
       ],
-      "title": "Does wadsworth2026.permeability survive being used outside the range it was fitted in?",
-      "why_it_may_matter": "Closures travel between sources far more readily than the conditions they were fitted under.",
+      "title": "Does anything consume wadsworth2026.permeability, and does it survive outside its declared range?",
+      "why_it_may_matter": "Calibration artifacts travel between sources far more readily than the conditions they were fitted under — but only along paths that actually exist, and the registry does not record those paths.",
       "why_it_may_surprise": ""
     },
     {
@@ -665,11 +725,15 @@
         "methods_paper"
       ],
       "cheap_test": "Apply the published case's base-plus-one-mechanism protocol to a predeclared set of other combinations, same objective and evidence unit.",
+      "difference_type": "published_composition_failure",
       "entity_ids": [
         "claim:PV-05"
       ],
       "existing_evidence": [
         "generated public claim registry, verbatim"
+      ],
+      "grouping_key": [
+        "T-0016"
       ],
       "history": [],
       "id": "I-016",
@@ -689,7 +753,7 @@
       "retire_if": "Every other combination behaves the same way as the published one.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "The protocol cannot be applied to a second combination.",
       "strongest_alternative": "The published failure is specific to that swelling branch and says nothing about composition in general.",
@@ -706,7 +770,8 @@
         "methods_paper",
         "technical_note"
       ],
-      "cheap_test": "Held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.",
+      "cheap_test": "Step 1 — classify each pair from its cards and registry entries: base/superset (one contains the other's mechanism set), alternative reductions (two simplifications of one source model), or independent (different stages or roles). Step 2, ONLY for confirmed base/superset pairs — held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.",
+      "difference_type": "same_source_pair_requires_composition_audit",
       "entity_ids": [
         "model:brewer2026.coupled_kappa_t",
         "model:brewer2026.lb_reference",
@@ -715,30 +780,34 @@
         "model:brewer2026.streamtube"
       ],
       "existing_evidence": [
-        "registry: two components sharing one source prefix"
+        "registry: two components sharing one source prefix. That is ALL it establishes — no card relation was read as declaring one a superset of the other."
+      ],
+      "grouping_key": [
+        "brewer2026"
       ],
       "history": [],
       "id": "I-017",
-      "inconclusive_if": "No held-out unit exists for the pair.",
+      "inconclusive_if": "The cards do not state the mechanism sets precisely enough to classify a pair, or no held-out unit exists for a confirmed base/superset pair.",
       "insight_types": [
-        "model_composition"
+        "model_composition",
+        "corpus_hygiene"
       ],
       "lens": "composition_failure",
       "lineage_risks": [],
-      "minimum_figure": "Held-out error for base and base-plus-mechanism, both branches, with replicate variation drawn.",
+      "minimum_figure": "The classification table for all 10 pairs, plus held-out error for base and base-plus-mechanism (both branches, replicate variation drawn) for whichever pairs reach step 2.",
       "novelty_search_terms": [
         "model complexity held-out prediction",
         "compensating errors model calibration"
       ],
-      "question": "For the 10 brewer2026 component pairs where one adds a mechanism the other lacks, does the addition improve held-out prediction or only fit?",
-      "retire_if": "The addition improves held-out error in both branches.",
+      "question": "For the 10 brewer2026 pairs registered from one source, is each a base/superset pair, two alternative reductions, or two independent components — and for any confirmed base/superset pair, does the added mechanism improve held-out prediction or only fit?",
+      "retire_if": "No pair is base/superset, or every confirmed base/superset addition improves held-out error in both branches.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
-      "stop_condition": "The held-out difference is smaller than replicate variation.",
-      "strongest_alternative": "The two components are not a base/superset pair at all — they are alternative reductions of one source.",
-      "survive_if": "The added mechanism worsens held-out error, or improves it only after recalibration (compensating error).",
+      "stop_condition": "Every pair is classified, and every base/superset pair's held-out difference is smaller than replicate variation.",
+      "strongest_alternative": "Every pair turns out to be alternative reductions or independent components, so no composition question arises here at all.",
+      "survive_if": "At least one pair is confirmed base/superset AND the added mechanism worsens held-out error, or improves it only after recalibration (compensating error).",
       "tension_ids": [
         "T-0017",
         "T-0018",
@@ -751,8 +820,8 @@
         "T-0025",
         "T-0026"
       ],
-      "title": "Does the extra mechanism in the brewer2026 components earn its place?",
-      "why_it_may_matter": "More physics is not automatically better prediction, and the repository already holds one case where it was worse.",
+      "title": "How are the 10 brewer2026 same-source component pairs actually related?",
+      "why_it_may_matter": "The classification is worth having on its own — the registry does not record how same-source components relate, and only a base/superset pair can be asked whether added physics earns its place.",
       "why_it_may_surprise": ""
     },
     {
@@ -760,41 +829,46 @@
         "methods_paper",
         "technical_note"
       ],
-      "cheap_test": "Held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.",
+      "cheap_test": "Step 1 — classify each pair from its cards and registry entries: base/superset (one contains the other's mechanism set), alternative reductions (two simplifications of one source model), or independent (different stages or roles). Step 2, ONLY for confirmed base/superset pairs — held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.",
+      "difference_type": "same_source_pair_requires_composition_audit",
       "entity_ids": [
         "model:foster2025.infiltration",
         "model:foster2025.machine_mode"
       ],
       "existing_evidence": [
-        "registry: two components sharing one source prefix"
+        "registry: two components sharing one source prefix. That is ALL it establishes — no card relation was read as declaring one a superset of the other."
+      ],
+      "grouping_key": [
+        "foster2025"
       ],
       "history": [],
       "id": "I-018",
-      "inconclusive_if": "No held-out unit exists for the pair.",
+      "inconclusive_if": "The cards do not state the mechanism sets precisely enough to classify a pair, or no held-out unit exists for a confirmed base/superset pair.",
       "insight_types": [
-        "model_composition"
+        "model_composition",
+        "corpus_hygiene"
       ],
       "lens": "composition_failure",
       "lineage_risks": [],
-      "minimum_figure": "Held-out error for base and base-plus-mechanism, both branches, with replicate variation drawn.",
+      "minimum_figure": "The classification table for all 1 pairs, plus held-out error for base and base-plus-mechanism (both branches, replicate variation drawn) for whichever pairs reach step 2.",
       "novelty_search_terms": [
         "model complexity held-out prediction",
         "compensating errors model calibration"
       ],
-      "question": "For the 1 foster2025 component pairs where one adds a mechanism the other lacks, does the addition improve held-out prediction or only fit?",
-      "retire_if": "The addition improves held-out error in both branches.",
+      "question": "For the 1 foster2025 pairs registered from one source, is each a base/superset pair, two alternative reductions, or two independent components — and for any confirmed base/superset pair, does the added mechanism improve held-out prediction or only fit?",
+      "retire_if": "No pair is base/superset, or every confirmed base/superset addition improves held-out error in both branches.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
-      "stop_condition": "The held-out difference is smaller than replicate variation.",
-      "strongest_alternative": "The two components are not a base/superset pair at all — they are alternative reductions of one source.",
-      "survive_if": "The added mechanism worsens held-out error, or improves it only after recalibration (compensating error).",
+      "stop_condition": "Every pair is classified, and every base/superset pair's held-out difference is smaller than replicate variation.",
+      "strongest_alternative": "Every pair turns out to be alternative reductions or independent components, so no composition question arises here at all.",
+      "survive_if": "At least one pair is confirmed base/superset AND the added mechanism worsens held-out error, or improves it only after recalibration (compensating error).",
       "tension_ids": [
         "T-0027"
       ],
-      "title": "Does the extra mechanism in the foster2025 components earn its place?",
-      "why_it_may_matter": "More physics is not automatically better prediction, and the repository already holds one case where it was worse.",
+      "title": "How are the 1 foster2025 same-source component pairs actually related?",
+      "why_it_may_matter": "The classification is worth having on its own — the registry does not record how same-source components relate, and only a base/superset pair can be asked whether added physics earns its place.",
       "why_it_may_surprise": ""
     },
     {
@@ -802,41 +876,46 @@
         "methods_paper",
         "technical_note"
       ],
-      "cheap_test": "Held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.",
+      "cheap_test": "Step 1 — classify each pair from its cards and registry entries: base/superset (one contains the other's mechanism set), alternative reductions (two simplifications of one source model), or independent (different stages or roles). Step 2, ONLY for confirmed base/superset pairs — held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.",
+      "difference_type": "same_source_pair_requires_composition_audit",
       "entity_ids": [
         "model:maille2024.phi_closure",
         "model:maille2024.two_regime"
       ],
       "existing_evidence": [
-        "registry: two components sharing one source prefix"
+        "registry: two components sharing one source prefix. That is ALL it establishes — no card relation was read as declaring one a superset of the other."
+      ],
+      "grouping_key": [
+        "maille2024"
       ],
       "history": [],
       "id": "I-019",
-      "inconclusive_if": "No held-out unit exists for the pair.",
+      "inconclusive_if": "The cards do not state the mechanism sets precisely enough to classify a pair, or no held-out unit exists for a confirmed base/superset pair.",
       "insight_types": [
-        "model_composition"
+        "model_composition",
+        "corpus_hygiene"
       ],
       "lens": "composition_failure",
       "lineage_risks": [],
-      "minimum_figure": "Held-out error for base and base-plus-mechanism, both branches, with replicate variation drawn.",
+      "minimum_figure": "The classification table for all 1 pairs, plus held-out error for base and base-plus-mechanism (both branches, replicate variation drawn) for whichever pairs reach step 2.",
       "novelty_search_terms": [
         "model complexity held-out prediction",
         "compensating errors model calibration"
       ],
-      "question": "For the 1 maille2024 component pairs where one adds a mechanism the other lacks, does the addition improve held-out prediction or only fit?",
-      "retire_if": "The addition improves held-out error in both branches.",
+      "question": "For the 1 maille2024 pairs registered from one source, is each a base/superset pair, two alternative reductions, or two independent components — and for any confirmed base/superset pair, does the added mechanism improve held-out prediction or only fit?",
+      "retire_if": "No pair is base/superset, or every confirmed base/superset addition improves held-out error in both branches.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
-      "stop_condition": "The held-out difference is smaller than replicate variation.",
-      "strongest_alternative": "The two components are not a base/superset pair at all — they are alternative reductions of one source.",
-      "survive_if": "The added mechanism worsens held-out error, or improves it only after recalibration (compensating error).",
+      "stop_condition": "Every pair is classified, and every base/superset pair's held-out difference is smaller than replicate variation.",
+      "strongest_alternative": "Every pair turns out to be alternative reductions or independent components, so no composition question arises here at all.",
+      "survive_if": "At least one pair is confirmed base/superset AND the added mechanism worsens held-out error, or improves it only after recalibration (compensating error).",
       "tension_ids": [
         "T-0028"
       ],
-      "title": "Does the extra mechanism in the maille2024 components earn its place?",
-      "why_it_may_matter": "More physics is not automatically better prediction, and the repository already holds one case where it was worse.",
+      "title": "How are the 1 maille2024 same-source component pairs actually related?",
+      "why_it_may_matter": "The classification is worth having on its own — the registry does not record how same-source components relate, and only a base/superset pair can be asked whether added physics earns its place.",
       "why_it_may_surprise": ""
     },
     {
@@ -844,41 +923,46 @@
         "methods_paper",
         "technical_note"
       ],
-      "cheap_test": "Held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.",
+      "cheap_test": "Step 1 — classify each pair from its cards and registry entries: base/superset (one contains the other's mechanism set), alternative reductions (two simplifications of one source model), or independent (different stages or roles). Step 2, ONLY for confirmed base/superset pairs — held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.",
+      "difference_type": "same_source_pair_requires_composition_audit",
       "entity_ids": [
         "model:mo2023_2.coupled_bed",
         "model:mo2023_2.swelling"
       ],
       "existing_evidence": [
-        "registry: two components sharing one source prefix"
+        "registry: two components sharing one source prefix. That is ALL it establishes — no card relation was read as declaring one a superset of the other."
+      ],
+      "grouping_key": [
+        "mo2023_2"
       ],
       "history": [],
       "id": "I-020",
-      "inconclusive_if": "No held-out unit exists for the pair.",
+      "inconclusive_if": "The cards do not state the mechanism sets precisely enough to classify a pair, or no held-out unit exists for a confirmed base/superset pair.",
       "insight_types": [
-        "model_composition"
+        "model_composition",
+        "corpus_hygiene"
       ],
       "lens": "composition_failure",
       "lineage_risks": [],
-      "minimum_figure": "Held-out error for base and base-plus-mechanism, both branches, with replicate variation drawn.",
+      "minimum_figure": "The classification table for all 1 pairs, plus held-out error for base and base-plus-mechanism (both branches, replicate variation drawn) for whichever pairs reach step 2.",
       "novelty_search_terms": [
         "model complexity held-out prediction",
         "compensating errors model calibration"
       ],
-      "question": "For the 1 mo2023_2 component pairs where one adds a mechanism the other lacks, does the addition improve held-out prediction or only fit?",
-      "retire_if": "The addition improves held-out error in both branches.",
+      "question": "For the 1 mo2023_2 pairs registered from one source, is each a base/superset pair, two alternative reductions, or two independent components — and for any confirmed base/superset pair, does the added mechanism improve held-out prediction or only fit?",
+      "retire_if": "No pair is base/superset, or every confirmed base/superset addition improves held-out error in both branches.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
-      "stop_condition": "The held-out difference is smaller than replicate variation.",
-      "strongest_alternative": "The two components are not a base/superset pair at all — they are alternative reductions of one source.",
-      "survive_if": "The added mechanism worsens held-out error, or improves it only after recalibration (compensating error).",
+      "stop_condition": "Every pair is classified, and every base/superset pair's held-out difference is smaller than replicate variation.",
+      "strongest_alternative": "Every pair turns out to be alternative reductions or independent components, so no composition question arises here at all.",
+      "survive_if": "At least one pair is confirmed base/superset AND the added mechanism worsens held-out error, or improves it only after recalibration (compensating error).",
       "tension_ids": [
         "T-0029"
       ],
-      "title": "Does the extra mechanism in the mo2023_2 components earn its place?",
-      "why_it_may_matter": "More physics is not automatically better prediction, and the repository already holds one case where it was worse.",
+      "title": "How are the 1 mo2023_2 same-source component pairs actually related?",
+      "why_it_may_matter": "The classification is worth having on its own — the registry does not record how same-source components relate, and only a base/superset pair can be asked whether added physics earns its place.",
       "why_it_may_surprise": ""
     },
     {
@@ -886,41 +970,46 @@
         "methods_paper",
         "technical_note"
       ],
-      "cheap_test": "Held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.",
+      "cheap_test": "Step 1 — classify each pair from its cards and registry entries: base/superset (one contains the other's mechanism set), alternative reductions (two simplifications of one source model), or independent (different stages or roles). Step 2, ONLY for confirmed base/superset pairs — held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.",
+      "difference_type": "same_source_pair_requires_composition_audit",
       "entity_ids": [
         "model:pannusch2024.closures",
         "model:pannusch2024.solver"
       ],
       "existing_evidence": [
-        "registry: two components sharing one source prefix"
+        "registry: two components sharing one source prefix. That is ALL it establishes — no card relation was read as declaring one a superset of the other."
+      ],
+      "grouping_key": [
+        "pannusch2024"
       ],
       "history": [],
       "id": "I-021",
-      "inconclusive_if": "No held-out unit exists for the pair.",
+      "inconclusive_if": "The cards do not state the mechanism sets precisely enough to classify a pair, or no held-out unit exists for a confirmed base/superset pair.",
       "insight_types": [
-        "model_composition"
+        "model_composition",
+        "corpus_hygiene"
       ],
       "lens": "composition_failure",
       "lineage_risks": [],
-      "minimum_figure": "Held-out error for base and base-plus-mechanism, both branches, with replicate variation drawn.",
+      "minimum_figure": "The classification table for all 1 pairs, plus held-out error for base and base-plus-mechanism (both branches, replicate variation drawn) for whichever pairs reach step 2.",
       "novelty_search_terms": [
         "model complexity held-out prediction",
         "compensating errors model calibration"
       ],
-      "question": "For the 1 pannusch2024 component pairs where one adds a mechanism the other lacks, does the addition improve held-out prediction or only fit?",
-      "retire_if": "The addition improves held-out error in both branches.",
+      "question": "For the 1 pannusch2024 pairs registered from one source, is each a base/superset pair, two alternative reductions, or two independent components — and for any confirmed base/superset pair, does the added mechanism improve held-out prediction or only fit?",
+      "retire_if": "No pair is base/superset, or every confirmed base/superset addition improves held-out error in both branches.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
-      "stop_condition": "The held-out difference is smaller than replicate variation.",
-      "strongest_alternative": "The two components are not a base/superset pair at all — they are alternative reductions of one source.",
-      "survive_if": "The added mechanism worsens held-out error, or improves it only after recalibration (compensating error).",
+      "stop_condition": "Every pair is classified, and every base/superset pair's held-out difference is smaller than replicate variation.",
+      "strongest_alternative": "Every pair turns out to be alternative reductions or independent components, so no composition question arises here at all.",
+      "survive_if": "At least one pair is confirmed base/superset AND the added mechanism worsens held-out error, or improves it only after recalibration (compensating error).",
       "tension_ids": [
         "T-0030"
       ],
-      "title": "Does the extra mechanism in the pannusch2024 components earn its place?",
-      "why_it_may_matter": "More physics is not automatically better prediction, and the repository already holds one case where it was worse.",
+      "title": "How are the 1 pannusch2024 same-source component pairs actually related?",
+      "why_it_may_matter": "The classification is worth having on its own — the registry does not record how same-source components relate, and only a base/superset pair can be asked whether added physics earns its place.",
       "why_it_may_surprise": ""
     },
     {
@@ -928,44 +1017,49 @@
         "methods_paper",
         "technical_note"
       ],
-      "cheap_test": "Held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.",
+      "cheap_test": "Step 1 — classify each pair from its cards and registry entries: base/superset (one contains the other's mechanism set), alternative reductions (two simplifications of one source model), or independent (different stages or roles). Step 2, ONLY for confirmed base/superset pairs — held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.",
+      "difference_type": "same_source_pair_requires_composition_audit",
       "entity_ids": [
         "model:sourcing2026.g10_liquor_rheology",
         "model:sourcing2026.g1_glassbead_analog",
         "model:sourcing2026.g3_pump_characteristic"
       ],
       "existing_evidence": [
-        "registry: two components sharing one source prefix"
+        "registry: two components sharing one source prefix. That is ALL it establishes — no card relation was read as declaring one a superset of the other."
+      ],
+      "grouping_key": [
+        "sourcing2026"
       ],
       "history": [],
       "id": "I-022",
-      "inconclusive_if": "No held-out unit exists for the pair.",
+      "inconclusive_if": "The cards do not state the mechanism sets precisely enough to classify a pair, or no held-out unit exists for a confirmed base/superset pair.",
       "insight_types": [
-        "model_composition"
+        "model_composition",
+        "corpus_hygiene"
       ],
       "lens": "composition_failure",
       "lineage_risks": [],
-      "minimum_figure": "Held-out error for base and base-plus-mechanism, both branches, with replicate variation drawn.",
+      "minimum_figure": "The classification table for all 3 pairs, plus held-out error for base and base-plus-mechanism (both branches, replicate variation drawn) for whichever pairs reach step 2.",
       "novelty_search_terms": [
         "model complexity held-out prediction",
         "compensating errors model calibration"
       ],
-      "question": "For the 3 sourcing2026 component pairs where one adds a mechanism the other lacks, does the addition improve held-out prediction or only fit?",
-      "retire_if": "The addition improves held-out error in both branches.",
+      "question": "For the 3 sourcing2026 pairs registered from one source, is each a base/superset pair, two alternative reductions, or two independent components — and for any confirmed base/superset pair, does the added mechanism improve held-out prediction or only fit?",
+      "retire_if": "No pair is base/superset, or every confirmed base/superset addition improves held-out error in both branches.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
-      "stop_condition": "The held-out difference is smaller than replicate variation.",
-      "strongest_alternative": "The two components are not a base/superset pair at all — they are alternative reductions of one source.",
-      "survive_if": "The added mechanism worsens held-out error, or improves it only after recalibration (compensating error).",
+      "stop_condition": "Every pair is classified, and every base/superset pair's held-out difference is smaller than replicate variation.",
+      "strongest_alternative": "Every pair turns out to be alternative reductions or independent components, so no composition question arises here at all.",
+      "survive_if": "At least one pair is confirmed base/superset AND the added mechanism worsens held-out error, or improves it only after recalibration (compensating error).",
       "tension_ids": [
         "T-0031",
         "T-0032",
         "T-0033"
       ],
-      "title": "Does the extra mechanism in the sourcing2026 components earn its place?",
-      "why_it_may_matter": "More physics is not automatically better prediction, and the repository already holds one case where it was worse.",
+      "title": "How are the 3 sourcing2026 same-source component pairs actually related?",
+      "why_it_may_matter": "The classification is worth having on its own — the registry does not record how same-source components relate, and only a base/superset pair can be asked whether added physics earns its place.",
       "why_it_may_surprise": ""
     },
     {
@@ -973,44 +1067,49 @@
         "methods_paper",
         "technical_note"
       ],
-      "cheap_test": "Held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.",
+      "cheap_test": "Step 1 — classify each pair from its cards and registry entries: base/superset (one contains the other's mechanism set), alternative reductions (two simplifications of one source model), or independent (different stages or roles). Step 2, ONLY for confirmed base/superset pairs — held-out comparison of base versus base-plus-mechanism on one evidence unit, run twice: without recalibration and with.",
+      "difference_type": "same_source_pair_requires_composition_audit",
       "entity_ids": [
         "model:wadsworth2026.grindmap",
         "model:wadsworth2026.inertial",
         "model:wadsworth2026.permeability"
       ],
       "existing_evidence": [
-        "registry: two components sharing one source prefix"
+        "registry: two components sharing one source prefix. That is ALL it establishes — no card relation was read as declaring one a superset of the other."
+      ],
+      "grouping_key": [
+        "wadsworth2026"
       ],
       "history": [],
       "id": "I-023",
-      "inconclusive_if": "No held-out unit exists for the pair.",
+      "inconclusive_if": "The cards do not state the mechanism sets precisely enough to classify a pair, or no held-out unit exists for a confirmed base/superset pair.",
       "insight_types": [
-        "model_composition"
+        "model_composition",
+        "corpus_hygiene"
       ],
       "lens": "composition_failure",
       "lineage_risks": [],
-      "minimum_figure": "Held-out error for base and base-plus-mechanism, both branches, with replicate variation drawn.",
+      "minimum_figure": "The classification table for all 3 pairs, plus held-out error for base and base-plus-mechanism (both branches, replicate variation drawn) for whichever pairs reach step 2.",
       "novelty_search_terms": [
         "model complexity held-out prediction",
         "compensating errors model calibration"
       ],
-      "question": "For the 3 wadsworth2026 component pairs where one adds a mechanism the other lacks, does the addition improve held-out prediction or only fit?",
-      "retire_if": "The addition improves held-out error in both branches.",
+      "question": "For the 3 wadsworth2026 pairs registered from one source, is each a base/superset pair, two alternative reductions, or two independent components — and for any confirmed base/superset pair, does the added mechanism improve held-out prediction or only fit?",
+      "retire_if": "No pair is base/superset, or every confirmed base/superset addition improves held-out error in both branches.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
-      "stop_condition": "The held-out difference is smaller than replicate variation.",
-      "strongest_alternative": "The two components are not a base/superset pair at all — they are alternative reductions of one source.",
-      "survive_if": "The added mechanism worsens held-out error, or improves it only after recalibration (compensating error).",
+      "stop_condition": "Every pair is classified, and every base/superset pair's held-out difference is smaller than replicate variation.",
+      "strongest_alternative": "Every pair turns out to be alternative reductions or independent components, so no composition question arises here at all.",
+      "survive_if": "At least one pair is confirmed base/superset AND the added mechanism worsens held-out error, or improves it only after recalibration (compensating error).",
       "tension_ids": [
         "T-0034",
         "T-0035",
         "T-0036"
       ],
-      "title": "Does the extra mechanism in the wadsworth2026 components earn its place?",
-      "why_it_may_matter": "More physics is not automatically better prediction, and the repository already holds one case where it was worse.",
+      "title": "How are the 3 wadsworth2026 same-source component pairs actually related?",
+      "why_it_may_matter": "The classification is worth having on its own — the registry does not record how same-source components relate, and only a base/superset pair can be asked whether added physics earns its place.",
       "why_it_may_surprise": ""
     },
     {
@@ -1019,6 +1118,7 @@
         "technical_note"
       ],
       "cheap_test": "Fit one shared state across species and inspect the per-species residual structure; compare against per-species independent fits.",
+      "difference_type": "one_state_many_species",
       "entity_ids": [
         "model:maille2024.phi_closure",
         "dataset:angeloni2023/bioactives",
@@ -1033,6 +1133,9 @@
       ],
       "existing_evidence": [
         "card interface outputs + manifest rows, verbatim labels retained"
+      ],
+      "grouping_key": [
+        "all"
       ],
       "history": [],
       "id": "I-024",
@@ -1053,7 +1156,7 @@
       "retire_if": "Residuals are unstructured, or the structure is common to all species (a shared model-form problem, not a species one).",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Per-species residual structure is within measurement uncertainty.",
       "strongest_alternative": "The apparent species difference is a measurement-lineage difference between the assays, not chemistry.",
@@ -1074,6 +1177,7 @@
         "data_note"
       ],
       "cheap_test": "For each citing card, read what it actually takes from the component and check that against the component's verbatim evidence strength.",
+      "difference_type": "leaned_on_but_not_empirically_tested",
       "entity_ids": [
         "model:brewer2026.pack_generator",
         "model:maille2024.phi_closure",
@@ -1082,6 +1186,9 @@
       ],
       "existing_evidence": [
         "registry evidence_strength (verbatim) vs inbound overlaps mentions"
+      ],
+      "grouping_key": [
+        "T-0041"
       ],
       "history": [],
       "id": "I-025",
@@ -1099,7 +1206,7 @@
       "retire_if": "Every citing card borrows only what the evidence strength covers.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every citing card is checked.",
       "strongest_alternative": "The citing cards position against it rhetorically without depending on it at all.",
@@ -1117,6 +1224,7 @@
         "data_note"
       ],
       "cheap_test": "For each citing card, read what it actually takes from the component and check that against the component's verbatim evidence strength.",
+      "difference_type": "leaned_on_but_not_empirically_tested",
       "entity_ids": [
         "model:cameron2020.extraction_bdf",
         "model:grudeva2025.reduced",
@@ -1135,6 +1243,9 @@
       "existing_evidence": [
         "registry evidence_strength (verbatim) vs inbound overlaps mentions"
       ],
+      "grouping_key": [
+        "T-0042"
+      ],
       "history": [],
       "id": "I-026",
       "inconclusive_if": "What the citing card borrows is not stated precisely enough to check.",
@@ -1151,7 +1262,7 @@
       "retire_if": "Every citing card borrows only what the evidence strength covers.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every citing card is checked.",
       "strongest_alternative": "The citing cards position against it rhetorically without depending on it at all.",
@@ -1169,6 +1280,7 @@
         "data_note"
       ],
       "cheap_test": "For each citing card, read what it actually takes from the component and check that against the component's verbatim evidence strength.",
+      "difference_type": "leaned_on_but_not_empirically_tested",
       "entity_ids": [
         "model:foster2025.infiltration",
         "model:fasano2000_partI.fines_migration",
@@ -1186,6 +1298,9 @@
       "existing_evidence": [
         "registry evidence_strength (verbatim) vs inbound overlaps mentions"
       ],
+      "grouping_key": [
+        "T-0043"
+      ],
       "history": [],
       "id": "I-027",
       "inconclusive_if": "What the citing card borrows is not stated precisely enough to check.",
@@ -1202,7 +1317,7 @@
       "retire_if": "Every citing card borrows only what the evidence strength covers.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every citing card is checked.",
       "strongest_alternative": "The citing cards position against it rhetorically without depending on it at all.",
@@ -1219,13 +1334,15 @@
         "data_note"
       ],
       "cheap_test": "Read each affected card and write its Interface mapping section from the card's own content; re-run the corpus map and diff the matrix.",
+      "difference_type": "card_without_interface_mapping",
       "entity_ids": [
-        "model:foster2025.infiltration",
-        "model:foster2025.machine_mode",
         "model:wadsworth2026.permeability"
       ],
       "existing_evidence": [
         "card section index vs docs/cards/TEMPLATE.md"
+      ],
+      "grouping_key": [
+        "all"
       ],
       "history": [],
       "id": "I-028",
@@ -1238,21 +1355,19 @@
       "lineage_risks": [],
       "minimum_figure": "The model/observable matrix before and after, with the recovered cells marked.",
       "novelty_search_terms": [],
-      "question": "Which observables do the 3 registered components without an Interface mapping section actually produce, and what does the matrix currently hide?",
+      "question": "Which observables do the 1 registered components without an Interface mapping section actually produce, and what does the matrix currently hide?",
       "retire_if": "Every recovered cell duplicates a mapping the matrix already had.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every affected card carries the section and the matrix is stable.",
       "strongest_alternative": "The deviating cards are deliberately non-template (audits, search targets) and have no interface to declare.",
       "survive_if": "A recovered cell changes which observables have two or more predicting models — that is, it opens or closes a discrimination.",
       "tension_ids": [
-        "T-0048",
-        "T-0049",
         "T-0054"
       ],
-      "title": "The model/observable matrix has 3 blind spots from card template deviations",
+      "title": "The model/observable matrix has 1 blind spots from card template deviations",
       "why_it_may_matter": "first_drip_time reads as unmodelled today purely because of this; the blueprint's own flagship candidate is invisible to the matrix.",
       "why_it_may_surprise": ""
     },
@@ -1263,6 +1378,7 @@
         "public_story"
       ],
       "cheap_test": "Signature atlas: predicted permeability per model over a matched domain, against the manifest measurements, with replicate variation drawn.",
+      "difference_type": "discriminator_with_data",
       "entity_ids": [
         "model:brewer2026.coupled_kappa_t",
         "model:cameron2020.extraction_bdf",
@@ -1279,6 +1395,9 @@
       ],
       "existing_evidence": [
         "brewer2026.coupled_kappa_t=exploratory_synthesis; cameron2020.extraction_bdf=code_verification; fasano2000_partI.fines_migration=qualitative_capacity; lee2023.feedback=qualitative_capacity; wadsworth2026.inertial=source_curve_reproduction; waszkiewicz2025.poroelastic=post_fit_reconstruction"
+      ],
+      "grouping_key": [
+        "T-0044"
       ],
       "history": [],
       "id": "I-029",
@@ -1298,7 +1417,7 @@
       "retire_if": "Model predictions overlap once uncertainty is drawn, or the measurements fall outside every model's validity range.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Predictions overlap after declared uncertainty.",
       "strongest_alternative": "The observable is defined differently by each model, so the separation is a convention artifact.",
@@ -1317,6 +1436,7 @@
         "public_story"
       ],
       "cheap_test": "Signature atlas: predicted flow per model over a matched domain, against the manifest measurements, with replicate variation drawn.",
+      "difference_type": "discriminator_with_data",
       "entity_ids": [
         "model:brewer2026.coupled_kappa_t",
         "model:cameron2020.extraction_bdf",
@@ -1332,6 +1452,9 @@
       ],
       "existing_evidence": [
         "brewer2026.coupled_kappa_t=exploratory_synthesis; cameron2020.extraction_bdf=code_verification; fasano2000_partI.fines_migration=qualitative_capacity; wadsworth2026.inertial=source_curve_reproduction; waszkiewicz2025.poroelastic=post_fit_reconstruction"
+      ],
+      "grouping_key": [
+        "T-0045"
       ],
       "history": [],
       "id": "I-030",
@@ -1351,7 +1474,7 @@
       "retire_if": "Model predictions overlap once uncertainty is drawn, or the measurements fall outside every model's validity range.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Predictions overlap after declared uncertainty.",
       "strongest_alternative": "The observable is defined differently by each model, so the separation is a convention artifact.",
@@ -1370,6 +1493,7 @@
         "public_story"
       ],
       "cheap_test": "Signature atlas: predicted porosity per model over a matched domain, against the manifest measurements, with replicate variation drawn.",
+      "difference_type": "discriminator_with_data",
       "entity_ids": [
         "model:brewer2026.coupled_kappa_t",
         "model:wadsworth2026.grindmap",
@@ -1381,6 +1505,9 @@
       ],
       "existing_evidence": [
         "brewer2026.coupled_kappa_t=exploratory_synthesis; wadsworth2026.grindmap=source_curve_reproduction"
+      ],
+      "grouping_key": [
+        "T-0046"
       ],
       "history": [],
       "id": "I-031",
@@ -1400,7 +1527,7 @@
       "retire_if": "Model predictions overlap once uncertainty is drawn, or the measurements fall outside every model's validity range.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Predictions overlap after declared uncertainty.",
       "strongest_alternative": "The observable is defined differently by each model, so the separation is a convention artifact.",
@@ -1419,6 +1546,7 @@
         "public_story"
       ],
       "cheap_test": "Signature atlas: predicted pressure per model over a matched domain, against the manifest measurements, with replicate variation drawn.",
+      "difference_type": "discriminator_with_data",
       "entity_ids": [
         "model:cameron2020.extraction_bdf",
         "model:waszkiewicz2025.poroelastic",
@@ -1431,6 +1559,9 @@
       ],
       "existing_evidence": [
         "cameron2020.extraction_bdf=code_verification; waszkiewicz2025.poroelastic=post_fit_reconstruction"
+      ],
+      "grouping_key": [
+        "T-0047"
       ],
       "history": [],
       "id": "I-032",
@@ -1450,7 +1581,7 @@
       "retire_if": "Model predictions overlap once uncertainty is drawn, or the measurements fall outside every model's validity range.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Predictions overlap after declared uncertainty.",
       "strongest_alternative": "The observable is defined differently by each model, so the separation is a convention artifact.",
@@ -1469,6 +1600,7 @@
         "public_story"
       ],
       "cheap_test": "Signature atlas: predicted extraction_yield per model over a matched domain, against the manifest measurements, with replicate variation drawn.",
+      "difference_type": "discriminator_with_data",
       "entity_ids": [
         "model:grudeva2025.reduced",
         "model:lee2023.feedback",
@@ -1489,6 +1621,9 @@
       "existing_evidence": [
         "grudeva2025.reduced=post_fit_reconstruction; lee2023.feedback=qualitative_capacity; maille2024.phi_closure=code_verification; maille2024.two_regime=source_curve_reproduction; mo2023_2.coupled_bed=post_fit_reconstruction; mo2023_2.swelling=source_curve_reproduction; moroney2016.surrogate=qualitative_capacity; pannusch2024.closures=code_verification; pannusch2024.solver=post_fit_reconstruction; romancorrochano2017.extraction=sign_or_compatibility"
       ],
+      "grouping_key": [
+        "T-0050"
+      ],
       "history": [],
       "id": "I-033",
       "inconclusive_if": "The measurements are single-replicate and no spread can be drawn.",
@@ -1507,7 +1642,7 @@
       "retire_if": "Model predictions overlap once uncertainty is drawn, or the measurements fall outside every model's validity range.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Predictions overlap after declared uncertainty.",
       "strongest_alternative": "The observable is defined differently by each model, so the separation is a convention artifact.",
@@ -1526,6 +1661,7 @@
         "public_story"
       ],
       "cheap_test": "Signature atlas: predicted tds per model over a matched domain, against the manifest measurements, with replicate variation drawn.",
+      "difference_type": "discriminator_with_data",
       "entity_ids": [
         "model:grudeva2025.reduced",
         "model:maille2024.phi_closure",
@@ -1546,6 +1682,9 @@
       "existing_evidence": [
         "grudeva2025.reduced=post_fit_reconstruction; maille2024.phi_closure=code_verification; maille2024.two_regime=source_curve_reproduction; mo2023_2.coupled_bed=post_fit_reconstruction; mo2023_2.swelling=source_curve_reproduction; moroney2016.surrogate=qualitative_capacity; pannusch2024.closures=code_verification; pannusch2024.solver=post_fit_reconstruction; romancorrochano2017.extraction=sign_or_compatibility"
       ],
+      "grouping_key": [
+        "T-0051"
+      ],
       "history": [],
       "id": "I-034",
       "inconclusive_if": "The measurements are single-replicate and no spread can be drawn.",
@@ -1564,7 +1703,7 @@
       "retire_if": "Model predictions overlap once uncertainty is drawn, or the measurements fall outside every model's validity range.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Predictions overlap after declared uncertainty.",
       "strongest_alternative": "The observable is defined differently by each model, so the separation is a convention artifact.",
@@ -1583,6 +1722,7 @@
         "public_story"
       ],
       "cheap_test": "Signature atlas: predicted species_concentration per model over a matched domain, against the manifest measurements, with replicate variation drawn.",
+      "difference_type": "discriminator_with_data",
       "entity_ids": [
         "model:maille2024.phi_closure",
         "model:maille2024.two_regime",
@@ -1597,6 +1737,9 @@
       ],
       "existing_evidence": [
         "maille2024.phi_closure=code_verification; maille2024.two_regime=source_curve_reproduction; pannusch2024.closures=code_verification; pannusch2024.solver=post_fit_reconstruction"
+      ],
+      "grouping_key": [
+        "T-0052"
       ],
       "history": [],
       "id": "I-035",
@@ -1616,7 +1759,7 @@
       "retire_if": "Model predictions overlap once uncertainty is drawn, or the measurements fall outside every model's validity range.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Predictions overlap after declared uncertainty.",
       "strongest_alternative": "The observable is defined differently by each model, so the separation is a convention artifact.",
@@ -1635,6 +1778,7 @@
         "public_story"
       ],
       "cheap_test": "Signature atlas: predicted cumulative_mass per model over a matched domain, against the manifest measurements, with replicate variation drawn.",
+      "difference_type": "discriminator_with_data",
       "entity_ids": [
         "model:pannusch2024.closures",
         "model:pannusch2024.solver",
@@ -1643,6 +1787,9 @@
       ],
       "existing_evidence": [
         "pannusch2024.closures=code_verification; pannusch2024.solver=post_fit_reconstruction; waszkiewicz2025.poroelastic=post_fit_reconstruction"
+      ],
+      "grouping_key": [
+        "T-0053"
       ],
       "history": [],
       "id": "I-036",
@@ -1662,7 +1809,7 @@
       "retire_if": "Model predictions overlap once uncertainty is drawn, or the measurements fall outside every model's validity range.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Predictions overlap after declared uncertainty.",
       "strongest_alternative": "The observable is defined differently by each model, so the separation is a convention artifact.",
@@ -1676,42 +1823,51 @@
     },
     {
       "audience_tracks": [
-        "data_note",
-        "technical_note"
+        "technical_note",
+        "experiment_design",
+        "public_story"
       ],
-      "cheap_test": "Check each registered component on the relevant stages against its card for an undeclared first_drip_time output; if none, record it as a modelling gap.",
+      "cheap_test": "Signature atlas: predicted first_drip_time per model over a matched domain, against the manifest measurements, with replicate variation drawn.",
+      "difference_type": "discriminator_with_data",
       "entity_ids": [
-        "observable:first_drip_time",
+        "model:foster2025.infiltration",
+        "model:foster2025.machine_mode",
         "dataset:de1_fixtureA"
       ],
       "existing_evidence": [
-        "manifest MEASURES edges vs card outputs clauses"
+        "foster2025.infiltration=sign_or_compatibility; foster2025.machine_mode=source_curve_reproduction"
+      ],
+      "grouping_key": [
+        "T-0171"
       ],
       "history": [],
-      "id": "I-037",
-      "inconclusive_if": "Whether the component produces it depends on an unimplemented coupling.",
+      "id": "I-090",
+      "inconclusive_if": "The measurements are single-replicate and no spread can be drawn.",
       "insight_types": [
-        "corpus_hygiene",
+        "hidden_discriminator",
         "experiment_design"
       ],
       "lens": "hidden_discriminator",
       "lineage_risks": [],
-      "minimum_figure": "Components on the relevant stages versus whether they declare first_drip_time, with the measuring datasets listed.",
-      "novelty_search_terms": [],
-      "question": "Is first_drip_time genuinely unmodelled by the registry, or hidden by a card that never declared its outputs?",
-      "retire_if": "No registered component produces it: a genuine modelling gap, recorded as such.",
+      "minimum_figure": "Predicted first_drip_time per model versus its controlling input, with the measured points and their spread overlaid.",
+      "novelty_search_terms": [
+        "model discrimination observable selection",
+        "espresso extraction mechanism discrimination"
+      ],
+      "question": "Does first_drip_time, measured by data already in the manifest, separate the models that predict it by more than their within-model uncertainty?",
+      "retire_if": "Model predictions overlap once uncertainty is drawn, or the measurements fall outside every model's validity range.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
-      "stop_condition": "Every candidate component is checked against its card.",
-      "strongest_alternative": "The measurement and the model output share a name but not a definition.",
-      "survive_if": "A component produces first_drip_time without declaring it — a matrix repair that opens a discrimination.",
+      "stop_condition": "Predictions overlap after declared uncertainty.",
+      "strongest_alternative": "The observable is defined differently by each model, so the separation is a convention artifact.",
+      "survive_if": "Between-model separation exceeds within-model uncertainty somewhere the data lands.",
       "tension_ids": [
-        "T-0055"
+        "T-0171"
       ],
-      "title": "first_drip_time is measured but no card claims to produce it",
-      "why_it_may_matter": "Measured-but-unmodelled is either a modelling gap or a card gap, and the two call for opposite work.",
+      "title": "Can first_drip_time discriminate between the models that predict it?",
+      "why_it_may_matter": "Discrimination without new measurement is the cheapest decisive screen the corpus can offer.",
       "why_it_may_surprise": ""
     },
     {
@@ -1720,6 +1876,7 @@
         "technical_note"
       ],
       "cheap_test": "Check each registered component on the relevant stages against its card for an undeclared temperature output; if none, record it as a modelling gap.",
+      "difference_type": "measured_but_unmodelled",
       "entity_ids": [
         "observable:temperature",
         "dataset:g10_liquor_rheology/telisromero2000_thermal",
@@ -1728,6 +1885,9 @@
       ],
       "existing_evidence": [
         "manifest MEASURES edges vs card outputs clauses"
+      ],
+      "grouping_key": [
+        "T-0056"
       ],
       "history": [],
       "id": "I-038",
@@ -1744,7 +1904,7 @@
       "retire_if": "No registered component produces it: a genuine modelling gap, recorded as such.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every candidate component is checked against its card.",
       "strongest_alternative": "The measurement and the model output share a name but not a definition.",
@@ -1762,11 +1922,15 @@
         "technical_note"
       ],
       "cheap_test": "For each cell, read the consuming gate and record which half of the strength statement its assertion depends on. Source audit, no execution.",
+      "difference_type": "mixed_strength_cell",
       "entity_ids": [
         "dataset:mckeonaloe2022/basket_open_area_geometry"
       ],
       "existing_evidence": [
         "manifest cell, verbatim"
+      ],
+      "grouping_key": [
+        "digitized + qualitative + reference_only"
       ],
       "history": [],
       "id": "I-039",
@@ -1785,7 +1949,7 @@
       "retire_if": "Every consuming gate already reads the correct half.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every mixed cell is attributed to a gate and a half.",
       "strongest_alternative": "The cell is mixed only in wording; both halves support the same gate assertion equally.",
@@ -1803,11 +1967,15 @@
         "technical_note"
       ],
       "cheap_test": "For each cell, read the consuming gate and record which half of the strength statement its assertion depends on. Source audit, no execution.",
+      "difference_type": "mixed_strength_cell",
       "entity_ids": [
         "dataset:waszkiewicz2025/traces_time_dependent"
       ],
       "existing_evidence": [
         "manifest cell, verbatim"
+      ],
+      "grouping_key": [
+        "independent + post_fit + same_campaign"
       ],
       "history": [],
       "id": "I-040",
@@ -1826,7 +1994,7 @@
       "retire_if": "Every consuming gate already reads the correct half.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every mixed cell is attributed to a gate and a half.",
       "strongest_alternative": "The cell is mixed only in wording; both halves support the same gate assertion equally.",
@@ -1844,11 +2012,15 @@
         "technical_note"
       ],
       "cheap_test": "For each cell, read the consuming gate and record which half of the strength statement its assertion depends on. Source audit, no execution.",
+      "difference_type": "mixed_strength_cell",
       "entity_ids": [
         "dataset:romancorrochano2017/y0_extractable"
       ],
       "existing_evidence": [
         "manifest cell, verbatim"
+      ],
+      "grouping_key": [
+        "independent + qualitative"
       ],
       "history": [],
       "id": "I-041",
@@ -1867,7 +2039,7 @@
       "retire_if": "Every consuming gate already reads the correct half.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every mixed cell is attributed to a gate and a half.",
       "strongest_alternative": "The cell is mixed only in wording; both halves support the same gate assertion equally.",
@@ -1885,11 +2057,15 @@
         "technical_note"
       ],
       "cheap_test": "For each cell, read the consuming gate and record which half of the strength statement its assertion depends on. Source audit, no execution.",
+      "difference_type": "mixed_strength_cell",
       "entity_ids": [
         "dataset:gagne2021/grinder_arm_summary"
       ],
       "existing_evidence": [
         "manifest cell, verbatim"
+      ],
+      "grouping_key": [
+        "independent + qualitative + raw_measurement"
       ],
       "history": [],
       "id": "I-042",
@@ -1908,7 +2084,7 @@
       "retire_if": "Every consuming gate already reads the correct half.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every mixed cell is attributed to a gate and a half.",
       "strongest_alternative": "The cell is mixed only in wording; both halves support the same gate assertion equally.",
@@ -1926,6 +2102,7 @@
         "technical_note"
       ],
       "cheap_test": "For each cell, read the consuming gate and record which half of the strength statement its assertion depends on. Source audit, no execution.",
+      "difference_type": "mixed_strength_cell",
       "entity_ids": [
         "dataset:angeloni2023/inventories",
         "dataset:angeloni2023/total_solids_lipids_rsd",
@@ -1937,6 +2114,9 @@
       ],
       "existing_evidence": [
         "manifest cell, verbatim"
+      ],
+      "grouping_key": [
+        "independent + raw_measurement"
       ],
       "history": [],
       "id": "I-043",
@@ -1955,7 +2135,7 @@
       "retire_if": "Every consuming gate already reads the correct half.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every mixed cell is attributed to a gate and a half.",
       "strongest_alternative": "The cell is mixed only in wording; both halves support the same gate assertion equally.",
@@ -1979,11 +2159,15 @@
         "technical_note"
       ],
       "cheap_test": "For each cell, read the consuming gate and record which half of the strength statement its assertion depends on. Source audit, no execution.",
+      "difference_type": "mixed_strength_cell",
       "entity_ids": [
         "dataset:bruno2026/roasted_composition"
       ],
       "existing_evidence": [
         "manifest cell, verbatim"
+      ],
+      "grouping_key": [
+        "independent + raw_measurement + reference_only"
       ],
       "history": [],
       "id": "I-044",
@@ -2002,7 +2186,7 @@
       "retire_if": "Every consuming gate already reads the correct half.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every mixed cell is attributed to a gate and a half.",
       "strongest_alternative": "The cell is mixed only in wording; both halves support the same gate assertion equally.",
@@ -2020,11 +2204,15 @@
         "technical_note"
       ],
       "cheap_test": "For each cell, read the consuming gate and record which half of the strength statement its assertion depends on. Source audit, no execution.",
+      "difference_type": "mixed_strength_cell",
       "entity_ids": [
         "dataset:foster2025_2/fig12_14_curves"
       ],
       "existing_evidence": [
         "manifest cell, verbatim"
+      ],
+      "grouping_key": [
+        "independent + verification"
       ],
       "history": [],
       "id": "I-045",
@@ -2043,7 +2231,7 @@
       "retire_if": "Every consuming gate already reads the correct half.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every mixed cell is attributed to a gate and a half.",
       "strongest_alternative": "The cell is mixed only in wording; both halves support the same gate assertion equally.",
@@ -2061,11 +2249,15 @@
         "technical_note"
       ],
       "cheap_test": "For each cell, read the consuming gate and record which half of the strength statement its assertion depends on. Source audit, no execution.",
+      "difference_type": "mixed_strength_cell",
       "entity_ids": [
         "dataset:foster2025_2/params"
       ],
       "existing_evidence": [
         "manifest cell, verbatim"
+      ],
+      "grouping_key": [
+        "post_fit + verification"
       ],
       "history": [],
       "id": "I-046",
@@ -2084,7 +2276,7 @@
       "retire_if": "Every consuming gate already reads the correct half.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every mixed cell is attributed to a gate and a half.",
       "strongest_alternative": "The cell is mixed only in wording; both halves support the same gate assertion equally.",
@@ -2102,11 +2294,15 @@
         "technical_note"
       ],
       "cheap_test": "For each cell, read the consuming gate and record which half of the strength statement its assertion depends on. Source audit, no execution.",
+      "difference_type": "mixed_strength_cell",
       "entity_ids": [
         "dataset:g10_liquor_rheology/khomyakov_kinematic_viscosity"
       ],
       "existing_evidence": [
         "manifest cell, verbatim"
+      ],
+      "grouping_key": [
+        "qualitative + raw_measurement + reference_only"
       ],
       "history": [],
       "id": "I-047",
@@ -2125,7 +2321,7 @@
       "retire_if": "Every consuming gate already reads the correct half.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every mixed cell is attributed to a gate and a half.",
       "strongest_alternative": "The cell is mixed only in wording; both halves support the same gate assertion equally.",
@@ -2143,6 +2339,7 @@
         "technical_note"
       ],
       "cheap_test": "For each cell, read the consuming gate and record which half of the strength statement its assertion depends on. Source audit, no execution.",
+      "difference_type": "mixed_strength_cell",
       "entity_ids": [
         "dataset:g10_liquor_rheology/telis_romero_envelope",
         "dataset:g1_glassbead_analog/retention_kr",
@@ -2150,6 +2347,9 @@
       ],
       "existing_evidence": [
         "manifest cell, verbatim"
+      ],
+      "grouping_key": [
+        "qualitative + reference_only"
       ],
       "history": [],
       "id": "I-048",
@@ -2168,7 +2368,7 @@
       "retire_if": "Every consuming gate already reads the correct half.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every mixed cell is attributed to a gate and a half.",
       "strongest_alternative": "The cell is mixed only in wording; both halves support the same gate assertion equally.",
@@ -2188,6 +2388,7 @@
         "technical_note"
       ],
       "cheap_test": "For each cell, read the consuming gate and record which half of the strength statement its assertion depends on. Source audit, no execution.",
+      "difference_type": "mixed_strength_cell",
       "entity_ids": [
         "dataset:cameron2020/psd_figure2",
         "dataset:gloess2013/de_espresso_endpoint",
@@ -2210,6 +2411,9 @@
       "existing_evidence": [
         "manifest cell, verbatim"
       ],
+      "grouping_key": [
+        "raw_measurement + reference_only"
+      ],
       "history": [],
       "id": "I-049",
       "inconclusive_if": "The consuming gate's assertion is too coarse to attribute to either half.",
@@ -2227,7 +2431,7 @@
       "retire_if": "Every consuming gate already reads the correct half.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every mixed cell is attributed to a gate and a half.",
       "strongest_alternative": "The cell is mixed only in wording; both halves support the same gate assertion equally.",
@@ -2261,11 +2465,15 @@
         "technical_note"
       ],
       "cheap_test": "For each cell, read the consuming gate and record which half of the strength statement its assertion depends on. Source audit, no execution.",
+      "difference_type": "mixed_strength_cell",
       "entity_ids": [
         "dataset:waszkiewicz2025/traces_per_brew"
       ],
       "existing_evidence": [
         "manifest cell, verbatim"
+      ],
+      "grouping_key": [
+        "raw_measurement + reference_only + verification"
       ],
       "history": [],
       "id": "I-050",
@@ -2284,7 +2492,7 @@
       "retire_if": "Every consuming gate already reads the correct half.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every mixed cell is attributed to a gate and a half.",
       "strongest_alternative": "The cell is mixed only in wording; both halves support the same gate assertion equally.",
@@ -2302,11 +2510,15 @@
         "technical_note"
       ],
       "cheap_test": "Cross-read the manifest lineage against each gate's claimed evaluation relationship; list every same-source pairing and how it is labelled.",
+      "difference_type": "same_source_consumer",
       "entity_ids": [
         "dataset:foster2025_2/params"
       ],
       "existing_evidence": [
         "MANIFEST source_card == component source prefix"
+      ],
+      "grouping_key": [
+        "foster2025_2"
       ],
       "history": [],
       "id": "I-051",
@@ -2325,7 +2537,7 @@
       "retire_if": "Every same-source pairing is already labelled as within-campaign or post-fit.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every same-source pairing carries an accurate relationship label.",
       "strongest_alternative": "Sharing a source card does not mean sharing a campaign — the rows may be a genuine held-out split.",
@@ -2343,11 +2555,15 @@
         "technical_note"
       ],
       "cheap_test": "Cross-read the manifest lineage against each gate's claimed evaluation relationship; list every same-source pairing and how it is labelled.",
+      "difference_type": "same_source_consumer",
       "entity_ids": [
         "dataset:grudeva2025/exp13_vial_stats"
       ],
       "existing_evidence": [
         "MANIFEST source_card == component source prefix"
+      ],
+      "grouping_key": [
+        "grudeva2025"
       ],
       "history": [],
       "id": "I-052",
@@ -2366,7 +2582,7 @@
       "retire_if": "Every same-source pairing is already labelled as within-campaign or post-fit.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every same-source pairing carries an accurate relationship label.",
       "strongest_alternative": "Sharing a source card does not mean sharing a campaign — the rows may be a genuine held-out split.",
@@ -2384,11 +2600,15 @@
         "technical_note"
       ],
       "cheap_test": "Cross-read the manifest lineage against each gate's claimed evaluation relationship; list every same-source pairing and how it is labelled.",
+      "difference_type": "same_source_consumer",
       "entity_ids": [
         "dataset:liang2021/fig3_tds"
       ],
       "existing_evidence": [
         "MANIFEST source_card == component source prefix"
+      ],
+      "grouping_key": [
+        "liang2021"
       ],
       "history": [],
       "id": "I-053",
@@ -2407,7 +2627,7 @@
       "retire_if": "Every same-source pairing is already labelled as within-campaign or post-fit.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every same-source pairing carries an accurate relationship label.",
       "strongest_alternative": "Sharing a source card does not mean sharing a campaign — the rows may be a genuine held-out split.",
@@ -2425,12 +2645,16 @@
         "technical_note"
       ],
       "cheap_test": "Cross-read the manifest lineage against each gate's claimed evaluation relationship; list every same-source pairing and how it is labelled.",
+      "difference_type": "same_source_consumer",
       "entity_ids": [
         "dataset:maille2024/kinetics_caffeine_3cqa",
         "dataset:maille2024/kinetics_organic_acids"
       ],
       "existing_evidence": [
         "MANIFEST source_card == component source prefix"
+      ],
+      "grouping_key": [
+        "maille2024"
       ],
       "history": [],
       "id": "I-054",
@@ -2449,7 +2673,7 @@
       "retire_if": "Every same-source pairing is already labelled as within-campaign or post-fit.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every same-source pairing carries an accurate relationship label.",
       "strongest_alternative": "Sharing a source card does not mean sharing a campaign — the rows may be a genuine held-out split.",
@@ -2468,12 +2692,16 @@
         "technical_note"
       ],
       "cheap_test": "Cross-read the manifest lineage against each gate's claimed evaluation relationship; list every same-source pairing and how it is labelled.",
+      "difference_type": "same_source_consumer",
       "entity_ids": [
         "dataset:pannusch2024/experimental_kinetics",
         "dataset:pannusch2024/table2_params"
       ],
       "existing_evidence": [
         "MANIFEST source_card == component source prefix"
+      ],
+      "grouping_key": [
+        "pannusch2024"
       ],
       "history": [],
       "id": "I-055",
@@ -2492,7 +2720,7 @@
       "retire_if": "Every same-source pairing is already labelled as within-campaign or post-fit.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every same-source pairing carries an accurate relationship label.",
       "strongest_alternative": "Sharing a source card does not mean sharing a campaign — the rows may be a genuine held-out split.",
@@ -2511,11 +2739,15 @@
         "technical_note"
       ],
       "cheap_test": "Cross-read the manifest lineage against each gate's claimed evaluation relationship; list every same-source pairing and how it is labelled.",
+      "difference_type": "same_source_consumer",
       "entity_ids": [
         "dataset:pannusch2024 (Mendeley repo)"
       ],
       "existing_evidence": [
         "MANIFEST source_card == component source prefix"
+      ],
+      "grouping_key": [
+        "pannusch2024 (Mendeley repo)"
       ],
       "history": [],
       "id": "I-056",
@@ -2534,7 +2766,7 @@
       "retire_if": "Every same-source pairing is already labelled as within-campaign or post-fit.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every same-source pairing carries an accurate relationship label.",
       "strongest_alternative": "Sharing a source card does not mean sharing a campaign — the rows may be a genuine held-out split.",
@@ -2552,6 +2784,7 @@
         "technical_note"
       ],
       "cheap_test": "Cross-read the manifest lineage against each gate's claimed evaluation relationship; list every same-source pairing and how it is labelled.",
+      "difference_type": "same_source_consumer",
       "entity_ids": [
         "dataset:romancorrochano2017/fig5_11_mpe",
         "dataset:romancorrochano2017/fig5_13_mpe",
@@ -2560,6 +2793,9 @@
       ],
       "existing_evidence": [
         "MANIFEST source_card == component source prefix"
+      ],
+      "grouping_key": [
+        "romancorrochano2017"
       ],
       "history": [],
       "id": "I-057",
@@ -2578,7 +2814,7 @@
       "retire_if": "Every same-source pairing is already labelled as within-campaign or post-fit.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every same-source pairing carries an accurate relationship label.",
       "strongest_alternative": "Sharing a source card does not mean sharing a campaign — the rows may be a genuine held-out split.",
@@ -2599,6 +2835,7 @@
         "technical_note"
       ],
       "cheap_test": "Cross-read the manifest lineage against each gate's claimed evaluation relationship; list every same-source pairing and how it is labelled.",
+      "difference_type": "same_source_consumer",
       "entity_ids": [
         "dataset:waszkiewicz2025/brewer_quadratic",
         "dataset:waszkiewicz2025/static_calibration",
@@ -2608,6 +2845,9 @@
       ],
       "existing_evidence": [
         "MANIFEST source_card == component source prefix"
+      ],
+      "grouping_key": [
+        "waszkiewicz2025"
       ],
       "history": [],
       "id": "I-058",
@@ -2626,7 +2866,7 @@
       "retire_if": "Every same-source pairing is already labelled as within-campaign or post-fit.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every same-source pairing carries an accurate relationship label.",
       "strongest_alternative": "Sharing a source card does not mean sharing a campaign — the rows may be a genuine held-out split.",
@@ -2647,6 +2887,7 @@
         "data_note"
       ],
       "cheap_test": "Resolve each unresolvable cell by hand against the cited artifact and record the correct stem; note whether the ambiguity is real (one paper, two cards) or a formatting slip.",
+      "difference_type": "unresolvable_source_card",
       "entity_ids": [
         "dataset:de1_fixtureA",
         "dataset:romancorrochano2017/Db_table3_4",
@@ -2662,6 +2903,9 @@
       ],
       "existing_evidence": [
         "MANIFEST source_card vs docs/cards/ stems"
+      ],
+      "grouping_key": [
+        "all"
       ],
       "history": [],
       "id": "I-059",
@@ -2680,7 +2924,7 @@
       "retire_if": "Every cell is a formatting slip with one obvious correct stem.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every unresolvable cell is resolved or explicitly marked ambiguous.",
       "strongest_alternative": "The ambiguity is cosmetic and no downstream claim depends on which of the two cards is meant.",
@@ -2704,10 +2948,58 @@
     },
     {
       "audience_tracks": [
+        "experiment_design",
+        "public_story"
+      ],
+      "cheap_test": "Predicted-signature spread across the models over a feasible domain, to size the measurement precision a discriminating experiment would need.",
+      "difference_type": "predicted_but_unmeasured",
+      "entity_ids": [
+        "model:foster2025.infiltration",
+        "model:foster2025.machine_mode"
+      ],
+      "existing_evidence": [
+        "model/observable matrix vs manifest MEASURES edges"
+      ],
+      "grouping_key": [
+        "T-0172"
+      ],
+      "history": [],
+      "id": "I-091",
+      "inconclusive_if": "Model predictions cannot be put on a common domain.",
+      "insight_types": [
+        "experiment_design",
+        "missing_measurement"
+      ],
+      "lens": "missing_experiment",
+      "lineage_risks": [],
+      "minimum_figure": "Predicted wetting_front per model with the measurement precision required to separate them marked.",
+      "novelty_search_terms": [
+        "experimental design model discrimination",
+        "optimal measurement selection"
+      ],
+      "question": "What is the minimum measurement of wetting_front that would separate the models predicting it?",
+      "retire_if": "The required precision is beyond any feasible apparatus.",
+      "schema_version": 1,
+      "scores": {},
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
+      "status": "SEED",
+      "stop_condition": "The required precision is established, feasible or not.",
+      "strongest_alternative": "The observable is already constrained indirectly by a measurement the manifest records under another name.",
+      "survive_if": "A feasible measurement precision separates at least two models.",
+      "tension_ids": [
+        "T-0172"
+      ],
+      "title": "wetting_front is predicted by several models and measured by none",
+      "why_it_may_matter": "Models can disagree about this indefinitely because nothing in the corpus can referee it.",
+      "why_it_may_surprise": ""
+    },
+    {
+      "audience_tracks": [
         "technical_note",
         "methods_paper"
       ],
       "cheap_test": "Matched-scenario sweep over the pairs, one shared observable at a time; classify each pair agree / disagree / not comparable.",
+      "difference_type": "comparable_not_yet_executed",
       "entity_ids": [
         "model:brewer2026.coupled_kappa_t",
         "model:fasano2000_partI.fines_migration",
@@ -2717,6 +3009,10 @@
         "evidence strengths (verbatim): brewer2026.coupled_kappa_t=exploratory_synthesis, fasano2000_partI.fines_migration=qualitative_capacity",
         "evidence strengths (verbatim): brewer2026.coupled_kappa_t=exploratory_synthesis, waszkiewicz2025.poroelastic=post_fit_reconstruction",
         "evidence strengths (verbatim): fasano2000_partI.fines_migration=qualitative_capacity, waszkiewicz2025.poroelastic=post_fit_reconstruction"
+      ],
+      "grouping_key": [
+        "bed_dynamics",
+        "flow, permeability"
       ],
       "history": [],
       "id": "I-060",
@@ -2736,7 +3032,7 @@
       "retire_if": "Every pair either agrees or is not comparable for a stated reason.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every pair is classified, with reasons for the not-comparable ones.",
       "strongest_alternative": "Apparent disagreement is a units or convention artifact (ledger A1/A7/A10), not physics.",
@@ -2756,12 +3052,17 @@
         "methods_paper"
       ],
       "cheap_test": "Matched-scenario sweep over the pairs, one shared observable at a time; classify each pair agree / disagree / not comparable.",
+      "difference_type": "comparable_not_yet_executed",
       "entity_ids": [
         "model:pannusch2024.closures",
         "model:pannusch2024.solver"
       ],
       "existing_evidence": [
         "evidence strengths (verbatim): pannusch2024.closures=code_verification, pannusch2024.solver=post_fit_reconstruction"
+      ],
+      "grouping_key": [
+        "extraction",
+        "cumulative_mass, extraction_yield, species_concentration, tds"
       ],
       "history": [],
       "id": "I-061",
@@ -2781,7 +3082,7 @@
       "retire_if": "Every pair either agrees or is not comparable for a stated reason.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every pair is classified, with reasons for the not-comparable ones.",
       "strongest_alternative": "Apparent disagreement is a units or convention artifact (ledger A1/A7/A10), not physics.",
@@ -2799,6 +3100,7 @@
         "methods_paper"
       ],
       "cheap_test": "Matched-scenario sweep over the pairs, one shared observable at a time; classify each pair agree / disagree / not comparable.",
+      "difference_type": "comparable_not_yet_executed",
       "entity_ids": [
         "model:maille2024.two_regime",
         "model:pannusch2024.closures",
@@ -2807,6 +3109,10 @@
       "existing_evidence": [
         "evidence strengths (verbatim): maille2024.two_regime=source_curve_reproduction, pannusch2024.closures=code_verification",
         "evidence strengths (verbatim): maille2024.two_regime=source_curve_reproduction, pannusch2024.solver=post_fit_reconstruction"
+      ],
+      "grouping_key": [
+        "extraction",
+        "extraction_yield, species_concentration, tds"
       ],
       "history": [],
       "id": "I-062",
@@ -2826,7 +3132,7 @@
       "retire_if": "Every pair either agrees or is not comparable for a stated reason.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every pair is classified, with reasons for the not-comparable ones.",
       "strongest_alternative": "Apparent disagreement is a units or convention artifact (ledger A1/A7/A10), not physics.",
@@ -2845,6 +3151,7 @@
         "methods_paper"
       ],
       "cheap_test": "Matched-scenario sweep over the pairs, one shared observable at a time; classify each pair agree / disagree / not comparable.",
+      "difference_type": "comparable_not_yet_executed",
       "entity_ids": [
         "model:grudeva2025.reduced",
         "model:maille2024.two_regime",
@@ -2874,6 +3181,10 @@
         "evidence strengths (verbatim): pannusch2024.closures=code_verification, romancorrochano2017.extraction=sign_or_compatibility",
         "evidence strengths (verbatim): pannusch2024.solver=post_fit_reconstruction, romancorrochano2017.extraction=sign_or_compatibility"
       ],
+      "grouping_key": [
+        "extraction",
+        "extraction_yield, tds"
+      ],
       "history": [],
       "id": "I-063",
       "inconclusive_if": "Matched scenarios cannot be constructed from carded parameters alone.",
@@ -2892,7 +3203,7 @@
       "retire_if": "Every pair either agrees or is not comparable for a stated reason.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every pair is classified, with reasons for the not-comparable ones.",
       "strongest_alternative": "Apparent disagreement is a units or convention artifact (ledger A1/A7/A10), not physics.",
@@ -2927,12 +3238,17 @@
         "methods_paper"
       ],
       "cheap_test": "Matched-scenario sweep over the pairs, one shared observable at a time; classify each pair agree / disagree / not comparable.",
+      "difference_type": "comparable_not_yet_executed",
       "entity_ids": [
         "model:lee2023.feedback",
         "model:wadsworth2026.inertial"
       ],
       "existing_evidence": [
         "evidence strengths (verbatim): lee2023.feedback=qualitative_capacity, wadsworth2026.inertial=source_curve_reproduction"
+      ],
+      "grouping_key": [
+        "flow",
+        "permeability"
       ],
       "history": [],
       "id": "I-064",
@@ -2952,7 +3268,7 @@
       "retire_if": "Every pair either agrees or is not comparable for a stated reason.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Every pair is classified, with reasons for the not-comparable ones.",
       "strongest_alternative": "Apparent disagreement is a units or convention artifact (ledger A1/A7/A10), not physics.",
@@ -2970,12 +3286,16 @@
         "domain_paper"
       ],
       "cheap_test": "Run both components over one matched, physically coherent scenario and plot the shared observable. No refit, no new physics.",
+      "difference_type": "declared_competitor",
       "entity_ids": [
         "model:grudeva2025.reduced",
         "model:brewer2026.streamtube"
       ],
       "existing_evidence": [
         "grudeva2025.reduced (post_fit_reconstruction) vs brewer2026.streamtube (within_campaign_held_out) — registry evidence strengths, verbatim"
+      ],
+      "grouping_key": [
+        "T-0124"
       ],
       "history": [],
       "id": "I-065",
@@ -2995,7 +3315,7 @@
       "retire_if": "The curves overlap within declared uncertainty, or the ranges do not intersect at all (they answer different questions).",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Predictions overlap once each component's declared uncertainty is drawn.",
       "strongest_alternative": "The two components are not answering the same question — the observable is named the same but defined differently (pressure-node or observable-convention mismatch).",
@@ -3013,12 +3333,16 @@
         "domain_paper"
       ],
       "cheap_test": "Run both components over one matched, physically coherent scenario and plot the shared observable. No refit, no new physics.",
+      "difference_type": "declared_competitor",
       "entity_ids": [
         "model:grudeva2025.reduced",
         "model:cameron2020.extraction_bdf"
       ],
       "existing_evidence": [
         "grudeva2025.reduced (post_fit_reconstruction) vs cameron2020.extraction_bdf (code_verification) — registry evidence strengths, verbatim"
+      ],
+      "grouping_key": [
+        "T-0125"
       ],
       "history": [],
       "id": "I-066",
@@ -3038,7 +3362,7 @@
       "retire_if": "The curves overlap within declared uncertainty, or the ranges do not intersect at all (they answer different questions).",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Predictions overlap once each component's declared uncertainty is drawn.",
       "strongest_alternative": "The two components are not answering the same question — the observable is named the same but defined differently (pressure-node or observable-convention mismatch).",
@@ -3056,12 +3380,16 @@
         "domain_paper"
       ],
       "cheap_test": "Run both components over one matched, physically coherent scenario and plot the shared observable. No refit, no new physics.",
+      "difference_type": "declared_competitor",
       "entity_ids": [
         "model:lee2023.feedback",
         "model:brewer2026.streamtube"
       ],
       "existing_evidence": [
         "lee2023.feedback (qualitative_capacity) vs brewer2026.streamtube (within_campaign_held_out) — registry evidence strengths, verbatim"
+      ],
+      "grouping_key": [
+        "T-0132"
       ],
       "history": [],
       "id": "I-067",
@@ -3081,7 +3409,7 @@
       "retire_if": "The curves overlap within declared uncertainty, or the ranges do not intersect at all (they answer different questions).",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Predictions overlap once each component's declared uncertainty is drawn.",
       "strongest_alternative": "The two components are not answering the same question — the observable is named the same but defined differently (pressure-node or observable-convention mismatch).",
@@ -3099,12 +3427,16 @@
         "domain_paper"
       ],
       "cheap_test": "Run both components over one matched, physically coherent scenario and plot the shared observable. No refit, no new physics.",
+      "difference_type": "declared_competitor",
       "entity_ids": [
         "model:lee2023.feedback",
         "model:cameron2020.extraction_bdf"
       ],
       "existing_evidence": [
         "lee2023.feedback (qualitative_capacity) vs cameron2020.extraction_bdf (code_verification) — registry evidence strengths, verbatim"
+      ],
+      "grouping_key": [
+        "T-0133"
       ],
       "history": [],
       "id": "I-068",
@@ -3124,7 +3456,7 @@
       "retire_if": "The curves overlap within declared uncertainty, or the ranges do not intersect at all (they answer different questions).",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Predictions overlap once each component's declared uncertainty is drawn.",
       "strongest_alternative": "The two components are not answering the same question — the observable is named the same but defined differently (pressure-node or observable-convention mismatch).",
@@ -3142,12 +3474,16 @@
         "domain_paper"
       ],
       "cheap_test": "Run both components over one matched, physically coherent scenario and plot the shared observable. No refit, no new physics.",
+      "difference_type": "declared_competitor",
       "entity_ids": [
         "model:lee2023.feedback",
         "model:foster2025.infiltration"
       ],
       "existing_evidence": [
         "lee2023.feedback (qualitative_capacity) vs foster2025.infiltration (sign_or_compatibility) — registry evidence strengths, verbatim"
+      ],
+      "grouping_key": [
+        "T-0134"
       ],
       "history": [],
       "id": "I-069",
@@ -3167,7 +3503,7 @@
       "retire_if": "The curves overlap within declared uncertainty, or the ranges do not intersect at all (they answer different questions).",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Predictions overlap once each component's declared uncertainty is drawn.",
       "strongest_alternative": "The two components are not answering the same question — the observable is named the same but defined differently (pressure-node or observable-convention mismatch).",
@@ -3185,12 +3521,16 @@
         "domain_paper"
       ],
       "cheap_test": "Run both components over one matched, physically coherent scenario and plot the shared observable. No refit, no new physics.",
+      "difference_type": "declared_competitor",
       "entity_ids": [
         "model:mo2023_2.coupled_bed",
         "model:brewer2026.streamtube"
       ],
       "existing_evidence": [
         "mo2023_2.coupled_bed (post_fit_reconstruction) vs brewer2026.streamtube (within_campaign_held_out) — registry evidence strengths, verbatim"
+      ],
+      "grouping_key": [
+        "T-0141"
       ],
       "history": [],
       "id": "I-070",
@@ -3210,7 +3550,7 @@
       "retire_if": "The curves overlap within declared uncertainty, or the ranges do not intersect at all (they answer different questions).",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Predictions overlap once each component's declared uncertainty is drawn.",
       "strongest_alternative": "The two components are not answering the same question — the observable is named the same but defined differently (pressure-node or observable-convention mismatch).",
@@ -3228,12 +3568,16 @@
         "domain_paper"
       ],
       "cheap_test": "Run both components over one matched, physically coherent scenario and plot the shared observable. No refit, no new physics.",
+      "difference_type": "declared_competitor",
       "entity_ids": [
         "model:mo2023_2.coupled_bed",
         "model:wadsworth2026.permeability"
       ],
       "existing_evidence": [
         "mo2023_2.coupled_bed (post_fit_reconstruction) vs wadsworth2026.permeability (source_curve_reproduction) — registry evidence strengths, verbatim"
+      ],
+      "grouping_key": [
+        "T-0146"
       ],
       "history": [],
       "id": "I-071",
@@ -3253,7 +3597,7 @@
       "retire_if": "The curves overlap within declared uncertainty, or the ranges do not intersect at all (they answer different questions).",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Predictions overlap once each component's declared uncertainty is drawn.",
       "strongest_alternative": "The two components are not answering the same question — the observable is named the same but defined differently (pressure-node or observable-convention mismatch).",
@@ -3271,12 +3615,16 @@
         "domain_paper"
       ],
       "cheap_test": "Run both components over one matched, physically coherent scenario and plot the shared observable. No refit, no new physics.",
+      "difference_type": "declared_competitor",
       "entity_ids": [
         "model:mo2023_2.swelling",
         "model:brewer2026.streamtube"
       ],
       "existing_evidence": [
         "mo2023_2.swelling (source_curve_reproduction) vs brewer2026.streamtube (within_campaign_held_out) — registry evidence strengths, verbatim"
+      ],
+      "grouping_key": [
+        "T-0147"
       ],
       "history": [],
       "id": "I-072",
@@ -3296,7 +3644,7 @@
       "retire_if": "The curves overlap within declared uncertainty, or the ranges do not intersect at all (they answer different questions).",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Predictions overlap once each component's declared uncertainty is drawn.",
       "strongest_alternative": "The two components are not answering the same question — the observable is named the same but defined differently (pressure-node or observable-convention mismatch).",
@@ -3314,12 +3662,16 @@
         "domain_paper"
       ],
       "cheap_test": "Run both components over one matched, physically coherent scenario and plot the shared observable. No refit, no new physics.",
+      "difference_type": "declared_competitor",
       "entity_ids": [
         "model:mo2023_2.swelling",
         "model:wadsworth2026.permeability"
       ],
       "existing_evidence": [
         "mo2023_2.swelling (source_curve_reproduction) vs wadsworth2026.permeability (source_curve_reproduction) — registry evidence strengths, verbatim"
+      ],
+      "grouping_key": [
+        "T-0148"
       ],
       "history": [],
       "id": "I-073",
@@ -3339,7 +3691,7 @@
       "retire_if": "The curves overlap within declared uncertainty, or the ranges do not intersect at all (they answer different questions).",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Predictions overlap once each component's declared uncertainty is drawn.",
       "strongest_alternative": "The two components are not answering the same question — the observable is named the same but defined differently (pressure-node or observable-convention mismatch).",
@@ -3357,12 +3709,16 @@
         "domain_paper"
       ],
       "cheap_test": "Run both components over one matched, physically coherent scenario and plot the shared observable. No refit, no new physics.",
+      "difference_type": "declared_competitor",
       "entity_ids": [
         "model:moroney2016.surrogate",
         "model:wadsworth2026.permeability"
       ],
       "existing_evidence": [
         "moroney2016.surrogate (qualitative_capacity) vs wadsworth2026.permeability (source_curve_reproduction) — registry evidence strengths, verbatim"
+      ],
+      "grouping_key": [
+        "T-0152"
       ],
       "history": [],
       "id": "I-074",
@@ -3382,7 +3738,7 @@
       "retire_if": "The curves overlap within declared uncertainty, or the ranges do not intersect at all (they answer different questions).",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Predictions overlap once each component's declared uncertainty is drawn.",
       "strongest_alternative": "The two components are not answering the same question — the observable is named the same but defined differently (pressure-node or observable-convention mismatch).",
@@ -3400,12 +3756,16 @@
         "domain_paper"
       ],
       "cheap_test": "Run both components over one matched, physically coherent scenario and plot the shared observable. No refit, no new physics.",
+      "difference_type": "declared_competitor",
       "entity_ids": [
         "model:pannusch2024.closures",
         "model:cameron2020.extraction_bdf"
       ],
       "existing_evidence": [
         "pannusch2024.closures (code_verification) vs cameron2020.extraction_bdf (code_verification) — registry evidence strengths, verbatim"
+      ],
+      "grouping_key": [
+        "T-0153"
       ],
       "history": [],
       "id": "I-075",
@@ -3425,7 +3785,7 @@
       "retire_if": "The curves overlap within declared uncertainty, or the ranges do not intersect at all (they answer different questions).",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Predictions overlap once each component's declared uncertainty is drawn.",
       "strongest_alternative": "The two components are not answering the same question — the observable is named the same but defined differently (pressure-node or observable-convention mismatch).",
@@ -3443,12 +3803,16 @@
         "domain_paper"
       ],
       "cheap_test": "Run both components over one matched, physically coherent scenario and plot the shared observable. No refit, no new physics.",
+      "difference_type": "declared_competitor",
       "entity_ids": [
         "model:pannusch2024.solver",
         "model:cameron2020.extraction_bdf"
       ],
       "existing_evidence": [
         "pannusch2024.solver (post_fit_reconstruction) vs cameron2020.extraction_bdf (code_verification) — registry evidence strengths, verbatim"
+      ],
+      "grouping_key": [
+        "T-0156"
       ],
       "history": [],
       "id": "I-076",
@@ -3468,7 +3832,7 @@
       "retire_if": "The curves overlap within declared uncertainty, or the ranges do not intersect at all (they answer different questions).",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Predictions overlap once each component's declared uncertainty is drawn.",
       "strongest_alternative": "The two components are not answering the same question — the observable is named the same but defined differently (pressure-node or observable-convention mismatch).",
@@ -3486,12 +3850,16 @@
         "domain_paper"
       ],
       "cheap_test": "Run both components over one matched, physically coherent scenario and plot the shared observable. No refit, no new physics.",
+      "difference_type": "declared_competitor",
       "entity_ids": [
         "model:romancorrochano2017.extraction",
         "model:cameron2020.extraction_bdf"
       ],
       "existing_evidence": [
         "romancorrochano2017.extraction (sign_or_compatibility) vs cameron2020.extraction_bdf (code_verification) — registry evidence strengths, verbatim"
+      ],
+      "grouping_key": [
+        "T-0158"
       ],
       "history": [],
       "id": "I-077",
@@ -3511,7 +3879,7 @@
       "retire_if": "The curves overlap within declared uncertainty, or the ranges do not intersect at all (they answer different questions).",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "Predictions overlap once each component's declared uncertainty is drawn.",
       "strongest_alternative": "The two components are not answering the same question — the observable is named the same but defined differently (pressure-node or observable-convention mismatch).",
@@ -3529,11 +3897,15 @@
         "domain_paper"
       ],
       "cheap_test": "Re-run the recorded analysis under a second configuration drawn from the same declared validity range, changing one factor.",
+      "difference_type": "standing_negative_verdict",
       "entity_ids": [
         "result:ANALYSIS_P2"
       ],
       "existing_evidence": [
         "allowlisted standing analysis, line pointers only"
+      ],
+      "grouping_key": [
+        "T-0159"
       ],
       "history": [],
       "id": "I-078",
@@ -3552,7 +3924,7 @@
       "retire_if": "The verdict holds, which strengthens the existing negative record rather than producing a new one.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "The second configuration is run and the verdict compared.",
       "strongest_alternative": "The negative result is already correctly scoped in the document and no generalisation was ever claimed.",
@@ -3570,11 +3942,15 @@
         "domain_paper"
       ],
       "cheap_test": "Re-run the recorded analysis under a second configuration drawn from the same declared validity range, changing one factor.",
+      "difference_type": "standing_negative_verdict",
       "entity_ids": [
         "result:ANALYSIS_transfer"
       ],
       "existing_evidence": [
         "allowlisted standing analysis, line pointers only"
+      ],
+      "grouping_key": [
+        "T-0160"
       ],
       "history": [],
       "id": "I-079",
@@ -3593,7 +3969,7 @@
       "retire_if": "The verdict holds, which strengthens the existing negative record rather than producing a new one.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "The second configuration is run and the verdict compared.",
       "strongest_alternative": "The negative result is already correctly scoped in the document and no generalisation was ever claimed.",
@@ -3611,11 +3987,15 @@
         "domain_paper"
       ],
       "cheap_test": "Re-run the recorded analysis under a second configuration drawn from the same declared validity range, changing one factor.",
+      "difference_type": "standing_negative_verdict",
       "entity_ids": [
         "result:P3_hypotheses"
       ],
       "existing_evidence": [
         "allowlisted standing analysis, line pointers only"
+      ],
+      "grouping_key": [
+        "T-0161"
       ],
       "history": [],
       "id": "I-080",
@@ -3634,7 +4014,7 @@
       "retire_if": "The verdict holds, which strengthens the existing negative record rather than producing a new one.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "The second configuration is run and the verdict compared.",
       "strongest_alternative": "The negative result is already correctly scoped in the document and no generalisation was ever claimed.",
@@ -3652,6 +4032,7 @@
         "practitioner"
       ],
       "cheap_test": "Draft the contrast against the existing claim inventory and check it can be stated within the badge its weakest supporting evidence allows.",
+      "difference_type": "unclaimed_contrast_with_data",
       "entity_ids": [
         "model:brewer2026.coupled_kappa_t",
         "model:cameron2020.extraction_bdf",
@@ -3669,6 +4050,9 @@
       "existing_evidence": [
         "existing claim inventory (5 claims) checked for overlap"
       ],
+      "grouping_key": [
+        "T-0162"
+      ],
       "history": [],
       "id": "I-081",
       "inconclusive_if": "The supporting datasets are single-replicate, so the contrast cannot be separated from run-to-run variation.",
@@ -3683,7 +4067,7 @@
       "retire_if": "It needs a badge the evidence does not support, or duplicates a claim.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "The contrast cannot be stated without exceeding its evidence badge.",
       "strongest_alternative": "The contrast is an artifact of pooling datasets from different rigs and coffees.",
@@ -3701,6 +4085,7 @@
         "practitioner"
       ],
       "cheap_test": "Draft the contrast against the existing claim inventory and check it can be stated within the badge its weakest supporting evidence allows.",
+      "difference_type": "unclaimed_contrast_with_data",
       "entity_ids": [
         "model:brewer2026.coupled_kappa_t",
         "model:cameron2020.extraction_bdf",
@@ -3717,6 +4102,9 @@
       "existing_evidence": [
         "existing claim inventory (5 claims) checked for overlap"
       ],
+      "grouping_key": [
+        "T-0163"
+      ],
       "history": [],
       "id": "I-082",
       "inconclusive_if": "The supporting datasets are single-replicate, so the contrast cannot be separated from run-to-run variation.",
@@ -3731,7 +4119,7 @@
       "retire_if": "It needs a badge the evidence does not support, or duplicates a claim.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "The contrast cannot be stated without exceeding its evidence badge.",
       "strongest_alternative": "The contrast is an artifact of pooling datasets from different rigs and coffees.",
@@ -3749,6 +4137,7 @@
         "practitioner"
       ],
       "cheap_test": "Draft the contrast against the existing claim inventory and check it can be stated within the badge its weakest supporting evidence allows.",
+      "difference_type": "unclaimed_contrast_with_data",
       "entity_ids": [
         "model:brewer2026.coupled_kappa_t",
         "model:wadsworth2026.grindmap",
@@ -3760,6 +4149,9 @@
       ],
       "existing_evidence": [
         "existing claim inventory (5 claims) checked for overlap"
+      ],
+      "grouping_key": [
+        "T-0164"
       ],
       "history": [],
       "id": "I-083",
@@ -3775,7 +4167,7 @@
       "retire_if": "It needs a badge the evidence does not support, or duplicates a claim.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "The contrast cannot be stated without exceeding its evidence badge.",
       "strongest_alternative": "The contrast is an artifact of pooling datasets from different rigs and coffees.",
@@ -3793,6 +4185,7 @@
         "practitioner"
       ],
       "cheap_test": "Draft the contrast against the existing claim inventory and check it can be stated within the badge its weakest supporting evidence allows.",
+      "difference_type": "unclaimed_contrast_with_data",
       "entity_ids": [
         "model:cameron2020.extraction_bdf",
         "model:waszkiewicz2025.poroelastic",
@@ -3805,6 +4198,9 @@
       ],
       "existing_evidence": [
         "existing claim inventory (5 claims) checked for overlap"
+      ],
+      "grouping_key": [
+        "T-0165"
       ],
       "history": [],
       "id": "I-084",
@@ -3820,7 +4216,7 @@
       "retire_if": "It needs a badge the evidence does not support, or duplicates a claim.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "The contrast cannot be stated without exceeding its evidence badge.",
       "strongest_alternative": "The contrast is an artifact of pooling datasets from different rigs and coffees.",
@@ -3838,6 +4234,7 @@
         "practitioner"
       ],
       "cheap_test": "Draft the contrast against the existing claim inventory and check it can be stated within the badge its weakest supporting evidence allows.",
+      "difference_type": "unclaimed_contrast_with_data",
       "entity_ids": [
         "model:grudeva2025.reduced",
         "model:lee2023.feedback",
@@ -3858,6 +4255,9 @@
       "existing_evidence": [
         "existing claim inventory (5 claims) checked for overlap"
       ],
+      "grouping_key": [
+        "T-0166"
+      ],
       "history": [],
       "id": "I-085",
       "inconclusive_if": "The supporting datasets are single-replicate, so the contrast cannot be separated from run-to-run variation.",
@@ -3872,7 +4272,7 @@
       "retire_if": "It needs a badge the evidence does not support, or duplicates a claim.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "The contrast cannot be stated without exceeding its evidence badge.",
       "strongest_alternative": "The contrast is an artifact of pooling datasets from different rigs and coffees.",
@@ -3890,6 +4290,7 @@
         "practitioner"
       ],
       "cheap_test": "Draft the contrast against the existing claim inventory and check it can be stated within the badge its weakest supporting evidence allows.",
+      "difference_type": "unclaimed_contrast_with_data",
       "entity_ids": [
         "model:grudeva2025.reduced",
         "model:maille2024.phi_closure",
@@ -3910,6 +4311,9 @@
       "existing_evidence": [
         "existing claim inventory (5 claims) checked for overlap"
       ],
+      "grouping_key": [
+        "T-0167"
+      ],
       "history": [],
       "id": "I-086",
       "inconclusive_if": "The supporting datasets are single-replicate, so the contrast cannot be separated from run-to-run variation.",
@@ -3924,7 +4328,7 @@
       "retire_if": "It needs a badge the evidence does not support, or duplicates a claim.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "The contrast cannot be stated without exceeding its evidence badge.",
       "strongest_alternative": "The contrast is an artifact of pooling datasets from different rigs and coffees.",
@@ -3942,6 +4346,7 @@
         "practitioner"
       ],
       "cheap_test": "Draft the contrast against the existing claim inventory and check it can be stated within the badge its weakest supporting evidence allows.",
+      "difference_type": "unclaimed_contrast_with_data",
       "entity_ids": [
         "model:maille2024.phi_closure",
         "model:maille2024.two_regime",
@@ -3957,6 +4362,9 @@
       "existing_evidence": [
         "existing claim inventory (5 claims) checked for overlap"
       ],
+      "grouping_key": [
+        "T-0168"
+      ],
       "history": [],
       "id": "I-087",
       "inconclusive_if": "The supporting datasets are single-replicate, so the contrast cannot be separated from run-to-run variation.",
@@ -3971,7 +4379,7 @@
       "retire_if": "It needs a badge the evidence does not support, or duplicates a claim.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "The contrast cannot be stated without exceeding its evidence badge.",
       "strongest_alternative": "The contrast is an artifact of pooling datasets from different rigs and coffees.",
@@ -3989,6 +4397,7 @@
         "practitioner"
       ],
       "cheap_test": "Draft the contrast against the existing claim inventory and check it can be stated within the badge its weakest supporting evidence allows.",
+      "difference_type": "unclaimed_contrast_with_data",
       "entity_ids": [
         "model:pannusch2024.closures",
         "model:pannusch2024.solver",
@@ -3997,6 +4406,9 @@
       ],
       "existing_evidence": [
         "existing claim inventory (5 claims) checked for overlap"
+      ],
+      "grouping_key": [
+        "T-0169"
       ],
       "history": [],
       "id": "I-088",
@@ -4012,7 +4424,7 @@
       "retire_if": "It needs a badge the evidence does not support, or duplicates a claim.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "The contrast cannot be stated without exceeding its evidence badge.",
       "strongest_alternative": "The contrast is an artifact of pooling datasets from different rigs and coffees.",
@@ -4026,29 +4438,79 @@
     },
     {
       "audience_tracks": [
+        "public_story",
+        "practitioner"
+      ],
+      "cheap_test": "Draft the contrast against the existing claim inventory and check it can be stated within the badge its weakest supporting evidence allows.",
+      "difference_type": "unclaimed_contrast_with_data",
+      "entity_ids": [
+        "model:foster2025.infiltration",
+        "model:foster2025.machine_mode",
+        "dataset:de1_fixtureA"
+      ],
+      "existing_evidence": [
+        "existing claim inventory (5 claims) checked for overlap"
+      ],
+      "grouping_key": [
+        "T-0173"
+      ],
+      "history": [],
+      "id": "I-092",
+      "inconclusive_if": "The supporting datasets are single-replicate, so the contrast cannot be separated from run-to-run variation.",
+      "insight_types": [
+        "public_story"
+      ],
+      "lens": "public_story",
+      "lineage_risks": [],
+      "minimum_figure": "The contrast in one panel, with the badge and scope sentence on the figure itself.",
+      "novelty_search_terms": [],
+      "question": "Does first_drip_time carry one defensible surprise, with data already in the manifest and no existing public claim covering it?",
+      "retire_if": "It needs a badge the evidence does not support, or duplicates a claim.",
+      "schema_version": 1,
+      "scores": {},
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
+      "status": "SEED",
+      "stop_condition": "The contrast cannot be stated without exceeding its evidence badge.",
+      "strongest_alternative": "The contrast is an artifact of pooling datasets from different rigs and coffees.",
+      "survive_if": "The contrast is defensible at a badge the evidence supports and no existing claim already makes it.",
+      "tension_ids": [
+        "T-0173"
+      ],
+      "title": "Is first_drip_time a public story the repository has not told?",
+      "why_it_may_matter": "The public track consumes results; a contrast with data in hand is the cheapest honest output.",
+      "why_it_may_surprise": ""
+    },
+    {
+      "audience_tracks": [
         "methods_paper",
         "technical_note"
       ],
       "cheap_test": "Permeability from the pore-scale solver versus the continuum closure over one geometry family, plus an RVE-size sweep for stabilisation.",
+      "difference_type": "pore_scale_vs_continuum",
       "entity_ids": [
         "model:lee2023.feedback",
         "model:wadsworth2026.inertial",
         "model:brewer2026.coupled_kappa_t",
         "model:cameron2020.extraction_bdf",
         "model:fasano2000_partI.fines_migration",
+        "model:foster2025.infiltration",
+        "model:foster2025.machine_mode",
         "model:grudeva2025.reduced",
         "model:moroney2016.surrogate",
         "model:waszkiewicz2025.poroelastic"
       ],
       "existing_evidence": [
-        "lee2023.feedback=qualitative_capacity; wadsworth2026.inertial=source_curve_reproduction; brewer2026.coupled_kappa_t=exploratory_synthesis; cameron2020.extraction_bdf=code_verification; fasano2000_partI.fines_migration=qualitative_capacity; grudeva2025.reduced=post_fit_reconstruction; moroney2016.surrogate=qualitative_capacity; waszkiewicz2025.poroelastic=post_fit_reconstruction"
+        "lee2023.feedback=qualitative_capacity; wadsworth2026.inertial=source_curve_reproduction; brewer2026.coupled_kappa_t=exploratory_synthesis; cameron2020.extraction_bdf=code_verification; fasano2000_partI.fines_migration=qualitative_capacity; foster2025.infiltration=sign_or_compatibility; foster2025.machine_mode=source_curve_reproduction; grudeva2025.reduced=post_fit_reconstruction; moroney2016.surrogate=qualitative_capacity; waszkiewicz2025.poroelastic=post_fit_reconstruction"
+      ],
+      "grouping_key": [
+        "T-0174"
       ],
       "history": [],
-      "id": "I-089",
+      "id": "I-093",
       "inconclusive_if": "The solver cannot be run at an RVE size large enough to stabilise.",
       "insight_types": [
         "scale_bridging",
-        "closure_portability"
+        "calibration_artifact_portability"
       ],
       "lens": "scale_mismatch",
       "lineage_risks": [],
@@ -4061,47 +4523,48 @@
       "retire_if": "Closure and solver agree within solver uncertainty across the family.",
       "schema_version": 1,
       "scores": {},
-      "source_commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+      "source_commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
       "status": "SEED",
       "stop_condition": "The trends agree within solver uncertainty.",
       "strongest_alternative": "The synthetic geometries are not representative of a real puck, so neither curve is the reference.",
       "survive_if": "The closure and solver trends diverge inside the geometry family, or no RVE size stabilises the solver.",
       "tension_ids": [
-        "T-0170"
+        "T-0174"
       ],
       "title": "Do the continuum permeability closures preserve the pore-scale trend?",
       "why_it_may_matter": "A closure that does not preserve the pore-scale trend silently limits every bed-scale prediction built on it.",
       "why_it_may_surprise": ""
     }
   ],
-  "commit": "21869fe19feec2dce6af8f4a41f63299473e31c2",
+  "commit": "e8054b3cd409104b7b0e2296db76f0eda33f58f2",
   "generator_version": 1,
   "schema_version": 1,
   "summary": {
     "by_audience_track": {
-      "data_note": 27,
+      "data_note": 26,
       "domain_paper": 17,
-      "experiment_design": 8,
+      "experiment_design": 10,
       "methods_paper": 29,
-      "practitioner": 8,
-      "public_story": 16,
+      "practitioner": 9,
+      "public_story": 19,
       "technical_note": 78
     },
     "by_lens": {
-      "closure_portability": 15,
+      "calibration_artifact_portability": 15,
       "composition_failure": 8,
       "cross_species_inconsistency": 1,
       "evidence_asymmetry": 3,
       "hidden_discriminator": 11,
       "lineage_circularity": 21,
+      "missing_experiment": 1,
       "model_disagreement": 18,
       "negative_result": 3,
-      "public_story": 8,
+      "public_story": 9,
       "scale_mismatch": 1
     },
     "by_status": {
-      "SEED": 89
+      "SEED": 91
     },
-    "total": 89
+    "total": 91
   }
 }

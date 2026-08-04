@@ -32,6 +32,11 @@ python -m puckworks.insights card I-007  # materialise a card for a shortlisted 
 `generated/` is **generated**. Do not hand-edit anything in it — `verify` fails on drift and so do
 the tests. Curate the authorities (registry, cards, manifest, claims) and regenerate.
 
+`ID_REGISTRY.json` is tracked and **append-only**. `T-0042` and `I-007` are stable identities, not
+sort positions: they survive rewording and reordering, and a retired number is never reused, so
+IDs are deliberately **not dense**. Never delete or renumber an entry — see
+[`INSIGHT_FOUNDRY_DESIGN.md` §1a](INSIGHT_FOUNDRY_DESIGN.md).
+
 ## Layout
 
 ```
@@ -43,10 +48,13 @@ generated/                    every artifact below is machine-written
   candidate_portfolio.{json,md}  the seeds
   observable_index.csv        model/observable matrix
   evidence_lineage_index.csv  per-dataset lineage, manifest wording verbatim
-  closure_portability_index.csv  calibration components + declared validity
+  calibration_artifact_portability_index.csv
+                              calibration components + declared validity + possible
+                              downstream components (co-location, NOT established consumers)
   public_claim_inventory.md   what the repo has already published
   snapshot_manifest.json      commit + input/output hashes
-  chatgpt_project/            the numbered upload pack
+  chatgpt_project/            the twelve-file upload pack (gitignored; rebuilt by `write`)
+ID_REGISTRY.json              tracked, append-only fingerprint -> stable ID map
 candidates/                   cards for SHORTLISTED candidates only (created on demand)
 screens/                      one directory per candidate that reaches a cheap screen
 chatgpt_project/              Project instructions + chat prompts (hand-written)

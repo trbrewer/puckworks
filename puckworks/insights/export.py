@@ -15,7 +15,8 @@ from __future__ import annotations
 import csv
 import io
 
-from . import candidates as CD, corpus_map as CM, schema as S, tension_atlas as TA
+from . import (candidates as CD, corpus_map as CM, ids as IDS, schema as S,
+               tension_atlas as TA)
 
 GENERATED_REL = "docs/insights/generated"
 PACK_REL = GENERATED_REL + "/chatgpt_project"
@@ -35,12 +36,18 @@ def _csv(header, rows) -> str:
     return buf.getvalue()
 
 
-def build_all(commit: str | None = None) -> dict:
-    """Build the whole Foundry state once. Returns the pieces every renderer needs."""
+def build_all(commit: str | None = None, allocator=None) -> dict:
+    """Build the whole Foundry state once. Returns the pieces every renderer needs.
+
+    One `Allocator` spans the atlas and the portfolio so both draw from the same tracked ID
+    registry; it is returned in the state so `write` can persist any newly minted IDs.
+    """
+    alloc = allocator if allocator is not None else IDS.Allocator()
     corpus = CM.build(commit)
-    tensions = TA.build(corpus)
-    cands = CD.generate(corpus, tensions)      # assigns candidate_id back onto the tension rows
-    return {"corpus": corpus, "tensions": tensions, "candidates": cands}
+    tensions = TA.build(corpus, allocator=alloc)
+    # generate() also assigns candidate_id back onto the tension rows
+    cands = CD.generate(corpus, tensions, allocator=alloc)
+    return {"corpus": corpus, "tensions": tensions, "candidates": cands, "allocator": alloc}
 
 
 # ---- renderers ----------------------------------------------------------------------------
@@ -179,17 +186,25 @@ def render_evidence_lineage_index(state) -> str:
     return _csv(header, rows)
 
 
-def render_closure_index(state) -> str:
-    """Per-calibration-component closure index (blueprint §15.3)."""
+def render_calibration_artifact_index(state) -> str:
+    """Per-calibration-component portability index (blueprint §15.3).
+
+    Two column names carry the correction this index exists to make. `calibration_component`,
+    not `closure_component`: `execution_role == "calibration"` covers closures but also lookup
+    tables, geometry generators and verification twins, and the registry never said which.
+    `possible_downstream_same_stage`, not `runtime_consumers_same_stage`: sharing a stage is
+    co-location, and no output-to-input path was checked — establishing one is the first step of
+    the screen, not an assumption behind the row.
+    """
     corpus = state["corpus"]
     cand_by_entity = {}
     for c in state["candidates"]:
         for e in c.entity_ids:
             cand_by_entity.setdefault(e, []).append(c.id)
 
-    header = ["closure_component", "stage", "provenance_class", "evidence_strength_verbatim",
-              "declared_validity_range_verbatim", "gates", "runtime_consumers_same_stage",
-              "candidate_ids"]
+    header = ["calibration_component", "stage", "provenance_class", "evidence_strength_verbatim",
+              "declared_validity_range_verbatim", "gates", "possible_downstream_same_stage",
+              "consuming_path_established", "candidate_ids"]
     runtime_by_stage = {}
     for m in CM.entities_of(corpus, "model"):
         if m["attrs"].get("execution_role") == "runtime":
@@ -203,6 +218,10 @@ def render_closure_index(state) -> str:
                      a.get("evidence_strength", ""), a.get("valid_range", ""),
                      " | ".join(a.get("gates", [])),
                      " | ".join(sorted(runtime_by_stage.get(a.get("stage"), []))),
+                     # constant "no" by construction: the foundation never traces an output to an
+                     # input. The column exists so the fact is stated per row rather than inferred
+                     # from a column name, and so a later screen has somewhere to record a path.
+                     "no",
                      " | ".join(sorted(set(cand_by_entity.get(m["id"], []))))])
     return _csv(header, rows)
 
@@ -314,14 +333,22 @@ ARTIFACTS = (
     (GENERATED_REL + "/candidate_portfolio.json", render_portfolio_json),
     (GENERATED_REL + "/candidate_portfolio.md", render_portfolio_md),
     (GENERATED_REL + "/evidence_lineage_index.csv", render_evidence_lineage_index),
-    (GENERATED_REL + "/closure_portability_index.csv", render_closure_index),
+    (GENERATED_REL + "/calibration_artifact_portability_index.csv",
+     render_calibration_artifact_index),
     (GENERATED_REL + "/public_claim_inventory.md", render_public_claim_inventory),
     (GENERATED_REL + "/INSIGHT_SNAPSHOT.md", render_snapshot),
 )
 
-#: The ChatGPT Project source pack (blueprint §14.2): numbered so upload order is obvious, and
-#: capped well inside the 40-file Project limit. Files are COPIES of the artifacts above plus the
-#: Project instructions, so the Project and the repo never disagree about what a snapshot said.
+#: The ChatGPT Project source pack (blueprint §14.2): twelve files, numbered so upload order is
+#: obvious, and well inside the 40-file Project limit. Eleven are COPIES of tracked files, so the
+#: Project and the repo never disagree about what a snapshot said; `12_SOURCE_MANIFEST.json` is
+#: generated in place and binds every packed name to its source path and sha256.
+#:
+#: The packed NAMES are fixed by the Project contract and are not always the source filename.
+#: `08_closure_portability_index.csv` is the contract name; its source is
+#: `calibration_artifact_portability_index.csv`, renamed because `execution_role == "calibration"`
+#: does not establish that a component is a closure. The source manifest makes that mapping
+#: explicit and machine-readable rather than leaving a reader to guess from the filename.
 PACK = (
     ("01_INSIGHT_SNAPSHOT.md", GENERATED_REL + "/INSIGHT_SNAPSHOT.md"),
     ("02_corpus_map.json", GENERATED_REL + "/corpus_map.json"),
@@ -330,10 +357,46 @@ PACK = (
     ("05_candidate_portfolio.json", GENERATED_REL + "/candidate_portfolio.json"),
     ("06_evidence_lineage_index.csv", GENERATED_REL + "/evidence_lineage_index.csv"),
     ("07_model_observable_matrix.csv", GENERATED_REL + "/observable_index.csv"),
-    ("08_closure_portability_index.csv", GENERATED_REL + "/closure_portability_index.csv"),
+    ("08_closure_portability_index.csv",
+     GENERATED_REL + "/calibration_artifact_portability_index.csv"),
     ("09_public_claim_inventory.md", GENERATED_REL + "/public_claim_inventory.md"),
     ("10_PROJECT_INSTRUCTIONS.md", "docs/insights/chatgpt_project/PROJECT_INSTRUCTIONS.md"),
+    ("11_CHAT_PROMPTS.md", "docs/insights/chatgpt_project/CHAT_PROMPTS.md"),
 )
+
+#: Generated in place inside the pack, so it can hash the eleven files above.
+PACK_MANIFEST_NAME = "12_SOURCE_MANIFEST.json"
+
+
+def pack_source_manifest(state) -> str:
+    """`12_SOURCE_MANIFEST.json` — binds every packed file to its source path and sha256.
+
+    This is what makes a Project upload auditable: a reader inside the Project can tell which repo
+    file each numbered name came from, at which commit, and whether the bytes still match.
+    """
+    files = []
+    for name, src_rel in PACK:
+        src = S.REPO_ROOT / src_rel
+        files.append({"packed_as": name, "source_path": src_rel,
+                      "sha256": S.sha256_path(src) if src.exists() else "",
+                      "present": src.exists()})
+    files.append({"packed_as": PACK_MANIFEST_NAME,
+                  "source_path": "generated in place by puckworks.insights.export",
+                  "sha256": "", "present": True})
+    return S.canonical_json({
+        "schema_version": S.SCHEMA_VERSION,
+        "repository": "trbrewer/puckworks",
+        "corpus_source_commit": state["corpus"]["commit"],
+        "generator_version": CM.GENERATOR_VERSION,
+        "file_count": len(files),
+        "counts": {"entities": state["corpus"]["counts"]["entities_total"],
+                   "relations": state["corpus"]["counts"]["relations_total"],
+                   "tensions": len(state["tensions"]),
+                   "candidates": len(state["candidates"])},
+        "note": "Packed names are fixed by the Project contract and may differ from the source "
+                "filename; follow source_path, not the packed name.",
+        "files": files,
+    })
 
 
 def generate_all(state=None, commit: str | None = None) -> dict:
@@ -383,6 +446,10 @@ def write(commit: str | None = None, stamp_time: bool = False) -> list:
                         encoding="utf-8")
     written.append(man_rel)
 
+    # persist any IDs minted during this build; the registry is append-only, so this only ever
+    # adds rows and advances the high-water marks
+    written.append(IDS.save(state["allocator"].registry))
+
     pack_dir = S.REPO_ROOT / PACK_REL
     pack_dir.mkdir(parents=True, exist_ok=True)
     for name, src_rel in PACK:
@@ -391,6 +458,8 @@ def write(commit: str | None = None, stamp_time: bool = False) -> list:
             continue
         (pack_dir / name).write_text(src.read_text(encoding="utf-8"), encoding="utf-8")
         written.append(PACK_REL + "/" + name)
+    (pack_dir / PACK_MANIFEST_NAME).write_text(pack_source_manifest(state), encoding="utf-8")
+    written.append(PACK_REL + "/" + PACK_MANIFEST_NAME)
     return written
 
 
@@ -430,7 +499,17 @@ def verify() -> list:
     if problems:
         return problems + ["-> run `python -m puckworks.insights write` to regenerate"]
 
-    contents = generate_all(commit=stored.get("commit", ""))
+    # a fingerprint the tracked registry has not seen means IDs were minted in memory and never
+    # persisted; the next build on another machine could mint different numbers for them
+    state = build_all(commit=stored.get("commit", ""))
+    missing = IDS.unrecorded(state)
+    if missing:
+        problems += ["REGISTRY_STALE: %s" % m for m in missing[:12]]
+        if len(missing) > 12:
+            problems.append("REGISTRY_STALE: ... and %d more" % (len(missing) - 12))
+        return problems + ["-> run `python -m puckworks.insights write` to persist the new IDs"]
+
+    contents = generate_all(state=state)
     for rel, text in sorted(contents.items()):
         p = S.REPO_ROOT / rel
         if not p.exists():

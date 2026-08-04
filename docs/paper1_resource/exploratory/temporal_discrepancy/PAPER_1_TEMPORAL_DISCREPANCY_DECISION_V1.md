@@ -102,9 +102,20 @@ With only five experiments and three replicates each, experiment-to-experiment v
 enough that the mean is not distinguishable from zero. The earlier number was not wrong; the
 inference drawn from it was.
 
-## 3. Model comparison — held-out, raw fractions as the principal score
+## 3. Model comparison — raw fractions as the principal score
 
-Leave-one-experiment-out, level anchored on fraction 1, scored on fractions 2,3,5,7,10:
+Level anchored on fraction 1, scored on fractions 2,3,5,7,10. **Two different evaluation lineages
+appear in this table and must not be read as one:**
+
+- **BASE, BIEXP, SLOW_TAIL** are scored **leave-one-experiment-out** — parameters fitted on the
+  four training experiments, scored on the held-out fifth.
+- **SRC_EXP** is not. It is the **source's own single-exponential fit to the same shot it is
+  scored on** — the lineage baseline, carried here to show what the published data reduction
+  does. Its residual is a same-shot source-fitted residual, not a held-out one, and it is
+  systematically favoured relative to the three held-out rows by exactly that difference.
+
+The comparison that decides the paper question is BASE against BIEXP and SLOW_TAIL, all three
+held out on the same folds. SRC_EXP is context, not a competitor on equal terms.
 
 | solute | model | all-fraction MAPE | **late MAPE (f7,f10)** | late signed | derived-cumulative MAPE |
 |---|---|---|---|---|---|
@@ -139,9 +150,14 @@ The strongly negative late-tail signature belongs to the **source's own single e
 the mechanistic solver:
 
 ```
-held-out late signed residual:   SRC_EXP  −13.0 %, −21.2 %, −16.5 %
-                                 BASE      +1.6 %,  −3.5 %,  +1.4 %
+same-shot source-fitted lineage residual:  SRC_EXP  −13.0 %, −21.2 %, −16.5 %
+held-out late signed residual:              BASE     +1.6 %,  −3.5 %,  +1.4 %
 ```
+
+The two lines are not the same measurement. SRC_EXP's is a same-shot source-fitted residual and
+BASE's is leave-one-experiment-out — which makes the contrast *stronger*, not weaker: the source's
+exponential under-predicts the tail badly even when fitted to the very shot it is scored on, while
+the mechanistic solver stays centred near zero on shots it never saw.
 
 The single exponential under-predicts the tail badly and systematically. The two-grain mechanistic
 model does not — its held-out late residual is centred near zero. And that same under-predicting

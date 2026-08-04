@@ -20,6 +20,7 @@ The lenses take the corpus map and nothing else, so a row can always be re-deriv
 """
 from __future__ import annotations
 
+from . import ids as IDS
 from .corpus_map import entities_of, index, relations_of
 from .schema import Provenance, Tension
 
@@ -42,17 +43,24 @@ _WEAK_EVIDENCE = ("qualitative_capacity", "exploratory_synthesis", "code_verific
                   "sign_or_compatibility", "proposed_experiment")
 
 
-def build(corpus: dict) -> list:
-    """Run every implemented lens over the corpus map and return the atlas rows, ids assigned."""
+def build(corpus: dict, allocator=None) -> list:
+    """Run every implemented lens over the corpus map and return the atlas rows, IDs assigned.
+
+    Rows are SORTED for stable presentation but their IDs come from the fingerprint registry, not
+    from sort position — inserting an early-sorting row must not renumber the rows after it
+    (`puckworks.insights.ids`).
+    """
     rows = []
-    for lens in (lens_model_disagreement, lens_lineage_circularity, lens_closure_portability,
-                 lens_composition_failure, lens_cross_species, lens_hidden_discriminator,
-                 lens_matrix_blind_spot, lens_missing_experiment, lens_negative_result,
-                 lens_evidence_asymmetry, lens_scale_mismatch, lens_public_story):
+    for lens in (lens_model_disagreement, lens_lineage_circularity,
+                 lens_calibration_artifact_portability, lens_composition_failure,
+                 lens_cross_species, lens_hidden_discriminator, lens_matrix_blind_spot,
+                 lens_missing_experiment, lens_negative_result, lens_evidence_asymmetry,
+                 lens_scale_mismatch, lens_public_story):
         rows.extend(lens(corpus))
     rows.sort(key=lambda t: (t.lens, tuple(t.entity_ids), t.difference_summary))
-    for i, t in enumerate(rows, start=1):
-        t.tension_id = "T-%04d" % i
+    alloc = allocator if allocator is not None else IDS.Allocator()
+    for t in rows:
+        t.tension_id = alloc.tension_id(t)
     return rows
 
 
@@ -201,16 +209,28 @@ def lens_lineage_circularity(corpus: dict) -> list:
     return rows
 
 
-# ---- Lens D — closure portability --------------------------------------------------------
+# ---- Lens D — calibration-artifact portability ---------------------------------------------
 
 
-def lens_closure_portability(corpus: dict) -> list:
-    """Calibration components (closure producers) whose output feeds a stage they were not fitted
-    on, and reference-only components carrying a declared validity range.
+def lens_calibration_artifact_portability(corpus: dict) -> list:
+    """Calibration components carrying a declared validity range, and what might consume them.
 
-    The registry's `execution_role == "calibration"` is the closure-producer marker; the row pairs
-    each with the runtime components in the same stage that could consume it, and quotes the
-    producer's declared `valid_range` verbatim so the range travels with the closure.
+    Two words this lens deliberately does NOT use, because the static metadata does not support
+    either:
+
+      * **closure.** `execution_role == "calibration"` means the component supplies parameters
+        offline. That covers closures, but also lookup tables, geometry generators, reference
+        datasets and verification twins. Calling every one of them a closure asserts a functional
+        form the registry never stated. The row says *calibration artifact*; the word closure is
+        reserved for cases where a card, interface or relation establishes one.
+      * **consumer.** Sharing a stage with a runtime component makes it a POSSIBLE DOWNSTREAM
+        component, not an established consumer — nothing here checked that the producer's output
+        reaches that component's input. `brewer2026.lb_taichi` and `wadsworth2026.inertial` share
+        the flow stage; whether one feeds the other is a question, and the screen's first step is
+        to answer it.
+
+    `cheap_test_possible` is therefore `UNKNOWN` rather than `YES` wherever a same-stage neighbour
+    exists: the screen is cheap only once a path is shown to exist.
     """
     rows = []
     models = sorted(entities_of(corpus, "model"), key=lambda e: e["id"])
@@ -223,27 +243,33 @@ def lens_closure_portability(corpus: dict) -> list:
         a = m["attrs"]
         if a.get("execution_role") != "calibration":
             continue
-        consumers = runtime_by_stage.get(a.get("stage"), [])
+        downstream = runtime_by_stage.get(a.get("stage"), [])
         rows.append(Tension(
-            tension_id="", lens="closure_portability",
-            entity_ids=tuple([m["id"]] + [c["id"] for c in consumers]),
+            tension_id="", lens="calibration_artifact_portability",
+            entity_ids=tuple([m["id"]] + [c["id"] for c in downstream]),
             shared_domain=a.get("stage", ""),
-            difference_type="closure_producer",
+            difference_type="calibration_artifact_producer",
+            canonical_discriminator="source_swap_sensitivity",
             difference_summary="%s is a calibration component on stage %s (provenance %s, "
-                               "evidence %s). Declared validity: %s. Runtime consumers on the "
-                               "same stage: %s"
+                               "evidence %s). Declared validity: %s. POSSIBLE DOWNSTREAM "
+                               "components (same stage, runtime role — a consuming path is NOT "
+                               "established): %s"
                                % (m["label"], a.get("stage"), a.get("provenance_class"),
                                   a.get("evidence_strength"),
                                   a.get("valid_range") or "NOT DECLARED",
-                                  ", ".join(c["label"] for c in consumers) or "none registered"),
-            evidence_basis="registry valid_range + evidence_strength, verbatim",
-            why_it_matters="A closure fitted in one source and consumed in another is the "
-                           "commonest silent extrapolation; the declared range is the only "
+                                  ", ".join(c["label"] for c in downstream)
+                                  or "none registered on this stage"),
+            evidence_basis="registry execution_role + valid_range + evidence_strength, verbatim. "
+                           "Same-stage co-location only; no output-to-input path was checked.",
+            why_it_matters="A calibration artifact fitted in one source and reused in another is "
+                           "the commonest silent extrapolation; the declared range is the only "
                            "thing that says when it stops applying.",
-            candidate_discriminator="source-swap sensitivity: does the consuming result move when "
-                                    "the closure is swapped for another source's?",
+            candidate_discriminator="first establish whether any named component actually consumes "
+                                    "this artifact, then source-swap sensitivity on that path",
             data_available="YES" if a.get("valid_range") else "NO",
-            cheap_test_possible="YES" if consumers else "NO",
+            # a same-stage neighbour is not a consumer, so a screen is only cheap once a path
+            # is shown to exist; that check is the screen's first step, not a precondition
+            cheap_test_possible="UNKNOWN" if downstream else "NO",
             provenance=(_prov(m, locator="registry component %s (execution_role, valid_range)"
                                          % m["label"], mode="live_registry",
                               confidence="explicit"),)))
@@ -254,12 +280,20 @@ def lens_closure_portability(corpus: dict) -> list:
 
 
 def lens_composition_failure(corpus: dict) -> list:
-    """Base-plus-mechanism pairs: two components from one source where one adds a mechanism.
+    """Same-source component pairs that need a composition audit before any comparison is designed.
 
-    The repository already holds one worked composition failure (public claim PV-05, "adding a
-    swelling branch made this tested model worse"). The lens generalises the SHAPE — same source,
-    two registered components, one a superset — and points at the held-out comparison that would
-    say whether the added mechanism helps. It does not predict the outcome.
+    An earlier version called these `same_source_variant_pair` and described each as a
+    base/base-plus-mechanism pair. **Sharing a source prefix does not make two components a
+    base/superset pair.** `maille2024.phi_closure` and `maille2024.two_regime` are two calibration
+    roles on different stages; `mo2023_2.swelling` and `mo2023_2.coupled_bed` are a reduced and a
+    depth-resolved model that the repository keeps side by side on purpose. Only some same-source
+    pairs are base/superset, and a held-out base-versus-base-plus-mechanism comparison is
+    meaningless for the rest.
+
+    So the row now asks the classification question FIRST — base/superset, alternative reductions,
+    or independent components — and only a pair confirmed base/superset proceeds to the held-out
+    comparison. The separately evidence-backed generalisation candidate (public claim PV-05, an
+    actual measured composition failure) is unaffected and stays its own row.
     """
     idx, rows = index(corpus), []
     by_source = {}
@@ -274,22 +308,29 @@ def lens_composition_failure(corpus: dict) -> list:
                 rows.append(Tension(
                     tension_id="", lens="composition_failure", entity_ids=(a["id"], b["id"]),
                     shared_domain="%s / %s" % (a["attrs"].get("stage"), b["attrs"].get("stage")),
-                    difference_type="same_source_variant_pair",
+                    difference_type="same_source_pair_requires_composition_audit",
+                    canonical_discriminator="pair_relationship_classification",
                     difference_summary="%s and %s are both registered from source %s (roles %s / "
-                                       "%s; evidence %s / %s). Where one adds a mechanism the "
-                                       "other lacks, a held-out comparison says whether the "
-                                       "addition helps."
+                                       "%s; stages %s / %s; evidence %s / %s). Their RELATIONSHIP "
+                                       "is unclassified: sharing a source does not make them a "
+                                       "base/superset pair, and they may equally be alternative "
+                                       "reductions or independent components."
                                        % (a["label"], b["label"], source,
                                           a["attrs"].get("execution_role"),
                                           b["attrs"].get("execution_role"),
+                                          a["attrs"].get("stage"), b["attrs"].get("stage"),
                                           a["attrs"].get("evidence_strength"),
                                           b["attrs"].get("evidence_strength")),
-                    evidence_basis="registry: two components sharing one source prefix",
-                    why_it_matters="More physics is not automatically better prediction; the "
-                                   "repository already holds one case where it was worse (PV-05).",
-                    candidate_discriminator="held-out error of base vs base+mechanism on one "
-                                            "evidence unit, with and without recalibration",
-                    data_available="UNKNOWN", cheap_test_possible="YES",
+                    evidence_basis="registry: two components sharing one source prefix. That is "
+                                   "ALL it establishes — no card relation was read as declaring "
+                                   "one a superset of the other.",
+                    why_it_matters="Only a base/superset pair can be asked whether added physics "
+                                   "earns its place; asking it of alternative reductions produces "
+                                   "a meaningless comparison.",
+                    candidate_discriminator="classify the pair first (base/superset · alternative "
+                                            "reductions · independent); only base/superset "
+                                            "proceeds to a held-out comparison",
+                    data_available="UNKNOWN", cheap_test_possible="UNKNOWN",
                     provenance=(_prov(a, locator="registry component %s" % a["label"],
                                       mode="live_registry", confidence="explicit"),
                                 _prov(b, locator="registry component %s" % b["label"],

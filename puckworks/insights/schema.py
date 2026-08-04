@@ -70,7 +70,7 @@ LENSES = {
     "model_disagreement": "A",
     "observational_equivalence": "B",
     "composition_failure": "C",
-    "closure_portability": "D",
+    "calibration_artifact_portability": "D",
     "lineage_circularity": "E",
     "regime_transition": "F",
     "hidden_discriminator": "G",
@@ -207,7 +207,13 @@ class Tension:
     difference_type: str = ""
     evidence_basis: str = ""
     why_it_matters: str = ""
+    #: Prose. May be reworded freely — it is NOT part of the row's identity.
     candidate_discriminator: str = ""
+    #: A stable slug naming WHAT would separate the row's entities. This is the discriminator
+    #: component of the identity fingerprint (`ids.tension_fingerprint`), which is why it exists
+    #: separately from the prose above: a row's wording must be improvable without minting a new
+    #: ID. Defaults to the shared observable when the row has one.
+    canonical_discriminator: str = ""
     data_available: str = "UNKNOWN"      # YES | NO | PARTIAL | UNKNOWN
     cheap_test_possible: str = "UNKNOWN"  # YES | NO | UNKNOWN
     candidate_id: str = ""
@@ -220,6 +226,9 @@ class Tension:
             raise SchemaError("tension %r cites no entities" % self.tension_id)
         if not self.provenance:
             raise SchemaError("tension %r carries no provenance" % self.tension_id)
+        if not self.canonical_discriminator:
+            # the shared observable IS the discriminator wherever a row has one
+            self.canonical_discriminator = self.shared_observable or self.difference_type
 
     @property
     def relation_confidences(self) -> tuple:
@@ -233,6 +242,7 @@ class Tension:
                 "difference_summary": self.difference_summary,
                 "evidence_basis": self.evidence_basis, "why_it_matters": self.why_it_matters,
                 "candidate_discriminator": self.candidate_discriminator,
+                "canonical_discriminator": self.canonical_discriminator,
                 "data_available": self.data_available,
                 "cheap_test_possible": self.cheap_test_possible,
                 "candidate_id": self.candidate_id, "human_status": self.human_status,
@@ -256,6 +266,11 @@ class Candidate:
     cheap_test: str
     stop_condition: str
     status: str = "SEED"
+    #: The two fields the candidate's stable identity is derived from, alongside lens and schema
+    #: version (`ids.candidate_fingerprint`). Stored on the record so identity is auditable from
+    #: the generated portfolio rather than only recomputable from the generator's internals.
+    difference_type: str = ""
+    grouping_key: tuple = ()
     insight_types: tuple = ()
     audience_tracks: tuple = ()
     why_it_may_matter: str = ""

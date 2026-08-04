@@ -17,6 +17,7 @@ a finding this layer may not produce.
 """
 from __future__ import annotations
 
+from . import ids as IDS
 from .corpus_map import index
 from .schema import Candidate
 
@@ -74,7 +75,7 @@ GROUPING = {
     ("lineage_circularity", "mixed_strength_cell"): _key_by_lineage_tags,
     ("lineage_circularity", "same_source_consumer"): _key_by_first_source,
     ("lineage_circularity", "unresolvable_source_card"): _key_single,
-    ("composition_failure", "same_source_variant_pair"): _key_by_first_source,
+    ("composition_failure", "same_source_pair_requires_composition_audit"): _key_by_first_source,
     ("cross_species_inconsistency", "one_state_many_species"): _key_single,
     ("hidden_discriminator", "card_without_interface_mapping"): _key_single,
 }
@@ -199,49 +200,77 @@ TEMPLATES = {
                                  "which of the two cards is meant.",
         "novelty_search_terms": ("dataset provenance metadata quality",),
     },
-    ("closure_portability", "closure_producer"): {
-        "title": "Does {subject} survive being used outside the range it was fitted in?",
-        "question": "Does a result that consumes {subject} change materially when the closure is "
-                    "swapped for another source's, or driven outside its declared validity?",
-        "insight_types": ("closure_portability",),
+    ("calibration_artifact_portability", "calibration_artifact_producer"): {
+        "title": "Does anything consume {subject}, and does it survive outside its declared range?",
+        "question": "Which registered component, if any, actually consumes {subject}'s output — "
+                    "and does that consuming result change materially when the artifact is "
+                    "swapped for another source's or driven outside its declared validity?",
+        "insight_types": ("calibration_artifact_portability",),
         "audience_tracks": ("technical_note", "methods_paper"),
-        "cheap_test": "Source-swap sensitivity: hold the consuming configuration fixed, swap the "
-                      "closure, and record the change in the consuming observable. Then sweep to "
-                      "the edge of the declared range.",
-        "minimum_figure": "Consuming observable versus the closure's driving variable, one curve "
-                          "per closure source, with the declared range shaded.",
-        "survive_if": "The consuming result moves by more than its own stated uncertainty under "
-                      "the swap, or the closure is already consumed outside its declared range.",
-        "retire_if": "The consuming result is insensitive to the swap across the used range.",
-        "inconclusive_if": "No second source exists for the closure and no range is declared.",
-        "stop_condition": "The swap changes the consuming result by less than its uncertainty.",
-        "why_it_may_matter": "Closures travel between sources far more readily than the "
-                             "conditions they were fitted under.",
-        "strongest_alternative": "The consuming model is insensitive to this closure entirely, "
-                                 "so portability is moot for it.",
+        # STEP 1 IS THE PATH CHECK. Same-stage co-location is not a consuming relationship, and a
+        # swap experiment run against a component that never reads the artifact measures nothing.
+        "cheap_test": "Step 1 — establish the path: trace the artifact's produced output to a named "
+                      "component's consumed input, via the cards' Interface mapping sections and "
+                      "the registry module. If no path exists, STOP and record that. Step 2, only "
+                      "if a path exists — source-swap sensitivity: hold the consuming "
+                      "configuration fixed, swap the artifact, record the change in the consuming "
+                      "observable, then sweep to the edge of the declared range.",
+        "minimum_figure": "Consuming observable versus the artifact's driving variable, one curve "
+                          "per source, with the declared range shaded — or, where step 1 fails, "
+                          "the producer/consumer path diagram showing the missing edge.",
+        "survive_if": "A consuming path exists AND the consuming result moves by more than its own "
+                      "stated uncertainty under the swap, or the artifact is already consumed "
+                      "outside its declared range.",
+        "retire_if": "A consuming path exists and the consuming result is insensitive to the swap "
+                     "across the used range.",
+        "inconclusive_if": "No consuming path can be established from the cards and registry — in "
+                           "which case the finding is the missing path, not a portability result.",
+        "stop_condition": "Either no consuming path is found, or the swap changes the consuming "
+                          "result by less than its uncertainty.",
+        "why_it_may_matter": "Calibration artifacts travel between sources far more readily than "
+                             "the conditions they were fitted under — but only along paths that "
+                             "actually exist, and the registry does not record those paths.",
+        "strongest_alternative": "Nothing consumes this artifact at all, or the named same-stage "
+                                 "component is insensitive to it, so portability is moot for it.",
         "novelty_search_terms": ("closure transferability porous media", "correlation "
                                  "extrapolation validity range", "permeability correlation "
                                  "portability"),
     },
-    ("composition_failure", "same_source_variant_pair"): {
-        "title": "Does the extra mechanism in the {subject} components earn its place?",
-        "question": "For the {n} {subject} component pairs where one adds a mechanism the other "
-                    "lacks, does the addition improve held-out prediction or only fit?",
-        "insight_types": ("model_composition",),
+    ("composition_failure", "same_source_pair_requires_composition_audit"): {
+        "title": "How are the {n} {subject} same-source component pairs actually related?",
+        "question": "For the {n} {subject} pairs registered from one source, is each a "
+                    "base/superset pair, two alternative reductions, or two independent "
+                    "components — and for any confirmed base/superset pair, does the added "
+                    "mechanism improve held-out prediction or only fit?",
+        "insight_types": ("model_composition", "corpus_hygiene"),
         "audience_tracks": ("methods_paper", "technical_note"),
-        "cheap_test": "Held-out comparison of base versus base-plus-mechanism on one evidence "
-                      "unit, run twice: without recalibration and with.",
-        "minimum_figure": "Held-out error for base and base-plus-mechanism, both branches, with "
-                          "replicate variation drawn.",
-        "survive_if": "The added mechanism worsens held-out error, or improves it only after "
-                      "recalibration (compensating error).",
-        "retire_if": "The addition improves held-out error in both branches.",
-        "inconclusive_if": "No held-out unit exists for the pair.",
-        "stop_condition": "The held-out difference is smaller than replicate variation.",
-        "why_it_may_matter": "More physics is not automatically better prediction, and the "
-                             "repository already holds one case where it was worse.",
-        "strongest_alternative": "The two components are not a base/superset pair at all — they "
-                                 "are alternative reductions of one source.",
+        # The classification is step 1 because a base-vs-base+mechanism comparison is only
+        # meaningful for a base/superset pair. Running it on two alternative reductions of one
+        # source compares two different models and calls the difference a mechanism effect.
+        "cheap_test": "Step 1 — classify each pair from its cards and registry entries: "
+                      "base/superset (one contains the other's mechanism set), alternative "
+                      "reductions (two simplifications of one source model), or independent "
+                      "(different stages or roles). Step 2, ONLY for confirmed base/superset "
+                      "pairs — held-out comparison of base versus base-plus-mechanism on one "
+                      "evidence unit, run twice: without recalibration and with.",
+        "minimum_figure": "The classification table for all {n} pairs, plus held-out error for "
+                          "base and base-plus-mechanism (both branches, replicate variation "
+                          "drawn) for whichever pairs reach step 2.",
+        "survive_if": "At least one pair is confirmed base/superset AND the added mechanism "
+                      "worsens held-out error, or improves it only after recalibration "
+                      "(compensating error).",
+        "retire_if": "No pair is base/superset, or every confirmed base/superset addition improves "
+                     "held-out error in both branches.",
+        "inconclusive_if": "The cards do not state the mechanism sets precisely enough to classify "
+                           "a pair, or no held-out unit exists for a confirmed base/superset pair.",
+        "stop_condition": "Every pair is classified, and every base/superset pair's held-out "
+                          "difference is smaller than replicate variation.",
+        "why_it_may_matter": "The classification is worth having on its own — the registry does "
+                             "not record how same-source components relate, and only a "
+                             "base/superset pair can be asked whether added physics earns its "
+                             "place.",
+        "strongest_alternative": "Every pair turns out to be alternative reductions or independent "
+                                 "components, so no composition question arises here at all.",
         "novelty_search_terms": ("model complexity held-out prediction", "compensating errors "
                                  "model calibration"),
     },
@@ -427,7 +456,7 @@ TEMPLATES = {
         "title": "Do the continuum permeability closures preserve the pore-scale trend?",
         "question": "Across the geometries the pack generator can produce, does the continuum "
                     "closure reproduce the pore-scale solver's permeability trend?",
-        "insight_types": ("scale_bridging", "closure_portability"),
+        "insight_types": ("scale_bridging", "calibration_artifact_portability"),
         "audience_tracks": ("methods_paper", "technical_note"),
         "cheap_test": "Permeability from the pore-scale solver versus the continuum closure over "
                       "one geometry family, plus an RVE-size sweep for stabilisation.",
@@ -481,7 +510,7 @@ def _subject(lens: str, dtype: str, group_key, rows, idx) -> str:
     if (lens, dtype) == ("model_disagreement", "comparable_not_yet_executed"):
         stage, obs = group_key
         return "%s-stage %s" % (stage or "cross-stage", obs or "shared-observable")
-    if lens == "closure_portability":
+    if lens == "calibration_artifact_portability":
         return _label(idx, first.entity_ids[0])
     if lens in ("hidden_discriminator", "missing_experiment", "public_story") and \
             first.shared_observable:
@@ -495,13 +524,17 @@ def _subject(lens: str, dtype: str, group_key, rows, idx) -> str:
     return lens.replace("_", " ")
 
 
-def generate(corpus: dict, tensions) -> list:
+def generate(corpus: dict, tensions, allocator=None) -> list:
     """Group the tension rows and emit one `SEED` candidate per group.
 
-    Deterministic: groups are built in sorted key order, so the same tree yields the same ids.
+    IDs come from the fingerprint registry keyed on `(lens, difference_type, grouping key)`, not
+    from position in the sorted list — see `puckworks.insights.ids`. A group whose only key is a
+    single tension row inherits that row's stable ID as its key, so the candidate is exactly as
+    stable as the tension it came from.
     """
     idx = index(corpus)
     commit = corpus.get("commit", "")
+    alloc = allocator if allocator is not None else IDS.Allocator()
 
     groups = {}
     for t in tensions:
@@ -524,7 +557,9 @@ def generate(corpus: dict, tensions) -> list:
                 if e not in entity_ids:
                     entity_ids.append(e)
         candidates.append(Candidate(
-            id="I-%03d" % (len(candidates) + 1),
+            id=alloc.candidate_id(lens, dtype, gkey),
+            difference_type=dtype,
+            grouping_key=tuple(str(k) for k in gkey),
             title=tpl["title"].format(**fmt),
             question=tpl["question"].format(**fmt),
             lens=lens,

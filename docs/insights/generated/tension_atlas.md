@@ -2,21 +2,22 @@
 
 # Tension atlas
 
-Commit `21869fe19f` · 170 rows across 10 lenses. A row is a source-bound statement that two parts of the corpus are comparable and differ in some declared respect. **A row is not a finding**, and `human_status` stays `UNREVIEWED` until a person rules.
+Commit `e8054b3cd4` · 170 rows across 11 lenses. A row is a source-bound statement that two parts of the corpus are comparable and differ in some declared respect. **A row is not a finding**, and `human_status` stays `UNREVIEWED` until a person rules.
 
 ## Rows per lens
 
 | lens | blueprint §9 | rows |
 |---|---|---|
-| closure_portability | D | 15 |
+| calibration_artifact_portability | D | 15 |
 | composition_failure | C | 21 |
 | cross_species_inconsistency | H | 4 |
 | evidence_asymmetry | K | 3 |
-| hidden_discriminator | G | 13 |
+| hidden_discriminator | G | 11 |
 | lineage_circularity | E | 64 |
+| missing_experiment | L | 1 |
 | model_disagreement | A | 38 |
 | negative_result | J | 3 |
-| public_story | M | 8 |
+| public_story | M | 9 |
 | scale_mismatch | I | 1 |
 
 ## Lenses not implemented
@@ -27,52 +28,52 @@ Absent by decision, not oversight — each needs component EXECUTION this layer 
 - **observational_equivalence** — needs matched-scenario execution of the components (ROADMAP §9 RP-A); a card read cannot establish numerical agreement
 - **regime_transition** — needs a dimensionless-group sweep per component (RP-A/RP-C); the cards declare validity ranges in prose, not comparable thresholds
 
-## closure_portability (D)
+## calibration_artifact_portability (D)
 
-- **T-0001** [closure_producer] brewer2026.lb_reference is a calibration component on stage flow (provenance project_model, evidence code_verification). Declared validity: verification twin; production runs use lb_taichi. Runtime consumers on the same stage: wadsworth2026.inertial
-  - discriminator: source-swap sensitivity: does the consuming result move when the closure is swapped for another source's? · data: YES · cheap test: YES · candidate: I-001
+- **T-0001** [calibration_artifact_producer] brewer2026.lb_reference is a calibration component on stage flow (provenance project_model, evidence code_verification). Declared validity: verification twin; production runs use lb_taichi. POSSIBLE DOWNSTREAM components (same stage, runtime role — a consuming path is NOT established): wadsworth2026.inertial
+  - discriminator: first establish whether any named component actually consumes this artifact, then source-swap sensitivity on that path · data: YES · cheap test: UNKNOWN · candidate: I-001
   - sources: `puckworks/registry.py`
-- **T-0002** [closure_producer] brewer2026.lb_taichi is a calibration component on stage flow (provenance project_model, evidence code_verification). Declared validity: CPU/GPU; optional dependency taichi. Runtime consumers on the same stage: wadsworth2026.inertial
-  - discriminator: source-swap sensitivity: does the consuming result move when the closure is swapped for another source's? · data: YES · cheap test: YES · candidate: I-002
+- **T-0002** [calibration_artifact_producer] brewer2026.lb_taichi is a calibration component on stage flow (provenance project_model, evidence code_verification). Declared validity: CPU/GPU; optional dependency taichi. POSSIBLE DOWNSTREAM components (same stage, runtime role — a consuming path is NOT established): wadsworth2026.inertial
+  - discriminator: first establish whether any named component actually consumes this artifact, then source-swap sensitivity on that path · data: YES · cheap test: UNKNOWN · candidate: I-002
   - sources: `puckworks/registry.py`
-- **T-0003** [closure_producer] brewer2026.pack_generator is a calibration component on stage packing (provenance project_model, evidence qualitative_capacity). Declared validity: grain radius >= 10 voxels; columns >= 5 grain diameters for sigma. Runtime consumers on the same stage: none registered
-  - discriminator: source-swap sensitivity: does the consuming result move when the closure is swapped for another source's? · data: YES · cheap test: NO · candidate: I-003
+- **T-0003** [calibration_artifact_producer] brewer2026.pack_generator is a calibration component on stage packing (provenance project_model, evidence qualitative_capacity). Declared validity: grain radius >= 10 voxels; columns >= 5 grain diameters for sigma. POSSIBLE DOWNSTREAM components (same stage, runtime role — a consuming path is NOT established): none registered on this stage
+  - discriminator: first establish whether any named component actually consumes this artifact, then source-swap sensitivity on that path · data: YES · cheap test: NO · candidate: I-003
   - sources: `puckworks/registry.py`
-- **T-0004** [closure_producer] fasano2000_partI.fines_migration is a calibration component on stage bed_dynamics (provenance published_port, evidence qualitative_capacity). Declared validity: MECHANISM demonstration / verification strength ONLY (the card's own level for the source). Reproduces the STRUCTURE: mass balance 8.33 closed <1%, q(t) monotone-nonincreasing (Lemma 8.3), s>=s_m (Lemma 8.1), nonmonotone q_inf(p0) with interior peak (Fig 8.6 shape). Does NOT reproduce their exact curve (closures unpublished); enters by GATE not inheritance, like RC-3b. No espresso-data fit possible. Runtime consumers on the same stage: brewer2026.coupled_kappa_t, brewer2026.streamtube, mo2023_2.swelling, waszkiewicz2025.poroelastic
-  - discriminator: source-swap sensitivity: does the consuming result move when the closure is swapped for another source's? · data: YES · cheap test: YES · candidate: I-004
+- **T-0004** [calibration_artifact_producer] fasano2000_partI.fines_migration is a calibration component on stage bed_dynamics (provenance published_port, evidence qualitative_capacity). Declared validity: MECHANISM demonstration / verification strength ONLY (the card's own level for the source). Reproduces the STRUCTURE: mass balance 8.33 closed <1%, q(t) monotone-nonincreasing (Lemma 8.3), s>=s_m (Lemma 8.1), nonmonotone q_inf(p0) with interior peak (Fig 8.6 shape). Does NOT reproduce their exact curve (closures unpublished); enters by GATE not inheritance, like RC-3b. No espresso-data fit possible. POSSIBLE DOWNSTREAM components (same stage, runtime role — a consuming path is NOT established): brewer2026.coupled_kappa_t, brewer2026.streamtube, mo2023_2.swelling, waszkiewicz2025.poroelastic
+  - discriminator: first establish whether any named component actually consumes this artifact, then source-swap sensitivity on that path · data: YES · cheap test: UNKNOWN · candidate: I-004
   - sources: `puckworks/registry.py`
-- **T-0005** [closure_producer] lee2023.feedback is a calibration component on stage flow (provenance published_port, evidence qualitative_capacity). Declared validity: Cameron 2020 EK43 g=1.1-2.3; grinder maps t_shot(g)/S(g) fitted to Cameron; QUALITATIVE fine-grind-dip hypothesis (c) ONLY. The DECLINE needs an UNPHYSICAL rho_c=798 (2x measured); the physical rho_c=399 gives only a PLATEAU (documented negative result). Not a data-fitting component; brings no new data. Runtime consumers on the same stage: wadsworth2026.inertial
-  - discriminator: source-swap sensitivity: does the consuming result move when the closure is swapped for another source's? · data: YES · cheap test: YES · candidate: I-005
+- **T-0005** [calibration_artifact_producer] lee2023.feedback is a calibration component on stage flow (provenance published_port, evidence qualitative_capacity). Declared validity: Cameron 2020 EK43 g=1.1-2.3; grinder maps t_shot(g)/S(g) fitted to Cameron; QUALITATIVE fine-grind-dip hypothesis (c) ONLY. The DECLINE needs an UNPHYSICAL rho_c=798 (2x measured); the physical rho_c=399 gives only a PLATEAU (documented negative result). Not a data-fitting component; brings no new data. POSSIBLE DOWNSTREAM components (same stage, runtime role — a consuming path is NOT established): wadsworth2026.inertial
+  - discriminator: first establish whether any named component actually consumes this artifact, then source-swap sensitivity on that path · data: YES · cheap test: UNKNOWN · candidate: I-005
   - sources: `puckworks/registry.py`
-- **T-0006** [closure_producer] liang2021.desorption is a calibration component on stage extraction (provenance published_port, evidence post_fit_reconstruction). Declared validity: R_brew>=3 (fails at 2); 80-99 C immersion; supplies equilibrium ceiling + oven-dry/retention observable kernel only. Runtime consumers on the same stage: cameron2020.extraction_bdf, grudeva2025.reduced, mo2023_2.coupled_bed, pannusch2024.solver, romancorrochano2017.extraction
-  - discriminator: source-swap sensitivity: does the consuming result move when the closure is swapped for another source's? · data: YES · cheap test: YES · candidate: I-006
+- **T-0006** [calibration_artifact_producer] liang2021.desorption is a calibration component on stage extraction (provenance published_port, evidence post_fit_reconstruction). Declared validity: R_brew>=3 (fails at 2); 80-99 C immersion; supplies equilibrium ceiling + oven-dry/retention observable kernel only. POSSIBLE DOWNSTREAM components (same stage, runtime role — a consuming path is NOT established): cameron2020.extraction_bdf, grudeva2025.reduced, mo2023_2.coupled_bed, pannusch2024.solver, romancorrochano2017.extraction
+  - discriminator: first establish whether any named component actually consumes this artifact, then source-swap sensitivity on that path · data: YES · cheap test: UNKNOWN · candidate: I-006
   - sources: `puckworks/registry.py`
-- **T-0007** [closure_producer] maille2024.phi_closure is a calibration component on stage grind (provenance published_port, evidence code_verification). Declared validity: INSTRUMENT-SPECIFIC: Malvern 100-bin scale, bin 75 ~ 186 um cut, liquid/air hybrid splice. phi from any other PSD representation is a DIFFERENT quantity. Source phi 0.356-0.648 over D[4,3] 537-1540 um (drip-coarse) -- cameron's espresso PSDs give 0.85-0.94, an EXTRAPOLATION. Per-bin PSD arrays are UNPUBLISHED, so Eqs 6.8-6.9 cannot be run end-to-end from the source; the E1 gate uses the D[4,3] single-diameter approximation. Runtime consumers on the same stage: none registered
-  - discriminator: source-swap sensitivity: does the consuming result move when the closure is swapped for another source's? · data: YES · cheap test: NO · candidate: I-007
+- **T-0007** [calibration_artifact_producer] maille2024.phi_closure is a calibration component on stage grind (provenance published_port, evidence code_verification). Declared validity: INSTRUMENT-SPECIFIC: Malvern 100-bin scale, bin 75 ~ 186 um cut, liquid/air hybrid splice. phi from any other PSD representation is a DIFFERENT quantity. Source phi 0.356-0.648 over D[4,3] 537-1540 um (drip-coarse) -- cameron's espresso PSDs give 0.85-0.94, an EXTRAPOLATION. Per-bin PSD arrays are UNPUBLISHED, so Eqs 6.8-6.9 cannot be run end-to-end from the source; the E1 gate uses the D[4,3] single-diameter approximation. POSSIBLE DOWNSTREAM components (same stage, runtime role — a consuming path is NOT established): none registered on this stage
+  - discriminator: first establish whether any named component actually consumes this artifact, then source-swap sensitivity on that path · data: YES · cheap test: NO · candidate: I-007
   - sources: `puckworks/registry.py`
-- **T-0008** [closure_producer] maille2024.two_regime is a calibration component on stage extraction (provenance published_port, evidence source_curve_reproduction). Declared validity: stirred atmospheric BATCH reactor at 91.5 C, 0.028 g/mL, single Colombian lot, two roasts, five species, 5-600 s with the first ~4 s unobserved. NO bed, NO pressure, NO flow, NO permeability, NO EY, NO TDS -- it cannot yield a yield, and ShotResultState is unreachable. Grind is DRIP-COARSE (D[4,3] 537-1540 um); any use at espresso grind is EXTRAPOLATION. lambda are per-material curve fits, not material properties -- they transfer nowhere on their own. Runtime consumers on the same stage: cameron2020.extraction_bdf, grudeva2025.reduced, mo2023_2.coupled_bed, pannusch2024.solver, romancorrochano2017.extraction
-  - discriminator: source-swap sensitivity: does the consuming result move when the closure is swapped for another source's? · data: YES · cheap test: YES · candidate: I-008
+- **T-0008** [calibration_artifact_producer] maille2024.two_regime is a calibration component on stage extraction (provenance published_port, evidence source_curve_reproduction). Declared validity: stirred atmospheric BATCH reactor at 91.5 C, 0.028 g/mL, single Colombian lot, two roasts, five species, 5-600 s with the first ~4 s unobserved. NO bed, NO pressure, NO flow, NO permeability, NO EY, NO TDS -- it cannot yield a yield, and ShotResultState is unreachable. Grind is DRIP-COARSE (D[4,3] 537-1540 um); any use at espresso grind is EXTRAPOLATION. lambda are per-material curve fits, not material properties -- they transfer nowhere on their own. POSSIBLE DOWNSTREAM components (same stage, runtime role — a consuming path is NOT established): cameron2020.extraction_bdf, grudeva2025.reduced, mo2023_2.coupled_bed, pannusch2024.solver, romancorrochano2017.extraction
+  - discriminator: first establish whether any named component actually consumes this artifact, then source-swap sensitivity on that path · data: YES · cheap test: UNKNOWN · candidate: I-008
   - sources: `puckworks/registry.py`
-- **T-0009** [closure_producer] moroney2016.surrogate is a calibration component on stage extraction (provenance published_port, evidence qualitative_capacity). Declared validity: saturated bed; eps=0.127 (~13% truncation); Fig 6 reproduction QUALITATIVE (plateau + wash-through timing, not the tail). Runtime consumers on the same stage: cameron2020.extraction_bdf, grudeva2025.reduced, mo2023_2.coupled_bed, pannusch2024.solver, romancorrochano2017.extraction
-  - discriminator: source-swap sensitivity: does the consuming result move when the closure is swapped for another source's? · data: YES · cheap test: YES · candidate: I-009
+- **T-0009** [calibration_artifact_producer] moroney2016.surrogate is a calibration component on stage extraction (provenance published_port, evidence qualitative_capacity). Declared validity: saturated bed; eps=0.127 (~13% truncation); Fig 6 reproduction QUALITATIVE (plateau + wash-through timing, not the tail). POSSIBLE DOWNSTREAM components (same stage, runtime role — a consuming path is NOT established): cameron2020.extraction_bdf, grudeva2025.reduced, mo2023_2.coupled_bed, pannusch2024.solver, romancorrochano2017.extraction
+  - discriminator: first establish whether any named component actually consumes this artifact, then source-swap sensitivity on that path · data: YES · cheap test: UNKNOWN · candidate: I-009
   - sources: `puckworks/registry.py`
-- **T-0010** [closure_producer] pannusch2024.closures is a calibration component on stage extraction (provenance published_port, evidence code_verification). Declared validity: T 80-98 C, Q 1-3 mL/s; fitted Sherwood params lack generality; Wilke-Chang over-predicts absolute D but is the model's own law. Runtime consumers on the same stage: cameron2020.extraction_bdf, grudeva2025.reduced, mo2023_2.coupled_bed, pannusch2024.solver, romancorrochano2017.extraction
-  - discriminator: source-swap sensitivity: does the consuming result move when the closure is swapped for another source's? · data: YES · cheap test: YES · candidate: I-010
+- **T-0010** [calibration_artifact_producer] pannusch2024.closures is a calibration component on stage extraction (provenance published_port, evidence code_verification). Declared validity: T 80-98 C, Q 1-3 mL/s; fitted Sherwood params lack generality; Wilke-Chang over-predicts absolute D but is the model's own law. POSSIBLE DOWNSTREAM components (same stage, runtime role — a consuming path is NOT established): cameron2020.extraction_bdf, grudeva2025.reduced, mo2023_2.coupled_bed, pannusch2024.solver, romancorrochano2017.extraction
+  - discriminator: first establish whether any named component actually consumes this artifact, then source-swap sensitivity on that path · data: YES · cheap test: UNKNOWN · candidate: I-010
   - sources: `puckworks/registry.py`
-- **T-0011** [closure_producer] sourcing2026.g10_liquor_rheology is a calibration component on stage flow (provenance reference_only, evidence source_curve_reproduction). Declared validity: source_curve_reproduction for the extract rheology (closures reproduce the FULL digitized Table-1 eta / Table-2 K grids within the authors' stated fit error); espresso application remains extrapolation/compatibility-strength. Runtime consumers on the same stage: wadsworth2026.inertial
-  - discriminator: source-swap sensitivity: does the consuming result move when the closure is swapped for another source's? · data: YES · cheap test: YES · candidate: I-011
+- **T-0011** [calibration_artifact_producer] sourcing2026.g10_liquor_rheology is a calibration component on stage flow (provenance reference_only, evidence source_curve_reproduction). Declared validity: source_curve_reproduction for the extract rheology (closures reproduce the FULL digitized Table-1 eta / Table-2 K grids within the authors' stated fit error); espresso application remains extrapolation/compatibility-strength. POSSIBLE DOWNSTREAM components (same stage, runtime role — a consuming path is NOT established): wadsworth2026.inertial
+  - discriminator: first establish whether any named component actually consumes this artifact, then source-swap sensitivity on that path · data: YES · cheap test: UNKNOWN · candidate: I-011
   - sources: `puckworks/registry.py`
-- **T-0012** [closure_producer] sourcing2026.g1_glassbead_analog is a calibration component on stage infiltration (provenance reference_only, evidence qualitative_capacity). Declared validity: reference/qualitative; G1 coffee retention search target OPEN. Runtime consumers on the same stage: foster2025.infiltration
-  - discriminator: source-swap sensitivity: does the consuming result move when the closure is swapped for another source's? · data: YES · cheap test: YES · candidate: I-012
+- **T-0012** [calibration_artifact_producer] sourcing2026.g1_glassbead_analog is a calibration component on stage infiltration (provenance reference_only, evidence qualitative_capacity). Declared validity: reference/qualitative; G1 coffee retention search target OPEN. POSSIBLE DOWNSTREAM components (same stage, runtime role — a consuming path is NOT established): foster2025.infiltration
+  - discriminator: first establish whether any named component actually consumes this artifact, then source-swap sensitivity on that path · data: YES · cheap test: UNKNOWN · candidate: I-012
   - sources: `puckworks/registry.py`
-- **T-0013** [closure_producer] sourcing2026.g3_pump_characteristic is a calibration component on stage machine (provenance reference_only, evidence sign_or_compatibility). Declared validity: reference (endpoints)/qualitative (shape); DE1 firmware closed. Runtime consumers on the same stage: foster2025.machine_mode
-  - discriminator: source-swap sensitivity: does the consuming result move when the closure is swapped for another source's? · data: YES · cheap test: YES · candidate: I-013
+- **T-0013** [calibration_artifact_producer] sourcing2026.g3_pump_characteristic is a calibration component on stage machine (provenance reference_only, evidence sign_or_compatibility). Declared validity: reference (endpoints)/qualitative (shape); DE1 firmware closed. POSSIBLE DOWNSTREAM components (same stage, runtime role — a consuming path is NOT established): foster2025.machine_mode
+  - discriminator: first establish whether any named component actually consumes this artifact, then source-swap sensitivity on that path · data: YES · cheap test: UNKNOWN · candidate: I-013
   - sources: `puckworks/registry.py`
-- **T-0014** [closure_producer] wadsworth2026.grindmap is a calibration component on stage grind (provenance published_port, evidence source_curve_reproduction). Declared validity: Mahlkonig this burr/calibration ONLY; G 1-11, <R> 145-818 um; grinder-specific, non-portable to EK43/E65S dials (A9/rule 9). Runtime consumers on the same stage: none registered
-  - discriminator: source-swap sensitivity: does the consuming result move when the closure is swapped for another source's? · data: YES · cheap test: NO · candidate: I-014
+- **T-0014** [calibration_artifact_producer] wadsworth2026.grindmap is a calibration component on stage grind (provenance published_port, evidence source_curve_reproduction). Declared validity: Mahlkonig this burr/calibration ONLY; G 1-11, <R> 145-818 um; grinder-specific, non-portable to EK43/E65S dials (A9/rule 9). POSSIBLE DOWNSTREAM components (same stage, runtime role — a consuming path is NOT established): none registered on this stage
+  - discriminator: first establish whether any named component actually consumes this artifact, then source-swap sensitivity on that path · data: YES · cheap test: NO · candidate: I-014
   - sources: `puckworks/registry.py`
-- **T-0015** [closure_producer] wadsworth2026.permeability is a calibration component on stage packing (provenance published_port, evidence source_curve_reproduction). Declared validity: <R> 145-818 um, two arabica roasts. Runtime consumers on the same stage: none registered
-  - discriminator: source-swap sensitivity: does the consuming result move when the closure is swapped for another source's? · data: YES · cheap test: NO · candidate: I-015
+- **T-0015** [calibration_artifact_producer] wadsworth2026.permeability is a calibration component on stage packing (provenance published_port, evidence source_curve_reproduction). Declared validity: <R> 145-818 um, two arabica roasts. POSSIBLE DOWNSTREAM components (same stage, runtime role — a consuming path is NOT established): none registered on this stage
+  - discriminator: first establish whether any named component actually consumes this artifact, then source-swap sensitivity on that path · data: YES · cheap test: NO · candidate: I-015
   - sources: `puckworks/registry.py`
 
 ## composition_failure (C)
@@ -80,65 +81,65 @@ Absent by decision, not oversight — each needs component EXECUTION this layer 
 - **T-0016** [published_composition_failure] Public claim PV-05 already reports a composition failure: 'Adding a swelling branch made this tested model worse.' (badge EXPLORATORY_SIMULATION, caveat: Diagnoses THIS shared-porosity composition, not the existence of swelling; does NOT prove the extraction-only mechanism; and 'simple is always best' is NOT the )
   - discriminator: the same base+one-mechanism protocol across other component combinations · data: YES · cheap test: YES · candidate: I-016
   - sources: `docs/public/generated/claims.json`
-- **T-0017** [same_source_variant_pair] brewer2026.coupled_kappa_t and brewer2026.lb_reference are both registered from source brewer2026 (roles runtime / calibration; evidence exploratory_synthesis / code_verification). Where one adds a mechanism the other lacks, a held-out comparison says whether the addition helps.
-  - discriminator: held-out error of base vs base+mechanism on one evidence unit, with and without recalibration · data: UNKNOWN · cheap test: YES · candidate: I-017
+- **T-0017** [same_source_pair_requires_composition_audit] brewer2026.coupled_kappa_t and brewer2026.lb_reference are both registered from source brewer2026 (roles runtime / calibration; stages bed_dynamics / flow; evidence exploratory_synthesis / code_verification). Their RELATIONSHIP is unclassified: sharing a source does not make them a base/superset pair, and they may equally be alternative reductions or independent components.
+  - discriminator: classify the pair first (base/superset · alternative reductions · independent); only base/superset proceeds to a held-out comparison · data: UNKNOWN · cheap test: UNKNOWN · candidate: I-017
   - sources: `puckworks/registry.py`
-- **T-0018** [same_source_variant_pair] brewer2026.coupled_kappa_t and brewer2026.lb_taichi are both registered from source brewer2026 (roles runtime / calibration; evidence exploratory_synthesis / code_verification). Where one adds a mechanism the other lacks, a held-out comparison says whether the addition helps.
-  - discriminator: held-out error of base vs base+mechanism on one evidence unit, with and without recalibration · data: UNKNOWN · cheap test: YES · candidate: I-017
+- **T-0018** [same_source_pair_requires_composition_audit] brewer2026.coupled_kappa_t and brewer2026.lb_taichi are both registered from source brewer2026 (roles runtime / calibration; stages bed_dynamics / flow; evidence exploratory_synthesis / code_verification). Their RELATIONSHIP is unclassified: sharing a source does not make them a base/superset pair, and they may equally be alternative reductions or independent components.
+  - discriminator: classify the pair first (base/superset · alternative reductions · independent); only base/superset proceeds to a held-out comparison · data: UNKNOWN · cheap test: UNKNOWN · candidate: I-017
   - sources: `puckworks/registry.py`
-- **T-0019** [same_source_variant_pair] brewer2026.coupled_kappa_t and brewer2026.pack_generator are both registered from source brewer2026 (roles runtime / calibration; evidence exploratory_synthesis / qualitative_capacity). Where one adds a mechanism the other lacks, a held-out comparison says whether the addition helps.
-  - discriminator: held-out error of base vs base+mechanism on one evidence unit, with and without recalibration · data: UNKNOWN · cheap test: YES · candidate: I-017
+- **T-0019** [same_source_pair_requires_composition_audit] brewer2026.coupled_kappa_t and brewer2026.pack_generator are both registered from source brewer2026 (roles runtime / calibration; stages bed_dynamics / packing; evidence exploratory_synthesis / qualitative_capacity). Their RELATIONSHIP is unclassified: sharing a source does not make them a base/superset pair, and they may equally be alternative reductions or independent components.
+  - discriminator: classify the pair first (base/superset · alternative reductions · independent); only base/superset proceeds to a held-out comparison · data: UNKNOWN · cheap test: UNKNOWN · candidate: I-017
   - sources: `puckworks/registry.py`
-- **T-0020** [same_source_variant_pair] brewer2026.coupled_kappa_t and brewer2026.streamtube are both registered from source brewer2026 (roles runtime / runtime; evidence exploratory_synthesis / within_campaign_held_out). Where one adds a mechanism the other lacks, a held-out comparison says whether the addition helps.
-  - discriminator: held-out error of base vs base+mechanism on one evidence unit, with and without recalibration · data: UNKNOWN · cheap test: YES · candidate: I-017
+- **T-0020** [same_source_pair_requires_composition_audit] brewer2026.coupled_kappa_t and brewer2026.streamtube are both registered from source brewer2026 (roles runtime / runtime; stages bed_dynamics / bed_dynamics; evidence exploratory_synthesis / within_campaign_held_out). Their RELATIONSHIP is unclassified: sharing a source does not make them a base/superset pair, and they may equally be alternative reductions or independent components.
+  - discriminator: classify the pair first (base/superset · alternative reductions · independent); only base/superset proceeds to a held-out comparison · data: UNKNOWN · cheap test: UNKNOWN · candidate: I-017
   - sources: `puckworks/registry.py`
-- **T-0021** [same_source_variant_pair] brewer2026.lb_reference and brewer2026.lb_taichi are both registered from source brewer2026 (roles calibration / calibration; evidence code_verification / code_verification). Where one adds a mechanism the other lacks, a held-out comparison says whether the addition helps.
-  - discriminator: held-out error of base vs base+mechanism on one evidence unit, with and without recalibration · data: UNKNOWN · cheap test: YES · candidate: I-017
+- **T-0021** [same_source_pair_requires_composition_audit] brewer2026.lb_reference and brewer2026.lb_taichi are both registered from source brewer2026 (roles calibration / calibration; stages flow / flow; evidence code_verification / code_verification). Their RELATIONSHIP is unclassified: sharing a source does not make them a base/superset pair, and they may equally be alternative reductions or independent components.
+  - discriminator: classify the pair first (base/superset · alternative reductions · independent); only base/superset proceeds to a held-out comparison · data: UNKNOWN · cheap test: UNKNOWN · candidate: I-017
   - sources: `puckworks/registry.py`
-- **T-0022** [same_source_variant_pair] brewer2026.lb_reference and brewer2026.pack_generator are both registered from source brewer2026 (roles calibration / calibration; evidence code_verification / qualitative_capacity). Where one adds a mechanism the other lacks, a held-out comparison says whether the addition helps.
-  - discriminator: held-out error of base vs base+mechanism on one evidence unit, with and without recalibration · data: UNKNOWN · cheap test: YES · candidate: I-017
+- **T-0022** [same_source_pair_requires_composition_audit] brewer2026.lb_reference and brewer2026.pack_generator are both registered from source brewer2026 (roles calibration / calibration; stages flow / packing; evidence code_verification / qualitative_capacity). Their RELATIONSHIP is unclassified: sharing a source does not make them a base/superset pair, and they may equally be alternative reductions or independent components.
+  - discriminator: classify the pair first (base/superset · alternative reductions · independent); only base/superset proceeds to a held-out comparison · data: UNKNOWN · cheap test: UNKNOWN · candidate: I-017
   - sources: `puckworks/registry.py`
-- **T-0023** [same_source_variant_pair] brewer2026.lb_reference and brewer2026.streamtube are both registered from source brewer2026 (roles calibration / runtime; evidence code_verification / within_campaign_held_out). Where one adds a mechanism the other lacks, a held-out comparison says whether the addition helps.
-  - discriminator: held-out error of base vs base+mechanism on one evidence unit, with and without recalibration · data: UNKNOWN · cheap test: YES · candidate: I-017
+- **T-0023** [same_source_pair_requires_composition_audit] brewer2026.lb_reference and brewer2026.streamtube are both registered from source brewer2026 (roles calibration / runtime; stages flow / bed_dynamics; evidence code_verification / within_campaign_held_out). Their RELATIONSHIP is unclassified: sharing a source does not make them a base/superset pair, and they may equally be alternative reductions or independent components.
+  - discriminator: classify the pair first (base/superset · alternative reductions · independent); only base/superset proceeds to a held-out comparison · data: UNKNOWN · cheap test: UNKNOWN · candidate: I-017
   - sources: `puckworks/registry.py`
-- **T-0024** [same_source_variant_pair] brewer2026.lb_taichi and brewer2026.pack_generator are both registered from source brewer2026 (roles calibration / calibration; evidence code_verification / qualitative_capacity). Where one adds a mechanism the other lacks, a held-out comparison says whether the addition helps.
-  - discriminator: held-out error of base vs base+mechanism on one evidence unit, with and without recalibration · data: UNKNOWN · cheap test: YES · candidate: I-017
+- **T-0024** [same_source_pair_requires_composition_audit] brewer2026.lb_taichi and brewer2026.pack_generator are both registered from source brewer2026 (roles calibration / calibration; stages flow / packing; evidence code_verification / qualitative_capacity). Their RELATIONSHIP is unclassified: sharing a source does not make them a base/superset pair, and they may equally be alternative reductions or independent components.
+  - discriminator: classify the pair first (base/superset · alternative reductions · independent); only base/superset proceeds to a held-out comparison · data: UNKNOWN · cheap test: UNKNOWN · candidate: I-017
   - sources: `puckworks/registry.py`
-- **T-0025** [same_source_variant_pair] brewer2026.lb_taichi and brewer2026.streamtube are both registered from source brewer2026 (roles calibration / runtime; evidence code_verification / within_campaign_held_out). Where one adds a mechanism the other lacks, a held-out comparison says whether the addition helps.
-  - discriminator: held-out error of base vs base+mechanism on one evidence unit, with and without recalibration · data: UNKNOWN · cheap test: YES · candidate: I-017
+- **T-0025** [same_source_pair_requires_composition_audit] brewer2026.lb_taichi and brewer2026.streamtube are both registered from source brewer2026 (roles calibration / runtime; stages flow / bed_dynamics; evidence code_verification / within_campaign_held_out). Their RELATIONSHIP is unclassified: sharing a source does not make them a base/superset pair, and they may equally be alternative reductions or independent components.
+  - discriminator: classify the pair first (base/superset · alternative reductions · independent); only base/superset proceeds to a held-out comparison · data: UNKNOWN · cheap test: UNKNOWN · candidate: I-017
   - sources: `puckworks/registry.py`
-- **T-0026** [same_source_variant_pair] brewer2026.pack_generator and brewer2026.streamtube are both registered from source brewer2026 (roles calibration / runtime; evidence qualitative_capacity / within_campaign_held_out). Where one adds a mechanism the other lacks, a held-out comparison says whether the addition helps.
-  - discriminator: held-out error of base vs base+mechanism on one evidence unit, with and without recalibration · data: UNKNOWN · cheap test: YES · candidate: I-017
+- **T-0026** [same_source_pair_requires_composition_audit] brewer2026.pack_generator and brewer2026.streamtube are both registered from source brewer2026 (roles calibration / runtime; stages packing / bed_dynamics; evidence qualitative_capacity / within_campaign_held_out). Their RELATIONSHIP is unclassified: sharing a source does not make them a base/superset pair, and they may equally be alternative reductions or independent components.
+  - discriminator: classify the pair first (base/superset · alternative reductions · independent); only base/superset proceeds to a held-out comparison · data: UNKNOWN · cheap test: UNKNOWN · candidate: I-017
   - sources: `puckworks/registry.py`
-- **T-0027** [same_source_variant_pair] foster2025.infiltration and foster2025.machine_mode are both registered from source foster2025 (roles runtime / runtime; evidence sign_or_compatibility / source_curve_reproduction). Where one adds a mechanism the other lacks, a held-out comparison says whether the addition helps.
-  - discriminator: held-out error of base vs base+mechanism on one evidence unit, with and without recalibration · data: UNKNOWN · cheap test: YES · candidate: I-018
+- **T-0027** [same_source_pair_requires_composition_audit] foster2025.infiltration and foster2025.machine_mode are both registered from source foster2025 (roles runtime / runtime; stages infiltration / machine; evidence sign_or_compatibility / source_curve_reproduction). Their RELATIONSHIP is unclassified: sharing a source does not make them a base/superset pair, and they may equally be alternative reductions or independent components.
+  - discriminator: classify the pair first (base/superset · alternative reductions · independent); only base/superset proceeds to a held-out comparison · data: UNKNOWN · cheap test: UNKNOWN · candidate: I-018
   - sources: `puckworks/registry.py`
-- **T-0028** [same_source_variant_pair] maille2024.phi_closure and maille2024.two_regime are both registered from source maille2024 (roles calibration / calibration; evidence code_verification / source_curve_reproduction). Where one adds a mechanism the other lacks, a held-out comparison says whether the addition helps.
-  - discriminator: held-out error of base vs base+mechanism on one evidence unit, with and without recalibration · data: UNKNOWN · cheap test: YES · candidate: I-019
+- **T-0028** [same_source_pair_requires_composition_audit] maille2024.phi_closure and maille2024.two_regime are both registered from source maille2024 (roles calibration / calibration; stages grind / extraction; evidence code_verification / source_curve_reproduction). Their RELATIONSHIP is unclassified: sharing a source does not make them a base/superset pair, and they may equally be alternative reductions or independent components.
+  - discriminator: classify the pair first (base/superset · alternative reductions · independent); only base/superset proceeds to a held-out comparison · data: UNKNOWN · cheap test: UNKNOWN · candidate: I-019
   - sources: `puckworks/registry.py`
-- **T-0029** [same_source_variant_pair] mo2023_2.coupled_bed and mo2023_2.swelling are both registered from source mo2023_2 (roles runtime / runtime; evidence post_fit_reconstruction / source_curve_reproduction). Where one adds a mechanism the other lacks, a held-out comparison says whether the addition helps.
-  - discriminator: held-out error of base vs base+mechanism on one evidence unit, with and without recalibration · data: UNKNOWN · cheap test: YES · candidate: I-020
+- **T-0029** [same_source_pair_requires_composition_audit] mo2023_2.coupled_bed and mo2023_2.swelling are both registered from source mo2023_2 (roles runtime / runtime; stages extraction / bed_dynamics; evidence post_fit_reconstruction / source_curve_reproduction). Their RELATIONSHIP is unclassified: sharing a source does not make them a base/superset pair, and they may equally be alternative reductions or independent components.
+  - discriminator: classify the pair first (base/superset · alternative reductions · independent); only base/superset proceeds to a held-out comparison · data: UNKNOWN · cheap test: UNKNOWN · candidate: I-020
   - sources: `puckworks/registry.py`
-- **T-0030** [same_source_variant_pair] pannusch2024.closures and pannusch2024.solver are both registered from source pannusch2024 (roles calibration / runtime; evidence code_verification / post_fit_reconstruction). Where one adds a mechanism the other lacks, a held-out comparison says whether the addition helps.
-  - discriminator: held-out error of base vs base+mechanism on one evidence unit, with and without recalibration · data: UNKNOWN · cheap test: YES · candidate: I-021
+- **T-0030** [same_source_pair_requires_composition_audit] pannusch2024.closures and pannusch2024.solver are both registered from source pannusch2024 (roles calibration / runtime; stages extraction / extraction; evidence code_verification / post_fit_reconstruction). Their RELATIONSHIP is unclassified: sharing a source does not make them a base/superset pair, and they may equally be alternative reductions or independent components.
+  - discriminator: classify the pair first (base/superset · alternative reductions · independent); only base/superset proceeds to a held-out comparison · data: UNKNOWN · cheap test: UNKNOWN · candidate: I-021
   - sources: `puckworks/registry.py`
-- **T-0031** [same_source_variant_pair] sourcing2026.g10_liquor_rheology and sourcing2026.g1_glassbead_analog are both registered from source sourcing2026 (roles calibration / calibration; evidence source_curve_reproduction / qualitative_capacity). Where one adds a mechanism the other lacks, a held-out comparison says whether the addition helps.
-  - discriminator: held-out error of base vs base+mechanism on one evidence unit, with and without recalibration · data: UNKNOWN · cheap test: YES · candidate: I-022
+- **T-0031** [same_source_pair_requires_composition_audit] sourcing2026.g10_liquor_rheology and sourcing2026.g1_glassbead_analog are both registered from source sourcing2026 (roles calibration / calibration; stages flow / infiltration; evidence source_curve_reproduction / qualitative_capacity). Their RELATIONSHIP is unclassified: sharing a source does not make them a base/superset pair, and they may equally be alternative reductions or independent components.
+  - discriminator: classify the pair first (base/superset · alternative reductions · independent); only base/superset proceeds to a held-out comparison · data: UNKNOWN · cheap test: UNKNOWN · candidate: I-022
   - sources: `puckworks/registry.py`
-- **T-0032** [same_source_variant_pair] sourcing2026.g10_liquor_rheology and sourcing2026.g3_pump_characteristic are both registered from source sourcing2026 (roles calibration / calibration; evidence source_curve_reproduction / sign_or_compatibility). Where one adds a mechanism the other lacks, a held-out comparison says whether the addition helps.
-  - discriminator: held-out error of base vs base+mechanism on one evidence unit, with and without recalibration · data: UNKNOWN · cheap test: YES · candidate: I-022
+- **T-0032** [same_source_pair_requires_composition_audit] sourcing2026.g10_liquor_rheology and sourcing2026.g3_pump_characteristic are both registered from source sourcing2026 (roles calibration / calibration; stages flow / machine; evidence source_curve_reproduction / sign_or_compatibility). Their RELATIONSHIP is unclassified: sharing a source does not make them a base/superset pair, and they may equally be alternative reductions or independent components.
+  - discriminator: classify the pair first (base/superset · alternative reductions · independent); only base/superset proceeds to a held-out comparison · data: UNKNOWN · cheap test: UNKNOWN · candidate: I-022
   - sources: `puckworks/registry.py`
-- **T-0033** [same_source_variant_pair] sourcing2026.g1_glassbead_analog and sourcing2026.g3_pump_characteristic are both registered from source sourcing2026 (roles calibration / calibration; evidence qualitative_capacity / sign_or_compatibility). Where one adds a mechanism the other lacks, a held-out comparison says whether the addition helps.
-  - discriminator: held-out error of base vs base+mechanism on one evidence unit, with and without recalibration · data: UNKNOWN · cheap test: YES · candidate: I-022
+- **T-0033** [same_source_pair_requires_composition_audit] sourcing2026.g1_glassbead_analog and sourcing2026.g3_pump_characteristic are both registered from source sourcing2026 (roles calibration / calibration; stages infiltration / machine; evidence qualitative_capacity / sign_or_compatibility). Their RELATIONSHIP is unclassified: sharing a source does not make them a base/superset pair, and they may equally be alternative reductions or independent components.
+  - discriminator: classify the pair first (base/superset · alternative reductions · independent); only base/superset proceeds to a held-out comparison · data: UNKNOWN · cheap test: UNKNOWN · candidate: I-022
   - sources: `puckworks/registry.py`
-- **T-0034** [same_source_variant_pair] wadsworth2026.grindmap and wadsworth2026.inertial are both registered from source wadsworth2026 (roles calibration / runtime; evidence source_curve_reproduction / source_curve_reproduction). Where one adds a mechanism the other lacks, a held-out comparison says whether the addition helps.
-  - discriminator: held-out error of base vs base+mechanism on one evidence unit, with and without recalibration · data: UNKNOWN · cheap test: YES · candidate: I-023
+- **T-0034** [same_source_pair_requires_composition_audit] wadsworth2026.grindmap and wadsworth2026.inertial are both registered from source wadsworth2026 (roles calibration / runtime; stages grind / flow; evidence source_curve_reproduction / source_curve_reproduction). Their RELATIONSHIP is unclassified: sharing a source does not make them a base/superset pair, and they may equally be alternative reductions or independent components.
+  - discriminator: classify the pair first (base/superset · alternative reductions · independent); only base/superset proceeds to a held-out comparison · data: UNKNOWN · cheap test: UNKNOWN · candidate: I-023
   - sources: `puckworks/registry.py`
-- **T-0035** [same_source_variant_pair] wadsworth2026.grindmap and wadsworth2026.permeability are both registered from source wadsworth2026 (roles calibration / calibration; evidence source_curve_reproduction / source_curve_reproduction). Where one adds a mechanism the other lacks, a held-out comparison says whether the addition helps.
-  - discriminator: held-out error of base vs base+mechanism on one evidence unit, with and without recalibration · data: UNKNOWN · cheap test: YES · candidate: I-023
+- **T-0035** [same_source_pair_requires_composition_audit] wadsworth2026.grindmap and wadsworth2026.permeability are both registered from source wadsworth2026 (roles calibration / calibration; stages grind / packing; evidence source_curve_reproduction / source_curve_reproduction). Their RELATIONSHIP is unclassified: sharing a source does not make them a base/superset pair, and they may equally be alternative reductions or independent components.
+  - discriminator: classify the pair first (base/superset · alternative reductions · independent); only base/superset proceeds to a held-out comparison · data: UNKNOWN · cheap test: UNKNOWN · candidate: I-023
   - sources: `puckworks/registry.py`
-- **T-0036** [same_source_variant_pair] wadsworth2026.inertial and wadsworth2026.permeability are both registered from source wadsworth2026 (roles runtime / calibration; evidence source_curve_reproduction / source_curve_reproduction). Where one adds a mechanism the other lacks, a held-out comparison says whether the addition helps.
-  - discriminator: held-out error of base vs base+mechanism on one evidence unit, with and without recalibration · data: UNKNOWN · cheap test: YES · candidate: I-023
+- **T-0036** [same_source_pair_requires_composition_audit] wadsworth2026.inertial and wadsworth2026.permeability are both registered from source wadsworth2026 (roles runtime / calibration; stages flow / packing; evidence source_curve_reproduction / source_curve_reproduction). Their RELATIONSHIP is unclassified: sharing a source does not make them a base/superset pair, and they may equally be alternative reductions or independent components.
+  - discriminator: classify the pair first (base/superset · alternative reductions · independent); only base/superset proceeds to a held-out comparison · data: UNKNOWN · cheap test: UNKNOWN · candidate: I-023
   - sources: `puckworks/registry.py`
 
 ## cross_species_inconsistency (H)
@@ -182,11 +183,8 @@ Absent by decision, not oversight — each needs component EXECUTION this layer 
 - **T-0047** [discriminator_with_data] 2 registered models name pressure among their interface outputs and 23 manifest dataset(s) measure it: cameron2020.extraction_bdf, waszkiewicz2025.poroelastic
   - discriminator: pressure · data: YES · cheap test: YES · candidate: I-032
   - sources: `puckworks/registry.py`
-- **T-0048** [card_without_interface_mapping] foster2025.infiltration is registered but its card docs/cards/foster2025.md has no `Interface mapping` section, so it contributes NO observable edges. Any observable it predicts is under-reported by the matrix.
-  - discriminator: add the template section to the card, then re-run the map · data: YES · cheap test: YES · candidate: I-028
-  - sources: `puckworks/registry.py`
-- **T-0049** [card_without_interface_mapping] foster2025.machine_mode is registered but its card docs/cards/foster2025.md has no `Interface mapping` section, so it contributes NO observable edges. Any observable it predicts is under-reported by the matrix.
-  - discriminator: add the template section to the card, then re-run the map · data: YES · cheap test: YES · candidate: I-028
+- **T-0171** [discriminator_with_data] 2 registered models name first_drip_time among their interface outputs and 1 manifest dataset(s) measure it: foster2025.infiltration, foster2025.machine_mode
+  - discriminator: first_drip_time · data: YES · cheap test: YES · candidate: I-090
   - sources: `puckworks/registry.py`
 - **T-0050** [discriminator_with_data] 10 registered models name extraction_yield among their interface outputs and 5 manifest dataset(s) measure it: grudeva2025.reduced, lee2023.feedback, maille2024.phi_closure, maille2024.two_regime, mo2023_2.coupled_bed, mo2023_2.swelling, moroney2016.surrogate, pannusch2024.closures, pannusch2024.solver, romancorrochano2017.extraction
   - discriminator: extraction_yield · data: YES · cheap test: YES · candidate: I-033
@@ -203,9 +201,6 @@ Absent by decision, not oversight — each needs component EXECUTION this layer 
 - **T-0054** [card_without_interface_mapping] wadsworth2026.permeability is registered but its card docs/cards/wadsworth2026.md has no `Interface mapping` section, so it contributes NO observable edges. Any observable it predicts is under-reported by the matrix.
   - discriminator: add the template section to the card, then re-run the map · data: YES · cheap test: YES · candidate: I-028
   - sources: `puckworks/registry.py`
-- **T-0055** [measured_but_unmodelled] 1 manifest datasets measure first_drip_time and NO card's outputs clause names it — either nothing registered models it, or a card without an interface section is hiding the one that does
-  - discriminator: which registered component, if any, claims this output · data: YES · cheap test: YES · candidate: I-037
-  - sources: `puckworks/data/MANIFEST.csv`
 - **T-0056** [measured_but_unmodelled] 3 manifest datasets measure temperature and NO card's outputs clause names it — either nothing registered models it, or a card without an interface section is hiding the one that does
   - discriminator: which registered component, if any, claims this output · data: YES · cheap test: YES · candidate: I-038
   - sources: `puckworks/data/MANIFEST.csv`
@@ -405,6 +400,12 @@ Absent by decision, not oversight — each needs component EXECUTION this layer 
   - discriminator: an out-of-source dataset measuring the same observable · data: YES · cheap test: YES · candidate: I-058
   - sources: `puckworks/data/MANIFEST.csv`
 
+## missing_experiment (L)
+
+- **T-0172** [predicted_but_unmeasured] 2 registered models name wetting_front among their interface outputs and NO manifest dataset measures it: foster2025.infiltration, foster2025.machine_mode
+  - discriminator: a measurement campaign for wetting_front · data: NO · cheap test: NO · candidate: I-091
+  - sources: `puckworks/registry.py`
+
 ## model_disagreement (A)
 
 - **T-0121** [comparable_not_yet_executed] brewer2026.coupled_kappa_t and fasano2000_partI.fines_migration both operate on stage bed_dynamics and both name flow, permeability among their interface outputs. Whether they agree is NOT established here.
@@ -548,6 +549,9 @@ Absent by decision, not oversight — each needs component EXECUTION this layer 
 - **T-0165** [unclaimed_contrast_with_data] pressure is predicted by 2 model(s) and measured by 23 manifest dataset(s), of which 20 are not cited by any existing public claim
   - discriminator: pressure · data: YES · cheap test: YES · candidate: I-084
   - sources: `puckworks/data/MANIFEST.csv`
+- **T-0173** [unclaimed_contrast_with_data] first_drip_time is predicted by 2 model(s) and measured by 1 manifest dataset(s), of which 1 are not cited by any existing public claim
+  - discriminator: first_drip_time · data: YES · cheap test: YES · candidate: I-092
+  - sources: `puckworks/data/MANIFEST.csv`
 - **T-0166** [unclaimed_contrast_with_data] extraction_yield is predicted by 10 model(s) and measured by 5 manifest dataset(s), of which 5 are not cited by any existing public claim
   - discriminator: extraction_yield · data: YES · cheap test: YES · candidate: I-085
   - sources: `puckworks/data/MANIFEST.csv`
@@ -563,6 +567,6 @@ Absent by decision, not oversight — each needs component EXECUTION this layer 
 
 ## scale_mismatch (I)
 
-- **T-0170** [pore_scale_vs_continuum] Permeability is spoken about at two scales: lee2023.feedback, wadsworth2026.inertial (pore/pack scale) and brewer2026.coupled_kappa_t, cameron2020.extraction_bdf, fasano2000_partI.fines_migration, grudeva2025.reduced, moroney2016.surrogate, waszkiewicz2025.poroelastic (continuum/bed scale). Whether the continuum closures preserve the pore-scale trend is not established by the corpus map.
-  - discriminator: RVE size at which permeability stabilises; closure vs solver on one geometry family · data: UNKNOWN · cheap test: UNKNOWN · candidate: I-089
+- **T-0174** [pore_scale_vs_continuum] Permeability is spoken about at two scales: lee2023.feedback, wadsworth2026.inertial (pore/pack scale) and brewer2026.coupled_kappa_t, cameron2020.extraction_bdf, fasano2000_partI.fines_migration, foster2025.infiltration, foster2025.machine_mode, grudeva2025.reduced, moroney2016.surrogate, waszkiewicz2025.poroelastic (continuum/bed scale). Whether the continuum closures preserve the pore-scale trend is not established by the corpus map.
+  - discriminator: RVE size at which permeability stabilises; closure vs solver on one geometry family · data: UNKNOWN · cheap test: UNKNOWN · candidate: I-093
   - sources: `puckworks/registry.py`
