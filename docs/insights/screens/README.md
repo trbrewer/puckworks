@@ -8,22 +8,35 @@ Screens run only on candidates a human has shortlisted
 | screen | question | decision |
 |---|---|---|
 | [`I-040`](I-040/) | which half of a mixed-strength manifest cell each consumer leans on | **RETIRE** — 27 consumers attributed, 0 promotions |
-| [`I-010`](I-010/) | does anything consume `pannusch2024.closures`, and does a swap move a held-out result | **RETIRE** — path is real; held-out output insensitive to every admissible swap |
-| [`I-024`](I-024/) | can one shared transport state explain every Angeloni species at once | **RETIRE** — per-species fits buy nothing held out; the difference is inventory |
+| [`I-010`](I-010/) | does anything consume `pannusch2024.closures`, and does a swap move a held-out result | **NEEDS_NEW_DATA** — path is real and total solids is settled (immaterial), but the three named bioactives have no retained per-cell RSD and the effects land inside the declared 0.3–19.7 % range |
+| [`I-024`](I-024/) | can one shared transport state explain every Angeloni species at once | **RETIRE** — per-species rate freedom buys nothing held out anywhere in the declared RSD band |
 
-Each carries a claim ceiling, an adversarial check, and a reopen condition in
-[`../RETIRED_CANDIDATES.md`](../RETIRED_CANDIDATES.md). Wave 2 is **I-045** and **I-076**.
+Each carries a claim ceiling and an adversarial check. The two **retirements** carry reopen
+conditions in [`../RETIRED_CANDIDATES.md`](../RETIRED_CANDIDATES.md); **a `NEEDS_NEW_DATA` screen
+is not a retirement and is not recorded there** — its bundle is the record, and it names the
+missing measurement. Wave 2 is **I-045** and **I-076**.
 
-Two habits from Wave 1 worth repeating, both of which changed a result:
+## Three habits from Wave 1, each of which changed a result
 
 - **Enumerate the consumers two independent ways and require the hand-written table to cover the
   union.** In I-040 a static pass over-approximated to 12 gates, dynamic tracing confirmed 7, and
   one real consumer was in neither the obvious reading nor the static-only list. A single
   enumeration would have produced a confident, wrong table.
-- **Predeclare the materiality threshold from retained uncertainty, and prefer an arm that is
-  scale-free in whatever uncertainty you had to assume.** I-024 could not recover
-  solute-specific replicate RSD; because its decisive arm was a *ratio*, the verdict held across
-  a band spanning a factor of 65 instead of becoming an artifact of the assumption.
+- **Judge each output against ITS OWN retained uncertainty, and never borrow another output's.**
+  This is the defect that changed I-010's disposition on review. The screen had used the median
+  total-solids replicate RSD as the authority for all four scored outputs — but the campaign
+  retains no per-cell replicate uncertainty for the three named bioactives at all, only a
+  declared 0.3–19.7 % range. Borrowing a fourth output's measurement precision manufactured a
+  decision the evidence could not support. Where an output's uncertainty is a *range*, evaluate
+  the range; do not collapse it to a midpoint, a median, or the best cell.
+- **A robustness claim over an interval needs the interval, not its endpoints — especially when
+  the model is refitted inside it.** I-024 originally claimed its decisive arm was *scale-free*
+  in the assumed RSD and checked it by rescaling already-computed residuals. That test was
+  vacuous: changing the bioactive RSD reweights the bioactives against the *measured*
+  total-solids weights and refits the shared model, whose selected rate demonstrably moves. The
+  fix was to find the structure that makes an exact argument possible — here, linearity in
+  `1/RSD²` giving finitely many breakpoints with monotone criteria between them — and to expand
+  the rate grid until a boundary optimum stopped being load-bearing.
 
 ## Budget — per candidate, per blueprint §12 Stage C
 
