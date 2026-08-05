@@ -52,7 +52,7 @@ s_fit/H_fit = paper ODE (0.02s grid); s_data/H_data = pixel-digitized CT (5-line
 Fig8 -H differs from Fig14 H (do not mix)
 ```
 
-## The controlling vocabulary — ROADMAP §0, read at run time
+## The controlling vocabulary — ROADMAP §0, verified at run time
 
 | term | definition (verbatim) |
 |---|---|
@@ -60,8 +60,8 @@ Fig8 -H differs from Fig14 H (do not mix)
 | **post-fit reconstruction** | model reproduces the dataset its parameters were fitted to |
 | **verification** | model-vs-model / asymptotic / budget |
 
-The screen extracts this block from `docs/ROADMAP.md` itself, so it cannot drift from the
-authority it cites.
+The screen **reads the authoritative §0 block at run time and verifies verbatim** that the definitions it applies still appear there — it does not parse them out of the document, and it does not restate them from memory. If the authority is reworded, the screen **fails** rather than silently applying a stale definition
+(`glossary_binding.method = VERBATIM_RUNTIME_VERIFICATION`).
 
 ## The two arms are different columns — and neither is independent
 
@@ -114,8 +114,23 @@ content. It is recorded in `result.json → rejected_reinterpretation` so it can
   using the neighbouring `verifying the port`** — i.e. it reported the one real misattribution as
   correct usage. Rules now pair a token with a fragment that must contain that token.
 - The prose scan structurally cannot see `EVIDENCE_LINKS.json` (see below).
+- The gate hit was classified `AMBIGUOUS_MEASUREMENT_SENSE`, noted as "true in the
+  measurement-modality sense". **That reading is rejected, not a second valid sense**, so the
+  classification is now `INCORRECT_INDEPENDENT_ATTRIBUTION`.
 
-**6 hits, 0 unclassified** after the fixes.
+**6 hits, 0 unclassified** after the fixes, classified under the §0 meaning **exclusively**:
+
+| hit | classification |
+|---|---|
+| gate docstring `(independent, 'qualitative-good')` | **`INCORRECT_INDEPENDENT_ATTRIBUTION`** — the finding |
+| MANIFEST `independent (CT data)` | **`TARGET_CELL_WITH_INCORRECT_INDEPENDENT_LABEL`** — `POST_FIT_SAME_CAMPAIGN` / `NOT_HELD_OUT` / `NOT_INDEPENDENT` |
+| MANIFEST `verification (fitted curves)` | `TARGET_CELL_CORRECT_VERIFICATION_HALF` |
+| card `## Calibration and validation offered by the source` | `SOURCE_CARD_SECTION_HEADING` |
+| card `the key validation series` | `OTHER_DATASET` |
+| MANIFEST `gate_use` `… trajectory validation` | `GATE_USE_FIELD_NOT_AN_EVIDENCE_CLAIM` |
+
+No live rule or generated record carries `AMBIGUOUS_MEASUREMENT_SENSE`, and no live surface calls
+the modality reading true — it survives only in `result.json → rejected_reinterpretation`.
 
 ### A surface that prose cannot cover
 

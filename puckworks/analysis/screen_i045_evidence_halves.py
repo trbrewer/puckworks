@@ -100,23 +100,67 @@ CARD_CIRCULARITY_NOTE = ("Note the circularity: k and φ_T are fitted to the sam
 # ------------------------------------------------------------------------------------------
 GLOSSARY_SOURCE = "docs/ROADMAP.md S0 — 'Validation-strength vocabulary used throughout'"
 
-#: Read from the ROADMAP at run time so the screen cannot drift from the authority it cites.
+#: The screen does NOT parse definitions out of the ROADMAP — it carries the text it EXPECTS to
+#: find there and verifies it verbatim at run time. If the authority is reworded, `glossary()`
+#: raises rather than silently applying a stale definition.
 GLOSSARY_ANCHOR = "Validation-strength vocabulary used throughout"
-GLOSSARY_DEFINITIONS = {
+GLOSSARY_END = "house rule **[RS]**."
+EXPECTED_GLOSSARY_DEFINITIONS = {
     "independent": "data not used in fitting the thing being tested",
     "post-fit reconstruction": ("model reproduces the dataset its parameters were fitted to — a "
                                 "consistency check, not validation"),
     "verification": "model-vs-model / asymptotic / budget",
 }
 
+GLOSSARY_BINDING_METHOD = "VERBATIM_RUNTIME_VERIFICATION"
+
+
+class GlossaryDrift(RuntimeError):
+    """The authoritative S0 block no longer contains a definition this screen applies."""
+
+
+def _glossary_block(text):
+    """The authoritative S0 block, whitespace-normalised. Raises if the anchor is gone."""
+    try:
+        i = text.index(GLOSSARY_ANCHOR)
+    except ValueError:
+        raise GlossaryDrift("ROADMAP S0 anchor %r not found — the authority moved or was "
+                            "reworded; this screen may not apply its definitions." %
+                            GLOSSARY_ANCHOR) from None
+    j = text.find(GLOSSARY_END, i)
+    block = text[i:(j + len(GLOSSARY_END)) if j != -1 else i + 700]
+    return " ".join(block.split())
+
+
+def verify_glossary(text):
+    """Verify every expected definition occurs VERBATIM in the authoritative block.
+
+    Returns the normalised block. Raises `GlossaryDrift` naming the first term that no longer
+    matches, so a reworded authority fails loudly instead of being silently overridden by the
+    text hardcoded here.
+    """
+    block = _glossary_block(text)
+    for term, expected in EXPECTED_GLOSSARY_DEFINITIONS.items():
+        if expected not in block:
+            raise GlossaryDrift(
+                "ROADMAP S0 no longer contains the expected definition of %r.\n"
+                "  expected verbatim: %s\n"
+                "  authoritative block: %s\n"
+                "This screen classifies evidence by that definition and must not run against a "
+                "changed one." % (term, expected, block))
+    return block
+
 
 def glossary():
-    """The controlling definitions, extracted from ROADMAP S0 itself."""
+    """The controlling definitions, VERIFIED verbatim against ROADMAP S0 at run time."""
     text = (REPO_ROOT / "docs/ROADMAP.md").read_text(encoding="utf-8")
-    i = text.index(GLOSSARY_ANCHOR)
-    block = " ".join(text[i:i + 700].split())
+    block = verify_glossary(text)
     return dict(source=GLOSSARY_SOURCE, anchor_found=True, block=block,
-                definitions=GLOSSARY_DEFINITIONS,
+                definitions=EXPECTED_GLOSSARY_DEFINITIONS,
+                binding=dict(source="docs/ROADMAP.md S0",
+                             method=GLOSSARY_BINDING_METHOD,
+                             all_expected_definitions_verified=True,
+                             terms_verified=sorted(EXPECTED_GLOSSARY_DEFINITIONS)),
                 independent_requires_held_out=("not used in fitting" in block),
                 house_rule="Never promote a lower rung to a higher one when quoting a card [RS]")
 
@@ -493,19 +537,26 @@ SCAN_SURFACES = [
 #: mislabelled the docstring's "independent" hit with the neighbouring "verifying the port".
 HIT_RULES = [
     dict(token="independent", fragment="(independent, 'qualitative-good')",
-         classification="AMBIGUOUS_MEASUREMENT_SENSE",
-         note="Copies the MANIFEST word for the CT arm. True in the measurement-modality sense; "
-              "would be wrong in the ROADMAP S0 held-out sense. No downstream consumer takes "
-              "the strong reading — see the misattribution analysis. Surfaced as a wording "
-              "risk."),
+         classification="INCORRECT_INDEPENDENT_ATTRIBUTION",
+         note="The gate copies the MANIFEST label, but under the governing ROADMAP S0 "
+              "vocabulary the same-campaign post-fit CT arm is not independent: the controlling "
+              "card records that k and phi_T were fitted to these very s/H curves, so the data "
+              "IS used in fitting the thing being tested. A measurement-modality reading was "
+              "previously used to call this correct and is now REJECTED — see "
+              "rejected_reinterpretation. This is the screen's finding. It concerns the "
+              "evidence label only; the gate's numerical assertions are unaffected, and no "
+              "downstream consumer takes the strong reading."),
     dict(token="independent", fragment="independent (CT data) / verification (fitted curves)",
-         classification="THE_TARGET_CELL",
-         note="The MANIFEST cell under audit, quoted verbatim. Its 'independent' is the "
-              "measurement-modality sense; the controlling card supplies the circularity that "
-              "rules out the held-out sense."),
+         classification="TARGET_CELL_WITH_INCORRECT_INDEPENDENT_LABEL",
+         note="The MANIFEST cell under audit, quoted verbatim. Its CT half is "
+              "POST_FIT_SAME_CAMPAIGN, NOT_HELD_OUT, NOT_INDEPENDENT under ROADMAP S0 — the "
+              "controlling card supplies the circularity that rules the held-out sense out. "
+              "This cell is future correction target 1 and is NOT edited by this screen."),
     dict(token="verification", fragment="independent (CT data) / verification (fitted curves)",
-         classification="THE_TARGET_CELL",
-         note="The other half of the same cell under audit."),
+         classification="TARGET_CELL_CORRECT_VERIFICATION_HALF",
+         note="The other half of the same cell under audit. The 461-row fitted-curve arm IS "
+              "verification under ROADMAP S0 (model-vs-model), so this half of the label is "
+              "correct and is not a correction target."),
     dict(token="validation",
          fragment="item 1.6: front s(t)/headspace H(t) trajectory validation",
          classification="GATE_USE_FIELD_NOT_AN_EVIDENCE_CLAIM",

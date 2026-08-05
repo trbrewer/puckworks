@@ -14,11 +14,21 @@
   "glossary": {
     "source": "docs/ROADMAP.md S0 \u2014 'Validation-strength vocabulary used throughout'",
     "anchor_found": true,
-    "block": "Validation-strength vocabulary used throughout (\u00a72, \u00a76): **independent** (data not used in fitting the thing being tested) \u00b7 **post-fit reconstruction** (model reproduces the dataset its parameters were fitted to \u2014 a consistency check, not validation) \u00b7 **verification** (model-vs-model / asymptotic / budget) \u00b7 **qualitative** (shape/mechanism only, no error metrics). Never promote a lower rung to a higher one when quoting a card \u2014 house rule **[RS]**. Status promotions (e.g. `verification-gated` \u2192 `gated`) require a \u00a77.1 changelog entry citing the dataset and gate script. --- ## 1. PROCESS MAP Stage-by-model matrix. **Bold** = registered component **[RS]**. Kind: R = runtime slot candida",
+    "block": "Validation-strength vocabulary used throughout (\u00a72, \u00a76): **independent** (data not used in fitting the thing being tested) \u00b7 **post-fit reconstruction** (model reproduces the dataset its parameters were fitted to \u2014 a consistency check, not validation) \u00b7 **verification** (model-vs-model / asymptotic / budget) \u00b7 **qualitative** (shape/mechanism only, no error metrics). Never promote a lower rung to a higher one when quoting a card \u2014 house rule **[RS]**.",
     "definitions": {
       "independent": "data not used in fitting the thing being tested",
       "post-fit reconstruction": "model reproduces the dataset its parameters were fitted to \u2014 a consistency check, not validation",
       "verification": "model-vs-model / asymptotic / budget"
+    },
+    "binding": {
+      "source": "docs/ROADMAP.md S0",
+      "method": "VERBATIM_RUNTIME_VERIFICATION",
+      "all_expected_definitions_verified": true,
+      "terms_verified": [
+        "independent",
+        "post-fit reconstruction",
+        "verification"
+      ]
     },
     "independent_requires_held_out": true,
     "house_rule": "Never promote a lower rung to a higher one when quoting a card [RS]"
@@ -277,12 +287,12 @@
       },
       {
         "file": "tests/test_screen_i045.py",
-        "line": 225,
+        "line": 260,
         "function": "test_column_tracing_is_transparent_to_the_consumer"
       },
       {
         "file": "tests/test_screen_i045.py",
-        "line": 196,
+        "line": 231,
         "function": "test_halves_partition_the_real_columns"
       }
     ],
@@ -319,8 +329,8 @@
         "token": "independent",
         "context": "own fitted ODE curves to line width (<0.2 mm RMSE, verifying the port) and bracket a majority of the CT data points within their error bars (independent, 'qualitative-good').\"\"\" import numpy as np from puckworks.models.foster2025 import machine_mode as fm r = fm.solve() rows = gates_da",
         "context_classification": {
-          "classification": "AMBIGUOUS_MEASUREMENT_SENSE",
-          "note": "Copies the MANIFEST word for the CT arm. True in the measurement-modality sense; would be wrong in the ROADMAP S0 held-out sense. No downstream consumer takes the strong reading \u2014 see the misattribution analysis. Surfaced as a wording risk.",
+          "classification": "INCORRECT_INDEPENDENT_ATTRIBUTION",
+          "note": "The gate copies the MANIFEST label, but under the governing ROADMAP S0 vocabulary the same-campaign post-fit CT arm is not independent: the controlling card records that k and phi_T were fitted to these very s/H curves, so the data IS used in fitting the thing being tested. A measurement-modality reading was previously used to call this correct and is now REJECTED \u2014 see rejected_reinterpretation. This is the screen's finding. It concerns the evidence label only; the gate's numerical assertions are unaffected, and no downstream consumer takes the strong reading.",
           "matched_fragment": "(independent, 'qualitative-good')"
         }
       },
@@ -352,8 +362,8 @@
         "token": "independent",
         "context": "urves + CT data)\",digitization (Tim),s; mm,s; mm,y (data err),paper (DOI 10.1063/5.0245167),item 1.6: front s(t)/headspace H(t) trajectory validation,independent (CT data) / verification (fitted curves),s_fit/H_fit = paper ODE (0.02s grid); s_data/H_data = pixel-digitized CT (5-line mean); Fig8 -H differs from",
         "context_classification": {
-          "classification": "THE_TARGET_CELL",
-          "note": "The MANIFEST cell under audit, quoted verbatim. Its 'independent' is the measurement-modality sense; the controlling card supplies the circularity that rules out the held-out sense.",
+          "classification": "TARGET_CELL_WITH_INCORRECT_INDEPENDENT_LABEL",
+          "note": "The MANIFEST cell under audit, quoted verbatim. Its CT half is POST_FIT_SAME_CAMPAIGN, NOT_HELD_OUT, NOT_INDEPENDENT under ROADMAP S0 \u2014 the controlling card supplies the circularity that rules the held-out sense out. This cell is future correction target 1 and is NOT edited by this screen.",
           "matched_fragment": "independent (CT data) / verification (fitted curves)"
         }
       },
@@ -363,8 +373,8 @@
         "token": "verification",
         "context": "zation (Tim),s; mm,s; mm,y (data err),paper (DOI 10.1063/5.0245167),item 1.6: front s(t)/headspace H(t) trajectory validation,independent (CT data) / verification (fitted curves),s_fit/H_fit = paper ODE (0.02s grid); s_data/H_data = pixel-digitized CT (5-line mean); Fig8 -H differs from Fig14 H (do not mix)",
         "context_classification": {
-          "classification": "THE_TARGET_CELL",
-          "note": "The other half of the same cell under audit.",
+          "classification": "TARGET_CELL_CORRECT_VERIFICATION_HALF",
+          "note": "The other half of the same cell under audit. The 461-row fitted-curve arm IS verification under ROADMAP S0 (model-vs-model), so this half of the label is correct and is not a correction target.",
           "matched_fragment": "independent (CT data) / verification (fitted curves)"
         }
       },

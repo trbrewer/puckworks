@@ -42,8 +42,9 @@ than by rewriting the frozen text.
 - **A defined term belongs to the repository, not to the screen.** I-045 read the manifest's
   `independent` as an independent measurement *modality*. ROADMAP §0 defines it as **data not used
   in fitting the thing being tested** — a different question with a different answer. The screen
-  now extracts the glossary block from `docs/ROADMAP.md` at run time, so the definition it applies
-  cannot drift from the definition it cites.
+  now reads the authoritative §0 block from `docs/ROADMAP.md` at run time and **verifies verbatim**
+  that the definitions it applies still appear there; if the authority is reworded, the screen
+  fails rather than silently applying a stale definition.
 - **A missing argument is not a different intervention.** I-076 inferred from
   `simulate_shot`'s lack of a temperature parameter that Cameron is isothermal in a way
   incompatible with Pannusch. What the signature actually shows is that temperature is not

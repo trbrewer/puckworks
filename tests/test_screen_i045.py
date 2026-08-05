@@ -75,16 +75,51 @@ def test_controlling_card_carries_the_circularity_note():
 # THE GOVERNING GLOSSARY — the correction this screen turns on
 # --------------------------------------------------------------------------------------------
 def test_classification_is_bound_to_the_repository_glossary():
-    """The screen must read ROADMAP S0, not restate a definition from memory."""
+    """The screen VERIFIES its definitions verbatim against ROADMAP S0 at run time.
+
+    It does not parse them out of the document, and it does not restate them from memory: it
+    carries the text it expects and fails if the authority no longer says it.
+    """
     g = S.glossary()
     assert g["anchor_found"] is True
     assert "not used in fitting" in g["definitions"]["independent"]
-    assert g["independent_requires_held_out"] is True, (
-        "the extracted ROADMAP block must actually contain the held-out requirement")
-    # and the extracted block must be the live ROADMAP text
-    roadmap = (REPO / "docs/ROADMAP.md").read_text(encoding="utf-8")
+    assert g["independent_requires_held_out"] is True
+    b = g["binding"]
+    assert b["source"] == "docs/ROADMAP.md S0"
+    assert b["method"] == "VERBATIM_RUNTIME_VERIFICATION"
+    assert b["all_expected_definitions_verified"] is True
+    assert set(b["terms_verified"]) == {"independent", "post-fit reconstruction", "verification"}
+    # every expected definition really is present verbatim in the live ROADMAP
+    roadmap = " ".join((REPO / "docs/ROADMAP.md").read_text(encoding="utf-8").split())
     assert S.GLOSSARY_ANCHOR in roadmap
-    assert g["definitions"]["independent"] in " ".join(roadmap.split())
+    for term, expected in S.EXPECTED_GLOSSARY_DEFINITIONS.items():
+        assert expected in roadmap, term
+
+
+@pytest.mark.parametrize("term", ["independent", "post-fit reconstruction", "verification"])
+def test_a_reworded_glossary_is_rejected_rather_than_silently_overridden(term):
+    """Supply altered authority text to the bounded verifier; it must refuse to proceed.
+
+    The live block is reflowed across lines, so the alteration is applied to the normalised
+    block the verifier actually compares against.
+    """
+    roadmap = (REPO / "docs/ROADMAP.md").read_text(encoding="utf-8")
+    live = S.verify_glossary(roadmap)               # unaltered authority verifies
+    assert live.startswith(S.GLOSSARY_ANCHOR)
+
+    expected = S.EXPECTED_GLOSSARY_DEFINITIONS[term]
+    assert expected in live, "the expected definition must occur in the authority to begin with"
+    altered = live.replace(expected, "SOMETHING THE SCREEN DOES NOT EXPECT", 1)
+    assert altered != live
+    with pytest.raises(S.GlossaryDrift) as exc:
+        S.verify_glossary(altered)
+    assert term in str(exc.value)
+    assert expected in str(exc.value), "the error must name the definition it expected"
+
+
+def test_a_missing_glossary_anchor_is_rejected():
+    with pytest.raises(S.GlossaryDrift):
+        S.verify_glossary("a ROADMAP with no validation-strength section at all")
 
 
 def test_ct_observations_belong_to_the_fitting_campaign():
@@ -270,8 +305,61 @@ def test_hit_classification_requires_the_fragment_to_contain_the_token():
     ctx = ("curves to line width (<0.2 mm RMSE, verifying the port) and bracket a majority of "
            "the CT data points within their error bars (independent, 'qualitative-good').")
     got = S._classify_hit("independent", ctx)
-    assert got["classification"] == "AMBIGUOUS_MEASUREMENT_SENSE", (
-        "the wording risk must not be reclassified as correct usage by a neighbouring fragment")
+    assert got["classification"] == "INCORRECT_INDEPENDENT_ATTRIBUTION", (
+        "the finding must not be reclassified as correct usage by a neighbouring fragment")
+
+
+def test_the_gate_hit_is_an_incorrect_attribution_not_an_ambiguous_sense(result):
+    """The governing S0 meaning is EXCLUSIVE — there is no second valid current reading."""
+    hits = result["adversarial_text_scan"]["hits"]
+    gate = [h for h in hits if h["token"] == "independent" and "docstring" in h["surface"]]
+    assert len(gate) == 1, gate
+    c = gate[0]["context_classification"]
+    assert c["classification"] == "INCORRECT_INDEPENDENT_ATTRIBUTION"
+    assert "not independent" in c["note"]
+    assert "REJECTED" in c["note"], "the modality reading must be named as rejected, not valid"
+
+
+def test_the_manifest_independent_hit_is_the_target_incorrect_label(result):
+    hits = result["adversarial_text_scan"]["hits"]
+    man = [h for h in hits if h["token"] == "independent" and "MANIFEST" in h["surface"]]
+    assert len(man) == 1, man
+    c = man[0]["context_classification"]
+    assert c["classification"] == "TARGET_CELL_WITH_INCORRECT_INDEPENDENT_LABEL"
+    for flag in ("POST_FIT_SAME_CAMPAIGN", "NOT_HELD_OUT", "NOT_INDEPENDENT"):
+        assert flag in c["note"], flag
+
+
+def test_the_manifest_verification_hit_remains_correct(result):
+    hits = result["adversarial_text_scan"]["hits"]
+    ver = [h for h in hits if h["token"] == "verification" and "MANIFEST" in h["surface"]]
+    assert len(ver) == 1, ver
+    c = ver[0]["context_classification"]
+    assert c["classification"] == "TARGET_CELL_CORRECT_VERIFICATION_HALF"
+    assert "not a correction target" in c["note"]
+
+
+def test_no_production_rule_or_result_carries_the_ambiguous_sense_classification(result):
+    """The rejected reading may be recorded as history — never as a live classification."""
+    blob = json.dumps(result, ensure_ascii=False)
+    assert "AMBIGUOUS_MEASUREMENT_SENSE" not in blob
+    src = pathlib.Path(S.__file__).read_text(encoding="utf-8")
+    assert "AMBIGUOUS_MEASUREMENT_SENSE" not in src
+    for rule in S.HIT_RULES:
+        assert rule["classification"] != "AMBIGUOUS_MEASUREMENT_SENSE"
+
+
+def test_no_live_surface_calls_the_modality_reading_true(result):
+    """It survives ONLY inside rejected_reinterpretation, and only as an error."""
+    rr = result["rejected_reinterpretation"]
+    assert "MEASUREMENT MODALITY" in rr["reading"]
+    assert rr["why_rejected"]
+    live = dict(result)
+    live.pop("rejected_reinterpretation")
+    blob = json.dumps(live, ensure_ascii=False).lower()
+    for phrase in ("true in the measurement", "valid in the measurement",
+                   "correct in the measurement", "ambiguous"):
+        assert phrase not in blob, phrase
 
 
 def test_unscanned_reproduction_phrase_is_recorded_as_a_coverage_note():

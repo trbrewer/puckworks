@@ -19,7 +19,7 @@ NOT_A_MODEL_VALIDATION_UPGRADE
 For every consumer of `foster2025_2/fig12_14_curves`, does the consumer's actual assertion depend
 on independent evidence, verification evidence, both, or neither?
 
-**The controlling vocabulary is ROADMAP §0**, read at run time by the screen:
+**The controlling vocabulary is ROADMAP §0**, verified verbatim at run time by the screen:
 
 | term | definition |
 |---|---|
@@ -100,8 +100,22 @@ misattribution flagged.
 ## Adversarial check
 
 The scan covered `independent`, `independently`, `verification`, `verified`, `validation` across
-five consuming surfaces. **6 hits, 0 unclassified.** The decisive one is hit 1: the gate
-docstring's `independent` on the CT arm.
+five consuming surfaces. **6 hits, 0 unclassified.** It applies the ROADMAP §0 meaning
+**exclusively** — there is no second valid current reading of *independent*:
+
+| hit | classification |
+|---|---|
+| gate docstring `(independent, 'qualitative-good')` | **`INCORRECT_INDEPENDENT_ATTRIBUTION`** — the finding |
+| MANIFEST `independent (CT data)` | **`TARGET_CELL_WITH_INCORRECT_INDEPENDENT_LABEL`** — `POST_FIT_SAME_CAMPAIGN` / `NOT_HELD_OUT` / `NOT_INDEPENDENT`; future correction target 1 |
+| MANIFEST `verification (fitted curves)` | `TARGET_CELL_CORRECT_VERIFICATION_HALF` — this half is right and is not a target |
+| card `## Calibration and validation offered by the source` | `SOURCE_CARD_SECTION_HEADING` |
+| card `the key validation series` | `OTHER_DATASET` — Figs 6/8, separate manifest rows |
+| MANIFEST `gate_use` `… trajectory validation` | `GATE_USE_FIELD_NOT_AN_EVIDENCE_CLAIM` |
+
+An earlier version classified the gate hit `AMBIGUOUS_MEASUREMENT_SENSE` and noted it was "true in
+the measurement-modality sense". **No live rule or generated record carries that classification or
+that claim.** The modality reading survives only in `result.json → rejected_reinterpretation`,
+recorded as a rejected historical error.
 
 The strongest attempt to keep the earlier RETIRE was: **"the manifest says independent, the gate
 is only copying it, and everything downstream refuses the strong reading — so nothing is

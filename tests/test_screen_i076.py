@@ -4,8 +4,10 @@ These establish the properties the verdict rests on, not the verdict:
 
   * NO MODEL IS EXECUTED — asserted by instrumenting both solvers and running the whole screen;
   * the protocol commit PRECEDES every result-producing commit, checked against git history;
-  * both blockers are real, checked against the live signatures and card text rather than
-    against prose in the module;
+  * the ONE decisive cross-grinder blocker is real, checked against the live signatures, card
+    text and manifest rather than against prose in the module — while the absence of an exposed
+    temperature argument is NOT independently blocking, because cameron carries a fixed ~90 C
+    water-property basis inside pannusch's declared window;
   * the scenario was chosen by the SOURCE's own DoE role, not by a range midpoint;
   * uncertainty authorities stay unpooled and are never borrowed across components;
   * `cameron2020.paper_mode` is never imported or invoked.
