@@ -36,8 +36,36 @@ intervention, because Cameron carries a fixed ~90 °C water-property basis that 
 Pannusch's declared 80–98 °C window. I-076's `PROTOCOL.md` records this in a dated erratum rather
 than by rewriting the frozen text.
 
-**I-045 is the first survivor.** It enters the IF-7 deep-screen queue. It is **not** in
-[`../RETIRED_CANDIDATES.md`](../RETIRED_CANDIDATES.md).
+**I-045 is the first survivor.** It is **not** in
+[`../RETIRED_CANDIDATES.md`](../RETIRED_CANDIDATES.md), and its IF-7 deep screen has now run —
+see below.
+
+## IF-7 deep screens — I-045, reported 2026-08-05
+
+| screen | question | cheap | deep |
+|---|---|---|---|
+| [`I-045`](I-045/) | does the primary source's own fit lineage confirm the misattribution, and what does it earn? | **SURVIVE** | **`CORRECTION_ONLY`** |
+
+The paper settles it. Its objective function (Eq. 39) fits `k`, `φ_T` and `t_shift` to the CT-derived
+mean `sᵢ`, `Hᵢ` at every measurement time, and §IV A says so in terms: *"using the mean locations
+for s(t) and H(t) as the data to fit."* **Nothing was held out**, and the authors never call the
+comparison independent or validated — they say *"best fit"* and *"good agreement"*, and reserve
+"validation" for future work needing measurements they did not make.
+
+So the misattribution is confirmed from the source rather than from the card. It is also
+**contained** — 2 internal miswordings, 0 reader-facing over-claims, and the Pages publish root
+carries no occurrence — and **isolated**: the frozen mixed-strength rule selects 3 of 110 manifest
+rows, and all three state their scope correctly. One arm's strength in one row is wrong; the
+convention is not broken.
+
+That combination is what `CORRECTION_ONLY` means: a bounded repository correction is warranted, and
+no publication output is earned. The exact replacement wording is recommended in
+[`I-045/deep_decision.md`](I-045/deep_decision.md) and is **deliberately not applied** — editing an
+evidence label is a separate, human-owned change.
+
+The deep screen carries its own protocol frozen in a commit of its own
+([`I-045/DEEP_SCREEN_PROTOCOL.md`](I-045/DEEP_SCREEN_PROTOCOL.md)), and a preliminary external
+review ([`I-045/NOVELTY_REVIEW.md`](I-045/NOVELTY_REVIEW.md), result **`INCREMENTAL`**).
 
 ## Two habits from Wave 2, each of which changed a result
 

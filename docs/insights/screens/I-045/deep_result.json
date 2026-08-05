@@ -1,0 +1,1047 @@
+{
+  "screen": "I-045 deep screen (IF-7)",
+  "dataset": "foster2025_2/fig12_14_curves",
+  "protocol": {
+    "path": "docs/insights/screens/I-045/DEEP_SCREEN_PROTOCOL.md",
+    "frozen_before_analysis": true
+  },
+  "models_executed": false,
+  "models_executed_note": "No model is executed anywhere in this screen. Protocol stop condition S5: the lineage question is answered from text.",
+  "cheap_screen": {
+    "disposition": "SURVIVE",
+    "bundle": "docs/insights/screens/I-045/",
+    "not_rewritten_by_this_screen": true
+  },
+  "glossary": {
+    "source": "docs/ROADMAP.md S0",
+    "anchor": "Validation-strength vocabulary used throughout",
+    "method": "VERBATIM_RUNTIME_VERIFICATION",
+    "definitions": {
+      "independent": "data not used in fitting the thing being tested",
+      "post-fit reconstruction": "model reproduces the dataset its parameters were fitted to \u2014 a consistency check, not validation",
+      "verification": "model-vs-model / asymptotic / budget"
+    },
+    "all_expected_definitions_verified": true,
+    "block": "Validation-strength vocabulary used throughout (\u00a72, \u00a76): **independent** (data not used in fitting the thing being tested) \u00b7 **post-fit reconstruction** (model reproduces the dataset its parameters were fitted to \u2014 a consistency check, not validation) \u00b7 **verification** (model-vs-model / asymptotic / budget) \u00b7 **qualitative** (shape/mechanism only, no error metrics). Never promote a lower rung to a higher one when quoting a card \u2014 house rule **[RS]**.",
+    "independent_is_about_the_fit_not_the_modality": true
+  },
+  "source_lineage": {
+    "access": {
+      "citation": "J. Foster, W. Lee, K. Moroney, D. Prjamkov, M. Salamon, A. Smith, J. Petrassem-de-Sousa, M. Vynnycky, 'Dynamics of liquid infiltration into an espresso bed using time-resolved micro-computed tomography: Insights from experiment and modeling,' Phys. Fluids 37, 013383 (2025).",
+      "doi": "10.1063/5.0245167",
+      "open_access": "hybrid, CC BY-NC (publisher version)",
+      "obtained_from": "University of Limerick institutional repository (DSpace bitstream), located via the Unpaywall OA-location index",
+      "publisher_pdf_blocked": true,
+      "publisher_block_detail": "pubs.aip.org returns HTTP 403 to automated fetches, and the University of Portsmouth research-portal file endpoint is behind a Cloudflare interstitial; the UL repository copy is the same published version",
+      "version_read": "final published version, 22 pages",
+      "supplementary_material_found": false,
+      "supplementary_note": "The article declares no supplementary material and the card records 'No code or data repository published'; raw CT data is 'available from the corresponding author on reasonable request'.",
+      "vendored_into_repository": false,
+      "quotes_are_hand_transcribed": true
+    },
+    "quotes": [
+      {
+        "id": "Q1",
+        "location": "Sec. III D 'Numerical solution and model fitting'",
+        "quote": "Estimates for the majority of the model parameters are available from the literature (see Table I). The exceptions are K and phi_T, and so these will be tuned to achieve a best fit to the experimental data.",
+        "bears_on": [
+          "L1"
+        ]
+      },
+      {
+        "id": "Q2",
+        "location": "Sec. III D, Eq. (39)",
+        "quote": "Systematic fitting was carried out by minimizing the objective function L = sum_i^N [ (s_i - s(t_i - t_shift))^2 + (H_i - H(t_i - t_shift))^2 ], where s_i and H_i are the experimentally determined positions of the wetting front and height of water in the headspace, respectively, ... t_i are the times from the experiment start time at which the values of s(t) and H(t) were measured, and N is the number of experimental measurement times.",
+        "bears_on": [
+          "L1",
+          "L2",
+          "L3",
+          "L5"
+        ]
+      },
+      {
+        "id": "Q3",
+        "location": "Sec. III D",
+        "quote": "Note that the model output is shifted to start at some time, t_shift, after the experimental start time that should be determined as part of the fitting.",
+        "bears_on": [
+          "L1"
+        ]
+      },
+      {
+        "id": "Q4",
+        "location": "Sec. III D",
+        "quote": "The fmincon function in MATLAB using the default 'interior-point' algorithm was employed. ... We allowed fmincon to vary phi_T, K, and t_shift within the respective bounds [0.3, 0.9], [0, 0.2], [0, 1].",
+        "bears_on": [
+          "L1"
+        ]
+      },
+      {
+        "id": "Q5",
+        "location": "Sec. III D",
+        "quote": "We verified that the results reported in Sec. IV were robust to variations in the initial guesses for the parameters using MATLAB's Multistart function to sample a large number of initial guesses, giving confidence that the solution reported is not simply a local minimum.",
+        "bears_on": [
+          "L7"
+        ]
+      },
+      {
+        "id": "Q6",
+        "location": "Sec. IV A 'Model comparison with experimental data'",
+        "quote": "For the purposes of model fitting, we compare the model outputs: (i) the front locations at the center of the portafilter (x = 265 pixels and y = 370 pixels) and (ii) the mean front location averaged across the five positions. The fitting algorithm follows that described in Sec. III D using the mean locations for s(t) and H(t) as the data to fit.",
+        "bears_on": [
+          "L1",
+          "L4"
+        ]
+      },
+      {
+        "id": "Q7",
+        "location": "Figs. 12, 13, 14 captions",
+        "quote": "Best fit of s, position of wetting front. The mean front locations are indicated by squares, with the associated standard deviations indicated by the vertical lines centered on the squares. The crosses indicate the location of the front at the center of the portafilter.",
+        "bears_on": [
+          "L4",
+          "L5",
+          "L6"
+        ]
+      },
+      {
+        "id": "Q8",
+        "location": "Sec. IV (results narrative), Figs. 12-14",
+        "quote": "The results of the model fitting are shown in Figs. 12-14. ... The model appears to capture the general shape of the s profile well, while the profile for H in the headspace appears to have the correct shape but increases slightly more quickly compared to the experiments.",
+        "bears_on": [
+          "L6",
+          "L7"
+        ]
+      },
+      {
+        "id": "Q9",
+        "location": "Sec. V Conclusions",
+        "quote": "The model shows a good fit to experimental data. By demonstrating the feasibility of combining time-resolved x-ray tomographic measurements with modeling, we have pioneered a new technique for experimentally validating coffee models, opening up several interesting avenues of future research.",
+        "bears_on": [
+          "L7"
+        ]
+      },
+      {
+        "id": "Q10",
+        "location": "Sec. V Conclusions (future work)",
+        "quote": "Finally, a significant increase in the accuracy of models could be possible by combining x-ray tomographic data with measurements of the mass concentration of coffee exiting the coffee bed, producing a richer dataset for model validation.",
+        "bears_on": [
+          "L7"
+        ]
+      },
+      {
+        "id": "Q11",
+        "location": "Sec. IV (fine vs coarse grind)",
+        "quote": "For this reason, we will only apply the front extraction algorithm in Sec. II C and the corresponding infiltration model to the fine grind data. More sophisticated modeling of infiltration into the coarse grind is outside the scope of this work.",
+        "bears_on": [
+          "L4"
+        ]
+      },
+      {
+        "id": "Q12",
+        "location": "Fig. 7 caption / Figs. 8-9 captions",
+        "quote": "Scaled absorption at different radii within the bed. ... Lines show fits to Eq. (1) from which interface positions can be extracted. ... These results are consistent with a well-defined, uniform wetting front.",
+        "bears_on": [
+          "L6"
+        ]
+      }
+    ],
+    "lineage": {
+      "L1_what_entered_the_objective": {
+        "answer": "The CT-derived MEAN front locations \u2014 s_i and H_i averaged across five vertical positions through the portafilter \u2014 at every experimental measurement time.",
+        "fitted_parameters": [
+          "K (i.e. permeability k)",
+          "phi_T",
+          "t_shift"
+        ],
+        "objective": "Eq. (39), unweighted sum of squared residuals in s and H",
+        "optimizer": "MATLAB fmincon, interior-point, bounds phi_T [0.3,0.9], K [0,0.2], t_shift [0,1]",
+        "local_minimum_check": "MATLAB MultiStart",
+        "evidence": [
+          "Q1",
+          "Q2",
+          "Q3",
+          "Q4",
+          "Q6"
+        ],
+        "settled": true
+      },
+      "L2_s_and_H_fitted_simultaneously": {
+        "answer": "YES \u2014 one objective, summing the s and H squared residuals term by term.",
+        "evidence": [
+          "Q2"
+        ],
+        "settled": true
+      },
+      "L3_all_plotted_CT_times_entered_the_fit": {
+        "answer": "YES. The objective runs over i = 1..N where 'N is the number of experimental measurement times'. No subsetting, thinning, burn-in or time window is stated, and the repository artifact carries CT values at exactly the plotted times.",
+        "n_ct_rows_in_repository_artifact": 8,
+        "evidence": [
+          "Q2"
+        ],
+        "settled": true
+      },
+      "L4_any_held_out_data": {
+        "answer": "NO. No observation, time point, trajectory, shell or derived quantity is held out.",
+        "candidates_checked": [
+          {
+            "candidate": "centre-line front locations (crosses in Figs 12-14)",
+            "held_out": false,
+            "why": "Not independent and not held out: the centre line is ONE of the five vertical positions averaged into the fit data. It is a sub-reduction of the same measurements, plotted for context. The paper introduces it as 'For the purposes of model fitting, we compare the model outputs: (i) ... and (ii) ...' and then fits (ii). It is never called validation."
+          },
+          {
+            "candidate": "whole-bed-average interface series (Fig. 6 right panel)",
+            "held_out": false,
+            "why": "A different REDUCTION of the same CT scans from the same single fine-grind run, presented as data analysis with no model curve on it. Not used in the objective, but also not offered as evidence about the model \u2014 and it is NOT what the audited dataset contains (the MANIFEST caveat says 'Fig8 -H differs from Fig14 H (do not mix)')."
+          },
+          {
+            "candidate": "radial-shell analysis (Figs. 7-9)",
+            "held_out": false,
+            "why": "Supports the 1-D sharp-front ASSUMPTION of the model. It is an assumption check on the experiment, carries no model output, and cannot be held-out evidence for parameters it never constrains."
+          },
+          {
+            "candidate": "normalized pressure / flow-rate curves (Fig. 15)",
+            "held_out": false,
+            "why": "Pure MODEL output with no data overlay \u2014 verification material, not held-out measurement. It is a separate manifest row already labelled 'verification (model curve)'."
+          },
+          {
+            "candidate": "sensitivity study (Appendix B)",
+            "held_out": false,
+            "why": "Model-vs-model parameter sweeps. Verification under S0, not data."
+          },
+          {
+            "candidate": "coarse-grind run",
+            "held_out": false,
+            "why": "EXCLUDED FROM MODELLING ALTOGETHER, not reserved as evidence: 'we will only apply the front extraction algorithm ... and the corresponding infiltration model to the fine grind data.' A dataset the authors decline to model is not a held-out test of the model."
+          },
+          {
+            "candidate": "reported t_p = 0.823 s and t_s = 6.669 s",
+            "held_out": false,
+            "why": "Model outputs of the fitted solution (they include the fitted t_shift), not measurements. The repository already labels the params row 'verification (post-fit params)'."
+          }
+        ],
+        "evidence": [
+          "Q6",
+          "Q7",
+          "Q11",
+          "Q12"
+        ],
+        "settled": true
+      },
+      "L5_error_bars_role": {
+        "answer": "VISUALIZATION ONLY. The bars are 'the associated standard deviations' across the five positions. Eq. (39) contains no weights, no sigma and no covariance \u2014 it is an unweighted least-squares objective, so the uncertainties entered neither the fit nor any weighting.",
+        "entered_fit": false,
+        "entered_weighting": false,
+        "evidence": [
+          "Q2",
+          "Q7"
+        ],
+        "settled": true
+      },
+      "L6_figure_and_column_roles": {
+        "answer": "see mapping",
+        "mapping": [
+          {
+            "item": "Figs. 12-14 squares (5-line mean s, w, H)",
+            "role": "FIT INPUT",
+            "repository_columns": [
+              "s_data_mm",
+              "H_data_mm",
+              "w_data_mm"
+            ]
+          },
+          {
+            "item": "Figs. 12-14 error bars",
+            "role": "UNCERTAINTY DISPLAY (not in the objective)",
+            "repository_columns": [
+              "s_data_err_mm",
+              "H_data_err_mm",
+              "w_data_err_mm"
+            ]
+          },
+          {
+            "item": "Figs. 12-14 curves",
+            "role": "FITTED-MODEL OUTPUT",
+            "repository_columns": [
+              "s_fit_mm",
+              "w_fit_mm",
+              "H_fit_mm"
+            ]
+          },
+          {
+            "item": "Figs. 12-14 crosses (centre line)",
+            "role": "SUB-REDUCTION OF THE FIT DATA, shown for context",
+            "repository_columns": []
+          },
+          {
+            "item": "w = H + phi_T s",
+            "role": "DERIVED QUANTITY (uses the fitted phi_T)",
+            "repository_columns": [
+              "w_fit_mm",
+              "w_data_mm"
+            ]
+          },
+          {
+            "item": "Fig. 6",
+            "role": "EXPERIMENTAL DATA ANALYSIS (no model)",
+            "repository_columns": []
+          },
+          {
+            "item": "Figs. 7-9",
+            "role": "ASSUMPTION CHECK on 1-D sharp front",
+            "repository_columns": []
+          },
+          {
+            "item": "Fig. 15",
+            "role": "MODEL OUTPUT (verification)",
+            "repository_columns": []
+          },
+          {
+            "item": "Appendix B",
+            "role": "MODEL SENSITIVITY (verification)",
+            "repository_columns": []
+          },
+          {
+            "item": "k = 2.97e-15 m^2 vs literature; phi_T = 0.322 vs 0.4-0.6",
+            "role": "PLAUSIBILITY CHECK on fitted values",
+            "repository_columns": []
+          },
+          {
+            "item": "t_s (time base)",
+            "role": "SHARED INDEX",
+            "repository_columns": [
+              "t_s"
+            ]
+          }
+        ],
+        "no_item_classified_independent": true,
+        "settled": true
+      },
+      "L7_authors_own_terms": {
+        "answer": "The authors say 'best fit' (Figs. 12-14 captions), 'a good fit to experimental data' and 'Good agreement' (abstract, conclusions). They NEVER describe the Figs. 12-14 comparison as independent, held-out or validated.",
+        "validation_word_usage": "'validat*' occurs four times: a literature-gap remark, a remark about a DIFFERENT cited study, and TWICE in the conclusions about FUTURE work \u2014 'we have pioneered a new technique for experimentally validating coffee models' and a richer dataset 'for model validation' that would require adding concentration measurements they did not make.",
+        "independent_word_usage": "'independent' occurs three times and NEVER about evidence: a symbols-table heading ('independent and dependent variables'), an ODE remark ('independent of time'), and a parameter-insensitivity remark ('essentially independent of P_m').",
+        "source_supports_independent_label": false,
+        "evidence": [
+          "Q7",
+          "Q8",
+          "Q9",
+          "Q10"
+        ],
+        "settled": true
+      }
+    },
+    "card_check": {
+      "card": "docs/cards/foster2025_2.md",
+      "card_claim": "Three parameters (K i.e. k, phi_T, t_shift) fitted by fmincon least squares on s and H simultaneously; Multistart used to check against local minima.",
+      "paper_confirms": true,
+      "circularity_note_confirmed": true,
+      "circularity_note": "Note the circularity: k and \u03c6_T are fitted to the same s/H curves being reproduced, so the source validates model FORM, not parameter-free prediction.",
+      "contradiction_found": false,
+      "stop_condition_S2_triggered": false,
+      "minor_imprecision": "The card's 'Extractable data' section calls Figs 6/8 'the key validation series'. The paper presents Fig. 6 as data analysis, not as validation of the model, and the model is compared against Figs 12-14. This is card prose about a DIFFERENT figure pair than the audited row and is recorded, not corrected."
+    },
+    "verifiable_in_repository": false,
+    "determination": "The CT observations in the audited dataset ARE the data the tested parameters were fitted to. Nothing was held out.",
+    "ct_arm_evidence_type_under_S0": "post-fit reconstruction (same campaign, not held out)",
+    "manifest_wording_for_that_arm": "independent (CT data)",
+    "manifest_wording_correct": false
+  },
+  "blast_radius": {
+    "needles": [
+      "independent (CT data)",
+      "(independent, 'qualitative-good')"
+    ],
+    "self_excluded": [
+      "docs/insights/screens/I-045/DEEP_SCREEN_PROTOCOL.md",
+      "docs/insights/screens/I-045/deep_decision.md",
+      "docs/insights/screens/I-045/deep_result.json",
+      "docs/insights/screens/I-045/NOVELTY_REVIEW.md",
+      "puckworks/analysis/deep_screen_i045_lineage.py",
+      "tests/test_deep_screen_i045.py"
+    ],
+    "self_exclusion_reason": "a screen may not count its own output as corpus exposure; excluding it also keeps the scan stable while it is written",
+    "n_files_scanned": 1322,
+    "n_files_with_occurrence": 13,
+    "n_surfaces_inspected_by_path_without_a_needle": 6,
+    "needle_scan_blind_spot_note": "a surface can consume this dataset or gate without containing either needle \u2014 EVIDENCE_LINKS.json, PV-02, the registry and the generated public claims artifact all do. They are inspected by path and attributed alongside the scan hits, never left to the grep.",
+    "surfaces": [
+      {
+        "path": "docs/ROADMAP.md",
+        "occurrences": {
+          "independent (CT data)": 3,
+          "(independent, 'qualitative-good')": 3
+        },
+        "scanned_by_needle": true,
+        "attributed": true,
+        "surface": "ROADMAP S7.1 changelog",
+        "kind": "current authority (narrative)",
+        "value": "the 2026-08-05 correction entry, which states the attribution is INCORRECT and names the correction targets",
+        "exposure": "PRESENT_BUT_EXPLICITLY_REJECTED",
+        "reader_can_take_the_independent_reading": false,
+        "reader_note": "The only quoting of the cell is to say it is wrong.",
+        "downstream_containment": true,
+        "correction_required": false
+      },
+      {
+        "path": "docs/figures/paper3/source_data/fig2_evidence_vectors.csv",
+        "occurrences": {},
+        "scanned_by_needle": false,
+        "attributed": true,
+        "surface": "Paper 3 Fig-2 evidence vector",
+        "kind": "generated derivative",
+        "value": "relation=source_curve_reproduction, outcome=negative",
+        "exposure": "GENERATED_BUT_CORRECTLY_BOUNDED",
+        "reader_can_take_the_independent_reading": false,
+        "reader_note": "",
+        "downstream_containment": true,
+        "correction_required": false
+      },
+      {
+        "path": "docs/insights/candidates/I-045_which_strength_is_load_bearing_where_the_manifes.md",
+        "occurrences": {
+          "independent (CT data)": 1,
+          "(independent, 'qualitative-good')": 1
+        },
+        "scanned_by_needle": true,
+        "attributed": true,
+        "surface": "I-045 candidate card, hand-written block",
+        "kind": "screen output",
+        "value": "records the corrected outcome",
+        "exposure": "PRESENT_BUT_EXPLICITLY_REJECTED",
+        "reader_can_take_the_independent_reading": false,
+        "reader_note": "",
+        "downstream_containment": true,
+        "correction_required": false
+      },
+      {
+        "path": "docs/insights/generated/corpus_map.json",
+        "occurrences": {
+          "independent (CT data)": 3
+        },
+        "scanned_by_needle": true,
+        "attributed": true,
+        "surface": "Insight Foundry corpus map (generated)",
+        "kind": "generated derivative",
+        "value": "independent (CT data) / verification (fitted curves)",
+        "exposure": "GENERATED_BUT_CORRECTLY_BOUNDED",
+        "reader_can_take_the_independent_reading": true,
+        "reader_note": "Same byte-identical copy rule as the lineage index.",
+        "downstream_containment": false,
+        "correction_required": false,
+        "inherits_from": "puckworks/data/MANIFEST.csv"
+      },
+      {
+        "path": "docs/insights/generated/evidence_lineage_index.csv",
+        "occurrences": {
+          "independent (CT data)": 1
+        },
+        "scanned_by_needle": true,
+        "attributed": true,
+        "surface": "Insight Foundry lineage index (generated)",
+        "kind": "generated derivative",
+        "value": "independent (CT data) / verification (fitted curves)",
+        "exposure": "GENERATED_BUT_CORRECTLY_BOUNDED",
+        "reader_can_take_the_independent_reading": true,
+        "reader_note": "It copies the cell BYTE-IDENTICALLY by design, so it inherits the defect verbatim. That is the Foundry's rule (never restate a label), so the fix belongs upstream at the manifest \u2014 regenerating propagates it.",
+        "downstream_containment": false,
+        "correction_required": false,
+        "inherits_from": "puckworks/data/MANIFEST.csv"
+      },
+      {
+        "path": "docs/insights/generated/tension_atlas.csv",
+        "occurrences": {
+          "independent (CT data)": 1
+        },
+        "scanned_by_needle": true,
+        "attributed": true,
+        "surface": "Insight Foundry tension atlas row T-0063",
+        "kind": "generated derivative",
+        "value": "lineage_circularity / mixed_strength_cell \u2014 'MANIFEST validation_strength for foster2025_2/fig12_14_curves names more than one strength'",
+        "exposure": "PRESENT_BUT_EXPLICITLY_REJECTED",
+        "reader_can_take_the_independent_reading": false,
+        "reader_note": "The atlas already FLAGS this cell as a tension and routes it to I-045. The corpus's own machinery found the row before a human did.",
+        "downstream_containment": true,
+        "correction_required": false
+      },
+      {
+        "path": "docs/insights/generated/tension_atlas.md",
+        "occurrences": {
+          "independent (CT data)": 1
+        },
+        "scanned_by_needle": true,
+        "attributed": true,
+        "surface": "tension atlas, rendered",
+        "kind": "generated derivative",
+        "value": "T-0063 as above",
+        "exposure": "PRESENT_BUT_EXPLICITLY_REJECTED",
+        "reader_can_take_the_independent_reading": false,
+        "reader_note": "",
+        "downstream_containment": true,
+        "correction_required": false
+      },
+      {
+        "path": "docs/insights/screens/I-045/README.md",
+        "occurrences": {
+          "independent (CT data)": 3,
+          "(independent, 'qualitative-good')": 2
+        },
+        "scanned_by_needle": true,
+        "attributed": true,
+        "surface": "cheap-screen README",
+        "kind": "screen output",
+        "value": "same",
+        "exposure": "PRESENT_BUT_EXPLICITLY_REJECTED",
+        "reader_can_take_the_independent_reading": false,
+        "reader_note": "",
+        "downstream_containment": true,
+        "correction_required": false
+      },
+      {
+        "path": "docs/insights/screens/I-045/decision.md",
+        "occurrences": {
+          "independent (CT data)": 5,
+          "(independent, 'qualitative-good')": 2
+        },
+        "scanned_by_needle": true,
+        "attributed": true,
+        "surface": "cheap-screen decision",
+        "kind": "screen output",
+        "value": "states the misattribution and names three correction targets",
+        "exposure": "PRESENT_BUT_EXPLICITLY_REJECTED",
+        "reader_can_take_the_independent_reading": false,
+        "reader_note": "",
+        "downstream_containment": true,
+        "correction_required": false
+      },
+      {
+        "path": "docs/insights/screens/I-045/result.json",
+        "occurrences": {
+          "independent (CT data)": 8,
+          "(independent, 'qualitative-good')": 5
+        },
+        "scanned_by_needle": true,
+        "attributed": true,
+        "surface": "cheap-screen result",
+        "kind": "screen output",
+        "value": "records the cell and its INCORRECT_INDEPENDENT_ATTRIBUTION classification",
+        "exposure": "PRESENT_BUT_EXPLICITLY_REJECTED",
+        "reader_can_take_the_independent_reading": false,
+        "reader_note": "",
+        "downstream_containment": true,
+        "correction_required": false
+      },
+      {
+        "path": "docs/paper3_resource/generated/evidence_graph.json",
+        "occurrences": {},
+        "scanned_by_needle": false,
+        "attributed": true,
+        "surface": "generated Paper 3 evidence graph",
+        "kind": "generated derivative",
+        "value": "renders the EVIDENCE_LINKS adjudication",
+        "exposure": "GENERATED_BUT_CORRECTLY_BOUNDED",
+        "reader_can_take_the_independent_reading": false,
+        "reader_note": "",
+        "downstream_containment": true,
+        "correction_required": false
+      },
+      {
+        "path": "docs/public/generated/claims.json",
+        "occurrences": {},
+        "scanned_by_needle": false,
+        "attributed": true,
+        "surface": "generated PUBLIC claims artifact",
+        "kind": "generated derivative / public output",
+        "value": "fit_evaluation=same_campaign_not_held_out; reality_facing=false; outcome=negative; and PV-02's explicit exclusion rationale",
+        "exposure": "GENERATED_BUT_CORRECTLY_BOUNDED",
+        "reader_can_take_the_independent_reading": false,
+        "reader_note": "Contains NEITHER needle. This is the closest thing to a reader-facing surface that touches the gate, and it carries the correct adjudication.",
+        "downstream_containment": true,
+        "correction_required": false
+      },
+      {
+        "path": "puckworks/analysis/screen_i045_evidence_halves.py",
+        "occurrences": {
+          "independent (CT data)": 6,
+          "(independent, 'qualitative-good')": 2
+        },
+        "scanned_by_needle": true,
+        "attributed": true,
+        "surface": "the cheap screen's producer",
+        "kind": "test/analysis text",
+        "value": "quotes the cell as the audit target and classifies it as incorrect",
+        "exposure": "PRESENT_BUT_EXPLICITLY_REJECTED",
+        "reader_can_take_the_independent_reading": false,
+        "reader_note": "",
+        "downstream_containment": true,
+        "correction_required": false
+      },
+      {
+        "path": "puckworks/data/MANIFEST.csv",
+        "occurrences": {
+          "independent (CT data)": 1
+        },
+        "scanned_by_needle": true,
+        "attributed": true,
+        "surface": "MANIFEST validation_strength cell (the origin)",
+        "kind": "current authority",
+        "value": "independent (CT data) / verification (fitted curves)",
+        "exposure": "CURRENT_INTERNAL_MISWORDING",
+        "reader_can_take_the_independent_reading": true,
+        "reader_note": "A reader of the manifest can take it, but the manifest is a developer-facing provenance table, not a published claim surface.",
+        "downstream_containment": false,
+        "correction_required": true
+      },
+      {
+        "path": "puckworks/models/__init__.py",
+        "occurrences": {},
+        "scanned_by_needle": false,
+        "attributed": true,
+        "surface": "registry entry foster2025.machine_mode",
+        "kind": "current authority",
+        "value": "component evidence strength: source_curve_reproduction",
+        "exposure": "NO_EXPOSURE",
+        "reader_can_take_the_independent_reading": false,
+        "reader_note": "The registry never claims independence for this component.",
+        "downstream_containment": true,
+        "correction_required": false
+      },
+      {
+        "path": "puckworks/paper3/EVIDENCE_LINKS.json",
+        "occurrences": {},
+        "scanned_by_needle": false,
+        "attributed": true,
+        "surface": "Paper 3 evidence adjudication",
+        "kind": "current authority",
+        "value": "the same dataset filed TWICE: eval/same_campaign AND fit/fit_input; relationship=same_campaign_not_held_out; reality_facing=false; support_status=context_only",
+        "exposure": "PRESENT_BUT_EXPLICITLY_REJECTED",
+        "reader_can_take_the_independent_reading": false,
+        "reader_note": "It records the correct lineage in machine-readable fields.",
+        "downstream_containment": true,
+        "correction_required": false
+      },
+      {
+        "path": "puckworks/public/claims.py",
+        "occurrences": {},
+        "scanned_by_needle": false,
+        "attributed": true,
+        "surface": "PV-02 evidence selection",
+        "kind": "current authority",
+        "value": "EXCLUDES gate_foster_ct_trajectory 'on its own merits ... a different observable'",
+        "exposure": "NO_EXPOSURE",
+        "reader_can_take_the_independent_reading": false,
+        "reader_note": "The gate never reaches a public claim.",
+        "downstream_containment": true,
+        "correction_required": false
+      },
+      {
+        "path": "puckworks/validation/gates.py",
+        "occurrences": {
+          "(independent, 'qualitative-good')": 1
+        },
+        "scanned_by_needle": true,
+        "attributed": true,
+        "surface": "gate_foster_ct_trajectory docstring",
+        "kind": "current authority",
+        "value": "...bracket a majority of the CT data points within their error bars (independent, 'qualitative-good')",
+        "exposure": "CURRENT_INTERNAL_MISWORDING",
+        "reader_can_take_the_independent_reading": true,
+        "reader_note": "Visible in API docs and gate output listings; still developer-facing. The gate's NUMBERS are unaffected.",
+        "downstream_containment": false,
+        "correction_required": true
+      },
+      {
+        "path": "tests/test_screen_i045.py",
+        "occurrences": {
+          "independent (CT data)": 1,
+          "(independent, 'qualitative-good')": 1
+        },
+        "scanned_by_needle": true,
+        "attributed": true,
+        "surface": "cheap-screen regression tests",
+        "kind": "test text",
+        "value": "asserts the cell is the target incorrect label",
+        "exposure": "PRESENT_BUT_EXPLICITLY_REJECTED",
+        "reader_can_take_the_independent_reading": false,
+        "reader_note": "",
+        "downstream_containment": true,
+        "correction_required": false
+      }
+    ],
+    "inspected_and_clean": [
+      {
+        "surface": "docs/public/site/** (the GitHub Pages publish root, per .github/workflows/pages.yml `path: docs/public/site`)",
+        "finding": "no occurrence of either needle in any published page"
+      },
+      {
+        "surface": "notebooks/ (including espresso_lb_colab.ipynb)",
+        "finding": "no occurrence; the gate is not referenced in notebook prose"
+      },
+      {
+        "surface": "README.md and top-level documentation",
+        "finding": "no occurrence"
+      },
+      {
+        "surface": "puckworks/data/foster2025_2/PROVENANCE.md and README_digitization.md",
+        "finding": "no independence claim; PROVENANCE describes the CT arm as '(5-line mean)' and records the 4-5/8 bracketing as 'qualitative-good, matching the paper's own claim' \u2014 consistent with post-fit"
+      }
+    ],
+    "coverage_complete": true,
+    "unattributed": [],
+    "exposure_counts": {
+      "PRESENT_BUT_EXPLICITLY_REJECTED": 10,
+      "CURRENT_INTERNAL_MISWORDING": 2,
+      "CURRENT_READER_FACING_OVERCLAIM": 0,
+      "GENERATED_BUT_CORRECTLY_BOUNDED": 5,
+      "HISTORICAL_SUPERSEDED": 0,
+      "NO_EXPOSURE": 2
+    },
+    "n_reader_facing_overclaims": 0,
+    "reader_facing_overclaims": [],
+    "correction_required": [
+      "puckworks/data/MANIFEST.csv",
+      "puckworks/validation/gates.py"
+    ],
+    "released_content": [
+      {
+        "ref": "v0.3.0",
+        "present": true,
+        "files": {
+          "puckworks/data/MANIFEST.csv": 1,
+          "puckworks/validation/gates.py": 1
+        }
+      },
+      {
+        "ref": "archive/lab-tour-educational-pre-recovery-2026-07-20",
+        "present": true,
+        "files": {
+          "puckworks/data/MANIFEST.csv": 1,
+          "puckworks/validation/gates.py": 1
+        }
+      }
+    ],
+    "released_note": "The tagged source trees DO carry both the manifest cell and the gate docstring: the defect is in released source. It is not in any released reader-facing CLAIM \u2014 the public claims artifact records same_campaign_not_held_out and reality_facing=false, and PV-02 excludes the gate outright.",
+    "pages_publish_root": "docs/public/site",
+    "pages_carries_attribution": false
+  },
+  "generality": {
+    "rule": "parenthesis-aware split on top-level / + ; then the S0 token each segment BEGINS with; PRIMARY = >= 2 distinct S0 head labels",
+    "s0_tokens": [
+      "independent",
+      "post-fit",
+      "verification",
+      "qualitative"
+    ],
+    "n_manifest_rows": 110,
+    "primary_set": [
+      "waszkiewicz2025/traces_time_dependent",
+      "foster2025_2/fig12_14_curves",
+      "romancorrochano2017/y0_extractable"
+    ],
+    "n_primary": 3,
+    "secondary_set": [
+      {
+        "dataset_id": "schmieder2023/cup_masses",
+        "validation_strength": "independent (of fit) / same apparatus"
+      },
+      {
+        "dataset_id": "liang2021/fig4_E",
+        "validation_strength": "independent (E flat) / kernel check"
+      },
+      {
+        "dataset_id": "egidi2024/table2",
+        "validation_strength": "independent EY/TDS bracket (NOT a p/T response test)"
+      },
+      {
+        "dataset_id": "mo2023_2/fig3a_qdecay",
+        "validation_strength": "verification (MODEL output, not data): E 4.9->0.24, F 35->4.1 mm/s at s_m=3.6%"
+      },
+      {
+        "dataset_id": "fasano2000_partI/fig8_6_model_q_inf",
+        "validation_strength": "verification of DIGITIZED model output (Suski sim); NOT reproducible -- closures K,M,gamma unpublished"
+      },
+      {
+        "dataset_id": "g1_glassbead_analog/retention_kr",
+        "validation_strength": "reference/qualitative"
+      },
+      {
+        "dataset_id": "g3_pump_characteristic/ulka_envelope",
+        "validation_strength": "reference (endpoints) / qualitative (shape)"
+      },
+      {
+        "dataset_id": "g10_liquor_rheology/telis_romero_envelope",
+        "validation_strength": "reference/qualitative (espresso-TDS extrapolated)"
+      },
+      {
+        "dataset_id": "g10_liquor_rheology/khomyakov_kinematic_viscosity",
+        "validation_strength": "reference/qualitative (espresso is BELOW the 15 wt% measured floor)"
+      },
+      {
+        "dataset_id": "angeloni2023/total_solids_lipids_rsd",
+        "validation_strength": "independent (measured condition-level RSD); NOT solute-specific for named analytes"
+      },
+      {
+        "dataset_id": "mckeonaloe2022/basket_open_area_geometry",
+        "validation_strength": "reference/qualitative (single-specimen hobbyist imaging; open-area direct, diameters figure-read)"
+      }
+    ],
+    "n_secondary": 11,
+    "secondary_note": "mixed in FORM but not in S0 vocabulary \u2014 one segment head is a non-S0 label such as 'reference' or 'kernel check'. Counted, not adjudicated.",
+    "rows": [
+      {
+        "dataset_id": "waszkiewicz2025/traces_time_dependent",
+        "validation_strength": "independent within-rig (equilibrium) / post-fit (9-bar Q(t) reproduction)",
+        "segments": [
+          "independent within-rig (equilibrium)",
+          "post-fit (9-bar Q(t) reproduction)"
+        ],
+        "head_labels": [
+          "independent",
+          "post-fit"
+        ],
+        "distinct_s0_labels": [
+          "independent",
+          "post-fit"
+        ],
+        "findings": {
+          "G1_same_evidence_unit": false,
+          "G2_scope": "distinct ASSERTIONS over the same columns \u2014 an equilibrium arm and a 9-bar Q(t) reproduction arm",
+          "G3_wording_identifies_scope": true,
+          "G3_note": "'independent within-rig (equilibrium) / post-fit (9-bar Q(t) reproduction)' names both the strength and the assertion each applies to \u2014 this is the best-scoped mixed cell in the corpus",
+          "G4_consumer_could_attach_stronger_label_to_wrong_assertion": false,
+          "G4_note": "I-040 enumerated 27 consumers and found ZERO promotions; PV-02 already records an explicit EXCLUSION of the one gate that could have over-claimed",
+          "G5_downstream_propagates_ambiguity": false,
+          "G5_note": "",
+          "is_the_audited_row": false,
+          "known_comparison_case": "I-040 (RETIRE)"
+        },
+        "adjudicated": true
+      },
+      {
+        "dataset_id": "foster2025_2/fig12_14_curves",
+        "validation_strength": "independent (CT data) / verification (fitted curves)",
+        "segments": [
+          "independent (CT data)",
+          "verification (fitted curves)"
+        ],
+        "head_labels": [
+          "independent",
+          "verification"
+        ],
+        "distinct_s0_labels": [
+          "independent",
+          "verification"
+        ],
+        "findings": {
+          "G1_same_evidence_unit": false,
+          "G2_scope": "distinct COLUMNS of one file (s_fit/w_fit/H_fit vs s_data/H_data + errors)",
+          "G3_wording_identifies_scope": true,
+          "G3_note": "the cell's parentheticals '(CT data)' and '(fitted curves)' do name the two arms \u2014 the scope is stated; it is the STRENGTH of one arm that is wrong",
+          "G4_consumer_could_attach_stronger_label_to_wrong_assertion": true,
+          "G4_note": "gate_foster_ct_trajectory does exactly this",
+          "G5_downstream_propagates_ambiguity": false,
+          "G5_note": "EVIDENCE_LINKS, the public claims artifact and PV-02 all refuse it",
+          "is_the_audited_row": true
+        },
+        "adjudicated": true
+      },
+      {
+        "dataset_id": "romancorrochano2017/y0_extractable",
+        "validation_strength": "independent (distinct nested ceiling quantities, K<1) + qualitative (monotone size-exclusion)",
+        "segments": [
+          "independent (distinct nested ceiling quantities, K<1)",
+          "qualitative (monotone size-exclusion)"
+        ],
+        "head_labels": [
+          "independent",
+          "qualitative"
+        ],
+        "distinct_s0_labels": [
+          "independent",
+          "qualitative"
+        ],
+        "findings": {
+          "G1_same_evidence_unit": true,
+          "G2_scope": "two DIFFERENT ASSERTIONS over the same table \u2014 the nested-ceiling quantities (independent) and the monotone size-exclusion trend (qualitative)",
+          "G3_wording_identifies_scope": true,
+          "G3_note": "'independent (distinct nested ceiling quantities, K<1) + qualitative (monotone size-exclusion)' names, for each label, the assertion it covers \u2014 and the single consuming gate is named in gate_use, so the mapping is recoverable",
+          "G4_consumer_could_attach_stronger_label_to_wrong_assertion": true,
+          "G4_note": "STRUCTURALLY possible, because both labels cover one evidence unit: a consumer asserting the size-exclusion TREND could cite the independent half. Whether any consumer actually does is NOT tested here \u2014 that would be executing another candidate. What matters for generality is that the wording already carries the scope needed to tell them apart.",
+          "G5_downstream_propagates_ambiguity": null,
+          "G5_note": "not determined \u2014 out of scope for a bounded generality test",
+          "is_the_audited_row": false,
+          "strength_confirmed_wrong": false,
+          "strength_note": "no claim is made that this cell is WRONG. Nothing here says the nested-ceiling quantities were used in fitting anything."
+        },
+        "adjudicated": true
+      }
+    ],
+    "n_with_scope_stated": 3,
+    "n_where_a_consumer_could_misattach": 2,
+    "consumers_could_misattach": [
+      "foster2025_2/fig12_14_curves",
+      "romancorrochano2017/y0_extractable"
+    ],
+    "n_confirmed_incorrect_strength": 1,
+    "confirmed_incorrect_strength": [
+      "foster2025_2/fig12_14_curves"
+    ],
+    "verdict": "SCOPE is stated in every primary-set cell. The defect in I-045 is NOT a missing scope convention and NOT a recurring corpus pattern: it is ONE cell whose stated scope is right and whose STRENGTH for one arm is wrong. The corpus's existing convention (label + parenthetical scope) already works.",
+    "is_the_defect_general": false,
+    "no_other_candidate_adjudicated": true
+  },
+  "alternatives": [
+    {
+      "id": "A1",
+      "challenge": "the CT observations were not actually used to fit the tested object",
+      "verdict": "FAILS",
+      "settled_by": "Eq. (39) sums squared residuals in s_i and H_i, and Sec. IV A states the fit used 'the mean locations for s(t) and H(t) as the data to fit'. The repository artifact's CT columns are that 5-line mean.",
+      "evidence": [
+        "Q2",
+        "Q6",
+        "Q7"
+      ]
+    },
+    {
+      "id": "A2",
+      "challenge": "only some trajectories or time points were fitted, leaving a defensible held-out subset",
+      "verdict": "FAILS",
+      "settled_by": "The objective runs over all N measurement times. The only other series in Figs 12-14 is the CENTRE LINE, which is one of the five positions averaged into the fit data \u2014 a sub-reduction, not a holdout, and never described as validation. Every other candidate holdout (Figs 6, 7-9, 15, Appendix B, the coarse grind, t_p/t_s) is either data analysis, an assumption check, model output, or a run the authors decline to model.",
+      "evidence": [
+        "Q2",
+        "Q6",
+        "Q7",
+        "Q11",
+        "Q12"
+      ]
+    },
+    {
+      "id": "A3",
+      "challenge": "the manifest label describes everything in the artifact, not the evidentiary status of each gate assertion",
+      "verdict": "FAILS",
+      "settled_by": "Even read as a file-level union the cell is wrong, because NO part of the artifact is independent under S0: the fitted columns are verification and the CT columns are post-fit. The union of {verification, post-fit} does not contain 'independent'. The union reading would also make the corpus's own scoping convention \u2014 used correctly in every other primary-set cell \u2014 meaningless.",
+      "evidence": [
+        "L6"
+      ]
+    },
+    {
+      "id": "A4",
+      "challenge": "because EVIDENCE_LINKS is correctly bounded, the manifest and gate wording are inconsequential",
+      "verdict": "PARTLY SUCCEEDS \u2014 and it is why this is not a publication finding",
+      "settled_by": "Containment is real and measured: zero reader-facing over-claims, the public claims artifact records same_campaign_not_held_out and reality_facing=false, and PV-02 excludes the gate. So the consequence is bounded. It does NOT make the attribution correct, and the cell is in released source where the next consumer would inherit it.",
+      "evidence": [
+        "blast_radius"
+      ]
+    },
+    {
+      "id": "A5",
+      "challenge": "'independent' means a distinct measurement modality",
+      "verdict": "FAILS",
+      "settled_by": "ROADMAP S0 defines independent as 'data not used in fitting the thing being tested' \u2014 a statement about the fit. And the SOURCE does not support the modality reading either: the paper never calls this comparison independent or validated, using 'best fit', 'good fit' and 'good agreement', and reserving 'validation' for FUTURE work requiring measurements it did not make.",
+      "evidence": [
+        "L7",
+        "glossary"
+      ]
+    }
+  ],
+  "formulations": [
+    {
+      "id": "F1",
+      "wording": "post-fit reconstruction (CT data) / verification (fitted curves)",
+      "scientifically_accurate": true,
+      "glossary_compatible": true,
+      "preserves_source_wording": true,
+      "consumable_by_current_tools": true,
+      "consumable_note": "same shape as the existing cell; no parser or gate changes",
+      "migration_cost": "one cell + one docstring",
+      "risk_of_implying_held_out_validation": "low",
+      "generalizes": true,
+      "assessment": "Minimal and correct. Loses the same-campaign detail, which EVIDENCE_LINKS already carries."
+    },
+    {
+      "id": "F2",
+      "wording": "post-fit, same-campaign CT observations / verification of fitted trajectories",
+      "scientifically_accurate": true,
+      "glossary_compatible": true,
+      "glossary_note": "'same-campaign' is not an S0 rung; it is a qualifier on post-fit reconstruction, matching EVIDENCE_LINKS' own relationship=same_campaign_not_held_out",
+      "preserves_source_wording": true,
+      "consumable_by_current_tools": true,
+      "migration_cost": "one cell + one docstring",
+      "risk_of_implying_held_out_validation": "lowest \u2014 it names the non-holdout explicitly",
+      "generalizes": true,
+      "assessment": "RECOMMENDED. Most precise, no schema change, aligns with the downstream record that is already correct."
+    },
+    {
+      "id": "F3",
+      "wording": "split into separately scoped records/views for fitted trajectories, CT observations and the shared time base",
+      "scientifically_accurate": true,
+      "glossary_compatible": true,
+      "preserves_source_wording": true,
+      "consumable_by_current_tools": false,
+      "consumable_note": "would break the one-row-per-dataset assumption in the loader, the gate, EVIDENCE_LINKS' dataset keys and the Foundry's generated lineage index",
+      "migration_cost": "high \u2014 schema, loader, gate, evidence records, regenerated artifacts",
+      "risk_of_implying_held_out_validation": "low",
+      "generalizes": true,
+      "generalization_note": "would need to be applied corpus-wide to be coherent, and the generality check found NO other cell that needs it",
+      "assessment": "REJECTED for now: cost and blast radius are wildly out of proportion to one wrong word, and the check that would justify it came back negative."
+    },
+    {
+      "id": "F4",
+      "wording": "retain one row, add an explicit column-to-evidence mapping",
+      "scientifically_accurate": true,
+      "glossary_compatible": true,
+      "preserves_source_wording": true,
+      "consumable_by_current_tools": false,
+      "consumable_note": "requires a new manifest column or sidecar the schema does not have",
+      "migration_cost": "medium \u2014 additive schema change plus 110 rows to leave empty",
+      "risk_of_implying_held_out_validation": "low",
+      "generalizes": true,
+      "assessment": "Genuinely better as a general convention, and it is what the audited row's own parentheticals approximate in prose. But the generality check shows the prose convention ALREADY states scope correctly everywhere, so this buys machine-readability, not correctness. Out of scope here; worth a separate proposal if a second such defect appears."
+    }
+  ],
+  "decision": {
+    "output_class": "CORRECTION_ONLY",
+    "cheap_screen_disposition": "SURVIVE",
+    "derivation": {
+      "lineage_settled_from_primary_source": true,
+      "no_data_held_out": true,
+      "attribution_confirmed_incorrect": true,
+      "survives_alternatives_A1_A2_A3_A5": true,
+      "containment_measured": true,
+      "defect_is_general": false,
+      "n_other_primary_rows_with_wrong_strength": 0
+    },
+    "strongest_supported_claim": "In this repository, one MANIFEST cell and the gate docstring that copies it label a set of micro-CT observations 'independent' when the primary source's own objective (Phys. Fluids 37, 013383, Eq. 39) fitted the tested parameters to exactly those observations. Under ROADMAP S0 the arm is post-fit reconstruction, same campaign, not held out. The attribution is materially incorrect, it is present in released source, and it reaches ZERO reader-facing claim surfaces because every downstream record independently refuses the strong reading.",
+    "strongest_claim_NOT_supported": "That this is a general defect, a novel method, or a publishable finding. The bounded corpus check found the scoping convention working correctly in every other mixed-strength cell; the audit method is a hand-read of one paper plus a grep, not a reusable instrument; and the underlying principle \u2014 calibration data are not independent validation \u2014 is textbook. Nor does it say the gate's NUMBERS are wrong, or that foster2025.machine_mode fails anything.",
+    "future_correction_targets": [
+      {
+        "n": 1,
+        "target": "puckworks/data/MANIFEST.csv \u2014 foster2025_2/fig12_14_curves validation_strength",
+        "current": "independent (CT data) / verification (fitted curves)",
+        "recommended": "post-fit, same-campaign CT observations / verification of fitted trajectories",
+        "edited_in_this_pr": false
+      },
+      {
+        "n": 2,
+        "target": "puckworks/validation/gates.py \u2014 gate_foster_ct_trajectory docstring",
+        "current": "...within their error bars (independent, 'qualitative-good')",
+        "recommended": "...within their error bars (post-fit reconstruction, same campaign, not held out; 'qualitative-good')",
+        "edited_in_this_pr": false
+      },
+      {
+        "n": 3,
+        "target": "regenerate the derived Foundry artifacts that copy the cell byte-identically",
+        "current": "evidence_lineage_index.csv and corpus_map.json inherit the wording",
+        "recommended": "`python -m puckworks.insights write` after target 1 \u2014 no hand edit; they are generated and must never be edited directly",
+        "edited_in_this_pr": false
+      }
+    ],
+    "recommended_correction_wording": "post-fit, same-campaign CT observations / verification of fitted trajectories",
+    "separate_correction_pr_recommended": true,
+    "further_literature_review_justified": false,
+    "manuscript_work_justified": false,
+    "experimental_work_justified": false
+  },
+  "novelty_review": {
+    "path": "docs/insights/screens/I-045/NOVELTY_REVIEW.md",
+    "note": "external findings are recorded there and are deliberately NOT fabricated into this deterministic output (stop condition S6)"
+  }
+}

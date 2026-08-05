@@ -170,3 +170,33 @@ The prerequisite this card flagged is confirmed, not assumed: `docs/cards/foster
 resolves and carries no `TEMPLATE_DEVIATION`; the deviation belongs to `docs/cards/foster2025.md`,
 a different card, and is not inherited.
 
+### Deep-screen outcome (IF-7, appended 2026-08-05)
+
+**`CORRECTION_ONLY`.** The cheap screen's **SURVIVE stands as history**; the deep screen classifies
+what that survival earns — [`../screens/I-045/deep_decision.md`](../screens/I-045/deep_decision.md).
+
+**The paper settles the lineage, and it confirms the cheap screen.** Eq. (39) of *Phys. Fluids*
+**37**, 013383 minimises `Σᵢᴺ [(sᵢ − s(tᵢ−t_shift))² + (Hᵢ − H(tᵢ−t_shift))²]` over `K`, `φ_T` and
+`t_shift`, and §IV A names the data in terms: *"using the mean locations for s(t) and H(t) as the
+data to fit."* Those means are exactly what this dataset's CT columns hold, at every measurement
+time. **Nothing was held out** — the centre-line crosses are one of the five positions averaged
+into the fit data, Figs 6–9 carry no model curve, Fig 15 and Appendix B are model output, and the
+coarse grind was excluded from modelling rather than reserved. The authors never call the
+comparison independent or validated; they say *"best fit"* and *"good agreement"*.
+
+**Why it is only a correction.** Two current miswordings (the manifest cell and the gate docstring
+that copies it) and **zero reader-facing over-claims** — every downstream record independently
+refuses the strong reading, and the Pages publish root carries no occurrence. The frozen
+mixed-strength rule selects 3 of 110 manifest rows and **all three state their scope correctly**,
+so the corpus convention is not broken: this is one arm's strength in one row. External review
+returns `INCREMENTAL`.
+
+It **is** in released source (v0.3.0), which is the reason to fix it: the next consumer of that
+cell would inherit it. The recommended wording — `post-fit, same-campaign CT observations /
+verification of fitted trajectories` — is named and **deliberately not applied**. A separate
+human-owned correction PR is recommended.
+
+This card's own SURVIVE arm asked whether a consumer *makes* a materially incorrect evidence-type
+attribution. It does, the primary source proves it, and the answer earns a repository correction —
+not a publication.
+
