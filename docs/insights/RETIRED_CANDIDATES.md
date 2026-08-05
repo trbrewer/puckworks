@@ -1,7 +1,16 @@
 # Retired candidates
 
-IF-5 human triage is complete and the Wave-1 cheap screens have run
+IF-5 human triage is complete and both waves of cheap screens have run
 ([`IF5_HUMAN_TRIAGE_DECISION.md`](IF5_HUMAN_TRIAGE_DECISION.md)). Retirements below.
+
+**Withdrawn retirement — I-045 (2026-08-05).** I-045 was recorded here as RETIRE on 2026-08-05 and
+the row was **removed the same day** on exact-head review: the screen had applied a local reading
+of *independent* (an independent measurement modality) instead of the definition ROADMAP §0 fixes
+(data not used in fitting the thing being tested). Under the governing definition the screen
+returns **SURVIVE**, and a survivor does not belong in this file. The corrected record is
+[`screens/I-045/`](screens/I-045/); the reasoning is in the ROADMAP §7.1 entry for that date. The
+withdrawal is recorded here rather than erased, because a retirement that turned out to be wrong
+is exactly the thing a future reader needs to be able to find.
 
 This file exists because a retirement is a result. Retired candidates are preserved so the same
 idea is not rediscovered, re-argued, and re-funded in six months; a high retirement rate is

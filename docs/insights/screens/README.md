@@ -11,10 +11,48 @@ Screens run only on candidates a human has shortlisted
 | [`I-010`](I-010/) | does anything consume `pannusch2024.closures`, and does a swap move a held-out result | **NEEDS_NEW_DATA** — path is real and total solids is settled (immaterial), but the three named bioactives have no retained per-cell RSD and the effects land inside the declared 0.3–19.7 % range |
 | [`I-024`](I-024/) | can one shared transport state explain every Angeloni species at once | **RETIRE** — per-species rate freedom buys nothing held out anywhere in the declared RSD band |
 
-Each carries a claim ceiling and an adversarial check. The two **retirements** carry reopen
-conditions in [`../RETIRED_CANDIDATES.md`](../RETIRED_CANDIDATES.md); **a `NEEDS_NEW_DATA` screen
-is not a retirement and is not recorded there** — its bundle is the record, and it names the
-missing measurement. Wave 2 is **I-045** and **I-076**.
+Each carries a claim ceiling and an adversarial check. **Retirements** carry reopen conditions
+in [`../RETIRED_CANDIDATES.md`](../RETIRED_CANDIDATES.md); **a `NEEDS_NEW_DATA` screen is not a
+retirement and is not recorded there** — its bundle is the record, and it names the missing
+measurement.
+
+## Wave 2 — reported 2026-08-05, **corrected 2026-08-05 after exact-head review**
+
+| screen | question | decision |
+|---|---|---|
+| [`I-045`](I-045/) | which evidentiary function each consumer of a mixed `independent + verification` cell leans on | **SURVIVE** — under ROADMAP §0 (*independent* = data **not used in fitting** the thing being tested) **neither** arm is independent: `k` and `φ_T` were fitted to the very s/H curves the CT columns hold. `gate_foster_ct_trajectory` calls that arm `independent`; it is post-fit reconstruction, same campaign, not held out |
+| [`I-076`](I-076/) | do `pannusch2024.solver` and `cameron2020.extraction_bdf` actually disagree, or only claim to | **NEEDS_NEW_DATA** — no admissible matched scenario. **One decisive blocker**: two grinder dial spaces with no declared adapter. Temperature is a non-blocking caveat, not a second blocker |
+
+I-076 carries a [`PROTOCOL.md`](I-076/PROTOCOL.md) frozen and committed **before** any execution.
+For I-076, **neither Pannusch nor Cameron was run**; its determination was reached at
+scenario construction. I-045 executed the existing Foster gate **solely for column-access
+tracing**, with no new model campaign, refit, or parameter study.
+
+**Both Wave-2 screens were corrected on review.** I-045's verdict changed (RETIRE → SURVIVE)
+because the screen had used a local reading of *independent* instead of the repository's governing
+definition. I-076's disposition is unchanged, but its blocker set was reduced from two to one: the
+absence of a temperature *argument* in Cameron's signature is not evidence of a different
+intervention, because Cameron carries a fixed ~90 °C water-property basis that sits inside
+Pannusch's declared 80–98 °C window. I-076's `PROTOCOL.md` records this in a dated erratum rather
+than by rewriting the frozen text.
+
+**I-045 is the first survivor.** It enters the IF-7 deep-screen queue. It is **not** in
+[`../RETIRED_CANDIDATES.md`](../RETIRED_CANDIDATES.md).
+
+## Two habits from Wave 2, each of which changed a result
+
+- **A defined term belongs to the repository, not to the screen.** I-045 read the manifest's
+  `independent` as an independent measurement *modality*. ROADMAP §0 defines it as **data not used
+  in fitting the thing being tested** — a different question with a different answer. The screen
+  now reads the authoritative §0 block from `docs/ROADMAP.md` at run time and **verifies verbatim**
+  that the definitions it applies still appear there; if the authority is reworded, the screen
+  fails rather than silently applying a stale definition.
+- **A missing argument is not a different intervention.** I-076 inferred from
+  `simulate_shot`'s lack of a temperature parameter that Cameron is isothermal in a way
+  incompatible with Pannusch. What the signature actually shows is that temperature is not
+  *exposed*; the source documents a fixed ~90 °C water-property basis. A fixed or implicit basis
+  is a narrow validity range, not an incompatible one. Read what the implementation fixes before
+  concluding that it omits.
 
 ## Three habits from Wave 1, each of which changed a result
 
