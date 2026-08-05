@@ -359,7 +359,7 @@
       "tests/test_deep_screen_i045.py"
     ],
     "self_exclusion_reason": "a screen may not count its own output as corpus exposure; excluding it also keeps the scan stable while it is written",
-    "n_files_scanned": 1322,
+    "n_files_scanned": 1328,
     "n_files_with_occurrence": 13,
     "n_surfaces_inspected_by_path_without_a_needle": 6,
     "needle_scan_blind_spot_note": "a surface can consume this dataset or gate without containing either needle \u2014 EVIDENCE_LINKS.json, PV-02, the registry and the generated public claims artifact all do. They are inspected by path and attributed alongside the scan hits, never left to the grep.",

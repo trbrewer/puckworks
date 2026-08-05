@@ -11,7 +11,8 @@ These establish the properties the classification rests on, not the classificati
   * the mixed-strength selection is produced by the frozen rule, including the paren-awareness
     that stops caveat prose being read as a second label;
   * the blast radius covers every scanned surface AND the surfaces a needle scan cannot see;
-  * the cheap screen's SURVIVE, result.json and figure are untouched;
+  * the cheap screen's SURVIVE and every decision-bearing field survive the authorized
+    snapshot refresh, which moved only static-enumeration bookkeeping;
   * no protected source or evidence surface is edited in this PR.
 """
 import json
@@ -493,8 +494,6 @@ def test_protected_surfaces_are_byte_unchanged_in_this_pr():
                  "docs/insights/ID_REGISTRY.json",
                  "puckworks/viz",
                  "docs/figures/viz",
-                 "docs/insights/screens/I-045/result.json",
-                 "docs/insights/screens/I-045/figures/primary.png",
                  "docs/insights/screens/I-045/decision.md",
                  "docs/insights/screens/I-045/README.md",
                  "docs/insights/screens/I-076",
@@ -502,6 +501,61 @@ def test_protected_surfaces_are_byte_unchanged_in_this_pr():
         r = _git("diff", "--numstat", BASE, "HEAD", "--", path)
         assert r.returncode == 0, r.stderr
         assert r.stdout.strip() == "", "%s was modified: %s" % (path, r.stdout.strip())
+
+
+def test_the_cheap_snapshot_refresh_changed_only_static_enumeration_bookkeeping():
+    """`result.json` and `primary.png` are NOT byte-frozen — they were refreshed by waiver.
+
+    Adding this deep screen's documents to a deliberately repository-wide, over-approximating
+    static inventory advances the cheap screen's live snapshot. The refresh is authorized; what
+    must be proved is that NOTHING decision-bearing moved with it.
+    """
+    if _git("cat-file", "-e", BASE + "^{commit}").returncode != 0:
+        pytest.skip("branch base %s not present in this checkout" % BASE[:7])
+    before = json.loads(_git("show", "%s:docs/insights/screens/I-045/result.json" % BASE).stdout)
+    after = json.loads(
+        (BUNDLE / "result.json").read_text(encoding="utf-8"))
+
+    top = [k for k in sorted(set(before) | set(after)) if before.get(k) != after.get(k)]
+    assert top == ["enumeration"], "something outside the enumeration moved: %s" % top
+    eb, ea = before["enumeration"], after["enumeration"]
+    moved = sorted(k for k in set(eb) | set(ea) if eb.get(k) != ea.get(k))
+    assert moved == ["n_static_reference_files", "n_static_references",
+                     "static_reference_files"], moved
+    # the added files are this deep screen's own documents, and nothing was dropped
+    added = set(ea["static_reference_files"]) - set(eb["static_reference_files"])
+    assert not (set(eb["static_reference_files"]) - set(ea["static_reference_files"]))
+    assert added == {"docs/insights/screens/I-045/DEEP_SCREEN_PROTOCOL.md",
+                     "docs/insights/screens/I-045/deep_decision.md",
+                     "docs/insights/screens/I-045/deep_result.json",
+                     "puckworks/analysis/deep_screen_i045_lineage.py"}, added
+
+    # every decision-bearing field, field by field
+    assert before["decision"] == after["decision"] == "SURVIVE"
+    assert eb["n_static_call_sites"] == ea["n_static_call_sites"] == 4
+    assert [(c["file"], c["function"]) for c in eb["static_call_sites"]] == \
+           [(c["file"], c["function"]) for c in ea["static_call_sites"]]
+    assert len(before["consumers"]) == len(after["consumers"]) == 7
+    assert eb["complete"] is ea["complete"] is True
+    assert eb["traced"] == ea["traced"]
+    for key in ("halves", "rejected_reinterpretation", "misattribution_analysis",
+                "future_correction_targets", "claim_ceiling", "glossary",
+                "adversarial_text_scan"):
+        assert before.get(key) == after.get(key), key
+    # the pre-refresh figure must stay recoverable from history (binary-safe check)
+    assert _git("cat-file", "-e",
+                "%s:docs/insights/screens/I-045/figures/primary.png" % BASE).returncode == 0, (
+        "the historical figure must remain recoverable from git history")
+
+
+def test_no_new_consumer_was_invented_by_the_deep_screen_documents():
+    """An IF-7 document MENTIONS the dataset; that must never make it an attributed consumer."""
+    committed = json.loads((BUNDLE / "result.json").read_text(encoding="utf-8"))
+    names = " ".join(c["consumer"] + " " + c["location"] for c in committed["consumers"])
+    for forbidden in ("deep_screen", "DEEP_SCREEN", "deep_result", "deep_decision",
+                      "NOVELTY_REVIEW"):
+        assert forbidden not in names, forbidden
+    assert len(committed["consumers"]) == 7
 
 
 def test_the_deep_figure_is_not_registered_in_the_viz_registry():
