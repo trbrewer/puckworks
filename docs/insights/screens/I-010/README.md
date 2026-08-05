@@ -197,8 +197,32 @@ inside. That SURVIVE arm does not fire.
 
 **Recalibration branch:** not triggered (no admissible swap is material throughout).
 
-**What would resolve it:** a solute-specific RSD **above ~3.2 %** retires the candidate; **below
-~0.7 %** it survives; between them it splits by substitution.
+**What would resolve it — a VECTOR rule, not a scalar one.** The missing evidence is three
+*separate* solute-specific uncertainty authorities, one per analyte. Nothing establishes that
+they share a common value, so the resolution rule must be stated per solute. Each threshold is
+that solute's **largest admissible median effect** (all three come from the K(T) swap):
+
+| solute | resolution threshold |
+|---|---|
+| caffeine | **3.1707 %** |
+| trigonelline | **3.0608 %** |
+| 5CQA / CGA | **3.1382 %** |
+
+An effect is material only when it **exceeds** the applicable uncertainty, so:
+
+```
+RETIRE   only if   RSD_caffeine     >= 3.1707 %
+                   AND RSD_trigonelline >= 3.0608 %
+                   AND RSD_5CQA         >= 3.1382 %
+
+SURVIVE  if        RSD_caffeine     <  3.1707 %
+                   OR  RSD_trigonelline <  3.0608 %
+                   OR  RSD_5CQA         <  3.1382 %
+```
+
+Retirement needs **every** solute to clear **its own** threshold; a single solute below its own
+threshold leaves a material admissible swap and the candidate survives. Any other combination is
+impossible under this criterion — the two arms are exhaustive.
 
 ## Figure
 

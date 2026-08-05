@@ -185,6 +185,78 @@ def test_reader_facing_text_does_not_revert_to_the_false_zero_of_eighteen_claim(
         assert ("%d of 18" % n) in dec, "count %d of 18 missing from decision.md" % n
 
 
+def test_resolution_rule_is_vector_valued_per_solute():
+    """The missing evidence is THREE solute-specific authorities, not one common RSD.
+
+    Added by the 2026-08-05 correction. The earlier shorthand ("above ~3.2 % retires, below
+    ~0.7 % survives") collapsed three separate authorities into one scalar and invented a
+    survival boundary that is not one. Each solute's threshold is its own LARGEST admissible
+    median effect, and the candidate-level rule is an AND over retirement / an OR over survival.
+    """
+    r = json.loads((BUNDLE / "result.json").read_text(encoding="utf-8"))
+    adm = [x for x in r["substitutions"] if x.get("ran") and x.get("counts_toward_decision")]
+    assert adm, "no admissible substitutions in the committed result"
+
+    # derive, do not hardcode: a solute's threshold is the largest admissible median effect on it
+    thresholds = {sp: max(x["per_output"][sp]["median_effect_pct"] for x in adm)
+                  for sp in ("caffeine", "trigonelline", "5CQA")}
+    assert thresholds["caffeine"] == pytest.approx(3.1707, abs=5e-5)
+    assert thresholds["trigonelline"] == pytest.approx(3.0608, abs=5e-5)
+    assert thresholds["5CQA"] == pytest.approx(3.1382, abs=5e-5)
+
+    # they are genuinely distinct — that is why a single scalar cannot express the rule
+    assert len({round(v, 4) for v in thresholds.values()}) == 3
+
+    def all_immaterial(rsd):
+        """Replay the screen's own classifier at a per-solute RSD vector."""
+        tds_rsd = list(S._tds_rsd_by_condition(S._held_out_shots()).values())
+        for x in adm:
+            for sp, thr in thresholds.items():
+                effects = [x["per_output"][sp]["median_effect_pct"]] * 18
+                orig = S.UNCERTAINTY_AUTHORITY[sp]["range_pct"]
+                try:
+                    S.UNCERTAINTY_AUTHORITY[sp]["range_pct"] = [rsd[sp], rsd[sp]]
+                    st = S._classify(sp, effects, tds_rsd)["status"]
+                finally:
+                    S.UNCERTAINTY_AUTHORITY[sp]["range_pct"] = orig
+                if st != S.STATUS_IMMATERIAL:
+                    return False
+        return True
+
+    eps = 1e-6
+    at_or_above = {sp: thresholds[sp] for sp in thresholds}
+    assert all_immaterial(at_or_above), "RETIRE arm: >= its own threshold must be immaterial"
+
+    # OR semantics: ONE solute below its own threshold is enough to keep a material swap alive
+    for sp in thresholds:
+        v = dict(at_or_above)
+        v[sp] = thresholds[sp] - eps
+        assert not all_immaterial(v), (
+            "a single solute below its own threshold must leave a material swap: %s" % sp)
+
+
+def test_obsolete_scalar_resolution_shorthand_is_gone():
+    """The ~3.2 %/~0.7 % candidate-boundary wording must not return anywhere reader-facing."""
+    import re
+    targets = [BUNDLE / "decision.md", BUNDLE / "README.md", REPO / "docs/ROADMAP.md",
+               *(REPO / "docs/insights/candidates").glob("I-010_*.md")]
+    # a scalar retire/survive boundary stated as a single number
+    banned = [
+        re.compile(r"above\s*~?\s*3\.2\s*%[^.\n]{0,60}retire", re.I),
+        re.compile(r"below\s*~?\s*0\.7\s*%[^.\n]{0,60}surviv", re.I),
+        re.compile(r"retires the candidate[^.\n]{0,40}below\s*~?\s*0\.7", re.I),
+        re.compile(r"splits by substitution", re.I),
+    ]
+    for t in targets:
+        text = t.read_text(encoding="utf-8")
+        # the ROADMAP records the WITHDRAWAL of the shorthand; allow it only there, quoted
+        for pat in banned:
+            for m in pat.finditer(text):
+                ctx = text[max(0, m.start() - 260):m.end() + 120]
+                assert "withdrawn" in ctx.lower(), (
+                    "obsolete scalar resolution shorthand in %s: %r" % (t.name, m.group(0)))
+
+
 def test_claim_ceiling_is_not_a_conditionwise_total_solids_claim():
     """The ceiling may state a median result; it may not say every condition is below its RSD."""
     text = (BUNDLE / "decision.md").read_text(encoding="utf-8")

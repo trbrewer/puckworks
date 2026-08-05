@@ -172,9 +172,32 @@ CGA in the `angeloni2023` campaign. `angeloni2023/MANIFEST_UNCERTAINTY.md` alrea
 as owed ("raw replicates still owed"), so this is a request for data the campaign has and has not
 released, not a new experiment.
 
-**What would resolve it:** any solute-specific RSD **above ~3.2 %** retires the candidate (every
-admissible effect falls below it); any value **below ~0.7 %** makes K(T) and D(T) material on all
-three bioactives and the candidate survives; a value between them splits by substitution.
+**What would resolve it — a VECTOR rule, not a scalar one.** The missing evidence is three
+*separate* solute-specific uncertainty authorities, one per analyte. Nothing establishes that
+they share a common value, so the resolution rule must be stated per solute. Each threshold is
+that solute's **largest admissible median effect** (all three come from the K(T) swap):
+
+| solute | resolution threshold |
+|---|---|
+| caffeine | **3.1707 %** |
+| trigonelline | **3.0608 %** |
+| 5CQA / CGA | **3.1382 %** |
+
+An effect is material only when it **exceeds** the applicable uncertainty, so:
+
+```
+RETIRE   only if   RSD_caffeine     >= 3.1707 %
+                   AND RSD_trigonelline >= 3.0608 %
+                   AND RSD_5CQA         >= 3.1382 %
+
+SURVIVE  if        RSD_caffeine     <  3.1707 %
+                   OR  RSD_trigonelline <  3.0608 %
+                   OR  RSD_5CQA         <  3.1382 %
+```
+
+Retirement needs **every** solute to clear **its own** threshold; a single solute below its own
+threshold leaves a material admissible swap and the candidate survives. Any other combination is
+impossible under this criterion — the two arms are exhaustive.
 
 ## Why
 
@@ -196,9 +219,10 @@ three bioactives and the candidate survives; a value between them splits by subs
 > repository declares moves the predicted **total-solids** concentration by a **median** of less
 > than the **median** measured per-condition replicate RSD (5.30 %) across the 18 conditions —
 > not at every individual condition, where K(T) exceeds its own condition's RSD at 2 of 18 and
-> D(T) at 1 of 18. For caffeine, trigonelline and 5CQA the corresponding effects (≈0.7–3.2 %
-> median) fall inside the campaign's declared 0.3–19.7 % replicate range, so the campaign's
-> retained uncertainty does not determine whether they are material.
+> D(T) at 1 of 18. For caffeine, trigonelline and 5CQA the K(T) and D(T) median effects
+> (0.6631 %–3.1707 %; ρ(T) is below 0.03 % and immaterial throughout) fall inside the campaign's
+> declared 0.3–19.7 % replicate range, so the campaign's retained uncertainty does not determine
+> whether they are material.
 
 It licenses **nothing** beyond that. In particular it does **not** say:
 
@@ -221,8 +245,10 @@ The ceiling may not exceed the weakest evidence consumed. The weakest inputs are
 run and returned `NEEDS_NEW_DATA`, and the bundle is the record.
 
 The named data request — solute-specific replicate RSD for caffeine / trigonelline / CGA — is
-the unblocking step. It is the *same* missing measurement I-024 identifies, which makes it a
-single request serving two candidates.
+the unblocking step, and it is **three** values, not one: each solute is compared against its own
+threshold above, and a single solute below its own threshold is enough to survive the candidate.
+The same measurement is what I-024 identifies as owed, so one request serves both — though for
+I-024 it would sharpen C1/C2 rather than change its decisive arm.
 
 No deep screen, no novelty research: triage rule 1 gates those on `SURVIVE`, and this is not one.
 
