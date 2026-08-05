@@ -1,0 +1,380 @@
+{
+  "screen": "I-045",
+  "dataset": "foster2025_2/fig12_14_curves",
+  "disposition": [
+    "CHEAP_SCIENTIFIC_SCREEN",
+    "NOT_A_PUBLICATION_RESULT",
+    "NOT_A_MODEL_VALIDATION_UPGRADE"
+  ],
+  "controlling_source_card": "docs/cards/foster2025_2.md",
+  "source_card_note": "docs/cards/foster2025.md is a DIFFERENT card and carries its own TEMPLATE_DEVIATION; this screen does not use or inherit it.",
+  "manifest_validation_strength_verbatim": "independent (CT data) / verification (fitted curves)",
+  "manifest_caveat_verbatim": "s_fit/H_fit = paper ODE (0.02s grid); s_data/H_data = pixel-digitized CT (5-line mean); Fig8 -H differs from Fig14 H (do not mix)",
+  "controlling_card_circularity_note_verbatim": "Note the circularity: k and \u03c6_T are fitted to the same s/H curves being reproduced, so the source validates model FORM, not parameter-free prediction.",
+  "evidence_types_are_not_ordinal": "independent and verification are different evidentiary FUNCTIONS, not two strengths of one kind. A consumer may legitimately require both. Nothing in this screen ranks them, and 'uses both' is a correct outcome.",
+  "halves": {
+    "verification_fitted_curves": {
+      "key": "verification_fitted_curves",
+      "manifest_wording": "verification (fitted curves)",
+      "function": "Does our port reproduce the SOURCE'S OWN fitted ODE output? A statement about the implementation, not about reality.",
+      "columns": [
+        "s_fit_mm",
+        "w_fit_mm",
+        "H_fit_mm"
+      ],
+      "n_rows": 461,
+      "provenance": "the paper's ODE evaluated on a 0.02 s grid (MANIFEST caveat, verbatim)"
+    },
+    "independent_ct_data": {
+      "key": "independent_ct_data",
+      "manifest_wording": "independent (CT data)",
+      "function": "Does the trajectory sit on the MEASURED micro-CT points? A statement about a measurement \u2014 but see `independence_sense` below: measured is not the same as held out.",
+      "columns": [
+        "s_data_mm",
+        "s_data_err_mm",
+        "w_data_mm",
+        "w_data_err_mm",
+        "H_data_mm",
+        "H_data_err_mm"
+      ],
+      "n_rows": 8,
+      "provenance": "pixel-digitized CT, 5-line mean (MANIFEST caveat, verbatim)",
+      "independence_sense": "AMBIGUOUS IN THE MANIFEST, RESOLVED BY THE CARD. 'independent' here means an independent MEASUREMENT MODALITY (a real CT observation, as opposed to model output). It does NOT mean held out from the fit: the controlling card records that k and phi_T were fitted to these same s/H curves. Anything reading it in the ROADMAP S0 sense \u2014 'data not used in fitting the thing being tested' \u2014 would be reading it wrongly."
+    },
+    "time_base_only": {
+      "key": "time_base_only",
+      "manifest_wording": "(not an evidentiary half \u2014 the shared abscissa)",
+      "function": "Supplies the time grid. Carries no evidentiary function of either kind.",
+      "columns": [
+        "t_s"
+      ],
+      "n_rows": 461,
+      "provenance": "the 0.02 s experiment-time grid both halves are expressed on"
+    }
+  },
+  "consumers": [
+    {
+      "consumer": "gate_foster_ct_trajectory",
+      "kind": "gate",
+      "location": "puckworks/validation/gates.py:1125",
+      "evidence_half": "both",
+      "source_row_and_columns_read": "all 461 rows: t_s, s_fit_mm, H_fit_mm (RMSE arm); the 8 non-empty rows: s_data_mm, s_data_err_mm, H_data_mm, H_data_err_mm (bracketing arm)",
+      "assertion": "TWO assertions in one gate. (a) the port's s(t)/H(t) match the paper's own fitted ODE curves to < 0.2 mm RMSE; (b) the port brackets at least 4 of the 8 digitized CT points within max(err, 0.5 mm) error bars.",
+      "independence_load_bearing": true,
+      "verification_reproduction_load_bearing": true,
+      "both_legitimately_required": true,
+      "neither_load_bearing": false,
+      "misleading_wording": "The docstring's parenthetical '(independent, \"qualitative-good\")' on the CT arm copies the MANIFEST word without the card's circularity qualifier. Read in the ROADMAP S0 sense ('data not used in fitting the thing being tested') it would be wrong \u2014 the card records k and phi_T as fitted to these same s/H curves. SURFACED, and see `verdict.misattribution_analysis`: every downstream consumer of this gate independently refuses the strong reading, so the wording does not propagate.",
+      "classification": "BOTH_LOAD_BEARING",
+      "rationale": "Assertion (a) is carried ONLY by the fitted-curve columns and is a statement about the port. Assertion (b) is carried ONLY by the CT columns and is a statement about a measurement. Both halves are genuinely required and neither substitutes for the other \u2014 the legitimate 'uses both' case the candidate's own alternative explanation anticipates."
+    },
+    {
+      "consumer": "EVIDENCE_LINKS foster2025.machine_mode::gate_foster_ct_trajectory",
+      "kind": "evidence_record",
+      "location": "puckworks/paper3/EVIDENCE_LINKS.json",
+      "evidence_half": "both",
+      "source_row_and_columns_read": "consumes the gate, and names the dataset TWICE with different roles: {evidence_role: eval, independence: same_campaign} and {evidence_role: fit, independence: fit_input}",
+      "assertion": "Records the gate's claim verbatim and adjudicates its evidentiary status: evidence_strength = source_curve_reproduction; relationship = same_campaign_not_held_out; reality_facing = false; support_status = context_only.",
+      "independence_load_bearing": false,
+      "verification_reproduction_load_bearing": true,
+      "both_legitimately_required": false,
+      "neither_load_bearing": false,
+      "misleading_wording": null,
+      "classification": "VERIFICATION_LOAD_BEARING",
+      "rationale": "DECISIVE FOR THIS AUDIT. This record does not merely avoid the strong reading of 'independent' \u2014 it explicitly REFUSES it. It splits the one dataset into an eval role and a FIT role, marks the eval role `same_campaign` rather than independent, sets reality_facing false, and carries the card's circularity into its own caveat field. Its claim_not_supported field states that the record 'does not establish parameter-free or out-of-sample prediction'. The load-bearing evidentiary function it claims is verification/reproduction only."
+    },
+    {
+      "consumer": "registry entry foster2025.machine_mode",
+      "kind": "registry",
+      "location": "puckworks/models/__init__.py:328",
+      "evidence_half": "neither",
+      "source_row_and_columns_read": "names the gate in its `gates` list; reads no column itself",
+      "assertion": "Registers the component with evidence_strength `source_curve_reproduction` and lists gate_foster_ct_trajectory among its gates.",
+      "independence_load_bearing": false,
+      "verification_reproduction_load_bearing": false,
+      "both_legitimately_required": false,
+      "neither_load_bearing": true,
+      "misleading_wording": null,
+      "classification": "NEITHER_LOAD_BEARING",
+      "rationale": "A registration, not an assertion about this dataset. The component-level strength it carries is `source_curve_reproduction`, which is the reproduction function, and it makes no independence claim of any kind."
+    },
+    {
+      "consumer": "PV-02 evidence selection (exclusion rationale)",
+      "kind": "public_claim",
+      "location": "puckworks/public/claims.py:208",
+      "evidence_half": "neither",
+      "source_row_and_columns_read": "reads no column; names the gate only to EXCLUDE it",
+      "assertion": "States that `gate_foster_ct_trajectory` remains excluded from PV-02 'on its own merits: it concerns wetting-front depth s(t) and headspace H(t), which this claim does not mention.'",
+      "independence_load_bearing": false,
+      "verification_reproduction_load_bearing": false,
+      "both_legitimately_required": false,
+      "neither_load_bearing": true,
+      "misleading_wording": null,
+      "classification": "NEITHER_LOAD_BEARING",
+      "rationale": "An exclusion is the strongest possible non-use: the only reader-facing public claim in the neighbourhood explicitly declines to stand on this dataset at all, and gives an observable-scope reason for doing so."
+    },
+    {
+      "consumer": "paper3 evidence graph (generated)",
+      "kind": "generated_report",
+      "location": "docs/paper3_resource/generated/evidence_graph.json, evidence_graph_matrix.{csv,md}",
+      "evidence_half": "both",
+      "source_row_and_columns_read": "derived from EVIDENCE_LINKS.json; reads no column directly",
+      "assertion": "Renders the same adjudication: source_curve_reproduction, same_campaign_not_held_out, context_only, reality_facing false.",
+      "independence_load_bearing": false,
+      "verification_reproduction_load_bearing": true,
+      "both_legitimately_required": false,
+      "neither_load_bearing": false,
+      "misleading_wording": null,
+      "classification": "VERIFICATION_LOAD_BEARING",
+      "rationale": "A faithful rendering of the evidence record above; it introduces no attribution of its own and cannot promote what its source refuses."
+    },
+    {
+      "consumer": "paper3 Fig 2 evidence vector (generated)",
+      "kind": "generated_report",
+      "location": "docs/figures/paper3/source_data/fig2_evidence_vectors.csv",
+      "evidence_half": "both",
+      "source_row_and_columns_read": "derived; reads no column directly",
+      "assertion": "Records relation `source_curve_reproduction`, scope naming BOTH 'the paper's fitted ODE curves' and 'digitized CT measurements', and outcome `negative`.",
+      "independence_load_bearing": false,
+      "verification_reproduction_load_bearing": true,
+      "both_legitimately_required": false,
+      "neither_load_bearing": false,
+      "misleading_wording": null,
+      "classification": "VERIFICATION_LOAD_BEARING",
+      "rationale": "Names both halves in its scope string \u2014 correctly, since the gate reads both \u2014 while recording the relation as reproduction and the outcome as NEGATIVE. A negative outcome cannot be an over-claim in either direction."
+    },
+    {
+      "consumer": "tests/test_data_loaders.py::foster loader smoke",
+      "kind": "test",
+      "location": "tests/test_data_loaders.py:131",
+      "evidence_half": "independent_ct_data",
+      "source_row_and_columns_read": "asserts at least one row has a non-empty s_data_mm",
+      "assertion": "Asserts the loader returns rows in which the CT column is populated. A parsing check, not an evidentiary claim.",
+      "independence_load_bearing": false,
+      "verification_reproduction_load_bearing": false,
+      "both_legitimately_required": false,
+      "neither_load_bearing": true,
+      "misleading_wording": null,
+      "classification": "NEITHER_LOAD_BEARING",
+      "rationale": "Touches the independent half but asserts nothing about evidence: it checks that the sparse column survived ingestion. Reading a half is not relying on it."
+    }
+  ],
+  "consumers_by_classification": {
+    "BOTH_LOAD_BEARING": [
+      "gate_foster_ct_trajectory"
+    ],
+    "VERIFICATION_LOAD_BEARING": [
+      "EVIDENCE_LINKS foster2025.machine_mode::gate_foster_ct_trajectory",
+      "paper3 evidence graph (generated)",
+      "paper3 Fig 2 evidence vector (generated)"
+    ],
+    "NEITHER_LOAD_BEARING": [
+      "registry entry foster2025.machine_mode",
+      "PV-02 evidence selection (exclusion rationale)",
+      "tests/test_data_loaders.py::foster loader smoke"
+    ]
+  },
+  "enumeration": {
+    "n_static_references": 64,
+    "n_static_reference_files": 19,
+    "static_reference_files": [
+      "docs/ROADMAP.md",
+      "docs/figures/paper3/source_data/fig2_evidence_vectors.csv",
+      "docs/insights/IF5_HUMAN_TRIAGE_DECISION.md",
+      "docs/insights/candidates/I-045_which_strength_is_load_bearing_where_the_manifes.md",
+      "docs/insights/screens/I-040/decision.md",
+      "docs/insights/screens/I-045/result.json",
+      "docs/paper3_resource/generated/component_gate_matrix.csv",
+      "docs/paper3_resource/generated/evidence_graph.json",
+      "docs/paper3_resource/generated/evidence_graph_matrix.csv",
+      "docs/paper3_resource/generated/evidence_graph_matrix.md",
+      "docs/public/generated/claims.json",
+      "puckworks/analysis/screen_i045_evidence_halves.py",
+      "puckworks/data/MANIFEST.csv",
+      "puckworks/data/__init__.py",
+      "puckworks/models/__init__.py",
+      "puckworks/paper3/EVIDENCE_LINKS.json",
+      "puckworks/public/claims.py",
+      "puckworks/validation/gates.py",
+      "tests/test_data_loaders.py"
+    ],
+    "n_static_call_sites": 2,
+    "static_call_sites": [
+      {
+        "file": "puckworks/validation/gates.py",
+        "line": 1132,
+        "function": "gate_foster_ct_trajectory"
+      },
+      {
+        "file": "tests/test_data_loaders.py",
+        "line": 131,
+        "function": "test_foster_machine_mode"
+      }
+    ],
+    "traced": {
+      "gate_foster_ct_trajectory": {
+        "columns_read": [
+          "H_data_err_mm",
+          "H_data_mm",
+          "H_fit_mm",
+          "s_data_err_mm",
+          "s_data_mm",
+          "s_fit_mm",
+          "t_s"
+        ],
+        "error": null,
+        "halves_touched": [
+          "independent_ct_data",
+          "time_base_only",
+          "verification_fitted_curves"
+        ]
+      }
+    },
+    "n_attributed_consumers": 7,
+    "uncovered_call_site_functions": [],
+    "uncovered_traced_consumers": [],
+    "complete": true
+  },
+  "adversarial_text_scan": {
+    "n_hits": 6,
+    "hits": [
+      {
+        "surface": "gate docstring",
+        "file": "puckworks/validation/gates.py",
+        "token": "independent",
+        "context": "own fitted ODE curves to line width (<0.2 mm RMSE, verifying the port) and bracket a majority of the CT data points within their error bars (independent, 'qualitative-good').\"\"\" import numpy as np from puckworks.models.foster2025 import machine_mode as fm r = fm.solve() rows = gates_da",
+        "context_classification": {
+          "classification": "AMBIGUOUS_MEASUREMENT_SENSE",
+          "note": "Copies the MANIFEST word for the CT arm. True in the measurement-modality sense; would be wrong in the ROADMAP S0 held-out sense. No downstream consumer takes the strong reading \u2014 see the misattribution analysis. Surfaced as a wording risk.",
+          "matched_fragment": "(independent, 'qualitative-good')"
+        }
+      },
+      {
+        "surface": "controlling source card",
+        "file": "docs/cards/foster2025_2.md",
+        "token": "validation",
+        "context": "ted (experiment start-time alignment) | Dimensionless (Table II): P_c 0.0987, P_m 14.8038, \u210b 0.782, G 9.32e-4, R 2e-4 (nominal). ## Calibration and validation offered by the source Fine-grind experiment only: 10 g Arabica, <300 \u03bcm grind, 12 kg tamp, Delonghi EC685, ROXS micro-CT at 1 reconstruction/s. Front",
+        "context_classification": {
+          "classification": "SOURCE_CARD_SECTION_HEADING",
+          "note": "A template section heading in the controlling card. Carries no attribution.",
+          "matched_fragment": "## Calibration and validation offered by the source"
+        }
+      },
+      {
+        "surface": "controlling source card",
+        "file": "docs/cards/foster2025_2.md",
+        "token": "validation",
+        "context": "a data/foster2025_params.csv for regression tests. - Fig. 6/8 (fine grind): s(t) and \u2212H(t) at 1 s resolution with error bars, t = 0\u20138 s \u2014 the key validation series; transcribable from plots. - Figs. 12\u201314: fitted s, w = H + \u03c6_T s, H curves vs data (mean of 5 vertical lines + center line). - Fig. 15: nor",
+        "context_classification": {
+          "classification": "OTHER_DATASET",
+          "note": "Describes Figs 6/8 (s(t) and -H(t) at 1 s with error bars), which are the SEPARATE manifest rows foster2025_2/fig6_front_position and .../fig8_headspace \u2014 not the row under audit. The MANIFEST caveat warns explicitly that Fig 8 -H differs from Fig 14 H and must not be mixed.",
+          "matched_fragment": "the key validation series"
+        }
+      },
+      {
+        "surface": "MANIFEST row",
+        "file": "puckworks/data/MANIFEST.csv",
+        "token": "independent",
+        "context": "urves + CT data)\",digitization (Tim),s; mm,s; mm,y (data err),paper (DOI 10.1063/5.0245167),item 1.6: front s(t)/headspace H(t) trajectory validation,independent (CT data) / verification (fitted curves),s_fit/H_fit = paper ODE (0.02s grid); s_data/H_data = pixel-digitized CT (5-line mean); Fig8 -H differs from",
+        "context_classification": {
+          "classification": "THE_TARGET_CELL",
+          "note": "The MANIFEST cell under audit, quoted verbatim. Its 'independent' is the measurement-modality sense; the controlling card supplies the circularity that rules out the held-out sense.",
+          "matched_fragment": "independent (CT data) / verification (fitted curves)"
+        }
+      },
+      {
+        "surface": "MANIFEST row",
+        "file": "puckworks/data/MANIFEST.csv",
+        "token": "verification",
+        "context": "zation (Tim),s; mm,s; mm,y (data err),paper (DOI 10.1063/5.0245167),item 1.6: front s(t)/headspace H(t) trajectory validation,independent (CT data) / verification (fitted curves),s_fit/H_fit = paper ODE (0.02s grid); s_data/H_data = pixel-digitized CT (5-line mean); Fig8 -H differs from Fig14 H (do not mix)",
+        "context_classification": {
+          "classification": "THE_TARGET_CELL",
+          "note": "The other half of the same cell under audit.",
+          "matched_fragment": "independent (CT data) / verification (fitted curves)"
+        }
+      },
+      {
+        "surface": "MANIFEST row",
+        "file": "puckworks/data/MANIFEST.csv",
+        "token": "validation",
+        "context": "4 (fitted curves + CT data)\",digitization (Tim),s; mm,s; mm,y (data err),paper (DOI 10.1063/5.0245167),item 1.6: front s(t)/headspace H(t) trajectory validation,independent (CT data) / verification (fitted curves),s_fit/H_fit = paper ODE (0.02s grid); s_data/H_data = pixel-digitized CT (5-line mean); Fig8 -H",
+        "context_classification": {
+          "classification": "GATE_USE_FIELD_NOT_AN_EVIDENCE_CLAIM",
+          "note": "The MANIFEST `gate_use` column names what the row is FOR. It is a routing field, not a strength claim; the strength claim is the adjacent validation_strength cell.",
+          "matched_fragment": "item 1.6: front s(t)/headspace H(t) trajectory validation"
+        }
+      }
+    ],
+    "n_unclassified": 0,
+    "tokens": [
+      "independent",
+      "independently",
+      "verification",
+      "verified",
+      "validation"
+    ],
+    "surfaces_scanned": [
+      "gate docstring",
+      "evidence record",
+      "public claim (exclusion)",
+      "controlling source card",
+      "MANIFEST row"
+    ]
+  },
+  "structural_independence_fields": {
+    "records": [
+      {
+        "file": "puckworks/paper3/EVIDENCE_LINKS.json",
+        "evidence_role": "eval",
+        "independence": "same_campaign",
+        "source_card": "foster2025_2",
+        "reading": "`same_campaign` is not an independence claim \u2014 it is a refusal of one."
+      },
+      {
+        "file": "puckworks/paper3/EVIDENCE_LINKS.json",
+        "evidence_role": "fit",
+        "independence": "fit_input",
+        "source_card": "foster2025_2",
+        "reading": "`fit_input` is not an independence claim \u2014 it is a refusal of one."
+      },
+      {
+        "file": "puckworks/paper3/EVIDENCE_LINKS.json",
+        "field": "relationship",
+        "value": "same_campaign_not_held_out",
+        "reading": "records the dataset as not held out"
+      },
+      {
+        "file": "puckworks/paper3/EVIDENCE_LINKS.json",
+        "field": "reality_facing",
+        "value": false,
+        "reading": "false \u2014 the record does not face reality"
+      },
+      {
+        "file": "puckworks/paper3/EVIDENCE_LINKS.json",
+        "field": "support_status",
+        "value": "context_only",
+        "reading": "context_only"
+      }
+    ],
+    "n_prose_token_hits_on_this_surface": 0,
+    "why_no_prose_hits": "EVIDENCE_LINKS.json contains none of the five scanned tokens; it expresses independence structurally. Read the fields, not the prose.",
+    "asserts_independence": false
+  },
+  "misattribution_analysis": {
+    "arm_a_findings": [],
+    "wording_risk_located_at": "gate_foster_ct_trajectory docstring",
+    "wording_risk_description": "The docstring labels the CT arm '(independent, \"qualitative-good\")', copying the MANIFEST word without the controlling card's circularity qualifier.",
+    "downstream_consumers_examined": [
+      "EVIDENCE_LINKS foster2025.machine_mode::gate_foster_ct_trajectory",
+      "registry entry foster2025.machine_mode",
+      "PV-02 evidence selection (exclusion rationale)",
+      "paper3 evidence graph (generated)",
+      "paper3 Fig 2 evidence vector (generated)"
+    ],
+    "downstream_consumers_asserting_independence": [],
+    "propagates": false,
+    "resolution": "Every downstream consumer independently REFUSES the strong reading: the evidence record splits the dataset into eval(same_campaign) and fit(fit_input) roles, sets reality_facing false and support_status context_only, and states in claim_not_supported that it 'does not establish parameter-free or out-of-sample prediction'; the generated graph and Fig-2 vector render that unchanged (the latter with outcome `negative`); the registry carries source_curve_reproduction; and the only public claim in the neighbourhood EXCLUDES the gate outright. The wording risk is real and is recorded, but it is contained at the docstring and reaches no evidentiary surface."
+  },
+  "decision": "RETIRE",
+  "decision_reasoning": "Every real consumer uses the correct evidentiary function, legitimately uses both, or makes no evidentiary-strength claim. The one wording risk is contained at a gate docstring and is refused by every downstream consumer."
+}
