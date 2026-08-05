@@ -203,12 +203,19 @@ def test_future_correction_targets_are_named_and_not_edited(result):
 def test_the_named_source_surfaces_are_untouched_in_this_pr():
     """A screen may identify an attribution defect; it may not repair these files."""
     import subprocess
+
+    def git(*args):
+        return subprocess.run(("git",) + args, cwd=REPO, capture_output=True, text=True)
+
     base = "14c3753c6e8dab2995332dbe1c3d1e04c4348051"
+    if git("cat-file", "-e", base + "^{commit}").returncode != 0:
+        # a shallow checkout cannot answer this; skip loudly rather than pass on empty stdout
+        pytest.skip("branch base %s not present in this checkout" % base[:7])
     for path in ("puckworks/data/MANIFEST.csv", "puckworks/validation/gates.py",
                  "puckworks/paper3/EVIDENCE_LINKS.json", "docs/paper3_resource/generated"):
-        out = subprocess.run(["git", "diff", "--numstat", base, "HEAD", "--", path],
-                             cwd=REPO, capture_output=True, text=True).stdout.strip()
-        assert out == "", "%s was modified: %s" % (path, out)
+        r = git("diff", "--numstat", base, "HEAD", "--", path)
+        assert r.returncode == 0, r.stderr
+        assert r.stdout.strip() == "", "%s was modified: %s" % (path, r.stdout.strip())
 
 
 def test_evidence_links_already_refuses_held_out_and_reality_facing(result):
