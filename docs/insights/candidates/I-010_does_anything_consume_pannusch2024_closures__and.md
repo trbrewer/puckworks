@@ -170,8 +170,10 @@ recording producer→consumer edges in a component registry. Conditional on SURV
 validity-range arm did not fire, but materiality changes inside the campaign's declared
 0.3–19.7 % bioactive replicate-RSD range for K(T) and D(T) on all three named solutes. For
 **total solids**, the one scored output whose replicate uncertainty the campaign retains, every
-admissible swap is immaterial. Missing evidence, named: solute-specific replicate RSD for
-caffeine, trigonelline and CGA.
+admissible swap is immaterial **by the predeclared median-effect vs median-RSD criterion**
+(median measured RSD 5.30 %) — though not at every individual condition, where K(T) exceeds its
+own condition's RSD at 2 of 18 and D(T) at 1 of 18. Missing evidence, named: solute-specific
+replicate RSD for caffeine, trigonelline and CGA.
 
 Not a retirement, so **not** recorded in `RETIRED_CANDIDATES.md`.
 

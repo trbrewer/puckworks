@@ -14,8 +14,10 @@ both:
 
   1. "C3 is scale-free in the assumed RSD." IT IS NOT. Changing the bioactive RSD changes the
      weight of the three bioactives RELATIVE to total solids, whose per-condition RSD is
-     measured and fixed. That reweighting REFITS the shared model — observably: the shared rate
-     for Arabica moved 6.5 -> 0.440 and Robusta 0.440 -> 6.5 between the two endpoints. A
+     measured and fixed. That reweighting REFITS the shared model, and the selected shared rate
+     is observed to CHANGE across the band — at discrete breakpoints, since the selection is an
+     argmin over a finite grid, not a continuous optimum. (The specific rates depend on the grid
+     the run ends with, so they are reported in `result.json` rather than quoted here.) A
      uniform rescale of already-computed z values (what the old test did) is not that
      perturbation, and asserting scale-freeness from it was vacuous.
   2. "The verdict is invariant across the band." That was inferred from TWO endpoints. Two
@@ -564,8 +566,16 @@ def amplitude_diagnostic(pred, conds, coefs, shared_idx, rates, x):
                                "multiplicative model error; this screen cannot separate them.")
 
 
-def amplitude_vs_table7(coefs, shared_idx, rates):
-    """Compare the fitted amplitude against angeloni Table 7, with the matching qualified."""
+def amplitude_vs_table7(coefs, shared_idx, rates, rsd_pct=None, shared_rates=None,
+                        all_selections=None):
+    """Compare the fitted amplitude against angeloni Table 7, with the matching qualified.
+
+    The fitted amplitude depends on which shared rate was selected, which in turn depends on the
+    assumed bioactive RSD. The comparison is therefore SETTING-DEPENDENT and its provenance is
+    recorded: the RSD it was evaluated at and the shared rates in force. `all_selections`, when
+    given, is the list of distinct shared-rate selections across the band; the count is then also
+    reported over every one of them so no setting-independent claim is implied.
+    """
     from puckworks.models.pannusch2024 import solver as ps
     from puckworks import data as d
     table2 = {s: v["c_s0"] for s, v in ps._solute_params().items()}
@@ -599,12 +609,43 @@ def amplitude_vs_table7(coefs, shared_idx, rates):
                            note="no Table 7 inventory exists for the aggregate total-solids "
                                 "proxy")
             rows.append(rec)
+    across = None
+    if all_selections:
+        counts = []
+        for sel in all_selections:
+            c = 0
+            for v in VARIETIES:
+                ri = sel[v]
+                for sp, col in inv_col.items():
+                    L = coefs[v][ri]["levels"][sp]
+                    t7 = inv[(v, col)]
+                    c += int(abs(L - t7) < abs(table2[sp] - t7))
+            counts.append(c)
+        across = dict(n_distinct_shared_selections=len(all_selections),
+                      counts_closer_per_selection=counts,
+                      min_closer=min(counts), max_closer=max(counts),
+                      constant_across_selections=bool(len(set(counts)) == 1))
     return dict(rows=rows, n_species_matched_cells=matched,
                 n_species_matched_cells_fitted_closer=closer,
-                claim="Of the %d SPECIES-MATCHED cells (caffeine and trigonelline, both "
+                evaluated_at_rsd_pct=rsd_pct,
+                evaluated_at_shared_rates=shared_rates,
+                setting_dependence=across,
+                claim="At the recorded evaluation setting (bioactive RSD %s %%, shared rates %s): "
+                      "of the %d SPECIES-MATCHED cells (caffeine and trigonelline, both "
                       "varieties), %d have a fitted amplitude closer to angeloni Table 7 than "
                       "pannusch Table 2. 5CQA and total solids are NOT species-matched and are "
-                      "excluded from that count." % (matched, closer))
+                      "excluded from that count. The amplitude depends on the selected shared "
+                      "rate, so this count is setting-dependent; %s"
+                      % (("%.3f" % rsd_pct) if rsd_pct is not None else "unrecorded",
+                         shared_rates, matched, closer,
+                         ("across all %d distinct shared-rate selections on the band the count is "
+                          "%s (min %d, max %d)%s"
+                          % (across["n_distinct_shared_selections"],
+                             "constant" if across["constant_across_selections"] else "NOT constant",
+                             across["min_closer"], across["max_closer"],
+                             "" if across["constant_across_selections"]
+                             else " — do not quote a single figure as setting-independent"))
+                         if across else "the cross-setting count was not computed"))
 
 
 # ------------------------------------------------------------------------------------------
@@ -655,7 +696,17 @@ def screen():
             amp_unique.append(a)
 
     last = sw["intervals"][-1]
-    t7 = amplitude_vs_table7(coefs, last["shared_rate_index"], rates)
+    seen_sel, distinct = set(), []
+    for iv in sw["intervals"]:
+        key = tuple(sorted(iv["shared_rate_index"].items()))
+        if key not in seen_sel:
+            seen_sel.add(key)
+            distinct.append(iv["shared_rate_index"])
+    t7 = amplitude_vs_table7(
+        coefs, last["shared_rate_index"], rates,
+        rsd_pct=x_to_rsd(last["x_hi"]),
+        shared_rates={v: round(last["shared_rate"][v], 4) for v in VARIETIES},
+        all_selections=distinct)
 
     slim_intervals = [{k: v for k, v in iv.items()} for iv in sw["intervals"]]
     return dict(

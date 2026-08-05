@@ -164,7 +164,7 @@
     "tds_median_rsd_this_screen_pct": 5.3,
     "tds_median_rsd_this_screen_note": "median measured total-solids RSD over the 18 held-out granulometry-O on-grid conditions this screen actually uses. THIS is the total-solids threshold; PROXY_U_PCT (4.70 %) is the campaign-wide median over all 66 shots and decides nothing."
   },
-  "classification_rule": "SURVIVE: at least one admissible closure swap is MATERIAL_THROUGHOUT the applicable retained uncertainty for at least one output, OR the artifact is consumed outside its declared range. RETIRE: every admissible swap is IMMATERIAL_THROUGHOUT for every output, AND the artifact is consumed inside its declared range. NEEDS_NEW_DATA: materiality CHANGES within the retained uncertainty range for at least one admissible swap and output, and no swap is material throughout \u2014 the missing evidence is solute-specific replicate RSD for caffeine, trigonelline and CGA.",
+  "classification_rule": "SURVIVE: at least one admissible closure swap is material throughout the applicable retained uncertainty for at least one output (MATERIAL_THROUGHOUT for a declared-range output, MATERIAL_BY_MEDIAN_CRITERION for total solids), OR the artifact is consumed outside its declared range. RETIRE: every admissible swap is immaterial for every output, AND the artifact is consumed inside its declared range. NEEDS_NEW_DATA: materiality CHANGES within the retained uncertainty range for at least one admissible swap and output, and no swap is material \u2014 the missing evidence is solute-specific replicate RSD for caffeine, trigonelline and CGA. NOTE the total-solids statuses are named for the MEDIAN decision statistic; they do not assert that every condition lies below its own measured RSD, and the per-condition exceedance count is reported separately.",
   "substitutions": [
     {
       "closure": "vant_hoff_K",
@@ -185,9 +185,11 @@
           "threshold_note": "no single threshold exists \u2014 the range is evaluated at both ends",
           "frac_conditions_exceeding_low_end": 1.0,
           "frac_conditions_exceeding_high_end": 0.0,
+          "n_conditions": 18,
           "material_at_low_rsd": true,
           "material_at_high_rsd": false,
-          "status": "CHANGES_WITHIN_RANGE"
+          "status": "CHANGES_WITHIN_RANGE",
+          "status_scope": "refers to the declared uncertainty RANGE, evaluated at both ends, using the MEDIAN effect. The campaign retains no per-cell RSD for this output."
         },
         "trigonelline": {
           "species": "trigonelline",
@@ -198,9 +200,11 @@
           "threshold_note": "no single threshold exists \u2014 the range is evaluated at both ends",
           "frac_conditions_exceeding_low_end": 1.0,
           "frac_conditions_exceeding_high_end": 0.0,
+          "n_conditions": 18,
           "material_at_low_rsd": true,
           "material_at_high_rsd": false,
-          "status": "CHANGES_WITHIN_RANGE"
+          "status": "CHANGES_WITHIN_RANGE",
+          "status_scope": "refers to the declared uncertainty RANGE, evaluated at both ends, using the MEDIAN effect. The campaign retains no per-cell RSD for this output."
         },
         "5CQA": {
           "species": "5CQA",
@@ -211,9 +215,11 @@
           "threshold_note": "no single threshold exists \u2014 the range is evaluated at both ends",
           "frac_conditions_exceeding_low_end": 1.0,
           "frac_conditions_exceeding_high_end": 0.0,
+          "n_conditions": 18,
           "material_at_low_rsd": true,
           "material_at_high_rsd": false,
-          "status": "CHANGES_WITHIN_RANGE"
+          "status": "CHANGES_WITHIN_RANGE",
+          "status_scope": "refers to the declared uncertainty RANGE, evaluated at both ends, using the MEDIAN effect. The campaign retains no per-cell RSD for this output."
         },
         "tds": {
           "species": "tds",
@@ -222,18 +228,20 @@
           "max_effect_pct": 3.0055,
           "threshold_pct": 5.3,
           "threshold_note": "median of the measured per-condition RSD",
+          "n_conditions": 18,
           "n_conditions_effect_exceeds_own_rsd": 2,
           "frac_conditions_exceeding": 0.1111,
           "material_at_low_rsd": null,
           "material_at_high_rsd": null,
-          "status": "IMMATERIAL_THROUGHOUT"
+          "status": "IMMATERIAL_BY_MEDIAN_CRITERION",
+          "status_scope": "refers to the predeclared decision statistic \u2014 MEDIAN effect vs MEDIAN measured per-condition RSD. It does NOT assert that every condition lies below its own RSD; see n_conditions_effect_exceeds_own_rsd."
         }
       },
       "statuses": {
         "caffeine": "CHANGES_WITHIN_RANGE",
         "trigonelline": "CHANGES_WITHIN_RANGE",
         "5CQA": "CHANGES_WITHIN_RANGE",
-        "tds": "IMMATERIAL_THROUGHOUT"
+        "tds": "IMMATERIAL_BY_MEDIAN_CRITERION"
       },
       "counts_toward_decision": true,
       "pooled_median_rel_change_pct": 2.9676,
@@ -262,9 +270,11 @@
           "threshold_note": "no single threshold exists \u2014 the range is evaluated at both ends",
           "frac_conditions_exceeding_low_end": 0.6667,
           "frac_conditions_exceeding_high_end": 0.0,
+          "n_conditions": 18,
           "material_at_low_rsd": true,
           "material_at_high_rsd": false,
-          "status": "CHANGES_WITHIN_RANGE"
+          "status": "CHANGES_WITHIN_RANGE",
+          "status_scope": "refers to the declared uncertainty RANGE, evaluated at both ends, using the MEDIAN effect. The campaign retains no per-cell RSD for this output."
         },
         "trigonelline": {
           "species": "trigonelline",
@@ -275,9 +285,11 @@
           "threshold_note": "no single threshold exists \u2014 the range is evaluated at both ends",
           "frac_conditions_exceeding_low_end": 0.6667,
           "frac_conditions_exceeding_high_end": 0.0,
+          "n_conditions": 18,
           "material_at_low_rsd": true,
           "material_at_high_rsd": false,
-          "status": "CHANGES_WITHIN_RANGE"
+          "status": "CHANGES_WITHIN_RANGE",
+          "status_scope": "refers to the declared uncertainty RANGE, evaluated at both ends, using the MEDIAN effect. The campaign retains no per-cell RSD for this output."
         },
         "5CQA": {
           "species": "5CQA",
@@ -288,9 +300,11 @@
           "threshold_note": "no single threshold exists \u2014 the range is evaluated at both ends",
           "frac_conditions_exceeding_low_end": 0.6667,
           "frac_conditions_exceeding_high_end": 0.0,
+          "n_conditions": 18,
           "material_at_low_rsd": true,
           "material_at_high_rsd": false,
-          "status": "CHANGES_WITHIN_RANGE"
+          "status": "CHANGES_WITHIN_RANGE",
+          "status_scope": "refers to the declared uncertainty RANGE, evaluated at both ends, using the MEDIAN effect. The campaign retains no per-cell RSD for this output."
         },
         "tds": {
           "species": "tds",
@@ -299,18 +313,20 @@
           "max_effect_pct": 1.4111,
           "threshold_pct": 5.3,
           "threshold_note": "median of the measured per-condition RSD",
+          "n_conditions": 18,
           "n_conditions_effect_exceeds_own_rsd": 1,
           "frac_conditions_exceeding": 0.0556,
           "material_at_low_rsd": null,
           "material_at_high_rsd": null,
-          "status": "IMMATERIAL_THROUGHOUT"
+          "status": "IMMATERIAL_BY_MEDIAN_CRITERION",
+          "status_scope": "refers to the predeclared decision statistic \u2014 MEDIAN effect vs MEDIAN measured per-condition RSD. It does NOT assert that every condition lies below its own RSD; see n_conditions_effect_exceeds_own_rsd."
         }
       },
       "statuses": {
         "caffeine": "CHANGES_WITHIN_RANGE",
         "trigonelline": "CHANGES_WITHIN_RANGE",
         "5CQA": "CHANGES_WITHIN_RANGE",
-        "tds": "IMMATERIAL_THROUGHOUT"
+        "tds": "IMMATERIAL_BY_MEDIAN_CRITERION"
       },
       "counts_toward_decision": true,
       "pooled_median_rel_change_pct": 0.8312,
@@ -339,9 +355,11 @@
           "threshold_note": "no single threshold exists \u2014 the range is evaluated at both ends",
           "frac_conditions_exceeding_low_end": 0.0,
           "frac_conditions_exceeding_high_end": 0.0,
+          "n_conditions": 18,
           "material_at_low_rsd": false,
           "material_at_high_rsd": false,
-          "status": "IMMATERIAL_THROUGHOUT"
+          "status": "IMMATERIAL_THROUGHOUT",
+          "status_scope": "refers to the declared uncertainty RANGE, evaluated at both ends, using the MEDIAN effect. The campaign retains no per-cell RSD for this output."
         },
         "trigonelline": {
           "species": "trigonelline",
@@ -352,9 +370,11 @@
           "threshold_note": "no single threshold exists \u2014 the range is evaluated at both ends",
           "frac_conditions_exceeding_low_end": 0.0,
           "frac_conditions_exceeding_high_end": 0.0,
+          "n_conditions": 18,
           "material_at_low_rsd": false,
           "material_at_high_rsd": false,
-          "status": "IMMATERIAL_THROUGHOUT"
+          "status": "IMMATERIAL_THROUGHOUT",
+          "status_scope": "refers to the declared uncertainty RANGE, evaluated at both ends, using the MEDIAN effect. The campaign retains no per-cell RSD for this output."
         },
         "5CQA": {
           "species": "5CQA",
@@ -365,9 +385,11 @@
           "threshold_note": "no single threshold exists \u2014 the range is evaluated at both ends",
           "frac_conditions_exceeding_low_end": 0.0,
           "frac_conditions_exceeding_high_end": 0.0,
+          "n_conditions": 18,
           "material_at_low_rsd": false,
           "material_at_high_rsd": false,
-          "status": "IMMATERIAL_THROUGHOUT"
+          "status": "IMMATERIAL_THROUGHOUT",
+          "status_scope": "refers to the declared uncertainty RANGE, evaluated at both ends, using the MEDIAN effect. The campaign retains no per-cell RSD for this output."
         },
         "tds": {
           "species": "tds",
@@ -376,18 +398,20 @@
           "max_effect_pct": 0.0296,
           "threshold_pct": 5.3,
           "threshold_note": "median of the measured per-condition RSD",
+          "n_conditions": 18,
           "n_conditions_effect_exceeds_own_rsd": 0,
           "frac_conditions_exceeding": 0.0,
           "material_at_low_rsd": null,
           "material_at_high_rsd": null,
-          "status": "IMMATERIAL_THROUGHOUT"
+          "status": "IMMATERIAL_BY_MEDIAN_CRITERION",
+          "status_scope": "refers to the predeclared decision statistic \u2014 MEDIAN effect vs MEDIAN measured per-condition RSD. It does NOT assert that every condition lies below its own RSD; see n_conditions_effect_exceeds_own_rsd."
         }
       },
       "statuses": {
         "caffeine": "IMMATERIAL_THROUGHOUT",
         "trigonelline": "IMMATERIAL_THROUGHOUT",
         "5CQA": "IMMATERIAL_THROUGHOUT",
-        "tds": "IMMATERIAL_THROUGHOUT"
+        "tds": "IMMATERIAL_BY_MEDIAN_CRITERION"
       },
       "counts_toward_decision": true,
       "pooled_median_rel_change_pct": 0.0117,
@@ -416,9 +440,11 @@
           "threshold_note": "no single threshold exists \u2014 the range is evaluated at both ends",
           "frac_conditions_exceeding_low_end": 1.0,
           "frac_conditions_exceeding_high_end": 0.0,
+          "n_conditions": 18,
           "material_at_low_rsd": true,
           "material_at_high_rsd": false,
-          "status": "CHANGES_WITHIN_RANGE"
+          "status": "CHANGES_WITHIN_RANGE",
+          "status_scope": "refers to the declared uncertainty RANGE, evaluated at both ends, using the MEDIAN effect. The campaign retains no per-cell RSD for this output."
         },
         "trigonelline": {
           "species": "trigonelline",
@@ -429,9 +455,11 @@
           "threshold_note": "no single threshold exists \u2014 the range is evaluated at both ends",
           "frac_conditions_exceeding_low_end": 1.0,
           "frac_conditions_exceeding_high_end": 0.0,
+          "n_conditions": 18,
           "material_at_low_rsd": true,
           "material_at_high_rsd": false,
-          "status": "CHANGES_WITHIN_RANGE"
+          "status": "CHANGES_WITHIN_RANGE",
+          "status_scope": "refers to the declared uncertainty RANGE, evaluated at both ends, using the MEDIAN effect. The campaign retains no per-cell RSD for this output."
         },
         "5CQA": {
           "species": "5CQA",
@@ -442,9 +470,11 @@
           "threshold_note": "no single threshold exists \u2014 the range is evaluated at both ends",
           "frac_conditions_exceeding_low_end": 1.0,
           "frac_conditions_exceeding_high_end": 0.0,
+          "n_conditions": 18,
           "material_at_low_rsd": true,
           "material_at_high_rsd": false,
-          "status": "CHANGES_WITHIN_RANGE"
+          "status": "CHANGES_WITHIN_RANGE",
+          "status_scope": "refers to the declared uncertainty RANGE, evaluated at both ends, using the MEDIAN effect. The campaign retains no per-cell RSD for this output."
         },
         "tds": {
           "species": "tds",
@@ -453,18 +483,20 @@
           "max_effect_pct": 8.5681,
           "threshold_pct": 5.3,
           "threshold_note": "median of the measured per-condition RSD",
+          "n_conditions": 18,
           "n_conditions_effect_exceeds_own_rsd": 12,
           "frac_conditions_exceeding": 0.6667,
           "material_at_low_rsd": null,
           "material_at_high_rsd": null,
-          "status": "MATERIAL_THROUGHOUT"
+          "status": "MATERIAL_BY_MEDIAN_CRITERION",
+          "status_scope": "refers to the predeclared decision statistic \u2014 MEDIAN effect vs MEDIAN measured per-condition RSD. It does NOT assert that every condition lies below its own RSD; see n_conditions_effect_exceeds_own_rsd."
         }
       },
       "statuses": {
         "caffeine": "CHANGES_WITHIN_RANGE",
         "trigonelline": "CHANGES_WITHIN_RANGE",
         "5CQA": "CHANGES_WITHIN_RANGE",
-        "tds": "MATERIAL_THROUGHOUT"
+        "tds": "MATERIAL_BY_MEDIAN_CRITERION"
       },
       "counts_toward_decision": false,
       "pooled_median_rel_change_pct": 8.8848,

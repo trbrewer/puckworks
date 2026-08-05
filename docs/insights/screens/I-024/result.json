@@ -2295,7 +2295,45 @@
     ],
     "n_species_matched_cells": 4,
     "n_species_matched_cells_fitted_closer": 3,
-    "claim": "Of the 4 SPECIES-MATCHED cells (caffeine and trigonelline, both varieties), 3 have a fitted amplitude closer to angeloni Table 7 than pannusch Table 2. 5CQA and total solids are NOT species-matched and are excluded from that count."
+    "evaluated_at_rsd_pct": 0.3,
+    "evaluated_at_shared_rates": {
+      "Arabica": 14.9331,
+      "Robusta": 0.4403
+    },
+    "setting_dependence": {
+      "n_distinct_shared_selections": 25,
+      "counts_closer_per_selection": [
+        3,
+        3,
+        3,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "min_closer": 3,
+      "max_closer": 4,
+      "constant_across_selections": false
+    },
+    "claim": "At the recorded evaluation setting (bioactive RSD 0.300 %, shared rates {'Arabica': 14.9331, 'Robusta': 0.4403}): of the 4 SPECIES-MATCHED cells (caffeine and trigonelline, both varieties), 3 have a fitted amplitude closer to angeloni Table 7 than pannusch Table 2. 5CQA and total solids are NOT species-matched and are excluded from that count. The amplitude depends on the selected shared rate, so this count is setting-dependent; across all 25 distinct shared-rate selections on the band the count is NOT constant (min 3, max 4) \u2014 do not quote a single figure as setting-independent"
   },
   "n_pde_solves": 1440,
   "decision": "RETIRE",

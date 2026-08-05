@@ -304,6 +304,71 @@ def test_table7_comparison_is_qualified_not_universal():
     assert cqa and all("TOTAL CQA" in x["note"] for x in cqa)
 
 
+def test_table7_comparison_records_its_evaluation_setting():
+    """The fitted amplitude depends on the selected shared rate, so the count is setting-dependent.
+
+    Added by the 2026-08-04 claim-alignment correction: "3 of 4" may not be presented as a
+    property of the screen without its provenance and its cross-setting range.
+    """
+    r = json.loads((BUNDLE / "result.json").read_text(encoding="utf-8"))
+    t7 = r["amplitude_vs_table7"]
+    assert t7["evaluated_at_rsd_pct"] is not None
+    assert set(t7["evaluated_at_shared_rates"]) == set(S.VARIETIES)
+    sd = t7["setting_dependence"]
+    assert sd is not None and sd["n_distinct_shared_selections"] >= 1
+    assert sd["min_closer"] <= t7["n_species_matched_cells_fitted_closer"] <= sd["max_closer"]
+    assert len(sd["counts_closer_per_selection"]) == sd["n_distinct_shared_selections"]
+    # the claim string must carry the provenance, not a bare count
+    assert "evaluation setting" in t7["claim"]
+    assert "setting-dependent" in t7["claim"]
+    if not sd["constant_across_selections"]:
+        assert "NOT constant" in t7["claim"]
+
+
+def test_reader_facing_text_does_not_present_table7_count_as_setting_independent():
+    r = json.loads((BUNDLE / "result.json").read_text(encoding="utf-8"))
+    sd = r["amplitude_vs_table7"]["setting_dependence"]
+    if sd["constant_across_selections"]:
+        pytest.skip("count is constant across selections; no qualification required")
+    for rel in ("README.md", "decision.md"):
+        text = (BUNDLE / rel).read_text(encoding="utf-8")
+        assert "setting-dependent" in text or "setting dependent" in text, rel
+        assert "%d" % sd["min_closer"] in text and "%d" % sd["max_closer"] in text, rel
+
+
+def test_documentation_does_not_claim_a_continuous_shared_rate():
+    """The selection is an argmin over a finite grid — piecewise constant, not continuous."""
+    targets = [BUNDLE / "README.md", BUNDLE / "decision.md",
+               pathlib.Path(S.__file__)]
+    for t in targets:
+        text = t.read_text(encoding="utf-8").lower()
+        assert "moves continuously" not in text, t.name
+        assert "continuously across the band" not in text, t.name
+
+
+def test_censoring_language_is_bounded_by_the_stopping_policy():
+    """The remaining censoring is not decision-changing UNDER THE POLICY — not impossible."""
+    text = (BUNDLE / "decision.md").read_text(encoding="utf-8")
+    assert "cannot rescue C3" not in text
+    assert "not\ndecision-changing under the predeclared" in text or \
+           "not decision-changing under the predeclared" in text
+    r = json.loads((BUNDLE / "result.json").read_text(encoding="utf-8"))
+    rounds = r["rate_grid_robustness"]["rounds"]
+    assert len(rounds) >= 2
+    delta = rounds[-1]["c3_change_vs_previous"]
+    assert delta is not None and delta < S.GRID_C3_TOLERANCE
+    assert r["worst_case_C3_ratio"] > S.C3_REDUCTION_FACTOR
+
+
+def test_module_docstring_carries_no_stale_rate_literals():
+    """Rate values depend on the final grid; the docstring must not quote them as fixed."""
+    doc = S.__doc__ or ""
+    import re
+    assert "6.5 -> 0.440" not in doc and "0.440 -> 6.5" not in doc
+    assert not re.search(r"shared rate\s+for\s+\w+\s+moved\s+[\d.]+", doc)
+    assert "discrete breakpoints" in doc
+
+
 def test_corrected_language_does_not_claim_inventory_over_transport():
     """The withdrawn explanatory claim must not survive anywhere reader-facing."""
     for rel in ("README.md", "decision.md"):

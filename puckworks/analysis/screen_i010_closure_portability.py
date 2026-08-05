@@ -208,6 +208,22 @@ STATUS_MATERIAL = "MATERIAL_THROUGHOUT"
 STATUS_IMMATERIAL = "IMMATERIAL_THROUGHOUT"
 STATUS_CHANGES = "CHANGES_WITHIN_RANGE"
 
+#: Total solids has a MEASURED per-condition RSD, so its statuses are named separately to stop a
+#: median-criterion verdict being read as a condition-level one. The decision statistic is the
+#: MEDIAN effect against the MEDIAN measured RSD; individual conditions may still exceed their
+#: own RSD, and `n_conditions_effect_exceeds_own_rsd` records how many do.
+STATUS_TDS_MATERIAL = "MATERIAL_BY_MEDIAN_CRITERION"
+STATUS_TDS_IMMATERIAL = "IMMATERIAL_BY_MEDIAN_CRITERION"
+STATUS_SCOPE_MEDIAN = ("refers to the predeclared decision statistic — MEDIAN effect vs MEDIAN "
+                       "measured per-condition RSD. It does NOT assert that every condition "
+                       "lies below its own RSD; see n_conditions_effect_exceeds_own_rsd.")
+STATUS_SCOPE_RANGE = ("refers to the declared uncertainty RANGE, evaluated at both ends, using "
+                      "the MEDIAN effect. The campaign retains no per-cell RSD for this output.")
+
+#: Statuses that count as "material" for the candidate-level rule, whatever the output's kind.
+_MATERIAL_STATUSES = (STATUS_MATERIAL, STATUS_TDS_MATERIAL)
+_IMMATERIAL_STATUSES = (STATUS_IMMATERIAL, STATUS_TDS_IMMATERIAL)
+
 UNCERTAINTY = dict(
     per_output_authority=UNCERTAINTY_AUTHORITY,
     tds_source=TDS_RSD_SOURCE,
@@ -453,19 +469,23 @@ def _classify(species, effects, tds_rsd):
     auth = UNCERTAINTY_AUTHORITY[species]
 
     if auth["kind"] == "measured_per_condition":
-        # Total solids: a real, measured uncertainty per condition. One determination.
-        per_cond = [rsd for rsd in tds_rsd]
-        med_rsd = statistics.median(per_cond)
+        # Total solids: a real, MEASURED uncertainty per condition. The predeclared decision
+        # statistic is still the MEDIAN effect against the MEDIAN measured RSD — the status is
+        # named accordingly so it cannot be read as a condition-level claim. The number of
+        # conditions whose own effect exceeds their own RSD is reported alongside, and it is
+        # NOT zero in general.
+        med_rsd = statistics.median(list(tds_rsd))
         n_above = sum(1 for e, rsd in zip(effects, tds_rsd) if e > rsd)
-        status = STATUS_MATERIAL if med > med_rsd else STATUS_IMMATERIAL
+        status = STATUS_TDS_MATERIAL if med > med_rsd else STATUS_TDS_IMMATERIAL
         return dict(species=species, authority="measured per-condition RSD",
                     median_effect_pct=round(med, 4), max_effect_pct=round(mx, 4),
                     threshold_pct=round(med_rsd, 4),
                     threshold_note="median of the measured per-condition RSD",
+                    n_conditions=len(effects),
                     n_conditions_effect_exceeds_own_rsd=n_above,
                     frac_conditions_exceeding=round(n_above / len(effects), 4),
                     material_at_low_rsd=None, material_at_high_rsd=None,
-                    status=status)
+                    status=status, status_scope=STATUS_SCOPE_MEDIAN)
 
     lo, hi = auth["range_pct"]
     mat_lo = med > lo                      # most demanding end of the declared range
@@ -485,8 +505,9 @@ def _classify(species, effects, tds_rsd):
                     sum(1 for e in effects if e > lo) / len(effects), 4),
                 frac_conditions_exceeding_high_end=round(
                     sum(1 for e in effects if e > hi) / len(effects), 4),
+                n_conditions=len(effects),
                 material_at_low_rsd=bool(mat_lo), material_at_high_rsd=bool(mat_hi),
-                status=status)
+                status=status, status_scope=STATUS_SCOPE_RANGE)
 
 
 def no_refit(shots=None):
@@ -576,14 +597,18 @@ def recalibration_branch(shots, sub_patch):
 # ------------------------------------------------------------------------------------------
 #: FIXED CLASSIFICATION — applied to the admissible substitutions only, in this precedence.
 CLASSIFICATION_RULE = (
-    "SURVIVE: at least one admissible closure swap is MATERIAL_THROUGHOUT the applicable "
-    "retained uncertainty for at least one output, OR the artifact is consumed outside its "
-    "declared range. "
-    "RETIRE: every admissible swap is IMMATERIAL_THROUGHOUT for every output, AND the artifact "
-    "is consumed inside its declared range. "
+    "SURVIVE: at least one admissible closure swap is material throughout the applicable "
+    "retained uncertainty for at least one output (MATERIAL_THROUGHOUT for a declared-range "
+    "output, MATERIAL_BY_MEDIAN_CRITERION for total solids), OR the artifact is consumed "
+    "outside its declared range. "
+    "RETIRE: every admissible swap is immaterial for every output, AND the artifact is consumed "
+    "inside its declared range. "
     "NEEDS_NEW_DATA: materiality CHANGES within the retained uncertainty range for at least one "
-    "admissible swap and output, and no swap is material throughout — the missing evidence is "
-    "solute-specific replicate RSD for caffeine, trigonelline and CGA.")
+    "admissible swap and output, and no swap is material — the missing evidence is "
+    "solute-specific replicate RSD for caffeine, trigonelline and CGA. "
+    "NOTE the total-solids statuses are named for the MEDIAN decision statistic; they do not "
+    "assert that every condition lies below its own measured RSD, and the per-condition "
+    "exceedance count is reported separately.")
 
 
 def screen():
@@ -593,7 +618,8 @@ def screen():
 
     admissible = [s for s in subs if s.get("counts_toward_decision") and s.get("ran")]
     material_cells = [(s["closure"], sp) for s in admissible
-                      for sp, v in s["per_output"].items() if v["status"] == STATUS_MATERIAL]
+                      for sp, v in s["per_output"].items()
+                      if v["status"] in _MATERIAL_STATUSES]
     changing_cells = [(s["closure"], sp) for s in admissible
                       for sp, v in s["per_output"].items() if v["status"] == STATUS_CHANGES]
 
@@ -827,8 +853,11 @@ def figure(path=None, result=None):
              s="Per-output classification (each output against its OWN authority; analytes are "
                "NOT pooled):\n"
                "    total solids \u2014 measured RSD available: K(T) %.2f %%, D(T) %.2f %%, "
-               "\u03c1(T) %.3f %% median effect, all below the measured %.2f %% \u2192 "
-               "IMMATERIAL, a real answer.\n"
+               "\u03c1(T) %.3f %% median effect, all below the median measured %.2f %% \u2192 IMMATERIAL "
+               "BY THE MEDIAN CRITERION, a real answer.\n"
+               "      Individual conditions are NOT all below their own RSD: K(T) exceeds it at "
+               "%d of %d conditions, D(T) at %d, \u03c1(T) at %d. The decision statistic is the "
+               "median, and it is stated as such.\n"
                "    caffeine / trigonelline / 5CQA \u2014 no per-cell RSD: K(T) and D(T) median "
                "effects (%.2f\u2013%.2f %%) sit INSIDE the declared 0.3\u201319.7 %% range, so "
                "they are material at one end and immaterial at the other. \u03c1(T) is below "
@@ -844,6 +873,10 @@ def figure(path=None, result=None):
                % (po["vant_hoff_K"]["tds"]["median_effect_pct"],
                   po["diffusion_coeff"]["tds"]["median_effect_pct"],
                   po["water_density"]["tds"]["median_effect_pct"], tds_med_rsd,
+                  po["vant_hoff_K"]["tds"]["n_conditions_effect_exceeds_own_rsd"],
+                  po["vant_hoff_K"]["tds"]["n_conditions"],
+                  po["diffusion_coeff"]["tds"]["n_conditions_effect_exceeds_own_rsd"],
+                  po["water_density"]["tds"]["n_conditions_effect_exceeds_own_rsd"],
                   min(po["diffusion_coeff"][s]["median_effect_pct"]
                       for s in ("caffeine", "trigonelline", "5CQA")),
                   max(po["vant_hoff_K"][s]["median_effect_pct"]

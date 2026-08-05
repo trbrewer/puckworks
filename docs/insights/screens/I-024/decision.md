@@ -62,8 +62,9 @@ exact method, not a sample.
 
 **24 shared-rate breakpoints → 25 fixed-selection intervals → 51 evaluated points.**
 
-The selected shared rate moves continuously across the band, which is precisely why two
-endpoints were never sufficient. Examples:
+The selected shared rate **changes at discrete breakpoints** across the band — it is an argmin
+over a finite grid, so it is piecewise constant, not a continuously varying optimum. That it
+changes at all is precisely why two endpoints were never sufficient. Examples:
 
 | assumed bioactive RSD | shared rate (Arabica / Robusta) | C3 ratio range |
 |---|---|---|
@@ -95,9 +96,12 @@ rounds.
 **Stopped by the convergence tolerance**, not by interiority: quadrupling the rate ceiling moved
 the worst-case C3 by 2 × 10⁻⁴, two orders of magnitude below the 0.01 tolerance. Three optima
 remain censored at the upper bound (`Arabica 5CQA`, `Robusta tds`, and the Robusta shared rate at
-the low-x end) and that is recorded rather than hidden — but their censoring cannot rescue C3,
-because expanding the ceiling made the ratio very slightly *worse*, and the gap to the threshold
-is 0.30 in absolute terms.
+the low-x end) and that is recorded rather than hidden. **The remaining censoring was not
+decision-changing under the predeclared 0.01 convergence policy**: one ×4 expansion moved the
+worst-case C3 by ≈ 0.000210, the final minimum C3 is ≈ 1.0008, and the survival threshold is
+0.70. Whether a still larger ceiling would eventually change the verdict was not tested — the
+policy stopped first, by design, and that is a bound on this screen's evidence rather than a
+proof about the unbounded rate domain.
 
 ## Primary figure
 
@@ -139,11 +143,19 @@ inventory difference, an assay calibration scale, **or a multiplicative model er
 screen cannot separate them. The first version's "inventory, not transport" is not supportable
 and has been withdrawn.
 
-**Table 7 comparison, properly qualified.** Of the **4 species-matched cells** (caffeine and
-trigonelline × two varieties), **3** have a fitted amplitude closer to angeloni Table 7 than to
-pannusch Table 2. 5CQA is **not** species-matched — Table 7 reports **total CQA** — and there is
-**no** Table 7 inventory for the aggregate total-solids proxy; both are excluded from that count
-rather than folded into a claim of universal recovery.
+**Table 7 comparison, properly qualified — and setting-dependent.** There are **4
+species-matched cells** (caffeine and trigonelline × two varieties). 5CQA is **not**
+species-matched — Table 7 reports **total CQA** — and there is **no** Table 7 inventory for the
+aggregate total-solids proxy; both are excluded from the count rather than folded into a claim of
+universal recovery.
+
+The fitted amplitude depends on which shared rate is selected, which depends on the assumed
+bioactive RSD, so the count is **not** a fixed property. Across all **25** distinct shared-rate
+selections on the band it ranges **3 to 4** of 4 — it is **not constant**. At the recorded
+evaluation setting (RSD 0.300 %, shared rates Arabica 14.933 / Robusta 0.440) it is **3 of 4**.
+That provenance is stored in `result.json → amplitude_vs_table7.evaluated_at_rsd_pct` and
+`.evaluated_at_shared_rates`, with the full cross-setting range under `.setting_dependence`. Do
+not quote a single figure as setting-independent.
 
 ## Decision
 

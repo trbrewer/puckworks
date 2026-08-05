@@ -113,12 +113,95 @@ def test_bioactive_classification_is_three_way_and_uses_both_ends():
     assert inside["threshold_pct"] is None, "a band must not collapse to a single threshold"
 
 
+def test_total_solids_status_is_named_for_the_median_criterion():
+    """The status must not be readable as a condition-level claim.
+
+    This is the defect the 2026-08-04 claim-alignment correction fixed: the decision statistic is
+    the MEDIAN effect vs the MEDIAN measured RSD, and individual conditions may still exceed
+    their own RSD. The label and its scope have to say so.
+    """
+    shots = S._held_out_shots()
+    tds_rsd = list(S._tds_rsd_by_condition(shots).values())
+    med = statistics.median(tds_rsd)
+    rec = S._classify("tds", [med * 0.1] * 18, tds_rsd)
+    assert rec["status"] == S.STATUS_TDS_IMMATERIAL == "IMMATERIAL_BY_MEDIAN_CRITERION"
+    assert "MEDIAN" in rec["status_scope"]
+    assert "does NOT assert" in rec["status_scope"]
+    hot = S._classify("tds", [med * 10] * 18, tds_rsd)
+    assert hot["status"] == S.STATUS_TDS_MATERIAL == "MATERIAL_BY_MEDIAN_CRITERION"
+
+
+def test_median_immaterial_does_not_imply_zero_condition_exceedances():
+    """A constructed case: median below the median RSD while some conditions still exceed.
+
+    If this ever became impossible the 0/18 shorthand would be safe — it is not, and the screen's
+    own committed numbers are an instance of it.
+    """
+    tds_rsd = [1.0] * 9 + [9.0] * 9          # median 5.0
+    effects = [2.0] * 9 + [2.0] * 9          # median 2.0 < 5.0, but exceeds 1.0 nine times
+    rec = S._classify("tds", effects, tds_rsd)
+    assert rec["status"] == S.STATUS_TDS_IMMATERIAL
+    assert rec["n_conditions_effect_exceeds_own_rsd"] == 9
+
+
+def test_committed_total_solids_exceedance_counts_are_the_recorded_ones():
+    """Locks the corrected counts against the committed result. NOT zero for two of three."""
+    r = json.loads((BUNDLE / "result.json").read_text(encoding="utf-8"))
+    got = {s["closure"]: s["per_output"]["tds"]["n_conditions_effect_exceeds_own_rsd"]
+           for s in r["substitutions"] if s.get("ran")}
+    assert got["vant_hoff_K"] == 2
+    assert got["diffusion_coeff"] == 1
+    assert got["water_density"] == 0
+    for s in r["substitutions"]:
+        if not s.get("ran"):
+            continue
+        assert s["per_output"]["tds"]["n_conditions"] == 18
+
+
+def test_reader_facing_text_does_not_revert_to_the_false_zero_of_eighteen_claim():
+    """The exact regression: 'X of 18' for total solids must match the committed counts.
+
+    Guards the decision record, the README, the candidate card and the ROADMAP entry against a
+    blanket 0-of-18 statement covering every admissible swap.
+    """
+    import re
+    r = json.loads((BUNDLE / "result.json").read_text(encoding="utf-8"))
+    counts = {s["closure"]: s["per_output"]["tds"]["n_conditions_effect_exceeds_own_rsd"]
+              for s in r["substitutions"] if s.get("ran")}
+    admissible_counts = sorted(counts[c] for c in
+                               ("vant_hoff_K", "diffusion_coeff", "water_density"))
+    targets = [BUNDLE / "decision.md", BUNDLE / "README.md",
+               REPO / "docs/ROADMAP.md",
+               *(REPO / "docs/insights/candidates").glob("I-010_*.md")]
+    banned = re.compile(r"0 of 18[^.\n]*(every|all|each)[^.\n]*(admissible|swap)", re.I)
+    banned2 = re.compile(r"(every|all|each)[^.\n]*(admissible|swap)[^.\n]*0 of 18", re.I)
+    for t in targets:
+        text = t.read_text(encoding="utf-8")
+        assert not banned.search(text), "false blanket 0-of-18 claim in %s" % t.name
+        assert not banned2.search(text), "false blanket 0-of-18 claim in %s" % t.name
+    # and the true counts must appear in the decision record
+    dec = (BUNDLE / "decision.md").read_text(encoding="utf-8")
+    for n in admissible_counts:
+        assert ("%d of 18" % n) in dec, "count %d of 18 missing from decision.md" % n
+
+
+def test_claim_ceiling_is_not_a_conditionwise_total_solids_claim():
+    """The ceiling may state a median result; it may not say every condition is below its RSD."""
+    text = (BUNDLE / "decision.md").read_text(encoding="utf-8")
+    lo = text.index("## Claim ceiling")
+    hi = text.index("## Next action")
+    ceiling = text[lo:hi]
+    assert "at every one of the 18 conditions" not in ceiling
+    assert "median" in ceiling.lower(), "the ceiling must name the decision statistic"
+    assert "not at every individual condition" in ceiling or "2 of 18" in ceiling
+
+
 def test_total_solids_classification_is_two_way_against_a_measured_threshold():
     shots = S._held_out_shots()
     tds_rsd = list(S._tds_rsd_by_condition(shots).values())
     med = statistics.median(tds_rsd)
-    assert S._classify("tds", [med * 0.1] * 18, tds_rsd)["status"] == S.STATUS_IMMATERIAL
-    assert S._classify("tds", [med * 10] * 18, tds_rsd)["status"] == S.STATUS_MATERIAL
+    assert S._classify("tds", [med * 0.1] * 18, tds_rsd)["status"] == S.STATUS_TDS_IMMATERIAL
+    assert S._classify("tds", [med * 10] * 18, tds_rsd)["status"] == S.STATUS_TDS_MATERIAL
     rec = S._classify("tds", [med * 10] * 18, tds_rsd)
     assert rec["n_conditions_effect_exceeds_own_rsd"] == 18
 
@@ -306,7 +389,8 @@ def test_total_solids_has_a_real_answer():
     for s in r["substitutions"]:
         if not (s.get("ran") and s.get("counts_toward_decision")):
             continue
-        assert s["per_output"]["tds"]["status"] in (S.STATUS_MATERIAL, S.STATUS_IMMATERIAL)
+        assert s["per_output"]["tds"]["status"] in (S.STATUS_TDS_MATERIAL,
+                                                    S.STATUS_TDS_IMMATERIAL)
 
 
 @pytest.mark.slow

@@ -61,20 +61,36 @@ substitution. **Outputs are not pooled** — they do not share an uncertainty au
 | substitution | caffeine | trigonelline | 5CQA | **tds** |
 |---|---|---|---|---|
 | **K(T) → Arrhenius T-law** | 3.171 % (5.539) | 3.061 % (5.416) | 3.138 % (5.581) | 1.709 % (3.006) |
-| | `CHANGES` | `CHANGES` | `CHANGES` | **`IMMATERIAL`** |
+| | `CHANGES` | `CHANGES` | `CHANGES` | **`IMMATERIAL_BY_MEDIAN`** |
 | **D(T) → Stokes-Einstein T-law** | 0.946 % (1.674) | 0.663 % (1.247) | 0.899 % (1.665) | 0.770 % (1.411) |
-| | `CHANGES` | `CHANGES` | `CHANGES` | **`IMMATERIAL`** |
+| | `CHANGES` | `CHANGES` | `CHANGES` | **`IMMATERIAL_BY_MEDIAN`** |
 | **ρ(T) → telisromero2001** | 0.018 % (0.055) | 0.006 % (0.020) | 0.009 % (0.030) | 0.009 % (0.030) |
-| | `IMMATERIAL` | `IMMATERIAL` | `IMMATERIAL` | **`IMMATERIAL`** |
+| | `IMMATERIAL` | `IMMATERIAL` | `IMMATERIAL` | **`IMMATERIAL_BY_MEDIAN`** |
 | *μ(T) → TR2001 @ X_w=100 % — **excluded**, out of its own range* | *13.661 %* | *6.136 %* | *9.691 %* | *7.948 %* |
-| | *`CHANGES`* | *`CHANGES`* | *`CHANGES`* | *`MATERIAL`* |
+| | *`CHANGES`* | *`CHANGES`* | *`CHANGES`* | *`MATERIAL_BY_MEDIAN`* |
 | *`sherwood_h` — **unsubstitutable**, no alternative in the corpus* | — | — | — | — |
 
 `CHANGES` = `CHANGES_WITHIN_RANGE`: material at 0.3 %, immaterial at 19.7 %.
+`IMMATERIAL_BY_MEDIAN` / `MATERIAL_BY_MEDIAN` = `..._BY_MEDIAN_CRITERION`: total solids is judged
+on the **median** effect against the **median** measured RSD. See the per-condition counts below —
+that label does **not** assert zero condition-level exceedances.
 
-**Fraction of conditions exceeding the threshold** is in `result.json` per cell
+**Per-condition exceedance counts** are in `result.json` per cell
 (`frac_conditions_exceeding_low_end` / `_high_end` for the bioactives,
-`n_conditions_effect_exceeds_own_rsd` for tds — **0 of 18** for every admissible swap).
+`n_conditions_effect_exceeds_own_rsd` for tds). For total solids they are **not** zero, and the
+distinction matters:
+
+| swap | median effect | max effect | conditions exceeding their **own** measured RSD |
+|---|---|---|---|
+| K(T) | 1.7093 % | 3.0055 % | **2 of 18** |
+| D(T) | 0.7702 % | 1.4111 % | **1 of 18** |
+| ρ(T) | 0.0089 % | 0.0296 % | **0 of 18** |
+
+The predeclared decision statistic is the **median effect against the median measured RSD
+(5.30 %)**, and by that criterion all three admissible swaps are immaterial for total solids.
+That is *not* the same as saying every individual condition falls below its own RSD — three
+conditions across two swaps do not. The machine label is therefore
+`IMMATERIAL_BY_MEDIAN_CRITERION`, and each record carries a `status_scope` saying so.
 
 ### Validity range
 
@@ -99,8 +115,11 @@ The corrected question is no longer "is the consumer insensitive" but "**can thi
 Four attempts to break the NEEDS_NEW_DATA:
 
 1. **"Total solids settles it — that output has a real uncertainty and every swap is
-   immaterial."** True, and it is reported as a definite sub-result: 0 of 18 conditions exceed
-   their own measured RSD for any admissible swap. But total solids is an *aggregate* proxy, and
+   immaterial."** True *by the predeclared median criterion*, and reported as a definite
+   sub-result — but the qualifier is load-bearing. Two of 18 conditions exceed their own measured
+   RSD under K(T), and one under D(T); only ρ(T) is below at every condition. The median
+   criterion is what was predeclared and it is what decides, but a conditionwise reading would
+   be stronger than the evidence. Beyond that, total solids is an *aggregate* proxy, and
    the closures are per-solute (`vant_hoff_K` takes a solute-specific `K_ref`, `gamma`;
    `diffusion_coeff` a solute-specific molar volume). Generalising an aggregate result to the
    named solutes is exactly the inference the swap effects contradict: K(T) moves tds by 1.71 %
@@ -163,9 +182,10 @@ three bioactives and the candidate survives; a value between them splits by subs
    campaign published a global range, not per-cell values, and the range spans a factor of 65.
 2. **The measured effects land inside that range.** K(T) at ~3.1 % and D(T) at ~0.9 % are above
    0.3 % and below 19.7 %. There is no reading of the retained evidence that settles them.
-3. **The one output that *is* resolved gives a clean negative** — 0 of 18 conditions exceed their
-   own measured RSD under any admissible swap — but it is an aggregate proxy and the closures are
-   per-solute, so it does not transfer.
+3. **The one output that *is* resolved gives a negative under the predeclared criterion** —
+   every admissible swap's median effect is below the median measured RSD — though not at every
+   individual condition (K(T) exceeds at 2 of 18, D(T) at 1). It is also an aggregate proxy while
+   the closures are per-solute, so it does not transfer to the named solutes.
 
 ## Claim ceiling
 
@@ -173,16 +193,18 @@ three bioactives and the candidate survives; a value between them splits by subs
 
 > Under one frozen configuration of `pannusch2024.solver`, scored on 72 held-out `angeloni2023`
 > points: substituting any single declared temperature-dependent closure for the alternative this
-> repository declares changes the predicted **total-solids** concentration by less than its
-> measured per-condition replicate RSD at every one of the 18 conditions; and for caffeine,
-> trigonelline and 5CQA the corresponding effects (≈0.7–3.2 % median) fall inside the campaign's
-> declared 0.3–19.7 % replicate range, so the campaign's retained uncertainty does not determine
-> whether they are material.
+> repository declares moves the predicted **total-solids** concentration by a **median** of less
+> than the **median** measured per-condition replicate RSD (5.30 %) across the 18 conditions —
+> not at every individual condition, where K(T) exceeds its own condition's RSD at 2 of 18 and
+> D(T) at 1 of 18. For caffeine, trigonelline and 5CQA the corresponding effects (≈0.7–3.2 %
+> median) fall inside the campaign's declared 0.3–19.7 % replicate range, so the campaign's
+> retained uncertainty does not determine whether they are material.
 
 It licenses **nothing** beyond that. In particular it does **not** say:
 
 - that the closures are portable, or that the consumer is insensitive, as a general statement.
-  That claim holds for total solids only;
+  That claim holds for total solids only, and there only under the median criterion — not
+  condition by condition;
 - that `pannusch2024.solver` predicts angeloni — it does not, and the blind gap is visible in
   the figure. `ANALYSIS_transfer` is the standing authority;
 - anything about μ(T) portability (untestable — no in-range alternative) or `sherwood_h`

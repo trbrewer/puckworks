@@ -178,8 +178,19 @@ Median (max) absolute relative change, per output:
 | *μ(T) @ X_w=100 % — excluded* | *13.661 `CHANGES`* | *6.136 `CHANGES`* | *9.691 `CHANGES`* | *7.948 `MATERIAL`* |
 | *`sherwood_h` — unsubstitutable* | — | — | — | — |
 
-For every admissible swap, **0 of 18** total-solids conditions have an effect exceeding their own
-measured RSD.
+**Total-solids per-condition exceedances** — the median criterion is what decides, but the
+conditionwise counts are not zero and are reported as such:
+
+| swap | median effect | max effect | conditions exceeding their **own** measured RSD |
+|---|---|---|---|
+| K(T) | 1.7093 % | 3.0055 % | **2 of 18** |
+| D(T) | 0.7702 % | 1.4111 % | **1 of 18** |
+| ρ(T) | 0.0089 % | 0.0296 % | **0 of 18** |
+
+All three are immaterial for total solids **by the predeclared median-effect vs median-RSD
+criterion** (median measured RSD 5.30 %). The machine label is `IMMATERIAL_BY_MEDIAN_CRITERION`
+and every record carries a `status_scope` stating that it does not assert zero condition-level
+exceedances.
 
 **Validity range:** T 88–98 °C (declared 80–98), Q 1.045–2.344 mL/s (declared 1–3) — strictly
 inside. That SURVIVE arm does not fire.

@@ -105,8 +105,11 @@ The first version asserted that **C3 is scale-free** in the assumed bioactive RS
 by uniformly rescaling already-computed `z` values. That test was **vacuous**: it is not the
 perturbation the screen performs. Changing the bioactive RSD changes the weight of the three
 bioactives *relative to the measured, fixed* total-solids weights, and that reweighting **refits
-the shared model**. The evidence it does: the selected shared rate for Arabica moves
-`0.44 → 14.93` and for Robusta `26.0 → 0.44` across the band.
+the shared model**. The evidence it does: the selected shared rate **changes at discrete
+breakpoints** across the band — 14 distinct selections for Arabica and 12 for Robusta on the
+final grid (it is an argmin over a finite grid, so it is piecewise constant, not a continuously
+varying optimum). Current values are in `result.json → sweep.intervals`; they depend on the grid
+the run ends with and are deliberately not quoted as fixed constants here.
 
 Inferring invariance over an interval from its two endpoints was equally unsupported when the
 model is refitted inside it.
@@ -179,10 +182,16 @@ inventory difference, an assay calibration scale, **or a multiplicative model er
 screen cannot separate them. The first version's "the species differ in inventory, not in
 transport" is **withdrawn**.
 
-**Table 7 comparison, qualified:** of the **4 species-matched cells** (caffeine, trigonelline ×
-2 varieties), **3** have a fitted amplitude closer to angeloni Table 7 than to pannusch Table 2.
-5CQA is not species-matched (Table 7 reports **total CQA**) and there is no Table 7 inventory for
-the total-solids proxy; both are excluded from the count.
+**Table 7 comparison, qualified and setting-dependent:** there are **4 species-matched cells**
+(caffeine, trigonelline × 2 varieties). 5CQA is not species-matched (Table 7 reports **total
+CQA**) and there is no Table 7 inventory for the total-solids proxy; both are excluded from the
+count.
+
+The fitted amplitude depends on the selected shared rate, hence on the assumed RSD. Across the
+**25** distinct shared-rate selections the count of cells closer to Table 7 than to pannusch
+ranges **3–4 of 4** and is **not constant**; at the recorded setting (RSD 0.300 %, shared rates
+Arabica 14.933 / Robusta 0.440) it is **3 of 4**. Provenance and the full range are in
+`result.json → amplitude_vs_table7`.
 
 ## Figure
 
