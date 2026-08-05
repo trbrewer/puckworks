@@ -321,12 +321,37 @@ def test_no_reader_facing_overclaim_and_pages_is_clean(result):
 
 
 def test_the_defect_is_present_in_released_source(result):
-    """Recorded honestly: this is the reason to fix it."""
+    """Recorded honestly: this is the reason to fix it.
+
+    The finding is DECLARED in the producer rather than scanned at run time, because a depth-1 CI
+    checkout has no tags and a deterministic result may not vary with that. Here it is checked
+    against the real tags wherever they exist, and skipped where they do not.
+    """
     rel = {r["ref"]: r for r in result["blast_radius"]["released_content"]}
     v = rel.get("v0.3.0")
-    assert v and v["present"], "v0.3.0 tag must be present to make this claim"
+    assert v and v["carries_attribution"] is True
     assert v["files"]["puckworks/data/MANIFEST.csv"] >= 1
     assert v["files"]["puckworks/validation/gates.py"] >= 1
+
+    checked = D.verify_released_content()
+    if checked is None:
+        pytest.skip("tags not fetched in this checkout (depth-1 CI); declaration not verifiable")
+    for rec in checked:
+        assert rec["matches"], "declared %s != actual %s at %s" % (
+            rec["declared"], rec["actual"], rec["ref"])
+
+
+def test_the_deterministic_result_does_not_depend_on_fetched_tags(result):
+    """The producer must never call the tag scan from deep_screen()."""
+    src = pathlib.Path(D.__file__).read_text(encoding="utf-8")
+    body = src.split("def deep_screen(")[1].split("def figure(")[0]
+    assert "verify_released_content" not in body
+    assert "tags_available" not in body
+    blob = json.dumps(result)
+    assert "present" not in json.dumps(result["blast_radius"]["released_content"]), (
+        "the released-content record must carry no checkout-dependent field")
+    assert "declared, not scanned" in result["blast_radius"]["released_content_note_method"]
+    assert blob
 
 
 def test_the_screen_excludes_its_own_output_and_says_so(result):

@@ -373,19 +373,46 @@ def scan_working_tree():
     return hits
 
 
-def scan_ref(ref):
-    """The same needles at a git ref — for released and archived content."""
-    ok = subprocess.run(["git", "cat-file", "-e", ref + "^{commit}"],
-                        cwd=REPO_ROOT, capture_output=True)
-    if ok.returncode != 0:
-        return dict(ref=ref, present=False, files={})
-    files = {}
-    for path, needle in (("puckworks/data/MANIFEST.csv", "independent (CT data)"),
-                         ("puckworks/validation/gates.py", GATE_DOCSTRING_FRAGMENT)):
-        r = subprocess.run(["git", "show", "%s:%s" % (ref, path)],
-                           cwd=REPO_ROOT, capture_output=True, text=True)
-        files[path] = (r.stdout.count(needle) if r.returncode == 0 else 0)
-    return dict(ref=ref, present=True, files=files)
+#: Released/archived content, RECORDED rather than scanned at run time.
+#:
+#: A tag scan cannot live in the deterministic output: CI checks out at depth 1 with no tags, so
+#: `git show v0.3.0:...` returns nothing there and the result would differ between a developer
+#: machine and CI. That would make the canonical drift test environment-dependent — it would fail
+#: in CI for a reason that has nothing to do with the audit. So the finding is declared here, and
+#: `verify_released_content()` checks it against the real tags wherever they are available.
+RELEASED_CONTENT = [
+    dict(ref="v0.3.0", carries_attribution=True,
+         files={"puckworks/data/MANIFEST.csv": 1, "puckworks/validation/gates.py": 1}),
+    dict(ref="archive/lab-tour-educational-pre-recovery-2026-07-20", carries_attribution=True,
+         files={"puckworks/data/MANIFEST.csv": 1, "puckworks/validation/gates.py": 1}),
+]
+
+
+def tags_available():
+    return all(subprocess.run(["git", "cat-file", "-e", r["ref"] + "^{commit}"],
+                              cwd=REPO_ROOT, capture_output=True).returncode == 0
+               for r in RELEASED_CONTENT)
+
+
+def verify_released_content():
+    """Check the declared tag counts against the real tags. Returns None if tags are absent.
+
+    Never called from `deep_screen()` — the deterministic output must not vary with what a
+    checkout happens to have fetched. A test calls this where the tags exist.
+    """
+    if not tags_available():
+        return None
+    out = []
+    for rec in RELEASED_CONTENT:
+        actual = {}
+        for path, needle in (("puckworks/data/MANIFEST.csv", "independent (CT data)"),
+                             ("puckworks/validation/gates.py", GATE_DOCSTRING_FRAGMENT)):
+            r = subprocess.run(["git", "show", "%s:%s" % (rec["ref"], path)],
+                               cwd=REPO_ROOT, capture_output=True, text=True)
+            actual[path] = (r.stdout.count(needle) if r.returncode == 0 else 0)
+        out.append(dict(ref=rec["ref"], declared=rec["files"], actual=actual,
+                        matches=actual == rec["files"]))
+    return out
 
 
 #: Hand attribution of every scanned surface. `kind` and `reader_can_take_the_independent_reading`
@@ -604,8 +631,10 @@ def blast_radius():
         n_reader_facing_overclaims=len(reader_facing),
         reader_facing_overclaims=reader_facing,
         correction_required=needs_fix,
-        released_content=[scan_ref("v0.3.0"),
-                          scan_ref("archive/lab-tour-educational-pre-recovery-2026-07-20")],
+        released_content=RELEASED_CONTENT,
+        released_content_note_method=("declared, not scanned at run time — a depth-1 CI checkout "
+                                      "has no tags, and a deterministic result may not vary with "
+                                      "that. verify_released_content() checks it where tags exist."),
         released_note=("The tagged source trees DO carry both the manifest cell and the gate "
                        "docstring: the defect is in released source. It is not in any released "
                        "reader-facing CLAIM — the public claims artifact records "

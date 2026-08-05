@@ -703,7 +703,7 @@
     "released_content": [
       {
         "ref": "v0.3.0",
-        "present": true,
+        "carries_attribution": true,
         "files": {
           "puckworks/data/MANIFEST.csv": 1,
           "puckworks/validation/gates.py": 1
@@ -711,13 +711,14 @@
       },
       {
         "ref": "archive/lab-tour-educational-pre-recovery-2026-07-20",
-        "present": true,
+        "carries_attribution": true,
         "files": {
           "puckworks/data/MANIFEST.csv": 1,
           "puckworks/validation/gates.py": 1
         }
       }
     ],
+    "released_content_note_method": "declared, not scanned at run time \u2014 a depth-1 CI checkout has no tags, and a deterministic result may not vary with that. verify_released_content() checks it where tags exist.",
     "released_note": "The tagged source trees DO carry both the manifest cell and the gate docstring: the defect is in released source. It is not in any released reader-facing CLAIM \u2014 the public claims artifact records same_campaign_not_held_out and reality_facing=false, and PV-02 excludes the gate outright.",
     "pages_publish_root": "docs/public/site",
     "pages_carries_attribution": false
