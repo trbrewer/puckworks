@@ -287,12 +287,12 @@
       },
       {
         "file": "tests/test_screen_i045.py",
-        "line": 260,
+        "line": 267,
         "function": "test_column_tracing_is_transparent_to_the_consumer"
       },
       {
         "file": "tests/test_screen_i045.py",
-        "line": 231,
+        "line": 238,
         "function": "test_halves_partition_the_real_columns"
       }
     ],

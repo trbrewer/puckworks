@@ -434,6 +434,33 @@ def test_bundle_is_present_and_carries_the_disposition():
 
 
 def test_committed_result_does_not_drift_from_a_fresh_run(result):
+    """The committed bytes must be EXACTLY what the producer emits today.
+
+    Selected-field equality is not enough. The producer records static call-site LINE NUMBERS,
+    so any edit to a scanned file silently invalidates the committed record while every
+    scientific assertion still passes — which is precisely how two stale line numbers reached a
+    reviewed head. Compare the whole canonical serialisation instead.
+
+    `line` fields are deliberately NOT normalised, masked or excluded: they are the volatile
+    fields, so ignoring them would defeat the test.
+    """
+    committed = (BUNDLE / "result.json").read_text(encoding="utf-8")
+    # the producer's own serialisation contract — screen_i045_evidence_halves.main()
+    expected = json.dumps(result, indent=2) + "\n"
+    if committed != expected:
+        c, e = json.loads(committed), result
+        diffs = [k for k in sorted(set(c) | set(e)) if c.get(k) != e.get(k)]
+        raise AssertionError(
+            "docs/insights/screens/I-045/result.json is stale: it does not reproduce from a "
+            "fresh run of its producer.\n"
+            "  top-level keys that differ: %s\n"
+            "  fix: python -m puckworks.analysis.screen_i045_evidence_halves\n"
+            "  (regenerate AFTER every source/test/doc edit is final — the producer records "
+            "call-site line numbers)" % (diffs or "none (formatting only)"))
+
+
+def test_committed_result_matches_on_the_decision_bearing_fields(result):
+    """Diagnostics kept alongside the canonical check, so a failure says WHAT moved."""
     committed = json.loads((BUNDLE / "result.json").read_text(encoding="utf-8"))
     assert committed["decision"] == result["decision"]
     assert committed["enumeration"]["complete"] == result["enumeration"]["complete"]
@@ -442,6 +469,12 @@ def test_committed_result_does_not_drift_from_a_fresh_run(result):
     assert committed["manifest_validation_strength_verbatim"] == S.MANIFEST_VALIDATION_STRENGTH
     assert (committed["enumeration"]["traced"]["gate_foster_ct_trajectory"]["columns_read"]
             == result["enumeration"]["traced"]["gate_foster_ct_trajectory"]["columns_read"])
+
+
+def test_the_screen_producer_is_deterministic(result):
+    """Two constructions in one process must serialise identically."""
+    again = S.screen()
+    assert json.dumps(again, indent=2) == json.dumps(result, indent=2)
 
 
 def test_decision_records_a_claim_ceiling():
