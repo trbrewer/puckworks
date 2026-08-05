@@ -24,7 +24,9 @@ measurement.
 | [`I-076`](I-076/) | do `pannusch2024.solver` and `cameron2020.extraction_bdf` actually disagree, or only claim to | **NEEDS_NEW_DATA** — no admissible matched scenario. **One decisive blocker**: two grinder dial spaces with no declared adapter. Temperature is a non-blocking caveat, not a second blocker |
 
 I-076 carries a [`PROTOCOL.md`](I-076/PROTOCOL.md) frozen and committed **before** any execution.
-No model was run: the determination is reached at scenario construction.
+For I-076, **neither Pannusch nor Cameron was run**; its determination was reached at
+scenario construction. I-045 executed the existing Foster gate **solely for column-access
+tracing**, with no new model campaign, refit, or parameter study.
 
 **Both Wave-2 screens were corrected on review.** I-045's verdict changed (RETIRE → SURVIVE)
 because the screen had used a local reading of *independent* instead of the repository's governing

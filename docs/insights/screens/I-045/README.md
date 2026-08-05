@@ -92,7 +92,9 @@ content. It is recorded in `result.json → rejected_reinterpretation` so it can
 
 1. **Static enumeration**, deliberately over-approximating: every reference to the loader, the
    dataset id, or the consuming gate across source, tests, docs and generated evidence records.
-   **89 references across 23 files; 4 loader call sites.**
+   The exact raw-reference counts are recorded in `result.json`. The decision-bearing
+   reconciliation is **4 statically recoverable loader call sites, 7 attributed consumers,
+   and complete coverage**.
 2. **Column-level access tracing** — the second, independent enumeration. The loader is wrapped
    so each row records which *keys* are read, and the candidate consumer is executed. Used
    solely to establish which evidence fields are read; nothing is fitted or scored.
