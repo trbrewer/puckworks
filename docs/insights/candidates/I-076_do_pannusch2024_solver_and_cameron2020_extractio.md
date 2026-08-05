@@ -148,3 +148,22 @@ shaded, with the convention actually used stated on the figure.
 
 `technical_note`. A confirmed agreement is a merge opportunity; a confirmed disagreement is a
 discrimination-experiment design, which hands off to RP-A / PV-08 rather than to a manuscript.
+
+### Screen outcome (appended after the Wave-2 screen ran)
+
+**NEEDS_NEW_DATA** — `docs/insights/screens/I-076/`. Not a retirement, so **not** recorded in
+`RETIRED_CANDIDATES.md`, and not in the IF-7 queue either.
+
+**No model was executed.** The protocol was frozen and committed before any result-producing
+commit, and the determination is reached at scenario construction. A good scenario exists — the
+source's own DoE Central Point, with measured flow, measured temperature, a matched 40 g endpoint
+and six replicates of a shared whole-cup TDS observable — but two independent blockers prevent the
+two components from receiving the same intervention: their grind inputs are settings on
+**different grinders** (Mahlkönig E65S vs EK43) with no declared adapter, and
+`cameron2020.extraction_bdf` has **no temperature input at all**.
+
+This card's high-risk framing anticipated a convention mismatch on the *observable*. The observable
+was in fact bridgeable; the obstacle is upstream, at the **intervention**.
+
+Missing evidence named: a measured E65S PSD at GL 1.4/1.7/2.0 on the same basis as
+`cameron2020/psd_figure2`, **and** a temperature basis for cameron. Neither is sufficient alone.

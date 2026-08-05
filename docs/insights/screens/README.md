@@ -11,10 +11,20 @@ Screens run only on candidates a human has shortlisted
 | [`I-010`](I-010/) | does anything consume `pannusch2024.closures`, and does a swap move a held-out result | **NEEDS_NEW_DATA** — path is real and total solids is settled (immaterial), but the three named bioactives have no retained per-cell RSD and the effects land inside the declared 0.3–19.7 % range |
 | [`I-024`](I-024/) | can one shared transport state explain every Angeloni species at once | **RETIRE** — per-species rate freedom buys nothing held out anywhere in the declared RSD band |
 
-Each carries a claim ceiling and an adversarial check. The two **retirements** carry reopen
-conditions in [`../RETIRED_CANDIDATES.md`](../RETIRED_CANDIDATES.md); **a `NEEDS_NEW_DATA` screen
-is not a retirement and is not recorded there** — its bundle is the record, and it names the
-missing measurement. Wave 2 is **I-045** and **I-076**.
+Each carries a claim ceiling and an adversarial check. **Retirements** carry reopen conditions
+in [`../RETIRED_CANDIDATES.md`](../RETIRED_CANDIDATES.md); **a `NEEDS_NEW_DATA` screen is not a
+retirement and is not recorded there** — its bundle is the record, and it names the missing
+measurement.
+
+## Wave 2 — reported 2026-08-05
+
+| screen | question | decision |
+|---|---|---|
+| [`I-045`](I-045/) | which evidentiary function each consumer of a mixed `independent + verification` cell leans on | **RETIRE** — 7 consumers; one gate legitimately needs both halves, none relies on the independent half alone |
+| [`I-076`](I-076/) | do `pannusch2024.solver` and `cameron2020.extraction_bdf` actually disagree, or only claim to | **NEEDS_NEW_DATA** — no admissible matched scenario: two grinder dial spaces with no adapter, and only one component has a temperature axis |
+
+I-076 carries a [`PROTOCOL.md`](I-076/PROTOCOL.md) frozen and committed **before** any execution.
+No model was run: the determination is reached at scenario construction.
 
 ## Three habits from Wave 1, each of which changed a result
 

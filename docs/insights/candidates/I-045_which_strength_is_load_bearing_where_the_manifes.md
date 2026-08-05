@@ -135,3 +135,19 @@ Same shape as I-040: dataset → evidence half → consumer → assertion → lo
 ### Likely output class
 
 `data_note`, merged with I-040 into a single lineage note if both produce findings of the same kind.
+
+### Screen outcome (appended after the Wave-2 screen ran)
+
+**RETIRE** — `docs/insights/screens/I-045/`, recorded in `RETIRED_CANDIDATES.md` with its reopen
+condition.
+
+The two halves turned out to be **different columns** of one file, so attribution was observed by
+column-level access tracing rather than inferred: `s_fit/w_fit/H_fit` (461 rows, the paper's own
+ODE) against `s_data/H_data` + errors (8 pixel-digitized CT points). Seven consumers, coverage
+complete. `gate_foster_ct_trajectory` legitimately requires **both** halves — the case this
+card's own alternative explanation anticipated — three consumers record verification only, three
+make no evidentiary claim, and **none** relies on the independent half alone.
+
+The prerequisite this card flagged is confirmed, not assumed: `docs/cards/foster2025_2.md`
+resolves and carries no `TEMPLATE_DEVIATION`; the deviation belongs to `docs/cards/foster2025.md`,
+a different card, and is not inherited.
