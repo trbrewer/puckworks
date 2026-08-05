@@ -288,3 +288,82 @@ execution.
 
 - Branch base: `14c3753c6e8dab2995332dbe1c3d1e04c4348051`
 - Branch: `insights/if6b-wave2-cheap-screens`
+
+---
+
+# ERRATUM — 2026-08-05, after exact-head review
+
+**The original protocol above is preserved verbatim. Nothing in it has been rewritten.** This
+section records what exact-head review changed and why, so the pre-result reasoning stays
+auditable alongside its correction.
+
+## What the original protocol froze
+
+Two independent blockers, each stated as sufficient on its own:
+
+- **Blocker A — grind dial spaces.** No declared adapter between the Schmieder/E65S grind
+  condition and Cameron's EK43-derived grind-microstructure convention.
+- **Blocker B — temperature axis.** `cameron2020.extraction_bdf.simulate_shot` exposes no
+  temperature parameter, so "the two components cannot be given the *same intervention*".
+
+And it named **both** as jointly required to unblock the screen: *"Item 1 alone does not unblock
+the screen; both are required."*
+
+## What review rejected
+
+**Blocker B is withdrawn as an independent blocker.**
+
+The original reasoning inferred a *different intervention* from a *missing argument*. That does
+not follow. Cameron does not **expose** temperature as a variable intervention, but it is not
+temperature-free: its implementation carries a fixed water-property basis documented in source at
+
+```
+MU = 3.15e-4          # viscosity of water at ~90 C, Pa s
+```
+
+~90 °C sits **inside** Pannusch's declared 80–98 °C window and within 2 °C of this scenario's
+measured 88.26 °C. A **fixed or implicit temperature basis is not automatically a different
+intervention** — it is an unparameterised one. Treating the absence of an argument as evidence of
+an incompatible physical basis over-claimed what the signature can show.
+
+What genuinely remains is narrower and does **not** block: the full temperature provenance of
+Cameron's fitted kinetic parameters is not documented per-temperature. That is a **non-blocking
+metadata caveat** — it would matter for *interpreting* a comparison, not for deciding whether one
+can be constructed.
+
+## What stands
+
+**Blocker A alone controls the final result**, and the disposition is unchanged:
+
+```
+decisive_blocker_count : 1
+decisive_blocker       : cross_grinder_microstructure_mapping
+temperature            : parameterized false · basis fixed_or_implicit · independently_blocking false
+models_executed        : false
+disposition            : NEEDS_NEW_DATA
+```
+
+The named missing evidence is now **one** item, not two:
+
+> a declared, source-grounded E65S-to-Cameron grind-microstructure mapping, or a directly shared
+> physical grind descriptor accepted by both components.
+
+## One further precision
+
+The original protocol described the Pannusch grind metadata as a case where *"the registry's
+`EK43-type` wording is not supported by the component's own card"*. That framing is too clean.
+The conflict is **internal to the Pannusch metadata itself**: the same card states both that
+validation is against the Schmieder-2023 apparatus (whose card names a Mahlkönig E65S) *and* that
+the fitted range is an "EK43-type grind 1.4–2.0".
+
+Recorded as an internal inconsistency, **not resolved** — a screen may not edit a registry field
+or a source card, and picking a winner would be inventing the very mapping this screen is blocked
+on. Either reading leaves the grind basis unestablished as EK43-derived microstructure, so the
+decisive blocker stands under both.
+
+## Unchanged by this erratum
+
+The scenario and its source lineage · the protocol commit identity `45f64dd` and its position
+before every result-producing commit · `models_executed: false` · the uncertainty authorities and
+their unpooling · the comparability classification of **(5) non-comparable at the intervention**,
+which now rests on the grind axis alone · every scope boundary.

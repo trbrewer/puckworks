@@ -17,22 +17,26 @@ exists — is reached at scenario construction, which is upstream of running any
 therefore performs an ADMISSIBILITY ANALYSIS over the cards, the registry, the manifest and the
 components' own call signatures. `test_screen_i076.py` asserts that neither solver is invoked.
 
-TWO INDEPENDENT BLOCKERS, either sufficient on its own:
+EXACTLY ONE DECISIVE BLOCKER (corrected 2026-08-05 after exact-head review):
 
-  A. GRIND — the two components' grind inputs live in different, non-portable dial spaces.
-     `pannusch2024.solver`'s campaign is on a Mahlkoenig E65S (its card points at Schmieder's
-     apparatus; Schmieder's card names the grinder). `cameron2020.extraction_bdf` takes an EK43
-     dial and resolves it through MEASURED microstructure tables. CLAUDE.md rule 9 / ledger
-     A9,G5 forbids mapping one grinder's dial onto another's without an explicit refit adapter,
-     and none exists. The numerical coincidence — E65S GL 1.7 vs EK43 dial 1.7 — is a trap, not
-     a bridge.
+  CROSS-GRINDER MICROSTRUCTURE MAPPING — no declared, source-grounded mapping exists between the
+  selected Schmieder/E65S grind condition and Cameron's EK43-derived grind-microstructure
+  convention. `cameron2020.extraction_bdf` resolves its dial through MEASURED microstructure
+  tables, so the dial is load-bearing physics rather than a flux prefactor, and supplying `q`
+  explicitly does not avoid it. CLAUDE.md rule 9 / ledger A9,G5 forbids mapping one grinder's
+  dial onto another's without an explicit refit adapter. The numerical coincidence — E65S GL 1.7
+  vs EK43 dial 1.7 — is a trap, not a bridge.
 
-  B. TEMPERATURE — `cameron2020.extraction_bdf.simulate_shot` has NO temperature parameter; it
-     is isothermal. `pannusch2024.solver` is declared over T 80-98 C with temperature-dependent
-     van't Hoff K(T) and Wilke-Chang D(T). The two cannot receive the same intervention on an
-     axis only one of them has.
+TEMPERATURE IS **NOT** AN INDEPENDENT BLOCKER. An earlier version of this screen counted the
+absence of a temperature argument in Cameron's public signature as a second blocker. Exact-head
+review rejected that, and this module agrees: Cameron does not EXPOSE temperature as a variable
+intervention, but its implementation carries a fixed water-property basis documented at ~90 C
+(`MU = 3.15e-4  # viscosity of water at ~90 C`). A fixed or implicit temperature basis is not
+automatically a different intervention. Complete kinetic-parameter temperature provenance remains
+a NON-BLOCKING metadata caveat.
 
-Both are checked programmatically below rather than asserted in prose.
+The grind basis alone is decisive, and it is checked programmatically below rather than asserted
+in prose.
 
 Run:  python -m puckworks.analysis.screen_i076_matched_models
 """
@@ -122,10 +126,24 @@ GRINDER_EVIDENCE = {
         grinder_quote="20 g dose, DE1 Pro + IMS basket/screen, Acqua Panna water, "
                       "Mahlkönig E65S",
         dial_span_quote="GL 1.4–2.0 (only ~7.5% of the E65S scale → near-identical",
-        note="the registry's `EK43-type grind 1.4-2.0` is not supported by the component's own "
-             "card, which places the work on Schmieder's apparatus; Schmieder's card names the "
-             "grinder as an E65S. Recorded as a discrepancy, NOT corrected here — a screen may "
-             "not edit a registry field."),
+        metadata_conflict=dict(
+            kind="INTERNAL to the pannusch2024 metadata — NOT a card-versus-registry mismatch",
+            lineage_says="its source/calibration lineage identifies the Schmieder-2023 campaign, "
+                         "whose card names a Mahlkoenig E65S "
+                         "(docs/cards/pannusch2024.md: 'Validation is against the authors' own "
+                         "Schmieder-2023 apparatus and one coffee')",
+            validity_text_says="the same card's validity text reads 'Fitted range: T 80-98 C, "
+                               "Q 1-3 mL/s, EK43-type grind 1.4-2.0' (and the registry "
+                               "valid_range repeats it)",
+            reading="the two statements cannot both be right about the grinder family. The "
+                    "conflict is internal to the component's own metadata and is recorded, NOT "
+                    "resolved: a screen may not edit a registry field or a source card, and "
+                    "picking a winner would be inventing the very mapping this screen is "
+                    "blocked on.",
+            corrected_in_this_pr=False),
+        note="grind family is ambiguous in this component's own metadata; see metadata_conflict. "
+             "Either way it is not established as EK43-derived microstructure, which is what a "
+             "match to cameron would require."),
     COMPONENT_B: dict(
         registry_field="valid_range",
         card="docs/cards/cameron2020.md",
@@ -187,34 +205,56 @@ def blocker_grind():
 # ------------------------------------------------------------------------------------------
 # BLOCKER B — temperature axis
 # ------------------------------------------------------------------------------------------
-def blocker_temperature():
-    """Does each component accept a temperature? Read from the actual call signatures."""
+def temperature_basis():
+    """Temperature: a NON-BLOCKING metadata caveat, not an independent blocker.
+
+    Corrected 2026-08-05. Cameron does not EXPOSE temperature as a variable intervention, but its
+    implementation carries a fixed water-property basis documented at ~90 C. A fixed or implicit
+    temperature basis is not automatically a different intervention, so the absence of the
+    argument alone does not block the comparison. What remains unrecorded is the full
+    temperature provenance of its fitted kinetic parameters — a caveat, not a blocker.
+    """
+    import re as _re
     from puckworks.models.cameron2020 import extraction_bdf as C
     from puckworks.models.pannusch2024 import solver as P
     cam = list(inspect.signature(C.simulate_shot).parameters)
     pan = list(inspect.signature(P.simulate_fractions).parameters)
 
     def has_T(params):
-        return any(p == "T_C" or p.lower().startswith("t_c") or "temp" in p.lower()
-                   for p in params)
+        return any(p == "T_C" or "temp" in p.lower() for p in params)
 
-    cam_T, pan_T = has_T(cam), has_T(pan)
+    src = pathlib.Path(C.__file__).read_text(encoding="utf-8")
+    m = _re.search(r"MU\s*=\s*([\d.eE+-]+)\s*#\s*viscosity of water at\s*~?\s*(\d+)\s*C", src)
     from puckworks.registry import components
     reg = {c.name: c for c in components()}
     return dict(
-        blocker="B_temperature_axis",
-        component_a_signature=pan, component_a_accepts_temperature=pan_T,
-        component_b_signature=cam, component_b_accepts_temperature=cam_T,
+        axis="temperature",
+        component_a_signature=pan, component_a_accepts_temperature=has_T(pan),
+        component_b_signature=cam, component_b_accepts_temperature=has_T(cam),
         component_a_declared_range=reg[COMPONENT_A].valid_range,
         component_b_declared_range=reg[COMPONENT_B].valid_range,
         component_a_temperature_dependent_closures=[
             "vant_hoff_K(T) — solid-liquid partition", "diffusion_coeff(T) — Wilke-Chang"],
-        component_b_is_isothermal=not cam_T,
-        note="one component has a temperature axis and the other has none, so they cannot "
-             "receive the same intervention on it. Fixing pannusch at the measured 88.26 C "
-             "while cameron receives nothing is two experiments side by side, not a matched "
-             "scenario.",
-        blocks=bool(pan_T and not cam_T))
+        parameterized=has_T(cam),
+        basis="fixed_or_implicit",
+        fixed_basis_evidence=dict(
+            constant="MU", value=(float(m.group(1)) if m else None),
+            documented_temperature_C=(float(m.group(2)) if m else None),
+            quote="MU = 3.15e-4  # viscosity of water at ~90 C, Pa s",
+            file="puckworks/models/cameron2020/extraction_bdf.py"),
+        independently_blocking=False,
+        reading="cameron does not expose temperature as a VARIABLE intervention, but it is not "
+                "temperature-free: it carries a fixed water-property basis documented at ~90 C, "
+                "which sits inside pannusch's declared 80-98 C window. A fixed or implicit "
+                "basis is not automatically a DIFFERENT intervention, so this alone does not "
+                "block the comparison.",
+        residual_caveat="the full temperature provenance of cameron's fitted kinetic parameters "
+                        "(k, D_s, c_sat) is not documented per-temperature. That is a "
+                        "NON-BLOCKING metadata caveat; it would matter for interpreting a "
+                        "comparison, not for deciding whether one can be constructed.",
+        superseded_note="an earlier version of this screen counted the missing argument as a "
+                        "second independent blocker. Exact-head review rejected that and it is "
+                        "withdrawn; the grind basis alone is decisive.")
 
 
 # ------------------------------------------------------------------------------------------
@@ -299,13 +339,16 @@ COMPARABILITY_LEVELS = {
 
 
 def comparability(grind, temp):
-    primary = 5 if (grind["blocks"] or temp["blocks"]) else 1
+    primary = 5 if grind["blocks"] else 1
     return dict(
         primary=dict(level=primary, name=COMPARABILITY_LEVELS[primary],
                      axis="intervention",
-                     rationale="a matched scenario cannot be constructed: the grind axis has no "
-                               "declared adapter between the two dial spaces, and the "
-                               "temperature axis exists for only one of the two components."),
+                     rationale="a matched scenario cannot be constructed: no declared, "
+                               "source-grounded mapping exists between the selected "
+                               "Schmieder/E65S grind condition and cameron's EK43-derived "
+                               "grind-microstructure convention. Temperature is NOT a "
+                               "contributing reason — cameron carries a fixed ~90 C water-"
+                               "property basis and its unexposed argument does not block."),
         secondary=[
             dict(level=2, name=COMPARABILITY_LEVELS[2], axis="observable",
                  rationale="whole-cup TDS mass % at a matched 40 g beverage endpoint, after "
@@ -342,35 +385,50 @@ DECISION_RULE = dict(
                    "that would supply it.")
 
 UNBLOCKING_EVIDENCE = [
-    dict(item=1, need="a grind calibration linking the two dial spaces",
-         precisely="a measured PSD (or equivalent microstructure) for Schmieder's Mahlkoenig "
-                   "E65S at GL 1.4/1.7/2.0, on the same basis as the existing "
+    dict(item=1,
+         need="a declared, source-grounded E65S-to-Cameron grind-microstructure mapping, or a "
+              "directly shared physical grind descriptor accepted by both components",
+         precisely="a measured PSD (or equivalent microstructure descriptor) for the Schmieder "
+                   "campaign's grind conditions on the same basis as the existing "
                    "`cameron2020/psd_figure2` (Cameron's measured EK43 PSD at four dial "
-                   "settings). Equivalently for Angeloni's Mythos O/C/F.",
-         resolves="blocker A", sufficient_alone=False),
-    dict(item=2, need="a temperature basis for cameron2020.extraction_bdf",
-         precisely="either a declared temperature closure, or a source-backed statement of the "
-                   "temperature its fixed parameters correspond to, so a pannusch run can be "
-                   "placed at that temperature rather than at one cameron cannot represent.",
-         resolves="blocker B", sufficient_alone=False),
+                   "settings) — or any physical grind descriptor both components declare they "
+                   "accept, which would remove the need for a dial mapping entirely.",
+         resolves="the single decisive blocker", sufficient_alone=True),
+]
+
+#: Recorded, and explicitly NOT part of the missing-evidence list.
+NON_BLOCKING_CAVEATS = [
+    dict(caveat="cameron's kinetic-parameter temperature provenance is not documented "
+                "per-temperature",
+         why_not_blocking="cameron carries a fixed water-property basis documented at ~90 C, "
+                          "which sits inside pannusch's declared 80-98 C window. A fixed or "
+                          "implicit basis is not automatically a different intervention. This "
+                          "would matter for INTERPRETING a comparison, not for deciding whether "
+                          "one can be constructed."),
+    dict(caveat="the pannusch2024 metadata are internally inconsistent about the grinder family "
+                "(Schmieder/E65S lineage vs EK43-type validity text)",
+         why_not_blocking="it is recorded for a human, not resolved here. Either reading leaves "
+                          "the grind basis unestablished as EK43-derived microstructure, so the "
+                          "decisive blocker stands under both."),
 ]
 
 
 def screen():
     scn = scenario()
     grind = blocker_grind()
-    temp = blocker_temperature()
+    temp = temperature_basis()
     unc = uncertainty_authorities(scn)
     comp = comparability(grind, temp)
-    blockers = [b for b in (grind, temp) if b["blocks"]]
+    decisive = [grind] if grind["blocks"] else []
 
-    if blockers:
+    if decisive:
         decision = "NEEDS_NEW_DATA"
-        why = ("Constructing the matched scenario requires an invented parameter. %d "
-               "independent blocker(s), each sufficient alone: %s. The observable, the "
-               "endpoint, the dose, the measured flow and a six-replicate measured uncertainty "
-               "are all available — the obstacle is the INTERVENTION, not the observable."
-               % (len(blockers), "; ".join(b["blocker"] for b in blockers)))
+        why = ("Constructing the matched scenario requires an invented parameter: no declared, "
+               "source-grounded mapping exists between the selected Schmieder/E65S grind "
+               "condition and cameron's EK43-derived grind-microstructure convention. That is "
+               "the single decisive blocker. The observable, the endpoint, the dose, the "
+               "measured flow and a six-replicate measured uncertainty are all available — the "
+               "obstacle is the grind basis, not the observable, and NOT temperature.")
     else:                                                  # pragma: no cover - not reachable now
         decision = "PENDING_EXECUTION"
         why = "A matched scenario is admissible; the comparison must be executed."
@@ -388,7 +446,22 @@ def screen():
         models_executed_note="no solver is invoked anywhere in this screen; the determination is "
                              "reached at scenario construction, upstream of execution",
         scenario=scn,
-        blockers=dict(grind=grind, temperature=temp, n_blocking=len(blockers)),
+        decisive_blocker_count=len(decisive),
+        decisive_blocker=("cross_grinder_microstructure_mapping" if decisive else None),
+        blockers=dict(grind=grind, n_blocking=len(decisive)),
+        temperature=dict(parameterized=temp["parameterized"], basis=temp["basis"],
+                         independently_blocking=temp["independently_blocking"],
+                         detail=temp),
+        non_blocking_caveats=NON_BLOCKING_CAVEATS,
+        correction_note=(
+            "CORRECTED 2026-08-05 after exact-head review. The superseded version recorded TWO "
+            "independent blockers and named both grind and temperature evidence as jointly "
+            "required. Review rejected the absence of a temperature ARGUMENT as an independent "
+            "blocker: cameron carries a fixed water-property basis documented at ~90 C, and a "
+            "fixed or implicit basis is not automatically a different intervention. The grind "
+            "basis alone is decisive, and the missing-evidence list has one item. The "
+            "disposition (NEEDS_NEW_DATA), the scenario, the protocol lineage and "
+            "models_executed=false are unchanged."),
         observable=OBSERVABLE,
         inventory_bases=INVENTORY_BASES,
         uncertainty_authorities=unc,
@@ -422,7 +495,7 @@ def figure(path=None, result=None):
     plt.rcParams.update({"figure.dpi": 150, "savefig.dpi": 150, "font.size": 8.5,
                          "font.family": "DejaVu Sans"})
     r = result or screen()
-    scn, g, t = r["scenario"], r["blockers"]["grind"], r["blockers"]["temperature"]
+    scn, g, t = r["scenario"], r["blockers"]["grind"], r["temperature"]
 
     fig = plt.figure(figsize=(12.8, 8.0))
     gs = fig.add_gridspec(2, 2, height_ratios=[1.15, 1.0], hspace=0.42, wspace=0.26)
@@ -430,10 +503,10 @@ def figure(path=None, result=None):
     # ---- A: the intervention axes, shown as two tracks that do not meet -------------------
     axA = fig.add_subplot(gs[0, :])
     axA.set_xlim(0, 100)
-    axA.set_ylim(-0.4, 10.2)
+    axA.set_ylim(-0.35, 10.5)
     axA.axis("off")
-    axA.set_title("A — the frozen scenario reaches both components on every axis EXCEPT the two "
-                  "that block it", fontsize=9.2, color=_INK, pad=6, loc="left")
+    axA.set_title("A — the frozen scenario reaches both components on every axis EXCEPT ONE",
+                  fontsize=9.2, color=_INK, pad=6, loc="left")
 
     rows = [
         ("beverage endpoint", "40 g collected mass", "40 g via Eq. 26 t_shot", True, ""),
@@ -442,17 +515,21 @@ def figure(path=None, result=None):
          % scn["measured_flow_mL_s"]["mean"], "same measured flow  ->  q [m/s]", True, ""),
         ("observable", "mg/mL  ->  mass % (rho=1000)", "mass % natively (rho_out=997)",
          True, ""),
-        ("GRIND", "E65S  GL 1.7", "EK43 dial (1.1-2.3)", False,
-         "no refit adapter — CLAUDE.md rule 9. Same NUMBER, different grinders."),
-        ("TEMPERATURE", "T_C required; K(T), D(T)", "NO temperature parameter", False,
-         "cameron is isothermal — the axis exists for only one component."),
+        ("temperature", "T_C = 88.26 C (measured)",
+         "fixed ~90 C water-property basis", True,
+         ""),
+        ("GRIND", "Schmieder / E65S  GL 1.7",
+         "EK43-derived microstructure tables", False,
+         "THE ONE DECISIVE BLOCKER — no declared source-grounded mapping (rule 9). "
+         "Same NUMBER, different grinder families."),
     ]
-    y = 8.5
-    axA.text(23, 9.6, COMPONENT_A, fontsize=8.6, weight="bold", color=_C_A, ha="left")
-    axA.text(58, 9.6, COMPONENT_B, fontsize=8.6, weight="bold", color=_C_B, ha="left")
+    y = 8.8
+    axA.text(23, 9.9, COMPONENT_A, fontsize=8.6, weight="bold", color=_C_A, ha="left")
+    axA.text(58, 9.9, COMPONENT_B, fontsize=8.6, weight="bold", color=_C_B, ha="left")
     for label, a, b, ok, note in rows:
         col = _GRID if ok else _C_BLOCK
-        axA.add_patch(FancyBboxPatch((1.0, y - 0.42), 97.0, 0.92,
+        axA.add_patch(FancyBboxPatch((1.0, y - (0.62 if not ok else 0.42)), 97.0,
+                                     1.12 if not ok else 0.92,
                                      boxstyle="round,pad=0.02,rounding_size=0.08",
                                      fc=col, ec="none", alpha=0.10 if ok else 0.22, zorder=0))
         axA.text(2, y, label, fontsize=7.8, color=_INK,
@@ -465,8 +542,8 @@ def figure(path=None, result=None):
         else:
             axA.plot([50.5, 56.5], [y, y], color=_C_BLOCK, lw=1.4)
             axA.plot([53.5], [y], marker="x", ms=9, color=_C_BLOCK, mew=2.4)
-            axA.text(2, y - 0.42, note, fontsize=6.6, color=_C_BLOCK, style="italic")
-        y -= 1.42
+            axA.text(2, y - 0.52, note, fontsize=6.4, color=_C_BLOCK, style="italic")
+        y -= 1.62
 
     # ---- B: the measured observable, the ONE thing on a common axis ----------------------
     axB = fig.add_subplot(gs[1, 0])
@@ -498,20 +575,22 @@ def figure(path=None, result=None):
     axC.set_title("C — the named missing evidence", fontsize=8.6, color=_INK, pad=6, loc="left")
     yy = 88
     for u in r["unblocking_evidence"]:
-        axC.add_patch(FancyBboxPatch((1, yy - 30), 97, 30,
+        axC.add_patch(FancyBboxPatch((1, yy - 54), 97, 54,
                                      boxstyle="round,pad=0.4,rounding_size=1.4",
                                      fc=_C_BLOCK, ec="none", alpha=0.12, zorder=0))
-        axC.text(4, yy - 5, "%d. %s" % (u["item"], u["need"]), fontsize=7.8, weight="bold",
-                 color=_INK)
+        axC.text(4, yy - 4, "%d." % u["item"], fontsize=7.8, weight="bold", color=_INK)
         import textwrap as _tw
-        for j, ln in enumerate(_tw.wrap(u["precisely"], 74)[:4]):
-            axC.text(4, yy - 11 - 5.0 * j, ln, fontsize=6.8, color=_MUTED)
-        axC.text(4, yy - 29, "resolves %s · sufficient alone: %s"
+        for j, ln in enumerate(_tw.wrap(u["need"], 66)[:3]):
+            axC.text(4, yy - 10 - 4.6 * j, ln, fontsize=7.2, color=_INK)
+        for j, ln in enumerate(_tw.wrap(u["precisely"], 72)[:6]):
+            axC.text(4, yy - 26 - 4.3 * j, ln, fontsize=6.6, color=_MUTED)
+        axC.text(4, yy - 52, "resolves %s · sufficient alone: %s"
                  % (u["resolves"], u["sufficient_alone"]), fontsize=6.8, color=_C_BLOCK,
                  style="italic")
-        yy -= 36
-    axC.text(4, yy - 2, "Neither alone unblocks the screen; both are required.",
-             fontsize=7.4, color=_INK, weight="bold")
+        yy -= 62
+    axC.text(4, yy - 4, "ONE item. Temperature is NOT required: cameron carries a fixed "
+             "~90 °C water-property\nbasis, so its unexposed argument does not block.",
+             fontsize=7.2, color=_INK, weight="bold", linespacing=1.5)
 
     fig.suptitle("I-076 — do pannusch2024.solver and cameron2020.extraction_bdf actually "
                  "disagree, or only claim to?", fontsize=11.5, y=1.005, x=0.005, ha="left",
@@ -522,15 +601,21 @@ def figure(path=None, result=None):
              "(PROTOCOL.md).     NO MODEL WAS EXECUTED — the determination is reached at "
              "scenario construction.", fontsize=7.0, color=_MUTED, style="italic", ha="left")
     fig.text(0.005, -0.045, va="top", ha="left", fontsize=7.1, color=_MUTED, linespacing=1.6,
-             s="Comparability  primary (5) NON-COMPARABLE at the intervention. Secondary: on the "
-               "OBSERVABLE alone (2) comparable through pannusch's own declared mg/mL↔mass %% "
-               "convention; on INVENTORY (4) same label, different basis.\n"
+             s="Comparability  primary (5) NON-COMPARABLE at the intervention, on the GRIND "
+               "axis alone. Secondary: on the OBSERVABLE (2) comparable through pannusch's own "
+               "declared mg/mL↔mass %% convention; on INVENTORY (4) same label, different "
+               "basis.\n"
+               "Temperature is NOT a blocker: cameron carries a fixed ~90 °C water-property "
+               "basis (MU = 3.15e-4), inside pannusch's declared 80–98 °C window. Its "
+               "kinetic-parameter temperature provenance is a NON-BLOCKING caveat.\n"
                "Uncertainty authorities are kept separate and unpooled: measured replicate "
                "(this scenario %.2f %% RSD, campaign mean 2.5 %%), pannusch fit MAPE (never "
-               "cameron's predictive uncertainty), numerical convergence (never experimental).\n"
-               "DECISION  %s — %s"
-               % (scn["measured_tds_mass_fraction"]["replicate_rsd_pct"],
-                  r["decision"], r["decision_reasoning"]))
+               "cameron's predictive uncertainty), numerical convergence (never "
+               "experimental).\n"
+               "DECISION  %s\n%s"
+               % (scn["measured_tds_mass_fraction"]["replicate_rsd_pct"], r["decision"],
+                  "\n".join("    " + ln for ln in
+                            __import__("textwrap").wrap(r["decision_reasoning"], 132))))
 
     path = path or (REPO_ROOT / "docs/insights/screens/I-076/figures/primary.png")
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -554,9 +639,11 @@ def main(argv=None):
           % (scn["measured_flow_mL_s"]["mean"], scn["measured_temperature_C"]["mean"],
              scn["measured_tds_mass_fraction"]["mean_pct"],
              scn["measured_tds_mass_fraction"]["replicate_rsd_pct"]))
-    for name in ("grind", "temperature"):
-        b = r["blockers"][name]
-        print("  blocker %-12s blocks=%s" % (name, b["blocks"]))
+    print("  decisive blockers: %d (%s)" % (r["decisive_blocker_count"], r["decisive_blocker"]))
+    print("  temperature: parameterized=%s basis=%s independently_blocking=%s"
+          % (r["temperature"]["parameterized"], r["temperature"]["basis"],
+             r["temperature"]["independently_blocking"]))
+    print("  named missing evidence: %d item(s)" % len(r["unblocking_evidence"]))
     print("comparability: (%d) %s at the %s"
           % (r["comparability"]["primary"]["level"], r["comparability"]["primary"]["name"],
              r["comparability"]["primary"]["axis"]))

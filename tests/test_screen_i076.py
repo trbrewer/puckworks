@@ -120,13 +120,23 @@ def test_the_two_components_name_different_grinders_in_their_cards():
         "the campaign card must not also claim an EK43 in its apparatus paragraph")
 
 
-def test_grind_blocker_is_derived_not_asserted(result):
+def test_grind_mapping_is_absent_and_remains_decisive(result):
     g = result["blockers"]["grind"]
     assert g["e65s_named_in_campaign_card"] is True
     assert g["ek43_named_in_cameron_card"] is True
     assert g["same_dial_space"] is False
     assert g["declared_adapter_exists"] is False
     assert g["blocks"] is True
+    # decisive: it alone produces the disposition
+    assert result["decisive_blocker_count"] == 1
+    assert result["decision"] == "NEEDS_NEW_DATA"
+    # and no source in the repository supplies the mapping
+    import csv
+    with open(REPO / "puckworks/data/MANIFEST.csv", newline="", encoding="utf-8") as fh:
+        rows = list(csv.DictReader(fh))
+    e65s_psd = [r for r in rows if "E65S" in (r["source_artifact"] + r["caveat"])
+                and "psd" in r["dataset_id"].lower()]
+    assert not e65s_psd, "an E65S PSD now exists — the decisive blocker may be resolvable"
 
 
 def test_the_existing_uncalibrated_maps_contradict_each_other(result):
@@ -151,28 +161,71 @@ def test_grind_is_load_bearing_for_cameron_beyond_the_flux():
 
 
 # --------------------------------------------------------------------------------------------
-# BLOCKER B — temperature, checked against the live signatures
+# TEMPERATURE — a NON-BLOCKING caveat, not an independent blocker
 # --------------------------------------------------------------------------------------------
-def test_cameron_has_no_temperature_parameter():
-    import inspect
-    from puckworks.models.cameron2020 import extraction_bdf as C
-    params = list(inspect.signature(C.simulate_shot).parameters)
-    assert not any("temp" in p.lower() or p == "T_C" for p in params), params
+def test_absence_of_a_temperature_argument_does_not_set_a_blocker(result):
+    """The correction: a missing ARGUMENT is not evidence of a different intervention."""
+    t = result["temperature"]
+    assert t["parameterized"] is False, "cameron still exposes no temperature argument"
+    assert t["independently_blocking"] is False, (
+        "a fixed or implicit temperature basis is not automatically a different intervention")
+    assert t["basis"] == "fixed_or_implicit"
+    assert result["decisive_blocker_count"] == 1
+    assert result["decisive_blocker"] == "cross_grinder_microstructure_mapping"
 
 
-def test_pannusch_requires_a_temperature():
+def test_cameron_carries_a_fixed_water_property_basis_near_90C(result):
+    """Provenance for treating temperature as fixed rather than absent."""
+    src = (REPO / "puckworks/models/cameron2020/extraction_bdf.py").read_text(encoding="utf-8")
+    assert "viscosity of water at ~90 C" in src
+    ev = result["temperature"]["detail"]["fixed_basis_evidence"]
+    assert ev["constant"] == "MU"
+    assert ev["documented_temperature_C"] == pytest.approx(90.0)
+    assert ev["value"] == pytest.approx(3.15e-4)
+    # and it sits inside pannusch's declared window
+    rng = result["temperature"]["detail"]["component_a_declared_range"]
+    assert "80-98" in rng.replace("–", "-")
+
+
+def test_temperature_remains_a_recorded_non_blocking_caveat(result):
+    caveats = result["non_blocking_caveats"]
+    assert any("temperature" in c["caveat"].lower() for c in caveats)
+    for c in caveats:
+        assert c["why_not_blocking"]
+    t = result["temperature"]["detail"]
+    assert t["residual_caveat"]
+    assert "NON-BLOCKING" in t["residual_caveat"]
+    assert "withdrawn" in t["superseded_note"]
+
+
+def test_pannusch_still_requires_a_temperature():
     import inspect
     from puckworks.models.pannusch2024 import solver as P
-    params = list(inspect.signature(P.simulate_fractions).parameters)
-    assert "T_C" in params
+    assert "T_C" in list(inspect.signature(P.simulate_fractions).parameters)
 
 
-def test_temperature_blocker_is_derived(result):
-    t = result["blockers"]["temperature"]
-    assert t["component_a_accepts_temperature"] is True
-    assert t["component_b_accepts_temperature"] is False
-    assert t["component_b_is_isothermal"] is True
-    assert t["blocks"] is True
+# --------------------------------------------------------------------------------------------
+# The pannusch metadata conflict — internal, not card-versus-registry
+# --------------------------------------------------------------------------------------------
+def test_pannusch_metadata_conflict_is_internal_and_unresolved(result):
+    """Both statements live in the component's OWN card; the screen records, never resolves."""
+    conf = result["blockers"]["grind"]["evidence"][S.COMPONENT_A]["metadata_conflict"]
+    assert "INTERNAL" in conf["kind"]
+    assert "NOT a card-versus-registry" in conf["kind"]
+    assert conf["corrected_in_this_pr"] is False
+    card = (REPO / "docs/cards/pannusch2024.md").read_text(encoding="utf-8")
+    assert "Schmieder-2023 apparatus" in card, "the lineage statement must be in the card"
+    assert "EK43-type grind" in card, "the validity statement must be in the SAME card"
+
+
+def test_neither_registry_nor_source_card_was_modified():
+    import subprocess
+    base = "14c3753c6e8dab2995332dbe1c3d1e04c4348051"
+    for path in ("puckworks/models/__init__.py", "docs/cards/pannusch2024.md",
+                 "docs/cards/cameron2020.md", "docs/cards/schmieder2023.md"):
+        out = subprocess.run(["git", "diff", "--numstat", base, "HEAD", "--", path],
+                             cwd=REPO, capture_output=True, text=True).stdout.strip()
+        assert out == "", "%s was modified: %s" % (path, out)
 
 
 # --------------------------------------------------------------------------------------------
@@ -232,6 +285,7 @@ def test_measured_replicate_rsd_comes_from_the_manifest(result):
 def test_comparability_uses_the_five_levels_without_building_machinery(result):
     c = result["comparability"]
     assert c["primary"]["level"] in S.COMPARABILITY_LEVELS
+    assert "Temperature is NOT" in c["primary"]["rationale"]
     assert set(S.COMPARABILITY_LEVELS) == {1, 2, 3, 4, 5}
     assert "No comparability schema" in c["note"]
     src = pathlib.Path(S.__file__).read_text(encoding="utf-8")
@@ -239,20 +293,23 @@ def test_comparability_uses_the_five_levels_without_building_machinery(result):
         assert banned not in src, banned
 
 
-def test_decision_follows_from_the_blockers(result):
-    blocking = [b for b in (result["blockers"]["grind"], result["blockers"]["temperature"])
-                if b["blocks"]]
+def test_decision_follows_from_the_grind_blocker_alone(result):
+    blocking = [result["blockers"]["grind"]] if result["blockers"]["grind"]["blocks"] else []
     expected = "NEEDS_NEW_DATA" if blocking else "PENDING_EXECUTION"
     assert result["decision"] == expected
-    assert result["blockers"]["n_blocking"] == len(blocking)
+    assert result["blockers"]["n_blocking"] == len(blocking) == result["decisive_blocker_count"]
+    assert result["temperature"]["independently_blocking"] is False
 
 
-def test_missing_evidence_is_named_and_neither_item_is_sufficient_alone(result):
+def test_exactly_one_item_appears_in_the_decisive_missing_evidence_list(result):
     ue = result["unblocking_evidence"]
-    assert len(ue) == 2
-    for u in ue:
-        assert u["precisely"] and u["resolves"]
-        assert u["sufficient_alone"] is False
+    assert len(ue) == 1, "the missing-evidence list must name ONE item, not two"
+    u = ue[0]
+    assert u["precisely"] and u["resolves"]
+    assert u["sufficient_alone"] is True
+    assert "grind" in u["need"].lower()
+    assert "temperature" not in u["need"].lower(), (
+        "temperature must not appear as jointly-required missing evidence")
 
 
 # --------------------------------------------------------------------------------------------

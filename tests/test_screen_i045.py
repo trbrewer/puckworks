@@ -72,32 +72,120 @@ def test_controlling_card_carries_the_circularity_note():
 
 
 # --------------------------------------------------------------------------------------------
-# THE NON-ORDINAL REQUIREMENT
+# THE GOVERNING GLOSSARY — the correction this screen turns on
 # --------------------------------------------------------------------------------------------
-def test_independent_and_verification_are_not_ranked():
-    """No ordering may exist between the two evidentiary functions anywhere in the screen."""
-    src = pathlib.Path(S.__file__).read_text(encoding="utf-8")
-    # ordering CONSTRUCTS, not the mere word: an ordered list or a comparison would rank them
-    for banned in ("STRENGTH_ORDER", "stronger than", "weaker than", "_rung(", "rung_index"):
-        assert banned not in src, "an ordering crept in: %r" % banned
-    assert "not ordinal" in src.lower()
-    # the classifications must be a SET in the result, never a ranked sequence
+def test_classification_is_bound_to_the_repository_glossary():
+    """The screen must read ROADMAP S0, not restate a definition from memory."""
+    g = S.glossary()
+    assert g["anchor_found"] is True
+    assert "not used in fitting" in g["definitions"]["independent"]
+    assert g["independent_requires_held_out"] is True, (
+        "the extracted ROADMAP block must actually contain the held-out requirement")
+    # and the extracted block must be the live ROADMAP text
+    roadmap = (REPO / "docs/ROADMAP.md").read_text(encoding="utf-8")
+    assert S.GLOSSARY_ANCHOR in roadmap
+    assert g["definitions"]["independent"] in " ".join(roadmap.split())
+
+
+def test_ct_observations_belong_to_the_fitting_campaign():
+    """Proved from the controlling card, which is what makes the CT arm post-fit."""
+    card = (REPO / S.SOURCE_CARD).read_text(encoding="utf-8")
+    norm = " ".join(card.split())
+    assert " ".join(S.CARD_CIRCULARITY_NOTE.split()) in norm
+    # the specific quantities and the specific curves
+    assert "fitted" in norm and "s/H curves being reproduced" in norm
+    assert "k" in S.CARD_CIRCULARITY_NOTE and "phi_T" in S.CARD_CIRCULARITY_NOTE.replace(
+        "\u03c6_T", "phi_T")
+
+
+def test_the_measurement_modality_reinterpretation_is_rejected():
+    """The earlier local reading must be recorded as rejected, not quietly dropped."""
+    rr = S.REJECTED_REINTERPRETATION
+    assert "MEASUREMENT MODALITY" in rr["reading"]
+    assert "not the repository's definition" in rr["why_rejected"]
+    assert "foster2025_2" in rr["settled_by"]
     r = S.screen(run_trace=False)
-    assert isinstance(r["consumers_by_classification"], dict)
-    assert "evidence_types_are_not_ordinal" in r
-    # the four classifications are a set, not a sequence with an implied rank
-    assert {S.CLS_INDEPENDENT, S.CLS_VERIFICATION, S.CLS_BOTH, S.CLS_NEITHER} == {
-        "INDEPENDENT_LOAD_BEARING", "VERIFICATION_LOAD_BEARING",
-        "BOTH_LOAD_BEARING", "NEITHER_LOAD_BEARING"}
+    assert r["rejected_reinterpretation"] == rr
 
 
-def test_both_is_an_allowed_and_present_outcome():
-    """'uses both' must be a first-class correct outcome, not a defect class."""
-    both = [c for c in S.CONSUMERS if c["classification"] == S.CLS_BOTH]
-    assert both, "the legitimate both-halves case must be representable and represented"
-    for c in both:
-        assert c["both_legitimately_required"] is True
-        assert c["independence_load_bearing"] and c["verification_reproduction_load_bearing"]
+def test_ct_arm_is_post_fit_same_campaign_not_independent():
+    h = S.HALVES["post_fit_ct_same_campaign"]
+    assert h["evidence_type_under_glossary"].startswith("post-fit")
+    assert h["held_out"] is False
+    assert h["same_campaign"] is True
+    assert h["manifest_wording"] == "independent (CT data)"
+    assert h["manifest_wording_correct"] is False, (
+        "the manifest calls this arm independent; under the glossary it is not")
+
+
+def test_fitted_curve_arm_is_verification():
+    h = S.HALVES["verification_fitted_curves"]
+    assert h["evidence_type_under_glossary"] == "verification"
+    assert h["manifest_wording_correct"] is True
+
+
+def test_no_arm_of_this_dataset_is_independent_evidence():
+    types = {h["evidence_type_under_glossary"] for h in S.HALVES.values()}
+    assert "independent" not in types
+    r = S.screen(run_trace=False)
+    assert "Neither arm is independent" in r["no_independent_evidence_in_this_dataset"]
+    # and no consumer may be classified as independent-load-bearing
+    assert not [c for c in S.CONSUMERS if c["classification"] == S.CLS_INDEPENDENT]
+
+
+def test_the_gate_is_classified_verification_and_post_fit():
+    gate = [c for c in S.CONSUMERS if c["consumer"] == "gate_foster_ct_trajectory"][0]
+    assert gate["classification"] == S.CLS_BOTH == "VERIFICATION_AND_POST_FIT_SAME_CAMPAIGN"
+    assert gate["verification_reproduction_load_bearing"] is True
+    assert gate["post_fit_same_campaign_load_bearing"] is True
+    assert gate["both_arms_required"] is True
+    assert "INDEPENDENT" not in gate["classification"]
+
+
+def test_survive_is_derived_from_the_incorrect_independent_attribution(result):
+    """The verdict must follow from a consumer claiming a rung the glossary denies it."""
+    mis = result["misattribution_analysis"]
+    assert mis["n_findings"] >= 1
+    f = mis["findings"][0]
+    assert f["consumer"] == "gate_foster_ct_trajectory"
+    assert f["claimed"] == "independent"
+    assert f["actual_under_glossary"].startswith("post-fit")
+    assert f["affects_numerical_result"] is False
+    assert result["decision"] == "SURVIVE"
+
+
+def test_future_correction_targets_are_named_and_not_edited(result):
+    targets = result["future_correction_targets"]
+    assert len(targets) >= 2
+    joined = " ".join(t["target"] for t in targets)
+    assert "MANIFEST.csv" in joined
+    assert "gate_foster_ct_trajectory" in joined
+    for t in targets:
+        assert t["edited_in_this_pr"] is False
+    assert result["already_bounded_surface"]["edited_in_this_pr"] is False
+
+
+def test_the_named_source_surfaces_are_untouched_in_this_pr():
+    """A screen may identify an attribution defect; it may not repair these files."""
+    import subprocess
+    base = "14c3753c6e8dab2995332dbe1c3d1e04c4348051"
+    for path in ("puckworks/data/MANIFEST.csv", "puckworks/validation/gates.py",
+                 "puckworks/paper3/EVIDENCE_LINKS.json", "docs/paper3_resource/generated"):
+        out = subprocess.run(["git", "diff", "--numstat", base, "HEAD", "--", path],
+                             cwd=REPO, capture_output=True, text=True).stdout.strip()
+        assert out == "", "%s was modified: %s" % (path, out)
+
+
+def test_evidence_links_already_refuses_held_out_and_reality_facing(result):
+    """The one surface that must NOT be a correction target, because it is already right."""
+    st = result["structural_independence_fields"]
+    vals = {r.get("independence") for r in st["records"] if "independence" in r}
+    assert vals == {"same_campaign", "fit_input"}
+    fields = {r.get("field"): r.get("value") for r in st["records"] if "field" in r}
+    assert fields["relationship"] == "same_campaign_not_held_out"
+    assert fields["reality_facing"] is False
+    assert fields["support_status"] == "context_only"
+    assert st["asserts_independence"] is False
 
 
 # --------------------------------------------------------------------------------------------
@@ -122,12 +210,13 @@ def test_traced_columns_match_the_hand_attribution(result):
     tr = result["enumeration"]["traced"]["gate_foster_ct_trajectory"]
     cols = set(tr["columns_read"])
     ver = set(S.HALVES["verification_fitted_curves"]["columns"])
-    ind = set(S.HALVES["independent_ct_data"]["columns"])
+    ind = set(S.HALVES["post_fit_ct_same_campaign"]["columns"])
     assert cols & ver, "the gate must read the fitted-curve columns"
     assert cols & ind, "the gate must read the CT columns"
     rec = [c for c in S.CONSUMERS if c["consumer"] == "gate_foster_ct_trajectory"][0]
     assert rec["classification"] == S.CLS_BOTH
-    assert set(tr["halves_touched"]) >= {"verification_fitted_curves", "independent_ct_data"}
+    assert set(tr["halves_touched"]) >= {"verification_fitted_curves",
+                                        "post_fit_ct_same_campaign"}
 
 
 def test_column_tracing_is_transparent_to_the_consumer():
@@ -221,33 +310,19 @@ def test_decision_follows_from_its_own_inputs(result):
     complete = result["enumeration"]["complete"]
     if not complete:
         expected = "NEEDS_NEW_DATA"
-    elif mis["arm_a_findings"] or mis["propagates"] or st["asserts_independence"]:
+    elif mis["findings"] or st["asserts_independence"]:
         expected = "SURVIVE"
     else:
         expected = "RETIRE"
     assert result["decision"] == expected
 
 
-def test_no_consumer_claims_independence_without_reading_a_ct_column(result):
-    """The SURVIVE arm (a), stated as a property rather than as an outcome."""
-    traced = result["enumeration"]["traced"]
-    ind_cols = set(S.HALVES["independent_ct_data"]["columns"])
-    for c in S.CONSUMERS:
-        if not c["independence_load_bearing"]:
-            continue
-        tr = traced.get(c["consumer"])
-        if tr is None or not tr["columns_read"]:
-            continue
-        assert set(tr["columns_read"]) & ind_cols, c["consumer"]
-
-
-def test_wording_risk_is_recorded_and_its_containment_is_evidenced(result):
+def test_containment_is_evidenced_but_does_not_excuse_the_attribution(result):
     mis = result["misattribution_analysis"]
-    assert mis["wording_risk_located_at"]
-    assert mis["downstream_consumers_asserting_independence"] == []
-    assert mis["propagates"] is False
-    flagged = [c for c in S.CONSUMERS if c["misleading_wording"]]
-    assert flagged, "the docstring wording risk must be recorded on its consumer row"
+    assert mis["downstream_consumers_claiming_independence"] == []
+    assert mis["propagates_downstream"] is False
+    assert "does not make the attribution correct" in mis["containment"]
+    assert mis["no_independent_evidence_exists_in_this_dataset"] is True
 
 
 # --------------------------------------------------------------------------------------------
@@ -274,7 +349,7 @@ def test_committed_result_does_not_drift_from_a_fresh_run(result):
             == result["enumeration"]["traced"]["gate_foster_ct_trajectory"]["columns_read"])
 
 
-def test_decision_records_a_claim_ceiling_and_a_reopen_condition():
+def test_decision_records_a_claim_ceiling():
     text = (BUNDLE / "decision.md").read_text(encoding="utf-8")
     for section in ("## Claim ceiling", "## Adversarial check",
                     "## Strongest alternative explanation", "## Primary figure"):
@@ -282,6 +357,8 @@ def test_decision_records_a_claim_ceiling_and_a_reopen_condition():
     committed = json.loads((BUNDLE / "result.json").read_text(encoding="utf-8"))
     if committed["decision"] == "RETIRE":
         assert "## Reopen condition" in text
+    if committed["decision"] == "SURVIVE":
+        assert "## Affected surfaces" in text
 
 
 def test_retirement_record_matches_the_committed_decision():
@@ -290,7 +367,8 @@ def test_retirement_record_matches_the_committed_decision():
     if committed["decision"] == "RETIRE":
         assert "**I-045**" in text and "screens/I-045/" in text
     else:
-        assert "**I-045**" not in text
+        assert "**I-045**" not in text, (
+            "I-045 is in RETIRED_CANDIDATES.md but its screen did not return RETIRE")
 
 
 def test_no_unauthorised_candidate_bundle_was_created():

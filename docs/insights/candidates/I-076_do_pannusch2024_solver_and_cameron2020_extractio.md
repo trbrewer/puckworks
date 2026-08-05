@@ -149,7 +149,7 @@ shaded, with the convention actually used stated on the figure.
 `technical_note`. A confirmed agreement is a merge opportunity; a confirmed disagreement is a
 discrimination-experiment design, which hands off to RP-A / PV-08 rather than to a manuscript.
 
-### Screen outcome (appended after the Wave-2 screen ran)
+### Screen outcome (appended after the Wave-2 screen ran; **corrected 2026-08-05**)
 
 **NEEDS_NEW_DATA** — `docs/insights/screens/I-076/`. Not a retirement, so **not** recorded in
 `RETIRED_CANDIDATES.md`, and not in the IF-7 queue either.
@@ -157,13 +157,30 @@ discrimination-experiment design, which hands off to RP-A / PV-08 rather than to
 **No model was executed.** The protocol was frozen and committed before any result-producing
 commit, and the determination is reached at scenario construction. A good scenario exists — the
 source's own DoE Central Point, with measured flow, measured temperature, a matched 40 g endpoint
-and six replicates of a shared whole-cup TDS observable — but two independent blockers prevent the
+and six replicates of a shared whole-cup TDS observable — but **one decisive blocker** prevents the
 two components from receiving the same intervention: their grind inputs are settings on
-**different grinders** (Mahlkönig E65S vs EK43) with no declared adapter, and
-`cameron2020.extraction_bdf` has **no temperature input at all**.
+**different grinders** (Mahlkönig E65S vs EK43-derived microstructure tables) with no declared
+adapter, and rule 9 / ledger A9, G5 forbids the mapping.
+
+**The first version of this outcome named two blockers; the second was withdrawn on review.**
+`cameron2020.extraction_bdf.simulate_shot` exposes no temperature argument, and that was read as a
+second, independently sufficient blocker. A missing *argument* is not evidence of a different
+*intervention*: the source documents a fixed water-property basis at ~90 °C
+(`MU = 3.15e-4  # viscosity of water at ~90 C, Pa s`), which sits inside pannusch's declared
+80–98 °C window and within about 2 °C of this scenario's measured 88.26 °C. Temperature is a
+**non-blocking caveat** — cameron's fitted kinetic parameters have undocumented temperature
+provenance, which bears on interpreting a comparison, not on constructing one. The frozen
+`PROTOCOL.md` keeps its original 16 items verbatim, with a dated erratum appended.
 
 This card's high-risk framing anticipated a convention mismatch on the *observable*. The observable
-was in fact bridgeable; the obstacle is upstream, at the **intervention**.
+was in fact bridgeable; the obstacle is upstream, at the **grind intervention**.
 
-Missing evidence named: a measured E65S PSD at GL 1.4/1.7/2.0 on the same basis as
-`cameron2020/psd_figure2`, **and** a temperature basis for cameron. Neither is sufficient alone.
+Also recorded and deliberately **not** resolved: `docs/cards/pannusch2024.md` contradicts *itself*
+about the grinder — it names a Schmieder-2023 (E65S) validation campaign and an "EK43-type grind
+1.4–2.0" fitted range. This is an internal card conflict, not a card-versus-registry error, and
+resolving it would amount to inventing the cross-grinder mapping the screen is blocked on. The
+blocker holds under either reading.
+
+Missing evidence named — **one item, sufficient alone**: a measured E65S PSD at GL 1.4/1.7/2.0 on
+the same basis as `cameron2020/psd_figure2`, or any physical grind descriptor both components
+declare they accept.

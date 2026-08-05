@@ -13,21 +13,38 @@ The dataset is `foster2025_2/fig12_14_curves`. Controlling source card: `docs/ca
 foster2025_2.md` — NOT `docs/cards/foster2025.md`, which is a different card and carries its own
 TEMPLATE_DEVIATION that this screen does not inherit.
 
-INDEPENDENT AND VERIFICATION ARE NOT ORDINAL HERE. They are different evidentiary FUNCTIONS:
+THE CONTROLLING VOCABULARY IS THE REPOSITORY GLOSSARY (ROADMAP S0), NOT A LOCAL READING:
 
-    verification  — does our port reproduce the source's own fitted ODE output?
-    independent   — does the trajectory sit on the measured CT points?
+    independent            data NOT USED IN FITTING the thing being tested
+    post-fit reconstruction  model reproduces the dataset its parameters were fitted to
+    verification           model-vs-model / asymptotic / budget / manufactured-solution
 
-A consumer may legitimately need both at once (measured data, verified implementation), and
-"uses both" is a correct outcome, not a promotion. Nothing in this module ranks them.
+CORRECTED 2026-08-05 after exact-head review. An earlier version of this screen read the
+manifest's "independent (CT data)" as an independent MEASUREMENT MODALITY — a real CT observation
+as opposed to model output — and concluded RETIRE. That reinterpretation is REJECTED: it is not
+the repository's definition, and the controlling source card settles the matter the other way.
+
+`docs/cards/foster2025_2.md`, verbatim:
+
+    Note the circularity: k and phi_T are fitted to the same s/H curves being reproduced, so the
+    source validates model FORM, not parameter-free prediction.
+
+The CT observations are therefore part of the FITTING CAMPAIGN. Under the glossary they are
+POST_FIT_SAME_CAMPAIGN evidence and are NOT independent. `gate_foster_ct_trajectory` describes
+that arm as "independent", which is a materially incorrect evidence-type attribution — and that
+is the finding.
+
+Neither arm of this dataset is independent evidence of anything. The gate uses two arms and both
+are internal: one reproduces the source's own fitted curve (verification) and the other
+reproduces the campaign its own parameters were fitted to (post-fit, same campaign).
 
 WHAT MAKES THIS DATASET UNUSUALLY TRACTABLE. The two halves are not two readings of one column
 (as in I-040) — they are DIFFERENT COLUMNS of one file:
 
-    verification half : s_fit_mm, w_fit_mm, H_fit_mm      461 rows, the paper's ODE on a 0.02 s grid
-    independent half  : s_data_mm, H_data_mm, w_data_mm    8 rows, pixel-digitized CT (5-line mean)
-                        + the matching *_err_mm columns
-    time base         : t_s                                shared, carries no evidentiary function
+    verification arm    : s_fit_mm, w_fit_mm, H_fit_mm     461 rows, the paper's ODE on a 0.02 s grid
+    post-fit CT arm     : s_data_mm, H_data_mm, w_data_mm   8 rows, pixel-digitized CT (5-line mean)
+                          + the matching *_err_mm columns   -- the FITTING campaign, not held out
+    time base           : t_s                               shared, carries no evidentiary function
 
 So attribution can be established by observing WHICH COLUMNS a consumer reads, and that is
 exactly what layer 2 does.
@@ -79,57 +96,110 @@ CARD_CIRCULARITY_NOTE = ("Note the circularity: k and φ_T are fitted to the sam
                          "parameter-free prediction.")
 
 # ------------------------------------------------------------------------------------------
-# The halves — by COLUMN, and by evidentiary FUNCTION (not by rank)
+# THE GOVERNING GLOSSARY — bound to ROADMAP S0, not restated from memory
+# ------------------------------------------------------------------------------------------
+GLOSSARY_SOURCE = "docs/ROADMAP.md S0 — 'Validation-strength vocabulary used throughout'"
+
+#: Read from the ROADMAP at run time so the screen cannot drift from the authority it cites.
+GLOSSARY_ANCHOR = "Validation-strength vocabulary used throughout"
+GLOSSARY_DEFINITIONS = {
+    "independent": "data not used in fitting the thing being tested",
+    "post-fit reconstruction": ("model reproduces the dataset its parameters were fitted to — a "
+                                "consistency check, not validation"),
+    "verification": "model-vs-model / asymptotic / budget",
+}
+
+
+def glossary():
+    """The controlling definitions, extracted from ROADMAP S0 itself."""
+    text = (REPO_ROOT / "docs/ROADMAP.md").read_text(encoding="utf-8")
+    i = text.index(GLOSSARY_ANCHOR)
+    block = " ".join(text[i:i + 700].split())
+    return dict(source=GLOSSARY_SOURCE, anchor_found=True, block=block,
+                definitions=GLOSSARY_DEFINITIONS,
+                independent_requires_held_out=("not used in fitting" in block),
+                house_rule="Never promote a lower rung to a higher one when quoting a card [RS]")
+
+
+#: The reinterpretation this screen previously made, recorded so it cannot quietly return.
+REJECTED_REINTERPRETATION = dict(
+    reading="'independent' means an independent MEASUREMENT MODALITY (a real CT observation as "
+            "opposed to model output)",
+    why_rejected="it is not the repository's definition. ROADMAP S0 defines independent as DATA "
+                 "NOT USED IN FITTING THE THING BEING TESTED, which is a statement about "
+                 "provenance relative to the fit, not about instrument type. Under the local "
+                 "reading almost any measurement would qualify as independent, which would make "
+                 "the rung meaningless.",
+    settled_by="docs/cards/foster2025_2.md circularity note — k and phi_T were fitted to the "
+               "same s/H curves the CT columns represent.")
+
+# ------------------------------------------------------------------------------------------
+# The two numerical arms — by COLUMN, and by evidence TYPE under the glossary
 # ------------------------------------------------------------------------------------------
 HALVES = {
     "verification_fitted_curves": dict(
         key="verification_fitted_curves",
         manifest_wording="verification (fitted curves)",
-        function="Does our port reproduce the SOURCE'S OWN fitted ODE output? A statement about "
-                 "the implementation, not about reality.",
+        evidence_type_under_glossary="verification",
+        manifest_wording_correct=True,
+        function="Does our port reproduce the SOURCE'S OWN fitted ODE output? Model-vs-model "
+                 "internal consistency — verification in the glossary sense.",
         columns=["s_fit_mm", "w_fit_mm", "H_fit_mm"],
         n_rows=461,
         provenance="the paper's ODE evaluated on a 0.02 s grid (MANIFEST caveat, verbatim)"),
-    "independent_ct_data": dict(
-        key="independent_ct_data",
+    "post_fit_ct_same_campaign": dict(
+        key="post_fit_ct_same_campaign",
         manifest_wording="independent (CT data)",
-        function="Does the trajectory sit on the MEASURED micro-CT points? A statement about a "
-                 "measurement — but see `independence_sense` below: measured is not the same as "
-                 "held out.",
+        evidence_type_under_glossary="post-fit reconstruction (same campaign, not held out)",
+        manifest_wording_correct=False,
+        manifest_wording_defect="the cell calls this arm 'independent', but the controlling card "
+                                "records that k and phi_T were fitted to these same s/H curves. "
+                                "Under ROADMAP S0 it is post-fit, not independent.",
+        function="Does the trajectory sit on the CT points THE PARAMETERS WERE FITTED TO? A "
+                 "consistency check against the fitting campaign — post-fit reconstruction.",
         columns=["s_data_mm", "s_data_err_mm", "w_data_mm", "w_data_err_mm",
                  "H_data_mm", "H_data_err_mm"],
         n_rows=8,
         provenance="pixel-digitized CT, 5-line mean (MANIFEST caveat, verbatim)",
-        independence_sense=(
-            "AMBIGUOUS IN THE MANIFEST, RESOLVED BY THE CARD. 'independent' here means an "
-            "independent MEASUREMENT MODALITY (a real CT observation, as opposed to model "
-            "output). It does NOT mean held out from the fit: the controlling card records "
-            "that k and phi_T were fitted to these same s/H curves. Anything reading it in the "
-            "ROADMAP S0 sense — 'data not used in fitting the thing being tested' — would be "
-            "reading it wrongly.")),
+        held_out=False,
+        same_campaign=True),
     "time_base_only": dict(
         key="time_base_only",
-        manifest_wording="(not an evidentiary half — the shared abscissa)",
-        function="Supplies the time grid. Carries no evidentiary function of either kind.",
+        manifest_wording="(not an evidentiary arm — the shared abscissa)",
+        evidence_type_under_glossary=None,
+        manifest_wording_correct=True,
+        function="Supplies the time grid. Carries no evidentiary function of any kind.",
         columns=["t_s"], n_rows=461,
-        provenance="the 0.02 s experiment-time grid both halves are expressed on"),
+        provenance="the 0.02 s experiment-time grid both arms are expressed on"),
 }
 
-#: Functional classifications. DELIBERATELY NOT ORDERED — there is no ranking here.
+#: Functional classifications. Neither arm of this dataset is independent evidence, so
+#: CLS_INDEPENDENT exists only so that a future consumer which genuinely used held-out data
+#: could be classified — it is expected to stay empty here, and a test asserts it is.
 CLS_INDEPENDENT = "INDEPENDENT_LOAD_BEARING"
 CLS_VERIFICATION = "VERIFICATION_LOAD_BEARING"
-CLS_BOTH = "BOTH_LOAD_BEARING"
+CLS_POST_FIT = "POST_FIT_SAME_CAMPAIGN_LOAD_BEARING"
+CLS_BOTH = "VERIFICATION_AND_POST_FIT_SAME_CAMPAIGN"
 CLS_NEITHER = "NEITHER_LOAD_BEARING"
 
 
-def _rec(name, kind, location, half, reads, assertion, indep_lb, verif_lb, both_ok,
-         neither, cls, rationale, misleading_wording=None):
+def _rec(name, kind, location, half, reads, assertion, post_fit_lb, verif_lb, both_ok,
+         neither, cls, rationale, misleading_wording=None, claims_independent=False):
+    """One consumer.
+
+    `post_fit_lb`      — the same-campaign CT arm is load-bearing for this consumer's assertion.
+    `verif_lb`         — the fitted-curve reproduction arm is load-bearing.
+    `claims_independent` — the consumer DESCRIBES its evidence as independent. Under the
+                         glossary nothing in this dataset is, so any True here is a
+                         misattribution and is what the SURVIVE arm reads.
+    """
     return dict(consumer=name, kind=kind, location=location, evidence_half=half,
                 source_row_and_columns_read=reads, assertion=assertion,
-                independence_load_bearing=indep_lb,
+                post_fit_same_campaign_load_bearing=post_fit_lb,
                 verification_reproduction_load_bearing=verif_lb,
-                both_legitimately_required=both_ok,
+                both_arms_required=both_ok,
                 neither_load_bearing=neither,
+                claims_independent_evidence=claims_independent,
                 misleading_wording=misleading_wording,
                 classification=cls, rationale=rationale)
 
@@ -145,20 +215,23 @@ CONSUMERS = [
          "TWO assertions in one gate. (a) the port's s(t)/H(t) match the paper's own fitted ODE "
          "curves to < 0.2 mm RMSE; (b) the port brackets at least 4 of the 8 digitized CT points "
          "within max(err, 0.5 mm) error bars.",
-         indep_lb=True, verif_lb=True, both_ok=True, neither=False, cls=CLS_BOTH,
-         rationale="Assertion (a) is carried ONLY by the fitted-curve columns and is a "
-                   "statement about the port. Assertion (b) is carried ONLY by the CT columns "
-                   "and is a statement about a measurement. Both halves are genuinely required "
-                   "and neither substitutes for the other — the legitimate 'uses both' case the "
-                   "candidate's own alternative explanation anticipates.",
+         post_fit_lb=True, verif_lb=True, both_ok=True, neither=False, cls=CLS_BOTH,
+         claims_independent=True,
+         rationale="Assertion (a) is carried only by the fitted-curve columns — model-vs-model "
+                   "reproduction, i.e. VERIFICATION. Assertion (b) is carried only by the CT "
+                   "columns, which the controlling card records as the very curves k and phi_T "
+                   "were fitted to — i.e. POST_FIT, SAME CAMPAIGN, NOT HELD OUT. Both arms are "
+                   "genuinely required and neither substitutes for the other, but NEITHER is "
+                   "independent evidence under ROADMAP S0. The gate nonetheless describes the CT "
+                   "arm as '(independent, ...)', which is a materially incorrect evidence-type "
+                   "attribution and is this screen's finding.",
          misleading_wording=(
-             "The docstring's parenthetical '(independent, \"qualitative-good\")' on the CT arm "
-             "copies the MANIFEST word without the card's circularity qualifier. Read in the "
-             "ROADMAP S0 sense ('data not used in fitting the thing being tested') it would be "
-             "wrong — the card records k and phi_T as fitted to these same s/H curves. "
-             "SURFACED, and see `verdict.misattribution_analysis`: every downstream consumer "
-             "of this gate independently refuses the strong reading, so the wording does not "
-             "propagate.")),
+             "docstring: 'bracket a majority of the CT data points within their error bars "
+             "(independent, \'qualitative-good\')'. Under the governing glossary "
+             "('data not used in fitting the thing being tested') this arm is post-fit "
+             "same-campaign, because the controlling card records k and phi_T as fitted to "
+             "these same s/H curves. THE NUMERICAL RESULT IS NOT IN QUESTION — only the "
+             "evidence type attached to it.")),
 
     _rec("EVIDENCE_LINKS foster2025.machine_mode::gate_foster_ct_trajectory", "evidence_record",
          "puckworks/paper3/EVIDENCE_LINKS.json",
@@ -169,7 +242,8 @@ CONSUMERS = [
          "Records the gate's claim verbatim and adjudicates its evidentiary status: "
          "evidence_strength = source_curve_reproduction; relationship = "
          "same_campaign_not_held_out; reality_facing = false; support_status = context_only.",
-         indep_lb=False, verif_lb=True, both_ok=False, neither=False, cls=CLS_VERIFICATION,
+         post_fit_lb=False, verif_lb=True, both_ok=False, neither=False,
+         cls=CLS_VERIFICATION,
          rationale="DECISIVE FOR THIS AUDIT. This record does not merely avoid the strong "
                    "reading of 'independent' — it explicitly REFUSES it. It splits the one "
                    "dataset into an eval role and a FIT role, marks the eval role "
@@ -186,7 +260,8 @@ CONSUMERS = [
          "names the gate in its `gates` list; reads no column itself",
          "Registers the component with evidence_strength `source_curve_reproduction` and lists "
          "gate_foster_ct_trajectory among its gates.",
-         indep_lb=False, verif_lb=False, both_ok=False, neither=True, cls=CLS_NEITHER,
+         post_fit_lb=False, verif_lb=False, both_ok=False, neither=True,
+         cls=CLS_NEITHER,
          rationale="A registration, not an assertion about this dataset. The component-level "
                    "strength it carries is `source_curve_reproduction`, which is the "
                    "reproduction function, and it makes no independence claim of any kind.",
@@ -199,7 +274,8 @@ CONSUMERS = [
          "States that `gate_foster_ct_trajectory` remains excluded from PV-02 'on its own "
          "merits: it concerns wetting-front depth s(t) and headspace H(t), which this claim "
          "does not mention.'",
-         indep_lb=False, verif_lb=False, both_ok=False, neither=True, cls=CLS_NEITHER,
+         post_fit_lb=False, verif_lb=False, both_ok=False, neither=True,
+         cls=CLS_NEITHER,
          rationale="An exclusion is the strongest possible non-use: the only reader-facing "
                    "public claim in the neighbourhood explicitly declines to stand on this "
                    "dataset at all, and gives an observable-scope reason for doing so.",
@@ -211,7 +287,8 @@ CONSUMERS = [
          "derived from EVIDENCE_LINKS.json; reads no column directly",
          "Renders the same adjudication: source_curve_reproduction, "
          "same_campaign_not_held_out, context_only, reality_facing false.",
-         indep_lb=False, verif_lb=True, both_ok=False, neither=False, cls=CLS_VERIFICATION,
+         post_fit_lb=False, verif_lb=True, both_ok=False, neither=False,
+         cls=CLS_VERIFICATION,
          rationale="A faithful rendering of the evidence record above; it introduces no "
                    "attribution of its own and cannot promote what its source refuses.",
          misleading_wording=None),
@@ -222,7 +299,8 @@ CONSUMERS = [
          "derived; reads no column directly",
          "Records relation `source_curve_reproduction`, scope naming BOTH 'the paper's fitted "
          "ODE curves' and 'digitized CT measurements', and outcome `negative`.",
-         indep_lb=False, verif_lb=True, both_ok=False, neither=False, cls=CLS_VERIFICATION,
+         post_fit_lb=False, verif_lb=True, both_ok=False, neither=False,
+         cls=CLS_VERIFICATION,
          rationale="Names both halves in its scope string — correctly, since the gate reads "
                    "both — while recording the relation as reproduction and the outcome as "
                    "NEGATIVE. A negative outcome cannot be an over-claim in either direction.",
@@ -230,11 +308,12 @@ CONSUMERS = [
 
     _rec("tests/test_data_loaders.py::foster loader smoke", "test",
          "tests/test_data_loaders.py:131",
-         "independent_ct_data",
+         "post_fit_ct_same_campaign",
          "asserts at least one row has a non-empty s_data_mm",
          "Asserts the loader returns rows in which the CT column is populated. A parsing "
          "check, not an evidentiary claim.",
-         indep_lb=False, verif_lb=False, both_ok=False, neither=True, cls=CLS_NEITHER,
+         post_fit_lb=False, verif_lb=False, both_ok=False, neither=True,
+         cls=CLS_NEITHER,
          rationale="Touches the independent half but asserts nothing about evidence: it checks "
                    "that the sparse column survived ingestion. Reading a half is not relying "
                    "on it.",
@@ -592,47 +671,84 @@ def reconcile(refs, sites, traced):
 
 
 def misattribution_analysis(traced):
-    """Does any consumer make a claim its read columns do not support?
+    """Does any consumer attach an evidence TYPE its columns do not support?
 
-    This is the SURVIVE test, and it has two arms per the candidate's decision rule:
-      (a) presenting/relying on the independent half for an assertion carried only by the
-          verification half; and
-      (b) any other materially incorrect evidence-type attribution.
+    Under ROADMAP S0 neither arm of this dataset is independent: one reproduces the source's own
+    fitted curve, and the other reproduces the campaign the parameters were fitted to. So any
+    consumer describing its evidence as independent is misattributing, and that is the SURVIVE
+    arm the candidate's decision rule names.
     """
     findings = []
     for c in CONSUMERS:
-        cols = traced.get(c["consumer"], {}).get("columns_read")
-        # arm (a): claims independence while reading only verification columns
-        if c["independence_load_bearing"] and cols is not None:
-            reads_indep = any(x in HALVES["independent_ct_data"]["columns"] for x in cols)
-            if not reads_indep:
-                findings.append(dict(consumer=c["consumer"], arm="a",
-                                     detail="claims an independence-carried assertion but reads "
-                                            "no CT column"))
-    # arm (b): hand-read. The one wording risk found is recorded on the gate row; the question
-    # is whether it PROPAGATES into any consumer's actual attribution.
+        if not c["claims_independent_evidence"]:
+            continue
+        cols = traced.get(c["consumer"], {}).get("columns_read") or []
+        reads_ct = any(x in HALVES["post_fit_ct_same_campaign"]["columns"] for x in cols)
+        findings.append(dict(
+            consumer=c["consumer"], location=c["location"],
+            claimed="independent",
+            actual_under_glossary=("post-fit reconstruction (same campaign, not held out)"
+                                   if reads_ct else "verification"),
+            columns_read=sorted(cols),
+            established_by=("docs/cards/foster2025_2.md circularity note: k and phi_T were "
+                            "fitted to the same s/H curves these columns represent"),
+            severity="materially incorrect evidence-type attribution",
+            affects_numerical_result=False,
+            detail=c["misleading_wording"]))
+
     downstream = [c for c in CONSUMERS if c["kind"] in
                   ("evidence_record", "generated_report", "public_claim", "registry")]
-    propagated = [c["consumer"] for c in downstream if c["independence_load_bearing"]]
+    propagated = [c["consumer"] for c in downstream if c["claims_independent_evidence"]]
     return dict(
-        arm_a_findings=findings,
-        wording_risk_located_at="gate_foster_ct_trajectory docstring",
-        wording_risk_description=(
-            "The docstring labels the CT arm '(independent, \"qualitative-good\")', copying the "
-            "MANIFEST word without the controlling card's circularity qualifier."),
+        findings=findings, n_findings=len(findings),
         downstream_consumers_examined=[c["consumer"] for c in downstream],
-        downstream_consumers_asserting_independence=propagated,
-        propagates=bool(propagated),
-        resolution=(
-            "Every downstream consumer independently REFUSES the strong reading: the evidence "
-            "record splits the dataset into eval(same_campaign) and fit(fit_input) roles, sets "
-            "reality_facing false and support_status context_only, and states in "
+        downstream_consumers_claiming_independence=propagated,
+        propagates_downstream=bool(propagated),
+        containment=(
+            "The misattribution is located at the gate docstring and does NOT propagate: the "
+            "evidence record splits the dataset into eval(same_campaign) and fit(fit_input) "
+            "roles, sets reality_facing false and support_status context_only, and states in "
             "claim_not_supported that it 'does not establish parameter-free or out-of-sample "
-            "prediction'; the generated graph and Fig-2 vector render that unchanged (the "
-            "latter with outcome `negative`); the registry carries source_curve_reproduction; "
-            "and the only public claim in the neighbourhood EXCLUDES the gate outright. The "
-            "wording risk is real and is recorded, but it is contained at the docstring and "
-            "reaches no evidentiary surface."))
+            "prediction'. Containment limits the blast radius; it does not make the attribution "
+            "correct, and the candidate's SURVIVE arm asks about the attribution."),
+        no_independent_evidence_exists_in_this_dataset=True)
+
+
+#: Where the incorrect evidence-type label has to be repaired. NAMED HERE, NOT REPAIRED HERE —
+#: a cheap screen may identify an attribution defect but may not edit an evidence label, a gate,
+#: or a generated evidence artifact.
+FUTURE_CORRECTION_TARGETS = [
+    dict(target="puckworks/data/MANIFEST.csv — foster2025_2/fig12_14_curves validation_strength",
+         current="independent (CT data) / verification (fitted curves)",
+         defect="'independent' is wrong for the CT arm under ROADMAP S0: the controlling card "
+                "records k and phi_T as fitted to these same s/H curves, so the arm is post-fit "
+                "same-campaign and not held out.",
+         suggested_direction="a wording that names the CT arm as post-fit/same-campaign rather "
+                             "than independent. The exact replacement is a human decision — a "
+                             "screen may not write an evidence label.",
+         edited_in_this_pr=False),
+    dict(target="puckworks/validation/gates.py — gate_foster_ct_trajectory docstring",
+         current="bracket a majority of the CT data points within their error bars "
+                 "(independent, 'qualitative-good')",
+         defect="attaches the independent rung to the same-campaign CT arm.",
+         suggested_direction="describe the arm as post-fit/same-campaign. THE NUMERICAL GATE IS "
+                             "NOT AFFECTED — only the evidence type named in the docstring.",
+         edited_in_this_pr=False),
+    dict(target="any reader-facing description inheriting the independent-evidence label for "
+                "this dataset",
+         current="none found downstream at this head — see misattribution_analysis.containment",
+         defect="would inherit the same defect if written.",
+         suggested_direction="check against the corrected manifest wording once it lands.",
+         edited_in_this_pr=False),
+]
+
+#: Already correct, and deliberately NOT a correction target.
+ALREADY_BOUNDED = dict(
+    surface="puckworks/paper3/EVIDENCE_LINKS.json",
+    why="it already refuses the held-out and reality-facing readings: sources are recorded as "
+        "eval/same_campaign and fit/fit_input, relationship is same_campaign_not_held_out, "
+        "reality_facing is false and support_status is context_only.",
+    edited_in_this_pr=False)
 
 
 def screen(run_trace=True):
@@ -653,17 +769,19 @@ def screen(run_trace=True):
     if not rec["complete"]:
         decision = "NEEDS_NEW_DATA"
         why = ("The enumeration found a consumer the attribution table does not cover, so the "
-               "evidentiary split cannot be asserted for every active use.")
-    elif mis["arm_a_findings"] or mis["propagates"] or structural["asserts_independence"]:
+               "evidence types cannot be asserted for every active use.")
+    elif mis["findings"] or structural["asserts_independence"]:
         decision = "SURVIVE"
-        why = ("At least one consumer presents or relies on the independent half for an "
-               "assertion it does not carry, or otherwise makes a materially incorrect "
-               "evidence-type attribution.")
+        why = ("%d real consumer(s) attach the INDEPENDENT rung to evidence that is not "
+               "independent under ROADMAP S0. `gate_foster_ct_trajectory` describes the CT arm "
+               "as independent, but the controlling card records k and phi_T as fitted to those "
+               "same s/H curves, making the arm post-fit same-campaign and not held out. That "
+               "is a materially incorrect evidence-type attribution. The numerical gate result "
+               "is not in question." % len(mis["findings"]))
     else:
         decision = "RETIRE"
-        why = ("Every real consumer uses the correct evidentiary function, legitimately uses "
-               "both, or makes no evidentiary-strength claim. The one wording risk is contained "
-               "at a gate docstring and is refused by every downstream consumer.")
+        why = ("Every real consumer attaches an evidence type its columns support, or makes no "
+               "evidentiary claim.")
 
     return dict(
         screen=CANDIDATE_ID, dataset=DATASET_ID,
@@ -675,10 +793,15 @@ def screen(run_trace=True):
         manifest_validation_strength_verbatim=MANIFEST_VALIDATION_STRENGTH,
         manifest_caveat_verbatim=MANIFEST_CAVEAT,
         controlling_card_circularity_note_verbatim=CARD_CIRCULARITY_NOTE,
-        evidence_types_are_not_ordinal=(
-            "independent and verification are different evidentiary FUNCTIONS, not two strengths "
-            "of one kind. A consumer may legitimately require both. Nothing in this screen ranks "
-            "them, and 'uses both' is a correct outcome."),
+        glossary=glossary(),
+        rejected_reinterpretation=REJECTED_REINTERPRETATION,
+        no_independent_evidence_in_this_dataset=(
+            "Neither arm is independent under ROADMAP S0. One reproduces the source's own fitted "
+            "ODE curve (verification); the other reproduces the campaign its own parameters were "
+            "fitted to (post-fit, same campaign). 'Uses both arms' remains a correct description "
+            "of the gate — but it is VERIFICATION + POST_FIT, never INDEPENDENT + VERIFICATION."),
+        future_correction_targets=FUTURE_CORRECTION_TARGETS,
+        already_bounded_surface=ALREADY_BOUNDED,
         halves=HALVES, consumers=CONSUMERS, consumers_by_classification=by_cls,
         enumeration=rec,
         adversarial_text_scan=dict(n_hits=len(scan), hits=scan,
@@ -713,14 +836,14 @@ def figure(path=None, result=None):
                          "font.family": "DejaVu Sans"})
     r = result or screen()
 
-    order = [CLS_VERIFICATION, CLS_BOTH, CLS_INDEPENDENT, CLS_NEITHER]
+    order = [CLS_VERIFICATION, CLS_BOTH, CLS_POST_FIT, CLS_NEITHER]
     colour = {CLS_VERIFICATION: _C_VER, CLS_BOTH: _C_BOTH,
-              CLS_INDEPENDENT: _C_IND, CLS_NEITHER: _C_NONE}
+              CLS_POST_FIT: _C_IND, CLS_NEITHER: _C_NONE}
     label = {CLS_VERIFICATION: "VERIFICATION is load-bearing — does our port reproduce the "
                                "source's own fitted ODE curves?",
-             CLS_BOTH: "BOTH are load-bearing, legitimately — a measured datum AND a verified "
-                       "implementation",
-             CLS_INDEPENDENT: "INDEPENDENT (CT measurement) is load-bearing on its own",
+             CLS_BOTH: "VERIFICATION + POST_FIT (same campaign) — both arms required, and "
+                       "NEITHER is independent",
+             CLS_POST_FIT: "POST_FIT same-campaign CT is load-bearing on its own",
              CLS_NEITHER: "NEITHER — registration, exclusion, or a loader/parse check"}
 
     rows = []
@@ -750,24 +873,25 @@ def figure(path=None, result=None):
             "about physics and changes no label.", fontsize=7.2, color=_MUTED, va="top",
             style="italic")
     ax.text(0, len(rows) + 1.30,
-            "These two are NOT ranked. They are different evidentiary functions and a consumer "
-            "may legitimately require both — which is why the middle band exists.",
+            "Under ROADMAP S0, NEITHER arm is independent: one reproduces the source's own "
+            "fitted curve, the other reproduces the campaign its parameters were fitted to.",
             fontsize=7.6, color=_INK, va="top")
 
     # the two halves, drawn as equal columns
-    hv, hi = HALVES["verification_fitted_curves"], HALVES["independent_ct_data"]
+    hv, hi = (HALVES["verification_fitted_curves"], HALVES["post_fit_ct_same_campaign"])
     for i, (h, col) in enumerate(((hv, _C_VER), (hi, _C_IND))):
         x0 = 0.5 + i * 48.5
         ax.add_patch(FancyBboxPatch((x0, len(rows) - 0.30), 47.0, 1.32,
                                     boxstyle="round,pad=0.02,rounding_size=0.12",
                                     fc=col, ec="none", alpha=0.13, zorder=0))
-        ax.text(x0 + 1.0, len(rows) + 0.72, "“%s”" % h["manifest_wording"],
-                fontsize=8.6, weight="bold", color=_INK)
+        ax.text(x0 + 1.0, len(rows) + 0.72, "“%s”  ->  %s" % (
+                    h["manifest_wording"], h["evidence_type_under_glossary"]),
+                fontsize=8.0, weight="bold", color=_INK)
         ax.text(x0 + 1.0, len(rows) + 0.30, "columns: %s   (%d rows)"
                 % (", ".join(h["columns"][:3]) + ("…" if len(h["columns"]) > 3 else ""),
                    h["n_rows"]), fontsize=7.0, color=_MUTED)
         import textwrap as _tw
-        for j, ln in enumerate(_tw.wrap(h["function"], 62)[:2]):
+        for j, ln in enumerate(_tw.wrap(h["function"], 54)[:2]):
             ax.text(x0 + 1.0, len(rows) - 0.05 - 0.34 * j, ln, fontsize=6.8, color=_MUTED)
 
     x_name, x_reads, x_cls = 3.0, 38.0, 74.0
@@ -800,13 +924,13 @@ def figure(path=None, result=None):
         ax.text(x_reads, y, reads[:44] + ("…" if len(reads) > 44 else ""),
                 fontsize=6.6, color=_MUTED)
         flags = []
-        if c["independence_load_bearing"]:
-            flags.append("indep")
         if c["verification_reproduction_load_bearing"]:
             flags.append("verif")
+        if c["post_fit_same_campaign_load_bearing"]:
+            flags.append("post-fit")
         if c["neither_load_bearing"]:
             flags.append("neither")
-        mark = " ⚑ wording risk" if c["misleading_wording"] else ""
+        mark = " ⚑ CLAIMS INDEPENDENT" if c["claims_independent_evidence"] else ""
         ax.text(x_cls, y, "%s%s" % (" + ".join(flags) or "—", mark), fontsize=7.4,
                 color="#d55e00" if mark else _INK)
         ax.plot([0, x_end], [y - 0.34] * 2, color=_GRID, lw=0.5, zorder=0)
@@ -822,17 +946,18 @@ def figure(path=None, result=None):
         "8 CT rows.\n"
         "Adversarial scan  %d token hits over %d consuming surfaces, each read in context; "
         "%d unclassified.\n"
-        "Wording risk  the gate docstring calls the CT arm “independent” without the card's "
-        "circularity qualifier. It does NOT propagate: the evidence record files the same "
-        "dataset twice —\n"
-        "    eval/same_campaign AND fit/fit_input — sets reality_facing false and "
-        "support_status context_only, and states it “does not establish parameter-free or "
-        "out-of-sample prediction”.\n"
-        "DECISION  %s — %s"
+        "FINDING  the gate docstring attaches the INDEPENDENT rung to the CT arm. Under ROADMAP "
+        "S0 (“data not used in fitting the thing being tested”) that arm is POST-FIT,\n"
+        "    same campaign: the controlling card records k and phi_T as fitted to these same "
+        "s/H curves. Contained — the evidence record already files the dataset twice as\n"
+        "    eval/same_campaign AND fit/fit_input, reality_facing false, context_only — but "
+        "containment bounds the blast radius, it does not make the attribution correct.\n"
+        "DECISION  %s\n%s"
         % (e["n_static_references"], e["n_static_reference_files"], e["n_static_call_sites"],
            e["complete"], r["adversarial_text_scan"]["n_hits"], len(SCAN_SURFACES),
            r["adversarial_text_scan"]["n_unclassified"], r["decision"],
-           r["decision_reasoning"]))
+           "\n".join("    " + ln for ln in
+                     __import__("textwrap").wrap(r["decision_reasoning"], 128))))
     ax.text(0, -1.5, foot, fontsize=7.0, color=_MUTED, va="top", linespacing=1.6)
 
     fig.tight_layout()
@@ -861,8 +986,13 @@ def main(argv=None):
     s = r["adversarial_text_scan"]
     print("text scan: %d hits, %d unclassified" % (s["n_hits"], s["n_unclassified"]))
     m = r["misattribution_analysis"]
-    print("arm-a findings: %s" % (m["arm_a_findings"] or "none"))
-    print("wording risk propagates: %s" % m["propagates"])
+    print("misattribution findings: %d" % m["n_findings"])
+    for f in m["findings"]:
+        print("    %s claims %r; actually %s" % (f["consumer"], f["claimed"],
+                                                 f["actual_under_glossary"]))
+    print("propagates downstream: %s" % m["propagates_downstream"])
+    print("future correction targets: %d (none edited in this PR)"
+          % len(r["future_correction_targets"]))
     print("DECISION: %s" % r["decision"])
     fig_path = figure(result=r)
     print("wrote %s" % out.relative_to(REPO_ROOT))

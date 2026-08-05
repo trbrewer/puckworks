@@ -136,18 +136,37 @@ Same shape as I-040: dataset → evidence half → consumer → assertion → lo
 
 `data_note`, merged with I-040 into a single lineage note if both produce findings of the same kind.
 
-### Screen outcome (appended after the Wave-2 screen ran)
+### Screen outcome (appended after the Wave-2 screen ran; **corrected 2026-08-05**)
 
-**RETIRE** — `docs/insights/screens/I-045/`, recorded in `RETIRED_CANDIDATES.md` with its reopen
-condition.
+**SURVIVE** — `docs/insights/screens/I-045/`. **Not** in `RETIRED_CANDIDATES.md`; it enters the
+IF-7 deep-screen queue.
 
 The two halves turned out to be **different columns** of one file, so attribution was observed by
 column-level access tracing rather than inferred: `s_fit/w_fit/H_fit` (461 rows, the paper's own
 ODE) against `s_data/H_data` + errors (8 pixel-digitized CT points). Seven consumers, coverage
-complete. `gate_foster_ct_trajectory` legitimately requires **both** halves — the case this
-card's own alternative explanation anticipated — three consumers record verification only, three
-make no evidentiary claim, and **none** relies on the independent half alone.
+complete.
+
+**The first version of this outcome said RETIRE, and it was wrong.** It read the manifest's
+`independent (CT data)` as an independent measurement *modality* — a real CT observation rather
+than model output — and on that reading no consumer over-claimed. **ROADMAP §0 defines
+*independent* as data NOT USED IN FITTING the thing being tested**, and `docs/cards/foster2025_2.md`
+records the circularity in terms: `k` and `φ_T` were fitted to the very s/H curves the CT columns
+hold. Under the governing definition **neither arm is independent**: the fitted-curve arm is
+*verification* (correctly labelled), and the CT arm is *post-fit reconstruction, same campaign,
+not held out* (the manifest wording for that half is wrong).
+
+So `gate_foster_ct_trajectory` does require **both** halves — the case this card's own alternative
+explanation anticipated — but they are *verification* and *post-fit*, not *independent* and
+*verification*, and the gate describes the CT arm as `(independent, 'qualitative-good')`. That is
+a **materially incorrect evidence-type attribution**, which is this card's SURVIVE arm.
+
+It concerns the label, not the numbers (RMSE 0.002 / 0.053 mm against a 0.2 mm threshold, CT
+bracketing 4/8 and 5/8, all unaffected), and it does not propagate: `EVIDENCE_LINKS.json` files
+the dataset as both `eval/same_campaign` and `fit/fit_input` with `reality_facing: false`, the
+registry says `source_curve_reproduction`, and PV-02 excludes the gate. Three correction targets
+are **named and deliberately not edited** by the screen.
 
 The prerequisite this card flagged is confirmed, not assumed: `docs/cards/foster2025_2.md`
 resolves and carries no `TEMPLATE_DEVIATION`; the deviation belongs to `docs/cards/foster2025.md`,
 a different card, and is not inherited.
+

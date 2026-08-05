@@ -71,6 +71,8 @@
     "endpoint": "matched collected beverage mass, 40 g",
     "pressure_note": "schmieder pressure_max_bar is a PER-SHOT MAXIMUM (schmieder2023_AUDIT.md D2: 'Do not use as a Darcy dP(Q) point'); both components would have been flow-driven, so no pressure node is on the critical path"
   },
+  "decisive_blocker_count": 1,
+  "decisive_blocker": "cross_grinder_microstructure_mapping",
   "blockers": {
     "grind": {
       "blocker": "A_grind_dial_spaces",
@@ -121,7 +123,14 @@
           "grinder": "Mahlkoenig E65S",
           "grinder_quote": "20 g dose, DE1 Pro + IMS basket/screen, Acqua Panna water, Mahlk\u00f6nig E65S",
           "dial_span_quote": "GL 1.4\u20132.0 (only ~7.5% of the E65S scale \u2192 near-identical",
-          "note": "the registry's `EK43-type grind 1.4-2.0` is not supported by the component's own card, which places the work on Schmieder's apparatus; Schmieder's card names the grinder as an E65S. Recorded as a discrepancy, NOT corrected here \u2014 a screen may not edit a registry field."
+          "metadata_conflict": {
+            "kind": "INTERNAL to the pannusch2024 metadata \u2014 NOT a card-versus-registry mismatch",
+            "lineage_says": "its source/calibration lineage identifies the Schmieder-2023 campaign, whose card names a Mahlkoenig E65S (docs/cards/pannusch2024.md: 'Validation is against the authors' own Schmieder-2023 apparatus and one coffee')",
+            "validity_text_says": "the same card's validity text reads 'Fitted range: T 80-98 C, Q 1-3 mL/s, EK43-type grind 1.4-2.0' (and the registry valid_range repeats it)",
+            "reading": "the two statements cannot both be right about the grinder family. The conflict is internal to the component's own metadata and is recorded, NOT resolved: a screen may not edit a registry field or a source card, and picking a winner would be inventing the very mapping this screen is blocked on.",
+            "corrected_in_this_pr": false
+          },
+          "note": "grind family is ambiguous in this component's own metadata; see metadata_conflict. Either way it is not established as EK43-derived microstructure, which is what a match to cameron would require."
         },
         "cameron2020.extraction_bdf": {
           "registry_field": "valid_range",
@@ -132,8 +141,14 @@
         }
       }
     },
-    "temperature": {
-      "blocker": "B_temperature_axis",
+    "n_blocking": 1
+  },
+  "temperature": {
+    "parameterized": false,
+    "basis": "fixed_or_implicit",
+    "independently_blocking": false,
+    "detail": {
+      "axis": "temperature",
       "component_a_signature": [
         "T_C",
         "flow_mL_s",
@@ -164,12 +179,32 @@
         "vant_hoff_K(T) \u2014 solid-liquid partition",
         "diffusion_coeff(T) \u2014 Wilke-Chang"
       ],
-      "component_b_is_isothermal": true,
-      "note": "one component has a temperature axis and the other has none, so they cannot receive the same intervention on it. Fixing pannusch at the measured 88.26 C while cameron receives nothing is two experiments side by side, not a matched scenario.",
-      "blocks": true
-    },
-    "n_blocking": 2
+      "parameterized": false,
+      "basis": "fixed_or_implicit",
+      "fixed_basis_evidence": {
+        "constant": "MU",
+        "value": 0.000315,
+        "documented_temperature_C": 90.0,
+        "quote": "MU = 3.15e-4  # viscosity of water at ~90 C, Pa s",
+        "file": "puckworks/models/cameron2020/extraction_bdf.py"
+      },
+      "independently_blocking": false,
+      "reading": "cameron does not expose temperature as a VARIABLE intervention, but it is not temperature-free: it carries a fixed water-property basis documented at ~90 C, which sits inside pannusch's declared 80-98 C window. A fixed or implicit basis is not automatically a DIFFERENT intervention, so this alone does not block the comparison.",
+      "residual_caveat": "the full temperature provenance of cameron's fitted kinetic parameters (k, D_s, c_sat) is not documented per-temperature. That is a NON-BLOCKING metadata caveat; it would matter for interpreting a comparison, not for deciding whether one can be constructed.",
+      "superseded_note": "an earlier version of this screen counted the missing argument as a second independent blocker. Exact-head review rejected that and it is withdrawn; the grind basis alone is decisive."
+    }
   },
+  "non_blocking_caveats": [
+    {
+      "caveat": "cameron's kinetic-parameter temperature provenance is not documented per-temperature",
+      "why_not_blocking": "cameron carries a fixed water-property basis documented at ~90 C, which sits inside pannusch's declared 80-98 C window. A fixed or implicit basis is not automatically a different intervention. This would matter for INTERPRETING a comparison, not for deciding whether one can be constructed."
+    },
+    {
+      "caveat": "the pannusch2024 metadata are internally inconsistent about the grinder family (Schmieder/E65S lineage vs EK43-type validity text)",
+      "why_not_blocking": "it is recorded for a human, not resolved here. Either reading leaves the grind basis unestablished as EK43-derived microstructure, so the decisive blocker stands under both."
+    }
+  ],
+  "correction_note": "CORRECTED 2026-08-05 after exact-head review. The superseded version recorded TWO independent blockers and named both grind and temperature evidence as jointly required. Review rejected the absence of a temperature ARGUMENT as an independent blocker: cameron carries a fixed water-property basis documented at ~90 C, and a fixed or implicit basis is not automatically a different intervention. The grind basis alone is decisive, and the missing-evidence list has one item. The disposition (NEEDS_NEW_DATA), the scenario, the protocol lineage and models_executed=false are unchanged.",
   "observable": {
     "name": "whole-cup total dissolved solids",
     "units": "mass percent of the beverage",
@@ -238,7 +273,7 @@
       "level": 5,
       "name": "non-comparable",
       "axis": "intervention",
-      "rationale": "a matched scenario cannot be constructed: the grind axis has no declared adapter between the two dial spaces, and the temperature axis exists for only one of the two components."
+      "rationale": "a matched scenario cannot be constructed: no declared, source-grounded mapping exists between the selected Schmieder/E65S grind condition and cameron's EK43-derived grind-microstructure convention. Temperature is NOT a contributing reason \u2014 cameron carries a fixed ~90 C water-property basis and its unexposed argument does not block."
     },
     "secondary": [
       {
@@ -265,19 +300,12 @@
   "unblocking_evidence": [
     {
       "item": 1,
-      "need": "a grind calibration linking the two dial spaces",
-      "precisely": "a measured PSD (or equivalent microstructure) for Schmieder's Mahlkoenig E65S at GL 1.4/1.7/2.0, on the same basis as the existing `cameron2020/psd_figure2` (Cameron's measured EK43 PSD at four dial settings). Equivalently for Angeloni's Mythos O/C/F.",
-      "resolves": "blocker A",
-      "sufficient_alone": false
-    },
-    {
-      "item": 2,
-      "need": "a temperature basis for cameron2020.extraction_bdf",
-      "precisely": "either a declared temperature closure, or a source-backed statement of the temperature its fixed parameters correspond to, so a pannusch run can be placed at that temperature rather than at one cameron cannot represent.",
-      "resolves": "blocker B",
-      "sufficient_alone": false
+      "need": "a declared, source-grounded E65S-to-Cameron grind-microstructure mapping, or a directly shared physical grind descriptor accepted by both components",
+      "precisely": "a measured PSD (or equivalent microstructure descriptor) for the Schmieder campaign's grind conditions on the same basis as the existing `cameron2020/psd_figure2` (Cameron's measured EK43 PSD at four dial settings) \u2014 or any physical grind descriptor both components declare they accept, which would remove the need for a dial mapping entirely.",
+      "resolves": "the single decisive blocker",
+      "sufficient_alone": true
     }
   ],
   "decision": "NEEDS_NEW_DATA",
-  "decision_reasoning": "Constructing the matched scenario requires an invented parameter. 2 independent blocker(s), each sufficient alone: A_grind_dial_spaces; B_temperature_axis. The observable, the endpoint, the dose, the measured flow and a six-replicate measured uncertainty are all available \u2014 the obstacle is the INTERVENTION, not the observable."
+  "decision_reasoning": "Constructing the matched scenario requires an invented parameter: no declared, source-grounded mapping exists between the selected Schmieder/E65S grind condition and cameron's EK43-derived grind-microstructure convention. That is the single decisive blocker. The observable, the endpoint, the dose, the measured flow and a six-replicate measured uncertainty are all available \u2014 the obstacle is the grind basis, not the observable, and NOT temperature."
 }
