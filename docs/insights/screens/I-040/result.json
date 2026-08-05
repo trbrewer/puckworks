@@ -1,0 +1,782 @@
+{
+  "screen": "I-040",
+  "dataset": "waszkiewicz2025/traces_time_dependent",
+  "disposition": [
+    "CHEAP_SCIENTIFIC_SCREEN",
+    "NOT_A_PUBLICATION_RESULT",
+    "NOT_A_MODEL_VALIDATION_UPGRADE"
+  ],
+  "manifest_validation_strength_verbatim": "independent within-rig (equilibrium) / post-fit (9-bar Q(t) reproduction)",
+  "manifest_caveat_verbatim": "soft circularity: m_d(t) from TDS x Q on same rig; 11-13 bar dip below monotone model; basket vs line pressure both present (node id per RC-3/S5.9) | S5.9 nodes: basket_pressure__bar = P_basket (basket gauge), pressure__bar = line/pump-side.",
+  "strength_order_strongest_first": [
+    "independent",
+    "post-fit reconstruction",
+    "verification",
+    "qualitative"
+  ],
+  "halves": {
+    "A_equilibrium": {
+      "key": "A_equilibrium",
+      "manifest_wording": "independent within-rig (equilibrium)",
+      "strength": "independent",
+      "observable": "the long-run (last time-point) basket pressure and mass flow, one pair per reference pressure \u2014 the 11-point equilibrium curve",
+      "columns": [
+        "basket_pressure__bar[-1]",
+        "mass_flow_rate__g_per_s[-1]"
+      ],
+      "node": "basket (P_basket, basket gauge)",
+      "in_manifest_cell": true
+    },
+    "B_post_fit_9bar": {
+      "key": "B_post_fit_9bar",
+      "manifest_wording": "post-fit (9-bar Q(t) reproduction)",
+      "strength": "post-fit reconstruction",
+      "observable": "the full time-resolved Q(t) trajectory (9 bar unless stated), whose reconstruction consumes m_d(t) obtained as TDS x Q on the same rig",
+      "columns": [
+        "time__s",
+        "mass_flow_rate__g_per_s",
+        "mass__g"
+      ],
+      "node": "basket (P_basket) drives; the scored observable is mass flow",
+      "in_manifest_cell": true
+    },
+    "C_time_base_only": {
+      "key": "C_time_base_only",
+      "manifest_wording": "(not named in the cell \u2014 found by this screen)",
+      "strength": "qualitative",
+      "observable": "the trace's `time__s` grid used as a CLOCK. No measured column is scored against; the dataset supplies the time base and nothing else",
+      "columns": [
+        "time__s"
+      ],
+      "node": "n/a \u2014 no pressure column is read",
+      "in_manifest_cell": false
+    },
+    "both": {
+      "key": "both",
+      "manifest_wording": "(consumer whose subject IS the split)",
+      "strength": null,
+      "observable": "reads both halves because the comparison between them is its subject",
+      "columns": [
+        "time__s",
+        "mass_flow_rate__g_per_s",
+        "basket_pressure__bar",
+        "pressure__bar"
+      ],
+      "node": "both nodes, compared",
+      "in_manifest_cell": true
+    }
+  },
+  "enumeration": {
+    "static_call_sites": [
+      {
+        "file": "puckworks/analysis/residual_autocorr.py",
+        "line": 51,
+        "function": "residual_autocorr_waszkiewicz",
+        "source": "tr = d.waszkiewicz_traces()"
+      },
+      {
+        "file": "puckworks/analysis/waszkiewicz_shot_level.py",
+        "line": 783,
+        "function": "recorded_pressure_robustness",
+        "source": "tr = d.waszkiewicz_traces()"
+      },
+      {
+        "file": "puckworks/data/__init__.py",
+        "line": 156,
+        "function": "waszkiewicz_traces_per_brew",
+        "source": "`waszkiewicz_traces()` returns the published per-pressure MEAN with a `*_std` column that is a"
+      },
+      {
+        "file": "puckworks/figures.py",
+        "line": 347,
+        "function": "fig3_ladder",
+        "source": "tr = d.waszkiewicz_traces()"
+      },
+      {
+        "file": "puckworks/figures.py",
+        "line": 384,
+        "function": "fig4_composition",
+        "source": "tr = d.waszkiewicz_traces()"
+      },
+      {
+        "file": "puckworks/figures_paper3.py",
+        "line": 380,
+        "function": "fig5_negative_composition",
+        "source": "tr = d.waszkiewicz_traces()[P]"
+      },
+      {
+        "file": "puckworks/figures_paper_b2.py",
+        "line": 174,
+        "function": "_trace",
+        "source": "rec = d.waszkiewicz_traces()[9.0]"
+      },
+      {
+        "file": "puckworks/harness.py",
+        "line": 138,
+        "function": "kappa_t_ladder",
+        "source": "tr = d.waszkiewicz_traces()"
+      },
+      {
+        "file": "puckworks/harness.py",
+        "line": 250,
+        "function": "result2_residual_diagnostics",
+        "source": "tr = d.waszkiewicz_traces()"
+      },
+      {
+        "file": "puckworks/harness.py",
+        "line": 1583,
+        "function": "cross_pressure_discrimination",
+        "source": "tr = d.waszkiewicz_traces()"
+      },
+      {
+        "file": "puckworks/harness.py",
+        "line": 1683,
+        "function": "cross_pressure_loco",
+        "source": "tr = d.waszkiewicz_traces()"
+      },
+      {
+        "file": "puckworks/models/brewer2026/coupled_kappa_t.py",
+        "line": 81,
+        "function": "simulate",
+        "source": "tr = _d.waszkiewicz_traces()"
+      },
+      {
+        "file": "puckworks/models/brewer2026/coupled_kappa_t.py",
+        "line": 112,
+        "function": "degeneracy_rmse",
+        "source": "tr = _d.waszkiewicz_traces()"
+      },
+      {
+        "file": "puckworks/models/brewer2026/coupled_kappa_t.py",
+        "line": 125,
+        "function": "composition_residual",
+        "source": "tr = _d.waszkiewicz_traces()"
+      },
+      {
+        "file": "puckworks/models/waszkiewicz2025/poroelastic.py",
+        "line": 125,
+        "function": "steady_state_curve",
+        "source": "tr = _d.waszkiewicz_traces()"
+      },
+      {
+        "file": "puckworks/public/model_composition.py",
+        "line": 204,
+        "function": "build_payload",
+        "source": "tr = _d.waszkiewicz_traces()"
+      },
+      {
+        "file": "puckworks/validation/gates.py",
+        "line": 66,
+        "function": "gate_waszkiewicz_dynamic_9bar",
+        "source": "tr = d.waszkiewicz_traces()"
+      },
+      {
+        "file": "puckworks/validation/gates.py",
+        "line": 549,
+        "function": "gate_kappa_t_degeneracy",
+        "source": "tr = d.waszkiewicz_traces()"
+      },
+      {
+        "file": "puckworks/validation/slow/external_waszkiewicz.py",
+        "line": 125,
+        "function": "waszkiewicz_external_tds",
+        "source": "tr = d.waszkiewicz_traces()[pressure]"
+      },
+      {
+        "file": "puckworks/viz/producers.py",
+        "line": 53,
+        "function": "shot_traces",
+        "source": "tr = d.waszkiewicz_traces()[float(pressure_bar)]"
+      },
+      {
+        "file": "puckworks/viz/producers.py",
+        "line": 72,
+        "function": "wetting_front",
+        "source": "tr = d.waszkiewicz_traces()[float(pressure_bar)]"
+      }
+    ],
+    "n_static_call_sites": 21,
+    "static_gates_reaching": [
+      "puckworks.validation.gates.gate_coupled_kappa_t",
+      "puckworks.validation.gates.gate_fasano_freeboundary",
+      "puckworks.validation.gates.gate_kappa_t_composition_diagnostic",
+      "puckworks.validation.gates.gate_kappa_t_degeneracy",
+      "puckworks.validation.gates.gate_lee_feedback_negative_result",
+      "puckworks.validation.gates.gate_ntube_kappa_t_union",
+      "puckworks.validation.gates.gate_p2_cross_pressure",
+      "puckworks.validation.gates.gate_p2_kappa_ladder",
+      "puckworks.validation.gates.gate_p3_schmieder_peak_discrimination",
+      "puckworks.validation.gates.gate_unified_kappa_t",
+      "puckworks.validation.gates.gate_waszkiewicz_dynamic_9bar",
+      "puckworks.validation.gates.gate_waszkiewicz_static_refit"
+    ],
+    "n_static_gates": 12,
+    "dynamic_trace": {
+      "gate_coupled_kappa_t": {
+        "loader_calls": 0,
+        "seconds": 0.68,
+        "error": null
+      },
+      "gate_fasano_freeboundary": {
+        "loader_calls": 0,
+        "seconds": 0.33,
+        "error": null
+      },
+      "gate_kappa_t_composition_diagnostic": {
+        "loader_calls": 4,
+        "seconds": 0.22,
+        "error": null
+      },
+      "gate_kappa_t_degeneracy": {
+        "loader_calls": 3,
+        "seconds": 0.12,
+        "error": null
+      },
+      "gate_lee_feedback_negative_result": {
+        "loader_calls": 0,
+        "seconds": 0.6,
+        "error": null
+      },
+      "gate_ntube_kappa_t_union": {
+        "loader_calls": 4,
+        "seconds": 4.05,
+        "error": null
+      },
+      "gate_p2_cross_pressure": {
+        "loader_calls": 1,
+        "seconds": 2.7,
+        "error": null
+      },
+      "gate_p2_kappa_ladder": {
+        "loader_calls": 1,
+        "seconds": 0.36,
+        "error": null
+      },
+      "gate_p3_schmieder_peak_discrimination": {
+        "loader_calls": 0,
+        "seconds": 4.67,
+        "error": null
+      },
+      "gate_unified_kappa_t": {
+        "loader_calls": 0,
+        "seconds": 0.29,
+        "error": null
+      },
+      "gate_waszkiewicz_dynamic_9bar": {
+        "loader_calls": 1,
+        "seconds": 0.04,
+        "error": null
+      },
+      "gate_waszkiewicz_static_refit": {
+        "loader_calls": 1,
+        "seconds": 0.04,
+        "error": null
+      }
+    },
+    "real_gate_consumers": [
+      "gate_kappa_t_composition_diagnostic",
+      "gate_kappa_t_degeneracy",
+      "gate_ntube_kappa_t_union",
+      "gate_p2_cross_pressure",
+      "gate_p2_kappa_ladder",
+      "gate_waszkiewicz_dynamic_9bar",
+      "gate_waszkiewicz_static_refit"
+    ],
+    "n_real_gate_consumers": 7,
+    "static_false_positives": [
+      "gate_coupled_kappa_t",
+      "gate_fasano_freeboundary",
+      "gate_lee_feedback_negative_result",
+      "gate_p3_schmieder_peak_discrimination",
+      "gate_unified_kappa_t"
+    ],
+    "n_static_false_positives": 5,
+    "uncovered_call_site_functions": [],
+    "uncovered_gates": [],
+    "complete": true
+  },
+  "adversarial_docstring_scan": {
+    "per_gate": {
+      "gate_kappa_t_composition_diagnostic": {
+        "tokens_found": [],
+        "states_no_strength": true,
+        "candidate_promotion": false,
+        "independent_is_negated": false
+      },
+      "gate_kappa_t_degeneracy": {
+        "tokens_found": [
+          "verification"
+        ],
+        "states_no_strength": false,
+        "candidate_promotion": false,
+        "independent_is_negated": false
+      },
+      "gate_ntube_kappa_t_union": {
+        "tokens_found": [
+          "qualitative"
+        ],
+        "states_no_strength": false,
+        "candidate_promotion": false,
+        "independent_is_negated": false
+      },
+      "gate_p2_cross_pressure": {
+        "tokens_found": [
+          "independent"
+        ],
+        "states_no_strength": false,
+        "candidate_promotion": true,
+        "independent_is_negated": true
+      },
+      "gate_p2_kappa_ladder": {
+        "tokens_found": [],
+        "states_no_strength": true,
+        "candidate_promotion": false,
+        "independent_is_negated": false
+      },
+      "gate_waszkiewicz_dynamic_9bar": {
+        "tokens_found": [
+          "post-fit reconstruction"
+        ],
+        "states_no_strength": false,
+        "candidate_promotion": false,
+        "independent_is_negated": false
+      },
+      "gate_waszkiewicz_static_refit": {
+        "tokens_found": [
+          "independent"
+        ],
+        "states_no_strength": false,
+        "candidate_promotion": false,
+        "independent_is_negated": false
+      }
+    },
+    "unresolved_candidate_promotions": [],
+    "gates_stating_no_strength": [
+      "gate_kappa_t_composition_diagnostic",
+      "gate_p2_kappa_ladder"
+    ]
+  },
+  "consumers": [
+    {
+      "consumer": "gate_waszkiewicz_static_refit",
+      "kind": "gate",
+      "module": "puckworks.validation.gates",
+      "evidence_half": "A_equilibrium",
+      "states_strength": "independent",
+      "columns_read": [
+        "basket_pressure__bar[-1]",
+        "mass_flow_rate__g_per_s[-1]"
+      ],
+      "node_convention": "basket (P_basket)",
+      "attribution_reasoning": "Assertion: 'refitting Eq. 16 to their 11-pressure long-run curve recovers (P_c, Q_c)'. Reaches the dataset only via poroelastic.steady_state_curve(), which takes the LAST time point of each trace. No point of the 9-bar trajectory enters the assertion, so the post-fit half is not load-bearing here.",
+      "explicit_disclosure": "Docstring already discloses that the published-calibration comparison is 'same method + data', so that clause is not offered as independent corroboration."
+    },
+    {
+      "consumer": "gate_waszkiewicz_dynamic_9bar",
+      "kind": "gate",
+      "module": "puckworks.validation.gates",
+      "evidence_half": "B_post_fit_9bar",
+      "states_strength": "post-fit reconstruction",
+      "columns_read": [
+        "time__s",
+        "mass_flow_rate__g_per_s"
+      ],
+      "node_convention": "basket (P_basket), 9.0 bar",
+      "attribution_reasoning": "Assertion: parameter-free Eq. 18 reproduces the 9-bar Q(t) ramp, scored against tr[9.0] over the whole window. Squarely the post-fit half.",
+      "explicit_disclosure": "Docstring: 'Post-fit reconstruction (m_d from the same rig, per card)'."
+    },
+    {
+      "consumer": "gate_kappa_t_degeneracy",
+      "kind": "gate",
+      "module": "puckworks.validation.gates",
+      "evidence_half": "B_post_fit_9bar",
+      "states_strength": "verification",
+      "columns_read": [
+        "time__s",
+        "mass_flow_rate__g_per_s"
+      ],
+      "node_convention": "basket (P_basket), 9.0 bar",
+      "attribution_reasoning": "Assertion is MODEL-VS-MODEL: coupled_kappa_t with branches off must equal waszkiewicz2025.poroelastic. The 9-bar trace is the common scoring target, so the half consumed is B; the claim gated is the reduction, which is weaker. Stating 'verification' is therefore conservative, not a promotion.",
+      "explicit_disclosure": "Docstring: 'Verification of the reduction.' The rung-4 reference is computed from the poroelastic component on the same window, not carried as a literal."
+    },
+    {
+      "consumer": "gate_kappa_t_composition_diagnostic",
+      "kind": "gate",
+      "module": "puckworks.validation.gates",
+      "evidence_half": "B_post_fit_9bar",
+      "states_strength": null,
+      "columns_read": [
+        "time__s",
+        "mass_flow_rate__g_per_s"
+      ],
+      "node_convention": "basket (P_basket), 9.0 bar",
+      "attribution_reasoning": "Assertion: adding the mo2023_2 swelling branch over-closes the shared porosity and worsens the 9-bar residual \u2014 a diagnostic scored on the post-fit half. The docstring names NO strength; the label is carried downstream by PV-05 ('qualitative'), which is weaker than the half. No promotion, but the reader gets no label from the gate itself.",
+      "explicit_disclosure": "Docstring: 'report the residual, do not tune it away' (card)."
+    },
+    {
+      "consumer": "gate_p2_kappa_ladder",
+      "kind": "gate",
+      "module": "puckworks.validation.gates",
+      "evidence_half": "B_post_fit_9bar",
+      "states_strength": null,
+      "columns_read": [
+        "time__s",
+        "mass_flow_rate__g_per_s"
+      ],
+      "node_convention": "basket (P_basket), 9.0 bar",
+      "attribution_reasoning": "Assertion: a time-dependent Phi(t) beats three constant nulls on the 9-bar rising-flow window by ~4.9x. Entirely the post-fit half, via harness.kappa_t_ladder. The docstring names NO strength; the label is carried downstream by PV-02 ('post-fit reconstruction'), which matches the half exactly.",
+      "explicit_disclosure": "Docstring qualifies the mechanistic content itself: 'no coefficient fitted to the scored trace, but target-informed upstream', and records that a 4-param flexible cubic reaches ~0.10 \u2014 so the ladder establishes NEED for time variation, not a mechanism."
+    },
+    {
+      "consumer": "gate_p2_cross_pressure",
+      "kind": "gate",
+      "module": "puckworks.validation.gates",
+      "evidence_half": "B_post_fit_9bar",
+      "states_strength": "post-fit reconstruction",
+      "columns_read": [
+        "time__s",
+        "mass_flow_rate__g_per_s"
+      ],
+      "node_convention": "basket (P_basket), all 11 pressures",
+      "attribution_reasoning": "Assertion: one shared campaign-wide calibration predicts all 11 pressures and the three kappa(t) mechanisms separate by regime. Time-resolved across the campaign \u2014 the post-fit half, widened from 9 bar to all pressures.",
+      "explicit_disclosure": "Docstring: 'within-campaign CONDITIONAL transfer, NOT independent out-of-sample validation' \u2014 an explicit REFUSAL of the independent half. This is why the adversarial token scan flags it: the word 'independent' appears negated."
+    },
+    {
+      "consumer": "gate_ntube_kappa_t_union",
+      "kind": "gate",
+      "module": "puckworks.validation.gates",
+      "evidence_half": "C_time_base_only",
+      "states_strength": "qualitative",
+      "columns_read": [
+        "time__s"
+      ],
+      "node_convention": "n/a \u2014 no pressure column read from this dataset",
+      "attribution_reasoning": "Found by the dynamic trace, NOT by the obvious reading \u2014 four loader calls, via coupled_kappa_t.simulate(P_bar=..., branches=('extraction',)) with no explicit `t`, so simulate falls back to tr[P_bar]['time__s'] as its CLOCK. No measured column is scored against. The assertion (single-channel collapse, N_eff -> ~1) is carried by the streamtube/porosity machinery, not by this dataset. Neither manifest half is load-bearing; the dataset supplies a time grid.",
+      "explicit_disclosure": "Docstring: 'EXPLORATORY SYNTHESIS, qualitative strength ... NOT a proven unconditional instability' and 'NOT a registered component / validated law'."
+    },
+    {
+      "consumer": "PV-02",
+      "kind": "public_claim",
+      "module": "puckworks.public.claims",
+      "evidence_half": "B_post_fit_9bar",
+      "states_strength": "post-fit reconstruction",
+      "columns_read": [
+        "time__s",
+        "mass_flow_rate__g_per_s"
+      ],
+      "node_convention": "basket (P_basket), 9.0 bar",
+      "attribution_reasoning": "Numeric result is the ladder RMSE triple (0.116 / 0.573 / 4.9x) on the 9-bar window; the dependency names the dataset as 'the measured flow trace all branches are scored against'. Post-fit half, stated exactly.",
+      "explicit_disclosure": "evidence_strength='post-fit reconstruction'; badge EXPLORATORY_SIMULATION; caveat 'Sufficient, NOT unique'. DECISIVE: its evidence_selection for waszkiewicz2025.poroelastic selects ONLY 'waszkiewicz2025.poroelastic::gate_waszkiewicz_dynamic_9bar' and records 'EXCLUDED: gate_waszkiewicz_static_refit, which concerns the steady-state pressure-flow curve and the recovered P_c/Q_c -- a different observable.' The independent-half gate is explicitly refused as evidence for the post-fit claim."
+    },
+    {
+      "consumer": "PV-05",
+      "kind": "public_claim",
+      "module": "puckworks.public.claims",
+      "evidence_half": "B_post_fit_9bar",
+      "states_strength": "qualitative",
+      "columns_read": [
+        "time__s",
+        "mass_flow_rate__g_per_s"
+      ],
+      "node_convention": "basket (P_basket), 9.0 bar",
+      "attribution_reasoning": "Numeric result is the composition-residual triple on the same 9-bar window; the dependency names the dataset as 'the measured trace the composite is scored against'. Post-fit half, stated at the weakest rung.",
+      "explicit_disclosure": "evidence_strength='qualitative'; badge EXPLORATORY_SIMULATION. Its evidence selection likewise EXCLUDES the degeneracy/reduction records as 'not what is asserted here'."
+    },
+    {
+      "consumer": "poroelastic.steady_state_curve",
+      "kind": "producer",
+      "module": "puckworks.models.waszkiewicz2025.poroelastic",
+      "evidence_half": "A_equilibrium",
+      "states_strength": null,
+      "columns_read": [
+        "basket_pressure__bar[-1]",
+        "mass_flow_rate__g_per_s[-1]"
+      ],
+      "node_convention": "basket (P_basket)",
+      "attribution_reasoning": "The equilibrium-half extractor: last time point per pressure. Asserts nothing; it is the edge by which half A reaches gate_waszkiewicz_static_refit.",
+      "explicit_disclosure": "Docstring names it 'the 11-point equilibrium curve their static fit consumes'."
+    },
+    {
+      "consumer": "harness.kappa_t_ladder",
+      "kind": "producer",
+      "module": "puckworks.harness",
+      "evidence_half": "B_post_fit_9bar",
+      "states_strength": null,
+      "columns_read": [
+        "time__s",
+        "mass_flow_rate__g_per_s"
+      ],
+      "node_convention": "basket (P_basket), 9.0 bar",
+      "attribution_reasoning": "Producer behind gate_p2_kappa_ladder and PV-02; scores every rung on the 9-bar window.",
+      "explicit_disclosure": ""
+    },
+    {
+      "consumer": "harness.result2_residual_diagnostics",
+      "kind": "producer",
+      "module": "puckworks.harness",
+      "evidence_half": "B_post_fit_9bar",
+      "states_strength": null,
+      "columns_read": [
+        "time__s",
+        "mass_flow_rate__g_per_s"
+      ],
+      "node_convention": "basket (P_basket), 9.0 bar",
+      "attribution_reasoning": "Window-sensitivity diagnostics on the same 9-bar residual.",
+      "explicit_disclosure": ""
+    },
+    {
+      "consumer": "harness.cross_pressure_discrimination",
+      "kind": "producer",
+      "module": "puckworks.harness",
+      "evidence_half": "B_post_fit_9bar",
+      "states_strength": null,
+      "columns_read": [
+        "time__s",
+        "mass_flow_rate__g_per_s"
+      ],
+      "node_convention": "basket (P_basket), all 11 pressures",
+      "attribution_reasoning": "Producer behind gate_p2_cross_pressure; time-resolved across the campaign.",
+      "explicit_disclosure": ""
+    },
+    {
+      "consumer": "harness.cross_pressure_loco",
+      "kind": "producer",
+      "module": "puckworks.harness",
+      "evidence_half": "B_post_fit_9bar",
+      "states_strength": null,
+      "columns_read": [
+        "time__s",
+        "mass_flow_rate__g_per_s"
+      ],
+      "node_convention": "basket (P_basket), all 11 pressures",
+      "attribution_reasoning": "Leave-one-condition-out over the same time-resolved traces.",
+      "explicit_disclosure": ""
+    },
+    {
+      "consumer": "coupled_kappa_t.simulate",
+      "kind": "producer",
+      "module": "puckworks.models.brewer2026.coupled_kappa_t",
+      "evidence_half": "C_time_base_only",
+      "states_strength": null,
+      "columns_read": [
+        "time__s"
+      ],
+      "node_convention": "n/a \u2014 no pressure column read",
+      "attribution_reasoning": "Reads tr[P_bar]['time__s'] ONLY, and only when the caller passes no `t`. Its (P_c, Q_c) come from published_calibration() \u2014 a DIFFERENT manifest row (waszkiewicz2025/static_calibration), not this one. Callers that also score against the trace (degeneracy_rmse, composition_residual) read the flow column themselves.",
+      "explicit_disclosure": ""
+    },
+    {
+      "consumer": "coupled_kappa_t.degeneracy_rmse",
+      "kind": "producer",
+      "module": "puckworks.models.brewer2026.coupled_kappa_t",
+      "evidence_half": "B_post_fit_9bar",
+      "states_strength": null,
+      "columns_read": [
+        "time__s",
+        "mass_flow_rate__g_per_s"
+      ],
+      "node_convention": "basket (P_basket), 9.0 bar",
+      "attribution_reasoning": "Scores the branches-off reduction against the 9-bar trace.",
+      "explicit_disclosure": ""
+    },
+    {
+      "consumer": "coupled_kappa_t.composition_residual",
+      "kind": "producer",
+      "module": "puckworks.models.brewer2026.coupled_kappa_t",
+      "evidence_half": "B_post_fit_9bar",
+      "states_strength": null,
+      "columns_read": [
+        "time__s",
+        "mass_flow_rate__g_per_s"
+      ],
+      "node_convention": "basket (P_basket), 9.0 bar",
+      "attribution_reasoning": "Scores the composite against the 9-bar trace.",
+      "explicit_disclosure": ""
+    },
+    {
+      "consumer": "model_composition.build_payload",
+      "kind": "producer",
+      "module": "puckworks.public.model_composition",
+      "evidence_half": "B_post_fit_9bar",
+      "states_strength": null,
+      "columns_read": [
+        "time__s",
+        "mass_flow_rate__g_per_s"
+      ],
+      "node_convention": "basket (P_basket), 9.0 bar",
+      "attribution_reasoning": "Assembles the PV-05 payload from the same 9-bar residuals; inherits PV-05's label rather than stating its own.",
+      "explicit_disclosure": ""
+    },
+    {
+      "consumer": "analysis.residual_autocorr.residual_autocorr_waszkiewicz",
+      "kind": "analysis",
+      "module": "puckworks.analysis.residual_autocorr",
+      "evidence_half": "B_post_fit_9bar",
+      "states_strength": "verification",
+      "columns_read": [
+        "time__s",
+        "mass_flow_rate__g_per_s"
+      ],
+      "node_convention": "basket (P_basket)",
+      "attribution_reasoning": "Residual autocorrelation of the ladder fit \u2014 a property of the post-fit residual. Asserts a numerical/statistical property, not a physical one, so it states a rung weaker than the half.",
+      "explicit_disclosure": ""
+    },
+    {
+      "consumer": "analysis.waszkiewicz_shot_level.recorded_pressure_robustness",
+      "kind": "analysis",
+      "module": "puckworks.analysis.waszkiewicz_shot_level",
+      "evidence_half": "both",
+      "states_strength": "post-fit reconstruction",
+      "columns_read": [
+        "time__s",
+        "mass_flow_rate__g_per_s",
+        "basket_pressure__bar",
+        "pressure__bar"
+      ],
+      "node_convention": "BOTH nodes compared \u2014 this is its subject",
+      "attribution_reasoning": "Compares the recorded-pressure convention against the reference-pressure label, touching the equilibrium endpoint and the trajectory. Its assertion is about the campaign's own bookkeeping, so it leans on neither half as evidence FOR a model.",
+      "explicit_disclosure": "The consumer that makes the basket-vs-line node distinction explicit rather than implicit."
+    },
+    {
+      "consumer": "slow.external_waszkiewicz.waszkiewicz_external_tds",
+      "kind": "analysis",
+      "module": "puckworks.validation.slow.external_waszkiewicz",
+      "evidence_half": "B_post_fit_9bar",
+      "states_strength": "post-fit reconstruction",
+      "columns_read": [
+        "time__s",
+        "mass_flow_rate__g_per_s"
+      ],
+      "node_convention": "basket (P_basket)",
+      "attribution_reasoning": "Slow-lane external TDS comparison driven by the measured trace.",
+      "explicit_disclosure": "Slow lane, not CI."
+    },
+    {
+      "consumer": "figures.fig3_ladder",
+      "kind": "figure",
+      "module": "puckworks.figures",
+      "evidence_half": "B_post_fit_9bar",
+      "states_strength": null,
+      "columns_read": [
+        "time__s",
+        "mass_flow_rate__g_per_s"
+      ],
+      "node_convention": "basket (P_basket), 9.0 bar",
+      "attribution_reasoning": "Renders the ladder; inherits PV-02's label.",
+      "explicit_disclosure": ""
+    },
+    {
+      "consumer": "figures.fig4_composition",
+      "kind": "figure",
+      "module": "puckworks.figures",
+      "evidence_half": "B_post_fit_9bar",
+      "states_strength": null,
+      "columns_read": [
+        "time__s",
+        "mass_flow_rate__g_per_s"
+      ],
+      "node_convention": "basket (P_basket), 9.0 bar",
+      "attribution_reasoning": "Renders the composition; inherits PV-05's label.",
+      "explicit_disclosure": ""
+    },
+    {
+      "consumer": "figures_paper3.fig5_negative_composition",
+      "kind": "figure",
+      "module": "puckworks.figures_paper3",
+      "evidence_half": "B_post_fit_9bar",
+      "states_strength": null,
+      "columns_read": [
+        "time__s",
+        "mass_flow_rate__g_per_s"
+      ],
+      "node_convention": "basket (P_basket)",
+      "attribution_reasoning": "Renders the negative composition result; inherits.",
+      "explicit_disclosure": ""
+    },
+    {
+      "consumer": "figures_paper_b2._trace",
+      "kind": "figure",
+      "module": "puckworks.figures_paper_b2",
+      "evidence_half": "B_post_fit_9bar",
+      "states_strength": null,
+      "columns_read": [
+        "time__s",
+        "mass_flow_rate__g_per_s"
+      ],
+      "node_convention": "basket (P_basket), 9.0 bar",
+      "attribution_reasoning": "Paper B2 trace panel; inherits.",
+      "explicit_disclosure": ""
+    },
+    {
+      "consumer": "viz.producers.shot_traces",
+      "kind": "viz",
+      "module": "puckworks.viz.producers",
+      "evidence_half": "B_post_fit_9bar",
+      "states_strength": null,
+      "columns_read": [
+        "time__s",
+        "mass_flow_rate__g_per_s",
+        "basket_pressure__bar"
+      ],
+      "node_convention": "basket (P_basket)",
+      "attribution_reasoning": "VizSpec producer for the raw shot trace. Renders measured data; the badge and fidelity ceiling are carried by the VizSpec, not minted here.",
+      "explicit_disclosure": ""
+    },
+    {
+      "consumer": "viz.producers.wetting_front",
+      "kind": "viz",
+      "module": "puckworks.viz.producers",
+      "evidence_half": "B_post_fit_9bar",
+      "states_strength": null,
+      "columns_read": [
+        "time__s",
+        "mass_flow_rate__g_per_s"
+      ],
+      "node_convention": "basket (P_basket)",
+      "attribution_reasoning": "VizSpec producer for the wetting-front overlay; inherits.",
+      "explicit_disclosure": ""
+    }
+  ],
+  "n_consumers": 27,
+  "consumers_by_half": {
+    "A_equilibrium": [
+      "gate_waszkiewicz_static_refit",
+      "poroelastic.steady_state_curve"
+    ],
+    "B_post_fit_9bar": [
+      "PV-02",
+      "PV-05",
+      "analysis.residual_autocorr.residual_autocorr_waszkiewicz",
+      "coupled_kappa_t.composition_residual",
+      "coupled_kappa_t.degeneracy_rmse",
+      "figures.fig3_ladder",
+      "figures.fig4_composition",
+      "figures_paper3.fig5_negative_composition",
+      "figures_paper_b2._trace",
+      "gate_kappa_t_composition_diagnostic",
+      "gate_kappa_t_degeneracy",
+      "gate_p2_cross_pressure",
+      "gate_p2_kappa_ladder",
+      "gate_waszkiewicz_dynamic_9bar",
+      "harness.cross_pressure_discrimination",
+      "harness.cross_pressure_loco",
+      "harness.kappa_t_ladder",
+      "harness.result2_residual_diagnostics",
+      "model_composition.build_payload",
+      "slow.external_waszkiewicz.waszkiewicz_external_tds",
+      "viz.producers.shot_traces",
+      "viz.producers.wetting_front"
+    ],
+    "C_time_base_only": [
+      "coupled_kappa_t.simulate",
+      "gate_ntube_kappa_t_union"
+    ],
+    "both": [
+      "analysis.waszkiewicz_shot_level.recorded_pressure_robustness"
+    ]
+  },
+  "promotions": [],
+  "n_promotions": 0,
+  "decision": "RETIRE",
+  "decision_reasoning": "Every active use preserves the split: no consumer states a strength stronger than the half its assertion rests on, and the adversarial docstring scan produced no unresolved candidate promotion."
+}

@@ -16,6 +16,9 @@ manifest, or a generated public claim, and no Foundry output changes an evidence
 3. [`generated/candidate_portfolio.md`](generated/candidate_portfolio.md) — every candidate, each
    with a question, a cheap screen, a decision rule, and a stop condition.
 4. [`generated/tension_atlas.md`](generated/tension_atlas.md) — the rows the candidates came from.
+5. [`IF5_HUMAN_TRIAGE_DECISION.md`](IF5_HUMAN_TRIAGE_DECISION.md) — the **human** selection step
+   (IF-5): which ten candidates are active, which two are reserves, why each is in the lane it is
+   in, and the two rules the decision fixes. Hand-written; not generated, not regenerable.
 
 The blueprint this implements is
 [`../PUCKWORKS_INSIGHT_FOUNDRY_CONCEPT_DESIGN_AND_IMPLEMENTATION.md`](../PUCKWORKS_INSIGHT_FOUNDRY_CONCEPT_DESIGN_AND_IMPLEMENTATION.md).
@@ -62,9 +65,21 @@ chatgpt_project/              Project instructions + chat prompts (hand-written)
 
 ## Status
 
-Foundation only. The portfolio has been **generated, not triaged** — every candidate is `SEED`,
-nothing is scored, and no component has been executed.
+The portfolio is still **generated, not scored** — every candidate is `SEED`, nothing has a score,
+and no generator ranked anything.
 
-The next step is human triage (blueprint §12 Stage B): read the portfolio, select 10–15, run three
-cheap screens. **Do not extend this layer before that has happened.** Building machinery ahead of
-the decisive screen is the Paper 1 failure mode this whole design exists to avoid.
+**IF-5 human triage is complete** (2026-08-04): ten active candidates + two reserves, recorded in
+[`IF5_HUMAN_TRIAGE_DECISION.md`](IF5_HUMAN_TRIAGE_DECISION.md) and on the twelve cards under
+[`candidates/`](candidates/). Selection lives there and only there; the generated portfolio was not
+rewritten and does not imply the decision existed at snapshot time.
+
+Wave-1 cheap screens (IF-6) ran on **I-040, I-010, I-024**: **I-040 and I-024 RETIRE**, and
+**I-010 returned NEEDS_NEW_DATA** (solute-specific bioactive replicate RSD is the named missing
+evidence). See [`screens/`](screens/) for the bundles;
+[`RETIRED_CANDIDATES.md`](RETIRED_CANDIDATES.md) lists the two retirements and their reopen
+conditions — a `NEEDS_NEW_DATA` screen is not a retirement and is not recorded there. Wave 2 is
+I-045 and I-076.
+
+**Do not extend this layer before the Wave-1 screens have reported** — no new lens, no new
+generator, no scoring of the 91 candidates, no further card materialisation. Building machinery
+ahead of the decisive screen is the Paper 1 failure mode this whole design exists to avoid.

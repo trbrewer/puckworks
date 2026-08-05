@@ -1,0 +1,553 @@
+{
+  "screen": "I-010",
+  "artifact": "pannusch2024.closures",
+  "consumer": "pannusch2024.solver",
+  "disposition": [
+    "CHEAP_SCIENTIFIC_SCREEN",
+    "NOT_A_PUBLICATION_RESULT",
+    "NOT_A_MODEL_VALIDATION_UPGRADE"
+  ],
+  "correction_note": "CORRECTED 2026-08-04. The superseded first version used the median total-solids replicate RSD (4.70 %) as the decision authority for all four outputs, including three whose replicate uncertainty the campaign does not retain, and reported RETIRE. Each output is now judged against its own retained uncertainty; the corrected disposition is recorded below. The producer->consumer path, the frozen configuration, the admissible substitutions and the no-refit predictions are unchanged.",
+  "path": {
+    "established": true,
+    "method": "source read, not co-location: the consumer imports the producer module and calls its functions by name",
+    "import_site": "puckworks/models/pannusch2024/solver.py:30  `from puckworks.models.pannusch2024 import closures as pc`",
+    "registry_declaration": "puckworks/models/__init__.py \u2014 pannusch2024.solver notes: 'Consumes pannusch2024.closures.'",
+    "direct_calls": [
+      {
+        "closure": "sherwood_h",
+        "sites": [
+          "solver.py:101 (h1)",
+          "solver.py:102 (h2)",
+          "solver.py:189 (h1, Q(t) adapter)",
+          "solver.py:190 (h2, Q(t) adapter)"
+        ],
+        "enters_as": "lumped mass-transfer coefficients h1, h2 [m/s], one per grain population, via p['m1'], p['m2'], p['f1'], p['f2']"
+      },
+      {
+        "closure": "vant_hoff_K",
+        "sites": [
+          "solver.py:103",
+          "solver.py:173"
+        ],
+        "enters_as": "the solid-liquid distribution constant K [-], in the interphase transfer terms and the initial condition c0[1:nz] = K*cs0/cl1"
+      }
+    ],
+    "transitive_calls": [
+      {
+        "closure": "diffusion_coeff",
+        "via": "sherwood_h (closures.py:65)",
+        "enters_as": "D [m^2/s] \u2014 sets Sc and scales h as h ~ Sh*D/d32, so h ~ D^(2/3)"
+      },
+      {
+        "closure": "water_viscosity",
+        "via": "sherwood_h -> diffusion_coeff and the kinematic viscosity (closures.py:55, 66)",
+        "enters_as": "mu [Pa s] \u2014 enters Re, Sc and Wilke-Chang D"
+      },
+      {
+        "closure": "water_density",
+        "via": "sherwood_h (closures.py:66)",
+        "enters_as": "rho [kg/m^3] \u2014 only through the kinematic viscosity mu/rho"
+      }
+    ],
+    "interface_width": "Three scalars per solve: h1, h2, K. Every one of the five declared closures reaches the consumer only through those three numbers.",
+    "note": "The candidate's INCONCLUSIVE branch ('no consuming path can be established') is closed by this step. The generated row recorded same-stage co-location only; the path is real and is a direct import."
+  },
+  "frozen": {
+    "model_grid": {
+      "NZ": 200,
+      "scheme": "five-point biased upwind (Carver & Hinds 1978)",
+      "integrator": "BDF (solve_ivp)",
+      "rtol": 1e-06,
+      "atol": 1e-06
+    },
+    "boundary_conditions": {
+      "inlet": "Dirichlet c_l(z=0) = 0",
+      "bed_length_m": 0.015,
+      "bed_diameter_m": 0.058,
+      "porosity_alpha_l": 0.17
+    },
+    "grind": "GRIND_17 \u2014 the centre grind (psi=0.23, d_s2=330 um); the per-experiment grind assignment lives in the source's opaque parameter list (documented approximation)",
+    "measured_flow_input": "angeloni_bracket._flow_darcy \u2014 Darcy q = q_ref*(p/p_ref)*(mu(T_ref)/mu(T)), anchored at 40 g / ~24 s at 9 bar, 93.4 C. NOT fitted to the concentrations.",
+    "flow_map_viscosity": "FROZEN AT BASELINE for every swap. _flow_darcy calls pc.water_viscosity, so an unfrozen viscosity swap would move the boundary condition and the model closure at once. Predeclared.",
+    "inventory_basis": "pannusch Table 2 c_s0 \u2014 BLIND, no refit to angeloni. The angeloni Table 7 inventories are NOT substituted in; that is a different experiment (inventory matching) and is out of scope here.",
+    "objective": "none \u2014 the no-refit branch fits nothing. The scored quantity is the predicted held-out concentration itself.",
+    "observation_operator": "matched-beverage-mass endpoint: terminate every simulation at the same COLLECTED MASS (40 g) via _matched_bounds, then take the single fraction-averaged outlet concentration. Preserves the source convention that the flow column, published in mL/s, is consumed as g/s (angeloni_bracket._SOURCE_FLOW_UNITS).",
+    "species": [
+      "caffeine",
+      "trigonelline",
+      "5CQA",
+      "tds"
+    ],
+    "species_columns": {
+      "caffeine": "CF",
+      "trigonelline": "TR",
+      "5CQA": "5CQA",
+      "tds": "TS (g/100mL -> mg/mL, x10 per the source convention)"
+    }
+  },
+  "held_out_unit": {
+    "dataset": "angeloni2023 (bioactives + total_solids), granulometry O, on-grid",
+    "manifest_validation_strength_verbatim": "independent (different machine/coffee/basket than pannusch fit or cameron calibration)",
+    "n_conditions": 18,
+    "n_species": 4,
+    "n_points": 72,
+    "non_circular_because": "never used to fit pannusch2024.closures; the fit target (schmieder kinetics) is excluded as circular"
+  },
+  "validity_range": {
+    "declared_valid_range_verbatim": "T 80-98 C, Q 1-3 mL/s; fitted Sherwood params lack generality; Wilke-Chang over-predicts absolute D but is the model's own law",
+    "declared_T_C": [
+      80.0,
+      98.0
+    ],
+    "declared_Q_mL_s": [
+      1.0,
+      3.0
+    ],
+    "used_T_C": [
+      88.0,
+      98.0
+    ],
+    "used_Q_mL_s": [
+      1.045,
+      2.344
+    ],
+    "n_conditions": 18,
+    "n_T_outside": 0,
+    "n_Q_outside": 0,
+    "consumed_outside_declared_range": false,
+    "note": "Under the frozen configuration the consumer drives the artifact strictly INSIDE its declared T and Q range, so this SURVIVE arm does not fire. Note the flow map is an assumption (single anchor, granulometry O); a different admissible flow map could move Q, and that sensitivity is already archived as angeloni_bracket.flow_map_sensitivity_transfer."
+  },
+  "uncertainty": {
+    "per_output_authority": {
+      "tds": {
+        "kind": "measured_per_condition",
+        "source": "measured per-condition RSD_pct of angeloni2023/total_solids"
+      },
+      "caffeine": {
+        "kind": "declared_range",
+        "range_pct": [
+          0.3,
+          19.7
+        ],
+        "source": "angeloni2023/bioactives MANIFEST uncertainty cell, verbatim: '%RSD 0.3-19.7 (in card, not per-cell)'"
+      },
+      "trigonelline": {
+        "kind": "declared_range",
+        "range_pct": [
+          0.3,
+          19.7
+        ],
+        "source": "angeloni2023/bioactives MANIFEST uncertainty cell, verbatim: '%RSD 0.3-19.7 (in card, not per-cell)'"
+      },
+      "5CQA": {
+        "kind": "declared_range",
+        "range_pct": [
+          0.3,
+          19.7
+        ],
+        "source": "angeloni2023/bioactives MANIFEST uncertainty cell, verbatim: '%RSD 0.3-19.7 (in card, not per-cell)'"
+      }
+    },
+    "tds_source": "measured per-condition RSD_pct of angeloni2023/total_solids",
+    "bioactive_band_pct": [
+      0.3,
+      19.7
+    ],
+    "bioactive_band_source": "angeloni2023/bioactives MANIFEST uncertainty cell, verbatim: '%RSD 0.3-19.7 (in card, not per-cell)'",
+    "solute_specific_rsd_recovered": false,
+    "numerical_max_rel_pct": 0.0001,
+    "numerical_source": "NZ 200/rtol 1e-6 vs NZ 400/rtol 1e-8 over the 72 held-out points (angeloni_bracket._numerics)",
+    "proxy_U_pct": 4.7,
+    "proxy_U_role": "campaign-level proxy sensitivity ONLY, over all 66 shots. Not the decision authority for any output. It is a total-solids figure, which is the retained uncertainty of ONE of the four scored outputs and of none of the other three; and it is not even the total-solids median over this screen's own 18 held-out conditions.",
+    "criterion": "For each admissible substitution and EACH scored output separately: the effect statistic is the MEDIAN absolute relative change in the held-out predicted concentration across the 18 held-out conditions. The substitution is MATERIAL for that output at a given RSD if the median effect exceeds that RSD. Outputs are NOT pooled: total solids is judged against its own measured per-condition RSD, and each named bioactive against the declared 0.3-19.7 % range, evaluated at BOTH ends. Numerical uncertainty (0.0001 % max) is negligible against every threshold and changes no classification.",
+    "tds_median_rsd_this_screen_pct": 5.3,
+    "tds_median_rsd_this_screen_note": "median measured total-solids RSD over the 18 held-out granulometry-O on-grid conditions this screen actually uses. THIS is the total-solids threshold; PROXY_U_PCT (4.70 %) is the campaign-wide median over all 66 shots and decides nothing."
+  },
+  "classification_rule": "SURVIVE: at least one admissible closure swap is material throughout the applicable retained uncertainty for at least one output (MATERIAL_THROUGHOUT for a declared-range output, MATERIAL_BY_MEDIAN_CRITERION for total solids), OR the artifact is consumed outside its declared range. RETIRE: every admissible swap is immaterial for every output, AND the artifact is consumed inside its declared range. NEEDS_NEW_DATA: materiality CHANGES within the retained uncertainty range for at least one admissible swap and output, and no swap is material \u2014 the missing evidence is solute-specific replicate RSD for caffeine, trigonelline and CGA. NOTE the total-solids statuses are named for the MEDIAN decision statistic; they do not assert that every condition lies below its own measured RSD, and the per-condition exceedance count is reported separately.",
+  "substitutions": [
+    {
+      "closure": "vant_hoff_K",
+      "label": "K(T): van't Hoff -> romancorrochano Arrhenius T-law",
+      "alternative_source": "romancorrochano2017.extraction.K_of_T (thesis Arrhenius fit ln K = -657/T + 1.4; card romancorrochano2017_extraction.md)",
+      "anchoring": "K_pann(Tref) preserved at Tref = 360.15 K; only the T-law is swapped",
+      "admissible": true,
+      "admissibility_note": "Both closures are declared over the espresso window and are already compared on file (gate_g4_temperature_sensitivity). They DISAGREE on the sign of dK/dT \u2014 a partition-convention difference, surfaced, never merged.",
+      "ran": true,
+      "n_points": 72,
+      "per_output": {
+        "caffeine": {
+          "species": "caffeine",
+          "authority": "declared range 0.3-19.7 % (not per-cell)",
+          "median_effect_pct": 3.1707,
+          "max_effect_pct": 5.5386,
+          "threshold_pct": null,
+          "threshold_note": "no single threshold exists \u2014 the range is evaluated at both ends",
+          "frac_conditions_exceeding_low_end": 1.0,
+          "frac_conditions_exceeding_high_end": 0.0,
+          "n_conditions": 18,
+          "material_at_low_rsd": true,
+          "material_at_high_rsd": false,
+          "status": "CHANGES_WITHIN_RANGE",
+          "status_scope": "refers to the declared uncertainty RANGE, evaluated at both ends, using the MEDIAN effect. The campaign retains no per-cell RSD for this output."
+        },
+        "trigonelline": {
+          "species": "trigonelline",
+          "authority": "declared range 0.3-19.7 % (not per-cell)",
+          "median_effect_pct": 3.0608,
+          "max_effect_pct": 5.4159,
+          "threshold_pct": null,
+          "threshold_note": "no single threshold exists \u2014 the range is evaluated at both ends",
+          "frac_conditions_exceeding_low_end": 1.0,
+          "frac_conditions_exceeding_high_end": 0.0,
+          "n_conditions": 18,
+          "material_at_low_rsd": true,
+          "material_at_high_rsd": false,
+          "status": "CHANGES_WITHIN_RANGE",
+          "status_scope": "refers to the declared uncertainty RANGE, evaluated at both ends, using the MEDIAN effect. The campaign retains no per-cell RSD for this output."
+        },
+        "5CQA": {
+          "species": "5CQA",
+          "authority": "declared range 0.3-19.7 % (not per-cell)",
+          "median_effect_pct": 3.1382,
+          "max_effect_pct": 5.5805,
+          "threshold_pct": null,
+          "threshold_note": "no single threshold exists \u2014 the range is evaluated at both ends",
+          "frac_conditions_exceeding_low_end": 1.0,
+          "frac_conditions_exceeding_high_end": 0.0,
+          "n_conditions": 18,
+          "material_at_low_rsd": true,
+          "material_at_high_rsd": false,
+          "status": "CHANGES_WITHIN_RANGE",
+          "status_scope": "refers to the declared uncertainty RANGE, evaluated at both ends, using the MEDIAN effect. The campaign retains no per-cell RSD for this output."
+        },
+        "tds": {
+          "species": "tds",
+          "authority": "measured per-condition RSD",
+          "median_effect_pct": 1.7093,
+          "max_effect_pct": 3.0055,
+          "threshold_pct": 5.3,
+          "threshold_note": "median of the measured per-condition RSD",
+          "n_conditions": 18,
+          "n_conditions_effect_exceeds_own_rsd": 2,
+          "frac_conditions_exceeding": 0.1111,
+          "material_at_low_rsd": null,
+          "material_at_high_rsd": null,
+          "status": "IMMATERIAL_BY_MEDIAN_CRITERION",
+          "status_scope": "refers to the predeclared decision statistic \u2014 MEDIAN effect vs MEDIAN measured per-condition RSD. It does NOT assert that every condition lies below its own RSD; see n_conditions_effect_exceeds_own_rsd."
+        }
+      },
+      "statuses": {
+        "caffeine": "CHANGES_WITHIN_RANGE",
+        "trigonelline": "CHANGES_WITHIN_RANGE",
+        "5CQA": "CHANGES_WITHIN_RANGE",
+        "tds": "IMMATERIAL_BY_MEDIAN_CRITERION"
+      },
+      "counts_toward_decision": true,
+      "pooled_median_rel_change_pct": 2.9676,
+      "pooled_p90_rel_change_pct": 5.4159,
+      "pooled_max_rel_change_pct": 5.5805,
+      "pooled_frac_points_above_proxy_U": 0.25,
+      "pooled_material_against_proxy_U": false,
+      "pooled_note": "POOLED ACROSS ANALYTES WITH DIFFERENT UNCERTAINTY AUTHORITY. Retained for auditability against the superseded first version; decides nothing."
+    },
+    {
+      "closure": "diffusion_coeff",
+      "label": "D(T): Wilke-Chang -> romancorrochano Stokes-Einstein T-law",
+      "alternative_source": "romancorrochano2017.extraction.deff_of temperature correction (D scaled by the ratio of absolute temperatures)",
+      "anchoring": "D_WC(Tref, solute) preserved at Tref = 360.15 K; only the T-law is swapped",
+      "admissible": true,
+      "admissibility_note": "Both are declared over the espresso window. The difference between the two T-laws is exactly the mu(T) factor.",
+      "ran": true,
+      "n_points": 72,
+      "per_output": {
+        "caffeine": {
+          "species": "caffeine",
+          "authority": "declared range 0.3-19.7 % (not per-cell)",
+          "median_effect_pct": 0.9461,
+          "max_effect_pct": 1.6738,
+          "threshold_pct": null,
+          "threshold_note": "no single threshold exists \u2014 the range is evaluated at both ends",
+          "frac_conditions_exceeding_low_end": 0.6667,
+          "frac_conditions_exceeding_high_end": 0.0,
+          "n_conditions": 18,
+          "material_at_low_rsd": true,
+          "material_at_high_rsd": false,
+          "status": "CHANGES_WITHIN_RANGE",
+          "status_scope": "refers to the declared uncertainty RANGE, evaluated at both ends, using the MEDIAN effect. The campaign retains no per-cell RSD for this output."
+        },
+        "trigonelline": {
+          "species": "trigonelline",
+          "authority": "declared range 0.3-19.7 % (not per-cell)",
+          "median_effect_pct": 0.6631,
+          "max_effect_pct": 1.2465,
+          "threshold_pct": null,
+          "threshold_note": "no single threshold exists \u2014 the range is evaluated at both ends",
+          "frac_conditions_exceeding_low_end": 0.6667,
+          "frac_conditions_exceeding_high_end": 0.0,
+          "n_conditions": 18,
+          "material_at_low_rsd": true,
+          "material_at_high_rsd": false,
+          "status": "CHANGES_WITHIN_RANGE",
+          "status_scope": "refers to the declared uncertainty RANGE, evaluated at both ends, using the MEDIAN effect. The campaign retains no per-cell RSD for this output."
+        },
+        "5CQA": {
+          "species": "5CQA",
+          "authority": "declared range 0.3-19.7 % (not per-cell)",
+          "median_effect_pct": 0.8986,
+          "max_effect_pct": 1.6647,
+          "threshold_pct": null,
+          "threshold_note": "no single threshold exists \u2014 the range is evaluated at both ends",
+          "frac_conditions_exceeding_low_end": 0.6667,
+          "frac_conditions_exceeding_high_end": 0.0,
+          "n_conditions": 18,
+          "material_at_low_rsd": true,
+          "material_at_high_rsd": false,
+          "status": "CHANGES_WITHIN_RANGE",
+          "status_scope": "refers to the declared uncertainty RANGE, evaluated at both ends, using the MEDIAN effect. The campaign retains no per-cell RSD for this output."
+        },
+        "tds": {
+          "species": "tds",
+          "authority": "measured per-condition RSD",
+          "median_effect_pct": 0.7702,
+          "max_effect_pct": 1.4111,
+          "threshold_pct": 5.3,
+          "threshold_note": "median of the measured per-condition RSD",
+          "n_conditions": 18,
+          "n_conditions_effect_exceeds_own_rsd": 1,
+          "frac_conditions_exceeding": 0.0556,
+          "material_at_low_rsd": null,
+          "material_at_high_rsd": null,
+          "status": "IMMATERIAL_BY_MEDIAN_CRITERION",
+          "status_scope": "refers to the predeclared decision statistic \u2014 MEDIAN effect vs MEDIAN measured per-condition RSD. It does NOT assert that every condition lies below its own RSD; see n_conditions_effect_exceeds_own_rsd."
+        }
+      },
+      "statuses": {
+        "caffeine": "CHANGES_WITHIN_RANGE",
+        "trigonelline": "CHANGES_WITHIN_RANGE",
+        "5CQA": "CHANGES_WITHIN_RANGE",
+        "tds": "IMMATERIAL_BY_MEDIAN_CRITERION"
+      },
+      "counts_toward_decision": true,
+      "pooled_median_rel_change_pct": 0.8312,
+      "pooled_p90_rel_change_pct": 1.5246,
+      "pooled_max_rel_change_pct": 1.6738,
+      "pooled_frac_points_above_proxy_U": 0.0,
+      "pooled_material_against_proxy_U": false,
+      "pooled_note": "POOLED ACROSS ANALYTES WITH DIFFERENT UNCERTAINTY AUTHORITY. Retained for auditability against the superseded first version; decides nothing."
+    },
+    {
+      "closure": "water_density",
+      "label": "rho(T): VDI Rackett -> telisromero2001 at X_w = 1",
+      "alternative_source": "sourcing2026.g10_liquor_rheology \u2014 puckworks.data.telisromero_density_kgm3 at the pure-water limit",
+      "anchoring": "none needed \u2014 same quantity, same units, both declared at the pure-water limit",
+      "admissible": true,
+      "admissibility_note": "A genuine like-for-like alternative source.",
+      "ran": true,
+      "n_points": 72,
+      "per_output": {
+        "caffeine": {
+          "species": "caffeine",
+          "authority": "declared range 0.3-19.7 % (not per-cell)",
+          "median_effect_pct": 0.0181,
+          "max_effect_pct": 0.0551,
+          "threshold_pct": null,
+          "threshold_note": "no single threshold exists \u2014 the range is evaluated at both ends",
+          "frac_conditions_exceeding_low_end": 0.0,
+          "frac_conditions_exceeding_high_end": 0.0,
+          "n_conditions": 18,
+          "material_at_low_rsd": false,
+          "material_at_high_rsd": false,
+          "status": "IMMATERIAL_THROUGHOUT",
+          "status_scope": "refers to the declared uncertainty RANGE, evaluated at both ends, using the MEDIAN effect. The campaign retains no per-cell RSD for this output."
+        },
+        "trigonelline": {
+          "species": "trigonelline",
+          "authority": "declared range 0.3-19.7 % (not per-cell)",
+          "median_effect_pct": 0.0064,
+          "max_effect_pct": 0.0203,
+          "threshold_pct": null,
+          "threshold_note": "no single threshold exists \u2014 the range is evaluated at both ends",
+          "frac_conditions_exceeding_low_end": 0.0,
+          "frac_conditions_exceeding_high_end": 0.0,
+          "n_conditions": 18,
+          "material_at_low_rsd": false,
+          "material_at_high_rsd": false,
+          "status": "IMMATERIAL_THROUGHOUT",
+          "status_scope": "refers to the declared uncertainty RANGE, evaluated at both ends, using the MEDIAN effect. The campaign retains no per-cell RSD for this output."
+        },
+        "5CQA": {
+          "species": "5CQA",
+          "authority": "declared range 0.3-19.7 % (not per-cell)",
+          "median_effect_pct": 0.0092,
+          "max_effect_pct": 0.0301,
+          "threshold_pct": null,
+          "threshold_note": "no single threshold exists \u2014 the range is evaluated at both ends",
+          "frac_conditions_exceeding_low_end": 0.0,
+          "frac_conditions_exceeding_high_end": 0.0,
+          "n_conditions": 18,
+          "material_at_low_rsd": false,
+          "material_at_high_rsd": false,
+          "status": "IMMATERIAL_THROUGHOUT",
+          "status_scope": "refers to the declared uncertainty RANGE, evaluated at both ends, using the MEDIAN effect. The campaign retains no per-cell RSD for this output."
+        },
+        "tds": {
+          "species": "tds",
+          "authority": "measured per-condition RSD",
+          "median_effect_pct": 0.0089,
+          "max_effect_pct": 0.0296,
+          "threshold_pct": 5.3,
+          "threshold_note": "median of the measured per-condition RSD",
+          "n_conditions": 18,
+          "n_conditions_effect_exceeds_own_rsd": 0,
+          "frac_conditions_exceeding": 0.0,
+          "material_at_low_rsd": null,
+          "material_at_high_rsd": null,
+          "status": "IMMATERIAL_BY_MEDIAN_CRITERION",
+          "status_scope": "refers to the predeclared decision statistic \u2014 MEDIAN effect vs MEDIAN measured per-condition RSD. It does NOT assert that every condition lies below its own RSD; see n_conditions_effect_exceeds_own_rsd."
+        }
+      },
+      "statuses": {
+        "caffeine": "IMMATERIAL_THROUGHOUT",
+        "trigonelline": "IMMATERIAL_THROUGHOUT",
+        "5CQA": "IMMATERIAL_THROUGHOUT",
+        "tds": "IMMATERIAL_BY_MEDIAN_CRITERION"
+      },
+      "counts_toward_decision": true,
+      "pooled_median_rel_change_pct": 0.0117,
+      "pooled_p90_rel_change_pct": 0.0301,
+      "pooled_max_rel_change_pct": 0.0551,
+      "pooled_frac_points_above_proxy_U": 0.0,
+      "pooled_material_against_proxy_U": false,
+      "pooled_note": "POOLED ACROSS ANALYTES WITH DIFFERENT UNCERTAINTY AUTHORITY. Retained for auditability against the superseded first version; decides nothing."
+    },
+    {
+      "closure": "water_viscosity",
+      "label": "mu(T): VDI -> telisromero2001 Eq (10) extrapolated to X_w = 100 %",
+      "alternative_source": "sourcing2026.g10_liquor_rheology \u2014 puckworks.data.telisromero_viscosity_pas",
+      "anchoring": "none applied",
+      "admissible": false,
+      "admissibility_note": "EXCLUDED FROM THE DECISION. TR2001 Eq (10) is declared over X_w 76-90 % (coffee extract); at X_w = 100 % it returns ~0.56x the VDI water value, i.e. it is being driven far outside ITS OWN range. Running it measures TR2001's extrapolation error, not pannusch's portability. Reported as a labelled BOUND only. The corpus contains no second PURE-WATER viscosity correlation declared over 88-98 C \u2014 that absence is itself a recorded finding.",
+      "ran": true,
+      "n_points": 72,
+      "per_output": {
+        "caffeine": {
+          "species": "caffeine",
+          "authority": "declared range 0.3-19.7 % (not per-cell)",
+          "median_effect_pct": 13.6612,
+          "max_effect_pct": 13.9736,
+          "threshold_pct": null,
+          "threshold_note": "no single threshold exists \u2014 the range is evaluated at both ends",
+          "frac_conditions_exceeding_low_end": 1.0,
+          "frac_conditions_exceeding_high_end": 0.0,
+          "n_conditions": 18,
+          "material_at_low_rsd": true,
+          "material_at_high_rsd": false,
+          "status": "CHANGES_WITHIN_RANGE",
+          "status_scope": "refers to the declared uncertainty RANGE, evaluated at both ends, using the MEDIAN effect. The campaign retains no per-cell RSD for this output."
+        },
+        "trigonelline": {
+          "species": "trigonelline",
+          "authority": "declared range 0.3-19.7 % (not per-cell)",
+          "median_effect_pct": 6.1361,
+          "max_effect_pct": 6.6724,
+          "threshold_pct": null,
+          "threshold_note": "no single threshold exists \u2014 the range is evaluated at both ends",
+          "frac_conditions_exceeding_low_end": 1.0,
+          "frac_conditions_exceeding_high_end": 0.0,
+          "n_conditions": 18,
+          "material_at_low_rsd": true,
+          "material_at_high_rsd": false,
+          "status": "CHANGES_WITHIN_RANGE",
+          "status_scope": "refers to the declared uncertainty RANGE, evaluated at both ends, using the MEDIAN effect. The campaign retains no per-cell RSD for this output."
+        },
+        "5CQA": {
+          "species": "5CQA",
+          "authority": "declared range 0.3-19.7 % (not per-cell)",
+          "median_effect_pct": 9.6911,
+          "max_effect_pct": 10.1209,
+          "threshold_pct": null,
+          "threshold_note": "no single threshold exists \u2014 the range is evaluated at both ends",
+          "frac_conditions_exceeding_low_end": 1.0,
+          "frac_conditions_exceeding_high_end": 0.0,
+          "n_conditions": 18,
+          "material_at_low_rsd": true,
+          "material_at_high_rsd": false,
+          "status": "CHANGES_WITHIN_RANGE",
+          "status_scope": "refers to the declared uncertainty RANGE, evaluated at both ends, using the MEDIAN effect. The campaign retains no per-cell RSD for this output."
+        },
+        "tds": {
+          "species": "tds",
+          "authority": "measured per-condition RSD",
+          "median_effect_pct": 7.9481,
+          "max_effect_pct": 8.5681,
+          "threshold_pct": 5.3,
+          "threshold_note": "median of the measured per-condition RSD",
+          "n_conditions": 18,
+          "n_conditions_effect_exceeds_own_rsd": 12,
+          "frac_conditions_exceeding": 0.6667,
+          "material_at_low_rsd": null,
+          "material_at_high_rsd": null,
+          "status": "MATERIAL_BY_MEDIAN_CRITERION",
+          "status_scope": "refers to the predeclared decision statistic \u2014 MEDIAN effect vs MEDIAN measured per-condition RSD. It does NOT assert that every condition lies below its own RSD; see n_conditions_effect_exceeds_own_rsd."
+        }
+      },
+      "statuses": {
+        "caffeine": "CHANGES_WITHIN_RANGE",
+        "trigonelline": "CHANGES_WITHIN_RANGE",
+        "5CQA": "CHANGES_WITHIN_RANGE",
+        "tds": "MATERIAL_BY_MEDIAN_CRITERION"
+      },
+      "counts_toward_decision": false,
+      "pooled_median_rel_change_pct": 8.8848,
+      "pooled_p90_rel_change_pct": 13.6752,
+      "pooled_max_rel_change_pct": 13.9736,
+      "pooled_frac_points_above_proxy_U": 1.0,
+      "pooled_material_against_proxy_U": true,
+      "pooled_note": "POOLED ACROSS ANALYTES WITH DIFFERENT UNCERTAINTY AUTHORITY. Retained for auditability against the superseded first version; decides nothing."
+    },
+    {
+      "closure": "sherwood_h",
+      "label": "Sh = A Re^B Sc^(1/3): NO ALTERNATIVE IN THE CORPUS",
+      "alternative_source": null,
+      "anchoring": null,
+      "admissible": false,
+      "admissibility_note": "UNSUBSTITUTABLE. No second Sherwood correlation is registered or carded. The fitted (A, B) are per-solute in Table 2 and the card states they 'lack physical meaning and generality'; moving one solute's pair onto another is a misuse, not a source swap, and is not performed. Recorded as a gap.",
+      "ran": false,
+      "per_output": null,
+      "statuses": null,
+      "counts_toward_decision": false
+    }
+  ],
+  "n_admissible": 3,
+  "material_cells": [],
+  "changing_cells": [
+    [
+      "vant_hoff_K",
+      "caffeine"
+    ],
+    [
+      "vant_hoff_K",
+      "trigonelline"
+    ],
+    [
+      "vant_hoff_K",
+      "5CQA"
+    ],
+    [
+      "diffusion_coeff",
+      "caffeine"
+    ],
+    [
+      "diffusion_coeff",
+      "trigonelline"
+    ],
+    [
+      "diffusion_coeff",
+      "5CQA"
+    ]
+  ],
+  "recalibration": null,
+  "decision": "NEEDS_NEW_DATA",
+  "decision_reasoning": "Materiality CHANGES within the retained uncertainty range for 6 (substitution, output) cells: vant_hoff_K on caffeine, vant_hoff_K on trigonelline, vant_hoff_K on 5CQA, diffusion_coeff on caffeine, diffusion_coeff on trigonelline, diffusion_coeff on 5CQA. Every one of them is a named bioactive, whose replicate RSD the campaign does NOT retain per cell \u2014 the source gives only the declared 0.3-19.7 % range, and the measured effects fall inside it. The missing evidence is solute-specific replicate RSD for caffeine, trigonelline and CGA. For total solids, the one output whose uncertainty IS retained, every admissible swap is immaterial."
+}

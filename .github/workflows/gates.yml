@@ -16,7 +16,17 @@ concurrency:
 jobs:
   quick:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # BUDGET, raised 15 -> 30 at head fb3d530. The quick lane had outgrown 15 minutes and the
+    # ceiling was destroying the signal rather than enforcing it: at fb3d530, 3.10 passed in
+    # 11m33s and 3.11 in 14m54s, while 3.12 and 3.13 were KILLED at the 15-minute ceiling (15m15s
+    # each) — i.e. two interpreters reported red for elapsed time, not for a failing test, and a
+    # real failure on them would have been indistinguishable from the timeout.
+    #
+    # This is a budget correction, NOT a waiver: the selector, the four interpreters, fail-fast:
+    # false, the lint step, the generated checks and the coverage floor are all unchanged, and no
+    # test was marked `slow` to duck under the limit. If a job reaches 30 minutes, that is a real
+    # signal — diagnose the runtime, do not raise this again.
+    timeout-minutes: 30
     strategy:
       fail-fast: false          # R0: one Python version must not cancel/hide the other
       matrix:
@@ -57,7 +67,11 @@ jobs:
     # oldest supported interpreter and run the offline suite. If this goes red, the pyproject floor
     # is wrong — not a mystery. Not a required check until the maintainer opts in.
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # BUDGET, raised 15 -> 30 at head fb3d530, for the same reason as `quick`: this lane was
+    # KILLED at the ceiling (15m16s), reporting red for elapsed time rather than for a broken
+    # dependency floor — which is the one thing it exists to detect. Nothing else about the lane
+    # changed; it is still the minimum numpy/scipy on the oldest interpreter, offline.
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:

@@ -1,0 +1,2341 @@
+{
+  "screen": "I-024",
+  "disposition": [
+    "CHEAP_SCIENTIFIC_SCREEN",
+    "NOT_A_PUBLICATION_RESULT",
+    "NOT_A_MODEL_VALIDATION_UPGRADE"
+  ],
+  "correction_note": "CORRECTED 2026-08-04. The superseded version claimed C3 was scale-free in the assumed RSD and inferred whole-band invariance from two endpoints. Neither was supported: changing the bioactive RSD reweights the bioactives against the MEASURED total-solids weights and refits the shared model (its selected rate demonstrably moves). Both claims are replaced by an exact finite-grid breakpoint argument plus rate-grid expansion. The evidence unit, the split, the free amplitude in both models, the held-out comparison and the C1/C2/C3 thresholds are unchanged.",
+  "evidence_unit": {
+    "campaign": "angeloni2023 only (bioactives + total_solids), granulometry O, on-grid",
+    "manifest_validation_strength_verbatim": "independent (different machine/coffee/basket than pannusch fit or cameron calibration)",
+    "n_conditions": 18,
+    "n_train": 12,
+    "n_held_out": 6,
+    "species": [
+      "caffeine",
+      "trigonelline",
+      "5CQA",
+      "tds"
+    ],
+    "varieties": [
+      "Arabica",
+      "Robusta"
+    ],
+    "excluded_evidence": {
+      "maille2024.phi_closure / maille2024.two_regime": "batch fits on a different campaign; scoring them would mix campaigns and the candidate's own INCONCLUSIVE clause is about exactly that confound",
+      "ellero2019/fig4_caffeine_content": "digitised SIMULATION output, not measurement \u2014 it cannot carry a residual",
+      "khamitova2020/tamping": "a different rig and design (tamping force); reference strength only",
+      "pannusch2024.solver / pannusch2024.closures as EVIDENCE": "used here as the MODEL, never as evidence. Its own fit target (schmieder kinetics) is post-fit and is not scored",
+      "angeloni2023/lipids": "not a species the model produces; never scored"
+    }
+  },
+  "predeclared": {
+    "train_p_bar": [
+      6.0,
+      12.0
+    ],
+    "held_out_p_bar": [
+      9.0
+    ],
+    "split_rationale": "Held out the INTERIOR pressure (9 bar), training on 6 and 12 bar, at every temperature and in both varieties. Interpolation rather than extrapolation, and 9 bar is the reference espresso condition. Predeclared before any fit.",
+    "base_rate_grid": [
+      0.15,
+      0.196339,
+      0.256994,
+      0.336387,
+      0.440306,
+      0.576329,
+      0.754374,
+      0.987421,
+      1.292463,
+      1.691742,
+      2.214369,
+      2.89845,
+      3.793863,
+      4.965895,
+      6.5
+    ],
+    "criterion": "SURVIVE iff C1 and C2 and C3, all in units of retained measurement uncertainty. C1: RMS standardised held-out residual under the shared state > 1.0. C2: SD across species of the per-species mean standardised held-out residual > 1.0 (species-specific rather than a shared model-form problem). C3: RMS standardised held-out residual under independent per-species fits <= 0.70 x the shared-state value. Thresholds predeclared before any fit was computed and unchanged by the 2026-08-04 correction.",
+    "C1_z_threshold": 1.0,
+    "C2_spread_threshold": 1.0,
+    "C3_reduction_factor": 0.7
+  },
+  "uncertainty": {
+    "bioactive_rsd_band_pct": [
+      0.3,
+      19.7
+    ],
+    "bioactive_rsd_band_source": "angeloni2023/bioactives MANIFEST uncertainty cell, verbatim: '%RSD 0.3-19.7 (in card, not per-cell)'",
+    "tds_rsd_source": "angeloni2023/total_solids per-condition RSD_pct column (measured)",
+    "solute_specific_rsd_recovered": false,
+    "scale_free_claim_withdrawn": "C3 is NOT scale-free under this perturbation. Changing the bioactive RSD changes their weight relative to the MEASURED per-condition total-solids weights, which refits the shared model. The selected shared rate is observed to move across the band.",
+    "method": "exact finite-grid breakpoint sweep in x = (100/RSD)^2, plus each interval's C2 vertex; C1 and C3 are monotone on a fixed selection so their extrema are at interval endpoints"
+  },
+  "rate_grid_robustness": {
+    "rounds": [
+      {
+        "round": 0,
+        "n_rates": 15,
+        "rate_min": 0.15,
+        "rate_max": 6.5,
+        "n_decisive_optima_at_edge": 4,
+        "edges": [
+          {
+            "kind": "shared",
+            "variety": "Robusta",
+            "rate": 6.5,
+            "rate_index": 14
+          },
+          {
+            "kind": "shared",
+            "variety": "Arabica",
+            "rate": 6.5,
+            "rate_index": 14
+          },
+          {
+            "kind": "independent",
+            "variety": "Arabica",
+            "species": "5CQA",
+            "rate": 6.5,
+            "rate_index": 14
+          },
+          {
+            "kind": "independent",
+            "variety": "Robusta",
+            "species": "tds",
+            "rate": 6.5,
+            "rate_index": 14
+          }
+        ],
+        "worst_case_C3_ratio": 1.0006368895718984,
+        "c3_change_vs_previous": null,
+        "converged_by_tolerance": false,
+        "stopped": false
+      },
+      {
+        "round": 1,
+        "n_rates": 20,
+        "rate_min": 0.15,
+        "rate_max": 26.0,
+        "n_decisive_optima_at_edge": 3,
+        "edges": [
+          {
+            "kind": "shared",
+            "variety": "Robusta",
+            "rate": 26.0,
+            "rate_index": 19
+          },
+          {
+            "kind": "independent",
+            "variety": "Arabica",
+            "species": "5CQA",
+            "rate": 26.0,
+            "rate_index": 19
+          },
+          {
+            "kind": "independent",
+            "variety": "Robusta",
+            "species": "tds",
+            "rate": 26.0,
+            "rate_index": 19
+          }
+        ],
+        "worst_case_C3_ratio": 1.0008469492240244,
+        "c3_change_vs_previous": 0.00021005965212594901,
+        "converged_by_tolerance": true,
+        "stopped": true,
+        "stop_reason": "C3 converged within 0.010 across an expansion"
+      }
+    ],
+    "final_rates": [
+      0.15,
+      0.19633924795520258,
+      0.2569940019174301,
+      0.33638672710310746,
+      0.4403061134769072,
+      0.5763291412675603,
+      0.7543735344742699,
+      0.9874208829065749,
+      1.2924631571009273,
+      1.6917416285000193,
+      2.2143685271613567,
+      2.8984496754568694,
+      3.793862863434683,
+      4.965894543012914,
+      6.5,
+      8.576801420023813,
+      11.317157322849615,
+      14.933078614961456,
+      19.704315364635175,
+      26.0
+    ],
+    "base_rates": [
+      0.15,
+      0.19633924795520258,
+      0.2569940019174301,
+      0.33638672710310746,
+      0.4403061134769072,
+      0.5763291412675603,
+      0.7543735344742699,
+      0.9874208829065749,
+      1.2924631571009273,
+      1.6917416285000193,
+      2.2143685271613567,
+      2.8984496754568694,
+      3.793862863434683,
+      4.965894543012914,
+      6.5
+    ],
+    "policy": {
+      "expansion_factor": 4.0,
+      "points_per_round": 5,
+      "max_rounds": 4,
+      "c3_tolerance": 0.01
+    }
+  },
+  "sweep": {
+    "x_range": [
+      25.76721894405937,
+      111111.11111111114
+    ],
+    "rsd_range_pct": [
+      0.3,
+      19.7
+    ],
+    "breakpoints": {
+      "Arabica": [
+        {
+          "x": 82.8276306648282,
+          "rsd_pct": 10.98784136796103,
+          "rate_index_below": 4,
+          "rate_index_above": 5,
+          "rate_below": 0.4403061134769072,
+          "rate_above": 0.5763291412675603
+        },
+        {
+          "x": 246.21974240970664,
+          "rsd_pct": 6.37292142226228,
+          "rate_index_below": 5,
+          "rate_index_above": 6,
+          "rate_below": 0.5763291412675603,
+          "rate_above": 0.7543735344742699
+        },
+        {
+          "x": 476.7413614024614,
+          "rsd_pct": 4.579927295760355,
+          "rate_index_below": 6,
+          "rate_index_above": 7,
+          "rate_below": 0.7543735344742699,
+          "rate_above": 0.9874208829065749
+        },
+        {
+          "x": 825.0859198821147,
+          "rsd_pct": 3.4813718395560804,
+          "rate_index_below": 7,
+          "rate_index_above": 8,
+          "rate_below": 0.9874208829065749,
+          "rate_above": 1.2924631571009273
+        },
+        {
+          "x": 1381.6746866136052,
+          "rsd_pct": 2.690277624099056,
+          "rate_index_below": 8,
+          "rate_index_above": 9,
+          "rate_below": 1.2924631571009273,
+          "rate_above": 1.6917416285000193
+        },
+        {
+          "x": 2280.2572122486577,
+          "rsd_pct": 2.094151421676526,
+          "rate_index_below": 9,
+          "rate_index_above": 10,
+          "rate_below": 1.6917416285000193,
+          "rate_above": 2.2143685271613567
+        },
+        {
+          "x": 3742.3071630258073,
+          "rsd_pct": 1.6346707233617925,
+          "rate_index_below": 10,
+          "rate_index_above": 11,
+          "rate_below": 2.2143685271613567,
+          "rate_above": 2.8984496754568694
+        },
+        {
+          "x": 6141.011423436872,
+          "rsd_pct": 1.2760863036547385,
+          "rate_index_below": 11,
+          "rate_index_above": 12,
+          "rate_below": 2.8984496754568694,
+          "rate_above": 3.793862863434683
+        },
+        {
+          "x": 9962.31734009955,
+          "rsd_pct": 1.0018894747075378,
+          "rate_index_below": 12,
+          "rate_index_above": 13,
+          "rate_below": 3.793862863434683,
+          "rate_above": 4.965894543012914
+        },
+        {
+          "x": 14666.10974416963,
+          "rsd_pct": 0.825738501460013,
+          "rate_index_below": 13,
+          "rate_index_above": 14,
+          "rate_below": 4.965894543012914,
+          "rate_above": 6.5
+        },
+        {
+          "x": 18522.982097791035,
+          "rsd_pct": 0.7347583775590832,
+          "rate_index_below": 14,
+          "rate_index_above": 15,
+          "rate_below": 6.5,
+          "rate_above": 8.576801420023813
+        },
+        {
+          "x": 19879.06335427738,
+          "rsd_pct": 0.7092544039022136,
+          "rate_index_below": 15,
+          "rate_index_above": 16,
+          "rate_below": 8.576801420023813,
+          "rate_above": 11.317157322849615
+        },
+        {
+          "x": 22711.193932182305,
+          "rsd_pct": 0.6635597228984419,
+          "rate_index_below": 16,
+          "rate_index_above": 17,
+          "rate_below": 11.317157322849615,
+          "rate_above": 14.933078614961456
+        }
+      ],
+      "Robusta": [
+        {
+          "x": 66.49245472423382,
+          "rsd_pct": 12.263482533928173,
+          "rate_index_below": 19,
+          "rate_index_above": 14,
+          "rate_below": 26.0,
+          "rate_above": 6.5
+        },
+        {
+          "x": 74.1702185846929,
+          "rsd_pct": 11.611416957715177,
+          "rate_index_below": 14,
+          "rate_index_above": 13,
+          "rate_below": 6.5,
+          "rate_above": 4.965894543012914
+        },
+        {
+          "x": 91.16512817272307,
+          "rsd_pct": 10.473350228012118,
+          "rate_index_below": 13,
+          "rate_index_above": 12,
+          "rate_below": 4.965894543012914,
+          "rate_above": 3.793862863434683
+        },
+        {
+          "x": 118.69139561411056,
+          "rsd_pct": 9.178894575301833,
+          "rate_index_below": 12,
+          "rate_index_above": 11,
+          "rate_below": 3.793862863434683,
+          "rate_above": 2.8984496754568694
+        },
+        {
+          "x": 155.66239843939042,
+          "rsd_pct": 8.015085160817979,
+          "rate_index_below": 11,
+          "rate_index_above": 10,
+          "rate_below": 2.8984496754568694,
+          "rate_above": 2.2143685271613567
+        },
+        {
+          "x": 196.05756406513444,
+          "rsd_pct": 7.141808465951851,
+          "rate_index_below": 10,
+          "rate_index_above": 9,
+          "rate_below": 2.2143685271613567,
+          "rate_above": 1.6917416285000193
+        },
+        {
+          "x": 242.34070054712674,
+          "rsd_pct": 6.423723225117249,
+          "rate_index_below": 9,
+          "rate_index_above": 8,
+          "rate_below": 1.6917416285000193,
+          "rate_above": 1.2924631571009273
+        },
+        {
+          "x": 313.64107232010883,
+          "rsd_pct": 5.646554639480216,
+          "rate_index_below": 8,
+          "rate_index_above": 7,
+          "rate_below": 1.2924631571009273,
+          "rate_above": 0.9874208829065749
+        },
+        {
+          "x": 457.55443488752604,
+          "rsd_pct": 4.674967708709713,
+          "rate_index_below": 7,
+          "rate_index_above": 6,
+          "rate_below": 0.9874208829065749,
+          "rate_above": 0.7543735344742699
+        },
+        {
+          "x": 856.6822646119526,
+          "rsd_pct": 3.4165683387552224,
+          "rate_index_below": 6,
+          "rate_index_above": 5,
+          "rate_below": 0.7543735344742699,
+          "rate_above": 0.5763291412675603
+        },
+        {
+          "x": 4617.404916710397,
+          "rsd_pct": 1.471638088119811,
+          "rate_index_below": 5,
+          "rate_index_above": 4,
+          "rate_below": 0.5763291412675603,
+          "rate_above": 0.4403061134769072
+        }
+      ]
+    },
+    "n_breakpoints": 24,
+    "independent_selection": {
+      "Arabica": {
+        "caffeine": {
+          "rate_index": 5,
+          "rate": 0.5763291412675603,
+          "at_grid_edge": false
+        },
+        "trigonelline": {
+          "rate_index": 11,
+          "rate": 2.8984496754568694,
+          "at_grid_edge": false
+        },
+        "5CQA": {
+          "rate_index": 19,
+          "rate": 26.0,
+          "at_grid_edge": true
+        },
+        "tds": {
+          "rate_index": 4,
+          "rate": 0.4403061134769072,
+          "at_grid_edge": false
+        }
+      },
+      "Robusta": {
+        "caffeine": {
+          "rate_index": 2,
+          "rate": 0.2569940019174301,
+          "at_grid_edge": false
+        },
+        "trigonelline": {
+          "rate_index": 6,
+          "rate": 0.7543735344742699,
+          "at_grid_edge": false
+        },
+        "5CQA": {
+          "rate_index": 6,
+          "rate": 0.7543735344742699,
+          "at_grid_edge": false
+        },
+        "tds": {
+          "rate_index": 19,
+          "rate": 26.0,
+          "at_grid_edge": true
+        }
+      }
+    },
+    "independent_selection_is_x_independent": true,
+    "n_evaluated_points": 51,
+    "intervals": [
+      {
+        "x_lo": 25.76721894405937,
+        "x_hi": 66.49245472423382,
+        "rsd_hi_pct": 19.7,
+        "rsd_lo_pct": 12.263482533928173,
+        "shared_rate_index": {
+          "Arabica": 4,
+          "Robusta": 19
+        },
+        "shared_rate": {
+          "Arabica": 0.4403061134769072,
+          "Robusta": 26.0
+        },
+        "shared_rate_at_grid_edge": {
+          "Arabica": false,
+          "Robusta": true
+        },
+        "c2_vertex_x": null,
+        "evaluations": [
+          {
+            "x": 25.76721894405937,
+            "rsd_pct": 19.7,
+            "Z_shared": 1.4766614285472592,
+            "Z_independent": 1.4779120857983141,
+            "reduction_ratio": 1.0008469492240244,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.1085810050460038,
+              "trigonelline": -0.020548389085704458,
+              "5CQA": -0.1415377937476874,
+              "tds": -1.392713390553918
+            },
+            "between_species_spread": 0.6532449436111706,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          },
+          {
+            "x": 66.49245472423382,
+            "rsd_pct": 12.263482533928173,
+            "Z_shared": 1.5351393262426174,
+            "Z_independent": 1.5382418955432193,
+            "reduction_ratio": 1.0020210343436355,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.17442400994076415,
+              "trigonelline": -0.033008834470016825,
+              "5CQA": -0.2273656385219567,
+              "tds": -1.392713390553918
+            },
+            "between_species_spread": 0.6292612409992889,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          }
+        ],
+        "ratio_min": 1.0008469492240244,
+        "ratio_max": 1.0020210343436355,
+        "any_survive": false,
+        "all_survive": false
+      },
+      {
+        "x_lo": 66.49245472423382,
+        "x_hi": 74.1702185846929,
+        "rsd_hi_pct": 12.263482533928173,
+        "rsd_lo_pct": 11.611416957715177,
+        "shared_rate_index": {
+          "Arabica": 4,
+          "Robusta": 14
+        },
+        "shared_rate": {
+          "Arabica": 0.4403061134769072,
+          "Robusta": 6.5
+        },
+        "shared_rate_at_grid_edge": {
+          "Arabica": false,
+          "Robusta": false
+        },
+        "c2_vertex_x": null,
+        "evaluations": [
+          {
+            "x": 66.49245472423382,
+            "rsd_pct": 12.263482533928173,
+            "Z_shared": 1.4396792517434513,
+            "Z_independent": 1.5382418955432193,
+            "reduction_ratio": 1.0684615296639224,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.17286420079259127,
+              "trigonelline": -0.032769539415391534,
+              "5CQA": -0.22701550703687945,
+              "tds": -1.2914657417758317
+            },
+            "between_species_spread": 0.5794343659706743,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          },
+          {
+            "x": 74.1702185846929,
+            "rsd_pct": 11.611416957715177,
+            "Z_shared": 1.4513199935395682,
+            "Z_independent": 1.549352466296144,
+            "reduction_ratio": 1.0675471110388883,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.18257178386422704,
+              "trigonelline": -0.03460978756761502,
+              "5CQA": -0.23976408009599515,
+              "tds": -1.2914657417758317
+            },
+            "between_species_spread": 0.576097581400119,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          }
+        ],
+        "ratio_min": 1.0675471110388883,
+        "ratio_max": 1.0684615296639224,
+        "any_survive": false,
+        "all_survive": false
+      },
+      {
+        "x_lo": 74.1702185846929,
+        "x_hi": 82.8276306648282,
+        "rsd_hi_pct": 11.611416957715177,
+        "rsd_lo_pct": 10.98784136796103,
+        "shared_rate_index": {
+          "Arabica": 4,
+          "Robusta": 13
+        },
+        "shared_rate": {
+          "Arabica": 0.4403061134769072,
+          "Robusta": 4.965894543012914
+        },
+        "shared_rate_at_grid_edge": {
+          "Arabica": false,
+          "Robusta": false
+        },
+        "c2_vertex_x": null,
+        "evaluations": [
+          {
+            "x": 74.1702185846929,
+            "rsd_pct": 11.611416957715177,
+            "Z_shared": 1.3906593860383247,
+            "Z_independent": 1.549352466296144,
+            "reduction_ratio": 1.1141135506300361,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.18204547464705556,
+              "trigonelline": -0.03452153932106051,
+              "5CQA": -0.23971557126622192,
+              "tds": -1.2247080865638849
+            },
+            "between_species_spread": 0.5432228929426269,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          },
+          {
+            "x": 82.8276306648282,
+            "rsd_pct": 10.98784136796103,
+            "Z_shared": 1.404313478883688,
+            "Z_independent": 1.5617858868279388,
+            "reduction_ratio": 1.1121347977585663,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.19237681366202505,
+              "trigonelline": -0.03648068566477461,
+              "5CQA": -0.25331977010016676,
+              "tds": -1.2247080865638849
+            },
+            "between_species_spread": 0.5397703454420517,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          }
+        ],
+        "ratio_min": 1.1121347977585663,
+        "ratio_max": 1.1141135506300361,
+        "any_survive": false,
+        "all_survive": false
+      },
+      {
+        "x_lo": 82.8276306648282,
+        "x_hi": 91.16512817272307,
+        "rsd_hi_pct": 10.98784136796103,
+        "rsd_lo_pct": 10.473350228012118,
+        "shared_rate_index": {
+          "Arabica": 5,
+          "Robusta": 13
+        },
+        "shared_rate": {
+          "Arabica": 0.5763291412675603,
+          "Robusta": 4.965894543012914
+        },
+        "shared_rate_at_grid_edge": {
+          "Arabica": false,
+          "Robusta": false
+        },
+        "c2_vertex_x": null,
+        "evaluations": [
+          {
+            "x": 82.8276306648282,
+            "rsd_pct": 10.98784136796103,
+            "Z_shared": 1.399433759385191,
+            "Z_independent": 1.5617858868279388,
+            "reduction_ratio": 1.1160127275435126,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.1877965498975995,
+              "trigonelline": -0.03227986626354424,
+              "5CQA": -0.24462938676534976,
+              "tds": -1.2839306355190436
+            },
+            "between_species_spread": 0.5716055164033108,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          },
+          {
+            "x": 91.16512817272307,
+            "rsd_pct": 10.473350228012118,
+            "Z_shared": 1.412499849970511,
+            "Z_independent": 1.5736670044360024,
+            "reduction_ratio": 1.1141006524488168,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.19702183683366217,
+              "trigonelline": -0.033865577122989245,
+              "5CQA": -0.2566465206644229,
+              "tds": -1.2839306355190436
+            },
+            "between_species_spread": 0.5685619620531681,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          }
+        ],
+        "ratio_min": 1.1141006524488168,
+        "ratio_max": 1.1160127275435126,
+        "any_survive": false,
+        "all_survive": false
+      },
+      {
+        "x_lo": 91.16512817272307,
+        "x_hi": 118.69139561411056,
+        "rsd_hi_pct": 10.473350228012118,
+        "rsd_lo_pct": 9.178894575301833,
+        "shared_rate_index": {
+          "Arabica": 5,
+          "Robusta": 12
+        },
+        "shared_rate": {
+          "Arabica": 0.5763291412675603,
+          "Robusta": 3.793862863434683
+        },
+        "shared_rate_at_grid_edge": {
+          "Arabica": false,
+          "Robusta": false
+        },
+        "c2_vertex_x": null,
+        "evaluations": [
+          {
+            "x": 91.16512817272307,
+            "rsd_pct": 10.473350228012118,
+            "Z_shared": 1.3388315008544265,
+            "Z_independent": 1.5736670044360024,
+            "reduction_ratio": 1.1754033300170386,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.1963588746273869,
+              "trigonelline": -0.033854789673419095,
+              "5CQA": -0.25659597614567925,
+              "tds": -1.1981728823693965
+            },
+            "between_species_spread": 0.5264254236197068,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          },
+          {
+            "x": 118.69139561411056,
+            "rsd_pct": 9.178894575301833,
+            "Z_shared": 1.3836912022846695,
+            "Z_independent": 1.612270965339638,
+            "reduction_ratio": 1.165195646743689,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.2240504286741217,
+              "trigonelline": -0.03862916893058951,
+              "5CQA": -0.2927824808559772,
+              "tds": -1.1981728823693965
+            },
+            "between_species_spread": 0.5177585506976234,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          }
+        ],
+        "ratio_min": 1.165195646743689,
+        "ratio_max": 1.1754033300170386,
+        "any_survive": false,
+        "all_survive": false
+      },
+      {
+        "x_lo": 118.69139561411056,
+        "x_hi": 155.66239843939042,
+        "rsd_hi_pct": 9.178894575301833,
+        "rsd_lo_pct": 8.015085160817979,
+        "shared_rate_index": {
+          "Arabica": 5,
+          "Robusta": 11
+        },
+        "shared_rate": {
+          "Arabica": 0.5763291412675603,
+          "Robusta": 2.8984496754568694
+        },
+        "shared_rate_at_grid_edge": {
+          "Arabica": false,
+          "Robusta": false
+        },
+        "c2_vertex_x": null,
+        "evaluations": [
+          {
+            "x": 118.69139561411056,
+            "rsd_pct": 9.178894575301833,
+            "Z_shared": 1.3041840941900844,
+            "Z_independent": 1.612270965339638,
+            "reduction_ratio": 1.2362295879255296,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.22318763921306464,
+              "trigonelline": -0.03875671318459612,
+              "5CQA": -0.2926987810032922,
+              "tds": -1.0959164408513178
+            },
+            "between_species_spread": 0.4679506739691153,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          },
+          {
+            "x": 155.66239843939042,
+            "rsd_pct": 8.015085160817979,
+            "Z_shared": 1.3660911650090213,
+            "Z_independent": 1.6627108626934368,
+            "reduction_ratio": 1.2171302364600658,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.25559501486795816,
+              "trigonelline": -0.04438428005053324,
+              "5CQA": -0.3351993396504838,
+              "tds": -1.0959164408513178
+            },
+            "between_species_spread": 0.4588092118136538,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          }
+        ],
+        "ratio_min": 1.2171302364600658,
+        "ratio_max": 1.2362295879255296,
+        "any_survive": false,
+        "all_survive": false
+      },
+      {
+        "x_lo": 155.66239843939042,
+        "x_hi": 196.05756406513444,
+        "rsd_hi_pct": 8.015085160817979,
+        "rsd_lo_pct": 7.141808465951851,
+        "shared_rate_index": {
+          "Arabica": 5,
+          "Robusta": 10
+        },
+        "shared_rate": {
+          "Arabica": 0.5763291412675603,
+          "Robusta": 2.2143685271613567
+        },
+        "shared_rate_at_grid_edge": {
+          "Arabica": false,
+          "Robusta": false
+        },
+        "c2_vertex_x": null,
+        "evaluations": [
+          {
+            "x": 155.66239843939042,
+            "rsd_pct": 8.015085160817979,
+            "Z_shared": 1.2899241774036945,
+            "Z_independent": 1.6627108626934368,
+            "reduction_ratio": 1.288998913129973,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.2544879685718076,
+              "trigonelline": -0.04472149170007942,
+              "5CQA": -0.3350032324466219,
+              "tds": -0.9819112615403177
+            },
+            "between_species_spread": 0.4042181219650156,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          },
+          {
+            "x": 196.05756406513444,
+            "rsd_pct": 7.141808465951851,
+            "Z_shared": 1.358663254066875,
+            "Z_independent": 1.7161283826694218,
+            "reduction_ratio": 1.263100608287263,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.28560591483669157,
+              "trigonelline": -0.05018988764594066,
+              "5CQA": -0.3759663186166268,
+              "tds": -0.9819112615403177
+            },
+            "between_species_spread": 0.3968449654966056,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          }
+        ],
+        "ratio_min": 1.263100608287263,
+        "ratio_max": 1.288998913129973,
+        "any_survive": false,
+        "all_survive": false
+      },
+      {
+        "x_lo": 196.05756406513444,
+        "x_hi": 242.34070054712674,
+        "rsd_hi_pct": 7.141808465951851,
+        "rsd_lo_pct": 6.423723225117249,
+        "shared_rate_index": {
+          "Arabica": 5,
+          "Robusta": 9
+        },
+        "shared_rate": {
+          "Arabica": 0.5763291412675603,
+          "Robusta": 1.6917416285000193
+        },
+        "shared_rate_at_grid_edge": {
+          "Arabica": false,
+          "Robusta": false
+        },
+        "c2_vertex_x": null,
+        "evaluations": [
+          {
+            "x": 196.05756406513444,
+            "rsd_pct": 7.141808465951851,
+            "Z_shared": 1.2948058629627461,
+            "Z_independent": 1.7161283826694218,
+            "reduction_ratio": 1.3253943558323213,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.2842990374559073,
+              "trigonelline": -0.05065525164629967,
+              "5CQA": -0.3754825438519567,
+              "tds": -0.8643319913291444
+            },
+            "between_species_spread": 0.34228380851109896,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          },
+          {
+            "x": 242.34070054712674,
+            "rsd_pct": 6.423723225117249,
+            "Z_shared": 1.3735350260370616,
+            "Z_independent": 1.7753573778491283,
+            "reduction_ratio": 1.2925461267423293,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.316079818729659,
+              "trigonelline": -0.05631782260448518,
+              "5CQA": -0.4174564059693116,
+              "tds": -0.8643319913291444
+            },
+            "between_species_spread": 0.3368159380973282,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          }
+        ],
+        "ratio_min": 1.2925461267423293,
+        "ratio_max": 1.3253943558323213,
+        "any_survive": false,
+        "all_survive": false
+      },
+      {
+        "x_lo": 242.34070054712674,
+        "x_hi": 246.21974240970664,
+        "rsd_hi_pct": 6.423723225117249,
+        "rsd_lo_pct": 6.37292142226228,
+        "shared_rate_index": {
+          "Arabica": 5,
+          "Robusta": 8
+        },
+        "shared_rate": {
+          "Arabica": 0.5763291412675603,
+          "Robusta": 1.2924631571009273
+        },
+        "shared_rate_at_grid_edge": {
+          "Arabica": false,
+          "Robusta": false
+        },
+        "c2_vertex_x": null,
+        "evaluations": [
+          {
+            "x": 242.34070054712674,
+            "rsd_pct": 6.423723225117249,
+            "Z_shared": 1.3285527851955554,
+            "Z_independent": 1.7753573778491283,
+            "reduction_ratio": 1.3363092514143544,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.3147646860068996,
+              "trigonelline": -0.056687946533992006,
+              "5CQA": -0.416593123441656,
+              "tds": -0.7562148023727193
+            },
+            "between_species_spread": 0.28954897147277087,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          },
+          {
+            "x": 246.21974240970664,
+            "rsd_pct": 6.37292142226228,
+            "Z_shared": 1.3351944724657512,
+            "Z_independent": 1.7802319301314866,
+            "reduction_ratio": 1.333312837075987,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.3172738356518911,
+              "trigonelline": -0.05713983503115951,
+              "5CQA": -0.41991399943016083,
+              "tds": -0.7562148023727193
+            },
+            "between_species_spread": 0.2892926730469794,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          }
+        ],
+        "ratio_min": 1.333312837075987,
+        "ratio_max": 1.3363092514143544,
+        "any_survive": false,
+        "all_survive": false
+      },
+      {
+        "x_lo": 246.21974240970664,
+        "x_hi": 313.64107232010883,
+        "rsd_hi_pct": 6.37292142226228,
+        "rsd_lo_pct": 5.646554639480216,
+        "shared_rate_index": {
+          "Arabica": 6,
+          "Robusta": 8
+        },
+        "shared_rate": {
+          "Arabica": 0.7543735344742699,
+          "Robusta": 1.2924631571009273
+        },
+        "shared_rate_at_grid_edge": {
+          "Arabica": false,
+          "Robusta": false
+        },
+        "c2_vertex_x": null,
+        "evaluations": [
+          {
+            "x": 246.21974240970664,
+            "rsd_pct": 6.37292142226228,
+            "Z_shared": 1.3317390757586374,
+            "Z_independent": 1.7802319301314866,
+            "reduction_ratio": 1.3367723171428016,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.3127619376498107,
+              "trigonelline": -0.05370202003323619,
+              "5CQA": -0.41123627941498014,
+              "tds": -0.810464824380516
+            },
+            "between_species_spread": 0.3141684155767648,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          },
+          {
+            "x": 313.64107232010883,
+            "rsd_pct": 5.646554639480216,
+            "Z_shared": 1.4426069443606568,
+            "Z_independent": 1.8629198203729946,
+            "reduction_ratio": 1.2913564763121355,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.3529953006352593,
+              "trigonelline": -0.06061019076937028,
+              "5CQA": -0.4641372769814222,
+              "tds": -0.810464824380516
+            },
+            "between_species_spread": 0.30986271254050246,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          }
+        ],
+        "ratio_min": 1.2913564763121355,
+        "ratio_max": 1.3367723171428016,
+        "any_survive": false,
+        "all_survive": false
+      },
+      {
+        "x_lo": 313.64107232010883,
+        "x_hi": 457.55443488752604,
+        "rsd_hi_pct": 5.646554639480216,
+        "rsd_lo_pct": 4.674967708709713,
+        "shared_rate_index": {
+          "Arabica": 6,
+          "Robusta": 7
+        },
+        "shared_rate": {
+          "Arabica": 0.7543735344742699,
+          "Robusta": 0.9874208829065749
+        },
+        "shared_rate_at_grid_edge": {
+          "Arabica": false,
+          "Robusta": false
+        },
+        "c2_vertex_x": 355.3085799791868,
+        "evaluations": [
+          {
+            "x": 313.64107232010883,
+            "rsd_pct": 5.646554639480216,
+            "Z_shared": 1.4181748967289178,
+            "Z_independent": 1.8629198203729946,
+            "reduction_ratio": 1.313603720295642,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.35204612837969,
+              "trigonelline": -0.06059358632004006,
+              "5CQA": -0.4632042883592284,
+              "tds": -0.7310385571924402
+            },
+            "between_species_spread": 0.27752822886847306,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          },
+          {
+            "x": 355.3085799791868,
+            "rsd_pct": 5.3051437052734745,
+            "Z_shared": 1.4837683683987066,
+            "Z_independent": 1.9122354478526489,
+            "reduction_ratio": 1.2887695199462614,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.3747019515300605,
+              "trigonelline": -0.06449306841925219,
+              "5CQA": -0.4930136616020484,
+              "tds": -0.7310385571924402
+            },
+            "between_species_spread": 0.2771539323706894,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          },
+          {
+            "x": 457.55443488752604,
+            "rsd_pct": 4.674967708709713,
+            "Z_shared": 1.6336020041641832,
+            "Z_independent": 2.0281735705888333,
+            "reduction_ratio": 1.2415346978143118,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.4252110010963115,
+              "trigonelline": -0.07318660090865076,
+              "5CQA": -0.5594708854542682,
+              "tds": -0.7310385571924402
+            },
+            "between_species_spread": 0.27900932730990885,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          }
+        ],
+        "ratio_min": 1.2415346978143118,
+        "ratio_max": 1.313603720295642,
+        "any_survive": false,
+        "all_survive": false
+      },
+      {
+        "x_lo": 457.55443488752604,
+        "x_hi": 476.7413614024614,
+        "rsd_hi_pct": 4.674967708709713,
+        "rsd_lo_pct": 4.579927295760355,
+        "shared_rate_index": {
+          "Arabica": 6,
+          "Robusta": 6
+        },
+        "shared_rate": {
+          "Arabica": 0.7543735344742699,
+          "Robusta": 0.7543735344742699
+        },
+        "shared_rate_at_grid_edge": {
+          "Arabica": false,
+          "Robusta": false
+        },
+        "c2_vertex_x": null,
+        "evaluations": [
+          {
+            "x": 457.55443488752604,
+            "rsd_pct": 4.674967708709713,
+            "Z_shared": 1.6257469066217178,
+            "Z_independent": 2.0281735705888333,
+            "reduction_ratio": 1.2475334028488807,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.4254537440657052,
+              "trigonelline": -0.07296848433582116,
+              "5CQA": -0.5597390087135051,
+              "tds": -0.7041017814731328
+            },
+            "between_species_spread": 0.27019106074784877,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          },
+          {
+            "x": 476.7413614024614,
+            "rsd_pct": 4.579927295760355,
+            "Z_shared": 1.6524074040719101,
+            "Z_independent": 2.049199096268357,
+            "reduction_ratio": 1.2401294567058108,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.43428255223571394,
+              "trigonelline": -0.07448269066175668,
+              "5CQA": -0.5713544390678781,
+              "tds": -0.7041017814731328
+            },
+            "between_species_spread": 0.27110432337149615,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          }
+        ],
+        "ratio_min": 1.2401294567058108,
+        "ratio_max": 1.2475334028488807,
+        "any_survive": false,
+        "all_survive": false
+      },
+      {
+        "x_lo": 476.7413614024614,
+        "x_hi": 825.0859198821147,
+        "rsd_hi_pct": 4.579927295760355,
+        "rsd_lo_pct": 3.4813718395560804,
+        "shared_rate_index": {
+          "Arabica": 7,
+          "Robusta": 6
+        },
+        "shared_rate": {
+          "Arabica": 0.9874208829065749,
+          "Robusta": 0.7543735344742699
+        },
+        "shared_rate_at_grid_edge": {
+          "Arabica": false,
+          "Robusta": false
+        },
+        "c2_vertex_x": null,
+        "evaluations": [
+          {
+            "x": 476.7413614024614,
+            "rsd_pct": 4.579927295760355,
+            "Z_shared": 1.6505220640733698,
+            "Z_independent": 2.049199096268357,
+            "reduction_ratio": 1.2415460179981364,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.43153937498268674,
+              "trigonelline": -0.07197178383653591,
+              "5CQA": -0.5649586018181586,
+              "tds": -0.7514770950136218
+            },
+            "between_species_spread": 0.2870833656965681,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          },
+          {
+            "x": 825.0859198821147,
+            "rsd_pct": 3.4813718395560804,
+            "Z_shared": 2.0762441925441615,
+            "Z_independent": 2.3990939078593683,
+            "reduction_ratio": 1.1554969865657263,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.5677126873441333,
+              "trigonelline": -0.0946826574433216,
+              "5CQA": -0.7432326797276345,
+              "tds": -0.7514770950136218
+            },
+            "between_species_spread": 0.30827450827847985,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          }
+        ],
+        "ratio_min": 1.1554969865657263,
+        "ratio_max": 1.2415460179981364,
+        "any_survive": false,
+        "all_survive": false
+      },
+      {
+        "x_lo": 825.0859198821147,
+        "x_hi": 856.6822646119526,
+        "rsd_hi_pct": 3.4813718395560804,
+        "rsd_lo_pct": 3.4165683387552224,
+        "shared_rate_index": {
+          "Arabica": 8,
+          "Robusta": 6
+        },
+        "shared_rate": {
+          "Arabica": 1.2924631571009273,
+          "Robusta": 0.7543735344742699
+        },
+        "shared_rate_at_grid_edge": {
+          "Arabica": false,
+          "Robusta": false
+        },
+        "c2_vertex_x": null,
+        "evaluations": [
+          {
+            "x": 825.0859198821147,
+            "rsd_pct": 3.4813718395560804,
+            "Z_shared": 2.074570724694316,
+            "Z_independent": 2.3990939078593683,
+            "reduction_ratio": 1.1564290767733985,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.5673119343558343,
+              "trigonelline": -0.09194884902118299,
+              "5CQA": -0.7386509492330892,
+              "tds": -0.7927254647209442
+            },
+            "between_species_spread": 0.31863954365199204,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          },
+          {
+            "x": 856.6822646119526,
+            "rsd_pct": 3.4165683387552224,
+            "Z_shared": 2.1089369443768704,
+            "Z_independent": 2.4283382945750276,
+            "reduction_ratio": 1.1514513513786118,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.5780723804371671,
+              "trigonelline": -0.0936928818401938,
+              "5CQA": -0.7526612550821508,
+              "tds": -0.7927254647209442
+            },
+            "between_species_spread": 0.32089350909601627,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          }
+        ],
+        "ratio_min": 1.1514513513786118,
+        "ratio_max": 1.1564290767733985,
+        "any_survive": false,
+        "all_survive": false
+      },
+      {
+        "x_lo": 856.6822646119526,
+        "x_hi": 1381.6746866136052,
+        "rsd_hi_pct": 3.4165683387552224,
+        "rsd_lo_pct": 2.690277624099056,
+        "shared_rate_index": {
+          "Arabica": 8,
+          "Robusta": 5
+        },
+        "shared_rate": {
+          "Arabica": 1.2924631571009273,
+          "Robusta": 0.5763291412675603
+        },
+        "shared_rate_at_grid_edge": {
+          "Arabica": false,
+          "Robusta": false
+        },
+        "c2_vertex_x": null,
+        "evaluations": [
+          {
+            "x": 856.6822646119526,
+            "rsd_pct": 3.4165683387552224,
+            "Z_shared": 2.111967965872283,
+            "Z_independent": 2.4283382945750276,
+            "reduction_ratio": 1.1497988292507446,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.5817076666549107,
+              "trigonelline": -0.0952174074093749,
+              "5CQA": -0.758006775814459,
+              "tds": -0.8431972691188913
+            },
+            "between_species_spread": 0.3344338500824016,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          },
+          {
+            "x": 1381.6746866136052,
+            "rsd_pct": 2.690277624099056,
+            "Z_shared": 2.6138098533071865,
+            "Z_independent": 2.8709824048146495,
+            "reduction_ratio": 1.098389923498861,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.7387505209503861,
+              "trigonelline": -0.12092312575441806,
+              "5CQA": -0.962644868920135,
+              "tds": -0.8431972691188913
+            },
+            "between_species_spread": 0.37496573762361984,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          }
+        ],
+        "ratio_min": 1.098389923498861,
+        "ratio_max": 1.1497988292507446,
+        "any_survive": false,
+        "all_survive": false
+      },
+      {
+        "x_lo": 1381.6746866136052,
+        "x_hi": 2280.2572122486577,
+        "rsd_hi_pct": 2.690277624099056,
+        "rsd_lo_pct": 2.094151421676526,
+        "shared_rate_index": {
+          "Arabica": 9,
+          "Robusta": 5
+        },
+        "shared_rate": {
+          "Arabica": 1.6917416285000193,
+          "Robusta": 0.5763291412675603
+        },
+        "shared_rate_at_grid_edge": {
+          "Arabica": false,
+          "Robusta": false
+        },
+        "c2_vertex_x": null,
+        "evaluations": [
+          {
+            "x": 1381.6746866136052,
+            "rsd_pct": 2.690277624099056,
+            "Z_shared": 2.6113296969008446,
+            "Z_independent": 2.8709824048146495,
+            "reduction_ratio": 1.099433138688678,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.740835088375324,
+              "trigonelline": -0.11715189484036008,
+              "5CQA": -0.9583925971794928,
+              "tds": -0.8798239481542902
+            },
+            "between_species_spread": 0.38200758189088707,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          },
+          {
+            "x": 2280.2572122486577,
+            "rsd_pct": 2.094151421676526,
+            "Z_shared": 3.2970812330909283,
+            "Z_independent": 3.5010694167430905,
+            "reduction_ratio": 1.0618693229650664,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.9517229942274148,
+              "trigonelline": -0.15050063622309992,
+              "5CQA": -1.2312109490296612,
+              "tds": -0.8798239481542902
+            },
+            "between_species_spread": 0.4608470782689819,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          }
+        ],
+        "ratio_min": 1.0618693229650664,
+        "ratio_max": 1.099433138688678,
+        "any_survive": false,
+        "all_survive": false
+      },
+      {
+        "x_lo": 2280.2572122486577,
+        "x_hi": 3742.3071630258073,
+        "rsd_hi_pct": 2.094151421676526,
+        "rsd_lo_pct": 1.6346707233617925,
+        "shared_rate_index": {
+          "Arabica": 10,
+          "Robusta": 5
+        },
+        "shared_rate": {
+          "Arabica": 2.2143685271613567,
+          "Robusta": 0.5763291412675603
+        },
+        "shared_rate_at_grid_edge": {
+          "Arabica": false,
+          "Robusta": false
+        },
+        "c2_vertex_x": null,
+        "evaluations": [
+          {
+            "x": 2280.2572122486577,
+            "rsd_pct": 2.094151421676526,
+            "Z_shared": 3.293258552199591,
+            "Z_independent": 3.5010694167430905,
+            "reduction_ratio": 1.0631018977859181,
+            "per_species_mean_z_shared": {
+              "caffeine": -0.9561716675179416,
+              "trigonelline": -0.14581184194187383,
+              "5CQA": -1.2258349715848318,
+              "tds": -0.9127848337700173
+            },
+            "between_species_spread": 0.46403858328753894,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          },
+          {
+            "x": 3742.3071630258073,
+            "rsd_pct": 1.6346707233617925,
+            "Z_shared": 4.17392194955235,
+            "Z_independent": 4.334749935575611,
+            "reduction_ratio": 1.0385316227680084,
+            "per_species_mean_z_shared": {
+              "caffeine": -1.2249367583836872,
+              "trigonelline": -0.18679729913549456,
+              "5CQA": -1.5703982531759217,
+              "tds": -0.9127848337700173
+            },
+            "between_species_spread": 0.5893768541944147,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          }
+        ],
+        "ratio_min": 1.0385316227680084,
+        "ratio_max": 1.0631018977859181,
+        "any_survive": false,
+        "all_survive": false
+      },
+      {
+        "x_lo": 3742.3071630258073,
+        "x_hi": 4617.404916710397,
+        "rsd_hi_pct": 1.6346707233617925,
+        "rsd_lo_pct": 1.471638088119811,
+        "shared_rate_index": {
+          "Arabica": 11,
+          "Robusta": 5
+        },
+        "shared_rate": {
+          "Arabica": 2.8984496754568694,
+          "Robusta": 0.5763291412675603
+        },
+        "shared_rate_at_grid_edge": {
+          "Arabica": false,
+          "Robusta": false
+        },
+        "c2_vertex_x": null,
+        "evaluations": [
+          {
+            "x": 3742.3071630258073,
+            "rsd_pct": 1.6346707233617925,
+            "Z_shared": 4.168696422638602,
+            "Z_independent": 4.334749935575611,
+            "reduction_ratio": 1.0398334385865173,
+            "per_species_mean_z_shared": {
+              "caffeine": -1.2313912565709366,
+              "trigonelline": -0.18185348902291731,
+              "5CQA": -1.5631670147499745,
+              "tds": -0.9421924571727726
+            },
+            "between_species_spread": 0.5892786853999413,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          },
+          {
+            "x": 4617.404916710397,
+            "rsd_pct": 1.471638088119811,
+            "Z_shared": 4.615577012226447,
+            "Z_independent": 4.764459259408352,
+            "reduction_ratio": 1.032256475579873,
+            "per_species_mean_z_shared": {
+              "caffeine": -1.3678086021081024,
+              "trigonelline": -0.20199978299471422,
+              "5CQA": -1.7363395085820874,
+              "tds": -0.9421924571727726
+            },
+            "between_species_spread": 0.6588390965847435,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          }
+        ],
+        "ratio_min": 1.032256475579873,
+        "ratio_max": 1.0398334385865173,
+        "any_survive": false,
+        "all_survive": false
+      },
+      {
+        "x_lo": 4617.404916710397,
+        "x_hi": 6141.011423436872,
+        "rsd_hi_pct": 1.471638088119811,
+        "rsd_lo_pct": 1.2760863036547385,
+        "shared_rate_index": {
+          "Arabica": 11,
+          "Robusta": 4
+        },
+        "shared_rate": {
+          "Arabica": 2.8984496754568694,
+          "Robusta": 0.4403061134769072
+        },
+        "shared_rate_at_grid_edge": {
+          "Arabica": false,
+          "Robusta": false
+        },
+        "c2_vertex_x": null,
+        "evaluations": [
+          {
+            "x": 4617.404916710397,
+            "rsd_pct": 1.471638088119811,
+            "Z_shared": 4.607934335280392,
+            "Z_independent": 4.764459259408352,
+            "reduction_ratio": 1.033968566550425,
+            "per_species_mean_z_shared": {
+              "caffeine": -1.3879428635951936,
+              "trigonelline": -0.21867244574869948,
+              "5CQA": -1.7696603905350763,
+              "tds": -1.090186782745947
+            },
+            "between_species_spread": 0.6600723124686866,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          },
+          {
+            "x": 6141.011423436872,
+            "rsd_pct": 1.2760863036547385,
+            "Z_shared": 5.290824205443322,
+            "Z_independent": 5.432097401111947,
+            "reduction_ratio": 1.0267015478464168,
+            "per_species_mean_z_shared": {
+              "caffeine": -1.6006359259172838,
+              "trigonelline": -0.2521825514970562,
+              "5CQA": -2.0408491387217524,
+              "tds": -1.090186782745947
+            },
+            "between_species_spread": 0.7680066552658599,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          }
+        ],
+        "ratio_min": 1.0267015478464168,
+        "ratio_max": 1.033968566550425,
+        "any_survive": false,
+        "all_survive": false
+      },
+      {
+        "x_lo": 6141.011423436872,
+        "x_hi": 9962.31734009955,
+        "rsd_hi_pct": 1.2760863036547385,
+        "rsd_lo_pct": 1.0018894747075378,
+        "shared_rate_index": {
+          "Arabica": 12,
+          "Robusta": 4
+        },
+        "shared_rate": {
+          "Arabica": 3.793862863434683,
+          "Robusta": 0.4403061134769072
+        },
+        "shared_rate_at_grid_edge": {
+          "Arabica": false,
+          "Robusta": false
+        },
+        "c2_vertex_x": null,
+        "evaluations": [
+          {
+            "x": 6141.011423436872,
+            "rsd_pct": 1.2760863036547385,
+            "Z_shared": 5.284482588906892,
+            "Z_independent": 5.432097401111947,
+            "reduction_ratio": 1.0279336358331326,
+            "per_species_mean_z_shared": {
+              "caffeine": -1.6087537668224086,
+              "trigonelline": -0.24793648111598957,
+              "5CQA": -2.031879286522356,
+              "tds": -1.1155848420671266
+            },
+            "between_species_spread": 0.7664276220994857,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": false,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          },
+          {
+            "x": 9962.31734009955,
+            "rsd_pct": 1.0018894747075378,
+            "Z_shared": 6.696012122783446,
+            "Z_independent": 6.825072804106771,
+            "reduction_ratio": 1.019274260404068,
+            "per_species_mean_z_shared": {
+              "caffeine": -2.0490370441253614,
+              "trigonelline": -0.31579166736013775,
+              "5CQA": -2.587963436753163,
+              "tds": -1.1155848420671266
+            },
+            "between_species_spread": 1.0056609188447643,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": true,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          }
+        ],
+        "ratio_min": 1.019274260404068,
+        "ratio_max": 1.0279336358331326,
+        "any_survive": false,
+        "all_survive": false
+      },
+      {
+        "x_lo": 9962.31734009955,
+        "x_hi": 14666.10974416963,
+        "rsd_hi_pct": 1.0018894747075378,
+        "rsd_lo_pct": 0.825738501460013,
+        "shared_rate_index": {
+          "Arabica": 13,
+          "Robusta": 4
+        },
+        "shared_rate": {
+          "Arabica": 4.965894543012914,
+          "Robusta": 0.4403061134769072
+        },
+        "shared_rate_at_grid_edge": {
+          "Arabica": false,
+          "Robusta": false
+        },
+        "c2_vertex_x": null,
+        "evaluations": [
+          {
+            "x": 9962.31734009955,
+            "rsd_pct": 1.0018894747075378,
+            "Z_shared": 6.689036247149975,
+            "Z_independent": 6.825072804106771,
+            "reduction_ratio": 1.0203372432037212,
+            "per_species_mean_z_shared": {
+              "caffeine": -2.0585828321807984,
+              "trigonelline": -0.3128022065127,
+              "5CQA": -2.5776472343413026,
+              "tds": -1.1364899694358352
+            },
+            "between_species_spread": 1.002178954708714,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": true,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          },
+          {
+            "x": 14666.10974416963,
+            "rsd_pct": 0.825738501460013,
+            "Z_shared": 8.094079514343822,
+            "Z_independent": 8.221835801160587,
+            "reduction_ratio": 1.0157839179353705,
+            "per_species_mean_z_shared": {
+              "caffeine": -2.497730781268956,
+              "trigonelline": -0.37953085367370853,
+              "5CQA": -3.127524790268732,
+              "tds": -1.1364899694358352
+            },
+            "between_species_spread": 1.2524996810080795,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": true,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          }
+        ],
+        "ratio_min": 1.0157839179353705,
+        "ratio_max": 1.0203372432037212,
+        "any_survive": false,
+        "all_survive": false
+      },
+      {
+        "x_lo": 14666.10974416963,
+        "x_hi": 18522.982097791035,
+        "rsd_hi_pct": 0.825738501460013,
+        "rsd_lo_pct": 0.7347583775590832,
+        "shared_rate_index": {
+          "Arabica": 14,
+          "Robusta": 4
+        },
+        "shared_rate": {
+          "Arabica": 6.5,
+          "Robusta": 0.4403061134769072
+        },
+        "shared_rate_at_grid_edge": {
+          "Arabica": false,
+          "Robusta": false
+        },
+        "c2_vertex_x": null,
+        "evaluations": [
+          {
+            "x": 14666.10974416963,
+            "rsd_pct": 0.825738501460013,
+            "Z_shared": 8.087270299055207,
+            "Z_independent": 8.221835801160587,
+            "reduction_ratio": 1.0166391745458416,
+            "per_species_mean_z_shared": {
+              "caffeine": -2.508148809108011,
+              "trigonelline": -0.3783013158346031,
+              "5CQA": -3.1168611755552944,
+              "tds": -1.1526396454102803
+            },
+            "between_species_spread": 1.2483877054006525,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": true,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          },
+          {
+            "x": 18522.982097791035,
+            "rsd_pct": 0.7347583775590832,
+            "Z_shared": 9.077744982049406,
+            "Z_independent": 9.210398176450608,
+            "reduction_ratio": 1.0146130117847014,
+            "per_species_mean_z_shared": {
+              "caffeine": -2.818715787837378,
+              "trigonelline": -0.4251437903646053,
+              "5CQA": -3.502800859395394,
+              "tds": -1.1526396454102803
+            },
+            "between_species_spread": 1.4287946548858033,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": true,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          }
+        ],
+        "ratio_min": 1.0146130117847014,
+        "ratio_max": 1.0166391745458416,
+        "any_survive": false,
+        "all_survive": false
+      },
+      {
+        "x_lo": 18522.982097791035,
+        "x_hi": 19879.06335427738,
+        "rsd_hi_pct": 0.7347583775590832,
+        "rsd_lo_pct": 0.7092544039022136,
+        "shared_rate_index": {
+          "Arabica": 15,
+          "Robusta": 4
+        },
+        "shared_rate": {
+          "Arabica": 8.576801420023813,
+          "Robusta": 0.4403061134769072
+        },
+        "shared_rate_at_grid_edge": {
+          "Arabica": false,
+          "Robusta": false
+        },
+        "c2_vertex_x": null,
+        "evaluations": [
+          {
+            "x": 18522.982097791035,
+            "rsd_pct": 0.7347583775590832,
+            "Z_shared": 9.071752069939881,
+            "Z_independent": 9.210398176450608,
+            "reduction_ratio": 1.0152832777441245,
+            "per_species_mean_z_shared": {
+              "caffeine": -2.8292180526638133,
+              "trigonelline": -0.4252255567825034,
+              "5CQA": -3.492917220414936,
+              "tds": -1.1643143838430456
+            },
+            "between_species_spread": 1.4251010589860031,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": true,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          },
+          {
+            "x": 19879.06335427738,
+            "rsd_pct": 0.7092544039022136,
+            "Z_shared": 9.395016576402707,
+            "Z_independent": 9.533652338330157,
+            "reduction_ratio": 1.014756308389669,
+            "per_species_mean_z_shared": {
+              "caffeine": -2.9309534839670035,
+              "trigonelline": -0.4405161793556469,
+              "5CQA": -3.618518511411462,
+              "tds": -1.1643143838430456
+            },
+            "between_species_spread": 1.4844397907515088,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": true,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          }
+        ],
+        "ratio_min": 1.014756308389669,
+        "ratio_max": 1.0152832777441245,
+        "any_survive": false,
+        "all_survive": false
+      },
+      {
+        "x_lo": 19879.06335427738,
+        "x_hi": 22711.193932182305,
+        "rsd_hi_pct": 0.7092544039022136,
+        "rsd_lo_pct": 0.6635597228984419,
+        "shared_rate_index": {
+          "Arabica": 16,
+          "Robusta": 4
+        },
+        "shared_rate": {
+          "Arabica": 11.317157322849615,
+          "Robusta": 0.4403061134769072
+        },
+        "shared_rate_at_grid_edge": {
+          "Arabica": false,
+          "Robusta": false
+        },
+        "c2_vertex_x": null,
+        "evaluations": [
+          {
+            "x": 19879.06335427738,
+            "rsd_pct": 0.7092544039022136,
+            "Z_shared": 9.39058985746547,
+            "Z_independent": 9.533652338330157,
+            "reduction_ratio": 1.0152346639600018,
+            "per_species_mean_z_shared": {
+              "caffeine": -2.9401922643157534,
+              "trigonelline": -0.4411146836544056,
+              "5CQA": -3.6108755715219414,
+              "tds": -1.1715208054664685
+            },
+            "between_species_spread": 1.4819675110527373,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": true,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          },
+          {
+            "x": 22711.193932182305,
+            "rsd_pct": 0.6635597228984419,
+            "Z_shared": 10.031877547771096,
+            "Z_independent": 10.175693570010557,
+            "reduction_ratio": 1.0143359028810528,
+            "per_species_mean_z_shared": {
+              "caffeine": -3.1426625815628846,
+              "trigonelline": -0.47149114271316755,
+              "5CQA": -3.8595311208134095,
+              "tds": -1.1715208054664685
+            },
+            "between_species_spread": 1.60022688852544,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": true,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          }
+        ],
+        "ratio_min": 1.0143359028810528,
+        "ratio_max": 1.0152346639600018,
+        "any_survive": false,
+        "all_survive": false
+      },
+      {
+        "x_lo": 22711.193932182305,
+        "x_hi": 111111.11111111114,
+        "rsd_hi_pct": 0.6635597228984419,
+        "rsd_lo_pct": 0.3,
+        "shared_rate_index": {
+          "Arabica": 17,
+          "Robusta": 4
+        },
+        "shared_rate": {
+          "Arabica": 14.933078614961456,
+          "Robusta": 0.4403061134769072
+        },
+        "shared_rate_at_grid_edge": {
+          "Arabica": false,
+          "Robusta": false
+        },
+        "c2_vertex_x": null,
+        "evaluations": [
+          {
+            "x": 22711.193932182305,
+            "rsd_pct": 0.6635597228984419,
+            "Z_shared": 10.02866892675474,
+            "Z_independent": 10.175693570010557,
+            "reduction_ratio": 1.014660434433485,
+            "per_species_mean_z_shared": {
+              "caffeine": -3.150929540764548,
+              "trigonelline": -0.47198809731966423,
+              "5CQA": -3.8539765559181274,
+              "tds": -1.1752764251950987
+            },
+            "between_species_spread": 1.5990127785745594,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": true,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          },
+          {
+            "x": 111111.11111111114,
+            "rsd_pct": 0.3,
+            "Z_shared": 22.115465593359602,
+            "Z_independent": 22.327639282098183,
+            "reduction_ratio": 1.009593905579012,
+            "per_species_mean_z_shared": {
+              "caffeine": -6.969433109807464,
+              "trigonelline": -1.043974303562664,
+              "5CQA": -8.524478718340417,
+              "tds": -1.1752764251950987
+            },
+            "between_species_spread": 3.884664737648828,
+            "C1_exceeds_noise": true,
+            "C2_species_specific": true,
+            "C3_reduced_by_species_fits": false,
+            "survive": false
+          }
+        ],
+        "ratio_min": 1.009593905579012,
+        "ratio_max": 1.014660434433485,
+        "any_survive": false,
+        "all_survive": false
+      }
+    ]
+  },
+  "worst_case_C3_ratio": 1.0008469492240244,
+  "C3_ever_satisfied": false,
+  "any_point_survives": false,
+  "all_points_survive": false,
+  "amplitude_diagnostic": [
+    {
+      "rsd_pct": 19.7,
+      "RMS_z_amplitude_fixed_at_pannusch_table2": 2.6562860518601035,
+      "RMS_z_amplitude_fitted": 1.4766614285472592,
+      "rms_reduction_fraction": 0.44408794846729505,
+      "metric_definition": "1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised held-out residual and 'fixed' holds the amplitude at pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+      "interpretation": "The amplitude is a condition-independent multiplicative scale. It may represent solid inventory, assay calibration scale, or multiplicative model error; this screen cannot separate them."
+    },
+    {
+      "rsd_pct": 12.263482533928173,
+      "RMS_z_amplitude_fixed_at_pannusch_table2": 3.1944013317360125,
+      "RMS_z_amplitude_fitted": 1.5351393262426174,
+      "rms_reduction_fraction": 0.519428159827263,
+      "metric_definition": "1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised held-out residual and 'fixed' holds the amplitude at pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+      "interpretation": "The amplitude is a condition-independent multiplicative scale. It may represent solid inventory, assay calibration scale, or multiplicative model error; this screen cannot separate them."
+    },
+    {
+      "rsd_pct": 11.611416957715177,
+      "RMS_z_amplitude_fixed_at_pannusch_table2": 3.184132072473019,
+      "RMS_z_amplitude_fitted": 1.4513199935395682,
+      "rms_reduction_fraction": 0.5442023256238955,
+      "metric_definition": "1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised held-out residual and 'fixed' holds the amplitude at pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+      "interpretation": "The amplitude is a condition-independent multiplicative scale. It may represent solid inventory, assay calibration scale, or multiplicative model error; this screen cannot separate them."
+    },
+    {
+      "rsd_pct": 10.98784136796103,
+      "RMS_z_amplitude_fixed_at_pannusch_table2": 3.2120157190386642,
+      "RMS_z_amplitude_fitted": 1.404313478883688,
+      "rms_reduction_fraction": 0.5627937090843409,
+      "metric_definition": "1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised held-out residual and 'fixed' holds the amplitude at pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+      "interpretation": "The amplitude is a condition-independent multiplicative scale. It may represent solid inventory, assay calibration scale, or multiplicative model error; this screen cannot separate them."
+    },
+    {
+      "rsd_pct": 10.473350228012118,
+      "RMS_z_amplitude_fixed_at_pannusch_table2": 2.997653388810621,
+      "RMS_z_amplitude_fitted": 1.412499849970511,
+      "rms_reduction_fraction": 0.5287981408247641,
+      "metric_definition": "1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised held-out residual and 'fixed' holds the amplitude at pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+      "interpretation": "The amplitude is a condition-independent multiplicative scale. It may represent solid inventory, assay calibration scale, or multiplicative model error; this screen cannot separate them."
+    },
+    {
+      "rsd_pct": 9.178894575301833,
+      "RMS_z_amplitude_fixed_at_pannusch_table2": 3.2698501844093038,
+      "RMS_z_amplitude_fitted": 1.3836912022846695,
+      "rms_reduction_fraction": 0.5768334558928325,
+      "metric_definition": "1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised held-out residual and 'fixed' holds the amplitude at pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+      "interpretation": "The amplitude is a condition-independent multiplicative scale. It may represent solid inventory, assay calibration scale, or multiplicative model error; this screen cannot separate them."
+    },
+    {
+      "rsd_pct": 8.015085160817979,
+      "RMS_z_amplitude_fixed_at_pannusch_table2": 3.7879350009936155,
+      "RMS_z_amplitude_fitted": 1.3660911650090213,
+      "rms_reduction_fraction": 0.6393572844701186,
+      "metric_definition": "1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised held-out residual and 'fixed' holds the amplitude at pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+      "interpretation": "The amplitude is a condition-independent multiplicative scale. It may represent solid inventory, assay calibration scale, or multiplicative model error; this screen cannot separate them."
+    },
+    {
+      "rsd_pct": 7.141808465951851,
+      "RMS_z_amplitude_fixed_at_pannusch_table2": 4.620226142518928,
+      "RMS_z_amplitude_fitted": 1.358663254066875,
+      "rms_reduction_fraction": 0.7059314388178113,
+      "metric_definition": "1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised held-out residual and 'fixed' holds the amplitude at pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+      "interpretation": "The amplitude is a condition-independent multiplicative scale. It may represent solid inventory, assay calibration scale, or multiplicative model error; this screen cannot separate them."
+    },
+    {
+      "rsd_pct": 6.423723225117249,
+      "RMS_z_amplitude_fixed_at_pannusch_table2": 5.8857742627793685,
+      "RMS_z_amplitude_fitted": 1.3735350260370616,
+      "rms_reduction_fraction": 0.7666347765453625,
+      "metric_definition": "1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised held-out residual and 'fixed' holds the amplitude at pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+      "interpretation": "The amplitude is a condition-independent multiplicative scale. It may represent solid inventory, assay calibration scale, or multiplicative model error; this screen cannot separate them."
+    },
+    {
+      "rsd_pct": 6.37292142226228,
+      "RMS_z_amplitude_fixed_at_pannusch_table2": 7.341820573824988,
+      "RMS_z_amplitude_fitted": 1.3351944724657512,
+      "rms_reduction_fraction": 0.8181385040617885,
+      "metric_definition": "1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised held-out residual and 'fixed' holds the amplitude at pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+      "interpretation": "The amplitude is a condition-independent multiplicative scale. It may represent solid inventory, assay calibration scale, or multiplicative model error; this screen cannot separate them."
+    },
+    {
+      "rsd_pct": 5.646554639480216,
+      "RMS_z_amplitude_fixed_at_pannusch_table2": 7.4834869196952285,
+      "RMS_z_amplitude_fitted": 1.4426069443606568,
+      "rms_reduction_fraction": 0.8072279727563941,
+      "metric_definition": "1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised held-out residual and 'fixed' holds the amplitude at pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+      "interpretation": "The amplitude is a condition-independent multiplicative scale. It may represent solid inventory, assay calibration scale, or multiplicative model error; this screen cannot separate them."
+    },
+    {
+      "rsd_pct": 4.674967708709713,
+      "RMS_z_amplitude_fixed_at_pannusch_table2": 9.979462845372268,
+      "RMS_z_amplitude_fitted": 1.6336020041641832,
+      "rms_reduction_fraction": 0.8363036137840099,
+      "metric_definition": "1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised held-out residual and 'fixed' holds the amplitude at pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+      "interpretation": "The amplitude is a condition-independent multiplicative scale. It may represent solid inventory, assay calibration scale, or multiplicative model error; this screen cannot separate them."
+    },
+    {
+      "rsd_pct": 4.579927295760355,
+      "RMS_z_amplitude_fixed_at_pannusch_table2": 12.30383055158334,
+      "RMS_z_amplitude_fitted": 1.6524074040719101,
+      "rms_reduction_fraction": 0.8656997593437056,
+      "metric_definition": "1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised held-out residual and 'fixed' holds the amplitude at pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+      "interpretation": "The amplitude is a condition-independent multiplicative scale. It may represent solid inventory, assay calibration scale, or multiplicative model error; this screen cannot separate them."
+    },
+    {
+      "rsd_pct": 3.4813718395560804,
+      "RMS_z_amplitude_fixed_at_pannusch_table2": 13.210587003459926,
+      "RMS_z_amplitude_fitted": 2.0762441925441615,
+      "rms_reduction_fraction": 0.8428348269459652,
+      "metric_definition": "1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised held-out residual and 'fixed' holds the amplitude at pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+      "interpretation": "The amplitude is a condition-independent multiplicative scale. It may represent solid inventory, assay calibration scale, or multiplicative model error; this screen cannot separate them."
+    },
+    {
+      "rsd_pct": 3.4165683387552224,
+      "RMS_z_amplitude_fixed_at_pannusch_table2": 13.106835244167861,
+      "RMS_z_amplitude_fitted": 2.1089369443768704,
+      "rms_reduction_fraction": 0.839096402366446,
+      "metric_definition": "1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised held-out residual and 'fixed' holds the amplitude at pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+      "interpretation": "The amplitude is a condition-independent multiplicative scale. It may represent solid inventory, assay calibration scale, or multiplicative model error; this screen cannot separate them."
+    },
+    {
+      "rsd_pct": 2.690277624099056,
+      "RMS_z_amplitude_fixed_at_pannusch_table2": 16.952188065037586,
+      "RMS_z_amplitude_fitted": 2.6138098533071865,
+      "rms_reduction_fraction": 0.8458128329346497,
+      "metric_definition": "1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised held-out residual and 'fixed' holds the amplitude at pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+      "interpretation": "The amplitude is a condition-independent multiplicative scale. It may represent solid inventory, assay calibration scale, or multiplicative model error; this screen cannot separate them."
+    },
+    {
+      "rsd_pct": 2.094151421676526,
+      "RMS_z_amplitude_fixed_at_pannusch_table2": 18.663377643179704,
+      "RMS_z_amplitude_fitted": 3.2970812330909283,
+      "rms_reduction_fraction": 0.8233395210595331,
+      "metric_definition": "1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised held-out residual and 'fixed' holds the amplitude at pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+      "interpretation": "The amplitude is a condition-independent multiplicative scale. It may represent solid inventory, assay calibration scale, or multiplicative model error; this screen cannot separate them."
+    },
+    {
+      "rsd_pct": 1.6346707233617925,
+      "RMS_z_amplitude_fixed_at_pannusch_table2": 21.100685045704964,
+      "RMS_z_amplitude_fitted": 4.17392194955235,
+      "rms_reduction_fraction": 0.8021902160753804,
+      "metric_definition": "1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised held-out residual and 'fixed' holds the amplitude at pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+      "interpretation": "The amplitude is a condition-independent multiplicative scale. It may represent solid inventory, assay calibration scale, or multiplicative model error; this screen cannot separate them."
+    },
+    {
+      "rsd_pct": 1.471638088119811,
+      "RMS_z_amplitude_fixed_at_pannusch_table2": 22.293381067421294,
+      "RMS_z_amplitude_fitted": 4.615577012226447,
+      "rms_reduction_fraction": 0.7929620007719925,
+      "metric_definition": "1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised held-out residual and 'fixed' holds the amplitude at pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+      "interpretation": "The amplitude is a condition-independent multiplicative scale. It may represent solid inventory, assay calibration scale, or multiplicative model error; this screen cannot separate them."
+    },
+    {
+      "rsd_pct": 1.2760863036547385,
+      "RMS_z_amplitude_fixed_at_pannusch_table2": 27.357054542708028,
+      "RMS_z_amplitude_fitted": 5.290824205443322,
+      "rms_reduction_fraction": 0.8066011018407104,
+      "metric_definition": "1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised held-out residual and 'fixed' holds the amplitude at pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+      "interpretation": "The amplitude is a condition-independent multiplicative scale. It may represent solid inventory, assay calibration scale, or multiplicative model error; this screen cannot separate them."
+    },
+    {
+      "rsd_pct": 1.0018894747075378,
+      "RMS_z_amplitude_fixed_at_pannusch_table2": 32.121270193394906,
+      "RMS_z_amplitude_fitted": 6.696012122783446,
+      "rms_reduction_fraction": 0.791539622111197,
+      "metric_definition": "1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised held-out residual and 'fixed' holds the amplitude at pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+      "interpretation": "The amplitude is a condition-independent multiplicative scale. It may represent solid inventory, assay calibration scale, or multiplicative model error; this screen cannot separate them."
+    },
+    {
+      "rsd_pct": 0.825738501460013,
+      "RMS_z_amplitude_fixed_at_pannusch_table2": 37.13080252021179,
+      "RMS_z_amplitude_fitted": 8.094079514343822,
+      "rms_reduction_fraction": 0.7820117270576662,
+      "metric_definition": "1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised held-out residual and 'fixed' holds the amplitude at pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+      "interpretation": "The amplitude is a condition-independent multiplicative scale. It may represent solid inventory, assay calibration scale, or multiplicative model error; this screen cannot separate them."
+    },
+    {
+      "rsd_pct": 0.7347583775590832,
+      "RMS_z_amplitude_fixed_at_pannusch_table2": 40.76557596353854,
+      "RMS_z_amplitude_fitted": 9.077744982049406,
+      "rms_reduction_fraction": 0.7773183680719069,
+      "metric_definition": "1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised held-out residual and 'fixed' holds the amplitude at pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+      "interpretation": "The amplitude is a condition-independent multiplicative scale. It may represent solid inventory, assay calibration scale, or multiplicative model error; this screen cannot separate them."
+    },
+    {
+      "rsd_pct": 0.7092544039022136,
+      "RMS_z_amplitude_fixed_at_pannusch_table2": 41.95453018328761,
+      "RMS_z_amplitude_fitted": 9.395016576402707,
+      "rms_reduction_fraction": 0.776066695649826,
+      "metric_definition": "1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised held-out residual and 'fixed' holds the amplitude at pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+      "interpretation": "The amplitude is a condition-independent multiplicative scale. It may represent solid inventory, assay calibration scale, or multiplicative model error; this screen cannot separate them."
+    },
+    {
+      "rsd_pct": 0.6635597228984419,
+      "RMS_z_amplitude_fixed_at_pannusch_table2": 44.415120488895425,
+      "RMS_z_amplitude_fitted": 10.031877547771096,
+      "rms_reduction_fraction": 0.7741337310954893,
+      "metric_definition": "1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised held-out residual and 'fixed' holds the amplitude at pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+      "interpretation": "The amplitude is a condition-independent multiplicative scale. It may represent solid inventory, assay calibration scale, or multiplicative model error; this screen cannot separate them."
+    },
+    {
+      "rsd_pct": 0.3,
+      "RMS_z_amplitude_fixed_at_pannusch_table2": 92.82183663296512,
+      "RMS_z_amplitude_fitted": 22.115465593359602,
+      "rms_reduction_fraction": 0.761742857116604,
+      "metric_definition": "1 - RMS(z_fitted) / RMS(z_fixed), where z is the standardised held-out residual and 'fixed' holds the amplitude at pannusch Table 2 c_s0. A REDUCTION IN RMS STANDARDISED-RESIDUAL MAGNITUDE, not a fraction of raw residual.",
+      "interpretation": "The amplitude is a condition-independent multiplicative scale. It may represent solid inventory, assay calibration scale, or multiplicative model error; this screen cannot separate them."
+    }
+  ],
+  "amplitude_vs_table7": {
+    "rows": [
+      {
+        "variety": "Arabica",
+        "species": "caffeine",
+        "amplitude_fitted": 9.3187,
+        "amplitude_pannusch_table2": 10.8,
+        "species_matched": true,
+        "angeloni_table7_g_L": 12.54,
+        "fitted_closer_to_table7_than_pannusch": false,
+        "note": "species-matched"
+      },
+      {
+        "variety": "Arabica",
+        "species": "trigonelline",
+        "amplitude_fitted": 5.2756,
+        "amplitude_pannusch_table2": 4.19,
+        "species_matched": true,
+        "angeloni_table7_g_L": 7.97,
+        "fitted_closer_to_table7_than_pannusch": true,
+        "note": "species-matched"
+      },
+      {
+        "variety": "Arabica",
+        "species": "5CQA",
+        "amplitude_fitted": 9.4545,
+        "amplitude_pannusch_table2": 6.23,
+        "species_matched": false,
+        "angeloni_table7_g_L": 22.13,
+        "fitted_closer_to_table7_than_pannusch": null,
+        "note": "angeloni Table 7 reports TOTAL CQA, which is NOT a species-matched 5CQA inventory \u2014 no comparison is made"
+      },
+      {
+        "variety": "Arabica",
+        "species": "tds",
+        "amplitude_fitted": 170.2808,
+        "amplitude_pannusch_table2": 182.0,
+        "species_matched": false,
+        "angeloni_table7_g_L": null,
+        "fitted_closer_to_table7_than_pannusch": null,
+        "note": "no Table 7 inventory exists for the aggregate total-solids proxy"
+      },
+      {
+        "variety": "Robusta",
+        "species": "caffeine",
+        "amplitude_fitted": 21.2645,
+        "amplitude_pannusch_table2": 10.8,
+        "species_matched": true,
+        "angeloni_table7_g_L": 18.58,
+        "fitted_closer_to_table7_than_pannusch": true,
+        "note": "species-matched"
+      },
+      {
+        "variety": "Robusta",
+        "species": "trigonelline",
+        "amplitude_fitted": 5.4082,
+        "amplitude_pannusch_table2": 4.19,
+        "species_matched": true,
+        "angeloni_table7_g_L": 5.96,
+        "fitted_closer_to_table7_than_pannusch": true,
+        "note": "species-matched"
+      },
+      {
+        "variety": "Robusta",
+        "species": "5CQA",
+        "amplitude_fitted": 8.709,
+        "amplitude_pannusch_table2": 6.23,
+        "species_matched": false,
+        "angeloni_table7_g_L": 16.08,
+        "fitted_closer_to_table7_than_pannusch": null,
+        "note": "angeloni Table 7 reports TOTAL CQA, which is NOT a species-matched 5CQA inventory \u2014 no comparison is made"
+      },
+      {
+        "variety": "Robusta",
+        "species": "tds",
+        "amplitude_fitted": 237.4296,
+        "amplitude_pannusch_table2": 182.0,
+        "species_matched": false,
+        "angeloni_table7_g_L": null,
+        "fitted_closer_to_table7_than_pannusch": null,
+        "note": "no Table 7 inventory exists for the aggregate total-solids proxy"
+      }
+    ],
+    "n_species_matched_cells": 4,
+    "n_species_matched_cells_fitted_closer": 3,
+    "evaluated_at_rsd_pct": 0.3,
+    "evaluated_at_shared_rates": {
+      "Arabica": 14.9331,
+      "Robusta": 0.4403
+    },
+    "setting_dependence": {
+      "n_distinct_shared_selections": 25,
+      "counts_closer_per_selection": [
+        3,
+        3,
+        3,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "min_closer": 3,
+      "max_closer": 4,
+      "constant_across_selections": false
+    },
+    "claim": "At the recorded evaluation setting (bioactive RSD 0.300 %, shared rates {'Arabica': 14.9331, 'Robusta': 0.4403}): of the 4 SPECIES-MATCHED cells (caffeine and trigonelline, both varieties), 3 have a fitted amplitude closer to angeloni Table 7 than pannusch Table 2. 5CQA and total solids are NOT species-matched and are excluded from that count. The amplitude depends on the selected shared rate, so this count is setting-dependent; across all 25 distinct shared-rate selections on the band the count is NOT constant (min 3, max 4) \u2014 do not quote a single figure as setting-independent"
+  },
+  "n_pde_solves": 1440,
+  "decision": "RETIRE",
+  "decision_reasoning": "The shared-state hypothesis is not refuted anywhere in the declared RSD band. C3 never holds: the smallest held-out RMS ratio achieved anywhere on the band, over the exact breakpoint sweep and after rate-grid expansion, is 1.0008 against a 0.70 threshold \u2014 per-species rate freedom does not improve held-out prediction at any admissible uncertainty setting."
+}
