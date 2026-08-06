@@ -181,15 +181,18 @@ what that survival earns — [`../screens/I-045/deep_decision.md`](../screens/I-
 data to fit."* Those means are exactly what this dataset's CT columns hold, at every measurement
 time. **Nothing was held out** — the centre-line crosses are one of the five positions averaged
 into the fit data, Figs 6–9 carry no model curve, Fig 15 and Appendix B are model output, and the
-coarse grind was excluded from modelling rather than reserved. The authors never call the
-comparison independent or validated; they say *"best fit"* and *"good agreement"*.
+coarse grind was excluded from modelling rather than reserved. The authors *do* describe the
+combined tomography-and-modeling approach as *"experimentally validating coffee models"*, but they
+never call the audited observations **independent or held out** — and under §0 that is the question,
+because independence turns on whether the data were used in fitting.
 
 **Why it is only a correction.** Two current miswordings (the manifest cell and the gate docstring
 that copies it) and **zero reader-facing over-claims** — every downstream record independently
 refuses the strong reading, and the Pages publish root carries no occurrence. The frozen
-mixed-strength rule selects 3 of 110 manifest rows and **all three state their scope correctly**,
-so the corpus convention is not broken: this is one arm's strength in one row. External review
-returns `INCREMENTAL`.
+mixed-strength rule selects 3 of 110 manifest rows and **all three state their scope**, so no
+recurring scope failure was found — but only **one** strength was adjudicated against its primary
+source. The other two rows are `NOT_SOURCE_ADJUDICATED`; this screen does **not** establish that
+they are correct. External review returns `INCREMENTAL`.
 
 It **is** in released source (v0.3.0), which is the reason to fix it: the next consumer of that
 cell would inherit it. The recommended wording — `post-fit, same-campaign CT observations /

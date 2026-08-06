@@ -129,8 +129,8 @@ The combination — a manifest binding an evidence rung to a dataset, gates that
 claims, and an audit that reconciles the rung against the source's stated objective — was **not
 found in the literature searched**. Whether that is genuine novelty or an artefact of a preliminary
 search cannot be settled here, and **it does not matter for this deep screen's classification**:
-the internal audit found the defect isolated and contained, so no publication output is earned
-regardless of how novel the framing is.
+the internal audit found the defect contained, and demonstrated no recurring defect, so no
+publication output is earned regardless of how novel the framing is.
 
 ---
 
@@ -143,13 +143,15 @@ regardless of how novel the framing is.
   gap that has been filled; but neither is filling it demonstrated to be valuable here, because the
   audit that found this defect was a hand-read of one paper plus a grep, not a reusable instrument.
 - The **scoped-evidence-label idea** is adjacent to model cards and column-level lineage (§5.3) and
-  would need a genuine generality result to be worth proposing. **The bounded corpus check found
-  none**: scope is already stated correctly in every mixed-strength cell in the manifest.
+  would need a genuine generality result to be worth proposing. **The bounded corpus check produced
+  none**: scope is already stated in every mixed-strength cell, and only one cell's strength was
+  source-adjudicated, so no recurring defect was demonstrated. (Nor was corpus-wide correctness
+  shown — the other cells' strengths were simply not checked.)
 
 **This is a documentation correction with a good provenance story, not a contribution.** The
 classification `CORRECTION_ONLY` rests on the *internal* evidence — the confirmed lineage, the
-measured containment, and the negative generality result — and this review is consistent with it
-rather than load-bearing for it.
+measured containment, and the absence of a demonstrated recurring defect — and this review is
+consistent with it rather than load-bearing for it.
 
 ## 7. What would change this result
 

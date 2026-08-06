@@ -245,7 +245,7 @@
     ]
   },
   "enumeration": {
-    "n_static_references": 135,
+    "n_static_references": 136,
     "n_static_reference_files": 28,
     "static_reference_files": [
       "docs/ROADMAP.md",

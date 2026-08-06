@@ -242,11 +242,56 @@ def test_every_candidate_holdout_was_checked_and_rejected_with_a_reason(result):
         assert len(c["why"]) > 60, c["candidate"]
 
 
-def test_the_source_does_not_support_the_independent_label(result):
+def test_the_source_DOES_use_validation_language_about_the_present_work(result):
+    """The correction: an earlier version wrongly said every use referred to future work."""
     l7 = result["source_lineage"]["lineage"]["L7_authors_own_terms"]
+    assert l7["source_uses_validation_language_for_present_work"] is True
+    pw = l7["present_work_validation_language"]
+    assert "we have pioneered a new technique for experimentally validating coffee models" in pw
+    assert "present tense" in pw
+    # and the quote it rests on is recorded verbatim with a location
+    q9 = [q for q in result["source_lineage"]["quotes"] if q["id"] == "Q9"][0]
+    assert "experimentally validating coffee models" in q9["quote"]
+    assert "Conclusions" in q9["location"]
+
+
+def test_the_future_work_proposal_is_recorded_separately(result):
+    l7 = result["source_lineage"]["lineage"]["L7_authors_own_terms"]
+    fw = l7["future_work_validation_language"]
+    assert "mass concentration" in fw
+    assert "richer dataset for model validation" in fw
+    assert "did not make" in fw
+    assert fw != l7["present_work_validation_language"]
+
+
+def test_the_source_never_calls_the_audited_data_independent_or_held_out(result):
+    """This — not the absence of the word 'validation' — is what the audit rests on."""
+    l7 = result["source_lineage"]["lineage"]["L7_authors_own_terms"]
+    assert l7["source_calls_the_audited_data_independent"] is False
+    assert l7["source_identifies_a_held_out_subset"] is False
+    assert l7["source_claims_independent_validation"] is False
     assert l7["source_supports_independent_label"] is False
-    assert "never" in l7["answer"].lower()
-    assert "future" in l7["validation_word_usage"].lower()
+    assert "do NOT call the fitted observations independent or held out" in l7["answer"]
+
+
+def test_broad_source_validation_usage_does_not_satisfy_S0_independence(result):
+    l7 = result["source_lineage"]["lineage"]["L7_authors_own_terms"]
+    why = l7["why_the_broad_usage_does_not_help"]
+    assert "TECHNIQUE" in why
+    assert "used in fitting" in why
+    # the screen still classifies the arm as post-fit despite the source's own wording
+    assert result["source_lineage"]["ct_arm_evidence_type_under_S0"].startswith("post-fit")
+
+
+def test_no_live_surface_claims_the_authors_avoid_validation_language(result):
+    blob = json.dumps(result, ensure_ascii=False)
+    for banned in ("never calls this comparison independent or validated",
+                   "NEVER describe the Figs. 12-14 comparison as independent, held-out or "
+                   "validated",
+                   "reserving 'validation' for FUTURE work"):
+        assert banned not in blob, banned
+    dec = (BUNDLE / "deep_decision.md").read_text(encoding="utf-8")
+    assert "never call the comparison independent or validated" not in dec
 
 
 def test_the_card_was_checked_against_the_paper_not_assumed(result):
@@ -396,13 +441,67 @@ def test_every_primary_row_is_adjudicated_on_G1_to_G5(result):
             assert k in f, (r["dataset_id"], k)
 
 
-def test_only_the_audited_row_is_called_wrong(result):
+def test_all_three_primary_rows_state_their_scope(result):
     g = result["generality"]
-    assert g["confirmed_incorrect_strength"] == [D.DATASET_ID]
-    assert g["is_the_defect_general"] is False
+    assert g["n_primary_set_rows"] == 3
+    assert g["n_rows_with_scope_stated"] == 3
+    assert g["recurring_scope_failure_found"] is False
+
+
+def test_only_I045_is_source_confirmed_wrong(result):
+    g = result["generality"]
+    assert g["confirmed_incorrect_strengths"] == [D.DATASET_ID]
+    assert g["n_confirmed_incorrect_strengths"] == 1
+    assert g["n_strengths_source_adjudicated_in_this_deep_screen"] == 1
+    assert g["strengths_source_adjudicated"] == [D.DATASET_ID]
     assert g["no_other_candidate_adjudicated"] is True
-    # scope is stated everywhere — that is the finding that kills the general reading
-    assert g["n_with_scope_stated"] == g["n_primary"]
+
+
+def test_the_other_rows_are_not_adjudicated_rather_than_confirmed_correct(result):
+    """The correction: 'strength wrong: no' implied an adjudication that never happened."""
+    g = result["generality"]
+    assert g["other_rows_strength_status"] == {
+        "waszkiewicz2025/traces_time_dependent": "NOT_SOURCE_ADJUDICATED",
+        "romancorrochano2017/y0_extractable": "NOT_SOURCE_ADJUDICATED"}
+    assert g["evidence_strength_generality"] == "NOT_ESTABLISHED_AS_GENERAL"
+    for row in g["rows"]:
+        st = row["findings"]["source_strength_status"]
+        assert st in ("CONFIRMED_INCORRECT", "NOT_SOURCE_ADJUDICATED"), st
+        assert row["findings"]["source_strength_note"]
+    # and the result must not claim the others are correct
+    assert "not source-adjudicated" in g["verdict"].lower()
+    assert "globally isolated" in g["not_supported"]
+    blob = json.dumps(result, ensure_ascii=False)
+    assert "is_the_defect_general" not in blob
+
+
+def test_a_second_confirmed_wrong_strength_would_route_to_a_technical_note():
+    """The bounded result must not be an artefact of how the classifier is wired."""
+    gen = json.loads(json.dumps(D.generality()))
+    gen["n_confirmed_incorrect_strengths"] = 2
+    gen["confirmed_incorrect_strengths"] = [D.DATASET_ID, "waszkiewicz2025/traces_time_dependent"]
+    gen["recurring_defect_demonstrated"] = True
+    out = D.decide(D.source_lineage(), D.blast_radius(), gen, D.alternatives())
+    assert out["output_class"] == "TECHNICAL_NOTE_CANDIDATE"
+
+
+def test_a_recurring_scope_failure_would_also_route_to_a_technical_note():
+    gen = json.loads(json.dumps(D.generality()))
+    gen["recurring_scope_failure_found"] = True
+    gen["recurring_defect_demonstrated"] = True
+    out = D.decide(D.source_lineage(), D.blast_radius(), gen, D.alternatives())
+    assert out["output_class"] == "TECHNICAL_NOTE_CANDIDATE"
+
+
+def test_correction_only_rests_on_no_recurring_defect_not_on_proved_isolation(result):
+    d = result["decision"]["derivation"]
+    assert d["recurring_defect_demonstrated"] is False
+    assert d["recurring_scope_failure_found"] is False
+    assert d["n_confirmed_incorrect_strengths"] == 1
+    assert d["n_strengths_source_adjudicated"] == 1
+    assert "NOT_SOURCE_ADJUDICATED" in json.dumps(d["other_rows_strength_status"])
+    assert "not because corpus-wide isolation was" in d["why_not_technical_note"]
+    assert result["decision"]["output_class"] == "CORRECTION_ONLY"
 
 
 def test_the_secondary_set_is_counted_but_not_adjudicated(result):
@@ -428,6 +527,18 @@ def test_all_five_alternatives_are_tested_and_each_names_its_evidence(result):
         "containment is real and must be recorded as partly succeeding, not dismissed")
 
 
+def test_A5_fails_for_the_glossary_and_fit_lineage_not_the_missing_word(result):
+    """A5 must not rest on a claim that the source avoids validation language."""
+    a5 = [a for a in result["alternatives"] if a["id"] == "A5"][0]
+    settled = a5["settled_by"]
+    assert "GLOSSARY" in settled and "FIT LINEAGE" in settled
+    assert "not used in fitting the thing being tested" in settled
+    assert "Eq. (39)" in settled
+    assert "does_not_rely_on" in a5
+    assert "avoid validation language" in a5["does_not_rely_on"]
+    assert "Q2" in a5["evidence"] and "Q6" in a5["evidence"]
+
+
 def test_all_four_formulations_are_assessed_and_none_implemented(result):
     forms = {f["id"]: f for f in result["formulations"]}
     assert set(forms) == {"F1", "F2", "F3", "F4"}
@@ -450,7 +561,7 @@ def test_the_classification_is_derived_not_asserted(result):
     assert dv["attribution_confirmed_incorrect"] is True
     assert dv["survives_alternatives_A1_A2_A3_A5"] is True
     assert dv["containment_measured"] is True
-    assert dv["defect_is_general"] is False
+    assert dv["recurring_defect_demonstrated"] is False
     assert d["output_class"] == "CORRECTION_ONLY"
 
 
@@ -471,13 +582,6 @@ def test_an_unsettled_lineage_routes_to_needs_primary_source():
     assert out["output_class"] == "NEEDS_PRIMARY_SOURCE"
 
 
-def test_a_general_defect_would_route_to_a_technical_note():
-    gen = json.loads(json.dumps(D.generality()))
-    gen["is_the_defect_general"] = True
-    out = D.decide(D.source_lineage(), D.blast_radius(), gen, D.alternatives())
-    assert out["output_class"] == "TECHNICAL_NOTE_CANDIDATE"
-
-
 def test_the_decision_states_both_the_supported_and_the_unsupported_claim(result):
     d = result["decision"]
     assert len(d["strongest_supported_claim"]) > 200
@@ -494,9 +598,44 @@ def test_the_decision_states_both_the_supported_and_the_unsupported_claim(result
 # --------------------------------------------------------------------------------------------
 # THE CHEAP SCREEN AND THE PROTECTED SURFACES ARE UNTOUCHED
 # --------------------------------------------------------------------------------------------
+def test_the_cheap_snapshot_provenance_is_recorded_accurately(result):
+    """`not_rewritten` used to imply byte-preservation, which is false. It now means the
+    historical scientific DISPOSITION was not rewritten — the live snapshot was refreshed."""
+    cs = result["cheap_screen"]
+    assert cs["historical_disposition_rewritten"] is False
+    assert cs["live_snapshot_refreshed_under_authorized_waiver"] is True
+    assert cs["waiver_is_post_protocol_authority"] is True
+    assert "not_rewritten_by_this_screen" not in cs, (
+        "the ambiguous field must be gone, not merely re-documented")
+    prov = cs["snapshot_provenance"]
+    assert prov["current_if7_snapshot"]["n_static_references"] > \
+        prov["historical_if6b_snapshot"]["n_static_references"], (
+        "the refresh only ever ADDS references — this deep screen's own documents")
+    assert prov["historical_if6b_snapshot"] == dict(
+        merge_commit="7d8114931c5bafbf3915d9f70b7c4621f8261a22",
+        n_static_references=102, n_static_reference_files=24)
+    assert prov["decision_bearing_fields_changed"] is False
+    assert prov["cheap_screen_disposition"] == "SURVIVE"
+    # the CURRENT figures must match the committed cheap result, not just be asserted
+    committed = json.loads((BUNDLE / "result.json").read_text(encoding="utf-8"))["enumeration"]
+    assert prov["current_if7_snapshot"]["n_static_references"] == \
+        committed["n_static_references"]
+    assert prov["current_if7_snapshot"]["n_static_reference_files"] == \
+        committed["n_static_reference_files"]
+
+
+def test_the_frozen_protocol_is_untouched_by_the_later_waiver():
+    if _git("cat-file", "-e", BASE + "^{commit}").returncode != 0:
+        pytest.skip("branch base not present")
+    proto = "docs/insights/screens/I-045/DEEP_SCREEN_PROTOCOL.md"
+    first = _git("log", "--format=%H", "--", proto).stdout.split()[-1]
+    r = _git("diff", "--numstat", first, "HEAD", "--", proto)
+    assert r.returncode == 0 and r.stdout.strip() == "", (
+        "the frozen protocol must never be edited: %s" % r.stdout.strip())
+
+
 def test_the_cheap_screen_history_is_preserved_not_rewritten(result):
     assert result["cheap_screen"]["disposition"] == "SURVIVE"
-    assert result["cheap_screen"]["not_rewritten_by_this_screen"] is True
     committed = json.loads((BUNDLE / "result.json").read_text(encoding="utf-8"))
     assert committed["decision"] == "SURVIVE"
     dec = (BUNDLE / "deep_decision.md").read_text(encoding="utf-8")

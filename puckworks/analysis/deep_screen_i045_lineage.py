@@ -271,19 +271,41 @@ LINEAGE = {
         ],
         no_item_classified_independent=True, settled=True),
     "L7_authors_own_terms": dict(
-        answer=("The authors say 'best fit' (Figs. 12-14 captions), 'a good fit to experimental "
-                "data' and 'Good agreement' (abstract, conclusions). They NEVER describe the "
-                "Figs. 12-14 comparison as independent, held-out or validated."),
-        validation_word_usage=("'validat*' occurs four times: a literature-gap remark, a remark "
-                               "about a DIFFERENT cited study, and TWICE in the conclusions about "
-                               "FUTURE work — 'we have pioneered a new technique for "
-                               "experimentally validating coffee models' and a richer dataset "
-                               "'for model validation' that would require adding concentration "
-                               "measurements they did not make."),
+        answer=("The authors call the model a good fit and describe the combined "
+                "tomography-and-modeling approach as experimentally validating coffee models. "
+                "They do NOT call the fitted observations independent or held out. Under "
+                "ROADMAP S0 the audited CT observations remain post-fit, same-campaign evidence."),
+        #: PRESENT-work language. The conclusions do use validation language about what this
+        #: paper did — an earlier version of this screen wrongly reported that every use of
+        #: 'validation' referred to future work, and that over-claim is corrected here.
+        source_uses_validation_language_for_present_work=True,
+        present_work_validation_language=(
+            "Conclusions: 'The model shows a good fit to experimental data. By demonstrating the "
+            "feasibility of combining time-resolved x-ray tomographic measurements with modeling, "
+            "we have pioneered a new technique for experimentally validating coffee models.' The "
+            "second clause is present tense and is about THIS work — it describes the METHOD as a "
+            "way of experimentally validating coffee models."),
+        future_work_validation_language=(
+            "Separately, and later in the same section: combining tomographic data 'with "
+            "measurements of the mass concentration of coffee exiting the coffee bed' would "
+            "produce 'a richer dataset for model validation'. That is a proposal for measurements "
+            "they did not make."),
+        fit_quality_language=("'best fit' (Figs. 12-14 captions), 'a good fit to experimental "
+                              "data' and 'Good agreement' (abstract, conclusions)."),
         independent_word_usage=("'independent' occurs three times and NEVER about evidence: a "
                                 "symbols-table heading ('independent and dependent variables'), "
                                 "an ODE remark ('independent of time'), and a parameter-"
                                 "insensitivity remark ('essentially independent of P_m')."),
+        #: The three that actually matter for the audit.
+        source_calls_the_audited_data_independent=False,
+        source_identifies_a_held_out_subset=False,
+        source_claims_independent_validation=False,
+        why_the_broad_usage_does_not_help=(
+            "The source's broad, colloquial use of 'validating' is a claim about the TECHNIQUE, "
+            "not about the evidentiary status of particular observations. ROADMAP S0 fixes "
+            "independence by whether data were used in fitting, and Eq. (39) plus Sec. IV A "
+            "establish that these were. An author calling their own comparison 'validation' "
+            "cannot make fitted data held out."),
         source_supports_independent_label=False,
         evidence=["Q7", "Q8", "Q9", "Q10"], settled=True),
 }
@@ -717,7 +739,10 @@ GENERALITY_FINDINGS = {
         G4_note="gate_foster_ct_trajectory does exactly this",
         G5_downstream_propagates_ambiguity=False,
         G5_note="EVIDENCE_LINKS, the public claims artifact and PV-02 all refuse it",
-        is_the_audited_row=True),
+        is_the_audited_row=True,
+        source_strength_status="CONFIRMED_INCORRECT",
+        source_strength_note=("adjudicated against the primary source in this deep screen: "
+                              "Eq. (39) and Sec. IV A show the CT arm was fitted")),
     "waszkiewicz2025/traces_time_dependent": dict(
         G1_same_evidence_unit=False,
         G2_scope=("distinct ASSERTIONS over the same columns — an equilibrium arm and a 9-bar "
@@ -732,7 +757,13 @@ GENERALITY_FINDINGS = {
         G5_downstream_propagates_ambiguity=False,
         G5_note="",
         is_the_audited_row=False,
-        known_comparison_case="I-040 (RETIRE)"),
+        known_comparison_case="I-040 (RETIRE)",
+        source_strength_status="NOT_SOURCE_ADJUDICATED",
+        source_strength_note=("I-040 established that no CONSUMER over-claims relative to this "
+                              "cell's own labels. It did NOT go to waszkiewicz2025 and check "
+                              "whether 'independent within-rig' is correct against that source's "
+                              "fit lineage, and neither did this screen. Nothing here says the "
+                              "strength is right; nothing says it is wrong.")),
     "romancorrochano2017/y0_extractable": dict(
         G1_same_evidence_unit=True,
         G2_scope=("two DIFFERENT ASSERTIONS over the same table — the nested-ceiling quantities "
@@ -750,9 +781,10 @@ GENERALITY_FINDINGS = {
         G5_downstream_propagates_ambiguity=None,
         G5_note="not determined — out of scope for a bounded generality test",
         is_the_audited_row=False,
-        strength_confirmed_wrong=False,
-        strength_note=("no claim is made that this cell is WRONG. Nothing here says the "
-                       "nested-ceiling quantities were used in fitting anything.")),
+        source_strength_status="NOT_SOURCE_ADJUDICATED",
+        source_strength_note=("the primary source (romancorrochano2017, a Birmingham thesis) was "
+                              "NOT read for this row. Nothing here says the strength is right or "
+                              "wrong — adjudicating it would be executing another candidate.")),
 }
 
 
@@ -766,8 +798,12 @@ def generality():
     at_risk = [r["dataset_id"] for r in rows
                if r.get("findings") and r["findings"].get(
                    "G4_consumer_could_attach_stronger_label_to_wrong_assertion")]
-    confirmed_wrong_strength = [r["dataset_id"] for r in rows
-                                if (r.get("findings") or {}).get("is_the_audited_row")]
+    status = {r["dataset_id"]: (r.get("findings") or {}).get("source_strength_status")
+              for r in rows}
+    confirmed_wrong_strength = sorted(k for k, v in status.items()
+                                      if v == "CONFIRMED_INCORRECT")
+    adjudicated = sorted(k for k, v in status.items() if v != "NOT_SOURCE_ADJUDICATED")
+    not_adjudicated = {k: v for k, v in status.items() if v == "NOT_SOURCE_ADJUDICATED"}
     return dict(
         rule=("parenthesis-aware split on top-level / + ; then the S0 token each segment BEGINS "
               "with; PRIMARY = >= 2 distinct S0 head labels"),
@@ -781,16 +817,34 @@ def generality():
         secondary_note=("mixed in FORM but not in S0 vocabulary — one segment head is a non-S0 "
                         "label such as 'reference' or 'kernel check'. Counted, not adjudicated."),
         rows=rows,
-        n_with_scope_stated=len(scoped),
+
+        # --- SCOPE: does each cell say which assertion/column each label covers? -------------
+        n_primary_set_rows=len(primary),
+        n_rows_with_scope_stated=len(scoped),
+        recurring_scope_failure_found=len(scoped) != len(primary),
         n_where_a_consumer_could_misattach=len(at_risk),
         consumers_could_misattach=at_risk,
-        n_confirmed_incorrect_strength=len(confirmed_wrong_strength),
-        confirmed_incorrect_strength=confirmed_wrong_strength,
-        verdict=("SCOPE is stated in every primary-set cell. The defect in I-045 is NOT a missing "
-                 "scope convention and NOT a recurring corpus pattern: it is ONE cell whose "
-                 "stated scope is right and whose STRENGTH for one arm is wrong. The corpus's "
-                 "existing convention (label + parenthetical scope) already works."),
-        is_the_defect_general=False,
+
+        # --- SOURCE ACCURACY: is each stated strength correct against its primary source? ----
+        # A DIFFERENT question from scope, and this bounded screen answered it for ONE row only.
+        n_strengths_source_adjudicated_in_this_deep_screen=len(adjudicated),
+        strengths_source_adjudicated=adjudicated,
+        n_confirmed_incorrect_strengths=len(confirmed_wrong_strength),
+        confirmed_incorrect_strengths=confirmed_wrong_strength,
+        other_rows_strength_status=not_adjudicated,
+        evidence_strength_generality="NOT_ESTABLISHED_AS_GENERAL",
+
+        # --- what may be concluded, and what may not ----------------------------------------
+        verdict=("SCOPE is stated in every primary-set cell, so no recurring scope failure was "
+                 "found. SOURCE ACCURACY is a different question: this screen adjudicated ONE "
+                 "row against its primary source and confirmed ONE incorrect strength. The other "
+                 "two rows' strengths were NOT source-adjudicated — nothing here says they are "
+                 "correct."),
+        not_supported=("that the defect is globally isolated, or that the other mixed-strength "
+                       "rows carry correct strengths. Establishing either would mean reading "
+                       "those sources, which is executing another candidate."),
+        recurring_defect_demonstrated=(len(confirmed_wrong_strength) >= 2
+                                       or len(scoped) != len(primary)),
         no_other_candidate_adjudicated=True,
     )
 
@@ -837,13 +891,18 @@ def alternatives():
              evidence=["blast_radius"]),
         dict(id="A5", challenge="'independent' means a distinct measurement modality",
              verdict="FAILS",
-             settled_by=("ROADMAP S0 defines independent as 'data not used in fitting the thing "
-                         "being tested' — a statement about the fit. And the SOURCE does not "
-                         "support the modality reading either: the paper never calls this "
-                         "comparison independent or validated, using 'best fit', 'good fit' and "
-                         "'good agreement', and reserving 'validation' for FUTURE work requiring "
-                         "measurements it did not make."),
-             evidence=["L7", "glossary"]),
+             settled_by=("Two reasons, NEITHER of which is that the paper avoids the word "
+                         "'validation' — it does not avoid it, and an earlier version of this "
+                         "screen wrongly said so. (1) GLOSSARY: ROADMAP S0 defines independent as "
+                         "'data not used in fitting the thing being tested', which is a statement "
+                         "about the FIT, not about the measurement modality. (2) FIT LINEAGE: "
+                         "Eq. (39) and Sec. IV A establish that these observations WERE used in "
+                         "fitting. The source contains no claim that any observation was held out "
+                         "or independent, so nothing in it rescues the modality reading either."),
+             does_not_rely_on=("any claim that the authors avoid validation language. They use it "
+                               "about the technique in the present tense; it simply does not bear "
+                               "on whether these particular data were fitted."),
+             evidence=["L7", "Q2", "Q6", "glossary"]),
     ]
 
 
@@ -941,7 +1000,7 @@ def decide(lineage_r, blast, gen, alts):
         cls = "NEEDS_PRIMARY_SOURCE"
     elif not confirmed or not survives:
         cls = "RETIRE_AFTER_DEEP_SCREEN"
-    elif gen["is_the_defect_general"]:
+    elif gen["recurring_defect_demonstrated"]:
         cls = "TECHNICAL_NOTE_CANDIDATE"
     else:
         cls = "CORRECTION_ONLY"
@@ -955,9 +1014,16 @@ def decide(lineage_r, blast, gen, alts):
             attribution_confirmed_incorrect=confirmed,
             survives_alternatives_A1_A2_A3_A5=survives,
             containment_measured=blast["n_reader_facing_overclaims"] == 0,
-            defect_is_general=gen["is_the_defect_general"],
-            n_other_primary_rows_with_wrong_strength=(
-                gen["n_confirmed_incorrect_strength"] - 1),
+            recurring_defect_demonstrated=gen["recurring_defect_demonstrated"],
+            recurring_scope_failure_found=gen["recurring_scope_failure_found"],
+            n_confirmed_incorrect_strengths=gen["n_confirmed_incorrect_strengths"],
+            n_strengths_source_adjudicated=gen[
+                "n_strengths_source_adjudicated_in_this_deep_screen"],
+            other_rows_strength_status=gen["other_rows_strength_status"],
+            why_not_technical_note=("CORRECTION_ONLY is reached because no RECURRING defect was "
+                                    "demonstrated — not because corpus-wide isolation was "
+                                    "proved. It was not: the other two mixed-strength rows' "
+                                    "strengths were never source-adjudicated."),
         ),
         strongest_supported_claim=(
             "In this repository, one MANIFEST cell and the gate docstring that copies it label a "
@@ -1000,9 +1066,29 @@ def deep_screen():
         models_executed=False,
         models_executed_note=("No model is executed anywhere in this screen. Protocol stop "
                               "condition S5: the lineage question is answered from text."),
-        cheap_screen=dict(disposition=CHEAP_SCREEN_DISPOSITION,
-                          bundle="docs/insights/screens/I-045/",
-                          not_rewritten_by_this_screen=True),
+        cheap_screen=dict(
+            disposition=CHEAP_SCREEN_DISPOSITION,
+            bundle="docs/insights/screens/I-045/",
+            #: This refers to the historical SCIENTIFIC DISPOSITION, not to byte-preservation of
+            #: the live files. The live snapshot WAS refreshed under an explicit post-protocol
+            #: waiver; the frozen protocol predates that waiver and is not edited.
+            historical_disposition_rewritten=False,
+            live_snapshot_refreshed_under_authorized_waiver=True,
+            waiver_is_post_protocol_authority=True,
+            snapshot_provenance=dict(
+                historical_if6b_snapshot=dict(
+                    merge_commit="7d8114931c5bafbf3915d9f70b7c4621f8261a22",
+                    n_static_references=102, n_static_reference_files=24),
+                current_if7_snapshot=dict(n_static_references=136,
+                                          n_static_reference_files=28),
+                decision_bearing_fields_changed=False,
+                cheap_screen_disposition=CHEAP_SCREEN_DISPOSITION,
+                why=("adding this deep screen's own documents to a deliberately "
+                     "repository-wide, over-approximating static inventory advanced the live "
+                     "snapshot; the counts are declared here and the CURRENT values are also "
+                     "recomputed from the committed cheap result at run time"),
+            ),
+        ),
         glossary=g,
         source_lineage=lin,
         blast_radius=blast,
@@ -1079,11 +1165,12 @@ def figure(path=None, result=None):
     ax2.set_title("B — bounded generality: is the corpus's mixed-strength convention broken?",
                   fontsize=10, color=INK, loc="left", pad=8)
     rows = r["generality"]["rows"]
-    ax2.text(2, 86, "%d of %d MANIFEST rows carry ≥ 2 distinct §0 labels"
+    ax2.text(2, 86, "%d of %d MANIFEST rows carry ≥ 2 distinct §0 labels   ·   SCOPE and "
+                    "SOURCE-STRENGTH are different questions"
              % (r["generality"]["n_primary"], r["generality"]["n_manifest_rows"]),
              fontsize=8.6, color=INK)
-    hdr = [(2, "dataset"), (42, "scope stated?"), (62, "could a consumer\nmisattach?"),
-           (84, "strength wrong?")]
+    hdr = [(2, "dataset"), (40, "scope stated?"), (58, "could a consumer\nmisattach?"),
+           (78, "source-strength\ncorrectness")]
     for x, t in hdr:
         ax2.text(x, 74, t, fontsize=7.6, weight="bold", color=MUTE)
     y = 62
@@ -1098,15 +1185,19 @@ def figure(path=None, result=None):
         cell = row["validation_strength"]
         ax2.text(2, y - 3.4, cell if len(cell) <= 80 else cell[:78] + "…",
                  fontsize=6.3, color=MUTE)
-        ax2.text(42, y, "✔ yes" if f.get("G3_wording_identifies_scope") else "✘ no",
+        ax2.text(40, y, "✔ yes" if f.get("G3_wording_identifies_scope") else "✘ no",
                  fontsize=7.4, color=OK if f.get("G3_wording_identifies_scope") else BAD)
         mis = f.get("G4_consumer_could_attach_stronger_label_to_wrong_assertion")
-        ax2.text(62, y, "yes" if mis else "no", fontsize=7.4, color=WARN if mis else OK)
-        ax2.text(84, y, "✘ YES" if wrong else "no", fontsize=7.4,
-                 weight="bold" if wrong else "normal", color=BAD if wrong else OK)
+        ax2.text(58, y, "yes" if mis else "no", fontsize=7.4, color=WARN if mis else OK)
+        ax2.text(78, y, "✘ CONFIRMED WRONG" if wrong else "not adjudicated",
+                 fontsize=7.4, weight="bold" if wrong else "normal",
+                 color=BAD if wrong else MUTE, style="normal" if wrong else "italic")
         y -= 15.0
-    ax2.text(2, 6, "Scope is stated in EVERY primary-set cell. The defect is ONE arm's STRENGTH "
-                   "in ONE row — not a broken convention.", fontsize=8.0, color=INK, style="italic")
+    ax2.text(2, 8, "One CONFIRMED wrong strength. No recurring scope failure found. The other "
+                   "rows' strengths were NOT source-adjudicated —", fontsize=8.0, color=INK,
+             style="italic")
+    ax2.text(2, 2, "so this screen does NOT establish that they are correct, and does not prove "
+                   "corpus-wide isolation.", fontsize=8.0, color=INK, style="italic")
 
     foot = ("CHEAP_SCIENTIFIC_SCREEN · NOT_A_PUBLICATION_RESULT · "
             "NOT_A_MODEL_VALIDATION_UPGRADE     cheap screen: %s   →   deep screen: %s"
@@ -1134,8 +1225,14 @@ def main(argv=None):
         if n:
             print("    %-34s %d" % (c, n))
     print("  reader-facing over-claims: %d" % b["n_reader_facing_overclaims"])
-    print("generality: %d/%d primary-set rows; defect general = %s"
-          % (g["n_primary"], g["n_manifest_rows"], g["is_the_defect_general"]))
+    print("generality: %d/%d primary-set rows; scope stated %d/%d; recurring scope failure = %s"
+          % (g["n_primary"], g["n_manifest_rows"], g["n_rows_with_scope_stated"],
+             g["n_primary_set_rows"], g["recurring_scope_failure_found"]))
+    print("  strengths source-adjudicated %d; confirmed incorrect %d (%s); others %s"
+          % (g["n_strengths_source_adjudicated_in_this_deep_screen"],
+             g["n_confirmed_incorrect_strengths"],
+             ", ".join(g["confirmed_incorrect_strengths"]),
+             "NOT_SOURCE_ADJUDICATED"))
     print("alternatives: %s" % ", ".join("%s %s" % (a["id"], a["verdict"].split()[0])
                                          for a in r["alternatives"]))
     print("cheap screen: %s  ->  DEEP SCREEN: %s"

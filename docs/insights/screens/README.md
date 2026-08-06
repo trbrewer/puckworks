@@ -48,18 +48,23 @@ see below.
 
 The paper settles it. Its objective function (Eq. 39) fits `k`, `φ_T` and `t_shift` to the CT-derived
 mean `sᵢ`, `Hᵢ` at every measurement time, and §IV A says so in terms: *"using the mean locations
-for s(t) and H(t) as the data to fit."* **Nothing was held out**, and the authors never call the
-comparison independent or validated — they say *"best fit"* and *"good agreement"*, and reserve
-"validation" for future work needing measurements they did not make.
+for s(t) and H(t) as the data to fit."* **Nothing was held out.** The authors *do* use validation
+language about the work — the conclusions call the combined tomography-and-modeling approach a
+technique for *"experimentally validating coffee models"* — but they **never call the audited
+observations independent or held out**, and under §0 that is what settles it: independence is about
+whether the data were used in fitting, and these were.
 
 So the misattribution is confirmed from the source rather than from the card. It is also
 **contained** — 2 internal miswordings, 0 reader-facing over-claims, and the Pages publish root
-carries no occurrence — and **isolated**: the frozen mixed-strength rule selects 3 of 110 manifest
-rows, and all three state their scope correctly. One arm's strength in one row is wrong; the
-convention is not broken.
+carries no occurrence. On generality the screen is deliberately careful: the frozen rule selects
+3 of 110 manifest rows and **all three state their scope**, so no recurring scope failure was found
+— but only **one** row's strength was adjudicated against its primary source, and that is the one
+that is wrong. The other two are `NOT_SOURCE_ADJUDICATED`: **nothing here says they are correct.**
 
 That combination is what `CORRECTION_ONLY` means: a bounded repository correction is warranted, and
-no publication output is earned. The exact replacement wording is recommended in
+no publication output is earned. It rests on **no recurring defect having been demonstrated**, not
+on corpus-wide isolation having been proved — a test asserts that a second confirmed wrong strength
+would route to `TECHNICAL_NOTE_CANDIDATE` instead. The exact replacement wording is recommended in
 [`I-045/deep_decision.md`](I-045/deep_decision.md) and is **deliberately not applied** — editing an
 evidence label is a separate, human-owned change.
 

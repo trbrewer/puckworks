@@ -10,7 +10,23 @@
   "cheap_screen": {
     "disposition": "SURVIVE",
     "bundle": "docs/insights/screens/I-045/",
-    "not_rewritten_by_this_screen": true
+    "historical_disposition_rewritten": false,
+    "live_snapshot_refreshed_under_authorized_waiver": true,
+    "waiver_is_post_protocol_authority": true,
+    "snapshot_provenance": {
+      "historical_if6b_snapshot": {
+        "merge_commit": "7d8114931c5bafbf3915d9f70b7c4621f8261a22",
+        "n_static_references": 102,
+        "n_static_reference_files": 24
+      },
+      "current_if7_snapshot": {
+        "n_static_references": 136,
+        "n_static_reference_files": 28
+      },
+      "decision_bearing_fields_changed": false,
+      "cheap_screen_disposition": "SURVIVE",
+      "why": "adding this deep screen's own documents to a deliberately repository-wide, over-approximating static inventory advanced the live snapshot; the counts are declared here and the CURRENT values are also recomputed from the committed cheap result at run time"
+    }
   },
   "glossary": {
     "source": "docs/ROADMAP.md S0",
@@ -316,9 +332,16 @@
         "settled": true
       },
       "L7_authors_own_terms": {
-        "answer": "The authors say 'best fit' (Figs. 12-14 captions), 'a good fit to experimental data' and 'Good agreement' (abstract, conclusions). They NEVER describe the Figs. 12-14 comparison as independent, held-out or validated.",
-        "validation_word_usage": "'validat*' occurs four times: a literature-gap remark, a remark about a DIFFERENT cited study, and TWICE in the conclusions about FUTURE work \u2014 'we have pioneered a new technique for experimentally validating coffee models' and a richer dataset 'for model validation' that would require adding concentration measurements they did not make.",
+        "answer": "The authors call the model a good fit and describe the combined tomography-and-modeling approach as experimentally validating coffee models. They do NOT call the fitted observations independent or held out. Under ROADMAP S0 the audited CT observations remain post-fit, same-campaign evidence.",
+        "source_uses_validation_language_for_present_work": true,
+        "present_work_validation_language": "Conclusions: 'The model shows a good fit to experimental data. By demonstrating the feasibility of combining time-resolved x-ray tomographic measurements with modeling, we have pioneered a new technique for experimentally validating coffee models.' The second clause is present tense and is about THIS work \u2014 it describes the METHOD as a way of experimentally validating coffee models.",
+        "future_work_validation_language": "Separately, and later in the same section: combining tomographic data 'with measurements of the mass concentration of coffee exiting the coffee bed' would produce 'a richer dataset for model validation'. That is a proposal for measurements they did not make.",
+        "fit_quality_language": "'best fit' (Figs. 12-14 captions), 'a good fit to experimental data' and 'Good agreement' (abstract, conclusions).",
         "independent_word_usage": "'independent' occurs three times and NEVER about evidence: a symbols-table heading ('independent and dependent variables'), an ODE remark ('independent of time'), and a parameter-insensitivity remark ('essentially independent of P_m').",
+        "source_calls_the_audited_data_independent": false,
+        "source_identifies_a_held_out_subset": false,
+        "source_claims_independent_validation": false,
+        "why_the_broad_usage_does_not_help": "The source's broad, colloquial use of 'validating' is a claim about the TECHNIQUE, not about the evidentiary status of particular observations. ROADMAP S0 fixes independence by whether data were used in fitting, and Eq. (39) plus Sec. IV A establish that these were. An author calling their own comparison 'validation' cannot make fitted data held out.",
         "source_supports_independent_label": false,
         "evidence": [
           "Q7",
@@ -812,7 +835,9 @@
           "G5_downstream_propagates_ambiguity": false,
           "G5_note": "",
           "is_the_audited_row": false,
-          "known_comparison_case": "I-040 (RETIRE)"
+          "known_comparison_case": "I-040 (RETIRE)",
+          "source_strength_status": "NOT_SOURCE_ADJUDICATED",
+          "source_strength_note": "I-040 established that no CONSUMER over-claims relative to this cell's own labels. It did NOT go to waszkiewicz2025 and check whether 'independent within-rig' is correct against that source's fit lineage, and neither did this screen. Nothing here says the strength is right; nothing says it is wrong."
         },
         "adjudicated": true
       },
@@ -840,7 +865,9 @@
           "G4_note": "gate_foster_ct_trajectory does exactly this",
           "G5_downstream_propagates_ambiguity": false,
           "G5_note": "EVIDENCE_LINKS, the public claims artifact and PV-02 all refuse it",
-          "is_the_audited_row": true
+          "is_the_audited_row": true,
+          "source_strength_status": "CONFIRMED_INCORRECT",
+          "source_strength_note": "adjudicated against the primary source in this deep screen: Eq. (39) and Sec. IV A show the CT arm was fitted"
         },
         "adjudicated": true
       },
@@ -869,24 +896,36 @@
           "G5_downstream_propagates_ambiguity": null,
           "G5_note": "not determined \u2014 out of scope for a bounded generality test",
           "is_the_audited_row": false,
-          "strength_confirmed_wrong": false,
-          "strength_note": "no claim is made that this cell is WRONG. Nothing here says the nested-ceiling quantities were used in fitting anything."
+          "source_strength_status": "NOT_SOURCE_ADJUDICATED",
+          "source_strength_note": "the primary source (romancorrochano2017, a Birmingham thesis) was NOT read for this row. Nothing here says the strength is right or wrong \u2014 adjudicating it would be executing another candidate."
         },
         "adjudicated": true
       }
     ],
-    "n_with_scope_stated": 3,
+    "n_primary_set_rows": 3,
+    "n_rows_with_scope_stated": 3,
+    "recurring_scope_failure_found": false,
     "n_where_a_consumer_could_misattach": 2,
     "consumers_could_misattach": [
       "foster2025_2/fig12_14_curves",
       "romancorrochano2017/y0_extractable"
     ],
-    "n_confirmed_incorrect_strength": 1,
-    "confirmed_incorrect_strength": [
+    "n_strengths_source_adjudicated_in_this_deep_screen": 1,
+    "strengths_source_adjudicated": [
       "foster2025_2/fig12_14_curves"
     ],
-    "verdict": "SCOPE is stated in every primary-set cell. The defect in I-045 is NOT a missing scope convention and NOT a recurring corpus pattern: it is ONE cell whose stated scope is right and whose STRENGTH for one arm is wrong. The corpus's existing convention (label + parenthetical scope) already works.",
-    "is_the_defect_general": false,
+    "n_confirmed_incorrect_strengths": 1,
+    "confirmed_incorrect_strengths": [
+      "foster2025_2/fig12_14_curves"
+    ],
+    "other_rows_strength_status": {
+      "waszkiewicz2025/traces_time_dependent": "NOT_SOURCE_ADJUDICATED",
+      "romancorrochano2017/y0_extractable": "NOT_SOURCE_ADJUDICATED"
+    },
+    "evidence_strength_generality": "NOT_ESTABLISHED_AS_GENERAL",
+    "verdict": "SCOPE is stated in every primary-set cell, so no recurring scope failure was found. SOURCE ACCURACY is a different question: this screen adjudicated ONE row against its primary source and confirmed ONE incorrect strength. The other two rows' strengths were NOT source-adjudicated \u2014 nothing here says they are correct.",
+    "not_supported": "that the defect is globally isolated, or that the other mixed-strength rows carry correct strengths. Establishing either would mean reading those sources, which is executing another candidate.",
+    "recurring_defect_demonstrated": false,
     "no_other_candidate_adjudicated": true
   },
   "alternatives": [
@@ -936,9 +975,12 @@
       "id": "A5",
       "challenge": "'independent' means a distinct measurement modality",
       "verdict": "FAILS",
-      "settled_by": "ROADMAP S0 defines independent as 'data not used in fitting the thing being tested' \u2014 a statement about the fit. And the SOURCE does not support the modality reading either: the paper never calls this comparison independent or validated, using 'best fit', 'good fit' and 'good agreement', and reserving 'validation' for FUTURE work requiring measurements it did not make.",
+      "settled_by": "Two reasons, NEITHER of which is that the paper avoids the word 'validation' \u2014 it does not avoid it, and an earlier version of this screen wrongly said so. (1) GLOSSARY: ROADMAP S0 defines independent as 'data not used in fitting the thing being tested', which is a statement about the FIT, not about the measurement modality. (2) FIT LINEAGE: Eq. (39) and Sec. IV A establish that these observations WERE used in fitting. The source contains no claim that any observation was held out or independent, so nothing in it rescues the modality reading either.",
+      "does_not_rely_on": "any claim that the authors avoid validation language. They use it about the technique in the present tense; it simply does not bear on whether these particular data were fitted.",
       "evidence": [
         "L7",
+        "Q2",
+        "Q6",
         "glossary"
       ]
     }
@@ -1007,8 +1049,15 @@
       "attribution_confirmed_incorrect": true,
       "survives_alternatives_A1_A2_A3_A5": true,
       "containment_measured": true,
-      "defect_is_general": false,
-      "n_other_primary_rows_with_wrong_strength": 0
+      "recurring_defect_demonstrated": false,
+      "recurring_scope_failure_found": false,
+      "n_confirmed_incorrect_strengths": 1,
+      "n_strengths_source_adjudicated": 1,
+      "other_rows_strength_status": {
+        "waszkiewicz2025/traces_time_dependent": "NOT_SOURCE_ADJUDICATED",
+        "romancorrochano2017/y0_extractable": "NOT_SOURCE_ADJUDICATED"
+      },
+      "why_not_technical_note": "CORRECTION_ONLY is reached because no RECURRING defect was demonstrated \u2014 not because corpus-wide isolation was proved. It was not: the other two mixed-strength rows' strengths were never source-adjudicated."
     },
     "strongest_supported_claim": "In this repository, one MANIFEST cell and the gate docstring that copies it label a set of micro-CT observations 'independent' when the primary source's own objective (Phys. Fluids 37, 013383, Eq. 39) fitted the tested parameters to exactly those observations. Under ROADMAP S0 the arm is post-fit reconstruction, same campaign, not held out. The attribution is materially incorrect, it is present in released source, and it reaches ZERO reader-facing claim surfaces because every downstream record independently refuses the strong reading.",
     "strongest_claim_NOT_supported": "That this is a general defect, a novel method, or a publishable finding. The bounded corpus check found the scoping convention working correctly in every other mixed-strength cell; the audit method is a hand-read of one paper plus a grep, not a reusable instrument; and the underlying principle \u2014 calibration data are not independent validation \u2014 is textbook. Nor does it say the gate's NUMBERS are wrong, or that foster2025.machine_mode fails anything.",

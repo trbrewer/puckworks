@@ -59,7 +59,7 @@ manifest rows → A1–A5 challenges → F1–F4 formulations → classification
 | **L4** anything held out | **nothing** |
 | **L5** error bars | **display only** — they are the standard deviations across the five positions; Eq. (39) carries no weights |
 | **L6** roles | squares = **fit input**; curves = **fitted-model output**; crosses = **sub-reduction of the fit data**; `w` = derived; Figs 6–9 = data analysis / assumption check; Fig 15 + App. B = model output |
-| **L7** authors' terms | *"best fit"*, *"a good fit to experimental data"*, *"Good agreement"* |
+| **L7** authors' terms | *"best fit"*, *"a good fit to experimental data"*, *"Good agreement"* — and they **do** call the combined tomography-and-modeling approach a technique for *"experimentally validating coffee models"*. They never call the observations independent or held out |
 
 **Every candidate holdout was checked and none survives.** The centre-line crosses are one of the
 five positions averaged into the fit data. Figs 6–9 carry no model curve. Fig 15 and Appendix B are
@@ -67,13 +67,22 @@ model output. `t_p`/`t_s` are outputs of the fitted solution. The coarse grind w
 modelling altogether** — *"we will only apply … the corresponding infiltration model to the fine
 grind data"* — which is not the same as being reserved as a test.
 
-**The source does not support the label either.** `independent` appears three times in the paper and
-never about evidence (a symbols-table heading, "independent of time", "independent of P_m").
-`validat*` appears four times: a literature-gap remark, a remark about a *different* study, and
-twice in the conclusions about **future** work — *"we have pioneered a new technique for
-experimentally validating coffee models"* and a richer dataset *"for model validation"* that would
-require concentration measurements they did not make. **The authors never claim this comparison is
-an independent validation. The repository added that.**
+**What the source does and does not say.** The authors **do** use validation language about this
+work: the conclusions state *"The model shows a good fit to experimental data. By demonstrating the
+feasibility of combining time-resolved x-ray tomographic measurements with modeling, we have
+pioneered a new technique for experimentally validating coffee models."* That second clause is
+present tense and describes the **method** as a way of experimentally validating coffee models.
+Separately and later, they propose combining tomography with concentration measurements to produce
+*"a richer dataset for model validation"* — that one is future work they did not do.
+
+**What they never say is that any observation was independent or held out.** `independent` appears
+three times in the paper and never about evidence (a symbols-table heading, "independent of time",
+"independent of P_m"), and no passage identifies a held-out subset.
+
+**And the broad usage does not help the label.** "Validating" there is a claim about the
+*technique*, not about the evidentiary status of particular observations. ROADMAP §0 fixes
+independence by whether data were used in fitting, and Eq. (39) with §IV A establish that these
+were. An author calling their own comparison "validation" cannot make fitted data held out.
 
 The controlling card is **confirmed** by the paper on the decisive point (`fmincon` least squares on
 s and H simultaneously, MultiStart), so stop condition S2 was not triggered. One imprecision is
@@ -116,16 +125,28 @@ next consumer of that cell would inherit it.
 **3 of 110 manifest rows** carry ≥ 2 distinct §0 labels under the frozen rule; 11 more are mixed in
 form but not in §0 vocabulary (`reference`, `kernel check`) and were counted, not adjudicated.
 
-| dataset | scope stated? | consumer could misattach? | strength wrong? |
-|---|---|---|---|
-| `waszkiewicz2025/traces_time_dependent` | ✔ | no — I-040 found 0 promotions in 27 consumers | no |
-| **`foster2025_2/fig12_14_curves`** | ✔ | **yes — the gate does it** | **✘ YES** |
-| `romancorrochano2017/y0_extractable` | ✔ | structurally possible | no |
+**Two different questions, kept apart.** *Scope* asks whether a cell says which assertion or column
+each label covers. *Source accuracy* asks whether each stated strength is correct against its
+primary source. This screen answered the first for all three rows and the second for **one**.
 
-**The convention is not broken.** Every primary-set cell states its scope in a parenthetical; the
-best-scoped one (`independent within-rig (equilibrium) / post-fit (9-bar Q(t) reproduction)`) names
-both the strength *and* the assertion each covers. The defect in I-045 is **one arm's strength in
-one row**, not a missing convention — and no claim is made that the other two cells are wrong.
+| dataset | scope stated? | consumer could misattach? | source-strength correctness |
+|---|---|---|---|
+| `waszkiewicz2025/traces_time_dependent` | ✔ | no — I-040 found 0 promotions in 27 consumers | *not adjudicated* |
+| **`foster2025_2/fig12_14_curves`** | ✔ | **yes — the gate does it** | **✘ CONFIRMED WRONG** |
+| `romancorrochano2017/y0_extractable` | ✔ | structurally possible | *not adjudicated* |
+
+**No recurring scope failure was found**: every primary-set cell states its scope in a
+parenthetical, and the best-scoped one (`independent within-rig (equilibrium) / post-fit (9-bar
+Q(t) reproduction)`) names both the strength *and* the assertion each covers.
+
+**But no second wrong strength was confirmed either — and that is not the same as showing there
+isn't one.** I-040 established that no *consumer* over-claims relative to the waszkiewicz cell's own
+labels; it never went to that paper to check whether "independent within-rig" is correct against its
+fit lineage, and neither did this screen. The romancorrochano thesis was not read at all. Reading
+either would be executing another candidate.
+
+So: `evidence_strength_generality: NOT_ESTABLISHED_AS_GENERAL`. **This screen does not establish
+that the other rows' strengths are correct**, and does not prove corpus-wide isolation.
 
 ## Result 4 — alternative explanations
 
@@ -163,10 +184,16 @@ provenance record. Column-level lineage and model cards are adjacent but track *
 
 # `CORRECTION_ONLY`
 
-The misattribution is **confirmed from the primary source**, **contained** (zero reader-facing
-over-claims), and **isolated** (one row; the corpus convention works everywhere else), and external
-review shows the underlying principle is routine. A bounded repository correction is warranted. **No
-standalone publication output is earned.**
+The misattribution is **confirmed from the primary source** and **contained** (zero reader-facing
+over-claims), **no recurring defect was demonstrated**, and external review shows the underlying
+principle is routine. A bounded repository correction is warranted. **No standalone publication
+output is earned.**
+
+The classification rests on *"no recurring defect was demonstrated"* — **not** on a claim that
+corpus-wide isolation was proved. It was not: one strength was source-adjudicated, and it is the
+one that is wrong. Were a second confirmed, the classifier would route to
+`TECHNICAL_NOTE_CANDIDATE`; a test asserts that, so the bounded result is not an artefact of how
+the decision is wired.
 
 `RETIRE_AFTER_DEEP_SCREEN` was available and is refused on the evidence: the paper's own objective
 function settles that the CT observations were fitted, not held out.
@@ -187,8 +214,10 @@ conditions. `PUBLIC_STORY_CANDIDATE` fails: the practical consequence is interna
 
 ## Strongest claim NOT supported
 
-> That this is a general defect, a novel method, or a publishable finding. The bounded corpus check
-> found the scoping convention working correctly in every other mixed-strength cell; the audit
+> That this is a general defect, a novel method, or a publishable finding — **nor that it is
+> globally isolated**. The bounded corpus check found no recurring *scope* failure and confirmed no
+> second wrong *strength*, but it source-adjudicated only one row: the other two mixed-strength
+> cells' strengths are `NOT_SOURCE_ADJUDICATED`, so nothing here says they are correct. The audit
 > method is a hand-read of one paper plus a grep, not a reusable instrument; and the underlying
 > principle is textbook.
 
@@ -230,4 +259,15 @@ pytest tests/test_deep_screen_i045.py -v
 - Branch base (main, IF-6b merge): `7d8114931c5bafbf3915d9f70b7c4621f8261a22`
 - Protocol commit (precedes this result): `a221157`
 - Branch: `insights/if7-i045-deep-screen`
-- Cheap-screen artifacts (`result.json`, `figures/primary.png`): **byte-unchanged**
+- Cheap-screen **scientific disposition**: `SURVIVE`, **not rewritten**.
+- Cheap-screen **live snapshot**: **refreshed** under an explicit post-protocol waiver, because
+  adding this deep screen's own documents to a deliberately repository-wide, over-approximating
+  static inventory advanced it. The frozen protocol predates that waiver and is **not** edited.
+
+| | `n_static_references` | `n_static_reference_files` |
+|---|---|---|
+| historical IF-6b snapshot (`7d81149`) | 102 | 24 |
+| current IF-7 snapshot | 136 | 28 |
+
+  `decision_bearing_fields_changed: false` — verified field by field and asserted by test. The
+  historical artifact remains recoverable from git history at the merged IF-6b state.
