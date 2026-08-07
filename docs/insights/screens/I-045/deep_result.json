@@ -379,14 +379,34 @@
       "docs/insights/screens/I-045/deep_result.json",
       "docs/insights/screens/I-045/NOVELTY_REVIEW.md",
       "puckworks/analysis/deep_screen_i045_lineage.py",
-      "tests/test_deep_screen_i045.py"
+      "tests/test_deep_screen_i045.py",
+      "puckworks/analysis/correction_i045_lineage.py",
+      "tests/test_correction_i045.py"
     ],
     "self_exclusion_reason": "a screen may not count its own output as corpus exposure; excluding it also keeps the scan stable while it is written",
-    "n_files_scanned": 1328,
-    "n_files_with_occurrence": 13,
+    "n_files_scanned": 1330,
+    "n_files_with_occurrence": 14,
     "n_surfaces_inspected_by_path_without_a_needle": 6,
     "needle_scan_blind_spot_note": "a surface can consume this dataset or gate without containing either needle \u2014 EVIDENCE_LINKS.json, PV-02, the registry and the generated public claims artifact all do. They are inspected by path and attributed alongside the scan hits, never left to the grep.",
     "surfaces": [
+      {
+        "path": "README.md",
+        "occurrences": {
+          "independent (CT data)": 1
+        },
+        "scanned_by_needle": true,
+        "attributed": true,
+        "surface": "root README, 'Data used to check the models' table, Foster 2025 row, 'Evidence level' column (inside the puckworks-data-inventory markers)",
+        "kind": "current authority / reader-facing",
+        "value": "Independent (CT data) / verification of fitted curves",
+        "exposure": "CURRENT_READER_FACING_OVERCLAIM",
+        "reader_can_take_the_independent_reading": true,
+        "reader_note": "This is the landing page. A reader of the repository's own public evidence table is told the CT data is independent evidence, which it is not. The MERGED IF-7 AUDIT MISSED THIS: its needle scan was case-sensitive and the table renders the phrase in sentence case.",
+        "downstream_containment": false,
+        "correction_required": true,
+        "missed_by_the_original_audit": true,
+        "missed_because": "case-sensitive needle match against a sentence-case rendering"
+      },
       {
         "path": "docs/ROADMAP.md",
         "occurrences": {
@@ -504,7 +524,7 @@
       {
         "path": "docs/insights/screens/I-045/README.md",
         "occurrences": {
-          "independent (CT data)": 3,
+          "independent (CT data)": 4,
           "(independent, 'qualitative-good')": 2
         },
         "scanned_by_needle": true,
@@ -521,7 +541,7 @@
       {
         "path": "docs/insights/screens/I-045/decision.md",
         "occurrences": {
-          "independent (CT data)": 5,
+          "independent (CT data)": 6,
           "(independent, 'qualitative-good')": 2
         },
         "scanned_by_needle": true,
@@ -538,7 +558,7 @@
       {
         "path": "docs/insights/screens/I-045/result.json",
         "occurrences": {
-          "independent (CT data)": 8,
+          "independent (CT data)": 9,
           "(independent, 'qualitative-good')": 5
         },
         "scanned_by_needle": true,
@@ -583,7 +603,7 @@
       {
         "path": "puckworks/analysis/screen_i045_evidence_halves.py",
         "occurrences": {
-          "independent (CT data)": 6,
+          "independent (CT data)": 7,
           "(independent, 'qualitative-good')": 2
         },
         "scanned_by_needle": true,
@@ -699,7 +719,7 @@
         "finding": "no occurrence; the gate is not referenced in notebook prose"
       },
       {
-        "surface": "README.md and top-level documentation",
+        "surface": "top-level documentation other than README.md",
         "finding": "no occurrence"
       },
       {
@@ -712,14 +732,22 @@
     "exposure_counts": {
       "PRESENT_BUT_EXPLICITLY_REJECTED": 10,
       "CURRENT_INTERNAL_MISWORDING": 2,
-      "CURRENT_READER_FACING_OVERCLAIM": 0,
+      "CURRENT_READER_FACING_OVERCLAIM": 1,
       "GENERATED_BUT_CORRECTLY_BOUNDED": 5,
       "HISTORICAL_SUPERSEDED": 0,
       "NO_EXPOSURE": 2
     },
-    "n_reader_facing_overclaims": 0,
-    "reader_facing_overclaims": [],
+    "n_reader_facing_overclaims": 1,
+    "reader_facing_overclaims": [
+      "README.md"
+    ],
+    "containment_assessed": true,
+    "containment_bounded": true,
+    "public_claim_graph_overclaim": false,
+    "pages_overclaim": false,
+    "containment_statement": "One reader-facing repository surface, the root README evidence table, repeats the incorrect attribution. The formal public claims graph, the EVIDENCE_LINKS record, the PV-02 selection and the Pages publish root remain correctly bounded.",
     "correction_required": [
+      "README.md",
       "puckworks/data/MANIFEST.csv",
       "puckworks/validation/gates.py"
     ],
@@ -966,7 +994,7 @@
       "id": "A4",
       "challenge": "because EVIDENCE_LINKS is correctly bounded, the manifest and gate wording are inconsequential",
       "verdict": "PARTLY SUCCEEDS \u2014 and it is why this is not a publication finding",
-      "settled_by": "Containment is real and measured: zero reader-facing over-claims, the public claims artifact records same_campaign_not_held_out and reality_facing=false, and PV-02 excludes the gate. So the consequence is bounded. It does NOT make the attribution correct, and the cell is in released source where the next consumer would inherit it.",
+      "settled_by": "Containment is real and measured, but NOT total. ONE reader-facing surface \u2014 the root README evidence table \u2014 repeats the label, while the public claims artifact records same_campaign_not_held_out and reality_facing=false, PV-02 excludes the gate, and the Pages publish root carries no occurrence. So the consequence is bounded. It does NOT make the attribution correct, and the cell is in released source where the next consumer would inherit it.",
       "evidence": [
         "blast_radius"
       ]
@@ -1048,7 +1076,11 @@
       "no_data_held_out": true,
       "attribution_confirmed_incorrect": true,
       "survives_alternatives_A1_A2_A3_A5": true,
-      "containment_measured": true,
+      "containment_assessed": true,
+      "containment_bounded": true,
+      "n_reader_facing_overclaims": 1,
+      "public_claim_graph_overclaim": false,
+      "pages_overclaim": false,
       "recurring_defect_demonstrated": false,
       "recurring_scope_failure_found": false,
       "n_confirmed_incorrect_strengths": 1,
@@ -1059,7 +1091,7 @@
       },
       "why_not_technical_note": "CORRECTION_ONLY is reached because no RECURRING defect was demonstrated \u2014 not because corpus-wide isolation was proved. It was not: the other two mixed-strength rows' strengths were never source-adjudicated."
     },
-    "strongest_supported_claim": "In this repository, one MANIFEST cell and the gate docstring that copies it label a set of micro-CT observations 'independent' when the primary source's own objective (Phys. Fluids 37, 013383, Eq. 39) fitted the tested parameters to exactly those observations. Under ROADMAP S0 the arm is post-fit reconstruction, same campaign, not held out. The attribution is materially incorrect, it is present in released source, and it reaches ZERO reader-facing claim surfaces because every downstream record independently refuses the strong reading.",
+    "strongest_supported_claim": "In this repository, one MANIFEST cell, the gate docstring that copies it, and the root README's public evidence table all label a set of micro-CT observations 'independent' when the primary source's own objective (Phys. Fluids 37, 013383, Eq. 39) fitted the tested parameters to exactly those observations. Under ROADMAP S0 the arm is post-fit reconstruction, same campaign, not held out. The attribution is materially incorrect and is present in released source. Its reach is BOUNDED but not zero: ONE reader-facing surface (the README table) repeats it, while the formal public claims graph, the EVIDENCE_LINKS record, the PV-02 selection and the Pages publish root all independently refuse the strong reading.",
     "strongest_claim_NOT_supported": "That this is a general defect, a novel method, or a publishable finding. The bounded corpus check found the scoping convention working correctly in every other mixed-strength cell; the audit method is a hand-read of one paper plus a grep, not a reusable instrument; and the underlying principle \u2014 calibration data are not independent validation \u2014 is textbook. Nor does it say the gate's NUMBERS are wrong, or that foster2025.machine_mode fails anything.",
     "future_correction_targets": [
       {
@@ -1078,6 +1110,14 @@
       },
       {
         "n": 3,
+        "target": "README.md \u2014 'Data used to check the models' table, Foster 2025 row, 'Evidence level' column",
+        "current": "Independent (CT data) / verification of fitted curves",
+        "recommended": "Post-fit, same-campaign CT observations / verification of fitted trajectories",
+        "note": "the one READER-FACING surface. Missed by the original audit because its needle scan was case-sensitive and the table renders the phrase in sentence case.",
+        "edited_in_this_pr": false
+      },
+      {
+        "n": 4,
         "target": "regenerate the derived Foundry artifacts that copy the cell byte-identically",
         "current": "evidence_lineage_index.csv and corpus_map.json inherit the wording",
         "recommended": "`python -m puckworks.insights write` after target 1 \u2014 no hand edit; they are generated and must never be edited directly",

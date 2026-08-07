@@ -181,8 +181,11 @@ Containment bounds the blast radius; it does not make the attribution correct.
 
 1. `puckworks/data/MANIFEST.csv` — the `validation_strength` cell for this dataset;
 2. `puckworks/validation/gates.py` — the `gate_foster_ct_trajectory` docstring;
-3. any reader-facing description inheriting the independent-evidence label (none found at this
-   head).
+3. `README.md` — the Foster row of the *Data used to check the models* table, which reads
+   `Independent (CT data) / verification of fitted curves`. **This is the one reader-facing
+   surface.** *Erratum 2026-08-07: originally recorded as "none found at this head". Both this
+   screen's adversarial scan and the IF-7 deep screen's needle scan matched case-sensitively, and
+   the table renders the phrase in sentence case.*
 
 `puckworks/paper3/EVIDENCE_LINKS.json` is **already correct** and is explicitly not a target. A
 test asserts all four surfaces are byte-unchanged in this PR.

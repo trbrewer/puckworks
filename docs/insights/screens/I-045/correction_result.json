@@ -1,0 +1,118 @@
+{
+  "checker": "I-045 evidence-lineage correction status",
+  "scope": "one bounded candidate-specific check; NOT a correction framework, schema, lens, generator, score or portfolio mechanism",
+  "authority": {
+    "if7_merge_commit": "6ce8d97db79bc9a189af130c61fd2d9af7c66883",
+    "cheap_result": "SURVIVE",
+    "deep_result": "CORRECTION_ONLY",
+    "novelty": "INCREMENTAL",
+    "recommended_wording": "post-fit, same-campaign CT observations / verification of fitted trajectories",
+    "note": "quoted from the frozen IF-7 record; this checker never re-adjudicates it"
+  },
+  "current_status": "APPLIED",
+  "manifest": {
+    "dataset_id": "foster2025_2/fig12_14_curves",
+    "validation_strength": "post-fit, same-campaign CT observations / verification of fitted trajectories",
+    "exact_match": true,
+    "contains_incorrect_independent_attribution": false,
+    "incorrect_occurrences": 0,
+    "n_rows": 110
+  },
+  "gate_docstring": {
+    "function": "gate_foster_ct_trajectory",
+    "docstring": "Front s(t) and headspace H(t) match the paper's own fitted ODE curves to line width (<0.2 mm RMSE, verifying the port) and bracket a majority of the CT data points within their error bars (post-fit reconstruction, same campaign, not held out; 'qualitative-good').",
+    "contains": "post-fit reconstruction, same campaign, not held out; 'qualitative-good'",
+    "exact_match": true,
+    "contains_incorrect_independent_attribution": false,
+    "incorrect_occurrences": 0
+  },
+  "root_readme": {
+    "surface": "README.md, Data used to check the models table, Foster 2025 row",
+    "row": "| CT infiltration and machine mode (Foster 2025) | Time-resolved micro-CT wetting fronts, headspace, and flow curves | Checks the infiltration front and the machine-mode delivery model | Post-fit, same-campaign CT observations / verification of fitted trajectories |",
+    "evidence_level": "Post-fit, same-campaign CT observations / verification of fitted trajectories",
+    "exact_match": true,
+    "contains_incorrect_independent_attribution": false,
+    "incorrect_occurrences": 0,
+    "block_owner": "none \u2014 no repository producer writes the puckworks-data-inventory block; update_readme_pulse.py owns only puckworks-pulse, and readme_governance.py verifies coverage without generating the table. The row is hand-edited."
+  },
+  "generated_foundry_artifacts": {
+    "files": {
+      "docs/insights/generated/evidence_lineage_index.csv": {
+        "carries_current_manifest_wording": true,
+        "carries_old_wording": false
+      },
+      "docs/insights/generated/corpus_map.json": {
+        "carries_current_manifest_wording": true,
+        "carries_old_wording": false
+      }
+    },
+    "current_manifest_wording_propagated": true,
+    "any_old_wording_remaining": false,
+    "regenerated_from_corrected_manifest": true,
+    "generator_fixed_point": true,
+    "live_candidate_portfolio_contains_I045": false,
+    "live_candidate_count": 90,
+    "I045_absence_reason": "RESOLVED_BY_CORRECTION",
+    "appended_current_tension_id": "T-0175",
+    "current_tension_id_present": true,
+    "original_tension_id_still_in_append_only_history": true
+  },
+  "already_correct_surfaces": {
+    "EVIDENCE_LINKS": {
+      "path": "puckworks/paper3/EVIDENCE_LINKS.json",
+      "records_same_campaign": true,
+      "records_fit_input": true,
+      "relationship_same_campaign_not_held_out": true,
+      "reality_facing_false": true,
+      "support_status_context_only": true,
+      "unchanged_by_this_correction": true
+    },
+    "public_claims": {
+      "path": "docs/public/generated/claims.json",
+      "unchanged_by_this_correction": true
+    },
+    "paper3_evidence": {
+      "path": "docs/paper3_resource/generated/",
+      "unchanged_by_this_correction": true
+    }
+  },
+  "gate_numerics": {
+    "run": true,
+    "passed": true,
+    "s_fit_rmse_mm": 0.002,
+    "H_fit_rmse_mm": 0.053,
+    "s_data_within_err": "4/8",
+    "H_data_within_err": "5/8",
+    "expected": {
+      "passed": true,
+      "s_fit_rmse_mm": 0.002,
+      "H_fit_rmse_mm": 0.053,
+      "s_data_within_err": "4/8",
+      "H_data_within_err": "5/8"
+    },
+    "unchanged": true
+  },
+  "historical_outcomes": {
+    "cheap_SURVIVE_preserved": true,
+    "deep_CORRECTION_ONLY_preserved": true,
+    "novelty_INCREMENTAL_preserved": true,
+    "materialized_candidate_record_preserved": true,
+    "original_tension_id": "T-0063",
+    "cheap_decision": "SURVIVE",
+    "deep_output_class": "CORRECTION_ONLY",
+    "snapshot_kind": "HISTORICAL_PRE_CORRECTION_SNAPSHOT",
+    "snapshot_sha256": {
+      "docs/insights/screens/I-045/result.json": "b4ac284a6cbcea55f4bb6521ef19a31455fd5d4e59a6d182129068ddbb502c94",
+      "docs/insights/screens/I-045/figures/primary.png": "29ac635c2fed644e0107a7cfc3ec71b215b0b0b28db15571483fb5e4b3a3fb88",
+      "docs/insights/screens/I-045/deep_result.json": "d215891ee4160d358b467af26fd4f290a08b9ea42353fb6b6fac4e9f2f62372f",
+      "docs/insights/screens/I-045/figures/deep_primary.png": "49b8a5602a702a9c0a2895f36beea1cee425450f1fb3980af653e570c1ac66fd"
+    },
+    "note": "the old wording is ALLOWED in these frozen records, where it is explicitly quoted as the defect being corrected. They are historical evidence, not current authority."
+  },
+  "current_bad_occurrences": {
+    "MANIFEST": 0,
+    "gate_docstring": 0,
+    "root_README": 0
+  },
+  "old_wording_permitted_in": "frozen screen records that quote it as the corrected defect, and immutable prior release tags such as v0.3.0"
+}

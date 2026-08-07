@@ -201,7 +201,7 @@ may not edit an evidence label, a gate, or a generated evidence artifact.
 |---|---|---|---|
 | 1 | `puckworks/data/MANIFEST.csv` — `foster2025_2/fig12_14_curves` `validation_strength` | `independent (CT data) / verification (fitted curves)` | "independent" is wrong for the CT arm under ROADMAP §0 — the arm is post-fit, same campaign, not held out |
 | 2 | `puckworks/validation/gates.py` — `gate_foster_ct_trajectory` docstring | `… within their error bars (independent, 'qualitative-good')` | attaches the independent rung to the same-campaign CT arm. **The numerical gate is unaffected** |
-| 3 | any reader-facing description inheriting the independent-evidence label for this dataset | none found at this head | would inherit the same defect if written |
+| 3 | `README.md` — Foster row in the *Data used to check the models* table | `Independent (CT data) / verification of fitted curves` | **the one READER-FACING surface.** *Erratum 2026-08-07: this row originally said "none found at this head" — both scans matched case-sensitively and missed the capitalised rendering.* |
 
 The exact replacement wording is a **human decision** — a screen may not write an evidence label.
 

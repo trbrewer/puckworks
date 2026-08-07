@@ -34,6 +34,8 @@ def result():
 # Source authority
 # --------------------------------------------------------------------------------------------
 def test_manifest_wording_is_byte_identical():
+    if S.live_source_is_corrected():
+        pytest.skip("live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.")
     with open(REPO / "puckworks/data/MANIFEST.csv", newline="", encoding="utf-8") as fh:
         rows = {r["dataset_id"]: r for r in csv.DictReader(fh)}
     row = rows[S.DATASET_ID]
@@ -202,6 +204,11 @@ def test_future_correction_targets_are_named_and_not_edited(result):
 
 def test_the_named_source_surfaces_are_untouched_in_this_pr():
     """A screen may identify an attribution defect; it may not repair these files."""
+    if S.live_source_is_corrected():
+        pytest.skip("live source is corrected; this asserted the PRE-CORRECTION state "
+                    "of surfaces the correction was authorised to change. The historical\n"
+                    "finding is protected by the pinned snapshot hashes; the CURRENT "
+                    "state is asserted by tests/test_correction_i045.py.")
     import subprocess
 
     def git(*args):
@@ -285,6 +292,8 @@ def test_enumeration_is_complete(result):
 # Adversarial scan — the two defects it had, and the surface prose cannot cover
 # --------------------------------------------------------------------------------------------
 def test_scan_classifies_every_hit(result):
+    if S.live_source_is_corrected():
+        pytest.skip("live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.")
     scan = result["adversarial_text_scan"]
     assert scan["n_hits"] > 0
     assert scan["n_unclassified"] == 0
@@ -318,6 +327,8 @@ def test_hit_classification_requires_the_fragment_to_contain_the_token():
 
 def test_the_gate_hit_is_an_incorrect_attribution_not_an_ambiguous_sense(result):
     """The governing S0 meaning is EXCLUSIVE — there is no second valid current reading."""
+    if S.live_source_is_corrected():
+        pytest.skip("live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.")
     hits = result["adversarial_text_scan"]["hits"]
     gate = [h for h in hits if h["token"] == "independent" and "docstring" in h["surface"]]
     assert len(gate) == 1, gate
@@ -328,6 +339,8 @@ def test_the_gate_hit_is_an_incorrect_attribution_not_an_ambiguous_sense(result)
 
 
 def test_the_manifest_independent_hit_is_the_target_incorrect_label(result):
+    if S.live_source_is_corrected():
+        pytest.skip("live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.")
     hits = result["adversarial_text_scan"]["hits"]
     man = [h for h in hits if h["token"] == "independent" and "MANIFEST" in h["surface"]]
     assert len(man) == 1, man
@@ -338,6 +351,8 @@ def test_the_manifest_independent_hit_is_the_target_incorrect_label(result):
 
 
 def test_the_manifest_verification_hit_remains_correct(result):
+    if S.live_source_is_corrected():
+        pytest.skip("live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.")
     hits = result["adversarial_text_scan"]["hits"]
     ver = [h for h in hits if h["token"] == "verification" and "MANIFEST" in h["surface"]]
     assert len(ver) == 1, ver
@@ -434,6 +449,11 @@ def test_bundle_is_present_and_carries_the_disposition():
 
 
 def test_committed_result_does_not_drift_from_a_fresh_run(result):
+    if S.live_source_is_corrected():
+        pytest.skip("live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.")
+    if S.live_source_is_corrected():
+        pytest.skip("live source is corrected; the bundle is a pinned historical "
+                    "snapshot and is protected by hash instead")
     """The committed bytes must be EXACTLY what the producer emits today.
 
     Selected-field equality is not enough. The producer records static call-site LINE NUMBERS,
@@ -461,6 +481,8 @@ def test_committed_result_does_not_drift_from_a_fresh_run(result):
 
 def test_committed_result_matches_on_the_decision_bearing_fields(result):
     """Diagnostics kept alongside the canonical check, so a failure says WHAT moved."""
+    if S.live_source_is_corrected():
+        pytest.skip("live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.")
     committed = json.loads((BUNDLE / "result.json").read_text(encoding="utf-8"))
     assert committed["decision"] == result["decision"]
     assert committed["enumeration"]["complete"] == result["enumeration"]["complete"]
@@ -504,3 +526,40 @@ def test_no_unauthorised_candidate_bundle_was_created():
     allowed = {"I-040", "I-010", "I-024", "I-045", "I-076", "README.md"}
     present = {p.name for p in (REPO / "docs/insights/screens").iterdir()}
     assert present <= allowed, present - allowed
+
+
+# --------------------------------------------------------------------------------------------
+# HISTORICAL LIFECYCLE — the bundle is a PRE-CORRECTION snapshot
+# --------------------------------------------------------------------------------------------
+def test_the_bundle_is_declared_a_historical_pre_correction_snapshot():
+    assert S.SNAPSHOT_KIND == "HISTORICAL_PRE_CORRECTION_SNAPSHOT"
+    assert set(S.SNAPSHOT_SHA256) == {"docs/insights/screens/I-045/result.json",
+                                     "docs/insights/screens/I-045/figures/primary.png"}
+
+
+def test_the_committed_snapshot_matches_its_pinned_hashes():
+    """Exact bytes, pinned. This is what protects the finding once the source is corrected."""
+    import hashlib
+    for rel, want in S.SNAPSHOT_SHA256.items():
+        got = hashlib.sha256((REPO / rel).read_bytes()).hexdigest()
+        assert got == want, "%s drifted from its pinned pre-correction hash" % rel
+
+
+def test_the_producer_refuses_to_overwrite_the_snapshot_after_correction(monkeypatch):
+    """A fresh run against corrected source would erase the finding. It must refuse."""
+    monkeypatch.setattr(S, "live_source_is_corrected", lambda: True)
+    with pytest.raises(S.HistoricalSnapshotProtected) as exc:
+        S.refuse_if_corrected()
+    msg = str(exc.value)
+    assert "HISTORICAL_PRE_CORRECTION_SNAPSHOT" in msg
+    assert "correction_i045_lineage" in msg, "must direct the user to the status checker"
+    assert "not drift" in msg
+
+
+def test_the_guard_reads_the_live_manifest():
+    corrected = S.live_source_is_corrected()
+    import csv as _csv
+    with open(REPO / "puckworks/data/MANIFEST.csv", newline="", encoding="utf-8") as fh:
+        cell = next(r["validation_strength"] for r in _csv.DictReader(fh)
+                    if r["dataset_id"] == "foster2025_2/fig12_14_curves")
+    assert corrected == (S.CORRECTED_MANIFEST_WORDING.lower() in cell.lower())

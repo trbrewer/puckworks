@@ -2,7 +2,7 @@
 
 # Public claim inventory
 
-Commit `c1b7d79e8f` · 5 generated claims. Read before proposing any public story: a candidate that restates one of these is a duplicate, not an insight.
+Commit `9556e87df0` · 5 generated claims. Read before proposing any public story: a candidate that restates one of these is a duplicate, not an insight.
 
 ## PV-01 — The first liquid out of this espresso puck was already about 97% as concentrated as the peak.
 

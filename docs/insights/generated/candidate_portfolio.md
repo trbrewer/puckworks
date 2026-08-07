@@ -2,7 +2,7 @@
 
 # Insight portfolio
 
-Commit `c1b7d79e8f` · **91 candidates, all `SEED`**. Every candidate is a QUESTION with provenance. None is scored, ranked, or adjudicated: scoring is a human triage aid applied after a person reads the portfolio, and none of these has been read yet.
+Commit `9556e87df0` · **90 candidates, all `SEED`**. Every candidate is a QUESTION with provenance. None is scored, ranked, or adjudicated: scoring is a human triage aid applied after a person reads the portfolio, and none of these has been read yet.
 
 Next step is blueprint §12 Stage B — human triage down to 10–15, then three cheap screens. Do not start manuscript work on any of these.
 
@@ -15,7 +15,7 @@ Next step is blueprint §12 Stage B — human triage down to 10–15, then three
 | cross_species_inconsistency | 1 |
 | evidence_asymmetry | 3 |
 | hidden_discriminator | 11 |
-| lineage_circularity | 21 |
+| lineage_circularity | 20 |
 | missing_experiment | 1 |
 | model_disagreement | 18 |
 | negative_result | 3 |
@@ -28,13 +28,13 @@ Tracks overlap by design — public value and academic value are separate axes (
 
 | track | candidates |
 |---|---|
-| data_note | 26 |
+| data_note | 25 |
 | domain_paper | 17 |
 | experiment_design | 10 |
 | methods_paper | 29 |
 | practitioner | 9 |
 | public_story | 19 |
-| technical_note | 78 |
+| technical_note | 77 |
 
 ## Candidates
 
@@ -742,25 +742,9 @@ Tracks overlap by design — public value and academic value are separate axes (
 - **Tension rows.** T-0059
 - **Status.** SEED
 
-### I-045 — Which strength is load-bearing where the manifest says 'independent + verification'?
-
-- **Question.** For the 1 datasets whose validation_strength names both independent + verification, which of those strengths does each consuming gate actually rely on?
-- **Lens.** lineage_circularity · tracks: data_note, technical_note
-- **Cheap screen.** For each cell, read the consuming gate and record which half of the strength statement its assertion depends on. Source audit, no execution.
-- **Minimum figure.** A table of dataset, verbatim strength cell, consuming gate, and the half of the cell the gate leans on.
-- **Decision rule.**
-    - SURVIVE if At least one gate leans on the stronger half of a cell whose relevant half is the weaker one.
-    - RETIRE if Every consuming gate already reads the correct half.
-    - INCONCLUSIVE if The consuming gate's assertion is too coarse to attribute to either half.
-- **Stop condition.** Every mixed cell is attributed to a gate and a half.
-- **Strongest alternative.** The cell is mixed only in wording; both halves support the same gate assertion equally.
-- **Entities.** `dataset:foster2025_2/fig12_14_curves`
-- **Tension rows.** T-0063
-- **Status.** SEED
-
 ### I-046 — Which strength is load-bearing where the manifest says 'post_fit + verification'?
 
-- **Question.** For the 1 datasets whose validation_strength names both post_fit + verification, which of those strengths does each consuming gate actually rely on?
+- **Question.** For the 2 datasets whose validation_strength names both post_fit + verification, which of those strengths does each consuming gate actually rely on?
 - **Lens.** lineage_circularity · tracks: data_note, technical_note
 - **Cheap screen.** For each cell, read the consuming gate and record which half of the strength statement its assertion depends on. Source audit, no execution.
 - **Minimum figure.** A table of dataset, verbatim strength cell, consuming gate, and the half of the cell the gate leans on.
@@ -770,8 +754,8 @@ Tracks overlap by design — public value and academic value are separate axes (
     - INCONCLUSIVE if The consuming gate's assertion is too coarse to attribute to either half.
 - **Stop condition.** Every mixed cell is attributed to a gate and a half.
 - **Strongest alternative.** The cell is mixed only in wording; both halves support the same gate assertion equally.
-- **Entities.** `dataset:foster2025_2/params`
-- **Tension rows.** T-0064
+- **Entities.** `dataset:foster2025_2/fig12_14_curves`, `dataset:foster2025_2/params`
+- **Tension rows.** T-0063, T-0064
 - **Status.** SEED
 
 ### I-047 — Which strength is load-bearing where the manifest says 'qualitative + raw_measurement + reference_only'?
@@ -840,7 +824,7 @@ Tracks overlap by design — public value and academic value are separate axes (
 
 ### I-051 — Is foster2025_2 evaluated against data it is not independent of?
 
-- **Question.** For the 1 foster2025_2 datasets sharing a source card with a component the manifest links to them, does any gate read that pairing as independent?
+- **Question.** For the 2 foster2025_2 datasets sharing a source card with a component the manifest links to them, does any gate read that pairing as independent?
 - **Lens.** lineage_circularity · tracks: data_note, technical_note
 - **Cheap screen.** Cross-read the manifest lineage against each gate's claimed evaluation relationship; list every same-source pairing and how it is labelled.
 - **Minimum figure.** A lineage graph of dataset to source card to consuming component, with same-source edges highlighted.
@@ -850,8 +834,8 @@ Tracks overlap by design — public value and academic value are separate axes (
     - INCONCLUSIVE if The manifest cannot say whether the fit and evaluation rows come from the same campaign.
 - **Stop condition.** Every same-source pairing carries an accurate relationship label.
 - **Strongest alternative.** Sharing a source card does not mean sharing a campaign — the rows may be a genuine held-out split.
-- **Entities.** `dataset:foster2025_2/params`
-- **Tension rows.** T-0065
+- **Entities.** `dataset:foster2025_2/fig12_14_curves`, `dataset:foster2025_2/params`
+- **Tension rows.** T-0175, T-0065
 - **Status.** SEED
 
 ### I-052 — Is grudeva2025 evaluated against data it is not independent of?

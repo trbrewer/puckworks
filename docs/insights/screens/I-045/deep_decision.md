@@ -94,25 +94,38 @@ series", but Fig. 6 is data analysis and the model is compared against Figs 12�
 **13 tracked files carry the attribution; 5 more consume the dataset or gate without containing
 either needle and were inspected by path.** Coverage complete.
 
+> **Erratum, 2026-08-07.** This audit originally reported **zero** reader-facing over-claims. It
+> was wrong: its needle scan matched **case-sensitively**, and the root README's public evidence
+> table renders the phrase in sentence case as `Independent (CT data)`. The scan is now
+> case-insensitive (while preserving the matched text as written), and the count below is the
+> corrected pre-correction exposure set. **The classification remains `CORRECTION_ONLY`** — one
+> incorrect README table cell does not establish a recurring defect, a technical-note
+> contribution, a public story or a publication result.
+
 | exposure class | count |
 |---|---|
 | `PRESENT_BUT_EXPLICITLY_REJECTED` | 10 |
 | `GENERATED_BUT_CORRECTLY_BOUNDED` | 5 |
 | `CURRENT_INTERNAL_MISWORDING` | **2** |
+| **`CURRENT_READER_FACING_OVERCLAIM`** | **1** — `README.md` evidence table |
 | `NO_EXPOSURE` | 2 |
-| **`CURRENT_READER_FACING_OVERCLAIM`** | **0** |
 | `HISTORICAL_SUPERSEDED` | 0 |
 
-The two internal miswordings are the manifest cell and the gate docstring — the origin and its copy.
-Everything downstream refuses the strong reading **independently**: `EVIDENCE_LINKS.json` files the
-dataset as *both* `eval/same_campaign` **and** `fit/fit_input` with `reality_facing: false`; the
-generated **public** `claims.json` records `same_campaign_not_held_out` and `outcome: negative`;
-PV-02 excludes the gate outright; the registry says `source_curve_reproduction`.
+The two internal miswordings are the manifest cell and the gate docstring — the origin and its
+copy. The third is the **root README's public evidence table**, which repeats the label to any
+reader of the landing page.
+
+**Containment is bounded, not total.** The formal surfaces all refuse the strong reading
+independently: `EVIDENCE_LINKS.json` files the dataset as *both* `eval/same_campaign` **and**
+`fit/fit_input` with `reality_facing: false`; the generated **public** `claims.json` records
+`same_campaign_not_held_out` and `outcome: negative`; PV-02 excludes the gate outright; the
+registry says `source_curve_reproduction`; and the Pages publish root carries no occurrence. But a
+human reading `README.md` is told the CT data is independent evidence.
 
 Two findings a grep alone would have missed:
 
 - **The GitHub Pages publish root (`docs/public/site`, per `pages.yml`) contains no occurrence.**
-  Nothing a website visitor can read carries the attribution.
+  Nothing on the published website carries the attribution — but the repository landing page does.
 - **The Foundry's own tension atlas already flagged this cell** — `T-0063`, `lineage_circularity` /
   `mixed_strength_cell`, routed to `I-045`. The corpus's machinery found the row before a human did.
 
@@ -158,8 +171,10 @@ that the other rows' strengths are correct**, and does not prove corpus-wide iso
 | **A4** | downstream containment makes the wording inconsequential | **PARTLY SUCCEEDS** |
 | **A5** | *independent* means a distinct measurement modality | **FAILS** — under §0 *and* under the source's own usage |
 
-**A4 is why this is not a publication finding.** Containment is real and measured: zero reader-facing
-over-claims. It bounds the consequence; it does not make the attribution correct.
+**A4 is why this is not a publication finding.** Containment is real and measured, though not
+total: **one** reader-facing surface (the README table) repeats the label, while every formal
+surface — `EVIDENCE_LINKS`, the public claims graph, PV-02 and the Pages publish root — refuses
+it. That bounds the consequence; it does not make the attribution correct.
 
 ## Result 5 — correction formulations, assessed not implemented
 
@@ -184,8 +199,9 @@ provenance record. Column-level lineage and model cards are adjacent but track *
 
 # `CORRECTION_ONLY`
 
-The misattribution is **confirmed from the primary source** and **contained** (zero reader-facing
-over-claims), **no recurring defect was demonstrated**, and external review shows the underlying
+The misattribution is **confirmed from the primary source** and **bounded** — one reader-facing
+surface, with the formal claims graph, `EVIDENCE_LINKS`, PV-02 and the Pages root all correctly
+refusing it — **no recurring defect was demonstrated**, and external review shows the underlying
 principle is routine. A bounded repository correction is warranted. **No standalone publication
 output is earned.**
 

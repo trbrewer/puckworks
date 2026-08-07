@@ -2,7 +2,7 @@
 
 # Tension atlas
 
-Commit `c1b7d79e8f` · 170 rows across 11 lenses. A row is a source-bound statement that two parts of the corpus are comparable and differ in some declared respect. **A row is not a finding**, and `human_status` stays `UNREVIEWED` until a person rules.
+Commit `9556e87df0` · 171 rows across 11 lenses. A row is a source-bound statement that two parts of the corpus are comparable and differ in some declared respect. **A row is not a finding**, and `human_status` stays `UNREVIEWED` until a person rules.
 
 ## Rows per lens
 
@@ -13,7 +13,7 @@ Commit `c1b7d79e8f` · 170 rows across 11 lenses. A row is a source-bound statem
 | cross_species_inconsistency | H | 4 |
 | evidence_asymmetry | K | 3 |
 | hidden_discriminator | G | 11 |
-| lineage_circularity | E | 64 |
+| lineage_circularity | E | 65 |
 | missing_experiment | L | 1 |
 | model_disagreement | A | 38 |
 | negative_result | J | 3 |
@@ -225,8 +225,11 @@ Absent by decision, not oversight — each needs component EXECUTION this layer 
 - **T-0062** [unresolvable_source_card] de1_fixtureA names source_card '(registry [RS])', which resolves to no single card — its lineage cannot be followed mechanically
   - discriminator: the specific card/chapter the rows were taken from · data: YES · cheap test: YES · candidate: I-059
   - sources: `puckworks/data/MANIFEST.csv`
-- **T-0063** [mixed_strength_cell] MANIFEST validation_strength for foster2025_2/fig12_14_curves names more than one strength: 'independent (CT data) / verification (fitted curves)' (derived tags: independent, mixed_strength, verification)
-  - discriminator: which half of the cell each consuming gate actually uses · data: YES · cheap test: YES · candidate: I-045
+- **T-0063** [mixed_strength_cell] MANIFEST validation_strength for foster2025_2/fig12_14_curves names more than one strength: 'post-fit, same-campaign CT observations / verification of fitted trajectories' (derived tags: mixed_strength, post_fit, verification)
+  - discriminator: which half of the cell each consuming gate actually uses · data: YES · cheap test: YES · candidate: I-046
+  - sources: `puckworks/data/MANIFEST.csv`
+- **T-0175** [same_source_consumer] foster2025_2/fig12_14_curves (mixed_strength, post_fit, verification) shares a source card with the component(s) foster2025.infiltration, foster2025.machine_mode that the manifest links to it; its strength is recorded as 'post-fit, same-campaign CT observations / verification of fitted trajectories'
+  - discriminator: an out-of-source dataset measuring the same observable · data: YES · cheap test: YES · candidate: I-051
   - sources: `puckworks/data/MANIFEST.csv`
 - **T-0064** [mixed_strength_cell] MANIFEST validation_strength for foster2025_2/params names more than one strength: 'verification (post-fit params)' (derived tags: mixed_strength, post_fit, verification)
   - discriminator: which half of the cell each consuming gate actually uses · data: YES · cheap test: YES · candidate: I-046
