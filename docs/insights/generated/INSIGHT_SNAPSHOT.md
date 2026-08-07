@@ -2,7 +2,7 @@
 
 # Puckworks insight snapshot
 
-**Commit** `c1b7d79e8f6800df16ad4fc195d45bf156e4ec8b` · **schema** v1 · **generator** v1
+**Commit** `74345695243105ed98f76e6df7d71ef356eac295` · **schema** v1 · **generator** v1
 
 Every count below is generated from the tree at that commit (blueprint §4.3). Nothing here is an authority: follow `card_path` / `source_path` to the card, the manifest row, or the registry entry that owns each statement.
 
@@ -56,7 +56,7 @@ Every count below is generated from the tree at that commit (blueprint §4.3). N
 
 ## Tension atlas
 
-170 rows across 11 lenses.
+171 rows across 11 lenses.
 
 | lens | rows |
 |---|---|
@@ -65,7 +65,7 @@ Every count below is generated from the tree at that commit (blueprint §4.3). N
 | cross_species_inconsistency | 4 |
 | evidence_asymmetry | 3 |
 | hidden_discriminator | 11 |
-| lineage_circularity | 64 |
+| lineage_circularity | 65 |
 | missing_experiment | 1 |
 | model_disagreement | 38 |
 | negative_result | 3 |
@@ -76,7 +76,7 @@ Not implemented, by decision: **hidden_discriminator_ranking** (separation/uncer
 
 ## Candidate portfolio
 
-**91 candidates, every one `SEED`.** None scored, ranked, or adjudicated.
+**90 candidates, every one `SEED`.** None scored, ranked, or adjudicated.
 
 | lens | candidates |
 |---|---|
@@ -85,7 +85,7 @@ Not implemented, by decision: **hidden_discriminator_ranking** (separation/uncer
 | cross_species_inconsistency | 1 |
 | evidence_asymmetry | 3 |
 | hidden_discriminator | 11 |
-| lineage_circularity | 21 |
+| lineage_circularity | 20 |
 | missing_experiment | 1 |
 | model_disagreement | 18 |
 | negative_result | 3 |

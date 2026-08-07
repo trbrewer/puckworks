@@ -96,11 +96,11 @@
   },
   "counts": {
     "candidates": 93,
-    "tensions": 174
+    "tensions": 175
   },
   "high_water": {
     "I": 93,
-    "T": 174
+    "T": 175
   },
   "note": "Fingerprint -> stable ID. APPEND-ONLY: an entry is never removed and a number is never reused, so a stale reference resolves to what it always meant or to nothing — never to a different record. Regenerate with `python -m puckworks.insights write`.",
   "registry_version": 1,
@@ -222,6 +222,7 @@
     "af88b3ae7b9e5a48e7afc1649aaf6b3d355ad7975bee2efa7125f325d40d2ec3": "T-0039",
     "afac44d0e9508cf95e1d1d55f4b710fa37e110566a270a9eb22ef9b439a87d9e": "T-0091",
     "aff7ecbfe8fa98fe45c23dcb89c52c1711b524882c5d02f1bc0b38401806556c": "T-0057",
+    "b0abd339040df71b373a99fea34eaa103d67b0015cc036922e9e1172e9b72e8b": "T-0175",
     "b1ec83f0cba757e3ed3fc851977c5d18ae43ad0fa9d0d898510c930651dc2236": "T-0004",
     "b263db7b1b68cf8ade2e401e70fad3d79e8e6329c89ba43949927ab57cb38bab": "T-0051",
     "b379bcd7c471ccd49b2a66488714853687789276caa1f312b00c7b03d21969dd": "T-0120",

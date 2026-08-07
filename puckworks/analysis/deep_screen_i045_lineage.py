@@ -1312,7 +1312,8 @@ def live_source_is_corrected():
     with open(path, newline="", encoding="utf-8") as fh:
         for row in _csv.DictReader(fh):
             if row["dataset_id"] == "foster2025_2/fig12_14_curves":
-                return CORRECTED_MANIFEST_WORDING in row["validation_strength"].lower()
+                return (CORRECTED_MANIFEST_WORDING.lower()
+                        in row["validation_strength"].lower())
     return False
 
 

@@ -1125,7 +1125,8 @@ def gate_foster_fig15_flowmin():
 def gate_foster_ct_trajectory():
     """Front s(t) and headspace H(t) match the paper's own fitted ODE curves to
     line width (<0.2 mm RMSE, verifying the port) and bracket a majority of the
-    CT data points within their error bars (independent, 'qualitative-good')."""
+    CT data points within their error bars (post-fit reconstruction, same
+    campaign, not held out; 'qualitative-good')."""
     import numpy as np
     from puckworks.models.foster2025 import machine_mode as fm
     r = fm.solve()

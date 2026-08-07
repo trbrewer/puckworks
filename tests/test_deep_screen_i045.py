@@ -158,6 +158,8 @@ def test_the_producer_contains_no_solver_call():
 # --------------------------------------------------------------------------------------------
 def test_committed_deep_result_does_not_drift_from_a_fresh_run(result):
     if D.live_source_is_corrected():
+        pytest.skip("live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.")
+    if D.live_source_is_corrected():
         pytest.skip("live source is corrected; the bundle is a pinned historical "
                     "snapshot and is protected by hash instead")
     """Full canonical equality, using the producer's own serialisation contract."""
@@ -352,6 +354,8 @@ def test_exactly_the_manifest_and_the_gate_are_current_miswordings(result):
 
 def test_the_case_insensitive_scan_finds_the_capitalised_readme_wording():
     """The erratum: the original scan matched case-sensitively and missed this."""
+    if D.live_source_is_corrected():
+        pytest.skip("live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.")
     readme = (REPO / "README.md").read_text(encoding="utf-8")
     assert "independent (CT data)" not in readme, "the README renders it in SENTENCE case"
     found = D.find_needle(readme, "independent (CT data)")
@@ -798,4 +802,4 @@ def test_the_guard_reads_the_live_manifest():
     with open(REPO / "puckworks/data/MANIFEST.csv", newline="", encoding="utf-8") as fh:
         cell = next(r["validation_strength"] for r in _csv.DictReader(fh)
                     if r["dataset_id"] == "foster2025_2/fig12_14_curves")
-    assert corrected == (D.CORRECTED_MANIFEST_WORDING in cell.lower())
+    assert corrected == (D.CORRECTED_MANIFEST_WORDING.lower() in cell.lower())

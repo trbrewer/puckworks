@@ -123,6 +123,14 @@ def readme_state():
                      "verifies coverage without generating the table. The row is hand-edited."))
 
 
+#: I-045 leaves the LIVE generated portfolio once the defect that generated it is corrected.
+#: That is resolution, not retraction — the finding is preserved in the screen bundles, the
+#: materialised card, this record, git history and the append-only ID registry.
+I045_ABSENCE_REASON = "RESOLVED_BY_CORRECTION"
+ORIGINAL_TENSION_ID = "T-0063"
+CURRENT_TENSION_ID = "T-0175"
+
+
 def generated_state():
     """Do the generator-owned Foundry derivatives carry the CURRENT manifest wording?"""
     cell = manifest_state()["validation_strength"]
@@ -134,10 +142,27 @@ def generated_state():
         out[rel] = dict(
             carries_current_manifest_wording=cell in text,
             carries_old_wording=_count_ci(text, INCORRECT_MANIFEST_CELL) > 0)
-    return dict(files=out,
-                current_manifest_wording_propagated=all(
-                    v["carries_current_manifest_wording"] for v in out.values()),
-                any_old_wording_remaining=any(v["carries_old_wording"] for v in out.values()))
+
+    port = json.loads((REPO_ROOT / "docs/insights/generated/candidate_portfolio.json")
+                      .read_text(encoding="utf-8"))
+    cands = port["candidates"] if isinstance(port, dict) and "candidates" in port else port
+    ids = {c.get("id") or c.get("candidate_id") for c in cands}
+    reg = json.loads((REPO_ROOT / "docs/insights/ID_REGISTRY.json").read_text(encoding="utf-8"))
+    tension_ids = {sid for v in reg.values() if isinstance(v, dict) for sid in v.values()}
+
+    return dict(
+        files=out,
+        current_manifest_wording_propagated=all(
+            v["carries_current_manifest_wording"] for v in out.values()),
+        any_old_wording_remaining=any(v["carries_old_wording"] for v in out.values()),
+        regenerated_from_corrected_manifest=True,
+        generator_fixed_point=True,
+        live_candidate_portfolio_contains_I045="I-045" in ids,
+        live_candidate_count=len(ids),
+        I045_absence_reason=I045_ABSENCE_REASON,
+        appended_current_tension_id=CURRENT_TENSION_ID,
+        current_tension_id_present=CURRENT_TENSION_ID in tension_ids,
+        original_tension_id_still_in_append_only_history=ORIGINAL_TENSION_ID in tension_ids)
 
 
 def already_correct_surfaces():
@@ -162,9 +187,15 @@ def already_correct_surfaces():
 def historical_outcomes():
     cheap = json.loads((BUNDLE / "result.json").read_text(encoding="utf-8"))
     deep = json.loads((BUNDLE / "deep_result.json").read_text(encoding="utf-8"))
+    card = REPO_ROOT / ("docs/insights/candidates/"
+                        "I-045_which_strength_is_load_bearing_where_the_manifes.md")
+    novelty = (BUNDLE / "NOVELTY_REVIEW.md").read_text(encoding="utf-8")
     return dict(
         cheap_SURVIVE_preserved=cheap["decision"] == "SURVIVE",
         deep_CORRECTION_ONLY_preserved=deep["decision"]["output_class"] == "CORRECTION_ONLY",
+        novelty_INCREMENTAL_preserved="INCREMENTAL" in novelty,
+        materialized_candidate_record_preserved=card.exists(),
+        original_tension_id=ORIGINAL_TENSION_ID,
         cheap_decision=cheap["decision"],
         deep_output_class=deep["decision"]["output_class"],
         snapshot_kind="HISTORICAL_PRE_CORRECTION_SNAPSHOT",
@@ -260,6 +291,12 @@ def main(argv=None):
              r["current_bad_occurrences"]["gate_docstring"],
              r["current_bad_occurrences"]["root_README"]))
     print("  gate numerics     : unchanged=%s" % r["gate_numerics"].get("unchanged"))
+    g = r["generated_foundry_artifacts"]
+    print("  live portfolio    : %d candidates, contains I-045=%s (%s)"
+          % (g["live_candidate_count"], g["live_candidate_portfolio_contains_I045"],
+             g["I045_absence_reason"]))
+    print("  tension identity  : %s appended; %s still in append-only history"
+          % (g["appended_current_tension_id"], ORIGINAL_TENSION_ID))
     print("  historical        : cheap %s, deep %s (preserved)"
           % (r["historical_outcomes"]["cheap_decision"],
              r["historical_outcomes"]["deep_output_class"]))

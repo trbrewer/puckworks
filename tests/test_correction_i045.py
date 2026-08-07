@@ -252,11 +252,19 @@ def test_two_constructions_are_identical(result):
 
 
 def test_the_correction_record_is_not_a_framework():
+    """Structural, not textual: no classes, no registry, no scoring, no generation."""
     src = pathlib.Path(C.__file__).read_text(encoding="utf-8")
-    for banned in ("class .*Schema", "register(", "LENS", "def generate", "score("):
-        assert banned not in src, banned
-    assert "NOT a correction framework" in C.check(run_gate=False)["scope"] or True
-    assert "NOT a generalized correction framework" in src
+    tree = ast.parse(src)
+    classes = [n.name for n in tree.body if isinstance(n, ast.ClassDef)]
+    assert classes == [], "a correction CHECKER needs no class hierarchy: %s" % classes
+    names = {n.name for n in tree.body if isinstance(n, ast.FunctionDef)}
+    for banned in ("register", "generate", "score", "make_lens", "build_schema"):
+        assert not any(f == banned or f.startswith(banned + "_") for f in names), banned
+    assert "NOT a generalized correction framework" in " ".join(src.split())
+    assert "NOT a correction framework" in C.check(run_gate=False)["scope"]
+    # it is bounded to ONE candidate
+    assert src.count("foster2025_2/fig12_14_curves") >= 1
+    assert "for candidate in" not in src and "for row in _manifest_rows()" not in src
 
 
 def test_applied_record_exists_and_matches(result):

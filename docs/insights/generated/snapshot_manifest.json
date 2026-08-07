@@ -1,10 +1,10 @@
 {
-  "commit": "c1b7d79e8f6800df16ad4fc195d45bf156e4ec8b",
+  "commit": "74345695243105ed98f76e6df7d71ef356eac295",
   "counts": {
-    "candidates": 91,
+    "candidates": 90,
     "entities": 270,
     "relations": 601,
-    "tensions": 170,
+    "tensions": 171,
     "warnings": 32
   },
   "generator_version": 1,
@@ -15,7 +15,7 @@
     },
     {
       "path": "puckworks/data/MANIFEST.csv",
-      "sha256": "05525a91064c2cae28776bd71465be7e121804151a62c1f7c61cd63981f00d32"
+      "sha256": "7e020f3063506bdb059aee8da384e92341e212a4dfaac55b2b0bd6272bbe9ea9"
     },
     {
       "path": "docs/public/generated/claims.json",
@@ -481,7 +481,7 @@
   "outputs": [
     {
       "path": "docs/insights/generated/INSIGHT_SNAPSHOT.md",
-      "sha256": "2986ba70c6fdd04bab33bfdf12be339cdf2cb8f59f89210ac18f0281384715cd"
+      "sha256": "acecf8a50d6e81912d2b54958957b23b768b73048579af661251323a1becd08b"
     },
     {
       "path": "docs/insights/generated/calibration_artifact_portability_index.csv",
@@ -489,19 +489,19 @@
     },
     {
       "path": "docs/insights/generated/candidate_portfolio.json",
-      "sha256": "eeaa66479681b036191eca92341d2adc89282da6e18974fc7a81c40f476c218a"
+      "sha256": "9799677b8f54be661c144acd59fa2f281423295114f9444fca7493d29d6f0a7a"
     },
     {
       "path": "docs/insights/generated/candidate_portfolio.md",
-      "sha256": "10ba92f2eb7b0735e9d687de38f438955d371e82d690b51c206b55a313c62b70"
+      "sha256": "d7b8e3910ec512d416c57915d969f09422bf2a1d05ba6f815d88a7f503c61c66"
     },
     {
       "path": "docs/insights/generated/corpus_map.json",
-      "sha256": "0ba90a1e2ca8bb2f6aebd8e7970c8b3ee4078906ee40ee36665faffe98a88ff0"
+      "sha256": "b87fc9628552bcf44f8af294c8526e907a331a27bda0eac4953e9b19c5aa7860"
     },
     {
       "path": "docs/insights/generated/evidence_lineage_index.csv",
-      "sha256": "3e632c2adf815f99ebcf3810df4176a948c55d3d3e16a8118c5bb3590f81a631"
+      "sha256": "6f15c55f876e87241480db0cbbaec0891f4f70f7d32e9d06021ee88990ac293b"
     },
     {
       "path": "docs/insights/generated/observable_index.csv",
@@ -509,15 +509,15 @@
     },
     {
       "path": "docs/insights/generated/public_claim_inventory.md",
-      "sha256": "ec981b80f7df7d0df4f493bad814757387129ad137cea747e93419baa036b195"
+      "sha256": "a66815c0148f281f95fb3e5fac01557637c33dd810e265bc3ee1bbc761eaf1c3"
     },
     {
       "path": "docs/insights/generated/tension_atlas.csv",
-      "sha256": "1670df0a59e308f0c5661c88965e049049526ee48390c90d343c14ae17e8ecf2"
+      "sha256": "3847b57d101c0b9e1cd9167587ce863535f742ba80847e9c94433f0426f9a81c"
     },
     {
       "path": "docs/insights/generated/tension_atlas.md",
-      "sha256": "684045812de1ed486f23de0861e024c8d8a043fd8acb3cb5f8ddad2ce8199c51"
+      "sha256": "32f6a33f4e2b360416b67948320f5d8f123fdddccfd2161d4b83deef3c75ddcd"
     }
   ],
   "pack": [
