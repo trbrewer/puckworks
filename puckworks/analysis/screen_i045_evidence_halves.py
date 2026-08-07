@@ -785,11 +785,20 @@ FUTURE_CORRECTION_TARGETS = [
          suggested_direction="describe the arm as post-fit/same-campaign. THE NUMERICAL GATE IS "
                              "NOT AFFECTED — only the evidence type named in the docstring.",
          edited_in_this_pr=False),
-    dict(target="any reader-facing description inheriting the independent-evidence label for "
-                "this dataset",
-         current="none found downstream at this head — see misattribution_analysis.containment",
-         defect="would inherit the same defect if written.",
-         suggested_direction="check against the corrected manifest wording once it lands.",
+    #: ERRATUM. This target originally read "none found downstream at this head". That was WRONG:
+    #: the root README's public evidence table carries the same incorrect label in sentence case,
+    #: and both this screen's scan and the IF-7 deep screen's needle scan matched case-sensitively
+    #: and missed it. The historical finding is otherwise unchanged.
+    dict(target="README.md — Foster row in the 'Data used to check the models' table",
+         current="Independent (CT data) / verification of fitted curves",
+         defect=("the repository's own landing page tells a reader the CT data is INDEPENDENT "
+                 "evidence. It is post-fit, same-campaign and not held out. This is the one "
+                 "READER-FACING surface carrying the defect."),
+         suggested_direction=("Post-fit, same-campaign CT observations / verification of fitted "
+                              "trajectories — matching the corrected manifest wording."),
+         erratum=("recorded 2026-08-07. The original entry said no reader-facing description was "
+                  "found; the scans were case-sensitive and the table renders the phrase "
+                  "capitalised."),
          edited_in_this_pr=False),
 ]
 

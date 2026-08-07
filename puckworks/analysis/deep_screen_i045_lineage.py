@@ -378,8 +378,27 @@ def _tracked_files():
     return sorted(p for p in out.stdout.split("\n") if p)
 
 
+def find_needle(text, needle):
+    """CASE-INSENSITIVE occurrences of one needle, returning the text AS WRITTEN.
+
+    The original scan matched case-sensitively and therefore missed the root README's
+    ``Independent (CT data)`` — a capitalised sentence-case rendering in a reader-facing table.
+    That is the one exposure the merged IF-7 audit reported as absent. Matching is now folded,
+    but the MATCHED TEXT is preserved verbatim so the record shows what the surface really says.
+
+    Deliberately still a BOUNDED search for the target phrases. It is not widened to the generic
+    word "independent", which would sweep in unrelated rows across the corpus.
+    """
+    low_t, low_n = text.lower(), needle.lower()
+    out, i = [], low_t.find(low_n)
+    while i != -1:
+        out.append(text[i:i + len(needle)])
+        i = low_t.find(low_n, i + 1)
+    return out
+
+
 def scan_working_tree():
-    """Over-approximating scan: every tracked file carrying either needle."""
+    """Over-approximating scan: every tracked file carrying either needle, case-insensitively."""
     hits = []
     for rel in _tracked_files():
         if rel in SELF_EXCLUDED:
@@ -389,9 +408,18 @@ def scan_working_tree():
             text = p.read_text(encoding="utf-8")
         except (UnicodeDecodeError, OSError, IsADirectoryError):
             continue
-        found = {n: text.count(n) for n in SCAN_NEEDLES if n in text}
+        found, forms = {}, {}
+        for n in SCAN_NEEDLES:
+            m = find_needle(text, n)
+            if m:
+                found[n] = len(m)
+                if sorted(set(m)) != [n]:
+                    forms[n] = sorted(set(m))          # a casing variant the old scan missed
         if found:
-            hits.append(dict(path=rel, occurrences=found))
+            rec = dict(path=rel, occurrences=found)
+            if forms:
+                rec["matched_forms_as_written"] = forms
+            hits.append(rec)
     return hits
 
 
@@ -461,6 +489,21 @@ ATTRIBUTION = {
                      "gate's NUMBERS are unaffected."),
         downstream_containment=False,
         correction_required=True),
+    "README.md": dict(
+        surface=("root README, 'Data used to check the models' table, Foster 2025 row, "
+                 "'Evidence level' column (inside the puckworks-data-inventory markers)"),
+        kind="current authority / reader-facing",
+        value="Independent (CT data) / verification of fitted curves",
+        exposure="CURRENT_READER_FACING_OVERCLAIM",
+        reader_can_take_the_independent_reading=True,
+        reader_note=("This is the landing page. A reader of the repository's own public evidence "
+                     "table is told the CT data is independent evidence, which it is not. The "
+                     "MERGED IF-7 AUDIT MISSED THIS: its needle scan was case-sensitive and the "
+                     "table renders the phrase in sentence case."),
+        downstream_containment=False,
+        correction_required=True,
+        missed_by_the_original_audit=True,
+        missed_because="case-sensitive needle match against a sentence-case rendering"),
     "puckworks/paper3/EVIDENCE_LINKS.json": dict(
         surface="Paper 3 evidence adjudication",
         kind="current authority",
@@ -602,7 +645,7 @@ INSPECTED_CLEAN = [
          finding="no occurrence of either needle in any published page"),
     dict(surface="notebooks/ (including espresso_lb_colab.ipynb)",
          finding="no occurrence; the gate is not referenced in notebook prose"),
-    dict(surface="README.md and top-level documentation",
+    dict(surface="top-level documentation other than README.md",
          finding="no occurrence"),
     dict(surface="puckworks/data/foster2025_2/PROVENANCE.md and README_digitization.md",
          finding=("no independence claim; PROVENANCE describes the CT arm as '(5-line mean)' and "
@@ -652,6 +695,14 @@ def blast_radius():
                          for c in EXPOSURE_CLASSES},
         n_reader_facing_overclaims=len(reader_facing),
         reader_facing_overclaims=reader_facing,
+        containment_assessed=True,
+        containment_bounded=True,
+        public_claim_graph_overclaim=False,
+        pages_overclaim=False,
+        containment_statement=(
+            "One reader-facing repository surface, the root README evidence table, repeats the "
+            "incorrect attribution. The formal public claims graph, the EVIDENCE_LINKS record, "
+            "the PV-02 selection and the Pages publish root remain correctly bounded."),
         correction_required=needs_fix,
         released_content=RELEASED_CONTENT,
         released_content_note_method=("declared, not scanned at run time — a depth-1 CI checkout "
@@ -883,11 +934,13 @@ def alternatives():
         dict(id="A4", challenge="because EVIDENCE_LINKS is correctly bounded, the manifest and "
                                 "gate wording are inconsequential",
              verdict="PARTLY SUCCEEDS — and it is why this is not a publication finding",
-             settled_by=("Containment is real and measured: zero reader-facing over-claims, the "
-                         "public claims artifact records same_campaign_not_held_out and "
-                         "reality_facing=false, and PV-02 excludes the gate. So the consequence "
-                         "is bounded. It does NOT make the attribution correct, and the cell is "
-                         "in released source where the next consumer would inherit it."),
+             settled_by=("Containment is real and measured, but NOT total. ONE reader-facing "
+                         "surface — the root README evidence table — repeats the label, while "
+                         "the public claims artifact records same_campaign_not_held_out and "
+                         "reality_facing=false, PV-02 excludes the gate, and the Pages publish "
+                         "root carries no occurrence. So the consequence is bounded. It does NOT "
+                         "make the attribution correct, and the cell is in released source where "
+                         "the next consumer would inherit it."),
              evidence=["blast_radius"]),
         dict(id="A5", challenge="'independent' means a distinct measurement modality",
              verdict="FAILS",
@@ -981,7 +1034,15 @@ FUTURE_CORRECTION_TARGETS = [
          recommended=("...within their error bars (post-fit reconstruction, same campaign, not "
                       "held out; 'qualitative-good')"),
          edited_in_this_pr=False),
-    dict(n=3, target="regenerate the derived Foundry artifacts that copy the cell byte-identically",
+    dict(n=3, target=("README.md — 'Data used to check the models' table, Foster 2025 row, "
+                      "'Evidence level' column"),
+         current="Independent (CT data) / verification of fitted curves",
+         recommended=("Post-fit, same-campaign CT observations / verification of fitted "
+                      "trajectories"),
+         note=("the one READER-FACING surface. Missed by the original audit because its needle "
+               "scan was case-sensitive and the table renders the phrase in sentence case."),
+         edited_in_this_pr=False),
+    dict(n=4, target="regenerate the derived Foundry artifacts that copy the cell byte-identically",
          current="evidence_lineage_index.csv and corpus_map.json inherit the wording",
          recommended=("`python -m puckworks.insights write` after target 1 — no hand edit; they "
                       "are generated and must never be edited directly"),
@@ -1013,7 +1074,11 @@ def decide(lineage_r, blast, gen, alts):
             no_data_held_out=held_out,
             attribution_confirmed_incorrect=confirmed,
             survives_alternatives_A1_A2_A3_A5=survives,
-            containment_measured=blast["n_reader_facing_overclaims"] == 0,
+            containment_assessed=blast["containment_assessed"],
+            containment_bounded=blast["containment_bounded"],
+            n_reader_facing_overclaims=blast["n_reader_facing_overclaims"],
+            public_claim_graph_overclaim=blast["public_claim_graph_overclaim"],
+            pages_overclaim=blast["pages_overclaim"],
             recurring_defect_demonstrated=gen["recurring_defect_demonstrated"],
             recurring_scope_failure_found=gen["recurring_scope_failure_found"],
             n_confirmed_incorrect_strengths=gen["n_confirmed_incorrect_strengths"],
@@ -1026,13 +1091,15 @@ def decide(lineage_r, blast, gen, alts):
                                     "strengths were never source-adjudicated."),
         ),
         strongest_supported_claim=(
-            "In this repository, one MANIFEST cell and the gate docstring that copies it label a "
-            "set of micro-CT observations 'independent' when the primary source's own objective "
-            "(Phys. Fluids 37, 013383, Eq. 39) fitted the tested parameters to exactly those "
-            "observations. Under ROADMAP S0 the arm is post-fit reconstruction, same campaign, "
-            "not held out. The attribution is materially incorrect, it is present in released "
-            "source, and it reaches ZERO reader-facing claim surfaces because every downstream "
-            "record independently refuses the strong reading."),
+            "In this repository, one MANIFEST cell, the gate docstring that copies it, and the "
+            "root README's public evidence table all label a set of micro-CT observations "
+            "'independent' when the primary source's own objective (Phys. Fluids 37, 013383, "
+            "Eq. 39) fitted the tested parameters to exactly those observations. Under ROADMAP S0 "
+            "the arm is post-fit reconstruction, same campaign, not held out. The attribution is "
+            "materially incorrect and is present in released source. Its reach is BOUNDED but not "
+            "zero: ONE reader-facing surface (the README table) repeats it, while the formal "
+            "public claims graph, the EVIDENCE_LINKS record, the PV-02 selection and the Pages "
+            "publish root all independently refuse the strong reading."),
         strongest_claim_NOT_supported=(
             "That this is a general defect, a novel method, or a publishable finding. The bounded "
             "corpus check found the scoping convention working correctly in every other "
@@ -1138,10 +1205,11 @@ def figure(path=None, result=None):
          ["gate_foster_ct_trajectory", "", "(a) RMSE vs fitted ODE", "     0.002 / 0.053 mm",
           "(b) brackets 4/8, 5/8 CT pts", "", "docstring copies the label:", "“(independent,",
           " 'qualitative-good')”", "", "numbers unaffected"]),
-        (74.0, 24.0, "DOWNSTREAM / PUBLIC", OK,
+        (74.0, 25.0, "DOWNSTREAM / PUBLIC", OK,
          ["EVIDENCE_LINKS.json", "  eval/same_campaign", "  AND fit/fit_input",
           "  reality_facing: false", "", "public claims.json", "  same_campaign_not_held_out",
-          "  outcome: negative", "", "PV-02: EXCLUDES the gate", "Pages site: no occurrence"]),
+          "  outcome: negative", "", "PV-02: EXCLUDES the gate", "Pages site: no occurrence",
+          "", "but README.md table:", "  ✘ repeats the label"]),
     ]
     for x, w, title, colour, lines in cols:
         ax.add_patch(FancyBboxPatch((x, 8), w, 78,
@@ -1149,14 +1217,16 @@ def figure(path=None, result=None):
                                     fc=colour, ec=colour, alpha=0.09, lw=1.0))
         ax.text(x + w / 2, 89, title, fontsize=8.8, weight="bold", color=colour, ha="center")
         y = 80
+        step = 6.6 if len(lines) <= 11 else 5.5      # the downstream column carries more lines
         for ln in lines:
             ax.text(x + 1.4, y, ln, fontsize=7.2, color=INK if not ln.startswith(" ") else MUTE)
-            y -= 6.6
+            y -= step
     for x in (24.6, 48.6, 72.6):
         ax.annotate("", xy=(x + 1.2, 47), xytext=(x - 1.0, 47),
                     arrowprops=dict(arrowstyle="-|>", color="#4a4a4a", lw=1.3))
-    ax.text(86, 3.2, "0 reader-facing over-claims", fontsize=8.4, weight="bold",
-            color=OK, ha="center")
+    ax.text(86.5, 2.6, "%d reader-facing over-claim (README table)\nformal claim surfaces bounded"
+            % r["blast_radius"]["n_reader_facing_overclaims"],
+            fontsize=8.0, weight="bold", color=WARN, ha="center", va="center", linespacing=1.5)
     ax.text(37, 3.2, "present in released source (v0.3.0)", fontsize=8.4, weight="bold",
             color=WARN, ha="center")
 
@@ -1224,7 +1294,8 @@ def main(argv=None):
     for c, n in b["exposure_counts"].items():
         if n:
             print("    %-34s %d" % (c, n))
-    print("  reader-facing over-claims: %d" % b["n_reader_facing_overclaims"])
+    print("  reader-facing over-claims: %d  %s"
+          % (b["n_reader_facing_overclaims"], b["reader_facing_overclaims"] or ""))
     print("generality: %d/%d primary-set rows; scope stated %d/%d; recurring scope failure = %s"
           % (g["n_primary"], g["n_manifest_rows"], g["n_rows_with_scope_stated"],
              g["n_primary_set_rows"], g["recurring_scope_failure_found"]))

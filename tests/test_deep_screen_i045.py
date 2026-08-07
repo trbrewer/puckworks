@@ -342,14 +342,72 @@ def test_exactly_the_manifest_and_the_gate_are_current_miswordings(result):
     mis = sorted(s["path"] for s in b["surfaces"]
                  if s["exposure"] == "CURRENT_INTERNAL_MISWORDING")
     assert mis == ["puckworks/data/MANIFEST.csv", "puckworks/validation/gates.py"]
-    assert sorted(b["correction_required"]) == mis
+    # plus the ONE reader-facing surface — three source surfaces need correcting in all
+    assert sorted(b["correction_required"]) == [
+        "README.md", "puckworks/data/MANIFEST.csv", "puckworks/validation/gates.py"]
 
 
-def test_no_reader_facing_overclaim_and_pages_is_clean(result):
+def test_the_case_insensitive_scan_finds_the_capitalised_readme_wording():
+    """The erratum: the original scan matched case-sensitively and missed this."""
+    readme = (REPO / "README.md").read_text(encoding="utf-8")
+    assert "independent (CT data)" not in readme, "the README renders it in SENTENCE case"
+    found = D.find_needle(readme, "independent (CT data)")
+    assert found == ["Independent (CT data)"], found      # matched text preserved as written
+    hits = {h["path"]: h for h in D.scan_working_tree()}
+    assert "README.md" in hits
+    assert hits["README.md"]["matched_forms_as_written"] == {
+        "independent (CT data)": ["Independent (CT data)"]}
+
+
+def test_the_scan_is_not_widened_to_the_generic_word_independent():
+    """Bounded target search — widening it would sweep in unrelated corpus rows."""
+    assert D.SCAN_NEEDLES == ("independent (CT data)", D.GATE_DOCSTRING_FRAGMENT)
+    for n in D.SCAN_NEEDLES:
+        assert len(n) > 20, n
+
+
+def test_one_reader_facing_overclaim_the_readme_and_pages_is_clean(result):
     b = result["blast_radius"]
-    assert b["n_reader_facing_overclaims"] == 0
-    assert b["reader_facing_overclaims"] == []
+    assert b["n_reader_facing_overclaims"] == 1
+    assert b["reader_facing_overclaims"] == ["README.md"]
     assert b["pages_carries_attribution"] is False
+    readme = {s["path"]: s for s in b["surfaces"]}["README.md"]
+    assert readme["exposure"] == "CURRENT_READER_FACING_OVERCLAIM"
+    assert readme["reader_can_take_the_independent_reading"] is True
+    assert readme["correction_required"] is True
+    assert readme["missed_by_the_original_audit"] is True
+    assert "case-sensitive" in readme["missed_because"]
+
+
+def test_containment_is_recorded_as_bounded_not_as_zero(result):
+    """CORRECTION_ONLY must not depend on an exact zero reader-facing count."""
+    b = result["blast_radius"]
+    assert b["containment_assessed"] is True
+    assert b["containment_bounded"] is True
+    assert b["public_claim_graph_overclaim"] is False
+    assert b["pages_overclaim"] is False
+    assert "root README evidence table" in b["containment_statement"]
+    d = result["decision"]["derivation"]
+    assert d["containment_assessed"] is True and d["containment_bounded"] is True
+    assert d["n_reader_facing_overclaims"] == 1
+    assert d["recurring_defect_demonstrated"] is False
+    assert result["decision"]["output_class"] == "CORRECTION_ONLY", (
+        "one incorrect README cell does not establish a recurring defect")
+
+
+def test_the_readme_is_a_named_future_correction_target(result):
+    targets = result["decision"]["future_correction_targets"]
+    assert len(targets) == 4
+    rd = [t for t in targets if "README.md" in t["target"]]
+    assert len(rd) == 1
+    assert rd[0]["current"] == "Independent (CT data) / verification of fitted curves"
+    assert rd[0]["recommended"] == (
+        "Post-fit, same-campaign CT observations / verification of fitted trajectories")
+    assert all(t["edited_in_this_pr"] is False for t in targets)
+
+
+def test_pages_root_is_still_clean(result):
+    b = result["blast_radius"]
     # the publish root really is what the workflow publishes
     wf = (REPO / ".github/workflows/pages.yml").read_text(encoding="utf-8")
     assert b["pages_publish_root"] in wf
@@ -556,11 +614,14 @@ def test_the_classification_is_derived_not_asserted(result):
     d = result["decision"]
     assert d["output_class"] in D.OUTPUT_CLASSES
     dv = d["derivation"]
+    assert "containment_measured" not in dv, (
+        "the zero-count field must be gone; containment is bounded, not zero")
     assert dv["lineage_settled_from_primary_source"] is True
     assert dv["no_data_held_out"] is True
     assert dv["attribution_confirmed_incorrect"] is True
     assert dv["survives_alternatives_A1_A2_A3_A5"] is True
-    assert dv["containment_measured"] is True
+    assert dv["containment_assessed"] is True
+    assert dv["containment_bounded"] is True
     assert dv["recurring_defect_demonstrated"] is False
     assert d["output_class"] == "CORRECTION_ONLY"
 
@@ -589,7 +650,7 @@ def test_the_decision_states_both_the_supported_and_the_unsupported_claim(result
     assert d["separate_correction_pr_recommended"] is True
     assert d["manuscript_work_justified"] is False
     assert d["further_literature_review_justified"] is False
-    assert len(d["future_correction_targets"]) == 3
+    assert len(d["future_correction_targets"]) == 4
     for t in d["future_correction_targets"]:
         assert t["edited_in_this_pr"] is False
         assert t["recommended"]
@@ -681,7 +742,17 @@ def test_the_cheap_snapshot_refresh_changed_only_static_enumeration_bookkeeping(
         (BUNDLE / "result.json").read_text(encoding="utf-8"))
 
     top = [k for k in sorted(set(before) | set(after)) if before.get(k) != after.get(k)]
-    assert top == ["enumeration"], "something outside the enumeration moved: %s" % top
+    # `future_correction_targets` also moved, and legitimately: its third entry said no
+    # reader-facing description existed, which the case-sensitivity erratum corrected to name
+    # README.md. Everything else must still be enumeration bookkeeping.
+    assert top == ["enumeration", "future_correction_targets"], (
+        "something outside the enumeration and the documented erratum moved: %s" % top)
+    t_before, t_after = before["future_correction_targets"], after["future_correction_targets"]
+    assert len(t_before) == len(t_after) == 3
+    assert t_before[:2] == t_after[:2], "only the THIRD target may change"
+    assert "README.md" in t_after[2]["target"]
+    assert "erratum" in t_after[2]
+    assert "none found" in t_before[2]["current"]
     eb, ea = before["enumeration"], after["enumeration"]
     moved = sorted(k for k in set(eb) | set(ea) if eb.get(k) != ea.get(k))
     assert moved == ["n_static_reference_files", "n_static_references",
@@ -702,9 +773,10 @@ def test_the_cheap_snapshot_refresh_changed_only_static_enumeration_bookkeeping(
     assert len(before["consumers"]) == len(after["consumers"]) == 7
     assert eb["complete"] is ea["complete"] is True
     assert eb["traced"] == ea["traced"]
+    # `future_correction_targets` is checked above, entry by entry, because its third entry
+    # legitimately changed under the documented erratum.
     for key in ("halves", "rejected_reinterpretation", "misattribution_analysis",
-                "future_correction_targets", "claim_ceiling", "glossary",
-                "adversarial_text_scan"):
+                "claim_ceiling", "glossary", "adversarial_text_scan"):
         assert before.get(key) == after.get(key), key
     # the pre-refresh figure must stay recoverable from history (binary-safe check)
     assert _git("cat-file", "-e",
