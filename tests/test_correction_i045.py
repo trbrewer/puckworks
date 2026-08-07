@@ -195,12 +195,59 @@ def test_already_correct_surfaces_are_untouched(result):
         pytest.skip("canonical base not present")
     for path in ("puckworks/paper3/EVIDENCE_LINKS.json", "puckworks/public/claims.py",
                  "docs/public/generated/claims.json", "docs/paper3_resource/generated",
-                 "puckworks/registry.py", "docs/insights/ID_REGISTRY.json",
+                 "puckworks/registry.py",
                  "puckworks/viz", "docs/figures/viz", "docs/public/site",
                  "docs/insights/RETIRED_CANDIDATES.md", "docs/insights/screens/I-076",
                  "docs/insights/screens/I-045/DEEP_SCREEN_PROTOCOL.md"):
         r = _git("diff", "--numstat", BASE, "HEAD", "--", path)
         assert r.returncode == 0 and r.stdout.strip() == "", "%s changed: %s" % (path, r.stdout)
+
+
+def test_the_id_registry_was_appended_to_not_rewritten():
+    """ID_REGISTRY legitimately gains T-0175. Nothing existing may be reassigned or removed."""
+    if not _have_base():
+        pytest.skip("canonical base not present")
+    before = json.loads(_git("show", "%s:docs/insights/ID_REGISTRY.json" % BASE).stdout)
+    after = json.loads((REPO / "docs/insights/ID_REGISTRY.json").read_text(encoding="utf-8"))
+    sections = [k for k, v in before.items()
+                if isinstance(v, dict) and k not in ("counts", "high_water")]
+    added, reassigned, removed = [], [], []
+    for sect in sections:
+        for fp, sid in before[sect].items():
+            got = after.get(sect, {}).get(fp)
+            if got is None:
+                removed.append(sid)
+            elif got != sid:
+                reassigned.append((sid, got))
+        for fp, sid in after.get(sect, {}).items():
+            if fp not in before[sect]:
+                added.append(sid)
+    assert reassigned == [], "an existing stable ID was reassigned: %s" % reassigned
+    assert removed == [], "the registry is append-only; entries were removed: %s" % removed
+    assert sorted(added) == ["T-0175"], added
+    assert after["counts"]["candidates"] == before["counts"]["candidates"]
+    assert after["counts"]["tensions"] == before["counts"]["tensions"] + 1
+
+
+def test_only_I045_left_the_live_candidate_portfolio(result):
+    if not _have_base():
+        pytest.skip("canonical base not present")
+    def ids(text):
+        d = json.loads(text)
+        c = d["candidates"] if isinstance(d, dict) and "candidates" in d else d
+        return {x.get("id") or x.get("candidate_id") for x in c}
+    before = ids(_git("show",
+                      "%s:docs/insights/generated/candidate_portfolio.json" % BASE).stdout)
+    after = ids((REPO / "docs/insights/generated/candidate_portfolio.json")
+                .read_text(encoding="utf-8"))
+    assert after == before - {"I-045"}, sorted(before ^ after)
+    g = result["generated_foundry_artifacts"]
+    assert g["live_candidate_portfolio_contains_I045"] is False
+    assert g["live_candidate_count"] == len(after) == 90
+    assert g["I045_absence_reason"] == "RESOLVED_BY_CORRECTION"
+    assert g["appended_current_tension_id"] == "T-0175"
+    assert g["current_tension_id_present"] is True
+    assert g["original_tension_id_still_in_append_only_history"] is True
 
 
 def test_generated_foundry_artifacts_carry_the_corrected_wording(result):

@@ -204,6 +204,11 @@ def test_future_correction_targets_are_named_and_not_edited(result):
 
 def test_the_named_source_surfaces_are_untouched_in_this_pr():
     """A screen may identify an attribution defect; it may not repair these files."""
+    if S.live_source_is_corrected():
+        pytest.skip("live source is corrected; this asserted the PRE-CORRECTION state "
+                    "of surfaces the correction was authorised to change. The historical\n"
+                    "finding is protected by the pinned snapshot hashes; the CURRENT "
+                    "state is asserted by tests/test_correction_i045.py.")
     import subprocess
 
     def git(*args):
