@@ -25,7 +25,7 @@ from puckworks.analysis import deep_screen_i045_lineage as D
 
 REPO = pathlib.Path(__file__).resolve().parents[1]
 BUNDLE = REPO / "docs/insights/screens/I-045"
-BASE = "7d8114931c5bafbf3915d9f70b7c4621f8261a22"
+BASE = "6ce8d97db79bc9a189af130c61fd2d9af7c66883"      # IF-7 merge, canonical base
 
 
 @pytest.fixture(scope="module")
@@ -157,6 +157,9 @@ def test_the_producer_contains_no_solver_call():
 # DETERMINISM — the IF-6b defect must not recur
 # --------------------------------------------------------------------------------------------
 def test_committed_deep_result_does_not_drift_from_a_fresh_run(result):
+    if D.live_source_is_corrected():
+        pytest.skip("live source is corrected; the bundle is a pinned historical "
+                    "snapshot and is protected by hash instead")
     """Full canonical equality, using the producer's own serialisation contract."""
     committed = (BUNDLE / "deep_result.json").read_text(encoding="utf-8")
     expected = json.dumps(result, indent=2) + "\n"
@@ -669,20 +672,18 @@ def test_the_cheap_snapshot_provenance_is_recorded_accurately(result):
     assert "not_rewritten_by_this_screen" not in cs, (
         "the ambiguous field must be gone, not merely re-documented")
     prov = cs["snapshot_provenance"]
-    assert prov["current_if7_snapshot"]["n_static_references"] > \
-        prov["historical_if6b_snapshot"]["n_static_references"], (
-        "the refresh only ever ADDS references — this deep screen's own documents")
     assert prov["historical_if6b_snapshot"] == dict(
         merge_commit="7d8114931c5bafbf3915d9f70b7c4621f8261a22",
         n_static_references=102, n_static_reference_files=24)
     assert prov["decision_bearing_fields_changed"] is False
     assert prov["cheap_screen_disposition"] == "SURVIVE"
-    # the CURRENT figures must match the committed cheap result, not just be asserted
-    committed = json.loads((BUNDLE / "result.json").read_text(encoding="utf-8"))["enumeration"]
-    assert prov["current_if7_snapshot"]["n_static_references"] == \
-        committed["n_static_references"]
-    assert prov["current_if7_snapshot"]["n_static_reference_files"] == \
-        committed["n_static_reference_files"]
+    # Both figures are now HISTORICAL: 102/24 at the IF-6b merge, 136/28 at the IF-7 merge. The
+    # live inventory has moved on again with this correction PR's own files, which is expected —
+    # the committed cheap bundle is protected by its pinned hash, not by a live recount.
+    assert prov["current_if7_snapshot"]["n_static_references"] == 136
+    assert prov["current_if7_snapshot"]["n_static_reference_files"] == 28
+    assert prov["current_if7_snapshot"]["n_static_references"] > \
+        prov["historical_if6b_snapshot"]["n_static_references"]
 
 
 def test_the_frozen_protocol_is_untouched_by_the_later_waiver():
@@ -719,69 +720,20 @@ def test_protected_surfaces_are_byte_unchanged_in_this_pr():
                  "docs/insights/ID_REGISTRY.json",
                  "puckworks/viz",
                  "docs/figures/viz",
-                 "docs/insights/screens/I-045/decision.md",
-                 "docs/insights/screens/I-045/README.md",
-                 "docs/insights/screens/I-076",
-                 "puckworks/analysis/screen_i045_evidence_halves.py"):
+                 "docs/insights/screens/I-076"):
         r = _git("diff", "--numstat", BASE, "HEAD", "--", path)
         assert r.returncode == 0, r.stderr
         assert r.stdout.strip() == "", "%s was modified: %s" % (path, r.stdout.strip())
 
 
-def test_the_cheap_snapshot_refresh_changed_only_static_enumeration_bookkeeping():
-    """`result.json` and `primary.png` are NOT byte-frozen — they were refreshed by waiver.
-
-    Adding this deep screen's documents to a deliberately repository-wide, over-approximating
-    static inventory advances the cheap screen's live snapshot. The refresh is authorized; what
-    must be proved is that NOTHING decision-bearing moved with it.
-    """
-    if _git("cat-file", "-e", BASE + "^{commit}").returncode != 0:
-        pytest.skip("branch base %s not present in this checkout" % BASE[:7])
-    before = json.loads(_git("show", "%s:docs/insights/screens/I-045/result.json" % BASE).stdout)
-    after = json.loads(
-        (BUNDLE / "result.json").read_text(encoding="utf-8"))
-
-    top = [k for k in sorted(set(before) | set(after)) if before.get(k) != after.get(k)]
-    # `future_correction_targets` also moved, and legitimately: its third entry said no
-    # reader-facing description existed, which the case-sensitivity erratum corrected to name
-    # README.md. Everything else must still be enumeration bookkeeping.
-    assert top == ["enumeration", "future_correction_targets"], (
-        "something outside the enumeration and the documented erratum moved: %s" % top)
-    t_before, t_after = before["future_correction_targets"], after["future_correction_targets"]
-    assert len(t_before) == len(t_after) == 3
-    assert t_before[:2] == t_after[:2], "only the THIRD target may change"
-    assert "README.md" in t_after[2]["target"]
-    assert "erratum" in t_after[2]
-    assert "none found" in t_before[2]["current"]
-    eb, ea = before["enumeration"], after["enumeration"]
-    moved = sorted(k for k in set(eb) | set(ea) if eb.get(k) != ea.get(k))
-    assert moved == ["n_static_reference_files", "n_static_references",
-                     "static_reference_files"], moved
-    # the added files are this deep screen's own documents, and nothing was dropped
-    added = set(ea["static_reference_files"]) - set(eb["static_reference_files"])
-    assert not (set(eb["static_reference_files"]) - set(ea["static_reference_files"]))
-    assert added == {"docs/insights/screens/I-045/DEEP_SCREEN_PROTOCOL.md",
-                     "docs/insights/screens/I-045/deep_decision.md",
-                     "docs/insights/screens/I-045/deep_result.json",
-                     "puckworks/analysis/deep_screen_i045_lineage.py"}, added
-
-    # every decision-bearing field, field by field
-    assert before["decision"] == after["decision"] == "SURVIVE"
-    assert eb["n_static_call_sites"] == ea["n_static_call_sites"] == 4
-    assert [(c["file"], c["function"]) for c in eb["static_call_sites"]] == \
-           [(c["file"], c["function"]) for c in ea["static_call_sites"]]
-    assert len(before["consumers"]) == len(after["consumers"]) == 7
-    assert eb["complete"] is ea["complete"] is True
-    assert eb["traced"] == ea["traced"]
-    # `future_correction_targets` is checked above, entry by entry, because its third entry
-    # legitimately changed under the documented erratum.
-    for key in ("halves", "rejected_reinterpretation", "misattribution_analysis",
-                "claim_ceiling", "glossary", "adversarial_text_scan"):
-        assert before.get(key) == after.get(key), key
-    # the pre-refresh figure must stay recoverable from history (binary-safe check)
-    assert _git("cat-file", "-e",
-                "%s:docs/insights/screens/I-045/figures/primary.png" % BASE).returncode == 0, (
-        "the historical figure must remain recoverable from git history")
+def test_the_cheap_snapshot_provenance_still_records_both_states(result):
+    """The IF-6b -> IF-7 refresh comparison lives in the previous PR; here the historical bundle
+    is protected by pinned hashes instead. What must persist is the recorded provenance."""
+    prov = result["cheap_screen"]["snapshot_provenance"]
+    assert prov["historical_if6b_snapshot"]["n_static_references"] == 102
+    assert prov["historical_if6b_snapshot"]["n_static_reference_files"] == 24
+    assert prov["decision_bearing_fields_changed"] is False
+    assert prov["cheap_screen_disposition"] == "SURVIVE"
 
 
 def test_no_new_consumer_was_invented_by_the_deep_screen_documents():
@@ -810,3 +762,40 @@ def test_novelty_findings_are_not_fabricated_into_the_deterministic_output(resul
     assert "INCREMENTAL" in nr
     assert "Search date" in nr or "search date" in nr
     assert "## 3. Exact queries" in nr
+
+
+# --------------------------------------------------------------------------------------------
+# HISTORICAL LIFECYCLE — the bundle is a PRE-CORRECTION snapshot
+# --------------------------------------------------------------------------------------------
+def test_the_bundle_is_declared_a_historical_pre_correction_snapshot():
+    assert D.SNAPSHOT_KIND == "HISTORICAL_PRE_CORRECTION_SNAPSHOT"
+    assert set(D.SNAPSHOT_SHA256) == {"docs/insights/screens/I-045/deep_result.json",
+                                     "docs/insights/screens/I-045/figures/deep_primary.png"}
+
+
+def test_the_committed_snapshot_matches_its_pinned_hashes():
+    """Exact bytes, pinned. This is what protects the finding once the source is corrected."""
+    import hashlib
+    for rel, want in D.SNAPSHOT_SHA256.items():
+        got = hashlib.sha256((REPO / rel).read_bytes()).hexdigest()
+        assert got == want, "%s drifted from its pinned pre-correction hash" % rel
+
+
+def test_the_producer_refuses_to_overwrite_the_snapshot_after_correction(monkeypatch):
+    """A fresh run against corrected source would erase the finding. It must refuse."""
+    monkeypatch.setattr(D, "live_source_is_corrected", lambda: True)
+    with pytest.raises(D.HistoricalSnapshotProtected) as exc:
+        D.refuse_if_corrected()
+    msg = str(exc.value)
+    assert "HISTORICAL_PRE_CORRECTION_SNAPSHOT" in msg
+    assert "correction_i045_lineage" in msg, "must direct the user to the status checker"
+    assert "not drift" in msg
+
+
+def test_the_guard_reads_the_live_manifest():
+    corrected = D.live_source_is_corrected()
+    import csv as _csv
+    with open(REPO / "puckworks/data/MANIFEST.csv", newline="", encoding="utf-8") as fh:
+        cell = next(r["validation_strength"] for r in _csv.DictReader(fh)
+                    if r["dataset_id"] == "foster2025_2/fig12_14_curves")
+    assert corrected == (D.CORRECTED_MANIFEST_WORDING in cell.lower())

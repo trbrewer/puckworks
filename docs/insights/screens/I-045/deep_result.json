@@ -379,10 +379,12 @@
       "docs/insights/screens/I-045/deep_result.json",
       "docs/insights/screens/I-045/NOVELTY_REVIEW.md",
       "puckworks/analysis/deep_screen_i045_lineage.py",
-      "tests/test_deep_screen_i045.py"
+      "tests/test_deep_screen_i045.py",
+      "puckworks/analysis/correction_i045_lineage.py",
+      "tests/test_correction_i045.py"
     ],
     "self_exclusion_reason": "a screen may not count its own output as corpus exposure; excluding it also keeps the scan stable while it is written",
-    "n_files_scanned": 1328,
+    "n_files_scanned": 1330,
     "n_files_with_occurrence": 14,
     "n_surfaces_inspected_by_path_without_a_needle": 6,
     "needle_scan_blind_spot_note": "a surface can consume this dataset or gate without containing either needle \u2014 EVIDENCE_LINKS.json, PV-02, the registry and the generated public claims artifact all do. They are inspected by path and attributed alongside the scan hits, never left to the grep.",

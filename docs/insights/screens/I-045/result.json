@@ -246,8 +246,8 @@
     ]
   },
   "enumeration": {
-    "n_static_references": 136,
-    "n_static_reference_files": 28,
+    "n_static_references": 150,
+    "n_static_reference_files": 31,
     "static_reference_files": [
       "docs/ROADMAP.md",
       "docs/SPRINTS.md",
@@ -267,6 +267,7 @@
       "docs/paper3_resource/generated/evidence_graph_matrix.csv",
       "docs/paper3_resource/generated/evidence_graph_matrix.md",
       "docs/public/generated/claims.json",
+      "puckworks/analysis/correction_i045_lineage.py",
       "puckworks/analysis/deep_screen_i045_lineage.py",
       "puckworks/analysis/screen_i045_evidence_halves.py",
       "puckworks/data/MANIFEST.csv",
@@ -275,7 +276,9 @@
       "puckworks/paper3/EVIDENCE_LINKS.json",
       "puckworks/public/claims.py",
       "puckworks/validation/gates.py",
+      "tests/test_correction_i045.py",
       "tests/test_data_loaders.py",
+      "tests/test_deep_screen_i045.py",
       "tests/test_screen_i045.py"
     ],
     "n_static_call_sites": 4,

@@ -434,6 +434,9 @@ def test_bundle_is_present_and_carries_the_disposition():
 
 
 def test_committed_result_does_not_drift_from_a_fresh_run(result):
+    if S.live_source_is_corrected():
+        pytest.skip("live source is corrected; the bundle is a pinned historical "
+                    "snapshot and is protected by hash instead")
     """The committed bytes must be EXACTLY what the producer emits today.
 
     Selected-field equality is not enough. The producer records static call-site LINE NUMBERS,
@@ -504,3 +507,40 @@ def test_no_unauthorised_candidate_bundle_was_created():
     allowed = {"I-040", "I-010", "I-024", "I-045", "I-076", "README.md"}
     present = {p.name for p in (REPO / "docs/insights/screens").iterdir()}
     assert present <= allowed, present - allowed
+
+
+# --------------------------------------------------------------------------------------------
+# HISTORICAL LIFECYCLE — the bundle is a PRE-CORRECTION snapshot
+# --------------------------------------------------------------------------------------------
+def test_the_bundle_is_declared_a_historical_pre_correction_snapshot():
+    assert S.SNAPSHOT_KIND == "HISTORICAL_PRE_CORRECTION_SNAPSHOT"
+    assert set(S.SNAPSHOT_SHA256) == {"docs/insights/screens/I-045/result.json",
+                                     "docs/insights/screens/I-045/figures/primary.png"}
+
+
+def test_the_committed_snapshot_matches_its_pinned_hashes():
+    """Exact bytes, pinned. This is what protects the finding once the source is corrected."""
+    import hashlib
+    for rel, want in S.SNAPSHOT_SHA256.items():
+        got = hashlib.sha256((REPO / rel).read_bytes()).hexdigest()
+        assert got == want, "%s drifted from its pinned pre-correction hash" % rel
+
+
+def test_the_producer_refuses_to_overwrite_the_snapshot_after_correction(monkeypatch):
+    """A fresh run against corrected source would erase the finding. It must refuse."""
+    monkeypatch.setattr(S, "live_source_is_corrected", lambda: True)
+    with pytest.raises(S.HistoricalSnapshotProtected) as exc:
+        S.refuse_if_corrected()
+    msg = str(exc.value)
+    assert "HISTORICAL_PRE_CORRECTION_SNAPSHOT" in msg
+    assert "correction_i045_lineage" in msg, "must direct the user to the status checker"
+    assert "not drift" in msg
+
+
+def test_the_guard_reads_the_live_manifest():
+    corrected = S.live_source_is_corrected()
+    import csv as _csv
+    with open(REPO / "puckworks/data/MANIFEST.csv", newline="", encoding="utf-8") as fh:
+        cell = next(r["validation_strength"] for r in _csv.DictReader(fh)
+                    if r["dataset_id"] == "foster2025_2/fig12_14_curves")
+    assert corrected == (S.CORRECTED_MANIFEST_WORDING in cell.lower())

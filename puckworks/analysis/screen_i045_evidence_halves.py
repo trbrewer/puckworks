@@ -1028,7 +1028,57 @@ def figure(path=None, result=None):
     return path
 
 
+
+# --------------------------------------------------------------------------------------------
+# HISTORICAL LIFECYCLE  (added by the human-owned correction, cheap screen)
+# --------------------------------------------------------------------------------------------
+#: This screen audited the repository BEFORE the evidence-lineage correction landed. Its committed
+#: result and figure are a HISTORICAL PRE-CORRECTION SNAPSHOT: they record what the repository
+#: said at the time, which is the whole point of the finding. Once the correction is applied a
+#: fresh run no longer sees the misattribution — that is success, not drift, and it must NOT be
+#: written over the historical record.
+#:
+#: So the CLI refuses to overwrite the bundle once the live MANIFEST carries the corrected
+#: wording, and the committed bytes are pinned by hash instead. The scientific-property tests are
+#: unchanged and still validate the historical findings.
+SNAPSHOT_KIND = "HISTORICAL_PRE_CORRECTION_SNAPSHOT"
+SNAPSHOT_SHA256 = {'docs/insights/screens/I-045/result.json': 'b4ac284a6cbcea55f4bb6521ef19a31455fd5d4e59a6d182129068ddbb502c94', 'docs/insights/screens/I-045/figures/primary.png': '29ac635c2fed644e0107a7cfc3ec71b215b0b0b28db15571483fb5e4b3a3fb88'}
+
+CORRECTED_MANIFEST_WORDING = ("post-fit, same-campaign CT observations / verification of fitted "
+                              "trajectories")
+CORRECTION_STATUS_CHECKER = "python -m puckworks.analysis.correction_i045_lineage"
+
+
+def live_source_is_corrected():
+    """True once the live MANIFEST cell carries the corrected wording."""
+    import csv as _csv
+    path = REPO_ROOT / "puckworks/data/MANIFEST.csv"
+    with open(path, newline="", encoding="utf-8") as fh:
+        for row in _csv.DictReader(fh):
+            if row["dataset_id"] == "foster2025_2/fig12_14_curves":
+                return CORRECTED_MANIFEST_WORDING in row["validation_strength"].lower()
+    return False
+
+
+class HistoricalSnapshotProtected(RuntimeError):
+    """Refusing to overwrite a pre-correction snapshot with a post-correction run."""
+
+
+def refuse_if_corrected():
+    if live_source_is_corrected():
+        raise HistoricalSnapshotProtected(
+            "The live MANIFEST already carries the corrected evidence wording, so this "
+            "PRE-CORRECTION snapshot must not be regenerated.\n"
+            "  These files are a %s and are pinned by SHA-256:\n"
+            "    %s\n"
+            "  A fresh run today would no longer see the misattribution — that is the correction\n"
+            "  working, not drift, and overwriting the bundle would erase the finding.\n"
+            "  For the CURRENT state of the correction, run:\n"
+            "    %s"
+            % (SNAPSHOT_KIND, "\n    ".join(sorted(SNAPSHOT_SHA256)), CORRECTION_STATUS_CHECKER))
+
 def main(argv=None):
+    refuse_if_corrected()
     r = screen()
     out = REPO_ROOT / "docs/insights/screens/I-045/result.json"
     out.parent.mkdir(parents=True, exist_ok=True)
