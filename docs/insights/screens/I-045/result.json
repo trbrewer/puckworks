@@ -245,8 +245,8 @@
     ]
   },
   "enumeration": {
-    "n_static_references": 102,
-    "n_static_reference_files": 24,
+    "n_static_references": 136,
+    "n_static_reference_files": 28,
     "static_reference_files": [
       "docs/ROADMAP.md",
       "docs/SPRINTS.md",
@@ -254,8 +254,11 @@
       "docs/insights/IF5_HUMAN_TRIAGE_DECISION.md",
       "docs/insights/candidates/I-045_which_strength_is_load_bearing_where_the_manifes.md",
       "docs/insights/screens/I-040/decision.md",
+      "docs/insights/screens/I-045/DEEP_SCREEN_PROTOCOL.md",
       "docs/insights/screens/I-045/README.md",
       "docs/insights/screens/I-045/decision.md",
+      "docs/insights/screens/I-045/deep_decision.md",
+      "docs/insights/screens/I-045/deep_result.json",
       "docs/insights/screens/I-045/result.json",
       "docs/insights/screens/README.md",
       "docs/paper3_resource/generated/component_gate_matrix.csv",
@@ -263,6 +266,7 @@
       "docs/paper3_resource/generated/evidence_graph_matrix.csv",
       "docs/paper3_resource/generated/evidence_graph_matrix.md",
       "docs/public/generated/claims.json",
+      "puckworks/analysis/deep_screen_i045_lineage.py",
       "puckworks/analysis/screen_i045_evidence_halves.py",
       "puckworks/data/MANIFEST.csv",
       "puckworks/data/__init__.py",
