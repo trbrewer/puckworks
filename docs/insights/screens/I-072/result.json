@@ -1,0 +1,660 @@
+{
+  "screen": "I-072",
+  "candidate_id": "I-072",
+  "tension_row": "T-0147",
+  "disposition": [
+    "CHEAP_SCIENTIFIC_SCREEN",
+    "NOT_A_PUBLICATION_RESULT",
+    "NOT_A_MODEL_VALIDATION_UPGRADE"
+  ],
+  "components": [
+    "mo2023_2.swelling",
+    "brewer2026.streamtube"
+  ],
+  "registry_entries": {
+    "mo2023_2.swelling": {
+      "name": "mo2023_2.swelling",
+      "stage": "bed_dynamics",
+      "kind": "runtime",
+      "module": "puckworks.models.mo2023_2.swelling",
+      "assumptions": "isotropic grain swelling by NONLINEAR water diffusion (D^w); fixed bed height so swelling only reduces eps_b (Eq 21); Carman-Kozeny flow at fixed dP; fine+coarse representative particles swell independently (tau~R^2/D^w -> boulders partially swell); NO surface dissolution",
+      "valid_range": "fixed-dP flow DECAY (Fig 3a headline) reproduced as a \u0394p/mu/L-independent RATIO q(60)/q(0): E/H/M within ~5%, F within ~13%, and the coarser-throttles-less ordering E<H<M<F; s_m=3.57% (Eq 8) from C_M=0.1 ASSUMED not measured; fixed-dP swelling claim is unvalidated in the paper. Solute EXTRACTION coupling (Eqs 9-17, yield/strength Fig 8, fixed-q insensitivity) is a further layer, NOT built (the Cameron-duplicating half per card verdict)",
+      "evidence_strength": "source_curve_reproduction",
+      "provenance_class": "published_port",
+      "gates": [
+        "gate_mo2_swelling_flow_decay",
+        "gate_mo2_swelling_insensitivity",
+        "gate_mo2_k0_carman_kozeny",
+        "gate_mo2_fixed_flow_trends"
+      ]
+    },
+    "brewer2026.streamtube": {
+      "name": "brewer2026.streamtube",
+      "stage": "bed_dynamics",
+      "kind": "runtime",
+      "module": "puckworks.models.brewer2026.streamtube",
+      "assumptions": "parallel non-exchanging tubes; unit-mean lognormal k; sigma(phi1) is an EMPIRICAL closure over the calibrated domain",
+      "valid_range": "calibrated at dial 1.1-1.5; LOO-interpolated, not externally validated",
+      "evidence_strength": "within_campaign_held_out",
+      "provenance_class": "project_model",
+      "gates": [
+        "gate_streamtube_heldout"
+      ]
+    }
+  },
+  "provenance": {
+    "base_commit": "85f65c0d4b836990152fa4e9bf91c6d292a9e257",
+    "protocol_path": "docs/insights/screens/I-072/PROTOCOL.md",
+    "protocol_sha256": "ebbc4d6f11b003818244e06640af5874ef15c0c3fa2733445fa86d363b0feb00",
+    "input_sha256": {
+      "docs/insights/screens/I-072/PROTOCOL.md": "ebbc4d6f11b003818244e06640af5874ef15c0c3fa2733445fa86d363b0feb00",
+      "puckworks/models/mo2023_2/swelling.py": "a8c4760f1d0430ec5291fad7371f7ba87fbd450fa881064a4c676f0c423bb441",
+      "puckworks/models/brewer2026/streamtube.py": "bdabf7658d3ce587ccb107c6a8252cf0f546d2affc9ca7ab1620c8eb96e8b450",
+      "puckworks/models/__init__.py": "ea2feb6254c04ee3f0d4b1b8a8cd0145c2b919a865a73f8ec3d14c047dbefb4f",
+      "docs/cards/mo2023_2.md": "f1581ac8f1cef634e32000a2d561f3e41518eeaadbf8b9e2b579389260f1270a",
+      "puckworks/data/mo2023_2/table1_granulometry.csv": "781299488ad480fd121bcea7a9c592c2a7f12af539f3df9b7fd61e9fd45d6521",
+      "puckworks/data/mo2023_2/fig3a_qdecay.csv": "af09bfdf5ce26f492e9d8c6d7034e1d7607affa4bc221e5132c40eb4afd24ecc"
+    },
+    "command": "python -m puckworks.analysis.screen_i072_matched_observable"
+  },
+  "protocol": {
+    "path": "docs/insights/screens/I-072/PROTOCOL.md",
+    "sha256": "ebbc4d6f11b003818244e06640af5874ef15c0c3fa2733445fa86d363b0feb00",
+    "frozen_before_execution": true,
+    "note": "committed in its own commit, before this module existed"
+  },
+  "observable_definition": {
+    "mo2023_2.swelling": {
+      "quantity": "q(t)/q(0) -- bed-mean Carman-Kozeny conductivity ratio",
+      "units": "dimensionless",
+      "index": "time",
+      "normalisation": "self-normalised at t=0",
+      "intervention": "fixed dP",
+      "initial_state": "dry bed",
+      "lateral_index": null
+    },
+    "brewer2026.streamtube": {
+      "quantity": "per-tube permeability multiplier k_i; scored as the EY deficit",
+      "units": "dimensionless",
+      "index": "tube",
+      "normalisation": "ensemble mean exactly 1",
+      "intervention": "fixed pressure + fixed delivered mass",
+      "initial_state": "saturated bed",
+      "time_index": null
+    }
+  },
+  "matched_scenario": null,
+  "matched_scenario_note": "none was constructed: the compatibility gate fails upstream of scenario construction, and the protocol forbids execution past a failed gate",
+  "compatibility_table": [
+    {
+      "aspect": "component identity",
+      "a": "mo2023_2.swelling",
+      "b": "brewer2026.streamtube",
+      "aligned": true,
+      "note": "both are registered runtime components on the bed_dynamics stage"
+    },
+    {
+      "aspect": "physical quantity",
+      "a": "bed-mean Carman-Kozeny conductivity ratio q(t)/q(0)",
+      "b": "per-tube permeability multiplier k_i, and the EY deficit its spread causes",
+      "aligned": false,
+      "note": "a mean and a dispersion are different moments of the same field"
+    },
+    {
+      "aspect": "mathematical definition",
+      "a": "eps_b^(3+2n) d32^2 / (1-eps_b)^2, evaluated at t and divided by its t=0 value",
+      "b": "k_i = exp(sigma*xi - sigma^2/2) with E[k]=1; deficit = 1 - EY_ens(sigma)/EY(k=1)",
+      "aligned": false,
+      "note": "no transformation maps one onto the other"
+    },
+    {
+      "aspect": "units",
+      "a": "dimensionless ratio (dP, mu, L cancel by construction)",
+      "b": "dimensionless multiplier; deficit is a dimensionless yield fraction",
+      "aligned": true,
+      "note": "both dimensionless -- which is exactly why a plot would look admissible"
+    },
+    {
+      "aspect": "total vs normalised",
+      "a": "bed-total (one 1-D column), self-normalised at t=0",
+      "b": "per-tube, normalised so the ENSEMBLE MEAN is exactly 1",
+      "aligned": false,
+      "note": "streamtube's normalisation makes the bed-total flow ratio identically 1"
+    },
+    {
+      "aspect": "index",
+      "a": "time",
+      "b": "tube (lateral position); Rung A has no time index for k",
+      "aligned": false,
+      "note": "the decisive row: different index sets"
+    },
+    {
+      "aspect": "evaluation location / pressure node",
+      "a": "none exposed -- dP is a scalar that cancels; no pressure is evaluated anywhere",
+      "b": "one common pressure drop shared by all tubes (module default p_bar=5.0)",
+      "aligned": false,
+      "note": "S5.9 / ledger A1 cannot be satisfied on a model that evaluates no node"
+    },
+    {
+      "aspect": "time basis / event basis",
+      "a": "t=0 is the instant dry grain surfaces reach c^w=C_M; horizon is a clock time",
+      "b": "shot start; the shot ENDS at a delivered beverage mass m_out, not a clock time",
+      "aligned": false,
+      "note": "a clock horizon and a mass endpoint are not the same terminus"
+    },
+    {
+      "aspect": "initial state",
+      "a": "dry grains, c^w(r,0)=0, instantaneous surface wetting",
+      "b": "saturated bed; no infiltration stage exists in the model",
+      "aligned": false,
+      "note": "swelling is driven by the uptake streamtube assumes complete"
+    },
+    {
+      "aspect": "intervention / boundary condition",
+      "a": "fixed dP, free flow",
+      "b": "fixed pressure AND fixed delivered mass (m_in=0.020 kg, m_out=0.040 kg)",
+      "aligned": false,
+      "note": "ONBOARDING: mo2023_2's fixed-q branch is INSENSITIVE to swelling -- the intervention is load-bearing, not cosmetic"
+    },
+    {
+      "aspect": "geometry",
+      "a": "fixed bed height; swelling reduces eps_b only (Eq. 21)",
+      "b": "K parallel NON-EXCHANGING tubes at one shared dP",
+      "aligned": false,
+      "note": "one column vs K columns with no lateral exchange"
+    },
+    {
+      "aspect": "saturation / prewet assumption",
+      "a": "no unsaturated-flow stage; grains imbibe from a wetted surface",
+      "b": "saturated throughout; wetting is out of scope",
+      "aligned": false,
+      "note": ""
+    },
+    {
+      "aspect": "grind descriptor / parameter validity range",
+      "a": "powder identity E/H/M/F (theta_f, 2R_f, 2R_c, d32) -- THERE IS NO DIAL",
+      "b": "EK43 dial 1.1-1.5, LOO-interpolated, not externally validated",
+      "aligned": false,
+      "note": "rule 9 / ledger A9,G5: no dial mapping without an explicit refit adapter"
+    },
+    {
+      "aspect": "output validity range",
+      "a": "q(60)/q(0) reproduced to ~5% (E/H/M) and ~13% (F); the fixed-dP swelling claim is UNVALIDATED in the source paper",
+      "b": "EY deficit over the calibrated dial domain only",
+      "aligned": false,
+      "note": "different observables, so the ranges are not comparable"
+    },
+    {
+      "aspect": "declared uncertainty source",
+      "a": "model-vs-source reproduction agreement (gate threshold max_rel_err < 0.20)",
+      "b": "gate_streamtube_heldout: held-out |error| on the EY relative deviation, < 0.02",
+      "aligned": false,
+      "note": "neither is a measurement uncertainty, and they are on different observables"
+    },
+    {
+      "aspect": "validation / evidence scope",
+      "a": "source_curve_reproduction",
+      "b": "within_campaign_held_out (no card exists for this component)",
+      "aligned": false,
+      "note": "copied verbatim from the registry; neither is upgraded here"
+    },
+    {
+      "aspect": "transformation required to compare",
+      "a": "-",
+      "b": "-",
+      "aligned": false,
+      "note": "NONE EXISTS that is not an invention: to put these on one axis you must either give the streamtube a time-varying mean (Rung B, uncalibrated) or give the swelling model a lateral index (physics it does not have)"
+    }
+  ],
+  "grind_descriptor_check": {
+    "mo_powders": {
+      "E": {
+        "theta_f": 0.292,
+        "theta_c": 0.708,
+        "R_f_um": 13.74,
+        "R_c_um": 160.85,
+        "d32_um": 76.02
+      },
+      "H": {
+        "theta_f": 0.275,
+        "theta_c": 0.725,
+        "R_f_um": 14.1,
+        "R_c_um": 173.75,
+        "d32_um": 84.43
+      },
+      "M": {
+        "theta_f": 0.203,
+        "theta_c": 0.797,
+        "R_f_um": 15.115,
+        "R_c_um": 179.235,
+        "d32_um": 109.0
+      },
+      "F": {
+        "theta_f": 0.097,
+        "theta_c": 0.903,
+        "R_f_um": 15.795,
+        "R_c_um": 262.0,
+        "d32_um": 201.1
+      }
+    },
+    "streamtube_dials": {
+      "1.1": {
+        "phi_fines": 0.16197999999999999,
+        "phi_boulder": 0.66522,
+        "R_f_um": 12.0,
+        "R_c_um": 286.17,
+        "d32_um": 104.55734752493964
+      },
+      "1.3": {
+        "phi_fines": 0.14814,
+        "phi_boulder": 0.67906,
+        "R_f_um": 12.0,
+        "R_c_um": 310.79,
+        "d32_um": 113.86138449640139
+      },
+      "1.5": {
+        "phi_fines": 0.1343,
+        "phi_boulder": 0.6929,
+        "R_f_um": 12.0,
+        "R_c_um": 335.41,
+        "d32_um": 124.78977416251834
+      }
+    },
+    "mo_descriptor": "powder identity E/H/M/F -- no grinder dial exists in this component",
+    "streamtube_descriptor": "EK43 dial 1.1-1.5",
+    "common_descriptor": null,
+    "d32_spans": {
+      "mo": [
+        76.02,
+        201.1
+      ],
+      "streamtube": [
+        104.55734752493964,
+        124.78977416251834
+      ]
+    },
+    "d32_numerically_overlaps": true,
+    "mo_powder_d32_inside_streamtube_span": {
+      "E": false,
+      "H": false,
+      "M": true,
+      "F": false
+    },
+    "granulometry_behind_the_d32_coincidence": {
+      "M": {
+        "mo_R_f_um": 15.115,
+        "cam_R_f_um": 12.0,
+        "R_f_rel_diff": 0.25958333333333333,
+        "mo_R_c_um": 179.235,
+        "cam_R_c_um": 286.17,
+        "R_c_rel_diff": 0.3736764860048223,
+        "mo_theta_f": 0.203,
+        "cam_phi_fines_fraction": 0.1958172147001934
+      }
+    },
+    "intersect": false,
+    "why": "Mo's powders are not placed on any grinder dial, and rule 9 / ledger A9,G5 forbids mapping one grinder's dial space onto another's without an explicit refit adapter. A d32 coincidence is a coincidence of one derived moment, not a matched grind: the granulometry behind it differs in both representative radii and in the fines fraction."
+  },
+  "structural_degeneracy": {
+    "streamtube_bed_total_flow_ratio_is_identically_1": {
+      "claim": "the bed-total flow ratio q_total(t)/q_total(0) is identically 1 in brewer2026.streamtube Rung A, for every sigma",
+      "analytic_basis": "E[k] = E[exp(sigma*xi - sigma^2/2)] = 1 EXACTLY for a standard normal xi -- the -sigma^2/2 term in `lognormal_nodes` is what makes the lognormal unit-mean, and `simulate_ensemble_dynamic` additionally renormalises with `k0 *= 1.0 / k0.mean()`. The numbers below are a numerical confirmation of an analytic identity, not an estimate of it",
+      "method": "evaluate the unit-mean quadrature constructors directly; no solve is performed",
+      "function_evaluated": "puckworks.models.brewer2026.streamtube.lognormal_nodes",
+      "rows": [
+        {
+          "sigma": 0.0,
+          "gauss_hermite_mean_k": 1.0,
+          "gauss_hermite_abs_dev_from_1": 0.0,
+          "quantile_midpoint_mean_k": 1.0,
+          "across_tube_cv": 0.0,
+          "analytic_lognormal_cv": 0.0
+        },
+        {
+          "sigma": 0.05,
+          "gauss_hermite_mean_k": 0.9999999999999999,
+          "gauss_hermite_abs_dev_from_1": 1.1102230246251565e-16,
+          "quantile_midpoint_mean_k": 1.0,
+          "across_tube_cv": 0.05003126628214686,
+          "analytic_lognormal_cv": 0.05003126628214686
+        },
+        {
+          "sigma": 0.1,
+          "gauss_hermite_mean_k": 0.9999999999999998,
+          "gauss_hermite_abs_dev_from_1": 2.220446049250313e-16,
+          "quantile_midpoint_mean_k": 1.0000000000000002,
+          "across_tube_cv": 0.10025052161544129,
+          "analytic_lognormal_cv": 0.10025052161544129
+        },
+        {
+          "sigma": 0.2,
+          "gauss_hermite_mean_k": 0.9999999999999998,
+          "gauss_hermite_abs_dev_from_1": 2.220446049250313e-16,
+          "quantile_midpoint_mean_k": 1.0,
+          "across_tube_cv": 0.20201676710706035,
+          "analytic_lognormal_cv": 0.2020167671070603
+        },
+        {
+          "sigma": 0.3,
+          "gauss_hermite_mean_k": 0.9999999999999998,
+          "gauss_hermite_abs_dev_from_1": 2.220446049250313e-16,
+          "quantile_midpoint_mean_k": 0.9999999999999997,
+          "across_tube_cv": 0.30687828809678014,
+          "analytic_lognormal_cv": 0.3068782880967801
+        },
+        {
+          "sigma": 0.5,
+          "gauss_hermite_mean_k": 1.0,
+          "gauss_hermite_abs_dev_from_1": 0.0,
+          "quantile_midpoint_mean_k": 1.0,
+          "across_tube_cv": 0.5329403500277884,
+          "analytic_lognormal_cv": 0.5329403500277883
+        },
+        {
+          "sigma": 0.75,
+          "gauss_hermite_mean_k": 0.9999999999999998,
+          "gauss_hermite_abs_dev_from_1": 2.220446049250313e-16,
+          "quantile_midpoint_mean_k": 0.9999999999999999,
+          "across_tube_cv": 0.8689388108263424,
+          "analytic_lognormal_cv": 0.8689388108263427
+        },
+        {
+          "sigma": 1.0,
+          "gauss_hermite_mean_k": 0.9999999999999999,
+          "gauss_hermite_abs_dev_from_1": 1.1102230246251565e-16,
+          "quantile_midpoint_mean_k": 1.0,
+          "across_tube_cv": 1.3108324944301235,
+          "analytic_lognormal_cv": 1.3108324944320862
+        },
+        {
+          "sigma": 1.5,
+          "gauss_hermite_mean_k": 0.9999999999999993,
+          "gauss_hermite_abs_dev_from_1": 6.661338147750939e-16,
+          "quantile_midpoint_mean_k": 1.0000000000000002,
+          "across_tube_cv": 2.913371737984075,
+          "analytic_lognormal_cv": 2.913371901484348
+        },
+        {
+          "sigma": 2.0,
+          "gauss_hermite_mean_k": 0.999999999998107,
+          "gauss_hermite_abs_dev_from_1": 1.8930412792883544e-12,
+          "quantile_midpoint_mean_k": 1.0,
+          "across_tube_cv": 7.320728061530498,
+          "analytic_lognormal_cv": 7.321075742890811
+        },
+        {
+          "sigma": 3.0,
+          "gauss_hermite_mean_k": 0.9999998995888796,
+          "gauss_hermite_abs_dev_from_1": 1.0041112041836442e-07,
+          "quantile_midpoint_mean_k": 1.0,
+          "across_tube_cv": 84.8387962204815,
+          "analytic_lognormal_cv": 90.01157663087223
+        }
+      ],
+      "quantile_midpoint_max_abs_deviation": 3.3306690738754696e-16,
+      "quantile_midpoint_scope": "every sigma on the grid (exact by explicit renormalisation)",
+      "gauss_hermite_max_abs_deviation_within_scope": 6.661338147750939e-16,
+      "gauss_hermite_scope": "sigma <= 1.5",
+      "gauss_hermite_max_abs_deviation_all_sigma": 1.0041112041836442e-07,
+      "quadrature_caveat": "at sigma = 2.0 and 3.0 the 15-node Gauss-Hermite rule itself under-resolves the lognormal tail (worst deviation 1.0e-07), while the explicitly renormalised quantile-midpoint construction stays at 1.0 to machine precision at the SAME sigma. That is quadrature resolution, not a mechanism that moves the mean -- reported rather than trimmed away by choosing a friendlier sigma grid.",
+      "holds": true,
+      "consequence": "the observable mo2023_2.swelling emits is a CONSTANT in this model. It is not a competing prediction of flow decay; the model has no mechanism that can move it."
+    },
+    "swelling_lateral_dispersion_is_identically_0": {
+      "claim": "mo2023_2.swelling carries no lateral/tube index; its across-tube dispersion is identically 0",
+      "method": "signature and source contract of the public entry point",
+      "flow_decay_parameters": [
+        "powder",
+        "t_eval",
+        "eps_b0",
+        "n",
+        "D_w",
+        "c_m",
+        "N"
+      ],
+      "lateral_parameters_found": [],
+      "returns": "t, eps_b(t), d32(t), q_rel(t) -- one scalar per time sample, no tube axis",
+      "module_declares_one_column": true,
+      "card_authority": "docs/cards/mo2023_2.md: \"Mo's 1-D homogeneity is silent on channeling.\"",
+      "holds": true,
+      "consequence": "the observable brewer2026.streamtube emits is a CONSTANT (zero) in this model. It is not a competing prediction of flow heterogeneity; the model has no mechanism that can move it."
+    },
+    "summary": "each component's output is the other's structural zero"
+  },
+  "source_data_scale": {
+    "source": "mo2023_2/fig3a_qdecay (digitised Fig 3a, s_m = 3.6 %)",
+    "is_model_output": false,
+    "per_powder": {
+      "E": {
+        "t_first_s": 0.0,
+        "t_last_s": 60.009,
+        "q_first_mm_s": 4.908,
+        "q_last_mm_s": 0.2361,
+        "q_ratio": 0.04810513447432763
+      },
+      "H": {
+        "t_first_s": 0.0,
+        "t_last_s": 60.019,
+        "q_first_mm_s": 5.7615,
+        "q_last_mm_s": 0.3048,
+        "q_ratio": 0.05290288987242906
+      },
+      "M": {
+        "t_first_s": 0.0,
+        "t_last_s": 60.02,
+        "q_first_mm_s": 10.1057,
+        "q_last_mm_s": 0.5749,
+        "q_ratio": 0.05688868658281959
+      },
+      "F": {
+        "t_first_s": 0.0,
+        "t_last_s": 60.004,
+        "q_first_mm_s": 35.1292,
+        "q_last_mm_s": 4.136,
+        "q_ratio": 0.11773681154139577
+      }
+    },
+    "span": [
+      0.04810513447432763,
+      0.11773681154139577
+    ]
+  },
+  "compatibility_gate": {
+    "checks": {
+      "G1_quantity_and_definition": {
+        "passed": false,
+        "reason": "a bed-mean conductivity ratio and a per-tube permeability multiplier are different moments of the flow field; no transformation maps one to the other"
+      },
+      "G2_index_and_normalisation": {
+        "passed": false,
+        "reason": "time-indexed and self-normalised vs tube-indexed and ensemble-mean-normalised"
+      },
+      "G3_pressure_node": {
+        "passed": false,
+        "reason": "mo2023_2.swelling evaluates no pressure at any location -- dP cancels in the ratio -- so no node identity can be matched to the streamtube's shared node"
+      },
+      "G4_intervention_and_initial_state": {
+        "passed": false,
+        "reason": "fixed-dP from a dry bed vs fixed-pressure-and-mass-endpoint on a saturated bed; the intervention is load-bearing (the fixed-q branch is swelling-insensitive)"
+      },
+      "G5_validity_domains_intersect": {
+        "passed": false,
+        "reason": "Mo's powders are not placed on any grinder dial, and rule 9 / ledger A9,G5 forbids mapping one grinder's dial space onto another's without an explicit refit adapter. A d32 coincidence is a coincidence of one derived moment, not a matched grind: the granulometry behind it differs in both representative radii and in the fines fraction."
+      }
+    },
+    "passed": false,
+    "failed": [
+      "G1_quantity_and_definition",
+      "G2_index_and_normalisation",
+      "G3_pressure_node",
+      "G4_intervention_and_initial_state",
+      "G5_validity_domains_intersect"
+    ],
+    "execution_permitted": false
+  },
+  "models_executed": [],
+  "model_solves_performed": 0,
+  "models_executed_note": "neither component is executed. The determination is reached at the compatibility gate, upstream of any run",
+  "forbidden_execution_set": [
+    "puckworks.models.mo2023_2.swelling.flow_decay",
+    "puckworks.models.mo2023_2.swelling.flow_decay_ratio",
+    "puckworks.models.mo2023_2.swelling.swelling_volume_ratio",
+    "puckworks.models.brewer2026.streamtube.EYResponse",
+    "puckworks.models.brewer2026.streamtube.simulate_ensemble_dynamic",
+    "puckworks.models.cameron2020.extraction_bdf.simulate_shot"
+  ],
+  "structural_functions_evaluated": [
+    "puckworks.models.brewer2026.streamtube.lognormal_nodes",
+    "puckworks.models.cameron2020.extraction_bdf.grind_microstructure"
+  ],
+  "structural_functions_note": "lognormal_nodes builds Gauss-Hermite quadrature weights; grind_microstructure reads a measured-PSD table. Neither integrates an ODE or PDE and neither runs a shot",
+  "uncertainty_authorities": {
+    "brewer2026_streamtube": {
+      "evidence_label": "within_campaign_held_out",
+      "label_is_a_numerical_band": false,
+      "numerical_quantity": "gate_streamtube_heldout: max held-out |error| on the EY RELATIVE DEVIATION, leave-one-out over GS 1.1/1.3/1.5, pass threshold 0.02",
+      "gate_docstring": "WITHIN-CAMPAIGN HELD-OUT: the sigma(GS) fines closure, fit on two of the paper's three",
+      "observable": "EY relative deviation (dimensionless yield fraction)",
+      "population": "three grind settings from one campaign",
+      "admissible_for_this_comparison": false,
+      "why_not": "wrong observable. A held-out error on an extraction-yield deficit is not an uncertainty on a bed-mean flow ratio, and the protocol froze the borrow-another-observable's-band move as inadmissible before any result.",
+      "card_exists": false,
+      "card_note": "no docs/cards/brewer2026_streamtube.md or docs/cards/brewer2026.md; the validity range and uncertainty are registry-sourced, and this result says so rather than assuming card provenance"
+    },
+    "mo2023_2_swelling": {
+      "evidence_label": "source_curve_reproduction",
+      "numerical_quantity": "registry valid_range: reproduction agreement E/H/M within ~5%, F within ~13%; gate_mo2_swelling_flow_decay pass threshold max_rel_err < 0.20",
+      "observable": "q(60)/q(0) per powder",
+      "admissible_for_this_comparison": false,
+      "why_not": "these are model-vs-source AGREEMENT tolerances and a gate pass threshold, not a measurement uncertainty on the physical quantity; the source campaign retains no replicate spread on q(t)/q(0)"
+    },
+    "conclusion": "no admissible quantitative uncertainty exists for a shared observable, because no shared observable exists. Had one existed, this audit would have blocked the comparison independently."
+  },
+  "primary_numerical_findings": {
+    "streamtube_quantile_midpoint_max_abs_dev_of_mean_k_from_1": 3.3306690738754696e-16,
+    "streamtube_gauss_hermite_max_abs_dev_of_mean_k_from_1": 6.661338147750939e-16,
+    "streamtube_gauss_hermite_scope": "sigma <= 1.5",
+    "sigma_values_checked": [
+      0.0,
+      0.05,
+      0.1,
+      0.2,
+      0.3,
+      0.5,
+      0.75,
+      1.0,
+      1.5,
+      2.0,
+      3.0
+    ],
+    "swelling_lateral_parameters_found": [],
+    "source_data_q_ratio_span_mo_fig3a": [
+      0.04810513447432763,
+      0.11773681154139577
+    ],
+    "note": "there is NO between-model numerical difference to report, because no shared observable exists. The numbers above characterise the two structural degeneracies, not a disagreement"
+  },
+  "adversarial_checks": [
+    {
+      "id": "A1",
+      "check": "units",
+      "result": "both outputs are dimensionless; the incompatibility is NOT a unit mismatch",
+      "overturns": false,
+      "note": "this is why the comparison looks admissible on an axis and is not"
+    },
+    {
+      "id": "A2",
+      "check": "total vs normalised",
+      "result": "normalising both to their own reference value does not help: the streamtube mean is ALREADY normalised to 1 by construction, so the normalised bed-total ratio is 1 for every sigma (max deviation 1.00e-07)",
+      "overturns": false
+    },
+    {
+      "id": "A3",
+      "check": "pressure node (S5.9 / ledger A1)",
+      "result": "cannot reconcile: mo2023_2.swelling evaluates no pressure anywhere. dP cancels identically in the ratio, so there is no node to align",
+      "overturns": false
+    },
+    {
+      "id": "A4",
+      "check": "time origin",
+      "result": "cannot reconcile: the streamtube's Rung A k has no time index at all, so no choice of t=0 produces a time-varying quantity to align",
+      "overturns": false
+    },
+    {
+      "id": "A5",
+      "check": "sign convention / reciprocal / complement",
+      "result": "a reciprocal or complement of a bed-mean ratio is still a bed-mean ratio; it does not acquire a tube index",
+      "overturns": false
+    },
+    {
+      "id": "A6",
+      "check": "geometry / area scaling",
+      "result": "an area or bed-depth factor is a constant prefactor; it cannot convert a constant-in-time quantity into a decaying one",
+      "overturns": false
+    },
+    {
+      "id": "A7",
+      "check": "fixed-flow vs fixed-pressure",
+      "result": "the intervention is load-bearing, not cosmetic: mo2023_2's fixed-q branch is swelling-INSENSITIVE (gate_mo2_swelling_insensitivity) while its fixed-dP branch throttles hard. Converting one intervention to the other changes which physics is observable, and the repository declares no conversion",
+      "overturns": false
+    },
+    {
+      "id": "A8",
+      "check": "initial saturation / prewet",
+      "result": "cannot reconcile: swelling is DRIVEN by the uptake the streamtube assumes already complete. Matching the initial state removes the mechanism",
+      "overturns": false
+    },
+    {
+      "id": "A9",
+      "check": "the known composition mis-scale",
+      "result": "not applicable, and that matters. gate_kappa_t_composition_diagnostic already records mo2023_2's fixed-dP swelling branch over-closing a saturated pre-wet bed ('reported not tuned away'). This screen reports NO numerical disagreement, so it cannot be mistaking that known mis-scale for a discovery",
+      "overturns": false
+    },
+    {
+      "id": "A10",
+      "check": "the d32 rescue",
+      "result": "d32 spans overlap numerically (mo 76.0-201.1 um vs streamtube dials 104.6-124.8 um) and 1 of 4 Mo powders land inside the streamtube span -- and it rescues nothing. The granulometry behind the coincidence differs: M: R_f differs 26%, R_c differs 37%. d32 is one derived moment, it is not a grinder dial, and rule 9 forbids the mapping",
+      "overturns": false,
+      "note": "this is the check most likely to have produced a false SURVIVE"
+    },
+    {
+      "id": "A11",
+      "check": "the Rung-B rescue",
+      "result": "Rung B (simulate_ensemble_dynamic) does emit a time-indexed bed-total flow, which is the index and normalisation G1-G2 need -- and it is still not admissible. Running it requires lam_e, a_open and a_clog, whose module defaults are 0.0 (i.e. no dynamics) and for which the repository declares no calibrated values; supplying them is inventing parameters. Rung B also carries NO gate and the registry declares it 'hypothesis-generating', so a comparison there would score a gated component against an ungated diagnostic",
+      "overturns": false,
+      "note": "this is the honest reopen path, and it is a calibration task, not a screen"
+    },
+    {
+      "id": "A12",
+      "check": "is the finding merely the tension row's own premise?",
+      "result": "no -- the tension row T-0147 declares shared_observable EMPTY and asks whether one exists. The card it was generated from already says 'complementary-competing ... a bed can have both'. This screen converts that prose into a checkable structural statement and finds it correct",
+      "overturns": false
+    }
+  ],
+  "adversarial_checks_overturning": [],
+  "decision": "RETIRE",
+  "decision_record": {
+    "decision": "RETIRE",
+    "rule_applied": "protocol section 7 ordering rule, frozen before results: a G1-G4 failure is RETIRE because no amount of new data changes what a component computes; NEEDS_NEW_DATA is reserved for a missing declared value where G1-G4 pass",
+    "gate_failures": [
+      "G1_quantity_and_definition",
+      "G2_index_and_normalisation",
+      "G3_pressure_node",
+      "G4_intervention_and_initial_state",
+      "G5_validity_domains_intersect"
+    ],
+    "g1_to_g4_failures": [
+      "G1_quantity_and_definition",
+      "G2_index_and_normalisation",
+      "G3_pressure_node",
+      "G4_intervention_and_initial_state"
+    ],
+    "rationale": "mo2023_2.swelling and brewer2026.streamtube answer different physical questions. One computes the bed-MEAN permeability as a function of TIME under fixed dP; the other computes the across-TUBE DISPERSION of permeability at a fixed mean, with no time index. Each component's output is identically constant in the other's model -- the streamtube's bed-total flow ratio is 1 for every sigma by unit-mean construction, and the swelling model's lateral dispersion is 0 for every powder because it has one column. Their declared validity domains also fail to intersect: a powder identity and an EK43 dial are not the same descriptor and rule 9 forbids the adapter.",
+    "models_executed": [],
+    "model_solves_performed": 0
+  },
+  "reopen_condition": "brewer2026.streamtube Rung B acquires DECLARED, calibrated values for lam_e, a_open and a_clog together with a gate, so that it predicts a time-varying bed-TOTAL flow ratio -- and that prediction is made on a granulometry inside mo2023_2's declared powder set, or on a grind descriptor both components declare they accept. Then, and only then, G1-G5 can be re-evaluated on q_total(t)/q_total(0). NOT reopened by a response sweep (that is RP-A, ROADMAP S9), and NOT reopened by a d32 coincidence.",
+  "claim_ceiling": "A registry finding about one declared-competitor row, and nothing more. This screen does NOT establish that the two components agree; two components that answer different questions neither agree nor disagree. It does NOT establish that a real bed lacks either mechanism -- docs/cards/mo2023_2.md says a bed can have both, and this result is consistent with that. It does NOT upgrade, downgrade or restate any validation rung or evidence class: mo2023_2.swelling remains source_curve_reproduction and brewer2026.streamtube remains within_campaign_held_out. It licenses no statement about espresso.",
+  "evidence_labels_unchanged": true,
+  "administrative_exception_invoked": false
+}
