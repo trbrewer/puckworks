@@ -149,3 +149,45 @@ with the absence of a band made visually explicit rather than implied.
 
 `experiment_design` most likely (a targeted first-drip replicate campaign), `technical_note` if
 discrimination is actually achieved, `public_story` only downstream of one of those.
+
+### Screen outcome (appended after the Wave-3 cheap screen ran, 2026-08-07)
+
+**RETIRE** — `docs/insights/screens/I-090/`. Recorded in
+[`../RETIRED_CANDIDATES.md`](../RETIRED_CANDIDATES.md) with a reopen condition.
+
+**This card expected `NEEDS_NEW_DATA` plus a costed replicate request, and that is not what the
+evidence supports.** The card's second alternative was confirmed factually — `de1_fixtureA` is
+one physically independent extraction, 100 samples *of it*, median cadence 0.270 s (event
+*resolution*, not population variance), no replicate spread, no declared within-model band for
+either component, grind setting **assumed** and κ **fitted to this same shot**. But it is not the
+binding obstacle. The comparison is ill-posed **upstream** of the uncertainty question.
+
+**The two components are not rivals.** They are sequential stages of one pipeline —
+`foster2025.machine_mode` (stage `machine`) *generates* the pressure history that
+`foster2025.infiltration` (stage `infiltration`) *consumes*. Both bind to the **same card**,
+`docs/cards/foster2025.md`, whose Interface mapping states: *"one card serves
+`foster2025.infiltration` and `foster2025.machine_mode`, so anything listed above is attributed
+to both."* So T-0171's *"2 registered models name first_drip_time among their interface outputs"*
+is **one Outputs clause counted twice** — co-location, not a relationship.
+
+**They are one front law, demonstrated.** Fed `machine_mode`'s own implied bed-top pressure,
+`infiltration`'s public closed form reproduces `machine_mode`'s front to RMSE **7.0 × 10⁻⁸ mm** on
+a 9.975 mm bed, with the residual falling under grid refinement (1.7e-5 → 1.1e-6 → 7.0e-8), which
+is what identifies it as quadrature error rather than a physical difference. Any first-drip
+difference between them is therefore a difference in the **pressure history supplied** — a
+boundary condition, not a mechanism.
+
+**The convention artifact the first alternative predicted is real, and quantified.** The measured
+event moves with the detection threshold across 6.793 s (0.05–0.2 g) to 8.775 s (2.0 g) — a
+**1.982 s** span, wider than the **1.4 s** model bracket (6.4–7.8 s) the existing gate compares
+against. And `de1_fixtureA` lies outside `machine_mode`'s declared configuration (DeLonghi EC685,
+59 mm basket, 10 g fine grind), which cannot consume a recorded trace at all.
+
+**A replicate campaign would NOT have rescued it**, and the screen says so explicitly so that the
+experiment this card anticipated is not commissioned for an ill-posed comparison.
+
+**The readiness note held and was acted on.** The screen states which measurement provenance it
+relies on rather than inheriting it, and it surfaced a further finding: MANIFEST row 27 declares
+`validation_strength = independent (parameter-free triangle)`, contradicting ROADMAP §7.1's own
+2026-07-16 entry. That target is **named and deliberately not edited** — the Foundry is not an
+authority over an evidence label, and I-045 set the precedent.
