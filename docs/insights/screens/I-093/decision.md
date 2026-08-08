@@ -21,7 +21,7 @@ rung.
 ## Method
 
 Frozen in [`PROTOCOL.md`](PROTOCOL.md) before this screen existed. Grain radius exactly 10 voxels
-(the pack card's admissibility floor), R = 310.8 µm and porosity 0.40–0.65 — both inside
+(the registry's declared admissibility floor), R = 310.8 µm and porosity 0.40–0.65 — both inside
 `wadsworth2026.permeability`'s declared ⟨R⟩ 145–818 µm and φ_p 0.37–0.67. `brewer2026.lb_reference`
 is the anchor; `lb_taichi` is not used.
 
@@ -44,13 +44,14 @@ is the anchor; `lb_taichi` is not used.
 | 80 | 4.00 | 0.4977 | 4.210 | 1400 |
 | 100 | **5.00** | 0.4977 | **5.135** | 1400 |
 
-The sweep **reached the pack card's own ≥5-grain-diameter box guidance** and `k` is still moving:
+The sweep **reached a box size of 5 grain diameters** and `k` is still moving:
 the change between the two largest boxes is **18.0 %** against the frozen 5 % criterion, the
 sequence is **non-monotone**, and `k` is still rising at the largest box. No `L*` satisfies the
 frozen stabilisation criterion.
 
-**This is not a compute bound.** The budget was not exhausted (3938 s of 7200 s) and the card's
-declared box guidance *was* reached. The candidate's INCONCLUSIVE arm — "the solver cannot be run
+**This is not a compute bound.** The budget was not exhausted (3938 s of 7200 s) and 5.0 grain
+diameters *was* reached (but see the scoping correction below: that figure is not a declared
+permeability guidance). The candidate's INCONCLUSIVE arm — "the solver cannot be run
 at an RVE size large enough to stabilise" — therefore does **not** apply.
 
 ### 2. The ratio is not flat across the family — secondary, and confounded
@@ -68,7 +69,7 @@ which is why it is reported — but see the confound below before reading it as 
 ## Primary figure
 
 [`figures/primary.png`](figures/primary.png) — (a) both routes on the same geometry; (b) the trend
-test, is the ratio flat; (c) RVE stabilisation with the pack card's ≥5-grain-diameter line marked.
+test, is the ratio flat; (c) RVE stabilisation with the 5-grain-diameter line marked.
 
 ## Decision
 
@@ -83,8 +84,12 @@ two.
 
 **The RVE arm is confounded with geometry-realisation noise, and that is a limitation of my own
 screen design, not of the data.** The frozen protocol swept box size at **one seed**, while the
-family measured seed-to-seed spread at fixed L of **1.05–1.39** (5–39 %, and 23 % at the swept
-porosity φ_s = 0.50). The 18 % change between the two largest boxes is *the same order* as
+family measured a **two-realization max/min range ratio** at fixed L,
+`max(k_seed_1, k_seed_2)/min(k_seed_1, k_seed_2)`, of **1.045–1.392** across the six porosities
+(≈ 4.5–39.2 % relative to the smaller value), and **1.231** at the swept porosity φ_s = 0.50. This
+is an *observed two-realization dispersion* only — **not** a CV, standard deviation, confidence
+interval, uncertainty width, population estimate or realization-noise floor. Only the deep
+multi-realization ensemble can establish a defensible variability statistic. The 18 % change between the two largest boxes is *the same order* as
 realisation variance at fixed box size. So on this evidence alone I cannot separate:
 
 - a genuine representative-elementary-volume requirement larger than 5 grain diameters, from
@@ -179,3 +184,33 @@ Runs locally, ~66 min CPU. Not a CI job.
 
 Base `892e5ec78f7a0dcf1b1f2de85ccfff8f39e0effa`. `result.json` binds the SHA-256 of `PROTOCOL.md`
 and of every load-bearing input.
+
+## Correction — what the "≥5 grain diameters" figure actually scopes
+
+**Added after execution, on inspecting the registry text verbatim.** This bundle (and the frozen
+`PROTOCOL.md` §6b) described ≥5 grain diameters as *"the pack card's declared box guidance"*, which
+implied a permeability-representativeness statement. It is not one.
+
+`brewer2026.pack_generator`'s declared range reads, in full:
+
+> `grain radius >= 10 voxels; columns >= 5 grain diameters for sigma`
+
+The ≥5 figure is scoped **to sigma** — the columnar heterogeneity field — and there is **no pack
+card** in `docs/cards/`. **The repository has never claimed that 5 grain diameters is sufficient
+for permeability**, so this screen contradicts no existing repository statement and **no card
+correction is warranted or made.**
+
+What changes, and what does not:
+
+- **The decision does not change.** The frozen rule was applied as written and returned SURVIVE.
+- **The measurement does not change.** k had not converged by 5.0 grain diameters, whatever that
+  figure was originally scoped to.
+- **The framing does change.** Reaching 5 grain diameters is *not* reaching a declared permeability
+  guidance, so the SURVIVE-vs-INCONCLUSIVE boundary drawn in this screen rests on a threshold with
+  no repository-declared anchor for this observable. The result is better read as a **positive
+  measurement** — the first domain-size calibration for this generator/solver pair — than as a
+  finding against any existing guidance.
+
+`PROTOCOL.md` is deliberately **left byte-unchanged**: it is the frozen record, `result.json` binds
+its SHA-256, and editing it would both break that binding and make the mischaracterisation look
+anticipated. It is corrected here instead.

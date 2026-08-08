@@ -66,7 +66,10 @@ RVE_PHIS = 0.50
 RVE_SIZES = (32, 48, 64, 80, 100)
 RVE_REL_TOL = 0.10             #: |k(L) - k(L_max)|/k(L_max) <= 10% for every L >= L*
 RVE_TOP_TOL = 0.05             #: change between the two largest sizes <= 5%
-CARD_BOX_GRAIN_DIAMETERS = 5.0 #: pack card: "columns >= 5 grain diameters"
+CARD_BOX_GRAIN_DIAMETERS = 5.0 #: registry text is "columns >= 5 grain diameters FOR SIGMA"
+                               #: -- scoped to the heterogeneity field, NOT to permeability.
+                               #: Used here only as the box size the sweep must reach; the
+                               #: repository makes no permeability sufficiency claim at 5 d.
 
 # ---- frozen decision threshold (PROTOCOL.md section 6e) -----------------------------------
 #: The closure's OWN published percolation-collapse scatter, recorded in

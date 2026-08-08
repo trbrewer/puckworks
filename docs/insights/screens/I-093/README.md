@@ -6,8 +6,7 @@ NOT_A_PUBLICATION_RESULT
 NOT_A_MODEL_VALIDATION_UPGRADE
 ```
 
-**Decision: `SURVIVE`** — no RVE size stabilises the pore-scale solver, even at the pack card's own
-≥5-grain-diameter box guidance. Deep maturation is unlocked and runs in the same cycle.
+**Decision: `SURVIVE`** — no RVE size stabilises the pore-scale solver, even at a box size of 5 grain diameters. Deep maturation is unlocked and runs in the same cycle.
 
 ## What was run
 
@@ -53,8 +52,8 @@ reproduces the exact permeability to **0.052 %**.
 On the sphere packs it does not converge in box size. Sweeping L = 32 → 100 at fixed resolution
 (1.6 → 5.0 grain diameters) gives k = 3.16, 3.12, 4.62, 4.21, **5.14** lu² — **non-monotone, still
 rising at the largest box, and 18 % apart between the two largest** against a 5 % criterion frozen
-before the run. The budget was not exhausted, and the card's own ≥5-grain-diameter guidance *was*
-reached, so this is **not** a compute bound.
+before the run. The budget was not exhausted and 5.0 grain diameters *was* reached, so this is **not** a
+compute bound (see the scoping correction below).
 
 Secondarily, the ratio `k_LBM/k_closure` is not flat: it falls monotonically with porosity for
 **both** closures (percolation G = 2.94, Carman–Kozeny G = 2.51, against a floor of 1.39). Both
@@ -71,8 +70,9 @@ empirical invalidation.**
 ## The honest limitation, up front
 
 **The RVE finding is confounded with geometry-realisation noise, and that is a flaw in how I froze
-the protocol.** The RVE sweep used one seed; seed-to-seed spread at fixed box size is 5–39 %, the
-same order as the 18 % change between the two largest boxes. So this screen cannot yet separate "a
+the protocol.** The RVE sweep used one seed; the **two-realization max/min range ratio** at fixed box size is 1.045–1.392
+(≈ 4.5–39.2 % relative to the smaller value), the same order as the 18 % change between the two
+largest boxes. So this screen cannot yet separate "a
 real RVE requirement beyond 5 grain diameters" from "single-realisation scatter". The trend metric
 inherits it, having been measured on non-converged output.
 
@@ -88,3 +88,33 @@ with a multi-seed sweep is the first item in [`DEEP_SCREEN_PROTOCOL.md`](DEEP_SC
   box size while realisation variance at fixed box size was never measured first. Had the family's
   seed spread been computed before the sweep rather than after, the protocol would have frozen a
   multi-seed RVE criterion from the start.
+
+## Correction — what the "≥5 grain diameters" figure actually scopes
+
+**Added after execution, on inspecting the registry text verbatim.** This bundle (and the frozen
+`PROTOCOL.md` §6b) described ≥5 grain diameters as *"the pack card's declared box guidance"*, which
+implied a permeability-representativeness statement. It is not one.
+
+`brewer2026.pack_generator`'s declared range reads, in full:
+
+> `grain radius >= 10 voxels; columns >= 5 grain diameters for sigma`
+
+The ≥5 figure is scoped **to sigma** — the columnar heterogeneity field — and there is **no pack
+card** in `docs/cards/`. **The repository has never claimed that 5 grain diameters is sufficient
+for permeability**, so this screen contradicts no existing repository statement and **no card
+correction is warranted or made.**
+
+What changes, and what does not:
+
+- **The decision does not change.** The frozen rule was applied as written and returned SURVIVE.
+- **The measurement does not change.** k had not converged by 5.0 grain diameters, whatever that
+  figure was originally scoped to.
+- **The framing does change.** Reaching 5 grain diameters is *not* reaching a declared permeability
+  guidance, so the SURVIVE-vs-INCONCLUSIVE boundary drawn in this screen rests on a threshold with
+  no repository-declared anchor for this observable. The result is better read as a **positive
+  measurement** — the first domain-size calibration for this generator/solver pair — than as a
+  finding against any existing guidance.
+
+`PROTOCOL.md` is deliberately **left byte-unchanged**: it is the frozen record, `result.json` binds
+its SHA-256, and editing it would both break that binding and make the mischaracterisation look
+anticipated. It is corrected here instead.
