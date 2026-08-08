@@ -15,8 +15,15 @@ python -m puckworks.analysis.screen_i072_matched_observable
 ```
 
 Writes [`result.json`](result.json) and [`figures/primary.png`](figures/primary.png). The run is
-deterministic: no RNG, no wall-clock, no network. Running it twice from clean inputs produces a
-byte-identical `result.json` (asserted by `tests/test_screen_i072.py`).
+free of RNG, wall-clock input and network dependency. Repeated execution **within one fixed
+numerical environment** is exactly deterministic, and that exactness is asserted
+(`test_screen_is_deterministic`). **Across** the supported CI environments the committed
+artifact and a fresh result must have identical structure and identical non-floating content;
+computed floating leaves must agree within the narrow candidate-local portability tolerances
+frozen in `tests/test_screen_i072.py` (`test_committed_result_is_cross_platform_numerically_equivalent`).
+Those tolerances bound how far two builds of NumPy/SciPy/BLAS disagree on the same arithmetic —
+they are **software-reproducibility tolerances, not scientific or measurement uncertainty**, and
+no decision-bearing margin depends on them.
 
 ```
 python -m pytest tests/test_screen_i072.py -q

@@ -19,6 +19,7 @@ These establish the properties the verdict rests on, not the verdict:
 """
 import copy
 import json
+import math
 import pathlib
 import subprocess
 
@@ -30,6 +31,79 @@ from puckworks.analysis import screen_i090_first_drip as S
 REPO = pathlib.Path(__file__).resolve().parents[1]
 BUNDLE = REPO / "docs/insights/screens/I-090"
 
+
+
+# --------------------------------------------------------------------------------------------
+# CROSS-ENVIRONMENT NUMERICAL EQUIVALENCE
+#
+# Committed-artifact comparison used to require exact equality. That held only in the
+# environment that generated the file: six CI lanes of run 31263251957 (CPython 3.10-3.13,
+# `quality`, `min-deps`) reproduce last-ULP disagreement in NumPy/SciPy/BLAS arithmetic.
+#
+# Observed across those six lanes for I-090 (66 differing float leaves, and NOTHING
+# else -- no string, bool, int, null, key, list length, list order, hash, decision or
+# provenance field differed anywhere):
+#     max |delta|   = 1.243e-14   (execution.window_s, magnitude ~5.9)
+#     max relative  = 1.487e-08   (rmse_mm, magnitude ~7.0e-08)
+# Large-magnitude leaves need the RELATIVE branch; near-zero leaves need the ABSOLUTE branch.
+#
+# THESE ARE SOFTWARE PORTABILITY TOLERANCES. They bound how far two builds of the same
+# libraries disagree on the same arithmetic. They are NOT model uncertainty, measurement
+# uncertainty, parameter uncertainty or evidence uncertainty, and they may never be used to
+# round away a scientific discrepancy.
+FLOAT_PATH = "execution.rmse_mm"
+
+RESULT_REL_TOL = 1e-12   # 472x the largest relative delta needing it; ceiling 1e-10
+RESULT_ABS_TOL = 1e-13   # 19x the largest absolute delta needing it; ceiling 1e-10, and ~1e11
+                         # below the 0.01 mm identity threshold
+
+
+def _assert_result_equivalent(expected, actual, path="$"):
+    """Strict recursive comparison: structure and non-floating content EXACT, floats within
+    the frozen portability tolerance. Reports the full JSON path of any difference."""
+    # bool first: bool is an int subclass in Python
+    if isinstance(expected, bool) or isinstance(actual, bool):
+        assert isinstance(expected, bool) and isinstance(actual, bool), (
+            "%s: bool/non-bool mismatch (%r vs %r)" % (path, expected, actual))
+        assert expected == actual, "%s: %r != %r" % (path, expected, actual)
+    elif expected is None or actual is None:
+        assert expected is None and actual is None, "%s: %r != %r" % (path, expected, actual)
+    elif isinstance(expected, dict):
+        assert isinstance(actual, dict), "%s: dict vs %s" % (path, type(actual).__name__)
+        missing, extra = set(expected) - set(actual), set(actual) - set(expected)
+        assert not missing and not extra, (
+            "%s: key set differs (missing=%s extra=%s)" % (path, sorted(missing), sorted(extra)))
+        for k in expected:
+            _assert_result_equivalent(expected[k], actual[k], "%s.%s" % (path, k))
+    elif isinstance(expected, list):
+        assert isinstance(actual, list), "%s: list vs %s" % (path, type(actual).__name__)
+        assert len(expected) == len(actual), (
+            "%s: length %d != %d" % (path, len(expected), len(actual)))
+        for i, (e, a) in enumerate(zip(expected, actual)):
+            _assert_result_equivalent(e, a, "%s[%d]" % (path, i))
+    elif isinstance(expected, str):
+        assert isinstance(actual, str) and expected == actual, (
+            "%s: %r != %r" % (path, expected, actual))
+    elif isinstance(expected, int) and isinstance(actual, int):
+        assert expected == actual, "%s: int %r != %r" % (path, expected, actual)
+    elif isinstance(expected, (int, float)) and isinstance(actual, (int, float)):
+        assert math.isfinite(expected) and math.isfinite(actual), (
+            "%s: non-finite value (%r vs %r)" % (path, expected, actual))
+        if not math.isclose(expected, actual,
+                            rel_tol=RESULT_REL_TOL, abs_tol=RESULT_ABS_TOL):
+            delta = abs(expected - actual)
+            scale = max(abs(expected), abs(actual))
+            raise AssertionError(
+                "%s: outside the portability tolerance\n"
+                "  committed = %r\n  fresh     = %r\n"
+                "  |delta|   = %.6e\n  relative  = %s\n"
+                "  permitted = rel_tol %.0e / abs_tol %.0e"
+                % (path, expected, actual, delta,
+                   ("%.6e" % (delta / scale)) if scale else "n/a",
+                   RESULT_REL_TOL, RESULT_ABS_TOL))
+    else:
+        raise AssertionError("%s: unrecognised type pair %s / %s"
+                             % (path, type(expected).__name__, type(actual).__name__))
 
 @pytest.fixture(scope="module")
 def result():
@@ -107,11 +181,14 @@ def test_result_is_hash_bound_to_the_live_protocol_and_inputs(result):
     assert len(result["provenance"]["input_sha256"]) == len(S.INPUT_FILES)
 
 
-def test_committed_result_does_not_drift_from_a_fresh_run(result):
+def test_committed_result_is_cross_platform_numerically_equivalent(result):
+    """Structure and non-floating content EXACT; computed floats within the frozen portability
+    tolerance. Byte identity across numerical environments was never achievable and is not the
+    property this artifact needs."""
     path = BUNDLE / "result.json"
     if not path.exists():
         pytest.skip("result not yet written")
-    assert json.loads(path.read_text(encoding="utf-8")) == result
+    _assert_result_equivalent(json.loads(path.read_text(encoding="utf-8")), result)
 
 
 def test_screen_is_deterministic():
@@ -466,3 +543,138 @@ def test_bundle_is_present_and_carries_the_disposition():
         assert tag in dec
     for heading in ("## Decision", "## Claim ceiling", "## Adversarial check", "## Reproduction"):
         assert heading in dec
+
+
+# --------------------------------------------------------------------------------------------
+# THE PORTABILITY TOLERANCE MUST NOT BE VACUOUS
+#
+# A tolerance that accepts a real change is worse than no tolerance at all. Every mutation below
+# is applied to a deep copy of the in-memory result; the committed artifact is never rewritten.
+# --------------------------------------------------------------------------------------------
+def _at(obj, path):
+    """Fetch/lset by a simple dotted/indexed path used only by these regressions."""
+    cur = obj
+    for part in path.split("."):
+        if part.endswith("]"):
+            name, idx = part[:-1].split("[")
+            cur = cur[name][int(idx)] if name else cur[int(idx)]
+        else:
+            cur = cur[part]
+    return cur
+
+
+def _set(obj, path, value):
+    parts = path.split(".")
+    parent = _at(obj, ".".join(parts[:-1])) if len(parts) > 1 else obj
+    last = parts[-1]
+    if last.endswith("]"):
+        name, idx = last[:-1].split("[")
+        (parent[name] if name else parent)[int(idx)] = value
+    else:
+        parent[last] = value
+
+
+def _rejects(expected, actual):
+    with pytest.raises(AssertionError):
+        _assert_result_equivalent(expected, actual)
+
+
+def test_tolerance_accepts_a_last_ulp_perturbation(result):
+    """The exact defect six CI lanes reported."""
+    fresh = copy.deepcopy(result)
+    _set(fresh, FLOAT_PATH, math.nextafter(_at(result, FLOAT_PATH), math.inf))
+    assert _at(fresh, FLOAT_PATH) != _at(result, FLOAT_PATH)
+    _assert_result_equivalent(result, fresh)                      # must NOT raise
+
+
+def test_tolerance_accepts_a_perturbation_just_inside_it(result):
+    fresh = copy.deepcopy(result)
+    base = _at(result, FLOAT_PATH)
+    _set(fresh, FLOAT_PATH, base + 0.5 * max(RESULT_REL_TOL * abs(base), RESULT_ABS_TOL))
+    _assert_result_equivalent(result, fresh)                      # must NOT raise
+
+
+def test_tolerance_rejects_a_perturbation_beyond_it(result):
+    fresh = copy.deepcopy(result)
+    base = _at(result, FLOAT_PATH)
+    _set(fresh, FLOAT_PATH, base + 1e3 * max(RESULT_REL_TOL * abs(base), RESULT_ABS_TOL))
+    _rejects(result, fresh)
+
+
+def test_removing_a_key_is_rejected(result):
+    fresh = copy.deepcopy(result)
+    fresh.pop("decision")
+    _rejects(result, fresh)
+
+
+def test_adding_a_key_is_rejected(result):
+    fresh = copy.deepcopy(result)
+    fresh["an_unexpected_key"] = 1
+    _rejects(result, fresh)
+
+
+def test_changing_a_list_length_is_rejected(result):
+    fresh = copy.deepcopy(result)
+    fresh["adversarial_checks"] = fresh["adversarial_checks"][:-1]
+    _rejects(result, fresh)
+
+
+def test_reordering_a_list_is_rejected(result):
+    fresh = copy.deepcopy(result)
+    fresh["adversarial_checks"][0], fresh["adversarial_checks"][1] = (
+        fresh["adversarial_checks"][1], fresh["adversarial_checks"][0])
+    _rejects(result, fresh)
+
+
+def test_changing_the_decision_is_rejected(result):
+    fresh = copy.deepcopy(result)
+    assert fresh["decision"] == "RETIRE"
+    fresh["decision"] = "SURVIVE"
+    _rejects(result, fresh)
+
+
+def test_changing_a_boolean_is_rejected(result):
+    fresh = copy.deepcopy(result)
+    fresh["evidence_labels_unchanged"] = not fresh["evidence_labels_unchanged"]
+    _rejects(result, fresh)
+
+
+def test_changing_an_integer_is_rejected(result):
+    fresh = copy.deepcopy(result)
+    fresh["model_solves_performed"] = fresh["model_solves_performed"] + 1
+    _rejects(result, fresh)
+
+
+def test_changing_a_sha256_is_rejected(result):
+    fresh = copy.deepcopy(result)
+    fresh["protocol"]["sha256"] = "0" * 64
+    _rejects(result, fresh)
+    fresh = copy.deepcopy(result)
+    key = sorted(fresh["provenance"]["input_sha256"])[0]
+    fresh["provenance"]["input_sha256"][key] = "0" * 64
+    _rejects(result, fresh)
+
+
+def test_nan_and_infinity_are_rejected(result):
+    for bad in (float("nan"), float("inf")):
+        fresh = copy.deepcopy(result)
+        _set(fresh, FLOAT_PATH, bad)
+        _rejects(result, fresh)
+
+
+def test_a_bool_substituted_for_a_number_is_rejected(result):
+    fresh = copy.deepcopy(result)
+    _set(fresh, FLOAT_PATH, True)
+    _rejects(result, fresh)
+
+
+def test_a_threshold_crossing_identity_residual_is_rejected(result):
+    """I-090's identity rests on RMSE < 0.01 mm and max < 0.02 mm. Mutations across those frozen
+    thresholds must be rejected, not absorbed by the portability tolerance."""
+    for path, limit in (("execution.rmse_mm", S.IDENTITY_RMSE_MAX_MM),
+                        ("execution.max_abs_mm", S.IDENTITY_MAXABS_MAX_MM)):
+        assert _at(result, path) < limit
+        fresh = copy.deepcopy(result)
+        _set(fresh, path, limit * 10.0)
+        _rejects(result, fresh)
+        assert not (_at(fresh, path) < limit)
