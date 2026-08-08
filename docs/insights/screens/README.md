@@ -40,6 +40,51 @@ than by rewriting the frozen text.
 [`../RETIRED_CANDIDATES.md`](../RETIRED_CANDIDATES.md), and its IF-7 deep screen has now run —
 see below.
 
+## Wave 3 — reported 2026-08-07
+
+| screen | question | decision |
+|---|---|---|
+| [`I-072`](I-072/) | do `mo2023_2.swelling` and `brewer2026.streamtube` actually disagree, or only claim to | **RETIRE** — different questions, made exact. The two components emit **orthogonal moments of the same flow field**, and each one's output is the other's *structural zero*: the streamtube's tube multipliers are unit-mean by construction, so the bed-total flow ratio is identically 1 for every σ; the swelling model is one 1-D column, so its across-tube dispersion is identically 0 for every powder |
+| [`I-090`](I-090/) | can `first_drip_time` discriminate between the models that predict it | **RETIRE** — **not a rival pair**. `machine_mode` *generates* the pressure history `infiltration` *consumes*, both bind to one card whose Outputs clause the card attributes to both, and they share one front law (identity to 7.0 × 10⁻⁸ mm, residual falling under grid refinement). Replicates would **not** have rescued it |
+
+Both protocols were frozen and committed **before** their screen modules existed
+([`I-072/PROTOCOL.md`](I-072/PROTOCOL.md), [`I-090/PROTOCOL.md`](I-090/PROTOCOL.md)), and each
+`result.json` is bound to its protocol by SHA-256. **I-072 executed neither component** — its
+compatibility gate fails upstream of any run, enforced by a test that replaces every forbidden
+entry point with a tripwire. **I-090 ran exactly one bounded execution**, a
+`MECHANISM_IDENTITY_CHECK` inside `machine_mode`'s own declared configuration; `machine_mode` was
+never run against `de1_fixtureA`, which it cannot consume anyway.
+
+**Both retirements are structural, and both say so explicitly** — which is what distinguishes
+them from a NEEDS_NEW_DATA. I-090's candidate card *expected* NEEDS_NEW_DATA plus a costed
+replicate request, and the single-replicate finding is factually confirmed (one extraction, 100
+samples of it, no spread, no declared within-model band). It is not the binding obstacle, and the
+screen states plainly that **a replicate campaign would not have rescued it**, so that the
+anticipated experiment is not commissioned for an ill-posed comparison.
+
+**One qualifying defect was found and deliberately NOT corrected.**
+`puckworks/data/MANIFEST.csv` row `de1_fixtureA` declares
+`validation_strength = independent (parameter-free triangle)`, which contradicts ROADMAP §7.1's
+own entry dated 2026-07-16: *"a wide-bracket compatibility check on in-sample data, not a
+parameter-free independent result."* It is named, its blast radius mapped and replacement wording
+recommended, in [`I-090/decision.md`](I-090/decision.md) — and left byte-unchanged, with a test
+asserting so. This follows I-045's precedent and CLAUDE.md directly: the Foundry *"is never an
+authority"* and *"may not change, promote or restate any label, badge or validation rung."*
+
+## Two habits from Wave 3, each of which decided a screen
+
+- **A dimensionless output is the easy trap; check the INDEX, not the units.** I-072's two
+  components both emit dimensionless quantities, so a plot of one against the other looks
+  admissible and passes every unit and normalisation audit. The incompatibility is in what the
+  quantity is a *function of* — time versus tube — and no unit check would have found it. Ask
+  what a quantity is indexed by before asking what it is measured in.
+- **A generated "both models predict X" edge is a claim about CARDS, not about models.** I-090's
+  tension row counted two predicting components because one card serves both and says, in terms,
+  that its Outputs clause is attributed to both. Before treating two components as rivals,
+  establish what binds them — and then *demonstrate* the relationship rather than arguing it. The
+  front-law identity was computed, and required to converge under grid refinement, precisely
+  because "they share a lineage so of course they agree" is unfalsifiable.
+
 ## IF-7 deep screens — I-045, reported 2026-08-05
 
 | screen | question | cheap | deep |
