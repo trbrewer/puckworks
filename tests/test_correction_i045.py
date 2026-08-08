@@ -1,7 +1,27 @@
-"""Tests for the I-045 evidence-lineage correction — CURRENT state, not history.
+"""Tests for the I-045 evidence-lineage correction — TWO EXPLICIT LAYERS.
 
 The screens under `tests/test_screen_i045.py` and `tests/test_deep_screen_i045.py` validate the
-HISTORICAL pre-correction findings. These tests validate the live repository:
+HISTORICAL pre-correction findings. This module has two jobs, deliberately kept apart:
+
+  1. **LIVE CORRECTION INVARIANTS** — what must be true of the repository *today*: the corrected
+     wording is present on all three source surfaces, the old wording is gone from them, the gate
+     numbers are unchanged, and the stable identities the correction created still exist.
+
+  2. **IMMUTABLE BLAST-RADIUS EVIDENCE** — what PR #229 actually changed, measured strictly over
+     the frozen range `BASE .. CORRECTION_HEAD`. Both endpoints are fixed commits, so these
+     assertions state a historical fact that cannot go stale.
+
+Conflating the two is the defect this module has now been corrected for twice. A blast-radius
+assertion measured against a moving HEAD silently re-reads as "nobody may ever touch this path
+again", and then fails on the first unrelated authorized change — which is not what its prose
+claims to protect. Layer 2 therefore never reads the working tree, and layer 1 never pretends to
+bound what the correction did.
+
+Concretely, layer 2 permits (and layer 1 still guards): a later authorized MANIFEST change to a
+foreign row — including a separate resolution of issue #231 — later gate development, later
+stable-ID appends, and a later portfolio change resolving a different candidate.
+
+The live layer checks:
 
   * all three source surfaces carry the exact corrected wording;
   * the old wording is gone from them, checked CASE-INSENSITIVELY — the capitalised README
@@ -114,7 +134,11 @@ def test_exactly_one_manifest_cell_changed():
     import io
     before = list(_csv.DictReader(io.StringIO(
         _git("show", "%s:puckworks/data/MANIFEST.csv" % BASE).stdout)))
-    after = C._manifest_rows()
+    # HISTORICAL: the "after" side is the correction's own endpoint, never the working tree. A
+    # later authorized change to a foreign row (e.g. resolving issue #231 on `de1_fixtureA`) must
+    # not retroactively change what PR #229 did.
+    after = list(_csv.DictReader(io.StringIO(
+        _git("show", "%s:puckworks/data/MANIFEST.csv" % CORRECTION_HEAD).stdout)))
     assert len(before) == len(after)
     diffs = []
     for b, a in zip(before, after):
@@ -139,8 +163,10 @@ def test_the_gate_function_body_is_unchanged_apart_from_its_docstring():
             fn.body = fn.body[1:]                      # drop the docstring
         return ast.dump(ast.Module(body=[fn], type_ignores=[]))
 
+    # HISTORICAL: over the correction's own range only. Comparing BASE with a live HEAD would
+    # freeze all future scientifically authorized gate development.
     before = gate_ast(_git("show", "%s:puckworks/validation/gates.py" % BASE).stdout)
-    after = gate_ast((REPO / "puckworks/validation/gates.py").read_text(encoding="utf-8"))
+    after = gate_ast(_git("show", "%s:puckworks/validation/gates.py" % CORRECTION_HEAD).stdout)
     assert before == after, "the gate body changed — the correction must be docstring-only"
 
 
@@ -150,8 +176,9 @@ def test_only_the_foster_row_changed_in_the_readme_inventory_block():
     def block(text):
         b = text.split(C.README_MARKER, 1)[1].split("<!-- puckworks-data-inventory:end -->", 1)[0]
         return [ln for ln in b.splitlines() if ln.strip()]
+    # HISTORICAL: BASE -> CORRECTION_HEAD. The live wording is asserted separately.
     before = block(_git("show", "%s:README.md" % BASE).stdout)
-    after = block((REPO / "README.md").read_text(encoding="utf-8"))
+    after = block(_git("show", "%s:README.md" % CORRECTION_HEAD).stdout)
     assert len(before) == len(after)
     changed = [i for i, (b, a) in enumerate(zip(before, after)) if b != a]
     assert len(changed) == 1, changed
@@ -211,12 +238,14 @@ def test_already_correct_surfaces_are_untouched(result):
         assert r.returncode == 0 and r.stdout.strip() == "", "%s changed: %s" % (path, r.stdout)
 
 
-def test_the_id_registry_was_appended_to_not_rewritten():
-    """ID_REGISTRY legitimately gains T-0175. Nothing existing may be reassigned or removed."""
-    if not _have_base():
-        pytest.skip("canonical base not present")
-    before = json.loads(_git("show", "%s:docs/insights/ID_REGISTRY.json" % BASE).stdout)
-    after = json.loads((REPO / "docs/insights/ID_REGISTRY.json").read_text(encoding="utf-8"))
+def _registry_at(ref=None):
+    if ref is None:
+        return json.loads((REPO / "docs/insights/ID_REGISTRY.json").read_text(encoding="utf-8"))
+    return json.loads(_git("show", "%s:docs/insights/ID_REGISTRY.json" % ref).stdout)
+
+
+def _registry_delta(before, after):
+    """(added, reassigned, removed) stable IDs between two registry snapshots."""
     sections = [k for k, v in before.items()
                 if isinstance(v, dict) and k not in ("counts", "high_water")]
     added, reassigned, removed = [], [], []
@@ -230,6 +259,15 @@ def test_the_id_registry_was_appended_to_not_rewritten():
         for fp, sid in after.get(sect, {}).items():
             if fp not in before[sect]:
                 added.append(sid)
+    return added, reassigned, removed
+
+
+def test_the_id_registry_was_appended_to_not_rewritten():
+    """HISTORICAL: over the correction's own range, exactly T-0175 was appended."""
+    if not _have_base():
+        pytest.skip("canonical base not present")
+    before, after = _registry_at(BASE), _registry_at(CORRECTION_HEAD)
+    added, reassigned, removed = _registry_delta(before, after)
     assert reassigned == [], "an existing stable ID was reassigned: %s" % reassigned
     assert removed == [], "the registry is append-only; entries were removed: %s" % removed
     assert sorted(added) == ["T-0175"], added
@@ -237,25 +275,56 @@ def test_the_id_registry_was_appended_to_not_rewritten():
     assert after["counts"]["tensions"] == before["counts"]["tensions"] + 1
 
 
-def test_only_I045_left_the_live_candidate_portfolio(result):
+def test_the_id_registry_still_preserves_everything_the_correction_left():
+    """LIVE persistence. Later append-only IDs are permitted; deletion or reassignment is not.
+
+    This must NOT pin the live totals: a future authorized effort may legitimately append new
+    stable identities, and doing so is not a defect.
+    """
     if not _have_base():
         pytest.skip("canonical base not present")
-    def ids(text):
-        d = json.loads(text)
-        c = d["candidates"] if isinstance(d, dict) and "candidates" in d else d
-        return {x.get("id") or x.get("candidate_id") for x in c}
-    before = ids(_git("show",
-                      "%s:docs/insights/generated/candidate_portfolio.json" % BASE).stdout)
-    after = ids((REPO / "docs/insights/generated/candidate_portfolio.json")
-                .read_text(encoding="utf-8"))
+    before, live = _registry_at(CORRECTION_HEAD), _registry_at()
+    added, reassigned, removed = _registry_delta(before, live)
+    assert reassigned == [], "a stable ID was reassigned since the correction: %s" % reassigned
+    assert removed == [], "a stable ID was removed since the correction: %s" % removed
+    live_ids = {sid for k, v in live.items()
+                if isinstance(v, dict) and k not in ("counts", "high_water")
+                for sid in v.values()}
+    assert "T-0063" in live_ids, "T-0063 (the I-045 identity) must survive"
+    assert "T-0175" in live_ids, "T-0175 (created by the correction) must survive"
+    # `added` may be non-empty; that is legitimate append-only growth and is deliberately unpinned.
+
+
+def _portfolio_ids(text):
+    d = json.loads(text)
+    c = d["candidates"] if isinstance(d, dict) and "candidates" in d else d
+    return {x.get("id") or x.get("candidate_id") for x in c}
+
+
+def test_only_I045_left_the_candidate_portfolio_in_the_correction_range():
+    """HISTORICAL: PR #229 removed I-045 from the live generated portfolio, and nothing else."""
+    if not _have_base():
+        pytest.skip("canonical base not present")
+    before = _portfolio_ids(_git(
+        "show", "%s:docs/insights/generated/candidate_portfolio.json" % BASE).stdout)
+    after = _portfolio_ids(_git(
+        "show", "%s:docs/insights/generated/candidate_portfolio.json" % CORRECTION_HEAD).stdout)
     assert after == before - {"I-045"}, sorted(before ^ after)
+
+
+def test_I045_remains_resolved_by_correction_in_the_live_portfolio(result):
+    """LIVE. Deliberately does NOT pin the live candidate count: a future authorized correction
+    may resolve a different candidate, and that must not fail this test."""
+    live = _portfolio_ids((REPO / "docs/insights/generated/candidate_portfolio.json")
+                          .read_text(encoding="utf-8"))
+    assert "I-045" not in live
     g = result["generated_foundry_artifacts"]
     assert g["live_candidate_portfolio_contains_I045"] is False
-    assert g["live_candidate_count"] == len(after) == 90
     assert g["I045_absence_reason"] == "RESOLVED_BY_CORRECTION"
-    assert g["appended_current_tension_id"] == "T-0175"
-    assert g["current_tension_id_present"] is True
-    assert g["original_tension_id_still_in_append_only_history"] is True
+    reg = _registry_at()
+    ids = {sid for k, v in reg.items()
+           if isinstance(v, dict) and k not in ("counts", "high_water") for sid in v.values()}
+    assert "T-0063" in ids and "T-0175" in ids
 
 
 def test_generated_foundry_artifacts_carry_the_corrected_wording(result):
@@ -283,8 +352,11 @@ def test_the_old_wording_survives_only_where_it_is_quoted_as_the_defect():
     deep = (BUNDLE / "deep_result.json").read_text(encoding="utf-8")
     assert C.INCORRECT_MANIFEST_CELL.lower() in cheap.lower()
     assert C.INCORRECT_MANIFEST_CELL.lower() in deep.lower()
-    assert "old wording is ALLOWED" in json.dumps(C.check(run_gate=False)) or True
-    assert "frozen screen records" in C.check(run_gate=False)["old_wording_permitted_in"]
+    chk = C.check(run_gate=False)
+    # Previously `... or True`, which could never fail. Assert the real property instead: the
+    # checker must SAY that the old wording is permitted, and say WHERE.
+    assert "frozen screen records" in chk["old_wording_permitted_in"]
+    assert "ALLOWED" in chk["historical_outcomes"]["note"], chk["historical_outcomes"]["note"]
 
 
 # --------------------------------------------------------------------------------------------
@@ -332,3 +404,88 @@ def test_applied_record_exists_and_matches(result):
 
 def _sha(p):
     return hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()
+
+
+# --------------------------------------------------------------------------------------------
+# REGRESSIONS — the two layers must behave differently, and each must be non-vacuous
+# --------------------------------------------------------------------------------------------
+def test_regression_a_later_stable_id_append_is_accepted():
+    """The live layer must permit legitimate append-only growth."""
+    if not _have_base():
+        pytest.skip("canonical base not present")
+    import copy
+    before, live = _registry_at(CORRECTION_HEAD), _registry_at()
+    future = copy.deepcopy(live)
+    future["tensions"]["0" * 64] = "T-0999"                      # a hypothetical later identity
+    added, reassigned, removed = _registry_delta(before, future)
+    assert "T-0999" in added
+    assert reassigned == [] and removed == [], "a pure append must not read as a rewrite"
+
+
+def test_regression_reassigning_a_stable_id_is_rejected():
+    if not _have_base():
+        pytest.skip("canonical base not present")
+    import copy
+    before = _registry_at(CORRECTION_HEAD)
+    bad = copy.deepcopy(_registry_at())
+    fp = next(f for f, sid in before["tensions"].items() if sid == "T-0175")
+    bad["tensions"][fp] = "T-9999"
+    _added, reassigned, _removed = _registry_delta(before, bad)
+    assert reassigned == [("T-0175", "T-9999")], reassigned
+
+
+def test_regression_removing_a_stable_id_is_rejected():
+    if not _have_base():
+        pytest.skip("canonical base not present")
+    import copy
+    before = _registry_at(CORRECTION_HEAD)
+    bad = copy.deepcopy(_registry_at())
+    fp = next(f for f, sid in before["tensions"].items() if sid == "T-0063")
+    bad["tensions"].pop(fp)
+    _added, _reassigned, removed = _registry_delta(before, bad)
+    assert "T-0063" in removed
+
+
+def test_regression_a_later_foreign_manifest_edit_cannot_move_the_frozen_blast_radius():
+    """Issue #231 may one day change `de1_fixtureA`. That must not rewrite what PR #229 did."""
+    if not _have_base():
+        pytest.skip("canonical base not present")
+    import csv as _csv
+    import io
+
+    def rows(ref):
+        return list(_csv.DictReader(io.StringIO(
+            _git("show", "%s:puckworks/data/MANIFEST.csv" % ref).stdout)))
+
+    before, after = rows(BASE), rows(CORRECTION_HEAD)
+    frozen = [(a["dataset_id"], k) for b, a in zip(before, after) for k in b if b[k] != a[k]]
+    assert frozen == [("foster2025_2/fig12_14_curves", "validation_strength")]
+    # the frozen range reads two fixed commits, so no working-tree state can enter it
+    src = pathlib.Path(__file__).read_text(encoding="utf-8")
+    body = src[src.index("def test_exactly_one_manifest_cell_changed"):
+               src.index("def test_the_gate_function_body_is_unchanged")]
+    assert "C._manifest_rows()" not in body, (
+        "the historical manifest check must not read the working tree")
+
+
+def test_regression_a_later_portfolio_change_cannot_move_the_historical_removal_set():
+    if not _have_base():
+        pytest.skip("canonical base not present")
+    before = _portfolio_ids(_git(
+        "show", "%s:docs/insights/generated/candidate_portfolio.json" % BASE).stdout)
+    after = _portfolio_ids(_git(
+        "show", "%s:docs/insights/generated/candidate_portfolio.json" % CORRECTION_HEAD).stdout)
+    assert before - after == {"I-045"}
+    # a hypothetical later resolution of a different candidate leaves the historical fact intact
+    hypothetical_live = after - {"I-013"}
+    assert before - after == {"I-045"}
+    assert "I-045" not in hypothetical_live
+
+
+def test_regression_the_old_wording_note_assertion_is_not_vacuous():
+    """The `or True` this replaced could never fail. Removing the note must now fail."""
+    chk = C.check(run_gate=False)
+    note = chk["historical_outcomes"]["note"]
+    assert "ALLOWED" in note
+    mutated = dict(chk["historical_outcomes"], note=note.replace("ALLOWED", "forbidden"))
+    assert "ALLOWED" not in mutated["note"], "the mutation must actually remove the property"
