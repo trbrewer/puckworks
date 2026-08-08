@@ -561,11 +561,20 @@ def recorded_findings() -> dict:
         applied=False,
         why_not_applied="CLAUDE.md: the Insight Foundry 'is never an authority' and 'may not "
                         "change, promote or restate any label, badge or validation rung'. I-045 "
-                        "set the precedent in this layer -- it named three correction targets and "
-                        "left them byte-unchanged, because editing an evidence label is a "
-                        "separate, human-owned change. The blast radius also reaches ROADMAP body "
-                        "prose, which is a human-owned edit and would turn a one-cell correction "
-                        "into a sweep",
+                        "set the precedent and it is precise: its cheap screen NAMED three "
+                        "correction targets and left them byte-unchanged; the correction was "
+                        "applied only later (ROADMAP 7.1, 2026-08-07), in a separately authorized "
+                        "cycle, and only AFTER the IF-7 deep screen had adjudicated the defect "
+                        "against the PRIMARY SOURCE. This finding has had no such adjudication -- "
+                        "it rests on two live repository statements contradicting each other -- so "
+                        "applying it would skip the exact step that made the I-045 correction "
+                        "legitimate. The blast radius also reaches ROADMAP body prose and a card "
+                        "Status line, which would turn a one-cell correction into a sweep",
+        what_would_authorise_applying_it="a source-level adjudication of what `kappa_fitted=1.196` "
+                                         "was fitted to and whether the first-drip bracket is "
+                                         "independent under ROADMAP 0 -- the I-045 deep-screen "
+                                         "pattern -- followed by a separately authorized "
+                                         "correction cycle",
         this_screen_does_not_adjudicate="whether `independent` is defensible under a strict "
                                         "reading of ROADMAP 0 (the drip time itself was not used "
                                         "in fitting kappa). The finding is that two LIVE "

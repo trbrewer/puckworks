@@ -192,8 +192,14 @@ legitimate parameter-free uses.
 
 1. CLAUDE.md: the Insight Foundry *"is never an authority"* and *"may not change, promote or
    restate any label, badge or validation rung."*
-2. I-045 set the precedent in this layer — it named three correction targets and left them
-   byte-unchanged, because editing an evidence label is a separate, human-owned change.
+2. **I-045 set the precedent, and it is precise.** Its *cheap* screen named three correction
+   targets and left them byte-unchanged. The correction was applied only later (ROADMAP §7.1,
+   2026-08-07), in a separately authorized cycle, and only **after the IF-7 deep screen had
+   adjudicated the defect against the primary source**. This finding has had no such
+   adjudication — it rests on two live repository statements contradicting each other — so
+   applying it here would skip the exact step that made the I-045 correction legitimate. That
+   correction also touched a **different** manifest row (`foster2025_2/fig12_14_curves`); row 27
+   was not in its scope.
 3. The blast radius reaches `docs/ROADMAP.md` body prose, `docs/cards/foster2025.md`'s Status
    line, `docs/CORPUS_ANALYSIS_PLAN.md` and `docs/GUIDED_PULL_LABORATORY.md`. A one-cell
    correction would become a sweep.
