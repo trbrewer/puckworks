@@ -255,11 +255,29 @@ def test_regression_editing_a_pre_wave3_row_is_rejected():
 
 
 def test_regression_reordering_historical_rows_is_rejected():
-    live, reference = _live_text_and_reference()
-    rows = changelog_rows(live)
-    a, b = rows[1], rows[2]
-    tampered = live.replace(a + "\n" + b, b + "\n" + a, 1)
-    assert tampered != live, "the two rows are not adjacent; pick a different pair"
+    """Select the reordered rows from the FROZEN reference, never by live position.
+
+    An earlier version took `rows[1], rows[2]` from the live changelog. With two legitimate future
+    rows present, `rows[1]` is itself a future row, so swapping it disturbs no historical ordering
+    — `rows_persist` correctly returns no problems and the assertion below falsely failed. The
+    helper was right; the selection was stale. Picking from `reference` makes the mutation mean
+    what the test name says regardless of how much later history exists.
+    """
+    reference_text = roadmap_at(WAVE3_HISTORY_HEAD)
+    reference = changelog_rows(reference_text)
+    candidate = _insert_rows(reference_text, [FUTURE_ROW, FUTURE_ROW_2])
+
+    # legitimate future growth is accepted BEFORE the mutation
+    assert rows_persist(reference, candidate) == []
+
+    a, b = reference[0], reference[1]                  # two genuine historical rows, adjacent
+    tampered = candidate.replace(a + "\n" + b, b + "\n" + a, 1)
+    assert tampered != candidate, "the two historical rows are not adjacent as assumed"
+
+    # the future rows are untouched by the swap
+    for future in (FUTURE_ROW, FUTURE_ROW_2):
+        assert tampered.count(future) == 1
+
     problems = rows_persist(reference, tampered)
     assert any("relative order" in p for p in problems), problems
 
