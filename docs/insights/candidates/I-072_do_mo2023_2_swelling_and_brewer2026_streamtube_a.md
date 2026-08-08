@@ -191,3 +191,19 @@ time-indexed bed-total flow the comparison would need. Running it requires `lam_
 `a_clog`, which the repository declares nowhere and whose module defaults are `0.0`; Rung B also
 carries no gate and the registry calls it *"hypothesis-generating"*. That is the reopen path, and
 it is a calibration task, not a screen.
+
+**Claim ceiling.** Under the current repository definitions and implementations,
+`mo2023_2.swelling` and `brewer2026.streamtube` are not rival predictors of one shared observable.
+This does **not** establish that swelling or lateral flow heterogeneity is physically absent,
+unimportant, mutually compatible, or incapable of interacting in a future coupled model; it does
+not establish that either component is right or wrong; and it changes no validation rung —
+`mo2023_2.swelling` remains `source_curve_reproduction`, `brewer2026.streamtube` remains
+`within_campaign_held_out`.
+
+**Reopen condition.** Reopen only if an authoritative future card, implementation or RP-A result
+supplies a genuinely co-defined observable that **both** components natively predict under the
+same location, normalisation, intervention and overlapping validity domain. **More measurements
+alone do not rescue a comparison between different moments.**
+
+**No follow-on work.** No deep screen, novelty search or manuscript task follows from this
+retirement, and none was started.

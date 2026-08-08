@@ -191,3 +191,19 @@ relies on rather than inheriting it, and it surfaced a further finding: MANIFEST
 `validation_strength = independent (parameter-free triangle)`, contradicting ROADMAP §7.1's own
 2026-07-16 entry. That target is **named and deliberately not edited** — the Foundry is not an
 authority over an evidence label, and I-045 set the precedent.
+
+**Claim ceiling.** Under the current repository implementations and controlling card semantics,
+`foster2025.machine_mode` and `foster2025.infiltration` are producer/consumer views of one front
+evolution, not rival first-drip models. First-drip data therefore cannot discriminate between them
+as presently defined. This does **not** independently validate the shared front law, prove
+machine-mode accuracy, or generalise beyond the declared configuration, and it changes no
+validation rung — `foster2025.infiltration` remains `sign_or_compatibility`,
+`foster2025.machine_mode` remains `source_curve_reproduction`.
+
+**Reopen condition.** Reopen only if future repository authorities establish two genuinely
+distinct front dynamics, two independently parameterised rival hypotheses, or two different
+model-to-observable mappings that predict the same fixed first-drip event. **Additional replicates
+under the current shared law do not reopen it.**
+
+**No follow-on work.** No deep screen, novelty search or manuscript task follows from this
+retirement, and none was started.
