@@ -900,7 +900,8 @@ def figure(result: dict | None = None, path: str | None = None) -> str:
 
     fig.suptitle("I-090 cheap screen — CHEAP_SCIENTIFIC_SCREEN / NOT_A_PUBLICATION_RESULT / "
                  "NOT_A_MODEL_VALIDATION_UPGRADE\n"
-                 "Decision: RETIRE — not a rival pair. Replicates would NOT have rescued it.",
+                 "Decision: RETIRE — not a rival pair. The one execution shown is a bounded "
+                 "IDENTITY check between a producer and its consumer,\nNOT a comparison of independent rival models. Replicates would NOT have rescued it.",
                  fontsize=9.8, y=0.985)
 
     out = path or str(REPO_ROOT / "docs/insights/screens/I-090/figures/primary.png")
