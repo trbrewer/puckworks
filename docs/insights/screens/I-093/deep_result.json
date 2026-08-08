@@ -1,0 +1,1765 @@
+{
+  "screen": "I-093",
+  "kind": "DEEP_SCREEN",
+  "disposition_banner": [
+    "DEEP_SCIENTIFIC_SCREEN",
+    "SYNTHETIC_GEOMETRY_RESULT",
+    "NOT_REAL_PUCK_VALIDATION",
+    "NOVELTY_INCREMENTAL"
+  ],
+  "provenance": {
+    "base_commit": "892e5ec78f7a0dcf1b1f2de85ccfff8f39e0effa",
+    "cheap_protocol_sha256": "657dabf812b57e856f6deafa2b5f7b3d78cac1934f2add9d200c32ba5bc3e0c0",
+    "cheap_result_sha256": "6fd9fe3f312e020922cddda969257072f418ed5b626d4082848a6578900caa77",
+    "cheap_decision": "SURVIVE (historical, frozen rule applied as written)",
+    "protocol_erratum_sha256": "334429fadb5a9c346ab8a0369a2db33d3b75694c78a0fd1ee29c5e94d1f92dd9",
+    "deep_protocol_sha256": "4cac31ef784799423a7b0a2a1b411f71d0af1b22944323f6afd482ffd5170460",
+    "deep_protocol_erratum_sha256": "31fb4639562552f5bc69f4f918cbbda0c765e6a3c1feba348ef3c64c49795b06",
+    "expected_run_matrix_sha256": "c57d56acf8f886f04636715d608e32c94fdec6577e2fc0db61be88b1252a226f",
+    "deep_run_raw_sha256": "a6e6dee654422f5120ad5073d751fdb557b24c31b3dc85404b2588dccf954936",
+    "reproduction": [
+      "python -m puckworks.analysis.deep_screen_i093_rve",
+      "python -m puckworks.analysis.deep_i093_adjudicate"
+    ]
+  },
+  "seed_semantics": "RELATED_NON_NESTED",
+  "seed_semantics_statement": "Equal seeds initialize a common pseudorandom stream, but size-dependent coordinate mapping, placement history, stopping behavior, and draw count produce non-nested geometries. Equal-seed cases are not interpretable as the same physical realization at increasing size. No paired finite-size analysis is used. Cross-size statistical independence is not established.",
+  "paired_analysis_used": false,
+  "execution_audit": {
+    "expected_cells": 46,
+    "converged": 24,
+    "not_launched_budget_guard": 22,
+    "scientific_nonconvergence": 0,
+    "operational_failure": 0,
+    "exact_retry": 0,
+    "in_flight_at_guard": 0,
+    "all_launched_cells_converged": true,
+    "guard": {
+      "budget_s": 9000,
+      "actual_wall_s": 9742.6,
+      "exceeded": true,
+      "overrun_s": 742.6000000000004,
+      "semantics": "checked before launch; an admitted cell runs to completion, which is why actual wall time exceeds the budget"
+    },
+    "output_isolation": "each cell writes only into the in-process result dict; the single run process wrote one JSON at the end, so no shared mutable file was contended",
+    "cells": [
+      {
+        "order": 1,
+        "section": "S3_multiseed_rve",
+        "L": 48,
+        "L_over_d": 2.4,
+        "phis_target": 0.5,
+        "seed": 0,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          48,
+          48,
+          48
+        ],
+        "estimated_cost_s": 55,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": true,
+        "needed_for_closure_decision": false,
+        "expected_output": "deep_result.json -> S3_multiseed_rve",
+        "status": "CONVERGED",
+        "note": ""
+      },
+      {
+        "order": 2,
+        "section": "S3_multiseed_rve",
+        "L": 48,
+        "L_over_d": 2.4,
+        "phis_target": 0.5,
+        "seed": 1,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          48,
+          48,
+          48
+        ],
+        "estimated_cost_s": 55,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": true,
+        "needed_for_closure_decision": false,
+        "expected_output": "deep_result.json -> S3_multiseed_rve",
+        "status": "CONVERGED",
+        "note": ""
+      },
+      {
+        "order": 3,
+        "section": "S3_multiseed_rve",
+        "L": 48,
+        "L_over_d": 2.4,
+        "phis_target": 0.5,
+        "seed": 2,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          48,
+          48,
+          48
+        ],
+        "estimated_cost_s": 55,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": true,
+        "needed_for_closure_decision": false,
+        "expected_output": "deep_result.json -> S3_multiseed_rve",
+        "status": "CONVERGED",
+        "note": ""
+      },
+      {
+        "order": 4,
+        "section": "S3_multiseed_rve",
+        "L": 48,
+        "L_over_d": 2.4,
+        "phis_target": 0.5,
+        "seed": 3,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          48,
+          48,
+          48
+        ],
+        "estimated_cost_s": 55,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": true,
+        "needed_for_closure_decision": false,
+        "expected_output": "deep_result.json -> S3_multiseed_rve",
+        "status": "CONVERGED",
+        "note": ""
+      },
+      {
+        "order": 5,
+        "section": "S3_multiseed_rve",
+        "L": 64,
+        "L_over_d": 3.2,
+        "phis_target": 0.5,
+        "seed": 0,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          64,
+          64,
+          64
+        ],
+        "estimated_cost_s": 183,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": true,
+        "needed_for_closure_decision": false,
+        "expected_output": "deep_result.json -> S3_multiseed_rve",
+        "status": "CONVERGED",
+        "note": ""
+      },
+      {
+        "order": 6,
+        "section": "S3_multiseed_rve",
+        "L": 64,
+        "L_over_d": 3.2,
+        "phis_target": 0.5,
+        "seed": 1,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          64,
+          64,
+          64
+        ],
+        "estimated_cost_s": 183,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": true,
+        "needed_for_closure_decision": false,
+        "expected_output": "deep_result.json -> S3_multiseed_rve",
+        "status": "CONVERGED",
+        "note": ""
+      },
+      {
+        "order": 7,
+        "section": "S3_multiseed_rve",
+        "L": 64,
+        "L_over_d": 3.2,
+        "phis_target": 0.5,
+        "seed": 2,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          64,
+          64,
+          64
+        ],
+        "estimated_cost_s": 183,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": true,
+        "needed_for_closure_decision": false,
+        "expected_output": "deep_result.json -> S3_multiseed_rve",
+        "status": "CONVERGED",
+        "note": ""
+      },
+      {
+        "order": 8,
+        "section": "S3_multiseed_rve",
+        "L": 64,
+        "L_over_d": 3.2,
+        "phis_target": 0.5,
+        "seed": 3,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          64,
+          64,
+          64
+        ],
+        "estimated_cost_s": 183,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": true,
+        "needed_for_closure_decision": false,
+        "expected_output": "deep_result.json -> S3_multiseed_rve",
+        "status": "CONVERGED",
+        "note": ""
+      },
+      {
+        "order": 9,
+        "section": "S3_multiseed_rve",
+        "L": 80,
+        "L_over_d": 4.0,
+        "phis_target": 0.5,
+        "seed": 0,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          80,
+          80,
+          80
+        ],
+        "estimated_cost_s": 403,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": true,
+        "needed_for_closure_decision": false,
+        "expected_output": "deep_result.json -> S3_multiseed_rve",
+        "status": "CONVERGED",
+        "note": ""
+      },
+      {
+        "order": 10,
+        "section": "S3_multiseed_rve",
+        "L": 80,
+        "L_over_d": 4.0,
+        "phis_target": 0.5,
+        "seed": 1,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          80,
+          80,
+          80
+        ],
+        "estimated_cost_s": 403,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": true,
+        "needed_for_closure_decision": false,
+        "expected_output": "deep_result.json -> S3_multiseed_rve",
+        "status": "CONVERGED",
+        "note": ""
+      },
+      {
+        "order": 11,
+        "section": "S3_multiseed_rve",
+        "L": 80,
+        "L_over_d": 4.0,
+        "phis_target": 0.5,
+        "seed": 2,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          80,
+          80,
+          80
+        ],
+        "estimated_cost_s": 403,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": true,
+        "needed_for_closure_decision": false,
+        "expected_output": "deep_result.json -> S3_multiseed_rve",
+        "status": "CONVERGED",
+        "note": ""
+      },
+      {
+        "order": 12,
+        "section": "S3_multiseed_rve",
+        "L": 80,
+        "L_over_d": 4.0,
+        "phis_target": 0.5,
+        "seed": 3,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          80,
+          80,
+          80
+        ],
+        "estimated_cost_s": 403,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": true,
+        "needed_for_closure_decision": false,
+        "expected_output": "deep_result.json -> S3_multiseed_rve",
+        "status": "CONVERGED",
+        "note": ""
+      },
+      {
+        "order": 13,
+        "section": "S3_multiseed_rve",
+        "L": 100,
+        "L_over_d": 5.0,
+        "phis_target": 0.5,
+        "seed": 0,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          100,
+          100,
+          100
+        ],
+        "estimated_cost_s": 726,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": true,
+        "needed_for_closure_decision": false,
+        "expected_output": "deep_result.json -> S3_multiseed_rve",
+        "status": "CONVERGED",
+        "note": ""
+      },
+      {
+        "order": 14,
+        "section": "S3_multiseed_rve",
+        "L": 100,
+        "L_over_d": 5.0,
+        "phis_target": 0.5,
+        "seed": 1,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          100,
+          100,
+          100
+        ],
+        "estimated_cost_s": 726,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": true,
+        "needed_for_closure_decision": false,
+        "expected_output": "deep_result.json -> S3_multiseed_rve",
+        "status": "CONVERGED",
+        "note": ""
+      },
+      {
+        "order": 15,
+        "section": "S3_multiseed_rve",
+        "L": 100,
+        "L_over_d": 5.0,
+        "phis_target": 0.5,
+        "seed": 2,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          100,
+          100,
+          100
+        ],
+        "estimated_cost_s": 726,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": true,
+        "needed_for_closure_decision": false,
+        "expected_output": "deep_result.json -> S3_multiseed_rve",
+        "status": "CONVERGED",
+        "note": ""
+      },
+      {
+        "order": 16,
+        "section": "S3_multiseed_rve",
+        "L": 100,
+        "L_over_d": 5.0,
+        "phis_target": 0.5,
+        "seed": 3,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          100,
+          100,
+          100
+        ],
+        "estimated_cost_s": 726,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": true,
+        "needed_for_closure_decision": false,
+        "expected_output": "deep_result.json -> S3_multiseed_rve",
+        "status": "CONVERGED",
+        "note": ""
+      },
+      {
+        "order": 17,
+        "section": "S4.1_tolerance_baseline",
+        "L": 64,
+        "L_over_d": 3.2,
+        "phis_target": 0.5,
+        "seed": 0,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          64,
+          64,
+          64
+        ],
+        "estimated_cost_s": 183,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": false,
+        "expected_output": "deep_result.json -> S4.1_tolerance_baseline",
+        "status": "CONVERGED",
+        "note": ""
+      },
+      {
+        "order": 18,
+        "section": "S4.1_tolerance_tightened",
+        "L": 64,
+        "L_over_d": 3.2,
+        "phis_target": 0.5,
+        "seed": 0,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-07,
+          "min_steps": 2000,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          64,
+          64,
+          64
+        ],
+        "estimated_cost_s": 183,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-07 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": false,
+        "expected_output": "deep_result.json -> S4.1_tolerance_tightened",
+        "status": "CONVERGED",
+        "note": ""
+      },
+      {
+        "order": 19,
+        "section": "S4.2_porosity_dependence",
+        "L": 64,
+        "L_over_d": 3.2,
+        "phis_target": 0.35,
+        "seed": 0,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          64,
+          64,
+          64
+        ],
+        "estimated_cost_s": 183,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.2_porosity_dependence",
+        "status": "CONVERGED",
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+      },
+      {
+        "order": 20,
+        "section": "S4.2_porosity_dependence",
+        "L": 64,
+        "L_over_d": 3.2,
+        "phis_target": 0.35,
+        "seed": 1,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          64,
+          64,
+          64
+        ],
+        "estimated_cost_s": 183,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.2_porosity_dependence",
+        "status": "CONVERGED",
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+      },
+      {
+        "order": 21,
+        "section": "S4.2_porosity_dependence",
+        "L": 64,
+        "L_over_d": 3.2,
+        "phis_target": 0.35,
+        "seed": 2,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          64,
+          64,
+          64
+        ],
+        "estimated_cost_s": 183,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.2_porosity_dependence",
+        "status": "CONVERGED",
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+      },
+      {
+        "order": 22,
+        "section": "S4.2_porosity_dependence",
+        "L": 64,
+        "L_over_d": 3.2,
+        "phis_target": 0.35,
+        "seed": 3,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          64,
+          64,
+          64
+        ],
+        "estimated_cost_s": 183,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.2_porosity_dependence",
+        "status": "CONVERGED",
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+      },
+      {
+        "order": 23,
+        "section": "S4.2_porosity_dependence",
+        "L": 100,
+        "L_over_d": 5.0,
+        "phis_target": 0.35,
+        "seed": 0,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          100,
+          100,
+          100
+        ],
+        "estimated_cost_s": 726,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.2_porosity_dependence",
+        "status": "CONVERGED",
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+      },
+      {
+        "order": 24,
+        "section": "S4.2_porosity_dependence",
+        "L": 100,
+        "L_over_d": 5.0,
+        "phis_target": 0.35,
+        "seed": 1,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          100,
+          100,
+          100
+        ],
+        "estimated_cost_s": 726,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.2_porosity_dependence",
+        "status": "CONVERGED",
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+      },
+      {
+        "order": 25,
+        "section": "S4.2_porosity_dependence",
+        "L": 100,
+        "L_over_d": 5.0,
+        "phis_target": 0.35,
+        "seed": 2,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          100,
+          100,
+          100
+        ],
+        "estimated_cost_s": 726,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.2_porosity_dependence",
+        "status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+      },
+      {
+        "order": 26,
+        "section": "S4.2_porosity_dependence",
+        "L": 100,
+        "L_over_d": 5.0,
+        "phis_target": 0.35,
+        "seed": 3,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          100,
+          100,
+          100
+        ],
+        "estimated_cost_s": 726,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.2_porosity_dependence",
+        "status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+      },
+      {
+        "order": 27,
+        "section": "S4.2_porosity_dependence",
+        "L": 64,
+        "L_over_d": 3.2,
+        "phis_target": 0.6,
+        "seed": 0,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          64,
+          64,
+          64
+        ],
+        "estimated_cost_s": 183,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.2_porosity_dependence",
+        "status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+      },
+      {
+        "order": 28,
+        "section": "S4.2_porosity_dependence",
+        "L": 64,
+        "L_over_d": 3.2,
+        "phis_target": 0.6,
+        "seed": 1,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          64,
+          64,
+          64
+        ],
+        "estimated_cost_s": 183,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.2_porosity_dependence",
+        "status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+      },
+      {
+        "order": 29,
+        "section": "S4.2_porosity_dependence",
+        "L": 64,
+        "L_over_d": 3.2,
+        "phis_target": 0.6,
+        "seed": 2,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          64,
+          64,
+          64
+        ],
+        "estimated_cost_s": 183,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.2_porosity_dependence",
+        "status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+      },
+      {
+        "order": 30,
+        "section": "S4.2_porosity_dependence",
+        "L": 64,
+        "L_over_d": 3.2,
+        "phis_target": 0.6,
+        "seed": 3,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          64,
+          64,
+          64
+        ],
+        "estimated_cost_s": 183,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.2_porosity_dependence",
+        "status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+      },
+      {
+        "order": 31,
+        "section": "S4.2_porosity_dependence",
+        "L": 100,
+        "L_over_d": 5.0,
+        "phis_target": 0.6,
+        "seed": 0,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          100,
+          100,
+          100
+        ],
+        "estimated_cost_s": 726,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.2_porosity_dependence",
+        "status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+      },
+      {
+        "order": 32,
+        "section": "S4.2_porosity_dependence",
+        "L": 100,
+        "L_over_d": 5.0,
+        "phis_target": 0.6,
+        "seed": 1,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          100,
+          100,
+          100
+        ],
+        "estimated_cost_s": 726,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.2_porosity_dependence",
+        "status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+      },
+      {
+        "order": 33,
+        "section": "S4.2_porosity_dependence",
+        "L": 100,
+        "L_over_d": 5.0,
+        "phis_target": 0.6,
+        "seed": 2,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          100,
+          100,
+          100
+        ],
+        "estimated_cost_s": 726,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.2_porosity_dependence",
+        "status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+      },
+      {
+        "order": 34,
+        "section": "S4.2_porosity_dependence",
+        "L": 100,
+        "L_over_d": 5.0,
+        "phis_target": 0.6,
+        "seed": 3,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          100,
+          100,
+          100
+        ],
+        "estimated_cost_s": 726,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.2_porosity_dependence",
+        "status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+      },
+      {
+        "order": 35,
+        "section": "S4.3_trend_on_means",
+        "L": 100,
+        "L_over_d": 5.0,
+        "phis_target": 0.35,
+        "seed": 0,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          100,
+          100,
+          100
+        ],
+        "estimated_cost_s": 726,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.3_trend_on_means",
+        "status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "note": ""
+      },
+      {
+        "order": 36,
+        "section": "S4.3_trend_on_means",
+        "L": 100,
+        "L_over_d": 5.0,
+        "phis_target": 0.35,
+        "seed": 1,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          100,
+          100,
+          100
+        ],
+        "estimated_cost_s": 726,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.3_trend_on_means",
+        "status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "note": ""
+      },
+      {
+        "order": 37,
+        "section": "S4.3_trend_on_means",
+        "L": 100,
+        "L_over_d": 5.0,
+        "phis_target": 0.4,
+        "seed": 0,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          100,
+          100,
+          100
+        ],
+        "estimated_cost_s": 726,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.3_trend_on_means",
+        "status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "note": ""
+      },
+      {
+        "order": 38,
+        "section": "S4.3_trend_on_means",
+        "L": 100,
+        "L_over_d": 5.0,
+        "phis_target": 0.4,
+        "seed": 1,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          100,
+          100,
+          100
+        ],
+        "estimated_cost_s": 726,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.3_trend_on_means",
+        "status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "note": ""
+      },
+      {
+        "order": 39,
+        "section": "S4.3_trend_on_means",
+        "L": 100,
+        "L_over_d": 5.0,
+        "phis_target": 0.45,
+        "seed": 0,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          100,
+          100,
+          100
+        ],
+        "estimated_cost_s": 726,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.3_trend_on_means",
+        "status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "note": ""
+      },
+      {
+        "order": 40,
+        "section": "S4.3_trend_on_means",
+        "L": 100,
+        "L_over_d": 5.0,
+        "phis_target": 0.45,
+        "seed": 1,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          100,
+          100,
+          100
+        ],
+        "estimated_cost_s": 726,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.3_trend_on_means",
+        "status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "note": ""
+      },
+      {
+        "order": 41,
+        "section": "S4.3_trend_on_means",
+        "L": 100,
+        "L_over_d": 5.0,
+        "phis_target": 0.5,
+        "seed": 0,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          100,
+          100,
+          100
+        ],
+        "estimated_cost_s": 726,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.3_trend_on_means",
+        "status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "note": ""
+      },
+      {
+        "order": 42,
+        "section": "S4.3_trend_on_means",
+        "L": 100,
+        "L_over_d": 5.0,
+        "phis_target": 0.5,
+        "seed": 1,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          100,
+          100,
+          100
+        ],
+        "estimated_cost_s": 726,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.3_trend_on_means",
+        "status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "note": ""
+      },
+      {
+        "order": 43,
+        "section": "S4.3_trend_on_means",
+        "L": 100,
+        "L_over_d": 5.0,
+        "phis_target": 0.55,
+        "seed": 0,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          100,
+          100,
+          100
+        ],
+        "estimated_cost_s": 726,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.3_trend_on_means",
+        "status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "note": ""
+      },
+      {
+        "order": 44,
+        "section": "S4.3_trend_on_means",
+        "L": 100,
+        "L_over_d": 5.0,
+        "phis_target": 0.55,
+        "seed": 1,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          100,
+          100,
+          100
+        ],
+        "estimated_cost_s": 726,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.3_trend_on_means",
+        "status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "note": ""
+      },
+      {
+        "order": 45,
+        "section": "S4.3_trend_on_means",
+        "L": 100,
+        "L_over_d": 5.0,
+        "phis_target": 0.6,
+        "seed": 0,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          100,
+          100,
+          100
+        ],
+        "estimated_cost_s": 726,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.3_trend_on_means",
+        "status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "note": ""
+      },
+      {
+        "order": 46,
+        "section": "S4.3_trend_on_means",
+        "L": 100,
+        "L_over_d": 5.0,
+        "phis_target": 0.6,
+        "seed": 1,
+        "solver_config": {
+          "g": 1e-06,
+          "tau_plus": 1.2,
+          "rtol": 1e-06,
+          "min_steps": 600,
+          "max_steps": 20000,
+          "check": 200
+        },
+        "lattice": [
+          100,
+          100,
+          100
+        ],
+        "estimated_cost_s": 726,
+        "required_convergence": "lb_reference.solve reaches rtol=1e-06 within max_steps=20000",
+        "needed_for_primary_finite_size": false,
+        "needed_for_closure_decision": true,
+        "expected_output": "deep_result.json -> S4.3_trend_on_means",
+        "status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "note": ""
+      }
+    ]
+  },
+  "realisation_table": [
+    {
+      "section": "S3_multiseed_rve",
+      "L": 48,
+      "L_over_d": 2.4,
+      "phis_target": 0.5,
+      "seed": 0,
+      "pack_porosity": 0.49514431423611116,
+      "k_lu": 3.1197640049592574,
+      "k_units": "lattice units",
+      "steps": 1000,
+      "converged": true,
+      "attempts": 1,
+      "wall_s": 54.58
+    },
+    {
+      "section": "S3_multiseed_rve",
+      "L": 48,
+      "L_over_d": 2.4,
+      "phis_target": 0.5,
+      "seed": 1,
+      "pack_porosity": 0.49512622974537035,
+      "k_lu": 5.361424773778707,
+      "k_units": "lattice units",
+      "steps": 1200,
+      "converged": true,
+      "attempts": 1,
+      "wall_s": 68.03
+    },
+    {
+      "section": "S3_multiseed_rve",
+      "L": 48,
+      "L_over_d": 2.4,
+      "phis_target": 0.5,
+      "seed": 2,
+      "pack_porosity": 0.4887152777777778,
+      "k_lu": 7.60526536684656,
+      "k_units": "lattice units",
+      "steps": 1400,
+      "converged": true,
+      "attempts": 1,
+      "wall_s": 81.19
+    },
+    {
+      "section": "S3_multiseed_rve",
+      "L": 48,
+      "L_over_d": 2.4,
+      "phis_target": 0.5,
+      "seed": 3,
+      "pack_porosity": 0.49306459780092593,
+      "k_lu": 8.007234787969516,
+      "k_units": "lattice units",
+      "steps": 1400,
+      "converged": true,
+      "attempts": 1,
+      "wall_s": 80.13
+    },
+    {
+      "section": "S3_multiseed_rve",
+      "L": 64,
+      "L_over_d": 3.2,
+      "phis_target": 0.5,
+      "seed": 0,
+      "pack_porosity": 0.4895820617675781,
+      "k_lu": 4.6163434103175,
+      "k_units": "lattice units",
+      "steps": 1200,
+      "converged": true,
+      "attempts": 1,
+      "wall_s": 196.65
+    },
+    {
+      "section": "S3_multiseed_rve",
+      "L": 64,
+      "L_over_d": 3.2,
+      "phis_target": 0.5,
+      "seed": 1,
+      "pack_porosity": 0.4938087463378906,
+      "k_lu": 5.682575570288004,
+      "k_units": "lattice units",
+      "steps": 1400,
+      "converged": true,
+      "attempts": 1,
+      "wall_s": 222.47
+    },
+    {
+      "section": "S3_multiseed_rve",
+      "L": 64,
+      "L_over_d": 3.2,
+      "phis_target": 0.5,
+      "seed": 2,
+      "pack_porosity": 0.4952278137207031,
+      "k_lu": 5.981656344521222,
+      "k_units": "lattice units",
+      "steps": 1400,
+      "converged": true,
+      "attempts": 1,
+      "wall_s": 214.03
+    },
+    {
+      "section": "S3_multiseed_rve",
+      "L": 64,
+      "L_over_d": 3.2,
+      "phis_target": 0.5,
+      "seed": 3,
+      "pack_porosity": 0.4967994689941406,
+      "k_lu": 6.142144036697438,
+      "k_units": "lattice units",
+      "steps": 1200,
+      "converged": true,
+      "attempts": 1,
+      "wall_s": 187.58
+    },
+    {
+      "section": "S3_multiseed_rve",
+      "L": 80,
+      "L_over_d": 4.0,
+      "phis_target": 0.5,
+      "seed": 0,
+      "pack_porosity": 0.49767578125,
+      "k_lu": 4.209601921762806,
+      "k_units": "lattice units",
+      "steps": 1400,
+      "converged": true,
+      "attempts": 1,
+      "wall_s": 399.39
+    },
+    {
+      "section": "S3_multiseed_rve",
+      "L": 80,
+      "L_over_d": 4.0,
+      "phis_target": 0.5,
+      "seed": 1,
+      "pack_porosity": 0.49824609374999995,
+      "k_lu": 4.874690429946656,
+      "k_units": "lattice units",
+      "steps": 1200,
+      "converged": true,
+      "attempts": 1,
+      "wall_s": 342.79
+    },
+    {
+      "section": "S3_multiseed_rve",
+      "L": 80,
+      "L_over_d": 4.0,
+      "phis_target": 0.5,
+      "seed": 2,
+      "pack_porosity": 0.496896484375,
+      "k_lu": 5.245778155895393,
+      "k_units": "lattice units",
+      "steps": 1400,
+      "converged": true,
+      "attempts": 1,
+      "wall_s": 409.67
+    },
+    {
+      "section": "S3_multiseed_rve",
+      "L": 80,
+      "L_over_d": 4.0,
+      "phis_target": 0.5,
+      "seed": 3,
+      "pack_porosity": 0.49894531249999996,
+      "k_lu": 6.6069990270126855,
+      "k_units": "lattice units",
+      "steps": 1600,
+      "converged": true,
+      "attempts": 1,
+      "wall_s": 477.74
+    },
+    {
+      "section": "S3_multiseed_rve",
+      "L": 100,
+      "L_over_d": 5.0,
+      "phis_target": 0.5,
+      "seed": 0,
+      "pack_porosity": 0.49765499999999996,
+      "k_lu": 5.1352127404401,
+      "k_units": "lattice units",
+      "steps": 1400,
+      "converged": true,
+      "attempts": 1,
+      "wall_s": 746.33
+    },
+    {
+      "section": "S3_multiseed_rve",
+      "L": 100,
+      "L_over_d": 5.0,
+      "phis_target": 0.5,
+      "seed": 1,
+      "pack_porosity": 0.49965899999999996,
+      "k_lu": 5.759625753403617,
+      "k_units": "lattice units",
+      "steps": 1600,
+      "converged": true,
+      "attempts": 1,
+      "wall_s": 823.01
+    },
+    {
+      "section": "S3_multiseed_rve",
+      "L": 100,
+      "L_over_d": 5.0,
+      "phis_target": 0.5,
+      "seed": 2,
+      "pack_porosity": 0.498657,
+      "k_lu": 4.239158837965968,
+      "k_units": "lattice units",
+      "steps": 1200,
+      "converged": true,
+      "attempts": 1,
+      "wall_s": 605.28
+    },
+    {
+      "section": "S3_multiseed_rve",
+      "L": 100,
+      "L_over_d": 5.0,
+      "phis_target": 0.5,
+      "seed": 3,
+      "pack_porosity": 0.49914899999999995,
+      "k_lu": 4.515772578994986,
+      "k_units": "lattice units",
+      "steps": 1200,
+      "converged": true,
+      "attempts": 1,
+      "wall_s": 616.27
+    }
+  ],
+  "ensembles_per_size": {
+    "48": {
+      "n": 4,
+      "mean": 6.02342223338851,
+      "median": 6.483345070312634,
+      "sample_sd": 2.258850127434778,
+      "cv": 0.3750110883666293,
+      "min": 3.1197640049592574,
+      "max": 8.007234787969516,
+      "max_over_min": 2.5666155437529916,
+      "values": [
+        3.1197640049592574,
+        5.361424773778707,
+        7.60526536684656,
+        8.007234787969516
+      ],
+      "sd_cv_note": null
+    },
+    "64": {
+      "n": 4,
+      "mean": 5.605679840456041,
+      "median": 5.832115957404613,
+      "sample_sd": 0.6865011994948653,
+      "cv": 0.1224652886061035,
+      "min": 4.6163434103175,
+      "max": 6.142144036697438,
+      "max_over_min": 1.3305214735476099,
+      "values": [
+        4.6163434103175,
+        5.682575570288004,
+        5.981656344521222,
+        6.142144036697438
+      ],
+      "sd_cv_note": null
+    },
+    "80": {
+      "n": 4,
+      "mean": 5.234267383654386,
+      "median": 5.060234292921025,
+      "sample_sd": 1.010570722741359,
+      "cv": 0.1930682268730057,
+      "min": 4.209601921762806,
+      "max": 6.6069990270126855,
+      "max_over_min": 1.5695068440689874,
+      "values": [
+        4.209601921762806,
+        4.874690429946656,
+        5.245778155895393,
+        6.6069990270126855
+      ],
+      "sd_cv_note": null
+    },
+    "100": {
+      "n": 4,
+      "mean": 4.912442477701168,
+      "median": 4.825492659717543,
+      "sample_sd": 0.6777423209119511,
+      "cv": 0.1379644288942612,
+      "min": 4.239158837965968,
+      "max": 5.759625753403617,
+      "max_over_min": 1.358671843531864,
+      "values": [
+        4.239158837965968,
+        4.515772578994986,
+        5.1352127404401,
+        5.759625753403617
+      ],
+      "sd_cv_note": null
+    }
+  },
+  "finite_size": {
+    "criterion": {
+      "sigma": 2.0,
+      "statistic": "ensemble mean of k per box size",
+      "text": "|mean(L) - mean(Lmax)| <= 2*sqrt(SE(L)^2 + SE(Lmax)^2)"
+    },
+    "checks": {
+      "48": {
+        "delta": 1.1109797556873424,
+        "delta_pct": 22.615628798308855,
+        "se": 1.1294250637173888,
+        "band": 2.3583338507868707,
+        "within": true
+      },
+      "64": {
+        "delta": 0.6932373627548731,
+        "delta_pct": 14.1118672819408,
+        "se": 0.34325059974743266,
+        "band": 0.9646857262668536,
+        "within": true
+      },
+      "80": {
+        "delta": 0.32182490595321767,
+        "delta_pct": 6.551219834411562,
+        "se": 0.5052853613706795,
+        "band": 1.2167940825041477,
+        "within": true
+      },
+      "100": {
+        "delta": 0.0,
+        "delta_pct": 0.0,
+        "se": 0.3388711604559755,
+        "band": 0.9584723820278995,
+        "within": true
+      }
+    },
+    "L_star": 48,
+    "R_sep": 0.5289718459033033,
+    "frozen_outcome": "PASS",
+    "statement": "Permeability satisfied the frozen stabilization criterion over L/d = 2.4 to 5.0 for the tested synthetic generator/solver ensemble.",
+    "power_caveat": "The criterion is a NON-REJECTION test and it passes at the SMALLEST tested size (L*=48), which is the tell: with n=4 and per-size CV of 12-38%, the 2-sigma band is wide enough to absorb a 22.6% monotone decline in the ensemble means across the tested range. Failing to detect a difference is NOT demonstrating equivalence, and no convergence is claimed.",
+    "rev_determination": null,
+    "rev_note": "the frozen protocol defines no REV determination, so no REV value and no 'REV exceeds the largest tested size' inference is stated"
+  },
+  "realization_variability": {
+    "within_size_max_over_min": {
+      "48": 2.5666155437529916,
+      "64": 1.3305214735476099,
+      "80": 1.5695068440689874,
+      "100": 1.358671843531864
+    },
+    "within_size_cv": {
+      "48": 0.3750110883666293,
+      "64": 0.1224652886061035,
+      "80": 0.1930682268730057,
+      "100": 0.1379644288942612
+    },
+    "between_size_total_mean_change_pct": 22.615628798308855,
+    "between_size_step_changes_pct": {
+      "48->64": 7.452127214216439,
+      "64->80": 7.095786851881228,
+      "80->100": 6.551219834411562
+    },
+    "smallest_box_range_contains_largest_box_range": true,
+    "cheap_single_seed_trajectory": {
+      "48": 3.1197640049592574,
+      "64": 4.6163434103175,
+      "80": 4.209601921762806,
+      "100": 5.1352127404401
+    },
+    "cheap_single_seed_direction": "RISING",
+    "ensemble_mean_direction": "FALLING",
+    "directions_disagree": true,
+    "comparison": "within-size dispersion is compared with the between-size change in the frozen ensemble statistic; no post hoc significance test is introduced",
+    "verdict": "within-size dispersion is LARGER than the between-size signal"
+  },
+  "sections": {
+    "S3_multiseed_rve": {
+      "expected": 16,
+      "converged": 16,
+      "status": "COMPLETE"
+    },
+    "S4_1_tolerance": {
+      "expected": 2,
+      "converged": 2,
+      "status": "COMPLETE",
+      "relative_move": 3.452461621182508e-08,
+      "cheap_criterion_adequate": true
+    },
+    "S4_2_porosity_dependence": {
+      "expected": 16,
+      "converged": 6,
+      "status": "PARTIAL_NON_DECISIONAL",
+      "porosities_recorded": [
+        "0.35"
+      ],
+      "porosities_missing": [
+        "0.6"
+      ],
+      "note": "the frozen protocol defines no partial porosity decision, and the implementation records a porosity only when BOTH sizes complete; the recorded porosity additionally has n=2 at the larger box, so the comparison is unbalanced. Retained as partial, non-decisional evidence."
+    },
+    "S4_3_trend_on_means": {
+      "expected": 12,
+      "converged": 0,
+      "status": "NOT_LAUNCHED_BUDGET_GUARD",
+      "skipped_reason": "insufficient budget"
+    }
+  },
+  "closure_deep_status": "NOT_ADJUDICATED_COMPUTE_BOUND",
+  "closure_statement": "The frozen deep closure matrix was not completed within the 150-minute compute budget. The cheap-screen monotonic ratio trend was therefore not deep-confirmed or deep-rejected. Completed section-4 cells are retained as partial, non-decisional evidence.",
+  "closure_not": [
+    "closure failure",
+    "evidence that either closure is valid",
+    "evidence that either closure is invalid",
+    "NEEDS_NEW_DATA",
+    "an empirical-data limitation"
+  ],
+  "finite_size_status": "PASS_BY_NON_REJECTION_LOW_POWER",
+  "realization_variability_status": "MATERIAL_AND_DOMINANT",
+  "closure_status": "NOT_ADJUDICATED_COMPUTE_BOUND",
+  "overall_deep_disposition": "BOUNDED_NULL",
+  "overall_basis": "ensemble means satisfy the frozen 2-sigma stabilisation criterion at L* = 48 (L/d = 2.4): once realisation noise is averaged the solver IS stabilised, so the cheap screen's RVE arm was single-realisation scatter produced by an under-powered one-seed sweep",
+  "novelty_disposition": "INCREMENTAL",
+  "issue_231_disposition": "NOT_MATERIAL_TO_SELECTED_DECISION",
+  "evidence_labels_unchanged": true,
+  "repository_guidance_correction": "none \u2014 the registry scopes '>= 5 grain diameters' to sigma, not permeability, and no pack card exists",
+  "claim_ceiling": {
+    "A_synthetic_generator_solver": "For brewer2026.pack_generator + brewer2026.lb_reference at R = 310.8 um, grain radius 10 voxels, phi ~ 0.49, over L/d = 2.4-5.0 with n=4 realisations per size: independent-realization variability is material and dominates the apparent finite-domain signal, so a single-realization size sweep is insufficient for permeability inference over this generator and domain.",
+    "B_domain_size": "The frozen 2-sigma stabilization criterion is SATISFIED over L/d = 2.4-5.0, but by non-rejection at low power (n=4, CV 12-38%), not by demonstrated convergence. No REV is determined and none is claimed.",
+    "C_continuum_closures": "NOT ADJUDICATED. The frozen closure matrix did not run; nothing is established for or against either closure, and the cheap monotonic trend does not carry forward.",
+    "D_repository_guidance": "The repository did not claim that five grain diameters was sufficient for permeability. No pack-card or registry correction was warranted or made.",
+    "E_real_pucks_and_novelty": "No real-puck permeability validation was performed and no representativeness of the synthetic morphology was established. Prior literature already contains universal sphere-pack permeability scaling and permeability-REV analyses; the contribution is incremental and repository-specific \u2014 a first repository-bound calibration, not a first measurement."
+  }
+}

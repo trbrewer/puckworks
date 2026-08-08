@@ -1,0 +1,401 @@
+{
+  "screen": "I-093",
+  "kind": "DEEP_SCREEN",
+  "disposition": [
+    "DEEP_SCREEN",
+    "NOT_A_PUBLICATION_RESULT",
+    "NOT_A_MODEL_VALIDATION_UPGRADE"
+  ],
+  "provenance": {
+    "base_commit": "892e5ec78f7a0dcf1b1f2de85ccfff8f39e0effa",
+    "deep_protocol_path": "docs/insights/screens/I-093/DEEP_SCREEN_PROTOCOL.md",
+    "deep_protocol_sha256": "4cac31ef784799423a7b0a2a1b411f71d0af1b22944323f6afd482ffd5170460",
+    "cheap_protocol_sha256": "657dabf812b57e856f6deafa2b5f7b3d78cac1934f2add9d200c32ba5bc3e0c0",
+    "command": "python -m puckworks.analysis.deep_screen_i093_rve"
+  },
+  "scenario": {
+    "gs": 1.3,
+    "grain_radius_um": 310.79,
+    "grain_radius_m": 0.00031079,
+    "voxel_um": 31.079,
+    "voxel_m": 3.1079e-05,
+    "grain_radius_voxels": 10.0,
+    "grain_diameter_voxels": 20.0,
+    "hetero_amp": 0.0,
+    "seeds": [
+      0,
+      1
+    ],
+    "phis_targets": [
+      0.35,
+      0.4,
+      0.45,
+      0.5,
+      0.55,
+      0.6
+    ],
+    "porosity_targets": [
+      0.65,
+      0.6,
+      0.55,
+      0.5,
+      0.45,
+      0.4
+    ],
+    "lb_kwargs": {
+      "g": 1e-06,
+      "tau_plus": 1.2,
+      "rtol": 1e-06,
+      "min_steps": 600,
+      "max_steps": 20000,
+      "check": 200
+    }
+  },
+  "multiseed_rve": {
+    "phis_target": 0.5,
+    "seeds": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "sizes": [
+      48,
+      64,
+      80,
+      100
+    ],
+    "rows": [
+      {
+        "L": 48,
+        "phis_target": 0.5,
+        "seed": 0,
+        "pack_porosity": 0.49514431423611116,
+        "k_lu": 3.1197640049592574,
+        "k_m2": 3.0133932833092913e-09,
+        "steps": 1000,
+        "box_grain_diameters": 2.4,
+        "wall_s": 54.58
+      },
+      {
+        "L": 48,
+        "phis_target": 0.5,
+        "seed": 1,
+        "pack_porosity": 0.49512622974537035,
+        "k_lu": 5.361424773778707,
+        "k_m2": 5.178622926795318e-09,
+        "steps": 1200,
+        "box_grain_diameters": 2.4,
+        "wall_s": 68.03
+      },
+      {
+        "L": 48,
+        "phis_target": 0.5,
+        "seed": 2,
+        "pack_porosity": 0.4887152777777778,
+        "k_lu": 7.60526536684656,
+        "k_m2": 7.3459580717675125e-09,
+        "steps": 1400,
+        "box_grain_diameters": 2.4,
+        "wall_s": 81.19
+      },
+      {
+        "L": 48,
+        "phis_target": 0.5,
+        "seed": 3,
+        "pack_porosity": 0.49306459780092593,
+        "k_lu": 8.007234787969516,
+        "k_m2": 7.73422204038249e-09,
+        "steps": 1400,
+        "box_grain_diameters": 2.4,
+        "wall_s": 80.13
+      },
+      {
+        "L": 64,
+        "phis_target": 0.5,
+        "seed": 0,
+        "pack_porosity": 0.4895820617675781,
+        "k_lu": 4.6163434103175,
+        "k_m2": 4.458945677938076e-09,
+        "steps": 1200,
+        "box_grain_diameters": 3.2,
+        "wall_s": 196.65
+      },
+      {
+        "L": 64,
+        "phis_target": 0.5,
+        "seed": 1,
+        "pack_porosity": 0.4938087463378906,
+        "k_lu": 5.682575570288004,
+        "k_m2": 5.488823843144176e-09,
+        "steps": 1400,
+        "box_grain_diameters": 3.2,
+        "wall_s": 222.47
+      },
+      {
+        "L": 64,
+        "phis_target": 0.5,
+        "seed": 2,
+        "pack_porosity": 0.4952278137207031,
+        "k_lu": 5.981656344521222,
+        "k_m2": 5.777707231377605e-09,
+        "steps": 1400,
+        "box_grain_diameters": 3.2,
+        "wall_s": 214.03
+      },
+      {
+        "L": 64,
+        "phis_target": 0.5,
+        "seed": 3,
+        "pack_porosity": 0.4967994689941406,
+        "k_lu": 6.142144036697438,
+        "k_m2": 5.9327229738789145e-09,
+        "steps": 1200,
+        "box_grain_diameters": 3.2,
+        "wall_s": 187.58
+      },
+      {
+        "L": 80,
+        "phis_target": 0.5,
+        "seed": 0,
+        "pack_porosity": 0.49767578125,
+        "k_lu": 4.209601921762806,
+        "k_m2": 4.066072349152444e-09,
+        "steps": 1400,
+        "box_grain_diameters": 4.0,
+        "wall_s": 399.39
+      },
+      {
+        "L": 80,
+        "phis_target": 0.5,
+        "seed": 1,
+        "pack_porosity": 0.49824609374999995,
+        "k_lu": 4.874690429946656,
+        "k_m2": 4.708484159847588e-09,
+        "steps": 1200,
+        "box_grain_diameters": 4.0,
+        "wall_s": 342.79
+      },
+      {
+        "L": 80,
+        "phis_target": 0.5,
+        "seed": 2,
+        "pack_porosity": 0.496896484375,
+        "k_lu": 5.245778155895393,
+        "k_m2": 5.066919368124519e-09,
+        "steps": 1400,
+        "box_grain_diameters": 4.0,
+        "wall_s": 409.67
+      },
+      {
+        "L": 80,
+        "phis_target": 0.5,
+        "seed": 3,
+        "pack_porosity": 0.49894531249999996,
+        "k_lu": 6.6069990270126855,
+        "k_m2": 6.381728380474426e-09,
+        "steps": 1600,
+        "box_grain_diameters": 4.0,
+        "wall_s": 477.74
+      },
+      {
+        "L": 100,
+        "phis_target": 0.5,
+        "seed": 0,
+        "pack_porosity": 0.49765499999999996,
+        "k_lu": 5.1352127404401,
+        "k_m2": 4.960123764428324e-09,
+        "steps": 1400,
+        "box_grain_diameters": 5.0,
+        "wall_s": 746.33
+      },
+      {
+        "L": 100,
+        "phis_target": 0.5,
+        "seed": 1,
+        "pack_porosity": 0.49965899999999996,
+        "k_lu": 5.759625753403617,
+        "k_m2": 5.563246941785373e-09,
+        "steps": 1600,
+        "box_grain_diameters": 5.0,
+        "wall_s": 823.01
+      },
+      {
+        "L": 100,
+        "phis_target": 0.5,
+        "seed": 2,
+        "pack_porosity": 0.498657,
+        "k_lu": 4.239158837965968,
+        "k_m2": 4.09462149986396e-09,
+        "steps": 1200,
+        "box_grain_diameters": 5.0,
+        "wall_s": 605.28
+      },
+      {
+        "L": 100,
+        "phis_target": 0.5,
+        "seed": 3,
+        "pack_porosity": 0.49914899999999995,
+        "k_lu": 4.515772578994986,
+        "k_m2": 4.361803885442764e-09,
+        "steps": 1200,
+        "box_grain_diameters": 5.0,
+        "wall_s": 616.27
+      }
+    ],
+    "per_L": {
+      "48": {
+        "n": 4,
+        "mean": 6.02342223338851,
+        "sd": 2.2588501274347776,
+        "se": 1.1294250637173888,
+        "spread": 2.5666155437529916
+      },
+      "64": {
+        "n": 4,
+        "mean": 5.605679840456041,
+        "sd": 0.6865011994948653,
+        "se": 0.34325059974743266,
+        "spread": 1.3305214735476099
+      },
+      "80": {
+        "n": 4,
+        "mean": 5.234267383654386,
+        "sd": 1.010570722741359,
+        "se": 0.5052853613706795,
+        "spread": 1.5695068440689874
+      },
+      "100": {
+        "n": 4,
+        "mean": 4.912442477701168,
+        "sd": 0.677742320911951,
+        "se": 0.3388711604559755,
+        "spread": 1.358671843531864
+      }
+    },
+    "criterion": {
+      "sigma": 2.0,
+      "text": "|mean(L)-mean(Lmax)| <= 2*sqrt(SE(L)^2+SE(Lmax)^2)"
+    },
+    "resolved": {
+      "48": {
+        "delta": 1.1109797556873424,
+        "band": 2.3583338507868707,
+        "within": true,
+        "delta_pct": 22.615628798308855
+      },
+      "64": {
+        "delta": 0.6932373627548731,
+        "band": 0.9646857262668536,
+        "within": true,
+        "delta_pct": 14.1118672819408
+      },
+      "80": {
+        "delta": 0.32182490595321767,
+        "band": 1.2167940825041477,
+        "within": true,
+        "delta_pct": 6.551219834411562
+      },
+      "100": {
+        "delta": 0.0,
+        "band": 0.9584723820278995,
+        "within": true,
+        "delta_pct": 0.0
+      }
+    },
+    "L_star": 48,
+    "R_sep": 0.5289718459033033,
+    "box_grain_diameters": {
+      "48": 2.4,
+      "64": 3.2,
+      "80": 4.0,
+      "100": 5.0
+    },
+    "stabilised": true,
+    "wall_s": 5525.1
+  },
+  "tolerance_sensitivity": {
+    "case": {
+      "L": 64,
+      "phis": 0.5,
+      "seed": 0
+    },
+    "baseline": {
+      "L": 64,
+      "phis_target": 0.5,
+      "seed": 0,
+      "pack_porosity": 0.4895820617675781,
+      "k_lu": 4.6163434103175,
+      "k_m2": 4.458945677938076e-09,
+      "steps": 1200,
+      "box_grain_diameters": 3.2,
+      "wall_s": 179.57
+    },
+    "tightened": {
+      "rtol": 1e-07,
+      "min_steps": 2000,
+      "L": 64,
+      "phis_target": 0.5,
+      "seed": 0,
+      "pack_porosity": 0.4895820617675781,
+      "k_lu": 4.616343569694984,
+      "k_m2": 4.458945831881464e-09,
+      "steps": 2000,
+      "box_grain_diameters": 3.2,
+      "wall_s": 299.63
+    },
+    "relative_move": 3.452461621182508e-08,
+    "limit": 0.01,
+    "cheap_criterion_adequate": true,
+    "note": "if k moves more than 1%% the cheap screen's rtol/min_steps were too loose and every number inherits that numerical-uncertainty term"
+  },
+  "porosity_dependence": {
+    "sizes": [
+      64,
+      100
+    ],
+    "by_phis": {
+      "0.35": {
+        "per_L": {
+          "64": {
+            "n": 4,
+            "mean": 16.106088437961162,
+            "sd": 3.6612571219273815,
+            "se": 1.8306285609636908,
+            "spread": 1.7128219890066838
+          },
+          "100": {
+            "n": 2,
+            "mean": 12.319981106217643,
+            "sd": 0.2035773380563292,
+            "se": 0.14395091623553657,
+            "spread": 1.0236449670359675
+          }
+        },
+        "delta_pct": 30.73143780904622,
+        "R_sep": 2.061835963127832
+      }
+    },
+    "wall_s": 3738.3
+  },
+  "trend_on_stabilised_means": {
+    "skipped": "insufficient budget",
+    "rows": [],
+    "wall_s": 0.0
+  },
+  "deep_decision": {
+    "outcome": "BOUNDED_NULL",
+    "basis": "ensemble means satisfy the frozen 2-sigma stabilisation criterion at L* = 48 (L/d = 2.4): once realisation noise is averaged the solver IS stabilised, so the cheap screen's RVE arm was single-realisation scatter produced by an under-powered one-seed sweep",
+    "cheap_screen_arm_withdrawn": true
+  },
+  "compute": {
+    "budget_s": 9000,
+    "wall_s": 9742.6,
+    "exceeded": true,
+    "total_wall_s": 9743.0
+  },
+  "holdout_claim": null,
+  "holdout_note": "nothing is held out and no independent evidence exists: both routes are computations on generated geometry, so no holdout claim is made",
+  "issue_231_disposition": "NOT_MATERIAL_TO_SELECTED_DECISION",
+  "evidence_labels_unchanged": true
+}
