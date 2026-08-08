@@ -401,7 +401,10 @@ def test_named_correction_targets_are_byte_unchanged_by_this_branch():
     The property differs per surface, and conflating them would make the guard wrong rather than
     strict. The manifest and the card must be byte-identical. `docs/ROADMAP.md` must NOT be, and
     could not be: its §7.1 changelog is append-only and CLAUDE.md REQUIRES an entry for work like
-    this. What must hold there is that nothing was rewritten — additions only.
+    this, so asserting it unchanged would assert something the repository's own contract forbids.
+    The ROADMAP property — pre-existing §7.1 rows byte-identical and in order, changes confined to
+    the changelog region — is enforced by `tests/test_wave3_roadmap_history.py`, which states it
+    over row content rather than over a line count.
     """
     base = S.BASE_COMMIT
     if _git("cat-file", "-e", base + "^{commit}").returncode != 0:
@@ -411,15 +414,9 @@ def test_named_correction_targets_are_byte_unchanged_by_this_branch():
         r = _git("diff", "--numstat", base, "HEAD", "--", path)
         assert r.stdout.strip() == "", "%s was edited; a screen may not apply a correction" % path
 
-    for path in S.CORRECTION_TARGET_APPEND_ONLY:
-        r = _git("diff", "--numstat", base, "HEAD", "--", path)
-        if not r.stdout.strip():
-            continue
-        added, removed, _ = r.stdout.split()
-        assert removed == "0", (
-            "%s lost %s line(s); the changelog is append-only and nothing may be rewritten"
-            % (path, removed))
-        assert int(added) > 0
+    assert S.CORRECTION_TARGET_APPEND_ONLY == ("docs/ROADMAP.md",)
+    assert (REPO / "tests/test_wave3_roadmap_history.py").exists(), (
+        "the append-only ROADMAP property must be enforced somewhere")
 
 
 def test_the_over_claim_wording_still_stands_verbatim():
