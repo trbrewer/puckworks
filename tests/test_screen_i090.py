@@ -396,13 +396,43 @@ def test_the_recorded_finding_quotes_both_live_authorities_verbatim(result):
 
 def test_named_correction_targets_are_byte_unchanged_by_this_branch():
     """A screen records a correction target; it does not apply one. CLAUDE.md: the Foundry 'may
-    not change, promote or restate any label, badge or validation rung'."""
+    not change, promote or restate any label, badge or validation rung'.
+
+    The property differs per surface, and conflating them would make the guard wrong rather than
+    strict. The manifest and the card must be byte-identical. `docs/ROADMAP.md` must NOT be, and
+    could not be: its §7.1 changelog is append-only and CLAUDE.md REQUIRES an entry for work like
+    this. What must hold there is that nothing was rewritten — additions only.
+    """
     base = S.BASE_COMMIT
     if _git("cat-file", "-e", base + "^{commit}").returncode != 0:
         pytest.skip("base commit not present in this checkout")
-    for path in S.CORRECTION_TARGETS:
+
+    for path in S.CORRECTION_TARGET_FILES:
         r = _git("diff", "--numstat", base, "HEAD", "--", path)
         assert r.stdout.strip() == "", "%s was edited; a screen may not apply a correction" % path
+
+    for path in S.CORRECTION_TARGET_APPEND_ONLY:
+        r = _git("diff", "--numstat", base, "HEAD", "--", path)
+        if not r.stdout.strip():
+            continue
+        added, removed, _ = r.stdout.split()
+        assert removed == "0", (
+            "%s lost %s line(s); the changelog is append-only and nothing may be rewritten"
+            % (path, removed))
+        assert int(added) > 0
+
+
+def test_the_over_claim_wording_still_stands_verbatim():
+    """The direct test of 'recorded, not applied': if the screen had corrected the cell, this
+    wording would be gone. Its continued presence is the evidence that it did not."""
+    for rel, wording in S.UNCORRECTED_WORDING.items():
+        text = (REPO / rel).read_text(encoding="utf-8")
+        assert wording in text, (
+            "%r is no longer present in %s — the correction appears to have been APPLIED, which "
+            "a screen may not do" % (wording, rel))
+    # and the manifest cell itself is still the uncorrected value the finding names
+    assert S._manifest_row("de1_fixtureA")["validation_strength"] == \
+        "independent (parameter-free triangle)"
 
 
 def test_no_evidence_label_or_rung_is_changed(result):

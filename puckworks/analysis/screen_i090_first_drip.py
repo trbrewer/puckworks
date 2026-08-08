@@ -78,12 +78,24 @@ IDENTITY_MAXABS_MAX_MM = 0.02
 #: refines is not quadrature error, and the identity claim would fail.
 IDENTITY_GRIDS = (400, 1600, 6400)
 
-#: Correction targets this screen may NAME but may never EDIT (PROTOCOL.md section 11).
-CORRECTION_TARGETS = (
+#: Correction-target FILES this screen may name but may never edit at all (PROTOCOL.md 11).
+CORRECTION_TARGET_FILES = (
     "puckworks/data/MANIFEST.csv",
     "docs/cards/foster2025.md",
-    "docs/ROADMAP.md",
 )
+
+#: docs/ROADMAP.md is a correction target for its BODY PROSE about the triangle -- but its 7.1
+#: changelog is append-only and CLAUDE.md REQUIRES an entry for this work, so a byte-unchanged
+#: assertion would be wrong. The precise property is that the over-claim wording still stands
+#: verbatim (i.e. the correction was NOT applied) and that nothing was rewritten.
+CORRECTION_TARGET_APPEND_ONLY = ("docs/ROADMAP.md",)
+
+#: The exact wording that must STILL BE PRESENT, unedited, in each named surface. Its continued
+#: presence is what proves the screen recorded the defect instead of correcting it.
+UNCORRECTED_WORDING = {
+    "puckworks/data/MANIFEST.csv": "independent (parameter-free triangle)",
+    "docs/ROADMAP.md": "not a parameter-free independent result",
+}
 
 
 def _sha256(rel_path: str) -> str:
@@ -707,7 +719,14 @@ def screen() -> dict:
         "decision": decision["decision"],
         "decision_record": decision,
         "recorded_findings": [recorded_findings()],
-        "correction_targets_named_not_applied": list(CORRECTION_TARGETS),
+        "correction_targets_named_not_applied": {
+            "byte_unchanged": list(CORRECTION_TARGET_FILES),
+            "append_only": list(CORRECTION_TARGET_APPEND_ONLY),
+            "wording_that_must_still_stand": dict(UNCORRECTED_WORDING),
+            "note": "docs/ROADMAP.md 7.1 is append-only and CLAUDE.md REQUIRES a "
+                    "changelog entry for this work, so the property asserted there "
+                    "is that nothing was rewritten and the over-claim wording still "
+                    "stands verbatim -- not that the file is untouched"},
         "reopen_condition":
             "a SECOND, INDEPENDENT front closure is registered and evaluated against "
             "foster2025.infiltration under ONE recorded pressure history on one rig -- for "

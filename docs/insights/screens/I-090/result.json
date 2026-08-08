@@ -406,11 +406,20 @@
       "distinct_from_I045_note": "I-045's frozen rule selected three manifest rows and tests/test_screen_i045.py asserts de1_fixtureA is FOREIGN to that selection. This is an independent row and an independent finding"
     }
   ],
-  "correction_targets_named_not_applied": [
-    "puckworks/data/MANIFEST.csv",
-    "docs/cards/foster2025.md",
-    "docs/ROADMAP.md"
-  ],
+  "correction_targets_named_not_applied": {
+    "byte_unchanged": [
+      "puckworks/data/MANIFEST.csv",
+      "docs/cards/foster2025.md"
+    ],
+    "append_only": [
+      "docs/ROADMAP.md"
+    ],
+    "wording_that_must_still_stand": {
+      "puckworks/data/MANIFEST.csv": "independent (parameter-free triangle)",
+      "docs/ROADMAP.md": "not a parameter-free independent result"
+    },
+    "note": "docs/ROADMAP.md 7.1 is append-only and CLAUDE.md REQUIRES a changelog entry for this work, so the property asserted there is that nothing was rewritten and the over-claim wording still stands verbatim -- not that the file is untouched"
+  },
   "reopen_condition": "a SECOND, INDEPENDENT front closure is registered and evaluated against foster2025.infiltration under ONE recorded pressure history on one rig -- for example mo2023_2's filling-front switch (Eqs. 29-30), which docs/cards/mo2023_2.md already names as 'a cheap implementation of exactly this backlog item'. THAT pair would be a genuine first-drip discrimination, and it would then also need: a characterised transport/instrument delay between front breakthrough and the scale threshold crossing, and physically independent replicate extractions to supply a spread. Replicates ALONE do not reopen this candidate -- with no rival pair there is nothing for a spread to discriminate.",
   "claim_ceiling": "A registry finding about how a shared-card Outputs clause generates a spurious discriminator row, plus a code-level identity between two implementations. It does NOT upgrade either component's rung: foster2025.infiltration remains sign_or_compatibility and foster2025.machine_mode remains source_curve_reproduction. It does NOT convert within-campaign evidence into independent validation. It does NOT establish that the shared front law is CORRECT -- two implementations agreeing is a statement about the code and the source, not about the physics. It does NOT establish mechanism identification in either direction. It does NOT validate the unresolved de1_fixtureA provenance condition, and it does not rely on that condition being resolved. It licenses no reader-facing statement about first drip in espresso.",
   "evidence_labels_unchanged": true,
