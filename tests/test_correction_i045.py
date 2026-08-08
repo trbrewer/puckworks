@@ -24,6 +24,13 @@ from puckworks.analysis import correction_i045_lineage as C
 REPO = pathlib.Path(__file__).resolve().parents[1]
 BUNDLE = REPO / "docs/insights/screens/I-045"
 BASE = "6ce8d97db79bc9a189af130c61fd2d9af7c66883"          # IF-7 merge, canonical base
+#: The commit at which the correction LANDED (PR #229). The blast-radius assertions below bound
+#: what THE CORRECTION touched, so they must diff BASE..CORRECTION_HEAD, not BASE..HEAD. Against a
+#: moving HEAD they would re-read as "nobody may ever touch these paths again", and would break on
+#: the first unrelated PR that legitimately edits one — e.g. a later screen adding its row to
+#: `RETIRED_CANDIDATES.md`, which that file's own format section requires. Over BASE..
+#: CORRECTION_HEAD the assertions are unchanged from the day they were written.
+CORRECTION_HEAD = "85f65c0d4b836990152fa4e9bf91c6d292a9e257"
 
 
 def _git(*args):
@@ -31,7 +38,8 @@ def _git(*args):
 
 
 def _have_base():
-    return _git("cat-file", "-e", BASE + "^{commit}").returncode == 0
+    return (_git("cat-file", "-e", BASE + "^{commit}").returncode == 0
+            and _git("cat-file", "-e", CORRECTION_HEAD + "^{commit}").returncode == 0)
 
 
 @pytest.fixture(scope="module")
@@ -153,7 +161,7 @@ def test_only_the_foster_row_changed_in_the_readme_inventory_block():
 def test_no_other_readme_change():
     if not _have_base():
         pytest.skip("canonical base not present in this checkout")
-    r = _git("diff", "--numstat", BASE, "HEAD", "--", "README.md")
+    r = _git("diff", "--numstat", BASE, CORRECTION_HEAD, "--", "README.md")
     assert r.returncode == 0
     if r.stdout.strip():
         added, removed, _ = r.stdout.split()
@@ -199,7 +207,7 @@ def test_already_correct_surfaces_are_untouched(result):
                  "puckworks/viz", "docs/figures/viz", "docs/public/site",
                  "docs/insights/RETIRED_CANDIDATES.md", "docs/insights/screens/I-076",
                  "docs/insights/screens/I-045/DEEP_SCREEN_PROTOCOL.md"):
-        r = _git("diff", "--numstat", BASE, "HEAD", "--", path)
+        r = _git("diff", "--numstat", BASE, CORRECTION_HEAD, "--", path)
         assert r.returncode == 0 and r.stdout.strip() == "", "%s changed: %s" % (path, r.stdout)
 
 
