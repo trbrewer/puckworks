@@ -151,3 +151,59 @@ side showing why they are not the same quantity.
 
 `technical_note` at best. A confirmed "different questions" result is a **registry** finding about
 declared-competitor rows, not a domain result.
+
+### Screen outcome (appended after the Wave-3 cheap screen ran, 2026-08-07)
+
+**RETIRE** — `docs/insights/screens/I-072/`. Recorded in
+[`../RETIRED_CANDIDATES.md`](../RETIRED_CANDIDATES.md) with a reopen condition. **Neither
+component was executed**: the protocol's five-part compatibility gate fails on all five parts,
+upstream of any run.
+
+This card's human triage predicted the outcome — *"it will probably retire on 'they answer
+different questions'"* — and the screen's contribution is to make that exact rather than a
+judgement call. The two components emit **orthogonal moments of the same flow field**, and each
+one's output is the other's structural zero:
+
+- `brewer2026.streamtube`'s tube multipliers are unit-mean **by construction**, so the bed-total
+  flow ratio `q(t)/q(0)` — the whole of what `mo2023_2.swelling` computes — is **identically 1**
+  for every σ (max |E[k] − 1| = 3.3 × 10⁻¹⁶ across the σ grid).
+- `mo2023_2.swelling` is one 1-D column with no tube index, so the across-tube dispersion — the
+  whole of what `brewer2026.streamtube` computes — is **identically 0** for every powder.
+
+So the quantity each component emits is a structural constant in the other's model. That is not a
+disagreement and it is not an agreement. `docs/cards/mo2023_2.md` already said so in prose:
+*"complementary-competing … a bed can have both; Mo's 1-D homogeneity is silent on channeling."*
+
+The declared validity domains also fail to intersect — a powder identity with **no dial** versus
+EK43 dial 1.1–1.5, and rule 9 / ledger A9, G5 forbids the adapter.
+
+**The readiness note held.** `brewer2026.streamtube` has no card, so its validity range and
+uncertainty are registry-sourced, and the result states that rather than inheriting card
+provenance it does not have.
+
+**The d₃₂ coincidence is real and was refused anyway.** Mo powder **M** (d₃₂ = 109.0 µm) lands
+inside the streamtube's dial-derived Sauter span (104.6–124.8 µm). It is not a matched grind: the
+granulometry behind it differs by 26 % in fines radius and 37 % in boulder radius, and d₃₂ is one
+derived moment, not a grinder dial.
+
+**Recorded and deliberately not pursued:** Rung B (`simulate_ensemble_dynamic`) *does* emit the
+time-indexed bed-total flow the comparison would need. Running it requires `lam_e`, `a_open` and
+`a_clog`, which the repository declares nowhere and whose module defaults are `0.0`; Rung B also
+carries no gate and the registry calls it *"hypothesis-generating"*. That is the reopen path, and
+it is a calibration task, not a screen.
+
+**Claim ceiling.** Under the current repository definitions and implementations,
+`mo2023_2.swelling` and `brewer2026.streamtube` are not rival predictors of one shared observable.
+This does **not** establish that swelling or lateral flow heterogeneity is physically absent,
+unimportant, mutually compatible, or incapable of interacting in a future coupled model; it does
+not establish that either component is right or wrong; and it changes no validation rung —
+`mo2023_2.swelling` remains `source_curve_reproduction`, `brewer2026.streamtube` remains
+`within_campaign_held_out`.
+
+**Reopen condition.** Reopen only if an authoritative future card, implementation or RP-A result
+supplies a genuinely co-defined observable that **both** components natively predict under the
+same location, normalisation, intervention and overlapping validity domain. **More measurements
+alone do not rescue a comparison between different moments.**
+
+**No follow-on work.** No deep screen, novelty search or manuscript task follows from this
+retirement, and none was started.

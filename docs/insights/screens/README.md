@@ -40,6 +40,30 @@ than by rewriting the frozen text.
 [`../RETIRED_CANDIDATES.md`](../RETIRED_CANDIDATES.md), and its IF-7 deep screen has now run —
 see below.
 
+## Wave 3 — reported 2026-08-07
+
+| screen | question | decision |
+|---|---|---|
+| [`I-072`](I-072/) | do `mo2023_2.swelling` and `brewer2026.streamtube` actually disagree, or only claim to | **RETIRE** — **orthogonal moments, no shared native observable.** The streamtube's bed-total flow ratio is structurally unity for every σ (max \|E[k]−1\| = 3.3 × 10⁻¹⁶); the swelling model has no tube index, so its across-tube dispersion is structurally zero. **Neither component was executed** — the semantic gate settled it first |
+| [`I-090`](I-090/) | can `first_drip_time` discriminate between the models that predict it | **RETIRE** — **producer/consumer identity.** `machine_mode` generates the pressure history `infiltration` consumes; they share one controlling card and one front law. **One bounded identity execution**: RMSE 7.0 × 10⁻⁸ mm, residual falling under grid refinement |
+
+**The structural lesson.** Before asking whether predictions differ beyond uncertainty, establish
+that the entries are **rival predictions of the same observable**. A competitor relation or a
+common output label is not enough. I-072's tension row came from a card naming a competitor;
+I-090's came from one card's Outputs clause counted twice. In both cases the rivalry was the
+assumption that failed, and uncertainty was never reached — it cannot discriminate quantities
+that are not rivals in the first place. Neither retirement is a null result, and neither is
+reopened by collecting more data.
+
+Both protocols were frozen in their own commits before their modules existed, and each
+`result.json` is SHA-256-bound to its protocol and inputs. Reopen conditions are in
+[`../RETIRED_CANDIDATES.md`](../RETIRED_CANDIDATES.md).
+
+A separate finding — the `de1_fixtureA` manifest cell declaring
+`independent (parameter-free triangle)` against ROADMAP §7.1's 2026-07-16 record — was recorded
+in [`I-090/decision.md`](I-090/decision.md) and **deliberately not corrected**, pending
+source-level adjudication. The Foundry is not an authority over an evidence label.
+
 ## IF-7 deep screens — I-045, reported 2026-08-05
 
 | screen | question | cheap | deep |

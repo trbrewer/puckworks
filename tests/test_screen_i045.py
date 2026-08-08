@@ -522,10 +522,21 @@ def test_retirement_record_matches_the_committed_decision():
 
 
 def test_no_unauthorised_candidate_bundle_was_created():
-    """Only I-040, I-010, I-024 (merged) and I-045, I-076 (this PR) may have bundles."""
-    allowed = {"I-040", "I-010", "I-024", "I-045", "I-076", "README.md"}
+    """A screen bundle may exist only for a candidate a HUMAN shortlisted at IF-5.
+
+    Wave 1 I-040, I-010, I-024; Wave 2 I-045, I-076; Wave 3 I-072, I-090. The list stays a
+    literal so that adding a bundle requires editing a reviewed line, and the second assertion
+    keeps the guard honest: every name on it must actually appear as a shortlisted candidate in
+    the human triage record, so the list cannot be padded with something nobody selected.
+    """
+    allowed = {"I-040", "I-010", "I-024", "I-045", "I-076", "I-072", "I-090", "README.md"}
     present = {p.name for p in (REPO / "docs/insights/screens").iterdir()}
     assert present <= allowed, present - allowed
+
+    triage = (REPO / "docs/insights/IF5_HUMAN_TRIAGE_DECISION.md").read_text(encoding="utf-8")
+    for name in allowed - {"README.md"}:
+        assert "**%s**" % name in triage, (
+            "%s is allowlisted but is not a human-shortlisted candidate at IF-5" % name)
 
 
 # --------------------------------------------------------------------------------------------
