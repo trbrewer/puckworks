@@ -17,7 +17,7 @@ and `w`?
 
 Human-selected from `docs/cards/lateral_coupling_feasibility.md` §4, go/no-go box 6 (*"the
 inference is not structurally non-identifiable"* — **OPEN**). **Not** a generated candidate: no
-`I-` number was minted, `ID_REGISTRY.json` and the generated portfolio are untouched, and the 90
+`I-` number was minted; `ID_REGISTRY.json` and `docs/insights/candidates/` are **byte-unchanged** and the Foundry code (lenses, generators, scoring) is unchanged; `docs/insights/generated/**` was **regenerated** through `python -m puckworks.insights write`, never hand-edited — in the complete candidate and tension payloads only `source_commit`/`commit` provenance moved, and in `snapshot_manifest.json` the snapshot commit, the corrected card's input hash and the derived output hashes moved, with all other normalised manifest structure and content equal; and in `corpus_map.json` the corrected card's own entity attrs (`card_sha256`, `section_names`, `section_hashes`) moved — the map recording the card it is supposed to record, with no other entity, relation, warning or count touched. The 90
 candidates were not scored, ranked or inspected.
 
 ## Evidence unit
@@ -185,12 +185,22 @@ driving pressure at any `G_lat`, so `Q` carries no information about it. Two con
 keeping: the derivative is a *square*, so `Q` is non-decreasing in `G_lat` for every admissible
 geometry; and the failure is **continuous**, `dG/d(Q/P) ~ 1/X²`, not abrupt.
 
+**Structural degeneracy and numerical near-degeneracy are kept strictly apart** — conflating them
+would assert a falsehood. Three classes, never two:
+
+| class | condition | what is true |
+|---|---|---|
+| `structurally_degenerate_no_information` | **`X = 0` exactly** | uncoupled mid-node pressures equal; `Q` **exactly** independent of `G_lat`. The only structural case. |
+| `numerically_unresolved_near_degenerate` | `X ≠ 0`, `X²` below the numerical-resolution threshold | the map **is** injective and `Q` is **not** independent of `G_lat`; this implementation declines to return a number because `dG/d(Q/P) ~ 1/X²` is too ill-conditioned. **No claim of exact equality.** |
+| resolved | otherwise | the exact inversion runs unchanged |
+
 Demonstrated rather than asserted (`calibrated_inversion_degeneracy`): `g = (2, 1, 4, 2)` — two
-**non-identical** paths with proportional top/bottom split — has `X = 0`, `p₁ = p₂`, and `Q`
-numerically invariant across `G_lat ∈ {0, 0.5, 5, 500}`; the routine returns
-`structurally_degenerate_no_information`, not a number. A near-degenerate row (`X = 0.04` against
-the mirror's `X = 8`) shows the conditioning decay directly: recovery error grows from 2e−12 to
-1.6e−8, tracking `1/X²`. **A real fixture therefore needs a margin on the uncoupled pressure gap,
+**non-identical** paths with proportional top/bottom split — has `X = 0` exactly, `p₁ = p₂`, and
+`Q` exactly invariant across `G_lat ∈ {0, 0.5, 5, 500}`. By contrast `g = (2, 1, 4, 2.000001)` has
+`X = 2e−6 ≠ 0`, an uncoupled pressure gap of **0.1 Pa** (not zero) and a `Q` span of 8.7e−15 (not
+zero): it is reported `numerically_unresolved_near_degenerate`, **not** as a degeneracy. A resolved
+near-degenerate row (`X = 0.04` against the mirror's `X = 8`) shows the conditioning decay
+directly: recovery error grows from 2e−12 to 1.6e−8, tracking `1/X²`. **A real fixture therefore needs a margin on the uncoupled pressure gap,
 not merely a nonzero one.** The erratum is appended to `PROTOCOL.md` rather than rewritten into
 its frozen text. The mirror route is unaffected: there `X = A²c`, nonzero for every `c ≠ 0` on the
 frozen grid — precisely the nondegenerate domain the decision rule already declares.

@@ -183,9 +183,15 @@ def dQdG_numerator(g):
     return M * A1 * A2 - N0 * S
 
 
-# X^2 below this (relative to the geometry's own scale) is treated as the structural degeneracy.
-# A software threshold on an exact algebraic condition, not a scientific tolerance.
-_DEGEN_REL = 1e-12
+# NUMERICAL RESOLUTION / CONDITIONING threshold — NOT a structural-degeneracy threshold.
+#
+# The structural condition is EXACT: X == 0 and nothing else. A small nonzero X is still
+# mathematically one-to-one; it is merely too ill-conditioned (dG/d(Q/P) ~ 1/X^2) for a
+# dependable floating-point inversion. Conflating the two would assert exact equality of the
+# uncoupled mid-node pressures in cases where they are provably unequal, so the two are reported
+# under DIFFERENT statuses. The value is deliberately conservative; it bounds when this
+# implementation declines to return a number, never when the mathematics degenerates.
+_NUMERICAL_RESOLUTION_REL = 1e-12
 
 
 def invert_G_from_known_axials(g, R):
@@ -201,11 +207,19 @@ def invert_G_from_known_axials(g, R):
 
     because d(Q/P)/dG = X^2/(A1*A2 + G*S)^2 (see ``dQdG_numerator``).
 
-    **This routine assumes no mirror symmetry, but it is NOT valid for "any geometry".** When
-    X = 0 the two uncoupled mid-node pressures are equal, no lateral pressure drives the bridge
-    at any G_lat, Q is exactly independent of G_lat, and the boundary measurement therefore
-    contains NO information about G_lat. That case is reported as a structural degeneracy, never
-    as a number. Near it the inversion is ill-conditioned: dG/d(Q/P) ~ 1/X^2."""
+    **This routine assumes no mirror symmetry, but it is NOT valid for "any geometry".** Three
+    outcomes, kept strictly apart:
+
+    * ``X == 0`` EXACTLY -> ``structurally_degenerate_no_information``. The two uncoupled mid-node
+      pressures are equal, no lateral pressure drives the bridge at any G_lat, and Q is exactly
+      independent of G_lat. This is the ONLY structural no-information case.
+    * ``X != 0`` but below the NUMERICAL resolution threshold ->
+      ``numerically_unresolved_near_degenerate``. The map is still mathematically INJECTIVE and Q
+      is NOT independent of G_lat; the inversion is simply too ill-conditioned
+      (dG/d(Q/P) ~ 1/X^2) for a dependable floating-point estimate here. No number is returned,
+      and no claim of exact equality is made.
+    * otherwise -> the exact inversion, unchanged.
+    """
     g1t, g1b, g2t, g2b = g
     A1, A2 = g1t + g1b, g2t + g2b
     N0 = g1t * g1b * A2 + g2t * g2b * A1
@@ -214,12 +228,22 @@ def invert_G_from_known_axials(g, R):
     X = cross_product_gap_driver(g)
     scale = (A1 * A2) ** 2                       # X^2 has the units of (conductance)^4
     out = {"cross_product_X": X, "dQdG_numerator": X * X,
-           "condition_scale_X2_over_A1A2_squared": (X * X) / scale}
-    if X * X <= _DEGEN_REL * scale:
+           "condition_scale_X2_over_A1A2_squared": (X * X) / scale,
+           "structurally_degenerate": X == 0.0}
+    if X == 0.0:                                 # EXACT — the only structural no-information case
         out.update(G_lat_hat=None, status="structurally_degenerate_no_information",
-                   why="g1_top*g2_bot == g2_top*g1_bot: the uncoupled mid-node pressures are "
-                       "equal, so no lateral pressure drives the bridge and Q is exactly "
+                   why="g1_top*g2_bot == g2_top*g1_bot EXACTLY: the uncoupled mid-node pressures "
+                       "are equal, so no lateral pressure drives the bridge and Q is exactly "
                        "independent of G_lat.")
+        return out
+    if X * X <= _NUMERICAL_RESOLUTION_REL * scale:
+        out.update(G_lat_hat=None, status="numerically_unresolved_near_degenerate",
+                   why="X != 0, so the map IS mathematically injective and Q is NOT independent "
+                       "of G_lat -- but dG/d(Q/P) ~ 1/X^2 is too ill-conditioned at this X for a "
+                       "dependable floating-point inversion, so no estimate is returned. This is "
+                       "a NUMERICAL resolution limit of this implementation, NOT a structural "
+                       "degeneracy, and it asserts NO equality of the uncoupled mid-node "
+                       "pressures.")
         return out
     QP = R * N0 / (A1 * A2)                      # = Q/P_in
     den = M - QP * S
@@ -797,7 +821,8 @@ def _calibrated_degeneracy():
                      ("asymmetric_nondegenerate", (4.0, 0.8, 1.5, 2.5)),
                      ("proportional_paths_degenerate", (2.0, 1.0, 4.0, 2.0)),
                      ("proportional_paths_degenerate_2", (1.0, 3.0, 2.0, 6.0)),
-                     ("near_degenerate", (2.0, 1.0, 4.0, 2.02))):
+                     ("near_degenerate_resolved", (2.0, 1.0, 4.0, 2.02)),
+                     ("near_degenerate_unresolved", (2.0, 1.0, 4.0, 2.000001))):
         X = cross_product_gap_driver(g)
         blocked = lc.model1_two_path(P_IN, *g, 0.0)
         gap0 = abs(blocked["p1"] - blocked["p2"])
@@ -817,8 +842,14 @@ def _calibrated_degeneracy():
             "identity_holds": abs(dQdG_numerator(g) - X * X) <= 1e-9 * max(1.0, X * X),
             "uncoupled_mid_node_gap": gap0,
             "Q_relative_span_over_G_lat": q_span,
-            "Q_independent_of_G_lat": q_span <= 1e-14,
-            "degenerate": abs(X) <= 1e-12,
+            "Q_exactly_independent_of_G_lat": q_span == 0.0,
+            # THREE classes, never two. structurally_degenerate is EXACT (X == 0); a small
+            # nonzero X is mathematically injective but numerically unresolved here.
+            "structurally_degenerate": X == 0.0,
+            "numerically_unresolved": (X != 0.0
+                                       and X * X <= _NUMERICAL_RESOLUTION_REL
+                                       * (blocked_A1A2 := (g[0] + g[1]) * (g[2] + g[3])) ** 2),
+            "mathematically_injective": X != 0.0,
             "inversions": invs,
         })
     return {
@@ -836,24 +867,42 @@ def _calibrated_degeneracy():
                         "admissible geometry; it is STRICTLY increasing iff X != 0",
         "conditioning": "dG/d(Q/P) ~ 1/X^2, so the inversion degrades continuously as X -> 0; "
                         "the near_degenerate row shows this rather than asserting it",
+        "three_classes_never_two": {
+            "structural_no_information": "X == 0 EXACTLY. Uncoupled mid-node pressures equal; Q "
+                                         "exactly independent of G_lat. The ONLY structural case.",
+            "numerically_unresolved": "X != 0, so the map is mathematically INJECTIVE and Q is "
+                                      "NOT independent of G_lat -- but this implementation "
+                                      "declines to return a number because dG/d(Q/P) ~ 1/X^2 is "
+                                      "too ill-conditioned. A limit of the arithmetic, not of "
+                                      "the mathematics.",
+            "resolved": "the exact inversion runs unchanged.",
+        },
         "identity_verified_on_all_rows": all(r["identity_holds"] for r in rows),
-        "degenerate_rows_report_no_information": all(
+        "structurally_degenerate_rows_report_no_information": all(
             all(i["status"] == "structurally_degenerate_no_information" for i in r["inversions"])
-            for r in rows if r["degenerate"]),
-        # the near-degenerate row is EXCLUDED from the exactness aggregate on purpose: it exists
-        # to show the 1/X^2 conditioning decay, and lumping it in would hide that.
+            for r in rows if r["structurally_degenerate"]),
+        "numerically_unresolved_rows_report_that_and_not_degeneracy": all(
+            all(i["status"] == "numerically_unresolved_near_degenerate" for i in r["inversions"])
+            for r in rows if r["numerically_unresolved"]),
+        "no_row_is_both": not any(r["structurally_degenerate"] and r["numerically_unresolved"]
+                                  for r in rows),
+        # the resolved-but-near-degenerate row is EXCLUDED from the exactness aggregate on
+        # purpose: it exists to show the 1/X^2 conditioning decay, and lumping it in would hide it
         "well_conditioned_rows_recover_exactly": all(
             all(i["rel_err"] is None or i["rel_err"] <= 1e-9 for i in r["inversions"])
-            for r in rows if not r["degenerate"] and r["label"] != "near_degenerate"),
+            for r in rows if not r["structurally_degenerate"] and not r["numerically_unresolved"]
+            and r["label"] != "near_degenerate_resolved"),
         "near_degenerate_conditioning_decay": {
-            "row": "near_degenerate",
-            "X": next(r["cross_product_X"] for r in rows if r["label"] == "near_degenerate"),
+            "row": "near_degenerate_resolved",
+            "X": next(r["cross_product_X"] for r in rows
+                      if r["label"] == "near_degenerate_resolved"),
             "max_rel_err": max(
-                i["rel_err"] for r in rows if r["label"] == "near_degenerate"
+                i["rel_err"] for r in rows if r["label"] == "near_degenerate_resolved"
                 for i in r["inversions"] if i["rel_err"] is not None),
             "well_conditioned_max_rel_err": max(
                 [i["rel_err"] for r in rows
-                 if not r["degenerate"] and r["label"] != "near_degenerate"
+                 if not r["structurally_degenerate"] and not r["numerically_unresolved"]
+                 and r["label"] != "near_degenerate_resolved"
                  for i in r["inversions"] if i["rel_err"] is not None] or [0.0]),
             "interpretation": "X drops from 8 to 0.04 (X^2 by ~4e4) and the recovery error grows "
                               "by a comparable factor. The inversion does not fail abruptly at "
@@ -1261,9 +1310,17 @@ def screen():
         "labels": ["HUMAN_SELECTED_POST_SNAPSHOT", "CHEAP_SCIENTIFIC_SCREEN",
                    "NOT_A_PUBLICATION_RESULT", "NOT_A_MODEL_VALIDATION_UPGRADE"],
         "identity_note": "Human-selected from docs/cards/lateral_coupling_feasibility.md after "
-                         "the generated candidate snapshot. No I- number is minted; "
-                         "docs/insights/ID_REGISTRY.json and docs/insights/generated/ are "
-                         "untouched, and the 90 candidates were not scored, ranked or inspected.",
+                         "the generated candidate snapshot. No I- number is minted. "
+                         "docs/insights/ID_REGISTRY.json and docs/insights/candidates/ are "
+                         "BYTE-UNCHANGED, and the Foundry code (lenses, generators, scoring) "
+                         "is unchanged. docs/insights/generated/** WAS REGENERATED through "
+                         "`python -m puckworks.insights write` and never hand-edited: in the "
+                         "complete candidate and tension payloads only source_commit/commit "
+                         "provenance moved, and in snapshot_manifest.json the snapshot "
+                         "commit, the corrected card's input hash and the derived output "
+                         "hashes moved, with all other normalised manifest structure and "
+                         "content equal, and in corpus_map.json the corrected card's own entity attrs (card_sha256, section_names, section_hashes) moved -- the map recording the card it is supposed to record, with no other entity, relation, warning or count touched. The 90 candidates were not scored, ranked or "
+                         "inspected.",
         "source_commit": BASE_COMMIT,
         "protocol": {"path": PROTOCOL_PATH, "sha256": _sha(PROTOCOL_PATH)},
         "load_bearing_source_hashes": {f: _sha(f) for f in INPUT_FILES},

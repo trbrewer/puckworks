@@ -6505,7 +6505,6 @@
     "calibrated_inversion_degeneracy": {
       "conditioning": "dG/d(Q/P) ~ 1/X^2, so the inversion degrades continuously as X -> 0; the near_degenerate row shows this rather than asserting it",
       "correction_note": "An earlier wording of this screen claimed the calibrated-axials inversion recovers G_lat for 'any geometry'. That is FALSE in one structural case and is corrected here. The valid statement is: any NONDEGENERATE calibrated geometry having a nonzero uncoupled mid-node pressure gap.",
-      "degenerate_rows_report_no_information": true,
       "derivative_identity": "d(Q/P)/dG = [M*A1*A2 - N0*S]/(A1*A2 + G*S)^2 = (g1_top*g2_bot - g2_top*g1_bot)^2 / (A1*A2 + G*S)^2",
       "equivalent_physical_condition": "the two UNCOUPLED mid-node pressures differ, so a lateral pressure exists to drive the bridge",
       "identity_verified_on_all_rows": true,
@@ -6514,17 +6513,18 @@
         "X": 0.04,
         "interpretation": "X drops from 8 to 0.04 (X^2 by ~4e4) and the recovery error grows by a comparable factor. The inversion does not fail abruptly at X = 0; it degrades continuously as 1/X^2, which is why a real fixture needs a MARGIN on the uncoupled mid-node pressure gap, not merely a nonzero one.",
         "max_rel_err": 1.5966e-08,
-        "row": "near_degenerate",
+        "row": "near_degenerate_resolved",
         "well_conditioned_max_rel_err": 2e-12
       },
+      "no_row_is_both": true,
       "nondegeneracy_condition": "g1_top*g2_bot != g2_top*g1_bot",
+      "numerically_unresolved_rows_report_that_and_not_degeneracy": true,
       "rows": [
         {
-          "Q_independent_of_G_lat": false,
+          "Q_exactly_independent_of_G_lat": false,
           "Q_relative_span_over_G_lat": 0.24925224327,
           "cross_product_X": 8.0,
           "dQdG_numerator": 64.0,
-          "degenerate": false,
           "g": [
             3.0,
             1.0,
@@ -6559,14 +6559,16 @@
             }
           ],
           "label": "mirror_primary",
+          "mathematically_injective": true,
+          "numerically_unresolved": false,
+          "structurally_degenerate": false,
           "uncoupled_mid_node_gap": 450000.0
         },
         {
-          "Q_independent_of_G_lat": false,
+          "Q_exactly_independent_of_G_lat": false,
           "Q_relative_span_over_G_lat": 0.221470564549,
           "cross_product_X": 8.8,
           "dQdG_numerator": 77.44,
-          "degenerate": false,
           "g": [
             4.0,
             0.8,
@@ -6601,14 +6603,16 @@
             }
           ],
           "label": "asymmetric_nondegenerate",
+          "mathematically_injective": true,
+          "numerically_unresolved": false,
+          "structurally_degenerate": false,
           "uncoupled_mid_node_gap": 412500.0
         },
         {
-          "Q_independent_of_G_lat": true,
+          "Q_exactly_independent_of_G_lat": true,
           "Q_relative_span_over_G_lat": 0.0,
           "cross_product_X": 0.0,
           "dQdG_numerator": 0.0,
-          "degenerate": true,
           "g": [
             2.0,
             1.0,
@@ -6643,14 +6647,16 @@
             }
           ],
           "label": "proportional_paths_degenerate",
+          "mathematically_injective": false,
+          "numerically_unresolved": false,
+          "structurally_degenerate": true,
           "uncoupled_mid_node_gap": 0.0
         },
         {
-          "Q_independent_of_G_lat": true,
+          "Q_exactly_independent_of_G_lat": true,
           "Q_relative_span_over_G_lat": 0.0,
           "cross_product_X": 0.0,
           "dQdG_numerator": 0.0,
-          "degenerate": true,
           "g": [
             1.0,
             3.0,
@@ -6685,14 +6691,16 @@
             }
           ],
           "label": "proportional_paths_degenerate_2",
+          "mathematically_injective": false,
+          "numerically_unresolved": false,
+          "structurally_degenerate": true,
           "uncoupled_mid_node_gap": 0.0
         },
         {
-          "Q_independent_of_G_lat": false,
+          "Q_exactly_independent_of_G_lat": false,
           "Q_relative_span_over_G_lat": 4.86977e-06,
           "cross_product_X": 0.04,
           "dQdG_numerator": 0.0016,
-          "degenerate": false,
           "g": [
             2.0,
             1.0,
@@ -6726,10 +6734,63 @@
               "status": "ok"
             }
           ],
-          "label": "near_degenerate",
+          "label": "near_degenerate_resolved",
+          "mathematically_injective": true,
+          "numerically_unresolved": false,
+          "structurally_degenerate": false,
           "uncoupled_mid_node_gap": 1993.355481727514
+        },
+        {
+          "Q_exactly_independent_of_G_lat": false,
+          "Q_relative_span_over_G_lat": 0.0,
+          "cross_product_X": 2e-06,
+          "dQdG_numerator": 4e-12,
+          "g": [
+            2.0,
+            1.0,
+            4.0,
+            2.000001
+          ],
+          "identity_holds": true,
+          "inversions": [
+            {
+              "G_lat_hat": null,
+              "G_lat_true": 0.0,
+              "rel_err": null,
+              "status": "numerically_unresolved_near_degenerate"
+            },
+            {
+              "G_lat_hat": null,
+              "G_lat_true": 0.5,
+              "rel_err": null,
+              "status": "numerically_unresolved_near_degenerate"
+            },
+            {
+              "G_lat_hat": null,
+              "G_lat_true": 5.0,
+              "rel_err": null,
+              "status": "numerically_unresolved_near_degenerate"
+            },
+            {
+              "G_lat_hat": null,
+              "G_lat_true": 500.0,
+              "rel_err": null,
+              "status": "numerically_unresolved_near_degenerate"
+            }
+          ],
+          "label": "near_degenerate_unresolved",
+          "mathematically_injective": true,
+          "numerically_unresolved": true,
+          "structurally_degenerate": false,
+          "uncoupled_mid_node_gap": 0.099999983329
         }
       ],
+      "structurally_degenerate_rows_report_no_information": true,
+      "three_classes_never_two": {
+        "numerically_unresolved": "X != 0, so the map is mathematically INJECTIVE and Q is NOT independent of G_lat -- but this implementation declines to return a number because dG/d(Q/P) ~ 1/X^2 is too ill-conditioned. A limit of the arithmetic, not of the mathematics.",
+        "resolved": "the exact inversion runs unchanged.",
+        "structural_no_information": "X == 0 EXACTLY. Uncoupled mid-node pressures equal; Q exactly independent of G_lat. The ONLY structural case."
+      },
       "well_conditioned_rows_recover_exactly": true
     },
     "levels": [
@@ -13497,7 +13558,7 @@
     }
   },
   "claim_ceiling": "A cheap scientific screen, human-selected and post-snapshot. It is SYNTHETIC / MATHEMATICAL identifiability in the exact steady two-path Darcy network under a controlled mirror geometry -- NOT empirical validation of anything. It promotes no evidence rung. It produces NO real-puck Xi estimate and no k_lat estimate. It makes no claim that espresso occupies the transition regime or any regime. The 1/2/5 % figures are hypothetical resolution scenarios reusing the existing floor convention; they are not instrument accuracies, not experimental uncertainty, and no apparatus is shown able to attain the required precision. Paper 4 is NOT authorized.",
-  "content_sha256": "069ce229b4d427c76b3bdc2bcdd9e0f310d334485168df7acb5dd5b8a28436e5",
+  "content_sha256": "d385edfe1ab290c683ee807de216bb1552fc6c080c4f64e0919345bbcc3e6be8",
   "decision": "SURVIVE",
   "decision_record": {
     "arm": "all seven frozen clauses evaluate true",
@@ -13676,7 +13737,7 @@
       0.05
     ]
   },
-  "identity_note": "Human-selected from docs/cards/lateral_coupling_feasibility.md after the generated candidate snapshot. No I- number is minted; docs/insights/ID_REGISTRY.json and docs/insights/generated/ are untouched, and the 90 candidates were not scored, ranked or inspected.",
+  "identity_note": "Human-selected from docs/cards/lateral_coupling_feasibility.md after the generated candidate snapshot. No I- number is minted. docs/insights/ID_REGISTRY.json and docs/insights/candidates/ are BYTE-UNCHANGED, and the Foundry code (lenses, generators, scoring) is unchanged. docs/insights/generated/** WAS REGENERATED through `python -m puckworks.insights write` and never hand-edited: in the complete candidate and tension payloads only source_commit/commit provenance moved, and in snapshot_manifest.json the snapshot commit, the corrected card's input hash and the derived output hashes moved, with all other normalised manifest structure and content equal, and in corpus_map.json the corrected card's own entity attrs (card_sha256, section_names, section_hashes) moved -- the map recording the card it is supposed to record, with no other entity, relation, warning or count touched. The 90 candidates were not scored, ranked or inspected.",
   "labels": [
     "HUMAN_SELECTED_POST_SNAPSHOT",
     "CHEAP_SCIENTIFIC_SCREEN",
@@ -13684,7 +13745,7 @@
     "NOT_A_MODEL_VALIDATION_UPGRADE"
   ],
   "load_bearing_source_hashes": {
-    "docs/cards/lateral_coupling_feasibility.md": "fa78ea878e22fcf2658e8473a6e3804b8335148a01cac045d2bdb3b8aaa27400",
+    "docs/cards/lateral_coupling_feasibility.md": "689e53661804b03831b18cd51685d45efca0b24496111d34f3593cecca691942",
     "docs/insights/screens/WP6-LC-IDENT/PROTOCOL.md": "d9c911ff224caa34f1f9308148dc9f41b97fb55ff9dc1e4d10c23658c5f0e586",
     "puckworks/analysis/lateral_coupling_discrimination.py": "8adbfb8317d0518cf229cd24e29242198138250b343dbf81048857a42b2efcf6",
     "puckworks/analysis/lateral_proxy.py": "b72e5ff7b4c2b6558ad6bbadaff83789977df0f7aa29aff04c10d0bfda197756",

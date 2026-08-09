@@ -44,8 +44,12 @@ candidate snapshot. The Foundry has no identity mechanism for that, so it uses a
 byte-unchanged; the 90 candidates were not scored, ranked or inspected; no lens, generator or
 scoring system was added.** `docs/insights/generated/**` was **regenerated** — never hand-edited —
 because the card correction this screen earned is an input the corpus map hashes. The only field
-that moved anywhere is `source_commit`: all 90 candidates, all 171 tension rows, every ID, every
-`SEED` status and every (empty) score are identical, and a test asserts exactly that.
+that moves in the candidate and tension payloads is `source_commit`: all 90 candidates, all 171 tension rows, every ID, every
+`SEED` status and every (empty) score are identical. Scoped precisely: in the complete candidate
+and tension payloads only `source_commit`/`commit` provenance moved; in `snapshot_manifest.json`
+the snapshot commit, the corrected card's input hash and the derived output hashes moved, with all
+other normalised manifest structure and content equal; and in `corpus_map.json` the corrected card's own entity attrs (`card_sha256`, `section_names`, `section_hashes`) moved — the map recording the card it is supposed to record, with no other entity, relation, warning or count touched. A test asserts exactly that, by
+sentinel-substituted whole-object comparison rather than a field-by-field spot check.
 
 ## Result in plain language
 

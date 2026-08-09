@@ -127,9 +127,12 @@ this card previously conflated them:**
       R = (1 − c²t)/(1 − c²)                     ĉ  = (R − 1)/[R(1 − 2s)]
       s = (1−c)(1 + Ξ + c)/(2(1 + Ξ − c²))       t̂  = [1 − R(1 − ĉ²)]/ĉ² ,  Ξ̂ = 1/t̂ − 1
 
-  Verified against `model1_two_path` over a 10 × 22 (c, Ξ) grid: max analytic-vs-network error 0,
-  recovery to 3.0e−12 in c and 8.2e−11 relative in Ξ; injective (min pairwise (R, s) distance
-  5.1e−06); invariant under ×10 conductance scaling and correct under path swap.
+  Verified against `model1_two_path` over a 10 × 22 (c, Ξ) grid. The analytic map and the network
+  solve are **algebraically identical**; their **floating-point** comparison agrees to machine
+  precision, with a live maximum of ≈ 7.99e−15 and 0.0 recorded only after the artifact's
+  12-decimal rounding — machine-precision agreement, never "exactly zero". Recovery to 3.0e−12 in
+  c and 8.2e−11 relative in Ξ; injective (min pairwise (R, s) distance 5.1e−06); invariant under
+  ×10 conductance scaling and correct under path swap.
 - **k_lat and w are still required to DECOMPOSE or physically interpret G_lat** from constitutive
   geometry and material properties. Nothing here measures either, and nothing here estimates a
   real puck's Ξ.
@@ -157,10 +160,13 @@ so the degenerate fibre is exactly {Ξ = 0, any c} ∪ {c = 0, any Ξ}.
   follows exactly from the pressure-normalised total flow for any **nondegenerate** calibrated
   geometry having a **nonzero uncoupled mid-node pressure gap** — `g1_top·g2_bot ≠ g2_top·g1_bot`,
   since `d(Q/ΔP)/dG_lat = (g1_top·g2_bot − g2_top·g1_bot)²/(A₁A₂ + G_lat·S)²`. **Not "any
-  geometry":** when that cross product vanishes the two uncoupled mid-node pressures coincide,
-  nothing drives the bridge, and Q is exactly independent of G_lat (e.g. `(2, 1, 4, 2)` — two
-  *different* lanes, fully degenerate). Conditioning decays as 1/X², so a fixture needs a *margin*
-  on the gap, not merely a nonzero one;
+  geometry":** X = 0 **exactly** is the ONLY structural no-information case — the two uncoupled
+  mid-node pressures coincide, nothing drives the bridge, and Q is exactly independent of G_lat
+  (e.g. `(2, 1, 4, 2)` — two *different* lanes, fully degenerate). A **small nonzero X is a
+  different thing and is not conflated with it**: the map remains mathematically injective and Q
+  is *not* independent of G_lat, but the inversion can be too ill-conditioned to resolve in
+  floating point, reported under a separate `numerically_unresolved_near_degenerate` status.
+  Conditioning decays as 1/X², so a fixture needs a *margin* on the gap, not merely a nonzero one;
 - **practical resolution is unmet.** Under the existing 1 %/2 %/5 % scenario floors, on the frozen
   22-point grid exactly three points recover Ξ within a factor of two at 1 % (Ξ = 0.464, 1.0,
   2.154) and none at 2 % or 5 %; a separate post-hoc solve puts the continuous 1 % crossings at

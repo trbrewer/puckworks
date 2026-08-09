@@ -360,33 +360,99 @@ def test_derivative_numerator_is_the_squared_cross_product():
 
 
 def test_proportional_paths_are_structurally_degenerate():
-    """Requirement 1: non-identical paths with equal uncoupled mid-node pressure. Q is exactly
-    invariant in G_lat and the calibrated inversion must report no information, not a number."""
+    """Requirement 1: non-identical paths with EXACTLY equal uncoupled mid-node pressure. Q is
+    exactly invariant in G_lat and the calibrated inversion must report no information."""
     for g in DEGENERATE_GEOMETRIES:
-        assert S.cross_product_gap_driver(g) == pytest.approx(0.0, abs=1e-12)
+        assert S.cross_product_gap_driver(g) == 0.0, "must be EXACTLY zero, not merely small"
+        assert S.dQdG_numerator(g) == 0.0
         assert g[0] != g[2] or g[1] != g[3], "these must be NON-identical paths"
         blocked = lc.model1_two_path(S.P_IN, *g, 0.0)
-        assert blocked["p1"] == pytest.approx(blocked["p2"], rel=1e-14)
+        assert blocked["p1"] == blocked["p2"], "exactly equal, not approximately"
         Q0 = blocked["Q"]
         for G in (0.0, 0.5, 5.0, 500.0, 1e6):
             r = lc.model1_two_path(S.P_IN, *g, G)
-            assert r["Q"] == pytest.approx(Q0, rel=1e-13), "Q must not depend on G_lat here"
-            assert abs(r["q_lat_1to2"]) <= 1e-9
+            assert r["Q"] == Q0, "Q must be EXACTLY independent of G_lat here"
+            assert r["q_lat_1to2"] == 0.0
             got = S.invert_G_from_known_axials(g, r["Q"] / Q0)
             assert got["status"] == "structurally_degenerate_no_information"
             assert got["G_lat_hat"] is None
+            assert got["structurally_degenerate"] is True
+
+
+def test_small_nonzero_X_is_numerically_unresolved_NOT_structurally_degenerate():
+    """The conflation this correction removes.
+
+    g = (2, 1, 4, 2.000001) has X != 0. The map is therefore mathematically INJECTIVE and Q is
+    NOT independent of G_lat -- the uncoupled mid-node pressures are provably UNEQUAL. Labelling
+    it a structural degeneracy would assert a falsehood. It must return a distinct
+    numerical-resolution status, and its wording must claim neither exact equality nor exact
+    Q-independence.
+    """
+    g = (2.0, 1.0, 4.0, 2.000001)
+    X = S.cross_product_gap_driver(g)
+    assert X != 0.0, "the whole point: X is nonzero"
+    assert S.dQdG_numerator(g) > 0.0, "derivative numerator is strictly positive"
+    assert S.dQdG_numerator(g) == pytest.approx(X * X, rel=1e-9)
+
+    blocked = lc.model1_two_path(S.P_IN, *g, 0.0)
+    assert blocked["p1"] != blocked["p2"], "the uncoupled pressures are NOT equal"
+    Q0 = blocked["Q"]
+    spans = [lc.model1_two_path(S.P_IN, *g, G)["Q"] for G in (0.0, 5.0, 500.0)]
+    assert max(spans) != min(spans), "Q is NOT exactly independent of G_lat"
+
+    got = S.invert_G_from_known_axials(g, spans[1] / Q0)
+    assert got["status"] == "numerically_unresolved_near_degenerate"
+    assert got["status"] != "structurally_degenerate_no_information"
+    assert got["G_lat_hat"] is None, "no unreliable estimate may be returned"
+    assert got["structurally_degenerate"] is False
+    why = got["why"]
+    assert "mathematically injective" in why.lower()
+    assert "NOT independent" in why
+    assert "NUMERICAL" in why
+    for forbidden in ("EXACTLY", "exactly independent", "are equal"):
+        assert forbidden not in why, "must not claim exactness: %r" % forbidden
+
+
+def test_the_two_statuses_are_never_conflated_in_the_bundle(result):
+    cd = result["arm_f_mirror_imperfection"]["calibrated_inversion_degeneracy"]
+    assert cd["structurally_degenerate_rows_report_no_information"] is True
+    assert cd["numerically_unresolved_rows_report_that_and_not_degeneracy"] is True
+    assert cd["no_row_is_both"] is True
+    assert "three_classes_never_two" in cd
+    struct = [r for r in cd["rows"] if r["structurally_degenerate"]]
+    unres = [r for r in cd["rows"] if r["numerically_unresolved"]]
+    assert struct and unres, "both classes must be exhibited"
+    for r in struct:
+        assert r["cross_product_X"] == 0.0
+        assert r["mathematically_injective"] is False
+        assert r["Q_exactly_independent_of_G_lat"] is True
+        assert r["uncoupled_mid_node_gap"] == 0.0
+    for r in unres:
+        assert r["cross_product_X"] != 0.0
+        assert r["mathematically_injective"] is True, "still one-to-one"
+        assert r["Q_exactly_independent_of_G_lat"] is False
+        assert r["uncoupled_mid_node_gap"] > 0.0, "pressures are NOT equal here"
+
+
+def test_the_threshold_is_named_as_numerical_not_structural():
+    import inspect
+    src = inspect.getsource(S)
+    assert "_NUMERICAL_RESOLUTION_REL" in src
+    assert "_DEGEN_REL" not in src, "the old structural-degeneracy name must be gone"
+    assert S._NUMERICAL_RESOLUTION_REL > 0.0
 
 
 def test_bundle_records_the_degeneracy_and_its_conditioning(result):
     cd = result["arm_f_mirror_imperfection"]["calibrated_inversion_degeneracy"]
     assert cd["identity_verified_on_all_rows"] is True
-    assert cd["degenerate_rows_report_no_information"] is True
+    assert cd["structurally_degenerate_rows_report_no_information"] is True
     assert cd["well_conditioned_rows_recover_exactly"] is True
-    assert any(r["degenerate"] for r in cd["rows"]), "the degenerate case must be exhibited"
+    assert any(r["structurally_degenerate"] for r in cd["rows"]), (
+        "the structurally degenerate case must be exhibited")
     for r in cd["rows"]:
-        if r["degenerate"]:
-            assert r["Q_independent_of_G_lat"] is True
-            assert r["uncoupled_mid_node_gap"] == pytest.approx(0.0, abs=1e-9)
+        if r["structurally_degenerate"]:
+            assert r["Q_exactly_independent_of_G_lat"] is True
+            assert r["uncoupled_mid_node_gap"] == 0.0
     # conditioning decays continuously rather than failing abruptly
     dec = cd["near_degenerate_conditioning_decay"]
     assert dec["max_rel_err"] > 100 * max(dec["well_conditioned_max_rel_err"], 1e-15)
@@ -784,21 +850,77 @@ def test_regeneration_moved_only_provenance_deep_payload_comparison(result):
             "the tension payload changed beyond provenance")
         assert {r["human_status"] for r in rows_a} == {"UNREVIEWED"}
 
-    # ---- snapshot manifest: only the corrected card's input hash and output hashes move ------
+    # ---- snapshot manifest: SENTINEL-SUBSTITUTED WHOLE-OBJECT comparison ---------------------
+    # Not a field-by-field spot check. Everything not explicitly normalised must compare equal,
+    # so counts, generator_version, pack, repository, schema_version, every unmodified input
+    # path/hash, every output path AND its ordering, and any future top-level field are all
+    # protected without being enumerated here.
     rel_m = "docs/insights/generated/snapshot_manifest.json"
     man_b = _baseline_json(base, rel_m)
     if man_b is not None:
         man_a = json.loads((REPO / rel_m).read_text(encoding="utf-8"))
-        assert man_a["counts"] == man_b["counts"], "corpus counts must not move"
-        assert man_a["generator_version"] == man_b["generator_version"]
-        hb = {i["path"]: i["sha256"] for i in man_b["inputs"]}
-        ha = {i["path"]: i["sha256"] for i in man_a["inputs"]}
-        assert set(ha) == set(hb), "no input may be added or removed"
+        a, b = copy.deepcopy(man_a), copy.deepcopy(man_b)
+
+        # (2) top-level snapshot commit is provenance
+        a.pop("commit", None)
+        b.pop("commit", None)
+
+        # (3) identical input path SETS, and the moved-input set is exactly the corrected card
+        pa = [i["path"] for i in a["inputs"]]
+        pb = [i["path"] for i in b["inputs"]]
+        assert pa == pb, "input paths (and their order) must be identical"
+        hb = {i["path"]: i["sha256"] for i in b["inputs"]}
+        ha = {i["path"]: i["sha256"] for i in a["inputs"]}
         moved_inputs = {p for p in ha if ha[p] != hb[p]}
-        assert moved_inputs <= {"docs/cards/lateral_coupling_feasibility.md"}, (
-            "only the corrected card's input hash may move, but these did: %s" % moved_inputs)
-        # output hashes are DERIVED from the above; they are expected to move and are not
-        # asserted equal -- the payload comparisons above are what constrain them.
+        assert moved_inputs == {"docs/cards/lateral_coupling_feasibility.md"}, (
+            "the moved-input set must be exactly the corrected card, got: %s" % moved_inputs)
+
+        # (4) sentinel that card's input hash in BOTH manifests
+        for man in (a, b):
+            for i in man["inputs"]:
+                if i["path"] == "docs/cards/lateral_coupling_feasibility.md":
+                    i["sha256"] = "<SENTINEL-CORRECTED-CARD>"
+
+        # (5) identical output path lists INCLUDING ORDER
+        assert [o["path"] for o in a["outputs"]] == [o["path"] for o in b["outputs"]], (
+            "output paths and their ordering must be identical")
+
+        # (6) sentinel every output hash in both (they are derived from the above)
+        for man in (a, b):
+            for o in man["outputs"]:
+                o["sha256"] = "<SENTINEL-DERIVED-OUTPUT>"
+
+        # (7) the COMPLETE remaining objects must be equal
+        assert a == b, "snapshot_manifest changed beyond the permitted provenance fields"
+
+    # ---- corpus map: ONLY the corrected card's own entity attrs may move ---------------------
+    # This one is NOT pure provenance: the corpus map records the card's content, so correcting
+    # the card legitimately moves that card's hash and section list. Nothing else may move --
+    # no other entity, no relation, no warning, no count.
+    rel_c = "docs/insights/generated/corpus_map.json"
+    cm_b = _baseline_json(base, rel_c)
+    if cm_b is not None:
+        cm_a = json.loads((REPO / rel_c).read_text(encoding="utf-8"))
+        assert cm_a["counts"] == cm_b["counts"]
+        assert _strip_provenance(cm_a["relations"]) == _strip_provenance(cm_b["relations"])
+        assert _strip_provenance(cm_a["warnings"]) == _strip_provenance(cm_b["warnings"])
+        eb = {e["id"]: e for e in cm_b["entities"]}
+        ea = {e["id"]: e for e in cm_a["entities"]}
+        assert set(ea) == set(eb), "no entity may be added or removed"
+        moved = {i for i in ea if _strip_provenance(ea[i]) != _strip_provenance(eb[i])}
+        assert moved == {"card:lateral_coupling_feasibility"}, (
+            "only the corrected card's entity may move, but these did: %s" % moved)
+        one_a, one_b = ea["card:lateral_coupling_feasibility"], eb["card:lateral_coupling_feasibility"]
+        moved_fields = {k for k in set(one_a["attrs"]) | set(one_b["attrs"])
+                        if one_a["attrs"].get(k) != one_b["attrs"].get(k)}
+        assert moved_fields == {"card_sha256", "section_names", "section_hashes"}, (
+            "only the card's own content fields may move, got: %s" % moved_fields)
+        # and the movement is exactly the new section -- nothing removed, nothing renamed
+        added = set(one_a["attrs"]["section_names"]) - set(one_b["attrs"]["section_names"])
+        removed = set(one_b["attrs"]["section_names"]) - set(one_a["attrs"]["section_names"])
+        assert removed == set(), "no card section may disappear"
+        assert len(added) == 1 and added.pop().startswith("3b."), (
+            "the only new section must be the screen's §3b")
 
 
 def test_provenance_strip_list_is_minimal():
