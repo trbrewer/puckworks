@@ -35,6 +35,29 @@ def _sha(p: pathlib.Path) -> str:
     return hashlib.sha256(p.read_bytes()).hexdigest()
 
 
+FIGURE_CAPTION = (
+    "n = 4 independent realisations per size; seeds are RELATED_NON_NESTED, so observations "
+    "are NOT paired and no line connects equal seeds across sizes. Error bars are $\\pm$2 "
+    "standard errors of the seed ensemble.\n"
+    "The complete frozen section-3 matrix WAS available: 16/16 cells converged, all four "
+    "sizes decision-eligible at n=4. 22 of 46 frozen cells were not launched by the budget "
+    "guard. Synthetic overlapping-sphere geometry \u2014 this is not real-puck validation.")
+
+
+def _solver_config_id(kw):
+    return "D3Q19-TRT tau+=%g g=%g rtol=%g min_steps=%d max_steps=%d" % (
+        kw["tau_plus"], kw["g"], kw["rtol"], kw["min_steps"], kw["max_steps"])
+
+
+def _geometry_hash(L, phis, seed):
+    """Hash the generated geometry. Builds the pack only -- no solve, so this is cheap."""
+    from puckworks.models.brewer2026 import pack_generator as pg
+    scn = CHEAP.scenario()
+    solid, _ = pg.make_pack(L=L, voxel_um=scn["voxel_um"], gs=CHEAP.GS, phis_target=phis,
+                            hetero_amp=CHEAP.HETERO_AMP, seed=seed, verbose=False)
+    return hashlib.sha256(solid.tobytes()).hexdigest()
+
+
 def ensemble_stats(ks):
     """Descriptive statistics on the ACTUAL successful n. SD/CV are NA for n < 2."""
     n = len(ks)
@@ -51,6 +74,85 @@ def ensemble_stats(ks):
                 sd_cv_note=None if n > 1 else "n < 2: sample SD and CV are not estimable (NA)")
 
 
+#: Estimated per-cell cost used ONLY to distribute the measured section-4.2 total across its
+#: cells for the admission timeline; every section-3 and 4.1 cell carries its own measured wall_s.
+#: Taken from the outcome-neutral audit so there is one source of truth for these timings.
+_EST = {L: float(s) for L, s in AUDIT.MEASURED_COST_S.items()}
+
+
+def admission_timeline(raw):
+    """Reconstruct the frozen guard's admission decisions from measured wall times.
+
+    The guard compares accumulated completed time with the budget BEFORE launching each cell and
+    never terminates admitted work, so a cell admitted below the budget may finish above it. That
+    is why two times must be kept: the admission cutoff and the final completion.
+    """
+    budget = float(D.COMPUTE_BUDGET_S)
+    seq = [("S3_multiseed_rve", r["L"], r["phis_target"], r["seed"], r["wall_s"])
+           for r in raw["multiseed_rve"]["rows"]]
+    tol = raw.get("tolerance_sensitivity", {})
+    if "baseline" in tol:
+        seq.append(("S4.1_tolerance_baseline", 64, D.DEEP_PHIS, 0, tol["baseline"]["wall_s"]))
+    if "tightened" in tol:
+        seq.append(("S4.1_tolerance_tightened", 64, D.DEEP_PHIS, 0, tol["tightened"]["wall_s"]))
+
+    pdep = raw.get("porosity_dependence", {})
+    p42 = []
+    for phis_s, d in pdep.get("by_phis", {}).items():
+        for L_s, s in sorted(d["per_L"].items(), key=lambda kv: int(kv[0])):
+            for seed in list(D.DEEP_SEEDS)[: s["n"]]:
+                p42.append(("S4.2_porosity_dependence", int(L_s), float(phis_s), seed))
+    if p42:                       # distribute the measured 4.2 total by estimated relative cost
+        w = [_EST[c[1]] for c in p42]
+        scale = pdep.get("wall_s", sum(w)) / sum(w)
+        seq += [(c[0], c[1], c[2], c[3], _EST[c[1]] * scale) for c in p42]
+
+    # `seq` is built from the raw record, which only contains COMPLETED cells -- so a cell that
+    # appears here ran to completion. The spanning cell's outcome is read off that fact, never
+    # assumed: a nonconverged or failed cell would not be in the raw results to begin with.
+    cum, rows, last_admitted, spanning = 0.0, [], None, None
+    for sec, L, phis, seed, wall in seq:
+        admitted_at = cum
+        if cum <= budget < cum + wall:
+            spanning = (sec, L, phis, seed)
+        rows.append(dict(section=sec, L=L, phis_target=phis, seed=seed,
+                         elapsed_at_launch_s=admitted_at, wall_s=wall,
+                         completed_at_s=cum + wall,
+                         admitted=bool(admitted_at <= budget),
+                         spans_budget_mark=bool(cum <= budget < cum + wall)))
+        if admitted_at <= budget:
+            last_admitted = (sec, L, phis, seed)
+        cum += wall
+
+    launched = {(r["section"], r["L"], r["phis_target"], r["seed"]) for r in rows}
+    first_refused = next(((c["section"], c["L"], c["phis_target"], c["seed"])
+                          for c in AUDIT.expected_run_matrix()
+                          if (c["section"], c["L"], c["phis_target"], c["seed"]) not in launched),
+                         None)
+    recorded = raw["compute"]["wall_s"]
+    return dict(budget_s=budget, nominal_cutoff_s=budget,
+                execution_start_s=0.0, final_completion_s=cum,
+                total_actual_wall_s=cum,
+                reconstruction="cumulative sum of measured per-cell wall times, used to place "
+                               "the admission cutoff; the run's own recorded total is "
+                               "authoritative",
+                recorded_total_wall_s=recorded,
+                reconstruction_residual_s=cum - recorded,
+                overrun_beyond_nominal_cutoff_s=cum - budget,
+                last_cell_admitted=last_admitted,
+                first_cell_refused_by_guard=first_refused,
+                cell_spanning_the_budget_mark=spanning,
+                cells_active_at_cutoff=1 if spanning else 0,
+                outcome_of_cells_active_at_cutoff=(
+                    "CONVERGED" if spanning in
+                    {(r["section"], r["L"], r["phis_target"], r["seed"]) for r in rows} else None),
+                outcome_derivation="read from the raw record: only completed cells appear there",
+                semantics="admission cutoff and final completion are separate; a cell admitted "
+                          "below the budget runs to completion, so the process does not "
+                          "terminate at exactly 150 minutes",
+                launches=rows)
+
+
 def account_cells(raw):
     """Place every expected cell in exactly one status."""
     cells = [dict(c) for c in AUDIT.expected_run_matrix()]
@@ -63,7 +165,7 @@ def account_cells(raw):
     if "tightened" in tol:
         done.add(("S4.1_tolerance_tightened", 64, D.DEEP_PHIS, 0))
 
-    # §4.2 records a porosity only when BOTH sizes completed; per-size n tells us how many seeds ran
+    # §4.2 records a porosity only when BOTH sizes completed; per-size n gives the seeds that ran
     pdep = raw.get("porosity_dependence", {}).get("by_phis", {})
     for phis_s, d in pdep.items():
         for L_s, s in d["per_L"].items():
@@ -75,26 +177,104 @@ def account_cells(raw):
         for seed in list(D.DEEP_SEEDS)[: row.get("n_seeds", 0)]:
             done.add(("S4.3_trend_on_means", trend.get("L"), row["phis_target"], seed))
 
+    tl = admission_timeline(raw)
+    # frozen §4.2 block structure: one block per porosity, spanning both sizes and all seeds
+    s42_blocks = {}
+    for phis in D.EXTREME_PHIS:
+        exp = [c for c in cells if c["section"] == "S4.2_porosity_dependence"
+               and c["phis_target"] == phis]
+        comp = [c for c in exp
+                if ("S4.2_porosity_dependence", c["L"], c["phis_target"], c["seed"]) in done]
+        s42_blocks[phis] = dict(expected=len(exp), completed=len(comp),
+                                block_complete=bool(len(comp) == len(exp)),
+                                per_size={str(L): sum(1 for c in comp if c["L"] == L)
+                                          for L in D.EXTREME_SIZES})
+
+    _span = tl["cell_spanning_the_budget_mark"]
+    spanning = tuple(_span) if _span else None
+    launch_at = {(r["section"], r["L"], r["phis_target"], r["seed"]): r for r in tl["launches"]}
+
+    # a completed cell inside an INCOMPLETE frozen block keeps its result but is excluded from
+    # that section's decision -- it is never relabelled as failed or not-launched
+    s42_expected = sum(1 for c in cells if c["section"] == "S4.2_porosity_dependence")
+    s42_done = sum(1 for c in cells
+                   if c["section"] == "S4.2_porosity_dependence"
+                   and (c["section"], c["L"], c["phis_target"], c["seed"]) in done)
+    s42_incomplete = s42_done < s42_expected
+
     for c in cells:
         key = (c["section"], c["L"], c["phis_target"], c["seed"])
-        c["status"] = "CONVERGED" if key in done else "NOT_LAUNCHED_BUDGET_GUARD"
-    return cells
+        launched = key in done
+        c["status_at_guard"] = ("IN_FLIGHT_AT_GUARD" if key == spanning else
+                                "LAUNCHED" if launched else "NOT_LAUNCHED_BUDGET_GUARD")
+        c["final_status"] = "CONVERGED" if launched else "NOT_LAUNCHED_BUDGET_GUARD"
+        c["status"] = c["final_status"]                     # terminal status, one per cell
+        c["attempts"] = 1 if launched else 0
+        c["elapsed_at_launch_s"] = launch_at[key]["elapsed_at_launch_s"] if launched else None
+        if c["section"] == "S4.2_porosity_dependence" and launched and s42_incomplete:
+            # The frozen §4.2 decision unit is the POROSITY BLOCK -- one porosity across both
+            # EXTREME_SIZES and all DEEP_SEEDS (8 cells), because the implementation records a
+            # porosity only when both its sizes completed. So the reason is read off the block
+            # this cell actually belongs to, not off the section as a whole: a cell whose own
+            # block finished is excluded only because the other block is missing, which is a
+            # different fact from a cell whose own block was interrupted.
+            c["included_in_section_decision"] = False
+            c["frozen_block"] = "phis=%g" % c["phis_target"]
+            c["frozen_block_cells_expected"] = s42_blocks[c["phis_target"]]["expected"]
+            c["frozen_block_cells_completed"] = s42_blocks[c["phis_target"]]["completed"]
+            c["section_exclusion_reason"] = (
+                "incomplete_frozen_section_matrix"
+                if s42_blocks[c["phis_target"]]["block_complete"]
+                else "incomplete_frozen_porosity_block")
+        else:
+            c["included_in_section_decision"] = bool(
+                launched and c["section"] in ("S3_multiseed_rve", "S4.1_tolerance_baseline",
+                                              "S4.1_tolerance_tightened"))
+            c["section_exclusion_reason"] = None if c["included_in_section_decision"] else (
+                "not launched" if not launched else "section incomplete")
+    return cells, tl, s42_blocks
 
 
 def adjudicate():
     raw = json.loads(RAW.read_text(encoding="utf-8"))
     rve = raw["multiseed_rve"]
-    cells = account_cells(raw)
+    cells, timeline, s42_blocks = account_cells(raw)
 
     # ---- §3 realisation table and per-size ensembles ------------------------------------
-    realisations = [dict(section="S3_multiseed_rve", L=r["L"], L_over_d=r["box_grain_diameters"],
-                         phis_target=r["phis_target"], seed=r["seed"],
-                         pack_porosity=r["pack_porosity"], k_lu=r["k_lu"], k_units="lattice units",
-                         steps=r["steps"], converged=True, attempts=1, wall_s=r["wall_s"])
-                    for r in rve["rows"]]
+    by_key = {(c["section"], c["L"], c["phis_target"], c["seed"]): c for c in cells}
+    realisations = []
+    for r in rve["rows"]:
+        key = ("S3_multiseed_rve", r["L"], r["phis_target"], r["seed"])
+        c = by_key[key]
+        realisations.append(dict(
+            cell_id="S3-L%d-s%d" % (r["L"], r["seed"]), section="S3_multiseed_rve",
+            L=r["L"], L_over_d=r["box_grain_diameters"],
+            phis_target=r["phis_target"], porosity_target=1.0 - r["phis_target"],
+            porosity_realized=r["pack_porosity"], seed=r["seed"],
+            seed_semantics=AUDIT.SEED_SEMANTICS,
+            geometry_sha256=_geometry_hash(r["L"], r["phis_target"], r["seed"]),
+            grid=[r["L"], r["L"], r["L"]],
+            solver_config_id=_solver_config_id(CHEAP.LB_KW),
+            status_at_guard=c["status_at_guard"], final_status=c["final_status"],
+            attempts=c["attempts"], converged=True,
+            convergence_metric="relative change in bulk flux < rtol=%g" % CHEAP.LB_KW["rtol"],
+            iterations=r["steps"], k_lu=r["k_lu"], k_units="lattice units (lu^2)",
+            included_in_primary_decision=True, included_in_closure_decision=False,
+            exclusion_reason=None, wall_s=r["wall_s"],
+            artifact="deep_run_raw.json -> multiseed_rve.rows"))
     sizes = sorted({r["L"] for r in realisations})
-    per_size = {str(L): ensemble_stats([r["k_lu"] for r in realisations if r["L"] == L])
-                for L in sizes}
+    per_size = {}
+    for L in sizes:
+        rows_L = [r for r in realisations if r["L"] == L]
+        s = ensemble_stats([r["k_lu"] for r in rows_L])
+        expected_L = [c for c in cells
+                      if c["section"] == "S3_multiseed_rve" and c["L"] == L]
+        s.update(attempted_n=sum(1 for c in expected_L if c["attempts"] > 0),
+                 successful_n=len(rows_L),
+                 decision_required_n=len(D.DEEP_SEEDS),
+                 decision_eligible=bool(len(rows_L) == len(D.DEEP_SEEDS)))
+        per_size[str(L)] = s
+    s3_eligible = all(per_size[str(L)]["decision_eligible"] for L in sizes)
 
     # ---- frozen stabilisation rule, recomputed --------------------------------------------
     Lmax = sizes[-1]
@@ -207,13 +387,33 @@ def adjudicate():
                        overrun_s=raw["compute"]["wall_s"] - D.COMPUTE_BUDGET_S,
                        semantics="checked before launch; an admitted cell runs to completion, "
                                  "which is why actual wall time exceeds the budget"),
+            admission_timeline=timeline,
+            section_4_2_frozen_blocks={"phis=%g" % k: v for k, v in s42_blocks.items()},
+            section_4_2_exclusion_derivation=(
+                "the frozen §4.2 decision unit is the porosity block -- one porosity across both "
+                "EXTREME_SIZES and all DEEP_SEEDS (8 cells) -- because the implementation records "
+                "a porosity only when both of its sizes completed. Each converged cell's "
+                "exclusion reason is read off its own block: incomplete_frozen_porosity_block if "
+                "that block is itself unfinished, incomplete_frozen_section_matrix if the block "
+                "finished and only the other block is missing."),
             output_isolation="each cell writes only into the in-process result dict; the single "
                              "run process wrote one JSON at the end, so no shared mutable file "
                              "was contended",
             cells=cells),
         "realisation_table": realisations,
         "ensembles_per_size": per_size,
+        "s3_decision_eligible": s3_eligible,
         "finite_size": dict(
+            decision_eligibility=dict(
+                all_sizes_eligible=s3_eligible,
+                per_size={str(L): dict(attempted_n=per_size[str(L)]["attempted_n"],
+                                       successful_n=per_size[str(L)]["successful_n"],
+                                       decision_required_n=per_size[str(L)]["decision_required_n"],
+                                       decision_eligible=per_size[str(L)]["decision_eligible"])
+                          for L in sizes},
+                note="the frozen stabilisation rule is applied only because every size has its "
+                     "complete 4-seed ensemble; a missing or nonconverged realisation would "
+                     "trigger the incomplete-matrix outcome instead of a silent n=3"),
             criterion=dict(sigma=D.SIGMA_K, statistic="ensemble mean of k per box size",
                            text="|mean(L) - mean(Lmax)| <= 2*sqrt(SE(L)^2 + SE(Lmax)^2)"),
             checks=checks, L_star=L_star, R_sep=R_sep,
@@ -237,6 +437,11 @@ def adjudicate():
                      "'REV exceeds the largest tested size' inference is stated"),
         "realization_variability": variability,
         "sections": sections,
+        "tolerance_sensitivity_status": ("ADJUDICATED"
+                                        if sections["S4_1_tolerance"]["converged"] == 2
+                                        else "NOT_ADJUDICATED_COMPUTE_BOUND"),
+        "porosity_dependence_status": "NOT_ADJUDICATED_COMPUTE_BOUND",
+        "closure_trend_status": "NOT_ADJUDICATED_COMPUTE_BOUND",
         "closure_deep_status": closure_status,
         "closure_statement": (
             "The frozen deep closure matrix was not completed within the 150-minute compute "
@@ -252,6 +457,7 @@ def adjudicate():
         "overall_deep_disposition": frozen["outcome"],
         "overall_basis": frozen["basis"],
         "novelty_disposition": "INCREMENTAL",
+        "figure_caption": FIGURE_CAPTION,
         "issue_231_disposition": "NOT_MATERIAL_TO_SELECTED_DECISION",
         "evidence_labels_unchanged": True,
         "repository_guidance_correction": "none — the registry scopes '>= 5 grain diameters' to "
@@ -281,7 +487,6 @@ def adjudicate():
                 "contribution is incremental and repository-specific — a first repository-bound "
                 "calibration, not a first measurement."},
     }
-
 
 
 def figure(a=None, path=None):
@@ -343,14 +548,9 @@ def figure(a=None, path=None):
             transform=ax.transAxes, ha="center", fontsize=7.6, color=ACC, fontweight="bold")
 
     fig.suptitle(
-        "I-093 DEEP SCREEN — %s  |  DEEP_SCIENTIFIC_SCREEN / SYNTHETIC_GEOMETRY_RESULT / "
-        "NOT_REAL_PUCK_VALIDATION / NOVELTY_INCREMENTAL\n"
-        "n = 4 independent realisations per size; seeds are RELATED_NON_NESTED, so observations "
-        "are NOT paired and no line connects equal seeds across sizes. Error bars are $\\pm$2 "
-        "standard errors of the seed ensemble.\n"
-        "16/16 section-3 cells converged; 22 of 46 frozen cells were not launched by the budget "
-        "guard. Synthetic overlapping-sphere geometry — this is not real-puck validation."
-        % a["overall_deep_disposition"], fontsize=8.6, y=1.10)
+        ("I-093 DEEP SCREEN — %s  |  DEEP_SCIENTIFIC_SCREEN / SYNTHETIC_GEOMETRY_RESULT / "
+         "NOT_REAL_PUCK_VALIDATION / NOVELTY_INCREMENTAL\n"
+         % a["overall_deep_disposition"]) + FIGURE_CAPTION, fontsize=8.6, y=1.015, va="bottom")
     fig.tight_layout()
     out = path or str(BUNDLE / "figures/deep_primary.png")
     pathlib.Path(out).parent.mkdir(parents=True, exist_ok=True)

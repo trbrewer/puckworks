@@ -14,6 +14,9 @@ NOVELTY_INCREMENTAL
 |---|---|
 | `finite_size_status` | `PASS_BY_NON_REJECTION_LOW_POWER` |
 | `realization_variability_status` | `MATERIAL_AND_DOMINANT` |
+| `tolerance_sensitivity_status` | `ADJUDICATED` |
+| `porosity_dependence_status` | `NOT_ADJUDICATED_COMPUTE_BOUND` |
+| `closure_trend_status` | `NOT_ADJUDICATED_COMPUTE_BOUND` |
 | `closure_status` | `NOT_ADJUDICATED_COMPUTE_BOUND` |
 | `overall_deep_disposition` | **`BOUNDED_NULL`** |
 | `novelty_disposition` | `INCREMENTAL` |
@@ -35,23 +38,45 @@ was wrong: the full 46-cell matrix needs ≈364 min against a 150-min budget).
 
 ## 3. Execution audit — all 46 frozen cells accounted
 
-| status | cells |
+Terminal state (`final_status`) — the cutoff snapshot `status_at_guard` is tabulated separately
+below, and the two differ for exactly one cell:
+
+| `final_status` | cells |
 |---|---|
 | `CONVERGED` | **24** |
 | `NOT_LAUNCHED_BUDGET_GUARD` | **22** |
 | `SCIENTIFIC_NONCONVERGENCE` | 0 |
 | `OPERATIONAL_FAILURE` | 0 |
 | `EXACT_RETRY` | 0 |
-| `IN_FLIGHT_AT_GUARD` | 0 |
+| `IN_FLIGHT_AT_GUARD` | 0 — not a terminal state; the one in-flight cell resolved to `CONVERGED` |
 
 Every launched cell converged; nothing failed, nothing was retried, and no realisation was
 dropped. By section: **§3 16/16 complete**, **§4.1 2/2 complete**, **§4.2 6/16 partial**,
 **§4.3 0/12 not launched**.
 
-**Guard:** actual wall time **9743 s against a 9000 s budget** — a 743 s overrun, because the
-frozen guard checks *before launching* and lets an admitted cell run to completion. That behaviour
-was recorded before the run and was not changed. Output isolation: a single run process held all
-results in memory and wrote one JSON at the end, so no shared mutable file was contended.
+**The guard is an admission cutoff, not a stop signal.** It checks elapsed time *before launching*
+and never terminates admitted work, so two times must be kept apart:
+
+| | value |
+|---|---|
+| nominal cutoff (150 min) | 9000 s |
+| **final completion** | **9743 s** (743 s beyond the nominal cutoff) |
+| last cell admitted | §4.2, L=100, φ_s=0.35, **seed 1** — admitted at 8500 s |
+| first cell refused by the guard | §4.2, L=100, φ_s=0.35, **seed 2** |
+| cell spanning the 9000 s mark | §4.2 L=100 seed 1 → `status_at_guard: IN_FLIGHT_AT_GUARD`, **`final_status: CONVERGED`** |
+
+A cell admitted below the budget is scientifically admissible under the frozen guard even though it
+completed after the mark; nothing was launched manually afterwards. Every cell therefore carries
+**both** a cutoff snapshot and a terminal state:
+
+| | count |
+|---|---|
+| `status_at_guard` | LAUNCHED 23 · IN_FLIGHT_AT_GUARD 1 · NOT_LAUNCHED_BUDGET_GUARD 22 |
+| `final_status` | **CONVERGED 24 · NOT_LAUNCHED_BUDGET_GUARD 22** |
+
+Total unique protocol cells **46**; process attempts **24** (no retries, so attempts = launched
+cells). Output isolation: a single process held all results in memory and wrote one JSON at the
+end, so no shared mutable file was contended.
 
 ## 4. Seed semantics — `RELATED_NON_NESTED`
 
@@ -73,6 +98,11 @@ Every realisation, n = 4 per size, all converged (k in lattice units, lu²):
 | 64 | 3.2 | 4 | 4.616, 5.683, 5.982, 6.142 | 5.6057 | 5.8321 | 0.6865 | 0.122 | 4.6163 | 6.1421 | 1.331 |
 | 80 | 4.0 | 4 | 4.210, 4.875, 5.246, 6.607 | 5.2343 | 5.0602 | 1.0106 | 0.193 | 4.2096 | 6.6070 | 1.570 |
 | 100 | 5.0 | 4 | 4.239, 4.516, 5.135, 5.760 | 4.9124 | 4.8255 | 0.6777 | 0.138 | 4.2392 | 5.7596 | 1.359 |
+
+**Decision eligibility, checked before the rule was applied.** Every size has its complete
+four-seed ensemble — attempted 4, successful 4, required 4, `decision_eligible: true` at all four
+sizes — so the frozen stabilisation rule is applicable. A missing or non-converged realisation
+would have triggered the incomplete-matrix outcome rather than a silent reduction to n = 3.
 
 **The frozen criterion**, `|k̄(L) − k̄(L_max)| ≤ 2·√(SE(L)² + SE(L_max)²)`:
 
@@ -153,7 +183,29 @@ empirical validity, or closure validity.
 ## 8. §4.2 — partial, non-decisional
 
 6 of 16 cells ran: porosity `phis_target = 0.35` only, with **n = 4 at L = 64 and n = 2 at
-L = 100**; `phis_target = 0.60` is **entirely missing**. The recorded arm shows a 30.7 % mean
+L = 100**; `phis_target = 0.60` is **entirely missing**.
+
+**All six completed cells are preserved with their results**, each with `final_status: CONVERGED`
+and `included_in_section_decision: false`. A converged cell is never relabelled as failed or
+not-launched merely because its surrounding block is incomplete, and no excluded cell contributes
+to a section-level decision.
+
+**Why the exclusion reason is the porosity block, not the section matrix.** The frozen §4.2
+decision unit is one **porosity across both sizes and all four seeds — 8 cells** — because the
+implementation records a porosity only when *both* of its sizes completed (`len(per_L) == 2`). The
+actual grouping:
+
+| frozen block | completed | L=64 | L=100 | block complete? |
+|---|---|---|---|---|
+| φ_s = 0.35 | **6 / 8** | 4 / 4 | 2 / 4 | **no** |
+| φ_s = 0.60 | 0 / 8 | 0 / 4 | 0 / 4 | no |
+
+The L = 64 sub-group finished all four seeds, but a *size sub-group is not the frozen decision
+unit*. Every one of the six converged cells therefore sits inside the single **incomplete** φ_s =
+0.35 block, so all six retain `section_exclusion_reason: incomplete_frozen_porosity_block`. No cell
+qualifies for `incomplete_frozen_section_matrix`, which would apply only to a cell whose own block
+finished and which is excluded solely because the other block is absent. `porosity_dependence_status:
+NOT_ADJUDICATED_COMPUTE_BOUND`. The recorded arm shows a 30.7 % mean
 difference with R_sep = 2.06 — *suggestive* of porosity-dependent box behaviour, and **explicitly
 not a decision**: the comparison is unbalanced, the second porosity is absent, and the frozen
 protocol defines no partial porosity rule. Retained as partial, non-decisional evidence.
@@ -216,7 +268,11 @@ repository-specific** — a *first repository-bound calibration*, not a first me
 ```
 python -m puckworks.analysis.deep_screen_i093_rve        # ~2.7 h CPU, local, NOT a CI job
 python -m puckworks.analysis.deep_i093_adjudicate        # deterministic, seconds
-python -m pytest tests/test_deep_screen_i093.py -q
+python -m puckworks.analysis.deep_i093_run_audit          # outcome-neutral, no results read
+python -m pytest tests/test_screen_i093.py tests/test_deep_screen_i093.py -q
+pytest -v
+python -c "from puckworks.registry import run_all_gates, components; print(len(components()), 'components'); run_all_gates()"
+python -m puckworks.insights verify
 ```
 
 Raw run preserved byte-identical as [`deep_run_raw.json`](deep_run_raw.json); the adjudication is a

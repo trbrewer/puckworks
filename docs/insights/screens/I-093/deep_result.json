@@ -41,6 +41,326 @@
       "overrun_s": 742.6000000000004,
       "semantics": "checked before launch; an admitted cell runs to completion, which is why actual wall time exceeds the budget"
     },
+    "admission_timeline": {
+      "budget_s": 9000.0,
+      "nominal_cutoff_s": 9000.0,
+      "execution_start_s": 0.0,
+      "final_completion_s": 9742.64,
+      "total_actual_wall_s": 9742.64,
+      "reconstruction": "cumulative sum of measured per-cell wall times, used to place the admission cutoff; the run's own recorded total is authoritative",
+      "recorded_total_wall_s": 9742.6,
+      "reconstruction_residual_s": 0.039999999999054126,
+      "overrun_beyond_nominal_cutoff_s": 742.6399999999994,
+      "last_cell_admitted": [
+        "S4.2_porosity_dependence",
+        100,
+        0.35,
+        1
+      ],
+      "first_cell_refused_by_guard": [
+        "S4.2_porosity_dependence",
+        100,
+        0.35,
+        2
+      ],
+      "cell_spanning_the_budget_mark": [
+        "S4.2_porosity_dependence",
+        100,
+        0.35,
+        1
+      ],
+      "cells_active_at_cutoff": 1,
+      "outcome_of_cells_active_at_cutoff": "CONVERGED",
+      "outcome_derivation": "read from the raw record: only completed cells appear there",
+      "semantics": "admission cutoff and final completion are separate; a cell admitted below the budget runs to completion, so the process does not terminate at exactly 150 minutes",
+      "launches": [
+        {
+          "section": "S3_multiseed_rve",
+          "L": 48,
+          "phis_target": 0.5,
+          "seed": 0,
+          "elapsed_at_launch_s": 0.0,
+          "wall_s": 54.58,
+          "completed_at_s": 54.58,
+          "admitted": true,
+          "spans_budget_mark": false
+        },
+        {
+          "section": "S3_multiseed_rve",
+          "L": 48,
+          "phis_target": 0.5,
+          "seed": 1,
+          "elapsed_at_launch_s": 54.58,
+          "wall_s": 68.03,
+          "completed_at_s": 122.61,
+          "admitted": true,
+          "spans_budget_mark": false
+        },
+        {
+          "section": "S3_multiseed_rve",
+          "L": 48,
+          "phis_target": 0.5,
+          "seed": 2,
+          "elapsed_at_launch_s": 122.61,
+          "wall_s": 81.19,
+          "completed_at_s": 203.8,
+          "admitted": true,
+          "spans_budget_mark": false
+        },
+        {
+          "section": "S3_multiseed_rve",
+          "L": 48,
+          "phis_target": 0.5,
+          "seed": 3,
+          "elapsed_at_launch_s": 203.8,
+          "wall_s": 80.13,
+          "completed_at_s": 283.93,
+          "admitted": true,
+          "spans_budget_mark": false
+        },
+        {
+          "section": "S3_multiseed_rve",
+          "L": 64,
+          "phis_target": 0.5,
+          "seed": 0,
+          "elapsed_at_launch_s": 283.93,
+          "wall_s": 196.65,
+          "completed_at_s": 480.58000000000004,
+          "admitted": true,
+          "spans_budget_mark": false
+        },
+        {
+          "section": "S3_multiseed_rve",
+          "L": 64,
+          "phis_target": 0.5,
+          "seed": 1,
+          "elapsed_at_launch_s": 480.58000000000004,
+          "wall_s": 222.47,
+          "completed_at_s": 703.0500000000001,
+          "admitted": true,
+          "spans_budget_mark": false
+        },
+        {
+          "section": "S3_multiseed_rve",
+          "L": 64,
+          "phis_target": 0.5,
+          "seed": 2,
+          "elapsed_at_launch_s": 703.0500000000001,
+          "wall_s": 214.03,
+          "completed_at_s": 917.08,
+          "admitted": true,
+          "spans_budget_mark": false
+        },
+        {
+          "section": "S3_multiseed_rve",
+          "L": 64,
+          "phis_target": 0.5,
+          "seed": 3,
+          "elapsed_at_launch_s": 917.08,
+          "wall_s": 187.58,
+          "completed_at_s": 1104.66,
+          "admitted": true,
+          "spans_budget_mark": false
+        },
+        {
+          "section": "S3_multiseed_rve",
+          "L": 80,
+          "phis_target": 0.5,
+          "seed": 0,
+          "elapsed_at_launch_s": 1104.66,
+          "wall_s": 399.39,
+          "completed_at_s": 1504.0500000000002,
+          "admitted": true,
+          "spans_budget_mark": false
+        },
+        {
+          "section": "S3_multiseed_rve",
+          "L": 80,
+          "phis_target": 0.5,
+          "seed": 1,
+          "elapsed_at_launch_s": 1504.0500000000002,
+          "wall_s": 342.79,
+          "completed_at_s": 1846.8400000000001,
+          "admitted": true,
+          "spans_budget_mark": false
+        },
+        {
+          "section": "S3_multiseed_rve",
+          "L": 80,
+          "phis_target": 0.5,
+          "seed": 2,
+          "elapsed_at_launch_s": 1846.8400000000001,
+          "wall_s": 409.67,
+          "completed_at_s": 2256.51,
+          "admitted": true,
+          "spans_budget_mark": false
+        },
+        {
+          "section": "S3_multiseed_rve",
+          "L": 80,
+          "phis_target": 0.5,
+          "seed": 3,
+          "elapsed_at_launch_s": 2256.51,
+          "wall_s": 477.74,
+          "completed_at_s": 2734.25,
+          "admitted": true,
+          "spans_budget_mark": false
+        },
+        {
+          "section": "S3_multiseed_rve",
+          "L": 100,
+          "phis_target": 0.5,
+          "seed": 0,
+          "elapsed_at_launch_s": 2734.25,
+          "wall_s": 746.33,
+          "completed_at_s": 3480.58,
+          "admitted": true,
+          "spans_budget_mark": false
+        },
+        {
+          "section": "S3_multiseed_rve",
+          "L": 100,
+          "phis_target": 0.5,
+          "seed": 1,
+          "elapsed_at_launch_s": 3480.58,
+          "wall_s": 823.01,
+          "completed_at_s": 4303.59,
+          "admitted": true,
+          "spans_budget_mark": false
+        },
+        {
+          "section": "S3_multiseed_rve",
+          "L": 100,
+          "phis_target": 0.5,
+          "seed": 2,
+          "elapsed_at_launch_s": 4303.59,
+          "wall_s": 605.28,
+          "completed_at_s": 4908.87,
+          "admitted": true,
+          "spans_budget_mark": false
+        },
+        {
+          "section": "S3_multiseed_rve",
+          "L": 100,
+          "phis_target": 0.5,
+          "seed": 3,
+          "elapsed_at_launch_s": 4908.87,
+          "wall_s": 616.27,
+          "completed_at_s": 5525.139999999999,
+          "admitted": true,
+          "spans_budget_mark": false
+        },
+        {
+          "section": "S4.1_tolerance_baseline",
+          "L": 64,
+          "phis_target": 0.5,
+          "seed": 0,
+          "elapsed_at_launch_s": 5525.139999999999,
+          "wall_s": 179.57,
+          "completed_at_s": 5704.709999999999,
+          "admitted": true,
+          "spans_budget_mark": false
+        },
+        {
+          "section": "S4.1_tolerance_tightened",
+          "L": 64,
+          "phis_target": 0.5,
+          "seed": 0,
+          "elapsed_at_launch_s": 5704.709999999999,
+          "wall_s": 299.63,
+          "completed_at_s": 6004.339999999999,
+          "admitted": true,
+          "spans_budget_mark": false
+        },
+        {
+          "section": "S4.2_porosity_dependence",
+          "L": 64,
+          "phis_target": 0.35,
+          "seed": 0,
+          "elapsed_at_launch_s": 6004.339999999999,
+          "wall_s": 313.23667582417585,
+          "completed_at_s": 6317.576675824175,
+          "admitted": true,
+          "spans_budget_mark": false
+        },
+        {
+          "section": "S4.2_porosity_dependence",
+          "L": 64,
+          "phis_target": 0.35,
+          "seed": 1,
+          "elapsed_at_launch_s": 6317.576675824175,
+          "wall_s": 313.23667582417585,
+          "completed_at_s": 6630.813351648351,
+          "admitted": true,
+          "spans_budget_mark": false
+        },
+        {
+          "section": "S4.2_porosity_dependence",
+          "L": 64,
+          "phis_target": 0.35,
+          "seed": 2,
+          "elapsed_at_launch_s": 6630.813351648351,
+          "wall_s": 313.23667582417585,
+          "completed_at_s": 6944.050027472527,
+          "admitted": true,
+          "spans_budget_mark": false
+        },
+        {
+          "section": "S4.2_porosity_dependence",
+          "L": 64,
+          "phis_target": 0.35,
+          "seed": 3,
+          "elapsed_at_launch_s": 6944.050027472527,
+          "wall_s": 313.23667582417585,
+          "completed_at_s": 7257.286703296703,
+          "admitted": true,
+          "spans_budget_mark": false
+        },
+        {
+          "section": "S4.2_porosity_dependence",
+          "L": 100,
+          "phis_target": 0.35,
+          "seed": 0,
+          "elapsed_at_launch_s": 7257.286703296703,
+          "wall_s": 1242.6766483516485,
+          "completed_at_s": 8499.963351648352,
+          "admitted": true,
+          "spans_budget_mark": false
+        },
+        {
+          "section": "S4.2_porosity_dependence",
+          "L": 100,
+          "phis_target": 0.35,
+          "seed": 1,
+          "elapsed_at_launch_s": 8499.963351648352,
+          "wall_s": 1242.6766483516485,
+          "completed_at_s": 9742.64,
+          "admitted": true,
+          "spans_budget_mark": true
+        }
+      ]
+    },
+    "section_4_2_frozen_blocks": {
+      "phis=0.35": {
+        "expected": 8,
+        "completed": 6,
+        "block_complete": false,
+        "per_size": {
+          "64": 4,
+          "100": 2
+        }
+      },
+      "phis=0.6": {
+        "expected": 8,
+        "completed": 0,
+        "block_complete": false,
+        "per_size": {
+          "64": 0,
+          "100": 0
+        }
+      }
+    },
+    "section_4_2_exclusion_derivation": "the frozen \u00a74.2 decision unit is the porosity block -- one porosity across both EXTREME_SIZES and all DEEP_SEEDS (8 cells) -- because the implementation records a porosity only when both of its sizes completed. Each converged cell's exclusion reason is read off its own block: incomplete_frozen_porosity_block if that block is itself unfinished, incomplete_frozen_section_matrix if the block finished and only the other block is missing.",
     "output_isolation": "each cell writes only into the in-process result dict; the single run process wrote one JSON at the end, so no shared mutable file was contended",
     "cells": [
       {
@@ -69,7 +389,13 @@
         "needed_for_closure_decision": false,
         "expected_output": "deep_result.json -> S3_multiseed_rve",
         "status": "CONVERGED",
-        "note": ""
+        "note": "",
+        "status_at_guard": "LAUNCHED",
+        "final_status": "CONVERGED",
+        "attempts": 1,
+        "elapsed_at_launch_s": 0.0,
+        "included_in_section_decision": true,
+        "section_exclusion_reason": null
       },
       {
         "order": 2,
@@ -97,7 +423,13 @@
         "needed_for_closure_decision": false,
         "expected_output": "deep_result.json -> S3_multiseed_rve",
         "status": "CONVERGED",
-        "note": ""
+        "note": "",
+        "status_at_guard": "LAUNCHED",
+        "final_status": "CONVERGED",
+        "attempts": 1,
+        "elapsed_at_launch_s": 54.58,
+        "included_in_section_decision": true,
+        "section_exclusion_reason": null
       },
       {
         "order": 3,
@@ -125,7 +457,13 @@
         "needed_for_closure_decision": false,
         "expected_output": "deep_result.json -> S3_multiseed_rve",
         "status": "CONVERGED",
-        "note": ""
+        "note": "",
+        "status_at_guard": "LAUNCHED",
+        "final_status": "CONVERGED",
+        "attempts": 1,
+        "elapsed_at_launch_s": 122.61,
+        "included_in_section_decision": true,
+        "section_exclusion_reason": null
       },
       {
         "order": 4,
@@ -153,7 +491,13 @@
         "needed_for_closure_decision": false,
         "expected_output": "deep_result.json -> S3_multiseed_rve",
         "status": "CONVERGED",
-        "note": ""
+        "note": "",
+        "status_at_guard": "LAUNCHED",
+        "final_status": "CONVERGED",
+        "attempts": 1,
+        "elapsed_at_launch_s": 203.8,
+        "included_in_section_decision": true,
+        "section_exclusion_reason": null
       },
       {
         "order": 5,
@@ -181,7 +525,13 @@
         "needed_for_closure_decision": false,
         "expected_output": "deep_result.json -> S3_multiseed_rve",
         "status": "CONVERGED",
-        "note": ""
+        "note": "",
+        "status_at_guard": "LAUNCHED",
+        "final_status": "CONVERGED",
+        "attempts": 1,
+        "elapsed_at_launch_s": 283.93,
+        "included_in_section_decision": true,
+        "section_exclusion_reason": null
       },
       {
         "order": 6,
@@ -209,7 +559,13 @@
         "needed_for_closure_decision": false,
         "expected_output": "deep_result.json -> S3_multiseed_rve",
         "status": "CONVERGED",
-        "note": ""
+        "note": "",
+        "status_at_guard": "LAUNCHED",
+        "final_status": "CONVERGED",
+        "attempts": 1,
+        "elapsed_at_launch_s": 480.58000000000004,
+        "included_in_section_decision": true,
+        "section_exclusion_reason": null
       },
       {
         "order": 7,
@@ -237,7 +593,13 @@
         "needed_for_closure_decision": false,
         "expected_output": "deep_result.json -> S3_multiseed_rve",
         "status": "CONVERGED",
-        "note": ""
+        "note": "",
+        "status_at_guard": "LAUNCHED",
+        "final_status": "CONVERGED",
+        "attempts": 1,
+        "elapsed_at_launch_s": 703.0500000000001,
+        "included_in_section_decision": true,
+        "section_exclusion_reason": null
       },
       {
         "order": 8,
@@ -265,7 +627,13 @@
         "needed_for_closure_decision": false,
         "expected_output": "deep_result.json -> S3_multiseed_rve",
         "status": "CONVERGED",
-        "note": ""
+        "note": "",
+        "status_at_guard": "LAUNCHED",
+        "final_status": "CONVERGED",
+        "attempts": 1,
+        "elapsed_at_launch_s": 917.08,
+        "included_in_section_decision": true,
+        "section_exclusion_reason": null
       },
       {
         "order": 9,
@@ -293,7 +661,13 @@
         "needed_for_closure_decision": false,
         "expected_output": "deep_result.json -> S3_multiseed_rve",
         "status": "CONVERGED",
-        "note": ""
+        "note": "",
+        "status_at_guard": "LAUNCHED",
+        "final_status": "CONVERGED",
+        "attempts": 1,
+        "elapsed_at_launch_s": 1104.66,
+        "included_in_section_decision": true,
+        "section_exclusion_reason": null
       },
       {
         "order": 10,
@@ -321,7 +695,13 @@
         "needed_for_closure_decision": false,
         "expected_output": "deep_result.json -> S3_multiseed_rve",
         "status": "CONVERGED",
-        "note": ""
+        "note": "",
+        "status_at_guard": "LAUNCHED",
+        "final_status": "CONVERGED",
+        "attempts": 1,
+        "elapsed_at_launch_s": 1504.0500000000002,
+        "included_in_section_decision": true,
+        "section_exclusion_reason": null
       },
       {
         "order": 11,
@@ -349,7 +729,13 @@
         "needed_for_closure_decision": false,
         "expected_output": "deep_result.json -> S3_multiseed_rve",
         "status": "CONVERGED",
-        "note": ""
+        "note": "",
+        "status_at_guard": "LAUNCHED",
+        "final_status": "CONVERGED",
+        "attempts": 1,
+        "elapsed_at_launch_s": 1846.8400000000001,
+        "included_in_section_decision": true,
+        "section_exclusion_reason": null
       },
       {
         "order": 12,
@@ -377,7 +763,13 @@
         "needed_for_closure_decision": false,
         "expected_output": "deep_result.json -> S3_multiseed_rve",
         "status": "CONVERGED",
-        "note": ""
+        "note": "",
+        "status_at_guard": "LAUNCHED",
+        "final_status": "CONVERGED",
+        "attempts": 1,
+        "elapsed_at_launch_s": 2256.51,
+        "included_in_section_decision": true,
+        "section_exclusion_reason": null
       },
       {
         "order": 13,
@@ -405,7 +797,13 @@
         "needed_for_closure_decision": false,
         "expected_output": "deep_result.json -> S3_multiseed_rve",
         "status": "CONVERGED",
-        "note": ""
+        "note": "",
+        "status_at_guard": "LAUNCHED",
+        "final_status": "CONVERGED",
+        "attempts": 1,
+        "elapsed_at_launch_s": 2734.25,
+        "included_in_section_decision": true,
+        "section_exclusion_reason": null
       },
       {
         "order": 14,
@@ -433,7 +831,13 @@
         "needed_for_closure_decision": false,
         "expected_output": "deep_result.json -> S3_multiseed_rve",
         "status": "CONVERGED",
-        "note": ""
+        "note": "",
+        "status_at_guard": "LAUNCHED",
+        "final_status": "CONVERGED",
+        "attempts": 1,
+        "elapsed_at_launch_s": 3480.58,
+        "included_in_section_decision": true,
+        "section_exclusion_reason": null
       },
       {
         "order": 15,
@@ -461,7 +865,13 @@
         "needed_for_closure_decision": false,
         "expected_output": "deep_result.json -> S3_multiseed_rve",
         "status": "CONVERGED",
-        "note": ""
+        "note": "",
+        "status_at_guard": "LAUNCHED",
+        "final_status": "CONVERGED",
+        "attempts": 1,
+        "elapsed_at_launch_s": 4303.59,
+        "included_in_section_decision": true,
+        "section_exclusion_reason": null
       },
       {
         "order": 16,
@@ -489,7 +899,13 @@
         "needed_for_closure_decision": false,
         "expected_output": "deep_result.json -> S3_multiseed_rve",
         "status": "CONVERGED",
-        "note": ""
+        "note": "",
+        "status_at_guard": "LAUNCHED",
+        "final_status": "CONVERGED",
+        "attempts": 1,
+        "elapsed_at_launch_s": 4908.87,
+        "included_in_section_decision": true,
+        "section_exclusion_reason": null
       },
       {
         "order": 17,
@@ -517,7 +933,13 @@
         "needed_for_closure_decision": false,
         "expected_output": "deep_result.json -> S4.1_tolerance_baseline",
         "status": "CONVERGED",
-        "note": ""
+        "note": "",
+        "status_at_guard": "LAUNCHED",
+        "final_status": "CONVERGED",
+        "attempts": 1,
+        "elapsed_at_launch_s": 5525.139999999999,
+        "included_in_section_decision": true,
+        "section_exclusion_reason": null
       },
       {
         "order": 18,
@@ -545,7 +967,13 @@
         "needed_for_closure_decision": false,
         "expected_output": "deep_result.json -> S4.1_tolerance_tightened",
         "status": "CONVERGED",
-        "note": ""
+        "note": "",
+        "status_at_guard": "LAUNCHED",
+        "final_status": "CONVERGED",
+        "attempts": 1,
+        "elapsed_at_launch_s": 5704.709999999999,
+        "included_in_section_decision": true,
+        "section_exclusion_reason": null
       },
       {
         "order": 19,
@@ -573,7 +1001,16 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.2_porosity_dependence",
         "status": "CONVERGED",
-        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)",
+        "status_at_guard": "LAUNCHED",
+        "final_status": "CONVERGED",
+        "attempts": 1,
+        "elapsed_at_launch_s": 6004.339999999999,
+        "included_in_section_decision": false,
+        "frozen_block": "phis=0.35",
+        "frozen_block_cells_expected": 8,
+        "frozen_block_cells_completed": 6,
+        "section_exclusion_reason": "incomplete_frozen_porosity_block"
       },
       {
         "order": 20,
@@ -601,7 +1038,16 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.2_porosity_dependence",
         "status": "CONVERGED",
-        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)",
+        "status_at_guard": "LAUNCHED",
+        "final_status": "CONVERGED",
+        "attempts": 1,
+        "elapsed_at_launch_s": 6317.576675824175,
+        "included_in_section_decision": false,
+        "frozen_block": "phis=0.35",
+        "frozen_block_cells_expected": 8,
+        "frozen_block_cells_completed": 6,
+        "section_exclusion_reason": "incomplete_frozen_porosity_block"
       },
       {
         "order": 21,
@@ -629,7 +1075,16 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.2_porosity_dependence",
         "status": "CONVERGED",
-        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)",
+        "status_at_guard": "LAUNCHED",
+        "final_status": "CONVERGED",
+        "attempts": 1,
+        "elapsed_at_launch_s": 6630.813351648351,
+        "included_in_section_decision": false,
+        "frozen_block": "phis=0.35",
+        "frozen_block_cells_expected": 8,
+        "frozen_block_cells_completed": 6,
+        "section_exclusion_reason": "incomplete_frozen_porosity_block"
       },
       {
         "order": 22,
@@ -657,7 +1112,16 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.2_porosity_dependence",
         "status": "CONVERGED",
-        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)",
+        "status_at_guard": "LAUNCHED",
+        "final_status": "CONVERGED",
+        "attempts": 1,
+        "elapsed_at_launch_s": 6944.050027472527,
+        "included_in_section_decision": false,
+        "frozen_block": "phis=0.35",
+        "frozen_block_cells_expected": 8,
+        "frozen_block_cells_completed": 6,
+        "section_exclusion_reason": "incomplete_frozen_porosity_block"
       },
       {
         "order": 23,
@@ -685,7 +1149,16 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.2_porosity_dependence",
         "status": "CONVERGED",
-        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)",
+        "status_at_guard": "LAUNCHED",
+        "final_status": "CONVERGED",
+        "attempts": 1,
+        "elapsed_at_launch_s": 7257.286703296703,
+        "included_in_section_decision": false,
+        "frozen_block": "phis=0.35",
+        "frozen_block_cells_expected": 8,
+        "frozen_block_cells_completed": 6,
+        "section_exclusion_reason": "incomplete_frozen_porosity_block"
       },
       {
         "order": 24,
@@ -713,7 +1186,16 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.2_porosity_dependence",
         "status": "CONVERGED",
-        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)",
+        "status_at_guard": "IN_FLIGHT_AT_GUARD",
+        "final_status": "CONVERGED",
+        "attempts": 1,
+        "elapsed_at_launch_s": 8499.963351648352,
+        "included_in_section_decision": false,
+        "frozen_block": "phis=0.35",
+        "frozen_block_cells_expected": 8,
+        "frozen_block_cells_completed": 6,
+        "section_exclusion_reason": "incomplete_frozen_porosity_block"
       },
       {
         "order": 25,
@@ -741,7 +1223,13 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.2_porosity_dependence",
         "status": "NOT_LAUNCHED_BUDGET_GUARD",
-        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)",
+        "status_at_guard": "NOT_LAUNCHED_BUDGET_GUARD",
+        "final_status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "attempts": 0,
+        "elapsed_at_launch_s": null,
+        "included_in_section_decision": false,
+        "section_exclusion_reason": "not launched"
       },
       {
         "order": 26,
@@ -769,7 +1257,13 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.2_porosity_dependence",
         "status": "NOT_LAUNCHED_BUDGET_GUARD",
-        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)",
+        "status_at_guard": "NOT_LAUNCHED_BUDGET_GUARD",
+        "final_status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "attempts": 0,
+        "elapsed_at_launch_s": null,
+        "included_in_section_decision": false,
+        "section_exclusion_reason": "not launched"
       },
       {
         "order": 27,
@@ -797,7 +1291,13 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.2_porosity_dependence",
         "status": "NOT_LAUNCHED_BUDGET_GUARD",
-        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)",
+        "status_at_guard": "NOT_LAUNCHED_BUDGET_GUARD",
+        "final_status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "attempts": 0,
+        "elapsed_at_launch_s": null,
+        "included_in_section_decision": false,
+        "section_exclusion_reason": "not launched"
       },
       {
         "order": 28,
@@ -825,7 +1325,13 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.2_porosity_dependence",
         "status": "NOT_LAUNCHED_BUDGET_GUARD",
-        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)",
+        "status_at_guard": "NOT_LAUNCHED_BUDGET_GUARD",
+        "final_status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "attempts": 0,
+        "elapsed_at_launch_s": null,
+        "included_in_section_decision": false,
+        "section_exclusion_reason": "not launched"
       },
       {
         "order": 29,
@@ -853,7 +1359,13 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.2_porosity_dependence",
         "status": "NOT_LAUNCHED_BUDGET_GUARD",
-        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)",
+        "status_at_guard": "NOT_LAUNCHED_BUDGET_GUARD",
+        "final_status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "attempts": 0,
+        "elapsed_at_launch_s": null,
+        "included_in_section_decision": false,
+        "section_exclusion_reason": "not launched"
       },
       {
         "order": 30,
@@ -881,7 +1393,13 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.2_porosity_dependence",
         "status": "NOT_LAUNCHED_BUDGET_GUARD",
-        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)",
+        "status_at_guard": "NOT_LAUNCHED_BUDGET_GUARD",
+        "final_status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "attempts": 0,
+        "elapsed_at_launch_s": null,
+        "included_in_section_decision": false,
+        "section_exclusion_reason": "not launched"
       },
       {
         "order": 31,
@@ -909,7 +1427,13 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.2_porosity_dependence",
         "status": "NOT_LAUNCHED_BUDGET_GUARD",
-        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)",
+        "status_at_guard": "NOT_LAUNCHED_BUDGET_GUARD",
+        "final_status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "attempts": 0,
+        "elapsed_at_launch_s": null,
+        "included_in_section_decision": false,
+        "section_exclusion_reason": "not launched"
       },
       {
         "order": 32,
@@ -937,7 +1461,13 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.2_porosity_dependence",
         "status": "NOT_LAUNCHED_BUDGET_GUARD",
-        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)",
+        "status_at_guard": "NOT_LAUNCHED_BUDGET_GUARD",
+        "final_status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "attempts": 0,
+        "elapsed_at_launch_s": null,
+        "included_in_section_decision": false,
+        "section_exclusion_reason": "not launched"
       },
       {
         "order": 33,
@@ -965,7 +1495,13 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.2_porosity_dependence",
         "status": "NOT_LAUNCHED_BUDGET_GUARD",
-        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)",
+        "status_at_guard": "NOT_LAUNCHED_BUDGET_GUARD",
+        "final_status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "attempts": 0,
+        "elapsed_at_launch_s": null,
+        "included_in_section_decision": false,
+        "section_exclusion_reason": "not launched"
       },
       {
         "order": 34,
@@ -993,7 +1529,13 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.2_porosity_dependence",
         "status": "NOT_LAUNCHED_BUDGET_GUARD",
-        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)"
+        "note": "porosity is recorded only if BOTH sizes complete (len(per_L)==2)",
+        "status_at_guard": "NOT_LAUNCHED_BUDGET_GUARD",
+        "final_status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "attempts": 0,
+        "elapsed_at_launch_s": null,
+        "included_in_section_decision": false,
+        "section_exclusion_reason": "not launched"
       },
       {
         "order": 35,
@@ -1021,7 +1563,13 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.3_trend_on_means",
         "status": "NOT_LAUNCHED_BUDGET_GUARD",
-        "note": ""
+        "note": "",
+        "status_at_guard": "NOT_LAUNCHED_BUDGET_GUARD",
+        "final_status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "attempts": 0,
+        "elapsed_at_launch_s": null,
+        "included_in_section_decision": false,
+        "section_exclusion_reason": "not launched"
       },
       {
         "order": 36,
@@ -1049,7 +1597,13 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.3_trend_on_means",
         "status": "NOT_LAUNCHED_BUDGET_GUARD",
-        "note": ""
+        "note": "",
+        "status_at_guard": "NOT_LAUNCHED_BUDGET_GUARD",
+        "final_status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "attempts": 0,
+        "elapsed_at_launch_s": null,
+        "included_in_section_decision": false,
+        "section_exclusion_reason": "not launched"
       },
       {
         "order": 37,
@@ -1077,7 +1631,13 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.3_trend_on_means",
         "status": "NOT_LAUNCHED_BUDGET_GUARD",
-        "note": ""
+        "note": "",
+        "status_at_guard": "NOT_LAUNCHED_BUDGET_GUARD",
+        "final_status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "attempts": 0,
+        "elapsed_at_launch_s": null,
+        "included_in_section_decision": false,
+        "section_exclusion_reason": "not launched"
       },
       {
         "order": 38,
@@ -1105,7 +1665,13 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.3_trend_on_means",
         "status": "NOT_LAUNCHED_BUDGET_GUARD",
-        "note": ""
+        "note": "",
+        "status_at_guard": "NOT_LAUNCHED_BUDGET_GUARD",
+        "final_status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "attempts": 0,
+        "elapsed_at_launch_s": null,
+        "included_in_section_decision": false,
+        "section_exclusion_reason": "not launched"
       },
       {
         "order": 39,
@@ -1133,7 +1699,13 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.3_trend_on_means",
         "status": "NOT_LAUNCHED_BUDGET_GUARD",
-        "note": ""
+        "note": "",
+        "status_at_guard": "NOT_LAUNCHED_BUDGET_GUARD",
+        "final_status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "attempts": 0,
+        "elapsed_at_launch_s": null,
+        "included_in_section_decision": false,
+        "section_exclusion_reason": "not launched"
       },
       {
         "order": 40,
@@ -1161,7 +1733,13 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.3_trend_on_means",
         "status": "NOT_LAUNCHED_BUDGET_GUARD",
-        "note": ""
+        "note": "",
+        "status_at_guard": "NOT_LAUNCHED_BUDGET_GUARD",
+        "final_status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "attempts": 0,
+        "elapsed_at_launch_s": null,
+        "included_in_section_decision": false,
+        "section_exclusion_reason": "not launched"
       },
       {
         "order": 41,
@@ -1189,7 +1767,13 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.3_trend_on_means",
         "status": "NOT_LAUNCHED_BUDGET_GUARD",
-        "note": ""
+        "note": "",
+        "status_at_guard": "NOT_LAUNCHED_BUDGET_GUARD",
+        "final_status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "attempts": 0,
+        "elapsed_at_launch_s": null,
+        "included_in_section_decision": false,
+        "section_exclusion_reason": "not launched"
       },
       {
         "order": 42,
@@ -1217,7 +1801,13 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.3_trend_on_means",
         "status": "NOT_LAUNCHED_BUDGET_GUARD",
-        "note": ""
+        "note": "",
+        "status_at_guard": "NOT_LAUNCHED_BUDGET_GUARD",
+        "final_status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "attempts": 0,
+        "elapsed_at_launch_s": null,
+        "included_in_section_decision": false,
+        "section_exclusion_reason": "not launched"
       },
       {
         "order": 43,
@@ -1245,7 +1835,13 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.3_trend_on_means",
         "status": "NOT_LAUNCHED_BUDGET_GUARD",
-        "note": ""
+        "note": "",
+        "status_at_guard": "NOT_LAUNCHED_BUDGET_GUARD",
+        "final_status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "attempts": 0,
+        "elapsed_at_launch_s": null,
+        "included_in_section_decision": false,
+        "section_exclusion_reason": "not launched"
       },
       {
         "order": 44,
@@ -1273,7 +1869,13 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.3_trend_on_means",
         "status": "NOT_LAUNCHED_BUDGET_GUARD",
-        "note": ""
+        "note": "",
+        "status_at_guard": "NOT_LAUNCHED_BUDGET_GUARD",
+        "final_status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "attempts": 0,
+        "elapsed_at_launch_s": null,
+        "included_in_section_decision": false,
+        "section_exclusion_reason": "not launched"
       },
       {
         "order": 45,
@@ -1301,7 +1903,13 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.3_trend_on_means",
         "status": "NOT_LAUNCHED_BUDGET_GUARD",
-        "note": ""
+        "note": "",
+        "status_at_guard": "NOT_LAUNCHED_BUDGET_GUARD",
+        "final_status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "attempts": 0,
+        "elapsed_at_launch_s": null,
+        "included_in_section_decision": false,
+        "section_exclusion_reason": "not launched"
       },
       {
         "order": 46,
@@ -1329,234 +1937,512 @@
         "needed_for_closure_decision": true,
         "expected_output": "deep_result.json -> S4.3_trend_on_means",
         "status": "NOT_LAUNCHED_BUDGET_GUARD",
-        "note": ""
+        "note": "",
+        "status_at_guard": "NOT_LAUNCHED_BUDGET_GUARD",
+        "final_status": "NOT_LAUNCHED_BUDGET_GUARD",
+        "attempts": 0,
+        "elapsed_at_launch_s": null,
+        "included_in_section_decision": false,
+        "section_exclusion_reason": "not launched"
       }
     ]
   },
   "realisation_table": [
     {
+      "cell_id": "S3-L48-s0",
       "section": "S3_multiseed_rve",
       "L": 48,
       "L_over_d": 2.4,
       "phis_target": 0.5,
+      "porosity_target": 0.5,
+      "porosity_realized": 0.49514431423611116,
       "seed": 0,
-      "pack_porosity": 0.49514431423611116,
+      "seed_semantics": "RELATED_NON_NESTED",
+      "geometry_sha256": "e2fbf7793512575b6d2c8c3c86a3568f1bfa0d8433a3fa010edbbedb5c3bffb5",
+      "grid": [
+        48,
+        48,
+        48
+      ],
+      "solver_config_id": "D3Q19-TRT tau+=1.2 g=1e-06 rtol=1e-06 min_steps=600 max_steps=20000",
+      "status_at_guard": "LAUNCHED",
+      "final_status": "CONVERGED",
+      "attempts": 1,
+      "converged": true,
+      "convergence_metric": "relative change in bulk flux < rtol=1e-06",
+      "iterations": 1000,
       "k_lu": 3.1197640049592574,
-      "k_units": "lattice units",
-      "steps": 1000,
-      "converged": true,
-      "attempts": 1,
-      "wall_s": 54.58
+      "k_units": "lattice units (lu^2)",
+      "included_in_primary_decision": true,
+      "included_in_closure_decision": false,
+      "exclusion_reason": null,
+      "wall_s": 54.58,
+      "artifact": "deep_run_raw.json -> multiseed_rve.rows"
     },
     {
+      "cell_id": "S3-L48-s1",
       "section": "S3_multiseed_rve",
       "L": 48,
       "L_over_d": 2.4,
       "phis_target": 0.5,
+      "porosity_target": 0.5,
+      "porosity_realized": 0.49512622974537035,
       "seed": 1,
-      "pack_porosity": 0.49512622974537035,
+      "seed_semantics": "RELATED_NON_NESTED",
+      "geometry_sha256": "db47bf860c0e2500a982732f40876a7f7e22fe4ff5ffe944d4397e5642e9dd3a",
+      "grid": [
+        48,
+        48,
+        48
+      ],
+      "solver_config_id": "D3Q19-TRT tau+=1.2 g=1e-06 rtol=1e-06 min_steps=600 max_steps=20000",
+      "status_at_guard": "LAUNCHED",
+      "final_status": "CONVERGED",
+      "attempts": 1,
+      "converged": true,
+      "convergence_metric": "relative change in bulk flux < rtol=1e-06",
+      "iterations": 1200,
       "k_lu": 5.361424773778707,
-      "k_units": "lattice units",
-      "steps": 1200,
-      "converged": true,
-      "attempts": 1,
-      "wall_s": 68.03
+      "k_units": "lattice units (lu^2)",
+      "included_in_primary_decision": true,
+      "included_in_closure_decision": false,
+      "exclusion_reason": null,
+      "wall_s": 68.03,
+      "artifact": "deep_run_raw.json -> multiseed_rve.rows"
     },
     {
+      "cell_id": "S3-L48-s2",
       "section": "S3_multiseed_rve",
       "L": 48,
       "L_over_d": 2.4,
       "phis_target": 0.5,
+      "porosity_target": 0.5,
+      "porosity_realized": 0.4887152777777778,
       "seed": 2,
-      "pack_porosity": 0.4887152777777778,
+      "seed_semantics": "RELATED_NON_NESTED",
+      "geometry_sha256": "bc67d57eab6517fb27d0ab224eb07e06462bdc1cca5ff9e0f2cec8fc8f161a59",
+      "grid": [
+        48,
+        48,
+        48
+      ],
+      "solver_config_id": "D3Q19-TRT tau+=1.2 g=1e-06 rtol=1e-06 min_steps=600 max_steps=20000",
+      "status_at_guard": "LAUNCHED",
+      "final_status": "CONVERGED",
+      "attempts": 1,
+      "converged": true,
+      "convergence_metric": "relative change in bulk flux < rtol=1e-06",
+      "iterations": 1400,
       "k_lu": 7.60526536684656,
-      "k_units": "lattice units",
-      "steps": 1400,
-      "converged": true,
-      "attempts": 1,
-      "wall_s": 81.19
+      "k_units": "lattice units (lu^2)",
+      "included_in_primary_decision": true,
+      "included_in_closure_decision": false,
+      "exclusion_reason": null,
+      "wall_s": 81.19,
+      "artifact": "deep_run_raw.json -> multiseed_rve.rows"
     },
     {
+      "cell_id": "S3-L48-s3",
       "section": "S3_multiseed_rve",
       "L": 48,
       "L_over_d": 2.4,
       "phis_target": 0.5,
+      "porosity_target": 0.5,
+      "porosity_realized": 0.49306459780092593,
       "seed": 3,
-      "pack_porosity": 0.49306459780092593,
+      "seed_semantics": "RELATED_NON_NESTED",
+      "geometry_sha256": "3f40abba7b38f552c061113b44bbb2211c83114c1bae51621bcfde76925d4b8f",
+      "grid": [
+        48,
+        48,
+        48
+      ],
+      "solver_config_id": "D3Q19-TRT tau+=1.2 g=1e-06 rtol=1e-06 min_steps=600 max_steps=20000",
+      "status_at_guard": "LAUNCHED",
+      "final_status": "CONVERGED",
+      "attempts": 1,
+      "converged": true,
+      "convergence_metric": "relative change in bulk flux < rtol=1e-06",
+      "iterations": 1400,
       "k_lu": 8.007234787969516,
-      "k_units": "lattice units",
-      "steps": 1400,
-      "converged": true,
-      "attempts": 1,
-      "wall_s": 80.13
+      "k_units": "lattice units (lu^2)",
+      "included_in_primary_decision": true,
+      "included_in_closure_decision": false,
+      "exclusion_reason": null,
+      "wall_s": 80.13,
+      "artifact": "deep_run_raw.json -> multiseed_rve.rows"
     },
     {
+      "cell_id": "S3-L64-s0",
       "section": "S3_multiseed_rve",
       "L": 64,
       "L_over_d": 3.2,
       "phis_target": 0.5,
+      "porosity_target": 0.5,
+      "porosity_realized": 0.4895820617675781,
       "seed": 0,
-      "pack_porosity": 0.4895820617675781,
+      "seed_semantics": "RELATED_NON_NESTED",
+      "geometry_sha256": "62aa2e9a10901a5eeceba1ecab3d7b61bc620a68f8a9fa477cd7db7df1179c46",
+      "grid": [
+        64,
+        64,
+        64
+      ],
+      "solver_config_id": "D3Q19-TRT tau+=1.2 g=1e-06 rtol=1e-06 min_steps=600 max_steps=20000",
+      "status_at_guard": "LAUNCHED",
+      "final_status": "CONVERGED",
+      "attempts": 1,
+      "converged": true,
+      "convergence_metric": "relative change in bulk flux < rtol=1e-06",
+      "iterations": 1200,
       "k_lu": 4.6163434103175,
-      "k_units": "lattice units",
-      "steps": 1200,
-      "converged": true,
-      "attempts": 1,
-      "wall_s": 196.65
+      "k_units": "lattice units (lu^2)",
+      "included_in_primary_decision": true,
+      "included_in_closure_decision": false,
+      "exclusion_reason": null,
+      "wall_s": 196.65,
+      "artifact": "deep_run_raw.json -> multiseed_rve.rows"
     },
     {
+      "cell_id": "S3-L64-s1",
       "section": "S3_multiseed_rve",
       "L": 64,
       "L_over_d": 3.2,
       "phis_target": 0.5,
+      "porosity_target": 0.5,
+      "porosity_realized": 0.4938087463378906,
       "seed": 1,
-      "pack_porosity": 0.4938087463378906,
+      "seed_semantics": "RELATED_NON_NESTED",
+      "geometry_sha256": "58105dce6e8ada1f2f5d8a45176ad324d265b831b7ffc2bd7e985743629d4b03",
+      "grid": [
+        64,
+        64,
+        64
+      ],
+      "solver_config_id": "D3Q19-TRT tau+=1.2 g=1e-06 rtol=1e-06 min_steps=600 max_steps=20000",
+      "status_at_guard": "LAUNCHED",
+      "final_status": "CONVERGED",
+      "attempts": 1,
+      "converged": true,
+      "convergence_metric": "relative change in bulk flux < rtol=1e-06",
+      "iterations": 1400,
       "k_lu": 5.682575570288004,
-      "k_units": "lattice units",
-      "steps": 1400,
-      "converged": true,
-      "attempts": 1,
-      "wall_s": 222.47
+      "k_units": "lattice units (lu^2)",
+      "included_in_primary_decision": true,
+      "included_in_closure_decision": false,
+      "exclusion_reason": null,
+      "wall_s": 222.47,
+      "artifact": "deep_run_raw.json -> multiseed_rve.rows"
     },
     {
+      "cell_id": "S3-L64-s2",
       "section": "S3_multiseed_rve",
       "L": 64,
       "L_over_d": 3.2,
       "phis_target": 0.5,
+      "porosity_target": 0.5,
+      "porosity_realized": 0.4952278137207031,
       "seed": 2,
-      "pack_porosity": 0.4952278137207031,
+      "seed_semantics": "RELATED_NON_NESTED",
+      "geometry_sha256": "32e2d7da3780e903c7801543d21e66e6de2d0c5ecbf0670e1fd8e4811e216bc5",
+      "grid": [
+        64,
+        64,
+        64
+      ],
+      "solver_config_id": "D3Q19-TRT tau+=1.2 g=1e-06 rtol=1e-06 min_steps=600 max_steps=20000",
+      "status_at_guard": "LAUNCHED",
+      "final_status": "CONVERGED",
+      "attempts": 1,
+      "converged": true,
+      "convergence_metric": "relative change in bulk flux < rtol=1e-06",
+      "iterations": 1400,
       "k_lu": 5.981656344521222,
-      "k_units": "lattice units",
-      "steps": 1400,
-      "converged": true,
-      "attempts": 1,
-      "wall_s": 214.03
+      "k_units": "lattice units (lu^2)",
+      "included_in_primary_decision": true,
+      "included_in_closure_decision": false,
+      "exclusion_reason": null,
+      "wall_s": 214.03,
+      "artifact": "deep_run_raw.json -> multiseed_rve.rows"
     },
     {
+      "cell_id": "S3-L64-s3",
       "section": "S3_multiseed_rve",
       "L": 64,
       "L_over_d": 3.2,
       "phis_target": 0.5,
+      "porosity_target": 0.5,
+      "porosity_realized": 0.4967994689941406,
       "seed": 3,
-      "pack_porosity": 0.4967994689941406,
+      "seed_semantics": "RELATED_NON_NESTED",
+      "geometry_sha256": "402db791b60a22fc14786dd8aa5f475013f54ceba81acb1f5e62be9c3592516a",
+      "grid": [
+        64,
+        64,
+        64
+      ],
+      "solver_config_id": "D3Q19-TRT tau+=1.2 g=1e-06 rtol=1e-06 min_steps=600 max_steps=20000",
+      "status_at_guard": "LAUNCHED",
+      "final_status": "CONVERGED",
+      "attempts": 1,
+      "converged": true,
+      "convergence_metric": "relative change in bulk flux < rtol=1e-06",
+      "iterations": 1200,
       "k_lu": 6.142144036697438,
-      "k_units": "lattice units",
-      "steps": 1200,
-      "converged": true,
-      "attempts": 1,
-      "wall_s": 187.58
+      "k_units": "lattice units (lu^2)",
+      "included_in_primary_decision": true,
+      "included_in_closure_decision": false,
+      "exclusion_reason": null,
+      "wall_s": 187.58,
+      "artifact": "deep_run_raw.json -> multiseed_rve.rows"
     },
     {
+      "cell_id": "S3-L80-s0",
       "section": "S3_multiseed_rve",
       "L": 80,
       "L_over_d": 4.0,
       "phis_target": 0.5,
+      "porosity_target": 0.5,
+      "porosity_realized": 0.49767578125,
       "seed": 0,
-      "pack_porosity": 0.49767578125,
+      "seed_semantics": "RELATED_NON_NESTED",
+      "geometry_sha256": "c48487218cc50bab3c0d8b6bec46fa6e175ff26215bef2dba88d4ad1b617ff39",
+      "grid": [
+        80,
+        80,
+        80
+      ],
+      "solver_config_id": "D3Q19-TRT tau+=1.2 g=1e-06 rtol=1e-06 min_steps=600 max_steps=20000",
+      "status_at_guard": "LAUNCHED",
+      "final_status": "CONVERGED",
+      "attempts": 1,
+      "converged": true,
+      "convergence_metric": "relative change in bulk flux < rtol=1e-06",
+      "iterations": 1400,
       "k_lu": 4.209601921762806,
-      "k_units": "lattice units",
-      "steps": 1400,
-      "converged": true,
-      "attempts": 1,
-      "wall_s": 399.39
+      "k_units": "lattice units (lu^2)",
+      "included_in_primary_decision": true,
+      "included_in_closure_decision": false,
+      "exclusion_reason": null,
+      "wall_s": 399.39,
+      "artifact": "deep_run_raw.json -> multiseed_rve.rows"
     },
     {
+      "cell_id": "S3-L80-s1",
       "section": "S3_multiseed_rve",
       "L": 80,
       "L_over_d": 4.0,
       "phis_target": 0.5,
+      "porosity_target": 0.5,
+      "porosity_realized": 0.49824609374999995,
       "seed": 1,
-      "pack_porosity": 0.49824609374999995,
+      "seed_semantics": "RELATED_NON_NESTED",
+      "geometry_sha256": "b766f625e4e6c97ab5d4f2fb068ee82094e1bf249a00ab035e0c1b04af7214be",
+      "grid": [
+        80,
+        80,
+        80
+      ],
+      "solver_config_id": "D3Q19-TRT tau+=1.2 g=1e-06 rtol=1e-06 min_steps=600 max_steps=20000",
+      "status_at_guard": "LAUNCHED",
+      "final_status": "CONVERGED",
+      "attempts": 1,
+      "converged": true,
+      "convergence_metric": "relative change in bulk flux < rtol=1e-06",
+      "iterations": 1200,
       "k_lu": 4.874690429946656,
-      "k_units": "lattice units",
-      "steps": 1200,
-      "converged": true,
-      "attempts": 1,
-      "wall_s": 342.79
+      "k_units": "lattice units (lu^2)",
+      "included_in_primary_decision": true,
+      "included_in_closure_decision": false,
+      "exclusion_reason": null,
+      "wall_s": 342.79,
+      "artifact": "deep_run_raw.json -> multiseed_rve.rows"
     },
     {
+      "cell_id": "S3-L80-s2",
       "section": "S3_multiseed_rve",
       "L": 80,
       "L_over_d": 4.0,
       "phis_target": 0.5,
+      "porosity_target": 0.5,
+      "porosity_realized": 0.496896484375,
       "seed": 2,
-      "pack_porosity": 0.496896484375,
+      "seed_semantics": "RELATED_NON_NESTED",
+      "geometry_sha256": "def580a1bfc25e856cd13a77ddc4da5f0c7713ead86c464f2580ed1b8837c2bb",
+      "grid": [
+        80,
+        80,
+        80
+      ],
+      "solver_config_id": "D3Q19-TRT tau+=1.2 g=1e-06 rtol=1e-06 min_steps=600 max_steps=20000",
+      "status_at_guard": "LAUNCHED",
+      "final_status": "CONVERGED",
+      "attempts": 1,
+      "converged": true,
+      "convergence_metric": "relative change in bulk flux < rtol=1e-06",
+      "iterations": 1400,
       "k_lu": 5.245778155895393,
-      "k_units": "lattice units",
-      "steps": 1400,
-      "converged": true,
-      "attempts": 1,
-      "wall_s": 409.67
+      "k_units": "lattice units (lu^2)",
+      "included_in_primary_decision": true,
+      "included_in_closure_decision": false,
+      "exclusion_reason": null,
+      "wall_s": 409.67,
+      "artifact": "deep_run_raw.json -> multiseed_rve.rows"
     },
     {
+      "cell_id": "S3-L80-s3",
       "section": "S3_multiseed_rve",
       "L": 80,
       "L_over_d": 4.0,
       "phis_target": 0.5,
+      "porosity_target": 0.5,
+      "porosity_realized": 0.49894531249999996,
       "seed": 3,
-      "pack_porosity": 0.49894531249999996,
+      "seed_semantics": "RELATED_NON_NESTED",
+      "geometry_sha256": "466bc6993d29d27ad499d92ff59d7bdb02bfe2191c2a99c58db76aa61f7b43bf",
+      "grid": [
+        80,
+        80,
+        80
+      ],
+      "solver_config_id": "D3Q19-TRT tau+=1.2 g=1e-06 rtol=1e-06 min_steps=600 max_steps=20000",
+      "status_at_guard": "LAUNCHED",
+      "final_status": "CONVERGED",
+      "attempts": 1,
+      "converged": true,
+      "convergence_metric": "relative change in bulk flux < rtol=1e-06",
+      "iterations": 1600,
       "k_lu": 6.6069990270126855,
-      "k_units": "lattice units",
-      "steps": 1600,
-      "converged": true,
-      "attempts": 1,
-      "wall_s": 477.74
+      "k_units": "lattice units (lu^2)",
+      "included_in_primary_decision": true,
+      "included_in_closure_decision": false,
+      "exclusion_reason": null,
+      "wall_s": 477.74,
+      "artifact": "deep_run_raw.json -> multiseed_rve.rows"
     },
     {
+      "cell_id": "S3-L100-s0",
       "section": "S3_multiseed_rve",
       "L": 100,
       "L_over_d": 5.0,
       "phis_target": 0.5,
+      "porosity_target": 0.5,
+      "porosity_realized": 0.49765499999999996,
       "seed": 0,
-      "pack_porosity": 0.49765499999999996,
+      "seed_semantics": "RELATED_NON_NESTED",
+      "geometry_sha256": "1d05b44d4a580106aab992e3fad305262c266df233dde97d766a338062f2f16b",
+      "grid": [
+        100,
+        100,
+        100
+      ],
+      "solver_config_id": "D3Q19-TRT tau+=1.2 g=1e-06 rtol=1e-06 min_steps=600 max_steps=20000",
+      "status_at_guard": "LAUNCHED",
+      "final_status": "CONVERGED",
+      "attempts": 1,
+      "converged": true,
+      "convergence_metric": "relative change in bulk flux < rtol=1e-06",
+      "iterations": 1400,
       "k_lu": 5.1352127404401,
-      "k_units": "lattice units",
-      "steps": 1400,
-      "converged": true,
-      "attempts": 1,
-      "wall_s": 746.33
+      "k_units": "lattice units (lu^2)",
+      "included_in_primary_decision": true,
+      "included_in_closure_decision": false,
+      "exclusion_reason": null,
+      "wall_s": 746.33,
+      "artifact": "deep_run_raw.json -> multiseed_rve.rows"
     },
     {
+      "cell_id": "S3-L100-s1",
       "section": "S3_multiseed_rve",
       "L": 100,
       "L_over_d": 5.0,
       "phis_target": 0.5,
+      "porosity_target": 0.5,
+      "porosity_realized": 0.49965899999999996,
       "seed": 1,
-      "pack_porosity": 0.49965899999999996,
+      "seed_semantics": "RELATED_NON_NESTED",
+      "geometry_sha256": "c096a957530f3e83c86b31329dc26c6455de89c8c8130afbdf007a3c673822d1",
+      "grid": [
+        100,
+        100,
+        100
+      ],
+      "solver_config_id": "D3Q19-TRT tau+=1.2 g=1e-06 rtol=1e-06 min_steps=600 max_steps=20000",
+      "status_at_guard": "LAUNCHED",
+      "final_status": "CONVERGED",
+      "attempts": 1,
+      "converged": true,
+      "convergence_metric": "relative change in bulk flux < rtol=1e-06",
+      "iterations": 1600,
       "k_lu": 5.759625753403617,
-      "k_units": "lattice units",
-      "steps": 1600,
-      "converged": true,
-      "attempts": 1,
-      "wall_s": 823.01
+      "k_units": "lattice units (lu^2)",
+      "included_in_primary_decision": true,
+      "included_in_closure_decision": false,
+      "exclusion_reason": null,
+      "wall_s": 823.01,
+      "artifact": "deep_run_raw.json -> multiseed_rve.rows"
     },
     {
+      "cell_id": "S3-L100-s2",
       "section": "S3_multiseed_rve",
       "L": 100,
       "L_over_d": 5.0,
       "phis_target": 0.5,
+      "porosity_target": 0.5,
+      "porosity_realized": 0.498657,
       "seed": 2,
-      "pack_porosity": 0.498657,
-      "k_lu": 4.239158837965968,
-      "k_units": "lattice units",
-      "steps": 1200,
-      "converged": true,
+      "seed_semantics": "RELATED_NON_NESTED",
+      "geometry_sha256": "d81221bf0fa770801305803090f6702d1e713118cad9f1980ffa3085e46ae3ef",
+      "grid": [
+        100,
+        100,
+        100
+      ],
+      "solver_config_id": "D3Q19-TRT tau+=1.2 g=1e-06 rtol=1e-06 min_steps=600 max_steps=20000",
+      "status_at_guard": "LAUNCHED",
+      "final_status": "CONVERGED",
       "attempts": 1,
-      "wall_s": 605.28
+      "converged": true,
+      "convergence_metric": "relative change in bulk flux < rtol=1e-06",
+      "iterations": 1200,
+      "k_lu": 4.239158837965968,
+      "k_units": "lattice units (lu^2)",
+      "included_in_primary_decision": true,
+      "included_in_closure_decision": false,
+      "exclusion_reason": null,
+      "wall_s": 605.28,
+      "artifact": "deep_run_raw.json -> multiseed_rve.rows"
     },
     {
+      "cell_id": "S3-L100-s3",
       "section": "S3_multiseed_rve",
       "L": 100,
       "L_over_d": 5.0,
       "phis_target": 0.5,
+      "porosity_target": 0.5,
+      "porosity_realized": 0.49914899999999995,
       "seed": 3,
-      "pack_porosity": 0.49914899999999995,
-      "k_lu": 4.515772578994986,
-      "k_units": "lattice units",
-      "steps": 1200,
-      "converged": true,
+      "seed_semantics": "RELATED_NON_NESTED",
+      "geometry_sha256": "08075e92d937703d46d8181865dcebb840fbd5a7ec575df60a9b0e3b519e128a",
+      "grid": [
+        100,
+        100,
+        100
+      ],
+      "solver_config_id": "D3Q19-TRT tau+=1.2 g=1e-06 rtol=1e-06 min_steps=600 max_steps=20000",
+      "status_at_guard": "LAUNCHED",
+      "final_status": "CONVERGED",
       "attempts": 1,
-      "wall_s": 616.27
+      "converged": true,
+      "convergence_metric": "relative change in bulk flux < rtol=1e-06",
+      "iterations": 1200,
+      "k_lu": 4.515772578994986,
+      "k_units": "lattice units (lu^2)",
+      "included_in_primary_decision": true,
+      "included_in_closure_decision": false,
+      "exclusion_reason": null,
+      "wall_s": 616.27,
+      "artifact": "deep_run_raw.json -> multiseed_rve.rows"
     }
   ],
   "ensembles_per_size": {
@@ -1575,7 +2461,11 @@
         7.60526536684656,
         8.007234787969516
       ],
-      "sd_cv_note": null
+      "sd_cv_note": null,
+      "attempted_n": 4,
+      "successful_n": 4,
+      "decision_required_n": 4,
+      "decision_eligible": true
     },
     "64": {
       "n": 4,
@@ -1592,7 +2482,11 @@
         5.981656344521222,
         6.142144036697438
       ],
-      "sd_cv_note": null
+      "sd_cv_note": null,
+      "attempted_n": 4,
+      "successful_n": 4,
+      "decision_required_n": 4,
+      "decision_eligible": true
     },
     "80": {
       "n": 4,
@@ -1609,7 +2503,11 @@
         5.245778155895393,
         6.6069990270126855
       ],
-      "sd_cv_note": null
+      "sd_cv_note": null,
+      "attempted_n": 4,
+      "successful_n": 4,
+      "decision_required_n": 4,
+      "decision_eligible": true
     },
     "100": {
       "n": 4,
@@ -1626,10 +2524,45 @@
         5.1352127404401,
         5.759625753403617
       ],
-      "sd_cv_note": null
+      "sd_cv_note": null,
+      "attempted_n": 4,
+      "successful_n": 4,
+      "decision_required_n": 4,
+      "decision_eligible": true
     }
   },
+  "s3_decision_eligible": true,
   "finite_size": {
+    "decision_eligibility": {
+      "all_sizes_eligible": true,
+      "per_size": {
+        "48": {
+          "attempted_n": 4,
+          "successful_n": 4,
+          "decision_required_n": 4,
+          "decision_eligible": true
+        },
+        "64": {
+          "attempted_n": 4,
+          "successful_n": 4,
+          "decision_required_n": 4,
+          "decision_eligible": true
+        },
+        "80": {
+          "attempted_n": 4,
+          "successful_n": 4,
+          "decision_required_n": 4,
+          "decision_eligible": true
+        },
+        "100": {
+          "attempted_n": 4,
+          "successful_n": 4,
+          "decision_required_n": 4,
+          "decision_eligible": true
+        }
+      },
+      "note": "the frozen stabilisation rule is applied only because every size has its complete 4-seed ensemble; a missing or nonconverged realisation would trigger the incomplete-matrix outcome instead of a silent n=3"
+    },
     "criterion": {
       "sigma": 2.0,
       "statistic": "ensemble mean of k per box size",
@@ -1737,6 +2670,9 @@
       "skipped_reason": "insufficient budget"
     }
   },
+  "tolerance_sensitivity_status": "ADJUDICATED",
+  "porosity_dependence_status": "NOT_ADJUDICATED_COMPUTE_BOUND",
+  "closure_trend_status": "NOT_ADJUDICATED_COMPUTE_BOUND",
   "closure_deep_status": "NOT_ADJUDICATED_COMPUTE_BOUND",
   "closure_statement": "The frozen deep closure matrix was not completed within the 150-minute compute budget. The cheap-screen monotonic ratio trend was therefore not deep-confirmed or deep-rejected. Completed section-4 cells are retained as partial, non-decisional evidence.",
   "closure_not": [
@@ -1752,6 +2688,7 @@
   "overall_deep_disposition": "BOUNDED_NULL",
   "overall_basis": "ensemble means satisfy the frozen 2-sigma stabilisation criterion at L* = 48 (L/d = 2.4): once realisation noise is averaged the solver IS stabilised, so the cheap screen's RVE arm was single-realisation scatter produced by an under-powered one-seed sweep",
   "novelty_disposition": "INCREMENTAL",
+  "figure_caption": "n = 4 independent realisations per size; seeds are RELATED_NON_NESTED, so observations are NOT paired and no line connects equal seeds across sizes. Error bars are $\\pm$2 standard errors of the seed ensemble.\nThe complete frozen section-3 matrix WAS available: 16/16 cells converged, all four sizes decision-eligible at n=4. 22 of 46 frozen cells were not launched by the budget guard. Synthetic overlapping-sphere geometry \u2014 this is not real-puck validation.",
   "issue_231_disposition": "NOT_MATERIAL_TO_SELECTED_DECISION",
   "evidence_labels_unchanged": true,
   "repository_guidance_correction": "none \u2014 the registry scopes '>= 5 grain diameters' to sigma, not permeability, and no pack card exists",

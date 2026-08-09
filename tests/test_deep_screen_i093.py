@@ -332,3 +332,169 @@ def test_heavy_execution_is_not_added_to_ordinary_ci():
         assert heavy not in called or heavy == "make_pack", heavy
     # make_pack is permitted: the seed-semantics test builds geometry only, and never solves
     assert "solve" not in called
+
+
+# --------------------------------------------------------------------------------------------
+# guard admission cutoff vs final completion; dual status; decision eligibility
+# --------------------------------------------------------------------------------------------
+
+def test_status_at_guard_and_final_status_are_distinct_fields(deep):
+    """The cutoff snapshot and the terminal state are different questions about a cell."""
+    cells = deep["execution_audit"]["cells"]
+    for c in cells:
+        assert c["status_at_guard"] in A.STATUSES
+        assert c["final_status"] in A.STATUSES
+    at_guard = {c["status_at_guard"] for c in cells}
+    final = {c["final_status"] for c in cells}
+    assert at_guard != final, "collapsing the two would hide the in-flight cell"
+    assert "IN_FLIGHT_AT_GUARD" in at_guard
+    assert "IN_FLIGHT_AT_GUARD" not in final, "in-flight is not a terminal state"
+
+
+def test_every_in_flight_at_guard_cell_resolves_to_a_terminal_state(deep):
+    inflight = [c for c in deep["execution_audit"]["cells"]
+                if c["status_at_guard"] == "IN_FLIGHT_AT_GUARD"]
+    assert len(inflight) == 1, "exactly one cell spanned the budget mark"
+    for c in inflight:
+        assert c["final_status"] in ("CONVERGED", "SCIENTIFIC_NONCONVERGENCE",
+                                     "OPERATIONAL_FAILURE")
+        assert c["final_status"] == "CONVERGED"
+
+
+def test_the_admission_cutoff_is_not_reported_as_the_final_runtime(deep):
+    tl = deep["execution_audit"]["admission_timeline"]
+    g = deep["execution_audit"]["guard"]
+    assert tl["nominal_cutoff_s"] == g["budget_s"] == D.COMPUTE_BUDGET_S
+    assert tl["final_completion_s"] > tl["nominal_cutoff_s"]
+    assert tl["overrun_beyond_nominal_cutoff_s"] == pytest.approx(
+        tl["final_completion_s"] - tl["nominal_cutoff_s"])
+    # the timeline is reconstructed by summing per-cell wall times; the run's own recorded
+    # total is authoritative, and the residual between them is published, not absorbed.
+    assert tl["recorded_total_wall_s"] == g["actual_wall_s"]
+    assert tl["reconstruction_residual_s"] == pytest.approx(
+        tl["final_completion_s"] - tl["recorded_total_wall_s"])
+    assert abs(tl["reconstruction_residual_s"]) < 1.0, "reconstruction must track the run"
+    assert "authoritative" in tl["reconstruction"]
+
+
+def test_the_last_admitted_and_first_refused_cells_are_named(deep):
+    tl = deep["execution_audit"]["admission_timeline"]
+    by_order = {(c["section"], c["L"], c["phis_target"], c["seed"]): c
+                for c in deep["execution_audit"]["cells"]}
+    last = by_order[tuple(tl["last_cell_admitted"])]
+    first_refused = by_order[tuple(tl["first_cell_refused_by_guard"])]
+    assert last["attempts"] == 1 and last["final_status"] == "CONVERGED"
+    assert first_refused["attempts"] == 0
+    assert first_refused["final_status"] == "NOT_LAUNCHED_BUDGET_GUARD"
+    assert last["elapsed_at_launch_s"] <= tl["nominal_cutoff_s"]
+    assert tuple(tl["cell_spanning_the_budget_mark"]) in by_order
+
+
+def test_nothing_was_launched_after_the_guard_refused_a_cell(deep):
+    """A refusal ends admission: no later cell may carry a launch."""
+    cells = deep["execution_audit"]["cells"]
+    order = {(c["section"], c["L"], c["phis_target"], c["seed"]): c["order"]
+             for c in A.expected_run_matrix()}
+    refused = min(order[(c["section"], c["L"], c["phis_target"], c["seed"])]
+                  for c in cells if c["attempts"] == 0)
+    for c in cells:
+        o = order[(c["section"], c["L"], c["phis_target"], c["seed"])]
+        if o > refused:
+            assert c["attempts"] == 0, ("launched after a refusal", c)
+
+
+def test_completed_cells_in_an_incomplete_block_are_preserved_not_relabelled(deep):
+    excluded = [c for c in deep["execution_audit"]["cells"]
+                if c["section"] == "S4.2_porosity_dependence" and c["attempts"] > 0]
+    assert len(excluded) == 6
+    for c in excluded:
+        assert c["final_status"] == "CONVERGED", "a converged cell is never downgraded"
+        assert c["included_in_section_decision"] is False
+        assert c["section_exclusion_reason"] == "incomplete_frozen_porosity_block"
+
+
+def test_the_frozen_section_4_2_decision_unit_is_the_porosity_block(deep):
+    """The block spans BOTH sizes, so a complete size sub-group is not a complete block."""
+    blocks = deep["execution_audit"]["section_4_2_frozen_blocks"]
+    assert set(blocks) == {"phis=%g" % p for p in D.EXTREME_PHIS}
+    for name, b in blocks.items():
+        assert b["expected"] == len(D.EXTREME_SIZES) * len(D.DEEP_SEEDS) == 8
+        assert b["block_complete"] is False
+    assert blocks["phis=0.35"]["completed"] == 6
+    assert blocks["phis=0.35"]["per_size"] == {"64": 4, "100": 2}
+    assert blocks["phis=0.6"]["completed"] == 0
+    # the L=64 sub-group IS complete -- and that must not be mistaken for a complete block
+    assert blocks["phis=0.35"]["per_size"]["64"] == len(D.DEEP_SEEDS)
+
+
+def test_the_exclusion_reason_is_derived_from_the_cell_s_own_block(deep):
+    blocks = deep["execution_audit"]["section_4_2_frozen_blocks"]
+    for c in deep["execution_audit"]["cells"]:
+        if c["section"] != "S4.2_porosity_dependence" or c["attempts"] == 0:
+            continue
+        b = blocks[c["frozen_block"]]
+        assert c["frozen_block_cells_expected"] == b["expected"]
+        assert c["frozen_block_cells_completed"] == b["completed"]
+        want = ("incomplete_frozen_section_matrix" if b["block_complete"]
+                else "incomplete_frozen_porosity_block")
+        assert c["section_exclusion_reason"] == want, c
+    assert "porosity block" in deep["execution_audit"]["section_4_2_exclusion_derivation"]
+
+
+def test_no_partial_section_4_2_value_reaches_the_scientific_decision(deep):
+    for r in deep["realisation_table"]:
+        assert r["section"] == "S3_multiseed_rve", "only §3 realisations are in the table"
+    included = {c["section"] for c in deep["execution_audit"]["cells"]
+                if c["included_in_section_decision"]}
+    assert "S4.2_porosity_dependence" not in included
+
+
+def test_excluded_cells_cannot_enter_a_closure_decision(deep):
+    for r in deep["realisation_table"]:
+        assert r["included_in_closure_decision"] is False
+    assert deep["porosity_dependence_status"] == "NOT_ADJUDICATED_COMPUTE_BOUND"
+    assert deep["closure_trend_status"] == "NOT_ADJUDICATED_COMPUTE_BOUND"
+
+
+def test_section_3_completeness_is_enforced_before_the_rule_is_applied(deep):
+    el = deep["finite_size"]["decision_eligibility"]
+    assert el["all_sizes_eligible"] is True and deep["s3_decision_eligible"] is True
+    for L, e in el["per_size"].items():
+        assert e["decision_required_n"] == len(D.DEEP_SEEDS) == 4
+        assert e["attempted_n"] == e["successful_n"] == e["decision_required_n"]
+        assert e["decision_eligible"] is True
+        s = deep["ensembles_per_size"][L]
+        assert s["successful_n"] == s["n"], "eligibility must be read off the same ensemble"
+    assert "silent" in el["note"]
+
+
+def test_each_subquestion_carries_its_own_status(deep):
+    """A compute-bounded §4.2 must not be smuggled into §4.1's adjudication, or vice versa."""
+    assert deep["tolerance_sensitivity_status"] == "ADJUDICATED"
+    assert deep["porosity_dependence_status"] == "NOT_ADJUDICATED_COMPUTE_BOUND"
+    assert deep["closure_trend_status"] == "NOT_ADJUDICATED_COMPUTE_BOUND"
+    assert deep["finite_size_status"] == "PASS_BY_NON_REJECTION_LOW_POWER"
+    assert deep["realization_variability_status"] == "MATERIAL_AND_DOMINANT"
+    assert deep["overall_deep_disposition"] == "BOUNDED_NULL"
+
+
+def test_the_realisation_table_identifies_geometry_and_solver_per_row(deep):
+    seen = {}
+    for r in deep["realisation_table"]:
+        assert len(r["geometry_sha256"]) == 64
+        seen.setdefault(r["geometry_sha256"], []).append((r["L"], r["seed"]))
+        assert r["grid"] == [r["L"], r["L"], r["L"]]
+        assert "D3Q19-TRT" in r["solver_config_id"]
+        assert "rtol" in r["convergence_metric"] and r["iterations"] > 0
+        assert r["seed_semantics"] == A.SEED_SEMANTICS == "RELATED_NON_NESTED"
+        assert r["included_in_primary_decision"] is True
+    assert all(len(v) == 1 for v in seen.values()), "no two realisations share a geometry"
+    assert len(seen) == 16
+
+
+def test_the_figure_caption_states_whether_the_frozen_matrix_was_available(deep):
+    cap = deep["figure_caption"]
+    assert cap == ADJ.FIGURE_CAPTION, "the published caption is the one the figure draws"
+    assert "16/16" in cap and "complete frozen section-3 matrix WAS available" in cap
+    assert "22 of 46" in cap and "not launched by the budget" in cap
+    assert "RELATED_NON_NESTED" in cap and "NOT paired" in cap
