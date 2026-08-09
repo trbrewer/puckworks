@@ -1,0 +1,548 @@
+{
+  "screen": "I-093",
+  "candidate_id": "I-093",
+  "tension_row": "T-0174",
+  "disposition": [
+    "CHEAP_SCIENTIFIC_SCREEN",
+    "NOT_A_PUBLICATION_RESULT",
+    "NOT_A_MODEL_VALIDATION_UPGRADE"
+  ],
+  "routes": {
+    "pore_scale": "brewer2026.pack_generator -> brewer2026.lb_reference",
+    "continuum": "wadsworth2026.permeability.k_percolation (+ Carman-Kozeny)"
+  },
+  "anchor": "brewer2026.lb_reference (CPU reference); lb_taichi is NOT used -- an accelerated backend does not become its own validation",
+  "provenance": {
+    "base_commit": "892e5ec78f7a0dcf1b1f2de85ccfff8f39e0effa",
+    "protocol_path": "docs/insights/screens/I-093/PROTOCOL.md",
+    "protocol_sha256": "657dabf812b57e856f6deafa2b5f7b3d78cac1934f2add9d200c32ba5bc3e0c0",
+    "input_sha256": {
+      "docs/insights/screens/I-093/PROTOCOL.md": "657dabf812b57e856f6deafa2b5f7b3d78cac1934f2add9d200c32ba5bc3e0c0",
+      "puckworks/models/brewer2026/pack_generator.py": "864416314c889793684fef0a143cab48f99056b72f715adf1a522298c7d9512b",
+      "puckworks/models/brewer2026/lb_reference.py": "9a60371d7777d3d91fe7df2ea529db498268f12b08ab6c461ec511190a0a989f",
+      "puckworks/models/wadsworth2026/permeability.py": "8b4ecd5195d5c35ccb7d5c879cf984a7ff4389ccd61e67f38a667cb2997f9758",
+      "docs/cards/wadsworth2026.md": "606abfce68ba40105b4650ee6af2e8c716c60adb2653b87065b5fd2207c25fe8"
+    },
+    "command": "python -m puckworks.analysis.screen_i093_crossscale_permeability"
+  },
+  "protocol": {
+    "path": "docs/insights/screens/I-093/PROTOCOL.md",
+    "sha256": "657dabf812b57e856f6deafa2b5f7b3d78cac1934f2add9d200c32ba5bc3e0c0",
+    "frozen_before_execution": true
+  },
+  "scenario": {
+    "gs": 1.3,
+    "grain_radius_um": 310.79,
+    "grain_radius_m": 0.00031079,
+    "voxel_um": 31.079,
+    "voxel_m": 3.1079e-05,
+    "grain_radius_voxels": 10.0,
+    "grain_diameter_voxels": 20.0,
+    "hetero_amp": 0.0,
+    "seeds": [
+      0,
+      1
+    ],
+    "phis_targets": [
+      0.35,
+      0.4,
+      0.45,
+      0.5,
+      0.55,
+      0.6
+    ],
+    "porosity_targets": [
+      0.65,
+      0.6,
+      0.55,
+      0.5,
+      0.45,
+      0.4
+    ],
+    "lb_kwargs": {
+      "g": 1e-06,
+      "tau_plus": 1.2,
+      "rtol": 1e-06,
+      "min_steps": 600,
+      "max_steps": 20000,
+      "check": 200
+    }
+  },
+  "comparability_gate": {
+    "checks": {
+      "G1_grain_radius_in_closure_range": {
+        "passed": true,
+        "detail": "R = 310.8 um vs declared [145.0, 818.0] um"
+      },
+      "G2_porosity_family_in_closure_range": {
+        "passed": true,
+        "detail": "family porosity 0.40-0.65 vs declared [0.37, 0.67]"
+      },
+      "G3_grain_resolution_admissible": {
+        "passed": true,
+        "detail": "grain radius 10.0 voxels vs pack-card floor 10"
+      },
+      "G4_same_observable_definition": {
+        "passed": true,
+        "detail": "both routes yield the single-phase steady Darcy permeability k [m^2]; the only transformations are the exact lattice->SI length conversions k_SI = k_lu * h^2 and R_SI = r_vox * h, with h the voxel edge"
+      }
+    },
+    "passed": true,
+    "failed": [],
+    "execution_permitted": true
+  },
+  "positive_control": {
+    "case": {
+      "Nz": 33,
+      "N": 4,
+      "g": 1e-06,
+      "tau_plus": 1.2,
+      "max_steps": 20000,
+      "check": 200,
+      "rtol": 1e-06
+    },
+    "raw": {
+      "k_meas": 80.12488468820483,
+      "k_exact": 80.08333333333333,
+      "err_pct": 0.05188514656171428,
+      "h": 31.0,
+      "nu": 0.2333333333333333,
+      "q": 0.0003225807045888766,
+      "phi": 0.9393939393939394,
+      "steps": 5600,
+      "max_steps": 20000,
+      "converged": true,
+      "seconds": 1.6
+    },
+    "k_measured_lu": 80.12488468820483,
+    "k_exact_lu": 80.08333333333333,
+    "relative_error": 0.0005188514656170805,
+    "converged": true,
+    "tolerance": 0.02,
+    "passed": true,
+    "note": "exact plane-Poiseuille permeability; the solver must reproduce it before any pack is run"
+  },
+  "issue_231_disposition": "NOT_MATERIAL_TO_SELECTED_DECISION",
+  "issue_231_reason": "this screen consumes no manifest dataset at all, so no evidence rung -- contested or otherwise -- is load-bearing for its decision or its maximum claim; no de1_fixtureA authority is read or relied upon",
+  "evidence_labels_unchanged": true,
+  "administrative_exception_invoked": false,
+  "models_executed": [
+    "brewer2026.pack_generator",
+    "brewer2026.lb_reference",
+    "wadsworth2026.permeability"
+  ],
+  "rve_sweep": {
+    "phis_target": 0.5,
+    "sizes_requested": [
+      32,
+      48,
+      64,
+      80,
+      100
+    ],
+    "rows": [
+      {
+        "L": 32,
+        "phis_target": 0.5,
+        "seed": 0,
+        "pack_solid_fraction": 0.505950927734375,
+        "pack_porosity": 0.494049072265625,
+        "lb_fluid_fraction": 0.494049072265625,
+        "k_lu": 3.159727099597387,
+        "k_m2": 3.051993805903745e-09,
+        "steps": 600,
+        "box_grain_diameters": 1.6,
+        "wall_s": 9.78
+      },
+      {
+        "L": 48,
+        "phis_target": 0.5,
+        "seed": 0,
+        "pack_solid_fraction": 0.5048556857638888,
+        "pack_porosity": 0.49514431423611116,
+        "lb_fluid_fraction": 0.4951443142361111,
+        "k_lu": 3.1197640049592574,
+        "k_m2": 3.0133932833092913e-09,
+        "steps": 1000,
+        "box_grain_diameters": 2.4,
+        "wall_s": 54.74
+      },
+      {
+        "L": 64,
+        "phis_target": 0.5,
+        "seed": 0,
+        "pack_solid_fraction": 0.5104179382324219,
+        "pack_porosity": 0.4895820617675781,
+        "lb_fluid_fraction": 0.4895820617675781,
+        "k_lu": 4.6163434103175,
+        "k_m2": 4.458945677938076e-09,
+        "steps": 1200,
+        "box_grain_diameters": 3.2,
+        "wall_s": 183.18
+      },
+      {
+        "L": 80,
+        "phis_target": 0.5,
+        "seed": 0,
+        "pack_solid_fraction": 0.50232421875,
+        "pack_porosity": 0.49767578125,
+        "lb_fluid_fraction": 0.49767578125,
+        "k_lu": 4.209601921762806,
+        "k_m2": 4.066072349152444e-09,
+        "steps": 1400,
+        "box_grain_diameters": 4.0,
+        "wall_s": 402.54
+      },
+      {
+        "L": 100,
+        "phis_target": 0.5,
+        "seed": 0,
+        "pack_solid_fraction": 0.502345,
+        "pack_porosity": 0.49765499999999996,
+        "lb_fluid_fraction": 0.497655,
+        "k_lu": 5.1352127404401,
+        "k_m2": 4.960123764428324e-09,
+        "steps": 1400,
+        "box_grain_diameters": 5.0,
+        "wall_s": 725.97
+      }
+    ],
+    "deviations_vs_largest": [
+      0.3847,
+      0.3925,
+      0.101,
+      0.1802,
+      0.0
+    ],
+    "change_between_two_largest": 0.1802,
+    "criterion": {
+      "rel_tol": 0.1,
+      "top_tol": 0.05,
+      "card_box_grain_diameters": 5.0
+    },
+    "box_grain_diameters_reached": [
+      1.6,
+      2.4,
+      3.2,
+      4.0,
+      5.0
+    ],
+    "reached_card_box_guidance": true,
+    "L_star": null,
+    "outcome": "NO_SIZE_STABILISES",
+    "wall_s": 1376.2
+  },
+  "family": {
+    "L": 64,
+    "rows": [
+      {
+        "L": 64,
+        "phis_target": 0.35,
+        "seed": 0,
+        "pack_solid_fraction": 0.3571586608886719,
+        "pack_porosity": 0.6428413391113281,
+        "lb_fluid_fraction": 0.6428413391113281,
+        "k_lu": 12.319090566721941,
+        "k_m2": 1.1899061823659817e-08,
+        "steps": 2000,
+        "box_grain_diameters": 3.2,
+        "wall_s": 276.64,
+        "porosity": 0.6428413391113281,
+        "alpha": 4808.0,
+        "k_percolation_m2": 4.331151974618702e-10,
+        "k_carman_kozeny_m2": 4.470031447882771e-09,
+        "ratio_percolation": 27.47320318795178,
+        "ratio_carman_kozeny": 2.6619637831174106
+      },
+      {
+        "L": 64,
+        "phis_target": 0.35,
+        "seed": 1,
+        "pack_solid_fraction": 0.3608856201171875,
+        "pack_porosity": 0.6391143798828125,
+        "lb_fluid_fraction": 0.6391143798828125,
+        "k_lu": 15.819447512908974,
+        "k_m2": 1.5280071442995682e-08,
+        "steps": 2600,
+        "box_grain_diameters": 3.2,
+        "wall_s": 367.42,
+        "porosity": 0.6391143798828125,
+        "alpha": 4808.0,
+        "k_percolation_m2": 4.1781508543858443e-10,
+        "k_carman_kozeny_m2": 4.30247317910508e-09,
+        "ratio_percolation": 36.571373259431375,
+        "ratio_carman_kozeny": 3.551462335013081
+      },
+      {
+        "L": 64,
+        "phis_target": 0.4,
+        "seed": 0,
+        "pack_solid_fraction": 0.4125328063964844,
+        "pack_porosity": 0.5874671936035156,
+        "lb_fluid_fraction": 0.5874671936035156,
+        "k_lu": 7.7701519911888095,
+        "k_m2": 7.505222761503865e-09,
+        "steps": 1600,
+        "box_grain_diameters": 3.2,
+        "wall_s": 223.23,
+        "porosity": 0.5874671936035156,
+        "alpha": 4808.0,
+        "k_percolation_m2": 2.5227681174506844e-10,
+        "k_carman_kozeny_m2": 2.5571454633159516e-09,
+        "ratio_percolation": 29.74995089555859,
+        "ratio_carman_kozeny": 2.9350003232790463
+      },
+      {
+        "L": 64,
+        "phis_target": 0.4,
+        "seed": 1,
+        "pack_solid_fraction": 0.4146385192871094,
+        "pack_porosity": 0.5853614807128906,
+        "lb_fluid_fraction": 0.5853614807128906,
+        "k_lu": 8.79570811915829,
+        "k_m2": 8.495811774893125e-09,
+        "steps": 1600,
+        "box_grain_diameters": 3.2,
+        "wall_s": 221.19,
+        "porosity": 0.5853614807128906,
+        "alpha": 4808.0,
+        "k_percolation_m2": 2.4706115948609215e-10,
+        "k_carman_kozeny_m2": 2.5041174297698256e-09,
+        "ratio_percolation": 34.38748442922037,
+        "ratio_carman_kozeny": 3.3927369674808125
+      },
+      {
+        "L": 64,
+        "phis_target": 0.45,
+        "seed": 0,
+        "pack_solid_fraction": 0.4532661437988281,
+        "pack_porosity": 0.5467338562011719,
+        "lb_fluid_fraction": 0.5467338562011719,
+        "k_lu": 6.3235603912347855,
+        "k_m2": 6.1079538001132974e-09,
+        "steps": 1600,
+        "box_grain_diameters": 3.2,
+        "wall_s": 235.88,
+        "porosity": 0.5467338562011719,
+        "alpha": 4808.0,
+        "k_percolation_m2": 1.6736663342330684e-10,
+        "k_carman_kozeny_m2": 1.7074299748118997e-09,
+        "ratio_percolation": 36.49445337569135,
+        "ratio_carman_kozeny": 3.5772792385152923
+      },
+      {
+        "L": 64,
+        "phis_target": 0.45,
+        "seed": 1,
+        "pack_solid_fraction": 0.4552040100097656,
+        "pack_porosity": 0.5447959899902344,
+        "lb_fluid_fraction": 0.5447959899902344,
+        "k_lu": 6.945098649615835,
+        "k_m2": 6.708300239827307e-09,
+        "steps": 1400,
+        "box_grain_diameters": 3.2,
+        "wall_s": 205.83,
+        "porosity": 0.5447959899902344,
+        "alpha": 4808.0,
+        "k_percolation_m2": 1.6407068537369876e-10,
+        "k_carman_kozeny_m2": 1.6749857148738424e-09,
+        "ratio_percolation": 40.886647267597,
+        "ratio_carman_kozeny": 4.004989523348005
+      },
+      {
+        "L": 64,
+        "phis_target": 0.5,
+        "seed": 0,
+        "pack_solid_fraction": 0.5104179382324219,
+        "pack_porosity": 0.4895820617675781,
+        "lb_fluid_fraction": 0.4895820617675781,
+        "k_lu": 4.6163434103175,
+        "k_m2": 4.458945677938076e-09,
+        "steps": 1200,
+        "box_grain_diameters": 3.2,
+        "wall_s": 187.07,
+        "porosity": 0.4895820617675781,
+        "alpha": 4808.0,
+        "k_percolation_m2": 9.14353557839556e-11,
+        "k_carman_kozeny_m2": 9.66821260688899e-10,
+        "ratio_percolation": 48.76609971829408,
+        "ratio_carman_kozeny": 4.611964857662416
+      },
+      {
+        "L": 64,
+        "phis_target": 0.5,
+        "seed": 1,
+        "pack_solid_fraction": 0.5061912536621094,
+        "pack_porosity": 0.4938087463378906,
+        "lb_fluid_fraction": 0.4938087463378906,
+        "k_lu": 5.682575570288004,
+        "k_m2": 5.488823843144176e-09,
+        "steps": 1400,
+        "box_grain_diameters": 3.2,
+        "wall_s": 231.28,
+        "porosity": 0.4938087463378906,
+        "alpha": 4808.0,
+        "k_percolation_m2": 9.575288928530772e-11,
+        "k_carman_kozeny_m2": 1.0087153254822998e-09,
+        "ratio_percolation": 57.322801265970554,
+        "ratio_carman_kozeny": 5.441400268722783
+      },
+      {
+        "L": 64,
+        "phis_target": 0.55,
+        "seed": 0,
+        "pack_solid_fraction": 0.5508270263671875,
+        "pack_porosity": 0.4491729736328125,
+        "lb_fluid_fraction": 0.4491729736328125,
+        "k_lu": 2.987727953051636,
+        "k_m2": 2.8858591008068236e-09,
+        "steps": 1000,
+        "box_grain_diameters": 3.2,
+        "wall_s": 148.48,
+        "porosity": 0.4491729736328125,
+        "alpha": 4808.0,
+        "k_percolation_m2": 5.7997941100001096e-11,
+        "k_carman_kozeny_m2": 6.411090821316637e-10,
+        "ratio_percolation": 49.757957714929454,
+        "ratio_carman_kozeny": 4.501354264412306
+      },
+      {
+        "L": 64,
+        "phis_target": 0.55,
+        "seed": 1,
+        "pack_solid_fraction": 0.56024169921875,
+        "pack_porosity": 0.43975830078125,
+        "lb_fluid_fraction": 0.43975830078125,
+        "k_lu": 2.8581013155091326,
+        "k_m2": 2.7606521818579496e-09,
+        "steps": 1000,
+        "box_grain_diameters": 3.2,
+        "wall_s": 143.57,
+        "porosity": 0.43975830078125,
+        "alpha": 4808.0,
+        "k_percolation_m2": 5.194865081374866e-11,
+        "k_carman_kozeny_m2": 5.815845162234847e-10,
+        "ratio_percolation": 53.141941871709186,
+        "ratio_carman_kozeny": 4.746777303811708
+      },
+      {
+        "L": 64,
+        "phis_target": 0.6,
+        "seed": 0,
+        "pack_solid_fraction": 0.6013565063476562,
+        "pack_porosity": 0.39864349365234375,
+        "lb_fluid_fraction": 0.39864349365234375,
+        "k_lu": 1.778711599116373,
+        "k_m2": 1.7180650771023965e-09,
+        "steps": 1000,
+        "box_grain_diameters": 3.2,
+        "wall_s": 145.56,
+        "porosity": 0.39864349365234375,
+        "alpha": 4808.0,
+        "k_percolation_m2": 3.142306042796198e-11,
+        "k_carman_kozeny_m2": 3.760205424940405e-10,
+        "ratio_percolation": 54.67529431263058,
+        "ratio_carman_kozeny": 4.569072385532303
+      },
+      {
+        "L": 64,
+        "phis_target": 0.6,
+        "seed": 1,
+        "pack_solid_fraction": 0.6058807373046875,
+        "pack_porosity": 0.3941192626953125,
+        "lb_fluid_fraction": 0.3941192626953125,
+        "k_lu": 2.4766482950772883,
+        "k_m2": 2.392205091680572e-09,
+        "steps": 1200,
+        "box_grain_diameters": 3.2,
+        "wall_s": 175.24,
+        "porosity": 0.3941192626953125,
+        "alpha": 4808.0,
+        "k_percolation_m2": 2.966077316700356e-11,
+        "k_carman_kozeny_m2": 3.579565005089241e-10,
+        "ratio_percolation": 80.65214882334239,
+        "ratio_carman_kozeny": 6.682949152423431
+      }
+    ],
+    "wall_s": 2561.4
+  },
+  "metric": {
+    "n_points": 12,
+    "seed_spread_per_porosity": {
+      "0.35": 1.2841,
+      "0.4": 1.132,
+      "0.45": 1.0983,
+      "0.5": 1.231,
+      "0.55": 1.0454,
+      "0.6": 1.3924
+    },
+    "U_seed": 1.3924,
+    "U_rve": 1.1124,
+    "U": 1.3924,
+    "published_collapse_scatter": 1.31,
+    "agreement_floor": 1.3924,
+    "G_percolation": 2.9357,
+    "G_carman_kozeny": 2.5105,
+    "percolation_trend_preserved": false,
+    "carman_kozeny_trend_preserved": false,
+    "ratio_percolation_range": [
+      27.47320318795178,
+      80.65214882334239
+    ],
+    "ratio_carman_kozeny_range": [
+      2.6619637831174106,
+      6.682949152423431
+    ],
+    "note": "G is the spread of k_LB/k_closure across the family. A closure with the right SHAPE but the wrong MAGNITUDE gives G -> 1: a pure prefactor offset is expected (spheres are not coffee) and is deliberately not penalised."
+  },
+  "adversarial_checks": [
+    {
+      "id": "A1",
+      "check": "synthetic spheres are not a real puck",
+      "result": "ACCEPTED AND UNREFUTED. The pack generator makes overlapping spheres; the closure was fitted to real angular coffee grains. This screen cannot and does not test representativeness, and the claim ceiling is bounded to the synthetic family because of it.",
+      "overturns": false
+    },
+    {
+      "id": "A2",
+      "check": "is any divergence merely the angularity term?",
+      "result": "G with alpha=0 (angularity removed) = 2.9357 vs 2.9357 with the declared alpha=4808 /m. The angularity factor exp(-2*alpha*R) is porosity-independent at fixed R, so it shifts the prefactor and cannot change the trend spread.",
+      "G_alpha_zero": 2.9357,
+      "overturns": false
+    },
+    {
+      "id": "A3",
+      "check": "connected vs total porosity",
+      "result": "G computed on the LB fluid fraction instead of the pack porosity = 2.9357 vs 2.9357. The closure's phi_p is connected porosity; the solver reports total fluid fraction, and closed pores make them differ slightly.",
+      "G_lb_fluid_fraction": 2.9357,
+      "overturns": false
+    },
+    {
+      "id": "A4",
+      "check": "is the finding specific to the percolation form?",
+      "result": "Carman-Kozeny G = 2.5105 vs percolation G = 2.9357 against the same floor 1.3924.",
+      "overturns": false
+    },
+    {
+      "id": "A5",
+      "check": "is G inside seed noise?",
+      "result": "U_seed = 1.3924, U_rve = 1.1124, floor = 1.3924; percolation G = 2.9357.",
+      "overturns": false
+    }
+  ],
+  "adversarial_checks_overturning": [],
+  "decision": "SURVIVE",
+  "decision_record": {
+    "decision": "SURVIVE",
+    "arm": "no RVE size stabilises the solver",
+    "is_compute_bound": false,
+    "is_data_request": false,
+    "rule": "candidate rule, verbatim: SURVIVE if ... no RVE size stabilises the solver"
+  },
+  "compute": {
+    "budget_s": 7200,
+    "wall_s": 3937.6,
+    "exceeded": false,
+    "total_wall_s": 3939.5
+  },
+  "claim_ceiling": "A cheap screen over a SYNTHETIC overlapping-sphere family at one grain radius. It does NOT establish that the family is representative of a real espresso puck -- the candidate's own strongest alternative, accepted and unrefuted. It does NOT validate or invalidate wadsworth2026.permeability, whose coffee-XCT validation is untouched and unadjudicated here, and it does NOT upgrade brewer2026.lb_reference beyond code_verification or brewer2026.pack_generator beyond qualitative_capacity. Because the closure is itself LB-anchored, agreement would be weak evidence; divergence is the informative direction. Numerical convergence is not empirical validation, and nothing here is empirical validation of anything."
+}

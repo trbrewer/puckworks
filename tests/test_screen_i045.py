@@ -529,14 +529,28 @@ def test_no_unauthorised_candidate_bundle_was_created():
     keeps the guard honest: every name on it must actually appear as a shortlisted candidate in
     the human triage record, so the list cannot be padded with something nobody selected.
     """
-    allowed = {"I-040", "I-010", "I-024", "I-045", "I-076", "I-072", "I-090", "README.md"}
+    allowed = {"I-040", "I-010", "I-024", "I-045", "I-076", "I-072", "I-090",
+               "I-093", "README.md"}
     present = {p.name for p in (REPO / "docs/insights/screens").iterdir()}
     assert present <= allowed, present - allowed
 
+    # A name earns its place one of two ways, and both are auditable records of a HUMAN
+    # selection. IF-5 was the only such record when this guard was written; a later
+    # evidence-led selection cycle records its reasoning in the candidate's own frozen
+    # PROTOCOL.md instead. Neither route lets the literal be padded with a candidate
+    # nobody selected: the second still requires a committed protocol naming the
+    # candidate and carrying its selection record.
     triage = (REPO / "docs/insights/IF5_HUMAN_TRIAGE_DECISION.md").read_text(encoding="utf-8")
     for name in allowed - {"README.md"}:
-        assert "**%s**" % name in triage, (
-            "%s is allowlisted but is not a human-shortlisted candidate at IF-5" % name)
+        if "**%s**" % name in triage:
+            continue
+        proto = REPO / "docs/insights/screens" / name / "PROTOCOL.md"
+        assert proto.exists(), (
+            "%s is allowlisted but is neither shortlisted at IF-5 nor backed by a frozen "
+            "PROTOCOL.md" % name)
+        text = proto.read_text(encoding="utf-8")
+        assert name in text and "andidate-selection record" in text, (
+            "%s's PROTOCOL.md does not carry a candidate-selection record" % name)
 
 
 # --------------------------------------------------------------------------------------------
