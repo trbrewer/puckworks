@@ -317,8 +317,10 @@ def test_calibrated_axial_inversion_is_exact_for_arbitrary_geometry(result):
 
 
 def test_calibrated_inversion_recovers_G_on_a_non_mirror_geometry():
-    """Independent of the committed artifact: an asymmetric geometry, no mirror assumption."""
+    """Independent of the committed artifact: an asymmetric NONDEGENERATE geometry, no mirror
+    assumption. (Requirement 2 of the calibrated-degeneracy correction.)"""
     g = (4.0, 0.8, 1.5, 2.5)                         # lcd's general_asymmetric case
+    assert S.cross_product_gap_driver(g) != 0.0
     for G in (0.05, 1.3, 40.0):
         Q = lc.model1_two_path(S.P_IN, *g, G)["Q"]
         Q0 = lc.model1_two_path(S.P_IN, *g, 0.0)["Q"]
@@ -326,6 +328,93 @@ def test_calibrated_inversion_recovers_G_on_a_non_mirror_geometry():
         assert got["status"] == "ok"
         assert got["G_lat_hat"] == pytest.approx(G, rel=1e-9)
         assert S._bisect_G(g, Q) == pytest.approx(G, rel=1e-6)
+
+
+# ------------------------------------------------------------------------------------------
+# the calibrated route is NOT valid for "any geometry" — the structural degeneracy
+# ------------------------------------------------------------------------------------------
+
+DEGENERATE_GEOMETRIES = [(2.0, 1.0, 4.0, 2.0), (1.0, 3.0, 2.0, 6.0), (5.0, 2.0, 2.5, 1.0)]
+
+
+def test_derivative_numerator_is_the_squared_cross_product():
+    """d(Q/P)/dG = [M*A1*A2 - N0*S]/(...)^2 = (g1t*g2b - g2t*g1b)^2/(...)^2.
+    (Requirement 3.) Checked symbolically-by-value on a deterministic spread of geometries."""
+    geoms = [(3.0, 1.0, 1.0, 3.0), (4.0, 0.8, 1.5, 2.5), (2.0, 1.0, 4.0, 2.0),
+             (0.5, 7.0, 1.25, 0.3), (9.0, 9.0, 1.0, 1.0), (1.0, 1.0, 1.0, 1.0)]
+    for g in geoms:
+        X = S.cross_product_gap_driver(g)
+        assert S.dQdG_numerator(g) == pytest.approx(X * X, rel=1e-9, abs=1e-9)
+    # and it really is the derivative: finite-difference Q/P against the closed form
+    for g in geoms[:4]:
+        A1, A2 = g[0] + g[1], g[2] + g[3]
+        Sm = A1 + A2
+        for G in (0.3, 2.0, 11.0):
+            h = 1e-5
+            qp = lambda x: lc.model1_two_path(S.P_IN, *g, x)["Q"] / S.P_IN
+            num = (qp(G + h) - qp(G - h)) / (2 * h)
+            closed = S.dQdG_numerator(g) / (A1 * A2 + G * Sm) ** 2
+            # abs floor is the round-off of a difference quotient (~eps/h ~ 1e-11), not a
+            # scientific tolerance; the nondegenerate closed values are O(0.1), so it still bites
+            assert num == pytest.approx(closed, rel=1e-5, abs=1e-9)
+
+
+def test_proportional_paths_are_structurally_degenerate():
+    """Requirement 1: non-identical paths with equal uncoupled mid-node pressure. Q is exactly
+    invariant in G_lat and the calibrated inversion must report no information, not a number."""
+    for g in DEGENERATE_GEOMETRIES:
+        assert S.cross_product_gap_driver(g) == pytest.approx(0.0, abs=1e-12)
+        assert g[0] != g[2] or g[1] != g[3], "these must be NON-identical paths"
+        blocked = lc.model1_two_path(S.P_IN, *g, 0.0)
+        assert blocked["p1"] == pytest.approx(blocked["p2"], rel=1e-14)
+        Q0 = blocked["Q"]
+        for G in (0.0, 0.5, 5.0, 500.0, 1e6):
+            r = lc.model1_two_path(S.P_IN, *g, G)
+            assert r["Q"] == pytest.approx(Q0, rel=1e-13), "Q must not depend on G_lat here"
+            assert abs(r["q_lat_1to2"]) <= 1e-9
+            got = S.invert_G_from_known_axials(g, r["Q"] / Q0)
+            assert got["status"] == "structurally_degenerate_no_information"
+            assert got["G_lat_hat"] is None
+
+
+def test_bundle_records_the_degeneracy_and_its_conditioning(result):
+    cd = result["arm_f_mirror_imperfection"]["calibrated_inversion_degeneracy"]
+    assert cd["identity_verified_on_all_rows"] is True
+    assert cd["degenerate_rows_report_no_information"] is True
+    assert cd["well_conditioned_rows_recover_exactly"] is True
+    assert any(r["degenerate"] for r in cd["rows"]), "the degenerate case must be exhibited"
+    for r in cd["rows"]:
+        if r["degenerate"]:
+            assert r["Q_independent_of_G_lat"] is True
+            assert r["uncoupled_mid_node_gap"] == pytest.approx(0.0, abs=1e-9)
+    # conditioning decays continuously rather than failing abruptly
+    dec = cd["near_degenerate_conditioning_decay"]
+    assert dec["max_rel_err"] > 100 * max(dec["well_conditioned_max_rel_err"], 1e-15)
+
+
+def test_no_output_claims_the_calibrated_route_works_for_any_geometry(result):
+    """The corrected wording must be everywhere, and the old wording nowhere."""
+    blob = json.dumps(result)
+    assert "ANY geometry" not in blob and "for any geometry" not in blob
+    for name in ("decision.md", "README.md", "DECISIVE_EXPERIMENT.md"):
+        text = (BUNDLE / name).read_text(encoding="utf-8")
+        bad = [ln for ln in text.splitlines()
+               if "any geometry" in ln.lower() and "not" not in ln.lower()]
+        assert bad == [], "%s still claims 'any geometry': %s" % (name, bad)
+    card = (REPO / "docs/cards/lateral_coupling_feasibility.md").read_text(encoding="utf-8")
+    assert "for **any** geometry" not in card
+    assert "nondegenerate" in card.lower()
+
+
+def test_protocol_carries_a_post_execution_erratum_and_frozen_text_is_intact():
+    """The historical pre-execution statement is NOT rewritten; the correction is appended."""
+    text = (BUNDLE / "PROTOCOL.md").read_text(encoding="utf-8")
+    assert "POST-EXECUTION FACTUAL ERRATUM" in text
+    # the original (incomplete) frozen sentence is still present, unedited
+    assert "a Möbius function of `G`, hence invertible" in text
+    assert "g1_top·g2_bot − g2_top·g1_bot" in text
+    assert "does not affect the mirror result" in text.lower() or \
+           "It does not affect the mirror result" in text
 
 
 def test_blocked_share_flags_the_biasing_corners_on_this_corner_set(result):
@@ -409,6 +498,85 @@ def test_dropped_scenario_corners_are_counted_not_silently_capped(result):
             assert sc["n_scenario_points"] == 27
     # and the effect is real here, not hypothetical
     assert se["well_conditioned_windows"]["5pct"]["n_grid_points_with_unrecoverable_corners"] > 0
+
+
+def test_the_observable_hierarchy_is_demonstrated_not_asserted(result):
+    """Each rung must be exercised on the exact model, including the rung that shows R ALONE is
+    sufficient when c is known -- the fact that qualifies the confounding claim."""
+    h = result["arm_c_minimum_observable"]["observable_hierarchy"]
+    assert [r["rung"] for r in h] == [1, 2, 3, 4]
+    assert h[0]["identifies"] == ["Xi"] and h[0]["rel_err"] <= 1e-9
+    assert h[1]["identifies"] == ["c", "Xi"] and h[1]["rel_err"] <= 1e-9
+    assert h[2]["identifies"] == ["G_lat"] and h[2]["rel_err"] <= 1e-9
+    assert h[3]["identifies"] == []
+    assert "NONDEGENERATE" in h[2]["known"]
+    # and the qualifier is carried in the claim text itself
+    c_arm = result["arm_c_minimum_observable"]
+    assert "not independently known" in c_arm["claim_stated_exactly"].lower()
+    assert c_arm["Q_only_confounding_is_for_JOINT_inference_of_c_and_Xi"] is True
+
+
+def test_R_alone_identifies_Xi_when_c_is_known(result):
+    """Independent of the artifact: the rung-1 claim, computed here."""
+    c = S.C_PRIMARY
+    for Xi in (0.05, 0.75, 19.0):
+        o = S.observables_exact(S.A_PRIMARY, c, Xi)
+        t = (1.0 - o["R"] * (1.0 - c * c)) / (c * c)
+        assert 1.0 / t - 1.0 == pytest.approx(Xi, rel=1e-9)
+
+
+def test_continuous_window_diagnostic_is_post_hoc_and_brackets_the_grid(result):
+    """The frozen grid says WHICH POINTS pass; the continuous crossings are a separate post-hoc
+    solve. It must be labelled, feed no clause, and be consistent with the grid."""
+    se = result["sensitivity_envelopes"]
+    cw = se["continuous_window_post_hoc"]
+    assert cw["label"] == "POST_HOC_DIAGNOSTIC_NOT_IN_DECISION"
+    assert cw["feeds_no_decision_clause"] is True
+    blob = json.dumps(result["decision_record"])
+    assert "continuous_window" not in blob and "Xi_lower" not in blob
+
+    one = cw["floors"]["1pct"]
+    assert one["continuous_passing_interval_exists"] is True
+    assert one["n_crossings"] == 2 and one["single_contiguous_interval"] is True
+    lo, hi = one["Xi_lower"], one["Xi_upper"]
+    # the continuous interval must CONTAIN every passing grid point and be strictly wider
+    passing = [r["Xi"] for r in se["rows"]
+               if r["scenarios"]["1pct"]["recovered_within_factor_two"]]
+    assert len(passing) == 3
+    assert lo < min(passing) and hi > max(passing)
+    # no passing interval at the looser floors, confirmed independently of the grid
+    for key in ("2pct", "5pct"):
+        assert cw["floors"][key]["continuous_passing_interval_exists"] is False
+        assert cw["floors"][key]["n_passing_scan_points"] == 0
+    # the frozen grid result is reported UNCHANGED alongside
+    assert se["well_conditioned_windows"]["1pct"]["n_grid_points_recoverable"] == 3
+    assert "not a continuous boundary" in se["frozen_grid_note"].lower()
+
+
+def test_no_output_quotes_the_grid_endpoints_as_a_continuous_window():
+    for name in ("decision.md", "README.md", "DECISIVE_EXPERIMENT.md"):
+        text = (BUNDLE / name).read_text(encoding="utf-8")
+        for bad in ("[0.46, 2.15]", "Ξ ∈ [0.464, 2.15]", "0.46, 2.15]"):
+            assert bad not in text, "%s quotes grid endpoints as an interval: %s" % (name, bad)
+    card = (REPO / "docs/cards/lateral_coupling_feasibility.md").read_text(encoding="utf-8")
+    assert "[0.46, 2.15]" not in card
+
+
+def test_forward_map_agreement_is_described_as_floating_point_not_exact_zero(result):
+    b = result["arm_b_forward_and_recovery"]
+    assert b["forward_map_max_abs_error_log10_upper_bound"] <= -12, (
+        "the live residual must be at machine-precision scale")
+    assert b["forward_map_max_abs_error_log10_upper_bound"] is not None
+    note = b["forward_map_error_is_floating_point_not_algebraic"]
+    assert "floating-point" in note.lower() and "never as 'exactly zero'" in note
+    # the live unrounded value really is nonzero at ~1e-14, recomputed here
+    live = max(max(abs(S.forward_map_analytic(c, Xi)[0]
+                       - S.observables_exact(S.A_PRIMARY, c, Xi)["R"]),
+                   abs(S.forward_map_analytic(c, Xi)[1]
+                       - S.observables_exact(S.A_PRIMARY, c, Xi)["s"]))
+               for c in S.C_GRID for Xi in S.XI_GRID)
+    assert 0.0 < live < 1e-12
+    assert round(live, 12) == 0.0, "this is exactly why the rounded field reads 0.0"
 
 
 def test_frozen_decision_rule_routes_other_inputs_correctly(result):
@@ -534,15 +702,114 @@ def test_claim_ceiling_refuses_the_things_it_must(result):
 
 
 def test_no_foundry_infrastructure_was_added_or_modified(result):
+    """The append-only registry, the candidate records and the layer's CODE must be untouched.
+
+    `docs/insights/generated/**` is deliberately NOT asserted byte-equal: the card correction
+    this screen earned is an input the corpus map hashes, so `insights verify` requires a
+    regeneration. What must not move is the SUBSTANCE -- see the companion test below.
+    """
     flags = result["foundry_infrastructure_unchanged"]
-    assert all(v is False for v in flags.values())
+    for k in ("lens_added_or_changed", "generator_added_or_changed", "scoring_added",
+              "candidate_portfolio_content_changed", "candidate_added_or_removed",
+              "candidate_scored", "id_registry_changed", "generated_artifacts_hand_edited"):
+        assert flags[k] is False, k
+    assert flags["generated_artifacts_regenerated"] is True, (
+        "the regeneration must be declared, not hidden behind an unchanged flag")
     base = result["source_commit"]
     if _git("cat-file", "-e", base + "^{commit}").returncode != 0:
         pytest.skip("base commit unavailable")
-    for path in ("docs/insights/ID_REGISTRY.json", "docs/insights/generated",
-                 "docs/insights/candidates", "puckworks/insights"):
+    for path in ("docs/insights/ID_REGISTRY.json", "docs/insights/candidates",
+                 "puckworks/insights"):
         out = _git("diff", "--numstat", base, "HEAD", "--", path).stdout.strip()
         assert out == "", "%s must be byte-unchanged by this screen, got:\n%s" % (path, out)
+
+
+# Provenance fields the sanctioned regeneration is ALLOWED to move. Everything else in the
+# generated payload must compare equal after these are stripped. Keep this list minimal: it is
+# the whole strength of the check.
+_PROVENANCE_KEYS = {"source_commit", "commit"}
+
+
+def _strip_provenance(obj):
+    """Deep-normalise a generated payload by removing provenance stamps at every depth."""
+    if isinstance(obj, dict):
+        return {k: _strip_provenance(v) for k, v in obj.items() if k not in _PROVENANCE_KEYS}
+    if isinstance(obj, list):
+        return [_strip_provenance(v) for v in obj]
+    return obj
+
+
+def _baseline_json(base, rel):
+    out = _git("show", "%s:%s" % (base, rel))
+    return json.loads(out.stdout) if out.returncode == 0 else None
+
+
+def test_regeneration_moved_only_provenance_deep_payload_comparison(result):
+    """The regeneration forced by the card correction may refresh PROVENANCE and nothing else.
+
+    This is a DEEP normalised comparison of the complete generated payloads, not a check on
+    counts and summaries: strip `source_commit`/`commit` at every depth, allow the corrected
+    card's input hash and the resulting output hashes in the manifest, and require everything
+    else to compare EQUAL. Counts alone would not catch a reworded candidate, a changed
+    discriminator, a moved status or a newly written score.
+    """
+    base = result["source_commit"]
+    if _git("cat-file", "-e", base + "^{commit}").returncode != 0:
+        pytest.skip("base commit unavailable")
+
+    # ---- candidate portfolio: complete payload, deep-normalised -----------------------------
+    rel = "docs/insights/generated/candidate_portfolio.json"
+    before = _baseline_json(base, rel)
+    if before is None:
+        pytest.skip("baseline portfolio unavailable")
+    after = json.loads((REPO / rel).read_text(encoding="utf-8"))
+    assert _strip_provenance(after) == _strip_provenance(before), (
+        "the candidate payload changed beyond provenance")
+    assert len(after["candidates"]) == 90
+    assert {c["status"] for c in after["candidates"]} == {"SEED"}
+    assert all(not c.get("scores") for c in after["candidates"]), "no candidate may be scored"
+
+    # ---- tension atlas: complete payload, deep-normalised ------------------------------------
+    import csv
+    import io
+    rel_t = "docs/insights/generated/tension_atlas.csv"
+    old_t = _git("show", "%s:%s" % (base, rel_t))
+    if old_t.returncode == 0:
+        rows_b = list(csv.DictReader(io.StringIO(old_t.stdout)))
+        rows_a = list(csv.DictReader(
+            io.StringIO((REPO / rel_t).read_text(encoding="utf-8"))))
+        assert len(rows_a) == len(rows_b) == 171
+        assert ([_strip_provenance(r) for r in rows_a]
+                == [_strip_provenance(r) for r in rows_b]), (
+            "the tension payload changed beyond provenance")
+        assert {r["human_status"] for r in rows_a} == {"UNREVIEWED"}
+
+    # ---- snapshot manifest: only the corrected card's input hash and output hashes move ------
+    rel_m = "docs/insights/generated/snapshot_manifest.json"
+    man_b = _baseline_json(base, rel_m)
+    if man_b is not None:
+        man_a = json.loads((REPO / rel_m).read_text(encoding="utf-8"))
+        assert man_a["counts"] == man_b["counts"], "corpus counts must not move"
+        assert man_a["generator_version"] == man_b["generator_version"]
+        hb = {i["path"]: i["sha256"] for i in man_b["inputs"]}
+        ha = {i["path"]: i["sha256"] for i in man_a["inputs"]}
+        assert set(ha) == set(hb), "no input may be added or removed"
+        moved_inputs = {p for p in ha if ha[p] != hb[p]}
+        assert moved_inputs <= {"docs/cards/lateral_coupling_feasibility.md"}, (
+            "only the corrected card's input hash may move, but these did: %s" % moved_inputs)
+        # output hashes are DERIVED from the above; they are expected to move and are not
+        # asserted equal -- the payload comparisons above are what constrain them.
+
+
+def test_provenance_strip_list_is_minimal():
+    """Guard the guard: if _PROVENANCE_KEYS grew, the comparison above would weaken silently."""
+    assert _PROVENANCE_KEYS == {"source_commit", "commit"}
+    # and stripping must not remove anything scientific from a representative record
+    rel = REPO / "docs/insights/generated/candidate_portfolio.json"
+    one = json.loads(rel.read_text(encoding="utf-8"))["candidates"][0]
+    stripped = _strip_provenance(one)
+    for k in ("id", "status", "scores"):
+        assert k in stripped, "%s must survive provenance stripping" % k
 
 
 def test_the_existing_lateral_coupling_layer_is_byte_unchanged(result):

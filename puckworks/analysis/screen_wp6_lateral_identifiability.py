@@ -153,6 +153,41 @@ def invert(R, s):
     return out
 
 
+def cross_product_gap_driver(g):
+    """X = g1_top*g2_bot - g2_top*g1_bot.
+
+    X is the STRUCTURAL driver of the whole calibrated inversion, and it is zero exactly when the
+    two uncoupled mid-node pressures coincide: p_i(G=0) = g_i_top*P/(g_i_top + g_i_bot), so
+    p1 = p2  <=>  g1t(g2t+g2b) = g2t(g1t+g1b)  <=>  g1t*g2b = g2t*g1b  <=>  X = 0.
+    With no uncoupled pressure gap there is no lateral driving pressure at any G_lat, hence no
+    lateral flow and no dependence of Q on G_lat."""
+    g1t, g1b, g2t, g2b = g
+    return g1t * g2b - g2t * g1b
+
+
+def dQdG_numerator(g):
+    """Numerator of d(Q/P)/dG for the general two-node network. Derived, then recorded:
+
+        Q/P = (N0 + G*M)/(A1*A2 + G*S)
+        d(Q/P)/dG = [M*A1*A2 - N0*S] / (A1*A2 + G*S)^2
+                  = (g1_top*g2_bot - g2_top*g1_bot)^2 / (A1*A2 + G*S)^2
+
+    Two consequences, both used below: the derivative is a SQUARE, so Q is non-decreasing in
+    G_lat for every admissible geometry; and it vanishes IFF X = 0, which is the structural
+    degeneracy, not an algebraic accident."""
+    g1t, g1b, g2t, g2b = g
+    A1, A2 = g1t + g1b, g2t + g2b
+    N0 = g1t * g1b * A2 + g2t * g2b * A1
+    M = (g1t + g2t) * (g1b + g2b)
+    S = A1 + A2
+    return M * A1 * A2 - N0 * S
+
+
+# X^2 below this (relative to the geometry's own scale) is treated as the structural degeneracy.
+# A software threshold on an exact algebraic condition, not a scientific tolerance.
+_DEGEN_REL = 1e-12
+
+
 def invert_G_from_known_axials(g, R):
     """One-parameter inversion for G_lat when the FOUR axial conductances are independently
     known (the calibrated-apparatus case). Exact, not a fit: for the general two-node network
@@ -160,19 +195,40 @@ def invert_G_from_known_axials(g, R):
         Q/P = (N0 + G*M) / (A1*A2 + G*S),   N0 = g1t*g1b*A2 + g2t*g2b*A1,
                                             M  = (g1t+g2t)(g1b+g2b),  S = A1 + A2
 
-    is a Mobius function of G, so G is uniquely determined by Q/P (equivalently by R = Q/Q0,
-    since Q0/P = N0/(A1*A2)). No mirror symmetry is assumed anywhere in this routine."""
+    is a Mobius function of G. It is strictly monotone — hence one-to-one — **iff**
+
+        X = g1_top*g2_bot - g2_top*g1_bot != 0,
+
+    because d(Q/P)/dG = X^2/(A1*A2 + G*S)^2 (see ``dQdG_numerator``).
+
+    **This routine assumes no mirror symmetry, but it is NOT valid for "any geometry".** When
+    X = 0 the two uncoupled mid-node pressures are equal, no lateral pressure drives the bridge
+    at any G_lat, Q is exactly independent of G_lat, and the boundary measurement therefore
+    contains NO information about G_lat. That case is reported as a structural degeneracy, never
+    as a number. Near it the inversion is ill-conditioned: dG/d(Q/P) ~ 1/X^2."""
     g1t, g1b, g2t, g2b = g
     A1, A2 = g1t + g1b, g2t + g2b
     N0 = g1t * g1b * A2 + g2t * g2b * A1
     M = (g1t + g2t) * (g1b + g2b)
     S = A1 + A2
+    X = cross_product_gap_driver(g)
+    scale = (A1 * A2) ** 2                       # X^2 has the units of (conductance)^4
+    out = {"cross_product_X": X, "dQdG_numerator": X * X,
+           "condition_scale_X2_over_A1A2_squared": (X * X) / scale}
+    if X * X <= _DEGEN_REL * scale:
+        out.update(G_lat_hat=None, status="structurally_degenerate_no_information",
+                   why="g1_top*g2_bot == g2_top*g1_bot: the uncoupled mid-node pressures are "
+                       "equal, so no lateral pressure drives the bridge and Q is exactly "
+                       "independent of G_lat.")
+        return out
     QP = R * N0 / (A1 * A2)                      # = Q/P_in
     den = M - QP * S
-    if den == 0.0:
-        return {"G_lat_hat": None, "status": "singular"}
+    if den == 0.0:                               # only reachable as Q/P -> the G->inf asymptote
+        out.update(G_lat_hat=None, status="singular_at_infinite_coupling")
+        return out
     G = (QP * A1 * A2 - N0) / den
-    return {"G_lat_hat": G, "status": "ok" if G >= 0.0 else "nonphysical_negative"}
+    out.update(G_lat_hat=G, status="ok" if G >= 0.0 else "nonphysical_negative")
+    return out
 
 
 def _bisect_G(g, Q_target, P_in=P_IN, hi_max=1e18):
@@ -235,10 +291,23 @@ def arm_b_recovery():
     d = np.hypot(pts[:, None, 0] - pts[None, :, 0], pts[:, None, 1] - pts[None, :, 1])
     np.fill_diagonal(d, np.inf)
     i, j = np.unravel_index(int(np.argmin(d)), d.shape)
+    # NUMERICAL WORDING: the recorded value is rounded to 12 dp, so a machine-precision residual
+    # records as 0.0. That is FLOATING-POINT AGREEMENT, not an algebraic-identity claim -- the
+    # identity claim is the derivation, which is separate. Keep a stable bound on the live value.
+    live_map_err = max(errs_map)
+    # recorded as an INTEGER exponent: the value itself (order 1e-14) would round to 0.0 at the
+    # artifact's 12 dp, which is precisely the confusion this field exists to prevent.
+    ceil10 = None if live_map_err <= 0.0 else int(math.ceil(math.log10(live_map_err)))
     return {
         "n_grid_points": len(rows), "n_nondegenerate": len(live),
         "rows": rows,
-        "forward_map_max_abs_error": max(errs_map),
+        "forward_map_max_abs_error": live_map_err,
+        "forward_map_max_abs_error_log10_upper_bound": ceil10,
+        "forward_map_error_is_floating_point_not_algebraic": (
+            "The analytic map and the network solve are the SAME algebra, so their difference is "
+            "pure floating-point rounding: the live maximum is of order 1e-14 (7.99e-15 in the "
+            "reference environment) and records as 0.0 only after this artifact's 12-decimal "
+            "rounding. Read it as 'agrees to machine precision', never as 'exactly zero'."),
         "forward_map_tolerance": TOL_MAP,
         "forward_map_agrees_with_exact_network": max(errs_map) <= TOL_MAP,
         "c_max_abs_error": max(errs_c), "c_tolerance": TOL_C,
@@ -335,8 +404,16 @@ def arm_c_minimum_observable():
             "members": members,
         })
     return {
+        "claim_stated_exactly": "When the signed axial contrast c is NOT independently known, "
+                                "total flow alone cannot JOINTLY identify (c, Xi); adding the "
+                                "separate outlet share identifies both in the exact nondegenerate "
+                                "mirror design.",
+        "not_the_claim": "'Total flow alone is not enough' without that qualifier is wrong: if a "
+                         "nonzero mirror c IS independently known, R alone identifies Xi (see "
+                         "observable_hierarchy).",
         "Q_only_is_confounded": all(f["all_members_reproduce_R"] and f["n_family_members"] > 1
                                     for f in families),
+        "Q_only_confounding_is_for_JOINT_inference_of_c_and_Xi": True,
         "Q_plus_share_is_unique": all(f["n_members_also_matching_s"] == 0
                                       and f["s_strictly_monotone_in_c_positive_branch"]
                                       and f["s_strictly_monotone_in_c_negative_branch"]
@@ -345,12 +422,50 @@ def arm_c_minimum_observable():
         "exact_identity": "s - 1/2 = -(R - 1) / (2 R c) holds identically along any fixed-R "
                           "family, so s determines c given R, and (c, Xi) follows.",
         "R_depends_on_c_only_through_c_squared": True,
+        "observable_hierarchy": _observable_hierarchy(),
         "note": "A continuum of distinct (c, Xi) states -- of BOTH signs of c -- reproduces one "
                 "R exactly. None of them reproduces the observed s. The extra measurement is "
                 "demonstrated necessary from the observables, NOT asserted from the model having "
                 "an internal state.",
         "families": families,
     }
+
+
+def _observable_hierarchy():
+    """What each information state buys. Four rungs, each demonstrated on the exact model."""
+    Xi_true = 0.75
+    o = observables_exact(A_PRIMARY, C_PRIMARY, Xi_true)
+    # rung 1 -- c known and nonzero: R alone inverts, since R = (1 - c^2 t)/(1 - c^2)
+    t_from_R = (1.0 - o["R"] * (1.0 - C_PRIMARY ** 2)) / (C_PRIMARY ** 2)
+    Xi_from_R_only = 1.0 / t_from_R - 1.0
+    # rung 2 -- c unknown, mirror construction assumed: R + s invert
+    inv = invert(o["R"], o["s"])
+    # rung 3 -- four calibrated nondegenerate axials: pressure-normalised total flow inverts
+    cal = invert_G_from_known_axials(o["g"], o["R"])
+    return [
+        {"rung": 1, "known": "the mirror contrast c, independently and nonzero",
+         "observables": ["R"], "identifies": ["Xi"],
+         "demonstrated_Xi_hat": Xi_from_R_only,
+         "rel_err": abs(Xi_from_R_only - Xi_true) / Xi_true,
+         "note": "R alone IS sufficient here. This is why the confounding claim must always "
+                 "carry its 'c not independently known' qualifier."},
+        {"rung": 2, "known": "only that the fixture is built as an exact mirror",
+         "observables": ["R", "s"], "identifies": ["c", "Xi"],
+         "demonstrated_c_hat": inv["c_hat"], "demonstrated_Xi_hat": inv["Xi_hat"],
+         "rel_err": abs(inv["Xi_hat"] - Xi_true) / Xi_true,
+         "note": "the frozen primary result."},
+        {"rung": 3, "known": "all four axial conductances, independently calibrated, "
+                             "NONDEGENERATE (g1_top*g2_bot != g2_top*g1_bot)",
+         "observables": ["pressure-normalised total flow (Q/dP), open and blocked"],
+         "identifies": ["G_lat"],
+         "demonstrated_G_lat_hat": cal["G_lat_hat"],
+         "rel_err": abs(cal["G_lat_hat"] - o["G_lat"]) / o["G_lat"],
+         "note": "no symmetry assumed; fails structurally when the cross product X = 0."},
+        {"rung": 4, "known": "nothing beyond the boundary measurements (general geometry)",
+         "observables": ["q1, q2 blocked", "q1, q2 open"], "identifies": [],
+         "note": "INSUFFICIENT. 5 unknowns, 4 boundary numbers; a one-parameter family spanning "
+                 "x8 in Xi matches all four exactly (see the counting diagnostic)."},
+    ]
 
 
 # ==========================================================================================
@@ -627,9 +742,15 @@ def arm_f_mirror_imperfection():
             "bias_from_assuming_unverified_symmetry": "This arm — the ideal mirror inverse "
                                                       "applied to a geometry that is not one.",
             "recoverability_with_calibrated_axial_segments": "invert_G_from_known_axials — exact "
-                                                             "for ANY geometry, no symmetry "
-                                                             "assumed.",
+                                                             "for any NONDEGENERATE calibrated "
+                                                             "geometry having a nonzero uncoupled "
+                                                             "mid-node pressure gap "
+                                                             "(g1_top*g2_bot != g2_top*g1_bot). "
+                                                             "No mirror symmetry is assumed, but "
+                                                             "this is NOT 'any geometry' — see "
+                                                             "calibrated_inversion_degeneracy.",
         },
+        "calibrated_inversion_degeneracy": _calibrated_degeneracy(),
         "levels": levels,
         "post_hoc_diagnostics": {
             "label": "POST_HOC_DIAGNOSTIC_NOT_IN_DECISION",
@@ -662,6 +783,85 @@ def arm_f_mirror_imperfection():
             },
             "unconstrained_geometry_non_identifiability": _post_hoc_counting(),
         },
+    }
+
+
+def _calibrated_degeneracy():
+    """The structural exception to the calibrated-axials route, demonstrated rather than asserted.
+
+    CORRECTION (2026-08-09): an earlier wording claimed the calibrated inversion recovers G_lat
+    for "any geometry". That is false in exactly one structural case, recorded here.
+    """
+    rows = []
+    for label, g in (("mirror_primary", (3.0, 1.0, 1.0, 3.0)),
+                     ("asymmetric_nondegenerate", (4.0, 0.8, 1.5, 2.5)),
+                     ("proportional_paths_degenerate", (2.0, 1.0, 4.0, 2.0)),
+                     ("proportional_paths_degenerate_2", (1.0, 3.0, 2.0, 6.0)),
+                     ("near_degenerate", (2.0, 1.0, 4.0, 2.02))):
+        X = cross_product_gap_driver(g)
+        blocked = lc.model1_two_path(P_IN, *g, 0.0)
+        gap0 = abs(blocked["p1"] - blocked["p2"])
+        qs, invs = [], []
+        for G in (0.0, 0.5, 5.0, 500.0):
+            r = lc.model1_two_path(P_IN, *g, G)
+            qs.append(r["Q"])
+            cal = invert_G_from_known_axials(g, r["Q"] / blocked["Q"])
+            invs.append({"G_lat_true": G, "status": cal["status"],
+                         "G_lat_hat": cal["G_lat_hat"],
+                         "rel_err": (None if cal["G_lat_hat"] is None or G == 0.0
+                                     else abs(cal["G_lat_hat"] - G) / G)})
+        q_span = (max(qs) - min(qs)) / max(qs)
+        rows.append({
+            "label": label, "g": list(g),
+            "cross_product_X": X, "dQdG_numerator": dQdG_numerator(g),
+            "identity_holds": abs(dQdG_numerator(g) - X * X) <= 1e-9 * max(1.0, X * X),
+            "uncoupled_mid_node_gap": gap0,
+            "Q_relative_span_over_G_lat": q_span,
+            "Q_independent_of_G_lat": q_span <= 1e-14,
+            "degenerate": abs(X) <= 1e-12,
+            "inversions": invs,
+        })
+    return {
+        "correction_note": "An earlier wording of this screen claimed the calibrated-axials "
+                           "inversion recovers G_lat for 'any geometry'. That is FALSE in one "
+                           "structural case and is corrected here. The valid statement is: any "
+                           "NONDEGENERATE calibrated geometry having a nonzero uncoupled mid-node "
+                           "pressure gap.",
+        "derivative_identity": "d(Q/P)/dG = [M*A1*A2 - N0*S]/(A1*A2 + G*S)^2 "
+                               "= (g1_top*g2_bot - g2_top*g1_bot)^2 / (A1*A2 + G*S)^2",
+        "nondegeneracy_condition": "g1_top*g2_bot != g2_top*g1_bot",
+        "equivalent_physical_condition": "the two UNCOUPLED mid-node pressures differ, so a "
+                                         "lateral pressure exists to drive the bridge",
+        "monotonicity": "the derivative is a SQUARE, so Q is non-decreasing in G_lat for every "
+                        "admissible geometry; it is STRICTLY increasing iff X != 0",
+        "conditioning": "dG/d(Q/P) ~ 1/X^2, so the inversion degrades continuously as X -> 0; "
+                        "the near_degenerate row shows this rather than asserting it",
+        "identity_verified_on_all_rows": all(r["identity_holds"] for r in rows),
+        "degenerate_rows_report_no_information": all(
+            all(i["status"] == "structurally_degenerate_no_information" for i in r["inversions"])
+            for r in rows if r["degenerate"]),
+        # the near-degenerate row is EXCLUDED from the exactness aggregate on purpose: it exists
+        # to show the 1/X^2 conditioning decay, and lumping it in would hide that.
+        "well_conditioned_rows_recover_exactly": all(
+            all(i["rel_err"] is None or i["rel_err"] <= 1e-9 for i in r["inversions"])
+            for r in rows if not r["degenerate"] and r["label"] != "near_degenerate"),
+        "near_degenerate_conditioning_decay": {
+            "row": "near_degenerate",
+            "X": next(r["cross_product_X"] for r in rows if r["label"] == "near_degenerate"),
+            "max_rel_err": max(
+                i["rel_err"] for r in rows if r["label"] == "near_degenerate"
+                for i in r["inversions"] if i["rel_err"] is not None),
+            "well_conditioned_max_rel_err": max(
+                [i["rel_err"] for r in rows
+                 if not r["degenerate"] and r["label"] != "near_degenerate"
+                 for i in r["inversions"] if i["rel_err"] is not None] or [0.0]),
+            "interpretation": "X drops from 8 to 0.04 (X^2 by ~4e4) and the recovery error grows "
+                              "by a comparable factor. The inversion does not fail abruptly at "
+                              "X = 0; it degrades continuously as 1/X^2, which is why a real "
+                              "fixture needs a MARGIN on the uncoupled mid-node pressure gap, "
+                              "not merely a nonzero one.",
+        },
+        "rows": rows,
     }
 
 
@@ -857,6 +1057,7 @@ def sensitivity_envelopes():
                         "interval_is_optimistic_where_corners_were_dropped": bool(drop)}
     best = max(rows, key=lambda r: abs(r["ds_dlnXi"]))
     bestR = max(rows, key=lambda r: r["dR_dlnXi"])
+    continuous = _post_hoc_window_boundaries()
     return {
         "these_are_hypothetical_resolution_scenarios": True,
         "not_instrument_accuracies": True,
@@ -874,9 +1075,80 @@ def sensitivity_envelopes():
                               "analytic_peak_at_Xi": 1.0 - C_PRIMARY ** 2,
                               "analytic_peak_value": -C_PRIMARY / 8.0},
         "well_conditioned_windows": windows,
+        "frozen_grid_note": "The frozen Xi grid has 22 nonzero points. A window's Xi_min/Xi_max "
+                            "are the smallest and largest PASSING GRID POINTS -- they are NOT a "
+                            "continuous boundary estimate and must never be quoted as one. The "
+                            "continuous crossings are located separately in "
+                            "continuous_window_post_hoc.",
+        "continuous_window_post_hoc": continuous,
         "derivative_cross_check_passes": all(r["derivative_cross_check_ok"] for r in rows),
         "rows": rows,
     }
+
+
+def _within_factor_two(Xi, f, c=C_PRIMARY, A=A_PRIMARY):
+    """The frozen 27-corner rule evaluated at an ARBITRARY Xi -- same exact map, same inverse,
+    same rule. Used only by the post-hoc boundary solve."""
+    o = observables_exact(A, c, Xi)
+    q1, q2, Q0 = o["q1"], o["q2"], o["Q0"]
+    lo = hi = None
+    for e1 in (-f, 0.0, f):
+        for e2 in (-f, 0.0, f):
+            for e0 in (-f, 0.0, f):
+                Qp = q1 * (1 + e1) + q2 * (1 + e2)
+                iv = invert(Qp / (Q0 * (1 + e0)), q1 * (1 + e1) / Qp)
+                if iv["Xi_hat"] is None or iv["Xi_hat"] <= 0.0:
+                    return False
+                lo = iv["Xi_hat"] if lo is None else min(lo, iv["Xi_hat"])
+                hi = iv["Xi_hat"] if hi is None else max(hi, iv["Xi_hat"])
+    return bool(hi / Xi <= 2.0 and Xi / lo <= 2.0)
+
+
+def _post_hoc_window_boundaries():
+    """POST_HOC_DIAGNOSTIC_NOT_IN_DECISION.
+
+    The frozen grid can only report WHICH OF 22 POINTS pass. This locates the continuous
+    factor-of-two crossings with a bounded bisection in log10(Xi) over the same exact map,
+    inverse and 27-corner rule. No new dependency, no new model, no new threshold. It feeds no
+    clause of the frozen decision rule -- a test asserts that -- and the frozen grid result is
+    reported unchanged alongside it.
+    """
+    out = {"label": "POST_HOC_DIAGNOSTIC_NOT_IN_DECISION",
+           "method": "bounded bisection in log10(Xi) on the frozen 27-corner "
+                     "recovered_within_factor_two predicate; 60 scan decades-steps then 60 "
+                     "bisection halvings per crossing; tolerance 1e-6 in log10(Xi)",
+           "feeds_no_decision_clause": True, "floors": {}}
+    LO, HI, NSCAN, NBIS = -4.0, 3.0, 700, 60
+    for f in PRECISION_FLOORS:
+        key = "%dpct" % int(round(f * 100))
+        # deterministic dense scan of the predicate, then bisect each sign change
+        xs = [LO + (HI - LO) * k / NSCAN for k in range(NSCAN + 1)]
+        ok = [_within_factor_two(10.0 ** x, f) for x in xs]
+        crossings = []
+        for k in range(NSCAN):
+            if ok[k] != ok[k + 1]:
+                a, b = xs[k], xs[k + 1]
+                fa = ok[k]
+                for _ in range(NBIS):
+                    m = 0.5 * (a + b)
+                    if _within_factor_two(10.0 ** m, f) == fa:
+                        a = m
+                    else:
+                        b = m
+                crossings.append({"log10_Xi": 0.5 * (a + b), "Xi": 10.0 ** (0.5 * (a + b)),
+                                  "direction": "enter" if ok[k + 1] else "exit"})
+        n_ok = sum(1 for v in ok if v)
+        out["floors"][key] = {
+            "floor": f,
+            "n_scan_points": len(xs), "n_passing_scan_points": n_ok,
+            "continuous_passing_interval_exists": bool(n_ok > 0),
+            "n_crossings": len(crossings), "crossings": crossings,
+            "Xi_lower": crossings[0]["Xi"] if len(crossings) == 2 else None,
+            "Xi_upper": crossings[1]["Xi"] if len(crossings) == 2 else None,
+            "single_contiguous_interval": bool(len(crossings) == 2 and n_ok > 0),
+            "scan_bounds_log10": [LO, HI],
+        }
+    return out
 
 
 # ==========================================================================================
@@ -1075,8 +1347,20 @@ def screen():
         "evidence_labels_unchanged": True,
         "foundry_infrastructure_unchanged": {
             "lens_added_or_changed": False, "generator_added_or_changed": False,
-            "scoring_added": False, "candidate_portfolio_changed": False,
+            "scoring_added": False,
+            "candidate_portfolio_content_changed": False,
+            "candidate_added_or_removed": False, "candidate_scored": False,
             "id_registry_changed": False, "generated_artifacts_hand_edited": False,
+            "generated_artifacts_regenerated": True,
+            "regeneration_note": "docs/insights/generated/** WAS regenerated with "
+                                 "`python -m puckworks.insights write` -- required, because the "
+                                 "card correction this screen earned is an input the corpus map "
+                                 "hashes, and `insights verify` fails on a stale input. It was "
+                                 "never hand-edited. The only field that moved anywhere is "
+                                 "source_commit: all 90 candidates, all 171 tension rows, every "
+                                 "ID, every SEED status and every (empty) score are identical. "
+                                 "ID_REGISTRY.json and docs/insights/candidates/ are byte-"
+                                 "unchanged.",
         },
         "paper_4_authorized": False,
         "claim_ceiling": (
@@ -1146,7 +1430,8 @@ def figure(result=None, path=None):
             color=ACC, fontsize=6.8, va="top")
     ax.set_xlim(-1.0, 1.0)
     ax.set_xlabel("signed axial contrast  $c$"); ax.set_ylabel("$\\Xi$")
-    ax.set_title("(b)  $Q$ alone is confounded;\n$Q$ + outlet share is not",
+    ax.set_title("(b)  With $c$ unknown, $Q$ alone can't identify\n$(c,\\Xi)$ jointly; "
+                 "$Q$ + outlet share can",
                  loc="left", fontweight="bold", fontsize=8.6)
     ax.text(0.03, 0.04, "$Q/Q_0$ observed = %.6f\n%d family members reproduce it exactly\n"
                         "(both signs of $c$ — $R$ depends on $c^2$)\n%d of them also match $s$"
@@ -1178,15 +1463,24 @@ def figure(result=None, path=None):
             ax.plot(drop, [y] * len(drop), "x", color=col, ms=3.4, mew=1.0,
                     label=("some corners had NO physical $\\hat{\\Xi}$\n(band below is optimistic)"
                            if n == 0 else None))
+    cont = r["sensitivity_envelopes"]["continuous_window_post_hoc"]["floors"]
     for n, (key, col) in enumerate(cols.items()):
         w = r["sensitivity_envelopes"]["well_conditioned_windows"][key]
+        cw = cont[key]
         y = (0.042, 0.027, 0.0175)[n]
-        if w["Xi_min"] is not None:
-            ax.plot([w["Xi_min"], w["Xi_max"]], [y, y], "-", color=col, lw=4.0,
-                    solid_capstyle="butt")
-            ax.text(w["Xi_max"] * 1.5, y, " recoverable within 2x @ %s"
-                    % key.replace("pct", " %"), color=col, fontsize=6.2, va="center",
-                    fontweight="bold")
+        if cw["Xi_lower"] is not None:
+            # the BAR is the continuous crossing interval (post-hoc); the DOTS are the frozen
+            # grid points that pass. Quoting the dots' min/max as the interval would be wrong.
+            ax.plot([cw["Xi_lower"], cw["Xi_upper"]], [y, y], "-", color=col, lw=4.0,
+                    solid_capstyle="butt", alpha=0.55)
+            ax.plot([x["Xi"] for x in rows
+                     if x["scenarios"][key]["recovered_within_factor_two"]],
+                    [y] * w["n_grid_points_recoverable"], "o", color=col, ms=3.6)
+            ax.text(cw["Xi_upper"] * 1.6, y, " within 2x @ %s: %.2f–%.2f (post-hoc);\n %d frozen"
+                                             " grid pts (dots)"
+                    % (key.replace("pct", " %"), cw["Xi_lower"], cw["Xi_upper"],
+                       w["n_grid_points_recoverable"]),
+                    color=col, fontsize=5.9, va="center", fontweight="bold")
         else:
             ax.text(xi[0] * 1.3, y, "no $\\Xi$ recoverable within 2x @ %s"
                     % key.replace("pct", " %"), color=col, fontsize=6.2, va="center",
@@ -1273,8 +1567,10 @@ def main(argv=None):
     print("protocol sha256:      %s" % doc["protocol"]["sha256"])
     print("grid:                 %d points (%d nondegenerate)"
           % (b["n_grid_points"], b["n_nondegenerate"]))
-    print("forward map vs net:   max abs err %g (tol %g)"
-          % (b["forward_map_max_abs_error"], TOL_MAP))
+    print("forward map vs net:   agrees to machine precision (live max <= 1e%d; records as %g "
+          "after 12-dp rounding; tol %g)"
+          % (b["forward_map_max_abs_error_log10_upper_bound"],
+             b["forward_map_max_abs_error"], TOL_MAP))
     print("recovery:             max |dc| %g ; max |dXi|/Xi %g"
           % (b["c_max_abs_error"], b["Xi_max_rel_error"]))
     print("injectivity:          min pairwise (R,s) distance %g"
@@ -1288,10 +1584,16 @@ def main(argv=None):
               "calibrated max rel err %.3g"
               % (lv["perturbation_level"] * 100, lv["mirror_inverse_max_abs_Xi_rel_bias"],
                  lv["calibrated_max_Xi_rel_err"]))
+    cont = doc["sensitivity_envelopes"]["continuous_window_post_hoc"]["floors"]
     for k, w in doc["sensitivity_envelopes"]["well_conditioned_windows"].items():
-        print("window %-5s          Xi in [%s, %s]  (%d of %d grid Xi recoverable within 2x)"
-              % (k, w["Xi_min"], w["Xi_max"], w["n_grid_points_recoverable"],
-                 len(doc["sensitivity_envelopes"]["rows"])))
+        cw = cont[k]
+        print("window %-5s          frozen grid: %d of %d points pass %s | continuous "
+              "(post-hoc): %s"
+              % (k, w["n_grid_points_recoverable"], len(doc["sensitivity_envelopes"]["rows"]),
+                 [r["Xi"] for r in doc["sensitivity_envelopes"]["rows"]
+                  if r["scenarios"][k]["recovered_within_factor_two"]],
+                 ("Xi in [%.4g, %.4g]" % (cw["Xi_lower"], cw["Xi_upper"])
+                  if cw["Xi_lower"] is not None else "no passing interval")))
     print("DECISION:             %s — %s" % (doc["decision"], doc["decision_record"]["arm"]))
     print("content sha256:       %s" % doc["content_sha256"])
     if p:

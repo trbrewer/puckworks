@@ -134,9 +134,17 @@ this card previously conflated them:**
   geometry and material properties. Nothing here measures either, and nothing here estimates a
   real puck's Ξ.
 
-**Total flow alone is not sufficient.** R depends on the axial contrast only through c², so one
-observed R is reproduced exactly by a continuum of (c, Ξ) states of **both signs of c**. The outlet
-share collapses that continuum exactly, via the identity `s − ½ = −(R−1)/(2Rc)`.
+**Total flow alone cannot JOINTLY identify (c, Ξ) when c is not independently known.** R depends on
+the axial contrast only through c², so one observed R is then reproduced exactly by a continuum of
+(c, Ξ) states of **both signs of c**. The outlet share collapses that continuum exactly, via the
+identity `s − ½ = −(R−1)/(2Rc)`. The qualifier matters — the full hierarchy is:
+
+| known | observables | identifies |
+|---|---|---|
+| the mirror contrast c, independently and **nonzero** | R | **Ξ** (R alone *is* sufficient) |
+| only that the fixture is an exact mirror | R, s | **c and Ξ** |
+| four calibrated **nondegenerate** axial conductances | pressure-normalised total flow | **G_lat** |
+| nothing beyond boundary flows (general geometry) | q₁, q₂ blocked and open | **nothing** |
 
 **Degeneracies, reported as no-information and never regularised:** `R = 1 ⟺ s = ½ ⟺ c(t−1) = 0`,
 so the degenerate fibre is exactly {Ξ = 0, any c} ∪ {c = 0, any Ξ}.
@@ -146,11 +154,19 @@ so the degenerate fibre is exactly {Ξ = 0, any c} ∪ {c = 0, any Ξ}.
 - the **mirror construction is load-bearing** — a 1 % axial asymmetry can bias Ξ̂ by a factor of ~5,
   and a one-parameter family of different geometries spanning ×8 in Ξ reproduces *all four*
   boundary flows exactly. With the four axial conductances independently calibrated, G_lat instead
-  follows exactly from Q alone for **any** geometry, no symmetry assumed;
-- **practical resolution is unmet.** Under the existing 1 %/2 %/5 % scenario floors, Ξ is
-  recoverable within a factor of two only for Ξ ∈ [0.46, 2.15] at 1 %, and nowhere at 2 % or 5 %.
-  These are hypothetical scenarios, **not** instrument accuracies and **not** experimental
-  uncertainty — no instrument/noise model exists for this experiment.
+  follows exactly from the pressure-normalised total flow for any **nondegenerate** calibrated
+  geometry having a **nonzero uncoupled mid-node pressure gap** — `g1_top·g2_bot ≠ g2_top·g1_bot`,
+  since `d(Q/ΔP)/dG_lat = (g1_top·g2_bot − g2_top·g1_bot)²/(A₁A₂ + G_lat·S)²`. **Not "any
+  geometry":** when that cross product vanishes the two uncoupled mid-node pressures coincide,
+  nothing drives the bridge, and Q is exactly independent of G_lat (e.g. `(2, 1, 4, 2)` — two
+  *different* lanes, fully degenerate). Conditioning decays as 1/X², so a fixture needs a *margin*
+  on the gap, not merely a nonzero one;
+- **practical resolution is unmet.** Under the existing 1 %/2 %/5 % scenario floors, on the frozen
+  22-point grid exactly three points recover Ξ within a factor of two at 1 % (Ξ = 0.464, 1.0,
+  2.154) and none at 2 % or 5 %; a separate post-hoc solve puts the continuous 1 % crossings at
+  Ξ ≈ 0.241–3.946 and confirms no passing interval at 2 % or 5 %. These are hypothetical
+  scenarios, **not** instrument accuracies and **not** experimental uncertainty — no
+  instrument/noise model exists for this experiment.
 
 Smallest implied experiment: `docs/insights/screens/WP6-LC-IDENT/DECISIVE_EXPERIMENT.md`
 (a two-lane, two-layer hydraulic analog with a blockable lateral bridge). It is a **specification,

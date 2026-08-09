@@ -31,18 +31,27 @@ near `c = 0.5` (a 3:1 conductance ratio between the two materials).
 
 | quantity | why |
 |---|---|
-| inlet-to-outlet pressure difference | fixes the drive; the network is linear in it |
+| **ΔP_open and ΔP_blocked** — inlet-to-outlet pressure difference, measured in **both** states | **required**, not optional — see §3. The network is linear in ΔP, so `R` is a *ratio of conductances*, and only matched ΔP lets flows stand in for it |
 | **Q₀** — total flow, bridge **blocked** | the uncoupled reference |
-| **Q** — total flow, bridge **open** | gives `R = Q/Q₀` |
+| **Q** — total flow, bridge **open** | with ΔP, gives `R` |
 | **q₁, q₂** — separate outlet flows, bridge **open** | gives `s = q₁/(q₁+q₂)` |
 | **q₁⁰, q₂⁰** — separate outlet flows, bridge **blocked** | the symmetry pre-test (§5) |
 | fluid temperature / viscosity basis | Darcy conductance is μ-dependent; must be held or recorded |
 | geometry and packing records | establishes what was held fixed between blocked and open runs |
 
-## 3. Primary derived quantities
+## 3. Primary derived quantities — `R` is pressure-normalised
+
+The experimentally valid ratio is **not** `Q/Q₀`. It is
 
 ```
-R  = Q / Q0
+R  =  (Q / ΔP)_open  /  (Q0 / ΔP0)_blocked
+```
+
+i.e. the ratio of two-terminal **conductances**. `R = Q/Q₀` only when `ΔP_open = ΔP_blocked`. If
+the rig cannot hold the two pressure differences equal, normalise; if it can, demonstrate it with
+the measurement rather than assuming it. Then
+
+```
 s  = q1 / (q1 + q2)
 ĉ  = (R − 1) / [R (1 − 2s)]
 t̂  = [1 − R(1 − ĉ²)] / ĉ²
@@ -50,6 +59,12 @@ t̂  = [1 − R(1 − ĉ²)] / ĉ²
 ```
 
 verified exact against the model over the frozen grid (max relative error 8.2e−11).
+
+**The committed 1 %/2 %/5 % scenarios perturb only `q₁`, `q₂` and `Q₀`, at fixed pressure.** They
+therefore either (a) condition on matched ΔP with negligible pressure uncertainty, or (b) must be
+augmented by a pressure-ratio uncertainty term before they are used to size a real experiment.
+That term is not supplied here and was not invented: the repository retains no instrument model,
+and the frozen screen was not rerun to manufacture one.
 
 ## 4. Required controls
 
@@ -79,8 +94,19 @@ conductance; it cannot see the top/bottom **split**. Therefore:
 - the **split must be controlled by construction** — same nominal layer depths, same materials,
   same packing protocol in both lanes — not verified after the fact from boundary flows;
 - **or** the four axial segment conductances must be **independently calibrated**, in which case
-  `G_lat` follows exactly from `Q` alone with **no symmetry assumption at all**
-  (`G = [(Q/P)A₁A₂ − N₀]/[M − (Q/P)S]`, exact for any geometry).
+  `G_lat` follows exactly from the pressure-normalised total flow with **no symmetry assumption**
+  (`G = [(Q/ΔP)A₁A₂ − N₀]/[M − (Q/ΔP)S]`) — but only for a **nondegenerate** geometry:
+
+  ```
+  X ≡ g1_top·g2_bot − g2_top·g1_bot  ≠  0
+  ```
+
+  `X = 0` means the two **uncoupled mid-node pressures are equal**, so nothing drives the bridge
+  and `Q` is exactly independent of `G_lat` — a fixture that cannot answer the question at all.
+  Note this is *not* the same as "the lanes are identical": `g = (2, 1, 4, 2)` has two clearly
+  different lanes and is still fully degenerate. Conditioning degrades as `1/X²`, so **design for
+  a margin on the uncoupled mid-node pressure gap and report `X`**, do not merely check it is
+  nonzero.
 
 Report which of the two routes was used. They license different statements.
 
@@ -95,39 +121,53 @@ at 5 %. At 5 % the inverse returned a plausible **wrong** Ξ in 87 of 96 cases. 
 **Do not adopt a replicate count from this document. There is none.** The screen supplies the
 required precision; the pilot supplies the variance; together they give `n`.
 
+**Random error averages down; systematic error does not.** Keep the two apart — conflating them is
+how a replication plan silently promises precision it cannot deliver:
+
+- **random**, and reducible by independent replication: operational scatter `σ_op`, and
+  preparation/re-assembly scatter `σ_prep` (the one an operational repeat cannot see, and the one
+  that moves a packed bed);
+- **systematic, and NOT reducible by `√n`**: flow-meter calibration, pressure-transducer
+  calibration, the mirror-construction bias of §5, any bias shared between the blocked and open
+  runs, and viscosity/temperature offsets. These set an **irreducible floor**. Replication cannot
+  cross it, and no `n` should be quoted as if it could.
+
 **Pilot measurements needed (and not present in this repository):**
 
-- repeated blocked-bridge runs on one assembly → within-assembly relative SD of each flow, `σ_op`;
-- repeated **re-assembly** of the same nominal cell → between-assembly relative SD, `σ_prep`;
-- both are needed: `σ₁² = σ_op² + σ_prep²`. Preparation variability is the one an operational
-  repeat cannot see, and it is the one that moves a packed bed.
+- repeated runs on one assembly → `σ_op`;
+- repeated **re-assembly** of the same nominal cell → `σ_prep`;
+- calibration records bounding the systematic terms above;
+- most usefully, the **covariance of the normalised observables** `(R, s)` — or, better still, a
+  direct estimate of the **sampling distribution of Ξ̂** by propagating the pilot's own replicate
+  draws through the verified inverse. `R` and `s` share `q₁` and `q₂`, so they are *correlated*,
+  and a per-flow scalar SD does not capture that.
 
-**Detection limit.** For the primary mirror (`c = 0.5`), both signatures are linear in Ξ near zero:
-`R − 1 ≈ Ξ/3` and `|s − 1/2| ≈ Ξ/3`. Requiring a `z`-multiple of the standard error over `n`
-replicates:
+**Detection limit — a local heuristic, not a design rule.** For the primary mirror (`c = 0.5`) both
+signatures are linear in Ξ near zero: `R − 1 ≈ Ξ/3` and `|s − 1/2| ≈ Ξ/3`, so
 
 ```
-Ξ_min(n)  ≈  3 z σ̂₁ / √n
+Ξ_min(n)  ≈  3 z σ̂ / √n
 ```
 
-So with a measured `σ̂₁` and a chosen `z`, `n = (3 z σ̂₁ / Ξ_target)²`. Nothing here presumes a
-value of `σ̂₁`.
+**but only if `σ̂` is the SD of the actual normalised coupling signature** (`R − 1`, or `s − ½`,
+including their correlation and any pressure-ratio term from §3) — **not** a generic per-flow
+relative SD, and **not** with the systematic floor folded into the `√n`. Treat it as a rough
+local scale; size the experiment from the sampling distribution of Ξ̂.
 
 **Estimation to within a factor of two.** This is the binding requirement, and it is stricter than
-the linearised detection limit — because the joint `(R, s) → (ĉ, Ξ̂)` inversion amplifies error in
-a way a single-observable linearisation does not capture. The screen's 27-point worst-case envelope
+the linearised detection limit, because the joint `(R, s) → (ĉ, Ξ̂)` inversion amplifies error in a
+way a single-observable linearisation does not capture. The screen's 27-point worst-case rule
 gives:
 
-| relative floor on each of `q₁`, `q₂`, `Q₀` | Ξ recoverable within a factor of two |
-|---|---|
-| **1 %** | Ξ ∈ **[0.46, 2.15]** |
-| 2 % | **none** |
-| 5 % | **none** |
+| relative floor on each of `q₁`, `q₂`, `Q₀` | frozen 22-point grid | continuous crossings (post-hoc) |
+|---|---|---|
+| **1 %** | 3 points pass: Ξ = **0.464, 1.0, 2.154** | **Ξ ≈ 0.241 → 3.946** |
+| 2 % | none | no passing interval |
+| 5 % | none | no passing interval |
 
-**Design the fixture for Ξ ≈ 0.5–2 and budget ~1 % effective flow reproducibility** (i.e.
-`σ̂₁/√n ≲ 0.01`). Outside that window the experiment can still *detect* coupling while being unable
-to *place* Ξ within a factor of two — report the two outcomes separately; they are different
-claims.
+**Design the fixture for Ξ of order 1 and budget ~1 % effective reproducibility on the normalised
+observables.** Outside that window the experiment can still *detect* coupling while being unable to
+*place* Ξ within a factor of two — report the two outcomes separately; they are different claims.
 
 These are the screen's hypothetical resolution scenarios. **They are not instrument accuracies and
 not experimental uncertainty**, and the repository retains no instrument or noise model for this
@@ -144,7 +184,11 @@ experiment.
 
 **Construction asymmetry (the confound):**
 
-- a departure already appears with the bridge **blocked**;
+- a blocked-run departure **may** expose asymmetry. **Its presence is evidence against mirror
+  symmetry; its absence does not establish symmetry.** This is not a hedge — the screen exhibits a
+  one-parameter family of genuinely non-mirror geometries, spanning ×8 in Ξ, whose blocked-run
+  outlet share is **exactly 0.5**. A clean blocked run is consistent with a fixture that will still
+  return a wrong Ξ̂;
 - the effect fails to reverse correctly under path swap;
 - **Ξ̂ changes materially under the swap.**
 

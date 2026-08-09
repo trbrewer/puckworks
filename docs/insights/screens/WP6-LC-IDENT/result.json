@@ -17,7 +17,9 @@
     "c_tolerance": 1e-09,
     "failures": [],
     "forward_map_agrees_with_exact_network": true,
+    "forward_map_error_is_floating_point_not_algebraic": "The analytic map and the network solve are the SAME algebra, so their difference is pure floating-point rounding: the live maximum is of order 1e-14 (7.99e-15 in the reference environment) and records as 0.0 only after this artifact's 12-decimal rounding. Read it as 'agrees to machine precision', never as 'exactly zero'.",
     "forward_map_max_abs_error": 0.0,
+    "forward_map_max_abs_error_log10_upper_bound": -14,
     "forward_map_tolerance": 1e-12,
     "injectivity_empirical": {
       "closest_pair": [
@@ -4252,9 +4254,11 @@
     }
   },
   "arm_c_minimum_observable": {
+    "Q_only_confounding_is_for_JOINT_inference_of_c_and_Xi": true,
     "Q_only_is_confounded": true,
     "Q_plus_share_is_unique": true,
     "R_depends_on_c_only_through_c_squared": true,
+    "claim_stated_exactly": "When the signed axial contrast c is NOT independently known, total flow alone cannot JOINTLY identify (c, Xi); adding the separate outlet share identifies both in the exact nondegenerate mirror design.",
     "exact_identity": "s - 1/2 = -(R - 1) / (2 R c) holds identically along any fixed-R family, so s determines c given R, and (c, Xi) follows.",
     "families": [
       {
@@ -5800,7 +5804,62 @@
         "s_strictly_monotone_in_c_positive_branch": true
       }
     ],
-    "note": "A continuum of distinct (c, Xi) states -- of BOTH signs of c -- reproduces one R exactly. None of them reproduces the observed s. The extra measurement is demonstrated necessary from the observables, NOT asserted from the model having an internal state."
+    "not_the_claim": "'Total flow alone is not enough' without that qualifier is wrong: if a nonzero mirror c IS independently known, R alone identifies Xi (see observable_hierarchy).",
+    "note": "A continuum of distinct (c, Xi) states -- of BOTH signs of c -- reproduces one R exactly. None of them reproduces the observed s. The extra measurement is demonstrated necessary from the observables, NOT asserted from the model having an internal state.",
+    "observable_hierarchy": [
+      {
+        "demonstrated_Xi_hat": 0.75,
+        "identifies": [
+          "Xi"
+        ],
+        "known": "the mirror contrast c, independently and nonzero",
+        "note": "R alone IS sufficient here. This is why the confounding claim must always carry its 'c not independently known' qualifier.",
+        "observables": [
+          "R"
+        ],
+        "rel_err": 0.0,
+        "rung": 1
+      },
+      {
+        "demonstrated_Xi_hat": 0.75,
+        "demonstrated_c_hat": 0.5,
+        "identifies": [
+          "c",
+          "Xi"
+        ],
+        "known": "only that the fixture is built as an exact mirror",
+        "note": "the frozen primary result.",
+        "observables": [
+          "R",
+          "s"
+        ],
+        "rel_err": 0.0,
+        "rung": 2
+      },
+      {
+        "demonstrated_G_lat_hat": 1.5,
+        "identifies": [
+          "G_lat"
+        ],
+        "known": "all four axial conductances, independently calibrated, NONDEGENERATE (g1_top*g2_bot != g2_top*g1_bot)",
+        "note": "no symmetry assumed; fails structurally when the cross product X = 0.",
+        "observables": [
+          "pressure-normalised total flow (Q/dP), open and blocked"
+        ],
+        "rel_err": 0.0,
+        "rung": 3
+      },
+      {
+        "identifies": [],
+        "known": "nothing beyond the boundary measurements (general geometry)",
+        "note": "INSUFFICIENT. 5 unknowns, 4 boundary numbers; a one-parameter family spanning x8 in Xi matches all four exactly (see the counting diagnostic).",
+        "observables": [
+          "q1, q2 blocked",
+          "q1, q2 open"
+        ],
+        "rung": 4
+      }
+    ]
   },
   "arm_d_proxy_adversary": {
     "comparator": "analysis.lateral_proxy.frozen_two_path_proxy via analysis.lateral_coupling_discrimination.physical_row (CALLED, not reimplemented). It is the frozen UNCOUPLED share-proxy completion, NOT the complete dynamic streamtube model.",
@@ -6443,6 +6502,236 @@
   },
   "arm_f_mirror_imperfection": {
     "alternative_explanation": "The inverse is an artifact of exact mirror symmetry and will return a misleading Xi when a real apparatus is only approximately mirrored.",
+    "calibrated_inversion_degeneracy": {
+      "conditioning": "dG/d(Q/P) ~ 1/X^2, so the inversion degrades continuously as X -> 0; the near_degenerate row shows this rather than asserting it",
+      "correction_note": "An earlier wording of this screen claimed the calibrated-axials inversion recovers G_lat for 'any geometry'. That is FALSE in one structural case and is corrected here. The valid statement is: any NONDEGENERATE calibrated geometry having a nonzero uncoupled mid-node pressure gap.",
+      "degenerate_rows_report_no_information": true,
+      "derivative_identity": "d(Q/P)/dG = [M*A1*A2 - N0*S]/(A1*A2 + G*S)^2 = (g1_top*g2_bot - g2_top*g1_bot)^2 / (A1*A2 + G*S)^2",
+      "equivalent_physical_condition": "the two UNCOUPLED mid-node pressures differ, so a lateral pressure exists to drive the bridge",
+      "identity_verified_on_all_rows": true,
+      "monotonicity": "the derivative is a SQUARE, so Q is non-decreasing in G_lat for every admissible geometry; it is STRICTLY increasing iff X != 0",
+      "near_degenerate_conditioning_decay": {
+        "X": 0.04,
+        "interpretation": "X drops from 8 to 0.04 (X^2 by ~4e4) and the recovery error grows by a comparable factor. The inversion does not fail abruptly at X = 0; it degrades continuously as 1/X^2, which is why a real fixture needs a MARGIN on the uncoupled mid-node pressure gap, not merely a nonzero one.",
+        "max_rel_err": 1.5966e-08,
+        "row": "near_degenerate",
+        "well_conditioned_max_rel_err": 2e-12
+      },
+      "nondegeneracy_condition": "g1_top*g2_bot != g2_top*g1_bot",
+      "rows": [
+        {
+          "Q_independent_of_G_lat": false,
+          "Q_relative_span_over_G_lat": 0.24925224327,
+          "cross_product_X": 8.0,
+          "dQdG_numerator": 64.0,
+          "degenerate": false,
+          "g": [
+            3.0,
+            1.0,
+            1.0,
+            3.0
+          ],
+          "identity_holds": true,
+          "inversions": [
+            {
+              "G_lat_hat": 0.0,
+              "G_lat_true": 0.0,
+              "rel_err": null,
+              "status": "ok"
+            },
+            {
+              "G_lat_hat": 0.5,
+              "G_lat_true": 0.5,
+              "rel_err": 0.0,
+              "status": "ok"
+            },
+            {
+              "G_lat_hat": 5.0,
+              "G_lat_true": 5.0,
+              "rel_err": 0.0,
+              "status": "ok"
+            },
+            {
+              "G_lat_hat": 500.0,
+              "G_lat_true": 500.0,
+              "rel_err": 0.0,
+              "status": "ok"
+            }
+          ],
+          "label": "mirror_primary",
+          "uncoupled_mid_node_gap": 450000.0
+        },
+        {
+          "Q_independent_of_G_lat": false,
+          "Q_relative_span_over_G_lat": 0.221470564549,
+          "cross_product_X": 8.8,
+          "dQdG_numerator": 77.44,
+          "degenerate": false,
+          "g": [
+            4.0,
+            0.8,
+            1.5,
+            2.5
+          ],
+          "identity_holds": true,
+          "inversions": [
+            {
+              "G_lat_hat": 0.0,
+              "G_lat_true": 0.0,
+              "rel_err": null,
+              "status": "ok"
+            },
+            {
+              "G_lat_hat": 0.5,
+              "G_lat_true": 0.5,
+              "rel_err": 0.0,
+              "status": "ok"
+            },
+            {
+              "G_lat_hat": 5.0,
+              "G_lat_true": 5.0,
+              "rel_err": 0.0,
+              "status": "ok"
+            },
+            {
+              "G_lat_hat": 499.999999998804,
+              "G_lat_true": 500.0,
+              "rel_err": 2e-12,
+              "status": "ok"
+            }
+          ],
+          "label": "asymmetric_nondegenerate",
+          "uncoupled_mid_node_gap": 412500.0
+        },
+        {
+          "Q_independent_of_G_lat": true,
+          "Q_relative_span_over_G_lat": 0.0,
+          "cross_product_X": 0.0,
+          "dQdG_numerator": 0.0,
+          "degenerate": true,
+          "g": [
+            2.0,
+            1.0,
+            4.0,
+            2.0
+          ],
+          "identity_holds": true,
+          "inversions": [
+            {
+              "G_lat_hat": null,
+              "G_lat_true": 0.0,
+              "rel_err": null,
+              "status": "structurally_degenerate_no_information"
+            },
+            {
+              "G_lat_hat": null,
+              "G_lat_true": 0.5,
+              "rel_err": null,
+              "status": "structurally_degenerate_no_information"
+            },
+            {
+              "G_lat_hat": null,
+              "G_lat_true": 5.0,
+              "rel_err": null,
+              "status": "structurally_degenerate_no_information"
+            },
+            {
+              "G_lat_hat": null,
+              "G_lat_true": 500.0,
+              "rel_err": null,
+              "status": "structurally_degenerate_no_information"
+            }
+          ],
+          "label": "proportional_paths_degenerate",
+          "uncoupled_mid_node_gap": 0.0
+        },
+        {
+          "Q_independent_of_G_lat": true,
+          "Q_relative_span_over_G_lat": 0.0,
+          "cross_product_X": 0.0,
+          "dQdG_numerator": 0.0,
+          "degenerate": true,
+          "g": [
+            1.0,
+            3.0,
+            2.0,
+            6.0
+          ],
+          "identity_holds": true,
+          "inversions": [
+            {
+              "G_lat_hat": null,
+              "G_lat_true": 0.0,
+              "rel_err": null,
+              "status": "structurally_degenerate_no_information"
+            },
+            {
+              "G_lat_hat": null,
+              "G_lat_true": 0.5,
+              "rel_err": null,
+              "status": "structurally_degenerate_no_information"
+            },
+            {
+              "G_lat_hat": null,
+              "G_lat_true": 5.0,
+              "rel_err": null,
+              "status": "structurally_degenerate_no_information"
+            },
+            {
+              "G_lat_hat": null,
+              "G_lat_true": 500.0,
+              "rel_err": null,
+              "status": "structurally_degenerate_no_information"
+            }
+          ],
+          "label": "proportional_paths_degenerate_2",
+          "uncoupled_mid_node_gap": 0.0
+        },
+        {
+          "Q_independent_of_G_lat": false,
+          "Q_relative_span_over_G_lat": 4.86977e-06,
+          "cross_product_X": 0.04,
+          "dQdG_numerator": 0.0016,
+          "degenerate": false,
+          "g": [
+            2.0,
+            1.0,
+            4.0,
+            2.02
+          ],
+          "identity_holds": true,
+          "inversions": [
+            {
+              "G_lat_hat": 0.0,
+              "G_lat_true": 0.0,
+              "rel_err": null,
+              "status": "ok"
+            },
+            {
+              "G_lat_hat": 0.4999999999,
+              "G_lat_true": 0.5,
+              "rel_err": 2e-10,
+              "status": "ok"
+            },
+            {
+              "G_lat_hat": 4.99999999972,
+              "G_lat_true": 5.0,
+              "rel_err": 5.6e-11,
+              "status": "ok"
+            },
+            {
+              "G_lat_hat": 500.000007983125,
+              "G_lat_true": 500.0,
+              "rel_err": 1.5966e-08,
+              "status": "ok"
+            }
+          ],
+          "label": "near_degenerate",
+          "uncoupled_mid_node_gap": 1993.355481727514
+        }
+      ],
+      "well_conditioned_rows_recover_exactly": true
+    },
     "levels": [
       {
         "bisection_cross_check_passes": true,
@@ -13203,12 +13492,12 @@
     },
     "three_things_distinguished": {
       "bias_from_assuming_unverified_symmetry": "This arm \u2014 the ideal mirror inverse applied to a geometry that is not one.",
-      "recoverability_with_calibrated_axial_segments": "invert_G_from_known_axials \u2014 exact for ANY geometry, no symmetry assumed.",
+      "recoverability_with_calibrated_axial_segments": "invert_G_from_known_axials \u2014 exact for any NONDEGENERATE calibrated geometry having a nonzero uncoupled mid-node pressure gap (g1_top*g2_bot != g2_top*g1_bot). No mirror symmetry is assumed, but this is NOT 'any geometry' \u2014 see calibrated_inversion_degeneracy.",
       "structural_identifiability_of_the_ideal_design": "Arm B \u2014 exact in the designed geometry."
     }
   },
   "claim_ceiling": "A cheap scientific screen, human-selected and post-snapshot. It is SYNTHETIC / MATHEMATICAL identifiability in the exact steady two-path Darcy network under a controlled mirror geometry -- NOT empirical validation of anything. It promotes no evidence rung. It produces NO real-puck Xi estimate and no k_lat estimate. It makes no claim that espresso occupies the transition regime or any regime. The 1/2/5 % figures are hypothetical resolution scenarios reusing the existing floor convention; they are not instrument accuracies, not experimental uncertainty, and no apparatus is shown able to attain the required precision. Paper 4 is NOT authorized.",
-  "content_sha256": "8c19c6ca7a9e635c8c155ffb1cb5bc3f97a5681a38a795fdd021b097122fa380",
+  "content_sha256": "069ce229b4d427c76b3bdc2bcdd9e0f310d334485168df7acb5dd5b8a28436e5",
   "decision": "SURVIVE",
   "decision_record": {
     "arm": "all seven frozen clauses evaluate true",
@@ -13289,11 +13578,15 @@
   },
   "evidence_labels_unchanged": true,
   "foundry_infrastructure_unchanged": {
-    "candidate_portfolio_changed": false,
+    "candidate_added_or_removed": false,
+    "candidate_portfolio_content_changed": false,
+    "candidate_scored": false,
     "generated_artifacts_hand_edited": false,
+    "generated_artifacts_regenerated": true,
     "generator_added_or_changed": false,
     "id_registry_changed": false,
     "lens_added_or_changed": false,
+    "regeneration_note": "docs/insights/generated/** WAS regenerated with `python -m puckworks.insights write` -- required, because the card correction this screen earned is an input the corpus map hashes, and `insights verify` fails on a stale input. It was never hand-edited. The only field that moved anywhere is source_commit: all 90 candidates, all 171 tension rows, every ID, every SEED status and every (empty) score are identical. ID_REGISTRY.json and docs/insights/candidates/ are byte-unchanged.",
     "scoring_added": false
   },
   "geometry": {
@@ -13391,8 +13684,8 @@
     "NOT_A_MODEL_VALIDATION_UPGRADE"
   ],
   "load_bearing_source_hashes": {
-    "docs/cards/lateral_coupling_feasibility.md": "cab1c9665f1e8d8a96a7e7ca1b00be8c8d5220fdbb8f5e92bd44eb4313bfd957",
-    "docs/insights/screens/WP6-LC-IDENT/PROTOCOL.md": "c77b0926054d208369ee32f297ee9e3675db3da19b8220e38eed6166f8ce3be0",
+    "docs/cards/lateral_coupling_feasibility.md": "fa78ea878e22fcf2658e8473a6e3804b8335148a01cac045d2bdb3b8aaa27400",
+    "docs/insights/screens/WP6-LC-IDENT/PROTOCOL.md": "d9c911ff224caa34f1f9308148dc9f41b97fb55ff9dc1e4d10c23658c5f0e586",
     "puckworks/analysis/lateral_coupling_discrimination.py": "8adbfb8317d0518cf229cd24e29242198138250b343dbf81048857a42b2efcf6",
     "puckworks/analysis/lateral_proxy.py": "b72e5ff7b4c2b6558ad6bbadaff83789977df0f7aa29aff04c10d0bfda197756",
     "puckworks/models/lateral_coupling.py": "ba1468993b6daed6ea703dab080727353c9cab3651ea84282df68b9e2e8f4ec0"
@@ -13409,7 +13702,7 @@
   "primary_quantity": "Xi = G_lat*(1/A1 + 1/A2), the EXACT pressure-equalization number. The legacy provisional Lambda regime labels are not used.",
   "protocol": {
     "path": "docs/insights/screens/WP6-LC-IDENT/PROTOCOL.md",
-    "sha256": "c77b0926054d208369ee32f297ee9e3675db3da19b8220e38eed6166f8ce3be0"
+    "sha256": "d9c911ff224caa34f1f9308148dc9f41b97fb55ff9dc1e4d10c23658c5f0e586"
   },
   "question": "In the controlled isoresistive-mirror two-path geometry, is the mapping from physical lateral coupling to (Q/Q0, outlet share s1) one-to-one, so that Xi can be recovered without separately measuring k_lat and w?",
   "schema_version": 1,
@@ -13425,7 +13718,71 @@
         3.0
       ]
     },
+    "continuous_window_post_hoc": {
+      "feeds_no_decision_clause": true,
+      "floors": {
+        "1pct": {
+          "Xi_lower": 0.241134413907,
+          "Xi_upper": 3.945979529349,
+          "continuous_passing_interval_exists": true,
+          "crossings": [
+            {
+              "Xi": 0.241134413907,
+              "direction": "enter",
+              "log10_Xi": -0.617740804125
+            },
+            {
+              "Xi": 3.945979529349,
+              "direction": "exit",
+              "log10_Xi": 0.596154827922
+            }
+          ],
+          "floor": 0.01,
+          "n_crossings": 2,
+          "n_passing_scan_points": 121,
+          "n_scan_points": 701,
+          "scan_bounds_log10": [
+            -4.0,
+            3.0
+          ],
+          "single_contiguous_interval": true
+        },
+        "2pct": {
+          "Xi_lower": null,
+          "Xi_upper": null,
+          "continuous_passing_interval_exists": false,
+          "crossings": [],
+          "floor": 0.02,
+          "n_crossings": 0,
+          "n_passing_scan_points": 0,
+          "n_scan_points": 701,
+          "scan_bounds_log10": [
+            -4.0,
+            3.0
+          ],
+          "single_contiguous_interval": false
+        },
+        "5pct": {
+          "Xi_lower": null,
+          "Xi_upper": null,
+          "continuous_passing_interval_exists": false,
+          "crossings": [],
+          "floor": 0.05,
+          "n_crossings": 0,
+          "n_passing_scan_points": 0,
+          "n_scan_points": 701,
+          "scan_bounds_log10": [
+            -4.0,
+            3.0
+          ],
+          "single_contiguous_interval": false
+        }
+      },
+      "label": "POST_HOC_DIAGNOSTIC_NOT_IN_DECISION",
+      "method": "bounded bisection in log10(Xi) on the frozen 27-corner recovered_within_factor_two predicate; 60 scan decades-steps then 60 bisection halvings per crossing; tolerance 1e-6 in log10(Xi)"
+    },
     "derivative_cross_check_passes": true,
+    "frozen_grid_note": "The frozen Xi grid has 22 nonzero points. A window's Xi_min/Xi_max are the smallest and largest PASSING GRID POINTS -- they are NOT a continuous boundary estimate and must never be quoted as one. The continuous crossings are located separately in continuous_window_post_hoc.",
     "no_apparatus_feasibility_claim_is_earned": true,
     "not_experimental_uncertainty": true,
     "not_instrument_accuracies": true,

@@ -50,16 +50,36 @@ s(c, Ξ) = (1−c)(1 + Ξ + c) / (2(1 + Ξ − c²)) t̂  = [1 − R(1 − ĉ²)
 
 | check | result | frozen tolerance |
 |---|---|---|
-| analytic map vs the exact network, 230 grid points | max abs error **0** | 1e−12 |
+| analytic map vs the exact network, 230 grid points | agrees **to machine precision** (live max ≈ **8e−15**) | 1e−12 |
 | recovered contrast, 220 nondegenerate points | max \|ĉ − c\| = **3.0e−12** | 1e−9 |
 | recovered coupling | max \|Ξ̂ − Ξ\|/Ξ = **8.2e−11** | 1e−6 |
 | injectivity, min pairwise `(R, s)` distance | **5.12e−06** (> 0) | — |
+
+The first row is **floating-point agreement, not an algebraic-identity claim**. The analytic map
+and the network solve are the same algebra evaluated two ways, so their difference is pure
+rounding: the live maximum is 7.99e−15 in this environment and records as `0.0` in `result.json`
+only after that artifact's 12-decimal rounding. The identity claim is the derivation itself, which
+is a separate thing. `forward_map_max_abs_error_log10_upper_bound` records the exponent bound.
 
 The degenerate fibre is exactly `{Ξ = 0, any c} ∪ {c = 0, any Ξ}`, because
 `R = 1 ⟺ s = 1/2 ⟺ c(t−1) = 0`. Both are reported `degenerate_no_information` with `Ξ̂ = None` —
 nothing is clipped, epsilon-shifted or regularised.
 
-### 2. `Q` alone is confounded; `Q` + outlet share is not — the load-bearing arm
+### 2. `Q` alone cannot *jointly* identify `(c, Ξ)`; `Q` + outlet share can — the load-bearing arm
+
+**Stated exactly, because the unqualified form is wrong:** *when the signed axial contrast `c` is
+not independently known*, total flow alone cannot jointly identify `(c, Ξ)`; adding the separate
+outlet share identifies both in the exact nondegenerate mirror design.
+
+**The full hierarchy — each rung demonstrated on the exact model** (`observable_hierarchy` in
+`result.json`):
+
+| what is known | observables | identifies |
+|---|---|---|
+| the mirror contrast `c`, independently and **nonzero** | `R` | **Ξ** — `R` alone *is* sufficient here |
+| only that the fixture is built as an exact mirror | `R`, `s` | **`c` and Ξ** — the frozen primary result |
+| all four axial conductances, calibrated and **nondegenerate** | pressure-normalised total flow | **`G_lat`** — no symmetry assumed |
+| nothing beyond boundary flows (general geometry) | `q₁, q₂` blocked and open | **nothing** — 5 unknowns, 4 numbers |
 
 For an observed `R > 1` the exact solution set is a continuum,
 `{(c, Ξ(c)) : √(1−1/R) < |c| < 1}`, **of both signs of `c`** — because `R` depends on `c` only
@@ -90,11 +110,19 @@ holds `Q/Q₀ = 1`, so it misses **both** observables at once.
 Hypothetical scenarios only, reusing the existing 1 %/2 %/5 % floor convention: each of `q₁`, `q₂`,
 `Q₀` carries a relative floor `f`, over the deterministic 27-point `{−f, 0, +f}³` factorial.
 
-| floor | Ξ recoverable within a factor of two |
-|---|---|
-| **1 %** | **Ξ ∈ [0.464, 2.15]** (3 of 22 grid points, contiguous) |
-| 2 % | **none** |
-| 5 % | **none** |
+| floor | frozen 22-point grid — points passing | continuous crossings (post-hoc) |
+|---|---|---|
+| **1 %** | **3 of 22**: Ξ = **0.464, 1.0, 2.154** | **Ξ ≈ 0.241 → 3.946** |
+| 2 % | **0 of 22** | **no passing interval** |
+| 5 % | **0 of 22** | **no passing interval** |
+
+**The frozen result is the grid column, and it can only say which of 22 points pass** — the
+minimum and maximum passing point are **not** a continuous boundary and must never be quoted as
+one. The continuous column is a separate `POST_HOC_DIAGNOSTIC_NOT_IN_DECISION` that locates the
+crossings by bounded bisection in `log10 Ξ` over the *same* exact map, inverse and 27-corner rule
+(701-point scan, 60 halvings, no new dependency and no new threshold). It feeds no decision
+clause — a test asserts that — and it confirms independently that **no continuous passing interval
+exists at 2 % or 5 %**.
 
 Sensitivity peaks exactly where the algebra says: `dR/dlnΞ` maximal at `Ξ = 1` (value `c²/(1−c²)/4`
 = 1/12), `|ds/dlnΞ|` maximal at `Ξ = 1 − c² = 0.75` (value `c/8` = 0.0625). Conditioning degrades
@@ -139,8 +167,33 @@ inside the well-conditioned window (worst bias 0.18 at Ξ = 0.75 and Ξ = 1.0) a
 
 Three things are kept distinct and all three are reported: **structural identifiability of the
 ideal design** (exact); **bias from assuming unverified symmetry** (large); **recoverability with
-independently calibrated axial segments** (exact for *any* geometry, no symmetry assumed, via the
-closed-form Möbius inversion `G = [(Q/P)A₁A₂ − N₀]/[M − (Q/P)S]`, cross-checked by bisection).
+independently calibrated axial segments** — exact for any **nondegenerate** calibrated geometry
+having a **nonzero uncoupled mid-node pressure gap**, no symmetry assumed, via the closed-form
+Möbius inversion `G = [(Q/P)A₁A₂ − N₀]/[M − (Q/P)S]`, cross-checked by bisection.
+
+**Correction (2026-08-09) — the calibrated route is not valid for "any geometry".** An earlier
+wording of this screen said so; that is false in exactly one structural case. Differentiating the
+Möbius form,
+
+```
+d(Q/P)/dG = [M·A₁A₂ − N₀·S]/(A₁A₂ + G·S)²  =  (g1_top·g2_bot − g2_top·g1_bot)² / (A₁A₂ + G·S)²
+```
+
+so with `X ≡ g1_top·g2_bot − g2_top·g1_bot` the inversion is one-to-one **iff `X ≠ 0`**, and `X = 0`
+is exactly the condition that the two **uncoupled mid-node pressures are equal** — no lateral
+driving pressure at any `G_lat`, so `Q` carries no information about it. Two consequences worth
+keeping: the derivative is a *square*, so `Q` is non-decreasing in `G_lat` for every admissible
+geometry; and the failure is **continuous**, `dG/d(Q/P) ~ 1/X²`, not abrupt.
+
+Demonstrated rather than asserted (`calibrated_inversion_degeneracy`): `g = (2, 1, 4, 2)` — two
+**non-identical** paths with proportional top/bottom split — has `X = 0`, `p₁ = p₂`, and `Q`
+numerically invariant across `G_lat ∈ {0, 0.5, 5, 500}`; the routine returns
+`structurally_degenerate_no_information`, not a number. A near-degenerate row (`X = 0.04` against
+the mirror's `X = 8`) shows the conditioning decay directly: recovery error grows from 2e−12 to
+1.6e−8, tracking `1/X²`. **A real fixture therefore needs a margin on the uncoupled pressure gap,
+not merely a nonzero one.** The erratum is appended to `PROTOCOL.md` rather than rewritten into
+its frozen text. The mirror route is unaffected: there `X = A²c`, nonzero for every `c ≠ 0` on the
+frozen grid — precisely the nondegenerate domain the decision rule already declares.
 
 ## Strongest alternative explanation
 

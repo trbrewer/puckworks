@@ -387,3 +387,72 @@ transfer question stay **OPEN**. **Paper 4 is not authorized by this screen unde
 One executable module, focused tests, one figure, one bundle, one decision, one experiment
 specification. Algebraic/network work only — sub-second execution, no compute campaign. If it
 wants more, it is not a cheap screen.
+
+---
+
+## POST-EXECUTION FACTUAL ERRATUM — 2026-08-09
+
+**The frozen text above is NOT rewritten.** This erratum is appended after execution, in the
+repository's established style (cf. `I-076/PROTOCOL.md`, `I-093/PROTOCOL_ERRATUM.md`), because a
+statement in §7F was factually incomplete.
+
+### What §7F said
+
+> `Q/P = (N₀ + G·M)/(A₁A₂ + G·S)` … — a Möbius function of `G`, hence invertible
+
+### What is missing
+
+**A nondegeneracy condition.** Differentiating,
+
+```
+d(Q/P)/dG = [M·A₁A₂ − N₀·S] / (A₁A₂ + G·S)²
+          = (g1_top·g2_bot − g2_top·g1_bot)² / (A₁A₂ + G·S)²
+```
+
+so with `X ≡ g1_top·g2_bot − g2_top·g1_bot`:
+
+- the calibrated inversion is strictly monotone, hence **one-to-one, iff `X ≠ 0`**;
+- it is **structurally singular when `X = 0`**;
+- `X = 0` is exactly the condition that the two **uncoupled mid-node pressures are equal**
+  (`p_i(G=0) = g_i_top·P/(g_i_top+g_i_bot)`, so `p₁ = p₂ ⟺ g1_top·g2_bot = g2_top·g1_bot`). With
+  no uncoupled pressure gap, no lateral pressure drives the bridge at any `G_lat`, `Q` is exactly
+  independent of `G_lat`, and the boundary measurement carries **no information** about it;
+- near that condition the inversion is **poorly conditioned**, `dG/d(Q/P) ~ 1/X²`, degrading
+  continuously rather than failing abruptly.
+
+A Möbius map is invertible only when its determinant is nonzero; §7F asserted invertibility
+without recording that condition. `g = (2, 1, 4, 2)` is a concrete counterexample: two
+*non-identical* paths with proportional top/bottom split, `X = 0`, `p₁ = p₂ = 0.6·P`, and `Q`
+numerically invariant across `G_lat ∈ {0, 0.5, 5, 500}`.
+
+### What this changes, and what it does not
+
+**It does not affect the mirror result or any frozen decision clause.** The mirror inverse of §5
+is a different route, and for the mirror `X = a² − b² = A²c`, which is nonzero for every
+`c ≠ 0` on the frozen grid — i.e. exactly the nondegenerate domain the decision rule already
+declares. All seven clauses of §9 are unchanged and still evaluate true; the decision remains
+**SURVIVE**; card box 6 stays closed and box 5 stays open; Paper 4 stays unauthorized.
+
+**It does change one secondary claim.** Every statement that the calibrated-axials route works
+for *"any geometry"* is corrected to:
+
+> any **nondegenerate** calibrated geometry having a **nonzero uncoupled mid-node pressure gap**
+> (`g1_top·g2_bot ≠ g2_top·g1_bot`).
+
+`invert_G_from_known_axials` now reports `structurally_degenerate_no_information` in that case
+rather than returning a number, and the demonstration is in `result.json` under
+`arm_f_mirror_imperfection.calibrated_inversion_degeneracy`.
+
+## POST-EXECUTION ADDENDUM — post-hoc diagnostics added 2026-08-09
+
+Three diagnostics were added **after** the decision and are labelled
+`POST_HOC_DIAGNOSTIC_NOT_IN_DECISION`. None feeds any clause of the §9 rule — a test asserts it —
+and none changed the decision:
+
+1. **the blocked-bridge outlet share** as a partial symmetry pre-test, and the one-parameter
+   geometry family it cannot see;
+2. **the calibrated-inversion degeneracy** above;
+3. **the continuous factor-of-two window**. §8 fixes a 22-point Ξ grid, which can only report
+   *which grid points pass*; the minimum and maximum passing grid point are **not** a continuous
+   boundary estimate. The crossings are located by bounded bisection in `log10 Ξ` over the same
+   exact map, inverse and 27-corner rule. The frozen-grid result is reported unchanged alongside.

@@ -40,18 +40,30 @@ challenges the card's box-5 parenthetical *"needs `k_lat` and `w`"*.
 
 **This is not a generated candidate.** It was selected by a human from a live card after the
 candidate snapshot. The Foundry has no identity mechanism for that, so it uses a stable slug. **No
-`I-` number was minted; `docs/insights/ID_REGISTRY.json`, `docs/insights/generated/` and the
-candidate portfolio are byte-unchanged; the 90 candidates were not scored, ranked or inspected;
-no lens, generator or scoring system was added.**
+`I-` number was minted; `docs/insights/ID_REGISTRY.json` and `docs/insights/candidates/` are
+byte-unchanged; the 90 candidates were not scored, ranked or inspected; no lens, generator or
+scoring system was added.** `docs/insights/generated/**` was **regenerated** — never hand-edited —
+because the card correction this screen earned is an input the corpus map hashes. The only field
+that moved anywhere is `source_commit`: all 90 candidates, all 171 tension rows, every ID, every
+`SEED` status and every (empty) score are identical, and a test asserts exactly that.
 
 ## Result in plain language
 
-**Yes — and total flow alone is not enough.**
+**Yes — and when `c` is not independently known, total flow alone is not enough.**
+
+The qualifier is load-bearing. The full hierarchy, each rung demonstrated on the exact model:
+
+| what is known | observables | identifies |
+|---|---|---|
+| the mirror contrast `c`, independently and **nonzero** | `R` | **Ξ** — `R` alone *is* sufficient |
+| only that the fixture is built as an exact mirror | `R`, `s` | **`c` and Ξ** — the primary result |
+| all four axial conductances, calibrated and **nondegenerate** | pressure-normalised total flow | **`G_lat`** |
+| nothing beyond boundary flows (general geometry) | `q₁, q₂` blocked and open | **nothing** |
 
 Coupling always raises total flow in this mirror, but `R` depends on the axial contrast only
-through `c²`. So a single measured `R` is reproduced exactly by a *continuum* of different
-`(c, Ξ)` states — **including both signs of `c`**. Adding the separate outlet share collapses that
-continuum to one point, and it does so exactly, because the model obeys the identity
+through `c²`. So when `c` is unknown, a single measured `R` is reproduced exactly by a *continuum*
+of different `(c, Ξ)` states — **including both signs of `c`**. Adding the separate outlet share
+collapses that continuum to one point, and it does so exactly, because the model obeys the identity
 
 ```
 s − 1/2 = −(R − 1) / (2 R c)
@@ -72,16 +84,24 @@ carrying **no information**, not as a number.
 
 1. **The mirror assumption is load-bearing.** A 1 % construction asymmetry can bias `Ξ̂` by a factor
    of ~5. With the four axial conductances independently calibrated, `G_lat` instead follows
-   *exactly* from `Q` alone, for any geometry, with no symmetry assumed.
+   *exactly* from `Q` alone — for any **nondegenerate** calibrated geometry having a nonzero
+   uncoupled mid-node pressure gap (`g1_top·g2_bot ≠ g2_top·g1_bot`), with no symmetry assumed.
+   **Not "any geometry":** when that cross product vanishes the two uncoupled mid-node pressures
+   coincide, nothing drives the bridge, and `Q` is exactly independent of `G_lat`. The routine
+   reports that case rather than returning a number, and the failure is continuous (`1/X²`), so a
+   real fixture needs a *margin* on the pressure gap, not merely a nonzero one.
 2. **Boundary flows alone do not identify Ξ for an arbitrary fixture.** A family of different
    geometries spanning a factor of 8 in Ξ reproduces all four boundary flows exactly. The mirror
    *construction* closes the system — a design assumption about the apparatus, not a measurement
    of `k_lat` or `w`.
-3. **The precision required is demanding.** Under the existing 1 %/2 %/5 % scenario convention, Ξ
-   is recoverable within a factor of two only for **Ξ ∈ [0.46, 2.15] at a 1 % floor**, and nowhere
-   at 2 % or 5 %. Worse than that band suggests, in fact: at most grid points some scenario corners
-   return **no physical inverse at all**, so the plotted envelope is optimistic wherever it is
-   marked ✕ — counted, not dropped quietly.
+3. **The precision required is demanding.** Under the existing 1 %/2 %/5 % scenario convention, on
+   the **frozen 22-point grid** exactly three points recover Ξ within a factor of two at a 1 %
+   floor — **Ξ = 0.464, 1.0, 2.154** — and none at 2 % or 5 %. A separate post-hoc solve locates
+   the continuous crossings at **Ξ ≈ 0.241 → 3.946** (1 %) and confirms **no passing interval** at
+   2 % or 5 %. The three grid points' min and max are *not* the window and are not quoted as such.
+   Worse than the band suggests, in fact: at most grid points some scenario corners return **no
+   physical inverse at all**, so the plotted envelope is optimistic wherever it is marked ✕ —
+   counted, not dropped quietly.
 
 ## Exact reproduction
 
