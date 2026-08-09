@@ -13208,7 +13208,7 @@
     }
   },
   "claim_ceiling": "A cheap scientific screen, human-selected and post-snapshot. It is SYNTHETIC / MATHEMATICAL identifiability in the exact steady two-path Darcy network under a controlled mirror geometry -- NOT empirical validation of anything. It promotes no evidence rung. It produces NO real-puck Xi estimate and no k_lat estimate. It makes no claim that espresso occupies the transition regime or any regime. The 1/2/5 % figures are hypothetical resolution scenarios reusing the existing floor convention; they are not instrument accuracies, not experimental uncertainty, and no apparatus is shown able to attain the required precision. Paper 4 is NOT authorized.",
-  "content_sha256": "c44e47ff25f82bd31a5549b8d578ba607b97e44344efa8af1f177ed2df45b83c",
+  "content_sha256": "03f56c090ec7b5a68823bd0cac2460f165acc7574d892883fdddf4a20667394f",
   "decision": "SURVIVE",
   "decision_record": {
     "arm": "all seven frozen clauses evaluate true",
@@ -13391,7 +13391,7 @@
     "NOT_A_MODEL_VALIDATION_UPGRADE"
   ],
   "load_bearing_source_hashes": {
-    "docs/cards/lateral_coupling_feasibility.md": "5babe8ab2311a7f908faca861e63289084ed37b0aeeea58de5c480bb774bbd01",
+    "docs/cards/lateral_coupling_feasibility.md": "cab1c9665f1e8d8a96a7e7ca1b00be8c8d5220fdbb8f5e92bd44eb4313bfd957",
     "docs/insights/screens/WP6-LC-IDENT/PROTOCOL.md": "c77b0926054d208369ee32f297ee9e3675db3da19b8220e38eed6166f8ce3be0",
     "puckworks/analysis/lateral_coupling_discrimination.py": "8adbfb8317d0518cf229cd24e29242198138250b343dbf81048857a42b2efcf6",
     "puckworks/analysis/lateral_proxy.py": "b72e5ff7b4c2b6558ad6bbadaff83789977df0f7aa29aff04c10d0bfda197756",
