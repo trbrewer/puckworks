@@ -79,7 +79,9 @@ carrying **no information**, not as a number.
    of `k_lat` or `w`.
 3. **The precision required is demanding.** Under the existing 1 %/2 %/5 % scenario convention, Ξ
    is recoverable within a factor of two only for **Ξ ∈ [0.46, 2.15] at a 1 % floor**, and nowhere
-   at 2 % or 5 %.
+   at 2 % or 5 %. Worse than that band suggests, in fact: at most grid points some scenario corners
+   return **no physical inverse at all**, so the plotted envelope is optimistic wherever it is
+   marked ✕ — counted, not dropped quietly.
 
 ## Exact reproduction
 

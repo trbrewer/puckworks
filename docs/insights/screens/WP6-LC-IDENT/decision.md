@@ -100,6 +100,14 @@ Sensitivity peaks exactly where the algebra says: `dR/dlnΞ` maximal at `Ξ = 1`
 = 1/12), `|ds/dlnΞ|` maximal at `Ξ = 1 − c² = 0.75` (value `c/8` = 0.0625). Conditioning degrades
 as `1/Ξ` toward zero coupling and saturates for `Ξ ≫ 1`, as predicted.
 
+**No silent caps.** The plotted `[Ξ̂_min, Ξ̂_max]` band spans only the scenario corners that returned
+a *physical* inverse. Many returned none — at Ξ = 1e−4, 21 of the 27 corners — so **where corners
+were dropped the true spread is worse than the band drawn**. Affected grid points: **15 of 22 at
+1 %, 18 of 22 at 2 %, 22 of 22 at 5 %**. They are counted in `result.json`
+(`n_grid_points_with_unrecoverable_corners`, `Xi_with_unrecoverable_corners`) and marked with ✕ on
+the figure rather than dropped quietly. The `recovered_within_factor_two` flag is unaffected: it
+requires **all 27** corners to return a finite physical Ξ̂, so it never benefits from a dropped one.
+
 ## Primary figure
 
 [`figures/primary.png`](figures/primary.png) — (a) both boundary signatures versus Ξ with the

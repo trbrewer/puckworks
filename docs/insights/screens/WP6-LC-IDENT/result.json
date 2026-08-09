@@ -13208,7 +13208,7 @@
     }
   },
   "claim_ceiling": "A cheap scientific screen, human-selected and post-snapshot. It is SYNTHETIC / MATHEMATICAL identifiability in the exact steady two-path Darcy network under a controlled mirror geometry -- NOT empirical validation of anything. It promotes no evidence rung. It produces NO real-puck Xi estimate and no k_lat estimate. It makes no claim that espresso occupies the transition regime or any regime. The 1/2/5 % figures are hypothetical resolution scenarios reusing the existing floor convention; they are not instrument accuracies, not experimental uncertainty, and no apparatus is shown able to attain the required precision. Paper 4 is NOT authorized.",
-  "content_sha256": "03f56c090ec7b5a68823bd0cac2460f165acc7574d892883fdddf4a20667394f",
+  "content_sha256": "8c19c6ca7a9e635c8c155ffb1cb5bc3f97a5681a38a795fdd021b097122fa380",
   "decision": "SURVIVE",
   "decision_record": {
     "arm": "all seven frozen clauses evaluate true",
@@ -14549,23 +14549,90 @@
       "1pct": {
         "Xi_max": 2.154434690032,
         "Xi_min": 0.464158883361,
+        "Xi_with_unrecoverable_corners": [
+          0.0001,
+          0.000215443469,
+          0.000464158883,
+          0.001,
+          0.00215443469,
+          0.004641588834,
+          0.01,
+          0.0215443469,
+          0.046415888336,
+          21.544346900319,
+          46.415888336128,
+          100.0,
+          215.443469003188,
+          464.158883361277,
+          1000.0
+        ],
         "contiguous_on_grid": true,
         "floor": 0.01,
-        "n_grid_points_recoverable": 3
+        "interval_is_optimistic_where_corners_were_dropped": true,
+        "n_grid_points_recoverable": 3,
+        "n_grid_points_with_unrecoverable_corners": 15
       },
       "2pct": {
         "Xi_max": null,
         "Xi_min": null,
+        "Xi_with_unrecoverable_corners": [
+          0.0001,
+          0.000215443469,
+          0.000464158883,
+          0.001,
+          0.00215443469,
+          0.004641588834,
+          0.01,
+          0.0215443469,
+          0.046415888336,
+          0.1,
+          4.641588833613,
+          10.0,
+          21.544346900319,
+          46.415888336128,
+          100.0,
+          215.443469003188,
+          464.158883361277,
+          1000.0
+        ],
         "contiguous_on_grid": false,
         "floor": 0.02,
-        "n_grid_points_recoverable": 0
+        "interval_is_optimistic_where_corners_were_dropped": true,
+        "n_grid_points_recoverable": 0,
+        "n_grid_points_with_unrecoverable_corners": 18
       },
       "5pct": {
         "Xi_max": null,
         "Xi_min": null,
+        "Xi_with_unrecoverable_corners": [
+          0.0001,
+          0.000215443469,
+          0.000464158883,
+          0.001,
+          0.00215443469,
+          0.004641588834,
+          0.01,
+          0.0215443469,
+          0.046415888336,
+          0.1,
+          0.215443469003,
+          0.464158883361,
+          1.0,
+          2.154434690032,
+          4.641588833613,
+          10.0,
+          21.544346900319,
+          46.415888336128,
+          100.0,
+          215.443469003188,
+          464.158883361277,
+          1000.0
+        ],
         "contiguous_on_grid": false,
         "floor": 0.05,
-        "n_grid_points_recoverable": 0
+        "interval_is_optimistic_where_corners_were_dropped": true,
+        "n_grid_points_recoverable": 0,
+        "n_grid_points_with_unrecoverable_corners": 22
       }
     }
   },

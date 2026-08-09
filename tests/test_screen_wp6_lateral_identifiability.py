@@ -390,6 +390,27 @@ def test_resolution_requirement_is_finite_and_tightens_with_the_floor(result):
             >= w["5pct"]["n_grid_points_recoverable"])
 
 
+def test_dropped_scenario_corners_are_counted_not_silently_capped(result):
+    """The [Xi_hat_min, Xi_hat_max] band spans only the corners that returned a physical
+    inverse, so where corners were dropped the true spread is WORSE than reported. That must be
+    recorded, and the factor-of-two flag must not benefit from a dropped corner."""
+    se = result["sensitivity_envelopes"]
+    for key, w in se["well_conditioned_windows"].items():
+        assert "n_grid_points_with_unrecoverable_corners" in w
+        assert w["n_grid_points_with_unrecoverable_corners"] == len(
+            w["Xi_with_unrecoverable_corners"])
+        assert w["interval_is_optimistic_where_corners_were_dropped"] == bool(
+            w["Xi_with_unrecoverable_corners"])
+    # the flag requires ALL 27 corners physical, so it can never be earned by dropping one
+    for r in se["rows"]:
+        for key, sc in r["scenarios"].items():
+            if sc["n_nonphysical_or_undefined"] > 0:
+                assert sc["recovered_within_factor_two"] is False
+            assert sc["n_scenario_points"] == 27
+    # and the effect is real here, not hypothetical
+    assert se["well_conditioned_windows"]["5pct"]["n_grid_points_with_unrecoverable_corners"] > 0
+
+
 def test_frozen_decision_rule_routes_other_inputs_correctly(result):
     """Exercise the rule on inputs OTHER than the live one, so it is a rule and not a label."""
     args = (result["arm_b_forward_and_recovery"], result["arm_c_minimum_observable"],

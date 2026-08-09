@@ -840,12 +840,21 @@ def sensitivity_envelopes():
     for f in PRECISION_FLOORS:
         key = "%dpct" % int(round(f * 100))
         ok = [r["Xi"] for r in rows if r["scenarios"][key]["recovered_within_factor_two"]]
+        drop = [r["Xi"] for r in rows if r["scenarios"][key]["n_nonphysical_or_undefined"] > 0]
         windows[key] = {"floor": f, "n_grid_points_recoverable": len(ok),
                         "Xi_min": min(ok) if ok else None, "Xi_max": max(ok) if ok else None,
                         "contiguous_on_grid": (bool(ok) and
                                                [r["Xi"] for r in rows
                                                 if min(ok) <= r["Xi"] <= max(ok)] ==
-                                               sorted(ok))}
+                                               sorted(ok)),
+                        # NO SILENT CAPS: the reported [Xi_hat_min, Xi_hat_max] interval spans
+                        # only the scenario corners that returned a PHYSICAL inverse. Where
+                        # corners returned none, the true spread is WORSE than the interval
+                        # shown, so both the count and the affected Xi are recorded here and
+                        # marked on the figure rather than dropped.
+                        "n_grid_points_with_unrecoverable_corners": len(drop),
+                        "Xi_with_unrecoverable_corners": drop,
+                        "interval_is_optimistic_where_corners_were_dropped": bool(drop)}
     best = max(rows, key=lambda r: abs(r["ds_dlnXi"]))
     bestR = max(rows, key=lambda r: r["dR_dlnXi"])
     return {
@@ -1159,6 +1168,16 @@ def figure(result=None, path=None):
             ax.fill_between([g[0] for g in good], [g[1] for g in good], [g[2] for g in good],
                             color=col, alpha=0.16, lw=1.2, edgecolor=col,
                             label="%s floor" % key.replace("pct", " %"))
+    # NO SILENT CAPS: mark where the band is built from a SUBSET of the 27 scenario corners
+    # because the rest returned no physical inverse. There the true spread is worse than drawn.
+    for n, (key, col) in enumerate(cols.items()):
+        drop = [x["Xi"] for x in rows
+                if x["scenarios"][key]["n_nonphysical_or_undefined"] > 0]
+        if drop:
+            y = (46.0, 36.0, 28.0)[n]
+            ax.plot(drop, [y] * len(drop), "x", color=col, ms=3.4, mew=1.0,
+                    label=("some corners had NO physical $\\hat{\\Xi}$\n(band below is optimistic)"
+                           if n == 0 else None))
     for n, (key, col) in enumerate(cols.items()):
         w = r["sensitivity_envelopes"]["well_conditioned_windows"][key]
         y = (0.042, 0.027, 0.0175)[n]
