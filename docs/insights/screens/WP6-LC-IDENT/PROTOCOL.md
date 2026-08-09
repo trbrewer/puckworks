@@ -40,10 +40,19 @@ docs/ONBOARDING.md                                        90fd26757897c49106f0f6
 The screen module recomputes these at run time and records them in `result.json`. A changed
 load-bearing hash is recorded, not silently absorbed.
 
-## 2. Identity — why this is not an `I-` number
+## 2. Candidate-selection record — and why this is not an `I-` number
 
 This question was **selected by a human from a live model card**, not drawn from the generated
 candidate portfolio. The 90-candidate portfolio at this base predates it and does not contain it.
+
+**Selection route and reasoning.** `docs/cards/lateral_coupling_feasibility.md` §4 carries two OPEN
+go/no-go boxes. Box 6 — *"the inference is not structurally non-identifiable"* — has never been
+tested: the repository contains forward maps only and **no inverse anywhere** (§3). It is decidable
+with algebra plus a model already in the tree; it needs no new dataset, no new machinery and no
+compute campaign; and it directly challenges the box-5 parenthetical *"needs `k_lat` and `w`"*,
+which asserts a measurement requirement that has never been checked against the model's own
+structure. **No score field, ranking, lens or generator change was introduced, and the 90
+candidates were not scored, ranked or inspected.**
 
 The Insight Foundry has **no sanctioned identity mechanism for a post-snapshot human-selected
 screen**: `docs/insights/ID_REGISTRY.json` is append-only and its `I-` numbers are content

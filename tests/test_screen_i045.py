@@ -528,9 +528,15 @@ def test_no_unauthorised_candidate_bundle_was_created():
     literal so that adding a bundle requires editing a reviewed line, and the second assertion
     keeps the guard honest: every name on it must actually appear as a shortlisted candidate in
     the human triage record, so the list cannot be padded with something nobody selected.
+
+    WP6-LC-IDENT takes the second route below. It is a HUMAN_SELECTED_POST_SNAPSHOT screen
+    drawn from a live model card rather than from the generated portfolio, so it is a stable
+    SLUG and not an `I-` number -- minting one would mean editing the generator or the
+    append-only ID registry, both forbidden. Its frozen PROTOCOL.md carries the selection
+    record, which is exactly what the second route requires.
     """
     allowed = {"I-040", "I-010", "I-024", "I-045", "I-076", "I-072", "I-090",
-               "I-093", "README.md"}
+               "I-093", "WP6-LC-IDENT", "README.md"}
     present = {p.name for p in (REPO / "docs/insights/screens").iterdir()}
     assert present <= allowed, present - allowed
 
