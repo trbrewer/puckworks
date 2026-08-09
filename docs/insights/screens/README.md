@@ -64,6 +64,26 @@ A separate finding — the `de1_fixtureA` manifest cell declaring
 in [`I-090/decision.md`](I-090/decision.md) and **deliberately not corrected**, pending
 source-level adjudication. The Foundry is not an authority over an evidence label.
 
+## Human-selected, post-snapshot — WP6-LC-IDENT, reported 2026-08-09
+
+| screen | question | decision |
+|---|---|---|
+| [`WP6-LC-IDENT`](WP6-LC-IDENT/) | can the exact lateral-coupling number Ξ be inferred from boundary measurements alone, without separately measuring `k_lat` and `w`? | **SURVIVE** — yes in the mirror design, and total flow alone is **not** enough: a continuum of `(c, Ξ)` states (both signs of `c`) reproduces one `Q/Q₀` exactly; the separate outlet share collapses it to one point |
+
+**This one is not from the generated portfolio.** It was selected by a human from a live model
+card (`docs/cards/lateral_coupling_feasibility.md` §4, go/no-go box 6) *after* the candidate
+snapshot, and the Foundry has no identity mechanism for that case — `I-` numbers are content
+fingerprints over *generated* candidate records and `ID_REGISTRY.json` is append-only. It therefore
+carries a stable **slug**, not an `I-` number, and is labelled `HUMAN_SELECTED_POST_SNAPSHOT`.
+`ID_REGISTRY.json`, `docs/insights/generated/` and the candidate portfolio are byte-unchanged; the
+90 candidates were not scored, ranked or inspected; no lens, generator or scoring system was added.
+
+It closes card box 6 (structural identifiability) and **qualifies** box 5's *"needs `k_lat` and
+`w`"*: those are needed to **decompose** `G_lat`, not to **infer** an effective Ξ. Box 5 itself —
+an accessible experiment — stays **OPEN**, and **Paper 4 remains NOT authorized**. Its
+[`DECISIVE_EXPERIMENT.md`](WP6-LC-IDENT/DECISIVE_EXPERIMENT.md) is a specification, not an
+authorization to build.
+
 ## IF-7 deep screens — I-045, reported 2026-08-05
 
 | screen | question | cheap | deep |
