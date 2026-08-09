@@ -84,6 +84,12 @@ conductance; it cannot see the top/bottom **split**. Therefore:
 
 Report which of the two routes was used. They license different statements.
 
+**Do not treat a physical-looking Ξ̂ as evidence the fixture was a mirror.** The inverse can return
+an impossible answer (`|ĉ| ≥ 1`, or `t̂` outside `(0,1]`) when the geometry is badly off, and that
+*is* a useful alarm — but it fires rarely: 0 of 96 perturbed cases at 1 %, 2 of 96 at 2 %, 9 of 96
+at 5 %. At 5 % the inverse returned a plausible **wrong** Ξ in 87 of 96 cases. Treat an impossible
+Ξ̂ as a hard stop; treat a possible one as carrying no information about symmetry.
+
 ## 6. Precision requirement and sample size — the calculation, not an invented `n`
 
 **Do not adopt a replicate count from this document. There is none.** The screen supplies the

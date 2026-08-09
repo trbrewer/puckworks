@@ -297,6 +297,18 @@ def test_mirror_imperfection_actually_biases_the_ideal_inverse(result):
     assert biases == sorted(biases), "bias must grow with the perturbation level"
 
 
+def test_the_inverse_self_diagnoses_only_partially(result):
+    """An impossible Xi_hat is a useful alarm; a possible one is NOT evidence of symmetry. The
+    bundle must show both halves, or a reader will treat a physical-looking answer as a check."""
+    lv = {l["perturbation_level"]: l for l in result["arm_f_mirror_imperfection"]["levels"]}
+    assert lv[0.01]["mirror_inverse_n_nonphysical"] == 0, (
+        "at 1 % nothing is flagged -- this is the half that makes the alarm unreliable")
+    assert lv[0.05]["mirror_inverse_n_nonphysical"] > 0, "the alarm must fire somewhere"
+    # ... and even where it fires, most rows still return a plausible wrong answer
+    worst = lv[0.05]
+    assert worst["mirror_inverse_n_nonphysical"] < 0.5 * worst["n_rows"]
+
+
 def test_calibrated_axial_inversion_is_exact_for_arbitrary_geometry(result):
     for lv in result["arm_f_mirror_imperfection"]["levels"]:
         assert lv["calibrated_all_exact"] is True

@@ -118,6 +118,13 @@ well-conditioned window.
 | 2 % | **6.01** | — | — | **exact** |
 | 5 % | **12.59** | — | — | **exact** |
 
+The inverse **partially self-diagnoses**, which is worth stating precisely because it is not a
+rescue: at 1 % every one of the 96 corner×Ξ rows returns a physical-looking answer (0 flagged); at
+2 %, 2 of 96 return an impossible one (\|ĉ\| ≥ 1 or t̂ outside (0,1]); at 5 %, 9 of 96 do. So a
+badly mirrored fixture *sometimes* announces itself — and **87 of 96 times at 5 % it instead
+returns a plausible, wrong Ξ**. An impossible answer is informative; a possible one is not
+evidence the fixture was a mirror.
+
 So the adversary **bites**: a 1 % asymmetry can return a Ξ off by a factor of ~5. It bites least
 inside the well-conditioned window (worst bias 0.18 at Ξ = 0.75 and Ξ = 1.0) and worst at Ξ = 19
 (4.33) and Ξ = 0.05 (1.07) — the same window is both the most resolvable and the most robust.
