@@ -6,7 +6,16 @@ NOT_A_PUBLICATION_RESULT
 NOT_A_MODEL_VALIDATION_UPGRADE
 ```
 
-**Decision: `SURVIVE`** — no RVE size stabilises the pore-scale solver, even at a box size of 5 grain diameters. Deep maturation is unlocked and runs in the same cycle.
+> ## ⚠ Deep maturation completed — this README is not the current conclusion
+>
+> **Deep maturation completed. The final deep disposition is `BOUNDED_NULL` under the frozen rule,
+> with `finite_size_status: PASS_BY_NON_REJECTION_LOW_POWER`. This README preserves the historical
+> cheap-screen SURVIVE; it is not the current scientific conclusion. The deep ensemble did not
+> demonstrate convergence or determine an REV.** See **[`deep_decision.md`](deep_decision.md)**
+> (and [`deep_result.json`](deep_result.json)).
+
+**Historical cheap-screen decision: `SURVIVE`.** The one-seed sweep failed the frozen cheap
+box-size criterion and therefore unlocked deep maturation, which ran in the same cycle.
 
 ## What was run
 
@@ -49,7 +58,9 @@ transformations are exact lattice→SI length conversions.
 The solver is sound where there is an analytic answer: the plane-Poiseuille positive control
 reproduces the exact permeability to **0.052 %**.
 
-On the sphere packs it does not converge in box size. Sweeping L = 32 → 100 at fixed resolution
+On the sphere packs the **one-seed cheap sweep did not satisfy its frozen box-size criterion**
+(the multi-seed deep ensemble later returned `BOUNDED_NULL`; see
+[`deep_decision.md`](deep_decision.md)). Sweeping L = 32 → 100 at fixed resolution
 (1.6 → 5.0 grain diameters) gives k = 3.16, 3.12, 4.62, 4.21, **5.14** lu² — **non-monotone, still
 rising at the largest box, and 18 % apart between the two largest** against a 5 % criterion frozen
 before the run. The budget was not exhausted and 5.0 grain diameters *was* reached, so this is **not** a
@@ -84,7 +95,7 @@ with a multi-seed sweep is the first item in [`DEEP_SCREEN_PROTOCOL.md`](DEEP_SC
 - **A shared geometry dissolves the matched-domain problem.** Three Wave-3 candidates died because
   two routes could not be brought onto one scenario. Generating the geometry both routes read
   removes that class of blocker entirely — worth remembering when selecting future candidates.
-- **Check the noise floor of your own control variable before sweeping it.** The RVE sweep varied
+- **Measure realization variability before interpreting a control-variable sweep.** The RVE sweep varied
   box size while realisation variance at fixed box size was never measured first. Had the family's
   seed spread been computed before the sweep rather than after, the protocol would have frozen a
   multi-seed RVE criterion from the start.
@@ -107,8 +118,8 @@ correction is warranted or made.**
 What changes, and what does not:
 
 - **The decision does not change.** The frozen rule was applied as written and returned SURVIVE.
-- **The measurement does not change.** k had not converged by 5.0 grain diameters, whatever that
-  figure was originally scoped to.
+- **The measurement does not change.** The one-seed sweep had not satisfied its frozen cheap
+  criterion by L/d = 5.0, whatever that figure was originally scoped to.
 - **The framing does change.** Reaching 5 grain diameters is *not* reaching a declared permeability
   guidance, so the SURVIVE-vs-INCONCLUSIVE boundary drawn in this screen rests on a threshold with
   no repository-declared anchor for this observable. The result is better read as a **positive

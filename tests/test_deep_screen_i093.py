@@ -498,3 +498,129 @@ def test_the_figure_caption_states_whether_the_frozen_matrix_was_available(deep)
     assert "16/16" in cap and "complete frozen section-3 matrix WAS available" in cap
     assert "22 of 46" in cap and "not launched by the budget" in cap
     assert "RELATED_NON_NESTED" in cap and "NOT paired" in cap
+
+
+# --------------------------------------------------------------------------------------------
+# interpretation consistency: a low-power non-rejection may not be read as a demonstration
+# --------------------------------------------------------------------------------------------
+
+def _flat(path):
+    """Markdown re-wraps lines and prefixes blockquotes; compare on collapsed prose."""
+    raw = (BUNDLE / path).read_text(encoding="utf-8")
+    lines = [ln.lstrip().removeprefix("> ").removeprefix(">") for ln in raw.splitlines()]
+    return " ".join(" ".join(lines).split())
+
+_OVERCLAIM = ("is stabilised", "is stabilized", "was single-realisation scatter",
+              "was single-realization scatter", "was realisation scatter",
+              "was realization scatter", "proves", "demonstrates stabilization",
+              "demonstrates stabilisation", "equivalent")
+
+
+def test_a_low_power_pass_cannot_claim_demonstrated_stabilization(deep):
+    assert deep["finite_size_status"] == "PASS_BY_NON_REJECTION_LOW_POWER"
+    basis = deep["overall_basis"].lower()
+    for phrase in _OVERCLAIM:
+        assert phrase not in basis, ("overall_basis overclaims: %r" % phrase)
+    assert "non-rejection" in basis
+    assert "does not demonstrate stabilization" in basis
+
+
+def test_overall_basis_does_not_claim_the_signal_was_solely_scatter(deep):
+    basis = deep["overall_basis"].lower()
+    assert "does not prove that the cheap-screen signal was solely realization scatter" in basis
+    assert "not robust to the multi-seed ensemble" in basis
+    for claim in deep["overall_basis_does_not_claim"]:
+        assert isinstance(claim, str) and claim
+    assert len(deep["overall_basis_does_not_claim"]) == 4
+
+
+def test_the_frozen_rule_wording_is_preserved_verbatim_but_not_endorsed(deep):
+    """The frozen executor is not edited; its own string is quoted, labelled and superseded."""
+    verbatim = deep["frozen_rule_basis_verbatim"]
+    assert "IS stabilised" in verbatim, "the frozen rule's own wording must be preserved"
+    assert verbatim != deep["overall_basis"]
+    note = deep["frozen_rule_basis_note"].lower()
+    assert "not endorsed" in note and "overstates" in note
+    assert "outcome it returned is authoritative and unchanged" in note
+
+
+def test_the_frozen_disposition_and_numerics_are_untouched(deep):
+    assert deep["overall_deep_disposition"] == "BOUNDED_NULL"
+    assert deep["realization_variability_status"] == "MATERIAL_AND_DOMINANT"
+    assert deep["tolerance_sensitivity_status"] == "ADJUDICATED"
+    assert deep["porosity_dependence_status"] == "NOT_ADJUDICATED_COMPUTE_BOUND"
+    assert deep["closure_trend_status"] == "NOT_ADJUDICATED_COMPUTE_BOUND"
+    assert deep["closure_deep_status"] == "NOT_ADJUDICATED_COMPUTE_BOUND"
+    f = deep["finite_size"]
+    assert f["L_star"] == 48
+    assert f["R_sep"] == pytest.approx(0.5289718459033033, rel=1e-15)
+    assert deep["ensembles_per_size"]["48"]["mean"] == pytest.approx(6.02342223338851, rel=1e-15)
+    assert deep["ensembles_per_size"]["100"]["mean"] == pytest.approx(4.912442477701168,
+                                                                     rel=1e-15)
+    assert deep["novelty_disposition"] == "INCREMENTAL"
+    assert deep["issue_231_disposition"] == "NOT_MATERIAL_TO_SELECTED_DECISION"
+
+
+def test_the_decision_record_keeps_the_live_finite_size_alternative():
+    md = _flat("deep_decision.md")
+    assert "does not prove that the entire finite-size signal was realization scatter" in md
+    assert "genuine finite-size effect of approximately 20 % remains compatible" in md
+    assert "not robust to the multi-seed ensemble" in md
+    assert "was reading one" not in md, "the causal overstatement must be gone"
+    # the frozen rule's wording may be quoted, but must be labelled as the rule's, not endorsed
+    assert "frozen rule's wording, quoted and preserved verbatim" in md
+    assert "not endorsed here" in md
+    assert "does not license" in md
+
+
+def test_section_4_1_is_scoped_to_stopping_tolerance_not_discretisation():
+    md = _flat("deep_decision.md")
+    assert "stopping-tolerance sensitivity is negligible in the tested case" in md
+    assert "numerical convergence is not the explanation" not in md
+    assert "not a spatial grid-refinement study" in md
+    assert "Spatial discretisation error is **not** measured here and is **not** excluded" in md
+    assert "does **not** exclude implementation error globally" in md
+    assert "negligible iterative stopping-tolerance sensitivity" in md
+    # the old blanket exclusion must be gone
+    assert "are both excluded" not in md
+
+
+def test_the_cheap_readme_points_at_the_deep_result():
+    md = _flat("README.md")
+    banner = md.index("NOT_A_MODEL_VALIDATION_UPGRADE")
+    notice = md.index("Deep maturation completed")
+    assert 0 < notice - banner < 200, "the supersession notice must sit right below the banner"
+    assert "BOUNDED_NULL" in md and "PASS_BY_NON_REJECTION_LOW_POWER" in md
+    assert "it is not the current scientific conclusion" in md
+    assert "did not demonstrate convergence or determine an REV" in md
+    assert "deep_decision.md" in md
+
+
+def test_the_cheap_readme_labels_survive_as_historical():
+    md = _flat("README.md")
+    assert "Historical cheap-screen decision: `SURVIVE`" in md
+    assert "unlocked deep maturation" in md
+    assert "**Decision: `SURVIVE`** — no RVE size stabilises" not in md
+    assert "one-seed cheap sweep did not satisfy its frozen box-size criterion" in md
+
+
+def test_the_stale_noise_floor_wording_is_absent_from_the_readme():
+    md = _flat("README.md")
+    assert "noise floor" not in md.lower()
+    assert "Measure realization variability before interpreting a control-variable sweep" in md
+    assert "k had not converged by 5.0 grain diameters" not in md
+    assert "had not satisfied its frozen cheap criterion by L/d = 5.0" in md
+
+
+def test_the_frozen_cheap_artifacts_are_not_edited_by_this_correction():
+    """README.md carries the supersession notice; the frozen cheap record does not change."""
+    import hashlib, json as _json
+    res = _json.loads((BUNDLE / "result.json").read_text(encoding="utf-8"))
+    assert "SURVIVE" in _json.dumps(res)
+    live = hashlib.sha256((BUNDLE / "result.json").read_bytes()).hexdigest()
+    assert deep_result_provenance()["cheap_result_sha256"] == live
+
+
+def deep_result_provenance():
+    import json as _json
+    return _json.loads(DEEP.read_text(encoding="utf-8"))["provenance"]

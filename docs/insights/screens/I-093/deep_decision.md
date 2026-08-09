@@ -161,24 +161,30 @@ the seed label isolates domain size while holding morphology fixed.
 | 4.0 | 4.210 | 5.234 |
 | 5.0 | 5.135 | 4.912 |
 
-The cheap single-realisation sweep **rises**; the ensemble mean **falls**. The two trend in
-**opposite directions**. That is why the cheap RVE arm does not survive — it was reading one
-realisation's scatter as a size effect.
+The cheap single-realisation sweep **rises** while the ensemble mean **falls**, so the cheap RVE
+arm does not survive **as an established finding**: its direction is not robust to the multi-seed
+ensemble. **This does not prove that the entire finite-size signal was realization scatter** — a
+genuine finite-size effect of approximately 20 % remains compatible with this low-power result.
 
-## 7. §4.1 — numerical convergence is not the explanation
+## 7. §4.1 — stopping-tolerance sensitivity is negligible in the tested case
 
-Tightening `rtol` 1e-6 → 1e-7 and `min_steps` 1200 → 2000 at L = 64, seed 0 moved k by
-**3.45 × 10⁻⁸ relative** (4.616343 → 4.616344 lu²), far inside the frozen 1 % limit. The cheap
-screen's convergence criterion was adequate.
+Tightening `rtol` 1e-6 → 1e-7 and increasing `min_steps` 1200 → 2000 at L = 64, seed 0 changed k by
+**3.45 × 10⁻⁸ relative** (4.616343 → 4.616344 lu²), far inside the frozen 1 % limit. This
+demonstrates **negligible iterative stopping-tolerance sensitivity for that tested porous case**
+and makes loose iterative convergence an implausible explanation for the observed spread.
 
-This cleanly separates the five sources: **implementation error** (positive control, 0.052 % on
-plane-Poiseuille) and **discretisation/convergence error** (3 × 10⁻⁸) are both excluded, leaving
-**realisation variability** as the dominant term, with **finite-domain dependence** unresolved and
-**closure discrepancy** unadjudicated.
+**This is not a spatial grid-refinement study, not a geometry-resolution study, and not proof of
+numerical accuracy for every porous realization.** Spatial discretisation error is **not** measured
+here and is **not** excluded.
 
-The plane-Poiseuille control establishes solver correctness for the reference flow only. It does
-**not** establish convergence for every porous realisation, representative-volume adequacy,
-empirical validity, or closure validity.
+So of the candidate sources, only one is narrowed: **iterative stopping tolerance** is implausible
+as the explanation. **Realisation variability** is the dominant measured term; **finite-domain
+dependence** is unresolved; **spatial discretisation** is unmeasured; **closure discrepancy** is
+unadjudicated.
+
+The plane-Poiseuille control (0.052 %) supports **the reference-flow implementation only**. It does
+**not** exclude implementation error globally, and it establishes neither convergence for every
+porous realisation, representative-volume adequacy, empirical validity, nor closure validity.
 
 ## 8. §4.2 — partial, non-decisional
 
@@ -225,10 +231,16 @@ standing.**
 
 ## 10. Why the overall disposition is BOUNDED_NULL
 
-The frozen rule keys on the finite-size ensemble: stabilised ⇒ `BOUNDED_NULL`. It fired, and it is
-applied unrevised. §8's description matches what happened — *"the cheap screen's RVE arm was
-realisation scatter"* — and the second clause, re-deciding the trend on stabilised means, **could
-not execute**, which is recorded rather than papered over.
+The frozen rule keys on the finite-size ensemble: stabilised ⇒ `BOUNDED_NULL`. It fired, and its
+**outcome** is applied unrevised.
+
+The frozen executor's own basis string reads *"once realisation noise is averaged the solver IS
+stabilised, so the cheap screen's RVE arm **was** single-realisation scatter"*. That is **the frozen
+rule's wording, quoted and preserved verbatim** in `deep_result.json` as
+`frozen_rule_basis_verbatim` — it is **not endorsed here**. A 2σ non-rejection at n = 4 does not
+license "IS stabilised" or "was scatter"; `overall_basis` restates the basis within what the
+evidence supports, without re-deciding the disposition. The rule's second clause, re-deciding the
+trend on stabilised means, **could not execute**, which is recorded rather than papered over.
 
 So the bounded null has two honest halves: the cheap screen's finite-size claim is **withdrawn**,
 and stabilisation is **not demonstrated either**. At this power the data support neither direction.

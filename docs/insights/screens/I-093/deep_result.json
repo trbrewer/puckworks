@@ -2686,7 +2686,15 @@
   "realization_variability_status": "MATERIAL_AND_DOMINANT",
   "closure_status": "NOT_ADJUDICATED_COMPUTE_BOUND",
   "overall_deep_disposition": "BOUNDED_NULL",
-  "overall_basis": "ensemble means satisfy the frozen 2-sigma stabilisation criterion at L* = 48 (L/d = 2.4): once realisation noise is averaged the solver IS stabilised, so the cheap screen's RVE arm was single-realisation scatter produced by an under-powered one-seed sweep",
+  "overall_basis": "The ensemble means satisfy the frozen 2-sigma non-rejection criterion at L* = 48 (L/d = 2.4), so the frozen decision rule returns BOUNDED_NULL. Because n = 4, the per-size CV is 0.12-0.38, the ensemble means decline 22.6% across the sweep, and R_sep = 0.529, this does NOT demonstrate stabilization and does NOT prove that the cheap-screen signal was solely realization scatter. It establishes that the one-seed non-stabilization finding is not robust to the multi-seed ensemble.",
+  "frozen_rule_basis_verbatim": "ensemble means satisfy the frozen 2-sigma stabilisation criterion at L* = 48 (L/d = 2.4): once realisation noise is averaged the solver IS stabilised, so the cheap screen's RVE arm was single-realisation scatter produced by an under-powered one-seed sweep",
+  "frozen_rule_basis_note": "the frozen executor's own wording, preserved verbatim and NOT endorsed: its 'IS stabilised' / 'was single-realisation scatter' phrasing overstates what a non-rejection at n=4 licenses. The OUTCOME it returned is authoritative and unchanged; only the reader-facing basis is restated in overall_basis.",
+  "overall_basis_does_not_claim": [
+    "that the solver is demonstrated to be stabilized",
+    "that an REV has been established",
+    "that the entire finite-size effect was proved to be realization scatter",
+    "that the null and alternative are statistically equivalent"
+  ],
   "novelty_disposition": "INCREMENTAL",
   "figure_caption": "n = 4 independent realisations per size; seeds are RELATED_NON_NESTED, so observations are NOT paired and no line connects equal seeds across sizes. Error bars are $\\pm$2 standard errors of the seed ensemble.\nThe complete frozen section-3 matrix WAS available: 16/16 cells converged, all four sizes decision-eligible at n=4. 22 of 46 frozen cells were not launched by the budget guard. Synthetic overlapping-sphere geometry \u2014 this is not real-puck validation.",
   "issue_231_disposition": "NOT_MATERIAL_TO_SELECTED_DECISION",

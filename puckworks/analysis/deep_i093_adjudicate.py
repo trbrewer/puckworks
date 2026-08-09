@@ -44,6 +44,26 @@ FIGURE_CAPTION = (
     "guard. Synthetic overlapping-sphere geometry \u2014 this is not real-puck validation.")
 
 
+
+def corrected_basis(frozen, rve, cvs, decline_pct, L_star, R_sep):
+    """The frozen rule's OUTCOME is authoritative; its prose overstated what a non-rejection shows.
+
+    `decide()` is the frozen executor and is not edited -- its verbatim string is preserved as
+    `frozen_rule_basis_verbatim`. What a 2-sigma non-rejection at n=4 licenses is narrower than
+    "the solver IS stabilised", so the reader-facing basis is restated here without weakening,
+    strengthening or re-deciding the disposition.
+    """
+    return (
+        "The ensemble means satisfy the frozen 2-sigma non-rejection criterion at L* = %s "
+        "(L/d = %.1f), so the frozen decision rule returns %s. Because n = 4, the per-size CV is "
+        "%.2f-%.2f, the ensemble means decline %.1f%% across the sweep, and R_sep = %.3f, this "
+        "does NOT demonstrate stabilization and does NOT prove that the cheap-screen signal was "
+        "solely realization scatter. It establishes that the one-seed non-stabilization finding "
+        "is not robust to the multi-seed ensemble."
+        % (L_star, rve["box_grain_diameters"][str(L_star)], frozen["outcome"],
+           min(cvs), max(cvs), abs(decline_pct), R_sep))
+
+
 def _solver_config_id(kw):
     return "D3Q19-TRT tau+=%g g=%g rtol=%g min_steps=%d max_steps=%d" % (
         kw["tau_plus"], kw["g"], kw["rtol"], kw["min_steps"], kw["max_steps"])
@@ -455,7 +475,21 @@ def adjudicate():
         "realization_variability_status": "MATERIAL_AND_DOMINANT",
         "closure_status": closure_status,
         "overall_deep_disposition": frozen["outcome"],
-        "overall_basis": frozen["basis"],
+        "overall_basis": corrected_basis(
+            frozen, rve, list(variability["within_size_cv"].values()),
+            total_mean_change_pct, L_star, R_sep),
+        "frozen_rule_basis_verbatim": frozen["basis"],
+        "frozen_rule_basis_note":
+            "the frozen executor's own wording, preserved verbatim and NOT endorsed: its "
+            "'IS stabilised' / 'was single-realisation scatter' phrasing overstates what a "
+            "non-rejection at n=4 licenses. The OUTCOME it returned is authoritative and "
+            "unchanged; only the reader-facing basis is restated in overall_basis.",
+        "overall_basis_does_not_claim": [
+            "that the solver is demonstrated to be stabilized",
+            "that an REV has been established",
+            "that the entire finite-size effect was proved to be realization scatter",
+            "that the null and alternative are statistically equivalent",
+        ],
         "novelty_disposition": "INCREMENTAL",
         "figure_caption": FIGURE_CAPTION,
         "issue_231_disposition": "NOT_MATERIAL_TO_SELECTED_DECISION",
