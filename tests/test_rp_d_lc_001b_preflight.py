@@ -834,57 +834,200 @@ def test_no_result_or_decision_artifact_exists_that_could_be_mistaken_for_an_exe
     assert not (bundle / "summary.csv").exists()
 
 
+def _config_hashes():
+    return vf.config_hashes()
+
+
+def _manifest(phase, runs):
+    doc = {"phase": phase, "correction_version": vf.CORRECTION_VERSION,
+           "completed_cases": [{"case_id": "%s.x" % phase, "record_sha256": "a" * 64}]}
+    doc.update(_config_hashes())
+    (runs / ("manifest_%s.json" % phase)).write_text(json.dumps(doc))
+    return doc
+
+
+def _all_manifests(runs, phases=("P0", "P1a", "P1b", "P2a", "P2b", "P3")):
+    return {ph: _manifest(ph, runs) for ph in phases}
+
+
+def test_authorisation_is_phase_specific_and_empty_at_this_head():
+    """Erratum PE-11: one boolean would have authorised the primary experiment and Arm J in the
+    same act as the pre-freeze phases."""
+    assert drv.AUTHORISED_SOLVING_PHASES == ()
+    assert not hasattr(drv, "EXECUTION_AUTHORISED")
+    src = (REPO / "puckworks/validation/slow/rp_d_lc_001b.py").read_text()
+    assert "AUTHORISED_SOLVING_PHASES = ()" in src          # source-controlled, not a flag
+    # and it is not reachable from the process environment or a command-line switch
+    tree = ast.parse(src)
+    names = {n.attr for n in ast.walk(tree) if isinstance(n, ast.Attribute)}
+    names |= {n.id for n in ast.walk(tree) if isinstance(n, ast.Name)}
+    assert not (names & {"environ", "getenv"})
+
+
+@pytest.mark.parametrize("phase", list(drv.SOLVING_MODES))
+def test_every_solving_phase_refuses_at_this_head(phase):
+    with pytest.raises((drv.ExecutionNotAuthorised, vf.FreezeMissing, vf.ManifestMissing,
+                        vf.ExecutionAuthorityError)):
+        drv.run_phase(phase)
+
+
+@pytest.mark.parametrize("phase", ["P3", "P4"])
+def test_p3_and_p4_refuse_even_when_the_pre_freeze_phases_are_authorised(phase, tmp_path,
+                                                                        monkeypatch):
+    """Authorising P0/P1a/P1b/P2a must NOT authorise the primary experiment."""
+    monkeypatch.setattr(drv, "AUTHORISED_SOLVING_PHASES", ("P0", "P1a", "P1b", "P2a"))
+    _all_manifests(tmp_path)
+    with pytest.raises((vf.FreezeMissing, drv.ExecutionNotAuthorised)):
+        drv.run_phase(phase, runs_dir=tmp_path)
+
+
+def test_p3_refuses_even_with_a_syntactically_valid_freeze(tmp_path, monkeypatch):
+    """A freeze is necessary, never sufficient: P3 still needs its own reviewed authorisation."""
+    freeze = {"correction_version": vf.CORRECTION_VERSION,
+              "frozen_bridges": [{"w": w, "kz": k} for w, k in
+                                 ((3, 2), (3, 3), (5, 2), (5, 3), (9, 4))],
+              "instantiated_matrix_sha256": "b" * 64}
+    freeze.update(_config_hashes())
+    fp = tmp_path / "bridge_freeze.json"
+    fp.write_text(json.dumps(freeze))
+    mp = tmp_path / "instantiated.json"
+    mp.write_text(json.dumps({"instantiated_matrix_sha256": "b" * 64}))
+    assert vf.require_freeze("P3", path=fp, matrix_path=mp)["frozen_bridges"]
+    monkeypatch.setattr(drv, "AUTHORISED_SOLVING_PHASES", ("P0", "P1a", "P1b", "P2a"))
+    monkeypatch.setattr(vf, "require_freeze", lambda *a, **k: freeze)
+    _all_manifests(tmp_path)
+    with pytest.raises(drv.ExecutionNotAuthorised):
+        drv.run_phase("P3", runs_dir=tmp_path)
+
+
+def test_the_freeze_gate_needs_the_instantiated_matrix_too(tmp_path):
+    freeze = {"correction_version": vf.CORRECTION_VERSION,
+              "frozen_bridges": [{"w": 3, "kz": 2}] * 5,
+              "instantiated_matrix_sha256": "b" * 64}
+    freeze.update(_config_hashes())
+    fp = tmp_path / "bridge_freeze.json"
+    fp.write_text(json.dumps(freeze))
+    with pytest.raises(vf.FreezeMissing):
+        vf.require_freeze("P3", path=fp, matrix_path=tmp_path / "absent.json")
+
+
+@pytest.mark.parametrize("mutate,why", [
+    ({"protocol_config_sha256": "0" * 64}, "wrong protocol hash"),
+    ({"execution_matrix_sha256": "0" * 64}, "wrong matrix hash"),
+    ({"correction_version": "PREFLIGHT-C0"}, "superseded correction version"),
+    ({"frozen_bridges": []}, "no bridges"),
+    ({"frozen_bridges": [{"w": 3, "kz": 2}]}, "too few bridges"),
+])
+def test_a_freeze_that_does_not_bind_this_configuration_is_refused(mutate, why, tmp_path):
+    freeze = {"correction_version": vf.CORRECTION_VERSION,
+              "frozen_bridges": [{"w": 3, "kz": 2}] * 5,
+              "instantiated_matrix_sha256": "b" * 64}
+    freeze.update(_config_hashes())
+    freeze.update(mutate)
+    fp = tmp_path / "bridge_freeze.json"
+    fp.write_text(json.dumps(freeze))
+    mp = tmp_path / "instantiated.json"
+    mp.write_text(json.dumps({"instantiated_matrix_sha256": "b" * 64}))
+    with pytest.raises(vf.FreezeMissing):
+        vf.require_freeze("P3", path=fp, matrix_path=mp)
+
+
+def test_a_phase_refuses_without_its_predecessor_manifests(tmp_path):
+    with pytest.raises(vf.ManifestMissing):
+        vf.require_phase_manifests("P1a", runs_dir=tmp_path)
+    _manifest("P0", tmp_path)
+    assert vf.require_phase_manifests("P1a", runs_dir=tmp_path)["P0"]
+    with pytest.raises(vf.ManifestMissing):
+        vf.require_phase_manifests("P2a", runs_dir=tmp_path)     # P1a/P1b still absent
+
+
+@pytest.mark.parametrize("mutate", [
+    {"correction_version": "PREFLIGHT-C0"},
+    {"fixture_spec_sha256": "0" * 64},
+    {"completed_cases": []},
+    {"phase": "P9"},
+])
+def test_a_manifest_bound_to_a_different_configuration_is_refused(mutate, tmp_path):
+    doc = {"phase": "P0", "correction_version": vf.CORRECTION_VERSION,
+           "completed_cases": [{"case_id": "x", "record_sha256": "a" * 64}]}
+    doc.update(_config_hashes())
+    doc.update(mutate)
+    (tmp_path / "manifest_P0.json").write_text(json.dumps(doc))
+    with pytest.raises(vf.ManifestMissing):
+        vf.require_phase_manifests("P1a", runs_dir=tmp_path)
+
+
+def test_the_execution_authority_fails_closed_rather_than_returning_none():
+    with pytest.raises(vf.ExecutionAuthorityError):
+        vf.execution_authority("P9")                              # unknown stage
+    with pytest.raises(vf.ExecutionAuthorityError):
+        vf.execution_authority("P0", backend="taichi")            # unsupported backend
+    assert vf.SUPPORTED_BACKENDS == ("reference",)
+
+
+def test_a_dirty_working_tree_cannot_carry_an_execution_authority(tmp_path, monkeypatch):
+    monkeypatch.setattr(vf, "_git", lambda *a: ("M x.py" if a[0] == "status" else "a" * 40))
+    with pytest.raises(vf.ExecutionAuthorityError):
+        vf.execution_authority("P0")
+    # the same authority resolves when the tree is clean
+    monkeypatch.setattr(vf, "_git", lambda *a: ("" if a[0] == "status" else "a" * 40))
+    auth = vf.execution_authority("P0")
+    assert auth["working_tree_clean"] is True and auth["clean_tree_required"] is True
+
+
+def test_a_missing_input_file_cannot_carry_an_execution_authority(monkeypatch):
+    monkeypatch.setattr(vf, "_sha_file", lambda rel: None)
+    with pytest.raises(vf.ExecutionAuthorityError):
+        vf.execution_authority("P0")
+
+
 def test_the_execution_authority_records_everything_a_future_stage_must_bind():
-    a = vf.execution_authority("p3")
-    for k in ("stage", "source_commit", "source_tree", "protocol_sha256",
-              "geometry_spec_sha256", "protocol_config_sha256", "fixture_spec_sha256",
-              "execution_matrix_sha256", "input_file_sha256", "backend", "dependencies",
-              "seed", "solver_config", "base_commit", "base_tree"):
+    # require_clean=False so the SHAPE of the record is testable from a working checkout; the
+    # dirty-tree refusal itself is asserted separately, and is on by default.
+    a = vf.execution_authority("P0", require_clean=False)
+    assert isinstance(a["working_tree_clean"], bool)   # MEASURED, never asserted True
+    for k in ("stage", "correction_version", "source_commit", "source_tree",
+              "working_tree_clean", "protocol_sha256", "geometry_spec_sha256", "errata_sha256",
+              "protocol_config_sha256", "fixture_spec_sha256", "execution_matrix_sha256",
+              "input_file_sha256", "backend", "dependencies", "seed", "solver_config",
+              "base_commit", "base_tree", "prerequisites"):
         assert k in a, k
     assert a["seed"] is None
-    assert a["dependencies"]["numpy"]
+    assert all(v for v in a["input_file_sha256"].values())         # no null hashes
+    assert a["backend"] == "reference"
+    assert inspect.signature(vf.execution_authority).parameters["require_clean"].default is True
 
 
-def test_the_primary_driver_refuses_without_a_freeze_artifact():
-    assert not (REPO / vf.FREEZE_REL).exists()
-    with pytest.raises(vf.FreezeMissing):
-        vf.require_freeze("p3")
-    with pytest.raises(vf.FreezeMissing):
-        drv.run_phase("p3")
+def test_a_freeze_cannot_be_built_from_unbound_hand_entered_candidates():
+    inst = vf.instantiate_post_freeze_matrix([{"w": w, "kz": k} for w, k in
+                                              ((3, 2), (3, 3), (5, 2), (5, 3), (9, 4))])
+    manifests = {"P1a": {"completed_cases": [{"record_sha256": "a" * 64}]}}
+    hand = [{"w": w, "kz": k} for w, k in ((3, 2), (3, 3), (5, 2), (5, 3), (9, 4))]
+    with pytest.raises(vf.ManifestMissing):
+        vf.build_freeze(hand, manifests, inst)
+    cited = [dict(c, record_hashes=["z" * 64]) for c in hand]
+    with pytest.raises(vf.ManifestMissing):
+        vf.build_freeze(cited, manifests, inst)
+    bound = [dict(c, record_hashes=["a" * 64]) for c in hand]
+    doc = vf.build_freeze(bound, manifests, inst)
+    assert doc["status"] == "PROPOSED_PENDING_SECOND_EXACT_HEAD_REVIEW"
+    assert doc["instantiated_matrix_sha256"] == vf.record_hash(inst)
 
 
-def test_the_primary_driver_refuses_a_freeze_that_does_not_match_the_execution_authority(tmp_path):
-    good = {"protocol_config_sha256": vf.record_hash(vf.protocol_config()),
-            "fixture_spec_sha256": vf.record_hash(vf.fixture_spec_config()),
-            "execution_matrix_sha256": vf.record_hash(vf.execution_matrix()),
-            "frozen_bridges": [{"w": 5, "kz": 2}]}
-    p = tmp_path / "bridge_freeze.json"
-    p.write_text(json.dumps(good))
-    assert vf.require_freeze("p3", path=p)["frozen_bridges"]
-    bad = dict(good, protocol_config_sha256="0" * 64)
-    p.write_text(json.dumps(bad))
-    with pytest.raises(vf.FreezeMissing):
-        vf.require_freeze("p3", path=p)
-    empty = dict(good, frozen_bridges=[])
-    p.write_text(json.dumps(empty))
-    with pytest.raises(vf.FreezeMissing):
-        vf.require_freeze("p3", path=p)
+def test_a_freeze_cannot_be_built_with_the_wrong_number_of_bridges():
+    inst = vf.instantiate_post_freeze_matrix([{"w": w, "kz": k} for w, k in
+                                              ((3, 2), (3, 3), (5, 2), (5, 3), (9, 4))])
+    with pytest.raises(vf.DesignBlocked):
+        vf.build_freeze([{"w": 3, "kz": 2, "record_hashes": ["a" * 64]}], {}, inst)
 
 
 # ==========================================================================================
 # 10. No solver runs here, and none can
 # ==========================================================================================
 
-@pytest.mark.parametrize("mode", list(drv.SOLVING_MODES))
-def test_every_solving_mode_refuses_while_the_tranche_is_pre_execution(mode):
-    assert drv.EXECUTION_AUTHORISED is False
-    with pytest.raises((drv.ExecutionNotAuthorised, vf.FreezeMissing)):
-        drv.run_phase(mode)
-
-
 def test_the_single_solver_call_site_refuses():
     with pytest.raises(drv.ExecutionNotAuthorised):
-        drv.solve(np.ones((4, 4, 4), bool), g=1e-6)
+        drv.solve(np.ones((4, 4, 4), bool), g=1e-6, phase="P0")
 
 
 def test_the_driver_has_exactly_one_solver_call_site_and_it_is_guarded():
@@ -898,7 +1041,7 @@ def test_the_driver_has_exactly_one_solver_call_site_and_it_is_guarded():
     fn = [n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "solve"][0]
     guard = fn.body[1]
     assert isinstance(guard, ast.If)
-    assert "EXECUTION_AUTHORISED" in ast.dump(guard.test)
+    assert "AUTHORISED_SOLVING_PHASES" in ast.dump(guard.test)
 
 
 def test_the_analysis_module_never_imports_the_solver():
@@ -916,6 +1059,18 @@ def test_the_analysis_module_never_imports_the_solver():
     called = {n.func.attr for n in ast.walk(tree)
               if isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute)}
     assert "solve" not in called
+
+
+def test_no_test_in_this_file_can_reach_the_solver():
+    """No preflight test imports or calls the lattice-Boltzmann kernel."""
+    tree = ast.parse(pathlib.Path(__file__).read_text())
+    imported = set()
+    for n in ast.walk(tree):
+        if isinstance(n, ast.Import):
+            imported.update(a.name for a in n.names)
+        elif isinstance(n, ast.ImportFrom):
+            imported.add(n.module or "")
+    assert not any("lb_reference" in m for m in imported), imported
 
 
 def test_no_preflight_test_is_marked_slow(request):

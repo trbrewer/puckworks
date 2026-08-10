@@ -2511,53 +2511,169 @@ def preflight_status():
     }
 
 
-def execution_authority(stage: str, backend: str = "reference"):
-    """Everything a future stage must record so its output can never be attributed to a head
-    that did not produce it."""
-    import platform
+#: The only backend that exists. A backend ARGUMENT is never accepted and then silently routed
+#: to the reference solver under a different label (erratum PE-11): a different backend would
+#: need to be implemented, validated and separately reviewed first.
+SUPPORTED_BACKENDS = ("reference",)
+
+#: What each solving phase requires to have completed before it may run.
+PHASE_PREREQUISITES = {
+    "P0": (),
+    "P1a": ("P0",),
+    "P1b": ("P0", "P1a"),
+    "P2a": ("P0", "P1a", "P1b"),
+    "P2b": ("P0", "P1a", "P1b", "P2a"),
+    "P3": ("P0", "P1a", "P1b", "P2a", "P2b"),
+    "P4": ("P0", "P1a", "P1b", "P2a", "P2b", "P3"),
+}
+
+#: Phases whose start additionally requires the reviewed bridge freeze AND the reviewed
+#: instantiated P3/P4 matrix.
+FREEZE_GATED_PHASES = ("P3", "P4")
+
+INSTANTIATED_MATRIX_REL = RUNS_REL + "/instantiated_p3_p4_matrix.json"
+
+
+def phase_manifest_rel(phase: str) -> str:
+    return "%s/manifest_%s.json" % (RUNS_REL, phase)
+
+
+def _git(*args):
     import subprocess
-
-    def git(*a):
-        try:
-            return subprocess.run(["git", *a], cwd=REPO_ROOT, capture_output=True,
-                                  text=True, check=True).stdout.strip()
-        except Exception:                                        # pragma: no cover - env limit
-            return None
-
     try:
-        import scipy
-        scipy_v = scipy.__version__
-    except Exception:                                            # pragma: no cover - env limit
-        scipy_v = None
+        out = subprocess.run(["git", *args], cwd=REPO_ROOT, capture_output=True, text=True,
+                             check=True).stdout
+    except Exception as exc:                                 # pragma: no cover - env limit
+        raise ExecutionAuthorityError("git is not usable here (%s); an execution authority "
+                                      "cannot be established" % exc)
+    return out.strip()
+
+
+def config_hashes():
+    """The three configuration hashes every record and manifest binds."""
     return {
-        "stage": stage,
-        "tranche": TRANCHE_ID,
-        "source_commit": git("rev-parse", "HEAD"),
-        "source_tree": git("rev-parse", "HEAD^{tree}"),
-        "working_tree_clean": (git("status", "--porcelain") == ""),
-        "base_commit": BASE_COMMIT, "base_tree": BASE_TREE,
-        "protocol_sha256": _sha_file(PROTOCOL_PATH),
-        "geometry_spec_sha256": _sha_file(BUNDLE_REL + "/VIRTUAL_FIXTURE_SPEC.md"),
         "protocol_config_sha256": record_hash(protocol_config()),
         "fixture_spec_sha256": record_hash(fixture_spec_config()),
         "execution_matrix_sha256": record_hash(execution_matrix()),
-        "input_file_sha256": {f: _sha_file(f) for f in INPUT_FILES},
+    }
+
+
+def execution_authority(stage: str, backend: str = "reference", require_clean: bool = True):
+    """Everything a future stage must record so its output can never be attributed to a head
+    that did not produce it — and it FAILS CLOSED (erratum PE-11).
+
+    It raises ``ExecutionAuthorityError`` rather than returning ``None`` for: an unusable git
+    identity, a dirty working tree, a missing input file, an unsupported backend, or an unknown
+    stage. A partial authority record is never returned.
+    """
+    import platform
+
+    if stage not in PHASE_PREREQUISITES:
+        raise ExecutionAuthorityError(
+            "unknown stage %r; expected one of %r" % (stage, sorted(PHASE_PREREQUISITES)))
+    if backend not in SUPPORTED_BACKENDS:
+        raise ExecutionAuthorityError(
+            "backend %r is not supported; only %r exists. A backend argument is never accepted "
+            "and then silently routed to the reference solver." % (backend, SUPPORTED_BACKENDS))
+    commit = _git("rev-parse", "HEAD")
+    tree = _git("rev-parse", "HEAD^{tree}")
+    if not commit or not tree:                               # pragma: no cover - env limit
+        raise ExecutionAuthorityError("git returned no commit/tree; cannot establish authority")
+    porcelain = _git("status", "--porcelain")
+    if require_clean and porcelain:
+        raise ExecutionAuthorityError(
+            "the working tree is dirty; an execution authority must bind a committed head:\n%s"
+            % porcelain)
+    files = {}
+    for rel in INPUT_FILES:
+        h = _sha_file(rel)
+        if h is None:
+            raise ExecutionAuthorityError(
+                "input file %r is missing; an authority may not record a null hash" % rel)
+        files[rel] = h
+    protocol_sha = _sha_file(PROTOCOL_PATH)
+    geometry_sha = _sha_file(BUNDLE_REL + "/VIRTUAL_FIXTURE_SPEC.md")
+    errata_sha = _sha_file(ERRATA_PATH)
+    for name, val in (("protocol", protocol_sha), ("geometry spec", geometry_sha),
+                      ("errata", errata_sha)):
+        if val is None:
+            raise ExecutionAuthorityError("the %s document is missing" % name)
+    try:
+        import scipy
+        scipy_v = scipy.__version__
+    except Exception as exc:                                 # pragma: no cover - env limit
+        raise ExecutionAuthorityError("scipy is required for the geometry audits (%s)" % exc)
+    out = {
+        "stage": stage,
+        "tranche": TRANCHE_ID,
+        "correction_version": CORRECTION_VERSION,
+        "source_commit": commit, "source_tree": tree,
+        "working_tree_clean": not porcelain,        # recorded as MEASURED, never assumed
+        "clean_tree_required": bool(require_clean),
+        "base_commit": BASE_COMMIT, "base_tree": BASE_TREE,
+        "protocol_sha256": protocol_sha,
+        "geometry_spec_sha256": geometry_sha,
+        "errata_sha256": errata_sha,
+        "input_file_sha256": files,
         "backend": backend,
         "dependencies": {"python": platform.python_version(), "numpy": np.__version__,
                          "scipy": scipy_v},
         "seed": None,
         "solver_config": {"tau_plus": TAU_PLUS, "nu": NU, "rtol": RTOL, "check": CHECK,
                           "min_steps": MIN_STEPS, "max_steps": MAX_STEPS},
+        "prerequisites": list(PHASE_PREREQUISITES[stage]),
     }
+    out.update(config_hashes())
+    return out
 
 
 class FreezeMissing(RuntimeError):
     """Raised when a stage that requires the bridge freeze is invoked without a matching one."""
 
 
-def require_freeze(stage: str, path=None):
+class ManifestMissing(RuntimeError):
+    """Raised when a phase is invoked without a valid completion manifest for a predecessor."""
+
+
+def _load_json(path, what):
+    p = pathlib.Path(path)
+    if not p.exists():
+        raise ManifestMissing("%s does not exist at %s" % (what, p))
+    try:
+        return json.loads(p.read_text())
+    except Exception as exc:
+        raise ManifestMissing("%s at %s is not readable JSON: %s" % (what, p, exc))
+
+
+def require_phase_manifests(phase: str, runs_dir=None):
+    """Every predecessor phase must have a completion manifest bound to THIS configuration."""
+    if phase not in PHASE_PREREQUISITES:
+        raise ValueError("unknown phase %r" % (phase,))
+    base = pathlib.Path(runs_dir) if runs_dir is not None else (REPO_ROOT / RUNS_REL)
+    want = config_hashes()
+    got = {}
+    for pre in PHASE_PREREQUISITES[phase]:
+        doc = _load_json(base / ("manifest_%s.json" % pre), "the %s completion manifest" % pre)
+        if doc.get("phase") != pre:
+            raise ManifestMissing("the %s manifest declares phase %r" % (pre, doc.get("phase")))
+        if doc.get("correction_version") != CORRECTION_VERSION:
+            raise ManifestMissing(
+                "the %s manifest was produced under correction version %r, not %r"
+                % (pre, doc.get("correction_version"), CORRECTION_VERSION))
+        bad = {k: (doc.get(k), v) for k, v in want.items() if doc.get(k) != v}
+        if bad:
+            raise ManifestMissing("the %s manifest is bound to a different configuration: %s"
+                                  % (pre, sorted(bad)))
+        if not doc.get("completed_cases"):
+            raise ManifestMissing("the %s manifest records no completed cases" % pre)
+        got[pre] = doc
+    return got
+
+
+def require_freeze(stage: str, path=None, matrix_path=None):
     """Fail-closed freeze gate. A primary stage refuses to execute when the freeze artifact is
-    absent, malformed, or bound to a different configuration than the one about to run."""
+    absent, malformed, empty, bound to a different configuration, or unaccompanied by the
+    reviewed INSTANTIATED P3/P4 matrix it authorises."""
     p = pathlib.Path(path) if path is not None else (REPO_ROOT / FREEZE_REL)
     if not p.exists():
         raise FreezeMissing(
@@ -2568,23 +2684,80 @@ def require_freeze(stage: str, path=None):
         doc = json.loads(p.read_text())
     except Exception as exc:
         raise FreezeMissing("bridge freeze artifact %s is not readable JSON: %s" % (p, exc))
-    want = {"protocol_config_sha256": record_hash(protocol_config()),
-            "fixture_spec_sha256": record_hash(fixture_spec_config()),
-            "execution_matrix_sha256": record_hash(execution_matrix())}
+    want = config_hashes()
     bad = {k: (doc.get(k), v) for k, v in want.items() if doc.get(k) != v}
     if bad:
         raise FreezeMissing(
             "bridge freeze artifact does not match the execution authority for stage %r: %s. "
             "A freeze binds a specific configuration; re-freezing after review is a new "
             "decision, not a repair." % (stage, sorted(bad)))
-    if not doc.get("frozen_bridges"):
+    if doc.get("correction_version") != CORRECTION_VERSION:
+        raise FreezeMissing("the freeze was produced under correction version %r, not %r"
+                            % (doc.get("correction_version"), CORRECTION_VERSION))
+    bridges = doc.get("frozen_bridges")
+    if not bridges:
         raise FreezeMissing("bridge freeze artifact carries no frozen_bridges")
+    if len(bridges) != N_FROZEN_BRIDGES:
+        raise FreezeMissing("the freeze carries %d bridges; exactly %d are required"
+                            % (len(bridges), N_FROZEN_BRIDGES))
+    mp = pathlib.Path(matrix_path) if matrix_path is not None else (
+        REPO_ROOT / INSTANTIATED_MATRIX_REL)
+    if not mp.exists():
+        raise FreezeMissing(
+            "stage %r also requires the reviewed instantiated P3/P4 matrix at %s; a freeze "
+            "without it does not say which cases it authorises" % (stage, INSTANTIATED_MATRIX_REL))
+    inst = json.loads(mp.read_text())
+    if inst.get("instantiated_matrix_sha256") != doc.get("instantiated_matrix_sha256"):
+        raise FreezeMissing("the instantiated P3/P4 matrix is not the one this freeze hashed")
     return doc
 
 
-# ==========================================================================================
-# 12. GENERATED ARTIFACTS
-# ==========================================================================================
+def build_freeze(selection, manifests, instantiated_rows):
+    """Assemble the proposed bridge freeze from REAL, hashed P0/P1/P2 records.
+
+    Every selected candidate must carry ``record_hashes`` naming case records that appear in the
+    supplied phase manifests. A hand-entered candidate — one whose evidence is not bound to a
+    manifest — is refused (erratum PE-11).
+    """
+    if len(selection) != N_FROZEN_BRIDGES:
+        raise DesignBlocked("SELECTION_UNDERFILLED_AFTER_DEDUPLICATION",
+                            "a freeze needs exactly %d bridges, got %d"
+                            % (N_FROZEN_BRIDGES, len(selection)))
+    known = set()
+    for phase, doc in manifests.items():
+        for case in doc.get("completed_cases", []):
+            known.add(case.get("record_sha256"))
+    known.discard(None)
+    if not known:
+        raise ManifestMissing("the supplied manifests record no case hashes; a freeze may not be "
+                              "built from unbound inputs")
+    frozen = []
+    for cand in selection:
+        hashes = list(cand.get("record_hashes") or ())
+        if not hashes:
+            raise ManifestMissing(
+                "candidate w=%r kz=%r carries no record_hashes; a freeze may not accept "
+                "hand-entered candidates" % (cand.get("w"), cand.get("kz")))
+        unbound = [h for h in hashes if h not in known]
+        if unbound:
+            raise ManifestMissing(
+                "candidate w=%r kz=%r cites record hashes that appear in no phase manifest: %r"
+                % (cand.get("w"), cand.get("kz"), unbound))
+        frozen.append({"w": int(cand["w"]), "kz": int(cand["kz"]),
+                       "xi_envelope": cand.get("xi_envelope"),
+                       "record_hashes": sorted(hashes)})
+    doc = {
+        "tranche": TRANCHE_ID,
+        "correction_version": CORRECTION_VERSION,
+        "freeze_rule": FREEZE_RULE,
+        "frozen_bridges": frozen,
+        "manifest_phases": sorted(manifests),
+        "instantiated_matrix_sha256": record_hash(instantiated_rows),
+        "status": "PROPOSED_PENDING_SECOND_EXACT_HEAD_REVIEW",
+    }
+    doc.update(config_hashes())
+    return doc
+
 
 _GENERATED = (
     ("protocol.json", protocol_config),

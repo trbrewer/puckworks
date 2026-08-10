@@ -1,10 +1,14 @@
 """RP-D-LC-001b — slow driver SCAFFOLD.
 
 NO LATTICE-BOLTZMANN SOLVE HAS BEEN PERFORMED FOR THIS TRANCHE, AND THIS MODULE REFUSES TO
-PERFORM ONE. Execution is authorised only from an expressly approved frozen head: until then
-``EXECUTION_AUTHORISED`` is False and every solving mode raises ``ExecutionNotAuthorised``.
-Independently of that switch, the primary mirror phase P3 also refuses to start unless the
-bridge freeze artifact exists AND is bound to the exact configuration about to run.
+PERFORM ONE. Authorisation is PHASE-SPECIFIC (erratum PE-11): ``AUTHORISED_SOLVING_PHASES`` is
+empty at this head, so every solving phase raises ``ExecutionNotAuthorised``. Authorising the
+pre-freeze phases cannot authorise P3 or P4; each addition is its own reviewed source commit,
+and the resulting exact head is the object reviewed for execution.
+
+Independently of that allowlist, P3 and P4 refuse without the reviewed bridge freeze AND the
+reviewed instantiated P3/P4 matrix, and every phase refuses without valid completion manifests
+for its predecessors — both checked BEFORE the allowlist, so neither gate is shadowed by it.
 
 What IS implemented here is everything that can be checked without a solver: the per-case
 record construction from already-computed fields, the phase ordering, the freeze gate and the
@@ -21,26 +25,32 @@ from puckworks.analysis import rp_d_lc_001b_virtual_fixture as vf
 
 REPO_ROOT = pathlib.Path(__file__).resolve().parents[3]
 
-#: Flipped only by an explicit, reviewed commit at the approved head. It is deliberately a
-#: source-level constant rather than a flag or an environment variable: starting the primary
-#: computation must be a reviewable change to the repository, not a command-line choice.
-EXECUTION_AUTHORISED = False
+#: The PHASE-SPECIFIC reviewed allowlist (erratum PE-11). Superseded: one module-level
+#: EXECUTION_AUTHORISED boolean, which would have authorised the primary experiment and Arm J in
+#: the same act as the pre-freeze phases.
+#:
+#: It is deliberately a source-level constant rather than a flag or an environment variable:
+#: adding a phase must be a reviewable change to the repository, and the resulting exact head is
+#: the object reviewed for execution. Authorising P0/P1a/P1b/P2a does NOT authorise P3 or P4, and
+#: P3 stays hard-refused even when a syntactically valid freeze exists.
+AUTHORISED_SOLVING_PHASES = ()
 
 AUTHORISATION_NOTE = (
     "RP-D-LC-001b is PRE-EXECUTION. The protocol, the corrected fixture, the conserved-quantity "
     "contract, the similarity law, the negative-control gate and the reachable-set margin are "
     "frozen and awaiting substantive scientific review at an exact head. No solve may run before "
-    "that review."
+    "that review, and each phase must be added to AUTHORISED_SOLVING_PHASES by its own reviewed "
+    "source commit."
 )
 
 #: Every mode that would invoke the solver, in the only order they may run.
-SOLVING_MODES = ("p0", "p1", "p2", "p3", "armj")
+SOLVING_MODES = ("P0", "P1a", "P1b", "P2a", "P3", "P4")
 #: Modes that do no solving at all.
-NON_SOLVING_MODES = ("freeze", "assemble", "plan")
+NON_SOLVING_MODES = ("P2b", "freeze", "assemble", "plan")
 MODES = SOLVING_MODES + NON_SOLVING_MODES
 
-#: Phases whose output would reveal a primary mirror observable. These carry the freeze gate.
-FREEZE_GATED_MODES = ("p3", "armj")
+#: Phases whose start additionally requires the reviewed freeze AND instantiated matrix.
+FREEZE_GATED_MODES = vf.FREEZE_GATED_PHASES
 
 #: The macroscopic fields the eventual solve must request. ``rho`` is needed for BOTH the
 #: pressure normalisation and the density-weighted mass flux; ``uy`` for the transverse bridge
@@ -54,17 +64,45 @@ class ExecutionNotAuthorised(RuntimeError):
     """Raised by every solving mode while the tranche is pre-execution."""
 
 
-def _refuse(mode):
+def _refuse(phase):
     raise ExecutionNotAuthorised(
-        "mode %r would run an RP-D-LC-001b lattice-Boltzmann solve, which is NOT AUTHORISED. %s"
-        % (mode, AUTHORISATION_NOTE))
+        "phase %r would run an RP-D-LC-001b lattice-Boltzmann solve, which is NOT AUTHORISED: "
+        "AUTHORISED_SOLVING_PHASES = %r. %s" % (phase, AUTHORISED_SOLVING_PHASES,
+                                                AUTHORISATION_NOTE))
 
 
-def solve(mask, g, backend="reference", tau=None, fields=REQUIRED_FIELDS, steps=None, **kw):
-    """The single solver call site. It refuses while the tranche is pre-execution, so no code
-    path in this module can reach the kernel by accident."""
-    if not EXECUTION_AUTHORISED:
-        _refuse("solve")
+def require_execution_authorisation(phase, backend="reference", runs_dir=None):
+    """The complete fail-closed runtime gate (erratum PE-11), in the order a reviewer would
+    check it:
+
+      1. the phase is on the reviewed source-controlled allowlist;
+      2. the freeze AND the instantiated P3/P4 matrix exist and match, for freeze-gated phases;
+      3. every predecessor phase has a completion manifest bound to THIS configuration;
+      4. the execution authority itself resolves — clean tree, real git identity, exact
+         protocol/config/matrix hashes, complete non-null input-file hashes, supported backend,
+         exact solver configuration.
+
+    Steps 2 and 3 run BEFORE step 1 so the freeze and manifest gates are demonstrably
+    load-bearing rather than shadowed by the allowlist.
+    """
+    if phase not in vf.PHASE_PREREQUISITES:
+        raise ValueError("unknown phase %r" % (phase,))
+    if phase in FREEZE_GATED_MODES:
+        vf.require_freeze(phase)
+    vf.require_phase_manifests(phase, runs_dir=runs_dir)
+    if phase not in AUTHORISED_SOLVING_PHASES:
+        _refuse(phase)
+    return vf.execution_authority(phase, backend=backend)         # pragma: no cover - unreached
+
+
+def solve(mask, g, phase, backend="reference", tau=None, fields=REQUIRED_FIELDS, steps=None,
+          **kw):
+    """The single solver call site. It refuses unless its phase is on the reviewed allowlist, so
+    no code path in this module can reach the kernel by accident."""
+    if phase not in AUTHORISED_SOLVING_PHASES:
+        _refuse(phase)
+    if backend not in vf.SUPPORTED_BACKENDS:                      # pragma: no cover - unreached
+        raise ExecutionNotAuthorised("backend %r is not supported" % (backend,))
     from puckworks.models.brewer2026 import lb_reference          # pragma: no cover - unreached
     return lb_reference.solve(                                    # pragma: no cover - unreached
         mask, g=g, tau_plus=(vf.TAU_PLUS if tau is None else tau),
@@ -188,21 +226,19 @@ def boundary_record(open_rec, blocked_rec, orientation="nominal"):
 # Phase entry points — all refuse.
 # ------------------------------------------------------------------------------------------
 
-def run_phase(mode, out_dir=None, backend="reference"):
+def run_phase(mode, out_dir=None, backend="reference", runs_dir=None):
     if mode not in MODES:
         raise ValueError("unknown mode %r; expected one of %r" % (mode, MODES))
-    if mode in FREEZE_GATED_MODES:
-        # Fail-closed and BEFORE the authorisation check, so the freeze gate is demonstrably
-        # load-bearing rather than shadowed by the pre-execution switch.
-        vf.require_freeze(mode)
-    if mode in SOLVING_MODES:
-        _refuse(mode)
     if mode == "plan":
         return vf.execution_matrix()
-    if mode == "freeze":
+    if mode in SOLVING_MODES:
+        require_execution_authorisation(mode, backend=backend, runs_dir=runs_dir)
+        raise ExecutionNotAuthorised(                             # pragma: no cover - unreached
+            "phase %r is authorised but no runner is implemented at this head" % (mode,))
+    if mode in ("P2b", "freeze"):
         raise ExecutionNotAuthorised(
-            "the bridge freeze is written from P1 and P2 output, neither of which exists. %s"
-            % AUTHORISATION_NOTE)
+            "the bridge freeze is built from REAL hashed P0/P1/P2a records, none of which "
+            "exist. %s" % AUTHORISATION_NOTE)
     raise ExecutionNotAuthorised(
         "mode %r has nothing to assemble: no RP-D-LC-001b case record exists. %s"
         % (mode, AUTHORISATION_NOTE))
@@ -217,7 +253,8 @@ def main(argv=None):                                             # pragma: no co
     a = ap.parse_args(argv)
     try:
         res = run_phase(a.mode, out_dir=a.output, backend=a.backend)
-    except (ExecutionNotAuthorised, vf.FreezeMissing) as exc:
+    except (ExecutionNotAuthorised, vf.FreezeMissing, vf.ManifestMissing,
+            vf.ExecutionAuthorityError) as exc:
         print("REFUSED: %s" % exc)
         return 2
     print(json.dumps({"mode": a.mode, "n_planned_rows": res.get("n_rows")}, indent=2))
