@@ -1,7 +1,7 @@
 # RP-D-LC-001b — planned execution matrix
 
 ```
-VERSION PREFLIGHT-C2 (corrected; supersedes the versions at bbf2304 and 2cf0b63)
+VERSION PREFLIGHT-C3 (supersedes bbf2304, 2cf0b63 and c666707)
 NO ROW IN THIS DOCUMENT HAS BEEN EXECUTED
 solves_executed: 0     lb_solver_invoked: false     AUTHORISED_SOLVING_PHASES: ()
 ```
@@ -112,3 +112,58 @@ D3Q19 TRT kernel. Heavy execution stays in `puckworks/validation/slow/` and neve
 raises `ManifestMissing`. The freeze and manifest gates are checked **before** the allowlist, so
 neither is shadowed by it. All are asserted by test, alongside an instrumentation assertion that
 `lb_reference.solve` is never reached.
+
+
+---
+
+## 8. CORRECTION `PREFLIGHT-C3` — recomputed counts and the new row family
+
+Every number here is produced by `execution_matrix()` and asserted against it by test. The C2
+totals (703 = 383 + 320, 112 mandatory, 591 refused) are **superseded** and survive only in
+`PREFLIGHT_ERRATA.md` PE-22.
+
+**New row family: pressure-plane diagnostics.** Erratum PE-32 found a named `u_node_offset_R`
+term that was always exactly zero because the assembler never passed any evidence. The frozen
+node-surface offsets need **no extra solve** — they are different planes of one solution — but
+they do need a *record*, so a diagnostic row is scheduled for every artifact combination and a
+missing one now **fails** the evidence instead of contributing zero.
+
+| class | rows |
+|---|---|
+| planned **normal solves** | **383** |
+| planned **fixed-step audits** | **320** |
+| planned **pressure-plane diagnostics** (no extra solve) | **144** |
+| **adaptive maximum** | **847** |
+| mandatory minimum (P0 + P1a) | **112** |
+| refused after the earliest stop | **735** |
+| determinism replicates | **3** |
+| P0 / P1a / P1b / P2a / P3 / P4 | 63 / 49 / 384 / 288 / 47 / 16 |
+
+P3 and P4 are templates for **4** frozen bridges and are instantiated only by P2b.
+
+## 9. What P2b writes, and what it refuses to write
+
+An authorised P2b atomically produces `candidate_ledger.json`, `instantiated_p3_p4_matrix.json`,
+`proposed_bridge_freeze.json` and `manifest_P2b.json` — with the freeze written **only** when the
+four slots fill. A failed selection still writes a durable decision and manifest with
+`PHASE_STOPPED_DESIGN_BLOCKED` and a frozen reason code, and **no proposed scientific freeze**.
+All four use canonical strict-finite serialisation, temp-file + atomic rename, deterministic
+filenames, no overwrite and exact-match resume.
+
+**P2b never calls the solver**, and it has its own authority: `AUTHORISED_ASSEMBLY_PHASES`,
+separate from `AUTHORISED_SOLVING_PHASES`. **Both are empty at this head.**
+
+## 10. The full phase universe
+
+Every adaptive phase manifest now carries `phase_universe_case_ids`, `mandatory_case_ids`,
+`conditionally_eligible_case_ids` and `adaptively_ineligible_case_ids`, and validation requires an
+exact, pairwise-disjoint partition
+
+```
+phase universe  =  completed  ⊎  failed  ⊎  refused
+```
+
+Adaptively ineligible rows remain **members** of the universe and are refused with a frozen
+reason; the superseded executor recorded them as refused while the validator built its universe
+from the eligible subset and then rejected them as extra.
+
