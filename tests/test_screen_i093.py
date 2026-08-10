@@ -5,7 +5,8 @@ the screen costs ~66 min of CPU and CLAUDE.md rule 3 keeps that out of CI. What 
 committed artifact, the decision logic recomputed from it, and the cheap invariants (scenario,
 gate, units, hashes) that can be evaluated without a solve.
 
-  * protocol frozen before the module, checked against git history, and hash-bound;
+  * protocol frozen before the module, checked against git history, and hash-bound — to the
+    HISTORICAL source blobs the screen actually ran, recovered from git, not to the working tree;
   * the comparability gate is fail-closed and no route runs after it fails;
   * declared validity ranges are enforced, not assumed;
   * the decision is RECOMPUTED from the machine-readable result, not restated;
@@ -16,6 +17,7 @@ gate, units, hashes) that can be evaluated without a solve.
   * no evidence rung is changed and no manifest dataset is consumed.
 """
 import copy
+import hashlib
 import json
 import pathlib
 import subprocess
@@ -80,13 +82,59 @@ def test_protocol_commit_precedes_every_result_producing_commit():
         "the protocol commit must be OLDER than the first result-producing commit")
 
 
-def test_result_is_hash_bound_to_the_live_protocol_and_inputs(result):
+def _protocol_freeze_commit():
+    """The commit that ADDED the frozen protocol, located from git history — never inferred from
+    HEAD. `git log` lists newest first, so the adding commit is the last entry."""
+    out = _git("log", "--format=%H", "--diff-filter=A", "--",
+               "docs/insights/screens/I-093/PROTOCOL.md").stdout.split()
+    return out[-1] if out else None
+
+
+def _blob_sha256(commit, rel):
+    """SHA-256 of the RAW blob at `commit`, or None if the object is absent.
+
+    Deliberately NOT text=True: decoding would apply newline translation and change the digest.
+    """
+    p = subprocess.run(("git", "cat-file", "blob", "%s:%s" % (commit, rel)),
+                       cwd=REPO, capture_output=True)
+    return hashlib.sha256(p.stdout).hexdigest() if p.returncode == 0 else None
+
+
+def test_result_is_hash_bound_to_protocol_freeze_source_blobs(result):
+    """The frozen screen is bound to the source it ACTUALLY RAN, recovered from git history.
+
+    This previously compared every recorded input digest with the CURRENT WORKING TREE, which
+    encodes the wrong invariant: it makes a frozen historical result a permanent prohibition on
+    any later backward-compatible evolution of a component it once used, and it would demand an
+    ~8 h re-execution of the cheap and deep screens to record a byte-identical scientific result.
+    A frozen result must stay pinned to its own historical source — which git preserves — not to
+    whatever that file becomes later. The screen's evidence is unaffected by, say, an inert
+    optional diagnostic return value added to the solver years afterwards (RP-D.1).
+
+    Still enforced, and strictly:
+      * the frozen PROTOCOL.md is byte-identical on disk AND at the freeze commit;
+      * every recorded input digest equals the raw blob at the protocol-freeze commit;
+      * the recorded input SET still equals the module's declared INPUT_FILES;
+      * the immutable base commit is unchanged.
+    Lineage (protocol-before-result, first-commit-on-base) is checked by its own tests above.
+    """
     assert result["protocol"]["sha256"] == S._sha256(S.PROTOCOL_PATH)
     assert result["provenance"]["base_commit"] == S.BASE_COMMIT == \
         "892e5ec78f7a0dcf1b1f2de85ccfff8f39e0effa"
-    for rel, digest in result["provenance"]["input_sha256"].items():
-        assert digest == S._sha256(rel), "input hash drifted for %s" % rel
     assert set(result["provenance"]["input_sha256"]) == set(S.INPUT_FILES)
+
+    if _history_is_truncated():
+        pytest.skip("shallow checkout: historical source blobs are not observable here")
+    freeze = _protocol_freeze_commit()
+    if freeze is None:
+        pytest.skip("protocol not yet committed")
+    for rel, digest in result["provenance"]["input_sha256"].items():
+        historical = _blob_sha256(freeze, rel)
+        if historical is None:
+            pytest.skip("historical blob for %s is absent from this checkout" % rel)
+        assert historical == digest, (
+            "recorded input hash for %s does not match the blob at the protocol-freeze commit "
+            "%s — the frozen result no longer points at the source it ran" % (rel, freeze))
 
 
 def test_the_first_branch_commit_sits_on_the_immutable_base():

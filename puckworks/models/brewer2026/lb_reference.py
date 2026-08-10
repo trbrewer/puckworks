@@ -35,9 +35,36 @@ def feq_all(rho, ux, uy, uz):
     u2 = (ux*ux + uy*uy + uz*uz).ravel()
     return (W[:,None] * rho.ravel() * (1 + 3*cu + 4.5*cu*cu - 1.5*u2)).reshape((Q,)+rho.shape)
 
+#: Optional macroscopic fields `solve(..., return_fields=...)` may ADD to its result (RP-D.1).
+#: These are the same per-node arrays the time loop already forms every step; asking for them
+#: retains them instead of discarding them. NOTHING about the solver changes: same arguments and
+#: defaults, same collision/forcing/streaming/bounce-back arithmetic, same convergence path, same
+#: standard return keys, same values. Distribution functions are NEVER exported.
+#:
+#:   rho  the solver's FINAL MACROSCOPIC DENSITY FIELD, raw and unmasked. Solid nodes carry a
+#:        meaningless leftover value — mask with your own `solid` array. This is a density, not a
+#:        pressure: converting it to a pressure (which in the periodic body-force formulation
+#:        needs the forcing ramp, p = rho/3 - g*x) is the CALLER's job. The generic solver stays
+#:        out of that choice because the right convention depends on the caller's geometry.
+#:   uy   transverse velocity components, zeroed at solid nodes exactly as `ux` is. Unlike `ux`
+#:   uz   they carry NO half-force shift, because the body force is x-only.
+EXPORTABLE_FIELDS = ("rho", "uy", "uz")
+
+
 def solve(solid, g=1e-6, tau_plus=1.2, max_steps=20000, check=200, rtol=1e-7,
-          min_steps=1500, verbose=True):
-    """Body force g in +x. Returns dict with Darcy velocity q and permeability k (lattice units)."""
+          min_steps=1500, verbose=True, return_fields=()):
+    """Body force g in +x. Returns dict with Darcy velocity q and permeability k (lattice units).
+
+    ``return_fields`` is optional, purely additive diagnostic instrumentation: a subset of
+    ``EXPORTABLE_FIELDS`` naming macroscopic arrays to ADD to the result. Unknown names are
+    rejected, never silently ignored. With the default empty tuple the result dict is exactly
+    what it has always been — same keys, same numbers (asserted by
+    ``tests/test_lb_reference_field_export.py``).
+    """
+    bad = tuple(n for n in return_fields if n not in EXPORTABLE_FIELDS)
+    if bad:
+        raise ValueError("solve: unknown return_fields %r; allowed: %r"
+                         % (bad, EXPORTABLE_FIELDS))
     shape = solid.shape
     fluid = ~solid
     nu = (tau_plus - 0.5) / 3.0
@@ -84,8 +111,11 @@ def solve(solid, g=1e-6, tau_plus=1.2, max_steps=20000, check=200, rtol=1e-7,
     phi = fluid.mean()
     q = (ux + 0.5*g)[fluid].sum() / ux.size
     k = nu * q / (g * phi)                                # Darcy: grad p_eff = g*phi (rho=1)
-    return dict(q=float(q), k=float(k), phi=float(phi), nu=nu, steps=step,
-                seconds=round(time.time()-t0,1), ux=ux + 0.5*g)
+    out = dict(q=float(q), k=float(k), phi=float(phi), nu=nu, steps=step,
+               seconds=round(time.time()-t0,1), ux=ux + 0.5*g)
+    for name in return_fields:                            # additive only; overwrites no key
+        out[name] = {"rho": rho, "uy": uy, "uz": uz}[name]
+    return out
 
 # ---------------- canonical plane-channel code-verification case ----------------
 # The single named verification case shared by the authoritative gate (gate_lb_channel) and the Guided
