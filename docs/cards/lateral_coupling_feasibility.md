@@ -72,7 +72,9 @@ Then for **any** nonzero uncoupled gap,
 **Λ = G_lat/g_axial_reference is retained only for continuity as a legacy nominal grouping.** Its
 0.05 and 5 boundaries are **neither validated nor universal** and are NOT the pressure classifier
 — do not describe 0.05–5 as a validated or universal transition band. k_lat/k_axial and
-inter-path spacing w set G_lat (hence Ξ); both are presently unmeasured.
+inter-path spacing w set G_lat (hence Ξ) **constitutively**; both are presently unmeasured. They
+are needed to *compute or decompose* G_lat — **not** to *infer* an effective Ξ from a controlled
+boundary response (§3b).
 
 ## 3a. Matched physical-vs-proxy discrimination (WP6.6, this step)
 
@@ -112,6 +114,70 @@ q_lat, distinct inlet-vs-outlet share, physical effective conductance) are repor
   `docs/analysis/generated/lateral_coupling_discrimination.{json,csv,md}` (generated — do not
   hand-edit; `--verify` is wired into the generated-artifacts CI).
 
+## 3b. Structural identifiability of Ξ from boundary measurements (WP6-LC-IDENT, 2026-08-09)
+
+`docs/insights/screens/WP6-LC-IDENT/` — a human-selected post-snapshot cheap screen
+(`puckworks/analysis/screen_wp6_lateral_identifiability.py`). **Two things must be kept apart, and
+this card previously conflated them:**
+
+- **Inferring an effective Ξ does NOT require k_lat or w.** In the isoresistive-mirror design the
+  two boundary observables `R = Q/Q₀` (lateral bridge open ÷ blocked) and `s = q₁/Q` (separate
+  outlet share) determine Ξ exactly, with c = (a−b)/(a+b) and t = 1/(1+Ξ):
+
+      R = (1 − c²t)/(1 − c²)                     ĉ  = (R − 1)/[R(1 − 2s)]
+      s = (1−c)(1 + Ξ + c)/(2(1 + Ξ − c²))       t̂  = [1 − R(1 − ĉ²)]/ĉ² ,  Ξ̂ = 1/t̂ − 1
+
+  Verified against `model1_two_path` over a 10 × 22 (c, Ξ) grid. The analytic map and the network
+  solve are **algebraically identical**; their **floating-point** comparison agrees to machine
+  precision, with a live maximum of ≈ 7.99e−15 and 0.0 recorded only after the artifact's
+  12-decimal rounding — machine-precision agreement, never "exactly zero". Recovery to 3.0e−12 in
+  c and 8.2e−11 relative in Ξ; injective (min pairwise (R, s) distance 5.1e−06); invariant under
+  ×10 conductance scaling and correct under path swap.
+- **k_lat and w are still required to DECOMPOSE or physically interpret G_lat** from constitutive
+  geometry and material properties. Nothing here measures either, and nothing here estimates a
+  real puck's Ξ.
+
+**Total flow alone cannot JOINTLY identify (c, Ξ) when c is not independently known.** R depends on
+the axial contrast only through c², so one observed R is then reproduced exactly by a continuum of
+(c, Ξ) states of **both signs of c**. The outlet share collapses that continuum exactly, via the
+identity `s − ½ = −(R−1)/(2Rc)`. The qualifier matters — the full hierarchy is:
+
+| known | observables | identifies |
+|---|---|---|
+| the mirror contrast c, independently and **nonzero** | R | **Ξ** (R alone *is* sufficient) |
+| only that the fixture is an exact mirror | R, s | **c and Ξ** |
+| four calibrated **nondegenerate** axial conductances | pressure-normalised total flow | **G_lat** |
+| nothing beyond boundary flows (general geometry) | q₁, q₂ blocked and open | **nothing** |
+
+**Degeneracies, reported as no-information and never regularised:** `R = 1 ⟺ s = ½ ⟺ c(t−1) = 0`,
+so the degenerate fibre is exactly {Ξ = 0, any c} ∪ {c = 0, any Ξ}.
+
+**Two limits on the result, both measured in the screen:**
+
+- the **mirror construction is load-bearing** — a 1 % axial asymmetry can bias Ξ̂ by a factor of ~5,
+  and a one-parameter family of different geometries spanning ×8 in Ξ reproduces *all four*
+  boundary flows exactly. With the four axial conductances independently calibrated, G_lat instead
+  follows exactly from the pressure-normalised total flow for any **nondegenerate** calibrated
+  geometry having a **nonzero uncoupled mid-node pressure gap** — `g1_top·g2_bot ≠ g2_top·g1_bot`,
+  since `d(Q/ΔP)/dG_lat = (g1_top·g2_bot − g2_top·g1_bot)²/(A₁A₂ + G_lat·S)²`. **Not "any
+  geometry":** X = 0 **exactly** is the ONLY structural no-information case — the two uncoupled
+  mid-node pressures coincide, nothing drives the bridge, and Q is exactly independent of G_lat
+  (e.g. `(2, 1, 4, 2)` — two *different* lanes, fully degenerate). A **small nonzero X is a
+  different thing and is not conflated with it**: the map remains mathematically injective and Q
+  is *not* independent of G_lat, but the inversion can be too ill-conditioned to resolve in
+  floating point, reported under a separate `numerically_unresolved_near_degenerate` status.
+  Conditioning decays as 1/X², so a fixture needs a *margin* on the gap, not merely a nonzero one;
+- **practical resolution is unmet.** Under the existing 1 %/2 %/5 % scenario floors, on the frozen
+  22-point grid exactly three points recover Ξ within a factor of two at 1 % (Ξ = 0.464, 1.0,
+  2.154) and none at 2 % or 5 %; a separate post-hoc solve puts the continuous 1 % crossings at
+  Ξ ≈ 0.241–3.946 and confirms no passing interval at 2 % or 5 %. These are hypothetical
+  scenarios, **not** instrument accuracies and **not** experimental uncertainty — no
+  instrument/noise model exists for this experiment.
+
+Smallest implied experiment: `docs/insights/screens/WP6-LC-IDENT/DECISIVE_EXPERIMENT.md`
+(a two-lane, two-layer hydraulic analog with a blockable lateral bridge). It is a **specification,
+not an authorization to build**, and it authorizes nothing about Paper 4.
+
 ## 4. Go / no-go criteria (WP6.6) — all must hold to start Paper 4
 
 - [x] complete physical-operator card (this file)
@@ -124,16 +190,24 @@ q_lat, distinct inlet-vs-outlet share, physical effective conductance) are repor
       canonical sign asserted). This is **representational / mathematical** distinguishability of
       the MODELS — it does NOT show Ξ/Λ is measurable, that any effect is experimentally
       resolvable, or that espresso sits in any regime.
-- [ ] at least one accessible experiment/dataset can estimate Ξ (needs k_lat and w — **OPEN**)
-- [ ] the inference is not structurally non-identifiable (**OPEN**)
+- [ ] at least one **accessible** experiment/dataset can estimate Ξ (**OPEN**). *Corrected
+      2026-08-09:* this box previously read "needs k_lat and w". That is wrong for **inference**
+      and right only for **decomposition** — see box 6 and §3b. What keeps it open is that no
+      apparatus exists and the required precision is unmet, not a missing k_lat or w.
+- [x] **the inference is not structurally non-identifiable.** In the controlled isoresistive-mirror
+      two-path design the map (signed axial contrast c, Ξ) → (Q/Q₀, separate outlet share s) is
+      **one-to-one** on the nondegenerate domain, with an exact closed-form inverse verified
+      against `model1_two_path` (screen `WP6-LC-IDENT`, §3b). Structural identifiability only —
+      it does **not** make Ξ measurable in practice, and box 5 stays OPEN.
 
 **Current verdict:** the operator is well-posed and conservative with the right limits, an exact
-Ξ pressure-equalization group, and — now — demonstrated *mathematical* distinguishability from the
-**frozen uncoupled share-proxy completion** on synthetic cases. The two remaining boxes are the
-blocking unknowns: whether Ξ is measurable (k_lat, w) and whether the inference is identifiable.
-Both stay OPEN. Paper 4 is **NOT** authorized: no N-path network, no PDE, no extraction clocks, no
-experimental fitting, no transverse-permeability estimate, no α→Λ mapping, no registry promotion
-follows from this step.
+Ξ pressure-equalization group, demonstrated *mathematical* distinguishability from the **frozen
+uncoupled share-proxy completion** on synthetic cases, and — now — **structural identifiability of
+Ξ from boundary measurements** in the mirror design. **One blocking box remains:** whether any
+*accessible* experiment can estimate Ξ at the required precision. It stays OPEN, and so does
+transfer to a real puck. Paper 4 is **NOT** authorized: no N-path network, no PDE, no extraction
+clocks, no experimental fitting, no transverse-permeability estimate, no α→Λ mapping, no registry
+promotion follows from this step or from §3b.
 
 ## Overlaps
 
