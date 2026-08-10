@@ -649,7 +649,7 @@ def test_bridge_selection_is_deterministic_and_reads_no_mirror_observable():
     a = vf.select_bridges(_full_set())
     b = vf.select_bridges(_full_set())
     assert [(c["w"], c["kz"]) for c in a] == [(c["w"], c["kz"]) for c in b]
-    assert len(a) == vf.N_FROZEN_BRIDGES == 5
+    assert len(a) == vf.N_FROZEN_BRIDGES == 4
     src = inspect.getsource(vf.select_bridges) + inspect.getsource(vf.xi_envelope)
     for forbidden in ("Xi_hat", "c_hat", "R_open", "outlet_share"):
         assert forbidden not in src
@@ -672,7 +672,6 @@ def test_selection_ties_break_on_the_integer_geometry():
 
 
 @pytest.mark.parametrize("drop,reason", [
-    ("above", "NO_UNAMBIGUOUS_ABOVE_CANDIDATE"),
     ("below", "NO_UNAMBIGUOUS_BELOW_CANDIDATE"),
     ("inside", "INSUFFICIENT_UNAMBIGUOUS_INSIDE_CANDIDATES"),
 ])
@@ -693,9 +692,34 @@ def test_no_eligible_candidate_at_all_is_a_design_stop():
     assert exc.value.reason == "NO_CANDIDATE_ADMITTED_BY_REACHABLE_SET"
 
 
-def test_exactly_five_unique_candidates_or_stop():
+def test_exactly_four_unique_candidates_or_stop():
     sel = vf.select_bridges(_full_set())
-    assert len({(c["w"], c["kz"]) for c in sel}) == vf.N_FROZEN_BRIDGES
+    assert len({(c["w"], c["kz"]) for c in sel}) == vf.N_FROZEN_BRIDGES == 4
+
+
+def test_no_above_window_slot_is_required_and_above_is_diagnostic_only():
+    """Erratum PE-20: an above-window candidate is close to definitionally one the corrected
+    two-sided reachable-set gate excludes, so requiring one would require a candidate the gate is
+    designed to reject. The 0.10*K margin is unchanged and is not tunable to fill a slot."""
+    cs = [c for c in _full_set() if c["xi_envelope"]["category"] != "above"]
+    sel = vf.select_bridges(cs)
+    assert len(sel) == 4
+    assert [c["slot"] for c in sel].count("below") == 1
+    assert sum(1 for c in sel if c["slot"].startswith("inside")) == 3
+    assert "NO_UNAMBIGUOUS_ABOVE_CANDIDATE" not in vf.DESIGN_BLOCKED_REASONS
+    assert "NO_UNAMBIGUOUS_ABOVE_CANDIDATE" in vf.RETIRED_DESIGN_BLOCKED_REASONS
+    diag = vf.above_window_diagnostics(_full_set())
+    assert diag and all(d["role"].startswith("DIAGNOSTIC_ABOVE_WINDOW") for d in diag)
+    assert (9, 4) in [(d["w"], d["kz"]) for d in diag]
+    assert (9, 4) not in [(c["w"], c["kz"]) for c in vf.select_bridges(_full_set())]
+
+
+def test_the_frozen_family_is_emitted_as_an_ascending_ordered_ladder():
+    sel = vf.select_bridges(_full_set())
+    xis = [c["xi_envelope"]["Xi_select"] for c in sel]
+    assert xis == sorted(xis)
+    assert [c["freeze_order"] for c in sel] == [0, 1, 2, 3]
+    assert all(c["slot_provenance"] for c in sel)
 
 
 def _all_pass_controls():
@@ -882,25 +906,6 @@ def test_p3_and_p4_refuse_even_when_the_pre_freeze_phases_are_authorised(phase, 
         drv.run_phase(phase, runs_dir=tmp_path)
 
 
-def test_p3_refuses_even_with_a_syntactically_valid_freeze(tmp_path, monkeypatch):
-    """A freeze is necessary, never sufficient: P3 still needs its own reviewed authorisation."""
-    freeze = {"correction_version": vf.CORRECTION_VERSION,
-              "frozen_bridges": [{"w": w, "kz": k} for w, k in
-                                 ((3, 2), (3, 3), (5, 2), (5, 3), (9, 4))],
-              "instantiated_matrix_sha256": "b" * 64}
-    freeze.update(_config_hashes())
-    fp = tmp_path / "bridge_freeze.json"
-    fp.write_text(json.dumps(freeze))
-    mp = tmp_path / "instantiated.json"
-    mp.write_text(json.dumps({"instantiated_matrix_sha256": "b" * 64}))
-    assert vf.require_freeze("P3", path=fp, matrix_path=mp)["frozen_bridges"]
-    monkeypatch.setattr(drv, "AUTHORISED_SOLVING_PHASES", ("P0", "P1a", "P1b", "P2a"))
-    monkeypatch.setattr(vf, "require_freeze", lambda *a, **k: freeze)
-    _all_manifests(tmp_path)
-    with pytest.raises(drv.ExecutionNotAuthorised):
-        drv.run_phase("P3", runs_dir=tmp_path)
-
-
 def test_the_freeze_gate_needs_the_instantiated_matrix_too(tmp_path):
     freeze = {"correction_version": vf.CORRECTION_VERSION,
               "frozen_bridges": [{"w": 3, "kz": 2}] * 5,
@@ -931,15 +936,6 @@ def test_a_freeze_that_does_not_bind_this_configuration_is_refused(mutate, why, 
     mp.write_text(json.dumps({"instantiated_matrix_sha256": "b" * 64}))
     with pytest.raises(vf.FreezeMissing):
         vf.require_freeze("P3", path=fp, matrix_path=mp)
-
-
-def test_a_phase_refuses_without_its_predecessor_manifests(tmp_path):
-    with pytest.raises(vf.ManifestMissing):
-        vf.require_phase_manifests("P1a", runs_dir=tmp_path)
-    _manifest("P0", tmp_path)
-    assert vf.require_phase_manifests("P1a", runs_dir=tmp_path)["P0"]
-    with pytest.raises(vf.ManifestMissing):
-        vf.require_phase_manifests("P2a", runs_dir=tmp_path)     # P1a/P1b still absent
 
 
 @pytest.mark.parametrize("mutate", [
@@ -997,29 +993,6 @@ def test_the_execution_authority_records_everything_a_future_stage_must_bind():
     assert all(v for v in a["input_file_sha256"].values())         # no null hashes
     assert a["backend"] == "reference"
     assert inspect.signature(vf.execution_authority).parameters["require_clean"].default is True
-
-
-def test_a_freeze_cannot_be_built_from_unbound_hand_entered_candidates():
-    inst = vf.instantiate_post_freeze_matrix([{"w": w, "kz": k} for w, k in
-                                              ((3, 2), (3, 3), (5, 2), (5, 3), (9, 4))])
-    manifests = {"P1a": {"completed_cases": [{"record_sha256": "a" * 64}]}}
-    hand = [{"w": w, "kz": k} for w, k in ((3, 2), (3, 3), (5, 2), (5, 3), (9, 4))]
-    with pytest.raises(vf.ManifestMissing):
-        vf.build_freeze(hand, manifests, inst)
-    cited = [dict(c, record_hashes=["z" * 64]) for c in hand]
-    with pytest.raises(vf.ManifestMissing):
-        vf.build_freeze(cited, manifests, inst)
-    bound = [dict(c, record_hashes=["a" * 64]) for c in hand]
-    doc = vf.build_freeze(bound, manifests, inst)
-    assert doc["status"] == "PROPOSED_PENDING_SECOND_EXACT_HEAD_REVIEW"
-    assert doc["instantiated_matrix_sha256"] == vf.record_hash(inst)
-
-
-def test_a_freeze_cannot_be_built_with_the_wrong_number_of_bridges():
-    inst = vf.instantiate_post_freeze_matrix([{"w": w, "kz": k} for w, k in
-                                              ((3, 2), (3, 3), (5, 2), (5, 3), (9, 4))])
-    with pytest.raises(vf.DesignBlocked):
-        vf.build_freeze([{"w": 3, "kz": 2, "record_hashes": ["a" * 64]}], {}, inst)
 
 
 # ==========================================================================================
@@ -1083,7 +1056,7 @@ def test_no_preflight_test_is_marked_slow(request):
     marks |= {d.func.attr for n in ast.walk(tree) if isinstance(n, ast.FunctionDef)
               for d in n.decorator_list
               if isinstance(d, ast.Call) and isinstance(d.func, ast.Attribute)}
-    assert marks <= {"parametrize"}, marks
+    assert marks <= {"parametrize", "fixture"}, marks
 
 
 # ==========================================================================================
@@ -1368,30 +1341,37 @@ def test_every_pre_freeze_forcing_ladder_is_complete_at_both_resolutions():
 
 def test_both_coupon_orientations_are_present_over_the_whole_ladder():
     rows = [r for r in vf.execution_matrix()["rows"] if r["kind"] == "axial_coupon"]
+    normal = [r for r in rows if r["run_mode"] == "NORMAL"]
     combos = {(r["S"], r["forcing_level"], r["coupon_level"], r["coupon_orientation"])
-              for r in rows}
-    assert len(combos) == len(rows) == 2 * 3 * 2 * 2
+              for r in normal}
+    assert len(combos) == len(normal) == 2 * 3 * 2 * 2
     assert {c[3] for c in combos} == {"x", "y"}
     assert all(r["coupon_orientation"] is not None for r in rows)
+    assert len(rows) == 2 * len(normal)          # each paired with its own fixed-step audit
 
 
 def test_no_selection_bearing_quantity_is_first_validated_after_the_freeze():
     rows = vf.execution_matrix()["rows"]
     pre = {"P0", "P1a", "P1b", "P2a"}
     for kind in ("identical_path_control", "bridge_coupon", "candidate_blocked_mirror",
-                 "axial_coupon", "reference_blocked_ladder", "continuation_audit"):
+                 "axial_coupon", "reference_blocked_ladder"):
         phases = {r["phase"] for r in rows if r["kind"] == kind}
         assert phases & pre, kind
     # the artifact and the contrast are measured before anything is selected
     assert {r["phase"] for r in rows if r["kind"] == "candidate_blocked_mirror"} == {"P2a"}
+    for kind in vf.SELECTION_BEARING_KINDS:
+        normal = [r for r in rows if r["kind"] == kind and r["run_mode"] == "NORMAL"]
+        audits = [r for r in rows if r["kind"] == kind
+                  and r["run_mode"] == "FIXED_STEP_REEXECUTION_1P5X"]
+        assert len(audits) == len(normal), kind
 
 
 def test_every_matrix_row_carries_a_unique_case_id_and_a_complete_configuration():
     rows = vf.execution_matrix()["rows"]
     ids = [r["case_id"] for r in rows]
     assert len(set(ids)) == len(ids)
-    required = ("phase", "kind", "S", "forcing_level", "forcing", "tau_plus", "state",
-                "variant", "backend", "record_schema", "class")
+    required = ("phase", "kind", "S", "forcing_level", "forcing_repr", "forcing_exact",
+                "tau_plus", "state", "variant", "backend", "record_schema", "class")
     for r in rows:
         for k in required:
             assert r[k] is not None, (r["case_id"], k)
@@ -1426,7 +1406,7 @@ def test_every_row_resolves_to_exactly_one_fixture_and_solver_configuration():
                                    swapped=bool(r["swapped"]),
                                    perturbation=r["perturbation"])
         assert mask is not None
-        assert r["forcing"] == vf.forcing_ladder(r["S"])[r["forcing_level"]]
+        assert vf.row_forcing(r) == vf.forcing_ladder(r["S"])[r["forcing_level"]]
 
 
 def test_the_tau_cross_check_is_scheduled_rather_than_merely_asserted():
@@ -1442,7 +1422,7 @@ def test_the_p3_p4_matrix_is_instantiated_only_after_selection_is_known():
     tpl = [r for r in m["rows"] if r["phase"] in ("P3", "P4")]
     assert tpl and all(isinstance(r["bridge"], str) and r["bridge"].startswith("frozen_slot_")
                        for r in tpl)
-    sel = [{"w": w, "kz": k} for w, k in ((3, 2), (3, 3), (5, 2), (5, 3), (9, 4))]
+    sel = [{"w": w, "kz": k} for w, k in ((3, 2), (3, 3), (5, 2), (5, 3))]
     inst = vf.instantiate_post_freeze_matrix(sel)
     assert len(inst) == len(tpl)
     assert all(isinstance(r["bridge"], dict) for r in inst)
@@ -1593,9 +1573,10 @@ def test_the_execution_matrix_reports_zero_executed_solves_and_an_exact_total():
     for phase in ("P0", "P1a", "P1b", "P2a", "P3", "P4"):
         assert m["by_phase"][phase] > 0
     assert "P2b" not in m["by_phase"]                     # P2b does arithmetic, not solving
-    central = [r for r in m["rows"]
-               if r["kind"] == "identical_path_control" and r["forcing_level"] == "central"]
+    central = [r for r in m["rows"] if r["kind"] == "identical_path_control"
+               and r["forcing_level"] == "central" and r["run_mode"] == "NORMAL"]
     assert len(central) == 2 * 2 * len(SCI) == 48
+    assert m["planned_normal_solves"] + m["planned_fixed_step_audits"] == m["n_rows"]
     assert m["by_phase"]["P4"] == vf.ARM_J["planned_solves"]
     assert m["mandatory_minimum"] + m["refused_after_earliest_stop"] == m["n_rows"]
     assert m["diagnostic_replicates"] == 3
@@ -1604,7 +1585,7 @@ def test_the_execution_matrix_reports_zero_executed_solves_and_an_exact_total():
 def test_arm_j_is_preserved_with_its_purpose_matrix_and_decision_status():
     assert vf.ARM_J["status"] == "decision_bearing"
     assert vf.ARM_J["gate"] == {"R_rel": 1e-3, "s_abs": 5e-4}
-    assert vf.ARM_J["planned_solves"] == 20
+    assert vf.ARM_J["planned_solves"] == vf.N_FROZEN_BRIDGES * 2 * 2 == 16
     for k in ("purpose", "relationship_to_corrected_geometry", "ordering", "fail_semantics",
               "matrix"):
         assert vf.ARM_J[k]
@@ -1658,3 +1639,608 @@ def test_the_protocol_declares_an_append_only_erratum_policy():
     txt = (REPO / vf.BUNDLE_REL / "PROTOCOL.md").read_text()
     assert "erratum" in txt.lower()
     assert "append" in txt.lower()
+
+
+# ==========================================================================================
+# 12. C2 correction regressions — one per erratum PE-13 … PE-21
+# ==========================================================================================
+
+def _tvm(mass, ids=("y_portA_in", "y_duct_a", "y_duct_b", "y_portB_out"), n_fluid=8):
+    return [{"plane_id": p, "orientation": "y", "index": i, "n_fluid": n_fluid,
+             "sum_uy": m, "sum_rho_uy": m, "footprint_x": (0, 2), "footprint_z": (0, 2),
+             "sign_convention": vf.SIGN_CONVENTION_TRANSVERSE}
+            for i, (p, m) in enumerate(zip(ids, mass))]
+
+
+# ---- PE-14: zero-driver MAGNITUDE, not merely consistency ---------------------------------
+
+def test_four_exact_zeros_pass_both_zero_driver_gates():
+    r = vf.transverse_conservation("open", _tvm([0.0] * 4), 10.0, lateral_driver_is_zero=True)
+    assert r["magnitude_pass"] is True and r["consistency_pass"] is True and r["pass"] is True
+    assert r["max_abs_lateral_mass_flux_rel"] == 0.0 and r["plane_range_mass_rel"] == 0.0
+
+
+@pytest.mark.parametrize("q", [1e-9, -1e-9, 1e-6, -1e-6])
+def test_small_equal_numerical_noise_below_the_ceiling_passes(q):
+    r = vf.transverse_conservation("open", _tvm([q] * 4), 10.0, lateral_driver_is_zero=True)
+    assert r["pass"] is True
+    assert r["max_abs_lateral_mass_flux_rel"] <= vf.TOL_BRIDGE_LEAKAGE_REL
+
+
+def test_four_EQUAL_material_fluxes_fail_although_their_range_is_exactly_zero():
+    """Erratum PE-14, the false green: the superseded gate tested only max-min, which is exactly
+    zero here, so a large but perfectly consistent lateral current passed the negative control."""
+    q = 0.05                                          # 5e-3 of the axial scale: 5x the ceiling
+    r = vf.transverse_conservation("open", _tvm([q] * 4), 10.0, lateral_driver_is_zero=True)
+    assert r["plane_range_mass"] == 0.0               # consistency alone would have passed
+    assert r["consistency_pass"] is True
+    assert r["magnitude_pass"] is False
+    assert r["pass"] is False
+    assert r["max_abs_lateral_mass_flux_rel"] > vf.TOL_BRIDGE_LEAKAGE_REL
+
+
+def test_unequal_leakage_fails_the_consistency_gate():
+    r = vf.transverse_conservation("open", _tvm([0.0, 0.05, 0.0, -0.05]), 10.0,
+                                   lateral_driver_is_zero=True)
+    assert r["consistency_pass"] is False and r["pass"] is False
+
+
+def test_alternating_signed_round_off_is_judged_on_magnitude_and_range():
+    r = vf.transverse_conservation("open", _tvm([1e-9, -1e-9, 1e-9, -1e-9]), 10.0,
+                                   lateral_driver_is_zero=True)
+    assert r["pass"] is True
+    assert r["signed_balance"] == pytest.approx(2e-9)
+    assert math.isfinite(r["abs_mean_lateral_mass_flux_rel"])
+
+
+def test_the_two_zero_driver_gates_are_reported_separately():
+    r = vf.transverse_conservation("open", _tvm([0.05] * 4), 10.0, lateral_driver_is_zero=True)
+    assert set(("magnitude_pass", "consistency_pass")) <= set(r)
+    for k in ("max_abs_lateral_mass_flux", "max_abs_lateral_mass_flux_rel",
+              "mean_lateral_mass_flux", "abs_mean_lateral_mass_flux_rel",
+              "plane_range_mass", "plane_range_mass_rel", "signed_balance",
+              "plane_sums_mass", "plane_sums_volume", "normalisation_scale"):
+        assert r[k] is not None, k
+    for k in ("max_abs_lateral_mass_flux_rel", "plane_range_mass_rel",
+              "abs_mean_lateral_mass_flux_rel"):
+        assert math.isfinite(r[k])
+
+
+def test_a_driven_bridge_is_never_required_to_carry_zero_lateral_flux():
+    """The magnitude gate applies ONLY to an expected-zero-driver case: for a driven bridge the
+    lateral flux is the physics under test."""
+    q = 0.5
+    r = vf.transverse_conservation("open", _tvm([q] * 4), 10.0, lateral_driver_is_zero=False)
+    assert r["magnitude_pass"] is None                # recorded as a signal, not gated
+    assert r["max_abs_lateral_mass_flux_rel"] > vf.TOL_BRIDGE_LEAKAGE_REL
+    assert r["pass"] is True
+    assert r["relative_gate_applicable"] is True
+
+
+def test_the_leakage_ceiling_is_not_loosened():
+    assert vf.TOL_BRIDGE_LEAKAGE_REL == 1.0e-3 == vf.ARTIFACT_BUDGET_R_ABS
+
+
+# ---- PE-15: the MEASURED lateral pressure gap ---------------------------------------------
+
+def _face_case(S=vf.S_SMOKE, b=None, variant="identical", bump=0.0, connected=True):
+    b = b or {"w": 3, "kz": 2}
+    mask, meta = vf.build_fixture(S, bridge=b, connected=connected, variant=variant)
+    nx = mask.shape[0]
+    g = vf.forcing_central(S)
+    ux = np.zeros(mask.shape)
+    for x in range(nx):
+        n = int((~mask[x]).sum())
+        if n:
+            ux[x][~mask[x]] = 1.0 / n
+    rho = np.ones(mask.shape) + 3.0 * g * (nx - np.arange(nx))[:, None, None]
+    if bump:
+        rho[:, meta["y_face2"], :] += bump
+    z = np.zeros(mask.shape)
+    return mask, meta, {"ux": ux, "uy": z.copy(), "uz": z.copy(), "rho": rho, "steps": 3000}, g
+
+
+def test_both_lateral_pressure_faces_are_retained_with_the_frozen_fields():
+    mask, meta, res, g = _face_case()
+    faces = drv.pressure_face_records(res, mask, meta, g)
+    assert [f["plane_id"] for f in faces] == list(vf.PRESSURE_FACE_IDS)
+    for f in faces:
+        assert set(f) == set(vf.PRESSURE_FACE_FIELDS)
+        assert f["orientation"] == "y"
+        assert f["footprint_x"] == tuple(int(v) for v in meta["bridge_x"])
+        assert f["footprint_z"] == tuple(int(v) for v in meta["bridge_z"])
+        assert f["mask_sha256"] == meta["mask_sha256"]
+        assert f["n_fluid"] > 0
+
+
+def test_the_effective_pressure_subtracts_the_body_force_potential_nodewise():
+    """p_eff = rho/3 - g*x, evaluated BEFORE averaging, so a multi-x footprint is handled."""
+    mask, meta, res, g = _face_case(b={"w": 9, "kz": 2})
+    f = drv.pressure_face_records(res, mask, meta, g)[0]
+    xs, xe = meta["bridge_x"]
+    y = meta["y_face1"]
+    zs, ze = meta["bridge_z"]
+    sub = ~mask[xs:xe, y, zs:ze]
+    xc = np.arange(xs, xe, dtype=float)[:, None]
+    expect = ((res["rho"][xs:xe, y, zs:ze] / 3.0 - g * xc)[sub]).mean()
+    assert f["p_mean"] == pytest.approx(float(expect), rel=1e-12)
+    assert xe - xs > 1                                 # genuinely a multi-x footprint
+
+
+def test_pressure_faces_average_fluid_nodes_only():
+    mask, meta, res, g = _face_case()
+    f = drv.pressure_face_records(res, mask, meta, g)[0]
+    xs, xe = meta["bridge_x"]
+    zs, ze = meta["bridge_z"]
+    assert f["n_fluid"] == int((~mask[xs:xe, meta["y_face1"], zs:ze]).sum())
+    res["rho"][mask] = 1e6                             # poison every solid node
+    f2 = drv.pressure_face_records(res, mask, meta, g)[0]
+    assert f2["p_mean"] == pytest.approx(f["p_mean"], rel=1e-12)
+
+
+def test_a_symmetric_identical_fixture_measures_a_zero_lateral_gap_and_passes():
+    mask, meta, res, g = _face_case()
+    rec = drv.case_record(res, mask, meta, g, stage="unit")
+    lp = rec["lateral_pressure"]
+    assert lp["delta_p_lateral"] == pytest.approx(0.0, abs=1e-15)
+    assert lp["expected_zero_driver"] is True
+    assert lp["measured_zero_driver_pass"] is True
+
+
+def test_a_MEASURED_nonzero_gap_fails_an_expected_zero_driver_case():
+    """A geometry label may never certify the premise of the negative control (erratum PE-15)."""
+    mask, meta, res, g = _face_case(bump=1e-3)
+    rec = drv.case_record(res, mask, meta, g, stage="unit")
+    lp = rec["lateral_pressure"]
+    assert lp["expected_zero_driver"] is True          # the LABEL still says identical
+    assert abs(lp["delta_p_lateral"]) > 0
+    assert lp["measured_zero_driver_pass"] is False    # the MEASUREMENT overrules it
+
+
+def test_the_common_axial_gradient_cancels_in_the_pointwise_gap():
+    mask, meta, res, g = _face_case(b={"w": 9, "kz": 4})
+    rec = drv.case_record(res, mask, meta, g, stage="unit")
+    d = rec["lateral_pressure"]["delta_pointwise"]
+    assert d["faces_share_footprint"] is True
+    assert d["delta_sd"] == pytest.approx(0.0, abs=1e-15)
+    # the individual faces DO vary strongly across the footprint; that is common-mode
+    assert rec["lateral_pressure"]["face_nonuniformity_rel"] > 0
+    assert rec["lateral_pressure"]["face_nonuniformity_role"].startswith("diagnostic")
+
+
+def test_forcing_normalised_lateral_quantities_are_retained():
+    mask, meta, res, g = _face_case()
+    rec = drv.case_record(res, mask, meta, g, stage="unit")
+    lp = rec["lateral_pressure"]
+    assert "delta_p_lateral_over_g" in lp and "q_lat_mass_over_g" in lp
+    assert lp["delta_p_lateral_over_g"] == pytest.approx(lp["delta_p_lateral"] / g)
+
+
+def test_a_non_finite_face_value_fails_closed():
+    mask, meta, res, g = _face_case()
+    xs, _ = meta["bridge_x"]
+    zs, _ = meta["bridge_z"]
+    res["rho"][xs, meta["y_face1"], zs] = float("nan")   # inside the bridge footprint
+    with pytest.raises(vf.NonFiniteValue):
+        drv.pressure_face_records(res, mask, meta, g)
+
+
+def test_the_driven_case_records_the_gap_without_a_zero_driver_verdict():
+    mask, meta, res, g = _face_case(variant="mirror")
+    rec = drv.case_record(res, mask, meta, g, stage="unit")
+    lp = rec["lateral_pressure"]
+    assert lp["expected_zero_driver"] is False
+    assert lp["measured_zero_driver_pass"] is None
+
+
+# ---- PE-16: a REAL fixed-step re-execution -------------------------------------------------
+
+@pytest.mark.parametrize("base", [2000, 3000, 4200, 4201, 5999, 12345])
+def test_the_audit_target_rounds_up_to_check_and_exceeds_the_base(base):
+    tgt = vf.fixed_step_audit_target(base)
+    assert tgt % vf.CHECK == 0
+    assert tgt > base
+    assert tgt >= vf.CONVERGENCE_AUDIT_FACTOR * base - vf.CHECK
+
+
+def test_the_audit_pins_min_steps_equal_to_max_steps_so_it_cannot_stop_early():
+    plan = vf.fixed_step_audit_plan(4200, "NORMAL_CONVERGED")
+    assert plan["min_steps"] == plan["max_steps"] == plan["target_steps"] == 6400
+    assert plan["run_mode"] == "FIXED_STEP_REEXECUTION_1P5X"
+    assert plan["exceeds_base"] is True and plan["aligned_to_check"] is True
+    assert "continuation" in plan["naming_note"]      # explicitly says it is NOT one
+
+
+def test_an_unconverged_base_can_never_be_rescued_by_an_audit():
+    with pytest.raises(ValueError):
+        vf.fixed_step_audit_plan(60000, "NORMAL_UNCONVERGED")
+
+
+def test_normal_convergence_and_audit_completion_are_distinct_statuses():
+    assert vf.run_status("NORMAL", 4200) == "NORMAL_CONVERGED"
+    assert vf.run_status("NORMAL", vf.MAX_STEPS) == "NORMAL_UNCONVERGED"
+    assert vf.run_status("FIXED_STEP_REEXECUTION_1P5X", 6400, 6400) == "FIXED_STEP_AUDIT_COMPLETED"
+    assert vf.run_status("FIXED_STEP_REEXECUTION_1P5X", 6399, 6400) == "FIXED_STEP_AUDIT_INCOMPLETE"
+    assert set(vf.RUN_STATUSES) == {"NORMAL_CONVERGED", "NORMAL_UNCONVERGED",
+                                    "FIXED_STEP_AUDIT_COMPLETED", "FIXED_STEP_AUDIT_INCOMPLETE"}
+
+
+def test_an_audit_that_stops_early_is_incomplete_not_converged():
+    """Precisely the superseded no-op: the solver returns at its own convergence point."""
+    assert vf.run_status("FIXED_STEP_REEXECUTION_1P5X", 4200, 6400) == "FIXED_STEP_AUDIT_INCOMPLETE"
+
+
+def test_the_frozen_audit_maximum_covers_the_rule():
+    assert vf.MAX_STEPS_AUDIT % vf.CHECK == 0
+    assert vf.MAX_STEPS_AUDIT >= vf.CONVERGENCE_AUDIT_FACTOR * vf.MAX_STEPS
+    # the guard covers a base case that ran to the normal maximum, and refuses anything beyond
+    assert vf.fixed_step_audit_target(vf.MAX_STEPS) == vf.MAX_STEPS_AUDIT
+    with pytest.raises(ValueError):
+        vf.fixed_step_audit_target(vf.MAX_STEPS + vf.CHECK)
+
+
+# ---- PE-17: candidate-specific coverage ----------------------------------------------------
+
+def test_every_artifact_combination_has_its_own_fixed_step_evidence():
+    rows = vf.execution_matrix()["rows"]
+    ident = [r for r in rows if r["kind"] == "identical_path_control"]
+    normal = {(tuple(sorted(r["bridge"].items())), r["S"], r["forcing_level"], r["state"])
+              for r in ident if r["run_mode"] == "NORMAL"}
+    audit = {(tuple(sorted(r["bridge"].items())), r["S"], r["forcing_level"], r["state"])
+             for r in ident if r["run_mode"] == "FIXED_STEP_REEXECUTION_1P5X"}
+    assert normal == audit
+    assert len(normal) == len(SCI) * 2 * 3 * 2       # candidates x S x forcing x state
+
+
+def test_no_unproved_smallest_largest_extrapolation_remains():
+    src = inspect.getsource(vf)
+    assert "smallest and largest" not in src
+    assert "SELECTION_BEARING_KINDS" in src
+
+
+def test_p1a_may_reject_but_never_admit():
+    src = inspect.getsource(vf.p1a_triage)
+    assert "may NEVER ADMIT" in src
+    assert "may_admit" in src
+
+
+def test_the_artifact_is_a_property_of_the_pair_not_of_one_member():
+    """A pair with no fixed-step evidence yields a point estimate that may only REJECT."""
+    pair = {"blocked": _fake_rec(C=25.0), "open": _fake_rec(C=25.01)}
+    art = vf.artifact_from_pair(pair)
+    assert art["upper"] is None and art["within_budget"] is None
+    assert art["point"] == pytest.approx(0.01 / 25.0, rel=1e-9)
+    pair["audit_blocked"] = _fake_rec(C=25.0005)
+    pair["audit_open"] = _fake_rec(C=25.0105)
+    art2 = vf.artifact_from_pair(pair)
+    assert art2["u_R"] > 0 and art2["upper"] == pytest.approx(art2["point"] + art2["u_R"])
+    assert art2["fixed_step_case_ids"]
+
+
+def _fake_rec(C, case_id="x", kind="identical_path_control", S=2, level="central",
+              state="blocked", bridge=(3, 2), phase="P1a"):
+    return {"case_id": case_id, "kind": kind, "run_mode": "NORMAL",
+            "row": {"S": S, "forcing_level": level, "state": state, "phase": phase,
+                    "bridge": {"w": bridge[0], "kz": bridge[1]}, "case_id": case_id},
+            "scientific": {"Q_volume": C, "dP": 1.0}}
+
+
+def test_a_candidate_missing_a_required_combination_is_not_admitted():
+    recs = {}
+    for S in vf.SCIENTIFIC_RESOLUTIONS:
+        for lv in vf.FORCING_LEVELS:
+            for st in ("blocked", "open"):
+                cid = "c.%d.%s.%s" % (S, lv, st)
+                recs[cid] = _fake_rec(25.0 if st == "blocked" else 25.0001, cid, S=S,
+                                      level=lv, state=st)
+    adm = vf.artifact_admission_from_records(recs)
+    assert adm[(3, 2)]["admitted"] is False           # no fixed-step evidence yet
+    assert "fixed-step" in adm[(3, 2)]["reason"]
+    recs.pop("c.2.low.open")
+    adm2 = vf.artifact_admission_from_records(recs)
+    assert "2.low" in adm2[(3, 2)]["missing"]
+
+
+# ---- PE-21: exact forcing identity ---------------------------------------------------------
+
+@pytest.mark.parametrize("S", list(vf.SCIENTIFIC_RESOLUTIONS))
+@pytest.mark.parametrize("level", list(vf.FORCING_LEVELS))
+def test_the_exact_rational_reproduces_the_frozen_ladder(S, level):
+    ex = vf.forcing_exact_dict(S, level)
+    assert vf.forcing_from_exact(ex) == vf.forcing_ladder(S)[level]
+    from fractions import Fraction
+    assert Fraction(ex["numerator"], ex["denominator"]) == vf.forcing_exact(S, level)
+
+
+def test_every_forcing_bearing_row_carries_the_exact_rational_and_a_lossless_float():
+    for r in vf.execution_matrix()["rows"]:
+        ex = r["forcing_exact"]
+        assert set(ex) == {"numerator", "denominator"}
+        assert float(r["forcing_repr"]) == vf.forcing_from_exact(ex)
+        assert vf.row_forcing(r) == float(r["forcing_repr"])
+
+
+def test_twelve_decimal_rounding_would_have_destroyed_the_identity():
+    """Why the float is not the identity (erratum PE-21): the canonical writer rounds to twelve
+    DECIMAL PLACES, which for a forcing of order 1e-7 keeps only about six significant digits —
+    so a round-tripped float is no longer the number that was frozen."""
+    for level in vf.FORCING_LEVELS:
+        g = vf.forcing_ladder(3)[level]
+        assert g > 0
+        assert round(g, vf._RECORD_DP) != g           # the identity does not survive the writer
+    row = [r for r in vf.execution_matrix()["rows"] if r["S"] == 3][0]
+    assert vf.row_forcing(row) == vf.forcing_ladder(3)[row["forcing_level"]]   # exact, via Fraction
+    # and a record round-tripped through the canonical writer still yields the exact float
+    doc = json.loads(vf.canonical_json(row))
+    assert vf.forcing_from_exact(doc["forcing_exact"]) == vf.row_forcing(row)
+
+
+def test_the_row_hash_changes_when_the_exact_rational_changes():
+    row = dict(vf.execution_matrix()["rows"][0])
+    h = vf.row_sha256(row)
+    row["forcing_exact"] = {"numerator": 1, "denominator": 999999}
+    assert vf.row_sha256(row) != h
+
+
+def test_the_case_id_carries_the_exact_rational():
+    rows = vf.execution_matrix()["rows"]
+    assert any("g1ov1000000" in r["case_id"] for r in rows)
+
+
+def test_no_fraction_is_ever_built_from_a_binary_float():
+    src = inspect.getsource(vf)
+    assert "Fraction(G_REF)" not in src
+    assert "Fraction(forcing_central" not in src
+    assert "Fraction(float(" not in src
+
+
+# ---- PE-18: records, manifests and the record-derived freeze --------------------------------
+
+@pytest.fixture()
+def executed_p0(tmp_path):
+    """A complete, validated P0 phase produced by the executor with a FAKE result provider."""
+    auth = vf.execution_authority("P0", require_clean=False)
+    man = drv._execute_solving_phase("P0", tmp_path, auth, {}, {}, _fake_provider, "reference")
+    return tmp_path, auth, man
+
+
+def _fake_provider(mask, g, phase, row, tau=None, audit=None, backend="reference"):
+    """A deterministic stand-in for the solver. The real kernel is never reached."""
+    nx = mask.shape[0]
+    ux = np.zeros(mask.shape)
+    for x in range(nx):
+        n = int((~mask[x]).sum())
+        if n:
+            ux[x][~mask[x]] = 1.0 / n
+    z = np.zeros(mask.shape)
+    steps = 3000 if audit is None else audit["target_steps"]
+    return {"ux": ux, "uy": z.copy(), "uz": z.copy(), "rho": np.ones(mask.shape), "steps": steps}
+
+
+def test_the_executor_completes_a_whole_phase_into_validated_records(executed_p0):
+    runs, auth, man = executed_p0
+    assert man["terminal_status"] == "PHASE_COMPLETE"
+    assert man["counts"]["completed"] == man["counts"]["expected"] > 0
+    assert man["counts"]["failed"] == 0
+    doc = vf.validate_phase_manifest("P0", runs, authority=auth)
+    assert len(doc["_records"]) == man["counts"]["completed"]
+
+
+def test_a_case_record_is_immutable_and_a_resume_needs_an_exact_match(executed_p0):
+    runs, auth, man = executed_p0
+    cid = man["completed"][0]["case_id"]
+    rec, path = vf.read_case_record(runs, cid)
+    again = vf.write_case_record(runs, rec)
+    assert again[1] == "REUSED_EXACT_MATCH"
+    tampered = dict(rec, completed_steps=rec["completed_steps"] + 1)
+    with pytest.raises(ValueError):
+        vf.write_case_record(runs, tampered)
+    with pytest.raises(FileExistsError):
+        vf.write_case_record(runs, rec, allow_resume=False)
+
+
+def test_the_record_filename_is_derived_from_the_case_id(executed_p0):
+    runs, auth, man = executed_p0
+    cid = man["completed"][0]["case_id"]
+    assert (runs / vf.case_record_filename(cid)).exists()
+    assert vf.case_record_filename(cid) != vf.case_record_filename(cid + "x")
+
+
+@pytest.mark.parametrize("mutate", [
+    {"phase": "P1a"}, {"case_id": "other"}, {"row_sha256": "0" * 64},
+    {"source_tree": "0" * 40}, {"correction_version": "PREFLIGHT-C1"},
+    {"status": "SOMETHING_ELSE"},
+])
+def test_a_tampered_case_record_is_refused(executed_p0, mutate):
+    runs, auth, man = executed_p0
+    rec, _ = vf.read_case_record(runs, man["completed"][0]["case_id"])
+    bad = dict(rec, **mutate)
+    with pytest.raises(ValueError):
+        vf.validate_case_record(bad, authority=auth, phase="P0")
+
+
+def test_a_missing_record_breaks_its_manifest(executed_p0):
+    runs, auth, man = executed_p0
+    (runs / vf.case_record_filename(man["completed"][0]["case_id"])).unlink()
+    with pytest.raises(vf.ManifestMissing):
+        vf.validate_phase_manifest("P0", runs, authority=auth)
+
+
+def test_a_wrong_record_hash_breaks_its_manifest(executed_p0):
+    runs, auth, man = executed_p0
+    doc = json.loads((runs / "manifest_P0.json").read_text())
+    doc["completed"][0]["record_sha256"] = "0" * 64
+    (runs / "manifest_P0.json").write_text(vf.canonical_json(doc) + "\n")
+    with pytest.raises(vf.ManifestMissing):
+        vf.validate_phase_manifest("P0", runs, authority=auth)
+
+
+def test_a_nonempty_but_incomplete_manifest_fails(executed_p0):
+    """The superseded check passed on a NONEMPTY list (erratum PE-18)."""
+    runs, auth, man = executed_p0
+    doc = json.loads((runs / "manifest_P0.json").read_text())
+    doc["completed"] = doc["completed"][:1]
+    doc["counts"]["completed"] = 1
+    (runs / "manifest_P0.json").write_text(vf.canonical_json(doc) + "\n")
+    assert doc["completed"]                            # nonempty...
+    with pytest.raises(vf.ManifestMissing):            # ...and still not a phase
+        vf.validate_phase_manifest("P0", runs, authority=auth)
+
+
+def test_an_extra_case_not_in_the_plan_is_refused(executed_p0):
+    runs, auth, man = executed_p0
+    doc = json.loads((runs / "manifest_P0.json").read_text())
+    doc["completed"].append(dict(doc["completed"][0], case_id="not.in.the.plan"))
+    doc["counts"]["completed"] += 1
+    (runs / "manifest_P0.json").write_text(vf.canonical_json(doc) + "\n")
+    with pytest.raises(vf.ManifestMissing):
+        vf.validate_phase_manifest("P0", runs, authority=auth)
+
+
+def test_a_duplicate_completed_case_is_refused(executed_p0):
+    runs, auth, man = executed_p0
+    doc = json.loads((runs / "manifest_P0.json").read_text())
+    doc["completed"].append(dict(doc["completed"][0]))
+    doc["counts"]["completed"] += 1
+    (runs / "manifest_P0.json").write_text(vf.canonical_json(doc) + "\n")
+    with pytest.raises(vf.ManifestMissing):
+        vf.validate_phase_manifest("P0", runs, authority=auth)
+
+
+def test_one_record_hash_cannot_be_cited_for_two_physically_distinct_rows(executed_p0):
+    runs, auth, man = executed_p0
+    doc = json.loads((runs / "manifest_P0.json").read_text())
+    a, b = doc["completed"][0], doc["completed"][1]
+    b["record_sha256"] = a["record_sha256"]
+    (runs / "manifest_P0.json").write_text(vf.canonical_json(doc) + "\n")
+    with pytest.raises(vf.ManifestMissing):
+        vf.validate_phase_manifest("P0", runs, authority=auth)
+
+
+def test_a_manifest_from_a_superseded_correction_version_is_refused(executed_p0):
+    runs, auth, man = executed_p0
+    doc = json.loads((runs / "manifest_P0.json").read_text())
+    doc["correction_version"] = "PREFLIGHT-C1"
+    (runs / "manifest_P0.json").write_text(vf.canonical_json(doc) + "\n")
+    with pytest.raises(vf.ManifestMissing):
+        vf.validate_phase_manifest("P0", runs, authority=auth)
+
+
+def test_a_manifest_whose_plan_hash_does_not_match_the_derived_plan_is_refused(executed_p0):
+    runs, auth, man = executed_p0
+    doc = json.loads((runs / "manifest_P0.json").read_text())
+    doc["phase_plan_sha256"] = "0" * 64
+    (runs / "manifest_P0.json").write_text(vf.canonical_json(doc) + "\n")
+    with pytest.raises(vf.ManifestMissing):
+        vf.validate_phase_manifest("P0", runs, authority=auth)
+
+
+def test_p1b_expectations_are_derived_from_predecessor_records_not_supplied():
+    rows = vf.execution_matrix()["rows"]
+    recs = {}
+    for S in vf.SCIENTIFIC_RESOLUTIONS:               # one candidate fails its triage screen
+        for st, C in (("blocked", 25.0), ("open", 26.0)):
+            cid = "p1a.%d.%s" % (S, st)
+            recs[cid] = _fake_rec(C, cid, S=S, level="central", state=st, bridge=(3, 2))
+    keep, adaptive = vf.derive_expected_rows("P1b", rows, predecessor_records=recs)
+    assert adaptive["rule"].startswith("candidates surviving")
+    assert (3, 2) not in [tuple(s) for s in adaptive["surviving"]]
+    assert all(r["bridge"]["w"] != 3 or r["bridge"]["kz"] != 2
+               for r in keep if isinstance(r["bridge"], dict))
+
+
+def test_the_p2b_assembler_accepts_no_free_form_input():
+    src = inspect.signature(vf.assemble_p2b_from_runs).parameters
+    assert set(src) == {"runs_dir", "authority"}
+    assert not hasattr(vf, "build_freeze")
+    body = inspect.getsource(vf.assemble_p2b_from_runs)
+    assert "field_contrast(" in body                   # c is RECOMPUTED, never read back
+    assert "xi_envelope(" in body and "reachable_set_admission(" in body
+    assert "select_bridges(" in body
+
+
+def test_the_assembler_recomputes_rather_than_trusting_stored_values():
+    """c and Xi are rebuilt from the raw compact scalars, so an altered stored value cannot pass
+    unnoticed — there is no stored c_field or Xi to alter."""
+    sci = {"p_node_in": 1.0, "p_node_out": 0.0, "p_face1": 0.7, "p_face2": 0.3,
+           "q1_volume": 2.0, "q2_volume": 2.0}
+    fc = vf.field_contrast(sci)
+    assert fc["c_field"] == pytest.approx((2.0 / 0.3 - 2.0 / 0.7) / (2.0 / 0.3 + 2.0 / 0.7))
+    assert fc["A1"] > 0 and fc["A2"] > 0
+
+
+# ---- PE-19: the executor -------------------------------------------------------------------
+
+def test_every_matrix_row_resolves_to_exactly_one_fixture_or_coupon():
+    seen = {}
+    for r in vf.execution_matrix()["rows"]:
+        if not isinstance(r["bridge"], dict) and r["bridge"] is not None:
+            continue                                   # a P3/P4 template slot
+        mask, meta, kind = drv.resolve_row(r)
+        assert kind in ("fixture", "coupon")
+        seen.setdefault(meta["mask_sha256"], set()).add(kind)
+    assert seen
+
+
+def test_p2b_makes_no_solver_call():
+    body = inspect.getsource(drv.execute_phase)
+    assert "NO solver call" in body
+    assert "assemble_p2b_from_runs" in body
+
+
+def test_a_failed_case_stops_the_phase(tmp_path, monkeypatch):
+    auth = vf.execution_authority("P0", require_clean=False)
+
+    calls = {"n": 0}
+
+    def failing(mask, g, phase, row, tau=None, audit=None, backend="reference"):
+        calls["n"] += 1
+        res = _fake_provider(mask, g, phase, row, tau, audit, backend)
+        if calls["n"] == 3:
+            res["steps"] = vf.MAX_STEPS               # NORMAL_UNCONVERGED
+        return res
+
+    man = drv._execute_solving_phase("P0", tmp_path, auth, {}, {}, failing, "reference")
+    assert man["terminal_status"] == "PHASE_STOPPED_UNCONVERGED"
+    assert man["terminal_stop_reason"] == "NORMAL_UNCONVERGED"
+    assert man["counts"]["failed"] == 1
+    assert man["counts"]["refused"] > 0               # every later row refused, not run
+
+
+def test_the_cli_exposes_no_arbitrary_solver_callback():
+    src = (REPO / "puckworks/validation/slow/rp_d_lc_001b.py").read_text()
+    tree = ast.parse(src)
+    main = [n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "main"][0]
+    dump = ast.dump(main)
+    assert "result_provider" not in dump
+    assert "provider" not in dump
+
+
+def test_the_result_provider_is_a_python_keyword_only_test_seam():
+    params = inspect.signature(drv.execute_phase).parameters
+    assert "result_provider" in params
+    assert params["result_provider"].default is None
+
+
+def test_the_real_solver_is_never_reached_by_any_test(monkeypatch):
+    """Instrumentation: the guarded call site refuses, and lb_reference.solve is not called."""
+    from puckworks.models.brewer2026 import lb_reference
+    calls = []
+    monkeypatch.setattr(lb_reference, "solve",
+                        lambda *a, **k: calls.append(1) or (_ for _ in ()).throw(
+                            AssertionError("the real solver was reached")))
+    with pytest.raises(drv.ExecutionNotAuthorised):
+        drv.solve(np.ones((4, 4, 4), bool), g=1e-6, phase="P0")
+    for phase in drv.SOLVING_MODES:
+        with pytest.raises((drv.ExecutionNotAuthorised, vf.FreezeMissing, vf.ManifestMissing,
+                            vf.ExecutionAuthorityError)):
+            drv.run_phase(phase)
+    assert calls == []
+
+
+def test_all_phases_refuse_at_this_head():
+    assert drv.AUTHORISED_SOLVING_PHASES == ()
+    for phase in drv.SOLVING_MODES + ("P2b",):
+        with pytest.raises((drv.ExecutionNotAuthorised, vf.FreezeMissing, vf.ManifestMissing,
+                            vf.ExecutionAuthorityError)):
+            drv.run_phase(phase)

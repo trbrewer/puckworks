@@ -3652,6 +3652,46 @@ def assemble_p2b_from_runs(runs_dir, authority=None):
         env = xi_envelope(xi_rows,
                           resolution_consistency_tolerance("Xi_coupon", bridge) + u_num_c)
         entry["xi_envelope"] = env
+        art_upper = max(v["upper"] for v in art["combinations"].values())
+        adm = reachable_set_admission(cb["c_lower"], cb["c_upper"], env["Xi_upper"], art_upper)
+        entry["reachable_set"] = adm
+        entry["eligible"] = bool(adm["admitted"])
+        entry["uncertainty_lineage"] = {
+            "artifact_upper": {
+                "value": art_upper,
+                "method": "max over required combinations of |R-1| + u_R, each recomputed from "
+                          "the pair's own records and its own fixed-step audits",
+                "source_case_ids": entry["evidence"]["artifact_case_ids"],
+                "source_record_sha256": entry["evidence"]["artifact_record_sha256"],
+                "overlaps": "already contains u_R; never added again downstream",
+                "used_in": "artifact admission and the reachable-set inequality"},
+            "candidate_c": {
+                "interval": [cb["c_lower"], cb["c_upper"]],
+                "method": "measured blocked-mirror contrasts widened by the "
+                          "resolution-consistency and numerical terms",
+                "source_case_ids": entry["evidence"]["blocked_mirror_case_ids"],
+                "source_record_sha256": entry["evidence"]["blocked_mirror_record_sha256"],
+                "overlaps": "folded into the interval; never added as a separate term",
+                "used_in": "the reachable ceiling and the signal upper bound"},
+            "coupon_xi": {
+                "envelope": [env["Xi_lower"], env["Xi_upper"]], "point": env["Xi_select"],
+                "method": "geometric mean of valid positive coupon estimates, widened by the "
+                          "resolution-consistency and numerical terms",
+                "source_case_ids": entry["evidence"]["coupon_case_ids"],
+                "source_record_sha256": entry["evidence"]["coupon_record_sha256"],
+                "overlaps": "carried inside Xi_upper",
+                "used_in": "the predicted-signal upper bound and the category"},
+        }
+        if not entry["eligible"]:
+            entry["rejection_reason"] = "REACHABLE_SET: headroom %.6g" % adm["headroom"]
+        else:
+            admitted.append({"w": w, "kz": kz, "eligible": True, "xi_envelope": env,
+                             "record_hashes": sorted(set(
+                                 entry["evidence"]["artifact_record_sha256"]
+                                 + entry["evidence"]["blocked_mirror_record_sha256"]
+                                 + entry["evidence"]["coupon_record_sha256"]))})
+        ledger["%d_%d" % key] = entry
+
     selection = select_bridges(admitted)                # exactly four, or DesignBlocked
     keys = [(int(c["w"]), int(c["kz"])) for c in selection]
     if len(set(keys)) != N_FROZEN_BRIDGES:              # pragma: no cover - guarded in selection
