@@ -486,3 +486,31 @@ into clause 1, but keeping them apart makes a failure interpretable.
 Offset 0 remains the primary frozen surface pair; all frozen offsets are reported; no better-looking
 offset is ever selected; and any change in window membership, factor-of-two status or the final
 classification across the offsets **fails the control**.
+
+## E4 — the mass-conservation control FAILED at S = 3, and it measures volume flux
+
+**Recorded as measured. The verdict is not softened, and the tolerance is not relaxed.**
+
+| resolution | plane-to-plane spread | frozen tolerance | verdict |
+|---|---|---|---|
+| S = 2 | 6.577e-4 | 1e-3 | pass |
+| S = 3 | **1.028e-3** | 1e-3 | **FAIL** |
+
+**What the control actually measures.** The frozen check takes the spread of the **volume** flux
+`∫u_x dA` across the lane region. In a weakly compressible solver the conserved quantity is the
+**mass** flux `∫ρu_x dA`, so a residual of order the fractional density variation along the fixture
+is expected and is *not* a violation of the solver's own conservation law. The observed magnitude is
+consistent with that reading: the density drop implied by the measured node pressures is ~5e-4 at
+`S = 2`, and larger at `S = 3` where the domain — and hence the total pressure drop — is larger.
+
+**This is stated as a specification finding, not as grounds for passing.** The distinction is real,
+but it was not what the frozen control said, and the stored records contain only `u_x` sums, so
+`ρu_x` cannot be recomputed from them. Measuring the mass flux is a change for the **next**
+protocol, not a repair applicable to this execution. The frozen verdict stands: **FAIL at S = 3.**
+
+**One remedy covers both failures.** E2 (finite-forcing dependence of the internal components) and
+E4 (volume-vs-mass flux residual) are independent findings with a shared cause and a shared fix:
+a smaller `g` gives a smaller total pressure drop — hence a smaller density variation and a smaller
+volume-vs-mass discrepancy — **and** a smaller Reynolds number. That coherence is a reason to
+expect the reduced-forcing rerun to address both, and it is a prediction for that protocol to
+test, not a result claimed here.

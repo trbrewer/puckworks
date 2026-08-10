@@ -1215,10 +1215,31 @@ def assemble(out_dir):
                       "componentwise_creeping_flow_control."),
         },
         "coarse_graining_surface_stability": _node_sensitivity_summary(j),
-        "mass_conservation": {"pass": mass_ok, "tol_rel": vf.TOL_MASS_REL,
-                              "worst_plane_ptp_rel": max(
-                                  [r["plane_ptp_rel"] for r in a["mass_conservation"]]
-                                  + [r["numerics"]["plane_flux_ptp_rel"] for r in c["cases"]])},
+        "mass_conservation": {
+            "pass": mass_ok, "tol_rel": vf.TOL_MASS_REL,
+            "worst_plane_ptp_rel": max(
+                [r["plane_ptp_rel"] for r in a["mass_conservation"]]
+                + [r["numerics"]["plane_flux_ptp_rel"] for r in c["cases"]]),
+            "arm_a_by_resolution": {str(r["S"]): r["plane_ptp_rel"]
+                                    for r in a["mass_conservation"]},
+            "measured_quantity": "VOLUME flux  sum(u_x) over the plane's fluid nodes",
+            "specification_note": (
+                "REPORTED, NOT USED TO SOFTEN THE VERDICT. The frozen control measures the VOLUME "
+                "flux integral of u_x. In a weakly compressible solver the conserved quantity is "
+                "the MASS flux integral of rho*u_x, so a residual of order the fractional density "
+                "variation along the fixture is expected and is NOT a violation of the solver's "
+                "own conservation. The observed magnitude is consistent with that: the density "
+                "drop implied by the measured node pressures is ~5e-4 at S=2 and larger at S=3, "
+                "where the domain and hence the total pressure drop are larger. The stored records "
+                "contain only u_x sums, so rho*u_x cannot be recomputed from them; measuring the "
+                "mass flux is a change for the NEXT protocol, not a repair applicable here. The "
+                "frozen verdict stands as measured. See PROTOCOL.md erratum E4."),
+            "remedy_shared_with_E2": (
+                "Reducing the forcing shrinks BOTH residuals through the same mechanism: a smaller "
+                "g gives a smaller total pressure drop, hence a smaller density variation and a "
+                "smaller volume-vs-mass flux discrepancy, AND a smaller Reynolds number. The two "
+                "independent failures therefore have one remedy."),
+        },
         "topology": {
             # Topology answers whether the intended fluid connections exist. Whether the
             # resolved solution can be reduced to the proposed two-node representation is a
