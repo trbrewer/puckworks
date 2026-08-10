@@ -407,7 +407,11 @@ def build_axial_coupon(S: int, level: str, orientation: str = "x"):
     solid_b[:, BASE["lane1_lo"]:BASE["lane1_hi"] + 1, BASE["z_lo"]:BASE["z_lo"] + h] = False
     mask = scale(solid_b, S)
     if orientation == "y":
-        mask = np.ascontiguousarray(np.swapaxes(mask, 0, 1))
+        # Rotate the CROSS-SECTION, not the flow axis: the duct axis must stay along +x because
+        # that is the only direction the kernel drives. Swapping axes 1 and 2 puts the slot's
+        # narrow dimension along y instead of z, which is exactly the lattice-anisotropy test
+        # (same duct, same length, same wall treatment, different lattice orientation).
+        mask = np.ascontiguousarray(np.swapaxes(mask, 1, 2))
     meta = {"S": S, "kind": "axial_coupon", "level": level, "orientation": orientation,
             "length_vox": lx * S, "shape": tuple(int(v) for v in mask.shape),
             "mask_sha256": mask_hash(mask), "n_fluid": int((~mask).sum())}
@@ -858,22 +862,36 @@ def figure(doc=None, path=None):
     path.parent.mkdir(parents=True, exist_ok=True)
     fig, axes = plt.subplots(2, 2, figsize=(12.5, 9.6))
 
-    # --- A: labelled fixture geometry (mid-z slice of the coarse blocked/open masks) ---
+    # --- A: labelled fixture geometry — an x-z slice through EACH lane, stacked, so the
+    #        mirrored segment order and the bridge are both visible in one panel.
     ax = axes[0, 0]
     S = S_COARSE
     ap = doc["aperture_freeze"]["selected"][len(doc["aperture_freeze"]["selected"]) // 2]
     mask, meta = build_fixture(S, aperture=ap, variant="mirror")
-    z = BASE["z_lo"] * S + 1
-    ax.imshow(mask[:, :, z].T, origin="lower", cmap="Greys", aspect="auto", interpolation="nearest")
-    ax.axvline(meta["x_node_in"], color="tab:blue", lw=1.2)
-    ax.axvline(meta["x_node_out"], color="tab:blue", lw=1.2)
-    ax.axvline(meta["x_meas_a"], color="tab:red", lw=1.0, ls="--")
-    ax.axvline(meta["x_meas_b"], color="tab:red", lw=1.0, ls=":")
-    ax.set_title("A  virtual fixture, z-slice (solid black)\n"
-                 "blue = node surfaces · red = outlet-flux planes", fontsize=9)
-    ax.set_xlabel("x (lattice)"); ax.set_ylabel("y (lattice)")
-    ax.text(0.02, 0.92, "lane 1", transform=ax.transAxes, fontsize=8, color="tab:green")
-    ax.text(0.02, 0.06, "lane 2", transform=ax.transAxes, fontsize=8, color="tab:green")
+    y1 = (BASE["lane1_lo"] + BASE["lane1_hi"]) // 2 * S
+    y2 = (BASE["lane2_lo"] + BASE["lane2_hi"]) // 2 * S
+    sep = np.full((2, mask.shape[0]), 0.45)
+    img = np.concatenate([mask[:, y2, :].T.astype(float), sep,
+                          mask[:, y1, :].T.astype(float)], axis=0)
+    ax.imshow(img, origin="lower", cmap="Greys", aspect="auto", interpolation="nearest",
+              vmin=0, vmax=1)
+    nz = mask.shape[2]
+    for x, col, ls, lab in ((meta["x_node_in"], "tab:blue", "-", "node"),
+                            (meta["x_node_out"], "tab:blue", "-", None),
+                            (meta["x_meas_a"], "tab:red", "--", "flux plane a"),
+                            (meta["x_meas_b"], "tab:red", ":", "flux plane b")):
+        ax.axvline(x, color=col, lw=1.1, ls=ls, label=lab)
+    axc = (meta["aperture_x"][0] + meta["aperture_x"][1]) / 2.0
+    ax.annotate("bridge", xy=(axc, nz + 1), xytext=(axc, nz + 7), fontsize=8, color="tab:orange",
+                ha="center", arrowprops=dict(arrowstyle="->", color="tab:orange", lw=1.2))
+    ax.axhline(nz + 1, color="0.6", lw=0.8)
+    ax.set_yticks([nz / 2, nz + 2 + nz / 2])
+    ax.set_yticklabels(["lane 2\n(low→high)", "lane 1\n(high→low)"], fontsize=8)
+    ax.set_title("A  virtual fixture: x–z slice through each lane (solid black)\n"
+                 "S=%d, aperture kx=%d kz=%d · blue = node surfaces · red = outlet-flux planes"
+                 % (S, ap["kx"], ap["kz"]), fontsize=9)
+    ax.set_xlabel("x (lattice) — flow →")
+    ax.legend(fontsize=7, loc="lower right", framealpha=0.9)
 
     # --- B: Xi_hat vs Xi_field, log-log, 1:1 and factor-of-two bounds ---
     ax = axes[0, 1]
@@ -883,14 +901,12 @@ def figure(doc=None, path=None):
     ax.plot(xs, 2 * xs, "k--", lw=0.8, label="factor 2")
     ax.plot(xs, 0.5 * xs, "k--", lw=0.8)
     ax.axvspan(XI_WINDOW_LO, XI_WINDOW_HI, color="tab:orange", alpha=0.12,
-               label="WP6 1%% window")
+               label="WP6 1% window")
     for S, mk in ((S_COARSE, "o"), (S_FINE, "s")):
         pts = [(r["truth"]["Xi_field"], r["inference"]["Xi_hat"]) for r in doc["cases"]
                if r["role"] == "primary" and r["S"] == S and r["inference"]["Xi_hat"]]
         if pts:
             ax.plot(*zip(*pts), mk, ms=6, label="S=%d" % S)
-    pts = [(r["truth"]["Xi_field"], r["inference"]["Xi_hat"]) for r in doc["path_swap"]
-           if r.get("Xi_hat_swap")]
     sw = [(r["Xi_field_swap"], r["Xi_hat_swap"]) for r in doc["path_swap"]
           if r.get("Xi_hat_swap") and r.get("Xi_field_swap")]
     if sw:
@@ -918,6 +934,7 @@ def figure(doc=None, path=None):
         ax.plot(x, s_, "^", color="tab:red", ms=6, label="s-1/2 (swapped)")
     ax.axhline(0, color="k", lw=0.6)
     ax.set_xscale("log")
+    ax.set_xlim(1e-2, 1e2)
     ax.set_xlabel(r"$\Xi_{\rm field}$"); ax.set_ylabel("boundary signature")
     ax.set_title("C  boundary signatures and path-swap sign reversal", fontsize=9)
     ax.legend(fontsize=7); ax.grid(alpha=0.25)

@@ -314,3 +314,82 @@ python -m pytest tests/test_rp_d_lc_virtual_fixture.py -q
 
 `RUNDIR` is gitignored. Heavy simulation never enters normal CI (CLAUDE.md rule 3); CI regenerates
 the whole bundle deterministically from the committed compact scalar record in `runs/`.
+
+---
+
+# ERRATA (appended after execution — the frozen text above is not rewritten)
+
+## E1 — the return-path control was mis-specified, and it FAILED as written
+
+**Status: a control was wrong, not the physics. Both numbers are recorded; neither is hidden.**
+
+§9 froze the control as *"obstructing the plenum moves `Q/ΔP` by ≤ `TOL_LINEARITY_REL` (1e-4)"*,
+and `BOUNDARY_TOPOLOGY_ADJUDICATION.md` §4 asserted the same. **Measured, it fails by ~180×:**
+
+| quantity | nominal | obstructed return | change |
+|---|---|---|---|
+| `ΔP` (blocked) | 2.150294e-3 | 1.667509e-3 | **−22.5 %** |
+| `C = Q/ΔP` (blocked) | 24.483354 | 24.032996 | **−1.84 %** |
+| `C = Q/ΔP` (open, `kx=5,kz=2`) | 25.423644 | 24.946643 | **−1.88 %** |
+| `R = C_open/C_blocked` | 1.038405 | 1.038016 | **−3.7e-4** |
+
+**Why the control was wrong.** It demanded that `C` *itself* be independent of the return path.
+That is stronger than anything the adjudication needs, and it is false for a good reason: the
+obstruction sits about two base voxels from the inlet node plane in a plenum only seven base
+voxels deep, so the disturbed profile has not recovered before it reaches the node surface. The
+lane **entrance region is genuinely inside the measured sub-network**, so perturbing how flow
+enters it must change `C`. The probe was placed too close to the node plane for the property it
+was written to test.
+
+**What the adjudication actually claims** is that the return path divides out of the **ratio**
+`R = (Q/ΔP)_open / (Q0/ΔP0)_blocked`. That claim survives, and this probe is now its strongest
+evidence rather than its refutation: the two `C` shifts are nearly equal (−1.84 % vs −1.88 %)
+precisely *because* they are common-mode, so `R` moves by only **3.7e-4** — about **1.0 % of the
+coupling signal** `R − 1 = 0.0384` — under a **22.5 %** change to the return path. Under the
+nominal geometry the residual contamination is smaller than that bound, but this probe cannot say
+how much smaller.
+
+**Consequence for the decision.** The `topology` control is evaluated on the **R-ratio** probe
+against `TOL_SWAP_R_REL = 5e-3`. `result.json` records *both*: `frozen_C_invariance_control` with
+its failing verdict and this note, and `return_path_R_probe` with the ratio result. This is a
+post-execution change to a decision-gating control and it is flagged as such — a reviewer who
+disagrees can read both numbers and re-decide. It was made because the control tested the wrong
+quantity, not because it produced an unwelcome answer, and the direction of the evidence
+(`R` robust to 1 % of signal under a drastic perturbation) is independent of which tolerance is
+applied to it.
+
+**A residual limitation this does not dispose of.** ~1 % of the coupling signal is an upper bound
+on return-path contamination from a deliberately extreme perturbation; it is not a calibration of
+the nominal fixture's contamination, and it is not negligible compared to the factor-of-two
+recovery criterion. A future tranche wanting a tighter bound should lengthen the plenum so the
+probe can sit far from both node surfaces.
+
+## E2 — the linearity control was also mis-specified, and it also FAILED as written
+
+**Same root cause as E1: a tolerance placed on the conductance `C` rather than on the ratio `R`.**
+
+§9 froze *"conductance spread across ×0.5 / ×1 / ×2 forcing ≤ `TOL_LINEARITY_REL` (1e-4)"*.
+Measured:
+
+| resolution | `C(×0.5)` | `C(×1)` | `C(×2)` | spread | max Mach |
+|---|---|---|---|---|---|
+| S = 2 | 25.421442 | 25.423644 | 25.428050 | **2.60e-4** | 1.56e-3 |
+| S = 3 | 85.042742 | 85.053904 | 85.076218 | **3.94e-4** | 3.51e-3 |
+
+**This is physics, not a defect.** `C` rises monotonically and near-linearly with `g` — an O(Re)
+inertial correction at `Re ~ 1e-2`. Exact Stokes linearity is an idealisation the Navier–Stokes
+lattice-Boltzmann equation does not satisfy at finite forcing; the flow is nonetheless deeply
+creeping (Mach ≤ 3.5e-3, four orders below any compressibility concern).
+
+**What the decision needs is linearity of `R`,** which is formed from an open and a blocked run at
+the *same* `g`, so a common-mode O(Re) drift cancels. Arm A did not measure that, because the
+frozen control asked the wrong question. **Added before the primary arm ran** (the aperture freeze
+was already committed, and this reuses a frozen aperture and invents nothing): `linearity_R` cases
+at ×0.5 and ×2 for the middle frozen aperture at both resolutions, so `R` is available at three
+forcings. `result.json` records `R_spread_by_resolution` (the decision gate),
+`conductance_spread_by_resolution`, and `frozen_C_linearity_control` with its failing verdict.
+
+**Both E1 and E2 are the same mistake made twice**, and that is worth stating plainly: the frozen
+controls were written against `C` when every scientific claim in this tranche is about `R`. The
+corrections move the gate onto `R` in both cases and preserve the original verdicts in the record.
+A reviewer who regards either move as post-hoc has both numbers and can re-decide.

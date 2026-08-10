@@ -1,0 +1,151 @@
+{
+ "a_coupon": 62.6884218383087,
+ "all_candidate_predictions": [
+  {
+   "Xi_coupon": 0.02051467557741329,
+   "kx": 1,
+   "kz": 2
+  },
+  {
+   "Xi_coupon": 0.035497242639670315,
+   "kx": 1,
+   "kz": 3
+  },
+  {
+   "Xi_coupon": 0.049469603151972484,
+   "kx": 1,
+   "kz": 4
+  },
+  {
+   "Xi_coupon": 0.1400529986941467,
+   "kx": 3,
+   "kz": 2
+  },
+  {
+   "Xi_coupon": 0.28210693452403046,
+   "kx": 5,
+   "kz": 2
+  },
+  {
+   "Xi_coupon": 0.3055112166122696,
+   "kx": 3,
+   "kz": 3
+  },
+  {
+   "Xi_coupon": 0.43885436589755716,
+   "kx": 7,
+   "kz": 2
+  },
+  {
+   "Xi_coupon": 0.4705394337553338,
+   "kx": 3,
+   "kz": 4
+  },
+  {
+   "Xi_coupon": 0.6118597869118195,
+   "kx": 9,
+   "kz": 2
+  },
+  {
+   "Xi_coupon": 0.6934198784261263,
+   "kx": 5,
+   "kz": 3
+  },
+  {
+   "Xi_coupon": 1.1746982296204114,
+   "kx": 5,
+   "kz": 4
+  },
+  {
+   "Xi_coupon": 1.1836218664194984,
+   "kx": 7,
+   "kz": 3
+  },
+  {
+   "Xi_coupon": 1.8148860856167943,
+   "kx": 9,
+   "kz": 3
+  },
+  {
+   "Xi_coupon": 2.247862401317656,
+   "kx": 7,
+   "kz": 4
+  },
+  {
+   "Xi_coupon": 4.0437193657817385,
+   "kx": 9,
+   "kz": 4
+  }
+ ],
+ "b_coupon": 23.64114171668749,
+ "c_coupon": 0.4523048479996794,
+ "coupon_predicted": [
+  {
+   "G_bridge": 6.045357125917068,
+   "Xi_coupon": 0.1400529986941467,
+   "kx": 3,
+   "kz": 2,
+   "reason": "largest coupon-predicted Xi strictly BELOW the window"
+  },
+  {
+   "G_bridge": 20.310731975756504,
+   "Xi_coupon": 0.4705394337553338,
+   "kx": 3,
+   "kz": 4,
+   "reason": "nearest coupon-predicted Xi to log-target 1 (0.4850) INSIDE the window"
+  },
+  {
+   "G_bridge": 50.705592735978406,
+   "Xi_coupon": 1.1746982296204114,
+   "kx": 5,
+   "kz": 4,
+   "reason": "nearest coupon-predicted Xi to log-target 2 (0.9755) INSIDE the window"
+  },
+  {
+   "G_bridge": 78.33916183666665,
+   "Xi_coupon": 1.8148860856167943,
+   "kx": 9,
+   "kz": 3,
+   "reason": "nearest coupon-predicted Xi to log-target 3 (1.9619) INSIDE the window"
+  },
+  {
+   "G_bridge": 174.5462639934117,
+   "Xi_coupon": 4.0437193657817385,
+   "kx": 9,
+   "kz": 4,
+   "reason": "smallest coupon-predicted Xi strictly ABOVE the window"
+  }
+ ],
+ "excluded_kz1": true,
+ "n_candidates_considered": 15,
+ "n_predicted_in_window": 3,
+ "rule": "From the coupon-predicted Xi at S_COARSE, over candidates with kz >= 2 (kz = 1 is a 2-lattice-unit feature at S_COARSE, ~12 % element error under the measured 50/h^2 law): take the candidate with the LARGEST Xi_coupon strictly below XI_WINDOW_LO; the candidate with the SMALLEST Xi_coupon strictly above XI_WINDOW_HI; and, inside the window, the candidates nearest to three log-spaced targets between XI_WINDOW_LO and XI_WINDOW_HI (geometric quartiles), deduplicated. Ties break on smaller kx then smaller kz. Selection is sorted by Xi_coupon ascending.",
+ "selected": [
+  {
+   "kx": 3,
+   "kz": 2
+  },
+  {
+   "kx": 3,
+   "kz": 4
+  },
+  {
+   "kx": 5,
+   "kz": 4
+  },
+  {
+   "kx": 9,
+   "kz": 3
+  },
+  {
+   "kx": 9,
+   "kz": 4
+  }
+ ],
+ "selected_from": "coupon output only (arm_b.json); NO full-fixture observable was read",
+ "window": {
+  "hi": 3.94598,
+  "lo": 0.241134,
+  "provenance": "docs/insights/screens/WP6-LC-IDENT/result.json :: sensitivity_envelopes.continuous_window_post_hoc.floors.1pct (POST_HOC_DIAGNOSTIC_NOT_IN_DECISION in the source screen)"
+ }
+}
