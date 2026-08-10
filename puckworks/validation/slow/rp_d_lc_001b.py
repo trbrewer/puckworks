@@ -18,8 +18,11 @@ execution-authority record. Heavy execution never enters normal CI (CLAUDE.md ru
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import pathlib
+
+import numpy as np
 
 from puckworks.analysis import rp_d_lc_001b_virtual_fixture as vf
 
@@ -96,7 +99,7 @@ def require_execution_authorisation(phase, backend="reference", runs_dir=None):
 
 
 def solve(mask, g, phase, backend="reference", tau=None, fields=REQUIRED_FIELDS, steps=None,
-          **kw):
+          min_steps=None, **kw):
     """The single solver call site. It refuses unless its phase is on the reviewed allowlist, so
     no code path in this module can reach the kernel by accident."""
     if phase not in AUTHORISED_SOLVING_PHASES:
@@ -107,7 +110,8 @@ def solve(mask, g, phase, backend="reference", tau=None, fields=REQUIRED_FIELDS,
     return lb_reference.solve(                                    # pragma: no cover - unreached
         mask, g=g, tau_plus=(vf.TAU_PLUS if tau is None else tau),
         max_steps=(vf.MAX_STEPS if steps is None else steps), check=vf.CHECK, rtol=vf.RTOL,
-        min_steps=vf.MIN_STEPS, verbose=False, return_fields=tuple(fields), **kw)
+        min_steps=(vf.MIN_STEPS if min_steps is None else min_steps),
+        verbose=False, return_fields=tuple(fields), **kw)
 
 
 # ------------------------------------------------------------------------------------------
@@ -249,19 +253,219 @@ def boundary_record(open_rec, blocked_rec, orientation="nominal"):
 # Phase entry points — all refuse.
 # ------------------------------------------------------------------------------------------
 
+# ------------------------------------------------------------------------------------------
+# The pre-freeze EXECUTOR (erratum PE-19). Real, deterministic, and unreachable at this head
+# because AUTHORISED_SOLVING_PHASES is empty.
+# ------------------------------------------------------------------------------------------
+
+def resolve_row(row):
+    """Resolve one matrix row to EXACTLY ONE fixture or coupon. Raises if a row is ambiguous."""
+    kind, S = row["kind"], row["S"]
+    if kind == "axial_coupon":
+        mask, meta = vf.build_axial_coupon(S, row["coupon_level"], row["coupon_orientation"])
+        return mask, meta, "coupon"
+    if kind == "bridge_coupon":
+        b = row["bridge"]
+        mask, meta = vf.build_bridge_coupon(S, b["w"], b["kz"])
+        return mask, meta, "coupon"
+    variant = row["variant"] if row["variant"] in ("mirror", "identical") else "mirror"
+    bridge = row["bridge"] if isinstance(row["bridge"], dict) else None
+    if kind == "reference_blocked_ladder" or kind == "tau_cross_check":
+        bridge = None
+    mask, meta = vf.build_fixture(S, bridge=bridge, connected=(row["state"] == "open"),
+                                  variant=variant, swapped=bool(row["swapped"]),
+                                  perturbation=row["perturbation"])
+    return mask, meta, "fixture"
+
+
+def _coupon_scientific(res, mask, meta, g, row):
+    """Compact record for a duct coupon: in a uniform x-periodic duct the pressure drop is g*L
+    exactly, so the conductance needs no density field. The density-based value is retained
+    alongside so the two can be compared, exactly as 001 did."""
+    ux = res["ux"]
+    n = mask.shape[0] // 2
+    Q = float(np.where(mask[n], 0.0, ux[n]).sum())
+    L = float(meta["length_vox"])
+    G = Q / (g * L)
+    out = {"kind": meta["kind"], "Q_volume": Q, "length_vox": L, "conductance": G,
+           "mask_sha256": meta["mask_sha256"],
+           "mach": vf.mach_record(res["ux"], res["uy"], res["uz"], mask)}
+    if meta["kind"] == "bridge_coupon":
+        out["G_bridge_coupon"] = G
+    else:
+        out["level"] = meta["level"]
+        out["orientation"] = meta["orientation"]
+    return out
+
+
+def _fixture_scientific(res, mask, meta, g, row):
+    """Compact record for a fixture case: the frozen plane records and every derived scalar the
+    assembler will RECOMPUTE from — no large fields."""
+    rec = case_record(res, mask, meta, g, stage=row["phase"])
+    named = {r["plane_id"]: r for r in rec["named_axial_planes"]}
+    lanes = {r["plane_id"]: r for r in rec["lane_planes"]}
+    sci = {
+        "named_axial_planes": rec["named_axial_planes"],
+        "conservation_planes": rec["conservation_planes"],
+        "lane_planes": rec["lane_planes"],
+        "transverse_planes": rec["transverse_planes"],
+        "pressure_faces": rec["pressure_faces"],
+        "conservation": rec["conservation"],
+        "transverse_conservation": rec["transverse_conservation"],
+        "lateral_pressure": rec["lateral_pressure"],
+        "mach": rec["mach"],
+        "Q_volume": rec["Q_volume"], "Q_mass_diagnostic": rec["Q_mass_diagnostic"],
+        "q1_volume": rec["q1_volume"], "q2_volume": rec["q2_volume"],
+        "dP": rec["dP"],
+        "p_node_in": named["x_node_in"]["p_mean"], "p_node_out": named["x_node_out"]["p_mean"],
+        "p_node_in_sd": rec["p_node_in_sd"], "p_node_out_sd": rec["p_node_out_sd"],
+        "s_outlet_share_a": rec["q1_volume"] / (rec["q1_volume"] + rec["q2_volume"]),
+        "s_outlet_share_b": (lanes["x_meas_b_lane1"]["sum_ux"]
+                             / (lanes["x_meas_b_lane1"]["sum_ux"]
+                                + lanes["x_meas_b_lane2"]["sum_ux"])),
+    }
+    lp = rec["lateral_pressure"]
+    if lp:
+        sci["p_face1"] = lp["p_face1"]
+        sci["p_face2"] = lp["p_face2"]
+        sci["delta_p_lateral_over_g"] = lp["delta_p_lateral_over_g"]
+        sci["q_lat_mass_over_g"] = lp["q_lat_mass_over_g"]
+    return sci
+
+
+def _decision_bearing_ok(row, sci, status):
+    """Stop conditions for one case. An UNCONVERGED normal case stops the phase and may never be
+    rescued by an audit (erratum PE-16)."""
+    if status == "NORMAL_UNCONVERGED":
+        return False, "NORMAL_UNCONVERGED"
+    if status == "FIXED_STEP_AUDIT_INCOMPLETE":
+        return False, "FIXED_STEP_AUDIT_INCOMPLETE"
+    mach = sci.get("mach") or {}
+    if mach and not mach.get("pass"):
+        return False, "LOW_MACH_FAILED"
+    cons = sci.get("conservation")
+    if cons and not cons.get("mass_conservation_pass"):
+        return False, "MASS_CONSERVATION_FAILED"
+    tc = sci.get("transverse_conservation")
+    if tc and tc.get("pass") is False:
+        return False, "TRANSVERSE_CONTROL_FAILED"
+    lp = sci.get("lateral_pressure")
+    if lp and lp.get("measured_zero_driver_pass") is False:
+        return False, "MEASURED_LATERAL_DRIVER_NONZERO"
+    return True, None
+
+
+def execute_phase(phase, runs_dir, result_provider=None, backend="reference", authority=None):
+    """The deterministic pre-freeze executor for P0/P1a/P1b/P2a, and arithmetic-only P2b.
+
+    ``result_provider`` exists solely so a unit test can inject a fake solver. It is a Python
+    keyword argument and is NOT reachable from the CLI: the user-facing path always resolves to
+    the single guarded call site, which refuses unless the phase is on the reviewed allowlist.
+    """
+    if phase not in vf.PHASE_PREREQUISITES:
+        raise ValueError("unknown phase %r" % (phase,))
+    base = pathlib.Path(runs_dir)
+
+    # 1-4: authorization, authority, predecessor manifests -- all fail closed, in that order.
+    require_execution_authorisation(phase, backend=backend, runs_dir=base)
+    auth = authority or vf.execution_authority(phase, backend=backend)   # pragma: no cover
+    manifests, records = ({}, {})                                        # pragma: no cover
+    if vf.PHASE_PREREQUISITES[phase]:                                    # pragma: no cover
+        manifests, records = vf.require_phase_manifests(phase, runs_dir=base, authority=auth)
+    if phase == "P2b":                                                   # pragma: no cover
+        return vf.assemble_p2b_from_runs(base, authority=auth)           # NO solver call
+    return _execute_solving_phase(phase, base, auth, manifests, records, # pragma: no cover
+                                  result_provider, backend)
+
+
+def _execute_solving_phase(phase, base, auth, manifests, records, result_provider, backend):
+    """Steps 5-13. Factored out so a test can drive it with a fake result provider without ever
+    reaching the authorization gate's refusal."""
+    matrix = vf.execution_matrix()["rows"]
+    expected, adaptive = vf.derive_expected_rows(phase, matrix, predecessor_records=records)
+    planned = {r["case_id"] for r in expected}
+    pre_sha = {k: hashlib.sha256((base / ("manifest_%s.json" % k)).read_bytes()).hexdigest()
+               for k in manifests if (base / ("manifest_%s.json" % k)).exists()}
+    completed, refused, failed = [], [], []
+    written = {}
+    terminal, stop_reason = "PHASE_COMPLETE", None
+
+    for row in [r for r in matrix if r["phase"] == phase]:               # matrix order, jobs=1
+        if row["case_id"] not in planned:
+            refused.append({"case_id": row["case_id"], "row_sha256": vf.row_sha256(row),
+                            "reason": "NOT_ELIGIBLE_UNDER_THE_DERIVED_ADAPTIVE_PLAN"})
+            continue
+        if terminal != "PHASE_COMPLETE":
+            refused.append({"case_id": row["case_id"], "row_sha256": vf.row_sha256(row),
+                            "reason": "REFUSED_AFTER_PHASE_STOP"})
+            continue
+        mask, meta, kind = resolve_row(row)
+        audit_plan = None
+        if row["run_mode"] == "FIXED_STEP_REEXECUTION_1P5X":
+            base_rec, _ = vf.read_case_record(base, row["audit_of_case_id"])
+            audit_plan = vf.fixed_step_audit_plan(base_rec["completed_steps"],
+                                                  base_rec["status"])
+            audit_plan["base_case_id"] = base_rec["case_id"]
+            audit_plan["base_record_sha256"] = vf.record_hash(base_rec)
+        provider = result_provider or _guarded_result_provider
+        g = vf.row_forcing(row)
+        res = provider(mask=mask, g=g, phase=phase, row=row,
+                       tau=row["tau_plus"], audit=audit_plan, backend=backend)
+        sci = (_coupon_scientific(res, mask, meta, g, row) if kind == "coupon"
+               else _fixture_scientific(res, mask, meta, g, row))
+        geometry = {"kind": kind, "mask_sha256": meta["mask_sha256"], "S": row["S"],
+                    "bridge": row["bridge"] if isinstance(row["bridge"], dict) else None,
+                    "state": row["state"], "variant": row["variant"]}
+        rec = vf.make_case_record(row, auth, pre_sha, geometry, sci,
+                                  completed_steps=int(res["steps"]),
+                                  run_mode=row["run_mode"], audit=audit_plan)
+        vf.validate_case_record(rec, row=row, authority=auth, phase=phase)
+        path, how = vf.write_case_record(base, rec)
+        written[row["case_id"]] = rec
+        entry = {"case_id": row["case_id"], "row_sha256": vf.row_sha256(row),
+                 "record_path": path.name, "write_mode": how,
+                 "record_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+                 "status": rec["status"]}
+        ok, why = _decision_bearing_ok(row, sci, rec["status"])
+        if ok:
+            completed.append(entry)
+        else:
+            entry["reason"] = why
+            failed.append(entry)
+            terminal = ("PHASE_STOPPED_UNCONVERGED" if why == "NORMAL_UNCONVERGED"
+                        else "PHASE_STOPPED_INVALID_CASE")
+            stop_reason = why
+
+    manifest = vf.make_phase_manifest(phase, expected, completed, refused, failed, auth,
+                                      pre_sha, adaptive, terminal, stop_reason)
+    mpath = base / ("manifest_%s.json" % phase)
+    tmp = base / (mpath.name + ".tmp")
+    tmp.write_text(vf.canonical_json(manifest) + "\n")
+    tmp.replace(mpath)
+    vf.validate_phase_manifest(phase, base, authority=auth, matrix_rows=matrix,
+                               predecessor_records=records)
+    return manifest
+
+
+def _guarded_result_provider(mask, g, phase, row, tau=None, audit=None, backend="reference"):
+    """The ONLY production path to a solve. It refuses unless the phase is on the allowlist."""
+    steps = None if audit is None else audit["target_steps"]
+    return solve(mask, g, phase, backend=backend, tau=tau, steps=steps,
+                 min_steps=(None if audit is None else audit["min_steps"]))
+
+
 def run_phase(mode, out_dir=None, backend="reference", runs_dir=None):
     if mode not in MODES:
         raise ValueError("unknown mode %r; expected one of %r" % (mode, MODES))
     if mode == "plan":
         return vf.execution_matrix()
-    if mode in SOLVING_MODES:
-        require_execution_authorisation(mode, backend=backend, runs_dir=runs_dir)
-        raise ExecutionNotAuthorised(                             # pragma: no cover - unreached
-            "phase %r is authorised but no runner is implemented at this head" % (mode,))
-    if mode in ("P2b", "freeze"):
+    if mode in SOLVING_MODES or mode == "P2b":
+        rd = runs_dir if runs_dir is not None else (REPO_ROOT / vf.RUNS_REL)
+        return execute_phase(mode, rd, backend=backend)      # refuses: allowlist is empty
+    if mode == "freeze":
         raise ExecutionNotAuthorised(
-            "the bridge freeze is built from REAL hashed P0/P1/P2a records, none of which "
-            "exist. %s" % AUTHORISATION_NOTE)
+            "the bridge freeze is DERIVED by P2b from real hashed P0/P1a/P1b/P2a records, none "
+            "of which exist. %s" % AUTHORISATION_NOTE)
     raise ExecutionNotAuthorised(
         "mode %r has nothing to assemble: no RP-D-LC-001b case record exists. %s"
         % (mode, AUTHORISATION_NOTE))
