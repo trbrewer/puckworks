@@ -1244,6 +1244,24 @@ are `RP-A`…`RP-F` (distinct from the card-driven Phase 0–3 items and from PV
 - **Effort.** S for Stage 0; M–L per subsequent stage.
 - **Sequencing.** Stage 0 architecture in a near phase; flow/general-geometry work in a
   later scientific phase (after Phase 3), each stage entering by its own gate.
+- **BOUNDED ACTIVATION 2026-08-09 — `RP-D-LC-001` only.** Human authorization activated ONE
+  slice of this programme and nothing else: Stage 0 (scope/contracts/V&V matrix/claim ceiling)
+  for a single question, the **minimum** Stage-1 capability that question needs (valid
+  inlet/outlet topology, boundary-flow measurement, conservation/pressure instrumentation), and
+  **one** Stage-2-style hydraulic pilot (the two-lane mirror virtual fixture). It was selected
+  because WP6-LC-IDENT supplied a concrete decisive question — *is Ξ a coarse-grained physical
+  quantity, or only a parameter of the two-node network?* — testable against an independently
+  implemented spatially resolved solver. Programme document (Stages A–D defined, **only Stage A
+  authorized**): `docs/analysis/RP_D_LATERAL_CROSS_MODEL_PROGRAM.md`; bundle
+  `docs/analysis/rp_d_lc_001/`. Route **A-HISTORICAL-PROVENANCE**: the existing periodic
+  body-force kernel with a resolved common plenum and pressure-normalised observables — **no new
+  pressure-boundary component** (Route B is explicitly NOT authorized in this tranche). The only
+  component change is RP-D.1's optional, bit-identical field export. **Stages 3–6 remain
+  unactivated**, and so do passive scalar transport, dissolution, multi-species, wetting/two-phase,
+  swelling/deformation, fines transport, temperature coupling, extraction clocks, random pore-pack
+  ensembles, XCT-conditioned morphology, basket-scale cup coupling, N-path lateral models and
+  Paper 4. This is **not** an Insight Foundry screen: no `I-` number, candidate, lens, generator or
+  scoring, and `ID_REGISTRY.json` is untouched.
 
 ### RP-E — XCT-conditioned synthetic geometries & synthetic XCT images
 *Conditional workstream linked to the Wadsworth XCT correspondence (§5.8) and RP-D. The scans have NOT arrived.*

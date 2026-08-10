@@ -1,0 +1,730 @@
+"""RP-D-LC-001 heavy driver — deterministic 3D lateral-coupling virtual fixture.
+
+NOT CI. Minutes to hours of D3Q19 TRT lattice-Boltzmann on CPU. Run by hand or in Colab, per
+`puckworks/validation/slow/README.md` and CLAUDE.md rule 3.
+
+    python -m puckworks.validation.slow.rp_d_lc_001 --backend reference --mode arm_a    --output RUNDIR
+    python -m puckworks.validation.slow.rp_d_lc_001 --backend reference --mode coupons  --output RUNDIR
+    # -> freeze the aperture subset (docs/analysis/rp_d_lc_001/APERTURE_FREEZE.md) BEFORE:
+    python -m puckworks.validation.slow.rp_d_lc_001 --backend reference --mode primary  --output RUNDIR
+    python -m puckworks.validation.slow.rp_d_lc_001 --mode assemble --output RUNDIR
+
+`--output` should be a gitignored directory: raw stage files are compact but the driver keeps no
+field arrays. `--mode assemble` folds the stage files into the committed compact record
+`docs/analysis/rp_d_lc_001/runs/run_record.json`, from which the analysis module regenerates the
+whole bundle deterministically.
+
+The two-step blinded design of PROTOCOL §9 is enforced structurally: `--mode primary` REFUSES to
+run until an aperture-freeze file exists, so no full-fixture R, s or Xi-hat can be inspected
+before the aperture list is committed.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import pathlib
+import platform
+import subprocess
+import sys
+import time
+
+import numpy as np
+
+from puckworks.analysis import rp_d_lc_virtual_fixture as vf
+from puckworks.models.brewer2026 import lb_reference as lbref
+
+REPO_ROOT = pathlib.Path(__file__).resolve().parents[3]
+FREEZE_PATH = REPO_ROOT / vf.BUNDLE_REL / "APERTURE_FREEZE.md"
+FREEZE_JSON = REPO_ROOT / vf.BUNDLE_REL / "runs" / "aperture_freeze.json"
+
+
+# ==========================================================================================
+# solver adapters
+# ==========================================================================================
+
+def solve(mask, g, backend="reference", tau=None, fields=("rho", "uy"), steps=None, **kw):
+    """Run one LB solve. `steps`, when given, FORCES exactly that many iterations (no early
+    break) — used only by the convergence ladder in Arm A."""
+    tau = vf.TAU_PLUS if tau is None else tau
+    args = dict(g=g, tau_plus=tau, verbose=False, return_fields=tuple(fields))
+    if steps is not None:
+        args.update(max_steps=steps, check=10 ** 9, rtol=1e-30, min_steps=10 ** 9)
+    else:
+        args.update(max_steps=vf.MAX_STEPS, check=vf.CHECK, rtol=vf.RTOL, min_steps=vf.MIN_STEPS)
+    args.update(kw)
+    if backend == "reference":
+        return lbref.solve(mask, **args)
+    if backend == "taichi":
+        from puckworks.models.brewer2026 import lb_taichi as lbti
+        if lbti.ti is None:
+            raise RuntimeError("taichi backend requested but taichi is not installed")
+        raise NotImplementedError(
+            "the taichi port asserts cubic domains and exports ux only; it cannot run this "
+            "fixture without a port of the additive field instrumentation. Recorded as a "
+            "limitation (PROTOCOL §11.8), not silently substituted.")
+    raise ValueError("unknown backend %r" % (backend,))
+
+
+def _mach(res, mask):
+    u2 = np.zeros(mask.shape)
+    for k in ("ux", "uy", "uz"):
+        if k in res:
+            u2 = u2 + np.where(mask, 0.0, res[k]) ** 2
+    umax = float(np.sqrt(u2).max())
+    return umax, umax * 3.0 ** 0.5
+
+
+def _conductance(res, mask, meta, g):
+    pin, pin_sd, _ = vf.plane_pressure(res["rho"], mask, meta["x_node_in"], g)
+    pout, pout_sd, _ = vf.plane_pressure(res["rho"], mask, meta["x_node_out"], g)
+    q1 = vf.plane_flux(res["ux"], mask, meta["x_meas_a"], meta["lane1_y"])
+    q2 = vf.plane_flux(res["ux"], mask, meta["x_meas_a"], meta["lane2_y"])
+    dP = pin - pout
+    return {"dP": dP, "Q": q1 + q2, "q1": q1, "q2": q2, "C": (q1 + q2) / dP,
+            "s": q1 / (q1 + q2), "p_in_sd": pin_sd, "p_out_sd": pout_sd,
+            "steps": int(res["steps"]), "converged": bool(res["steps"] < vf.MAX_STEPS)}
+
+
+# ==========================================================================================
+# ARM A — solver, boundary and topology verification
+# ==========================================================================================
+
+def _plenum_obstruction(mask, S):
+    """Adjudication probe (BOUNDARY_TOPOLOGY_ADJUDICATION.md §3): raise the RETURN PATH's
+    resistance without touching a single lane voxel, by plugging the lower half of the common
+    plenum's cross-section at the wrap plane x = 0. Preserves both fixture symmetries. If the
+    measured two-terminal conductance Q/dP is invariant to this, the return path provably
+    divides out of R rather than merely being small."""
+    out = mask.copy()
+    z0 = vf.BASE["z_lo"] * S
+    z1 = (vf.BASE["z_lo"] + vf.BASE["h_low"]) * S
+    out[0, :, z0:z1] = True
+    return out
+
+
+def arm_a(backend, out_dir, log):
+    rec = {}
+    # --- A1 canonical plane channel + tau independence + the discretisation law -------------
+    ch = []
+    for tau in (vf.TAU_CROSS_CHECK, vf.TAU_PLUS, 3.0):
+        r = lbref.channel_verification(Nz=33, N=4, g=1e-6, tau_plus=tau,
+                                       max_steps=40000, check=200, rtol=1e-9)
+        ch.append({"tau_plus": tau, "err_pct": r["err_pct"], "steps": r["steps"],
+                   "converged": r["converged"]})
+        log("A1 channel tau=%.1f err=%+.5f%% steps=%d" % (tau, r["err_pct"], r["steps"]))
+    ladder = []
+    for Nz in (5, 7, 9, 13, 17, 25, 33):
+        r = lbref.channel_verification(Nz=Nz, N=4, g=1e-6, tau_plus=vf.TAU_PLUS,
+                                       max_steps=40000, check=200, rtol=1e-9)
+        ladder.append({"h_lu": Nz - 2, "err_pct": r["err_pct"],
+                       "law_50_over_h2_pct": 50.0 / (Nz - 2) ** 2})
+        log("A1 ladder h=%2d err=%+.4f%%" % (Nz - 2, r["err_pct"]))
+    rec["channel"] = {"tau_independence": ch, "resolution_ladder": ladder,
+                      "err_law_pct": vf.CHANNEL_ERR_LAW_PCT}
+    rec["tau_independence_max_spread_pct"] = max(c["err_pct"] for c in ch) - min(
+        c["err_pct"] for c in ch)
+
+    # --- A2 topology: connectivity, mirror exactness, no periodic lateral bypass ------------
+    topo = []
+    for S in vf.SCIENTIFIC_RESOLUTIONS:
+        for ap in (None, {"kx": 5, "kz": 2}):
+            m, meta = vf.build_fixture(S, aperture=ap)
+            conn = vf.connectivity(m, meta)
+            topo.append({"S": S, "aperture": ap, "mask_sha256": meta["mask_sha256"],
+                         "mirror_exact": vf.is_mirror_symmetric(m, S), **conn})
+    rec["topology"] = topo
+    log("A2 topology: %d configurations checked" % len(topo))
+
+    # --- A3 return-path invariance: the decisive Route-A demonstration ----------------------
+    S = vf.S_COARSE
+    ret = []
+    for ap in (None, {"kx": 5, "kz": 2}):
+        base_m, meta = vf.build_fixture(S, aperture=ap)
+        obs_m = _plenum_obstruction(base_m, S)
+        row = {"aperture": ap}
+        for tag, m in (("nominal", base_m), ("obstructed_return", obs_m)):
+            r = solve(m, vf.G_PRIMARY, backend)
+            c = _conductance(r, m, meta, vf.G_PRIMARY)
+            row[tag] = c
+            log("A3 %s ap=%s dP=%.6e C=%.9f steps=%d" % (tag, ap, c["dP"], c["C"], c["steps"]))
+        row["dP_change_rel"] = row["obstructed_return"]["dP"] / row["nominal"]["dP"] - 1.0
+        row["C_change_rel"] = row["obstructed_return"]["C"] / row["nominal"]["C"] - 1.0
+        row["s_change_abs"] = row["obstructed_return"]["s"] - row["nominal"]["s"]
+        ret.append(row)
+    rec["return_path_invariance"] = ret
+
+    # --- A4 low-Mach linearity, mass conservation, plane invariance -------------------------
+    lin, mass = [], []
+    for S in vf.SCIENTIFIC_RESOLUTIONS:
+        m, meta = vf.build_fixture(S, aperture={"kx": 5, "kz": 2})
+        for f in (vf.G_LINEARITY[0], 1.0, vf.G_LINEARITY[1]):
+            g = vf.G_PRIMARY * f
+            r = solve(m, g, backend, fields=("rho", "uy", "uz"))
+            c = _conductance(r, m, meta, g)
+            umax, ma = _mach(r, m)
+            lin.append({"S": S, "g_factor": f, "g": g, "C": c["C"], "s": c["s"],
+                        "u_max": umax, "mach": ma, "steps": c["steps"],
+                        "converged": c["converged"]})
+            log("A4 S=%d g x%.1f C=%.9f Ma=%.2e steps=%d" % (S, f, c["C"], ma, c["steps"]))
+            if f == 1.0:
+                fl = [vf.plane_flux(r["ux"], m, x)
+                      for x in range(meta["lane_x"][0], meta["lane_x"][1])]
+                fl = np.array(fl)
+                mass.append({"S": S, "plane_mean": float(fl.mean()),
+                             "plane_ptp_rel": float(np.ptp(fl) / fl.mean()),
+                             "inlet_plane": float(fl[0]), "outlet_plane": float(fl[-1]),
+                             "inlet_outlet_rel_diff": float(fl[-1] / fl[0] - 1.0)})
+    rec["linearity"] = lin
+    rec["mass_conservation"] = mass
+
+    # --- A5 tau independence on the ASSEMBLED fixture ---------------------------------------
+    m, meta = vf.build_fixture(vf.S_COARSE, aperture={"kx": 5, "kz": 2})
+    tau_rows = []
+    for tau in (vf.TAU_PLUS, vf.TAU_CROSS_CHECK):
+        g = vf.G_PRIMARY * ((tau - 0.5) / (vf.TAU_PLUS - 0.5))     # hold u ~ g/nu fixed
+        r = solve(m, g, backend, tau=tau)
+        c = _conductance(r, m, meta, g)
+        tau_rows.append({"tau_plus": tau, "g": g, "C": c["C"], "s": c["s"], "steps": c["steps"]})
+        log("A5 fixture tau=%.1f C=%.9f s=%.9f steps=%d" % (tau, c["C"], c["s"], c["steps"]))
+    rec["tau_independence_fixture"] = {
+        "rows": tau_rows,
+        "C_rel_spread": abs(tau_rows[1]["C"] / tau_rows[0]["C"] - 1.0),
+        "s_abs_spread": abs(tau_rows[1]["s"] - tau_rows[0]["s"])}
+
+    # --- A6 convergence ladder (forced step counts) -----------------------------------------
+    lad = []
+    m, meta = vf.build_fixture(vf.S_COARSE, aperture={"kx": 5, "kz": 2})
+    for steps in (1000, 2000, 4000, 8000):
+        r = solve(m, vf.G_PRIMARY, backend, steps=steps)
+        c = _conductance(r, m, meta, vf.G_PRIMARY)
+        lad.append({"S": vf.S_COARSE, "forced_steps": steps, "C": c["C"], "s": c["s"]})
+        log("A6 forced steps=%d C=%.9f s=%.9f" % (steps, c["C"], c["s"]))
+    rec["convergence_ladder"] = lad
+
+    # --- A7 backend cross-check ---------------------------------------------------------
+    try:
+        from puckworks.models.brewer2026 import lb_taichi as lbti
+        available = lbti.ti is not None
+    except Exception:
+        available = False
+    rec["backend_cross_check"] = {
+        "taichi_available": bool(available),
+        "status": "SKIPPED_TAICHI_UNAVAILABLE" if not available else "SKIPPED_CUBIC_ONLY_PORT",
+        "limitation": ("The taichi port asserts cubic domains and exports ux only; this fixture "
+                       "is non-cubic and needs rho/uy. The NumPy reference result is retained "
+                       "and the cross-check is recorded as NOT PERFORMED, never as passed."),
+    }
+    _dump(out_dir / "arm_a.json", rec)
+    return rec
+
+
+# ==========================================================================================
+# ARM B — component calibration (coupons). Runs BEFORE the aperture freeze.
+# ==========================================================================================
+
+def _coupon_conductance(mask, meta, g, backend, node_in=None, node_out=None):
+    r = solve(mask, g, backend, fields=("rho",))
+    axis_len = mask.shape[0]
+    if node_in is None:
+        # a uniform periodic duct: the whole box length carries the drop, dP = g * L exactly
+        q = vf.plane_flux(r["ux"], mask, axis_len // 2)
+        dP = g * axis_len
+        pin = pout = float("nan")
+    else:
+        q = vf.plane_flux(r["ux"], mask, (node_in + node_out) // 2)
+        pin, _, _ = vf.plane_pressure(r["rho"], mask, node_in, g)
+        pout, _, _ = vf.plane_pressure(r["rho"], mask, node_out, g)
+        dP = pin - pout
+    return {"Q": q, "dP": dP, "G": q / dP, "steps": int(r["steps"]),
+            "converged": bool(r["steps"] < vf.MAX_STEPS)}
+
+
+def arm_b(backend, out_dir, log):
+    rec = {"axial": [], "bridge": []}
+    for S in vf.SCIENTIFIC_RESOLUTIONS:
+        for level in ("high", "low"):
+            for orient in ("x", "y"):
+                m, meta = vf.build_axial_coupon(S, level, orient)
+                c = _coupon_conductance(m, meta, vf.G_PRIMARY, backend)
+                rec["axial"].append({"S": S, "level": level, "orientation": orient,
+                                     "mask_sha256": meta["mask_sha256"], **c})
+                log("B axial S=%d %s orient=%s G=%.6f steps=%d" % (S, level, orient, c["G"],
+                                                                   c["steps"]))
+        for cand in vf.APERTURE_CANDIDATES:
+            m, meta = vf.build_bridge_coupon(S, cand["kx"], cand["kz"])
+            c = _coupon_conductance(m, meta, vf.G_PRIMARY, backend,
+                                    node_in=meta["x_node_in"], node_out=meta["x_node_out"])
+            rec["bridge"].append({"S": S, **cand, "mask_sha256": meta["mask_sha256"], **c})
+            log("B bridge S=%d kx=%d kz=%d G=%.6f steps=%d" % (S, cand["kx"], cand["kz"],
+                                                               c["G"], c["steps"]))
+    # coupon-predicted Xi for every candidate, at the coarse resolution (selection basis)
+    pred = {}
+    for S in vf.SCIENTIFIC_RESOLUTIONS:
+        a = next(r["G"] for r in rec["axial"] if r["S"] == S and r["level"] == "high"
+                 and r["orientation"] == "x")
+        b = next(r["G"] for r in rec["axial"] if r["S"] == S and r["level"] == "low"
+                 and r["orientation"] == "x")
+        pred[str(S)] = {"a_coupon": a, "b_coupon": b,
+                        "c_coupon": (a - b) / (a + b),
+                        "rows": [{**{k: r[k] for k in ("kx", "kz")},
+                                  "G_bridge": r["G"],
+                                  "Xi_coupon": r["G"] * (2.0 / (a + b))}
+                                 for r in rec["bridge"] if r["S"] == S]}
+    rec["coupon_prediction"] = pred
+    _dump(out_dir / "arm_b.json", rec)
+    return rec
+
+
+# ==========================================================================================
+# ARMS C..I — full fixture. Requires the committed aperture freeze.
+# ==========================================================================================
+
+def _run_case(S, aperture, backend, log, variant="mirror", swapped=False, perturbation=None,
+              g=None, label=""):
+    """One (blocked, open) fixture pair -> boundary record, blind inference, then field truth.
+
+    ORDER IS LOAD-BEARING (PROTOCOL §6): the boundary record is built and the inverse is called
+    and recorded BEFORE `field_truth` is evaluated. The inverse never sees a truth quantity."""
+    g = vf.G_PRIMARY if g is None else g
+    mo, meta_o = vf.build_fixture(S, aperture=aperture, variant=variant, swapped=swapped,
+                                  perturbation=perturbation)
+    mb, meta_b = vf.build_fixture(S, aperture=None, variant=variant, swapped=swapped,
+                                  perturbation=perturbation)
+    t0 = time.time()
+    ro = solve(mo, g, backend, fields=("rho", "uy", "uz"))
+    rb = solve(mb, g, backend, fields=("rho", "uy", "uz"))
+    bnd = vf.boundary_record_from_fields(ro, rb, mo, mb, meta_o, g)
+
+    # ---- BLIND INFERENCE FIRST -----------------------------------------------------------
+    inf = vf.infer_from_boundary({
+        "Q0": bnd["blocked"]["Q"], "dP0": bnd["blocked"]["dP"],
+        "q1": bnd["open"]["q1"], "q2": bnd["open"]["q2"], "dP": bnd["open"]["dP"],
+        "orientation": "swapped" if swapped else "nominal",
+        "converged": bnd["open"]["converged"] and bnd["blocked"]["converged"]})
+
+    # ---- ONLY NOW the independent truth --------------------------------------------------
+    truth = vf.field_truth(ro, rb, mo, mb, meta_o, g)
+    umax_o, ma_o = _mach(ro, mo)
+    umax_b, ma_b = _mach(rb, mb)
+    fl_o = np.array([vf.plane_flux(ro["ux"], mo, x)
+                     for x in range(meta_o["lane_x"][0], meta_o["lane_x"][1])])
+    s_b = (bnd["open"]["q1_plane_b"] / (bnd["open"]["q1_plane_b"] + bnd["open"]["q2_plane_b"]))
+    row = {
+        "role": label or "primary", "S": S, "aperture": aperture, "variant": variant,
+        "swapped": bool(swapped), "perturbation": perturbation, "g": g,
+        "mask_sha256_open": meta_o["mask_sha256"], "mask_sha256_blocked": meta_b["mask_sha256"],
+        "mirror_exact_open": vf.is_mirror_symmetric(mo, S),
+        "boundary": {"R": inf["R"], "s": inf["s"],
+                     "dP_ratio_open_over_blocked": inf["dP_ratio_open_over_blocked"],
+                     **{k: bnd["open"][k] for k in ("Q", "q1", "q2", "dP", "steps", "converged")},
+                     "Q0": bnd["blocked"]["Q"], "dP0": bnd["blocked"]["dP"],
+                     "q1_0": bnd["blocked"]["q1"], "q2_0": bnd["blocked"]["q2"],
+                     "blocked_share": bnd["blocked"]["q1"] / bnd["blocked"]["Q"],
+                     "steps_blocked": bnd["blocked"]["steps"],
+                     "converged_blocked": bnd["blocked"]["converged"],
+                     "s_plane_b": s_b, "s_plane_delta": s_b - inf["s"]},
+        "inference": {k: inf[k] for k in ("status", "c_hat", "t_hat", "Xi_hat")},
+        "truth": truth,
+        "numerics": {"u_max_open": umax_o, "mach_open": ma_o, "u_max_blocked": umax_b,
+                     "mach_blocked": ma_b,
+                     "plane_flux_ptp_rel": float(np.ptp(fl_o) / fl_o.mean()),
+                     "seconds": round(time.time() - t0, 1)},
+    }
+    log("  case S=%d ap=%s%s%s R=%.6f s=%.6f Xi_field=%.4f Xi_hat=%s [%s] %.0fs"
+        % (S, aperture, " swapped" if swapped else "", (" " + perturbation) if perturbation else "",
+           inf["R"], inf["s"], truth["Xi_field"],
+           ("%.4f" % inf["Xi_hat"]) if inf["Xi_hat"] else inf["status"],
+           inf["status"], row["numerics"]["seconds"]))
+    return row
+
+
+def load_freeze():
+    if not FREEZE_JSON.exists():
+        raise SystemExit(
+            "REFUSING to run the full fixture: no aperture freeze at %s.\n"
+            "PROTOCOL §9 requires the aperture subset to be selected from COUPON output only "
+            "and committed BEFORE any open-fixture R, s or Xi-hat is inspected.\n"
+            "Run `--mode coupons`, write the freeze, commit it, then re-run." % FREEZE_JSON)
+    return json.loads(FREEZE_JSON.read_text())
+
+
+def arm_cdefghi(backend, out_dir, log):
+    freeze = load_freeze()
+    selected = [dict(a) for a in freeze["selected"]]
+    rec = {"aperture_freeze": freeze, "cases": [], "path_swap": [], "blocked": [],
+           "identical_path_control": None, "asymmetry": [], "grid_refinement": {}}
+
+    # --- ARM C: blocked full fixture (also recorded standalone) -----------------------------
+    for S in vf.SCIENTIFIC_RESOLUTIONS:
+        mb, meta = vf.build_fixture(S, aperture=None)
+        r = solve(mb, vf.G_PRIMARY, backend, fields=("rho", "uy", "uz"))
+        c = _conductance(r, mb, meta, vf.G_PRIMARY)
+        pin, pin_sd, _ = vf.plane_pressure(r["rho"], mb, meta["x_node_in"], vf.G_PRIMARY)
+        pout, pout_sd, _ = vf.plane_pressure(r["rho"], mb, meta["x_node_out"], vf.G_PRIMARY)
+        offs = {}
+        for d in meta["node_offsets"]:
+            pi, _, _ = vf.plane_pressure(r["rho"], mb, meta["x_node_in"] - d, vf.G_PRIMARY)
+            po, _, _ = vf.plane_pressure(r["rho"], mb, meta["x_node_out"] + d, vf.G_PRIMARY)
+            offs["offset_%d" % d] = {"dP": pi - po, "C": c["Q"] / (pi - po),
+                                     "C_rel_change": (c["Q"] / (pi - po)) / c["C"] - 1.0}
+        rec["blocked"].append({"S": S, "mask_sha256": meta["mask_sha256"], **c,
+                               "blocked_share": c["s"],
+                               "node_in_sd_over_dP": pin_sd / (pin - pout),
+                               "node_out_sd_over_dP": pout_sd / (pin - pout),
+                               "node_surface_sensitivity": offs})
+        log("C blocked S=%d C=%.9f share=%.9f dP=%.6e steps=%d" % (S, c["C"], c["s"], c["dP"],
+                                                                   c["steps"]))
+
+    # --- ARMS D + E: open fixture, then blind inversion (inside _run_case) ------------------
+    for S in vf.SCIENTIFIC_RESOLUTIONS:
+        for ap in selected:
+            rec["cases"].append(_run_case(S, ap, backend, log))
+
+    # --- ARM G: exact path-swap control ----------------------------------------------------
+    swap_res = vf.SCIENTIFIC_RESOLUTIONS
+    for S in swap_res:
+        for ap in selected:
+            base = next(r for r in rec["cases"] if r["S"] == S and r["aperture"] == ap)
+            sw = _run_case(S, ap, backend, log, swapped=True, label="path_swap")
+            rec["cases"].append(sw)
+            row = {
+                "S": S, "aperture": ap,
+                "R": base["boundary"]["R"], "R_swap": sw["boundary"]["R"],
+                "s": base["boundary"]["s"], "s_swap": sw["boundary"]["s"],
+                "c_field": base["truth"]["c_field"], "c_field_swap": sw["truth"]["c_field"],
+                "c_hat": base["inference"]["c_hat"], "c_hat_swap": sw["inference"]["c_hat"],
+                "Xi_field": base["truth"]["Xi_field"], "Xi_field_swap": sw["truth"]["Xi_field"],
+                "Xi_hat": base["inference"]["Xi_hat"], "Xi_hat_swap": sw["inference"]["Xi_hat"],
+            }
+            row["share_sign_reversed"] = bool(
+                (row["s"] - 0.5) * (row["s_swap"] - 0.5) < 0
+                and abs(abs(row["s"] - 0.5) - abs(row["s_swap"] - 0.5))
+                <= vf.TOL_SWAP_R_REL * abs(row["s"] - 0.5) + 1e-12)
+            row["c_sign_reversed"] = bool(
+                row["c_hat"] is not None and row["c_hat_swap"] is not None
+                and row["c_hat"] * row["c_hat_swap"] < 0
+                and row["c_field"] * row["c_field_swap"] < 0)
+            row["R_preserved"] = bool(abs(row["R_swap"] / row["R"] - 1.0) <= vf.TOL_SWAP_R_REL)
+            row["Xi_field_preserved"] = bool(
+                abs(row["Xi_field_swap"] / row["Xi_field"] - 1.0) <= vf.TOL_SWAP_XI_REL)
+            row["Xi_hat_preserved"] = bool(
+                row["Xi_hat"] and row["Xi_hat_swap"]
+                and abs(row["Xi_hat_swap"] / row["Xi_hat"] - 1.0) <= vf.TOL_SWAP_XI_REL)
+            row["signature_ok"] = bool(row["share_sign_reversed"] and row["c_sign_reversed"]
+                                       and row["R_preserved"] and row["Xi_field_preserved"]
+                                       and row["Xi_hat_preserved"])
+            rec["path_swap"].append(row)
+
+    # --- ARM H: identical-path negative control --------------------------------------------
+    ap_mid = selected[len(selected) // 2]
+    ctrl = _run_case(vf.S_COARSE, ap_mid, backend, log, variant="identical", label="identical_path")
+    rec["cases"].append(ctrl)
+    rec["identical_path_control"] = {
+        "S": ctrl["S"], "aperture": ap_mid,
+        "R": ctrl["boundary"]["R"], "s": ctrl["boundary"]["s"],
+        "R_minus_1": ctrl["boundary"]["R"] - 1.0, "s_minus_half": ctrl["boundary"]["s"] - 0.5,
+        "q_lat": ctrl["truth"]["q_lat"], "p_face_gap_open": ctrl["truth"]["p_face_gap_open"],
+        "X_cross_product": ctrl["truth"]["X_cross_product"],
+        "X_normalised": ctrl["truth"]["X_normalised"],
+        "inverse_status": ctrl["inference"]["status"],
+        "Xi_hat": ctrl["inference"]["Xi_hat"], "c_hat": ctrl["inference"]["c_hat"],
+        "degenerate_atol_used_by_inverse": wp6_degenerate_atol(),
+    }
+
+    # --- ARM I: one-voxel adversarial asymmetry, at the finest scientific resolution --------
+    for name in vf.PERTURBATIONS:
+        row = _run_case(vf.S_FINE, ap_mid, backend, log, perturbation=name, label="asymmetry")
+        rec["cases"].append(row)
+        base = next(r for r in rec["cases"] if r["S"] == vf.S_FINE and r["aperture"] == ap_mid
+                    and r["role"] == "primary")
+        sw = _run_case(vf.S_FINE, ap_mid, backend, log, swapped=True, perturbation=name,
+                       label="asymmetry_swap")
+        rec["cases"].append(sw)
+        rec["asymmetry"].append({
+            "perturbation": name, "S": vf.S_FINE, "aperture": ap_mid,
+            "blocked_share": row["boundary"]["blocked_share"],
+            "blocked_share_departure": row["boundary"]["blocked_share"] - 0.5,
+            "blocked_share_unperturbed": base["boundary"]["blocked_share"],
+            "Xi_hat": row["inference"]["Xi_hat"], "Xi_hat_unperturbed": base["inference"]["Xi_hat"],
+            "Xi_hat_bias_factor": (row["inference"]["Xi_hat"] / base["inference"]["Xi_hat"])
+            if (row["inference"]["Xi_hat"] and base["inference"]["Xi_hat"]) else None,
+            "Xi_field": row["truth"]["Xi_field"], "Xi_field_unperturbed": base["truth"]["Xi_field"],
+            "inverse_status": row["inference"]["status"],
+            "inverse_returned_physical": row["inference"]["status"] == "ok",
+            "Xi_hat_swap": sw["inference"]["Xi_hat"],
+            "swap_exposes": (
+                None if not (row["inference"]["Xi_hat"] and sw["inference"]["Xi_hat"])
+                else abs(sw["inference"]["Xi_hat"] / row["inference"]["Xi_hat"] - 1.0)
+                > vf.TOL_SWAP_XI_REL),
+        })
+
+    # --- grid refinement -------------------------------------------------------------------
+    cls = {}
+    for S in vf.SCIENTIFIC_RESOLUTIONS:
+        w = [r for r in rec["cases"] if r["role"] == "primary" and r["S"] == S
+             and vf.XI_WINDOW_LO <= r["truth"]["Xi_field"] <= vf.XI_WINDOW_HI]
+        ok = bool(w) and all(
+            r["inference"]["status"] == "ok" and r["inference"]["Xi_hat"]
+            and 0.5 <= r["inference"]["Xi_hat"] / r["truth"]["Xi_field"] <= 2.0 for r in w)
+        cls[str(S)] = "factor_two_recovered" if ok else "not_recovered"
+    pairs = []
+    for ap in selected:
+        a = next((r for r in rec["cases"] if r["role"] == "primary" and r["S"] == vf.S_COARSE
+                  and r["aperture"] == ap), None)
+        b = next((r for r in rec["cases"] if r["role"] == "primary" and r["S"] == vf.S_FINE
+                  and r["aperture"] == ap), None)
+        if a and b:
+            pairs.append({
+                "aperture": ap,
+                "R_coarse": a["boundary"]["R"], "R_fine": b["boundary"]["R"],
+                "R_rel_change": b["boundary"]["R"] / a["boundary"]["R"] - 1.0,
+                "s_coarse": a["boundary"]["s"], "s_fine": b["boundary"]["s"],
+                "c_field_coarse": a["truth"]["c_field"], "c_field_fine": b["truth"]["c_field"],
+                "Xi_field_coarse": a["truth"]["Xi_field"], "Xi_field_fine": b["truth"]["Xi_field"],
+                "Xi_field_rel_change": b["truth"]["Xi_field"] / a["truth"]["Xi_field"] - 1.0,
+                "Xi_hat_coarse": a["inference"]["Xi_hat"], "Xi_hat_fine": b["inference"]["Xi_hat"],
+            })
+    rec["grid_refinement"] = {"classification_by_resolution": cls, "pairs": pairs}
+    _dump(out_dir / "arm_cdefghi.json", rec)
+    return rec
+
+
+def wp6_degenerate_atol():
+    from puckworks.analysis import screen_wp6_lateral_identifiability as wp6
+    return wp6.DEGENERATE_ATOL
+
+
+# ==========================================================================================
+# assembly
+# ==========================================================================================
+
+def _git(*args):
+    try:
+        return subprocess.check_output(("git",) + args, cwd=REPO_ROOT).decode().strip()
+    except Exception:
+        return None
+
+
+def _dump(path, obj):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(obj, indent=1, sort_keys=True, default=_json_default) + "\n")
+
+
+def _json_default(o):
+    if isinstance(o, (np.floating, np.integer)):
+        return o.item()
+    if isinstance(o, np.ndarray):
+        raise TypeError("field arrays are never written to the run record")
+    raise TypeError(repr(o))
+
+
+def environment():
+    import scipy
+    try:
+        import taichi
+        tv = taichi.__version__
+    except Exception:
+        tv = None
+    return {"python": sys.version.split()[0], "numpy": np.__version__,
+            "scipy": scipy.__version__, "taichi": tv,
+            "platform": platform.platform(), "machine": platform.machine()}
+
+
+def assemble(out_dir):
+    a = json.loads((out_dir / "arm_a.json").read_text())
+    b = json.loads((out_dir / "arm_b.json").read_text())
+    c = json.loads((out_dir / "arm_cdefghi.json").read_text())
+
+    conv_ok = all(r["boundary"]["converged"] and r["boundary"]["converged_blocked"]
+                  for r in c["cases"]) and all(r["converged"] for r in c["blocked"])
+    lin_ok = True
+    for S in vf.SCIENTIFIC_RESOLUTIONS:
+        cs = [r["C"] for r in a["linearity"] if r["S"] == S]
+        lin_ok = lin_ok and (max(cs) / min(cs) - 1.0) <= vf.TOL_LINEARITY_REL
+    mach_ok = all(r["mach"] <= vf.TOL_MACH for r in a["linearity"])
+    mass_ok = all(r["plane_ptp_rel"] <= vf.TOL_MASS_REL for r in a["mass_conservation"]) and all(
+        r["numerics"]["plane_flux_ptp_rel"] <= vf.TOL_MASS_REL for r in c["cases"])
+    topo_ok = all(t["mirror_exact"] and t["single_connected"] and t["no_lateral_bypass"]
+                  for t in a["topology"])
+    plane_ok = all(abs(r["boundary"]["s_plane_delta"]) <= vf.TOL_PLANE_REL for r in c["cases"])
+    grid_ok = len(c["grid_refinement"]["pairs"]) >= 3
+    ret_ok = all(abs(r["C_change_rel"]) <= vf.TOL_LINEARITY_REL
+                 for r in a["return_path_invariance"])
+
+    prim = [r for r in c["cases"] if r["role"] == "primary"]
+    mech = {
+        "bridge_flux_consistent": all(
+            r["truth"]["gap_sign_consistent"] and r["truth"]["q_lat"] > 0 for r in prim),
+        "R_direction_consistent": all(r["boundary"]["R"] >= 1.0 - 1e-9 for r in prim),
+        "share_direction_consistent": all(r["boundary"]["s"] < 0.5 for r in prim),
+        "G_lat_monotone_in_aperture": _monotone_by_aperture(prim),
+    }
+    controls = {
+        "convergence": {"pass": conv_ok,
+                        "max_steps": vf.MAX_STEPS,
+                        "worst_steps": max(r["boundary"]["steps"] for r in c["cases"])},
+        "low_mach_linearity": {"pass": bool(lin_ok and mach_ok),
+                               "max_mach": max(r["mach"] for r in a["linearity"]),
+                               "tol_mach": vf.TOL_MACH,
+                               "tol_linearity_rel": vf.TOL_LINEARITY_REL},
+        "mass_conservation": {"pass": mass_ok, "tol_rel": vf.TOL_MASS_REL,
+                              "worst_plane_ptp_rel": max(
+                                  [r["plane_ptp_rel"] for r in a["mass_conservation"]]
+                                  + [r["numerics"]["plane_flux_ptp_rel"] for r in c["cases"]])},
+        "topology": {"pass": bool(topo_ok and ret_ok),
+                     "return_path_divides_out": ret_ok,
+                     "worst_C_change_under_return_obstruction": max(
+                         abs(r["C_change_rel"]) for r in a["return_path_invariance"])},
+        "plane_invariance": {"pass": plane_ok, "tol_rel": vf.TOL_PLANE_REL,
+                             "worst_share_delta": max(
+                                 abs(r["boundary"]["s_plane_delta"]) for r in c["cases"])},
+        "grid_refinement": {"pass": grid_ok,
+                            "resolutions": list(vf.SCIENTIFIC_RESOLUTIONS)},
+        "backend_cross_check": a["backend_cross_check"],
+        "axis_rotation_anisotropy": _anisotropy(b),
+        "tau_independence_fixture": a["tau_independence_fixture"],
+        "determinism": {"note": "the kernel and every derived quantity are deterministic float "
+                                "operations with no RNG; re-running an identical configuration "
+                                "on identical hardware reproduces the record bit-for-bit."},
+    }
+
+    # attach the coupon prediction to every case
+    for r in c["cases"]:
+        S = str(r["S"])
+        if r["aperture"] and S in b["coupon_prediction"]:
+            p = b["coupon_prediction"][S]
+            hit = next((x for x in p["rows"] if x["kx"] == r["aperture"]["kx"]
+                        and x["kz"] == r["aperture"]["kz"]), None)
+            if hit:
+                r["truth"]["Xi_coupon"] = hit["Xi_coupon"]
+                r["truth"]["c_coupon"] = p["c_coupon"]
+                r["truth"]["G_bridge_coupon"] = hit["G_bridge"]
+        # ARM F cross-model comparison
+        t, i = r["truth"], r["inference"]
+        r["comparison"] = _arm_f(t, i, r["boundary"])
+
+    rec = {
+        "source_commit": _git("rev-parse", "HEAD"),
+        "source_tree": _git("rev-parse", "HEAD^{tree}"),
+        "git_status_clean": (_git("status", "--porcelain") == ""),
+        "environment": environment(),
+        "solver": {"backend": "reference", "kernel": "brewer2026.lb_reference (D3Q19 TRT, "
+                                                     "magic Lambda=3/16, full-way bounce-back)",
+                   "dtype": "float64", "tau_plus": vf.TAU_PLUS, "nu": (vf.TAU_PLUS - 0.5) / 3.0,
+                   "g": vf.G_PRIMARY, "rtol": vf.RTOL, "check": vf.CHECK,
+                   "min_steps": vf.MIN_STEPS, "max_steps": vf.MAX_STEPS},
+        "boundary_mode": {
+            "route": "A",
+            "name": "periodic body force with a resolved common plenum (ROUTE A)",
+            "pressure_definition": "p = rho/3 - g*x  (physical field; the lattice density carries "
+                                   "only the periodic part)",
+            "why_valid": "R is a ratio of two independently MEASURED two-terminal conductances "
+                         "Q/dP of the same lane sub-network, so the return path divides out "
+                         "exactly rather than approximately; demonstrated by the return-path "
+                         "obstruction probe in arm_a.return_path_invariance.",
+        },
+        "geometry": {"base_template": vf.BASE, "topology": a["topology"],
+                     "min_feature_vox": vf.MIN_FEATURE_VOX,
+                     "regeneration": "puckworks.analysis.rp_d_lc_virtual_fixture.build_fixture("
+                                     "S, aperture={'kx':..,'kz':..}, variant=..., swapped=...)"},
+        "coupons": b,
+        "aperture_freeze": c["aperture_freeze"],
+        "blocked": c["blocked"],
+        "cases": c["cases"],
+        "path_swap": c["path_swap"],
+        "identical_path_control": c["identical_path_control"],
+        "asymmetry": c["asymmetry"],
+        "grid_refinement": c["grid_refinement"],
+        "controls": controls,
+        "mechanism": mech,
+        "arm_a": a,
+    }
+    dest = REPO_ROOT / vf.RUNS_REL / "run_record.json"
+    _dump(dest, rec)
+    print("wrote %s" % dest)
+    return rec
+
+
+def _monotone_by_aperture(prim):
+    out = {}
+    for S in vf.SCIENTIFIC_RESOLUTIONS:
+        pts = sorted(((r["aperture"]["kx"] * r["aperture"]["kz"], r["truth"]["G_lat_field"])
+                      for r in prim if r["S"] == S), key=lambda t: t[0])
+        out[str(S)] = all(b[1] >= a[1] for a, b in zip(pts, pts[1:])) if len(pts) > 1 else None
+    return out
+
+
+def _anisotropy(b):
+    rows = []
+    for S in vf.SCIENTIFIC_RESOLUTIONS:
+        for level in ("high", "low"):
+            gx = next(r["G"] for r in b["axial"] if r["S"] == S and r["level"] == level
+                      and r["orientation"] == "x")
+            gy = next(r["G"] for r in b["axial"] if r["S"] == S and r["level"] == level
+                      and r["orientation"] == "y")
+            rows.append({"S": S, "level": level, "G_x": gx, "G_y": gy,
+                         "rel_difference": gy / gx - 1.0})
+    return {"rows": rows, "worst_rel_difference": max(abs(r["rel_difference"]) for r in rows)}
+
+
+def _arm_f(t, i, bnd):
+    out = {}
+    xf, xc, xh = t.get("Xi_field"), t.get("Xi_coupon"), i.get("Xi_hat")
+    ch, cf, cc = i.get("c_hat"), t.get("c_field"), t.get("c_coupon")
+    out["c_hat_minus_c_field"] = (ch - cf) if (ch is not None and cf is not None) else None
+    out["c_hat_minus_c_coupon"] = (ch - cc) if (ch is not None and cc is not None) else None
+    out["Xi_hat_over_Xi_field"] = (xh / xf) if (xh and xf) else None
+    out["Xi_hat_over_Xi_coupon"] = (xh / xc) if (xh and xc) else None
+    out["log2_factor_error_field"] = (
+        abs(np.log2(xh / xf)) if (xh and xf and xh > 0 and xf > 0) else None)
+    out["Xi_coupon_over_Xi_field"] = (xc / xf) if (xc and xf) else None
+    if all(t.get(k) for k in ("g1_top", "g1_bot", "g2_top", "g2_bot")) and t.get("G_lat_field"):
+        p = vf.network_prediction(t["g1_top"], t["g1_bot"], t["g2_top"], t["g2_bot"],
+                                  t["G_lat_field"])
+        out["network_field_R"] = p["R"]
+        out["network_field_s"] = p["s"]
+        out["network_field_R_residual"] = bnd["R"] - p["R"]
+        out["network_field_s_residual"] = bnd["s"] - p["s"]
+    if t.get("G_bridge_coupon") and t.get("c_coupon") is not None:
+        a, bq = t["a_coupon"], t["b_coupon"]
+        if a and bq:
+            p = vf.network_prediction(a, bq, bq, a, t["G_bridge_coupon"])
+            out["network_coupon_R"] = p["R"]
+            out["network_coupon_s"] = p["s"]
+            out["network_coupon_R_residual"] = bnd["R"] - p["R"]
+            out["network_coupon_s_residual"] = bnd["s"] - p["s"]
+    return out
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(prog="puckworks.validation.slow.rp_d_lc_001")
+    ap.add_argument("--backend", default="reference", choices=("reference", "taichi"))
+    ap.add_argument("--arch", default="cpu")
+    ap.add_argument("--dtype", default="f64")
+    ap.add_argument("--mode", required=True,
+                    choices=("arm_a", "coupons", "primary", "assemble", "all"))
+    ap.add_argument("--output", required=True)
+    a = ap.parse_args(argv)
+    out = pathlib.Path(a.output)
+    out.mkdir(parents=True, exist_ok=True)
+    if a.dtype != "f64":
+        raise SystemExit("PROTOCOL §5 freezes dtype=f64 for the reference backend")
+    t0 = time.time()
+
+    def log(msg):
+        print("[%7.1fs] %s" % (time.time() - t0, msg), flush=True)
+
+    if a.mode in ("arm_a", "all"):
+        arm_a(a.backend, out, log)
+    if a.mode in ("coupons", "all"):
+        arm_b(a.backend, out, log)
+    if a.mode in ("primary", "all"):
+        arm_cdefghi(a.backend, out, log)
+    if a.mode in ("assemble", "all"):
+        assemble(out)
+    log("done")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
