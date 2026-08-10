@@ -495,7 +495,6 @@ def _stability_rec(**over):
 def test_forcing_stability_gate_binds_every_spread_to_the_frozen_tolerance():
     """A large drift that never crosses a classification boundary must NOT pass."""
     from puckworks.validation.slow import rp_d_lc_001 as drv
-    import numpy as np
     tol = vf.TOL_LINEARITY_REL
     for key in ("R_rel_spread", "s_abs_spread", "c_field_abs_spread", "c_hat_abs_spread",
                 "Xi_field_rel_spread", "Xi_hat_rel_spread"):
@@ -522,11 +521,22 @@ def test_execution_authorities_are_verified_not_asserted():
     from puckworks.validation.slow import rp_d_lc_001 as drv
     rep = drv.execution_authority_report()
     assert set(rep["stages"]) == {"arm_a", "coupons", "primary"}
+    assert rep["assembly_commit"] and rep["protocol_freeze_commit"]
+    if rep.get("history_truncated"):
+        # A shallow checkout cannot see the historical objects. Per the repository's existing
+        # policy this SKIPS loudly rather than passing on absent evidence — and the report must
+        # say it could not verify, never that every stage needs rerunning.
+        for stage, v in rep["stages"].items():
+            assert v["verification_status"] == "HISTORY_TRUNCATED_NOT_VERIFIABLE", stage
+            assert v["stage_valid_under_its_own_authority"] is None, stage
+            assert v["rerun_required"] is None, stage
+        assert rep["all_stages_valid"] is None
+        pytest.skip("shallow checkout: historical execution authorities are not observable here")
     for stage, v in rep["stages"].items():
         assert v["commit"] and v["tree"], stage
+        assert v["verification_status"] == "VERIFIED"
         assert "executed_symbols_changed_since_launch" in v
         assert v["rerun_required"] is not v["stage_valid_under_its_own_authority"]
-    assert rep["assembly_commit"] and rep["protocol_freeze_commit"]
 
 
 # ==========================================================================================

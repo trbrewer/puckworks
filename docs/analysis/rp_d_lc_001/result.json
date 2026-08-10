@@ -4308,7 +4308,7 @@
   "lateral_coupling_feasibility card box 6 remains closed on its existing mathematical result",
   "Paper 4 remains unauthorized"
  ],
- "content_sha256": "ef617f3ab5260e3baa0aa5512f0ffda9fb9af61cf2e29b02314286b385e02842",
+ "content_sha256": "41decec676aa4b0dca419381f05d4cfe57eb0a768e2ee1e5b14126411a147b79",
  "controls": {
   "axis_rotation_anisotropy": {
    "interpretation": "WEAK BY CONSTRUCTION \u2014 read this before quoting it as an anisotropy result. The two orientations differ by transposing the duct's cross-section (y <-> z) while the forcing stays on +x. Exchanging y and z is an EXACT symmetry of the D3Q19 lattice, its weights and the TRT operator under x-forcing, so an exactly-zero difference is the expected outcome and confirms the implementation is consistent; it is NOT evidence that the lattice is isotropic in a direction the fixture actually probes. A genuinely informative rotation would drive the duct along a different lattice axis or a diagonal, which this kernel (body force in +x only) cannot do. Recorded as a consistency check, never as a passed anisotropy test.",
@@ -6353,7 +6353,7 @@
   "puckworks/analysis/screen_wp6_lateral_identifiability.py": "cc144e37679bdc2c00264421d70061b51d4a90e380de2f4e72439d8b5be0d97f",
   "puckworks/models/brewer2026/lb_reference.py": "2174eabfee8c9dc2e453051bc23a4295d108ad49e88fd824e716aaf8b3d9da82",
   "puckworks/models/lateral_coupling.py": "ba1468993b6daed6ea703dab080727353c9cab3651ea84282df68b9e2e8f4ec0",
-  "puckworks/validation/slow/rp_d_lc_001.py": "029b72d4f63840dadeab7cf6e0bc53baac679aefd334e82d336a71ebd5c4f7e4"
+  "puckworks/validation/slow/rp_d_lc_001.py": "239b88b0b4adb4a05daf9e4bc9c85862335b2e13bb00fc696c4b90adb4e45c91"
  },
  "mechanism": {
   "G_lat_monotone_in_aperture": {

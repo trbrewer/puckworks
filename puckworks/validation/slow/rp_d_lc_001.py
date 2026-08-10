@@ -138,10 +138,29 @@ def execution_authority_report():
     numbers valid under its own earlier authority; a change to an executed symbol would require a
     rerun of that stage and is reported as such."""
     head = _git("rev-parse", "HEAD")
+    shallow = (_git("rev-parse", "--is-shallow-repository") == "true")
     out = {"assembly_commit": head, "assembly_tree": _git("rev-parse", "HEAD^{tree}"),
-           "protocol_freeze_commit": PROTOCOL_FREEZE_COMMIT, "stages": {}}
+           "protocol_freeze_commit": PROTOCOL_FREEZE_COMMIT,
+           "history_truncated": bool(shallow), "stages": {}}
     for stage, auth in EXECUTION_AUTHORITIES.items():
         commit = auth["commit"]
+        tree = _git("rev-parse", "%s^{tree}" % commit)
+        # If the historical objects are absent (shallow clone), every symbol would compare as
+        # "<file-absent>" and the report would falsely claim that all three stages need
+        # rerunning. Absent evidence is NOT evidence of change: say so instead.
+        if shallow or tree is None or _blob(commit, _DRV_REL) is None:
+            out["stages"][stage] = {
+                **auth, "tree": tree,
+                "verification_status": "HISTORY_TRUNCATED_NOT_VERIFIABLE",
+                "executed_symbols_changed_since_launch": None,
+                "intervening_commits_were_assembly_reporting_or_test_only": None,
+                "stage_valid_under_its_own_authority": None,
+                "rerun_required": None,
+                "note": ("the historical objects for this authority are not present in this "
+                         "checkout, so the comparison could not be made; this is an environment "
+                         "limit, not a finding about the stage"),
+            }
+            continue
         changed = {}
         for rel, names in STAGE_EXECUTED_SYMBOLS[stage].items():
             a = _symbol_digests(_blob(commit, rel), names)
@@ -151,7 +170,8 @@ def execution_authority_report():
                 changed[rel] = diff
         out["stages"][stage] = {
             **auth,
-            "tree": _git("rev-parse", "%s^{tree}" % commit),
+            "tree": tree,
+            "verification_status": "VERIFIED",
             "driver_sha256": hashlib.sha256(
                 (_blob(commit, _DRV_REL) or "").encode()).hexdigest(),
             "analysis_sha256": hashlib.sha256(
@@ -163,8 +183,8 @@ def execution_authority_report():
             "stage_valid_under_its_own_authority": not changed,
             "rerun_required": bool(changed),
         }
-    out["all_stages_valid"] = all(v["stage_valid_under_its_own_authority"]
-                                  for v in out["stages"].values())
+    verdicts = [v["stage_valid_under_its_own_authority"] for v in out["stages"].values()]
+    out["all_stages_valid"] = (None if any(v is None for v in verdicts) else all(verdicts))
     return out
 
 
